@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { IValueRange } from '../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { ValueRangeBuilderContext } from '../ValueRangeBuilder';
@@ -16,6 +16,12 @@ const ValueRangeInput: React.FC<{
 }> = ({ value, valueRange, boundary }) => {
     const guid = useId();
     const { t } = useTranslation();
+
+    const [inputValue, setInputValue] = useState(value);
+
+    useEffect(() => {
+        setInputValue(value);
+    }, [value]);
 
     const {
         state: { validationMap },
@@ -49,35 +55,34 @@ const ValueRangeInput: React.FC<{
                                 : 'range-builder-row-input-max'
                         }
                         id={guid}
-                        value={String(value)}
+                        value={String(inputValue)}
                         type="string"
-                        onChange={(event) =>
-                            dispatch({
-                                type:
-                                    ValueRangeBuilderActionType.UPDATE_VALUE_RANGE,
-                                payload: {
-                                    boundary,
-                                    newValue: event.target.value,
-                                    id: valueRange.id
-                                }
-                            })
-                        }
+                        onChange={(event) => setInputValue(event.target.value)}
                         className={`cb-value-range-input ${
                             !isNumericInputValid
                                 ? 'cb-value-range-input-invalid'
                                 : ''
                         }`}
-                        onBlur={() =>
+                        onBlur={() => {
+                            dispatch({
+                                type:
+                                    ValueRangeBuilderActionType.UPDATE_VALUE_RANGE,
+                                payload: {
+                                    boundary,
+                                    newValue: inputValue,
+                                    id: valueRange.id
+                                }
+                            });
                             dispatch({
                                 type:
                                     ValueRangeBuilderActionType.UPDATE_VALUE_RANGE_VALIDATION,
                                 payload: {
                                     currentValueRange: valueRange,
                                     isMin,
-                                    newValue: value
+                                    newValue: inputValue
                                 }
-                            })
-                        }
+                            });
+                        }}
                     />
                     <button
                         aria-label={infinityIconMessage}
