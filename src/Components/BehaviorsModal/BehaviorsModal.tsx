@@ -72,9 +72,15 @@ const BehaviorsModal: React.FC<IBehaviorsModalProps> = ({
     return (
         <BehaviorsModalContext.Provider value={{ twins, mode, activeWidgetId }}>
             <div ref={boundaryRef} className={styles.boundaryLayer}>
-                <Draggable bounds="parent" defaultClassName={styles.draggable}>
+                <Draggable
+                    bounds="parent"
+                    defaultClassName={styles.draggable}
+                    handle=".handle"
+                >
                     <div className={styles.modalContainer}>
-                        <div className={styles.modalHeaderContainer}>
+                        <div
+                            className={`${styles.modalHeaderContainer} handle`}
+                        >
                             <div className={styles.modalHeader}>
                                 <span
                                     className={styles.modalTitle}

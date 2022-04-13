@@ -134,7 +134,8 @@ export const getStyles = memoizeFunction(
             modalContents: [
                 classNames.modalContents,
                 {
-                    overflow: 'auto'
+                    overflow: 'auto',
+                    cursor: 'auto'
                 } as IStyle
             ]
         });
