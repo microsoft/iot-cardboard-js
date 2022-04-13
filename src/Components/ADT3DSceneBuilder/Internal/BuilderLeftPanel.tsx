@@ -92,7 +92,7 @@ const BuilderLeftPanel: React.FC = () => {
         }) => {
             let updatedConfigWithBehavior;
             if (params.mode === ADT3DSceneBuilderMode.CreateBehavior) {
-                updatedConfigWithBehavior = ViewerConfigUtility.addBehaviorToScene(
+                updatedConfigWithBehavior = ViewerConfigUtility.addBehavior(
                     params.config,
                     sceneId,
                     params.behavior
