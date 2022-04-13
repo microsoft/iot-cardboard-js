@@ -465,11 +465,14 @@ function SceneView(props: ISceneViewProp, ref) {
                     );
 
                     camera.attachControl(canvas, false);
-                    camera._panningMouseButton = 0;
-                    camera.panningSensibility = 50;
+                    camera.lowerRadiusLimit = 0;
                     cameraRef.current = camera;
                     cameraRef.current.zoomOn(meshes, true);
                     cameraRef.current.radius = radius;
+                    camera._panningMouseButton = 0;
+                    camera.panningSensibility =
+                        (5 / (camera.radius * Math.tan(camera.fov / 2) * 2)) *
+                        engineRef.current.getRenderHeight(true);
 
                     // Register a render loop to repeatedly render the scene
                     engineRef.current.runRenderLoop(() => {
@@ -598,13 +601,15 @@ function SceneView(props: ISceneViewProp, ref) {
                     zoomCamera(
                         cameraRef.current.radius - CameraZoomMultiplier,
                         zoomedMeshesRef.current,
-                        5
+                        5,
+                        true
                     );
                 } else {
                     zoomCamera(
                         cameraRef.current.radius + CameraZoomMultiplier,
                         zoomedMeshesRef.current,
-                        5
+                        5,
+                        true
                     );
                 }
             }
@@ -621,7 +626,8 @@ function SceneView(props: ISceneViewProp, ref) {
     const zoomCamera = (
         radius: number,
         meshes: AbstractMesh[],
-        frames: number
+        frames: number,
+        zoomOnly?: boolean
     ) => {
         const positionFrom = cameraRef.current.position;
         const targetFrom = cameraRef.current.target;
@@ -636,28 +642,30 @@ function SceneView(props: ISceneViewProp, ref) {
         cameraRef.current.target = targetFrom;
         const ease = new BABYLON.CubicEase();
         ease.setEasingMode(BABYLON.EasingFunction.EASINGMODE_EASEINOUT);
-        BABYLON.Animation.CreateAndStartAnimation(
-            'an1',
-            cameraRef.current,
-            'position',
-            30,
-            frames,
-            positionFrom,
-            positionTo,
-            BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT,
-            ease
-        );
-        BABYLON.Animation.CreateAndStartAnimation(
-            'an2',
-            cameraRef.current,
-            'target',
-            30,
-            frames,
-            targetFrom,
-            targetTo,
-            BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT,
-            ease
-        );
+        if (!zoomOnly) {
+            BABYLON.Animation.CreateAndStartAnimation(
+                'an1',
+                cameraRef.current,
+                'position',
+                30,
+                frames,
+                positionFrom,
+                positionTo,
+                BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT,
+                ease
+            );
+            BABYLON.Animation.CreateAndStartAnimation(
+                'an2',
+                cameraRef.current,
+                'target',
+                30,
+                frames,
+                targetFrom,
+                targetTo,
+                BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT,
+                ease
+            );
+        }
         BABYLON.Animation.CreateAndStartAnimation(
             'an3',
             cameraRef.current,
@@ -1004,6 +1012,13 @@ function SceneView(props: ISceneViewProp, ref) {
             pt = scene.onPointerObservable.add((eventData) => {
                 if (eventData.type === BABYLON.PointerEventTypes.POINTERDOWN) {
                     pointerActive.current = true;
+                    // update panningSensibility based on current zoom level
+                    cameraRef.current.panningSensibility =
+                        (5 /
+                            (cameraRef.current.radius *
+                                Math.tan(cameraRef.current.fov / 2) *
+                                2)) *
+                        engineRef.current.getRenderHeight(true);
                 } else if (
                     eventData.type === BABYLON.PointerEventTypes.POINTERUP
                 ) {

@@ -30,6 +30,13 @@ import {
     ViewerModeObjectColors
 } from '../../Models/Constants';
 import { CameraControls } from './CameraControls';
+import {
+    memoizeFunction,
+    mergeStyleSets,
+    Theme,
+    useTheme
+} from '@fluentui/react';
+import Pan from '../../Resources/Static/Pan.svg';
 
 export const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = ({
     config,
@@ -59,6 +66,9 @@ export const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = ({
     ] = useState<CameraInteraction>(null);
 
     const sceneViewComponent = useRef();
+
+    const theme = useTheme();
+    const styles = getStyles(theme);
 
     const sceneLoaded = (scene: BABYLON.Scene) => {
         data.eventType = ADT3DAddInEventTypes.SceneLoaded;
@@ -154,7 +164,9 @@ export const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = ({
         <div
             style={
                 selectedViewerMode?.background.color
-                    ? { background: selectedViewerMode.background.color }
+                    ? {
+                          background: selectedViewerMode.background.color
+                      }
                     : {}
             }
             className="cb-adt-3dviewer-wrapper "
@@ -173,17 +185,19 @@ export const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = ({
                     />
                 </div>
             )}
-            <CameraControls
-                onCameraInteractionChanged={(type) =>
-                    setCameraInteractionType(type)
-                }
-                onCameraZoom={(zoom) =>
-                    (sceneViewComponent.current as any)?.zoomCamera(zoom)
-                }
-                onResetCamera={() =>
-                    (sceneViewComponent.current as any)?.resetCamera()
-                }
-            />
+            <div className={styles.viewerControlsContainer}>
+                <CameraControls
+                    onCameraInteractionChanged={(type) =>
+                        setCameraInteractionType(type)
+                    }
+                    onCameraZoom={(zoom) =>
+                        (sceneViewComponent.current as any)?.zoomCamera(zoom)
+                    }
+                    onResetCamera={() =>
+                        (sceneViewComponent.current as any)?.resetCamera()
+                    }
+                />
+            </div>
             <SceneView
                 ref={sceneViewComponent}
                 isWireframe={selectedViewerMode?.isWireframe}
@@ -198,3 +212,14 @@ export const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = ({
         </div>
     );
 };
+
+const getStyles = memoizeFunction((_theme: Theme) => {
+    return mergeStyleSets({
+        viewerControlsContainer: {
+            position: 'absolute',
+            display: 'flex',
+            width: '100%',
+            top: 10
+        }
+    });
+});
