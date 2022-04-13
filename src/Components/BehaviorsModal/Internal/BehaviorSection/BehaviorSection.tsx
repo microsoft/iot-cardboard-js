@@ -1,6 +1,7 @@
 import { Icon } from '@fluentui/react';
 import React, { useContext, useMemo } from 'react';
 import ViewerConfigUtility from '../../../../Models/Classes/ViewerConfigUtility';
+import { BehaviorModalMode } from '../../../../Models/Constants';
 import {
     getSceneElementStatusColor,
     parseExpression,
@@ -22,22 +23,27 @@ export interface IBehaviorsSectionProps {
 
 const BehaviorSection: React.FC<IBehaviorsSectionProps> = ({ behavior }) => {
     const styles = getStyles();
-    const { twins } = useContext(BehaviorsModalContext);
+    const { twins, mode } = useContext(BehaviorsModalContext);
 
-    const alertVisuals = useMemo(
-        () =>
-            behavior.visuals
-                .filter(ViewerConfigUtility.isAlertVisual)
-                .filter((av) => parseExpression(av.triggerExpression, twins)) ||
-            [],
-        [behavior]
-    );
+    const alertVisuals = useMemo(() => {
+        let visibleAlertVisuals =
+            behavior.visuals.filter(ViewerConfigUtility.isAlertVisual) || [];
+
+        if (mode !== BehaviorModalMode.preview) {
+            visibleAlertVisuals = visibleAlertVisuals.filter((av) =>
+                parseExpression(av.triggerExpression, twins)
+            );
+        }
+        return visibleAlertVisuals;
+    }, [behavior]);
+
     const statusVisuals = useMemo(
         () =>
             behavior.visuals.filter(ViewerConfigUtility.isStatusColorVisual) ||
             [],
         [behavior]
     );
+
     const popoverVisual = useMemo(
         () => behavior.visuals.filter(ViewerConfigUtility.isPopoverVisual)[0],
         [behavior]
@@ -46,14 +52,14 @@ const BehaviorSection: React.FC<IBehaviorsSectionProps> = ({ behavior }) => {
     return (
         <div className={styles.behaviorSection}>
             <div className={styles.behaviorHeader}>{behavior.displayName}</div>
-            {alertVisuals.map((av) => (
-                <AlertBlock alertVisual={av} />
+            {alertVisuals.map((av, idx) => (
+                <AlertBlock alertVisual={av} key={`${av.type}-${idx}`} />
             ))}
-            {statusVisuals.map((sv) => (
-                <StatusBlock statusVisual={sv} />
+            {statusVisuals.map((sv, idx) => (
+                <StatusBlock statusVisual={sv} key={`${sv.type}-${idx}`} />
             ))}
             {popoverVisual && (
-                <WidgetsContainer popoverVisual={popoverVisual} twins={twins} />
+                <WidgetsContainer popoverVisual={popoverVisual} />
             )}
         </div>
     );
@@ -63,8 +69,8 @@ const AlertBlock: React.FC<{ alertVisual: IAlertVisual }> = ({
     alertVisual
 }) => {
     const styles = getStyles();
-    const alertStyles = getElementsPanelAlertStyles(alertVisual.color, true);
-    const { twins } = useContext(BehaviorsModalContext);
+    const alertStyles = getElementsPanelAlertStyles(alertVisual.color);
+    const { twins, mode } = useContext(BehaviorsModalContext);
 
     return (
         <div className={styles.infoContainer}>
@@ -72,7 +78,9 @@ const AlertBlock: React.FC<{ alertVisual: IAlertVisual }> = ({
                 <Icon iconName={alertVisual.iconName} />
             </div>
             <div className={styles.infoTextContainer}>
-                {performSubstitutions(alertVisual.labelExpression, twins)}
+                {mode === BehaviorModalMode.preview
+                    ? alertVisual.labelExpression
+                    : performSubstitutions(alertVisual.labelExpression, twins)}
             </div>
         </div>
     );
@@ -82,21 +90,47 @@ const StatusBlock: React.FC<{ statusVisual: IStatusColoringVisual }> = ({
     statusVisual
 }) => {
     const styles = getStyles();
-    const { twins } = useContext(BehaviorsModalContext);
+    const { twins, mode } = useContext(BehaviorsModalContext);
     const { statusValueExpression, valueRanges } = statusVisual;
+    const isStatusLineVisible = valueRanges.length > 0;
 
-    const statusValue = parseExpression(statusValueExpression, twins);
+    let statusValue = 0;
+    let statusColor;
+    let statusStyles;
 
-    const statusStyles = getStatusBlockStyles(
-        getSceneElementStatusColor(statusValueExpression, valueRanges, twins)
-    );
+    // In preview mode, select min value range to display
+    if (mode === BehaviorModalMode.preview) {
+        if (!isStatusLineVisible) {
+            statusStyles = getStatusBlockStyles(null);
+        } else {
+            const minValueRange = valueRanges
+                .slice(0)
+                .sort((a, b) => Number(a.min) - Number(b.min))[0];
+
+            statusValue = Number(minValueRange.min);
+            statusColor = minValueRange.color;
+            statusStyles = getStatusBlockStyles(statusColor);
+        }
+    } else {
+        statusValue = parseExpression(statusValueExpression, twins);
+        statusColor = getSceneElementStatusColor(
+            statusValueExpression,
+            valueRanges,
+            twins
+        );
+        statusStyles = getStatusBlockStyles(statusColor);
+    }
+
     return (
         <div className={styles.infoContainer}>
             <div className={styles.infoIconContainer}>
-                <div className={statusStyles.statusColorLine}></div>
+                {isStatusLineVisible && (
+                    <div className={statusStyles.statusColorLine}></div>
+                )}
             </div>
             <div className={styles.infoTextContainer}>
-                {statusValueExpression} {statusValue && `: ${statusValue}`}
+                {statusValueExpression}{' '}
+                {typeof statusValue === 'number' && `: ${statusValue}`}
             </div>
         </div>
     );

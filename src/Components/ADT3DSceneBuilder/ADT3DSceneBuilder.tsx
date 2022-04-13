@@ -25,7 +25,9 @@ import {
     SET_ADT_SCENE_OBJECT_COLOR,
     SET_MESH_IDS_TO_OUTLINE,
     SET_REVERT_TO_HOVER_COLOR,
+    SET_TWIN_ALIAS_FORM_INFO,
     SET_WIDGET_FORM_INFO,
+    TwinAliasFormInfo,
     WidgetFormInfo
 } from './ADT3DSceneBuilder.types';
 import './ADT3DSceneBuilder.scss';
@@ -38,7 +40,7 @@ import {
 import { IADTAdapter } from '../../Models/Constants/Interfaces';
 import BuilderLeftPanel from './Internal/BuilderLeftPanel';
 import { useTranslation } from 'react-i18next';
-import { AbstractMesh } from 'babylonjs/Meshes/abstractMesh';
+import { AbstractMesh } from '@babylonjs/core';
 import { CustomMeshItem } from '../../Models/Classes/SceneView.types';
 import {
     I3DScenesConfig,
@@ -201,6 +203,13 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
         dispatch({
             type: SET_WIDGET_FORM_INFO,
             payload: widgetFormInfo
+        });
+    };
+
+    const setTwinAliasFormInfo = (twinAliasFormInfo: TwinAliasFormInfo) => {
+        dispatch({
+            type: SET_TWIN_ALIAS_FORM_INFO,
+            payload: twinAliasFormInfo
         });
     };
 
@@ -624,6 +633,8 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
                 sceneId,
                 widgetFormInfo: state.widgetFormInfo,
                 setWidgetFormInfo,
+                twinAliasFormInfo: state.twinAliasFormInfo,
+                setTwinAliasFormInfo,
                 dispatch,
                 state,
                 objectColor: state.objectColor

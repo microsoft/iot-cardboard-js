@@ -1,22 +1,31 @@
 import { TextField, useTheme } from '@fluentui/react';
 import produce from 'immer';
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { IGaugeWidgetBuilderProps } from '../../../../ADT3DSceneBuilder.types';
 import ValueRangeBuilder from '../../../../../ValueRangeBuilder/ValueRangeBuilder';
 import { getWidgetFormStyles } from '../WidgetForm.styles';
 import TwinPropertyDropown from '../../Internal/TwinPropertyDropdown';
 import { BehaviorFormContext } from '../../BehaviorsForm';
+import useValueRangeBuilder from '../../../../../../Models/Hooks/useValueRangeBuilder';
+import { deepCopy } from '../../../../../../Models/Services/Utils';
 
 const GaugeWidgetBuilder: React.FC<IGaugeWidgetBuilderProps> = ({
     formData,
-    setFormData,
-    setIsWidgetConfigValid,
-    valueRangeRef
+    updateWidgetData,
+    setIsWidgetConfigValid
 }) => {
     const { t } = useTranslation();
-    const [areValueRangesValid, setAreValueRangesValid] = useState(true);
     const { behaviorToEdit } = useContext(BehaviorFormContext);
+
+    const {
+        valueRangeBuilderState,
+        valueRangeBuilderReducer
+    } = useValueRangeBuilder({
+        initialValueRanges: formData.widgetConfiguration.valueRanges,
+        minRanges: 1,
+        maxRanges: 3
+    });
 
     useEffect(() => {
         const {
@@ -27,23 +36,33 @@ const GaugeWidgetBuilder: React.FC<IGaugeWidgetBuilderProps> = ({
         if (
             valueExpression?.length > 0 &&
             label?.length > 0 &&
-            areValueRangesValid
+            valueRangeBuilderState.areRangesValid
         ) {
             setIsWidgetConfigValid(true);
         } else {
             setIsWidgetConfigValid(false);
         }
-    }, [formData, areValueRangesValid]);
+    }, [formData, valueRangeBuilderState.areRangesValid]);
+
+    useEffect(() => {
+        updateWidgetData(
+            produce(formData, (draft) => {
+                draft.widgetConfiguration.valueRanges = deepCopy(
+                    valueRangeBuilderState.valueRanges
+                );
+            })
+        );
+    }, [valueRangeBuilderState.valueRanges]);
 
     const onPropertyChange = useCallback(
         (option: string) => {
-            setFormData(
-                produce((draft) => {
+            updateWidgetData(
+                produce(formData, (draft) => {
                     draft.valueExpression = option;
                 })
             );
         },
-        [setFormData]
+        [updateWidgetData, formData]
     );
 
     const theme = useTheme();
@@ -56,8 +75,8 @@ const GaugeWidgetBuilder: React.FC<IGaugeWidgetBuilderProps> = ({
                 value={formData.widgetConfiguration.label}
                 required
                 onChange={(_ev, newVal) =>
-                    setFormData(
-                        produce((draft) => {
+                    updateWidgetData(
+                        produce(formData, (draft) => {
                             draft.widgetConfiguration.label = newVal;
                         })
                     )
@@ -68,8 +87,8 @@ const GaugeWidgetBuilder: React.FC<IGaugeWidgetBuilderProps> = ({
                 label={t('3dSceneBuilder.unitOfMeasure')}
                 value={formData.widgetConfiguration.units}
                 onChange={(_ev, newVal) =>
-                    setFormData(
-                        produce((draft) => {
+                    updateWidgetData(
+                        produce(formData, (draft) => {
                             draft.widgetConfiguration.units = newVal;
                         })
                     )
@@ -84,11 +103,7 @@ const GaugeWidgetBuilder: React.FC<IGaugeWidgetBuilderProps> = ({
             />
             <ValueRangeBuilder
                 className={customStyles.rangeBuilderRoot}
-                initialValueRanges={formData.widgetConfiguration.valueRanges}
-                maxRanges={3}
-                minRanges={1}
-                ref={valueRangeRef}
-                setAreRangesValid={setAreValueRangesValid}
+                valueRangeBuilderReducer={valueRangeBuilderReducer}
             />
         </div>
     );

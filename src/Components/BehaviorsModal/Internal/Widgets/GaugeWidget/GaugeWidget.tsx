@@ -1,27 +1,37 @@
-import React from 'react';
-import { DTwin } from '../../../../../Models/Constants/Interfaces';
+import React, { useContext } from 'react';
 import { parseExpression } from '../../../../../Models/Services/Utils';
 import { IGaugeWidget } from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import ViewerConfigUtility from '../../../../../Models/Classes/ViewerConfigUtility';
 import { getStyles } from './GaugeWidget.styles';
 import GaugeChart from 'react-gauge-chart';
+import { BehaviorsModalContext } from '../../../BehaviorsModal';
+import { BehaviorModalMode } from '../../../../../Models/Constants';
 
 interface IProp {
     widget: IGaugeWidget;
-    twins: Record<string, DTwin>;
 }
 
-const GaugeWidget: React.FC<IProp> = ({ widget, twins }) => {
+const GaugeWidget: React.FC<IProp> = ({ widget }) => {
+    const { twins, mode } = useContext(BehaviorsModalContext);
     const expression = widget.valueExpression;
     const label = widget.widgetConfiguration.label;
     const units = widget.widgetConfiguration.units || '';
     let value = 0;
     try {
-        value = parseExpression(expression, twins);
-        if (!value) {
-            value = 0;
+        if (mode === BehaviorModalMode.preview) {
+            // In preview mode, gauge uses min value range as value
+            value = Number(
+                widget.widgetConfiguration.valueRanges
+                    .slice(0)
+                    .sort((a, b) => Number(a.min) - Number(b.min))[0].min
+            );
+        } else {
+            value = parseExpression(expression, twins);
+            if (!value) {
+                value = 0;
+            }
+            value = Math.floor(value);
         }
-        value = Math.floor(value);
     } catch {
         value = 0;
     }
