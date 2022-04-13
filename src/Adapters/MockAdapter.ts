@@ -132,7 +132,6 @@ export default class MockAdapter
         });
     }
 
-    // TODO IMPLEMENT
     async updateTwin(twinId: string, patches: ADTPatch[]) {
         const adapterMethodSandbox = new AdapterMethodSandbox();
 
