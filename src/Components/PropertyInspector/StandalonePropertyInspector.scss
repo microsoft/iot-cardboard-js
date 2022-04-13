@@ -19,8 +19,11 @@
         margin-left: 4px;
     }
     .cb-standalone-property-inspector-header-label {
-        flex-grow: 1;
         font-size: 12px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        width: calc(100% - 200px);
     }
     .cb-missing-model-id-list {
         list-style: none;

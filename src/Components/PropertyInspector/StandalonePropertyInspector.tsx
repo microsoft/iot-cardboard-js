@@ -285,7 +285,10 @@ const StandalonePropertyInspectorCommandBar: React.FC<StandalonePropertyInspecto
 
     return (
         <div className="cb-standalone-property-inspector-header">
-            <div className="cb-standalone-property-inspector-header-label">
+            <div
+                className="cb-standalone-property-inspector-header-label"
+                title={commandBarTitle}
+            >
                 {commandBarTitle}
             </div>
             <CommandBar
