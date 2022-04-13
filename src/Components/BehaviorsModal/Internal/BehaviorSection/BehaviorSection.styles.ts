@@ -28,7 +28,7 @@ export const getStyles = memoizeFunction(() => {
         behaviorHeader: [
             classNames.behaviorHeader,
             {
-                fontSize: FontSizes.size12,
+                fontSize: FontSizes.size14,
                 fontWeight: FontWeights.bold,
                 marginBottom: 16
             } as IStyle
