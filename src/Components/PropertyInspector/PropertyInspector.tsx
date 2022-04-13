@@ -24,6 +24,7 @@ import {
     TwinParams
 } from './StandalonePropertyInspector.types';
 import './PropertyInspector.scss';
+import { Spinner } from '@fluentui/react';
 
 type TwinPropertyInspectorProps = {
     twinId: string;
@@ -314,7 +315,9 @@ const PropertyInspector: React.FC<PropertyInspectorProps> = (props) => {
         isInitialLoad
     )
         return (
-            <div className="cb-property-inspector-loading">{t('loading')}</div>
+            <div className="cb-property-inspector-loading">
+                <Spinner label={t('loading')} />
+            </div>
         );
 
     if (!inputData) {
