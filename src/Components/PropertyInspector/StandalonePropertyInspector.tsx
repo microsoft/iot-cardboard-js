@@ -152,7 +152,11 @@ const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = 
             localeStrings={props.localeStrings}
             theme={props.theme}
         >
-            <div className="cb-standalone-property-inspector-container">
+            <div
+                className={`cb-standalone-property-inspector-container ${
+                    props.parentHandlesScroll ? ' cb-scroll-handled' : ''
+                }`}
+            >
                 <StandalonePropertyInspectorCommandBar
                     setIsTreeCollapsed={setIsTreeCollapsed}
                     onCommitChanges={onCommitChanges}
@@ -164,7 +168,11 @@ const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = 
                     }
                     editStatus={state.editStatus}
                 />
-                <div className="cb-property-inspector-scrollable-container">
+                <div
+                    className={`cb-property-inspector-scrollable-container ${
+                        props.parentHandlesScroll ? ' cb-scroll-handled' : ''
+                    }`}
+                >
                     <PropertyInspectorMessaging
                         {...props}
                         nodes={state.propertyTreeNodes}

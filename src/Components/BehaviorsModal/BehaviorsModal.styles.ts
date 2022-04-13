@@ -132,10 +132,9 @@ export const getStyles = memoizeFunction(
                 } as IStyle
             ],
             modalContents: [
-                classNames.modalTitle,
+                classNames.modalContents,
                 {
-                    overflowX: 'hidden',
-                    overflowY: 'auto'
+                    overflow: 'auto'
                 } as IStyle
             ]
         });

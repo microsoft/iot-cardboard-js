@@ -44,6 +44,7 @@ type RelationshipPropertyInspectorProps = {
 type PropertyInspectorProps = {
     isPropertyInspectorLoading?: boolean;
     onPatch?: (patchData: OnCommitPatchParams) => any;
+    parentHandlesScroll?: boolean;
     theme?: Theme;
     locale?: Locale;
     localeStrings?: Record<string, any>;
@@ -335,6 +336,7 @@ const PropertyInspector: React.FC<PropertyInspectorProps> = (props) => {
                 locale={props.locale}
                 localeStrings={props.localeStrings}
                 missingModelIds={missingModelIds}
+                parentHandlesScroll={props.parentHandlesScroll}
             />
         </div>
     );

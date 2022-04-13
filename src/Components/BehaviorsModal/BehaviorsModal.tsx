@@ -62,11 +62,12 @@ const BehaviorsModal: React.FC<IBehaviorsModalProps> = ({
     const boundaryRef = useRef<HTMLDivElement>(null);
     const titleId = useId('title');
     const theme = useTheme();
-    const styles = getStyles(theme, mode);
 
     const [activePivot, setActivePivot] = useState<BehaviorModalPivotKey>(
         BehaviorModalPivotKey.state
     );
+
+    const styles = getStyles(theme, mode);
 
     return (
         <BehaviorsModalContext.Provider value={{ twins, mode, activeWidgetId }}>
@@ -156,6 +157,7 @@ const BehaviorsModal: React.FC<IBehaviorsModalProps> = ({
                                     <PropertyInspector
                                         adapter={adapter}
                                         twinId={twins[linkedTwinName].$dtId}
+                                        parentHandlesScroll={true}
                                     />
                                 )}
                         </div>
