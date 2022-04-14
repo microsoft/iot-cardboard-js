@@ -9,7 +9,6 @@ import {
     IButtonStyles
 } from '@fluentui/react';
 import { CardboardClassNamePrefix } from '../../../../Models/Constants';
-import { behaviorsModalPreviewContainerLeftOffset } from '../../../../Models/Constants/StyleConstants';
 
 const classPrefix = CardboardClassNamePrefix + '-left-panel';
 const classNames = {
