@@ -53,6 +53,8 @@ type PropertyInspectorProps = {
         rootModelId: string;
         baseModelIds: string[];
     };
+    readonly?: boolean;
+    customCommandBarTitleSpan?: React.ReactNode;
 } & (TwinPropertyInspectorProps | RelationshipPropertyInspectorProps);
 
 /** Utility method for checking PropertyInspectorProps type -- twin or relationship*/
@@ -340,6 +342,8 @@ const PropertyInspector: React.FC<PropertyInspectorProps> = (props) => {
                 localeStrings={props.localeStrings}
                 missingModelIds={missingModelIds}
                 parentHandlesScroll={props.parentHandlesScroll}
+                readonly={props.readonly}
+                customCommandBarTitleSpan={props.customCommandBarTitleSpan}
             />
         </div>
     );

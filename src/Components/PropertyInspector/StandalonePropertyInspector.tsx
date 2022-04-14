@@ -166,7 +166,9 @@ const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = 
                             ? t('propertyInspector.commandBarTitleTwin')
                             : t('propertyInspector.commandBarTitleRelationship')
                     }
+                    customTitleSpan={props.customCommandBarTitleSpan}
                     editStatus={state.editStatus}
+                    readonly={props.readonly}
                 />
                 <div
                     className={`cb-property-inspector-scrollable-container ${
@@ -264,6 +266,8 @@ type StandalonePropertyInspectorCommandBarProps = {
     undoAllChanges: () => any;
     commandBarTitle: string;
     editStatus: Record<string, boolean>;
+    readonly: boolean;
+    customTitleSpan?: React.ReactNode;
 };
 
 const PropertyInspectorCommandBarButton: React.FC<IButtonProps> = (props) => {
@@ -279,7 +283,9 @@ const StandalonePropertyInspectorCommandBar: React.FC<StandalonePropertyInspecto
     onCommitChanges,
     undoAllChanges,
     commandBarTitle,
-    editStatus
+    editStatus,
+    readonly,
+    customTitleSpan
 }) => {
     const { t } = useTranslation();
 
@@ -287,26 +293,38 @@ const StandalonePropertyInspectorCommandBar: React.FC<StandalonePropertyInspecto
         <div className="cb-standalone-property-inspector-header">
             <div
                 className="cb-standalone-property-inspector-header-label"
-                title={commandBarTitle}
+                title={!customTitleSpan ? commandBarTitle : null}
             >
-                {commandBarTitle}
+                {customTitleSpan ? customTitleSpan : commandBarTitle}
             </div>
             <CommandBar
                 items={[]}
                 styles={{
-                    root: { background: 'transparent' }
+                    root: {
+                        background: 'transparent',
+                        paddingRight: 0,
+                        paddingLeft: 8
+                    }
                 }}
                 buttonAs={PropertyInspectorCommandBarButton}
                 farItems={[
-                    {
-                        key: 'undoAll',
-                        text: t('propertyInspector.commandBar.undoAll'),
-                        ariaLabel: t('propertyInspector.commandBar.undoAll'),
-                        iconOnly: true,
-                        iconProps: { iconName: 'Undo' },
-                        onClick: () => undoAllChanges(),
-                        disabled: Object.keys(editStatus).length === 0
-                    },
+                    ...(!readonly
+                        ? [
+                              {
+                                  key: 'undoAll',
+                                  text: t(
+                                      'propertyInspector.commandBar.undoAll'
+                                  ),
+                                  ariaLabel: t(
+                                      'propertyInspector.commandBar.undoAll'
+                                  ),
+                                  iconOnly: true,
+                                  iconProps: { iconName: 'Undo' },
+                                  onClick: () => undoAllChanges(),
+                                  disabled: Object.keys(editStatus).length === 0
+                              }
+                          ]
+                        : []),
                     {
                         key: 'expandTree',
                         text: t('propertyInspector.commandBar.expandTree'),
@@ -325,15 +343,21 @@ const StandalonePropertyInspectorCommandBar: React.FC<StandalonePropertyInspecto
                         iconProps: { iconName: 'CollapseContent' },
                         onClick: () => setIsTreeCollapsed(true)
                     },
-                    {
-                        key: 'save',
-                        text: t('propertyInspector.commandBar.save'),
-                        ariaLabel: t('propertyInspector.commandBar.save'),
-                        iconOnly: true,
-                        iconProps: { iconName: 'Save' },
-                        onClick: () => onCommitChanges(),
-                        disabled: Object.keys(editStatus).length === 0
-                    }
+                    ...(!readonly
+                        ? [
+                              {
+                                  key: 'save',
+                                  text: t('propertyInspector.commandBar.save'),
+                                  ariaLabel: t(
+                                      'propertyInspector.commandBar.save'
+                                  ),
+                                  iconOnly: true,
+                                  iconProps: { iconName: 'Save' },
+                                  onClick: () => onCommitChanges(),
+                                  disabled: Object.keys(editStatus).length === 0
+                              }
+                          ]
+                        : [])
                 ]}
             />
         </div>

@@ -22,7 +22,8 @@ const classNames = {
     modalHeader: `${behaviorsModalClassPrefix}-modal-header`,
     modalSubHeaderPivot: `${behaviorsModalClassPrefix}-modal-sub-header-pivor`,
     modalTitle: `${behaviorsModalClassPrefix}-modal-title`,
-    modalContents: `${behaviorsModalClassPrefix}-modal-contents`
+    modalContents: `${behaviorsModalClassPrefix}-modal-contents`,
+    customPropertyInspectorCommandBarTitle: `${behaviorsModalClassPrefix}-custom-command-bar-title`
 };
 
 export const getBorderStyle = (
@@ -135,6 +136,14 @@ export const getStyles = memoizeFunction(
                 {
                     overflow: 'auto',
                     cursor: 'auto'
+                } as IStyle
+            ],
+            customPropertyInspectorCommandBarTitle: [
+                classNames.customPropertyInspectorCommandBarTitle,
+                {
+                    fontSize: FontSizes.size14,
+                    fontWeight: FontWeights.semibold,
+                    cursor: 'default'
                 } as IStyle
             ]
         });

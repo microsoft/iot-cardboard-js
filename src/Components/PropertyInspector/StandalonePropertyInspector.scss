@@ -16,14 +16,14 @@
     .cb-standalone-property-inspector-header {
         align-items: center;
         display: flex;
-        margin-left: 4px;
+        padding-top: 4px;
     }
     .cb-standalone-property-inspector-header-label {
         font-size: 12px;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
-        width: calc(100% - 200px);
+        width: calc(100% - 92px);
     }
     .cb-missing-model-id-list {
         list-style: none;

@@ -24,6 +24,7 @@ export interface StandalonePropertyInspectorProps {
     onCommitChanges?: (patchData: OnCommitPatchParams) => any;
     readonly?: boolean;
     parentHandlesScroll?: boolean;
+    customCommandBarTitleSpan?: React.ReactNode;
 }
 
 export type TwinParams = {

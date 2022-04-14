@@ -171,6 +171,21 @@ const BehaviorsModal: React.FC<IBehaviorsModalProps> = ({
                                             onPropertyInspectorPatch &&
                                             onPropertyInspectorPatch(patchData)
                                         }
+                                        readonly={true}
+                                        customCommandBarTitleSpan={
+                                            <span
+                                                className={
+                                                    styles.customPropertyInspectorCommandBarTitle
+                                                }
+                                                title={t(
+                                                    'behaviorsModal.LinkedTwinProperties'
+                                                )}
+                                            >
+                                                {t(
+                                                    'behaviorsModal.LinkedTwinProperties'
+                                                )}
+                                            </span>
+                                        }
                                     />
                                 )}
                         </div>

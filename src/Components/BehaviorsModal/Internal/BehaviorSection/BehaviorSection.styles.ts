@@ -22,14 +22,14 @@ export const getStyles = memoizeFunction(() => {
         behaviorSection: [
             classNames.behaviorSection,
             {
-                padding: '20px 20px'
+                padding: '12px 20px'
             } as IStyle
         ],
         behaviorHeader: [
             classNames.behaviorHeader,
             {
                 fontSize: FontSizes.size14,
-                fontWeight: FontWeights.bold,
+                fontWeight: FontWeights.semibold,
                 marginBottom: 16
             } as IStyle
         ],
