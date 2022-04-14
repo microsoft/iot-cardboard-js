@@ -24,12 +24,7 @@ import {
     Scene_Visible_Marker,
     SphereMaterial
 } from '../../Models/Constants/SceneView.constants';
-import {
-    AbstractMesh,
-    ArcRotateCameraPointersInput,
-    HighlightLayer,
-    Tools
-} from '@babylonjs/core';
+import { AbstractMesh, HighlightLayer, Tools } from '@babylonjs/core';
 import { createBadgeGroup, getBoundingBox } from './SceneView.Utils';
 import { makeMaterial, outlineMaterial, ToColor3 } from './Shaders';
 import {
@@ -198,6 +193,7 @@ function SceneView(props: ISceneViewProp, ref) {
     const pointerActive = useRef(false);
     const [isSerializing, setIsSerializing] = useState(false);
     const initialCameraRadiusRef = useRef(0);
+    const zoomedCameraRadiusRef = useRef(0);
     const zoomedMeshesRef = useRef([]);
 
     const defaultMeshHover = (
@@ -477,6 +473,7 @@ function SceneView(props: ISceneViewProp, ref) {
                         }
                     });
                 } else {
+                    zoomedCameraRadiusRef.current = radius;
                     // Here if the caller changed zoomToMeshIds - zoom the existing camera
                     zoomCamera(radius, meshes, 30);
                 }
@@ -556,45 +553,17 @@ function SceneView(props: ISceneViewProp, ref) {
     useEffect(() => {
         if (cameraInteractionType && cameraRef.current) {
             switch (cameraInteractionType) {
-                case CameraInteraction.Free:
-                    (cameraRef.current.inputs.attached
-                        .pointers as ArcRotateCameraPointersInput).buttons = [
-                        0,
-                        1,
-                        2
-                    ];
-                    cameraRef.current._panningMouseButton = 0;
-                    turnOnCameraRotate();
-                    break;
                 case CameraInteraction.Pan:
-                    (cameraRef.current.inputs.attached
-                        .pointers as ArcRotateCameraPointersInput).buttons = [
-                        0
-                    ];
                     cameraRef.current._panningMouseButton = 0;
-                    cameraRef.current.angularSensibilityX = Infinity;
-                    cameraRef.current.angularSensibilityY = Infinity;
                     break;
                 case CameraInteraction.Rotate:
-                    (cameraRef.current.inputs.attached
-                        .pointers as ArcRotateCameraPointersInput).buttons = [
-                        0
-                    ];
-                    cameraRef.current._panningMouseButton = 1;
-                    turnOnCameraRotate();
+                    cameraRef.current._panningMouseButton = 2;
                     break;
                 default:
                     break;
             }
         }
     }, [cameraInteractionType, isLoading]);
-
-    const turnOnCameraRotate = () => {
-        if (cameraRef.current.angularSensibilityX === Infinity) {
-            cameraRef.current.angularSensibilityX = 1000;
-            cameraRef.current.angularSensibilityY = 1000;
-        }
-    };
 
     useImperativeHandle(ref, () => ({
         zoomCamera: (zoom: boolean) => {
@@ -617,11 +586,10 @@ function SceneView(props: ISceneViewProp, ref) {
             }
         },
         resetCamera: () => {
-            zoomCamera(
-                initialCameraRadiusRef.current,
-                sceneRef.current.meshes,
-                30
-            );
+            const radius = zoomToMeshIds?.length
+                ? zoomedCameraRadiusRef.current
+                : initialCameraRadiusRef.current;
+            zoomCamera(radius, zoomedMeshesRef.current, 30);
         }
     }));
 

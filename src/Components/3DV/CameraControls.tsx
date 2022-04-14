@@ -11,16 +11,15 @@ import React, { useEffect, useState } from 'react';
 import { CameraInteraction } from '../../Models/Constants/Enums';
 import { useTranslation } from 'react-i18next';
 import {
-    Free,
-    OrbitMouse,
+    RightMouseMove,
     Pan,
-    PanMouse,
+    LeftMouseClick,
     Reset,
     Rotate,
     Selected,
-    SelectMouse,
+    LeftMouseMove,
     ZoomIn,
-    ZoomMouse,
+    MiddleMouse,
     ZoomOut
 } from './CameraControlAssets';
 
@@ -38,12 +37,14 @@ export const CameraControls: React.FC<CameraControlProps> = ({
     onResetCamera
 }) => {
     const [cameraInteractionType, setCameraInteractionType] = useState(
-        cameraInteraction ? cameraInteraction : CameraInteraction.Free
+        cameraInteraction ? cameraInteraction : CameraInteraction.Pan
     );
-    const [showCallout, setShowCallout] = useState(false);
+    const [showPanCallout, setShowPanCallout] = useState(false);
+    const [showOrbitCallout, setShowOrbitCallout] = useState(false);
     const theme = useTheme();
     const styles = getStyles(theme);
-    const calloutAnchor = 'cd-camera-controls-calloutAnchor';
+    const calloutAnchorPan = 'cd-camera-controls-calloutAnchor-pan';
+    const calloutAnchorOrbit = 'cd-camera-controls-calloutAnchor-orbit';
 
     useEffect(() => {
         if (cameraInteractionType) {
@@ -61,34 +62,7 @@ export const CameraControls: React.FC<CameraControlProps> = ({
         <div className={styles.panelContents}>
             <div className={styles.buttonGroup}>
                 <ActionButton
-                    id={calloutAnchor}
-                    className={
-                        cameraInteractionType === CameraInteraction.Free
-                            ? styles.buttonChecked
-                            : styles.button
-                    }
-                    onClick={() =>
-                        updateCameraInteraction(CameraInteraction.Free)
-                    }
-                    onMouseEnter={() => setShowCallout(true)}
-                    onMouseLeave={() => setShowCallout(false)}
-                >
-                    {
-                        <img
-                            src={`data:image/svg+xml;base64,${Free(theme)}`}
-                            style={{ height: 16, width: 16 }}
-                            className={styles.buttonIcon}
-                        />
-                    }
-                    {cameraInteractionType === CameraInteraction.Free && (
-                        <img
-                            src={`data:image/svg+xml;base64,${Selected(theme)}`}
-                            style={{ width: 24 }}
-                            className={styles.selected}
-                        />
-                    )}
-                </ActionButton>
-                <ActionButton
+                    id={calloutAnchorPan}
                     className={
                         cameraInteractionType === CameraInteraction.Pan
                             ? styles.buttonChecked
@@ -97,6 +71,8 @@ export const CameraControls: React.FC<CameraControlProps> = ({
                     onClick={() =>
                         updateCameraInteraction(CameraInteraction.Pan)
                     }
+                    onMouseEnter={() => setShowPanCallout(true)}
+                    onMouseLeave={() => setShowPanCallout(false)}
                 >
                     <img
                         src={`data:image/svg+xml;base64,${Pan(theme)}`}
@@ -112,6 +88,7 @@ export const CameraControls: React.FC<CameraControlProps> = ({
                     )}
                 </ActionButton>
                 <ActionButton
+                    id={calloutAnchorOrbit}
                     className={
                         cameraInteractionType === CameraInteraction.Rotate
                             ? styles.buttonChecked
@@ -120,6 +97,8 @@ export const CameraControls: React.FC<CameraControlProps> = ({
                     onClick={() =>
                         updateCameraInteraction(CameraInteraction.Rotate)
                     }
+                    onMouseEnter={() => setShowOrbitCallout(true)}
+                    onMouseLeave={() => setShowOrbitCallout(false)}
                 >
                     <img
                         src={`data:image/svg+xml;base64,${Rotate(theme)}`}
@@ -166,9 +145,9 @@ export const CameraControls: React.FC<CameraControlProps> = ({
                     />
                 </ActionButton>
             </div>
-            {showCallout && (
+            {showPanCallout && (
                 <Callout
-                    target={`#${calloutAnchor}`}
+                    target={`#${calloutAnchorPan}`}
                     directionalHint={DirectionalHint.bottomCenter}
                 >
                     <div className={styles.callout}>
@@ -178,7 +157,7 @@ export const CameraControls: React.FC<CameraControlProps> = ({
                                 <div>{t('cameraControls.select')}</div>
                                 <div>
                                     <img
-                                        src={`data:image/svg+xml;base64,${SelectMouse(
+                                        src={`data:image/svg+xml;base64,${LeftMouseClick(
                                             theme
                                         )}`}
                                         style={{ height: 28, width: 28 }}
@@ -190,7 +169,7 @@ export const CameraControls: React.FC<CameraControlProps> = ({
                                 <div>{t('cameraControls.pan')}</div>
                                 <div>
                                     <img
-                                        src={`data:image/svg+xml;base64,${PanMouse(
+                                        src={`data:image/svg+xml;base64,${LeftMouseMove(
                                             theme
                                         )}`}
                                         style={{ height: 28, width: 28 }}
@@ -202,7 +181,7 @@ export const CameraControls: React.FC<CameraControlProps> = ({
                                 <div>{t('cameraControls.orbit')}</div>
                                 <div>
                                     <img
-                                        src={`data:image/svg+xml;base64,${OrbitMouse(
+                                        src={`data:image/svg+xml;base64,${RightMouseMove(
                                             theme
                                         )}`}
                                         style={{ height: 28, width: 28 }}
@@ -214,7 +193,67 @@ export const CameraControls: React.FC<CameraControlProps> = ({
                                 <div>{t('cameraControls.zoom')}</div>
                                 <div>
                                     <img
-                                        src={`data:image/svg+xml;base64,${ZoomMouse(
+                                        src={`data:image/svg+xml;base64,${MiddleMouse(
+                                            theme
+                                        )}`}
+                                        style={{ height: 28, width: 28 }}
+                                        className={styles.modeIcon}
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </Callout>
+            )}
+            {showOrbitCallout && (
+                <Callout
+                    target={`#${calloutAnchorOrbit}`}
+                    directionalHint={DirectionalHint.bottomCenter}
+                >
+                    <div className={styles.callout}>
+                        <div>{t('cameraControls.mouseControls')}</div>
+                        <div className={styles.modes}>
+                            <div className={styles.mode}>
+                                <div>{t('cameraControls.select')}</div>
+                                <div>
+                                    <img
+                                        src={`data:image/svg+xml;base64,${LeftMouseClick(
+                                            theme
+                                        )}`}
+                                        style={{ height: 28, width: 28 }}
+                                        className={styles.modeIcon}
+                                    />
+                                </div>
+                            </div>
+                            <div className={styles.mode}>
+                                <div>{t('cameraControls.orbit')}</div>
+                                <div>
+                                    <img
+                                        src={`data:image/svg+xml;base64,${LeftMouseMove(
+                                            theme
+                                        )}`}
+                                        style={{ height: 28, width: 28 }}
+                                        className={styles.modeIcon}
+                                    />
+                                </div>
+                            </div>
+                            <div className={styles.mode}>
+                                <div>{t('cameraControls.pan')}</div>
+                                <div>
+                                    <img
+                                        src={`data:image/svg+xml;base64,${RightMouseMove(
+                                            theme
+                                        )}`}
+                                        style={{ height: 28, width: 28 }}
+                                        className={styles.modeIcon}
+                                    />
+                                </div>
+                            </div>
+                            <div className={styles.mode}>
+                                <div>{t('cameraControls.zoom')}</div>
+                                <div>
+                                    <img
+                                        src={`data:image/svg+xml;base64,${MiddleMouse(
                                             theme
                                         )}`}
                                         style={{ height: 28, width: 28 }}
@@ -292,7 +331,6 @@ const getStyles = memoizeFunction((theme: Theme) => {
         },
         mode: {
             flex: 1,
-
             textAlign: 'center'
         },
         modeIcon: {
