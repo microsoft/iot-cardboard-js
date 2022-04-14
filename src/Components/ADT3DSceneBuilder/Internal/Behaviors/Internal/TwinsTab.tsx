@@ -72,13 +72,14 @@ const TwinsTab: React.FC<ITwinsTabProps> = ({
         { toggle: toggleIsAddTwinAliasCalloutVisible }
     ] = useBoolean(false);
 
-    // get the property names to show the common properties in linked twins in the elements of the behavior
+    // get the property names to show the common properties in linked twins in the (selected) elements of the behavior
     const {
         options: commonLinkedTwinProperties,
         isLoading: isCommonLinkedTwinPropertiesLoading
     } = useBehaviorAliasedTwinProperties({
         behavior: behaviorToEdit,
-        isTwinAliasesIncluded: false
+        isTwinAliasesIncluded: false,
+        selectedElements
     });
 
     // set the single item linked twin list on mount

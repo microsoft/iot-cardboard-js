@@ -1,12 +1,6 @@
 import { DefaultButton, PrimaryButton, useTheme } from '@fluentui/react';
 import produce from 'immer';
-import React, {
-    useCallback,
-    useContext,
-    useEffect,
-    useMemo,
-    useState
-} from 'react';
+import React, { useCallback, useContext, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
     WidgetType,
@@ -20,6 +14,7 @@ import {
     IGaugeWidget,
     ILinkWidget,
     IPopoverVisual,
+    ITwinToObjectMapping,
     IWidget
 } from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { SceneBuilderContext } from '../../../ADT3DSceneBuilder';
@@ -29,9 +24,9 @@ import { BehaviorFormContext } from '../BehaviorsForm';
 import { getWidgetFormStyles } from './WidgetForm.styles';
 import GaugeWidgetBuilder from './WidgetBuilders/GaugeWidgetBuilder';
 import LinkWidgetBuilder from './WidgetBuilders/LinkWidgetBuilder';
-import { IAliasedTwinProperty } from '../../../../../Models/Constants';
 import { WidgetFormInfo } from '../../../ADT3DSceneBuilder.types';
 import ViewerConfigUtility from '../../../../../Models/Classes/ViewerConfigUtility';
+import useBehaviorAliasedTwinProperties from '../../../../../Models/Hooks/useBehaviorAliasedTwinProperties';
 
 const createWidget = (
     draft: IBehavior,
@@ -72,22 +67,23 @@ const getActiveWidget = (activeWidgetId: string, behavior: IBehavior) =>
     getWidgets(behavior).find((w) => w.id === activeWidgetId);
 
 // Note, this widget form does not currently support panels
-const WidgetForm: React.FC = () => {
-    const {
-        widgetFormInfo,
-        setWidgetFormInfo,
-        config,
-        sceneId,
-        adapter
-    } = useContext(SceneBuilderContext);
+const WidgetForm: React.FC<{
+    selectedElements: Array<ITwinToObjectMapping>;
+}> = ({ selectedElements }) => {
+    const { widgetFormInfo, setWidgetFormInfo } = useContext(
+        SceneBuilderContext
+    );
 
     const { behaviorToEdit, setBehaviorToEdit } = useContext(
         BehaviorFormContext
     );
 
-    const [aliasedProperties, setAliasedProperties] = useState<
-        IAliasedTwinProperty[]
-    >(null);
+    // get the aliased properties for intellisense
+    const { options: aliasedProperties } = useBehaviorAliasedTwinProperties({
+        behavior: behaviorToEdit,
+        isTwinAliasesIncluded: true,
+        selectedElements
+    });
 
     const getPropertyNames = useCallback(
         (twinAlias: string) =>
@@ -170,21 +166,6 @@ const WidgetForm: React.FC = () => {
                 );
         }
     };
-
-    useEffect(() => {
-        if (!aliasedProperties) {
-            adapter
-                .getTwinPropertiesWithAliasesForBehavior(
-                    sceneId,
-                    config,
-                    behaviorToEdit,
-                    true
-                )
-                .then((properties) => {
-                    setAliasedProperties(properties);
-                });
-        }
-    }, [sceneId, config, behaviorToEdit]);
 
     const theme = useTheme();
     const customStyles = getWidgetFormStyles(theme);
