@@ -11,7 +11,8 @@ import ViewerConfigUtility from '../../../../../Models/Classes/ViewerConfigUtili
 import produce from 'immer';
 import {
     IBehavior,
-    IStatusColoringVisual
+    IStatusColoringVisual,
+    ITwinToObjectMapping
 } from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import ValueRangeBuilder from '../../../../ValueRangeBuilder/ValueRangeBuilder';
 import { defaultStatusColorVisual } from '../../../../../Models/Classes/3DVConfig';
@@ -34,8 +35,12 @@ const LOC_KEYS = {
 
 interface IStatusTabProps {
     onValidityChange: (tabName: TabNames, state: IValidityState) => void;
+    selectedElements: Array<ITwinToObjectMapping>;
 }
-const StatusTab: React.FC<IStatusTabProps> = ({ onValidityChange }) => {
+const StatusTab: React.FC<IStatusTabProps> = ({
+    onValidityChange,
+    selectedElements
+}) => {
     const { t } = useTranslation();
     const { behaviorToEdit, setBehaviorToEdit } = useContext(
         SceneBuilderContext
@@ -142,6 +147,7 @@ const StatusTab: React.FC<IStatusTabProps> = ({ onValidityChange }) => {
             <Text className={commonPanelStyles.text}>{t(LOC_KEYS.notice)}</Text>
             <TwinPropertyDropown
                 behavior={behaviorToEdit}
+                selectedElements={selectedElements}
                 defaultSelectedKey={statusVisualToEdit.statusValueExpression}
                 dataTestId={'behavior-form-state-property-dropdown'}
                 onChange={onPropertyChange}

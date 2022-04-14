@@ -281,6 +281,19 @@ abstract class ViewerConfigUtility {
         return elementIdMap;
     }
 
+    static getElementsInScene(
+        config: I3DScenesConfig,
+        sceneId: string
+    ): Array<ITwinToObjectMapping> {
+        const scene = config.configuration.scenes?.find(
+            (s) => s.id === sceneId
+        );
+
+        return scene?.elements?.filter(
+            ViewerConfigUtility.isTwinToObjectMappingElement
+        );
+    }
+
     static isElementTwinToObjectMappingDataSource(
         dataSource: IDataSource
     ): dataSource is IElementTwinToObjectMappingDataSource {
@@ -692,7 +705,7 @@ abstract class ViewerConfigUtility {
             sceneId
         );
         // get twin aliases defined in all behaviors in the current scene
-        behaviorsInScene.forEach((behaviorInScene) => {
+        behaviorsInScene?.forEach((behaviorInScene) => {
             const twinAliasesFromBehavior = ViewerConfigUtility.getTwinAliasItemsFromBehaviorAndElements(
                 behaviorInScene,
                 selectedElements
@@ -710,7 +723,7 @@ abstract class ViewerConfigUtility {
         });
 
         // merge it with the twin aliases defined in all the elements added to the current behavior
-        selectedElements.forEach((element) => {
+        selectedElements?.forEach((element) => {
             if (element.twinAliases) {
                 Object.keys(element.twinAliases).forEach(
                     (twinAliasInElement) => {

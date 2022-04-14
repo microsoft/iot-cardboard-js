@@ -23,6 +23,8 @@ export interface StandalonePropertyInspectorProps {
     missingModelIds?: Array<string>;
     onCommitChanges?: (patchData: OnCommitPatchParams) => any;
     readonly?: boolean;
+    parentHandlesScroll?: boolean;
+    customCommandBarTitleSpan?: React.ReactNode;
 }
 
 export type TwinParams = {

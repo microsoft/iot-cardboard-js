@@ -2,6 +2,7 @@ import {
     FontSizes,
     FontWeights,
     IButtonStyles,
+    IPivotStyles,
     ISeparatorStyles,
     IStyle,
     ITheme,
@@ -19,8 +20,10 @@ const classNames = {
     modalContainer: `${behaviorsModalClassPrefix}-modal-container`,
     modalHeaderContainer: `${behaviorsModalClassPrefix}-modal-header-container`,
     modalHeader: `${behaviorsModalClassPrefix}-modal-header`,
+    modalSubHeaderPivot: `${behaviorsModalClassPrefix}-modal-sub-header-pivor`,
     modalTitle: `${behaviorsModalClassPrefix}-modal-title`,
-    modalContents: `${behaviorsModalClassPrefix}-modal-contents`
+    modalContents: `${behaviorsModalClassPrefix}-modal-contents`,
+    customPropertyInspectorCommandBarTitle: `${behaviorsModalClassPrefix}-custom-command-bar-title`
 };
 
 export const getBorderStyle = (
@@ -89,8 +92,7 @@ export const getStyles = memoizeFunction(
                     display: 'flex',
                     flexFlow: 'column nowrap',
                     alignItems: 'stretch',
-                    minWidth: 200,
-                    maxWidth: 340,
+                    width: 340,
                     maxHeight: 'calc(100% - 40px)',
                     backgroundColor: 'var(--cb-color-glassy-modal)',
                     backdropFilter: 'blur(24px) brightness(150%)',
@@ -119,6 +121,7 @@ export const getStyles = memoizeFunction(
                     height: 32
                 } as IStyle
             ],
+            modalSubHeaderPivot: [classNames.modalSubHeaderPivot, {} as IStyle],
             modalTitle: [
                 classNames.modalTitle,
                 {
@@ -129,10 +132,18 @@ export const getStyles = memoizeFunction(
                 } as IStyle
             ],
             modalContents: [
-                classNames.modalTitle,
+                classNames.modalContents,
                 {
-                    overflowX: 'hidden',
-                    overflowY: 'auto'
+                    overflow: 'auto',
+                    cursor: 'auto'
+                } as IStyle
+            ],
+            customPropertyInspectorCommandBarTitle: [
+                classNames.customPropertyInspectorCommandBarTitle,
+                {
+                    fontSize: FontSizes.size14,
+                    fontWeight: FontWeights.semibold,
+                    cursor: 'default'
                 } as IStyle
             ]
         });
@@ -162,5 +173,12 @@ export const dismissButtonStyles: IButtonStyles = {
     },
     rootHovered: {
         color: 'var(--cb-color-text-primary)'
+    }
+};
+
+export const pivotStyles: Partial<IPivotStyles> = {
+    root: {
+        marginBottom: 4,
+        marginLeft: -8
     }
 };

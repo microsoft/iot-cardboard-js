@@ -2,10 +2,11 @@
 
 .cb-property-inspector-container {
     height: 100%;
-    min-height: 300px;
+    padding-left: 20px;
     width: 100%;
 }
 
 .cb-property-inspector-loading {
-    margin-left: 4px;
+    min-height: 200px;
+    padding-top: 20px;
 }

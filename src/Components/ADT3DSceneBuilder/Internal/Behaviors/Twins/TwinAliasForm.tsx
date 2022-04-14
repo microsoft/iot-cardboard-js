@@ -3,6 +3,7 @@ import {
     Label,
     mergeStyleSets,
     PrimaryButton,
+    Text,
     TextField,
     useTheme
 } from '@fluentui/react';
@@ -19,6 +20,7 @@ import { deepCopy } from '../../../../../Models/Services/Utils';
 import { ITwinToObjectMapping } from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import TwinSearchDropdown from '../../../../TwinSearchDropdown/TwinSearchDropdown';
 import { SceneBuilderContext } from '../../../ADT3DSceneBuilder';
+import { getLeftPanelStyles } from '../../Shared/LeftPanel.styles';
 import PanelFooter from '../../Shared/PanelFooter';
 import { getPanelFormStyles } from '../../Shared/PanelForms.styles';
 
@@ -28,8 +30,6 @@ const TwinAliasForm: React.FC<{
     setSelectedElements: (elements: Array<ITwinToObjectMapping>) => any;
 }> = ({ selectedElements, setSelectedElements }) => {
     const { t } = useTranslation();
-    const theme = useTheme();
-    const commonFormStyles = getPanelFormStyles(theme, 0);
     const {
         adapter,
         twinAliasFormInfo,
@@ -109,11 +109,15 @@ const TwinAliasForm: React.FC<{
     useEffect(() => {
         const isValid =
             formData.alias &&
-            formData.elementToTwinMappings.length === selectedElements.length &&
+            formData.elementToTwinMappings?.length ===
+                selectedElements?.length &&
             !formData.elementToTwinMappings.some((mapping) => !mapping.twinId);
         setIsFormValid(isValid);
     }, [formData, selectedElements]);
 
+    const theme = useTheme();
+    const commonFormStyles = getPanelFormStyles(theme, 0);
+    const commonPanelStyles = getLeftPanelStyles(theme);
     return (
         <>
             <div className={commonFormStyles.content}>
@@ -143,25 +147,35 @@ const TwinAliasForm: React.FC<{
                         )}
                     </Label>
                     <div className={styles.elementTwinMappingsWrapper}>
-                        {selectedElements?.map((element, idx) => (
-                            <TwinSearchDropdown
-                                key={`aliased-twin-${idx}`}
-                                styles={{ paddingBottom: 16 }}
-                                adapter={adapter}
-                                label={element.displayName}
-                                labelIconName="Shapes"
-                                selectedTwinId={
-                                    element.twinAliases?.[formData.alias]
-                                }
-                                onTwinIdSelect={(selectedTwinId: string) => {
-                                    handleTwinSelect(
-                                        element.id,
-                                        selectedTwinId
-                                    );
-                                }}
-                                isDescriptionHidden={true}
-                            />
-                        ))}
+                        {!selectedElements || selectedElements.length === 0 ? (
+                            <Text className={commonPanelStyles.text}>
+                                {t(
+                                    '3dSceneBuilder.twinAlias.twinAliasForm.elementTwinMappingsNotExist'
+                                )}
+                            </Text>
+                        ) : (
+                            selectedElements?.map((element, idx) => (
+                                <TwinSearchDropdown
+                                    key={`aliased-twin-${idx}`}
+                                    styles={{ paddingBottom: 16 }}
+                                    adapter={adapter}
+                                    label={element.displayName}
+                                    labelIconName="Shapes"
+                                    selectedTwinId={
+                                        element.twinAliases?.[formData.alias]
+                                    }
+                                    onTwinIdSelect={(
+                                        selectedTwinId: string
+                                    ) => {
+                                        handleTwinSelect(
+                                            element.id,
+                                            selectedTwinId
+                                        );
+                                    }}
+                                    isDescriptionHidden={true}
+                                />
+                            ))
+                        )}
                     </div>
                 </div>
             </div>
