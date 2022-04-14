@@ -4,17 +4,19 @@ import FocusCalloutButton from '../FocusCalloutButton/FocusCalloutButton';
 import LayersListRoot from './Internal/LayersListRoot';
 
 interface SceneLayersProps {
-    isInitiallyOpen?: boolean;
+    isOpen: boolean;
+    setIsOpen: (isOpen: boolean) => void;
 }
 
-const SceneLayers: React.FC<SceneLayersProps> = ({ isInitiallyOpen }) => {
+const SceneLayers: React.FC<SceneLayersProps> = ({ isOpen, setIsOpen }) => {
     const { t } = useTranslation();
 
     return (
         <FocusCalloutButton
             buttonText={t('sceneLayers.sceneLayers')}
             iconName="Stack"
-            isInitiallyOpen={isInitiallyOpen}
+            isOpen={isOpen}
+            setIsOpen={setIsOpen}
         >
             <LayersListRoot />
         </FocusCalloutButton>

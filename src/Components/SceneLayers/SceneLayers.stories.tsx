@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { getDefaultStoryDecorator } from '../../Models/Services/StoryUtilities';
 import SceneLayers from './SceneLayers';
 
@@ -15,7 +15,8 @@ export default {
 };
 
 const Template = (args) => {
-    return <SceneLayers {...args} isInitiallyOpen={true} />;
+    const [isOpen, setIsOpen] = useState(true);
+    return <SceneLayers {...args} isOpen={isOpen} setIsOpen={setIsOpen} />;
 };
 
 export const sceneLayers = Template.bind({});

@@ -26,6 +26,7 @@ import {
     SET_ADT_SCENE_CONFIG,
     SET_ADT_SCENE_ELEMENT_SELECTED_OBJECT_IDS,
     SET_ADT_SCENE_OBJECT_COLOR,
+    SET_IS_LAYER_BUILDER_DIALOG_OPEN,
     SET_MESH_IDS_TO_OUTLINE,
     SET_REVERT_TO_HOVER_COLOR,
     SET_TWIN_ALIAS_FORM_INFO,
@@ -217,6 +218,13 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
         dispatch({
             type: SET_TWIN_ALIAS_FORM_INFO,
             payload: twinAliasFormInfo
+        });
+    };
+
+    const setIsLayerBuilderDialogOpen = (isOpen: boolean) => {
+        dispatch({
+            type: SET_IS_LAYER_BUILDER_DIALOG_OPEN,
+            payload: isOpen
         });
     };
 
@@ -648,7 +656,8 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
                 state,
                 objectColor: state.objectColor,
                 behaviorToEdit,
-                setBehaviorToEdit
+                setBehaviorToEdit,
+                setIsLayerBuilderDialogOpen
             }}
         >
             <BaseComponent
@@ -710,7 +719,8 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
                         ADT3DSceneBuilderMode.CreateBehavior ||
                         state.builderMode ===
                             ADT3DSceneBuilderMode.EditBehavior) &&
-                        behaviorToEdit && (
+                        behaviorToEdit &&
+                        !state.isLayerBuilderDialogOpen && (
                             <div className={commonPanelStyles.previewContainer}>
                                 <BehaviorsModal
                                     behaviors={[behaviorToEdit]}

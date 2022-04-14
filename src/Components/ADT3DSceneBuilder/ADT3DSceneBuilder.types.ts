@@ -48,6 +48,8 @@ export const SET_TWIN_ALIAS_FORM_INFO = 'SET_TWIN_ALIAS_FORM_INFO';
 export const SET_REVERT_TO_HOVER_COLOR = 'SET_REVERT_TO_HOVER_COLOR';
 export const SET_ADT_SCENE_OBJECT_COLOR = 'SET_ADT_SCENE_OBJECT_COLOR';
 export const SET_MESH_IDS_TO_OUTLINE = 'SET_MESH_IDS_TO_OUTLINE';
+export const SET_IS_LAYER_BUILDER_DIALOG_OPEN =
+    'SET_IS_LAYER_BUILDER_DIALOG_OPEN';
 // END of Actions
 
 export interface IADT3DSceneBuilderCardProps
@@ -76,6 +78,7 @@ export interface I3DSceneBuilderContext {
     objectColor: IADTObjectColor;
     behaviorToEdit: IBehavior;
     setBehaviorToEdit: React.Dispatch<React.SetStateAction<IBehavior>>;
+    setIsLayerBuilderDialogOpen: (isOpen: boolean) => void;
 }
 
 export type WidgetFormInfo = {
@@ -201,6 +204,7 @@ export interface ADT3DSceneBuilderState {
     showHoverOnSelected: boolean;
     enableHoverOnModel: boolean;
     objectColor: IADTObjectColor;
+    isLayerBuilderDialogOpen: boolean;
 }
 
 export interface IWidgetBuilderFormDataProps {

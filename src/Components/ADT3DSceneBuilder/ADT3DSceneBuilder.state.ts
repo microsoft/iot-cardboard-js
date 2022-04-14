@@ -14,7 +14,8 @@ import {
     SET_REVERT_TO_HOVER_COLOR,
     SET_MESH_IDS_TO_OUTLINE,
     SET_ADT_SCENE_OBJECT_COLOR,
-    SET_TWIN_ALIAS_FORM_INFO
+    SET_TWIN_ALIAS_FORM_INFO,
+    SET_IS_LAYER_BUILDER_DIALOG_OPEN
 } from './ADT3DSceneBuilder.types';
 import {
     ADT3DSceneBuilderMode,
@@ -38,7 +39,8 @@ export const defaultADT3DSceneBuilderState: ADT3DSceneBuilderState = {
     selectedBehavior: null,
     showHoverOnSelected: false,
     enableHoverOnModel: false,
-    objectColor: DefaultViewerModeObjectColor
+    objectColor: DefaultViewerModeObjectColor,
+    isLayerBuilderDialogOpen: false
 };
 
 export const ADT3DSceneBuilderReducer: (
@@ -84,6 +86,9 @@ export const ADT3DSceneBuilderReducer: (
                 break;
             case SET_MESH_IDS_TO_OUTLINE:
                 draft.outlinedMeshItems = payload;
+                break;
+            case SET_IS_LAYER_BUILDER_DIALOG_OPEN:
+                draft.isLayerBuilderDialogOpen = payload;
                 break;
             case SET_ADT_SCENE_BUILDER_MODE:
                 draft.builderMode = payload;

@@ -5,7 +5,7 @@ import {
     IconButton,
     useTheme
 } from '@fluentui/react';
-import React, { useState } from 'react';
+import React from 'react';
 import { useId } from '@fluentui/react-hooks';
 import { getStyles } from './FocusCalloutButton.styles';
 import BaseComponent from '../BaseComponent/BaseComponent';
@@ -14,16 +14,17 @@ interface Props {
     iconName: string;
     buttonText: string;
     children: React.ReactNode;
-    isInitiallyOpen?: boolean;
+    isOpen: boolean;
+    setIsOpen: (isOpen: boolean) => void;
 }
 
 const FocusCalloutButton: React.FC<Props> = ({
     iconName,
     buttonText,
     children,
-    isInitiallyOpen = false
+    isOpen,
+    setIsOpen
 }) => {
-    const [isCalloutOpen, setIsCalloutOpen] = useState(isInitiallyOpen);
     const buttonId = useId();
 
     const theme = useTheme();
@@ -34,12 +35,12 @@ const FocusCalloutButton: React.FC<Props> = ({
             <DefaultButton
                 iconProps={{ iconName: iconName }}
                 styles={{ root: { marginRight: 8 } }}
-                onClick={() => setIsCalloutOpen((prev) => !prev)}
+                onClick={() => setIsOpen(!isOpen)}
                 id={buttonId}
             >
                 {buttonText}
             </DefaultButton>
-            {isCalloutOpen && (
+            {isOpen && (
                 <FocusTrapCallout
                     gapSpace={12}
                     focusTrapProps={{
@@ -47,7 +48,7 @@ const FocusCalloutButton: React.FC<Props> = ({
                     }}
                     isBeakVisible={false}
                     target={`#${buttonId}`}
-                    onDismiss={() => setIsCalloutOpen(false)}
+                    onDismiss={() => setIsOpen(false)}
                     backgroundColor={theme.semanticColors.bodyBackground}
                 >
                     <BaseComponent>
@@ -66,7 +67,7 @@ const FocusCalloutButton: React.FC<Props> = ({
                                                 height: '32'
                                             }
                                         }}
-                                        onClick={() => setIsCalloutOpen(false)}
+                                        onClick={() => setIsOpen(false)}
                                     />
                                 </div>
                             </div>
