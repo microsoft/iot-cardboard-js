@@ -47,8 +47,8 @@ export const BehaviorsModalContext = createContext<{
 }>(null);
 
 enum BehaviorModalPivotKey {
-    state = 'state',
-    properties = 'properties'
+    State = 'state',
+    Properties = 'properties'
 }
 
 const BehaviorsModal: React.FC<IBehaviorsModalProps> = ({
@@ -67,7 +67,7 @@ const BehaviorsModal: React.FC<IBehaviorsModalProps> = ({
     const theme = useTheme();
 
     const [activePivot, setActivePivot] = useState<BehaviorModalPivotKey>(
-        BehaviorModalPivotKey.state
+        BehaviorModalPivotKey.State
     );
 
     const styles = getStyles(theme, mode);
@@ -125,7 +125,7 @@ const BehaviorsModal: React.FC<IBehaviorsModalProps> = ({
                                                 'behaviorsModal.state'
                                             )}
                                             itemKey={
-                                                BehaviorModalPivotKey.state
+                                                BehaviorModalPivotKey.State
                                             }
                                         ></PivotItem>
                                         <PivotItem
@@ -133,7 +133,7 @@ const BehaviorsModal: React.FC<IBehaviorsModalProps> = ({
                                                 'behaviorsModal.allProperties'
                                             )}
                                             itemKey={
-                                                BehaviorModalPivotKey.properties
+                                                BehaviorModalPivotKey.Properties
                                             }
                                         ></PivotItem>
                                     </Pivot>
@@ -141,7 +141,7 @@ const BehaviorsModal: React.FC<IBehaviorsModalProps> = ({
                             )}
                         </div>
                         <div className={styles.modalContents}>
-                            {activePivot === BehaviorModalPivotKey.state &&
+                            {activePivot === BehaviorModalPivotKey.State &&
                                 behaviors.map((behavior, idx) => {
                                     return (
                                         <div key={behavior.id}>
@@ -161,7 +161,7 @@ const BehaviorsModal: React.FC<IBehaviorsModalProps> = ({
                                         </div>
                                     );
                                 })}
-                            {activePivot === BehaviorModalPivotKey.properties &&
+                            {activePivot === BehaviorModalPivotKey.Properties &&
                                 adapter && (
                                     <PropertyInspector
                                         adapter={adapter}
