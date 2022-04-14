@@ -317,6 +317,7 @@
         "layerName": "Layer name",
         "behaviorsOnThisLayer": "Behaviors on this layer",
         "createNewLayer": "Create new layer",
+        "editLayer": "Edit layer",
         "layers": "Layers"
     },
     "3dSceneBuilder": {

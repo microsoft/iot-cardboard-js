@@ -95,7 +95,7 @@ const FocusCalloutButton: React.FC<Props> = ({
                                     />
                                 </div>
                             </div>
-                            <div>{children}</div>
+                            {children}
                         </div>
                     </BaseComponent>
                 </FocusTrapCallout>

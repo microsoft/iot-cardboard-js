@@ -12,15 +12,18 @@ interface ISceneLayersProps {
     test?: boolean;
 }
 
-enum LayerDialogMode {
+export enum LayerDialogMode {
     Root = 'root',
-    NewLayer = 'newlayer'
+    NewLayer = 'newLayer',
+    EditLayer = 'editLayer'
 }
 
 const getCalloutTitle = (mode: LayerDialogMode) => {
     switch (mode) {
         case LayerDialogMode.NewLayer:
             return i18n.t('sceneLayers.createNewLayer');
+        case LayerDialogMode.EditLayer:
+            return i18n.t('sceneLayers.editLayer');
         default:
             return i18n.t('sceneLayers.sceneLayers');
     }
@@ -38,12 +41,16 @@ const SceneLayers: React.FC<ISceneLayersProps> = () => {
     } = useContext(SceneBuilderContext);
 
     const [mode, setMode] = useState(LayerDialogMode.Root);
+    const [selectedLayer, setSelectedLayer] = useState<ILayer>(null);
 
-    const onCreateLayer = async (newLayer: ILayer) => {
-        const updatedConfig = ViewerConfigUtility.createNewLayer(
-            config,
-            newLayer
-        );
+    const onCommitLayer = async (layer: ILayer) => {
+        let updatedConfig;
+        if (mode === LayerDialogMode.NewLayer) {
+            updatedConfig = ViewerConfigUtility.createNewLayer(config, layer);
+        } else {
+            updatedConfig = ViewerConfigUtility.editLayer(config, layer);
+        }
+
         await adapter.putScenesConfig(updatedConfig);
         getConfig();
     };
@@ -68,10 +75,22 @@ const SceneLayers: React.FC<ISceneLayersProps> = () => {
                 <LayersListRoot
                     onPrimaryAction={() => setMode(LayerDialogMode.NewLayer)}
                     layers={config.configuration.layers}
+                    onLayerClick={(layer: ILayer) => {
+                        setSelectedLayer(layer);
+                        setMode(LayerDialogMode.EditLayer);
+                    }}
                 />
             )}
-            {mode === LayerDialogMode.NewLayer && (
-                <NewLayer onCreateLayer={onCreateLayer} />
+            {(mode === LayerDialogMode.NewLayer ||
+                mode === LayerDialogMode.EditLayer) && (
+                <NewLayer
+                    onCommitLayer={(layer: ILayer) => {
+                        onCommitLayer(layer);
+                        setMode(LayerDialogMode.Root);
+                    }}
+                    selectedLayer={selectedLayer}
+                    mode={mode}
+                />
             )}
         </FocusCalloutButton>
     );

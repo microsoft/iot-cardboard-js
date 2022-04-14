@@ -69,6 +69,19 @@ abstract class ViewerConfigUtility {
         return updatedConfig;
     }
 
+    /** Edit existing layer */
+    static editLayer(config: I3DScenesConfig, layer: ILayer): I3DScenesConfig {
+        const updatedConfig = deepCopy(config);
+        const layerToUpdateIdx = updatedConfig.configuration.layers.findIndex(
+            (l) => l.id === layer.id
+        );
+
+        if (layerToUpdateIdx !== -1) {
+            updatedConfig.configuration.layers[layerToUpdateIdx] = layer;
+        }
+        return updatedConfig;
+    }
+
     /** Add behavior to target scene */
     static addBehavior(
         config: I3DScenesConfig,

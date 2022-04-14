@@ -1,34 +1,50 @@
-import { ILayer, Text, TextField } from '@fluentui/react';
+import { Text, TextField } from '@fluentui/react';
 import produce from 'immer';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { defaultLayer } from '../../../../../Models/Classes/3DVConfig';
 import { createGUID } from '../../../../../Models/Services/Utils';
+import { ILayer } from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
+import { LayerDialogMode } from '../SceneLayers';
 import { sectionHeaderStyles } from '../SceneLayers.styles';
 import PrimaryActionCalloutContents from './PrimaryActionCalloutContents';
 
 interface INewLayer {
-    onCreateLayer: (layer: ILayer) => void;
+    onCommitLayer: (layer: ILayer) => void;
+    selectedLayer: ILayer;
+    mode: LayerDialogMode;
 }
 
-const NewLayer: React.FC<INewLayer> = ({ onCreateLayer }) => {
+const NewLayer: React.FC<INewLayer> = ({
+    onCommitLayer,
+    selectedLayer,
+    mode
+}) => {
     const { t } = useTranslation();
 
-    const [newLayer, setNewLayer] = useState({
-        ...defaultLayer,
-        id: createGUID()
-    });
+    const [layer, setLayer] = useState<ILayer>(
+        mode === LayerDialogMode.EditLayer
+            ? selectedLayer
+            : {
+                  ...defaultLayer,
+                  id: createGUID()
+              }
+    );
 
     return (
         <PrimaryActionCalloutContents
-            onPrimaryButtonClick={() => onCreateLayer(newLayer)}
-            primaryButtonText={t('sceneLayers.createNewLayer')}
+            onPrimaryButtonClick={() => onCommitLayer(layer)}
+            primaryButtonText={
+                mode === LayerDialogMode.NewLayer
+                    ? t('sceneLayers.createNewLayer')
+                    : t('sceneLayers.editLayer')
+            }
         >
             <TextField
                 label={t('sceneLayers.layerName')}
-                value={newLayer.displayName}
+                value={layer.displayName}
                 onChange={(_e, newValue) =>
-                    setNewLayer(
+                    setLayer(
                         produce((draft) => {
                             draft.displayName = newValue;
                         })

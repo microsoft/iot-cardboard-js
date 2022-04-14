@@ -20,15 +20,15 @@ export const getStyles = memoizeFunction((_theme?: Theme) => {
         container: [
             classNames.container,
             {
-                minWidth: 300
+                minWidth: 300,
+                display: 'flex',
+                flexDirection: 'column'
             } as IStyle
         ],
         footer: [
             classNames.footer,
             {
                 width: '100%',
-                position: 'absolute',
-                bottom: 0,
                 height: 60,
                 display: 'flex',
                 alignItems: 'center',
@@ -39,9 +39,10 @@ export const getStyles = memoizeFunction((_theme?: Theme) => {
         body: [
             classNames.body,
             {
-                height: 'calc(100% - 60px)',
+                minHeight: 100,
+                maxHeight: 200,
+                flexGrow: 1,
                 overflowY: 'auto',
-                minHeight: 200,
                 padding: 20,
                 paddingTop: 8
             } as IStyle
@@ -51,6 +52,8 @@ export const getStyles = memoizeFunction((_theme?: Theme) => {
 
 export const sectionHeaderStyles: Partial<ITextStyles> = {
     root: {
-        fontWeight: FontWeights.semibold
+        fontWeight: FontWeights.semibold,
+        marginBottom: 8,
+        display: 'block'
     }
 };
