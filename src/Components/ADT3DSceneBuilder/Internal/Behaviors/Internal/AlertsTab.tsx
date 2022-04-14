@@ -2,7 +2,6 @@ import produce from 'immer';
 import React, { useCallback, useContext, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Intellisense } from '../../../../AutoComplete/Intellisense';
-import { BehaviorFormContext } from '../BehaviorsForm';
 import {
     IAlertVisual,
     IBehavior,
@@ -27,6 +26,7 @@ import { IPickerOption } from '../../../../Pickers/Internal/Picker.base.types';
 import IconPicker from '../../../../Pickers/IconSelectButton/IconPicker';
 import { getLeftPanelStyles } from '../../Shared/LeftPanel.styles';
 import useBehaviorAliasedTwinProperties from '../../../../../Models/Hooks/useBehaviorAliasedTwinProperties';
+import { SceneBuilderContext } from '../../../ADT3DSceneBuilder';
 
 const getAlertFromBehavior = (behavior: IBehavior) =>
     behavior.visuals.filter(ViewerConfigUtility.isAlertVisual)[0] || null;
@@ -47,7 +47,7 @@ const AlertsTab: React.FC<{
 }> = ({ selectedElements }) => {
     const { t } = useTranslation();
     const { behaviorToEdit, setBehaviorToEdit } = useContext(
-        BehaviorFormContext
+        SceneBuilderContext
     );
     const alertVisualStateRef = useRef<IAlertVisual>(
         getAlertFromBehavior(behaviorToEdit) || defaultAlertVisual

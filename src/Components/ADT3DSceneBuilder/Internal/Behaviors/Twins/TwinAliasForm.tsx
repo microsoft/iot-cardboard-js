@@ -23,7 +23,6 @@ import { SceneBuilderContext } from '../../../ADT3DSceneBuilder';
 import { getLeftPanelStyles } from '../../Shared/LeftPanel.styles';
 import PanelFooter from '../../Shared/PanelFooter';
 import { getPanelFormStyles } from '../../Shared/PanelForms.styles';
-import { BehaviorFormContext } from '../BehaviorsForm';
 
 // Note, this widget form does not currently support panels
 const TwinAliasForm: React.FC<{
@@ -31,10 +30,12 @@ const TwinAliasForm: React.FC<{
     setSelectedElements: (elements: Array<ITwinToObjectMapping>) => any;
 }> = ({ selectedElements, setSelectedElements }) => {
     const { t } = useTranslation();
-    const { setBehaviorToEdit } = useContext(BehaviorFormContext);
-    const { adapter, twinAliasFormInfo, setTwinAliasFormInfo } = useContext(
-        SceneBuilderContext
-    );
+    const {
+        adapter,
+        twinAliasFormInfo,
+        setTwinAliasFormInfo,
+        setBehaviorToEdit
+    } = useContext(SceneBuilderContext);
 
     const [formData, setFormData] = useState<ITwinAliasItem>(
         twinAliasFormInfo.mode === TwinAliasFormMode.CreateTwinAlias

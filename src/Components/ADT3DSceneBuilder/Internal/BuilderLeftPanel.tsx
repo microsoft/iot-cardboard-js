@@ -33,6 +33,7 @@ import {
     IBehavior,
     ITwinToObjectMapping
 } from '../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
+import { createGUID } from '../../../Models/Services/Utils';
 
 const BuilderLeftPanel: React.FC = () => {
     const { t } = useTranslation();
@@ -49,7 +50,8 @@ const BuilderLeftPanel: React.FC = () => {
         adapter,
         state,
         dispatch,
-        objectColor
+        objectColor,
+        setBehaviorToEdit
     } = useContext(SceneBuilderContext);
 
     const addBehaviorToSceneAdapterData = useAdapter({
@@ -249,6 +251,7 @@ const BuilderLeftPanel: React.FC = () => {
             payload: ADT3DSceneBuilderMode.CreateBehavior
         });
         setColoredMeshItems([]);
+        setBehaviorToEdit({ ...defaultBehavior, id: createGUID() });
     };
 
     const onCreateBehaviorWithElements = () => {
@@ -303,6 +306,7 @@ const BuilderLeftPanel: React.FC = () => {
             type: SET_ADT_SCENE_BUILDER_MODE,
             payload: ADT3DSceneBuilderMode.EditBehavior
         });
+        setBehaviorToEdit(behavior);
     };
 
     const onRemoveBehaviorFromScene = async (
@@ -450,7 +454,6 @@ const BuilderLeftPanel: React.FC = () => {
                     onBehaviorBackClick={() =>
                         onBackClick(ADT3DSceneBuilderMode.BehaviorIdle)
                     }
-                    selectedBehavior={state.selectedBehavior}
                     onBehaviorSave={onBehaviorSave}
                     selectedElements={state.selectedElements}
                     setSelectedElements={setSelectedElements}

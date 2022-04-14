@@ -20,7 +20,6 @@ import {
 import { SceneBuilderContext } from '../../../ADT3DSceneBuilder';
 import PanelFooter from '../../Shared/PanelFooter';
 import { getPanelFormStyles } from '../../Shared/PanelForms.styles';
-import { BehaviorFormContext } from '../BehaviorsForm';
 import { getWidgetFormStyles } from './WidgetForm.styles';
 import GaugeWidgetBuilder from './WidgetBuilders/GaugeWidgetBuilder';
 import LinkWidgetBuilder from './WidgetBuilders/LinkWidgetBuilder';
@@ -70,13 +69,12 @@ const getActiveWidget = (activeWidgetId: string, behavior: IBehavior) =>
 const WidgetForm: React.FC<{
     selectedElements: Array<ITwinToObjectMapping>;
 }> = ({ selectedElements }) => {
-    const { widgetFormInfo, setWidgetFormInfo } = useContext(
-        SceneBuilderContext
-    );
-
-    const { behaviorToEdit, setBehaviorToEdit } = useContext(
-        BehaviorFormContext
-    );
+    const {
+        widgetFormInfo,
+        setWidgetFormInfo,
+        behaviorToEdit,
+        setBehaviorToEdit
+    } = useContext(SceneBuilderContext);
 
     // get the aliased properties for intellisense
     const { options: aliasedProperties } = useBehaviorAliasedTwinProperties({

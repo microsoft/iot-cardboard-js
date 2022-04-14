@@ -1,6 +1,5 @@
 import React, { useCallback, useContext, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { BehaviorFormContext } from '../BehaviorsForm';
 import {
     IStackTokens,
     Separator,
@@ -22,6 +21,7 @@ import { deepCopy } from '../../../../../Models/Services/Utils';
 import TwinPropertyDropown from './TwinPropertyDropdown';
 import { getLeftPanelStyles } from '../../Shared/LeftPanel.styles';
 import useValueRangeBuilder from '../../../../../Models/Hooks/useValueRangeBuilder';
+import { SceneBuilderContext } from '../../../ADT3DSceneBuilder';
 
 const getStatusFromBehavior = (behavior: IBehavior) =>
     behavior.visuals.filter(ViewerConfigUtility.isStatusColorVisual)[0] || null;
@@ -43,7 +43,7 @@ const StatusTab: React.FC<IStatusTabProps> = ({
 }) => {
     const { t } = useTranslation();
     const { behaviorToEdit, setBehaviorToEdit } = useContext(
-        BehaviorFormContext
+        SceneBuilderContext
     );
 
     const statusVisualToEdit =
