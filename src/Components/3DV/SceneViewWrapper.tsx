@@ -28,6 +28,7 @@ import {
     ViewerModeBackgroundColors,
     ViewerModeObjectColors
 } from '../../Models/Constants';
+import SceneLayers from '../SceneLayers/SceneLayers';
 
 export const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = ({
     config,
@@ -150,8 +151,9 @@ export const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = ({
             }
             className="cb-adt-3dviewer-wrapper "
         >
-            {!hideViewModePickerUI && (
-                <div className="cb-adt-3dviewer-render-mode-selection">
+            <div className="cb-adt-3dviewer-tool-button-container">
+                <SceneLayers />
+                {!hideViewModePickerUI && (
                     <ModelViewerModePicker
                         defaultViewerMode={{
                             objectColor: null,
@@ -162,8 +164,9 @@ export const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = ({
                         objectColors={ViewerModeObjectColors}
                         backgroundColors={ViewerModeBackgroundColors}
                     />
-                </div>
-            )}
+                )}
+            </div>
+
             <SceneView
                 isWireframe={selectedViewerMode?.isWireframe}
                 objectColors={selectedViewerMode?.objectColor}
