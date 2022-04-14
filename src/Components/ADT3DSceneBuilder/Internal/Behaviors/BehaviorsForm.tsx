@@ -33,10 +33,9 @@ import {
     TextField,
     useTheme
 } from '@fluentui/react';
-// import AlertsTab from './Internal/AlertsTab';
 import WidgetForm from './Widgets/WidgetForm';
 import LeftPanelBuilderHeader, {
-    getLeftPanelBuilderHeaderParams
+    getLeftPanelBuilderHeaderParamsForBehaviors
 } from '../LeftPanelBuilderHeader';
 import SceneElements from '../Elements/Elements';
 import { SceneBuilderContext } from '../../ADT3DSceneBuilder';
@@ -67,7 +66,7 @@ import {
 import { customPivotItemStyles } from './BehaviorsForm.styles';
 import BehaviorsModal from '../../../BehaviorsModal/BehaviorsModal';
 import TwinsTab from './Internal/TwinsTab';
-import TwinAliasForm from './Twins/TwinAliasForm';
+import BehaviorTwinAliasForm from './Twins/BehaviorTwinAliasForm';
 
 export const BehaviorFormContext = React.createContext<IBehaviorFormContext>(
     null
@@ -100,7 +99,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
 }) => {
     const { t } = useTranslation();
 
-    const { config, widgetFormInfo, twinAliasFormInfo } = useContext(
+    const { config, widgetFormInfo, behaviorTwinAliasFormInfo } = useContext(
         SceneBuilderContext
     );
 
@@ -253,12 +252,12 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
 
     const { headerText, subHeaderText, iconName } = useMemo(
         () =>
-            getLeftPanelBuilderHeaderParams(
+            getLeftPanelBuilderHeaderParamsForBehaviors(
                 widgetFormInfo,
-                twinAliasFormInfo,
+                behaviorTwinAliasFormInfo,
                 builderMode
             ),
-        [widgetFormInfo, twinAliasFormInfo, builderMode]
+        [widgetFormInfo, behaviorTwinAliasFormInfo, builderMode]
     );
     // report out initial state
     useEffect(() => {
@@ -297,8 +296,8 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                 {widgetFormInfo.mode === WidgetFormMode.CreateWidget ||
                 widgetFormInfo.mode === WidgetFormMode.EditWidget ? (
                     <WidgetForm selectedElements={selectedElements} />
-                ) : twinAliasFormInfo ? (
-                    <TwinAliasForm
+                ) : behaviorTwinAliasFormInfo ? (
+                    <BehaviorTwinAliasForm
                         selectedElements={selectedElements}
                         setSelectedElements={setSelectedElements}
                     />

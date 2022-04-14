@@ -33,7 +33,7 @@ import {
     IAliasedTwinProperty,
     TwinAliasFormMode
 } from '../../../../../Models/Constants';
-import { ITwinAliasItem } from '../../../../../Models/Classes/3DVConfig';
+import { IBehaviorTwinAliasItem } from '../../../../../Models/Classes/3DVConfig';
 import AddTwinAliasCallout from '../Twins/AddTwinAliasCallout';
 import ViewerConfigUtility from '../../../../../Models/Classes/ViewerConfigUtility';
 import produce from 'immer';
@@ -53,13 +53,13 @@ const TwinsTab: React.FC<ITwinsTabProps> = ({
     const { behaviorToEdit, setBehaviorToEdit } = useContext(
         BehaviorFormContext
     );
-    const { config, sceneId, setTwinAliasFormInfo } = useContext(
+    const { config, sceneId, setBehaviorTwinAliasFormInfo } = useContext(
         SceneBuilderContext
     );
     const [linkedTwinList, setLinkedTwinList] = useState([]);
     const [twinAliasList, setTwinAliasList] = useState([]);
     const [availableTwinAliases, setAvailableTwinAliases] = useState<
-        Array<ITwinAliasItem>
+        Array<IBehaviorTwinAliasItem>
     >([]);
     const linkedTwinPropertiesTargetId = useId('linkedTwinProperties-callout');
     const addAliasCalloutTargetId = useId('addAlias-callout');
@@ -111,7 +111,7 @@ const TwinsTab: React.FC<ITwinsTabProps> = ({
 
     // when any of the dependency changes, update the list of available twin aliases to sho in the add twin alias callout for behavior
     useEffect(() => {
-        const availableTwinAliasesForBehavior = ViewerConfigUtility.getAvailableTwinAliasItemsBySceneAndElements(
+        const availableTwinAliasesForBehavior = ViewerConfigUtility.getAvailableBehaviorTwinAliasItemsBySceneAndElements(
             config,
             sceneId,
             selectedElements
@@ -134,7 +134,7 @@ const TwinsTab: React.FC<ITwinsTabProps> = ({
     }, [behaviors, config, sceneId, selectedElements, behaviorToEdit]);
 
     // when adding a twin alias from available list, just update the twinAliases field in edited behavior to be reflected in config changes
-    const onAddTwinAlias = useCallback((twinAlias: ITwinAliasItem) => {
+    const onAddTwinAlias = useCallback((twinAlias: IBehaviorTwinAliasItem) => {
         setBehaviorToEdit(
             produce((draft) => {
                 if (draft.twinAliases) {
@@ -149,26 +149,26 @@ const TwinsTab: React.FC<ITwinsTabProps> = ({
     }, []);
 
     const onCreateTwinAlias = useCallback(() => {
-        setTwinAliasFormInfo({
+        setBehaviorTwinAliasFormInfo({
             twinAlias: null,
             mode: TwinAliasFormMode.CreateTwinAlias
         });
-    }, [setTwinAliasFormInfo]);
+    }, [setBehaviorTwinAliasFormInfo]);
 
     const onTwinAliasClick = useCallback(
-        (twinAliasItem: ITwinAliasItem, idx: number) => {
-            setTwinAliasFormInfo({
+        (twinAliasItem: IBehaviorTwinAliasItem, idx: number) => {
+            setBehaviorTwinAliasFormInfo({
                 twinAlias: twinAliasItem,
                 mode: TwinAliasFormMode.EditTwinAlias,
                 twinAliasIdx: idx
             });
         },
-        [setTwinAliasFormInfo]
+        [setBehaviorTwinAliasFormInfo]
     );
 
     // when removing a twin alias from behavior, just update the twinAliases field in edited behavior to be reflected in config changes
     const onTwinAliasRemoveFromBehavior = useCallback(
-        (twinAliasItem: ITwinAliasItem) => {
+        (twinAliasItem: IBehaviorTwinAliasItem) => {
             setBehaviorToEdit(
                 produce((draft) => {
                     draft.twinAliases.splice(
@@ -213,7 +213,7 @@ const TwinsTab: React.FC<ITwinsTabProps> = ({
                     />
                 )}
                 {linkedTwinList.length > 0 && (
-                    <CardboardList<ITwinAliasItem>
+                    <CardboardList<IBehaviorTwinAliasItem>
                         items={linkedTwinList}
                         listKey={`behavior-linked-twin-list`}
                     />
@@ -226,7 +226,7 @@ const TwinsTab: React.FC<ITwinsTabProps> = ({
                         {t('3dSceneBuilder.twinAlias.noTwinAliasesAdded')}
                     </div>
                 ) : (
-                    <CardboardList<ITwinAliasItem>
+                    <CardboardList<IBehaviorTwinAliasItem>
                         items={twinAliasList}
                         listKey={`behavior-aliased-twin-list`}
                     />
@@ -273,13 +273,13 @@ function getLinkedTwinListItems(
 }
 
 function getTwinAliasListItems(
-    twinAliases: Array<ITwinAliasItem>,
-    onTwinAliasClick: (item: ITwinAliasItem, idx: number) => void,
-    onTwinAliasRemove: (item: ITwinAliasItem) => void,
+    twinAliases: Array<IBehaviorTwinAliasItem>,
+    onTwinAliasClick: (item: IBehaviorTwinAliasItem, idx: number) => void,
+    onTwinAliasRemove: (item: IBehaviorTwinAliasItem) => void,
     t: TFunction<string>
-): ICardboardListItem<ITwinAliasItem>[] {
+): ICardboardListItem<IBehaviorTwinAliasItem>[] {
     const getMenuItems = (
-        item: ITwinAliasItem,
+        item: IBehaviorTwinAliasItem,
         idx: number
     ): IContextualMenuItem[] => {
         return [
@@ -307,7 +307,7 @@ function getTwinAliasListItems(
     };
 
     return twinAliases.map((twinAlias, idx) => {
-        const listItem: ICardboardListItem<ITwinAliasItem> = {
+        const listItem: ICardboardListItem<IBehaviorTwinAliasItem> = {
             ariaLabel: twinAlias.alias,
             iconStart: { name: 'LinkedDatabase' },
             item: twinAlias,

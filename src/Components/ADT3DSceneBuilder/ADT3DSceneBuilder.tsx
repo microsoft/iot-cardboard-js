@@ -25,10 +25,12 @@ import {
     SET_ADT_SCENE_OBJECT_COLOR,
     SET_MESH_IDS_TO_OUTLINE,
     SET_REVERT_TO_HOVER_COLOR,
-    SET_TWIN_ALIAS_FORM_INFO,
+    SET_BEHAVIOR_TWIN_ALIAS_FORM_INFO,
+    SET_ELEMENT_TWIN_ALIAS_FORM_INFO,
     SET_WIDGET_FORM_INFO,
-    TwinAliasFormInfo,
-    WidgetFormInfo
+    BehaviorTwinAliasFormInfo,
+    WidgetFormInfo,
+    ElementTwinAliasFormInfo
 } from './ADT3DSceneBuilder.types';
 import './ADT3DSceneBuilder.scss';
 import BaseComponent from '../../Components/BaseComponent/BaseComponent';
@@ -206,10 +208,21 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
         });
     };
 
-    const setTwinAliasFormInfo = (twinAliasFormInfo: TwinAliasFormInfo) => {
+    const setBehaviorTwinAliasFormInfo = (
+        behaviorTwinAliasFormInfo: BehaviorTwinAliasFormInfo
+    ) => {
         dispatch({
-            type: SET_TWIN_ALIAS_FORM_INFO,
-            payload: twinAliasFormInfo
+            type: SET_BEHAVIOR_TWIN_ALIAS_FORM_INFO,
+            payload: behaviorTwinAliasFormInfo
+        });
+    };
+
+    const setElementTwinAliasFormInfo = (
+        elementTwinAliasFormInfo: ElementTwinAliasFormInfo
+    ) => {
+        dispatch({
+            type: SET_ELEMENT_TWIN_ALIAS_FORM_INFO,
+            payload: elementTwinAliasFormInfo
         });
     };
 
@@ -633,8 +646,10 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
                 sceneId,
                 widgetFormInfo: state.widgetFormInfo,
                 setWidgetFormInfo,
-                twinAliasFormInfo: state.twinAliasFormInfo,
-                setTwinAliasFormInfo,
+                behaviorTwinAliasFormInfo: state.behaviorTwinAliasFormInfo,
+                setBehaviorTwinAliasFormInfo,
+                elementTwinAliasFormInfo: state.elementTwinAliasFormInfo,
+                setElementTwinAliasFormInfo,
                 dispatch,
                 state,
                 objectColor: state.objectColor
