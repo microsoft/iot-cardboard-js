@@ -23,18 +23,17 @@ import { SceneBuilderContext } from '../../../ADT3DSceneBuilder';
 import { getLeftPanelStyles } from '../../Shared/LeftPanel.styles';
 import PanelFooter from '../../Shared/PanelFooter';
 import { getPanelFormStyles } from '../../Shared/PanelForms.styles';
-import { BehaviorFormContext } from '../BehaviorsForm';
 
 const BehaviorTwinAliasForm: React.FC<{
     selectedElements: Array<ITwinToObjectMapping>;
     setSelectedElements: (elements: Array<ITwinToObjectMapping>) => any;
 }> = ({ selectedElements, setSelectedElements }) => {
     const { t } = useTranslation();
-    const { setBehaviorToEdit } = useContext(BehaviorFormContext);
     const {
         adapter,
         behaviorTwinAliasFormInfo,
-        setBehaviorTwinAliasFormInfo
+        setBehaviorTwinAliasFormInfo,
+        setBehaviorToEdit
     } = useContext(SceneBuilderContext);
 
     const [formData, setFormData] = useState<IBehaviorTwinAliasItem>(

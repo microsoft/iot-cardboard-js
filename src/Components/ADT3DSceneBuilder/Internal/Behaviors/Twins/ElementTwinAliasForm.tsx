@@ -90,7 +90,7 @@ const ElementTwinAliasForm: React.FC = () => {
                     key={'aliased-twin'}
                     styles={{ paddingTop: 16 }}
                     adapter={adapter}
-                    label={t('3dSceneBuilder.twinAlias.twinAliasForm.twinId')}
+                    label={t('twinId')}
                     labelIconName="Shapes"
                     selectedTwinId={formData.twinId}
                     onTwinIdSelect={(selectedTwinId: string) => {

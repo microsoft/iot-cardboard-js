@@ -11,7 +11,10 @@ import React, {
     useRef,
     useState
 } from 'react';
-import { ADT3DSceneBuilderMode } from '../../Models/Constants/Enums';
+import {
+    ADT3DSceneBuilderMode,
+    BehaviorModalMode
+} from '../../Models/Constants/Enums';
 import ADT3DBuilder from '../ADT3DBuilder/ADT3DBuilder';
 import {
     I3DSceneBuilderContext,
@@ -57,6 +60,8 @@ import {
     defaultBehavior
 } from '../../Models/Classes/3DVConfig';
 import { IADTObjectColor } from '../../Models/Constants';
+import { getLeftPanelStyles } from './Internal/Shared/LeftPanel.styles';
+import BehaviorsModal from '../BehaviorsModal/BehaviorsModal';
 
 const contextMenuStyles = mergeStyleSets({
     header: {
@@ -83,6 +88,8 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
         ADT3DSceneBuilderReducer,
         defaultADT3DSceneBuilderState
     );
+
+    const [behaviorToEdit, setBehaviorToEdit] = useState<IBehavior>(null);
 
     const previouslyColoredMeshItems = useRef([]);
     const elementContextualMenuItems = useRef([]);
@@ -631,6 +638,8 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
         });
     };
 
+    const commonPanelStyles = getLeftPanelStyles(fluentTheme);
+
     return (
         <SceneBuilderContext.Provider
             value={{
@@ -652,7 +661,9 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
                 setElementTwinAliasFormInfo,
                 dispatch,
                 state,
-                objectColor: state.objectColor
+                objectColor: state.objectColor,
+                behaviorToEdit,
+                setBehaviorToEdit
             }}
         >
             <BaseComponent
@@ -710,6 +721,22 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
                             />
                         </div>
                     )}
+                    {(state.builderMode ===
+                        ADT3DSceneBuilderMode.CreateBehavior ||
+                        state.builderMode ===
+                            ADT3DSceneBuilderMode.EditBehavior) &&
+                        behaviorToEdit && (
+                            <div className={commonPanelStyles.previewContainer}>
+                                <BehaviorsModal
+                                    behaviors={[behaviorToEdit]}
+                                    twins={null}
+                                    mode={BehaviorModalMode.preview}
+                                    activeWidgetId={
+                                        state.widgetFormInfo.widgetId
+                                    }
+                                />
+                            </div>
+                        )}
                 </div>
             </BaseComponent>
         </SceneBuilderContext.Provider>

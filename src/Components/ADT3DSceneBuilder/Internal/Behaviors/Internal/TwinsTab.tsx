@@ -16,7 +16,6 @@ import {
 } from '@fluentui/react';
 import { useBoolean, useId } from '@fluentui/react-hooks';
 import { TFunction, useTranslation } from 'react-i18next';
-import { BehaviorFormContext } from '../BehaviorsForm';
 import {
     IBehavior,
     ITwinToObjectMapping
@@ -50,12 +49,13 @@ const TwinsTab: React.FC<ITwinsTabProps> = ({
     behaviors
 }) => {
     const { t } = useTranslation();
-    const { behaviorToEdit, setBehaviorToEdit } = useContext(
-        BehaviorFormContext
-    );
-    const { config, sceneId, setBehaviorTwinAliasFormInfo } = useContext(
-        SceneBuilderContext
-    );
+    const {
+        config,
+        sceneId,
+        setBehaviorTwinAliasFormInfo,
+        behaviorToEdit,
+        setBehaviorToEdit
+    } = useContext(SceneBuilderContext);
     const [linkedTwinList, setLinkedTwinList] = useState([]);
     const [twinAliasList, setTwinAliasList] = useState([]);
     const [availableTwinAliases, setAvailableTwinAliases] = useState<

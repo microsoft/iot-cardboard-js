@@ -9,7 +9,6 @@ import {
     IButtonStyles
 } from '@fluentui/react';
 import { CardboardClassNamePrefix } from '../../../../Models/Constants';
-import { behaviorsModalPreviewContainerLeftOffset } from '../../../../Models/Constants/StyleConstants';
 
 const classPrefix = CardboardClassNamePrefix + '-left-panel';
 const classNames = {
@@ -52,11 +51,11 @@ export const getLeftPanelStyles = memoizeFunction((theme: Theme) => {
         previewContainer: [
             classNames.previewContainer,
             {
-                position: 'fixed',
-                top: 16,
-                left: behaviorsModalPreviewContainerLeftOffset,
-                bottom: 16,
-                right: 16,
+                position: 'absolute',
+                top: 0,
+                left: 20,
+                bottom: 0,
+                right: 0,
                 zIndex: 1000,
                 pointerEvents: 'none'
             } as IStyle

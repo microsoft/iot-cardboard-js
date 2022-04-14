@@ -168,7 +168,7 @@ const TwinSearchDropdown: React.FC<IADTTwinSearchProps> = ({
                             aria-hidden="true"
                         />
                     )}
-                    {label ?? t('board.twinID')}
+                    {label ?? t('twinId')}
                 </Label>
             )}
             <CreatableSelect

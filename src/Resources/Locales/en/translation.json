@@ -85,6 +85,7 @@
     "selectFile": "Select file",
     "uploadFile": "Upload file",
     "uploadingFile": "Uploading file...",
+    "twinId": "Twin ID",
     "errors": {
         "errorBoundary": "Error boundary",
         "unkownError": "Unknown error occurred",
@@ -439,7 +440,6 @@
             "commonProperties": "Common properties",
             "twinAliasForm": {
                 "alias": "Alias",
-                "twinId": "Twin Id",
                 "elementTwinMappings": "Element twin mappings",
                 "elementTwinMappingsNotExist": "There is no available mapping, add elements to behavior first."
             },
@@ -673,7 +673,11 @@
     },
     "behaviorsModal": {
         "closeModal": "Close modal",
-        "behaviorPreview": "Preview"
+        "behaviorPopoverMode": "Behavior popover mode",
+        "state": "State",
+        "allProperties": "All properties",
+        "behaviorPreview": "Preview",
+        "LinkedTwinProperties": "Linked Twin properties"
     },
     "svgTests": {
         "fluentUI": "SVG loading via Fluent Image component (recommended pattern)",
