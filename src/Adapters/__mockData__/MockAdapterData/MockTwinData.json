@@ -2,9 +2,9 @@
     {
         "$dtId": "PasteurizationMachine_A01",
         "$etag": "W/\"f30dedf4-033f-43e5-a532-47ae137f1035\"",
-        "InFlow": 50,
-        "OutFlow": 50,
-        "Temperature": 110,
+        "InFlow": 100,
+        "OutFlow": 250,
+        "Temperature": 50,
         "PercentFull": 0,
         "$metadata": {
             "$model": "dtmi:assetGen:PasteurizationMachine;1",
@@ -17,9 +17,9 @@
     {
         "$dtId": "PasteurizationMachine_A02",
         "$etag": "W/\"2b413213-2e7f-4d54-a1c2-99ebe5f72b28\"",
-        "InFlow": 50,
+        "InFlow": 200,
         "OutFlow": 50,
-        "Temperature": 110,
+        "Temperature": 150,
         "PercentFull": 0,
         "$metadata": {
             "$model": "dtmi:assetGen:PasteurizationMachine;1",
@@ -32,10 +32,10 @@
     {
         "$dtId": "PasteurizationMachine_A03",
         "$etag": "W/\"bfbc113a-c30e-499b-997c-1ba6c66f99ff\"",
-        "InFlow": 50,
-        "OutFlow": 50,
-        "Temperature": 110,
-        "PercentFull": 0,
+        "InFlow": 300,
+        "OutFlow": 150,
+        "Temperature": 250,
+        "PercentFull": 0.4,
         "$metadata": {
             "$model": "dtmi:assetGen:PasteurizationMachine;1",
             "InFlow": { "lastUpdateTime": "2022-04-05T21:26:00.2995665Z" },
@@ -47,10 +47,9 @@
     {
         "$dtId": "PasteurizationMachine_A04",
         "$etag": "W/\"e53c3363-39fe-4c86-86d8-7e7fc90d26ba\"",
-        "InFlow": 50,
-        "OutFlow": 50,
+        "InFlow": 20,
+        "OutFlow": 80,
         "Temperature": 110,
-        "PercentFull": 0,
         "$metadata": {
             "$model": "dtmi:assetGen:PasteurizationMachine;1",
             "InFlow": { "lastUpdateTime": "2022-04-05T21:26:00.3072095Z" },
@@ -62,8 +61,9 @@
     {
         "$dtId": "SaltMachine_C2",
         "$etag": "W/\"20abc0bc-e353-4226-8e02-eba829be1f06\"",
-        "InFlow": 50,
-        "OutFlow": 50,
+        "InFlow": 20,
+        "OutFlow": 250,
+        "Temperature": 16,
         "$metadata": {
             "$model": "dtmi:assetGen:SaltMachine;1",
             "InFlow": { "lastUpdateTime": "2022-04-05T21:26:00.3434344Z" },
@@ -73,8 +73,9 @@
     {
         "$dtId": "SaltMachine_C0",
         "$etag": "W/\"8a660279-100d-433e-a057-c7bf0ba3d095\"",
-        "InFlow": 50,
-        "OutFlow": 50,
+        "InFlow": 200,
+        "OutFlow": 100,
+        "Temperature": 0,
         "$metadata": {
             "$model": "dtmi:assetGen:SaltMachine;1",
             "InFlow": { "lastUpdateTime": "2022-04-05T21:26:00.3461146Z" },
@@ -84,8 +85,9 @@
     {
         "$dtId": "SaltMachine_C1",
         "$etag": "W/\"cb3ff2f2-3936-47bc-8363-16b841f4deb9\"",
-        "InFlow": 50,
-        "OutFlow": 50,
+        "InFlow": 80,
+        "OutFlow": 100,
+        "Temperature": 20,
         "$metadata": {
             "$model": "dtmi:assetGen:SaltMachine;1",
             "InFlow": { "lastUpdateTime": "2022-04-05T21:26:00.3623119Z" },

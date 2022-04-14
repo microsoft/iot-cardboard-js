@@ -38,7 +38,12 @@
         "displayName": "SaltMachine",
         "contents": [
             { "@type": "Property", "name": "InFlow", "schema": "double" },
-            { "@type": "Property", "name": "OutFlow", "schema": "double" }
+            { "@type": "Property", "name": "OutFlow", "schema": "double" },
+            {
+                "@type": "Property",
+                "name": "Temperature",
+                "schema": "double"
+            }
         ]
     },
     {
