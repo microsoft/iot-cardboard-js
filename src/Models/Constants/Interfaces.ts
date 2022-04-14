@@ -266,11 +266,6 @@ export interface IADTTwin {
         $model: string;
         [propertyName: string]: any;
     };
-    cb_viewdata?: {
-        boardInfo?: string;
-        bimFilePath?: string;
-        bimMetadataFilePath?: string;
-    };
     [propertyName: string]: any;
 }
 
@@ -360,6 +355,15 @@ export interface ITsiClientChartDataAdapter {
         additionalParameters?: Record<string, any>
     ): AdapterReturnType<TsiClientAdapterData>;
 }
+
+export type IPropertyInspectorAdapter = Pick<
+    IADTAdapter,
+    | 'getADTTwin'
+    | 'getADTRelationship'
+    | 'getExpandedAdtModel'
+    | 'updateTwin'
+    | 'updateRelationship'
+>;
 
 export interface IADT3DViewerAdapter {
     getSceneData(
@@ -672,7 +676,9 @@ export interface ISceneViewWrapperProps {
 }
 
 export interface IADT3DViewerProps {
-    adapter: IADT3DViewerAdapter;
+    adapter:
+        | IADT3DViewerAdapter
+        | (IADT3DViewerAdapter & IPropertyInspectorAdapter);
     sceneId: string;
     scenesConfig: I3DScenesConfig;
     pollingInterval: number;

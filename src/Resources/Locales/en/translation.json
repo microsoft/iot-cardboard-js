@@ -669,7 +669,11 @@
     },
     "behaviorsModal": {
         "closeModal": "Close modal",
-        "behaviorPreview": "Preview"
+        "behaviorPopoverMode": "Behavior popover mode",
+        "state": "State",
+        "allProperties": "All properties",
+        "behaviorPreview": "Preview",
+        "LinkedTwinProperties": "Linked Twin properties"
     },
     "svgTests": {
         "fluentUI": "SVG loading via Fluent Image component (recommended pattern)",
