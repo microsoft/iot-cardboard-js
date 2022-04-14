@@ -70,6 +70,12 @@ export interface SceneViewBadge {
     icon?: string;
 }
 
+export interface ColoredMeshGroup {
+    meshId: string;
+    colors: string[];
+    currentColor: number;
+}
+
 export interface SceneViewBadgeGroup {
     id: string;
     meshId: string;

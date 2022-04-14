@@ -7,6 +7,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import './SceneView.scss';
 import { createGUID } from '../../Models/Services/Utils';
 import {
+    ColoredMeshGroup,
     ISceneViewProp,
     Marker,
     SceneViewCallbackHandler
@@ -1136,13 +1137,81 @@ const SceneView: React.FC<ISceneViewProp> = ({
                 console.time('coloring meshes');
             }
             try {
-                for (const coloredMesh of coloredMeshItems) {
-                    if (coloredMesh.meshId) {
-                        const mesh: BABYLON.AbstractMesh =
-                            meshMap.current?.[coloredMesh.meshId];
-                        colorMesh(mesh, coloredMesh.color);
+                const coloredMeshGroups: ColoredMeshGroup[] = [];
+
+                // group colored meshes
+                coloredMeshItems.forEach((coloredMesh) => {
+                    // create first group
+                    if (coloredMeshGroups.length === 0) {
+                        coloredMeshGroups.push({
+                            meshId: coloredMesh.meshId,
+                            colors: [coloredMesh.color],
+                            currentColor: 0
+                        });
+                    } else {
+                        const group = coloredMeshGroups.find(
+                            (g) => g.meshId === coloredMesh.meshId
+                        );
+
+                        // add to exsiting group
+                        if (group) {
+                            group.colors.push(coloredMesh.color);
+                        } else {
+                            // create new group
+                            coloredMeshGroups.push({
+                                meshId: coloredMesh.meshId,
+                                colors: [coloredMesh.color],
+                                currentColor: 0
+                            });
+                        }
                     }
+                });
+
+                for (const coloredMeshGroup of coloredMeshGroups) {
+                    const mesh: BABYLON.AbstractMesh =
+                        meshMap.current?.[coloredMeshGroup.meshId];
+                    colorMesh(
+                        mesh,
+                        coloredMeshGroup.colors[coloredMeshGroup.currentColor]
+                    );
                 }
+
+                const nextColor = function (
+                    currentColor: number,
+                    totalColors: number
+                ) {
+                    return currentColor + 1 >= totalColors
+                        ? 0
+                        : currentColor + 1;
+                };
+
+                const interval = 2000;
+                let elapsed = 0;
+
+                scene.beforeRender = () => {
+                    // delta time is in milliseconds
+                    elapsed += scene.deltaTime;
+                    if (elapsed >= interval) {
+                        for (const coloredMeshGroup of coloredMeshGroups) {
+                            if (coloredMeshGroup.colors.length > 1) {
+                                const mesh: BABYLON.AbstractMesh =
+                                    meshMap.current?.[coloredMeshGroup.meshId];
+                                // currentColor = nextColor();
+                                elapsed = 0;
+                                coloredMeshGroup.currentColor = nextColor(
+                                    coloredMeshGroup.currentColor,
+                                    coloredMeshGroup.colors.length
+                                );
+                                colorMesh(
+                                    mesh,
+                                    coloredMeshGroup.colors[
+                                        coloredMeshGroup.currentColor
+                                    ]
+                                );
+                            }
+                        }
+                    }
+                };
             } catch {
                 console.warn('unable to color mesh');
             }
