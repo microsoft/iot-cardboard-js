@@ -10,7 +10,6 @@ import { useTranslation } from 'react-i18next';
 import { Intellisense } from '../../../../AutoComplete/Intellisense';
 import { IAliasedTwinProperty } from '../../../../../Models/Constants';
 import { SceneBuilderContext } from '../../../ADT3DSceneBuilder';
-import { BehaviorFormContext } from '../BehaviorsForm';
 import {
     IAlertVisual,
     IBehavior
@@ -50,17 +49,21 @@ const LOC_KEYS = {
 
 const AlertsTab: React.FC = () => {
     const { t } = useTranslation();
-    const { behaviorToEdit, setBehaviorToEdit } = useContext(
-        BehaviorFormContext
-    );
     const [aliasedProperties, setAliasedProperties] = useState<
         IAliasedTwinProperty[]
     >(null);
+
+    const {
+        config,
+        sceneId,
+        adapter,
+        behaviorToEdit,
+        setBehaviorToEdit
+    } = useContext(SceneBuilderContext);
+
     const alertVisualStateRef = useRef<IAlertVisual>(
         getAlertFromBehavior(behaviorToEdit) || defaultAlertVisual
     );
-
-    const { config, sceneId, adapter } = useContext(SceneBuilderContext);
 
     if (!aliasedProperties) {
         adapter

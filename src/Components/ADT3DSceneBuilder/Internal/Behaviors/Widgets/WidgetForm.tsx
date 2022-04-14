@@ -25,7 +25,6 @@ import {
 import { SceneBuilderContext } from '../../../ADT3DSceneBuilder';
 import PanelFooter from '../../Shared/PanelFooter';
 import { getPanelFormStyles } from '../../Shared/PanelForms.styles';
-import { BehaviorFormContext } from '../BehaviorsForm';
 import { getWidgetFormStyles } from './WidgetForm.styles';
 import GaugeWidgetBuilder from './WidgetBuilders/GaugeWidgetBuilder';
 import LinkWidgetBuilder from './WidgetBuilders/LinkWidgetBuilder';
@@ -78,12 +77,10 @@ const WidgetForm: React.FC = () => {
         setWidgetFormInfo,
         config,
         sceneId,
-        adapter
+        adapter,
+        behaviorToEdit,
+        setBehaviorToEdit
     } = useContext(SceneBuilderContext);
-
-    const { behaviorToEdit, setBehaviorToEdit } = useContext(
-        BehaviorFormContext
-    );
 
     const [aliasedProperties, setAliasedProperties] = useState<
         IAliasedTwinProperty[]

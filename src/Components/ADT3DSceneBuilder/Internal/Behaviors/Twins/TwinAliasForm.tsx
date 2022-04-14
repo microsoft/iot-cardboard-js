@@ -21,7 +21,6 @@ import TwinSearchDropdown from '../../../../TwinSearchDropdown/TwinSearchDropdow
 import { SceneBuilderContext } from '../../../ADT3DSceneBuilder';
 import PanelFooter from '../../Shared/PanelFooter';
 import { getPanelFormStyles } from '../../Shared/PanelForms.styles';
-import { BehaviorFormContext } from '../BehaviorsForm';
 
 // Note, this widget form does not currently support panels
 const TwinAliasForm: React.FC<{
@@ -31,10 +30,12 @@ const TwinAliasForm: React.FC<{
     const { t } = useTranslation();
     const theme = useTheme();
     const commonFormStyles = getPanelFormStyles(theme, 0);
-    const { setBehaviorToEdit } = useContext(BehaviorFormContext);
-    const { adapter, twinAliasFormInfo, setTwinAliasFormInfo } = useContext(
-        SceneBuilderContext
-    );
+    const {
+        adapter,
+        twinAliasFormInfo,
+        setTwinAliasFormInfo,
+        setBehaviorToEdit
+    } = useContext(SceneBuilderContext);
 
     const [formData, setFormData] = useState<ITwinAliasItem>(
         twinAliasFormInfo.mode === TwinAliasFormMode.CreateTwinAlias

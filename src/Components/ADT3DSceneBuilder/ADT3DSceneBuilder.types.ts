@@ -74,6 +74,8 @@ export interface I3DSceneBuilderContext {
     dispatch: React.Dispatch<{ type: string; payload: any }>;
     state: ADT3DSceneBuilderState;
     objectColor: IADTObjectColor;
+    behaviorToEdit: IBehavior;
+    setBehaviorToEdit: React.Dispatch<React.SetStateAction<IBehavior>>;
 }
 
 export type WidgetFormInfo = {
@@ -154,7 +156,6 @@ export type OnBehaviorSave = (
 export interface IADT3DSceneBuilderBehaviorFormProps {
     builderMode: ADT3DSceneBuilderMode;
     behaviors: Array<IBehavior>;
-    selectedBehavior: IBehavior;
     elements: Array<ITwinToObjectMapping>;
     selectedElements: Array<ITwinToObjectMapping>;
     onBehaviorBackClick: () => void;

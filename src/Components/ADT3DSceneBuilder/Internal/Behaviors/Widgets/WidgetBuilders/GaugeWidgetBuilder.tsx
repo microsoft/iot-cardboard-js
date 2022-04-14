@@ -6,9 +6,9 @@ import { IGaugeWidgetBuilderProps } from '../../../../ADT3DSceneBuilder.types';
 import ValueRangeBuilder from '../../../../../ValueRangeBuilder/ValueRangeBuilder';
 import { getWidgetFormStyles } from '../WidgetForm.styles';
 import TwinPropertyDropown from '../../Internal/TwinPropertyDropdown';
-import { BehaviorFormContext } from '../../BehaviorsForm';
 import useValueRangeBuilder from '../../../../../../Models/Hooks/useValueRangeBuilder';
 import { deepCopy } from '../../../../../../Models/Services/Utils';
+import { SceneBuilderContext } from '../../../../ADT3DSceneBuilder';
 
 const GaugeWidgetBuilder: React.FC<IGaugeWidgetBuilderProps> = ({
     formData,
@@ -16,7 +16,7 @@ const GaugeWidgetBuilder: React.FC<IGaugeWidgetBuilderProps> = ({
     setIsWidgetConfigValid
 }) => {
     const { t } = useTranslation();
-    const { behaviorToEdit } = useContext(BehaviorFormContext);
+    const { behaviorToEdit } = useContext(SceneBuilderContext);
 
     const {
         valueRangeBuilderState,
