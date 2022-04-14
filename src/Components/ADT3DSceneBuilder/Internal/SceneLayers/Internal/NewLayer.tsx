@@ -2,8 +2,8 @@ import { ILayer, Text, TextField } from '@fluentui/react';
 import produce from 'immer';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { defaultLayer } from '../../../Models/Classes/3DVConfig';
-import { createGUID } from '../../../Models/Services/Utils';
+import { defaultLayer } from '../../../../../Models/Classes/3DVConfig';
+import { createGUID } from '../../../../../Models/Services/Utils';
 import { sectionHeaderStyles } from '../SceneLayers.styles';
 import PrimaryActionCalloutContents from './PrimaryActionCalloutContents';
 
@@ -29,7 +29,9 @@ const NewLayer: React.FC<INewLayer> = ({ onCreateLayer }) => {
                 value={newLayer.displayName}
                 onChange={(_e, newValue) =>
                     setNewLayer(
-                        produce((draft) => (draft.displayName = newValue))
+                        produce((draft) => {
+                            draft.displayName = newValue;
+                        })
                     )
                 }
                 styles={{ root: { marginBottom: 8 } }}

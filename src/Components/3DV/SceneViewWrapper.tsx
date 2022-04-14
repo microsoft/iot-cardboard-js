@@ -4,7 +4,7 @@ This class intercepts calls to the SceneViewer and enables AddIns to hook into e
 
 */
 
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import * as BABYLON from '@babylonjs/core/Legacy/legacy';
 import { Marker } from '../../Models/Classes/SceneView.types';
 import SceneView from './SceneView';
@@ -28,8 +28,7 @@ import {
     ViewerModeBackgroundColors,
     ViewerModeObjectColors
 } from '../../Models/Constants';
-import SceneLayers from '../SceneLayers/SceneLayers';
-import { SceneBuilderContext } from '../ADT3DSceneBuilder/ADT3DSceneBuilder';
+import SceneLayers from '../ADT3DSceneBuilder/Internal/SceneLayers/SceneLayers';
 
 export const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = ({
     config,
@@ -42,10 +41,6 @@ export const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = ({
     hideViewModePickerUI
 }) => {
     const { onMeshHover, onMeshClick, onSceneLoaded, ...svp } = sceneViewProps;
-    const {
-        state: { isLayerBuilderDialogOpen },
-        setIsLayerBuilderDialogOpen
-    } = useContext(SceneBuilderContext);
 
     const data = new ADT3DAddInEventData();
     data.adapter = adapter;
@@ -157,12 +152,7 @@ export const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = ({
             className="cb-adt-3dviewer-wrapper "
         >
             <div className="cb-adt-3dviewer-tool-button-container">
-                <SceneLayers
-                    isOpen={isLayerBuilderDialogOpen}
-                    setIsOpen={(isOpen: boolean) =>
-                        setIsLayerBuilderDialogOpen(isOpen)
-                    }
-                />
+                <SceneLayers />
                 {!hideViewModePickerUI && (
                     <ModelViewerModePicker
                         defaultViewerMode={{

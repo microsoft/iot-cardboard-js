@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import FocusCalloutButton from '../FocusCalloutButton/FocusCalloutButton';
+import FocusCalloutButton from '../../../FocusCalloutButton/FocusCalloutButton';
 import LayersListRoot from './Internal/LayersListRoot';
 import NewLayer from './Internal/NewLayer';
-import i18n from '../../i18n';
+import i18n from '../../../../i18n';
+import ViewerConfigUtility from '../../../../Models/Classes/ViewerConfigUtility';
+import { SceneBuilderContext } from '../../ADT3DSceneBuilder';
+import { ILayer } from '../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 
-interface SceneLayersProps {
-    isOpen: boolean;
-    setIsOpen: (isOpen: boolean) => void;
+interface ISceneLayersProps {
+    test?: boolean;
 }
 
 enum LayerDialogMode {
@@ -24,20 +26,37 @@ const getCalloutTitle = (mode: LayerDialogMode) => {
     }
 };
 
-const SceneLayers: React.FC<SceneLayersProps> = ({ isOpen, setIsOpen }) => {
+const SceneLayers: React.FC<ISceneLayersProps> = () => {
     const { t } = useTranslation();
 
+    const {
+        adapter,
+        config,
+        getConfig,
+        setIsLayerBuilderDialogOpen,
+        state: { isLayerBuilderDialogOpen }
+    } = useContext(SceneBuilderContext);
+
     const [mode, setMode] = useState(LayerDialogMode.Root);
+
+    const onCreateLayer = async (newLayer: ILayer) => {
+        const updatedConfig = ViewerConfigUtility.createNewLayer(
+            config,
+            newLayer
+        );
+        await adapter.putScenesConfig(updatedConfig);
+        getConfig();
+    };
 
     return (
         <FocusCalloutButton
             buttonText={t('sceneLayers.sceneLayers')}
             calloutTitle={getCalloutTitle(mode)}
             iconName="Stack"
-            isOpen={isOpen}
+            isOpen={isLayerBuilderDialogOpen}
             setIsOpen={(isOpen: boolean) => {
                 setMode(LayerDialogMode.Root);
-                setIsOpen(isOpen);
+                setIsLayerBuilderDialogOpen(isOpen);
             }}
             onBackIconClick={
                 mode !== LayerDialogMode.Root
@@ -48,10 +67,11 @@ const SceneLayers: React.FC<SceneLayersProps> = ({ isOpen, setIsOpen }) => {
             {mode === LayerDialogMode.Root && (
                 <LayersListRoot
                     onPrimaryAction={() => setMode(LayerDialogMode.NewLayer)}
+                    layers={config.configuration.layers}
                 />
             )}
             {mode === LayerDialogMode.NewLayer && (
-                <NewLayer onCreateLayer={() => null} />
+                <NewLayer onCreateLayer={onCreateLayer} />
             )}
         </FocusCalloutButton>
     );

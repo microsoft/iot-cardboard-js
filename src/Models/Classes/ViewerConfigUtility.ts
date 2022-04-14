@@ -7,6 +7,7 @@ import {
     IDataSource,
     IElement,
     IElementTwinToObjectMappingDataSource,
+    ILayer,
     IPopoverVisual,
     IScene,
     IStatusColoringVisual,
@@ -55,6 +56,16 @@ abstract class ViewerConfigUtility {
         );
         const updatedConfig = deepCopy(config);
         updatedConfig.configuration.scenes.splice(sceneIndex, 1);
+        return updatedConfig;
+    }
+
+    /** Create new layer */
+    static createNewLayer(
+        config: I3DScenesConfig,
+        layer: ILayer
+    ): I3DScenesConfig {
+        const updatedConfig = deepCopy(config);
+        updatedConfig.configuration.layers.push(layer);
         return updatedConfig;
     }
 
