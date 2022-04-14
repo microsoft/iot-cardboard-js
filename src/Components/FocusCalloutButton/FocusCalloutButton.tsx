@@ -13,22 +13,26 @@ import BaseComponent from '../BaseComponent/BaseComponent';
 interface Props {
     iconName: string;
     buttonText: string;
+    calloutTitle: string;
     children: React.ReactNode;
     isOpen: boolean;
     setIsOpen: (isOpen: boolean) => void;
+    onBackIconClick?: () => void;
 }
 
 const FocusCalloutButton: React.FC<Props> = ({
     iconName,
     buttonText,
+    calloutTitle,
     children,
     isOpen,
-    setIsOpen
+    setIsOpen,
+    onBackIconClick
 }) => {
     const buttonId = useId();
 
     const theme = useTheme();
-    const styles = getStyles(theme);
+    const styles = getStyles();
 
     return (
         <>
@@ -55,16 +59,36 @@ const FocusCalloutButton: React.FC<Props> = ({
                         <div className={styles.calloutContent}>
                             <div className={styles.header}>
                                 <div>
-                                    <FontIcon iconName={iconName} />
+                                    {onBackIconClick ? (
+                                        <IconButton
+                                            iconProps={{
+                                                iconName: 'ChevronLeft',
+                                                style: {
+                                                    fontSize: '14',
+                                                    height: '32',
+                                                    color: theme.palette.black
+                                                }
+                                            }}
+                                            onClick={onBackIconClick}
+                                        />
+                                    ) : (
+                                        <FontIcon
+                                            iconName={iconName}
+                                            className={styles.titleIcon}
+                                        />
+                                    )}
                                 </div>
-                                <div className={styles.title}>{buttonText}</div>
+                                <div className={styles.title}>
+                                    {calloutTitle}
+                                </div>
                                 <div>
                                     <IconButton
                                         iconProps={{
                                             iconName: 'Cancel',
                                             style: {
                                                 fontSize: '14',
-                                                height: '32'
+                                                height: '32',
+                                                color: theme.palette.black
                                             }
                                         }}
                                         onClick={() => setIsOpen(false)}

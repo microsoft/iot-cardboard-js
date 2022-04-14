@@ -6,6 +6,7 @@ import {
     IAlertVisual,
     IBehavior,
     IGaugeWidget,
+    ILayer,
     ILinkWidget,
     IPopoverVisual,
     IStatusColoringVisual,
@@ -52,6 +53,12 @@ export const defaultBehavior: IBehavior = {
     displayName: '',
     datasources: [],
     visuals: []
+};
+
+export const defaultLayer: ILayer = {
+    id: '',
+    behaviorIDs: [],
+    displayName: ''
 };
 
 export const defaultOnClickPopover: IPopoverVisual = {

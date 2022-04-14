@@ -313,6 +313,9 @@
     },
     "sceneLayers": {
         "sceneLayers": "Scene layers",
+        "newLayer": "New layer",
+        "layerName": "Layer name",
+        "behaviorsOnThisLayer": "Behaviors on this layer",
         "createNewLayer": "Create new layer",
         "layers": "Layers"
     },

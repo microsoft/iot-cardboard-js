@@ -4,13 +4,17 @@ import { useTranslation } from 'react-i18next';
 import { sectionHeaderStyles } from '../SceneLayers.styles';
 import PrimaryActionCalloutContents from './PrimaryActionCalloutContents';
 
-const LayersListRoot: React.FC = () => {
+interface ILayersListRoot {
+    onPrimaryAction: () => void;
+}
+
+const LayersListRoot: React.FC<ILayersListRoot> = ({ onPrimaryAction }) => {
     const { t } = useTranslation();
 
     return (
         <PrimaryActionCalloutContents
-            onPrimaryButtonClick={() => null}
-            primaryButtonText={t('sceneLayers.createNewLayer')}
+            onPrimaryButtonClick={onPrimaryAction}
+            primaryButtonText={t('sceneLayers.newLayer')}
         >
             <Text variant="medium" styles={sectionHeaderStyles}>
                 {t('sceneLayers.layers')}
