@@ -447,8 +447,7 @@
                 "twins": "Twins give you access to properties which can be used in expressions.",
                 "linkedTwin": "The LinkedTwin contains all properties in common between the target elements linked twins.",
                 "aliasChangeNotAllowed": "Alias change is not allowed after creation.",
-                "commonProperties": "The union of linked twin properties of selected elements",
-                "aliasedTwinIdChangeWarning": "Changing aliased twin ID may result in invalid properties if it is used in behavior expressions."
+                "commonProperties": "The union of linked twin properties of selected elements"
             }
         }
     },

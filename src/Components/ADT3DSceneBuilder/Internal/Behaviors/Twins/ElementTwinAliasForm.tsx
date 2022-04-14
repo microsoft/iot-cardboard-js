@@ -96,9 +96,6 @@ const ElementTwinAliasForm: React.FC = () => {
                     onTwinIdSelect={(selectedTwinId: string) => {
                         handleTwinSelect(selectedTwinId);
                     }}
-                    descriptionText={t(
-                        '3dSceneBuilder.twinAlias.descriptions.aliasedTwinIdChangeWarning'
-                    )}
                 />
             </div>
             <PanelFooter>
