@@ -3,7 +3,6 @@ import produce from 'immer';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { defaultLayer } from '../../../../../Models/Classes/3DVConfig';
-import ViewerConfigUtility from '../../../../../Models/Classes/ViewerConfigUtility';
 import { createGUID } from '../../../../../Models/Services/Utils';
 import {
     IBehavior,
