@@ -90,6 +90,7 @@ const BuilderLeftPanel: React.FC = () => {
             config: I3DScenesConfig;
             mode: ADT3DSceneBuilderMode;
             behavior: IBehavior;
+            selectedLayerIds: string[];
             selectedElements: Array<ITwinToObjectMapping>; // update selected elements for behavior in case twin aliases are changed
         }) => {
             let updatedConfigWithBehavior;
@@ -97,12 +98,14 @@ const BuilderLeftPanel: React.FC = () => {
                 updatedConfigWithBehavior = ViewerConfigUtility.addBehavior(
                     params.config,
                     sceneId,
-                    params.behavior
+                    params.behavior,
+                    params.selectedLayerIds
                 );
             } else if (params.mode === ADT3DSceneBuilderMode.EditBehavior) {
                 updatedConfigWithBehavior = ViewerConfigUtility.editBehavior(
                     params.config,
-                    params.behavior
+                    params.behavior,
+                    params.selectedLayerIds
                 );
             }
             updatedConfigWithBehavior = ViewerConfigUtility.editElements(
@@ -286,12 +289,14 @@ const BuilderLeftPanel: React.FC = () => {
         config,
         behavior,
         mode,
+        selectedLayerIds,
         selectedElements // passing this in case there is updated twin aliases in behavior
     ) => {
         await updateBehaviorAndElementsAdapterData.callAdapter({
             config,
             mode,
             behavior,
+            selectedLayerIds,
             selectedElements
         });
         getConfig();

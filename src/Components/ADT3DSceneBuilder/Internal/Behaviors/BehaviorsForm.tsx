@@ -110,6 +110,13 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
         setSelectedBehaviorPivotKey
     ] = useState<BehaviorPivot>(BehaviorPivot.elements);
 
+    const [selectedLayerIds, setSelectedLayerIds] = useState(
+        ViewerConfigUtility.getActiveLayersForBehavior(
+            config,
+            behaviorToEdit.id
+        )
+    );
+
     useEffect(() => {
         const selectedElements = [];
 
@@ -220,6 +227,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
             config,
             behaviorToEdit,
             builderMode as BehaviorSaveMode,
+            selectedLayerIds,
             selectedElements
         );
         onBehaviorBackClick();
@@ -304,6 +312,8 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                                 />
                                 <SceneLayerMultiSelectBuilder
                                     behaviorId={behaviorToEdit.id}
+                                    selectedLayerIds={selectedLayerIds}
+                                    setSelectedLayerIds={setSelectedLayerIds}
                                 />
                             </Stack>
                         </div>

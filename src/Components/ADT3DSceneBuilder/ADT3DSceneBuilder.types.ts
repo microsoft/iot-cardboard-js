@@ -153,6 +153,7 @@ export type OnBehaviorSave = (
     config: I3DScenesConfig,
     behavior: IBehavior,
     mode: BehaviorSaveMode,
+    selectedLayerIds?: string[],
     selectedElements?: Array<ITwinToObjectMapping>
 ) => void;
 

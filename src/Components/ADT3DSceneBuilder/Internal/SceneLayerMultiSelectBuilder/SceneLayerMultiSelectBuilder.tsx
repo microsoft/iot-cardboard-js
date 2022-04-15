@@ -1,14 +1,17 @@
-import { ComboBox, IComboBoxOption } from '@fluentui/react';
+import { ComboBox, IComboBox, IComboBoxOption } from '@fluentui/react';
 import React, { useContext } from 'react';
-import ViewerConfigUtility from '../../../../Models/Classes/ViewerConfigUtility';
 import { SceneBuilderContext } from '../../ADT3DSceneBuilder';
 
 interface ISceneLayerMultiSelectBuilder {
     behaviorId: string;
+    selectedLayerIds: string[];
+    setSelectedLayerIds: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
 const SceneLayerMultiSelectBuilder: React.FC<ISceneLayerMultiSelectBuilder> = ({
-    behaviorId
+    behaviorId,
+    selectedLayerIds,
+    setSelectedLayerIds
 }) => {
     const { config } = useContext(SceneBuilderContext);
 
@@ -18,10 +21,23 @@ const SceneLayerMultiSelectBuilder: React.FC<ISceneLayerMultiSelectBuilder> = ({
             text: layer.displayName
         })
     );
-    const selectedLayerIds = ViewerConfigUtility.getActiveLayersForBehavior(
-        config,
-        behaviorId
-    );
+
+    const onSelectedLayerChanges = (
+        event: React.FormEvent<IComboBox>,
+        option: IComboBoxOption,
+        _index?: number,
+        _value?: string
+    ) => {
+        const selected = option.selected;
+
+        if (option) {
+            setSelectedLayerIds((prevSelectedKeys) =>
+                selected
+                    ? [...prevSelectedKeys, option.key as string]
+                    : prevSelectedKeys.filter((k) => k !== option.key)
+            );
+        }
+    };
 
     return (
         <ComboBox
@@ -30,6 +46,7 @@ const SceneLayerMultiSelectBuilder: React.FC<ISceneLayerMultiSelectBuilder> = ({
             label={'Scene layers'}
             options={layerOptions}
             useComboBoxAsMenuWidth
+            onChange={onSelectedLayerChanges}
         />
     );
 };
