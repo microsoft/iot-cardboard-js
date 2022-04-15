@@ -98,6 +98,23 @@ abstract class ViewerConfigUtility {
         return updatedConfig;
     }
 
+    /** Delete existing layer */
+    static getActiveLayersForBehavior(
+        config: I3DScenesConfig,
+        behaviorId: string
+    ): string[] {
+        const layers = config.configuration.layers;
+        const activeLayerIds: string[] = [];
+
+        layers.forEach((layer) => {
+            if (layer.behaviorIDs.includes(behaviorId)) {
+                activeLayerIds.push(layer.id);
+            }
+        });
+
+        return activeLayerIds;
+    }
+
     /** Add behavior to target scene */
     static addBehavior(
         config: I3DScenesConfig,

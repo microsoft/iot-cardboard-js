@@ -25,6 +25,7 @@ import {
     PivotItem,
     PrimaryButton,
     Separator,
+    Stack,
     TextField,
     useTheme
 } from '@fluentui/react';
@@ -60,6 +61,7 @@ import {
 import { customPivotItemStyles } from './BehaviorsForm.styles';
 import TwinsTab from './Internal/TwinsTab';
 import TwinAliasForm from './Twins/TwinAliasForm';
+import SceneLayerMultiSelectBuilder from '../SceneLayerMultiSelectBuilder/SceneLayerMultiSelectBuilder';
 
 const getElementsFromBehavior = (behavior: IBehavior) =>
     behavior.datasources.filter(
@@ -263,7 +265,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
     // );
     const theme = useTheme();
     const commonPanelStyles = getLeftPanelStyles(theme);
-    const commonFormStyles = getPanelFormStyles(theme, 92);
+    const commonFormStyles = getPanelFormStyles(theme, 168);
 
     return (
         <div className={commonFormStyles.root}>
@@ -284,21 +286,26 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                 <>
                     <div className={commonFormStyles.content}>
                         <div className={commonFormStyles.header}>
-                            <TextField
-                                label={t('displayName')}
-                                value={behaviorToEdit.displayName}
-                                required
-                                onChange={(_e, newValue) => {
-                                    onTabValidityChange('Root', {
-                                        isValid: !!newValue
-                                    });
-                                    setBehaviorToEdit(
-                                        produce((draft: IBehavior) => {
-                                            draft.displayName = newValue;
-                                        })
-                                    );
-                                }}
-                            />
+                            <Stack tokens={{ childrenGap: 12 }}>
+                                <TextField
+                                    label={t('displayName')}
+                                    value={behaviorToEdit.displayName}
+                                    required
+                                    onChange={(_e, newValue) => {
+                                        onTabValidityChange('Root', {
+                                            isValid: !!newValue
+                                        });
+                                        setBehaviorToEdit(
+                                            produce((draft: IBehavior) => {
+                                                draft.displayName = newValue;
+                                            })
+                                        );
+                                    }}
+                                />
+                                <SceneLayerMultiSelectBuilder
+                                    behaviorId={behaviorToEdit.id}
+                                />
+                            </Stack>
                         </div>
                         <Separator />
                         <Pivot
