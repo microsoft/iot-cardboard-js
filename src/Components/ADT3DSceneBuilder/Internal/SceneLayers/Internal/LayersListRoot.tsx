@@ -11,13 +11,14 @@ interface ILayersListRoot {
     onPrimaryAction: () => void;
     layers: ILayer[];
     onLayerClick: (layer: ILayer) => void;
-    // onDeleteLayerClick: (layer: ILayer) => void;
+    onDeleteLayerClick: (layer: ILayer) => void;
 }
 
 const LayersListRoot: React.FC<ILayersListRoot> = ({
     onPrimaryAction,
     layers,
-    onLayerClick
+    onLayerClick,
+    onDeleteLayerClick
 }) => {
     const { t } = useTranslation();
 
@@ -26,7 +27,11 @@ const LayersListRoot: React.FC<ILayersListRoot> = ({
             ariaLabel: layer.displayName,
             textPrimary: layer.displayName,
             item: layer,
-            onClick: (layer: ILayer) => onLayerClick(layer)
+            onClick: (layer: ILayer) => onLayerClick(layer),
+            iconEnd: {
+                name: 'Delete',
+                onClick: () => onDeleteLayerClick(layer)
+            }
         })
     );
 

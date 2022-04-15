@@ -82,6 +82,22 @@ abstract class ViewerConfigUtility {
         return updatedConfig;
     }
 
+    /** Delete existing layer */
+    static deleteLayer(
+        config: I3DScenesConfig,
+        layer: ILayer
+    ): I3DScenesConfig {
+        const updatedConfig = deepCopy(config);
+        const layerToDeleteIdx = updatedConfig.configuration.layers.findIndex(
+            (l) => l.id === layer.id
+        );
+
+        if (layerToDeleteIdx !== -1) {
+            updatedConfig.configuration.layers.splice(layerToDeleteIdx, 1);
+        }
+        return updatedConfig;
+    }
+
     /** Add behavior to target scene */
     static addBehavior(
         config: I3DScenesConfig,
