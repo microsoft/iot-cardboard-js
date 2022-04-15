@@ -129,8 +129,6 @@ const WidgetForm: React.FC<{
 
     const updateWidgetData = useCallback(
         (widgetData: IWidget) => {
-            // eslint-disable-next-line no-debugger
-            debugger;
             if (activeWidgetId.current) {
                 setBehaviorToEdit(
                     produce((draft) => {
@@ -184,8 +182,6 @@ const WidgetForm: React.FC<{
     const customStyles = getWidgetFormStyles(theme);
     const commonFormStyles = getPanelFormStyles(theme, 0);
 
-    // eslint-disable-next-line no-debugger
-    debugger;
     if (!getActiveWidget(activeWidgetId.current, behaviorToEdit)) return null;
     return (
         <>
