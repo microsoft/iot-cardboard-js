@@ -1,6 +1,13 @@
 import { DefaultButton, PrimaryButton, useTheme } from '@fluentui/react';
 import produce from 'immer';
-import React, { useCallback, useContext, useMemo, useState } from 'react';
+import React, {
+    useCallback,
+    useContext,
+    useEffect,
+    useMemo,
+    useRef,
+    useState
+} from 'react';
 import { useTranslation } from 'react-i18next';
 import {
     WidgetType,
@@ -104,8 +111,9 @@ const WidgetForm: React.FC<{
 
     const { t } = useTranslation();
 
+    const activeWidgetId = useRef(null);
     // On initial render - create or locate widget
-    const [activeWidgetId] = useState<string>(() => {
+    useEffect(() => {
         if (widgetFormInfo.mode === WidgetFormMode.CreateWidget) {
             const newWidgetId = widgetFormInfo.widgetId;
             setBehaviorToEdit(
@@ -113,29 +121,36 @@ const WidgetForm: React.FC<{
                     createWidget(draft, widgetFormInfo, newWidgetId);
                 })
             );
-            return newWidgetId;
+            activeWidgetId.current = newWidgetId;
         } else if (widgetFormInfo.mode === WidgetFormMode.EditWidget) {
-            return widgetFormInfo.widgetId;
+            activeWidgetId.current = widgetFormInfo.widgetId;
         }
-    });
+    }, []);
 
     const updateWidgetData = useCallback(
         (widgetData: IWidget) => {
-            setBehaviorToEdit(
-                produce((draft) => {
-                    const widgets = getWidgets(draft);
-                    const widgetToUpdateIdx = widgets.findIndex(
-                        (w) => w.id === activeWidgetId
-                    );
-                    widgets[widgetToUpdateIdx] = widgetData;
-                })
-            );
+            // eslint-disable-next-line no-debugger
+            debugger;
+            if (activeWidgetId.current) {
+                setBehaviorToEdit(
+                    produce((draft) => {
+                        const widgets = getWidgets(draft);
+                        const widgetToUpdateIdx = widgets.findIndex(
+                            (w) => w.id === activeWidgetId.current
+                        );
+                        widgets[widgetToUpdateIdx] = widgetData;
+                    })
+                );
+            }
         },
         [setBehaviorToEdit]
     );
 
     const getWidgetBuilder = () => {
-        const widgetData = getActiveWidget(activeWidgetId, behaviorToEdit);
+        const widgetData = getActiveWidget(
+            activeWidgetId.current,
+            behaviorToEdit
+        );
 
         switch (widgetFormInfo.widget.data.type) {
             case WidgetType.Gauge:
@@ -169,7 +184,9 @@ const WidgetForm: React.FC<{
     const customStyles = getWidgetFormStyles(theme);
     const commonFormStyles = getPanelFormStyles(theme, 0);
 
-    if (!getActiveWidget(activeWidgetId, behaviorToEdit)) return null;
+    // eslint-disable-next-line no-debugger
+    debugger;
+    if (!getActiveWidget(activeWidgetId.current, behaviorToEdit)) return null;
     return (
         <>
             <div className={commonFormStyles.content}>

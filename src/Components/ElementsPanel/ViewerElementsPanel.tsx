@@ -45,14 +45,19 @@ const ViewerElementsPanel: React.FC<IViewerElementsPanelProps> = ({
                 : panelItems,
         [filterTerm, panelItems]
     );
+    const nodeRef = React.useRef(null);
 
     return (
         <div ref={boundaryRef} className={elementsPanelStyles.boundaryLayer}>
             <Draggable
+                nodeRef={nodeRef}
                 bounds="parent"
                 defaultClassName={elementsPanelStyles.draggable}
             >
-                <div className={elementsPanelStyles.modalContainer}>
+                <div
+                    ref={nodeRef}
+                    className={elementsPanelStyles.modalContainer}
+                >
                     <div className={elementsPanelStyles.header}>
                         <Icon
                             iconName="BulletedTreeList"
