@@ -21,8 +21,8 @@ export const customPivotItemStyles = mergeStyleSets({
             borderRadius: 6,
             height: 6,
             marginLeft: 4,
-            marginTop: 2,
-            width: 6
+            marginTop: 4,
+            width: 7
         } as IStyle
     ]
 });

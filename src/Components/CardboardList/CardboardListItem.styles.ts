@@ -15,6 +15,7 @@ import { CardboardGroupedListItemType } from './CardboardGroupedList.types';
 
 const classPrefix = `${CardboardClassNamePrefix}-list-item`;
 const classNames = {
+    alertDot: `${classPrefix}-alert-dot`,
     checkbox: `${classPrefix}-checkbox`,
     endIcon: `${classPrefix}-end-icon`,
     icon: `${classPrefix}-icon`,
@@ -35,6 +36,18 @@ export const getStyles = memoizeFunction(
             textOverflow: 'ellipsis'
         };
         return mergeStyleSets({
+            alertDot: [
+                classNames.alertDot,
+                {
+                    backgroundColor: theme.semanticColors.errorText,
+                    borderRadius: 6,
+                    height: 6,
+                    marginLeft: -12,
+                    marginRight: 6,
+                    marginTop: 4,
+                    width: 6
+                } as IStyle
+            ],
             checkbox: [classNames.checkbox, { marginRight: 8 } as IStyle],
             endIcon: [classNames.endIcon, { marginLeft: 8 } as IStyle],
             icon: [
