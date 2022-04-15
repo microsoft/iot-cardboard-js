@@ -78,7 +78,7 @@ export interface I3DSceneBuilderContext {
     objectColor: IADTObjectColor;
     behaviorToEdit: IBehavior;
     setBehaviorToEdit: React.Dispatch<React.SetStateAction<IBehavior>>;
-    setIsLayerBuilderDialogOpen: (isOpen: boolean) => void;
+    setIsLayerBuilderDialogOpen: (isOpen: boolean, behaviorId?: string) => void;
 }
 
 export type WidgetFormInfo = {
@@ -206,6 +206,7 @@ export interface ADT3DSceneBuilderState {
     enableHoverOnModel: boolean;
     objectColor: IADTObjectColor;
     isLayerBuilderDialogOpen: boolean;
+    layerBuilderDialogData: { behaviorId: string };
 }
 
 export interface IWidgetBuilderFormDataProps {

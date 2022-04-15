@@ -221,10 +221,16 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
         });
     };
 
-    const setIsLayerBuilderDialogOpen = (isOpen: boolean) => {
+    const setIsLayerBuilderDialogOpen = (
+        isOpen: boolean,
+        behaviorId?: string
+    ) => {
         dispatch({
             type: SET_IS_LAYER_BUILDER_DIALOG_OPEN,
-            payload: isOpen
+            payload: {
+                isOpen,
+                behaviorId: behaviorId
+            }
         });
     };
 

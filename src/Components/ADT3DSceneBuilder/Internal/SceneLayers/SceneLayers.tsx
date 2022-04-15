@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import FocusCalloutButton from '../../../FocusCalloutButton/FocusCalloutButton';
 import LayersListRoot from './Internal/LayersListRoot';
@@ -38,7 +38,7 @@ const SceneLayers: React.FC<ISceneLayersProps> = () => {
         config,
         getConfig,
         setIsLayerBuilderDialogOpen,
-        state: { isLayerBuilderDialogOpen }
+        state: { isLayerBuilderDialogOpen, layerBuilderDialogData }
     } = useContext(SceneBuilderContext);
 
     const [mode, setMode] = useState(LayerDialogMode.Root);
@@ -47,6 +47,13 @@ const SceneLayers: React.FC<ISceneLayersProps> = () => {
         confirmDeleteLayerData,
         setConfirmDeleteLayerData
     ] = useState<ILayer>(null);
+
+    // If behavior Id passed in as data, snap to new layer mode
+    useEffect(() => {
+        if (isLayerBuilderDialogOpen && layerBuilderDialogData) {
+            setMode(LayerDialogMode.NewLayer);
+        }
+    }, [isLayerBuilderDialogOpen, layerBuilderDialogData]);
 
     const onCommitLayer = async (layer: ILayer) => {
         let updatedConfig;

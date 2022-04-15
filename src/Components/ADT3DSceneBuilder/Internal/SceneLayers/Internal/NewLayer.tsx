@@ -89,6 +89,7 @@ const NewLayer: React.FC<INewLayer> = ({
                     }
                     styles={{ root: { marginBottom: 8 } }}
                     placeholder={t('sceneLayers.layerNamePlaceholder')}
+                    autoFocus
                 />
                 {layer.behaviorIDs.length > 0 ? (
                     <div>

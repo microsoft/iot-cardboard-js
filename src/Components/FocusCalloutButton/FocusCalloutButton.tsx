@@ -54,6 +54,7 @@ const FocusCalloutButton: React.FC<Props> = ({
                     target={`#${buttonId}`}
                     onDismiss={() => setIsOpen(false)}
                     backgroundColor={theme.semanticColors.bodyBackground}
+                    setInitialFocus={true}
                 >
                     <BaseComponent>
                         <div className={styles.calloutContent}>

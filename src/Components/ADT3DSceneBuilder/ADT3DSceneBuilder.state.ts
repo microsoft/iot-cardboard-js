@@ -40,7 +40,8 @@ export const defaultADT3DSceneBuilderState: ADT3DSceneBuilderState = {
     showHoverOnSelected: false,
     enableHoverOnModel: false,
     objectColor: DefaultViewerModeObjectColor,
-    isLayerBuilderDialogOpen: false
+    isLayerBuilderDialogOpen: false,
+    layerBuilderDialogData: null
 };
 
 export const ADT3DSceneBuilderReducer: (
@@ -88,7 +89,14 @@ export const ADT3DSceneBuilderReducer: (
                 draft.outlinedMeshItems = payload;
                 break;
             case SET_IS_LAYER_BUILDER_DIALOG_OPEN:
-                draft.isLayerBuilderDialogOpen = payload;
+                draft.isLayerBuilderDialogOpen = payload.isOpen;
+                if (payload.behaviorId) {
+                    draft.layerBuilderDialogData = {
+                        behaviorId: payload.behaviorId
+                    };
+                } else {
+                    draft.layerBuilderDialogData = null;
+                }
                 break;
             case SET_ADT_SCENE_BUILDER_MODE:
                 draft.builderMode = payload;

@@ -1,5 +1,11 @@
-import { ComboBox, IComboBox, IComboBoxOption } from '@fluentui/react';
+import {
+    ActionButton,
+    ComboBox,
+    IComboBox,
+    IComboBoxOption
+} from '@fluentui/react';
 import React, { useContext } from 'react';
+import { useTranslation } from 'react-i18next';
 import { SceneBuilderContext } from '../../ADT3DSceneBuilder';
 
 interface ISceneLayerMultiSelectBuilder {
@@ -13,7 +19,10 @@ const SceneLayerMultiSelectBuilder: React.FC<ISceneLayerMultiSelectBuilder> = ({
     selectedLayerIds,
     setSelectedLayerIds
 }) => {
-    const { config } = useContext(SceneBuilderContext);
+    const { t } = useTranslation();
+    const { config, setIsLayerBuilderDialogOpen } = useContext(
+        SceneBuilderContext
+    );
 
     const layerOptions: IComboBoxOption[] = config.configuration.layers.map(
         (layer) => ({
@@ -43,10 +52,23 @@ const SceneLayerMultiSelectBuilder: React.FC<ISceneLayerMultiSelectBuilder> = ({
         <ComboBox
             multiSelect
             selectedKey={selectedLayerIds}
-            label={'Scene layers'}
+            label={t('sceneLayers.noneSelected')}
             options={layerOptions}
             useComboBoxAsMenuWidth
             onChange={onSelectedLayerChanges}
+            placeholder={t('sceneLayers.noneSelected')}
+            onRenderLowerContent={() => (
+                <div>
+                    <ActionButton
+                        iconProps={{ iconName: 'Add' }}
+                        onClick={() => {
+                            setIsLayerBuilderDialogOpen(true, behaviorId);
+                        }}
+                    >
+                        {t('sceneLayers.createNewLayer')}
+                    </ActionButton>
+                </div>
+            )}
         />
     );
 };
