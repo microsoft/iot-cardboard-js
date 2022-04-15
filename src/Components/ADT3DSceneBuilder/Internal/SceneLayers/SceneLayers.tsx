@@ -85,9 +85,10 @@ const SceneLayers: React.FC<ISceneLayersProps> = () => {
             >
                 {mode === LayerDialogMode.Root && (
                     <LayersListRoot
-                        onPrimaryAction={() =>
-                            setMode(LayerDialogMode.NewLayer)
-                        }
+                        onPrimaryAction={() => {
+                            setSelectedLayer(null);
+                            setMode(LayerDialogMode.NewLayer);
+                        }}
                         layers={config.configuration.layers}
                         onLayerClick={(layer: ILayer) => {
                             setSelectedLayer(layer);
@@ -107,6 +108,7 @@ const SceneLayers: React.FC<ISceneLayersProps> = () => {
                         }}
                         selectedLayer={selectedLayer}
                         mode={mode}
+                        behaviors={config.configuration.behaviors}
                     />
                 )}
             </FocusCalloutButton>

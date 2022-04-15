@@ -40,9 +40,15 @@ const LayersListRoot: React.FC<ILayersListRoot> = ({
             onPrimaryButtonClick={onPrimaryAction}
             primaryButtonText={t('sceneLayers.newLayer')}
         >
-            <Text variant="medium" styles={sectionHeaderStyles} as="div">
-                {t('sceneLayers.layers')}
-            </Text>
+            {layers.length > 0 ? (
+                <Text variant="medium" styles={sectionHeaderStyles} as="div">
+                    {t('sceneLayers.layers')}
+                </Text>
+            ) : (
+                <Text variant="medium" as="div">
+                    {t('sceneLayers.noLayersFound')}
+                </Text>
+            )}
             <CardboardList items={layerListItems} listKey="layer" />
         </PrimaryActionCalloutContents>
     );

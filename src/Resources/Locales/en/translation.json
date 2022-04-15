@@ -316,9 +316,13 @@
         "newLayer": "New layer",
         "layerName": "Layer name",
         "behaviorsOnThisLayer": "Behaviors on this layer",
+        "layerNamePlaceholder": "Enter layer name",
         "createNewLayer": "Create new layer",
         "editLayer": "Edit layer",
-        "layers": "Layers"
+        "confirmChanges": "Confirm changes",
+        "layers": "Layers",
+        "noLayersFound": "No layers found",
+        "noBehaviorsOnLayer": "There are no behaviors on this layer"
     },
     "3dSceneBuilder": {
         "elements": "Elements",
