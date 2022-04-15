@@ -65,7 +65,6 @@ const BehaviorsModal: React.FC<IBehaviorsModalProps> = ({
     const boundaryRef = useRef<HTMLDivElement>(null);
     const titleId = useId('title');
     const theme = useTheme();
-
     const nodeRef = React.useRef(null); // <Draggable> requires an explicit ref to avoid using findDOMNode
 
     const [activePivot, setActivePivot] = useState<BehaviorModalPivotKey>(
