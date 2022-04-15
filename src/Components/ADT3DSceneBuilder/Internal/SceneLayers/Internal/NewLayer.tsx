@@ -1,9 +1,7 @@
-import { Stack, Text, TextField } from '@fluentui/react';
+import { ITextField, Stack, Text, TextField } from '@fluentui/react';
 import produce from 'immer';
-import React, { useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { defaultLayer } from '../../../../../Models/Classes/3DVConfig';
-import { createGUID } from '../../../../../Models/Services/Utils';
 import {
     IBehavior,
     ILayer
@@ -16,30 +14,31 @@ import PrimaryActionCalloutContents from './PrimaryActionCalloutContents';
 
 interface INewLayer {
     onCommitLayer: (layer: ILayer) => void;
-    selectedLayer: ILayer;
+    layerDraft: ILayer;
+    setLayerDraft: React.Dispatch<React.SetStateAction<ILayer>>;
     mode: LayerDialogMode;
     behaviors: IBehavior[];
+    focusReady: boolean;
 }
 
 const NewLayer: React.FC<INewLayer> = ({
     onCommitLayer,
-    selectedLayer,
+    layerDraft,
+    setLayerDraft,
     mode,
-    behaviors
+    behaviors,
+    focusReady
 }) => {
     const { t } = useTranslation();
 
-    const [layer, setLayer] = useState<ILayer>(
-        mode === LayerDialogMode.EditLayer
-            ? selectedLayer
-            : {
-                  ...defaultLayer,
-                  id: createGUID()
-              }
-    );
+    const textFieldRef = useRef<ITextField>(null);
+
+    useEffect(() => {
+        if (textFieldRef.current) textFieldRef.current.focus();
+    }, [focusReady]);
 
     const onRemoveBehaviorFromLayer = (behavior: IBehavior) => {
-        setLayer(
+        setLayerDraft(
             produce((draft) => {
                 const behaviorIdIdxToRemove = draft.behaviorIDs.findIndex(
                     (id) => id === behavior.id
@@ -51,7 +50,7 @@ const NewLayer: React.FC<INewLayer> = ({
         );
     };
 
-    const behaviorListItems: ICardboardListItem<IBehavior>[] = layer.behaviorIDs.map(
+    const behaviorListItems: ICardboardListItem<IBehavior>[] = layerDraft.behaviorIDs.map(
         (behaviorId) => {
             const behavior = behaviors.find((b) => b.id === behaviorId);
             return {
@@ -69,7 +68,7 @@ const NewLayer: React.FC<INewLayer> = ({
 
     return (
         <PrimaryActionCalloutContents
-            onPrimaryButtonClick={() => onCommitLayer(layer)}
+            onPrimaryButtonClick={() => onCommitLayer(layerDraft)}
             primaryButtonText={
                 mode === LayerDialogMode.NewLayer
                     ? t('sceneLayers.createNewLayer')
@@ -79,9 +78,9 @@ const NewLayer: React.FC<INewLayer> = ({
             <Stack tokens={{ childrenGap: 12 }}>
                 <TextField
                     label={t('sceneLayers.layerName')}
-                    value={layer.displayName}
+                    value={layerDraft.displayName}
                     onChange={(_e, newValue) =>
-                        setLayer(
+                        setLayerDraft(
                             produce((draft) => {
                                 draft.displayName = newValue;
                             })
@@ -89,9 +88,9 @@ const NewLayer: React.FC<INewLayer> = ({
                     }
                     styles={{ root: { marginBottom: 8 } }}
                     placeholder={t('sceneLayers.layerNamePlaceholder')}
-                    autoFocus
+                    componentRef={textFieldRef}
                 />
-                {layer.behaviorIDs.length > 0 ? (
+                {layerDraft.behaviorIDs.length > 0 ? (
                     <div>
                         <Text variant="medium" styles={sectionHeaderStyles}>
                             {t('sceneLayers.behaviorsOnThisLayer')}

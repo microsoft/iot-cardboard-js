@@ -18,6 +18,8 @@ interface Props {
     isOpen: boolean;
     setIsOpen: (isOpen: boolean) => void;
     onBackIconClick?: () => void;
+    onFocusLayerMounted?: () => void;
+    onFocusDismiss?: () => void;
 }
 
 const FocusCalloutButton: React.FC<Props> = ({
@@ -27,7 +29,9 @@ const FocusCalloutButton: React.FC<Props> = ({
     children,
     isOpen,
     setIsOpen,
-    onBackIconClick
+    onBackIconClick,
+    onFocusLayerMounted,
+    onFocusDismiss
 }) => {
     const buttonId = useId();
 
@@ -54,7 +58,14 @@ const FocusCalloutButton: React.FC<Props> = ({
                     target={`#${buttonId}`}
                     onDismiss={() => setIsOpen(false)}
                     backgroundColor={theme.semanticColors.bodyBackground}
-                    setInitialFocus={true}
+                    onLayerMounted={onFocusLayerMounted}
+                    onRestoreFocus={(params) => {
+                        if (onFocusDismiss) {
+                            onFocusDismiss();
+                        } else {
+                            params.originalElement.focus();
+                        }
+                    }}
                 >
                     <BaseComponent>
                         <div className={styles.calloutContent}>

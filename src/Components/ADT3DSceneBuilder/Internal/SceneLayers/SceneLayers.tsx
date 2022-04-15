@@ -8,6 +8,8 @@ import ViewerConfigUtility from '../../../../Models/Classes/ViewerConfigUtility'
 import { SceneBuilderContext } from '../../ADT3DSceneBuilder';
 import { ILayer } from '../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import ConfirmDeleteDialog from '../ConfirmDeleteDialog/ConfirmDeleteDialog';
+import { defaultLayer } from '../../../../Models/Classes/3DVConfig';
+import { createGUID } from '../../../../Models/Services/Utils';
 
 interface ISceneLayersProps {
     test?: boolean;
@@ -42,7 +44,8 @@ const SceneLayers: React.FC<ISceneLayersProps> = () => {
     } = useContext(SceneBuilderContext);
 
     const [mode, setMode] = useState(LayerDialogMode.Root);
-    const [selectedLayer, setSelectedLayer] = useState<ILayer>(null);
+    const [layerDraft, setLayerDraft] = useState<ILayer>(null);
+    const [focusLayerMounted, setFocusLayerMounted] = useState(false);
     const [
         confirmDeleteLayerData,
         setConfirmDeleteLayerData
@@ -51,6 +54,10 @@ const SceneLayers: React.FC<ISceneLayersProps> = () => {
     // If behavior Id passed in as data, snap to new layer mode
     useEffect(() => {
         if (isLayerBuilderDialogOpen && layerBuilderDialogData) {
+            setLayerDraft({
+                ...defaultLayer,
+                id: createGUID()
+            });
             setMode(LayerDialogMode.NewLayer);
         }
     }, [isLayerBuilderDialogOpen, layerBuilderDialogData]);
@@ -89,16 +96,23 @@ const SceneLayers: React.FC<ISceneLayersProps> = () => {
                         ? () => setMode(LayerDialogMode.Root)
                         : null
                 }
+                onFocusLayerMounted={() => setFocusLayerMounted(true)}
+                onFocusDismiss={() =>
+                    layerBuilderDialogData?.onFocusDismiss?.(layerDraft.id)
+                }
             >
                 {mode === LayerDialogMode.Root && (
                     <LayersListRoot
                         onPrimaryAction={() => {
-                            setSelectedLayer(null);
+                            setLayerDraft({
+                                ...defaultLayer,
+                                id: createGUID()
+                            });
                             setMode(LayerDialogMode.NewLayer);
                         }}
                         layers={config.configuration.layers}
                         onLayerClick={(layer: ILayer) => {
-                            setSelectedLayer(layer);
+                            setLayerDraft(layer);
                             setMode(LayerDialogMode.EditLayer);
                         }}
                         onDeleteLayerClick={(layer: ILayer) =>
@@ -107,17 +121,23 @@ const SceneLayers: React.FC<ISceneLayersProps> = () => {
                     />
                 )}
                 {(mode === LayerDialogMode.NewLayer ||
-                    mode === LayerDialogMode.EditLayer) && (
-                    <NewLayer
-                        onCommitLayer={(layer: ILayer) => {
-                            onCommitLayer(layer);
-                            setMode(LayerDialogMode.Root);
-                        }}
-                        selectedLayer={selectedLayer}
-                        mode={mode}
-                        behaviors={config.configuration.behaviors}
-                    />
-                )}
+                    mode === LayerDialogMode.EditLayer) &&
+                    layerDraft && (
+                        <NewLayer
+                            onCommitLayer={(layer: ILayer) => {
+                                onCommitLayer(layer);
+                                setMode(LayerDialogMode.Root);
+                                if (layerBuilderDialogData) {
+                                    setIsLayerBuilderDialogOpen(false);
+                                }
+                            }}
+                            layerDraft={layerDraft}
+                            setLayerDraft={setLayerDraft}
+                            mode={mode}
+                            behaviors={config.configuration.behaviors}
+                            focusReady={focusLayerMounted}
+                        />
+                    )}
             </FocusCalloutButton>
             <ConfirmDeleteDialog
                 isOpen={!!confirmDeleteLayerData}

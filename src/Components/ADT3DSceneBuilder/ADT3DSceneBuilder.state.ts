@@ -92,7 +92,8 @@ export const ADT3DSceneBuilderReducer: (
                 draft.isLayerBuilderDialogOpen = payload.isOpen;
                 if (payload.behaviorId) {
                     draft.layerBuilderDialogData = {
-                        behaviorId: payload.behaviorId
+                        behaviorId: payload.behaviorId,
+                        onFocusDismiss: payload.onFocusDismiss
                     };
                 } else {
                     draft.layerBuilderDialogData = null;

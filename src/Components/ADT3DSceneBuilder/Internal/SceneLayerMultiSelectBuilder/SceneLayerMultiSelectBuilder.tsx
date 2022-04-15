@@ -4,7 +4,8 @@ import {
     IComboBox,
     IComboBoxOption
 } from '@fluentui/react';
-import React, { useContext } from 'react';
+import produce from 'immer';
+import React, { useContext, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { SceneBuilderContext } from '../../ADT3DSceneBuilder';
 
@@ -20,6 +21,9 @@ const SceneLayerMultiSelectBuilder: React.FC<ISceneLayerMultiSelectBuilder> = ({
     setSelectedLayerIds
 }) => {
     const { t } = useTranslation();
+
+    const comboBoxRef = useRef<IComboBox>(null);
+
     const { config, setIsLayerBuilderDialogOpen } = useContext(
         SceneBuilderContext
     );
@@ -32,10 +36,8 @@ const SceneLayerMultiSelectBuilder: React.FC<ISceneLayerMultiSelectBuilder> = ({
     );
 
     const onSelectedLayerChanges = (
-        event: React.FormEvent<IComboBox>,
-        option: IComboBoxOption,
-        _index?: number,
-        _value?: string
+        _event: React.FormEvent<IComboBox>,
+        option: IComboBoxOption
     ) => {
         const selected = option.selected;
 
@@ -57,12 +59,24 @@ const SceneLayerMultiSelectBuilder: React.FC<ISceneLayerMultiSelectBuilder> = ({
             useComboBoxAsMenuWidth
             onChange={onSelectedLayerChanges}
             placeholder={t('sceneLayers.noneSelected')}
+            componentRef={comboBoxRef}
             onRenderLowerContent={() => (
                 <div>
                     <ActionButton
                         iconProps={{ iconName: 'Add' }}
                         onClick={() => {
-                            setIsLayerBuilderDialogOpen(true, behaviorId);
+                            setIsLayerBuilderDialogOpen(
+                                true,
+                                behaviorId,
+                                (layerId: string) => {
+                                    comboBoxRef.current.focus(true);
+                                    setSelectedLayerIds(
+                                        produce((draft) => {
+                                            draft.push(layerId);
+                                        })
+                                    );
+                                }
+                            );
                         }}
                     >
                         {t('sceneLayers.createNewLayer')}
