@@ -19,6 +19,7 @@ const ViewerElementsPanel: React.FC<IViewerElementsPanelProps> = ({
     const boundaryRef = useRef<HTMLDivElement>(null);
     const elementsPanelStyles = getElementsPanelStyles();
     const [filterTerm, setFilterTerm] = useState('');
+    const nodeRef = React.useRef(null); // <Draggable> requires an explicit ref to avoid using findDOMNode
 
     const filteredPanelItems = useMemo(
         () =>
@@ -49,10 +50,14 @@ const ViewerElementsPanel: React.FC<IViewerElementsPanelProps> = ({
     return (
         <div ref={boundaryRef} className={elementsPanelStyles.boundaryLayer}>
             <Draggable
+                nodeRef={nodeRef}
                 bounds="parent"
                 defaultClassName={elementsPanelStyles.draggable}
             >
-                <div className={elementsPanelStyles.modalContainer}>
+                <div
+                    ref={nodeRef}
+                    className={elementsPanelStyles.modalContainer}
+                >
                     <div className={elementsPanelStyles.header}>
                         <Icon
                             iconName="BulletedTreeList"

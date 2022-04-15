@@ -65,6 +65,7 @@ const BehaviorsModal: React.FC<IBehaviorsModalProps> = ({
     const boundaryRef = useRef<HTMLDivElement>(null);
     const titleId = useId('title');
     const theme = useTheme();
+    const nodeRef = React.useRef(null); // <Draggable> requires an explicit ref to avoid using findDOMNode
 
     const [activePivot, setActivePivot] = useState<BehaviorModalPivotKey>(
         BehaviorModalPivotKey.State
@@ -76,11 +77,12 @@ const BehaviorsModal: React.FC<IBehaviorsModalProps> = ({
         <BehaviorsModalContext.Provider value={{ twins, mode, activeWidgetId }}>
             <div ref={boundaryRef} className={styles.boundaryLayer}>
                 <Draggable
+                    nodeRef={nodeRef}
                     bounds="parent"
                     defaultClassName={styles.draggable}
                     handle=".handle"
                 >
-                    <div className={styles.modalContainer}>
+                    <div ref={nodeRef} className={styles.modalContainer}>
                         <div
                             className={`${styles.modalHeaderContainer} handle`}
                         >
