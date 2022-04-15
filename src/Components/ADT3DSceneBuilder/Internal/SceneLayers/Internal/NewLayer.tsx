@@ -74,6 +74,7 @@ const NewLayer: React.FC<INewLayer> = ({
                     ? t('sceneLayers.createNewLayer')
                     : t('sceneLayers.confirmChanges')
             }
+            disablePrimaryButton={layerDraft.displayName === ''}
         >
             <Stack tokens={{ childrenGap: 12 }}>
                 <TextField

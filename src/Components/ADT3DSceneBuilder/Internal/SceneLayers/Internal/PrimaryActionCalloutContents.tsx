@@ -6,12 +6,14 @@ interface PrimaryActionCalloutContentsProps {
     children?: React.ReactNode;
     primaryButtonText: string;
     onPrimaryButtonClick: () => any;
+    disablePrimaryButton?: boolean;
 }
 
 const PrimaryActionCalloutContents: React.FC<PrimaryActionCalloutContentsProps> = ({
     children,
     onPrimaryButtonClick,
-    primaryButtonText
+    primaryButtonText,
+    disablePrimaryButton = false
 }) => {
     const theme = useTheme();
     const styles = getStyles(theme);
@@ -20,7 +22,10 @@ const PrimaryActionCalloutContents: React.FC<PrimaryActionCalloutContentsProps> 
         <div className={styles.container}>
             <div className={styles.body}>{children}</div>
             <div className={styles.footer}>
-                <PrimaryButton onClick={onPrimaryButtonClick}>
+                <PrimaryButton
+                    onClick={onPrimaryButtonClick}
+                    disabled={disablePrimaryButton}
+                >
                     {primaryButtonText}
                 </PrimaryButton>
             </div>

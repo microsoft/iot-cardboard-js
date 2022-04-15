@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import FocusCalloutButton from '../../../FocusCalloutButton/FocusCalloutButton';
 import LayersListRoot from './Internal/LayersListRoot';
@@ -10,6 +10,7 @@ import { ILayer } from '../../../../Models/Types/Generated/3DScenesConfiguration
 import ConfirmDeleteDialog from '../ConfirmDeleteDialog/ConfirmDeleteDialog';
 import { defaultLayer } from '../../../../Models/Classes/3DVConfig';
 import { createGUID } from '../../../../Models/Services/Utils';
+import { IFocusTrapZone } from '@fluentui/react';
 
 interface ISceneLayersProps {
     test?: boolean;
@@ -51,6 +52,9 @@ const SceneLayers: React.FC<ISceneLayersProps> = () => {
         setConfirmDeleteLayerData
     ] = useState<ILayer>(null);
 
+    const keepOpenRef = useRef(false);
+    const calloutRef = useRef<IFocusTrapZone>(null);
+
     // If behavior Id passed in as data, snap to new layer mode
     useEffect(() => {
         if (isLayerBuilderDialogOpen && layerBuilderDialogData) {
@@ -88,8 +92,12 @@ const SceneLayers: React.FC<ISceneLayersProps> = () => {
                 iconName="Stack"
                 isOpen={isLayerBuilderDialogOpen}
                 setIsOpen={(isOpen: boolean) => {
-                    setMode(LayerDialogMode.Root);
-                    setIsLayerBuilderDialogOpen(isOpen);
+                    if (!isOpen && keepOpenRef.current) {
+                        return;
+                    } else {
+                        setMode(LayerDialogMode.Root);
+                        setIsLayerBuilderDialogOpen(isOpen);
+                    }
                 }}
                 onBackIconClick={
                     mode !== LayerDialogMode.Root
@@ -100,6 +108,7 @@ const SceneLayers: React.FC<ISceneLayersProps> = () => {
                 onFocusDismiss={() =>
                     layerBuilderDialogData?.onFocusDismiss?.(layerDraft.id)
                 }
+                componentRef={calloutRef}
             >
                 {mode === LayerDialogMode.Root && (
                     <LayersListRoot
@@ -115,9 +124,10 @@ const SceneLayers: React.FC<ISceneLayersProps> = () => {
                             setLayerDraft(layer);
                             setMode(LayerDialogMode.EditLayer);
                         }}
-                        onDeleteLayerClick={(layer: ILayer) =>
-                            setConfirmDeleteLayerData(layer)
-                        }
+                        onDeleteLayerClick={(layer: ILayer) => {
+                            keepOpenRef.current = true;
+                            setConfirmDeleteLayerData(layer);
+                        }}
                     />
                 )}
                 {(mode === LayerDialogMode.NewLayer ||
@@ -142,7 +152,9 @@ const SceneLayers: React.FC<ISceneLayersProps> = () => {
             <ConfirmDeleteDialog
                 isOpen={!!confirmDeleteLayerData}
                 onClose={() => {
+                    keepOpenRef.current = false;
                     setConfirmDeleteLayerData(null);
+                    calloutRef.current.focus();
                 }}
                 onConfirmDeletion={() => onDeleteLayer(confirmDeleteLayerData)}
             />

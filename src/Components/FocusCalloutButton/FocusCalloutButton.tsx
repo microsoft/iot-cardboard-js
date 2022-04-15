@@ -3,6 +3,7 @@ import {
     FocusTrapCallout,
     FontIcon,
     IconButton,
+    IFocusTrapZone,
     useTheme
 } from '@fluentui/react';
 import React from 'react';
@@ -20,6 +21,7 @@ interface Props {
     onBackIconClick?: () => void;
     onFocusLayerMounted?: () => void;
     onFocusDismiss?: () => void;
+    componentRef?: React.MutableRefObject<IFocusTrapZone>;
 }
 
 const FocusCalloutButton: React.FC<Props> = ({
@@ -31,7 +33,8 @@ const FocusCalloutButton: React.FC<Props> = ({
     setIsOpen,
     onBackIconClick,
     onFocusLayerMounted,
-    onFocusDismiss
+    onFocusDismiss,
+    componentRef
 }) => {
     const buttonId = useId();
 
@@ -52,7 +55,8 @@ const FocusCalloutButton: React.FC<Props> = ({
                 <FocusTrapCallout
                     gapSpace={12}
                     focusTrapProps={{
-                        isClickableOutsideFocusTrap: true
+                        isClickableOutsideFocusTrap: true,
+                        ...(componentRef && { componentRef })
                     }}
                     calloutWidth={312}
                     isBeakVisible={false}
