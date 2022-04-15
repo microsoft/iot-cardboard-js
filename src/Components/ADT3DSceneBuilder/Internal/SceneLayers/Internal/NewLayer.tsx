@@ -101,11 +101,11 @@ const NewLayer: React.FC<INewLayer> = ({
                             listKey="behavior"
                         />
                     </div>
-                ) : (
+                ) : mode === LayerDialogMode.EditLayer ? (
                     <Text variant="medium">
                         {t('sceneLayers.noBehaviorsOnLayer')}
                     </Text>
-                )}
+                ) : null}
             </Stack>
         </PrimaryActionCalloutContents>
     );

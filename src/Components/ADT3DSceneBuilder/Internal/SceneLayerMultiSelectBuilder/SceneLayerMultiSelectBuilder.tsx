@@ -52,7 +52,7 @@ const SceneLayerMultiSelectBuilder: React.FC<ISceneLayerMultiSelectBuilder> = ({
         <ComboBox
             multiSelect
             selectedKey={selectedLayerIds}
-            label={t('sceneLayers.noneSelected')}
+            label={t('sceneLayers.sceneLayers')}
             options={layerOptions}
             useComboBoxAsMenuWidth
             onChange={onSelectedLayerChanges}

@@ -30,6 +30,11 @@ import {
 } from '../../Models/Constants';
 import SceneLayers from '../ADT3DSceneBuilder/Internal/SceneLayers/SceneLayers';
 
+export enum WrapperMode {
+    Builder = 'builder',
+    Viewer = 'viewr'
+}
+
 export const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = ({
     config,
     sceneId,
@@ -38,7 +43,8 @@ export const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = ({
     sceneVisuals,
     addInProps,
     objectColorUpdated,
-    hideViewModePickerUI
+    hideViewModePickerUI,
+    wrapperMode
 }) => {
     const { onMeshHover, onMeshClick, onSceneLoaded, ...svp } = sceneViewProps;
 
@@ -152,7 +158,7 @@ export const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = ({
             className="cb-adt-3dviewer-wrapper "
         >
             <div className="cb-adt-3dviewer-tool-button-container">
-                <SceneLayers />
+                {wrapperMode === WrapperMode.Builder && <SceneLayers />}
                 {!hideViewModePickerUI && (
                     <ModelViewerModePicker
                         defaultViewerMode={{
