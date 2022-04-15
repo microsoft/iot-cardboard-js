@@ -19,6 +19,7 @@ const ViewerElementsPanel: React.FC<IViewerElementsPanelProps> = ({
     const boundaryRef = useRef<HTMLDivElement>(null);
     const elementsPanelStyles = getElementsPanelStyles();
     const [filterTerm, setFilterTerm] = useState('');
+    const nodeRef = React.useRef(null); // <Draggable> requires an explicit ref to avoid using findDOMNode
 
     const filteredPanelItems = useMemo(
         () =>
@@ -45,7 +46,6 @@ const ViewerElementsPanel: React.FC<IViewerElementsPanelProps> = ({
                 : panelItems,
         [filterTerm, panelItems]
     );
-    const nodeRef = React.useRef(null);
 
     return (
         <div ref={boundaryRef} className={elementsPanelStyles.boundaryLayer}>

@@ -66,12 +66,13 @@ const BehaviorsModal: React.FC<IBehaviorsModalProps> = ({
     const titleId = useId('title');
     const theme = useTheme();
 
+    const nodeRef = React.useRef(null); // <Draggable> requires an explicit ref to avoid using findDOMNode
+
     const [activePivot, setActivePivot] = useState<BehaviorModalPivotKey>(
         BehaviorModalPivotKey.State
     );
 
     const styles = getStyles(theme, mode);
-    const nodeRef = React.useRef(null);
 
     return (
         <BehaviorsModalContext.Provider value={{ twins, mode, activeWidgetId }}>
