@@ -255,7 +255,7 @@ const BuilderLeftPanel: React.FC = () => {
     };
 
     const onCreateBehaviorWithElements = () => {
-        const behavior = defaultBehavior;
+        const behavior = { ...defaultBehavior, id: createGUID() };
         const mappingIds = [];
         const elementsToAssign =
             state.selectedElements?.length > 0
@@ -270,10 +270,7 @@ const BuilderLeftPanel: React.FC = () => {
             elementIDs: mappingIds
         };
 
-        dispatch({
-            type: SET_ADT_SCENE_BUILDER_SELECTED_BEHAVIOR,
-            payload: behavior
-        });
+        setBehaviorToEdit(behavior);
 
         dispatch({
             type: SET_ADT_SCENE_BUILDER_MODE,
