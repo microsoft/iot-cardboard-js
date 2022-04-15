@@ -312,6 +312,8 @@
         "globe": "Globe"
     },
     "sceneLayers": {
+        "noBehaviors": "No behaviors",
+        "layerMetaData": "{{numBehaviors}} behaviors",
         "sceneLayers": "Scene layers",
         "noneSelected": "No layers selected",
         "newLayer": "New layer",

@@ -20,7 +20,7 @@ export const getStyles = memoizeFunction((_theme?: Theme) => {
         container: [
             classNames.container,
             {
-                minWidth: 300,
+                width: '100%',
                 display: 'flex',
                 flexDirection: 'column'
             } as IStyle

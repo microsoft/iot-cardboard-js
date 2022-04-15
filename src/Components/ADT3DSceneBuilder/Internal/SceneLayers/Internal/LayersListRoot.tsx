@@ -26,6 +26,12 @@ const LayersListRoot: React.FC<ILayersListRoot> = ({
         (layer) => ({
             ariaLabel: layer.displayName,
             textPrimary: layer.displayName,
+            textSecondary:
+                layer.behaviorIDs.length > 0
+                    ? t('sceneLayers.layerMetaData', {
+                          numBehaviors: String(layer.behaviorIDs.length)
+                      })
+                    : t('sceneLayers.noBehaviors'),
             item: layer,
             onClick: (layer: ILayer) => onLayerClick(layer),
             iconEnd: {

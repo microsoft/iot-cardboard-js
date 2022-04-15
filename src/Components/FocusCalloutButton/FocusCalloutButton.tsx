@@ -54,6 +54,7 @@ const FocusCalloutButton: React.FC<Props> = ({
                     focusTrapProps={{
                         isClickableOutsideFocusTrap: true
                     }}
+                    calloutWidth={312}
                     isBeakVisible={false}
                     target={`#${buttonId}`}
                     onDismiss={() => setIsOpen(false)}

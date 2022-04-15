@@ -115,6 +115,7 @@ abstract class ViewerConfigUtility {
         return activeLayerIds;
     }
 
+    /** Set which layers a behaivor is present in */
     static setLayersForBehavior(
         config: I3DScenesConfig,
         behaviorId: string,
