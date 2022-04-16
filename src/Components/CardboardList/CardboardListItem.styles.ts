@@ -44,7 +44,6 @@ export const getStyles = memoizeFunction(
                     height: 6,
                     marginLeft: -12,
                     marginRight: 6,
-                    marginTop: 4,
                     width: 6
                 } as IStyle
             ],

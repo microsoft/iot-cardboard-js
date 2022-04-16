@@ -193,12 +193,12 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
     const { headerText, subHeaderText, iconName } = useMemo(
         () =>
             getLeftPanelBuilderHeaderParamsForElements(
-                elementToEdit,
+                selectedElement,
                 elementTwinAliasFormInfo,
                 builderMode
             ),
         [
-            elementToEdit,
+            selectedElement,
             elementTwinAliasFormInfo,
             builderMode,
             getLeftPanelBuilderHeaderParamsForElements
