@@ -29,7 +29,6 @@
         "i18next-browser-languagedetector": "^6.0.1",
         "immer": "^9.0.6",
         "json-schema-to-typescript": "^10.1.5",
-        "minimist": "^1.2.6",
         "parse-link-header": "^2.0.0",
         "pretty-bytes": "^5.6.0",
         "react-draggable": "^4.4.4",
@@ -124,8 +123,9 @@
         "react-dom": ">=16.8.0"
     },
     "overrides": {
-        "minimist@1.2.5": "1.2.6"
-     },
+        "minimist@1.2.5": "1.2.6",
+        "es5-ext": "0.10.53"
+    },
     "scripts": {
         "build": "npm run clean && node -max-old-space-size=8192 node_modules/rollup/dist/bin/rollup -c rollup.config.js && npm run post-build",
         "clean": "shx rm -rf dist && shx rm -rf build_artifacts",
