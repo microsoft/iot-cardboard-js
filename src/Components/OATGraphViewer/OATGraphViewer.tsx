@@ -105,11 +105,12 @@ const OATGraphViewer = () => {
             }
         };
         try {
-            const indexId = evt.path.findIndex((element) => element.dataset.id);
-            params.target = evt.path[indexId].dataset.id;
+            params.target = evt.path.find(
+                (element) => element.dataset.id
+            ).dataset.id;
             setElements((els) => addEdge(params, els));
         } catch (error) {
-            const nodeIndex = elements.findIndex(
+            const node = elements.find(
                 (element) => element.id === currentNodeId.current
             );
             const untargetedRelationship = {
@@ -118,8 +119,8 @@ const OATGraphViewer = () => {
                 name: '',
                 displayName: ''
             };
-            elements[nodeIndex].data['content'] = [
-                ...elements[nodeIndex].data['content'],
+            node.data['content'] = [
+                ...node.data['content'],
                 untargetedRelationship
             ];
             setElements([...elements]);
@@ -128,33 +129,30 @@ const OATGraphViewer = () => {
 
     const translateOutput = () => {
         const outputObject = elements;
-        const nodes = [];
-        outputObject.map((item) => {
-            if (item.position) {
+        const nodes = outputObject.reduce((currentNodes, currentNode) => {
+            if (currentNode.position) {
                 const node = {
-                    '@id': item.id,
+                    '@id': currentNode.id,
                     '@type': 'Interface',
-                    displayName: item.data.name,
-                    contents: [...item.data.content]
+                    displayName: currentNode.data.name,
+                    contents: [...currentNode.data.content]
                 };
-                nodes.push(node);
-            } else if (item.source) {
-                const nodeIndex = nodes.findIndex(
-                    (element) => element['@id'] === item.source
+                currentNodes.push(node);
+            } else if (currentNode.source) {
+                const node = currentNodes.find(
+                    (element) => element['@id'] === currentNode.source
                 );
                 const relationship = {
-                    '@type': item.data.type,
-                    '@id': item.data.id,
-                    name: item.data.name,
-                    displayName: item.data.displayName,
-                    target: item.target
+                    '@type': currentNode.data.type,
+                    '@id': currentNode.data.id,
+                    name: currentNode.data.name,
+                    displayName: currentNode.data.displayName,
+                    target: currentNode.target
                 };
-                nodes[nodeIndex].contents = [
-                    ...nodes[nodeIndex].contents,
-                    relationship
-                ];
+                node.contents = [...node.contents, relationship];
             }
-        });
+            return currentNodes;
+        }, []);
         localStorage.setItem(
             TwinsLocalStorageKey,
             JSON.stringify({ digitalTwinsModels: nodes })
