@@ -9,10 +9,10 @@ export default {
     }
 };
 
-export const OATModelEditorPage = (_args) => {
+export const OATModelEditorPage = (args, { globals: { theme } }) => {
     return (
         <div>
-            <OATEditorPage />
+            <OATEditorPage theme={theme} />
         </div>
     );
 };
