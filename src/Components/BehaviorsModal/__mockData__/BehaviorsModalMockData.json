@@ -227,7 +227,7 @@
                         "title": "",
                         "widgets": [
                             {
-                                "id": "",
+                                "id": "740385bb6f8f235e5071ebca5ae0da89",
                                 "type": "Gauge",
                                 "valueExpression": "LinkedTwin.Temperature",
                                 "widgetConfiguration": {
