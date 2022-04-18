@@ -7,7 +7,7 @@ import {
     IADTObjectColor
 } from '../../Models/Constants/Interfaces';
 import BaseComponent from '../BaseComponent/BaseComponent';
-import { AbstractMesh, Scene } from 'babylonjs';
+import { AbstractMesh, Scene } from '@babylonjs/core';
 import { SceneViewWrapper } from '../3DV/SceneViewWrapper';
 
 interface ADT3DBuilderProps {

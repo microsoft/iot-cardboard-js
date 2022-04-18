@@ -32,17 +32,15 @@ export const getPanelFormStyles = memoizeFunction(
                 classNames.content,
                 {
                     display: 'flex',
-                    flexDirection: 'column',
                     flex: 1,
-                    overflow: 'hidden',
-                    position: 'relative'
+                    flexDirection: 'column',
+                    overflow: 'hidden'
                 } as IStyle
             ],
             header: [
                 classNames.header,
                 {
-                    padding: '0 0 4px',
-                    overflow: 'hidden'
+                    padding: '0 0 4px'
                 } as IStyle
             ],
             pivot: [
@@ -52,10 +50,12 @@ export const getPanelFormStyles = memoizeFunction(
         });
     }
 );
-const pivotTabsHeight = 36;
+const pivotTabsHeight = 44;
 export const panelFormPivotStyles: Partial<IPivotStyles> = {
     root: leftPanelPivotStyles.root,
     itemContainer: {
+        display: 'flex',
+        flexDirection: 'column',
         height: `calc(100% - ${pivotTabsHeight}px)`,
         overflow: 'auto'
     }
