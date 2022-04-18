@@ -39,12 +39,14 @@ export const FormAddEnumItem = ({
         const activeItem = model.contents[currentPropertyIndex].schema;
 
         const mapKey = {
-            '@id': id ? `dtmi:com:adt:${id};` : 'dtmi:com:adt:map   ;',
+            '@id': id ? `dtmi:com:adt:mapKey${id};` : 'dtmi:com:adt:mapKey;',
             name: keyName ? keyName : activeItem.name,
             schema: 'string'
         };
         const mapValue = {
-            '@id': id ? `dtmi:com:adt:${id};` : 'dtmi:com:adt:map   ;',
+            '@id': id
+                ? `dtmi:com:adt:mapValue${id};`
+                : 'dtmi:com:adt:mapValue;',
             name: valueName ? valueName : activeItem.name,
             schema: schema ? schema : 'string'
         };
