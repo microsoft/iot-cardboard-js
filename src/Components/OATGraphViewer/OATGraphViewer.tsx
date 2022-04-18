@@ -20,10 +20,10 @@ import { getGraphViewerStyles } from './OATGraphViewer.styles';
 import { ElementsContext } from './Internal/OATContext';
 
 type OATGraphProps = {
-    onHandleElementsUpdate: () => any;
+    onElementsUpdate: () => any;
 };
 
-const OATGraphViewer = ({ onHandleElementsUpdate }: OATGraphProps) => {
+const OATGraphViewer = ({ onElementsUpdate }: OATGraphProps) => {
     const { t } = useTranslation();
     const theme = useTheme();
     const reactFlowWrapperRef = useRef(null);
@@ -161,7 +161,7 @@ const OATGraphViewer = ({ onHandleElementsUpdate }: OATGraphProps) => {
             TwinsLocalStorageKey,
             JSON.stringify({ digitalTwinsModels: nodes })
         );
-        onHandleElementsUpdate({ digitalTwinsModels: nodes });
+        onElementsUpdate({ digitalTwinsModels: nodes });
     };
 
     return (
