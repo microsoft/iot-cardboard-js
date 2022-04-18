@@ -172,6 +172,13 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                 }
             })
         );
+
+        onTabValidityChange('Twins', {
+            isValid: ViewerConfigUtility.areTwinAliasesValidInBehavior(
+                behaviorToEdit,
+                selectedElements
+            )
+        });
     }, [selectedElements]);
 
     const onTabValidityChange = useCallback(
