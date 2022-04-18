@@ -34,10 +34,9 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
     const onNameBlur = () => {
         setNameEditor(false);
         if (data.name !== nameText) {
-            const index = elements.findIndex(
+            elements.find(
                 (element) => element.data.id === data.id
-            );
-            elements[index].data.name = nameText;
+            ).data.name = nameText;
             setElements([...elements]);
         }
     };
