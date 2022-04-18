@@ -15,6 +15,19 @@ import JSONEditor from './JSONEditor';
 import TemplateColumn from './TemplateColumn';
 import PropertiesModelSummary from './PropertiesModelSummary';
 
+interface IEditor {
+    model?: any;
+    setModel?: any;
+    templates?: any;
+    setTemplates?: any;
+    theme?: any;
+    setModalBody?: any;
+    setModalOpen?: any;
+    setCurrentNestedPropertyIndex?: any;
+    setCurrentPropertyIndex?: any;
+    currentPropertyIndex?: number;
+}
+
 const Editor = ({
     model,
     setModel,
@@ -26,7 +39,7 @@ const Editor = ({
     setCurrentNestedPropertyIndex,
     setCurrentPropertyIndex,
     currentPropertyIndex
-}) => {
+}: IEditor) => {
     const { t } = useTranslation();
     const propertyInspectorStyles = getPropertyInspectorStyles();
 
