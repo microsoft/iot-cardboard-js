@@ -96,8 +96,8 @@ const OATGraphViewer = () => {
     };
 
     const onNodeDragStop = (evt, node) => {
-        const index = elements.findIndex((element) => element.id === node.id);
-        elements[index].position = node.position;
+        elements.find((element) => element.id === node.id).position =
+            node.position;
         setElements([...elements]);
     };
 
