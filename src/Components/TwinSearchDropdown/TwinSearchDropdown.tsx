@@ -8,13 +8,12 @@ import { AdapterMethodParamsForSearchADTTwins } from '../../Models/Constants/Typ
 import { getMarkedHtmlBySearch } from '../../Models/Services/Utils';
 import './TwinSearchDropdown.scss';
 import { ADTAdapter, MockAdapter } from '../../Adapters';
-
 interface IADTTwinSearchProps {
     adapter: ADTAdapter | MockAdapter;
     label?: string;
     labelIconName?: string;
     isLabelHidden?: boolean;
-    isDescriptionHidden?: boolean;
+    descriptionText?: string;
     selectedTwinId?: string;
     onTwinIdSelect?: (selectedTwinId: string) => void;
     styles?: CSSProperties;
@@ -26,7 +25,7 @@ const TwinSearchDropdown: React.FC<IADTTwinSearchProps> = ({
     label,
     labelIconName,
     isLabelHidden = false,
-    isDescriptionHidden = false,
+    descriptionText,
     selectedTwinId,
     onTwinIdSelect,
     styles
@@ -169,7 +168,7 @@ const TwinSearchDropdown: React.FC<IADTTwinSearchProps> = ({
                             aria-hidden="true"
                         />
                     )}
-                    {label ?? t('board.twinID')}
+                    {label ?? t('twinId')}
                 </Label>
             )}
             <CreatableSelect
@@ -239,12 +238,12 @@ const TwinSearchDropdown: React.FC<IADTTwinSearchProps> = ({
                 isSearchable
                 isClearable
             />
-            {!isDescriptionHidden && (
+            {descriptionText && (
                 <Text
                     className="cb-search-autocomplete-desc"
                     variant={'xSmall'}
                 >
-                    {t('3dSceneBuilder.linkedTwinInputInfo')}
+                    {descriptionText}
                 </Text>
             )}
         </div>
