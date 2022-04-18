@@ -2,9 +2,11 @@ import React from 'react';
 import { FontIcon, ActionButton, Stack } from '@fluentui/react';
 import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
 
-// type IPropertyListItem = {};
+type IAddPropertyBar = {
+    callback?: any;
+};
 
-export const AddPropertyBar = ({ callback }) => {
+export const AddPropertyBar = ({ callback }: IAddPropertyBar) => {
     const propertyInspectorStyles = getPropertyInspectorStyles();
 
     return (
