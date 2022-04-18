@@ -18,7 +18,6 @@ interface INewLayer {
     setLayerDraft: React.Dispatch<React.SetStateAction<ILayer>>;
     mode: LayerDialogMode;
     behaviors: IBehavior[];
-    focusReady: boolean;
 }
 
 const NewLayer: React.FC<INewLayer> = ({
@@ -26,16 +25,25 @@ const NewLayer: React.FC<INewLayer> = ({
     layerDraft,
     setLayerDraft,
     mode,
-    behaviors,
-    focusReady
+    behaviors
 }) => {
     const { t } = useTranslation();
 
     const textFieldRef = useRef<ITextField>(null);
+    const focusTimeoutRef = useRef(null);
 
     useEffect(() => {
+        // Try focus text field
         if (textFieldRef.current) textFieldRef.current.focus();
-    }, [focusReady]);
+
+        // Trigger delayed text field focus (focuses when opened from behavior form)
+        // Focus was not working on mount without this delay
+        focusTimeoutRef.current = setTimeout(() => {
+            textFieldRef.current && textFieldRef.current.focus();
+        }, 200);
+
+        return () => clearTimeout(focusTimeoutRef.current);
+    }, []);
 
     const onRemoveBehaviorFromLayer = (behavior: IBehavior) => {
         setLayerDraft(

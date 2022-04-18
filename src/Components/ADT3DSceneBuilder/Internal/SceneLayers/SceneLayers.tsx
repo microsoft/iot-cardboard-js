@@ -46,7 +46,6 @@ const SceneLayers: React.FC<ISceneLayersProps> = () => {
 
     const [mode, setMode] = useState(LayerDialogMode.Root);
     const [layerDraft, setLayerDraft] = useState<ILayer>(null);
-    const [focusLayerMounted, setFocusLayerMounted] = useState(false);
     const [
         confirmDeleteLayerData,
         setConfirmDeleteLayerData
@@ -104,7 +103,6 @@ const SceneLayers: React.FC<ISceneLayersProps> = () => {
                         ? () => setMode(LayerDialogMode.Root)
                         : null
                 }
-                onFocusLayerMounted={() => setFocusLayerMounted(true)}
                 onFocusDismiss={() =>
                     layerBuilderDialogData?.onFocusDismiss?.(layerDraft.id)
                 }
@@ -145,7 +143,6 @@ const SceneLayers: React.FC<ISceneLayersProps> = () => {
                             setLayerDraft={setLayerDraft}
                             mode={mode}
                             behaviors={config.configuration.behaviors}
-                            focusReady={focusLayerMounted}
                         />
                     )}
             </FocusCalloutButton>

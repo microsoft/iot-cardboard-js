@@ -19,7 +19,6 @@ interface Props {
     isOpen: boolean;
     setIsOpen: (isOpen: boolean) => void;
     onBackIconClick?: () => void;
-    onFocusLayerMounted?: () => void;
     onFocusDismiss?: () => void;
     componentRef?: React.MutableRefObject<IFocusTrapZone>;
 }
@@ -32,7 +31,6 @@ const FocusCalloutButton: React.FC<Props> = ({
     isOpen,
     setIsOpen,
     onBackIconClick,
-    onFocusLayerMounted,
     onFocusDismiss,
     componentRef
 }) => {
@@ -63,7 +61,6 @@ const FocusCalloutButton: React.FC<Props> = ({
                     target={`#${buttonId}`}
                     onDismiss={() => setIsOpen(false)}
                     backgroundColor={theme.semanticColors.bodyBackground}
-                    onLayerMounted={onFocusLayerMounted}
                     onRestoreFocus={(params) => {
                         if (onFocusDismiss) {
                             onFocusDismiss();
