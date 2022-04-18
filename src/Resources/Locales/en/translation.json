@@ -698,6 +698,7 @@
         "primitive": "Primitive",
         "complex": "Complex",
         "errorRepeatedPropertyName": "A property with the same name already exists",
+        "errorRepeatedEnumValue": "An enum-value with the same value already exists",
         "templates": "Templates",
         "templateSearchPlaceholder": "Search name, id, property",
         "property": "Property",
@@ -706,6 +707,10 @@
         "modalTextInputPlaceHolderSemanticType": "current...",
         "modalTextInputPlaceHolderUnit": "unit...",
         "pivotLink": "Pivot link",
-        "json": "JSON"
+        "json": "JSON",
+        "addEnumValue": "Add Enum Value",
+        "enumValue": "Enum Value",
+        "mapKeyName": "Map Key Name",
+        "mapValueName": "Map Value Name"
     }
 }

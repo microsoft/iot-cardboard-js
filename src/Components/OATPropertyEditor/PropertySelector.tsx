@@ -3,8 +3,24 @@ import { FontIcon, ActionButton, Stack, Text } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
 
+const data = {
+    propertyTags: {
+        primitive: [
+            'boolean',
+            'data',
+            'dateTime',
+            'double',
+            'duration',
+            'float',
+            'integer',
+            'long',
+            'string',
+            'time'
+        ],
+        complex: ['enum', 'map', 'object']
+    }
+};
 interface IProperySelectorProps {
-    data?: any;
     setPropertySelectorVisible?: (visible: boolean) => boolean;
     model?: any;
     setModel: (value: Record<string, unknown>) => Record<string, unknown>;
@@ -12,7 +28,6 @@ interface IProperySelectorProps {
 }
 
 const PropertySelector = ({
-    data,
     setPropertySelectorVisible,
     model,
     setModel,
@@ -33,6 +48,7 @@ const PropertySelector = ({
 
         modelCopy.contents[lastPropertyFocused.index].schema = schemaCopy;
         setModel(modelCopy);
+        setPropertySelectorVisible(false);
     };
 
     const handleTagClick = (tag) => {
@@ -54,17 +70,42 @@ const PropertySelector = ({
                     }`,
                     '@type': ['property'],
                     name: `New_Property_${model.contents.length + 1}`,
-                    schema:
-                        tag === 'object'
-                            ? {
-                                  '@type': 'Object',
-                                  fields: []
-                              }
-                            : tag
+                    schema: getSchema(tag)
                 }
             ]
         ];
         setModel(modelCopy);
+        setPropertySelectorVisible(false);
+    };
+
+    const getSchema = (tag) => {
+        switch (tag) {
+            case 'object':
+                return {
+                    '@type': 'Object',
+                    fields: []
+                };
+            case 'map':
+                return {
+                    '@type': 'Map',
+                    mapKey: {
+                        name: 'moduleName',
+                        schema: 'string'
+                    },
+                    mapValue: {
+                        name: 'moduleState',
+                        schema: 'string'
+                    }
+                };
+            case 'enum':
+                return {
+                    '@type': 'Enum',
+                    valueSchema: 'integer',
+                    enumValues: []
+                };
+            default:
+                return tag;
+        }
     };
 
     return (

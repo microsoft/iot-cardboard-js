@@ -51,13 +51,36 @@ const JSONEditor = ({ model, theme, setModel }: OATPropertyEditorProps) => {
         setContent(value);
     };
 
+    function setEditorThemes(monaco: any) {
+        monaco.editor.defineTheme('kraken', {
+            base: 'vs-dark',
+            inherit: true,
+            rules: [
+                {
+                    token: 'comment',
+                    foreground: '#5d7988',
+                    fontStyle: 'italic'
+                },
+                { token: 'constant', foreground: '#e06c75' }
+            ],
+            colors: {
+                'editor.background': '#16203b'
+            }
+        });
+    }
+
     return (
         <Editor
             defaultLanguage="json"
             value={content}
             onMount={onHandleEditorDidMount}
             onChange={onHandleEditorChange}
-            theme={themeToUse === 'dark' ? 'vs-dark' : themeToUse}
+            theme={
+                themeToUse === 'dark' || theme === 'explorer'
+                    ? 'vs-dark'
+                    : themeToUse
+            }
+            beforeMount={setEditorThemes}
         />
     );
 };

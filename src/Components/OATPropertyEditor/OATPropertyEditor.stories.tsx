@@ -16,7 +16,7 @@ export const Default = (_args, { globals: { theme } }) => {
             {
                 '@id': 'dtmi:com:adt:model1:prop_0',
                 '@type': ['Property'],
-                name: 'prop_0',
+                name: 'New_Property_1',
                 schema: 'string',
                 writable: true,
                 comment: 'default comment',

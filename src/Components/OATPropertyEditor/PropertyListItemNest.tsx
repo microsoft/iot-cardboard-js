@@ -3,8 +3,29 @@ import { TextField, Stack, Text } from '@fluentui/react';
 import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
 import AddPropertyBar from './AddPropertyBar';
 import PropertyListItemNested from './PropertyListItemNested';
+import PropertyListEnumItemNested from './PropertyListEnumItemNested';
+import PropertyListMapItemNested from './PropertyListMapItemNested';
 
-// type IPropertyListItem = {};
+type IPropertyListItem = {
+    index?: number;
+    draggingProperty?: boolean;
+    getItemClassName?: any;
+    getNestedItemClassName?: any;
+    getErrorMessage?: any;
+    handleDragEnter?: any;
+    handleDragEnterExternalItem?: any;
+    handleDragStart?: any;
+    setCurrentPropertyIndex?: any;
+    item?: any;
+    lastPropertyFocused?: any;
+    setLastPropertyFocused?: any;
+    setPropertySelectorVisible?: any;
+    setCurrentNestedPropertyIndex?: any;
+    setModalOpen?: any;
+    setModalBody?: any;
+    model?: any;
+    setModel?: any;
+};
 
 export const PropertyListItemNest = ({
     index,
@@ -21,9 +42,31 @@ export const PropertyListItemNest = ({
     setLastPropertyFocused,
     setPropertySelectorVisible,
     setCurrentNestedPropertyIndex,
-    setModalOpen
-}) => {
+    setModalOpen,
+    setModalBody,
+    model,
+    setModel
+}: IPropertyListItem) => {
     const propertyInspectorStyles = getPropertyInspectorStyles();
+
+    const addPropertyCallback = () => {
+        setCurrentPropertyIndex(index);
+        switch (lastPropertyFocused.item.schema['@type']) {
+            case 'Object':
+                setPropertySelectorVisible(true);
+                return;
+            case 'Enum':
+                setModalBody('formEnum');
+                setModalOpen(true);
+                return;
+            case 'Map':
+                setModalBody('formMap');
+                setModalOpen(true);
+                return;
+            default:
+                return;
+        }
+    };
 
     return (
         <Stack
@@ -58,7 +101,8 @@ export const PropertyListItemNest = ({
                 />
                 <Text>{item.schema['@type']}</Text>
             </Stack>
-            {item.schema.fields.length > 0 &&
+            {item.schema['@type'] === 'Object' &&
+                item.schema.fields.length > 0 &&
                 item.schema.fields.map((field, i) => (
                     <PropertyListItemNested
                         key={i}
@@ -74,11 +118,33 @@ export const PropertyListItemNest = ({
                     />
                 ))}
 
-            {lastPropertyFocused && (
-                <AddPropertyBar
-                    callback={() => setPropertySelectorVisible(true)}
+            {item.schema['@type'] === 'Enum' &&
+                item.schema.enumValues.length > 0 &&
+                item.schema.enumValues.map((item, i) => (
+                    <PropertyListEnumItemNested
+                        item={item}
+                        key={i}
+                        model={model}
+                        setModel={setModel}
+                        parentIndex={index}
+                        index={i}
+                    />
+                ))}
+
+            {item.schema['@type'] === 'Map' && (
+                <PropertyListMapItemNested
+                    item={item}
+                    model={model}
+                    setModel={setModel}
+                    index={index}
                 />
             )}
+
+            {lastPropertyFocused &&
+                lastPropertyFocused.index === index &&
+                item.schema['@type'] !== 'Map' && (
+                    <AddPropertyBar callback={addPropertyCallback} />
+                )}
         </Stack>
     );
 };

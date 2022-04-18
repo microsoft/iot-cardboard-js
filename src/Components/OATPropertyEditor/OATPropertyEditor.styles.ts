@@ -1,7 +1,7 @@
 import { IStyle, mergeStyleSets, useTheme, FontSizes } from '@fluentui/react';
 import { CardboardClassNamePrefix } from '../../Models/Constants';
 
-const classPrefix = `${CardboardClassNamePrefix}-oat-header`;
+const classPrefix = `${CardboardClassNamePrefix}-oat-property-editor`;
 const classNames = {
     container: `${classPrefix}-container`,
     pivotItem: `${classPrefix}-pivot-item`,
@@ -28,6 +28,10 @@ const classNames = {
     templateItem: `${classPrefix}-template-item`,
     templateItemEntered: `${classPrefix}-template-item-entered`,
     templateItemDragging: `${classPrefix}-template-item-dragging`,
+    enumItem: `${classPrefix}-enum-item`,
+    mapItem: `${classPrefix}-map-item`,
+    mapItemInputWrap: `${classPrefix}-map-input-wrap-item`,
+    mapItemKeyValueLabel: `${classPrefix}-map-input-item-key-value-label`,
     propertyItem: `${classPrefix}-property-item`,
     propertyItemNest: `${classPrefix}-property-item-nest`,
     propertyItemNested: `${classPrefix}-property-item-nested`,
@@ -47,6 +51,7 @@ const classNames = {
 
 export const getPropertyInspectorStyles = () => {
     const theme = useTheme();
+
     return mergeStyleSets({
         container: [
             classNames.container,
@@ -63,13 +68,15 @@ export const getPropertyInspectorStyles = () => {
             classNames.pivot,
             {
                 width: '440px',
-                height: '100%'
+                height: '100%',
+                backgroundColor: theme.semanticColors.listBackground
             } as IStyle
         ],
         pivotItem: [
             classNames.pivotItem,
             {
-                height: '100vh'
+                height: '100vh',
+                backgroundColor: theme.semanticColors.listBackground
             } as IStyle
         ],
         templateColumn: [
@@ -104,7 +111,7 @@ export const getPropertyInspectorStyles = () => {
             classNames.gridGeneralPropertiesWrap,
             {
                 padding: '8px',
-                borderBottom: '1px solid #e5ecf1'
+                borderBottom: `1px solid ${theme.semanticColors.variantBorder}`
             } as IStyle
         ],
         gridRow: [
@@ -162,7 +169,7 @@ export const getPropertyInspectorStyles = () => {
                 backgroundColor:
                     theme.semanticColors.primaryButtonBackgroundDisabled,
                 borderRadius: '4px',
-                border: '1px solid #c1cdd8',
+                borderBottom: `1px solid ${theme.semanticColors.variantBorder}`,
                 zIndex: 1
             } as IStyle
         ],
@@ -204,7 +211,7 @@ export const getPropertyInspectorStyles = () => {
                 justifyContent: 'center',
                 alignItems: 'center',
                 backgroundColor: theme.semanticColors.listBackground,
-                border: '1px solid #c1cdd8',
+                border: `1px solid ${theme.semanticColors.variantBorder}`,
                 borderRadius: '2px',
                 padding: '2px 5px',
                 marginRight: '4px',
@@ -237,7 +244,7 @@ export const getPropertyInspectorStyles = () => {
                 gridTemplateColumns: '60% 30% 10%',
                 alignItems: 'center',
                 padding: '12px 8px',
-                borderBottom: '1px solid #e5ecf1',
+                borderBottom: `1px solid ${theme.semanticColors.variantBorder}`,
                 cursor: 'grab',
                 ':active': {
                     cursor: 'grabbing'
@@ -273,6 +280,44 @@ export const getPropertyInspectorStyles = () => {
                 }
             } as IStyle
         ],
+        enumItem: [
+            classNames.enumItem,
+            {
+                display: 'grid',
+                gridTemplateColumns: '50% 50%',
+                width: '100%',
+                backgroundColor: theme.semanticColors.listBackground,
+                alignItems: 'center',
+                padding: '12px 8px',
+                borderBottom: `1px solid ${theme.semanticColors.buttonBackgroundPressed}'`
+            } as IStyle
+        ],
+        mapItem: [
+            classNames.mapItem,
+            {
+                width: '100%',
+                backgroundColor: theme.semanticColors.listBackground,
+                padding: '12px 8px',
+                borderBottom: `1px solid ${theme.semanticColors.buttonBackgroundPressed}'`
+            } as IStyle
+        ],
+        mapItemKeyValueLabel: [
+            classNames.mapItemKeyValueLabel,
+            {
+                padding: '0px 8px'
+            } as IStyle
+        ],
+        mapItemInputWrap: [
+            classNames.mapItemInputWrap,
+            {
+                display: 'grid',
+                gridTemplateColumns: '50% 50%',
+                width: '100%',
+                alignItems: 'center',
+                padding: '12px 8px',
+                borderBottom: `1px solid ${theme.semanticColors.buttonBackgroundPressed}'`
+            } as IStyle
+        ],
         propertyItem: [
             classNames.propertyItem,
             {
@@ -282,7 +327,7 @@ export const getPropertyInspectorStyles = () => {
                 backgroundColor: theme.semanticColors.listBackground,
                 alignItems: 'center',
                 padding: '12px 8px',
-                borderBottom: '1px solid #e5ecf1',
+                borderBottom: `1px solid ${theme.semanticColors.variantBorder}`,
                 cursor: 'grab',
                 ':active': {
                     cursor: 'grabbing'
@@ -319,7 +364,7 @@ export const getPropertyInspectorStyles = () => {
                 alignItems: 'start',
                 padding: '12px 8px',
                 minHeight: '100px',
-                borderBottom: '1px solid #e5ecf1',
+                borderBottom: `1px solid ${theme.semanticColors.variantBorder}`,
                 cursor: 'grab',
                 ':active': {
                     cursor: 'grabbing'
@@ -335,7 +380,7 @@ export const getPropertyInspectorStyles = () => {
                 backgroundColor: theme.semanticColors.listBackground,
                 alignItems: 'center',
                 padding: '12px 8px',
-                borderBottom: '1px solid #e5ecf1',
+                borderBottom: `1px solid ${theme.semanticColors.variantBorder}`,
                 borderRadius: '4px',
                 marginTop: '8px !important',
                 cursor: 'default',
@@ -401,10 +446,10 @@ export const getPropertyInspectorStyles = () => {
                 borderRadius: '4px',
 
                 ':hover': {
-                    border: '2px solid #9bb2c3'
+                    border: `2px solid ${theme.semanticColors.variantBorder}`
                 },
                 ':focus': {
-                    border: '2px solid #9bb2c3'
+                    border: `2px solid ${theme.semanticColors.variantBorder}`
                 },
                 marginRight: '10px'
             } as IStyle
@@ -412,7 +457,7 @@ export const getPropertyInspectorStyles = () => {
         modal: [
             classNames.modal,
             {
-                border: '1px solid #9bb2c3',
+                border: `1px solid ${theme.semanticColors.variantBorder}`,
                 borderRadius: '2px',
                 padding: '15px 25px',
                 minWidth: '400px'

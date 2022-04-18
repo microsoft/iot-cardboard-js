@@ -61,6 +61,8 @@ export const TemplateColumn = ({
                     </ActionButton>
                 </Stack>
                 <TextField
+                    className={propertyInspectorStyles.propertyItemTextField}
+                    borderless
                     placeholder={t(
                         'OATPropertyEditor.templateSearchPlaceholder'
                     )}

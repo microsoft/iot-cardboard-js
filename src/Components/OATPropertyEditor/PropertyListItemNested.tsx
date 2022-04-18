@@ -9,8 +9,8 @@ import {
 import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
 
 type IPropertyListItemNested = {
-    index?: any;
-    parentIndex?: any;
+    index?: number;
+    parentIndex?: number;
     getItemClassName?: any;
     getErrorMessage?: any;
     handleDragEnter?: any;

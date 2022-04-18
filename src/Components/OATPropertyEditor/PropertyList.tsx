@@ -8,24 +8,6 @@ import PropertySelector from './PropertySelector';
 import { deepCopy } from '../../Models/Services/Utils';
 import AddPropertyBar from './AddPropertyBar';
 
-const data = {
-    propertyTags: {
-        primitive: [
-            'boolean',
-            'data',
-            'dateTime',
-            'double',
-            'duration',
-            'float',
-            'integer',
-            'long',
-            'string',
-            'time'
-        ],
-        complex: ['object']
-    }
-};
-
 type IPropertyList = {
     propertySelectorVisible: boolean;
     setPropertySelectorVisible: any;
@@ -33,7 +15,6 @@ type IPropertyList = {
     setModel: any;
     setCurrentPropertyIndex: any;
     setModalOpen: any;
-    getErrorMessage: (value: string) => string;
     setTemplates: any;
     enteredPropertyRef: any;
     draggingTemplate: boolean;
@@ -42,6 +23,8 @@ type IPropertyList = {
     draggingProperty: boolean;
     setDraggingProperty: any;
     setCurrentNestedPropertyIndex: any;
+    setModalBody?: any;
+    currentPropertyIndex: number;
 };
 
 export const PropertyList = ({
@@ -51,7 +34,6 @@ export const PropertyList = ({
     setModel,
     setCurrentPropertyIndex,
     setModalOpen,
-    getErrorMessage,
     setTemplates,
     enteredPropertyRef,
     draggingTemplate,
@@ -59,7 +41,9 @@ export const PropertyList = ({
     draggedPropertyItemRef,
     draggingProperty,
     setDraggingProperty,
-    setCurrentNestedPropertyIndex
+    setCurrentNestedPropertyIndex,
+    setModalBody,
+    currentPropertyIndex
 }: IPropertyList) => {
     const { t } = useTranslation();
     const propertyInspectorStyles = getPropertyInspectorStyles();
@@ -142,11 +126,26 @@ export const PropertyList = ({
         enteredPropertyRef.current = i;
     };
 
+    const handlePropertyNameChange = (value) => {
+        model.contents[currentPropertyIndex].name = value;
+    };
+
+    const getErrorMessage = (value) => {
+        const find = model.contents.find((item) => item.name === value);
+
+        if (!find && value !== '') {
+            handlePropertyNameChange(value);
+        }
+
+        return find
+            ? `${t('OATPropertyEditor.errorRepeatedPropertyName')}`
+            : '';
+    };
+
     return (
         <Stack className={propertyInspectorStyles.propertiesWrap}>
             {propertySelectorVisible && (
                 <PropertySelector
-                    data={data}
                     setPropertySelectorVisible={setPropertySelectorVisible}
                     model={model}
                     setModel={setModel}
@@ -192,6 +191,9 @@ export const PropertyList = ({
                                     setCurrentNestedPropertyIndex
                                 }
                                 setModalOpen={setModalOpen}
+                                setModalBody={setModalBody}
+                                model={model}
+                                setModel={setModel}
                             />
                         );
                     }
@@ -212,6 +214,7 @@ export const PropertyList = ({
                             setModalOpen={setModalOpen}
                             item={item}
                             setLastPropertyFocused={setLastPropertyFocused}
+                            setModalBody={setModalBody}
                         />
                     );
                 })}

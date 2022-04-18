@@ -20,6 +20,7 @@ type IPropertyListItem = {
     setModalOpen?: any;
     item?: any;
     setLastPropertyFocused?: any;
+    setModalBody?: any;
 };
 
 export const PropertyListItem = ({
@@ -33,7 +34,8 @@ export const PropertyListItem = ({
     setCurrentPropertyIndex,
     setModalOpen,
     item,
-    setLastPropertyFocused
+    setLastPropertyFocused,
+    setModalBody
 }: IPropertyListItem) => {
     const propertyInspectorStyles = getPropertyInspectorStyles();
 
@@ -68,6 +70,7 @@ export const PropertyListItem = ({
                 onClick={() => {
                     setCurrentPropertyIndex(index);
                     setModalOpen(true);
+                    setModalBody('formProperty');
                 }}
             >
                 <FontIcon
