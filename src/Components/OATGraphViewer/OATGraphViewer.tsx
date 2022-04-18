@@ -104,12 +104,13 @@ const OATGraphViewer = () => {
                 type: 'Relationship'
             }
         };
-        try {
-            params.target = evt.path.find(
-                (element) => element.dataset.id
-            ).dataset.id;
+        const target = (evt.path || []).find(
+            (element) => element.dataset && element.dataset.id
+        );
+        if (target != null) {
+            params.target = target.dataset.id;
             setElements((els) => addEdge(params, els));
-        } catch (error) {
+        } else {
             const node = elements.find(
                 (element) => element.id === currentNodeId.current
             );
