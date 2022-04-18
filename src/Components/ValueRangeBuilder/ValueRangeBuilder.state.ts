@@ -12,7 +12,9 @@ import {
 import {
     isRangeOverlapFound,
     getRangeValidation,
-    getNextColor
+    getNextColor,
+    cleanValueRange,
+    cleanValueOutput
 } from './ValueRangeBuilder.utils';
 
 export const defaultValueRangeBuilderState: IValueRangeBuilderState = {
@@ -23,13 +25,14 @@ export const defaultValueRangeBuilderState: IValueRangeBuilderState = {
     },
     colorSwatch: defaultSwatchColors,
     minRanges: 0,
-    maxRanges: null
+    maxRanges: null,
+    areRangesValid: true
 };
 
 const defaultValueRange: Omit<IValueRange, 'id'> = {
     color: defaultValueRangeColor,
-    min: Number('-Infinity'),
-    max: Number('Infinity')
+    min: 0,
+    max: 'Infinity'
 };
 
 export const valueRangeBuilderReducer: (
@@ -38,6 +41,10 @@ export const valueRangeBuilderReducer: (
 ) => IValueRangeBuilderState = produce(
     (draft: IValueRangeBuilderState, action: ValueRangeBuilderAction) => {
         switch (action.type) {
+            case ValueRangeBuilderActionType.SET_ARE_RANGES_VALID: {
+                draft.areRangesValid = action.payload;
+                break;
+            }
             case ValueRangeBuilderActionType.ADD_VALUE_RANGE: {
                 const { color, id } = action.payload;
                 addValueRange(draft, id, color);
@@ -80,24 +87,12 @@ export const valueRangeBuilderReducer: (
             }
             case ValueRangeBuilderActionType.UPDATE_VALUE_RANGE_VALIDATION: {
                 const { newValue, currentValueRange, isMin } = action.payload;
-                const validation = updateValueRangeValidation(
+                updateValueRangeValidation(
                     draft,
                     currentValueRange,
                     newValue,
                     isMin
                 );
-
-                // If newValue is valid numeric type -- parse to number internally
-                const valueToUpdate = draft.valueRanges.find(
-                    (vr) => vr.id === currentValueRange.id
-                );
-                if (!valueToUpdate) return;
-
-                if (isMin && validation.minValid) {
-                    valueToUpdate.min = Number(newValue);
-                } else if (!isMin && validation.maxValid) {
-                    valueToUpdate.max = Number(newValue);
-                }
 
                 break;
             }
@@ -142,12 +137,17 @@ const addValueRange = (
         }
     });
 
-    const newValueRange = {
+    // If adding first value range -- set min to 0
+    if (draft.valueRanges.length === 0) {
+        newMin = 0;
+    }
+
+    const newValueRange = cleanValueRange({
         ...defaultValueRange,
         min: newMin,
         id,
         color
-    };
+    });
 
     draft.valueRanges.push(newValueRange);
 
@@ -191,12 +191,13 @@ const updateValueRange = (
     const valueToUpdate = draft.valueRanges.find((vr) => vr.id === id);
     if (!valueToUpdate) return;
 
-    if (typeof newValue === 'string') {
-        boundary === Boundary.min
-            ? (valueToUpdate.min = newValue as any)
-            : (valueToUpdate.max = newValue as any);
-    } else if (newColor) {
+    if (newColor) {
         valueToUpdate.color = newColor;
+    } else {
+        const cleanValue = cleanValueOutput(newValue);
+        boundary === Boundary.min
+            ? (valueToUpdate.min = cleanValue)
+            : (valueToUpdate.max = cleanValue);
     }
 };
 

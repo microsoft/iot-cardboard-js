@@ -51,7 +51,6 @@ const classNames = {
 
 export const getPropertyInspectorStyles = () => {
     const theme = useTheme();
-
     return mergeStyleSets({
         container: [
             classNames.container,

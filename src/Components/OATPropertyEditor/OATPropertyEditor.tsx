@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import BaseComponent from '../BaseComponent/BaseComponent';
-
-import Modal from './Modal';
 import { Theme } from '../../Models/Constants/Enums';
+import Modal from './Modal';
 import Editor from './Editor';
 
 type IOATPropertyEditor = {

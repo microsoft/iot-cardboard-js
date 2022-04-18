@@ -1,4 +1,4 @@
-import { AbstractMesh, Scene } from 'babylonjs';
+import { AbstractMesh, Scene } from '@babylonjs/core';
 import {
     ADTModelData,
     ADTRelationshipsData,
@@ -426,11 +426,12 @@ export interface IADTAdapter extends IKeyValuePairAdapter, IADT3DViewerAdapter {
      * @param config configuration data for the scene
      * @param behavior behavior to look for the twins
      */
-    getCommonTwinPropertiesForBehavior(
+    getTwinPropertiesWithAliasesForBehavior(
         sceneId: string,
         config: I3DScenesConfig,
-        behavior: IBehavior
-    ): Promise<string[]>;
+        behavior: IBehavior,
+        isTwinAliasesIncluded?: boolean
+    ): Promise<IAliasedTwinProperty[]>;
     /**
      * Gets the list of all the twin properties that are exposed for all twins linked to a behavior.
      * The names of the properties come in the format LinkedTwin.Alias.PropertyName
@@ -692,7 +693,7 @@ export interface IADT3DViewerProps {
 export interface IADT3DViewerMode {
     objectColor: IADTObjectColor;
     isWireframe: boolean;
-    background: string;
+    background: IADTBackgroundColor;
 }
 
 export interface IADTObjectColor {
@@ -709,6 +710,15 @@ export interface IADTObjectColor {
     outlinedMeshHoverSelectedColor: string;
 }
 
+export interface IADTBackgroundColor {
+    color: string;
+    badgeColor: string;
+    defaultBadgeColor: string;
+    defaultBadgeTextColor: string;
+    aggregateBadgeColor: string;
+    aggregateBadgeTextColor: string;
+}
+
 export interface IBlobFile {
     Name: string;
     Path: string;
@@ -719,4 +729,9 @@ export interface IBlobFile {
     Name: string;
     Path: string;
     Properties: Record<string, any>;
+}
+
+export interface IAliasedTwinProperty {
+    alias: 'LinkedTwin' | string;
+    property: string;
 }

@@ -3,6 +3,7 @@ import OATHeader from '../../Components/OATHeader/OATHeader';
 import OATModelList from '../../Components/OATModelList/OATModelList';
 import OATGraphViewer from '../../Components/OATGraphViewer/OATGraphViewer';
 import OATPropertyEditor from '../../Components/OATPropertyEditor/OATPropertyEditor';
+import Modal from '../../Components/OATPropertyEditor/Modal';
 
 import './OATEditorPage.scss';
 
@@ -50,6 +51,13 @@ const OATEditorPage = ({ theme }) => {
 
     return (
         <div className="cb-ontology-body-container">
+            <Modal
+                modalOpen={modalOpen}
+                setModalOpen={setModalOpen}
+                model={model}
+                setModel={setModel}
+                currentPropertyIndex={currentPropertyIndex}
+            />
             <OATHeader />
             <div className="cb-ontology-body-component">
                 <OATModelList />
