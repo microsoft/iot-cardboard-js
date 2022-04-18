@@ -1,4 +1,3 @@
-// TODO SCHEMA MIGRATION - update Widgets tab to new schema & types
 import React, {
     useCallback,
     useContext,
@@ -15,7 +14,10 @@ import { availableWidgets } from '../../../../../Models/Constants/Constants';
 import { WidgetFormMode } from '../../../../../Models/Constants/Enums';
 import { SceneBuilderContext } from '../../../ADT3DSceneBuilder';
 import { CardboardList } from '../../../../CardboardList';
-import { getLeftPanelStyles } from '../../Shared/LeftPanel.styles';
+import {
+    getActionButtonStyles,
+    getLeftPanelStyles
+} from '../../Shared/LeftPanel.styles';
 import { ICardboardListItem } from '../../../../CardboardList/CardboardList.types';
 import {
     IBehavior,
@@ -27,6 +29,7 @@ import {
     VisualType
 } from '../../../../../Models/Classes/3DVConfig';
 import ViewerConfigUtility from '../../../../../Models/Classes/ViewerConfigUtility';
+import { createGUID } from '../../../../../Models/Services/Utils';
 
 const getPopoverFromBehavior = (behavior: IBehavior) =>
     behavior.visuals.filter(ViewerConfigUtility.isPopoverVisual)[0] || null;
@@ -47,8 +50,8 @@ const WidgetsTab: React.FC = () => {
     }, [behaviorToEdit]);
 
     const onEditWidgetStart = useCallback(
-        (index: number) => {
-            const widget = widgets[index];
+        (id: string) => {
+            const widget = widgets.find((w) => w.id === id);
 
             const matchingWidgetLibraryItem = availableWidgets.find(
                 (aW) => aW.data.type === widget.type
@@ -65,7 +68,7 @@ const WidgetsTab: React.FC = () => {
                         data: widget
                     },
                     mode: WidgetFormMode.EditWidget,
-                    widgetIdx: index
+                    widgetId: id
                 });
             }
         },
@@ -73,15 +76,16 @@ const WidgetsTab: React.FC = () => {
     );
 
     const onRemoveWidget = useCallback(
-        (index: number) => {
-            const wids = [...widgets];
-            wids.splice(index, 1);
+        (id: string) => {
             setBehaviorToEdit(
                 produce((draft) => {
                     const popoverDraft = getPopoverFromBehavior(draft);
-                    popoverDraft.widgets = wids;
+                    const indexOfWidgetToRemove = popoverDraft.widgets.findIndex(
+                        (w) => w.id === id
+                    );
+                    popoverDraft.widgets.splice(indexOfWidgetToRemove, 1);
 
-                    if (wids.length === 0) {
+                    if (popoverDraft.widgets.length === 0) {
                         // If removing all widgets, remove popover container
                         const popOverIdx = draft.visuals.findIndex(
                             (v) => v.type === VisualType.Popover
@@ -91,18 +95,20 @@ const WidgetsTab: React.FC = () => {
                 })
             );
         },
-        [setBehaviorToEdit]
+        [setBehaviorToEdit, getPopoverFromBehavior]
     );
 
     const onWidgetAdd = useCallback(
         (libraryItem: IWidgetLibraryItem) => {
             setWidgetFormInfo({
                 widget: libraryItem,
-                mode: WidgetFormMode.CreateWidget
+                mode: WidgetFormMode.CreateWidget,
+                widgetId: createGUID()
             });
 
             // Add popover visual if not already present
             const popOver = getPopoverFromBehavior(behaviorToEdit);
+
             if (!popOver) {
                 setBehaviorToEdit(
                     produce((draft) => {
@@ -111,7 +117,12 @@ const WidgetsTab: React.FC = () => {
                 );
             }
         },
-        [setWidgetFormInfo, setBehaviorToEdit]
+        [
+            setWidgetFormInfo,
+            setBehaviorToEdit,
+            behaviorToEdit,
+            getPopoverFromBehavior
+        ]
     );
 
     // generate the list of items to show
@@ -125,7 +136,9 @@ const WidgetsTab: React.FC = () => {
         setListItems(listItems);
     }, [widgets, onEditWidgetStart, onRemoveWidget]);
 
-    const commonPanelStyles = getLeftPanelStyles(useTheme());
+    const theme = useTheme();
+    const commonPanelStyles = getLeftPanelStyles(theme);
+    const actionButtonStyles = getActionButtonStyles(theme);
     return (
         <>
             <div className={commonPanelStyles.formTabContents}>
@@ -140,7 +153,7 @@ const WidgetsTab: React.FC = () => {
                     />
                 )}
                 <ActionButton
-                    className="cb-widget-panel-action-button"
+                    styles={actionButtonStyles}
                     text={t('3dSceneBuilder.addWidget')}
                     data-testid={'widgetForm-addWidget'}
                     onClick={() => {
@@ -161,40 +174,37 @@ const WidgetsTab: React.FC = () => {
 };
 function getListItems(
     filteredElements: IWidget[],
-    onEditWidgetStart: (index: number) => void,
-    onRemoveWidget: (index: number) => void,
+    onEditWidgetStart: (id: string) => void,
+    onRemoveWidget: (id: string) => void,
     t: TFunction<string>
 ) {
-    const getMenuItems = (
-        _item: IWidget,
-        index: number
-    ): IContextualMenuItem[] => {
+    const getMenuItems = (item: IWidget): IContextualMenuItem[] => {
         return [
             {
                 key: 'edit',
                 'data-testid': 'editWidgetOverflow',
                 text: t('3dSceneBuilder.editWidget'),
                 iconProps: { iconName: 'Edit' },
-                onClick: () => onEditWidgetStart(index)
+                onClick: () => onEditWidgetStart(item.id)
             },
             {
                 key: 'remove',
                 'data-testid': 'removeWidgetOverflow',
                 text: t('3dSceneBuilder.removeWidget'),
                 iconProps: { iconName: 'Delete' },
-                onClick: () => onRemoveWidget(index)
+                onClick: () => onRemoveWidget(item.id)
             }
         ];
     };
     const getIconName = (widget: IWidget) =>
         availableWidgets.find((w) => w.data.type === widget.type)?.iconName;
-    return filteredElements.map((item, index) => {
+    return filteredElements.map((item) => {
         const viewModel: ICardboardListItem<IWidget> = {
             ariaLabel: '',
             iconStart: { name: getIconName(item) },
             item: item,
             openMenuOnClick: true,
-            overflowMenuItems: getMenuItems(item, index),
+            overflowMenuItems: getMenuItems(item),
             textPrimary: item?.widgetConfiguration?.label || item.type
         };
 

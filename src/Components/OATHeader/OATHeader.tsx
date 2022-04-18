@@ -12,7 +12,7 @@ const OATHeader = ({ elements }: OATHeaderProps) => {
     const { t } = useTranslation();
     const headerStyles = getHeaderStyles();
 
-    const onDowloadClick = () => {
+    const handleDownloadClick = () => {
         downloadText(JSON.stringify(elements), 'digitalTwinsModels.json');
     };
 
@@ -71,7 +71,7 @@ const OATHeader = ({ elements }: OATHeaderProps) => {
                         />
                         {t('OATHeader.import')}
                     </ActionButton>
-                    <ActionButton onClick={onDowloadClick}>
+                    <ActionButton onClick={handleDownloadClick}>
                         <FontIcon
                             iconName={'Export'}
                             className={headerStyles.menuIcon}

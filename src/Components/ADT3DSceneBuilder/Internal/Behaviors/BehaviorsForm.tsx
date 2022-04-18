@@ -12,7 +12,11 @@ import {
     DatasourceType,
     defaultBehavior
 } from '../../../../Models/Classes/3DVConfig';
-import { ADT3DSceneBuilderMode } from '../../../../Models/Constants/Enums';
+import {
+    ADT3DSceneBuilderMode,
+    BehaviorModalMode,
+    WidgetFormMode
+} from '../../../../Models/Constants/Enums';
 import {
     BehaviorSaveMode,
     IADT3DSceneBuilderBehaviorFormProps,
@@ -44,8 +48,7 @@ import {
 } from '../Shared/PanelForms.styles';
 import {
     IBehavior,
-    ITwinToObjectMapping,
-    IValueRange
+    ITwinToObjectMapping
 } from '../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import ViewerConfigUtility from '../../../../Models/Classes/ViewerConfigUtility';
 import { createGUID } from '../../../../Models/Services/Utils';
@@ -62,7 +65,9 @@ import {
     TabNames
 } from './BehaviorForm.types';
 import { customPivotItemStyles } from './BehaviorsForm.styles';
-import { IValueRangeBuilderHandle } from '../../../ValueRangeBuilder/ValueRangeBuilder.types';
+import BehaviorsModal from '../../../BehaviorsModal/BehaviorsModal';
+import TwinsTab from './Internal/TwinsTab';
+import TwinAliasForm from './Twins/TwinAliasForm';
 
 export const BehaviorFormContext = React.createContext<IBehaviorFormContext>(
     null
@@ -71,9 +76,6 @@ const getElementsFromBehavior = (behavior: IBehavior) =>
     behavior.datasources.filter(
         ViewerConfigUtility.isElementTwinToObjectMappingDataSource
     )[0] || null;
-
-const getStatusFromBehavior = (behavior: IBehavior) =>
-    behavior.visuals.filter(ViewerConfigUtility.isStatusColorVisual)[0] || null;
 
 enum BehaviorPivot {
     alerts = 'alerts',
@@ -84,6 +86,7 @@ enum BehaviorPivot {
 }
 
 const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
+    behaviors,
     elements,
     builderMode,
     selectedBehavior,
@@ -91,23 +94,30 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
     onBehaviorBackClick,
     onBehaviorSave,
     setSelectedElements,
-    updateSelectedElements
+    updateSelectedElements,
+    onElementClick,
+    onRemoveElement
 }) => {
     const { t } = useTranslation();
 
-    const { widgetFormInfo } = useContext(SceneBuilderContext);
+    const { config, widgetFormInfo, twinAliasFormInfo } = useContext(
+        SceneBuilderContext
+    );
 
     const [state, dispatch] = useReducer(
         BehaviorFormReducer,
         defaultBehaviorFormState
     );
-    const valueRangeRef = useRef<IValueRangeBuilderHandle>(null);
 
     const [behaviorToEdit, setBehaviorToEdit] = useState<IBehavior>(
         !selectedBehavior
             ? { ...defaultBehavior, id: createGUID() }
             : selectedBehavior
     );
+
+    const behaviorDraftWidgetBackup = useRef<IBehavior>(null);
+
+    const behaviorPreview = useMemo(() => [behaviorToEdit], [behaviorToEdit]);
 
     const [
         selectedBehaviorPivotKey,
@@ -130,6 +140,30 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
             setSelectedElements(selectedElements);
         }
     }, []);
+
+    // Prior to entering widget form -- freeze copy of draft behavior
+    useEffect(() => {
+        // Backup draft if opening widget form
+        if (
+            (widgetFormInfo.mode === WidgetFormMode.CreateWidget ||
+                widgetFormInfo.mode === WidgetFormMode.EditWidget) &&
+            !behaviorDraftWidgetBackup.current
+        ) {
+            behaviorDraftWidgetBackup.current = behaviorToEdit;
+        }
+        // If widget form is cancelled, restore backup
+        else if (
+            widgetFormInfo.mode === WidgetFormMode.Cancelled &&
+            behaviorDraftWidgetBackup.current
+        ) {
+            setBehaviorToEdit(behaviorDraftWidgetBackup.current);
+            behaviorDraftWidgetBackup.current = null;
+        }
+        // If changes committed, clear backup
+        else if (widgetFormInfo.mode === WidgetFormMode.Committed) {
+            behaviorDraftWidgetBackup.current = null;
+        }
+    }, [widgetFormInfo]);
 
     useEffect(() => {
         const elementIds = [];
@@ -182,6 +216,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
         },
         [behaviorToEdit, updateSelectedElements, onTabValidityChange]
     );
+
     const onPivotItemClick = useCallback(
         (item: PivotItem) => {
             const selectedPivot = item.props.itemKey as BehaviorPivot;
@@ -189,52 +224,24 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                 // don't rerender if the pivot key is the same
                 return;
             }
-            setSelectedBehaviorPivotKey((prevValue) => {
-                // if the current pivot is states, then store the data before we move
-                if (prevValue === BehaviorPivot.states) {
-                    storeStatusRanges();
-                }
-                return selectedPivot;
-            });
+            setSelectedBehaviorPivotKey(selectedPivot);
         },
         [setSelectedBehaviorPivotKey, selectedBehaviorPivotKey]
     );
 
-    const getStatusRangeValues = useCallback((): IValueRange[] | undefined => {
-        return valueRangeRef.current?.getValueRanges();
-    }, [valueRangeRef]);
-    const storeStatusRanges = useCallback(() => {
-        const ranges = getStatusRangeValues();
-        if (ranges) {
-            setBehaviorToEdit(
-                produce((draft) => {
-                    // Assuming only 1 status visual per behavior
-                    const stateVisual = getStatusFromBehavior(draft);
-                    // Edit flow
-                    if (stateVisual) {
-                        stateVisual.valueRanges = ranges;
-                    }
-                })
-            );
-        }
-    }, [getStatusRangeValues, setBehaviorToEdit]);
-
-    const onSaveClick = useCallback(() => {
-        // store the latest ranges from the status
-        const rangeValues = getStatusRangeValues();
-        const statusVisual = getStatusFromBehavior(behaviorToEdit);
-        if (statusVisual && rangeValues) {
-            statusVisual.valueRanges = rangeValues;
-        }
-
-        // behaviorToEdit.
-        onBehaviorSave(behaviorToEdit, builderMode as BehaviorSaveMode);
+    const onSaveClick = useCallback(async () => {
+        await onBehaviorSave(
+            config,
+            behaviorToEdit,
+            builderMode as BehaviorSaveMode,
+            selectedElements
+        );
         onBehaviorBackClick();
         setSelectedElements([]);
     }, [
+        config,
         behaviorToEdit,
         builderMode,
-        getStatusRangeValues,
         onBehaviorBackClick,
         onBehaviorSave,
         setSelectedElements
@@ -245,8 +252,13 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
     }, [onBehaviorBackClick, setSelectedElements]);
 
     const { headerText, subHeaderText, iconName } = useMemo(
-        () => getLeftPanelBuilderHeaderParams(widgetFormInfo, builderMode),
-        [widgetFormInfo, builderMode]
+        () =>
+            getLeftPanelBuilderHeaderParams(
+                widgetFormInfo,
+                twinAliasFormInfo,
+                builderMode
+            ),
+        [widgetFormInfo, twinAliasFormInfo, builderMode]
     );
     // report out initial state
     useEffect(() => {
@@ -268,6 +280,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
     const theme = useTheme();
     const commonPanelStyles = getLeftPanelStyles(theme);
     const commonFormStyles = getPanelFormStyles(theme, 92);
+
     return (
         <BehaviorFormContext.Provider
             value={{
@@ -281,8 +294,14 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                     subHeaderText={subHeaderText}
                     iconName={iconName}
                 />
-                {widgetFormInfo ? (
+                {widgetFormInfo.mode === WidgetFormMode.CreateWidget ||
+                widgetFormInfo.mode === WidgetFormMode.EditWidget ? (
                     <WidgetForm />
+                ) : twinAliasFormInfo ? (
+                    <TwinAliasForm
+                        selectedElements={selectedElements}
+                        setSelectedElements={setSelectedElements}
+                    />
                 ) : (
                     <>
                         <div className={commonFormStyles.content}>
@@ -336,6 +355,31 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                                         }
                                         isEditBehavior={true}
                                         hideSearch={false}
+                                        onElementClick={onElementClick}
+                                        onRemoveElement={onRemoveElement}
+                                    />
+                                </PivotItem>
+                                <PivotItem
+                                    className={
+                                        commonPanelStyles.formTabContents
+                                    }
+                                    headerText={t('3dSceneBuilder.twinsTab')}
+                                    itemKey={BehaviorPivot.twins}
+                                    onRenderItemLink={(
+                                        props,
+                                        defaultRenderer
+                                    ) =>
+                                        _customTabRenderer(
+                                            state.validityMap?.get('Twins')
+                                                ?.isValid,
+                                            props,
+                                            defaultRenderer
+                                        )
+                                    }
+                                >
+                                    <TwinsTab
+                                        behaviors={behaviors}
+                                        selectedElements={selectedElements}
                                     />
                                 </PivotItem>
                                 <PivotItem
@@ -358,7 +402,6 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                                 >
                                     <StatusTab
                                         onValidityChange={onTabValidityChange}
-                                        valueRangeRef={valueRangeRef}
                                     />
                                 </PivotItem>
                                 <PivotItem
@@ -425,6 +468,16 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                     </>
                 )}
             </div>
+            {state.isPopoverPreviewVisible && (
+                <div className={commonPanelStyles.previewContainer}>
+                    <BehaviorsModal
+                        behaviors={behaviorPreview}
+                        twins={null}
+                        mode={BehaviorModalMode.preview}
+                        activeWidgetId={widgetFormInfo.widgetId}
+                    />
+                </div>
+            )}
         </BehaviorFormContext.Provider>
     );
 };

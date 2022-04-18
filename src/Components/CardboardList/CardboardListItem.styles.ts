@@ -11,6 +11,7 @@ import {
     CardboardClassNamePrefix,
     StyleConstants
 } from '../../Models/Constants';
+import { CardboardGroupedListItemType } from './CardboardGroupedList.types';
 
 const classPrefix = `${CardboardClassNamePrefix}-list-item`;
 const classNames = {
@@ -82,7 +83,8 @@ export const getStyles = memoizeFunction(
                     flexDirection: 'horizontal',
                     ':hover .cb-list-item-menu-icon, :focus-within .cb-list-item-menu-icon': {
                         opacity: 1
-                    }
+                    },
+                    position: 'relative'
                 } as IStyle,
                 // force the menu icon to show up when the menu is open since it's no longer hovered/focused
                 isMenuOpen && {
@@ -111,19 +113,31 @@ export const getStyles = memoizeFunction(
     }
 );
 export const getButtonStyles = memoizeFunction(
-    (theme: Theme, customStyles?: Partial<IButtonStyles>): IButtonStyles => {
+    (
+        itemType: CardboardGroupedListItemType | undefined,
+        theme: Theme,
+        customStyles: Partial<IButtonStyles> | undefined
+    ): IButtonStyles => {
         return {
-            root: {
-                alignItems: 'start', // top align everything
-                border: 0,
-                height: 'auto',
-                ':hover .cb-more-menu, :focus .cb-more-menu, .cb-more-menu-visible': {
-                    opacity: 1
+            root: [
+                {
+                    alignItems: 'start', // top align everything
+                    border: 0,
+                    height: 'auto',
+                    ':hover .cb-more-menu, :focus .cb-more-menu, .cb-more-menu-visible': {
+                        opacity: 1
+                    },
+                    padding: '8px 12px',
+                    width: '100%',
+                    ...(customStyles?.root as IRawStyle)
                 },
-                padding: '8px 12px',
-                width: '100%',
-                ...(customStyles?.root as IRawStyle)
-            },
+                itemType === 'item' && {
+                    paddingLeft: 40
+                },
+                itemType === 'header' && {
+                    borderTop: `1px solid ${theme.palette.neutralLight}`
+                }
+            ],
             flexContainer: {
                 justifyContent: 'start',
                 ...(customStyles?.flexContainer as IRawStyle)

@@ -5,22 +5,20 @@ import React, {
     useRef,
     useState
 } from 'react';
-import { DTwin, IADT3DViewerProps } from '../../Models/Constants/Interfaces';
+import { IADT3DViewerProps } from '../../Models/Constants/Interfaces';
 import { useGuid } from '../../Models/Hooks';
 import './ADT3DViewer.scss';
 import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
 import {
     CustomMeshItem,
     Marker,
+    SceneViewBadgeGroup,
     SceneVisual
 } from '../../Models/Classes/SceneView.types';
 import { VisualType } from '../../Models/Classes/3DVConfig';
 import BaseComponent from '../../Components/BaseComponent/BaseComponent';
 import { SceneViewWrapper } from '../../Components/3DV/SceneViewWrapper';
-import {
-    IBehavior,
-    IPopoverVisual
-} from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
+import { IPopoverVisual } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import BehaviorsModal from '../BehaviorsModal/BehaviorsModal';
 import { useRuntimeSceneData } from '../../Models/Hooks/useRuntimeSceneData';
 import { BaseComponentProps } from '../BaseComponent/BaseComponent.types';
@@ -32,6 +30,7 @@ import { useTranslation } from 'react-i18next';
 import { useBoolean } from '@fluentui/react-hooks';
 import { createCustomMeshItems } from '../3DV/SceneView.Utils';
 import { deepCopy } from '../../Models/Services/Utils';
+import AlertModal from '../AlertModal/AlertModal';
 
 const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
     theme,
@@ -55,6 +54,7 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
     const [coloredMeshItems, setColoredMeshItems] = useState<CustomMeshItem[]>(
         coloredMeshItemsProp || []
     );
+    const [alertBadges, setAlertBadges] = useState<SceneViewBadgeGroup[]>();
     const [outlinedMeshItems, setOutlinedMeshItems] = useState<
         CustomMeshItem[]
     >(outlinedMeshItemsProp || []);
@@ -69,23 +69,34 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
         isElementsPanelVisible,
         { toggle: toggleIsElementsPanelVisible }
     ] = useBoolean(!hideElementsPanel);
-    const [behaviorModalConfig, setBehaviorModalConfig] = useState<{
-        behaviors: IBehavior[];
-        twins: Record<string, DTwin>;
-        title: string;
-    }>(null);
+
+    const [
+        behaviorModalSceneVisualElementId,
+        setBehaviorModalSceneVisuaElementlId
+    ] = useState<string>(null);
+
+    const [isAlertPopoverVisible, setIsAlertPopoverVisible] = useState(false);
+    const [alertPopoverPosition, setAlertPopoverPosition] = useState({
+        left: 0,
+        top: 0
+    });
+
+    const [
+        alertPanelItems,
+        setAlertPanelItems
+    ] = useState<IViewerElementsPanelItem>(null);
 
     const { t } = useTranslation();
     const sceneWrapperId = useGuid();
     const selectedMesh = useRef(null);
     const sceneRef = useRef(null);
 
-    const { modelUrl, sceneVisuals, isLoading } = useRuntimeSceneData(
-        adapter,
-        sceneId,
-        scenesConfig,
-        pollingInterval
-    );
+    const {
+        modelUrl,
+        sceneVisuals,
+        sceneAlerts,
+        isLoading
+    } = useRuntimeSceneData(adapter, sceneId, scenesConfig, pollingInterval);
 
     useEffect(() => {
         refetchConfig && refetchConfig();
@@ -109,6 +120,8 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
                     }
                 });
             });
+
+            setAlertBadges(sceneAlerts);
             setColoredMeshItems(newColoredMeshItems);
         }
     }, [sceneVisuals, coloredMeshItemsProp]);
@@ -139,11 +152,7 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
         }
 
         if (popOver) {
-            setBehaviorModalConfig({
-                behaviors: sceneVisual?.behaviors || [],
-                twins: sceneVisual?.twins || {},
-                title: sceneVisual?.element?.displayName || ''
-            });
+            setBehaviorModalSceneVisuaElementlId(sceneVisual.element.id);
             setShowPopUp(true);
             const meshIds = sceneVisual.element.objectIDs;
             const outlinedMeshItems = createCustomMeshItems(
@@ -233,11 +242,29 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
         }
     };
 
+    const onBadgeGroupHover = (
+        badgeGroup: SceneViewBadgeGroup,
+        left: number,
+        top: number
+    ) => {
+        if (!isAlertPopoverVisible) {
+            setAlertPanelItems({
+                element: badgeGroup.element,
+                behaviors: badgeGroup.behaviors,
+                twins: badgeGroup.twins
+            });
+            // Adding offsets to ensure the popover covers the alerts badges as per the designs
+            setAlertPopoverPosition({ left: left - 50, top: top - 30 });
+            setIsAlertPopoverVisible(true);
+        }
+    };
+
     const onElementPanelItemClicked = useCallback(
         (_item, panelItem, _behavior) => {
             setShowPopUp(false);
             setZoomToMeshIds(panelItem.element.objectIDs);
             showPopover(panelItem);
+            setIsAlertPopoverVisible(false);
         },
         []
     );
@@ -292,6 +319,10 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
 
     const elementsPanelToggleButtonStyles = toggleElementsPanelStyles();
 
+    const behaviorModalSceneVisual = sceneVisuals.find(
+        (sv) => sv.element.id === behaviorModalSceneVisualElementId
+    );
+
     return (
         <BaseComponent
             isLoading={isLoading && !sceneVisuals}
@@ -331,6 +362,7 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
                     addInProps={addInProps}
                     hideViewModePickerUI={hideViewModePickerUI}
                     sceneViewProps={{
+                        badgeGroups: alertBadges,
                         modelUrl: modelUrl,
                         coloredMeshItems: coloredMeshItems,
                         outlinedMeshitems: outlinedMeshItems,
@@ -338,6 +370,7 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
                         showMeshesOnHover: showMeshesOnHover,
                         zoomToMeshIds: zoomToMeshIds,
                         unzoomedMeshOpacity: unzoomedMeshOpacity,
+                        onBadgeGroupHover: onBadgeGroupHover,
                         onMeshClick: (marker, mesh, scene) =>
                             meshClick(marker, mesh, scene),
                         onMeshHover: (marker, mesh) => meshHover(marker, mesh),
@@ -359,9 +392,21 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
                         outlinedMeshItemsRef.current = [];
                         selectedMeshIdsRef.current = [];
                     }}
-                    twins={behaviorModalConfig.twins}
-                    behaviors={behaviorModalConfig.behaviors}
-                    title={behaviorModalConfig.title}
+                    twins={behaviorModalSceneVisual?.twins}
+                    behaviors={behaviorModalSceneVisual?.behaviors}
+                    title={behaviorModalSceneVisual?.element?.displayName}
+                />
+            )}
+            {isAlertPopoverVisible && (
+                <AlertModal
+                    alerts={alertPanelItems}
+                    position={alertPopoverPosition}
+                    onClose={() => {
+                        setIsAlertPopoverVisible(false);
+                    }}
+                    onItemClick={onElementPanelItemClicked}
+                    onItemHover={onElementPanelItemHovered}
+                    onItemBlur={onElementPanelItemBlured}
                 />
             )}
         </BaseComponent>

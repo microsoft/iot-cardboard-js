@@ -3,22 +3,19 @@ import { TextField } from '@fluentui/react';
 import produce from 'immer';
 import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import {
-    intellisenseMultilineBreakpoint,
-    linkedTwinName
-} from '../../../../../../Models/Constants';
+import { intellisenseMultilineBreakpoint } from '../../../../../../Models/Constants';
 import { Intellisense } from '../../../../../AutoComplete/Intellisense';
 
 import { ILinkWidgetBuilderProps } from '../../../../ADT3DSceneBuilder.types';
 
 const LinkWidgetBuilder: React.FC<ILinkWidgetBuilderProps> = ({
     formData,
-    setFormData,
+    updateWidgetData,
     setIsWidgetConfigValid,
+    intellisenseAliasNames,
     getIntellisensePropertyNames
 }) => {
     const { t } = useTranslation();
-
     useEffect(() => {
         const { label, linkExpression } = formData.widgetConfiguration;
         if (label && linkExpression) {
@@ -34,8 +31,8 @@ const LinkWidgetBuilder: React.FC<ILinkWidgetBuilderProps> = ({
                 label={t('label')}
                 value={formData.widgetConfiguration.label}
                 onChange={(_ev, newVal) =>
-                    setFormData(
-                        produce((draft) => {
+                    updateWidgetData(
+                        produce(formData, (draft) => {
                             draft.widgetConfiguration.label = newVal;
                         })
                     )
@@ -53,13 +50,13 @@ const LinkWidgetBuilder: React.FC<ILinkWidgetBuilderProps> = ({
                 }}
                 defaultValue={formData.widgetConfiguration.linkExpression}
                 onChange={(newVal) => {
-                    setFormData(
-                        produce((draft) => {
+                    updateWidgetData(
+                        produce(formData, (draft) => {
                             draft.widgetConfiguration.linkExpression = newVal;
                         })
                     );
                 }}
-                aliasNames={[linkedTwinName]}
+                aliasNames={intellisenseAliasNames}
                 getPropertyNames={getIntellisensePropertyNames}
             />
         </>

@@ -6,6 +6,7 @@ import { I3DScenesConfig } from '../../Models/Types/Generated/3DScenesConfigurat
 import MockAdapter from '../../Adapters/MockAdapter';
 import { getDefaultStoryDecorator } from '../../Models/Services/StoryUtilities';
 import { useRuntimeSceneData } from '../../Models/Hooks/useRuntimeSceneData';
+import { BehaviorModalMode } from '../../Models/Constants';
 
 const wrapperStyle = { width: '100%', height: '600px' };
 
@@ -36,7 +37,11 @@ const Template: BehaviorsModalStory = (args) => {
         <div style={wrapperStyle}>
             <BehaviorsModal
                 {...args}
-                behaviors={behaviors}
+                behaviors={
+                    args.mode === BehaviorModalMode.preview
+                        ? [behaviors[1]]
+                        : behaviors
+                }
                 title={element.displayName}
                 twins={twins}
             />
@@ -44,4 +49,22 @@ const Template: BehaviorsModalStory = (args) => {
     );
 };
 
-export const MockBehaviorsModal = Template.bind({});
+export const ViewerModeMultipleBehaviors = Template.bind(
+    {}
+) as BehaviorsModalStory;
+ViewerModeMultipleBehaviors.args = {
+    onClose: () => null
+};
+
+export const PreviewMode = Template.bind({}) as BehaviorsModalStory;
+PreviewMode.args = {
+    mode: BehaviorModalMode.preview
+};
+
+export const PreviewModeWithActiveWidget = Template.bind(
+    {}
+) as BehaviorsModalStory;
+PreviewModeWithActiveWidget.args = {
+    mode: BehaviorModalMode.preview,
+    activeWidgetId: '740385bb6f8f235e5071ebca5ae0da89'
+};

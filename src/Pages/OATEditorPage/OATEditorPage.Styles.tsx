@@ -11,8 +11,6 @@ export const getEditorPageStyles = () => {
         container: [
             classNames.container,
             {
-                display: 'grid',
-                gridTemplateColumns: '100%',
                 height: '10%'
             } as IStyle
         ],
@@ -21,7 +19,8 @@ export const getEditorPageStyles = () => {
             {
                 display: 'grid',
                 gridTemplateColumns: '20% 60% 20%',
-                height: '90%'
+                height: '90%',
+                paddingTop: '48px'
             } as IStyle
         ]
     });
