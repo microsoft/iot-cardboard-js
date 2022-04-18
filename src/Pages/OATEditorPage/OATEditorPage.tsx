@@ -14,7 +14,7 @@ const OATEditorPage = ({ theme }) => {
         displayName: 'model1',
         contents: [
             {
-                '@id': 'dtmi:com:adt:model1:prop_0',
+                '@id': 'dtmi:com:adt:model1:New_Property_1',
                 '@type': ['Property'],
                 name: 'New_Property_1',
                 schema: 'string',
