@@ -30,8 +30,6 @@ const OATPropertyEditor = ({
         setCurrentNestedPropertyIndex
     ] = useState(null);
 
-    console.log('theme', theme);
-
     return (
         <BaseComponent theme={theme}>
             <Modal
