@@ -739,6 +739,8 @@
         "addEnumValue": "Add Enum Value",
         "enumValue": "Enum Value",
         "mapKeyName": "Map Key Name",
-        "mapValueName": "Map Value Name"
+        "mapValueName": "Map Value Name",
+        "key": "Key",
+        "value": "Value"
     }
 }

@@ -1,6 +1,7 @@
 import React from 'react';
 import { TextField, Stack, Text } from '@fluentui/react';
 import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
+import { useTranslation } from 'react-i18next';
 
 type IEnumItem = {
     item?: any;
@@ -15,6 +16,7 @@ export const PropertyListMapItemNested = ({
     setModel,
     index
 }: IEnumItem) => {
+    const { t } = useTranslation();
     const propertyInspectorStyles = getPropertyInspectorStyles();
 
     const updateMapKeyName = (value) => {
@@ -33,7 +35,7 @@ export const PropertyListMapItemNested = ({
         <>
             <Stack className={propertyInspectorStyles.mapItem} tabIndex={0}>
                 <Text className={propertyInspectorStyles.mapItemKeyValueLabel}>
-                    Key
+                    {t('OATPropertyEditor.key')}
                 </Text>
                 <Stack className={propertyInspectorStyles.mapItemInputWrap}>
                     <TextField
@@ -49,7 +51,7 @@ export const PropertyListMapItemNested = ({
             </Stack>
             <Stack className={propertyInspectorStyles.mapItem} tabIndex={0}>
                 <Text className={propertyInspectorStyles.mapItemKeyValueLabel}>
-                    Value
+                    {t('OATPropertyEditor.value')}
                 </Text>
                 <Stack className={propertyInspectorStyles.mapItemInputWrap}>
                     <TextField
