@@ -86,6 +86,7 @@
     "selectFile": "Select file",
     "uploadFile": "Upload file",
     "uploadingFile": "Uploading file...",
+    "twinId": "Twin ID",
     "errors": {
         "errorBoundary": "Error boundary",
         "unkownError": "Unknown error occurred",
@@ -439,6 +440,7 @@
         "twinAlias": {
             "title": "Twin alias",
             "titlePlural": "Twin aliases",
+            "aliasedTwin": "Aliased twin",
             "aliasedTwins": "Aliased twins",
             "add": "Add twin alias",
             "noTwinAliasesAdded": "No twin aliases added yet",
@@ -451,6 +453,7 @@
             "searchProperties": "Search properties",
             "noTwinAliasesToAdd": "No twin aliases to add",
             "removeFromBehavior": "Remove twin alias from behavior",
+            "removeFromElement": "Remove twin alias from element",
             "commonProperties": "Common properties",
             "twinAliasForm": {
                 "alias": "Alias",

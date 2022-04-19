@@ -42,9 +42,14 @@ export interface IWidgetLibraryItem {
     data: IWidget;
 }
 
-export interface ITwinAliasItem {
+export interface IBehaviorTwinAliasItem {
     alias: string;
     elementToTwinMappings: Array<{ elementId: string; twinId: string }>;
+}
+
+export interface IElementTwinAliasItem {
+    alias: string;
+    twinId: string;
 }
 
 // Default objects
@@ -109,7 +114,12 @@ export const defaultLinkWidget: ILinkWidget = {
     }
 };
 
-export const defaultTwinAlias: ITwinAliasItem = {
+export const defaultBehaviorTwinAlias: IBehaviorTwinAliasItem = {
     alias: '',
     elementToTwinMappings: []
+};
+
+export const defaultElementTwinAlias: IElementTwinAliasItem = {
+    alias: '',
+    twinId: null
 };

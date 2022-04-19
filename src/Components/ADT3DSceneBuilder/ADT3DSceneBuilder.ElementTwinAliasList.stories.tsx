@@ -6,7 +6,6 @@ import ADT3DSceneBuilder from './ADT3DSceneBuilder';
 import {
     IStoryContext,
     sleep,
-    findCalloutItemByTestId,
     findOverflowMenuItem as findOverflowMenuItemByTestId,
     clickOverFlowMenuItem
 } from '../../Models/Services/StoryUtilities';
@@ -15,7 +14,7 @@ import trucksMockVConfig from '../../Adapters/__mockData__/TruckAndMachinesConfi
 import { deepCopy } from '../../Models/Services/Utils';
 
 export default {
-    title: 'Components/ADT3DSceneBuilder/TwinAliasList',
+    title: 'Components/ADT3DSceneBuilder/ElementTwinAliasList',
     component: ADT3DSceneBuilder
 };
 
@@ -52,55 +51,47 @@ const Template: SceneBuilderStory = (
 export const TwinAliasListEmpty = Template.bind({});
 TwinAliasListEmpty.play = async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    // Finds the behaviors tab
-    const behaviorsTabButton = (await canvas.findAllByRole('tab'))[1];
-    await userEvent.click(behaviorsTabButton);
+    // Finds the elements tab
+    const elementsTabButton = (await canvas.findAllByRole('tab'))[0];
+    await userEvent.click(elementsTabButton);
 
-    // click the behavior
-    const behaviorListItem = await canvas.findByTestId(
-        'cardboard-list-item-behaviors-in-scene-0'
+    // click the element
+    const elementListItem = await canvas.findByTestId(
+        'cardboard-list-item-elements-in-scene-0'
     );
-    await userEvent.click(behaviorListItem);
+    await userEvent.click(elementListItem);
 
-    // Finds the tabs and clicks Twins
+    // Finds the tabs and clicks Aliased Twins
     const tab = await canvas.findAllByRole('tab');
-    await userEvent.click(tab[1]);
+    await userEvent.click(tab[2]);
 };
 
-export const TwinAliasAddCallout = Template.bind({});
-TwinAliasAddCallout.play = async ({ canvasElement }) => {
-    await TwinAliasListEmpty.play({ canvasElement });
+export const TwinAliasList = Template.bind({});
+TwinAliasList.play = async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const addTwinAliasButton = await canvas.findByTestId(
-        'twinsTab-addTwinAlias'
+    // Finds the elements tab
+    const elementsTabButton = (await canvas.findAllByRole('tab'))[0];
+    await userEvent.click(elementsTabButton);
+
+    // click the "tank" element
+    const elementListItem = await canvas.findByTestId(
+        'cardboard-list-item-elements-in-scene-2'
     );
-    await userEvent.click(addTwinAliasButton);
-    // let the callout animate
-    await sleep(500);
-};
+    await userEvent.click(elementListItem);
 
-export const TwinAliasAdd = Template.bind({});
-TwinAliasAdd.play = async ({ canvasElement }) => {
-    await TwinAliasAddCallout.play({ canvasElement });
-
-    // Find the first available twin alias in the list and add it to behavior
-    const twinAliasItem1 = await findCalloutItemByTestId(
-        'cardboard-list-item-twin-alias-callout-list-0'
-    );
-
-    await userEvent.click(twinAliasItem1);
-    // let the callout animate
-    await sleep(500);
+    // Finds the tabs and clicks Aliased Twins
+    const tab = await canvas.findAllByRole('tab');
+    await userEvent.click(tab[2]);
 };
 
 export const TwinAliasListItemMenu = Template.bind({});
 TwinAliasListItemMenu.play = async ({ canvasElement }) => {
-    await TwinAliasAdd.play({ canvasElement });
+    await TwinAliasList.play({ canvasElement });
     const canvas = within(canvasElement);
 
-    // Find overflow menu of the first twin alias just added
+    // Find overflow menu of the first twin alias
     const twinAliasItem1MoreMenu = await canvas.findByTestId(
-        'context-menu-behavior-aliased-twin-list-0-moreMenu'
+        'context-menu-element-aliased-twin-list-0-moreMenu'
     );
 
     await userEvent.click(twinAliasItem1MoreMenu);
@@ -113,7 +104,7 @@ TwinAliasRemove.play = async ({ canvasElement }) => {
 
     // Find the remove item in the overflow menu in twin alias list item
     const removeOverflowItem = await findOverflowMenuItemByTestId(
-        'twinAlias-removeOverflow'
+        'elementTwinAlias-removeOverflow'
     );
     await clickOverFlowMenuItem(removeOverflowItem);
 };
