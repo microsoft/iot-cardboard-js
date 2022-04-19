@@ -3,26 +3,13 @@ import OATHeader from '../../Components/OATHeader/OATHeader';
 import OATModelList from '../../Components/OATModelList/OATModelList';
 import OATGraphViewer from '../../Components/OATGraphViewer/OATGraphViewer';
 import OATPropertyEditor from '../../Components/OATPropertyEditor/OATPropertyEditor';
-<<<<<<< HEAD
+import Modal from '../../Components/OATPropertyEditor/Modal';
 import { getEditorPageStyles } from './OATEditorPage.Styles';
 
-const OATEditorPage = () => {
+const OATEditorPage = ({ theme }) => {
     const [elementHandler, setElementHandler] = useState([]);
     const EditorPageStyles = getEditorPageStyles();
 
-    return (
-        <div className={EditorPageStyles.container}>
-            <OATHeader elements={elementHandler} />
-            <div className={EditorPageStyles.component}>
-                <OATModelList />
-                <OATGraphViewer setElementHandler={setElementHandler} />
-                <OATPropertyEditor />
-=======
-import Modal from '../../Components/OATPropertyEditor/Modal';
-
-import './OATEditorPage.scss';
-
-const OATEditorPage = ({ theme }) => {
     const [model, setModel] = useState({
         '@id': 'dtmi:com:adt:model1;',
         '@type': 'Interface',
@@ -67,7 +54,7 @@ const OATEditorPage = ({ theme }) => {
     const [currentPropertyIndex, setCurrentPropertyIndex] = useState(null);
 
     return (
-        <div className="cb-ontology-body-container">
+        <div className={EditorPageStyles.container}>
             <Modal
                 modalOpen={modalOpen}
                 setModalOpen={setModalOpen}
@@ -75,10 +62,10 @@ const OATEditorPage = ({ theme }) => {
                 setModel={setModel}
                 currentPropertyIndex={currentPropertyIndex}
             />
-            <OATHeader />
-            <div className="cb-ontology-body-component">
+            <OATHeader elements={elementHandler} />
+            <div className={EditorPageStyles.component}>
                 <OATModelList />
-                <OATGraphViewer />
+                <OATGraphViewer setElementHandler={setElementHandler} />
                 <OATPropertyEditor
                     model={model}
                     setModel={setModel}
@@ -89,7 +76,6 @@ const OATEditorPage = ({ theme }) => {
                     setTemplates={setTemplates}
                     theme={theme}
                 />
->>>>>>> origin/zarmada/working/ADTS-89
             </div>
         </div>
     );

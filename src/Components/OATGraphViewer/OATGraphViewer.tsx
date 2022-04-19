@@ -190,7 +190,7 @@ const OATGraphViewer = ({ setElementHandler }: OATGraphProps) => {
                 setElements((els) => addEdge(params, els));
             }
             setElements((els) => addEdge(params, els));
-		} else {
+        } else {
             const node = elements.find(
                 (element) => element.id === currentNodeId.current
             );
@@ -227,6 +227,7 @@ const OATGraphViewer = ({ setElementHandler }: OATGraphProps) => {
                 setElements((es) => es.concat(newNode));
                 setElements((es) => addEdge(params, es));
             }
+        }
     };
 
     const storeElements = () => {
@@ -266,10 +267,10 @@ const OATGraphViewer = ({ setElementHandler }: OATGraphProps) => {
                 };
                 currentNodes.push(node);
             } else if (currentNode.source) {
-                const sourceNode = nodes.find(
+                const sourceNode = currentNodes.find(
                     (element) => element['@id'] === currentNode.source
                 );
-                const targetNode = nodes.find(
+                const targetNode = currentNodes.find(
                     (element) => element['@id'] === currentNode.target
                 );
                 if (currentNode.sourceHandle === RelationshipHandleName) {
@@ -290,10 +291,7 @@ const OATGraphViewer = ({ setElementHandler }: OATGraphProps) => {
                         name: targetNode.displayName,
                         schema: currentNode.target
                     };
-                    sourceNode.contents = [
-                        ...sourceNode.contents,
-                        component
-                    ];
+                    sourceNode.contents = [...sourceNode.contents, component];
                 } else if (currentNode.sourceHandle === ExtendHandleName) {
                     sourceNode.extends = currentNode.target;
                 }
