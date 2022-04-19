@@ -85,6 +85,7 @@
     "selectFile": "Select file",
     "uploadFile": "Upload file",
     "uploadingFile": "Uploading file...",
+    "twinId": "Twin ID",
     "errors": {
         "errorBoundary": "Error boundary",
         "unkownError": "Unknown error occurred",
@@ -313,6 +314,7 @@
     "3dSceneBuilder": {
         "elements": "Elements",
         "element": "Element",
+        "twinsTab": "Twins",
         "alertsTab": "Alerts",
         "statesTab": "Status",
         "widgets": "Widgets",
@@ -416,8 +418,41 @@
             "alertBehavior": "Alert behavior",
             "statusBehavior": "Status behavior"
         },
-        "aliasedTwins": "Aliased twins",
-        "notImplemented": "Not implemented"
+        "notImplemented": "Not implemented",
+        "noLinkedTwinProperties": "No linked twin properties to display",
+        "twinAlias": {
+            "title": "Twin alias",
+            "titlePlural": "Twin aliases",
+            "aliasedTwin": "Aliased twin",
+            "aliasedTwins": "Aliased twins",
+            "add": "Add twin alias",
+            "noTwinAliasesAdded": "No twin aliases added yet",
+            "new": "New twin alias",
+            "edit": "Edit twin alias",
+            "create": "Create twin alias",
+            "update": "Update twin alias",
+            "modify": "Modify twin alias",
+            "search": "Search twin aliases",
+            "searchProperties": "Search properties",
+            "noTwinAliasesToAdd": "No twin aliases to add",
+            "removeFromBehavior": "Remove twin alias from behavior",
+            "removeFromElement": "Remove twin alias from element",
+            "commonProperties": "Common properties",
+            "twinAliasForm": {
+                "alias": "Alias",
+                "elementTwinMappings": "Element twin mappings",
+                "elementTwinMappingsNotExist": "There is no available mapping, add elements to behavior first."
+            },
+            "descriptions": {
+                "twins": "Twins give you access to properties which can be used in expressions.",
+                "linkedTwin": "The LinkedTwin contains all properties in common between the target elements linked twins.",
+                "aliasChangeNotAllowed": "Alias change is not allowed after creation.",
+                "commonProperties": "The union of linked twin properties of selected elements"
+            },
+            "errors": {
+                "twinAliasAlreadyExists": "Twin alias with the same name already exists, consider adding it instead."
+            }
+        }
     },
     "widgets": {
         "trend": {
@@ -640,7 +675,11 @@
     },
     "behaviorsModal": {
         "closeModal": "Close modal",
-        "behaviorPreview": "Preview"
+        "behaviorPopoverMode": "Behavior popover mode",
+        "state": "State",
+        "allProperties": "All properties",
+        "behaviorPreview": "Preview",
+        "LinkedTwinProperties": "Linked Twin properties"
     },
     "svgTests": {
         "fluentUI": "SVG loading via Fluent Image component (recommended pattern)",
@@ -669,5 +708,14 @@
         "filterPlaceholder": "Type to filter elements or alerts",
         "showPanel": "Show elements panel",
         "hidePanel": "Hide elements panel"
+    },
+    "OATHeader": {
+        "title": "Azure Digital Twins Ontology Editor",
+        "searchContent": "Search file, asset, property, or location",
+        "save": "Save",
+        "publish": "Publish",
+        "sync": "sync",
+        "import": "Import",
+        "export": "Export"
     }
 }

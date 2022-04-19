@@ -1,8 +1,11 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Dropdown, Icon, IDropdownOption, IIconStyles } from '@fluentui/react';
-import { IBehavior } from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
-import useBehaviorTwinPropertyNames from '../../../../../Models/Hooks/useBehaviorTwinPropertyNames';
+import {
+    IBehavior,
+    ITwinToObjectMapping
+} from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
+import useBehaviorTwinPropertyFullNames from '../../../../../Models/Hooks/useBehaviorTwinPropertyFullNames';
 import { buildDropdownOptionsFromStrings } from '../../../../../Models/Services/Utils';
 
 const iconStyles: IIconStyles = {
@@ -19,6 +22,7 @@ const LOC_KEYS = {
 
 interface ITwinPropertyDropdownProps {
     behavior: IBehavior;
+    selectedElements?: Array<ITwinToObjectMapping>;
     dataTestId?: string;
     defaultSelectedKey?: string;
     label?: string;
@@ -33,6 +37,7 @@ interface ITwinPropertyDropdownProps {
  */
 const TwinPropertyDropown: React.FC<ITwinPropertyDropdownProps> = ({
     behavior,
+    selectedElements,
     dataTestId,
     defaultSelectedKey,
     label,
@@ -42,8 +47,10 @@ const TwinPropertyDropown: React.FC<ITwinPropertyDropdownProps> = ({
     const { t } = useTranslation();
 
     // get the property list
-    const { options, isLoading } = useBehaviorTwinPropertyNames({
-        behavior: behavior
+    const { options, isLoading } = useBehaviorTwinPropertyFullNames({
+        behavior,
+        isTwinAliasesIncluded: true,
+        selectedElements
     });
 
     const [selectedProperty, setSelectedProperty] = useState(

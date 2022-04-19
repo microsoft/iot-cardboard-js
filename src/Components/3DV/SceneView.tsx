@@ -1,6 +1,7 @@
-import * as BABYLON from 'babylonjs';
-import 'babylonjs-loaders';
-import * as GUI from 'babylonjs-gui';
+import * as BABYLON from '@babylonjs/core/Legacy/legacy';
+import '@babylonjs/loaders';
+import * as SERIALIZE from '@babylonjs/serializers';
+import * as GUI from '@babylonjs/gui';
 import { ProgressIndicator, useTheme } from '@fluentui/react';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import './SceneView.scss';
@@ -15,11 +16,12 @@ import {
     Scene_Visible_Marker,
     SphereMaterial
 } from '../../Models/Constants/SceneView.constants';
-import { AbstractMesh, HighlightLayer, Tools } from 'babylonjs';
+import { AbstractMesh, HighlightLayer, Tools } from '@babylonjs/core';
 import { createBadgeGroup, getBoundingBox } from './SceneView.Utils';
 import { makeMaterial, outlineMaterial, ToColor3 } from './Shaders';
 import {
     DefaultViewerModeObjectColor,
+    globeUrl,
     IADTBackgroundColor,
     TransparentTexture,
     ViewerModeObjectColors
@@ -72,21 +74,31 @@ function hexToColor4(hex: string): BABYLON.Color4 {
 }
 
 let dummyProgress = 0; // Progress doesn't work for GLBs so fake it
+const modelCache: File[] = [];
 
 async function loadPromise(
     root: string,
-    file: string,
-    scene: BABYLON.Scene,
-    onProgress: any,
-    onError: any
-): Promise<BABYLON.AssetContainer> {
+    filename: string,
+    engine: BABYLON.Engine,
+    onProgress: (event: BABYLON.ISceneLoaderProgressEvent) => void,
+    onError: (scene: BABYLON.Scene, message: string, exception?: any) => void
+): Promise<BABYLON.Scene> {
+    let tempRoot = root;
+    let tempFile: string | File = filename;
+    const model: File = modelCache[root + filename];
+    if (model) {
+        tempRoot = '';
+        tempFile = model;
+    }
+
     return new Promise((resolve) => {
-        BABYLON.SceneLoader.LoadAssetContainer(
-            root,
-            file,
-            scene,
-            (container) => {
-                resolve(container);
+        BABYLON.SceneLoader.ShowLoadingScreen = false;
+        BABYLON.SceneLoader.Load(
+            tempRoot,
+            tempFile,
+            engine,
+            (scene) => {
+                resolve(scene);
             },
             (e) => onProgress(e),
             (s, m, e) => onError(s, m, e)
@@ -168,6 +180,7 @@ const SceneView: React.FC<ISceneViewProp> = ({
     const prevHideUnzoomedRef = useRef<number>(undefined);
     const materialCacheRef = useRef<any[]>([]);
     const pointerActive = useRef(false);
+    const [isSerializing, setIsSerializing] = useState(false);
 
     const defaultMeshHover = (
         marker: Marker,
@@ -194,6 +207,7 @@ const SceneView: React.FC<ISceneViewProp> = ({
     }
 
     debugLog('SceneView Render');
+    const url = modelUrl === 'Globe' ? globeUrl : modelUrl;
 
     // INITIALIZE AND LOAD SCENE
     const init = useCallback(() => {
@@ -203,8 +217,7 @@ const SceneView: React.FC<ISceneViewProp> = ({
         async function load(
             getToken: () => Promise<string>,
             root: string,
-            file: string,
-            sc: BABYLON.Scene
+            file: string
         ) {
             let success = true;
             let token = '';
@@ -223,10 +236,12 @@ const SceneView: React.FC<ISceneViewProp> = ({
             }
 
             dummyProgress = 0;
-            const assets = await loadPromise(
+            setLoadProgress(0);
+
+            const sc = await loadPromise(
                 root,
                 file,
-                sc,
+                engineRef.current,
                 (e: any) => onProgress(e),
                 (s: any, m: any, e: any) => {
                     console.error('Error loading model. Try Ctrl-F5', s, e);
@@ -236,16 +251,80 @@ const SceneView: React.FC<ISceneViewProp> = ({
             );
 
             if (success) {
-                assets.addAllToScene();
+                sceneRef.current = sc;
                 createOrZoomCamera();
                 advancedTextureRef.current = GUI.AdvancedDynamicTexture.CreateFullscreenUI(
                     'UI'
                 );
                 sortMeshesOnLoad();
+
+                // Scene has been created and loaded, export the scene for the cache before anyone changes it
+                if (!modelCache[url]) {
+                    sceneRef.current.render();
+                    const filename = createGUID();
+                    setIsSerializing(sceneRef.current.meshes.length > 500); // This may take a while
+                    const glb = await SERIALIZE.GLTF2Export.GLBAsync(
+                        sceneRef.current,
+                        filename
+                    );
+                    setIsSerializing(false);
+                    // glb.downloadFiles();     // Uncomment this for debug to get the GLB surfaced in your browser downloads
+                    modelCache[url] = new File(
+                        [glb.glTFFiles[filename + '.glb']],
+                        filename + '.glb'
+                    );
+                }
+
+                sceneRef.current.clearColor = new BABYLON.Color4(0, 0, 0, 0);
+
+                //This layer is a bug fix for transparency not blending with background html on certain graphic cards like in macs.
+                //The texture is 99% transparent but forces the engine to blend the colors.
+                const layer = new BABYLON.Layer('', '', sceneRef.current, true);
+                layer.texture = BABYLON.Texture.CreateFromBase64String(
+                    TransparentTexture,
+                    'layerImg',
+                    sceneRef.current
+                );
+
+                hovMaterial.current = new BABYLON.StandardMaterial(
+                    'hover',
+                    sceneRef.current
+                );
+                hovMaterial.current.diffuseColor = BABYLON.Color3.FromHexString(
+                    currentObjectColor.meshHoverColor
+                );
+
+                coloredHovMaterial.current = new BABYLON.StandardMaterial(
+                    'colHov',
+                    sceneRef.current
+                );
+                coloredHovMaterial.current.diffuseColor = BABYLON.Color3.FromHexString(
+                    currentObjectColor.coloredMeshHoverColor
+                );
+
+                highlightLayer.current = new BABYLON.HighlightLayer(
+                    'hl1',
+                    sceneRef.current,
+                    {
+                        blurHorizontalSize: 0.5,
+                        blurVerticalSize: 0.5
+                    }
+                );
+
+                const light = new BABYLON.HemisphericLight(
+                    'light',
+                    new BABYLON.Vector3(1, 1, 0),
+                    sceneRef.current
+                );
+                light.diffuse = new BABYLON.Color3(0.8, 0.8, 0.8);
+                light.specular = new BABYLON.Color3(1, 1, 1);
+                light.groundColor = new BABYLON.Color3(0.2, 0.2, 0.2);
+
+                setScene(sceneRef.current);
                 setIsLoading(false);
                 engineRef.current.resize();
                 if (onSceneLoaded) {
-                    onSceneLoaded(sc);
+                    onSceneLoaded(sceneRef.current);
                 }
             }
         }
@@ -265,55 +344,9 @@ const SceneView: React.FC<ISceneViewProp> = ({
             ) as HTMLCanvasElement; // Get the canvas element
             const engine = new BABYLON.Engine(canvas, true, { stencil: true }); // Generate the BABYLON 3D engine
             engineRef.current = engine;
-            const sc = new BABYLON.Scene(engine);
-            sceneRef.current = sc;
-            sc.clearColor = new BABYLON.Color4(0, 0, 0, 0);
-
-            //This layer is a bug fix for transparency not blending with background html on certain graphic cards like in macs.
-            //The texture is 99% transparent but forces the engine to blend the colors.
-            const layer = new BABYLON.Layer('', '', sceneRef.current, true);
-            layer.texture = BABYLON.Texture.CreateFromBase64String(
-                TransparentTexture,
-                'layerImg',
-                sceneRef.current
-            );
-
-            hovMaterial.current = new BABYLON.StandardMaterial('hover', sc);
-            hovMaterial.current.diffuseColor = BABYLON.Color3.FromHexString(
-                currentObjectColor.meshHoverColor
-            );
-
-            coloredHovMaterial.current = new BABYLON.StandardMaterial(
-                'colHov',
-                sc
-            );
-            coloredHovMaterial.current.diffuseColor = BABYLON.Color3.FromHexString(
-                currentObjectColor.coloredMeshHoverColor
-            );
-
-            highlightLayer.current = new BABYLON.HighlightLayer('hl1', scene, {
-                blurHorizontalSize: 0.5,
-                blurVerticalSize: 0.5
-            });
-
-            const light = new BABYLON.HemisphericLight(
-                'light',
-                new BABYLON.Vector3(1, 1, 0),
-                sc
-            );
-            light.diffuse = new BABYLON.Color3(0.8, 0.8, 0.8);
-            light.specular = new BABYLON.Color3(1, 1, 1);
-            light.groundColor = new BABYLON.Color3(0.2, 0.2, 0.2);
-
             if (modelUrl) {
-                let url = modelUrl;
-                if (url === 'Globe') {
-                    url =
-                        'https://3dvstoragecontainer.blob.core.windows.net/3dvblobcontainer/world/World3.gltf';
-                }
-
                 const n = url.lastIndexOf('/') + 1;
-                load(getToken, url.substring(0, n), url.substring(n), sc);
+                load(getToken, url.substring(0, n), url.substring(n));
             }
         }
 
@@ -326,6 +359,7 @@ const SceneView: React.FC<ISceneViewProp> = ({
             mesh.alphaIndex = 1;
         }
     };
+
     const createOrZoomCamera = () => {
         const zoomTo = (zoomToMeshIds || []).join(',');
         if (
@@ -524,8 +558,9 @@ const SceneView: React.FC<ISceneViewProp> = ({
             } else {
                 for (const mesh of sceneRef.current.meshes) {
                     //Meshes with higher alphaIndex are highlight clones and should not have their material swapped
-                    if (mesh.alphaIndex > 1) continue;
-                    mesh.material = shaderMaterial.current;
+                    if (mesh.alphaIndex <= 1) {
+                        mesh.material = shaderMaterial.current;
+                    }
                 }
             }
         }
@@ -547,6 +582,7 @@ const SceneView: React.FC<ISceneViewProp> = ({
     }, [backgroundColor]);
 
     const clearBadgeGroups = (force: boolean) => {
+        debugLog('clearBadgeGroups');
         const groupsToRemove = [];
         badgeGroupsRef?.current.forEach((badgeGroupRef) => {
             // remove badge if group is no longer in prop
@@ -568,12 +604,17 @@ const SceneView: React.FC<ISceneViewProp> = ({
 
     const createBadgeGroups = () => {
         if (badgeGroups && advancedTextureRef.current && sceneRef.current) {
+            debugLog('createBadgeGroups');
             badgeGroups.forEach((bg) => {
-                // only add badge group if not already present
+                const mesh = sceneRef.current.meshes.find(
+                    (m) => m.id === bg.meshId
+                );
+                // only add badge group if not already present and mesh exists
                 if (
                     !badgeGroupsRef.current.find(
                         (badgeGroupRef) => badgeGroupRef.name === bg.id
-                    )
+                    ) &&
+                    mesh
                 ) {
                     debugLog('adding badge group');
                     const badgeGroup = createBadgeGroup(
@@ -582,9 +623,6 @@ const SceneView: React.FC<ISceneViewProp> = ({
                         onBadgeGroupHover
                     );
                     advancedTextureRef.current.addControl(badgeGroup);
-                    const mesh = sceneRef.current.meshes.find(
-                        (m) => m.id === bg.meshId
-                    );
                     badgeGroup.linkWithMesh(mesh);
 
                     // badges can only be linked to meshes after being added to the scene
@@ -796,7 +834,7 @@ const SceneView: React.FC<ISceneViewProp> = ({
             // Reload if modelUrl changes
             modelUrlRef.current = modelUrl;
             setIsLoading(true);
-            setScene(() => init());
+            init();
         }
 
         return () => {
@@ -804,8 +842,9 @@ const SceneView: React.FC<ISceneViewProp> = ({
                 sceneRef.current?.removeMaterial(material);
                 material.dispose(true, true);
             }
+            materialCacheRef.current = [];
         };
-    }, [scene, modelUrl, init]);
+    }, [modelUrl, init]);
 
     // Add the marker spheres
     useEffect(() => {
@@ -1229,14 +1268,24 @@ const SceneView: React.FC<ISceneViewProp> = ({
                 id={canvasId}
                 touch-action="none"
             />
-            {isLoading && (
+            {isLoading &&
+                !isSerializing &&
+                url &&
+                (!modelCache[url] || modelCache[url].size > 10000000) && (
+                    <ProgressIndicator
+                        styles={getProgressStyles(theme)}
+                        description={`Loading model (${Math.floor(
+                            loadProgress * 100
+                        )}%)...`}
+                        percentComplete={loadProgress}
+                        barHeight={10}
+                    />
+                )}
+            {isSerializing && (
                 <ProgressIndicator
                     styles={getProgressStyles(theme)}
-                    description={`Loading model (${Math.floor(
-                        loadProgress * 100
-                    )}%)...`}
-                    percentComplete={loadProgress}
-                    barHeight={10}
+                    description={`Saving model...`}
+                    barHeight={0}
                 />
             )}
             {isLoading === undefined && (

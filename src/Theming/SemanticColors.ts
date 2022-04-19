@@ -6,16 +6,22 @@ import { ISemanticColors } from '@fluentui/react';
     specifying the semantic slots in this file
 */
 
-export const fluentLightThemeSemanticColors: Partial<ISemanticColors> = {};
+export const fluentLightThemeSemanticColors: Partial<ISemanticColors> = {
+    errorText: '#a4262c'
+};
 
 export const fluentDarkThemeSemanticColors: Partial<ISemanticColors> = {
-    menuBackground: '#2b2b2b'
+    menuBackground: '#2b2b2b',
+    errorText: '#751d20'
 };
 
 export const fluentExplorerThemeSemanticColors: Partial<ISemanticColors> = {
     menuBackground: '#323130',
     severeWarningBackground: '#442726',
-    messageText: '#ffffff'
+    messageText: '#ffffff',
+    errorText: '#751d20'
 };
 
-export const fluentKrakenThemeSemanticColors: Partial<ISemanticColors> = {};
+export const fluentKrakenThemeSemanticColors: Partial<ISemanticColors> = {
+    errorText: '#a4262c'
+};

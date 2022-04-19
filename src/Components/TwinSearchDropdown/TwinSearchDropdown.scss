@@ -1,9 +1,14 @@
 @import '../../Resources/Styles/BaseStyles';
 
+.cb-label {
+    align-items: center;
+    display: flex;
+}
+
 .cb-required-icon::after {
     color: var(--cb-color-text-error);
-    content: ' *';
-    padding-right: 12px;
+    content: '*';
+    padding: 0 4px;
 }
 
 .cb-search-autocomplete-desc {
@@ -52,6 +57,7 @@
         min-height: 32px;
         outline: 1px solid !important;
         outline-color: var(--cb-color-input-border) !important;
+        top: auto;
         width: calc(100% - 2px);
     }
 

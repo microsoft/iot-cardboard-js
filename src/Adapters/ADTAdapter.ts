@@ -30,7 +30,8 @@ import {
     KeyValuePairData,
     DTwinUpdateEvent,
     IComponentError,
-    linkedTwinName
+    linkedTwinName,
+    IAliasedTwinProperty
 } from '../Models/Constants';
 import ADTTwinData from '../Models/Classes/AdapterDataClasses/ADTTwinData';
 import ADTModelData from '../Models/Classes/AdapterDataClasses/ADTModelData';
@@ -904,9 +905,9 @@ export default class ADTAdapter implements IADTAdapter {
     }
 
     async getTwinsForBehavior(
-        sceneId: string,
-        config: I3DScenesConfig,
-        behavior: IBehavior
+        behavior: IBehavior,
+        elementsInBehavior: Array<ITwinToObjectMapping>,
+        isTwinAliasesIncluded = true
     ): Promise<Record<string, any>> {
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
         function pushErrors(errors: IComponentError[]) {
@@ -921,24 +922,16 @@ export default class ADTAdapter implements IADTAdapter {
             }
         }
 
-        // get scene based on id
-        const scene = config.configuration?.scenes?.find(
-            (scene) => scene.id === sceneId
-        );
         // get the element ids
         const mappingIds = ViewerConfigUtility.getMappingIdsForBehavior(
             behavior
         );
 
-        // TODO get FilteredTwinDatasources
-
-        // cycle through mapping ids to get twins for behavior and scene
+        // cycle through mapping ids to get twins for behavior
         const twins = {};
         for (const id of mappingIds) {
-            const element = scene.elements.find(
-                (element) =>
-                    element.type === ElementType.TwinToObjectMapping &&
-                    element.id === id
+            const element = elementsInBehavior?.find(
+                (element) => element.id === id
             ) as ITwinToObjectMapping;
 
             // get primary twin
@@ -951,41 +944,56 @@ export default class ADTAdapter implements IADTAdapter {
                 console.error(err);
             }
 
-            // check for twin aliases and add to twins object
-            // NOT IN SCOPE YET
-            // if (mapping.twinAliases) {
-            //     for (const alias of Object.keys(mapping.twinAliases)) {
-            //         const twin = await this.getADTTwin(
-            //             mapping.twinAliases[alias]
-            //         );
-            //         pushErrors(twin.getErrors());
-            //         twins[alias] = twin.result?.data;
-            //         console.log(alias);
-            //     }
-            // }
+            if (isTwinAliasesIncluded && behavior.twinAliases) {
+                // get aliased twins if exist
+                for (let i = 0; i < behavior.twinAliases.length; i++) {
+                    const twinAliasInBehavior = behavior.twinAliases[i];
+                    if (element.twinAliases?.[twinAliasInBehavior]) {
+                        try {
+                            const twin = await this.getADTTwin(
+                                element.twinAliases[twinAliasInBehavior]
+                            );
+                            pushErrors(twin.getErrors());
+                            const aliasedKey = `${twinAliasInBehavior}.${element.twinAliases[twinAliasInBehavior]}`; // construct keys for returned twins set consisting of twin alias + twin id
+                            if (!twins[aliasedKey]) {
+                                twins[aliasedKey] = twin.result?.data;
+                            }
+                        } catch (err) {
+                            console.error(err);
+                        }
+                    }
+                }
+            }
         }
         return twins;
     }
 
-    async getCommonTwinPropertiesForBehavior(
-        sceneId: string,
-        config: I3DScenesConfig,
-        behavior: IBehavior
-    ): Promise<string[]> {
-        const data = await this.getTwinPropertiesForBehaviorWithFullName(
-            sceneId,
-            config,
-            behavior
+    async getTwinPropertiesWithAliasesForBehavior(
+        behavior: IBehavior,
+        elementsInBehavior: Array<ITwinToObjectMapping>,
+        isTwinAliasesIncluded
+    ): Promise<Array<IAliasedTwinProperty>> {
+        const propertiesWithAlias = await this.getTwinPropertiesForBehaviorWithFullName(
+            behavior,
+            elementsInBehavior,
+            isTwinAliasesIncluded
         );
-        return ViewerConfigUtility.getPropertyNameFromAliasedProperty(data);
+        return propertiesWithAlias.map((properyWithAlias) => {
+            const splitted = properyWithAlias.split('.');
+            return { alias: splitted[0], property: splitted[1] };
+        });
     }
 
     async getTwinPropertiesForBehaviorWithFullName(
-        sceneId: string,
-        config: I3DScenesConfig,
-        behavior: IBehavior
+        behavior: IBehavior,
+        elementsInBehavior: Array<ITwinToObjectMapping>,
+        isTwinAliasesIncluded
     ): Promise<string[]> {
-        const twins = await this.getTwinsForBehavior(sceneId, config, behavior);
+        const twins = await this.getTwinsForBehavior(
+            behavior,
+            elementsInBehavior,
+            isTwinAliasesIncluded
+        );
         return ViewerConfigUtility.getPropertyNamesWithAliasFromTwins(twins);
     }
 }

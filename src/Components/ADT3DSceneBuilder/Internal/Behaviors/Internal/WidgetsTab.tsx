@@ -8,13 +8,15 @@ import React, {
 import { ActionButton, IContextualMenuItem, useTheme } from '@fluentui/react';
 import produce from 'immer';
 import { TFunction, useTranslation } from 'react-i18next';
-import { BehaviorFormContext } from '../BehaviorsForm';
 import WidgetLibraryDialog from '../Widgets/WidgetLibraryDialog';
 import { availableWidgets } from '../../../../../Models/Constants/Constants';
 import { WidgetFormMode } from '../../../../../Models/Constants/Enums';
 import { SceneBuilderContext } from '../../../ADT3DSceneBuilder';
 import { CardboardList } from '../../../../CardboardList';
-import { getLeftPanelStyles } from '../../Shared/LeftPanel.styles';
+import {
+    getActionButtonStyles,
+    getLeftPanelStyles
+} from '../../Shared/LeftPanel.styles';
 import { ICardboardListItem } from '../../../../CardboardList/CardboardList.types';
 import {
     IBehavior,
@@ -33,9 +35,8 @@ const getPopoverFromBehavior = (behavior: IBehavior) =>
 
 const WidgetsTab: React.FC = () => {
     const { t } = useTranslation();
-    const { setWidgetFormInfo } = useContext(SceneBuilderContext);
-    const { setBehaviorToEdit, behaviorToEdit } = useContext(
-        BehaviorFormContext
+    const { setWidgetFormInfo, setBehaviorToEdit, behaviorToEdit } = useContext(
+        SceneBuilderContext
     );
     const [isLibraryDialogOpen, setIsLibraryDialogOpen] = useState(false);
     const [listItems, setListItems] = useState<ICardboardListItem<IWidget>[]>(
@@ -133,7 +134,9 @@ const WidgetsTab: React.FC = () => {
         setListItems(listItems);
     }, [widgets, onEditWidgetStart, onRemoveWidget]);
 
-    const commonPanelStyles = getLeftPanelStyles(useTheme());
+    const theme = useTheme();
+    const commonPanelStyles = getLeftPanelStyles(theme);
+    const actionButtonStyles = getActionButtonStyles(theme);
     return (
         <>
             <div className={commonPanelStyles.formTabContents}>
@@ -148,15 +151,11 @@ const WidgetsTab: React.FC = () => {
                     />
                 )}
                 <ActionButton
-                    className="cb-widget-panel-action-button"
+                    styles={actionButtonStyles}
                     text={t('3dSceneBuilder.addWidget')}
                     data-testid={'widgetForm-addWidget'}
                     onClick={() => {
                         setIsLibraryDialogOpen(true);
-                    }}
-                    styles={{
-                        root: { height: 32 },
-                        flexContainer: { height: 32 }
                     }}
                 />
             </div>

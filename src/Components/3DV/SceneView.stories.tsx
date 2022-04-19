@@ -86,12 +86,16 @@ export const Globe = () => {
     };
 
     return (
-        <div style={{ height: '100%', position: 'relative' }}>
-            <SceneView
-                modelUrl="Globe"
-                markers={markers}
-                onMeshClick={(marker, mesh, e) => meshClick(marker, mesh, e)}
-            />
+        <div style={{ height: '100%', position: 'relative', display: 'flex' }}>
+            <div style={{ flex: 1, width: '100%' }}>
+                <SceneView
+                    modelUrl="Globe"
+                    markers={markers}
+                    onMeshClick={(marker, mesh, e) =>
+                        meshClick(marker, mesh, e)
+                    }
+                />
+            </div>
         </div>
     );
 };

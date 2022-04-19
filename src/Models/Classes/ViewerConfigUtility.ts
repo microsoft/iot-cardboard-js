@@ -1,3 +1,5 @@
+import { IAliasedTwinProperty } from '../Constants/Interfaces';
+import { deepCopy } from '../Services/Utils';
 import {
     I3DScenesConfig,
     IAlertVisual,
@@ -12,13 +14,19 @@ import {
     IValueRange,
     IVisual
 } from '../Types/Generated/3DScenesConfiguration-v1.0.0';
-import { DatasourceType, ElementType, VisualType } from './3DVConfig';
+import {
+    DatasourceType,
+    ElementType,
+    IBehaviorTwinAliasItem,
+    IElementTwinAliasItem,
+    VisualType
+} from './3DVConfig';
 
 /** Static utilty methods for operations on the configuration file. */
 abstract class ViewerConfigUtility {
     /** Add new scene to config file */
     static addScene(config: I3DScenesConfig, scene: IScene): I3DScenesConfig {
-        const updatedConfig = { ...config };
+        const updatedConfig = deepCopy(config);
         updatedConfig.configuration.scenes.push(scene);
         return updatedConfig;
     }
@@ -32,7 +40,7 @@ abstract class ViewerConfigUtility {
         const sceneIndex: number = config.configuration.scenes.findIndex(
             (s) => s.id === sceneId
         );
-        const updatedConfig = { ...config };
+        const updatedConfig = deepCopy(config);
         updatedConfig.configuration.scenes[sceneIndex] = scene;
 
         return updatedConfig;
@@ -46,7 +54,7 @@ abstract class ViewerConfigUtility {
         const sceneIndex: number = config.configuration.scenes.findIndex(
             (s) => s.id === sceneId
         );
-        const updatedConfig = { ...config };
+        const updatedConfig = deepCopy(config);
         updatedConfig.configuration.scenes.splice(sceneIndex, 1);
         return updatedConfig;
     }
@@ -57,7 +65,7 @@ abstract class ViewerConfigUtility {
         sceneId: string,
         behavior: IBehavior
     ): I3DScenesConfig {
-        const updatedConfig = { ...config };
+        const updatedConfig = deepCopy(config);
         updatedConfig.configuration.behaviors.push(behavior);
         updatedConfig.configuration.scenes
             .find((scene) => scene.id === sceneId)
@@ -72,7 +80,7 @@ abstract class ViewerConfigUtility {
         config: I3DScenesConfig,
         behavior: IBehavior
     ): I3DScenesConfig {
-        const updatedConfig = { ...config };
+        const updatedConfig = deepCopy(config);
 
         // Update modified behavior
         const behaviorIdx = updatedConfig.configuration.behaviors.findIndex(
@@ -89,7 +97,7 @@ abstract class ViewerConfigUtility {
         sceneId: string,
         behavior: IBehavior
     ): I3DScenesConfig {
-        const updatedConfig = { ...config };
+        const updatedConfig = deepCopy(config);
         updatedConfig.configuration.scenes
             .find((scene) => scene.id === sceneId)
             ?.behaviorIDs?.push(behavior.id);
@@ -105,7 +113,7 @@ abstract class ViewerConfigUtility {
         behaviorId: string,
         removeFromAllScenes?: boolean
     ): I3DScenesConfig {
-        const updatedConfig = { ...config };
+        const updatedConfig = deepCopy(config);
 
         // Remove behavior from active scene
         const activeScene = updatedConfig.configuration.scenes.find(
@@ -163,6 +171,37 @@ abstract class ViewerConfigUtility {
                 }
             });
         }
+        return updatedConfig;
+    }
+
+    /**
+     * Update only passed list of elements in a scene in config
+     * @param config the config to edit
+     * @param sceneId the scene Id where the elements to be updated are in
+     * @returns the updated config
+     */
+    static editElements(
+        config: I3DScenesConfig,
+        sceneId: string,
+        updatedElements: Array<ITwinToObjectMapping>
+    ): I3DScenesConfig {
+        const updatedConfig = deepCopy(config);
+        const updatedElementIds = updatedElements.map((e) => e.id);
+        const activeSceneIdx = updatedConfig.configuration.scenes.findIndex(
+            (scene) => scene.id === sceneId
+        );
+        const unchangedSceneElements = config.configuration.scenes[
+            activeSceneIdx
+        ]?.elements?.filter(
+            (e) =>
+                ViewerConfigUtility.isTwinToObjectMappingElement(e) &&
+                !updatedElementIds.includes(e.id)
+        );
+        updatedConfig.configuration.scenes[activeSceneIdx].elements = [
+            ...unchangedSceneElements,
+            ...updatedElements
+        ];
+
         return updatedConfig;
     }
 
@@ -243,6 +282,19 @@ abstract class ViewerConfigUtility {
         return elementIdMap;
     }
 
+    static getElementsInScene(
+        config: I3DScenesConfig,
+        sceneId: string
+    ): Array<ITwinToObjectMapping> {
+        const scene = config.configuration.scenes?.find(
+            (s) => s.id === sceneId
+        );
+
+        return scene?.elements?.filter(
+            ViewerConfigUtility.isTwinToObjectMappingElement
+        );
+    }
+
     static isElementTwinToObjectMappingDataSource(
         dataSource: IDataSource
     ): dataSource is IElementTwinToObjectMappingDataSource {
@@ -274,12 +326,12 @@ abstract class ViewerConfigUtility {
 
     static getBehaviorsSegmentedByPresenceInScene(
         config: I3DScenesConfig,
-        sceneId: string,
-        behaviors: Array<IBehavior>
+        sceneId: string
     ): [
         behaviorsInScene: Array<IBehavior>,
         behaviorsNotInScene: Array<IBehavior>
     ] {
+        const behaviors = config?.configuration?.behaviors ?? [];
         const behaviorsInScene = [];
         const behaviorsNotInScene = [];
 
@@ -352,7 +404,7 @@ abstract class ViewerConfigUtility {
     }
 
     /**
-     * Gets the list of all the active properties from the provided linked twins
+     * Gets the list of all (union of) the active properties from the provided linked twins
      * Returns them with the Alias as a prefix. ex: LinkedTwin.MyProperty
      * @param twins List of twins the get the properties from
      * @returns list of properties with the alias prefixed (ex: LinkedTwin.MyProperty)
@@ -381,7 +433,7 @@ abstract class ViewerConfigUtility {
     static getPropertyNameFromAliasedProperty(properties: string[]) {
         return properties
             .map((x) => {
-                // comes back as LinkedTwin.Alias.PropertyName
+                // comes back as LinkedTwin.PropertyName
                 const sliced = x.split('.');
                 return sliced[sliced.length - 1];
             })
@@ -587,6 +639,226 @@ abstract class ViewerConfigUtility {
 
         return mappingIds;
     }
+
+    static addTwinAliasToElement(
+        element: ITwinToObjectMapping,
+        alias: string,
+        aliasedTwinId: string
+    ): void {
+        if (element && alias && aliasedTwinId) {
+            if (element.twinAliases) {
+                element.twinAliases[alias] = aliasedTwinId;
+            } else {
+                element.twinAliases = {
+                    [alias]: aliasedTwinId
+                };
+            }
+        }
+    }
+
+    static getTwinAliasItemsFromBehaviorAndElements = (
+        behavior: IBehavior,
+        selectedElementsForBehavior: Array<ITwinToObjectMapping>
+    ): Array<IBehaviorTwinAliasItem> => {
+        const twinAliases: Array<IBehaviorTwinAliasItem> = [];
+        behavior.twinAliases?.forEach((behaviorTwinAlias) => {
+            twinAliases.push({
+                alias: behaviorTwinAlias,
+                elementToTwinMappings: []
+            });
+        });
+        twinAliases?.forEach((behaviorTwinAliasItem) => {
+            selectedElementsForBehavior?.forEach((element) => {
+                if (element.twinAliases?.[behaviorTwinAliasItem.alias]) {
+                    const aliasedTwinId =
+                        element.twinAliases?.[behaviorTwinAliasItem.alias];
+
+                    behaviorTwinAliasItem.elementToTwinMappings.push({
+                        twinId: aliasedTwinId,
+                        elementId: element.id
+                    });
+                } else {
+                    behaviorTwinAliasItem.elementToTwinMappings.push({
+                        twinId: null,
+                        elementId: element.id
+                    });
+                }
+            });
+        });
+        return twinAliases;
+    };
+
+    static getTwinAliasItemsFromElement = (
+        element: ITwinToObjectMapping
+    ): Array<IElementTwinAliasItem> => {
+        const twinAliases: Array<IElementTwinAliasItem> = [];
+        if (element.twinAliases) {
+            Object.keys(element.twinAliases).forEach((alias) => {
+                const aliasedTwinId = element.twinAliases[alias];
+                twinAliases.push({ alias: alias, twinId: aliasedTwinId });
+            });
+        }
+
+        return twinAliases;
+    };
+
+    /**
+     * Gets config, sceneId and selected elements in a behavior
+     * Returns twin alias items available for a behavior to add which is
+     * a union of twin aliases from behaviors in the scene and
+     * selected elements in the scene
+     * @param config
+     * @param sceneId
+     * @param selectedElements list of elements existing/selected in a behavior from scene
+     * @returns list of twin alias items available to add to a behavior
+     */
+    static getAvailableBehaviorTwinAliasItemsBySceneAndElements = (
+        config,
+        sceneId,
+        selectedElements
+    ): Array<IBehaviorTwinAliasItem> => {
+        const twinAliases: Array<IBehaviorTwinAliasItem> = [];
+        const [
+            behaviorsInScene
+        ] = ViewerConfigUtility.getBehaviorsSegmentedByPresenceInScene(
+            config,
+            sceneId
+        );
+        // get twin aliases defined in all behaviors in the current scene
+        behaviorsInScene?.forEach((behaviorInScene) => {
+            const twinAliasesFromBehavior = ViewerConfigUtility.getTwinAliasItemsFromBehaviorAndElements(
+                behaviorInScene,
+                selectedElements
+            );
+            twinAliasesFromBehavior.forEach((twinAliasFromBehavior) => {
+                if (
+                    !twinAliases.find(
+                        (twinAlias) =>
+                            twinAlias.alias === twinAliasFromBehavior.alias
+                    )
+                ) {
+                    twinAliases.push(twinAliasFromBehavior);
+                }
+            });
+        });
+
+        // merge it with the twin aliases defined in all the elements added to the current behavior
+        selectedElements?.forEach((element) => {
+            if (element.twinAliases) {
+                Object.keys(element.twinAliases).forEach(
+                    (twinAliasInElement) => {
+                        if (
+                            twinAliases.findIndex(
+                                (twinAlias) =>
+                                    twinAlias.alias === twinAliasInElement
+                            ) === -1
+                        ) {
+                            twinAliases.push({
+                                alias: twinAliasInElement,
+                                elementToTwinMappings: [
+                                    {
+                                        elementId: element.id,
+                                        twinId:
+                                            element.twinAliases[
+                                                twinAliasInElement
+                                            ]
+                                    }
+                                ]
+                            });
+                        } else {
+                            const elementIdsForThisAlias = twinAliases
+                                .find(
+                                    (twinAlias) =>
+                                        twinAlias.alias === twinAliasInElement
+                                )
+                                .elementToTwinMappings.map(
+                                    (mapping) => mapping.elementId
+                                );
+                            if (!elementIdsForThisAlias.includes(element.id)) {
+                                twinAliases
+                                    .find(
+                                        (twinAlias) =>
+                                            twinAlias.alias ===
+                                            twinAliasInElement
+                                    )
+                                    .elementToTwinMappings.push({
+                                        elementId: element.id,
+                                        twinId:
+                                            element.twinAliases[
+                                                twinAliasInElement
+                                            ]
+                                    });
+                            }
+                        }
+                    }
+                );
+            }
+        });
+
+        return twinAliases;
+    };
+
+    /**
+     * Gets an alias and list of aliased properties
+     * Returns the name of the properties having that alias
+     * @param alias
+     * @param aliasedProperties
+     * @returns string list of property names
+     */
+    static getPropertyNamesFromAliasedPropertiesByAlias = (
+        alias: string,
+        aliasedProperties: Array<IAliasedTwinProperty>
+    ): Array<string> => {
+        return aliasedProperties
+            .filter((aP) => aP.alias === alias)
+            .map((aP) => aP.property);
+    };
+
+    /**
+     * Gets an list of aliased properties
+     * Returns list of unique aliases
+     * @param aliasedProperties
+     * @returns string list of aliases
+     */
+    static getUniqueAliasNamesFromAliasedProperties = (
+        aliasedProperties: Array<IAliasedTwinProperty>
+    ): Array<string> => {
+        const aliases = [];
+        aliasedProperties?.forEach((aP) => {
+            if (!aliases.includes(aP.alias)) {
+                aliases.push(aP.alias);
+            }
+        });
+        return aliases;
+    };
+
+    /**
+     * Gets a behavior and its elements
+     * Returns the result of check if any of the twin ids in element to twin mappings
+     * in any of the twin aliases in behavior is null/not set
+     * @param behavior
+     * @param elementsInBehavior to read the element to twin mappings for each alias defined in behavior
+     * @returns boolean if twin aliases linked to a behavior is valid with all element to twin mappings filled
+     */
+    static areTwinAliasesValidInBehavior = (
+        behavior: IBehavior,
+        selectedElementsForBehavior: Array<ITwinToObjectMapping>
+    ): boolean => {
+        let isValid = true;
+        const behaviorTwinAliases = ViewerConfigUtility.getTwinAliasItemsFromBehaviorAndElements(
+            behavior,
+            selectedElementsForBehavior
+        );
+
+        if (behaviorTwinAliases.length) {
+            isValid = !behaviorTwinAliases.some((twinAliasItem) =>
+                twinAliasItem.elementToTwinMappings.some(
+                    (mapping) => !mapping.twinId || !mapping.elementId
+                )
+            );
+        }
+        return isValid;
+    };
 }
 
 export default ViewerConfigUtility;

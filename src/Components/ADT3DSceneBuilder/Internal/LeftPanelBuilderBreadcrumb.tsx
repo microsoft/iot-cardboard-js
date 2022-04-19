@@ -41,9 +41,16 @@ const LeftPanelBuilderBreadcrumb: React.FC<Props> = ({
     const { t } = useTranslation();
 
     const scenePageContext = useContext(ADT3DScenePageContext);
-    const { sceneId, config, widgetFormInfo, setWidgetFormInfo } = useContext(
-        SceneBuilderContext
-    );
+    const {
+        sceneId,
+        config,
+        widgetFormInfo,
+        setWidgetFormInfo,
+        behaviorTwinAliasFormInfo,
+        setBehaviorTwinAliasFormInfo,
+        elementTwinAliasFormInfo,
+        setElementTwinAliasFormInfo
+    } = useContext(SceneBuilderContext);
 
     const isAtSceneRoot =
         builderMode === ADT3DSceneBuilderMode.BehaviorIdle ||
@@ -62,6 +69,8 @@ const LeftPanelBuilderBreadcrumb: React.FC<Props> = ({
                     onClick: () => {
                         scenePageContext.handleOnHomeClick();
                         cancelWidgetForm(widgetFormInfo, setWidgetFormInfo);
+                        setBehaviorTwinAliasFormInfo(null);
+                        setElementTwinAliasFormInfo(null);
                     }
                 })
             },
@@ -76,9 +85,11 @@ const LeftPanelBuilderBreadcrumb: React.FC<Props> = ({
                             builderMode === ADT3DSceneBuilderMode.EditElement
                         ) {
                             onElementsRootClick();
+                            setElementTwinAliasFormInfo(null);
                         } else {
                             onBehaviorsRootClick();
                             cancelWidgetForm(widgetFormInfo, setWidgetFormInfo);
+                            setBehaviorTwinAliasFormInfo(null);
                         }
                     }
                 })
@@ -90,26 +101,36 @@ const LeftPanelBuilderBreadcrumb: React.FC<Props> = ({
             key: 'behaviorRoot',
             ...((widgetFormInfo.mode === WidgetFormMode.CreateWidget ||
                 widgetFormInfo.mode === WidgetFormMode.EditWidget ||
+                behaviorTwinAliasFormInfo !== null ||
                 (builderMode !== ADT3DSceneBuilderMode.CreateBehavior &&
                     builderMode !== ADT3DSceneBuilderMode.EditBehavior)) && {
                 onClick: () => {
                     cancelWidgetForm(widgetFormInfo, setWidgetFormInfo);
+                    setBehaviorTwinAliasFormInfo(null);
                 }
             })
         };
 
         const elementsRoot: IBreadcrumbItem = {
             text: t('3dSceneBuilder.element'),
-            key: 'elementsRoot',
-            ...(builderMode !== ADT3DSceneBuilderMode.CreateElement &&
-                builderMode !== ADT3DSceneBuilderMode.EditElement && {
-                    onClick: () => onElementsRootClick()
-                })
+            key: 'elementRoot',
+            ...((elementTwinAliasFormInfo !== null ||
+                (builderMode !== ADT3DSceneBuilderMode.CreateElement &&
+                    builderMode !== ADT3DSceneBuilderMode.EditElement)) && {
+                onClick: () => {
+                    setElementTwinAliasFormInfo(null);
+                }
+            })
         };
 
         const widgetsRoot: IBreadcrumbItem = {
             text: t('3dSceneBuilder.widget'),
             key: 'widgetsRoot'
+        };
+
+        const twinAliasRoot: IBreadcrumbItem = {
+            text: t('3dSceneBuilder.twinAlias.title'),
+            key: 'twinAliasRoot'
         };
 
         let activePanelBreadcrumb: Array<IBreadcrumbItem> = [];
@@ -119,6 +140,10 @@ const LeftPanelBuilderBreadcrumb: React.FC<Props> = ({
             widgetFormInfo.mode === WidgetFormMode.EditWidget
         ) {
             activePanelBreadcrumb = [behaviorsRoot, widgetsRoot];
+        } else if (behaviorTwinAliasFormInfo) {
+            activePanelBreadcrumb = [behaviorsRoot, twinAliasRoot];
+        } else if (elementTwinAliasFormInfo) {
+            activePanelBreadcrumb = [elementsRoot, twinAliasRoot];
         } else {
             switch (builderMode) {
                 case ADT3DSceneBuilderMode.CreateBehavior:
@@ -135,7 +160,14 @@ const LeftPanelBuilderBreadcrumb: React.FC<Props> = ({
         }
 
         return [...rootItems, ...activePanelBreadcrumb];
-    }, [builderMode, widgetFormInfo, sceneId, config]);
+    }, [
+        builderMode,
+        widgetFormInfo,
+        behaviorTwinAliasFormInfo,
+        elementTwinAliasFormInfo,
+        sceneId,
+        config
+    ]);
 
     const onRenderItem: IRenderFunction<IBreadcrumbItem> = (
         props: IBreadcrumbItem,

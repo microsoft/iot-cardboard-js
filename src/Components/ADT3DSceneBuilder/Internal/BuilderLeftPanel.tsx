@@ -29,9 +29,11 @@ import LeftPanelBuilderBreadcrumb from '../Internal/LeftPanelBuilderBreadcrumb';
 import { SceneBuilderContext } from '../ADT3DSceneBuilder';
 import { createCustomMeshItems } from '../../3DV/SceneView.Utils';
 import {
+    I3DScenesConfig,
     IBehavior,
     ITwinToObjectMapping
 } from '../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
+import { createGUID } from '../../../Models/Services/Utils';
 
 const BuilderLeftPanel: React.FC = () => {
     const { t } = useTranslation();
@@ -48,21 +50,9 @@ const BuilderLeftPanel: React.FC = () => {
         adapter,
         state,
         dispatch,
-        objectColor
+        objectColor,
+        setBehaviorToEdit
     } = useContext(SceneBuilderContext);
-
-    const addBehaviorAdapterData = useAdapter({
-        adapterMethod: (params: { behavior: IBehavior }) =>
-            adapter.putScenesConfig(
-                ViewerConfigUtility.addBehavior(
-                    config,
-                    sceneId,
-                    params.behavior
-                )
-            ),
-        refetchDependencies: [adapter],
-        isAdapterCalledOnMount: false
-    });
 
     const addBehaviorToSceneAdapterData = useAdapter({
         adapterMethod: (params: { behavior: IBehavior }) =>
@@ -72,15 +62,6 @@ const BuilderLeftPanel: React.FC = () => {
                     sceneId,
                     params.behavior
                 )
-            ),
-        refetchDependencies: [adapter],
-        isAdapterCalledOnMount: false
-    });
-
-    const editBehaviorAdapterData = useAdapter({
-        adapterMethod: (params: { behavior: IBehavior }) =>
-            adapter.putScenesConfig(
-                ViewerConfigUtility.editBehavior(config, params.behavior)
             ),
         refetchDependencies: [adapter],
         isAdapterCalledOnMount: false
@@ -99,6 +80,37 @@ const BuilderLeftPanel: React.FC = () => {
                     params.removeFromAllScenes
                 )
             );
+        },
+        refetchDependencies: [adapter],
+        isAdapterCalledOnMount: false
+    });
+
+    const updateBehaviorAndElementsAdapterData = useAdapter({
+        adapterMethod: (params: {
+            config: I3DScenesConfig;
+            mode: ADT3DSceneBuilderMode;
+            behavior: IBehavior;
+            selectedElements: Array<ITwinToObjectMapping>; // update selected elements for behavior in case twin aliases are changed
+        }) => {
+            let updatedConfigWithBehavior;
+            if (params.mode === ADT3DSceneBuilderMode.CreateBehavior) {
+                updatedConfigWithBehavior = ViewerConfigUtility.addBehavior(
+                    params.config,
+                    sceneId,
+                    params.behavior
+                );
+            } else if (params.mode === ADT3DSceneBuilderMode.EditBehavior) {
+                updatedConfigWithBehavior = ViewerConfigUtility.editBehavior(
+                    params.config,
+                    params.behavior
+                );
+            }
+            updatedConfigWithBehavior = ViewerConfigUtility.editElements(
+                updatedConfigWithBehavior,
+                sceneId,
+                params.selectedElements
+            );
+            return adapter.putScenesConfig(updatedConfigWithBehavior);
         },
         refetchDependencies: [adapter],
         isAdapterCalledOnMount: false
@@ -239,10 +251,11 @@ const BuilderLeftPanel: React.FC = () => {
             payload: ADT3DSceneBuilderMode.CreateBehavior
         });
         setColoredMeshItems([]);
+        setBehaviorToEdit({ ...defaultBehavior, id: createGUID() });
     };
 
     const onCreateBehaviorWithElements = () => {
-        const behavior = defaultBehavior;
+        const behavior = { ...defaultBehavior, id: createGUID() };
         const mappingIds = [];
         const elementsToAssign =
             state.selectedElements?.length > 0
@@ -257,10 +270,7 @@ const BuilderLeftPanel: React.FC = () => {
             elementIDs: mappingIds
         };
 
-        dispatch({
-            type: SET_ADT_SCENE_BUILDER_SELECTED_BEHAVIOR,
-            payload: behavior
-        });
+        setBehaviorToEdit(behavior);
 
         dispatch({
             type: SET_ADT_SCENE_BUILDER_MODE,
@@ -269,17 +279,18 @@ const BuilderLeftPanel: React.FC = () => {
         setColoredMeshItems([]);
     };
 
-    const onBehaviorSave: OnBehaviorSave = async (behavior, mode) => {
-        if (mode === ADT3DSceneBuilderMode.CreateBehavior) {
-            await addBehaviorAdapterData.callAdapter({
-                behavior
-            });
-        }
-        if (mode === ADT3DSceneBuilderMode.EditBehavior) {
-            await editBehaviorAdapterData.callAdapter({
-                behavior
-            });
-        }
+    const onBehaviorSave: OnBehaviorSave = async (
+        config,
+        behavior,
+        mode,
+        selectedElements // passing this in case there is updated twin aliases in behavior
+    ) => {
+        await updateBehaviorAndElementsAdapterData.callAdapter({
+            config,
+            mode,
+            behavior,
+            selectedElements
+        });
         getConfig();
     };
 
@@ -292,6 +303,7 @@ const BuilderLeftPanel: React.FC = () => {
             type: SET_ADT_SCENE_BUILDER_MODE,
             payload: ADT3DSceneBuilderMode.EditBehavior
         });
+        setBehaviorToEdit(behavior);
     };
 
     const onRemoveBehaviorFromScene = async (
@@ -433,16 +445,18 @@ const BuilderLeftPanel: React.FC = () => {
             {(state.builderMode === ADT3DSceneBuilderMode.CreateBehavior ||
                 state.builderMode === ADT3DSceneBuilderMode.EditBehavior) && (
                 <SceneBehaviorsForm
+                    behaviors={behaviors}
                     elements={state.elements}
                     builderMode={state.builderMode}
                     onBehaviorBackClick={() =>
                         onBackClick(ADT3DSceneBuilderMode.BehaviorIdle)
                     }
-                    selectedBehavior={state.selectedBehavior}
                     onBehaviorSave={onBehaviorSave}
                     selectedElements={state.selectedElements}
                     setSelectedElements={setSelectedElements}
                     updateSelectedElements={updateSelectedElements}
+                    onRemoveElement={onRemoveElement}
+                    onElementClick={onElementClick}
                 />
             )}
         </BaseComponent>

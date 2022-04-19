@@ -1,10 +1,15 @@
 export interface IValidityState {
     isValid: boolean;
 }
-export type TabNames = 'Root' | 'Alerts' | 'Elements' | 'Status' | 'Widgets';
+export type TabNames =
+    | 'Root'
+    | 'Twins'
+    | 'Alerts'
+    | 'Elements'
+    | 'Status'
+    | 'Widgets';
 export interface IBehaviorFormState {
     validityMap: Map<TabNames, IValidityState>;
-    isPopoverPreviewVisible: boolean;
 }
 
 export enum BehaviorFormActionType {

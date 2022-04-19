@@ -1,6 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { CSSProperties, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Label, Text } from '@fluentui/react';
+import { Icon, Label, Text } from '@fluentui/react';
 import { components, MenuListProps } from 'react-select';
 import CreatableSelect from 'react-select/creatable';
 import useAdapter from '../../Models/Hooks/useAdapter';
@@ -8,22 +8,27 @@ import { AdapterMethodParamsForSearchADTTwins } from '../../Models/Constants/Typ
 import { getMarkedHtmlBySearch } from '../../Models/Services/Utils';
 import './TwinSearchDropdown.scss';
 import { ADTAdapter, MockAdapter } from '../../Adapters';
-
 interface IADTTwinSearchProps {
     adapter: ADTAdapter | MockAdapter;
     label?: string;
+    labelIconName?: string;
     isLabelHidden?: boolean;
+    descriptionText?: string;
     selectedTwinId?: string;
     onTwinIdSelect?: (selectedTwinId: string) => void;
+    styles?: CSSProperties;
 }
 
 const SuggestionListScrollThresholdFactor = 40;
 const TwinSearchDropdown: React.FC<IADTTwinSearchProps> = ({
     adapter,
     label,
+    labelIconName,
     isLabelHidden = false,
+    descriptionText,
     selectedTwinId,
-    onTwinIdSelect
+    onTwinIdSelect,
+    styles
 }) => {
     const { t } = useTranslation();
     const [twinIdSearchTerm, setTwinIdSearchTerm] = useState(
@@ -153,10 +158,17 @@ const TwinSearchDropdown: React.FC<IADTTwinSearchProps> = ({
     };
 
     return (
-        <div>
+        <div style={styles}>
             {!isLabelHidden && (
-                <Label className="cb-required-icon">
-                    {label ?? t('board.twinID')}
+                <Label className="cb-label cb-required-icon">
+                    {labelIconName && (
+                        <Icon
+                            styles={{ root: { paddingRight: 4 } }}
+                            iconName={labelIconName}
+                            aria-hidden="true"
+                        />
+                    )}
+                    {label ?? t('twinId')}
                 </Label>
             )}
             <CreatableSelect
@@ -226,9 +238,14 @@ const TwinSearchDropdown: React.FC<IADTTwinSearchProps> = ({
                 isSearchable
                 isClearable
             />
-            <Text className="cb-search-autocomplete-desc" variant={'xSmall'}>
-                {t('3dSceneBuilder.linkedTwinInputInfo')}
-            </Text>
+            {descriptionText && (
+                <Text
+                    className="cb-search-autocomplete-desc"
+                    variant={'xSmall'}
+                >
+                    {descriptionText}
+                </Text>
+            )}
         </div>
     );
 };

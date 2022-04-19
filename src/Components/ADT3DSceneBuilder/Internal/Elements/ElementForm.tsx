@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
     DefaultButton,
@@ -9,13 +9,18 @@ import {
     TextField,
     useTheme
 } from '@fluentui/react';
-import { IADT3DSceneBuilderElementFormProps } from '../../ADT3DSceneBuilder.types';
+import {
+    IADT3DSceneBuilderElementFormProps,
+    IElementFormContext
+} from '../../ADT3DSceneBuilder.types';
 import { SceneBuilderContext } from '../../ADT3DSceneBuilder';
 import { ADT3DSceneBuilderMode } from '../../../../Models/Constants/Enums';
-import { createGUID } from '../../../../Models/Services/Utils';
+import { createGUID, deepCopy } from '../../../../Models/Services/Utils';
 import useAdapter from '../../../../Models/Hooks/useAdapter';
 import ViewerConfigUtility from '../../../../Models/Classes/ViewerConfigUtility';
-import LeftPanelBuilderHeader from '../LeftPanelBuilderHeader';
+import LeftPanelBuilderHeader, {
+    getLeftPanelBuilderHeaderParamsForElements
+} from '../LeftPanelBuilderHeader';
 import TwinSearchDropdown from '../../../../Components/TwinSearchDropdown/TwinSearchDropdown';
 import MeshTab from './Internal/MeshTab';
 import BehaviorsTab from './Internal/BehaviorsTab';
@@ -33,6 +38,11 @@ import {
 } from '../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { ElementType } from '../../../../Models/Classes/3DVConfig';
 import { createCustomMeshItems } from '../../../3DV/SceneView.Utils';
+import ElementTwinAliasForm from './Internal/ElementTwinAliasForm';
+
+export const ElementFormContext = React.createContext<IElementFormContext>(
+    null
+);
 
 const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
     builderMode,
@@ -65,22 +75,27 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
         sceneId,
         getConfig,
         coloredMeshItems,
-        setColoredMeshItems
+        setColoredMeshItems,
+        elementTwinAliasFormInfo
     } = useContext(SceneBuilderContext);
+    const configRef = useRef(config);
 
     const updateTwinToObjectMappings = useAdapter({
         adapterMethod: (params: { elements: Array<ITwinToObjectMapping> }) => {
-            const sceneToUpdate: IScene = {
-                ...config.configuration.scenes[
+            const sceneToUpdate: IScene = deepCopy(
+                config.configuration.scenes[
                     config.configuration.scenes.findIndex(
                         (s) => s.id === sceneId
                     )
                 ]
-            };
-            sceneToUpdate.elements = params.elements;
-            return adapter.putScenesConfig(
-                ViewerConfigUtility.editScene(config, sceneId, sceneToUpdate)
             );
+            sceneToUpdate.elements = params.elements;
+            configRef.current = ViewerConfigUtility.editScene(
+                config,
+                sceneId,
+                sceneToUpdate
+            );
+            return adapter.putScenesConfig(configRef.current);
         },
         refetchDependencies: [adapter],
         isAdapterCalledOnMount: false
@@ -112,7 +127,11 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
         });
 
         for (const behavior of behaviorsToEdit) {
-            await onBehaviorSave(behavior, ADT3DSceneBuilderMode.EditBehavior);
+            await onBehaviorSave(
+                configRef.current,
+                behavior,
+                ADT3DSceneBuilderMode.EditBehavior
+            );
         }
 
         onElementSave(newElements);
@@ -167,108 +186,156 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
         }
     }, [updateTwinToObjectMappings?.adapterResult]);
 
+    useEffect(() => {
+        configRef.current = config;
+    }, [config]);
+
+    const { headerText, subHeaderText, iconName } = useMemo(
+        () =>
+            getLeftPanelBuilderHeaderParamsForElements(
+                selectedElement,
+                elementTwinAliasFormInfo,
+                builderMode
+            ),
+        [
+            selectedElement,
+            elementTwinAliasFormInfo,
+            builderMode,
+            getLeftPanelBuilderHeaderParamsForElements
+        ]
+    );
+
     const theme = useTheme();
     const commonPanelStyles = getLeftPanelStyles(theme);
     const commonFormStyles = getPanelFormStyles(theme, 170);
     return (
-        <div className={commonFormStyles.root}>
-            <LeftPanelBuilderHeader
-                headerText={
-                    builderMode === ADT3DSceneBuilderMode.CreateElement
-                        ? t('3dSceneBuilder.newElement')
-                        : t('3dSceneBuilder.modifyElement')
-                }
-                subHeaderText={
-                    !elementToEdit.displayName
-                        ? t('3dSceneBuilder.addElementDetails')
-                        : elementToEdit.displayName
-                }
-                iconName={'Shapes'}
-            />
-            <div className={commonFormStyles.content}>
-                <div className={commonFormStyles.header}>
-                    <TwinSearchDropdown
-                        adapter={adapter}
-                        label={t('3dSceneBuilder.linkedTwin')}
-                        selectedTwinId={selectedElement?.linkedTwinID}
-                        onTwinIdSelect={handleSelectTwinId}
-                    />
-                    <TextField
-                        label={t('name')}
-                        value={elementToEdit?.displayName}
-                        required
-                        onChange={(e) => {
-                            setElementToEdit({
-                                ...elementToEdit,
-                                displayName: e.currentTarget.value
-                            });
-                        }}
-                    />
-                </div>
-                <Separator />
-                <Pivot
-                    aria-label={t('3dScenePage.buildMode')}
-                    className={commonFormStyles.pivot}
-                    styles={panelFormPivotStyles}
-                >
-                    <PivotItem
-                        headerText={t('3dSceneBuilder.meshes')}
-                        className={commonPanelStyles.formTabContents}
-                    >
-                        <MeshTab elementToEdit={elementToEdit} />
-                    </PivotItem>
-                    <PivotItem
-                        headerText={t('3dSceneBuilder.behaviors')}
-                        className={commonPanelStyles.formTabContents}
-                    >
-                        <div className={commonPanelStyles.formTabContents}>
-                            <BehaviorsTab
-                                elementToEdit={elementToEdit}
-                                behaviors={behaviors}
-                                updateBehaviorsToEdit={(behaviors) => {
-                                    setBehaviorsToEdit(behaviors);
-                                }}
-                                onBehaviorClick={onBehaviorClick}
-                                onCreateBehaviorWithElements={
-                                    onCreateBehaviorWithElements
+        <ElementFormContext.Provider
+            value={{
+                elementToEdit,
+                setElementToEdit
+            }}
+        >
+            <div className={commonFormStyles.root}>
+                <LeftPanelBuilderHeader
+                    headerText={headerText}
+                    subHeaderText={subHeaderText}
+                    iconName={iconName}
+                />
+                {elementTwinAliasFormInfo ? (
+                    <ElementTwinAliasForm />
+                ) : (
+                    <>
+                        <div className={commonFormStyles.content}>
+                            <div className={commonFormStyles.header}>
+                                <TwinSearchDropdown
+                                    adapter={adapter}
+                                    label={t('3dSceneBuilder.linkedTwin')}
+                                    selectedTwinId={
+                                        selectedElement?.linkedTwinID
+                                    }
+                                    onTwinIdSelect={handleSelectTwinId}
+                                    descriptionText={t(
+                                        '3dSceneBuilder.linkedTwinInputInfo'
+                                    )}
+                                />
+                                <TextField
+                                    label={t('name')}
+                                    value={elementToEdit?.displayName}
+                                    required
+                                    onChange={(e) => {
+                                        setElementToEdit({
+                                            ...elementToEdit,
+                                            displayName: e.currentTarget.value
+                                        });
+                                    }}
+                                />
+                            </div>
+                            <Separator />
+                            <Pivot
+                                aria-label={t('3dScenePage.buildMode')}
+                                className={commonFormStyles.pivot}
+                                styles={panelFormPivotStyles}
+                            >
+                                <PivotItem
+                                    headerText={t('3dSceneBuilder.meshes')}
+                                    className={
+                                        commonPanelStyles.formTabContents
+                                    }
+                                >
+                                    <MeshTab elementToEdit={elementToEdit} />
+                                </PivotItem>
+                                <PivotItem
+                                    headerText={t('3dSceneBuilder.behaviors')}
+                                    className={
+                                        commonPanelStyles.formTabContents
+                                    }
+                                >
+                                    <div
+                                        className={
+                                            commonPanelStyles.formTabContents
+                                        }
+                                    >
+                                        <BehaviorsTab
+                                            elementToEdit={elementToEdit}
+                                            behaviors={behaviors}
+                                            updateBehaviorsToEdit={(
+                                                behaviors
+                                            ) => {
+                                                setBehaviorsToEdit(behaviors);
+                                            }}
+                                            onBehaviorClick={onBehaviorClick}
+                                            onCreateBehaviorWithElements={
+                                                onCreateBehaviorWithElements
+                                            }
+                                        />
+                                    </div>
+                                </PivotItem>
+                                <PivotItem
+                                    headerText={t(
+                                        '3dSceneBuilder.twinAlias.aliasedTwins'
+                                    )}
+                                    className={
+                                        commonPanelStyles.formTabContents
+                                    }
+                                >
+                                    <div
+                                        className={
+                                            commonPanelStyles.formTabContents
+                                        }
+                                    >
+                                        <AliasedTwinsTab />
+                                    </div>
+                                </PivotItem>
+                            </Pivot>
+                        </div>
+                        <PanelFooter>
+                            <PrimaryButton
+                                onClick={handleSaveElement}
+                                text={
+                                    builderMode ===
+                                    ADT3DSceneBuilderMode.CreateElement
+                                        ? t('3dSceneBuilder.createElement')
+                                        : t('3dSceneBuilder.updateElement')
+                                }
+                                disabled={
+                                    !(
+                                        elementToEdit?.displayName &&
+                                        elementToEdit?.linkedTwinID &&
+                                        elementToEdit?.objectIDs?.length > 0
+                                    )
                                 }
                             />
-                        </div>
-                    </PivotItem>
-                    <PivotItem
-                        headerText={t('3dSceneBuilder.aliasedTwins')}
-                        className={commonPanelStyles.formTabContents}
-                    >
-                        <div className={commonPanelStyles.formTabContents}>
-                            <AliasedTwinsTab elementToEdit={elementToEdit} />
-                        </div>
-                    </PivotItem>
-                </Pivot>
+                            <DefaultButton
+                                text={t('cancel')}
+                                onClick={() => {
+                                    onElementBackClick();
+                                }}
+                            />
+                        </PanelFooter>
+                    </>
+                )}
             </div>
-            <PanelFooter>
-                <PrimaryButton
-                    onClick={handleSaveElement}
-                    text={
-                        builderMode === ADT3DSceneBuilderMode.CreateElement
-                            ? t('3dSceneBuilder.createElement')
-                            : t('3dSceneBuilder.updateElement')
-                    }
-                    disabled={
-                        !(
-                            elementToEdit?.displayName &&
-                            elementToEdit?.linkedTwinID &&
-                            elementToEdit?.objectIDs?.length > 0
-                        )
-                    }
-                />
-                <DefaultButton
-                    text={t('cancel')}
-                    onClick={() => {
-                        onElementBackClick();
-                    }}
-                />
-            </PanelFooter>
-        </div>
+        </ElementFormContext.Provider>
     );
 };
 

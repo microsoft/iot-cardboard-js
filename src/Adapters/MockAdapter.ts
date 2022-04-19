@@ -8,7 +8,10 @@ import ADTTwinData from '../Models/Classes/AdapterDataClasses/ADTTwinData';
 import AdapterResult from '../Models/Classes/AdapterResult';
 import AdapterMethodSandbox from '../Models/Classes/AdapterMethodSandbox';
 import { ComponentError } from '../Models/Classes/Errors';
-import { ADTRelationshipsData } from '../Models/Classes/AdapterDataClasses/ADTRelationshipsData';
+import {
+    ADTRelationshipData,
+    ADTRelationshipsData
+} from '../Models/Classes/AdapterDataClasses/ADTRelationshipsData';
 import { SearchSpan } from '../Models/Classes/SearchSpan';
 import {
     IADT3DViewerAdapter,
@@ -19,10 +22,15 @@ import {
 } from '../Models/Constants/Interfaces';
 import {
     AdapterMethodParamsForSearchADTTwins,
+    ADTPatch,
+    ComponentErrorType,
+    DtdlInterface,
     IADTTwin,
+    IAliasedTwinProperty,
     IBlobAdapter,
     IBlobFile,
     IGetKeyValuePairsAdditionalParameters,
+    IPropertyInspectorAdapter,
     IUserRoleAssignments,
     IUserSubscriptions,
     linkedTwinName
@@ -35,10 +43,15 @@ import {
 } from '../Models/Constants/Types';
 import { SceneVisual } from '../Models/Classes/SceneView.types';
 import mockVConfig from './__mockData__/3DScenesConfiguration.json';
+import mockTwinData from './__mockData__/MockAdapterData/MockTwinData.json';
+import mockModelData from './__mockData__/MockAdapterData/MockModelData.json';
 import ADTScenesConfigData from '../Models/Classes/AdapterDataClasses/ADTScenesConfigData';
 import ADT3DViewerData from '../Models/Classes/AdapterDataClasses/ADT3DViewerData';
 import ADTInstancesData from '../Models/Classes/AdapterDataClasses/ADTInstancesData';
-import { validate3DConfigWithSchema } from '../Models/Services/Utils';
+import {
+    getModelContentType,
+    validate3DConfigWithSchema
+} from '../Models/Services/Utils';
 import BlobsData from '../Models/Classes/AdapterDataClasses/BlobsData';
 import {
     I3DScenesConfig,
@@ -51,71 +64,11 @@ import {
     SubscriptionData,
     UserAssignmentsData
 } from '../Models/Classes/AdapterDataClasses/AzureManagementModelData';
-
-const mockTwins = [
-    {
-        $dtId: 'PasteurizationMachine_A01',
-        $etag: 'PasteurizationMachineTag',
-        $metadata: {
-            $model: 'PasteurizationMachine'
-        },
-        InFlow: 100,
-        OutFlow: 250,
-        Temperature: 50
-    },
-    {
-        $dtId: 'PasteurizationMachine_A02',
-        $etag: 'PasteurizationMachineTag',
-        $metadata: {
-            $model: 'PasteurizationMachine'
-        },
-        InFlow: 200,
-        OutFlow: 50,
-        Temperature: 150,
-        PercentFull: 0
-    },
-    {
-        $dtId: 'PasteurizationMachine_A03',
-        $etag: 'PasteurizationMachineTag',
-        $metadata: {
-            $model: 'PasteurizationMachine'
-        },
-        InFlow: 300,
-        OutFlow: 150,
-        Temperature: 250,
-        PercentFull: 0.4
-    },
-    {
-        $dtId: 'SaltMachine_C0',
-        $etag: 'SaltMachineTag',
-        $metadata: {
-            $model: 'SaltMachine'
-        },
-        InFlow: 200,
-        OutFlow: 100,
-        Temperature: 0
-    },
-    {
-        $dtId: 'SaltMachine_C1',
-        $etag: 'SaltMachineTag',
-        $metadata: {
-            $model: 'SaltMachine'
-        },
-        InFlow: 80,
-        OutFlow: 100,
-        Temperature: 20
-    },
-    {
-        $dtId: 'SaltMachine_C2',
-        $etag: 'SaltMachineTag',
-        $metadata: {
-            $model: 'SaltMachine'
-        },
-        InFlow: 20,
-        OutFlow: 250,
-        Temperature: 16
-    }
-];
+import { ADTAdapterPatchData } from '../Models/Classes/AdapterDataClasses/ADTAdapterData';
+import ExpandedADTModelData from '../Models/Classes/AdapterDataClasses/ExpandedADTModelData';
+import { applyPatch, Operation } from 'fast-json-patch';
+import { DTDLType } from '../Models/Classes/DTDL';
+import i18n from '../i18n';
 
 export default class MockAdapter
     implements
@@ -123,9 +76,12 @@ export default class MockAdapter
         IADT3DViewerAdapter,
         ITsiClientChartDataAdapter,
         IBlobAdapter,
-        Partial<IADTAdapter> {
+        Partial<IADTAdapter>,
+        IPropertyInspectorAdapter {
     private mockData = null;
     private mockError = null;
+    private mockTwins: IADTTwin[] = null;
+    private mockModels: DtdlInterface[] = null;
     private networkTimeoutMillis;
     private isDataStatic;
     private scenesConfig: I3DScenesConfig;
@@ -151,6 +107,8 @@ export default class MockAdapter
             typeof mockAdapterArgs?.isDataStatic === 'boolean'
                 ? mockAdapterArgs.isDataStatic
                 : true;
+        this.mockTwins = mockTwinData;
+        this.mockModels = (mockModelData as any) as DtdlInterface[];
         this.initializeMockTwinProperties();
     }
 
@@ -178,6 +136,152 @@ export default class MockAdapter
         return new AdapterResult<ADTScenesConfigData>({
             result: null,
             errorInfo: null
+        });
+    }
+
+    async updateTwin(twinId: string, patches: ADTPatch[]) {
+        const adapterMethodSandbox = new AdapterMethodSandbox();
+
+        return await adapterMethodSandbox.safelyFetchData(async () => {
+            await this.mockNetwork();
+
+            const targetTwin = this.mockTwins.find(
+                (twin) => twin.$dtId === twinId
+            );
+
+            if (targetTwin) {
+                const patchRes = applyPatch(
+                    targetTwin,
+                    patches as Operation[],
+                    true,
+                    true
+                );
+                console.log('Mock update twin patch res: ', patchRes);
+                return new ADTAdapterPatchData(patches);
+            } else {
+                throw new ComponentError({
+                    isCatastrophic: true,
+                    type: ComponentErrorType.UnknownError,
+                    rawError: new Error('Twin ID not found')
+                });
+            }
+        });
+    }
+
+    // Stub method to adhere to interface (not currently used in mock environment)
+    async updateRelationship(
+        _twinId: string,
+        _relationshipId: string,
+        patches: ADTPatch[]
+    ) {
+        return new AdapterResult<ADTAdapterPatchData>({
+            result: new ADTAdapterPatchData(patches),
+            errorInfo: null
+        });
+    }
+
+    // Stub method to adhere to interface (not currently used in mock environment)
+    async getADTRelationship(_twinId: string, _relationshipId: string) {
+        return new AdapterResult<ADTRelationshipData>({
+            result: null,
+            errorInfo: null
+        });
+    }
+
+    async getExpandedAdtModel(modelId: string, baseModelIds?: string[]) {
+        const adapterMethodSandbox = new AdapterMethodSandbox();
+
+        return await adapterMethodSandbox.safelyFetchData(async () => {
+            await this.mockNetwork();
+
+            const expandedModels: DtdlInterface[] = [];
+
+            const recursivelyAddToExpandedModels = (modelId: string) => {
+                try {
+                    // add root model
+                    const rootModel = this.mockModels.find(
+                        (m) => m['@id'] === modelId
+                    );
+
+                    if (!rootModel) {
+                        throw new Error(`${modelId} not found`);
+                    }
+
+                    expandedModels.push(rootModel);
+
+                    // recursively add extended models
+                    const rawExtendedModelIds = rootModel.extends;
+
+                    if (rawExtendedModelIds) {
+                        const extendedModelsIds = Array.isArray(
+                            rawExtendedModelIds
+                        )
+                            ? rawExtendedModelIds
+                            : [rawExtendedModelIds];
+
+                        for (const mId of extendedModelsIds) {
+                            recursivelyAddToExpandedModels(mId);
+                        }
+                    }
+
+                    // add component models
+                    const componentModelIds = rootModel?.contents
+                        ?.filter(
+                            (m) =>
+                                getModelContentType(m['@type']) ===
+                                DTDLType.Component
+                        )
+                        ?.map((m) => m.schema as string);
+
+                    if (componentModelIds) {
+                        for (const mId of componentModelIds) {
+                            recursivelyAddToExpandedModels(mId);
+                        }
+                    }
+                } catch (err) {
+                    adapterMethodSandbox.pushError({
+                        isCatastrophic: false,
+                        rawError: err,
+                        message: i18n.t('propertyInspector.modelNotFound', {
+                            modelId
+                        })
+                    });
+                    return;
+                }
+            };
+
+            // If list of base models known, fetch all models directly
+            if (baseModelIds) {
+                for (const mId of [modelId, ...baseModelIds]) {
+                    try {
+                        const model = this.mockModels.find(
+                            (m) => m['@id'] === mId
+                        );
+                        if (!model) {
+                            throw new Error(`${modelId} not found`);
+                        }
+                        expandedModels.push(model);
+                    } catch (err) {
+                        adapterMethodSandbox.pushError({
+                            isCatastrophic: false,
+                            rawError: err,
+                            message: i18n.t('propertyInspector.modelNotFound', {
+                                modelId
+                            })
+                        });
+                    }
+                }
+            } else {
+                // If base models unknown, recursively expand and fetch in sequence
+                recursivelyAddToExpandedModels(modelId);
+            }
+
+            return new ExpandedADTModelData({
+                expandedModels,
+                rootModel: expandedModels.find(
+                    (model) => model['@id'] === modelId
+                )
+            });
         });
     }
 
@@ -318,8 +422,14 @@ export default class MockAdapter
 
             await this.mockNetwork();
 
+            const mockTwin = this.mockTwins.find(
+                (twin) => twin.$dtId === twinId
+            );
+
             return new AdapterResult<ADTTwinData>({
-                result: getTwinData(twinId),
+                result: mockTwin
+                    ? new ADTTwinData(mockTwin)
+                    : getTwinData(twinId),
                 errorInfo: null
             });
         } catch (err) {
@@ -451,7 +561,7 @@ export default class MockAdapter
 
                                 if (element) {
                                     // get primary twin
-                                    twins[linkedTwinName] = mockTwins.find(
+                                    twins[linkedTwinName] = this.mockTwins.find(
                                         (t) => t.$dtId === element.linkedTwinID
                                     ) || {
                                         $dtId: 'machineID1',
@@ -466,7 +576,7 @@ export default class MockAdapter
                                         for (const alias of Object.keys(
                                             element.twinAliases
                                         )) {
-                                            twins[alias] = mockTwins.find(
+                                            twins[alias] = this.mockTwins.find(
                                                 (t) =>
                                                     t.$dtId ===
                                                     element.twinAliases[alias]
@@ -517,7 +627,7 @@ export default class MockAdapter
 
             return new AdapterResult({
                 result: new ADTAdapterTwinsData({
-                    value: mockTwins.filter((t) =>
+                    value: this.mockTwins.filter((t) =>
                         t.$dtId.includes(params.searchTerm)
                     )
                 }),
@@ -548,25 +658,19 @@ export default class MockAdapter
     }
 
     async getTwinsForBehavior(
-        sceneId: string,
-        config: I3DScenesConfig,
-        behavior: IBehavior
+        behavior: IBehavior,
+        elementsInBehavior: Array<ITwinToObjectMapping>,
+        isTwinAliasesIncluded
     ): Promise<Record<string, any>> {
-        // get scene based on id
-        const scene = config.configuration?.scenes?.find(
-            (scene) => scene.id === sceneId
-        );
         // get the element ids
         const mappingIds = ViewerConfigUtility.getMappingIdsForBehavior(
             behavior
         );
 
-        // TODO get FilteredTwinDatasources
-
         // cycle through mapping ids to get twins for behavior and scene
         const twins = {};
         for (const id of mappingIds) {
-            const element = scene.elements.find(
+            const element = elementsInBehavior?.find(
                 (element) =>
                     element.type === ElementType.TwinToObjectMapping &&
                     element.id === id
@@ -581,41 +685,55 @@ export default class MockAdapter
                 console.error(err);
             }
 
-            // check for twin aliases and add to twins object
-            // NOT IN SCOPE YET
-            // if (mapping.twinAliases) {
-            //     for (const alias of Object.keys(mapping.twinAliases)) {
-            //         const twin = await this.getADTTwin(
-            //             mapping.twinAliases[alias]
-            //         );
-            //         pushErrors(twin.getErrors());
-            //         twins[alias] = twin.result?.data;
-            //         console.log(alias);
-            //     }
-            // }
+            if (isTwinAliasesIncluded && behavior.twinAliases) {
+                // get aliased twins if exist
+                for (let i = 0; i < behavior.twinAliases.length; i++) {
+                    const twinAliasInBehavior = behavior.twinAliases[i];
+                    if (element.twinAliases?.[twinAliasInBehavior]) {
+                        try {
+                            const twin = await this.getADTTwin(
+                                element.twinAliases[twinAliasInBehavior]
+                            );
+                            const aliasedKey = `${twinAliasInBehavior}.${element.twinAliases[twinAliasInBehavior]}`; // construct keys for returned twins set consisting of twin alias + twin id
+                            if (!twins[aliasedKey]) {
+                                twins[aliasedKey] = twin.result?.data;
+                            }
+                        } catch (err) {
+                            console.error(err);
+                        }
+                    }
+                }
+            }
         }
         return twins;
     }
 
-    async getCommonTwinPropertiesForBehavior(
-        sceneId: string,
-        config: I3DScenesConfig,
-        behavior: IBehavior
-    ): Promise<string[]> {
-        const data = await this.getTwinPropertiesForBehaviorWithFullName(
-            sceneId,
-            config,
-            behavior
+    async getTwinPropertiesWithAliasesForBehavior(
+        behavior: IBehavior,
+        elementsInBehavior: Array<ITwinToObjectMapping>,
+        isTwinAliasesIncluded
+    ): Promise<IAliasedTwinProperty[]> {
+        const propertiesWithAlias = await this.getTwinPropertiesForBehaviorWithFullName(
+            behavior,
+            elementsInBehavior,
+            isTwinAliasesIncluded
         );
-        return ViewerConfigUtility.getPropertyNameFromAliasedProperty(data);
+        return propertiesWithAlias.map((properyWithAlias) => {
+            const splitted = properyWithAlias.split('.');
+            return { alias: splitted[0], property: splitted[1] };
+        });
     }
 
     async getTwinPropertiesForBehaviorWithFullName(
-        sceneId: string,
-        config: I3DScenesConfig,
-        behavior: IBehavior
+        behavior: IBehavior,
+        elementsInBehavior: Array<ITwinToObjectMapping>,
+        isTwinAliasesIncluded
     ): Promise<string[]> {
-        const twins = await this.getTwinsForBehavior(sceneId, config, behavior);
+        const twins = await this.getTwinsForBehavior(
+            behavior,
+            elementsInBehavior,
+            isTwinAliasesIncluded
+        );
         return ViewerConfigUtility.getPropertyNamesWithAliasFromTwins(twins);
     }
     async getSubscriptions() {

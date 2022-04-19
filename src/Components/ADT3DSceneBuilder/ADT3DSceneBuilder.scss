@@ -7,6 +7,7 @@
 
     .cb-scene-builder-canvas {
         flex-grow: 1;
+        position: relative;
     }
 
     .cb-base-composite-card-item {
@@ -81,19 +82,8 @@
         }
     }
 
-    .cb-widget-panel-action-button {
-        color: var(--cb-color-theme-primary);
-    }
-
-    .cb-search-autocomplete-container {
-        position: inherit !important;
-    }
-
     /* stylelint-disable selector-class-pattern */
     .cb-search-autocomplete__menu {
-        max-height: calc(100% - 63px);
-        top: 62px;
-
         > div:first-child {
             height: 100%;
         }

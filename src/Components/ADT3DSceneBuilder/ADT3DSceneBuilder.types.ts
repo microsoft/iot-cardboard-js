@@ -2,13 +2,18 @@ import { IContextualMenuItem } from '@fluentui/react';
 import React from 'react';
 import ADT3DSceneAdapter from '../../Adapters/ADT3DSceneAdapter';
 import MockAdapter from '../../Adapters/MockAdapter';
-import { IWidgetLibraryItem } from '../../Models/Classes/3DVConfig';
+import {
+    IBehaviorTwinAliasItem,
+    IElementTwinAliasItem,
+    IWidgetLibraryItem
+} from '../../Models/Classes/3DVConfig';
 import { CustomMeshItem } from '../../Models/Classes/SceneView.types';
 import {
     ADT3DSceneBuilderMode,
     ADT3DSceneTwinBindingsMode,
     Locale,
     Theme,
+    TwinAliasFormMode,
     WidgetFormMode
 } from '../../Models/Constants/Enums';
 import {
@@ -40,6 +45,10 @@ export const SET_ADT_SCENE_BUILDER_COLORED_MESH_ITEMS =
     'SET_ADT_SCENE_BUILDER_COLORED_MESH_ITEMST';
 export const SET_ADT_SCENE_BUILDER_MODE = 'SET_ADT_SCENE_BUILDER_MODE';
 export const SET_WIDGET_FORM_INFO = 'SET_WIDGET_FORM_INFO';
+export const SET_BEHAVIOR_TWIN_ALIAS_FORM_INFO =
+    'SET_BEHAVIOR_TWIN_ALIAS_FORM_INFO';
+export const SET_ELEMENT_TWIN_ALIAS_FORM_INFO =
+    'SET_ELEMENT_TWIN_ALIAS_FORM_INFO';
 export const SET_REVERT_TO_HOVER_COLOR = 'SET_REVERT_TO_HOVER_COLOR';
 export const SET_ADT_SCENE_OBJECT_COLOR = 'SET_ADT_SCENE_OBJECT_COLOR';
 export const SET_MESH_IDS_TO_OUTLINE = 'SET_MESH_IDS_TO_OUTLINE';
@@ -64,9 +73,19 @@ export interface I3DSceneBuilderContext {
     setOutlinedMeshItems: (ids: Array<CustomMeshItem>) => void;
     widgetFormInfo: WidgetFormInfo;
     setWidgetFormInfo: (widgetFormInfo: WidgetFormInfo) => void;
+    behaviorTwinAliasFormInfo: BehaviorTwinAliasFormInfo;
+    setBehaviorTwinAliasFormInfo: (
+        behaviorTwinAliasFormInfo: BehaviorTwinAliasFormInfo
+    ) => void;
+    elementTwinAliasFormInfo: ElementTwinAliasFormInfo;
+    setElementTwinAliasFormInfo: (
+        elementTwinAliasFormInfo: ElementTwinAliasFormInfo
+    ) => void;
     dispatch: React.Dispatch<{ type: string; payload: any }>;
     state: ADT3DSceneBuilderState;
     objectColor: IADTObjectColor;
+    behaviorToEdit: IBehavior;
+    setBehaviorToEdit: React.Dispatch<React.SetStateAction<IBehavior>>;
 }
 
 export type WidgetFormInfo = {
@@ -75,9 +94,27 @@ export type WidgetFormInfo = {
     widgetId?: string;
 };
 
+export type BehaviorTwinAliasFormInfo = null | {
+    twinAlias: IBehaviorTwinAliasItem;
+    mode: TwinAliasFormMode;
+    twinAliasIdx?: number;
+};
+
+export type ElementTwinAliasFormInfo = null | {
+    twinAlias: IElementTwinAliasItem;
+    mode: TwinAliasFormMode;
+};
+
 export interface IBehaviorFormContext {
     behaviorToEdit: IBehavior;
     setBehaviorToEdit: React.Dispatch<React.SetStateAction<IBehavior>>;
+}
+
+export interface IElementFormContext {
+    elementToEdit: ITwinToObjectMapping;
+    setElementToEdit: React.Dispatch<
+        React.SetStateAction<ITwinToObjectMapping>
+    >;
 }
 
 export interface IContextMenuProps {
@@ -112,18 +149,35 @@ export interface IADT3DSceneBuilderAddBehaviorCalloutProps {
     hideCallout: () => void;
 }
 
+export interface IADT3DSceneBuilderAddTwinAliasCalloutProps {
+    availableTwinAliases: Array<IBehaviorTwinAliasItem>;
+    calloutTarget: string;
+    onAddTwinAlias: (twinAlias: IBehaviorTwinAliasItem) => void;
+    onCreateTwinAlias: () => void;
+    hideCallout: () => void;
+}
+
+export interface IADT3DSceneBuilderLinkedTwinPropertiesCalloutProps {
+    commonLinkedTwinProperties: Array<string>;
+    isLoading: boolean;
+    calloutTarget: string;
+    hideCallout: () => void;
+}
+
 export type BehaviorSaveMode =
     | ADT3DSceneBuilderMode.EditBehavior
     | ADT3DSceneBuilderMode.CreateBehavior;
 
 export type OnBehaviorSave = (
+    config: I3DScenesConfig,
     behavior: IBehavior,
-    mode: BehaviorSaveMode
+    mode: BehaviorSaveMode,
+    selectedElements?: Array<ITwinToObjectMapping>
 ) => void;
 
 export interface IADT3DSceneBuilderBehaviorFormProps {
     builderMode: ADT3DSceneBuilderMode;
-    selectedBehavior: IBehavior;
+    behaviors: Array<IBehavior>;
     elements: Array<ITwinToObjectMapping>;
     selectedElements: Array<ITwinToObjectMapping>;
     onBehaviorBackClick: () => void;
@@ -133,6 +187,8 @@ export interface IADT3DSceneBuilderBehaviorFormProps {
         element: ITwinToObjectMapping,
         isSelected: boolean
     ) => void;
+    onRemoveElement?: (newElements: Array<ITwinToObjectMapping>) => void;
+    onElementClick?: (element: ITwinToObjectMapping) => void;
 }
 
 export interface IADT3DSceneBuilderElementsProps {
@@ -156,6 +212,8 @@ export interface ADT3DSceneBuilderState {
     coloredMeshItems: Array<CustomMeshItem>;
     outlinedMeshItems: Array<CustomMeshItem>;
     widgetFormInfo: WidgetFormInfo;
+    behaviorTwinAliasFormInfo: BehaviorTwinAliasFormInfo;
+    elementTwinAliasFormInfo: ElementTwinAliasFormInfo;
     selectedPivotTab: ADT3DSceneTwinBindingsMode;
     builderMode: ADT3DSceneBuilderMode;
     elements: Array<ITwinToObjectMapping>;
@@ -169,6 +227,7 @@ export interface ADT3DSceneBuilderState {
 }
 
 export interface IWidgetBuilderFormDataProps {
+    intellisenseAliasNames?: string[];
     getIntellisensePropertyNames?: (twinId: string) => string[];
     setIsWidgetConfigValid?: React.Dispatch<React.SetStateAction<boolean>>;
 }
