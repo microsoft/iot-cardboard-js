@@ -1,7 +1,6 @@
 require('colors');
 const fs = require('fs');
-const consumeTemplates = require('./templates/consume');
-const createTemplates = require('./templates/create');
+const componentTemplates = require('./templates/component');
 
 // Grab and validate componentName from script args
 const componentName = process.argv[2];
@@ -24,7 +23,7 @@ if (componentName[0] !== componentName[0].toUpperCase()) {
 
 // Generate component directory
 console.log('Creating component templates with name: ', componentName);
-const componentDirectory = `./src/Cards/${componentName}`;
+const componentDirectory = `./src/Components/${componentName}`;
 if (fs.existsSync(componentDirectory)) {
     console.error(`Component ${componentName} already exists.`.red);
     process.exit(1);
@@ -32,35 +31,19 @@ if (fs.existsSync(componentDirectory)) {
 fs.mkdirSync(componentDirectory);
 
 // Generate sub component /Consume and /Create templates
-const subComponents = [
-    {
-        dirName: `${componentDirectory}/Consume`,
-        name: componentName,
-        templates: consumeTemplates
-    },
-    {
-        dirName: `${componentDirectory}/Create`,
-        name: componentName + 'Create',
-        templates: createTemplates
-    }
-];
 
-subComponents.forEach((comp) => {
-    fs.mkdirSync(comp.dirName);
+const generatedTemplates = componentTemplates.map((template) =>
+    template(componentName, componentDirectory)
+);
 
-    const generatedTemplates = comp.templates.map((template) =>
-        template(comp.name, componentName)
-    );
-
-    generatedTemplates.forEach((template) => {
-        fs.writeFileSync(
-            `${comp.dirName}/${comp.name}${template.extension}`,
-            template.content
-        );
-    });
-
-    console.log(
-        `${comp.name} component created successfully under: `,
-        comp.dirName.green
+generatedTemplates.forEach((template) => {
+    fs.writeFileSync(
+        `${componentDirectory}/${componentName}${template.extension}`,
+        template.content
     );
 });
+
+console.log(
+    `${componentName} component created successfully under: `,
+    componentDirectory.green
+);
