@@ -1185,29 +1185,89 @@ const SceneView: React.FC<ISceneViewProp> = ({
                         : currentColor + 1;
                 };
 
-                const interval = 2000;
+                const transition = 250;
+                const interval = 500;
                 let elapsed = 0;
+
+                const isTransition = function () {
+                    return elapsed >= interval;
+                };
+                const transitionNrm = function () {
+                    return (elapsed - interval) / transition;
+                };
 
                 scene.beforeRender = () => {
                     // delta time is in milliseconds
                     elapsed += scene.deltaTime;
-                    if (elapsed >= interval) {
-                        for (const coloredMeshGroup of coloredMeshGroups) {
-                            if (coloredMeshGroup.colors.length > 1) {
-                                const mesh: BABYLON.AbstractMesh =
-                                    meshMap.current?.[coloredMeshGroup.meshId];
-                                // currentColor = nextColor();
-                                elapsed = 0;
-                                coloredMeshGroup.currentColor = nextColor(
-                                    coloredMeshGroup.currentColor,
-                                    coloredMeshGroup.colors.length
-                                );
-                                colorMesh(
-                                    mesh,
-                                    coloredMeshGroup.colors[
-                                        coloredMeshGroup.currentColor
-                                    ]
-                                );
+                    if (isTransition()) {
+                        if (elapsed <= interval + transition) {
+                            for (const coloredMeshGroup of coloredMeshGroups) {
+                                if (coloredMeshGroup.colors.length > 1) {
+                                    const mesh: BABYLON.AbstractMesh =
+                                        meshMap.current?.[
+                                            coloredMeshGroup.meshId
+                                        ];
+
+                                    const transitionColor = BABYLON.Color3.Lerp(
+                                        BABYLON.Color3.FromHexString(
+                                            coloredMeshGroup.colors[
+                                                coloredMeshGroup.currentColor
+                                            ]
+                                        ),
+                                        BABYLON.Color3.FromHexString(
+                                            coloredMeshGroup.colors[
+                                                nextColor(
+                                                    coloredMeshGroup.currentColor,
+                                                    coloredMeshGroup.colors
+                                                        .length
+                                                )
+                                            ]
+                                        ),
+                                        transitionNrm()
+                                    );
+                                    mesh.material = makeMaterial(
+                                        'coloredMeshMaterial',
+                                        sceneRef.current,
+                                        hexToColor4(
+                                            transitionColor.toHexString()
+                                        ),
+                                        hexToColor4(
+                                            currentObjectColor.fresnelColor
+                                        ),
+                                        reflectionTexture.current,
+                                        currentObjectColor.lightingStyle,
+                                        mesh.material
+                                    );
+                                }
+                            }
+                        } else {
+                            for (const coloredMeshGroup of coloredMeshGroups) {
+                                if (coloredMeshGroup.colors.length > 1) {
+                                    const mesh: BABYLON.AbstractMesh =
+                                        meshMap.current?.[
+                                            coloredMeshGroup.meshId
+                                        ];
+                                    elapsed = 0;
+                                    coloredMeshGroup.currentColor = nextColor(
+                                        coloredMeshGroup.currentColor,
+                                        coloredMeshGroup.colors.length
+                                    );
+                                    mesh.material = makeMaterial(
+                                        'coloredMeshMaterial',
+                                        sceneRef.current,
+                                        hexToColor4(
+                                            coloredMeshGroup.colors[
+                                                coloredMeshGroup.currentColor
+                                            ]
+                                        ),
+                                        hexToColor4(
+                                            currentObjectColor.fresnelColor
+                                        ),
+                                        reflectionTexture.current,
+                                        currentObjectColor.lightingStyle,
+                                        mesh.material
+                                    );
+                                }
                             }
                         }
                     }

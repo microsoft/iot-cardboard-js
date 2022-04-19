@@ -64,16 +64,8 @@ export const useRuntimeSceneData = (
                                                 meshId: meshId,
                                                 color: color
                                             };
-                                            // if (
-                                            //     !coloredMeshItems.find(
-                                            //         (item) =>
-                                            //             item.meshId ===
-                                            //             coloredMesh.meshId
-                                            //     )
-                                            // ) {
                                             coloredMeshItems.push(coloredMesh);
                                         }
-                                        //}
                                     );
                                 }
                                 break;

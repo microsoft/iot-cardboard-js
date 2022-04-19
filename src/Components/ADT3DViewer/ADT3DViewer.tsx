@@ -106,7 +106,7 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
         if (coloredMeshItemsProp) {
             setColoredMeshItems(coloredMeshItemsProp);
         } else {
-            const newColoredMeshItems = [...coloredMeshItems];
+            const newColoredMeshItems = [];
             sceneVisuals.forEach((sceneVisual) => {
                 sceneVisual.coloredMeshItems.forEach((sceneColoredMeshItem) => {
                     // const existingColoredMeshItem = newColoredMeshItems.find(
