@@ -311,6 +311,10 @@
         "home": "Home",
         "globe": "Globe"
     },
+    "layersDropdown": {
+        "placeholder": "Default layer",
+        "title": "Select layers"
+    },
     "3dSceneBuilder": {
         "elements": "Elements",
         "element": "Element",

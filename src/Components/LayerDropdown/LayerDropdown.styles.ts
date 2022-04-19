@@ -1,20 +1,9 @@
-import {
-memoizeFunction,
-mergeStyleSets,
-IStyle      
-} from '@fluentui/react';
+import { IDropdownStyles, IIconStyles } from '@fluentui/react';
 
-export const layerDropdownClassPrefix = 'cb-layerdropdown';
+export const dropdownStyles: Partial<IDropdownStyles> = {
+    root: { width: 240 }
+};
 
-const classNames = {
-  foo: `${layerDropdownClassPrefix}-foo`
-}
-
-export const getStyles = memoizeFunction(() => {
-  return mergeStyleSets({
-    foo: [
-      classNames.foo,
-      {} as IStyle
-    ] 
-  })
-})
+export const iconStyles: Partial<IIconStyles> = {
+    root: { marginRight: 8 }
+};
