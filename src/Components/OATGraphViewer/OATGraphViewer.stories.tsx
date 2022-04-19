@@ -7,14 +7,9 @@ export default {
 };
 
 export const Default = (_args) => {
-    const [elementHandler, setElementHandler] = useState([]);
-
-    const handleElementsUpdate = (newElements) => {
-        setElementHandler(newElements);
-    };
     return (
         <div>
-            <OATGraphViewer onElementsUpdate={handleElementsUpdate} />
+            <OATGraphViewer />
         </div>
     );
 };
