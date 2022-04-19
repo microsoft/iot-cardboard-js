@@ -1,9 +1,10 @@
 import { IAuthService } from '../Models/Constants/Interfaces';
 import { applyMixins } from '../Models/Services/Utils';
 import ADTAdapter from './ADTAdapter';
+import AzureManagementAdapter from './AzureManagementAdapter';
 import BlobAdapter from './BlobAdapter';
 
-export default class ADTandBlobAdapter {
+export default class ADT3DSceneAdapter {
     constructor(
         adtHostUrl: string,
         blobContainerUrl: string,
@@ -30,5 +31,12 @@ export default class ADTandBlobAdapter {
     }
 }
 
-export default interface ADTandBlobAdapter extends ADTAdapter, BlobAdapter {}
-applyMixins(ADTandBlobAdapter, [ADTAdapter, BlobAdapter]);
+export default interface ADT3DSceneAdapter
+    extends ADTAdapter,
+        BlobAdapter,
+        AzureManagementAdapter {}
+applyMixins(ADT3DSceneAdapter, [
+    ADTAdapter,
+    BlobAdapter,
+    AzureManagementAdapter
+]);

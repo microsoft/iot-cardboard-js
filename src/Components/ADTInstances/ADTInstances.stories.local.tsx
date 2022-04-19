@@ -3,6 +3,7 @@ import ADTInstances from './ADTInstances';
 import useAuthParams from '../../../.storybook/useAuthParams';
 import ADTAdapter from '../../Adapters/ADTAdapter';
 import MsalAuthService from '../../Models/Services/MsalAuthService';
+import AzureManagementAdapter from '../../Adapters/AzureManagementAdapter';
 
 export default {
     title: 'Components/ADTInstances',
@@ -16,8 +17,7 @@ export const Instances = (_args, { globals: { theme, locale } }) => {
     ) : (
         <ADTInstances
             adapter={
-                new ADTAdapter(
-                    authenticationParameters.adt.hostUrl,
+                new AzureManagementAdapter(
                     new MsalAuthService(
                         authenticationParameters.adt.aadParameters
                     ),

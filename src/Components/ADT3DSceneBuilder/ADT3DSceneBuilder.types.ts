@@ -1,6 +1,6 @@
 import { IContextualMenuItem } from '@fluentui/react';
 import React from 'react';
-import ADTandBlobAdapter from '../../Adapters/ADTandBlobAdapter';
+import ADT3DSceneAdapter from '../../Adapters/ADT3DSceneAdapter';
 import MockAdapter from '../../Adapters/MockAdapter';
 import { IWidgetLibraryItem } from '../../Models/Classes/3DVConfig';
 import { CustomMeshItem } from '../../Models/Classes/SceneView.types';
@@ -47,12 +47,12 @@ export const SET_MESH_IDS_TO_OUTLINE = 'SET_MESH_IDS_TO_OUTLINE';
 
 export interface IADT3DSceneBuilderCardProps
     extends IConsumeCompositeCardProps {
-    adapter: ADTandBlobAdapter | MockAdapter;
+    adapter: ADT3DSceneAdapter | MockAdapter;
     sceneId: string;
 }
 
 export interface I3DSceneBuilderContext {
-    adapter: ADTandBlobAdapter | MockAdapter;
+    adapter: ADT3DSceneAdapter | MockAdapter;
     theme?: Theme;
     locale?: Locale;
     localeStrings?: Record<string, any>;

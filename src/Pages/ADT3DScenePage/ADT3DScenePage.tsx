@@ -42,6 +42,7 @@ import {
     I3DScenesConfig,
     IScene
 } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
+import AzureManagementAdapter from '../../Adapters/AzureManagementAdapter';
 
 export const ADT3DScenePageContext = createContext<IADT3DScenePageContext>(
     null
@@ -224,7 +225,7 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
                                     theme={theme}
                                     locale={locale}
                                     localeStrings={localeStrings}
-                                    adapter={adapter as ADTAdapter}
+                                    adapter={adapter}
                                     shouldPullFromSubscription={
                                         environmentPickerOptions?.environment
                                             ?.shouldPullFromSubscription

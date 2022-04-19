@@ -44,6 +44,10 @@ import ExpandedADTModelData from '../Classes/AdapterDataClasses/ExpandedADTModel
 import ADTInstancesData from '../Classes/AdapterDataClasses/ADTInstancesData';
 import ADTScenesConfigData from '../Classes/AdapterDataClasses/ADTScenesConfigData';
 import ADT3DViewerData from '../Classes/AdapterDataClasses/ADT3DViewerData';
+import {
+    UserAssignmentsData,
+    SubscriptionData
+} from '../Classes/AdapterDataClasses/AzureManagementModelData';
 import { AssetDevice } from '../Classes/Simulations/Asset';
 import {
     CustomMeshItem,
@@ -410,10 +414,6 @@ export interface IADTAdapter extends IKeyValuePairAdapter, IADT3DViewerAdapter {
     getIncomingRelationships(
         twinId: string
     ): Promise<AdapterResult<ADTRelationshipsData>>;
-    getADTInstances: (
-        tenantId?: string,
-        uniqueObjectId?: string
-    ) => AdapterReturnType<ADTInstancesData>;
     getTwinsForBehavior(
         sceneId: string,
         config: I3DScenesConfig,
@@ -446,9 +446,21 @@ export interface IADTAdapter extends IKeyValuePairAdapter, IADT3DViewerAdapter {
 }
 
 export interface IAzureManagementAdapter {
-    getResourceInstances: (
+    getSubscriptions: () => AdapterReturnType<SubscriptionData>;
+    getRoleAssignments: (
+        resourceId: string,
+        uniqueObjectID: string
+    ) => AdapterReturnType<UserAssignmentsData>;
+    hasRoleDefinition: (
+        resourceID: string,
+        uniqueObjectID: string,
+        roleID: string
+    ) => Promise<boolean>;
+    getResourceInstancesWithRoleId: (
+        roleDefinitionGuid: Array<string>,
+        resourcePath: string,
         tenantId?: string,
-        uniqueObjectId?: string
+        uniqueObjectID?: string
     ) => AdapterReturnType<ADTInstancesData>;
 }
 
@@ -642,7 +654,7 @@ export interface IADTInstancesProps {
     theme?: Theme;
     locale?: Locale;
     localeStrings?: Record<string, any>;
-    adapter: IADTAdapter;
+    adapter: IAzureManagementAdapter;
     hasLabel?: boolean;
     selectedInstance?: string;
     onInstanceChange?: (instanceHostName: string) => void;
@@ -735,4 +747,27 @@ export interface IBlobFile {
     Name: string;
     Path: string;
     Properties: Record<string, any>;
+}
+export interface IUserRoleAssignments {
+    value: IRoleAssignment[];
+}
+
+export interface IRoleAssignment {
+    properties: IRoleAssignmentPropertyData;
+    scope: string;
+    name: string;
+}
+
+export interface IRoleAssignmentPropertyData {
+    roleDefinitionId: string;
+}
+
+export interface IUserSubscriptions {
+    value: ISubscriptions[];
+}
+
+export interface ISubscriptions {
+    subscriptionId: string;
+    tenantId: string;
+    displayName: string;
 }

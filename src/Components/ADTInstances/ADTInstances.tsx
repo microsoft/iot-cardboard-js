@@ -25,9 +25,17 @@ const ADTInstances: React.FC<IADTInstancesProps> = ({
     const { t } = useTranslation();
     const [instances, setInstances] = useState<Array<IADTInstance>>([]);
     const [selectedOption, setSelectedOption] = useState(selectedInstance);
-
+    const adtReaderAndWriterGuid = [
+        'd57506d4-4c8d-48b1-8587-93c323f6a5a3',
+        'bcd981a7-7f74-457b-83e1-cceb9e632ffe'
+    ];
+    const adtPath = 'Microsoft.DigitalTwins/digitalTwinsInstances';
     const environmentsState = useAdapter({
-        adapterMethod: () => adapter.getADTInstances(),
+        adapterMethod: () =>
+            adapter.getResourceInstancesWithRoleId(
+                adtReaderAndWriterGuid,
+                adtPath
+            ),
         refetchDependencies: [adapter]
     });
 

@@ -49,6 +49,11 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
     const [selectedEnvironment, setSelectedEnvironment] = useState<
         string | IADTInstance
     >('');
+    const adtReaderAndWriterGuid = [
+        'd57506d4-4c8d-48b1-8587-93c323f6a5a3',
+        'bcd981a7-7f74-457b-83e1-cceb9e632ffe'
+    ];
+    const adtPath = 'Microsoft.DigitalTwins/digitalTwinsInstances';
     const [containers, setContainers] = useState<Array<string>>([]);
     const [selectedContainerUrl, setSelectedContainerUrl] = useState('');
     const [environmentToEdit, setEnvironmentToEdit] = useState<
@@ -96,7 +101,11 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
     };
 
     const environmentsState = useAdapter({
-        adapterMethod: () => props.adapter.getADTInstances(),
+        adapterMethod: () =>
+            props.adapter.getResourceInstancesWithRoleId(
+                adtReaderAndWriterGuid,
+                adtPath
+            ),
         refetchDependencies: [],
         isAdapterCalledOnMount: false
     });
