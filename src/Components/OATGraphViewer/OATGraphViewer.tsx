@@ -14,6 +14,7 @@ import OATGraphCustomNode from './Internal/OATGraphCustomNode';
 import OATGraphCustomEdge from './Internal/OATGraphCustomEdge';
 import { ElementsLocalStorageKey } from '../../Models/Constants/Constants';
 import { getGraphViewerStyles } from './OATGraphViewer.styles';
+import { ElementsContext } from './Internal/OATContext';
 
 const OATGraphViewer = () => {
     const { t } = useTranslation();
@@ -25,7 +26,7 @@ const OATGraphViewer = () => {
     const [elements, setElements] = useState(
         storedElements === null ? [] : storedElements
     );
-    const idClass = 'dtmi:com:example:';
+    const idClassBase = 'dtmi:com:example:';
     const [newModelId, setNewModelId] = useState(0);
     const graphViewerStyles = getGraphViewerStyles();
 
@@ -34,7 +35,7 @@ const OATGraphViewer = () => {
         let index = 0;
         while (index !== -1) {
             index = elements.findIndex(
-                (element) => element.id === `${idClass}model${nextModelId}`
+                (element) => element.id === `${idClassBase}model${nextModelId}`
             );
             if (index === -1) {
                 setNewModelId(nextModelId);
@@ -52,11 +53,18 @@ const OATGraphViewer = () => {
             arrowHeadType: 'arrowclosed',
             type: 'RelationshipEdge',
             data: {
-                name: ''
+                name: '',
+                id: `${evt.source}${evt.target}RelationshipEdge`,
+                type: 'RelationshipEdge'
             }
         };
         setElements((els) => addEdge(params, els));
     };
+
+    const providerVal = useMemo(() => ({ elements, setElements }), [
+        elements,
+        setElements
+    ]);
 
     const nodeTypes = useMemo(() => ({ Interface: OATGraphCustomNode }), []);
 
@@ -72,7 +80,7 @@ const OATGraphViewer = () => {
 
     const onNewModelClick = () => {
         const name = `Model${newModelId}`;
-        const id = `${idClass}model${newModelId}`;
+        const id = `${idClassBase}model${newModelId}`;
         const newNode = {
             id: id,
             type: 'Interface',
@@ -87,6 +95,12 @@ const OATGraphViewer = () => {
         setElements((es) => es.concat(newNode));
     };
 
+    const onNodeDragStop = (evt, node) => {
+        elements.find((element) => element.id === node.id).position =
+            node.position;
+        setElements([...elements]);
+    };
+
     return (
         <BaseComponent theme={theme}>
             <div>
@@ -95,28 +109,31 @@ const OATGraphViewer = () => {
                         className={graphViewerStyles.container}
                         ref={reactFlowWrapperRef}
                     >
-                        <ReactFlow
-                            elements={elements}
-                            onElementsRemove={onElementsRemove}
-                            onConnect={onConnect}
-                            onLoad={onLoad}
-                            snapToGrid={true}
-                            snapGrid={[15, 15]}
-                            nodeTypes={nodeTypes}
-                            edgeTypes={edgeTypes}
-                        >
-                            <PrimaryButton
-                                className={graphViewerStyles.button}
-                                onClick={onNewModelClick}
-                                text={t('OATGraphViewer.newModel')}
-                            />
-                            <MiniMap />
-                            <Controls />
-                            <Background
-                                color={theme.semanticColors.bodyBackground}
-                                gap={16}
-                            />
-                        </ReactFlow>
+                        <ElementsContext.Provider value={providerVal}>
+                            <ReactFlow
+                                elements={elements}
+                                onElementsRemove={onElementsRemove}
+                                onConnect={onConnect}
+                                onLoad={onLoad}
+                                snapToGrid={true}
+                                snapGrid={[15, 15]}
+                                nodeTypes={nodeTypes}
+                                edgeTypes={edgeTypes}
+                                onNodeDragStop={onNodeDragStop}
+                            >
+                                <PrimaryButton
+                                    className={graphViewerStyles.button}
+                                    onClick={onNewModelClick}
+                                    text={t('OATGraphViewer.newModel')}
+                                />
+                                <MiniMap />
+                                <Controls />
+                                <Background
+                                    color={theme.semanticColors.bodyBackground}
+                                    gap={16}
+                                />
+                            </ReactFlow>
+                        </ElementsContext.Provider>
                     </div>
                 </ReactFlowProvider>
             </div>

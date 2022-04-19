@@ -8,7 +8,8 @@ const classNames = {
     node: `${classPrefix}-node`,
     handle: `${classPrefix}-handle`,
     edgePath: `${classPrefix}-edge-path`,
-    textPath: `${classPrefix}-text-path`
+    textPath: `${classPrefix}-text-path`,
+    nodeCancel: `${classPrefix}-node-cancel`
 };
 
 export const getGraphViewerStyles = () => {
@@ -54,6 +55,13 @@ export const getGraphViewerStyles = () => {
             classNames.textPath,
             {
                 fontSize: FontSizes.size12
+            } as IStyle
+        ],
+        nodeCancel: [
+            classNames.nodeCancel,
+            {
+                height: FontSizes.size12,
+                float: 'right'
             } as IStyle
         ]
     });

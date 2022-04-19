@@ -1,9 +1,10 @@
-import React, { memo, useCallback, useState } from 'react';
-import { useTheme } from '@fluentui/react';
-import { Handle } from 'react-flow-renderer';
+import React, { useState, useContext } from 'react';
+import { useTheme, Icon, FontSizes, ActionButton } from '@fluentui/react';
+import { Handle, removeElements } from 'react-flow-renderer';
 import { useTranslation } from 'react-i18next';
 import { IOATGraphCustomNodeProps } from '../../Models/Constants/Interfaces';
 import { getGraphViewerStyles } from '../OATGraphViewer.styles';
+import { ElementsContext } from './OATContext';
 
 const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
     data,
@@ -15,33 +16,59 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
     const [idEditor, setIdEditor] = useState(false);
     const [idText, setIdText] = useState(data.id);
     const theme = useTheme();
+    const { elements, setElements } = useContext(ElementsContext);
     const graphViewerStyles = getGraphViewerStyles();
 
-    const onNameChange = useCallback((evt) => {
-        data.name = evt.target.value;
+    const onNameChange = (evt) => {
         setNameText(evt.target.value);
-    }, []);
+    };
 
-    const onNameClick = useCallback(() => {
+    const onNameClick = () => {
         setNameEditor(true);
-    }, []);
+    };
 
-    const onNameBlur = useCallback(() => {
+    const onNameBlur = () => {
         setNameEditor(false);
-    }, []);
+        if (data.name !== nameText) {
+            elements.find(
+                (element) => element.id === data.id
+            ).data.name = nameText;
+            setElements([...elements]);
+        }
+    };
 
-    const onIdChange = useCallback((evt) => {
-        data.id = evt.target.value;
+    const onIdChange = (evt) => {
         setIdText(evt.target.value);
-    }, []);
+    };
 
-    const onIdClick = useCallback(() => {
+    const onIdClick = () => {
         setIdEditor(true);
-    }, []);
+    };
 
-    const onIdBlur = useCallback(() => {
+    const onIdBlur = () => {
         setIdEditor(false);
-    }, []);
+        const prevId = data.id;
+        if (data.id !== idText) {
+            elements
+                .filter((x) => x.source === data.id)
+                .forEach((x) => (x.source = idText));
+            elements
+                .filter((x) => x.target === data.id)
+                .forEach((x) => (x.target = idText));
+            elements.find((element) => element.id === prevId).data.id = idText;
+            elements.find((element) => element.id === prevId).id = idText;
+            setElements([...elements]);
+        }
+    };
+
+    const onDelete = () => {
+        const elementsToRemove = [
+            {
+                id: data.id
+            }
+        ];
+        setElements((els) => removeElements(elementsToRemove, els));
+    };
 
     return (
         <>
@@ -52,6 +79,20 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
                 isConnectable={isConnectable}
             />
             <div className={graphViewerStyles.node}>
+                <ActionButton
+                    className={graphViewerStyles.nodeCancel}
+                    onClick={onDelete}
+                >
+                    <Icon
+                        iconName="Cancel"
+                        styles={{
+                            root: {
+                                fontSize: FontSizes.size10,
+                                color: theme.semanticColors.actionLink
+                            }
+                        }}
+                    />
+                </ActionButton>
                 <div>
                     {t('OATGraphViewer.name')}:
                     {!nameEditor && (
