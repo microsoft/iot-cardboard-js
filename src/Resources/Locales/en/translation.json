@@ -706,6 +706,12 @@
         "import": "Import",
         "export": "Export"
     },
+    "OATGraphViewer": {
+        "newModel": "New Model",
+        "name": "Name",
+        "id": "Id",
+        "type": "Type"
+    },
     "OATPropertyEditor": {
         "displayName": "Display Name",
         "general": "General",

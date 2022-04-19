@@ -731,6 +731,23 @@ export interface IBlobFile {
     Properties: Record<string, any>;
 }
 
+export interface IOATGraphCustomNodeProps {
+    data: any;
+    isConnectable: boolean;
+}
+
+export interface IOATGraphCustomEdgeProps {
+    id: string;
+    sourceX: string;
+    sourceY: string;
+    targetX: string;
+    targetY: string;
+    sourcePosition: number;
+    targetPosition: number;
+    style: any;
+    data: any;
+    markerEnd: string;
+}
 export interface IAliasedTwinProperty {
     alias: 'LinkedTwin' | string;
     property: string;
