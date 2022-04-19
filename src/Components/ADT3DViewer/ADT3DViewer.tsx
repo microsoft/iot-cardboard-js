@@ -152,33 +152,18 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
         [sceneVisuals]
     );
 
-    const showPopover = (
-        sceneVisual: Partial<SceneVisual>,
-        popOverToDisplay?: IPopoverVisual
-    ) => {
-        let popOver = popOverToDisplay;
+    const showPopover = (sceneVisual: Partial<SceneVisual>) => {
+        setBehaviorModalSceneVisuaElementlId(sceneVisual.element.id);
+        setShowPopUp(true);
+        const meshIds = sceneVisual.element.objectIDs;
+        const outlinedMeshItems = createCustomMeshItems(
+            meshIds,
+            DefaultViewerModeObjectColor.outlinedMeshSelectedColor
+        );
 
-        if (!popOverToDisplay && sceneVisual) {
-            popOver = []
-                .concat(...sceneVisual?.behaviors.map((b) => b.visuals))
-                ?.find(
-                    (visual) => visual.type === VisualType.Popover
-                ) as IPopoverVisual;
-        }
-
-        if (popOver) {
-            setBehaviorModalSceneVisuaElementlId(sceneVisual.element.id);
-            setShowPopUp(true);
-            const meshIds = sceneVisual.element.objectIDs;
-            const outlinedMeshItems = createCustomMeshItems(
-                meshIds,
-                DefaultViewerModeObjectColor.outlinedMeshSelectedColor
-            );
-
-            setOutlinedMeshItems(outlinedMeshItems);
-            outlinedMeshItemsRef.current = outlinedMeshItems;
-            selectedMeshIdsRef.current = meshIds;
-        }
+        setOutlinedMeshItems(outlinedMeshItems);
+        outlinedMeshItemsRef.current = outlinedMeshItems;
+        selectedMeshIdsRef.current = meshIds;
     };
 
     const meshClick = (_marker: Marker, mesh: any, scene: any) => {
@@ -186,16 +171,8 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
             const sceneVisual = sceneVisuals.find((sceneVisual) =>
                 sceneVisual.element.objectIDs.find((id) => id === mesh?.id)
             );
-            let popOver: IPopoverVisual = null;
-            if (sceneVisual) {
-                popOver = []
-                    .concat(...sceneVisual?.behaviors.map((b) => b.visuals))
-                    ?.find(
-                        (visual) => visual.type === VisualType.Popover
-                    ) as IPopoverVisual;
-            }
 
-            if (popOver) {
+            if (sceneVisual) {
                 if (selectedMesh.current === mesh) {
                     selectedMesh.current = null;
                     setShowPopUp(false);
@@ -206,7 +183,7 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
                 } else {
                     selectedMesh.current = mesh;
                     sceneRef.current = scene;
-                    showPopover(sceneVisual, popOver);
+                    showPopover(sceneVisual);
                 }
             } else {
                 selectedMesh.current = null;
