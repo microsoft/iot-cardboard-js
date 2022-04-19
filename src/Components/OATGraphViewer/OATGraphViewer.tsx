@@ -29,7 +29,7 @@ const OATGraphViewer = () => {
     const [elements, setElements] = useState(
         storedElements === null ? [] : storedElements
     );
-    const idClass = 'dtmi:com:example:';
+    const idClassBase = 'dtmi:com:example:';
     const [newModelId, setNewModelId] = useState(0);
     const graphViewerStyles = getGraphViewerStyles();
     const currentNodeId = useRef('');
@@ -39,7 +39,7 @@ const OATGraphViewer = () => {
         let index = 0;
         while (index !== -1) {
             index = elements.findIndex(
-                (element) => element.id === `${idClass}model${nextModelId}`
+                (element) => element.id === `${idClassBase}model${nextModelId}`
             );
             if (index === -1) {
                 setNewModelId(nextModelId);
@@ -66,7 +66,7 @@ const OATGraphViewer = () => {
 
     const onNewModelClick = () => {
         const name = `Model${newModelId}`;
-        const id = `${idClass}model${newModelId}`;
+        const id = `${idClassBase}model${newModelId}`;
         const newNode = {
             id: id,
             type: 'Interface',
