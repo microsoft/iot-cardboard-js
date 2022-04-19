@@ -59,11 +59,7 @@ export const PropertyListItemNest = ({
                 setPropertySelectorVisible(true);
                 return;
             case DTDLSchemaType.Enum:
-                setModalBody('formEnum');
-                setModalOpen(true);
-                return;
-            case DTDLSchemaType.Map:
-                setModalBody('formMap');
+                setModalBody(DTDLSchemaType.Enum);
                 setModalOpen(true);
                 return;
             default:

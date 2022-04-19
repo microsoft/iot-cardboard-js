@@ -6,8 +6,8 @@ import FormUpdateProperty from './FormUpdateProperty';
 import FormAddEnumItem from './FormAddEnumItem';
 
 export enum FromBody {
-    property = 'formProperty',
-    enum = 'formEnum'
+    property = 'Property',
+    enum = 'Enum'
 }
 interface IModal {
     currentNestedPropertyIndex?: number;
