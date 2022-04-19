@@ -35,6 +35,8 @@ import { useBoolean } from '@fluentui/react-hooks';
 import { createCustomMeshItems } from '../3DV/SceneView.Utils';
 import { deepCopy } from '../../Models/Services/Utils';
 import AlertModal from '../AlertModal/AlertModal';
+import LayerDropdown from '../LayerDropdown/LayerDropdown';
+import ViewerConfigUtility from '../../Models/Classes/ViewerConfigUtility';
 
 const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
     theme,
@@ -89,6 +91,8 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
         alertPanelItems,
         setAlertPanelItems
     ] = useState<IViewerElementsPanelItem>(null);
+
+    const [selectedLayerIds, setSelectedLayerIds] = useState<string[]>([]);
 
     const { t } = useTranslation();
     const sceneWrapperId = useGuid();
@@ -387,6 +391,16 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
                             : undefined
                     }}
                 />
+                <div className="cb-layer-dropdown-container">
+                    <LayerDropdown
+                        layers={ViewerConfigUtility.getLayersInScene(
+                            scenesConfig,
+                            sceneId
+                        )}
+                        selectedLayerIds={selectedLayerIds}
+                        setSelectedLayerIds={setSelectedLayerIds}
+                    />
+                </div>
             </div>
             {showPopUp && (
                 <BehaviorsModal

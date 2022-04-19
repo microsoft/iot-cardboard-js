@@ -7,6 +7,7 @@ import {
     IDataSource,
     IElement,
     IElementTwinToObjectMappingDataSource,
+    ILayer,
     IPopoverVisual,
     IScene,
     IStatusColoringVisual,
@@ -293,6 +294,30 @@ abstract class ViewerConfigUtility {
         return scene?.elements?.filter(
             ViewerConfigUtility.isTwinToObjectMappingElement
         );
+    }
+
+    static getLayersInScene(
+        config: I3DScenesConfig,
+        sceneId: string
+    ): Array<ILayer> {
+        // Get behaviors in scene
+        const [
+            behaviorsInScene
+        ] = ViewerConfigUtility.getBehaviorsSegmentedByPresenceInScene(
+            config,
+            sceneId
+        );
+
+        const behaviorIdsInScene = behaviorsInScene.map((bis) => bis.id);
+
+        // Filter layers by matching behavior Id present
+        const layersInScene = config.configuration.layers.filter((layer) =>
+            layer.behaviorIDs.some((behaviorId) =>
+                behaviorIdsInScene.includes(behaviorId)
+            )
+        );
+
+        return layersInScene;
     }
 
     static isElementTwinToObjectMappingDataSource(
