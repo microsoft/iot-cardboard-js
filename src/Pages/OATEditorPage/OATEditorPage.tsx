@@ -12,6 +12,12 @@ const OATEditorPage = ({ theme }) => {
         '@type': 'Interface',
         '@context': 'dtmi:adt:context;2',
         displayName: 'model1',
+        description: '',
+        comment: '',
+        relationships: null,
+        components: null,
+        trimmedCopy: null,
+        properties: [],
         contents: [
             {
                 '@id': 'dtmi:com:adt:model1:New_Property_1',

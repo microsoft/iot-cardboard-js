@@ -3,6 +3,7 @@ import { FontIcon, ActionButton, Stack, Text } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
 import { deepCopy } from '../../Models/Services/Utils';
+import { DTDLModel } from '../../Models/Classes/DTDL';
 import PropertyListItem from './PropertyListItem';
 import PropertyListItemNest from './PropertyListItemNest';
 import PropertySelector from './PropertySelector';
@@ -10,19 +11,18 @@ import AddPropertyBar from './AddPropertyBar';
 
 type IPropertyList = {
     currentPropertyIndex: number;
-    draggedPropertyItemRef: any;
     draggingProperty: boolean;
     draggingTemplate: boolean;
     enteredPropertyRef: any;
     enteredTemplateRef: any;
-    model: any;
+    model: DTDLModel;
     propertySelectorVisible: boolean;
     setCurrentNestedPropertyIndex: React.Dispatch<React.SetStateAction<number>>;
     setCurrentPropertyIndex?: React.Dispatch<React.SetStateAction<number>>;
     setDraggingProperty: React.Dispatch<React.SetStateAction<boolean>>;
     setModalBody?: React.Dispatch<React.SetStateAction<string>>;
     setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
-    setModel?: React.Dispatch<React.SetStateAction<any>>;
+    setModel?: React.Dispatch<React.SetStateAction<DTDLModel>>;
     setTemplates?: React.Dispatch<React.SetStateAction<any>>;
     setPropertySelectorVisible: React.Dispatch<React.SetStateAction<boolean>>;
 };
@@ -38,7 +38,6 @@ export const PropertyList = ({
     enteredPropertyRef,
     draggingTemplate,
     enteredTemplateRef,
-    draggedPropertyItemRef,
     draggingProperty,
     setDraggingProperty,
     setCurrentNestedPropertyIndex,
@@ -47,6 +46,7 @@ export const PropertyList = ({
 }: IPropertyList) => {
     const { t } = useTranslation();
     const propertyInspectorStyles = getPropertyInspectorStyles();
+    const draggedPropertyItemRef = useRef(null);
     const [enteredItem, setEnteredItem] = useState(enteredPropertyRef.current);
     const [lastPropertyFocused, setLastPropertyFocused] = useState(null);
     const dragItem = useRef(null);

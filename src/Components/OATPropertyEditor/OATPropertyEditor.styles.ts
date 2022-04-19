@@ -68,13 +68,16 @@ export const getPropertyInspectorStyles = () => {
             {
                 width: '440px',
                 height: '100%',
-                backgroundColor: theme.semanticColors.listBackground
+                backgroundColor: theme.semanticColors.listBackground,
+                '& [role="tabpanel"]': {
+                    height: '100%'
+                }
             } as IStyle
         ],
         pivotItem: [
             classNames.pivotItem,
             {
-                height: '100vh',
+                height: '100%',
                 backgroundColor: theme.semanticColors.listBackground
             } as IStyle
         ],
@@ -381,11 +384,8 @@ export const getPropertyInspectorStyles = () => {
                 padding: '12px 8px',
                 borderBottom: `1px solid ${theme.semanticColors.variantBorder}`,
                 borderRadius: '4px',
-                marginTop: '8px !important',
-                cursor: 'default',
-                ':first-of-type': {
-                    marginTop: '0px !important'
-                }
+                marginBottom: '8px',
+                cursor: 'default'
             } as IStyle
         ],
         propertyItemNestMainItem: [
@@ -451,6 +451,12 @@ export const getPropertyInspectorStyles = () => {
                     border: `2px solid ${theme.semanticColors.variantBorder}`
                 },
                 marginRight: '10px'
+            } as IStyle
+        ],
+        propertyItemTextType: [
+            classNames.propertyItemTextField,
+            {
+                paddingLeft: '10px'
             } as IStyle
         ],
         modal: [

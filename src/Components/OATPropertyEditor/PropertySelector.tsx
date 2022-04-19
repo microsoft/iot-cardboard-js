@@ -2,6 +2,7 @@ import React from 'react';
 import { FontIcon, ActionButton, Stack, Text } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
+import { DTDLModel } from '../../Models/Classes/DTDL';
 
 const data = {
     propertyTags: {
@@ -22,8 +23,8 @@ const data = {
 };
 interface IProperySelectorProps {
     lastPropertyFocused: any;
-    model?: any;
-    setModel?: React.Dispatch<React.SetStateAction<any>>;
+    model?: DTDLModel;
+    setModel?: React.Dispatch<React.SetStateAction<DTDLModel>>;
     setPropertySelectorVisible: React.Dispatch<React.SetStateAction<boolean>>;
 }
 

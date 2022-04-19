@@ -2,6 +2,7 @@ import React, { useRef, useState } from 'react';
 import { FontIcon, ActionButton, Stack, Text } from '@fluentui/react';
 import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
 import { deepCopy } from '../../Models/Services/Utils';
+import { DTDLModel } from '../../Models/Classes/DTDL';
 
 interface ITemplateList {
     draggingTemplate?: boolean;
@@ -9,10 +10,10 @@ interface ITemplateList {
     enteredTemplateRef: any;
     draggedTemplateItemRef: any;
     enteredPropertyRef: any;
-    model?: any;
+    model?: DTDLModel;
     templates?: any;
     setDraggingTemplate?: (dragging: boolean) => boolean;
-    setModel?: React.Dispatch<React.SetStateAction<any>>;
+    setModel?: React.Dispatch<React.SetStateAction<DTDLModel>>;
     setTemplates: React.Dispatch<React.SetStateAction<any>>;
 }
 

@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
 import BaseComponent from '../BaseComponent/BaseComponent';
 import { Theme } from '../../Models/Constants/Enums';
+import { DTDLModel } from '../../Models/Classes/DTDL';
 import Modal from './Modal';
 import Editor from './Editor';
 
 type IOATPropertyEditor = {
-    model?: any;
+    model?: DTDLModel;
     theme?: Theme;
     templates?: any;
-    setModel?: React.Dispatch<React.SetStateAction<any>>;
+    setModel?: React.Dispatch<React.SetStateAction<DTDLModel>>;
     setTemplates?: React.Dispatch<React.SetStateAction<any>>;
 };
 

@@ -11,9 +11,10 @@ import {
 import { PrimaryButton } from '@fluentui/react/lib/Button';
 import { useTranslation } from 'react-i18next';
 import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
+import { DTDLModel } from '../../Models/Classes/DTDL';
 
 interface IModal {
-    model?: any;
+    model?: DTDLModel;
     currentPropertyIndex?: number;
     currentNestedPropertyIndex?: number;
     setCurrentNestedPropertyIndex?: React.Dispatch<
@@ -21,7 +22,7 @@ interface IModal {
     >;
     setModalBody?: React.Dispatch<React.SetStateAction<string>>;
     setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
-    setModel?: React.Dispatch<React.SetStateAction<any>>;
+    setModel?: React.Dispatch<React.SetStateAction<DTDLModel>>;
 }
 
 export const FormUpdateProperty = ({

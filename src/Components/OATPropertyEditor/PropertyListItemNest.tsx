@@ -1,6 +1,7 @@
 import React from 'react';
 import { TextField, Stack, Text } from '@fluentui/react';
 import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
+import { DTDLModel, DTDLSchemaType } from '../../Models/Classes/DTDL';
 import AddPropertyBar from './AddPropertyBar';
 import PropertyListItemNested from './PropertyListItemNested';
 import PropertyListEnumItemNested from './PropertyListEnumItemNested';
@@ -17,7 +18,7 @@ type IPropertyListItem = {
     index?: number;
     item?: any;
     lastPropertyFocused?: any;
-    model?: any;
+    model?: DTDLModel;
     setCurrentNestedPropertyIndex?: React.Dispatch<
         React.SetStateAction<number>
     >;
@@ -25,7 +26,7 @@ type IPropertyListItem = {
     setLastPropertyFocused?: React.Dispatch<React.SetStateAction<any>>;
     setModalBody?: React.Dispatch<React.SetStateAction<string>>;
     setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
-    setModel?: React.Dispatch<React.SetStateAction<any>>;
+    setModel?: React.Dispatch<React.SetStateAction<DTDLModel>>;
     setPropertySelectorVisible: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
@@ -54,14 +55,14 @@ export const PropertyListItemNest = ({
     const addPropertyCallback = () => {
         setCurrentPropertyIndex(index);
         switch (lastPropertyFocused.item.schema['@type']) {
-            case 'Object':
+            case DTDLSchemaType.Object:
                 setPropertySelectorVisible(true);
                 return;
-            case 'Enum':
+            case DTDLSchemaType.Enum:
                 setModalBody('formEnum');
                 setModalOpen(true);
                 return;
-            case 'Map':
+            case DTDLSchemaType.Map:
                 setModalBody('formMap');
                 setModalOpen(true);
                 return;
@@ -120,7 +121,7 @@ export const PropertyListItemNest = ({
                     />
                 ))}
 
-            {item.schema['@type'] === 'Enum' &&
+            {item.schema['@type'] === DTDLSchemaType.Enum &&
                 item.schema.enumValues.length > 0 &&
                 item.schema.enumValues.map((item, i) => (
                     <PropertyListEnumItemNested
@@ -133,7 +134,7 @@ export const PropertyListItemNest = ({
                     />
                 ))}
 
-            {item.schema['@type'] === 'Map' && (
+            {item.schema['@type'] === DTDLSchemaType.Map && (
                 <PropertyListMapItemNested
                     item={item}
                     model={model}
@@ -144,7 +145,7 @@ export const PropertyListItemNest = ({
 
             {lastPropertyFocused &&
                 lastPropertyFocused.index === index &&
-                item.schema['@type'] !== 'Map' && (
+                item.schema['@type'] !== DTDLSchemaType.Map && (
                     <AddPropertyBar callback={addPropertyCallback} />
                 )}
         </Stack>

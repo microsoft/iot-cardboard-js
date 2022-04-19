@@ -2,10 +2,11 @@ import React from 'react';
 import { TextField, Stack, Label, Text } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
+import { DTDLModel } from '../../Models/Classes/DTDL';
 
 type IPropertiesModelSummary = {
-    model?: any;
-    setModel?: React.Dispatch<React.SetStateAction<any>>;
+    model?: DTDLModel;
+    setModel?: React.Dispatch<React.SetStateAction<DTDLModel>>;
 };
 
 export const PropertiesModelSummary = ({
@@ -25,10 +26,8 @@ export const PropertiesModelSummary = ({
                     borderless
                     placeholder={model.displayName}
                     onChange={(_ev, value) => {
-                        const modelCopy = {
-                            ...model,
-                            displayName: value
-                        };
+                        const modelCopy = Object.assign({}, model);
+                        modelCopy.displayName = value;
                         setModel(modelCopy);
                     }}
                 />
@@ -40,28 +39,17 @@ export const PropertiesModelSummary = ({
                     borderless
                     placeholder={model['@id']}
                     onChange={(_ev, value) => {
-                        const modelCopy = {
-                            ...model,
-                            '@id': value
-                        };
+                        const modelCopy = Object.assign({}, model);
+                        modelCopy['@id'] = value;
                         setModel(modelCopy);
                     }}
                 />
             </Stack>
             <Stack className={propertyInspectorStyles.gridRow}>
                 <Text>{t('OATPropertyEditor.type')}</Text>
-                <TextField
-                    className={propertyInspectorStyles.propertyItemTextField}
-                    borderless
-                    placeholder={model['@type']}
-                    onChange={(_ev, value) => {
-                        const modelCopy = {
-                            ...model,
-                            '@type': value
-                        };
-                        setModel(modelCopy);
-                    }}
-                />
+                <Text className={propertyInspectorStyles.propertyItemTextType}>
+                    {model['@type']}
+                </Text>
             </Stack>
         </Stack>
     );

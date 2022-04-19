@@ -11,6 +11,7 @@ import {
 } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
+import { DTDLModel } from '../../Models/Classes/DTDL';
 import PropertyList from './PropertyList';
 import JSONEditor from './JSONEditor';
 import TemplateColumn from './TemplateColumn';
@@ -18,7 +19,7 @@ import PropertiesModelSummary from './PropertiesModelSummary';
 
 interface IEditor {
     currentPropertyIndex?: number;
-    model?: any;
+    model?: DTDLModel;
     templates?: any;
     theme?: Theme;
     setCurrentNestedPropertyIndex?: React.Dispatch<
@@ -27,7 +28,7 @@ interface IEditor {
     setCurrentPropertyIndex?: React.Dispatch<React.SetStateAction<number>>;
     setModalBody?: React.Dispatch<React.SetStateAction<string>>;
     setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
-    setModel?: React.Dispatch<React.SetStateAction<any>>;
+    setModel?: React.Dispatch<React.SetStateAction<DTDLModel>>;
     setTemplates?: React.Dispatch<React.SetStateAction<any>>;
 }
 
@@ -52,8 +53,6 @@ const Editor = ({
     const [templatesActive, setTemplatesActive] = useState(false);
     const [draggingTemplate, setDraggingTemplate] = useState(false);
     const [draggingProperty, setDraggingProperty] = useState(false);
-    const draggedTemplateItemRef = useRef(null);
-    const draggedPropertyItemRef = useRef(null);
     const enteredTemplateRef = useRef(null);
     const enteredPropertyRef = useRef(null);
 
@@ -131,7 +130,6 @@ const Editor = ({
                         enteredPropertyRef={enteredPropertyRef}
                         draggingTemplate={draggingTemplate}
                         enteredTemplateRef={enteredTemplateRef}
-                        draggedPropertyItemRef={draggedPropertyItemRef}
                         draggingProperty={draggingProperty}
                         setDraggingProperty={setDraggingProperty}
                         setCurrentNestedPropertyIndex={
@@ -156,7 +154,6 @@ const Editor = ({
                     setTemplatesActive={setTemplatesActive}
                     templates={templates}
                     setTemplates={setTemplates}
-                    draggedTemplateItemRef={draggedTemplateItemRef}
                     enteredPropertyRef={enteredPropertyRef}
                     model={model}
                     setModel={setModel}

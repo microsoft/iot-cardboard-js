@@ -3,11 +3,12 @@ import Editor from '@monaco-editor/react';
 import { Theme } from '../../Models/Constants/Enums';
 import { useLibTheme } from '../../Theming/ThemeProvider';
 import { useTranslation } from 'react-i18next';
+import { DTDLModel } from '../../Models/Classes/DTDL';
 
 type OATPropertyEditorProps = {
-    model?: any;
+    model?: DTDLModel;
     theme?: Theme;
-    setModel?: React.Dispatch<React.SetStateAction<any>>;
+    setModel?: React.Dispatch<React.SetStateAction<DTDLModel>>;
 };
 
 const JSONEditor = ({ model, theme, setModel }: OATPropertyEditorProps) => {

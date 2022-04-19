@@ -1,21 +1,26 @@
 import React from 'react';
 import { Modal as FluentModal } from '@fluentui/react';
 import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
+import { DTDLModel } from '../../Models/Classes/DTDL';
 import FormUpdateProperty from './FormUpdateProperty';
 import FormAddEnumItem from './FormAddEnumItem';
 
+export enum FromBody {
+    property = 'formProperty',
+    enum = 'formEnum'
+}
 interface IModal {
     currentNestedPropertyIndex?: number;
     currentPropertyIndex?: number;
     modalBody?: string;
     modalOpen?: boolean;
-    model?: any;
+    model?: DTDLModel;
     setCurrentNestedPropertyIndex?: React.Dispatch<
         React.SetStateAction<number>
     >;
     setModalBody?: React.Dispatch<React.SetStateAction<string>>;
     setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
-    setModel?: React.Dispatch<React.SetStateAction<any>>;
+    setModel?: React.Dispatch<React.SetStateAction<DTDLModel>>;
 }
 
 export const Modal = ({
@@ -33,7 +38,7 @@ export const Modal = ({
 
     const getModalBody = () => {
         switch (modalBody) {
-            case 'formProperty':
+            case FromBody.property:
             default:
                 return (
                     <FormUpdateProperty
@@ -48,7 +53,7 @@ export const Modal = ({
                         setModalBody={setModalBody}
                     />
                 );
-            case 'formEnum':
+            case FromBody.enum:
                 return (
                     <FormAddEnumItem
                         setModalOpen={setModalOpen}

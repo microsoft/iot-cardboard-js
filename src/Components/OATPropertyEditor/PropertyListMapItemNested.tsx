@@ -2,12 +2,13 @@ import React from 'react';
 import { TextField, Stack, Text } from '@fluentui/react';
 import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
 import { useTranslation } from 'react-i18next';
+import { DTDLModel } from '../../Models/Classes/DTDL';
 
 type IEnumItem = {
     index?: number;
     item?: any;
-    model?: any;
-    setModel?: React.Dispatch<React.SetStateAction<any>>;
+    model?: DTDLModel;
+    setModel?: React.Dispatch<React.SetStateAction<DTDLModel>>;
 };
 
 export const PropertyListMapItemNested = ({
