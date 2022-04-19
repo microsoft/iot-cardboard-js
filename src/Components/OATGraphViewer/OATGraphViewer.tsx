@@ -12,7 +12,10 @@ import { useTranslation } from 'react-i18next';
 import BaseComponent from '../BaseComponent/BaseComponent';
 import OATGraphCustomNode from './Internal/OATGraphCustomNode';
 import OATGraphCustomEdge from './Internal/OATGraphCustomEdge';
-import { ElementsLocalStorageKey } from '../../Models/Constants/Constants';
+import {
+    ElementsLocalStorageKey,
+    TwinsLocalStorageKey
+} from '../../Models/Constants/Constants';
 import { getGraphViewerStyles } from './OATGraphViewer.styles';
 import { ElementsContext } from './Internal/OATContext';
 
@@ -29,6 +32,7 @@ const OATGraphViewer = () => {
     const idClassBase = 'dtmi:com:example:';
     const [newModelId, setNewModelId] = useState(0);
     const graphViewerStyles = getGraphViewerStyles();
+    const currentNodeId = useRef('');
 
     useEffect(() => {
         let nextModelId = newModelId;
@@ -43,23 +47,8 @@ const OATGraphViewer = () => {
             nextModelId++;
         }
         localStorage.setItem(ElementsLocalStorageKey, JSON.stringify(elements));
+        translateOutput();
     }, [elements]);
-
-    const onConnect = (evt) => {
-        const params = {
-            source: evt.source,
-            target: evt.target,
-            label: '',
-            arrowHeadType: 'arrowclosed',
-            type: 'RelationshipEdge',
-            data: {
-                name: '',
-                id: `${evt.source}${evt.target}RelationshipEdge`,
-                type: 'RelationshipEdge'
-            }
-        };
-        setElements((els) => addEdge(params, els));
-    };
 
     const providerVal = useMemo(() => ({ elements, setElements }), [
         elements,
@@ -68,10 +57,7 @@ const OATGraphViewer = () => {
 
     const nodeTypes = useMemo(() => ({ Interface: OATGraphCustomNode }), []);
 
-    const edgeTypes = useMemo(
-        () => ({ RelationshipEdge: OATGraphCustomEdge }),
-        []
-    );
+    const edgeTypes = useMemo(() => ({ Relationship: OATGraphCustomEdge }), []);
 
     const onElementsRemove = (elementsToRemove) =>
         setElements((els) => removeElements(elementsToRemove, els));
@@ -101,6 +87,79 @@ const OATGraphViewer = () => {
         setElements([...elements]);
     };
 
+    const onConnectStart = (evt, params) => {
+        currentNodeId.current = params.nodeId;
+    };
+
+    const onConnectStop = (evt) => {
+        const params = {
+            source: currentNodeId.current,
+            label: '',
+            arrowHeadType: 'arrowclosed',
+            type: 'Relationship',
+            data: {
+                name: '',
+                displayName: '',
+                id: `${currentNodeId.current}Relationship`,
+                type: 'Relationship'
+            }
+        };
+        const target = (evt.path || []).find(
+            (element) => element.dataset && element.dataset.id
+        );
+        if (target) {
+            params.target = target.dataset.id;
+            setElements((els) => addEdge(params, els));
+        } else {
+            const node = elements.find(
+                (element) => element.id === currentNodeId.current
+            );
+            const untargetedRelationship = {
+                '@type': 'Relationship',
+                '@id': `${currentNodeId.current}Relationship`,
+                name: '',
+                displayName: ''
+            };
+            node.data['content'] = [
+                ...node.data['content'],
+                untargetedRelationship
+            ];
+            setElements([...elements]);
+        }
+    };
+
+    const translateOutput = () => {
+        const outputObject = elements;
+        const nodes = outputObject.reduce((currentNodes, currentNode) => {
+            if (currentNode.position) {
+                const node = {
+                    '@id': currentNode.id,
+                    '@type': 'Interface',
+                    displayName: currentNode.data.name,
+                    contents: [...currentNode.data.content]
+                };
+                currentNodes.push(node);
+            } else if (currentNode.source) {
+                const node = currentNodes.find(
+                    (element) => element['@id'] === currentNode.source
+                );
+                const relationship = {
+                    '@type': currentNode.data.type,
+                    '@id': currentNode.data.id,
+                    name: currentNode.data.name,
+                    displayName: currentNode.data.displayName,
+                    target: currentNode.target
+                };
+                node.contents = [...node.contents, relationship];
+            }
+            return currentNodes;
+        }, []);
+        localStorage.setItem(
+            TwinsLocalStorageKey,
+            JSON.stringify({ digitalTwinsModels: nodes })
+        );
+    };
+
     return (
         <BaseComponent theme={theme}>
             <div>
@@ -113,7 +172,8 @@ const OATGraphViewer = () => {
                             <ReactFlow
                                 elements={elements}
                                 onElementsRemove={onElementsRemove}
-                                onConnect={onConnect}
+                                onConnectStart={onConnectStart}
+                                onConnectStop={onConnectStop}
                                 onLoad={onLoad}
                                 snapToGrid={true}
                                 snapGrid={[15, 15]}
