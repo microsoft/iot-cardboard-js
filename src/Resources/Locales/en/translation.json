@@ -313,6 +313,7 @@
     "3dSceneBuilder": {
         "elements": "Elements",
         "element": "Element",
+        "twinsTab": "Twins",
         "alertsTab": "Alerts",
         "statesTab": "Status",
         "widgets": "Widgets",
@@ -416,8 +417,34 @@
             "alertBehavior": "Alert behavior",
             "statusBehavior": "Status behavior"
         },
-        "aliasedTwins": "Aliased twins",
-        "notImplemented": "Not implemented"
+        "notImplemented": "Not implemented",
+        "twinAlias": {
+            "title": "Twin alias",
+            "titlePlural": "Twin aliases",
+            "aliasedTwins": "Aliased twins",
+            "add": "Add twin alias",
+            "noTwinAliasesAdded": "No twin aliases added yet",
+            "new": "New twin alias",
+            "edit": "Edit twin alias",
+            "create": "Create twin alias",
+            "update": "Update twin alias",
+            "modify": "Modify twin alias",
+            "search": "Search twin aliases",
+            "searchProperties": "Search properties",
+            "noTwinAliasesToAdd": "No twin aliases to add",
+            "removeFromBehavior": "Remove twin alias from behavior",
+            "commonProperties": "Common properties",
+            "twinAliasForm": {
+                "alias": "Alias",
+                "elementTwinMappings": "Element twin mappings"
+            },
+            "descriptions": {
+                "twins": "Twins give you access to properties which can be used in expressions.",
+                "linkedTwin": "The LinkedTwin contains all properties in common between the target elements linked twins.",
+                "aliasChangeNotAllowed": "Alias change is not allowed after creation.",
+                "commonProperties": "The union of linked twin properties of selected elements"
+            }
+        }
     },
     "widgets": {
         "trend": {
@@ -639,7 +666,8 @@
         }
     },
     "behaviorsModal": {
-        "closeModal": "Close modal"
+        "closeModal": "Close modal",
+        "behaviorPreview": "Preview"
     },
     "svgTests": {
         "fluentUI": "SVG loading via Fluent Image component (recommended pattern)",
@@ -683,5 +711,34 @@
         "name": "Name",
         "id": "Id",
         "type": "Type"
+    },
+    "OATPropertyEditor": {
+        "displayName": "Display Name",
+        "general": "General",
+        "assetId": "Asset ID",
+        "type": "Type",
+        "properties": "Properties",
+        "viewTemplates": "View Templates",
+        "name": "Name",
+        "schemaType": "Schema Type",
+        "addProperty": "Add property",
+        "comment": "Comment",
+        "description": "Description",
+        "writable": "Writable",
+        "semanticType": "Semantic Type",
+        "unit": "Unit",
+        "id": "Id",
+        "update": "Update",
+        "primitive": "Primitive",
+        "errorRepeatedPropertyName": "A property with the same name already exists",
+        "templates": "Templates",
+        "templateSearchPlaceholder": "Search name, id, property",
+        "property": "Property",
+        "modalTextInputPlaceHolder": "This property...",
+        "modalTextInputPlaceHolderDescription": "Line1",
+        "modalTextInputPlaceHolderSemanticType": "current...",
+        "modalTextInputPlaceHolderUnit": "unit...",
+        "pivotLink": "Pivot link",
+        "json": "JSON"
     }
 }

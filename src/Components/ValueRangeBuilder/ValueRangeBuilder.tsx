@@ -1,11 +1,4 @@
-import React, {
-    createContext,
-    forwardRef,
-    useEffect,
-    useImperativeHandle,
-    useMemo,
-    useReducer
-} from 'react';
+import React, { createContext, useEffect } from 'react';
 import BaseComponent from '../BaseComponent/BaseComponent';
 import './ValueRangeBuilder.scss';
 import { ActionButton } from '@fluentui/react';
@@ -13,20 +6,13 @@ import { createGUID } from '../../Models/Services/Utils';
 import {
     IValueRangeBuilderContext,
     IValueRangeBuilderProps,
-    ValueRangeBuilderActionType,
-    IValueRangeBuilderHandle
+    ValueRangeBuilderActionType
 } from './ValueRangeBuilder.types';
 import {
-    getValidationMapFromValueRanges,
     areDistinctValueRangesValid,
     getNextColor,
-    isRangeOverlapFound,
-    cleanValueOutput
+    isRangeOverlapFound
 } from './ValueRangeBuilder.utils';
-import {
-    defaultValueRangeBuilderState,
-    valueRangeBuilderReducer
-} from './ValueRangeBuilder.state';
 import { useTranslation } from 'react-i18next';
 import ValueRangeValidationError from './Internal/ValueRangeValidationError';
 import ValueRangeRow from './Internal/ValueRangeRow';
@@ -35,44 +21,20 @@ export const ValueRangeBuilderContext = createContext<IValueRangeBuilderContext>
     null
 );
 
-const ValueRangeBuilder: React.ForwardRefRenderFunction<
-    IValueRangeBuilderHandle,
-    IValueRangeBuilderProps
-> = (
-    {
-        className,
-        initialValueRanges = [],
-        customSwatchColors,
-        baseComponentProps,
-        setAreRangesValid,
-        minRanges = 0,
-        maxRanges
-    },
-    forwardedRef
-) => {
+const ValueRangeBuilder: React.FC<IValueRangeBuilderProps> = ({
+    className,
+    baseComponentProps,
+    valueRangeBuilderReducer
+}) => {
     const { t } = useTranslation();
 
-    const initialValidationMap = useMemo(
-        () => getValidationMapFromValueRanges(initialValueRanges),
-        [initialValueRanges]
-    );
-
-    const [state, dispatch] = useReducer(valueRangeBuilderReducer, {
-        ...defaultValueRangeBuilderState,
-        valueRanges: initialValueRanges.sort(
-            (a, b) => Number(a.min) - Number(b.min)
-        ),
-        validationMap: initialValidationMap,
-        ...(customSwatchColors && { colorSwatch: customSwatchColors }),
-        minRanges,
-        maxRanges
-    });
+    const { state, dispatch } = valueRangeBuilderReducer;
 
     const { validationMap } = state;
 
     // On mount, pre-fill value ranges to min required
     useEffect(() => {
-        if (state.valueRanges.length < minRanges) {
+        if (state.valueRanges.length < state.minRanges) {
             dispatch({
                 type:
                     ValueRangeBuilderActionType.PRE_FILL_VALUE_RANGES_TO_MIN_REQUIRED
@@ -82,29 +44,20 @@ const ValueRangeBuilder: React.ForwardRefRenderFunction<
 
     // Update consumer when validation map changes
     useEffect(() => {
-        if (typeof setAreRangesValid === 'function') {
-            const areDistinctRangesValid = areDistinctValueRangesValid(
-                state.validationMap
-            );
-            const isOverlapDetected = isRangeOverlapFound(
-                state.valueRanges,
-                state.validationMap
-            );
+        const areDistinctRangesValid = areDistinctValueRangesValid(
+            state.validationMap
+        );
+        const isOverlapDetected = isRangeOverlapFound(
+            state.valueRanges,
+            state.validationMap
+        );
 
-            const areRangesValid = areDistinctRangesValid && !isOverlapDetected;
-            setAreRangesValid(areRangesValid);
-        }
+        const areRangesValid = areDistinctRangesValid && !isOverlapDetected;
+        dispatch({
+            type: ValueRangeBuilderActionType.SET_ARE_RANGES_VALID,
+            payload: areRangesValid
+        });
     }, [state.validationMap]);
-
-    useImperativeHandle(forwardedRef, () => ({
-        getValueRanges: () => {
-            return state.valueRanges.map((vr) => ({
-                ...vr,
-                min: cleanValueOutput(vr.min),
-                max: cleanValueOutput(vr.max)
-            }));
-        }
-    }));
 
     return (
         <ValueRangeBuilderContext.Provider
@@ -134,7 +87,10 @@ const ValueRangeBuilder: React.ForwardRefRenderFunction<
                             {t('valueRangeBuilder.overlapDetectedMessage')}
                         </div>
                     )}
-                {!(maxRanges && state.valueRanges.length >= maxRanges) && (
+                {!(
+                    state.maxRanges &&
+                    state.valueRanges.length >= state.maxRanges
+                ) && (
                     <ActionButton
                         data-testid={'range-builder-add'}
                         iconProps={{ iconName: 'Add' }}
@@ -165,4 +121,4 @@ const ValueRangeBuilder: React.ForwardRefRenderFunction<
     );
 };
 
-export default forwardRef(ValueRangeBuilder);
+export default React.memo(ValueRangeBuilder);

@@ -176,9 +176,11 @@ const OATGraphViewer = ({ setElementHandler }: OATGraphProps) => {
                 type: currentHandleId.current
             }
         };
-        try {
-            const indexId = evt.path.findIndex((element) => element.dataset.id);
-            params.target = evt.path[indexId].dataset.id;
+        const target = (evt.path || []).find(
+            (element) => element.dataset && element.dataset.id
+        );
+        if (target != null) {
+            params.target = target.dataset.id;
             const targetType = elements.find(
                 (element) => element.id === params.target
             ).data.type;
@@ -187,8 +189,9 @@ const OATGraphViewer = ({ setElementHandler }: OATGraphProps) => {
             } else if (currentHandleId.current !== ComponentHandleName) {
                 setElements((els) => addEdge(params, els));
             }
-        } catch (error) {
-            const nodeIndex = elements.findIndex(
+            setElements((els) => addEdge(params, els));
+		} else {
+            const node = elements.find(
                 (element) => element.id === currentNodeId.current
             );
             if (currentHandleId.current === RelationshipHandleName) {
@@ -198,20 +201,20 @@ const OATGraphViewer = ({ setElementHandler }: OATGraphProps) => {
                     name: '',
                     displayName: ''
                 };
-                elements[nodeIndex].data['content'] = [
-                    ...elements[nodeIndex].data['content'],
+                node.data['content'] = [
+                    ...node.data['content'],
                     untargetedRelationship
                 ];
                 setElements([...elements]);
             } else if (currentHandleId.current === ComponentHandleName) {
-                const name = `${elements[nodeIndex].data.name}:${ComponentHandleName}`;
-                const id = `${elements[nodeIndex].id}:${ComponentHandleName}`;
+                const name = `${node.data.name}:${ComponentHandleName}`;
+                const id = `${node.id}:${ComponentHandleName}`;
                 const newNode = {
                     id: id,
                     type: 'Interface',
                     position: {
-                        x: elements[nodeIndex].position.x - 120,
-                        y: elements[nodeIndex].position.y + 120
+                        x: node.position.x - 120,
+                        y: node.position.y + 120
                     },
                     data: {
                         name: name,
@@ -224,7 +227,6 @@ const OATGraphViewer = ({ setElementHandler }: OATGraphProps) => {
                 setElements((es) => es.concat(newNode));
                 setElements((es) => addEdge(params, es));
             }
-        }
     };
 
     const storeElements = () => {
@@ -254,50 +256,50 @@ const OATGraphViewer = ({ setElementHandler }: OATGraphProps) => {
 
     const translateOutput = () => {
         const outputObject = elements;
-        const nodes = [];
-        outputObject.map((item) => {
-            if (item.position) {
+        const nodes = outputObject.reduce((currentNodes, currentNode) => {
+            if (currentNode.position) {
                 const node = {
-                    '@id': item.id,
+                    '@id': currentNode.id,
                     '@type': 'Interface',
-                    displayName: item.data.name,
-                    contents: [...item.data.content]
+                    displayName: currentNode.data.name,
+                    contents: [...currentNode.data.content]
                 };
-                nodes.push(node);
-            } else if (item.source) {
-                const sourceNodeIndex = nodes.findIndex(
-                    (element) => element['@id'] === item.source
+                currentNodes.push(node);
+            } else if (currentNode.source) {
+                const sourceNode = nodes.find(
+                    (element) => element['@id'] === currentNode.source
                 );
-                const targetNodeIndex = nodes.findIndex(
-                    (element) => element['@id'] === item.target
+                const targetNode = nodes.find(
+                    (element) => element['@id'] === currentNode.target
                 );
-                if (item.sourceHandle === RelationshipHandleName) {
+                if (currentNode.sourceHandle === RelationshipHandleName) {
                     const relationship = {
-                        '@type': item.data.type,
-                        '@id': item.data.id,
-                        name: item.data.name,
-                        displayName: item.data.displayName,
-                        target: item.target
+                        '@type': currentNode.data.type,
+                        '@id': currentNode.data.id,
+                        name: currentNode.data.name,
+                        displayName: currentNode.data.displayName,
+                        target: currentNode.target
                     };
-                    nodes[sourceNodeIndex].contents = [
-                        ...nodes[sourceNodeIndex].contents,
+                    sourceNode.contents = [
+                        ...sourceNode.contents,
                         relationship
                     ];
-                } else if (item.sourceHandle === ComponentHandleName) {
+                } else if (currentNode.sourceHandle === ComponentHandleName) {
                     const component = {
-                        '@type': item.data.type,
-                        name: nodes[targetNodeIndex].displayName,
-                        schema: item.target
+                        '@type': currentNode.data.type,
+                        name: targetNode.displayName,
+                        schema: currentNode.target
                     };
-                    nodes[sourceNodeIndex].contents = [
-                        ...nodes[sourceNodeIndex].contents,
+                    sourceNode.contents = [
+                        ...sourceNode.contents,
                         component
                     ];
-                } else if (item.sourceHandle === ExtendHandleName) {
-                    nodes[sourceNodeIndex].extends = item.target;
+                } else if (currentNode.sourceHandle === ExtendHandleName) {
+                    sourceNode.extends = currentNode.target;
                 }
             }
-        });
+            return currentNodes;
+        }, []);
         localStorage.setItem(
             TwinsLocalStorageKey,
             JSON.stringify({ digitalTwinsModels: nodes })
