@@ -33,7 +33,7 @@ const OATGraphViewer = ({ onElementsUpdate }: OATGraphProps) => {
     const [elements, setElements] = useState(
         storedElements === null ? [] : storedElements
     );
-    const idClass = 'dtmi:com:example:';
+    const idClassBase = 'dtmi:com:example:';
     const [newModelId, setNewModelId] = useState(0);
     const graphViewerStyles = getGraphViewerStyles();
     const currentNodeId = useRef('');
@@ -43,7 +43,7 @@ const OATGraphViewer = ({ onElementsUpdate }: OATGraphProps) => {
         let index = 0;
         while (index !== -1) {
             index = elements.findIndex(
-                (element) => element.id === `${idClass}model${nextModelId}`
+                (element) => element.id === `${idClassBase}model${nextModelId}`
             );
             if (index === -1) {
                 setNewModelId(nextModelId);
@@ -70,7 +70,7 @@ const OATGraphViewer = ({ onElementsUpdate }: OATGraphProps) => {
 
     const onNewModelClick = () => {
         const name = `Model${newModelId}`;
-        const id = `${idClass}model${newModelId}`;
+        const id = `${idClassBase}model${newModelId}`;
         const newNode = {
             id: id,
             type: 'Interface',
@@ -111,7 +111,7 @@ const OATGraphViewer = ({ onElementsUpdate }: OATGraphProps) => {
         const target = (evt.path || []).find(
             (element) => element.dataset && element.dataset.id
         );
-        if (target != null) {
+        if (target) {
             params.target = target.dataset.id;
             setElements((els) => addEdge(params, els));
         } else {
