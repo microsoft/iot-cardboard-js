@@ -107,7 +107,7 @@ const OATGraphViewer = () => {
         const target = (evt.path || []).find(
             (element) => element.dataset && element.dataset.id
         );
-        if (target != null) {
+        if (target) {
             params.target = target.dataset.id;
             setElements((els) => addEdge(params, els));
         } else {
