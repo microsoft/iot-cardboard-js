@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import OATPropertyEditor from './OATPropertyEditor';
-import { DTDLModel } from '../../Models/Classes/DTDL';
 
 export default {
     title: 'Components/OATPropertyEditor',
