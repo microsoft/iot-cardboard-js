@@ -300,6 +300,8 @@ abstract class ViewerConfigUtility {
         config: I3DScenesConfig,
         sceneId: string
     ): Array<ILayer> {
+        if (!config) return [];
+
         // Get behaviors in scene
         const [
             behaviorsInScene
@@ -318,6 +320,22 @@ abstract class ViewerConfigUtility {
         );
 
         return layersInScene;
+    }
+
+    static getBehaviorIdsInSelectedLayers(
+        config: I3DScenesConfig,
+        selectedLayerIds: string[]
+    ) {
+        const uniqueBehaviorIdDict = {};
+        config.configuration.layers.forEach((layer) => {
+            if (selectedLayerIds.includes(layer.id)) {
+                layer.behaviorIDs.forEach((behaviorId) => {
+                    uniqueBehaviorIdDict[behaviorId] = '';
+                });
+            }
+        });
+
+        return Object.keys(uniqueBehaviorIdDict);
     }
 
     static isElementTwinToObjectMappingDataSource(

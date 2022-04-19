@@ -105,7 +105,13 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
         sceneAlerts,
         isLoading,
         triggerRuntimeRefetch
-    } = useRuntimeSceneData(adapter, sceneId, scenesConfig, pollingInterval);
+    } = useRuntimeSceneData(
+        adapter,
+        sceneId,
+        scenesConfig,
+        pollingInterval,
+        selectedLayerIds
+    );
 
     useEffect(() => {
         refetchConfig && refetchConfig();
