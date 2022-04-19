@@ -439,7 +439,7 @@ function SceneView(props: ISceneViewProp, ref) {
                 const width = es_scaled.x;
                 const height = es_scaled.y;
                 const depth = es_scaled.z;
-                const radius = Math.max(width, height, depth);
+                let radius = Math.max(width, height, depth);
 
                 const center = someMeshFromTheArrayOfMeshes.getBoundingInfo()
                     .boundingBox.centerWorld;
@@ -473,6 +473,10 @@ function SceneView(props: ISceneViewProp, ref) {
                         }
                     });
                 } else {
+                    // ensure if zoom to mesh ids are set we return to the original radius
+                    if (!zoomToMeshIds?.length) {
+                        radius = initialCameraRadiusRef.current;
+                    }
                     zoomedCameraRadiusRef.current = radius;
                     // Here if the caller changed zoomToMeshIds - zoom the existing camera
                     zoomCamera(radius, meshes, 30);
@@ -984,7 +988,7 @@ function SceneView(props: ISceneViewProp, ref) {
                     pointerActive.current = true;
                     // update panningSensibility based on current zoom level
                     cameraRef.current.panningSensibility =
-                        (5 /
+                        (8 /
                             (cameraRef.current.radius *
                                 Math.tan(cameraRef.current.fov / 2) *
                                 2)) *
