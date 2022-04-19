@@ -12,7 +12,7 @@ const OATEditorPage = ({ theme }) => {
         '@type': 'Interface',
         '@context': 'dtmi:adt:context;2',
         displayName: 'model1',
-        description: '',
+        description: 'default description',
         comment: '',
         relationships: null,
         components: null,
