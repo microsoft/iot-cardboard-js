@@ -196,6 +196,7 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
                 } else {
                     selectedMesh.current = mesh;
                     sceneRef.current = scene;
+                    setZoomToMeshIds(sceneVisual?.element?.objectIDs);
                     showPopover(sceneVisual, popOver);
                 }
             } else {
