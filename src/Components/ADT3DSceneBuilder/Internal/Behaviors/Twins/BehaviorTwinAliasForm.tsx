@@ -3,6 +3,7 @@ import {
     Label,
     mergeStyleSets,
     PrimaryButton,
+    Text,
     TextField,
     useTheme
 } from '@fluentui/react';
@@ -10,8 +11,8 @@ import produce from 'immer';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
-    defaultTwinAlias,
-    ITwinAliasItem
+    defaultBehaviorTwinAlias,
+    IBehaviorTwinAliasItem
 } from '../../../../../Models/Classes/3DVConfig';
 import ViewerConfigUtility from '../../../../../Models/Classes/ViewerConfigUtility';
 import { TwinAliasFormMode } from '../../../../../Models/Constants';
@@ -19,27 +20,26 @@ import { deepCopy } from '../../../../../Models/Services/Utils';
 import { ITwinToObjectMapping } from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import TwinSearchDropdown from '../../../../TwinSearchDropdown/TwinSearchDropdown';
 import { SceneBuilderContext } from '../../../ADT3DSceneBuilder';
+import { getLeftPanelStyles } from '../../Shared/LeftPanel.styles';
 import PanelFooter from '../../Shared/PanelFooter';
 import { getPanelFormStyles } from '../../Shared/PanelForms.styles';
-import { BehaviorFormContext } from '../BehaviorsForm';
 
-// Note, this widget form does not currently support panels
-const TwinAliasForm: React.FC<{
+const BehaviorTwinAliasForm: React.FC<{
     selectedElements: Array<ITwinToObjectMapping>;
     setSelectedElements: (elements: Array<ITwinToObjectMapping>) => any;
 }> = ({ selectedElements, setSelectedElements }) => {
     const { t } = useTranslation();
-    const theme = useTheme();
-    const commonFormStyles = getPanelFormStyles(theme, 0);
-    const { setBehaviorToEdit } = useContext(BehaviorFormContext);
-    const { adapter, twinAliasFormInfo, setTwinAliasFormInfo } = useContext(
-        SceneBuilderContext
-    );
+    const {
+        adapter,
+        behaviorTwinAliasFormInfo,
+        setBehaviorTwinAliasFormInfo,
+        setBehaviorToEdit
+    } = useContext(SceneBuilderContext);
 
-    const [formData, setFormData] = useState<ITwinAliasItem>(
-        twinAliasFormInfo.mode === TwinAliasFormMode.CreateTwinAlias
-            ? defaultTwinAlias
-            : twinAliasFormInfo.twinAlias
+    const [formData, setFormData] = useState<IBehaviorTwinAliasItem>(
+        behaviorTwinAliasFormInfo.mode === TwinAliasFormMode.CreateTwinAlias
+            ? defaultBehaviorTwinAlias
+            : behaviorTwinAliasFormInfo.twinAlias
     );
     const [isFormValid, setIsFormValid] = useState(false);
 
@@ -68,15 +68,19 @@ const TwinAliasForm: React.FC<{
     );
 
     const onSaveTwinAliasForm = useCallback(() => {
-        if (twinAliasFormInfo.mode === TwinAliasFormMode.EditTwinAlias) {
+        if (
+            behaviorTwinAliasFormInfo.mode === TwinAliasFormMode.EditTwinAlias
+        ) {
             setBehaviorToEdit(
                 produce((draft) => {
-                    draft.twinAliases[twinAliasFormInfo.twinAliasIdx] =
+                    draft.twinAliases[behaviorTwinAliasFormInfo.twinAliasIdx] =
                         formData.alias;
                 })
             );
         }
-        if (twinAliasFormInfo.mode === TwinAliasFormMode.CreateTwinAlias) {
+        if (
+            behaviorTwinAliasFormInfo.mode === TwinAliasFormMode.CreateTwinAlias
+        ) {
             setBehaviorToEdit(
                 produce((draft) => {
                     if (!draft.twinAliases) {
@@ -101,18 +105,22 @@ const TwinAliasForm: React.FC<{
             );
         });
         setSelectedElements(newSelectedElements);
-        setTwinAliasFormInfo(null);
+        setBehaviorTwinAliasFormInfo(null);
         setFormData(null);
-    }, [twinAliasFormInfo, formData, selectedElements]);
+    }, [behaviorTwinAliasFormInfo, formData, selectedElements]);
 
     useEffect(() => {
         const isValid =
             formData.alias &&
-            formData.elementToTwinMappings.length === selectedElements.length &&
+            formData.elementToTwinMappings?.length ===
+                selectedElements?.length &&
             !formData.elementToTwinMappings.some((mapping) => !mapping.twinId);
         setIsFormValid(isValid);
     }, [formData, selectedElements]);
 
+    const theme = useTheme();
+    const commonFormStyles = getPanelFormStyles(theme, 0);
+    const commonPanelStyles = getLeftPanelStyles(theme);
     return (
         <>
             <div className={commonFormStyles.content}>
@@ -128,7 +136,7 @@ const TwinAliasForm: React.FC<{
                         )
                     }
                     disabled={
-                        twinAliasFormInfo.mode ===
+                        behaviorTwinAliasFormInfo.mode ===
                         TwinAliasFormMode.EditTwinAlias
                     }
                     description={t(
@@ -142,25 +150,34 @@ const TwinAliasForm: React.FC<{
                         )}
                     </Label>
                     <div className={styles.elementTwinMappingsWrapper}>
-                        {selectedElements?.map((element, idx) => (
-                            <TwinSearchDropdown
-                                key={`aliased-twin-${idx}`}
-                                styles={{ paddingBottom: 16 }}
-                                adapter={adapter}
-                                label={element.displayName}
-                                labelIconName="Shapes"
-                                selectedTwinId={
-                                    element.twinAliases?.[formData.alias]
-                                }
-                                onTwinIdSelect={(selectedTwinId: string) => {
-                                    handleTwinSelect(
-                                        element.id,
-                                        selectedTwinId
-                                    );
-                                }}
-                                isDescriptionHidden={true}
-                            />
-                        ))}
+                        {!selectedElements || selectedElements.length === 0 ? (
+                            <Text className={commonPanelStyles.text}>
+                                {t(
+                                    '3dSceneBuilder.twinAlias.twinAliasForm.elementTwinMappingsNotExist'
+                                )}
+                            </Text>
+                        ) : (
+                            selectedElements?.map((element, idx) => (
+                                <TwinSearchDropdown
+                                    key={`aliased-twin-${idx}`}
+                                    styles={{ paddingBottom: 16 }}
+                                    adapter={adapter}
+                                    label={element.displayName}
+                                    labelIconName="Shapes"
+                                    selectedTwinId={
+                                        element.twinAliases?.[formData.alias]
+                                    }
+                                    onTwinIdSelect={(
+                                        selectedTwinId: string
+                                    ) => {
+                                        handleTwinSelect(
+                                            element.id,
+                                            selectedTwinId
+                                        );
+                                    }}
+                                />
+                            ))
+                        )}
                     </div>
                 </div>
             </div>
@@ -169,7 +186,7 @@ const TwinAliasForm: React.FC<{
                     data-testid={'twin-alias-form-primary-button'}
                     onClick={onSaveTwinAliasForm}
                     text={
-                        twinAliasFormInfo.mode ===
+                        behaviorTwinAliasFormInfo.mode ===
                         TwinAliasFormMode.CreateTwinAlias
                             ? t('3dSceneBuilder.twinAlias.create')
                             : t('3dSceneBuilder.twinAlias.update')
@@ -180,7 +197,7 @@ const TwinAliasForm: React.FC<{
                     data-testid={'twin-alias-form-secondary-button'}
                     text={t('cancel')}
                     onClick={() => {
-                        setTwinAliasFormInfo(null);
+                        setBehaviorTwinAliasFormInfo(null);
                         setFormData(null);
                     }}
                 />
@@ -203,4 +220,4 @@ const styles = mergeStyleSets({
     }
 });
 
-export default TwinAliasForm;
+export default BehaviorTwinAliasForm;

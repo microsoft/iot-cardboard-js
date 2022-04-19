@@ -309,7 +309,7 @@ function getDefaultBoardInfo(
             type: CardTypes.InfoTable,
             size: { rows: 1, columns: 3 },
             cardProperties: {
-                headers: [t('board.twinID'), t('board.model')],
+                headers: [t('twinId'), t('board.model')],
                 twinId: dtTwin['$dtId']
             },
             entities: [

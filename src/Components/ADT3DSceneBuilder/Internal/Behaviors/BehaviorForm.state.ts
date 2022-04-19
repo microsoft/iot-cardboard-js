@@ -10,8 +10,7 @@ import {
 enableMapSet();
 
 export const defaultBehaviorFormState: IBehaviorFormState = {
-    validityMap: new Map<TabNames, IValidityState>(),
-    isPopoverPreviewVisible: true
+    validityMap: new Map<TabNames, IValidityState>()
 };
 
 export const BehaviorFormReducer = produce(
@@ -21,9 +20,6 @@ export const BehaviorFormReducer = produce(
                 const { tabName, state } = action.payload;
                 draft.validityMap.set(tabName, state);
                 break;
-            }
-            case BehaviorFormActionType.SET_IS_POPOVER_PREVIEW_VISIBLE: {
-                draft.isPopoverPreviewVisible = action.payload;
             }
         }
     },

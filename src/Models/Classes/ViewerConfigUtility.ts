@@ -17,7 +17,8 @@ import {
 import {
     DatasourceType,
     ElementType,
-    ITwinAliasItem,
+    IBehaviorTwinAliasItem,
+    IElementTwinAliasItem,
     VisualType
 } from './3DVConfig';
 
@@ -279,6 +280,19 @@ abstract class ViewerConfigUtility {
             });
 
         return elementIdMap;
+    }
+
+    static getElementsInScene(
+        config: I3DScenesConfig,
+        sceneId: string
+    ): Array<ITwinToObjectMapping> {
+        const scene = config.configuration.scenes?.find(
+            (s) => s.id === sceneId
+        );
+
+        return scene?.elements?.filter(
+            ViewerConfigUtility.isTwinToObjectMappingElement
+        );
     }
 
     static isElementTwinToObjectMappingDataSource(
@@ -645,8 +659,8 @@ abstract class ViewerConfigUtility {
     static getTwinAliasItemsFromBehaviorAndElements = (
         behavior: IBehavior,
         selectedElementsForBehavior: Array<ITwinToObjectMapping>
-    ): Array<ITwinAliasItem> => {
-        const twinAliases: Array<ITwinAliasItem> = [];
+    ): Array<IBehaviorTwinAliasItem> => {
+        const twinAliases: Array<IBehaviorTwinAliasItem> = [];
         behavior.twinAliases?.map((behaviorTwinAlias) => {
             twinAliases.push({
                 alias: behaviorTwinAlias,
@@ -669,6 +683,20 @@ abstract class ViewerConfigUtility {
         return twinAliases;
     };
 
+    static getTwinAliasItemsFromElement = (
+        element: ITwinToObjectMapping
+    ): Array<IElementTwinAliasItem> => {
+        const twinAliases: Array<IElementTwinAliasItem> = [];
+        if (element.twinAliases) {
+            Object.keys(element.twinAliases).forEach((alias) => {
+                const aliasedTwinId = element.twinAliases[alias];
+                twinAliases.push({ alias: alias, twinId: aliasedTwinId });
+            });
+        }
+
+        return twinAliases;
+    };
+
     /**
      * Gets config, sceneId and selected elements in a behavior
      * Returns twin alias items available for a behavior to add which is
@@ -679,12 +707,12 @@ abstract class ViewerConfigUtility {
      * @param selectedElements list of elements existing/selected in a behavior from scene
      * @returns list of twin alias items available to add to a behavior
      */
-    static getAvailableTwinAliasItemsBySceneAndElements = (
+    static getAvailableBehaviorTwinAliasItemsBySceneAndElements = (
         config,
         sceneId,
         selectedElements
-    ): Array<ITwinAliasItem> => {
-        const twinAliases: Array<ITwinAliasItem> = [];
+    ): Array<IBehaviorTwinAliasItem> => {
+        const twinAliases: Array<IBehaviorTwinAliasItem> = [];
         const [
             behaviorsInScene
         ] = ViewerConfigUtility.getBehaviorsSegmentedByPresenceInScene(
@@ -692,7 +720,7 @@ abstract class ViewerConfigUtility {
             sceneId
         );
         // get twin aliases defined in all behaviors in the current scene
-        behaviorsInScene.forEach((behaviorInScene) => {
+        behaviorsInScene?.forEach((behaviorInScene) => {
             const twinAliasesFromBehavior = ViewerConfigUtility.getTwinAliasItemsFromBehaviorAndElements(
                 behaviorInScene,
                 selectedElements
@@ -710,7 +738,7 @@ abstract class ViewerConfigUtility {
         });
 
         // merge it with the twin aliases defined in all the elements added to the current behavior
-        selectedElements.forEach((element) => {
+        selectedElements?.forEach((element) => {
             if (element.twinAliases) {
                 Object.keys(element.twinAliases).forEach(
                     (twinAliasInElement) => {

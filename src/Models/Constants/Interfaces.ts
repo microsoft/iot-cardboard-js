@@ -55,7 +55,8 @@ import { ErrorObject } from 'ajv';
 import BlobsData from '../Classes/AdapterDataClasses/BlobsData';
 import {
     I3DScenesConfig,
-    IBehavior
+    IBehavior,
+    ITwinToObjectMapping
 } from '../Types/Generated/3DScenesConfiguration-v1.0.0';
 
 export interface IAction {
@@ -265,11 +266,6 @@ export interface IADTTwin {
         $model: string;
         [propertyName: string]: any;
     };
-    cb_viewdata?: {
-        boardInfo?: string;
-        bimFilePath?: string;
-        bimMetadataFilePath?: string;
-    };
     [propertyName: string]: any;
 }
 
@@ -360,6 +356,15 @@ export interface ITsiClientChartDataAdapter {
     ): AdapterReturnType<TsiClientAdapterData>;
 }
 
+export type IPropertyInspectorAdapter = Pick<
+    IADTAdapter,
+    | 'getADTTwin'
+    | 'getADTRelationship'
+    | 'getExpandedAdtModel'
+    | 'updateTwin'
+    | 'updateRelationship'
+>;
+
 export interface IADT3DViewerAdapter {
     getSceneData(
         sceneId: string,
@@ -415,34 +420,34 @@ export interface IADTAdapter extends IKeyValuePairAdapter, IADT3DViewerAdapter {
         uniqueObjectId?: string
     ) => AdapterReturnType<ADTInstancesData>;
     getTwinsForBehavior(
-        sceneId: string,
-        config: I3DScenesConfig,
-        behavior: IBehavior
+        behavior: IBehavior,
+        elementsInBehavior: Array<ITwinToObjectMapping>,
+        isTwinAliasesIncluded: boolean
     ): Promise<Record<string, any>>;
     /**
-     * Gets the list of all the twin properties that are exposed for all twins linked to a behavior.
-     * The names of the properties come in the format PropertyName
-     * @param sceneId Identifier for the scene
-     * @param config configuration data for the scene
+     * Gets the list of all the twin properties that are exposed for all twins related to a behavior (linked twins and aliased twins).
+     * Returns the list of properties come in the format 'PropertyName'
      * @param behavior behavior to look for the twins
+     * @param elementsInBehavior elements exist in dataSource of the behavior (these elements can be either the ones in config file or selected elements if behavior is in edit mode)
+     * @param isTwinAliasesIncluded to decide if aliased twin properties should be included in returned list (through twin alises in behavior and its elements)
      */
     getTwinPropertiesWithAliasesForBehavior(
-        sceneId: string,
-        config: I3DScenesConfig,
         behavior: IBehavior,
-        isTwinAliasesIncluded?: boolean
+        elementsInBehavior: Array<ITwinToObjectMapping>,
+        isTwinAliasesIncluded: boolean
     ): Promise<IAliasedTwinProperty[]>;
     /**
-     * Gets the list of all the twin properties that are exposed for all twins linked to a behavior.
-     * The names of the properties come in the format LinkedTwin.Alias.PropertyName
-     * @param sceneId Identifier for the scene
-     * @param config configuration data for the scene
+     * Gets the list of all the twin properties that are exposed for all twins related to a behavior (linked twins and aliased twins).
+     * Returns the list of full names of the properties come in the format 'LinkedTwin.PropertyName' if it is a linked twin property or
+     * 'TemperatureTag.Temperature' if it is an aliased twin property
      * @param behavior behavior to look for the twins
+     * @param elementsInBehavior elements exist in dataSource of the behavior (these elements can be either the ones in config file or selected elements if behavior is in edit mode)
+     * @param isTwinAliasesIncluded to decide if aliased twin properties should be included in returned list (through twin alises in behavior and its elements)
      */
     getTwinPropertiesForBehaviorWithFullName(
-        sceneId: string,
-        config: I3DScenesConfig,
-        behavior: IBehavior
+        behavior: IBehavior,
+        elementsInBehavior: Array<ITwinToObjectMapping>,
+        isTwinAliasesIncluded: boolean
     ): Promise<string[]>;
 }
 
@@ -671,7 +676,9 @@ export interface ISceneViewWrapperProps {
 }
 
 export interface IADT3DViewerProps {
-    adapter: IADT3DViewerAdapter;
+    adapter:
+        | IADT3DViewerAdapter
+        | (IADT3DViewerAdapter & IPropertyInspectorAdapter);
     sceneId: string;
     scenesConfig: I3DScenesConfig;
     pollingInterval: number;
