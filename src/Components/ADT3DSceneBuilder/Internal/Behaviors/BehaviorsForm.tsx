@@ -172,6 +172,13 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                 }
             })
         );
+
+        onTabValidityChange('Twins', {
+            isValid: ViewerConfigUtility.areTwinAliasesValidInBehavior(
+                behaviorToEdit,
+                selectedElements
+            )
+        });
     }, [selectedElements]);
 
     const onTabValidityChange = useCallback(
@@ -247,9 +254,16 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
     // report out initial state
     useEffect(() => {
         onTabValidityChange('Root', { isValid: !!behaviorToEdit.displayName });
-        const existing = getElementsFromBehavior(behaviorToEdit)?.elementIDs;
+        const existingElementIds = getElementsFromBehavior(behaviorToEdit)
+            ?.elementIDs;
         onTabValidityChange('Elements', {
-            isValid: existing?.length > 0
+            isValid: existingElementIds?.length > 0
+        });
+        onTabValidityChange('Twins', {
+            isValid: ViewerConfigUtility.areTwinAliasesValidInBehavior(
+                behaviorToEdit,
+                selectedElements
+            )
         });
     }, []);
     const isFormValid = checkValidityMap(state.validityMap);
@@ -257,9 +271,11 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
     // console.log(
     //     `***Rendering, isValid: ${isFormValid}, Elements: ${
     //         state.validityMap?.get('Elements')?.isValid
-    //     }, Status: ${state.validityMap?.get('Status')?.isValid}, Alerts: ${
-    //         state.validityMap?.get('Alerts')?.isValid
-    //     }, Widgets: ${state.validityMap?.get('Widgets')?.isValid}`
+    //     }, Twins: ${state.validityMap?.get('Twins')?.isValid}, Status: ${
+    //         state.validityMap?.get('Status')?.isValid
+    //     }, Alerts: ${state.validityMap?.get('Alerts')?.isValid}, Widgets: ${
+    //         state.validityMap?.get('Widgets')?.isValid
+    //     }`
     // );
     const theme = useTheme();
     const commonPanelStyles = getLeftPanelStyles(theme);
@@ -346,6 +362,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                                 }
                             >
                                 <TwinsTab
+                                    onValidityChange={onTabValidityChange}
                                     behaviors={behaviors}
                                     selectedElements={selectedElements}
                                 />

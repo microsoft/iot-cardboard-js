@@ -38,13 +38,16 @@ import ViewerConfigUtility from '../../../../../Models/Classes/ViewerConfigUtili
 import produce from 'immer';
 import LinkedTwinPropertiesCallout from '../Twins/LinkedTwinPropertiesCallout';
 import useBehaviorAliasedTwinProperties from '../../../../../Models/Hooks/useBehaviorAliasedTwinProperties';
+import { IValidityState, TabNames } from '../BehaviorForm.types';
 
 interface ITwinsTabProps {
     selectedElements: Array<ITwinToObjectMapping>;
     behaviors: Array<IBehavior>;
+    onValidityChange: (tabName: TabNames, state: IValidityState) => void;
 }
 
 const TwinsTab: React.FC<ITwinsTabProps> = ({
+    onValidityChange,
     selectedElements,
     behaviors
 }) => {
@@ -99,6 +102,7 @@ const TwinsTab: React.FC<ITwinsTabProps> = ({
             behaviorToEdit,
             selectedElements
         );
+
         setTwinAliasList(
             getTwinAliasListItems(
                 twinAliases,
@@ -107,6 +111,15 @@ const TwinsTab: React.FC<ITwinsTabProps> = ({
                 t
             )
         );
+
+        // if any of the twin ids in the element to twin mappings in a behavior twin alias item is null,
+        // set Twins Tab in the behavior as not valid to show red alert icon since user needs to set all the element twin ids for an alias
+        onValidityChange('Twins', {
+            isValid: ViewerConfigUtility.areTwinAliasesValidInBehavior(
+                behaviorToEdit,
+                selectedElements
+            )
+        });
     }, [behaviorToEdit, selectedElements]);
 
     // when any of the dependency changes, update the list of available twin aliases to sho in the add twin alias callout for behavior
@@ -311,6 +324,9 @@ function getTwinAliasListItems(
             ariaLabel: twinAlias.alias,
             iconStart: { name: 'LinkedDatabase' },
             item: twinAlias,
+            isValid: !twinAlias.elementToTwinMappings.some(
+                (mapping) => !mapping.twinId
+            ),
             onClick: () => onTwinAliasClick(twinAlias, idx),
             textPrimary: twinAlias.alias,
             overflowMenuItems: getMenuItems(twinAlias, idx)
