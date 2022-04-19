@@ -5,7 +5,7 @@ import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
 
 type IPropertiesModelSummary = {
     model?: any;
-    setModel?: any;
+    setModel?: React.Dispatch<React.SetStateAction<any>>;
 };
 
 export const PropertiesModelSummary = ({

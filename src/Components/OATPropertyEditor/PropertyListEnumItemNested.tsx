@@ -4,11 +4,11 @@ import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
 import { useTranslation } from 'react-i18next';
 
 type IEnumItem = {
-    item?: any;
     index?: number;
-    parentIndex?: number;
-    setModel?: any;
+    item?: any;
     model?: any;
+    parentIndex?: number;
+    setModel?: React.Dispatch<React.SetStateAction<any>>;
 };
 
 export const PropertyListEnumItemNested = ({

@@ -3,18 +3,19 @@ import { Modal as FluentModal } from '@fluentui/react';
 import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
 import FormUpdateProperty from './FormUpdateProperty';
 import FormAddEnumItem from './FormAddEnumItem';
-import FormAddMapKeyValue from './FormAddMapKeyValue';
 
 interface IModal {
-    modalOpen?: boolean;
-    setModalOpen?: any;
-    model?: any;
-    setModel?: any;
+    currentNestedPropertyIndex?: number;
     currentPropertyIndex?: number;
-    currentNestedPropertyIndex?: any;
-    setCurrentNestedPropertyIndex?: any;
-    setModalBody?: any;
-    modalBody?: any;
+    modalBody?: string;
+    modalOpen?: boolean;
+    model?: any;
+    setCurrentNestedPropertyIndex?: React.Dispatch<
+        React.SetStateAction<number>
+    >;
+    setModalBody?: React.Dispatch<React.SetStateAction<string>>;
+    setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
+    setModel?: React.Dispatch<React.SetStateAction<any>>;
 }
 
 export const Modal = ({
@@ -50,20 +51,6 @@ export const Modal = ({
             case 'formEnum':
                 return (
                     <FormAddEnumItem
-                        setModalOpen={setModalOpen}
-                        model={model}
-                        setModel={setModel}
-                        currentPropertyIndex={currentPropertyIndex}
-                        currentNestedPropertyIndex={currentNestedPropertyIndex}
-                        setCurrentNestedPropertyIndex={
-                            setCurrentNestedPropertyIndex
-                        }
-                        setModalBody={setModalBody}
-                    />
-                );
-            case 'formMap':
-                return (
-                    <FormAddMapKeyValue
                         setModalOpen={setModalOpen}
                         model={model}
                         setModel={setModel}

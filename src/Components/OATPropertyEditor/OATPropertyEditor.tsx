@@ -6,13 +6,10 @@ import Editor from './Editor';
 
 type IOATPropertyEditor = {
     model?: any;
-    setModel?: any;
-    setModalOpen?: any;
-    currentPropertyIndex?: number;
-    setCurrentPropertyIndex?: any;
     theme?: Theme;
     templates?: any;
-    setTemplates?: any;
+    setModel?: React.Dispatch<React.SetStateAction<any>>;
+    setTemplates?: React.Dispatch<React.SetStateAction<any>>;
 };
 
 const OATPropertyEditor = ({

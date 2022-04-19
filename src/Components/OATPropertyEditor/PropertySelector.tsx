@@ -21,10 +21,10 @@ const data = {
     }
 };
 interface IProperySelectorProps {
-    setPropertySelectorVisible?: (visible: boolean) => boolean;
-    model?: any;
-    setModel: (value: Record<string, unknown>) => Record<string, unknown>;
     lastPropertyFocused: any;
+    model?: any;
+    setModel?: React.Dispatch<React.SetStateAction<any>>;
+    setPropertySelectorVisible: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const PropertySelector = ({

@@ -9,29 +9,29 @@ import {
 import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
 
 type IPropertyListItemNested = {
+    getItemClassName?: (index: number) => any;
+    getErrorMessage?: (value: string) => string;
+    handleDragEnter?: (event: any, item: any) => any;
+    handleDragEnterExternalItem?: (index: number) => any;
+    handleDragStart?: (event: any, item: any) => any;
     index?: number;
-    parentIndex?: number;
-    getItemClassName?: any;
-    getErrorMessage?: any;
-    handleDragEnter?: any;
-    handleDragEnterExternalItem?: any;
-    handleDragStart?: any;
-    setCurrentPropertyIndex?: any;
-    setModalOpen?: any;
     item?: any;
-    setLastPropertyFocused?: any;
-    setCurrentNestedPropertyIndex: any;
+    parentIndex?: number;
+    setCurrentNestedPropertyIndex: React.Dispatch<React.SetStateAction<number>>;
+    setCurrentPropertyIndex?: React.Dispatch<React.SetStateAction<number>>;
+    setLastPropertyFocused?: React.Dispatch<React.SetStateAction<any>>;
+    setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export const PropertyListItemNested = ({
-    index,
-    parentIndex,
-    getItemClassName,
     getErrorMessage,
-    setCurrentPropertyIndex,
-    setModalOpen,
+    getItemClassName,
+    index,
     item,
-    setCurrentNestedPropertyIndex
+    parentIndex,
+    setCurrentNestedPropertyIndex,
+    setCurrentPropertyIndex,
+    setModalOpen
 }: IPropertyListItemNested) => {
     const propertyInspectorStyles = getPropertyInspectorStyles();
 

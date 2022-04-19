@@ -9,18 +9,18 @@ import {
 import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
 
 type IPropertyListItem = {
-    index?: any;
+    index?: number;
     draggingProperty?: boolean;
-    getItemClassName?: any;
-    getErrorMessage?: any;
-    handleDragEnter?: any;
-    handleDragEnterExternalItem?: any;
-    handleDragStart?: any;
-    setCurrentPropertyIndex?: any;
-    setModalOpen?: any;
+    getItemClassName?: (index: number) => any;
+    getErrorMessage?: (value: string) => string;
+    handleDragEnter?: (event: any, item: any) => any;
+    handleDragEnterExternalItem?: (index: number) => any;
+    handleDragStart?: (event: any, item: any) => any;
     item?: any;
-    setLastPropertyFocused?: any;
-    setModalBody?: any;
+    setCurrentPropertyIndex?: React.Dispatch<React.SetStateAction<number>>;
+    setLastPropertyFocused?: React.Dispatch<React.SetStateAction<any>>;
+    setModalBody?: React.Dispatch<React.SetStateAction<string>>;
+    setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export const PropertyListItem = ({

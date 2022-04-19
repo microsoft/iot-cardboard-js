@@ -12,13 +12,15 @@ import { useTranslation } from 'react-i18next';
 import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
 
 interface IModal {
-    setModalOpen?: any;
     model?: any;
-    setModel?: any;
     currentPropertyIndex?: number;
-    currentNestedPropertyIndex?: any;
-    setCurrentNestedPropertyIndex?: any;
-    setModalBody?: any;
+    currentNestedPropertyIndex?: number;
+    setCurrentNestedPropertyIndex?: React.Dispatch<
+        React.SetStateAction<number>
+    >;
+    setModalBody?: React.Dispatch<React.SetStateAction<string>>;
+    setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
+    setModel?: React.Dispatch<React.SetStateAction<any>>;
 }
 
 export const FormAddEnumItem = ({
@@ -38,7 +40,7 @@ export const FormAddEnumItem = ({
     const [description, setDescription] = useState(null);
     const [error, setError] = useState(null);
 
-    const handelAddEnumValue = () => {
+    const handleAddEnumValue = () => {
         const activeItem =
             model.contents[currentPropertyIndex].schema.enumValues;
         const prop = {
@@ -165,8 +167,8 @@ export const FormAddEnumItem = ({
             <PrimaryButton
                 text={t('OATPropertyEditor.update')}
                 allowDisabledFocus
-                onClick={handelAddEnumValue}
-                disabled={error || !!enumValue === false || !!name === false}
+                onClick={handleAddEnumValue}
+                disabled={error || !enumValue || !name}
             />
         </>
     );

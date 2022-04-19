@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react';
+import { Theme } from '../../Models/Constants/Enums';
 import {
     FontIcon,
     Stack,
@@ -16,16 +17,18 @@ import TemplateColumn from './TemplateColumn';
 import PropertiesModelSummary from './PropertiesModelSummary';
 
 interface IEditor {
-    model?: any;
-    setModel?: any;
-    templates?: any;
-    setTemplates?: any;
-    theme?: any;
-    setModalBody?: any;
-    setModalOpen?: any;
-    setCurrentNestedPropertyIndex?: any;
-    setCurrentPropertyIndex?: any;
     currentPropertyIndex?: number;
+    model?: any;
+    templates?: any;
+    theme?: Theme;
+    setCurrentNestedPropertyIndex?: React.Dispatch<
+        React.SetStateAction<number>
+    >;
+    setCurrentPropertyIndex?: React.Dispatch<React.SetStateAction<number>>;
+    setModalBody?: React.Dispatch<React.SetStateAction<string>>;
+    setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
+    setModel?: React.Dispatch<React.SetStateAction<any>>;
+    setTemplates?: React.Dispatch<React.SetStateAction<any>>;
 }
 
 const Editor = ({

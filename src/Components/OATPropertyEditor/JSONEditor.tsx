@@ -5,9 +5,9 @@ import { useLibTheme } from '../../Theming/ThemeProvider';
 import { useTranslation } from 'react-i18next';
 
 type OATPropertyEditorProps = {
-    theme?: Theme;
     model?: any;
-    setModel?: any;
+    theme?: Theme;
+    setModel?: React.Dispatch<React.SetStateAction<any>>;
 };
 
 const JSONEditor = ({ model, theme, setModel }: OATPropertyEditorProps) => {

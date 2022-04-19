@@ -3,7 +3,7 @@ import { FontIcon, ActionButton, Stack } from '@fluentui/react';
 import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
 
 type IAddPropertyBar = {
-    callback?: any;
+    callback?: (prop: any) => any;
 };
 
 export const AddPropertyBar = ({ callback }: IAddPropertyBar) => {

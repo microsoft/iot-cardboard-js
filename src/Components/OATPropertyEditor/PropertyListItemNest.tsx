@@ -7,24 +7,26 @@ import PropertyListEnumItemNested from './PropertyListEnumItemNested';
 import PropertyListMapItemNested from './PropertyListMapItemNested';
 
 type IPropertyListItem = {
-    index?: number;
     draggingProperty?: boolean;
-    getItemClassName?: any;
-    getNestedItemClassName?: any;
-    getErrorMessage?: any;
-    handleDragEnter?: any;
-    handleDragEnterExternalItem?: any;
-    handleDragStart?: any;
-    setCurrentPropertyIndex?: any;
+    getItemClassName?: (index: number) => any;
+    getNestedItemClassName?: () => any;
+    getErrorMessage?: (value: string) => string;
+    handleDragEnter?: (event: any, item: any) => any;
+    handleDragEnterExternalItem?: (index: number) => any;
+    handleDragStart?: (event: any, item: any) => any;
+    index?: number;
     item?: any;
     lastPropertyFocused?: any;
-    setLastPropertyFocused?: any;
-    setPropertySelectorVisible?: any;
-    setCurrentNestedPropertyIndex?: any;
-    setModalOpen?: any;
-    setModalBody?: any;
     model?: any;
-    setModel?: any;
+    setCurrentNestedPropertyIndex?: React.Dispatch<
+        React.SetStateAction<number>
+    >;
+    setCurrentPropertyIndex?: React.Dispatch<React.SetStateAction<number>>;
+    setLastPropertyFocused?: React.Dispatch<React.SetStateAction<any>>;
+    setModalBody?: React.Dispatch<React.SetStateAction<string>>;
+    setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
+    setModel?: React.Dispatch<React.SetStateAction<any>>;
+    setPropertySelectorVisible: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export const PropertyListItemNest = ({
@@ -122,8 +124,8 @@ export const PropertyListItemNest = ({
                 item.schema.enumValues.length > 0 &&
                 item.schema.enumValues.map((item, i) => (
                     <PropertyListEnumItemNested
-                        item={item}
                         key={i}
+                        item={item}
                         model={model}
                         setModel={setModel}
                         parentIndex={index}

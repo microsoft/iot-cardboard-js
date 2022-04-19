@@ -4,16 +4,16 @@ import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
 import { deepCopy } from '../../Models/Services/Utils';
 
 interface ITemplateList {
-    templates?: any;
-    setTemplates: any;
+    draggingTemplate?: boolean;
+    draggingProperty?: boolean;
+    enteredTemplateRef: any;
     draggedTemplateItemRef: any;
     enteredPropertyRef: any;
     model?: any;
-    setModel?: any;
-    draggingTemplate?: boolean;
+    templates?: any;
     setDraggingTemplate?: (dragging: boolean) => boolean;
-    enteredTemplateRef: any;
-    draggingProperty?: boolean;
+    setModel?: React.Dispatch<React.SetStateAction<any>>;
+    setTemplates: React.Dispatch<React.SetStateAction<any>>;
 }
 
 export const TemplateList = ({

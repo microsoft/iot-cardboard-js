@@ -2,29 +2,29 @@ import React, { useRef, useState } from 'react';
 import { FontIcon, ActionButton, Stack, Text } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
+import { deepCopy } from '../../Models/Services/Utils';
 import PropertyListItem from './PropertyListItem';
 import PropertyListItemNest from './PropertyListItemNest';
 import PropertySelector from './PropertySelector';
-import { deepCopy } from '../../Models/Services/Utils';
 import AddPropertyBar from './AddPropertyBar';
 
 type IPropertyList = {
-    propertySelectorVisible: boolean;
-    setPropertySelectorVisible: any;
-    model: any;
-    setModel: any;
-    setCurrentPropertyIndex: any;
-    setModalOpen: any;
-    setTemplates: any;
-    enteredPropertyRef: any;
-    draggingTemplate: boolean;
-    enteredTemplateRef: any;
+    currentPropertyIndex: number;
     draggedPropertyItemRef: any;
     draggingProperty: boolean;
-    setDraggingProperty: any;
-    setCurrentNestedPropertyIndex: any;
-    setModalBody?: any;
-    currentPropertyIndex: number;
+    draggingTemplate: boolean;
+    enteredPropertyRef: any;
+    enteredTemplateRef: any;
+    model: any;
+    propertySelectorVisible: boolean;
+    setCurrentNestedPropertyIndex: React.Dispatch<React.SetStateAction<number>>;
+    setCurrentPropertyIndex?: React.Dispatch<React.SetStateAction<number>>;
+    setDraggingProperty: React.Dispatch<React.SetStateAction<boolean>>;
+    setModalBody?: React.Dispatch<React.SetStateAction<string>>;
+    setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
+    setModel?: React.Dispatch<React.SetStateAction<any>>;
+    setTemplates?: React.Dispatch<React.SetStateAction<any>>;
+    setPropertySelectorVisible: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export const PropertyList = ({
