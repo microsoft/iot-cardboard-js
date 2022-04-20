@@ -186,10 +186,12 @@ const OATGraphViewer = ({ setElementHandler }: OATGraphProps) => {
             ).data.type;
             if (currentHandleId.current === targetType) {
                 setElements((els) => addEdge(params, els));
-            } else if (currentHandleId.current !== ComponentHandleName) {
+            } else if (
+                currentHandleId.current !== ComponentHandleName &&
+                ComponentHandleName !== targetType
+            ) {
                 setElements((els) => addEdge(params, els));
             }
-            setElements((els) => addEdge(params, els));
         } else {
             const node = elements.find(
                 (element) => element.id === currentNodeId.current
