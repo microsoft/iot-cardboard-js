@@ -1189,16 +1189,13 @@ const SceneView: React.FC<ISceneViewProp> = ({
                 const interval = 500;
                 let elapsed = 0;
 
-                const isTransition = function () {
-                    return elapsed >= interval;
-                };
                 const transitionNrm = function () {
                     return (elapsed - interval) / transition;
                 };
 
                 scene.beforeRender = () => {
                     elapsed += 10;
-                    if (isTransition()) {
+                    if (elapsed >= interval) {
                         if (elapsed <= interval + transition) {
                             for (const coloredMeshGroup of coloredMeshGroups) {
                                 if (coloredMeshGroup.colors.length > 1) {
