@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import OATHeader from './OATHeader';
 
 export default {
@@ -7,11 +7,9 @@ export default {
 };
 
 export const Default = () => {
-    const [elementHandler] = useState([]);
-
     return (
         <div>
-            <OATHeader elements={elementHandler} />
+            <OATHeader />
         </div>
     );
 };

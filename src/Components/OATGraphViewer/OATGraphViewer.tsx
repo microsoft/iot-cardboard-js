@@ -162,9 +162,7 @@ const OATGraphViewer = ({ onElementsUpdate }: OATGraphProps) => {
             TwinsLocalStorageKey,
             JSON.stringify({ digitalTwinsModels: nodes })
         );
-        if (onElementsUpdate) {
-            onElementsUpdate({ digitalTwinsModels: nodes });
-        }
+        onElementsUpdate({ digitalTwinsModels: nodes });
     };
 
     return (
@@ -208,7 +206,7 @@ const OATGraphViewer = ({ onElementsUpdate }: OATGraphProps) => {
     );
 };
 
-OATGraphViewer.defaultPros = {
+OATGraphViewer.defaultProps = {
     onElementsUpdate: () => null
 };
 

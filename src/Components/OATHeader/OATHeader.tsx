@@ -85,4 +85,8 @@ const OATHeader = ({ elements }: OATHeaderProps) => {
     );
 };
 
+OATHeader.defaultProps = {
+    elements: []
+};
+
 export default OATHeader;
