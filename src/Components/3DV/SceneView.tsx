@@ -1197,7 +1197,6 @@ const SceneView: React.FC<ISceneViewProp> = ({
                 };
 
                 scene.beforeRender = () => {
-                    // delta time is in milliseconds
                     elapsed += 10;
                     if (isTransition()) {
                         if (elapsed <= interval + transition) {
