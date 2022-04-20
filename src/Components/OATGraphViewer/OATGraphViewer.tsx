@@ -136,58 +136,65 @@ const OATGraphViewer = ({ onElementsUpdate }: OATGraphProps) => {
 
     const storeElements = () => {
         const nodePositions = [];
-        elements.reduce((initial, element) => {
-            if (initial) {
-                nodePositions.push({
-                    id: initial.id,
-                    position: initial.position
-                });
-            }
-            if (!element.source) {
-                nodePositions.push({
-                    id: element.id,
-                    position: element.position
-                });
-            }
-        });
-        localStorage.setItem(
-            PositionsLocalStorageKey,
-            JSON.stringify({ nodePositions })
-        );
-        localStorage.setItem(ElementsLocalStorageKey, JSON.stringify(elements));
+        if (elements.length > 0) {
+            elements.reduce((initial, element) => {
+                if (initial) {
+                    nodePositions.push({
+                        id: initial.id,
+                        position: initial.position
+                    });
+                }
+                if (!element.source) {
+                    nodePositions.push({
+                        id: element.id,
+                        position: element.position
+                    });
+                }
+            });
+            localStorage.setItem(
+                PositionsLocalStorageKey,
+                JSON.stringify({ nodePositions })
+            );
+            localStorage.setItem(
+                ElementsLocalStorageKey,
+                JSON.stringify(elements)
+            );
+        }
     };
 
     const translateOutput = () => {
         const outputObject = elements;
-        const nodes = outputObject.reduce((currentNodes, currentNode) => {
-            if (currentNode.position) {
-                const node = {
-                    '@id': currentNode.id,
-                    '@type': 'Interface',
-                    displayName: currentNode.data.name,
-                    contents: [...currentNode.data.content]
-                };
-                currentNodes.push(node);
-            } else if (currentNode.source) {
-                const node = currentNodes.find(
-                    (element) => element['@id'] === currentNode.source
-                );
-                const relationship = {
-                    '@type': currentNode.data.type,
-                    '@id': currentNode.data.id,
-                    name: currentNode.data.name,
-                    displayName: currentNode.data.displayName,
-                    target: currentNode.target
-                };
-                node.contents = [...node.contents, relationship];
-            }
-            return currentNodes;
-        }, []);
-        localStorage.setItem(
-            TwinsLocalStorageKey,
-            JSON.stringify({ digitalTwinsModels: nodes })
-        );
-        onElementsUpdate({ digitalTwinsModels: nodes });
+        if (elements.length > 0) {
+            const nodes = outputObject.reduce((currentNodes, currentNode) => {
+                if (currentNode.position) {
+                    const node = {
+                        '@id': currentNode.id,
+                        '@type': 'Interface',
+                        displayName: currentNode.data.name,
+                        contents: [...currentNode.data.content]
+                    };
+                    currentNodes.push(node);
+                } else if (currentNode.source) {
+                    const node = currentNodes.find(
+                        (element) => element['@id'] === currentNode.source
+                    );
+                    const relationship = {
+                        '@type': currentNode.data.type,
+                        '@id': currentNode.data.id,
+                        name: currentNode.data.name,
+                        displayName: currentNode.data.displayName,
+                        target: currentNode.target
+                    };
+                    node.contents = [...node.contents, relationship];
+                }
+                return currentNodes;
+            }, []);
+            localStorage.setItem(
+                TwinsLocalStorageKey,
+                JSON.stringify({ digitalTwinsModels: nodes })
+            );
+            onElementsUpdate({ digitalTwinsModels: nodes });
+        }
     };
 
     return (
