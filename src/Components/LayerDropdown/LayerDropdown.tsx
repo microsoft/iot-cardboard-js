@@ -38,85 +38,94 @@ const LayerDropdown: React.FC<LayerDropdownProps> = ({
         [layers, showUnlayeredOption, selectedLayerIds]
     );
 
-    const onChange = (
-        _event: React.FormEvent<HTMLDivElement>,
-        option?: IDropdownOption
-    ) => {
-        if (option) {
-            setSelectedLayerIds(
-                option.selected
-                    ? [...selectedLayerIds, option.key as string]
-                    : selectedLayerIds.filter((key) => key !== option.key)
-            );
-        }
-    };
+    const onChange = useCallback(
+        (_event: React.FormEvent<HTMLDivElement>, option?: IDropdownOption) => {
+            if (option) {
+                setSelectedLayerIds(
+                    option.selected
+                        ? [...selectedLayerIds, option.key as string]
+                        : selectedLayerIds.filter((key) => key !== option.key)
+                );
+            }
+        },
+        [setSelectedLayerIds, selectedLayerIds]
+    );
 
     const styles = getStyles();
 
-    const onRenderTitle = (
-        options: IDropdownOption[],
-        defaultRender
-    ): JSX.Element => {
-        return (
-            <>
-                <LayerIcon />
-                <div className={styles.titleText}>
-                    {defaultRender(
-                        options.map((o) => ({
-                            ...o,
-                            ...(o.key === unlayeredBehaviorKey
-                                ? { text: t('layersDropdown.unlayered') }
-                                : {})
-                        }))
-                    )}
-                </div>
-            </>
-        );
-    };
-
-    const onRenderPlaceholder = (props: IDropdownProps): JSX.Element => {
-        return (
-            <div className={styles.placeHolderContainer}>
-                <LayerIcon />
-                <div className={styles.titleText}>{props.placeholder}</div>
-            </div>
-        );
-    };
-
-    const onShowHide = (isSelectAllMode: boolean) => {
-        if (isSelectAllMode) {
-            setSelectedLayerIds([
-                unlayeredBehaviorKey,
-                ...layers.map((l) => l.id)
-            ]);
-        } else {
-            setSelectedLayerIds([]);
-        }
-    };
-
-    const onRenderItem: IRenderFunction<ISelectableOption<any>> = (
-        props: ISelectableOption,
-        defaultRender: (props?: ISelectableOption) => JSX.Element | null
-    ) => {
-        if (props.key === showHideAllKey) {
+    const onRenderTitle = useCallback(
+        (options: IDropdownOption[], defaultRender): JSX.Element => {
             return (
-                <ActionButton
-                    key={props.key}
-                    iconProps={{
-                        iconName: 'MultiSelect',
-                        styles: (props) => getEyeIconStyles(props.theme)
-                    }}
-                    width={'100%'}
-                    styles={defaultLayerButtonStyles}
-                    onClick={() => onShowHide(props.data?.isSelectAllMode)}
-                >
-                    {props.text}
-                </ActionButton>
+                <>
+                    <LayerIcon />
+                    <div className={styles.titleText}>
+                        {defaultRender(
+                            options.map((o) => ({
+                                ...o,
+                                ...(o.key === unlayeredBehaviorKey
+                                    ? { text: t('layersDropdown.unlayered') }
+                                    : {})
+                            }))
+                        )}
+                    </div>
+                </>
             );
-        } else {
-            return defaultRender(props);
-        }
-    };
+        },
+        [styles]
+    );
+
+    const onRenderPlaceholder = useCallback(
+        (props: IDropdownProps): JSX.Element => {
+            return (
+                <div className={styles.placeHolderContainer}>
+                    <LayerIcon />
+                    <div className={styles.titleText}>{props.placeholder}</div>
+                </div>
+            );
+        },
+        [styles]
+    );
+
+    const onShowHide = useCallback(
+        (isSelectAllMode: boolean) => {
+            if (isSelectAllMode) {
+                setSelectedLayerIds([
+                    unlayeredBehaviorKey,
+                    ...layers.map((l) => l.id)
+                ]);
+            } else {
+                setSelectedLayerIds([]);
+            }
+        },
+        [setSelectedLayerIds, layers]
+    );
+
+    const onRenderItem: IRenderFunction<ISelectableOption<any>> = useCallback(
+        (
+            props: ISelectableOption,
+            defaultRender: (props?: ISelectableOption) => JSX.Element | null
+        ) => {
+            if (props.key === showHideAllKey) {
+                return (
+                    <ActionButton
+                        key={props.key}
+                        iconProps={{
+                            iconName: 'MultiSelect',
+                            styles: (props) => getEyeIconStyles(props.theme)
+                        }}
+                        width={'100%'}
+                        styles={defaultLayerButtonStyles}
+                        onClick={() => onShowHide(props.data?.isSelectAllMode)}
+                    >
+                        {props.text}
+                    </ActionButton>
+                );
+            } else {
+                return defaultRender(props);
+            }
+        },
+        [onShowHide]
+    );
 
     if (layers.length === 0) return null;
 
