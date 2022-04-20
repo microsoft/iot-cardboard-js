@@ -1,7 +1,6 @@
 import React from 'react';
 import ADTInstances from './ADTInstances';
 import useAuthParams from '../../../.storybook/useAuthParams';
-import ADTAdapter from '../../Adapters/ADTAdapter';
 import MsalAuthService from '../../Models/Services/MsalAuthService';
 import AzureManagementAdapter from '../../Adapters/AzureManagementAdapter';
 

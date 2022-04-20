@@ -1,8 +1,5 @@
 import { ADT3DSceneAdapter, MockAdapter } from '../..';
-import {
-    IADTInstance,
-    IAzureManagementAdapter
-} from '../../Models/Constants/Interfaces';
+import { IADTInstance } from '../../Models/Constants/Interfaces';
 import { BaseComponentProps } from '../BaseComponent/BaseComponent.types';
 
 type WithLocalStorage = {
