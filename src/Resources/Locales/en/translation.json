@@ -717,5 +717,12 @@
         "sync": "sync",
         "import": "Import",
         "export": "Export"
+    },
+    "cameraControls": {
+        "mouseControls": "Mouse Controls",
+        "select": "Select",
+        "pan": "Pan",
+        "orbit": "Orbit",
+        "zoom": "Zoom"
     }
 }
