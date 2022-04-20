@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { FontIcon, ActionButton, Stack, Text } from '@fluentui/react';
+import { FontIcon, ActionButton, Text } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
 import { deepCopy } from '../../Models/Services/Utils';

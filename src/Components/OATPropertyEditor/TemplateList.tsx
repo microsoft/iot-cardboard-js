@@ -113,6 +113,14 @@ export const TemplateList = ({
         enteredTemplateRef.current = i;
     };
 
+    const getSchemaText = (itemSchema) => {
+        if (typeof itemSchema === 'object') {
+            return itemSchema['@type'];
+        }
+
+        return itemSchema;
+    };
+
     return (
         <Stack className={propertyInspectorStyles.propertiesWrap}>
             {templates.length > 0 &&
@@ -131,7 +139,7 @@ export const TemplateList = ({
                         }
                     >
                         <Text>{item.name}</Text>
-                        <Text>{item.schema}</Text>
+                        <Text>{getSchemaText(item.schema)}</Text>
                         <ActionButton
                             className={
                                 propertyInspectorStyles.propertyItemIconWrap
