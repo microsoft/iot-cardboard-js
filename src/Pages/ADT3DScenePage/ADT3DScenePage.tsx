@@ -27,7 +27,7 @@ import {
 } from '../../Models/Constants/ActionTypes';
 import ADT3DGlobe from '../../Components/ADT3DGlobe/ADT3DGlobe';
 import {
-    IADTInstance,
+    IResourceInstance,
     IBlobAdapter,
     IComponentError
 } from '../../Models/Constants/Interfaces';
@@ -113,8 +113,8 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
     };
 
     const handleEnvironmentUrlChange = (
-        env: string | IADTInstance,
-        envs: Array<string | IADTInstance>
+        env: string | IResourceInstance,
+        envs: Array<string | IResourceInstance>
     ) => {
         adapter.setAdtHostUrl(
             typeof env === 'string' ? env.replace('https://', '') : env.hostName

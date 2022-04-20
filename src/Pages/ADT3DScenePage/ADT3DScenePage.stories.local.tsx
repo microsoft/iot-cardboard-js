@@ -35,11 +35,11 @@ export const ADT3DScenePageCard = (_args, { globals: { theme, locale } }) => {
                 locale={locale}
                 adapter={
                     new ADT3DSceneAdapter(
-                        authenticationParameters.adt.hostUrl,
-                        authenticationParameters.storage.blobContainerUrl,
                         new MsalAuthService(
                             authenticationParameters.adt.aadParameters
                         ),
+                        authenticationParameters.adt.hostUrl,
+                        authenticationParameters.storage.blobContainerUrl,
                         authenticationParameters.adt.aadParameters.tenantId,
                         authenticationParameters.adt.aadParameters.uniqueObjectId
                     )

@@ -1,14 +1,15 @@
 import axios from 'axios';
-import { AdapterMethodSandbox } from '../Models/Classes';
-import ADTInstancesData from '../Models/Classes/AdapterDataClasses/ADTInstancesData';
+import { AdapterMethodSandbox, AdapterResult } from '../Models/Classes';
+import ADTInstanceConnectionData from '../Models/Classes/AdapterDataClasses/ADTInstanceConnectionData';
+import ResourceInstancesData from '../Models/Classes/AdapterDataClasses/ResourceInstancesData';
 import {
     SubscriptionData,
     UserAssignmentsData
 } from '../Models/Classes/AdapterDataClasses/AzureManagementModelData';
 import {
-    IADTInstance,
     IAuthService,
     IAzureManagementAdapter,
+    IResourceInstance,
     IUserRoleAssignments,
     IUserSubscriptions
 } from '../Models/Constants';
@@ -17,12 +18,15 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
     public authService: IAuthService;
     public tenantId: string;
     public uniqueObjectId: string;
+    public resourceUrlHost: string;
 
     constructor(
         authService: IAuthService,
+        resourceUrlHost?: string,
         tenantId?: string,
         uniqueObjectId?: string
     ) {
+        this.resourceUrlHost = resourceUrlHost;
         this.authService = authService;
         this.authService.login();
         this.tenantId = tenantId;
@@ -135,7 +139,7 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
                     });
                 })
             );
-            const resourceInstanceDictionary: Array<IADTInstance> = [];
+            const resourceInstanceDictionary: Array<IResourceInstance> = [];
             for (let i = 0; i < resourceInstancesBySubscriptions.length; i++) {
                 const instances: any = resourceInstancesBySubscriptions[i];
                 if (instances.data.value.length) {
@@ -163,7 +167,75 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
                     }
                 }
             }
-            return new ADTInstancesData(resourceInstanceDictionary);
+            return new ResourceInstancesData(resourceInstanceDictionary);
+        }, 'azureManagement');
+    }
+
+    async getConnectionInformation(
+        clusterUrl?: string,
+        databaseName?: string,
+        tableName?: string
+    ) {
+        if (clusterUrl && databaseName && tableName) {
+            return new AdapterResult<ADTInstanceConnectionData>({
+                result: new ADTInstanceConnectionData({
+                    kustoClusterUrl: clusterUrl,
+                    kustoDatabaseName: databaseName,
+                    kustoTableName: tableName
+                }),
+                errorInfo: null
+            });
+        }
+        const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
+
+        return await adapterMethodSandbox.safelyFetchData(async (token) => {
+            const adtReaderAndWriterGuid = [
+                'd57506d4-4c8d-48b1-8587-93c323f6a5a3',
+                'bcd981a7-7f74-457b-83e1-cceb9e632ffe'
+            ];
+            const adtPath = 'Microsoft.DigitalTwins/digitalTwinsInstances';
+            // find the current ADT instance by its hostUrl
+            const instanceDictionary: AdapterResult<ResourceInstancesData> = await this.getResourceInstancesWithRoleId(
+                adtReaderAndWriterGuid,
+                adtPath
+            );
+            const instance = instanceDictionary.result.data.find(
+                (d) => d.hostName === this.resourceUrlHost
+            );
+
+            try {
+                // use the below azure management call to get adt-adx connection information including Kusto cluster url, database name and table name to retrieve the data history from
+                const connectionsData = await axios({
+                    method: 'get',
+                    url: `https://management.azure.com${instance.resourceId}/timeSeriesDatabaseConnections`,
+                    headers: {
+                        Authorization: 'Bearer ' + token,
+                        Accept: 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    params: {
+                        'api-version': '2021-06-30-preview'
+                    }
+                });
+                clusterUrl =
+                    connectionsData.data.value[0].properties.adxEndpointUri;
+                databaseName =
+                    connectionsData.data.value[0].properties.adxDatabaseName;
+                tableName = `adt_dh_${connectionsData.data.value[0].properties.adxDatabaseName.replaceAll(
+                    '-',
+                    '_'
+                )}_${instance.location}`;
+            } catch (error) {
+                adapterMethodSandbox.pushError({
+                    isCatastrophic: false,
+                    rawError: error
+                });
+            }
+            return new ADTInstanceConnectionData({
+                kustoClusterUrl: clusterUrl,
+                kustoDatabaseName: databaseName,
+                kustoTableName: tableName
+            });
         }, 'azureManagement');
     }
 }

@@ -8,7 +8,7 @@ import {
     IComponentError,
     IAction,
     IConsumeCompositeCardProps,
-    IADTInstance,
+    IResourceInstance,
     IErrorButtonAction
 } from '../../Models/Constants/Interfaces';
 import {
@@ -25,8 +25,8 @@ export interface IADT3DScenePageProps extends IConsumeCompositeCardProps {
             localStorageKey?: string;
             selectedItemLocalStorageKey?: string;
             onEnvironmentChange?: (
-                environment: string | IADTInstance,
-                environments: Array<string | IADTInstance>
+                environment: string | IResourceInstance,
+                environments: Array<string | IResourceInstance>
             ) => void;
         };
         storage?: {

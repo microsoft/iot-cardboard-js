@@ -1,5 +1,5 @@
 import { ADT3DSceneAdapter, MockAdapter } from '../..';
-import { IADTInstance } from '../../Models/Constants/Interfaces';
+import { IResourceInstance } from '../../Models/Constants/Interfaces';
 import { BaseComponentProps } from '../BaseComponent/BaseComponent.types';
 
 type WithLocalStorage = {
@@ -27,8 +27,8 @@ export type EnvironmentPickerProps = BaseComponentProps & {
     shouldPullFromSubscription?: boolean; // to have this worked with the set value 'true' make sure you pass tenantId and uniqueObjectId to your adapter
     environmentUrl?: string;
     onEnvironmentUrlChange?: (
-        environment: string | IADTInstance,
-        environments: Array<string | IADTInstance>
+        environment: string | IResourceInstance,
+        environments: Array<string | IResourceInstance>
     ) => void;
     storage?: StorageContainer;
 } & (WithLocalStorage | WithoutLocalStorage);

@@ -27,11 +27,11 @@ export const ADT3DBuilder = (_args, { globals: { theme, locale } }) => {
                 locale={locale}
                 adapter={
                     new ADT3DSceneAdapter(
-                        authenticationParameters.adt.hostUrl,
-                        authenticationParameters.storage.blobContainerUrl,
                         new MsalAuthService(
                             authenticationParameters.adt.aadParameters
-                        )
+                        ),
+                        authenticationParameters.adt.hostUrl,
+                        authenticationParameters.storage.blobContainerUrl
                     )
                 }
                 sceneId="46743de47dfb6cf24365f57c7f69d3ba"

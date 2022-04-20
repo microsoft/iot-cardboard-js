@@ -47,7 +47,7 @@ import mockTwinData from './__mockData__/MockAdapterData/MockTwinData.json';
 import mockModelData from './__mockData__/MockAdapterData/MockModelData.json';
 import ADTScenesConfigData from '../Models/Classes/AdapterDataClasses/ADTScenesConfigData';
 import ADT3DViewerData from '../Models/Classes/AdapterDataClasses/ADT3DViewerData';
-import ADTInstancesData from '../Models/Classes/AdapterDataClasses/ADTInstancesData';
+import ResourceInstancesData from '../Models/Classes/AdapterDataClasses/ResourceInstancesData';
 import {
     getModelContentType,
     validate3DConfigWithSchema
@@ -841,11 +841,11 @@ export default class MockAdapter
             await this.mockNetwork();
 
             return new AdapterResult({
-                result: new ADTInstancesData(mockEnvironments),
+                result: new ResourceInstancesData(mockEnvironments),
                 errorInfo: null
             });
         } catch (err) {
-            return new AdapterResult<ADTInstancesData>({
+            return new AdapterResult<ResourceInstancesData>({
                 result: null,
                 errorInfo: { catastrophicError: err, errors: [err] }
             });

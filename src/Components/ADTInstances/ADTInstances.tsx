@@ -8,7 +8,7 @@ import {
 } from '@fluentui/react';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { IADTInstancesProps, IADTInstance } from '../../Models/Constants';
+import { IADTInstancesProps, IResourceInstance } from '../../Models/Constants';
 import useAdapter from '../../Models/Hooks/useAdapter';
 import './ADTInstances.scss';
 import BaseComponent from '../BaseComponent/BaseComponent';
@@ -23,7 +23,7 @@ const ADTInstances: React.FC<IADTInstancesProps> = ({
     localeStrings
 }) => {
     const { t } = useTranslation();
-    const [instances, setInstances] = useState<Array<IADTInstance>>([]);
+    const [instances, setInstances] = useState<Array<IResourceInstance>>([]);
     const [selectedOption, setSelectedOption] = useState(selectedInstance);
     const adtReaderAndWriterGuid = [
         'd57506d4-4c8d-48b1-8587-93c323f6a5a3',

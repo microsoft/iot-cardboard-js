@@ -41,7 +41,7 @@ import {
     ADTModel_ImgSrc_PropertyName
 } from './Constants';
 import ExpandedADTModelData from '../Classes/AdapterDataClasses/ExpandedADTModelData';
-import ADTInstancesData from '../Classes/AdapterDataClasses/ADTInstancesData';
+import ResourceInstancesData from '../Classes/AdapterDataClasses/ResourceInstancesData';
 import ADTScenesConfigData from '../Classes/AdapterDataClasses/ADTScenesConfigData';
 import ADT3DViewerData from '../Classes/AdapterDataClasses/ADT3DViewerData';
 import {
@@ -231,7 +231,7 @@ export interface IHierarchyNode {
     isNewlyAdded?: boolean;
 }
 
-export interface IADTInstance {
+export interface IResourceInstance {
     name: string;
     hostName: string;
     resourceId: string;
@@ -467,7 +467,7 @@ export interface IAzureManagementAdapter {
         resourcePath: string,
         tenantId?: string,
         uniqueObjectID?: string
-    ) => AdapterReturnType<ADTInstancesData>;
+    ) => AdapterReturnType<ResourceInstancesData>;
 }
 
 export interface IBlobAdapter {
