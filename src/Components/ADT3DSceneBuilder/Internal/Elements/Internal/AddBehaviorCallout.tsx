@@ -37,6 +37,7 @@ const AddBehaviorCallout: React.FC<IADT3DSceneBuilderAddBehaviorCalloutProps> = 
                 onPrimaryActionClick: onCreateBehaviorWithElements,
                 primaryActionLabel: t('3dSceneBuilder.createBehavior')
             }}
+            searchBoxDataTestId="behavior-callout-search"
         />
     );
 };

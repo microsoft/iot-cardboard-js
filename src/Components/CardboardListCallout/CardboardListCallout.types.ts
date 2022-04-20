@@ -38,6 +38,8 @@ export interface ICardboardListCalloutProps<T = void> {
     filterPlaceholder?: string;
     /** filter functiton to be used when a search term entered to filter list items */
     filterPredicate: (item: string | T, filterTerm: string) => void;
+    /** data-testid to be set for the SearchBox component */
+    searchBoxDataTestId?: string;
     /** text to be displayed when there is no item to display */
     noResultText: string;
     /** props for primary action button in the callout */

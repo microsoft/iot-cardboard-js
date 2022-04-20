@@ -25,6 +25,7 @@ const LinkedTwinPropertiesCallout: React.FC<IADT3DSceneBuilderLinkedTwinProperti
                 property.toLowerCase().includes(searchTerm.toLowerCase())
             }
             noResultText={t('3dSceneBuilder.noLinkedTwinProperties')}
+            searchBoxDataTestId="linked-twin-callout-search"
         />
     );
 };
