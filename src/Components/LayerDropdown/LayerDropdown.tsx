@@ -4,6 +4,7 @@ import {
     defaultLayerButtonStyles,
     dropdownStyles,
     getEyeIconStyles,
+    getStyles,
     iconStyles
 } from './LayerDropdown.styles';
 import {
@@ -92,6 +93,8 @@ const LayerDropdown: React.FC<LayerDropdownProps> = ({
         }
     };
 
+    const styles = getStyles();
+
     const onRenderTitle = (
         options: IDropdownOption<ILayer>[],
         defaultRender
@@ -99,23 +102,25 @@ const LayerDropdown: React.FC<LayerDropdownProps> = ({
         return (
             <>
                 <LayerIcon />
-                {defaultRender(
-                    options.map((o) => ({
-                        ...o,
-                        ...(o.key === unlayeredBehaviorKey
-                            ? { text: t('layersDropdown.unlayered') }
-                            : {})
-                    }))
-                )}
+                <div className={styles.titleText}>
+                    {defaultRender(
+                        options.map((o) => ({
+                            ...o,
+                            ...(o.key === unlayeredBehaviorKey
+                                ? { text: t('layersDropdown.unlayered') }
+                                : {})
+                        }))
+                    )}
+                </div>
             </>
         );
     };
 
     const onRenderPlaceholder = (props: IDropdownProps): JSX.Element => {
         return (
-            <div>
+            <div className={styles.placeHolderContainer}>
                 <LayerIcon />
-                <span>{props.placeholder}</span>
+                <div className={styles.titleText}>{props.placeholder}</div>
             </div>
         );
     };

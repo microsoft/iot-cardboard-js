@@ -49,10 +49,9 @@ export const useRuntimeSceneData = (
                 sceneId
             );
 
-            let sceneVisuals = [
-                ...deepCopy(sceneData.adapterResult.result.data.sceneVisuals)
-            ];
-
+            let sceneVisuals = deepCopy(
+                sceneData.adapterResult.result.data.sceneVisuals
+            );
             // Apply layer filtering to behaviors - splice out behaviors not in selected layers
             sceneVisuals = sceneVisuals.map((sv) => ({
                 ...sv,
