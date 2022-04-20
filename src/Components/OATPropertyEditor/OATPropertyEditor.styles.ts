@@ -17,6 +17,7 @@ const classNames = {
     paddingWrap: `${classPrefix}-padding-wrap`,
     rowSpaceBetween: `${classPrefix}-row-space-between`,
     propertiesWrap: `${classPrefix}-properties-wrap`,
+    propertiesWrapScroll: `${classPrefix}-properties-wrap-scroll`,
     propertySelector: `${classPrefix}-row-property-selector`,
     propertySelectorHeader: `${classPrefix}-row-property-selector-header`,
     iconClosePropertySelectorWrap: `${classPrefix}-icon-close-property-selector-wrap`,
@@ -157,7 +158,17 @@ export const getPropertyInspectorStyles = () => {
         propertiesWrap: [
             classNames.propertiesWrap,
             {
-                position: 'relative'
+                position: 'relative',
+                paddingBottom: '30px',
+                height: '100%'
+            } as IStyle
+        ],
+        propertiesWrapScroll: [
+            classNames.propertiesWrapScroll,
+            {
+                overflowY: 'auto',
+                paddingBottom: '100px',
+                maxHeight: '500px'
             } as IStyle
         ],
         propertySelector: [

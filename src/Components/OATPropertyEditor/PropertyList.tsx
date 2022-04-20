@@ -143,35 +143,74 @@ export const PropertyList = ({
     };
 
     return (
-        <Stack className={propertyInspectorStyles.propertiesWrap}>
-            {propertySelectorVisible && (
-                <PropertySelector
-                    setPropertySelectorVisible={setPropertySelectorVisible}
-                    model={model}
-                    setModel={setModel}
-                    lastPropertyFocused={lastPropertyFocused}
-                />
-            )}
-            {!propertySelectorVisible && model.contents.length === 0 && (
-                <ActionButton onClick={() => setPropertySelectorVisible(true)}>
-                    <FontIcon
-                        iconName={'CirclePlus'}
-                        className={propertyInspectorStyles.iconAddProperty}
+        <div className={propertyInspectorStyles.propertiesWrap}>
+            <div className={propertyInspectorStyles.propertiesWrapScroll}>
+                {propertySelectorVisible && (
+                    <PropertySelector
+                        setPropertySelectorVisible={setPropertySelectorVisible}
+                        model={model}
+                        setModel={setModel}
+                        lastPropertyFocused={lastPropertyFocused}
                     />
-                    <Text>{t('OATPropertyEditor.addProperty')}</Text>
-                </ActionButton>
-            )}
+                )}
+                {!propertySelectorVisible && model.contents.length === 0 && (
+                    <ActionButton
+                        onClick={() => setPropertySelectorVisible(true)}
+                    >
+                        <FontIcon
+                            iconName={'CirclePlus'}
+                            className={propertyInspectorStyles.iconAddProperty}
+                        />
+                        <Text>{t('OATPropertyEditor.addProperty')}</Text>
+                    </ActionButton>
+                )}
 
-            {model.contents.length > 0 &&
-                model.contents.map((item, i) => {
-                    if (typeof item.schema === 'object') {
+                {model.contents.length > 0 &&
+                    model.contents.map((item, i) => {
+                        if (typeof item.schema === 'object') {
+                            return (
+                                <PropertyListItemNest
+                                    key={i}
+                                    index={i}
+                                    draggingProperty={draggingProperty}
+                                    getItemClassName={getNestItemClassName}
+                                    getNestedItemClassName={
+                                        getNestedItemClassName
+                                    }
+                                    getErrorMessage={getErrorMessage}
+                                    handleDragEnter={handleDragEnter}
+                                    handleDragEnterExternalItem={
+                                        handleDragEnterExternalItem
+                                    }
+                                    handleDragStart={handleDragStart}
+                                    setCurrentPropertyIndex={
+                                        setCurrentPropertyIndex
+                                    }
+                                    item={item}
+                                    lastPropertyFocused={lastPropertyFocused}
+                                    setLastPropertyFocused={
+                                        setLastPropertyFocused
+                                    }
+                                    setPropertySelectorVisible={
+                                        setPropertySelectorVisible
+                                    }
+                                    setCurrentNestedPropertyIndex={
+                                        setCurrentNestedPropertyIndex
+                                    }
+                                    setModalOpen={setModalOpen}
+                                    setModalBody={setModalBody}
+                                    model={model}
+                                    setModel={setModel}
+                                />
+                            );
+                        }
+
                         return (
-                            <PropertyListItemNest
+                            <PropertyListItem
                                 key={i}
                                 index={i}
                                 draggingProperty={draggingProperty}
-                                getItemClassName={getNestItemClassName}
-                                getNestedItemClassName={getNestedItemClassName}
+                                getItemClassName={getItemClassName}
                                 getErrorMessage={getErrorMessage}
                                 handleDragEnter={handleDragEnter}
                                 handleDragEnterExternalItem={
@@ -181,53 +220,24 @@ export const PropertyList = ({
                                 setCurrentPropertyIndex={
                                     setCurrentPropertyIndex
                                 }
-                                item={item}
-                                lastPropertyFocused={lastPropertyFocused}
-                                setLastPropertyFocused={setLastPropertyFocused}
-                                setPropertySelectorVisible={
-                                    setPropertySelectorVisible
-                                }
-                                setCurrentNestedPropertyIndex={
-                                    setCurrentNestedPropertyIndex
-                                }
                                 setModalOpen={setModalOpen}
+                                item={item}
+                                setLastPropertyFocused={setLastPropertyFocused}
                                 setModalBody={setModalBody}
-                                model={model}
-                                setModel={setModel}
                             />
                         );
-                    }
+                    })}
 
-                    return (
-                        <PropertyListItem
-                            key={i}
-                            index={i}
-                            draggingProperty={draggingProperty}
-                            getItemClassName={getItemClassName}
-                            getErrorMessage={getErrorMessage}
-                            handleDragEnter={handleDragEnter}
-                            handleDragEnterExternalItem={
-                                handleDragEnterExternalItem
-                            }
-                            handleDragStart={handleDragStart}
-                            setCurrentPropertyIndex={setCurrentPropertyIndex}
-                            setModalOpen={setModalOpen}
-                            item={item}
-                            setLastPropertyFocused={setLastPropertyFocused}
-                            setModalBody={setModalBody}
-                        />
-                    );
-                })}
-
-            {model.contents.length > 0 && (
-                <AddPropertyBar
-                    callback={() => {
-                        setLastPropertyFocused(null);
-                        setPropertySelectorVisible(true);
-                    }}
-                />
-            )}
-        </Stack>
+                {model.contents.length > 0 && (
+                    <AddPropertyBar
+                        callback={() => {
+                            setLastPropertyFocused(null);
+                            setPropertySelectorVisible(true);
+                        }}
+                    />
+                )}
+            </div>
+        </div>
     );
 };
 
