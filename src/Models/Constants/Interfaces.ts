@@ -752,3 +752,22 @@ export interface IAliasedTwinProperty {
     alias: 'LinkedTwin' | string;
     property: string;
 }
+
+export interface IDigitalTwinsModels {
+    digitalTwinsModels: ITwinModelNodes;
+}
+
+export interface ITwinModelNodes {
+    '@id': string;
+    '@type': string;
+    displayName: string;
+    contents: ITwinNodeContents[];
+}
+
+export interface ITwinNodeContents {
+    '@id': string;
+    '@type': string;
+    name?: string;
+    displayName?: string;
+    target?: string;
+}

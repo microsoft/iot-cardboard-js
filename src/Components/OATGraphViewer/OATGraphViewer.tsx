@@ -18,9 +18,10 @@ import {
 } from '../../Models/Constants/Constants';
 import { getGraphViewerStyles } from './OATGraphViewer.styles';
 import { ElementsContext } from './Internal/OATContext';
+import { IDigitalTwinsModels } from '../../Models/Constants/Interfaces';
 
 type OATGraphProps = {
-    onElementsUpdate: () => any;
+    onElementsUpdate: (digitalTwinsModels: IDigitalTwinsModels) => any;
 };
 
 const OATGraphViewer = ({ onElementsUpdate }: OATGraphProps) => {
