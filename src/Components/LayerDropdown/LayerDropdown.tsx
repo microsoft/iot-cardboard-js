@@ -1,7 +1,13 @@
 import React from 'react';
 import { LayerDropdownProps } from './LayerDropdown.types';
-import { dropdownStyles, iconStyles } from './LayerDropdown.styles';
 import {
+    defaultLayerButtonStyles,
+    dropdownStyles,
+    getEyeIconStyles,
+    iconStyles
+} from './LayerDropdown.styles';
+import {
+    ActionButton,
     Dropdown,
     DropdownMenuItemType,
     Icon,
@@ -15,6 +21,7 @@ import i18n from '../../i18n';
 import { useTranslation } from 'react-i18next';
 
 export const unlayeredBehaviorKey = 'scene-layer-dropdown-unlayered-behaviors';
+export const showHideAllKey = 'show-hide-all';
 
 const LayerDropdown: React.FC<LayerDropdownProps> = ({
     layers,
@@ -34,7 +41,7 @@ const LayerDropdown: React.FC<LayerDropdownProps> = ({
               ]
             : []),
         {
-            key: 'divider-1',
+            key: 'divider-2',
             text: '-',
             itemType: DropdownMenuItemType.Divider
         }
@@ -44,6 +51,32 @@ const LayerDropdown: React.FC<LayerDropdownProps> = ({
             text: layer.displayName,
             ariaLabel: layer.displayName
         }))
+    );
+
+    const layerOptions = options.filter(
+        (option) =>
+            option.itemType !== DropdownMenuItemType.Divider &&
+            option.itemType !== DropdownMenuItemType.Header
+    );
+    const numLayerOptions = layerOptions.length;
+    const numSelectedOptions = layerOptions.filter((option) =>
+        selectedLayerIds.includes(String(option.key))
+    ).length;
+    const isShow = numSelectedOptions < Math.ceil(numLayerOptions / 2);
+
+    options.unshift(
+        {
+            key: showHideAllKey,
+            text: isShow
+                ? t('layersDropdown.selectAll')
+                : t('layersDropdown.selectNone'),
+            data: { isShow }
+        },
+        {
+            key: 'divider-1',
+            text: '-',
+            itemType: DropdownMenuItemType.Divider
+        }
     );
 
     const onChange = (
@@ -87,27 +120,38 @@ const LayerDropdown: React.FC<LayerDropdownProps> = ({
         );
     };
 
+    const onShowHide = (isShow: boolean) => {
+        if (isShow) {
+            setSelectedLayerIds([
+                unlayeredBehaviorKey,
+                ...layers.map((l) => l.id)
+            ]);
+        } else {
+            setSelectedLayerIds([]);
+        }
+    };
+
     const onRenderItem: IRenderFunction<ISelectableOption<any>> = (
         props: ISelectableOption,
         defaultRender: (props?: ISelectableOption) => JSX.Element | null
     ) => {
-        // TODO add show / hide all
-        // if (props.key === 'defaultLayer') {
-        //     return (
-        //         <div>
-        //             <ActionButton
-        //                 iconProps={{ iconName: 'RedEye' }}
-        //                 width={'100%'}
-        //                 styles={defaultLayerButtonStyles}
-        //                 onClick={() => onChange(null, props)}
-        //             >
-        //                 {t('layersDropdown.defaultLayer')}
-        //             </ActionButton>
-        //         </div>
-        //     );
-        // } else {
-        return defaultRender(props);
-        // }
+        if (props.key === showHideAllKey) {
+            return (
+                <ActionButton
+                    iconProps={{
+                        iconName: !props.data?.isShow ? 'Hide' : 'RedEye',
+                        styles: (props) => getEyeIconStyles(props.theme)
+                    }}
+                    width={'100%'}
+                    styles={defaultLayerButtonStyles}
+                    onClick={() => onShowHide(props.data?.isShow)}
+                >
+                    {props.text}
+                </ActionButton>
+            );
+        } else {
+            return defaultRender(props);
+        }
     };
 
     if (layers.length === 0) return null;
@@ -137,4 +181,4 @@ const LayerIcon = () => (
     />
 );
 
-export default LayerDropdown;
+export default React.memo(LayerDropdown);

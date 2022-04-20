@@ -315,7 +315,9 @@
         "placeholder": "No layers selected",
         "unlayeredBehaviors": "Unlayered behaviors",
         "unlayered": "Unlayered",
-        "title": "Select layers"
+        "title": "Select layers",
+        "selectAll": "Select all",
+        "selectNone": "Select none"
     },
     "3dSceneBuilder": {
         "elements": "Elements",
