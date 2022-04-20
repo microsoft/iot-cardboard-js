@@ -36,6 +36,7 @@ const CardboardListCallout = <T extends unknown>({
     primaryActionProps,
     filterPlaceholder,
     filterPredicate,
+    searchBoxDataTestId,
     noResultText
 }: ICardboardListCalloutProps<T>) => {
     const { t } = useTranslation();
@@ -81,6 +82,9 @@ const CardboardListCallout = <T extends unknown>({
             <h4 className={styles.title}>{title}</h4>
             {listItems.length > 0 && (
                 <SearchBox
+                    {...(searchBoxDataTestId && {
+                        'data-testid': searchBoxDataTestId
+                    })}
                     placeholder={filterPlaceholder ?? t('search')}
                     onChange={(_event, value) => {
                         setSearchText(value);
