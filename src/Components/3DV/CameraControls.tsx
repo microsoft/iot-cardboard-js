@@ -37,7 +37,7 @@ export const CameraControls: React.FC<CameraControlProps> = ({
     onResetCamera
 }) => {
     const [cameraInteractionType, setCameraInteractionType] = useState(
-        cameraInteraction ? cameraInteraction : CameraInteraction.Pan
+        cameraInteraction ? cameraInteraction : CameraInteraction.Rotate
     );
     const [showPanCallout, setShowPanCallout] = useState(false);
     const [showOrbitCallout, setShowOrbitCallout] = useState(false);
@@ -62,32 +62,6 @@ export const CameraControls: React.FC<CameraControlProps> = ({
         <div className={styles.panelContents}>
             <div className={styles.buttonGroup}>
                 <ActionButton
-                    id={calloutAnchorPan}
-                    className={
-                        cameraInteractionType === CameraInteraction.Pan
-                            ? styles.buttonChecked
-                            : styles.button
-                    }
-                    onClick={() =>
-                        updateCameraInteraction(CameraInteraction.Pan)
-                    }
-                    onMouseEnter={() => setShowPanCallout(true)}
-                    onMouseLeave={() => setShowPanCallout(false)}
-                >
-                    <img
-                        src={`data:image/svg+xml;base64,${Pan(theme)}`}
-                        style={{ height: 16, width: 16 }}
-                        className={styles.buttonIcon}
-                    />
-                    {cameraInteractionType === CameraInteraction.Pan && (
-                        <img
-                            src={`data:image/svg+xml;base64,${Selected(theme)}`}
-                            style={{ width: 24 }}
-                            className={styles.selected}
-                        />
-                    )}
-                </ActionButton>
-                <ActionButton
                     id={calloutAnchorOrbit}
                     className={
                         cameraInteractionType === CameraInteraction.Rotate
@@ -106,6 +80,32 @@ export const CameraControls: React.FC<CameraControlProps> = ({
                         className={styles.buttonIcon}
                     />
                     {cameraInteractionType === CameraInteraction.Rotate && (
+                        <img
+                            src={`data:image/svg+xml;base64,${Selected(theme)}`}
+                            style={{ width: 24 }}
+                            className={styles.selected}
+                        />
+                    )}
+                </ActionButton>
+                <ActionButton
+                    id={calloutAnchorPan}
+                    className={
+                        cameraInteractionType === CameraInteraction.Pan
+                            ? styles.buttonChecked
+                            : styles.button
+                    }
+                    onClick={() =>
+                        updateCameraInteraction(CameraInteraction.Pan)
+                    }
+                    onMouseEnter={() => setShowPanCallout(true)}
+                    onMouseLeave={() => setShowPanCallout(false)}
+                >
+                    <img
+                        src={`data:image/svg+xml;base64,${Pan(theme)}`}
+                        style={{ height: 16, width: 16 }}
+                        className={styles.buttonIcon}
+                    />
+                    {cameraInteractionType === CameraInteraction.Pan && (
                         <img
                             src={`data:image/svg+xml;base64,${Selected(theme)}`}
                             style={{ width: 24 }}

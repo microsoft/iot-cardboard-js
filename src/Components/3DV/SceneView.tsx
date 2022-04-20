@@ -374,12 +374,16 @@ function SceneView(props: ISceneViewProp, ref) {
         }
     };
 
-    const createOrZoomCamera = () => {
-        const zoomTo = (zoomToMeshIds || []).join(',');
+    const createOrZoomCamera = (meshIds?: string[]) => {
+        const zoomMeshIds = meshIds || zoomToMeshIds;
+        const zoomTo = (zoomMeshIds || []).join(',');
+        // Only zoom if the Ids actually changed, not just a re-render or mesh ids have been passed to this function
+        const shouldZoom =
+            meshIds?.length > 0 || prevZoomToIds.current !== zoomTo;
         if (
             sceneRef.current?.meshes?.length &&
             (!cameraRef.current ||
-                prevZoomToIds.current !== zoomTo ||
+                shouldZoom ||
                 prevHideUnzoomedRef.current !== unzoomedMeshOpacity)
         ) {
             debugLog('createOrZoomCamera');
@@ -393,20 +397,19 @@ function SceneView(props: ISceneViewProp, ref) {
                 mesh.computeWorldMatrix(true);
                 mesh.visibility =
                     unzoomedMeshOpacity !== undefined &&
-                    zoomToMeshIds?.length &&
-                    !zoomToMeshIds.includes(mesh.id)
+                    zoomMeshIds?.length &&
+                    !zoomMeshIds.includes(mesh.id)
                         ? unzoomedMeshOpacity
                         : 1;
             }
 
-            // Only zoom if the Ids actually changed, not just a re-render
-            if (!cameraRef.current || prevZoomToIds.current !== zoomTo) {
+            if (!cameraRef.current || shouldZoom) {
                 prevZoomToIds.current = zoomTo;
                 const someMeshFromTheArrayOfMeshes = sceneRef.current.meshes[0];
                 let meshes = sceneRef.current.meshes;
-                if (zoomToMeshIds?.length) {
+                if (zoomMeshIds?.length) {
                     const meshList: BABYLON.AbstractMesh[] = [];
-                    for (const id of zoomToMeshIds) {
+                    for (const id of zoomMeshIds) {
                         const m = meshMap.current?.[id];
                         if (m) {
                             meshList.push(m);
@@ -434,7 +437,7 @@ function SceneView(props: ISceneViewProp, ref) {
                 const es = someMeshFromTheArrayOfMeshes.getBoundingInfo()
                     .boundingBox.extendSize;
                 const es_scaled = es.scale(
-                    zoomToMeshIds && zoomToMeshIds.length < 10 ? 5 : 3
+                    zoomMeshIds && zoomMeshIds.length < 10 ? 5 : 3
                 );
                 const width = es_scaled.x;
                 const height = es_scaled.y;
@@ -474,7 +477,7 @@ function SceneView(props: ISceneViewProp, ref) {
                     });
                 } else {
                     // ensure if zoom to mesh ids are set we return to the original radius
-                    if (!zoomToMeshIds?.length) {
+                    if (!zoomMeshIds?.length) {
                         radius = initialCameraRadiusRef.current;
                     }
                     zoomedCameraRadiusRef.current = radius;
@@ -589,11 +592,16 @@ function SceneView(props: ISceneViewProp, ref) {
                 }
             }
         },
-        resetCamera: () => {
-            const radius = zoomToMeshIds?.length
-                ? zoomedCameraRadiusRef.current
-                : initialCameraRadiusRef.current;
-            zoomCamera(radius, zoomedMeshesRef.current, 30);
+        resetCamera: (meshIds: string[]) => {
+            if (meshIds?.length) {
+                createOrZoomCamera(meshIds);
+            } else {
+                zoomCamera(
+                    initialCameraRadiusRef.current,
+                    sceneRef.current.meshes,
+                    30
+                );
+            }
         }
     }));
 

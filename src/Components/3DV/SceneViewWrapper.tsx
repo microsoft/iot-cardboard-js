@@ -45,7 +45,8 @@ export const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = ({
     sceneVisuals,
     addInProps,
     objectColorUpdated,
-    hideViewModePickerUI
+    hideViewModePickerUI,
+    selectedVisual
 }) => {
     const { onMeshHover, onMeshClick, onSceneLoaded, ...svp } = sceneViewProps;
 
@@ -193,7 +194,9 @@ export const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = ({
                         (sceneViewComponent.current as any)?.zoomCamera(zoom)
                     }
                     onResetCamera={() =>
-                        (sceneViewComponent.current as any)?.resetCamera()
+                        (sceneViewComponent.current as any)?.resetCamera(
+                            selectedVisual?.element?.objectIDs
+                        )
                     }
                 />
             </div>
