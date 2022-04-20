@@ -70,7 +70,7 @@ export const getLeftPanelBuilderHeaderParamsForBehaviors = (
 };
 
 export const getLeftPanelBuilderHeaderParamsForElements = (
-    elementToEdit: ITwinToObjectMapping,
+    selectedElement: ITwinToObjectMapping,
     elementTwinAliasFormInfo: ElementTwinAliasFormInfo,
     builderMode: ADT3DSceneBuilderMode
 ) => {
@@ -93,12 +93,11 @@ export const getLeftPanelBuilderHeaderParamsForElements = (
     } else {
         if (builderMode === ADT3DSceneBuilderMode.CreateElement) {
             headerText = i18n.t('3dSceneBuilder.newElement');
+            subHeaderText = i18n.t('3dSceneBuilder.addElementDetails');
         } else if (builderMode === ADT3DSceneBuilderMode.EditElement) {
             headerText = i18n.t('3dSceneBuilder.modifyElement');
+            subHeaderText = selectedElement?.displayName;
         }
-        subHeaderText = !elementToEdit?.displayName
-            ? i18n.t('3dSceneBuilder.addElementDetails')
-            : elementToEdit?.displayName;
         iconName = 'Shapes';
     }
 

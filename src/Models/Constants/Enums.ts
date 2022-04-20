@@ -22,6 +22,12 @@ export enum Locale {
     DE = 'de'
 }
 
+export enum CameraInteraction {
+    Free = 'free',
+    Pan = 'pan',
+    Rotate = 'rotate'
+}
+
 export enum ComponentErrorType {
     TokenRetrievalFailed = 'TokenRetrievalFailed',
     DataFetchFailed = 'DataFetchFailed',

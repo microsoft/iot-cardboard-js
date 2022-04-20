@@ -34,9 +34,10 @@ import { useBoolean } from '@fluentui/react-hooks';
 import { createCustomMeshItems } from '../3DV/SceneView.Utils';
 import { deepCopy } from '../../Models/Services/Utils';
 import AlertModal from '../AlertModal/AlertModal';
-import LayerDropdown from '../LayerDropdown/LayerDropdown';
 import ViewerConfigUtility from '../../Models/Classes/ViewerConfigUtility';
-import { unlayeredBehaviorKey } from '../LayerDropdown/LayerDropdown';
+import LayerDropdown, {
+    unlayeredBehaviorKey
+} from '../LayerDropdown/LayerDropdown';
 
 const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
     theme,
@@ -112,6 +113,10 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
         ...layersInScene.map((lis) => lis.id)
     ]);
 
+    const [selectedVisual, setSelectedVisual] = useState<Partial<SceneVisual>>(
+        null
+    );
+
     const { t } = useTranslation();
     const sceneWrapperId = useGuid();
     const selectedMesh = useRef(null);
@@ -179,6 +184,7 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
             DefaultViewerModeObjectColor.outlinedMeshSelectedColor
         );
 
+        setSelectedVisual(sceneVisual);
         setOutlinedMeshItems(outlinedMeshItems);
         outlinedMeshItemsRef.current = outlinedMeshItems;
         selectedMeshIdsRef.current = meshIds;
@@ -196,6 +202,7 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
                     setShowPopUp(false);
                     setZoomToMeshIds([]);
                     setOutlinedMeshItems([]);
+                    setSelectedVisual(null);
                     outlinedMeshItemsRef.current = [];
                     selectedMeshIdsRef.current = [];
                 } else {
@@ -208,6 +215,7 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
                 setShowPopUp(false);
                 setZoomToMeshIds([]);
                 setOutlinedMeshItems([]);
+                setSelectedVisual(null);
                 outlinedMeshItemsRef.current = [];
                 selectedMeshIdsRef.current = [];
             }
@@ -371,6 +379,7 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
                     sceneVisuals={sceneVisuals}
                     addInProps={addInProps}
                     hideViewModePickerUI={hideViewModePickerUI}
+                    selectedVisual={selectedVisual}
                     sceneViewProps={{
                         badgeGroups: alertBadges,
                         modelUrl: modelUrl,

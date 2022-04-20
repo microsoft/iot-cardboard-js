@@ -113,12 +113,11 @@ const LeftPanelBuilderBreadcrumb: React.FC<Props> = ({
 
         const elementsRoot: IBreadcrumbItem = {
             text: t('3dSceneBuilder.element'),
-            key: 'elementsRoot',
+            key: 'elementRoot',
             ...((elementTwinAliasFormInfo !== null ||
                 (builderMode !== ADT3DSceneBuilderMode.CreateElement &&
                     builderMode !== ADT3DSceneBuilderMode.EditElement)) && {
                 onClick: () => {
-                    onElementsRootClick();
                     setElementTwinAliasFormInfo(null);
                 }
             })
