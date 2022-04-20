@@ -313,6 +313,7 @@
     },
     "layersDropdown": {
         "placeholder": "Default layer",
+        "defaultLayer": "Default layer",
         "title": "Select layers"
     },
     "3dSceneBuilder": {
