@@ -73,20 +73,26 @@ const BehaviorsModal: React.FC<IBehaviorsModalProps> = ({
             : BehaviorModalPivotKey.Properties
     );
 
+    // When title (popover element) changes, snap to default pivot
     useEffect(() => {
-        // When title (popover element) changes, snap to default pivot
         if (
-            activePivot === BehaviorModalPivotKey.State &&
-            behaviors.length === 0
-        ) {
-            setActivePivot(BehaviorModalPivotKey.Properties);
-        } else if (
             activePivot === BehaviorModalPivotKey.Properties &&
             behaviors.length > 0
         ) {
             setActivePivot(BehaviorModalPivotKey.State);
         }
     }, [title]);
+
+    // If modal updated, and no behaviors present, snap to properties tab
+    useEffect(() => {
+        if (
+            activePivot === BehaviorModalPivotKey.State &&
+            behaviors.length === 0 &&
+            adapter
+        ) {
+            setActivePivot(BehaviorModalPivotKey.Properties);
+        }
+    });
 
     const styles = getStyles(theme, mode);
 
