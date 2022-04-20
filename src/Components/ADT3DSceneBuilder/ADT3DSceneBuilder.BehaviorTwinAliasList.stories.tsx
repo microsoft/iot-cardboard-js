@@ -111,7 +111,7 @@ TwinAliasRemove.play = async ({ canvasElement }) => {
     await TwinAliasListItemMenu.play({ canvasElement });
     await sleep(1000);
 
-    // Find the remove item in the overflow menu in twin alias list item
+    // Find the remove item in the overflow menu of twin alias list item
     const removeOverflowItem = await findOverflowMenuItemByTestId(
         'behaviorTwinAlias-removeOverflow'
     );
