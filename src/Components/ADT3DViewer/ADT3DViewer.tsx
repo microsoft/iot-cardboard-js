@@ -111,22 +111,14 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
         if (coloredMeshItemsProp) {
             setColoredMeshItems(coloredMeshItemsProp);
         } else {
-            const newColoredMeshItems = [];
+            const coloredMeshes = [];
             sceneVisuals.forEach((sceneVisual) => {
                 sceneVisual.coloredMeshItems.forEach((sceneColoredMeshItem) => {
-                    // const existingColoredMeshItem = newColoredMeshItems.find(
-                    //     (nC) => nC.meshId === sceneColoredMeshItem.meshId
-                    // );
-                    // if (existingColoredMeshItem) {
-                    //     existingColoredMeshItem.color =
-                    //         sceneColoredMeshItem.color;
-                    // } else {
-                    newColoredMeshItems.push(sceneColoredMeshItem);
-                    // }
+                    coloredMeshes.push(sceneColoredMeshItem);
                 });
             });
             setAlertBadges(sceneAlerts);
-            setColoredMeshItems(newColoredMeshItems);
+            setColoredMeshItems(coloredMeshes);
         }
     }, [sceneVisuals, coloredMeshItemsProp]);
 
