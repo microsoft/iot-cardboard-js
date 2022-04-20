@@ -12,7 +12,8 @@ export const sceneLayersClassPrefix = 'cb-scene-layers';
 const classNames = {
     container: `${sceneLayersClassPrefix}-container`,
     body: `${sceneLayersClassPrefix}-body`,
-    footer: `${sceneLayersClassPrefix}-footer`
+    footer: `${sceneLayersClassPrefix}-footer`,
+    noLayersContainer: `${sceneLayersClassPrefix}-no-layers-container`
 };
 
 export const getStyles = memoizeFunction((_theme?: Theme) => {
@@ -40,11 +41,21 @@ export const getStyles = memoizeFunction((_theme?: Theme) => {
             classNames.body,
             {
                 minHeight: 100,
-                maxHeight: 200,
+                maxHeight: 220,
                 flexGrow: 1,
                 overflowY: 'auto',
                 padding: 20,
                 paddingTop: 8
+            } as IStyle
+        ],
+        noLayersContainer: [
+            classNames.noLayersContainer,
+            {
+                alignItems: 'center',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                paddingTop: 20
             } as IStyle
         ]
     });
@@ -54,6 +65,14 @@ export const sectionHeaderStyles: Partial<ITextStyles> = {
     root: {
         fontWeight: FontWeights.semibold,
         marginBottom: 8,
+        marginTop: 4,
         display: 'block'
+    }
+};
+
+export const noLayersDescriptionStyles: Partial<ITextStyles> = {
+    root: {
+        textAlign: 'center',
+        width: '80%'
     }
 };

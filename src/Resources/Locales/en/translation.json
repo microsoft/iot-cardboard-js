@@ -325,7 +325,8 @@
         "editLayer": "Edit layer",
         "confirmChanges": "Confirm changes",
         "layers": "Layers",
-        "noLayersFound": "No layers found",
+        "noLayersFound": "You don't have any layers yet!",
+        "noLayersDescription": "Layers are like tags on behaviors. Start by creating a layer here.",
         "noBehaviorsOnLayer": "There are no behaviors on this layer"
     },
     "3dSceneBuilder": {

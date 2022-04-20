@@ -30,7 +30,7 @@ export const getStyles = memoizeFunction(() => {
                 display: 'flex',
                 lineHeight: '32px',
                 verticalAlign: 'middle',
-                padding: '12px 12px 0px 20px',
+                padding: '12px 12px 0px 12px',
                 height: 48
             } as IStyle
         ],
