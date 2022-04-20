@@ -23,6 +23,7 @@ export const CardboardListItem = <T extends unknown>(
         item,
         itemType,
         isChecked,
+        isValid,
         listKey,
         openMenuOnClick,
         overflowMenuItems,
@@ -35,6 +36,7 @@ export const CardboardListItem = <T extends unknown>(
     const showCheckbox = isChecked === true || isChecked === false;
     const showSecondaryText = !!textSecondary;
     const showStartIcon = !!iconStart;
+    const showNotValidIcon = isValid === false;
     const showEndIconButton = iconEnd?.name && iconEnd?.onClick;
     const showEndIcon = iconEnd?.name && !showEndIconButton;
     const showOverflow = !!overflowMenuItems?.length;
@@ -94,6 +96,9 @@ export const CardboardListItem = <T extends unknown>(
                     onClick={onButtonClick}
                     onKeyPress={onButtonKeyPress}
                 >
+                    {showNotValidIcon && (
+                        <span className={classNames.alertDot} />
+                    )}
                     {showCheckbox && (
                         <>
                             <CheckboxRenderer

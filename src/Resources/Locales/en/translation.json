@@ -448,6 +448,9 @@
                 "linkedTwin": "The LinkedTwin contains all properties in common between the target elements linked twins.",
                 "aliasChangeNotAllowed": "Alias change is not allowed after creation.",
                 "commonProperties": "The union of linked twin properties of selected elements"
+            },
+            "errors": {
+                "twinAliasAlreadyExists": "Twin alias with the same name already exists, consider adding it instead."
             }
         }
     },

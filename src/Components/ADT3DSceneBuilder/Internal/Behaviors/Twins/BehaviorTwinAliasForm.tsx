@@ -8,7 +8,13 @@ import {
     useTheme
 } from '@fluentui/react';
 import produce from 'immer';
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, {
+    useCallback,
+    useContext,
+    useEffect,
+    useMemo,
+    useState
+} from 'react';
 import { useTranslation } from 'react-i18next';
 import {
     defaultBehaviorTwinAlias,
@@ -31,6 +37,8 @@ const BehaviorTwinAliasForm: React.FC<{
     const { t } = useTranslation();
     const {
         adapter,
+        config,
+        sceneId,
         behaviorTwinAliasFormInfo,
         setBehaviorTwinAliasFormInfo,
         setBehaviorToEdit
@@ -109,14 +117,34 @@ const BehaviorTwinAliasForm: React.FC<{
         setFormData(null);
     }, [behaviorTwinAliasFormInfo, formData, selectedElements]);
 
+    const showAliasExistsErrorMessage = useMemo(() => {
+        const existingTwinAliasNames = ViewerConfigUtility.getAvailableBehaviorTwinAliasItemsBySceneAndElements(
+            config,
+            sceneId,
+            selectedElements
+        )?.map((twinAliasItem) => twinAliasItem.alias);
+        return (
+            behaviorTwinAliasFormInfo.mode ===
+                TwinAliasFormMode.CreateTwinAlias &&
+            existingTwinAliasNames.includes(formData.alias)
+        );
+    }, [
+        config,
+        sceneId,
+        selectedElements,
+        behaviorTwinAliasFormInfo,
+        formData
+    ]);
+
     useEffect(() => {
         const isValid =
             formData.alias &&
+            !showAliasExistsErrorMessage &&
             formData.elementToTwinMappings?.length ===
                 selectedElements?.length &&
             !formData.elementToTwinMappings.some((mapping) => !mapping.twinId);
         setIsFormValid(isValid);
-    }, [formData, selectedElements]);
+    }, [formData, selectedElements, showAliasExistsErrorMessage]);
 
     const theme = useTheme();
     const commonFormStyles = getPanelFormStyles(theme, 0);
@@ -143,6 +171,13 @@ const BehaviorTwinAliasForm: React.FC<{
                         '3dSceneBuilder.twinAlias.descriptions.aliasChangeNotAllowed'
                     )}
                 />
+                {showAliasExistsErrorMessage && (
+                    <div className={styles.errorMessage}>
+                        {t(
+                            '3dSceneBuilder.twinAlias.errors.twinAliasAlreadyExists'
+                        )}
+                    </div>
+                )}
                 <div className={styles.elementTwinMappingsSection}>
                     <Label>
                         {t(
@@ -217,6 +252,11 @@ const styles = mergeStyleSets({
         '.cb-search-autocomplete-container': {
             position: 'unset !important'
         }
+    },
+    errorMessage: {
+        color: 'var(--cb-color-text-danger)',
+        fontSize: 12,
+        marginTop: 2
     }
 });
 
