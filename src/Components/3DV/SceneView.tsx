@@ -1198,7 +1198,7 @@ const SceneView: React.FC<ISceneViewProp> = ({
 
                 scene.beforeRender = () => {
                     // delta time is in milliseconds
-                    elapsed += scene.deltaTime;
+                    elapsed += 10;
                     if (isTransition()) {
                         if (elapsed <= interval + transition) {
                             for (const coloredMeshGroup of coloredMeshGroups) {
@@ -1207,7 +1207,6 @@ const SceneView: React.FC<ISceneViewProp> = ({
                                         meshMap.current?.[
                                             coloredMeshGroup.meshId
                                         ];
-
                                     const transitionColor = BABYLON.Color3.Lerp(
                                         BABYLON.Color3.FromHexString(
                                             coloredMeshGroup.colors[
@@ -1225,18 +1224,9 @@ const SceneView: React.FC<ISceneViewProp> = ({
                                         ),
                                         transitionNrm()
                                     );
-                                    mesh.material = makeMaterial(
-                                        'coloredMeshMaterial',
-                                        sceneRef.current,
-                                        hexToColor4(
-                                            transitionColor.toHexString()
-                                        ),
-                                        hexToColor4(
-                                            currentObjectColor.fresnelColor
-                                        ),
-                                        reflectionTexture.current,
-                                        currentObjectColor.lightingStyle,
-                                        mesh.material
+                                    colorMesh(
+                                        mesh,
+                                        transitionColor.toHexString()
                                     );
                                 }
                             }
@@ -1252,20 +1242,11 @@ const SceneView: React.FC<ISceneViewProp> = ({
                                         coloredMeshGroup.currentColor,
                                         coloredMeshGroup.colors.length
                                     );
-                                    mesh.material = makeMaterial(
-                                        'coloredMeshMaterial',
-                                        sceneRef.current,
-                                        hexToColor4(
-                                            coloredMeshGroup.colors[
-                                                coloredMeshGroup.currentColor
-                                            ]
-                                        ),
-                                        hexToColor4(
-                                            currentObjectColor.fresnelColor
-                                        ),
-                                        reflectionTexture.current,
-                                        currentObjectColor.lightingStyle,
-                                        mesh.material
+                                    colorMesh(
+                                        mesh,
+                                        coloredMeshGroup.colors[
+                                            coloredMeshGroup.currentColor
+                                        ]
                                     );
                                 }
                             }

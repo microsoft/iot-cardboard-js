@@ -6,8 +6,7 @@ export function makeMaterial(
     baseColor: BABYLON.Color4,
     fresnelColor?: BABYLON.Color4,
     reflectionTexture?: BABYLON.Texture,
-    lightingStyle?: number,
-    existingMaterial?: any
+    lightingStyle?: number
 ) {
     if (lightingStyle === 0)
         return makePBRMaterial(
@@ -16,8 +15,7 @@ export function makeMaterial(
             baseColor,
             fresnelColor,
             reflectionTexture,
-            lightingStyle,
-            existingMaterial
+            lightingStyle
         );
     else
         return makeStandardMaterial(
@@ -26,8 +24,7 @@ export function makeMaterial(
             baseColor,
             fresnelColor,
             reflectionTexture,
-            lightingStyle,
-            existingMaterial
+            lightingStyle
         );
 }
 
@@ -37,11 +34,9 @@ export function makeStandardMaterial(
     baseColor: BABYLON.Color4,
     fresnelColor?: BABYLON.Color4,
     reflectionTexture?: BABYLON.Texture,
-    lightingStyle?: number,
-    existingMaterial?: BABYLON.StandardMaterial
+    lightingStyle?: number
 ) {
-    const material =
-        existingMaterial || new BABYLON.StandardMaterial(name, scene);
+    const material = new BABYLON.StandardMaterial(name, scene);
     const baseColor3 = new BABYLON.Color3(
         baseColor.r,
         baseColor.g,
@@ -107,12 +102,9 @@ export function makePBRMaterial(
     baseColor: BABYLON.Color4,
     fresnelColor?: BABYLON.Color4,
     reflectionTexture?: BABYLON.Texture,
-    lightingStyle?: number,
-    existingMaterial?: BABYLON.PBRMetallicRoughnessMaterial
+    lightingStyle?: number
 ) {
-    const material =
-        existingMaterial ||
-        new BABYLON.PBRMetallicRoughnessMaterial(name, scene);
+    const material = new BABYLON.PBRMetallicRoughnessMaterial(name, scene);
     const baseColor3 = new BABYLON.Color3(
         baseColor.r,
         baseColor.g,
