@@ -2444,10 +2444,7 @@
             {
                 "id": "8904b620aa83c649888dadc7c8fdf492",
                 "displayName": "Flow",
-                "behaviorIDs": [
-                    "421cc93046fa4b589bc2ec1dd1009c90",
-                    "d6a2d68bc4007f3fa624eab19105e44b"
-                ]
+                "behaviorIDs": ["d6a2d68bc4007f3fa624eab19105e44b"]
             },
             {
                 "id": "9624b620aa83c649888dadc7c8fdf541",

@@ -312,8 +312,9 @@
         "globe": "Globe"
     },
     "layersDropdown": {
-        "placeholder": "Default layer",
-        "defaultLayer": "Default layer",
+        "placeholder": "No layers selected",
+        "unlayeredBehaviors": "Unlayered behaviors",
+        "unlayered": "Unlayered",
         "title": "Select layers"
     },
     "3dSceneBuilder": {

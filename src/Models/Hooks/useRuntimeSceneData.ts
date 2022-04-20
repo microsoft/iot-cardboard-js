@@ -45,22 +45,21 @@ export const useRuntimeSceneData = (
         if (sceneData?.adapterResult?.result?.data) {
             const behaviorIdsInSelectedLayers = ViewerConfigUtility.getBehaviorIdsInSelectedLayers(
                 scenesConfig,
-                selectedLayerIds
+                [...selectedLayerIds],
+                sceneId
             );
 
             let sceneVisuals = [
                 ...deepCopy(sceneData.adapterResult.result.data.sceneVisuals)
             ];
 
-            // If specific layers selected, splice out behaviors not in layer
-            if (selectedLayerIds.length > 0) {
-                sceneVisuals = sceneVisuals.map((sv) => ({
-                    ...sv,
-                    behaviors: sv.behaviors.filter((b) =>
-                        behaviorIdsInSelectedLayers.includes(b.id)
-                    )
-                }));
-            }
+            // Apply layer filtering to behaviors - splice out behaviors not in selected layers
+            sceneVisuals = sceneVisuals.map((sv) => ({
+                ...sv,
+                behaviors: sv.behaviors.filter((b) =>
+                    behaviorIdsInSelectedLayers.includes(b.id)
+                )
+            }));
 
             const alerts: Array<{
                 sceneVisual: SceneVisual;

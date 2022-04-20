@@ -1,12 +1,7 @@
 import React from 'react';
 import { LayerDropdownProps } from './LayerDropdown.types';
+import { dropdownStyles, iconStyles } from './LayerDropdown.styles';
 import {
-    defaultLayerButtonStyles,
-    dropdownStyles,
-    iconStyles
-} from './LayerDropdown.styles';
-import {
-    ActionButton,
     Dropdown,
     DropdownMenuItemType,
     Icon,
@@ -19,15 +14,25 @@ import {
 import i18n from '../../i18n';
 import { useTranslation } from 'react-i18next';
 
+export const unlayeredBehaviorKey = 'scene-layer-dropdown-unlayered-behaviors';
+
 const LayerDropdown: React.FC<LayerDropdownProps> = ({
     layers,
     selectedLayerIds,
-    setSelectedLayerIds
+    setSelectedLayerIds,
+    showUnlayeredOption = true
 }) => {
     const { t } = useTranslation();
 
     const options: IDropdownOption<ILayer>[] = [
-        { key: 'defaultLayer', text: t('layersDropdown.defaultLayer') },
+        ...(showUnlayeredOption
+            ? [
+                  {
+                      key: unlayeredBehaviorKey,
+                      text: t('layersDropdown.unlayeredBehaviors')
+                  }
+              ]
+            : []),
         {
             key: 'divider-1',
             text: '-',
@@ -46,15 +51,11 @@ const LayerDropdown: React.FC<LayerDropdownProps> = ({
         option?: IDropdownOption<any>
     ) => {
         if (option) {
-            if (option.key === 'defaultLayer') {
-                setSelectedLayerIds([]);
-            } else {
-                setSelectedLayerIds(
-                    option.selected
-                        ? [...selectedLayerIds, option.key as string]
-                        : selectedLayerIds.filter((key) => key !== option.key)
-                );
-            }
+            setSelectedLayerIds(
+                option.selected
+                    ? [...selectedLayerIds, option.key as string]
+                    : selectedLayerIds.filter((key) => key !== option.key)
+            );
         }
     };
 
@@ -65,7 +66,14 @@ const LayerDropdown: React.FC<LayerDropdownProps> = ({
         return (
             <>
                 <LayerIcon />
-                {defaultRender(options)}
+                {defaultRender(
+                    options.map((o) => ({
+                        ...o,
+                        ...(o.key === unlayeredBehaviorKey
+                            ? { text: t('layersDropdown.unlayered') }
+                            : {})
+                    }))
+                )}
             </>
         );
     };
@@ -83,22 +91,23 @@ const LayerDropdown: React.FC<LayerDropdownProps> = ({
         props: ISelectableOption,
         defaultRender: (props?: ISelectableOption) => JSX.Element | null
     ) => {
-        if (props.key === 'defaultLayer') {
-            return (
-                <div>
-                    <ActionButton
-                        iconProps={{ iconName: 'RedEye' }}
-                        width={'100%'}
-                        styles={defaultLayerButtonStyles}
-                        onClick={() => onChange(null, props)}
-                    >
-                        {t('layersDropdown.defaultLayer')}
-                    </ActionButton>
-                </div>
-            );
-        } else {
-            return defaultRender(props);
-        }
+        // TODO add show / hide all
+        // if (props.key === 'defaultLayer') {
+        //     return (
+        //         <div>
+        //             <ActionButton
+        //                 iconProps={{ iconName: 'RedEye' }}
+        //                 width={'100%'}
+        //                 styles={defaultLayerButtonStyles}
+        //                 onClick={() => onChange(null, props)}
+        //             >
+        //                 {t('layersDropdown.defaultLayer')}
+        //             </ActionButton>
+        //         </div>
+        //     );
+        // } else {
+        return defaultRender(props);
+        // }
     };
 
     if (layers.length === 0) return null;

@@ -22,7 +22,6 @@ import {
 import { VisualType } from '../../Models/Classes/3DVConfig';
 import BaseComponent from '../../Components/BaseComponent/BaseComponent';
 import { SceneViewWrapper } from '../../Components/3DV/SceneViewWrapper';
-import { IPopoverVisual } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import BehaviorsModal from '../BehaviorsModal/BehaviorsModal';
 import { useRuntimeSceneData } from '../../Models/Hooks/useRuntimeSceneData';
 import { BaseComponentProps } from '../BaseComponent/BaseComponent.types';
@@ -37,6 +36,7 @@ import { deepCopy } from '../../Models/Services/Utils';
 import AlertModal from '../AlertModal/AlertModal';
 import LayerDropdown from '../LayerDropdown/LayerDropdown';
 import ViewerConfigUtility from '../../Models/Classes/ViewerConfigUtility';
+import { unlayeredBehaviorKey } from '../LayerDropdown/LayerDropdown';
 
 const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
     theme,
@@ -92,7 +92,25 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
         setAlertPanelItems
     ] = useState<IViewerElementsPanelItem>(null);
 
-    const [selectedLayerIds, setSelectedLayerIds] = useState<string[]>([]);
+    const layersInScene = useMemo(
+        () => ViewerConfigUtility.getLayersInScene(scenesConfig, sceneId),
+        [scenesConfig, sceneId]
+    );
+
+    const unlayeredBehaviorsPresent = useMemo(
+        () =>
+            ViewerConfigUtility.getUnlayeredBehaviorIdsInScene(
+                scenesConfig,
+                sceneId
+            ).length > 0,
+        [scenesConfig, sceneId]
+    );
+
+    const [selectedLayerIds, setSelectedLayerIds] = useState<string[]>([
+        // Add unlayered behavior option if unlayered behaviors present
+        ...(unlayeredBehaviorsPresent ? [unlayeredBehaviorKey] : []),
+        ...layersInScene.map((lis) => lis.id)
+    ]);
 
     const { t } = useTranslation();
     const sceneWrapperId = useGuid();
@@ -376,12 +394,10 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
                 />
                 <div className="cb-layer-dropdown-container">
                     <LayerDropdown
-                        layers={ViewerConfigUtility.getLayersInScene(
-                            scenesConfig,
-                            sceneId
-                        )}
+                        layers={layersInScene}
                         selectedLayerIds={selectedLayerIds}
                         setSelectedLayerIds={setSelectedLayerIds}
+                        showUnlayeredOption={unlayeredBehaviorsPresent}
                     />
                 </div>
             </div>

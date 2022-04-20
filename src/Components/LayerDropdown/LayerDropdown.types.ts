@@ -4,4 +4,5 @@ export interface LayerDropdownProps {
     layers: ILayer[];
     selectedLayerIds: string[];
     setSelectedLayerIds: React.Dispatch<React.SetStateAction<string[]>>;
+    showUnlayeredOption?: boolean;
 }
