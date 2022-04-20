@@ -138,6 +138,7 @@ const LayerDropdown: React.FC<LayerDropdownProps> = ({
         if (props.key === showHideAllKey) {
             return (
                 <ActionButton
+                    key={props.key}
                     iconProps={{
                         iconName: !props.data?.isShow ? 'Hide' : 'RedEye',
                         styles: (props) => getEyeIconStyles(props.theme)
