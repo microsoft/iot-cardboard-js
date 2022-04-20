@@ -61,20 +61,26 @@ const LinkedTwinPropertiesCallout: React.FC<IADT3DSceneBuilderLinkedTwinProperti
             <Text className={commonPanelStyles.text}>
                 {t('3dSceneBuilder.twinAlias.descriptions.commonProperties')}
             </Text>
-            <SearchBox
-                styles={{ root: { margin: '16px 0px' } }}
-                data-testid={'twin-alias-callout-search'}
-                placeholder={t('3dSceneBuilder.twinAlias.searchProperties')}
-                onChange={(_event, value) => {
-                    setSearchText(value);
-                    searchProperty(value);
-                }}
-            />
+            {commonLinkedTwinProperties.length > 0 && (
+                <SearchBox
+                    styles={{ root: { margin: '16px 0px' } }}
+                    data-testid={'twin-alias-callout-search'}
+                    placeholder={t('3dSceneBuilder.twinAlias.searchProperties')}
+                    onChange={(_event, value) => {
+                        setSearchText(value);
+                        searchProperty(value);
+                    }}
+                />
+            )}
             {isLoading ? (
                 <Spinner size={SpinnerSize.xSmall} />
+            ) : filteredProperties.length === 0 ? (
+                <div className={styles.resultText}>
+                    {t('3dSceneBuilder.noLinkedTwinProperties')}
+                </div>
             ) : (
                 <CardboardBasicList
-                    className={getListStyle.root}
+                    className={styles.list}
                     items={filteredProperties}
                     listKey={`common-properties-callout-list`}
                     textToHighlight={searchText}
@@ -84,11 +90,16 @@ const LinkedTwinPropertiesCallout: React.FC<IADT3DSceneBuilderLinkedTwinProperti
     );
 };
 
-const getListStyle = mergeStyleSets({
-    root: {
+const styles = mergeStyleSets({
+    list: {
         '.cb-basic-list-item-root': {
             padding: '8px 12px 8px 0'
         } as IStyle
+    },
+    resultText: {
+        fontSize: '12px',
+        marginTop: '5px',
+        opacity: '0.6'
     }
 });
 

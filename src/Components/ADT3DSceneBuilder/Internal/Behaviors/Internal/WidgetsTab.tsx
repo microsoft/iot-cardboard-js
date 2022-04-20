@@ -8,7 +8,6 @@ import React, {
 import { ActionButton, IContextualMenuItem, useTheme } from '@fluentui/react';
 import produce from 'immer';
 import { TFunction, useTranslation } from 'react-i18next';
-import { BehaviorFormContext } from '../BehaviorsForm';
 import WidgetLibraryDialog from '../Widgets/WidgetLibraryDialog';
 import { availableWidgets } from '../../../../../Models/Constants/Constants';
 import { WidgetFormMode } from '../../../../../Models/Constants/Enums';
@@ -36,9 +35,8 @@ const getPopoverFromBehavior = (behavior: IBehavior) =>
 
 const WidgetsTab: React.FC = () => {
     const { t } = useTranslation();
-    const { setWidgetFormInfo } = useContext(SceneBuilderContext);
-    const { setBehaviorToEdit, behaviorToEdit } = useContext(
-        BehaviorFormContext
+    const { setWidgetFormInfo, setBehaviorToEdit, behaviorToEdit } = useContext(
+        SceneBuilderContext
     );
     const [isLibraryDialogOpen, setIsLibraryDialogOpen] = useState(false);
     const [listItems, setListItems] = useState<ICardboardListItem<IWidget>[]>(

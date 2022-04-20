@@ -85,6 +85,7 @@
     "selectFile": "Select file",
     "uploadFile": "Upload file",
     "uploadingFile": "Uploading file...",
+    "twinId": "Twin ID",
     "errors": {
         "errorBoundary": "Error boundary",
         "unkownError": "Unknown error occurred",
@@ -418,9 +419,11 @@
             "statusBehavior": "Status behavior"
         },
         "notImplemented": "Not implemented",
+        "noLinkedTwinProperties": "No linked twin properties to display",
         "twinAlias": {
             "title": "Twin alias",
             "titlePlural": "Twin aliases",
+            "aliasedTwin": "Aliased twin",
             "aliasedTwins": "Aliased twins",
             "add": "Add twin alias",
             "noTwinAliasesAdded": "No twin aliases added yet",
@@ -433,16 +436,21 @@
             "searchProperties": "Search properties",
             "noTwinAliasesToAdd": "No twin aliases to add",
             "removeFromBehavior": "Remove twin alias from behavior",
+            "removeFromElement": "Remove twin alias from element",
             "commonProperties": "Common properties",
             "twinAliasForm": {
                 "alias": "Alias",
-                "elementTwinMappings": "Element twin mappings"
+                "elementTwinMappings": "Element twin mappings",
+                "elementTwinMappingsNotExist": "There is no available mapping, add elements to behavior first."
             },
             "descriptions": {
                 "twins": "Twins give you access to properties which can be used in expressions.",
                 "linkedTwin": "The LinkedTwin contains all properties in common between the target elements linked twins.",
                 "aliasChangeNotAllowed": "Alias change is not allowed after creation.",
                 "commonProperties": "The union of linked twin properties of selected elements"
+            },
+            "errors": {
+                "twinAliasAlreadyExists": "Twin alias with the same name already exists, consider adding it instead."
             }
         }
     },
@@ -667,7 +675,11 @@
     },
     "behaviorsModal": {
         "closeModal": "Close modal",
-        "behaviorPreview": "Preview"
+        "behaviorPopoverMode": "Behavior popover mode",
+        "state": "State",
+        "allProperties": "All properties",
+        "behaviorPreview": "Preview",
+        "LinkedTwinProperties": "Linked Twin properties"
     },
     "svgTests": {
         "fluentUI": "SVG loading via Fluent Image component (recommended pattern)",

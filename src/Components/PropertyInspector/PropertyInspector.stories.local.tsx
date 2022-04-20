@@ -4,15 +4,17 @@ import ADTAdapter from '../../Adapters/ADTAdapter';
 import MsalAuthService from '../../Models/Services/MsalAuthService';
 import { mockRelationship, mockTwin } from './__mockdata__/mockData';
 import PropertyInspector from './PropertyInspector';
-
-export default {
-    title: 'Components/Property Inspector',
-    component: PropertyInspector
-};
+import { getDefaultStoryDecorator } from '../../Models/Services/StoryUtilities';
 
 const propertyInspectorStoryStyles = {
     maxWidth: '428px',
     width: '100%'
+};
+
+export default {
+    title: 'Components/Property Inspector',
+    component: PropertyInspector,
+    decorators: [getDefaultStoryDecorator(propertyInspectorStoryStyles)]
 };
 
 export const AdtTwin = (args, { globals: { theme, locale } }) => {
@@ -41,7 +43,7 @@ export const AdtTwin = (args, { globals: { theme, locale } }) => {
 AdtTwin.argTypes = {
     twinId: {
         control: { type: 'text' },
-        defaultValue: 'LeoTheDog'
+        defaultValue: 'PasteurizationMachine_A01'
     }
 };
 

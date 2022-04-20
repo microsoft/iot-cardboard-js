@@ -84,7 +84,7 @@
         input,
         textarea,
         select {
-            background-color: var(--cb-color-bg-canvas);
+            background: transparent;
             border: 1px solid var(--cb-color-card-border);
             border-radius: 4px;
             color: var(--cb-color-text-primary);
