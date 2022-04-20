@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { LayerDropdownProps } from './LayerDropdown.types';
 import {
     defaultLayerButtonStyles,
@@ -14,12 +14,12 @@ import {
     Icon,
     IDropdownOption,
     IDropdownProps,
-    ILayer,
     IRenderFunction,
     ISelectableOption
 } from '@fluentui/react';
 import i18n from '../../i18n';
 import { useTranslation } from 'react-i18next';
+import { ILayer } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 
 export const unlayeredBehaviorKey = 'scene-layer-dropdown-unlayered-behaviors';
 export const showHideAllKey = 'show-hide-all';
@@ -32,57 +32,15 @@ const LayerDropdown: React.FC<LayerDropdownProps> = ({
 }) => {
     const { t } = useTranslation();
 
-    const options: IDropdownOption<ILayer>[] = [
-        ...(showUnlayeredOption
-            ? [
-                  {
-                      key: unlayeredBehaviorKey,
-                      text: t('layersDropdown.unlayeredBehaviors')
-                  }
-              ]
-            : []),
-        {
-            key: 'divider-2',
-            text: '-',
-            itemType: DropdownMenuItemType.Divider
-        }
-    ].concat(
-        layers.map((layer) => ({
-            key: layer.id,
-            text: layer.displayName,
-            ariaLabel: layer.displayName
-        }))
-    );
-
-    const layerOptions = options.filter(
-        (option) =>
-            option.itemType !== DropdownMenuItemType.Divider &&
-            option.itemType !== DropdownMenuItemType.Header
-    );
-    const numLayerOptions = layerOptions.length;
-    const numSelectedOptions = layerOptions.filter((option) =>
-        selectedLayerIds.includes(String(option.key))
-    ).length;
-    const isShow = numSelectedOptions < Math.ceil(numLayerOptions / 2);
-
-    options.unshift(
-        {
-            key: showHideAllKey,
-            text: isShow
-                ? t('layersDropdown.selectAll')
-                : t('layersDropdown.selectNone'),
-            data: { isShow }
-        },
-        {
-            key: 'divider-1',
-            text: '-',
-            itemType: DropdownMenuItemType.Divider
-        }
+    const options = useMemo(
+        () =>
+            getLayerOptionsData(layers, showUnlayeredOption, selectedLayerIds),
+        [layers, showUnlayeredOption, selectedLayerIds]
     );
 
     const onChange = (
         _event: React.FormEvent<HTMLDivElement>,
-        option?: IDropdownOption<any>
+        option?: IDropdownOption
     ) => {
         if (option) {
             setSelectedLayerIds(
@@ -96,7 +54,7 @@ const LayerDropdown: React.FC<LayerDropdownProps> = ({
     const styles = getStyles();
 
     const onRenderTitle = (
-        options: IDropdownOption<ILayer>[],
+        options: IDropdownOption[],
         defaultRender
     ): JSX.Element => {
         return (
@@ -125,8 +83,8 @@ const LayerDropdown: React.FC<LayerDropdownProps> = ({
         );
     };
 
-    const onShowHide = (isShow: boolean) => {
-        if (isShow) {
+    const onShowHide = (isSelectAllMode: boolean) => {
+        if (isSelectAllMode) {
             setSelectedLayerIds([
                 unlayeredBehaviorKey,
                 ...layers.map((l) => l.id)
@@ -145,12 +103,12 @@ const LayerDropdown: React.FC<LayerDropdownProps> = ({
                 <ActionButton
                     key={props.key}
                     iconProps={{
-                        iconName: !props.data?.isShow ? 'Hide' : 'RedEye',
+                        iconName: 'MultiSelect',
                         styles: (props) => getEyeIconStyles(props.theme)
                     }}
                     width={'100%'}
                     styles={defaultLayerButtonStyles}
-                    onClick={() => onShowHide(props.data?.isShow)}
+                    onClick={() => onShowHide(props.data?.isSelectAllMode)}
                 >
                     {props.text}
                 </ActionButton>
@@ -186,5 +144,61 @@ const LayerIcon = () => (
         styles={iconStyles}
     />
 );
+
+const getLayerOptionsData = (
+    layers: ILayer[],
+    showUnlayeredOption: boolean,
+    selectedLayerIds
+) => {
+    const options: IDropdownOption[] = [
+        ...(showUnlayeredOption
+            ? [
+                  {
+                      key: unlayeredBehaviorKey,
+                      text: i18n.t('layersDropdown.unlayeredBehaviors')
+                  }
+              ]
+            : []),
+        {
+            key: 'divider-2',
+            text: '-',
+            itemType: DropdownMenuItemType.Divider
+        }
+    ].concat(
+        layers.map((layer) => ({
+            key: layer.id,
+            text: layer.displayName,
+            ariaLabel: layer.displayName
+        }))
+    );
+
+    const layerOptions = options.filter(
+        (option) =>
+            option.itemType !== DropdownMenuItemType.Divider &&
+            option.itemType !== DropdownMenuItemType.Header
+    );
+    const numLayerOptions = layerOptions.length;
+    const numSelectedOptions = layerOptions.filter((option) =>
+        selectedLayerIds.includes(String(option.key))
+    ).length;
+    const isSelectAllMode = numSelectedOptions < Math.ceil(numLayerOptions / 2);
+
+    options.unshift(
+        {
+            key: showHideAllKey,
+            text: isSelectAllMode
+                ? i18n.t('layersDropdown.selectAll')
+                : i18n.t('layersDropdown.selectNone'),
+            data: { isSelectAllMode }
+        },
+        {
+            key: 'divider-1',
+            text: '-',
+            itemType: DropdownMenuItemType.Divider
+        }
+    );
+
+    return options;
+};
 
 export default React.memo(LayerDropdown);

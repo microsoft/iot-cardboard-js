@@ -145,7 +145,7 @@ const BehaviorsModal: React.FC<IBehaviorsModalProps> = ({
                                         }
                                         styles={pivotStyles}
                                     >
-                                        {behaviors && behaviors.length > 0 && (
+                                        {behaviors?.length > 0 && (
                                             <PivotItem
                                                 headerText={t(
                                                     'behaviorsModal.state'

@@ -317,7 +317,7 @@
         "unlayered": "Unlayered",
         "title": "Select layers",
         "selectAll": "Select all",
-        "selectNone": "Select none"
+        "selectNone": "Deselect all"
     },
     "3dSceneBuilder": {
         "elements": "Elements",
