@@ -19,12 +19,13 @@ import {
 } from '../../Models/Constants/Constants';
 import { getGraphViewerStyles } from './OATGraphViewer.styles';
 import { ElementsContext } from './Internal/OATContext';
+import { IOATElementsChangeEventArgs } from '../../Models/Constants/Interfaces';
 
 type OATGraphProps = {
-    setElementHandler: () => any;
+    onElementsUpdate: (digitalTwinsModels: IOATElementsChangeEventArgs) => any;
 };
 
-const OATGraphViewer = ({ setElementHandler }: OATGraphProps) => {
+const OATGraphViewer = ({ onElementsUpdate }: OATGraphProps) => {
     const { t } = useTranslation();
     const theme = useTheme();
     const reactFlowWrapperRef = useRef(null);
@@ -186,7 +187,7 @@ const OATGraphViewer = ({ setElementHandler }: OATGraphProps) => {
             TwinsLocalStorageKey,
             JSON.stringify({ digitalTwinsModels: nodes })
         );
-        setElementHandler({ digitalTwinsModels: nodes });
+        onElementsUpdate({ digitalTwinsModels: nodes });
     };
 
     return (
@@ -228,6 +229,10 @@ const OATGraphViewer = ({ setElementHandler }: OATGraphProps) => {
             </div>
         </BaseComponent>
     );
+};
+
+OATGraphViewer.defaultProps = {
+    onElementsUpdate: () => null
 };
 
 export default OATGraphViewer;
