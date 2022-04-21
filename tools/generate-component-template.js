@@ -23,7 +23,10 @@ if (componentName[0] !== componentName[0].toUpperCase()) {
 }
 
 // Generate component directory
-console.log('Creating component templates with name: ', componentName);
+console.log(
+    'Creating component templates with name: '.cyan,
+    componentName.green
+);
 const componentDirectory = `./src/Components/${componentName}`;
 if (fs.existsSync(componentDirectory)) {
     console.error(`Component ${componentName} already exists.`.red);
@@ -45,7 +48,7 @@ generatedTemplates.forEach((template) => {
 });
 
 console.log(
-    `${componentName} component created successfully under: `,
+    `${componentName} component created successfully under: `.cyan,
     componentDirectory.green
 );
 
