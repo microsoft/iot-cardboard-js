@@ -12,7 +12,6 @@ const ${componentName}: React.FC<${componentName}Props> = () => {
 };
 
 export default ${componentName};
-
 `,
     extension: `.tsx`
 });

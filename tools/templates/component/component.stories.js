@@ -22,7 +22,6 @@ const Template: ${componentName}Story = (args) => {
 export const ${componentName}Mock = Template.bind({}) as ${componentName}Story;
 
 ${componentName}Mock.args = {};
-
 `,
     extension: `.stories.tsx`
 });
