@@ -93,15 +93,18 @@ const OATGraphViewer = ({ onElementsUpdate }: OATGraphProps) => {
 
     const onNodeDragStop = (evt, node) => {
         let targetId = '';
-        elements.map((element) => {
-            if (element.id !== node.id && !element.source) {
-                if (
-                    node.position.x - 60 < element.position.x &&
-                    element.position.x < node.position.x + 60 &&
-                    node.position.y - 30 < element.position.y &&
-                    element.position.y < node.position.y + 30
-                )
-                    targetId = element.id;
+        const areaDistanceX = 60;
+        const areaDistanceY = 30;
+        elements.forEach((element) => {
+            if (
+                element.id !== node.id &&
+                !element.source &&
+                node.position.x - areaDistanceX < element.position.x &&
+                element.position.x < node.position.x + areaDistanceX &&
+                node.position.y - areaDistanceY < element.position.y &&
+                element.position.y < node.position.y + areaDistanceY
+            ) {
+                targetId = element.id;
             }
         });
         const targetIndex = elements.findIndex(
@@ -211,12 +214,13 @@ const OATGraphViewer = ({ onElementsUpdate }: OATGraphProps) => {
             } else if (currentHandleId.current === ComponentHandleName) {
                 const name = `${node.data.name}:${ComponentHandleName}`;
                 const id = `${node.id}:${ComponentHandleName}`;
+                const componentRelativePosition = 120;
                 const newNode = {
                     id: id,
                     type: 'Interface',
                     position: {
-                        x: node.position.x - 120,
-                        y: node.position.y + 120
+                        x: node.position.x - componentRelativePosition,
+                        y: node.position.y + componentRelativePosition
                     },
                     data: {
                         name: name,
@@ -226,8 +230,7 @@ const OATGraphViewer = ({ onElementsUpdate }: OATGraphProps) => {
                     }
                 };
                 params.target = id;
-                setElements((es) => es.concat(newNode));
-                setElements((es) => addEdge(params, es));
+                setElements((es) => [newNode, ...addEdge(params, es)]);
             }
         }
     };
