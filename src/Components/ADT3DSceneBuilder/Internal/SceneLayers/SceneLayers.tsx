@@ -12,10 +12,6 @@ import { defaultLayer } from '../../../../Models/Classes/3DVConfig';
 import { createGUID } from '../../../../Models/Services/Utils';
 import { IFocusTrapZone } from '@fluentui/react';
 
-interface ISceneLayersProps {
-    test?: boolean;
-}
-
 export enum LayerDialogMode {
     Root = 'root',
     NewLayer = 'newLayer',
@@ -33,7 +29,7 @@ const getCalloutTitle = (mode: LayerDialogMode) => {
     }
 };
 
-const SceneLayers: React.FC<ISceneLayersProps> = () => {
+const SceneLayers: React.FC = () => {
     const { t } = useTranslation();
 
     const {
@@ -50,6 +46,7 @@ const SceneLayers: React.FC<ISceneLayersProps> = () => {
         confirmDeleteLayerData,
         setConfirmDeleteLayerData
     ] = useState<ILayer>(null);
+    const [isLoading, setIsLoading] = useState(false);
 
     const keepOpenRef = useRef(false);
     const calloutRef = useRef<IFocusTrapZone>(null);
@@ -72,15 +69,18 @@ const SceneLayers: React.FC<ISceneLayersProps> = () => {
         } else {
             updatedConfig = ViewerConfigUtility.editLayer(config, layer);
         }
-
+        setIsLoading(true);
         await adapter.putScenesConfig(updatedConfig);
-        getConfig();
+        await getConfig();
+        setIsLoading(false);
     };
 
     const onDeleteLayer = async (layer: ILayer) => {
         const updatedConfig = ViewerConfigUtility.deleteLayer(config, layer);
+        setIsLoading(true);
         await adapter.putScenesConfig(updatedConfig);
-        getConfig();
+        await getConfig();
+        setIsLoading(false);
     };
 
     return (
@@ -126,6 +126,7 @@ const SceneLayers: React.FC<ISceneLayersProps> = () => {
                             keepOpenRef.current = true;
                             setConfirmDeleteLayerData(layer);
                         }}
+                        isLoading={isLoading}
                     />
                 )}
                 {(mode === LayerDialogMode.NewLayer ||

@@ -323,7 +323,7 @@
         "layerNamePlaceholder": "Enter layer name",
         "createNewLayer": "Create new layer",
         "editLayer": "Edit layer",
-        "confirmChanges": "Confirm changes",
+        "updateLayer": "Update layer",
         "layers": "Layers",
         "noLayersFound": "You don't have any layers yet!",
         "noLayersDescription": "Layers are like tags on behaviors. Start by creating a layer here.",

@@ -80,7 +80,7 @@ const NewLayer: React.FC<INewLayer> = ({
             primaryButtonText={
                 mode === LayerDialogMode.NewLayer
                     ? t('sceneLayers.createNewLayer')
-                    : t('sceneLayers.confirmChanges')
+                    : t('sceneLayers.updateLayer')
             }
             disablePrimaryButton={layerDraft.displayName === ''}
         >

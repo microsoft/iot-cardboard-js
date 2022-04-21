@@ -1,4 +1,4 @@
-import { Text } from '@fluentui/react';
+import { Spinner, Text } from '@fluentui/react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { ILayer } from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
@@ -18,13 +18,15 @@ interface ILayersListRoot {
     layers: ILayer[];
     onLayerClick: (layer: ILayer) => void;
     onDeleteLayerClick: (layer: ILayer) => void;
+    isLoading?: boolean;
 }
 
 const LayersListRoot: React.FC<ILayersListRoot> = ({
     onPrimaryAction,
     layers,
     onLayerClick,
-    onDeleteLayerClick
+    onDeleteLayerClick,
+    isLoading = false
 }) => {
     const { t } = useTranslation();
     const styles = getStyles();
@@ -53,10 +55,19 @@ const LayersListRoot: React.FC<ILayersListRoot> = ({
             onPrimaryButtonClick={onPrimaryAction}
             primaryButtonText={t('sceneLayers.newLayer')}
         >
-            {layers.length > 0 ? (
-                <Text variant="medium" styles={sectionHeaderStyles} as="div">
-                    {t('sceneLayers.layers')}
-                </Text>
+            {isLoading ? (
+                <Spinner />
+            ) : layers.length > 0 ? (
+                <>
+                    <Text
+                        variant="medium"
+                        styles={sectionHeaderStyles}
+                        as="div"
+                    >
+                        {t('sceneLayers.layers')}
+                    </Text>
+                    <CardboardList items={layerListItems} listKey="layer" />
+                </>
             ) : (
                 <div className={styles.noLayersContainer}>
                     <Image
@@ -80,7 +91,6 @@ const LayersListRoot: React.FC<ILayersListRoot> = ({
                     </Text>
                 </div>
             )}
-            <CardboardList items={layerListItems} listKey="layer" />
         </PrimaryActionCalloutContents>
     );
 };
