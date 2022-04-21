@@ -16,12 +16,13 @@ export default {
 type ${componentName}Story = ComponentStory<typeof ${componentName}>;
 
 const Template: ${componentName}Story = (args) => {
-    return <${componentName} {...args} />
-}
+    return <${componentName} {...args} />;
+};
 
 export const ${componentName}Mock = Template.bind({}) as ${componentName}Story;
 
-${componentName}Mock.args = {}
+${componentName}Mock.args = {};
+
 `,
     extension: `.stories.tsx`
 });
