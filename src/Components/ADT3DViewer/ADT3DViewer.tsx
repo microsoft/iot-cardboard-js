@@ -93,6 +93,10 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
         setAlertPanelItems
     ] = useState<IViewerElementsPanelItem>(null);
 
+    const [selectedVisual, setSelectedVisual] = useState<Partial<SceneVisual>>(
+        null
+    );
+
     const { t } = useTranslation();
     const sceneWrapperId = useGuid();
     const selectedMesh = useRef(null);
@@ -168,6 +172,7 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
                 DefaultViewerModeObjectColor.outlinedMeshSelectedColor
             );
 
+            setSelectedVisual(sceneVisual);
             setOutlinedMeshItems(outlinedMeshItems);
             outlinedMeshItemsRef.current = outlinedMeshItems;
             selectedMeshIdsRef.current = meshIds;
@@ -194,6 +199,7 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
                     setShowPopUp(false);
                     setZoomToMeshIds([]);
                     setOutlinedMeshItems([]);
+                    setSelectedVisual(null);
                     outlinedMeshItemsRef.current = [];
                     selectedMeshIdsRef.current = [];
                 } else {
@@ -206,6 +212,7 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
                 setShowPopUp(false);
                 setZoomToMeshIds([]);
                 setOutlinedMeshItems([]);
+                setSelectedVisual(null);
                 outlinedMeshItemsRef.current = [];
                 selectedMeshIdsRef.current = [];
             }
@@ -370,6 +377,7 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
                     addInProps={addInProps}
                     hideViewModePickerUI={hideViewModePickerUI}
                     wrapperMode={WrapperMode.Viewer}
+                    selectedVisual={selectedVisual}
                     sceneViewProps={{
                         badgeGroups: alertBadges,
                         modelUrl: modelUrl,

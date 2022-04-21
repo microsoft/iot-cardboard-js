@@ -758,20 +758,25 @@ abstract class ViewerConfigUtility {
         selectedElementsForBehavior: Array<ITwinToObjectMapping>
     ): Array<IBehaviorTwinAliasItem> => {
         const twinAliases: Array<IBehaviorTwinAliasItem> = [];
-        behavior.twinAliases?.map((behaviorTwinAlias) => {
+        behavior.twinAliases?.forEach((behaviorTwinAlias) => {
             twinAliases.push({
                 alias: behaviorTwinAlias,
                 elementToTwinMappings: []
             });
         });
-        twinAliases?.forEach((twinAlias) => {
+        twinAliases?.forEach((behaviorTwinAliasItem) => {
             selectedElementsForBehavior?.forEach((element) => {
-                if (element.twinAliases?.[twinAlias.alias]) {
+                if (element.twinAliases?.[behaviorTwinAliasItem.alias]) {
                     const aliasedTwinId =
-                        element.twinAliases?.[twinAlias.alias];
+                        element.twinAliases?.[behaviorTwinAliasItem.alias];
 
-                    twinAlias.elementToTwinMappings.push({
+                    behaviorTwinAliasItem.elementToTwinMappings.push({
                         twinId: aliasedTwinId,
+                        elementId: element.id
+                    });
+                } else {
+                    behaviorTwinAliasItem.elementToTwinMappings.push({
+                        twinId: null,
                         elementId: element.id
                     });
                 }
@@ -922,6 +927,34 @@ abstract class ViewerConfigUtility {
             }
         });
         return aliases;
+    };
+
+    /**
+     * Gets a behavior and its elements
+     * Returns the result of check if any of the twin ids in element to twin mappings
+     * in any of the twin aliases in behavior is null/not set
+     * @param behavior
+     * @param elementsInBehavior to read the element to twin mappings for each alias defined in behavior
+     * @returns boolean if twin aliases linked to a behavior is valid with all element to twin mappings filled
+     */
+    static areTwinAliasesValidInBehavior = (
+        behavior: IBehavior,
+        selectedElementsForBehavior: Array<ITwinToObjectMapping>
+    ): boolean => {
+        let isValid = true;
+        const behaviorTwinAliases = ViewerConfigUtility.getTwinAliasItemsFromBehaviorAndElements(
+            behavior,
+            selectedElementsForBehavior
+        );
+
+        if (behaviorTwinAliases.length) {
+            isValid = !behaviorTwinAliases.some((twinAliasItem) =>
+                twinAliasItem.elementToTwinMappings.some(
+                    (mapping) => !mapping.twinId || !mapping.elementId
+                )
+            );
+        }
+        return isValid;
     };
 }
 

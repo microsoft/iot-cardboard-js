@@ -38,7 +38,7 @@ import {
 } from '../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { ElementType } from '../../../../Models/Classes/3DVConfig';
 import { createCustomMeshItems } from '../../../3DV/SceneView.Utils';
-import ElementTwinAliasForm from '../Behaviors/Twins/ElementTwinAliasForm';
+import ElementTwinAliasForm from './Internal/ElementTwinAliasForm';
 
 export const ElementFormContext = React.createContext<IElementFormContext>(
     null
@@ -193,12 +193,12 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
     const { headerText, subHeaderText, iconName } = useMemo(
         () =>
             getLeftPanelBuilderHeaderParamsForElements(
-                elementToEdit,
+                selectedElement,
                 elementTwinAliasFormInfo,
                 builderMode
             ),
         [
-            elementToEdit,
+            selectedElement,
             elementTwinAliasFormInfo,
             builderMode,
             getLeftPanelBuilderHeaderParamsForElements
