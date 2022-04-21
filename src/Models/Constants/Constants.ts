@@ -189,6 +189,7 @@ export const SelectedEnvironmentLocalStorageKey = 'cb-selected-environment';
 export const SelectedContainerLocalStorageKey = 'cb-selected-container';
 export const ElementsLocalStorageKey = 'oat-elements';
 export const TwinsLocalStorageKey = 'oat-twins';
+export const PositionsLocalStorageKey = 'oat-positions';
 
 export const defaultValueRangeColor = '#FF0000';
 
