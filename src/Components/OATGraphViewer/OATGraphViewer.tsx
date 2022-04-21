@@ -14,7 +14,8 @@ import OATGraphCustomNode from './Internal/OATGraphCustomNode';
 import OATGraphCustomEdge from './Internal/OATGraphCustomEdge';
 import {
     ElementsLocalStorageKey,
-    TwinsLocalStorageKey
+    TwinsLocalStorageKey,
+    PositionsLocalStorageKey
 } from '../../Models/Constants/Constants';
 import { getGraphViewerStyles } from './OATGraphViewer.styles';
 import { ElementsContext } from './Internal/OATContext';
@@ -51,7 +52,7 @@ const OATGraphViewer = ({ onElementsUpdate }: OATGraphProps) => {
             }
             nextModelId++;
         }
-        localStorage.setItem(ElementsLocalStorageKey, JSON.stringify(elements));
+        storeElements();
         translateOutput();
     }, [elements]);
 
@@ -133,37 +134,56 @@ const OATGraphViewer = ({ onElementsUpdate }: OATGraphProps) => {
         }
     };
 
-    const translateOutput = () => {
-        const outputObject = elements;
-        const nodes = outputObject.reduce((currentNodes, currentNode) => {
-            if (currentNode.position) {
-                const node = {
-                    '@id': currentNode.id,
-                    '@type': 'Interface',
-                    displayName: currentNode.data.name,
-                    contents: [...currentNode.data.content]
-                };
-                currentNodes.push(node);
-            } else if (currentNode.source) {
-                const node = currentNodes.find(
-                    (element) => element['@id'] === currentNode.source
-                );
-                const relationship = {
-                    '@type': currentNode.data.type,
-                    '@id': currentNode.data.id,
-                    name: currentNode.data.name,
-                    displayName: currentNode.data.displayName,
-                    target: currentNode.target
-                };
-                node.contents = [...node.contents, relationship];
+    const storeElements = () => {
+        const nodePositions = elements.reduce((collection, element) => {
+            if (!element.source) {
+                collection.push({
+                    id: element.id,
+                    position: element.position
+                });
             }
-            return currentNodes;
+            return collection;
         }, []);
         localStorage.setItem(
-            TwinsLocalStorageKey,
-            JSON.stringify({ digitalTwinsModels: nodes })
+            PositionsLocalStorageKey,
+            JSON.stringify({ nodePositions })
         );
-        onElementsUpdate({ digitalTwinsModels: nodes });
+        localStorage.setItem(ElementsLocalStorageKey, JSON.stringify(elements));
+    };
+
+    const translateOutput = () => {
+        const outputObject = elements;
+        if (elements.length > 0) {
+            const nodes = outputObject.reduce((currentNodes, currentNode) => {
+                if (currentNode.position) {
+                    const node = {
+                        '@id': currentNode.id,
+                        '@type': 'Interface',
+                        displayName: currentNode.data.name,
+                        contents: [...currentNode.data.content]
+                    };
+                    currentNodes.push(node);
+                } else if (currentNode.source) {
+                    const node = currentNodes.find(
+                        (element) => element['@id'] === currentNode.source
+                    );
+                    const relationship = {
+                        '@type': currentNode.data.type,
+                        '@id': currentNode.data.id,
+                        name: currentNode.data.name,
+                        displayName: currentNode.data.displayName,
+                        target: currentNode.target
+                    };
+                    node.contents = [...node.contents, relationship];
+                }
+                return currentNodes;
+            }, []);
+            localStorage.setItem(
+                TwinsLocalStorageKey,
+                JSON.stringify({ digitalTwinsModels: nodes })
+            );
+            onElementsUpdate({ digitalTwinsModels: nodes });
+        }
     };
 
     return (
