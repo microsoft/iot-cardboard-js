@@ -2,22 +2,112 @@ import React from 'react';
 import { FontIcon, ActionButton, Stack, Text } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
+import { DTDLModel } from '../../Models/Classes/DTDL';
 
+const data = {
+    propertyTags: {
+        primitive: [
+            'boolean',
+            'data',
+            'dateTime',
+            'double',
+            'duration',
+            'float',
+            'integer',
+            'long',
+            'string',
+            'time'
+        ],
+        complex: ['enum', 'map', 'object']
+    }
+};
 interface IProperySelectorProps {
-    data?: any;
-    setPropertySelectorVisible?: (visible: boolean) => boolean;
-    model?: any;
-    setModel: (value: Record<string, unknown>) => Record<string, unknown>;
+    lastPropertyFocused: any;
+    model?: DTDLModel;
+    setModel?: React.Dispatch<React.SetStateAction<DTDLModel>>;
+    setPropertySelectorVisible: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const PropertySelector = ({
-    data,
     setPropertySelectorVisible,
     model,
-    setModel
+    setModel,
+    lastPropertyFocused
 }: IProperySelectorProps) => {
     const { t } = useTranslation();
     const propertyInspectorStyles = getPropertyInspectorStyles();
+
+    const addNestedProperty = (tag) => {
+        const modelCopy = Object.assign({}, model);
+        const schemaCopy = Object.assign({}, lastPropertyFocused.item.schema);
+        schemaCopy.fields.push({
+            name: `${lastPropertyFocused.item.name}_${
+                schemaCopy.fields.length + 1
+            }`,
+            schema: tag
+        });
+
+        modelCopy.contents[lastPropertyFocused.index].schema = schemaCopy;
+        setModel(modelCopy);
+        setPropertySelectorVisible(false);
+    };
+
+    const handleTagClick = (tag) => {
+        if (
+            lastPropertyFocused &&
+            typeof lastPropertyFocused.item.schema === 'object'
+        ) {
+            addNestedProperty(tag);
+            return;
+        }
+
+        const modelCopy = Object.assign({}, model);
+        modelCopy.contents = [
+            ...modelCopy.contents,
+            ...[
+                {
+                    '@id': `dtmi:com:adt:model1:New_Property_${
+                        model.contents.length + 1
+                    }`,
+                    '@type': ['property'],
+                    name: `New_Property_${model.contents.length + 1}`,
+                    schema: getSchema(tag)
+                }
+            ]
+        ];
+        setModel(modelCopy);
+        setPropertySelectorVisible(false);
+    };
+
+    const getSchema = (tag) => {
+        switch (tag) {
+            case 'object':
+                return {
+                    '@type': 'Object',
+                    fields: []
+                };
+            case 'map':
+                return {
+                    '@type': 'Map',
+                    mapKey: {
+                        name: 'moduleName',
+                        schema: 'string'
+                    },
+                    mapValue: {
+                        name: 'moduleState',
+                        schema: 'string'
+                    }
+                };
+            case 'enum':
+                return {
+                    '@type': 'Enum',
+                    valueSchema: 'integer',
+                    enumValues: []
+                };
+            default:
+                return tag;
+        }
+    };
 
     return (
         <Stack className={propertyInspectorStyles.propertySelector}>
@@ -43,23 +133,7 @@ const PropertySelector = ({
                         key={i}
                         className={propertyInspectorStyles.propertyTag}
                         onClick={() => {
-                            const modelCopy = Object.assign({}, model);
-                            modelCopy.contents = [
-                                ...modelCopy.contents,
-                                ...[
-                                    {
-                                        '@id': `dtmi:com:adt:model1:New_Property_${
-                                            model.contents.length + 1
-                                        }`,
-                                        '@type': ['property'],
-                                        name: `New_Property_${
-                                            model.contents.length + 1
-                                        }`,
-                                        schema: tag
-                                    }
-                                ]
-                            ];
-                            setModel(modelCopy);
+                            handleTagClick(tag);
                         }}
                     >
                         <Text>{tag}</Text>
@@ -67,6 +141,36 @@ const PropertySelector = ({
                 ))}
             </Stack>
             <Stack className={propertyInspectorStyles.separator}></Stack>
+            {(lastPropertyFocused &&
+                typeof lastPropertyFocused.schema !== 'object') ||
+                (lastPropertyFocused === null && (
+                    <>
+                        <Stack
+                            className={
+                                propertyInspectorStyles.propertySelectorHeader
+                            }
+                        >
+                            <Text>{t('OATPropertyEditor.complex')}</Text>
+                        </Stack>
+                        <Stack
+                            className={propertyInspectorStyles.propertyTagsWrap}
+                        >
+                            {data.propertyTags.complex.map((tag, i) => (
+                                <Stack
+                                    key={i}
+                                    className={
+                                        propertyInspectorStyles.propertyTag
+                                    }
+                                    onClick={() => {
+                                        handleTagClick(tag);
+                                    }}
+                                >
+                                    <Text>{tag}</Text>
+                                </Stack>
+                            ))}
+                        </Stack>
+                    </>
+                ))}
         </Stack>
     );
 };

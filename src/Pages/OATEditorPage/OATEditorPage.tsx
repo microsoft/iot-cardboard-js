@@ -3,7 +3,6 @@ import OATHeader from '../../Components/OATHeader/OATHeader';
 import OATModelList from '../../Components/OATModelList/OATModelList';
 import OATGraphViewer from '../../Components/OATGraphViewer/OATGraphViewer';
 import OATPropertyEditor from '../../Components/OATPropertyEditor/OATPropertyEditor';
-import Modal from '../../Components/OATPropertyEditor/Modal';
 import { getEditorPageStyles } from './OATEditorPage.Styles';
 
 const OATEditorPage = ({ theme }) => {
@@ -19,11 +18,17 @@ const OATEditorPage = ({ theme }) => {
         '@type': 'Interface',
         '@context': 'dtmi:adt:context;2',
         displayName: 'model1',
+        description: 'default description',
+        comment: '',
+        relationships: null,
+        components: null,
+        trimmedCopy: null,
+        properties: [],
         contents: [
             {
-                '@id': 'dtmi:com:adt:model1:prop_0',
+                '@id': 'dtmi:com:adt:model1:New_Property_1',
                 '@type': ['Property'],
-                name: 'prop_0',
+                name: 'New_Property_1',
                 schema: 'string',
                 writable: true,
                 comment: 'default comment',
@@ -54,18 +59,9 @@ const OATEditorPage = ({ theme }) => {
             unit: 'default unit'
         }
     ]);
-    const [modalOpen, setModalOpen] = useState(false);
-    const [currentPropertyIndex, setCurrentPropertyIndex] = useState(null);
 
     return (
         <div className={EditorPageStyles.container}>
-            <Modal
-                modalOpen={modalOpen}
-                setModalOpen={setModalOpen}
-                model={model}
-                setModel={setModel}
-                currentPropertyIndex={currentPropertyIndex}
-            />
             <OATHeader elements={elementHandler} />
             <div className={EditorPageStyles.component}>
                 <OATModelList />
@@ -73,9 +69,6 @@ const OATEditorPage = ({ theme }) => {
                 <OATPropertyEditor
                     model={model}
                     setModel={setModel}
-                    setModalOpen={setModalOpen}
-                    currentPropertyIndex={currentPropertyIndex}
-                    setCurrentPropertyIndex={setCurrentPropertyIndex}
                     templates={templates}
                     setTemplates={setTemplates}
                     theme={theme}

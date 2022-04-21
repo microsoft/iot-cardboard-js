@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import {
     FontIcon,
     TextField,
@@ -15,7 +15,6 @@ type ITemplateColumn = {
     setTemplatesActive: any;
     templates: any;
     setTemplates: any;
-    draggedTemplateItemRef: any;
     enteredPropertyRef: any;
     model: any;
     setModel: any;
@@ -29,7 +28,6 @@ export const TemplateColumn = ({
     setTemplatesActive,
     templates,
     setTemplates,
-    draggedTemplateItemRef,
     enteredPropertyRef,
     model,
     setModel,
@@ -40,6 +38,7 @@ export const TemplateColumn = ({
 }: ITemplateColumn) => {
     const { t } = useTranslation();
     const propertyInspectorStyles = getPropertyInspectorStyles();
+    const draggedTemplateItemRef = useRef(null);
 
     return (
         <Stack className={propertyInspectorStyles.templateColumn}>
@@ -61,6 +60,8 @@ export const TemplateColumn = ({
                     </ActionButton>
                 </Stack>
                 <TextField
+                    className={propertyInspectorStyles.propertyItemTextField}
+                    borderless
                     placeholder={t(
                         'OATPropertyEditor.templateSearchPlaceholder'
                     )}

@@ -1,48 +1,30 @@
 import React, { useRef, useState } from 'react';
-import {
-    FontIcon,
-    TextField,
-    ActionButton,
-    Stack,
-    Text
-} from '@fluentui/react';
+import { FontIcon, ActionButton, Text } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
-import PropertySelector from './PropertySelector';
 import { deepCopy } from '../../Models/Services/Utils';
-
-const data = {
-    propertyTags: {
-        primitive: [
-            'boolean',
-            'data',
-            'dataTime',
-            'double',
-            'duration',
-            'float',
-            'integer',
-            'long',
-            'string',
-            'time'
-        ]
-    }
-};
+import { DTDLModel } from '../../Models/Classes/DTDL';
+import PropertyListItem from './PropertyListItem';
+import PropertyListItemNest from './PropertyListItemNest';
+import PropertySelector from './PropertySelector';
+import AddPropertyBar from './AddPropertyBar';
 
 type IPropertyList = {
-    propertySelectorVisible: boolean;
-    setPropertySelectorVisible: any;
-    model: any;
-    setModel: any;
-    setCurrentPropertyIndex: any;
-    setModalOpen: any;
-    getErrorMessage: (value: string) => string;
-    setTemplates: any;
-    enteredPropertyRef: any;
-    draggingTemplate: boolean;
-    enteredTemplateRef: any;
-    draggedPropertyItemRef: any;
+    currentPropertyIndex: number;
     draggingProperty: boolean;
-    setDraggingProperty: any;
+    draggingTemplate: boolean;
+    enteredPropertyRef: any;
+    enteredTemplateRef: any;
+    model: DTDLModel;
+    propertySelectorVisible: boolean;
+    setCurrentNestedPropertyIndex: React.Dispatch<React.SetStateAction<number>>;
+    setCurrentPropertyIndex?: React.Dispatch<React.SetStateAction<number>>;
+    setDraggingProperty: React.Dispatch<React.SetStateAction<boolean>>;
+    setModalBody?: React.Dispatch<React.SetStateAction<string>>;
+    setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
+    setModel?: React.Dispatch<React.SetStateAction<DTDLModel>>;
+    setTemplates?: React.Dispatch<React.SetStateAction<any>>;
+    setPropertySelectorVisible: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export const PropertyList = ({
@@ -52,18 +34,21 @@ export const PropertyList = ({
     setModel,
     setCurrentPropertyIndex,
     setModalOpen,
-    getErrorMessage,
     setTemplates,
     enteredPropertyRef,
     draggingTemplate,
     enteredTemplateRef,
-    draggedPropertyItemRef,
     draggingProperty,
-    setDraggingProperty
+    setDraggingProperty,
+    setCurrentNestedPropertyIndex,
+    setModalBody,
+    currentPropertyIndex
 }: IPropertyList) => {
     const { t } = useTranslation();
     const propertyInspectorStyles = getPropertyInspectorStyles();
+    const draggedPropertyItemRef = useRef(null);
     const [enteredItem, setEnteredItem] = useState(enteredPropertyRef.current);
+    const [lastPropertyFocused, setLastPropertyFocused] = useState(null);
     const dragItem = useRef(null);
     const dragNode = useRef(null);
 
@@ -117,7 +102,15 @@ export const PropertyList = ({
         }, 0);
     };
 
-    const getDragItemClassName = (propertyIndex) => {
+    const getNestItemClassName = () => {
+        return propertyInspectorStyles.propertyItemNest;
+    };
+
+    const getNestedItemClassName = () => {
+        return propertyInspectorStyles.propertyItemNested;
+    };
+
+    const getItemClassName = (propertyIndex) => {
         if (propertyIndex === dragItem.current && draggingProperty) {
             return propertyInspectorStyles.propertyItemDragging;
         }
@@ -133,100 +126,118 @@ export const PropertyList = ({
         enteredPropertyRef.current = i;
     };
 
+    const handlePropertyNameChange = (value) => {
+        model.contents[currentPropertyIndex].name = value;
+    };
+
+    const getErrorMessage = (value) => {
+        const find = model.contents.find((item) => item.name === value);
+
+        if (!find && value !== '') {
+            handlePropertyNameChange(value);
+        }
+
+        return find
+            ? `${t('OATPropertyEditor.errorRepeatedPropertyName')}`
+            : '';
+    };
+
     return (
-        <Stack className={propertyInspectorStyles.propertiesWrap}>
-            {propertySelectorVisible && (
-                <PropertySelector
-                    data={data}
-                    setPropertySelectorVisible={setPropertySelectorVisible}
-                    model={model}
-                    setModel={setModel}
-                />
-            )}
-            {!propertySelectorVisible && model.contents.length === 0 && (
-                <ActionButton onClick={() => setPropertySelectorVisible(true)}>
-                    <FontIcon
-                        iconName={'CirclePlus'}
-                        className={propertyInspectorStyles.iconAddProperty}
+        <div className={propertyInspectorStyles.propertiesWrap}>
+            <div className={propertyInspectorStyles.propertiesWrapScroll}>
+                {propertySelectorVisible && (
+                    <PropertySelector
+                        setPropertySelectorVisible={setPropertySelectorVisible}
+                        model={model}
+                        setModel={setModel}
+                        lastPropertyFocused={lastPropertyFocused}
                     />
-                    <Text>{t('OATPropertyEditor.addProperty')}</Text>
-                </ActionButton>
-            )}
-
-            {model.contents.length > 0 &&
-                model.contents.map((item, i) => (
-                    <Stack
-                        key={i}
-                        className={getDragItemClassName(i)}
-                        draggable
-                        onDragStart={(e) => {
-                            handleDragStart(e, i);
-                        }}
-                        onDragEnter={
-                            draggingProperty
-                                ? (e) => handleDragEnter(e, i)
-                                : () => handleDragEnterExternalItem(i)
-                        }
-                    >
-                        <TextField
-                            className={
-                                propertyInspectorStyles.propertyItemTextField
-                            }
-                            borderless
-                            placeholder={item.name}
-                            validateOnFocusOut
-                            onChange={() => {
-                                setCurrentPropertyIndex(i);
-                            }}
-                            onGetErrorMessage={getErrorMessage}
-                        />
-                        <Text>{item.schema}</Text>
-                        <ActionButton
-                            className={
-                                propertyInspectorStyles.propertyItemIconWrap
-                            }
-                            onClick={() => {
-                                setCurrentPropertyIndex(i);
-                                setModalOpen(true);
-                            }}
-                        >
-                            <FontIcon
-                                iconName={'Info'}
-                                className={
-                                    propertyInspectorStyles.propertyItemIcon
-                                }
-                            />
-                        </ActionButton>
-                        <ActionButton
-                            className={
-                                propertyInspectorStyles.propertyItemIconWrap
-                            }
-                        >
-                            <FontIcon
-                                iconName={'More'}
-                                className={
-                                    propertyInspectorStyles.propertyItemIcon
-                                }
-                            />
-                        </ActionButton>
-                    </Stack>
-                ))}
-
-            {model.contents.length > 0 && (
-                <Stack className={propertyInspectorStyles.addPropertyBar}>
+                )}
+                {!propertySelectorVisible && model.contents.length === 0 && (
                     <ActionButton
                         onClick={() => setPropertySelectorVisible(true)}
                     >
                         <FontIcon
                             iconName={'CirclePlus'}
-                            className={
-                                propertyInspectorStyles.addPropertyBarIcon
-                            }
+                            className={propertyInspectorStyles.iconAddProperty}
                         />
+                        <Text>{t('OATPropertyEditor.addProperty')}</Text>
                     </ActionButton>
-                </Stack>
-            )}
-        </Stack>
+                )}
+
+                {model.contents.length > 0 &&
+                    model.contents.map((item, i) => {
+                        if (typeof item.schema === 'object') {
+                            return (
+                                <PropertyListItemNest
+                                    key={i}
+                                    index={i}
+                                    draggingProperty={draggingProperty}
+                                    getItemClassName={getNestItemClassName}
+                                    getNestedItemClassName={
+                                        getNestedItemClassName
+                                    }
+                                    getErrorMessage={getErrorMessage}
+                                    handleDragEnter={handleDragEnter}
+                                    handleDragEnterExternalItem={
+                                        handleDragEnterExternalItem
+                                    }
+                                    handleDragStart={handleDragStart}
+                                    setCurrentPropertyIndex={
+                                        setCurrentPropertyIndex
+                                    }
+                                    item={item}
+                                    lastPropertyFocused={lastPropertyFocused}
+                                    setLastPropertyFocused={
+                                        setLastPropertyFocused
+                                    }
+                                    setPropertySelectorVisible={
+                                        setPropertySelectorVisible
+                                    }
+                                    setCurrentNestedPropertyIndex={
+                                        setCurrentNestedPropertyIndex
+                                    }
+                                    setModalOpen={setModalOpen}
+                                    setModalBody={setModalBody}
+                                    model={model}
+                                    setModel={setModel}
+                                />
+                            );
+                        }
+
+                        return (
+                            <PropertyListItem
+                                key={i}
+                                index={i}
+                                draggingProperty={draggingProperty}
+                                getItemClassName={getItemClassName}
+                                getErrorMessage={getErrorMessage}
+                                handleDragEnter={handleDragEnter}
+                                handleDragEnterExternalItem={
+                                    handleDragEnterExternalItem
+                                }
+                                handleDragStart={handleDragStart}
+                                setCurrentPropertyIndex={
+                                    setCurrentPropertyIndex
+                                }
+                                setModalOpen={setModalOpen}
+                                item={item}
+                                setLastPropertyFocused={setLastPropertyFocused}
+                                setModalBody={setModalBody}
+                            />
+                        );
+                    })}
+
+                {model.contents.length > 0 && (
+                    <AddPropertyBar
+                        callback={() => {
+                            setLastPropertyFocused(null);
+                            setPropertySelectorVisible(true);
+                        }}
+                    />
+                )}
+            </div>
+        </div>
     );
 };
 
