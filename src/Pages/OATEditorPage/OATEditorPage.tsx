@@ -3,10 +3,17 @@ import OATHeader from '../../Components/OATHeader/OATHeader';
 import OATModelList from '../../Components/OATModelList/OATModelList';
 import OATGraphViewer from '../../Components/OATGraphViewer/OATGraphViewer';
 import OATPropertyEditor from '../../Components/OATPropertyEditor/OATPropertyEditor';
-
-import './OATEditorPage.scss';
+import Modal from '../../Components/OATPropertyEditor/Modal';
+import { getEditorPageStyles } from './OATEditorPage.Styles';
 
 const OATEditorPage = ({ theme }) => {
+    const [elementHandler, setElementHandler] = useState([]);
+    const EditorPageStyles = getEditorPageStyles();
+
+    const handleElementsUpdate = (newElements) => {
+        setElementHandler(newElements);
+    };
+
     const [model, setModel] = useState({
         '@id': 'dtmi:com:adt:model1;',
         '@type': 'Interface',
@@ -59,7 +66,7 @@ const OATEditorPage = ({ theme }) => {
             <OATHeader />
             <div className="cb-ontology-body-component">
                 <OATModelList />
-                <OATGraphViewer />
+                <OATGraphViewer onElementsUpdate={handleElementsUpdate} />
                 <OATPropertyEditor
                     model={model}
                     setModel={setModel}

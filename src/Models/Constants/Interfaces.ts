@@ -731,7 +731,43 @@ export interface IBlobFile {
     Properties: Record<string, any>;
 }
 
+export interface IOATGraphCustomNodeProps {
+    data: any;
+    isConnectable: boolean;
+}
+
+export interface IOATGraphCustomEdgeProps {
+    id: string;
+    sourceX: string;
+    sourceY: string;
+    targetX: string;
+    targetY: string;
+    sourcePosition: number;
+    targetPosition: number;
+    style: any;
+    data: any;
+    markerEnd: string;
+}
 export interface IAliasedTwinProperty {
     alias: 'LinkedTwin' | string;
     property: string;
+}
+
+export interface IOATElementsChangeEventArgs {
+    digitalTwinsModels: IOATTwinModelNodes;
+}
+
+export interface IOATTwinModelNodes {
+    '@id': string;
+    '@type': string;
+    displayName: string;
+    contents: IOATTwinNodeContents[];
+}
+
+export interface IOATTwinNodeContents {
+    '@id': string;
+    '@type': string;
+    name?: string;
+    displayName?: string;
+    target?: string;
 }
