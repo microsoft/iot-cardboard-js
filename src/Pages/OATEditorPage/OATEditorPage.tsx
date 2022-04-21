@@ -61,9 +61,9 @@ const OATEditorPage = ({ theme }) => {
     ]);
 
     return (
-        <div className="cb-ontology-body-container">
-            <OATHeader />
-            <div className="cb-ontology-body-component">
+        <div className={EditorPageStyles.container}>
+            <OATHeader elements={elementHandler} />
+            <div className={EditorPageStyles.component}>
                 <OATModelList />
                 <OATGraphViewer onElementsUpdate={handleElementsUpdate} />
                 <OATPropertyEditor
