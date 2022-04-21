@@ -27,7 +27,8 @@ import {
     HierarchyNodeType,
     modelActionType,
     FileUploadStatus,
-    ADT3DAddInEventTypes
+    ADT3DAddInEventTypes,
+    ViewerModeStyles
 } from './Enums';
 import {
     AdapterReturnType,
@@ -701,6 +702,7 @@ export interface IADT3DViewerProps {
 export interface IADT3DViewerMode {
     objectColor: IADTObjectColor;
     isWireframe: boolean;
+    style: ViewerModeStyles;
     background: IADTBackgroundColor;
 }
 
