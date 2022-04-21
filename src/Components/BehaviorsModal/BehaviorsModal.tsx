@@ -53,7 +53,7 @@ enum BehaviorModalPivotKey {
 
 const BehaviorsModal: React.FC<IBehaviorsModalProps> = ({
     onClose,
-    behaviors,
+    behaviors = [],
     title,
     twins,
     mode = BehaviorModalMode.viewer,
@@ -68,31 +68,24 @@ const BehaviorsModal: React.FC<IBehaviorsModalProps> = ({
     const nodeRef = React.useRef(null); // <Draggable> requires an explicit ref to avoid using findDOMNode
 
     const [activePivot, setActivePivot] = useState<BehaviorModalPivotKey>(
-        behaviors && behaviors.length > 0
-            ? BehaviorModalPivotKey.State
-            : BehaviorModalPivotKey.Properties
+        BehaviorModalPivotKey.State
     );
 
-    // When title (popover element) changes, snap to default pivot
+    // When title (popover element), or behaviors change, snap to correct pivot
     useEffect(() => {
         if (
             activePivot === BehaviorModalPivotKey.Properties &&
             behaviors.length > 0
         ) {
             setActivePivot(BehaviorModalPivotKey.State);
-        }
-    }, [title]);
-
-    // If modal updated, and no behaviors present, snap to properties tab
-    useEffect(() => {
-        if (
+        } else if (
             activePivot === BehaviorModalPivotKey.State &&
             behaviors.length === 0 &&
             adapter
         ) {
             setActivePivot(BehaviorModalPivotKey.Properties);
         }
-    });
+    }, [title, behaviors]);
 
     const styles = getStyles(theme, mode);
 

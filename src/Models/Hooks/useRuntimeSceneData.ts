@@ -22,7 +22,8 @@ export const useRuntimeSceneData = (
     sceneId: string,
     scenesConfig: I3DScenesConfig,
     pollingInterval: number,
-    selectedLayerIds: string[] = []
+    /** Optional array of layer Ids to apply SceneVisual behavior filtering */
+    selectedLayerIds: string[] = null
 ) => {
     const [modelUrl, setModelUrl] = useState('');
     const [sceneVisuals, setSceneVisuals] = useState<Array<SceneVisual>>([]);
@@ -43,22 +44,25 @@ export const useRuntimeSceneData = (
      *  */
     useEffect(() => {
         if (sceneData?.adapterResult?.result?.data) {
-            const behaviorIdsInSelectedLayers = ViewerConfigUtility.getBehaviorIdsInSelectedLayers(
-                scenesConfig,
-                [...selectedLayerIds],
-                sceneId
-            );
-
             let sceneVisuals = deepCopy(
                 sceneData.adapterResult.result.data.sceneVisuals
             );
-            // Apply layer filtering to behaviors - splice out behaviors not in selected layers
-            sceneVisuals = sceneVisuals.map((sv) => ({
-                ...sv,
-                behaviors: sv.behaviors.filter((b) =>
-                    behaviorIdsInSelectedLayers.includes(b.id)
-                )
-            }));
+
+            if (selectedLayerIds) {
+                const behaviorIdsInSelectedLayers = ViewerConfigUtility.getBehaviorIdsInSelectedLayers(
+                    scenesConfig,
+                    [...selectedLayerIds],
+                    sceneId
+                );
+
+                // Apply layer filtering to behaviors - splice out behaviors not in selected layers
+                sceneVisuals = sceneVisuals.map((sv) => ({
+                    ...sv,
+                    behaviors: sv.behaviors.filter((b) =>
+                        behaviorIdsInSelectedLayers.includes(b.id)
+                    )
+                }));
+            }
 
             const alerts: Array<{
                 sceneVisual: SceneVisual;
