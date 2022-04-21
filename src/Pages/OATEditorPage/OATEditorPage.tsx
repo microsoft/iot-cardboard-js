@@ -7,6 +7,7 @@ import { getEditorPageStyles } from './OATEditorPage.Styles';
 
 const OATEditorPage = ({ theme }) => {
     const [elementHandler, setElementHandler] = useState([]);
+    const [templatesActive, setTemplatesActive] = useState(false);
     const EditorPageStyles = getEditorPageStyles();
 
     const handleElementsUpdate = (newElements) => {
@@ -63,7 +64,13 @@ const OATEditorPage = ({ theme }) => {
     return (
         <div className={EditorPageStyles.container}>
             <OATHeader elements={elementHandler} />
-            <div className={EditorPageStyles.component}>
+            <div
+                className={
+                    templatesActive
+                        ? EditorPageStyles.componentTemplate
+                        : EditorPageStyles.component
+                }
+            >
                 <OATModelList />
                 <OATGraphViewer onElementsUpdate={handleElementsUpdate} />
                 <OATPropertyEditor
@@ -72,6 +79,8 @@ const OATEditorPage = ({ theme }) => {
                     templates={templates}
                     setTemplates={setTemplates}
                     theme={theme}
+                    templatesActive={templatesActive}
+                    setTemplatesActive={setTemplatesActive}
                 />
             </div>
         </div>

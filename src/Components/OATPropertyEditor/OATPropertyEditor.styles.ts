@@ -57,8 +57,6 @@ export const getPropertyInspectorStyles = () => {
             classNames.container,
             {
                 height: '100%',
-                position: 'fixed',
-                right: 0,
                 display: 'flex',
                 flexDirection: 'row',
                 backgroundColor: theme.semanticColors.listBackground
@@ -67,7 +65,7 @@ export const getPropertyInspectorStyles = () => {
         pivot: [
             classNames.pivot,
             {
-                width: '440px',
+                width: '100%',
                 height: '100%',
                 backgroundColor: theme.semanticColors.listBackground,
                 '& [role="tabpanel"]': {
@@ -85,7 +83,7 @@ export const getPropertyInspectorStyles = () => {
         templateColumn: [
             classNames.templateColumn,
             {
-                width: '305px',
+                width: '80%',
                 height: '100%',
                 backgroundColor: theme.semanticColors.buttonBackgroundDisabled
             } as IStyle
@@ -183,7 +181,7 @@ export const getPropertyInspectorStyles = () => {
                     theme.semanticColors.primaryButtonBackgroundDisabled,
                 borderRadius: '4px',
                 borderBottom: `1px solid ${theme.semanticColors.variantBorder}`,
-                zIndex: 1
+                zIndex: 100
             } as IStyle
         ],
         propertySelectorHeader: [

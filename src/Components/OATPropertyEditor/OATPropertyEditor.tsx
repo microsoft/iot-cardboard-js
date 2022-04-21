@@ -11,6 +11,8 @@ type IOATPropertyEditor = {
     templates?: any;
     setModel?: React.Dispatch<React.SetStateAction<DTDLModel>>;
     setTemplates?: React.Dispatch<React.SetStateAction<any>>;
+    templatesActive?: boolean;
+    setTemplatesActive?: React.Dispatch<React.SetStateAction<any>>;
 };
 
 const OATPropertyEditor = ({
@@ -18,7 +20,9 @@ const OATPropertyEditor = ({
     setModel,
     theme,
     templates,
-    setTemplates
+    setTemplates,
+    templatesActive,
+    setTemplatesActive
 }: IOATPropertyEditor) => {
     const [modalOpen, setModalOpen] = useState(false);
     const [modalBody, setModalBody] = useState('formProperty');
@@ -52,6 +56,8 @@ const OATPropertyEditor = ({
                 setCurrentNestedPropertyIndex={setCurrentNestedPropertyIndex}
                 setCurrentPropertyIndex={setCurrentPropertyIndex}
                 currentPropertyIndex={currentPropertyIndex}
+                templatesActive={templatesActive}
+                setTemplatesActive={setTemplatesActive}
             />
         </BaseComponent>
     );
