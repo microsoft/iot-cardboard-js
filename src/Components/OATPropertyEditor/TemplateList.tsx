@@ -2,18 +2,19 @@ import React, { useRef, useState } from 'react';
 import { FontIcon, ActionButton, Stack, Text } from '@fluentui/react';
 import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
 import { deepCopy } from '../../Models/Services/Utils';
+import { DTDLModel } from '../../Models/Classes/DTDL';
 
 interface ITemplateList {
-    templates?: any;
-    setTemplates: any;
+    draggingTemplate?: boolean;
+    draggingProperty?: boolean;
+    enteredTemplateRef: any;
     draggedTemplateItemRef: any;
     enteredPropertyRef: any;
-    model?: any;
-    setModel?: any;
-    draggingTemplate?: boolean;
+    model?: DTDLModel;
+    templates?: any;
     setDraggingTemplate?: (dragging: boolean) => boolean;
-    enteredTemplateRef: any;
-    draggingProperty?: boolean;
+    setModel?: React.Dispatch<React.SetStateAction<DTDLModel>>;
+    setTemplates: React.Dispatch<React.SetStateAction<any>>;
 }
 
 export const TemplateList = ({
@@ -33,7 +34,7 @@ export const TemplateList = ({
     const dragNode = useRef(null);
     const [enteredItem, setEnteredItem] = useState(enteredTemplateRef.current);
 
-    const handleTemplateItemDropOnProperyList = () => {
+    const handleTemplateItemDropOnPropertyList = () => {
         // Prevent drop if duplicate
         const isTemplateAlreadyInModel = model.contents.find(
             (item) =>
@@ -56,7 +57,7 @@ export const TemplateList = ({
 
     const handleDragEnd = () => {
         if (enteredPropertyRef.current !== null) {
-            handleTemplateItemDropOnProperyList();
+            handleTemplateItemDropOnPropertyList();
         }
 
         dragNode.current.removeEventListener('dragend', handleDragEnd);
@@ -112,6 +113,14 @@ export const TemplateList = ({
         enteredTemplateRef.current = i;
     };
 
+    const getSchemaText = (itemSchema) => {
+        if (typeof itemSchema === 'object') {
+            return itemSchema['@type'];
+        }
+
+        return itemSchema;
+    };
+
     return (
         <Stack className={propertyInspectorStyles.propertiesWrap}>
             {templates.length > 0 &&
@@ -130,7 +139,7 @@ export const TemplateList = ({
                         }
                     >
                         <Text>{item.name}</Text>
-                        <Text>{item.schema}</Text>
+                        <Text>{getSchemaText(item.schema)}</Text>
                         <ActionButton
                             className={
                                 propertyInspectorStyles.propertyItemIconWrap
