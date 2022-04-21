@@ -135,31 +135,20 @@ const OATGraphViewer = ({ onElementsUpdate }: OATGraphProps) => {
     };
 
     const storeElements = () => {
-        const nodePositions = [];
-        if (elements.length > 0) {
-            elements.reduce((initial, element) => {
-                if (initial) {
-                    nodePositions.push({
-                        id: initial.id,
-                        position: initial.position
-                    });
-                }
-                if (!element.source) {
-                    nodePositions.push({
-                        id: element.id,
-                        position: element.position
-                    });
-                }
-            });
-            localStorage.setItem(
-                PositionsLocalStorageKey,
-                JSON.stringify({ nodePositions })
-            );
-            localStorage.setItem(
-                ElementsLocalStorageKey,
-                JSON.stringify(elements)
-            );
-        }
+        const nodePositions = elements.reduce((collection, element) => {
+            if (!element.source) {
+                collection.push({
+                    id: element.id,
+                    position: element.position
+                });
+            }
+            return collection;
+        }, []);
+        localStorage.setItem(
+            PositionsLocalStorageKey,
+            JSON.stringify({ nodePositions })
+        );
+        localStorage.setItem(ElementsLocalStorageKey, JSON.stringify(elements));
     };
 
     const translateOutput = () => {
