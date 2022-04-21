@@ -22,13 +22,13 @@ import {
 } from '../../Models/Constants/Constants';
 import { getGraphViewerStyles } from './OATGraphViewer.styles';
 import { ElementsContext } from './Internal/OATContext';
-import { E } from 'tsiclient/EllipsisMenu-9ca7bfca';
+import { IOATElementsChangeEventArgs } from '../../Models/Constants/Interfaces';
 
 type OATGraphProps = {
-    setElementHandler: () => any;
+    onElementsUpdate: (digitalTwinsModels: IOATElementsChangeEventArgs) => any;
 };
 
-const OATGraphViewer = ({ setElementHandler }: OATGraphProps) => {
+const OATGraphViewer = ({ onElementsUpdate }: OATGraphProps) => {
     const { t } = useTranslation();
     const theme = useTheme();
     const reactFlowWrapperRef = useRef(null);
@@ -38,7 +38,7 @@ const OATGraphViewer = ({ setElementHandler }: OATGraphProps) => {
     const [elements, setElements] = useState(
         storedElements === null ? [] : storedElements
     );
-    const idClass = 'dtmi:com:example:';
+    const idClassBase = 'dtmi:com:example:';
     const [newModelId, setNewModelId] = useState(0);
     const graphViewerStyles = getGraphViewerStyles();
     const currentNodeId = useRef('');
@@ -49,7 +49,7 @@ const OATGraphViewer = ({ setElementHandler }: OATGraphProps) => {
         let index = 0;
         while (index !== -1) {
             index = elements.findIndex(
-                (element) => element.id === `${idClass}model${nextModelId}`
+                (element) => element.id === `${idClassBase}model${nextModelId}`
             );
             if (index === -1) {
                 setNewModelId(nextModelId);
@@ -76,7 +76,7 @@ const OATGraphViewer = ({ setElementHandler }: OATGraphProps) => {
 
     const onNewModelClick = () => {
         const name = `Model${newModelId}`;
-        const id = `${idClass}model${newModelId}`;
+        const id = `${idClassBase}model${newModelId}`;
         const newNode = {
             id: id,
             type: 'Interface',
@@ -179,7 +179,7 @@ const OATGraphViewer = ({ setElementHandler }: OATGraphProps) => {
         const target = (evt.path || []).find(
             (element) => element.dataset && element.dataset.id
         );
-        if (target != null) {
+        if (target) {
             params.target = target.dataset.id;
             const targetType = elements.find(
                 (element) => element.id === params.target
@@ -233,23 +233,15 @@ const OATGraphViewer = ({ setElementHandler }: OATGraphProps) => {
     };
 
     const storeElements = () => {
-        const nodePositions = [];
-        if (elements.length > 0) {
-            elements.reduce((initial, element) => {
-                if (initial) {
-                    nodePositions.push({
-                        id: initial.id,
-                        position: initial.position
-                    });
-                }
-                if (!element.source) {
-                    nodePositions.push({
-                        id: element.id,
-                        position: element.position
-                    });
-                }
-            });
-        }
+        const nodePositions = elements.reduce((collection, element) => {
+            if (!element.source) {
+                collection.push({
+                    id: element.id,
+                    position: element.position
+                });
+            }
+            return collection;
+        }, []);
         localStorage.setItem(
             PositionsLocalStorageKey,
             JSON.stringify({ nodePositions })
@@ -346,6 +338,10 @@ const OATGraphViewer = ({ setElementHandler }: OATGraphProps) => {
             </div>
         </BaseComponent>
     );
+};
+
+OATGraphViewer.defaultProps = {
+    onElementsUpdate: () => null
 };
 
 export default OATGraphViewer;

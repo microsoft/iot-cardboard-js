@@ -12,11 +12,17 @@ export const Default = (_args, { globals: { theme } }) => {
         '@type': 'Interface',
         '@context': 'dtmi:adt:context;2',
         displayName: 'model1',
+        description: '',
+        comment: '',
+        relationships: null,
+        components: null,
+        trimmedCopy: null,
+        properties: [],
         contents: [
             {
-                '@id': 'dtmi:com:adt:model1:prop_0',
+                '@id': 'dtmi:com:adt:model1:New_Property_1',
                 '@type': ['Property'],
-                name: 'prop_0',
+                name: 'New_Property_1',
                 schema: 'string',
                 writable: true,
                 comment: 'default comment',
@@ -47,15 +53,12 @@ export const Default = (_args, { globals: { theme } }) => {
             unit: 'default unit'
         }
     ]);
-    const [currentPropertyIndex, setCurrentPropertyIndex] = useState(null);
 
     return (
         <div>
             <OATPropertyEditor
                 model={model}
                 setModel={setModel}
-                currentPropertyIndex={currentPropertyIndex}
-                setCurrentPropertyIndex={setCurrentPropertyIndex}
                 theme={theme}
                 templates={templates}
                 setTemplates={setTemplates}
