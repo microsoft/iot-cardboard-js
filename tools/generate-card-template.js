@@ -1,6 +1,7 @@
 require('colors');
 const fs = require('fs');
 const componentTemplates = require('./templates/component');
+const { exec } = require('child_process');
 
 // Grab and validate componentName from script args
 const componentName = process.argv[2];
@@ -47,3 +48,8 @@ console.log(
     `${componentName} component created successfully under: `,
     componentDirectory.green
 );
+
+console.log(`Linting component directory with prettier... `.cyan);
+
+// Run prettier on generated files
+exec(`prettier --write ${componentDirectory}/**/*.{js,ts,tsx,scss}`);

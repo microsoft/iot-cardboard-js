@@ -8,10 +8,10 @@ const ${componentName}: React.FC<${componentName}Props> = () => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const styles = getStyles();
 
-    return <div>Hello ${componentName}!</div>;
+    return <div>Hello ${componentName}!</div>
 };
 
-export default ${componentName};
+export default ${componentName}
 `,
     extension: `.tsx`
 });
