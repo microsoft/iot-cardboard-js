@@ -296,7 +296,7 @@ const OATGraphViewer = ({ onElementsUpdate }: OATGraphProps) => {
             TwinsLocalStorageKey,
             JSON.stringify({ digitalTwinsModels: nodes })
         );
-        setElementHandler({ digitalTwinsModels: nodes });
+        onElementsUpdate({ digitalTwinsModels: nodes });
     };
 
     return (
