@@ -3,7 +3,6 @@ import OATHeader from '../../Components/OATHeader/OATHeader';
 import OATModelList from '../../Components/OATModelList/OATModelList';
 import OATGraphViewer from '../../Components/OATGraphViewer/OATGraphViewer';
 import OATPropertyEditor from '../../Components/OATPropertyEditor/OATPropertyEditor';
-import Modal from '../../Components/OATPropertyEditor/Modal';
 import { getEditorPageStyles } from './OATEditorPage.Styles';
 
 const OATEditorPage = ({ theme }) => {
