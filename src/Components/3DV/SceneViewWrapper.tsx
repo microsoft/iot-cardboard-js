@@ -37,11 +37,7 @@ import {
     Theme,
     useTheme
 } from '@fluentui/react';
-
-export enum WrapperMode {
-    Builder = 'builder',
-    Viewer = 'viewr'
-}
+import { WrapperMode } from './SceneView.types';
 
 export const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = ({
     config,

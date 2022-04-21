@@ -21,10 +21,7 @@ import {
 } from '../../Models/Classes/SceneView.types';
 import { VisualType } from '../../Models/Classes/3DVConfig';
 import BaseComponent from '../../Components/BaseComponent/BaseComponent';
-import {
-    SceneViewWrapper,
-    WrapperMode
-} from '../../Components/3DV/SceneViewWrapper';
+import { SceneViewWrapper } from '../../Components/3DV/SceneViewWrapper';
 import { IPopoverVisual } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import BehaviorsModal from '../BehaviorsModal/BehaviorsModal';
 import { useRuntimeSceneData } from '../../Models/Hooks/useRuntimeSceneData';
@@ -38,6 +35,7 @@ import { useBoolean } from '@fluentui/react-hooks';
 import { createCustomMeshItems } from '../3DV/SceneView.Utils';
 import { deepCopy } from '../../Models/Services/Utils';
 import AlertModal from '../AlertModal/AlertModal';
+import { WrapperMode } from '../3DV/SceneView.types';
 
 const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
     theme,
