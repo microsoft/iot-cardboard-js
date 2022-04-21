@@ -30,6 +30,8 @@ interface IEditor {
     setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
     setModel?: React.Dispatch<React.SetStateAction<DTDLModel>>;
     setTemplates?: React.Dispatch<React.SetStateAction<any>>;
+    templatesActive?: boolean;
+    setTemplatesActive?: React.Dispatch<React.SetStateAction<any>>;
 }
 
 const Editor = ({
@@ -42,7 +44,9 @@ const Editor = ({
     setModalOpen,
     setCurrentNestedPropertyIndex,
     setCurrentPropertyIndex,
-    currentPropertyIndex
+    currentPropertyIndex,
+    templatesActive,
+    setTemplatesActive
 }: IEditor) => {
     const { t } = useTranslation();
     const propertyInspectorStyles = getPropertyInspectorStyles();
@@ -50,7 +54,6 @@ const Editor = ({
     const [propertySelectorVisible, setPropertySelectorVisible] = useState(
         false
     );
-    const [templatesActive, setTemplatesActive] = useState(false);
     const [draggingTemplate, setDraggingTemplate] = useState(false);
     const [draggingProperty, setDraggingProperty] = useState(false);
     const enteredTemplateRef = useRef(null);
