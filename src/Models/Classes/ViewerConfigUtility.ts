@@ -7,6 +7,7 @@ import {
     IDataSource,
     IElement,
     IElementTwinToObjectMappingDataSource,
+    ILayer,
     IPopoverVisual,
     IScene,
     IStatusColoringVisual,
@@ -59,17 +60,105 @@ abstract class ViewerConfigUtility {
         return updatedConfig;
     }
 
+    /** Create new layer */
+    static createNewLayer(
+        config: I3DScenesConfig,
+        layer: ILayer
+    ): I3DScenesConfig {
+        const updatedConfig = deepCopy(config);
+        updatedConfig.configuration.layers.push(layer);
+        return updatedConfig;
+    }
+
+    /** Edit existing layer */
+    static editLayer(config: I3DScenesConfig, layer: ILayer): I3DScenesConfig {
+        const updatedConfig = deepCopy(config);
+        const layerToUpdateIdx = updatedConfig.configuration.layers.findIndex(
+            (l) => l.id === layer.id
+        );
+
+        if (layerToUpdateIdx !== -1) {
+            updatedConfig.configuration.layers[layerToUpdateIdx] = layer;
+        }
+        return updatedConfig;
+    }
+
+    /** Delete existing layer */
+    static deleteLayer(
+        config: I3DScenesConfig,
+        layer: ILayer
+    ): I3DScenesConfig {
+        const updatedConfig = deepCopy(config);
+        const layerToDeleteIdx = updatedConfig.configuration.layers.findIndex(
+            (l) => l.id === layer.id
+        );
+
+        if (layerToDeleteIdx !== -1) {
+            updatedConfig.configuration.layers.splice(layerToDeleteIdx, 1);
+        }
+        return updatedConfig;
+    }
+
+    /** Delete existing layer */
+    static getActiveLayersForBehavior(
+        config: I3DScenesConfig,
+        behaviorId: string
+    ): string[] {
+        const layers = config.configuration.layers;
+        const activeLayerIds: string[] = [];
+
+        layers.forEach((layer) => {
+            if (layer.behaviorIDs.includes(behaviorId)) {
+                activeLayerIds.push(layer.id);
+            }
+        });
+
+        return activeLayerIds;
+    }
+
+    /** Set which layers a behaivor is present in */
+    static setLayersForBehavior(
+        config: I3DScenesConfig,
+        behaviorId: string,
+        selectedLayerIds: string[]
+    ) {
+        // Iterate over each layer
+        const layers = config.configuration.layers;
+        for (const layer of layers) {
+            const behaviorInLayer = layer.behaviorIDs.includes(behaviorId);
+            const layerIsSelected = selectedLayerIds.includes(layer.id);
+
+            // if behavior ID isn't valid in layer
+            if (behaviorInLayer && !layerIsSelected) {
+                const idxToRemove = layer.behaviorIDs.indexOf(behaviorId);
+                layer.behaviorIDs.splice(idxToRemove, 1);
+            }
+            // if behavior ID needs to be added to layer
+            else if (!behaviorInLayer && layerIsSelected) {
+                layer.behaviorIDs.push(behaviorId);
+            }
+        }
+    }
+
     /** Add behavior to target scene */
     static addBehavior(
         config: I3DScenesConfig,
         sceneId: string,
-        behavior: IBehavior
+        behavior: IBehavior,
+        selectedLayerIds: string[]
     ): I3DScenesConfig {
         const updatedConfig = deepCopy(config);
         updatedConfig.configuration.behaviors.push(behavior);
         updatedConfig.configuration.scenes
             .find((scene) => scene.id === sceneId)
             ?.behaviorIDs?.push(behavior.id);
+
+        // Update behavior layer data
+        ViewerConfigUtility.setLayersForBehavior(
+            updatedConfig,
+            behavior.id,
+            selectedLayerIds
+        );
         return updatedConfig;
     }
 
@@ -78,7 +167,8 @@ abstract class ViewerConfigUtility {
      * changed with the update.*/
     static editBehavior(
         config: I3DScenesConfig,
-        behavior: IBehavior
+        behavior: IBehavior,
+        selectedLayerIds: string[]
     ): I3DScenesConfig {
         const updatedConfig = deepCopy(config);
 
@@ -87,6 +177,13 @@ abstract class ViewerConfigUtility {
             (b) => b.id === behavior.id
         );
         updatedConfig.configuration.behaviors[behaviorIdx] = behavior;
+
+        // Update behavior layer data
+        ViewerConfigUtility.setLayersForBehavior(
+            updatedConfig,
+            behavior.id,
+            selectedLayerIds
+        );
 
         return updatedConfig;
     }
