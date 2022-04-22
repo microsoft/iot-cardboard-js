@@ -21,10 +21,7 @@ import {
 } from '../../Models/Classes/SceneView.types';
 import { VisualType } from '../../Models/Classes/3DVConfig';
 import BaseComponent from '../../Components/BaseComponent/BaseComponent';
-import {
-    SceneViewWrapper,
-    WrapperMode
-} from '../../Components/3DV/SceneViewWrapper';
+import { SceneViewWrapper } from '../../Components/3DV/SceneViewWrapper';
 import BehaviorsModal from '../BehaviorsModal/BehaviorsModal';
 import { useRuntimeSceneData } from '../../Models/Hooks/useRuntimeSceneData';
 import { BaseComponentProps } from '../BaseComponent/BaseComponent.types';
@@ -41,6 +38,7 @@ import ViewerConfigUtility from '../../Models/Classes/ViewerConfigUtility';
 import LayerDropdown, {
     unlayeredBehaviorKey
 } from '../LayerDropdown/LayerDropdown';
+import { WrapperMode } from '../3DV/SceneView.types';
 
 const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
     theme,

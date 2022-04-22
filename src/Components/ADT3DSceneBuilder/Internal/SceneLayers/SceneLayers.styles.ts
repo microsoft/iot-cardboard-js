@@ -3,8 +3,7 @@ import {
     IStyle,
     ITextStyles,
     memoizeFunction,
-    mergeStyleSets,
-    Theme
+    mergeStyleSets
 } from '@fluentui/react';
 
 export const sceneLayersClassPrefix = 'cb-scene-layers';
@@ -16,7 +15,7 @@ const classNames = {
     noLayersContainer: `${sceneLayersClassPrefix}-no-layers-container`
 };
 
-export const getStyles = memoizeFunction((_theme?: Theme) => {
+export const getStyles = memoizeFunction(() => {
     return mergeStyleSets({
         container: [
             classNames.container,

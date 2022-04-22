@@ -1,4 +1,4 @@
-import { PrimaryButton, useTheme } from '@fluentui/react';
+import { PrimaryButton } from '@fluentui/react';
 import React from 'react';
 import { getStyles } from '../SceneLayers.styles';
 
@@ -15,8 +15,7 @@ const PrimaryActionCalloutContents: React.FC<PrimaryActionCalloutContentsProps> 
     primaryButtonText,
     disablePrimaryButton = false
 }) => {
-    const theme = useTheme();
-    const styles = getStyles(theme);
+    const styles = getStyles();
 
     return (
         <div className={styles.container}>

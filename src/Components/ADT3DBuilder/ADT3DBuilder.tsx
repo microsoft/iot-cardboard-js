@@ -8,7 +8,8 @@ import {
 } from '../../Models/Constants/Interfaces';
 import BaseComponent from '../BaseComponent/BaseComponent';
 import { AbstractMesh, Scene } from '@babylonjs/core';
-import { SceneViewWrapper, WrapperMode } from '../3DV/SceneViewWrapper';
+import { SceneViewWrapper } from '../3DV/SceneViewWrapper';
+import { WrapperMode } from '../3DV/SceneView.types';
 
 interface ADT3DBuilderProps {
     adapter: IADTAdapter; // for now
