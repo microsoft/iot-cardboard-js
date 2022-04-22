@@ -9,6 +9,7 @@
     "unsupportedFileType": "Unsupported file type",
     "selectProperties": "Select properties",
     "empty": "Empty",
+    "theme": "Theme",
     "hierarchy": "Hierarchy",
     "displayName": "Display name",
     "realTimeStatus": "Real-time status",
@@ -310,6 +311,31 @@
         "enterBlobUrl": "Enter your Azure storage container blob URL",
         "home": "Home",
         "globe": "Globe"
+    },
+    "layersDropdown": {
+        "placeholder": "No layers selected",
+        "unlayeredBehaviors": "Unlayered behaviors",
+        "unlayered": "Unlayered",
+        "title": "Select layers",
+        "selectAll": "Select all",
+        "selectNone": "Deselect all"
+    },
+    "sceneLayers": {
+        "noBehaviors": "No behaviors",
+        "layerMetaData": "{{numBehaviors}} behaviors",
+        "sceneLayers": "Scene layers",
+        "noneSelected": "No layers selected",
+        "newLayer": "New layer",
+        "layerName": "Layer name",
+        "behaviorsOnThisLayer": "Behaviors on this layer",
+        "layerNamePlaceholder": "Enter layer name",
+        "createNewLayer": "Create new layer",
+        "editLayer": "Edit layer",
+        "updateLayer": "Update layer",
+        "layers": "Layers",
+        "noLayersFound": "You don't have any layers yet!",
+        "noLayersDescription": "Layers are like tags on behaviors. Start by creating a layer here.",
+        "noBehaviorsOnLayer": "There are no behaviors on this layer"
     },
     "3dSceneBuilder": {
         "elements": "Elements",
@@ -717,5 +743,12 @@
         "sync": "sync",
         "import": "Import",
         "export": "Export"
+    },
+    "cameraControls": {
+        "mouseControls": "Mouse Controls",
+        "select": "Select",
+        "pan": "Pan",
+        "orbit": "Orbit",
+        "zoom": "Zoom"
     }
 }

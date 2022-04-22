@@ -280,12 +280,11 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
             )}
             <ConfirmDeleteDialog
                 isOpen={isConfirmDeleteDialogOpen}
-                onCancel={() => {
+                onClose={() => {
                     setElementToDelete(null);
                     setIsDeleteDialogOpen(false);
                 }}
                 onConfirmDeletion={handleDeleteElement}
-                setIsOpen={setIsDeleteDialogOpen}
             />
         </div>
     );

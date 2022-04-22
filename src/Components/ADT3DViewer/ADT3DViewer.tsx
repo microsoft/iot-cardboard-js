@@ -22,7 +22,6 @@ import {
 import { VisualType } from '../../Models/Classes/3DVConfig';
 import BaseComponent from '../../Components/BaseComponent/BaseComponent';
 import { SceneViewWrapper } from '../../Components/3DV/SceneViewWrapper';
-import { IPopoverVisual } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import BehaviorsModal from '../BehaviorsModal/BehaviorsModal';
 import { useRuntimeSceneData } from '../../Models/Hooks/useRuntimeSceneData';
 import { BaseComponentProps } from '../BaseComponent/BaseComponent.types';
@@ -35,6 +34,11 @@ import { useBoolean } from '@fluentui/react-hooks';
 import { createCustomMeshItems } from '../3DV/SceneView.Utils';
 import { deepCopy } from '../../Models/Services/Utils';
 import AlertModal from '../AlertModal/AlertModal';
+import ViewerConfigUtility from '../../Models/Classes/ViewerConfigUtility';
+import LayerDropdown, {
+    unlayeredBehaviorKey
+} from '../LayerDropdown/LayerDropdown';
+import { WrapperMode } from '../3DV/SceneView.types';
 
 const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
     theme,
@@ -90,6 +94,30 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
         setAlertPanelItems
     ] = useState<IViewerElementsPanelItem>(null);
 
+    const layersInScene = useMemo(
+        () => ViewerConfigUtility.getLayersInScene(scenesConfig, sceneId),
+        [scenesConfig, sceneId]
+    );
+
+    const unlayeredBehaviorsPresent = useMemo(
+        () =>
+            ViewerConfigUtility.getUnlayeredBehaviorIdsInScene(
+                scenesConfig,
+                sceneId
+            ).length > 0,
+        [scenesConfig, sceneId]
+    );
+
+    const [selectedLayerIds, setSelectedLayerIds] = useState<string[]>([
+        // Add unlayered behavior option if unlayered behaviors present
+        ...(unlayeredBehaviorsPresent ? [unlayeredBehaviorKey] : []),
+        ...layersInScene.map((lis) => lis.id)
+    ]);
+
+    const [selectedVisual, setSelectedVisual] = useState<Partial<SceneVisual>>(
+        null
+    );
+
     const { t } = useTranslation();
     const sceneWrapperId = useGuid();
     const selectedMesh = useRef(null);
@@ -101,7 +129,13 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
         sceneAlerts,
         isLoading,
         triggerRuntimeRefetch
-    } = useRuntimeSceneData(adapter, sceneId, scenesConfig, pollingInterval);
+    } = useRuntimeSceneData(
+        adapter,
+        sceneId,
+        scenesConfig,
+        pollingInterval,
+        selectedLayerIds
+    );
 
     useEffect(() => {
         refetchConfig && refetchConfig();
@@ -142,33 +176,19 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
         [sceneVisuals]
     );
 
-    const showPopover = (
-        sceneVisual: Partial<SceneVisual>,
-        popOverToDisplay?: IPopoverVisual
-    ) => {
-        let popOver = popOverToDisplay;
+    const showPopover = (sceneVisual: Partial<SceneVisual>) => {
+        setBehaviorModalSceneVisuaElementlId(sceneVisual.element.id);
+        setShowPopUp(true);
+        const meshIds = sceneVisual.element.objectIDs;
+        const outlinedMeshItems = createCustomMeshItems(
+            meshIds,
+            DefaultViewerModeObjectColor.outlinedMeshSelectedColor
+        );
 
-        if (!popOverToDisplay && sceneVisual) {
-            popOver = []
-                .concat(...sceneVisual?.behaviors.map((b) => b.visuals))
-                ?.find(
-                    (visual) => visual.type === VisualType.Popover
-                ) as IPopoverVisual;
-        }
-
-        if (popOver) {
-            setBehaviorModalSceneVisuaElementlId(sceneVisual.element.id);
-            setShowPopUp(true);
-            const meshIds = sceneVisual.element.objectIDs;
-            const outlinedMeshItems = createCustomMeshItems(
-                meshIds,
-                DefaultViewerModeObjectColor.outlinedMeshSelectedColor
-            );
-
-            setOutlinedMeshItems(outlinedMeshItems);
-            outlinedMeshItemsRef.current = outlinedMeshItems;
-            selectedMeshIdsRef.current = meshIds;
-        }
+        setSelectedVisual(sceneVisual);
+        setOutlinedMeshItems(outlinedMeshItems);
+        outlinedMeshItemsRef.current = outlinedMeshItems;
+        selectedMeshIdsRef.current = meshIds;
     };
 
     const meshClick = (_marker: Marker, mesh: any, scene: any) => {
@@ -176,33 +196,27 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
             const sceneVisual = sceneVisuals.find((sceneVisual) =>
                 sceneVisual.element.objectIDs.find((id) => id === mesh?.id)
             );
-            let popOver: IPopoverVisual = null;
-            if (sceneVisual) {
-                popOver = []
-                    .concat(...sceneVisual?.behaviors.map((b) => b.visuals))
-                    ?.find(
-                        (visual) => visual.type === VisualType.Popover
-                    ) as IPopoverVisual;
-            }
 
-            if (popOver) {
+            if (sceneVisual) {
                 if (selectedMesh.current === mesh) {
                     selectedMesh.current = null;
                     setShowPopUp(false);
                     setZoomToMeshIds([]);
                     setOutlinedMeshItems([]);
+                    setSelectedVisual(null);
                     outlinedMeshItemsRef.current = [];
                     selectedMeshIdsRef.current = [];
                 } else {
                     selectedMesh.current = mesh;
                     sceneRef.current = scene;
-                    showPopover(sceneVisual, popOver);
+                    showPopover(sceneVisual);
                 }
             } else {
                 selectedMesh.current = null;
                 setShowPopUp(false);
                 setZoomToMeshIds([]);
                 setOutlinedMeshItems([]);
+                setSelectedVisual(null);
                 outlinedMeshItemsRef.current = [];
                 selectedMeshIdsRef.current = [];
             }
@@ -366,6 +380,8 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
                     sceneVisuals={sceneVisuals}
                     addInProps={addInProps}
                     hideViewModePickerUI={hideViewModePickerUI}
+                    wrapperMode={WrapperMode.Viewer}
+                    selectedVisual={selectedVisual}
                     sceneViewProps={{
                         badgeGroups: alertBadges,
                         modelUrl: modelUrl,
@@ -387,6 +403,14 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
                             : undefined
                     }}
                 />
+                <div className="cb-layer-dropdown-container">
+                    <LayerDropdown
+                        layers={layersInScene}
+                        selectedLayerIds={selectedLayerIds}
+                        setSelectedLayerIds={setSelectedLayerIds}
+                        showUnlayeredOption={unlayeredBehaviorsPresent}
+                    />
+                </div>
             </div>
             {showPopUp && (
                 <BehaviorsModal
