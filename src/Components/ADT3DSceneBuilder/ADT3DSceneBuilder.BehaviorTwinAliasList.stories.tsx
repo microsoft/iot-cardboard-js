@@ -6,9 +6,7 @@ import ADT3DSceneBuilder from './ADT3DSceneBuilder';
 import {
     IStoryContext,
     sleep,
-    findCalloutItemByTestId,
-    findOverflowMenuItem as findOverflowMenuItemByTestId,
-    clickOverFlowMenuItem
+    findCalloutItemByTestId
 } from '../../Models/Services/StoryUtilities';
 import { IADT3DSceneBuilderCardProps } from './ADT3DSceneBuilder.types';
 import trucksMockVConfig from '../../Adapters/__mockData__/TruckAndMachinesConfig.json';
@@ -106,14 +104,15 @@ TwinAliasListItemMenu.play = async ({ canvasElement }) => {
     await userEvent.click(twinAliasItem1MoreMenu);
 };
 
-export const TwinAliasRemove = Template.bind({});
-TwinAliasRemove.play = async ({ canvasElement }) => {
-    await TwinAliasListItemMenu.play({ canvasElement });
-    await sleep(1000);
+// TODO_UNSTABLE_INTERACTION -- Excluding
+// export const TwinAliasRemove = Template.bind({});
+// TwinAliasRemove.play = async ({ canvasElement }) => {
+//     await TwinAliasListItemMenu.play({ canvasElement });
+//     await sleep(1000);
 
-    // Find the remove item in the overflow menu in twin alias list item
-    const removeOverflowItem = await findOverflowMenuItemByTestId(
-        'behaviorTwinAlias-removeOverflow'
-    );
-    await clickOverFlowMenuItem(removeOverflowItem);
-};
+//     // Find the remove item in the overflow menu in twin alias list item
+//     const removeOverflowItem = await findOverflowMenuItemByTestId(
+//         'behaviorTwinAlias-removeOverflow'
+//     );
+//     await clickOverFlowMenuItem(removeOverflowItem);
+// };
