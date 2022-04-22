@@ -143,13 +143,14 @@ const ADT3DGlobe: React.FC<IADT3DGlobeProps> = ({
                     break;
             }
 
-            let ct = -1;
+            let ct = -2;
             const baseColor = hexToColor4(colors[1]);
             const baseHSV = rgb2hsv(baseColor.r, baseColor.g, baseColor.b);
             for (const mesh of sceneRef.current.meshes) {
                 if (mesh?.name?.startsWith('Region')) {
+                    ct += 2;
                     if (++ct >= 14) {
-                        ct = 0;
+                        ct = 1;
                     }
 
                     if (globeTheme === GlobeTheme.Grey) {
