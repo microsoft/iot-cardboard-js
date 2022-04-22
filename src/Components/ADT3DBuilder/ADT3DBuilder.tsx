@@ -9,6 +9,7 @@ import {
 import BaseComponent from '../BaseComponent/BaseComponent';
 import { AbstractMesh, Scene } from '@babylonjs/core';
 import { SceneViewWrapper } from '../3DV/SceneViewWrapper';
+import { WrapperMode } from '../3DV/SceneView.types';
 
 interface ADT3DBuilderProps {
     adapter: IADTAdapter; // for now
@@ -64,6 +65,7 @@ const ADT3DBuilder: React.FC<ADT3DBuilderProps> = ({
                 <SceneViewWrapper
                     objectColorUpdated={objectColorUpdated}
                     hideViewModePickerUI={hideViewModePickerUI}
+                    wrapperMode={WrapperMode.Builder}
                     sceneViewProps={{
                         modelUrl: modelUrl,
                         onMeshClick: meshClick,

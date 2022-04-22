@@ -25,6 +25,7 @@ import {
     PivotItem,
     PrimaryButton,
     Separator,
+    Stack,
     TextField,
     useTheme
 } from '@fluentui/react';
@@ -59,6 +60,7 @@ import {
 } from './BehaviorForm.types';
 import { customPivotItemStyles } from './BehaviorsForm.styles';
 import TwinsTab from './Internal/TwinsTab';
+import SceneLayerMultiSelectBuilder from '../SceneLayerMultiSelectBuilder/SceneLayerMultiSelectBuilder';
 import BehaviorTwinAliasForm from './Twins/BehaviorTwinAliasForm';
 
 const getElementsFromBehavior = (behavior: IBehavior) =>
@@ -107,6 +109,13 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
         selectedBehaviorPivotKey,
         setSelectedBehaviorPivotKey
     ] = useState<BehaviorPivot>(BehaviorPivot.elements);
+
+    const [selectedLayerIds, setSelectedLayerIds] = useState(
+        ViewerConfigUtility.getActiveLayersForBehavior(
+            config,
+            behaviorToEdit.id
+        )
+    );
 
     useEffect(() => {
         const selectedElements = [];
@@ -225,6 +234,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
             config,
             behaviorToEdit,
             builderMode as BehaviorSaveMode,
+            selectedLayerIds,
             selectedElements
         );
         onBehaviorBackClick();
@@ -279,7 +289,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
     // );
     const theme = useTheme();
     const commonPanelStyles = getLeftPanelStyles(theme);
-    const commonFormStyles = getPanelFormStyles(theme, 92);
+    const commonFormStyles = getPanelFormStyles(theme, 168);
 
     return (
         <div className={commonFormStyles.root}>
@@ -300,21 +310,28 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                 <>
                     <div className={commonFormStyles.content}>
                         <div className={commonFormStyles.header}>
-                            <TextField
-                                label={t('displayName')}
-                                value={behaviorToEdit.displayName}
-                                required
-                                onChange={(_e, newValue) => {
-                                    onTabValidityChange('Root', {
-                                        isValid: !!newValue
-                                    });
-                                    setBehaviorToEdit(
-                                        produce((draft: IBehavior) => {
-                                            draft.displayName = newValue;
-                                        })
-                                    );
-                                }}
-                            />
+                            <Stack tokens={{ childrenGap: 12 }}>
+                                <TextField
+                                    label={t('displayName')}
+                                    value={behaviorToEdit.displayName}
+                                    required
+                                    onChange={(_e, newValue) => {
+                                        onTabValidityChange('Root', {
+                                            isValid: !!newValue
+                                        });
+                                        setBehaviorToEdit(
+                                            produce((draft: IBehavior) => {
+                                                draft.displayName = newValue;
+                                            })
+                                        );
+                                    }}
+                                />
+                                <SceneLayerMultiSelectBuilder
+                                    behaviorId={behaviorToEdit.id}
+                                    selectedLayerIds={selectedLayerIds}
+                                    setSelectedLayerIds={setSelectedLayerIds}
+                                />
+                            </Stack>
                         </div>
                         <Separator />
                         <Pivot

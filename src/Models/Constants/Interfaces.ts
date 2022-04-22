@@ -59,6 +59,7 @@ import {
     IBehavior,
     ITwinToObjectMapping
 } from '../Types/Generated/3DScenesConfiguration-v1.0.0';
+import { WrapperMode } from '../../Components/3DV/SceneView.types';
 
 export interface IAction {
     type: string;
@@ -675,6 +676,7 @@ export interface ISceneViewWrapperProps {
     hideViewModePickerUI?: boolean;
     selectedVisual?: Partial<SceneVisual>;
     objectColorUpdated?: (objectColor: IADTObjectColor) => void;
+    wrapperMode: WrapperMode;
 }
 
 export interface IADT3DViewerProps {

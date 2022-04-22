@@ -31,6 +31,7 @@ import {
     ViewerModeObjectColors,
     ViewerThemeKey
 } from '../../Models/Constants';
+import SceneLayers from '../ADT3DSceneBuilder/Internal/SceneLayers/SceneLayers';
 import { CameraControls } from './CameraControls';
 import {
     memoizeFunction,
@@ -38,6 +39,7 @@ import {
     Theme,
     useTheme
 } from '@fluentui/react';
+import { WrapperMode } from './SceneView.types';
 
 export const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = ({
     config,
@@ -48,6 +50,7 @@ export const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = ({
     addInProps,
     objectColorUpdated,
     hideViewModePickerUI,
+    wrapperMode,
     selectedVisual
 }) => {
     const { onMeshHover, onMeshClick, onSceneLoaded, ...svp } = sceneViewProps;
@@ -214,8 +217,9 @@ export const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = ({
             }
             className="cb-adt-3dviewer-wrapper "
         >
-            {!hideViewModePickerUI && (
-                <div className="cb-adt-3dviewer-render-mode-selection">
+            <div className="cb-adt-3dviewer-tool-button-container">
+                {wrapperMode === WrapperMode.Builder && <SceneLayers />}
+                {!hideViewModePickerUI && (
                     <ModelViewerModePicker
                         defaultViewerMode={{
                             objectColor: selectedViewerMode?.objectColor?.color,
@@ -226,8 +230,8 @@ export const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = ({
                         objectColors={ViewerModeObjectColors}
                         backgroundColors={ViewerModeBackgroundColors}
                     />
-                </div>
-            )}
+                )}
+            </div>
             <div className={styles.viewerControlsContainer}>
                 <CameraControls
                     cameraInteraction={cameraInteractionType}
