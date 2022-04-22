@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import BaseComponent from '../../../Components/BaseComponent/BaseComponent';
 import { ADT3DScenePageModes } from '../../../Models/Constants/Enums';
 import ADT3DViewer from '../../../Components/ADT3DViewer/ADT3DViewer';
@@ -15,6 +15,14 @@ export const ADT3DSceneBuilderContainer: React.FC<IADT3DSceneBuilderProps> = ({
     localeStrings,
     refetchConfig
 }) => {
+    const cameraPositionRef = useRef(null);
+    const svp = {
+        cameraPosition: cameraPositionRef.current,
+        onCameraMove: (position) => {
+            cameraPositionRef.current = position;
+        }
+    };
+
     return (
         <BaseComponent
             theme={theme}
@@ -28,6 +36,7 @@ export const ADT3DSceneBuilderContainer: React.FC<IADT3DSceneBuilderProps> = ({
                         locale={locale}
                         adapter={adapter}
                         sceneId={scene.id}
+                        sceneViewProps={svp}
                     />
                 </div>
             ) : (
@@ -38,6 +47,7 @@ export const ADT3DSceneBuilderContainer: React.FC<IADT3DSceneBuilderProps> = ({
                         sceneId={scene.id}
                         scenesConfig={scenesConfig}
                         refetchConfig={refetchConfig}
+                        sceneViewProps={svp}
                     />
                 </div>
             )}

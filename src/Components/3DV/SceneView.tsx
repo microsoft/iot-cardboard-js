@@ -14,7 +14,8 @@ import React, {
 import './SceneView.scss';
 import { createGUID } from '../../Models/Services/Utils';
 import {
-    ISceneViewProp,
+    ICameraPosition,
+    ISceneViewProps,
     Marker,
     SceneViewCallbackHandler
 } from '../../Models/Classes/SceneView.types';
@@ -130,7 +131,7 @@ function convertLatLonToVector3(
 
 let lastName = '';
 
-function SceneView(props: ISceneViewProp, ref) {
+function SceneView(props: ISceneViewProps, ref) {
     const {
         modelUrl,
         markers,
@@ -144,6 +145,7 @@ function SceneView(props: ISceneViewProp, ref) {
         unzoomedMeshOpacity,
         onSceneLoaded,
         getToken,
+        cameraPosition,
         coloredMeshItems,
         showHoverOnSelected,
         outlinedMeshitems,
@@ -158,7 +160,7 @@ function SceneView(props: ISceneViewProp, ref) {
     const [scene, setScene] = useState<BABYLON.Scene>(undefined);
     const onMeshClickRef = useRef<SceneViewCallbackHandler>(null);
     const onMeshHoverRef = useRef<SceneViewCallbackHandler>(null);
-    const onCameraMoveRef = useRef<SceneViewCallbackHandler>(null);
+    const onCameraMoveRef = useRef<(position: ICameraPosition) => void>(null);
     const advancedTextureRef = useRef<GUI.AdvancedDynamicTexture>(undefined);
     const sceneRef = useRef<BABYLON.Scene>(null);
     const engineRef = useRef<BABYLON.Engine>(null);
@@ -195,6 +197,7 @@ function SceneView(props: ISceneViewProp, ref) {
     const initialCameraRadiusRef = useRef(0);
     const zoomedCameraRadiusRef = useRef(0);
     const zoomedMeshesRef = useRef([]);
+    const lastCameraPositionRef = useRef('');
 
     const defaultMeshHover = (
         marker: Marker,
@@ -373,6 +376,21 @@ function SceneView(props: ISceneViewProp, ref) {
             mesh.alphaIndex = 1;
         }
     };
+
+    useEffect(() => {
+        const pos = JSON.stringify(cameraPosition || {});
+        if (
+            pos !== lastCameraPositionRef.current &&
+            cameraRef.current &&
+            cameraPosition
+        ) {
+            lastCameraPositionRef.current = pos;
+            cameraRef.current.position = cameraPosition.position;
+            cameraRef.current.target = cameraPosition.target;
+            cameraRef.current.radius = cameraPosition.radius;
+        }
+        //
+    }, [cameraPosition, isLoading]);
 
     const createOrZoomCamera = (meshIds?: string[]) => {
         const zoomMeshIds = meshIds || zoomToMeshIds;
@@ -1189,9 +1207,13 @@ function SceneView(props: ISceneViewProp, ref) {
         let pt: BABYLON.Observer<BABYLON.PointerInfo>;
         debugLog('pointerMove effect' + (scene ? ' with scene' : ' no scene'));
         if (scene && onCameraMoveRef.current) {
-            const cameraMove = (e: any) => {
-                if (onCameraMoveRef.current) {
-                    onCameraMoveRef.current(null, null, scene, e);
+            const cameraMove = () => {
+                if (onCameraMoveRef.current && cameraRef.current) {
+                    onCameraMoveRef.current({
+                        position: cameraRef.current.position,
+                        target: cameraRef.current.target,
+                        radius: cameraRef.current.radius
+                    });
                 }
             };
 

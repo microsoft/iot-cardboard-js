@@ -78,6 +78,7 @@ export const SceneBuilderContext = React.createContext<I3DSceneBuilderContext>(
 
 const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
     sceneId,
+    sceneViewProps,
     adapter,
     theme,
     locale,
@@ -705,6 +706,7 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
                             }
                             onMeshClicked={onMeshClicked}
                             onMeshHovered={onMeshHovered}
+                            sceneViewProps={sceneViewProps}
                             outlinedMeshItems={state.outlinedMeshItems}
                             showHoverOnSelected={state.showHoverOnSelected}
                             coloredMeshItems={state.coloredMeshItems}
