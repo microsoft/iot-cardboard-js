@@ -1,3 +1,4 @@
+import { unlayeredBehaviorKey } from '../../Components/LayerDropdown/LayerDropdown';
 import { IAliasedTwinProperty } from '../Constants/Interfaces';
 import { deepCopy } from '../Services/Utils';
 import {
@@ -392,6 +393,101 @@ abstract class ViewerConfigUtility {
         );
     }
 
+    static getLayersInScene(
+        config: I3DScenesConfig,
+        sceneId: string
+    ): Array<ILayer> {
+        if (!config) return [];
+
+        // Get behaviors in scene
+        const behaviorIdsInScene = ViewerConfigUtility.getBehaviorIdsInScene(
+            config,
+            sceneId
+        );
+
+        // Filter layers by matching behavior Id present
+        const layersInScene = config.configuration.layers.filter((layer) =>
+            layer.behaviorIDs.some((behaviorId) =>
+                behaviorIdsInScene.includes(behaviorId)
+            )
+        );
+
+        return layersInScene;
+    }
+
+    static getUnlayeredBehaviorIdsInScene(
+        config: I3DScenesConfig,
+        sceneId: string
+    ) {
+        const behaviorIdsInScene = ViewerConfigUtility.getBehaviorIdsInScene(
+            config,
+            sceneId
+        );
+        const layersInScene = ViewerConfigUtility.getLayersInScene(
+            config,
+            sceneId
+        );
+        const layeredBehaviorIds = new Map();
+
+        // Construct map of all behavior Ids contained in layers in the scene
+        layersInScene.forEach((layer) => {
+            layer.behaviorIDs.forEach((behaviorId) => {
+                layeredBehaviorIds.set(behaviorId, '');
+            });
+        });
+
+        // Find behavior Ids in the scene with no associated layer
+        const unlayeredBehaviorIdMap = new Map();
+        behaviorIdsInScene.forEach((behaviorId) => {
+            if (!layeredBehaviorIds.has(behaviorId)) {
+                unlayeredBehaviorIdMap.set(behaviorId, '');
+            }
+        });
+
+        return Array.from(unlayeredBehaviorIdMap.keys());
+    }
+
+    static getBehaviorIdsInSelectedLayers(
+        config: I3DScenesConfig,
+        selectedLayerIds: string[],
+        sceneId: string
+    ) {
+        const uniqueBehaviorIds = new Map();
+
+        // Check if unlayered behavior mode selected
+        const isUnlayeredBehaviorActive = selectedLayerIds.includes(
+            unlayeredBehaviorKey
+        );
+
+        if (isUnlayeredBehaviorActive) {
+            // Remove unlayered behavior key from id array
+            selectedLayerIds.splice(
+                selectedLayerIds.indexOf(unlayeredBehaviorKey),
+                1
+            );
+
+            // Add all behaviors WITHOUT LAYERS in scene to Id dict
+            const unlayeredBehaviorIdsInScene = ViewerConfigUtility.getUnlayeredBehaviorIdsInScene(
+                config,
+                sceneId
+            );
+            unlayeredBehaviorIdsInScene.forEach((id) =>
+                uniqueBehaviorIds.set(id, '')
+            );
+        }
+
+        // Add behavior Ids from selected scene layers to Id dict
+        config.configuration.layers.forEach((layer) => {
+            if (selectedLayerIds.includes(layer.id)) {
+                layer.behaviorIDs.forEach((behaviorId) => {
+                    uniqueBehaviorIds.set(behaviorId, '');
+                });
+            }
+        });
+
+        return Array.from(uniqueBehaviorIds.keys());
+    }
+
     static isElementTwinToObjectMappingDataSource(
         dataSource: IDataSource
     ): dataSource is IElementTwinToObjectMappingDataSource {
@@ -432,9 +528,10 @@ abstract class ViewerConfigUtility {
         const behaviorsInScene = [];
         const behaviorsNotInScene = [];
 
-        const scene = config.configuration.scenes.find((s) => s.id === sceneId);
-
-        const behaviorIdsInActiveScene = scene?.behaviorIDs;
+        const behaviorIdsInActiveScene = ViewerConfigUtility.getBehaviorIdsInScene(
+            config,
+            sceneId
+        );
 
         behaviors.forEach((behavior) => {
             if (
@@ -456,6 +553,11 @@ abstract class ViewerConfigUtility {
         } else {
             return [[], behaviors];
         }
+    }
+
+    static getBehaviorIdsInScene(config: I3DScenesConfig, sceneId: string) {
+        const scene = config.configuration.scenes.find((s) => s.id === sceneId);
+        return scene?.behaviorIDs || [];
     }
 
     static getBehaviorsOnElement(

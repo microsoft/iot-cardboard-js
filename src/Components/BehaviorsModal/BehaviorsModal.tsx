@@ -7,7 +7,7 @@ import {
     useTheme
 } from '@fluentui/react';
 import { useId } from '@fluentui/react-hooks';
-import React, { createContext, useRef, useState } from 'react';
+import React, { createContext, useEffect, useRef, useState } from 'react';
 import Draggable from 'react-draggable';
 import { useTranslation } from 'react-i18next';
 import {
@@ -53,7 +53,7 @@ enum BehaviorModalPivotKey {
 
 const BehaviorsModal: React.FC<IBehaviorsModalProps> = ({
     onClose,
-    behaviors,
+    behaviors = [],
     title,
     twins,
     mode = BehaviorModalMode.viewer,
@@ -70,6 +70,22 @@ const BehaviorsModal: React.FC<IBehaviorsModalProps> = ({
     const [activePivot, setActivePivot] = useState<BehaviorModalPivotKey>(
         BehaviorModalPivotKey.State
     );
+
+    // When title (popover element), or behaviors change, snap to correct pivot
+    useEffect(() => {
+        if (
+            activePivot === BehaviorModalPivotKey.Properties &&
+            behaviors.length > 0
+        ) {
+            setActivePivot(BehaviorModalPivotKey.State);
+        } else if (
+            activePivot === BehaviorModalPivotKey.State &&
+            behaviors.length === 0 &&
+            adapter
+        ) {
+            setActivePivot(BehaviorModalPivotKey.Properties);
+        }
+    }, [title, behaviors]);
 
     const styles = getStyles(theme, mode);
 
@@ -122,14 +138,16 @@ const BehaviorsModal: React.FC<IBehaviorsModalProps> = ({
                                         }
                                         styles={pivotStyles}
                                     >
-                                        <PivotItem
-                                            headerText={t(
-                                                'behaviorsModal.state'
-                                            )}
-                                            itemKey={
-                                                BehaviorModalPivotKey.State
-                                            }
-                                        ></PivotItem>
+                                        {behaviors?.length > 0 && (
+                                            <PivotItem
+                                                headerText={t(
+                                                    'behaviorsModal.state'
+                                                )}
+                                                itemKey={
+                                                    BehaviorModalPivotKey.State
+                                                }
+                                            ></PivotItem>
+                                        )}
                                         <PivotItem
                                             headerText={t(
                                                 'behaviorsModal.allProperties'

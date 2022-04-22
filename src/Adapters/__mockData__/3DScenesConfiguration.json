@@ -2263,10 +2263,10 @@
                     },
                     {
                         "type": "Alert",
-                        "triggerExpression": "LinkedTwin.OutFlow > 120",
-                        "labelExpression": "OutFlow rate too high",
-                        "iconName": "Squalls",
-                        "color": "#a209de",
+                        "triggerExpression": "LinkedTwin.Temperature > 15",
+                        "labelExpression": "Temp too hot",
+                        "iconName": "Frigid",
+                        "color": "#d6940f",
                         "objectIDs": {
                             "expression": "objectIDs"
                         }
@@ -2362,10 +2362,10 @@
                     },
                     {
                         "type": "Alert",
-                        "triggerExpression": "LinkedTwin.Temperature > 15",
-                        "labelExpression": "Temp too hot",
-                        "iconName": "Frigid",
-                        "color": "#d6940f",
+                        "triggerExpression": "LinkedTwin.OutFlow > 120",
+                        "labelExpression": "OutFlow rate too high",
+                        "iconName": "Squalls",
+                        "color": "#a209de",
                         "objectIDs": {
                             "expression": "objectIDs"
                         }
@@ -2444,10 +2444,7 @@
             {
                 "id": "8904b620aa83c649888dadc7c8fdf492",
                 "displayName": "Flow",
-                "behaviorIDs": [
-                    "421cc93046fa4b589bc2ec1dd1009c90",
-                    "d6a2d68bc4007f3fa624eab19105e44b"
-                ]
+                "behaviorIDs": ["d6a2d68bc4007f3fa624eab19105e44b"]
             },
             {
                 "id": "9624b620aa83c649888dadc7c8fdf541",

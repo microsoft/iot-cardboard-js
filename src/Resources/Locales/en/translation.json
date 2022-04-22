@@ -312,6 +312,14 @@
         "home": "Home",
         "globe": "Globe"
     },
+    "layersDropdown": {
+        "placeholder": "No layers selected",
+        "unlayeredBehaviors": "Unlayered behaviors",
+        "unlayered": "Unlayered",
+        "title": "Select layers",
+        "selectAll": "Select all",
+        "selectNone": "Deselect all"
+    },
     "sceneLayers": {
         "noBehaviors": "No behaviors",
         "layerMetaData": "{{numBehaviors}} behaviors",

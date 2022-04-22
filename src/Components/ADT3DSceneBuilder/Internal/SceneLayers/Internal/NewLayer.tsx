@@ -106,7 +106,7 @@ const NewLayer: React.FC<INewLayer> = ({
                         </Text>
                         <CardboardList
                             items={behaviorListItems}
-                            listKey="behavior"
+                            listKey="layer-behaviors"
                         />
                     </div>
                 ) : mode === LayerDialogMode.EditLayer ? (
