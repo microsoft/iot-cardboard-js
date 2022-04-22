@@ -15,7 +15,6 @@ import './ADT3DViewer.scss';
 import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
 import {
     CustomMeshItem,
-    Marker,
     SceneViewBadgeGroup,
     SceneVisual
 } from '../../Models/Classes/SceneView.types';
@@ -191,7 +190,7 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
         selectedMeshIdsRef.current = meshIds;
     };
 
-    const meshClick = (_marker: Marker, mesh: any, scene: any) => {
+    const meshClick = (mesh: any, scene: any) => {
         if (sceneVisuals) {
             const sceneVisual = sceneVisuals.find((sceneVisual) =>
                 sceneVisual.element.objectIDs.find((id) => id === mesh?.id)
@@ -243,7 +242,7 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
         }
     };
 
-    const meshHover = (marker: Marker, mesh: any) => {
+    const meshHover = (mesh: any) => {
         if (mesh && sceneVisuals) {
             const sceneVisual = sceneVisuals.find((sceneVisual) =>
                 sceneVisual.element.objectIDs.find((id) => id === mesh?.id)
@@ -392,9 +391,8 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
                         zoomToMeshIds: zoomToMeshIds,
                         unzoomedMeshOpacity: unzoomedMeshOpacity,
                         onBadgeGroupHover: onBadgeGroupHover,
-                        onMeshClick: (marker, mesh, scene) =>
-                            meshClick(marker, mesh, scene),
-                        onMeshHover: (marker, mesh) => meshHover(marker, mesh),
+                        onMeshClick: (mesh, scene) => meshClick(mesh, scene),
+                        onMeshHover: (mesh) => meshHover(mesh),
                         getToken: (adapter as any).authService
                             ? () =>
                                   (adapter as any).authService.getToken(

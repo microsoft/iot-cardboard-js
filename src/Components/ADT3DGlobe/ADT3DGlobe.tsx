@@ -8,6 +8,7 @@ import { Marker } from '../../Models/Classes/SceneView.types';
 import { MockAdapter } from '../..';
 import BaseComponent from '../BaseComponent/BaseComponent';
 import { IScene } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
+import { LocationBadge } from './LocationBadge';
 
 interface ADT3DGlobeProps {
     adapter: IBlobAdapter | MockAdapter;
@@ -37,6 +38,7 @@ const ADT3DGlobe: React.FC<ADT3DGlobeProps> = ({ adapter, onSceneClick }) => {
                 marker.longitude = scene.longitude || 0;
                 marker.name = scene.displayName || 'Unknown';
                 marker.isNav = true;
+                marker.ui = <LocationBadge label={scene.displayName} />;
                 markers.push(marker);
             }
 
@@ -44,23 +46,13 @@ const ADT3DGlobe: React.FC<ADT3DGlobeProps> = ({ adapter, onSceneClick }) => {
         }
     }, [config.adapterResult.result]);
 
-    const onMeshClick = (marker) => {
-        if (marker && sceneClickRef.current) {
-            sceneClickRef.current(marker.scene);
-        }
-    };
-
     return (
         <BaseComponent
             isLoading={config.isLoading && config.adapterResult.hasNoData()}
             adapterResults={[config.adapterResult]}
         >
             <div className="cb-adt-3dglobe-wrapper">
-                <SceneView
-                    modelUrl="Globe"
-                    markers={markers}
-                    onMeshClick={(marker) => onMeshClick(marker)}
-                />
+                <SceneView modelUrl="Globe" markers={markers} />
             </div>
         </BaseComponent>
     );

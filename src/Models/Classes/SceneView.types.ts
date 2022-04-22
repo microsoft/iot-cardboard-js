@@ -50,10 +50,10 @@ export class Marker {
     color: string;
     isNav?: boolean;
     scene?: IScene;
+    ui?: JSX.Element;
 }
 
 export type SceneViewCallbackHandler = (
-    marker: Marker,
     mesh: AbstractMesh,
     scene: BABYLON.Scene,
     e: IPointerEvent
@@ -81,7 +81,6 @@ export interface SceneViewBadgeGroup {
 }
 
 export type SceneViewEventHandler = (
-    marker: Marker,
     mesh: AbstractMesh,
     scene: BABYLON.Scene,
     e: PointerEvent

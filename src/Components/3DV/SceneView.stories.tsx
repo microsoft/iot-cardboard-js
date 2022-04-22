@@ -74,15 +74,10 @@ export const Globe = () => {
         }
     ];
 
-    const meshClick = (marker: Marker, mesh: any, e: any) => {
-        if (!marker && !mesh && !e) {
+    const meshClick = (mesh: any, e: any) => {
+        if (!mesh && !e) {
             console.log('Hello');
         }
-        // if (mesh) {
-        //     (mesh.material as any).albedoColor = BABYLON.Color3.FromHexString(
-        //         '#fff000'
-        //     );
-        // }
     };
 
     return (
@@ -91,9 +86,7 @@ export const Globe = () => {
                 <SceneView
                     modelUrl="Globe"
                     markers={markers}
-                    onMeshClick={(marker, mesh, e) =>
-                        meshClick(marker, mesh, e)
-                    }
+                    onMeshClick={(mesh, e) => meshClick(mesh, e)}
                 />
             </div>
         </div>

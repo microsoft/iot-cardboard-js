@@ -1,7 +1,7 @@
 import React from 'react';
 import './ADT3DBuilder.scss';
 import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
-import { CustomMeshItem, Marker } from '../../Models/Classes/SceneView.types';
+import { CustomMeshItem } from '../../Models/Classes/SceneView.types';
 import {
     IADTAdapter,
     IADTObjectColor
@@ -37,23 +37,13 @@ const ADT3DBuilder: React.FC<ADT3DBuilderProps> = ({
     objectColorUpdated,
     hideViewModePickerUI
 }) => {
-    const meshClick = (
-        _marker: Marker,
-        mesh: AbstractMesh,
-        _scene: Scene,
-        e: PointerEvent
-    ) => {
+    const meshClick = (mesh: AbstractMesh, _scene: Scene, e: PointerEvent) => {
         if (onMeshClicked) {
             onMeshClicked(mesh, e);
         }
     };
 
-    const meshHover = (
-        _marker: Marker,
-        mesh: AbstractMesh,
-        _scene: Scene,
-        _e: PointerEvent
-    ) => {
+    const meshHover = (mesh: AbstractMesh, _scene: Scene, _e: PointerEvent) => {
         if (onMeshHovered) {
             onMeshHovered(mesh);
         }

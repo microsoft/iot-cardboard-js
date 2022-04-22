@@ -6,7 +6,6 @@ This class intercepts calls to the SceneViewer and enables AddIns to hook into e
 
 import React, { useRef, useState } from 'react';
 import * as BABYLON from '@babylonjs/core/Legacy/legacy';
-import { Marker } from '../../Models/Classes/SceneView.types';
 import SceneView from './SceneView';
 import {
     ADT3DAddInEventTypes,
@@ -87,13 +86,10 @@ export const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = ({
     };
 
     const meshHover = (
-        marker: Marker,
         mesh: BABYLON.AbstractMesh,
         scene: BABYLON.Scene,
         pointerEvent: PointerEvent
     ) => {
-        data.eventType = ADT3DAddInEventTypes.MarkerHover;
-        data.marker = marker;
         data.mesh = mesh;
         data.scene = scene;
         data.pointerEvent = pointerEvent;
@@ -103,18 +99,15 @@ export const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = ({
         }
 
         if (!noBubble && onMeshHover) {
-            onMeshHover(marker, mesh, scene, pointerEvent);
+            onMeshHover(mesh, scene, pointerEvent);
         }
     };
 
     const meshClick = (
-        marker: Marker,
         mesh: BABYLON.AbstractMesh,
         scene: BABYLON.Scene,
         pointerEvent: PointerEvent
     ) => {
-        data.eventType = ADT3DAddInEventTypes.MarkerClick;
-        data.marker = marker;
         data.mesh = mesh;
         data.scene = scene;
         data.pointerEvent = pointerEvent;
@@ -124,7 +117,7 @@ export const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = ({
         }
 
         if (!noBubble && onMeshClick) {
-            onMeshClick(marker, mesh, scene, pointerEvent);
+            onMeshClick(mesh, scene, pointerEvent);
         }
     };
 
