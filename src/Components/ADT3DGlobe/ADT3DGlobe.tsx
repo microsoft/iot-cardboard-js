@@ -149,7 +149,7 @@ const ADT3DGlobe: React.FC<IADT3DGlobeProps> = ({
             for (const mesh of sceneRef.current.meshes) {
                 if (mesh?.name?.startsWith('Region')) {
                     ct += 2;
-                    if (++ct >= 14) {
+                    if (ct >= 14) {
                         ct = 1;
                     }
 
