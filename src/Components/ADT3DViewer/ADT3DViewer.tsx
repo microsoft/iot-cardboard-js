@@ -21,7 +21,10 @@ import {
 } from '../../Models/Classes/SceneView.types';
 import { VisualType } from '../../Models/Classes/3DVConfig';
 import BaseComponent from '../../Components/BaseComponent/BaseComponent';
-import { SceneViewWrapper } from '../../Components/3DV/SceneViewWrapper';
+import {
+    SceneViewWrapper,
+    WrapperMode
+} from '../../Components/3DV/SceneViewWrapper';
 import BehaviorsModal from '../BehaviorsModal/BehaviorsModal';
 import { useRuntimeSceneData } from '../../Models/Hooks/useRuntimeSceneData';
 import { BaseComponentProps } from '../BaseComponent/BaseComponent.types';
@@ -379,6 +382,7 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
                     sceneVisuals={sceneVisuals}
                     addInProps={addInProps}
                     hideViewModePickerUI={hideViewModePickerUI}
+                    wrapperMode={WrapperMode.Viewer}
                     selectedVisual={selectedVisual}
                     sceneViewProps={{
                         badgeGroups: alertBadges,
