@@ -134,13 +134,16 @@ const ModelViewerModePicker: React.FC<ModelViewerModePickerProps> = ({
     useEffect(() => {
         if (defaultViewerMode) {
             setViewerMode({
-                objectColor: defaultViewerMode.objectColor,
+                objectColor:
+                    defaultViewerMode?.style !== ViewerModeStyles.Default
+                        ? defaultViewerMode.objectColor
+                        : null,
                 background: defaultViewerMode.background,
                 style: defaultViewerMode.style
             });
 
             setSelectedObjectColor(
-                defaultViewerMode?.objectColor
+                defaultViewerMode?.style !== ViewerModeStyles.Default
                     ? defaultViewerMode.objectColor
                     : objectColors[0].color
             );
