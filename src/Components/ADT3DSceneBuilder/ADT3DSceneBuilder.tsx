@@ -552,8 +552,8 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
         if (elements.length > 0) {
             setContextualMenuProps({
                 isVisible: true,
-                x: e.clientX,
-                y: e.clientY,
+                x: e.offsetX,
+                y: e.offsetY,
                 items: behaviorContextualMenuItems.current
             });
         }
@@ -619,8 +619,8 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
 
         setContextualMenuProps({
             isVisible: true,
-            x: e.clientX,
-            y: e.clientY,
+            x: e.offsetX,
+            y: e.offsetY,
             items: elementContextualMenuItems.current
         });
     };
