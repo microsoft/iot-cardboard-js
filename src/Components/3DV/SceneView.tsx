@@ -186,10 +186,10 @@ function SceneView(props: ISceneViewProp, ref) {
     const materialCacheRef = useRef<any[]>([]);
     const pointerActive = useRef(false);
     const [isSerializing, setIsSerializing] = useState(false);
+    const lastCameraPositionOnMouseMoveRef = useRef('');
     const initialCameraRadiusRef = useRef(0);
     const zoomedCameraRadiusRef = useRef(0);
     const zoomedMeshesRef = useRef([]);
-    const lastCameraPositionOnMouseMoveRef = useRef('');
 
     const [markersWithLocation, setMarkersWithLocation] = useState<
         { marker: Marker; left: number; top: number }[]
