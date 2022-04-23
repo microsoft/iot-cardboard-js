@@ -961,7 +961,10 @@ function SceneView(props: ISceneViewProp, ref) {
             }
         }
 
-        createMarkersWithLocation();
+        if (!isLoading && sceneRef.current) {
+            sceneRef.current.render();      // Marker globes may not have rendered yet
+            createMarkersWithLocation();
+        }
 
         return () => {
             for (const sphere of spheres) {
