@@ -1024,6 +1024,7 @@ function SceneView(props: ISceneViewProp, ref) {
 
             // You'll have to leave the marker stuff in for this to work, but just use the transparent ones
             // There's two spheres for each marker, the red one and a transparent one
+            // If we hit something other than the marker sphere, its occluded
             if (!p?.pickedMesh?.name?.startsWith(Scene_Marker)) {
                 return null;
             }
