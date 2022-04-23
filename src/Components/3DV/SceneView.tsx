@@ -979,11 +979,13 @@ function SceneView(props: ISceneViewProp, ref) {
                     marker.latitude,
                     marker.longitude
                 );
-                markersLocation.push({
-                    marker: marker,
-                    left: position.left,
-                    top: position.top
-                });
+                if (position) {
+                    markersLocation.push({
+                        marker: marker,
+                        left: position.left,
+                        top: position.top
+                    });
+                }
             }
 
             setMarkersWithLocation(markersLocation);
@@ -1004,6 +1006,23 @@ function SceneView(props: ISceneViewProp, ref) {
                     engineRef.current?.getRenderHeight()
                 )
             );
+
+            // If the marker is occluded, don't show label
+            const p = scene.pick(
+                coordinates.x,
+                coordinates.y,
+                (mesh) => {
+                    return !!mesh;
+                },
+                false,
+                cameraRef.current
+            );
+
+            // You'll have to leave the marker stuff in for this to work, but just use the transparent ones
+            // There's two spheres for each marker, the red one and a transparent one
+            if (!p?.pickedMesh?.name?.startsWith(Scene_Marker)) {
+                return null;
+            }
 
             position.left = coordinates.x;
             position.top = coordinates.y;
