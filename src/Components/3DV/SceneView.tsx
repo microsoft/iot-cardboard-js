@@ -189,6 +189,7 @@ function SceneView(props: ISceneViewProp, ref) {
     const initialCameraRadiusRef = useRef(0);
     const zoomedCameraRadiusRef = useRef(0);
     const zoomedMeshesRef = useRef([]);
+    const lastCameraPositionOnMouseMoveRef = useRef('');
 
     const [markersWithLocation, setMarkersWithLocation] = useState<
         { marker: Marker; left: number; top: number }[]
@@ -962,7 +963,7 @@ function SceneView(props: ISceneViewProp, ref) {
         }
 
         if (!isLoading && sceneRef.current) {
-            sceneRef.current.render();      // Marker globes may not have rendered yet
+            sceneRef.current.render(); // Marker globes may not have rendered yet
             createMarkersWithLocation();
         }
 
@@ -1215,7 +1216,17 @@ function SceneView(props: ISceneViewProp, ref) {
                 if (onCameraMoveRef.current) {
                     onCameraMoveRef.current(null, scene, e);
                 }
-                createMarkersWithLocation();
+
+                // Only do label work if camera has actually moved
+                const pos = JSON.stringify({
+                    position: cameraRef.current.position,
+                    target: cameraRef.current.target,
+                    radius: cameraRef.current.radius
+                });
+                if (lastCameraPositionOnMouseMoveRef.current !== pos) {
+                    lastCameraPositionOnMouseMoveRef.current = pos;
+                    createMarkersWithLocation();
+                }
             };
 
             if (scene) {
