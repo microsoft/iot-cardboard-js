@@ -1007,6 +1007,10 @@ function SceneView(props: ISceneViewProp, ref) {
                 )
             );
 
+            if (!coordinates) {
+                return null;
+            }
+
             // If the marker is occluded, don't show label
             const p = scene.pick(
                 coordinates.x,
