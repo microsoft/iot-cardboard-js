@@ -1,6 +1,7 @@
 import React from 'react';
 import SceneView from './SceneView';
 import { Marker } from '../../Models/Classes/SceneView.types';
+import { LocationBadge } from '../ADT3DGlobe/LocationBadge';
 
 export default {
     title: 'Components/SceneView',
@@ -80,12 +81,48 @@ export const Globe = () => {
         }
     };
 
+    const marker = new Marker();
+    marker.attachedMeshIds = ['tank4_LOD0.006_primitive2'];
+    marker.ui = <LocationBadge label={'The tank'} />;
+
     return (
         <div style={{ height: '100%', position: 'relative', display: 'flex' }}>
             <div style={{ flex: 1, width: '100%' }}>
                 <SceneView
                     modelUrl="Globe"
                     markers={markers}
+                    onMeshClick={(mesh, e) => meshClick(mesh, e)}
+                />
+            </div>
+        </div>
+    );
+};
+
+export const Markers = () => {
+    const meshClick = (mesh: any, e: any) => {
+        if (!mesh && !e) {
+            console.log('Hello');
+        }
+    };
+
+    const marker = new Marker();
+    marker.name = 'Text';
+    marker.attachedMeshIds = ['Cube.003'];
+    marker.color = '#ff0000';
+    marker.ui = <LocationBadge label={"This one doesn't"} />;
+    marker.showIfOccluded = true;
+
+    const marker2 = new Marker();
+    marker2.attachedMeshIds = ['tank6_LOD0.016_primitive1'];
+    marker2.color = '#f00';
+    marker2.ui = <LocationBadge label={'This one hides'} />;
+
+    return (
+        <div style={{ height: '100%', position: 'relative', display: 'flex' }}>
+            <div style={{ flex: 1, width: '100%' }}>
+                <SceneView
+                    modelUrl="https://cardboardresources.blob.core.windows.net/cardboard-mock-files/OutdoorTanks.gltf"
+                    markers={[marker, marker2]}
                     onMeshClick={(mesh, e) => meshClick(mesh, e)}
                 />
             </div>

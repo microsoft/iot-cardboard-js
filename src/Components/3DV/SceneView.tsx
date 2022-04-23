@@ -979,10 +979,7 @@ function SceneView(props: ISceneViewProp, ref) {
         const markersLocation = [];
         if (markers) {
             for (const marker of markers) {
-                const position = getMarkerPosition(
-                    marker.latitude,
-                    marker.longitude
-                );
+                const position = getMarkerPosition(marker);
                 if (position) {
                     markersLocation.push({
                         marker: marker,
@@ -996,13 +993,29 @@ function SceneView(props: ISceneViewProp, ref) {
         }
     };
 
-    const getMarkerPosition = (lat: number, long: number) => {
+    const getMarkerPosition = (marker: Marker) => {
+        const lat = marker.latitude;
+        const lon = marker.longitude;
         const position = { left: 0, top: 0 };
-        const convertedLatLong = convertLatLonToVector3(lat, long);
+        let pos: BABYLON.Vector3 = null;
+        const meshes: AbstractMesh[] = [];
+        if (marker.attachedMeshIds) {
+            for (const id of marker.attachedMeshIds) {
+                const mesh = meshMap.current[id];
+                if (!mesh) {
+                    console.log('Mesh not found ' + id);
+                    return null;
+                }
+                meshes.push(mesh);
+            }
+            pos = getBoundingBox(meshes).boundingBox.centerWorld;
+        } else {
+            pos = convertLatLonToVector3(lat, lon);
+        }
 
         if (sceneRef.current && cameraRef.current && engineRef.current) {
             const coordinates = BABYLON.Vector3.Project(
-                convertedLatLong,
+                pos,
                 BABYLON.Matrix.Identity(),
                 sceneRef.current?.getTransformMatrix(),
                 cameraRef.current?.viewport?.toGlobal(
@@ -1015,22 +1028,30 @@ function SceneView(props: ISceneViewProp, ref) {
                 return null;
             }
 
-            // If the marker is occluded, don't show label
-            const p = scene.pick(
-                coordinates.x,
-                coordinates.y,
-                (mesh) => {
-                    return !!mesh;
-                },
-                false,
-                cameraRef.current
-            );
+            if (!marker.showIfOccluded) {
+                // If the marker is occluded, don't show label
+                const p = scene.pick(
+                    coordinates.x,
+                    coordinates.y,
+                    (mesh) => {
+                        return !!mesh;
+                    },
+                    false,
+                    cameraRef.current
+                );
 
-            // You'll have to leave the marker stuff in for this to work, but just use the transparent ones
-            // There's two spheres for each marker, the red one and a transparent one
-            // If we hit something other than the marker sphere, its occluded
-            if (!p?.pickedMesh?.name?.startsWith(Scene_Marker)) {
-                return null;
+                // You'll have to leave the marker stuff in for this to work, but just use the transparent ones
+                // There's two spheres for each marker, the red one and a transparent one
+                // If we hit something unexoected, its occluded
+                const name = p?.pickedMesh?.name;
+                const show =
+                    name &&
+                    (name?.startsWith(Scene_Marker) ||
+                        (marker.attachedMeshIds &&
+                            marker.attachedMeshIds.includes(name)));
+                if (!show) {
+                    return null;
+                }
             }
 
             position.left = coordinates.x;

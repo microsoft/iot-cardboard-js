@@ -45,6 +45,8 @@ export interface SelectedMesh {
 export class Marker {
     name: string;
     position?: Vector3;
+    attachedMeshIds?: string[];
+    showIfOccluded?: boolean;
     latitude?: number;
     longitude?: number;
     color: string;
