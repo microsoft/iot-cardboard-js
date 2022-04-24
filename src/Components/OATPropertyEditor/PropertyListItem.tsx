@@ -10,6 +10,7 @@ import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
 
 type IPropertyListItem = {
     index?: number;
+    deleteItem?: (index: number) => any;
     draggingProperty?: boolean;
     getItemClassName?: (index: number) => any;
     getErrorMessage?: (value: string) => string;
@@ -25,6 +26,7 @@ type IPropertyListItem = {
 
 export const PropertyListItem = ({
     index,
+    deleteItem,
     draggingProperty,
     getItemClassName,
     getErrorMessage,
@@ -54,6 +56,16 @@ export const PropertyListItem = ({
             onFocus={() => setLastPropertyFocused(null)}
             tabIndex={0}
         >
+            <ActionButton
+                onClick={() => deleteItem(index)}
+                className={propertyInspectorStyles.propertyItemIconWrap}
+            >
+                <FontIcon
+                    iconName={'ChromeClose'}
+                    className={propertyInspectorStyles.propertyItemIcon}
+                />
+            </ActionButton>
+
             <TextField
                 className={propertyInspectorStyles.propertyItemTextField}
                 borderless

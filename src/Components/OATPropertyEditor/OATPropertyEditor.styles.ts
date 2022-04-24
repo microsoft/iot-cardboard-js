@@ -59,6 +59,7 @@ export const getPropertyInspectorStyles = () => {
                 height: '100%',
                 display: 'flex',
                 flexDirection: 'row',
+                minWidth: '300px',
                 backgroundColor: theme.semanticColors.listBackground
             } as IStyle
         ],
@@ -158,7 +159,8 @@ export const getPropertyInspectorStyles = () => {
             {
                 position: 'relative',
                 paddingBottom: '30px',
-                height: '100%'
+                height: '100%',
+                minHeight: '100px'
             } as IStyle
         ],
         propertiesWrapScroll: [
@@ -252,7 +254,7 @@ export const getPropertyInspectorStyles = () => {
             classNames.templateItem,
             {
                 display: 'grid',
-                gridTemplateColumns: '60% 30% 10%',
+                gridTemplateColumns: '10% 50% 30% 10%',
                 alignItems: 'center',
                 padding: '12px 8px',
                 borderBottom: `1px solid ${theme.semanticColors.variantBorder}`,
@@ -295,7 +297,7 @@ export const getPropertyInspectorStyles = () => {
             classNames.enumItem,
             {
                 display: 'grid',
-                gridTemplateColumns: '50% 50%',
+                gridTemplateColumns: '10% 40% 50%',
                 width: '100%',
                 backgroundColor: theme.semanticColors.listBackground,
                 alignItems: 'center',
@@ -333,7 +335,7 @@ export const getPropertyInspectorStyles = () => {
             classNames.propertyItem,
             {
                 display: 'grid',
-                gridTemplateColumns: '50% 30% 10% 10%',
+                gridTemplateColumns: '10% 50% 20% 10% 10%',
                 width: '100%',
                 backgroundColor: theme.semanticColors.listBackground,
                 alignItems: 'center',
@@ -386,7 +388,7 @@ export const getPropertyInspectorStyles = () => {
             classNames.propertyItemNested,
             {
                 display: 'grid',
-                gridTemplateColumns: '50% 30% 10% 10%',
+                gridTemplateColumns: '10% 40% 30% 10% 10%',
                 width: '100%',
                 backgroundColor: theme.semanticColors.listBackground,
                 alignItems: 'center',
@@ -401,7 +403,7 @@ export const getPropertyInspectorStyles = () => {
             classNames.propertyItemNestMainItem,
             {
                 display: 'grid',
-                gridTemplateColumns: '50% 50%',
+                gridTemplateColumns: '20% 50% 30%',
                 width: '100%',
                 alignItems: 'center',
                 paddingBottom: '12px',

@@ -9,6 +9,7 @@ import {
 import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
 
 type IPropertyListItemNested = {
+    deleteNestedItem?: (parentIndex: number, index: number) => any;
     getItemClassName?: (index: number) => any;
     getErrorMessage?: (value: string) => string;
     handleDragEnter?: (event: any, item: any) => any;
@@ -24,6 +25,7 @@ type IPropertyListItemNested = {
 };
 
 export const PropertyListItemNested = ({
+    deleteNestedItem,
     getErrorMessage,
     getItemClassName,
     index,
@@ -37,6 +39,15 @@ export const PropertyListItemNested = ({
 
     return (
         <Stack className={getItemClassName(index)} tabIndex={0}>
+            <ActionButton
+                onClick={() => deleteNestedItem(parentIndex, index)}
+                className={propertyInspectorStyles.propertyItemIconWrap}
+            >
+                <FontIcon
+                    iconName={'ChromeClose'}
+                    className={propertyInspectorStyles.propertyItemIcon}
+                />
+            </ActionButton>
             <TextField
                 className={propertyInspectorStyles.propertyItemTextField}
                 borderless

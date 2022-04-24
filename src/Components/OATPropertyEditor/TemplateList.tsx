@@ -121,8 +121,23 @@ export const TemplateList = ({
         return itemSchema;
     };
 
+    const deleteItem = (index) => {
+        setTemplates((prevTemplate) => {
+            const newTemplate = deepCopy(prevTemplate);
+            newTemplate.splice(index, 1);
+            return newTemplate;
+        });
+    };
+
     return (
-        <Stack className={propertyInspectorStyles.propertiesWrap}>
+        <Stack
+            className={propertyInspectorStyles.propertiesWrap}
+            onDragEnter={
+                draggingTemplate
+                    ? (e) => handleDragEnter(e, 0)
+                    : () => handleDragEnterExternalItem(0)
+            }
+        >
             {templates.length > 0 &&
                 templates.map((item, i) => (
                     <Stack
@@ -138,6 +153,19 @@ export const TemplateList = ({
                                 : () => handleDragEnterExternalItem(i)
                         }
                     >
+                        <ActionButton
+                            onClick={() => deleteItem(i)}
+                            className={
+                                propertyInspectorStyles.propertyItemIconWrap
+                            }
+                        >
+                            <FontIcon
+                                iconName={'ChromeClose'}
+                                className={
+                                    propertyInspectorStyles.propertyItemIcon
+                                }
+                            />
+                        </ActionButton>
                         <Text>{item.name}</Text>
                         <Text>{getSchemaText(item.schema)}</Text>
                         <ActionButton

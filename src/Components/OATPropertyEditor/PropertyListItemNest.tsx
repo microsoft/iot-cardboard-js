@@ -1,13 +1,21 @@
 import React from 'react';
-import { TextField, Stack, Text } from '@fluentui/react';
+import {
+    TextField,
+    Stack,
+    Text,
+    ActionButton,
+    FontIcon
+} from '@fluentui/react';
 import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
 import { DTDLModel, DTDLSchemaType } from '../../Models/Classes/DTDL';
 import AddPropertyBar from './AddPropertyBar';
 import PropertyListItemNested from './PropertyListItemNested';
 import PropertyListEnumItemNested from './PropertyListEnumItemNested';
 import PropertyListMapItemNested from './PropertyListMapItemNested';
+import { deepCopy } from '../../Models/Services/Utils';
 
 type IPropertyListItem = {
+    deleteItem?: (index: number) => any;
     draggingProperty?: boolean;
     getItemClassName?: (index: number) => any;
     getNestedItemClassName?: () => any;
@@ -32,6 +40,7 @@ type IPropertyListItem = {
 
 export const PropertyListItemNest = ({
     index,
+    deleteItem,
     draggingProperty,
     getItemClassName,
     getNestedItemClassName,
@@ -67,6 +76,28 @@ export const PropertyListItemNest = ({
         }
     };
 
+    const deleteNestedItem = (parentIndex, index) => {
+        setModel((prevModel) => {
+            const newModel = deepCopy(prevModel);
+            if (
+                newModel.contents[parentIndex].schema['@type'] ===
+                DTDLSchemaType.Enum
+            ) {
+                newModel.contents[parentIndex].schema.enumValues.splice(
+                    index,
+                    1
+                );
+            } else if (
+                newModel.contents[parentIndex].schema['@type'] ===
+                DTDLSchemaType.Object
+            ) {
+                newModel.contents[parentIndex].schema.fields.splice(index, 1);
+                return newModel;
+            }
+            return newModel;
+        });
+    };
+
     return (
         <Stack
             className={getItemClassName(index)}
@@ -88,6 +119,16 @@ export const PropertyListItemNest = ({
             tabIndex={0}
         >
             <Stack className={propertyInspectorStyles.propertyItemNestMainItem}>
+                <ActionButton
+                    onClick={() => deleteItem(index)}
+                    className={propertyInspectorStyles.propertyItemIconWrap}
+                >
+                    <FontIcon
+                        iconName={'ChromeClose'}
+                        className={propertyInspectorStyles.propertyItemIcon}
+                    />
+                </ActionButton>
+
                 <TextField
                     className={propertyInspectorStyles.propertyItemTextField}
                     borderless
@@ -114,6 +155,7 @@ export const PropertyListItemNest = ({
                         }
                         setCurrentPropertyIndex={setCurrentPropertyIndex}
                         setModalOpen={setModalOpen}
+                        deleteNestedItem={deleteNestedItem}
                     />
                 ))}
 
@@ -127,6 +169,7 @@ export const PropertyListItemNest = ({
                         setModel={setModel}
                         parentIndex={index}
                         index={i}
+                        deleteNestedItem={deleteNestedItem}
                     />
                 ))}
 
