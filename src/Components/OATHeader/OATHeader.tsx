@@ -2,7 +2,8 @@ import React from 'react';
 import { FontIcon, TextField, ActionButton } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { getHeaderStyles } from './OATHeader.styles';
-import { downloadText } from '../../Models/Services/Utils';
+
+let zip = require('jszip')();
 
 type OATHeaderProps = {
     elements: [];
@@ -12,8 +13,28 @@ const OATHeader = ({ elements }: OATHeaderProps) => {
     const { t } = useTranslation();
     const headerStyles = getHeaderStyles();
 
+    const downloadModelExportBlob = (blob) => {
+        const blobURL = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.setAttribute('href', blobURL);
+        link.setAttribute('download', 'modelExport.zip');
+        link.innerHTML = '';
+        document.body.appendChild(link);
+        link.click();
+    };
+
     const handleDownloadClick = () => {
-        downloadText(JSON.stringify(elements), 'digitalTwinsModels.json');
+        // Add elements to zip file
+        for (const element of elements.digitalTwinsModels) {
+            zip.file(`${element['@id']}.json`, JSON.stringify(element));
+        }
+
+        zip.generateAsync({ type: 'blob' }).then((content) => {
+            downloadModelExportBlob(content);
+        });
+
+        // Reset zip file
+        zip = require('jszip')();
     };
 
     return (
