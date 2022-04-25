@@ -21,7 +21,6 @@ import {
 import {
     CameraZoomMultiplier,
     Scene_Marker,
-    Scene_Visible_Marker,
     SphereMaterial
 } from '../../Models/Constants/SceneView.constants';
 import { AbstractMesh, HighlightLayer, Tools } from '@babylonjs/core';
@@ -911,46 +910,20 @@ function SceneView(props: ISceneViewProp, ref) {
         };
     }, [modelUrl, init]);
 
-    // Add the marker spheres
+    // Add spheres for tracking markers
     useEffect(() => {
         const spheres: BABYLON.Mesh[] = [];
         if (markers && sceneRef.current) {
             for (const marker of markers) {
-                let sphereMaterial = new BABYLON.StandardMaterial(
-                    SphereMaterial,
-                    sceneRef.current
-                );
-                const rgba = hexToColor4(marker.color);
-                sphereMaterial.diffuseColor = BABYLON.Color3.FromInts(
-                    rgba.r * 255,
-                    rgba.g * 255,
-                    rgba.b * 255
-                );
-                let sphere = BABYLON.Mesh.CreateSphere(
-                    `${Scene_Visible_Marker}${marker.name}`,
-                    16,
-                    2,
-                    sceneRef.current
-                );
                 const position =
                     marker.position ||
                     convertLatLonToVector3(marker.latitude, marker.longitude);
-                sphere.position = position;
-                sphere.material = sphereMaterial;
-                spheres.push(sphere);
-
-                // Make the hit targets larger in case iPhone
-                sphereMaterial = new BABYLON.StandardMaterial(
+                const sphereMaterial = new BABYLON.StandardMaterial(
                     SphereMaterial,
                     sceneRef.current
                 );
-                sphereMaterial.diffuseColor = BABYLON.Color3.FromInts(
-                    rgba.r * 255,
-                    rgba.g * 255,
-                    rgba.b * 255
-                );
                 sphereMaterial.alpha = 0;
-                sphere = BABYLON.Mesh.CreateSphere(
+                const sphere = BABYLON.Mesh.CreateSphere(
                     `${Scene_Marker}${marker.name}`,
                     16,
                     4,
@@ -1228,31 +1201,20 @@ function SceneView(props: ISceneViewProp, ref) {
         };
     }, [scene, markers]);
 
-    // Camera move handler
+    // Pointer move handler
     useEffect(() => {
         let pt: BABYLON.Observer<BABYLON.PointerInfo>;
         debugLog('pointerMove effect' + (scene ? ' with scene' : ' no scene'));
-        if (scene && (onCameraMoveRef.current || markers)) {
-            const cameraMove = (e: any) => {
+        if (scene && onCameraMoveRef.current) {
+            const pointerMove = (e: any) => {
                 if (onCameraMoveRef.current) {
                     onCameraMoveRef.current(null, scene, e);
-                }
-
-                // Only do label work if camera has actually moved
-                const pos = JSON.stringify({
-                    position: cameraRef.current.position,
-                    target: cameraRef.current.target,
-                    radius: cameraRef.current.radius
-                });
-                if (lastCameraPositionOnMouseMoveRef.current !== pos) {
-                    lastCameraPositionOnMouseMoveRef.current = pos;
-                    createMarkersWithLocation();
                 }
             };
 
             if (scene) {
                 pt = scene.onPointerObservable.add(
-                    cameraMove,
+                    pointerMove,
                     BABYLON.PointerEventTypes.POINTERMOVE
                 );
             }
@@ -1265,6 +1227,40 @@ function SceneView(props: ISceneViewProp, ref) {
             }
         };
     }, [scene]);
+
+    // Camera move handler
+    useEffect(() => {
+        let cm: BABYLON.Observer<BABYLON.Camera>;
+        debugLog('CameraMove effect' + (scene ? ' with scene' : ' no scene'));
+        if (scene && cameraRef.current && markers) {
+            const cameraMove = () => {
+                // Only do marker work if camera has actually moved
+                const pos = JSON.stringify({
+                    position: cameraRef.current.position,
+                    target: cameraRef.current.target,
+                    radius: cameraRef.current.radius
+                });
+
+                if (lastCameraPositionOnMouseMoveRef.current !== pos) {
+                    lastCameraPositionOnMouseMoveRef.current = pos;
+                    createMarkersWithLocation();
+                }
+            };
+
+            if (cameraRef.current) {
+                cm = cameraRef.current.onViewMatrixChangedObservable.add(
+                    cameraMove
+                );
+            }
+        }
+
+        return () => {
+            debugLog('pointerMove effect clean');
+            if (cm) {
+                cameraRef.current?.onViewMatrixChangedObservable?.remove(cm);
+            }
+        };
+    }, [scene, cameraRef.current]);
 
     // SETUP LOGIC FOR HANDLING COLORING MESHES
     useEffect(() => {
@@ -1421,7 +1417,7 @@ function SceneView(props: ISceneViewProp, ref) {
                             top: markerWithLocation.top
                         }}
                     >
-                        {markerWithLocation.marker.ui}
+                        {markerWithLocation.marker.UIElement}
                     </div>
                 );
             })}

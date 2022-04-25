@@ -1,7 +1,7 @@
 import React from 'react';
 import SceneView from './SceneView';
 import { Marker } from '../../Models/Classes/SceneView.types';
-import { LocationBadge } from '../ADT3DGlobe/LocationBadge';
+import { ModelLabel } from '../ModelLabel/ModelLabel';
 
 export default {
     title: 'Components/SceneView',
@@ -13,65 +13,47 @@ export const Globe = () => {
         {
             name: 'Ibhayi',
             latitude: -33.872,
-            longitude: 25.571,
-            color: '#f00',
-            isNav: true
+            longitude: 25.571
         },
         {
             name: 'Ponta Grossa',
             latitude: -25.0994,
-            longitude: -50.1583,
-            color: '#f00',
-            isNav: true
+            longitude: -50.1583
         },
         {
             name: 'Putian',
             latitude: 25.433,
-            longitude: 119.0167,
-            color: '#f00',
-            isNav: true
+            longitude: 119.0167
         },
         {
             name: 'Magor',
             latitude: 51.5804,
-            longitude: -2.833,
-            color: '#f00',
-            isNav: true
+            longitude: -2.833
         },
         {
             name: 'Ningbo',
             latitude: 29.8667,
-            longitude: 121.55,
-            color: '#f00',
-            isNav: true
+            longitude: 121.55
         },
         {
             name: 'Passa Fundo',
             latitude: -28.2624,
-            longitude: -52.409,
-            color: '#f00',
-            isNav: true
+            longitude: -52.409
         },
         {
             name: 'Tocancipa',
             latitude: 4.9667,
-            longitude: -73.9167,
-            color: '#f00',
-            isNav: true
+            longitude: -73.9167
         },
         {
             name: 'Leuven',
             latitude: 50.8795,
-            longitude: 4.7005,
-            color: '#f00',
-            isNav: true
+            longitude: 4.7005
         },
         {
             name: 'Uberlandia',
             latitude: -18.9231,
-            longitude: -48.2886,
-            color: '#f00',
-            isNav: true
+            longitude: -48.2886
         }
     ];
 
@@ -83,7 +65,7 @@ export const Globe = () => {
 
     const marker = new Marker();
     marker.attachedMeshIds = ['tank4_LOD0.006_primitive2'];
-    marker.ui = <LocationBadge label={'The tank'} />;
+    marker.UIElement = <ModelLabel label={'The tank'} />;
 
     return (
         <div style={{ height: '100%', position: 'relative', display: 'flex' }}>
@@ -108,14 +90,12 @@ export const Markers = () => {
     const marker = new Marker();
     marker.name = 'Text';
     marker.attachedMeshIds = ['Cube.003'];
-    marker.color = '#ff0000';
-    marker.ui = <LocationBadge label={"This one doesn't"} />;
+    marker.UIElement = <ModelLabel label={"This one doesn't"} />;
     marker.showIfOccluded = true;
 
     const marker2 = new Marker();
     marker2.attachedMeshIds = ['tank6_LOD0.016_primitive1'];
-    marker2.color = '#f00';
-    marker2.ui = <LocationBadge label={'This one hides'} />;
+    marker2.UIElement = <ModelLabel label={'This one hides'} />;
 
     return (
         <div style={{ height: '100%', position: 'relative', display: 'flex' }}>

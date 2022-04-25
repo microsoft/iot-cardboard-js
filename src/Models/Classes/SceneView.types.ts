@@ -49,10 +49,8 @@ export class Marker {
     showIfOccluded?: boolean;
     latitude?: number;
     longitude?: number;
-    color: string;
-    isNav?: boolean;
     scene?: IScene;
-    ui?: JSX.Element;
+    UIElement?: JSX.Element;
 }
 
 export type SceneViewCallbackHandler = (

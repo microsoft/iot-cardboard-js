@@ -8,7 +8,7 @@ import { Marker } from '../../Models/Classes/SceneView.types';
 import { MockAdapter } from '../..';
 import BaseComponent from '../BaseComponent/BaseComponent';
 import { IScene } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
-import { LocationBadge } from './LocationBadge';
+import { ModelLabel } from '../ModelLabel/ModelLabel';
 
 interface ADT3DGlobeProps {
     adapter: IBlobAdapter | MockAdapter;
@@ -33,12 +33,10 @@ const ADT3DGlobe: React.FC<ADT3DGlobeProps> = ({ adapter, onSceneClick }) => {
             for (const scene of scenes) {
                 const marker = new Marker();
                 marker.scene = scene;
-                marker.color = '#f00';
                 marker.latitude = scene.latitude || 0;
                 marker.longitude = scene.longitude || 0;
                 marker.name = scene.displayName || 'Unknown';
-                marker.isNav = true;
-                marker.ui = <LocationBadge label={scene.displayName} />;
+                marker.UIElement = <ModelLabel label={scene.displayName} />;
                 markers.push(marker);
             }
 
