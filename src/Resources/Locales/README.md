@@ -6,7 +6,7 @@ We use a custom fork of [i18n-auto-translation](https://github.com/msnyder-msft/
 
 ## How to update locales
 
-- By default the localization package will only fetch translations for *new* keys when you first push that key to your branch.
+- By default the localization package will only fetch translations for *new* keys added when you first push that key to your branch in the `en.json` file.
 - If you *update* an existing string the package will not see it. You'll need to use a new key or remove the key, run the command, and add it back to get it to pick up the new string.
 - To force update all the strings, simply drop all the non-english files and run the translation process.
 
