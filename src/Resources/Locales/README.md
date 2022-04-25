@@ -14,8 +14,31 @@ We use a custom fork of [i18n-auto-translation](https://github.com/msnyder-msft/
 npm install -g i18n-auto-translation-msnyder
 ```
 
+To translate one language
+
 ```ts
-i18n-auto-translation-msnyder -t de -k <subscription key> -p ./src/Resources/Locales/en/translation.json -l westus2 -f en -a azure-official 
+i18n-auto-translation-msnyder -t de -k SUBSCRIPTION_KEY -p ./src/Resources/Locales/en.json -l westus2 -f en -a azure-official 
+```
+
+To translate all languages
+
+```ts
+i18n-auto-translation-msnyder -a azure-official -k SUBSCRIPTION_KEY -p ./src/Resources/Locales/en.json -l westus2 -f en -t cs
+i18n-auto-translation-msnyder -a azure-official -k SUBSCRIPTION_KEY -p ./src/Resources/Locales/en.json -l westus2 -f en -t de
+i18n-auto-translation-msnyder -a azure-official -k SUBSCRIPTION_KEY -p ./src/Resources/Locales/en.json -l westus2 -f en -t es
+i18n-auto-translation-msnyder -a azure-official -k SUBSCRIPTION_KEY -p ./src/Resources/Locales/en.json -l westus2 -f en -t fr
+i18n-auto-translation-msnyder -a azure-official -k SUBSCRIPTION_KEY -p ./src/Resources/Locales/en.json -l westus2 -f en -t hu
+i18n-auto-translation-msnyder -a azure-official -k SUBSCRIPTION_KEY -p ./src/Resources/Locales/en.json -l westus2 -f en -t it
+i18n-auto-translation-msnyder -a azure-official -k SUBSCRIPTION_KEY -p ./src/Resources/Locales/en.json -l westus2 -f en -t ja
+i18n-auto-translation-msnyder -a azure-official -k SUBSCRIPTION_KEY -p ./src/Resources/Locales/en.json -l westus2 -f en -t ko
+i18n-auto-translation-msnyder -a azure-official -k SUBSCRIPTION_KEY -p ./src/Resources/Locales/en.json -l westus2 -f en -t nl
+i18n-auto-translation-msnyder -a azure-official -k SUBSCRIPTION_KEY -p ./src/Resources/Locales/en.json -l westus2 -f en -t pl
+i18n-auto-translation-msnyder -a azure-official -k SUBSCRIPTION_KEY -p ./src/Resources/Locales/en.json -l westus2 -f en -t pt
+i18n-auto-translation-msnyder -a azure-official -k SUBSCRIPTION_KEY -p ./src/Resources/Locales/en.json -l westus2 -f en -t pt-pt
+i18n-auto-translation-msnyder -a azure-official -k SUBSCRIPTION_KEY -p ./src/Resources/Locales/en.json -l westus2 -f en -t ru
+i18n-auto-translation-msnyder -a azure-official -k SUBSCRIPTION_KEY -p ./src/Resources/Locales/en.json -l westus2 -f en -t sv
+i18n-auto-translation-msnyder -a azure-official -k SUBSCRIPTION_KEY -p ./src/Resources/Locales/en.json -l westus2 -f en -t tr
+i18n-auto-translation-msnyder -a azure-official -k SUBSCRIPTION_KEY -p ./src/Resources/Locales/en.json -l westus2 -f en -t zh-Hans
 ```
 
 ## Adding/removing a language
