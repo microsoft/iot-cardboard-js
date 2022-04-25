@@ -52,7 +52,7 @@ function getListItems(
             iconStart: { name: 'Ringer' },
             iconEnd: { name: 'Add' },
             item: item,
-            onClick: onAddBehavior,
+            onClick: (item) => onAddBehavior(item),
             textPrimary: item.displayName
         };
 
