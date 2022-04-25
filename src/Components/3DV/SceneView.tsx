@@ -29,7 +29,6 @@ import { makeMaterial, outlineMaterial, ToColor3 } from './Shaders';
 import {
     CameraInteraction,
     DefaultViewerModeObjectColor,
-    globeUrl,
     IADTBackgroundColor,
     TransparentTexture,
     ViewerModeObjectColors
@@ -37,6 +36,7 @@ import {
 import { getProgressStyles, getSceneViewStyles } from './SceneView.styles';
 import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
 import { sleep } from '../AutoComplete/AutoComplete';
+import Globe from './Globe.json';
 
 const debug = false;
 
@@ -90,6 +90,10 @@ async function loadPromise(
     onProgress: (event: BABYLON.ISceneLoaderProgressEvent) => void,
     onError: (scene: BABYLON.Scene, message: string, exception?: any) => void
 ): Promise<BABYLON.Scene> {
+    if (!root && filename === 'Globe') {
+        filename = 'data:' + JSON.stringify(Globe);
+    }
+
     return new Promise((resolve) => {
         BABYLON.Database.IDBStorageEnabled = true;
         BABYLON.SceneLoader.ShowLoadingScreen = false;
@@ -211,7 +215,6 @@ function SceneView(props: ISceneViewProp, ref) {
     }
 
     debugLog('SceneView Render');
-    const url = modelUrl === 'Globe' ? globeUrl : modelUrl;
 
     // INITIALIZE AND LOAD SCENE
     const init = useCallback(() => {
@@ -333,8 +336,8 @@ function SceneView(props: ISceneViewProp, ref) {
             const engine = new BABYLON.Engine(canvas, true, { stencil: true }); // Generate the BABYLON 3D engine
             engineRef.current = engine;
             if (modelUrl) {
-                const n = url.lastIndexOf('/') + 1;
-                load(getToken, url.substring(0, n), url.substring(n));
+                const n = modelUrl.lastIndexOf('/') + 1;
+                load(getToken, modelUrl.substring(0, n), modelUrl.substring(n));
             }
         }
 
@@ -1329,7 +1332,7 @@ function SceneView(props: ISceneViewProp, ref) {
                 id={canvasId}
                 touch-action="none"
             />
-            {isLoading && url && (
+            {isLoading && modelUrl && (
                 <ProgressIndicator
                     styles={getProgressStyles(theme)}
                     description={`Loading model (${Math.floor(
