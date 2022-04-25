@@ -81,8 +81,7 @@ const getCommonDefaultProps = (): Partial<ICardboardListCalloutProps> => ({
     listKey: 'testList',
     directionalHint: DirectionalHint.bottomLeftEdge,
     filterPlaceholder: 'Search',
-    noListItemText: 'No item to display',
-    noFilterResultText: 'No result'
+    noResultText: 'No result'
 });
 
 type TemplateStory = ComponentStory<typeof CardboardListCallout>;
@@ -114,7 +113,7 @@ const Template = (args) => {
 export const ExampleCardboardListCallout = Template.bind({}) as TemplateStory;
 ExampleCardboardListCallout.args = {
     ...getCommonDefaultProps(),
-    isBasicList: false,
+    listType: 'Complex',
     listItems: getDefaultCardboardListItems(),
     filterPredicate: (fakeItem: IFakeCardboardListItem, searchTerm) =>
         fakeItem.itemId.toLowerCase().includes(searchTerm.toLowerCase())
@@ -135,7 +134,7 @@ export const ExampleCardboardListCalloutWithPrimaryButton = Template.bind(
 ) as TemplateStory;
 ExampleCardboardListCalloutWithPrimaryButton.args = {
     ...getCommonDefaultProps(),
-    isBasicList: false,
+    listType: 'Complex',
     listItems: getDefaultCardboardListItems(),
     filterPredicate: (fakeItem: IFakeCardboardListItem, searchTerm) =>
         fakeItem.itemId.toLowerCase().includes(searchTerm.toLowerCase()),
@@ -164,7 +163,7 @@ export const ExampleCardboardBasicListCallout = Template.bind(
 ) as TemplateStory;
 ExampleCardboardBasicListCallout.args = {
     ...getCommonDefaultProps(),
-    isBasicList: true,
+    listType: 'Basic',
     listItems: defaultCardboardBasicListItems,
     filterPredicate: (fakeItem: string, searchTerm) =>
         fakeItem.toLowerCase().includes(searchTerm.toLowerCase())
@@ -185,7 +184,7 @@ export const ExampleCardboardBasicListCalloutWithPrimaryButton = Template.bind(
 ) as TemplateStory;
 ExampleCardboardBasicListCalloutWithPrimaryButton.args = {
     ...getCommonDefaultProps(),
-    isBasicList: true,
+    listType: 'Basic',
     listItems: defaultCardboardBasicListItems,
     filterPredicate: (fakeItem: string, searchTerm) =>
         fakeItem.toLowerCase().includes(searchTerm.toLowerCase()),

@@ -12,7 +12,7 @@ export interface ICardboardListCalloutProps<T = void> {
     /** header of the callout */
     title: string;
     /** to pass if the list to be rendered is CardboardList or CardboardBasicList */
-    isBasicList: boolean;
+    listType: 'Complex' | 'Basic';
     /** unique identifier for this list of items. Will be joined with index */
     listKey: string;
     /** optional prop to set any specific list props needed for special cases */
@@ -28,8 +28,8 @@ export interface ICardboardListCalloutProps<T = void> {
     calloutTarget: string;
     /** how the callout should be positioned based on target element */
     directionalHint?: DirectionalHint;
-    /** callback method when closing the callout */
-    onDismiss: () => void;
+    /** optional callback method when closing the callout */
+    onDismiss?: () => void;
     /** collection of CardboardListItems or CardboardBasicListItems to include in the CardboardList or CardboardBasicList */
     listItems: (ICardboardListItem<T> | string)[];
     /** if list is being loaded (e.g. when data is pulled from adapter) */

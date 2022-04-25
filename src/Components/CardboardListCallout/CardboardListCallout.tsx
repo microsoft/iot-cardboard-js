@@ -19,25 +19,25 @@ import {
 } from './CardboardListCallout.styles';
 import { CardboardBasicList } from '../CardboardBasicList/CardboardBasicList';
 
-// This callout component consists a searchbox and list of items with an optional primary action
+/** This callout component consists a searchbox and list of items with an optional primary action */
 const CardboardListCallout = <T extends unknown>({
-    className,
-    title,
-    isBasicList,
-    listKey,
-    listProps,
-    focusZoneProps,
     calloutProps,
     calloutTarget,
+    className,
     directionalHint,
-    onDismiss,
-    listItems,
-    isListLoading,
-    primaryActionProps,
     filterPlaceholder,
     filterPredicate,
+    focusZoneProps,
+    isListLoading,
+    listItems,
+    listKey,
+    listProps,
+    listType,
+    noResultText,
+    onDismiss,
+    primaryActionProps,
     searchBoxDataTestId,
-    noResultText
+    title
 }: ICardboardListCalloutProps<T>) => {
     const { t } = useTranslation();
     const [searchText, setSearchText] = useState('');
@@ -97,7 +97,7 @@ const CardboardListCallout = <T extends unknown>({
                 <Spinner size={SpinnerSize.xSmall} />
             ) : filteredListItems?.length === 0 ? (
                 <div className={styles.resultText}>{noResultText}</div>
-            ) : isBasicList ? (
+            ) : listType === 'Basic' ? (
                 <CardboardBasicList
                     className={styles.list}
                     listProps={listProps}

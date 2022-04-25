@@ -39,6 +39,11 @@ export const getCardboardListCalloutComponentStyles = memoizeFunction(() => {
                 },
                 '.cb-basic-list-item-root': {
                     padding: '8px 12px 8px 0'
+                },
+                '.ms-List-cell:last-of-type': {
+                    '.cb-basic-list-item-root': {
+                        paddingBottom: 0
+                    }
                 }
             }
         ],
@@ -57,7 +62,7 @@ export const getCardboardListCalloutStyles = memoizeFunction(
     (theme: Theme) =>
         ({
             root: {
-                padding: '16px 20px',
+                padding: '16px 20px 20px',
                 width: 300,
                 backgroundColor: theme.semanticColors.bodyBackground
             },

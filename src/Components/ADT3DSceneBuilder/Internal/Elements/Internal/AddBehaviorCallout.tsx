@@ -20,7 +20,7 @@ const AddBehaviorCallout: React.FC<IADT3DSceneBuilderAddBehaviorCalloutProps> = 
     );
     return (
         <CardboardListCallout
-            isBasicList={false}
+            listType="Complex"
             calloutTarget={calloutTarget}
             title={t('3dSceneBuilder.addBehavior')}
             listKey={'behavior-callout-list'}
