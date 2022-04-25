@@ -1,5 +1,10 @@
-import * as BABYLON from 'babylonjs';
-import { Vector3, AbstractMesh, Material } from 'babylonjs';
+import * as BABYLON from '@babylonjs/core/Legacy/legacy';
+import {
+    Vector3,
+    AbstractMesh,
+    Material,
+    IPointerEvent
+} from '@babylonjs/core';
 import {
     IBehavior,
     IScene,
@@ -10,6 +15,7 @@ import {
     IADTBackgroundColor,
     IADTObjectColor
 } from '../../Models/Constants/Interfaces';
+import { CameraInteraction } from '../Constants';
 
 export class SceneVisual {
     element: ITwinToObjectMapping;
@@ -50,7 +56,7 @@ export type SceneViewCallbackHandler = (
     marker: Marker,
     mesh: AbstractMesh,
     scene: BABYLON.Scene,
-    e: PointerEvent
+    e: IPointerEvent
 ) => void;
 
 export interface CustomMeshItem {
@@ -82,7 +88,7 @@ export type SceneViewEventHandler = (
 ) => void;
 
 export interface ISceneViewProp {
-    modelUrl: string;
+    modelUrl: string | 'Globe';
     markers?: Marker[];
     onSceneLoaded?: (scene: BABYLON.Scene) => void;
     onMeshClick?: SceneViewEventHandler;
@@ -104,4 +110,5 @@ export interface ISceneViewProp {
     objectColors?: IADTObjectColor;
     badgeGroups?: SceneViewBadgeGroup[];
     backgroundColor?: IADTBackgroundColor;
+    cameraInteractionType?: CameraInteraction;
 }

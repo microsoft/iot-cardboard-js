@@ -5,11 +5,13 @@
 
 .cb-adt-3dviewer-wrapper {
     height: 100%;
+    overflow: hidden;
 }
 
-.cb-adt-3dviewer-render-mode-selection {
+.cb-adt-3dviewer-tool-button-container {
+    display: flex;
+    left: 20px;
     position: absolute;
-    right: 8px;
-    top: 60px;
+    top: 10px;
     z-index: 1;
 }

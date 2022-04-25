@@ -28,6 +28,7 @@ export const getSceneViewStyles = memoizeFunction((theme: Theme) =>
         canvas: [
             classNames.canvas,
             {
+                display: 'block',
                 height: '100%',
                 opacity: 0,
                 outline: 'none',

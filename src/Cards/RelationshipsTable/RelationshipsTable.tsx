@@ -63,7 +63,7 @@ const RelationshipsTable: React.FC<RelationshipsTableProps> = ({
                 <table className="cb-relationships-table">
                     <thead>
                         <tr className="cb-relationships-header-row">
-                            <th>{t('relationshipsTable.twinID')}</th>
+                            <th>{t('twinId')}</th>
                             <th>{t('relationshipsTable.model')}</th>
                             <th>{t('relationshipsTable.relationshipName')}</th>
                         </tr>

@@ -41,7 +41,7 @@ abstract class PropertyInspectorModel {
                 dtdlPropertyTypesEnum.long
             ].includes(schema)
         ) {
-            return propertySourceObject?.[propertyName]
+            return typeof propertySourceObject?.[propertyName] === 'number'
                 ? String(propertySourceObject[propertyName])
                 : PropertyInspectorModel.getEmptyValueForNode(schema);
         } else {

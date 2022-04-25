@@ -9,6 +9,7 @@
     "unsupportedFileType": "Unsupported file type",
     "selectProperties": "Select properties",
     "empty": "Empty",
+    "theme": "Theme",
     "hierarchy": "Hierarchy",
     "displayName": "Display name",
     "realTimeStatus": "Real-time status",
@@ -85,6 +86,7 @@
     "selectFile": "Select file",
     "uploadFile": "Upload file",
     "uploadingFile": "Uploading file...",
+    "twinId": "Twin ID",
     "errors": {
         "errorBoundary": "Error boundary",
         "unkownError": "Unknown error occurred",
@@ -310,6 +312,31 @@
         "home": "Home",
         "globe": "Globe"
     },
+    "layersDropdown": {
+        "placeholder": "No layers selected",
+        "unlayeredBehaviors": "Unlayered behaviors",
+        "unlayered": "Unlayered",
+        "title": "Select layers",
+        "selectAll": "Select all",
+        "selectNone": "Deselect all"
+    },
+    "sceneLayers": {
+        "noBehaviors": "No behaviors",
+        "layerMetaData": "{{numBehaviors}} behaviors",
+        "sceneLayers": "Scene layers",
+        "noneSelected": "No layers selected",
+        "newLayer": "New layer",
+        "layerName": "Layer name",
+        "behaviorsOnThisLayer": "Behaviors on this layer",
+        "layerNamePlaceholder": "Enter layer name",
+        "createNewLayer": "Create new layer",
+        "editLayer": "Edit layer",
+        "updateLayer": "Update layer",
+        "layers": "Layers",
+        "noLayersFound": "You don't have any layers yet!",
+        "noLayersDescription": "Layers are like tags on behaviors. Start by creating a layer here.",
+        "noBehaviorsOnLayer": "There are no behaviors on this layer"
+    },
     "3dSceneBuilder": {
         "elements": "Elements",
         "element": "Element",
@@ -418,9 +445,11 @@
             "statusBehavior": "Status behavior"
         },
         "notImplemented": "Not implemented",
+        "noLinkedTwinProperties": "No linked twin properties to display",
         "twinAlias": {
             "title": "Twin alias",
             "titlePlural": "Twin aliases",
+            "aliasedTwin": "Aliased twin",
             "aliasedTwins": "Aliased twins",
             "add": "Add twin alias",
             "noTwinAliasesAdded": "No twin aliases added yet",
@@ -433,16 +462,21 @@
             "searchProperties": "Search properties",
             "noTwinAliasesToAdd": "No twin aliases to add",
             "removeFromBehavior": "Remove twin alias from behavior",
+            "removeFromElement": "Remove twin alias from element",
             "commonProperties": "Common properties",
             "twinAliasForm": {
                 "alias": "Alias",
-                "elementTwinMappings": "Element twin mappings"
+                "elementTwinMappings": "Element twin mappings",
+                "elementTwinMappingsNotExist": "There is no available mapping, add elements to behavior first."
             },
             "descriptions": {
                 "twins": "Twins give you access to properties which can be used in expressions.",
                 "linkedTwin": "The LinkedTwin contains all properties in common between the target elements linked twins.",
                 "aliasChangeNotAllowed": "Alias change is not allowed after creation.",
                 "commonProperties": "The union of linked twin properties of selected elements"
+            },
+            "errors": {
+                "twinAliasAlreadyExists": "Twin alias with the same name already exists, consider adding it instead."
             }
         }
     },
@@ -667,7 +701,11 @@
     },
     "behaviorsModal": {
         "closeModal": "Close modal",
-        "behaviorPreview": "Preview"
+        "behaviorPopoverMode": "Behavior popover mode",
+        "state": "State",
+        "allProperties": "All properties",
+        "behaviorPreview": "Preview",
+        "LinkedTwinProperties": "Linked Twin properties"
     },
     "svgTests": {
         "fluentUI": "SVG loading via Fluent Image component (recommended pattern)",
@@ -706,5 +744,12 @@
         "sync": "sync",
         "import": "Import",
         "export": "Export"
+    },
+    "cameraControls": {
+        "mouseControls": "Mouse Controls",
+        "select": "Select",
+        "pan": "Pan",
+        "orbit": "Orbit",
+        "zoom": "Zoom"
     }
 }

@@ -44,6 +44,7 @@ const Template: BehaviorsModalStory = (args) => {
                 }
                 title={element.displayName}
                 twins={twins}
+                adapter={new MockAdapter()}
             />
         </div>
     );

@@ -6,6 +6,7 @@ import {
     IAlertVisual,
     IBehavior,
     IGaugeWidget,
+    ILayer,
     ILinkWidget,
     IPopoverVisual,
     IStatusColoringVisual,
@@ -41,9 +42,14 @@ export interface IWidgetLibraryItem {
     data: IWidget;
 }
 
-export interface ITwinAliasItem {
+export interface IBehaviorTwinAliasItem {
     alias: string;
     elementToTwinMappings: Array<{ elementId: string; twinId: string }>;
+}
+
+export interface IElementTwinAliasItem {
+    alias: string;
+    twinId: string;
 }
 
 // Default objects
@@ -52,6 +58,12 @@ export const defaultBehavior: IBehavior = {
     displayName: '',
     datasources: [],
     visuals: []
+};
+
+export const defaultLayer: ILayer = {
+    id: '',
+    behaviorIDs: [],
+    displayName: ''
 };
 
 export const defaultOnClickPopover: IPopoverVisual = {
@@ -102,7 +114,12 @@ export const defaultLinkWidget: ILinkWidget = {
     }
 };
 
-export const defaultTwinAlias: ITwinAliasItem = {
+export const defaultBehaviorTwinAlias: IBehaviorTwinAliasItem = {
     alias: '',
     elementToTwinMappings: []
+};
+
+export const defaultElementTwinAlias: IElementTwinAliasItem = {
+    alias: '',
+    twinId: null
 };

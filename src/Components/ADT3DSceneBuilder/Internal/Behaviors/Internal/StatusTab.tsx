@@ -1,6 +1,5 @@
 import React, { useCallback, useContext, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { BehaviorFormContext } from '../BehaviorsForm';
 import {
     IStackTokens,
     Separator,
@@ -12,7 +11,8 @@ import ViewerConfigUtility from '../../../../../Models/Classes/ViewerConfigUtili
 import produce from 'immer';
 import {
     IBehavior,
-    IStatusColoringVisual
+    IStatusColoringVisual,
+    ITwinToObjectMapping
 } from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import ValueRangeBuilder from '../../../../ValueRangeBuilder/ValueRangeBuilder';
 import { defaultStatusColorVisual } from '../../../../../Models/Classes/3DVConfig';
@@ -21,6 +21,7 @@ import { deepCopy } from '../../../../../Models/Services/Utils';
 import TwinPropertyDropown from './TwinPropertyDropdown';
 import { getLeftPanelStyles } from '../../Shared/LeftPanel.styles';
 import useValueRangeBuilder from '../../../../../Models/Hooks/useValueRangeBuilder';
+import { SceneBuilderContext } from '../../../ADT3DSceneBuilder';
 
 const getStatusFromBehavior = (behavior: IBehavior) =>
     behavior.visuals.filter(ViewerConfigUtility.isStatusColorVisual)[0] || null;
@@ -34,11 +35,15 @@ const LOC_KEYS = {
 
 interface IStatusTabProps {
     onValidityChange: (tabName: TabNames, state: IValidityState) => void;
+    selectedElements: Array<ITwinToObjectMapping>;
 }
-const StatusTab: React.FC<IStatusTabProps> = ({ onValidityChange }) => {
+const StatusTab: React.FC<IStatusTabProps> = ({
+    onValidityChange,
+    selectedElements
+}) => {
     const { t } = useTranslation();
     const { behaviorToEdit, setBehaviorToEdit } = useContext(
-        BehaviorFormContext
+        SceneBuilderContext
     );
 
     const statusVisualToEdit =
@@ -142,6 +147,7 @@ const StatusTab: React.FC<IStatusTabProps> = ({ onValidityChange }) => {
             <Text className={commonPanelStyles.text}>{t(LOC_KEYS.notice)}</Text>
             <TwinPropertyDropown
                 behavior={behaviorToEdit}
+                selectedElements={selectedElements}
                 defaultSelectedKey={statusVisualToEdit.statusValueExpression}
                 dataTestId={'behavior-form-state-property-dropdown'}
                 onChange={onPropertyChange}

@@ -6,7 +6,7 @@
 
 ## Storybook 📖
 This project is developed using Storybook - an open source tool for building UI components in isolation.  Our [hosted storybook](https://main--601c6b2fcd385c002100f14c.chromatic.com) showcases the current library of **iot-cardboard-js** components.  [Learn more about Storybook](https://storybook.js.org/).
-> Note: Stories which require authentication or API interaction can be found in the local development storybook. 
+> Note: stories which require authentication or API interaction can be found in the local development storybook. 
 
 ## Using **iot-cardboard-js** components 🔥
 ### Installing
@@ -35,7 +35,7 @@ import {
 ```
 
 This is the easiest method of importing components and, in most cases, will allow unused code to be tree shaken from our library.
-If, however, you only need a few modules from our library, you can instead use the direct import pattern to be more explicit about what code is imported.
+If, however, you only need a few modules from our library, you can use the direct import pattern to be more explicit about what code is imported.
 
 ### Importing components via direct imports
 
