@@ -436,15 +436,22 @@
       "commonProperties": "Proprietà comuni",
       "twinAliasForm": {
         "alias": "Alias",
-        "elementTwinMappings": "Mappature gemelle degli elementi"
+        "elementTwinMappings": "Mappature gemelle degli elementi",
+        "elementTwinMappingsNotExist": "Non è disponibile alcuna mappatura, aggiungi prima elementi al comportamento."
       },
       "descriptions": {
         "twins": "I gemelli consentono di accedere a proprietà che possono essere utilizzate nelle espressioni.",
         "linkedTwin": "LinkedTwin contiene tutte le proprietà in comune tra gli elementi di destinazione collegati gemelli.",
         "aliasChangeNotAllowed": "La modifica dell'alias non è consentita dopo la creazione.",
         "commonProperties": "L'unione delle proprietà gemelle collegate degli elementi selezionati"
+      },
+      "aliasedTwin": "Gemello con alias",
+      "removeFromElement": "Rimuovere l'alias gemello dall'elemento",
+      "errors": {
+        "twinAliasAlreadyExists": "L'alias gemello con lo stesso nome esiste già, considera invece di aggiungerlo."
       }
-    }
+    },
+    "noLinkedTwinProperties": "Nessuna proprietà gemella collegata da visualizzare"
   },
   "widgets": {
     "trend": {
@@ -667,7 +674,11 @@
   },
   "behaviorsModal": {
     "closeModal": "Chiudi modale",
-    "behaviorPreview": "Anteprima"
+    "behaviorPreview": "Anteprima",
+    "behaviorPopoverMode": "Modalità popover di comportamento",
+    "state": "Stato",
+    "allProperties": "Tutte le proprietà",
+    "LinkedTwinProperties": "Proprietà gemelle collegate"
   },
   "svgTests": {
     "fluentUI": "Caricamento SVG tramite il componente Fluent Image (modello consigliato)",
@@ -706,5 +717,39 @@
     "sync": "Sincronizzazione",
     "import": "Importazione",
     "export": "Esportazione"
+  },
+  "theme": "Tema",
+  "twinId": "DOPPIA ID",
+  "layersDropdown": {
+    "placeholder": "Nessun livello selezionato",
+    "unlayeredBehaviors": "Comportamenti non stratificati",
+    "unlayered": "Senza strati",
+    "title": "Seleziona livelli",
+    "selectAll": "Seleziona tutto",
+    "selectNone": "Deseleziona tutto"
+  },
+  "sceneLayers": {
+    "noBehaviors": "Nessun comportamento",
+    "layerMetaData": "Comportamenti di {{numBehaviors}}",
+    "sceneLayers": "Livelli scena",
+    "noneSelected": "Nessun livello selezionato",
+    "newLayer": "Nuovo livello",
+    "layerName": "Nome del livello",
+    "behaviorsOnThisLayer": "Comportamenti su questo livello",
+    "layerNamePlaceholder": "Immettere il nome del livello",
+    "createNewLayer": "Creare un nuovo livello",
+    "editLayer": "Modifica livello",
+    "updateLayer": "Aggiorna livello",
+    "layers": "Strati",
+    "noLayersFound": "Non hai ancora alcun livello!",
+    "noLayersDescription": "I livelli sono come tag sui comportamenti. Inizia creando un livello qui.",
+    "noBehaviorsOnLayer": "Non ci sono comportamenti su questo livello"
+  },
+  "cameraControls": {
+    "mouseControls": "Controlli del mouse",
+    "select": "Selezionare",
+    "pan": "Padella",
+    "orbit": "Orbita",
+    "zoom": "Zoom"
   }
 }

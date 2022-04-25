@@ -436,15 +436,22 @@
       "commonProperties": "Propriétés communes",
       "twinAliasForm": {
         "alias": "Alias",
-        "elementTwinMappings": "Mappages de jumeaux d’éléments"
+        "elementTwinMappings": "Mappages de jumeaux d’éléments",
+        "elementTwinMappingsNotExist": "Il n’y a pas de mappage disponible, ajoutez d’abord des éléments au comportement."
       },
       "descriptions": {
         "twins": "Les jumeaux vous donnent accès à des propriétés qui peuvent être utilisées dans des expressions.",
         "linkedTwin": "Le LinkedTwin contient toutes les propriétés en commun entre les éléments cibles liés aux jumeaux.",
         "aliasChangeNotAllowed": "La modification de l’alias n’est pas autorisée après la création.",
         "commonProperties": "L’union des propriétés jumelles liées d’éléments sélectionnés"
+      },
+      "aliasedTwin": "Jumeau aliasé",
+      "removeFromElement": "Supprimer l’alias jumeau de l’élément",
+      "errors": {
+        "twinAliasAlreadyExists": "Un alias jumeau portant le même nom existe déjà, envisagez de l’ajouter à la place."
       }
-    }
+    },
+    "noLinkedTwinProperties": "Aucune propriété jumelle liée à afficher"
   },
   "widgets": {
     "trend": {
@@ -667,7 +674,11 @@
   },
   "behaviorsModal": {
     "closeModal": "Fermer modal",
-    "behaviorPreview": "Aperçu"
+    "behaviorPreview": "Aperçu",
+    "behaviorPopoverMode": "Mode popover de comportement",
+    "state": "État",
+    "allProperties": "Toutes les propriétés",
+    "LinkedTwinProperties": "Propriétés Twin liées"
   },
   "svgTests": {
     "fluentUI": "Chargement SVG via le composant Fluent Image (modèle recommandé)",
@@ -706,5 +717,39 @@
     "sync": "Synchronisation",
     "import": "Importation",
     "export": "Exportation"
+  },
+  "theme": "Thème",
+  "twinId": "Id jumeau",
+  "layersDropdown": {
+    "placeholder": "Aucun calque sélectionné",
+    "unlayeredBehaviors": "Comportements non superposés",
+    "unlayered": "Non superposé",
+    "title": "Sélectionner des calques",
+    "selectAll": "Sélectionner tout",
+    "selectNone": "Désélectionner tout"
+  },
+  "sceneLayers": {
+    "noBehaviors": "Aucun comportement",
+    "layerMetaData": "{{numBehaviors}} comportements",
+    "sceneLayers": "Calques de scène",
+    "noneSelected": "Aucun calque sélectionné",
+    "newLayer": "Nouveau calque",
+    "layerName": "Nom de la couche",
+    "behaviorsOnThisLayer": "Comportements sur cette couche",
+    "layerNamePlaceholder": "Entrez le nom du calque",
+    "createNewLayer": "Créer un nouveau calque",
+    "editLayer": "Modifier le calque",
+    "updateLayer": "Mettre à jour la couche",
+    "layers": "Couches",
+    "noLayersFound": "Vous n'avez pas encore de couches !",
+    "noLayersDescription": "Les calques sont comme des balises sur les comportements. Commencez par créer un calque ici.",
+    "noBehaviorsOnLayer": "Il n’y a aucun comportement sur cette couche"
+  },
+  "cameraControls": {
+    "mouseControls": "Contrôles de la souris",
+    "select": "Choisir",
+    "pan": "Pan",
+    "orbit": "Orbite",
+    "zoom": "Zoom"
   }
 }

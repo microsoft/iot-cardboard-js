@@ -436,15 +436,22 @@
       "commonProperties": "Общие свойства",
       "twinAliasForm": {
         "alias": "Псевдоним",
-        "elementTwinMappings": "Сопоставления двойных элементов"
+        "elementTwinMappings": "Сопоставления двойных элементов",
+        "elementTwinMappingsNotExist": "Нет доступного сопоставления, сначала добавьте элементы в поведение."
       },
       "descriptions": {
         "twins": "Близнецы дают вам доступ к свойствам, которые можно использовать в выражениях.",
         "linkedTwin": "LinkedTwin содержит все свойства, общие для целевых элементов, связанных близнецами.",
         "aliasChangeNotAllowed": "Изменение псевдонима не допускается после создания.",
         "commonProperties": "Объединение связанных двойных свойств выбранных элементов"
+      },
+      "aliasedTwin": "Псевдоним близнеца",
+      "removeFromElement": "Удаление двойного псевдонима из элемента",
+      "errors": {
+        "twinAliasAlreadyExists": "Двойной псевдоним с таким же именем уже существует, рассмотрите возможность его добавления."
       }
-    }
+    },
+    "noLinkedTwinProperties": "Нет связанных двойных свойств для отображения"
   },
   "widgets": {
     "trend": {
@@ -667,7 +674,11 @@
   },
   "behaviorsModal": {
     "closeModal": "Закрыть модальный",
-    "behaviorPreview": "Предварительный просмотр"
+    "behaviorPreview": "Предварительный просмотр",
+    "behaviorPopoverMode": "Поведение всплывающего режима",
+    "state": "Государство",
+    "allProperties": "Все свойства",
+    "LinkedTwinProperties": "Связанные двойные свойства"
   },
   "svgTests": {
     "fluentUI": "Загрузка SVG через компонент Fluent Image (рекомендуемый шаблон)",
@@ -706,5 +717,39 @@
     "sync": "синхронизировать",
     "import": "Импорт",
     "export": "Экспорт"
+  },
+  "theme": "Тема",
+  "twinId": "Твин ID",
+  "layersDropdown": {
+    "placeholder": "Слои не выделены",
+    "unlayeredBehaviors": "Бесслойное поведение",
+    "unlayered": "Бесслойный",
+    "title": "Выделение слоев",
+    "selectAll": "Выбрать все",
+    "selectNone": "Отмена выбора всех"
+  },
+  "sceneLayers": {
+    "noBehaviors": "Нет поведения",
+    "layerMetaData": "{{numBehaviors}} поведение",
+    "sceneLayers": "Слои сцены",
+    "noneSelected": "Слои не выделены",
+    "newLayer": "Новый слой",
+    "layerName": "Имя слоя",
+    "behaviorsOnThisLayer": "Поведение на этом уровне",
+    "layerNamePlaceholder": "Введите имя слоя",
+    "createNewLayer": "Создание нового слоя",
+    "editLayer": "Редактирование слоя",
+    "updateLayer": "Слой обновления",
+    "layers": "Слои",
+    "noLayersFound": "У вас еще нет слоев!",
+    "noLayersDescription": "Слои похожи на теги поведения. Начните с создания слоя здесь.",
+    "noBehaviorsOnLayer": "На этом уровне нет вариантов поведения"
+  },
+  "cameraControls": {
+    "mouseControls": "Элементы управления мышью",
+    "select": "Выбирать",
+    "pan": "Сковорода",
+    "orbit": "Орбита",
+    "zoom": "Увеличить"
   }
 }

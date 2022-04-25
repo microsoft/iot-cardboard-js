@@ -436,15 +436,22 @@
       "commonProperties": "Gemeenschappelijke eigenschappen",
       "twinAliasForm": {
         "alias": "Alias",
-        "elementTwinMappings": "Element twin mappings"
+        "elementTwinMappings": "Element twin mappings",
+        "elementTwinMappingsNotExist": "Er is geen beschikbare toewijzing, voeg eerst elementen toe aan gedrag."
       },
       "descriptions": {
         "twins": "Tweelingen geven u toegang tot eigenschappen die kunnen worden gebruikt in uitdrukkingen.",
         "linkedTwin": "De LinkedTwin bevat alle eigenschappen die gemeenschappelijk zijn tussen de doelelementen gekoppelde tweelingen.",
         "aliasChangeNotAllowed": "Aliaswijziging is niet toegestaan na het maken.",
         "commonProperties": "De vereniging van gekoppelde tweelingeigenschappen van geselecteerde elementen"
+      },
+      "aliasedTwin": "Aliased tweeling",
+      "removeFromElement": "Dubbele alias uit element verwijderen",
+      "errors": {
+        "twinAliasAlreadyExists": "Dubbele alias met dezelfde naam bestaat al, overweeg deze in plaats daarvan toe te voegen."
       }
-    }
+    },
+    "noLinkedTwinProperties": "Geen gekoppelde dubbele eigenschappen om weer te geven"
   },
   "widgets": {
     "trend": {
@@ -667,7 +674,11 @@
   },
   "behaviorsModal": {
     "closeModal": "Modaal sluiten",
-    "behaviorPreview": "Voorbeeld"
+    "behaviorPreview": "Voorbeeld",
+    "behaviorPopoverMode": "Popovermodus voor gedrag",
+    "state": "Staat",
+    "allProperties": "Alle woningen",
+    "LinkedTwinProperties": "Linked Twin accommodaties"
   },
   "svgTests": {
     "fluentUI": "SVG laden via Fluent Image component (aanbevolen patroon)",
@@ -706,5 +717,39 @@
     "sync": "Sync",
     "import": "Importeren",
     "export": "Exporteren"
+  },
+  "theme": "Thema",
+  "twinId": "Dubbele ID",
+  "layersDropdown": {
+    "placeholder": "Geen lagen geselecteerd",
+    "unlayeredBehaviors": "Ongelaagd gedrag",
+    "unlayered": "Ongelaagd",
+    "title": "Lagen selecteren",
+    "selectAll": "Alles selecteren",
+    "selectNone": "Alles deselecteren"
+  },
+  "sceneLayers": {
+    "noBehaviors": "Geen gedrag",
+    "layerMetaData": "{{numBehaviors}} behaviors",
+    "sceneLayers": "Scènelagen",
+    "noneSelected": "Geen lagen geselecteerd",
+    "newLayer": "Nieuwe laag",
+    "layerName": "Laagnaam",
+    "behaviorsOnThisLayer": "Gedrag op deze laag",
+    "layerNamePlaceholder": "Laagnaam invoeren",
+    "createNewLayer": "Nieuwe laag maken",
+    "editLayer": "Laag bewerken",
+    "updateLayer": "Updatelaag",
+    "layers": "Lagen",
+    "noLayersFound": "Je hebt nog geen lagen!",
+    "noLayersDescription": "Lagen zijn als tags op gedragingen. Begin hier met het maken van een laag.",
+    "noBehaviorsOnLayer": "Er zijn geen gedragingen op deze laag"
+  },
+  "cameraControls": {
+    "mouseControls": "Muisbediening",
+    "select": "Selecteren",
+    "pan": "Sam",
+    "orbit": "Baan",
+    "zoom": "Zoom"
   }
 }

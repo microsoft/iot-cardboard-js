@@ -436,15 +436,22 @@
       "commonProperties": "常见属性",
       "twinAliasForm": {
         "alias": "别名",
-        "elementTwinMappings": "元素孪生映射"
+        "elementTwinMappings": "元素孪生映射",
+        "elementTwinMappingsNotExist": "没有可用的映射，请先向行为添加元素。"
       },
       "descriptions": {
         "twins": "孪生允许您访问可在表达式中使用的属性。",
         "linkedTwin": "LinkedTwin 包含链接孪生的目标元素之间共有的所有属性。",
         "aliasChangeNotAllowed": "创建后不允许更改别名。",
         "commonProperties": "所选元素的链接孪生属性的并集"
+      },
+      "aliasedTwin": "别名双胞胎",
+      "removeFromElement": "从元素中删除孪生别名",
+      "errors": {
+        "twinAliasAlreadyExists": "具有相同名称的孪生别名已存在，请考虑添加它。"
       }
-    }
+    },
+    "noLinkedTwinProperties": "没有要显示的链接孪生属性"
   },
   "widgets": {
     "trend": {
@@ -667,7 +674,11 @@
   },
   "behaviorsModal": {
     "closeModal": "关闭模式",
-    "behaviorPreview": "预览"
+    "behaviorPreview": "预览",
+    "behaviorPopoverMode": "行为弹出窗口模式",
+    "state": "州",
+    "allProperties": "所有房产",
+    "LinkedTwinProperties": "链接孪生属性"
   },
   "svgTests": {
     "fluentUI": "通过 Fluent Image 组件加载 SVG（推荐模式）",
@@ -706,5 +717,39 @@
     "sync": "同步",
     "import": "进口",
     "export": "出口"
+  },
+  "theme": "主题",
+  "twinId": "双胞胎身份证",
+  "layersDropdown": {
+    "placeholder": "未选择图层",
+    "unlayeredBehaviors": "未分层行为",
+    "unlayered": "无层",
+    "title": "选择图层",
+    "selectAll": "全选",
+    "selectNone": "取消全选"
+  },
+  "sceneLayers": {
+    "noBehaviors": "无行为",
+    "layerMetaData": "{{numBehaviors}} 行为",
+    "sceneLayers": "场景图层",
+    "noneSelected": "未选择图层",
+    "newLayer": "新图层",
+    "layerName": "图层名称",
+    "behaviorsOnThisLayer": "此层上的行为",
+    "layerNamePlaceholder": "输入图层名称",
+    "createNewLayer": "创建新图层",
+    "editLayer": "编辑图层",
+    "updateLayer": "更新图层",
+    "layers": "层",
+    "noLayersFound": "您还没有任何图层！",
+    "noLayersDescription": "图层类似于行为上的标签。首先在此处创建一个图层。",
+    "noBehaviorsOnLayer": "此层上没有行为"
+  },
+  "cameraControls": {
+    "mouseControls": "鼠标控制",
+    "select": "选择",
+    "pan": "泛",
+    "orbit": "轨道",
+    "zoom": "缩放"
   }
 }

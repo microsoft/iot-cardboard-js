@@ -436,15 +436,22 @@
       "commonProperties": "공통 속성",
       "twinAliasForm": {
         "alias": "별명",
-        "elementTwinMappings": "요소 쌍 매핑"
+        "elementTwinMappings": "요소 쌍 매핑",
+        "elementTwinMappingsNotExist": "사용 가능한 매핑이 없으며 먼저 동작에 요소를 추가하십시오."
       },
       "descriptions": {
         "twins": "트윈을 사용하면 표현식에 사용할 수 있는 속성에 액세스할 수 있습니다.",
         "linkedTwin": "LinkedTwin에는 연결된 쌍둥이 대상 요소 간에 공통된 모든 속성이 포함되어 있습니다.",
         "aliasChangeNotAllowed": "별칭 변경은 생성 후 허용되지 않습니다.",
         "commonProperties": "선택한 요소의 연결된 쌍 속성의 결합"
+      },
+      "aliasedTwin": "앨리어싱된 트윈",
+      "removeFromElement": "요소에서 트윈 별칭 제거",
+      "errors": {
+        "twinAliasAlreadyExists": "같은 이름의 트윈 별칭이 이미 있으므로 대신 추가하는 것이 좋습니다."
       }
-    }
+    },
+    "noLinkedTwinProperties": "표시할 연결된 트윈 속성이 없습니다."
   },
   "widgets": {
     "trend": {
@@ -667,7 +674,11 @@
   },
   "behaviorsModal": {
     "closeModal": "모달 닫기",
-    "behaviorPreview": "미리 보기"
+    "behaviorPreview": "미리 보기",
+    "behaviorPopoverMode": "동작 팝오버 모드",
+    "state": "상태",
+    "allProperties": "모든 속성",
+    "LinkedTwinProperties": "연결된 트윈 속성"
   },
   "svgTests": {
     "fluentUI": "유창한 이미지 구성 요소를 통한 SVG 로드(권장 패턴)",
@@ -706,5 +717,39 @@
     "sync": "동기화",
     "import": "수입",
     "export": "수출"
+  },
+  "theme": "주제",
+  "twinId": "트윈 ID",
+  "layersDropdown": {
+    "placeholder": "선택한 레이어가 없습니다.",
+    "unlayeredBehaviors": "계층화되지 않은 동작",
+    "unlayered": "계층화되지 않은",
+    "title": "레이어 선택",
+    "selectAll": "모두 선택",
+    "selectNone": "모두 선택 취소"
+  },
+  "sceneLayers": {
+    "noBehaviors": "동작 없음",
+    "layerMetaData": "{{numBehaviors}} behaviors",
+    "sceneLayers": "씬 레이어",
+    "noneSelected": "선택한 레이어가 없습니다.",
+    "newLayer": "새 레이어",
+    "layerName": "레이어 이름",
+    "behaviorsOnThisLayer": "이 계층의 동작",
+    "layerNamePlaceholder": "레이어 이름 입력",
+    "createNewLayer": "새 레이어 만들기",
+    "editLayer": "레이어 편집",
+    "updateLayer": "레이어 업데이트",
+    "layers": "레이어",
+    "noLayersFound": "아직 레이어가 없습니다!",
+    "noLayersDescription": "레이어는 동작에 대한 태그와 같습니다. 여기에서 레이어를 만드는 것으로 시작하십시오.",
+    "noBehaviorsOnLayer": "이 계층에는 동작이 없습니다."
+  },
+  "cameraControls": {
+    "mouseControls": "마우스 컨트롤",
+    "select": "고르다",
+    "pan": "팬",
+    "orbit": "궤도",
+    "zoom": "급상승"
   }
 }

@@ -436,15 +436,22 @@
       "commonProperties": "Propiedades comunes",
       "twinAliasForm": {
         "alias": "Alias",
-        "elementTwinMappings": "Asignaciones de elementos gemelos"
+        "elementTwinMappings": "Asignaciones de elementos gemelos",
+        "elementTwinMappingsNotExist": "No hay mapeo disponible, agregue elementos al comportamiento primero."
       },
       "descriptions": {
         "twins": "Los gemelos le dan acceso a propiedades que se pueden usar en expresiones.",
         "linkedTwin": "El LinkedTwin contiene todas las propiedades en común entre los elementos de destino gemelos vinculados.",
         "aliasChangeNotAllowed": "El cambio de alias no está permitido después de la creación.",
         "commonProperties": "La unión de las propiedades gemelas vinculadas de los elementos seleccionados"
+      },
+      "aliasedTwin": "Gemelo con alias",
+      "removeFromElement": "Quitar alias gemelo del elemento",
+      "errors": {
+        "twinAliasAlreadyExists": "El alias gemelo con el mismo nombre ya existe, considere agregarlo en su lugar."
       }
-    }
+    },
+    "noLinkedTwinProperties": "No hay propiedades gemelas vinculadas para mostrar"
   },
   "widgets": {
     "trend": {
@@ -667,7 +674,11 @@
   },
   "behaviorsModal": {
     "closeModal": "Cerrar modal",
-    "behaviorPreview": "Vista previa"
+    "behaviorPreview": "Vista previa",
+    "behaviorPopoverMode": "Modo emergente de comportamiento",
+    "state": "Estado",
+    "allProperties": "Todas las propiedades",
+    "LinkedTwinProperties": "Propiedades de Linked Twin"
   },
   "svgTests": {
     "fluentUI": "Carga DE SVG a través del componente Fluent Image (patrón recomendado)",
@@ -706,5 +717,39 @@
     "sync": "Sincronizar",
     "import": "Importación",
     "export": "Exportar"
+  },
+  "theme": "Tema",
+  "twinId": "Identificación doble",
+  "layersDropdown": {
+    "placeholder": "No hay capas seleccionadas",
+    "unlayeredBehaviors": "Comportamientos sin capas",
+    "unlayered": "Sin capas",
+    "title": "Seleccionar capas",
+    "selectAll": "Seleccionar todo",
+    "selectNone": "Anule la selección de todo"
+  },
+  "sceneLayers": {
+    "noBehaviors": "Sin comportamientos",
+    "layerMetaData": "{{numBehaviors}} comportamientos",
+    "sceneLayers": "Capas de escena",
+    "noneSelected": "No hay capas seleccionadas",
+    "newLayer": "Nueva capa",
+    "layerName": "Nombre de la capa",
+    "behaviorsOnThisLayer": "Comportamientos en esta capa",
+    "layerNamePlaceholder": "Introduzca el nombre de la capa",
+    "createNewLayer": "Crear nueva capa",
+    "editLayer": "Editar capa",
+    "updateLayer": "Capa de actualización",
+    "layers": "Capas",
+    "noLayersFound": "¡Todavía no tienes capas!",
+    "noLayersDescription": "Las capas son como etiquetas en los comportamientos. Comience creando una capa aquí.",
+    "noBehaviorsOnLayer": "No hay comportamientos en esta capa"
+  },
+  "cameraControls": {
+    "mouseControls": "Controles del ratón",
+    "select": "Escoger",
+    "pan": "Cacerola",
+    "orbit": "Órbita",
+    "zoom": "Zoom"
   }
 }

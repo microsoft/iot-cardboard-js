@@ -436,15 +436,22 @@
       "commonProperties": "共通プロパティ",
       "twinAliasForm": {
         "alias": "別名",
-        "elementTwinMappings": "要素ツインマッピング"
+        "elementTwinMappings": "要素ツインマッピング",
+        "elementTwinMappingsNotExist": "使用可能なマッピングはありません。最初に動作に要素を追加します。"
       },
       "descriptions": {
         "twins": "ツインを使用すると、式で使用できるプロパティにアクセスできます。",
         "linkedTwin": "LinkedTwin には、リンクされたターゲット要素間で共通するすべてのプロパティが含まれています。",
         "aliasChangeNotAllowed": "作成後のエイリアスの変更は許可されません。",
         "commonProperties": "選択した要素のリンクされたツインプロパティの和集合"
+      },
+      "aliasedTwin": "別名ツイン",
+      "removeFromElement": "要素からツインエイリアスを削除する",
+      "errors": {
+        "twinAliasAlreadyExists": "同じ名前のツインエイリアスが既に存在するため、代わりに追加することを検討してください。"
       }
-    }
+    },
+    "noLinkedTwinProperties": "表示するリンクされたツインプロパティがありません"
   },
   "widgets": {
     "trend": {
@@ -667,7 +674,11 @@
   },
   "behaviorsModal": {
     "closeModal": "モーダルを閉じる",
-    "behaviorPreview": "プレビュー"
+    "behaviorPreview": "プレビュー",
+    "behaviorPopoverMode": "動作ポップオーバーモード",
+    "state": "状態",
+    "allProperties": "すべてのプロパティ",
+    "LinkedTwinProperties": "リンクされたツインのプロパティ"
   },
   "svgTests": {
     "fluentUI": "流暢な画像コンポーネントによるSVGの読み込み(推奨パターン)",
@@ -706,5 +717,39 @@
     "sync": "同期",
     "import": "輸入",
     "export": "輸出"
+  },
+  "theme": "テーマ",
+  "twinId": "ツイン ID",
+  "layersDropdown": {
+    "placeholder": "レイヤーが選択されていません",
+    "unlayeredBehaviors": "階層化されていない動作",
+    "unlayered": "非レイヤー化",
+    "title": "レイヤーの選択",
+    "selectAll": "すべて選択",
+    "selectNone": "すべて選択解除"
+  },
+  "sceneLayers": {
+    "noBehaviors": "動作なし",
+    "layerMetaData": "{{numBehaviors}} ビヘイビア",
+    "sceneLayers": "シーンレイヤー",
+    "noneSelected": "レイヤーが選択されていません",
+    "newLayer": "新しいレイヤー",
+    "layerName": "レイヤー名",
+    "behaviorsOnThisLayer": "このレイヤー上の動作",
+    "layerNamePlaceholder": "レイヤー名を入力",
+    "createNewLayer": "新しいレイヤーを作成する",
+    "editLayer": "レイヤーの編集",
+    "updateLayer": "レイヤーの更新",
+    "layers": "層",
+    "noLayersFound": "あなたはまだレイヤーを持っていません!",
+    "noLayersDescription": "レイヤーは、ビヘイビアのタグのようなものです。まず、ここでレイヤーを作成します。",
+    "noBehaviorsOnLayer": "このレイヤーには動作はありません"
+  },
+  "cameraControls": {
+    "mouseControls": "マウスコントロール",
+    "select": "選ぶ",
+    "pan": "パン",
+    "orbit": "軌道",
+    "zoom": "ズーム"
   }
 }

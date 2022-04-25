@@ -436,15 +436,22 @@
       "commonProperties": "Wspólne właściwości",
       "twinAliasForm": {
         "alias": "Pseudonim",
-        "elementTwinMappings": "Mapowania bliźniaczych elementów"
+        "elementTwinMappings": "Mapowania bliźniaczych elementów",
+        "elementTwinMappingsNotExist": "Nie ma dostępnego mapowania, najpierw dodaj elementy do zachowania."
       },
       "descriptions": {
         "twins": "Bliźnięta dają dostęp do właściwości, które mogą być używane w wyrażeniach.",
         "linkedTwin": "LinkedTwin zawiera wszystkie właściwości wspólne dla elementów docelowych połączonych bliźniaków.",
         "aliasChangeNotAllowed": "Zmiana aliasu nie jest dozwolona po utworzeniu.",
         "commonProperties": "Połączenie połączonych bliźniaczych właściwości wybranych elementów"
+      },
+      "aliasedTwin": "Aliasowany bliźniak",
+      "removeFromElement": "Usuń bliźniaczy alias z elementu",
+      "errors": {
+        "twinAliasAlreadyExists": "Bliźniaczy alias o tej samej nazwie już istnieje, rozważ dodanie go zamiast tego."
       }
-    }
+    },
+    "noLinkedTwinProperties": "Brak połączonych bliźniaczych właściwości do wyświetlenia"
   },
   "widgets": {
     "trend": {
@@ -667,7 +674,11 @@
   },
   "behaviorsModal": {
     "closeModal": "Zamknij modal",
-    "behaviorPreview": "Prapremiera"
+    "behaviorPreview": "Prapremiera",
+    "behaviorPopoverMode": "Zachowanie trybu popover",
+    "state": "Stan",
+    "allProperties": "Wszystkie właściwości",
+    "LinkedTwinProperties": "Właściwości Połączonych bliźniaków"
   },
   "svgTests": {
     "fluentUI": "Ładowanie SVG przez komponent Fluent Image (zalecany wzór)",
@@ -706,5 +717,39 @@
     "sync": "synchronizować",
     "import": "Import",
     "export": "Eksport"
+  },
+  "theme": "Kompozycja",
+  "twinId": "Podwójny identyfikator",
+  "layersDropdown": {
+    "placeholder": "Brak zaznaczonych warstw",
+    "unlayeredBehaviors": "Zachowania niewarstwowe",
+    "unlayered": "Bez warstw",
+    "title": "Zaznaczanie warstw",
+    "selectAll": "Zaznacz wszystko",
+    "selectNone": "Usuń zaznaczenie wszystkich"
+  },
+  "sceneLayers": {
+    "noBehaviors": "Brak zachowań",
+    "layerMetaData": "{{numBehaviors}} zachowania",
+    "sceneLayers": "Warstwy scen",
+    "noneSelected": "Brak zaznaczonych warstw",
+    "newLayer": "Nowa warstwa",
+    "layerName": "Nazwa warstwy",
+    "behaviorsOnThisLayer": "Zachowania na tej warstwie",
+    "layerNamePlaceholder": "Wprowadź nazwę warstwy",
+    "createNewLayer": "Tworzenie nowej warstwy",
+    "editLayer": "Edytuj warstwę",
+    "updateLayer": "Aktualizuj warstwę",
+    "layers": "Warstwy",
+    "noLayersFound": "Nie masz jeszcze żadnych warstw!",
+    "noLayersDescription": "Warstwy są jak znaczniki zachowań. Zacznij od utworzenia warstwy tutaj.",
+    "noBehaviorsOnLayer": "Na tej warstwie nie ma żadnych zachowań"
+  },
+  "cameraControls": {
+    "mouseControls": "Sterowanie myszą",
+    "select": "Wybrać",
+    "pan": "Patelnia",
+    "orbit": "Orbita",
+    "zoom": "Powiększenia"
   }
 }

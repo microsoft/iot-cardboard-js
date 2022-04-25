@@ -436,15 +436,22 @@
       "commonProperties": "Ortak özellikler",
       "twinAliasForm": {
         "alias": "Diğer ad",
-        "elementTwinMappings": "Öğe ikizi eşlemeleri"
+        "elementTwinMappings": "Öğe ikizi eşlemeleri",
+        "elementTwinMappingsNotExist": "Kullanılabilir eşleme yok, önce davranışa öğeler ekleyin."
       },
       "descriptions": {
         "twins": "İkizler, ifadelerde kullanılabilecek özelliklere erişmenizi sağlar.",
         "linkedTwin": "LinkedTwin, hedef elemanlar bağlı ikizler arasındaki ortak tüm özellikleri içerir.",
         "aliasChangeNotAllowed": "Oluşturulduktan sonra diğer ad değişimine izin verilmez.",
         "commonProperties": "Seçili elemanların bağlantılı ikiz özelliklerinin birleşimi"
+      },
+      "aliasedTwin": "Takma adlı ikiz",
+      "removeFromElement": "İkiz diğer adı öğeden kaldırma",
+      "errors": {
+        "twinAliasAlreadyExists": "Aynı ada sahip ikiz takma ad zaten var, bunun yerine eklemeyi düşünün."
       }
-    }
+    },
+    "noLinkedTwinProperties": "Görüntülenecek bağlantılı ikiz özellik yok"
   },
   "widgets": {
     "trend": {
@@ -667,7 +674,11 @@
   },
   "behaviorsModal": {
     "closeModal": "Modal'ı kapat",
-    "behaviorPreview": "Önizleme"
+    "behaviorPreview": "Önizleme",
+    "behaviorPopoverMode": "Davranış açılır modu",
+    "state": "Devlet",
+    "allProperties": "Tüm emlaklar",
+    "LinkedTwinProperties": "Bağlı İkiz özellikler"
   },
   "svgTests": {
     "fluentUI": "Akıcı Görüntü bileşeni aracılığıyla SVG yükleme (önerilen desen)",
@@ -706,5 +717,39 @@
     "sync": "Eşitleme",
     "import": "Ithalat",
     "export": "Ihracat"
+  },
+  "theme": "Tema",
+  "twinId": "İkiz Kimlik",
+  "layersDropdown": {
+    "placeholder": "Katman seçilmedi",
+    "unlayeredBehaviors": "Katmansız davranışlar",
+    "unlayered": "Katmansız",
+    "title": "Katmanları seçme",
+    "selectAll": "Tümünü seç",
+    "selectNone": "Tümünün seçimini kaldır"
+  },
+  "sceneLayers": {
+    "noBehaviors": "Davranış yok",
+    "layerMetaData": "{{numBehaviors}} davranışları",
+    "sceneLayers": "Sahne katmanları",
+    "noneSelected": "Katman seçilmedi",
+    "newLayer": "Yeni katman",
+    "layerName": "Katman adı",
+    "behaviorsOnThisLayer": "Bu katmandaki davranışlar",
+    "layerNamePlaceholder": "Katman adını girin",
+    "createNewLayer": "Yeni katman oluşturma",
+    "editLayer": "Katmanı düzenle",
+    "updateLayer": "Güncelleştirme katmanı",
+    "layers": "Katman",
+    "noLayersFound": "Henüz katmanınız yok!",
+    "noLayersDescription": "Katmanlar, davranışlardaki etiketler gibidir. Burada bir katman oluşturarak başlayın.",
+    "noBehaviorsOnLayer": "Bu katmanda hiçbir davranış yoktur"
+  },
+  "cameraControls": {
+    "mouseControls": "Fare Kontrolleri",
+    "select": "Seçmek",
+    "pan": "Tava",
+    "orbit": "Yörünge",
+    "zoom": "Yakınlaştırmak"
   }
 }

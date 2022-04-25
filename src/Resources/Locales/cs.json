@@ -436,15 +436,22 @@
       "commonProperties": "Společné vlastnosti",
       "twinAliasForm": {
         "alias": "Alias",
-        "elementTwinMappings": "Mapování dvojčat prvků"
+        "elementTwinMappings": "Mapování dvojčat prvků",
+        "elementTwinMappingsNotExist": "Není k dispozici žádné mapování, nejprve přidejte prvky do chování."
       },
       "descriptions": {
         "twins": "Dvojčata poskytují přístup k vlastnostem, které lze použít ve výrazech.",
         "linkedTwin": "LinkedTwin obsahuje všechny vlastnosti společné mezi cílovými elementy propojenými dvojčaty.",
         "aliasChangeNotAllowed": "Změna aliasu není po vytvoření povolena.",
         "commonProperties": "Spojení propojených dvojčat vlastností vybraných prvků"
+      },
+      "aliasedTwin": "Aliasované dvojče",
+      "removeFromElement": "Odebrání aliasu dvojčete z elementu",
+      "errors": {
+        "twinAliasAlreadyExists": "Alias dvojčete se stejným názvem již existuje, zvažte jeho přidání."
       }
-    }
+    },
+    "noLinkedTwinProperties": "Žádné propojené vlastnosti dvojčete k zobrazení"
   },
   "widgets": {
     "trend": {
@@ -667,7 +674,11 @@
   },
   "behaviorsModal": {
     "closeModal": "Zavřít modální",
-    "behaviorPreview": "Náhled"
+    "behaviorPreview": "Náhled",
+    "behaviorPopoverMode": "Režim překryvného okna chování",
+    "state": "Stát",
+    "allProperties": "Všechny nemovitosti",
+    "LinkedTwinProperties": "Propojené vlastnosti dvojčete"
   },
   "svgTests": {
     "fluentUI": "Načítání SVG pomocí komponenty Fluent Image (doporučený vzor)",
@@ -706,5 +717,39 @@
     "sync": "synchronizovat",
     "import": "Dovoz",
     "export": "Vývoz"
+  },
+  "theme": "Téma",
+  "twinId": "ID dvojčat",
+  "layersDropdown": {
+    "placeholder": "Nejsou vybrány žádné vrstvy",
+    "unlayeredBehaviors": "Chování bez vrstev",
+    "unlayered": "Bez vrstev",
+    "title": "Výběr vrstev",
+    "selectAll": "Vybrat vše",
+    "selectNone": "Zrušit výběr všech"
+  },
+  "sceneLayers": {
+    "noBehaviors": "Žádné chování",
+    "layerMetaData": "{{numBehaviors}} chování",
+    "sceneLayers": "Vrstvy scény",
+    "noneSelected": "Nejsou vybrány žádné vrstvy",
+    "newLayer": "Nová vrstva",
+    "layerName": "Název vrstvy",
+    "behaviorsOnThisLayer": "Chování v této vrstvě",
+    "layerNamePlaceholder": "Zadejte název vrstvy",
+    "createNewLayer": "Vytvoření nové vrstvy",
+    "editLayer": "Upravit vrstvu",
+    "updateLayer": "Aktualizační vrstva",
+    "layers": "Vrstvy",
+    "noLayersFound": "Zatím nemáte žádné vrstvy!",
+    "noLayersDescription": "Vrstvy jsou jako tagy chování. Začněte vytvořením vrstvy zde.",
+    "noBehaviorsOnLayer": "V této vrstvě nejsou žádná chování"
+  },
+  "cameraControls": {
+    "mouseControls": "Ovládání myší",
+    "select": "Vybrat",
+    "pan": "Pánev",
+    "orbit": "Oběžná dráha",
+    "zoom": "Zvětšení"
   }
 }

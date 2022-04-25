@@ -436,15 +436,22 @@
       "commonProperties": "Vanliga egenskaper",
       "twinAliasForm": {
         "alias": "Alias",
-        "elementTwinMappings": "Dubbla elementmappningar"
+        "elementTwinMappings": "Dubbla elementmappningar",
+        "elementTwinMappingsNotExist": "Det finns ingen tillgänglig mappning, lägg till element i beteendet först."
       },
       "descriptions": {
         "twins": "Tvillingar ger dig tillgång till egenskaper som kan användas i uttryck.",
         "linkedTwin": "LinkedTwin innehåller alla egenskaper gemensamt mellan målelementen länkade tvillingar.",
         "aliasChangeNotAllowed": "Aliasändring är inte tillåten efter att den har skapats.",
         "commonProperties": "Föreningen av länkade tvillingegenskaper för valda element"
+      },
+      "aliasedTwin": "Aliasad tvilling",
+      "removeFromElement": "Ta bort dubbla alias från elementet",
+      "errors": {
+        "twinAliasAlreadyExists": "Det finns redan ett tvillingalias med samma namn, överväg att lägga till det i stället."
       }
-    }
+    },
+    "noLinkedTwinProperties": "Inga länkade dubbla egenskaper att visa"
   },
   "widgets": {
     "trend": {
@@ -667,7 +674,11 @@
   },
   "behaviorsModal": {
     "closeModal": "Stäng modal",
-    "behaviorPreview": "Förhandsvisning"
+    "behaviorPreview": "Förhandsvisning",
+    "behaviorPopoverMode": "Popup-läge för beteende",
+    "state": "Stat",
+    "allProperties": "Alla egenskaper",
+    "LinkedTwinProperties": "Länkade dubbla egenskaper"
   },
   "svgTests": {
     "fluentUI": "SVG-inläsning via fluentbildskomponent (rekommenderat mönster)",
@@ -706,5 +717,39 @@
     "sync": "synkronisering",
     "import": "Import",
     "export": "Export"
+  },
+  "theme": "Tema",
+  "twinId": "Tvilling-ID",
+  "layersDropdown": {
+    "placeholder": "Inga lager markerade",
+    "unlayeredBehaviors": "Upprädrade beteenden",
+    "unlayered": "Uppräds",
+    "title": "Markera lager",
+    "selectAll": "Markera alla",
+    "selectNone": "Avmarkera alla"
+  },
+  "sceneLayers": {
+    "noBehaviors": "Inga beteenden",
+    "layerMetaData": "{{numBehaviors}} behaviors",
+    "sceneLayers": "Scenlager",
+    "noneSelected": "Inga lager markerade",
+    "newLayer": "Nytt lager",
+    "layerName": "Lagernamn",
+    "behaviorsOnThisLayer": "Beteenden på det här lagret",
+    "layerNamePlaceholder": "Ange lagernamn",
+    "createNewLayer": "Skapa nytt lager",
+    "editLayer": "Redigera lager",
+    "updateLayer": "Uppdatera lager",
+    "layers": "Lager",
+    "noLayersFound": "Du har inga lager än!",
+    "noLayersDescription": "Lager är som taggar på beteenden. Börja med att skapa ett lager här.",
+    "noBehaviorsOnLayer": "Det finns inga beteenden på det här lagret"
+  },
+  "cameraControls": {
+    "mouseControls": "Muskontroller",
+    "select": "Utvald",
+    "pan": "Panna",
+    "orbit": "Omloppsbana",
+    "zoom": "Zooma"
   }
 }

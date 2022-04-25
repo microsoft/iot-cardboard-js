@@ -436,15 +436,22 @@
       "commonProperties": "Propriedades comuns",
       "twinAliasForm": {
         "alias": "Cognome",
-        "elementTwinMappings": "Mapeamentos de elementos gêmeos"
+        "elementTwinMappings": "Mapeamentos de elementos gêmeos",
+        "elementTwinMappingsNotExist": "Não há mapeamento disponível, adicione elementos ao comportamento primeiro."
       },
       "descriptions": {
         "twins": "Gêmeos lhe dão acesso a propriedades que podem ser usadas em expressões.",
         "linkedTwin": "O LinkedTwin contém todas as propriedades em comum entre os elementos-alvo ligados gêmeos.",
         "aliasChangeNotAllowed": "A mudança de pseudônimo não é permitida após a criação.",
         "commonProperties": "A união de propriedades gêmeas vinculadas de elementos selecionados"
+      },
+      "aliasedTwin": "Gêmeo aliased",
+      "removeFromElement": "Remover o pseudônimo de gêmeos do elemento",
+      "errors": {
+        "twinAliasAlreadyExists": "O pseudônimo de gêmeos com o mesmo nome já existe, considere adicioná-lo em seu lugar."
       }
-    }
+    },
+    "noLinkedTwinProperties": "Sem propriedades gêmeas vinculadas para exibir"
   },
   "widgets": {
     "trend": {
@@ -667,7 +674,11 @@
   },
   "behaviorsModal": {
     "closeModal": "Fechar modal",
-    "behaviorPreview": "Visualizar"
+    "behaviorPreview": "Visualizar",
+    "behaviorPopoverMode": "Modo popover de comportamento",
+    "state": "Estado",
+    "allProperties": "Todas as propriedades",
+    "LinkedTwinProperties": "Propriedades gêmeas vinculadas"
   },
   "svgTests": {
     "fluentUI": "Carregamento SVG via componente de imagem fluente (padrão recomendado)",
@@ -706,5 +717,39 @@
     "sync": "sincronizar",
     "import": "Importação",
     "export": "Exportação"
+  },
+  "theme": "Tema",
+  "twinId": "ID duplo",
+  "layersDropdown": {
+    "placeholder": "Sem camadas selecionadas",
+    "unlayeredBehaviors": "Comportamentos semcamadas",
+    "unlayered": "Semcamadas",
+    "title": "Selecione camadas",
+    "selectAll": "Selecione todos",
+    "selectNone": "Desmarque todos"
+  },
+  "sceneLayers": {
+    "noBehaviors": "Sem comportamentos",
+    "layerMetaData": "{{numBehaviors}} comportamentos",
+    "sceneLayers": "Camadas de cena",
+    "noneSelected": "Sem camadas selecionadas",
+    "newLayer": "Nova camada",
+    "layerName": "Nome da camada",
+    "behaviorsOnThisLayer": "Comportamentos nesta camada",
+    "layerNamePlaceholder": "Digite o nome da camada",
+    "createNewLayer": "Criar nova camada",
+    "editLayer": "Editar camada",
+    "updateLayer": "Camada de atualização",
+    "layers": "Camadas",
+    "noLayersFound": "Você ainda não tem camadas!",
+    "noLayersDescription": "Camadas são como tags em comportamentos. Comece criando uma camada aqui.",
+    "noBehaviorsOnLayer": "Não há comportamentos nesta camada"
+  },
+  "cameraControls": {
+    "mouseControls": "Controles do mouse",
+    "select": "Selecionar",
+    "pan": "Panela",
+    "orbit": "Órbita",
+    "zoom": "Zoom"
   }
 }

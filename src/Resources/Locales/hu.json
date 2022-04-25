@@ -436,15 +436,22 @@
       "commonProperties": "Gyakori tulajdonságok",
       "twinAliasForm": {
         "alias": "Álnév",
-        "elementTwinMappings": "Elem ikerleképezései"
+        "elementTwinMappings": "Elem ikerleképezései",
+        "elementTwinMappingsNotExist": "Nincs elérhető leképezés, először adjon hozzá elemeket a viselkedéshez."
       },
       "descriptions": {
         "twins": "Az ikrek hozzáférést biztosítanak a kifejezésekben használható tulajdonságokhoz.",
         "linkedTwin": "A LinkedTwin tartalmazza az összes közös tulajdonságot a célelemekhez kapcsolódó ikrek között.",
         "aliasChangeNotAllowed": "Az alias módosítása a létrehozás után nem engedélyezett.",
         "commonProperties": "A kiválasztott elemek kapcsolt ikertulajdonságok uniója"
+      },
+      "aliasedTwin": "Aliasozott ikerpár",
+      "removeFromElement": "Iker alias eltávolítása az elemből",
+      "errors": {
+        "twinAliasAlreadyExists": "Az azonos nevű ikeralias már létezik, fontolja meg a hozzáadását."
       }
-    }
+    },
+    "noLinkedTwinProperties": "Nincs megjelenítendő csatolt ikertulajdonság"
   },
   "widgets": {
     "trend": {
@@ -667,7 +674,11 @@
   },
   "behaviorsModal": {
     "closeModal": "Modális mód bezárása",
-    "behaviorPreview": "Előnézet"
+    "behaviorPreview": "Előnézet",
+    "behaviorPopoverMode": "Viselkedés popover mód",
+    "state": "Állam",
+    "allProperties": "Minden tulajdonság",
+    "LinkedTwinProperties": "Csatolt ikertulajdonságok"
   },
   "svgTests": {
     "fluentUI": "SVG betöltése a Fluent Image komponensen keresztül (ajánlott minta)",
@@ -706,5 +717,39 @@
     "sync": "szinkronizál",
     "import": "Importál",
     "export": "Kivitel"
+  },
+  "theme": "Téma",
+  "twinId": "Ikerazonosító",
+  "layersDropdown": {
+    "placeholder": "Nincsenek kijelölt rétegek",
+    "unlayeredBehaviors": "Fedetlen viselkedés",
+    "unlayered": "Fedetlen",
+    "title": "Rétegek kijelölése",
+    "selectAll": "Az összes kijelölése",
+    "selectNone": "Az összes kijelölésének megszüntetése"
+  },
+  "sceneLayers": {
+    "noBehaviors": "Nincs viselkedés",
+    "layerMetaData": "{{numBehaviors}} behaviors",
+    "sceneLayers": "Jelenetrétegek",
+    "noneSelected": "Nincsenek kijelölt rétegek",
+    "newLayer": "Új réteg",
+    "layerName": "Réteg neve",
+    "behaviorsOnThisLayer": "Viselkedés ezen a rétegen",
+    "layerNamePlaceholder": "Rétegnév megadása",
+    "createNewLayer": "Új réteg létrehozása",
+    "editLayer": "Réteg szerkesztése",
+    "updateLayer": "Réteg frissítése",
+    "layers": "Rétegek",
+    "noLayersFound": "Még nincsenek rétegeid!",
+    "noLayersDescription": "A rétegek olyanok, mint a viselkedéscímkék. Kezdje azzal, hogy itt létrehoz egy réteget.",
+    "noBehaviorsOnLayer": "Ezen a rétegen nincsenek viselkedések."
+  },
+  "cameraControls": {
+    "mouseControls": "Egérvezérlők",
+    "select": "Kiválaszt",
+    "pan": "Serpenyő",
+    "orbit": "Pálya",
+    "zoom": "Búg"
   }
 }

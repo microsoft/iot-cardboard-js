@@ -436,15 +436,22 @@
       "commonProperties": "Gemeingüter",
       "twinAliasForm": {
         "alias": "Alias",
-        "elementTwinMappings": "Element-Twin-Mappings"
+        "elementTwinMappings": "Element-Twin-Mappings",
+        "elementTwinMappingsNotExist": "Es ist keine Zuordnung verfügbar, fügen Sie dem Verhalten zuerst Elemente hinzu."
       },
       "descriptions": {
         "twins": "Zwillinge geben Ihnen Zugriff auf Eigenschaften, die in Ausdrücken verwendet werden können.",
         "linkedTwin": "Der LinkedTwin enthält alle gemeinsamen Eigenschaften zwischen den Zielelementen verknüpften Zwillingen.",
         "aliasChangeNotAllowed": "Eine Änderung des Alias ist nach der Erstellung nicht mehr zulässig.",
         "commonProperties": "Die Vereinigung verknüpfter Zwillingseigenschaften ausgewählter Elemente"
+      },
+      "aliasedTwin": "Aliased Zwilling",
+      "removeFromElement": "Entfernen des Zwillingsalias aus dem Element",
+      "errors": {
+        "twinAliasAlreadyExists": "Twin Alias mit dem gleichen Namen existiert bereits, erwägen Sie stattdessen, es hinzuzufügen."
       }
-    }
+    },
+    "noLinkedTwinProperties": "Keine verknüpften Zwillingseigenschaften zum Anzeigen"
   },
   "widgets": {
     "trend": {
@@ -667,7 +674,11 @@
   },
   "behaviorsModal": {
     "closeModal": "Modal schließen",
-    "behaviorPreview": "Vorschau"
+    "behaviorPreview": "Vorschau",
+    "behaviorPopoverMode": "Verhaltens-Popover-Modus",
+    "state": "Zustand",
+    "allProperties": "Alle Immobilien",
+    "LinkedTwinProperties": "Verknüpfte Twin-Eigenschaften"
   },
   "svgTests": {
     "fluentUI": "SVG-Laden über Fluent Image-Komponente (empfohlenes Muster)",
@@ -706,5 +717,39 @@
     "sync": "synchronisieren",
     "import": "Importieren",
     "export": "Exportieren"
+  },
+  "theme": "Thema",
+  "twinId": "Twin-ID",
+  "layersDropdown": {
+    "placeholder": "Keine Ebenen ausgewählt",
+    "unlayeredBehaviors": "Unschichtiges Verhalten",
+    "unlayered": "Ungeschichtet",
+    "title": "Ebenen auswählen",
+    "selectAll": "Alle auswählen",
+    "selectNone": "Alle abwählen"
+  },
+  "sceneLayers": {
+    "noBehaviors": "Keine Verhaltensweisen",
+    "layerMetaData": "{{numBehaviors}} Verhalten",
+    "sceneLayers": "Szenen-Layer",
+    "noneSelected": "Keine Ebenen ausgewählt",
+    "newLayer": "Neue Ebene",
+    "layerName": "Name der Ebene",
+    "behaviorsOnThisLayer": "Verhalten auf dieser Ebene",
+    "layerNamePlaceholder": "Geben Sie den Layer-Namen ein",
+    "createNewLayer": "Neuen Layer erstellen",
+    "editLayer": "Ebene bearbeiten",
+    "updateLayer": "Aktualisieren der Schicht",
+    "layers": "Schichten",
+    "noLayersFound": "Sie haben noch keine Ebenen!",
+    "noLayersDescription": "Ebenen sind wie Tags für Verhaltensweisen. Beginnen Sie hier, indem Sie eine Ebene erstellen.",
+    "noBehaviorsOnLayer": "Es gibt keine Verhaltensweisen auf dieser Ebene"
+  },
+  "cameraControls": {
+    "mouseControls": "Maus-Steuerelemente",
+    "select": "Auswählen",
+    "pan": "Pfanne",
+    "orbit": "Umlaufbahn",
+    "zoom": "Zoom"
   }
 }
