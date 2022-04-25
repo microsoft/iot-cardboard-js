@@ -2,7 +2,7 @@
 
 ## Summary
 
-We use a custom fork of [i18n-auto-translation](https://github.com/msnyder-msft/i18n-auto-translation-msnyder) package for generating first passes on localized strings. The goal in the long run is to then iterate on these auto generated values with professional translations.
+We use a custom fork of the [i18n-auto-translation](https://github.com/msnyder-msft/i18n-auto-translation-msnyder) package for generating first passes on localized strings. The goal in the long run is to then iterate on these auto generated values with professional translations.
 
 ## How to update locales
 
