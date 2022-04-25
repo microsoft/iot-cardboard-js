@@ -15,7 +15,10 @@ import OATGraphCustomEdge from './Internal/OATGraphCustomEdge';
 import {
     ElementsLocalStorageKey,
     TwinsLocalStorageKey,
-    PositionsLocalStorageKey
+    PositionsLocalStorageKey,
+    RelationshipHandleName,
+    ComponentHandleName,
+    ExtendHandleName
 } from '../../Models/Constants/Constants';
 import { getGraphViewerStyles } from './OATGraphViewer.styles';
 import { ElementsContext } from './Internal/OATContext';
@@ -39,6 +42,7 @@ const OATGraphViewer = ({ onElementsUpdate }: OATGraphProps) => {
     const [newModelId, setNewModelId] = useState(0);
     const graphViewerStyles = getGraphViewerStyles();
     const currentNodeId = useRef('');
+    const currentHandleId = useRef('');
 
     useEffect(() => {
         let nextModelId = newModelId;
@@ -88,26 +92,91 @@ const OATGraphViewer = ({ onElementsUpdate }: OATGraphProps) => {
     };
 
     const onNodeDragStop = (evt, node) => {
-        elements.find((element) => element.id === node.id).position =
-            node.position;
-        setElements([...elements]);
+        let targetId = '';
+        const areaDistanceX = 60;
+        const areaDistanceY = 30;
+        elements.forEach((element) => {
+            if (
+                element.id !== node.id &&
+                !element.source &&
+                node.position.x - areaDistanceX < element.position.x &&
+                element.position.x < node.position.x + areaDistanceX &&
+                node.position.y - areaDistanceY < element.position.y &&
+                element.position.y < node.position.y + areaDistanceY
+            ) {
+                targetId = element.id;
+            }
+        });
+        const targetIndex = elements.findIndex(
+            (element) => element.id === targetId
+        );
+        const index = elements.findIndex((element) => element.id === node.id);
+        if (targetIndex >= 0) {
+            const id = node.id;
+            if (node.data.type === elements[targetIndex].data.type) {
+                const params = {
+                    source: node.id,
+                    sourceHandle: ExtendHandleName,
+                    target: targetId,
+                    label: '',
+                    markerEnd: 'arrow',
+                    type: ExtendHandleName,
+                    data: {
+                        name: '',
+                        displayName: '',
+                        id: `${node.id}${ExtendHandleName}`,
+                        type: ExtendHandleName
+                    }
+                };
+                setElements((es) => addEdge(params, es));
+            } else {
+                let sourceId = '';
+                if (node.data.type === ComponentHandleName) {
+                    sourceId = targetId;
+                    targetId = node.id;
+                } else {
+                    sourceId = node.id;
+                }
+                const params = {
+                    source: sourceId,
+                    sourceHandle: ComponentHandleName,
+                    target: targetId,
+                    label: '',
+                    markerEnd: 'arrow',
+                    type: ComponentHandleName,
+                    data: {
+                        name: '',
+                        displayName: '',
+                        id: `${sourceId}${ComponentHandleName}`,
+                        type: ComponentHandleName
+                    }
+                };
+                setElements((es) => addEdge(params, es));
+            }
+            node.id = id;
+        } else {
+            elements[index].position = node.position;
+            setElements([...elements]);
+        }
     };
 
     const onConnectStart = (evt, params) => {
         currentNodeId.current = params.nodeId;
+        currentHandleId.current = params.handleId;
     };
 
     const onConnectStop = (evt) => {
         const params = {
             source: currentNodeId.current,
+            sourceHandle: currentHandleId.current,
             label: '',
-            arrowHeadType: 'arrowclosed',
-            type: 'Relationship',
+            markerEnd: 'arrow',
+            type: currentHandleId.current,
             data: {
                 name: '',
                 displayName: '',
-                id: `${currentNodeId.current}Relationship`,
-                type: 'Relationship'
+                id: `${currentNodeId.current}${currentHandleId.current}`,
+                type: currentHandleId.current
             }
         };
         const target = (evt.path || []).find(
@@ -115,22 +184,54 @@ const OATGraphViewer = ({ onElementsUpdate }: OATGraphProps) => {
         );
         if (target) {
             params.target = target.dataset.id;
-            setElements((els) => addEdge(params, els));
+            const targetType = elements.find(
+                (element) => element.id === params.target
+            ).data.type;
+            if (currentHandleId.current === targetType) {
+                setElements((els) => addEdge(params, els));
+            } else if (
+                currentHandleId.current !== ComponentHandleName &&
+                ComponentHandleName !== targetType
+            ) {
+                setElements((els) => addEdge(params, els));
+            }
         } else {
             const node = elements.find(
                 (element) => element.id === currentNodeId.current
             );
-            const untargetedRelationship = {
-                '@type': 'Relationship',
-                '@id': `${currentNodeId.current}Relationship`,
-                name: '',
-                displayName: ''
-            };
-            node.data['content'] = [
-                ...node.data['content'],
-                untargetedRelationship
-            ];
-            setElements([...elements]);
+            if (currentHandleId.current === RelationshipHandleName) {
+                const untargetedRelationship = {
+                    '@type': currentHandleId.current,
+                    '@id': `${currentNodeId.current}${RelationshipHandleName}`,
+                    name: '',
+                    displayName: ''
+                };
+                node.data['content'] = [
+                    ...node.data['content'],
+                    untargetedRelationship
+                ];
+                setElements([...elements]);
+            } else if (currentHandleId.current === ComponentHandleName) {
+                const name = `${node.data.name}:${ComponentHandleName}`;
+                const id = `${node.id}:${ComponentHandleName}`;
+                const componentRelativePosition = 120;
+                const newNode = {
+                    id: id,
+                    type: 'Interface',
+                    position: {
+                        x: node.position.x - componentRelativePosition,
+                        y: node.position.y + componentRelativePosition
+                    },
+                    data: {
+                        name: name,
+                        type: ComponentHandleName,
+                        id: id,
+                        content: []
+                    }
+                };
+                params.target = id;
+                setElements((es) => [newNode, ...addEdge(params, es)]);
+            }
         }
     };
 
@@ -153,20 +254,23 @@ const OATGraphViewer = ({ onElementsUpdate }: OATGraphProps) => {
 
     const translateOutput = () => {
         const outputObject = elements;
-        if (elements.length > 0) {
-            const nodes = outputObject.reduce((currentNodes, currentNode) => {
-                if (currentNode.position) {
-                    const node = {
-                        '@id': currentNode.id,
-                        '@type': 'Interface',
-                        displayName: currentNode.data.name,
-                        contents: [...currentNode.data.content]
-                    };
-                    currentNodes.push(node);
-                } else if (currentNode.source) {
-                    const node = currentNodes.find(
-                        (element) => element['@id'] === currentNode.source
-                    );
+        const nodes = outputObject.reduce((currentNodes, currentNode) => {
+            if (currentNode.position) {
+                const node = {
+                    '@id': currentNode.id,
+                    '@type': 'Interface',
+                    displayName: currentNode.data.name,
+                    contents: [...currentNode.data.content]
+                };
+                currentNodes.push(node);
+            } else if (currentNode.source) {
+                const sourceNode = currentNodes.find(
+                    (element) => element['@id'] === currentNode.source
+                );
+                const targetNode = currentNodes.find(
+                    (element) => element['@id'] === currentNode.target
+                );
+                if (currentNode.sourceHandle === RelationshipHandleName) {
                     const relationship = {
                         '@type': currentNode.data.type,
                         '@id': currentNode.data.id,
@@ -174,16 +278,28 @@ const OATGraphViewer = ({ onElementsUpdate }: OATGraphProps) => {
                         displayName: currentNode.data.displayName,
                         target: currentNode.target
                     };
-                    node.contents = [...node.contents, relationship];
+                    sourceNode.contents = [
+                        ...sourceNode.contents,
+                        relationship
+                    ];
+                } else if (currentNode.sourceHandle === ComponentHandleName) {
+                    const component = {
+                        '@type': currentNode.data.type,
+                        name: targetNode.displayName,
+                        schema: currentNode.target
+                    };
+                    sourceNode.contents = [...sourceNode.contents, component];
+                } else if (currentNode.sourceHandle === ExtendHandleName) {
+                    sourceNode.extends = currentNode.target;
                 }
-                return currentNodes;
-            }, []);
-            localStorage.setItem(
-                TwinsLocalStorageKey,
-                JSON.stringify({ digitalTwinsModels: nodes })
-            );
-            onElementsUpdate({ digitalTwinsModels: nodes });
-        }
+            }
+            return currentNodes;
+        }, []);
+        localStorage.setItem(
+            TwinsLocalStorageKey,
+            JSON.stringify({ digitalTwinsModels: nodes })
+        );
+        onElementsUpdate({ digitalTwinsModels: nodes });
     };
 
     return (
