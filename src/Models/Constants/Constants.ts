@@ -202,4 +202,4 @@ export const intellisenseMultilineBreakpoint = 40;
 export const CardboardClassNamePrefix = 'cb';
 
 export const globeUrl =
-    'https://baby3dv2.azurewebsites.net/RegionalGlobeScaled.glb';
+    'https://cardboardresources.blob.core.windows.net/cardboard-mock-files/RegionalGlobeScaled.glb';
