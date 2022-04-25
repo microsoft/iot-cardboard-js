@@ -15,7 +15,8 @@ import OATGraphCustomEdge from './Internal/OATGraphCustomEdge';
 import {
     ElementsLocalStorageKey,
     TwinsLocalStorageKey,
-    PositionsLocalStorageKey
+    PositionsLocalStorageKey,
+    UntargetedRelationshipName
 } from '../../Models/Constants/Constants';
 import { getGraphViewerStyles } from './OATGraphViewer.styles';
 import { ElementsContext } from './Internal/OATContext';
@@ -101,7 +102,6 @@ const OATGraphViewer = ({ onElementsUpdate }: OATGraphProps) => {
         const params = {
             source: currentNodeId.current,
             label: '',
-            arrowHeadType: 'arrowclosed',
             type: 'Relationship',
             data: {
                 name: '',
@@ -120,17 +120,33 @@ const OATGraphViewer = ({ onElementsUpdate }: OATGraphProps) => {
             const node = elements.find(
                 (element) => element.id === currentNodeId.current
             );
+            const componentRelativePosition = 120;
+            const name = `${node.data.name}:Untargeted`;
+            const id = `${node.id}:Untargeted`;
             const untargetedRelationship = {
                 '@type': 'Relationship',
-                '@id': `${currentNodeId.current}Relationship`,
+                '@id': id,
                 name: '',
                 displayName: ''
             };
-            node.data['content'] = [
-                ...node.data['content'],
-                untargetedRelationship
-            ];
-            setElements([...elements]);
+            const newNode = {
+                id: id,
+                type: 'Interface',
+                position: {
+                    x: node.position.x - componentRelativePosition,
+                    y: node.position.y + componentRelativePosition
+                },
+                data: {
+                    name: name,
+                    type: UntargetedRelationshipName,
+                    id: id,
+                    source: currentNodeId.current,
+                    content: [untargetedRelationship]
+                }
+            };
+            params.target = id;
+            params.data.type = `${UntargetedRelationshipName}Relationship`;
+            setElements((es) => [...addEdge(params, es), newNode]);
         }
     };
 
@@ -155,7 +171,7 @@ const OATGraphViewer = ({ onElementsUpdate }: OATGraphProps) => {
         const outputObject = elements;
         if (elements.length > 0) {
             const nodes = outputObject.reduce((currentNodes, currentNode) => {
-                if (currentNode.position) {
+                if (currentNode.data.type === 'Interface') {
                     const node = {
                         '@id': currentNode.id,
                         '@type': 'Interface',
@@ -163,7 +179,7 @@ const OATGraphViewer = ({ onElementsUpdate }: OATGraphProps) => {
                         contents: [...currentNode.data.content]
                     };
                     currentNodes.push(node);
-                } else if (currentNode.source) {
+                } else if (currentNode.data.type === 'Relationship') {
                     const node = currentNodes.find(
                         (element) => element['@id'] === currentNode.source
                     );
@@ -175,6 +191,16 @@ const OATGraphViewer = ({ onElementsUpdate }: OATGraphProps) => {
                         target: currentNode.target
                     };
                     node.contents = [...node.contents, relationship];
+                } else if (
+                    currentNode.data.type === UntargetedRelationshipName
+                ) {
+                    const node = currentNodes.find(
+                        (element) => element['@id'] === currentNode.data.source
+                    );
+                    node.contents = [
+                        ...node.contents,
+                        currentNode.data.content
+                    ];
                 }
                 return currentNodes;
             }, []);

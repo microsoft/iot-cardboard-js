@@ -100,14 +100,16 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                     </textPath>
                 </text>
             )}
-
-            <input
-                id="text"
-                name="text"
-                onChange={onNameChange}
-                value={nameText}
-                onBlur={onNameBlur}
-                autoFocus
+            <polygon
+                points={`${targetX - 5},${targetY - 10} ${targetX + 5},${
+                    targetY - 10
+                } ${targetX},${targetY}`}
+                cx={targetX}
+                cy={targetY}
+                fill="#fff"
+                r={3}
+                stroke="#222"
+                strokeWidth={1.5}
             />
         </>
     );
