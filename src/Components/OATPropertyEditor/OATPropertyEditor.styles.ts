@@ -40,7 +40,12 @@ const classNames = {
     propertyItemEntered: `${classPrefix}-property-item-entered`,
     propertyItemDragging: `${classPrefix}-property-item-dragging`,
     propertyItemIconWrap: `${classPrefix}-property-item-icon-wrap`,
+    propertyItemIconWrapMore: `${classPrefix}-property-item-icon-wrap-more`,
+    propertyItemIconMoreSubMenu: `${classPrefix}-property-item-icon-more-sub-menu`,
+    propertyItemIconMoreSubMenuItem: `${classPrefix}-property-item-icon-more-sub-menu-item`,
     propertyItemIcon: `${classPrefix}-property-item-icon`,
+    propertySubMenuItemIcon: `${classPrefix}-property-sub-item-icon`,
+    propertySubMenuItemIconRemove: `${classPrefix}-property-sub-item-icon-remove`,
     addPropertyBar: `${classPrefix}-property-bar`,
     addPropertyBarIcon: `${classPrefix}-property-bar-icon`,
     propertyItemTextField: `${classPrefix}-property-item-text-field`,
@@ -167,7 +172,7 @@ export const getPropertyInspectorStyles = () => {
             classNames.propertiesWrapScroll,
             {
                 overflowY: 'auto',
-                paddingBottom: '100px',
+                paddingBottom: '120px',
                 maxHeight: '500px'
             } as IStyle
         ],
@@ -309,7 +314,7 @@ export const getPropertyInspectorStyles = () => {
             classNames.mapItem,
             {
                 width: '100%',
-                backgroundColor: theme.semanticColors.listBackground,
+                backgroundColor: theme.semanticColors.buttonBackgroundDisabled,
                 padding: '12px 8px',
                 borderBottom: `1px solid ${theme.semanticColors.buttonBackgroundPressed}'`
             } as IStyle
@@ -335,7 +340,7 @@ export const getPropertyInspectorStyles = () => {
             classNames.propertyItem,
             {
                 display: 'grid',
-                gridTemplateColumns: '10% 50% 20% 10% 10%',
+                gridTemplateColumns: '60% 20% 10% 10%',
                 width: '100%',
                 backgroundColor: theme.semanticColors.listBackground,
                 alignItems: 'center',
@@ -373,7 +378,7 @@ export const getPropertyInspectorStyles = () => {
         propertyItemNest: [
             classNames.propertyItemNest,
             {
-                backgroundColor: theme.semanticColors.buttonBackgroundDisabled,
+                backgroundColor: theme.semanticColors.listBackground,
                 alignItems: 'start',
                 padding: '12px 8px',
                 minHeight: '100px',
@@ -388,9 +393,9 @@ export const getPropertyInspectorStyles = () => {
             classNames.propertyItemNested,
             {
                 display: 'grid',
-                gridTemplateColumns: '10% 40% 30% 10% 10%',
+                gridTemplateColumns: '50% 30% 10% 10%',
                 width: '100%',
-                backgroundColor: theme.semanticColors.listBackground,
+                backgroundColor: theme.semanticColors.buttonBackgroundDisabled,
                 alignItems: 'center',
                 padding: '12px 8px',
                 borderBottom: `1px solid ${theme.semanticColors.variantBorder}`,
@@ -403,7 +408,7 @@ export const getPropertyInspectorStyles = () => {
             classNames.propertyItemNestMainItem,
             {
                 display: 'grid',
-                gridTemplateColumns: '20% 50% 30%',
+                gridTemplateColumns: '10% 50% 30% 10%',
                 width: '100%',
                 alignItems: 'center',
                 paddingBottom: '12px',
@@ -418,13 +423,66 @@ export const getPropertyInspectorStyles = () => {
             classNames.propertyItemIconWrap,
             {
                 height: 'min-content',
-                color: theme.semanticColors.menuIcon
+                color: theme.semanticColors.menuIcon,
+                width: '100%'
+            } as IStyle
+        ],
+        propertyItemIconWrapMore: [
+            classNames.propertyItemIconWrapMore,
+            {
+                height: 'min-content',
+                color: theme.semanticColors.menuIcon,
+                position: 'relative'
+            } as IStyle
+        ],
+        propertyItemIconMoreSubMenu: [
+            classNames.propertyItemIconMoreSubMenu,
+            {
+                position: 'absolute',
+                backgroundColor: theme.semanticColors.listBackground,
+                boxShadow: '0px 5px 10px 1px rgba(0,0,0,0.2)',
+                zIndex: 1,
+                right: '0px',
+                top: '100%',
+                display: 'flex',
+                flexDirection: 'column',
+                borderRadius: '4px'
+            } as IStyle
+        ],
+        propertyItemIconMoreSubMenuItem: [
+            classNames.propertyItemIconMoreSubMenuItem,
+            {
+                display: 'flex',
+                flexDirection: 'row',
+                alignItems: 'center',
+                minWidth: 'max-content',
+                width: '100%',
+                padding: '8px',
+                ':hover': {
+                    backgroundColor:
+                        theme.semanticColors.primaryButtonTextDisabled
+                }
             } as IStyle
         ],
         propertyItemIcon: [
             classNames.propertyItemIcon,
             {
                 height: 'min-content'
+            } as IStyle
+        ],
+        propertySubMenuItemIcon: [
+            classNames.propertySubMenuItemIcon,
+            {
+                height: 'min-content',
+                marginRight: '8px'
+            } as IStyle
+        ],
+        propertySubMenuItemIconRemove: [
+            classNames.propertySubMenuItemIconRemove,
+            {
+                height: 'min-content',
+                marginRight: '8px',
+                color: theme.semanticColors.errorIcon
             } as IStyle
         ],
         addPropertyBar: [

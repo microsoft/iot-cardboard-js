@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
     TextField,
     Stack,
@@ -13,6 +13,7 @@ import PropertyListItemNested from './PropertyListItemNested';
 import PropertyListEnumItemNested from './PropertyListEnumItemNested';
 import PropertyListMapItemNested from './PropertyListMapItemNested';
 import { deepCopy } from '../../Models/Services/Utils';
+import PropertyListItemSubMenu from './PropertyListItemSubMenu';
 
 type IPropertyListItem = {
     deleteItem?: (index: number) => any;
@@ -36,6 +37,7 @@ type IPropertyListItem = {
     setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
     setModel?: React.Dispatch<React.SetStateAction<DTDLModel>>;
     setPropertySelectorVisible: React.Dispatch<React.SetStateAction<boolean>>;
+    setTemplates?: React.Dispatch<React.SetStateAction<any>>;
 };
 
 export const PropertyListItemNest = ({
@@ -57,9 +59,12 @@ export const PropertyListItemNest = ({
     setModalOpen,
     setModalBody,
     model,
-    setModel
+    setModel,
+    setTemplates
 }: IPropertyListItem) => {
     const propertyInspectorStyles = getPropertyInspectorStyles();
+    const [subMenuActive, setSubMenuActive] = useState(false);
+    const [collapsed, setCollapsed] = useState(true);
 
     const addPropertyCallback = () => {
         setCurrentPropertyIndex(index);
@@ -74,6 +79,21 @@ export const PropertyListItemNest = ({
             default:
                 return;
         }
+    };
+
+    const handleTemplateAddition = () => {
+        setTemplates((templates) => [...templates, item]);
+    };
+
+    const handleDuplicate = () => {
+        const itemCopy = deepCopy(item);
+        itemCopy.name = `${itemCopy.name}_copy`;
+        itemCopy.displayName = `${itemCopy.displayName}_copy`;
+        itemCopy['@id'] = `${itemCopy['@id']}_copy`;
+
+        const modelCopy = deepCopy(model);
+        modelCopy.contents.push(itemCopy);
+        setModel(modelCopy);
     };
 
     const deleteNestedItem = (parentIndex, index) => {
@@ -120,11 +140,11 @@ export const PropertyListItemNest = ({
         >
             <Stack className={propertyInspectorStyles.propertyItemNestMainItem}>
                 <ActionButton
-                    onClick={() => deleteItem(index)}
+                    onClick={() => setCollapsed(!collapsed)}
                     className={propertyInspectorStyles.propertyItemIconWrap}
                 >
                     <FontIcon
-                        iconName={'ChromeClose'}
+                        iconName={collapsed ? 'ChevronDown' : 'ChevronRight'}
                         className={propertyInspectorStyles.propertyItemIcon}
                     />
                 </ActionButton>
@@ -140,8 +160,32 @@ export const PropertyListItemNest = ({
                     onGetErrorMessage={getErrorMessage}
                 />
                 <Text>{item.schema['@type']}</Text>
+
+                <ActionButton
+                    className={propertyInspectorStyles.propertyItemIconWrapMore}
+                    onClick={() => setSubMenuActive(!subMenuActive)}
+                >
+                    <FontIcon
+                        iconName={'More'}
+                        className={propertyInspectorStyles.propertyItemIcon}
+                    />
+                    {subMenuActive && (
+                        <PropertyListItemSubMenu
+                            deleteItem={deleteItem}
+                            index={index}
+                            subMenuActive={subMenuActive}
+                            handleTemplateAddition={() => {
+                                handleTemplateAddition();
+                            }}
+                            handleDuplicate={() => {
+                                handleDuplicate();
+                            }}
+                        />
+                    )}
+                </ActionButton>
             </Stack>
-            {item.schema['@type'] === 'Object' &&
+            {collapsed &&
+                item.schema['@type'] === 'Object' &&
                 item.schema.fields.length > 0 &&
                 item.schema.fields.map((field, i) => (
                     <PropertyListItemNested
@@ -156,10 +200,14 @@ export const PropertyListItemNest = ({
                         setCurrentPropertyIndex={setCurrentPropertyIndex}
                         setModalOpen={setModalOpen}
                         deleteNestedItem={deleteNestedItem}
+                        setTemplates={setTemplates}
+                        setModel={setModel}
+                        model={model}
                     />
                 ))}
 
-            {item.schema['@type'] === DTDLSchemaType.Enum &&
+            {collapsed &&
+                item.schema['@type'] === DTDLSchemaType.Enum &&
                 item.schema.enumValues.length > 0 &&
                 item.schema.enumValues.map((item, i) => (
                     <PropertyListEnumItemNested
@@ -173,7 +221,7 @@ export const PropertyListItemNest = ({
                     />
                 ))}
 
-            {item.schema['@type'] === DTDLSchemaType.Map && (
+            {collapsed && item.schema['@type'] === DTDLSchemaType.Map && (
                 <PropertyListMapItemNested
                     item={item}
                     model={model}

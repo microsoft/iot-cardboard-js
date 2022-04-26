@@ -747,6 +747,9 @@
         "mapKeyName": "Map Key Name",
         "mapValueName": "Map Value Name",
         "key": "Key",
-        "value": "Value"
+        "value": "Value",
+        "addToTemplate": "Add to template",
+        "duplicate": "Duplicate",
+        "remove": "Remove"
     }
 }
