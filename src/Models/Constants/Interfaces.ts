@@ -27,7 +27,9 @@ import {
     HierarchyNodeType,
     modelActionType,
     FileUploadStatus,
-    ADT3DAddInEventTypes
+    ADT3DAddInEventTypes,
+    GlobeTheme,
+    ViewerModeStyles
 } from './Enums';
 import {
     AdapterReturnType,
@@ -57,9 +59,11 @@ import BlobsData from '../Classes/AdapterDataClasses/BlobsData';
 import {
     I3DScenesConfig,
     IBehavior,
+    IScene,
     ITwinToObjectMapping
 } from '../Types/Generated/3DScenesConfiguration-v1.0.0';
 import { WrapperMode } from '../../Components/3DV/SceneView.types';
+import MockAdapter from '../../Adapters/MockAdapter';
 
 export interface IAction {
     type: string;
@@ -648,6 +652,13 @@ export interface IADTInstancesProps {
     selectedInstance?: string;
     onInstanceChange?: (instanceHostName: string) => void;
 }
+export interface IADT3DGlobeProps {
+    adapter: IBlobAdapter | MockAdapter;
+    title?: string;
+    onSceneClick?: (scene: IScene) => void;
+    globeTheme?: GlobeTheme;
+}
+
 export class ADT3DAddInEventData {
     eventType: ADT3DAddInEventTypes;
     config: I3DScenesConfig;
@@ -706,6 +717,7 @@ export interface IADT3DViewerProps {
 export interface IADT3DViewerMode {
     objectColor: IADTObjectColor;
     isWireframe: boolean;
+    style: ViewerModeStyles;
     background: IADTBackgroundColor;
 }
 
