@@ -5,7 +5,12 @@ import { useTranslation } from 'react-i18next';
 import { IOATGraphCustomNodeProps } from '../../Models/Constants/Interfaces';
 import { getGraphViewerStyles } from '../OATGraphViewer.styles';
 import { ElementsContext } from './OATContext';
-import { UntargetedRelationshipName } from '../../../Models/Constants/Constants';
+import {
+    RelationshipHandleName,
+    ComponentHandleName,
+    ExtendHandleName,
+    UntargetedRelationshipName
+} from '../../../Models/Constants/Constants';
 
 const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
     data,
@@ -149,8 +154,22 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
                     <Handle
                         type="source"
                         position="bottom"
-                        id="Relationship"
-                        className={graphViewerStyles.handle}
+                        id={ComponentHandleName}
+                        className={graphViewerStyles.componentHandle}
+                        isConnectable={isConnectable}
+                    />
+                    <Handle
+                        type="source"
+                        position="bottom"
+                        id={RelationshipHandleName}
+                        className={graphViewerStyles.relationshipHandle}
+                        isConnectable={isConnectable}
+                    />
+                    <Handle
+                        type="source"
+                        position="bottom"
+                        id={ExtendHandleName}
+                        className={graphViewerStyles.extendHandle}
                         isConnectable={isConnectable}
                     />
                 </>

@@ -41,6 +41,12 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
         }
     };
 
+    const onKeyDown = (evt) => {
+        if (evt.key === 'Escape') {
+            onNameBlur();
+        }
+    };
+
     const edgePath = getBezierPath({
         sourceX,
         sourceY,
@@ -63,8 +69,8 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                 style={style}
                 className={graphViewerStyles.edgePath}
                 d={edgePath}
-                markerEnd={markerEnd}
                 onClick={onNameClick}
+                markerEnd={markerEnd}
             />
             {nameEditor && (
                 <foreignObject
@@ -81,6 +87,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                             onChange={onNameChange}
                             value={nameText}
                             onBlur={onNameBlur}
+                            onKeyDown={onKeyDown}
                             autoFocus
                         />
                     </body>
