@@ -27,12 +27,8 @@ const OATHeader = ({ elements }: OATHeaderProps) => {
         const zip = new JSZip();
         for (const element of elements.digitalTwinsModels) {
             let fileName = element['@id'];
-            fileName = fileName.replace(/;/g, '-');
-            fileName = fileName.replace(/:/g, '_');
-            zip.file(
-                `${encodeURIComponent(fileName)}.json`,
-                JSON.stringify(element)
-            );
+            fileName = fileName.replace(/;/g, '-').replace(/:/g, '_');
+            zip.file(`${fileName}.json`, JSON.stringify(element));
         }
 
         zip.generateAsync({ type: 'blob' }).then((content) => {
