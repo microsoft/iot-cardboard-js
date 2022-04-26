@@ -20,12 +20,19 @@ const OATHeader = ({ elements }: OATHeaderProps) => {
         link.innerHTML = '';
         document.body.appendChild(link);
         link.click();
+        link.parentNode.removeChild(link);
     };
 
     const handleDownloadClick = () => {
         const zip = new JSZip();
         for (const element of elements.digitalTwinsModels) {
-            zip.file(`${element.displayName}.json`, JSON.stringify(element));
+            let fileName = element['@id'];
+            fileName = fileName.replace(/;/g, '-');
+            fileName = fileName.replace(/:/g, '_');
+            zip.file(
+                `${encodeURIComponent(fileName)}.json`,
+                JSON.stringify(element)
+            );
         }
 
         zip.generateAsync({ type: 'blob' }).then((content) => {
