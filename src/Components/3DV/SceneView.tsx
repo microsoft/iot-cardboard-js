@@ -1,6 +1,5 @@
 import * as BABYLON from '@babylonjs/core/Legacy/legacy';
 import '@babylonjs/loaders';
-import * as SERIALIZE from '@babylonjs/serializers';
 import * as GUI from '@babylonjs/gui';
 import { ProgressIndicator, useTheme } from '@fluentui/react';
 import React, {
@@ -59,7 +58,24 @@ function debounce(func: any, timeout = 300) {
 }
 
 let dummyProgress = 0; // Progress doesn't work for GLBs so fake it
-const modelCache: File[] = [];
+
+const getModifiedTime = (url): Promise<string> => {
+    const promise = new Promise<string>((resolve) => {
+        // HEAD can give a CORS error
+        fetch(url, { method: 'GET', headers: { range: 'bytes=1-2' } })
+            .then((response) => {
+                const dt = new Date(response.headers.get('Last-Modified'));
+                if (dt.toString() === 'Invalid Date') {
+                    resolve('');
+                }
+                resolve(dt.toISOString());
+            })
+            .catch(() => {
+                resolve('');
+            });
+    });
+    return promise;
+};
 
 async function loadPromise(
     root: string,
@@ -68,19 +84,15 @@ async function loadPromise(
     onProgress: (event: BABYLON.ISceneLoaderProgressEvent) => void,
     onError: (scene: BABYLON.Scene, message: string, exception?: any) => void
 ): Promise<BABYLON.Scene> {
-    let tempRoot = root;
-    let tempFile: string | File = filename;
-    const model: File = modelCache[root + filename];
-    if (model) {
-        tempRoot = '';
-        tempFile = model;
-    }
-
+    let mod = await getModifiedTime(root + filename);
+    mod = mod ? '?' + mod : '';
     return new Promise((resolve) => {
+        BABYLON.Database.IDBStorageEnabled = true;
+        engine.disableManifestCheck = true;
         BABYLON.SceneLoader.ShowLoadingScreen = false;
         BABYLON.SceneLoader.Load(
-            tempRoot,
-            tempFile,
+            root,
+            filename + mod,
             engine,
             (scene) => {
                 resolve(scene);
@@ -167,7 +179,6 @@ function SceneView(props: ISceneViewProp, ref) {
     const prevHideUnzoomedRef = useRef<number>(undefined);
     const materialCacheRef = useRef<any[]>([]);
     const pointerActive = useRef(false);
-    const [isSerializing, setIsSerializing] = useState(false);
     const initialCameraRadiusRef = useRef(0);
     const zoomedCameraRadiusRef = useRef(0);
     const zoomedMeshesRef = useRef([]);
@@ -246,24 +257,8 @@ function SceneView(props: ISceneViewProp, ref) {
                 advancedTextureRef.current = GUI.AdvancedDynamicTexture.CreateFullscreenUI(
                     'UI'
                 );
-                sortMeshesOnLoad();
 
-                // Scene has been created and loaded, export the scene for the cache before anyone changes it
-                if (!modelCache[url]) {
-                    sceneRef.current.render();
-                    const filename = createGUID();
-                    setIsSerializing(sceneRef.current.meshes.length > 500); // This may take a while
-                    const glb = await SERIALIZE.GLTF2Export.GLBAsync(
-                        sceneRef.current,
-                        filename
-                    );
-                    setIsSerializing(false);
-                    // glb.downloadFiles();     // Uncomment this for debug to get the GLB surfaced in your browser downloads
-                    modelCache[url] = new File(
-                        [glb.glTFFiles[filename + '.glb']],
-                        filename + '.glb'
-                    );
-                }
+                sortMeshesOnLoad();
 
                 sceneRef.current.clearColor = new BABYLON.Color4(0, 0, 0, 0);
 
@@ -1436,24 +1431,14 @@ function SceneView(props: ISceneViewProp, ref) {
                 id={canvasId}
                 touch-action="none"
             />
-            {isLoading &&
-                !isSerializing &&
-                url &&
-                (!modelCache[url] || modelCache[url].size > 10000000) && (
-                    <ProgressIndicator
-                        styles={getProgressStyles(theme)}
-                        description={`Loading model (${Math.floor(
-                            loadProgress * 100
-                        )}%)...`}
-                        percentComplete={loadProgress}
-                        barHeight={10}
-                    />
-                )}
-            {isSerializing && (
+            {isLoading && url && (
                 <ProgressIndicator
                     styles={getProgressStyles(theme)}
-                    description={`Saving model...`}
-                    barHeight={0}
+                    description={`Loading model (${Math.floor(
+                        loadProgress * 100
+                    )}%)...`}
+                    percentComplete={loadProgress}
+                    barHeight={10}
                 />
             )}
             {isLoading === undefined && (
