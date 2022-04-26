@@ -83,6 +83,24 @@ function hexToColor4(hex: string): BABYLON.Color4 {
 
 let dummyProgress = 0; // Progress doesn't work for GLBs so fake it
 
+const getModifiedTime = (url): Promise<string> => {
+    const promise = new Promise<string>((resolve) => {
+        // HEAD can give a CORS error
+        fetch(url, { method: 'GET', headers: { range: 'bytes=1-2' } })
+            .then((response) => {
+                const dt = new Date(response.headers.get('Last-Modified'));
+                if (dt.toString() === 'Invalid Date') {
+                    resolve('');
+                }
+                resolve(dt.toISOString());
+            })
+            .catch(() => {
+                resolve('');
+            });
+    });
+    return promise;
+};
+
 async function loadPromise(
     root: string,
     filename: string,
@@ -90,12 +108,15 @@ async function loadPromise(
     onProgress: (event: BABYLON.ISceneLoaderProgressEvent) => void,
     onError: (scene: BABYLON.Scene, message: string, exception?: any) => void
 ): Promise<BABYLON.Scene> {
+    let mod = await getModifiedTime(root + filename);
+    mod = mod ? '?' + mod : '';
     return new Promise((resolve) => {
         BABYLON.Database.IDBStorageEnabled = true;
+        engine.disableManifestCheck = true;
         BABYLON.SceneLoader.ShowLoadingScreen = false;
         BABYLON.SceneLoader.Load(
             root,
-            filename,
+            filename + mod,
             engine,
             (scene) => {
                 resolve(scene);
