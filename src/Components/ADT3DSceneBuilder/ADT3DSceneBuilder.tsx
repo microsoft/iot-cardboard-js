@@ -702,11 +702,9 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
                             objectColorUpdated={objectColorUpdated}
                             adapter={adapter as IADTAdapter}
                             modelUrl={
-                                state.config.configuration?.scenes[
-                                    state.config.configuration?.scenes.findIndex(
-                                        (s) => s.id === sceneId
-                                    )
-                                ]?.assets[0].url
+                                state.config.configuration?.scenes.find(
+                                    (x) => x.id === sceneId
+                                )?.assets[0].url
                             }
                             onMeshClicked={onMeshClicked}
                             onMeshHovered={onMeshHovered}
