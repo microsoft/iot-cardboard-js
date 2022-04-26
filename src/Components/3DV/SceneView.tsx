@@ -108,6 +108,7 @@ async function loadPromise(
     onProgress: (event: BABYLON.ISceneLoaderProgressEvent) => void,
     onError: (scene: BABYLON.Scene, message: string, exception?: any) => void
 ): Promise<BABYLON.Scene> {
+    
     let mod = await getModifiedTime(root + filename);
     mod = mod ? '?' + mod : '';
     return new Promise((resolve) => {
