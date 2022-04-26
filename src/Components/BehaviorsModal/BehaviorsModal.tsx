@@ -53,7 +53,7 @@ enum BehaviorModalPivotKey {
 
 const BehaviorsModal: React.FC<IBehaviorsModalProps> = ({
     onClose,
-    behaviors,
+    behaviors = [],
     title,
     twins,
     mode = BehaviorModalMode.viewer,
@@ -72,6 +72,12 @@ const BehaviorsModal: React.FC<IBehaviorsModalProps> = ({
     );
 
     const styles = getStyles(theme, mode);
+    const behaviorsPresent = behaviors?.length > 0;
+
+    // If no adapter given & no behaviors present, hide modal
+    if (!adapter && !behaviorsPresent) {
+        return null;
+    }
 
     return (
         <BehaviorsModalContext.Provider value={{ twins, mode, activeWidgetId }}>
@@ -107,43 +113,48 @@ const BehaviorsModal: React.FC<IBehaviorsModalProps> = ({
                                     />
                                 )}
                             </div>
-                            {mode === BehaviorModalMode.viewer && (
-                                <div className={styles.modalSubHeaderPivot}>
-                                    <Pivot
-                                        aria-label={t(
-                                            'behaviorsModal.behaviorPopoverMode'
-                                        )}
-                                        selectedKey={activePivot}
-                                        onLinkClick={(item) =>
-                                            setActivePivot(
-                                                item.props
-                                                    .itemKey as BehaviorModalPivotKey
-                                            )
-                                        }
-                                        styles={pivotStyles}
-                                    >
-                                        <PivotItem
-                                            headerText={t(
-                                                'behaviorsModal.state'
+                            {/* Show pivots if both behaviors & adapter present */}
+                            {mode === BehaviorModalMode.viewer &&
+                                behaviorsPresent &&
+                                adapter && (
+                                    <div className={styles.modalSubHeaderPivot}>
+                                        <Pivot
+                                            aria-label={t(
+                                                'behaviorsModal.behaviorPopoverMode'
                                             )}
-                                            itemKey={
-                                                BehaviorModalPivotKey.State
+                                            selectedKey={activePivot}
+                                            onLinkClick={(item) =>
+                                                setActivePivot(
+                                                    item.props
+                                                        .itemKey as BehaviorModalPivotKey
+                                                )
                                             }
-                                        ></PivotItem>
-                                        <PivotItem
-                                            headerText={t(
-                                                'behaviorsModal.allProperties'
-                                            )}
-                                            itemKey={
-                                                BehaviorModalPivotKey.Properties
-                                            }
-                                        ></PivotItem>
-                                    </Pivot>
-                                </div>
-                            )}
+                                            styles={pivotStyles}
+                                        >
+                                            <PivotItem
+                                                headerText={t(
+                                                    'behaviorsModal.state'
+                                                )}
+                                                itemKey={
+                                                    BehaviorModalPivotKey.State
+                                                }
+                                            ></PivotItem>
+                                            <PivotItem
+                                                headerText={t(
+                                                    'behaviorsModal.allProperties'
+                                                )}
+                                                itemKey={
+                                                    BehaviorModalPivotKey.Properties
+                                                }
+                                            ></PivotItem>
+                                        </Pivot>
+                                    </div>
+                                )}
                         </div>
                         <div className={styles.modalContents}>
+                            {/* Show state tab only if behaviors are present */}
                             {activePivot === BehaviorModalPivotKey.State &&
+                                behaviorsPresent &&
                                 behaviors.map((behavior, idx) => {
                                     return (
                                         <div key={behavior.id}>
@@ -163,7 +174,10 @@ const BehaviorsModal: React.FC<IBehaviorsModalProps> = ({
                                         </div>
                                     );
                                 })}
-                            {activePivot === BehaviorModalPivotKey.Properties &&
+                            {/* Fallback to properties tab if behaviors not present (filtered out by layers) */}
+                            {(activePivot ===
+                                BehaviorModalPivotKey.Properties ||
+                                !behaviorsPresent) &&
                                 adapter && (
                                     <PropertyInspector
                                         adapter={adapter}

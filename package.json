@@ -14,7 +14,6 @@
         "@babylonjs/core": "^5.1.0",
         "@babylonjs/gui": "^5.1.0",
         "@babylonjs/loaders": "^5.1.0",
-        "@babylonjs/serializers": "^5.1.0",
         "@fluentui/react": "^8.16.0",
         "@types/react-transition-group": "^4.4.2",
         "@xeokit/xeokit-sdk": "^1.8.0-alpha.3",
@@ -125,7 +124,7 @@
     },
     "overrides": {
         "minimist@1.2.5": "1.2.6"
-     },
+    },
     "scripts": {
         "build": "npm run clean && node -max-old-space-size=8192 node_modules/rollup/dist/bin/rollup -c rollup.config.js && npm run post-build",
         "clean": "shx rm -rf dist && shx rm -rf build_artifacts",
@@ -149,7 +148,7 @@
         "stylelint:check": "stylelint \"src/**/*.scss\"",
         "lint": "npm run prettier:fix && npm run stylelint:fix",
         "lint:check": "npm run eslint:check && npm run prettier:check && npm run stylelint:check",
-        "generate": "node ./tools/generate-card-template.js",
+        "generate": "node ./tools/generate-component-template.js",
         "chromatic": "chromatic --project-token CHROMATIC_PROJECT_TOKEN --exit-zero-on-changes"
     },
     "author": "",
