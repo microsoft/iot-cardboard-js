@@ -16,9 +16,11 @@ import {
     ElementsLocalStorageKey,
     TwinsLocalStorageKey,
     PositionsLocalStorageKey,
+    UntargetedRelationshipName,
     RelationshipHandleName,
     ComponentHandleName,
-    ExtendHandleName
+    ExtendHandleName,
+    InterfaceType
 } from '../../Models/Constants/Constants';
 import { getGraphViewerStyles } from './OATGraphViewer.styles';
 import { ElementsContext } from './Internal/OATContext';
@@ -79,11 +81,11 @@ const OATGraphViewer = ({ onElementsUpdate }: OATGraphProps) => {
         const id = `${idClassBase}model${newModelId}`;
         const newNode = {
             id: id,
-            type: 'Interface',
+            type: InterfaceType,
             position: { x: 100, y: 100 },
             data: {
                 name: name,
-                type: 'Interface',
+                type: InterfaceType,
                 id: id,
                 content: []
             }
@@ -119,7 +121,6 @@ const OATGraphViewer = ({ onElementsUpdate }: OATGraphProps) => {
                     sourceHandle: ExtendHandleName,
                     target: targetId,
                     label: '',
-                    markerEnd: 'arrow',
                     type: ExtendHandleName,
                     data: {
                         name: '',
@@ -142,7 +143,6 @@ const OATGraphViewer = ({ onElementsUpdate }: OATGraphProps) => {
                     sourceHandle: ComponentHandleName,
                     target: targetId,
                     label: '',
-                    markerEnd: 'arrow',
                     type: ComponentHandleName,
                     data: {
                         name: '',
@@ -199,25 +199,41 @@ const OATGraphViewer = ({ onElementsUpdate }: OATGraphProps) => {
             const node = elements.find(
                 (element) => element.id === currentNodeId.current
             );
+            const componentRelativePosition = 120;
+
             if (currentHandleId.current === RelationshipHandleName) {
+                const name = `${node.data.name}:${UntargetedRelationshipName}`;
+                const id = `${node.id}:${UntargetedRelationshipName}`;
                 const untargetedRelationship = {
-                    '@type': currentHandleId.current,
-                    '@id': `${currentNodeId.current}${RelationshipHandleName}`,
+                    '@type': RelationshipHandleName,
+                    '@id': id,
                     name: '',
                     displayName: ''
                 };
-                node.data['content'] = [
-                    ...node.data['content'],
-                    untargetedRelationship
-                ];
-                setElements([...elements]);
+                const newNode = {
+                    id: id,
+                    type: InterfaceType,
+                    position: {
+                        x: node.position.x - componentRelativePosition,
+                        y: node.position.y + componentRelativePosition
+                    },
+                    data: {
+                        name: name,
+                        type: UntargetedRelationshipName,
+                        id: id,
+                        source: currentNodeId.current,
+                        content: [untargetedRelationship]
+                    }
+                };
+                params.target = id;
+                params.data.type = `${UntargetedRelationshipName}`;
+                setElements((es) => [...addEdge(params, es), newNode]);
             } else if (currentHandleId.current === ComponentHandleName) {
                 const name = `${node.data.name}:${ComponentHandleName}`;
                 const id = `${node.id}:${ComponentHandleName}`;
-                const componentRelativePosition = 120;
                 const newNode = {
                     id: id,
-                    type: 'Interface',
+                    type: InterfaceType,
                     position: {
                         x: node.position.x - componentRelativePosition,
                         y: node.position.y + componentRelativePosition
@@ -255,43 +271,61 @@ const OATGraphViewer = ({ onElementsUpdate }: OATGraphProps) => {
     const translateOutput = () => {
         const outputObject = elements;
         const nodes = outputObject.reduce((currentNodes, currentNode) => {
-            if (currentNode.position) {
+            if (currentNode.data.type === InterfaceType) {
                 const node = {
                     '@id': currentNode.id,
-                    '@type': 'Interface',
+                    '@type': InterfaceType,
                     displayName: currentNode.data.name,
                     contents: [...currentNode.data.content]
                 };
                 currentNodes.push(node);
-            } else if (currentNode.source) {
+            } else if (currentNode.data.type === RelationshipHandleName) {
                 const sourceNode = currentNodes.find(
                     (element) => element['@id'] === currentNode.source
                 );
-                const targetNode = currentNodes.find(
-                    (element) => element['@id'] === currentNode.target
+                const relationship = {
+                    '@type': currentNode.data.type,
+                    '@id': currentNode.data.id,
+                    name: currentNode.data.name,
+                    displayName: currentNode.data.displayName,
+                    target: currentNode.target
+                };
+                sourceNode.contents = [...sourceNode.contents, relationship];
+            } else if (currentNode.data.type === ExtendHandleName) {
+                const sourceNode = currentNodes.find(
+                    (element) => element['@id'] === currentNode.source
                 );
-                if (currentNode.sourceHandle === RelationshipHandleName) {
-                    const relationship = {
-                        '@type': currentNode.data.type,
-                        '@id': currentNode.data.id,
-                        name: currentNode.data.name,
-                        displayName: currentNode.data.displayName,
-                        target: currentNode.target
-                    };
-                    sourceNode.contents = [
-                        ...sourceNode.contents,
-                        relationship
-                    ];
-                } else if (currentNode.sourceHandle === ComponentHandleName) {
-                    const component = {
-                        '@type': currentNode.data.type,
-                        name: targetNode.displayName,
-                        schema: currentNode.target
-                    };
-                    sourceNode.contents = [...sourceNode.contents, component];
-                } else if (currentNode.sourceHandle === ExtendHandleName) {
-                    sourceNode.extends = currentNode.target;
-                }
+                sourceNode.extends = currentNode.target;
+            } else if (
+                currentNode.data.type === ComponentHandleName &&
+                currentNode.type === ComponentHandleName
+            ) {
+                const sourceNode = currentNodes.find(
+                    (element) => element['@id'] === currentNode.source
+                );
+                const targetNode = elements.find(
+                    (element) => element['id'] === currentNode.target
+                );
+                const component = {
+                    '@type': currentNode.data.type,
+                    name: targetNode.displayName,
+                    schema: currentNode.target
+                };
+                sourceNode.contents = [...sourceNode.contents, component];
+            } else if (
+                currentNode.data.type === UntargetedRelationshipName &&
+                currentNode.type === RelationshipHandleName
+            ) {
+                const sourceNode = currentNodes.find(
+                    (element) => element['@id'] === currentNode.source
+                );
+                const relationship = {
+                    '@type': currentNode.data.type,
+                    '@id': currentNode.data.id,
+                    name: currentNode.data.name,
+                    displayName: currentNode.data.displayName
+                };
+                sourceNode.contents = [...sourceNode.contents, relationship];
             }
             return currentNodes;
         }, []);
