@@ -213,3 +213,9 @@ export enum BehaviorModalMode {
     viewer = 'viewer',
     preview = 'preview'
 }
+
+export enum GlobeTheme {
+    Blue = 'Blue',
+    Grey = 'Grey',
+    Yellow = 'Yellow'
+}
