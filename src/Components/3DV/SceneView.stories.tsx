@@ -2,6 +2,7 @@ import React from 'react';
 import SceneView from './SceneView';
 import { Marker } from '../../Models/Classes/SceneView.types';
 import { ModelLabel } from '../ModelLabel/ModelLabel';
+import { createGUID } from '../../Models/Services/Utils';
 
 export default {
     title: 'Components/SceneView',
@@ -11,46 +12,55 @@ export default {
 export const Globe = () => {
     const markers: Marker[] = [
         {
+            id: 'ID' + createGUID(),
             name: 'Ibhayi',
             latitude: -33.872,
             longitude: 25.571
         },
         {
+            id: 'ID' + createGUID(),
             name: 'Ponta Grossa',
             latitude: -25.0994,
             longitude: -50.1583
         },
         {
+            id: 'ID' + createGUID(),
             name: 'Putian',
             latitude: 25.433,
             longitude: 119.0167
         },
         {
+            id: 'ID' + createGUID(),
             name: 'Magor',
             latitude: 51.5804,
             longitude: -2.833
         },
         {
+            id: 'ID' + createGUID(),
             name: 'Ningbo',
             latitude: 29.8667,
             longitude: 121.55
         },
         {
+            id: 'ID' + createGUID(),
             name: 'Passa Fundo',
             latitude: -28.2624,
             longitude: -52.409
         },
         {
+            id: 'ID' + createGUID(),
             name: 'Tocancipa',
             latitude: 4.9667,
             longitude: -73.9167
         },
         {
+            id: 'ID' + createGUID(),
             name: 'Leuven',
             latitude: 50.8795,
             longitude: 4.7005
         },
         {
+            id: 'ID' + createGUID(),
             name: 'Uberlandia',
             latitude: -18.9231,
             longitude: -48.2886

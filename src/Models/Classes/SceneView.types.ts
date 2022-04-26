@@ -44,6 +44,7 @@ export interface SelectedMesh {
 
 export class Marker {
     name: string;
+    id: string;
     position?: Vector3;
     attachedMeshIds?: string[];
     showIfOccluded?: boolean;

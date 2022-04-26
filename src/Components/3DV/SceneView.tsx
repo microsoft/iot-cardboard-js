@@ -37,6 +37,7 @@ import {
 import { getProgressStyles, getSceneViewStyles } from './SceneView.styles';
 import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
 import { sleep } from '../AutoComplete/AutoComplete';
+import { ModelGroupLabel } from '../ModelGroupLabel/ModelGroupLabel';
 
 const debug = false;
 
@@ -191,7 +192,7 @@ function SceneView(props: ISceneViewProp, ref) {
     const zoomedMeshesRef = useRef([]);
 
     const [markersWithLocation, setMarkersWithLocation] = useState<
-        { marker: Marker; left: number; top: number }[]
+        { marker: Marker; left: number; top: number; isGroup?: boolean }[]
     >([]);
 
     // These next two lines are important! The handlers change very frequently (every parent render)
@@ -949,21 +950,115 @@ function SceneView(props: ISceneViewProp, ref) {
     }, [markers, modelUrl, isLoading]);
 
     const createMarkersWithLocation = () => {
-        const markersLocation = [];
+        const markersLocation: {
+            marker: Marker;
+            top: number;
+            left: number;
+            isGroup?: boolean;
+        }[] = [];
         if (markers) {
-            for (const marker of markers) {
+            markers.forEach((marker) => {
                 const position = getMarkerPosition(marker);
                 if (position) {
-                    markersLocation.push({
-                        marker: marker,
-                        left: position.left,
-                        top: position.top
-                    });
+                    // create first group
+                    if (markersLocation.length === 0) {
+                        markersLocation.push({
+                            marker: marker,
+                            left: position?.left,
+                            top: position?.top
+                        });
+                    } else {
+                        const element = markersLocation.find(
+                            (m) =>
+                                m?.left === position?.left &&
+                                m?.top === position?.top
+                        );
+
+                        // add to existing group
+                        if (element) {
+                            // add to group
+                            if (!element.isGroup) {
+                                const groupItems = [];
+                                groupItems.push({ label: element.marker.name });
+                                groupItems.push({ label: marker.name });
+                                const groupedElement: JSX.Element = (
+                                    <ModelGroupLabel
+                                        label={'2'}
+                                        groupItems={groupItems}
+                                    />
+                                );
+                                element.marker.UIElement = groupedElement;
+                            } else {
+                                const groupItems =
+                                    element.marker.UIElement.props.groupItems ||
+                                    [];
+                                groupItems.push({ label: marker.name });
+                                const groupedElement: JSX.Element = (
+                                    <ModelGroupLabel
+                                        label={groupItems.length}
+                                        groupItems={groupItems}
+                                    />
+                                );
+                                element.marker.UIElement = groupedElement;
+                            }
+                        } else {
+                            // create new group
+                            markersLocation.push({
+                                marker: marker,
+                                isGroup: true,
+                                left: position?.left,
+                                top: position?.top
+                            });
+                        }
+                    }
                 }
-            }
+            });
 
             setMarkersWithLocation(markersLocation);
         }
+    };
+
+    const elementsOverlap = (el1, el2) => {
+        const domRect1 = el1?.getBoundingClientRect();
+        const domRect2 = el2?.getBoundingClientRect();
+
+        if (domRect1 && domRect2) {
+            return !(
+                domRect1.top > domRect2.bottom ||
+                domRect1.right < domRect2.left ||
+                domRect1.bottom < domRect2.top ||
+                domRect1.left > domRect2.right
+            );
+        } else return false;
+    };
+
+    const checkIfMarkersOverlap = () => {
+        const toHide = [];
+        for (let i = 0; i < markersWithLocation?.length; i++) {
+            for (let k = i + 1; k < markersWithLocation?.length; k++) {
+                if (
+                    elementsOverlap(
+                        document.getElementById(
+                            markersWithLocation[i].marker.id
+                        ),
+                        document.getElementById(
+                            markersWithLocation[k].marker.id
+                        )
+                    )
+                ) {
+                    toHide.push(markersWithLocation[i]);
+                }
+            }
+        }
+
+        toHide?.forEach((hide) => {
+            setMarkersWithLocation(
+                markersWithLocation.filter(
+                    (markerWithLocation) =>
+                        markerWithLocation.marker.id !== hide.marker.id
+                )
+            );
+        });
     };
 
     const getMarkerPosition = (marker: Marker) => {
@@ -1411,7 +1506,6 @@ function SceneView(props: ISceneViewProp, ref) {
                     <div
                         key={index}
                         style={{
-                            color: 'white',
                             position: 'absolute',
                             left: markerWithLocation.left,
                             top: markerWithLocation.top
