@@ -12,7 +12,7 @@ type IPropertyListItem = {
     index?: number;
     draggingProperty?: boolean;
     getItemClassName?: (index: number) => any;
-    getErrorMessage?: (value: string) => string;
+    getErrorMessage?: (value: string, index?: number) => string;
     handleDragEnter?: (event: any, item: any) => any;
     handleDragEnterExternalItem?: (index: number) => any;
     handleDragStart?: (event: any, item: any) => any;
@@ -57,12 +57,12 @@ export const PropertyListItem = ({
             <TextField
                 className={propertyInspectorStyles.propertyItemTextField}
                 borderless
-                placeholder={item.name}
+                value={item.name}
                 validateOnFocusOut
-                onChange={() => {
+                onChange={(evt, value) => {
                     setCurrentPropertyIndex(index);
+                    getErrorMessage(value, index);
                 }}
-                onGetErrorMessage={getErrorMessage}
             />
             <Text>{item.schema}</Text>
             <ActionButton

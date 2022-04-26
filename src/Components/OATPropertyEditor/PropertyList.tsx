@@ -126,15 +126,24 @@ export const PropertyList = ({
         enteredPropertyRef.current = i;
     };
 
-    const handlePropertyNameChange = (value) => {
-        model.contents[currentPropertyIndex].name = value;
+    const handlePropertyNameChange = (value, index) => {
+        setModel((model) => {
+            const newModel = deepCopy(model);
+            if (index === undefined) {
+                newModel.contents[currentPropertyIndex].name = value;
+            } else {
+                newModel.contents[index].name = value;
+            }
+            return newModel;
+        });
     };
 
-    const getErrorMessage = (value) => {
+    const getErrorMessage = (value, index) => {
+        debugger; //eslint-disable-line
         const find = model.contents.find((item) => item.name === value);
 
         if (!find && value !== '') {
-            handlePropertyNameChange(value);
+            handlePropertyNameChange(value, index);
         }
 
         return find
