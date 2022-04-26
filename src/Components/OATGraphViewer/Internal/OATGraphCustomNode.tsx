@@ -16,7 +16,9 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
     const [idEditor, setIdEditor] = useState(false);
     const [idText, setIdText] = useState(data.id);
     const theme = useTheme();
-    const { elements, setElements } = useContext(ElementsContext);
+    const { elements, setElements, setModel, setCurrentNode } = useContext(
+        ElementsContext
+    );
     const graphViewerStyles = getGraphViewerStyles();
 
     const onNameChange = (evt) => {
@@ -24,6 +26,7 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
     };
 
     const onNameClick = () => {
+        setNameText(data.name);
         setNameEditor(true);
     };
 
@@ -34,6 +37,14 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
                 (element) => element.id === data.id
             ).data.name = nameText;
             setElements([...elements]);
+            const modelUpdated = {
+                '@id': data.id,
+                '@type': data.type,
+                '@context': data.context,
+                displayName: nameText,
+                contents: data.content
+            };
+            setModel(modelUpdated);
         }
     };
 
@@ -58,6 +69,15 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
             elements.find((element) => element.id === prevId).data.id = idText;
             elements.find((element) => element.id === prevId).id = idText;
             setElements([...elements]);
+            const modelUpdated = {
+                '@id': idText,
+                '@type': data.type,
+                '@context': data.context,
+                displayName: data.name,
+                contents: data.content
+            };
+            setCurrentNode(idText);
+            setModel(modelUpdated);
         }
     };
 

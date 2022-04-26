@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import OATHeader from '../../Components/OATHeader/OATHeader';
 import OATModelList from '../../Components/OATModelList/OATModelList';
 import OATGraphViewer from '../../Components/OATGraphViewer/OATGraphViewer';
@@ -72,7 +72,11 @@ const OATEditorPage = ({ theme }) => {
                 }
             >
                 <OATModelList />
-                <OATGraphViewer onElementsUpdate={handleElementsUpdate} />
+                <OATGraphViewer
+                    onElementsUpdate={handleElementsUpdate}
+                    model={model}
+                    setModel={setModel}
+                />
                 <OATPropertyEditor
                     model={model}
                     setModel={setModel}
