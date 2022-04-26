@@ -39,25 +39,20 @@ import {
     ValidAdtHostSuffixes,
     ValidContainerHostSuffixes
 } from '../../Models/Constants/Constants';
-import { IResourceInstance } from '../../Models/Constants/Interfaces';
+import { IAzureResource } from '../../Models/Constants/Interfaces';
 
 const EnvironmentPicker = (props: EnvironmentPickerProps) => {
     const { t } = useTranslation();
     const [environments, setEnvironments] = useState<
-        Array<string | IResourceInstance>
+        Array<string | IAzureResource>
     >([]);
     const [selectedEnvironment, setSelectedEnvironment] = useState<
-        string | IResourceInstance
+        string | IAzureResource
     >('');
-    const adtReaderAndWriterGuid = [
-        'd57506d4-4c8d-48b1-8587-93c323f6a5a3',
-        'bcd981a7-7f74-457b-83e1-cceb9e632ffe'
-    ];
-    const adtPath = 'Microsoft.DigitalTwins/digitalTwinsInstances';
     const [containers, setContainers] = useState<Array<string>>([]);
     const [selectedContainerUrl, setSelectedContainerUrl] = useState('');
     const [environmentToEdit, setEnvironmentToEdit] = useState<
-        string | IResourceInstance
+        string | IAzureResource
     >('');
     const [containerUrlToEdit, setContainerUrlToEdit] = useState('');
     const [isDialogHidden, { toggle: toggleIsDialogHidden }] = useBoolean(true);
@@ -101,11 +96,7 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
     };
 
     const environmentsState = useAdapter({
-        adapterMethod: () =>
-            props.adapter.getResourceInstancesWithRoleId(
-                adtReaderAndWriterGuid,
-                adtPath
-            ),
+        adapterMethod: () => props.adapter.getADTInstances(),
         refetchDependencies: [],
         isAdapterCalledOnMount: false
     });
@@ -209,7 +200,7 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
 
     useEffect(() => {
         if (!environmentsState.adapterResult.hasNoData()) {
-            const subscriptionEnvironments: Array<IResourceInstance> =
+            const subscriptionEnvironments: Array<IAzureResource> =
                 environmentsState.adapterResult.result?.data;
             setEnvironments(
                 //merge localstorage environments and environments from subscription in case both are enabled
@@ -217,14 +208,14 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                     subscriptionEnvironments.filter(
                         (env) =>
                             isValidUrlStr(
-                                'https://' + env.hostName,
+                                'https://' + env?.hostName,
                                 'environment'
                             ) &&
                             environments.findIndex(
-                                (e: string | IResourceInstance) =>
+                                (e: string | IAzureResource) =>
                                     typeof e === 'string'
-                                        ? e === 'https://' + env.hostName
-                                        : e.hostName === env.hostName
+                                        ? e === 'https://' + env?.hostName
+                                        : e?.hostName === env?.hostName
                             ) === -1
                     )
                 )
@@ -235,7 +226,7 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
 
     const environmentOptions: Array<IComboBoxOption> = useMemo(
         () =>
-            environments.map((e: string | IResourceInstance, idx) =>
+            environments.map((e: string | IAzureResource, idx) =>
                 typeof e === 'string'
                     ? ({
                           key: `adt-environment-${idx}`,
@@ -243,7 +234,7 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                       } as IComboBoxOption)
                     : ({
                           key: `adt-environment-${idx}`,
-                          text: 'https://' + e.hostName,
+                          text: 'https://' + e?.hostName,
                           data: e
                       } as IComboBoxOption)
             ),
@@ -300,7 +291,7 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
             !isValidUrlStr(
                 typeof environmentToEdit === 'string'
                     ? environmentToEdit
-                    : 'https://' + environmentToEdit.hostName,
+                    : 'https://' + environmentToEdit?.hostName,
                 'environment'
             )
                 ? t('environmentPicker.errors.invalidEnvironmentUrl')
@@ -326,7 +317,7 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                 <span>{option.text}</span>
                 {!environmentsState.isLoading &&
                     environmentsState.adapterResult?.result?.data?.findIndex(
-                        (e) => e.hostName === new URL(option.text).hostname
+                        (e) => e?.hostName === new URL(option.text).hostname
                     ) === -1 && (
                         <Icon
                             iconName="Delete"
@@ -337,10 +328,10 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                                 event.stopPropagation();
                                 if (type === 'environment') {
                                     const restOfOptions = environments.filter(
-                                        (e: string | IResourceInstance) =>
+                                        (e: string | IAzureResource) =>
                                             typeof e === 'string'
                                                 ? e !== option.text
-                                                : 'https://' + e.hostName !==
+                                                : 'https://' + e?.hostName !==
                                                   option.text
                                     );
                                     setEnvironments(restOfOptions);
@@ -349,7 +340,7 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                                         (typeof environmentToEdit === 'string'
                                             ? environmentToEdit
                                             : 'https://' +
-                                              environmentToEdit.hostName)
+                                              environmentToEdit?.hostName)
                                     ) {
                                         setEnvironmentToEdit('');
                                     }
@@ -398,7 +389,7 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                 setEnvironmentToEdit(newVal);
                 if (
                     isValidUrlStr(newVal, 'environment') &&
-                    environments.findIndex((e: string | IResourceInstance) =>
+                    environments.findIndex((e: string | IAzureResource) =>
                         typeof e === 'string'
                             ? new URL(e).hostname === new URL(newVal).hostname
                             : 'https://' + e.hostName ===
@@ -459,12 +450,12 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
             localStorage.setItem(
                 props.localStorageKey ?? EnvironmentsLocalStorageKey,
                 JSON.stringify(
-                    environments.map((e: string | IResourceInstance) => ({
+                    environments.map((e: string | IAzureResource) => ({
                         config: {
                             appAdtUrl:
                                 typeof e === 'string'
                                     ? e
-                                    : 'https://' + e.hostName
+                                    : 'https://' + e?.hostName
                         },
                         name: typeof e === 'string' ? e : e.name
                     }))
@@ -477,7 +468,7 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                     appAdtUrl:
                         typeof environmentToEdit === 'string'
                             ? environmentToEdit
-                            : 'https://' + environmentToEdit.hostName
+                            : 'https://' + environmentToEdit?.hostName
                 })
             );
         }
@@ -500,11 +491,11 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
         dialogResettingValuesTimeoutRef.current = setTimeout(() => {
             // wait for dialog dismiss fade-out animation to reset the values
             const selectedEnvironmentIndex = environments.findIndex(
-                (e: string | IResourceInstance) =>
-                    (typeof e === 'string' ? e : 'https://' + e.hostName) ===
+                (e: string | IAzureResource) =>
+                    (typeof e === 'string' ? e : 'https://' + e?.hostName) ===
                     (typeof selectedEnvironment === 'string'
                         ? selectedEnvironment
-                        : 'https://' + selectedEnvironment.hostName)
+                        : 'https://' + selectedEnvironment?.hostName)
             );
             setEnvironmentToEdit(selectedEnvironment);
             setContainerUrlToEdit(selectedContainerUrl);
@@ -520,7 +511,7 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
     }, [environmentToEdit, containerUrlToEdit]);
 
     const displayNameForEnvironment = useCallback(
-        (env: string | IResourceInstance) => {
+        (env: string | IAzureResource) => {
             if (env) {
                 return typeof env === 'string'
                     ? new URL(env).hostname.split('.')[0]
@@ -587,7 +578,7 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                         text={
                             typeof environmentToEdit === 'string'
                                 ? environmentToEdit
-                                : 'https://' + environmentToEdit.hostName
+                                : 'https://' + environmentToEdit?.hostName
                         }
                         onChange={(_e, option, _idx, value) =>
                             handleOnEnvironmentUrlChange(option, value)
@@ -614,7 +605,7 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                         selectedKey={
                             typeof environmentToEdit === 'string'
                                 ? environmentToEdit
-                                : 'https://' + environmentToEdit.hostName
+                                : 'https://' + environmentToEdit?.hostName
                         }
                     />
                     {props.storage && (
@@ -651,7 +642,7 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                                           typeof environmentToEdit === 'string'
                                               ? environmentToEdit
                                               : 'https://' +
-                                                    environmentToEdit.hostName,
+                                                    environmentToEdit?.hostName,
                                           'environment'
                                       ) &&
                                       isValidUrlStr(
@@ -663,7 +654,7 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                                       typeof environmentToEdit === 'string'
                                           ? environmentToEdit
                                           : 'https://' +
-                                                environmentToEdit.hostName,
+                                                environmentToEdit?.hostName,
                                       'environment'
                                   )
                         }

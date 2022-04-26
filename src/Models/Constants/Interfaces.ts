@@ -62,6 +62,7 @@ import {
     IBehavior,
     ITwinToObjectMapping
 } from '../Types/Generated/3DScenesConfiguration-v1.0.0';
+import ADT3DSceneAdapter from '../../Adapters/ADT3DSceneAdapter';
 
 export interface IAction {
     type: string;
@@ -231,11 +232,12 @@ export interface IHierarchyNode {
     isNewlyAdded?: boolean;
 }
 
-export interface IResourceInstance {
+export interface IAzureResource {
     name: string;
-    hostName: string;
     resourceId: string;
-    location: string;
+    type: string;
+    hostName?: string;
+    location?: string;
 }
 
 export interface IADTInstanceConnection {
@@ -462,11 +464,10 @@ export interface IAzureManagementAdapter {
         uniqueObjectID: string,
         roleID: string
     ) => Promise<boolean>;
-    getResourceInstancesWithRoleId: (
-        roleDefinitionGuid: Array<string>,
-        resourcePath: string,
+    getInstances: (
+        resourceEndpoint: string,
         tenantId?: string,
-        uniqueObjectID?: string
+        uniqueObjectId?: string
     ) => AdapterReturnType<ResourceInstancesData>;
 }
 
@@ -660,7 +661,7 @@ export interface IADTInstancesProps {
     theme?: Theme;
     locale?: Locale;
     localeStrings?: Record<string, any>;
-    adapter: IAzureManagementAdapter;
+    adapter: ADT3DSceneAdapter;
     hasLabel?: boolean;
     selectedInstance?: string;
     onInstanceChange?: (instanceHostName: string) => void;

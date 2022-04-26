@@ -31,6 +31,7 @@ import {
     IBlobFile,
     IGetKeyValuePairsAdditionalParameters,
     IPropertyInspectorAdapter,
+    IAzureResource,
     IUserRoleAssignments,
     IUserSubscriptions,
     linkedTwinName
@@ -45,6 +46,8 @@ import { SceneVisual } from '../Models/Classes/SceneView.types';
 import mockVConfig from './__mockData__/3DScenesConfiguration.json';
 import mockTwinData from './__mockData__/MockAdapterData/MockTwinData.json';
 import mockModelData from './__mockData__/MockAdapterData/MockModelData.json';
+import mockSubscriptionData from './__mockData__/MockAdapterData/MockSubscriptionData.json';
+import mockUserRoleAssignmentData from './__mockData__/MockAdapterData/MockUserRoleAssignments.json';
 import ADTScenesConfigData from '../Models/Classes/AdapterDataClasses/ADTScenesConfigData';
 import ADT3DViewerData from '../Models/Classes/AdapterDataClasses/ADT3DViewerData';
 import ResourceInstancesData from '../Models/Classes/AdapterDataClasses/ResourceInstancesData';
@@ -69,6 +72,8 @@ import ExpandedADTModelData from '../Models/Classes/AdapterDataClasses/ExpandedA
 import { applyPatch, Operation } from 'fast-json-patch';
 import { DTDLType } from '../Models/Classes/DTDL';
 import i18n from '../i18n';
+import ADTInstancesData from '../Models/Classes/AdapterDataClasses/ADTInstancesData';
+import StorageInstanceData from '../Models/Classes/AdapterDataClasses/StorageInstanceData';
 
 export default class MockAdapter
     implements
@@ -738,28 +743,7 @@ export default class MockAdapter
     }
     async getSubscriptions() {
         const mockSubscriptions: IUserSubscriptions = {
-            value: [
-                {
-                    subscriptionId: '065ac863-6d2b-4101-ab17-f3fa2df406c2',
-                    tenantId: '49f988bf-86f1-41af-91ab-2d7cd011db47',
-                    displayName: 'iotcardbord-mock-subscription-one'
-                },
-                {
-                    subscriptionId: '143830a8-5720-4668-83cd-bb4c44b0d567',
-                    tenantId: '49f988bf-86f1-41af-91ab-2d7cd011db47',
-                    displayName: 'iotcardbord-mock-subscription-two'
-                },
-                {
-                    subscriptionId: '44fbd60d-8cf2-43a6-8115-34c785e8e426',
-                    tenantId: '49f988bf-86f1-41af-91ab-2d7cd011db47',
-                    displayName: 'iotcardbord-mock-subscription-three'
-                },
-                {
-                    subscriptionId: 'ee254ad1-3c34-47f6-878f-b8f9fcaef1b7',
-                    tenantId: '49f988bf-86f1-41af-91ab-2d7cd011db47',
-                    displayName: 'iotcardbord-mock-subscription-four'
-                }
-            ]
+            value: mockSubscriptionData
         };
         try {
             await this.mockNetwork();
@@ -778,35 +762,7 @@ export default class MockAdapter
 
     async getRoleAssignments() {
         const mockUserRoleAssignments: IUserRoleAssignments = {
-            value: [
-                {
-                    properties: {
-                        roleDefinitionId:
-                            '/subscriptions/03bfb10e-02db-4324-a765-abd39aaf1e6d/providers/Microsoft.Authorization/roleDefinitions/bcd981a7-7f74-457b-83e1-cceb9e632ffe'
-                    },
-                    scope:
-                        '/subscriptions/03bfb10e-02db-4324-a765-abd39aaf1e6d/resourceGroups/matdar-test/providers/Microsoft.DigitalTwins/digitalTwinsInstances/matdartest',
-                    name: 'eb0b4694-6e51-4f36-9c3e-a561254d7ca2'
-                },
-                {
-                    properties: {
-                        roleDefinitionId:
-                            '/subscriptions/03bfb10e-02db-4324-a765-abd39aaf1e6d/providers/Microsoft.Authorization/roleDefinitions/bcd981a7-7f74-457b-83e1-cceb9e632ffe'
-                    },
-                    scope:
-                        '/subscriptions/03bfb10e-02db-4324-a765-abd39aaf1e6d/resourceGroups/matdar-test/providers/Microsoft.DigitalTwins/digitalTwinsInstances/matdartest',
-                    name: 'eb0b4694-6e51-4f36-9c3e-a561254d7ca2'
-                },
-                {
-                    properties: {
-                        roleDefinitionId:
-                            '/subscriptions/03bfb10e-02db-4324-a765-abd39aaf1e6d/providers/Microsoft.Authorization/roleDefinitions/bcd981a7-7f74-457b-83e1-cceb9e632ffe'
-                    },
-                    scope:
-                        '/subscriptions/03bfb10e-02db-4324-a765-abd39aaf1e6d/resourceGroups/matdar-test/providers/Microsoft.DigitalTwins/digitalTwinsInstances/matdartest',
-                    name: 'eb0b4694-6e51-4f36-9c3e-a561254d7ca2'
-                }
-            ]
+            value: mockUserRoleAssignmentData
         };
         try {
             await this.mockNetwork();
@@ -823,33 +779,58 @@ export default class MockAdapter
         }
     }
 
-    async hasRoleDefinition(bool: boolean) {
-        return bool;
+    async hasRoleDefinition(
+        resourceID: string,
+        uniqueObjectID: string,
+        roleDefinitionGuid: string
+    ) {
+        return true;
     }
 
-    async getResourceInstancesWithRoleId() {
-        const mockEnvironments = [
+    async getInstances() {
+        const mockEnvironments: Array<IAzureResource> = [
             {
-                name: 'mockADTInstanceResourceName',
-                hostName:
-                    'mockADTInstanceResourceName.api.wcus.digitaltwins.azure.net',
-                resourceId: '12345',
-                location: 'wcus'
+                name: 'myDigitalTwinsService',
+                resourceId:
+                    '/subscriptions/50016170-c839-41ba-a724-51e9df440b9e/resourcegroups/resRg/providers/Microsoft.DigitalTwins/digitalTwinsInstances/myDigitalTwinsService',
+                type: 'Microsoft.DigitalTwins/digitalTwinsInstances'
             }
         ];
-        try {
-            await this.mockNetwork();
+        return new AdapterResult({
+            result: new ResourceInstancesData(mockEnvironments),
+            errorInfo: null
+        });
+    }
 
-            return new AdapterResult({
-                result: new ResourceInstancesData(mockEnvironments),
-                errorInfo: null
-            });
-        } catch (err) {
-            return new AdapterResult<ResourceInstancesData>({
-                result: null,
-                errorInfo: { catastrophicError: err, errors: [err] }
-            });
-        }
+    async getADTInstances() {
+        const mockEnvironments: Array<IAzureResource> = [
+            {
+                name: 'myDigitalTwinsService',
+                resourceId:
+                    '/subscriptions/50016170-c839-41ba-a724-51e9df440b9e/resourcegroups/resRg/providers/Microsoft.DigitalTwins/digitalTwinsInstances/myDigitalTwinsService',
+                type: 'Microsoft.DigitalTwins/digitalTwinsInstances'
+            }
+        ];
+        return new AdapterResult({
+            result: new ADTInstancesData(mockEnvironments),
+            errorInfo: null
+        });
+    }
+
+    async getContainers() {
+        const mockEnvironments: Array<IAzureResource> = [
+            {
+                name: 'container1644',
+                resourceId:
+                    '/subscriptions/{subscription-id}/resourceGroups/res9290/providers/Microsoft.Storage/storageAccounts/sto1590/blobServices/default/containers/container1644',
+                type:
+                    'Microsoft.Storage/storageAccounts/blobServices/containers'
+            }
+        ];
+        return new AdapterResult({
+            result: new StorageInstanceData(mockEnvironments),
+            errorInfo: null
+        });
     }
 
     async getContainerBlobs() {

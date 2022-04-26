@@ -2,7 +2,7 @@ import React from 'react';
 import ADTInstances from './ADTInstances';
 import useAuthParams from '../../../.storybook/useAuthParams';
 import MsalAuthService from '../../Models/Services/MsalAuthService';
-import AzureManagementAdapter from '../../Adapters/AzureManagementAdapter';
+import { ADT3DSceneAdapter } from '../../Adapters';
 
 export default {
     title: 'Components/ADTInstances',
@@ -16,10 +16,12 @@ export const Instances = (_args, { globals: { theme, locale } }) => {
     ) : (
         <ADTInstances
             adapter={
-                new AzureManagementAdapter(
+                new ADT3DSceneAdapter(
                     new MsalAuthService(
                         authenticationParameters.adt.aadParameters
                     ),
+                    authenticationParameters.adt.hostUrl,
+                    authenticationParameters.adt.aadParameters.accountName,
                     authenticationParameters.adt.aadParameters.tenantId,
                     authenticationParameters.adt.aadParameters.uniqueObjectId
                 )

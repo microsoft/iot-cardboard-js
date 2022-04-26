@@ -1,6 +1,6 @@
 import { IAdapterData, IAzureResource } from '../../Constants/Interfaces';
 
-class ResourceInstancesData implements IAdapterData {
+class ADTInstancesData implements IAdapterData {
     data: Array<IAzureResource>;
 
     constructor(data: Array<IAzureResource>) {
@@ -12,4 +12,4 @@ class ResourceInstancesData implements IAdapterData {
     }
 }
 
-export default ResourceInstancesData;
+export default ADTInstancesData;

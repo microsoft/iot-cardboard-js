@@ -27,7 +27,7 @@ import {
 } from '../../Models/Constants/ActionTypes';
 import ADT3DGlobe from '../../Components/ADT3DGlobe/ADT3DGlobe';
 import {
-    IResourceInstance,
+    IAzureResource,
     IBlobAdapter,
     IComponentError
 } from '../../Models/Constants/Interfaces';
@@ -113,11 +113,13 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
     };
 
     const handleEnvironmentUrlChange = (
-        env: string | IResourceInstance,
-        envs: Array<string | IResourceInstance>
+        env: string | IAzureResource,
+        envs: Array<string | IAzureResource>
     ) => {
         adapter.setAdtHostUrl(
-            typeof env === 'string' ? env.replace('https://', '') : env.hostName
+            typeof env === 'string'
+                ? env.replace('https://', '')
+                : env?.hostName
         );
         if (environmentPickerOptions?.environment?.onEnvironmentChange) {
             environmentPickerOptions.environment.onEnvironmentChange(env, envs);

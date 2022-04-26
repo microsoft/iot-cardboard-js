@@ -8,7 +8,7 @@ import {
 } from '@fluentui/react';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { IADTInstancesProps, IResourceInstance } from '../../Models/Constants';
+import { IADTInstancesProps, IAzureResource } from '../../Models/Constants';
 import useAdapter from '../../Models/Hooks/useAdapter';
 import './ADTInstances.scss';
 import BaseComponent from '../BaseComponent/BaseComponent';
@@ -23,19 +23,10 @@ const ADTInstances: React.FC<IADTInstancesProps> = ({
     localeStrings
 }) => {
     const { t } = useTranslation();
-    const [instances, setInstances] = useState<Array<IResourceInstance>>([]);
+    const [instances, setInstances] = useState<Array<IAzureResource>>([]);
     const [selectedOption, setSelectedOption] = useState(selectedInstance);
-    const adtReaderAndWriterGuid = [
-        'd57506d4-4c8d-48b1-8587-93c323f6a5a3',
-        'bcd981a7-7f74-457b-83e1-cceb9e632ffe'
-    ];
-    const adtPath = 'Microsoft.DigitalTwins/digitalTwinsInstances';
     const environmentsState = useAdapter({
-        adapterMethod: () =>
-            adapter.getResourceInstancesWithRoleId(
-                adtReaderAndWriterGuid,
-                adtPath
-            ),
+        adapterMethod: () => adapter.getADTInstances(),
         refetchDependencies: [adapter]
     });
 
@@ -49,14 +40,14 @@ const ADTInstances: React.FC<IADTInstancesProps> = ({
         () =>
             instances
                 .sort((a, b) =>
-                    a.hostName.localeCompare(b.hostName, undefined, {
+                    a?.hostName.localeCompare(b?.hostName, undefined, {
                         sensitivity: 'base'
                     })
                 )
                 .map((e) => {
                     return {
-                        key: e.hostName,
-                        text: e.hostName
+                        key: e?.hostName,
+                        text: e?.hostName
                     };
                 }),
         [instances]

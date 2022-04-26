@@ -1,0 +1,23 @@
+[
+    {
+        "properties": {
+            "roleDefinitionId": "/subscriptions/03bfb10e-02db-4324-a765-abd39aaf1e6d/providers/Microsoft.Authorization/roleDefinitions/bcd981a7-7f74-457b-83e1-cceb9e632ffe"
+        },
+        "scope": "/subscriptions/03bfb10e-02db-4324-a765-abd39aaf1e6d/resourceGroups/matdar-test/providers/Microsoft.DigitalTwins/digitalTwinsInstances/matdartest",
+        "name": "eb0b4694-6e51-4f36-9c3e-a561254d7ca2"
+    },
+    {
+        "properties": {
+            "roleDefinitionId": "/subscriptions/03bfb10e-02db-4324-a765-abd39aaf1e6d/providers/Microsoft.Authorization/roleDefinitions/bcd981a7-7f74-457b-83e1-cceb9e632ffe"
+        },
+        "scope": "/subscriptions/03bfb10e-02db-4324-a765-abd39aaf1e6d/resourceGroups/matdar-test/providers/Microsoft.DigitalTwins/digitalTwinsInstances/matdartest",
+        "name": "eb0b4694-6e51-4f36-9c3e-a561254d7ca2"
+    },
+    {
+        "properties": {
+            "roleDefinitionId": "/subscriptions/03bfb10e-02db-4324-a765-abd39aaf1e6d/providers/Microsoft.Authorization/roleDefinitions/bcd981a7-7f74-457b-83e1-cceb9e632ffe"
+        },
+        "scope": "/subscriptions/03bfb10e-02db-4324-a765-abd39aaf1e6d/resourceGroups/matdar-test/providers/Microsoft.DigitalTwins/digitalTwinsInstances/matdartest",
+        "name": "eb0b4694-6e51-4f36-9c3e-a561254d7ca2"
+    }
+]
