@@ -28,7 +28,8 @@ import {
     modelActionType,
     FileUploadStatus,
     ADT3DAddInEventTypes,
-    GlobeTheme
+    GlobeTheme,
+    ViewerModeStyles
 } from './Enums';
 import {
     AdapterReturnType,
@@ -713,6 +714,7 @@ export interface IADT3DViewerProps {
 export interface IADT3DViewerMode {
     objectColor: IADTObjectColor;
     isWireframe: boolean;
+    style: ViewerModeStyles;
     background: IADTBackgroundColor;
 }
 
