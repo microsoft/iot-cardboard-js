@@ -96,7 +96,7 @@
         }
     },
     "valueRangeBuilder": {
-        "overlapDetectedMessage": "Overlapping ranges detected.  Verify that all value ranges are distinct.  Min values are inclusive, Max values are exclusive.",
+        "overlapDetectedMessage": "Overlapping ranges detected. Verify that all value ranges are distinct. Min values are inclusive, Max values are exclusive.",
         "addValueRangeButtonText": "Add value range",
         "rangeValueInvalidMessage": "Values must be numeric, '-Infinity', or 'Infinity'",
         "rangeInvalidMessage": "Min value must be less than (<) Max value",
@@ -126,7 +126,7 @@
         "dataSpacingLabel": "Data spacing",
         "dataSpacingDescription": "Time between event timestamps",
         "quickStreamFrequencyLabel": "Past event streaming frequency",
-        "quickStreamFrequencyDescription": "How frequently to push past events.  If live streaming is disabled, data will continue to push at this frequency once the present time is reached.",
+        "quickStreamFrequencyDescription": "How frequently to push past events. If live streaming is disabled, data will continue to push at this frequency once the present time is reached.",
         "liveStreamLabel": "Live stream data",
         "liveStreamDescriptionOn": "Once present time is reached, simulation will push data at the set live stream frequency",
         "liveStreamDescriptionOff": "Simulation will continue to push events into the future at the set quick stream frequency indefinitely",
@@ -253,7 +253,7 @@
         "editComponent": "Edit component",
         "componentDetails": "Component details",
         "noComponents": "This model has no components",
-        "complexSchema": "Complex schema    ",
+        "complexSchema": "Complex schema ",
         "complexSchemas": "Complex schemas",
         "addComplexSchema": "Add complex schema",
         "noComplexSchemas": "This model has no complex schemas",
@@ -380,7 +380,7 @@
         "behaviorsNotInSceneTitle": "In other scenes ({{count}})",
         "noBehaviorsText": "No behaviors found",
         "confirmRemoveBehaviorFromScene": "Are you sure you want to remove this behavior from the current scene?",
-        "confirmRemoveBehaviorFromAllScenes": "Are you sure you want to remove this behavior from all scenes.  You can't undo this action.",
+        "confirmRemoveBehaviorFromAllScenes": "Are you sure you want to remove this behavior from all scenes. You can't undo this action.",
         "newElement": "New element",
         "newBehavior": "New behavior",
         "newBehaviorId": "NewBehaviorId",
@@ -590,7 +590,7 @@
         "Show/Hide values": "Show/Hide values",
         "Select color": "Select color",
         "Search suggestion instruction": "When autocomplete results are available use up and down arrows to review and enter to select",
-        "Search suggestions available": " results available, keyboard users, use up and down arrows to review and enter to select.",
+        "Search suggestions available": "results available, keyboard users, use up and down arrows to review and enter to select.",
         "Hierarchy list": "Hierarchy list",
         "Looking for": "Looking for",
         "Hierarchy error": "Error occured! Refreshing hierarchy...",
@@ -664,8 +664,8 @@
                 "ariaLabel": "Enter a value in RFC 3339 full-time format, for example: 14:22:33−08:00"
             },
             "map": {
-                "text": "A <DocLink>map key</DocLink> uses a string to describe the key in a map.  Use the following characters: a-z, A-Z, 0-9, and underscore.",
-                "ariaLabel": "A map key uses a string to describe the key in a map.  Use the following characters: a-z, A-Z, 0-9, and underscore."
+                "text": "A <DocLink>map key</DocLink> uses a string to describe the key in a map. Use the following characters: a-z, A-Z, 0-9, and underscore.",
+                "ariaLabel": "A map key uses a string to describe the key in a map. Use the following characters: a-z, A-Z, 0-9, and underscore."
             }
         },
         "commandBar": {
@@ -720,6 +720,7 @@
         "supportedFileTypes": "Supported file types are {{fileTypes}}."
     },
     "modelViewerModePicker": {
+        "buttonLabel": "Theme",
         "title": "Viewer Theme",
         "style": "Style",
         "objectColors": "Object color",
