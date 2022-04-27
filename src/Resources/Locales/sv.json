@@ -424,8 +424,6 @@
     "widgetLibrary": "Widgetbibliotek",
     "exploreWidgets": "Utforska våra widgets och lägg till ett extra lager av information till din 3D-scen.",
     "allWidgets": "Alla widgetar",
-    "myWidgets": "Mina widgets",
-    "searchWidgets": "Sök widgetar",
     "addWidget": "Lägga till widget",
     "newWidget": "Ny widget",
     "createWidget": "Skapa widget",
@@ -499,7 +497,11 @@
       "title": "Widgeten Panel",
       "description": "En layoutpanel"
     },
-    "notSupported": "Den här widgettypen stöds för närvarande inte"
+    "notSupported": "Den här widgettypen stöds för närvarande inte",
+    "property": {
+      "title": "Widgeten Egenskap",
+      "description": "Grundläggande widget för att visa dubbla egenskapsvärden"
+    }
   },
   "sdkStrings": {
     "Last 30 mins": "Senaste 30 minuter",

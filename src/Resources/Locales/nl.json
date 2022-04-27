@@ -424,8 +424,6 @@
     "widgetLibrary": "Widget bibliotheek",
     "exploreWidgets": "Verken onze widgets en voeg een extra informatielaag toe aan uw 3D-scène.",
     "allWidgets": "Alle widgets",
-    "myWidgets": "Mijn widgets",
-    "searchWidgets": "Widgets zoeken",
     "addWidget": "Widget toevoegen",
     "newWidget": "Nieuwe widget",
     "createWidget": "Widget maken",
@@ -499,7 +497,11 @@
       "title": "Paneelwidget",
       "description": "Een indelingspaneel"
     },
-    "notSupported": "Dit widgettype wordt momenteel niet ondersteund"
+    "notSupported": "Dit widgettype wordt momenteel niet ondersteund",
+    "property": {
+      "title": "Widget onroerend goed",
+      "description": "Basiswidget om dubbele eigenschapswaarden weer te geven"
+    }
   },
   "sdkStrings": {
     "Last 30 mins": "Laatste 30 minuten",

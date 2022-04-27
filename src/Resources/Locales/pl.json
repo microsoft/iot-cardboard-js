@@ -424,8 +424,6 @@
     "widgetLibrary": "Biblioteka widżetów",
     "exploreWidgets": "Zapoznaj się z naszymi widżetami i dodaj dodatkową warstwę informacji do sceny 3D.",
     "allWidgets": "Wszystkie widżety",
-    "myWidgets": "Moje widżety",
-    "searchWidgets": "Widżety wyszukiwania",
     "addWidget": "Dodaj widżet",
     "newWidget": "Nowy widget",
     "createWidget": "Utwórz widżet",
@@ -499,7 +497,11 @@
       "title": "Widżet Panel",
       "description": "Panel układu"
     },
-    "notSupported": "Ten typ widżetu nie jest obecnie obsługiwany"
+    "notSupported": "Ten typ widżetu nie jest obecnie obsługiwany",
+    "property": {
+      "title": "Widżet Właściwości",
+      "description": "Widżet Podstawowy pokazujący bliźniacze wartości właściwości"
+    }
   },
   "sdkStrings": {
     "Last 30 mins": "Ostatnie 30 minut",

@@ -424,8 +424,6 @@
     "widgetLibrary": "Biblioteca de widgets",
     "exploreWidgets": "Explore nuestros widgets y agregue una capa adicional de información a su escena 3D.",
     "allWidgets": "Todos los widgets",
-    "myWidgets": "Mis widgets",
-    "searchWidgets": "Widgets de búsqueda",
     "addWidget": "Añadir widget",
     "newWidget": "Nuevo widget",
     "createWidget": "Crear widget",
@@ -499,7 +497,11 @@
       "title": "Widget de panel",
       "description": "Un panel de diseño"
     },
-    "notSupported": "Este tipo de widget no es compatible actualmente"
+    "notSupported": "Este tipo de widget no es compatible actualmente",
+    "property": {
+      "title": "Widget de propiedades",
+      "description": "Widget básico para mostrar valores de propiedades gemelas"
+    }
   },
   "sdkStrings": {
     "Last 30 mins": "Últimos 30 minutos",

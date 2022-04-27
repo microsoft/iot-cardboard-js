@@ -424,8 +424,6 @@
     "widgetLibrary": "Widget-Bibliothek",
     "exploreWidgets": "Erkunden Sie unsere Widgets und fügen Sie Ihrer 3D-Szene eine zusätzliche Informationsebene hinzu.",
     "allWidgets": "Alle Widgets",
-    "myWidgets": "Meine Widgets",
-    "searchWidgets": "Such-Widgets",
     "addWidget": "Widget hinzufügen",
     "newWidget": "Neues Widget",
     "createWidget": "Widget erstellen",
@@ -499,7 +497,11 @@
       "title": "Panel-Widget",
       "description": "Ein Layoutpanel"
     },
-    "notSupported": "Dieser Widget-Typ wird derzeit nicht unterstützt"
+    "notSupported": "Dieser Widget-Typ wird derzeit nicht unterstützt",
+    "property": {
+      "title": "Eigenschaften-Widget",
+      "description": "Einfaches Widget zum Anzeigen von Zwillingseigenschaftswerten"
+    }
   },
   "sdkStrings": {
     "Last 30 mins": "Letzte 30 Minuten",

@@ -424,8 +424,6 @@
     "widgetLibrary": "Widget könyvtár",
     "exploreWidgets": "Fedezze fel widgetjeinket, és adjon hozzá egy további információréteget a 3D-s jelenetéhez.",
     "allWidgets": "Minden widget",
-    "myWidgets": "Saját widgetek",
-    "searchWidgets": "Widgetek keresése",
     "addWidget": "Widget hozzáadása",
     "newWidget": "Új widget",
     "createWidget": "Widget létrehozása",
@@ -499,7 +497,11 @@
       "title": "Panel widget",
       "description": "Elrendezéspanel"
     },
-    "notSupported": "Ez a widgettípus jelenleg nem támogatott"
+    "notSupported": "Ez a widgettípus jelenleg nem támogatott",
+    "property": {
+      "title": "Tulajdonság widget",
+      "description": "Alapvető widget az ikertulajdonság-értékek megjelenítéséhez"
+    }
   },
   "sdkStrings": {
     "Last 30 mins": "Utolsó 30 perc",

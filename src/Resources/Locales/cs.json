@@ -424,8 +424,6 @@
     "widgetLibrary": "Knihovna widgetů",
     "exploreWidgets": "Prozkoumejte naše widgety a přidejte do své 3D scény další vrstvu informací.",
     "allWidgets": "Všechny widgety",
-    "myWidgets": "Moje widgety",
-    "searchWidgets": "Vyhledávací widgety",
     "addWidget": "Přidat widget",
     "newWidget": "Nový widget",
     "createWidget": "Vytvořit widget",
@@ -499,7 +497,11 @@
       "title": "Widget Panel",
       "description": "Panel rozvržení"
     },
-    "notSupported": "Tento typ widgetu není v současné době podporován"
+    "notSupported": "Tento typ widgetu není v současné době podporován",
+    "property": {
+      "title": "Widget Vlastnosti",
+      "description": "Základní widget pro zobrazení hodnot vlastností dvojčat"
+    }
   },
   "sdkStrings": {
     "Last 30 mins": "Posledních 30 minut",
