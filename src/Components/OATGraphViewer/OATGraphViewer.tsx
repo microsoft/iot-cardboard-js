@@ -229,7 +229,7 @@ const OATGraphViewer = ({
                     target: targetId,
                     label: '',
                     markerEnd: 'arrow',
-                    type: ExtendHandleName,
+                    type: RelationshipHandleName,
                     data: {
                         name: '',
                         displayName: '',
@@ -252,7 +252,7 @@ const OATGraphViewer = ({
                     target: targetId,
                     label: '',
                     markerEnd: 'arrow',
-                    type: ComponentHandleName,
+                    type: RelationshipHandleName,
                     data: {
                         name: '',
                         displayName: '',
@@ -280,7 +280,7 @@ const OATGraphViewer = ({
             sourceHandle: currentHandleId.current,
             label: '',
             markerEnd: 'arrow',
-            type: currentHandleId.current,
+            type: RelationshipHandleName,
             data: {
                 name: '',
                 displayName: '',
