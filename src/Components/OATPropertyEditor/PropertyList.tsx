@@ -138,17 +138,27 @@ export const PropertyList = ({
         });
     };
 
-    const getErrorMessage = (value, index) => {
-        debugger; //eslint-disable-line
-        const find = model.contents.find((item) => item.name === value);
+    const generateErrorMessage = (value, index) => {
+        if (value) {
+            const find = model.contents.find((item) => item.name === value);
 
-        if (!find && value !== '') {
-            handlePropertyNameChange(value, index);
+            if (!find && value !== '') {
+                handlePropertyNameChange(value, index);
+            }
+
+            return find
+                ? `${t('OATPropertyEditor.errorRepeatedPropertyName')}`
+                : '';
         }
+    };
 
-        return find
-            ? `${t('OATPropertyEditor.errorRepeatedPropertyName')}`
-            : '';
+    const deleteItem = (index) => {
+        setLastPropertyFocused(null);
+        setModel((prevModel) => {
+            const newModel = deepCopy(prevModel);
+            newModel.contents.splice(index, 1);
+            return newModel;
+        });
     };
 
     return (
@@ -186,7 +196,7 @@ export const PropertyList = ({
                                     getNestedItemClassName={
                                         getNestedItemClassName
                                     }
-                                    getErrorMessage={getErrorMessage}
+                                    getErrorMessage={generateErrorMessage}
                                     handleDragEnter={handleDragEnter}
                                     handleDragEnterExternalItem={
                                         handleDragEnterExternalItem
@@ -210,6 +220,8 @@ export const PropertyList = ({
                                     setModalBody={setModalBody}
                                     model={model}
                                     setModel={setModel}
+                                    deleteItem={deleteItem}
+                                    setTemplates={setTemplates}
                                 />
                             );
                         }
@@ -220,7 +232,7 @@ export const PropertyList = ({
                                 index={i}
                                 draggingProperty={draggingProperty}
                                 getItemClassName={getItemClassName}
-                                getErrorMessage={getErrorMessage}
+                                getErrorMessage={generateErrorMessage}
                                 handleDragEnter={handleDragEnter}
                                 handleDragEnterExternalItem={
                                     handleDragEnterExternalItem
@@ -233,6 +245,10 @@ export const PropertyList = ({
                                 item={item}
                                 setLastPropertyFocused={setLastPropertyFocused}
                                 setModalBody={setModalBody}
+                                deleteItem={deleteItem}
+                                setTemplates={setTemplates}
+                                setModel={setModel}
+                                model={model}
                             />
                         );
                     })}

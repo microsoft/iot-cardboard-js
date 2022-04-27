@@ -1,13 +1,22 @@
-import React from 'react';
-import { TextField, Stack, Text } from '@fluentui/react';
+import React, { useState } from 'react';
+import {
+    TextField,
+    Stack,
+    Text,
+    ActionButton,
+    FontIcon
+} from '@fluentui/react';
 import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
 import { DTDLModel, DTDLSchemaType } from '../../Models/Classes/DTDL';
 import AddPropertyBar from './AddPropertyBar';
 import PropertyListItemNested from './PropertyListItemNested';
 import PropertyListEnumItemNested from './PropertyListEnumItemNested';
 import PropertyListMapItemNested from './PropertyListMapItemNested';
+import { deepCopy } from '../../Models/Services/Utils';
+import PropertyListItemSubMenu from './PropertyListItemSubMenu';
 
 type IPropertyListItem = {
+    deleteItem?: (index: number) => any;
     draggingProperty?: boolean;
     getItemClassName?: (index: number) => any;
     getNestedItemClassName?: () => any;
@@ -28,10 +37,12 @@ type IPropertyListItem = {
     setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
     setModel?: React.Dispatch<React.SetStateAction<DTDLModel>>;
     setPropertySelectorVisible: React.Dispatch<React.SetStateAction<boolean>>;
+    setTemplates?: React.Dispatch<React.SetStateAction<any>>;
 };
 
 export const PropertyListItemNest = ({
     index,
+    deleteItem,
     draggingProperty,
     getItemClassName,
     getNestedItemClassName,
@@ -48,9 +59,12 @@ export const PropertyListItemNest = ({
     setModalOpen,
     setModalBody,
     model,
-    setModel
+    setModel,
+    setTemplates
 }: IPropertyListItem) => {
     const propertyInspectorStyles = getPropertyInspectorStyles();
+    const [subMenuActive, setSubMenuActive] = useState(false);
+    const [collapsed, setCollapsed] = useState(true);
 
     const addPropertyCallback = () => {
         setCurrentPropertyIndex(index);
@@ -65,6 +79,43 @@ export const PropertyListItemNest = ({
             default:
                 return;
         }
+    };
+
+    const handleTemplateAddition = () => {
+        setTemplates((templates) => [...templates, item]);
+    };
+
+    const handleDuplicate = () => {
+        const itemCopy = deepCopy(item);
+        itemCopy.name = `${itemCopy.name}_copy`;
+        itemCopy.displayName = `${itemCopy.displayName}_copy`;
+        itemCopy['@id'] = `${itemCopy['@id']}_copy`;
+
+        const modelCopy = deepCopy(model);
+        modelCopy.contents.push(itemCopy);
+        setModel(modelCopy);
+    };
+
+    const deleteNestedItem = (parentIndex, index) => {
+        setModel((prevModel) => {
+            const newModel = deepCopy(prevModel);
+            if (
+                newModel.contents[parentIndex].schema['@type'] ===
+                DTDLSchemaType.Enum
+            ) {
+                newModel.contents[parentIndex].schema.enumValues.splice(
+                    index,
+                    1
+                );
+            } else if (
+                newModel.contents[parentIndex].schema['@type'] ===
+                DTDLSchemaType.Object
+            ) {
+                newModel.contents[parentIndex].schema.fields.splice(index, 1);
+                return newModel;
+            }
+            return newModel;
+        });
     };
 
     return (
@@ -88,6 +139,16 @@ export const PropertyListItemNest = ({
             tabIndex={0}
         >
             <Stack className={propertyInspectorStyles.propertyItemNestMainItem}>
+                <ActionButton
+                    onClick={() => setCollapsed(!collapsed)}
+                    className={propertyInspectorStyles.propertyItemIconWrap}
+                >
+                    <FontIcon
+                        iconName={collapsed ? 'ChevronDown' : 'ChevronRight'}
+                        className={propertyInspectorStyles.propertyItemIcon}
+                    />
+                </ActionButton>
+
                 <TextField
                     className={propertyInspectorStyles.propertyItemTextField}
                     borderless
@@ -99,8 +160,32 @@ export const PropertyListItemNest = ({
                     onGetErrorMessage={getErrorMessage}
                 />
                 <Text>{item.schema['@type']}</Text>
+
+                <ActionButton
+                    className={propertyInspectorStyles.propertyItemIconWrapMore}
+                    onClick={() => setSubMenuActive(!subMenuActive)}
+                >
+                    <FontIcon
+                        iconName={'More'}
+                        className={propertyInspectorStyles.propertyItemIcon}
+                    />
+                    {subMenuActive && (
+                        <PropertyListItemSubMenu
+                            deleteItem={deleteItem}
+                            index={index}
+                            subMenuActive={subMenuActive}
+                            handleTemplateAddition={() => {
+                                handleTemplateAddition();
+                            }}
+                            handleDuplicate={() => {
+                                handleDuplicate();
+                            }}
+                        />
+                    )}
+                </ActionButton>
             </Stack>
-            {item.schema['@type'] === 'Object' &&
+            {collapsed &&
+                item.schema['@type'] === 'Object' &&
                 item.schema.fields.length > 0 &&
                 item.schema.fields.map((field, i) => (
                     <PropertyListItemNested
@@ -114,10 +199,15 @@ export const PropertyListItemNest = ({
                         }
                         setCurrentPropertyIndex={setCurrentPropertyIndex}
                         setModalOpen={setModalOpen}
+                        deleteNestedItem={deleteNestedItem}
+                        setTemplates={setTemplates}
+                        setModel={setModel}
+                        model={model}
                     />
                 ))}
 
-            {item.schema['@type'] === DTDLSchemaType.Enum &&
+            {collapsed &&
+                item.schema['@type'] === DTDLSchemaType.Enum &&
                 item.schema.enumValues.length > 0 &&
                 item.schema.enumValues.map((item, i) => (
                     <PropertyListEnumItemNested
@@ -127,10 +217,11 @@ export const PropertyListItemNest = ({
                         setModel={setModel}
                         parentIndex={index}
                         index={i}
+                        deleteNestedItem={deleteNestedItem}
                     />
                 ))}
 
-            {item.schema['@type'] === DTDLSchemaType.Map && (
+            {collapsed && item.schema['@type'] === DTDLSchemaType.Map && (
                 <PropertyListMapItemNested
                     item={item}
                     model={model}

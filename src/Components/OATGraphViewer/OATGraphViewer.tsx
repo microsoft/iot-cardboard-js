@@ -34,7 +34,7 @@ type OATGraphProps = {
     setModel: (twinModel: IOATTwinModelNodes) => any;
     model: IOATTwinModelNodes;
     deletedModel: string;
-    selectedModel: string;
+    selectModel: string;
     editedName: string;
     editedId: string;
 };
@@ -44,7 +44,7 @@ const OATGraphViewer = ({
     setModel,
     model,
     deletedModel,
-    selectedModel,
+    selectModel,
     editedName,
     editedId
 }: OATGraphProps) => {
@@ -112,7 +112,7 @@ const OATGraphViewer = ({
     }, [deletedModel]);
 
     useEffect(() => {
-        const node = elements.find((element) => element.id === selectedModel);
+        const node = elements.find((element) => element.id === selectModel);
         if (node) {
             currentNodeId.current = node.id;
             const modelClicked = {
@@ -124,10 +124,10 @@ const OATGraphViewer = ({
             };
             setModel(modelClicked);
         }
-    }, [selectedModel]);
+    }, [selectModel]);
 
     useEffect(() => {
-        const node = elements.find((element) => element.id === selectedModel);
+        const node = elements.find((element) => element.id === selectModel);
         if (node) {
             node.data.name = editedName;
             const modelClicked = {
@@ -143,7 +143,7 @@ const OATGraphViewer = ({
     }, [editedName]);
 
     useEffect(() => {
-        const node = elements.find((element) => element.id === selectedModel);
+        const node = elements.find((element) => element.id === selectModel);
         if (node) {
             elements
                 .filter((x) => x.source === currentNodeId.current)
@@ -446,16 +446,16 @@ const OATGraphViewer = ({
     };
 
     const onElementClick = (evt, node) => {
-        if (node.data.type === 'Interface') {
+        if (node.data.type === InterfaceType) {
             currentNodeId.current = node.id;
-            const modelClicked = {
+            const selectedModel = {
                 '@id': node.id,
                 '@type': node.data.type,
                 '@context': node.data.context,
                 displayName: node.data.name,
                 contents: node.data.content
             };
-            setModel(modelClicked);
+            setModel(selectedModel);
         }
     };
 

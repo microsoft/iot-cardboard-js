@@ -75,7 +75,7 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
             elements.find((element) => element.id === prevId).data.id = idText;
             elements.find((element) => element.id === prevId).id = idText;
             setElements([...elements]);
-            const modelUpdated = {
+            const updatedModel = {
                 '@id': idText,
                 '@type': data.type,
                 '@context': data.context,
@@ -83,7 +83,7 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
                 contents: data.content
             };
             setCurrentNode(idText);
-            setModel(modelUpdated);
+            setModel(updatedModel);
         }
     };
 

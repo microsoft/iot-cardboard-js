@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
     FontIcon,
     TextField,
@@ -7,23 +7,27 @@ import {
     Text
 } from '@fluentui/react';
 import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
+import PropertyListItemSubMenu from './PropertyListItemSubMenu';
+import { DTDLModel } from '../../Models/Classes/DTDL';
+import { deepCopy } from '../../Models/Services/Utils';
 
 type IPropertyListItemNested = {
+    deleteNestedItem?: (parentIndex: number, index: number) => any;
     getItemClassName?: (index: number) => any;
     getErrorMessage?: (value: string) => string;
-    handleDragEnter?: (event: any, item: any) => any;
-    handleDragEnterExternalItem?: (index: number) => any;
-    handleDragStart?: (event: any, item: any) => any;
     index?: number;
     item?: any;
+    model?: DTDLModel;
     parentIndex?: number;
     setCurrentNestedPropertyIndex: React.Dispatch<React.SetStateAction<number>>;
     setCurrentPropertyIndex?: React.Dispatch<React.SetStateAction<number>>;
-    setLastPropertyFocused?: React.Dispatch<React.SetStateAction<any>>;
     setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
+    setModel?: React.Dispatch<React.SetStateAction<DTDLModel>>;
+    setTemplates?: React.Dispatch<React.SetStateAction<any>>;
 };
 
 export const PropertyListItemNested = ({
+    deleteNestedItem,
     getErrorMessage,
     getItemClassName,
     index,
@@ -31,9 +35,28 @@ export const PropertyListItemNested = ({
     parentIndex,
     setCurrentNestedPropertyIndex,
     setCurrentPropertyIndex,
-    setModalOpen
+    setModalOpen,
+    setTemplates,
+    setModel,
+    model
 }: IPropertyListItemNested) => {
     const propertyInspectorStyles = getPropertyInspectorStyles();
+    const [subMenuActive, setSubMenuActive] = useState(false);
+
+    const handleDuplicate = () => {
+        const itemCopy = deepCopy(item);
+        itemCopy.name = `${itemCopy.name}_copy`;
+        itemCopy.displayName = `${itemCopy.displayName}_copy`;
+        itemCopy['@id'] = `${itemCopy['@id']}_copy`;
+
+        const modelCopy = deepCopy(model);
+        modelCopy.contents[parentIndex].schema.fields.push(itemCopy);
+        setModel(modelCopy);
+    };
+
+    const handleTemplateAddition = () => {
+        setTemplates((templates) => [...templates, item]);
+    };
 
     return (
         <Stack className={getItemClassName(index)} tabIndex={0}>
@@ -62,12 +85,27 @@ export const PropertyListItemNested = ({
                 />
             </ActionButton>
             <ActionButton
-                className={propertyInspectorStyles.propertyItemIconWrap}
+                className={propertyInspectorStyles.propertyItemIconWrapMore}
+                onClick={() => setSubMenuActive(!subMenuActive)}
             >
                 <FontIcon
                     iconName={'More'}
                     className={propertyInspectorStyles.propertyItemIcon}
                 />
+                {subMenuActive && (
+                    <PropertyListItemSubMenu
+                        deleteNestedItem={deleteNestedItem}
+                        index={index}
+                        parentIndex={parentIndex}
+                        subMenuActive={subMenuActive}
+                        handleTemplateAddition={() => {
+                            handleTemplateAddition();
+                        }}
+                        handleDuplicate={() => {
+                            handleDuplicate();
+                        }}
+                    />
+                )}
             </ActionButton>
         </Stack>
     );
