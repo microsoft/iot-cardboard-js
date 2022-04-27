@@ -259,7 +259,7 @@ export const getPropertyInspectorStyles = () => {
             classNames.templateItem,
             {
                 display: 'grid',
-                gridTemplateColumns: '10% 50% 30% 10%',
+                gridTemplateColumns: '60% 30% 10%',
                 alignItems: 'center',
                 padding: '12px 8px',
                 borderBottom: `1px solid ${theme.semanticColors.variantBorder}`,
