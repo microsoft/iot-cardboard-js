@@ -24,13 +24,22 @@ import {
 } from '../../Models/Constants/Constants';
 import { getGraphViewerStyles } from './OATGraphViewer.styles';
 import { ElementsContext } from './Internal/OATContext';
-import { IOATElementsChangeEventArgs } from '../../Models/Constants/Interfaces';
+import {
+    IOATElementsChangeEventArgs,
+    IOATTwinModelNodes
+} from '../../Models/Constants/Interfaces';
 
 type OATGraphProps = {
     onElementsUpdate: (digitalTwinsModels: IOATElementsChangeEventArgs) => any;
+    setModel: (twinModel: IOATTwinModelNodes) => any;
+    model: IOATTwinModelNodes;
 };
 
-const OATGraphViewer = ({ onElementsUpdate }: OATGraphProps) => {
+const OATGraphViewer = ({
+    onElementsUpdate,
+    setModel,
+    model
+}: OATGraphProps) => {
     const { t } = useTranslation();
     const theme = useTheme();
     const reactFlowWrapperRef = useRef(null);
@@ -41,6 +50,7 @@ const OATGraphViewer = ({ onElementsUpdate }: OATGraphProps) => {
         storedElements === null ? [] : storedElements
     );
     const idClassBase = 'dtmi:com:example:';
+    const contextClassBase = 'dtmi:adt:context;2';
     const [newModelId, setNewModelId] = useState(0);
     const graphViewerStyles = getGraphViewerStyles();
     const currentNodeId = useRef('');
@@ -62,10 +72,34 @@ const OATGraphViewer = ({ onElementsUpdate }: OATGraphProps) => {
         translateOutput();
     }, [elements]);
 
-    const providerVal = useMemo(() => ({ elements, setElements }), [
-        elements,
-        setElements
-    ]);
+    useEffect(() => {
+        const node = elements.find(
+            (element) => element.id === currentNodeId.current
+        );
+        if (node) {
+            elements
+                .filter((x) => x.source === currentNodeId.current)
+                .forEach((x) => (x.source = model['@id']));
+            elements
+                .filter((x) => x.target === currentNodeId.current)
+                .forEach((x) => (x.target = model['@id']));
+            node.id = model['@id'];
+            node.data.id = model['@id'];
+            node.data.name = model['displayName'];
+            node.data.content = model['contents'];
+            setElements([...elements]);
+            currentNodeId.current = model['@id'];
+        }
+    }, [model]);
+
+    const setCurrentNode = (id) => {
+        currentNodeId.current = id;
+    };
+
+    const providerVal = useMemo(
+        () => ({ elements, setElements, setModel, setCurrentNode }),
+        [elements, setElements, setModel, setCurrentNode]
+    );
 
     const nodeTypes = useMemo(() => ({ Interface: OATGraphCustomNode }), []);
 
@@ -87,7 +121,8 @@ const OATGraphViewer = ({ onElementsUpdate }: OATGraphProps) => {
                 name: name,
                 type: InterfaceType,
                 id: id,
-                content: []
+                content: [],
+                context: contextClassBase
             }
         };
         setElements((es) => es.concat(newNode));
@@ -336,6 +371,20 @@ const OATGraphViewer = ({ onElementsUpdate }: OATGraphProps) => {
         onElementsUpdate({ digitalTwinsModels: nodes });
     };
 
+    const onElementClick = (evt, node) => {
+        if (node.data.type === InterfaceType) {
+            currentNodeId.current = node.id;
+            const selectedModel = {
+                '@id': node.id,
+                '@type': node.data.type,
+                '@context': node.data.context,
+                displayName: node.data.name,
+                contents: node.data.content
+            };
+            setModel(selectedModel);
+        }
+    };
+
     return (
         <BaseComponent theme={theme}>
             <div>
@@ -347,6 +396,7 @@ const OATGraphViewer = ({ onElementsUpdate }: OATGraphProps) => {
                         <ElementsContext.Provider value={providerVal}>
                             <ReactFlow
                                 elements={elements}
+                                onElementClick={onElementClick}
                                 onElementsRemove={onElementsRemove}
                                 onConnectStart={onConnectStart}
                                 onConnectStop={onConnectStop}
@@ -378,7 +428,8 @@ const OATGraphViewer = ({ onElementsUpdate }: OATGraphProps) => {
 };
 
 OATGraphViewer.defaultProps = {
-    onElementsUpdate: () => null
+    onElementsUpdate: () => null,
+    setModel: () => null
 };
 
 export default OATGraphViewer;
