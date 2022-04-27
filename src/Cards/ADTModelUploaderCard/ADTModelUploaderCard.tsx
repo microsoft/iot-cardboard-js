@@ -85,7 +85,7 @@ function ADTModelUploaderCard(props: ADTModelUploaderCardProps, ref) {
                 pushModelsState?.adapterResult as AdapterResult<ADTModelsData>
             );
         }
-    }, [pushModelsState?.adapterResult]);
+    }, [onUploadFinish, pushModelsState.adapterResult, t]);
 
     const uploadHandler = () => {
         setProgressMessage(null);

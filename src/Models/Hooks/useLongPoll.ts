@@ -45,7 +45,7 @@ const useLongPoll = ({
                 clearTimeout(timeoutId);
             };
         }
-    }, [pollingIntervalMillis]);
+    }, [pollingIntervalMillis, pulseTimeoutMillis]);
 
     return {
         /**

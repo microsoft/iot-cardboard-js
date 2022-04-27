@@ -42,7 +42,7 @@ function JsonUploader(
             }
         });
         setFiles(newFiles);
-    }, [acceptedFiles]);
+    }, [acceptedFiles, files]);
 
     const removeFileHandler = useCallback((index: number) => {
         setFiles(filesRef.current.filter((_f, idx) => idx !== index));

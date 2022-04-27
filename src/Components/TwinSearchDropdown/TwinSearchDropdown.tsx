@@ -93,7 +93,7 @@ const TwinSearchDropdown: React.FC<IADTTwinSearchProps> = ({
             twinSearchContinuationToken.current =
                 searchTwinAdapterData.adapterResult.result.data.continuationToken;
         }
-    }, [searchTwinAdapterData.adapterResult]);
+    }, [searchTwinAdapterData.adapterResult, twinSuggestions]);
 
     useEffect(() => {
         if (lastScrollTopRef.current && !searchTwinAdapterData.isLoading) {
@@ -101,7 +101,7 @@ const TwinSearchDropdown: React.FC<IADTTwinSearchProps> = ({
                 lastScrollTopRef.current;
             lastScrollTopRef.current = 0;
         }
-    }, [twinSuggestionListRef.current]);
+    }, [searchTwinAdapterData.isLoading]);
 
     const handleOnScroll = (event) => {
         const divElement = event.currentTarget as HTMLDivElement;

@@ -46,6 +46,7 @@ const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = 
                   props.inputData.relationship,
                   props.inputData.relationshipModel
               );
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [props.inputData, i18n.language]);
 
     const [state, dispatch] = useReducer(StandalonePropertyInspectorReducer, {
@@ -62,7 +63,7 @@ const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = 
             type: spiActionType.SET_PROPERTY_TREE_NODES,
             nodes: originalTree
         });
-    }, [props.inputData, i18n.language]);
+    }, [props.inputData, originalTree, i18n.language]);
 
     const undoAllChanges = () => {
         dispatch({

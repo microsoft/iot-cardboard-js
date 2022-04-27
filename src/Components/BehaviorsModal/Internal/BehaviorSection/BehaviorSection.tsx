@@ -35,7 +35,7 @@ const BehaviorSection: React.FC<IBehaviorsSectionProps> = ({ behavior }) => {
             );
         }
         return visibleAlertVisuals;
-    }, [behavior]);
+    }, [behavior.visuals, mode, twins]);
 
     const statusVisuals = useMemo(
         () =>

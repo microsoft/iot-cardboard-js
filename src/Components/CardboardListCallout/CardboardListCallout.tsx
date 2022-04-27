@@ -55,7 +55,7 @@ const CardboardListCallout = <T extends unknown>({
                 )
             );
         },
-        [listItems]
+        [filterPredicate, listItems]
     );
 
     useEffect(() => {

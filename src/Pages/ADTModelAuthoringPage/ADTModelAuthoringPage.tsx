@@ -1,4 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, {
+    useCallback,
+    useEffect,
+    useMemo,
+    useRef,
+    useState
+} from 'react';
 import { IADTModel, IHierarchyNode } from '../../Models/Constants/Interfaces';
 import { ADTModelAuthoringPageProps } from './ADTModelAuthoringPage.types';
 import ModelCreate from '../../Components/ModelCreate/ModelCreate';
@@ -72,7 +78,7 @@ const ADTModelAuthoringPage: React.FC<ADTModelAuthoringPageProps> = ({
         }, 2000);
     };
 
-    const onDowloadClick = () => {
+    const onDowloadClick = useCallback(() => {
         downloadText(
             JSON.stringify(
                 selectedModelRef.current ||
@@ -89,7 +95,7 @@ const ADTModelAuthoringPage: React.FC<ADTModelAuthoringPageProps> = ({
                 t('modelCreate.newModel')
             }.json`
         );
-    };
+    }, [t]);
 
     useEffect(() => {
         selectedModelRef.current = selectedModel;
@@ -133,7 +139,7 @@ const ADTModelAuthoringPage: React.FC<ADTModelAuthoringPageProps> = ({
             });
         }
         return actions;
-    }, [selectedModelRef.current]);
+    }, [onDowloadClick, t]);
 
     const confirmDeletionDialogProps = {
         type: DialogType.normal,
@@ -142,15 +148,18 @@ const ADTModelAuthoringPage: React.FC<ADTModelAuthoringPageProps> = ({
         subText: t('confirmDeletionDesc')
     };
 
-    const confirmDeletionDialogStyles = {
-        main: { maxWidth: 450, minHeight: 165 }
-    };
+    const confirmDeletionDialogStyles = useMemo(
+        () => ({
+            main: { maxWidth: 450, minHeight: 165 }
+        }),
+        []
+    );
     const confirmDeletionModalProps = React.useMemo(
         () => ({
             isBlocking: false,
             styles: confirmDeletionDialogStyles
         }),
-        []
+        [confirmDeletionDialogStyles]
     );
 
     return (

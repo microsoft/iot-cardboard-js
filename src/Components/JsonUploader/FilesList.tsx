@@ -69,16 +69,19 @@ function FilesList({ files, onRemoveFile, onListUpdated }: IFilesList, ref) {
         if (onListUpdated && typeof onListUpdated === 'function') {
             onListUpdated(files);
         }
-    }, [listItems]);
+    }, [files, listItems, onListUpdated]);
 
     const handleViewItem = useCallback((item: IFileItem) => {
         setSelectedFileItem(item);
         setIsPreviewOpen(true);
     }, []);
 
-    const handleDeleteItem = useCallback((index: number) => {
-        onRemoveFile(index);
-    }, []);
+    const handleDeleteItem = useCallback(
+        (index: number) => {
+            onRemoveFile(index);
+        },
+        [onRemoveFile]
+    );
 
     useImperativeHandle(ref, () => ({
         getItemContents: () => {

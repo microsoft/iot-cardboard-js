@@ -188,7 +188,16 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
             );
         }
         return () => clearTimeout(dialogResettingValuesTimeoutRef.current);
-    }, []);
+    }, [
+        props.environmentUrl,
+        props.isLocalStorageEnabled,
+        props.localStorageKey,
+        props.selectedItemLocalStorageKey,
+        props.storage.containerUrl,
+        props.storage?.isLocalStorageEnabled,
+        props.storage.localStorageKey,
+        props.storage.selectedItemLocalStorageKey
+    ]);
 
     useEffect(() => {
         setEnvironmentToEdit(selectedEnvironment);
@@ -221,7 +230,12 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
             );
             hasPulledEnvironmentsFromSubscription.current = true;
         }
-    }, [environmentsState.adapterResult.result]);
+    }, [
+        environments,
+        environmentsState.adapterResult,
+        environmentsState.adapterResult.result,
+        isValidUrlStr
+    ]);
 
     const environmentOptions: Array<IComboBoxOption> = useMemo(
         () =>
@@ -295,7 +309,7 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
             )
                 ? t('environmentPicker.errors.invalidEnvironmentUrl')
                 : undefined,
-        [environmentToEdit, environmentsState]
+        [environmentToEdit, isValidUrlStr, t]
     );
 
     const containerInputError = useMemo(
@@ -304,7 +318,7 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
             !isValidUrlStr(containerUrlToEdit, 'container')
                 ? t('environmentPicker.errors.invalidContainerUrl')
                 : undefined,
-        [containerUrlToEdit]
+        [containerUrlToEdit, isValidUrlStr, t]
     );
 
     const onRenderOption = (
@@ -368,7 +382,11 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
             environmentsState.callAdapter();
         }
         toggleIsDialogHidden();
-    }, []);
+    }, [
+        environmentsState,
+        props.shouldPullFromSubscription,
+        toggleIsDialogHidden
+    ]);
 
     const handleOnEnvironmentUrlChange = useCallback(
         (option, value) => {
@@ -401,7 +419,7 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                 setEnvironmentToEdit(option.data ?? option.text);
             }
         },
-        [environments]
+        [environments, isValidUrlStr]
     );
 
     const handleOnContainerUrlChange = useCallback(
@@ -431,7 +449,7 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                 setContainers(containers.concat(newVal));
             }
         },
-        [containers]
+        [containers, isValidUrlStr]
     );
 
     const handleOnSave = useCallback(() => {
@@ -483,7 +501,14 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
             );
         }
         toggleIsDialogHidden();
-    }, [environmentToEdit, containerUrlToEdit, environments, containers]);
+    }, [
+        environmentToEdit,
+        containerUrlToEdit,
+        props,
+        toggleIsDialogHidden,
+        environments,
+        containers
+    ]);
 
     const handleOnDismiss = useCallback(() => {
         toggleIsDialogHidden();
@@ -507,7 +532,13 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                 setContainers(containers.concat(selectedContainerUrl));
             }
         }, 500);
-    }, [environmentToEdit, containerUrlToEdit]);
+    }, [
+        toggleIsDialogHidden,
+        environments,
+        selectedEnvironment,
+        selectedContainerUrl,
+        containers
+    ]);
 
     const displayNameForEnvironment = useCallback(
         (env: string | IADTInstance) => {
@@ -519,17 +550,20 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                 return t('environmentPicker.noEnvironment');
             }
         },
-        []
+        [t]
     );
 
-    const displayNameForContainer = useCallback((containerUrl: string) => {
-        if (containerUrl) {
-            const urlObj = new URL(containerUrl);
-            return urlObj.hostname.split('.')[0] + urlObj.pathname; // i.e. AzureStorageAccountName/ContainerName
-        } else {
-            return t('environmentPicker.noContainer');
-        }
-    }, []);
+    const displayNameForContainer = useCallback(
+        (containerUrl: string) => {
+            if (containerUrl) {
+                const urlObj = new URL(containerUrl);
+                return urlObj.hostname.split('.')[0] + urlObj.pathname; // i.e. AzureStorageAccountName/ContainerName
+            } else {
+                return t('environmentPicker.noContainer');
+            }
+        },
+        [t]
+    );
 
     return (
         <BaseComponent

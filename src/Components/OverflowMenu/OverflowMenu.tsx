@@ -55,7 +55,7 @@ export const OverflowMenu: React.FC<IOverflowMenuProps> = ({
                     }
                 }
             })),
-        [menuProps.items]
+        [menuProps.items, theme.palette.black]
     );
     return (
         <>

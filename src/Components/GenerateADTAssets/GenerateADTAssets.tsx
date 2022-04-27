@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
     DTwin,
@@ -48,7 +48,7 @@ const GenerateADTAssets: React.FC<IGenerateADTAssetsProps> = ({
                 errorMessage: null
             });
         }
-    }, [pushModelsState.adapterResult]);
+    }, [pushModelsState.adapterResult, t]);
 
     const updateTwinsUploadProgress = (twinsUploaded, totalTwins) => {
         setTwinsUploadStatus({
@@ -131,7 +131,11 @@ const GenerateADTAssets: React.FC<IGenerateADTAssetsProps> = ({
                 errorMessage: null
             });
         }
-    }, [pushRelationshipsState.adapterResult]);
+    }, [
+        pushRelationshipsState.adapterResult,
+        pushTwinsState.adapterResult.result,
+        t
+    ]);
 
     //set upload progress state based on adapter result
     useEffect(() => {
@@ -168,7 +172,34 @@ const GenerateADTAssets: React.FC<IGenerateADTAssetsProps> = ({
                 errorMessage: null
             });
         }
-    }, [pushTwinsState.adapterResult]);
+    }, [pushTwinsState.adapterResult, t]);
+
+    const initiateModelsUpload = useCallback(async () => {
+        setModelsUploadStatus({
+            phase: UploadPhase.Uploading,
+            message: t('generateADTAssets.uploading'),
+            errorMessage: null
+        });
+        return pushModelsState.callAdapter(models);
+    }, [models, pushModelsState, t]);
+
+    const initiateTwinsUpload = useCallback(async () => {
+        setTwinsUploadStatus({
+            phase: UploadPhase.Uploading,
+            message: t('generateADTAssets.uploading'),
+            errorMessage: null
+        });
+        return pushTwinsState.callAdapter(twins);
+    }, [pushTwinsState, t, twins]);
+
+    const initiateRelationshipsUpload = useCallback(async () => {
+        setRelationshipsUploadStatus({
+            phase: UploadPhase.Uploading,
+            message: t('generateADTAssets.uploading'),
+            errorMessage: null
+        });
+        return pushRelationshipsState.callAdapter(relationships);
+    }, [pushRelationshipsState, relationships, t]);
 
     useEffect(() => {
         (async () => {
@@ -181,34 +212,14 @@ const GenerateADTAssets: React.FC<IGenerateADTAssetsProps> = ({
                 onComplete(models, twins, relationships);
             }
         })();
-    }, [triggerUpload]);
-
-    const initiateModelsUpload = async () => {
-        setModelsUploadStatus({
-            phase: UploadPhase.Uploading,
-            message: t('generateADTAssets.uploading'),
-            errorMessage: null
-        });
-        return pushModelsState.callAdapter(models);
-    };
-
-    const initiateTwinsUpload = async () => {
-        setTwinsUploadStatus({
-            phase: UploadPhase.Uploading,
-            message: t('generateADTAssets.uploading'),
-            errorMessage: null
-        });
-        return pushTwinsState.callAdapter(twins);
-    };
-
-    const initiateRelationshipsUpload = async () => {
-        setRelationshipsUploadStatus({
-            phase: UploadPhase.Uploading,
-            message: t('generateADTAssets.uploading'),
-            errorMessage: null
-        });
-        return pushRelationshipsState.callAdapter(relationships);
-    };
+    }, [
+        initiateModelsUpload,
+        initiateRelationshipsUpload,
+        initiateTwinsUpload,
+        isUploading,
+        onComplete,
+        triggerUpload
+    ]);
 
     const initializeUploadStatus = () => {
         return {

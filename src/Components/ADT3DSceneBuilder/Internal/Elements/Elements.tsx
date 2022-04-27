@@ -116,7 +116,11 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
 
             setOutlinedMeshItems(outlinedMeshes);
         }
-    }, [selectedElements]);
+    }, [
+        objectColor.outlinedMeshSelectedColor,
+        selectedElements,
+        setOutlinedMeshItems
+    ]);
 
     useEffect(() => {
         if (updateTwinToObjectMappings.adapterResult.result) {
@@ -151,7 +155,7 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
             );
             setFilteredElements(selectedElements.concat(nonSelectedElements));
         }
-    }, [selectedElements]);
+    }, [elements, selectedElements]);
 
     // apply filtering
     useEffect(() => {
@@ -159,7 +163,7 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
             element.displayName.toLowerCase().includes(searchText.toLowerCase())
         );
         setFilteredElements(filtered);
-    }, [searchText]);
+    }, [elements, searchText]);
 
     const onUpdateCheckbox = useCallback(
         (element: ITwinToObjectMapping) => {
@@ -169,13 +173,13 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
             updateSelectedElements(element, shouldCheck);
             elementsSorted.current = true;
         },
-        [selectedElements, updateSelectedElements, elementsSorted.current]
+        [selectedElements, updateSelectedElements]
     );
 
     const onMultiSelectChanged = useCallback(() => {
         clearSelectedElements();
         setIsSelectionEnabled(!isSelectionEnabled);
-    }, [isSelectionEnabled]);
+    }, [clearSelectedElements, isSelectionEnabled]);
 
     // generate the list of items to show
     useEffect(() => {
@@ -205,7 +209,8 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
         setElementToDelete,
         setIsDeleteDialogOpen,
         setOutlinedMeshItems,
-        objectColor
+        objectColor,
+        t
     ]);
 
     const theme = useTheme();

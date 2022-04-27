@@ -106,8 +106,6 @@ const StatusTab: React.FC<IStatusTabProps> = ({
         },
         [
             setBehaviorToEdit,
-            getStatusFromBehavior,
-            deepCopy,
             valueRangeBuilderState,
             resetInitialValueRanges,
             validateForm
@@ -126,12 +124,12 @@ const StatusTab: React.FC<IStatusTabProps> = ({
                 }
             })
         );
-    }, [valueRangeBuilderState.valueRanges]);
+    }, [setBehaviorToEdit, valueRangeBuilderState.valueRanges]);
 
     // update validity when range validity changes
     useEffect(() => {
         validateForm(getStatusFromBehavior(behaviorToEdit));
-    }, [valueRangeBuilderState.areRangesValid]);
+    }, [behaviorToEdit, validateForm, valueRangeBuilderState.areRangesValid]);
 
     const onPropertyChange = useCallback(
         (option: string) => {

@@ -183,7 +183,14 @@ const PropertyInspector: React.FC<PropertyInspectorProps> = (props) => {
                 resolvedRelationship: props.resolvedRelationship
             });
         }
-    }, [props.twinId, props.relationshipId]);
+    }, [
+        props.twinId,
+        props.relationshipId,
+        twinData,
+        modelData,
+        relationshipData,
+        props
+    ]);
 
     // Once relationship is resolved, use source twin ID to query twin
     useEffect(() => {
@@ -192,7 +199,7 @@ const PropertyInspector: React.FC<PropertyInspectorProps> = (props) => {
             const twinId = relationship['$sourceId'];
             twinData.callAdapter({ twinId, resolvedTwin: props.resolvedTwin });
         }
-    }, [relationshipData.adapterResult]);
+    }, [props.resolvedTwin, relationshipData.adapterResult, twinData]);
 
     // Once twin data is resolved, use model ID from twin metadata
     // to fetch target model and flat expanded list of all models referenced
@@ -204,7 +211,7 @@ const PropertyInspector: React.FC<PropertyInspectorProps> = (props) => {
         } else {
             setRefetchTrigger((prev) => !prev);
         }
-    }, [twinData.adapterResult]);
+    }, [modelData, twinData.adapterResult]);
 
     // Combine twin or relationship and model data into input data object
     useEffect(() => {
@@ -251,7 +258,13 @@ const PropertyInspector: React.FC<PropertyInspectorProps> = (props) => {
             });
         }
         setIsInitialLoad(false);
-    }, [modelData.adapterResult, refetchTrigger]);
+    }, [
+        modelData.adapterResult,
+        props,
+        refetchTrigger,
+        relationshipData.adapterResult,
+        twinData.adapterResult
+    ]);
 
     const onCommitChanges = (patchData: OnCommitPatchParams) => {
         if (patchData?.patches && patchData.patches?.length > 0) {
@@ -307,7 +320,13 @@ const PropertyInspector: React.FC<PropertyInspectorProps> = (props) => {
                 .catastrophicError.rawError as any)?.response?.data?.error;
             props.onPatch && props.onPatch(error);
         }
-    }, [patchTwinData.adapterResult, patchRelationshipData.adapterResult]);
+    }, [
+        patchTwinData.adapterResult,
+        patchRelationshipData.adapterResult,
+        twinData,
+        props,
+        relationshipData
+    ]);
 
     if (
         modelData.isLoading ||

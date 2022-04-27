@@ -77,7 +77,7 @@ const SceneBehaviors: React.FC<Props> = ({
                 config,
                 sceneId
             ),
-        [config, sceneId, behaviors]
+        [config, sceneId]
     );
 
     // add everything to the list on the first pass
@@ -97,7 +97,11 @@ const SceneBehaviors: React.FC<Props> = ({
         ) {
             setIsBehaviorLibraryExpanded(true);
         }
-    }, [filteredItemsInScene, filteredItemsNotInScene]);
+    }, [
+        filteredItemsInScene,
+        filteredItemsNotInScene,
+        isBehaviorLibraryExpanded
+    ]);
 
     // apply filtering
     useEffect(() => {
@@ -121,7 +125,12 @@ const SceneBehaviors: React.FC<Props> = ({
         ) {
             setIsBehaviorLibraryExpanded(true);
         }
-    }, [searchText, behaviorsInScene, behaviorsNotInScene]);
+    }, [
+        searchText,
+        behaviorsInScene,
+        behaviorsNotInScene,
+        isBehaviorLibraryExpanded
+    ]);
 
     const itemsInSceneVisible = filteredItemsInScene?.length > 0;
     const itemsNotInSceneVisible = filteredItemsNotInScene?.length > 0;
@@ -144,11 +153,11 @@ const SceneBehaviors: React.FC<Props> = ({
         config,
         behaviorToDeleteRef,
         filteredItemsInScene,
-        'InScene',
         onAddBehaviorToScene,
         onBehaviorClick,
         sceneId,
-        setIsDeleteDialogOpen
+        setIsDeleteDialogOpen,
+        t
     ]);
     // generate the list of items to show - NOT In Scene
     useEffect(() => {
@@ -168,11 +177,11 @@ const SceneBehaviors: React.FC<Props> = ({
         config,
         behaviorToDeleteRef,
         filteredItemsNotInScene,
-        'InScene',
         onAddBehaviorToScene,
         onBehaviorClick,
         sceneId,
-        setIsDeleteDialogOpen
+        setIsDeleteDialogOpen,
+        t
     ]);
 
     const theme = useTheme();

@@ -23,7 +23,7 @@ const LinkWidgetBuilder: React.FC<ILinkWidgetBuilderProps> = ({
         } else {
             setIsWidgetConfigValid(false);
         }
-    }, [formData]);
+    }, [formData, setIsWidgetConfigValid]);
 
     return (
         <>

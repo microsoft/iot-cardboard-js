@@ -49,7 +49,7 @@ const PickerBase: React.FC<IPickerBaseProps> = ({
             label: x.label
         }));
         return converted;
-    }, items);
+    }, [items]);
 
     const handleClick = useCallback(
         (item: string) => {
@@ -80,7 +80,7 @@ const PickerBase: React.FC<IPickerBaseProps> = ({
                     items.find((x) => x.item === props.color),
                     handleClick
                 ),
-            [handleClick, items, onChange, onRenderItem]
+            [handleClick, items, onRenderItem]
         );
 
     return (

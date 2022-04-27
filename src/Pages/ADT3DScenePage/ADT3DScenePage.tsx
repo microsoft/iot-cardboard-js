@@ -166,7 +166,7 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
             type: SET_SELECTED_BLOB_CONTAINER_URL,
             payload: adapter.getBlobContainerURL()
         });
-    }, []);
+    }, [adapter]);
 
     useEffect(() => {
         if (
@@ -199,7 +199,7 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
                 }
             });
         }
-    }, [state.errors]);
+    }, [resetConfig, scenesConfig, state?.errors, t]);
 
     return (
         <ADT3DScenePageContext.Provider

@@ -161,12 +161,20 @@ const LeftPanelBuilderBreadcrumb: React.FC<Props> = ({
 
         return [...rootItems, ...activePanelBreadcrumb];
     }, [
-        builderMode,
-        widgetFormInfo,
         behaviorTwinAliasFormInfo,
+        builderMode,
+        config.configuration.scenes,
         elementTwinAliasFormInfo,
+        isAtSceneRoot,
+        onBehaviorsRootClick,
+        onElementsRootClick,
         sceneId,
-        config
+        scenePageContext,
+        setBehaviorTwinAliasFormInfo,
+        setElementTwinAliasFormInfo,
+        setWidgetFormInfo,
+        t,
+        widgetFormInfo
     ]);
 
     const onRenderItem: IRenderFunction<IBreadcrumbItem> = (

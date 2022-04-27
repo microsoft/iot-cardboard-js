@@ -115,7 +115,16 @@ const BehaviorTwinAliasForm: React.FC<{
         setSelectedElements(newSelectedElements);
         setBehaviorTwinAliasFormInfo(null);
         setFormData(null);
-    }, [behaviorTwinAliasFormInfo, formData, selectedElements]);
+    }, [
+        behaviorTwinAliasFormInfo.mode,
+        behaviorTwinAliasFormInfo.twinAliasIdx,
+        formData.alias,
+        formData.elementToTwinMappings,
+        selectedElements,
+        setBehaviorToEdit,
+        setBehaviorTwinAliasFormInfo,
+        setSelectedElements
+    ]);
 
     const showAliasExistsErrorMessage = useMemo(() => {
         const existingTwinAliasNames = ViewerConfigUtility.getAvailableBehaviorTwinAliasItemsBySceneAndElements(

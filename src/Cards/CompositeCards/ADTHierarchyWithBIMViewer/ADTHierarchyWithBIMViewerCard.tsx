@@ -35,7 +35,7 @@ const ADTHierarchyWithBIMViewerCard: React.FC<ADTHierarchyWithBIMViewerCardProps
         return createNodeFilterFromRootForBIM(
             cardState.adapterResult.getData()?.['$metadata']?.['$model']
         );
-    }, [cardState.adapterResult.getData()]);
+    }, [cardState.adapterResult]);
 
     return (
         <BaseCompositeCard

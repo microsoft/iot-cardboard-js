@@ -50,7 +50,7 @@ export const CardboardListItem = <T extends unknown>(
         overflowRef?.current?.openMenu?.();
         // set state for css
         onMenuStateChange(true);
-    }, [overflowRef, setIsMenuOpen]);
+    }, [onMenuStateChange]);
 
     const onSecondaryAction = useCallback(() => {
         iconEnd?.onClick?.(item);
@@ -62,7 +62,7 @@ export const CardboardListItem = <T extends unknown>(
         } else {
             onClick(item);
         }
-    }, [onMenuClick, onClick]);
+    }, [openMenuOnClick, onMenuClick, onClick, item]);
     const onButtonKeyPress = useCallback(
         (event: React.KeyboardEvent<HTMLButtonElement>) => {
             if (event.code === 'Space') {
@@ -75,7 +75,7 @@ export const CardboardListItem = <T extends unknown>(
                 }
             }
         },
-        [onMenuClick]
+        [onMenuClick, onSecondaryAction, showEndIconButton, showOverflow]
     );
 
     const theme = useTheme();

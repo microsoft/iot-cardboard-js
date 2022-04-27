@@ -114,7 +114,7 @@ function ADTModelListCard(props: ADTModelListCardProps, ref) {
                 }
             });
         }
-    }, [selectedModelId]);
+    }, [modelState, selectedModelId, state.selectedModelId]);
 
     useEffect(() => {
         if (!modelState.adapterResult.hasNoData()) {
@@ -166,7 +166,13 @@ function ADTModelListCard(props: ADTModelListCardProps, ref) {
                 }
             });
         }
-    }, [modelState.adapterResult.result]);
+    }, [
+        modelState,
+        modelState.adapterResult.result,
+        newlyAddedModelIds,
+        nodes,
+        t
+    ]);
 
     const handleModelClick = useCallback(
         (_parentNode: IHierarchyNode, node: IHierarchyNode) => {
@@ -183,6 +189,7 @@ function ADTModelListCard(props: ADTModelListCardProps, ref) {
             });
             focusedModelIdRef.current = node.id;
         },
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         []
     );
 

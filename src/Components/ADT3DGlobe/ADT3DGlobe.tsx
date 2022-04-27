@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import SceneView from '../3DV/SceneView';
 import { useAdapter } from '../../Models/Hooks';
 import './ADT3DGlobe.scss';
@@ -56,55 +56,58 @@ const ADT3DGlobe: React.FC<IADT3DGlobeProps> = ({
         }
     };
 
-    const updateTheme = (scene: Scene) => {
-        sceneRef.current = sceneRef.current || scene;
-        if (sceneRef.current) {
-            const mi: CustomMeshItem[] = [];
-            let colors = blues;
-            switch (globeTheme) {
-                case GlobeTheme.Blue:
-                    colors = blues;
-                    break;
-                case GlobeTheme.Yellow:
-                    colors = yellows;
-                    break;
-                case GlobeTheme.Grey:
-                    colors = greys;
-                    break;
-            }
-
-            let ct = -2;
-            const baseColor = hexToColor4(colors[1]);
-            const baseHSV = rgb2hsv(baseColor.r, baseColor.g, baseColor.b);
-            for (const mesh of sceneRef.current.meshes) {
-                if (mesh?.name?.startsWith('Region')) {
-                    ct += 2;
-                    if (ct >= 14) {
-                        ct = 1;
-                    }
-
-                    if (globeTheme === GlobeTheme.Grey) {
-                        const n = Math.floor((ct / 13) * 100 + 100);
-                        const color = rgb2hex(n, n, n);
-                        mi.push({ meshId: mesh.id, color: '#' + color });
-                    } else {
-                        const s = (ct / 13) * 62 + 12;
-                        const col = hsv2rgb(baseHSV.h, s, 100);
-                        const color = rgb2hex(col.r, col.g, col.b);
-                        mi.push({ meshId: mesh.id, color: '#' + color });
-                    }
-                } else if (mesh.name.startsWith('Sea')) {
-                    mi.push({ meshId: mesh.id, color: colors[0] });
+    const updateTheme = useCallback(
+        (scene: Scene) => {
+            sceneRef.current = sceneRef.current || scene;
+            if (sceneRef.current) {
+                const mi: CustomMeshItem[] = [];
+                let colors = blues;
+                switch (globeTheme) {
+                    case GlobeTheme.Blue:
+                        colors = blues;
+                        break;
+                    case GlobeTheme.Yellow:
+                        colors = yellows;
+                        break;
+                    case GlobeTheme.Grey:
+                        colors = greys;
+                        break;
                 }
-            }
 
-            setColoredMeshes(mi);
-        }
-    };
+                let ct = -2;
+                const baseColor = hexToColor4(colors[1]);
+                const baseHSV = rgb2hsv(baseColor.r, baseColor.g, baseColor.b);
+                for (const mesh of sceneRef.current.meshes) {
+                    if (mesh?.name?.startsWith('Region')) {
+                        ct += 2;
+                        if (ct >= 14) {
+                            ct = 1;
+                        }
+
+                        if (globeTheme === GlobeTheme.Grey) {
+                            const n = Math.floor((ct / 13) * 100 + 100);
+                            const color = rgb2hex(n, n, n);
+                            mi.push({ meshId: mesh.id, color: '#' + color });
+                        } else {
+                            const s = (ct / 13) * 62 + 12;
+                            const col = hsv2rgb(baseHSV.h, s, 100);
+                            const color = rgb2hex(col.r, col.g, col.b);
+                            mi.push({ meshId: mesh.id, color: '#' + color });
+                        }
+                    } else if (mesh.name.startsWith('Sea')) {
+                        mi.push({ meshId: mesh.id, color: colors[0] });
+                    }
+                }
+
+                setColoredMeshes(mi);
+            }
+        },
+        [globeTheme]
+    );
 
     useEffect(() => {
         updateTheme(null);
-    }, [globeTheme]);
+    }, [globeTheme, updateTheme]);
 
     return (
         <BaseComponent

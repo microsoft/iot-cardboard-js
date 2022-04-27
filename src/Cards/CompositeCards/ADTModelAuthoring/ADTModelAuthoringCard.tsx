@@ -121,7 +121,7 @@ const ADTModelAuthoringCard: React.FC<ADTModelAuthoringCardProps> = ({
             return false;
         }
         return true;
-    }, [modelsToPublish, authoringStep]);
+    }, [authoringMode, authoringStep, modelsToPublish.length]);
 
     useEffect(() => {
         if (pushModelsState.adapterResult.errorInfo?.errors?.length) {
@@ -161,7 +161,7 @@ const ADTModelAuthoringCard: React.FC<ADTModelAuthoringCardProps> = ({
         if (createdModels?.length) {
             onPublish(createdModels);
         }
-    }, [pushModelsState?.adapterResult]);
+    }, [onPublish, pushModelsState.adapterResult, t]);
 
     return (
         <div className="cb-model-authoring-card-wrapper">

@@ -143,6 +143,7 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                 createCustomMeshItems(selectedElement.objectIDs, null)
             );
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     useEffect(() => {
@@ -154,13 +155,13 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
             ...elementToEdit,
             objectIDs: meshIds
         });
-    }, [coloredMeshItems]);
+    }, [coloredMeshItems, elementToEdit]);
 
     useEffect(() => {
         if (updateTwinToObjectMappings.adapterResult.result) {
             getConfig();
         }
-    }, [updateTwinToObjectMappings?.adapterResult]);
+    }, [getConfig, updateTwinToObjectMappings.adapterResult]);
 
     const handleSelectTwinId = (selectedTwinId: string) => {
         if (
@@ -184,7 +185,7 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
         if (updateTwinToObjectMappings.adapterResult.result) {
             getConfig();
         }
-    }, [updateTwinToObjectMappings?.adapterResult]);
+    }, [getConfig, updateTwinToObjectMappings.adapterResult]);
 
     useEffect(() => {
         configRef.current = config;
@@ -197,12 +198,7 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                 elementTwinAliasFormInfo,
                 builderMode
             ),
-        [
-            selectedElement,
-            elementTwinAliasFormInfo,
-            builderMode,
-            getLeftPanelBuilderHeaderParamsForElements
-        ]
+        [selectedElement, elementTwinAliasFormInfo, builderMode]
     );
 
     const theme = useTheme();

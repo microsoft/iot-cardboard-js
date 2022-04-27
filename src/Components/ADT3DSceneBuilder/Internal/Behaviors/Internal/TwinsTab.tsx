@@ -94,7 +94,37 @@ const TwinsTab: React.FC<ITwinsTabProps> = ({
                 linkedTwinPropertiesTargetId
             )
         );
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+
+    const onTwinAliasClick = useCallback(
+        (twinAliasItem: IBehaviorTwinAliasItem, idx: number) => {
+            setBehaviorTwinAliasFormInfo({
+                twinAlias: twinAliasItem,
+                mode: TwinAliasFormMode.EditTwinAlias,
+                twinAliasIdx: idx
+            });
+        },
+        [setBehaviorTwinAliasFormInfo]
+    );
+
+    // when removing a twin alias from behavior, just update the twinAliases field in edited behavior to be reflected in config changes
+    const onTwinAliasRemoveFromBehavior = useCallback(
+        (twinAliasItem: IBehaviorTwinAliasItem) => {
+            setBehaviorToEdit(
+                produce((draft) => {
+                    draft.twinAliases.splice(
+                        draft.twinAliases.findIndex(
+                            (tA) => tA === twinAliasItem.alias
+                        ),
+                        1
+                    );
+                })
+            );
+        },
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        []
+    );
 
     // when behavior to edit or selected elements (to keep track of element to twin id mappings) changes in Elements tab, update the twin alias list
     useEffect(() => {
@@ -120,7 +150,14 @@ const TwinsTab: React.FC<ITwinsTabProps> = ({
                 selectedElements
             )
         });
-    }, [behaviorToEdit, selectedElements]);
+    }, [
+        behaviorToEdit,
+        onTwinAliasClick,
+        onTwinAliasRemoveFromBehavior,
+        onValidityChange,
+        selectedElements,
+        t
+    ]);
 
     // when any of the dependency changes, update the list of available twin aliases to sho in the add twin alias callout for behavior
     useEffect(() => {
@@ -159,6 +196,7 @@ const TwinsTab: React.FC<ITwinsTabProps> = ({
                 }
             })
         );
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const onCreateTwinAlias = useCallback(() => {
@@ -167,34 +205,6 @@ const TwinsTab: React.FC<ITwinsTabProps> = ({
             mode: TwinAliasFormMode.CreateTwinAlias
         });
     }, [setBehaviorTwinAliasFormInfo]);
-
-    const onTwinAliasClick = useCallback(
-        (twinAliasItem: IBehaviorTwinAliasItem, idx: number) => {
-            setBehaviorTwinAliasFormInfo({
-                twinAlias: twinAliasItem,
-                mode: TwinAliasFormMode.EditTwinAlias,
-                twinAliasIdx: idx
-            });
-        },
-        [setBehaviorTwinAliasFormInfo]
-    );
-
-    // when removing a twin alias from behavior, just update the twinAliases field in edited behavior to be reflected in config changes
-    const onTwinAliasRemoveFromBehavior = useCallback(
-        (twinAliasItem: IBehaviorTwinAliasItem) => {
-            setBehaviorToEdit(
-                produce((draft) => {
-                    draft.twinAliases.splice(
-                        draft.twinAliases.findIndex(
-                            (tA) => tA === twinAliasItem.alias
-                        ),
-                        1
-                    );
-                })
-            );
-        },
-        []
-    );
 
     const linkedTwinProperties = useMemo(
         () =>

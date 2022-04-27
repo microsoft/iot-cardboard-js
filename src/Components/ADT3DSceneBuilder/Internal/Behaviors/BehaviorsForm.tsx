@@ -132,6 +132,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
         if (selectedElements?.length > 0) {
             setSelectedElements(selectedElements);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     // Prior to entering widget form -- freeze copy of draft behavior
@@ -156,7 +157,20 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
         else if (widgetFormInfo.mode === WidgetFormMode.Committed) {
             behaviorDraftWidgetBackup.current = null;
         }
-    }, [widgetFormInfo]);
+    }, [behaviorToEdit, setBehaviorToEdit, widgetFormInfo]);
+
+    const onTabValidityChange = useCallback(
+        (tabName: TabNames, state: IValidityState) => {
+            dispatch({
+                type: BehaviorFormActionType.SET_TAB_STATE,
+                payload: {
+                    tabName: tabName,
+                    state: { isValid: state.isValid }
+                }
+            });
+        },
+        []
+    );
 
     useEffect(() => {
         const elementIds = [];
@@ -188,20 +202,12 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                 selectedElements
             )
         });
-    }, [selectedElements]);
-
-    const onTabValidityChange = useCallback(
-        (tabName: TabNames, state: IValidityState) => {
-            dispatch({
-                type: BehaviorFormActionType.SET_TAB_STATE,
-                payload: {
-                    tabName: tabName,
-                    state: { isValid: state.isValid }
-                }
-            });
-        },
-        []
-    );
+    }, [
+        behaviorToEdit,
+        onTabValidityChange,
+        selectedElements,
+        setBehaviorToEdit
+    ]);
 
     // need a local copy to intercept and update form validity
     const localUpdateSelectedElements = useCallback(
@@ -214,7 +220,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
             updateSelectedElements(element, isSelected);
             onTabValidityChange('Elements', { isValid: isValid });
         },
-        [behaviorToEdit, updateSelectedElements, onTabValidityChange]
+        [behaviorToEdit, onTabValidityChange, updateSelectedElements]
     );
 
     const onPivotItemClick = useCallback(
@@ -240,11 +246,13 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
         onBehaviorBackClick();
         setSelectedElements([]);
     }, [
+        onBehaviorSave,
         config,
         behaviorToEdit,
         builderMode,
+        selectedLayerIds,
+        selectedElements,
         onBehaviorBackClick,
-        onBehaviorSave,
         setSelectedElements
     ]);
     const onCancelClick = useCallback(() => {
@@ -275,6 +283,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                 selectedElements
             )
         });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     const isFormValid = checkValidityMap(state.validityMap);
 

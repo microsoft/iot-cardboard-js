@@ -77,57 +77,13 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
         isAdapterCalledOnMount: false
     });
 
-    const handleModelClick = (modelNode: IHierarchyNode) => {
-        if (onParentNodeClick) {
-            onParentNodeClick(modelNode);
-        } else {
-            cancelCurrentlyLoadingNodes();
-            if (modelNode.isCollapsed) {
-                dispatch({
-                    type: SET_ADT_HIERARCHY_NODE_PROPERTIES,
-                    payload: {
-                        modelId: modelNode.id,
-                        properties: { isLoading: true }
-                    }
-                });
-                isLoadingTriggeredByShowMore.current = false;
-                twinState.callAdapter({ modelId: modelNode.id });
-            } else {
-                dispatch({
-                    type: SET_ADT_HIERARCHY_NODE_PROPERTIES,
-                    payload: {
-                        modelId: modelNode.id,
-                        properties: { isCollapsed: true }
-                    }
-                });
-            }
-        }
-        focusedModelIdRef.current = modelNode.id;
-    };
+    const cancelPendingAdapterRequests = useCallback(() => {
+        modelState.cancelAdapter(true);
+        twinState.cancelAdapter(true);
+        searchState.cancelAdapter();
+    }, [modelState, searchState, twinState]);
 
-    const handleTwinClick = (
-        modelNode: IHierarchyNode,
-        twinNode: IHierarchyNode
-    ) => {
-        dispatch({
-            type: SET_ADT_HIERARCHY_SELECTED_TWIN_ID,
-            payload: {
-                modelId: modelNode?.id,
-                twinId: twinNode.id
-            }
-        });
-        cancelCurrentlyLoadingNodes();
-        focusedTwinRef.current = {
-            modelId: modelNode?.id,
-            twinId: twinNode.id
-        };
-
-        if (onChildNodeClick) {
-            onChildNodeClick(modelNode, twinNode);
-        }
-    };
-
-    const cancelCurrentlyLoadingNodes = () => {
+    const cancelCurrentlyLoadingNodes = useCallback(() => {
         if (focusedTwinRef.current?.modelId && focusedTwinRef.current?.twinId) {
             dispatch({
                 type: SET_ADT_HIERARCHY_NODE_PROPERTIES,
@@ -150,13 +106,60 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
         focusedModelIdRef.current = null;
         focusedTwinRef.current = null;
         cancelPendingAdapterRequests();
-    };
+    }, [cancelPendingAdapterRequests]);
 
-    const cancelPendingAdapterRequests = () => {
-        modelState.cancelAdapter(true);
-        twinState.cancelAdapter(true);
-        searchState.cancelAdapter();
-    };
+    const handleTwinClick = useCallback(
+        (modelNode: IHierarchyNode, twinNode: IHierarchyNode) => {
+            dispatch({
+                type: SET_ADT_HIERARCHY_SELECTED_TWIN_ID,
+                payload: {
+                    modelId: modelNode?.id,
+                    twinId: twinNode.id
+                }
+            });
+            cancelCurrentlyLoadingNodes();
+            focusedTwinRef.current = {
+                modelId: modelNode?.id,
+                twinId: twinNode.id
+            };
+
+            if (onChildNodeClick) {
+                onChildNodeClick(modelNode, twinNode);
+            }
+        },
+        [cancelCurrentlyLoadingNodes, onChildNodeClick]
+    );
+
+    const handleModelClick = useCallback(
+        (modelNode: IHierarchyNode) => {
+            if (onParentNodeClick) {
+                onParentNodeClick(modelNode);
+            } else {
+                cancelCurrentlyLoadingNodes();
+                if (modelNode.isCollapsed) {
+                    dispatch({
+                        type: SET_ADT_HIERARCHY_NODE_PROPERTIES,
+                        payload: {
+                            modelId: modelNode.id,
+                            properties: { isLoading: true }
+                        }
+                    });
+                    isLoadingTriggeredByShowMore.current = false;
+                    twinState.callAdapter({ modelId: modelNode.id });
+                } else {
+                    dispatch({
+                        type: SET_ADT_HIERARCHY_NODE_PROPERTIES,
+                        payload: {
+                            modelId: modelNode.id,
+                            properties: { isCollapsed: true }
+                        }
+                    });
+                }
+            }
+            focusedModelIdRef.current = modelNode.id;
+        },
+        [cancelCurrentlyLoadingNodes, onParentNodeClick, twinState]
+    );
 
     /** This mounted reference is specifically needed for reverse lookup calls (lookupADTTwin) since it is not using useAdapter hook which cancels
      * outstanding requests on unmount. Therefore mountedRef is used not to update state on unmounted component after lookupADTTwin request */
@@ -230,7 +233,13 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
                 }
             });
         }
-    }, [modelState.adapterResult.result]);
+    }, [
+        cancelCurrentlyLoadingNodes,
+        hierarchyNodes,
+        modelState,
+        modelState.adapterResult.result,
+        t
+    ]);
 
     useEffect(() => {
         if (focusedModelIdRef.current && twinState.adapterResult.result) {
@@ -318,7 +327,13 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
                 }
             }
         }
-    }, [twinState.adapterResult.result]);
+    }, [
+        cancelCurrentlyLoadingNodes,
+        hierarchyNodes,
+        t,
+        twinState,
+        twinState.adapterResult.result
+    ]);
 
     useEffect(() => {
         if (!searchState.adapterResult.hasNoData()) {
@@ -367,7 +382,13 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
                 }
             });
         }
-    }, [searchState.adapterResult.getData()]);
+    }, [
+        cancelCurrentlyLoadingNodes,
+        hierarchyNodes,
+        searchState,
+        searchTerm,
+        t
+    ]);
 
     const lookupTwinAndExpandModel = useCallback(async () => {
         dispatch({
@@ -407,7 +428,7 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
                 payload: TwinLookupStatus.ReadyToLocate
             });
         }
-    }, [hierarchyNodes, lookupTwinId]);
+    }, [adapter, handleModelClick, hierarchyNodes, lookupTwinId]);
 
     const locateTwinAfterLookup = useCallback(async () => {
         const twinAndModel = lookupTwinAndModelRef.current;
@@ -449,7 +470,7 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
             type: SET_TWIN_LOOKUP_STATUS,
             payload: TwinLookupStatus.Finished
         });
-    }, [hierarchyNodes, lookupTwinAndModelRef.current]);
+    }, [handleTwinClick, hierarchyNodes]);
 
     /** Initiate lookup process as long as twinLookupStatus is idle and either:
      * (1) when hierarchy nodes (models) are first rendered (when the lookup status is 'Idle') or
@@ -476,7 +497,18 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
         ) {
             locateTwinAfterLookup();
         }
-    }, [hierarchyNodes, twinLookupStatus]);
+    }, [
+        hierarchyNodes,
+        locateTwinAfterLookup,
+        lookupTwinAndExpandModel,
+        lookupTwinId,
+        modelState.adapterResult,
+        modelState.isLoading,
+        searchTerm,
+        twinLookupStatus,
+        twinState.adapterResult,
+        twinState.isLoading
+    ]);
 
     // to trigger lookup process when lookupTwinId prop changes by setting the twinLookupStatus from either 'Finished' or 'Idle' to 'Ready'
     useEffect(() => {
@@ -488,34 +520,19 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
         }
     }, [lookupTwinId]);
 
-    const handleOnParentNodeClick = useCallback((model: IHierarchyNode) => {
-        handleModelClick(model);
-    }, []);
+    const handleOnParentNodeClick = useCallback(
+        (model: IHierarchyNode) => {
+            handleModelClick(model);
+        },
+        [handleModelClick]
+    );
 
     const handleOnChildNodeClick = useCallback(
         (model: IHierarchyNode, twin: IHierarchyNode) => {
             handleTwinClick(model, twin);
         },
-        []
+        [handleTwinClick]
     );
-
-    const handleOnSearch = useCallback((searchTerm: string) => {
-        focusedModelIdRef.current = null;
-        focusedTwinRef.current = null;
-
-        if (searchTerm) {
-            enterSearchMode(searchTerm);
-            cancelPendingAdapterRequests();
-            isLoadingTriggeredByShowMore.current = false;
-            searchState.callAdapter({
-                searchTerm: searchTerm,
-                continuationToken:
-                    searchState.adapterResult?.result?.data?.continuationToken
-            } as AdapterMethodParamsForSearchADTTwins);
-        } else {
-            exitSearchMode();
-        }
-    }, []);
 
     const enterSearchMode = useCallback((searchTerm: string) => {
         dispatch({
@@ -532,7 +549,34 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
         searchState.cancelAdapter();
         isLoadingTriggeredByShowMore.current = false;
         modelState.callAdapter();
-    }, []);
+    }, [modelState, searchState]);
+
+    const handleOnSearch = useCallback(
+        (searchTerm: string) => {
+            focusedModelIdRef.current = null;
+            focusedTwinRef.current = null;
+
+            if (searchTerm) {
+                enterSearchMode(searchTerm);
+                cancelPendingAdapterRequests();
+                isLoadingTriggeredByShowMore.current = false;
+                searchState.callAdapter({
+                    searchTerm: searchTerm,
+                    continuationToken:
+                        searchState.adapterResult?.result?.data
+                            ?.continuationToken
+                } as AdapterMethodParamsForSearchADTTwins);
+            } else {
+                exitSearchMode();
+            }
+        },
+        [
+            cancelPendingAdapterRequests,
+            enterSearchMode,
+            exitSearchMode,
+            searchState
+        ]
+    );
 
     return (
         <div className="cb-adt-hierarchy-wrapper">

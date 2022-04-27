@@ -34,7 +34,7 @@ const ColorPicker: React.FC<IColorPickerProps> = (props) => {
                 id={buttonId}
             />
         ),
-        [selectedItem]
+        [classNames.button, label, selectedItem, t]
     );
     return (
         <>

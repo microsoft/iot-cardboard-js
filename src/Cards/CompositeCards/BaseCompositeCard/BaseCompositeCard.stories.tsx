@@ -58,7 +58,7 @@ const BuggyCounterWithErrorHandling: React.FC<Record<string, unknown>> = () => {
          * and keep in mind that the component which throws the error is going to be unmounted, so this approach is not reliable for components which makes api requests onmount
          */
         setErrorIsHandled(true);
-    }, [error, errorInfo]);
+    }, [error, errorInfo, setErrorIsHandled]);
 
     useEffect(() => {
         if (counter === 5) {

@@ -100,7 +100,7 @@ const AlertsTab: React.FC<{
                 })
             );
         },
-        [setBehaviorToEdit, alertVisualStateRef.current]
+        [setBehaviorToEdit]
     );
 
     const onExpressionChange = useCallback(

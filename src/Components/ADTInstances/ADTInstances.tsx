@@ -35,7 +35,10 @@ const ADTInstances: React.FC<IADTInstancesProps> = ({
         if (!environmentsState.adapterResult.hasNoData()) {
             setInstances(environmentsState.adapterResult.result?.data);
         }
-    }, [environmentsState.adapterResult.result]);
+    }, [
+        environmentsState.adapterResult,
+        environmentsState.adapterResult.result
+    ]);
 
     const dropdownOptions: any = useMemo(
         () =>

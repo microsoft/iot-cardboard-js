@@ -70,7 +70,7 @@ const WidgetsTab: React.FC = () => {
                 });
             }
         },
-        [setWidgetFormInfo]
+        [setWidgetFormInfo, widgets]
     );
 
     const onRemoveWidget = useCallback(
@@ -93,7 +93,7 @@ const WidgetsTab: React.FC = () => {
                 })
             );
         },
-        [setBehaviorToEdit, getPopoverFromBehavior]
+        [setBehaviorToEdit]
     );
 
     const onWidgetAdd = useCallback(
@@ -115,12 +115,7 @@ const WidgetsTab: React.FC = () => {
                 );
             }
         },
-        [
-            setWidgetFormInfo,
-            setBehaviorToEdit,
-            behaviorToEdit,
-            getPopoverFromBehavior
-        ]
+        [setWidgetFormInfo, setBehaviorToEdit, behaviorToEdit]
     );
 
     // generate the list of items to show
@@ -132,7 +127,7 @@ const WidgetsTab: React.FC = () => {
             t
         );
         setListItems(listItems);
-    }, [widgets, onEditWidgetStart, onRemoveWidget]);
+    }, [widgets, onEditWidgetStart, onRemoveWidget, t]);
 
     const theme = useTheme();
     const commonPanelStyles = getLeftPanelStyles(theme);

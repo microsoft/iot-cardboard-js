@@ -37,7 +37,15 @@ const useBehaviorAliasedTwinProperties = ({
                     setOptions(properties);
                 }
             });
-    }, [behavior, behavior.datasources, config, sceneId]);
+    }, [
+        adapter,
+        behavior,
+        behavior.datasources,
+        config,
+        isTwinAliasesIncluded,
+        sceneId,
+        selectedElements
+    ]);
     return { options, isLoading };
 };
 

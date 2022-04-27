@@ -84,7 +84,7 @@ const ModelSearch = ({
                 setIsModelPreviewOpen(true);
             }
         }
-    }, [modelDataState.adapterResult]);
+    }, [modelDataState.adapterResult, onStandardModelSelection]);
 
     // Merge paginated search results with current search results
     useEffect(() => {
@@ -94,7 +94,7 @@ const ModelSearch = ({
                 oldData ? [...oldData, ...newData] : newData
             );
         }
-    }, [searchDataState.adapterResult.result]);
+    }, [searchDataState.adapterResult, searchDataState.adapterResult.result]);
 
     const clearSearchResults = () => {
         searchDataState.cancelAdapter();
@@ -141,7 +141,7 @@ const ModelSearch = ({
                 />
             );
         }
-    }, [adapter]);
+    }, [adapter, t]);
 
     return (
         <div className="cb-modelsearch-container">

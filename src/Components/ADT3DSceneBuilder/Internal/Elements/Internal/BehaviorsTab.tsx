@@ -55,11 +55,11 @@ const BehaviorsTab: React.FC<IADT3DSceneBuilderElementBehaviorProps> = ({
                 );
             })
         );
-    }, [behaviors]);
+    }, [behaviors, elementToEdit]);
 
     useEffect(() => {
         updateBehaviorsToEdit(behaviorState.behaviorsToEdit);
-    }, [behaviorState.behaviorsToEdit]);
+    }, [behaviorState.behaviorsToEdit, updateBehaviorsToEdit]);
 
     const removeBehavior = useCallback(() => {
         setBehaviorState(
@@ -78,24 +78,27 @@ const BehaviorsTab: React.FC<IADT3DSceneBuilderElementBehaviorProps> = ({
                 draft.availableBehaviors.push(draft.behaviorToEdit);
             })
         );
-    }, []);
+    }, [elementToEdit]);
 
-    const addBehaviorToElement = useCallback((behavior: IBehavior) => {
-        setBehaviorState(
-            produce((draft) => {
-                draft.behaviorToEdit = ViewerConfigUtility.addElementToBehavior(
-                    elementToEdit,
-                    behavior
-                );
-                draft.behaviorsOnElement.push(draft.behaviorToEdit);
-                draft.behaviorsToEdit.push(draft.behaviorToEdit);
-                draft.availableBehaviors = ViewerConfigUtility.removeBehaviorFromList(
-                    draft.availableBehaviors,
-                    draft.behaviorToEdit
-                );
-            })
-        );
-    }, []);
+    const addBehaviorToElement = useCallback(
+        (behavior: IBehavior) => {
+            setBehaviorState(
+                produce((draft) => {
+                    draft.behaviorToEdit = ViewerConfigUtility.addElementToBehavior(
+                        elementToEdit,
+                        behavior
+                    );
+                    draft.behaviorsOnElement.push(draft.behaviorToEdit);
+                    draft.behaviorsToEdit.push(draft.behaviorToEdit);
+                    draft.availableBehaviors = ViewerConfigUtility.removeBehaviorFromList(
+                        draft.availableBehaviors,
+                        draft.behaviorToEdit
+                    );
+                })
+            );
+        },
+        [elementToEdit]
+    );
 
     const setBehaviorToEdit = useCallback((item: IBehavior) => {
         setBehaviorState(
@@ -123,7 +126,8 @@ const BehaviorsTab: React.FC<IADT3DSceneBuilderElementBehaviorProps> = ({
         behaviorState.behaviorsOnElement,
         setBehaviorToEdit,
         onBehaviorClick,
-        removeBehavior
+        removeBehavior,
+        t
     ]);
 
     const commonPanelStyles = getLeftPanelStyles(useTheme());

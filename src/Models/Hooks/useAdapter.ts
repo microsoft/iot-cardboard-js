@@ -1,5 +1,5 @@
 import produce from 'immer';
-import { useEffect, useMemo, useReducer, useRef } from 'react';
+import { useCallback, useEffect, useMemo, useReducer, useRef } from 'react';
 import AdapterResult from '../Classes/AdapterResult';
 import { CancelledPromiseError } from '../Classes/Errors';
 import {
@@ -80,7 +80,7 @@ const useAdapter = <T extends IAdapterData>({
             isLongPolling,
             isInitialCall: true
         }),
-        [isLongPolling]
+        [isAdapterCalledOnMount, isLongPolling]
     );
 
     const mountedRef = useRef(null);
@@ -92,7 +92,7 @@ const useAdapter = <T extends IAdapterData>({
         dispatch({ type: SET_IS_LOADING, payload: isLoading });
     };
 
-    const setAdapterResult = (adapterResult: AdapterResult<T>) => {
+    const setAdapterResult = useCallback((adapterResult: AdapterResult<T>) => {
         if (!adapterResult) {
             adapterResult = new AdapterResult<T>({
                 result: null,
@@ -100,37 +100,43 @@ const useAdapter = <T extends IAdapterData>({
             });
         }
         dispatch({ type: SET_ADAPTER_RESULT, payload: adapterResult });
-    };
+    }, []);
 
-    const callAdapter = async (params?: AdapterMethodParams) => {
-        setIsLoading(true);
-        try {
-            const adapterResult = await cancellablePromise(
-                adapterMethod(params)
-            );
-            if (mountedRef.current) {
-                setAdapterResult(adapterResult);
-                setIsLoading(false);
-            }
-        } catch (err) {
-            if (!(err instanceof CancelledPromiseError)) {
-                console.error('Unexpected promise error', err); // log unexpected errors
+    const callAdapter = useCallback(
+        async (params?: AdapterMethodParams) => {
+            setIsLoading(true);
+            try {
+                const adapterResult = await cancellablePromise(
+                    adapterMethod(params)
+                );
                 if (mountedRef.current) {
-                    setIsLoading(false); // Toggle off loading state if component is still mounted
+                    setAdapterResult(adapterResult);
+                    setIsLoading(false);
+                }
+            } catch (err) {
+                if (!(err instanceof CancelledPromiseError)) {
+                    console.error('Unexpected promise error', err); // log unexpected errors
+                    if (mountedRef.current) {
+                        setIsLoading(false); // Toggle off loading state if component is still mounted
+                    }
                 }
             }
-        }
-    };
+        },
+        [adapterMethod, cancellablePromise, setAdapterResult]
+    );
 
-    const cancelAdapter = (shouldPreserveResult?: boolean) => {
-        cancel(); // Cancel outstanding promises
-        if (mountedRef.current) {
-            if (!shouldPreserveResult) {
-                setAdapterResult(null);
+    const cancelAdapter = useCallback(
+        (shouldPreserveResult?: boolean) => {
+            cancel(); // Cancel outstanding promises
+            if (mountedRef.current) {
+                if (!shouldPreserveResult) {
+                    setAdapterResult(null);
+                }
+                setIsLoading(false);
             }
-            setIsLoading(false);
-        }
-    };
+        },
+        [cancel, setAdapterResult]
+    );
 
     const setIsLongPolling = (isLongPolling: boolean) => {
         dispatch({
@@ -160,7 +166,14 @@ const useAdapter = <T extends IAdapterData>({
                 callAdapter();
             }
         }
-    }, [...refetchDependencies]);
+    }, [
+        callAdapter,
+        cancelAdapter,
+        isAdapterCalledOnMount,
+        state.isInitialCall,
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        ...refetchDependencies
+    ]);
 
     useEffect(() => {
         mountedRef.current = true; // Use ref to indicate mounted state
@@ -168,7 +181,7 @@ const useAdapter = <T extends IAdapterData>({
             mountedRef.current = false;
             cancelAdapter();
         };
-    }, []);
+    }, [cancelAdapter]);
 
     return {
         isLoading: state.isLoading,

@@ -102,7 +102,7 @@ const ADTTwinsPage: React.FC<ADTTwinsPageProps> = ({
                 setErrorMessage(null);
             }
         },
-        []
+        [onTwinClick, t]
     );
 
     useEffect(() => {
@@ -114,7 +114,7 @@ const ADTTwinsPage: React.FC<ADTTwinsPageProps> = ({
             setReverseLookupTwinId(lookupTwinId);
         }
         lookupTwinIdRef.current = lookupTwinId;
-    }, [lookupTwinId]);
+    }, [lookupTwinId, reverseLookupTwinId, selectedTwin?.$dtId]);
 
     useEffect(() => {
         // resetting state with adapter change
@@ -126,7 +126,7 @@ const ADTTwinsPage: React.FC<ADTTwinsPageProps> = ({
         if (!connectionState.adapterResult.hasNoData()) {
             setADXConnectionInfo(connectionState.adapterResult.getData());
         }
-    }, [connectionState.adapterResult.result]);
+    }, [connectionState.adapterResult, connectionState.adapterResult.result]);
 
     return (
         <div className="cb-hbcard-container">

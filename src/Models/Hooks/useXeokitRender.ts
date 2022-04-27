@@ -42,7 +42,7 @@ const useXeokitRender = (
         } else {
             onError(t('unsupportedFileType'));
         }
-    }, [bimFilePath, metadataFilePath]);
+    }, [bimFilePath, bimFileType, canvasId, metadataFilePath, onError, t]);
     return viewer?.current;
 };
 

@@ -149,7 +149,15 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
                 onAddScene(newScene);
             }
         }
-    }, [put3DFileBlob.adapterResult.result]);
+    }, [
+        newSceneName,
+        onAddScene,
+        onEditScene,
+        put3DFileBlob.adapterResult,
+        put3DFileBlob.adapterResult.result,
+        scene,
+        sceneToEdit
+    ]);
 
     const dialogContentProps: IDialogContentProps = {
         type: DialogType.normal,
@@ -169,8 +177,18 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
             styles: getDialogStyles(selected3DFilePivotItem),
             className: 'cb-scene-list-dialog-wrapper'
         }),
-        [getDialogStyles, selected3DFilePivotItem]
+        [selected3DFilePivotItem]
     );
+
+    const resetState = useCallback(() => {
+        setNewSceneName('');
+        setNewSceneBlobUrl('');
+        setIsSelectedFileExistInBlob(false);
+        setIsOverwriteFile(false);
+        setBlobsInContainer([]);
+        setSelectedFile(null);
+        setSelected3DFilePivotItem(SelectionModeOf3DFile.FromContainer);
+    }, []);
 
     useEffect(() => {
         setScene(sceneToEdit);
@@ -184,7 +202,7 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
         if (!isOpen) {
             resetState();
         }
-    }, [isOpen]);
+    }, [isOpen, resetState]);
 
     /**
      * When we switch between pivots and if it is "from container" tab cancel ongoing upload file operation and
@@ -198,7 +216,7 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
             setIsOverwriteFile(false);
             setSelectedFile(null);
         }
-    }, [selected3DFilePivotItem]);
+    }, [put3DFileBlob, selected3DFilePivotItem]);
 
     const handleNameChange = useCallback(
         (e) => {
@@ -210,7 +228,7 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
                 setNewSceneName(e.currentTarget.value);
             }
         },
-        [sceneToEdit, scene]
+        [sceneToEdit]
     );
 
     const handleBlobUrlChange = useCallback(
@@ -223,7 +241,7 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
                 setNewSceneBlobUrl(blobUrl);
             }
         },
-        [sceneToEdit, scene]
+        [sceneToEdit]
     );
 
     const handleFileOverwriteChange = useCallback((_e, checked: boolean) => {
@@ -295,16 +313,6 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
             ),
         []
     );
-
-    const resetState = useCallback(() => {
-        setNewSceneName('');
-        setNewSceneBlobUrl('');
-        setIsSelectedFileExistInBlob(false);
-        setIsOverwriteFile(false);
-        setBlobsInContainer([]);
-        setSelectedFile(null);
-        setSelected3DFilePivotItem(SelectionModeOf3DFile.FromContainer);
-    }, []);
 
     const isSubmitButtonDisabled = useMemo(
         () =>

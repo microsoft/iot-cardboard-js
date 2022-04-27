@@ -22,7 +22,7 @@ const useTSIChartComponentRender = (
                 renderParameters.chartDataOptions
             );
         }
-    }, [renderParameters]);
+    }, [chartContainerGUID, component, renderParameters]);
 
     return chartContainerGUID;
 };

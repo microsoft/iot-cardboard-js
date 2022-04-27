@@ -144,7 +144,7 @@ const DataPusherCard = ({
     // Update adapter's ADT Url when input changes
     useEffect(() => {
         adapter.adtHostUrl = state.instanceUrl;
-    }, [state.instanceUrl]);
+    }, [adapter, state.instanceUrl]);
 
     // Safely unmount
     useEffect(() => {
@@ -179,7 +179,7 @@ const DataPusherCard = ({
                 }
             });
         }
-    }, [updateTwinState.adapterResult]);
+    }, [adapter.packetNumber, updateTwinState.adapterResult]);
 
     useEffect(() => {
         if (state.simulationStatus.areAssetsUploaded) {

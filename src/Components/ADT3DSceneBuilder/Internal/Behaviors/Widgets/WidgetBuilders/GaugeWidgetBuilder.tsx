@@ -42,7 +42,11 @@ const GaugeWidgetBuilder: React.FC<IGaugeWidgetBuilderProps> = ({
         } else {
             setIsWidgetConfigValid(false);
         }
-    }, [formData, valueRangeBuilderState.areRangesValid]);
+    }, [
+        formData,
+        setIsWidgetConfigValid,
+        valueRangeBuilderState.areRangesValid
+    ]);
 
     useEffect(() => {
         updateWidgetData(
@@ -52,7 +56,7 @@ const GaugeWidgetBuilder: React.FC<IGaugeWidgetBuilderProps> = ({
                 );
             })
         );
-    }, [valueRangeBuilderState.valueRanges]);
+    }, [formData, updateWidgetData, valueRangeBuilderState.valueRanges]);
 
     const onPropertyChange = useCallback(
         (option: string) => {

@@ -30,7 +30,7 @@ const AliasedTwinsTab: React.FC = () => {
                 mode: TwinAliasFormMode.EditTwinAlias
             });
         },
-        []
+        [setElementTwinAliasFormInfo]
     );
 
     // When removing a twin alias from an element, remove that alias from element's twinAliases object.
@@ -46,7 +46,7 @@ const AliasedTwinsTab: React.FC = () => {
                 })
             );
         },
-        []
+        [setElementToEdit]
     );
 
     useEffect(() => {
@@ -61,7 +61,7 @@ const AliasedTwinsTab: React.FC = () => {
                 t
             )
         );
-    }, [elementToEdit]);
+    }, [elementToEdit, onTwinAliasClick, onTwinAliasRemoveFromElement, t]);
 
     const commonPanelStyles = getLeftPanelStyles(useTheme());
     return (

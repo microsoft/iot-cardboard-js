@@ -129,7 +129,7 @@ const ModelViewerModePicker: React.FC<ModelViewerModePickerProps> = ({
             background: backgroundColors[0].color,
             style: ViewerModeStyles.Default
         });
-    }, []);
+    }, [backgroundColors, objectColors, viewerModeUpdated]);
 
     useEffect(() => {
         if (defaultViewerMode) {
@@ -148,7 +148,7 @@ const ModelViewerModePicker: React.FC<ModelViewerModePickerProps> = ({
                     : objectColors[0].color
             );
         }
-    }, [defaultViewerMode]);
+    }, [defaultViewerMode, objectColors]);
 
     const updateStyle = (style: ViewerModeStyles) => {
         setViewerMode(

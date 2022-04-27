@@ -71,7 +71,7 @@ const LayerDropdown: React.FC<LayerDropdownProps> = ({
                 </>
             );
         },
-        [styles]
+        [styles.titleText, t]
     );
 
     const onRenderPlaceholder = useCallback(

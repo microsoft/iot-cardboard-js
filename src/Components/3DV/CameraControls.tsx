@@ -48,7 +48,7 @@ export const CameraControls: React.FC<CameraControlProps> = ({
         if (cameraInteractionType) {
             onCameraInteractionChanged(cameraInteractionType);
         }
-    }, [cameraInteractionType]);
+    }, [cameraInteractionType, onCameraInteractionChanged]);
 
     useEffect(() => {
         if (cameraInteraction) {

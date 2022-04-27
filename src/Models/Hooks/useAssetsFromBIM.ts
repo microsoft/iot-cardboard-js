@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { Viewer } from '@xeokit/xeokit-sdk/src/viewer/Viewer';
 import { TreeViewPlugin } from '@xeokit/xeokit-sdk/src/plugins/TreeViewPlugin/TreeViewPlugin';
@@ -29,7 +29,7 @@ const useAssetsFromBIM = (
         modelCounts: {}
     });
 
-    const resetAssetsState = () => {
+    const resetAssetsState = useCallback(() => {
         setAssetsState({
             models: [],
             twins: [],
@@ -37,7 +37,7 @@ const useAssetsFromBIM = (
             modelCounts: {}
         });
         onIsLoadingChange(false);
-    };
+    }, [onIsLoadingChange]);
 
     const transformModels = (typesDictionary): DTModel[] => {
         return Object.keys(typesDictionary).map((modelName) => {
@@ -65,10 +65,13 @@ const useAssetsFromBIM = (
         return countsDictionary;
     };
 
-    const viewData = {
-        [ADTModel_BimFilePath_PropertyName]: bimFilePath,
-        [ADTModel_MetadataFilePath_PropertyName]: metadataFilePath
-    };
+    const viewData = useMemo(
+        () => ({
+            [ADTModel_BimFilePath_PropertyName]: bimFilePath,
+            [ADTModel_MetadataFilePath_PropertyName]: metadataFilePath
+        }),
+        [bimFilePath, metadataFilePath]
+    );
 
     const extractAssets = useCallback(
         (root) => {
@@ -198,7 +201,7 @@ const useAssetsFromBIM = (
             });
             onIsLoadingChange(false);
         },
-        [bimFilePath, metadataFilePath]
+        [onIsLoadingChange, viewData]
     );
 
     useEffect(() => {
@@ -242,7 +245,15 @@ const useAssetsFromBIM = (
         } else {
             resetAssetsState();
         }
-    }, [bimFilePath, metadataFilePath]);
+    }, [
+        bimFilePath,
+        extractAssets,
+        ghostBimId,
+        ghostTreeId,
+        metadataFilePath,
+        onIsLoadingChange,
+        resetAssetsState
+    ]);
     return assetsState;
 };
 

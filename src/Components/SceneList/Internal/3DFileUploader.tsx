@@ -79,7 +79,7 @@ const File3DUploader: React.FC<File3DUploaderProps> = ({
             ) : (
                 ''
             ),
-        [selectedFile]
+        [onFileChange, selectedFile]
     );
 
     return (

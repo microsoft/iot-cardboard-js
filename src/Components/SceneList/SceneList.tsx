@@ -37,6 +37,10 @@ import {
     IScene
 } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 
+const confirmDeletionDialogStyles: Partial<IModalStyles> = {
+    main: { maxWidth: 450, minHeight: 165 }
+};
+
 const SceneList: React.FC<SceneListProps> = ({
     adapter,
     theme,
@@ -132,7 +136,7 @@ const SceneList: React.FC<SceneListProps> = ({
             scenesConfig.callAdapter();
             setIsSceneDialogOpen(false);
         }
-    }, [addScene?.adapterResult]);
+    }, [addScene.adapterResult, scenesConfig]);
 
     useEffect(() => {
         if (editScene.adapterResult.result) {
@@ -140,7 +144,7 @@ const SceneList: React.FC<SceneListProps> = ({
             setIsSceneDialogOpen(false);
             setSelectedScene(null);
         }
-    }, [editScene?.adapterResult]);
+    }, [editScene.adapterResult, scenesConfig]);
 
     useEffect(() => {
         if (deleteScene.adapterResult.result) {
@@ -148,7 +152,7 @@ const SceneList: React.FC<SceneListProps> = ({
             setIsConfirmDeleteDialogOpen(false);
             setSelectedScene(null);
         }
-    }, [deleteScene?.adapterResult]);
+    }, [deleteScene.adapterResult, scenesConfig]);
 
     const { t } = useTranslation();
 
@@ -157,10 +161,6 @@ const SceneList: React.FC<SceneListProps> = ({
         title: t('confirmDeletion'),
         closeButtonAriaLabel: t('close'),
         subText: t('confirmDeletionDesc')
-    };
-
-    const confirmDeletionDialogStyles: Partial<IModalStyles> = {
-        main: { maxWidth: 450, minHeight: 165 }
     };
 
     const confirmDeletionModalProps = React.useMemo(

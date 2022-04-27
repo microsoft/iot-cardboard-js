@@ -210,6 +210,124 @@ function SceneView(props: ISceneViewProp, ref) {
     debugLog('SceneView Render');
     const url = modelUrl === 'Globe' ? globeUrl : modelUrl;
 
+    const createOrZoomCamera = useCallback(
+        (meshIds?: string[]) => {
+            const zoomMeshIds = meshIds || zoomToMeshIds;
+            const zoomTo = (zoomMeshIds || []).join(',');
+            // Only zoom if the Ids actually changed, not just a re-render or mesh ids have been passed to this function
+            const shouldZoom =
+                meshIds?.length > 0 || prevZoomToIds.current !== zoomTo;
+            if (
+                sceneRef.current?.meshes?.length &&
+                (!cameraRef.current ||
+                    shouldZoom ||
+                    prevHideUnzoomedRef.current !== unzoomedMeshOpacity)
+            ) {
+                debugLog('createOrZoomCamera');
+                prevHideUnzoomedRef.current = unzoomedMeshOpacity;
+                meshMap.current = cameraRef.current ? meshMap.current : {};
+                for (const mesh of sceneRef.current.meshes) {
+                    if (!cameraRef.current && mesh.id) {
+                        meshMap.current[mesh.id] = mesh;
+                    }
+
+                    mesh.computeWorldMatrix(true);
+                    mesh.visibility =
+                        unzoomedMeshOpacity !== undefined &&
+                        zoomMeshIds?.length &&
+                        !zoomMeshIds.includes(mesh.id)
+                            ? unzoomedMeshOpacity
+                            : 1;
+                }
+
+                if (!cameraRef.current || shouldZoom) {
+                    prevZoomToIds.current = zoomTo;
+                    const someMeshFromTheArrayOfMeshes =
+                        sceneRef.current.meshes[0];
+                    let meshes = sceneRef.current.meshes;
+                    if (zoomMeshIds?.length) {
+                        const meshList: BABYLON.AbstractMesh[] = [];
+                        for (const id of zoomMeshIds) {
+                            const m = meshMap.current?.[id];
+                            if (m) {
+                                meshList.push(m);
+                            }
+                        }
+
+                        if (meshList.length) {
+                            meshes = meshList;
+                        }
+                    }
+
+                    let bbox = getBoundingBox(meshes);
+                    if (!bbox) {
+                        // Bad meshnames passed
+                        meshes = sceneRef.current.meshes;
+                        bbox = getBoundingBox(meshes);
+                    }
+
+                    zoomedMeshesRef.current = meshes;
+
+                    someMeshFromTheArrayOfMeshes.setBoundingInfo(bbox);
+
+                    someMeshFromTheArrayOfMeshes.showBoundingBox = false;
+
+                    const es = someMeshFromTheArrayOfMeshes.getBoundingInfo()
+                        .boundingBox.extendSize;
+                    const es_scaled = es.scale(
+                        zoomMeshIds && zoomMeshIds.length < 10 ? 5 : 3
+                    );
+                    const width = es_scaled.x;
+                    const height = es_scaled.y;
+                    const depth = es_scaled.z;
+                    let radius = Math.max(width, height, depth);
+
+                    const center = someMeshFromTheArrayOfMeshes.getBoundingInfo()
+                        .boundingBox.centerWorld;
+
+                    const canvas = document.getElementById(
+                        canvasId
+                    ) as HTMLCanvasElement;
+
+                    // First time in after loading - create the camera
+                    if (!cameraRef.current) {
+                        initialCameraRadiusRef.current = radius;
+                        const camera = new BABYLON.ArcRotateCamera(
+                            'camera',
+                            0,
+                            Math.PI / 2.5,
+                            radius,
+                            center,
+                            sceneRef.current
+                        );
+
+                        camera.attachControl(canvas, false);
+                        camera.lowerRadiusLimit = 0;
+                        cameraRef.current = camera;
+                        cameraRef.current.zoomOn(meshes, true);
+                        cameraRef.current.radius = radius;
+
+                        // Register a render loop to repeatedly render the scene
+                        engineRef.current.runRenderLoop(() => {
+                            if (cameraRef.current) {
+                                sceneRef.current.render();
+                            }
+                        });
+                    } else {
+                        // ensure if zoom to mesh ids are set we return to the original radius
+                        if (!zoomMeshIds?.length) {
+                            radius = initialCameraRadiusRef.current;
+                        }
+                        zoomedCameraRadiusRef.current = radius;
+                        // Here if the caller changed zoomToMeshIds - zoom the existing camera
+                        zoomCamera(radius, meshes, 30);
+                    }
+                }
+            }
+        },
+        [canvasId, unzoomedMeshOpacity, zoomToMeshIds]
+    );
+
     // INITIALIZE AND LOAD SCENE
     const init = useCallback(() => {
         debugLog('**************init');
@@ -336,126 +454,21 @@ function SceneView(props: ISceneViewProp, ref) {
         }
 
         return sceneRef.current;
-    }, [canvasId, modelUrl]);
+    }, [
+        canvasId,
+        createOrZoomCamera,
+        currentObjectColor.coloredMeshHoverColor,
+        currentObjectColor.meshHoverColor,
+        getToken,
+        modelUrl,
+        onSceneLoaded,
+        url
+    ]);
 
     const sortMeshesOnLoad = () => {
         for (const mesh of sceneRef.current.meshes) {
             //Set the alpha index for the meshes for alpha sorting later
             mesh.alphaIndex = 1;
-        }
-    };
-
-    const createOrZoomCamera = (meshIds?: string[]) => {
-        const zoomMeshIds = meshIds || zoomToMeshIds;
-        const zoomTo = (zoomMeshIds || []).join(',');
-        // Only zoom if the Ids actually changed, not just a re-render or mesh ids have been passed to this function
-        const shouldZoom =
-            meshIds?.length > 0 || prevZoomToIds.current !== zoomTo;
-        if (
-            sceneRef.current?.meshes?.length &&
-            (!cameraRef.current ||
-                shouldZoom ||
-                prevHideUnzoomedRef.current !== unzoomedMeshOpacity)
-        ) {
-            debugLog('createOrZoomCamera');
-            prevHideUnzoomedRef.current = unzoomedMeshOpacity;
-            meshMap.current = cameraRef.current ? meshMap.current : {};
-            for (const mesh of sceneRef.current.meshes) {
-                if (!cameraRef.current && mesh.id) {
-                    meshMap.current[mesh.id] = mesh;
-                }
-
-                mesh.computeWorldMatrix(true);
-                mesh.visibility =
-                    unzoomedMeshOpacity !== undefined &&
-                    zoomMeshIds?.length &&
-                    !zoomMeshIds.includes(mesh.id)
-                        ? unzoomedMeshOpacity
-                        : 1;
-            }
-
-            if (!cameraRef.current || shouldZoom) {
-                prevZoomToIds.current = zoomTo;
-                const someMeshFromTheArrayOfMeshes = sceneRef.current.meshes[0];
-                let meshes = sceneRef.current.meshes;
-                if (zoomMeshIds?.length) {
-                    const meshList: BABYLON.AbstractMesh[] = [];
-                    for (const id of zoomMeshIds) {
-                        const m = meshMap.current?.[id];
-                        if (m) {
-                            meshList.push(m);
-                        }
-                    }
-
-                    if (meshList.length) {
-                        meshes = meshList;
-                    }
-                }
-
-                let bbox = getBoundingBox(meshes);
-                if (!bbox) {
-                    // Bad meshnames passed
-                    meshes = sceneRef.current.meshes;
-                    bbox = getBoundingBox(meshes);
-                }
-
-                zoomedMeshesRef.current = meshes;
-
-                someMeshFromTheArrayOfMeshes.setBoundingInfo(bbox);
-
-                someMeshFromTheArrayOfMeshes.showBoundingBox = false;
-
-                const es = someMeshFromTheArrayOfMeshes.getBoundingInfo()
-                    .boundingBox.extendSize;
-                const es_scaled = es.scale(
-                    zoomMeshIds && zoomMeshIds.length < 10 ? 5 : 3
-                );
-                const width = es_scaled.x;
-                const height = es_scaled.y;
-                const depth = es_scaled.z;
-                let radius = Math.max(width, height, depth);
-
-                const center = someMeshFromTheArrayOfMeshes.getBoundingInfo()
-                    .boundingBox.centerWorld;
-
-                const canvas = document.getElementById(
-                    canvasId
-                ) as HTMLCanvasElement;
-
-                // First time in after loading - create the camera
-                if (!cameraRef.current) {
-                    initialCameraRadiusRef.current = radius;
-                    const camera = new BABYLON.ArcRotateCamera(
-                        'camera',
-                        0,
-                        Math.PI / 2.5,
-                        radius,
-                        center,
-                        sceneRef.current
-                    );
-
-                    camera.attachControl(canvas, false);
-                    camera.lowerRadiusLimit = 0;
-                    cameraRef.current = camera;
-                    cameraRef.current.zoomOn(meshes, true);
-                    cameraRef.current.radius = radius;
-
-                    // Register a render loop to repeatedly render the scene
-                    engineRef.current.runRenderLoop(() => {
-                        if (cameraRef.current) {
-                            sceneRef.current.render();
-                        }
-                    });
-                } else {
-                    // ensure if zoom to mesh ids are set we return to the original radius
-                    if (!zoomMeshIds?.length) {
-                        radius = initialCameraRadiusRef.current;
-                    }
-                    zoomedCameraRadiusRef.current = radius;
-                    // Here if the caller changed zoomToMeshIds - zoom the existing camera
-                    zoomCamera(radius, meshes, 30);
-                }
-            }
         }
     };
 
@@ -465,7 +478,7 @@ function SceneView(props: ISceneViewProp, ref) {
         if (!isLoading) {
             createOrZoomCamera();
         }
-    }, [zoomToMeshIds, unzoomedMeshOpacity]);
+    }, [zoomToMeshIds, unzoomedMeshOpacity, isLoading, createOrZoomCamera]);
 
     if (!originalMaterials.current && sceneRef.current?.meshes?.length) {
         originalMaterials.current = {};
@@ -476,19 +489,24 @@ function SceneView(props: ISceneViewProp, ref) {
         }
     }
 
-    const shouldIgnore = (mesh: BABYLON.AbstractMesh) => {
-        let ignore = false;
-        if (coloredMeshItems) {
-            ignore = !!coloredMeshItems?.find((mi) => mi.meshId === mesh.id);
-        }
+    const shouldIgnore = useCallback(
+        (mesh: BABYLON.AbstractMesh) => {
+            let ignore = false;
+            if (coloredMeshItems) {
+                ignore = !!coloredMeshItems?.find(
+                    (mi) => mi.meshId === mesh.id
+                );
+            }
 
-        return ignore;
-    };
+            return ignore;
+        },
+        [coloredMeshItems]
+    );
 
     //Get the index of the current objectColor to use as an ID for caching
-    const currentColorId = () => {
+    const currentColorId = useCallback(() => {
         return ViewerModeObjectColors.indexOf(currentObjectColor);
-    };
+    }, [currentObjectColor]);
 
     useEffect(() => {
         if (objectColors) {
@@ -496,7 +514,7 @@ function SceneView(props: ISceneViewProp, ref) {
         }
     }, [objectColors]);
 
-    const restoreMeshMaterials = () => {
+    const restoreMeshMaterials = useCallback(() => {
         if (sceneRef.current?.meshes?.length && !isLoading) {
             if (meshesAreOriginal.current) {
                 for (const mesh of sceneRef.current.meshes) {
@@ -511,14 +529,74 @@ function SceneView(props: ISceneViewProp, ref) {
                 }
             }
         }
-    };
+    }, [isLoading]);
+
+    const clearBadgeGroups = useCallback(
+        (force: boolean) => {
+            debugLog('clearBadgeGroups');
+            const groupsToRemove = [];
+            badgeGroupsRef?.current.forEach((badgeGroupRef) => {
+                // remove badge if group is no longer in prop
+                if (
+                    !badgeGroups?.find((bg) => bg.id === badgeGroupRef.name) ||
+                    force
+                ) {
+                    debugLog('removing badge');
+                    advancedTextureRef.current.removeControl(badgeGroupRef);
+                    groupsToRemove.push(badgeGroupRef);
+                }
+            });
+            groupsToRemove?.forEach((group) => {
+                badgeGroupsRef.current = badgeGroupsRef.current.filter(
+                    (bg) => bg.name !== group.name
+                );
+            });
+        },
+        [badgeGroups]
+    );
+
+    const createBadgeGroups = useCallback(() => {
+        if (badgeGroups && advancedTextureRef.current && sceneRef.current) {
+            debugLog('createBadgeGroups');
+            badgeGroups.forEach((bg) => {
+                const mesh = sceneRef.current.meshes.find(
+                    (m) => m.id === bg.meshId
+                );
+                // only add badge group if not already present and mesh exists
+                if (
+                    !badgeGroupsRef.current.find(
+                        (badgeGroupRef) => badgeGroupRef.name === bg.id
+                    ) &&
+                    mesh
+                ) {
+                    debugLog('adding badge group');
+                    const badgeGroup = createBadgeGroup(
+                        bg,
+                        backgroundColor,
+                        onBadgeGroupHover
+                    );
+                    advancedTextureRef.current.addControl(badgeGroup);
+                    badgeGroup.linkWithMesh(mesh);
+
+                    // badges can only be linked to meshes after being added to the scene
+                    // so adding a delay in making it visible so it doesn't jump
+                    const waitUntilPostioned = async () => {
+                        await sleep(1);
+                        badgeGroup.isVisible = true;
+                    };
+                    waitUntilPostioned();
+                    badgeGroupsRef.current.push(badgeGroup);
+                }
+            });
+        }
+    }, [backgroundColor, badgeGroups, onBadgeGroupHover]);
 
     useEffect(() => {
         createBadgeGroups();
         return () => {
             clearBadgeGroups(false);
         };
-    }, [badgeGroups, isLoading]);
+    }, [badgeGroups, clearBadgeGroups, createBadgeGroups, isLoading]);
 
     useEffect(() => {
         if (backgroundColor !== backgroundColorRef?.current) {
@@ -526,7 +604,7 @@ function SceneView(props: ISceneViewProp, ref) {
             clearBadgeGroups(true);
             createBadgeGroups();
         }
-    }, [backgroundColor]);
+    }, [backgroundColor, clearBadgeGroups, createBadgeGroups]);
 
     useEffect(() => {
         if (cameraInteractionType && cameraRef.current) {
@@ -630,63 +708,6 @@ function SceneView(props: ISceneViewProp, ref) {
             BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT,
             ease
         );
-    };
-
-    const clearBadgeGroups = (force: boolean) => {
-        debugLog('clearBadgeGroups');
-        const groupsToRemove = [];
-        badgeGroupsRef?.current.forEach((badgeGroupRef) => {
-            // remove badge if group is no longer in prop
-            if (
-                !badgeGroups?.find((bg) => bg.id === badgeGroupRef.name) ||
-                force
-            ) {
-                debugLog('removing badge');
-                advancedTextureRef.current.removeControl(badgeGroupRef);
-                groupsToRemove.push(badgeGroupRef);
-            }
-        });
-        groupsToRemove?.forEach((group) => {
-            badgeGroupsRef.current = badgeGroupsRef.current.filter(
-                (bg) => bg.name !== group.name
-            );
-        });
-    };
-
-    const createBadgeGroups = () => {
-        if (badgeGroups && advancedTextureRef.current && sceneRef.current) {
-            debugLog('createBadgeGroups');
-            badgeGroups.forEach((bg) => {
-                const mesh = sceneRef.current.meshes.find(
-                    (m) => m.id === bg.meshId
-                );
-                // only add badge group if not already present and mesh exists
-                if (
-                    !badgeGroupsRef.current.find(
-                        (badgeGroupRef) => badgeGroupRef.name === bg.id
-                    ) &&
-                    mesh
-                ) {
-                    debugLog('adding badge group');
-                    const badgeGroup = createBadgeGroup(
-                        bg,
-                        backgroundColor,
-                        onBadgeGroupHover
-                    );
-                    advancedTextureRef.current.addControl(badgeGroup);
-                    badgeGroup.linkWithMesh(mesh);
-
-                    // badges can only be linked to meshes after being added to the scene
-                    // so adding a delay in making it visible so it doesn't jump
-                    const waitUntilPostioned = async () => {
-                        await sleep(1);
-                        badgeGroup.isVisible = true;
-                    };
-                    waitUntilPostioned();
-                    badgeGroupsRef.current.push(badgeGroup);
-                }
-            });
-        }
     };
 
     // Update render mode
@@ -814,7 +835,13 @@ function SceneView(props: ISceneViewProp, ref) {
                 coloredHovMaterial.current.wireframe = !!isWireframe;
             }
         }
-    }, [isWireframe, isLoading, currentObjectColor]);
+    }, [
+        isWireframe,
+        isLoading,
+        currentObjectColor,
+        currentColorId,
+        shouldIgnore
+    ]);
 
     // Handle isWireframe changes
     useEffect(() => {
@@ -876,7 +903,7 @@ function SceneView(props: ISceneViewProp, ref) {
             cameraRef.current = null;
             reflectionTexture.current = null;
         };
-    }, [modelUrl]);
+    }, [canvasId, modelUrl]);
 
     // Reload model if url changes
     useEffect(() => {
@@ -895,7 +922,7 @@ function SceneView(props: ISceneViewProp, ref) {
             }
             materialCacheRef.current = [];
         };
-    }, [modelUrl, init]);
+    }, [modelUrl, init, scene]);
 
     // Add the marker spheres
     useEffect(() => {
@@ -1103,7 +1130,8 @@ function SceneView(props: ISceneViewProp, ref) {
         markers,
         showHoverOnSelected,
         coloredMeshItems,
-        currentObjectColor
+        currentObjectColor,
+        showMeshesOnHover
     ]);
 
     // SETUP LOGIC FOR onMeshClick
@@ -1181,6 +1209,46 @@ function SceneView(props: ISceneViewProp, ref) {
             }
         };
     }, [scene]);
+
+    const colorMesh = useCallback(
+        (mesh: AbstractMesh, color: string) => {
+            if (!mesh) {
+                return;
+            }
+
+            // Creating materials is VERY expensive, so try and avoid it
+            const col = color || currentObjectColor?.coloredMeshColor;
+            const fresnelCol = currentObjectColor?.fresnelColor || color;
+
+            const materialId = currentColorId() + col;
+
+            let material = materialCacheRef.current[materialId];
+            if (!material) {
+                material = makeMaterial(
+                    'coloredMeshMaterial',
+                    sceneRef.current,
+                    hexToColor4(col),
+                    hexToColor4(fresnelCol),
+                    reflectionTexture.current,
+                    currentObjectColor.lightingStyle
+                );
+
+                materialCacheRef.current[materialId] = material;
+                debugLog('Creating material for ' + materialId);
+            }
+
+            material.wireframe = !!isWireframe;
+            mesh.material = material;
+            coloredMaterials.current[mesh.id] = material;
+        },
+        [
+            currentColorId,
+            currentObjectColor?.coloredMeshColor,
+            currentObjectColor?.fresnelColor,
+            currentObjectColor.lightingStyle,
+            isWireframe
+        ]
+    );
 
     // SETUP LOGIC FOR HANDLING COLORING MESHES
     useEffect(() => {
@@ -1319,38 +1387,15 @@ function SceneView(props: ISceneViewProp, ref) {
             restoreMeshMaterials();
             coloredMaterials.current = [];
         };
-    }, [coloredMeshItems, isLoading, isWireframe, currentObjectColor]);
-
-    const colorMesh = (mesh: AbstractMesh, color: string) => {
-        if (!mesh) {
-            return;
-        }
-
-        // Creating materials is VERY expensive, so try and avoid it
-        const col = color || currentObjectColor?.coloredMeshColor;
-        const fresnelCol = currentObjectColor?.fresnelColor || color;
-
-        const materialId = currentColorId() + col;
-
-        let material = materialCacheRef.current[materialId];
-        if (!material) {
-            material = makeMaterial(
-                'coloredMeshMaterial',
-                sceneRef.current,
-                hexToColor4(col),
-                hexToColor4(fresnelCol),
-                reflectionTexture.current,
-                currentObjectColor.lightingStyle
-            );
-
-            materialCacheRef.current[materialId] = material;
-            debugLog('Creating material for ' + materialId);
-        }
-
-        material.wireframe = !!isWireframe;
-        mesh.material = material;
-        coloredMaterials.current[mesh.id] = material;
-    };
+    }, [
+        coloredMeshItems,
+        isLoading,
+        isWireframe,
+        currentObjectColor,
+        scene,
+        colorMesh,
+        restoreMeshMaterials
+    ]);
 
     // Handle outlinedMeshItems
     useEffect(() => {
@@ -1416,7 +1461,11 @@ function SceneView(props: ISceneViewProp, ref) {
                 clonedHighlightMeshes.current = [];
             }
         };
-    }, [outlinedMeshitems]);
+    }, [
+        currentObjectColor.lightingStyle,
+        currentObjectColor.outlinedMeshSelectedColor,
+        outlinedMeshitems
+    ]);
 
     const theme = useTheme();
     const customStyles = getSceneViewStyles(theme);

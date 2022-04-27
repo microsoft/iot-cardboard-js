@@ -125,7 +125,7 @@ const WidgetForm: React.FC<{
         } else if (widgetFormInfo.mode === WidgetFormMode.EditWidget) {
             activeWidgetId.current = widgetFormInfo.widgetId;
         }
-    }, []);
+    }, [setBehaviorToEdit, widgetFormInfo]);
 
     const updateWidgetData = useCallback(
         (widgetData: IWidget) => {

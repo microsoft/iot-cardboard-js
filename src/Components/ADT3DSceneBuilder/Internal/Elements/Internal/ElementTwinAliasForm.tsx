@@ -55,7 +55,13 @@ const ElementTwinAliasForm: React.FC = () => {
         }
         setElementTwinAliasFormInfo(null);
         setFormData(null);
-    }, [elementTwinAliasFormInfo, formData]);
+    }, [
+        elementTwinAliasFormInfo.mode,
+        formData.alias,
+        formData.twinId,
+        setElementToEdit,
+        setElementTwinAliasFormInfo
+    ]);
 
     useEffect(() => {
         const isValid = Boolean(formData.alias && formData.twinId);

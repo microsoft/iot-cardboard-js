@@ -40,7 +40,7 @@ const ValueRangeBuilder: React.FC<IValueRangeBuilderProps> = ({
                     ValueRangeBuilderActionType.PRE_FILL_VALUE_RANGES_TO_MIN_REQUIRED
             });
         }
-    }, []);
+    }, [dispatch, state.minRanges, state.valueRanges.length]);
 
     // Update consumer when validation map changes
     useEffect(() => {
@@ -57,7 +57,7 @@ const ValueRangeBuilder: React.FC<IValueRangeBuilderProps> = ({
             type: ValueRangeBuilderActionType.SET_ARE_RANGES_VALID,
             payload: areRangesValid
         });
-    }, [state.validationMap]);
+    }, [dispatch, state.validationMap, state.valueRanges]);
 
     return (
         <ValueRangeBuilderContext.Provider

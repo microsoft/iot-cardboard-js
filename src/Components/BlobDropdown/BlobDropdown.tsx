@@ -69,7 +69,13 @@ const BlobDropdown: React.FC<BlobDropdownProps> = ({
                 }
             }
         }
-    }, [containerBlobsAdapterData.adapterResult.result]);
+    }, [
+        containerBlobsAdapterData.adapterResult,
+        containerBlobsAdapterData.adapterResult?.result,
+        onLoad,
+        selectedBlobUrl,
+        valueToEdit
+    ]);
 
     const comboBoxStyles: Partial<IComboBoxStyles> = {
         container: { paddingBottom: 16, width: width },
@@ -194,23 +200,26 @@ const BlobDropdown: React.FC<BlobDropdownProps> = ({
     }, []);
 
     // this validation can be improved as necessary
-    const isValidUrlStr = useCallback((urlStr: string) => {
-        try {
-            let urlStringToTest = urlStr;
-            if (!urlStr?.startsWith('https://')) {
-                urlStringToTest = 'https://' + urlStringToTest;
+    const isValidUrlStr = useCallback(
+        (urlStr: string) => {
+            try {
+                let urlStringToTest = urlStr;
+                if (!urlStr?.startsWith('https://')) {
+                    urlStringToTest = 'https://' + urlStringToTest;
+                }
+                return (
+                    urlStr &&
+                    ValidContainerHostSuffixes.some((suffix) =>
+                        new URL(urlStringToTest).hostname.endsWith(suffix)
+                    ) &&
+                    fileTypes.some((suffix) => urlStringToTest.endsWith(suffix))
+                );
+            } catch (error) {
+                return false;
             }
-            return (
-                urlStr &&
-                ValidContainerHostSuffixes.some((suffix) =>
-                    new URL(urlStringToTest).hostname.endsWith(suffix)
-                ) &&
-                fileTypes.some((suffix) => urlStringToTest.endsWith(suffix))
-            );
-        } catch (error) {
-            return false;
-        }
-    }, []);
+        },
+        [fileTypes]
+    );
 
     const handleChange = useCallback(
         (option, value) => {
@@ -237,7 +246,7 @@ const BlobDropdown: React.FC<BlobDropdownProps> = ({
                 onChange(option.data?.Path ?? option.text);
             }
         },
-        [customUrls, files]
+        [customUrls, files, isValidUrlStr, onChange]
     );
 
     const customUrlInputError = useMemo(
@@ -247,7 +256,7 @@ const BlobDropdown: React.FC<BlobDropdownProps> = ({
             !isValidUrlStr(valueToEdit)
                 ? t('blobDropdown.invalidBlobUrlPath')
                 : undefined,
-        [valueToEdit]
+        [inputOrOption, isValidUrlStr, t, valueToEdit]
     );
 
     return (

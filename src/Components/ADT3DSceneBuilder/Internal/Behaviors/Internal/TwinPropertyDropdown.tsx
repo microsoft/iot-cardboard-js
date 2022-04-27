@@ -82,7 +82,7 @@ const TwinPropertyDropown: React.FC<ITwinPropertyDropdownProps> = ({
             text: t(LOC_KEYS.noSelectionValue)
         });
         return dropdownOptions;
-    }, [options]);
+    }, [defaultSelectedKey, options, t]);
 
     const onPropertyChange = useCallback(
         (_e, option: IDropdownOption) => {
@@ -108,6 +108,7 @@ const TwinPropertyDropown: React.FC<ITwinPropertyDropdownProps> = ({
                 </>
             );
         },
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         []
     );
 
