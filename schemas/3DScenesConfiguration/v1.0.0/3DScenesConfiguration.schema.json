@@ -208,6 +208,21 @@
             "type": "string",
             "description": "Expression which evaluates to a numeric value"
         },
+        "IDTDLPrimitiveType": {
+            "type": "string",
+            "enum": [
+                "boolean",
+                "date",
+                "dateTime",
+                "double",
+                "duration",
+                "float",
+                "integer",
+                "long",
+                "string",
+                "time"
+            ]
+        },
         "IObjectIDs": {
             "type": "object",
             "description": "objectIDs specify the objects in the scene that a visual pertains to",
@@ -342,6 +357,23 @@
             },
             "required": ["label", "linkExpression"]
         },
+        "IPropertyWidgetConfiguration": {
+            "type": "object",
+            "additionalProperties": false,
+            "description": "Widget configuration specifies widget specific properties that are used for rendering this Property",
+            "properties": {
+                "displayName": {
+                    "type": "string"
+                },
+                "valueExpression": {
+                    "$ref": "#/$defs/IValueExpression"
+                },
+                "type": {
+                    "$ref": "#/$defs/IDTDLPrimitiveType"
+                }
+            },
+            "required": ["displayName", "valueExpression", "type"]
+        },
         "IGaugeWidget": {
             "type": "object",
             "description": "A gauge widget",
@@ -391,6 +423,29 @@
             },
             "required": ["type", "id", "widgetConfiguration"]
         },
+        "IPropertyWidget": {
+            "type": "object",
+            "description": "A property widget which uses display name and twin property",
+            "additionalProperties": false,
+            "properties": {
+                "type": {
+                    "const": "Property"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "groupID": {
+                    "$ref": "#/$defs/IGroupID"
+                },
+                "widgetConfiguration": {
+                    "$ref": "#/$defs/IPropertyWidgetConfiguration"
+                },
+                "extensionProperties": {
+                    "$ref": "#/$defs/IExtensionProperties"
+                }
+            },
+            "required": ["type", "id", "widgetConfiguration"]
+        },
         "IWidget": {
             "anyOf": [
                 {
@@ -398,6 +453,9 @@
                 },
                 {
                     "$ref": "#/$defs/ILinkWidget"
+                },
+                {
+                    "$ref": "#/$defs/IPropertyWidget"
                 }
             ]
         },

@@ -11,12 +11,12 @@ import {
     List,
     Pivot,
     PivotItem,
-    PrimaryButton,
-    SearchBox
+    PrimaryButton
 } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
-import { IWidgetLibraryItem } from '../../../../../Models/Classes/3DVConfig';
-import { availableWidgets } from '../../../../../Models/Constants/Constants';
+import { IWidgetLibraryItem } from '../../../../../../Models/Classes/3DVConfig';
+import { availableWidgets } from '../../../../../../Models/Constants/Constants';
+import { getWidgetLibraryDialogStyles } from './WidgetLibraryDialog.styles';
 
 const enabledWidgets = availableWidgets.filter((w) => !w.disabled);
 
@@ -29,16 +29,23 @@ const WidgetLibraryDialog: React.FC<{
         enabledWidgets
     );
     const { t } = useTranslation();
+    const styles = getWidgetLibraryDialogStyles();
 
     const dialogContentProps: IDialogContentProps = {
         type: DialogType.close,
-        title: t('3dSceneBuilder.widgetLibrary')
+        title: t('3dSceneBuilder.widgetLibrary'),
+        styles: {
+            content: styles.content
+        }
     };
 
     const modalProps: IModalProps = {
         isBlocking: false,
         containerClassName: 'cb-widget-dialog-modal',
-        isDarkOverlay: false
+        isDarkOverlay: false,
+        styles: {
+            scrollableContent: styles.scrollableContent
+        }
     };
 
     return (
@@ -51,10 +58,6 @@ const WidgetLibraryDialog: React.FC<{
             <Label className="cb-widget-panel-item-label">
                 {t('3dSceneBuilder.exploreWidgets')}
             </Label>
-            <SearchBox
-                className="cb-widget-dialog-search-box"
-                placeholder={t('3dSceneBuilder.searchWidgets')}
-            />
             <Pivot>
                 <PivotItem headerText={t('3dSceneBuilder.allWidgets')}>
                     <div className="cb-widget-library-dialog-list-container">
@@ -95,11 +98,6 @@ const WidgetLibraryDialog: React.FC<{
                         ></List>
                         <div className="cb-widget-panel-clear-float" />
                     </div>
-                </PivotItem>
-                <PivotItem headerText={t('3dSceneBuilder.myWidgets')}>
-                    <Label className="cb-widget-panel-no-widgets">
-                        {t('3dSceneBuilder.noWidgets')}
-                    </Label>
                 </PivotItem>
             </Pivot>
             <DialogFooter>

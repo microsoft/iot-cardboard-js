@@ -9,6 +9,7 @@ import {
     ILayer,
     ILinkWidget,
     IPopoverVisual,
+    IPropertyWidget,
     IStatusColoringVisual,
     IWidget
 } from '../Types/Generated/3DScenesConfiguration-v1.0.0';
@@ -30,8 +31,9 @@ export enum VisualType {
 export enum WidgetType {
     Gauge = 'Gauge',
     Link = 'Link',
-    Trend = 'Trend',
-    Panel = 'Panel'
+    Property = 'Property',
+    Trend = 'Trend', // TODO: what is this for?
+    Panel = 'Panel' // TODO: what is this for?
 }
 
 export interface IWidgetLibraryItem {
@@ -111,6 +113,16 @@ export const defaultLinkWidget: ILinkWidget = {
     widgetConfiguration: {
         label: '',
         linkExpression: ''
+    }
+};
+
+export const defaultPropertyWidget: IPropertyWidget = {
+    id: '',
+    type: WidgetType.Property,
+    widgetConfiguration: {
+        displayName: '',
+        valueExpression: null,
+        type: 'string'
     }
 };
 

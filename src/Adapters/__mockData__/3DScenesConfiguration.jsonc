@@ -167,6 +167,16 @@
                                 "widgetConfiguration": {
                                     "linkExpression": "https://mypowerbi.biz/${LinkedTwin.$dtId}"
                                 }
+                            },
+                            {
+                                // This is a property widget that uses a display name and twin property expression to show the value of it
+                                "type": "Property",
+                                "groupID": "29dd688a00554d46be0eead725c668b4",
+                                "widgetConfiguration": {
+                                    "displayName": "Temperature",
+                                    "valueExpression": "LinkedTwin.Temperature",
+                                    "type": "double"
+                                }
                             }
                         ],
                         // widgetGroups are used for grouping widgets, they are referenced by ID in widgets, they will have a secondary title as well

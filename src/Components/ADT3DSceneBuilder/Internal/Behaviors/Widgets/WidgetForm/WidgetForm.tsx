@@ -13,26 +13,29 @@ import {
     WidgetType,
     defaultGaugeWidget,
     defaultLinkWidget,
-    VisualType
-} from '../../../../../Models/Classes/3DVConfig';
-import { WidgetFormMode } from '../../../../../Models/Constants/Enums';
+    VisualType,
+    defaultPropertyWidget
+} from '../../../../../../Models/Classes/3DVConfig';
+import { WidgetFormMode } from '../../../../../../Models/Constants/Enums';
 import {
     IBehavior,
     IGaugeWidget,
     ILinkWidget,
     IPopoverVisual,
+    IPropertyWidget,
     ITwinToObjectMapping,
     IWidget
-} from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
-import { SceneBuilderContext } from '../../../ADT3DSceneBuilder';
-import PanelFooter from '../../Shared/PanelFooter';
-import { getPanelFormStyles } from '../../Shared/PanelForms.styles';
+} from '../../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
+import { SceneBuilderContext } from '../../../../ADT3DSceneBuilder';
+import PanelFooter from '../../../Shared/PanelFooter';
+import { getPanelFormStyles } from '../../../Shared/PanelForms.styles';
 import { getWidgetFormStyles } from './WidgetForm.styles';
-import GaugeWidgetBuilder from './WidgetBuilders/GaugeWidgetBuilder';
-import LinkWidgetBuilder from './WidgetBuilders/LinkWidgetBuilder';
-import { WidgetFormInfo } from '../../../ADT3DSceneBuilder.types';
-import ViewerConfigUtility from '../../../../../Models/Classes/ViewerConfigUtility';
-import useBehaviorAliasedTwinProperties from '../../../../../Models/Hooks/useBehaviorAliasedTwinProperties';
+import GaugeWidgetBuilder from '../WidgetBuilders/GaugeWidgetBuilder';
+import LinkWidgetBuilder from '../WidgetBuilders/LinkWidgetBuilder';
+import { WidgetFormInfo } from '../../../../ADT3DSceneBuilder.types';
+import ViewerConfigUtility from '../../../../../../Models/Classes/ViewerConfigUtility';
+import useBehaviorAliasedTwinProperties from '../../../../../../Models/Hooks/useBehaviorAliasedTwinProperties';
+import PropertyWidgetBuilder from '../WidgetBuilders/PropertyWidgetBuilder';
 
 const createWidget = (
     draft: IBehavior,
@@ -61,6 +64,8 @@ const getDefaultFormData = (widgetFormInfo: WidgetFormInfo) => {
             return defaultGaugeWidget;
         case WidgetType.Link:
             return defaultLinkWidget;
+        case WidgetType.Property:
+            return defaultPropertyWidget;
         default:
             return null;
     }
@@ -163,6 +168,16 @@ const WidgetForm: React.FC<{
                 return (
                     <LinkWidgetBuilder
                         formData={widgetData as ILinkWidget}
+                        updateWidgetData={updateWidgetData}
+                        intellisenseAliasNames={propertyAliases}
+                        getIntellisensePropertyNames={getPropertyNames}
+                        setIsWidgetConfigValid={setIsWidgetConfigValid}
+                    />
+                );
+            case WidgetType.Property:
+                return (
+                    <PropertyWidgetBuilder
+                        formData={widgetData as IPropertyWidget}
                         updateWidgetData={updateWidgetData}
                         intellisenseAliasNames={propertyAliases}
                         getIntellisensePropertyNames={getPropertyNames}

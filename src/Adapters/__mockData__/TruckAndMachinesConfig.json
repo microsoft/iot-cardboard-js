@@ -134,6 +134,16 @@
                                     "label": "Power BI",
                                     "linkExpression": "https://mypowerbi.biz/${LinkedTwin.$dtId}"
                                 }
+                            },
+                            {
+                                "type": "Property",
+                                "groupID": "8bf489e804884596afe8abb7e803d5c5",
+                                "id": "2d60362667067ff5763bb6f7765a9cc1",
+                                "widgetConfiguration": {
+                                    "displayName": "InFlow",
+                                    "valueExpression": "LinkedTwin.InFlow",
+                                    "type": "double"
+                                }
                             }
                         ],
                         "widgetGroups": [

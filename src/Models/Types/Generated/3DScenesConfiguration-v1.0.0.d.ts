@@ -8,7 +8,7 @@
 export type IElement = ITwinToObjectMapping | ICustomProperty;
 export type IDataSource = IElementTwinToObjectMappingDataSource | ICustomProperty;
 export type IVisual = IPopoverVisual | IStatusColoringVisual | IAlertVisual;
-export type IWidget = IGaugeWidget | ILinkWidget;
+export type IWidget = IGaugeWidget | ILinkWidget | IPropertyWidget;
 /**
  * Widget group to which a widget belongs
  */
@@ -18,6 +18,17 @@ export type IGroupID = string;
  */
 export type IValueExpression = string;
 export type INumericOrInfinityType = number | 'Infinity' | '-Infinity';
+export type IDTDLPrimitiveType =
+    | 'boolean'
+    | 'date'
+    | 'dateTime'
+    | 'double'
+    | 'duration'
+    | 'float'
+    | 'integer'
+    | 'long'
+    | 'string'
+    | 'time';
 
 /**
  * A vocabulary to annotate and validate the JSON representation of 3D scene configuration data
@@ -178,6 +189,24 @@ export interface ILinkWidgetConfiguration {
      * Template string which evalues to http link
      */
     linkExpression: string;
+}
+/**
+ * A property widget which uses display name and twin property
+ */
+export interface IPropertyWidget {
+    type: 'Property';
+    id: string;
+    groupID?: IGroupID;
+    widgetConfiguration: IPropertyWidgetConfiguration;
+    extensionProperties?: IExtensionProperties;
+}
+/**
+ * Widget configuration specifies widget specific properties that are used for rendering this Property
+ */
+export interface IPropertyWidgetConfiguration {
+    displayName: string;
+    valueExpression: IValueExpression;
+    type: IDTDLPrimitiveType;
 }
 /**
  * objectIDs specify the objects in the scene that a visual pertains to

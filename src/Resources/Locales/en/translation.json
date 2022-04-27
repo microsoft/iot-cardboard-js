@@ -424,8 +424,6 @@
         "widgetLibrary": "Widget library",
         "exploreWidgets": "Explore our widgets and add an extra layer of information to your 3D scene.",
         "allWidgets": "All widgets",
-        "myWidgets": "My widgets",
-        "searchWidgets": "Search widgets",
         "addWidget": "Add widget",
         "newWidget": "New widget",
         "createWidget": "Create widget",
@@ -494,6 +492,10 @@
             "description": "Reference external content by linking a URL",
             "urlPlaceholder": "https://mypowerbi.biz/${LinkedTwin.$dtId}",
             "openLink": "Open link"
+        },
+        "property": {
+            "title": "Property widget",
+            "description": "Basic widget to show twin property values"
         },
         "panel": {
             "title": "Panel widget",

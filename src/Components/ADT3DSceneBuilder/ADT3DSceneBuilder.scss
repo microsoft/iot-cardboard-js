@@ -95,10 +95,6 @@
     /* stylelint-enable selector-class-pattern */
 }
 
-.cb-widget-dialog-search-box {
-    margin-top: 10px;
-}
-
 .cb-widget-dialog-list-item {
     border: 1px solid var(--cb-color-text-primary);
     float: left;
@@ -147,11 +143,6 @@
 .cb-widget-dialog-modal {
     min-height: 445px;
     min-width: 740px;
-}
-
-.cb-widget-panel-no-widgets {
-    height: 204px;
-    padding: 20px;
 }
 
 .cb-widget-panel-item-label {
