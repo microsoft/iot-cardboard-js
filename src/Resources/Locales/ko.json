@@ -424,8 +424,6 @@
     "widgetLibrary": "위젯 라이브러리",
     "exploreWidgets": "위젯을 탐색하고 3D 장면에 추가 정보 레이어를 추가하십시오.",
     "allWidgets": "모든 위젯",
-    "myWidgets": "내 위젯",
-    "searchWidgets": "위젯 검색",
     "addWidget": "위젯 추가",
     "newWidget": "새로운 위젯",
     "createWidget": "위젯 만들기",
@@ -499,7 +497,11 @@
       "title": "패널 위젯",
       "description": "레이아웃 패널"
     },
-    "notSupported": "이 위젯 유형은 현재 지원되지 않습니다."
+    "notSupported": "이 위젯 유형은 현재 지원되지 않습니다.",
+    "property": {
+      "title": "속성 위젯",
+      "description": "쌍둥이 속성 값을 표시하는 기본 위젯"
+    }
   },
   "sdkStrings": {
     "Last 30 mins": "지난 30분",

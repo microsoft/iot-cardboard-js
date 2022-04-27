@@ -424,8 +424,6 @@
     "widgetLibrary": "Biblioteca Widget",
     "exploreWidgets": "Explore nossos widgets e adicione uma camada extra de informações à sua cena 3D.",
     "allWidgets": "Todos os widgets",
-    "myWidgets": "Meus widgets",
-    "searchWidgets": "Pesquisar widgets",
     "addWidget": "Adicionar widget",
     "newWidget": "Novo widget",
     "createWidget": "Criar widget",
@@ -499,7 +497,11 @@
       "title": "Widget do painel",
       "description": "Um painel de layout"
     },
-    "notSupported": "Este tipo de widget não é suportado atualmente"
+    "notSupported": "Este tipo de widget não é suportado atualmente",
+    "property": {
+      "title": "Widget de propriedade",
+      "description": "Widget básico para mostrar valores de propriedade dupla"
+    }
   },
   "sdkStrings": {
     "Last 30 mins": "Últimos 30 minutos",

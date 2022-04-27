@@ -424,8 +424,6 @@
     "widgetLibrary": "ウィジェットライブラリ",
     "exploreWidgets": "ウィジェットを探索し、3Dシーンに情報のレイヤーを追加します。",
     "allWidgets": "すべてのウィジェット",
-    "myWidgets": "マイウィジェット",
-    "searchWidgets": "検索ウィジェット",
     "addWidget": "ウィジェットの追加",
     "newWidget": "新しいウィジェット",
     "createWidget": "ウィジェットの作成",
@@ -499,7 +497,11 @@
       "title": "パネルウィジェット",
       "description": "レイアウトパネル"
     },
-    "notSupported": "このウィジェットの種類は現在サポートされていません"
+    "notSupported": "このウィジェットの種類は現在サポートされていません",
+    "property": {
+      "title": "プロパティウィジェット",
+      "description": "ツインプロパティ値を表示するための基本的なウィジェット"
+    }
   },
   "sdkStrings": {
     "Last 30 mins": "最後の30分",

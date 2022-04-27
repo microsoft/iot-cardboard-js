@@ -424,8 +424,6 @@
     "widgetLibrary": "Widget kitaplığı",
     "exploreWidgets": "Widget'larımızı keşfedin ve 3B sahnenize ekstra bir bilgi katmanı ekleyin.",
     "allWidgets": "Tüm widget'lar",
-    "myWidgets": "Widget'larım",
-    "searchWidgets": "Arama widget'ları",
     "addWidget": "Widget ekle",
     "newWidget": "Yeni widget",
     "createWidget": "Widget oluşturma",
@@ -499,7 +497,11 @@
       "title": "Panel widget'ı",
       "description": "Mizanpaj paneli"
     },
-    "notSupported": "Bu widget türü şu anda desteklenmiyor"
+    "notSupported": "Bu widget türü şu anda desteklenmiyor",
+    "property": {
+      "title": "Özellik widget'ı",
+      "description": "İkiz özellik değerlerini göstermek için temel widget"
+    }
   },
   "sdkStrings": {
     "Last 30 mins": "Son 30 dakika",

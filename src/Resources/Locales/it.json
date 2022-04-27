@@ -424,8 +424,6 @@
     "widgetLibrary": "Libreria di widget",
     "exploreWidgets": "Esplora i nostri widget e aggiungi un ulteriore livello di informazioni alla tua scena 3D.",
     "allWidgets": "Tutti i widget",
-    "myWidgets": "I miei widget",
-    "searchWidgets": "Widget di ricerca",
     "addWidget": "Aggiungi widget",
     "newWidget": "Nuovo widget",
     "createWidget": "Crea widget",
@@ -499,7 +497,11 @@
       "title": "Widget del pannello",
       "description": "Un pannello di layout"
     },
-    "notSupported": "Questo tipo di widget non è attualmente supportato"
+    "notSupported": "Questo tipo di widget non è attualmente supportato",
+    "property": {
+      "title": "Widget proprietà",
+      "description": "Widget di base per mostrare i valori delle proprietà gemelle"
+    }
   },
   "sdkStrings": {
     "Last 30 mins": "Ultimi 30 minuti",

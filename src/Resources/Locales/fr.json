@@ -424,8 +424,6 @@
     "widgetLibrary": "Bibliothèque de widgets",
     "exploreWidgets": "Explorez nos widgets et ajoutez une couche supplémentaire d’informations à votre scène 3D.",
     "allWidgets": "Tous les widgets",
-    "myWidgets": "Mes widgets",
-    "searchWidgets": "Widgets de recherche",
     "addWidget": "Ajouter un widget",
     "newWidget": "Nouveau widget",
     "createWidget": "Créer un widget",
@@ -499,7 +497,11 @@
       "title": "Widget de panneau",
       "description": "Un panneau de mise en page"
     },
-    "notSupported": "Ce type de widget n’est actuellement pas pris en charge"
+    "notSupported": "Ce type de widget n’est actuellement pas pris en charge",
+    "property": {
+      "title": "Widget Propriété",
+      "description": "Widget de base pour afficher les valeurs de propriétés jumelles"
+    }
   },
   "sdkStrings": {
     "Last 30 mins": "Les 30 dernières minutes",
