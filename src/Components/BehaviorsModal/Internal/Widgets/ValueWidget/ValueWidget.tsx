@@ -1,16 +1,16 @@
 import { useTheme } from '@fluentui/react';
 import React, { useContext, useMemo } from 'react';
 import { parseExpression } from '../../../../../Models/Services/Utils';
-import { IPropertyWidget } from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
+import { IValueWidget } from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { BehaviorsModalContext } from '../../../BehaviorsModal';
-import { getStyles } from './PropertyWidget.styles';
+import { getStyles } from './ValueWidget.styles';
 
 const valuePlaceholder = '123.4';
 interface IProp {
-    widget: IPropertyWidget;
+    widget: IValueWidget;
 }
 
-export const PropertyWidget: React.FC<IProp> = ({ widget }) => {
+export const ValueWidget: React.FC<IProp> = ({ widget }) => {
     const theme = useTheme();
 
     const { twins } = useContext(BehaviorsModalContext);

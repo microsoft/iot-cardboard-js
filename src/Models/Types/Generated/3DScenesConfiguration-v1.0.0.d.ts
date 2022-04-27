@@ -8,7 +8,7 @@
 export type IElement = ITwinToObjectMapping | ICustomProperty;
 export type IDataSource = IElementTwinToObjectMappingDataSource | ICustomProperty;
 export type IVisual = IPopoverVisual | IStatusColoringVisual | IAlertVisual;
-export type IWidget = IGaugeWidget | ILinkWidget | IPropertyWidget;
+export type IWidget = IGaugeWidget | ILinkWidget | IValueWidget;
 /**
  * Widget group to which a widget belongs
  */
@@ -28,7 +28,8 @@ export type IDTDLPrimitiveType =
     | 'integer'
     | 'long'
     | 'string'
-    | 'time';
+    | 'time'
+    | 'enum';
 
 /**
  * A vocabulary to annotate and validate the JSON representation of 3D scene configuration data
@@ -181,7 +182,7 @@ export interface ILinkWidget {
     extensionProperties?: IExtensionProperties;
 }
 /**
- * Widget configuration specifies widget specific properties that are used for rendering this Link
+ * Widget configuration specifies widget specific properties that are used for rendering this link
  */
 export interface ILinkWidgetConfiguration {
     label: string;
@@ -191,19 +192,19 @@ export interface ILinkWidgetConfiguration {
     linkExpression: string;
 }
 /**
- * A property widget which uses display name and twin property
+ * A value widget which uses display name and value
  */
-export interface IPropertyWidget {
-    type: 'Property';
+export interface IValueWidget {
+    type: 'Value';
     id: string;
     groupID?: IGroupID;
-    widgetConfiguration: IPropertyWidgetConfiguration;
+    widgetConfiguration: IValueWidgetConfiguration;
     extensionProperties?: IExtensionProperties;
 }
 /**
- * Widget configuration specifies widget specific properties that are used for rendering this Property
+ * Widget configuration specifies widget specific properties that are used for rendering this value
  */
-export interface IPropertyWidgetConfiguration {
+export interface IValueWidgetConfiguration {
     displayName: string;
     valueExpression: IValueExpression;
     type: IDTDLPrimitiveType;

@@ -200,7 +200,7 @@ function getListItems(
             case WidgetType.Gauge:
             case WidgetType.Link:
                 return widget?.widgetConfiguration?.label;
-            case WidgetType.Property:
+            case WidgetType.Value:
                 return widget?.widgetConfiguration?.displayName;
             default:
                 return widget.type;

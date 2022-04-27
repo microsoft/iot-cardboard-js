@@ -170,12 +170,12 @@
                             },
                             {
                                 // This is a property widget that uses a display name and twin property expression to show the value of it
-                                "type": "Property",
+                                "type": "Value",
                                 "groupID": "29dd688a00554d46be0eead725c668b4",
                                 "widgetConfiguration": {
                                     "displayName": "Temperature",
                                     "valueExpression": "LinkedTwin.Temperature",
-                                    "type": "double"
+                                    "type": "string"
                                 }
                             }
                         ],

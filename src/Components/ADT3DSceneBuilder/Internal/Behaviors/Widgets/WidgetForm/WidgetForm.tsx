@@ -14,7 +14,7 @@ import {
     defaultGaugeWidget,
     defaultLinkWidget,
     VisualType,
-    defaultPropertyWidget
+    defaultValueWidget
 } from '../../../../../../Models/Classes/3DVConfig';
 import { WidgetFormMode } from '../../../../../../Models/Constants/Enums';
 import {
@@ -22,7 +22,7 @@ import {
     IGaugeWidget,
     ILinkWidget,
     IPopoverVisual,
-    IPropertyWidget,
+    IValueWidget,
     ITwinToObjectMapping,
     IWidget
 } from '../../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
@@ -35,7 +35,7 @@ import LinkWidgetBuilder from '../WidgetBuilders/LinkWidgetBuilder';
 import { WidgetFormInfo } from '../../../../ADT3DSceneBuilder.types';
 import ViewerConfigUtility from '../../../../../../Models/Classes/ViewerConfigUtility';
 import useBehaviorAliasedTwinProperties from '../../../../../../Models/Hooks/useBehaviorAliasedTwinProperties';
-import PropertyWidgetBuilder from '../WidgetBuilders/PropertyWidgetBuilder';
+import ValueWidgetBuilder from '../WidgetBuilders/ValueWidgetBuilder';
 
 const createWidget = (
     draft: IBehavior,
@@ -64,8 +64,8 @@ const getDefaultFormData = (widgetFormInfo: WidgetFormInfo) => {
             return defaultGaugeWidget;
         case WidgetType.Link:
             return defaultLinkWidget;
-        case WidgetType.Property:
-            return defaultPropertyWidget;
+        case WidgetType.Value:
+            return defaultValueWidget;
         default:
             return null;
     }
@@ -174,10 +174,10 @@ const WidgetForm: React.FC<{
                         setIsWidgetConfigValid={setIsWidgetConfigValid}
                     />
                 );
-            case WidgetType.Property:
+            case WidgetType.Value:
                 return (
-                    <PropertyWidgetBuilder
-                        formData={widgetData as IPropertyWidget}
+                    <ValueWidgetBuilder
+                        formData={widgetData as IValueWidget}
                         updateWidgetData={updateWidgetData}
                         intellisenseAliasNames={propertyAliases}
                         getIntellisensePropertyNames={getPropertyNames}

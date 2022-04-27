@@ -493,9 +493,9 @@
             "urlPlaceholder": "https://mypowerbi.biz/${LinkedTwin.$dtId}",
             "openLink": "Open link"
         },
-        "property": {
-            "title": "Property widget",
-            "description": "Basic widget to show twin property values"
+        "value": {
+            "title": "Value widget",
+            "description": "Basic widget to show values of twin properties"
         },
         "panel": {
             "title": "Panel widget",

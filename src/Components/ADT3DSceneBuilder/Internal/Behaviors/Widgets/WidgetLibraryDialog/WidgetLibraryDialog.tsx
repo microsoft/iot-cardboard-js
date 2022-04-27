@@ -58,7 +58,7 @@ const WidgetLibraryDialog: React.FC<{
             <Label className="cb-widget-panel-item-label">
                 {t('3dSceneBuilder.exploreWidgets')}
             </Label>
-            <Pivot>
+            <Pivot className="cb-widget-panel-widgets">
                 <PivotItem headerText={t('3dSceneBuilder.allWidgets')}>
                     <div className="cb-widget-library-dialog-list-container">
                         <List

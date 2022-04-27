@@ -4,10 +4,10 @@ import React, { useCallback, useContext, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { SceneBuilderContext } from '../../../../ADT3DSceneBuilder';
 
-import { IPropertyWidgetBuilderProps } from '../../../../ADT3DSceneBuilder.types';
+import { IValueWidgetBuilderProps } from '../../../../ADT3DSceneBuilder.types';
 import TwinPropertyDropown from '../../Internal/TwinPropertyDropdown';
 
-const PropertyWidgetBuilder: React.FC<IPropertyWidgetBuilderProps> = ({
+const ValueWidgetBuilder: React.FC<IValueWidgetBuilderProps> = ({
     formData,
     updateWidgetData,
     setIsWidgetConfigValid
@@ -65,4 +65,4 @@ const PropertyWidgetBuilder: React.FC<IPropertyWidgetBuilderProps> = ({
     );
 };
 
-export default PropertyWidgetBuilder;
+export default ValueWidgetBuilder;

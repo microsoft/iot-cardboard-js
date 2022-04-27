@@ -8,7 +8,7 @@ import {
 import { BehaviorsModalContext } from '../../BehaviorsModal';
 import GaugeWidget from './GaugeWidget/GaugeWidget';
 import { LinkWidget } from './LinkWidget/LinkWidget';
-import { PropertyWidget } from './PropertyWidget/PropertyWidget';
+import { ValueWidget } from './ValueWidget/ValueWidget';
 import {
     getWidgetClassNames,
     widgetContainerClassNames
@@ -24,8 +24,8 @@ const makeWidget = (widget: IWidget) => {
             return <LinkWidget key={widget.id} widget={widget} />;
         case WidgetType.Gauge:
             return <GaugeWidget key={widget.id} widget={widget} />;
-        case WidgetType.Property:
-            return <PropertyWidget key={widget.id} widget={widget} />;
+        case WidgetType.Value:
+            return <ValueWidget key={widget.id} widget={widget} />;
         default:
             return null;
     }

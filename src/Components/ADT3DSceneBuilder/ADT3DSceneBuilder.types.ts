@@ -25,7 +25,7 @@ import {
     IBehavior,
     IGaugeWidget,
     ILinkWidget,
-    IPropertyWidget,
+    IValueWidget,
     ITwinToObjectMapping
 } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 
@@ -256,10 +256,9 @@ export interface IGaugeWidgetBuilderProps extends IWidgetBuilderFormDataProps {
     updateWidgetData: (widgetData: IGaugeWidget) => void;
 }
 
-export interface IPropertyWidgetBuilderProps
-    extends IWidgetBuilderFormDataProps {
-    formData: IPropertyWidget;
-    updateWidgetData: (widgetData: IPropertyWidget) => void;
+export interface IValueWidgetBuilderProps extends IWidgetBuilderFormDataProps {
+    formData: IValueWidget;
+    updateWidgetData: (widgetData: IValueWidget) => void;
 }
 
 export interface BehaviorState {
