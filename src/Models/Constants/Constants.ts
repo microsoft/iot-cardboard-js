@@ -188,6 +188,9 @@ export const ContainersLocalStorageKey = 'cb-containers';
 export const SelectedEnvironmentLocalStorageKey = 'cb-selected-environment';
 export const SelectedContainerLocalStorageKey = 'cb-selected-container';
 
+export const SelectedCameraInteractionKey = 'cb-camera-interaction';
+export const ViewerThemeKey = 'cb-viewer-theme';
+
 export const defaultValueRangeColor = '#FF0000';
 
 export const StyleConstants = {
@@ -202,4 +205,4 @@ export const intellisenseMultilineBreakpoint = 40;
 export const CardboardClassNamePrefix = 'cb';
 
 export const globeUrl =
-    'https://3dvstoragecontainer.blob.core.windows.net/3dvblobcontainer/world/World3.gltf';
+    'https://cardboardresources.blob.core.windows.net/cardboard-mock-files/RegionalGlobeScaled.glb';

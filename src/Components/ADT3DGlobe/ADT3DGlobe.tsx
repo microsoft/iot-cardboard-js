@@ -1,25 +1,32 @@
 import React, { useEffect, useRef, useState } from 'react';
 import SceneView from '../3DV/SceneView';
-import { IBlobAdapter } from '../../Models/Constants/Interfaces';
 import { useAdapter } from '../../Models/Hooks';
 import './ADT3DGlobe.scss';
 import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
-import { Marker } from '../../Models/Classes/SceneView.types';
-import { MockAdapter } from '../..';
+import { CustomMeshItem, Marker } from '../../Models/Classes/SceneView.types';
 import BaseComponent from '../BaseComponent/BaseComponent';
 import { IScene } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { ModelLabel } from '../ModelLabel/ModelLabel';
 import { createGUID } from '../../Models/Services/Utils';
+import { Scene } from '@babylonjs/core';
+import { IADT3DGlobeProps } from '../../Models/Constants/Interfaces';
+import { GlobeTheme } from '../../Models/Constants';
+import { hexToColor4 } from '../../Models/Services/Utils';
+import { hsv2rgb, rgb2hex, rgb2hsv } from '@fluentui/react';
 
-interface ADT3DGlobeProps {
-    adapter: IBlobAdapter | MockAdapter;
-    title?: string;
-    onSceneClick?: (scene: IScene) => void;
-}
+const blues = ['#174576', '#276EB5']; // Sea and darkest color - rest are interpolated
+const yellows = ['#8C7E25', '#C0A03D'];
+const greys = ['#464241', '#6E6E6E']; // greys are calculated in code
 
-const ADT3DGlobe: React.FC<ADT3DGlobeProps> = ({ adapter, onSceneClick }) => {
+const ADT3DGlobe: React.FC<IADT3DGlobeProps> = ({
+    adapter,
+    onSceneClick,
+    globeTheme = GlobeTheme.Blue
+}) => {
     const [markers, setMarkers] = useState<Marker[]>([]);
+    const [coloredMeshes, setColoredMeshes] = useState<CustomMeshItem[]>([]);
     const sceneClickRef = useRef<any>();
+    const sceneRef = useRef(null);
 
     sceneClickRef.current = onSceneClick;
     const config = useAdapter({
@@ -47,13 +54,68 @@ const ADT3DGlobe: React.FC<ADT3DGlobeProps> = ({ adapter, onSceneClick }) => {
         }
     }, [config.adapterResult.result]);
 
+    const updateTheme = (scene: Scene) => {
+        sceneRef.current = sceneRef.current || scene;
+        if (sceneRef.current) {
+            const mi: CustomMeshItem[] = [];
+            let colors = blues;
+            switch (globeTheme) {
+                case GlobeTheme.Blue:
+                    colors = blues;
+                    break;
+                case GlobeTheme.Yellow:
+                    colors = yellows;
+                    break;
+                case GlobeTheme.Grey:
+                    colors = greys;
+                    break;
+            }
+
+            let ct = -2;
+            const baseColor = hexToColor4(colors[1]);
+            const baseHSV = rgb2hsv(baseColor.r, baseColor.g, baseColor.b);
+            for (const mesh of sceneRef.current.meshes) {
+                if (mesh?.name?.startsWith('Region')) {
+                    ct += 2;
+                    if (ct >= 14) {
+                        ct = 1;
+                    }
+
+                    if (globeTheme === GlobeTheme.Grey) {
+                        const n = Math.floor((ct / 13) * 100 + 100);
+                        const color = rgb2hex(n, n, n);
+                        mi.push({ meshId: mesh.id, color: '#' + color });
+                    } else {
+                        const s = (ct / 13) * 62 + 12;
+                        const col = hsv2rgb(baseHSV.h, s, 100);
+                        const color = rgb2hex(col.r, col.g, col.b);
+                        mi.push({ meshId: mesh.id, color: '#' + color });
+                    }
+                } else if (mesh.name.startsWith('Sea')) {
+                    mi.push({ meshId: mesh.id, color: colors[0] });
+                }
+            }
+
+            setColoredMeshes(mi);
+        }
+    };
+
+    useEffect(() => {
+        updateTheme(null);
+    }, [globeTheme]);
+
     return (
         <BaseComponent
             isLoading={config.isLoading && config.adapterResult.hasNoData()}
             adapterResults={[config.adapterResult]}
         >
             <div className="cb-adt-3dglobe-wrapper">
-                <SceneView modelUrl="Globe" markers={markers} />
+                <SceneView
+                    modelUrl="Globe"
+                    markers={markers}
+                    onSceneLoaded={updateTheme}
+                    coloredMeshItems={coloredMeshes}
+                />
             </div>
         </BaseComponent>
     );

@@ -36,9 +36,7 @@ export const CameraControls: React.FC<CameraControlProps> = ({
     onCameraZoom,
     onResetCamera
 }) => {
-    const [cameraInteractionType, setCameraInteractionType] = useState(
-        cameraInteraction ? cameraInteraction : CameraInteraction.Rotate
-    );
+    const [cameraInteractionType, setCameraInteractionType] = useState(null);
     const [showPanCallout, setShowPanCallout] = useState(false);
     const [showOrbitCallout, setShowOrbitCallout] = useState(false);
     const theme = useTheme();
@@ -51,6 +49,12 @@ export const CameraControls: React.FC<CameraControlProps> = ({
             onCameraInteractionChanged(cameraInteractionType);
         }
     }, [cameraInteractionType]);
+
+    useEffect(() => {
+        if (cameraInteraction) {
+            setCameraInteractionType(cameraInteraction);
+        }
+    }, [cameraInteraction]);
 
     const updateCameraInteraction = (type: CameraInteraction) => {
         setCameraInteractionType(type);

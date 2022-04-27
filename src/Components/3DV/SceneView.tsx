@@ -1,6 +1,5 @@
 import * as BABYLON from '@babylonjs/core/Legacy/legacy';
 import '@babylonjs/loaders';
-import * as SERIALIZE from '@babylonjs/serializers';
 import * as GUI from '@babylonjs/gui';
 import { ProgressIndicator, useTheme } from '@fluentui/react';
 import React, {
@@ -12,8 +11,9 @@ import React, {
     useState
 } from 'react';
 import './SceneView.scss';
-import { createGUID } from '../../Models/Services/Utils';
+import { createGUID, hexToColor4 } from '../../Models/Services/Utils';
 import {
+    ColoredMeshGroup,
     ISceneViewProp,
     Marker,
     SceneViewCallbackHandler
@@ -58,33 +58,25 @@ function debounce(func: any, timeout = 300) {
     };
 }
 
-function hexToColor4(hex: string): BABYLON.Color4 {
-    if (!hex) {
-        return undefined;
-    }
-
-    // remove invalid characters
-    hex = hex.replace(/[^0-9a-fA-F]/g, '');
-    if (hex.length < 5) {
-        // 3, 4 characters double-up
-        hex = hex
-            .split('')
-            .map((s) => s + s)
-            .join('');
-    }
-
-    // parse pairs of two
-    const rgba = hex
-        .match(/.{1,2}/g)
-        .map((s) => parseFloat((parseInt(s, 16) / 255).toString()));
-    // alpha code between 0 & 1 / default 1
-    rgba[3] = rgba.length > 3 ? rgba[3] : 1;
-    const color = new BABYLON.Color4(rgba[0], rgba[1], rgba[2], rgba[3]);
-    return color;
-}
-
 let dummyProgress = 0; // Progress doesn't work for GLBs so fake it
-const modelCache: File[] = [];
+
+const getModifiedTime = (url): Promise<string> => {
+    const promise = new Promise<string>((resolve) => {
+        // HEAD can give a CORS error
+        fetch(url, { method: 'GET', headers: { range: 'bytes=1-2' } })
+            .then((response) => {
+                const dt = new Date(response.headers.get('Last-Modified'));
+                if (dt.toString() === 'Invalid Date') {
+                    resolve('');
+                }
+                resolve(dt.toISOString());
+            })
+            .catch(() => {
+                resolve('');
+            });
+    });
+    return promise;
+};
 
 async function loadPromise(
     root: string,
@@ -93,19 +85,15 @@ async function loadPromise(
     onProgress: (event: BABYLON.ISceneLoaderProgressEvent) => void,
     onError: (scene: BABYLON.Scene, message: string, exception?: any) => void
 ): Promise<BABYLON.Scene> {
-    let tempRoot = root;
-    let tempFile: string | File = filename;
-    const model: File = modelCache[root + filename];
-    if (model) {
-        tempRoot = '';
-        tempFile = model;
-    }
-
+    let mod = await getModifiedTime(root + filename);
+    mod = mod ? '?' + mod : '';
     return new Promise((resolve) => {
+        BABYLON.Database.IDBStorageEnabled = true;
+        engine.disableManifestCheck = true;
         BABYLON.SceneLoader.ShowLoadingScreen = false;
         BABYLON.SceneLoader.Load(
-            tempRoot,
-            tempFile,
+            root,
+            filename + mod,
             engine,
             (scene) => {
                 resolve(scene);
@@ -186,7 +174,6 @@ function SceneView(props: ISceneViewProp, ref) {
     const prevHideUnzoomedRef = useRef<number>(undefined);
     const materialCacheRef = useRef<any[]>([]);
     const pointerActive = useRef(false);
-    const [isSerializing, setIsSerializing] = useState(false);
     const lastCameraPositionOnMouseMoveRef = useRef('');
     const initialCameraRadiusRef = useRef(0);
     const zoomedCameraRadiusRef = useRef(0);
@@ -256,24 +243,8 @@ function SceneView(props: ISceneViewProp, ref) {
                 advancedTextureRef.current = GUI.AdvancedDynamicTexture.CreateFullscreenUI(
                     'UI'
                 );
-                sortMeshesOnLoad();
 
-                // Scene has been created and loaded, export the scene for the cache before anyone changes it
-                if (!modelCache[url]) {
-                    sceneRef.current.render();
-                    const filename = createGUID();
-                    setIsSerializing(sceneRef.current.meshes.length > 500); // This may take a while
-                    const glb = await SERIALIZE.GLTF2Export.GLBAsync(
-                        sceneRef.current,
-                        filename
-                    );
-                    setIsSerializing(false);
-                    // glb.downloadFiles();     // Uncomment this for debug to get the GLB surfaced in your browser downloads
-                    modelCache[url] = new File(
-                        [glb.glTFFiles[filename + '.glb']],
-                        filename + '.glb'
-                    );
-                }
+                sortMeshesOnLoad();
 
                 sceneRef.current.clearColor = new BABYLON.Color4(0, 0, 0, 0);
 
@@ -1352,13 +1323,118 @@ function SceneView(props: ISceneViewProp, ref) {
                 console.time('coloring meshes');
             }
             try {
-                for (const coloredMesh of coloredMeshItems) {
-                    if (coloredMesh.meshId) {
-                        const mesh: BABYLON.AbstractMesh =
-                            meshMap.current?.[coloredMesh.meshId];
-                        colorMesh(mesh, coloredMesh.color);
+                const coloredMeshGroups: ColoredMeshGroup[] = [];
+
+                // group colored meshes
+                coloredMeshItems.forEach((coloredMesh) => {
+                    // create first group
+                    if (coloredMeshGroups.length === 0) {
+                        coloredMeshGroups.push({
+                            meshId: coloredMesh.meshId,
+                            colors: [coloredMesh.color],
+                            currentColor: 0
+                        });
+                    } else {
+                        const group = coloredMeshGroups.find(
+                            (g) => g.meshId === coloredMesh.meshId
+                        );
+
+                        // add to exsiting group
+                        if (group) {
+                            group.colors.push(coloredMesh.color);
+                        } else {
+                            // create new group
+                            coloredMeshGroups.push({
+                                meshId: coloredMesh.meshId,
+                                colors: [coloredMesh.color],
+                                currentColor: 0
+                            });
+                        }
                     }
+                });
+
+                for (const coloredMeshGroup of coloredMeshGroups) {
+                    const mesh: BABYLON.AbstractMesh =
+                        meshMap.current?.[coloredMeshGroup.meshId];
+                    colorMesh(
+                        mesh,
+                        coloredMeshGroup.colors[coloredMeshGroup.currentColor]
+                    );
                 }
+
+                const nextColor = function (
+                    currentColor: number,
+                    totalColors: number
+                ) {
+                    return currentColor + 1 >= totalColors
+                        ? 0
+                        : currentColor + 1;
+                };
+
+                const transition = 250;
+                const interval = 500;
+                let elapsed = 0;
+
+                const transitionNrm = function () {
+                    return (elapsed - interval) / transition;
+                };
+
+                scene.beforeRender = () => {
+                    elapsed += 10;
+                    if (elapsed >= interval) {
+                        if (elapsed <= interval + transition) {
+                            for (const coloredMeshGroup of coloredMeshGroups) {
+                                if (coloredMeshGroup.colors.length > 1) {
+                                    const mesh: BABYLON.AbstractMesh =
+                                        meshMap.current?.[
+                                            coloredMeshGroup.meshId
+                                        ];
+                                    const transitionColor = BABYLON.Color3.Lerp(
+                                        BABYLON.Color3.FromHexString(
+                                            coloredMeshGroup.colors[
+                                                coloredMeshGroup.currentColor
+                                            ]
+                                        ),
+                                        BABYLON.Color3.FromHexString(
+                                            coloredMeshGroup.colors[
+                                                nextColor(
+                                                    coloredMeshGroup.currentColor,
+                                                    coloredMeshGroup.colors
+                                                        .length
+                                                )
+                                            ]
+                                        ),
+                                        transitionNrm()
+                                    );
+                                    colorMesh(
+                                        mesh,
+                                        transitionColor.toHexString()
+                                    );
+                                }
+                            }
+                        } else {
+                            for (const coloredMeshGroup of coloredMeshGroups) {
+                                if (coloredMeshGroup.colors.length > 1) {
+                                    const mesh: BABYLON.AbstractMesh =
+                                        meshMap.current?.[
+                                            coloredMeshGroup.meshId
+                                        ];
+                                    elapsed = 0;
+                                    coloredMeshGroup.currentColor = nextColor(
+                                        coloredMeshGroup.currentColor,
+                                        coloredMeshGroup.colors.length
+                                    );
+                                    colorMesh(
+                                        mesh,
+                                        coloredMeshGroup.colors[
+                                            coloredMeshGroup.currentColor
+                                        ]
+                                    );
+                                }
+                            }
+                        }
+                    }
+                };
             } catch {
                 console.warn('unable to color mesh');
             }
@@ -1498,24 +1574,14 @@ function SceneView(props: ISceneViewProp, ref) {
                     </div>
                 );
             })}
-            {isLoading &&
-                !isSerializing &&
-                url &&
-                (!modelCache[url] || modelCache[url].size > 10000000) && (
-                    <ProgressIndicator
-                        styles={getProgressStyles(theme)}
-                        description={`Loading model (${Math.floor(
-                            loadProgress * 100
-                        )}%)...`}
-                        percentComplete={loadProgress}
-                        barHeight={10}
-                    />
-                )}
-            {isSerializing && (
+            {isLoading && url && (
                 <ProgressIndicator
                     styles={getProgressStyles(theme)}
-                    description={`Saving model...`}
-                    barHeight={0}
+                    description={`Loading model (${Math.floor(
+                        loadProgress * 100
+                    )}%)...`}
+                    percentComplete={loadProgress}
+                    barHeight={10}
                 />
             )}
             {isLoading === undefined && (

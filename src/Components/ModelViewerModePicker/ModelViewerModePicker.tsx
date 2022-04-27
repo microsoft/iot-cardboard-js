@@ -23,7 +23,7 @@ import WireframeStyle from '../../Resources/Static/wireframe.svg';
 export interface ViewerMode {
     objectColor: string;
     background: string;
-    style: string;
+    style: ViewerModeStyles;
 }
 
 interface ModelViewerModePickerProps {
@@ -116,30 +116,41 @@ const ModelViewerModePicker: React.FC<ModelViewerModePickerProps> = ({
         });
 
         setBackgrounds(backgrounds);
-        setSelectedObjectColor(
-            defaultViewerMode?.objectColor
-                ? defaultViewerMode.objectColor
-                : objectColors[0].color
-        );
+        setSelectedObjectColor(objectColors[0].color);
 
         setViewerMode({
-            objectColor: defaultViewerMode?.objectColor
-                ? defaultViewerMode.objectColor
-                : null,
-            background: defaultViewerMode?.background
-                ? defaultViewerMode.background
-                : backgroundColors[0].color,
-            style: defaultViewerMode?.style
-                ? defaultViewerMode.style
-                : styleOptions[0].key
+            objectColor: null,
+            background: backgroundColors[0].color,
+            style: ViewerModeStyles.Default
+        });
+
+        viewerModeUpdated({
+            objectColor: null,
+            background: backgroundColors[0].color,
+            style: ViewerModeStyles.Default
         });
     }, []);
 
     useEffect(() => {
-        viewerModeUpdated(viewerMode);
-    }, [viewerMode]);
+        if (defaultViewerMode) {
+            setViewerMode({
+                objectColor:
+                    defaultViewerMode?.style !== ViewerModeStyles.Default
+                        ? defaultViewerMode.objectColor
+                        : null,
+                background: defaultViewerMode.background,
+                style: defaultViewerMode.style
+            });
 
-    const updateStyle = (style: string) => {
+            setSelectedObjectColor(
+                defaultViewerMode?.style !== ViewerModeStyles.Default
+                    ? defaultViewerMode.objectColor
+                    : objectColors[0].color
+            );
+        }
+    }, [defaultViewerMode]);
+
+    const updateStyle = (style: ViewerModeStyles) => {
         setViewerMode(
             produce((draft) => {
                 if (style === ViewerModeStyles.Default) {
@@ -148,6 +159,12 @@ const ModelViewerModePicker: React.FC<ModelViewerModePickerProps> = ({
                     draft.objectColor = selectedObjectColor;
                 }
                 draft.style = style;
+
+                viewerModeUpdated({
+                    objectColor: draft.objectColor,
+                    background: draft.background,
+                    style: draft.style
+                });
             })
         );
     };
@@ -160,6 +177,12 @@ const ModelViewerModePicker: React.FC<ModelViewerModePickerProps> = ({
                 } else {
                     draft.objectColor = objectColor;
                 }
+
+                viewerModeUpdated({
+                    objectColor: draft.objectColor,
+                    background: draft.background,
+                    style: draft.style
+                });
             })
         );
 
@@ -170,6 +193,12 @@ const ModelViewerModePicker: React.FC<ModelViewerModePickerProps> = ({
         setViewerMode(
             produce((draft) => {
                 draft.background = backgroundColor;
+
+                viewerModeUpdated({
+                    objectColor: draft.objectColor,
+                    background: draft.background,
+                    style: draft.style
+                });
             })
         );
     };
@@ -219,9 +248,11 @@ const ModelViewerModePicker: React.FC<ModelViewerModePickerProps> = ({
                             {t('modelViewerModePicker.style')}
                         </h4>
                         <ChoiceGroup
-                            defaultSelectedKey={viewerMode.style}
+                            defaultSelectedKey={viewerMode?.style}
                             options={styleOptions}
-                            onChange={(e, option) => updateStyle(option.key)}
+                            onChange={(e, option) =>
+                                updateStyle(option.key as ViewerModeStyles)
+                            }
                         />
                         <h4 className={styles.subHeading}>
                             {t('modelViewerModePicker.objectColors')}
@@ -229,14 +260,14 @@ const ModelViewerModePicker: React.FC<ModelViewerModePickerProps> = ({
                         <div className={styles.colorPicker}>
                             <SwatchColorPicker
                                 disabled={
-                                    viewerMode.style ===
+                                    viewerMode?.style ===
                                     ViewerModeStyles.Default
                                 }
                                 cellHeight={32}
                                 cellWidth={32}
                                 columnCount={colors.length}
                                 defaultSelectedId={
-                                    viewerMode.objectColor
+                                    viewerMode?.objectColor
                                         ? viewerMode.objectColor
                                         : selectedObjectColor
                                 }
@@ -255,7 +286,7 @@ const ModelViewerModePicker: React.FC<ModelViewerModePickerProps> = ({
                                 cellHeight={32}
                                 cellWidth={32}
                                 columnCount={backgrounds.length}
-                                defaultSelectedId={viewerMode.background}
+                                defaultSelectedId={viewerMode?.background}
                                 cellShape={'circle'}
                                 colorCells={backgrounds}
                                 onChange={(e, id) => updateBackgroundColor(id)}
