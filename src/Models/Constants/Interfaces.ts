@@ -63,6 +63,7 @@ import {
 } from '../Types/Generated/3DScenesConfiguration-v1.0.0';
 import { WrapperMode } from '../../Components/3DV/SceneView.types';
 import MockAdapter from '../../Adapters/MockAdapter';
+import { DtdlInterface } from './dtdlInterfaces';
 
 export interface IAction {
     type: string;
@@ -370,6 +371,12 @@ export type IPropertyInspectorAdapter = Pick<
     | 'updateRelationship'
 >;
 
+export interface IModelledPropertyBuilderAdapter {
+    isModelFetchLoading: boolean;
+    cachedModels: DtdlInterface[];
+    fetchAndCacheAllADTModels(): Promise<void>;
+}
+
 export interface IADT3DViewerAdapter {
     getSceneData(
         sceneId: string,
@@ -377,7 +384,10 @@ export interface IADT3DViewerAdapter {
     ): AdapterReturnType<ADT3DViewerData>;
 }
 
-export interface IADTAdapter extends IKeyValuePairAdapter, IADT3DViewerAdapter {
+export interface IADTAdapter
+    extends IKeyValuePairAdapter,
+        IADT3DViewerAdapter,
+        IModelledPropertyBuilderAdapter {
     getADTModels(
         params?: AdapterMethodParamsForGetADTModels
     ): AdapterReturnType<ADTAdapterModelsData>;

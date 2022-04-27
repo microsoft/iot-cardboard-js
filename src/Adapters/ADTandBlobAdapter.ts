@@ -27,6 +27,7 @@ export default class ADTandBlobAdapter {
         this.adtProxyServerPath = adtProxyServerPath;
         this.blobProxyServerPath = blobProxyServerPath;
         this.authService.login();
+        this.fetchAndCacheAllADTModels();
     }
 }
 

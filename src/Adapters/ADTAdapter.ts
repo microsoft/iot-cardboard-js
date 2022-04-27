@@ -31,7 +31,8 @@ import {
     DTwinUpdateEvent,
     IComponentError,
     linkedTwinName,
-    IAliasedTwinProperty
+    IAliasedTwinProperty,
+    IADTModel
 } from '../Models/Constants';
 import ADTTwinData from '../Models/Classes/AdapterDataClasses/ADTTwinData';
 import ADTModelData from '../Models/Classes/AdapterDataClasses/ADTModelData';
@@ -71,6 +72,8 @@ export default class ADTAdapter implements IADTAdapter {
     protected adtProxyServerPath: string;
     public packetNumber = 0;
     protected axiosInstance: AxiosInstance;
+    public cachedModels: DtdlInterface[];
+    public isModelFetchLoading: boolean;
 
     constructor(
         adtHostUrl: string,
@@ -100,6 +103,7 @@ export default class ADTAdapter implements IADTAdapter {
                 return (Math.pow(2, retryCount) - Math.random()) * 1000;
             }
         });
+        this.fetchAndCacheAllADTModels();
     }
 
     getAdtHostUrl() {
@@ -169,6 +173,41 @@ export default class ADTAdapter implements IADTAdapter {
         );
     }
 
+    async fetchAndCacheAllADTModels() {
+        try {
+            this.isModelFetchLoading = true;
+            let models: DtdlInterface[] = [];
+            const appendModels = async (nextLink?: string) => {
+                // Get next chunk of models
+                const adtModelsApiData = await this.getADTModels({
+                    shouldIncludeDefinitions: true,
+                    ...(nextLink && { continuationToken: nextLink })
+                });
+
+                // Add to models list
+                models = [
+                    ...models,
+                    ...adtModelsApiData.result.data.value.map(
+                        (adtModel: IADTModel) => adtModel.model
+                    )
+                ];
+
+                // If next link present, fetch next chunk
+                if (adtModelsApiData.result.data.nextLink) {
+                    await appendModels(adtModelsApiData.result.data.nextLink);
+                }
+            };
+
+            await appendModels();
+            this.cachedModels = models;
+        } catch (err) {
+            console.log('Model fetching failed -- setting model cache to []');
+            console.error(err);
+            this.cachedModels = [];
+        }
+        this.isModelFetchLoading = false;
+    }
+
     getADTModel(modelId: string) {
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
         return adapterMethodSandbox.safelyFetchDataCancellableAxiosPromise(
@@ -222,7 +261,7 @@ export default class ADTAdapter implements IADTAdapter {
         );
     }
 
-    getADTModels(params: AdapterMethodParamsForGetADTModels = null) {
+    async getADTModels(params: AdapterMethodParamsForGetADTModels = null) {
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
 
         return adapterMethodSandbox.safelyFetchDataCancellableAxiosPromise(

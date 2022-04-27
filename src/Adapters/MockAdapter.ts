@@ -30,6 +30,7 @@ import {
     IBlobAdapter,
     IBlobFile,
     IGetKeyValuePairsAdditionalParameters,
+    IModelledPropertyBuilderAdapter,
     IPropertyInspectorAdapter,
     linkedTwinName
 } from '../Models/Constants';
@@ -71,7 +72,8 @@ export default class MockAdapter
         ITsiClientChartDataAdapter,
         IBlobAdapter,
         Partial<IADTAdapter>,
-        IPropertyInspectorAdapter {
+        IPropertyInspectorAdapter,
+        IModelledPropertyBuilderAdapter {
     private mockData = null;
     private mockError = null;
     private mockTwins: IADTTwin[] = null;
@@ -87,6 +89,8 @@ export default class MockAdapter
     private mockTwinPropertiesMap: {
         [id: string]: Record<string, unknown>;
     } = {};
+    public cachedModels: DtdlInterface[];
+    public isModelFetchLoading: boolean;
 
     constructor(mockAdapterArgs?: IMockAdapter) {
         this.mockData = mockAdapterArgs?.mockData;
@@ -104,6 +108,7 @@ export default class MockAdapter
         this.mockTwins = mockTwinData;
         this.mockModels = (mockModelData as any) as DtdlInterface[];
         this.initializeMockTwinProperties();
+        this.fetchAndCacheAllADTModels();
     }
 
     async mockNetwork() {
@@ -131,6 +136,13 @@ export default class MockAdapter
             result: null,
             errorInfo: null
         });
+    }
+
+    async fetchAndCacheAllADTModels() {
+        this.isModelFetchLoading = true;
+        await this.mockNetwork();
+        this.cachedModels = (mockModelData as any) as DtdlInterface[];
+        this.isModelFetchLoading = false;
     }
 
     async updateTwin(twinId: string, patches: ADTPatch[]) {
