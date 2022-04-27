@@ -10,10 +10,6 @@ const OATEditorPage = ({ theme }) => {
     const [templatesActive, setTemplatesActive] = useState(false);
     const EditorPageStyles = getEditorPageStyles();
 
-    const handleElementsUpdate = (newElements) => {
-        setElementHandler(newElements);
-    };
-
     const [model, setModel] = useState({
         '@id': 'dtmi:com:adt:model1;',
         '@type': 'Interface',
@@ -72,7 +68,7 @@ const OATEditorPage = ({ theme }) => {
                 }
             >
                 <OATModelList />
-                <OATGraphViewer onElementsUpdate={handleElementsUpdate} />
+                <OATGraphViewer onElementsUpdate={setElementHandler} />
                 <OATPropertyEditor
                     model={model}
                     setModel={setModel}

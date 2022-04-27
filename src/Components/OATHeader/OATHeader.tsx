@@ -2,8 +2,7 @@ import React from 'react';
 import { FontIcon, TextField, ActionButton } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { getHeaderStyles } from './OATHeader.styles';
-
-let zip = require('jszip')();
+import JSZip from 'jszip';
 
 type OATHeaderProps = {
     elements: [];
@@ -21,20 +20,20 @@ const OATHeader = ({ elements }: OATHeaderProps) => {
         link.innerHTML = '';
         document.body.appendChild(link);
         link.click();
+        link.parentNode.removeChild(link);
     };
 
     const handleDownloadClick = () => {
-        // Add elements to zip file
+        const zip = new JSZip();
         for (const element of elements.digitalTwinsModels) {
-            zip.file(`${element['@id']}.json`, JSON.stringify(element));
+            let fileName = element['@id'];
+            fileName = fileName.replace(/;/g, '-').replace(/:/g, '_');
+            zip.file(`${fileName}.json`, JSON.stringify(element));
         }
 
         zip.generateAsync({ type: 'blob' }).then((content) => {
             downloadModelExportBlob(content);
         });
-
-        // Reset zip file
-        zip = require('jszip')();
     };
 
     return (

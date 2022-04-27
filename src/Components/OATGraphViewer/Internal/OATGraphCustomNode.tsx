@@ -5,6 +5,12 @@ import { useTranslation } from 'react-i18next';
 import { IOATGraphCustomNodeProps } from '../../Models/Constants/Interfaces';
 import { getGraphViewerStyles } from '../OATGraphViewer.styles';
 import { ElementsContext } from './OATContext';
+import {
+    RelationshipHandleName,
+    ComponentHandleName,
+    ExtendHandleName,
+    UntargetedRelationshipName
+} from '../../../Models/Constants/Constants';
 
 const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
     data,
@@ -93,49 +99,81 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
                         }}
                     />
                 </ActionButton>
-                <div>
-                    {t('OATGraphViewer.name')}:
-                    {!nameEditor && (
-                        <strong onClick={onNameClick}>{data.name}</strong>
-                    )}
-                    {nameEditor && (
-                        <input
-                            id="text"
-                            name="text"
-                            onChange={onNameChange}
-                            value={nameText}
-                            onBlur={onNameBlur}
-                            autoFocus
-                        />
-                    )}
-                </div>
-                <div>
-                    {t('OATGraphViewer.id')}:
-                    {!idEditor && (
-                        <strong onClick={onIdClick}>{data.id}</strong>
-                    )}
-                    {idEditor && (
-                        <input
-                            id="text"
-                            name="text"
-                            onChange={onIdChange}
-                            value={idText}
-                            onBlur={onIdBlur}
-                            autoFocus
-                        />
-                    )}
-                </div>
-                <div>
-                    {t('OATGraphViewer.type')}:<strong>{data.type}</strong>
-                </div>
+                {data.type !== UntargetedRelationshipName && (
+                    <>
+                        <div>
+                            {t('OATGraphViewer.name')}:
+                            {!nameEditor && (
+                                <strong onClick={onNameClick}>
+                                    {data.name}
+                                </strong>
+                            )}
+                            {nameEditor && (
+                                <input
+                                    id="text"
+                                    name="text"
+                                    onChange={onNameChange}
+                                    value={nameText}
+                                    onBlur={onNameBlur}
+                                    autoFocus
+                                />
+                            )}
+                        </div>
+                        <div>
+                            {t('OATGraphViewer.id')}:
+                            {!idEditor && (
+                                <strong onClick={onIdClick}>{data.id}</strong>
+                            )}
+                            {idEditor && (
+                                <input
+                                    id="text"
+                                    name="text"
+                                    onChange={onIdChange}
+                                    value={idText}
+                                    onBlur={onIdBlur}
+                                    autoFocus
+                                />
+                            )}
+                        </div>
+                        <div>
+                            {t('OATGraphViewer.type')}:
+                            <strong>{data.type}</strong>
+                        </div>
+                    </>
+                )}
+                {data.type === UntargetedRelationshipName && (
+                    <>
+                        <div>
+                            <strong>{data.type}</strong>
+                        </div>
+                    </>
+                )}
             </div>
-            <Handle
-                type="source"
-                position="bottom"
-                id="Relationship"
-                className={graphViewerStyles.handle}
-                isConnectable={isConnectable}
-            />
+            {data.type === 'Interface' && (
+                <>
+                    <Handle
+                        type="source"
+                        position="bottom"
+                        id={ComponentHandleName}
+                        className={graphViewerStyles.componentHandle}
+                        isConnectable={isConnectable}
+                    />
+                    <Handle
+                        type="source"
+                        position="bottom"
+                        id={RelationshipHandleName}
+                        className={graphViewerStyles.relationshipHandle}
+                        isConnectable={isConnectable}
+                    />
+                    <Handle
+                        type="source"
+                        position="bottom"
+                        id={ExtendHandleName}
+                        className={graphViewerStyles.extendHandle}
+                        isConnectable={isConnectable}
+                    />
+                </>
+            )}
         </>
     );
 };
