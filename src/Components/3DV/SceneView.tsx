@@ -38,6 +38,7 @@ import { getProgressStyles, getSceneViewStyles } from './SceneView.styles';
 import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
 import { sleep } from '../AutoComplete/AutoComplete';
 import { ModelGroupLabel } from '../ModelGroupLabel/ModelGroupLabel';
+import produce from 'immer';
 
 const debug = false;
 
@@ -191,8 +192,8 @@ function SceneView(props: ISceneViewProp, ref) {
     const zoomedCameraRadiusRef = useRef(0);
     const zoomedMeshesRef = useRef([]);
 
-    const [markersWithLocation, setMarkersWithLocation] = useState<
-        { marker: Marker; left: number; top: number; isGroup?: boolean }[]
+    const [markersAndPositions, setMarkersAndPositions] = useState<
+        { marker: Marker; left: number; top: number }[]
     >([]);
 
     // These next two lines are important! The handlers change very frequently (every parent render)
@@ -938,7 +939,7 @@ function SceneView(props: ISceneViewProp, ref) {
 
         if (!isLoading && sceneRef.current) {
             sceneRef.current.render(); // Marker globes may not have rendered yet
-            createMarkersWithLocation();
+            createMarkersWithPosition();
         }
 
         return () => {
@@ -949,12 +950,11 @@ function SceneView(props: ISceneViewProp, ref) {
         };
     }, [markers, modelUrl, isLoading]);
 
-    const createMarkersWithLocation = () => {
+    const createMarkersWithPosition = () => {
         const markersLocation: {
             marker: Marker;
             top: number;
             left: number;
-            isGroup?: boolean;
         }[] = [];
         if (markers) {
             markers.forEach((marker) => {
@@ -968,44 +968,42 @@ function SceneView(props: ISceneViewProp, ref) {
                             top: position?.top
                         });
                     } else {
-                        const element = markersLocation.find(
-                            (m) =>
-                                m?.left === position?.left &&
-                                m?.top === position?.top
+                        const renderedMarker = document.getElementById(
+                            marker.id
+                        );
+
+                        // need better way to detect if it should be grouped
+                        const element = markersLocation.find((m) =>
+                            elementsOverlap(m, renderedMarker, position)
                         );
 
                         // add to existing group
                         if (element) {
-                            // add to group
-                            if (!element.isGroup) {
-                                const groupItems = [];
+                            const groupItems =
+                                element.marker.UIElement.props?.groupItems ||
+                                [];
+                            if (!groupItems.length) {
                                 groupItems.push({ label: element.marker.name });
-                                groupItems.push({ label: marker.name });
-                                const groupedElement: JSX.Element = (
-                                    <ModelGroupLabel
-                                        label={'2'}
-                                        groupItems={groupItems}
-                                    />
-                                );
-                                element.marker.UIElement = groupedElement;
-                            } else {
-                                const groupItems =
-                                    element.marker.UIElement.props.groupItems ||
-                                    [];
-                                groupItems.push({ label: marker.name });
-                                const groupedElement: JSX.Element = (
-                                    <ModelGroupLabel
-                                        label={groupItems.length}
-                                        groupItems={groupItems}
-                                    />
-                                );
-                                element.marker.UIElement = groupedElement;
                             }
+                            if (
+                                !groupItems.find(
+                                    (item) => item.label === marker.name
+                                )
+                            ) {
+                                groupItems.push({ label: marker.name });
+                            }
+                            const groupedElement: JSX.Element = (
+                                <ModelGroupLabel
+                                    label={groupItems.length}
+                                    groupItems={groupItems}
+                                />
+                            );
+
+                            element.marker.UIElement = groupedElement;
                         } else {
                             // create new group
                             markersLocation.push({
                                 marker: marker,
-                                isGroup: true,
                                 left: position?.left,
                                 top: position?.top
                             });
@@ -1014,51 +1012,36 @@ function SceneView(props: ISceneViewProp, ref) {
                 }
             });
 
-            setMarkersWithLocation(markersLocation);
+            setMarkersAndPositions(markersLocation);
         }
     };
 
-    const elementsOverlap = (el1, el2) => {
-        const domRect1 = el1?.getBoundingClientRect();
-        const domRect2 = el2?.getBoundingClientRect();
+    const elementsOverlap = (
+        markerAndPosition: { marker: Marker; left: number; top: number },
+        renderedElement: HTMLElement,
+        position: { left: number; top: number }
+    ) => {
+        const markerElement = document.getElementById(
+            markerAndPosition.marker.id
+        );
 
-        if (domRect1 && domRect2) {
+        const markerElementArea = markerElement?.getBoundingClientRect();
+        const renderedElementArea = renderedElement?.getBoundingClientRect();
+
+        if (markerElementArea && renderedElementArea) {
             return !(
-                domRect1.top > domRect2.bottom ||
-                domRect1.right < domRect2.left ||
-                domRect1.bottom < domRect2.top ||
-                domRect1.left > domRect2.right
+                markerElementArea.top + markerAndPosition.top >
+                    renderedElementArea.bottom + position.top ||
+                markerElementArea.right + markerAndPosition.left <
+                    renderedElementArea.left + position.left ||
+                markerElementArea.bottom + markerAndPosition.top <
+                    renderedElementArea.top + position.top ||
+                markerElementArea.left + markerAndPosition.left >
+                    renderedElementArea.right + position.left
             );
-        } else return false;
-    };
-
-    const checkIfMarkersOverlap = () => {
-        const toHide = [];
-        for (let i = 0; i < markersWithLocation?.length; i++) {
-            for (let k = i + 1; k < markersWithLocation?.length; k++) {
-                if (
-                    elementsOverlap(
-                        document.getElementById(
-                            markersWithLocation[i].marker.id
-                        ),
-                        document.getElementById(
-                            markersWithLocation[k].marker.id
-                        )
-                    )
-                ) {
-                    toHide.push(markersWithLocation[i]);
-                }
-            }
+        } else {
+            return false;
         }
-
-        toHide?.forEach((hide) => {
-            setMarkersWithLocation(
-                markersWithLocation.filter(
-                    (markerWithLocation) =>
-                        markerWithLocation.marker.id !== hide.marker.id
-                )
-            );
-        });
     };
 
     const getMarkerPosition = (marker: Marker) => {
@@ -1338,7 +1321,7 @@ function SceneView(props: ISceneViewProp, ref) {
 
                 if (lastCameraPositionOnMouseMoveRef.current !== pos) {
                     lastCameraPositionOnMouseMoveRef.current = pos;
-                    createMarkersWithLocation();
+                    createMarkersWithPosition();
                 }
             };
 
@@ -1501,17 +1484,17 @@ function SceneView(props: ISceneViewProp, ref) {
                 id={canvasId}
                 touch-action="none"
             />
-            {markersWithLocation.map((markerWithLocation, index) => {
+            {markersAndPositions.map((markerAndPosition, index) => {
                 return (
                     <div
                         key={index}
                         style={{
                             position: 'absolute',
-                            left: markerWithLocation.left,
-                            top: markerWithLocation.top
+                            left: markerAndPosition.left,
+                            top: markerAndPosition.top
                         }}
                     >
-                        {markerWithLocation.marker.UIElement}
+                        {markerAndPosition.marker.UIElement}
                     </div>
                 );
             })}
@@ -1540,6 +1523,22 @@ function SceneView(props: ISceneViewProp, ref) {
                     Error loading model. Try Ctrl-F5
                 </div>
             )}
+            {markers.map((marker, index) => {
+                return (
+                    <div
+                        id={marker.id}
+                        key={index}
+                        style={{
+                            position: 'absolute',
+                            left: 0,
+                            top: 0,
+                            zIndex: -1
+                        }}
+                    >
+                        {marker.UIElement}
+                    </div>
+                );
+            })}
         </div>
     );
 }

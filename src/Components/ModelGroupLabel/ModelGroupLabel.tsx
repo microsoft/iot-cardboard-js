@@ -75,6 +75,7 @@ const getStyles = memoizeFunction((theme: Theme) => {
             padding: '8px 12px',
             border: `1px solid ${theme.palette.neutralLight}`,
             color: theme.semanticColors.bodyText,
+            horizontalAlignment: 'center',
             width: 'fit-content'
         }
     });

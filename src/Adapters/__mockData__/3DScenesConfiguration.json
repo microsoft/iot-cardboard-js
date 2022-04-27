@@ -2172,6 +2172,54 @@
                 ],
                 "elements": [],
                 "behaviorIDs": []
+            },
+            {
+                "id": "D258513E-44D8-4041-9551-F5FEDE1BBCC1",
+                "displayName": "Test Site 1",
+                "assets": [
+                    {
+                        "type": "3DAsset",
+                        "url": "https://cardboardresources.blob.core.windows.net/cardboard-mock-files/refinery_scene_textured_4m_optimise.glb",
+                        "extensionProperties": {}
+                    }
+                ],
+                "description": "Distribution Center",
+                "latitude": 55.3781,
+                "longitude": 40.436,
+                "elements": [],
+                "behaviorIDs": []
+            },
+            {
+                "id": "D258513E-44D8-4041-9551-F5FEDE1BBCC2",
+                "displayName": "Test Site 2",
+                "assets": [
+                    {
+                        "type": "3DAsset",
+                        "url": "https://cardboardresources.blob.core.windows.net/cardboard-mock-files/refinery_scene_textured_4m_optimise.glb",
+                        "extensionProperties": {}
+                    }
+                ],
+                "description": "Distribution Center",
+                "latitude": 55.3781,
+                "longitude": 3.436,
+                "elements": [],
+                "behaviorIDs": []
+            },
+            {
+                "id": "D258513E-44D8-4041-9551-F5FEDE1BBCC3",
+                "displayName": "Test Site 3",
+                "assets": [
+                    {
+                        "type": "3DAsset",
+                        "url": "https://cardboardresources.blob.core.windows.net/cardboard-mock-files/refinery_scene_textured_4m_optimise.glb",
+                        "extensionProperties": {}
+                    }
+                ],
+                "description": "Distribution Center",
+                "latitude": 55.3781,
+                "longitude": 3.436,
+                "elements": [],
+                "behaviorIDs": []
             }
         ],
         "behaviors": [
