@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import OATHeader from '../../Components/OATHeader/OATHeader';
 import OATModelList from '../../Components/OATModelList/OATModelList';
 import OATGraphViewer from '../../Components/OATGraphViewer/OATGraphViewer';
@@ -9,6 +9,10 @@ const OATEditorPage = ({ theme }) => {
     const [elementHandler, setElementHandler] = useState([]);
     const [templatesActive, setTemplatesActive] = useState(false);
     const EditorPageStyles = getEditorPageStyles();
+    const [deletedModel, setDeletedModel] = useState('');
+    const [selectedModel, setSelectedModel] = useState('');
+    const [editedName, setEditedName] = useState('');
+    const [editedId, setEditedId] = useState('');
 
     const [model, setModel] = useState({
         '@id': 'dtmi:com:adt:model1;',
@@ -67,11 +71,21 @@ const OATEditorPage = ({ theme }) => {
                         : EditorPageStyles.component
                 }
             >
-                <OATModelList />
+                <OATModelList
+                    elements={elementHandler}
+                    handleDeleteModel={setDeletedModel}
+                    handleSelectedModel={setSelectedModel}
+                    handleEditedName={setEditedName}
+                    handleEditedId={setEditedId}
+                />
                 <OATGraphViewer
                     onElementsUpdate={setElementHandler}
                     model={model}
                     setModel={setModel}
+                    deletedModel={deletedModel}
+                    selectedModel={selectedModel}
+                    editedName={editedName}
+                    editedId={editedId}
                 />
                 <OATPropertyEditor
                     model={model}

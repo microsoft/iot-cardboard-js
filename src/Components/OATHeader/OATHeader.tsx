@@ -5,7 +5,7 @@ import { getHeaderStyles } from './OATHeader.styles';
 import { downloadText } from '../../Models/Services/Utils';
 
 type OATHeaderProps = {
-    elements: [];
+    elements: any[];
 };
 
 const OATHeader = ({ elements }: OATHeaderProps) => {
