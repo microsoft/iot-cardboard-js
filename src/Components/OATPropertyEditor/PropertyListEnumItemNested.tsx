@@ -1,10 +1,17 @@
 import React from 'react';
-import { TextField, Stack, Text } from '@fluentui/react';
+import {
+    TextField,
+    Stack,
+    Text,
+    ActionButton,
+    FontIcon
+} from '@fluentui/react';
 import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
 import { useTranslation } from 'react-i18next';
 import { DTDLModel } from '../../Models/Classes/DTDL';
 
 type IEnumItem = {
+    deleteNestedItem?: (parentIndex: number, index: number) => any;
     index?: number;
     item?: any;
     model?: DTDLModel;
@@ -13,6 +20,7 @@ type IEnumItem = {
 };
 
 export const PropertyListEnumItemNested = ({
+    deleteNestedItem,
     item,
     model,
     setModel,
@@ -50,6 +58,15 @@ export const PropertyListEnumItemNested = ({
 
     return (
         <Stack className={propertyInspectorStyles.enumItem} tabIndex={0}>
+            <ActionButton
+                onClick={() => deleteNestedItem(parentIndex, index)}
+                className={propertyInspectorStyles.propertyItemIconWrap}
+            >
+                <FontIcon
+                    iconName={'ChromeClose'}
+                    className={propertyInspectorStyles.propertyItemIcon}
+                />
+            </ActionButton>
             <TextField
                 className={propertyInspectorStyles.propertyItemTextField}
                 borderless
