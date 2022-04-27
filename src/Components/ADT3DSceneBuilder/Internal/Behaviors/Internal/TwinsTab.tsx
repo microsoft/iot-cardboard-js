@@ -36,9 +36,9 @@ import { IBehaviorTwinAliasItem } from '../../../../../Models/Classes/3DVConfig'
 import AddTwinAliasCallout from '../Twins/AddTwinAliasCallout';
 import ViewerConfigUtility from '../../../../../Models/Classes/ViewerConfigUtility';
 import produce from 'immer';
-import LinkedTwinPropertiesCallout from '../Twins/LinkedTwinPropertiesCallout';
 import useBehaviorAliasedTwinProperties from '../../../../../Models/Hooks/useBehaviorAliasedTwinProperties';
 import { IValidityState, TabNames } from '../BehaviorForm.types';
+import CardboardListCallout from '../../../../CardboardListCallout/CardboardListCallout';
 
 interface ITwinsTabProps {
     selectedElements: Array<ITwinToObjectMapping>;
@@ -218,11 +218,26 @@ const TwinsTab: React.FC<ITwinsTabProps> = ({
                     {t('3dSceneBuilder.twinAlias.descriptions.linkedTwin')}
                 </Text>
                 {isLinkedTwinPropertiesCalloutVisible && (
-                    <LinkedTwinPropertiesCallout
+                    <CardboardListCallout
+                        listType="Basic"
                         calloutTarget={linkedTwinPropertiesTargetId}
-                        commonLinkedTwinProperties={linkedTwinProperties}
-                        isLoading={isCommonLinkedTwinPropertiesLoading}
-                        hideCallout={toggleIsLinkedTwinPropertiesCalloutVisible}
+                        title={t('3dSceneBuilder.twinAlias.commonProperties')}
+                        listKey={'common-properties-callout-list'}
+                        listItems={linkedTwinProperties}
+                        isListLoading={isCommonLinkedTwinPropertiesLoading}
+                        onDismiss={toggleIsLinkedTwinPropertiesCalloutVisible}
+                        filterPlaceholder={t(
+                            '3dSceneBuilder.twinAlias.searchProperties'
+                        )}
+                        filterPredicate={(property: string, searchTerm) =>
+                            property
+                                .toLowerCase()
+                                .includes(searchTerm.toLowerCase())
+                        }
+                        noResultText={t(
+                            '3dSceneBuilder.noLinkedTwinProperties'
+                        )}
+                        searchBoxDataTestId="linked-twin-callout-search"
                     />
                 )}
                 {linkedTwinList.length > 0 && (

@@ -347,7 +347,10 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
                     if (element.objectIDs.includes(mesh.id)) {
                         for (const id of element.objectIDs) {
                             // set mesh color for mesh that is hovered
-                            if (id === mesh.id) {
+                            if (
+                                id === mesh.id &&
+                                !coloredMeshes.find((m) => m.meshId === mesh.id)
+                            ) {
                                 coloredMeshes.push({
                                     meshId: id,
                                     color: state.objectColor.meshHoverColor
@@ -357,11 +360,13 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
                             meshIds.push(id);
                         }
                     } else {
-                        // if mesh is not in an element just color it
-                        coloredMeshes.push({
-                            meshId: mesh.id,
-                            color: state.objectColor.meshHoverColor
-                        });
+                        if (!coloredMeshes.find((m) => m.meshId === mesh.id)) {
+                            // if mesh is not in an element just color it
+                            coloredMeshes.push({
+                                meshId: mesh.id,
+                                color: state.objectColor.meshHoverColor
+                            });
+                        }
                     }
                 }
             } else {
@@ -553,8 +558,8 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
         if (elements.length > 0) {
             setContextualMenuProps({
                 isVisible: true,
-                x: e.clientX,
-                y: e.clientY,
+                x: e.offsetX,
+                y: e.offsetY,
                 items: behaviorContextualMenuItems.current
             });
         }
@@ -620,8 +625,8 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
 
         setContextualMenuProps({
             isVisible: true,
-            x: e.clientX,
-            y: e.clientY,
+            x: e.offsetX,
+            y: e.offsetY,
             items: elementContextualMenuItems.current
         });
     };
