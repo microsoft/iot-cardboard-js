@@ -2156,7 +2156,7 @@
                 "assets": [
                     {
                         "type": "3DAsset",
-                        "url": "https://cardboardresources.blob.core.windows.net/cardboard-mock-files/refinery_scene_textured_4m_optimise.glb",
+                        "url": "https://cardboardresources.blob.core.windows.net/cardboard-mock-files/refinery_scene_textured_1m.glb",
                         "extensionProperties": {}
                     }
                 ]

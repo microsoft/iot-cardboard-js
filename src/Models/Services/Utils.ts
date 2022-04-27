@@ -1,3 +1,4 @@
+import * as BABYLON from '@babylonjs/core/Legacy/legacy';
 import React from 'react';
 import {
     IADTTwin,
@@ -323,4 +324,38 @@ export function performSubstitutions(
     }
 
     return expression;
+}
+
+export function hexToColor4(hex: string): BABYLON.Color4 {
+    if (!hex) {
+        return undefined;
+    }
+
+    // remove invalid characters
+    hex = hex.replace(/[^0-9a-fA-F]/g, '');
+    if (hex.length < 5) {
+        // 3, 4 characters double-up
+        hex = hex
+            .split('')
+            .map((s) => s + s)
+            .join('');
+    }
+
+    // parse pairs of two
+    const rgba = hex
+        .match(/.{1,2}/g)
+        .map((s) => parseFloat((parseInt(s, 16) / 255).toString()));
+    // alpha code between 0 & 1 / default 1
+    rgba[3] = rgba.length > 3 ? rgba[3] : 1;
+    const color = new BABYLON.Color4(rgba[0], rgba[1], rgba[2], rgba[3]);
+    return color;
+}
+
+function componentToHex(c) {
+    const hex = c.toString(16);
+    return hex.length == 1 ? '0' + hex : hex;
+}
+
+export function rgbToHex(r, g, b) {
+    return '#' + componentToHex(r) + componentToHex(g) + componentToHex(b);
 }
