@@ -478,6 +478,12 @@
       "errors": {
         "twinAliasAlreadyExists": "同じ名前のツインエイリアスが既に存在するため、代わりに追加することを検討してください。"
       }
+    },
+    "ModelledPropertyBuilder": {
+      "expressionLabel": "プロパティ式",
+      "expressionPlaceholder": "プロパティ式を入力",
+      "selectProperty": "プロパティの選択",
+      "toggleLabel": "プロパティ式"
     }
   },
   "widgets": {

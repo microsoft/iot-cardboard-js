@@ -478,6 +478,12 @@
       "errors": {
         "twinAliasAlreadyExists": "具有相同名称的孪生别名已存在，请考虑添加它。"
       }
+    },
+    "ModelledPropertyBuilder": {
+      "expressionLabel": "属性表达式",
+      "expressionPlaceholder": "输入属性表达式",
+      "selectProperty": "选择房产",
+      "toggleLabel": "属性表达式"
     }
   },
   "widgets": {

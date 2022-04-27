@@ -478,6 +478,12 @@
       "errors": {
         "twinAliasAlreadyExists": "Dubbele alias met dezelfde naam bestaat al, overweeg deze in plaats daarvan toe te voegen."
       }
+    },
+    "ModelledPropertyBuilder": {
+      "expressionLabel": "Eigenschapsexpressie",
+      "expressionPlaceholder": "Eigenschapsexpressie invoeren",
+      "selectProperty": "Selecteer eigenschap",
+      "toggleLabel": "Eigenschapsexpressie"
     }
   },
   "widgets": {
