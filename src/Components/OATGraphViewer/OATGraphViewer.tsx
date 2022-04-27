@@ -372,16 +372,16 @@ const OATGraphViewer = ({
     };
 
     const onElementClick = (evt, node) => {
-        if (node.data.type === 'Interface') {
+        if (node.data.type === InterfaceType) {
             currentNodeId.current = node.id;
-            const modelClicked = {
+            const selectedModel = {
                 '@id': node.id,
                 '@type': node.data.type,
                 '@context': node.data.context,
                 displayName: node.data.name,
                 contents: node.data.content
             };
-            setModel(modelClicked);
+            setModel(selectedModel);
         }
     };
 
