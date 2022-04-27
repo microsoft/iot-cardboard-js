@@ -138,17 +138,18 @@ export const PropertyList = ({
         });
     };
 
-    const getErrorMessage = (value, index) => {
-        debugger; //eslint-disable-line
-        const find = model.contents.find((item) => item.name === value);
+    const generateErrorMessage = (value, index) => {
+        if (value) {
+            const find = model.contents.find((item) => item.name === value);
 
-        if (!find && value !== '') {
-            handlePropertyNameChange(value, index);
+            if (!find && value !== '') {
+                handlePropertyNameChange(value, index);
+            }
+
+            return find
+                ? `${t('OATPropertyEditor.errorRepeatedPropertyName')}`
+                : '';
         }
-
-        return find
-            ? `${t('OATPropertyEditor.errorRepeatedPropertyName')}`
-            : '';
     };
 
     return (
@@ -186,7 +187,7 @@ export const PropertyList = ({
                                     getNestedItemClassName={
                                         getNestedItemClassName
                                     }
-                                    getErrorMessage={getErrorMessage}
+                                    getErrorMessage={generateErrorMessage}
                                     handleDragEnter={handleDragEnter}
                                     handleDragEnterExternalItem={
                                         handleDragEnterExternalItem
@@ -220,7 +221,7 @@ export const PropertyList = ({
                                 index={i}
                                 draggingProperty={draggingProperty}
                                 getItemClassName={getItemClassName}
-                                getErrorMessage={getErrorMessage}
+                                getErrorMessage={generateErrorMessage}
                                 handleDragEnter={handleDragEnter}
                                 handleDragEnterExternalItem={
                                     handleDragEnterExternalItem

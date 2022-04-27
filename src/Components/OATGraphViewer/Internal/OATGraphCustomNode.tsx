@@ -8,7 +8,8 @@ import { ElementsContext } from './OATContext';
 import {
     RelationshipHandleName,
     ComponentHandleName,
-    ExtendHandleName
+    ExtendHandleName,
+    UntargetedRelationshipName
 } from '../../../Models/Constants/Constants';
 
 const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
@@ -74,7 +75,7 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
             elements.find((element) => element.id === prevId).data.id = idText;
             elements.find((element) => element.id === prevId).id = idText;
             setElements([...elements]);
-            const modelUpdated = {
+            const updatedModel = {
                 '@id': idText,
                 '@type': data.type,
                 '@context': data.context,
@@ -82,7 +83,7 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
                 contents: data.content
             };
             setCurrentNode(idText);
-            setModel(modelUpdated);
+            setModel(updatedModel);
         }
     };
 
@@ -118,41 +119,55 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
                         }}
                     />
                 </ActionButton>
-                <div>
-                    {t('OATGraphViewer.name')}:
-                    {!nameEditor && (
-                        <strong onClick={onNameClick}>{data.name}</strong>
-                    )}
-                    {nameEditor && (
-                        <input
-                            id="text"
-                            name="text"
-                            onChange={onNameChange}
-                            value={nameText}
-                            onBlur={onNameBlur}
-                            autoFocus
-                        />
-                    )}
-                </div>
-                <div>
-                    {t('OATGraphViewer.id')}:
-                    {!idEditor && (
-                        <strong onClick={onIdClick}>{data.id}</strong>
-                    )}
-                    {idEditor && (
-                        <input
-                            id="text"
-                            name="text"
-                            onChange={onIdChange}
-                            value={idText}
-                            onBlur={onIdBlur}
-                            autoFocus
-                        />
-                    )}
-                </div>
-                <div>
-                    {t('OATGraphViewer.type')}:<strong>{data.type}</strong>
-                </div>
+                {data.type !== UntargetedRelationshipName && (
+                    <>
+                        <div>
+                            {t('OATGraphViewer.name')}:
+                            {!nameEditor && (
+                                <strong onClick={onNameClick}>
+                                    {data.name}
+                                </strong>
+                            )}
+                            {nameEditor && (
+                                <input
+                                    id="text"
+                                    name="text"
+                                    onChange={onNameChange}
+                                    value={nameText}
+                                    onBlur={onNameBlur}
+                                    autoFocus
+                                />
+                            )}
+                        </div>
+                        <div>
+                            {t('OATGraphViewer.id')}:
+                            {!idEditor && (
+                                <strong onClick={onIdClick}>{data.id}</strong>
+                            )}
+                            {idEditor && (
+                                <input
+                                    id="text"
+                                    name="text"
+                                    onChange={onIdChange}
+                                    value={idText}
+                                    onBlur={onIdBlur}
+                                    autoFocus
+                                />
+                            )}
+                        </div>
+                        <div>
+                            {t('OATGraphViewer.type')}:
+                            <strong>{data.type}</strong>
+                        </div>
+                    </>
+                )}
+                {data.type === UntargetedRelationshipName && (
+                    <>
+                        <div>
+                            <strong>{data.type}</strong>
+                        </div>
+                    </>
+                )}
             </div>
             {data.type === 'Interface' && (
                 <>
