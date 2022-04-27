@@ -129,7 +129,7 @@ export const PropertyList = ({
     const handlePropertyNameChange = (value, index) => {
         setModel((model) => {
             const newModel = deepCopy(model);
-            if (!index === undefined) {
+            if (index === undefined) {
                 newModel.contents[currentPropertyIndex].name = value;
             } else {
                 newModel.contents[index].name = value;
