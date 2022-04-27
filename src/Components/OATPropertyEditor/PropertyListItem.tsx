@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
     FontIcon,
     TextField,
@@ -7,6 +7,9 @@ import {
     Text
 } from '@fluentui/react';
 import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
+import { DTDLModel } from '../../Models/Classes/DTDL';
+import { deepCopy } from '../../Models/Services/Utils';
+import PropertyListItemSubMenu from './PropertyListItemSubMenu';
 
 type IPropertyListItem = {
     index?: number;
@@ -18,10 +21,13 @@ type IPropertyListItem = {
     handleDragEnterExternalItem?: (index: number) => any;
     handleDragStart?: (event: any, item: any) => any;
     item?: any;
+    model: DTDLModel;
     setCurrentPropertyIndex?: React.Dispatch<React.SetStateAction<number>>;
     setLastPropertyFocused?: React.Dispatch<React.SetStateAction<any>>;
     setModalBody?: React.Dispatch<React.SetStateAction<string>>;
     setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
+    setModel?: React.Dispatch<React.SetStateAction<any>>;
+    setTemplates?: React.Dispatch<React.SetStateAction<any>>;
 };
 
 export const PropertyListItem = ({
@@ -33,13 +39,32 @@ export const PropertyListItem = ({
     handleDragEnter,
     handleDragEnterExternalItem,
     handleDragStart,
+    model,
     setCurrentPropertyIndex,
     setModalOpen,
     item,
     setLastPropertyFocused,
-    setModalBody
+    setModalBody,
+    setModel,
+    setTemplates
 }: IPropertyListItem) => {
     const propertyInspectorStyles = getPropertyInspectorStyles();
+    const [subMenuActive, setSubMenuActive] = useState(false);
+
+    const handleTemplateAddition = () => {
+        setTemplates((templates) => [...templates, item]);
+    };
+
+    const handleDuplicate = () => {
+        const itemCopy = deepCopy(item);
+        itemCopy.name = `${itemCopy.name}_copy`;
+        itemCopy.displayName = `${itemCopy.displayName}_copy`;
+        itemCopy['@id'] = `${itemCopy['@id']}_copy`;
+
+        const modelCopy = deepCopy(model);
+        modelCopy.contents.push(itemCopy);
+        setModel(modelCopy);
+    };
 
     return (
         <Stack
@@ -56,16 +81,6 @@ export const PropertyListItem = ({
             onFocus={() => setLastPropertyFocused(null)}
             tabIndex={0}
         >
-            <ActionButton
-                onClick={() => deleteItem(index)}
-                className={propertyInspectorStyles.propertyItemIconWrap}
-            >
-                <FontIcon
-                    iconName={'ChromeClose'}
-                    className={propertyInspectorStyles.propertyItemIcon}
-                />
-            </ActionButton>
-
             <TextField
                 className={propertyInspectorStyles.propertyItemTextField}
                 borderless
@@ -91,12 +106,22 @@ export const PropertyListItem = ({
                 />
             </ActionButton>
             <ActionButton
-                className={propertyInspectorStyles.propertyItemIconWrap}
+                className={propertyInspectorStyles.propertyItemIconWrapMore}
+                onClick={() => setSubMenuActive(!subMenuActive)}
             >
                 <FontIcon
                     iconName={'More'}
                     className={propertyInspectorStyles.propertyItemIcon}
                 />
+                {subMenuActive && (
+                    <PropertyListItemSubMenu
+                        deleteItem={deleteItem}
+                        index={index}
+                        subMenuActive={subMenuActive}
+                        handleTemplateAddition={handleTemplateAddition}
+                        handleDuplicate={handleDuplicate}
+                    />
+                )}
             </ActionButton>
         </Stack>
     );

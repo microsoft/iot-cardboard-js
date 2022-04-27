@@ -221,6 +221,7 @@ export const PropertyList = ({
                                     model={model}
                                     setModel={setModel}
                                     deleteItem={deleteItem}
+                                    setTemplates={setTemplates}
                                 />
                             );
                         }
@@ -245,6 +246,9 @@ export const PropertyList = ({
                                 setLastPropertyFocused={setLastPropertyFocused}
                                 setModalBody={setModalBody}
                                 deleteItem={deleteItem}
+                                setTemplates={setTemplates}
+                                setModel={setModel}
+                                model={model}
                             />
                         );
                     })}

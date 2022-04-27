@@ -1,8 +1,9 @@
 import React, { useRef, useState } from 'react';
-import { FontIcon, ActionButton, Stack, Text } from '@fluentui/react';
+import { Stack } from '@fluentui/react';
 import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
 import { deepCopy } from '../../Models/Services/Utils';
 import { DTDLModel } from '../../Models/Classes/DTDL';
+import TemplateListItem from './TeplateListItem';
 
 interface ITemplateList {
     draggingTemplate?: boolean;
@@ -140,47 +141,20 @@ export const TemplateList = ({
         >
             {templates.length > 0 &&
                 templates.map((item, i) => (
-                    <Stack
-                        className={getDragItemClassName(i)}
+                    <TemplateListItem
                         key={i}
-                        draggable
-                        onDragStart={(e) => {
-                            handleDragStart(e, i);
-                        }}
-                        onDragEnter={
-                            draggingTemplate
-                                ? (e) => handleDragEnter(e, i)
-                                : () => handleDragEnterExternalItem(i)
+                        draggingTemplate={draggingTemplate}
+                        item={item}
+                        index={i}
+                        deleteItem={deleteItem}
+                        getDragItemClassName={getDragItemClassName}
+                        handleDragEnter={handleDragEnter}
+                        handleDragEnterExternalItem={
+                            handleDragEnterExternalItem
                         }
-                    >
-                        <ActionButton
-                            onClick={() => deleteItem(i)}
-                            className={
-                                propertyInspectorStyles.propertyItemIconWrap
-                            }
-                        >
-                            <FontIcon
-                                iconName={'ChromeClose'}
-                                className={
-                                    propertyInspectorStyles.propertyItemIcon
-                                }
-                            />
-                        </ActionButton>
-                        <Text>{item.name}</Text>
-                        <Text>{getSchemaText(item.schema)}</Text>
-                        <ActionButton
-                            className={
-                                propertyInspectorStyles.propertyItemIconWrap
-                            }
-                        >
-                            <FontIcon
-                                iconName={'More'}
-                                className={
-                                    propertyInspectorStyles.propertyItemIcon
-                                }
-                            />
-                        </ActionButton>
-                    </Stack>
+                        handleDragStart={handleDragStart}
+                        getSchemaText={getSchemaText}
+                    />
                 ))}
         </Stack>
     );
