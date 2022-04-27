@@ -18,7 +18,7 @@ import ValueRangeBuilder from '../../../../ValueRangeBuilder/ValueRangeBuilder';
 import { defaultStatusColorVisual } from '../../../../../Models/Classes/3DVConfig';
 import { IValidityState, TabNames } from '../BehaviorForm.types';
 import { deepCopy } from '../../../../../Models/Services/Utils';
-import TwinPropertyDropown from './TwinPropertyDropdown';
+import TwinPropertyDropown from '../../../../ModelledPropertyBuilder/Internal/TwinPropertyDropdown';
 import { getLeftPanelStyles } from '../../Shared/LeftPanel.styles';
 import useValueRangeBuilder from '../../../../../Models/Hooks/useValueRangeBuilder';
 import { SceneBuilderContext } from '../../../ADT3DSceneBuilder';

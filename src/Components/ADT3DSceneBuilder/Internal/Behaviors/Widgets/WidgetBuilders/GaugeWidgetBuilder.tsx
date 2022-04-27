@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { IGaugeWidgetBuilderProps } from '../../../../ADT3DSceneBuilder.types';
 import ValueRangeBuilder from '../../../../../ValueRangeBuilder/ValueRangeBuilder';
 import { getWidgetFormStyles } from '../WidgetForm.styles';
-import TwinPropertyDropown from '../../Internal/TwinPropertyDropdown';
+import TwinPropertyDropown from '../../../../../ModelledPropertyBuilder/Internal/TwinPropertyDropdown';
 import useValueRangeBuilder from '../../../../../../Models/Hooks/useValueRangeBuilder';
 import { deepCopy } from '../../../../../../Models/Services/Utils';
 import { SceneBuilderContext } from '../../../../ADT3DSceneBuilder';

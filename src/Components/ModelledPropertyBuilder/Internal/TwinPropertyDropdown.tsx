@@ -4,9 +4,9 @@ import { Dropdown, Icon, IDropdownOption, IIconStyles } from '@fluentui/react';
 import {
     IBehavior,
     ITwinToObjectMapping
-} from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
-import useBehaviorTwinPropertyFullNames from '../../../../../Models/Hooks/useBehaviorTwinPropertyFullNames';
-import { buildDropdownOptionsFromStrings } from '../../../../../Models/Services/Utils';
+} from '../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
+import useBehaviorTwinPropertyFullNames from '../../../Models/Hooks/useBehaviorTwinPropertyFullNames';
+import { buildDropdownOptionsFromStrings } from '../../../Models/Services/Utils';
 
 const iconStyles: IIconStyles = {
     root: { bottom: -1, marginLeft: 8, position: 'relative' }

@@ -4,16 +4,12 @@ import React, { useEffect } from 'react';
 import { ModelledPropertyBuilderProps } from './ModelledPropertyBuilder.types';
 import { getStyles } from './ModelledPropertyBuilder.styles';
 import { linkedTwinName } from '../../Models/Constants';
+import { Stack, Text } from '@fluentui/react';
+import TwinPropertyDropown from './Internal/TwinPropertyDropdown';
 
 const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = ({
     adapter,
-    primaryTwinIds,
-    primaryTwinTag = linkedTwinName,
-    selectedPropertyOrExpression,
-    aliasedTwinMap,
     mode,
-    allowedPrimitiveTypes,
-    allowedComplexTypes,
     onChange
 }) => {
     const styles = getStyles();
@@ -26,7 +22,11 @@ const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = ({
         }
     }, [adapter.cachedModels]);
 
-    return <div>Hello ModelledPropertyBuilder!</div>;
+    return (
+        <Stack tokens={{ padding: 8 }}>
+            <Text>Select Property</Text>
+        </Stack>
+    );
 };
 
 export default ModelledPropertyBuilder;
