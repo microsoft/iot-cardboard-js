@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
     TextField,
     Stack,
@@ -9,6 +9,7 @@ import {
 import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
 import { useTranslation } from 'react-i18next';
 import { DTDLModel } from '../../Models/Classes/DTDL';
+import PropertyListItemSubMenu from './PropertyListItemSubMenu';
 
 type IEnumItem = {
     deleteNestedItem?: (parentIndex: number, index: number) => any;
@@ -29,6 +30,7 @@ export const PropertyListEnumItemNested = ({
 }: IEnumItem) => {
     const { t } = useTranslation();
     const propertyInspectorStyles = getPropertyInspectorStyles();
+    const [subMenuActive, setSubMenuActive] = useState(false);
 
     const updateEnum = (value) => {
         const activeItem = model.contents[parentIndex].schema.enumValues[index];
@@ -58,15 +60,6 @@ export const PropertyListEnumItemNested = ({
 
     return (
         <Stack className={propertyInspectorStyles.enumItem} tabIndex={0}>
-            <ActionButton
-                onClick={() => deleteNestedItem(parentIndex, index)}
-                className={propertyInspectorStyles.propertyItemIconWrap}
-            >
-                <FontIcon
-                    iconName={'ChromeClose'}
-                    className={propertyInspectorStyles.propertyItemIcon}
-                />
-            </ActionButton>
             <TextField
                 className={propertyInspectorStyles.propertyItemTextField}
                 borderless
@@ -75,6 +68,25 @@ export const PropertyListEnumItemNested = ({
                 onGetErrorMessage={getErrorMessage}
             />
             <Text>{item.enumValue}</Text>
+            <ActionButton
+                className={propertyInspectorStyles.propertyItemIconWrapMore}
+                onClick={() => setSubMenuActive(!subMenuActive)}
+            >
+                <FontIcon
+                    iconName={'More'}
+                    className={propertyInspectorStyles.propertyItemIcon}
+                />
+                {subMenuActive && (
+                    <PropertyListItemSubMenu
+                        deleteNestedItem={deleteNestedItem}
+                        index={index}
+                        parentIndex={parentIndex}
+                        subMenuActive={subMenuActive}
+                        duplicateItem={false}
+                        addItemToTemplates={false}
+                    />
+                )}
+            </ActionButton>
         </Stack>
     );
 };
