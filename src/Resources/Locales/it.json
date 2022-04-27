@@ -498,8 +498,8 @@
       "description": "Un pannello di layout"
     },
     "notSupported": "Questo tipo di widget non è attualmente supportato",
-    "property": {
-      "title": "Widget proprietà",
+    "value": {
+      "title": "Widget Valore",
       "description": "Widget di base per mostrare i valori delle proprietà gemelle"
     }
   },

@@ -498,9 +498,9 @@
       "description": "Panel układu"
     },
     "notSupported": "Ten typ widżetu nie jest obecnie obsługiwany",
-    "property": {
-      "title": "Widżet Właściwości",
-      "description": "Widżet Podstawowy pokazujący bliźniacze wartości właściwości"
+    "value": {
+      "title": "Widżet Wartość",
+      "description": "Widżet Podstawowy do wyświetlania wartości bliźniaczych właściwości"
     }
   },
   "sdkStrings": {

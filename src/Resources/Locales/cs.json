@@ -498,9 +498,9 @@
       "description": "Panel rozvržení"
     },
     "notSupported": "Tento typ widgetu není v současné době podporován",
-    "property": {
-      "title": "Widget Vlastnosti",
-      "description": "Základní widget pro zobrazení hodnot vlastností dvojčat"
+    "value": {
+      "title": "Widget Hodnota",
+      "description": "Základní widget pro zobrazení hodnot vlastností dvojčete"
     }
   },
   "sdkStrings": {

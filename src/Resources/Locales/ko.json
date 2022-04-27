@@ -498,9 +498,9 @@
       "description": "레이아웃 패널"
     },
     "notSupported": "이 위젯 유형은 현재 지원되지 않습니다.",
-    "property": {
-      "title": "속성 위젯",
-      "description": "쌍둥이 속성 값을 표시하는 기본 위젯"
+    "value": {
+      "title": "값 위젯",
+      "description": "쌍둥이 속성의 값을 표시하는 기본 위젯"
     }
   },
   "sdkStrings": {

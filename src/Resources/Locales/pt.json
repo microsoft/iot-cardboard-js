@@ -498,9 +498,9 @@
       "description": "Um painel de layout"
     },
     "notSupported": "Este tipo de widget não é suportado atualmente",
-    "property": {
-      "title": "Widget de propriedade",
-      "description": "Widget básico para mostrar valores de propriedade dupla"
+    "value": {
+      "title": "Widget de valor",
+      "description": "Widget básico para mostrar valores de propriedades gêmeas"
     }
   },
   "sdkStrings": {
