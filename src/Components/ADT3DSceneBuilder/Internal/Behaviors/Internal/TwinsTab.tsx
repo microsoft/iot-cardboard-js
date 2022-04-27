@@ -122,8 +122,7 @@ const TwinsTab: React.FC<ITwinsTabProps> = ({
                 })
             );
         },
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-        []
+        [setBehaviorToEdit]
     );
 
     // when behavior to edit or selected elements (to keep track of element to twin id mappings) changes in Elements tab, update the twin alias list
@@ -184,20 +183,22 @@ const TwinsTab: React.FC<ITwinsTabProps> = ({
     }, [behaviors, config, sceneId, selectedElements, behaviorToEdit]);
 
     // when adding a twin alias from available list, just update the twinAliases field in edited behavior to be reflected in config changes
-    const onAddTwinAlias = useCallback((twinAlias: IBehaviorTwinAliasItem) => {
-        setBehaviorToEdit(
-            produce((draft) => {
-                if (draft.twinAliases) {
-                    draft.twinAliases = draft.twinAliases.concat(
-                        twinAlias.alias
-                    );
-                } else {
-                    draft.twinAliases = [twinAlias.alias];
-                }
-            })
-        );
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    const onAddTwinAlias = useCallback(
+        (twinAlias: IBehaviorTwinAliasItem) => {
+            setBehaviorToEdit(
+                produce((draft) => {
+                    if (draft.twinAliases) {
+                        draft.twinAliases = draft.twinAliases.concat(
+                            twinAlias.alias
+                        );
+                    } else {
+                        draft.twinAliases = [twinAlias.alias];
+                    }
+                })
+            );
+        },
+        [setBehaviorToEdit]
+    );
 
     const onCreateTwinAlias = useCallback(() => {
         setBehaviorTwinAliasFormInfo({

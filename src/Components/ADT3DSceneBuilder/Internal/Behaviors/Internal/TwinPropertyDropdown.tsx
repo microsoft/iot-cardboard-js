@@ -108,8 +108,7 @@ const TwinPropertyDropown: React.FC<ITwinPropertyDropdownProps> = ({
                 </>
             );
         },
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-        []
+        [t]
     );
 
     const hasProperties = propertyOptions.length > 1; // ignore the default empty item

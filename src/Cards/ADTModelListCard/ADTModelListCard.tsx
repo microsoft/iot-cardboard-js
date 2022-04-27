@@ -189,8 +189,7 @@ function ADTModelListCard(props: ADTModelListCardProps, ref) {
             });
             focusedModelIdRef.current = node.id;
         },
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-        []
+        [modelState, onModelClick]
     );
 
     return (
