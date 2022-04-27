@@ -46,26 +46,30 @@ export interface IADT3DSceneBuilderProps extends IConsumeCompositeCardProps {
     mode: ADT3DScenePageModes;
     scene: IScene;
     scenesConfig: I3DScenesConfig;
-    refetchConfig?: () => any;
+    refetchConfig?: () => void;
+}
+
+export interface ISceneContentsProps {
+    adapter: ADTandBlobAdapter | MockAdapter;
+    mode: ADT3DScenePageModes;
+    refetchConfig?: () => void;
+    scene: IScene;
+    scenesConfig: I3DScenesConfig;
 }
 
 export interface ADT3DScenePageState {
+    currentStep: ADT3DScenePageSteps;
     scenesConfig: I3DScenesConfig;
     selectedBlobContainerURL: string;
     selectedScene: IScene;
     scene?: IScene;
     errors?: Array<IComponentError>;
-    scenePageMode: ADT3DScenePageModes;
     errorCallback: IErrorButtonAction;
-}
-
-export interface ADT3DScenePageState {
-    selectedScene: IScene;
-    currentStep: ADT3DScenePageSteps;
 }
 
 export interface IADT3DScenePageContext {
     state: ADT3DScenePageState;
     dispatch: React.Dispatch<IAction>;
     handleOnHomeClick: () => void;
+    handleOnSceneClick: (scene: IScene) => void;
 }

@@ -68,6 +68,7 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
     >(outlinedMeshItemsProp || []);
     // need outlined meshes ref to keep track of very recent value independent from render cycle to be used in onhover/onblur of elements in panel
     const outlinedMeshItemsRef = useRef(outlinedMeshItems);
+    // override zoomToMeshIds on first mount with the items from the deeplink context
     const [zoomToMeshIds, setZoomToMeshIds] = useState<Array<string>>(
         zoomToMeshIdsProp || []
     );
@@ -108,6 +109,7 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
         [scenesConfig, sceneId]
     );
 
+    // default the value here to use deeplink context
     const [selectedLayerIds, setSelectedLayerIds] = useState<string[]>([
         // Add unlayered behavior option if unlayered behaviors present
         ...(unlayeredBehaviorsPresent ? [unlayeredBehaviorKey] : []),
