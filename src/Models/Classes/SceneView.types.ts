@@ -15,6 +15,7 @@ import {
     IADTBackgroundColor,
     IADTObjectColor
 } from '../../Models/Constants/Interfaces';
+import { CameraInteraction } from '../Constants';
 
 export class SceneVisual {
     element: ITwinToObjectMapping;
@@ -70,6 +71,12 @@ export interface SceneViewBadge {
     icon?: string;
 }
 
+export interface ColoredMeshGroup {
+    meshId: string;
+    colors: string[];
+    currentColor: number;
+}
+
 export interface SceneViewBadgeGroup {
     id: string;
     meshId: string;
@@ -109,4 +116,5 @@ export interface ISceneViewProp {
     objectColors?: IADTObjectColor;
     badgeGroups?: SceneViewBadgeGroup[];
     backgroundColor?: IADTBackgroundColor;
+    cameraInteractionType?: CameraInteraction;
 }

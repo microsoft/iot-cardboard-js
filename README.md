@@ -35,7 +35,7 @@ import {
 ```
 
 This is the easiest method of importing components and, in most cases, will allow unused code to be tree shaken from our library.
-If, however, you only need a few modules from our library, you can instead use the direct import pattern to be more explicit about what code is imported.
+If, however, you only need a few modules from our library, you can use the direct import pattern to be more explicit about what code is imported.
 
 ### Importing components via direct imports
 
