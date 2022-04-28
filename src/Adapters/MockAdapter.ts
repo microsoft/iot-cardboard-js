@@ -49,6 +49,7 @@ import ADT3DViewerData from '../Models/Classes/AdapterDataClasses/ADT3DViewerDat
 import ADTInstancesData from '../Models/Classes/AdapterDataClasses/ADTInstancesData';
 import {
     getModelContentType,
+    parseDTDLModelsAsync,
     validate3DConfigWithSchema
 } from '../Models/Services/Utils';
 import BlobsData from '../Models/Classes/AdapterDataClasses/BlobsData';
@@ -64,6 +65,7 @@ import ExpandedADTModelData from '../Models/Classes/AdapterDataClasses/ExpandedA
 import { applyPatch, Operation } from 'fast-json-patch';
 import { DTDLType } from '../Models/Classes/DTDL';
 import i18n from '../i18n';
+import { ModelDict } from 'temporary-js-dtdl-parser/dist/parser/modelDict';
 
 export default class MockAdapter
     implements
@@ -90,6 +92,7 @@ export default class MockAdapter
         [id: string]: Record<string, unknown>;
     } = {};
     public cachedModels: DtdlInterface[];
+    public parsedModels: ModelDict;
     public isModelFetchLoading: boolean;
 
     constructor(mockAdapterArgs?: IMockAdapter) {
@@ -142,6 +145,7 @@ export default class MockAdapter
         this.isModelFetchLoading = true;
         await this.mockNetwork();
         this.cachedModels = (mockModelData as any) as DtdlInterface[];
+        this.parsedModels = await parseDTDLModelsAsync(mockModelData);
         this.isModelFetchLoading = false;
     }
 

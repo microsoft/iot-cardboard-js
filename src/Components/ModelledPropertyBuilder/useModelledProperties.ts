@@ -63,6 +63,7 @@ export const useModelledProperties = ({
         primaryTwinIds,
         aliasedTwinMap
     );
+
     return null;
 };
 
@@ -72,7 +73,7 @@ const mergeTagsAndMapTwinIdsToModelIds = async (
     aliasedTwinMap?: Record<string, string>
 ) => {
     // Merge LinkedTwin & aliased twins (if present) into tag: id mapping.
-    const tagTwinIdMap = {};
+    const tagModelMap = {};
 
     // Fetch the twin data for each $dtId, and use $metadata to create tag: rootModelId mapping.
     const primaryTwinModels = (
@@ -86,7 +87,7 @@ const mergeTagsAndMapTwinIdsToModelIds = async (
         .map((twinResult) => twinResult.result.data.$metadata.$model);
 
     if (primaryTwinModels?.length > 0) {
-        tagTwinIdMap[linkedTwinName] = Array.from(
+        tagModelMap[linkedTwinName] = Array.from(
             new Set(primaryTwinModels).keys()
         ); // ensure uniqueness (drop duplicate model Ids)
     }
@@ -95,13 +96,11 @@ const mergeTagsAndMapTwinIdsToModelIds = async (
         for (const [aliasTag, aliasTwinId] of Object.entries(aliasedTwinMap)) {
             const aliasedTwinResult = await adapter.getADTTwin(aliasTwinId);
             if (!aliasedTwinResult.hasNoData()) {
-                tagTwinIdMap[aliasTag] =
+                tagModelMap[aliasTag] =
                     aliasedTwinResult.result.data.$metadata.$model;
             }
         }
     }
 
-    console.log(tagTwinIdMap);
-
-    return tagTwinIdMap;
+    return tagModelMap;
 };

@@ -9,7 +9,7 @@ import {
     ComponentErrorType,
     DTwin
 } from '../Constants';
-import { DtdlProperty } from '../Constants/dtdlInterfaces';
+import { DtdlInterface, DtdlProperty } from '../Constants/dtdlInterfaces';
 import { CharacterWidths } from '../Constants/Constants';
 import { Parser } from 'expr-eval';
 import Ajv from 'ajv/dist/2020';
@@ -20,8 +20,18 @@ import {
     IValueRange
 } from '../Types/Generated/3DScenesConfiguration-v1.0.0';
 import ViewerConfigUtility from '../Classes/ViewerConfigUtility';
+import { createParser, ModelParsingOption } from 'temporary-js-dtdl-parser';
 import { IDropdownOption } from '@fluentui/react';
 let ajv: Ajv = null;
+const parser = createParser(ModelParsingOption.PermitAnyTopLevelElement);
+
+/** Parse DTDL models via model parser */
+export const parseDTDLModelsAsync = async (dtdlInterfaces: DtdlInterface[]) => {
+    const modelDict = await parser.parse(
+        dtdlInterfaces.map((dtdlInterface) => JSON.stringify(dtdlInterface))
+    );
+    return modelDict;
+};
 
 /** Validates input data with JSON schema */
 export const validate3DConfigWithSchema = (

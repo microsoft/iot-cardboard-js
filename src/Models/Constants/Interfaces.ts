@@ -64,6 +64,7 @@ import {
 import { WrapperMode } from '../../Components/3DV/SceneView.types';
 import MockAdapter from '../../Adapters/MockAdapter';
 import { DtdlInterface } from './dtdlInterfaces';
+import { ModelDict } from 'temporary-js-dtdl-parser/dist/parser/modelDict';
 
 export interface IAction {
     type: string;
@@ -374,6 +375,7 @@ export type IPropertyInspectorAdapter = Pick<
 export interface IModelledPropertyBuilderAdapter {
     isModelFetchLoading: boolean;
     cachedModels: DtdlInterface[];
+    parsedModels: ModelDict;
     fetchCacheAndParseAllADTModels(): Promise<void>;
     getADTTwin(twinId: string): Promise<AdapterResult<ADTTwinData>>;
 }

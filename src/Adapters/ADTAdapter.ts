@@ -44,7 +44,10 @@ import {
 import ADTTwinLookupData from '../Models/Classes/AdapterDataClasses/ADTTwinLookupData';
 import axios, { AxiosError, AxiosInstance } from 'axios';
 import { DtdlInterface } from '../Models/Constants/dtdlInterfaces';
-import { getModelContentType } from '../Models/Services/Utils';
+import {
+    getModelContentType,
+    parseDTDLModelsAsync
+} from '../Models/Services/Utils';
 import { DTDLType } from '../Models/Classes/DTDL';
 import ExpandedADTModelData from '../Models/Classes/AdapterDataClasses/ExpandedADTModelData';
 import {
@@ -63,6 +66,7 @@ import {
     ITwinToObjectMapping
 } from '../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { ElementType } from '../Models/Classes/3DVConfig';
+import { ModelDict } from 'temporary-js-dtdl-parser/dist/parser/modelDict';
 
 export default class ADTAdapter implements IADTAdapter {
     protected tenantId: string;
@@ -73,7 +77,7 @@ export default class ADTAdapter implements IADTAdapter {
     public packetNumber = 0;
     protected axiosInstance: AxiosInstance;
     public cachedModels: DtdlInterface[];
-    public parsedModels: any;
+    public parsedModels: ModelDict;
     public isModelFetchLoading: boolean;
 
     constructor(
@@ -201,6 +205,7 @@ export default class ADTAdapter implements IADTAdapter {
 
             await appendModels();
             this.cachedModels = models;
+            this.parsedModels = await parseDTDLModelsAsync(models);
         } catch (err) {
             console.log('Model fetching failed -- setting model cache to []');
             console.error(err);
