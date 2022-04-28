@@ -92,6 +92,7 @@ export default class MockAdapter
         [id: string]: Record<string, unknown>;
     } = {};
     public cachedModels: DtdlInterface[];
+    public cachedTwinModelMap: Map<string, string>;
     public parsedModels: ModelDict;
     public isModelFetchLoading: boolean;
 
@@ -110,6 +111,7 @@ export default class MockAdapter
                 : true;
         this.mockTwins = mockTwinData;
         this.mockModels = (mockModelData as any) as DtdlInterface[];
+        this.cachedTwinModelMap = new Map();
         this.initializeMockTwinProperties();
         this.fetchCacheAndParseAllADTModels();
     }
@@ -142,6 +144,9 @@ export default class MockAdapter
     }
 
     async fetchCacheAndParseAllADTModels() {
+        if (this.cachedModels) {
+            return; // For now, only refresh model cache on page refresh
+        }
         this.isModelFetchLoading = true;
         await this.mockNetwork();
         this.cachedModels = (mockModelData as any) as DtdlInterface[];

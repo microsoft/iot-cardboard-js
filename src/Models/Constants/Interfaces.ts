@@ -374,6 +374,7 @@ export type IPropertyInspectorAdapter = Pick<
 
 export interface IModelledPropertyBuilderAdapter {
     isModelFetchLoading: boolean;
+    cachedTwinModelMap: Map<string, string>;
     cachedModels: DtdlInterface[];
     parsedModels: ModelDict;
     fetchCacheAndParseAllADTModels(): Promise<void>;

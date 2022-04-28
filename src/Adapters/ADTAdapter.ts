@@ -77,6 +77,7 @@ export default class ADTAdapter implements IADTAdapter {
     public packetNumber = 0;
     protected axiosInstance: AxiosInstance;
     public cachedModels: DtdlInterface[];
+    public cachedTwinModelMap: Map<string, string>;
     public parsedModels: ModelDict;
     public isModelFetchLoading: boolean;
 
@@ -92,6 +93,7 @@ export default class ADTAdapter implements IADTAdapter {
         this.authService = authService;
         this.tenantId = tenantId;
         this.uniqueObjectId = uniqueObjectId;
+        this.cachedTwinModelMap = new Map();
 
         this.authService.login();
         this.axiosInstance = axios.create({ baseURL: this.adtProxyServerPath });
@@ -179,6 +181,9 @@ export default class ADTAdapter implements IADTAdapter {
     }
 
     async fetchCacheAndParseAllADTModels() {
+        if (this.cachedModels) {
+            return; // For now, only refresh model cache on page refresh
+        }
         try {
             this.isModelFetchLoading = true;
             let models: DtdlInterface[] = [];

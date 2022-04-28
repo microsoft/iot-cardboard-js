@@ -1,13 +1,11 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import ViewerConfigUtility from '../../Models/Classes/ViewerConfigUtility';
-import {
-    IModelledPropertyBuilderAdapter,
-    linkedTwinName
-} from '../../Models/Constants';
+import { IModelledPropertyBuilderAdapter } from '../../Models/Constants';
 import {
     IBehavior,
     I3DScenesConfig
 } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
+import { buildModelledProperties } from './ModelledPropertyBuilder.model';
 import {
     PrimitiveType,
     AllowedComplexType
@@ -45,6 +43,9 @@ export const useModelledProperties = ({
     allowedComplexTypes,
     disableAliasedTwins
 }: IUseModelledPropertiesParams) => {
+    const [loading, setIsLoading] = useState(false);
+    const [modelledProperties, setModelledProperties] = useState(null);
+
     // Gets both primary & aliased twin Ids for a behavior in the context of the current scene.
     const { primaryTwinIds, aliasedTwinMap } = useMemo(
         () =>
@@ -57,50 +58,27 @@ export const useModelledProperties = ({
     );
 
     // Merge primary & aliased tags (if enabled) and map twin Ids to model Ids for each twin
-    // Refetch twins if primary or aliased twins change
-    const tagModelMap = mergeTagsAndMapTwinIdsToModelIds(
-        adapter,
-        primaryTwinIds,
-        aliasedTwinMap
-    );
+    // Update model Id mapping if primary or aliased twins Ids change
+    useEffect(() => {
+        let isMounted = true;
+
+        const updateModelProperties = async () => {
+            const modelledProperties = await buildModelledProperties({
+                adapter,
+                primaryTwinIds,
+                ...(!disableAliasedTwins && { aliasedTwinMap }),
+                allowedComplexTypes,
+                allowedPrimitiveTypes
+            });
+            isMounted && setModelledProperties(modelledProperties);
+        };
+        updateModelProperties();
+
+        // Safely unmount (don't update state post async action)
+        return () => {
+            isMounted = false;
+        };
+    }, [adapter, primaryTwinIds, aliasedTwinMap]);
 
     return null;
-};
-
-const mergeTagsAndMapTwinIdsToModelIds = async (
-    adapter: IModelledPropertyBuilderAdapter,
-    primaryTwinIds: string[],
-    aliasedTwinMap?: Record<string, string>
-) => {
-    // Merge LinkedTwin & aliased twins (if present) into tag: id mapping.
-    const tagModelMap = {};
-
-    // Fetch the twin data for each $dtId, and use $metadata to create tag: rootModelId mapping.
-    const primaryTwinModels = (
-        await Promise.all(
-            primaryTwinIds.map((primaryTwinId) =>
-                adapter.getADTTwin(primaryTwinId)
-            )
-        )
-    )
-        .filter((twinResult) => !twinResult.hasNoData())
-        .map((twinResult) => twinResult.result.data.$metadata.$model);
-
-    if (primaryTwinModels?.length > 0) {
-        tagModelMap[linkedTwinName] = Array.from(
-            new Set(primaryTwinModels).keys()
-        ); // ensure uniqueness (drop duplicate model Ids)
-    }
-
-    if (aliasedTwinMap) {
-        for (const [aliasTag, aliasTwinId] of Object.entries(aliasedTwinMap)) {
-            const aliasedTwinResult = await adapter.getADTTwin(aliasTwinId);
-            if (!aliasedTwinResult.hasNoData()) {
-                tagModelMap[aliasTag] =
-                    aliasedTwinResult.result.data.$metadata.$model;
-            }
-        }
-    }
-
-    return tagModelMap;
 };
