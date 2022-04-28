@@ -419,6 +419,8 @@ abstract class ViewerConfigUtility {
         config: I3DScenesConfig,
         sceneId: string
     ) {
+        if (!config) return [];
+
         const behaviorIdsInScene = ViewerConfigUtility.getBehaviorIdsInScene(
             config,
             sceneId

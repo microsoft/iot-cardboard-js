@@ -12,16 +12,10 @@ import {
     DeeplinkContextActionType,
     useDeeplinkContext
 } from '../../../Contexts/3DSceneDeeplinkContext';
-import ADT3DGlobeContainer from '../../../Components/ADT3DGlobeContainer/ADT3DGlobeContainer';
-import {
-    I3DScenesConfig,
-    IScene
-} from '../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
-import { ADTandBlobAdapter, MockAdapter } from '../../../Adapters';
 
 export const ADT3DSceneBuilderContainer: React.FC<IADT3DSceneBuilderProps> = ({
     scenesConfig,
-    scene,
+    sceneId,
     adapter,
     theme,
     locale,
@@ -53,11 +47,11 @@ export const ADT3DSceneBuilderContainer: React.FC<IADT3DSceneBuilderProps> = ({
                 adapter={adapter}
                 mode={deeplinkState.mode}
                 refetchConfig={refetchConfig}
-                scene={scene}
+                sceneId={sceneId}
                 scenesConfig={scenesConfig}
             />
             <FloatingScenePageModeToggle
-                scene={scene}
+                sceneId={sceneId}
                 handleScenePageModeChange={handleScenePageModeChange}
                 selectedMode={deeplinkState.mode}
             />
@@ -65,12 +59,12 @@ export const ADT3DSceneBuilderContainer: React.FC<IADT3DSceneBuilderProps> = ({
     );
 };
 const SceneContents: React.FC<ISceneContentsProps> = (props) => {
-    const { adapter, mode, refetchConfig, scenesConfig, scene } = props;
+    const { adapter, mode, refetchConfig, scenesConfig, sceneId } = props;
     switch (mode) {
         case ADT3DScenePageModes.BuildScene:
             return (
                 <div className="cb-scene-page-scene-builder-wrapper">
-                    <ADT3DSceneBuilder adapter={adapter} sceneId={scene.id} />
+                    <ADT3DSceneBuilder adapter={adapter} sceneId={sceneId} />
                 </div>
             );
         case ADT3DScenePageModes.ViewScene:
@@ -79,7 +73,7 @@ const SceneContents: React.FC<ISceneContentsProps> = (props) => {
                     <ADT3DViewer
                         adapter={adapter}
                         pollingInterval={10000}
-                        sceneId={scene.id}
+                        sceneId={sceneId}
                         scenesConfig={scenesConfig}
                         refetchConfig={refetchConfig}
                     />
