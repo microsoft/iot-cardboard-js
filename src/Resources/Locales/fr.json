@@ -417,13 +417,13 @@
       "propertyDropdownLabel": "Propriété",
       "noElementsSelected": "Aucun élément sélectionné",
       "noSelectionValue": "Aucun",
-      "propertyNotFound": "Propriété introuvable sur les jumeaux du comportement"
+      "propertyNotFound": "Propriété introuvable sur les jumeaux du comportement",
+      "propertyDropdownPlaceholder": "Sélectionner une propriété jumelle"
     },
     "numericExpressionPlaceholder": "Entrez une expression qui s’évalue à un nombre",
     "behaviorId": "ID de comportement",
     "widgetLibrary": "Bibliothèque de widgets",
     "exploreWidgets": "Explorez nos widgets et ajoutez une couche supplémentaire d’informations à votre scène 3D.",
-    "allWidgets": "Tous les widgets",
     "addWidget": "Ajouter un widget",
     "newWidget": "Nouveau widget",
     "createWidget": "Créer un widget",
@@ -500,7 +500,8 @@
     "notSupported": "Ce type de widget n’est actuellement pas pris en charge",
     "value": {
       "title": "Widget Valeur",
-      "description": "Widget de base pour afficher les valeurs des propriétés jumelles"
+      "description": "Widget de base pour afficher les valeurs des propriétés jumelles",
+      "typePlaceholder": "Sélectionnez le type de la valeur"
     }
   },
   "sdkStrings": {

@@ -417,13 +417,13 @@
       "propertyDropdownLabel": "Propriedade",
       "noElementsSelected": "Nenhum elemento selecionado",
       "noSelectionValue": "Nenhum.",
-      "propertyNotFound": "Propriedade não encontrada nos gémeos do comportamento"
+      "propertyNotFound": "Propriedade não encontrada nos gémeos do comportamento",
+      "propertyDropdownPlaceholder": "Selecione propriedade twin"
     },
     "numericExpressionPlaceholder": "Insira uma expressão que avalia um número",
     "behaviorId": "ID de comportamento",
     "widgetLibrary": "Biblioteca Widget",
     "exploreWidgets": "Explore os nossos widgets e adicione uma camada extra de informação à sua cena 3D.",
-    "allWidgets": "Todos os widgets",
     "addWidget": "Adicionar widget",
     "newWidget": "Novo widget",
     "createWidget": "Criar widget",
@@ -500,7 +500,8 @@
     "notSupported": "Este tipo de widget não é atualmente suportado",
     "value": {
       "title": "Widget de valor",
-      "description": "Widget básico para mostrar valores de propriedades gémeas"
+      "description": "Widget básico para mostrar valores de propriedades gémeas",
+      "typePlaceholder": "Selecione o tipo para o valor"
     }
   },
   "sdkStrings": {

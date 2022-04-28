@@ -417,13 +417,13 @@
       "propertyDropdownLabel": "财产",
       "noElementsSelected": "未选择任何元素",
       "noSelectionValue": "没有",
-      "propertyNotFound": "在行为的孪生对象上找不到属性"
+      "propertyNotFound": "在行为的孪生对象上找不到属性",
+      "propertyDropdownPlaceholder": "选择双胞胎房产"
     },
     "numericExpressionPlaceholder": "输入计算结果为数字的表达式",
     "behaviorId": "行为标识",
     "widgetLibrary": "小部件库",
     "exploreWidgets": "探索我们的微件，为您的 3D 场景添加额外的信息图层。",
-    "allWidgets": "所有小部件",
     "addWidget": "添加小部件",
     "newWidget": "新小部件",
     "createWidget": "创建微件",
@@ -500,7 +500,8 @@
     "notSupported": "目前不支持此小组件类型",
     "value": {
       "title": "“值”小部件",
-      "description": "用于显示孪生属性值的基本微件"
+      "description": "用于显示孪生属性值的基本微件",
+      "typePlaceholder": "选择值的类型"
     }
   },
   "sdkStrings": {

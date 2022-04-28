@@ -417,13 +417,13 @@
       "propertyDropdownLabel": "Vlastnost",
       "noElementsSelected": "Nebyly vybrány žádné prvky",
       "noSelectionValue": "Žádný",
-      "propertyNotFound": "Vlastnost nebyla nalezena u dvojčat chování"
+      "propertyNotFound": "Vlastnost nebyla nalezena u dvojčat chování",
+      "propertyDropdownPlaceholder": "Vybrat vlastnost dvojčete"
     },
     "numericExpressionPlaceholder": "Zadejte výraz, který se vyhodnotí jako číslo",
     "behaviorId": "ID chování",
     "widgetLibrary": "Knihovna widgetů",
     "exploreWidgets": "Prozkoumejte naše widgety a přidejte do své 3D scény další vrstvu informací.",
-    "allWidgets": "Všechny widgety",
     "addWidget": "Přidat widget",
     "newWidget": "Nový widget",
     "createWidget": "Vytvořit widget",
@@ -500,7 +500,8 @@
     "notSupported": "Tento typ widgetu není v současné době podporován",
     "value": {
       "title": "Widget Hodnota",
-      "description": "Základní widget pro zobrazení hodnot vlastností dvojčete"
+      "description": "Základní widget pro zobrazení hodnot vlastností dvojčete",
+      "typePlaceholder": "Vyberte typ hodnoty"
     }
   },
   "sdkStrings": {
