@@ -208,6 +208,9 @@ export const Intellisense: React.FC<IIntellisenseProps> = ({
                 getItems={getItems}
                 onSelected={onSelected}
                 onValueChange={onChanged}
+                textFieldProps={{
+                    multiline: value.length > 40
+                }}
                 {...autoCompleteProps}
             />
         </div>

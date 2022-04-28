@@ -1,5 +1,3 @@
-// TODO remove no unused vars in second pass PR once modelled properties supported
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState } from 'react';
 import {
     IntellisenseModeProps,
@@ -8,14 +6,15 @@ import {
     PropertySelectionModeProps
 } from './ModelledPropertyBuilder.types';
 import { getStyles } from './ModelledPropertyBuilder.styles';
-import { linkedTwinName } from '../../Models/Constants';
-import { Stack, Text, Toggle } from '@fluentui/react';
+import { Stack, Toggle } from '@fluentui/react';
 import TwinPropertyDropown from './Internal/TwinPropertyDropdown';
 import { Intellisense } from '../AutoComplete/Intellisense';
+import { useTranslation } from 'react-i18next';
 
 const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = (
     props
 ) => {
+    const { t } = useTranslation();
     const styles = getStyles();
     const [mode, setMode] = useState<ModelledPropertyBuilderMode>(
         props.mode === 'TOGGLE' ? 'PROPERTY_SELECTION' : props.mode
@@ -36,20 +35,35 @@ const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = (
                 <TwinPropertyDropown
                     {...(props as PropertySelectionModeProps)
                         .twinPropertyDropdownProps}
+                    label={t(
+                        '3dSceneBuilder.ModelledPropertyBuilder.selectProperty'
+                    )}
                 ></TwinPropertyDropown>
             )}
             {mode === 'INTELLISENSE' && (
                 <Intellisense
                     {...(props as IntellisenseModeProps).intellisenseProps}
+                    autoCompleteProps={{
+                        textFieldProps: {
+                            label: t(
+                                '3dSceneBuilder.ModelledPropertyBuilder.expressionLabel'
+                            ),
+                            placeholder: t(
+                                '3dSceneBuilder.ModelledPropertyBuilder.expressionPlaceholder'
+                            )
+                        }
+                    }}
                 ></Intellisense>
             )}
             {props.mode === 'TOGGLE' && (
                 <div className={styles.toggleContainer}>
                     <Toggle
-                        label="Text entry mode"
+                        label={t(
+                            '3dSceneBuilder.ModelledPropertyBuilder.toggleLabel'
+                        )}
                         inlineLabel
-                        onText="On"
-                        offText="Off"
+                        onText={t('on')}
+                        offText={t('off')}
                         onChange={(_event, checked) =>
                             setMode(
                                 checked ? 'INTELLISENSE' : 'PROPERTY_SELECTION'

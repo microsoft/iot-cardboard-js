@@ -419,6 +419,12 @@
             "noSelectionValue": "None",
             "propertyNotFound": "Property not found on the behavior's twins"
         },
+        "ModelledPropertyBuilder": {
+            "expressionLabel": "Property expression",
+            "expressionPlaceholder": "Enter property expression",
+            "selectProperty": "Select property",
+            "toggleLabel": "Property expression"
+        },
         "numericExpressionPlaceholder": "Enter an expression which evaluates to a number",
         "behaviorId": "Behavior Id",
         "widgetLibrary": "Widget library",
