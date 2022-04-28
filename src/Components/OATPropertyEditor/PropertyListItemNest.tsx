@@ -15,12 +15,12 @@ import PropertyListMapItemNested from './PropertyListMapItemNested';
 import { deepCopy } from '../../Models/Services/Utils';
 import PropertyListItemSubMenu from './PropertyListItemSubMenu';
 
-type IPropertyListItem = {
+type IPropertyListItemNest = {
     deleteItem?: (index: number) => any;
     draggingProperty?: boolean;
     getItemClassName?: (index: number) => any;
     getNestedItemClassName?: () => any;
-    getErrorMessage?: (value: string) => string;
+    getErrorMessage?: (value: any, index?: any) => string;
     handleDragEnter?: (event: any, item: any) => any;
     handleDragEnterExternalItem?: (index: number) => any;
     handleDragStart?: (event: any, item: any) => any;
@@ -61,7 +61,7 @@ export const PropertyListItemNest = ({
     model,
     setModel,
     setTemplates
-}: IPropertyListItem) => {
+}: IPropertyListItemNest) => {
     const propertyInspectorStyles = getPropertyInspectorStyles();
     const [subMenuActive, setSubMenuActive] = useState(false);
     const [collapsed, setCollapsed] = useState(true);
