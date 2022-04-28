@@ -154,7 +154,8 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
             setAlertBadges(sceneAlerts);
             setColoredMeshItems(coloredMeshes);
         }
-    }, [sceneVisuals, coloredMeshItemsProp, sceneAlerts]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     // panel items includes partial SceneVisual object with filtered properties needed to render elements panel overlay
     const panelItems: Array<IViewerElementsPanelItem> = useMemo(

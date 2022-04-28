@@ -129,7 +129,8 @@ const ModelViewerModePicker: React.FC<ModelViewerModePickerProps> = ({
             background: backgroundColors[0].color,
             style: ViewerModeStyles.Default
         });
-    }, [backgroundColors, objectColors, viewerModeUpdated]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     useEffect(() => {
         if (defaultViewerMode) {

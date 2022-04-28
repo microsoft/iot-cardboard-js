@@ -125,7 +125,8 @@ const WidgetForm: React.FC<{
         } else if (widgetFormInfo.mode === WidgetFormMode.EditWidget) {
             activeWidgetId.current = widgetFormInfo.widgetId;
         }
-    }, [setBehaviorToEdit, widgetFormInfo]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     const updateWidgetData = useCallback(
         (widgetData: IWidget) => {
