@@ -139,7 +139,8 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
 
     useEffect(() => {
         refetchConfig && refetchConfig();
-    }, [refetchConfig]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     useEffect(() => {
         if (coloredMeshItemsProp) {
