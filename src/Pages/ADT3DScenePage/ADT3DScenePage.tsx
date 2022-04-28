@@ -78,8 +78,8 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
             mode: ADT3DScenePageModes.ViewScene,
             sceneId: 'f7053e7537048e03be4d1e6f8f93aa8a',
             // sceneId: '58e02362287440d9a5bf3f8d6d6bfcf9',
-            selectedElementId: '',
-            selectedLayerIds: [],
+            selectedElementId: '41bca486feaf985f52130947d31675dc',
+            selectedLayerIds: ['8904b620aa83c649888dadc7c8fdf492'],
             storageUrl:
                 // 'https://cardboardresources.blob.core.windows.net/msnyder' ||
                 adapter.getBlobContainerURL()
@@ -280,14 +280,15 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
         }
     }, [resetConfig, scenesConfig, state?.errors, t]);
 
-    console.log(`***Deeplink state:`, deeplinkState);
-
     return (
         <ADT3DScenePageContext.Provider
             value={{ state, dispatch, handleOnHomeClick, handleOnSceneClick }}
         >
             <DeeplinkContext.Provider
-                value={{ state: deeplinkState, dispatch: deeplinkDispatch }}
+                value={{
+                    deeplinkState: deeplinkState,
+                    deeplinkDispatch: deeplinkDispatch
+                }}
             >
                 <div className="cb-scene-page-wrapper">
                     <BaseComponent

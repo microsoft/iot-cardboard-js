@@ -95,8 +95,8 @@ export const DeeplinkContextReducer: (
  * A context used for capturing the current state of the app and restoring it to a new instance of the app
  */
 export interface IADTDeeplinkContext {
-    state: DeeplinkContextState;
-    dispatch: React.Dispatch<DeeplinkContextAction>;
+    deeplinkState: DeeplinkContextState;
+    deeplinkDispatch: React.Dispatch<DeeplinkContextAction>;
 }
 
 export const DeeplinkContext = React.createContext<IADTDeeplinkContext>(null);

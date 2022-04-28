@@ -23,8 +23,8 @@ export const ADT3DSceneBuilderContainer: React.FC<IADT3DSceneBuilderProps> = ({
     refetchConfig
 }) => {
     const {
-        state: deeplinkState,
-        dispatch: deeplinkDispatch
+        deeplinkState: deeplinkState,
+        deeplinkDispatch: deeplinkDispatch
     } = useDeeplinkContext();
 
     const handleScenePageModeChange = (

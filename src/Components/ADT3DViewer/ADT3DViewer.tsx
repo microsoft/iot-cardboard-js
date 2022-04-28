@@ -39,6 +39,15 @@ import LayerDropdown, {
     unlayeredBehaviorKey
 } from '../LayerDropdown/LayerDropdown';
 import { WrapperMode } from '../3DV/SceneView.types';
+import {
+    ITwinToObjectMapping,
+    IVisual,
+    IBehavior
+} from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
+import {
+    DeeplinkContextActionType,
+    useDeeplinkContext
+} from '../../Contexts/3DSceneDeeplinkContext';
 
 const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
     theme,
@@ -109,12 +118,32 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
         [scenesConfig, sceneId]
     );
 
-    // default the value here to use deeplink context
-    const [selectedLayerIds, setSelectedLayerIds] = useState<string[]>([
-        // Add unlayered behavior option if unlayered behaviors present
-        ...(unlayeredBehaviorsPresent ? [unlayeredBehaviorKey] : []),
-        ...layersInScene.map((lis) => lis.id)
-    ]);
+    const { deeplinkState, deeplinkDispatch } = useDeeplinkContext();
+    const selectedLayerIds = deeplinkState.selectedLayerIds;
+    const setSelectedLayerIds = useCallback(
+        (ids: string[]) => {
+            deeplinkDispatch({
+                type: DeeplinkContextActionType.SET_LAYER_IDS,
+                payload: {
+                    ids: ids
+                }
+            });
+        },
+        [deeplinkDispatch]
+    );
+    // initialize the layers list
+    useEffect(() => {
+        // if we don't have any layer id from the context, set initial values
+        if (!selectedLayerIds) {
+            setSelectedLayerIds([
+                // Add unlayered behavior option if unlayered behaviors present
+                ...(unlayeredBehaviorsPresent ? [unlayeredBehaviorKey] : []),
+                ...layersInScene.map((lis) => lis.id)
+            ]);
+        }
+        // run only on first mount
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     const [selectedVisual, setSelectedVisual] = useState<Partial<SceneVisual>>(
         null
@@ -141,6 +170,8 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
 
     useEffect(() => {
         refetchConfig && refetchConfig();
+        // only run on first mount
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     useEffect(() => {
@@ -156,7 +187,7 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
             setAlertBadges(sceneAlerts);
             setColoredMeshItems(coloredMeshes);
         }
-    }, [sceneVisuals, coloredMeshItemsProp]);
+    }, [sceneVisuals, coloredMeshItemsProp, sceneAlerts]);
 
     // panel items includes partial SceneVisual object with filtered properties needed to render elements panel overlay
     const panelItems: Array<IViewerElementsPanelItem> = useMemo(
@@ -272,9 +303,17 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
     };
 
     const onElementPanelItemClicked = useCallback(
-        (_item, panelItem, _behavior) => {
+        (
+            _item: ITwinToObjectMapping | IVisual,
+            panelItem: IViewerElementsPanelItem,
+            _behavior?: IBehavior
+        ) => {
             setShowPopUp(false);
             setZoomToMeshIds(panelItem.element.objectIDs);
+            console.log(
+                `*** Object ids to zoom to `,
+                panelItem.element.objectIDs
+            );
             showPopover(panelItem);
             setIsAlertPopoverVisible(false);
         },
@@ -282,7 +321,11 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
     );
 
     const onElementPanelItemHovered = useCallback(
-        (_item, panelItem, _behavior) => {
+        (
+            _item: ITwinToObjectMapping | IVisual,
+            panelItem: IViewerElementsPanelItem,
+            _behavior?: IBehavior
+        ) => {
             const newOutlinedMeshItems = deepCopy(outlinedMeshItemsRef.current);
             const currentlyOutlinedMeshIds = newOutlinedMeshItems.map(
                 (meshItem) => meshItem.meshId
@@ -302,7 +345,11 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
     );
 
     const onElementPanelItemBlured = useCallback(
-        (_item, panelItem, _behavior) => {
+        (
+            _item: ITwinToObjectMapping | IVisual,
+            panelItem: IViewerElementsPanelItem,
+            _behavior?: IBehavior
+        ) => {
             const newOutlinedMeshItems = deepCopy(outlinedMeshItemsRef.current);
             const currentlyOutlinedMeshIds = newOutlinedMeshItems.map(
                 (meshItem) => meshItem.meshId
