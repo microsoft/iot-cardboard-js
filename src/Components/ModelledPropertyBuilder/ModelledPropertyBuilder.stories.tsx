@@ -2,14 +2,17 @@ import React from 'react';
 import { ComponentStory } from '@storybook/react';
 import { getDefaultStoryDecorator } from '../../Models/Services/StoryUtilities';
 import ModelledPropertyBuilder from './ModelledPropertyBuilder';
-import { ModelledPropertyBuilderProps } from './ModelledPropertyBuilder.types';
+import {
+    IntellisenseModeProps,
+    ModelledPropertyBuilderProps,
+    PropertySelectionModeProps
+} from './ModelledPropertyBuilder.types';
 import { MockAdapter } from '../../Adapters';
 import { config as mockConfig } from './__mockData__/MockPropertyModelData';
 import ViewerConfigUtility from '../../Models/Classes/ViewerConfigUtility';
-import { deepCopy } from '../../Models/Services/Utils';
-import { IBehavior } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
+import { linkedTwinName } from '../../Models/Constants';
 
-const wrapperStyle = { width: '100%', height: '600px', padding: 20 };
+const wrapperStyle = { width: '400px', height: '600px', padding: 20 };
 
 export default {
     title: 'Components/ModelledPropertyBuilder',
@@ -19,36 +22,68 @@ export default {
     ]
 };
 
+const { aliasedTwinMap } = ViewerConfigUtility.getTwinIdsForBehaviorInScene(
+    mockConfig.configuration.behaviors[0],
+    mockConfig,
+    mockConfig.configuration.scenes[0].id
+);
+
 type ModelledPropertyBuilderStory = ComponentStory<
     typeof ModelledPropertyBuilder
 >;
 
-const mockBehavior = deepCopy(
-    mockConfig.configuration.behaviors[0]
-) as IBehavior;
-
 const Template: ModelledPropertyBuilderStory = (args) => {
-    const {
-        primaryTwinIds,
-        aliasedTwinMap
-    } = ViewerConfigUtility.getTwinIdsForBehaviorInScene(
-        mockBehavior,
-        mockConfig,
-        mockConfig.configuration.scenes[0].id
-    );
+    return <ModelledPropertyBuilder {...args} />;
+};
 
-    return (
-        <ModelledPropertyBuilder
-            {...args}
-            adapter={new MockAdapter({})}
-            primaryTwinIds={primaryTwinIds}
-            aliasedTwinMap={aliasedTwinMap}
-        />
-    );
+const intellisenseProps: IntellisenseModeProps = {
+    mode: 'INTELLISENSE',
+    intellisenseProps: {
+        onChange: (value) => console.log(value),
+        defaultValue: '',
+        aliasNames: [linkedTwinName, ...Object.keys(aliasedTwinMap)],
+        getPropertyNames: () => ['test1', 'test2', 'test3'],
+        autoCompleteProps: {
+            textFieldProps: {
+                label: 'Property expression',
+                multiline: false,
+                placeholder: 'Enter expression (eg LinkedTwin.InFlow > 3)'
+            }
+        }
+    }
+};
+
+const propertySelectionProps: PropertySelectionModeProps = {
+    mode: 'PROPERTY_SELECTION',
+    twinPropertyDropdownProps: {
+        behavior: mockConfig.configuration.behaviors[0],
+        onChange: (value) => console.log(value),
+        config: mockConfig,
+        sceneId: mockConfig.configuration.scenes[0].id,
+        adapter: new MockAdapter(),
+        selectedElements: mockConfig.configuration.scenes[0].elements.filter(
+            ViewerConfigUtility.isTwinToObjectMappingElement
+        ),
+        label: 'Select property'
+    }
 };
 
 export const ToggleMode = Template.bind({}) as ModelledPropertyBuilderStory;
 
 ToggleMode.args = {
+    ...propertySelectionProps,
+    ...intellisenseProps,
     mode: 'TOGGLE'
 };
+
+export const PropertySelectionMode = Template.bind(
+    {}
+) as ModelledPropertyBuilderStory;
+
+PropertySelectionMode.args = propertySelectionProps;
+
+export const IntellisenseMode = Template.bind(
+    {}
+) as ModelledPropertyBuilderStory;
+
+IntellisenseMode.args = intellisenseProps;

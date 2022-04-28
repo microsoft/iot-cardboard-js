@@ -2,11 +2,13 @@ import React, { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Dropdown, Icon, IDropdownOption, IIconStyles } from '@fluentui/react';
 import {
+    I3DScenesConfig,
     IBehavior,
     ITwinToObjectMapping
 } from '../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import useBehaviorTwinPropertyFullNames from '../../../Models/Hooks/useBehaviorTwinPropertyFullNames';
 import { buildDropdownOptionsFromStrings } from '../../../Models/Services/Utils';
+import { ADTandBlobAdapter, MockAdapter } from '../../../Adapters';
 
 const iconStyles: IIconStyles = {
     root: { bottom: -1, marginLeft: 8, position: 'relative' }
@@ -20,7 +22,7 @@ const LOC_KEYS = {
     propertyNotFound: `${ROOT_LOC}.propertyNotFound`
 };
 
-interface ITwinPropertyDropdownProps {
+export interface ITwinPropertyDropdownProps {
     behavior: IBehavior;
     selectedElements?: Array<ITwinToObjectMapping>;
     dataTestId?: string;
@@ -28,6 +30,9 @@ interface ITwinPropertyDropdownProps {
     label?: string;
     required?: boolean;
     onChange: (value: string) => void;
+    adapter: ADTandBlobAdapter | MockAdapter;
+    config: I3DScenesConfig;
+    sceneId: string;
 }
 /**
  * This component fetches the ACTIVE properties for the twins that are connected to the behavior
@@ -42,7 +47,10 @@ const TwinPropertyDropown: React.FC<ITwinPropertyDropdownProps> = ({
     defaultSelectedKey,
     label,
     required,
-    onChange
+    onChange,
+    adapter,
+    config,
+    sceneId
 }) => {
     const { t } = useTranslation();
 
@@ -50,7 +58,10 @@ const TwinPropertyDropown: React.FC<ITwinPropertyDropdownProps> = ({
     const { options, isLoading } = useBehaviorTwinPropertyFullNames({
         behavior,
         isTwinAliasesIncluded: true,
-        selectedElements
+        selectedElements,
+        adapter,
+        config,
+        sceneId
     });
 
     const [selectedProperty, setSelectedProperty] = useState(

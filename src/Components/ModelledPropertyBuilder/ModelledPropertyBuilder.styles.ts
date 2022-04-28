@@ -3,11 +3,18 @@ import { memoizeFunction, mergeStyleSets, IStyle } from '@fluentui/react';
 export const modelledPropertyBuilderClassPrefix = 'cb-modelledpropertybuilder';
 
 const classNames = {
-    foo: `${modelledPropertyBuilderClassPrefix}-foo`
+    toggleContainer: `${modelledPropertyBuilderClassPrefix}-toggle-container`
 };
 
 export const getStyles = memoizeFunction(() => {
     return mergeStyleSets({
-        foo: [classNames.foo, {} as IStyle]
+        toggleContainer: [
+            classNames.toggleContainer,
+            {
+                display: 'flex',
+                justifyContent: 'flex-end',
+                alignItems: 'center'
+            } as IStyle
+        ]
     });
 });
