@@ -1,13 +1,12 @@
 import { Breadcrumb } from '@fluentui/react';
 import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ADTandBlobAdapter, MockAdapter } from '../../Adapters';
 import { IBlobAdapter } from '../../Models/Constants';
 import { ADT3DScenePageContext } from '../../Pages/ADT3DScenePage/ADT3DScenePage';
 import ADT3DGlobe from '../ADT3DGlobe/ADT3DGlobe';
 
 interface IADT3DGlobeContainerProps {
-    adapter: ADTandBlobAdapter | MockAdapter;
+    adapter: IBlobAdapter;
 }
 const ADT3DGlobeContainer: React.FC<IADT3DGlobeContainerProps> = (props) => {
     const { adapter } = props;
@@ -34,7 +33,7 @@ const ADT3DGlobeContainer: React.FC<IADT3DGlobeContainerProps> = (props) => {
                 overflowAriaLabel="More links"
             />
             <ADT3DGlobe
-                adapter={adapter as IBlobAdapter}
+                adapter={adapter}
                 onSceneClick={(scene) => {
                     handleOnSceneClick(scene);
                 }}

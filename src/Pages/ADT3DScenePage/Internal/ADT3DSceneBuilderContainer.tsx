@@ -85,13 +85,5 @@ const SceneContents: React.FC<ISceneContentsProps> = (props) => {
                     />
                 </div>
             );
-        default:
-            return (
-                <div className="cb-scene-page-scene-globe-container">
-                    <ADT3DGlobeContainer
-                        adapter={adapter as ADTandBlobAdapter}
-                    />
-                </div>
-            );
     }
 };

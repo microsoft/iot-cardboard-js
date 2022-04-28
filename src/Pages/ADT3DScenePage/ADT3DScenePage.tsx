@@ -29,6 +29,7 @@ import {
 } from '../../Models/Constants/ActionTypes';
 import {
     IADTInstance,
+    IBlobAdapter,
     IComponentError
 } from '../../Models/Constants/Interfaces';
 import { ADT3DSceneBuilderContainer } from './Internal/ADT3DSceneBuilderContainer';
@@ -46,6 +47,7 @@ import {
     DeeplinkContextActionType,
     DeeplinkContextReducer
 } from '../../Contexts/3DSceneDeeplinkContext';
+import ADT3DGlobeContainer from '../../Components/ADT3DGlobeContainer/ADT3DGlobeContainer';
 
 export const ADT3DScenePageContext = createContext<IADT3DScenePageContext>(
     null
@@ -140,14 +142,12 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
     );
 
     const handleOnHomeClick = useCallback(() => {
-        console.log(`***Home click`);
         setSelectedSceneId(null);
-        setCurrentStep(ADT3DScenePageSteps.SceneLobby);
+        setCurrentStep(ADT3DScenePageSteps.SceneList);
     }, [setSelectedSceneId, setCurrentStep]);
 
     const handleOnSceneClick = useCallback(
         (scene: IScene) => {
-            console.log(`***Scene click`, scene);
             setSelectedSceneId(scene?.id);
             setMode(ADT3DScenePageModes.BuildScene);
             setCurrentStep(ADT3DScenePageSteps.Scene);
@@ -156,17 +156,14 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
     );
 
     const handleOnClickGlobe = useCallback(() => {
-        console.log(`***Globe click`);
         setSelectedSceneId(null);
-        setMode(ADT3DScenePageModes.Globe);
-        setCurrentStep(ADT3DScenePageSteps.Scene);
+        setCurrentStep(ADT3DScenePageSteps.Globe);
     }, [setSelectedSceneId, setCurrentStep]);
 
     const handleContainerUrlChange = (
         containerUrl: string,
         containerUrls: Array<string>
     ) => {
-        console.log(`***Storage change`, containerUrl);
         setBlobContainerUrl(containerUrl);
         if (environmentPickerOptions?.storage?.onContainerChange) {
             environmentPickerOptions.storage.onContainerChange(
@@ -182,7 +179,6 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
                 typeof env === 'string'
                     ? env.replace('https://', '')
                     : env.hostName;
-            console.log(`***ADT change`, env);
             deeplinkDispatch({
                 type: DeeplinkContextActionType.SET_ADT_URL,
                 payload: {
@@ -208,7 +204,6 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
     }, [deeplinkState.adtUrl, adapter]);
 
     useEffect(() => {
-        console.log(`***Scene id change`, deeplinkState.sceneId);
         const storeScene = (scene: IScene | null) => {
             // store the new scene on the context
             dispatch({
@@ -224,9 +219,7 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
             return;
         }
         if (scenes) {
-            console.log(`***Looking for scene`, scenes);
             const scene = scenes.find((x) => x.id === sceneId);
-            console.log(`***Scene found`, scene);
             if (scene) {
                 storeScene(scene);
             }
@@ -311,7 +304,7 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
                         containerClassName={'cb-scene-page-container'}
                     >
                         {state.currentStep ===
-                            ADT3DScenePageSteps.SceneLobby && (
+                            ADT3DScenePageSteps.SceneList && (
                             <>
                                 <div className="cb-scene-page-scene-environment-picker">
                                     <EnvironmentPicker
@@ -372,7 +365,7 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
                             }}
                         >
                             {state.currentStep ===
-                                ADT3DScenePageSteps.SceneLobby && (
+                                ADT3DScenePageSteps.SceneList && (
                                 <div className="cb-scene-page-scene-list-container">
                                     {deeplinkState.storageUrl && (
                                         <SceneList
@@ -415,6 +408,14 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
                                         />
                                     </div>
                                 </>
+                            )}
+                            {state.currentStep ===
+                                ADT3DScenePageSteps.Globe && (
+                                <div className="cb-scene-page-scene-globe-container">
+                                    <ADT3DGlobeContainer
+                                        adapter={adapter as IBlobAdapter}
+                                    />
+                                </div>
                             )}
                         </ScenePageErrorHandlingWrapper>
                     </BaseComponent>

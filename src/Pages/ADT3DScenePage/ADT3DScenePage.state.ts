@@ -14,7 +14,7 @@ export const defaultADT3DScenePageState: ADT3DScenePageState = {
     scenesConfig: null,
     selectedBlobContainerURL: null,
     selectedScene: null,
-    currentStep: ADT3DScenePageSteps.SceneLobby,
+    currentStep: ADT3DScenePageSteps.SceneList,
     errors: [],
     errorCallback: null
 };
