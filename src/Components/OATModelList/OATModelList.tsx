@@ -2,21 +2,22 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useTheme, List, ActionButton, Icon, FontSizes } from '@fluentui/react';
 import BaseComponent from '../BaseComponent/BaseComponent';
 import { getModelsStyles } from './OATModelList.styles';
+import { IOATElementsChangeEventArgs } from '../../Models/Constants';
 
 type OATModelListProps = {
-    elements: any[];
-    handleDeleteModel: (modelId: string) => any;
-    handleSelectedModel: (modelId: string) => any;
-    handleEditedName: (modelId: string) => any;
-    handleEditedId: (modelId: string) => any;
+    elements: IOATElementsChangeEventArgs;
+    onDeleteModel: (modelId: string) => any;
+    onSelectedModel: (modelId: string) => any;
+    onEditedName: (modelId: string) => any;
+    onEditedId: (modelId: string) => any;
 };
 
 const OATModelList = ({
     elements,
-    handleDeleteModel,
-    handleSelectedModel,
-    handleEditedName,
-    handleEditedId
+    onDeleteModel,
+    onSelectedModel,
+    onEditedName,
+    onEditedId
 }: OATModelListProps) => {
     const theme = useTheme();
     const modelsStyles = getModelsStyles();
@@ -32,7 +33,7 @@ const OATModelList = ({
     }, [elements]);
 
     const onSelectedClick = (id) => {
-        handleSelectedModel(id);
+        onSelectedModel(id);
         currentNodeId.current = id;
     };
 
@@ -49,7 +50,7 @@ const OATModelList = ({
 
     const onNameBlur = () => {
         setNameEditor(false);
-        handleEditedName(nameText);
+        onEditedName(nameText);
         setItems([...items]);
     };
 
@@ -66,7 +67,7 @@ const OATModelList = ({
 
     const onIdBlur = () => {
         setIdEditor(false);
-        handleEditedId(idText);
+        onEditedId(idText);
         currentNodeId.current = idText;
         setItems([...items]);
     };
@@ -80,7 +81,7 @@ const OATModelList = ({
                 >
                     <ActionButton
                         className={modelsStyles.nodeCancel}
-                        onClick={() => handleDeleteModel(item['@id'])}
+                        onClick={() => onDeleteModel(item['@id'])}
                     >
                         <Icon
                             iconName="Cancel"
@@ -141,7 +142,10 @@ const OATModelList = ({
 
 OATModelList.defaultProps = {
     elements: [],
-    handleDeleteModel: () => null
+    onDeleteModel: () => null,
+    onSelectedModel: () => null,
+    onEditedName: () => null,
+    onEditedId: () => null
 };
 
 export default OATModelList;

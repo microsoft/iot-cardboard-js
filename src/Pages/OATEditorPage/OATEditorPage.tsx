@@ -73,10 +73,10 @@ const OATEditorPage = ({ theme }) => {
             >
                 <OATModelList
                     elements={elementHandler}
-                    handleDeleteModel={setDeletedModel}
-                    handleSelectedModel={setSelectedModel}
-                    handleEditedName={setEditedName}
-                    handleEditedId={setEditedId}
+                    onDeleteModel={setDeletedModel}
+                    onSelectedModel={setSelectedModel}
+                    onEditedName={setEditedName}
+                    onEditedId={setEditedId}
                 />
                 <OATGraphViewer
                     onElementsUpdate={setElementHandler}
