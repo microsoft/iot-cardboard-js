@@ -21,8 +21,8 @@ import { deepCopy } from '../../../../../Models/Services/Utils';
 import { getLeftPanelStyles } from '../../Shared/LeftPanel.styles';
 import useValueRangeBuilder from '../../../../../Models/Hooks/useValueRangeBuilder';
 import { SceneBuilderContext } from '../../../ADT3DSceneBuilder';
-import ModelledPropertyBuilder from '../../../../ModelledPropertyBuilder/ModelledPropertyBuilder';
 import useBehaviorAliasedTwinProperties from '../../../../../Models/Hooks/useBehaviorAliasedTwinProperties';
+import TwinPropertyBuilder from '../../../../TwinPropertyBuilder/TwinPropertyBuilder';
 
 const getStatusFromBehavior = (behavior: IBehavior) =>
     behavior.visuals.filter(ViewerConfigUtility.isStatusColorVisual)[0] || null;
@@ -177,7 +177,7 @@ const StatusTab: React.FC<IStatusTabProps> = ({
         <Stack tokens={sectionStackTokens}>
             <Text className={commonPanelStyles.text}>{t(LOC_KEYS.notice)}</Text>
             <div>
-                <ModelledPropertyBuilder
+                <TwinPropertyBuilder
                     mode="TOGGLE"
                     intellisenseProps={{
                         onChange: onPropertyChange,

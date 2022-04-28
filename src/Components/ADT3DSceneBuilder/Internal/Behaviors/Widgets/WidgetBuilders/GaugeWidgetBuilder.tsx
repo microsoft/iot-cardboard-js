@@ -10,7 +10,7 @@ import { deepCopy } from '../../../../../../Models/Services/Utils';
 import { SceneBuilderContext } from '../../../../ADT3DSceneBuilder';
 import ViewerConfigUtility from '../../../../../../Models/Classes/ViewerConfigUtility';
 import useBehaviorAliasedTwinProperties from '../../../../../../Models/Hooks/useBehaviorAliasedTwinProperties';
-import ModelledPropertyBuilder from '../../../../../ModelledPropertyBuilder/ModelledPropertyBuilder';
+import TwinPropertyBuilder from '../../../../../TwinPropertyBuilder/TwinPropertyBuilder';
 
 const GaugeWidgetBuilder: React.FC<IGaugeWidgetBuilderProps> = ({
     formData,
@@ -123,7 +123,7 @@ const GaugeWidgetBuilder: React.FC<IGaugeWidgetBuilderProps> = ({
                     )
                 }
             />
-            <ModelledPropertyBuilder
+            <TwinPropertyBuilder
                 mode="TOGGLE"
                 intellisenseProps={{
                     onChange: onPropertyChange,
