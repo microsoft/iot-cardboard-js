@@ -478,6 +478,12 @@
       "errors": {
         "twinAliasAlreadyExists": "Двойной псевдоним с таким же именем уже существует, рассмотрите возможность его добавления."
       }
+    },
+    "ModelledPropertyBuilder": {
+      "expressionLabel": "Выражение свойства",
+      "expressionPlaceholder": "Введите выражение свойства",
+      "selectProperty": "Выберите недвижимость",
+      "toggleLabel": "Выражение свойства"
     }
   },
   "widgets": {

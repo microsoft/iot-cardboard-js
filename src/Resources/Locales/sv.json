@@ -478,6 +478,12 @@
       "errors": {
         "twinAliasAlreadyExists": "Det finns redan ett tvillingalias med samma namn, överväg att lägga till det i stället."
       }
+    },
+    "ModelledPropertyBuilder": {
+      "expressionLabel": "Egenskapsuttryck",
+      "expressionPlaceholder": "Ange egenskapsuttryck",
+      "selectProperty": "Välj egenskap",
+      "toggleLabel": "Egenskapsuttryck"
     }
   },
   "widgets": {

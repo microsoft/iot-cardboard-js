@@ -478,6 +478,12 @@
       "errors": {
         "twinAliasAlreadyExists": "Az azonos nevű ikeralias már létezik, fontolja meg a hozzáadását."
       }
+    },
+    "ModelledPropertyBuilder": {
+      "expressionLabel": "Tulajdonságkifejezés",
+      "expressionPlaceholder": "Tulajdonságkifejezés megadása",
+      "selectProperty": "Tulajdonság kiválasztása",
+      "toggleLabel": "Tulajdonságkifejezés"
     }
   },
   "widgets": {
