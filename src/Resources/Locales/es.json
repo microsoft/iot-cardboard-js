@@ -478,6 +478,12 @@
       "errors": {
         "twinAliasAlreadyExists": "El alias gemelo con el mismo nombre ya existe, considere agregarlo en su lugar."
       }
+    },
+    "ModelledPropertyBuilder": {
+      "expressionLabel": "Expresión de propiedad",
+      "expressionPlaceholder": "Introducir expresión de propiedad",
+      "selectProperty": "Seleccionar propiedad",
+      "toggleLabel": "Expresión de propiedad"
     }
   },
   "widgets": {
