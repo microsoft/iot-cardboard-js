@@ -176,27 +176,29 @@ const StatusTab: React.FC<IStatusTabProps> = ({
     return (
         <Stack tokens={sectionStackTokens}>
             <Text className={commonPanelStyles.text}>{t(LOC_KEYS.notice)}</Text>
-            <ModelledPropertyBuilder
-                mode="TOGGLE"
-                intellisenseProps={{
-                    onChange: onPropertyChange,
-                    defaultValue: statusVisualToEdit.statusValueExpression,
-                    aliasNames: aliasNames,
-                    getPropertyNames: getPropertyNames
-                }}
-                twinPropertyDropdownProps={{
-                    adapter,
-                    config,
-                    sceneId,
-                    behavior: behaviorToEdit,
-                    selectedElements: selectedElements,
-                    defaultSelectedKey:
-                        statusVisualToEdit.statusValueExpression,
-                    dataTestId: 'behavior-form-state-property-dropdown',
-                    onChange: onPropertyChange
-                }}
-            />
-            {showRangeBuilder && <Separator />}
+            <div>
+                <ModelledPropertyBuilder
+                    mode="TOGGLE"
+                    intellisenseProps={{
+                        onChange: onPropertyChange,
+                        defaultValue: statusVisualToEdit.statusValueExpression,
+                        aliasNames: aliasNames,
+                        getPropertyNames: getPropertyNames
+                    }}
+                    twinPropertyDropdownProps={{
+                        adapter,
+                        config,
+                        sceneId,
+                        behavior: behaviorToEdit,
+                        selectedElements: selectedElements,
+                        defaultSelectedKey:
+                            statusVisualToEdit.statusValueExpression,
+                        dataTestId: 'behavior-form-state-property-dropdown',
+                        onChange: onPropertyChange
+                    }}
+                />
+                {showRangeBuilder && <Separator />}
+            </div>
             {showRangeBuilder && (
                 <ValueRangeBuilder
                     valueRangeBuilderReducer={valueRangeBuilderReducer}

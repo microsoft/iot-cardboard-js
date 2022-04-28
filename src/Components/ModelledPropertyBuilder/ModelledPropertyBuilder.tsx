@@ -44,7 +44,12 @@ const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = (
                 <Intellisense
                     {...(props as IntellisenseModeProps).intellisenseProps}
                     autoCompleteProps={{
+                        ...(props as IntellisenseModeProps).intellisenseProps
+                            .autoCompleteProps,
                         textFieldProps: {
+                            ...(props as IntellisenseModeProps)
+                                .intellisenseProps.autoCompleteProps
+                                ?.textFieldProps,
                             label: t(
                                 '3dSceneBuilder.ModelledPropertyBuilder.expressionLabel'
                             ),
@@ -69,6 +74,7 @@ const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = (
                                 checked ? 'INTELLISENSE' : 'PROPERTY_SELECTION'
                             )
                         }
+                        styles={{ root: { marginBottom: 0 } }}
                     />
                 </div>
             )}

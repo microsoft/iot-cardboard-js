@@ -129,7 +129,10 @@ const GaugeWidgetBuilder: React.FC<IGaugeWidgetBuilderProps> = ({
                     onChange: onPropertyChange,
                     defaultValue: formData.valueExpression,
                     aliasNames: aliasNames,
-                    getPropertyNames: getPropertyNames
+                    getPropertyNames: getPropertyNames,
+                    autoCompleteProps: {
+                        required: true
+                    }
                 }}
                 twinPropertyDropdownProps={{
                     adapter,
