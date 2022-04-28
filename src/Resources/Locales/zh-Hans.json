@@ -498,9 +498,9 @@
       "description": "布局面板"
     },
     "notSupported": "目前不支持此小组件类型",
-    "property": {
-      "title": "属性小部件",
-      "description": "用于显示孪生属性值的基本小组件"
+    "value": {
+      "title": "“值”小部件",
+      "description": "用于显示孪生属性值的基本微件"
     }
   },
   "sdkStrings": {

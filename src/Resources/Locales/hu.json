@@ -498,9 +498,9 @@
       "description": "Elrendezéspanel"
     },
     "notSupported": "Ez a widgettípus jelenleg nem támogatott",
-    "property": {
-      "title": "Tulajdonság widget",
-      "description": "Alapvető widget az ikertulajdonság-értékek megjelenítéséhez"
+    "value": {
+      "title": "Érték widget",
+      "description": "Alapvető widget az ikertulajdonságok értékeinek megjelenítéséhez"
     }
   },
   "sdkStrings": {

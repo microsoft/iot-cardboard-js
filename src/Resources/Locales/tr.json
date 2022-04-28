@@ -498,9 +498,9 @@
       "description": "Mizanpaj paneli"
     },
     "notSupported": "Bu widget türü şu anda desteklenmiyor",
-    "property": {
-      "title": "Özellik widget'ı",
-      "description": "İkiz özellik değerlerini göstermek için temel widget"
+    "value": {
+      "title": "Değer widget'ı",
+      "description": "İkiz özelliklerin değerlerini göstermek için temel widget"
     }
   },
   "sdkStrings": {

@@ -498,9 +498,9 @@
       "description": "Ein Layoutpanel"
     },
     "notSupported": "Dieser Widget-Typ wird derzeit nicht unterstützt",
-    "property": {
-      "title": "Eigenschaften-Widget",
-      "description": "Einfaches Widget zum Anzeigen von Zwillingseigenschaftswerten"
+    "value": {
+      "title": "Wert-Widget",
+      "description": "Einfaches Widget zum Anzeigen von Werten von Zwillingseigenschaften"
     }
   },
   "sdkStrings": {

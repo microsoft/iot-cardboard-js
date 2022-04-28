@@ -498,9 +498,9 @@
       "description": "En layoutpanel"
     },
     "notSupported": "Den här widgettypen stöds för närvarande inte",
-    "property": {
-      "title": "Widgeten Egenskap",
-      "description": "Grundläggande widget för att visa dubbla egenskapsvärden"
+    "value": {
+      "title": "Widgeten Värde",
+      "description": "Grundläggande widget för att visa värden för dubbla egenskaper"
     }
   },
   "sdkStrings": {

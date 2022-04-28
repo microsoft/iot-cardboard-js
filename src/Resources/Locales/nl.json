@@ -498,9 +498,9 @@
       "description": "Een indelingspaneel"
     },
     "notSupported": "Dit widgettype wordt momenteel niet ondersteund",
-    "property": {
-      "title": "Widget onroerend goed",
-      "description": "Basiswidget om dubbele eigenschapswaarden weer te geven"
+    "value": {
+      "title": "Waarde widget",
+      "description": "Basiswidget om waarden van dubbele eigenschappen weer te geven"
     }
   },
   "sdkStrings": {
