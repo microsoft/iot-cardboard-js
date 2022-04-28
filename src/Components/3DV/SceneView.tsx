@@ -977,8 +977,13 @@ function SceneView(props: ISceneViewProp, ref) {
                                     groupItems={groupItems}
                                 />
                             );
-                            element.left = position?.left - 20;
-                            element.top = position?.top - 20;
+                            if (
+                                !element.marker.UIElement?.props?.groupItems
+                                    ?.length
+                            ) {
+                                element.left = position?.left - 20;
+                                element.top = position?.top - 20;
+                            }
                             element.marker.UIElement = groupedElement;
                         } else {
                             removeGroupedItems(markersAndPosition, marker);
