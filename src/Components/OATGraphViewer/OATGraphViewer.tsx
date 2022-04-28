@@ -319,7 +319,7 @@ const OATGraphViewer = ({
                     (element) => element['@id'] === currentNode.source
                 );
 
-                const targetModelName = /[^:]*$/.exec(currentNode.target)[0]; // Get substring after las ':' character
+                const targetModelName = /[^:]*$/.exec(currentNode.target)[0]; // Get substring after last ':' character
                 const relationshipId = `${currentNode.data.id}_${targetModelName}`; // Unique relationship id
 
                 const relationship = {
