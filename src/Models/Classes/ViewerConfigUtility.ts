@@ -429,24 +429,24 @@ abstract class ViewerConfigUtility {
             config,
             sceneId
         );
-        const layeredBehaviorIds = new Map();
+        const layeredBehaviorIds = new Set();
 
         // Construct map of all behavior Ids contained in layers in the scene
         layersInScene.forEach((layer) => {
             layer.behaviorIDs.forEach((behaviorId) => {
-                layeredBehaviorIds.set(behaviorId, '');
+                layeredBehaviorIds.add(behaviorId);
             });
         });
 
         // Find behavior Ids in the scene with no associated layer
-        const unlayeredBehaviorIdMap = new Map();
+        const unlayeredBehaviorIdMap = new Set();
         behaviorIdsInScene.forEach((behaviorId) => {
             if (!layeredBehaviorIds.has(behaviorId)) {
-                unlayeredBehaviorIdMap.set(behaviorId, '');
+                unlayeredBehaviorIdMap.add(behaviorId);
             }
         });
 
-        return Array.from(unlayeredBehaviorIdMap.keys());
+        return Array.from(unlayeredBehaviorIdMap.values());
     }
 
     static getBehaviorIdsInSelectedLayers(
