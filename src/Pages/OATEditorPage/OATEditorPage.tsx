@@ -63,7 +63,7 @@ const OATEditorPage = ({ theme }) => {
 
     return (
         <div className={EditorPageStyles.container}>
-            <OATHeader elements={elementHandler} />
+            <OATHeader elements={elementHandler.digitalTwinsModels} />
             <div
                 className={
                     templatesActive
@@ -72,7 +72,7 @@ const OATEditorPage = ({ theme }) => {
                 }
             >
                 <OATModelList
-                    elements={elementHandler}
+                    elements={elementHandler.digitalTwinsModels}
                     onDeleteModel={setDeletedModel}
                     onSelectedModel={setSelectedModel}
                     onEditedName={setEditedName}

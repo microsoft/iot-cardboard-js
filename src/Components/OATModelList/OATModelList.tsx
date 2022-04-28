@@ -2,10 +2,10 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useTheme, List, ActionButton, Icon, FontSizes } from '@fluentui/react';
 import BaseComponent from '../BaseComponent/BaseComponent';
 import { getModelsStyles } from './OATModelList.styles';
-import { IOATElementsChangeEventArgs } from '../../Models/Constants';
+import { IOATTwinModelNodes } from '../../Models/Constants';
 
 type OATModelListProps = {
-    elements: IOATElementsChangeEventArgs;
+    elements: IOATTwinModelNodes[];
     onDeleteModel: (modelId: string) => any;
     onSelectedModel: (modelId: string) => any;
     onEditedName: (modelId: string) => any;
@@ -29,7 +29,7 @@ const OATModelList = ({
     const currentNodeId = useRef('');
 
     useEffect(() => {
-        setItems(elements.digitalTwinsModels);
+        setItems(elements);
     }, [elements]);
 
     const onSelectedClick = (id) => {

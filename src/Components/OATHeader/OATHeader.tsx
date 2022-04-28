@@ -3,10 +3,10 @@ import { FontIcon, TextField, ActionButton } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { getHeaderStyles } from './OATHeader.styles';
 import JSZip from 'jszip';
-import { IOATElementsChangeEventArgs } from '../../Models/Constants';
+import { IOATTwinModelNodes } from '../../Models/Constants';
 
 type OATHeaderProps = {
-    elements: IOATElementsChangeEventArgs;
+    elements: IOATTwinModelNodes[];
 };
 
 const OATHeader = ({ elements }: OATHeaderProps) => {
@@ -26,7 +26,7 @@ const OATHeader = ({ elements }: OATHeaderProps) => {
 
     const handleDownloadClick = () => {
         const zip = new JSZip();
-        for (const element of elements.digitalTwinsModels) {
+        for (const element of elements) {
             let fileName = element['@id'];
             fileName = fileName.replace(/;/g, '-').replace(/:/g, '_');
             zip.file(`${fileName}.json`, JSON.stringify(element));
