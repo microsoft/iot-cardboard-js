@@ -1,8 +1,14 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { getBezierPath, getEdgeCenter } from 'react-flow-renderer';
 import { IOATGraphCustomEdgeProps } from '../../Models/Constants/Interfaces';
 import { getGraphViewerStyles } from '../OATGraphViewer.styles';
 import { ElementsContext } from './OATContext';
+import {
+    UntargetedRelationshipName,
+    RelationshipHandleName,
+    ComponentHandleName,
+    ExtendHandleName
+} from '../../../Models/Constants/Constants';
 
 const foreignObjectSize = 180;
 
@@ -22,6 +28,26 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
     const [nameText, setNameText] = useState(data.name);
     const { elements, setElements } = useContext(ElementsContext);
     const graphViewerStyles = getGraphViewerStyles();
+
+    const separation = 14;
+    const connection = 3;
+    const element = elements.find((x) => x.id === id);
+    const sources = elements.filter((x) => x.source === element.source);
+    if (sources.length > 1) {
+        const sourceRange = (separation * (sources.length - 1)) / 2;
+        sourceX = sourceX - sourceRange;
+        const indexX = sources.findIndex((x) => x.id === id);
+        sourceX = indexX * separation + sourceX;
+        sourceY = sourceY - connection;
+    }
+    const targets = elements.filter((x) => x.target === element.target);
+    if (targets.length > 1) {
+        const targetRange = (separation * (targets.length - 1)) / 2;
+        targetX = targetX - targetRange;
+        const indexY = targets.findIndex((x) => x.id === id);
+        targetX = indexY * separation + targetX;
+        targetY = targetY + connection;
+    }
 
     const onNameChange = (evt) => {
         setNameText(evt.target.value);
@@ -107,17 +133,48 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                     </textPath>
                 </text>
             )}
-            <polygon
-                points={`${targetX - 5},${targetY - 10} ${targetX + 5},${
-                    targetY - 10
-                } ${targetX},${targetY}`}
-                cx={targetX}
-                cy={targetY}
-                fill="#fff"
-                r={3}
-                stroke="#222"
-                strokeWidth={1.5}
-            />
+            {data.type === ExtendHandleName && (
+                <polygon
+                    points={`${targetX - 5},${targetY - 10} ${targetX + 5},${
+                        targetY - 10
+                    } ${targetX},${targetY}`}
+                    cx={targetX}
+                    cy={targetY}
+                    fill="#fff"
+                    r={3}
+                    stroke="#222"
+                    strokeWidth={1.5}
+                />
+            )}
+            {(data.type === RelationshipHandleName ||
+                data.type === UntargetedRelationshipName) && (
+                <polygon
+                    points={`${targetX - 5},${
+                        targetY - 5
+                    } ${targetX},${targetY} ${targetX + 5},${
+                        targetY - 5
+                    } ${targetX},${targetY}`}
+                    cx={targetX}
+                    cy={targetY}
+                    fill="#fff"
+                    r={3}
+                    stroke="#222"
+                    strokeWidth={1.5}
+                />
+            )}
+            {data.type === ComponentHandleName && (
+                <polygon
+                    points={`${sourceX + 5},${sourceY + 5} ${sourceX},${
+                        sourceY + 10
+                    } ${sourceX - 5},${sourceY + 5} ${sourceX},${sourceY}`}
+                    cx={sourceX}
+                    cy={sourceY}
+                    fill="#fff"
+                    r={3}
+                    stroke="#222"
+                    strokeWidth={1.5}
+                />
+            )}
         </>
     );
 };
