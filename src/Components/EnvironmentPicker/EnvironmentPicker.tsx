@@ -101,6 +101,38 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
         isAdapterCalledOnMount: false
     });
 
+    const isValidUrlStr = useCallback(
+        (urlStr: string, type: 'environment' | 'container') => {
+            if (type === 'environment') {
+                try {
+                    return (
+                        urlStr &&
+                        urlStr.startsWith('https://') &&
+                        ValidAdtHostSuffixes.some((suffix) =>
+                            new URL(urlStr).hostname.endsWith(suffix)
+                        )
+                    );
+                } catch (error) {
+                    return false;
+                }
+            } else {
+                try {
+                    return (
+                        urlStr &&
+                        urlStr.startsWith('https://') &&
+                        ValidContainerHostSuffixes.some((suffix) =>
+                            new URL(urlStr).hostname.endsWith(suffix)
+                        ) &&
+                        new URL(urlStr).pathname !== '/'
+                    );
+                } catch (error) {
+                    return false;
+                }
+            }
+        },
+        []
+    );
+
     // set initial values based on props and local storage
     useEffect(() => {
         if (props.isLocalStorageEnabled) {
@@ -264,38 +296,6 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                     } as IComboBoxOption)
             ),
         [containers]
-    );
-
-    const isValidUrlStr = useCallback(
-        (urlStr: string, type: 'environment' | 'container') => {
-            if (type === 'environment') {
-                try {
-                    return (
-                        urlStr &&
-                        urlStr.startsWith('https://') &&
-                        ValidAdtHostSuffixes.some((suffix) =>
-                            new URL(urlStr).hostname.endsWith(suffix)
-                        )
-                    );
-                } catch (error) {
-                    return false;
-                }
-            } else {
-                try {
-                    return (
-                        urlStr &&
-                        urlStr.startsWith('https://') &&
-                        ValidContainerHostSuffixes.some((suffix) =>
-                            new URL(urlStr).hostname.endsWith(suffix)
-                        ) &&
-                        new URL(urlStr).pathname !== '/'
-                    );
-                } catch (error) {
-                    return false;
-                }
-            }
-        },
-        []
     );
 
     const environmentInputError = useMemo(
