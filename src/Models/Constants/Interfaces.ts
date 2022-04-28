@@ -374,7 +374,8 @@ export type IPropertyInspectorAdapter = Pick<
 export interface IModelledPropertyBuilderAdapter {
     isModelFetchLoading: boolean;
     cachedModels: DtdlInterface[];
-    fetchAndCacheAllADTModels(): Promise<void>;
+    fetchCacheAndParseAllADTModels(): Promise<void>;
+    getADTTwin(twinId: string): Promise<AdapterResult<ADTTwinData>>;
 }
 
 export interface IADT3DViewerAdapter {

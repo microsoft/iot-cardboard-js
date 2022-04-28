@@ -73,6 +73,7 @@ export default class ADTAdapter implements IADTAdapter {
     public packetNumber = 0;
     protected axiosInstance: AxiosInstance;
     public cachedModels: DtdlInterface[];
+    public parsedModels: any;
     public isModelFetchLoading: boolean;
 
     constructor(
@@ -103,7 +104,7 @@ export default class ADTAdapter implements IADTAdapter {
                 return (Math.pow(2, retryCount) - Math.random()) * 1000;
             }
         });
-        this.fetchAndCacheAllADTModels();
+        this.fetchCacheAndParseAllADTModels();
     }
 
     getAdtHostUrl() {
@@ -173,7 +174,7 @@ export default class ADTAdapter implements IADTAdapter {
         );
     }
 
-    async fetchAndCacheAllADTModels() {
+    async fetchCacheAndParseAllADTModels() {
         try {
             this.isModelFetchLoading = true;
             let models: DtdlInterface[] = [];

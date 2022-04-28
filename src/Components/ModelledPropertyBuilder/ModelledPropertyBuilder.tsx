@@ -1,66 +1,55 @@
-import React, { useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import {
-    IntellisenseModeProps,
+    defaultAllowedComplexTypes,
+    defaultAllowedPrimitiveTypes,
     ModelledPropertyBuilderMode,
-    ModelledPropertyBuilderProps,
-    PropertySelectionModeProps
+    ModelledPropertyBuilderProps
 } from './ModelledPropertyBuilder.types';
 import { getStyles } from './ModelledPropertyBuilder.styles';
 import { Stack, Toggle } from '@fluentui/react';
-import TwinPropertyDropown from './Internal/TwinPropertyDropdown';
-import { Intellisense } from '../AutoComplete/Intellisense';
 import { useTranslation } from 'react-i18next';
+import { linkedTwinName } from '../../Models/Constants';
+import ViewerConfigUtility from '../../Models/Classes/ViewerConfigUtility';
+import { useModelledProperties } from './useModelledProperties';
 
-const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = (
-    props
-) => {
+const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = ({
+    adapter,
+    behavior,
+    config,
+    sceneId,
+    disableAliasedTwins = false,
+    selectedPropertyOrExpression,
+    mode,
+    allowedPrimitiveTypes = defaultAllowedPrimitiveTypes,
+    allowedComplexTypes = defaultAllowedComplexTypes,
+    onChange
+}) => {
     const { t } = useTranslation();
     const styles = getStyles();
-    const [mode, setMode] = useState<ModelledPropertyBuilderMode>(
-        props.mode === 'TOGGLE' ? 'PROPERTY_SELECTION' : props.mode
+    const [
+        internalMode,
+        setInternalMode
+    ] = useState<ModelledPropertyBuilderMode>(
+        mode === 'TOGGLE' ? 'PROPERTY_SELECTION' : mode
     );
 
-    /* MODELLED_PROPERTY_TODO build view model for modelled properties
-    useEffect(() => {
-        if (adapter.cachedModels?.length > 0) {
-            // using primaryTwinIds & aliasedTwinMap
-            // Modelled properties will come in v2 of this changeset
-        }
-    }, [adapter.cachedModels]);
-    */
+    const result = useModelledProperties({
+        adapter,
+        behavior,
+        config,
+        sceneId,
+        disableAliasedTwins,
+        allowedPrimitiveTypes,
+        allowedComplexTypes
+    });
 
     return (
         <Stack tokens={{ childrenGap: 4 }}>
-            {mode === 'PROPERTY_SELECTION' && (
-                <TwinPropertyDropown
-                    {...(props as PropertySelectionModeProps)
-                        .twinPropertyDropdownProps}
-                    label={t(
-                        '3dSceneBuilder.ModelledPropertyBuilder.selectProperty'
-                    )}
-                ></TwinPropertyDropown>
+            {internalMode === 'PROPERTY_SELECTION' && (
+                <div>Property select mode</div>
             )}
-            {mode === 'INTELLISENSE' && (
-                <Intellisense
-                    {...(props as IntellisenseModeProps).intellisenseProps}
-                    autoCompleteProps={{
-                        ...(props as IntellisenseModeProps).intellisenseProps
-                            .autoCompleteProps,
-                        textFieldProps: {
-                            ...(props as IntellisenseModeProps)
-                                .intellisenseProps.autoCompleteProps
-                                ?.textFieldProps,
-                            label: t(
-                                '3dSceneBuilder.ModelledPropertyBuilder.expressionLabel'
-                            ),
-                            placeholder: t(
-                                '3dSceneBuilder.ModelledPropertyBuilder.expressionPlaceholder'
-                            )
-                        }
-                    }}
-                ></Intellisense>
-            )}
-            {props.mode === 'TOGGLE' && (
+            {internalMode === 'INTELLISENSE' && <div>Intellisense mode</div>}
+            {mode === 'TOGGLE' && (
                 <div className={styles.toggleContainer}>
                     <Toggle
                         label={t(
@@ -70,7 +59,7 @@ const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = (
                         onText={t('on')}
                         offText={t('off')}
                         onChange={(_event, checked) =>
-                            setMode(
+                            setInternalMode(
                                 checked ? 'INTELLISENSE' : 'PROPERTY_SELECTION'
                             )
                         }

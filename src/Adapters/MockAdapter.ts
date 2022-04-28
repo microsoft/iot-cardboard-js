@@ -108,7 +108,7 @@ export default class MockAdapter
         this.mockTwins = mockTwinData;
         this.mockModels = (mockModelData as any) as DtdlInterface[];
         this.initializeMockTwinProperties();
-        this.fetchAndCacheAllADTModels();
+        this.fetchCacheAndParseAllADTModels();
     }
 
     async mockNetwork() {
@@ -138,7 +138,7 @@ export default class MockAdapter
         });
     }
 
-    async fetchAndCacheAllADTModels() {
+    async fetchCacheAndParseAllADTModels() {
         this.isModelFetchLoading = true;
         await this.mockNetwork();
         this.cachedModels = (mockModelData as any) as DtdlInterface[];

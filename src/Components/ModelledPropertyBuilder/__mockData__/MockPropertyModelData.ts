@@ -26,7 +26,8 @@ export const config: I3DScenesConfig = {
                             'Mesh4 LKHP_40_15_254TC3 Centrifugal_Pumps2 Model'
                         ],
                         twinAliases: {
-                            ElectricityTag: 'SaltMachine_C1'
+                            ElectricityTag: 'SaltMachine_C1',
+                            TemperatureTag: 'PasteurizationMachine_A04'
                         }
                     },
                     {
@@ -39,7 +40,8 @@ export const config: I3DScenesConfig = {
                             'Mesh6 LKHP_40_15_254TC5 Centrifugal_Pumps3 Model'
                         ],
                         twinAliases: {
-                            ElectricityTag: 'SaltMachine_C2'
+                            ElectricityTag: 'SaltMachine_C2',
+                            TemperatureTag: 'PasteurizationMachine_A04'
                         }
                     }
                 ],
@@ -103,7 +105,7 @@ export const config: I3DScenesConfig = {
                         }
                     }
                 ],
-                twinAliases: ['ElectricityTag']
+                twinAliases: ['ElectricityTag', 'TemperatureTag']
             }
         ],
         layers: [
