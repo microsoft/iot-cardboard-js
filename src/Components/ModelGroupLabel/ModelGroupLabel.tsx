@@ -44,7 +44,7 @@ export const ModelGroupLabel: React.FC<ModelGroupLabelProps> = ({
         });
 
         setContextItems(items);
-    }, [groupItems]);
+    }, [groupItems, groupItems.length]);
 
     return (
         <div>

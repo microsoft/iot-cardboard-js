@@ -2184,8 +2184,8 @@
                     }
                 ],
                 "description": "Distribution Center",
-                "latitude": 55.3781,
-                "longitude": 40.436,
+                "latitude": 51.5072,
+                "longitude": 0.1276,
                 "elements": [],
                 "behaviorIDs": []
             },
@@ -2200,8 +2200,8 @@
                     }
                 ],
                 "description": "Distribution Center",
-                "latitude": 55.3781,
-                "longitude": 3.436,
+                "latitude": 51.5072,
+                "longitude": 0.1276,
                 "elements": [],
                 "behaviorIDs": []
             },
@@ -2216,8 +2216,8 @@
                     }
                 ],
                 "description": "Distribution Center",
-                "latitude": 55.3781,
-                "longitude": 3.436,
+                "latitude": 51.5072,
+                "longitude": 25.1276,
                 "elements": [],
                 "behaviorIDs": []
             }

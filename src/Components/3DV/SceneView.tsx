@@ -38,7 +38,6 @@ import { getProgressStyles, getSceneViewStyles } from './SceneView.styles';
 import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
 import { sleep } from '../AutoComplete/AutoComplete';
 import { ModelGroupLabel } from '../ModelGroupLabel/ModelGroupLabel';
-import produce from 'immer';
 
 const debug = false;
 
@@ -899,7 +898,7 @@ function SceneView(props: ISceneViewProp, ref) {
                 const sphere = BABYLON.Mesh.CreateSphere(
                     `${Scene_Marker}${marker.name}`,
                     16,
-                    4,
+                    1,
                     sceneRef.current
                 );
                 sphere.position = position;
@@ -922,7 +921,7 @@ function SceneView(props: ISceneViewProp, ref) {
     }, [markers, modelUrl, isLoading]);
 
     const createMarkersWithPosition = () => {
-        const markersLocation: {
+        const markersAndPosition: {
             marker: Marker;
             top: number;
             left: number;
@@ -931,31 +930,39 @@ function SceneView(props: ISceneViewProp, ref) {
             markers.forEach((marker) => {
                 const position = getMarkerPosition(marker);
                 if (position) {
-                    // create first group
-                    if (markersLocation.length === 0) {
-                        markersLocation.push({
+                    const renderedMarker = document.getElementById(marker.id);
+                    //create first group
+                    if (markersAndPosition.length === 0) {
+                        markersAndPosition.push({
                             marker: marker,
-                            left: position?.left,
-                            top: position?.top
+                            left:
+                                position?.left - renderedMarker.clientWidth / 2,
+                            top: position?.top - renderedMarker.clientHeight / 2
                         });
                     } else {
-                        const renderedMarker = document.getElementById(
-                            marker.id
-                        );
-
-                        // need better way to detect if it should be grouped
-                        const element = markersLocation.find((m) =>
-                            elementsOverlap(m, renderedMarker, position)
+                        const element = markersAndPosition.find((m) =>
+                            elementsOverlap(m, renderedMarker, {
+                                left:
+                                    position?.left -
+                                    renderedMarker.clientWidth / 2,
+                                top:
+                                    position?.top -
+                                    renderedMarker.clientHeight / 2
+                            })
                         );
 
                         // add to existing group
                         if (element) {
                             const groupItems =
-                                element.marker.UIElement.props?.groupItems ||
+                                element.marker.UIElement?.props?.groupItems ||
                                 [];
+
                             if (!groupItems.length) {
-                                groupItems.push({ label: element.marker.name });
+                                groupItems.push({
+                                    label: element.marker.name
+                                });
                             }
+
                             if (
                                 !groupItems.find(
                                     (item) => item.label === marker.name
@@ -963,28 +970,64 @@ function SceneView(props: ISceneViewProp, ref) {
                             ) {
                                 groupItems.push({ label: marker.name });
                             }
+
                             const groupedElement: JSX.Element = (
                                 <ModelGroupLabel
                                     label={groupItems.length}
                                     groupItems={groupItems}
                                 />
                             );
-
+                            element.left = position?.left - 20;
+                            element.top = position?.top - 20;
                             element.marker.UIElement = groupedElement;
                         } else {
+                            removeGroupedItems(markersAndPosition, marker);
+
                             // create new group
-                            markersLocation.push({
+                            markersAndPosition.push({
                                 marker: marker,
-                                left: position?.left,
-                                top: position?.top
+                                left:
+                                    position?.left -
+                                    renderedMarker.clientWidth / 2,
+                                top:
+                                    position?.top -
+                                    renderedMarker.clientHeight / 2
                             });
                         }
                     }
+                } else {
+                    removeGroupedItems(markersAndPosition, marker);
                 }
             });
 
-            setMarkersAndPositions(markersLocation);
+            setMarkersAndPositions(markersAndPosition);
         }
+    };
+
+    const removeGroupedItems = (
+        markersLocation: { marker: Marker; left: number; top: number }[],
+        marker: Marker
+    ) => {
+        // remove item if previously grouped
+        markersLocation.forEach((markerLocation) => {
+            if (
+                markerLocation.marker.UIElement?.props?.groupItems?.find(
+                    (item) => item.label === marker.name
+                )
+            ) {
+                const groupItems = markerLocation.marker.UIElement?.props?.groupItems?.filter(
+                    (item) => item.label !== marker.name
+                );
+
+                const groupedElement: JSX.Element = (
+                    <ModelGroupLabel
+                        label={groupItems.length}
+                        groupItems={groupItems}
+                    />
+                );
+                markerLocation.marker.UIElement = groupedElement;
+            }
+        });
     };
 
     const elementsOverlap = (
@@ -992,6 +1035,7 @@ function SceneView(props: ISceneViewProp, ref) {
         renderedElement: HTMLElement,
         position: { left: number; top: number }
     ) => {
+        let doesOverlap = false;
         const markerElement = document.getElementById(
             markerAndPosition.marker.id
         );
@@ -999,20 +1043,27 @@ function SceneView(props: ISceneViewProp, ref) {
         const markerElementArea = markerElement?.getBoundingClientRect();
         const renderedElementArea = renderedElement?.getBoundingClientRect();
 
+        const markerIsGroup =
+            markerAndPosition.marker.UIElement?.props?.groupItems?.length;
+
+        const markerElementWidth = markerIsGroup
+            ? 40
+            : markerElementArea?.right;
+
         if (markerElementArea && renderedElementArea) {
-            return !(
+            doesOverlap = !(
                 markerElementArea.top + markerAndPosition.top >
                     renderedElementArea.bottom + position.top ||
-                markerElementArea.right + markerAndPosition.left <
+                markerElementWidth + markerAndPosition.left <
                     renderedElementArea.left + position.left ||
                 markerElementArea.bottom + markerAndPosition.top <
                     renderedElementArea.top + position.top ||
                 markerElementArea.left + markerAndPosition.left >
                     renderedElementArea.right + position.left
             );
-        } else {
-            return false;
         }
+
+        return doesOverlap;
     };
 
     const getMarkerPosition = (marker: Marker) => {
@@ -1309,7 +1360,7 @@ function SceneView(props: ISceneViewProp, ref) {
                 cameraRef.current?.onViewMatrixChangedObservable?.remove(cm);
             }
         };
-    }, [scene, cameraRef.current]);
+    }, [scene, cameraRef.current, markersAndPositions]);
 
     // SETUP LOGIC FOR HANDLING COLORING MESHES
     useEffect(() => {
