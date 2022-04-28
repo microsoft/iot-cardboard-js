@@ -145,7 +145,7 @@ const WidgetForm: React.FC<{
         [setBehaviorToEdit]
     );
 
-    const getWidgetBuilder = () => {
+    const getWidgetBuilder = useCallback(() => {
         const widgetData = getActiveWidget(
             activeWidgetId.current,
             behaviorToEdit
@@ -177,7 +177,14 @@ const WidgetForm: React.FC<{
                     </div>
                 );
         }
-    };
+    }, [
+        behaviorToEdit,
+        getPropertyNames,
+        propertyAliases,
+        t,
+        updateWidgetData,
+        widgetFormInfo.widget.data.type
+    ]);
 
     const theme = useTheme();
     const customStyles = getWidgetFormStyles(theme);

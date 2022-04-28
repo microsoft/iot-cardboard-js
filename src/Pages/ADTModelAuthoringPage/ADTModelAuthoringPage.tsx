@@ -28,6 +28,10 @@ import './ADTModelAuthoringPage.scss';
 import { BaseCompositeCard, ADTModelListCard } from '../..';
 import ADTModelAuthoringCard from '../../Cards/CompositeCards/ADTModelAuthoring/ADTModelAuthoringCard';
 
+const confirmDeletionDialogStyles = {
+    main: { maxWidth: 450, minHeight: 165 }
+};
+
 const ADTModelAuthoringPage: React.FC<ADTModelAuthoringPageProps> = ({
     adapter,
     theme,
@@ -148,18 +152,12 @@ const ADTModelAuthoringPage: React.FC<ADTModelAuthoringPageProps> = ({
         subText: t('confirmDeletionDesc')
     };
 
-    const confirmDeletionDialogStyles = useMemo(
-        () => ({
-            main: { maxWidth: 450, minHeight: 165 }
-        }),
-        []
-    );
     const confirmDeletionModalProps = React.useMemo(
         () => ({
             isBlocking: false,
             styles: confirmDeletionDialogStyles
         }),
-        [confirmDeletionDialogStyles]
+        []
     );
 
     return (

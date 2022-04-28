@@ -181,7 +181,8 @@ const useAdapter = <T extends IAdapterData>({
             mountedRef.current = false;
             cancelAdapter();
         };
-    }, [cancelAdapter]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     return {
         isLoading: state.isLoading,
