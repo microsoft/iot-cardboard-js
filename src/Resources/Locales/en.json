@@ -423,7 +423,7 @@
             "expressionLabel": "Property expression",
             "expressionPlaceholder": "Enter property expression",
             "selectProperty": "Select property",
-            "toggleLabel": "Property expression"
+            "toggleLabel": "Expression mode"
         },
         "numericExpressionPlaceholder": "Enter an expression which evaluates to a number",
         "behaviorId": "Behavior Id",
