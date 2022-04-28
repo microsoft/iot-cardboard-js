@@ -83,7 +83,7 @@ const OATEditorPage = ({ theme }) => {
                     model={model}
                     setModel={setModel}
                     deletedModel={deletedModel}
-                    selectedModel={selectedModel}
+                    selectModel={selectedModel}
                     editedName={editedName}
                     editedId={editedId}
                 />

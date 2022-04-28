@@ -3,9 +3,10 @@ import { FontIcon, TextField, ActionButton } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { getHeaderStyles } from './OATHeader.styles';
 import JSZip from 'jszip';
+import { IOATElementsChangeEventArgs } from '../../Models/Constants';
 
 type OATHeaderProps = {
-    elements: any[];
+    elements: IOATElementsChangeEventArgs;
 };
 
 const OATHeader = ({ elements }: OATHeaderProps) => {
