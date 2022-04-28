@@ -1,4 +1,5 @@
 import {
+    FontSizes,
     IStyle,
     memoizeFunction,
     mergeStyleSets,
@@ -37,7 +38,7 @@ export const getStyles = memoizeFunction((theme: Theme) =>
                 width: '100%',
                 ...ellipseStyles,
                 textAlign: 'center',
-                fontSize: 12
+                fontSize: FontSizes.size12
             } as IStyle
         ],
         expressionValue: [
@@ -47,7 +48,7 @@ export const getStyles = memoizeFunction((theme: Theme) =>
                 ...ellipseStyles,
                 color: theme.palette.themePrimary,
                 textAlign: 'center',
-                fontSize: 28,
+                fontSize: FontSizes.size28,
                 lineHeight: 28,
                 paddingBottom: 12
             } as IStyle

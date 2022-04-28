@@ -99,7 +99,7 @@
     border: 1px solid var(--cb-color-text-primary);
     float: left;
     height: 82px;
-    margin: 10px;
+    margin: 12px 24px 12px 0;
     padding: 4px;
     width: 272px;
 
@@ -110,6 +110,7 @@
 
 .cb-widget-library-dialog-list-container {
     height: 204px;
+    padding-top: 8px;
 }
 
 .cb-widget-dialog-list-item-selected {
@@ -142,17 +143,13 @@
 
 .cb-widget-dialog-modal {
     min-height: 445px;
-    min-width: 740px;
+    min-width: 640px;
 }
 
 .cb-widget-panel-item-label {
     font-size: smaller;
     font-weight: normal;
     padding: 0;
-}
-
-.cb-widget-panel-widgets {
-    padding-top: 20px;
 }
 
 .cb-scene-builder-left-panel-pivot {

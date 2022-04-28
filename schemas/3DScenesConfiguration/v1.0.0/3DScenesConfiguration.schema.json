@@ -216,12 +216,12 @@
                 "dateTime",
                 "double",
                 "duration",
+                "enum",
                 "float",
                 "integer",
                 "long",
                 "string",
-                "time",
-                "enum"
+                "time"
             ]
         },
         "IObjectIDs": {

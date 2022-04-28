@@ -122,7 +122,7 @@ export const defaultValueWidget: IValueWidget = {
     widgetConfiguration: {
         displayName: '',
         valueExpression: null,
-        type: 'string'
+        type: null
     }
 };
 

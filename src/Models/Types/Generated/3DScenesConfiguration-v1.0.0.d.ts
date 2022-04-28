@@ -24,12 +24,12 @@ export type IDTDLPrimitiveType =
     | 'dateTime'
     | 'double'
     | 'duration'
+    | 'enum'
     | 'float'
     | 'integer'
     | 'long'
     | 'string'
-    | 'time'
-    | 'enum';
+    | 'time';
 
 /**
  * A vocabulary to annotate and validate the JSON representation of 3D scene configuration data

@@ -9,8 +9,6 @@ import {
     FontIcon,
     Label,
     List,
-    Pivot,
-    PivotItem,
     PrimaryButton
 } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
@@ -58,48 +56,44 @@ const WidgetLibraryDialog: React.FC<{
             <Label className="cb-widget-panel-item-label">
                 {t('3dSceneBuilder.exploreWidgets')}
             </Label>
-            <Pivot className="cb-widget-panel-widgets">
-                <PivotItem headerText={t('3dSceneBuilder.allWidgets')}>
-                    <div className="cb-widget-library-dialog-list-container">
-                        <List
-                            items={filteredAvailableWidgets}
-                            onRenderCell={(widget, index) => (
-                                <div
-                                    key={index}
-                                    className={`cb-widget-dialog-list-item ${
-                                        index === selectedWidget
-                                            ? 'cb-widget-dialog-list-item-selected'
-                                            : ''
-                                    }`}
-                                    onClick={() => {
-                                        setSelectedWidget(index);
-                                        setFilteredAvailableWidgets([
-                                            ...enabledWidgets
-                                        ]);
-                                    }}
-                                    data-testid={`widget-library-${widget.data.type}`}
-                                >
-                                    <div className="cb-widget-dialog-list-item-content">
-                                        <div className="cb-widget-dialog-icon-background">
-                                            <FontIcon
-                                                className="cb-widget-dialog-icon"
-                                                iconName={widget.iconName}
-                                            />
-                                        </div>
-                                        <div>
-                                            <Label>{widget.data.type}</Label>
-                                            <Label className="cb-widget-panel-item-label">
-                                                {widget.description}
-                                            </Label>
-                                        </div>
-                                    </div>
+            <div className="cb-widget-library-dialog-list-container">
+                <List
+                    items={filteredAvailableWidgets}
+                    onRenderCell={(widget, index) => (
+                        <div
+                            key={index}
+                            className={`cb-widget-dialog-list-item ${
+                                index === selectedWidget
+                                    ? 'cb-widget-dialog-list-item-selected'
+                                    : ''
+                            }`}
+                            onClick={() => {
+                                setSelectedWidget(index);
+                                setFilteredAvailableWidgets([
+                                    ...enabledWidgets
+                                ]);
+                            }}
+                            data-testid={`widget-library-${widget.data.type}`}
+                        >
+                            <div className="cb-widget-dialog-list-item-content">
+                                <div className="cb-widget-dialog-icon-background">
+                                    <FontIcon
+                                        className="cb-widget-dialog-icon"
+                                        iconName={widget.iconName}
+                                    />
                                 </div>
-                            )}
-                        ></List>
-                        <div className="cb-widget-panel-clear-float" />
-                    </div>
-                </PivotItem>
-            </Pivot>
+                                <div>
+                                    <Label>{widget.data.type}</Label>
+                                    <Label className="cb-widget-panel-item-label">
+                                        {widget.description}
+                                    </Label>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                ></List>
+                <div className="cb-widget-panel-clear-float" />
+            </div>
             <DialogFooter>
                 <PrimaryButton
                     data-testid={'widget-library-add-button'}
