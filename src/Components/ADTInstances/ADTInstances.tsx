@@ -40,14 +40,14 @@ const ADTInstances: React.FC<IADTInstancesProps> = ({
         () =>
             instances
                 .sort((a, b) =>
-                    a?.hostName.localeCompare(b?.hostName, undefined, {
+                    a.hostName.localeCompare(b.hostName, undefined, {
                         sensitivity: 'base'
                     })
                 )
                 .map((e) => {
                     return {
-                        key: e?.hostName,
-                        text: e?.hostName
+                        key: e.hostName,
+                        text: e.hostName
                     };
                 }),
         [instances]

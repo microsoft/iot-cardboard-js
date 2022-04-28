@@ -54,9 +54,7 @@ export default class ADT3DSceneAdapter {
         return await adapterMethodSandbox.safelyFetchData(async (token) => {
             const digitalTwinInstances = await this.getADTInstances();
             const result = digitalTwinInstances.result.data;
-            const instance = result.find(
-                (d) => d?.hostName === this.adtHostUrl
-            );
+            const instance = result.find((d) => d.hostName === this.adtHostUrl);
 
             try {
                 // use the below azure management call to get adt-adx connection information including Kusto cluster url, database name and table name to retrieve the data history from

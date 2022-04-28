@@ -117,9 +117,7 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
         envs: Array<string | IAzureResource>
     ) => {
         adapter.setAdtHostUrl(
-            typeof env === 'string'
-                ? env.replace('https://', '')
-                : env?.hostName
+            typeof env === 'string' ? env.replace('https://', '') : env.hostName
         );
         if (environmentPickerOptions?.environment?.onEnvironmentChange) {
             environmentPickerOptions.environment.onEnvironmentChange(env, envs);

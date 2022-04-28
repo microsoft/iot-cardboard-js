@@ -780,9 +780,9 @@ export default class MockAdapter
     }
 
     async hasRoleDefinition(
-        resourceID: string,
-        uniqueObjectID: string,
-        roleDefinitionGuid: string
+        _resourceID: string,
+        _uniqueObjectID: string,
+        _roleDefinitionGuid: string
     ) {
         return true;
     }
