@@ -318,14 +318,27 @@ const OATGraphViewer = ({
                 const sourceNode = currentNodes.find(
                     (element) => element['@id'] === currentNode.source
                 );
+
+                const targetModelName = /[^:]*$/.exec(currentNode.target)[0]; // Get substring after las ':' character
+                const relationshipId = `${currentNode.data.id}_${targetModelName}`; // Unique relationship id
+
                 const relationship = {
                     '@type': currentNode.data.type,
-                    '@id': currentNode.data.id,
+                    '@id': relationshipId,
                     name: currentNode.data.name,
                     displayName: currentNode.data.displayName,
                     target: currentNode.target
                 };
-                sourceNode.contents = [...sourceNode.contents, relationship];
+                const found = sourceNode.contents.find(
+                    (element) => element['@id'] === relationshipId
+                );
+
+                if (!found) {
+                    sourceNode.contents = [
+                        ...sourceNode.contents,
+                        relationship
+                    ];
+                }
             } else if (currentNode.data.type === ExtendHandleName) {
                 const sourceNode = currentNodes.find(
                     (element) => element['@id'] === currentNode.source
@@ -374,12 +387,21 @@ const OATGraphViewer = ({
     const onElementClick = (evt, node) => {
         if (node.data.type === InterfaceType) {
             currentNodeId.current = node.id;
+            const oatTwins = JSON.parse(
+                localStorage.getItem(TwinsLocalStorageKey)
+            );
+
+            const currentModel = oatTwins.digitalTwinsModels.find(
+                (model) => model['@id'] === node.id
+            );
+
             const selectedModel = {
                 '@id': node.id,
                 '@type': node.data.type,
                 '@context': node.data.context,
                 displayName: node.data.name,
-                contents: node.data.content
+                contents: currentModel.contents,
+                extends: currentModel.extends ? currentModel.extends : null
             };
             setModel(selectedModel);
         }
