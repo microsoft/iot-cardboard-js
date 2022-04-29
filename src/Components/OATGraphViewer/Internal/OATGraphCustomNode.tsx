@@ -94,6 +94,7 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
             }
         ];
         setElements((els) => removeElements(elementsToRemove, els));
+        setModel(null);
     };
 
     return (
@@ -107,10 +108,7 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
             <div className={graphViewerStyles.node}>
                 <ActionButton
                     className={graphViewerStyles.nodeCancel}
-                    onClick={() => {
-                        onDelete();
-                        setModel('');
-                    }}
+                    onClick={onDelete}
                 >
                     <Icon
                         iconName="Cancel"

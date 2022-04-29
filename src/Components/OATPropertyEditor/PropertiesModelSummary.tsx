@@ -24,7 +24,7 @@ export const PropertiesModelSummary = ({
                 <TextField
                     className={propertyInspectorStyles.propertyItemTextField}
                     borderless
-                    disabled={model ? false : true}
+                    disabled={!model}
                     value={model ? model.displayName : ''}
                     onChange={(_ev, value) => {
                         const modelCopy = Object.assign({}, model);
@@ -38,7 +38,7 @@ export const PropertiesModelSummary = ({
                 <TextField
                     className={propertyInspectorStyles.propertyItemTextField}
                     borderless
-                    disabled={model ? false : true}
+                    disabled={!model}
                     value={model ? model['@id'] : ''}
                     onChange={(_ev, value) => {
                         const modelCopy = Object.assign({}, model);

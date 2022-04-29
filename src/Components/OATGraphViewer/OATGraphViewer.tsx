@@ -53,6 +53,7 @@ const OATGraphViewer = ({
     const contextClassBase = 'dtmi:adt:context;2';
     const [newModelId, setNewModelId] = useState(0);
     const graphViewerStyles = getGraphViewerStyles();
+    const [oatTwins, setOatTwins] = useState(null);
     const currentNodeId = useRef('');
     const currentHandleId = useRef('');
 
@@ -318,7 +319,6 @@ const OATGraphViewer = ({
                 const sourceNode = currentNodes.find(
                     (element) => element['@id'] === currentNode.source
                 );
-
                 const targetModelName = /[^:]*$/.exec(currentNode.target)[0]; // Get substring after last ':' character
                 const relationshipId = `${currentNode.data.id}_${targetModelName}`; // Unique relationship id
 
@@ -385,13 +385,10 @@ const OATGraphViewer = ({
     };
 
     const onElementClick = (evt, node) => {
-        if (node.data.type === InterfaceType) {
+        if (node.data.type === InterfaceType && oatTwins) {
             currentNodeId.current = node.id;
-            const oatTwins = JSON.parse(
-                localStorage.getItem(TwinsLocalStorageKey)
-            );
 
-            const currentModel = oatTwins.digitalTwinsModels.find(
+            const currentModel = oatTwins.find(
                 (model) => model['@id'] === node.id
             );
 
@@ -400,8 +397,7 @@ const OATGraphViewer = ({
                 '@type': node.data.type,
                 '@context': node.data.context,
                 displayName: node.data.name,
-                contents: currentModel.contents,
-                extends: currentModel.extends ? currentModel.extends : null
+                contents: currentModel.contents
             };
             setModel(selectedModel);
         }

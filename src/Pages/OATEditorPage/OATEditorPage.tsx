@@ -10,7 +10,7 @@ const OATEditorPage = ({ theme }) => {
     const [templatesActive, setTemplatesActive] = useState(false);
     const EditorPageStyles = getEditorPageStyles();
 
-    const [model, setModel] = useState('');
+    const [model, setModel] = useState(null);
     const [templates, setTemplates] = useState([
         {
             '@id': 'dtmi:com:adt:model1:prop_template_0',
