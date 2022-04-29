@@ -32,6 +32,7 @@
         "minimist": "^1.2.6",
         "parse-link-header": "^2.0.0",
         "pretty-bytes": "^5.6.0",
+        "query-string": "^7.1.1",
         "react-draggable": "^4.4.4",
         "react-dropzone": "^11.3.4",
         "react-gauge-chart": "^0.4.0",
