@@ -72,7 +72,7 @@ const OATGraphViewer = ({
             index = elements.findIndex(
                 (element) =>
                     element.id ===
-                    `${idClassBase}model${nextModelId}:${versionClassBase}`
+                    `${idClassBase}model${nextModelId};${versionClassBase}`
             );
             if (index === -1) {
                 setNewModelId(nextModelId);
@@ -188,7 +188,7 @@ const OATGraphViewer = ({
 
     const onNewModelClick = () => {
         const name = `Model${newModelId}`;
-        const id = `${idClassBase}model${newModelId}:${versionClassBase}`;
+        const id = `${idClassBase}model${newModelId};${versionClassBase}`;
         const newNode = {
             id: id,
             type: InterfaceType,
