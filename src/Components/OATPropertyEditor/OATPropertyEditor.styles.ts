@@ -25,6 +25,7 @@ const classNames = {
     propertyTagsWrap: `${classPrefix}-property-tags-wrap`,
     propertyTag: `${classPrefix}-property-tag`,
     separator: `${classPrefix}-separator`,
+    addProperty: `${classPrefix}-add-property`,
     iconAddProperty: `${classPrefix}-icon-add-property`,
     templateItem: `${classPrefix}-template-item`,
     templateItemEntered: `${classPrefix}-template-item-entered`,
@@ -247,6 +248,12 @@ export const getPropertyInspectorStyles = () => {
                 width: '100%',
                 height: '1px',
                 backgroundColor: theme.semanticColors.buttonBackgroundPressed
+            } as IStyle
+        ],
+        addProperty: [
+            classNames.addProperty,
+            {
+                paddingLeft: '10px'
             } as IStyle
         ],
         iconAddProperty: [

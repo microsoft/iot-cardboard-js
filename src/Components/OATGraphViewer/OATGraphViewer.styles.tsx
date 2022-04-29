@@ -53,7 +53,7 @@ export const getGraphViewerStyles = () => {
         componentHandle: [
             classNames.componentHandle,
             {
-                left: '25% !Important',
+                left: '16.5% !Important',
                 background: theme.semanticColors.variantBorder
             } as IStyle
         ],
@@ -66,7 +66,7 @@ export const getGraphViewerStyles = () => {
         extendHandle: [
             classNames.extendHandle,
             {
-                left: '75% !Important',
+                left: '83.5% !Important',
                 background: theme.semanticColors.variantBorder
             } as IStyle
         ],

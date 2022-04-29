@@ -172,19 +172,25 @@ export const PropertyList = ({
                         lastPropertyFocused={lastPropertyFocused}
                     />
                 )}
-                {!propertySelectorVisible && model.contents.length === 0 && (
-                    <ActionButton
-                        onClick={() => setPropertySelectorVisible(true)}
-                    >
-                        <FontIcon
-                            iconName={'CirclePlus'}
-                            className={propertyInspectorStyles.iconAddProperty}
-                        />
-                        <Text>{t('OATPropertyEditor.addProperty')}</Text>
-                    </ActionButton>
-                )}
+                {!propertySelectorVisible &&
+                    model &&
+                    model.contents.length === 0 && (
+                        <ActionButton
+                            onClick={() => setPropertySelectorVisible(true)}
+                            className={propertyInspectorStyles.addProperty}
+                        >
+                            <FontIcon
+                                iconName={'CirclePlus'}
+                                className={
+                                    propertyInspectorStyles.iconAddProperty
+                                }
+                            />
+                            <Text>{t('OATPropertyEditor.addProperty')}</Text>
+                        </ActionButton>
+                    )}
 
-                {model.contents.length > 0 &&
+                {model &&
+                    model.contents.length > 0 &&
                     model.contents.map((item, i) => {
                         if (typeof item.schema === 'object') {
                             return (
@@ -224,36 +230,38 @@ export const PropertyList = ({
                                     setTemplates={setTemplates}
                                 />
                             );
+                        } else if (typeof item['@type'] === 'object') {
+                            return (
+                                <PropertyListItem
+                                    key={i}
+                                    index={i}
+                                    draggingProperty={draggingProperty}
+                                    getItemClassName={getItemClassName}
+                                    getErrorMessage={generateErrorMessage}
+                                    handleDragEnter={handleDragEnter}
+                                    handleDragEnterExternalItem={
+                                        handleDragEnterExternalItem
+                                    }
+                                    handleDragStart={handleDragStart}
+                                    setCurrentPropertyIndex={
+                                        setCurrentPropertyIndex
+                                    }
+                                    setModalOpen={setModalOpen}
+                                    item={item}
+                                    setLastPropertyFocused={
+                                        setLastPropertyFocused
+                                    }
+                                    setModalBody={setModalBody}
+                                    deleteItem={deleteItem}
+                                    setTemplates={setTemplates}
+                                    setModel={setModel}
+                                    model={model}
+                                />
+                            );
                         }
-
-                        return (
-                            <PropertyListItem
-                                key={i}
-                                index={i}
-                                draggingProperty={draggingProperty}
-                                getItemClassName={getItemClassName}
-                                getErrorMessage={generateErrorMessage}
-                                handleDragEnter={handleDragEnter}
-                                handleDragEnterExternalItem={
-                                    handleDragEnterExternalItem
-                                }
-                                handleDragStart={handleDragStart}
-                                setCurrentPropertyIndex={
-                                    setCurrentPropertyIndex
-                                }
-                                setModalOpen={setModalOpen}
-                                item={item}
-                                setLastPropertyFocused={setLastPropertyFocused}
-                                setModalBody={setModalBody}
-                                deleteItem={deleteItem}
-                                setTemplates={setTemplates}
-                                setModel={setModel}
-                                model={model}
-                            />
-                        );
                     })}
 
-                {model.contents.length > 0 && (
+                {model && model.contents.length > 0 && (
                     <AddPropertyBar
                         callback={() => {
                             setLastPropertyFocused(null);
