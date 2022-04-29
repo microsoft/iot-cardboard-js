@@ -3,6 +3,12 @@ import { getBezierPath, getEdgeCenter } from 'react-flow-renderer';
 import { IOATGraphCustomEdgeProps } from '../../Models/Constants/Interfaces';
 import { getGraphViewerStyles } from '../OATGraphViewer.styles';
 import { ElementsContext } from './OATContext';
+import {
+    UntargetedRelationshipName,
+    RelationshipHandleName,
+    ComponentHandleName,
+    ExtendHandleName
+} from '../../../Models/Constants/Constants';
 
 const foreignObjectSize = 180;
 
@@ -64,14 +70,34 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
 
     return (
         <>
-            <path
-                id={id}
-                style={style}
-                className={graphViewerStyles.edgePath}
-                d={edgePath}
-                onClick={onNameClick}
-                markerEnd={markerEnd}
-            />
+            {data.type === ExtendHandleName && (
+                <path
+                    id={id}
+                    className={graphViewerStyles.inheritancePath}
+                    d={edgePath}
+                    onClick={onNameClick}
+                    markerEnd={markerEnd}
+                />
+            )}
+            {(data.type === RelationshipHandleName ||
+                data.type === UntargetedRelationshipName) && (
+                <path
+                    id={id}
+                    className={graphViewerStyles.edgePath}
+                    d={edgePath}
+                    onClick={onNameClick}
+                    markerEnd={markerEnd}
+                />
+            )}
+            {data.type === ComponentHandleName && (
+                <path
+                    id={id}
+                    className={graphViewerStyles.componentPath}
+                    d={edgePath}
+                    onClick={onNameClick}
+                    markerEnd={markerEnd}
+                />
+            )}
             {nameEditor && (
                 <foreignObject
                     width={foreignObjectSize}
@@ -107,17 +133,45 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                     </textPath>
                 </text>
             )}
-            <polygon
-                points={`${targetX - 5},${targetY - 10} ${targetX + 5},${
-                    targetY - 10
-                } ${targetX},${targetY}`}
-                cx={targetX}
-                cy={targetY}
-                fill="#fff"
-                r={3}
-                stroke="#222"
-                strokeWidth={1.5}
-            />
+            {data.type === ExtendHandleName && (
+                <polygon
+                    points={`${targetX - 5},${targetY - 10} ${targetX + 5},${
+                        targetY - 10
+                    } ${targetX},${targetY}`}
+                    cx={targetX}
+                    cy={targetY}
+                    r={3}
+                    strokeWidth={1.5}
+                    className={graphViewerStyles.inheritancePath}
+                />
+            )}
+            {(data.type === RelationshipHandleName ||
+                data.type === UntargetedRelationshipName) && (
+                <polygon
+                    points={`${targetX - 5},${
+                        targetY - 5
+                    } ${targetX},${targetY} ${targetX + 5},${
+                        targetY - 5
+                    } ${targetX},${targetY}`}
+                    cx={targetX}
+                    cy={targetY}
+                    r={3}
+                    strokeWidth={1.5}
+                    className={graphViewerStyles.edgePath}
+                />
+            )}
+            {data.type === ComponentHandleName && (
+                <polygon
+                    points={`${sourceX + 5},${sourceY + 5} ${sourceX},${
+                        sourceY + 10
+                    } ${sourceX - 5},${sourceY + 5} ${sourceX},${sourceY}`}
+                    cx={sourceX}
+                    cy={sourceY}
+                    r={3}
+                    strokeWidth={1.5}
+                    className={graphViewerStyles.componentPath}
+                />
+            )}
         </>
     );
 };

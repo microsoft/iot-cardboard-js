@@ -33,12 +33,20 @@ type OATGraphProps = {
     onElementsUpdate: (digitalTwinsModels: IOATElementsChangeEventArgs) => any;
     setModel: (twinModel: IOATTwinModelNodes) => any;
     model: IOATTwinModelNodes;
+    deletedModel: string;
+    selectModel: string;
+    editedName: string;
+    editedId: string;
 };
 
 const OATGraphViewer = ({
     onElementsUpdate,
     setModel,
-    model
+    model,
+    deletedModel,
+    selectModel,
+    editedName,
+    editedId
 }: OATGraphProps) => {
     const { t } = useTranslation();
     const theme = useTheme();
@@ -91,6 +99,72 @@ const OATGraphViewer = ({
             currentNodeId.current = model['@id'];
         }
     }, [model]);
+
+    useEffect(() => {
+        if (deletedModel) {
+            const elementsToRemove = [
+                {
+                    id: deletedModel
+                }
+            ];
+            setElements((els) => removeElements(elementsToRemove, els));
+        }
+    }, [deletedModel]);
+
+    useEffect(() => {
+        const node = elements.find((element) => element.id === selectModel);
+        if (node) {
+            currentNodeId.current = node.id;
+            const modelClicked = {
+                '@id': node.id,
+                '@type': node.data.type,
+                '@context': node.data.context,
+                displayName: node.data.name,
+                contents: node.data.content
+            };
+            setModel(modelClicked);
+        }
+    }, [selectModel]);
+
+    useEffect(() => {
+        const node = elements.find((element) => element.id === selectModel);
+        if (node) {
+            node.data.name = editedName;
+            const modelClicked = {
+                '@id': node.id,
+                '@type': node.data.type,
+                '@context': node.data.context,
+                displayName: node.data.name,
+                contents: node.data.content
+            };
+            setModel(modelClicked);
+            setElements([...elements]);
+        }
+    }, [editedName]);
+
+    useEffect(() => {
+        const node = elements.find((element) => element.id === selectModel);
+        if (node) {
+            elements
+                .filter((x) => x.source === currentNodeId.current)
+                .forEach((x) => (x.source = editedId));
+            elements
+                .filter((x) => x.target === currentNodeId.current)
+                .forEach((x) => (x.target = editedId));
+            node.id = editedId;
+            node.data.id = editedId;
+            const modelClicked = {
+                '@id': node.id,
+                '@type': node.data.type,
+                '@context': node.data.context,
+                displayName: node.data.name,
+                contents: node.data.content
+            };
+            setModel(modelClicked);
+            setElements([...elements]);
+            currentNodeId.current = editedId;
+        }
+    }, [editedId]);
 
     const setCurrentNode = (id) => {
         currentNodeId.current = id;
@@ -156,7 +230,7 @@ const OATGraphViewer = ({
                     sourceHandle: ExtendHandleName,
                     target: targetId,
                     label: '',
-                    type: ExtendHandleName,
+                    type: RelationshipHandleName,
                     data: {
                         name: '',
                         displayName: '',
@@ -178,7 +252,7 @@ const OATGraphViewer = ({
                     sourceHandle: ComponentHandleName,
                     target: targetId,
                     label: '',
-                    type: ComponentHandleName,
+                    type: RelationshipHandleName,
                     data: {
                         name: '',
                         displayName: '',
@@ -206,7 +280,7 @@ const OATGraphViewer = ({
             sourceHandle: currentHandleId.current,
             label: '',
             markerEnd: 'arrow',
-            type: currentHandleId.current,
+            type: RelationshipHandleName,
             data: {
                 name: '',
                 displayName: '',

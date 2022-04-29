@@ -9,6 +9,10 @@ const OATEditorPage = ({ theme }) => {
     const [elementHandler, setElementHandler] = useState([]);
     const [templatesActive, setTemplatesActive] = useState(false);
     const EditorPageStyles = getEditorPageStyles();
+    const [deletedModel, setDeletedModel] = useState('');
+    const [selectedModel, setSelectedModel] = useState('');
+    const [editedName, setEditedName] = useState('');
+    const [editedId, setEditedId] = useState('');
 
     const [model, setModel] = useState({
         '@id': 'dtmi:com:adt:model1;',
@@ -59,7 +63,7 @@ const OATEditorPage = ({ theme }) => {
 
     return (
         <div className={EditorPageStyles.container}>
-            <OATHeader elements={elementHandler} />
+            <OATHeader elements={elementHandler.digitalTwinsModels} />
             <div
                 className={
                     templatesActive
@@ -67,11 +71,21 @@ const OATEditorPage = ({ theme }) => {
                         : EditorPageStyles.component
                 }
             >
-                <OATModelList />
+                <OATModelList
+                    elements={elementHandler.digitalTwinsModels}
+                    onDeleteModel={setDeletedModel}
+                    onSelectedModel={setSelectedModel}
+                    onEditedName={setEditedName}
+                    onEditedId={setEditedId}
+                />
                 <OATGraphViewer
                     onElementsUpdate={setElementHandler}
                     model={model}
                     setModel={setModel}
+                    deletedModel={deletedModel}
+                    selectModel={selectedModel}
+                    editedName={editedName}
+                    editedId={editedId}
                 />
                 <OATPropertyEditor
                     model={model}
