@@ -22,6 +22,7 @@ export const useDeeplinkContext = () => useContext(DeeplinkContext);
  */
 export interface DeeplinkContextState {
     adtUrl: string;
+    deeplink: string;
     mode: ADT3DScenePageModes;
     sceneId: string;
     selectedElementId: string;
@@ -80,31 +81,60 @@ export const DeeplinkContextReducer: (
         switch (action.type) {
             case DeeplinkContextActionType.SET_ADT_URL: {
                 draft.adtUrl = action.payload.url || '';
+                draft.deeplink = buildDeeplink(draft);
                 break;
             }
             case DeeplinkContextActionType.SET_ELEMENT_ID: {
                 draft.selectedElementId = action.payload.id || '';
+                draft.deeplink = buildDeeplink(draft);
                 break;
             }
             case DeeplinkContextActionType.SET_LAYER_IDS: {
                 draft.selectedLayerIds = action.payload.ids || [];
+                draft.deeplink = buildDeeplink(draft);
                 break;
             }
             case DeeplinkContextActionType.SET_MODE: {
                 draft.mode = action.payload.mode;
+                draft.deeplink = buildDeeplink(draft);
                 break;
             }
             case DeeplinkContextActionType.SET_SCENE_ID: {
                 draft.sceneId = action.payload.sceneId || '';
+                draft.deeplink = buildDeeplink(draft);
                 break;
             }
             case DeeplinkContextActionType.SET_STORAGE_URL: {
                 draft.storageUrl = action.payload.url || '';
+                draft.deeplink = buildDeeplink(draft);
                 break;
             }
         }
     }
 );
+
+export interface IPublicDeeplink {
+    adtUrl: string;
+    mode: ADT3DScenePageModes;
+    sceneId: string;
+    selectedElementId: string;
+    selectedLayerIds: string[];
+    storageUrl: string;
+}
+const buildDeeplink = (currentState: DeeplinkContextState): string => {
+    const deeplink: IPublicDeeplink = {
+        adtUrl: currentState.adtUrl,
+        mode: currentState.mode,
+        sceneId: currentState.sceneId,
+        selectedElementId: currentState.selectedElementId,
+        selectedLayerIds: currentState.selectedLayerIds,
+        storageUrl: currentState.storageUrl
+    };
+
+    const newValue = queryString.stringify(deeplink);
+    console.log(`*** Deeplink: `, deeplink, newValue);
+    return newValue;
+};
 
 interface IDeeplinkContextProviderProps {
     /**
@@ -142,6 +172,7 @@ export const DeeplinkContextProvider: React.FC<IDeeplinkContextProviderProps> = 
             adtUrl:
                 // 'https://' + 'mitchtest.api.wus2.digitaltwins.azure.net' ||
                 initialAdtInstanceUrl || '',
+            deeplink: '',
             mode: ADT3DScenePageModes.ViewScene,
             sceneId: 'f7053e7537048e03be4d1e6f8f93aa8a',
             // sceneId: '58e02362287440d9a5bf3f8d6d6bfcf9',
