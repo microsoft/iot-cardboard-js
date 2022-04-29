@@ -7,7 +7,10 @@ import {
     IElementTwinAliasItem,
     IWidgetLibraryItem
 } from '../../Models/Classes/3DVConfig';
-import { CustomMeshItem } from '../../Models/Classes/SceneView.types';
+import {
+    CustomMeshItem,
+    ISceneViewProps
+} from '../../Models/Classes/SceneView.types';
 import {
     ADT3DSceneBuilderMode,
     ADT3DSceneTwinBindingsMode,
@@ -60,6 +63,7 @@ export interface IADT3DSceneBuilderCardProps
     extends IConsumeCompositeCardProps {
     adapter: ADTandBlobAdapter | MockAdapter;
     sceneId: string;
+    sceneViewProps?: ISceneViewProps;
 }
 
 export interface I3DSceneBuilderContext {

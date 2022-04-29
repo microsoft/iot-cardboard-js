@@ -6,7 +6,7 @@ This class intercepts calls to the SceneViewer and enables AddIns to hook into e
 
 import React, { useEffect, useRef, useState } from 'react';
 import * as BABYLON from '@babylonjs/core/Legacy/legacy';
-import { Marker } from '../../Models/Classes/SceneView.types';
+import { ICameraPosition, Marker } from '../../Models/Classes/SceneView.types';
 import SceneView from './SceneView';
 import {
     ADT3DAddInEventTypes,
@@ -162,6 +162,12 @@ export const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = ({
         }
     };
 
+    const cameraMove = (position: ICameraPosition) => {
+        if (addInProps?.onCameraMove) {
+            addInProps.onCameraMove(position);
+        }
+    };
+
     const onViewerModeUpdated = (viewerMode: ViewerMode) => {
         if (viewerMode) {
             let objectColor: IADTObjectColor = null;
@@ -215,7 +221,7 @@ export const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = ({
                       }
                     : {}
             }
-            className="cb-adt-3dviewer-wrapper "
+            className="cb-sceneview-wrapper "
         >
             <div className="cb-adt-3dviewer-tool-button-container">
                 {wrapperMode === WrapperMode.Builder && <SceneLayers />}
@@ -251,6 +257,7 @@ export const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = ({
                 isWireframe={selectedViewerMode?.isWireframe}
                 objectColors={selectedViewerMode?.objectColor}
                 backgroundColor={selectedViewerMode?.background}
+                onCameraMove={addInProps?.onCameraMove ? cameraMove : undefined}
                 {...svp}
                 onMeshHover={meshHover}
                 onMeshClick={meshClick}
