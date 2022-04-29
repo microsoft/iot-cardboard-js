@@ -42,13 +42,13 @@ import {
     I3DScenesConfig,
     IScene
 } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
-import {
-    DeeplinkContext,
-    DeeplinkContextActionType,
-    DeeplinkContextProvider,
-    useDeeplinkContext
-} from '../../Contexts/3DSceneDeeplinkContext';
 import ADT3DGlobeContainer from '../../Components/ADT3DGlobeContainer/ADT3DGlobeContainer';
+import {
+    useDeeplinkContext,
+    DeeplinkContextActionType,
+    DeeplinkContext,
+    DeeplinkContextProvider
+} from '../../Models/Context/DeeplinkContext';
 
 export const ADT3DScenePageContext = createContext<IADT3DScenePageContext>(
     null

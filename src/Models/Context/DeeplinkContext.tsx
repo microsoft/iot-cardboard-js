@@ -4,7 +4,7 @@
 import produce from 'immer';
 import queryString from 'query-string';
 import React, { useContext, useReducer } from 'react';
-import { ADT3DScenePageModes } from '../Models/Constants/Enums';
+import { ADT3DScenePageModes } from '../Constants';
 
 /**
  * A context used for capturing the current state of the app and restoring it to a new instance of the app
@@ -73,6 +73,10 @@ export const DeeplinkContextReducer: (
     action: DeeplinkContextAction
 ) => DeeplinkContextState = produce(
     (draft: DeeplinkContextState, action: DeeplinkContextAction) => {
+        console.log(
+            `*** Updating Deeplink context ${action.type} with payload: `,
+            action.payload
+        );
         switch (action.type) {
             case DeeplinkContextActionType.SET_ADT_URL: {
                 draft.adtUrl = action.payload.url || '';

@@ -45,10 +45,10 @@ import {
     IBehavior
 } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import {
+    useDeeplinkContext,
     DeeplinkContextActionType,
-    DeeplinkContextProvider,
-    useDeeplinkContext
-} from '../../Contexts/3DSceneDeeplinkContext';
+    DeeplinkContextProvider
+} from '../../Models/Context/DeeplinkContext';
 
 const ADT3DViewerBase: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
     theme,
