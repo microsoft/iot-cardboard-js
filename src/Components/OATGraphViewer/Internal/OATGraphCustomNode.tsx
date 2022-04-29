@@ -94,6 +94,7 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
             }
         ];
         setElements((els) => removeElements(elementsToRemove, els));
+        setModel(null);
     };
 
     return (
