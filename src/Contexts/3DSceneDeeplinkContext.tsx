@@ -2,6 +2,7 @@
  * This context is for transferring state from one session to another. These properties are managed by the various parts of the app and can be read onMount to restore the state
  */
 import produce from 'immer';
+import queryString from 'query-string';
 import React, { useContext, useReducer } from 'react';
 import { ADT3DScenePageModes } from '../Models/Constants/Enums';
 
@@ -125,6 +126,11 @@ export const DeeplinkContextProvider: React.FC<IDeeplinkContextProviderProps> = 
     }
 
     const { initialAdtInstanceUrl, initialStorageUrl } = props;
+
+    const params = window.location.search;
+    const parsed = queryString.parse(params);
+    console.log('***Query strings', params, parsed);
+
     // set the initial state for the Deeplink reducer
     const [deeplinkState, deeplinkDispatch] = useReducer(
         DeeplinkContextReducer,

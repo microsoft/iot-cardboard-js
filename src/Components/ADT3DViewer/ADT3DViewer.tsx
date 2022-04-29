@@ -70,6 +70,27 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
     hideElementsPanel,
     hideViewModePickerUI
 }) => {
+    // hooks
+    const { t } = useTranslation();
+    const { deeplinkState, deeplinkDispatch } = useDeeplinkContext();
+    const {
+        modelUrl,
+        sceneVisuals,
+        sceneAlerts,
+        isLoading,
+        triggerRuntimeRefetch
+    } = useRuntimeSceneData(
+        adapter,
+        sceneId,
+        scenesConfig,
+        pollingInterval,
+        deeplinkState.selectedLayerIds
+    );
+    const sceneWrapperId = useGuid();
+    const selectedMesh = useRef(null);
+    const sceneRef = useRef(null);
+
+    // --- State setup ---
     const [coloredMeshItems, setColoredMeshItems] = useState<CustomMeshItem[]>(
         coloredMeshItemsProp || []
     );
@@ -79,6 +100,7 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
     >(outlinedMeshItemsProp || []);
     // need outlined meshes ref to keep track of very recent value independent from render cycle to be used in onhover/onblur of elements in panel
     const outlinedMeshItemsRef = useRef(outlinedMeshItems);
+    const [zoomToMeshIds, setZoomToMeshIds] = useState<Array<string>>([]);
     const [showPopUp, setShowPopUp] = useState(false);
     const [
         isElementsPanelVisible,
@@ -105,6 +127,8 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
         null
     );
 
+    // --- Data fetches ---
+
     const layersInScene = useMemo(
         () => ViewerConfigUtility.getLayersInScene(scenesConfig, sceneId),
         [scenesConfig, sceneId]
@@ -119,8 +143,18 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
         [scenesConfig, sceneId]
     );
 
-    // handle deep links
-    const { deeplinkState, deeplinkDispatch } = useDeeplinkContext();
+    // panel items includes partial SceneVisual object with filtered properties needed to render elements panel overlay
+    const panelItems: Array<IViewerElementsPanelItem> = useMemo(
+        () =>
+            sceneVisuals.map((sceneVisual) => ({
+                element: sceneVisual.element,
+                behaviors: sceneVisual.behaviors,
+                twins: sceneVisual.twins
+            })),
+        [sceneVisuals]
+    );
+
+    // --- handle deep links ---
 
     // update SceneId on the deeplink context if the prop changes
     // needed for embed cases
@@ -161,7 +195,6 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
 
     const setZoomToElementId = useCallback(
         (elementId: string) => {
-            console.log('***Set zoom elements:', elementId);
             deeplinkDispatch?.({
                 type: DeeplinkContextActionType.SET_ELEMENT_ID,
                 payload: {
@@ -173,7 +206,6 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
     );
 
     // initialize the zoomed elements
-    console.log('***Viewer props:', zoomToElementIdsProp);
     useEffect(() => {
         // if we don't have any layer id from the context, set initial values
         if (zoomToElementIdsProp) {
@@ -182,39 +214,107 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
         }
     }, [setZoomToElementId, zoomToElementIdsProp]);
 
-    // get the meshIds for the targeted element
-    const zoomToMeshIds: string[] = useMemo(() => {
-        if (!deeplinkState.selectedElementId) return [];
-        const elements = ViewerConfigUtility.getElementsInScene(
-            scenesConfig,
-            sceneId
-        );
-        if (!elements?.length) return [];
-        const element = elements.find(
-            (x) => x.id === deeplinkState.selectedElementId
-        );
-        return element?.objectIDs;
-    }, [deeplinkState?.selectedElementId, sceneId, scenesConfig]);
-    const selectedMeshIdsRef = useRef(zoomToMeshIds);
-
-    const { t } = useTranslation();
-    const sceneWrapperId = useGuid();
-    const selectedMesh = useRef(null);
-    const sceneRef = useRef(null);
-
-    const {
-        modelUrl,
-        sceneVisuals,
-        sceneAlerts,
-        isLoading,
-        triggerRuntimeRefetch
-    } = useRuntimeSceneData(
-        adapter,
-        sceneId,
-        scenesConfig,
-        pollingInterval,
-        deeplinkState.selectedLayerIds
+    const onElementPanelItemClicked = useCallback(
+        (
+            _item: ITwinToObjectMapping | IVisual,
+            panelItem: IViewerElementsPanelItem,
+            _behavior?: IBehavior
+        ) => {
+            setShowPopUp(false);
+            setZoomToElementId(panelItem.element.id);
+            showPopover(panelItem);
+            setIsAlertPopoverVisible(false);
+        },
+        [setZoomToElementId]
     );
+    const onElementPanelItemHovered = useCallback(
+        (
+            _item: ITwinToObjectMapping | IVisual,
+            panelItem: IViewerElementsPanelItem,
+            _behavior?: IBehavior
+        ) => {
+            const newOutlinedMeshItems = deepCopy(outlinedMeshItemsRef.current);
+            const currentlyOutlinedMeshIds = newOutlinedMeshItems.map(
+                (meshItem) => meshItem.meshId
+            );
+            panelItem.element.objectIDs?.forEach((meshId) => {
+                if (!currentlyOutlinedMeshIds.includes(meshId)) {
+                    newOutlinedMeshItems.push({
+                        meshId,
+                        color:
+                            DefaultViewerModeObjectColor.outlinedMeshHoverColor
+                    });
+                }
+            });
+            setOutlinedMeshItems(newOutlinedMeshItems);
+        },
+        []
+    );
+    const onElementPanelItemBlured = useCallback(
+        (
+            _item: ITwinToObjectMapping | IVisual,
+            panelItem: IViewerElementsPanelItem,
+            _behavior?: IBehavior
+        ) => {
+            const newOutlinedMeshItems = deepCopy(outlinedMeshItemsRef.current);
+            const currentlyOutlinedMeshIds = newOutlinedMeshItems.map(
+                (meshItem) => meshItem.meshId
+            );
+            panelItem.element.objectIDs?.forEach((meshId) => {
+                const meshIndex = currentlyOutlinedMeshIds.findIndex(
+                    (outlinedMeshId) => outlinedMeshId === meshId
+                );
+                if (
+                    meshIndex !== -1 &&
+                    !selectedMeshIdsRef.current?.includes(meshId)
+                ) {
+                    newOutlinedMeshItems.splice(meshIndex, 1);
+                }
+            });
+            setOutlinedMeshItems(newOutlinedMeshItems);
+        },
+        []
+    );
+
+    // when selected Element id changes trigger the reactions
+    useEffect(() => {
+        // show the panel and hide other items
+        if (panelItems?.length) {
+            const panelItem = panelItems?.find(
+                (panelItem) =>
+                    panelItem?.element?.id === deeplinkState.selectedElementId
+            );
+            if (panelItem) {
+                onElementPanelItemClicked(undefined, panelItem, undefined);
+            }
+        }
+
+        // zoom to the element
+        const elementId = deeplinkState.selectedElementId;
+        if (elementId) {
+            const elements = ViewerConfigUtility.getElementsInScene(
+                scenesConfig,
+                sceneId
+            );
+            if (elements?.length) {
+                const element = elements.find((x) => x.id === elementId);
+                setZoomToMeshIds(element?.objectIDs);
+            } else {
+                // clear the zooming if we can't find the element
+                setZoomToMeshIds([]);
+            }
+        } else {
+            // clear the zooming if we can't find the element
+            setZoomToMeshIds([]);
+        }
+    }, [
+        deeplinkState.selectedElementId,
+        onElementPanelItemClicked,
+        panelItems,
+        sceneId,
+        scenesConfig
+    ]);
+    const selectedMeshIdsRef = useRef(zoomToMeshIds);
 
     useEffect(() => {
         refetchConfig && refetchConfig();
@@ -237,17 +337,6 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
         }
     }, [sceneVisuals, coloredMeshItemsProp, sceneAlerts]);
 
-    // panel items includes partial SceneVisual object with filtered properties needed to render elements panel overlay
-    const panelItems: Array<IViewerElementsPanelItem> = useMemo(
-        () =>
-            sceneVisuals.map((sceneVisual) => ({
-                element: sceneVisual.element,
-                behaviors: sceneVisual.behaviors,
-                twins: sceneVisual.twins
-            })),
-        [sceneVisuals]
-    );
-
     const showPopover = (sceneVisual: Partial<SceneVisual>) => {
         setBehaviorModalSceneVisuaElementlId(sceneVisual.element.id);
         setShowPopUp(true);
@@ -263,7 +352,7 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
         selectedMeshIdsRef.current = meshIds;
     };
 
-    const meshClick = (_marker: Marker, mesh: any, scene: any) => {
+    const meshClick = (_marker: Marker, mesh: { id: string }, scene: any) => {
         if (sceneVisuals) {
             const sceneVisual = sceneVisuals.find((sceneVisual) =>
                 sceneVisual.element.objectIDs.find((id) => id === mesh?.id)
@@ -349,70 +438,6 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
             setIsAlertPopoverVisible(true);
         }
     };
-
-    const onElementPanelItemClicked = useCallback(
-        (
-            _item: ITwinToObjectMapping | IVisual,
-            panelItem: IViewerElementsPanelItem,
-            _behavior?: IBehavior
-        ) => {
-            setShowPopUp(false);
-            setZoomToElementId(panelItem.element.id);
-            showPopover(panelItem);
-            setIsAlertPopoverVisible(false);
-        },
-        [setZoomToElementId]
-    );
-
-    const onElementPanelItemHovered = useCallback(
-        (
-            _item: ITwinToObjectMapping | IVisual,
-            panelItem: IViewerElementsPanelItem,
-            _behavior?: IBehavior
-        ) => {
-            const newOutlinedMeshItems = deepCopy(outlinedMeshItemsRef.current);
-            const currentlyOutlinedMeshIds = newOutlinedMeshItems.map(
-                (meshItem) => meshItem.meshId
-            );
-            panelItem.element.objectIDs?.forEach((meshId) => {
-                if (!currentlyOutlinedMeshIds.includes(meshId)) {
-                    newOutlinedMeshItems.push({
-                        meshId,
-                        color:
-                            DefaultViewerModeObjectColor.outlinedMeshHoverColor
-                    });
-                }
-            });
-            setOutlinedMeshItems(newOutlinedMeshItems);
-        },
-        []
-    );
-
-    const onElementPanelItemBlured = useCallback(
-        (
-            _item: ITwinToObjectMapping | IVisual,
-            panelItem: IViewerElementsPanelItem,
-            _behavior?: IBehavior
-        ) => {
-            const newOutlinedMeshItems = deepCopy(outlinedMeshItemsRef.current);
-            const currentlyOutlinedMeshIds = newOutlinedMeshItems.map(
-                (meshItem) => meshItem.meshId
-            );
-            panelItem.element.objectIDs?.forEach((meshId) => {
-                const meshIndex = currentlyOutlinedMeshIds.findIndex(
-                    (outlinedMeshId) => outlinedMeshId === meshId
-                );
-                if (
-                    meshIndex !== -1 &&
-                    !selectedMeshIdsRef.current?.includes(meshId)
-                ) {
-                    newOutlinedMeshItems.splice(meshIndex, 1);
-                }
-            });
-            setOutlinedMeshItems(newOutlinedMeshItems);
-        },
-        []
-    );
 
     const elementsPanelToggleButtonStyles = toggleElementsPanelStyles();
 

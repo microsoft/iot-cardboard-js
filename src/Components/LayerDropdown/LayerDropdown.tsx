@@ -41,7 +41,6 @@ const LayerDropdown: React.FC<LayerDropdownProps> = ({
     const onChange = useCallback(
         (_event: React.FormEvent<HTMLDivElement>, option?: IDropdownOption) => {
             if (option) {
-                console.log(`***Select layer: `, option);
                 setSelectedLayerIds(
                     option.selected
                         ? [...selectedLayerIds, option.key as string]

@@ -509,7 +509,7 @@ export default class MockAdapter
         const adapterMethodSandbox = new AdapterMethodSandbox();
 
         // get scene based on id
-        const scene = config.configuration.scenes?.find(
+        const scene = config?.configuration?.scenes?.find(
             (scene) => scene.id === sceneId
         );
         let modelUrl = null;

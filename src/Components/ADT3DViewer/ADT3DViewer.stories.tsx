@@ -132,7 +132,6 @@ export const ZoomAndColor = (_args, { globals: { theme, locale } }) => {
         });
     }
 
-    console.log(`***Render`, zoomedElementIds);
     return !authenticationParameters ? (
         <div></div>
     ) : (

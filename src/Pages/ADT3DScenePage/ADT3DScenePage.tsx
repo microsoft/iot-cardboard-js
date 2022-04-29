@@ -188,7 +188,6 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
 
     // when a scene is selected show it
     useEffect(() => {
-        console.log(`***Scene id changed`, deeplinkState.sceneId);
         if (deeplinkState.sceneId) {
             setCurrentStep(ADT3DScenePageSteps.Scene);
         }
@@ -196,10 +195,8 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
 
     // store the scene config when the fetch resolves
     useEffect(() => {
-        console.log(`***Data fetch completed`);
         if (!scenesConfig.adapterResult.hasNoData()) {
             const config: I3DScenesConfig = scenesConfig.adapterResult.getData();
-            console.log(`***Data fetch has data`, config);
             dispatch({
                 type: SET_ADT_SCENE_CONFIG,
                 payload: config
