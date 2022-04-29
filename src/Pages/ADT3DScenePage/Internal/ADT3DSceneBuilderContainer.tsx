@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import BaseComponent from '../../../Components/BaseComponent/BaseComponent';
 import { ADT3DScenePageModes } from '../../../Models/Constants/Enums';
 import ADT3DViewer from '../../../Components/ADT3DViewer/ADT3DViewer';
@@ -12,6 +12,7 @@ import {
     DeeplinkContextActionType,
     useDeeplinkContext
 } from '../../../Contexts/3DSceneDeeplinkContext';
+import { ISceneViewProps } from '../../../Models/Classes/SceneView.types';
 
 export const ADT3DSceneBuilderContainer: React.FC<IADT3DSceneBuilderProps> = ({
     scenesConfig,
@@ -34,6 +35,20 @@ export const ADT3DSceneBuilderContainer: React.FC<IADT3DSceneBuilderProps> = ({
             }
         });
     };
+
+    useEffect(() => {
+        if (deeplinkState.mode === ADT3DScenePageModes.ViewScene) {
+            // Shift SceneView over a bit to maintain camera position
+            const root = document.getRootNode() as Element;
+            const sceneViewWrapper = root.getElementsByClassName(
+                'cb-sceneview-wrapper'
+            )?.[0] as HTMLDivElement;
+            if (sceneViewWrapper) {
+                sceneViewWrapper.className = 'cb-sceneview-wrapper-wide';
+            }
+        }
+    }, [deeplinkState.mode]);
+
     return (
         <BaseComponent
             theme={theme}
@@ -57,11 +72,24 @@ export const ADT3DSceneBuilderContainer: React.FC<IADT3DSceneBuilderProps> = ({
 };
 const SceneContents: React.FC<ISceneContentsProps> = (props) => {
     const { adapter, mode, refetchConfig, scenesConfig, sceneId } = props;
+
+    const cameraPositionRef = useRef(null);
+    const svp: ISceneViewProps = {
+        cameraPosition: cameraPositionRef.current,
+        onCameraMove: (position) => {
+            cameraPositionRef.current = position;
+        }
+    };
+
     switch (mode) {
         case ADT3DScenePageModes.BuildScene:
             return (
                 <div className="cb-scene-page-scene-builder-wrapper">
-                    <ADT3DSceneBuilder adapter={adapter} sceneId={sceneId} />
+                    <ADT3DSceneBuilder
+                        adapter={adapter}
+                        sceneId={sceneId}
+                        sceneViewProps={svp}
+                    />
                 </div>
             );
         case ADT3DScenePageModes.ViewScene:
@@ -73,6 +101,7 @@ const SceneContents: React.FC<ISceneContentsProps> = (props) => {
                         sceneId={sceneId}
                         scenesConfig={scenesConfig}
                         refetchConfig={refetchConfig}
+                        sceneViewProps={svp}
                     />
                 </div>
             );
