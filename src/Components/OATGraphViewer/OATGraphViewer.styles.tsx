@@ -120,11 +120,7 @@ export const getGraphViewerStyles = () => {
             {
                 stroke: theme.palette.green,
                 strokeWidth: '1',
-<<<<<<< HEAD
                 fill: 'none'
-=======
-                fill: theme.semanticColors.bodyBackground
->>>>>>> origin/zarmada/oat-development
             } as IStyle
         ]
     });
