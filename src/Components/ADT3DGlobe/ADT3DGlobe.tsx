@@ -40,13 +40,14 @@ const ADT3DGlobe: React.FC<IADT3DGlobeProps> = ({
         if (scenes) {
             for (const scene of scenes) {
                 const id = 'ID' + createGUID();
-                const marker = new Marker();
-                marker.scene = scene;
-                marker.id = id;
-                marker.latitude = scene.latitude || 0;
-                marker.longitude = scene.longitude || 0;
-                marker.name = scene.displayName || 'Unknown';
-                marker.UIElement = <ModelLabel label={scene.displayName} />;
+                const marker: Marker = {
+                    scene: scene,
+                    id: id,
+                    latitude: scene.latitude || 0,
+                    longitude: scene.longitude || 0,
+                    name: scene.displayName || 'Unknown',
+                    UIElement: <ModelLabel label={scene.displayName} />
+                };
                 markers.push(marker);
             }
 

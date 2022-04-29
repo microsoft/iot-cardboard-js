@@ -42,16 +42,16 @@ export interface SelectedMesh {
     material: Material;
 }
 
-export class Marker {
+export interface Marker {
     name: string;
     id: string;
+    UIElement: any;
     position?: Vector3;
     attachedMeshIds?: string[];
     showIfOccluded?: boolean;
     latitude?: number;
     longitude?: number;
     scene?: IScene;
-    UIElement?: JSX.Element;
 }
 
 export type SceneViewCallbackHandler = (

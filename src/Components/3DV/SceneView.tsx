@@ -11,7 +11,7 @@ import React, {
     useState
 } from 'react';
 import './SceneView.scss';
-import { createGUID, hexToColor4 } from '../../Models/Services/Utils';
+import { createGUID, deepCopy, hexToColor4 } from '../../Models/Services/Utils';
 import {
     ColoredMeshGroup,
     ISceneViewProp,
@@ -38,6 +38,7 @@ import { getProgressStyles, getSceneViewStyles } from './SceneView.styles';
 import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
 import { sleep } from '../AutoComplete/AutoComplete';
 import { ModelGroupLabel } from '../ModelGroupLabel/ModelGroupLabel';
+import { ModelLabel } from '../ModelLabel/ModelLabel';
 
 const debug = false;
 
@@ -181,6 +182,9 @@ function SceneView(props: ISceneViewProp, ref) {
     const [markersAndPositions, setMarkersAndPositions] = useState<
         { marker: Marker; left: number; top: number }[]
     >([]);
+
+    const markerUIElementPropsRef = useRef<any[]>([]);
+    const markerUIElementTypeRef = useRef<any>(null);
 
     // These next two lines are important! The handlers change very frequently (every parent render)
     // So copy their values into refs so as not to disturb our state/re-render (we only need the latest value when we want to fire)
@@ -885,6 +889,7 @@ function SceneView(props: ISceneViewProp, ref) {
     // Add spheres for tracking markers
     useEffect(() => {
         const spheres: BABYLON.Mesh[] = [];
+        let cm: BABYLON.Observer;
         if (markers && sceneRef.current) {
             for (const marker of markers) {
                 const position =
@@ -909,13 +914,39 @@ function SceneView(props: ISceneViewProp, ref) {
 
         if (!isLoading && sceneRef.current) {
             sceneRef.current.render(); // Marker globes may not have rendered yet
-            createMarkersWithPosition();
+            if (markers) {
+                // make deep copies for UI element props as this are replaced if grouped
+                markers?.forEach((marker) => {
+                    markerUIElementPropsRef.current[marker.id] = deepCopy(
+                        marker.UIElement?.props
+                    );
+                    markerUIElementTypeRef.current = marker.UIElement?.type;
+                });
+
+                cm = sceneRef.current.onBeforeRenderObservable.add(function () {
+                    // Only do marker work if camera has actually moved
+                    const pos = JSON.stringify({
+                        position: cameraRef.current.position,
+                        target: cameraRef.current.target,
+                        radius: cameraRef.current.radius
+                    });
+
+                    if (pos != lastCameraPositionOnMouseMoveRef.current) {
+                        lastCameraPositionOnMouseMoveRef.current = pos;
+                        createMarkersWithPosition();
+                    }
+                });
+            }
         }
 
         return () => {
             for (const sphere of spheres) {
                 sceneRef.current?.removeMesh(sphere);
                 sphere.dispose(true, true);
+            }
+
+            if (cm) {
+                sceneRef.current?.onBeforeRenderObservable?.remove(cm);
             }
         };
     }, [markers, modelUrl, isLoading]);
@@ -929,6 +960,13 @@ function SceneView(props: ISceneViewProp, ref) {
         if (markers) {
             markers.forEach((marker) => {
                 const position = getMarkerPosition(marker);
+                // ensure marker has original UI Element
+                if (markerUIElementPropsRef.current[marker.id]) {
+                    marker.UIElement = React.createElement(
+                        markerUIElementTypeRef.current,
+                        markerUIElementPropsRef.current[marker.id]
+                    );
+                }
                 if (position) {
                     const renderedMarker = document.getElementById(marker.id);
                     //create first group
@@ -944,10 +982,10 @@ function SceneView(props: ISceneViewProp, ref) {
                             elementsOverlap(m, renderedMarker, {
                                 left:
                                     position?.left -
-                                    renderedMarker.clientWidth / 2,
+                                    renderedMarker?.clientWidth / 2,
                                 top:
                                     position?.top -
-                                    renderedMarker.clientHeight / 2
+                                    renderedMarker?.clientHeight / 2
                             })
                         );
 
@@ -971,7 +1009,7 @@ function SceneView(props: ISceneViewProp, ref) {
                                 groupItems.push({ label: marker.name });
                             }
 
-                            const groupedElement: JSX.Element = (
+                            const groupedElement = (
                                 <ModelGroupLabel
                                     label={groupItems.length}
                                     groupItems={groupItems}
@@ -987,7 +1025,6 @@ function SceneView(props: ISceneViewProp, ref) {
                             element.marker.UIElement = groupedElement;
                         } else {
                             removeGroupedItems(markersAndPosition, marker);
-
                             // create new group
                             markersAndPosition.push({
                                 marker: marker,
@@ -1024,7 +1061,7 @@ function SceneView(props: ISceneViewProp, ref) {
                     (item) => item.label !== marker.name
                 );
 
-                const groupedElement: JSX.Element = (
+                const groupedElement = (
                     <ModelGroupLabel
                         label={groupItems.length}
                         groupItems={groupItems}
@@ -1333,40 +1370,6 @@ function SceneView(props: ISceneViewProp, ref) {
         };
     }, [scene]);
 
-    // Camera move handler
-    useEffect(() => {
-        let cm: BABYLON.Observer<BABYLON.Camera>;
-        debugLog('CameraMove effect' + (scene ? ' with scene' : ' no scene'));
-        if (scene && cameraRef.current && markers) {
-            const cameraMove = () => {
-                // Only do marker work if camera has actually moved
-                const pos = JSON.stringify({
-                    position: cameraRef.current.position,
-                    target: cameraRef.current.target,
-                    radius: cameraRef.current.radius
-                });
-
-                if (lastCameraPositionOnMouseMoveRef.current !== pos) {
-                    lastCameraPositionOnMouseMoveRef.current = pos;
-                    createMarkersWithPosition();
-                }
-            };
-
-            if (cameraRef.current) {
-                cm = cameraRef.current.onViewMatrixChangedObservable.add(
-                    cameraMove
-                );
-            }
-        }
-
-        return () => {
-            debugLog('pointerMove effect clean');
-            if (cm) {
-                cameraRef.current?.onViewMatrixChangedObservable?.remove(cm);
-            }
-        };
-    }, [scene, cameraRef.current, markersAndPositions]);
-
     // SETUP LOGIC FOR HANDLING COLORING MESHES
     useEffect(() => {
         debugLog(
@@ -1616,7 +1619,7 @@ function SceneView(props: ISceneViewProp, ref) {
                 id={canvasId}
                 touch-action="none"
             />
-            {markersAndPositions.map((markerAndPosition, index) => {
+            {markersAndPositions?.map((markerAndPosition, index) => {
                 return (
                     <div
                         key={index}
@@ -1645,7 +1648,7 @@ function SceneView(props: ISceneViewProp, ref) {
                     Error loading model. Try Ctrl-F5
                 </div>
             )}
-            {markers.map((marker, index) => {
+            {markers?.map((marker, index) => {
                 return (
                     <div
                         id={marker.id}
