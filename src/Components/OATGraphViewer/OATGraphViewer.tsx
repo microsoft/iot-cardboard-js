@@ -382,6 +382,7 @@ const OATGraphViewer = ({
             JSON.stringify({ digitalTwinsModels: nodes })
         );
         onElementsUpdate({ digitalTwinsModels: nodes });
+        setOatTwins(nodes);
     };
 
     const onElementClick = (evt, node) => {
@@ -392,12 +393,21 @@ const OATGraphViewer = ({
                 (model) => model['@id'] === node.id
             );
 
+            const extendsItems = elements
+                .filter(
+                    (element) =>
+                        element.type === ExtendHandleName &&
+                        element?.source === node.id
+                )
+                .map((element) => element.target);
+
             const selectedModel = {
                 '@id': node.id,
                 '@type': node.data.type,
                 '@context': node.data.context,
                 displayName: node.data.name,
-                contents: currentModel.contents
+                contents: currentModel.contents,
+                extends: extendsItems ? extendsItems : null
             };
             setModel(selectedModel);
         }
