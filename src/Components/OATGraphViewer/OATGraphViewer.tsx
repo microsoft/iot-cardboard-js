@@ -53,7 +53,6 @@ const OATGraphViewer = ({
     const contextClassBase = 'dtmi:adt:context;2';
     const [newModelId, setNewModelId] = useState(0);
     const graphViewerStyles = getGraphViewerStyles();
-    const [oatTwins, setOatTwins] = useState(null);
     const currentNodeId = useRef('');
     const currentHandleId = useRef('');
 
@@ -70,7 +69,6 @@ const OATGraphViewer = ({
             nextModelId++;
         }
         storeElements();
-        translateOutput();
     }, [elements]);
 
     useEffect(() => {
@@ -304,7 +302,7 @@ const OATGraphViewer = ({
         localStorage.setItem(ElementsLocalStorageKey, JSON.stringify(elements));
     };
 
-    const translateOutput = () => {
+    const translatedOutput = useMemo(() => {
         const outputObject = elements;
         const nodes = outputObject.reduce((currentNodes, currentNode) => {
             if (currentNode.data.type === InterfaceType) {
@@ -377,19 +375,23 @@ const OATGraphViewer = ({
             }
             return currentNodes;
         }, []);
+
+        return nodes;
+    }, [elements]);
+
+    useEffect(() => {
         localStorage.setItem(
             TwinsLocalStorageKey,
-            JSON.stringify({ digitalTwinsModels: nodes })
+            JSON.stringify({ digitalTwinsModels: translatedOutput })
         );
-        onElementsUpdate({ digitalTwinsModels: nodes });
-        setOatTwins(nodes);
-    };
+        onElementsUpdate({ digitalTwinsModels: translatedOutput });
+    }, [translatedOutput]);
 
     const onElementClick = (evt, node) => {
-        if (node.data.type === InterfaceType && oatTwins) {
+        if (node.data.type === InterfaceType && translatedOutput) {
             currentNodeId.current = node.id;
 
-            const currentModel = oatTwins.find(
+            const currentModel = translatedOutput.find(
                 (model) => model['@id'] === node.id
             );
 
