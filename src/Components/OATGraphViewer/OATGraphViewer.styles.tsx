@@ -96,7 +96,7 @@ export const getGraphViewerStyles = () => {
             {
                 stroke: theme.palette.blue,
                 strokeWidth: '1',
-                fill: theme.semanticColors.bodyBackground
+                fill: 'none'
             } as IStyle
         ],
         componentShape: [
@@ -120,7 +120,7 @@ export const getGraphViewerStyles = () => {
             {
                 stroke: theme.palette.green,
                 strokeWidth: '1',
-                fill: theme.semanticColors.bodyBackground
+                fill: 'none'
             } as IStyle
         ]
     });

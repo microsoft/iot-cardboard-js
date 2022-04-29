@@ -59,6 +59,7 @@ const OATGraphViewer = ({
     );
     const idClassBase = 'dtmi:com:example:';
     const contextClassBase = 'dtmi:adt:context;2';
+    const versionClassBase = '1';
     const [newModelId, setNewModelId] = useState(0);
     const graphViewerStyles = getGraphViewerStyles();
     const currentNodeId = useRef('');
@@ -69,7 +70,9 @@ const OATGraphViewer = ({
         let index = 0;
         while (index !== -1) {
             index = elements.findIndex(
-                (element) => element.id === `${idClassBase}model${nextModelId}`
+                (element) =>
+                    element.id ===
+                    `${idClassBase}model${nextModelId};${versionClassBase}`
             );
             if (index === -1) {
                 setNewModelId(nextModelId);
@@ -185,7 +188,7 @@ const OATGraphViewer = ({
 
     const onNewModelClick = () => {
         const name = `Model${newModelId}`;
-        const id = `${idClassBase}model${newModelId}`;
+        const id = `${idClassBase}model${newModelId};${versionClassBase}`;
         const newNode = {
             id: id,
             type: InterfaceType,
@@ -292,17 +295,7 @@ const OATGraphViewer = ({
         );
         if (target) {
             params.target = target.dataset.id;
-            const targetType = elements.find(
-                (element) => element.id === params.target
-            ).data.type;
-            if (currentHandleId.current === targetType) {
-                setElements((els) => addEdge(params, els));
-            } else if (
-                currentHandleId.current !== ComponentHandleName &&
-                ComponentHandleName !== targetType
-            ) {
-                setElements((els) => addEdge(params, els));
-            }
+            setElements((els) => addEdge(params, els));
         } else {
             const node = elements.find(
                 (element) => element.id === currentNodeId.current
@@ -336,25 +329,6 @@ const OATGraphViewer = ({
                 params.target = id;
                 params.data.type = `${UntargetedRelationshipName}`;
                 setElements((es) => [...addEdge(params, es), newNode]);
-            } else if (currentHandleId.current === ComponentHandleName) {
-                const name = `${node.data.name}:${ComponentHandleName}`;
-                const id = `${node.id}:${ComponentHandleName}`;
-                const newNode = {
-                    id: id,
-                    type: InterfaceType,
-                    position: {
-                        x: node.position.x - componentRelativePosition,
-                        y: node.position.y + componentRelativePosition
-                    },
-                    data: {
-                        name: name,
-                        type: ComponentHandleName,
-                        id: id,
-                        content: []
-                    }
-                };
-                params.target = id;
-                setElements((es) => [newNode, ...addEdge(params, es)]);
             }
         }
     };
@@ -416,10 +390,7 @@ const OATGraphViewer = ({
                     (element) => element['@id'] === currentNode.source
                 );
                 sourceNode.extends = currentNode.target;
-            } else if (
-                currentNode.data.type === ComponentHandleName &&
-                currentNode.type === ComponentHandleName
-            ) {
+            } else if (currentNode.data.type === ComponentHandleName) {
                 const sourceNode = currentNodes.find(
                     (element) => element['@id'] === currentNode.source
                 );
@@ -428,7 +399,7 @@ const OATGraphViewer = ({
                 );
                 const component = {
                     '@type': currentNode.data.type,
-                    name: targetNode.displayName,
+                    name: targetNode.data.name,
                     schema: currentNode.target
                 };
                 sourceNode.contents = [...sourceNode.contents, component];
@@ -443,7 +414,7 @@ const OATGraphViewer = ({
                     '@type': currentNode.data.type,
                     '@id': currentNode.data.id,
                     name: currentNode.data.name,
-                    displayName: currentNode.data.displayName
+                    displayName: currentNode.data.name
                 };
                 sourceNode.contents = [...sourceNode.contents, relationship];
             }
