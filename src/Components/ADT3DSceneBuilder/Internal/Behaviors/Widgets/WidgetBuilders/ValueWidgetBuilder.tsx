@@ -2,7 +2,8 @@ import { Dropdown, Icon, IDropdownOption, TextField } from '@fluentui/react';
 import produce from 'immer';
 import React, { useCallback, useContext, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { IDTDLPrimitiveType } from '../../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
+import { DTDLPropertyIconographyMap } from '../../../../../../Models/Constants/Constants';
+import { IDTDLPropertyType } from '../../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { SceneBuilderContext } from '../../../../ADT3DSceneBuilder';
 
 import { IValueWidgetBuilderProps } from '../../../../ADT3DSceneBuilder.types';
@@ -56,7 +57,7 @@ const ValueWidgetBuilder: React.FC<IValueWidgetBuilderProps> = ({
             if (option) {
                 updateWidgetData(
                     produce(formData, (draft) => {
-                        draft.widgetConfiguration.type = option.text as IDTDLPrimitiveType;
+                        draft.widgetConfiguration.type = option.text as IDTDLPropertyType;
                     })
                 );
             }
@@ -66,6 +67,7 @@ const ValueWidgetBuilder: React.FC<IValueWidgetBuilderProps> = ({
 
     const iconStyles = { marginRight: '8px' };
     const optionWrapperStyle = { display: 'flex', alignItems: 'center' };
+    const optionTextStyle = { marginTop: '-4px' };
     const onRenderTypeOption = (option: IDropdownOption): JSX.Element => {
         return (
             <div style={optionWrapperStyle}>
@@ -77,7 +79,7 @@ const ValueWidgetBuilder: React.FC<IValueWidgetBuilderProps> = ({
                         title={option.data.icon}
                     />
                 )}
-                <span>{option.text}</span>
+                <span style={optionTextStyle}>{option.text}</span>
             </div>
         );
     };
@@ -95,80 +97,31 @@ const ValueWidgetBuilder: React.FC<IValueWidgetBuilderProps> = ({
                         title={option.data.icon}
                     />
                 )}
-                <span>{option.text}</span>
+                <span style={optionTextStyle}>{option.text}</span>
             </div>
         );
     };
 
     const typeOptions: Array<IDropdownOption> = useMemo(
-        () => [
-            {
-                key: 'value-type-boolean',
-                text: 'boolean',
-                data: { icon: 'ToggleRight' }
-            },
-            {
-                key: 'value-type-date',
-                text: 'date',
-                data: { icon: 'Calendar' }
-            },
-            {
-                key: 'value-type-date-time',
-                text: 'dateTime',
-                data: { icon: 'DateTime' }
-            },
-            {
-                key: 'value-type-double',
-                text: 'double',
-                data: { icon: 'NumberSymbol' }
-            },
-            {
-                key: 'value-type-duration',
-                text: 'duration',
-                data: { icon: 'BufferTimeBefore' }
-            },
-            {
-                key: 'value-type-enum',
-                text: 'enum',
-                data: { icon: 'BulletedList2' }
-            },
-            {
-                key: 'value-type-float',
-                text: 'float',
-                data: { icon: 'NumberSymbol' }
-            },
-            {
-                key: 'value-type-integer',
-                text: 'integer',
-                data: { icon: 'NumberSymbol' }
-            },
-            {
-                key: 'value-type-long',
-                text: 'long',
-                data: { icon: 'NumberSymbol' }
-            },
-            {
-                key: 'value-type-string',
-                text: 'string',
-                data: { icon: 'TextField' }
-            },
-            {
-                key: 'value-type-time',
-                text: 'time',
-                data: { icon: 'Clock' }
-            }
-        ],
+        () =>
+            Object.keys(DTDLPropertyIconographyMap).map((mappingKey) => ({
+                key: `value-type-${DTDLPropertyIconographyMap[mappingKey].text}`,
+                text: DTDLPropertyIconographyMap[mappingKey].text,
+                data: { icon: DTDLPropertyIconographyMap[mappingKey].icon }
+            })),
         []
     );
 
     return (
         <>
             <TextField
+                required
                 label={t('displayName')}
                 value={formData.widgetConfiguration.displayName}
                 onChange={onDisplayNameChange}
             />
             <TwinPropertyDropown // TODO: for now using existing TwinPropertyDropdown, replace this with ModelledPropertyBuilder
+                required
                 behavior={behaviorToEdit}
                 defaultSelectedKey={
                     formData.widgetConfiguration.valueExpression
@@ -177,6 +130,7 @@ const ValueWidgetBuilder: React.FC<IValueWidgetBuilderProps> = ({
                 onChange={onPropertyChange}
             />
             <Dropdown
+                required
                 placeholder={t('widgets.value.typePlaceholder')}
                 label={t('type')}
                 selectedKey={`value-type-${formData.widgetConfiguration.type}`}

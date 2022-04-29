@@ -18,7 +18,7 @@ export type IGroupID = string;
  */
 export type IValueExpression = string;
 export type INumericOrInfinityType = number | 'Infinity' | '-Infinity';
-export type IDTDLPrimitiveType =
+export type IDTDLPropertyType =
     | 'boolean'
     | 'date'
     | 'dateTime'
@@ -207,7 +207,7 @@ export interface IValueWidget {
 export interface IValueWidgetConfiguration {
     displayName: string;
     valueExpression: IValueExpression;
-    type: IDTDLPrimitiveType;
+    type: IDTDLPropertyType;
 }
 /**
  * objectIDs specify the objects in the scene that a visual pertains to

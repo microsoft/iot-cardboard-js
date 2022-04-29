@@ -175,7 +175,7 @@
                                 "widgetConfiguration": {
                                     "displayName": "Temperature",
                                     "valueExpression": "LinkedTwin.Temperature",
-                                    "type": "string"
+                                    "type": "double"
                                 }
                             }
                         ],

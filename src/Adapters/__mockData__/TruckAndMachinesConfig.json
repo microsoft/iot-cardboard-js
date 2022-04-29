@@ -142,7 +142,7 @@
                                 "widgetConfiguration": {
                                     "displayName": "InFlow",
                                     "valueExpression": "LinkedTwin.InFlow",
-                                    "type": "string"
+                                    "type": "double"
                                 }
                             }
                         ],

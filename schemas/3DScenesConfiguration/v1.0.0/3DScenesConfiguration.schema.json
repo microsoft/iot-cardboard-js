@@ -208,7 +208,7 @@
             "type": "string",
             "description": "Expression which evaluates to a numeric value"
         },
-        "IDTDLPrimitiveType": {
+        "IDTDLPropertyType": {
             "type": "string",
             "enum": [
                 "boolean",
@@ -370,7 +370,7 @@
                     "$ref": "#/$defs/IValueExpression"
                 },
                 "type": {
-                    "$ref": "#/$defs/IDTDLPrimitiveType"
+                    "$ref": "#/$defs/IDTDLPropertyType"
                 }
             },
             "required": ["displayName", "valueExpression", "type"]
