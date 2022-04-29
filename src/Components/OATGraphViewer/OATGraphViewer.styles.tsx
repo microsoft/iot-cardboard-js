@@ -14,7 +14,9 @@ const classNames = {
     textPath: `${classPrefix}-text-path`,
     nodeCancel: `${classPrefix}-node-cancel`,
     componentPath: `${classPrefix}-component-path`,
-    inheritancePath: `${classPrefix}-inheritance-path`
+    componentShape: `${classPrefix}-component-shape`,
+    inheritancePath: `${classPrefix}-inheritance-path`,
+    inheritanceShape: `${classPrefix}-inheritance-shape`
 };
 
 export const getGraphViewerStyles = () => {
@@ -51,7 +53,7 @@ export const getGraphViewerStyles = () => {
         componentHandle: [
             classNames.componentHandle,
             {
-                left: '25% !Important',
+                left: '16.5% !Important',
                 background: theme.semanticColors.variantBorder
             } as IStyle
         ],
@@ -64,7 +66,7 @@ export const getGraphViewerStyles = () => {
         extendHandle: [
             classNames.extendHandle,
             {
-                left: '75% !Important',
+                left: '83.5% !Important',
                 background: theme.semanticColors.variantBorder
             } as IStyle
         ],
@@ -93,6 +95,22 @@ export const getGraphViewerStyles = () => {
             classNames.componentPath,
             {
                 stroke: theme.palette.blue,
+                strokeWidth: '1',
+                fill: theme.semanticColors.bodyBackground
+            } as IStyle
+        ],
+        componentShape: [
+            classNames.componentShape,
+            {
+                stroke: theme.palette.blue,
+                strokeWidth: '1',
+                fill: theme.palette.blue
+            } as IStyle
+        ],
+        inheritanceShape: [
+            classNames.inheritanceShape,
+            {
+                stroke: theme.palette.green,
                 strokeWidth: '1',
                 fill: theme.semanticColors.bodyBackground
             } as IStyle

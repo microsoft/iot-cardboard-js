@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { getBezierPath, getEdgeCenter } from 'react-flow-renderer';
 import { IOATGraphCustomEdgeProps } from '../../Models/Constants/Interfaces';
 import { getGraphViewerStyles } from '../OATGraphViewer.styles';
@@ -29,24 +29,35 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
     const { elements, setElements } = useContext(ElementsContext);
     const graphViewerStyles = getGraphViewerStyles();
 
-    const separation = 14;
-    const connection = 3;
     const element = elements.find((x) => x.id === id);
-    const sources = elements.filter((x) => x.source === element.source);
-    if (sources.length > 1) {
-        const sourceRange = (separation * (sources.length - 1)) / 2;
-        sourceX = sourceX - sourceRange;
-        const indexX = sources.findIndex((x) => x.id === id);
-        sourceX = indexX * separation + sourceX;
-        sourceY = sourceY - connection;
-    }
-    const targets = elements.filter((x) => x.target === element.target);
-    if (targets.length > 1) {
-        const targetRange = (separation * (targets.length - 1)) / 2;
-        targetX = targetX - targetRange;
-        const indexY = targets.findIndex((x) => x.id === id);
-        targetX = indexY * separation + targetX;
-        targetY = targetY + connection;
+    if (element) {
+        const sourceNode = elements.find((x) => x.id === element.source);
+        const sourceNodeSize = (sourceX - sourceNode.position.x) * 2;
+        const targetNode = elements.find((x) => x.id === element.target);
+        const targetNodeSize = (targetX - targetNode.position.x) * 2;
+        const connection = 3;
+        const sources = elements.filter(
+            (x) =>
+                x.source === element.source &&
+                x.sourceHandle === element.sourceHandle
+        );
+        if (sources.length > 1) {
+            const separation = sourceNodeSize / connection / sources.length;
+            const sourceRange = (separation * (sources.length - 1)) / 2;
+            sourceX = sourceX - sourceRange;
+            const indexX = sources.findIndex((x) => x.id === id);
+            sourceX = indexX * separation + sourceX;
+            sourceY = sourceY - connection;
+        }
+        const targets = elements.filter((x) => x.target === element.target);
+        if (targets.length > 1) {
+            const separation = targetNodeSize / targets.length;
+            const targetRange = (separation * (targets.length - 1)) / 2;
+            targetX = targetX - targetRange;
+            const indexY = targets.findIndex((x) => x.id === id);
+            targetX = indexY * separation + targetX;
+            targetY = targetY + connection;
+        }
     }
 
     const onNameChange = (evt) => {
@@ -162,7 +173,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                     cy={targetY}
                     r={3}
                     strokeWidth={1.5}
-                    className={graphViewerStyles.inheritancePath}
+                    className={graphViewerStyles.inheritanceShape}
                 />
             )}
             {(data.type === RelationshipHandleName ||
@@ -189,7 +200,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                     cy={sourceY}
                     r={3}
                     strokeWidth={1.5}
-                    className={graphViewerStyles.componentPath}
+                    className={graphViewerStyles.componentShape}
                 />
             )}
         </>
