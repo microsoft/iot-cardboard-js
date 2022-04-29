@@ -155,10 +155,6 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
                                 />
                             )}
                         </div>
-                        <div>
-                            {t('OATGraphViewer.type')}:
-                            <strong>{data.type}</strong>
-                        </div>
                     </>
                 )}
                 {data.type === UntargetedRelationshipName && (

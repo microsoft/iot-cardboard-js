@@ -45,12 +45,6 @@ export const PropertiesModelSummary = ({
                     }}
                 />
             </Stack>
-            <Stack className={propertyInspectorStyles.gridRow}>
-                <Text>{t('OATPropertyEditor.type')}</Text>
-                <Text className={propertyInspectorStyles.propertyItemTextType}>
-                    {model['@type']}
-                </Text>
-            </Stack>
         </Stack>
     );
 };

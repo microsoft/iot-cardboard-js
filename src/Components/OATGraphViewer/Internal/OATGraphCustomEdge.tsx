@@ -32,21 +32,30 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
     const separation = 14;
     const connection = 3;
     const element = elements.find((x) => x.id === id);
-    const sources = elements.filter((x) => x.source === element.source);
-    if (sources.length > 1) {
-        const sourceRange = (separation * (sources.length - 1)) / 2;
-        sourceX = sourceX - sourceRange;
-        const indexX = sources.findIndex((x) => x.id === id);
-        sourceX = indexX * separation + sourceX;
-        sourceY = sourceY - connection;
-    }
-    const targets = elements.filter((x) => x.target === element.target);
-    if (targets.length > 1) {
-        const targetRange = (separation * (targets.length - 1)) / 2;
-        targetX = targetX - targetRange;
-        const indexY = targets.findIndex((x) => x.id === id);
-        targetX = indexY * separation + targetX;
-        targetY = targetY + connection;
+    if (element) {
+        const sources = elements.filter(
+            (x) =>
+                x &&
+                x.source === element.source &&
+                x.sourceHandle === element.sourceHandle
+        );
+        if (sources.length > 1) {
+            const sourceRange = (separation * (sources.length - 1)) / 2;
+            sourceX = sourceX - sourceRange;
+            const indexX = sources.findIndex((x) => x.id === id);
+            sourceX = indexX * separation + sourceX;
+            sourceY = sourceY - connection;
+        }
+        const targets = elements.filter(
+            (x) => x && x.target === element.target
+        );
+        if (targets.length > 1) {
+            const targetRange = (separation * (targets.length - 1)) / 2;
+            targetX = targetX - targetRange;
+            const indexY = targets.findIndex((x) => x.id === id);
+            targetX = indexY * separation + targetX;
+            targetY = targetY + connection;
+        }
     }
 
     const onNameChange = (evt) => {
@@ -162,7 +171,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                     cy={targetY}
                     r={3}
                     strokeWidth={1.5}
-                    className={graphViewerStyles.inheritancePath}
+                    className={graphViewerStyles.inheritanceShape}
                 />
             )}
             {(data.type === RelationshipHandleName ||
@@ -189,7 +198,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                     cy={sourceY}
                     r={3}
                     strokeWidth={1.5}
-                    className={graphViewerStyles.componentPath}
+                    className={graphViewerStyles.componentShape}
                 />
             )}
         </>
