@@ -46,10 +46,11 @@ import {
 } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import {
     DeeplinkContextActionType,
+    DeeplinkContextProvider,
     useDeeplinkContext
 } from '../../Contexts/3DSceneDeeplinkContext';
 
-const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
+const ADT3DViewerBase: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
     theme,
     locale,
     adapter,
@@ -63,7 +64,7 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
     showHoverOnSelected,
     coloredMeshItems: coloredMeshItemsProp,
     outlinedMeshItems: outlinedMeshItemsProp,
-    zoomToMeshIds: zoomToMeshIdsProp,
+    zoomToElementIds: zoomToElementIdsProp,
     unzoomedMeshOpacity,
     hideElementsPanel,
     hideViewModePickerUI
@@ -77,11 +78,6 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
     >(outlinedMeshItemsProp || []);
     // need outlined meshes ref to keep track of very recent value independent from render cycle to be used in onhover/onblur of elements in panel
     const outlinedMeshItemsRef = useRef(outlinedMeshItems);
-    // override zoomToMeshIds on first mount with the items from the deeplink context
-    const [zoomToMeshIds, setZoomToMeshIds] = useState<Array<string>>(
-        zoomToMeshIdsProp || []
-    );
-    const selectedMeshIdsRef = useRef(zoomToMeshIds);
     const [showPopUp, setShowPopUp] = useState(false);
     const [
         isElementsPanelVisible,
@@ -104,6 +100,10 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
         setAlertPanelItems
     ] = useState<IViewerElementsPanelItem>(null);
 
+    const [selectedVisual, setSelectedVisual] = useState<Partial<SceneVisual>>(
+        null
+    );
+
     const layersInScene = useMemo(
         () => ViewerConfigUtility.getLayersInScene(scenesConfig, sceneId),
         [scenesConfig, sceneId]
@@ -118,11 +118,23 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
         [scenesConfig, sceneId]
     );
 
+    // handle deep links
     const { deeplinkState, deeplinkDispatch } = useDeeplinkContext();
-    const selectedLayerIds = deeplinkState.selectedLayerIds;
+
+    // update SceneId on the deeplink context if the prop changes
+    // needed for embed cases
+    useEffect(() => {
+        deeplinkDispatch({
+            type: DeeplinkContextActionType.SET_SCENE_ID,
+            payload: {
+                sceneId: sceneId
+            }
+        });
+    }, [deeplinkDispatch, sceneId]);
+
     const setSelectedLayerIds = useCallback(
         (ids: string[]) => {
-            deeplinkDispatch({
+            deeplinkDispatch?.({
                 type: DeeplinkContextActionType.SET_LAYER_IDS,
                 payload: {
                     ids: ids
@@ -131,10 +143,11 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
         },
         [deeplinkDispatch]
     );
+
     // initialize the layers list
     useEffect(() => {
         // if we don't have any layer id from the context, set initial values
-        if (!selectedLayerIds) {
+        if (!deeplinkState?.selectedLayerIds) {
             setSelectedLayerIds([
                 // Add unlayered behavior option if unlayered behaviors present
                 ...(unlayeredBehaviorsPresent ? [unlayeredBehaviorKey] : []),
@@ -145,9 +158,43 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    const [selectedVisual, setSelectedVisual] = useState<Partial<SceneVisual>>(
-        null
+    const setZoomToElementId = useCallback(
+        (elementId: string) => {
+            console.log('***Set zoom elements:', elementId);
+            deeplinkDispatch?.({
+                type: DeeplinkContextActionType.SET_ELEMENT_ID,
+                payload: {
+                    id: elementId
+                }
+            });
+        },
+        [deeplinkDispatch]
     );
+
+    // initialize the zoomed elements
+    console.log('***Viewer props:', zoomToElementIdsProp);
+    useEffect(() => {
+        // if we don't have any layer id from the context, set initial values
+        if (zoomToElementIdsProp) {
+            // take the first one since we only support a single element id today
+            setZoomToElementId(zoomToElementIdsProp[0]);
+        }
+    }, [setZoomToElementId, zoomToElementIdsProp]);
+
+    // get the meshIds for the targeted element
+    const zoomToMeshIds: string[] = useMemo(() => {
+        if (!deeplinkState.selectedElementId) return [];
+        const elements = ViewerConfigUtility.getElementsInScene(
+            scenesConfig,
+            sceneId
+        );
+        if (!elements?.length) return [];
+        const element = elements.find(
+            (x) => x.id === deeplinkState.selectedElementId
+        );
+        return element?.objectIDs;
+    }, [deeplinkState?.selectedElementId, sceneId, scenesConfig]);
+    const selectedMeshIdsRef = useRef(zoomToMeshIds);
 
     const { t } = useTranslation();
     const sceneWrapperId = useGuid();
@@ -165,7 +212,7 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
         sceneId,
         scenesConfig,
         pollingInterval,
-        selectedLayerIds
+        deeplinkState.selectedLayerIds
     );
 
     useEffect(() => {
@@ -225,7 +272,7 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
                 if (selectedMesh.current === mesh) {
                     selectedMesh.current = null;
                     setShowPopUp(false);
-                    setZoomToMeshIds([]);
+                    setZoomToElementId(undefined);
                     setOutlinedMeshItems([]);
                     setSelectedVisual(null);
                     outlinedMeshItemsRef.current = [];
@@ -238,7 +285,7 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
             } else {
                 selectedMesh.current = null;
                 setShowPopUp(false);
-                setZoomToMeshIds([]);
+                setZoomToElementId(undefined);
                 setOutlinedMeshItems([]);
                 setSelectedVisual(null);
                 outlinedMeshItemsRef.current = [];
@@ -309,15 +356,11 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
             _behavior?: IBehavior
         ) => {
             setShowPopUp(false);
-            setZoomToMeshIds(panelItem.element.objectIDs);
-            console.log(
-                `*** Object ids to zoom to `,
-                panelItem.element.objectIDs
-            );
+            setZoomToElementId(panelItem.element.id);
             showPopover(panelItem);
             setIsAlertPopoverVisible(false);
         },
-        []
+        [setZoomToElementId]
     );
 
     const onElementPanelItemHovered = useCallback(
@@ -369,12 +412,6 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
         },
         []
     );
-
-    useEffect(() => {
-        if (zoomToMeshIdsProp) {
-            setZoomToMeshIds(zoomToMeshIdsProp);
-        }
-    }, [zoomToMeshIdsProp]);
 
     const elementsPanelToggleButtonStyles = toggleElementsPanelStyles();
 
@@ -446,7 +483,7 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
                 <div className="cb-layer-dropdown-container">
                     <LayerDropdown
                         layers={layersInScene}
-                        selectedLayerIds={selectedLayerIds}
+                        selectedLayerIds={deeplinkState.selectedLayerIds}
                         setSelectedLayerIds={setSelectedLayerIds}
                         showUnlayeredOption={unlayeredBehaviorsPresent}
                     />
@@ -456,7 +493,7 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
                 <BehaviorsModal
                     onClose={() => {
                         setShowPopUp(false);
-                        setZoomToMeshIds([]);
+                        setZoomToElementId(undefined);
                         setOutlinedMeshItems([]);
                         outlinedMeshItemsRef.current = [];
                         selectedMeshIdsRef.current = [];
@@ -515,5 +552,15 @@ const toggleElementsPanelStyles = memoizeFunction(
             }
         } as Partial<IButtonStyles>)
 );
+
+const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = (
+    props
+) => {
+    return (
+        <DeeplinkContextProvider>
+            <ADT3DViewerBase {...props} />
+        </DeeplinkContextProvider>
+    );
+};
 
 export default withErrorBoundary(ADT3DViewer);

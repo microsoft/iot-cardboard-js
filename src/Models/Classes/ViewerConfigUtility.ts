@@ -384,6 +384,8 @@ abstract class ViewerConfigUtility {
         config: I3DScenesConfig,
         sceneId: string
     ): Array<ITwinToObjectMapping> {
+        if (!config) return [];
+
         const scene = config.configuration.scenes?.find(
             (s) => s.id === sceneId
         );

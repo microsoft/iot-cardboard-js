@@ -22,10 +22,7 @@ export const ADT3DSceneBuilderContainer: React.FC<IADT3DSceneBuilderProps> = ({
     localeStrings,
     refetchConfig
 }) => {
-    const {
-        deeplinkState: deeplinkState,
-        deeplinkDispatch: deeplinkDispatch
-    } = useDeeplinkContext();
+    const { deeplinkState, deeplinkDispatch } = useDeeplinkContext();
 
     const handleScenePageModeChange = (
         newScenePageMode: ADT3DScenePageModes

@@ -156,9 +156,9 @@ const LayerIcon = () => (
 );
 
 const getLayerOptionsData = (
-    layers: ILayer[],
+    layers: ILayer[] = [],
     showUnlayeredOption: boolean,
-    selectedLayerIds
+    selectedLayerIds: string[] = []
 ) => {
     const options: IDropdownOption[] = [
         ...(showUnlayeredOption

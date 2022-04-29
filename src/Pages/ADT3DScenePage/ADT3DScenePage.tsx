@@ -45,7 +45,8 @@ import {
 import {
     DeeplinkContext,
     DeeplinkContextActionType,
-    DeeplinkContextReducer
+    DeeplinkContextProvider,
+    useDeeplinkContext
 } from '../../Contexts/3DSceneDeeplinkContext';
 import ADT3DGlobeContainer from '../../Components/ADT3DGlobeContainer/ADT3DGlobeContainer';
 
@@ -53,7 +54,7 @@ export const ADT3DScenePageContext = createContext<IADT3DScenePageContext>(
     null
 );
 
-const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
+const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
     adapter,
     theme,
     locale,
@@ -62,28 +63,11 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
 }) => {
     const { t } = useTranslation();
     const errorCallbackSetRef = useRef<boolean>(false);
+    const { deeplinkDispatch, deeplinkState } = useDeeplinkContext();
 
     const [state, dispatch] = useReducer(
         ADT3DScenePageReducer,
         defaultADT3DScenePageState
-    );
-
-    // set the initial state for the Deeplink reducer
-    const [deeplinkState, deeplinkDispatch] = useReducer(
-        DeeplinkContextReducer,
-        {
-            adtUrl:
-                // 'https://' + 'mitchtest.api.wus2.digitaltwins.azure.net' ||
-                'https://' + adapter.getAdtHostUrl(),
-            mode: ADT3DScenePageModes.ViewScene,
-            sceneId: 'f7053e7537048e03be4d1e6f8f93aa8a',
-            // sceneId: '58e02362287440d9a5bf3f8d6d6bfcf9',
-            selectedElementId: '41bca486feaf985f52130947d31675dc',
-            selectedLayerIds: ['8904b620aa83c649888dadc7c8fdf492'],
-            storageUrl:
-                // 'https://cardboardresources.blob.core.windows.net/msnyder' ||
-                adapter.getBlobContainerURL()
-        }
     );
 
     const scenesConfig = useAdapter({
@@ -100,13 +84,16 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
         refetchDependencies: []
     });
 
-    const setSelectedSceneId = useCallback((sceneId: string | undefined) => {
-        // store the new step on the context
-        deeplinkDispatch({
-            type: DeeplinkContextActionType.SET_SCENE_ID,
-            payload: { sceneId }
-        });
-    }, []);
+    const setSelectedSceneId = useCallback(
+        (sceneId: string | undefined) => {
+            // store the new step on the context
+            deeplinkDispatch({
+                type: DeeplinkContextActionType.SET_SCENE_ID,
+                payload: { sceneId }
+            });
+        },
+        [deeplinkDispatch]
+    );
     const setCurrentStep = useCallback(
         (step: ADT3DScenePageSteps) => {
             // store the new step on the context
@@ -137,7 +124,7 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
             });
             adapter.setBlobContainerPath(url);
         },
-        [adapter]
+        [adapter, deeplinkDispatch]
     );
 
     const handleOnHomeClick = useCallback(() => {
@@ -191,7 +178,7 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
                 );
             }
         },
-        [environmentPickerOptions?.environment]
+        [deeplinkDispatch, environmentPickerOptions?.environment]
     );
 
     // update the adapter if the ADT instance changes
@@ -286,8 +273,8 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
         >
             <DeeplinkContext.Provider
                 value={{
-                    deeplinkState: deeplinkState,
-                    deeplinkDispatch: deeplinkDispatch
+                    deeplinkState,
+                    deeplinkDispatch
                 }}
             >
                 <div className="cb-scene-page-wrapper">
@@ -415,6 +402,18 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
                 </div>
             </DeeplinkContext.Provider>
         </ADT3DScenePageContext.Provider>
+    );
+};
+
+const ADT3DScenePage: React.FC<IADT3DScenePageProps> = (props) => {
+    const { adapter } = props;
+    return (
+        <DeeplinkContextProvider
+            initialAdtInstanceUrl={'https://' + adapter.getAdtHostUrl()}
+            initialStorageUrl={adapter.getBlobContainerURL()}
+        >
+            <ADT3DScenePageBase {...props} />
+        </DeeplinkContextProvider>
     );
 };
 
