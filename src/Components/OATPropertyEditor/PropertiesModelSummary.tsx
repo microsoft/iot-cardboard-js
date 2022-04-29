@@ -18,9 +18,9 @@ export const PropertiesModelSummary = ({
 
     return (
         <Stack className={propertyInspectorStyles.gridGeneralPropertiesWrap}>
-            <Label>{`${t('OATPropertyEditor.displayName')} (3)`}</Label>
+            <Label>{`${t('OATPropertyEditor.general')} (3)`}</Label>
             <Stack className={propertyInspectorStyles.gridRow}>
-                <Text>{t('OATPropertyEditor.general')}</Text>
+                <Text>{t('OATPropertyEditor.displayName')}</Text>
                 <TextField
                     className={propertyInspectorStyles.propertyItemTextField}
                     borderless

@@ -152,6 +152,15 @@ export const PropertyList = ({
         }
     };
 
+    const deleteItem = (index) => {
+        setLastPropertyFocused(null);
+        setModel((prevModel) => {
+            const newModel = deepCopy(prevModel);
+            newModel.contents.splice(index, 1);
+            return newModel;
+        });
+    };
+
     return (
         <div className={propertyInspectorStyles.propertiesWrap}>
             <div className={propertyInspectorStyles.propertiesWrapScroll}>
@@ -211,6 +220,8 @@ export const PropertyList = ({
                                     setModalBody={setModalBody}
                                     model={model}
                                     setModel={setModel}
+                                    deleteItem={deleteItem}
+                                    setTemplates={setTemplates}
                                 />
                             );
                         }
@@ -234,6 +245,10 @@ export const PropertyList = ({
                                 item={item}
                                 setLastPropertyFocused={setLastPropertyFocused}
                                 setModalBody={setModalBody}
+                                deleteItem={deleteItem}
+                                setTemplates={setTemplates}
+                                setModel={setModel}
+                                model={model}
                             />
                         );
                     })}

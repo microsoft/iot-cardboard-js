@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import OATHeader from '../../Components/OATHeader/OATHeader';
 import OATModelList from '../../Components/OATModelList/OATModelList';
 import OATGraphViewer from '../../Components/OATGraphViewer/OATGraphViewer';
@@ -63,7 +63,7 @@ const OATEditorPage = ({ theme }) => {
 
     return (
         <div className={EditorPageStyles.container}>
-            <OATHeader elements={elementHandler} />
+            <OATHeader elements={elementHandler.digitalTwinsModels} />
             <div
                 className={
                     templatesActive
@@ -72,18 +72,18 @@ const OATEditorPage = ({ theme }) => {
                 }
             >
                 <OATModelList
-                    elements={elementHandler}
-                    handleDeleteModel={setDeletedModel}
-                    handleSelectedModel={setSelectedModel}
-                    handleEditedName={setEditedName}
-                    handleEditedId={setEditedId}
+                    elements={elementHandler.digitalTwinsModels}
+                    onDeleteModel={setDeletedModel}
+                    onSelectedModel={setSelectedModel}
+                    onEditedName={setEditedName}
+                    onEditedId={setEditedId}
                 />
                 <OATGraphViewer
                     onElementsUpdate={setElementHandler}
                     model={model}
                     setModel={setModel}
                     deletedModel={deletedModel}
-                    selectedModel={selectedModel}
+                    selectModel={selectedModel}
                     editedName={editedName}
                     editedId={editedId}
                 />

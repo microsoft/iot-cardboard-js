@@ -82,6 +82,7 @@ const JSONEditor = ({ model, theme, setModel }: OATPropertyEditorProps) => {
                     : themeToUse
             }
             beforeMount={setEditorThemes}
+            height={'95%'}
         />
     );
 };

@@ -12,7 +12,9 @@ const classNames = {
     extendHandle: `${classPrefix}-extend-handle`,
     edgePath: `${classPrefix}-edge-path`,
     textPath: `${classPrefix}-text-path`,
-    nodeCancel: `${classPrefix}-node-cancel`
+    nodeCancel: `${classPrefix}-node-cancel`,
+    componentPath: `${classPrefix}-component-path`,
+    inheritancePath: `${classPrefix}-inheritance-path`
 };
 
 export const getGraphViewerStyles = () => {
@@ -69,7 +71,7 @@ export const getGraphViewerStyles = () => {
         edgePath: [
             classNames.edgePath,
             {
-                stroke: theme.palette.black,
+                stroke: theme.palette.yellow,
                 strokeWidth: '1',
                 fill: 'none'
             } as IStyle
@@ -85,6 +87,22 @@ export const getGraphViewerStyles = () => {
             {
                 height: FontSizes.size12,
                 float: 'right'
+            } as IStyle
+        ],
+        componentPath: [
+            classNames.componentPath,
+            {
+                stroke: theme.palette.blue,
+                strokeWidth: '1',
+                fill: theme.semanticColors.bodyBackground
+            } as IStyle
+        ],
+        inheritancePath: [
+            classNames.inheritancePath,
+            {
+                stroke: theme.palette.green,
+                strokeWidth: '1',
+                fill: theme.semanticColors.bodyBackground
             } as IStyle
         ]
     });

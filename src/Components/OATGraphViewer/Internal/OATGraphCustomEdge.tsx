@@ -90,14 +90,34 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
 
     return (
         <>
-            <path
-                id={id}
-                style={style}
-                className={graphViewerStyles.edgePath}
-                d={edgePath}
-                onClick={onNameClick}
-                markerEnd={markerEnd}
-            />
+            {data.type === ExtendHandleName && (
+                <path
+                    id={id}
+                    className={graphViewerStyles.inheritancePath}
+                    d={edgePath}
+                    onClick={onNameClick}
+                    markerEnd={markerEnd}
+                />
+            )}
+            {(data.type === RelationshipHandleName ||
+                data.type === UntargetedRelationshipName) && (
+                <path
+                    id={id}
+                    className={graphViewerStyles.edgePath}
+                    d={edgePath}
+                    onClick={onNameClick}
+                    markerEnd={markerEnd}
+                />
+            )}
+            {data.type === ComponentHandleName && (
+                <path
+                    id={id}
+                    className={graphViewerStyles.componentPath}
+                    d={edgePath}
+                    onClick={onNameClick}
+                    markerEnd={markerEnd}
+                />
+            )}
             {nameEditor && (
                 <foreignObject
                     width={foreignObjectSize}
@@ -140,10 +160,9 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                     } ${targetX},${targetY}`}
                     cx={targetX}
                     cy={targetY}
-                    fill="#fff"
                     r={3}
-                    stroke="#222"
                     strokeWidth={1.5}
+                    className={graphViewerStyles.inheritancePath}
                 />
             )}
             {(data.type === RelationshipHandleName ||
@@ -156,10 +175,9 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                     } ${targetX},${targetY}`}
                     cx={targetX}
                     cy={targetY}
-                    fill="#fff"
                     r={3}
-                    stroke="#222"
                     strokeWidth={1.5}
+                    className={graphViewerStyles.edgePath}
                 />
             )}
             {data.type === ComponentHandleName && (
@@ -169,10 +187,9 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                     } ${sourceX - 5},${sourceY + 5} ${sourceX},${sourceY}`}
                     cx={sourceX}
                     cy={sourceY}
-                    fill="#fff"
                     r={3}
-                    stroke="#222"
                     strokeWidth={1.5}
+                    className={graphViewerStyles.componentPath}
                 />
             )}
         </>
