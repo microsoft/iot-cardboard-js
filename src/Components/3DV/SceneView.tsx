@@ -363,119 +363,123 @@ function SceneView(props: ISceneViewProps, ref) {
         //
     }, [cameraPosition, isLoading]);
 
-    const createOrZoomCamera = (meshIds?: string[]) => {
-        const zoomMeshIds = meshIds || zoomToMeshIds;
-        const zoomTo = (zoomMeshIds || []).join(',');
-        // Only zoom if the Ids actually changed, not just a re-render or mesh ids have been passed to this function
-        const shouldZoom =
-            meshIds?.length > 0 || prevZoomToIds.current !== zoomTo;
-        if (
-            sceneRef.current?.meshes?.length &&
-            (!cameraRef.current ||
-                shouldZoom ||
-                prevHideUnzoomedRef.current !== unzoomedMeshOpacity)
-        ) {
-            debugLog('createOrZoomCamera');
-            prevHideUnzoomedRef.current = unzoomedMeshOpacity;
-            meshMap.current = cameraRef.current ? meshMap.current : {};
-            for (const mesh of sceneRef.current.meshes) {
-                if (!cameraRef.current && mesh.id) {
-                    meshMap.current[mesh.id] = mesh;
+    const createOrZoomCamera = useCallback(
+        (meshIds?: string[]) => {
+            const zoomMeshIds = meshIds || zoomToMeshIds;
+            const zoomTo = (zoomMeshIds || []).join(',');
+            // Only zoom if the Ids actually changed, not just a re-render or mesh ids have been passed to this function
+            const shouldZoom =
+                meshIds?.length > 0 || prevZoomToIds.current !== zoomTo;
+            if (
+                sceneRef.current?.meshes?.length &&
+                (!cameraRef.current ||
+                    shouldZoom ||
+                    prevHideUnzoomedRef.current !== unzoomedMeshOpacity)
+            ) {
+                debugLog('createOrZoomCamera');
+                prevHideUnzoomedRef.current = unzoomedMeshOpacity;
+                meshMap.current = cameraRef.current ? meshMap.current : {};
+                for (const mesh of sceneRef.current.meshes) {
+                    if (!cameraRef.current && mesh.id) {
+                        meshMap.current[mesh.id] = mesh;
+                    }
+
+                    mesh.computeWorldMatrix(true);
+                    mesh.visibility =
+                        unzoomedMeshOpacity !== undefined &&
+                        zoomMeshIds?.length &&
+                        !zoomMeshIds.includes(mesh.id)
+                            ? unzoomedMeshOpacity
+                            : 1;
                 }
 
-                mesh.computeWorldMatrix(true);
-                mesh.visibility =
-                    unzoomedMeshOpacity !== undefined &&
-                    zoomMeshIds?.length &&
-                    !zoomMeshIds.includes(mesh.id)
-                        ? unzoomedMeshOpacity
-                        : 1;
-            }
+                if (!cameraRef.current || shouldZoom) {
+                    prevZoomToIds.current = zoomTo;
+                    const someMeshFromTheArrayOfMeshes =
+                        sceneRef.current.meshes[0];
+                    let meshes = sceneRef.current.meshes;
+                    if (zoomMeshIds?.length) {
+                        const meshList: BABYLON.AbstractMesh[] = [];
+                        for (const id of zoomMeshIds) {
+                            const m = meshMap.current?.[id];
+                            if (m) {
+                                meshList.push(m);
+                            }
+                        }
 
-            if (!cameraRef.current || shouldZoom) {
-                prevZoomToIds.current = zoomTo;
-                const someMeshFromTheArrayOfMeshes = sceneRef.current.meshes[0];
-                let meshes = sceneRef.current.meshes;
-                if (zoomMeshIds?.length) {
-                    const meshList: BABYLON.AbstractMesh[] = [];
-                    for (const id of zoomMeshIds) {
-                        const m = meshMap.current?.[id];
-                        if (m) {
-                            meshList.push(m);
+                        if (meshList.length) {
+                            meshes = meshList;
                         }
                     }
 
-                    if (meshList.length) {
-                        meshes = meshList;
+                    let bbox = getBoundingBox(meshes);
+                    if (!bbox) {
+                        // Bad meshnames passed
+                        meshes = sceneRef.current.meshes;
+                        bbox = getBoundingBox(meshes);
                     }
-                }
 
-                let bbox = getBoundingBox(meshes);
-                if (!bbox) {
-                    // Bad meshnames passed
-                    meshes = sceneRef.current.meshes;
-                    bbox = getBoundingBox(meshes);
-                }
+                    zoomedMeshesRef.current = meshes;
 
-                zoomedMeshesRef.current = meshes;
+                    someMeshFromTheArrayOfMeshes.setBoundingInfo(bbox);
 
-                someMeshFromTheArrayOfMeshes.setBoundingInfo(bbox);
+                    someMeshFromTheArrayOfMeshes.showBoundingBox = false;
 
-                someMeshFromTheArrayOfMeshes.showBoundingBox = false;
-
-                const es = someMeshFromTheArrayOfMeshes.getBoundingInfo()
-                    .boundingBox.extendSize;
-                const es_scaled = es.scale(
-                    zoomMeshIds && zoomMeshIds.length < 10 ? 5 : 3
-                );
-                const width = es_scaled.x;
-                const height = es_scaled.y;
-                const depth = es_scaled.z;
-                let radius = Math.max(width, height, depth);
-
-                const center = someMeshFromTheArrayOfMeshes.getBoundingInfo()
-                    .boundingBox.centerWorld;
-
-                const canvas = document.getElementById(
-                    canvasId
-                ) as HTMLCanvasElement;
-
-                // First time in after loading - create the camera
-                if (!cameraRef.current) {
-                    initialCameraRadiusRef.current = radius;
-                    const camera = new BABYLON.ArcRotateCamera(
-                        'camera',
-                        0,
-                        Math.PI / 2.5,
-                        radius,
-                        center,
-                        sceneRef.current
+                    const es = someMeshFromTheArrayOfMeshes.getBoundingInfo()
+                        .boundingBox.extendSize;
+                    const es_scaled = es.scale(
+                        zoomMeshIds && zoomMeshIds.length < 10 ? 5 : 3
                     );
+                    const width = es_scaled.x;
+                    const height = es_scaled.y;
+                    const depth = es_scaled.z;
+                    let radius = Math.max(width, height, depth);
 
-                    camera.attachControl(canvas, false);
-                    camera.lowerRadiusLimit = 0;
-                    cameraRef.current = camera;
-                    cameraRef.current.zoomOn(meshes, true);
-                    cameraRef.current.radius = radius;
+                    const center = someMeshFromTheArrayOfMeshes.getBoundingInfo()
+                        .boundingBox.centerWorld;
 
-                    // Register a render loop to repeatedly render the scene
-                    engineRef.current.runRenderLoop(() => {
-                        if (cameraRef.current) {
-                            sceneRef.current.render();
+                    const canvas = document.getElementById(
+                        canvasId
+                    ) as HTMLCanvasElement;
+
+                    // First time in after loading - create the camera
+                    if (!cameraRef.current) {
+                        initialCameraRadiusRef.current = radius;
+                        const camera = new BABYLON.ArcRotateCamera(
+                            'camera',
+                            0,
+                            Math.PI / 2.5,
+                            radius,
+                            center,
+                            sceneRef.current
+                        );
+
+                        camera.attachControl(canvas, false);
+                        camera.lowerRadiusLimit = 0;
+                        cameraRef.current = camera;
+                        cameraRef.current.zoomOn(meshes, true);
+                        cameraRef.current.radius = radius;
+
+                        // Register a render loop to repeatedly render the scene
+                        engineRef.current.runRenderLoop(() => {
+                            if (cameraRef.current) {
+                                sceneRef.current.render();
+                            }
+                        });
+                    } else {
+                        // ensure if zoom to mesh ids are set we return to the original radius
+                        if (!zoomMeshIds?.length) {
+                            radius = initialCameraRadiusRef.current;
                         }
-                    });
-                } else {
-                    // ensure if zoom to mesh ids are set we return to the original radius
-                    if (!zoomMeshIds?.length) {
-                        radius = initialCameraRadiusRef.current;
+                        zoomedCameraRadiusRef.current = radius;
+                        // Here if the caller changed zoomToMeshIds - zoom the existing camera
+                        zoomCamera(radius, meshes, 30);
                     }
-                    zoomedCameraRadiusRef.current = radius;
-                    // Here if the caller changed zoomToMeshIds - zoom the existing camera
-                    zoomCamera(radius, meshes, 30);
                 }
             }
-        }
-    };
+        },
+        [canvasId, unzoomedMeshOpacity, zoomToMeshIds]
+    );
 
     // Handle mesh zooming
     useEffect(() => {
@@ -483,7 +487,7 @@ function SceneView(props: ISceneViewProps, ref) {
         if (!isLoading) {
             createOrZoomCamera();
         }
-    }, [zoomToMeshIds, unzoomedMeshOpacity]);
+    }, [zoomToMeshIds, unzoomedMeshOpacity, isLoading, createOrZoomCamera]);
 
     if (!originalMaterials.current && sceneRef.current?.meshes?.length) {
         originalMaterials.current = {};
