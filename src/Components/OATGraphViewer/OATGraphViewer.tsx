@@ -70,7 +70,9 @@ const OATGraphViewer = ({
         let index = 0;
         while (index !== -1) {
             index = elements.findIndex(
-                (element) => element.id === `${idClassBase}model${nextModelId}`
+                (element) =>
+                    element.id ===
+                    `${idClassBase}model${nextModelId}:${versionClassBase}`
             );
             if (index === -1) {
                 setNewModelId(nextModelId);
