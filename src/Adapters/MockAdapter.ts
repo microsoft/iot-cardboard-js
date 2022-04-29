@@ -32,9 +32,12 @@ import {
     IGetKeyValuePairsAdditionalParameters,
     IPropertyInspectorAdapter,
     IAzureResource,
-    IUserRoleAssignments,
     IUserSubscriptions,
-    linkedTwinName
+    linkedTwinName,
+    IStorageContainer,
+    AzureServiceResourceTypes,
+    AzureServiceResourceProviderEndpoints,
+    IADTInstance
 } from '../Models/Constants';
 import seedRandom from 'seedrandom';
 import {
@@ -47,10 +50,9 @@ import mockVConfig from './__mockData__/3DScenesConfiguration.json';
 import mockTwinData from './__mockData__/MockAdapterData/MockTwinData.json';
 import mockModelData from './__mockData__/MockAdapterData/MockModelData.json';
 import mockSubscriptionData from './__mockData__/MockAdapterData/MockSubscriptionData.json';
-import mockUserRoleAssignmentData from './__mockData__/MockAdapterData/MockUserRoleAssignments.json';
 import ADTScenesConfigData from '../Models/Classes/AdapterDataClasses/ADTScenesConfigData';
 import ADT3DViewerData from '../Models/Classes/AdapterDataClasses/ADT3DViewerData';
-import ResourceInstancesData from '../Models/Classes/AdapterDataClasses/ResourceInstancesData';
+import AzureResourcesData from '../Models/Classes/AdapterDataClasses/AzureResourcesData';
 import {
     getModelContentType,
     validate3DConfigWithSchema
@@ -63,17 +65,14 @@ import {
 } from '../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { DatasourceType, ElementType } from '../Models/Classes/3DVConfig';
 import ViewerConfigUtility from '../Models/Classes/ViewerConfigUtility';
-import {
-    SubscriptionData,
-    UserAssignmentsData
-} from '../Models/Classes/AdapterDataClasses/AzureManagementModelData';
+import { SubscriptionData } from '../Models/Classes/AdapterDataClasses/AzureManagementModelData';
 import { ADTAdapterPatchData } from '../Models/Classes/AdapterDataClasses/ADTAdapterData';
 import ExpandedADTModelData from '../Models/Classes/AdapterDataClasses/ExpandedADTModelData';
 import { applyPatch, Operation } from 'fast-json-patch';
 import { DTDLType } from '../Models/Classes/DTDL';
 import i18n from '../i18n';
 import ADTInstancesData from '../Models/Classes/AdapterDataClasses/ADTInstancesData';
-import StorageInstanceData from '../Models/Classes/AdapterDataClasses/StorageInstanceData';
+import StorageContainersData from '../Models/Classes/AdapterDataClasses/StorageContainersData';
 
 export default class MockAdapter
     implements
@@ -760,77 +759,106 @@ export default class MockAdapter
         }
     }
 
-    async getRoleAssignments() {
-        const mockUserRoleAssignments: IUserRoleAssignments = {
-            value: mockUserRoleAssignmentData
-        };
+    async getResources(providerEndpoint: string) {
+        const mockContainerResources: Array<IAzureResource> = [
+            {
+                name: 'container123',
+                id:
+                    '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Storage/storageAccounts/{storageAccount}/blobServices/default/containers/container123',
+                type: AzureServiceResourceTypes.Container,
+                properties: {
+                    publicAccess: 'Container'
+                }
+            }
+        ];
+        const mockADTInstanceResources: Array<IAzureResource> = [
+            {
+                name: 'adtInstance123',
+                id:
+                    '/subscriptions/{subscriptionId}/resourcegroups/{resourceGroup}/providers/Microsoft.DigitalTwins/digitalTwinsInstances/adtInstance123',
+                type: AzureServiceResourceTypes.ADT,
+                location: 'westus2',
+                properties: {
+                    hostName:
+                        'https://adtInstance123.api.wus2.ss.azuredigitaltwins-test.net'
+                }
+            }
+        ];
+        if (providerEndpoint === AzureServiceResourceProviderEndpoints.ADT) {
+            return new AdapterResult({
+                result: new AzureResourcesData(mockADTInstanceResources),
+                errorInfo: null
+            });
+        } else if (
+            providerEndpoint.startsWith(
+                AzureServiceResourceProviderEndpoints.Storage
+            )
+        ) {
+            return new AdapterResult({
+                result: new AzureResourcesData(mockContainerResources),
+                errorInfo: null
+            });
+        } else {
+            return new AdapterResult({
+                result: null,
+                errorInfo: null
+            });
+        }
+    }
+
+    async getADTInstances() {
         try {
-            await this.mockNetwork();
+            const adtInstanceResourcesResult = await this.getResources(
+                AzureServiceResourceProviderEndpoints.ADT
+            );
+            const adtInstanceResources: Array<IAzureResource> = adtInstanceResourcesResult.getData();
+            const digitalTwinsInstances: Array<IADTInstance> = adtInstanceResources.map(
+                (adtInstanceResource) =>
+                    ({
+                        id: adtInstanceResource.name,
+                        name: adtInstanceResource.name,
+                        hostName: adtInstanceResource.properties['hostName'],
+                        location: adtInstanceResource.location
+                    } as IADTInstance)
+            );
 
             return new AdapterResult({
-                result: new UserAssignmentsData(mockUserRoleAssignments),
+                result: new ADTInstancesData(digitalTwinsInstances),
                 errorInfo: null
             });
         } catch (err) {
-            return new AdapterResult<UserAssignmentsData>({
+            return new AdapterResult({
                 result: null,
                 errorInfo: { catastrophicError: err, errors: [err] }
             });
         }
     }
 
-    async hasRoleDefinition(
-        _resourceID: string,
-        _uniqueObjectID: string,
-        _roleDefinitionGuid: string
-    ) {
-        return true;
-    }
-
-    async getInstances() {
-        const mockEnvironments: Array<IAzureResource> = [
-            {
-                name: 'myDigitalTwinsService',
-                resourceId:
-                    '/subscriptions/50016170-c839-41ba-a724-51e9df440b9e/resourcegroups/resRg/providers/Microsoft.DigitalTwins/digitalTwinsInstances/myDigitalTwinsService',
-                type: 'Microsoft.DigitalTwins/digitalTwinsInstances'
-            }
-        ];
-        return new AdapterResult({
-            result: new ResourceInstancesData(mockEnvironments),
-            errorInfo: null
-        });
-    }
-
-    async getADTInstances() {
-        const mockEnvironments: Array<IAzureResource> = [
-            {
-                name: 'myDigitalTwinsService',
-                resourceId:
-                    '/subscriptions/50016170-c839-41ba-a724-51e9df440b9e/resourcegroups/resRg/providers/Microsoft.DigitalTwins/digitalTwinsInstances/myDigitalTwinsService',
-                type: 'Microsoft.DigitalTwins/digitalTwinsInstances'
-            }
-        ];
-        return new AdapterResult({
-            result: new ADTInstancesData(mockEnvironments),
-            errorInfo: null
-        });
-    }
-
     async getContainers() {
-        const mockEnvironments: Array<IAzureResource> = [
-            {
-                name: 'container1644',
-                resourceId:
-                    '/subscriptions/{subscription-id}/resourceGroups/res9290/providers/Microsoft.Storage/storageAccounts/sto1590/blobServices/default/containers/container1644',
-                type:
-                    'Microsoft.Storage/storageAccounts/blobServices/containers'
-            }
-        ];
-        return new AdapterResult({
-            result: new StorageInstanceData(mockEnvironments),
-            errorInfo: null
-        });
+        try {
+            const storageEndPoint = `${AzureServiceResourceProviderEndpoints.Storage}/{accountName}/blobServices/default/containers`;
+            const storageResourcesResult = await this.getResources(
+                storageEndPoint
+            );
+            const storageResources: Array<IAzureResource> = storageResourcesResult.getData();
+            const storageContainers: Array<IStorageContainer> = storageResources.map(
+                (resource) =>
+                    ({
+                        id: resource.id,
+                        name: resource.name
+                    } as IStorageContainer)
+            );
+
+            return new AdapterResult({
+                result: new StorageContainersData(storageContainers),
+                errorInfo: null
+            });
+        } catch (err) {
+            return new AdapterResult({
+                result: null,
+                errorInfo: { catastrophicError: err, errors: [err] }
+            });
+        }
     }
 
     async getContainerBlobs() {

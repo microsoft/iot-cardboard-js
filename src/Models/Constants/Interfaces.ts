@@ -29,7 +29,9 @@ import {
     FileUploadStatus,
     ADT3DAddInEventTypes,
     GlobeTheme,
-    ViewerModeStyles
+    ViewerModeStyles,
+    AzureServiceResourceTypes,
+    AzureAccessPermissionRoles
 } from './Enums';
 import {
     AdapterReturnType,
@@ -43,7 +45,7 @@ import {
     ADTModel_ImgSrc_PropertyName
 } from './Constants';
 import ExpandedADTModelData from '../Classes/AdapterDataClasses/ExpandedADTModelData';
-import ResourceInstancesData from '../Classes/AdapterDataClasses/ResourceInstancesData';
+import AzureResourcesData from '../Classes/AdapterDataClasses/AzureResourcesData';
 import ADTScenesConfigData from '../Classes/AdapterDataClasses/ADTScenesConfigData';
 import ADT3DViewerData from '../Classes/AdapterDataClasses/ADT3DViewerData';
 import {
@@ -238,11 +240,26 @@ export interface IHierarchyNode {
 }
 
 export interface IAzureResource {
+    id: string;
     name: string;
-    resourceId: string;
-    type: string;
-    hostName?: string;
-    location?: string;
+    type: AzureServiceResourceTypes;
+    [additionalProperty: string]: any;
+    properties: Record<string, any>;
+}
+
+export interface IADTInstance {
+    // derived from IAzureResource
+    id: string;
+    name: string; // e.g. cardboard
+    hostName: string; // e.g. cardboard.api.wcus.digitaltwins.azure.net
+    location: string; // e.g. westcentralus
+}
+
+export interface IStorageContainer {
+    // derived from IAzureResource
+    id: string;
+    name: string; // e.g. cardboard-mock-files
+    url?: string; // e.g. https://cardboardresources.blob.core.windows.net/cardboard-mock-files, we can add support for this soon, for now optional
 }
 
 export interface IADTInstanceConnection {
@@ -464,16 +481,17 @@ export interface IAzureManagementAdapter {
         resourceId: string,
         uniqueObjectID: string
     ) => AdapterReturnType<UserAssignmentsData>;
-    hasRoleDefinition: (
+    hasRoleDefinitions: (
         resourceID: string,
         uniqueObjectID: string,
-        roleID: string
+        roleIDs: Array<AzureAccessPermissionRoles>,
+        shouldEnforceAll?: boolean
     ) => Promise<boolean>;
-    getInstances: (
-        resourceEndpoint: string,
+    getResources: (
+        providerEndpoint: string,
         tenantId?: string,
         uniqueObjectId?: string
-    ) => AdapterReturnType<ResourceInstancesData>;
+    ) => AdapterReturnType<AzureResourcesData>;
 }
 
 export interface IBlobAdapter {

@@ -1,10 +1,19 @@
 import axios from 'axios';
 import ADTInstanceConnectionData from '../Models/Classes/AdapterDataClasses/ADTInstanceConnectionData';
 import ADTInstancesData from '../Models/Classes/AdapterDataClasses/ADTInstancesData';
-import StorageInstanceData from '../Models/Classes/AdapterDataClasses/StorageInstanceData';
+import StorageContainersData from '../Models/Classes/AdapterDataClasses/StorageContainersData';
 import AdapterMethodSandbox from '../Models/Classes/AdapterMethodSandbox';
 import AdapterResult from '../Models/Classes/AdapterResult';
-import { IAuthService, IAzureResource } from '../Models/Constants/Interfaces';
+import {
+    AzureAccessPermissionRoles,
+    AzureServiceResourceProviderEndpoints
+} from '../Models/Constants/Enums';
+import {
+    IADTInstance,
+    IAuthService,
+    IAzureResource,
+    IStorageContainer
+} from '../Models/Constants/Interfaces';
 import { applyMixins } from '../Models/Services/Utils';
 import ADTAdapter from './ADTAdapter';
 import ADXAdapter from './ADXAdapter';
@@ -60,7 +69,7 @@ export default class ADT3DSceneAdapter {
                 // use the below azure management call to get adt-adx connection information including Kusto cluster url, database name and table name to retrieve the data history from
                 const connectionsData = await axios({
                     method: 'get',
-                    url: `https://management.azure.com${instance.resourceId}/timeSeriesDatabaseConnections`,
+                    url: `https://management.azure.com${instance.id}/timeSeriesDatabaseConnections`,
                     headers: {
                         Authorization: 'Bearer ' + token,
                         Accept: 'application/json',
@@ -92,63 +101,74 @@ export default class ADT3DSceneAdapter {
         }, 'azureManagement');
     };
 
-    //returns all the storage instances that the user has the specified permissions to
+    //returns all the storage containers that the user has the specified permissions to
     getContainers = async () => {
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
-        const storageRoleDefinitionGuid = [
-            'd57506d4-4c8d-48b1-8587-93c323f6a5a3',
-            'bcd981a7-7f74-457b-83e1-cceb9e632ffe'
+        const accessRolesToCheck = [
+            AzureAccessPermissionRoles.Reader,
+            AzureAccessPermissionRoles.StorageBlobDataContributor
         ];
         return await adapterMethodSandbox.safelyFetchData(async () => {
-            const storageEndPoint = `/Microsoft.Storage/storageAccounts/${this.accountName}/blobServices/default/containers`;
-            const storageInstancesBySubscription = this.getInstances(
+            const storageEndPoint = `${AzureServiceResourceProviderEndpoints.Storage}/${this.accountName}/blobServices/default/containers`;
+            const storageResourcesResult = await this.getResources(
                 storageEndPoint
             );
-            const result = (await storageInstancesBySubscription).result.data;
-            const storageInstances: Array<IAzureResource> = [];
-            for (let i = 0; i < result.length; i++) {
-                storageRoleDefinitionGuid.forEach((role) => {
-                    if (
-                        this.hasRoleDefinition(
-                            result[i].resourceId,
-                            this.uniqueObjectId,
-                            role
-                        )
-                    ) {
-                        storageInstances.push(result[i]);
-                    }
-                });
+            const storageResources: Array<IAzureResource> = storageResourcesResult.getData();
+            const storageContainers: Array<IStorageContainer> = [];
+            for (let i = 0; i < storageResources.length; i++) {
+                const storageResource = storageResources[i];
+                const haveAccess = await this.hasRoleDefinitions(
+                    storageResource.id,
+                    this.uniqueObjectId,
+                    accessRolesToCheck,
+                    true
+                );
+                if (haveAccess) {
+                    storageContainers.push({
+                        id: storageResource.id,
+                        name: storageResource.name
+                    });
+                }
             }
 
-            return new StorageInstanceData(storageInstances);
+            return new StorageContainersData(storageContainers);
         });
     };
 
     //returns all the adt instances that the user has the specified permission/permissions to
     getADTInstances = async () => {
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
-        const adtRoleDefinitionGuid = [
-            'd57506d4-4c8d-48b1-8587-93c323f6a5a3',
-            'bcd981a7-7f74-457b-83e1-cceb9e632ffe'
+        const accessRolesToCheck = [
+            AzureAccessPermissionRoles.AzureDigitalTwinsDataOwner,
+            AzureAccessPermissionRoles.AzureDigitalTwinsDataReader
         ];
         return await adapterMethodSandbox.safelyFetchData(async () => {
-            const adtEndpoint = 'Microsoft.DigitalTwins/digitalTwinsInstances';
-            const adtInstancesBySubscription = this.getInstances(adtEndpoint); //get back an object that list all adt instances by the suscription id
-            const result = (await adtInstancesBySubscription).result.data;
-            const digitalTwinsInstances: Array<IAzureResource> = [];
-            for (let i = 0; i < result.length; i++) {
-                adtRoleDefinitionGuid.forEach((role) => {
-                    if (
-                        this.hasRoleDefinition(
-                            result[i].resourceId,
-                            this.uniqueObjectId,
-                            role
-                        )
-                    ) {
-                        digitalTwinsInstances.push(result[i]);
+            const adtInstanceResourcesResult = await this.getResources(
+                AzureServiceResourceProviderEndpoints.ADT
+            );
+            const adtInstanceResources: Array<IAzureResource> = adtInstanceResourcesResult.getData();
+            const digitalTwinsInstances: Array<IADTInstance> = [];
+
+            if (adtInstanceResources) {
+                for (let i = 0; i < adtInstanceResources.length; i++) {
+                    const adtInstanceResource = adtInstanceResources[i];
+                    const haveAccess = await this.hasRoleDefinitions(
+                        adtInstanceResource.id,
+                        this.uniqueObjectId,
+                        accessRolesToCheck
+                    );
+                    if (haveAccess) {
+                        digitalTwinsInstances.push({
+                            id: adtInstanceResource.id,
+                            name: adtInstanceResource.name,
+                            hostName:
+                                adtInstanceResource.properties['hostName'],
+                            location: adtInstanceResource.location
+                        });
                     }
-                });
+                }
             }
+
             return new ADTInstancesData(digitalTwinsInstances);
         });
     };
@@ -163,7 +183,7 @@ export default interface ADT3DSceneAdapter
         AdapterResult<ADTInstanceConnectionData>
     >;
     getADTInstances: () => Promise<AdapterResult<ADTInstancesData>>;
-    getContainers: () => Promise<AdapterResult<ADTInstancesData>>;
+    getContainers: () => Promise<AdapterResult<StorageContainersData>>;
 }
 applyMixins(ADT3DSceneAdapter, [
     ADTAdapter,

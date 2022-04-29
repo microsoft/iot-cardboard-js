@@ -1,9 +1,9 @@
-import { IAdapterData, IAzureResource } from '../../Constants/Interfaces';
+import { IAdapterData, IADTInstance } from '../../Constants/Interfaces';
 
 class ADTInstancesData implements IAdapterData {
-    data: Array<IAzureResource>;
+    data: Array<IADTInstance>;
 
-    constructor(data: Array<IAzureResource>) {
+    constructor(data: Array<IADTInstance>) {
         this.data = data;
     }
 

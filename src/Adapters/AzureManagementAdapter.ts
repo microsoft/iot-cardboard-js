@@ -1,11 +1,13 @@
 import axios from 'axios';
 import { AdapterMethodSandbox } from '../Models/Classes';
-import ResourceInstancesData from '../Models/Classes/AdapterDataClasses/ResourceInstancesData';
+import AzureResourcesData from '../Models/Classes/AdapterDataClasses/AzureResourcesData';
 import {
     SubscriptionData,
     UserAssignmentsData
 } from '../Models/Classes/AdapterDataClasses/AzureManagementModelData';
 import {
+    AzureAccessPermissionRoles,
+    ComponentErrorType,
     IAuthService,
     IAzureManagementAdapter,
     IAzureResource,
@@ -78,29 +80,46 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
         }, 'azureManagement');
     }
 
-    /** this function checks if a user has a certain role defintion like Reader, Writer, Storage Owner, and etc in their list of role assignments */
-    async hasRoleDefinition(
+    /** this function checks if a user has a list of certain role defintions like Reader, Writer, Storage Owner, and etc in their list of role assignments */
+    async hasRoleDefinitions(
         resourceID: string,
         uniqueObjectID: string,
-        roleDefinitionGuid: string
+        rolesToCheck: Array<AzureAccessPermissionRoles>,
+        shouldEnforceAll = false
     ) {
         const userRoleAssignments = await this.getRoleAssignments(
             resourceID,
             uniqueObjectID
         );
-        const resultRoleAssignments = userRoleAssignments.getData() as UserAssignmentsData;
-        const roleDefinitions = resultRoleAssignments?.data?.value?.map(
-            (roleAssignment) => {
-                return roleAssignment.properties?.roleDefinitionId
-                    .split('/')
-                    .pop();
+        const resultRoleAssignments = userRoleAssignments.result?.data.value;
+        const assignedRoleIds = resultRoleAssignments?.map((roleAssignment) => {
+            return roleAssignment.properties?.roleDefinitionId.split('/').pop();
+        });
+        if (assignedRoleIds) {
+            if (!shouldEnforceAll) {
+                // if not all the roles to check are enforced, check if there is some of them existing in the assigned roles
+                return assignedRoleIds.some((assignedRoleId) =>
+                    rolesToCheck.includes(
+                        assignedRoleId as AzureAccessPermissionRoles
+                    )
+                );
+            } else {
+                // if all the roles to check needs to exist in the assigned roles
+                return (
+                    assignedRoleIds.filter((assignedRoleId) =>
+                        rolesToCheck.includes(
+                            assignedRoleId as AzureAccessPermissionRoles
+                        )
+                    ).length === rolesToCheck.length
+                );
             }
-        );
-        return roleDefinitions.includes(roleDefinitionGuid);
+        } else {
+            return false;
+        }
     }
 
-    async getInstances(
-        resourceEndpoint: string,
+    async getResources(
+        providerEndpoint: string,
         tenantId?: string,
         uniqueObjectId?: string
     ) {
@@ -114,16 +133,16 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
 
         return await adapterMethodSandbox.safelyFetchData(async (token) => {
             const subscriptions = await this.getSubscriptions();
-            const userSubscriptions = subscriptions.getData() as SubscriptionData;
+            const userSubscriptions = subscriptions.getData() as IUserSubscriptions;
 
-            const subscriptionsByTenantId = userSubscriptions.data.value
-                .filter((s) => s.tenantId === tenantId) //creates an array of subscriptions that are under the given tenant
+            const subscriptionsByTenantId = userSubscriptions.value
+                .filter((s) => s.tenantId === this.tenantId) //creates an array of subscriptions that are under the given tenant
                 .map((s) => s.subscriptionId); //creates a new array of just subscription GUIDS
-            const resourceInstancesBySubscriptions = await Promise.all(
+            const resourcesBySubscriptionsResponse = await Promise.all(
                 subscriptionsByTenantId.map((subscriptionId) => {
                     return axios({
                         method: 'get',
-                        url: `https://management.azure.com/subscriptions/${subscriptionId}/providers/${resourceEndpoint}`,
+                        url: `https://management.azure.com/subscriptions/${subscriptionId}/providers/${providerEndpoint}`,
                         headers: {
                             'Content-Type': 'application/json',
                             authorization: 'Bearer ' + token
@@ -131,23 +150,35 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
                         params: {
                             'api-version': '2020-12-01'
                         }
+                    }).catch((err) => {
+                        adapterMethodSandbox.pushError({
+                            type: ComponentErrorType.DataFetchFailed,
+                            isCatastrophic: false,
+                            rawError: err
+                        });
+                        return null;
                     });
                 })
             );
-            const resourceInstancesArray = [];
-            for (let i = 0; i < resourceInstancesBySubscriptions.length; i++) {
-                const result: any = resourceInstancesBySubscriptions[i];
-                const instance: IAzureResource = {
-                    name: result.name,
-                    resourceId: result.id,
-                    type: result.type,
-                    hostName: result.properties?.hostName,
-                    location: result.properties?.location
-                };
-                resourceInstancesArray.push(instance);
-            }
 
-            return new ResourceInstancesData(resourceInstancesArray);
+            //filter out nulls, i.e. errors
+            const successfulResourcesResponse = resourcesBySubscriptionsResponse.filter(
+                (result) => {
+                    return result !== null;
+                }
+            );
+
+            const resourceInstancesArray: Array<IAzureResource> = [];
+            successfulResourcesResponse.forEach((result) => {
+                const resourcesInSubscription = result.data;
+                if (resourcesInSubscription?.value?.length > 0) {
+                    resourceInstancesArray.push(
+                        ...resourcesInSubscription.value
+                    );
+                }
+            });
+
+            return new AzureResourcesData(resourceInstancesArray);
         }, 'azureManagement');
     }
 }

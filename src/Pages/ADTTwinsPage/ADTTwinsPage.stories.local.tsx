@@ -35,7 +35,7 @@ export const ADT = (args, { globals: { theme, locale } }) => {
                             authenticationParameters.adt.aadParameters
                         ),
                         authenticationParameters.adt.hostUrl,
-                        authenticationParameters.adt.aadParameters.accountName,
+                        authenticationParameters.storage.accountName,
                         authenticationParameters.adt.aadParameters.tenantId,
                         authenticationParameters.adt.aadParameters.uniqueObjectId
                     )
@@ -69,7 +69,7 @@ export const ADTWithReverseLookup = (args, { globals: { theme, locale } }) => {
                             authenticationParameters.adt.aadParameters
                         ),
                         authenticationParameters.adt.hostUrl,
-                        authenticationParameters.adt.aadParameters.accountName,
+                        authenticationParameters.storage.accountName,
                         authenticationParameters.adt.aadParameters.tenantId,
                         authenticationParameters.adt.aadParameters.uniqueObjectId
                     )
