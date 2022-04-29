@@ -221,7 +221,7 @@ export const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = ({
                       }
                     : {}
             }
-            className="cb-adt-3dviewer-wrapper "
+            className="cb-sceneview-wrapper "
         >
             <div className="cb-adt-3dviewer-tool-button-container">
                 {wrapperMode === WrapperMode.Builder && <SceneLayers />}
