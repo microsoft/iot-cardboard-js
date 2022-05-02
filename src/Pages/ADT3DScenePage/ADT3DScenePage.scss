@@ -49,7 +49,7 @@
     .cb-scene-builder-and-viewer-container {
         flex-grow: 1;
         height: 100%;
-        overflow: auto;
+        overflow: hidden;
     }
 
     .cb-scene-list-card-wrapper {
@@ -101,7 +101,7 @@
 .cb-scene-page-mode-toggle-container {
     position: absolute;
     right: 20px;
-    top: 20px;
+    top: 22px;
     z-index: 1;
 }
 

@@ -6,9 +6,14 @@ import {
     SceneViewBadgeGroup,
     SceneVisual
 } from '../Classes/SceneView.types';
+import ViewerConfigUtility from '../Classes/ViewerConfigUtility';
 import { BadgeIcons } from '../Constants';
 import { IADT3DViewerAdapter } from '../Constants/Interfaces';
-import { getSceneElementStatusColor, parseExpression } from '../Services/Utils';
+import {
+    deepCopy,
+    getSceneElementStatusColor,
+    parseExpression
+} from '../Services/Utils';
 import { I3DScenesConfig } from '../Types/Generated/3DScenesConfiguration-v1.0.0';
 import useAdapter from './useAdapter';
 
@@ -16,7 +21,9 @@ export const useRuntimeSceneData = (
     adapter: IADT3DViewerAdapter,
     sceneId: string,
     scenesConfig: I3DScenesConfig,
-    pollingInterval: number
+    pollingInterval: number,
+    /** Optional array of layer Ids to apply SceneVisual behavior filtering */
+    selectedLayerIds: string[] = null
 ) => {
     const [modelUrl, setModelUrl] = useState('');
     const [sceneVisuals, setSceneVisuals] = useState<Array<SceneVisual>>([]);
@@ -37,9 +44,26 @@ export const useRuntimeSceneData = (
      *  */
     useEffect(() => {
         if (sceneData?.adapterResult?.result?.data) {
-            const sceneVisuals = [
-                ...sceneData.adapterResult.result.data.sceneVisuals
-            ];
+            let sceneVisuals = deepCopy(
+                sceneData.adapterResult.result.data.sceneVisuals
+            );
+
+            if (selectedLayerIds) {
+                const behaviorIdsInSelectedLayers = ViewerConfigUtility.getBehaviorIdsInSelectedLayers(
+                    scenesConfig,
+                    [...selectedLayerIds],
+                    sceneId
+                );
+
+                // Apply layer filtering to behaviors - splice out behaviors not in selected layers
+                sceneVisuals = sceneVisuals.map((sv) => ({
+                    ...sv,
+                    behaviors: sv.behaviors.filter((b) =>
+                        behaviorIdsInSelectedLayers.includes(b.id)
+                    )
+                }));
+            }
+
             const alerts: Array<{
                 sceneVisual: SceneVisual;
                 sceneViewBadge: SceneViewBadge;
@@ -64,17 +88,7 @@ export const useRuntimeSceneData = (
                                                 meshId: meshId,
                                                 color: color
                                             };
-                                            if (
-                                                !coloredMeshItems.find(
-                                                    (item) =>
-                                                        item.meshId ===
-                                                        coloredMesh.meshId
-                                                )
-                                            ) {
-                                                coloredMeshItems.push(
-                                                    coloredMesh
-                                                );
-                                            }
+                                            coloredMeshItems.push(coloredMesh);
                                         }
                                     );
                                 }
@@ -161,12 +175,13 @@ export const useRuntimeSceneData = (
             setSceneVisuals(sceneVisuals);
             setSceneAlerts(groupedAlerts);
         }
-    }, [sceneData.adapterResult.result]);
+    }, [sceneData.adapterResult.result, selectedLayerIds]);
 
     return {
         modelUrl,
         sceneVisuals,
         sceneAlerts,
-        isLoading: sceneData.isLoading
+        isLoading: sceneData.isLoading,
+        triggerRuntimeRefetch: sceneData.callAdapter
     };
 };

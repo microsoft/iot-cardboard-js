@@ -21,7 +21,7 @@ const classNames = {
     listItembutton: `${classPrefix}--list-item-button`
 };
 
-const initialElementsPanelTopOffset = 20;
+const initialElementsPanelTopOffset = 52;
 const initialElementsPanelLeftOffset = 20;
 
 export const getElementsPanelStyles = () => {

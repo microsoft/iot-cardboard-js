@@ -3,13 +3,22 @@
     src: local('segmdl2'), url('./segmdl2.ttf');
 }
 
-.cb-adt-3dviewer-wrapper {
+.cb-sceneview-wrapper {
     height: 100%;
+    overflow: hidden;
+    width: 100%;
 }
 
-.cb-adt-3dviewer-render-mode-selection {
+.cb-sceneview-wrapper-wide {
+    height: 100%;
+    overflow: hidden;
+    width: calc(100% + 360px);
+}
+
+.cb-adt-3dviewer-tool-button-container {
+    display: flex;
+    left: 20px;
     position: absolute;
-    right: 8px;
-    top: 60px;
+    top: 10px;
     z-index: 1;
 }

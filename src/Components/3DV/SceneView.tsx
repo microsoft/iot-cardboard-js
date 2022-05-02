@@ -1,17 +1,26 @@
 import * as BABYLON from '@babylonjs/core/Legacy/legacy';
 import '@babylonjs/loaders';
-import * as SERIALIZE from '@babylonjs/serializers';
 import * as GUI from '@babylonjs/gui';
 import { ProgressIndicator, useTheme } from '@fluentui/react';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, {
+    forwardRef,
+    useCallback,
+    useEffect,
+    useImperativeHandle,
+    useRef,
+    useState
+} from 'react';
 import './SceneView.scss';
-import { createGUID } from '../../Models/Services/Utils';
+import { createGUID, hexToColor4 } from '../../Models/Services/Utils';
 import {
-    ISceneViewProp,
+    ICameraPosition,
+    ISceneViewProps,
+    ColoredMeshGroup,
     Marker,
     SceneViewCallbackHandler
 } from '../../Models/Classes/SceneView.types';
 import {
+    CameraZoomMultiplier,
     Scene_Marker,
     Scene_Visible_Marker,
     SphereMaterial
@@ -20,6 +29,7 @@ import { AbstractMesh, HighlightLayer, Tools } from '@babylonjs/core';
 import { createBadgeGroup, getBoundingBox } from './SceneView.Utils';
 import { makeMaterial, outlineMaterial, ToColor3 } from './Shaders';
 import {
+    CameraInteraction,
     DefaultViewerModeObjectColor,
     globeUrl,
     IADTBackgroundColor,
@@ -48,33 +58,25 @@ function debounce(func: any, timeout = 300) {
     };
 }
 
-function hexToColor4(hex: string): BABYLON.Color4 {
-    if (!hex) {
-        return undefined;
-    }
-
-    // remove invalid characters
-    hex = hex.replace(/[^0-9a-fA-F]/g, '');
-    if (hex.length < 5) {
-        // 3, 4 characters double-up
-        hex = hex
-            .split('')
-            .map((s) => s + s)
-            .join('');
-    }
-
-    // parse pairs of two
-    const rgba = hex
-        .match(/.{1,2}/g)
-        .map((s) => parseFloat((parseInt(s, 16) / 255).toString()));
-    // alpha code between 0 & 1 / default 1
-    rgba[3] = rgba.length > 3 ? rgba[3] : 1;
-    const color = new BABYLON.Color4(rgba[0], rgba[1], rgba[2], rgba[3]);
-    return color;
-}
-
 let dummyProgress = 0; // Progress doesn't work for GLBs so fake it
-const modelCache: File[] = [];
+
+const getModifiedTime = (url): Promise<string> => {
+    const promise = new Promise<string>((resolve) => {
+        // HEAD can give a CORS error
+        fetch(url, { method: 'GET', headers: { range: 'bytes=1-2' } })
+            .then((response) => {
+                const dt = new Date(response.headers.get('Last-Modified'));
+                if (dt.toString() === 'Invalid Date') {
+                    resolve('');
+                }
+                resolve(dt.toISOString());
+            })
+            .catch(() => {
+                resolve('');
+            });
+    });
+    return promise;
+};
 
 async function loadPromise(
     root: string,
@@ -83,19 +85,15 @@ async function loadPromise(
     onProgress: (event: BABYLON.ISceneLoaderProgressEvent) => void,
     onError: (scene: BABYLON.Scene, message: string, exception?: any) => void
 ): Promise<BABYLON.Scene> {
-    let tempRoot = root;
-    let tempFile: string | File = filename;
-    const model: File = modelCache[root + filename];
-    if (model) {
-        tempRoot = '';
-        tempFile = model;
-    }
-
+    let mod = await getModifiedTime(root + filename);
+    mod = mod ? '?' + mod : '';
     return new Promise((resolve) => {
+        BABYLON.Database.IDBStorageEnabled = true;
+        engine.disableManifestCheck = true;
         BABYLON.SceneLoader.ShowLoadingScreen = false;
         BABYLON.SceneLoader.Load(
-            tempRoot,
-            tempFile,
+            root,
+            filename + mod,
             engine,
             (scene) => {
                 resolve(scene);
@@ -121,33 +119,36 @@ function convertLatLonToVector3(
 
 let lastName = '';
 
-const SceneView: React.FC<ISceneViewProp> = ({
-    modelUrl,
-    markers,
-    onMeshClick,
-    onMeshHover,
-    onCameraMove,
-    onBadgeGroupHover,
-    showMeshesOnHover,
-    objectColors,
-    zoomToMeshIds,
-    unzoomedMeshOpacity,
-    onSceneLoaded,
-    getToken,
-    coloredMeshItems,
-    showHoverOnSelected,
-    outlinedMeshitems,
-    isWireframe,
-    badgeGroups,
-    backgroundColor
-}) => {
+function SceneView(props: ISceneViewProps, ref) {
+    const {
+        modelUrl,
+        markers,
+        onMeshClick,
+        onMeshHover,
+        onCameraMove,
+        onBadgeGroupHover,
+        showMeshesOnHover,
+        objectColors,
+        zoomToMeshIds,
+        unzoomedMeshOpacity,
+        onSceneLoaded,
+        getToken,
+        cameraPosition,
+        coloredMeshItems,
+        showHoverOnSelected,
+        outlinedMeshitems,
+        isWireframe,
+        badgeGroups,
+        backgroundColor,
+        cameraInteractionType
+    } = props;
     const [isLoading, setIsLoading] = useState(true);
     const [loadProgress, setLoadProgress] = useState(0);
     const [canvasId] = useState(createGUID());
     const [scene, setScene] = useState<BABYLON.Scene>(undefined);
     const onMeshClickRef = useRef<SceneViewCallbackHandler>(null);
     const onMeshHoverRef = useRef<SceneViewCallbackHandler>(null);
-    const onCameraMoveRef = useRef<SceneViewCallbackHandler>(null);
+    const onCameraMoveRef = useRef<(position: ICameraPosition) => void>(null);
     const advancedTextureRef = useRef<GUI.AdvancedDynamicTexture>(undefined);
     const sceneRef = useRef<BABYLON.Scene>(null);
     const engineRef = useRef<BABYLON.Engine>(null);
@@ -180,7 +181,10 @@ const SceneView: React.FC<ISceneViewProp> = ({
     const prevHideUnzoomedRef = useRef<number>(undefined);
     const materialCacheRef = useRef<any[]>([]);
     const pointerActive = useRef(false);
-    const [isSerializing, setIsSerializing] = useState(false);
+    const initialCameraRadiusRef = useRef(0);
+    const zoomedCameraRadiusRef = useRef(0);
+    const zoomedMeshesRef = useRef([]);
+    const lastCameraPositionRef = useRef('');
 
     const defaultMeshHover = (
         marker: Marker,
@@ -256,24 +260,8 @@ const SceneView: React.FC<ISceneViewProp> = ({
                 advancedTextureRef.current = GUI.AdvancedDynamicTexture.CreateFullscreenUI(
                     'UI'
                 );
-                sortMeshesOnLoad();
 
-                // Scene has been created and loaded, export the scene for the cache before anyone changes it
-                if (!modelCache[url]) {
-                    sceneRef.current.render();
-                    const filename = createGUID();
-                    setIsSerializing(sceneRef.current.meshes.length > 500); // This may take a while
-                    const glb = await SERIALIZE.GLTF2Export.GLBAsync(
-                        sceneRef.current,
-                        filename
-                    );
-                    setIsSerializing(false);
-                    // glb.downloadFiles();     // Uncomment this for debug to get the GLB surfaced in your browser downloads
-                    modelCache[url] = new File(
-                        [glb.glTFFiles[filename + '.glb']],
-                        filename + '.glb'
-                    );
-                }
+                sortMeshesOnLoad();
 
                 sceneRef.current.clearColor = new BABYLON.Color4(0, 0, 0, 0);
 
@@ -360,12 +348,31 @@ const SceneView: React.FC<ISceneViewProp> = ({
         }
     };
 
-    const createOrZoomCamera = () => {
-        const zoomTo = (zoomToMeshIds || []).join(',');
+    useEffect(() => {
+        const pos = JSON.stringify(cameraPosition || {});
+        if (
+            pos !== lastCameraPositionRef.current &&
+            cameraRef.current &&
+            cameraPosition
+        ) {
+            lastCameraPositionRef.current = pos;
+            cameraRef.current.position = cameraPosition.position;
+            cameraRef.current.target = cameraPosition.target;
+            cameraRef.current.radius = cameraPosition.radius;
+        }
+        //
+    }, [cameraPosition, isLoading]);
+
+    const createOrZoomCamera = (meshIds?: string[]) => {
+        const zoomMeshIds = meshIds || zoomToMeshIds;
+        const zoomTo = (zoomMeshIds || []).join(',');
+        // Only zoom if the Ids actually changed, not just a re-render or mesh ids have been passed to this function
+        const shouldZoom =
+            meshIds?.length > 0 || prevZoomToIds.current !== zoomTo;
         if (
             sceneRef.current?.meshes?.length &&
             (!cameraRef.current ||
-                prevZoomToIds.current !== zoomTo ||
+                shouldZoom ||
                 prevHideUnzoomedRef.current !== unzoomedMeshOpacity)
         ) {
             debugLog('createOrZoomCamera');
@@ -379,20 +386,19 @@ const SceneView: React.FC<ISceneViewProp> = ({
                 mesh.computeWorldMatrix(true);
                 mesh.visibility =
                     unzoomedMeshOpacity !== undefined &&
-                    zoomToMeshIds?.length &&
-                    !zoomToMeshIds.includes(mesh.id)
+                    zoomMeshIds?.length &&
+                    !zoomMeshIds.includes(mesh.id)
                         ? unzoomedMeshOpacity
                         : 1;
             }
 
-            // Only zoom if the Ids actually changed, not just a re-render
-            if (!cameraRef.current || prevZoomToIds.current !== zoomTo) {
+            if (!cameraRef.current || shouldZoom) {
                 prevZoomToIds.current = zoomTo;
                 const someMeshFromTheArrayOfMeshes = sceneRef.current.meshes[0];
                 let meshes = sceneRef.current.meshes;
-                if (zoomToMeshIds?.length) {
+                if (zoomMeshIds?.length) {
                     const meshList: BABYLON.AbstractMesh[] = [];
-                    for (const id of zoomToMeshIds) {
+                    for (const id of zoomMeshIds) {
                         const m = meshMap.current?.[id];
                         if (m) {
                             meshList.push(m);
@@ -411,6 +417,8 @@ const SceneView: React.FC<ISceneViewProp> = ({
                     bbox = getBoundingBox(meshes);
                 }
 
+                zoomedMeshesRef.current = meshes;
+
                 someMeshFromTheArrayOfMeshes.setBoundingInfo(bbox);
 
                 someMeshFromTheArrayOfMeshes.showBoundingBox = false;
@@ -418,12 +426,12 @@ const SceneView: React.FC<ISceneViewProp> = ({
                 const es = someMeshFromTheArrayOfMeshes.getBoundingInfo()
                     .boundingBox.extendSize;
                 const es_scaled = es.scale(
-                    zoomToMeshIds && zoomToMeshIds.length < 10 ? 5 : 3
+                    zoomMeshIds && zoomMeshIds.length < 10 ? 5 : 3
                 );
                 const width = es_scaled.x;
                 const height = es_scaled.y;
                 const depth = es_scaled.z;
-                const radius = Math.max(width, height, depth);
+                let radius = Math.max(width, height, depth);
 
                 const center = someMeshFromTheArrayOfMeshes.getBoundingInfo()
                     .boundingBox.centerWorld;
@@ -434,6 +442,7 @@ const SceneView: React.FC<ISceneViewProp> = ({
 
                 // First time in after loading - create the camera
                 if (!cameraRef.current) {
+                    initialCameraRadiusRef.current = radius;
                     const camera = new BABYLON.ArcRotateCamera(
                         'camera',
                         0,
@@ -444,6 +453,7 @@ const SceneView: React.FC<ISceneViewProp> = ({
                     );
 
                     camera.attachControl(canvas, false);
+                    camera.lowerRadiusLimit = 0;
                     cameraRef.current = camera;
                     cameraRef.current.zoomOn(meshes, true);
                     cameraRef.current.radius = radius;
@@ -455,58 +465,13 @@ const SceneView: React.FC<ISceneViewProp> = ({
                         }
                     });
                 } else {
+                    // ensure if zoom to mesh ids are set we return to the original radius
+                    if (!zoomMeshIds?.length) {
+                        radius = initialCameraRadiusRef.current;
+                    }
+                    zoomedCameraRadiusRef.current = radius;
                     // Here if the caller changed zoomToMeshIds - zoom the existing camera
-                    // First save the current camera position
-                    const positionFrom = cameraRef.current.position;
-                    const targetFrom = cameraRef.current.target;
-                    const radiusFrom = cameraRef.current.radius;
-                    // Now move it immediately to where we want it and save the new position
-                    cameraRef.current.zoomOn(meshes, true);
-                    cameraRef.current.radius = radius;
-                    const positionTo = cameraRef.current.position;
-                    const targetTo = cameraRef.current.target;
-                    const radiusTo = cameraRef.current.radius;
-                    // Reset camera back to original position
-                    cameraRef.current.position = positionFrom;
-                    cameraRef.current.target = targetFrom;
-                    // And animate to the desired position
-                    const ease = new BABYLON.CubicEase();
-                    ease.setEasingMode(
-                        BABYLON.EasingFunction.EASINGMODE_EASEINOUT
-                    );
-                    BABYLON.Animation.CreateAndStartAnimation(
-                        'an1',
-                        cameraRef.current,
-                        'position',
-                        30, // FPS
-                        30, // Number of frames (ie 1 second)
-                        positionFrom,
-                        positionTo,
-                        BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT,
-                        ease
-                    );
-                    BABYLON.Animation.CreateAndStartAnimation(
-                        'an2',
-                        cameraRef.current,
-                        'target',
-                        30,
-                        30,
-                        targetFrom,
-                        targetTo,
-                        BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT,
-                        ease
-                    );
-                    BABYLON.Animation.CreateAndStartAnimation(
-                        'an3',
-                        cameraRef.current,
-                        'radius',
-                        30,
-                        30,
-                        radiusFrom,
-                        radiusTo,
-                        BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT,
-                        ease
-                    );
+                    zoomCamera(radius, meshes, 30);
                 }
             }
         }
@@ -580,6 +545,110 @@ const SceneView: React.FC<ISceneViewProp> = ({
             createBadgeGroups();
         }
     }, [backgroundColor]);
+
+    useEffect(() => {
+        if (cameraInteractionType && cameraRef.current) {
+            switch (cameraInteractionType) {
+                case CameraInteraction.Pan:
+                    cameraRef.current._panningMouseButton = 0;
+                    break;
+                case CameraInteraction.Rotate:
+                    cameraRef.current._panningMouseButton = 2;
+                    break;
+                default:
+                    break;
+            }
+        }
+    }, [cameraInteractionType, isLoading]);
+
+    useImperativeHandle(ref, () => ({
+        zoomCamera: (zoom: boolean) => {
+            if (cameraRef.current) {
+                if (zoom) {
+                    zoomCamera(
+                        cameraRef.current.radius - CameraZoomMultiplier,
+                        zoomedMeshesRef.current,
+                        5,
+                        true
+                    );
+                } else {
+                    zoomCamera(
+                        cameraRef.current.radius + CameraZoomMultiplier,
+                        zoomedMeshesRef.current,
+                        5,
+                        true
+                    );
+                }
+            }
+        },
+        resetCamera: (meshIds: string[]) => {
+            if (meshIds?.length) {
+                createOrZoomCamera(meshIds);
+            } else {
+                zoomCamera(
+                    initialCameraRadiusRef.current,
+                    sceneRef.current.meshes,
+                    30
+                );
+            }
+        }
+    }));
+
+    const zoomCamera = (
+        radius: number,
+        meshes: AbstractMesh[],
+        frames: number,
+        zoomOnly?: boolean
+    ) => {
+        const positionFrom = cameraRef.current.position;
+        const targetFrom = cameraRef.current.target;
+        const radiusFrom = cameraRef.current.radius;
+        // Now move it immediately to where we want it and save the new position
+        cameraRef.current.zoomOn(meshes, true);
+        const positionTo = cameraRef.current.position;
+        const targetTo = cameraRef.current.target;
+        const radiusTo = radius;
+        // Reset camera back to original position
+        cameraRef.current.position = positionFrom;
+        cameraRef.current.target = targetFrom;
+        const ease = new BABYLON.CubicEase();
+        ease.setEasingMode(BABYLON.EasingFunction.EASINGMODE_EASEINOUT);
+        if (!zoomOnly) {
+            BABYLON.Animation.CreateAndStartAnimation(
+                'an1',
+                cameraRef.current,
+                'position',
+                30,
+                frames,
+                positionFrom,
+                positionTo,
+                BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT,
+                ease
+            );
+            BABYLON.Animation.CreateAndStartAnimation(
+                'an2',
+                cameraRef.current,
+                'target',
+                30,
+                frames,
+                targetFrom,
+                targetTo,
+                BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT,
+                ease
+            );
+        }
+        BABYLON.Animation.CreateAndStartAnimation(
+            'an3',
+            cameraRef.current,
+            'radius',
+            30,
+            frames,
+            radiusFrom,
+            radiusTo,
+            BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT,
+            ease
+        );
+    };
 
     const clearBadgeGroups = (force: boolean) => {
         debugLog('clearBadgeGroups');
@@ -903,7 +972,7 @@ const SceneView: React.FC<ISceneViewProp> = ({
                 sphere.dispose(true, true);
             }
         };
-    }, [markers, modelUrl]);
+    }, [markers, modelUrl, isLoading]);
 
     // SETUP LOGIC FOR onMeshHover
     useEffect(() => {
@@ -914,6 +983,13 @@ const SceneView: React.FC<ISceneViewProp> = ({
             pt = scene.onPointerObservable.add((eventData) => {
                 if (eventData.type === BABYLON.PointerEventTypes.POINTERDOWN) {
                     pointerActive.current = true;
+                    // update panningSensibility based on current zoom level
+                    cameraRef.current.panningSensibility =
+                        (8 /
+                            (cameraRef.current.radius *
+                                Math.tan(cameraRef.current.fov / 2) *
+                                2)) *
+                        engineRef.current.getRenderHeight(true);
                 } else if (
                     eventData.type === BABYLON.PointerEventTypes.POINTERUP
                 ) {
@@ -1102,9 +1178,13 @@ const SceneView: React.FC<ISceneViewProp> = ({
         let pt: BABYLON.Observer<BABYLON.PointerInfo>;
         debugLog('pointerMove effect' + (scene ? ' with scene' : ' no scene'));
         if (scene && onCameraMoveRef.current) {
-            const cameraMove = (e: any) => {
-                if (onCameraMoveRef.current) {
-                    onCameraMoveRef.current(null, null, scene, e);
+            const cameraMove = () => {
+                if (onCameraMoveRef.current && cameraRef.current) {
+                    onCameraMoveRef.current({
+                        position: cameraRef.current.position,
+                        target: cameraRef.current.target,
+                        radius: cameraRef.current.radius
+                    });
                 }
             };
 
@@ -1136,13 +1216,118 @@ const SceneView: React.FC<ISceneViewProp> = ({
                 console.time('coloring meshes');
             }
             try {
-                for (const coloredMesh of coloredMeshItems) {
-                    if (coloredMesh.meshId) {
-                        const mesh: BABYLON.AbstractMesh =
-                            meshMap.current?.[coloredMesh.meshId];
-                        colorMesh(mesh, coloredMesh.color);
+                const coloredMeshGroups: ColoredMeshGroup[] = [];
+
+                // group colored meshes
+                coloredMeshItems.forEach((coloredMesh) => {
+                    // create first group
+                    if (coloredMeshGroups.length === 0) {
+                        coloredMeshGroups.push({
+                            meshId: coloredMesh.meshId,
+                            colors: [coloredMesh.color],
+                            currentColor: 0
+                        });
+                    } else {
+                        const group = coloredMeshGroups.find(
+                            (g) => g.meshId === coloredMesh.meshId
+                        );
+
+                        // add to exsiting group
+                        if (group) {
+                            group.colors.push(coloredMesh.color);
+                        } else {
+                            // create new group
+                            coloredMeshGroups.push({
+                                meshId: coloredMesh.meshId,
+                                colors: [coloredMesh.color],
+                                currentColor: 0
+                            });
+                        }
                     }
+                });
+
+                for (const coloredMeshGroup of coloredMeshGroups) {
+                    const mesh: BABYLON.AbstractMesh =
+                        meshMap.current?.[coloredMeshGroup.meshId];
+                    colorMesh(
+                        mesh,
+                        coloredMeshGroup.colors[coloredMeshGroup.currentColor]
+                    );
                 }
+
+                const nextColor = function (
+                    currentColor: number,
+                    totalColors: number
+                ) {
+                    return currentColor + 1 >= totalColors
+                        ? 0
+                        : currentColor + 1;
+                };
+
+                const transition = 250;
+                const interval = 500;
+                let elapsed = 0;
+
+                const transitionNrm = function () {
+                    return (elapsed - interval) / transition;
+                };
+
+                scene.beforeRender = () => {
+                    elapsed += 10;
+                    if (elapsed >= interval) {
+                        if (elapsed <= interval + transition) {
+                            for (const coloredMeshGroup of coloredMeshGroups) {
+                                if (coloredMeshGroup.colors.length > 1) {
+                                    const mesh: BABYLON.AbstractMesh =
+                                        meshMap.current?.[
+                                            coloredMeshGroup.meshId
+                                        ];
+                                    const transitionColor = BABYLON.Color3.Lerp(
+                                        BABYLON.Color3.FromHexString(
+                                            coloredMeshGroup.colors[
+                                                coloredMeshGroup.currentColor
+                                            ]
+                                        ),
+                                        BABYLON.Color3.FromHexString(
+                                            coloredMeshGroup.colors[
+                                                nextColor(
+                                                    coloredMeshGroup.currentColor,
+                                                    coloredMeshGroup.colors
+                                                        .length
+                                                )
+                                            ]
+                                        ),
+                                        transitionNrm()
+                                    );
+                                    colorMesh(
+                                        mesh,
+                                        transitionColor.toHexString()
+                                    );
+                                }
+                            }
+                        } else {
+                            for (const coloredMeshGroup of coloredMeshGroups) {
+                                if (coloredMeshGroup.colors.length > 1) {
+                                    const mesh: BABYLON.AbstractMesh =
+                                        meshMap.current?.[
+                                            coloredMeshGroup.meshId
+                                        ];
+                                    elapsed = 0;
+                                    coloredMeshGroup.currentColor = nextColor(
+                                        coloredMeshGroup.currentColor,
+                                        coloredMeshGroup.colors.length
+                                    );
+                                    colorMesh(
+                                        mesh,
+                                        coloredMeshGroup.colors[
+                                            coloredMeshGroup.currentColor
+                                        ]
+                                    );
+                                }
+                            }
+                        }
+                    }
+                };
             } catch {
                 console.warn('unable to color mesh');
             }
@@ -1268,24 +1453,14 @@ const SceneView: React.FC<ISceneViewProp> = ({
                 id={canvasId}
                 touch-action="none"
             />
-            {isLoading &&
-                !isSerializing &&
-                url &&
-                (!modelCache[url] || modelCache[url].size > 10000000) && (
-                    <ProgressIndicator
-                        styles={getProgressStyles(theme)}
-                        description={`Loading model (${Math.floor(
-                            loadProgress * 100
-                        )}%)...`}
-                        percentComplete={loadProgress}
-                        barHeight={10}
-                    />
-                )}
-            {isSerializing && (
+            {isLoading && url && (
                 <ProgressIndicator
                     styles={getProgressStyles(theme)}
-                    description={`Saving model...`}
-                    barHeight={0}
+                    description={`Loading model (${Math.floor(
+                        loadProgress * 100
+                    )}%)...`}
+                    percentComplete={loadProgress}
+                    barHeight={10}
                 />
             )}
             {isLoading === undefined && (
@@ -1307,6 +1482,6 @@ const SceneView: React.FC<ISceneViewProp> = ({
             )}
         </div>
     );
-};
+}
 
-export default withErrorBoundary(SceneView);
+export default withErrorBoundary(forwardRef(SceneView));
