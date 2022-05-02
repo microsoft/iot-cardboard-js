@@ -1,17 +1,12 @@
 import React from 'react';
-import { IImageProps, Image, Text } from '@fluentui/react';
+import { Image, Text } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
+import { NoDataMessageProps } from './NoDataMessage.types';
 import {
     getStyles,
     noLayersDescriptionStyles,
     sectionHeaderStyles
 } from './NoDataMessage.styles';
-
-export interface NoDataMessageProps {
-    headerTextTag: string;
-    imageProps?: IImageProps;
-    descriptionTextTag?: string;
-}
 
 export const NoDataMessage: React.FunctionComponent<NoDataMessageProps> = (
     props: NoDataMessageProps
