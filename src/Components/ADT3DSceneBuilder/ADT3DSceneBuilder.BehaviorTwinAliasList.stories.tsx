@@ -3,11 +3,7 @@ import { ComponentStory } from '@storybook/react';
 import { userEvent, within } from '@storybook/testing-library';
 import MockAdapter from '../../Adapters/MockAdapter';
 import ADT3DSceneBuilder from './ADT3DSceneBuilder';
-import {
-    IStoryContext,
-    sleep,
-    findCalloutItemByTestId
-} from '../../Models/Services/StoryUtilities';
+import { IStoryContext, sleep } from '../../Models/Services/StoryUtilities';
 import { IADT3DSceneBuilderCardProps } from './ADT3DSceneBuilder.types';
 import trucksMockVConfig from '../../Adapters/__mockData__/TruckAndMachinesConfig.json';
 import { deepCopy } from '../../Models/Services/Utils';
@@ -77,34 +73,36 @@ TwinAliasAddCallout.play = async ({ canvasElement }) => {
     await sleep(500);
 };
 
-export const TwinAliasAdd = Template.bind({});
-TwinAliasAdd.play = async ({ canvasElement }) => {
-    await TwinAliasAddCallout.play({ canvasElement });
+// TODO_FIX_INTERACTION_TEST
+// export const TwinAliasAdd = Template.bind({});
+// TwinAliasAdd.play = async ({ canvasElement }) => {
+//     await TwinAliasAddCallout.play({ canvasElement });
 
-    // Find the first available twin alias in the list and add it to behavior
-    const twinAliasItem1 = await findCalloutItemByTestId(
-        'cardboard-list-item-twin-alias-callout-list-0'
-    );
+//     // Find the first available twin alias in the list and add it to behavior
+//     const twinAliasItem1 = await findCalloutItemByTestId(
+//         'cardboard-list-item-twin-alias-callout-list-0'
+//     );
 
-    await userEvent.click(twinAliasItem1);
-    // let the callout animate
-    await sleep(500);
-};
+//     await userEvent.click(twinAliasItem1);
+//     // let the callout animate
+//     await sleep(500);
+// };
 
+// TODO_FIX_INTERACTION_TEST
 export const TwinAliasListItemMenu = Template.bind({});
-TwinAliasListItemMenu.play = async ({ canvasElement }) => {
-    await TwinAliasAdd.play({ canvasElement });
-    const canvas = within(canvasElement);
+// TwinAliasListItemMenu.play = async ({ canvasElement }) => {
+//     await TwinAliasAdd.play({ canvasElement });
+//     const canvas = within(canvasElement);
 
-    // Find overflow menu of the first twin alias just added
-    const twinAliasItem1MoreMenu = await canvas.findByTestId(
-        'context-menu-behavior-aliased-twin-list-0-moreMenu'
-    );
+//     // Find overflow menu of the first twin alias just added
+//     const twinAliasItem1MoreMenu = await canvas.findByTestId(
+//         'context-menu-behavior-aliased-twin-list-0-moreMenu'
+//     );
 
-    await userEvent.click(twinAliasItem1MoreMenu);
-};
+//     await userEvent.click(twinAliasItem1MoreMenu);
+// };
 
-// TODO_UNSTABLE_INTERACTION -- Excluding
+// TODO_FIX_INTERACTION_TEST
 // export const TwinAliasRemove = Template.bind({});
 // TwinAliasRemove.play = async ({ canvasElement }) => {
 //     await TwinAliasListItemMenu.play({ canvasElement });
