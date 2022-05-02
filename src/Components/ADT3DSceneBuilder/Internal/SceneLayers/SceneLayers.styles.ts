@@ -11,8 +11,7 @@ export const sceneLayersClassPrefix = 'cb-scene-layers';
 const classNames = {
     container: `${sceneLayersClassPrefix}-container`,
     body: `${sceneLayersClassPrefix}-body`,
-    footer: `${sceneLayersClassPrefix}-footer`,
-    noLayersContainer: `${sceneLayersClassPrefix}-no-layers-container`
+    footer: `${sceneLayersClassPrefix}-footer`
 };
 
 export const getStyles = memoizeFunction(() => {
@@ -45,16 +44,6 @@ export const getStyles = memoizeFunction(() => {
                 overflowY: 'auto',
                 padding: 20,
                 paddingTop: 8
-            } as IStyle
-        ],
-        noLayersContainer: [
-            classNames.noLayersContainer,
-            {
-                alignItems: 'center',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                paddingTop: 20
             } as IStyle
         ]
     });

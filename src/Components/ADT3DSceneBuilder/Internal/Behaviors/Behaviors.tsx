@@ -22,6 +22,7 @@ import {
 } from '../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { CardboardList } from '../../../CardboardList/CardboardList';
 import { ICardboardListItem } from '../../../CardboardList/CardboardList.types';
+import { NoDataMessage } from '../../../NoDataMessage/NoDataMessage';
 import { SceneBuilderContext } from '../../ADT3DSceneBuilder';
 import ConfirmDeleteDialog from '../ConfirmDeleteDialog/ConfirmDeleteDialog';
 import { getLeftPanelStyles } from '../Shared/LeftPanel.styles';
@@ -182,9 +183,9 @@ const SceneBehaviors: React.FC<Props> = ({
         <div className="cb-scene-builder-pivot-contents">
             <div className={commonPanelStyles.content}>
                 {behaviors.length === 0 ? (
-                    <p className={commonPanelStyles.noDataText}>
-                        {t('3dSceneBuilder.noBehaviorsText')}
-                    </p>
+                    <NoDataMessage
+                        headerTextTag={'3dSceneBuilder.noBehaviorsText'}
+                    />
                 ) : (
                     <>
                         <SearchHeader
