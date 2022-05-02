@@ -7,10 +7,10 @@ import React, { useContext, useReducer } from 'react';
 import { ADT3DScenePageModes } from '../Constants';
 import { getDebugLogger } from '../Services/Utils';
 
-const debug = true;
+const debug = false;
 const logDebugConsole = getDebugLogger('DeeplinkContext', debug);
 
-// &adtUrl=https%3A%2F%2FmockADTInstanceResourceName.api.wcus.digitaltwins.azure.net&mode=viewer&sceneId=f7053e7537048e03be4d1e6f8f93aa8a&selectedElementIds=8e3db965a88c8eac56af222786b53a08&selectedLayerIds=8904b620aa83c649888dadc7c8fdf492%2C9624b620aa83c649888dadc7c8fdf541&storageUrl=https%3A%2F%2FmockStorageAccountName.blob.core.windows.net%2FmockContainerName%208e3db965a88c8eac56af222786b53a08 8e3db965a88c8eac56af222786b53a08
+// &adtUrl=https://mockADTInstanceResourceName.api.wcus.digitaltwins.azure.net&mode=viewer&sceneId=f7053e7537048e03be4d1e6f8f93aa8a&selectedElementIds=45131a84754280b924477f1df54ca547&selectedLayerIds=8904b620aa83c649888dadc7c8fdf492,9624b620aa83c649888dadc7c8fdf541&storageUrl=https://mockStorageAccountName.blob.core.windows.net/mockContainerName%208e3db965a88c8eac56af222786b53a08%208e3db965a88c8eac56af222786b53a08
 
 export const DeeplinkContext = React.createContext<IADTDeeplinkContext>(null);
 export const useDeeplinkContext = () => useContext(DeeplinkContext);
