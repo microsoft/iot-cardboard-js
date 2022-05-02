@@ -2311,6 +2311,15 @@
                                     "label": "Power BI",
                                     "linkExpression": "https://mypowerbi.biz/${LinkedTwin.$dtId}"
                                 }
+                            },
+                            {
+                                "type": "Value",
+                                "id": "2d60362667067ff5763bb6f7765a9cc1",
+                                "widgetConfiguration": {
+                                    "displayName": "Temperature",
+                                    "valueExpression": "LinkedTwin.Temperature",
+                                    "type": "double"
+                                }
                             }
                         ],
                         "objectIDs": {

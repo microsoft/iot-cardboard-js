@@ -17,7 +17,8 @@ const LOC_KEYS = {
     propertyDropdownLabel: `${ROOT_LOC}.propertyDropdownLabel`,
     noElementsSelected: `${ROOT_LOC}.noElementsSelected`,
     noSelectionValue: `${ROOT_LOC}.noSelectionValue`,
-    propertyNotFound: `${ROOT_LOC}.propertyNotFound`
+    propertyNotFound: `${ROOT_LOC}.propertyNotFound`,
+    propertyDropdownPlaceholder: `${ROOT_LOC}.propertyDropdownPlaceholder`
 };
 
 interface ITwinPropertyDropdownProps {
@@ -125,6 +126,7 @@ const TwinPropertyDropown: React.FC<ITwinPropertyDropdownProps> = ({
             onRenderOption={onRenderOption}
             options={propertyOptions}
             required={required}
+            placeholder={t(LOC_KEYS.propertyDropdownPlaceholder)}
         />
     );
 };

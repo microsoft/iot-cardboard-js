@@ -417,15 +417,13 @@
             "propertyDropdownLabel": "Property",
             "noElementsSelected": "No elements selected",
             "noSelectionValue": "None",
-            "propertyNotFound": "Property not found on the behavior's twins"
+            "propertyNotFound": "Property not found on the behavior's twins",
+            "propertyDropdownPlaceholder": "Select twin property"
         },
         "numericExpressionPlaceholder": "Enter an expression which evaluates to a number",
         "behaviorId": "Behavior Id",
         "widgetLibrary": "Widget library",
         "exploreWidgets": "Explore our widgets and add an extra layer of information to your 3D scene.",
-        "allWidgets": "All widgets",
-        "myWidgets": "My widgets",
-        "searchWidgets": "Search widgets",
         "addWidget": "Add widget",
         "newWidget": "New widget",
         "createWidget": "Create widget",
@@ -494,6 +492,11 @@
             "description": "Reference external content by linking a URL",
             "urlPlaceholder": "https://mypowerbi.biz/${LinkedTwin.$dtId}",
             "openLink": "Open link"
+        },
+        "value": {
+            "title": "Value widget",
+            "description": "A basic widget to show values of twin properties",
+            "typePlaceholder": "Select the type for the value"
         },
         "panel": {
             "title": "Panel widget",

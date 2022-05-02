@@ -417,15 +417,13 @@
       "propertyDropdownLabel": "Proprietà",
       "noElementsSelected": "Nessun elemento selezionato",
       "noSelectionValue": "Nessuno",
-      "propertyNotFound": "Proprietà non trovata sui gemelli del comportamento"
+      "propertyNotFound": "Proprietà non trovata sui gemelli del comportamento",
+      "propertyDropdownPlaceholder": "Seleziona proprietà doppia"
     },
     "numericExpressionPlaceholder": "Immettere un'espressione che restituisce un numero",
     "behaviorId": "ID comportamento",
     "widgetLibrary": "Libreria di widget",
     "exploreWidgets": "Esplora i nostri widget e aggiungi un ulteriore livello di informazioni alla tua scena 3D.",
-    "allWidgets": "Tutti i widget",
-    "myWidgets": "I miei widget",
-    "searchWidgets": "Widget di ricerca",
     "addWidget": "Aggiungi widget",
     "newWidget": "Nuovo widget",
     "createWidget": "Crea widget",
@@ -499,7 +497,12 @@
       "title": "Widget del pannello",
       "description": "Un pannello di layout"
     },
-    "notSupported": "Questo tipo di widget non è attualmente supportato"
+    "notSupported": "Questo tipo di widget non è attualmente supportato",
+    "value": {
+      "title": "Widget Valore",
+      "description": "Widget di base per mostrare i valori delle proprietà gemelle",
+      "typePlaceholder": "Selezionare il tipo per il valore"
+    }
   },
   "sdkStrings": {
     "Last 30 mins": "Ultimi 30 minuti",
