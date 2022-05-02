@@ -93,8 +93,14 @@ export type SceneViewEventHandler = (
     e: PointerEvent
 ) => void;
 
-export interface ISceneViewProp {
-    modelUrl: string | 'Globe';
+export interface ICameraPosition {
+    position: BABYLON.Vector3;
+    target: BABYLON.Vector3;
+    radius: number;
+}
+
+export interface ISceneViewProps {
+    modelUrl?: string | 'Globe';
     markers?: Marker[];
     onSceneLoaded?: (scene: BABYLON.Scene) => void;
     onMeshClick?: SceneViewEventHandler;
@@ -104,7 +110,7 @@ export interface ISceneViewProp {
         left: number,
         top: number
     ) => void;
-    onCameraMove?: SceneViewEventHandler;
+    onCameraMove?: (position: ICameraPosition) => void;
     isWireframe?: boolean;
     showMeshesOnHover?: boolean;
     getToken?: () => Promise<string>;
@@ -117,4 +123,5 @@ export interface ISceneViewProp {
     badgeGroups?: SceneViewBadgeGroup[];
     backgroundColor?: IADTBackgroundColor;
     cameraInteractionType?: CameraInteraction;
+    cameraPosition?: ICameraPosition;
 }
