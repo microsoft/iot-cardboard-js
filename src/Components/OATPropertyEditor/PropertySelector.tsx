@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { FontIcon, ActionButton, Stack, Text } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
 import { DTDLModel } from '../../Models/Classes/DTDL';
+import { PropertyContext } from './context/PropertyContext';
 
 const data = {
     propertyTags: {
@@ -36,6 +37,7 @@ const PropertySelector = ({
 }: IProperySelectorProps) => {
     const { t } = useTranslation();
     const propertyInspectorStyles = getPropertyInspectorStyles();
+    const { execute, setUndoReference } = useContext(PropertyContext);
 
     const addNestedProperty = (tag) => {
         const modelCopy = Object.assign({}, model);
@@ -52,15 +54,7 @@ const PropertySelector = ({
         setPropertySelectorVisible(false);
     };
 
-    const handleTagClick = (tag) => {
-        if (
-            lastPropertyFocused &&
-            typeof lastPropertyFocused.item.schema === 'object'
-        ) {
-            addNestedProperty(tag);
-            return;
-        }
-
+    const addProperty = async (tag) => {
         const modelCopy = Object.assign({}, model);
         modelCopy.contents = [
             ...modelCopy.contents,
@@ -77,6 +71,25 @@ const PropertySelector = ({
         ];
         setModel(modelCopy);
         setPropertySelectorVisible(false);
+    };
+
+    const handleAddPropertyUndoReference = () => {
+        // Revert to previous state
+        const modelCopy = Object.assign({}, model);
+        setModel(modelCopy);
+    };
+
+    const handleTagClick = async (tag) => {
+        if (
+            lastPropertyFocused &&
+            typeof lastPropertyFocused.item.schema === 'object'
+        ) {
+            addNestedProperty(tag);
+            return;
+        }
+
+        execute(() => addProperty(tag));
+        setUndoReference(() => handleAddPropertyUndoReference());
     };
 
     const getSchema = (tag) => {
