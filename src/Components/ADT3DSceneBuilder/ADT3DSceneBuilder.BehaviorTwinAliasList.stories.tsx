@@ -89,7 +89,7 @@ TwinAliasAddCallout.play = async ({ canvasElement }) => {
 // };
 
 // TODO_FIX_INTERACTION_TEST
-export const TwinAliasListItemMenu = Template.bind({});
+// export const TwinAliasListItemMenu = Template.bind({});
 // TwinAliasListItemMenu.play = async ({ canvasElement }) => {
 //     await TwinAliasAdd.play({ canvasElement });
 //     const canvas = within(canvasElement);
