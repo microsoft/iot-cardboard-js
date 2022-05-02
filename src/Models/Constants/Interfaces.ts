@@ -714,7 +714,20 @@ export interface IADT3DViewerProps {
     hideViewModePickerUI?: boolean;
     hideElementsPanel?: boolean;
     outlinedMeshItems?: CustomMeshItem[];
-    sceneViewProps?: ISceneViewProps;
+    sceneViewProps?: Omit<
+        ISceneViewProps,
+        | 'badgeGroups'
+        | 'coloredMeshItems'
+        | 'modeUrl'
+        | 'onBadgeGroupHover'
+        | 'onMeshClick'
+        | 'onMeshHover'
+        | 'outlinedMeshitems'
+        | 'showHoverOnSelected'
+        | 'showMeshesOnHover'
+        | 'unzoomedMeshOpacity'
+        | 'zoomToMeshIds'
+    >;
 }
 
 export interface IADT3DViewerMode {
