@@ -476,6 +476,12 @@
       "errors": {
         "twinAliasAlreadyExists": "O pseudónimo gémeo com o mesmo nome já existe, considere adicioná-lo em vez disso."
       }
+    },
+    "ModelledPropertyBuilder": {
+      "expressionLabel": "Expressão de propriedade",
+      "expressionPlaceholder": "Insira a expressão da propriedade",
+      "selectProperty": "Selecione propriedade",
+      "toggleLabel": "Expressão de propriedade"
     }
   },
   "widgets": {
