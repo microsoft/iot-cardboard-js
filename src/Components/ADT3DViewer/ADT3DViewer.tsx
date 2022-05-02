@@ -89,6 +89,7 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
     const sceneWrapperId = useGuid();
     const selectedMesh = useRef(null);
     const sceneRef = useRef(null);
+    const isDeeplinkContextLoaded = useRef(false);
 
     // --- State setup ---
     const [coloredMeshItems, setColoredMeshItems] = useState<CustomMeshItem[]>(
@@ -237,14 +238,25 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
     );
 
     // initialize the zoomed elements
-    // Zoom to elements if it's on the context, but only on first mount
+    // Zoom to elements if it's on the context, but only on first mount/when data is present
     useEffect(() => {
-        if (deeplinkState.selectedElementId) {
-            setZoomMeshesByElement(deeplinkState.selectedElementId);
+        if (
+            deeplinkState.selectedElementId &&
+            scenesConfig &&
+            panelItems?.length &&
+            !isDeeplinkContextLoaded.current
+        ) {
+            isDeeplinkContextLoaded.current = true;
+            const panelItem = panelItems.find(
+                (x) => x.element.id === deeplinkState.selectedElementId
+            );
+            if (panelItem) {
+                onElementPanelItemClicked(undefined, panelItem, undefined);
+            }
         }
-        // first mount only or whenever the scenesConfig finishes loading
+        // first mount only when data is present
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [scenesConfig]);
+    }, [scenesConfig, panelItems]);
 
     useEffect(() => {
         // if we don't have any layer id from the context, set initial values
@@ -269,7 +281,6 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
             setOutlinedMeshItems(outlinedMeshItems);
             outlinedMeshItemsRef.current = outlinedMeshItems;
             setSelectedElementId(getElementByMeshId(meshIds[0])?.id);
-            // selectedMeshIdsRef.current = meshIds;
         },
         [getElementByMeshId, setSelectedElementId]
     );

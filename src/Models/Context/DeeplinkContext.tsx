@@ -16,6 +16,10 @@ export const DeeplinkContextReducer: (
     action: DeeplinkContextAction
 ) => DeeplinkContextState = produce(
     (draft: DeeplinkContextState, action: DeeplinkContextAction) => {
+        // console.debug(
+        //     `*** Updating Deeplink context ${action.type} with payload: `,
+        //     action.payload
+        // );
         switch (action.type) {
             case DeeplinkContextActionType.SET_ADT_URL: {
                 draft.adtUrl = action.payload.url || '';
@@ -115,6 +119,7 @@ const buildDeeplink = (currentState: DeeplinkContextState): string => {
         sort: false,
         skipEmptyString: true
     });
+    // console.debug(`*** Deeplink: `, deeplink, newValue);
     return newValue;
 };
 
