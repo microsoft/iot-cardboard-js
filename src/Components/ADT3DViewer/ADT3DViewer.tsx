@@ -32,7 +32,7 @@ import { DefaultButton, IButtonStyles, memoizeFunction } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { useBoolean } from '@fluentui/react-hooks';
 import { createCustomMeshItems } from '../3DV/SceneView.Utils';
-import { deepCopy } from '../../Models/Services/Utils';
+import { deepCopy, getDebugLogger } from '../../Models/Services/Utils';
 import AlertModal from '../AlertModal/AlertModal';
 import ViewerConfigUtility from '../../Models/Classes/ViewerConfigUtility';
 import LayerDropdown, {
@@ -49,6 +49,9 @@ import {
     DeeplinkContextActionType,
     DeeplinkContextProvider
 } from '../../Models/Context/DeeplinkContext';
+
+const debug = true;
+const logDebugConsole = getDebugLogger('ADT3DViewer', debug);
 
 const ADT3DViewerBase: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
     theme,
@@ -206,6 +209,7 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
 
     const setSelectedElementId = useCallback(
         (elementId: string) => {
+            logDebugConsole('Selected Element Id: ', elementId);
             deeplinkDispatch?.({
                 type: DeeplinkContextActionType.SET_ELEMENT_ID,
                 payload: {
@@ -217,6 +221,7 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
     );
     const setZoomMeshesByElement = useCallback(
         (elementId: string) => {
+            logDebugConsole('Zooming to Element Id: ', elementId);
             if (elementId) {
                 const elements = ViewerConfigUtility.getElementsInScene(
                     scenesConfig,

@@ -359,3 +359,10 @@ function componentToHex(c) {
 export function rgbToHex(r, g, b) {
     return '#' + componentToHex(r) + componentToHex(g) + componentToHex(b);
 }
+
+export function getDebugLogger(context: string, enabled: boolean) {
+    if (!enabled) return () => undefined;
+    return (message: string, ...args: unknown[]) => {
+        console.log(`[DEBUG][${context}] ${message}`, args);
+    };
+}

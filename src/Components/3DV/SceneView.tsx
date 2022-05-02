@@ -11,7 +11,11 @@ import React, {
     useState
 } from 'react';
 import './SceneView.scss';
-import { createGUID, hexToColor4 } from '../../Models/Services/Utils';
+import {
+    createGUID,
+    getDebugLogger,
+    hexToColor4
+} from '../../Models/Services/Utils';
 import {
     ICameraPosition,
     ISceneViewProps,
@@ -41,12 +45,7 @@ import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
 import { sleep } from '../AutoComplete/AutoComplete';
 
 const debug = false;
-
-function debugLog(s: string) {
-    if (debug) {
-        console.log(s);
-    }
-}
+const debugLog = getDebugLogger('SceneView', debug);
 
 function debounce(func: any, timeout = 300) {
     let timer: any;

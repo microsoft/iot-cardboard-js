@@ -5,6 +5,10 @@ import produce from 'immer';
 import queryString from 'query-string';
 import React, { useContext, useReducer } from 'react';
 import { ADT3DScenePageModes } from '../Constants';
+import { getDebugLogger } from '../Services/Utils';
+
+const debug = true;
+const logDebugConsole = getDebugLogger('DeeplinkContext', debug);
 
 // &adtUrl=https%3A%2F%2FmockADTInstanceResourceName.api.wcus.digitaltwins.azure.net&mode=viewer&sceneId=f7053e7537048e03be4d1e6f8f93aa8a&selectedElementIds=8e3db965a88c8eac56af222786b53a08&selectedLayerIds=8904b620aa83c649888dadc7c8fdf492%2C9624b620aa83c649888dadc7c8fdf541&storageUrl=https%3A%2F%2FmockStorageAccountName.blob.core.windows.net%2FmockContainerName%208e3db965a88c8eac56af222786b53a08 8e3db965a88c8eac56af222786b53a08
 
@@ -16,10 +20,10 @@ export const DeeplinkContextReducer: (
     action: DeeplinkContextAction
 ) => DeeplinkContextState = produce(
     (draft: DeeplinkContextState, action: DeeplinkContextAction) => {
-        // console.debug(
-        //     `*** Updating Deeplink context ${action.type} with payload: `,
-        //     action.payload
-        // );
+        logDebugConsole(
+            `Updating Deeplink context ${action.type} with payload: `,
+            action.payload
+        );
         switch (action.type) {
             case DeeplinkContextActionType.SET_ADT_URL: {
                 draft.adtUrl = action.payload.url || '';
@@ -119,7 +123,7 @@ const buildDeeplink = (currentState: DeeplinkContextState): string => {
         sort: false,
         skipEmptyString: true
     });
-    // console.debug(`*** Deeplink: `, deeplink, newValue);
+    logDebugConsole(`*** Deeplink: `, deeplink, newValue);
     return newValue;
 };
 
