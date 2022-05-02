@@ -4,13 +4,13 @@ import React, { useCallback, useContext, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { IGaugeWidgetBuilderProps } from '../../../../ADT3DSceneBuilder.types';
 import ValueRangeBuilder from '../../../../../ValueRangeBuilder/ValueRangeBuilder';
-import { getWidgetFormStyles } from '../WidgetForm.styles';
 import useValueRangeBuilder from '../../../../../../Models/Hooks/useValueRangeBuilder';
 import { deepCopy } from '../../../../../../Models/Services/Utils';
 import { SceneBuilderContext } from '../../../../ADT3DSceneBuilder';
 import ViewerConfigUtility from '../../../../../../Models/Classes/ViewerConfigUtility';
 import useBehaviorAliasedTwinProperties from '../../../../../../Models/Hooks/useBehaviorAliasedTwinProperties';
 import TwinPropertyBuilder from '../../../../../TwinPropertyBuilder/TwinPropertyBuilder';
+import { getWidgetFormStyles } from '../WidgetForm/WidgetForm.styles';
 
 const GaugeWidgetBuilder: React.FC<IGaugeWidgetBuilderProps> = ({
     formData,

@@ -417,15 +417,13 @@
       "propertyDropdownLabel": "Eigentum",
       "noElementsSelected": "Keine Elemente ausgewählt",
       "noSelectionValue": "Nichts",
-      "propertyNotFound": "Eigenschaft, die bei den Zwillingen des Verhaltens nicht gefunden wurde"
+      "propertyNotFound": "Eigenschaft, die bei den Zwillingen des Verhaltens nicht gefunden wurde",
+      "propertyDropdownPlaceholder": "Twin-Eigenschaft auswählen"
     },
     "numericExpressionPlaceholder": "Geben Sie einen Ausdruck ein, der zu einer Zahl ausgewertet wird.",
     "behaviorId": "Verhaltens-ID",
     "widgetLibrary": "Widget-Bibliothek",
     "exploreWidgets": "Erkunden Sie unsere Widgets und fügen Sie Ihrer 3D-Szene eine zusätzliche Informationsebene hinzu.",
-    "allWidgets": "Alle Widgets",
-    "myWidgets": "Meine Widgets",
-    "searchWidgets": "Such-Widgets",
     "addWidget": "Widget hinzufügen",
     "newWidget": "Neues Widget",
     "createWidget": "Widget erstellen",
@@ -505,7 +503,12 @@
       "title": "Panel-Widget",
       "description": "Ein Layoutpanel"
     },
-    "notSupported": "Dieser Widget-Typ wird derzeit nicht unterstützt"
+    "notSupported": "Dieser Widget-Typ wird derzeit nicht unterstützt",
+    "value": {
+      "title": "Wert-Widget",
+      "description": "Einfaches Widget zum Anzeigen von Werten von Zwillingseigenschaften",
+      "typePlaceholder": "Wählen Sie den Typ für den Wert aus."
+    }
   },
   "sdkStrings": {
     "Last 30 mins": "Letzte 30 Minuten",

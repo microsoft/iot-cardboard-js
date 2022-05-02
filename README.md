@@ -83,7 +83,7 @@ import StandalonePropertyInspector from '@microsoft/iot-cardboard-js/Components/
 
 Storybook stories are the best way to learn how to use our components.  Files ending in `*.stories.tsx` showcase components set up with mock data.  While files ending in `*.stories.local.tsx` showcase components which authenticate and communicate with APIs. Stories are a great way to learn about the different ways to consume each of our components.
 
-Check out the [KeyValuePairCard](src/Cards/KeyValuePairCard/Consume/KeyValuePairCard.stories.tsx) stories for an example of this.
+Check out the [KeyValuePairCard](https://github.com/microsoft/iot-cardboard-js/blob/main/src/Cards/KeyValuePairCard/KeyValuePairCard.stories.tsx) stories for an example of this.
 
 You can also see the code required to use a component by opening either the [live](https://601c6b2fcd385c002100f14c-exzabxrkak.chromatic.com/?path=/docs/keyvaluepaircard-consume--mock) or local storybook, selecting the **docs** tab at the top of a story, and clicking **show code** at the bottom right of a story panel.  This opens a view of the code used to render that story!
 
@@ -97,7 +97,7 @@ If you have a question for one of the project maintainers, please post the quest
 ## Contributing 🚀
 - To contribute to this project, head over to our [environment setup wiki](https://github.com/microsoft/iot-cardboard-js/wiki/Environment-setup) to get started.
 - To learn about our codebase philosophy, check out the [design patterns wiki](https://github.com/microsoft/iot-cardboard-js/wiki/Design-patterns).
-- To learn about coding guidelines, check out the [coding guidelines wiki](https://github.com/microsoft/iot-cardboard-js/wiki/Coding-guidelines).
+- To learn about coding guidelines, check out the [coding guidelines wiki](https://github.com/microsoft/iot-cardboard-js/wiki/Coding-guidelines~Component-templates).
 - For an overview of our CI / CD and semantic versioning systems, check out our [continuous integration and delivery wiki](https://github.com/microsoft/iot-cardboard-js/wiki/Continuous-delivery).
 
 
