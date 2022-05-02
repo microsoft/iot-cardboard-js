@@ -19,8 +19,8 @@ export const config: I3DScenesConfig = {
                     {
                         type: 'TwinToObjectMapping',
                         id: '37707f49068935a8f1f0a8f03f957460',
-                        displayName: 'PasteurizationMachine_A01',
-                        linkedTwinID: 'PasteurizationMachine_A01',
+                        displayName: 'Tesla',
+                        linkedTwinID: 'Tesla',
                         objectIDs: [
                             'Mesh3 LKHP_40_15_254TC2 Centrifugal_Pumps2 Model',
                             'Mesh4 LKHP_40_15_254TC3 Centrifugal_Pumps2 Model'
