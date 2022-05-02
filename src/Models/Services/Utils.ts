@@ -363,6 +363,6 @@ export function rgbToHex(r, g, b) {
 export function getDebugLogger(context: string, enabled: boolean) {
     if (!enabled) return () => undefined;
     return (message: string, ...args: unknown[]) => {
-        console.log(`[DEBUG][${context}] ${message}`, args);
+        console.log(`[CB-DEBUG][${context}] ${message}`, args);
     };
 }

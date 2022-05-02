@@ -476,7 +476,6 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
     );
 
     const svp = sceneViewProps || {};
-
     return (
         <BaseComponent
             isLoading={isLoading && !sceneVisuals}
