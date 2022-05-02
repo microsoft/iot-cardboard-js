@@ -292,9 +292,7 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
                                                 ?.environment
                                                 ?.shouldPullFromSubscription
                                         }
-                                        {...(deeplinkState.adtUrl && {
-                                            environmentUrl: deeplinkState.adtUrl
-                                        })}
+                                        environmentUrl={deeplinkState.adtUrl}
                                         onEnvironmentUrlChange={
                                             handleEnvironmentUrlChange
                                         }
@@ -311,9 +309,8 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
                                                     ?.selectedItemLocalStorageKey
                                         })}
                                         storage={{
-                                            ...(adapter.getBlobContainerURL() && {
-                                                containerUrl: adapter.getBlobContainerURL()
-                                            }),
+                                            containerUrl:
+                                                deeplinkState.storageUrl,
                                             onContainerUrlChange: handleContainerUrlChange,
                                             ...(environmentPickerOptions
                                                 ?.storage

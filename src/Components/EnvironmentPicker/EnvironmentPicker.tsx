@@ -127,13 +127,13 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
             let selectedEnvironmentUrl = '';
             try {
                 selectedEnvironmentUrl =
+                    props.environmentUrl ??
                     (JSON.parse(
                         localStorage.getItem(
                             props.selectedItemLocalStorageKey ??
                                 SelectedEnvironmentLocalStorageKey
                         )
-                    ) as ADTSelectedEnvironmentInLocalStorage)?.appAdtUrl ??
-                    (props.environmentUrl || '');
+                    ) as ADTSelectedEnvironmentInLocalStorage)?.appAdtUrl;
             } catch (error) {
                 selectedEnvironmentUrl = '';
             }
@@ -151,7 +151,12 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
             setEnvironments(props.environmentUrl ? [props.environmentUrl] : []);
         }
 
-        if (props.storage?.isLocalStorageEnabled) {
+        if (props.storage?.containerUrl) {
+            setSelectedContainerUrl(props.storage?.containerUrl ?? '');
+            setContainers(
+                props.storage?.containerUrl ? [props.storage.containerUrl] : []
+            );
+        } else if (props.storage?.isLocalStorageEnabled) {
             let containerUrlsInLocalStorage: Array<string> = [];
             try {
                 containerUrlsInLocalStorage =
@@ -181,11 +186,6 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
             }
             setSelectedContainerUrl(selectedContainerUrl);
             setContainers(containerUrlsInLocalStorage);
-        } else {
-            setSelectedContainerUrl(props.storage?.containerUrl ?? '');
-            setContainers(
-                props.storage?.containerUrl ? [props.storage.containerUrl] : []
-            );
         }
         return () => clearTimeout(dialogResettingValuesTimeoutRef.current);
     }, []);
@@ -295,7 +295,7 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
             )
                 ? t('environmentPicker.errors.invalidEnvironmentUrl')
                 : undefined,
-        [environmentToEdit, environmentsState]
+        [environmentToEdit, isValidUrlStr, t]
     );
 
     const containerInputError = useMemo(
@@ -304,7 +304,7 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
             !isValidUrlStr(containerUrlToEdit, 'container')
                 ? t('environmentPicker.errors.invalidContainerUrl')
                 : undefined,
-        [containerUrlToEdit]
+        [containerUrlToEdit, isValidUrlStr, t]
     );
 
     const onRenderOption = (
@@ -483,7 +483,14 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
             );
         }
         toggleIsDialogHidden();
-    }, [environmentToEdit, containerUrlToEdit, environments, containers]);
+    }, [
+        environmentToEdit,
+        containerUrlToEdit,
+        props,
+        toggleIsDialogHidden,
+        environments,
+        containers
+    ]);
 
     const handleOnDismiss = useCallback(() => {
         toggleIsDialogHidden();
@@ -507,7 +514,13 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                 setContainers(containers.concat(selectedContainerUrl));
             }
         }, 500);
-    }, [environmentToEdit, containerUrlToEdit]);
+    }, [
+        toggleIsDialogHidden,
+        environments,
+        selectedEnvironment,
+        selectedContainerUrl,
+        containers
+    ]);
 
     const displayNameForEnvironment = useCallback(
         (env: string | IADTInstance) => {
@@ -519,17 +532,20 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                 return t('environmentPicker.noEnvironment');
             }
         },
-        []
+        [t]
     );
 
-    const displayNameForContainer = useCallback((containerUrl: string) => {
-        if (containerUrl) {
-            const urlObj = new URL(containerUrl);
-            return urlObj.hostname.split('.')[0] + urlObj.pathname; // i.e. AzureStorageAccountName/ContainerName
-        } else {
-            return t('environmentPicker.noContainer');
-        }
-    }, []);
+    const displayNameForContainer = useCallback(
+        (containerUrl: string) => {
+            if (containerUrl) {
+                const urlObj = new URL(containerUrl);
+                return urlObj.hostname.split('.')[0] + urlObj.pathname; // i.e. AzureStorageAccountName/ContainerName
+            } else {
+                return t('environmentPicker.noContainer');
+            }
+        },
+        [t]
+    );
 
     return (
         <BaseComponent
