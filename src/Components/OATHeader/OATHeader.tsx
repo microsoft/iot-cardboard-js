@@ -7,9 +7,10 @@ import { IOATTwinModelNodes } from '../../Models/Constants';
 
 type OATHeaderProps = {
     elements: IOATTwinModelNodes[];
+    handleImportClick: () => any;
 };
 
-const OATHeader = ({ elements }: OATHeaderProps) => {
+const OATHeader = ({ elements, handleImportClick }: OATHeaderProps) => {
     const { t } = useTranslation();
     const headerStyles = getHeaderStyles();
 
@@ -85,7 +86,7 @@ const OATHeader = ({ elements }: OATHeaderProps) => {
                         />
                         {t('OATHeader.sync')}
                     </ActionButton>
-                    <ActionButton>
+                    <ActionButton onClick={handleImportClick}>
                         <FontIcon
                             iconName={'Import'}
                             className={headerStyles.menuIcon}
@@ -107,7 +108,8 @@ const OATHeader = ({ elements }: OATHeaderProps) => {
 };
 
 OATHeader.defaultProps = {
-    elements: []
+    elements: [],
+    handleImportClick: null
 };
 
 export default OATHeader;
