@@ -1,17 +1,9 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import {
-    DirectionalHint,
-    SearchBox,
-    mergeStyleSets,
-    PrimaryButton,
-    FocusTrapCallout,
-    useTheme
-} from '@fluentui/react';
 import { IADT3DSceneBuilderAddTwinAliasCalloutProps } from '../../../ADT3DSceneBuilder.types';
-import { CardboardList } from '../../../../CardboardList';
 import { ICardboardListItem } from '../../../../CardboardList/CardboardList.types';
-import { ITwinAliasItem } from '../../../../../Models/Classes/3DVConfig';
+import { IBehaviorTwinAliasItem } from '../../../../../Models/Classes/3DVConfig';
+import CardboardListCallout from '../../../../CardboardListCallout/CardboardListCallout';
 
 const AddTwinAliasCallout: React.FC<IADT3DSceneBuilderAddTwinAliasCalloutProps> = ({
     availableTwinAliases,
@@ -21,106 +13,40 @@ const AddTwinAliasCallout: React.FC<IADT3DSceneBuilderAddTwinAliasCalloutProps> 
     hideCallout
 }) => {
     const { t } = useTranslation();
-    const [searchText, setSearchText] = useState('');
-    const [filteredTwinAlises, setFilteredTwinAlises] = useState<
-        Array<ITwinAliasItem>
-    >(availableTwinAliases);
-
-    const searchTwinAliases = useCallback(
-        (searchTerm: string) => {
-            setFilteredTwinAlises(
-                availableTwinAliases.filter((twinAlias) =>
-                    twinAlias.alias
-                        .toLowerCase()
-                        .includes(searchTerm.toLowerCase())
-                )
-            );
-        },
-        [availableTwinAliases]
-    );
-
     const listItems = useMemo(
-        () => getListItems(filteredTwinAlises, onAddTwinAlias),
-        [filteredTwinAlises, onAddTwinAlias]
+        () => getListItems(availableTwinAliases, onAddTwinAlias),
+        [availableTwinAliases, onAddTwinAlias]
     );
 
-    useEffect(() => {
-        setFilteredTwinAlises(availableTwinAliases);
-    }, [availableTwinAliases]);
-
-    const theme = useTheme();
     return (
-        <FocusTrapCallout
-            focusTrapProps={{
-                isClickableOutsideFocusTrap: true
-            }}
-            target={`#${calloutTarget}`}
-            isBeakVisible={false}
-            directionalHint={DirectionalHint.bottomLeftEdge}
+        <CardboardListCallout
+            listType="Complex"
+            calloutTarget={calloutTarget}
+            title={t('3dSceneBuilder.twinAlias.add')}
+            listKey={'twin-alias-callout-list'}
+            listItems={listItems}
             onDismiss={hideCallout}
-            styles={{
-                root: {
-                    padding: 15,
-                    width: 300,
-                    backgroundColor: theme.semanticColors.bodyBackground
-                },
-                calloutMain: {
-                    backgroundColor: 'unset'
-                }
+            filterPlaceholder={t('3dSceneBuilder.twinAlias.search')}
+            filterPredicate={(twinAlias: IBehaviorTwinAliasItem, searchTerm) =>
+                twinAlias.alias.toLowerCase().includes(searchTerm.toLowerCase())
+            }
+            noResultText={t('3dSceneBuilder.twinAlias.noTwinAliasesToAdd')}
+            primaryActionProps={{
+                onPrimaryActionClick: onCreateTwinAlias,
+                primaryActionLabel: t('3dSceneBuilder.twinAlias.create')
             }}
-        >
-            <div>
-                <h4 className={styles.title}>
-                    {t('3dSceneBuilder.twinAlias.add')}
-                </h4>
-                {availableTwinAliases.length > 0 && (
-                    <SearchBox
-                        data-testid={'twin-alias-callout-search'}
-                        placeholder={t('3dSceneBuilder.twinAlias.search')}
-                        onChange={(_event, value) => {
-                            setSearchText(value);
-                            searchTwinAliases(value);
-                        }}
-                    />
-                )}
-
-                {listItems?.length === 0 ? (
-                    <div className={styles.resultText}>
-                        {t('3dSceneBuilder.twinAlias.noTwinAliasesToAdd')}
-                    </div>
-                ) : (
-                    <div className={styles.listRoot}>
-                        <CardboardList<ITwinAliasItem>
-                            listProps={{ className: styles.list }}
-                            items={listItems}
-                            listKey={`twin-alias-callout-list`}
-                            textToHighlight={searchText}
-                        />
-                    </div>
-                )}
-
-                <PrimaryButton
-                    styles={{
-                        root: {
-                            marginTop: 16
-                        }
-                    }}
-                    onClick={onCreateTwinAlias}
-                >
-                    {t('3dSceneBuilder.twinAlias.create')}
-                </PrimaryButton>
-            </div>
-        </FocusTrapCallout>
+            searchBoxDataTestId="twin-alias-callout-search"
+        />
     );
 };
 
 function getListItems(
-    filteredTwinAlises: ITwinAliasItem[],
-    onAddTwinAlias: (item: ITwinAliasItem) => void
+    filteredTwinAlises: IBehaviorTwinAliasItem[],
+    onAddTwinAlias: (item: IBehaviorTwinAliasItem) => void
 ) {
     return (
         filteredTwinAlises?.map((item) => {
-            const viewModel: ICardboardListItem<ITwinAliasItem> = {
+            const viewModel: ICardboardListItem<IBehaviorTwinAliasItem> = {
                 ariaLabel: '',
                 iconStart: { name: 'LinkedDatabase' },
                 iconEnd: { name: 'Add' },
@@ -133,26 +59,5 @@ function getListItems(
         }) ?? []
     );
 }
-
-const styles = mergeStyleSets({
-    title: {
-        marginTop: '0px'
-    },
-    listRoot: {
-        paddingTop: 8
-    },
-    list: {
-        '.ms-List-surface': {
-            maxHeight: 200,
-            overflowX: 'hidden',
-            overflowY: 'auto'
-        }
-    },
-    resultText: {
-        fontSize: '12px',
-        marginTop: '5px',
-        opacity: '0.6'
-    }
-});
 
 export default AddTwinAliasCallout;

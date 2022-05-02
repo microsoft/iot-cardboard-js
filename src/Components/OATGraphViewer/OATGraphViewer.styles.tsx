@@ -12,7 +12,11 @@ const classNames = {
     extendHandle: `${classPrefix}-extend-handle`,
     edgePath: `${classPrefix}-edge-path`,
     textPath: `${classPrefix}-text-path`,
-    nodeCancel: `${classPrefix}-node-cancel`
+    nodeCancel: `${classPrefix}-node-cancel`,
+    componentPath: `${classPrefix}-component-path`,
+    componentShape: `${classPrefix}-component-shape`,
+    inheritancePath: `${classPrefix}-inheritance-path`,
+    inheritanceShape: `${classPrefix}-inheritance-shape`
 };
 
 export const getGraphViewerStyles = () => {
@@ -49,7 +53,7 @@ export const getGraphViewerStyles = () => {
         componentHandle: [
             classNames.componentHandle,
             {
-                left: '25% !Important',
+                left: '16.5% !Important',
                 background: theme.semanticColors.variantBorder
             } as IStyle
         ],
@@ -62,14 +66,14 @@ export const getGraphViewerStyles = () => {
         extendHandle: [
             classNames.extendHandle,
             {
-                left: '75% !Important',
+                left: '83.5% !Important',
                 background: theme.semanticColors.variantBorder
             } as IStyle
         ],
         edgePath: [
             classNames.edgePath,
             {
-                stroke: theme.palette.black,
+                stroke: theme.palette.yellow,
                 strokeWidth: '1',
                 fill: 'none'
             } as IStyle
@@ -85,6 +89,38 @@ export const getGraphViewerStyles = () => {
             {
                 height: FontSizes.size12,
                 float: 'right'
+            } as IStyle
+        ],
+        componentPath: [
+            classNames.componentPath,
+            {
+                stroke: theme.palette.blue,
+                strokeWidth: '1',
+                fill: 'none'
+            } as IStyle
+        ],
+        componentShape: [
+            classNames.componentShape,
+            {
+                stroke: theme.palette.blue,
+                strokeWidth: '1',
+                fill: theme.palette.blue
+            } as IStyle
+        ],
+        inheritanceShape: [
+            classNames.inheritanceShape,
+            {
+                stroke: theme.palette.green,
+                strokeWidth: '1',
+                fill: theme.semanticColors.bodyBackground
+            } as IStyle
+        ],
+        inheritancePath: [
+            classNames.inheritancePath,
+            {
+                stroke: theme.palette.green,
+                strokeWidth: '1',
+                fill: 'none'
             } as IStyle
         ]
     });

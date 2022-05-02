@@ -35,6 +35,8 @@ type IListItemBaseProps<T> = {
     iconStart?: {
         name: IIconNames | JSX.Element;
     };
+    /** if provided false will result in rendering the red dot at the very left of the element. If not provided, will assume it is valid and not render any dot */
+    isValid?: boolean;
     /** if provided will result in rendering the checkbox in either checked or unchecked state. If not provided, will not render a checkbox */
     isChecked?: boolean;
     /** the original item to provide back to callbacks */

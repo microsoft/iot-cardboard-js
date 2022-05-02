@@ -94,6 +94,7 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
             }
         ];
         setElements((els) => removeElements(elementsToRemove, els));
+        setModel(null);
     };
 
     return (
@@ -154,10 +155,6 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
                                     autoFocus
                                 />
                             )}
-                        </div>
-                        <div>
-                            {t('OATGraphViewer.type')}:
-                            <strong>{data.type}</strong>
                         </div>
                     </>
                 )}

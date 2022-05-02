@@ -10,7 +10,6 @@ export type TabNames =
     | 'Widgets';
 export interface IBehaviorFormState {
     validityMap: Map<TabNames, IValidityState>;
-    isPopoverPreviewVisible: boolean;
 }
 
 export enum BehaviorFormActionType {

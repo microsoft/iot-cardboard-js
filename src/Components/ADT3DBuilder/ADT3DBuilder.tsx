@@ -1,7 +1,11 @@
 import React from 'react';
 import './ADT3DBuilder.scss';
 import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
-import { CustomMeshItem, Marker } from '../../Models/Classes/SceneView.types';
+import {
+    CustomMeshItem,
+    ISceneViewProps,
+    Marker
+} from '../../Models/Classes/SceneView.types';
 import {
     IADTAdapter,
     IADTObjectColor
@@ -9,6 +13,7 @@ import {
 import BaseComponent from '../BaseComponent/BaseComponent';
 import { AbstractMesh, Scene } from '@babylonjs/core';
 import { SceneViewWrapper } from '../3DV/SceneViewWrapper';
+import { WrapperMode } from '../3DV/SceneView.types';
 
 interface ADT3DBuilderProps {
     adapter: IADTAdapter; // for now
@@ -22,11 +27,13 @@ interface ADT3DBuilderProps {
     outlinedMeshItems?: CustomMeshItem[];
     objectColorUpdated?: (objectColor: IADTObjectColor) => void;
     hideViewModePickerUI?: boolean;
+    sceneViewProps?: ISceneViewProps;
 }
 
 const ADT3DBuilder: React.FC<ADT3DBuilderProps> = ({
     adapter,
     modelUrl,
+    sceneViewProps,
     onMeshClicked,
     onMeshHovered,
     showMeshesOnHover,
@@ -58,13 +65,17 @@ const ADT3DBuilder: React.FC<ADT3DBuilderProps> = ({
         }
     };
 
+    const svp = sceneViewProps || {};
+
     return (
         <BaseComponent>
             <div className="cb-adt3dbuilder-wrapper">
                 <SceneViewWrapper
                     objectColorUpdated={objectColorUpdated}
                     hideViewModePickerUI={hideViewModePickerUI}
+                    wrapperMode={WrapperMode.Builder}
                     sceneViewProps={{
+                        ...svp,
                         modelUrl: modelUrl,
                         onMeshClick: meshClick,
                         onMeshHover: meshHover,

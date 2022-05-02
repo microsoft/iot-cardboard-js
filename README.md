@@ -6,7 +6,7 @@
 
 ## Storybook 📖
 This project is developed using Storybook - an open source tool for building UI components in isolation.  Our [hosted storybook](https://main--601c6b2fcd385c002100f14c.chromatic.com) showcases the current library of **iot-cardboard-js** components.  [Learn more about Storybook](https://storybook.js.org/).
-> Note: Stories which require authentication or API interaction can be found in the local development storybook. 
+> Note: stories which require authentication or API interaction can be found in the local development storybook. 
 
 ## Using **iot-cardboard-js** components 🔥
 ### Installing
@@ -35,7 +35,7 @@ import {
 ```
 
 This is the easiest method of importing components and, in most cases, will allow unused code to be tree shaken from our library.
-If, however, you only need a few modules from our library, you can instead use the direct import pattern to be more explicit about what code is imported.
+If, however, you only need a few modules from our library, you can use the direct import pattern to be more explicit about what code is imported.
 
 ### Importing components via direct imports
 
@@ -83,7 +83,7 @@ import StandalonePropertyInspector from '@microsoft/iot-cardboard-js/Components/
 
 Storybook stories are the best way to learn how to use our components.  Files ending in `*.stories.tsx` showcase components set up with mock data.  While files ending in `*.stories.local.tsx` showcase components which authenticate and communicate with APIs. Stories are a great way to learn about the different ways to consume each of our components.
 
-Check out the [KeyValuePairCard](src/Cards/KeyValuePairCard/Consume/KeyValuePairCard.stories.tsx) stories for an example of this.
+Check out the [KeyValuePairCard](https://github.com/microsoft/iot-cardboard-js/blob/main/src/Cards/KeyValuePairCard/KeyValuePairCard.stories.tsx) stories for an example of this.
 
 You can also see the code required to use a component by opening either the [live](https://601c6b2fcd385c002100f14c-exzabxrkak.chromatic.com/?path=/docs/keyvaluepaircard-consume--mock) or local storybook, selecting the **docs** tab at the top of a story, and clicking **show code** at the bottom right of a story panel.  This opens a view of the code used to render that story!
 
@@ -97,7 +97,7 @@ If you have a question for one of the project maintainers, please post the quest
 ## Contributing 🚀
 - To contribute to this project, head over to our [environment setup wiki](https://github.com/microsoft/iot-cardboard-js/wiki/Environment-setup) to get started.
 - To learn about our codebase philosophy, check out the [design patterns wiki](https://github.com/microsoft/iot-cardboard-js/wiki/Design-patterns).
-- To learn about coding guidelines, check out the [coding guidelines wiki](https://github.com/microsoft/iot-cardboard-js/wiki/Coding-guidelines).
+- To learn about coding guidelines, check out the [coding guidelines wiki](https://github.com/microsoft/iot-cardboard-js/wiki/Coding-guidelines~Component-templates).
 - For an overview of our CI / CD and semantic versioning systems, check out our [continuous integration and delivery wiki](https://github.com/microsoft/iot-cardboard-js/wiki/Continuous-delivery).
 
 

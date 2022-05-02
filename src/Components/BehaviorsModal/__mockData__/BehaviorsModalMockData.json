@@ -130,33 +130,6 @@
                         "objectIDs": {
                             "expression": "objectIDs"
                         }
-                    },
-                    {
-                        "type": "StatusColoring",
-                        "statusValueExpression": "LinkedTwin.InFlow",
-                        "valueRanges": [
-                            {
-                                "color": "#33A1FD",
-                                "min": 0,
-                                "max": 100,
-                                "id": "c824b3d6-1780-fb5b-e6e7-82ca733dc393"
-                            },
-                            {
-                                "color": "#26C485",
-                                "min": 100,
-                                "max": 200,
-                                "id": "abf90f4206b683dc2a0eea53ec09c1e1"
-                            },
-                            {
-                                "color": "#FEE440",
-                                "min": 200,
-                                "max": "Infinity",
-                                "id": "d7b6d0f722e873e8904c471ee46a2b72"
-                            }
-                        ],
-                        "objectIDs": {
-                            "expression": "objectIDs"
-                        }
                     }
                 ]
             },
@@ -198,16 +171,6 @@
                                 "id": "d0d2edff7c80438fa529206848837ca2"
                             }
                         ],
-                        "objectIDs": {
-                            "expression": "objectIDs"
-                        }
-                    },
-                    {
-                        "type": "Alert",
-                        "triggerExpression": "LinkedTwin.OutFlow > 0",
-                        "labelExpression": "OutFlow rate too high",
-                        "iconName": "Squalls",
-                        "color": "#a209de",
                         "objectIDs": {
                             "expression": "objectIDs"
                         }

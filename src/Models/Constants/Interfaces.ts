@@ -27,7 +27,9 @@ import {
     HierarchyNodeType,
     modelActionType,
     FileUploadStatus,
-    ADT3DAddInEventTypes
+    ADT3DAddInEventTypes,
+    GlobeTheme,
+    ViewerModeStyles
 } from './Enums';
 import {
     AdapterReturnType,
@@ -47,7 +49,8 @@ import ADT3DViewerData from '../Classes/AdapterDataClasses/ADT3DViewerData';
 import { AssetDevice } from '../Classes/Simulations/Asset';
 import {
     CustomMeshItem,
-    ISceneViewProp,
+    ICameraPosition,
+    ISceneViewProps,
     Marker,
     SceneVisual
 } from '../Classes/SceneView.types';
@@ -55,8 +58,12 @@ import { ErrorObject } from 'ajv';
 import BlobsData from '../Classes/AdapterDataClasses/BlobsData';
 import {
     I3DScenesConfig,
-    IBehavior
+    IBehavior,
+    IScene,
+    ITwinToObjectMapping
 } from '../Types/Generated/3DScenesConfiguration-v1.0.0';
+import { WrapperMode } from '../../Components/3DV/SceneView.types';
+import MockAdapter from '../../Adapters/MockAdapter';
 
 export interface IAction {
     type: string;
@@ -265,11 +272,6 @@ export interface IADTTwin {
         $model: string;
         [propertyName: string]: any;
     };
-    cb_viewdata?: {
-        boardInfo?: string;
-        bimFilePath?: string;
-        bimMetadataFilePath?: string;
-    };
     [propertyName: string]: any;
 }
 
@@ -360,6 +362,15 @@ export interface ITsiClientChartDataAdapter {
     ): AdapterReturnType<TsiClientAdapterData>;
 }
 
+export type IPropertyInspectorAdapter = Pick<
+    IADTAdapter,
+    | 'getADTTwin'
+    | 'getADTRelationship'
+    | 'getExpandedAdtModel'
+    | 'updateTwin'
+    | 'updateRelationship'
+>;
+
 export interface IADT3DViewerAdapter {
     getSceneData(
         sceneId: string,
@@ -415,34 +426,34 @@ export interface IADTAdapter extends IKeyValuePairAdapter, IADT3DViewerAdapter {
         uniqueObjectId?: string
     ) => AdapterReturnType<ADTInstancesData>;
     getTwinsForBehavior(
-        sceneId: string,
-        config: I3DScenesConfig,
-        behavior: IBehavior
+        behavior: IBehavior,
+        elementsInBehavior: Array<ITwinToObjectMapping>,
+        isTwinAliasesIncluded: boolean
     ): Promise<Record<string, any>>;
     /**
-     * Gets the list of all the twin properties that are exposed for all twins linked to a behavior.
-     * The names of the properties come in the format PropertyName
-     * @param sceneId Identifier for the scene
-     * @param config configuration data for the scene
+     * Gets the list of all the twin properties that are exposed for all twins related to a behavior (linked twins and aliased twins).
+     * Returns the list of properties come in the format 'PropertyName'
      * @param behavior behavior to look for the twins
+     * @param elementsInBehavior elements exist in dataSource of the behavior (these elements can be either the ones in config file or selected elements if behavior is in edit mode)
+     * @param isTwinAliasesIncluded to decide if aliased twin properties should be included in returned list (through twin alises in behavior and its elements)
      */
     getTwinPropertiesWithAliasesForBehavior(
-        sceneId: string,
-        config: I3DScenesConfig,
         behavior: IBehavior,
-        isTwinAliasesIncluded?: boolean
+        elementsInBehavior: Array<ITwinToObjectMapping>,
+        isTwinAliasesIncluded: boolean
     ): Promise<IAliasedTwinProperty[]>;
     /**
-     * Gets the list of all the twin properties that are exposed for all twins linked to a behavior.
-     * The names of the properties come in the format LinkedTwin.Alias.PropertyName
-     * @param sceneId Identifier for the scene
-     * @param config configuration data for the scene
+     * Gets the list of all the twin properties that are exposed for all twins related to a behavior (linked twins and aliased twins).
+     * Returns the list of full names of the properties come in the format 'LinkedTwin.PropertyName' if it is a linked twin property or
+     * 'TemperatureTag.Temperature' if it is an aliased twin property
      * @param behavior behavior to look for the twins
+     * @param elementsInBehavior elements exist in dataSource of the behavior (these elements can be either the ones in config file or selected elements if behavior is in edit mode)
+     * @param isTwinAliasesIncluded to decide if aliased twin properties should be included in returned list (through twin alises in behavior and its elements)
      */
     getTwinPropertiesForBehaviorWithFullName(
-        sceneId: string,
-        config: I3DScenesConfig,
-        behavior: IBehavior
+        behavior: IBehavior,
+        elementsInBehavior: Array<ITwinToObjectMapping>,
+        isTwinAliasesIncluded: boolean
     ): Promise<string[]>;
 }
 
@@ -641,6 +652,13 @@ export interface IADTInstancesProps {
     selectedInstance?: string;
     onInstanceChange?: (instanceHostName: string) => void;
 }
+export interface IADT3DGlobeProps {
+    adapter: IBlobAdapter | MockAdapter;
+    title?: string;
+    onSceneClick?: (scene: IScene) => void;
+    globeTheme?: GlobeTheme;
+}
+
 export class ADT3DAddInEventData {
     eventType: ADT3DAddInEventTypes;
     config: I3DScenesConfig;
@@ -657,21 +675,26 @@ export interface IADT3DAddInProps {
     onSceneLoaded?: (data: ADT3DAddInEventData) => boolean;
     onMeshClick?: (data: ADT3DAddInEventData) => boolean;
     onMeshHover?: (data: ADT3DAddInEventData) => boolean;
+    onCameraMove?: (position: ICameraPosition) => void;
 }
 
 export interface ISceneViewWrapperProps {
     config?: I3DScenesConfig;
     sceneId?: string;
     adapter?: IADT3DViewerAdapter;
-    sceneViewProps: ISceneViewProp;
+    sceneViewProps: ISceneViewProps;
     sceneVisuals?: SceneVisual[];
     addInProps?: IADT3DAddInProps;
     hideViewModePickerUI?: boolean;
+    selectedVisual?: Partial<SceneVisual>;
     objectColorUpdated?: (objectColor: IADTObjectColor) => void;
+    wrapperMode: WrapperMode;
 }
 
 export interface IADT3DViewerProps {
-    adapter: IADT3DViewerAdapter;
+    adapter:
+        | IADT3DViewerAdapter
+        | (IADT3DViewerAdapter & IPropertyInspectorAdapter);
     sceneId: string;
     scenesConfig: I3DScenesConfig;
     pollingInterval: number;
@@ -688,11 +711,13 @@ export interface IADT3DViewerProps {
     hideViewModePickerUI?: boolean;
     hideElementsPanel?: boolean;
     outlinedMeshItems?: CustomMeshItem[];
+    sceneViewProps?: ISceneViewProps;
 }
 
 export interface IADT3DViewerMode {
     objectColor: IADTObjectColor;
     isWireframe: boolean;
+    style: ViewerModeStyles;
     background: IADTBackgroundColor;
 }
 

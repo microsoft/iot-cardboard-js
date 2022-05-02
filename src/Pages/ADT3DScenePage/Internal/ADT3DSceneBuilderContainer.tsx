@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import BaseComponent from '../../../Components/BaseComponent/BaseComponent';
 import { ADT3DScenePageModes } from '../../../Models/Constants/Enums';
 import ADT3DViewer from '../../../Components/ADT3DViewer/ADT3DViewer';
 import ADT3DSceneBuilder from '../../../Components/ADT3DSceneBuilder/ADT3DSceneBuilder';
 import { IADT3DSceneBuilderProps } from '../ADT3DScenePage.types';
+import { ISceneViewProps } from '../../../Models/Classes/SceneView.types';
 
 export const ADT3DSceneBuilderContainer: React.FC<IADT3DSceneBuilderProps> = ({
     mode = ADT3DScenePageModes.BuildScene,
@@ -15,6 +16,27 @@ export const ADT3DSceneBuilderContainer: React.FC<IADT3DSceneBuilderProps> = ({
     localeStrings,
     refetchConfig
 }) => {
+    const cameraPositionRef = useRef(null);
+    const svp: ISceneViewProps = {
+        cameraPosition: cameraPositionRef.current,
+        onCameraMove: (position) => {
+            cameraPositionRef.current = position;
+        }
+    };
+
+    useEffect(() => {
+        if (mode === ADT3DScenePageModes.ViewScene) {
+            // Shift SceneView over a bit to maintain camera position
+            const root = document.getRootNode() as Element;
+            const sceneViewWrapper = root.getElementsByClassName(
+                'cb-sceneview-wrapper'
+            )?.[0] as HTMLDivElement;
+            if (sceneViewWrapper) {
+                sceneViewWrapper.className = 'cb-sceneview-wrapper-wide';
+            }
+        }
+    }, [mode]);
+
     return (
         <BaseComponent
             theme={theme}
@@ -28,6 +50,7 @@ export const ADT3DSceneBuilderContainer: React.FC<IADT3DSceneBuilderProps> = ({
                         locale={locale}
                         adapter={adapter}
                         sceneId={scene.id}
+                        sceneViewProps={svp}
                     />
                 </div>
             ) : (
@@ -38,6 +61,7 @@ export const ADT3DSceneBuilderContainer: React.FC<IADT3DSceneBuilderProps> = ({
                         sceneId={scene.id}
                         scenesConfig={scenesConfig}
                         refetchConfig={refetchConfig}
+                        sceneViewProps={svp}
                     />
                 </div>
             )}

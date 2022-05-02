@@ -11,7 +11,10 @@ import React, {
     useRef,
     useState
 } from 'react';
-import { ADT3DSceneBuilderMode } from '../../Models/Constants/Enums';
+import {
+    ADT3DSceneBuilderMode,
+    BehaviorModalMode
+} from '../../Models/Constants/Enums';
 import ADT3DBuilder from '../ADT3DBuilder/ADT3DBuilder';
 import {
     I3DSceneBuilderContext,
@@ -23,12 +26,15 @@ import {
     SET_ADT_SCENE_CONFIG,
     SET_ADT_SCENE_ELEMENT_SELECTED_OBJECT_IDS,
     SET_ADT_SCENE_OBJECT_COLOR,
+    SET_IS_LAYER_BUILDER_DIALOG_OPEN,
     SET_MESH_IDS_TO_OUTLINE,
     SET_REVERT_TO_HOVER_COLOR,
-    SET_TWIN_ALIAS_FORM_INFO,
+    SET_BEHAVIOR_TWIN_ALIAS_FORM_INFO,
+    SET_ELEMENT_TWIN_ALIAS_FORM_INFO,
     SET_WIDGET_FORM_INFO,
-    TwinAliasFormInfo,
-    WidgetFormInfo
+    BehaviorTwinAliasFormInfo,
+    WidgetFormInfo,
+    ElementTwinAliasFormInfo
 } from './ADT3DSceneBuilder.types';
 import './ADT3DSceneBuilder.scss';
 import BaseComponent from '../../Components/BaseComponent/BaseComponent';
@@ -55,6 +61,8 @@ import {
     defaultBehavior
 } from '../../Models/Classes/3DVConfig';
 import { IADTObjectColor } from '../../Models/Constants';
+import { getLeftPanelStyles } from './Internal/Shared/LeftPanel.styles';
+import BehaviorsModal from '../BehaviorsModal/BehaviorsModal';
 
 const contextMenuStyles = mergeStyleSets({
     header: {
@@ -70,6 +78,7 @@ export const SceneBuilderContext = React.createContext<I3DSceneBuilderContext>(
 
 const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
     sceneId,
+    sceneViewProps,
     adapter,
     theme,
     locale,
@@ -81,6 +90,8 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
         ADT3DSceneBuilderReducer,
         defaultADT3DSceneBuilderState
     );
+
+    const [behaviorToEdit, setBehaviorToEdit] = useState<IBehavior>(null);
 
     const previouslyColoredMeshItems = useRef([]);
     const elementContextualMenuItems = useRef([]);
@@ -206,10 +217,36 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
         });
     };
 
-    const setTwinAliasFormInfo = (twinAliasFormInfo: TwinAliasFormInfo) => {
+    const setBehaviorTwinAliasFormInfo = (
+        behaviorTwinAliasFormInfo: BehaviorTwinAliasFormInfo
+    ) => {
         dispatch({
-            type: SET_TWIN_ALIAS_FORM_INFO,
-            payload: twinAliasFormInfo
+            type: SET_BEHAVIOR_TWIN_ALIAS_FORM_INFO,
+            payload: behaviorTwinAliasFormInfo
+        });
+    };
+
+    const setElementTwinAliasFormInfo = (
+        elementTwinAliasFormInfo: ElementTwinAliasFormInfo
+    ) => {
+        dispatch({
+            type: SET_ELEMENT_TWIN_ALIAS_FORM_INFO,
+            payload: elementTwinAliasFormInfo
+        });
+    };
+
+    const setIsLayerBuilderDialogOpen = (
+        isOpen: boolean,
+        behaviorId?: string,
+        onFocusDismiss?: (layerId: string) => void
+    ) => {
+        dispatch({
+            type: SET_IS_LAYER_BUILDER_DIALOG_OPEN,
+            payload: {
+                isOpen,
+                behaviorId: behaviorId,
+                onFocusDismiss
+            }
         });
     };
 
@@ -310,7 +347,10 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
                     if (element.objectIDs.includes(mesh.id)) {
                         for (const id of element.objectIDs) {
                             // set mesh color for mesh that is hovered
-                            if (id === mesh.id) {
+                            if (
+                                id === mesh.id &&
+                                !coloredMeshes.find((m) => m.meshId === mesh.id)
+                            ) {
                                 coloredMeshes.push({
                                     meshId: id,
                                     color: state.objectColor.meshHoverColor
@@ -320,11 +360,13 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
                             meshIds.push(id);
                         }
                     } else {
-                        // if mesh is not in an element just color it
-                        coloredMeshes.push({
-                            meshId: mesh.id,
-                            color: state.objectColor.meshHoverColor
-                        });
+                        if (!coloredMeshes.find((m) => m.meshId === mesh.id)) {
+                            // if mesh is not in an element just color it
+                            coloredMeshes.push({
+                                meshId: mesh.id,
+                                color: state.objectColor.meshHoverColor
+                            });
+                        }
                     }
                 }
             } else {
@@ -516,8 +558,8 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
         if (elements.length > 0) {
             setContextualMenuProps({
                 isVisible: true,
-                x: e.clientX,
-                y: e.clientY,
+                x: e.offsetX,
+                y: e.offsetY,
                 items: behaviorContextualMenuItems.current
             });
         }
@@ -583,8 +625,8 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
 
         setContextualMenuProps({
             isVisible: true,
-            x: e.clientX,
-            y: e.clientY,
+            x: e.offsetX,
+            y: e.offsetY,
             items: elementContextualMenuItems.current
         });
     };
@@ -618,6 +660,8 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
         });
     };
 
+    const commonPanelStyles = getLeftPanelStyles(fluentTheme);
+
     return (
         <SceneBuilderContext.Provider
             value={{
@@ -633,11 +677,16 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
                 sceneId,
                 widgetFormInfo: state.widgetFormInfo,
                 setWidgetFormInfo,
-                twinAliasFormInfo: state.twinAliasFormInfo,
-                setTwinAliasFormInfo,
+                behaviorTwinAliasFormInfo: state.behaviorTwinAliasFormInfo,
+                setBehaviorTwinAliasFormInfo,
+                elementTwinAliasFormInfo: state.elementTwinAliasFormInfo,
+                setElementTwinAliasFormInfo,
                 dispatch,
                 state,
-                objectColor: state.objectColor
+                objectColor: state.objectColor,
+                behaviorToEdit,
+                setBehaviorToEdit,
+                setIsLayerBuilderDialogOpen
             }}
         >
             <BaseComponent
@@ -662,6 +711,7 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
                             }
                             onMeshClicked={onMeshClicked}
                             onMeshHovered={onMeshHovered}
+                            sceneViewProps={sceneViewProps}
                             outlinedMeshItems={state.outlinedMeshItems}
                             showHoverOnSelected={state.showHoverOnSelected}
                             coloredMeshItems={state.coloredMeshItems}
@@ -695,6 +745,23 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
                             />
                         </div>
                     )}
+                    {(state.builderMode ===
+                        ADT3DSceneBuilderMode.CreateBehavior ||
+                        state.builderMode ===
+                            ADT3DSceneBuilderMode.EditBehavior) &&
+                        behaviorToEdit &&
+                        !state.isLayerBuilderDialogOpen && (
+                            <div className={commonPanelStyles.previewContainer}>
+                                <BehaviorsModal
+                                    behaviors={[behaviorToEdit]}
+                                    twins={null}
+                                    mode={BehaviorModalMode.preview}
+                                    activeWidgetId={
+                                        state.widgetFormInfo.widgetId
+                                    }
+                                />
+                            </div>
+                        )}
                 </div>
             </BaseComponent>
         </SceneBuilderContext.Provider>

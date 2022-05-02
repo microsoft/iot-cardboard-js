@@ -15,8 +15,7 @@ interface Props {
     title?: string;
     message?: string;
     isOpen: boolean;
-    setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-    onCancel: () => any;
+    onClose: () => any;
     onConfirmDeletion: () => any;
 }
 
@@ -24,8 +23,7 @@ const ConfirmDeleteDialog: React.FC<Props> = ({
     title,
     message,
     isOpen,
-    setIsOpen,
-    onCancel,
+    onClose,
     onConfirmDeletion
 }) => {
     const { t } = useTranslation();
@@ -54,8 +52,7 @@ const ConfirmDeleteDialog: React.FC<Props> = ({
         <Dialog
             hidden={!isOpen}
             onDismiss={() => {
-                setIsOpen(false);
-                onCancel();
+                onClose();
             }}
             dialogContentProps={confirmDeletionDialogProps}
             modalProps={confirmDeletionModalProps}
@@ -63,8 +60,7 @@ const ConfirmDeleteDialog: React.FC<Props> = ({
             <DialogFooter>
                 <DefaultButton
                     onClick={() => {
-                        setIsOpen(false);
-                        onCancel();
+                        onClose();
                     }}
                     text={t('cancel')}
                     data-testid={'deleteDialog-cancel'}
@@ -72,10 +68,11 @@ const ConfirmDeleteDialog: React.FC<Props> = ({
                 <PrimaryButton
                     onClick={() => {
                         onConfirmDeletion();
-                        setIsOpen(false);
+                        onClose();
                     }}
                     text={t('delete')}
                     data-testid={'deleteDialog-confirm'}
+                    autoFocus
                 />
             </DialogFooter>
         </Dialog>

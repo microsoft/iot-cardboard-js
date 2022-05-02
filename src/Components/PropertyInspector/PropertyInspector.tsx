@@ -11,9 +11,9 @@ import {
 } from '../../Models/Constants/Enums';
 import {
     ADTPatch,
-    IADTAdapter,
     IADTRelationship,
-    IADTTwin
+    IADTTwin,
+    IPropertyInspectorAdapter
 } from '../../Models/Constants/Interfaces';
 import { useAdapter } from '../../Models/Hooks';
 import { getModelContentType } from '../../Models/Services/Utils';
@@ -24,10 +24,11 @@ import {
     TwinParams
 } from './StandalonePropertyInspector.types';
 import './PropertyInspector.scss';
+import { Spinner } from '@fluentui/react';
 
 type TwinPropertyInspectorProps = {
     twinId: string;
-    adapter: IADTAdapter;
+    adapter: IPropertyInspectorAdapter;
     relationshipId?: never;
     resolvedTwin?: IADTTwin;
     resolvedRelationship?: never;
@@ -35,7 +36,7 @@ type TwinPropertyInspectorProps = {
 
 type RelationshipPropertyInspectorProps = {
     relationshipId: string;
-    adapter: IADTAdapter;
+    adapter: IPropertyInspectorAdapter;
     twinId: string;
     resolvedRelationship?: IADTRelationship;
     resolvedTwin?: IADTTwin;
@@ -44,6 +45,7 @@ type RelationshipPropertyInspectorProps = {
 type PropertyInspectorProps = {
     isPropertyInspectorLoading?: boolean;
     onPatch?: (patchData: OnCommitPatchParams) => any;
+    parentHandlesScroll?: boolean;
     theme?: Theme;
     locale?: Locale;
     localeStrings?: Record<string, any>;
@@ -51,6 +53,8 @@ type PropertyInspectorProps = {
         rootModelId: string;
         baseModelIds: string[];
     };
+    readonly?: boolean;
+    customCommandBarTitleSpan?: React.ReactNode;
 } & (TwinPropertyInspectorProps | RelationshipPropertyInspectorProps);
 
 /** Utility method for checking PropertyInspectorProps type -- twin or relationship*/
@@ -313,7 +317,9 @@ const PropertyInspector: React.FC<PropertyInspectorProps> = (props) => {
         isInitialLoad
     )
         return (
-            <div className="cb-property-inspector-loading">{t('loading')}</div>
+            <div className="cb-property-inspector-loading">
+                <Spinner label={t('loading')} />
+            </div>
         );
 
     if (!inputData) {
@@ -335,6 +341,9 @@ const PropertyInspector: React.FC<PropertyInspectorProps> = (props) => {
                 locale={props.locale}
                 localeStrings={props.localeStrings}
                 missingModelIds={missingModelIds}
+                parentHandlesScroll={props.parentHandlesScroll}
+                readonly={props.readonly}
+                customCommandBarTitleSpan={props.customCommandBarTitleSpan}
             />
         </div>
     );

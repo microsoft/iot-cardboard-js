@@ -261,7 +261,6 @@ const SceneBehaviors: React.FC<Props> = ({
             </PanelFooter>
             <ConfirmDeleteDialog
                 isOpen={isDeleteDialogOpen}
-                setIsOpen={setIsDeleteDialogOpen}
                 onConfirmDeletion={() => {
                     onRemoveBehaviorFromScene(
                         behaviorToDeleteRef.current.id,
@@ -269,7 +268,8 @@ const SceneBehaviors: React.FC<Props> = ({
                     );
                     behaviorToDeleteRef.current = null;
                 }}
-                onCancel={() => {
+                onClose={() => {
+                    setIsDeleteDialogOpen(false);
                     behaviorToDeleteRef.current = null;
                 }}
                 message={
