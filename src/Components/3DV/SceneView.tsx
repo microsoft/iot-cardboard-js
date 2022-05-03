@@ -61,7 +61,7 @@ function debounce(func: any, timeout = 300) {
 let dummyProgress = 0; // Progress doesn't work for GLBs so fake it
 
 const getModifiedTime = (url): Promise<string> => {
-    const promise = new Promise<string>((resolve, reject) => {
+    const promise = new Promise<string>((resolve) => {
         const headers = new Headers();
         headers.append('Range', 'bytes=1-2');
         if (Tools.CustomRequestHeaders.Authorization) {
