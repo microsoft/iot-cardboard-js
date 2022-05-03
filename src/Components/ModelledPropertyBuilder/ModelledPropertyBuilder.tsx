@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     defaultAllowedPropertyValueTypes,
     ModelledPropertyBuilderMode,
@@ -39,12 +39,12 @@ const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = ({
         allowedPropertyValueTypes
     });
 
-    console.log(
-        'Modelled properties: ',
-        modelledProperties,
-        'Is loading: ',
-        isLoading
-    );
+    // TODO -- remove debug logging
+    useEffect(() => {
+        if (modelledProperties) {
+            console.log('Modelled properties: ', modelledProperties);
+        }
+    }, [modelledProperties]);
 
     const onChangeDropdownSelection = (option: IDropdownOption) => {
         onChange({
