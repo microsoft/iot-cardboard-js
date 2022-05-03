@@ -1,10 +1,5 @@
-import {
-    FontWeights,
-    IStyle,
-    ITextStyles,
-    memoizeFunction,
-    mergeStyleSets
-} from '@fluentui/react';
+import { FontWeights, IStyle } from '@fluentui/react';
+import { NoDataMessageStyles } from './NoDataMessage.types';
 
 export const noDataMessageClassPrefix = 'cb-no-data-message';
 
@@ -12,8 +7,8 @@ const classNames = {
     container: `${noDataMessageClassPrefix}-container`
 };
 
-export const getStyles = memoizeFunction(() => {
-    return mergeStyleSets({
+export const getNoDataMessageStyles = (): NoDataMessageStyles => {
+    return {
         container: [
             classNames.container,
             {
@@ -23,22 +18,27 @@ export const getStyles = memoizeFunction(() => {
                 justifyContent: 'center',
                 paddingTop: 20
             } as IStyle
-        ]
-    });
-});
-
-export const sectionHeaderStyles: Partial<ITextStyles> = {
-    root: {
-        fontWeight: FontWeights.semibold,
-        marginBottom: 8,
-        marginTop: 4,
-        display: 'block'
-    }
-};
-
-export const noLayersDescriptionStyles: Partial<ITextStyles> = {
-    root: {
-        textAlign: 'center',
-        width: '80%'
-    }
+        ],
+        subComponentStyles: {
+            header: {
+                root: {
+                    fontWeight: FontWeights.semibold,
+                    fontSize: 14,
+                    marginBottom: 8,
+                    marginTop: 4,
+                    display: 'block'
+                }
+            },
+            description: {
+                root: {
+                    textAlign: 'center',
+                    fontSize: 12,
+                    width: '80%'
+                }
+            },
+            image: {
+                root: { marginBottom: 8 }
+            }
+        }
+    };
 };

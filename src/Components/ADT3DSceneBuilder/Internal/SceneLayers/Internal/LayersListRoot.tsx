@@ -7,7 +7,7 @@ import { ICardboardListItem } from '../../../../CardboardList/CardboardList.type
 import { sectionHeaderStyles } from '../SceneLayers.styles';
 import NoLayers from '../../../../../Resources/Static/noLayers.svg';
 import PrimaryActionCalloutContents from './PrimaryActionCalloutContents';
-import { NoDataMessage } from '../../../../NoDataMessage/NoDataMessage';
+import NoDataMessage from '../../../../NoDataMessage/NoDataMessage';
 
 interface ILayersListRoot {
     onPrimaryAction: () => void;
@@ -65,8 +65,8 @@ const LayersListRoot: React.FC<ILayersListRoot> = ({
                 </>
             ) : (
                 <NoDataMessage
-                    headerTextTag="sceneLayers.noLayersFound"
-                    descriptionTextTag="sceneLayers.noLayersDescription"
+                    headerText={t('sceneLayers.noLayersFound')}
+                    descriptionText={t('sceneLayers.noLayersDescription')}
                     imageProps={{
                         src: NoLayers,
                         height: 100

@@ -1,39 +1,49 @@
 import React from 'react';
-import { Image, Text } from '@fluentui/react';
-import { useTranslation } from 'react-i18next';
-import { NoDataMessageProps } from './NoDataMessage.types';
 import {
-    getStyles,
-    noLayersDescriptionStyles,
-    sectionHeaderStyles
-} from './NoDataMessage.styles';
+    classNamesFunction,
+    Image,
+    Text,
+    useTheme,
+    Theme,
+    styled
+} from '@fluentui/react';
+import { NoDataMessageStyles, NoDataMessageProps } from './NoDataMessage.types';
+import { getNoDataMessageStyles } from './NoDataMessage.styles';
 
-export const NoDataMessage: React.FunctionComponent<NoDataMessageProps> = (
+const getClassNames = classNamesFunction<
+    { theme: Theme },
+    NoDataMessageStyles
+>();
+
+const NoDataMessage: React.FunctionComponent<NoDataMessageProps> = (
     props: NoDataMessageProps
 ) => {
-    const { t } = useTranslation();
-    const styles = getStyles();
+    const { imageProps, headerText, descriptionText, styles } = props;
+    const classNames = getClassNames(styles, {
+        theme: useTheme()
+    });
 
     return (
-        <div className={styles.container}>
-            {props.imageProps ? (
+        <div className={classNames.container}>
+            {imageProps ? (
                 <Image
-                    styles={{ root: { marginBottom: 8 } }}
-                    {...props.imageProps}
+                    styles={classNames.subComponentStyles.image}
+                    {...imageProps}
                 />
             ) : null}
-            <Text variant="medium" as="div" styles={sectionHeaderStyles}>
-                {t(props.headerTextTag)}
+            <Text styles={classNames.subComponentStyles.header}>
+                {headerText}
             </Text>
-            {props.descriptionTextTag ? (
-                <Text
-                    variant="small"
-                    as="div"
-                    styles={noLayersDescriptionStyles}
-                >
-                    {t(props.descriptionTextTag)}
+            {descriptionText ? (
+                <Text styles={classNames.subComponentStyles.description}>
+                    {descriptionText}
                 </Text>
             ) : null}
         </div>
     );
 };
+
+export default styled<NoDataMessageProps, null, NoDataMessageStyles>(
+    NoDataMessage,
+    getNoDataMessageStyles
+);
