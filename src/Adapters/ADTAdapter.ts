@@ -834,12 +834,48 @@ export default class ADTAdapter implements IADTAdapter {
             );
             let modelUrl = null;
             const sceneVisuals: SceneVisual[] = [];
+            const twinIdToResolvedTwinMap = {};
+
             if (scene) {
                 // get modelUrl
                 modelUrl = scene.assets?.find((asset) => asset.url)?.url;
 
                 if (scene.behaviorIDs) {
-                    // cycle through behaviors for scene
+                    // get all twins for all behaviors in the scene
+                    for (const sceneBehaviorId of scene.behaviorIDs) {
+                        for (const behavior of config.configuration.behaviors) {
+                            if (sceneBehaviorId === behavior.id) {
+                                const {
+                                    primaryTwinIds,
+                                    aliasedTwinMap
+                                } = ViewerConfigUtility.getTwinIdsForBehaviorInScene(
+                                    behavior,
+                                    config,
+                                    sceneId
+                                );
+                                primaryTwinIds.forEach(
+                                    (tid) =>
+                                        (twinIdToResolvedTwinMap[tid] = true)
+                                );
+                                Object.entries(aliasedTwinMap).forEach(
+                                    (atm) =>
+                                        (twinIdToResolvedTwinMap[atm[1]] = true)
+                                );
+                            }
+                        }
+                    }
+                    const twinIdsArray = Object.keys(twinIdToResolvedTwinMap);
+                    const twinResults = await Promise.all(
+                        twinIdsArray.map((twinId) => this.getADTTwin(twinId))
+                    );
+                    twinResults.forEach((adapterResult, idx) => {
+                        pushErrors(adapterResult.getErrors());
+                        twinIdToResolvedTwinMap[twinIdsArray[idx]] =
+                            adapterResult.result?.data;
+                    });
+                    // end: get all twins for all behaviors in the scene
+
+                    // build up SceneVisuals using
                     for (const sceneBehaviorId of scene.behaviorIDs) {
                         // cycle through all behaviors
                         // check if behavior is relevant for the current scene
@@ -848,7 +884,6 @@ export default class ADTAdapter implements IADTAdapter {
                                 const mappingIds = ViewerConfigUtility.getMappingIdsForBehavior(
                                     behavior
                                 );
-                                // TODO get FilteredTwinDatasources
 
                                 // cycle through mapping ids to get twins for behavior and scene
                                 for (const id of mappingIds) {
@@ -860,24 +895,20 @@ export default class ADTAdapter implements IADTAdapter {
                                             element.id === id
                                     ) as ITwinToObjectMapping;
 
-                                    // get primary twin
-                                    const linkedTwin = await this.getADTTwin(
-                                        element.linkedTwinID
-                                    );
-                                    pushErrors(linkedTwin.getErrors()); // TODO: handle partial twin 404 failure instead of causing the ADT3DViewer base card fail all together because of these pushed errors
                                     twins[linkedTwinName] =
-                                        linkedTwin.result?.data;
+                                        twinIdToResolvedTwinMap[
+                                            element.linkedTwinID
+                                        ];
 
                                     // check for twin aliases and add to twins object
                                     if (element.twinAliases) {
                                         for (const alias of Object.keys(
                                             element.twinAliases
                                         )) {
-                                            const twin = await this.getADTTwin(
-                                                element.twinAliases[alias]
-                                            );
-                                            pushErrors(twin.getErrors()); // TODO: handle partial twin 404 failure instead of causing the ADT3DViewer base card fail all together because of these pushed errors
-                                            twins[alias] = twin.result?.data;
+                                            twins[alias] =
+                                                twinIdToResolvedTwinMap[
+                                                    element.twinAliases[alias]
+                                                ];
                                         }
                                     }
 
