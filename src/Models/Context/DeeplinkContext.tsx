@@ -7,8 +7,8 @@ import React, { useContext, useReducer } from 'react';
 import { ADT3DScenePageModes } from '../Constants';
 import { getDebugLogger } from '../Services/Utils';
 
-const debug = false;
-const logDebugConsole = getDebugLogger('DeeplinkContext', debug);
+const debugLogging = false;
+const logDebugConsole = getDebugLogger('DeeplinkContext', debugLogging);
 
 // &adtUrl=https://mockADTInstanceResourceName.api.wcus.digitaltwins.azure.net&mode=viewer&sceneId=f7053e7537048e03be4d1e6f8f93aa8a&selectedElementIds=45131a84754280b924477f1df54ca547&selectedLayerIds=8904b620aa83c649888dadc7c8fdf492,9624b620aa83c649888dadc7c8fdf541&storageUrl=https://mockStorageAccountName.blob.core.windows.net/mockContainerName
 
@@ -129,13 +129,19 @@ const buildDeeplink = (currentState: DeeplinkContextState): string => {
 };
 
 const ARRAY_VALUE_SEPARATOR = ',';
-/** takes a parameter that should be an array and serializes it for the URL */
+/**
+ * takes a parameter that should be an array and serializes it for the URL
+ * NOTE: we write our own serialization here to avoid the complex parsing logic that comes native since we only need primitives right now
+ */
 const serializeArrayParam = (values: string[]): string => {
     if (!values?.length) return '';
     return values.join(ARRAY_VALUE_SEPARATOR);
 };
 
-/** takes a parameter that should be an array and splits it back out from string to an array */
+/**
+ * takes a parameter that should be an array and splits it back out from string to an array
+ * NOTE: we write our own serialization here to avoid the complex parsing logic that comes native since we only need primitives right now
+ */
 const parseArrayParam = (value: string): string[] => {
     if (!value) return [];
     return value.split(ARRAY_VALUE_SEPARATOR);

@@ -50,8 +50,8 @@ import {
     DeeplinkContextProvider
 } from '../../Models/Context/DeeplinkContext';
 
-const debug = true;
-const logDebugConsole = getDebugLogger('ADT3DViewer', debug);
+const debugLogging = false;
+const logDebugConsole = getDebugLogger('ADT3DViewer', debugLogging);
 
 const ADT3DViewerBase: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
     theme,
@@ -196,12 +196,19 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
     // initialize the layers list
     useEffect(() => {
         // if we don't have any layer id from the context, set initial values
-        if (!deeplinkState?.selectedLayerIds) {
-            setSelectedLayerIds([
-                // Add unlayered behavior option if unlayered behaviors present
+        if (!deeplinkState?.selectedLayerIds?.length) {
+            const layers = [
                 ...(unlayeredBehaviorsPresent ? [unlayeredBehaviorKey] : []),
                 ...layersInScene.map((lis) => lis.id)
-            ]);
+            ];
+            logDebugConsole(
+                'No layers found in state. Setting default layers',
+                layers
+            );
+            setSelectedLayerIds(
+                // Add unlayered behavior option if unlayered behaviors present
+                layers
+            );
         }
         // run only on first mount
         // eslint-disable-next-line react-hooks/exhaustive-deps
