@@ -23,6 +23,36 @@ type ModelledPropertyBuilderStory = ComponentStory<
     typeof ModelledPropertyBuilder
 >;
 
+const showDebug = true;
+
+const PropertyExpressionDebugRenderer: React.FC<{
+    propertyExpression: PropertyExpression;
+}> = ({ propertyExpression }) => {
+    return (
+        <div
+            style={{
+                border: '1px dashed white',
+                padding: 8,
+                marginTop: 20
+            }}
+        >
+            <h3 style={{ marginTop: 0 }}>Expression</h3>
+            <div>{propertyExpression.expression}</div>
+            {propertyExpression.property && (
+                <div>
+                    <h3>Property</h3>
+                    <div>Full path: {propertyExpression.property.fullPath}</div>
+                    <div>Name: {propertyExpression.property.name}</div>
+                    <div>
+                        Property type:{' '}
+                        {propertyExpression.property.propertyType}
+                    </div>
+                </div>
+            )}
+        </div>
+    );
+};
+
 const Template: ModelledPropertyBuilderStory = (args) => {
     const [
         propertyExpression,
@@ -31,25 +61,42 @@ const Template: ModelledPropertyBuilderStory = (args) => {
         args.propertyExpression ?? { expression: '' }
     );
     return (
-        <ModelledPropertyBuilder
-            {...args}
-            adapter={new MockAdapter()}
-            config={mockConfig}
-            behavior={mockConfig.configuration.behaviors[0]}
-            sceneId={mockConfig.configuration.scenes[0].id}
-            onChange={(newPropertyExpression: PropertyExpression) =>
-                setPropertyExpression(newPropertyExpression)
-            }
-            propertyExpression={propertyExpression}
-        />
+        <div>
+            <ModelledPropertyBuilder
+                {...args}
+                adapter={new MockAdapter()}
+                config={mockConfig}
+                behavior={mockConfig.configuration.behaviors[0]}
+                sceneId={mockConfig.configuration.scenes[0].id}
+                onChange={(newPropertyExpression: PropertyExpression) =>
+                    setPropertyExpression(newPropertyExpression)
+                }
+                propertyExpression={propertyExpression}
+                required
+            />
+
+            {showDebug && (
+                <PropertyExpressionDebugRenderer
+                    propertyExpression={propertyExpression}
+                />
+            )}
+        </div>
     );
 };
 
 export const ToggleMode = Template.bind({}) as ModelledPropertyBuilderStory;
 
 ToggleMode.args = {
+    mode: 'TOGGLE'
+};
+
+export const ToggleModeInitialValue = Template.bind(
+    {}
+) as ModelledPropertyBuilderStory;
+
+ToggleModeInitialValue.args = {
     mode: 'TOGGLE',
-    propertyExpression: { expression: 'LinkedTwin.CarName' }
+    propertyExpression: { expression: 'LinkedTwin.Mileage - 1000' }
 };
 
 export const PropertySelectionMode = Template.bind(

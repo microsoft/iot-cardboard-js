@@ -37,6 +37,9 @@ export interface ModelledPropertyBuilderProps {
     /** Configuration for supported modes */
     mode: 'PROPERTY_SELECTION' | 'INTELLISENSE' | 'TOGGLE';
 
+    /** Visual indication that this field is required.  Defaults to false */
+    required?: boolean;
+
     /** 
 		Allows consumer to only allow specific property value types.
 		Defaults to all value types.
