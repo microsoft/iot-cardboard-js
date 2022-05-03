@@ -264,6 +264,15 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
         }
     }, [resetConfig, scenesConfig, state?.errors, t]);
 
+    // temp hack until we clean up environmentPicker to output the value with https prefix
+    // if we have a url with the prefix, use it, otherwise append the prefix
+    // without this if you pass a value without the prefix it will crash the picker
+    const url = deeplinkState.adtUrl;
+    const adtUrl = url?.startsWith('https://')
+        ? url
+        : url
+        ? 'https://' + url
+        : undefined;
     return (
         <ADT3DScenePageContext.Provider
             value={{ state, dispatch, handleOnHomeClick, handleOnSceneClick }}
@@ -284,7 +293,7 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
                                         environmentPickerOptions?.environment
                                             ?.shouldPullFromSubscription
                                     }
-                                    environmentUrl={deeplinkState.adtUrl}
+                                    environmentUrl={adtUrl}
                                     onEnvironmentUrlChange={
                                         handleEnvironmentUrlChange
                                     }
