@@ -1,4 +1,4 @@
-import React, { CSSProperties, useState } from 'react';
+import React, { useState } from 'react';
 import { ComponentStory } from '@storybook/react';
 import {
     DefaultButton,
@@ -23,7 +23,6 @@ import { userEvent, within } from '@storybook/testing-library';
 
 const wrapperStyle: React.CSSProperties = {
     width: 'auto',
-    // height: '400px',
     padding: 10
 };
 export default {
