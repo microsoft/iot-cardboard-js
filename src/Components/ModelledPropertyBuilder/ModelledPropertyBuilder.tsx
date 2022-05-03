@@ -1,16 +1,24 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import {
     defaultAllowedPropertyValueTypes,
+    IFlattenedModelledPropertiesFormat,
     ModelledPropertyBuilderMode,
     ModelledPropertyBuilderProps
 } from './ModelledPropertyBuilder.types';
 import { getStyles } from './ModelledPropertyBuilder.styles';
-import { IDropdownOption, Spinner, Stack, Toggle } from '@fluentui/react';
+import {
+    DropdownMenuItemType,
+    IDropdownOption,
+    Spinner,
+    Stack,
+    Toggle
+} from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { useModelledProperties } from './useModelledProperties';
 import { ModelledPropertyDropdown } from './Internal/ModelledPropertyDropdown';
 import { Intellisense, separators } from '../AutoComplete/Intellisense';
 import { getProperty } from 'dot-prop';
+import { DTDLPropertyIconographyMap } from '../../Models/Constants/Constants';
 
 const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = ({
     adapter,
@@ -32,6 +40,8 @@ const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = ({
         mode === 'TOGGLE' ? 'PROPERTY_SELECTION' : mode
     );
 
+    const [dropdownOptions, setDropdownOptions] = useState([]);
+
     const { isLoading, modelledProperties } = useModelledProperties({
         adapter,
         behavior,
@@ -41,6 +51,25 @@ const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = ({
         allowedPropertyValueTypes
     });
 
+    useEffect(() => {
+        if (modelledProperties) {
+            // Once modelled properties load, construct dropdown options
+            const dropdownOptions = getDropdownOptions(
+                modelledProperties.flattenedFormat
+            );
+
+            // If expression doesn't match option key, snap to expression mode
+            if (
+                !dropdownOptions
+                    .map((o) => o.key)
+                    .includes(propertyExpression.expression)
+            ) {
+                setInternalMode('INTELLISENSE');
+            }
+            setDropdownOptions(dropdownOptions);
+        }
+    }, [modelledProperties]);
+
     const onChangeDropdownSelection = (option: IDropdownOption) => {
         onChange({
             property: option.data.property,
@@ -49,9 +78,8 @@ const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = ({
     };
 
     const getIntellisenseProperty = (
-        propertyName: string,
+        _propertyName: string,
         {
-            search,
             tokens,
             leafToken
         }: { search: string; tokens: string[]; leafToken: number }
@@ -82,19 +110,25 @@ const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = ({
         <Stack tokens={{ childrenGap: 4 }}>
             {internalMode === 'PROPERTY_SELECTION' && (
                 <ModelledPropertyDropdown
-                    flattenedProperties={modelledProperties.flattenedFormat}
+                    dropdownOptions={dropdownOptions}
                     onChange={onChangeDropdownSelection}
                     selectedKey={propertyExpression.expression}
-                    label={'Select property'}
+                    label={t(
+                        '3dSceneBuilder.ModelledPropertyBuilder.selectProperty'
+                    )}
                 />
             )}
             {internalMode === 'INTELLISENSE' && (
                 <Intellisense
                     autoCompleteProps={{
                         textFieldProps: {
-                            label: 'Property expression',
+                            label: t(
+                                '3dSceneBuilder.ModelledPropertyBuilder.expressionLabel'
+                            ),
                             multiline: true,
-                            placeholder: 'Enter expression'
+                            placeholder: t(
+                                '3dSceneBuilder.ModelledPropertyBuilder.expressionPlaceholder'
+                            )
                         }
                     }}
                     onChange={(value) => onChange({ expression: value })}
@@ -124,6 +158,42 @@ const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = ({
             )}
         </Stack>
     );
+};
+
+const getDropdownOptions = (
+    flattenedProperties: IFlattenedModelledPropertiesFormat
+) => {
+    let modelledPropertyOptions: Array<IDropdownOption> = [];
+
+    for (const tag of Object.keys(flattenedProperties)) {
+        const tagProperties = [
+            {
+                key: `${tag}-header`,
+                text: tag,
+                itemType: DropdownMenuItemType.Header
+            },
+            ...flattenedProperties[tag].map((property) => {
+                const propertyIcon =
+                    DTDLPropertyIconographyMap[property.propertyType];
+
+                return {
+                    key: property.fullPath,
+                    text: property.localPath,
+                    data: {
+                        ...(propertyIcon && {
+                            icon: propertyIcon.icon,
+                            iconTitle: propertyIcon.text
+                        }),
+                        property
+                    }
+                };
+            })
+        ];
+
+        modelledPropertyOptions = modelledPropertyOptions.concat(tagProperties);
+    }
+
+    return modelledPropertyOptions;
 };
 
 export default React.memo(ModelledPropertyBuilder);

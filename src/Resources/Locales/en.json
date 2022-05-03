@@ -424,6 +424,7 @@
             "expressionLabel": "Property expression",
             "expressionPlaceholder": "Enter property expression",
             "selectProperty": "Select property",
+            "dropdownPlaceholder": "Select a property",
             "toggleLabel": "Expression mode"
         },
         "numericExpressionPlaceholder": "Enter an expression which evaluates to a number",

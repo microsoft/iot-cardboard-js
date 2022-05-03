@@ -27,7 +27,9 @@ const Template: ModelledPropertyBuilderStory = (args) => {
     const [
         propertyExpression,
         setPropertyExpression
-    ] = useState<PropertyExpression>({ expression: '' });
+    ] = useState<PropertyExpression>(
+        args.propertyExpression ?? { expression: '' }
+    );
     return (
         <ModelledPropertyBuilder
             {...args}
@@ -35,13 +37,9 @@ const Template: ModelledPropertyBuilderStory = (args) => {
             config={mockConfig}
             behavior={mockConfig.configuration.behaviors[0]}
             sceneId={mockConfig.configuration.scenes[0].id}
-            onChange={(newPropertyExpression: PropertyExpression) => {
-                setPropertyExpression(newPropertyExpression);
-                console.log(
-                    'Property expression changed: ',
-                    newPropertyExpression
-                );
-            }}
+            onChange={(newPropertyExpression: PropertyExpression) =>
+                setPropertyExpression(newPropertyExpression)
+            }
             propertyExpression={propertyExpression}
         />
     );
@@ -50,7 +48,8 @@ const Template: ModelledPropertyBuilderStory = (args) => {
 export const ToggleMode = Template.bind({}) as ModelledPropertyBuilderStory;
 
 ToggleMode.args = {
-    mode: 'TOGGLE'
+    mode: 'TOGGLE',
+    propertyExpression: { expression: 'LinkedTwin.CarName' }
 };
 
 export const PropertySelectionMode = Template.bind(
