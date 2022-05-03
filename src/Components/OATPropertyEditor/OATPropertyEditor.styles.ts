@@ -183,13 +183,12 @@ export const getPropertyInspectorStyles = () => {
                 position: 'absolute',
                 top: 0,
                 right: '99.5%',
-                width: '205px',
                 minHeight: '200px',
-                backgroundColor:
-                    theme.semanticColors.primaryButtonBackgroundDisabled,
+                backgroundColor: theme.semanticColors.listBackground,
                 borderRadius: '4px',
                 borderBottom: `1px solid ${theme.semanticColors.variantBorder}`,
-                zIndex: 100
+                zIndex: 100,
+                boxShadow: '0px 5px 10px 1px rgba(0,0,0,0.05)'
             } as IStyle
         ],
         propertySelectorHeader: [
@@ -197,9 +196,11 @@ export const getPropertyInspectorStyles = () => {
             {
                 display: 'flex',
                 flexDirection: 'row',
-                justifyContent: 'space-between',
+                justifyContent: 'flex-end',
                 alignItems: 'center',
-                padding: '8px'
+                padding: '8px',
+                paddingRight: '12px',
+                marginBottom: '6px'
             }
         ],
         iconClosePropertySelectorWrap: [
@@ -217,8 +218,9 @@ export const getPropertyInspectorStyles = () => {
         propertyTagsWrap: [
             classNames.propertyTagsWrap,
             {
-                display: 'flex',
-                flexDirection: 'row',
+                display: 'grid',
+                gridTemplateColumns: '50% 50%',
+                justifyContent: 'center',
                 flexWrap: 'wrap',
                 padding: '0 8px',
                 marginBottom: '8px'
@@ -230,11 +232,9 @@ export const getPropertyInspectorStyles = () => {
                 justifyContent: 'center',
                 alignItems: 'center',
                 backgroundColor: theme.semanticColors.listBackground,
-                border: `1px solid ${theme.semanticColors.variantBorder}`,
                 borderRadius: '2px',
-                padding: '2px 5px',
                 marginRight: '4px',
-                marginBottom: '4px',
+                width: '30px',
                 ':hover': {
                     backgroundColor:
                         theme.semanticColors.buttonBackgroundPressed,
@@ -247,7 +247,7 @@ export const getPropertyInspectorStyles = () => {
             {
                 width: '100%',
                 height: '1px',
-                backgroundColor: theme.semanticColors.buttonBackgroundPressed
+                padding: 0
             } as IStyle
         ],
         addProperty: [

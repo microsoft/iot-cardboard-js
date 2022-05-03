@@ -18,6 +18,7 @@ module.exports = {
         check: false,
         reactDocgen: false
     },
+    staticDirs: ['../public'],
     webpackFinal: async (config) => {
         // Disable the Storybook internal-`.svg`-rule for components loaded from our app.
         const svgRule = config.module.rules.find((rule) =>
@@ -49,6 +50,12 @@ module.exports = {
             ],
             include: path.resolve(__dirname, '../')
         });
+
+        // config.module.rules.push({
+        //     test: /\.(png|jpe?g|gif)$/i,
+        //     include: [AppSourceDir],
+        //     use: ['file-loader']
+        // });
 
         config.module.rules.push({
             test: /\.(ts|tsx)$/,
