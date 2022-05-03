@@ -150,7 +150,7 @@ export default class MockAdapter
         this.isModelFetchLoading = true;
         await this.mockNetwork();
         this.cachedModels = (mockModelData as any) as DtdlInterface[];
-        this.parsedModels = await parseDTDLModelsAsync(mockModelData);
+        this.parsedModels = await parseDTDLModelsAsync(this.cachedModels);
         this.isModelFetchLoading = false;
     }
 
