@@ -476,6 +476,12 @@
       "errors": {
         "twinAliasAlreadyExists": "같은 이름의 트윈 별칭이 이미 있으므로 대신 추가하는 것이 좋습니다."
       }
+    },
+    "ModelledPropertyBuilder": {
+      "expressionLabel": "속성 표현식",
+      "expressionPlaceholder": "속성 표현식 입력",
+      "selectProperty": "속성 선택",
+      "toggleLabel": "속성 표현식"
     }
   },
   "widgets": {
