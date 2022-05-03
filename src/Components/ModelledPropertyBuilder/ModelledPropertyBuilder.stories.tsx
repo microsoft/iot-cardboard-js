@@ -27,7 +27,7 @@ const Template: ModelledPropertyBuilderStory = (args) => {
     const [
         propertyExpression,
         setPropertyExpression
-    ] = useState<PropertyExpression>();
+    ] = useState<PropertyExpression>({ expression: '' });
     return (
         <ModelledPropertyBuilder
             {...args}

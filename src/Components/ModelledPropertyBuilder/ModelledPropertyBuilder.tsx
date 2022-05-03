@@ -61,7 +61,7 @@ const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = ({
                 <ModelledPropertyDropdown
                     flattenedProperties={modelledProperties.flattenedFormat}
                     onChange={onChangeDropdownSelection}
-                    selectedKey={propertyExpression?.property?.key}
+                    selectedKey={propertyExpression.expression}
                 />
             )}
             {internalMode === 'INTELLISENSE' && <div>Intellisense mode</div>}

@@ -6,7 +6,11 @@ import {
 } from '@fluentui/react';
 import React, { useMemo } from 'react';
 import { DTDLPropertyIconographyMap } from '../../../Models/Constants/Constants';
-import { dropdownIconStyles } from '../ModelledPropertyBuilder.styles';
+import {
+    dropdownIconStyles,
+    dropdownStyles,
+    getStyles
+} from '../ModelledPropertyBuilder.styles';
 import { IFlattenedModelledPropertiesFormat } from '../ModelledPropertyBuilder.types';
 
 interface ModelledPropertyDropdownProps {
@@ -56,13 +60,14 @@ export const ModelledPropertyDropdown: React.FC<ModelledPropertyDropdownProps> =
     onChange,
     selectedKey
 }) => {
+    const styles = getStyles();
     const options = useMemo(() => getDropdownOptions(flattenedProperties), [
         flattenedProperties
     ]);
 
     const onRenderOption = (option: IDropdownOption): JSX.Element => {
         return (
-            <div>
+            <>
                 {option.data && option.data.icon && (
                     <Icon
                         iconName={option.data.icon}
@@ -71,8 +76,13 @@ export const ModelledPropertyDropdown: React.FC<ModelledPropertyDropdownProps> =
                         styles={dropdownIconStyles}
                     />
                 )}
-                <span>{option.text}</span>
-            </div>
+                <span
+                    className={styles.dropdownTitleText}
+                    title={option.data?.property?.fullPath}
+                >
+                    {option.text}
+                </span>
+            </>
         );
     };
 
@@ -80,7 +90,7 @@ export const ModelledPropertyDropdown: React.FC<ModelledPropertyDropdownProps> =
         const option = options[0];
 
         return (
-            <div>
+            <>
                 {option.data && option.data.icon && (
                     <Icon
                         iconName={option.data.icon}
@@ -89,8 +99,13 @@ export const ModelledPropertyDropdown: React.FC<ModelledPropertyDropdownProps> =
                         styles={dropdownIconStyles}
                     />
                 )}
-                <span>{option.key}</span>
-            </div>
+                <div
+                    className={styles.dropdownTitleText}
+                    title={option.data?.property?.fullPath}
+                >
+                    {option.key}
+                </div>
+            </>
         );
     };
 
@@ -102,6 +117,7 @@ export const ModelledPropertyDropdown: React.FC<ModelledPropertyDropdownProps> =
             placeholder="Select a property"
             onRenderOption={onRenderOption}
             onRenderTitle={onRenderTitle}
+            styles={dropdownStyles}
         />
     );
 };
