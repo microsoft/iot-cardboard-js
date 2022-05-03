@@ -95,7 +95,7 @@ export const ModelledPropertyDropdown: React.FC<ModelledPropertyDropdownProps> =
                     <Icon
                         iconName={option.data.icon}
                         aria-hidden="true"
-                        title={option.data.icon}
+                        title={option.data.iconTitle}
                         styles={dropdownIconStyles}
                     />
                 )}
