@@ -481,7 +481,8 @@
       "expressionLabel": "속성 표현식",
       "expressionPlaceholder": "속성 표현식 입력",
       "selectProperty": "속성 선택",
-      "toggleLabel": "속성 표현식"
+      "toggleLabel": "속성 표현식",
+      "dropdownPlaceholder": "속성 선택"
     }
   },
   "widgets": {

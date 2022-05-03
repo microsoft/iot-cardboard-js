@@ -481,7 +481,8 @@
       "expressionLabel": "Expressão de propriedade",
       "expressionPlaceholder": "Digite a expressão da propriedade",
       "selectProperty": "Selecione a propriedade",
-      "toggleLabel": "Expressão de propriedade"
+      "toggleLabel": "Expressão de propriedade",
+      "dropdownPlaceholder": "Selecione uma propriedade"
     }
   },
   "widgets": {

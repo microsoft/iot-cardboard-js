@@ -481,7 +481,8 @@
       "expressionLabel": "Eigenschaftsausdruck",
       "expressionPlaceholder": "Eigenschaftsausdruck eingeben",
       "selectProperty": "Eigenschaft auswählen",
-      "toggleLabel": "Eigenschaftsausdruck"
+      "toggleLabel": "Eigenschaftsausdruck",
+      "dropdownPlaceholder": "Wählen Sie eine Immobilie aus"
     }
   },
   "widgets": {

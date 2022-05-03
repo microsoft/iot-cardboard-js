@@ -481,7 +481,8 @@
       "expressionLabel": "Wyrażenie właściwości",
       "expressionPlaceholder": "Wprowadź wyrażenie właściwości",
       "selectProperty": "Wybierz właściwość",
-      "toggleLabel": "Wyrażenie właściwości"
+      "toggleLabel": "Wyrażenie właściwości",
+      "dropdownPlaceholder": "Wybierz właściwość"
     }
   },
   "widgets": {
