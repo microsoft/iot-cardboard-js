@@ -103,14 +103,17 @@ export default class BlobAdapter implements IBlobAdapter {
             const getConfigBlob = async () => {
                 let config: I3DScenesConfig;
                 if (this.storageAccountHostUrl && this.blobContainerPath) {
+                    const headers = new Headers();
+                    headers.append('x-ms-version', '2017-11-09');
+                    headers.append('x-blob-host', this.storageAccountHostUrl);
+                    if (token) {
+                        headers.append('Authorization', token);
+                    }
+
                     const scenesBlob = await axios({
                         method: 'GET',
                         url: `${this.blobProxyServerPath}${this.blobContainerPath}/${ADT3DSceneConfigFileNameInBlobStore}.json`,
-                        headers: {
-                            authorization: 'Bearer ' + token,
-                            'x-ms-version': '2017-11-09',
-                            'x-blob-host': this.storageAccountHostUrl
-                        }
+                        headers: headers
                     });
                     if (scenesBlob.data) {
                         config = validate3DConfigWithSchema(scenesBlob.data);
