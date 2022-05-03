@@ -368,7 +368,11 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
             environmentsState.callAdapter();
         }
         toggleIsDialogHidden();
-    }, []);
+    }, [
+        environmentsState,
+        props.shouldPullFromSubscription,
+        toggleIsDialogHidden
+    ]);
 
     const handleOnEnvironmentUrlChange = useCallback(
         (option, value) => {
@@ -401,7 +405,7 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                 setEnvironmentToEdit(option.data ?? option.text);
             }
         },
-        [environments]
+        [environments, isValidUrlStr]
     );
 
     const handleOnContainerUrlChange = useCallback(
@@ -431,7 +435,7 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                 setContainers(containers.concat(newVal));
             }
         },
-        [containers]
+        [containers, isValidUrlStr]
     );
 
     const handleOnSave = useCallback(() => {

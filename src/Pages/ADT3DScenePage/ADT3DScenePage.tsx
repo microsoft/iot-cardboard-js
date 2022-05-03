@@ -146,18 +146,18 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
         setCurrentStep(ADT3DScenePageSteps.Globe);
     }, [setSelectedSceneId, setCurrentStep]);
 
-    const handleContainerUrlChange = (
-        containerUrl: string,
-        containerUrls: Array<string>
-    ) => {
-        setBlobContainerUrl(containerUrl);
-        if (environmentPickerOptions?.storage?.onContainerChange) {
-            environmentPickerOptions.storage.onContainerChange(
-                containerUrl,
-                containerUrls
-            );
-        }
-    };
+    const handleContainerUrlChange = useCallback(
+        (containerUrl: string, containerUrls: Array<string>) => {
+            setBlobContainerUrl(containerUrl);
+            if (environmentPickerOptions?.storage?.onContainerChange) {
+                environmentPickerOptions.storage.onContainerChange(
+                    containerUrl,
+                    containerUrls
+                );
+            }
+        },
+        [environmentPickerOptions.storage, setBlobContainerUrl]
+    );
 
     const handleEnvironmentUrlChange = useCallback(
         (env: string | IADTInstance, envs: Array<string | IADTInstance>) => {
@@ -268,36 +268,40 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
         <ADT3DScenePageContext.Provider
             value={{ state, dispatch, handleOnHomeClick, handleOnSceneClick }}
         >
-            <DeeplinkContext.Provider
-                value={{
-                    deeplinkState,
-                    deeplinkDispatch
-                }}
-            >
-                <div className="cb-scene-page-wrapper">
-                    <BaseComponent
-                        theme={theme}
-                        locale={locale}
-                        localeStrings={localeStrings}
-                        containerClassName={'cb-scene-page-container'}
-                    >
-                        {state.currentStep ===
-                            ADT3DScenePageSteps.SceneList && (
-                            <>
-                                <div className="cb-scene-page-scene-environment-picker">
-                                    <EnvironmentPicker
-                                        adapter={adapter as ADTAdapter}
-                                        shouldPullFromSubscription={
-                                            environmentPickerOptions
-                                                ?.environment
-                                                ?.shouldPullFromSubscription
-                                        }
-                                        environmentUrl={deeplinkState.adtUrl}
-                                        onEnvironmentUrlChange={
-                                            handleEnvironmentUrlChange
-                                        }
-                                        {...(environmentPickerOptions
-                                            ?.environment
+            <div className="cb-scene-page-wrapper">
+                <BaseComponent
+                    theme={theme}
+                    locale={locale}
+                    localeStrings={localeStrings}
+                    containerClassName={'cb-scene-page-container'}
+                >
+                    {state.currentStep === ADT3DScenePageSteps.SceneList && (
+                        <>
+                            <div className="cb-scene-page-scene-environment-picker">
+                                <EnvironmentPicker
+                                    adapter={adapter as ADTAdapter}
+                                    shouldPullFromSubscription={
+                                        environmentPickerOptions?.environment
+                                            ?.shouldPullFromSubscription
+                                    }
+                                    environmentUrl={deeplinkState.adtUrl}
+                                    onEnvironmentUrlChange={
+                                        handleEnvironmentUrlChange
+                                    }
+                                    {...(environmentPickerOptions?.environment
+                                        ?.isLocalStorageEnabled && {
+                                        isLocalStorageEnabled: true,
+                                        localStorageKey:
+                                            environmentPickerOptions?.storage
+                                                ?.localStorageKey,
+                                        selectedItemLocalStorageKey:
+                                            environmentPickerOptions?.storage
+                                                ?.selectedItemLocalStorageKey
+                                    })}
+                                    storage={{
+                                        containerUrl: deeplinkState.storageUrl,
+                                        onContainerUrlChange: handleContainerUrlChange,
+                                        ...(environmentPickerOptions?.storage
                                             ?.isLocalStorageEnabled && {
                                             isLocalStorageEnabled: true,
                                             localStorageKey:
@@ -307,94 +311,74 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
                                                 environmentPickerOptions
                                                     ?.storage
                                                     ?.selectedItemLocalStorageKey
-                                        })}
-                                        storage={{
-                                            containerUrl:
-                                                deeplinkState.storageUrl,
-                                            onContainerUrlChange: handleContainerUrlChange,
-                                            ...(environmentPickerOptions
-                                                ?.storage
-                                                ?.isLocalStorageEnabled && {
-                                                isLocalStorageEnabled: true,
-                                                localStorageKey:
-                                                    environmentPickerOptions
-                                                        ?.storage
-                                                        ?.localStorageKey,
-                                                selectedItemLocalStorageKey:
-                                                    environmentPickerOptions
-                                                        ?.storage
-                                                        ?.selectedItemLocalStorageKey
-                                            })
+                                        })
+                                    }}
+                                />
+                            </div>
+                        </>
+                    )}
+
+                    <ScenePageErrorHandlingWrapper
+                        errors={state.errors}
+                        primaryClickAction={{
+                            buttonText: state?.errorCallback?.buttonText,
+                            onClick: state?.errorCallback?.buttonAction
+                        }}
+                    >
+                        {state.currentStep ===
+                            ADT3DScenePageSteps.SceneList && (
+                            <div className="cb-scene-page-scene-list-container">
+                                {deeplinkState.storageUrl && (
+                                    <SceneList
+                                        key={deeplinkState.storageUrl}
+                                        title={'All scenes'}
+                                        theme={theme}
+                                        locale={locale}
+                                        adapter={adapter}
+                                        onSceneClick={(scene) => {
+                                            handleOnSceneClick(scene);
                                         }}
+                                        additionalActions={[
+                                            {
+                                                iconProps: {
+                                                    iconName: 'Globe'
+                                                },
+                                                onClick: handleOnClickGlobe,
+                                                text: t('globe')
+                                            }
+                                        ]}
+                                    />
+                                )}
+                            </div>
+                        )}
+                        {state.currentStep === ADT3DScenePageSteps.Scene && (
+                            <>
+                                <div className="cb-scene-builder-and-viewer-container">
+                                    <ADT3DSceneBuilderContainer
+                                        mode={deeplinkState.mode}
+                                        scenesConfig={state.scenesConfig}
+                                        sceneId={deeplinkState.sceneId}
+                                        adapter={adapter}
+                                        theme={theme}
+                                        locale={locale}
+                                        localeStrings={localeStrings}
+                                        refetchConfig={() =>
+                                            scenesConfig.callAdapter()
+                                        }
                                     />
                                 </div>
                             </>
                         )}
-
-                        <ScenePageErrorHandlingWrapper
-                            errors={state.errors}
-                            primaryClickAction={{
-                                buttonText: state?.errorCallback?.buttonText,
-                                onClick: state?.errorCallback?.buttonAction
-                            }}
-                        >
-                            {state.currentStep ===
-                                ADT3DScenePageSteps.SceneList && (
-                                <div className="cb-scene-page-scene-list-container">
-                                    {deeplinkState.storageUrl && (
-                                        <SceneList
-                                            key={deeplinkState.storageUrl}
-                                            title={'All scenes'}
-                                            theme={theme}
-                                            locale={locale}
-                                            adapter={adapter}
-                                            onSceneClick={(scene) => {
-                                                handleOnSceneClick(scene);
-                                            }}
-                                            additionalActions={[
-                                                {
-                                                    iconProps: {
-                                                        iconName: 'Globe'
-                                                    },
-                                                    onClick: handleOnClickGlobe,
-                                                    text: t('globe')
-                                                }
-                                            ]}
-                                        />
-                                    )}
-                                </div>
-                            )}
-                            {state.currentStep ===
-                                ADT3DScenePageSteps.Scene && (
-                                <>
-                                    <div className="cb-scene-builder-and-viewer-container">
-                                        <ADT3DSceneBuilderContainer
-                                            mode={deeplinkState.mode}
-                                            scenesConfig={state.scenesConfig}
-                                            sceneId={deeplinkState.sceneId}
-                                            adapter={adapter}
-                                            theme={theme}
-                                            locale={locale}
-                                            localeStrings={localeStrings}
-                                            refetchConfig={() =>
-                                                scenesConfig.callAdapter()
-                                            }
-                                        />
-                                    </div>
-                                </>
-                            )}
-                            {state.currentStep ===
-                                ADT3DScenePageSteps.Globe && (
-                                <div className="cb-scene-page-scene-globe-container">
-                                    <ADT3DGlobeContainer
-                                        adapter={adapter as IBlobAdapter}
-                                    />
-                                </div>
-                            )}
-                        </ScenePageErrorHandlingWrapper>
-                    </BaseComponent>
-                </div>
-            </DeeplinkContext.Provider>
+                        {state.currentStep === ADT3DScenePageSteps.Globe && (
+                            <div className="cb-scene-page-scene-globe-container">
+                                <ADT3DGlobeContainer
+                                    adapter={adapter as IBlobAdapter}
+                                />
+                            </div>
+                        )}
+                    </ScenePageErrorHandlingWrapper>
+                </BaseComponent>
+            </div>
         </ADT3DScenePageContext.Provider>
     );
 };
