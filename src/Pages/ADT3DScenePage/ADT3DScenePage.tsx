@@ -45,10 +45,9 @@ import {
 import ADT3DGlobeContainer from '../../Components/ADT3DGlobeContainer/ADT3DGlobeContainer';
 import {
     useDeeplinkContext,
-    DeeplinkContextActionType,
-    DeeplinkContext,
     DeeplinkContextProvider
 } from '../../Models/Context/DeeplinkContext';
+import { DeeplinkContextActionType } from '../../Models/Context/DeeplinkContext.types';
 
 export const ADT3DScenePageContext = createContext<IADT3DScenePageContext>(
     null
@@ -156,7 +155,7 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
                 );
             }
         },
-        [environmentPickerOptions.storage, setBlobContainerUrl]
+        [environmentPickerOptions?.storage, setBlobContainerUrl]
     );
 
     const handleEnvironmentUrlChange = useCallback(
