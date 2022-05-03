@@ -61,9 +61,18 @@ function debounce(func: any, timeout = 300) {
 let dummyProgress = 0; // Progress doesn't work for GLBs so fake it
 
 const getModifiedTime = (url): Promise<string> => {
-    const promise = new Promise<string>((resolve) => {
+    const promise = new Promise<string>((resolve, reject) => {
+        const headers = new Headers();
+        headers.append('Range', 'bytes=1-2');
+        if (Tools.CustomRequestHeaders.Authorization) {
+            headers.append(
+                'Authorization',
+                Tools.CustomRequestHeaders.Authorization
+            );
+        }
+
         // HEAD can give a CORS error
-        fetch(url, { method: 'GET', headers: { range: 'bytes=1-2' } })
+        fetch(url, { method: 'GET', headers: headers })
             .then((response) => {
                 const dt = new Date(response.headers.get('Last-Modified'));
                 if (dt.toString() === 'Invalid Date') {
@@ -71,8 +80,8 @@ const getModifiedTime = (url): Promise<string> => {
                 }
                 resolve(dt.toISOString());
             })
-            .catch(() => {
-                resolve('');
+            .catch((e) => {
+                reject(e.message);
             });
     });
     return promise;
@@ -85,23 +94,28 @@ async function loadPromise(
     onProgress: (event: BABYLON.ISceneLoaderProgressEvent) => void,
     onError: (scene: BABYLON.Scene, message: string, exception?: any) => void
 ): Promise<BABYLON.Scene> {
-    let mod = await getModifiedTime(root + filename);
-    mod = mod ? '?' + mod : '';
-    return new Promise((resolve) => {
-        BABYLON.Database.IDBStorageEnabled = true;
-        engine.disableManifestCheck = true;
-        BABYLON.SceneLoader.ShowLoadingScreen = false;
-        BABYLON.SceneLoader.Load(
-            root,
-            filename + mod,
-            engine,
-            (scene) => {
-                resolve(scene);
-            },
-            (e) => onProgress(e),
-            (s, m, e) => onError(s, m, e)
-        );
-    });
+    try {
+        let mod = await getModifiedTime(root + filename);
+        mod = mod ? '?' + mod : '';
+        return new Promise((resolve) => {
+            BABYLON.Database.IDBStorageEnabled = true;
+            engine.disableManifestCheck = true;
+            BABYLON.SceneLoader.ShowLoadingScreen = false;
+            BABYLON.SceneLoader.Load(
+                root,
+                filename + mod,
+                engine,
+                (scene) => {
+                    resolve(scene);
+                },
+                (e) => onProgress(e),
+                (s, m, e) => onError(s, m, e)
+            );
+        });
+    } catch (e) {
+        console.log(e);
+        onError(null, e.message, e);
+    }
 }
 
 function convertLatLonToVector3(
