@@ -176,8 +176,8 @@ export enum ADT3DSceneTwinBindingsMode {
 }
 
 export enum ADT3DScenePageModes {
-    BuildScene = 'builder',
-    ViewScene = 'viewer'
+    BuildScene = 'Builder',
+    ViewScene = 'Viewer'
 }
 
 export enum BehaviorListSegment {
