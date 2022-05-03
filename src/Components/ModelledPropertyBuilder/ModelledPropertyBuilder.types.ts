@@ -1,5 +1,4 @@
 import { linkedTwinName } from '../../Models/Constants';
-import { DtdlProperty } from '../../Models/Constants/dtdlInterfaces';
 import { IModelledPropertyBuilderAdapter } from '../../Models/Constants/Interfaces';
 import {
     I3DScenesConfig,
@@ -47,13 +46,13 @@ export interface ModelledPropertyBuilderProps {
     allowedPropertyValueTypes?: Array<PropertyValueType>;
 
     /** 
-			Reports back property or expression to consuming component when changed.
-			
-			If in PROPERTY_SELECTION mode, the property path & model are reported.
-			allowing components such as the property widget builder to
-			use information about the properties model.
+        Reports back property or expression to consuming component when changed.
+        
+        If in PROPERTY_SELECTION mode, the property path & model are reported.
+        allowing components such as the property widget builder to
+        use information about the properties model.
 
-			If in INTELLISENSE mode, the string expression is reported.
+        If in INTELLISENSE mode, the string expression is reported.
 		
 	*/
     onChange: (newPropertyExpression: PropertyExpression) => void;

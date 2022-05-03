@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import {
     defaultAllowedPropertyValueTypes,
     IFlattenedModelledPropertiesFormat,
-    IModelledProperties,
     ModelledPropertyBuilderMode,
     ModelledPropertyBuilderProps,
     PropertyExpression
