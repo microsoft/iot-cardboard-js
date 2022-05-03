@@ -1,15 +1,12 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import {
-    defaultAllowedComplexTypes,
-    defaultAllowedPrimitiveTypes,
+    defaultAllowedPropertyValueTypes,
     ModelledPropertyBuilderMode,
     ModelledPropertyBuilderProps
 } from './ModelledPropertyBuilder.types';
 import { getStyles } from './ModelledPropertyBuilder.styles';
 import { Stack, Toggle } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
-import { linkedTwinName } from '../../Models/Constants';
-import ViewerConfigUtility from '../../Models/Classes/ViewerConfigUtility';
 import { useModelledProperties } from './useModelledProperties';
 
 const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = ({
@@ -20,8 +17,7 @@ const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = ({
     disableAliasedTwins = false,
     selectedPropertyOrExpression,
     mode,
-    allowedPrimitiveTypes = defaultAllowedPrimitiveTypes,
-    allowedComplexTypes = defaultAllowedComplexTypes,
+    allowedPropertyValueTypes = defaultAllowedPropertyValueTypes,
     onChange
 }) => {
     const { t } = useTranslation();
@@ -33,15 +29,16 @@ const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = ({
         mode === 'TOGGLE' ? 'PROPERTY_SELECTION' : mode
     );
 
-    const result = useModelledProperties({
+    const { isLoading, modelledProperties } = useModelledProperties({
         adapter,
         behavior,
         config,
         sceneId,
         disableAliasedTwins,
-        allowedPrimitiveTypes,
-        allowedComplexTypes
+        allowedPropertyValueTypes
     });
+
+    console.log('Modelled properties: ', modelledProperties);
 
     return (
         <Stack tokens={{ childrenGap: 4 }}>

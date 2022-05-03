@@ -6,10 +6,7 @@ import {
     I3DScenesConfig
 } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { buildModelledProperties } from './ModelledPropertyBuilder.model';
-import {
-    PrimitiveType,
-    AllowedComplexType
-} from './ModelledPropertyBuilder.types';
+import { PropertyValueType } from './ModelledPropertyBuilder.types';
 
 interface IUseModelledPropertiesParams {
     /** Network interface with cached DTDL models & ability to resolve twins by Id */
@@ -21,9 +18,7 @@ interface IUseModelledPropertiesParams {
     /** Active scene context -- used to limit the element matching to the current scene */
     sceneId: string;
     /** List of allowed DTDL primitive types to build value properties for */
-    allowedPrimitiveTypes: Array<PrimitiveType>;
-    /** List of allowed DTDL complex types to build value properties for */
-    allowedComplexTypes: Array<AllowedComplexType>;
+    allowedPropertyValueTypes: Array<PropertyValueType>;
     /** List of allowed DTDL complex types to build value properties for */
     disableAliasedTwins: boolean;
 }
@@ -39,12 +34,13 @@ export const useModelledProperties = ({
     behavior,
     config,
     sceneId,
-    allowedPrimitiveTypes,
-    allowedComplexTypes,
+    allowedPropertyValueTypes,
     disableAliasedTwins
 }: IUseModelledPropertiesParams) => {
-    const [loading, setIsLoading] = useState(false);
-    const [modelledProperties, setModelledProperties] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
+    const [modelledProperties, setModelledProperties] = useState<
+        Record<string, any>
+    >(null);
 
     // Gets both primary & aliased twin Ids for a behavior in the context of the current scene.
     const { primaryTwinIds, aliasedTwinMap } = useMemo(
@@ -63,14 +59,17 @@ export const useModelledProperties = ({
         let isMounted = true;
 
         const updateModelProperties = async () => {
+            setIsLoading(true);
             const modelledProperties = await buildModelledProperties({
                 adapter,
                 primaryTwinIds,
                 ...(!disableAliasedTwins && { aliasedTwinMap }),
-                allowedComplexTypes,
-                allowedPrimitiveTypes
+                allowedPropertyValueTypes
             });
-            isMounted && setModelledProperties(modelledProperties);
+            if (isMounted) {
+                setModelledProperties(modelledProperties);
+                setIsLoading(false);
+            }
         };
         updateModelProperties();
 
@@ -80,5 +79,5 @@ export const useModelledProperties = ({
         };
     }, [adapter, primaryTwinIds, aliasedTwinMap]);
 
-    return null;
+    return { isLoading, modelledProperties };
 };

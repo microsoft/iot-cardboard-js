@@ -1,3 +1,4 @@
+import { linkedTwinName } from '../../Models/Constants';
 import { DtdlProperty } from '../../Models/Constants/dtdlInterfaces';
 import { IModelledPropertyBuilderAdapter } from '../../Models/Constants/Interfaces';
 import {
@@ -37,16 +38,10 @@ export interface ModelledPropertyBuilderProps {
     mode: 'PROPERTY_SELECTION' | 'INTELLISENSE' | 'TOGGLE';
 
     /** 
-		Allows consumer to only allow specific property primitive types.
-		Defaults to all primitive types.
+		Allows consumer to only allow specific property value types.
+		Defaults to all value types.
 	*/
-    allowedPrimitiveTypes?: Array<PrimitiveType>;
-
-    /** 
-		Allows consumer to only allow specific complex property types
-		Defaults to ['Object', 'Enum'] (Maps & Arrays will only be supported via plaintext)
-	*/
-    allowedComplexTypes?: Array<AllowedComplexType>;
+    allowedPropertyValueTypes?: Array<PropertyValueType>;
 
     /** 
 			Reports back property or expression to consuming component when changed.
@@ -61,6 +56,11 @@ export interface ModelledPropertyBuilderProps {
     onChange: (newPropertyOrExpression: PropertyOrExpression) => void;
 }
 
+export interface TagModelMap {
+    [linkedTwinName]: string[];
+    aliasTags?: Record<string, string>;
+}
+
 export type PropertyOrExpression =
     | {
           propertyPath: string;
@@ -72,7 +72,7 @@ export type PropertyOrExpression =
           type: 'expression';
       };
 
-export type PrimitiveType =
+export type PropertyValueType =
     | 'boolean'
     | 'date'
     | 'dateTime'
@@ -82,11 +82,10 @@ export type PrimitiveType =
     | 'integer'
     | 'long'
     | 'string'
-    | 'time';
+    | 'time'
+    | 'enum';
 
-export type AllowedComplexType = 'Enum' | 'Object';
-
-export const defaultAllowedPrimitiveTypes: PrimitiveType[] = [
+export const defaultAllowedPropertyValueTypes: PropertyValueType[] = [
     'boolean',
     'date',
     'dateTime',
@@ -96,10 +95,6 @@ export const defaultAllowedPrimitiveTypes: PrimitiveType[] = [
     'integer',
     'long',
     'string',
-    'time'
-];
-
-export const defaultAllowedComplexTypes: AllowedComplexType[] = [
-    'Enum',
-    'Object'
+    'time',
+    'enum'
 ];
