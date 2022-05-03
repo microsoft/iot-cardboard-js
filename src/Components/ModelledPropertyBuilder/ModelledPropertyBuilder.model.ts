@@ -3,7 +3,7 @@ import {
     ModelDict,
     EntityKinds,
     ObjectInfo
-} from 'temporary-js-dtdl-parser';
+} from 'azure-iot-dtdl-parser';
 import { linkedTwinName } from '../../Models/Constants/Constants';
 import { IModelledPropertyBuilderAdapter } from '../../Models/Constants/Interfaces';
 import {

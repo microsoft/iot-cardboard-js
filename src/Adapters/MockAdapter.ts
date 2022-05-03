@@ -65,7 +65,7 @@ import ExpandedADTModelData from '../Models/Classes/AdapterDataClasses/ExpandedA
 import { applyPatch, Operation } from 'fast-json-patch';
 import { DTDLType } from '../Models/Classes/DTDL';
 import i18n from '../i18n';
-import { ModelDict } from 'temporary-js-dtdl-parser/dist/parser/modelDict';
+import { ModelDict } from 'azure-iot-dtdl-parser/dist/parser/modelDict';
 
 export default class MockAdapter
     implements

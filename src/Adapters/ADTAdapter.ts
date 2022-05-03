@@ -66,7 +66,7 @@ import {
     ITwinToObjectMapping
 } from '../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { ElementType } from '../Models/Classes/3DVConfig';
-import { ModelDict } from 'temporary-js-dtdl-parser/dist/parser/modelDict';
+import { ModelDict } from 'azure-iot-dtdl-parser/dist/parser/modelDict';
 
 export default class ADTAdapter implements IADTAdapter {
     protected tenantId: string;

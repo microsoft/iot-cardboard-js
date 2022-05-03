@@ -20,7 +20,7 @@ import {
     IValueRange
 } from '../Types/Generated/3DScenesConfiguration-v1.0.0';
 import ViewerConfigUtility from '../Classes/ViewerConfigUtility';
-import { createParser, ModelParsingOption } from 'temporary-js-dtdl-parser';
+import { createParser, ModelParsingOption } from 'azure-iot-dtdl-parser';
 import { IDropdownOption } from '@fluentui/react';
 let ajv: Ajv = null;
 const parser = createParser(ModelParsingOption.PermitAnyTopLevelElement);
