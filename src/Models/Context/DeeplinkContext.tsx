@@ -107,6 +107,7 @@ export const DeeplinkContextProvider: React.FC<IDeeplinkContextProviderProps> = 
 };
 
 const buildDeeplink = (currentState: DeeplinkContextState): string => {
+    // note: the order of properties here is the order of that the QSPs will be in the URL
     const deeplink: IPublicDeeplink = {
         sceneId: currentState.sceneId,
         selectedElementIds: serializeArrayParam([
