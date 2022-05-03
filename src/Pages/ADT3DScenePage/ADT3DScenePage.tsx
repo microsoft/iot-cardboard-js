@@ -48,6 +48,7 @@ import {
     DeeplinkContextProvider
 } from '../../Models/Context/DeeplinkContext';
 import { DeeplinkContextActionType } from '../../Models/Context/DeeplinkContext.types';
+import { addHttpsPrefix } from '../../Models/Services/Utils';
 
 export const ADT3DScenePageContext = createContext<IADT3DScenePageContext>(
     null
@@ -263,15 +264,6 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
         }
     }, [resetConfig, scenesConfig, state?.errors, t]);
 
-    // temp hack until we clean up environmentPicker to output the value with https prefix
-    // if we have a url with the prefix, use it, otherwise append the prefix
-    // without this if you pass a value without the prefix it will crash the picker
-    const url = deeplinkState.adtUrl;
-    const adtUrl = url?.startsWith('https://')
-        ? url
-        : url
-        ? 'https://' + url
-        : undefined;
     return (
         <ADT3DScenePageContext.Provider
             value={{ state, dispatch, handleOnHomeClick, handleOnSceneClick }}
@@ -292,7 +284,12 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
                                         environmentPickerOptions?.environment
                                             ?.shouldPullFromSubscription
                                     }
-                                    environmentUrl={adtUrl}
+                                    // temp hack until we clean up environmentPicker to output the value with https prefix
+                                    // if we have a url with the prefix, use it, otherwise append the prefix
+                                    // without this if you pass a value without the prefix it will crash the picker
+                                    environmentUrl={addHttpsPrefix(
+                                        deeplinkState.adtUrl
+                                    )}
                                     onEnvironmentUrlChange={
                                         handleEnvironmentUrlChange
                                     }
@@ -396,8 +393,8 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = (props) => {
     return (
         <DeeplinkContextProvider
             initialState={{
-                adtUrl: 'https://' + adapter.getAdtHostUrl(),
-                storageUrl: adapter.getBlobContainerURL()
+                adtUrl: addHttpsPrefix(adapter.getAdtHostUrl()),
+                storageUrl: addHttpsPrefix(adapter.getBlobContainerURL())
             }}
         >
             <ADT3DScenePageBase {...props} />

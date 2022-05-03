@@ -6,6 +6,14 @@ import queryString from 'query-string';
 import React, { useContext, useReducer } from 'react';
 import { ADT3DScenePageModes } from '../Constants';
 import { getDebugLogger } from '../Services/Utils';
+import {
+    IDeeplinkContext,
+    DeeplinkContextState,
+    DeeplinkContextAction,
+    DeeplinkContextActionType,
+    IDeeplinkContextProviderProps,
+    IPublicDeeplink
+} from './DeeplinkContext.types';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('DeeplinkContext', debugLogging);
@@ -70,7 +78,7 @@ export const DeeplinkContextProvider: React.FC<IDeeplinkContextProviderProps> = 
         return <>{children}</>;
     }
 
-    const { initialState } = props;
+    const { initialState = {} } = props;
 
     const params = window.location.search;
     const parsed = (queryString.parse(params, {
@@ -86,7 +94,7 @@ export const DeeplinkContextProvider: React.FC<IDeeplinkContextProviderProps> = 
         mode: parsed.mode || initialState.mode || ADT3DScenePageModes.ViewScene,
         sceneId: parsed.sceneId || initialState.sceneId || '',
         selectedElementId:
-            parseArrayParam(parsed.selectedElementIds)[0] ||
+            parseArrayParam(parsed.selectedElementIds)?.[0] ||
             initialState.selectedElementId ||
             '',
         selectedLayerIds:
@@ -114,6 +122,8 @@ export const DeeplinkContextProvider: React.FC<IDeeplinkContextProviderProps> = 
 };
 
 const buildDeeplink = (currentState: DeeplinkContextState): string => {
+    if (!currentState) return '';
+
     // note: the order of properties here is the order of that the QSPs will be in the URL
     const deeplink: IPublicDeeplink = {
         sceneId: currentState.sceneId,
@@ -150,80 +160,6 @@ const serializeArrayParam = (values: string[]): string => {
  * NOTE: we write our own serialization here to avoid the complex parsing logic that comes native since we only need primitives right now
  */
 const parseArrayParam = (value: string): string[] => {
-    if (!value) return [];
+    if (!value) return undefined;
     return value.split(ARRAY_VALUE_SEPARATOR);
 };
-
-interface IDeeplinkContextProviderProps {
-    initialState?: Partial<Omit<DeeplinkContextState, 'deeplink'>>;
-}
-
-/**
- * A context used for capturing the current state of the app and restoring it to a new instance of the app
- */
-export interface IDeeplinkContext {
-    deeplinkState: DeeplinkContextState;
-    deeplinkDispatch: React.Dispatch<DeeplinkContextAction>;
-}
-
-/**
- * The state of the context
- */
-export interface DeeplinkContextState {
-    adtUrl: string;
-    deeplink: string;
-    mode: ADT3DScenePageModes;
-    sceneId: string;
-    selectedElementId: string;
-    selectedLayerIds: string[];
-    storageUrl: string;
-}
-
-/** The object serialized to create the deeplink URL */
-export interface IPublicDeeplink {
-    adtUrl: string;
-    mode: ADT3DScenePageModes;
-    sceneId: string;
-    selectedElementIds: string;
-    selectedLayerIds: string;
-    storageUrl: string;
-}
-
-/**
- * The actions to update the state
- */
-export enum DeeplinkContextActionType {
-    SET_ADT_URL = 'SET_ADT_URL',
-    SET_ELEMENT_ID = 'SET_ELEMENT_ID',
-    SET_LAYER_IDS = 'SET_LAYER_IDS',
-    SET_MODE = 'SET_MODE',
-    SET_SCENE_ID = 'SET_SCENE_ID',
-    SET_STORAGE_URL = 'SET_STORAGE_URL'
-}
-
-/** The actions to update the state */
-export type DeeplinkContextAction =
-    | {
-          type: DeeplinkContextActionType.SET_ADT_URL;
-          payload: { url: string };
-      }
-    | {
-          type: DeeplinkContextActionType.SET_ELEMENT_ID;
-          payload: { id: string };
-      }
-    | {
-          type: DeeplinkContextActionType.SET_LAYER_IDS;
-          payload: { ids: string[] };
-      }
-    | {
-          type: DeeplinkContextActionType.SET_MODE;
-          payload: { mode: ADT3DScenePageModes };
-      }
-    | {
-          type: DeeplinkContextActionType.SET_SCENE_ID;
-          payload: { sceneId: string };
-      }
-    | {
-          type: DeeplinkContextActionType.SET_STORAGE_URL;
-          payload: { url: string };
-      };

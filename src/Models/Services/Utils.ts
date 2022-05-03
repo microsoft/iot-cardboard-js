@@ -360,6 +360,15 @@ export function rgbToHex(r, g, b) {
     return '#' + componentToHex(r) + componentToHex(g) + componentToHex(b);
 }
 
+export function addHttpsPrefix(url: string) {
+    const newUrl = url?.startsWith('https://')
+        ? url
+        : url
+        ? 'https://' + url
+        : undefined;
+    return newUrl;
+}
+
 export function getDebugLogger(context: string, enabled: boolean) {
     if (!enabled) return () => undefined;
     return (message: string, ...args: unknown[]) => {
