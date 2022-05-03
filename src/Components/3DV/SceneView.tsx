@@ -44,8 +44,8 @@ import { getProgressStyles, getSceneViewStyles } from './SceneView.styles';
 import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
 import { sleep } from '../AutoComplete/AutoComplete';
 
-const debug = false;
-const debugLog = getDebugLogger('SceneView', debug);
+const debugLogging = false;
+const debugLog = getDebugLogger('SceneView', debugLogging);
 
 function debounce(func: any, timeout = 300) {
     let timer: any;
@@ -204,7 +204,7 @@ function SceneView(props: ISceneViewProps, ref) {
     onMeshClickRef.current = onMeshClick;
     onCameraMoveRef.current = onCameraMove;
     onMeshHoverRef.current = onMeshHover || defaultMeshHover;
-    if (debug && !newInstanceRef.current) {
+    if (debugLogging && !newInstanceRef.current) {
         debugLog('-----------New instance-----------');
         newInstanceRef.current = true;
     }
@@ -1215,7 +1215,7 @@ function SceneView(props: ISceneViewProps, ref) {
         );
 
         if (scene && coloredMeshItems && !isLoading) {
-            if (debug) {
+            if (debugLogging) {
                 console.time('coloring meshes');
             }
             try {
@@ -1334,7 +1334,7 @@ function SceneView(props: ISceneViewProps, ref) {
             } catch {
                 console.warn('unable to color mesh');
             }
-            if (debug) {
+            if (debugLogging) {
                 console.timeEnd('coloring meshes');
             }
         }
