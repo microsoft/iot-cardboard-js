@@ -46,9 +46,9 @@ import {
 } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import {
     useDeeplinkContext,
-    DeeplinkContextActionType,
     DeeplinkContextProvider
 } from '../../Models/Context/DeeplinkContext';
+import { DeeplinkContextActionType } from '../../Models/Context/DeeplinkContext.types';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('ADT3DViewer', debugLogging);
