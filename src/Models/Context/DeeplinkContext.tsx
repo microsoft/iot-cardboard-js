@@ -108,13 +108,13 @@ export const DeeplinkContextProvider: React.FC<IDeeplinkContextProviderProps> = 
 
 const buildDeeplink = (currentState: DeeplinkContextState): string => {
     const deeplink: IPublicDeeplink = {
-        adtUrl: currentState.adtUrl,
-        mode: currentState.mode,
         sceneId: currentState.sceneId,
         selectedElementIds: serializeArrayParam([
             currentState.selectedElementId
         ]),
         selectedLayerIds: serializeArrayParam(currentState.selectedLayerIds),
+        mode: currentState.mode,
+        adtUrl: currentState.adtUrl,
         storageUrl: currentState.storageUrl
     };
 
