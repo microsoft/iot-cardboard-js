@@ -81,7 +81,7 @@ const getModifiedTime = (url): Promise<string> => {
                 resolve(dt.toISOString());
             })
             .catch((e) => {
-                reject(e.message);
+                resolve('');
             });
     });
     return promise;
