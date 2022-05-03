@@ -418,9 +418,7 @@ function SceneView(props: ISceneViewProps, ref) {
                 }
 
                 zoomedMeshesRef.current = meshes;
-
                 someMeshFromTheArrayOfMeshes.setBoundingInfo(bbox);
-
                 someMeshFromTheArrayOfMeshes.showBoundingBox = false;
 
                 const es = someMeshFromTheArrayOfMeshes.getBoundingInfo()
@@ -457,6 +455,8 @@ function SceneView(props: ISceneViewProps, ref) {
                     cameraRef.current = camera;
                     cameraRef.current.zoomOn(meshes, true);
                     cameraRef.current.radius = radius;
+                    camera.wheelPrecision =
+                        (3 * 50) / bbox.boundingSphere.radius;
 
                     // Register a render loop to repeatedly render the scene
                     engineRef.current.runRenderLoop(() => {
