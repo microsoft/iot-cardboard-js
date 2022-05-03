@@ -170,7 +170,7 @@ const ProviderUpdater: React.FC = () => {
                 data-testid={'DeeplinkContext-SelectedElementId'}
                 text="Update selected element"
                 onClick={() => {
-                    const newValue = storageUrlIncrementor + 1;
+                    const newValue = elementIdIncrementor + 1;
                     deeplinkDispatch({
                         type: DeeplinkContextActionType.SET_ELEMENT_ID,
                         payload: {
