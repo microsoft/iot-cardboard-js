@@ -5,9 +5,10 @@ import {
     ModelledPropertyBuilderProps
 } from './ModelledPropertyBuilder.types';
 import { getStyles } from './ModelledPropertyBuilder.styles';
-import { Stack, Toggle } from '@fluentui/react';
+import { Spinner, Stack, Toggle } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { useModelledProperties } from './useModelledProperties';
+import { ModelledPropertyDropdown } from './Internal/ModelledPropertyDropdown';
 
 const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = ({
     adapter,
@@ -38,12 +39,21 @@ const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = ({
         allowedPropertyValueTypes
     });
 
-    console.log('Modelled properties: ', modelledProperties);
+    console.log(
+        'Modelled properties: ',
+        modelledProperties,
+        'Is loading: ',
+        isLoading
+    );
+
+    if (isLoading) return <Spinner />;
 
     return (
         <Stack tokens={{ childrenGap: 4 }}>
             {internalMode === 'PROPERTY_SELECTION' && (
-                <div>Property select mode</div>
+                <ModelledPropertyDropdown
+                    flattenedProperties={modelledProperties.flattenedFormat}
+                />
             )}
             {internalMode === 'INTELLISENSE' && <div>Intellisense mode</div>}
             {mode === 'TOGGLE' && (

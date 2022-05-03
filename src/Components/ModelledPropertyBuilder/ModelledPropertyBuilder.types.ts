@@ -56,7 +56,25 @@ export interface ModelledPropertyBuilderProps {
     onChange: (newPropertyOrExpression: PropertyOrExpression) => void;
 }
 
-export interface TagModelMap {
+export interface IModelledProperty {
+    entity: any;
+    fullPath: string;
+    key: string;
+    localPath: string;
+    name: string;
+    schema: any;
+}
+
+export interface IFlattenedModelledPropertiesFormat {
+    [tagName: string]: Array<IModelledProperty>;
+}
+
+export interface IModelledProperties {
+    nestedFormat: Record<string, any>;
+    flattenedFormat: IFlattenedModelledPropertiesFormat;
+}
+
+export interface ITagModelMap {
     [linkedTwinName]: string[];
     aliasTags?: Record<string, string>;
 }

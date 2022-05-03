@@ -6,7 +6,10 @@ import {
     I3DScenesConfig
 } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { buildModelledProperties } from './ModelledPropertyBuilder.model';
-import { PropertyValueType } from './ModelledPropertyBuilder.types';
+import {
+    IModelledProperties,
+    PropertyValueType
+} from './ModelledPropertyBuilder.types';
 
 interface IUseModelledPropertiesParams {
     /** Network interface with cached DTDL models & ability to resolve twins by Id */
@@ -37,10 +40,11 @@ export const useModelledProperties = ({
     allowedPropertyValueTypes,
     disableAliasedTwins
 }: IUseModelledPropertiesParams) => {
-    const [isLoading, setIsLoading] = useState(false);
-    const [modelledProperties, setModelledProperties] = useState<
-        Record<string, any>
-    >(null);
+    const [isLoading, setIsLoading] = useState(true);
+    const [
+        modelledProperties,
+        setModelledProperties
+    ] = useState<IModelledProperties>(null);
 
     // Gets both primary & aliased twin Ids for a behavior in the context of the current scene.
     const { primaryTwinIds, aliasedTwinMap } = useMemo(

@@ -8,7 +8,8 @@ import { linkedTwinName } from '../../Models/Constants/Constants';
 import { IModelledPropertyBuilderAdapter } from '../../Models/Constants/Interfaces';
 import {
     PropertyValueType,
-    TagModelMap
+    ITagModelMap,
+    IModelledProperties
 } from './ModelledPropertyBuilder.types';
 
 interface IBuildModelledPropertiesParams {
@@ -34,8 +35,12 @@ export const buildModelledProperties = async ({
     primaryTwinIds,
     aliasedTwinMap,
     allowedPropertyValueTypes
-}: IBuildModelledPropertiesParams): Promise<Record<string, any>> => {
-    let modelledProperties = {};
+}: IBuildModelledPropertiesParams): Promise<IModelledProperties> => {
+    const modelledProperties = {
+        nestedFormat: {},
+        flattenedFormat: {}
+    };
+
     try {
         // Wait for models to be fetched -- calling subsequent times has no effect (models on fetched once)
         await adapter.fetchCacheAndParseAllADTModels();
@@ -49,15 +54,44 @@ export const buildModelledProperties = async ({
         );
 
         // Expand each model ID into DTDL property array
-        modelledProperties = expandModelIds(
+        modelledProperties.nestedFormat = expandModelIds(
             adapter.parsedModels,
             tagModelMap,
             allowedPropertyValueTypes
+        );
+
+        // Flatten properties into list representation
+        modelledProperties.flattenedFormat = flattenModelledProperties(
+            modelledProperties.nestedFormat
         );
     } catch (err) {
         console.error(err);
     }
     return modelledProperties;
+};
+
+/** Flattens modelled properties into '.' separated path keys to be used in dropdown representations */
+const flattenModelledProperties = (
+    nestedModelledProperties: Record<string, any>
+) => {
+    const flattenedProperties = {};
+
+    const addProperty = (propertyList, item) => {
+        if (item.properties) {
+            for (const nestedPropertyKey of Object.keys(item.properties)) {
+                addProperty(propertyList, item.properties[nestedPropertyKey]);
+            }
+        } else {
+            propertyList.push(item);
+        }
+    };
+
+    for (const key of Object.keys(nestedModelledProperties)) {
+        flattenedProperties[key] = [];
+        addProperty(flattenedProperties[key], nestedModelledProperties[key]);
+    }
+
+    return flattenedProperties;
 };
 
 /**Transforms primary & aliased tag -> model mappings into nested modelled properties
@@ -67,7 +101,7 @@ export const buildModelledProperties = async ({
  */
 const expandModelIds = (
     modelDict: ModelDict,
-    tagModelMap: TagModelMap,
+    tagModelMap: ITagModelMap,
     allowedPropertyValueTypes: Array<PropertyValueType>
 ): Record<string, any> => {
     const modelledProperties = {};
@@ -75,9 +109,10 @@ const expandModelIds = (
     // Add primary twin's modelled properties
     for (const modelId of tagModelMap.LinkedTwin) {
         if (modelDict[modelId]?.entityKind === 'interface') {
-            // Add primary tag to root object
-            modelledProperties[linkedTwinName] = {};
-
+            if (!(linkedTwinName in modelledProperties)) {
+                // Add primary tag to root object
+                modelledProperties[linkedTwinName] = {};
+            }
             addInterface(
                 modelledProperties[linkedTwinName],
                 modelDict[modelId] as InterfaceInfo,
@@ -129,12 +164,16 @@ const addInterface = (
                 contentInfo.entityKind === 'property'
         ) || [];
 
+    // Add properties key -- contains modelled properties
+    if (!('properties' in root)) {
+        root['properties'] = {};
+    }
+
     for (const item of propertyContents) {
         addEntity(root, item, path, allowedPropertyValueTypes);
     }
 };
 
-// Recursively adds entity onto modelled property object
 /**Adds property & component entities to root object recursively.
  * Value properties (leaf nodes) will be directly attached.
  * Object properties will recursively add nested fields.
@@ -155,12 +194,14 @@ const addEntity = (
         const objectSchema = entity.schema as ObjectInfo;
 
         // Create object entry in root
-        root[entity.name] = {};
+        const objectEntry = (root.properties[entity.name] = {
+            properties: {}
+        });
 
         // Recursively add fields of object to root
         for (const field of objectSchema.fields) {
             addEntity(
-                root[entity.name],
+                objectEntry,
                 field,
                 path + '.' + entity.name,
                 allowedPropertyValueTypes
@@ -168,10 +209,12 @@ const addEntity = (
         }
     } else if ((entity.entityKind as EntityKinds) === 'component') {
         // Create component entry in root
-        root[entity.name] = {};
+        const componentEntry = (root.properties[entity.name] = {
+            properties: {}
+        });
 
         addInterface(
-            root[entity.name],
+            componentEntry,
             entity.schema,
             path,
             allowedPropertyValueTypes
@@ -179,9 +222,13 @@ const addEntity = (
     }
     // If schema is value property type (string, float, datetime, etc), add leaf to root
     else if (allowedPropertyValueTypes.includes(entity?.schema?.entityKind)) {
-        root[entity.name] = {
+        const fullPath = path + '.' + entity.name;
+
+        root.properties[entity.name] = {
+            name: entity.name,
             key: path + '.' + entity.name,
-            path: path + '.' + entity.name,
+            fullPath,
+            localPath: fullPath.slice(fullPath.indexOf('.') + 1),
             schema: entity.schema,
             entity: entity
         };
@@ -209,8 +256,8 @@ export const mergeTagsAndMapTwinIdsToModelIds = async (
     adapter: IModelledPropertyBuilderAdapter,
     primaryTwinIds: string[],
     aliasedTwinMap?: Record<string, string>
-): Promise<TagModelMap> => {
-    const tagModelMap: TagModelMap = {
+): Promise<ITagModelMap> => {
+    const tagModelMap: ITagModelMap = {
         LinkedTwin: []
     };
 
