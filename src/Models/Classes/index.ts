@@ -20,3 +20,4 @@ export { default as BoardInfo } from './BoardInfo';
 export { default as CardInfo } from './CardInfo';
 export { ComponentError, CancelledPromiseError } from './Errors';
 export { default as AssetSimulation } from './Simulations/AssetSimulation';
+export { I3DScenesConfig, IScene, IElement, IAsset } from '../Types/Generated/3DScenesConfiguration-v1.0.0';
