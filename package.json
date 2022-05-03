@@ -144,7 +144,7 @@
         "test:watch": "jest --watch",
         "prettier:fix": "prettier --write src/**/*.{js,ts,tsx,scss}",
         "prettier:check": "prettier --check src/**/*.{js,ts,tsx,scss}",
-        "eslint:fix": "eslint --cache --fix",
+        "eslint:fix": "eslint src/**/*.{js,ts,tsx} --cache --fix",
         "eslint:check": "eslint src/**/*.{js,ts,tsx}",
         "stylelint:fix": "stylelint --fix \"src/**/*.scss\"",
         "stylelint:check": "stylelint \"src/**/*.scss\"",
