@@ -12,7 +12,7 @@ const logDebugConsole = getDebugLogger('DeeplinkContext', debugLogging);
 
 // &adtUrl=https://mockADTInstanceResourceName.api.wcus.digitaltwins.azure.net&mode=viewer&sceneId=f7053e7537048e03be4d1e6f8f93aa8a&selectedElementIds=45131a84754280b924477f1df54ca547&selectedLayerIds=8904b620aa83c649888dadc7c8fdf492,9624b620aa83c649888dadc7c8fdf541&storageUrl=https://mockStorageAccountName.blob.core.windows.net/mockContainerName
 
-export const DeeplinkContext = React.createContext<IADTDeeplinkContext>(null);
+export const DeeplinkContext = React.createContext<IDeeplinkContext>(null);
 export const useDeeplinkContext = () => useContext(DeeplinkContext);
 
 export const DeeplinkContextReducer: (
@@ -70,7 +70,7 @@ export const DeeplinkContextProvider: React.FC<IDeeplinkContextProviderProps> = 
         return <>{children}</>;
     }
 
-    const { initialAdtInstanceUrl, initialStorageUrl } = props;
+    const { initialState } = props;
 
     const params = window.location.search;
     const parsed = (queryString.parse(params, {
@@ -79,14 +79,21 @@ export const DeeplinkContextProvider: React.FC<IDeeplinkContextProviderProps> = 
     }) as unknown) as IPublicDeeplink;
 
     // set the initial state for the Deeplink reducer
+    // use the URL values and then fallback to initial state that is provided
     const defaultState: DeeplinkContextState = {
-        adtUrl: parsed.adtUrl || initialAdtInstanceUrl || '',
+        adtUrl: parsed.adtUrl || initialState.adtUrl || '',
         deeplink: '',
-        mode: parsed.mode || ADT3DScenePageModes.ViewScene,
-        sceneId: parsed.sceneId || '',
-        selectedElementId: parseArrayParam(parsed.selectedElementIds)[0] || '',
-        selectedLayerIds: parseArrayParam(parsed.selectedLayerIds) || [],
-        storageUrl: parsed.storageUrl || initialStorageUrl || ''
+        mode: parsed.mode || initialState.mode || ADT3DScenePageModes.ViewScene,
+        sceneId: parsed.sceneId || initialState.sceneId || '',
+        selectedElementId:
+            parseArrayParam(parsed.selectedElementIds)[0] ||
+            initialState.selectedElementId ||
+            '',
+        selectedLayerIds:
+            parseArrayParam(parsed.selectedLayerIds) ||
+            initialState.selectedLayerIds ||
+            [],
+        storageUrl: parsed.storageUrl || initialState.storageUrl || ''
     };
     defaultState.deeplink = buildDeeplink(defaultState);
 
@@ -148,22 +155,13 @@ const parseArrayParam = (value: string): string[] => {
 };
 
 interface IDeeplinkContextProviderProps {
-    /**
-     * Initial URL to the ADT instance the scene uses.
-     * Optional except at the ADT3DScenePage level
-     */
-    initialAdtInstanceUrl?: string;
-    /**
-     * Initial URL to the storage instance the scene uses.
-     * Optional except at the ADT3DScenePage level
-     */
-    initialStorageUrl?: string;
+    initialState?: Partial<Omit<DeeplinkContextState, 'deeplink'>>;
 }
 
 /**
  * A context used for capturing the current state of the app and restoring it to a new instance of the app
  */
-export interface IADTDeeplinkContext {
+export interface IDeeplinkContext {
     deeplinkState: DeeplinkContextState;
     deeplinkDispatch: React.Dispatch<DeeplinkContextAction>;
 }
