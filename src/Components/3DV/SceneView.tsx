@@ -455,8 +455,8 @@ function SceneView(props: ISceneViewProps, ref) {
                     cameraRef.current = camera;
                     cameraRef.current.zoomOn(meshes, true);
                     cameraRef.current.radius = radius;
-                    camera.wheelPrecision =
-                        (3 * 50) / bbox.boundingSphere.radius;
+                    cameraRef.current.wheelPrecision =
+                        (3 * 40) / bbox.boundingSphere.radius;
 
                     // Register a render loop to repeatedly render the scene
                     engineRef.current.runRenderLoop(() => {
