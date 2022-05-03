@@ -81,7 +81,7 @@ export const useModelledProperties = ({
         return () => {
             isMounted = false;
         };
-    }, [adapter, primaryTwinIds, aliasedTwinMap]);
+    }, [primaryTwinIds, aliasedTwinMap]);
 
     return { isLoading, modelledProperties };
 };

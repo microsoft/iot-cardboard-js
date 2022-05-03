@@ -38,7 +38,8 @@ export const buildModelledProperties = async ({
 }: IBuildModelledPropertiesParams): Promise<IModelledProperties> => {
     const modelledProperties = {
         nestedFormat: {},
-        flattenedFormat: {}
+        flattenedFormat: {},
+        intellisenseFormat: {}
     };
 
     try {
@@ -64,10 +65,41 @@ export const buildModelledProperties = async ({
         modelledProperties.flattenedFormat = flattenModelledProperties(
             modelledProperties.nestedFormat
         );
+
+        // Create intellisense skeleton of property nesting
+        modelledProperties.intellisenseFormat = generatePropertySkeleton(
+            modelledProperties.nestedFormat
+        );
     } catch (err) {
         console.error(err);
     }
     return modelledProperties;
+};
+
+/** Creates skeleton of property names only for intellisense purposes */
+const generatePropertySkeleton = (
+    nestedModelledProperties: Record<string, any>
+) => {
+    const propertySkeleton = {};
+
+    const addProperty = (rootObj, item) => {
+        if (item.properties) {
+            for (const nestedPropertyKey of Object.keys(item.properties)) {
+                rootObj[nestedPropertyKey] = {};
+                addProperty(
+                    rootObj[nestedPropertyKey],
+                    item.properties[nestedPropertyKey]
+                );
+            }
+        }
+    };
+
+    for (const key of Object.keys(nestedModelledProperties)) {
+        propertySkeleton[key] = {};
+        addProperty(propertySkeleton[key], nestedModelledProperties[key]);
+    }
+
+    return propertySkeleton;
 };
 
 /** Flattens modelled properties into '.' separated path keys to be used in dropdown representations */

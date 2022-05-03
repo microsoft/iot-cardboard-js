@@ -9,6 +9,8 @@ import { IDropdownOption, Spinner, Stack, Toggle } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { useModelledProperties } from './useModelledProperties';
 import { ModelledPropertyDropdown } from './Internal/ModelledPropertyDropdown';
+import { Intellisense, separators } from '../AutoComplete/Intellisense';
+import { getProperty } from 'dot-prop';
 
 const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = ({
     adapter,
@@ -39,18 +41,39 @@ const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = ({
         allowedPropertyValueTypes
     });
 
-    // TODO -- remove debug logging
-    useEffect(() => {
-        if (modelledProperties) {
-            console.log('Modelled properties: ', modelledProperties);
-        }
-    }, [modelledProperties]);
-
     const onChangeDropdownSelection = (option: IDropdownOption) => {
         onChange({
             property: option.data.property,
             expression: option.data.property.fullPath
         });
+    };
+
+    const getIntellisenseProperty = (
+        propertyName: string,
+        {
+            search,
+            tokens,
+            leafToken
+        }: { search: string; tokens: string[]; leafToken: number }
+    ) => {
+        const nonPathChars = separators.replace('.', '');
+        let pathRootIdx = leafToken;
+        for (let i = leafToken; i >= 0; i--) {
+            if (!nonPathChars.includes(tokens[i])) {
+                pathRootIdx = i;
+            } else {
+                break;
+            }
+        }
+
+        const propertyPath = tokens.slice(pathRootIdx, leafToken + 1).join('');
+
+        // Return properties @ path if present
+        const properties = Object.keys(
+            getProperty(modelledProperties.intellisenseFormat, propertyPath, {})
+        );
+
+        return properties;
     };
 
     if (isLoading) return <Spinner />;
@@ -62,12 +85,28 @@ const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = ({
                     flattenedProperties={modelledProperties.flattenedFormat}
                     onChange={onChangeDropdownSelection}
                     selectedKey={propertyExpression.expression}
+                    label={'Select property'}
                 />
             )}
-            {internalMode === 'INTELLISENSE' && <div>Intellisense mode</div>}
+            {internalMode === 'INTELLISENSE' && (
+                <Intellisense
+                    autoCompleteProps={{
+                        textFieldProps: {
+                            label: 'Property expression',
+                            multiline: true,
+                            placeholder: 'Enter expression'
+                        }
+                    }}
+                    onChange={(value) => onChange({ expression: value })}
+                    defaultValue={propertyExpression.expression}
+                    aliasNames={Object.keys(modelledProperties.nestedFormat)}
+                    getPropertyNames={getIntellisenseProperty}
+                />
+            )}
             {mode === 'TOGGLE' && (
                 <div className={styles.toggleContainer}>
                     <Toggle
+                        checked={internalMode === 'INTELLISENSE'}
                         label={t(
                             '3dSceneBuilder.ModelledPropertyBuilder.toggleLabel'
                         )}
@@ -87,4 +126,4 @@ const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = ({
     );
 };
 
-export default ModelledPropertyBuilder;
+export default React.memo(ModelledPropertyBuilder);

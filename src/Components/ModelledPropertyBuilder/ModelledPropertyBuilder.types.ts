@@ -73,6 +73,7 @@ export interface IFlattenedModelledPropertiesFormat {
 export interface IModelledProperties {
     nestedFormat: Record<string, any>;
     flattenedFormat: IFlattenedModelledPropertiesFormat;
+    intellisenseFormat: Record<string, any>;
 }
 
 export interface ITagModelMap {

@@ -17,6 +17,7 @@ interface ModelledPropertyDropdownProps {
     flattenedProperties: IFlattenedModelledPropertiesFormat;
     selectedKey: string;
     onChange: (option: IDropdownOption) => void;
+    label: string;
 }
 
 const getDropdownOptions = (
@@ -58,7 +59,8 @@ const getDropdownOptions = (
 export const ModelledPropertyDropdown: React.FC<ModelledPropertyDropdownProps> = ({
     flattenedProperties,
     onChange,
-    selectedKey
+    selectedKey,
+    label
 }) => {
     const styles = getStyles();
     const options = useMemo(() => getDropdownOptions(flattenedProperties), [
@@ -111,6 +113,7 @@ export const ModelledPropertyDropdown: React.FC<ModelledPropertyDropdownProps> =
 
     return (
         <Dropdown
+            label={label}
             options={options}
             onChange={(_event, option) => onChange(option)}
             selectedKey={selectedKey}
