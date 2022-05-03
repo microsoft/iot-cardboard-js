@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ComponentStory } from '@storybook/react';
 import { getDefaultStoryDecorator } from '../../Models/Services/StoryUtilities';
 import ModelledPropertyBuilder from './ModelledPropertyBuilder';
-import { ModelledPropertyBuilderProps } from './ModelledPropertyBuilder.types';
+import {
+    ModelledPropertyBuilderProps,
+    PropertyExpression
+} from './ModelledPropertyBuilder.types';
 import { MockAdapter } from '../../Adapters';
 import { config as mockConfig } from './__mockData__/MockPropertyModelData';
 
@@ -21,6 +24,10 @@ type ModelledPropertyBuilderStory = ComponentStory<
 >;
 
 const Template: ModelledPropertyBuilderStory = (args) => {
+    const [
+        propertyExpression,
+        setPropertyExpression
+    ] = useState<PropertyExpression>();
     return (
         <ModelledPropertyBuilder
             {...args}
@@ -28,6 +35,14 @@ const Template: ModelledPropertyBuilderStory = (args) => {
             config={mockConfig}
             behavior={mockConfig.configuration.behaviors[0]}
             sceneId={mockConfig.configuration.scenes[0].id}
+            onChange={(newPropertyExpression: PropertyExpression) => {
+                setPropertyExpression(newPropertyExpression);
+                console.log(
+                    'Property expression changed: ',
+                    newPropertyExpression
+                );
+            }}
+            propertyExpression={propertyExpression}
         />
     );
 };

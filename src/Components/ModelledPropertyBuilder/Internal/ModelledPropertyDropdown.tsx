@@ -4,11 +4,15 @@ import {
     Icon,
     IDropdownOption
 } from '@fluentui/react';
-import React, { useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
+import { DTDLPropertyIconographyMap } from '../../../Models/Constants/Constants';
+import { dropdownIconStyles } from '../ModelledPropertyBuilder.styles';
 import { IFlattenedModelledPropertiesFormat } from '../ModelledPropertyBuilder.types';
 
 interface ModelledPropertyDropdownProps {
     flattenedProperties: IFlattenedModelledPropertiesFormat;
+    selectedKey: string;
+    onChange: (option: IDropdownOption) => void;
 }
 
 const getDropdownOptions = (
@@ -23,10 +27,22 @@ const getDropdownOptions = (
                 text: tag,
                 itemType: DropdownMenuItemType.Header
             },
-            ...flattenedProperties[tag].map((property) => ({
-                key: property.fullPath,
-                text: property.localPath
-            }))
+            ...flattenedProperties[tag].map((property) => {
+                const propertyIcon =
+                    DTDLPropertyIconographyMap[property.propertyType];
+
+                return {
+                    key: property.fullPath,
+                    text: property.localPath,
+                    data: {
+                        ...(propertyIcon && {
+                            icon: propertyIcon.icon,
+                            iconTitle: propertyIcon.text
+                        }),
+                        property
+                    }
+                };
+            })
         ];
 
         modelledPropertyOptions = modelledPropertyOptions.concat(tagProperties);
@@ -36,17 +52,10 @@ const getDropdownOptions = (
 };
 
 export const ModelledPropertyDropdown: React.FC<ModelledPropertyDropdownProps> = ({
-    flattenedProperties
+    flattenedProperties,
+    onChange,
+    selectedKey
 }) => {
-    const [selectedProperty, setSelectedProperty] = useState<IDropdownOption>();
-
-    const onChange = (
-        event: React.FormEvent<HTMLDivElement>,
-        item: IDropdownOption
-    ): void => {
-        setSelectedProperty(item);
-    };
-
     const options = useMemo(() => getDropdownOptions(flattenedProperties), [
         flattenedProperties
     ]);
@@ -58,7 +67,8 @@ export const ModelledPropertyDropdown: React.FC<ModelledPropertyDropdownProps> =
                     <Icon
                         iconName={option.data.icon}
                         aria-hidden="true"
-                        title={option.data.icon}
+                        title={option.data.iconTitle}
+                        styles={dropdownIconStyles}
                     />
                 )}
                 <span>{option.text}</span>
@@ -76,9 +86,10 @@ export const ModelledPropertyDropdown: React.FC<ModelledPropertyDropdownProps> =
                         iconName={option.data.icon}
                         aria-hidden="true"
                         title={option.data.icon}
+                        styles={dropdownIconStyles}
                     />
                 )}
-                <span>{option.text}</span>
+                <span>{option.key}</span>
             </div>
         );
     };
@@ -86,8 +97,8 @@ export const ModelledPropertyDropdown: React.FC<ModelledPropertyDropdownProps> =
     return (
         <Dropdown
             options={options}
-            onChange={onChange}
-            selectedKey={selectedProperty ? selectedProperty.key : undefined}
+            onChange={(_event, option) => onChange(option)}
+            selectedKey={selectedKey}
             placeholder="Select a property"
             onRenderOption={onRenderOption}
             onRenderTitle={onRenderTitle}

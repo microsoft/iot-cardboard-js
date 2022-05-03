@@ -230,7 +230,8 @@ const addEntity = (
             fullPath,
             localPath: fullPath.slice(fullPath.indexOf('.') + 1),
             schema: entity.schema,
-            entity: entity
+            entity: entity,
+            propertyType: entity.schema.entityKind
         };
     }
 };

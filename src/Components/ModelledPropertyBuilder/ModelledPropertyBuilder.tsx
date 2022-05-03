@@ -5,7 +5,7 @@ import {
     ModelledPropertyBuilderProps
 } from './ModelledPropertyBuilder.types';
 import { getStyles } from './ModelledPropertyBuilder.styles';
-import { Spinner, Stack, Toggle } from '@fluentui/react';
+import { IDropdownOption, Spinner, Stack, Toggle } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { useModelledProperties } from './useModelledProperties';
 import { ModelledPropertyDropdown } from './Internal/ModelledPropertyDropdown';
@@ -16,7 +16,7 @@ const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = ({
     config,
     sceneId,
     disableAliasedTwins = false,
-    selectedPropertyOrExpression,
+    propertyExpression,
     mode,
     allowedPropertyValueTypes = defaultAllowedPropertyValueTypes,
     onChange
@@ -46,6 +46,13 @@ const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = ({
         isLoading
     );
 
+    const onChangeDropdownSelection = (option: IDropdownOption) => {
+        onChange({
+            property: option.data.property,
+            expression: option.data.property.fullPath
+        });
+    };
+
     if (isLoading) return <Spinner />;
 
     return (
@@ -53,6 +60,8 @@ const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = ({
             {internalMode === 'PROPERTY_SELECTION' && (
                 <ModelledPropertyDropdown
                     flattenedProperties={modelledProperties.flattenedFormat}
+                    onChange={onChangeDropdownSelection}
+                    selectedKey={propertyExpression?.property?.key}
                 />
             )}
             {internalMode === 'INTELLISENSE' && <div>Intellisense mode</div>}

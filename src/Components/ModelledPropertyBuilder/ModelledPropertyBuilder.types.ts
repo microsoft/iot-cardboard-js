@@ -32,7 +32,7 @@ export interface ModelledPropertyBuilderProps {
 		currently selected property or expression.  This also allows
 		the state to be initialized in edit form modes.
 	*/
-    selectedPropertyOrExpression: PropertyOrExpression;
+    propertyExpression: PropertyExpression;
 
     /** Configuration for supported modes */
     mode: 'PROPERTY_SELECTION' | 'INTELLISENSE' | 'TOGGLE';
@@ -53,7 +53,7 @@ export interface ModelledPropertyBuilderProps {
 			If in INTELLISENSE mode, the string expression is reported.
 		
 	*/
-    onChange: (newPropertyOrExpression: PropertyOrExpression) => void;
+    onChange: (newPropertyExpression: PropertyExpression) => void;
 }
 
 export interface IModelledProperty {
@@ -62,6 +62,7 @@ export interface IModelledProperty {
     key: string;
     localPath: string;
     name: string;
+    propertyType: PropertyValueType;
     schema: any;
 }
 
@@ -79,16 +80,10 @@ export interface ITagModelMap {
     aliasTags?: Record<string, string>;
 }
 
-export type PropertyOrExpression =
-    | {
-          propertyPath: string;
-          type: 'property';
-          propertyModel: DtdlProperty;
-      }
-    | {
-          expression: string;
-          type: 'expression';
-      };
+export type PropertyExpression = {
+    expression: string;
+    property?: IModelledProperty;
+};
 
 export type PropertyValueType =
     | 'boolean'

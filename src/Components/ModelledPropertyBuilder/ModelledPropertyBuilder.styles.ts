@@ -1,4 +1,9 @@
-import { memoizeFunction, mergeStyleSets, IStyle } from '@fluentui/react';
+import {
+    memoizeFunction,
+    mergeStyleSets,
+    IStyle,
+    IIconStyles
+} from '@fluentui/react';
 
 export const modelledPropertyBuilderClassPrefix = 'cb-modelledpropertybuilder';
 
@@ -18,3 +23,7 @@ export const getStyles = memoizeFunction(() => {
         ]
     });
 });
+
+export const dropdownIconStyles: Partial<IIconStyles> = {
+    root: { marginRight: 8 }
+};
