@@ -47,6 +47,7 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
     scenesConfig,
     pollingInterval,
     addInProps,
+    sceneViewProps,
     refetchConfig,
     showMeshesOnHover,
     enableMeshSelection,
@@ -332,6 +333,8 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
         (sv) => sv.element.id === behaviorModalSceneVisualElementId
     );
 
+    const svp = sceneViewProps || {};
+
     return (
         <BaseComponent
             isLoading={isLoading && !sceneVisuals}
@@ -384,6 +387,7 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
                         onBadgeGroupHover: onBadgeGroupHover,
                         onMeshClick: (mesh, scene) => meshClick(mesh, scene),
                         onMeshHover: (mesh) => meshHover(mesh),
+                        ...svp,
                         getToken: (adapter as any).authService
                             ? () =>
                                   (adapter as any).authService.getToken(

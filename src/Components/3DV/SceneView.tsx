@@ -13,8 +13,9 @@ import React, {
 import './SceneView.scss';
 import { createGUID, deepCopy, hexToColor4 } from '../../Models/Services/Utils';
 import {
+    ICameraPosition,
+    ISceneViewProps,
     ColoredMeshGroup,
-    ISceneViewProp,
     Marker,
     SceneViewCallbackHandler
 } from '../../Models/Classes/SceneView.types';
@@ -62,8 +63,17 @@ let dummyProgress = 0; // Progress doesn't work for GLBs so fake it
 
 const getModifiedTime = (url): Promise<string> => {
     const promise = new Promise<string>((resolve) => {
+        const headers = new Headers();
+        headers.append('Range', 'bytes=1-2');
+        if (Tools.CustomRequestHeaders.Authorization) {
+            headers.append(
+                'Authorization',
+                Tools.CustomRequestHeaders.Authorization
+            );
+        }
+
         // HEAD can give a CORS error
-        fetch(url, { method: 'GET', headers: { range: 'bytes=1-2' } })
+        fetch(url, { method: 'GET', headers: headers })
             .then((response) => {
                 const dt = new Date(response.headers.get('Last-Modified'));
                 if (dt.toString() === 'Invalid Date') {
@@ -85,23 +95,28 @@ async function loadPromise(
     onProgress: (event: BABYLON.ISceneLoaderProgressEvent) => void,
     onError: (scene: BABYLON.Scene, message: string, exception?: any) => void
 ): Promise<BABYLON.Scene> {
-    let mod = await getModifiedTime(root + filename);
-    mod = mod ? '?' + mod : '';
-    return new Promise((resolve) => {
-        BABYLON.Database.IDBStorageEnabled = true;
-        engine.disableManifestCheck = true;
-        BABYLON.SceneLoader.ShowLoadingScreen = false;
-        BABYLON.SceneLoader.Load(
-            root,
-            filename + mod,
-            engine,
-            (scene) => {
-                resolve(scene);
-            },
-            (e) => onProgress(e),
-            (s, m, e) => onError(s, m, e)
-        );
-    });
+    try {
+        let mod = await getModifiedTime(root + filename);
+        mod = mod ? '?' + mod : '';
+        return new Promise((resolve) => {
+            BABYLON.Database.IDBStorageEnabled = true;
+            engine.disableManifestCheck = true;
+            BABYLON.SceneLoader.ShowLoadingScreen = false;
+            BABYLON.SceneLoader.Load(
+                root,
+                filename + mod,
+                engine,
+                (scene) => {
+                    resolve(scene);
+                },
+                (e) => onProgress(e),
+                (s, m, e) => onError(s, m, e)
+            );
+        });
+    } catch (e) {
+        console.log(e);
+        onError(null, e.message, e);
+    }
 }
 
 function convertLatLonToVector3(
@@ -117,7 +132,7 @@ function convertLatLonToVector3(
     return new BABYLON.Vector3(x, y, z);
 }
 
-function SceneView(props: ISceneViewProp, ref) {
+function SceneView(props: ISceneViewProps, ref) {
     const {
         modelUrl,
         markers,
@@ -131,6 +146,7 @@ function SceneView(props: ISceneViewProp, ref) {
         unzoomedMeshOpacity,
         onSceneLoaded,
         getToken,
+        cameraPosition,
         coloredMeshItems,
         showHoverOnSelected,
         outlinedMeshitems,
@@ -145,7 +161,7 @@ function SceneView(props: ISceneViewProp, ref) {
     const [scene, setScene] = useState<BABYLON.Scene>(undefined);
     const onMeshClickRef = useRef<SceneViewCallbackHandler>(null);
     const onMeshHoverRef = useRef<SceneViewCallbackHandler>(null);
-    const onCameraMoveRef = useRef<SceneViewCallbackHandler>(null);
+    const onCameraMoveRef = useRef<(position: ICameraPosition) => void>(null);
     const advancedTextureRef = useRef<GUI.AdvancedDynamicTexture>(undefined);
     const sceneRef = useRef<BABYLON.Scene>(null);
     const engineRef = useRef<BABYLON.Engine>(null);
@@ -178,6 +194,7 @@ function SceneView(props: ISceneViewProp, ref) {
     const initialCameraRadiusRef = useRef(0);
     const zoomedCameraRadiusRef = useRef(0);
     const zoomedMeshesRef = useRef([]);
+    const lastCameraPositionRef = useRef('');
 
     const [markersAndPositions, setMarkersAndPositions] = useState<
         { marker: Marker; left: number; top: number }[]
@@ -334,6 +351,21 @@ function SceneView(props: ISceneViewProp, ref) {
         }
     };
 
+    useEffect(() => {
+        const pos = JSON.stringify(cameraPosition || {});
+        if (
+            pos !== lastCameraPositionRef.current &&
+            cameraRef.current &&
+            cameraPosition
+        ) {
+            lastCameraPositionRef.current = pos;
+            cameraRef.current.position = cameraPosition.position;
+            cameraRef.current.target = cameraPosition.target;
+            cameraRef.current.radius = cameraPosition.radius;
+        }
+        //
+    }, [cameraPosition, isLoading]);
+
     const createOrZoomCamera = (meshIds?: string[]) => {
         const zoomMeshIds = meshIds || zoomToMeshIds;
         const zoomTo = (zoomMeshIds || []).join(',');
@@ -389,9 +421,7 @@ function SceneView(props: ISceneViewProp, ref) {
                 }
 
                 zoomedMeshesRef.current = meshes;
-
                 someMeshFromTheArrayOfMeshes.setBoundingInfo(bbox);
-
                 someMeshFromTheArrayOfMeshes.showBoundingBox = false;
 
                 const es = someMeshFromTheArrayOfMeshes.getBoundingInfo()
@@ -428,6 +458,8 @@ function SceneView(props: ISceneViewProp, ref) {
                     cameraRef.current = camera;
                     cameraRef.current.zoomOn(meshes, true);
                     cameraRef.current.radius = radius;
+                    cameraRef.current.wheelPrecision =
+                        (3 * 40) / bbox.boundingSphere.radius;
 
                     // Register a render loop to repeatedly render the scene
                     engineRef.current.runRenderLoop(() => {
@@ -1348,15 +1380,19 @@ function SceneView(props: ISceneViewProp, ref) {
         let pt: BABYLON.Observer<BABYLON.PointerInfo>;
         debugLog('pointerMove effect' + (scene ? ' with scene' : ' no scene'));
         if (scene && onCameraMoveRef.current) {
-            const pointerMove = (e: any) => {
-                if (onCameraMoveRef.current) {
-                    onCameraMoveRef.current(null, scene, e);
+            const cameraMove = () => {
+                if (onCameraMoveRef.current && cameraRef.current) {
+                    onCameraMoveRef.current({
+                        position: cameraRef.current.position,
+                        target: cameraRef.current.target,
+                        radius: cameraRef.current.radius
+                    });
                 }
             };
 
             if (scene) {
                 pt = scene.onPointerObservable.add(
-                    pointerMove,
+                    cameraMove,
                     BABYLON.PointerEventTypes.POINTERMOVE
                 );
             }

@@ -7,7 +7,10 @@ import {
     IElementTwinAliasItem,
     IWidgetLibraryItem
 } from '../../Models/Classes/3DVConfig';
-import { CustomMeshItem } from '../../Models/Classes/SceneView.types';
+import {
+    CustomMeshItem,
+    ISceneViewProps
+} from '../../Models/Classes/SceneView.types';
 import {
     ADT3DSceneBuilderMode,
     ADT3DSceneTwinBindingsMode,
@@ -25,6 +28,7 @@ import {
     IBehavior,
     IGaugeWidget,
     ILinkWidget,
+    IValueWidget,
     ITwinToObjectMapping
 } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 
@@ -60,6 +64,7 @@ export interface IADT3DSceneBuilderCardProps
     extends IConsumeCompositeCardProps {
     adapter: ADTandBlobAdapter | MockAdapter;
     sceneId: string;
+    sceneViewProps?: ISceneViewProps;
 }
 
 export interface I3DSceneBuilderContext {
@@ -253,6 +258,11 @@ export interface ILinkWidgetBuilderProps extends IWidgetBuilderFormDataProps {
 export interface IGaugeWidgetBuilderProps extends IWidgetBuilderFormDataProps {
     formData: IGaugeWidget;
     updateWidgetData: (widgetData: IGaugeWidget) => void;
+}
+
+export interface IValueWidgetBuilderProps extends IWidgetBuilderFormDataProps {
+    formData: IValueWidget;
+    updateWidgetData: (widgetData: IValueWidget) => void;
 }
 
 export interface BehaviorState {
