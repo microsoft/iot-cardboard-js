@@ -225,21 +225,22 @@ EditBehaviorsTabAddSelect.play = async ({ canvasElement }) => {
     await userEvent.click(listItem);
 };
 
-export const EditBehaviorsTabAddThenOpenMenu = Template.bind({});
-EditBehaviorsTabAddThenOpenMenu.play = async ({ canvasElement }) => {
-    // open the add behavior callout
-    await EditBehaviorsTabAddSelect.play({ canvasElement });
-    await sleep(1);
+// TODO_FIX_INTERACTION_TEST
+// export const EditBehaviorsTabAddThenOpenMenu = Template.bind({});
+// EditBehaviorsTabAddThenOpenMenu.play = async ({ canvasElement }) => {
+//     // open the add behavior callout
+//     await EditBehaviorsTabAddSelect.play({ canvasElement });
+//     await sleep(1);
 
-    // click a list item
-    const canvas = within(canvasElement);
-    const listItem = await canvas.findByTestId(
-        'context-menu-behavior-list-0-moreMenu'
-    );
-    await userEvent.click(listItem);
-    // let the callout animate
-    await sleep(1000);
-};
+//     // click a list item
+//     const canvas = within(canvasElement);
+//     const listItem = await canvas.findByTestId(
+//         'context-menu-behavior-list-0-moreMenu'
+//     );
+//     await userEvent.click(listItem);
+//     // let the callout animate
+//     await sleep(1000);
+// };
 
 // TODO_FIX_INTERACTION_TEST
 // export const EditBehaviorsTabEditBehavior = Template.bind({});
