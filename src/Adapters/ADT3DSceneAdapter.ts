@@ -1,4 +1,6 @@
 import axios from 'axios';
+import { ADTTwinData } from '../Models/Classes';
+import AdapterEntityCache from '../Models/Classes/AdapterEntityCache';
 import ADTInstanceConnectionData from '../Models/Classes/AdapterDataClasses/ADTInstanceConnectionData';
 import ADTInstancesData from '../Models/Classes/AdapterDataClasses/ADTInstancesData';
 import StorageContainersData from '../Models/Classes/AdapterDataClasses/StorageContainersData';
@@ -37,6 +39,8 @@ export default class ADT3DSceneAdapter {
         this.accountName = accountName;
         this.tenantId = tenantId;
         this.uniqueObjectId = uniqueObjectId;
+        this.adtTwinCache = new AdapterEntityCache<ADTTwinData>(9000);
+
         if (blobContainerUrl) {
             const containerURL = new URL(blobContainerUrl);
             this.storageAccountHostUrl = containerURL.hostname;
