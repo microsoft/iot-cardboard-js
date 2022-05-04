@@ -1,7 +1,15 @@
 import React from 'react';
-import { FontIcon, ActionButton, Stack, Separator } from '@fluentui/react';
+import {
+    FontIcon,
+    ActionButton,
+    Stack,
+    Separator,
+    FocusTrapCallout,
+    DirectionalHint
+} from '@fluentui/react';
 import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
 import { DTDLModel } from '../../Models/Classes/DTDL';
+import { DTDLSchemaType } from '../../Models/Classes/DTDL';
 import Svg from 'react-inlinesvg';
 import IconBoolean from '../../Resources/Static/Boolean.svg';
 import IconData from '../../Resources/Static/Data.svg';
@@ -43,88 +51,107 @@ const PropertySelector = ({
         propertyTags: {
             sectionFirst: [
                 {
-                    name: t('OATPropertyEditor.boolean'),
+                    name: 'boolean',
+                    title: t('OATPropertyEditor.boolean'),
                     icon: IconBoolean
                 },
                 {
-                    name: t('OATPropertyEditor.data'),
+                    name: 'data',
+                    title: t('OATPropertyEditor.data'),
                     icon: IconData
                 },
                 {
-                    name: t('OATPropertyEditor.float'),
+                    name: 'float',
+                    title: t('OATPropertyEditor.float'),
                     icon: IconFloat
                 },
 
                 {
-                    name: t('OATPropertyEditor.dateTime'),
+                    name: 'dateTime',
+                    title: t('OATPropertyEditor.dateTime'),
                     icon: IconDatetime
                 },
 
                 {
-                    name: t('OATPropertyEditor.integer'),
+                    name: 'integer',
+                    title: t('OATPropertyEditor.integer'),
                     icon: IconInteger
                 },
                 {
-                    name: t('OATPropertyEditor.long'),
+                    name: 'long',
+                    title: t('OATPropertyEditor.long'),
                     icon: IconLong
                 },
                 {
-                    name: t('OATPropertyEditor.enum'),
+                    name: 'enum',
+                    title: t('OATPropertyEditor.enum'),
                     icon: IconEnum,
                     complex: true
                 },
                 {
-                    name: t('OATPropertyEditor.map'),
+                    name: 'map',
+                    title: t('OATPropertyEditor.map'),
                     icon: IconMap,
                     complex: true
                 },
                 {
-                    name: t('OATPropertyEditor.double'),
+                    name: 'double',
+                    title: t('OATPropertyEditor.double'),
                     icon: IconDouble
                 },
                 {
-                    name: t('OATPropertyEditor.duration'),
+                    name: 'duration',
+                    title: t('OATPropertyEditor.duration'),
                     icon: IconDuration
                 }
             ],
             sectionSecond: [
                 {
-                    name: t('OATPropertyEditor.string'),
+                    name: 'string',
+                    title: t('OATPropertyEditor.string'),
                     icon: IconString
                 },
                 {
-                    name: t('OATPropertyEditor.time'),
+                    name: 'time',
+                    title: t('OATPropertyEditor.time'),
                     icon: IconTime
                 },
                 {
-                    name: t('OATPropertyEditor.object'),
+                    name: 'object',
+                    title: t('OATPropertyEditor.object'),
                     icon: IconObject,
                     complex: true
                 }
             ],
             sectionThird: [
                 {
-                    name: t('OATPropertyEditor.point'),
+                    name: 'point',
+                    title: t('OATPropertyEditor.point'),
                     icon: IconPoint
                 },
                 {
-                    name: t('OATPropertyEditor.linestring'),
+                    name: 'linestring',
+                    title: t('OATPropertyEditor.linestring'),
                     icon: IconLineString
                 },
                 {
-                    name: t('OATPropertyEditor.polygon'),
+                    name: 'polygon',
+                    title: t('OATPropertyEditor.polygon'),
                     icon: IconPolygon
                 },
                 {
-                    name: t('OATPropertyEditor.multiPoint'),
+                    name: 'multiPoint',
+                    title: t('OATPropertyEditor.multiPoint'),
                     icon: IconMultiPoint
                 },
                 {
-                    name: t('OATPropertyEditor.multiLinestring'),
+                    name: 'multiLinestring',
+                    title: t('OATPropertyEditor.multiLinestring'),
                     icon: IconMultiLineString
                 },
                 {
-                    name: t('OATPropertyEditor.multiPolygon'),
+                    name: 'multiPolygon',
+                    title: t('OATPropertyEditor.multiPolygon'),
                     icon: IconMultiPolygon
                 }
             ]
@@ -175,14 +202,14 @@ const PropertySelector = ({
 
     const getSchema = (tag) => {
         switch (tag) {
-            case 'object':
+            case DTDLSchemaType.Object:
                 return {
-                    '@type': 'Object',
+                    '@type': DTDLSchemaType.Object,
                     fields: []
                 };
-            case 'map':
+            case DTDLSchemaType.Map:
                 return {
-                    '@type': 'Map',
+                    '@type': DTDLSchemaType.Map,
                     mapKey: {
                         name: 'moduleName',
                         schema: 'string'
@@ -192,9 +219,9 @@ const PropertySelector = ({
                         schema: 'string'
                     }
                 };
-            case 'enum':
+            case DTDLSchemaType.Enum:
                 return {
-                    '@type': 'Enum',
+                    '@type': DTDLSchemaType.Enum,
                     valueSchema: 'integer',
                     enumValues: []
                 };
@@ -204,7 +231,15 @@ const PropertySelector = ({
     };
 
     return (
-        <Stack className={propertyInspectorStyles.propertySelector}>
+        <FocusTrapCallout
+            className={propertyInspectorStyles.propertySelector}
+            role="alertdialog"
+            gapSpace={0}
+            target="#propertyList"
+            isBeakVisible={false}
+            setInitialFocus
+            directionalHint={DirectionalHint.leftTopEdge}
+        >
             <Stack className={propertyInspectorStyles.propertySelectorHeader}>
                 <ActionButton
                     onClick={() => setPropertySelectorVisible(false)}
@@ -225,13 +260,14 @@ const PropertySelector = ({
             <Stack className={propertyInspectorStyles.propertyTagsWrap}>
                 {data.propertyTags.sectionFirst.map((tag, i) => (
                     <Svg
+                        tabIndex={0}
                         key={i}
                         className={propertyInspectorStyles.propertyTag}
                         onClick={() => {
                             handleTagClick(tag.name);
                         }}
                         src={tag.icon}
-                        title={tag.name}
+                        title={tag.title}
                     ></Svg>
                 ))}
             </Stack>
@@ -247,13 +283,14 @@ const PropertySelector = ({
                     } else {
                         return (
                             <Svg
+                                tabIndex={0}
                                 key={i}
                                 className={propertyInspectorStyles.propertyTag}
                                 onClick={() => {
                                     handleTagClick(tag.name);
                                 }}
                                 src={tag.icon}
-                                title={tag.name}
+                                title={tag.title}
                             ></Svg>
                         );
                     }
@@ -263,17 +300,18 @@ const PropertySelector = ({
             <Stack className={propertyInspectorStyles.propertyTagsWrap}>
                 {data.propertyTags.sectionThird.map((tag, i) => (
                     <Svg
+                        tabIndex={0}
                         key={i}
                         className={propertyInspectorStyles.propertyTag}
                         onClick={() => {
                             handleTagClick(tag.name);
                         }}
                         src={tag.icon}
-                        title={tag.name}
+                        title={tag.title}
                     ></Svg>
                 ))}
             </Stack>
-        </Stack>
+        </FocusTrapCallout>
     );
 };
 

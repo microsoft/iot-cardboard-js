@@ -6,11 +6,11 @@ import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
 type IPropertyListItem = {
     index?: number;
     subMenuActive?: boolean;
-    deleteItem?: (index: number) => any;
-    deleteNestedItem?: (parentIndex: number, index: number) => any;
+    deleteItem?: (index: number) => void;
+    deleteNestedItem?: (parentIndex: number, index: number) => void;
     parentIndex?: number;
-    handleDuplicate?: () => any;
-    handleTemplateAddition?: () => any;
+    handleDuplicate?: () => void;
+    handleTemplateAddition?: () => void;
     removeItem?: boolean;
     duplicateItem?: boolean;
     addItemToTemplates?: boolean;

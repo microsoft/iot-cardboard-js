@@ -796,3 +796,14 @@ export interface IOATTwinNodeContents {
     displayName?: string;
     target?: string;
 }
+export interface DTDLProperty {
+    readonly ['@type']: string;
+    ['@id']?: string;
+    name: string;
+    schema: string | Record<string, any>;
+    comment?: string;
+    description?: string;
+    displayName?: string;
+    unit?: string;
+    writable?: boolean;
+}

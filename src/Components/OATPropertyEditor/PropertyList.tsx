@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
 import { deepCopy } from '../../Models/Services/Utils';
 import { DTDLModel } from '../../Models/Classes/DTDL';
+import { DTDLProperty } from '../../Models/Constants/Interfaces';
 import PropertyListItem from './PropertyListItem';
 import PropertyListItemNest from './PropertyListItemNest';
 import PropertySelector from './PropertySelector';
@@ -23,9 +24,11 @@ type IPropertyList = {
     setModalBody?: React.Dispatch<React.SetStateAction<string>>;
     setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
     setModel?: React.Dispatch<React.SetStateAction<DTDLModel>>;
-    setTemplates?: React.Dispatch<React.SetStateAction<any>>;
+    setTemplates?: React.Dispatch<React.SetStateAction<DTDLProperty>>;
     setPropertySelectorVisible: React.Dispatch<React.SetStateAction<boolean>>;
 };
+
+const PROPERTY_LIST_ID = 'propertyList';
 
 export const PropertyList = ({
     propertySelectorVisible,
@@ -162,7 +165,10 @@ export const PropertyList = ({
     };
 
     return (
-        <div className={propertyInspectorStyles.propertiesWrap}>
+        <div
+            className={propertyInspectorStyles.propertiesWrap}
+            id={PROPERTY_LIST_ID}
+        >
             <div className={propertyInspectorStyles.propertiesWrapScroll}>
                 {propertySelectorVisible && (
                     <PropertySelector
@@ -263,7 +269,7 @@ export const PropertyList = ({
 
                 {model && model.contents.length > 0 && (
                     <AddPropertyBar
-                        callback={() => {
+                        onClick={() => {
                             setLastPropertyFocused(null);
                             setPropertySelectorVisible(true);
                         }}

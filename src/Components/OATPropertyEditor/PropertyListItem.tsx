@@ -10,6 +10,7 @@ import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
 import { DTDLModel } from '../../Models/Classes/DTDL';
 import { deepCopy } from '../../Models/Services/Utils';
 import PropertyListItemSubMenu from './PropertyListItemSubMenu';
+import { useTranslation } from 'react-i18next';
 
 type IPropertyListItem = {
     index?: number;
@@ -48,6 +49,7 @@ export const PropertyListItem = ({
     setModel,
     setTemplates
 }: IPropertyListItem) => {
+    const { t } = useTranslation();
     const propertyInspectorStyles = getPropertyInspectorStyles();
     const [subMenuActive, setSubMenuActive] = useState(false);
 
@@ -57,9 +59,11 @@ export const PropertyListItem = ({
 
     const handleDuplicate = () => {
         const itemCopy = deepCopy(item);
-        itemCopy.name = `${itemCopy.name}_copy`;
-        itemCopy.displayName = `${itemCopy.displayName}_copy`;
-        itemCopy['@id'] = `${itemCopy['@id']}_copy`;
+        itemCopy.name = `${itemCopy.name}_${t('OATPropertyEditor.copy')}`;
+        itemCopy.displayName = `${itemCopy.displayName}_${t(
+            'OATPropertyEditor.copy'
+        )}`;
+        itemCopy['@id'] = `${itemCopy['@id']}_${t('OATPropertyEditor.copy')}`;
 
         const modelCopy = deepCopy(model);
         modelCopy.contents.push(itemCopy);

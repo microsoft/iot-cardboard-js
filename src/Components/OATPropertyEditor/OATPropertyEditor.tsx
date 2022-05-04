@@ -2,17 +2,18 @@ import React, { useState } from 'react';
 import BaseComponent from '../BaseComponent/BaseComponent';
 import { Theme } from '../../Models/Constants/Enums';
 import { DTDLModel } from '../../Models/Classes/DTDL';
+import { DTDLProperty } from '../../Models/Constants/Interfaces';
 import Modal from './Modal';
 import Editor from './Editor';
 
 type IOATPropertyEditor = {
     model?: DTDLModel;
     theme?: Theme;
-    templates?: any;
+    templates?: DTDLProperty[];
     setModel?: React.Dispatch<React.SetStateAction<DTDLModel>>;
-    setTemplates?: React.Dispatch<React.SetStateAction<any>>;
+    setTemplates?: React.Dispatch<React.SetStateAction<DTDLProperty>>;
     templatesActive?: boolean;
-    setTemplatesActive?: React.Dispatch<React.SetStateAction<any>>;
+    setTemplatesActive?: (active: boolean) => boolean;
 };
 
 const OATPropertyEditor = ({

@@ -12,6 +12,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
 import { DTDLModel } from '../../Models/Classes/DTDL';
+import { DTDLProperty } from '../../Models/Constants/Interfaces';
 import PropertyList from './PropertyList';
 import JSONEditor from './JSONEditor';
 import TemplateColumn from './TemplateColumn';
@@ -20,7 +21,7 @@ import PropertiesModelSummary from './PropertiesModelSummary';
 interface IEditor {
     currentPropertyIndex?: number;
     model?: DTDLModel;
-    templates?: any;
+    templates?: DTDLProperty[];
     theme?: Theme;
     setCurrentNestedPropertyIndex?: React.Dispatch<
         React.SetStateAction<number>
@@ -29,9 +30,9 @@ interface IEditor {
     setModalBody?: React.Dispatch<React.SetStateAction<string>>;
     setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
     setModel?: React.Dispatch<React.SetStateAction<DTDLModel>>;
-    setTemplates?: React.Dispatch<React.SetStateAction<any>>;
+    setTemplates?: React.Dispatch<React.SetStateAction<DTDLProperty>>;
     templatesActive?: boolean;
-    setTemplatesActive?: React.Dispatch<React.SetStateAction<any>>;
+    setTemplatesActive?: (active: boolean) => boolean;
 }
 
 const Editor = ({
@@ -67,8 +68,8 @@ const Editor = ({
                     className={propertyInspectorStyles.pivotItem}
                 >
                     <PropertiesModelSummary model={model} setModel={setModel} />
-                    <Stack>
-                        <Stack className={propertyInspectorStyles.paddingWrap}>
+                    <div>
+                        <div className={propertyInspectorStyles.paddingWrap}>
                             <Stack
                                 className={
                                     propertyInspectorStyles.rowSpaceBetween
@@ -94,8 +95,8 @@ const Editor = ({
                                     </Text>
                                 </ActionButton>
                             </Stack>
-                        </Stack>
-                        <Stack
+                        </div>
+                        <div
                             className={
                                 propertyInspectorStyles.gridRowPropertyHeading
                             }
@@ -118,8 +119,8 @@ const Editor = ({
                                 />
                                 <Text>{t('OATPropertyEditor.schemaType')}</Text>
                             </Stack>
-                        </Stack>
-                    </Stack>
+                        </div>
+                    </div>
 
                     <PropertyList
                         propertySelectorVisible={propertySelectorVisible}

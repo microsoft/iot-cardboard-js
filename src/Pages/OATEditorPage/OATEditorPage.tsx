@@ -15,28 +15,7 @@ const OATEditorPage = ({ theme }) => {
     const [editedId, setEditedId] = useState('');
 
     const [model, setModel] = useState(null);
-    const [templates, setTemplates] = useState([
-        {
-            '@id': 'dtmi:com:adt:model1:prop_template_0',
-            '@type': ['Property'],
-            name: 'prop_template_0',
-            schema: 'string',
-            writable: true,
-            comment: 'default comment',
-            description: 'default description',
-            unit: 'default unit'
-        },
-        {
-            '@id': 'dtmi:com:adt:model1:prop_template_1',
-            '@type': ['Property'],
-            name: 'prop_template_1',
-            schema: 'string',
-            writable: true,
-            comment: 'default comment',
-            description: 'default description',
-            unit: 'default unit'
-        }
-    ]);
+    const [templates, setTemplates] = useState([]);
 
     return (
         <div className={EditorPageStyles.container}>
@@ -59,8 +38,8 @@ const OATEditorPage = ({ theme }) => {
                     onElementsUpdate={setElementHandler}
                     model={model}
                     setModel={setModel}
-                    deletedModel={deletedModel}
-                    selectModel={selectedModel}
+                    deletedModelId={deletedModel}
+                    selectedModel={selectedModel}
                     editedName={editedName}
                     editedId={editedId}
                 />

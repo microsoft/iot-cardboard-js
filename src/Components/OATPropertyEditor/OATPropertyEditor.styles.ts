@@ -181,9 +181,6 @@ export const getPropertyInspectorStyles = () => {
         propertySelector: [
             classNames.propertySelector,
             {
-                position: 'absolute',
-                top: 0,
-                right: '99.5%',
                 minHeight: '200px',
                 backgroundColor: theme.semanticColors.listBackground,
                 borderRadius: '4px',
@@ -235,6 +232,7 @@ export const getPropertyInspectorStyles = () => {
                 backgroundColor: theme.semanticColors.listBackground,
                 borderRadius: '2px',
                 marginRight: '4px',
+                marginBottom: '1px',
                 width: '30px',
                 ':hover': {
                     backgroundColor:
@@ -257,7 +255,8 @@ export const getPropertyInspectorStyles = () => {
             {
                 width: '100%',
                 height: '1px',
-                padding: 0
+                padding: 0,
+                margin: '2px 0px'
             } as IStyle
         ],
         addProperty: [

@@ -6,10 +6,10 @@ import { IOATGraphCustomNodeProps } from '../../Models/Constants/Interfaces';
 import { getGraphViewerStyles } from '../OATGraphViewer.styles';
 import { ElementsContext } from './OATContext';
 import {
-    RelationshipHandleName,
-    ComponentHandleName,
-    ExtendHandleName,
-    UntargetedRelationshipName
+    OATRelationshipHandleName,
+    OATComponentHandleName,
+    OATExtendHandleName,
+    OATUntargetedRelationshipName
 } from '../../../Models/Constants/Constants';
 
 const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
@@ -120,7 +120,7 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
                         }}
                     />
                 </ActionButton>
-                {data.type !== UntargetedRelationshipName && (
+                {data.type !== OATUntargetedRelationshipName && (
                     <>
                         <div>
                             {t('OATGraphViewer.name')}:
@@ -158,7 +158,7 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
                         </div>
                     </>
                 )}
-                {data.type === UntargetedRelationshipName && (
+                {data.type === OATUntargetedRelationshipName && (
                     <>
                         <div>
                             <strong>{data.type}</strong>
@@ -171,21 +171,21 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
                     <Handle
                         type="source"
                         position="bottom"
-                        id={ComponentHandleName}
+                        id={OATComponentHandleName}
                         className={graphViewerStyles.componentHandle}
                         isConnectable={isConnectable}
                     />
                     <Handle
                         type="source"
                         position="bottom"
-                        id={RelationshipHandleName}
+                        id={OATRelationshipHandleName}
                         className={graphViewerStyles.relationshipHandle}
                         isConnectable={isConnectable}
                     />
                     <Handle
                         type="source"
                         position="bottom"
-                        id={ExtendHandleName}
+                        id={OATExtendHandleName}
                         className={graphViewerStyles.extendHandle}
                         isConnectable={isConnectable}
                     />

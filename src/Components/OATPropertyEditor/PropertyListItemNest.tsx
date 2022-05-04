@@ -14,6 +14,7 @@ import PropertyListEnumItemNested from './PropertyListEnumItemNested';
 import PropertyListMapItemNested from './PropertyListMapItemNested';
 import { deepCopy } from '../../Models/Services/Utils';
 import PropertyListItemSubMenu from './PropertyListItemSubMenu';
+import { useTranslation } from 'react-i18next';
 
 type IPropertyListItemNest = {
     deleteItem?: (index: number) => any;
@@ -62,6 +63,7 @@ export const PropertyListItemNest = ({
     setModel,
     setTemplates
 }: IPropertyListItemNest) => {
+    const { t } = useTranslation();
     const propertyInspectorStyles = getPropertyInspectorStyles();
     const [subMenuActive, setSubMenuActive] = useState(false);
     const [collapsed, setCollapsed] = useState(true);
@@ -87,9 +89,11 @@ export const PropertyListItemNest = ({
 
     const handleDuplicate = () => {
         const itemCopy = deepCopy(item);
-        itemCopy.name = `${itemCopy.name}_copy`;
-        itemCopy.displayName = `${itemCopy.displayName}_copy`;
-        itemCopy['@id'] = `${itemCopy['@id']}_copy`;
+        itemCopy.name = `${itemCopy.name}_${t('OATPropertyEditor.copy')}`;
+        itemCopy.displayName = `${itemCopy.displayName}_${t(
+            'OATPropertyEditor.copy'
+        )}`;
+        itemCopy['@id'] = `${itemCopy['@id']}_${t('OATPropertyEditor.copy')}`;
 
         const modelCopy = deepCopy(model);
         modelCopy.contents.push(itemCopy);
@@ -233,7 +237,7 @@ export const PropertyListItemNest = ({
             {lastPropertyFocused &&
                 lastPropertyFocused.index === index &&
                 item.schema['@type'] !== DTDLSchemaType.Map && (
-                    <AddPropertyBar callback={addPropertyCallback} />
+                    <AddPropertyBar onClick={addPropertyCallback} />
                 )}
         </Stack>
     );

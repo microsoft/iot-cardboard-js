@@ -4,10 +4,10 @@ import { IOATGraphCustomEdgeProps } from '../../Models/Constants/Interfaces';
 import { getGraphViewerStyles } from '../OATGraphViewer.styles';
 import { ElementsContext } from './OATContext';
 import {
-    UntargetedRelationshipName,
-    RelationshipHandleName,
-    ComponentHandleName,
-    ExtendHandleName
+    OATUntargetedRelationshipName,
+    OATRelationshipHandleName,
+    OATComponentHandleName,
+    OATExtendHandleName
 } from '../../../Models/Constants/Constants';
 
 const foreignObjectSize = 180;
@@ -101,7 +101,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
 
     return (
         <>
-            {data.type === ExtendHandleName && (
+            {data.type === OATExtendHandleName && (
                 <path
                     id={id}
                     className={graphViewerStyles.inheritancePath}
@@ -110,8 +110,8 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                     markerEnd={markerEnd}
                 />
             )}
-            {(data.type === RelationshipHandleName ||
-                data.type === UntargetedRelationshipName) && (
+            {(data.type === OATRelationshipHandleName ||
+                data.type === OATUntargetedRelationshipName) && (
                 <path
                     id={id}
                     className={graphViewerStyles.edgePath}
@@ -120,7 +120,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                     markerEnd={markerEnd}
                 />
             )}
-            {data.type === ComponentHandleName && (
+            {data.type === OATComponentHandleName && (
                 <path
                     id={id}
                     className={graphViewerStyles.componentPath}
@@ -164,7 +164,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                     </textPath>
                 </text>
             )}
-            {data.type === ExtendHandleName && (
+            {data.type === OATExtendHandleName && (
                 <polygon
                     points={`${targetX - 5},${targetY - 10} ${targetX + 5},${
                         targetY - 10
@@ -176,8 +176,8 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                     className={graphViewerStyles.inheritanceShape}
                 />
             )}
-            {(data.type === RelationshipHandleName ||
-                data.type === UntargetedRelationshipName) && (
+            {(data.type === OATRelationshipHandleName ||
+                data.type === OATUntargetedRelationshipName) && (
                 <polygon
                     points={`${targetX - 5},${
                         targetY - 5
@@ -191,7 +191,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                     className={graphViewerStyles.edgePath}
                 />
             )}
-            {data.type === ComponentHandleName && (
+            {data.type === OATComponentHandleName && (
                 <polygon
                     points={`${sourceX + 5},${sourceY + 5} ${sourceX},${
                         sourceY + 10

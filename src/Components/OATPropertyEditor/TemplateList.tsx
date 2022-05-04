@@ -4,6 +4,7 @@ import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
 import { deepCopy } from '../../Models/Services/Utils';
 import { DTDLModel } from '../../Models/Classes/DTDL';
 import TemplateListItem from './TeplateListItem';
+import { DTDLProperty } from '../../Models/Constants/Interfaces';
 
 interface ITemplateList {
     draggingTemplate?: boolean;
@@ -12,10 +13,10 @@ interface ITemplateList {
     draggedTemplateItemRef: any;
     enteredPropertyRef: any;
     model?: DTDLModel;
-    templates?: any;
+    templates?: DTDLProperty[];
     setDraggingTemplate?: (dragging: boolean) => boolean;
     setModel?: React.Dispatch<React.SetStateAction<DTDLModel>>;
-    setTemplates: React.Dispatch<React.SetStateAction<any>>;
+    setTemplates: React.Dispatch<React.SetStateAction<DTDLProperty>>;
 }
 
 export const TemplateList = ({

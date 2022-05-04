@@ -10,14 +10,16 @@ import {
 import { useTranslation } from 'react-i18next';
 import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
 import TemplateList from './TemplateList';
+import { DTDLModel } from '../../Models/Classes/DTDL';
+import { DTDLProperty } from '../../Models/Constants/Interfaces';
 
 type ITemplateColumn = {
-    setTemplatesActive: any;
-    templates: any;
-    setTemplates: any;
+    setTemplatesActive: (active: boolean) => boolean;
+    templates?: DTDLProperty[];
+    setTemplates: React.Dispatch<React.SetStateAction<DTDLProperty>>;
     enteredPropertyRef: any;
-    model: any;
-    setModel: any;
+    model: DTDLModel;
+    setModel?: React.Dispatch<React.SetStateAction<DTDLModel>>;
     draggingTemplate: boolean;
     setDraggingTemplate: any;
     enteredTemplateRef: any;
