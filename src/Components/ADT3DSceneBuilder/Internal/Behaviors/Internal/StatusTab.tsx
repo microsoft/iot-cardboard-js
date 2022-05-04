@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect } from 'react';
+import React, { useCallback, useContext, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
     IStackTokens,
@@ -18,10 +18,11 @@ import ValueRangeBuilder from '../../../../ValueRangeBuilder/ValueRangeBuilder';
 import { defaultStatusColorVisual } from '../../../../../Models/Classes/3DVConfig';
 import { IValidityState, TabNames } from '../BehaviorForm.types';
 import { deepCopy } from '../../../../../Models/Services/Utils';
-import TwinPropertyDropown from './TwinPropertyDropdown';
 import { getLeftPanelStyles } from '../../Shared/LeftPanel.styles';
 import useValueRangeBuilder from '../../../../../Models/Hooks/useValueRangeBuilder';
 import { SceneBuilderContext } from '../../../ADT3DSceneBuilder';
+import useBehaviorAliasedTwinProperties from '../../../../../Models/Hooks/useBehaviorAliasedTwinProperties';
+import TwinPropertyBuilder from '../../../../TwinPropertyBuilder/TwinPropertyBuilder';
 
 const getStatusFromBehavior = (behavior: IBehavior) =>
     behavior.visuals.filter(ViewerConfigUtility.isStatusColorVisual)[0] || null;
@@ -42,9 +43,13 @@ const StatusTab: React.FC<IStatusTabProps> = ({
     selectedElements
 }) => {
     const { t } = useTranslation();
-    const { behaviorToEdit, setBehaviorToEdit } = useContext(
-        SceneBuilderContext
-    );
+    const {
+        behaviorToEdit,
+        setBehaviorToEdit,
+        adapter,
+        config,
+        sceneId
+    } = useContext(SceneBuilderContext);
 
     const statusVisualToEdit =
         getStatusFromBehavior(behaviorToEdit) || defaultStatusColorVisual;
@@ -140,19 +145,60 @@ const StatusTab: React.FC<IStatusTabProps> = ({
         [setProperty]
     );
 
+    // MODELLED_PROPERTY_TODO ---- V2 iteration will change to modelled properties
+    // get the aliased properties for intellisense
+    const { options: aliasedProperties } = useBehaviorAliasedTwinProperties({
+        behavior: behaviorToEdit,
+        isTwinAliasesIncluded: true,
+        selectedElements
+    });
+
+    const getPropertyNames = useCallback(
+        (twinAlias: string) =>
+            ViewerConfigUtility.getPropertyNamesFromAliasedPropertiesByAlias(
+                twinAlias,
+                aliasedProperties
+            ),
+        [aliasedProperties]
+    );
+
+    const aliasNames = useMemo(
+        () =>
+            ViewerConfigUtility.getUniqueAliasNamesFromAliasedProperties(
+                aliasedProperties
+            ),
+        [aliasedProperties]
+    );
+    // MODELLED_PROPERTY_TODO ---- END BLOCK
+
     const commonPanelStyles = getLeftPanelStyles(useTheme());
     const showRangeBuilder = !!statusVisualToEdit.statusValueExpression;
     return (
         <Stack tokens={sectionStackTokens}>
             <Text className={commonPanelStyles.text}>{t(LOC_KEYS.notice)}</Text>
-            <TwinPropertyDropown
-                behavior={behaviorToEdit}
-                selectedElements={selectedElements}
-                defaultSelectedKey={statusVisualToEdit.statusValueExpression}
-                dataTestId={'behavior-form-state-property-dropdown'}
-                onChange={onPropertyChange}
-            />
-            {showRangeBuilder && <Separator />}
+            <div>
+                <TwinPropertyBuilder
+                    mode="TOGGLE"
+                    intellisenseProps={{
+                        onChange: onPropertyChange,
+                        defaultValue: statusVisualToEdit.statusValueExpression,
+                        aliasNames: aliasNames,
+                        getPropertyNames: getPropertyNames
+                    }}
+                    twinPropertyDropdownProps={{
+                        adapter,
+                        config,
+                        sceneId,
+                        behavior: behaviorToEdit,
+                        selectedElements: selectedElements,
+                        defaultSelectedKey:
+                            statusVisualToEdit.statusValueExpression,
+                        dataTestId: 'behavior-form-state-property-dropdown',
+                        onChange: onPropertyChange
+                    }}
+                />
+                {showRangeBuilder && <Separator />}
+            </div>
             {showRangeBuilder && (
                 <ValueRangeBuilder
                     valueRangeBuilderReducer={valueRangeBuilderReducer}

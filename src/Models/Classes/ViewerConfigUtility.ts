@@ -273,6 +273,52 @@ abstract class ViewerConfigUtility {
     }
 
     /**
+     * Gets both primary & aliased twin Ids for a behavior in the context
+     * of a specfic scene.
+     * @param behavior The behavior pull Ids from
+     * @param config The 3D scenes config object
+     * @param sceneId The scene Id from which to match elements
+     * @returns `primaryTwinIds` & `aliasedTwinMap`
+     */
+    static getTwinIdsForBehaviorInScene(
+        behavior: IBehavior,
+        config: I3DScenesConfig,
+        sceneId: string
+    ): { primaryTwinIds: string[]; aliasedTwinMap: Record<string, string> } {
+        const scene = config.configuration.scenes.find(
+            (scene) => scene.id === sceneId
+        );
+        const primaryTwinIds = new Map();
+        let aliasedTwinMap: Record<string, string> = {};
+
+        // Get all element Ids associated with the behavior
+        const elementIds = ViewerConfigUtility.getMappingIdsForBehavior(
+            behavior
+        );
+
+        // Build up set of primaryTwinIds in scene
+        scene.elements
+            .filter(this.isTwinToObjectMappingElement)
+            .forEach((elementInScene) => {
+                // Check if objects Ids on element intersect with elementIds on behavior
+                if (elementIds.includes(elementInScene.id)) {
+                    // Add elements linked twin
+                    primaryTwinIds.set(elementInScene.linkedTwinID, '');
+                    // Add elements twin aliases
+                    aliasedTwinMap = {
+                        ...aliasedTwinMap,
+                        ...elementInScene.twinAliases
+                    };
+                }
+            });
+
+        return {
+            aliasedTwinMap,
+            primaryTwinIds: Array.from(primaryTwinIds.keys())
+        };
+    }
+
+    /**
      * Update only passed list of elements in a scene in config
      * @param config the config to edit
      * @param sceneId the scene Id where the elements to be updated are in

@@ -61,8 +61,17 @@ let dummyProgress = 0; // Progress doesn't work for GLBs so fake it
 
 const getModifiedTime = (url): Promise<string> => {
     const promise = new Promise<string>((resolve) => {
+        const headers = new Headers();
+        headers.append('Range', 'bytes=1-2');
+        if (Tools.CustomRequestHeaders.Authorization) {
+            headers.append(
+                'Authorization',
+                Tools.CustomRequestHeaders.Authorization
+            );
+        }
+
         // HEAD can give a CORS error
-        fetch(url, { method: 'GET', headers: { range: 'bytes=1-2' } })
+        fetch(url, { method: 'GET', headers: headers })
             .then((response) => {
                 const dt = new Date(response.headers.get('Last-Modified'));
                 if (dt.toString() === 'Invalid Date') {
@@ -84,23 +93,28 @@ async function loadPromise(
     onProgress: (event: BABYLON.ISceneLoaderProgressEvent) => void,
     onError: (scene: BABYLON.Scene, message: string, exception?: any) => void
 ): Promise<BABYLON.Scene> {
-    let mod = await getModifiedTime(root + filename);
-    mod = mod ? '?' + mod : '';
-    return new Promise((resolve) => {
-        BABYLON.Database.IDBStorageEnabled = true;
-        engine.disableManifestCheck = true;
-        BABYLON.SceneLoader.ShowLoadingScreen = false;
-        BABYLON.SceneLoader.Load(
-            root,
-            filename + mod,
-            engine,
-            (scene) => {
-                resolve(scene);
-            },
-            (e) => onProgress(e),
-            (s, m, e) => onError(s, m, e)
-        );
-    });
+    try {
+        let mod = await getModifiedTime(root + filename);
+        mod = mod ? '?' + mod : '';
+        return new Promise((resolve) => {
+            BABYLON.Database.IDBStorageEnabled = true;
+            engine.disableManifestCheck = true;
+            BABYLON.SceneLoader.ShowLoadingScreen = false;
+            BABYLON.SceneLoader.Load(
+                root,
+                filename + mod,
+                engine,
+                (scene) => {
+                    resolve(scene);
+                },
+                (e) => onProgress(e),
+                (s, m, e) => onError(s, m, e)
+            );
+        });
+    } catch (e) {
+        console.log(e);
+        onError(null, e.message, e);
+    }
 }
 
 function convertLatLonToVector3(
@@ -211,134 +225,6 @@ function SceneView(props: ISceneViewProps, ref) {
 
     debugLog('SceneView Render');
     const url = modelUrl === 'Globe' ? globeUrl : modelUrl;
-
-    // INITIALIZE AND LOAD SCENE
-    const init = useCallback(() => {
-        debugLog('**************init');
-
-        //TODO: load this private blob by getting token and using proxy for blob service REST API
-        async function load(
-            getToken: () => Promise<string>,
-            root: string,
-            file: string
-        ) {
-            let success = true;
-            let token = '';
-            if (getToken) {
-                token = await getToken();
-            }
-
-            if (token) {
-                Tools.CustomRequestHeaders.Authorization = 'Bearer ' + token;
-                Tools.CustomRequestHeaders['x-ms-version'] = '2017-11-09';
-                Tools.UseCustomRequestHeaders = true;
-            } else {
-                delete Tools.CustomRequestHeaders.Authorization;
-                delete Tools.CustomRequestHeaders['x-ms-version'];
-                Tools.UseCustomRequestHeaders = false;
-            }
-
-            dummyProgress = 0;
-            setLoadProgress(0);
-
-            const sc = await loadPromise(
-                root,
-                file,
-                engineRef.current,
-                (e: any) => onProgress(e),
-                (s: any, m: any, e: any) => {
-                    console.error('Error loading model. Try Ctrl-F5', s, e);
-                    success = false;
-                    setIsLoading(undefined);
-                }
-            );
-
-            if (success) {
-                sceneRef.current = sc;
-                createOrZoomCamera();
-                advancedTextureRef.current = GUI.AdvancedDynamicTexture.CreateFullscreenUI(
-                    'UI'
-                );
-
-                sortMeshesOnLoad();
-
-                sceneRef.current.clearColor = new BABYLON.Color4(0, 0, 0, 0);
-
-                //This layer is a bug fix for transparency not blending with background html on certain graphic cards like in macs.
-                //The texture is 99% transparent but forces the engine to blend the colors.
-                const layer = new BABYLON.Layer('', '', sceneRef.current, true);
-                layer.texture = BABYLON.Texture.CreateFromBase64String(
-                    TransparentTexture,
-                    'layerImg',
-                    sceneRef.current
-                );
-
-                hovMaterial.current = new BABYLON.StandardMaterial(
-                    'hover',
-                    sceneRef.current
-                );
-                hovMaterial.current.diffuseColor = BABYLON.Color3.FromHexString(
-                    currentObjectColor.meshHoverColor
-                );
-
-                coloredHovMaterial.current = new BABYLON.StandardMaterial(
-                    'colHov',
-                    sceneRef.current
-                );
-                coloredHovMaterial.current.diffuseColor = BABYLON.Color3.FromHexString(
-                    currentObjectColor.coloredMeshHoverColor
-                );
-
-                highlightLayer.current = new BABYLON.HighlightLayer(
-                    'hl1',
-                    sceneRef.current,
-                    {
-                        blurHorizontalSize: 0.5,
-                        blurVerticalSize: 0.5
-                    }
-                );
-
-                const light = new BABYLON.HemisphericLight(
-                    'light',
-                    new BABYLON.Vector3(1, 1, 0),
-                    sceneRef.current
-                );
-                light.diffuse = new BABYLON.Color3(0.8, 0.8, 0.8);
-                light.specular = new BABYLON.Color3(1, 1, 1);
-                light.groundColor = new BABYLON.Color3(0.2, 0.2, 0.2);
-
-                setScene(sceneRef.current);
-                setIsLoading(false);
-                engineRef.current.resize();
-                if (onSceneLoaded) {
-                    onSceneLoaded(sceneRef.current);
-                }
-            }
-        }
-
-        function onProgress(e: BABYLON.ISceneLoaderProgressEvent) {
-            let progress = e.total ? e.loaded / e.total : 0;
-            if (!e.lengthComputable) {
-                dummyProgress += dummyProgress > 0.8 ? 0.001 : 0.003;
-                progress = dummyProgress > 0.99 ? 0.99 : dummyProgress;
-            }
-            setLoadProgress(progress);
-        }
-
-        if (!sceneRef.current) {
-            const canvas = document.getElementById(
-                canvasId
-            ) as HTMLCanvasElement; // Get the canvas element
-            const engine = new BABYLON.Engine(canvas, true, { stencil: true }); // Generate the BABYLON 3D engine
-            engineRef.current = engine;
-            if (modelUrl) {
-                const n = url.lastIndexOf('/') + 1;
-                load(getToken, url.substring(0, n), url.substring(n));
-            }
-        }
-
-        return sceneRef.current;
-    }, [canvasId, modelUrl]);
 
     const sortMeshesOnLoad = () => {
         for (const mesh of sceneRef.current.meshes) {
@@ -899,6 +785,143 @@ function SceneView(props: ISceneViewProps, ref) {
         };
     }, [modelUrl]);
 
+    // INITIALIZE AND LOAD SCENE
+    const init = useCallback(() => {
+        debugLog('**************init');
+
+        //TODO: load this private blob by getting token and using proxy for blob service REST API
+        async function load(
+            getToken: () => Promise<string>,
+            root: string,
+            file: string
+        ) {
+            let success = true;
+            let token = '';
+            if (getToken) {
+                token = await getToken();
+            }
+
+            if (token) {
+                Tools.CustomRequestHeaders.Authorization = 'Bearer ' + token;
+                Tools.CustomRequestHeaders['x-ms-version'] = '2017-11-09';
+                Tools.UseCustomRequestHeaders = true;
+            } else {
+                delete Tools.CustomRequestHeaders.Authorization;
+                delete Tools.CustomRequestHeaders['x-ms-version'];
+                Tools.UseCustomRequestHeaders = false;
+            }
+
+            dummyProgress = 0;
+            setLoadProgress(0);
+
+            const sc = await loadPromise(
+                root,
+                file,
+                engineRef.current,
+                (e: any) => onProgress(e),
+                (s: any, m: any, e: any) => {
+                    console.error('Error loading model. Try Ctrl-F5', s, e);
+                    success = false;
+                    setIsLoading(undefined);
+                }
+            );
+
+            if (success) {
+                sceneRef.current = sc;
+                createOrZoomCamera();
+                advancedTextureRef.current = GUI.AdvancedDynamicTexture.CreateFullscreenUI(
+                    'UI'
+                );
+
+                sortMeshesOnLoad();
+
+                sceneRef.current.clearColor = new BABYLON.Color4(0, 0, 0, 0);
+
+                //This layer is a bug fix for transparency not blending with background html on certain graphic cards like in macs.
+                //The texture is 99% transparent but forces the engine to blend the colors.
+                const layer = new BABYLON.Layer('', '', sceneRef.current, true);
+                layer.texture = BABYLON.Texture.CreateFromBase64String(
+                    TransparentTexture,
+                    'layerImg',
+                    sceneRef.current
+                );
+
+                hovMaterial.current = new BABYLON.StandardMaterial(
+                    'hover',
+                    sceneRef.current
+                );
+                hovMaterial.current.diffuseColor = BABYLON.Color3.FromHexString(
+                    currentObjectColor.meshHoverColor
+                );
+
+                coloredHovMaterial.current = new BABYLON.StandardMaterial(
+                    'colHov',
+                    sceneRef.current
+                );
+                coloredHovMaterial.current.diffuseColor = BABYLON.Color3.FromHexString(
+                    currentObjectColor.coloredMeshHoverColor
+                );
+
+                highlightLayer.current = new BABYLON.HighlightLayer(
+                    'hl1',
+                    sceneRef.current,
+                    {
+                        blurHorizontalSize: 0.5,
+                        blurVerticalSize: 0.5
+                    }
+                );
+
+                const light = new BABYLON.HemisphericLight(
+                    'light',
+                    new BABYLON.Vector3(1, 1, 0),
+                    sceneRef.current
+                );
+                light.diffuse = new BABYLON.Color3(0.8, 0.8, 0.8);
+                light.specular = new BABYLON.Color3(1, 1, 1);
+                light.groundColor = new BABYLON.Color3(0.2, 0.2, 0.2);
+
+                setScene(sceneRef.current);
+                setIsLoading(false);
+                engineRef.current.resize();
+                if (onSceneLoaded) {
+                    onSceneLoaded(sceneRef.current);
+                }
+            }
+        }
+
+        function onProgress(e: BABYLON.ISceneLoaderProgressEvent) {
+            let progress = e.total ? e.loaded / e.total : 0;
+            if (!e.lengthComputable) {
+                dummyProgress += dummyProgress > 0.8 ? 0.001 : 0.003;
+                progress = dummyProgress > 0.99 ? 0.99 : dummyProgress;
+            }
+            setLoadProgress(progress);
+        }
+
+        if (!sceneRef.current) {
+            const canvas = document.getElementById(
+                canvasId
+            ) as HTMLCanvasElement; // Get the canvas element
+            const engine = new BABYLON.Engine(canvas, true, { stencil: true }); // Generate the BABYLON 3D engine
+            engineRef.current = engine;
+            if (modelUrl) {
+                const n = url.lastIndexOf('/') + 1;
+                load(getToken, url.substring(0, n), url.substring(n));
+            }
+        }
+
+        return sceneRef.current;
+    }, [
+        canvasId,
+        createOrZoomCamera,
+        currentObjectColor.coloredMeshHoverColor,
+        currentObjectColor.meshHoverColor,
+        getToken,
+        modelUrl,
+        onSceneLoaded,
+        url
+    ]);
+
     // Reload model if url changes
     useEffect(() => {
         debugLog('init effect' + (scene ? ' with scene ' : ' no scene '));
@@ -1435,7 +1458,7 @@ function SceneView(props: ISceneViewProps, ref) {
                 for (const mesh of clonedHighlightMeshes.current) {
                     mesh?.dispose();
                     //Assume that all new meshes are highlight clones and decrement the scene mesh array after disposal to prevent overflow
-                    if (sceneRef.current.meshes)
+                    if (sceneRef.current?.meshes)
                         sceneRef.current.meshes.length--;
                 }
                 clonedHighlightMeshes.current = [];

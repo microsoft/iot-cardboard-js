@@ -1,7 +1,8 @@
-import { useContext, useEffect, useState } from 'react';
-import { SceneBuilderContext } from '../../Components/ADT3DSceneBuilder/ADT3DSceneBuilder';
+import { useEffect, useState } from 'react';
+import { ADT3DSceneAdapter, MockAdapter } from '../../Adapters';
 import ViewerConfigUtility from '../Classes/ViewerConfigUtility';
 import {
+    I3DScenesConfig,
     IBehavior,
     ITwinToObjectMapping
 } from '../Types/Generated/3DScenesConfiguration-v1.0.0';
@@ -10,13 +11,18 @@ interface IUseBehaviorTwinPropertyFullNamesParams {
     behavior: IBehavior;
     isTwinAliasesIncluded: boolean;
     selectedElements?: Array<ITwinToObjectMapping>; // if selected elements passed, retrieve linked or aliased twin properties from selected elements, not elements from current scene in config
+    adapter: ADT3DSceneAdapter | MockAdapter;
+    config: I3DScenesConfig;
+    sceneId: string;
 }
 const useBehaviorTwinPropertyFullNames = ({
     behavior,
     isTwinAliasesIncluded,
-    selectedElements
+    selectedElements,
+    adapter,
+    config,
+    sceneId
 }: IUseBehaviorTwinPropertyFullNamesParams) => {
-    const { config, sceneId, adapter } = useContext(SceneBuilderContext);
     const [options, setOptions] = useState<Array<string>>([]);
     const [isLoading, setIsLoading] = useState(true);
     useEffect(() => {

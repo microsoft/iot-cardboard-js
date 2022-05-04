@@ -37,7 +37,6 @@ import useAdapter from '../../Models/Hooks/useAdapter';
 import ScenePageErrorHandlingWrapper from '../../Components/ScenePageErrorHandlingWrapper/ScenePageErrorHandlingWrapper';
 import BaseComponent from '../../Components/BaseComponent/BaseComponent';
 import EnvironmentPicker from '../../Components/EnvironmentPicker/EnvironmentPicker';
-import ADTAdapter from '../../Adapters/ADTAdapter';
 import {
     I3DScenesConfig,
     IScene
@@ -279,7 +278,7 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
                         <>
                             <div className="cb-scene-page-scene-environment-picker">
                                 <EnvironmentPicker
-                                    adapter={adapter as ADTAdapter}
+                                    adapter={adapter}
                                     shouldPullFromSubscription={
                                         environmentPickerOptions?.environment
                                             ?.shouldPullFromSubscription

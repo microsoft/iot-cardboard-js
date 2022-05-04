@@ -8,7 +8,7 @@ import React, {
 import { ActionButton, IContextualMenuItem, useTheme } from '@fluentui/react';
 import produce from 'immer';
 import { TFunction, useTranslation } from 'react-i18next';
-import WidgetLibraryDialog from '../Widgets/WidgetLibraryDialog';
+import WidgetLibraryDialog from '../Widgets/WidgetLibraryDialog/WidgetLibraryDialog';
 import { availableWidgets } from '../../../../../Models/Constants/Constants';
 import { WidgetFormMode } from '../../../../../Models/Constants/Enums';
 import { SceneBuilderContext } from '../../../ADT3DSceneBuilder';
@@ -25,7 +25,8 @@ import {
 import {
     defaultOnClickPopover,
     IWidgetLibraryItem,
-    VisualType
+    VisualType,
+    WidgetType
 } from '../../../../../Models/Classes/3DVConfig';
 import ViewerConfigUtility from '../../../../../Models/Classes/ViewerConfigUtility';
 import { createGUID } from '../../../../../Models/Services/Utils';
@@ -194,6 +195,17 @@ function getListItems(
             }
         ];
     };
+    const getWidgetLabel = (widget: IWidget) => {
+        switch (widget.type) {
+            case WidgetType.Gauge:
+            case WidgetType.Link:
+                return widget?.widgetConfiguration?.label;
+            case WidgetType.Value:
+                return widget?.widgetConfiguration?.displayName;
+            default:
+                return widget.type;
+        }
+    };
     const getIconName = (widget: IWidget) =>
         availableWidgets.find((w) => w.data.type === widget.type)?.iconName;
     return filteredElements.map((item) => {
@@ -203,7 +215,7 @@ function getListItems(
             item: item,
             openMenuOnClick: true,
             overflowMenuItems: getMenuItems(item),
-            textPrimary: item?.widgetConfiguration?.label || item.type
+            textPrimary: getWidgetLabel(item)
         };
 
         return viewModel;

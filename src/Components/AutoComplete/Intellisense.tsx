@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { AutoComplete, IAutoCompleteProps } from './AutoComplete';
 
-interface IIntellisenseProps {
+export interface IIntellisenseProps {
     autoCompleteProps?: IAutoCompleteProps;
     aliasNames?: string[];
     propertyNames?: string[];
     defaultValue?: string;
     getPropertyNames?: (twinId: string) => string[];
-    onChange?: (value: string) => void;
+    onChange: (value: string) => void;
 }
 
 const separators = '+*&|(^/-).><= \n';
@@ -208,6 +208,9 @@ export const Intellisense: React.FC<IIntellisenseProps> = ({
                 getItems={getItems}
                 onSelected={onSelected}
                 onValueChange={onChanged}
+                textFieldProps={{
+                    multiline: value.length > 40
+                }}
                 {...autoCompleteProps}
             />
         </div>

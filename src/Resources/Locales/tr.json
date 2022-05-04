@@ -417,15 +417,13 @@
       "propertyDropdownLabel": "Mülk",
       "noElementsSelected": "Hiçbir öğe seçilmedi",
       "noSelectionValue": "Hiç kimse",
-      "propertyNotFound": "Davranışın ikizlerinde bulunmayan özellik"
+      "propertyNotFound": "Davranışın ikizlerinde bulunmayan özellik",
+      "propertyDropdownPlaceholder": "İki yataklı mülk seçin"
     },
     "numericExpressionPlaceholder": "Bir sayıyı değerlendiren bir ifade girin",
     "behaviorId": "Davranış Kimliği",
     "widgetLibrary": "Widget kitaplığı",
     "exploreWidgets": "Widget'larımızı keşfedin ve 3B sahnenize ekstra bir bilgi katmanı ekleyin.",
-    "allWidgets": "Tüm widget'lar",
-    "myWidgets": "Widget'larım",
-    "searchWidgets": "Arama widget'ları",
     "addWidget": "Widget ekle",
     "newWidget": "Yeni widget",
     "createWidget": "Widget oluşturma",
@@ -478,6 +476,12 @@
       "errors": {
         "twinAliasAlreadyExists": "Aynı ada sahip ikiz takma ad zaten var, bunun yerine eklemeyi düşünün."
       }
+    },
+    "ModelledPropertyBuilder": {
+      "expressionLabel": "Özellik ifadesi",
+      "expressionPlaceholder": "Özellik ifadesini girin",
+      "selectProperty": "Mülk seçin",
+      "toggleLabel": "Özellik ifadesi"
     }
   },
   "widgets": {
@@ -499,7 +503,12 @@
       "title": "Panel widget'ı",
       "description": "Mizanpaj paneli"
     },
-    "notSupported": "Bu widget türü şu anda desteklenmiyor"
+    "notSupported": "Bu widget türü şu anda desteklenmiyor",
+    "value": {
+      "title": "Değer widget'ı",
+      "description": "İkiz özelliklerin değerlerini göstermek için temel widget",
+      "typePlaceholder": "Değer için türü seçin"
+    }
   },
   "sdkStrings": {
     "Last 30 mins": "Son 30 dakika",
