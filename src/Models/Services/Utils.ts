@@ -361,12 +361,16 @@ export function rgbToHex(r, g, b) {
 }
 
 export function addHttpsPrefix(url: string) {
-    const newUrl = url?.startsWith('https://')
-        ? url
-        : url
-        ? 'https://' + url
-        : undefined;
-    return newUrl;
+    if (url?.startsWith('https://')) {
+        // if it's got the prefix, don't add anything
+        return url;
+    } else if (url) {
+        // if we have a value, add the prefix
+        return 'https://' + url;
+    } else {
+        // if we didn't get anything, then just give back whatever value we got ('', undefined, null)
+        return url;
+    }
 }
 
 export function getDebugLogger(context: string, enabled: boolean) {
