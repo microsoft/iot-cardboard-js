@@ -808,7 +808,7 @@
         "linestring": "linestring",
         "polygon": "polygon",
         "multiPoint": "multipoint",
-        "multiLinestring": "multi Linestring",
+        "multiLinestring": "multilinestring",
         "multiPolygon": "multi Polygon",
         "close": "Close"
     },
