@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useTheme, List, ActionButton, Icon, FontSizes } from '@fluentui/react';
-import BaseComponent from '../BaseComponent/BaseComponent';
 import { getModelsStyles } from './OATModelList.styles';
 import { IOATTwinModelNodes } from '../../Models/Constants';
 
@@ -31,6 +30,10 @@ const OATModelList = ({
     useEffect(() => {
         setItems(elements);
     }, [elements]);
+
+    useEffect(() => {
+        setItems([...elements]);
+    }, [theme]);
 
     const onSelectedClick = (id) => {
         onSelectedModel(id);
@@ -132,11 +135,9 @@ const OATModelList = ({
     };
 
     return (
-        <BaseComponent theme={theme}>
-            <div>
-                <List items={items} onRenderCell={onRenderCell} />
-            </div>
-        </BaseComponent>
+        <div className={modelsStyles.container}>
+            <List items={items} onRenderCell={onRenderCell} />
+        </div>
     );
 };
 

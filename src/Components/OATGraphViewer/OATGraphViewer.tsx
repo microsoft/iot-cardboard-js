@@ -9,7 +9,6 @@ import ReactFlow, {
     removeElements
 } from 'react-flow-renderer';
 import { useTranslation } from 'react-i18next';
-import BaseComponent from '../BaseComponent/BaseComponent';
 import OATGraphCustomNode from './Internal/OATGraphCustomNode';
 import OATGraphCustomEdge from './Internal/OATGraphCustomEdge';
 import {
@@ -461,44 +460,42 @@ const OATGraphViewer = ({
     };
 
     return (
-        <BaseComponent theme={theme}>
-            <div>
-                <ReactFlowProvider>
-                    <div
-                        className={graphViewerStyles.container}
-                        ref={reactFlowWrapperRef}
-                    >
-                        <ElementsContext.Provider value={providerVal}>
-                            <ReactFlow
-                                elements={elements}
-                                onElementClick={onElementClick}
-                                onElementsRemove={onElementsRemove}
-                                onConnectStart={onConnectStart}
-                                onConnectStop={onConnectStop}
-                                onLoad={onLoad}
-                                snapToGrid={true}
-                                snapGrid={[15, 15]}
-                                nodeTypes={nodeTypes}
-                                edgeTypes={edgeTypes}
-                                onNodeDragStop={onNodeDragStop}
-                            >
-                                <PrimaryButton
-                                    className={graphViewerStyles.button}
-                                    onClick={onNewModelClick}
-                                    text={t('OATGraphViewer.newModel')}
-                                />
-                                <MiniMap />
-                                <Controls />
-                                <Background
-                                    color={theme.semanticColors.bodyBackground}
-                                    gap={16}
-                                />
-                            </ReactFlow>
-                        </ElementsContext.Provider>
-                    </div>
-                </ReactFlowProvider>
-            </div>
-        </BaseComponent>
+        <div>
+            <ReactFlowProvider>
+                <div
+                    className={graphViewerStyles.container}
+                    ref={reactFlowWrapperRef}
+                >
+                    <ElementsContext.Provider value={providerVal}>
+                        <ReactFlow
+                            elements={elements}
+                            onElementClick={onElementClick}
+                            onElementsRemove={onElementsRemove}
+                            onConnectStart={onConnectStart}
+                            onConnectStop={onConnectStop}
+                            onLoad={onLoad}
+                            snapToGrid={true}
+                            snapGrid={[15, 15]}
+                            nodeTypes={nodeTypes}
+                            edgeTypes={edgeTypes}
+                            onNodeDragStop={onNodeDragStop}
+                        >
+                            <PrimaryButton
+                                className={graphViewerStyles.button}
+                                onClick={onNewModelClick}
+                                text={t('OATGraphViewer.newModel')}
+                            />
+                            <MiniMap />
+                            <Controls />
+                            <Background
+                                color={theme.semanticColors.bodyBackground}
+                                gap={16}
+                            />
+                        </ReactFlow>
+                    </ElementsContext.Provider>
+                </div>
+            </ReactFlowProvider>
+        </div>
     );
 };
 

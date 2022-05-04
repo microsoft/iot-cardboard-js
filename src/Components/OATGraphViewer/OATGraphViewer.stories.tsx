@@ -1,4 +1,5 @@
 import React from 'react';
+import BaseComponent from '../BaseComponent/BaseComponent';
 import OATGraphViewer from './OATGraphViewer';
 
 export default {
@@ -6,10 +7,10 @@ export default {
     component: OATGraphViewer
 };
 
-export const Default = (_args) => {
+export const Default = (_args, { globals: { theme, locale } }) => {
     return (
-        <div>
+        <BaseComponent locale={locale} theme={theme}>
             <OATGraphViewer />
-        </div>
+        </BaseComponent>
     );
 };
