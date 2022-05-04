@@ -955,7 +955,7 @@ function SceneView(props: ISceneViewProps, ref) {
                     markerUIElementTypeRef.current = marker.UIElement?.type;
                 });
 
-                cm = sceneRef.current.onBeforeRenderObservable.add(function () {
+                cm = sceneRef.current.onAfterRenderObservable.add(function () {
                     // Only do marker work if camera has actually moved
                     const pos = JSON.stringify({
                         position: cameraRef.current.position,
@@ -978,7 +978,7 @@ function SceneView(props: ISceneViewProps, ref) {
             }
 
             if (cm) {
-                sceneRef.current?.onBeforeRenderObservable?.remove(cm);
+                sceneRef.current?.onAfterRenderObservable?.remove(cm);
             }
         };
     }, [markers, modelUrl, isLoading]);
@@ -1197,6 +1197,7 @@ function SceneView(props: ISceneViewProps, ref) {
                         (marker.attachedMeshIds &&
                             marker.attachedMeshIds.includes(name)));
                 if (!show) {
+                    //console.log(name);
                     return null;
                 }
             }

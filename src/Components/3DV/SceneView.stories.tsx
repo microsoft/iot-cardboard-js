@@ -99,120 +99,173 @@ export const Globe = () => {
     );
 };
 
-export const Markers = () => {
-    const meshClick = (mesh: any, e: any) => {
-        if (!mesh && !e) {
-            console.log('Hello');
+export const MarkersWithSimpleModel = () => {
+    const markers: Marker[] = [
+        {
+            name: 'Marker 1',
+            id: 'id' + createGUID(),
+            attachedMeshIds: ['Cube.003'],
+            UIElement: <ModelLabel label={'Marker 1'} />,
+            showIfOccluded: true
+        },
+
+        {
+            name: 'Marker 2',
+            id: 'id' + createGUID(),
+            attachedMeshIds: ['tank6_LOD0.016_primitive1'],
+            showIfOccluded: true,
+            UIElement: <ModelLabel label={'Marker 2'} />
+        },
+
+        {
+            name: 'Marker 3',
+            id: 'id' + createGUID(),
+            attachedMeshIds: ['tank1_LOD0'],
+            showIfOccluded: true,
+            UIElement: <ModelLabel label={'Marker 3'} />
+        },
+
+        {
+            name: 'Marker 4',
+            id: 'id' + createGUID(),
+            attachedMeshIds: ['tank3_LOD0_primitive2'],
+            showIfOccluded: true,
+            UIElement: <ModelLabel label={'Marker 4'} />
+        },
+
+        {
+            name: 'Marker 5',
+            id: 'id' + createGUID(),
+            attachedMeshIds: ['tank3_LOD0.004_primitive0'],
+            showIfOccluded: true,
+            UIElement: <ModelLabel label={'Marker 5'} />
+        },
+
+        {
+            name: 'Marker 6',
+            id: 'id' + createGUID(),
+            attachedMeshIds: ['tank4_LOD0_primitive0'],
+            showIfOccluded: true,
+            UIElement: <ModelLabel label={'Marker 6'} />
+        },
+
+        {
+            name: 'Marker 7',
+            id: 'id' + createGUID(),
+            attachedMeshIds: ['tank4_LOD0.007_primitive0'],
+            showIfOccluded: true,
+            UIElement: <ModelLabel label={'Marker 7'} />
+        },
+
+        {
+            name: 'Marker 8',
+            id: 'id' + createGUID(),
+            attachedMeshIds: ['tank6_LOD0.003_primitive0'],
+            showIfOccluded: true,
+            UIElement: <ModelLabel label={'Marker 8'} />
+        },
+
+        {
+            name: 'Marker 9',
+            id: 'id' + createGUID(),
+            attachedMeshIds: ['tank6_LOD0.015_primitive0'],
+            showIfOccluded: true,
+            UIElement: <ModelLabel label={'Marker 9'} />
+        },
+        {
+            name: 'Marker 10',
+            id: 'id' + createGUID(),
+            attachedMeshIds: ['shellAndMisc_primitive1'],
+            showIfOccluded: true,
+            UIElement: <ModelLabel label={'Marker 10'} />
+        },
+        {
+            name: 'Marker 11',
+            id: 'id' + createGUID(),
+            attachedMeshIds: ['Cube.013'],
+            showIfOccluded: true,
+            UIElement: <ModelLabel label={'Marker 11'} />
         }
-    };
-
-    const marker: Marker = {
-        name: 'Marker 1',
-        id: 'id' + createGUID(),
-        attachedMeshIds: ['Cube.003'],
-        UIElement: <ModelLabel label={'Marker 1'} />,
-        showIfOccluded: true
-    };
-
-    const marker2: Marker = {
-        name: 'Marker 2',
-        id: 'id' + createGUID(),
-        attachedMeshIds: ['tank6_LOD0.016_primitive1'],
-        showIfOccluded: true,
-        UIElement: <ModelLabel label={'Marker 2'} />
-    };
-
-    const marker3: Marker = {
-        name: 'Marker 3',
-        id: 'id' + createGUID(),
-        attachedMeshIds: ['tank1_LOD0'],
-        showIfOccluded: true,
-        UIElement: <ModelLabel label={'Marker 3'} />
-    };
-
-    const marker4: Marker = {
-        name: 'Marker 4',
-        id: 'id' + createGUID(),
-        attachedMeshIds: ['tank3_LOD0_primitive2'],
-        showIfOccluded: true,
-        UIElement: <ModelLabel label={'Marker 4'} />
-    };
-
-    const marker5: Marker = {
-        name: 'Marker 5',
-        id: 'id' + createGUID(),
-        attachedMeshIds: ['tank3_LOD0.004_primitive0'],
-        showIfOccluded: true,
-        UIElement: <ModelLabel label={'Marker 5'} />
-    };
-
-    const marker6: Marker = {
-        name: 'Marker 6',
-        id: 'id' + createGUID(),
-        attachedMeshIds: ['tank4_LOD0_primitive0'],
-        showIfOccluded: true,
-        UIElement: <ModelLabel label={'Marker 6'} />
-    };
-
-    const marker7: Marker = {
-        name: 'Marker 7',
-        id: 'id' + createGUID(),
-        attachedMeshIds: ['tank4_LOD0.007_primitive0'],
-        showIfOccluded: true,
-        UIElement: <ModelLabel label={'Marker 7'} />
-    };
-
-    const marker8: Marker = {
-        name: 'Marker 8',
-        id: 'id' + createGUID(),
-        attachedMeshIds: ['tank6_LOD0.003_primitive0'],
-        showIfOccluded: true,
-        UIElement: <ModelLabel label={'Marker 8'} />
-    };
-
-    const marker9: Marker = {
-        name: 'Marker 9',
-        id: 'id' + createGUID(),
-        attachedMeshIds: ['tank6_LOD0.015_primitive0'],
-        showIfOccluded: true,
-        UIElement: <ModelLabel label={'Marker 9'} />
-    };
-
-    const marker10: Marker = {
-        name: 'Marker 10',
-        id: 'id' + createGUID(),
-        attachedMeshIds: ['shellAndMisc_primitive1'],
-        showIfOccluded: true,
-        UIElement: <ModelLabel label={'Marker 10'} />
-    };
-
-    const marker11: Marker = {
-        name: 'Marker 11',
-        id: 'id' + createGUID(),
-        attachedMeshIds: ['Cube.013'],
-        showIfOccluded: true,
-        UIElement: <ModelLabel label={'Marker 11'} />
-    };
+    ];
 
     return (
         <div style={wrapperStyle}>
             <div style={{ flex: 1, width: '100%' }}>
                 <SceneView
                     modelUrl="https://cardboardresources.blob.core.windows.net/cardboard-mock-files/OutdoorTanks.gltf"
-                    markers={[
-                        marker,
-                        marker2,
-                        marker3,
-                        marker4,
-                        marker5,
-                        marker6,
-                        marker7,
-                        marker8,
-                        marker9,
-                        marker10,
-                        marker11
-                    ]}
-                    onMeshClick={(mesh, e) => meshClick(mesh, e)}
+                    markers={markers}
+                />
+            </div>
+        </div>
+    );
+};
+
+export const MarkersWithComplexModel = () => {
+    const markers: Marker[] = [
+        {
+            name: 'Marker 1',
+            id: 'id' + createGUID(),
+            attachedMeshIds: ['MODULE_SILOS_530_LOD1'],
+            UIElement: <ModelLabel label={'Marker 1'} />,
+            showIfOccluded: true
+        },
+        {
+            name: 'Marker 2',
+            id: 'id' + createGUID(),
+            attachedMeshIds: ['MODULE_SILOS_178_LOD1'],
+            showIfOccluded: true,
+            UIElement: <ModelLabel label={'Marker 2'} />
+        },
+        {
+            name: 'Marker 3',
+            id: 'id' + createGUID(),
+            attachedMeshIds: ['MODULE_TOWER_SMALL_765_LOD1'],
+            showIfOccluded: true,
+            UIElement: <ModelLabel label={'Marker 3'} />
+        },
+        {
+            name: 'Marker 4',
+            id: 'id' + createGUID(),
+            attachedMeshIds: ['WAREHOUSE_001_LOD1_002'],
+            showIfOccluded: true,
+            UIElement: <ModelLabel label={'Marker 4'} />
+        },
+        {
+            name: 'Marker 5',
+            id: 'id' + createGUID(),
+            attachedMeshIds: ['WAREHOUSE_EXT1_001_LOD1_002'],
+            showIfOccluded: true,
+            UIElement: <ModelLabel label={'Marker 5'} />
+        },
+        {
+            name: 'Marker 6',
+            id: 'id' + createGUID(),
+            attachedMeshIds: ['Pipes_Foundation_20_LOD1_001'],
+            showIfOccluded: true,
+            UIElement: <ModelLabel label={'Marker 6'} />
+        },
+        {
+            name: 'Marker 7',
+            id: 'id' + createGUID(),
+            attachedMeshIds: ['pCube1_LOD1'],
+            showIfOccluded: true,
+            UIElement: <ModelLabel label={'Marker 7'} />
+        },
+        {
+            name: 'Marker 8',
+            id: 'id' + createGUID(),
+            attachedMeshIds: ['Street_markings_LOD2'],
+            showIfOccluded: true,
+            UIElement: <ModelLabel label={'Marker 8'} />
+        }
+    ];
+
+    return (
+        <div style={wrapperStyle}>
+            <div style={{ flex: 1, width: '100%' }}>
+                <SceneView
+                    modelUrl="https://cardboardresources.blob.core.windows.net/cardboard-mock-files/refinery_scene_textured_1m.glb"
+                    markers={markers}
                 />
             </div>
         </div>
