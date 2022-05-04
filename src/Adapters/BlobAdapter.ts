@@ -107,7 +107,7 @@ export default class BlobAdapter implements IBlobAdapter {
                     headers.append('x-ms-version', '2017-11-09');
                     headers.append('x-blob-host', this.storageAccountHostUrl);
                     if (token) {
-                        headers.append('Authorization', token);
+                        headers.append('Authorization', 'Bearer ' + token);
                     }
 
                     const scenesBlob = await axios({
