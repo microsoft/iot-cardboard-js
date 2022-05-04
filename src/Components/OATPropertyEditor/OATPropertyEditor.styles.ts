@@ -24,7 +24,6 @@ const classNames = {
     iconClosePropertySelector: `${classPrefix}-icon-close-property-selector`,
     propertyTagsWrap: `${classPrefix}-property-tags-wrap`,
     propertyTag: `${classPrefix}-property-tag`,
-    propertyTagIcon: `${classPrefix}-property-tag-icon`,
     separator: `${classPrefix}-separator`,
     addProperty: `${classPrefix}-add-property`,
     iconAddProperty: `${classPrefix}-icon-add-property`,
