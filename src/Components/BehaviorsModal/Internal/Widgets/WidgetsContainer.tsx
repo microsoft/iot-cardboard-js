@@ -39,9 +39,9 @@ const WidgetsContainer: React.FC<IWidgetContainerProps> = ({
 
     return (
         <div className={widgetContainerClassNames.widgetsContainer}>
-            {popoverVisual.widgets.map((widget) => (
+            {popoverVisual.widgets.map((widget, idx) => (
                 <div
-                    key={widget.id}
+                    key={idx}
                     className={
                         getWidgetClassNames(
                             theme,

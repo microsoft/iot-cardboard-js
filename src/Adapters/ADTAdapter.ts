@@ -62,6 +62,7 @@ import {
     ITwinToObjectMapping
 } from '../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { ElementType } from '../Models/Classes/3DVConfig';
+import AdapterEntityCache from '../Models/Classes/AdapterEntityCache';
 
 export default class ADTAdapter implements IADTAdapter {
     protected tenantId: string;
@@ -71,6 +72,7 @@ export default class ADTAdapter implements IADTAdapter {
     protected adtProxyServerPath: string;
     public packetNumber = 0;
     protected axiosInstance: AxiosInstance;
+    protected adtTwinCache: AdapterEntityCache<ADTTwinData>;
 
     constructor(
         adtHostUrl: string,
@@ -84,6 +86,7 @@ export default class ADTAdapter implements IADTAdapter {
         this.authService = authService;
         this.tenantId = tenantId;
         this.uniqueObjectId = uniqueObjectId;
+        this.adtTwinCache = new AdapterEntityCache<ADTTwinData>(9500);
 
         this.authService.login();
         this.axiosInstance = axios.create({ baseURL: this.adtProxyServerPath });
@@ -152,21 +155,23 @@ export default class ADTAdapter implements IADTAdapter {
 
     getADTTwin(twinId: string) {
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
-        return adapterMethodSandbox.safelyFetchDataCancellableAxiosPromise(
-            ADTTwinData,
-            {
-                method: 'get',
-                url: `${
-                    this.adtProxyServerPath
-                }/digitaltwins/${encodeURIComponent(twinId)}`,
-                headers: {
-                    'x-adt-host': this.adtHostUrl
-                },
-                params: {
-                    'api-version': ADT_ApiVersion
+        const getDataMethod = () =>
+            adapterMethodSandbox.safelyFetchDataCancellableAxiosPromise(
+                ADTTwinData,
+                {
+                    method: 'get',
+                    url: `${
+                        this.adtProxyServerPath
+                    }/digitaltwins/${encodeURIComponent(twinId)}`,
+                    headers: {
+                        'x-adt-host': this.adtHostUrl
+                    },
+                    params: {
+                        'api-version': ADT_ApiVersion
+                    }
                 }
-            }
-        );
+            );
+        return this.adtTwinCache.getCachedEntity(twinId, getDataMethod);
     }
 
     getADTModel(modelId: string) {

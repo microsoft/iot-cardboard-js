@@ -1,3 +1,5 @@
+import { ADTTwinData } from '../Models/Classes';
+import AdapterEntityCache from '../Models/Classes/AdapterEntityCache';
 import { IAuthService } from '../Models/Constants/Interfaces';
 import { applyMixins } from '../Models/Services/Utils';
 import ADTAdapter from './ADTAdapter';
@@ -17,6 +19,7 @@ export default class ADTandBlobAdapter {
         this.authService = this.blobAuthService = authService;
         this.tenantId = tenantId;
         this.uniqueObjectId = uniqueObjectId;
+        this.adtTwinCache = new AdapterEntityCache<ADTTwinData>(9500);
 
         if (blobContainerUrl) {
             const containerURL = new URL(blobContainerUrl);
