@@ -796,6 +796,27 @@
     "value": "Érték",
     "addToTemplate": "Hozzáadás sablonhoz",
     "duplicate": "Ismétlődő",
-    "remove": "Eltávolít"
+    "remove": "Eltávolít",
+    "boolean": "Logikai",
+    "data": "adat",
+    "float": "lebeg",
+    "integer": "egész szám",
+    "string": "húr",
+    "enum": "felsorolás",
+    "map": "térkép",
+    "array": "tömb",
+    "object": "tárgy",
+    "dateTime": "dateTime",
+    "time": "Idő",
+    "long": "hosszú",
+    "double": "dupla",
+    "duration": "időtartam",
+    "point": "pont",
+    "linestring": "vonalvezetés",
+    "polygon": "sokszög",
+    "multiPoint": "többpontos",
+    "multiLinestring": "többsoros",
+    "multiPolygon": "több sokszög",
+    "close": "Bezár"
   }
 }

@@ -796,6 +796,27 @@
     "value": "Wartość",
     "addToTemplate": "Dodaj do szablonu",
     "duplicate": "Duplikat",
-    "remove": "Usunąć"
+    "remove": "Usunąć",
+    "boolean": "boolowski",
+    "data": "dane",
+    "float": "spławik",
+    "integer": "liczba całkowita",
+    "string": "struna",
+    "enum": "enum",
+    "map": "mapa",
+    "array": "tablica",
+    "object": "sprzeciwiać się",
+    "dateTime": "dateTime",
+    "time": "Godzina",
+    "long": "długi",
+    "double": "podwójny",
+    "duration": "czas trwania",
+    "point": "punkt",
+    "linestring": "sznurek",
+    "polygon": "wielokąt",
+    "multiPoint": "wielopunktowy",
+    "multiLinestring": "ciąg wieloliniowy",
+    "multiPolygon": "wielokąt wielokątny",
+    "close": "Zamykać"
   }
 }

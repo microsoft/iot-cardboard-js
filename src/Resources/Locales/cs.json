@@ -796,6 +796,27 @@
     "value": "Hodnota",
     "addToTemplate": "Přidat do šablony",
     "duplicate": "Duplikát",
-    "remove": "Odstranit"
+    "remove": "Odstranit",
+    "boolean": "booleovský",
+    "data": "data",
+    "float": "plout",
+    "integer": "celé číslo",
+    "string": "řetězec",
+    "enum": "výčet",
+    "map": "mapa",
+    "array": "pole",
+    "object": "objekt",
+    "dateTime": "dateTime",
+    "time": "Čas",
+    "long": "dlouhý",
+    "double": "dvojitý",
+    "duration": "trvání",
+    "point": "bod",
+    "linestring": "šňůrka",
+    "polygon": "mnohoúhelník",
+    "multiPoint": "vícebodový",
+    "multiLinestring": "víceřádková struna",
+    "multiPolygon": "více mnohoúhelník",
+    "close": "Zavřít"
   }
 }

@@ -796,6 +796,27 @@
     "value": "価値",
     "addToTemplate": "テンプレートに追加",
     "duplicate": "デュプリケート",
-    "remove": "取り去る"
+    "remove": "取り去る",
+    "boolean": "ブーリアン",
+    "data": "データ",
+    "float": "浮く",
+    "integer": "整数",
+    "string": "糸",
+    "enum": "列挙型",
+    "map": "地図",
+    "array": "配列",
+    "object": "オブジェクト",
+    "dateTime": "日時",
+    "time": "時間",
+    "long": "長い",
+    "double": "複",
+    "duration": "期間",
+    "point": "点",
+    "linestring": "行文字列",
+    "polygon": "多角形",
+    "multiPoint": "マルチポイント",
+    "multiLinestring": "複数行文字列",
+    "multiPolygon": "マルチポリゴン",
+    "close": "閉める"
   }
 }

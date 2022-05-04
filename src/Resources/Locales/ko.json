@@ -796,6 +796,27 @@
     "value": "값",
     "addToTemplate": "템플릿에 추가",
     "duplicate": "복사하다",
-    "remove": "제거하다"
+    "remove": "제거하다",
+    "boolean": "부울",
+    "data": "데이터",
+    "float": "뜨다",
+    "integer": "정수",
+    "string": "문자열",
+    "enum": "열거형",
+    "map": "지도",
+    "array": "배열",
+    "object": "객체",
+    "dateTime": "날짜시간",
+    "time": "시간",
+    "long": "오래",
+    "double": "배",
+    "duration": "기간",
+    "point": "점",
+    "linestring": "줄 문자열",
+    "polygon": "다각형",
+    "multiPoint": "멀티포인트",
+    "multiLinestring": "여러 줄 문자열",
+    "multiPolygon": "다중 다각형",
+    "close": "닫다"
   }
 }

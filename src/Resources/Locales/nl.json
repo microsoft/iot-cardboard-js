@@ -796,6 +796,27 @@
     "value": "Waarde",
     "addToTemplate": "Toevoegen aan sjabloon",
     "duplicate": "Duplicaat",
-    "remove": "Verwijderen"
+    "remove": "Verwijderen",
+    "boolean": "booleaans",
+    "data": "gegevens",
+    "float": "drijven",
+    "integer": "geheel getal",
+    "string": "snaar",
+    "enum": "enum",
+    "map": "kaart",
+    "array": "array",
+    "object": "object",
+    "dateTime": "dateTime",
+    "time": "Tijd",
+    "long": "lang",
+    "double": "dubbel",
+    "duration": "duur",
+    "point": "punt",
+    "linestring": "lijnen",
+    "polygon": "veelhoek",
+    "multiPoint": "multipoint",
+    "multiLinestring": "multilinestring",
+    "multiPolygon": "multi Polygoon",
+    "close": "Sluiten"
   }
 }

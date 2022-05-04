@@ -796,6 +796,27 @@
     "value": "Wert",
     "addToTemplate": "Zur Vorlage hinzufügen",
     "duplicate": "Duplikat",
-    "remove": "Entfernen"
+    "remove": "Entfernen",
+    "boolean": "boolesch",
+    "data": "Daten",
+    "float": "schweben",
+    "integer": "ganze Zahl",
+    "string": "Schnur",
+    "enum": "Enumeration",
+    "map": "Landkarte",
+    "array": "Anordnung",
+    "object": "Objekt",
+    "dateTime": "dateTime",
+    "time": "Zeit",
+    "long": "lang",
+    "double": "doppelt",
+    "duration": "Dauer",
+    "point": "Punkt",
+    "linestring": "Zeilenfolge",
+    "polygon": "Vieleck",
+    "multiPoint": "Mehrpunktzahl",
+    "multiLinestring": "mehrzeilige Zeichenfolge",
+    "multiPolygon": "Multi-Polygon",
+    "close": "Schließen"
   }
 }
