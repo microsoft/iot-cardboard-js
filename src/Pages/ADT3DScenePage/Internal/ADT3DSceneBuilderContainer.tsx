@@ -92,7 +92,7 @@ const SceneContents: React.FC<ISceneContentsProps> = (props) => {
                     />
                 </div>
             );
-        case ADT3DScenePageModes.ViewScene:
+        default:
             return (
                 <div className="cb-scene-view-viewer">
                     <ADT3DViewer
