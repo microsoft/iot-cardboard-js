@@ -73,20 +73,6 @@ describe('Debug context', () => {
     });
 
     describe('when provider is enabled/disabled', () => {
-        test('Should include provider when enabled', () => {
-            const tree = renderer.create(
-                <DebugContextProvider context={'test context'} enabled={true}>
-                    <WarningLoggingComponent message={'Log warn'} />
-                </DebugContextProvider>
-            );
-            expect(warnMock).toBeCalledTimes(1);
-            expect(tree).toMatchInlineSnapshot(`
-                <div>
-                  Message: 
-                  Log warn
-                </div>
-            `);
-        });
         test('Should not break when hook used when disabled', () => {
             const tree = renderer.create(
                 <DebugContextProvider context={'test context'} enabled={false}>
