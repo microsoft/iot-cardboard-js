@@ -36,7 +36,7 @@ const logMessage = (
 const getLogDebug = (context: string) => (
     message: string,
     ...args: unknown[]
-) => logMessage('warn', context, message, ...args);
+) => logMessage('debug', context, message, ...args);
 const getLogError = (context: string) => (
     message: string,
     ...args: unknown[]
