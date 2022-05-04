@@ -24,6 +24,7 @@ const classNames = {
     iconClosePropertySelector: `${classPrefix}-icon-close-property-selector`,
     propertyTagsWrap: `${classPrefix}-property-tags-wrap`,
     propertyTag: `${classPrefix}-property-tag`,
+    propertyTagIcon: `${classPrefix}-property-tag-icon`,
     separator: `${classPrefix}-separator`,
     addProperty: `${classPrefix}-add-property`,
     iconAddProperty: `${classPrefix}-icon-add-property`,
@@ -53,7 +54,8 @@ const classNames = {
     modal: `${classPrefix}-modal`,
     modalColumnLeftItem: `${classPrefix}-modal-column-left-item`,
     modalRowSpaceBetween: `${classPrefix}-modal-row-space-between`,
-    modalTexField: `${classPrefix}-modal-tex-field`
+    modalTexField: `${classPrefix}-modal-tex-field`,
+    booleanIcon: `${classPrefix}-boolean-icon`
 };
 
 export const getPropertyInspectorStyles = () => {
@@ -239,6 +241,15 @@ export const getPropertyInspectorStyles = () => {
                     backgroundColor:
                         theme.semanticColors.buttonBackgroundPressed,
                     cursor: 'pointer'
+                },
+                '& path': {
+                    fill: theme.semanticColors.menuItemText
+                },
+                '& circle': {
+                    stroke: theme.semanticColors.menuItemText
+                },
+                '& line': {
+                    stroke: theme.semanticColors.menuItemText
                 }
             } as IStyle
         ],
@@ -377,7 +388,7 @@ export const getPropertyInspectorStyles = () => {
                 alignItems: 'center',
                 padding: '12px 8px',
                 borderBottom: `1px solid ${theme.semanticColors.menuIcon}`,
-                '& *': {
+                '& >*': {
                     opacity: 0
                 }
             } as IStyle

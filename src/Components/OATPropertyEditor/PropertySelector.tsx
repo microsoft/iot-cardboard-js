@@ -1,127 +1,29 @@
 import React from 'react';
-import {
-    FontIcon,
-    ActionButton,
-    Stack,
-    Text,
-    Image,
-    Separator
-} from '@fluentui/react';
-import { useTranslation } from 'react-i18next';
+import { FontIcon, ActionButton, Stack, Separator } from '@fluentui/react';
 import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
 import { DTDLModel } from '../../Models/Classes/DTDL';
-// import IconBoolean from '../../../public/assets/icons/PNG.png';
-import IconBoolean from '../../../public/assets/icons/Boolean.png';
-import IconData from '../../../public/assets/icons/Data.png';
-import IconDatetime from '../../../public/assets/icons/Datetime.png';
-import IconDouble from '../../../public/assets/icons/Double.png';
-import IconDuration from '../../../public/assets/icons/duration.png';
-import IconEnum from '../../../public/assets/icons/enum.png';
-import IconFloat from '../../../public/assets/icons/float.png';
-import IconInteger from '../../../public/assets/icons/integer.png';
-import IconLineString from '../../../public/assets/icons/linestring.png';
-import IconLong from '../../../public/assets/icons/long.png';
-import IconMap from '../../../public/assets/icons/map.png';
-import IconMultiPoint from '../../../public/assets/icons/multipoint.png';
-import IconMultiLineString from '../../../public/assets/icons/multilinestring.png';
-import IconMultiPolygon from '../../../public/assets/icons/multipolygon.png';
-import IconObject from '../../../public/assets/icons/object.png';
-import IconPoint from '../../../public/assets/icons/point.png';
-import IconPolygon from '../../../public/assets/icons/polygon.png';
-import IconString from '../../../public/assets/icons/string.png';
-import IconTime from '../../../public/assets/icons/time.png';
+import Svg from 'react-inlinesvg';
+import IconBoolean from '../../Resources/Static/Boolean.svg';
+import IconData from '../../Resources/Static/Data.svg';
+import IconDatetime from '../../Resources/Static/Datetime.svg';
+import IconDouble from '../../Resources/Static/Double.svg';
+import IconDuration from '../../Resources/Static/duration.svg';
+import IconEnum from '../../Resources/Static/Enum.svg';
+import IconFloat from '../../Resources/Static/Float.svg';
+import IconInteger from '../../Resources/Static/Integer.svg';
+import IconLineString from '../../Resources/Static/linestring.svg';
+import IconLong from '../../Resources/Static/long.svg';
+import IconMap from '../../Resources/Static/map.svg';
+import IconMultiPoint from '../../Resources/Static/multipoint.svg';
+import IconMultiLineString from '../../Resources/Static/multilinestring.svg';
+import IconMultiPolygon from '../../Resources/Static/multipolygon.svg';
+import IconObject from '../../Resources/Static/object.svg';
+import IconPoint from '../../Resources/Static/point.svg';
+import IconPolygon from '../../Resources/Static/polygon.svg';
+import IconString from '../../Resources/Static/string.svg';
+import IconTime from '../../Resources/Static/time.svg';
+import { useTranslation } from 'react-i18next';
 
-const data = {
-    propertyTags: {
-        sectionFirst: [
-            {
-                name: 'boolean',
-                icon: IconBoolean
-            },
-            {
-                name: 'data',
-                icon: IconData
-            },
-            {
-                name: 'float',
-                icon: IconFloat
-            },
-
-            {
-                name: 'datetime',
-                icon: IconDatetime
-            },
-
-            {
-                name: 'integer',
-                icon: IconInteger
-            },
-            {
-                name: 'long',
-                icon: IconLong
-            },
-            {
-                name: 'enum',
-                icon: IconEnum,
-                complex: true
-            },
-            {
-                name: 'map',
-                icon: IconMap,
-                complex: true
-            },
-            {
-                name: 'double',
-                icon: IconDouble
-            },
-            {
-                name: 'duration',
-                icon: IconDuration
-            }
-        ],
-        sectionSecond: [
-            {
-                name: 'string',
-                icon: IconString
-            },
-            {
-                name: 'time',
-                icon: IconTime
-            },
-            {
-                name: 'object',
-                icon: IconObject,
-                complex: true
-            }
-        ],
-        sectionThird: [
-            {
-                name: 'point',
-                icon: IconPoint
-            },
-            {
-                name: 'linestring',
-                icon: IconLineString
-            },
-            {
-                name: 'polygon',
-                icon: IconPolygon
-            },
-            {
-                name: 'multipoint',
-                icon: IconMultiPoint
-            },
-            {
-                name: 'multilinestring',
-                icon: IconMultiLineString
-            },
-            {
-                name: 'multipolygon',
-                icon: IconMultiPolygon
-            }
-        ]
-    }
-};
 interface IProperySelectorProps {
     lastPropertyFocused: any;
     model?: DTDLModel;
@@ -137,6 +39,97 @@ const PropertySelector = ({
 }: IProperySelectorProps) => {
     const { t } = useTranslation();
     const propertyInspectorStyles = getPropertyInspectorStyles();
+    const data = {
+        propertyTags: {
+            sectionFirst: [
+                {
+                    name: t('OATPropertyEditor.boolean'),
+                    icon: IconBoolean
+                },
+                {
+                    name: t('OATPropertyEditor.data'),
+                    icon: IconData
+                },
+                {
+                    name: t('OATPropertyEditor.float'),
+                    icon: IconFloat
+                },
+
+                {
+                    name: t('OATPropertyEditor.dateTime'),
+                    icon: IconDatetime
+                },
+
+                {
+                    name: t('OATPropertyEditor.integer'),
+                    icon: IconInteger
+                },
+                {
+                    name: t('OATPropertyEditor.long'),
+                    icon: IconLong
+                },
+                {
+                    name: t('OATPropertyEditor.enum'),
+                    icon: IconEnum,
+                    complex: true
+                },
+                {
+                    name: t('OATPropertyEditor.map'),
+                    icon: IconMap,
+                    complex: true
+                },
+                {
+                    name: t('OATPropertyEditor.double'),
+                    icon: IconDouble
+                },
+                {
+                    name: t('OATPropertyEditor.duration'),
+                    icon: IconDuration
+                }
+            ],
+            sectionSecond: [
+                {
+                    name: t('OATPropertyEditor.string'),
+                    icon: IconString
+                },
+                {
+                    name: t('OATPropertyEditor.time'),
+                    icon: IconTime
+                },
+                {
+                    name: t('OATPropertyEditor.object'),
+                    icon: IconObject,
+                    complex: true
+                }
+            ],
+            sectionThird: [
+                {
+                    name: t('OATPropertyEditor.point'),
+                    icon: IconPoint
+                },
+                {
+                    name: t('OATPropertyEditor.linestring'),
+                    icon: IconLineString
+                },
+                {
+                    name: t('OATPropertyEditor.polygon'),
+                    icon: IconPolygon
+                },
+                {
+                    name: t('OATPropertyEditor.multiPoint'),
+                    icon: IconMultiPoint
+                },
+                {
+                    name: t('OATPropertyEditor.multiLinestring'),
+                    icon: IconMultiLineString
+                },
+                {
+                    name: t('OATPropertyEditor.multiPolygon'),
+                    icon: IconMultiPolygon
+                }
+            ]
+        }
+    };
 
     const addNestedProperty = (tag) => {
         const modelCopy = Object.assign({}, model);
@@ -224,22 +217,22 @@ const PropertySelector = ({
                         className={
                             propertyInspectorStyles.iconClosePropertySelector
                         }
+                        title={t('OATPropertyEditor.close')}
                     />
                 </ActionButton>
             </Stack>
             <Separator className={propertyInspectorStyles.separator} />
             <Stack className={propertyInspectorStyles.propertyTagsWrap}>
                 {data.propertyTags.sectionFirst.map((tag, i) => (
-                    <img
+                    <Svg
                         key={i}
                         className={propertyInspectorStyles.propertyTag}
                         onClick={() => {
                             handleTagClick(tag.name);
                         }}
-                        alt={tag.name}
                         src={tag.icon}
                         title={tag.name}
-                    ></img>
+                    ></Svg>
                 ))}
             </Stack>
             <Separator className={propertyInspectorStyles.separator} />
@@ -253,16 +246,15 @@ const PropertySelector = ({
                         return <></>;
                     } else {
                         return (
-                            <img
+                            <Svg
                                 key={i}
                                 className={propertyInspectorStyles.propertyTag}
                                 onClick={() => {
                                     handleTagClick(tag.name);
                                 }}
-                                alt={tag.name}
                                 src={tag.icon}
                                 title={tag.name}
-                            ></img>
+                            ></Svg>
                         );
                     }
                 })}
@@ -270,16 +262,15 @@ const PropertySelector = ({
             <Separator className={propertyInspectorStyles.separator} />
             <Stack className={propertyInspectorStyles.propertyTagsWrap}>
                 {data.propertyTags.sectionThird.map((tag, i) => (
-                    <img
+                    <Svg
                         key={i}
                         className={propertyInspectorStyles.propertyTag}
                         onClick={() => {
                             handleTagClick(tag.name);
                         }}
-                        alt={tag.name}
                         src={tag.icon}
                         title={tag.name}
-                    ></img>
+                    ></Svg>
                 ))}
             </Stack>
         </Stack>
