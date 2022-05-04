@@ -1450,7 +1450,7 @@ function SceneView(props: ISceneViewProps, ref) {
                 for (const mesh of clonedHighlightMeshes.current) {
                     mesh?.dispose();
                     //Assume that all new meshes are highlight clones and decrement the scene mesh array after disposal to prevent overflow
-                    if (sceneRef.current.meshes)
+                    if (sceneRef.current?.meshes)
                         sceneRef.current.meshes.length--;
                 }
                 clonedHighlightMeshes.current = [];

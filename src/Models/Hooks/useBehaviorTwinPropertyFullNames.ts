@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { ADTandBlobAdapter, MockAdapter } from '../../Adapters';
+import { ADT3DSceneAdapter, MockAdapter } from '../../Adapters';
 import ViewerConfigUtility from '../Classes/ViewerConfigUtility';
 import {
     I3DScenesConfig,
@@ -11,7 +11,7 @@ interface IUseBehaviorTwinPropertyFullNamesParams {
     behavior: IBehavior;
     isTwinAliasesIncluded: boolean;
     selectedElements?: Array<ITwinToObjectMapping>; // if selected elements passed, retrieve linked or aliased twin properties from selected elements, not elements from current scene in config
-    adapter: ADTandBlobAdapter | MockAdapter;
+    adapter: ADT3DSceneAdapter | MockAdapter;
     config: I3DScenesConfig;
     sceneId: string;
 }

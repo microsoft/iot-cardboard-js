@@ -52,7 +52,6 @@ import {
 } from '../Models/Classes/AdapterDataClasses/ADTUploadData';
 import i18n from '../i18n';
 import { SimulationAdapterData } from '../Models/Classes/AdapterDataClasses/SimulationAdapterData';
-import ADTInstancesData from '../Models/Classes/AdapterDataClasses/ADTInstancesData';
 import ADT3DViewerData from '../Models/Classes/AdapterDataClasses/ADT3DViewerData';
 import { SceneVisual } from '../Models/Classes/SceneView.types';
 import ViewerConfigUtility from '../Models/Classes/ViewerConfigUtility';
@@ -62,15 +61,17 @@ import {
     ITwinToObjectMapping
 } from '../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { ElementType } from '../Models/Classes/3DVConfig';
+import AdapterEntityCache from '../Models/Classes/AdapterEntityCache';
 
 export default class ADTAdapter implements IADTAdapter {
-    protected tenantId: string;
-    protected uniqueObjectId: string;
+    public tenantId: string;
+    public uniqueObjectId: string;
     public authService: IAuthService;
     public adtHostUrl: string;
     protected adtProxyServerPath: string;
     public packetNumber = 0;
     protected axiosInstance: AxiosInstance;
+    protected adtTwinCache: AdapterEntityCache<ADTTwinData>;
 
     constructor(
         adtHostUrl: string,
@@ -84,6 +85,7 @@ export default class ADTAdapter implements IADTAdapter {
         this.authService = authService;
         this.tenantId = tenantId;
         this.uniqueObjectId = uniqueObjectId;
+        this.adtTwinCache = new AdapterEntityCache<ADTTwinData>(9000);
 
         this.authService.login();
         this.axiosInstance = axios.create({ baseURL: this.adtProxyServerPath });
@@ -150,23 +152,29 @@ export default class ADTAdapter implements IADTAdapter {
         );
     }
 
-    getADTTwin(twinId: string) {
+    getADTTwin(twinId: string, useCache = false) {
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
-        return adapterMethodSandbox.safelyFetchDataCancellableAxiosPromise(
-            ADTTwinData,
-            {
-                method: 'get',
-                url: `${
-                    this.adtProxyServerPath
-                }/digitaltwins/${encodeURIComponent(twinId)}`,
-                headers: {
-                    'x-adt-host': this.adtHostUrl
-                },
-                params: {
-                    'api-version': ADT_ApiVersion
+        const getDataMethod = () =>
+            adapterMethodSandbox.safelyFetchDataCancellableAxiosPromise(
+                ADTTwinData,
+                {
+                    method: 'get',
+                    url: `${
+                        this.adtProxyServerPath
+                    }/digitaltwins/${encodeURIComponent(twinId)}`,
+                    headers: {
+                        'x-adt-host': this.adtHostUrl
+                    },
+                    params: {
+                        'api-version': ADT_ApiVersion
+                    }
                 }
-            }
-        );
+            );
+        if (useCache) {
+            return this.adtTwinCache.getEntity(twinId, getDataMethod);
+        } else {
+            return getDataMethod();
+        }
     }
 
     getADTModel(modelId: string) {
@@ -834,12 +842,50 @@ export default class ADTAdapter implements IADTAdapter {
             );
             let modelUrl = null;
             const sceneVisuals: SceneVisual[] = [];
+            const twinIdToResolvedTwinMap = new Map<string, boolean>();
+
             if (scene) {
                 // get modelUrl
                 modelUrl = scene.assets?.find((asset) => asset.url)?.url;
 
                 if (scene.behaviorIDs) {
-                    // cycle through behaviors for scene
+                    // get all twins for all behaviors in the scene
+                    for (const sceneBehaviorId of scene.behaviorIDs) {
+                        for (const behavior of config.configuration.behaviors) {
+                            if (sceneBehaviorId === behavior.id) {
+                                const {
+                                    primaryTwinIds,
+                                    aliasedTwinMap
+                                } = ViewerConfigUtility.getTwinIdsForBehaviorInScene(
+                                    behavior,
+                                    config,
+                                    sceneId
+                                );
+                                primaryTwinIds.forEach(
+                                    (tid) =>
+                                        (twinIdToResolvedTwinMap[tid] = true)
+                                );
+                                Object.entries(aliasedTwinMap).forEach(
+                                    (atm) =>
+                                        (twinIdToResolvedTwinMap[atm[1]] = true)
+                                );
+                            }
+                        }
+                    }
+                    const twinIdsArray = Object.keys(twinIdToResolvedTwinMap);
+                    const twinResults = await Promise.all(
+                        twinIdsArray.map((twinId) =>
+                            this.getADTTwin(twinId, true)
+                        )
+                    );
+                    twinResults.forEach((adapterResult, idx) => {
+                        pushErrors(adapterResult.getErrors());
+                        twinIdToResolvedTwinMap[twinIdsArray[idx]] =
+                            adapterResult.result?.data;
+                    });
+                    // end: get all twins for all behaviors in the scene
+
+                    // map resolved twins to SceneVisuals
                     for (const sceneBehaviorId of scene.behaviorIDs) {
                         // cycle through all behaviors
                         // check if behavior is relevant for the current scene
@@ -848,7 +894,6 @@ export default class ADTAdapter implements IADTAdapter {
                                 const mappingIds = ViewerConfigUtility.getMappingIdsForBehavior(
                                     behavior
                                 );
-                                // TODO get FilteredTwinDatasources
 
                                 // cycle through mapping ids to get twins for behavior and scene
                                 for (const id of mappingIds) {
@@ -860,24 +905,20 @@ export default class ADTAdapter implements IADTAdapter {
                                             element.id === id
                                     ) as ITwinToObjectMapping;
 
-                                    // get primary twin
-                                    const linkedTwin = await this.getADTTwin(
-                                        element.linkedTwinID
-                                    );
-                                    pushErrors(linkedTwin.getErrors()); // TODO: handle partial twin 404 failure instead of causing the ADT3DViewer base card fail all together because of these pushed errors
                                     twins[linkedTwinName] =
-                                        linkedTwin.result?.data;
+                                        twinIdToResolvedTwinMap[
+                                            element.linkedTwinID
+                                        ];
 
                                     // check for twin aliases and add to twins object
                                     if (element.twinAliases) {
                                         for (const alias of Object.keys(
                                             element.twinAliases
                                         )) {
-                                            const twin = await this.getADTTwin(
-                                                element.twinAliases[alias]
-                                            );
-                                            pushErrors(twin.getErrors()); // TODO: handle partial twin 404 failure instead of causing the ADT3DViewer base card fail all together because of these pushed errors
-                                            twins[alias] = twin.result?.data;
+                                            twins[alias] =
+                                                twinIdToResolvedTwinMap[
+                                                    element.twinAliases[alias]
+                                                ];
                                         }
                                     }
 
@@ -938,7 +979,10 @@ export default class ADTAdapter implements IADTAdapter {
 
             // get primary twin
             try {
-                const linkedTwin = await this.getADTTwin(element.linkedTwinID);
+                const linkedTwin = await this.getADTTwin(
+                    element.linkedTwinID,
+                    true
+                );
                 pushErrors(linkedTwin.getErrors());
                 twins[`${linkedTwinName}.` + element.linkedTwinID] =
                     linkedTwin.result?.data;
@@ -953,7 +997,8 @@ export default class ADTAdapter implements IADTAdapter {
                     if (element.twinAliases?.[twinAliasInBehavior]) {
                         try {
                             const twin = await this.getADTTwin(
-                                element.twinAliases[twinAliasInBehavior]
+                                element.twinAliases[twinAliasInBehavior],
+                                true
                             );
                             pushErrors(twin.getErrors());
                             const aliasedKey = `${twinAliasInBehavior}.${element.twinAliases[twinAliasInBehavior]}`; // construct keys for returned twins set consisting of twin alias + twin id
@@ -997,108 +1042,5 @@ export default class ADTAdapter implements IADTAdapter {
             isTwinAliasesIncluded
         );
         return ViewerConfigUtility.getPropertyNamesWithAliasFromTwins(twins);
-    }
-
-    async getADTInstances(tenantId?: string, uniqueObjectId?: string) {
-        const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
-        if (tenantId) {
-            this.tenantId = tenantId;
-        }
-        if (uniqueObjectId) {
-            this.uniqueObjectId = uniqueObjectId;
-        }
-
-        return await adapterMethodSandbox.safelyFetchData(async (token) => {
-            const subscriptions = await axios({
-                method: 'get',
-                url: `https://management.azure.com/subscriptions`,
-                headers: {
-                    'Content-Type': 'application/json',
-                    authorization: 'Bearer ' + token
-                },
-                params: {
-                    'api-version': '2020-01-01'
-                }
-            });
-
-            const subscriptionsByTenantId = subscriptions.data.value
-                .filter((s) => s.tenantId === this.tenantId)
-                .map((s) => s.subscriptionId);
-
-            const digitalTwinInstancesBySubscriptions = await Promise.all(
-                subscriptionsByTenantId.map((subscriptionId) => {
-                    return axios({
-                        method: 'get',
-                        url: `https://management.azure.com/subscriptions/${subscriptionId}/providers/Microsoft.DigitalTwins/digitalTwinsInstances`,
-                        headers: {
-                            'Content-Type': 'application/json',
-                            authorization: 'Bearer ' + token
-                        },
-                        params: {
-                            'api-version': '2020-12-01'
-                        }
-                    });
-                })
-            );
-
-            const digitalTwinsInstanceDictionary = [];
-            for (
-                let i = 0;
-                i < digitalTwinInstancesBySubscriptions.length;
-                i++
-            ) {
-                const instances: any = digitalTwinInstancesBySubscriptions[i];
-                if (instances.data.value.length) {
-                    let userRoleAssignments;
-                    try {
-                        userRoleAssignments = await Promise.all(
-                            instances.data.value.map((instance) => {
-                                return axios({
-                                    method: 'get',
-                                    url: `https://management.azure.com${instance.id}/providers/Microsoft.Authorization/roleAssignments`,
-                                    headers: {
-                                        'Content-Type': 'application/json',
-                                        authorization: 'Bearer ' + token
-                                    },
-                                    params: {
-                                        'api-version': '2021-04-01-preview',
-                                        $filter: `atScope() and assignedTo('${this.uniqueObjectId}')`
-                                    }
-                                });
-                            })
-                        );
-                        instances.data.value.map((instance, idx) => {
-                            const assignedUserRoleIds = userRoleAssignments[
-                                idx
-                            ]?.data?.value?.map((v) => {
-                                return v.properties.roleDefinitionId
-                                    .split('/')
-                                    .pop();
-                            });
-
-                            // return the adt instances only if the user has 'Azure Digital Twins Data Reader' or 'Azure Digital Twins Data Owner' permission assigned for it
-                            if (
-                                assignedUserRoleIds?.includes(
-                                    'd57506d4-4c8d-48b1-8587-93c323f6a5a3'
-                                ) ||
-                                assignedUserRoleIds?.includes(
-                                    'bcd981a7-7f74-457b-83e1-cceb9e632ffe'
-                                )
-                            ) {
-                                digitalTwinsInstanceDictionary.push({
-                                    name: instance.name,
-                                    hostName: instance.properties.hostName,
-                                    resourceId: instance.id,
-                                    location: instance.location
-                                });
-                            }
-                        });
-                    } catch (error) {
-                        console.log(error);
-                    }
-                }
-            }
-            return new ADTInstancesData(digitalTwinsInstanceDictionary);
-        }, 'azureManagement');
     }
 }

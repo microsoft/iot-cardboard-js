@@ -1,5 +1,5 @@
 import MockAdapter from '../../Adapters/MockAdapter';
-import ADTandBlobAdapter from '../../Adapters/ADTandBlobAdapter';
+import ADT3DSceneAdapter from '../../Adapters/ADT3DSceneAdapter';
 import {
     ADT3DScenePageModes,
     ADT3DScenePageSteps
@@ -8,8 +8,8 @@ import {
     IComponentError,
     IAction,
     IConsumeCompositeCardProps,
-    IADTInstance,
-    IErrorButtonAction
+    IErrorButtonAction,
+    IADTInstance
 } from '../../Models/Constants/Interfaces';
 import {
     I3DScenesConfig,
@@ -17,7 +17,7 @@ import {
 } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 
 export interface IADT3DScenePageProps extends IConsumeCompositeCardProps {
-    adapter: ADTandBlobAdapter | MockAdapter;
+    adapter: ADT3DSceneAdapter | MockAdapter;
     environmentPickerOptions?: {
         environment?: {
             shouldPullFromSubscription?: boolean; // to have this worked with the set value 'true' make sure you pass tenantId and uniqueObjectId to your adapter
@@ -42,7 +42,7 @@ export interface IADT3DScenePageProps extends IConsumeCompositeCardProps {
 }
 
 export interface IADT3DSceneBuilderProps extends IConsumeCompositeCardProps {
-    adapter: ADTandBlobAdapter | MockAdapter;
+    adapter: ADT3DSceneAdapter | MockAdapter;
     mode: ADT3DScenePageModes;
     scene: IScene;
     scenesConfig: I3DScenesConfig;
