@@ -9,7 +9,14 @@ import {
 } from './DebugContext.types';
 
 export const DebugContext = React.createContext<IDebugContext>(null);
-export const useDebugContext = () => useContext(DebugContext);
+const noOp = () => undefined;
+const defaultContext: IDebugContext = {
+    logDebug: noOp,
+    logError: noOp,
+    logInfo: noOp,
+    logWarn: noOp
+};
+export const useDebugContext = () => useContext(DebugContext) || defaultContext;
 
 const logMessage = (
     level: 'debug' | 'info' | 'warn' | 'error',
@@ -45,25 +52,24 @@ const getLogInfo = (context: string) => (message: string, ...args: unknown[]) =>
     logMessage('info', context, message, ...args);
 const getLogWarn = (context: string) => (message: string, ...args: unknown[]) =>
     logMessage('warn', context, message, ...args);
-const noOp = () => undefined;
 
 export const DebugContextProvider: React.FC<IDebugContextProviderProps> = (
     props
 ) => {
     const { children, enabled, context } = props;
-    // only include the context in development builds
-    if (process.env.NODE_ENV === 'production') {
+    // only include when enabled
+    if (!enabled) {
         return <>{children}</>;
     }
 
     const providerValue: IDebugContext = useMemo(() => {
         return {
-            logDebug: enabled ? getLogDebug(context) : noOp,
-            logError: enabled ? getLogError(context) : noOp,
-            logInfo: enabled ? getLogInfo(context) : noOp,
-            logWarn: enabled ? getLogWarn(context) : noOp
+            logDebug: getLogDebug(context),
+            logError: getLogError(context),
+            logInfo: getLogInfo(context),
+            logWarn: getLogWarn(context)
         };
-    }, [context, enabled]);
+    }, [context]);
     return (
         <DebugContext.Provider value={providerValue}>
             {children}
