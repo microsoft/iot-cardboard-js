@@ -1,8 +1,8 @@
 import React from 'react';
 import EnvironmentPicker from './EnvironmentPicker';
 import useAuthParams from '../../../.storybook/useAuthParams';
-import ADTAdapter from '../../Adapters/ADTAdapter';
 import MsalAuthService from '../../Models/Services/MsalAuthService';
+import AzureManagementAdapter from '../../Adapters/AzureManagementAdapter';
 
 export default {
     title: 'Components/EnvironmentPicker',
@@ -19,8 +19,7 @@ export const ADTEnvironmentPicker = (_args, { globals: { theme, locale } }) => {
                 theme={theme}
                 locale={locale}
                 adapter={
-                    new ADTAdapter(
-                        authenticationParameters.adt.hostUrl,
+                    new AzureManagementAdapter(
                         new MsalAuthService(
                             authenticationParameters.adt.aadParameters
                         ),

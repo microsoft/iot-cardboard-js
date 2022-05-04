@@ -8,7 +8,7 @@ import {
 } from '../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import useBehaviorTwinPropertyFullNames from '../../../Models/Hooks/useBehaviorTwinPropertyFullNames';
 import { buildDropdownOptionsFromStrings } from '../../../Models/Services/Utils';
-import { ADTandBlobAdapter, MockAdapter } from '../../../Adapters';
+import { ADT3DSceneAdapter, MockAdapter } from '../../../Adapters';
 
 const iconStyles: IIconStyles = {
     root: { bottom: -1, marginLeft: 8, position: 'relative' }
@@ -31,7 +31,7 @@ export interface ITwinPropertyDropdownProps {
     label?: string;
     required?: boolean;
     onChange: (value: string) => void;
-    adapter: ADTandBlobAdapter | MockAdapter;
+    adapter: ADT3DSceneAdapter | MockAdapter;
     config: I3DScenesConfig;
     sceneId: string;
 }
