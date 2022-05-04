@@ -55,7 +55,8 @@ import {
 import { AssetDevice } from '../Classes/Simulations/Asset';
 import {
     CustomMeshItem,
-    ISceneViewProp,
+    ICameraPosition,
+    ISceneViewProps,
     Marker,
     SceneVisual
 } from '../Classes/SceneView.types';
@@ -712,13 +713,14 @@ export interface IADT3DAddInProps {
     onSceneLoaded?: (data: ADT3DAddInEventData) => boolean;
     onMeshClick?: (data: ADT3DAddInEventData) => boolean;
     onMeshHover?: (data: ADT3DAddInEventData) => boolean;
+    onCameraMove?: (position: ICameraPosition) => void;
 }
 
 export interface ISceneViewWrapperProps {
     config?: I3DScenesConfig;
     sceneId?: string;
     adapter?: IADT3DViewerAdapter;
-    sceneViewProps: ISceneViewProp;
+    sceneViewProps: ISceneViewProps;
     sceneVisuals?: SceneVisual[];
     addInProps?: IADT3DAddInProps;
     hideViewModePickerUI?: boolean;
@@ -747,6 +749,7 @@ export interface IADT3DViewerProps {
     hideViewModePickerUI?: boolean;
     hideElementsPanel?: boolean;
     outlinedMeshItems?: CustomMeshItem[];
+    sceneViewProps?: ISceneViewProps;
 }
 
 export interface IADT3DViewerMode {

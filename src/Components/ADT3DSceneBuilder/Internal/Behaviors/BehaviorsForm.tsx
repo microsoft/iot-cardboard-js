@@ -29,7 +29,7 @@ import {
     TextField,
     useTheme
 } from '@fluentui/react';
-import WidgetForm from './Widgets/WidgetForm';
+import WidgetForm from './Widgets/WidgetForm/WidgetForm';
 import LeftPanelBuilderHeader, {
     getLeftPanelBuilderHeaderParamsForBehaviors
 } from '../LeftPanelBuilderHeader';

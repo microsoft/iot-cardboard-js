@@ -1,7 +1,11 @@
 import React from 'react';
 import './ADT3DBuilder.scss';
 import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
-import { CustomMeshItem, Marker } from '../../Models/Classes/SceneView.types';
+import {
+    CustomMeshItem,
+    ISceneViewProps,
+    Marker
+} from '../../Models/Classes/SceneView.types';
 import {
     IADTAdapter,
     IADTObjectColor
@@ -23,11 +27,13 @@ interface ADT3DBuilderProps {
     outlinedMeshItems?: CustomMeshItem[];
     objectColorUpdated?: (objectColor: IADTObjectColor) => void;
     hideViewModePickerUI?: boolean;
+    sceneViewProps?: ISceneViewProps;
 }
 
 const ADT3DBuilder: React.FC<ADT3DBuilderProps> = ({
     adapter,
     modelUrl,
+    sceneViewProps,
     onMeshClicked,
     onMeshHovered,
     showMeshesOnHover,
@@ -59,6 +65,8 @@ const ADT3DBuilder: React.FC<ADT3DBuilderProps> = ({
         }
     };
 
+    const svp = sceneViewProps || {};
+
     return (
         <BaseComponent>
             <div className="cb-adt3dbuilder-wrapper">
@@ -67,6 +75,7 @@ const ADT3DBuilder: React.FC<ADT3DBuilderProps> = ({
                     hideViewModePickerUI={hideViewModePickerUI}
                     wrapperMode={WrapperMode.Builder}
                     sceneViewProps={{
+                        ...svp,
                         modelUrl: modelUrl,
                         onMeshClick: meshClick,
                         onMeshHover: meshHover,

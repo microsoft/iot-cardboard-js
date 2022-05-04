@@ -417,15 +417,13 @@
       "propertyDropdownLabel": "Ingatlan",
       "noElementsSelected": "Nincs kijelölt elem",
       "noSelectionValue": "Egyik sem",
-      "propertyNotFound": "A viselkedés ikrein nem található tulajdonság"
+      "propertyNotFound": "A viselkedés ikrein nem található tulajdonság",
+      "propertyDropdownPlaceholder": "Ikertulajdonság kiválasztása"
     },
     "numericExpressionPlaceholder": "Számmá kiértékelt kifejezés megadása",
     "behaviorId": "Viselkedésazonosító",
     "widgetLibrary": "Widget könyvtár",
     "exploreWidgets": "Fedezze fel widgetjeinket, és adjon hozzá egy további információréteget a 3D-s jelenetéhez.",
-    "allWidgets": "Minden widget",
-    "myWidgets": "Saját widgetek",
-    "searchWidgets": "Widgetek keresése",
     "addWidget": "Widget hozzáadása",
     "newWidget": "Új widget",
     "createWidget": "Widget létrehozása",
@@ -478,6 +476,12 @@
       "errors": {
         "twinAliasAlreadyExists": "Az azonos nevű ikeralias már létezik, fontolja meg a hozzáadását."
       }
+    },
+    "ModelledPropertyBuilder": {
+      "expressionLabel": "Tulajdonságkifejezés",
+      "expressionPlaceholder": "Tulajdonságkifejezés megadása",
+      "selectProperty": "Tulajdonság kiválasztása",
+      "toggleLabel": "Tulajdonságkifejezés"
     }
   },
   "widgets": {
@@ -499,7 +503,12 @@
       "title": "Panel widget",
       "description": "Elrendezéspanel"
     },
-    "notSupported": "Ez a widgettípus jelenleg nem támogatott"
+    "notSupported": "Ez a widgettípus jelenleg nem támogatott",
+    "value": {
+      "title": "Érték widget",
+      "description": "Alapvető widget az ikertulajdonságok értékeinek megjelenítéséhez",
+      "typePlaceholder": "Az érték típusának kiválasztása"
+    }
   },
   "sdkStrings": {
     "Last 30 mins": "Utolsó 30 perc",
