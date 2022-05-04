@@ -219,3 +219,24 @@ export enum GlobeTheme {
     Grey = 'Grey',
     Yellow = 'Yellow'
 }
+
+/** we can extend this list as needed */
+export enum AzureServiceResourceProviderEndpoints {
+    ADT = 'Microsoft.DigitalTwins/digitalTwinsInstances',
+    Storage = 'Microsoft.Storage/storageAccounts'
+}
+
+/** we can extend this list as needed */
+export enum AzureServiceResourceTypes {
+    ADT = 'Microsoft.DigitalTwins/digitalTwinsInstances',
+    Container = 'Microsoft.Storage/storageAccounts/blobServices/containers'
+}
+
+export enum AzureAccessPermissionRoles {
+    AzureDigitalTwinsDataReader = 'd57506d4-4c8d-48b1-8587-93c323f6a5a3',
+    AzureDigitalTwinsDataOwner = 'bcd981a7-7f74-457b-83e1-cceb9e632ffe',
+    StorageBlobDataContributor = 'ba92f5b4-2d11-453d-a403-e96b0029c9fe', // required to access blob data with credentials
+    Contributor = 'b24988ac-6180-42a0-ab88-20f7382dd24c',
+    Owner = '8e3af657-a8ff-443c-a75c-2fe8c4bcb635',
+    Reader = 'acdd72a7-3385-48ef-bd42-f606fba81ae7' // required to access blob data with credentials
+}
