@@ -86,7 +86,7 @@ export default class ADTAdapter implements IADTAdapter {
         this.authService = authService;
         this.tenantId = tenantId;
         this.uniqueObjectId = uniqueObjectId;
-        this.adtTwinCache = new AdapterEntityCache<ADTTwinData>(9500);
+        this.adtTwinCache = new AdapterEntityCache<ADTTwinData>(9000);
 
         this.authService.login();
         this.axiosInstance = axios.create({ baseURL: this.adtProxyServerPath });
@@ -172,7 +172,7 @@ export default class ADTAdapter implements IADTAdapter {
                 }
             );
         if (useCache) {
-            return this.adtTwinCache.getCachedEntity(twinId, getDataMethod);
+            return this.adtTwinCache.getEntity(twinId, getDataMethod);
         } else {
             return getDataMethod();
         }
@@ -843,7 +843,7 @@ export default class ADTAdapter implements IADTAdapter {
             );
             let modelUrl = null;
             const sceneVisuals: SceneVisual[] = [];
-            const twinIdToResolvedTwinMap = {};
+            const twinIdToResolvedTwinMap = new Map<string, boolean>();
 
             if (scene) {
                 // get modelUrl

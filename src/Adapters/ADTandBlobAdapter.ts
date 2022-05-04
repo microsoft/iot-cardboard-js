@@ -19,7 +19,7 @@ export default class ADTandBlobAdapter {
         this.authService = this.blobAuthService = authService;
         this.tenantId = tenantId;
         this.uniqueObjectId = uniqueObjectId;
-        this.adtTwinCache = new AdapterEntityCache<ADTTwinData>(9500);
+        this.adtTwinCache = new AdapterEntityCache<ADTTwinData>(9000);
 
         if (blobContainerUrl) {
             const containerURL = new URL(blobContainerUrl);

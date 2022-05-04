@@ -17,18 +17,18 @@ class AdapterEntityCache<T extends IAdapterData> {
 
     /**
      * Retrieves an entity from the cache.  If the entity is stale, getEntityData will be executed to resolve the entity
-     * @param id The ID for the desired entity
+     * @param key The key for the desired entity
      * @param getEntityData A function for retrieving the entity data.  Likely using an axios call wrapped in the adapter sandbox
      * @returns A promise that resolves the AdapterResult for the desired entity
      */
-    getCachedEntity(
-        id: string,
+    getEntity(
+        key: string,
         getEntityData: () => Promise<AdapterResult<T>>
     ): Promise<AdapterResult<T>> {
-        const existingEntity = this.cachedEntities[id];
+        const existingEntity = this.cachedEntities[key];
         if (!existingEntity || existingEntity.isStale(this.maxAgeMs)) {
             const newCachedEntity = new CachedEntity(getEntityData);
-            this.cachedEntities[id] = newCachedEntity;
+            this.cachedEntities[key] = newCachedEntity;
             return newCachedEntity.entityAdapterResultPromise;
         } else if (existingEntity.isGettingAdapterResult) {
             return existingEntity.entityAdapterResultPromise;
@@ -44,7 +44,7 @@ class AdapterEntityCache<T extends IAdapterData> {
  * A straightforward class leveraged by AdapterEntityCache to handle stale results and concurrent requests
  */
 class CachedEntity<T extends IAdapterData> {
-    public id: string;
+    public key: string;
     public getEntityData: () => Promise<AdapterResult<T>>;
     public entityAdapterResultPromise: Promise<AdapterResult<T>>;
     public entityAdapterResult: AdapterResult<T>;
