@@ -880,7 +880,7 @@ export default class ADTAdapter implements IADTAdapter {
                     });
                     // end: get all twins for all behaviors in the scene
 
-                    // build up SceneVisuals using
+                    // map resolved twins to SceneVisuals
                     for (const sceneBehaviorId of scene.behaviorIDs) {
                         // cycle through all behaviors
                         // check if behavior is relevant for the current scene
