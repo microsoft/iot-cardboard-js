@@ -153,7 +153,7 @@ export default class ADTAdapter implements IADTAdapter {
         );
     }
 
-    getADTTwin(twinId: string) {
+    getADTTwin(twinId: string, useCache = false) {
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
         const getDataMethod = () =>
             adapterMethodSandbox.safelyFetchDataCancellableAxiosPromise(
@@ -171,7 +171,11 @@ export default class ADTAdapter implements IADTAdapter {
                     }
                 }
             );
-        return this.adtTwinCache.getCachedEntity(twinId, getDataMethod);
+        if (useCache) {
+            return this.adtTwinCache.getCachedEntity(twinId, getDataMethod);
+        } else {
+            return getDataMethod();
+        }
     }
 
     getADTModel(modelId: string) {
@@ -871,7 +875,9 @@ export default class ADTAdapter implements IADTAdapter {
                     }
                     const twinIdsArray = Object.keys(twinIdToResolvedTwinMap);
                     const twinResults = await Promise.all(
-                        twinIdsArray.map((twinId) => this.getADTTwin(twinId))
+                        twinIdsArray.map((twinId) =>
+                            this.getADTTwin(twinId, true)
+                        )
                     );
                     twinResults.forEach((adapterResult, idx) => {
                         pushErrors(adapterResult.getErrors());
@@ -974,7 +980,10 @@ export default class ADTAdapter implements IADTAdapter {
 
             // get primary twin
             try {
-                const linkedTwin = await this.getADTTwin(element.linkedTwinID);
+                const linkedTwin = await this.getADTTwin(
+                    element.linkedTwinID,
+                    true
+                );
                 pushErrors(linkedTwin.getErrors());
                 twins[`${linkedTwinName}.` + element.linkedTwinID] =
                     linkedTwin.result?.data;
@@ -989,7 +998,8 @@ export default class ADTAdapter implements IADTAdapter {
                     if (element.twinAliases?.[twinAliasInBehavior]) {
                         try {
                             const twin = await this.getADTTwin(
-                                element.twinAliases[twinAliasInBehavior]
+                                element.twinAliases[twinAliasInBehavior],
+                                true
                             );
                             pushErrors(twin.getErrors());
                             const aliasedKey = `${twinAliasInBehavior}.${element.twinAliases[twinAliasInBehavior]}`; // construct keys for returned twins set consisting of twin alias + twin id
