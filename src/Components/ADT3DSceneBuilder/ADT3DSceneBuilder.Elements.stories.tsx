@@ -4,9 +4,7 @@ import { userEvent, within } from '@storybook/testing-library';
 import MockAdapter from '../../Adapters/MockAdapter';
 import ADT3DSceneBuilder from './ADT3DSceneBuilder';
 import {
-    clickOverFlowMenuItem,
     findCalloutItemByTestId,
-    findOverflowMenuItem as findOverflowMenuItemByTestId,
     IStoryContext,
     sleep
 } from '../../Models/Services/StoryUtilities';
