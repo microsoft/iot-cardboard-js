@@ -150,14 +150,18 @@ export default class ADT3DSceneAdapter {
             const digitalTwinsInstances: Array<IADTInstance> = [];
 
             if (adtInstanceResources) {
-                for (let i = 0; i < adtInstanceResources.length; i++) {
-                    const adtInstanceResource = adtInstanceResources[i];
-                    const haveAccess = await this.hasRoleDefinitions(
-                        adtInstanceResource.id,
-                        this.uniqueObjectId,
-                        accessRolesToCheck
-                    );
+                const hasRoleDefinitionsResults = await Promise.all(
+                    adtInstanceResources.map((adtInstanceResource) =>
+                        this.hasRoleDefinitions(
+                            adtInstanceResource.id,
+                            this.uniqueObjectId,
+                            accessRolesToCheck
+                        )
+                    )
+                );
+                hasRoleDefinitionsResults.forEach((haveAccess, idx) => {
                     if (haveAccess) {
+                        const adtInstanceResource = adtInstanceResources[idx];
                         digitalTwinsInstances.push({
                             id: adtInstanceResource.id,
                             name: adtInstanceResource.name,
@@ -166,7 +170,7 @@ export default class ADT3DSceneAdapter {
                             location: adtInstanceResource.location
                         });
                     }
-                }
+                });
             }
 
             return new ADTInstancesData(digitalTwinsInstances);
