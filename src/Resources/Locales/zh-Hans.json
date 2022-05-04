@@ -796,6 +796,27 @@
     "value": "价值",
     "addToTemplate": "添加到模板",
     "duplicate": "重复",
-    "remove": "删除"
+    "remove": "删除",
+    "boolean": "布尔",
+    "data": "数据",
+    "float": "浮",
+    "integer": "整数",
+    "string": "字符串",
+    "enum": "枚举",
+    "map": "地图",
+    "array": "数组",
+    "object": "对象",
+    "dateTime": "日期时间",
+    "time": "时间",
+    "long": "长",
+    "double": "双",
+    "duration": "期间",
+    "point": "点",
+    "linestring": "线串",
+    "polygon": "多边形",
+    "multiPoint": "多点",
+    "multiLinestring": "多线字符串",
+    "multiPolygon": "多多边形",
+    "close": "关闭"
   }
 }

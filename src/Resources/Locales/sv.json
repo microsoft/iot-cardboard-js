@@ -796,6 +796,27 @@
     "value": "Värde",
     "addToTemplate": "Lägg till i mall",
     "duplicate": "Duplicera",
-    "remove": "Avlägsna"
+    "remove": "Avlägsna",
+    "boolean": "boolesk",
+    "data": "data",
+    "float": "flyta",
+    "integer": "heltal",
+    "string": "sträng",
+    "enum": "uppräkning",
+    "map": "karta",
+    "array": "samling",
+    "object": "objekt",
+    "dateTime": "datumTid",
+    "time": "Tid",
+    "long": "lång",
+    "double": "dubbel",
+    "duration": "varaktighet",
+    "point": "punkt",
+    "linestring": "linjesträng",
+    "polygon": "polygon",
+    "multiPoint": "flera punkter",
+    "multiLinestring": "multilinestring",
+    "multiPolygon": "flera polygoner",
+    "close": "Stänga"
   }
 }
