@@ -78,7 +78,7 @@ const getModifiedTime = (url): Promise<string> => {
                 const dt = new Date(response.headers.get('Last-Modified'));
                 if (
                     dt.toString() === 'Invalid Date' ||
-                    dt.toISOString() == '1970-01-01T00:00:00.000Z'
+                    dt.toISOString() === '1970-01-01T00:00:00.000Z'
                 ) {
                     resolve('');
                 }
