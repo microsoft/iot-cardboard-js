@@ -1,5 +1,10 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { getBezierPath, getEdgeCenter } from 'react-flow-renderer';
+import React, { useContext, useState } from 'react';
+import { useTheme, Icon, FontSizes, ActionButton } from '@fluentui/react';
+import {
+    getBezierPath,
+    getEdgeCenter,
+    removeElements
+} from 'react-flow-renderer';
 import { IOATGraphCustomEdgeProps } from '../../Models/Constants/Interfaces';
 import { getGraphViewerStyles } from '../OATGraphViewer.styles';
 import { ElementsContext } from './OATContext';
@@ -26,8 +31,9 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
 }) => {
     const [nameEditor, setNameEditor] = useState(false);
     const [nameText, setNameText] = useState(data.name);
-    const { elements, setElements } = useContext(ElementsContext);
+    const { elements, setElements, setModel } = useContext(ElementsContext);
     const graphViewerStyles = getGraphViewerStyles();
+    const theme = useTheme();
 
     const element = elements.find((x) => x.id === id);
     if (element) {
@@ -83,15 +89,24 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
             onNameBlur();
         }
     };
-
-    const edgePath = getBezierPath({
-        sourceX,
-        sourceY,
-        sourcePosition,
+    const bezierPath = getBezierPath({
         targetX,
         targetY,
-        targetPosition
-    });
+        targetPosition,
+        sourceX,
+        sourceY,
+        sourcePosition
+    })
+        .replace('M', '')
+        .replace('C', '')
+        .split(' ');
+
+    let edgePath = '';
+    if (sourceX > targetX) {
+        edgePath = `M${bezierPath[3]} C${bezierPath[2]} ${bezierPath[1]} ${bezierPath[0]}`;
+    } else {
+        edgePath = `M${bezierPath[0]} C${bezierPath[1]} ${bezierPath[2]} ${bezierPath[3]}`;
+    }
     const [edgeCenterX, edgeCenterY] = getEdgeCenter({
         sourceX,
         sourceY,
@@ -99,8 +114,24 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
         targetY
     });
 
+    const onDelete = () => {
+        const elementsToRemove = [
+            {
+                id: data.id
+            }
+        ];
+        setElements((els) => removeElements(elementsToRemove, els));
+        setModel(null);
+    };
+
     return (
         <>
+            <path
+                id={id}
+                className={graphViewerStyles.widthPath}
+                d={edgePath}
+                onClick={onNameClick}
+            />
             {data.type === ExtendHandleName && (
                 <path
                     id={id}
@@ -143,10 +174,41 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                             name="text"
                             onChange={onNameChange}
                             value={nameText}
-                            onBlur={onNameBlur}
                             onKeyDown={onKeyDown}
                             autoFocus
                         />
+                        <ActionButton
+                            className={graphViewerStyles.edgeCancel}
+                            onClick={onDelete}
+                        >
+                            <Icon
+                                iconName="Cancel"
+                                styles={{
+                                    root: {
+                                        fontSize: FontSizes.size10,
+                                        color: theme.semanticColors.actionLink,
+                                        marginTop: '-35px',
+                                        marginRight: '-10px'
+                                    }
+                                }}
+                            />
+                        </ActionButton>
+                        <ActionButton
+                            className={graphViewerStyles.edgeCancel}
+                            onClick={onNameBlur}
+                        >
+                            <Icon
+                                iconName="Save"
+                                styles={{
+                                    root: {
+                                        fontSize: FontSizes.size10,
+                                        color: theme.semanticColors.actionLink,
+                                        marginTop: '-35px',
+                                        marginRight: '-10px'
+                                    }
+                                }}
+                            />
+                        </ActionButton>
                     </body>
                 </foreignObject>
             )}
@@ -154,7 +216,6 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                 <text>
                     <textPath
                         href={`#${id}`}
-                        style={{ fontSize: '12px' }}
                         className={graphViewerStyles.textPath}
                         startOffset="50%"
                         textAnchor="middle"

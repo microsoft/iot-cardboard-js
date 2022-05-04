@@ -272,8 +272,13 @@ const OATGraphViewer = ({
     };
 
     const onConnectStart = (evt, params) => {
-        currentNodeId.current = params.nodeId;
-        currentHandleId.current = params.handleId;
+        if (params.handleId) {
+            currentNodeId.current = params.nodeId;
+            currentHandleId.current = params.handleId;
+        } else {
+            currentNodeId.current = null;
+            currentHandleId.current = null;
+        }
     };
 
     const onConnectStop = (evt) => {
@@ -286,7 +291,6 @@ const OATGraphViewer = ({
             data: {
                 name: '',
                 displayName: '',
-                id: `${currentNodeId.current}${currentHandleId.current}`,
                 type: currentHandleId.current
             }
         };
@@ -295,6 +299,8 @@ const OATGraphViewer = ({
         );
         if (target) {
             params.target = target.dataset.id;
+            params.id = `${currentNodeId.current}${currentHandleId.current}${target.dataset.id}`;
+            params.data.id = `${currentNodeId.current}${currentHandleId.current}${target.dataset.id}`;
             setElements((els) => addEdge(params, els));
         } else {
             const node = elements.find(
@@ -328,6 +334,8 @@ const OATGraphViewer = ({
                 };
                 params.target = id;
                 params.data.type = `${UntargetedRelationshipName}`;
+                params.id = `${currentNodeId.current}${currentHandleId.current}${id}`;
+                params.data.id = `${currentNodeId.current}${currentHandleId.current}${id}`;
                 setElements((es) => [...addEdge(params, es), newNode]);
             }
         }
