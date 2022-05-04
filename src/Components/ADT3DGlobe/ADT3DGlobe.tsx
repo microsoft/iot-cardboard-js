@@ -5,9 +5,7 @@ import './ADT3DGlobe.scss';
 import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
 import { CustomMeshItem, Marker } from '../../Models/Classes/SceneView.types';
 import BaseComponent from '../BaseComponent/BaseComponent';
-import { IScene } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { ModelLabel } from '../ModelLabel/ModelLabel';
-import { createGUID } from '../../Models/Services/Utils';
 import { Scene } from '@babylonjs/core';
 import { IADT3DGlobeProps } from '../../Models/Constants/Interfaces';
 import { GlobeTheme } from '../../Models/Constants';
@@ -34,21 +32,40 @@ const ADT3DGlobe: React.FC<IADT3DGlobeProps> = ({
         refetchDependencies: [adapter]
     });
 
+    const onLabelClick = (id: string) => {
+        if (id) {
+            const scene = config.adapterResult.result?.data?.configuration?.scenes?.find(
+                (scene) => scene?.id === id
+            );
+            if (scene) {
+                onSceneClick(scene);
+            }
+        }
+    };
+
     useEffect(() => {
         const markers: Marker[] = [];
         const scenes = config.adapterResult.result?.data?.configuration?.scenes;
         if (scenes) {
             for (const scene of scenes) {
-                const id = 'ID' + createGUID();
-                const marker: Marker = {
-                    scene: scene,
-                    id: id,
-                    latitude: scene.latitude || 0,
-                    longitude: scene.longitude || 0,
-                    name: scene.displayName || 'Unknown',
-                    UIElement: <ModelLabel label={scene.displayName} />
-                };
-                markers.push(marker);
+                if (scene.latitude && scene.longitude) {
+                    const id = 'cb-label-' + scene.id;
+                    const marker: Marker = {
+                        scene: scene,
+                        id: id,
+                        latitude: scene.latitude || 0,
+                        longitude: scene.longitude || 0,
+                        name: scene.displayName || 'Unknown',
+                        UIElement: (
+                            <ModelLabel
+                                id={scene.id}
+                                label={scene.displayName}
+                                onLabelClick={(id: string) => onLabelClick(id)}
+                            />
+                        )
+                    };
+                    markers.push(marker);
+                }
             }
 
             setMarkers(markers);

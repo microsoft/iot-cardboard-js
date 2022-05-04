@@ -12,7 +12,8 @@ import { createGUID } from '../../Models/Services/Utils';
 
 interface GroupItem {
     label: string;
-    onItemClick?: () => void;
+    id: string;
+    onItemClick?: (id: string) => void;
 }
 
 interface ModelGroupLabelProps {
@@ -39,7 +40,8 @@ export const ModelGroupLabel: React.FC<ModelGroupLabelProps> = ({
             items.push({
                 key: item.label,
                 text: item.label,
-                onClick: () => (item.onItemClick ? item.onItemClick() : null)
+                onClick: () =>
+                    item.onItemClick ? item.onItemClick(item.id) : null
             });
         });
 

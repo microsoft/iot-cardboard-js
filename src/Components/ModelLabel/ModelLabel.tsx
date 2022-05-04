@@ -9,19 +9,21 @@ import React from 'react';
 
 interface ModelLabelProps {
     label: string;
-    onLabelClick?: () => void;
+    id?: string;
+    onLabelClick?: (id: string) => void;
 }
 
 export const ModelLabel: React.FC<ModelLabelProps> = ({
     label,
+    id,
     onLabelClick
 }) => {
     const theme = useTheme();
     const styles = getStyles(theme);
 
     const onClick = () => {
-        if (onLabelClick) {
-            onLabelClick();
+        if (onLabelClick && id) {
+            onLabelClick(id);
         }
     };
 

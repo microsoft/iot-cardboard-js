@@ -46,6 +46,7 @@ export interface Marker {
     name: string;
     id: string;
     UIElement: any;
+    GroupedUIElement?: any;
     position?: Vector3;
     attachedMeshIds?: string[];
     showIfOccluded?: boolean;

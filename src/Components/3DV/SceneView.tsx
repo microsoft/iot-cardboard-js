@@ -11,7 +11,7 @@ import React, {
     useState
 } from 'react';
 import './SceneView.scss';
-import { createGUID, deepCopy, hexToColor4 } from '../../Models/Services/Utils';
+import { createGUID, hexToColor4 } from '../../Models/Services/Utils';
 import {
     ICameraPosition,
     ISceneViewProps,
@@ -39,7 +39,6 @@ import { getProgressStyles, getSceneViewStyles } from './SceneView.styles';
 import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
 import { sleep } from '../AutoComplete/AutoComplete';
 import { ModelGroupLabel } from '../ModelGroupLabel/ModelGroupLabel';
-import { ModelLabel } from '../ModelLabel/ModelLabel';
 
 const debug = false;
 
@@ -199,9 +198,6 @@ function SceneView(props: ISceneViewProps, ref) {
     const [markersAndPositions, setMarkersAndPositions] = useState<
         { marker: Marker; left: number; top: number }[]
     >([]);
-
-    const markerUIElementPropsRef = useRef<any[]>([]);
-    const markerUIElementTypeRef = useRef<any>(null);
 
     // These next two lines are important! The handlers change very frequently (every parent render)
     // So copy their values into refs so as not to disturb our state/re-render (we only need the latest value when we want to fire)
@@ -921,7 +917,7 @@ function SceneView(props: ISceneViewProps, ref) {
     // Add spheres for tracking markers
     useEffect(() => {
         const spheres: BABYLON.Mesh[] = [];
-        let cm: BABYLON.Observer;
+        let cm: BABYLON.Observer<BABYLON.Scene>;
         if (markers && sceneRef.current) {
             for (const marker of markers) {
                 const position =
@@ -947,14 +943,6 @@ function SceneView(props: ISceneViewProps, ref) {
         if (!isLoading && sceneRef.current) {
             sceneRef.current.render(); // Marker globes may not have rendered yet
             if (markers) {
-                // make deep copies for UI element props as this are replaced if grouped
-                markers?.forEach((marker) => {
-                    markerUIElementPropsRef.current[marker.id] = deepCopy(
-                        marker.UIElement?.props
-                    );
-                    markerUIElementTypeRef.current = marker.UIElement?.type;
-                });
-
                 cm = sceneRef.current.onAfterRenderObservable.add(function () {
                     // Only do marker work if camera has actually moved
                     const pos = JSON.stringify({
@@ -984,7 +972,7 @@ function SceneView(props: ISceneViewProps, ref) {
     }, [markers, modelUrl, isLoading]);
 
     const createMarkersWithPosition = () => {
-        const markersAndPosition: {
+        const markersAndPositions: {
             marker: Marker;
             top: number;
             left: number;
@@ -992,32 +980,31 @@ function SceneView(props: ISceneViewProps, ref) {
         if (markers) {
             markers.forEach((marker) => {
                 const position = getMarkerPosition(marker);
-                // ensure marker has original UI Element
-                if (markerUIElementPropsRef.current[marker.id]) {
-                    marker.UIElement = React.createElement(
-                        markerUIElementTypeRef.current,
-                        markerUIElementPropsRef.current[marker.id]
-                    );
-                }
                 if (position) {
-                    const renderedMarker = document.getElementById(marker.id);
+                    const markerToRenderUIElement = document.getElementById(
+                        marker.id
+                    );
                     //create first group
-                    if (markersAndPosition.length === 0) {
-                        markersAndPosition.push({
+                    if (markersAndPositions.length === 0) {
+                        marker.GroupedUIElement = null;
+                        markersAndPositions.push({
                             marker: marker,
                             left:
-                                position?.left - renderedMarker.clientWidth / 2,
-                            top: position?.top - renderedMarker.clientHeight / 2
+                                position?.left -
+                                markerToRenderUIElement.clientWidth / 2,
+                            top:
+                                position?.top -
+                                markerToRenderUIElement.clientHeight / 2
                         });
                     } else {
-                        const element = markersAndPosition.find((m) =>
-                            elementsOverlap(m, renderedMarker, {
+                        const element = markersAndPositions.find((m) =>
+                            elementsOverlap(m, markerToRenderUIElement, {
                                 left:
                                     position?.left -
-                                    renderedMarker?.clientWidth / 2,
+                                    markerToRenderUIElement?.clientWidth / 2,
                                 top:
                                     position?.top -
-                                    renderedMarker?.clientHeight / 2
+                                    markerToRenderUIElement?.clientHeight / 2
                             })
                         );
 
@@ -1029,7 +1016,11 @@ function SceneView(props: ISceneViewProps, ref) {
 
                             if (!groupItems.length) {
                                 groupItems.push({
-                                    label: element.marker.name
+                                    label: element.marker.name,
+                                    id: element.marker.scene?.id,
+                                    onItemClick:
+                                        element.marker.UIElement?.props
+                                            ?.onLabelClick
                                 });
                             }
 
@@ -1038,10 +1029,15 @@ function SceneView(props: ISceneViewProps, ref) {
                                     (item) => item.label === marker.name
                                 )
                             ) {
-                                groupItems.push({ label: marker.name });
+                                groupItems.push({
+                                    label: marker.name,
+                                    id: marker?.scene?.id,
+                                    onItemClick:
+                                        marker?.UIElement?.props?.onLabelClick
+                                });
                             }
 
-                            const groupedElement = (
+                            const groupedUIElement = (
                                 <ModelGroupLabel
                                     label={groupItems.length}
                                     groupItems={groupItems}
@@ -1054,42 +1050,43 @@ function SceneView(props: ISceneViewProps, ref) {
                                 element.left = position?.left - 20;
                                 element.top = position?.top - 20;
                             }
-                            element.marker.UIElement = groupedElement;
+                            element.marker.GroupedUIElement = groupedUIElement;
                         } else {
-                            removeGroupedItems(markersAndPosition, marker);
+                            removeGroupedItems(markersAndPositions, marker);
                             // create new group
-                            markersAndPosition.push({
+                            marker.GroupedUIElement = null;
+                            markersAndPositions.push({
                                 marker: marker,
                                 left:
                                     position?.left -
-                                    renderedMarker.clientWidth / 2,
+                                    markerToRenderUIElement.clientWidth / 2,
                                 top:
                                     position?.top -
-                                    renderedMarker.clientHeight / 2
+                                    markerToRenderUIElement.clientHeight / 2
                             });
                         }
                     }
                 } else {
-                    removeGroupedItems(markersAndPosition, marker);
+                    removeGroupedItems(markersAndPositions, marker);
                 }
             });
 
-            setMarkersAndPositions(markersAndPosition);
+            setMarkersAndPositions(markersAndPositions);
         }
     };
 
     const removeGroupedItems = (
-        markersLocation: { marker: Marker; left: number; top: number }[],
+        markersAndPositions: { marker: Marker; left: number; top: number }[],
         marker: Marker
     ) => {
         // remove item if previously grouped
-        markersLocation.forEach((markerLocation) => {
+        markersAndPositions.forEach((markerAndPosition) => {
             if (
-                markerLocation.marker.UIElement?.props?.groupItems?.find(
+                markerAndPosition.marker.UIElement?.props?.groupItems?.find(
                     (item) => item.label === marker.name
                 )
             ) {
-                const groupItems = markerLocation.marker.UIElement?.props?.groupItems?.filter(
+                const groupItems = markerAndPosition.marker.UIElement?.props?.groupItems?.filter(
                     (item) => item.label !== marker.name
                 );
 
@@ -1099,41 +1096,49 @@ function SceneView(props: ISceneViewProps, ref) {
                         groupItems={groupItems}
                     />
                 );
-                markerLocation.marker.UIElement = groupedElement;
+                markerAndPosition.marker.UIElement = groupedElement;
             }
         });
     };
 
     const elementsOverlap = (
-        markerAndPosition: { marker: Marker; left: number; top: number },
-        renderedElement: HTMLElement,
-        position: { left: number; top: number }
+        renderedMarkerAndPosition: {
+            marker: Marker;
+            left: number;
+            top: number;
+        },
+        markerToRenderUIElement: HTMLElement,
+        markerPosition: { left: number; top: number }
     ) => {
         let doesOverlap = false;
         const markerElement = document.getElementById(
-            markerAndPosition.marker.id
+            renderedMarkerAndPosition.marker.id
         );
 
-        const markerElementArea = markerElement?.getBoundingClientRect();
-        const renderedElementArea = renderedElement?.getBoundingClientRect();
+        const renderedMarkerUIElementArea = markerElement?.getBoundingClientRect();
+        const markerToRenderUIElementArea = markerToRenderUIElement?.getBoundingClientRect();
 
         const markerIsGroup =
-            markerAndPosition.marker.UIElement?.props?.groupItems?.length;
+            renderedMarkerAndPosition.marker.UIElement?.props?.groupItems
+                ?.length;
 
         const markerElementWidth = markerIsGroup
             ? 40
-            : markerElementArea?.right;
+            : renderedMarkerUIElementArea?.right;
 
-        if (markerElementArea && renderedElementArea) {
+        if (renderedMarkerUIElementArea && markerToRenderUIElementArea) {
             doesOverlap = !(
-                markerElementArea.top + markerAndPosition.top >
-                    renderedElementArea.bottom + position.top ||
-                markerElementWidth + markerAndPosition.left <
-                    renderedElementArea.left + position.left ||
-                markerElementArea.bottom + markerAndPosition.top <
-                    renderedElementArea.top + position.top ||
-                markerElementArea.left + markerAndPosition.left >
-                    renderedElementArea.right + position.left
+                renderedMarkerUIElementArea.top +
+                    renderedMarkerAndPosition.top >
+                    markerToRenderUIElementArea.bottom + markerPosition.top ||
+                markerElementWidth + renderedMarkerAndPosition.left <
+                    markerToRenderUIElementArea.left + markerPosition.left ||
+                renderedMarkerUIElementArea.bottom +
+                    renderedMarkerAndPosition.top <
+                    markerToRenderUIElementArea.top + markerPosition.top ||
+                renderedMarkerUIElementArea.left +
+                    renderedMarkerAndPosition.left >
+                    markerToRenderUIElementArea.right + markerPosition.left
             );
         }
 
@@ -1666,7 +1671,9 @@ function SceneView(props: ISceneViewProps, ref) {
                             top: markerAndPosition.top
                         }}
                     >
-                        {markerAndPosition.marker.UIElement}
+                        {markerAndPosition.marker.GroupedUIElement
+                            ? markerAndPosition.marker.GroupedUIElement
+                            : markerAndPosition.marker.UIElement}
                     </div>
                 );
             })}
