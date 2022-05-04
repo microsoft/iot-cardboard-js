@@ -50,7 +50,6 @@ export default class ADT3DSceneAdapter {
         this.adtProxyServerPath = adtProxyServerPath;
         this.blobProxyServerPath = blobProxyServerPath;
         this.authService.login();
-        this.fetchCacheAndParseAllADTModels?.();
     }
     getConnectionInformation = async () => {
         if (this.clusterUrl && this.databaseName && this.tableName) {

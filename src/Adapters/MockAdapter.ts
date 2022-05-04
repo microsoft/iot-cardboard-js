@@ -3,7 +3,10 @@ import {
     KeyValuePairAdapterData,
     TsiClientAdapterData
 } from '../Models/Classes';
-import ADTModelData from '../Models/Classes/AdapterDataClasses/ADTModelData';
+import ADTModelData, {
+    ADTAllModelsData,
+    ADTTwinToModelMappingData
+} from '../Models/Classes/AdapterDataClasses/ADTModelData';
 import ADTTwinData from '../Models/Classes/AdapterDataClasses/ADTTwinData';
 import AdapterResult from '../Models/Classes/AdapterResult';
 import AdapterMethodSandbox from '../Models/Classes/AdapterMethodSandbox';
@@ -73,7 +76,6 @@ import ExpandedADTModelData from '../Models/Classes/AdapterDataClasses/ExpandedA
 import { applyPatch, Operation } from 'fast-json-patch';
 import { DTDLType } from '../Models/Classes/DTDL';
 import i18n from '../i18n';
-import { ModelDict } from 'azure-iot-dtdl-parser/dist/parser/modelDict';
 import ADTInstancesData from '../Models/Classes/AdapterDataClasses/ADTInstancesData';
 import StorageContainersData from '../Models/Classes/AdapterDataClasses/StorageContainersData';
 
@@ -101,10 +103,6 @@ export default class MockAdapter
     private mockTwinPropertiesMap: {
         [id: string]: Record<string, unknown>;
     } = {};
-    public cachedModels: DtdlInterface[];
-    public cachedTwinModelMap: Map<string, string>;
-    public parsedModels: ModelDict;
-    public isModelFetchLoading: boolean;
 
     constructor(mockAdapterArgs?: IMockAdapter) {
         this.mockData = mockAdapterArgs?.mockData;
@@ -121,9 +119,7 @@ export default class MockAdapter
                 : true;
         this.mockTwins = mockTwinData;
         this.mockModels = (mockModelData as any) as DtdlInterface[];
-        this.cachedTwinModelMap = new Map();
         this.initializeMockTwinProperties();
-        this.fetchCacheAndParseAllADTModels();
     }
 
     async mockNetwork() {
@@ -153,15 +149,27 @@ export default class MockAdapter
         });
     }
 
-    async fetchCacheAndParseAllADTModels() {
-        if (this.cachedModels) {
-            return; // For now, only refresh model cache on page refresh
-        }
-        this.isModelFetchLoading = true;
-        await this.mockNetwork();
-        this.cachedModels = (mockModelData as any) as DtdlInterface[];
-        this.parsedModels = await parseDTDLModelsAsync(this.cachedModels);
-        this.isModelFetchLoading = false;
+    async getModelIdFromTwinId(twinId: string) {
+        const twinResult = await this.getADTTwin(twinId);
+        const twinData = twinResult.getData();
+        const modelId = twinData.$metadata.$model;
+
+        return new AdapterResult<ADTTwinToModelMappingData>({
+            result: new ADTTwinToModelMappingData({
+                twinId,
+                modelId
+            }),
+            errorInfo: null
+        });
+    }
+
+    async getAllAdtModels() {
+        const rawModels = (mockModelData as any) as DtdlInterface[];
+        const parsedModels = await parseDTDLModelsAsync(rawModels);
+        return new AdapterResult<ADTAllModelsData>({
+            result: new ADTAllModelsData({ rawModels, parsedModels }),
+            errorInfo: null
+        });
     }
 
     async updateTwin(twinId: string, patches: ADTPatch[]) {

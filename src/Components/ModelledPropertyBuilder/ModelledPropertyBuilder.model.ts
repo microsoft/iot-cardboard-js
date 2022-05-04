@@ -43,8 +43,9 @@ export const buildModelledProperties = async ({
     };
 
     try {
-        // Wait for models to be fetched -- calling subsequent times has no effect (models on fetched once)
-        await adapter.fetchCacheAndParseAllADTModels();
+        // Get ADT Models
+        const modelDict = (await adapter.getAllAdtModels()).getData()
+            .parsedModels;
 
         // Merge primary & aliased tags (if enabled) and map twin Ids to model Ids for each twin
         // Update model Id mapping if primary or aliased twins Ids change
@@ -56,7 +57,7 @@ export const buildModelledProperties = async ({
 
         // Expand each model ID into DTDL property array
         modelledProperties.nestedFormat = expandModelIds(
-            adapter.parsedModels,
+            modelDict,
             tagModelMap,
             allowedPropertyValueTypes
         );
@@ -294,54 +295,46 @@ export const mergeTagsAndMapTwinIdsToModelIds = async (
         LinkedTwin: []
     };
 
-    // Use twin Id -> model Id cache to resolve model Ids that are already saved
-    const primaryTwinIdsWithUnknownModel = primaryTwinIds.filter(
-        (ptId) => !adapter.cachedTwinModelMap.has(ptId)
-    );
-    const cachedPrimaryModels = primaryTwinIds
-        .filter((ptId) => adapter.cachedTwinModelMap.has(ptId))
-        .map((ptId) => adapter.cachedTwinModelMap.get(ptId));
-
-    // Fetch the twin data for each $dtId, and use $metadata to create tag: rootModelId mapping.
+    // Get model Ids for each primary twin
     const primaryTwinModels = (
         await Promise.all(
-            primaryTwinIdsWithUnknownModel.map((primaryTwinId) =>
-                adapter.getADTTwin(primaryTwinId)
+            primaryTwinIds.map((primaryTwinId) =>
+                adapter.getModelIdFromTwinId(primaryTwinId)
             )
         )
     )
         .filter((twinResult) => !twinResult.hasNoData())
-        .map((twinResult) => {
-            const twinId = twinResult.result.data.$dtId;
-            const modelId = twinResult.result.data.$metadata.$model;
-            // Cache twin Id -> model Id mapping to prevent unecessary twin fetches just to match model
-            adapter.cachedTwinModelMap.set(twinId, modelId);
-            return modelId;
-        });
+        .map((result) => result.getData().modelId);
 
     if (primaryTwinModels?.length > 0) {
         tagModelMap[linkedTwinName] = Array.from(
-            new Set([...cachedPrimaryModels, ...primaryTwinModels]).keys()
+            new Set([...primaryTwinModels]).keys()
         ); // ensure uniqueness (drop duplicate model Ids)
     }
 
     if (aliasedTwinMap) {
         tagModelMap.aliasTags = {};
+        const twinModelIdMap = new Map<string, string>();
+
+        // Get models for each aliasTwinId
+        const aliasTwinIds = Object.values(aliasedTwinMap);
+        (
+            await Promise.all(
+                aliasTwinIds.map((aliasTwinId) =>
+                    adapter.getModelIdFromTwinId(aliasTwinId)
+                )
+            )
+        )
+            .filter((twinResult) => !twinResult.hasNoData())
+            .map((result) => result.getData())
+            .forEach(({ twinId, modelId }) => {
+                twinModelIdMap.set(twinId, modelId);
+            });
+
         for (const [aliasTag, aliasTwinId] of Object.entries(aliasedTwinMap)) {
-            // If model Id already cached for aliasTwinId, skip network
-            if (adapter.cachedTwinModelMap.has(aliasTwinId)) {
-                tagModelMap.aliasTags[
-                    aliasTag
-                ] = adapter.cachedTwinModelMap.get(aliasTwinId);
-            } else {
-                const aliasedTwinResult = await adapter.getADTTwin(aliasTwinId);
-                if (!aliasedTwinResult.hasNoData()) {
-                    const modelId =
-                        aliasedTwinResult.result.data.$metadata.$model;
-                    // Cache twin Id -> model Id mapping to prevent unecessary twin fetches just to match model
-                    adapter.cachedTwinModelMap.set(aliasTwinId, modelId);
-                    tagModelMap.aliasTags[aliasTag] = modelId;
-                }
+            if (twinModelIdMap.has(aliasTwinId)) {
+                const modelId = twinModelIdMap.get(aliasTwinId);
+                tagModelMap.aliasTags[aliasTag] = modelId;
             }
         }
     }

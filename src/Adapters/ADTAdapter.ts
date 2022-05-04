@@ -35,7 +35,10 @@ import {
     IADTModel
 } from '../Models/Constants';
 import ADTTwinData from '../Models/Classes/AdapterDataClasses/ADTTwinData';
-import ADTModelData from '../Models/Classes/AdapterDataClasses/ADTModelData';
+import ADTModelData, {
+    ADTAllModelsData,
+    ADTTwinToModelMappingData
+} from '../Models/Classes/AdapterDataClasses/ADTModelData';
 import {
     ADTAdapterModelsData,
     ADTAdapterPatchData,
@@ -79,8 +82,9 @@ export default class ADTAdapter implements IADTAdapter {
     public cachedModels: DtdlInterface[];
     public cachedTwinModelMap: Map<string, string>;
     public parsedModels: ModelDict;
-    public isModelFetchLoading: boolean;
     protected adtTwinCache: AdapterEntityCache<ADTTwinData>;
+    protected adtModelsCache: AdapterEntityCache<ADTAllModelsData>;
+    protected adtTwinToModelMappingCache: AdapterEntityCache<ADTTwinToModelMappingData>;
 
     constructor(
         adtHostUrl: string,
@@ -96,6 +100,7 @@ export default class ADTAdapter implements IADTAdapter {
         this.uniqueObjectId = uniqueObjectId;
         this.cachedTwinModelMap = new Map();
         this.adtTwinCache = new AdapterEntityCache<ADTTwinData>(9000);
+        this.adtModelsCache = new AdapterEntityCache<ADTAllModelsData>(3600000);
 
         this.authService.login();
         this.axiosInstance = axios.create({ baseURL: this.adtProxyServerPath });
@@ -112,7 +117,6 @@ export default class ADTAdapter implements IADTAdapter {
                 return (Math.pow(2, retryCount) - Math.random()) * 1000;
             }
         });
-        this.fetchCacheAndParseAllADTModels();
     }
 
     getAdtHostUrl() {
@@ -188,43 +192,80 @@ export default class ADTAdapter implements IADTAdapter {
         }
     }
 
-    async fetchCacheAndParseAllADTModels() {
-        if (this.cachedModels) {
-            return; // For now, only refresh model cache on page refresh
-        }
-        try {
-            this.isModelFetchLoading = true;
-            let models: DtdlInterface[] = [];
-            const appendModels = async (nextLink?: string) => {
-                // Get next chunk of models
-                const adtModelsApiData = await this.getADTModels({
-                    shouldIncludeDefinitions: true,
-                    ...(nextLink && { continuationToken: nextLink })
-                });
+    async getModelIdFromTwinId(twinId: string) {
+        const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
 
-                // Add to models list
-                models = [
-                    ...models,
-                    ...adtModelsApiData.result.data.value.map(
-                        (adtModel: IADTModel) => adtModel.model
-                    )
-                ];
-
-                // If next link present, fetch next chunk
-                if (adtModelsApiData.result.data.nextLink) {
-                    await appendModels(adtModelsApiData.result.data.nextLink);
+        const getDataMethod = () =>
+            adapterMethodSandbox.safelyFetchData(async () => {
+                try {
+                    const twinResult = await this.getADTTwin(twinId, true);
+                    if (!twinResult.hasNoData()) {
+                        const twinData = twinResult.getData();
+                        const modelId = twinData.$metadata.$model;
+                        return new ADTTwinToModelMappingData({
+                            twinId,
+                            modelId
+                        });
+                    } else {
+                        throw new Error('Twin fetch failed');
+                    }
+                } catch (err) {
+                    adapterMethodSandbox.pushError({
+                        isCatastrophic: true,
+                        type: ComponentErrorType.DataFetchFailed,
+                        rawError: err
+                    });
                 }
-            };
+            });
 
-            await appendModels();
-            this.cachedModels = models;
-            this.parsedModels = await parseDTDLModelsAsync(models);
-        } catch (err) {
-            console.log('Model fetching failed -- setting model cache to []');
-            console.error(err);
-            this.cachedModels = [];
-        }
-        this.isModelFetchLoading = false;
+        return this.adtTwinToModelMappingCache.getEntity(twinId, getDataMethod);
+    }
+
+    async getAllAdtModels() {
+        const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
+        const getDataMethod = () =>
+            adapterMethodSandbox.safelyFetchData(async () => {
+                try {
+                    let rawModels: DtdlInterface[] = [];
+                    const appendModels = async (nextLink?: string) => {
+                        // Get next chunk of models
+                        const adtModelsApiData = await this.getADTModels({
+                            shouldIncludeDefinitions: true,
+                            ...(nextLink && { continuationToken: nextLink })
+                        });
+
+                        // Add to models list
+                        rawModels = [
+                            ...rawModels,
+                            ...adtModelsApiData.result.data.value.map(
+                                (adtModel: IADTModel) => adtModel.model
+                            )
+                        ];
+
+                        // If next link present, fetch next chunk
+                        if (adtModelsApiData.result.data.nextLink) {
+                            await appendModels(
+                                adtModelsApiData.result.data.nextLink
+                            );
+                        }
+                    };
+
+                    await appendModels();
+
+                    const parsedModels = await parseDTDLModelsAsync(rawModels);
+                    return new ADTAllModelsData({
+                        rawModels,
+                        parsedModels
+                    });
+                } catch (err) {
+                    adapterMethodSandbox.pushError({
+                        type: ComponentErrorType.ModelsRetrievalFailed,
+                        isCatastrophic: true,
+                        rawError: err
+                    });
+                }
+            });
+        return this.adtModelsCache.getEntity('adt_models', getDataMethod);
     }
 
     getADTModel(modelId: string) {

@@ -71,8 +71,10 @@ import {
 import ADT3DSceneAdapter from '../../Adapters/ADT3DSceneAdapter';
 import { WrapperMode } from '../../Components/3DV/SceneView.types';
 import MockAdapter from '../../Adapters/MockAdapter';
-import { DtdlInterface } from './dtdlInterfaces';
-import { ModelDict } from 'azure-iot-dtdl-parser/dist/parser/modelDict';
+import {
+    ADTAllModelsData,
+    ADTTwinToModelMappingData
+} from '../Classes/AdapterDataClasses/ADTModelData';
 
 export interface IAction {
     type: string;
@@ -397,12 +399,11 @@ export type IPropertyInspectorAdapter = Pick<
 >;
 
 export interface IModelledPropertyBuilderAdapter {
-    isModelFetchLoading: boolean;
-    cachedTwinModelMap: Map<string, string>;
-    cachedModels: DtdlInterface[];
-    parsedModels: ModelDict;
-    fetchCacheAndParseAllADTModels(): Promise<void>;
     getADTTwin(twinId: string): Promise<AdapterResult<ADTTwinData>>;
+    getAllAdtModels(): Promise<AdapterResult<ADTAllModelsData>>;
+    getModelIdFromTwinId(
+        twinId: string
+    ): Promise<AdapterResult<ADTTwinToModelMappingData>>;
 }
 
 export interface IADT3DViewerAdapter {
