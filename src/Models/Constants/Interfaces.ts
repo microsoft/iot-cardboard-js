@@ -740,7 +740,7 @@ export interface IADT3DViewerProps {
     /**
      * Ids of the elements to zoom the camera to focus on
      */
-    zoomToElementIds?: string[];
+    zoomToElementId?: string;
     unzoomedMeshOpacity?: number;
     hideViewModePickerUI?: boolean;
     hideElementsPanel?: boolean;

@@ -68,7 +68,7 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
     showHoverOnSelected,
     coloredMeshItems: coloredMeshItemsProp,
     outlinedMeshItems: outlinedMeshItemsProp,
-    zoomToElementIds: zoomToElementIdsProp,
+    zoomToElementId: zoomToElementIdProp,
     unzoomedMeshOpacity,
     hideElementsPanel,
     hideViewModePickerUI
@@ -272,12 +272,12 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
 
     useEffect(() => {
         // if the zoom prop is provided, use that over the deeplink values
-        if (zoomToElementIdsProp) {
+        if (zoomToElementIdProp) {
             // take the first one since we only support a single element id today
-            setZoomMeshesByElement(zoomToElementIdsProp[0]);
-            setSelectedElementId(zoomToElementIdsProp[0]);
+            setZoomMeshesByElement(zoomToElementIdProp);
+            setSelectedElementId(zoomToElementIdProp);
         }
-    }, [setSelectedElementId, setZoomMeshesByElement, zoomToElementIdsProp]);
+    }, [setSelectedElementId, setZoomMeshesByElement, zoomToElementIdProp]);
 
     const showPopover = useCallback(
         (sceneVisual: Partial<SceneVisual>) => {
