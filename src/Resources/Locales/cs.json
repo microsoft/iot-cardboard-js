@@ -761,5 +761,7 @@
     "pan": "Pánev",
     "orbit": "Oběžná dráha",
     "zoom": "Zvětšení"
-  }
+  },
+  "active": "Aktivní",
+  "invalidValue": "Neplatná hodnota"
 }

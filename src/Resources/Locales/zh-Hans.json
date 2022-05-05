@@ -761,5 +761,7 @@
     "pan": "泛",
     "orbit": "轨道",
     "zoom": "缩放"
-  }
+  },
+  "active": "积极",
+  "invalidValue": "值无效"
 }

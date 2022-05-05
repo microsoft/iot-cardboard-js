@@ -761,5 +761,7 @@
     "pan": "パン",
     "orbit": "軌道",
     "zoom": "ズーム"
-  }
+  },
+  "active": "能動",
+  "invalidValue": "無効な値"
 }

@@ -761,5 +761,7 @@
     "pan": "Serpenyő",
     "orbit": "Pálya",
     "zoom": "Búg"
-  }
+  },
+  "active": "Aktív",
+  "invalidValue": "Érvénytelen érték"
 }

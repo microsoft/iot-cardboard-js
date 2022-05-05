@@ -761,5 +761,7 @@
     "pan": "Tava",
     "orbit": "Yörünge",
     "zoom": "Yakınlaştırmak"
-  }
+  },
+  "active": "Etkin",
+  "invalidValue": "Geçersiz değer"
 }

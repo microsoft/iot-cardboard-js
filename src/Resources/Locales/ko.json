@@ -761,5 +761,7 @@
     "pan": "팬",
     "orbit": "궤도",
     "zoom": "급상승"
-  }
+  },
+  "active": "활동적인",
+  "invalidValue": "잘못된 값"
 }

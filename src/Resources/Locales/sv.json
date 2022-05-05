@@ -761,5 +761,7 @@
     "pan": "Panna",
     "orbit": "Omloppsbana",
     "zoom": "Zooma"
-  }
+  },
+  "active": "Aktiv",
+  "invalidValue": "Ogiltigt värde"
 }
