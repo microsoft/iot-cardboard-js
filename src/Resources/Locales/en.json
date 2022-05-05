@@ -425,7 +425,8 @@
             "expressionPlaceholder": "Enter property expression",
             "selectProperty": "Select property",
             "dropdownPlaceholder": "Select a property",
-            "toggleLabel": "Expression mode"
+            "toggleLabel": "Expression mode",
+            "none": "None"
         },
         "numericExpressionPlaceholder": "Enter an expression which evaluates to a number",
         "behaviorId": "Behavior Id",

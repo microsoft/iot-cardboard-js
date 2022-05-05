@@ -25,6 +25,10 @@ export const ModelledPropertyDropdown: React.FC<ModelledPropertyDropdownProps> =
     const { t } = useTranslation();
     const styles = getStyles();
 
+    const isNoneOptionPresent = dropdownOptions.find(
+        (option) => option.key === 'none'
+    );
+
     const onRenderOption = (option: IDropdownOption): JSX.Element => {
         return (
             <>
@@ -63,7 +67,9 @@ export const ModelledPropertyDropdown: React.FC<ModelledPropertyDropdownProps> =
                     className={styles.dropdownTitleText}
                     title={option.data?.property?.fullPath}
                 >
-                    {option.key}
+                    {option.key === 'none'
+                        ? t('3dSceneBuilder.ModelledPropertyBuilder.none')
+                        : option.key}
                 </div>
             </>
         );
@@ -74,8 +80,12 @@ export const ModelledPropertyDropdown: React.FC<ModelledPropertyDropdownProps> =
             required={required}
             label={label}
             options={dropdownOptions}
-            onChange={(_event, option) => onChange(option)}
-            selectedKey={selectedKey}
+            onChange={(_event, option) => {
+                onChange(option);
+            }}
+            selectedKey={
+                selectedKey === '' && isNoneOptionPresent ? 'none' : selectedKey
+            }
             placeholder={t(
                 '3dSceneBuilder.ModelledPropertyBuilder.dropdownPlaceholder'
             )}

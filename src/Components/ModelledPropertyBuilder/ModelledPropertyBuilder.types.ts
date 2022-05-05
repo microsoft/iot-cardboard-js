@@ -52,6 +52,9 @@ export interface ModelledPropertyBuilderProps {
     /** Visual indication that this field is required.  Defaults to false */
     required?: boolean;
 
+    /** Show 'None' option in dropdown */
+    enableNoneDropdownOption?: boolean;
+
     /** 
 		Allows consumer to only allow specific property value types.
 		Defaults to all value types.
