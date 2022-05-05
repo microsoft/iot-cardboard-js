@@ -399,7 +399,6 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                             >
                                 <StatusTab
                                     onValidityChange={onTabValidityChange}
-                                    selectedElements={selectedElements}
                                 />
                             </PivotItem>
                             <PivotItem
@@ -415,9 +414,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                                     )
                                 }
                             >
-                                <AlertsTab
-                                    selectedElements={selectedElements}
-                                />
+                                <AlertsTab />
                             </PivotItem>
                             <PivotItem
                                 className={commonPanelStyles.formTabContents}

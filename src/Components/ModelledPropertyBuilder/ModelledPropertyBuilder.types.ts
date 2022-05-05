@@ -55,6 +55,18 @@ export interface ModelledPropertyBuilderProps {
     /** Show 'None' option in dropdown */
     enableNoneDropdownOption?: boolean;
 
+    /** Test ID for property select dropdown */
+    dropdownTestId?: string;
+
+    /** Custom text for intellisense label */
+    intellisenseLabel?: string;
+
+    /** Custom text for intellisense placeholder */
+    intellisensePlaceholder?: string;
+
+    /** Custom text for property dropdown label */
+    properyDropdownLabel?: string;
+
     /** 
 		Allows consumer to only allow specific property value types.
 		Defaults to all value types.

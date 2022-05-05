@@ -30,7 +30,11 @@ const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = ({
     allowedPropertyValueTypes = defaultAllowedPropertyValueTypes,
     onChange,
     required = false,
-    enableNoneDropdownOption = false
+    enableNoneDropdownOption = false,
+    dropdownTestId = 'cb-modelled-property-dropdown-test-id',
+    intellisenseLabel,
+    intellisensePlaceholder,
+    properyDropdownLabel
 }) => {
     const { t } = useTranslation();
     const styles = getStyles();
@@ -65,7 +69,7 @@ const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = ({
         // If expression doesn't match option key, snap to expression mode
         if (
             modelledProperties &&
-            dropdownOptions &&
+            dropdownOptions?.length > 0 &&
             !getIsExpressionValidOption(propertyExpression, dropdownOptions)
         ) {
             setInternalMode('INTELLISENSE');
@@ -151,17 +155,19 @@ const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = ({
     const autoCompleteProps = useMemo(
         () => ({
             textFieldProps: {
-                label: t(
-                    '3dSceneBuilder.ModelledPropertyBuilder.expressionLabel'
-                ),
+                label:
+                    intellisenseLabel ??
+                    t('3dSceneBuilder.ModelledPropertyBuilder.expressionLabel'),
                 multiline: true,
-                placeholder: t(
-                    '3dSceneBuilder.ModelledPropertyBuilder.expressionPlaceholder'
-                )
+                placeholder:
+                    intellisensePlaceholder ??
+                    t(
+                        '3dSceneBuilder.ModelledPropertyBuilder.expressionPlaceholder'
+                    )
             },
             required
         }),
-        [required, t]
+        [required, t, intellisenseLabel, intellisensePlaceholder]
     );
 
     const onIntellisenseChange = useCallback(
@@ -184,9 +190,13 @@ const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = ({
                     dropdownOptions={dropdownOptions}
                     onChange={onChangeDropdownSelection}
                     selectedKey={propertyExpression.expression}
-                    label={t(
-                        '3dSceneBuilder.ModelledPropertyBuilder.selectProperty'
-                    )}
+                    label={
+                        properyDropdownLabel ??
+                        t(
+                            '3dSceneBuilder.ModelledPropertyBuilder.selectProperty'
+                        )
+                    }
+                    dropdownTestId={dropdownTestId}
                 />
             )}
             {internalMode === 'INTELLISENSE' && (

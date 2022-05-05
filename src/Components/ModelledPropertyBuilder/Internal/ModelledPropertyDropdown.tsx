@@ -13,6 +13,7 @@ interface ModelledPropertyDropdownProps {
     label: string;
     dropdownOptions: IDropdownOption<any>[];
     required: boolean;
+    dropdownTestId: string;
 }
 
 export const ModelledPropertyDropdown: React.FC<ModelledPropertyDropdownProps> = ({
@@ -20,7 +21,8 @@ export const ModelledPropertyDropdown: React.FC<ModelledPropertyDropdownProps> =
     selectedKey,
     label,
     dropdownOptions,
-    required
+    required,
+    dropdownTestId
 }) => {
     const { t } = useTranslation();
     const styles = getStyles();
@@ -89,6 +91,7 @@ export const ModelledPropertyDropdown: React.FC<ModelledPropertyDropdownProps> =
             placeholder={t(
                 '3dSceneBuilder.ModelledPropertyBuilder.dropdownPlaceholder'
             )}
+            data-testid={dropdownTestId}
             onRenderOption={onRenderOption}
             onRenderTitle={onRenderTitle}
             styles={dropdownStyles}

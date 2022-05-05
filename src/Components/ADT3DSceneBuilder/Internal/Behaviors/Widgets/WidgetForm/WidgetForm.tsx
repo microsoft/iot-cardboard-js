@@ -169,8 +169,6 @@ const WidgetForm: React.FC<{
                     <LinkWidgetBuilder
                         formData={widgetData as ILinkWidget}
                         updateWidgetData={updateWidgetData}
-                        intellisenseAliasNames={propertyAliases}
-                        getIntellisensePropertyNames={getPropertyNames}
                         setIsWidgetConfigValid={setIsWidgetConfigValid}
                     />
                 );

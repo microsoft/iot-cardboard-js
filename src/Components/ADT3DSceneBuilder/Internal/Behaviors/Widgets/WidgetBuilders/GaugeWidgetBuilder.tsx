@@ -1,16 +1,15 @@
 import { TextField, useTheme } from '@fluentui/react';
 import produce from 'immer';
-import React, { useCallback, useContext, useEffect, useMemo } from 'react';
+import React, { useCallback, useContext, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { IGaugeWidgetBuilderProps } from '../../../../ADT3DSceneBuilder.types';
 import ValueRangeBuilder from '../../../../../ValueRangeBuilder/ValueRangeBuilder';
 import useValueRangeBuilder from '../../../../../../Models/Hooks/useValueRangeBuilder';
 import { deepCopy } from '../../../../../../Models/Services/Utils';
 import { SceneBuilderContext } from '../../../../ADT3DSceneBuilder';
-import ViewerConfigUtility from '../../../../../../Models/Classes/ViewerConfigUtility';
-import useBehaviorAliasedTwinProperties from '../../../../../../Models/Hooks/useBehaviorAliasedTwinProperties';
-import TwinPropertyBuilder from '../../../../../TwinPropertyBuilder/TwinPropertyBuilder';
 import { getWidgetFormStyles } from '../WidgetForm/WidgetForm.styles';
+import ModelledPropertyBuilder from '../../../../../ModelledPropertyBuilder/ModelledPropertyBuilder';
+import { PropertyExpression } from '../../../../../ModelledPropertyBuilder/ModelledPropertyBuilder.types';
 
 const GaugeWidgetBuilder: React.FC<IGaugeWidgetBuilderProps> = ({
     formData,
@@ -59,41 +58,16 @@ const GaugeWidgetBuilder: React.FC<IGaugeWidgetBuilderProps> = ({
     }, [valueRangeBuilderState.valueRanges]);
 
     const onPropertyChange = useCallback(
-        (option: string) => {
+        (newPropertyExpression: PropertyExpression) => {
             updateWidgetData(
                 produce(formData, (draft) => {
-                    draft.valueExpression = option;
+                    draft.valueExpression = newPropertyExpression.expression;
                 })
             );
         },
         [updateWidgetData, formData]
     );
 
-    // MODELLED_PROPERTY_TODO ---- V2 iteration will change to modelled properties
-    // get the aliased properties for intellisense
-    const { options: aliasedProperties } = useBehaviorAliasedTwinProperties({
-        behavior: behaviorToEdit,
-        isTwinAliasesIncluded: true
-    });
-
-    const getPropertyNames = useCallback(
-        (twinAlias: string) =>
-            ViewerConfigUtility.getPropertyNamesFromAliasedPropertiesByAlias(
-                twinAlias,
-                aliasedProperties
-            ),
-        [aliasedProperties]
-    );
-
-    const aliasNames = useMemo(
-        () =>
-            ViewerConfigUtility.getUniqueAliasNamesFromAliasedProperties(
-                aliasedProperties
-            ),
-        [aliasedProperties]
-    );
-
-    // MODELLED_PROPERTY_TODO ---- END BLOCK
     const theme = useTheme();
     const customStyles = getWidgetFormStyles(theme);
     return (
@@ -123,27 +97,26 @@ const GaugeWidgetBuilder: React.FC<IGaugeWidgetBuilderProps> = ({
                     )
                 }
             />
-            <TwinPropertyBuilder
-                mode="TOGGLE"
-                intellisenseProps={{
-                    onChange: onPropertyChange,
-                    defaultValue: formData.valueExpression,
-                    aliasNames: aliasNames,
-                    getPropertyNames: getPropertyNames,
-                    autoCompleteProps: {
-                        required: true
-                    }
-                }}
-                twinPropertyDropdownProps={{
-                    adapter,
-                    config,
-                    sceneId,
+            <ModelledPropertyBuilder
+                adapter={adapter}
+                twinIdParams={{
                     behavior: behaviorToEdit,
-                    defaultSelectedKey: formData.valueExpression,
-                    dataTestId: 'widget-form-property-dropdown',
-                    onChange: onPropertyChange,
-                    required: true
+                    config,
+                    sceneId
                 }}
+                mode="TOGGLE"
+                propertyExpression={{
+                    expression: formData.valueExpression || ''
+                }}
+                onChange={onPropertyChange}
+                allowedPropertyValueTypes={[
+                    'double',
+                    'float',
+                    'integer',
+                    'long'
+                ]}
+                dropdownTestId="widget-form-property-dropdown"
+                required
             />
             <ValueRangeBuilder
                 className={customStyles.rangeBuilderRoot}
