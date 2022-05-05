@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { FontIcon, ActionButton, Stack, Text } from '@fluentui/react';
-import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
+import { Stack, Text, IconButton } from '@fluentui/react';
+import { getPropertyListItemIconWrapMoreStyles } from './OATPropertyEditor.styles';
 import PropertyListItemSubMenu from './PropertyListItemSubMenu';
-
+import { useTranslation } from 'react-i18next';
 interface ITemplateListItemList {
     draggingTemplate?: boolean;
     item?: any;
@@ -26,7 +26,8 @@ export const TemplateListItem = ({
     handleDragStart,
     getSchemaText
 }: ITemplateListItemList) => {
-    const propertyInspectorStyles = getPropertyInspectorStyles();
+    const { t } = useTranslation();
+    const iconWrapMoreStyles = getPropertyListItemIconWrapMoreStyles();
     const [subMenuActive, setSubMenuActive] = useState(false);
 
     return (
@@ -45,14 +46,15 @@ export const TemplateListItem = ({
         >
             <Text>{item.name}</Text>
             <Text>{getSchemaText(item.schema)}</Text>
-            <ActionButton
-                className={propertyInspectorStyles.propertyItemIconWrapMore}
+
+            <IconButton
+                iconProps={{
+                    iconName: 'more'
+                }}
+                styles={iconWrapMoreStyles}
+                title={t('OATPropertyEditor.more')}
                 onClick={() => setSubMenuActive(!subMenuActive)}
             >
-                <FontIcon
-                    iconName={'More'}
-                    className={propertyInspectorStyles.propertyItemIcon}
-                />
                 {subMenuActive && (
                     <PropertyListItemSubMenu
                         deleteItem={deleteItem}
@@ -62,7 +64,7 @@ export const TemplateListItem = ({
                         addItemToTemplates={false}
                     />
                 )}
-            </ActionButton>
+            </IconButton>
         </Stack>
     );
 };

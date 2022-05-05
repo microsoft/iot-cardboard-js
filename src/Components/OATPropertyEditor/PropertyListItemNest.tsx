@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
+import { TextField, Text, IconButton } from '@fluentui/react';
 import {
-    TextField,
-    Stack,
-    Text,
-    ActionButton,
-    FontIcon
-} from '@fluentui/react';
-import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
+    getPropertyInspectorStyles,
+    getPropertyListItemIconWrapMoreStyles,
+    getPropertyEditorTextFieldStyles
+} from './OATPropertyEditor.styles';
 import { DTDLModel, DTDLSchemaType } from '../../Models/Classes/DTDL';
 import AddPropertyBar from './AddPropertyBar';
 import PropertyListItemNested from './PropertyListItemNested';
@@ -65,6 +63,8 @@ export const PropertyListItemNest = ({
 }: IPropertyListItemNest) => {
     const { t } = useTranslation();
     const propertyInspectorStyles = getPropertyInspectorStyles();
+    const iconWrapMoreStyles = getPropertyListItemIconWrapMoreStyles();
+    const textFieldStyles = getPropertyEditorTextFieldStyles();
     const [subMenuActive, setSubMenuActive] = useState(false);
     const [collapsed, setCollapsed] = useState(true);
 
@@ -123,7 +123,7 @@ export const PropertyListItemNest = ({
     };
 
     return (
-        <Stack
+        <div
             className={getItemClassName(index)}
             draggable
             onDragStart={(e) => {
@@ -142,19 +142,16 @@ export const PropertyListItemNest = ({
             }}
             tabIndex={0}
         >
-            <Stack className={propertyInspectorStyles.propertyItemNestMainItem}>
-                <ActionButton
+            <div className={propertyInspectorStyles.propertyItemNestMainItem}>
+                <IconButton
+                    iconProps={{
+                        iconName: collapsed ? 'ChevronDown' : 'ChevronRight'
+                    }}
+                    title={t('OATPropertyEditor.collapse')}
                     onClick={() => setCollapsed(!collapsed)}
-                    className={propertyInspectorStyles.propertyItemIconWrap}
-                >
-                    <FontIcon
-                        iconName={collapsed ? 'ChevronDown' : 'ChevronRight'}
-                        className={propertyInspectorStyles.propertyItemIcon}
-                    />
-                </ActionButton>
-
+                />
                 <TextField
-                    className={propertyInspectorStyles.propertyItemTextField}
+                    styles={textFieldStyles}
                     borderless
                     placeholder={item.name}
                     validateOnFocusOut
@@ -165,14 +162,14 @@ export const PropertyListItemNest = ({
                 />
                 <Text>{item.schema['@type']}</Text>
 
-                <ActionButton
-                    className={propertyInspectorStyles.propertyItemIconWrapMore}
+                <IconButton
+                    iconProps={{
+                        iconName: 'more'
+                    }}
+                    styles={iconWrapMoreStyles}
+                    title={t('OATPropertyEditor.more')}
                     onClick={() => setSubMenuActive(!subMenuActive)}
                 >
-                    <FontIcon
-                        iconName={'More'}
-                        className={propertyInspectorStyles.propertyItemIcon}
-                    />
                     {subMenuActive && (
                         <PropertyListItemSubMenu
                             deleteItem={deleteItem}
@@ -186,8 +183,8 @@ export const PropertyListItemNest = ({
                             }}
                         />
                     )}
-                </ActionButton>
-            </Stack>
+                </IconButton>
+            </div>
             {collapsed &&
                 item.schema['@type'] === 'Object' &&
                 item.schema.fields.length > 0 &&
@@ -239,7 +236,7 @@ export const PropertyListItemNest = ({
                 item.schema['@type'] !== DTDLSchemaType.Map && (
                     <AddPropertyBar onClick={addPropertyCallback} />
                 )}
-        </Stack>
+        </div>
     );
 };
 

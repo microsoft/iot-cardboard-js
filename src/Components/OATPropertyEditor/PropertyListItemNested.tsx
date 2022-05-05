@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import { TextField, Stack, Text, IconButton } from '@fluentui/react';
-import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
+import {
+    getPropertyEditorTextFieldStyles,
+    getPropertyListItemIconWrapStyles,
+    getPropertyListItemIconWrapMoreStyles
+} from './OATPropertyEditor.styles';
 import PropertyListItemSubMenu from './PropertyListItemSubMenu';
 import { DTDLModel } from '../../Models/Classes/DTDL';
 import { deepCopy } from '../../Models/Services/Utils';
@@ -36,7 +40,9 @@ export const PropertyListItemNested = ({
     model
 }: IPropertyListItemNested) => {
     const { t } = useTranslation();
-    const propertyInspectorStyles = getPropertyInspectorStyles();
+    const textFieldStyles = getPropertyEditorTextFieldStyles();
+    const iconWrapStyles = getPropertyListItemIconWrapStyles();
+    const iconWrapMoreStyles = getPropertyListItemIconWrapMoreStyles();
     const [subMenuActive, setSubMenuActive] = useState(false);
 
     const handleDuplicate = () => {
@@ -59,7 +65,7 @@ export const PropertyListItemNested = ({
     return (
         <Stack className={getItemClassName(index)}>
             <TextField
-                className={propertyInspectorStyles.propertyItemTextField}
+                styles={textFieldStyles}
                 borderless
                 placeholder={item.name}
                 validateOnFocusOut
@@ -70,9 +76,9 @@ export const PropertyListItemNested = ({
             />
             <Text>{item.schema}</Text>
             <IconButton
-                className={propertyInspectorStyles.propertyItemIconWrap}
+                styles={iconWrapStyles}
                 iconProps={{ iconName: 'info' }}
-                title="Info"
+                title={t('OATPropertyEditor.info')}
                 onClick={() => {
                     setCurrentNestedPropertyIndex(index);
                     setCurrentPropertyIndex(parentIndex);
@@ -80,9 +86,9 @@ export const PropertyListItemNested = ({
                 }}
             />
             <IconButton
-                className={propertyInspectorStyles.propertyItemIconWrapMore}
+                styles={iconWrapMoreStyles}
                 iconProps={{ iconName: 'more' }}
-                title="More"
+                title={t('OATPropertyEditor.more')}
                 onClick={() => setSubMenuActive(!subMenuActive)}
             >
                 {subMenuActive && (

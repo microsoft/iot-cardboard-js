@@ -1,5 +1,4 @@
 import React, { useRef, useState } from 'react';
-import { Stack } from '@fluentui/react';
 import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
 import { deepCopy } from '../../Models/Services/Utils';
 import { DTDLModel } from '../../Models/Classes/DTDL';
@@ -132,7 +131,7 @@ export const TemplateList = ({
     };
 
     return (
-        <Stack
+        <div
             className={propertyInspectorStyles.propertiesWrap}
             onDragEnter={
                 draggingTemplate
@@ -157,7 +156,7 @@ export const TemplateList = ({
                         getSchemaText={getSchemaText}
                     />
                 ))}
-        </Stack>
+        </div>
     );
 };
 

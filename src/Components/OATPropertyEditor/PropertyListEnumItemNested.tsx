@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
+import { TextField, Text, IconButton } from '@fluentui/react';
 import {
-    TextField,
-    Stack,
-    Text,
-    ActionButton,
-    FontIcon
-} from '@fluentui/react';
-import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
+    getPropertyInspectorStyles,
+    getPropertyListItemIconWrapMoreStyles,
+    getPropertyEditorTextFieldStyles
+} from './OATPropertyEditor.styles';
 import { useTranslation } from 'react-i18next';
 import { DTDLModel } from '../../Models/Classes/DTDL';
 import PropertyListItemSubMenu from './PropertyListItemSubMenu';
@@ -30,6 +28,8 @@ export const PropertyListEnumItemNested = ({
 }: IEnumItem) => {
     const { t } = useTranslation();
     const propertyInspectorStyles = getPropertyInspectorStyles();
+    const iconWrapMoreStyles = getPropertyListItemIconWrapMoreStyles();
+    const textFieldStyles = getPropertyEditorTextFieldStyles();
     const [subMenuActive, setSubMenuActive] = useState(false);
 
     const updateEnum = (value) => {
@@ -59,23 +59,23 @@ export const PropertyListEnumItemNested = ({
     };
 
     return (
-        <Stack className={propertyInspectorStyles.enumItem} tabIndex={0}>
+        <div className={propertyInspectorStyles.enumItem} tabIndex={0}>
             <TextField
-                className={propertyInspectorStyles.propertyItemTextField}
+                styles={textFieldStyles}
                 borderless
                 placeholder={item.displayName}
                 validateOnFocusOut
                 onGetErrorMessage={getErrorMessage}
             />
             <Text>{item.enumValue}</Text>
-            <ActionButton
-                className={propertyInspectorStyles.propertyItemIconWrapMore}
+            <IconButton
+                iconProps={{
+                    iconName: 'more'
+                }}
+                styles={iconWrapMoreStyles}
+                title={t('OATPropertyEditor.more')}
                 onClick={() => setSubMenuActive(!subMenuActive)}
             >
-                <FontIcon
-                    iconName={'More'}
-                    className={propertyInspectorStyles.propertyItemIcon}
-                />
                 {subMenuActive && (
                     <PropertyListItemSubMenu
                         deleteNestedItem={deleteNestedItem}
@@ -86,8 +86,8 @@ export const PropertyListEnumItemNested = ({
                         addItemToTemplates={false}
                     />
                 )}
-            </ActionButton>
-        </Stack>
+            </IconButton>
+        </div>
     );
 };
 

@@ -1,6 +1,11 @@
 import React from 'react';
 import { TextField, Stack, Text } from '@fluentui/react';
-import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
+import {
+    getPropertyInspectorStyles,
+    getMapItemStyles,
+    getPropertyEditorTextFieldStyles,
+    getListMapItemTextStyles
+} from './OATPropertyEditor.styles';
 import { useTranslation } from 'react-i18next';
 import { DTDLModel } from '../../Models/Classes/DTDL';
 
@@ -19,6 +24,9 @@ export const PropertyListMapItemNested = ({
 }: IEnumItem) => {
     const { t } = useTranslation();
     const propertyInspectorStyles = getPropertyInspectorStyles();
+    const mapItemStyles = getMapItemStyles();
+    const textFieldStyles = getPropertyEditorTextFieldStyles();
+    const textStyles = getListMapItemTextStyles();
 
     const updateMapKeyName = (value) => {
         const modelCopy = Object.assign({}, model);
@@ -34,37 +42,29 @@ export const PropertyListMapItemNested = ({
 
     return (
         <>
-            <Stack className={propertyInspectorStyles.mapItem} tabIndex={0}>
-                <Text className={propertyInspectorStyles.mapItemKeyValueLabel}>
-                    {t('OATPropertyEditor.key')}
-                </Text>
-                <Stack className={propertyInspectorStyles.mapItemInputWrap}>
+            <Stack styles={mapItemStyles} tabIndex={0}>
+                <Text styles={textStyles}>{t('OATPropertyEditor.key')}</Text>
+                <div className={propertyInspectorStyles.mapItemInputWrap}>
                     <TextField
-                        className={
-                            propertyInspectorStyles.propertyItemTextField
-                        }
+                        styles={textFieldStyles}
                         borderless
                         placeholder={item.schema.mapKey.name}
                         onChange={(_ev, value) => updateMapKeyName(value)}
                     />
                     <Text>{item.schema.mapKey.schema}</Text>
-                </Stack>
+                </div>
             </Stack>
-            <Stack className={propertyInspectorStyles.mapItem} tabIndex={0}>
-                <Text className={propertyInspectorStyles.mapItemKeyValueLabel}>
-                    {t('OATPropertyEditor.value')}
-                </Text>
-                <Stack className={propertyInspectorStyles.mapItemInputWrap}>
+            <Stack styles={mapItemStyles} tabIndex={0}>
+                <Text styles={textStyles}>{t('OATPropertyEditor.value')}</Text>
+                <div className={propertyInspectorStyles.mapItemInputWrap}>
                     <TextField
-                        className={
-                            propertyInspectorStyles.propertyItemTextField
-                        }
+                        styles={textFieldStyles}
                         borderless
                         placeholder={item.schema.mapValue.name}
                         onChange={(_ev, value) => updateMapValueName(value)}
                     />
                     <Text>{item.schema.mapValue.schema}</Text>
-                </Stack>
+                </div>
             </Stack>
         </>
     );

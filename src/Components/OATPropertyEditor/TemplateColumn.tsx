@@ -8,7 +8,11 @@ import {
     Label
 } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
-import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
+import {
+    getPropertyInspectorStyles,
+    getPropertyEditorTextFieldStyles,
+    getTemplateColumnStyles
+} from './OATPropertyEditor.styles';
 import TemplateList from './TemplateList';
 import { DTDLModel } from '../../Models/Classes/DTDL';
 import { DTDLProperty } from '../../Models/Constants/Interfaces';
@@ -40,19 +44,16 @@ export const TemplateColumn = ({
 }: ITemplateColumn) => {
     const { t } = useTranslation();
     const propertyInspectorStyles = getPropertyInspectorStyles();
+    const textFieldStyles = getPropertyEditorTextFieldStyles();
+    const templateColumnStyles = getTemplateColumnStyles();
     const draggedTemplateItemRef = useRef(null);
 
     return (
-        <Stack className={propertyInspectorStyles.templateColumn}>
-            <Stack className={propertyInspectorStyles.paddingWrap}>
-                <Stack className={propertyInspectorStyles.rowSpaceBetween}>
+        <Stack styles={templateColumnStyles}>
+            <Stack styles={{ root: { padding: '8px' } }}>
+                <div className={propertyInspectorStyles.rowSpaceBetween}>
                     <Label>{t('OATPropertyEditor.templates')}</Label>
-                    <ActionButton
-                        onClick={() => setTemplatesActive(false)}
-                        className={
-                            propertyInspectorStyles.iconClosePropertySelectorWrap
-                        }
-                    >
+                    <ActionButton onClick={() => setTemplatesActive(false)}>
                         <FontIcon
                             iconName={'ChromeClose'}
                             className={
@@ -60,9 +61,9 @@ export const TemplateColumn = ({
                             }
                         />
                     </ActionButton>
-                </Stack>
+                </div>
                 <TextField
-                    className={propertyInspectorStyles.propertyItemTextField}
+                    styles={textFieldStyles}
                     borderless
                     placeholder={t(
                         'OATPropertyEditor.templateSearchPlaceholder'
@@ -70,16 +71,16 @@ export const TemplateColumn = ({
                 ></TextField>
             </Stack>
             <Stack className={propertyInspectorStyles.gridRowPropertyHeading}>
-                <Stack className={propertyInspectorStyles.row}>
+                <div className={propertyInspectorStyles.row}>
                     <Text>{t('OATPropertyEditor.name')}</Text>
-                </Stack>
-                <Stack className={propertyInspectorStyles.row}>
+                </div>
+                <div className={propertyInspectorStyles.row}>
                     <FontIcon
                         className={propertyInspectorStyles.propertyHeadingIcon}
                         iconName={'SwitcherStartEnd'}
                     />
                     <Text>{t('OATPropertyEditor.schemaType')}</Text>
-                </Stack>
+                </div>
             </Stack>
 
             <TemplateList

@@ -1,4 +1,13 @@
-import { IStyle, mergeStyleSets, useTheme, FontSizes } from '@fluentui/react';
+import {
+    IStyle,
+    mergeStyleSets,
+    useTheme,
+    FontSizes,
+    ITextFieldStyles,
+    IButtonStyles,
+    ISeparatorStyles,
+    IStackStyles
+} from '@fluentui/react';
 import { CardboardClassNamePrefix } from '../../Models/Constants';
 
 const classPrefix = `${CardboardClassNamePrefix}-oat-property-editor`;
@@ -8,7 +17,6 @@ const classNames = {
     pivot: `${classPrefix}-pivot`,
     templateColumn: `${classPrefix}-templates-column`,
     pivotContentWrap: `${classPrefix}-pivot-content-wrap`,
-    gridGeneralPropertiesWrap: `${classPrefix}-general-properties-wrap`,
     row: `${classPrefix}-row`,
     viewTemplatesCta: `${classPrefix}-view-templates-cta`,
     gridRow: `${classPrefix}-grid-row`,
@@ -18,40 +26,30 @@ const classNames = {
     rowSpaceBetween: `${classPrefix}-row-space-between`,
     propertiesWrap: `${classPrefix}-properties-wrap`,
     propertiesWrapScroll: `${classPrefix}-properties-wrap-scroll`,
-    propertySelector: `${classPrefix}-row-property-selector`,
     propertySelectorHeader: `${classPrefix}-row-property-selector-header`,
-    iconClosePropertySelectorWrap: `${classPrefix}-icon-close-property-selector-wrap`,
     iconClosePropertySelector: `${classPrefix}-icon-close-property-selector`,
     propertyTagsWrap: `${classPrefix}-property-tags-wrap`,
     propertyTag: `${classPrefix}-property-tag`,
-    separator: `${classPrefix}-separator`,
-    addProperty: `${classPrefix}-add-property`,
     iconAddProperty: `${classPrefix}-icon-add-property`,
     templateItem: `${classPrefix}-template-item`,
     templateItemEntered: `${classPrefix}-template-item-entered`,
     templateItemDragging: `${classPrefix}-template-item-dragging`,
     enumItem: `${classPrefix}-enum-item`,
-    mapItem: `${classPrefix}-map-item`,
     mapItemInputWrap: `${classPrefix}-map-input-wrap-item`,
-    mapItemKeyValueLabel: `${classPrefix}-map-input-item-key-value-label`,
     propertyItem: `${classPrefix}-property-item`,
     propertyItemNest: `${classPrefix}-property-item-nest`,
     propertyItemNested: `${classPrefix}-property-item-nested`,
     propertyItemNestMainItem: `${classPrefix}-property-item-nest-main-item`,
     propertyItemEntered: `${classPrefix}-property-item-entered`,
     propertyItemDragging: `${classPrefix}-property-item-dragging`,
-    propertyItemIconWrap: `${classPrefix}-property-item-icon-wrap`,
     propertyItemIconWrapMore: `${classPrefix}-property-item-icon-wrap-more`,
     propertyItemIconMoreSubMenu: `${classPrefix}-property-item-icon-more-sub-menu`,
-    propertyItemIconMoreSubMenuItem: `${classPrefix}-property-item-icon-more-sub-menu-item`,
     propertyItemIcon: `${classPrefix}-property-item-icon`,
     propertySubMenuItemIcon: `${classPrefix}-property-sub-item-icon`,
     propertySubMenuItemIconRemove: `${classPrefix}-property-sub-item-icon-remove`,
     addPropertyBar: `${classPrefix}-property-bar`,
     addPropertyBarIcon: `${classPrefix}-property-bar-icon`,
-    propertyItemTextField: `${classPrefix}-property-item-text-field`,
     modal: `${classPrefix}-modal`,
-    modalColumnLeftItem: `${classPrefix}-modal-column-left-item`,
     modalRowSpaceBetween: `${classPrefix}-modal-row-space-between`,
     modalTexField: `${classPrefix}-modal-tex-field`,
     booleanIcon: `${classPrefix}-boolean-icon`
@@ -116,13 +114,6 @@ export const getPropertyInspectorStyles = () => {
                 }
             } as IStyle
         ],
-        gridGeneralPropertiesWrap: [
-            classNames.gridGeneralPropertiesWrap,
-            {
-                padding: '8px',
-                borderBottom: `1px solid ${theme.semanticColors.variantBorder}`
-            } as IStyle
-        ],
         gridRow: [
             classNames.gridRow,
             {
@@ -151,7 +142,7 @@ export const getPropertyInspectorStyles = () => {
             {
                 padding: '8px'
             }
-        ],
+        ], // moved inline
         rowSpaceBetween: [
             classNames.rowSpaceBetween,
             {
@@ -178,17 +169,6 @@ export const getPropertyInspectorStyles = () => {
                 maxHeight: '500px'
             } as IStyle
         ],
-        propertySelector: [
-            classNames.propertySelector,
-            {
-                minHeight: '200px',
-                backgroundColor: theme.semanticColors.listBackground,
-                borderRadius: '4px',
-                borderBottom: `1px solid ${theme.semanticColors.variantBorder}`,
-                zIndex: 100,
-                boxShadow: '0px 5px 10px 1px rgba(0,0,0,0.05)'
-            } as IStyle
-        ],
         propertySelectorHeader: [
             classNames.propertySelectorHeader,
             {
@@ -200,12 +180,6 @@ export const getPropertyInspectorStyles = () => {
                 paddingRight: '12px',
                 marginBottom: '6px'
             }
-        ],
-        iconClosePropertySelectorWrap: [
-            classNames.iconClosePropertySelector,
-            {
-                height: 'unset'
-            } as IStyle
         ],
         iconClosePropertySelector: [
             classNames.iconClosePropertySelector,
@@ -248,21 +222,6 @@ export const getPropertyInspectorStyles = () => {
                 '& line': {
                     stroke: theme.semanticColors.menuItemText
                 }
-            } as IStyle
-        ],
-        separator: [
-            classNames.separator,
-            {
-                width: '100%',
-                height: '1px',
-                padding: 0,
-                margin: '2px 0px'
-            } as IStyle
-        ],
-        addProperty: [
-            classNames.addProperty,
-            {
-                paddingLeft: '10px'
             } as IStyle
         ],
         iconAddProperty: [
@@ -324,21 +283,6 @@ export const getPropertyInspectorStyles = () => {
                 alignItems: 'center',
                 padding: '12px 8px',
                 borderBottom: `1px solid ${theme.semanticColors.buttonBackgroundPressed}'`
-            } as IStyle
-        ],
-        mapItem: [
-            classNames.mapItem,
-            {
-                width: '100%',
-                backgroundColor: theme.semanticColors.buttonBackgroundDisabled,
-                padding: '12px 8px',
-                borderBottom: `1px solid ${theme.semanticColors.buttonBackgroundPressed}'`
-            } as IStyle
-        ],
-        mapItemKeyValueLabel: [
-            classNames.mapItemKeyValueLabel,
-            {
-                padding: '0px 8px'
             } as IStyle
         ],
         mapItemInputWrap: [
@@ -435,14 +379,6 @@ export const getPropertyInspectorStyles = () => {
                 }
             } as IStyle
         ],
-        propertyItemIconWrap: [
-            classNames.propertyItemIconWrap,
-            {
-                height: 'min-content',
-                color: theme.semanticColors.menuIcon,
-                width: '100%'
-            } as IStyle
-        ],
         propertyItemIconWrapMore: [
             classNames.propertyItemIconWrapMore,
             {
@@ -463,21 +399,6 @@ export const getPropertyInspectorStyles = () => {
                 display: 'flex',
                 flexDirection: 'column',
                 borderRadius: '4px'
-            } as IStyle
-        ],
-        propertyItemIconMoreSubMenuItem: [
-            classNames.propertyItemIconMoreSubMenuItem,
-            {
-                display: 'flex',
-                flexDirection: 'row',
-                alignItems: 'center',
-                minWidth: 'max-content',
-                width: '100%',
-                padding: '8px',
-                ':hover': {
-                    backgroundColor:
-                        theme.semanticColors.primaryButtonTextDisabled
-                }
             } as IStyle
         ],
         propertyItemIcon: [
@@ -523,27 +444,6 @@ export const getPropertyInspectorStyles = () => {
                 color: theme.semanticColors.menuIcon
             } as IStyle
         ],
-        propertyItemTextField: [
-            classNames.propertyItemTextField,
-            {
-                border: '2px solid transparent',
-                borderRadius: '4px',
-
-                ':hover': {
-                    border: `2px solid ${theme.semanticColors.variantBorder}`
-                },
-                ':focus': {
-                    border: `2px solid ${theme.semanticColors.variantBorder}`
-                },
-                marginRight: '10px'
-            } as IStyle
-        ],
-        propertyItemTextType: [
-            classNames.propertyItemTextField,
-            {
-                paddingLeft: '10px'
-            } as IStyle
-        ],
         modal: [
             classNames.modal,
             {
@@ -551,12 +451,6 @@ export const getPropertyInspectorStyles = () => {
                 borderRadius: '2px',
                 padding: '15px 25px',
                 minWidth: '400px'
-            } as IStyle
-        ],
-        modalColumnLeftItem: [
-            classNames.modalColumnLeftItem,
-            {
-                marginRight: '20px'
             } as IStyle
         ],
         modalRowSpaceBetween: [
@@ -576,4 +470,141 @@ export const getPropertyInspectorStyles = () => {
             } as IStyle
         ]
     });
+};
+
+/* Property Editor */
+
+export const getPropertyEditorTextFieldStyles = () => {
+    const theme = useTheme();
+    return {
+        root: {
+            border: '2px solid transparent',
+            borderRadius: '4px',
+            ':hover': {
+                border: `2px solid ${theme.semanticColors.variantBorder}`
+            },
+            ':focus': {
+                border: `2px solid ${theme.semanticColors.variantBorder}`
+            },
+            marginRight: '10px'
+        }
+    } as Partial<ITextFieldStyles>;
+};
+
+/* Properties Model Summary */
+
+export const getGeneralPropertiesWrapStyles = () => {
+    const theme = useTheme();
+    return {
+        root: {
+            padding: '8px',
+            borderBottom: `1px solid ${theme.semanticColors.variantBorder}`
+        }
+    } as Partial<IStackStyles>;
+};
+
+/* Property Selector */
+
+export const getPropertySelectorStyles = () => {
+    const theme = useTheme();
+    return {
+        root: {
+            minHeight: '200px',
+            backgroundColor: theme.semanticColors.listBackground,
+            borderRadius: '4px',
+            borderBottom: `1px solid ${theme.semanticColors.variantBorder}`,
+            zIndex: 100,
+            boxShadow: '0px 5px 10px 1px rgba(0,0,0,0.05)'
+        }
+    };
+};
+
+export const getPropertySelectorSeparatorStyles = () => {
+    return {
+        root: {
+            width: '100%',
+            height: '1px',
+            padding: 0,
+            margin: '2px 0px'
+        }
+    } as Partial<ISeparatorStyles>;
+};
+
+/* Property List Item */
+
+export const getPropertyListItemIconWrapStyles = () => {
+    const theme = useTheme();
+    return {
+        root: {
+            color: theme.semanticColors.menuIcon,
+            width: '100%'
+        }
+    } as Partial<IButtonStyles>;
+};
+export const getPropertyListItemIconWrapMoreStyles = () => {
+    const theme = useTheme();
+    return {
+        root: {
+            color: theme.semanticColors.menuIcon,
+            position: 'relative'
+        }
+    } as Partial<IButtonStyles>;
+};
+
+export const getMapItemStyles = () => {
+    const theme = useTheme();
+    return {
+        root: {
+            width: '100%',
+            backgroundColor: theme.semanticColors.buttonBackgroundDisabled,
+            padding: '12px 8px',
+            borderBottom: `1px solid ${theme.semanticColors.buttonBackgroundPressed}'`
+        }
+    } as Partial<IStackStyles>;
+};
+
+export const getIconMoreSubMenuItemStyles = () => {
+    const theme = useTheme();
+    return {
+        root: {
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+            minWidth: 'max-content',
+            width: '100%',
+            padding: '8px',
+            ':hover': {
+                backgroundColor: theme.semanticColors.primaryButtonTextDisabled
+            }
+        }
+    } as Partial<IButtonStyles>;
+};
+
+export const getListMapItemTextStyles = () => {
+    return {
+        root: { padding: '0px 8px' }
+    } as Partial<IButtonStyles>;
+};
+
+/* Template Column */
+
+export const getTemplateColumnStyles = () => {
+    const theme = useTheme();
+    return {
+        root: {
+            width: '80%',
+            height: '100%',
+            backgroundColor: theme.semanticColors.buttonBackgroundDisabled
+        }
+    } as Partial<IButtonStyles>;
+};
+
+/* Property Editor Modal */
+
+export const getModalLabelStyles = () => {
+    return {
+        root: {
+            marginRight: '20px'
+        }
+    };
 };

@@ -2,12 +2,15 @@ import React from 'react';
 import {
     FontIcon,
     ActionButton,
-    Stack,
     Separator,
     FocusTrapCallout,
     DirectionalHint
 } from '@fluentui/react';
-import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
+import {
+    getPropertyInspectorStyles,
+    getPropertySelectorStyles,
+    getPropertySelectorSeparatorStyles
+} from './OATPropertyEditor.styles';
 import { DTDLModel } from '../../Models/Classes/DTDL';
 import { DTDLSchemaType } from '../../Models/Classes/DTDL';
 import Svg from 'react-inlinesvg';
@@ -47,6 +50,8 @@ const PropertySelector = ({
 }: IProperySelectorProps) => {
     const { t } = useTranslation();
     const propertyInspectorStyles = getPropertyInspectorStyles();
+    const propertySelectorStyles = getPropertySelectorStyles();
+    const propertySelectorSeparatorStyles = getPropertySelectorSeparatorStyles();
     const data = {
         propertyTags: {
             sectionFirst: [
@@ -83,13 +88,13 @@ const PropertySelector = ({
                     icon: IconLong
                 },
                 {
-                    name: 'enum',
+                    name: DTDLSchemaType.Enum,
                     title: t('OATPropertyEditor.enum'),
                     icon: IconEnum,
                     complex: true
                 },
                 {
-                    name: 'map',
+                    name: DTDLSchemaType.Map,
                     title: t('OATPropertyEditor.map'),
                     icon: IconMap,
                     complex: true
@@ -117,7 +122,7 @@ const PropertySelector = ({
                     icon: IconTime
                 },
                 {
-                    name: 'object',
+                    name: DTDLSchemaType.Object,
                     title: t('OATPropertyEditor.object'),
                     icon: IconObject,
                     complex: true
@@ -232,20 +237,18 @@ const PropertySelector = ({
 
     return (
         <FocusTrapCallout
-            className={propertyInspectorStyles.propertySelector}
             role="alertdialog"
             gapSpace={0}
             target="#propertyList"
             isBeakVisible={false}
             setInitialFocus
             directionalHint={DirectionalHint.leftTopEdge}
+            styles={propertySelectorStyles}
         >
-            <Stack className={propertyInspectorStyles.propertySelectorHeader}>
+            <div className={propertyInspectorStyles.propertySelectorHeader}>
                 <ActionButton
                     onClick={() => setPropertySelectorVisible(false)}
-                    className={
-                        propertyInspectorStyles.iconClosePropertySelectorWrap
-                    }
+                    styles={{ root: { height: 'unset' } }}
                 >
                     <FontIcon
                         iconName={'ChromeClose'}
@@ -255,9 +258,9 @@ const PropertySelector = ({
                         title={t('OATPropertyEditor.close')}
                     />
                 </ActionButton>
-            </Stack>
-            <Separator className={propertyInspectorStyles.separator} />
-            <Stack className={propertyInspectorStyles.propertyTagsWrap}>
+            </div>
+            <Separator styles={propertySelectorSeparatorStyles} />
+            <div className={propertyInspectorStyles.propertyTagsWrap}>
                 {data.propertyTags.sectionFirst.map((tag, i) => (
                     <Svg
                         tabIndex={0}
@@ -270,9 +273,9 @@ const PropertySelector = ({
                         title={tag.title}
                     ></Svg>
                 ))}
-            </Stack>
-            <Separator className={propertyInspectorStyles.separator} />
-            <Stack className={propertyInspectorStyles.propertyTagsWrap}>
+            </div>
+            <Separator styles={propertySelectorSeparatorStyles} />
+            <div className={propertyInspectorStyles.propertyTagsWrap}>
                 {data.propertyTags.sectionSecond.map((tag, i) => {
                     if (
                         lastPropertyFocused &&
@@ -295,9 +298,9 @@ const PropertySelector = ({
                         );
                     }
                 })}
-            </Stack>
-            <Separator className={propertyInspectorStyles.separator} />
-            <Stack className={propertyInspectorStyles.propertyTagsWrap}>
+            </div>
+            <Separator styles={propertySelectorSeparatorStyles} />
+            <div className={propertyInspectorStyles.propertyTagsWrap}>
                 {data.propertyTags.sectionThird.map((tag, i) => (
                     <Svg
                         tabIndex={0}
@@ -310,7 +313,7 @@ const PropertySelector = ({
                         title={tag.title}
                     ></Svg>
                 ))}
-            </Stack>
+            </div>
         </FocusTrapCallout>
     );
 };

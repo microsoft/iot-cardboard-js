@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
+import { TextField, Text, IconButton } from '@fluentui/react';
 import {
-    FontIcon,
-    TextField,
-    ActionButton,
-    Stack,
-    Text
-} from '@fluentui/react';
-import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
+    getPropertyEditorTextFieldStyles,
+    getPropertyListItemIconWrapStyles,
+    getPropertyListItemIconWrapMoreStyles
+} from './OATPropertyEditor.styles';
 import { DTDLModel } from '../../Models/Classes/DTDL';
 import { deepCopy } from '../../Models/Services/Utils';
 import PropertyListItemSubMenu from './PropertyListItemSubMenu';
@@ -50,7 +48,9 @@ export const PropertyListItem = ({
     setTemplates
 }: IPropertyListItem) => {
     const { t } = useTranslation();
-    const propertyInspectorStyles = getPropertyInspectorStyles();
+    const iconWrapStyles = getPropertyListItemIconWrapStyles();
+    const iconWrapMoreStyles = getPropertyListItemIconWrapMoreStyles();
+    const textFieldStyles = getPropertyEditorTextFieldStyles();
     const [subMenuActive, setSubMenuActive] = useState(false);
 
     const handleTemplateAddition = () => {
@@ -71,7 +71,7 @@ export const PropertyListItem = ({
     };
 
     return (
-        <Stack
+        <div
             className={getItemClassName(index)}
             draggable
             onDragStart={(e) => {
@@ -86,7 +86,6 @@ export const PropertyListItem = ({
             tabIndex={0}
         >
             <TextField
-                className={propertyInspectorStyles.propertyItemTextField}
                 borderless
                 value={item.name}
                 validateOnFocusOut
@@ -94,29 +93,25 @@ export const PropertyListItem = ({
                     setCurrentPropertyIndex(index);
                     getErrorMessage(value, index);
                 }}
+                styles={textFieldStyles}
             />
             <Text>{item.schema}</Text>
-            <ActionButton
-                className={propertyInspectorStyles.propertyItemIconWrap}
+            <IconButton
+                styles={iconWrapStyles}
+                iconProps={{ iconName: 'info' }}
+                title={t('OATPropertyEditor.info')}
                 onClick={() => {
                     setCurrentPropertyIndex(index);
                     setModalOpen(true);
                     setModalBody('formProperty');
                 }}
-            >
-                <FontIcon
-                    iconName={'Info'}
-                    className={propertyInspectorStyles.propertyItemIcon}
-                />
-            </ActionButton>
-            <ActionButton
-                className={propertyInspectorStyles.propertyItemIconWrapMore}
+            />
+            <IconButton
+                styles={iconWrapMoreStyles}
+                iconProps={{ iconName: 'more' }}
+                title={t('OATPropertyEditor.more')}
                 onClick={() => setSubMenuActive(!subMenuActive)}
             >
-                <FontIcon
-                    iconName={'More'}
-                    className={propertyInspectorStyles.propertyItemIcon}
-                />
                 {subMenuActive && (
                     <PropertyListItemSubMenu
                         deleteItem={deleteItem}
@@ -126,8 +121,8 @@ export const PropertyListItem = ({
                         handleDuplicate={handleDuplicate}
                     />
                 )}
-            </ActionButton>
-        </Stack>
+            </IconButton>
+        </div>
     );
 };
 

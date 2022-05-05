@@ -183,7 +183,7 @@ export const PropertyList = ({
                     model.contents.length === 0 && (
                         <ActionButton
                             onClick={() => setPropertySelectorVisible(true)}
-                            className={propertyInspectorStyles.addProperty}
+                            styles={{ root: { paddingLeft: '10px' } }}
                         >
                             <FontIcon
                                 iconName={'CirclePlus'}

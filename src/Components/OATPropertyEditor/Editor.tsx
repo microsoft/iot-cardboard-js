@@ -61,7 +61,7 @@ const Editor = ({
     const enteredPropertyRef = useRef(null);
 
     return (
-        <Stack className={propertyInspectorStyles.container}>
+        <div className={propertyInspectorStyles.container}>
             <Pivot className={propertyInspectorStyles.pivot}>
                 <PivotItem
                     headerText={t('OATPropertyEditor.properties')}
@@ -167,7 +167,7 @@ const Editor = ({
                     enteredTemplateRef={enteredTemplateRef}
                 />
             )}
-        </Stack>
+        </div>
     );
 };
 

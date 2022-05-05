@@ -1,7 +1,10 @@
 import React from 'react';
 import { FontIcon, ActionButton, Stack, Text } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
-import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
+import {
+    getPropertyInspectorStyles,
+    getIconMoreSubMenuItemStyles
+} from './OATPropertyEditor.styles';
 
 type IPropertyListItem = {
     index?: number;
@@ -30,10 +33,10 @@ export const PropertyListItemSubMenu = ({
 }: IPropertyListItem) => {
     const { t } = useTranslation();
     const propertyInspectorStyles = getPropertyInspectorStyles();
+    const subMenuItemStyles = getIconMoreSubMenuItemStyles();
 
     return (
         <>
-            {' '}
             {subMenuActive && (
                 <Stack
                     className={
@@ -43,9 +46,7 @@ export const PropertyListItemSubMenu = ({
                     {addItemToTemplates && (
                         <Stack>
                             <ActionButton
-                                className={
-                                    propertyInspectorStyles.propertyItemIconMoreSubMenuItem
-                                }
+                                styles={subMenuItemStyles}
                                 onClick={() => {
                                     handleTemplateAddition();
                                 }}
@@ -65,9 +66,7 @@ export const PropertyListItemSubMenu = ({
                     {duplicateItem && (
                         <Stack>
                             <ActionButton
-                                className={
-                                    propertyInspectorStyles.propertyItemIconMoreSubMenuItem
-                                }
+                                styles={subMenuItemStyles}
                                 onClick={() => {
                                     handleDuplicate();
                                 }}
@@ -85,9 +84,7 @@ export const PropertyListItemSubMenu = ({
                     {removeItem && (
                         <Stack>
                             <ActionButton
-                                className={
-                                    propertyInspectorStyles.propertyItemIconMoreSubMenuItem
-                                }
+                                styles={subMenuItemStyles}
                                 onClick={() => {
                                     if (deleteNestedItem) {
                                         deleteNestedItem(parentIndex, index);

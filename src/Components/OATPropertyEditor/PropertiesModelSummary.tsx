@@ -1,7 +1,11 @@
 import React from 'react';
 import { TextField, Stack, Label, Text } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
-import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
+import {
+    getPropertyInspectorStyles,
+    getGeneralPropertiesWrapStyles,
+    getPropertyEditorTextFieldStyles
+} from './OATPropertyEditor.styles';
 import { DTDLModel } from '../../Models/Classes/DTDL';
 
 type IPropertiesModelSummary = {
@@ -15,14 +19,16 @@ export const PropertiesModelSummary = ({
 }: IPropertiesModelSummary) => {
     const { t } = useTranslation();
     const propertyInspectorStyles = getPropertyInspectorStyles();
+    const generalPropertiesWrapStyles = getGeneralPropertiesWrapStyles();
+    const textFieldStyes = getPropertyEditorTextFieldStyles();
 
     return (
-        <Stack className={propertyInspectorStyles.gridGeneralPropertiesWrap}>
+        <Stack styles={generalPropertiesWrapStyles}>
             <Label>{`${t('OATPropertyEditor.general')} (3)`}</Label>
-            <Stack className={propertyInspectorStyles.gridRow}>
+            <div className={propertyInspectorStyles.gridRow}>
                 <Text>{t('OATPropertyEditor.displayName')}</Text>
                 <TextField
-                    className={propertyInspectorStyles.propertyItemTextField}
+                    styles={textFieldStyes}
                     borderless
                     disabled={!model}
                     value={model ? model.displayName : ''}
@@ -32,11 +38,11 @@ export const PropertiesModelSummary = ({
                         setModel(modelCopy);
                     }}
                 />
-            </Stack>
-            <Stack className={propertyInspectorStyles.gridRow}>
+            </div>
+            <div className={propertyInspectorStyles.gridRow}>
                 <Text>{t('OATPropertyEditor.assetId')}</Text>
                 <TextField
-                    className={propertyInspectorStyles.propertyItemTextField}
+                    styles={textFieldStyes}
                     borderless
                     disabled={!model}
                     value={model ? model['@id'] : ''}
@@ -46,7 +52,7 @@ export const PropertiesModelSummary = ({
                         setModel(modelCopy);
                     }}
                 />
-            </Stack>
+            </div>
         </Stack>
     );
 };
