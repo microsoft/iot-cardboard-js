@@ -87,6 +87,8 @@
     "uploadFile": "Upload file",
     "uploadingFile": "Uploading file...",
     "twinId": "Twin ID",
+    "active": "Active",
+    "invalidValue": "Invalid value",
     "errors": {
         "errorBoundary": "Error boundary",
         "unkownError": "Unknown error occurred",

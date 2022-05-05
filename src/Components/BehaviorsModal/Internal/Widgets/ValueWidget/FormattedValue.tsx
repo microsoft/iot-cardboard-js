@@ -4,7 +4,9 @@ import ViewerConfigUtility from '../../../../../Models/Classes/ViewerConfigUtili
 import { Locale } from '../../../../../Models/Constants/Enums';
 import { IDTDLPropertyType } from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { getStyles } from './ValueWidget.styles';
+import { useTranslation } from 'react-i18next';
 
+const maxNumberOfCharactersBeforeTextWrap = 12;
 interface IProps {
     locale: Locale;
     value: any;
@@ -12,10 +14,7 @@ interface IProps {
 }
 const FormattedValue: React.FC<IProps> = ({ locale, value, type }) => {
     const theme = useTheme();
-    const typedValue = ViewerConfigUtility.getTypedDTDLPropertyValue(
-        value,
-        type
-    ); // get the typed value in case it is not in the data format it is set
+    const { t } = useTranslation();
 
     const dateOptions: Intl.DateTimeFormatOptions = {
         year: '2-digit',
@@ -35,10 +34,22 @@ const FormattedValue: React.FC<IProps> = ({ locale, value, type }) => {
         maximumFractionDigits: 3
     };
 
-    const maxNumberOfCharactersBeforeTextWrap = 10;
+    let stringValueToDisplay = '';
+    const typedValue = ViewerConfigUtility.getTypedDTDLPropertyValue(
+        value,
+        type
+    ); // get the typed value in case it is not in the data format it is set
 
     const styles = getStyles(theme);
-    let stringValueToDisplay = '';
+    if (typedValue instanceof Error) {
+        return (
+            <div className={styles.expressionValueContainer}>
+                <code className={styles.invalidExpressionValue}>
+                    {t('invalidValue')}
+                </code>
+            </div>
+        );
+    }
     switch (type) {
         case 'date': {
             stringValueToDisplay = (typedValue as Date).toLocaleDateString(

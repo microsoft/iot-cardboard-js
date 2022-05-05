@@ -1134,53 +1134,58 @@ abstract class ViewerConfigUtility {
         date-time       = full-date "T" full-time
      */
     static getTypedDTDLPropertyValue(value: any, dataType: IDTDLPropertyType) {
-        const stringifiedValue = String(value); // cast to string in case the value originally does not comply with its original type
+        try {
+            const stringifiedValue = String(value); // cast to string in case the value originally does not comply with its original type
 
-        switch (dataType) {
-            case 'boolean':
-                return stringifiedValue === 'true';
-            case 'date': {
-                // Format: full-date, e.g. 1970-01-01
-                const d = new Date(stringifiedValue);
-                return d;
-            }
-            case 'dateTime': {
-                // Format: date-time, e.g. 2019-10-12T07:20:50.52Z
-                const d = new Date(stringifiedValue);
-                return d;
-            }
-            case 'double':
-                return parseFloat(stringifiedValue);
-            case 'duration': {
-                // Format: P(n)Y(n)M(n)DT(n)H(n)M(n)S, e.g. P3Y6M4DT12H30M5S
-                const regex = /P(?:(\d+)Y)?(?:(\d+)M)?(?:(\d+)W)?(?:(\d+)D)?(?:T(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?)?$/;
-                const [, years, months, , days, hours, mins, secs] =
-                    stringifiedValue?.match(regex)?.map(parseFloat) || []; // period and weeks are not used
+            switch (dataType) {
+                case 'boolean':
+                    return stringifiedValue === 'true';
+                case 'date': {
+                    // Format: full-date, e.g. 1970-01-01
+                    const d = new Date(stringifiedValue);
+                    return d;
+                }
+                case 'dateTime': {
+                    // Format: date-time, e.g. 2019-10-12T07:20:50.52Z
+                    const d = new Date(stringifiedValue);
+                    return d;
+                }
+                case 'double':
+                    return parseFloat(stringifiedValue);
+                case 'duration': {
+                    // Format: P(n)Y(n)M(n)DT(n)H(n)M(n)S, e.g. P3Y6M4DT12H30M5S
+                    const regex = /P(?:(\d+)Y)?(?:(\d+)M)?(?:(\d+)W)?(?:(\d+)D)?(?:T(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?)?$/;
+                    const [, years, months, , days, hours, mins, secs] =
+                        stringifiedValue?.match(regex)?.map(parseFloat) || []; // period and weeks are not used
 
-                return {
-                    years,
-                    months,
-                    days,
-                    hours,
-                    mins,
-                    secs
-                };
+                    return {
+                        years,
+                        months,
+                        days,
+                        hours,
+                        mins,
+                        secs
+                    };
+                }
+                case 'enum': // Format: string, e.g. 'Active'
+                    return stringifiedValue;
+                case 'float':
+                    return parseFloat(stringifiedValue);
+                case 'integer':
+                case 'long':
+                    return parseInt(stringifiedValue);
+                case 'string':
+                    return stringifiedValue;
+                case 'time': {
+                    // Format: partial-time time-offset, e.g. 07:20:50.52Z
+                    return stringifiedValue;
+                }
+                default:
+                    return stringifiedValue;
             }
-            case 'enum': // Format: string, e.g. 'Active'
-                return stringifiedValue;
-            case 'float':
-                return parseFloat(stringifiedValue);
-            case 'integer':
-            case 'long':
-                return parseInt(stringifiedValue);
-            case 'string':
-                return stringifiedValue;
-            case 'time': {
-                // Format: partial-time time-offset, e.g. 07:20:50.52Z
-                return stringifiedValue;
-            }
-            default:
-                return stringifiedValue;
+        } catch (error) {
+            console.log(error);
+            return error;
         }
     }
 }

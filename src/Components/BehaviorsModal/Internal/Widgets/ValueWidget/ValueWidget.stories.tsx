@@ -41,7 +41,7 @@ const defaultValueWidget: IValueWidget = {
     id: '',
     type: WidgetType.Value,
     widgetConfiguration: {
-        displayName: 'Example display name',
+        displayName: 'Display name',
         valueExpression: null,
         type: null
     }

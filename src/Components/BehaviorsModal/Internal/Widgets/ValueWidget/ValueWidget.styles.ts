@@ -14,7 +14,8 @@ const classNames = {
     expressionValueOverflowed: `${behaviorsModalClassPrefix}-property-widget-expression-value-overflowed`,
     expressionValuePrimary: `${behaviorsModalClassPrefix}-property-widget-expression-value-primary`,
     expressionValueSecondary: `${behaviorsModalClassPrefix}-property-widget-expression-value-secondary`,
-    expressionValueListItem: `${behaviorsModalClassPrefix}-property-widget-expression-value-list-item`
+    expressionValueListItem: `${behaviorsModalClassPrefix}-property-widget-expression-value-list-item`,
+    invalidExpressionValue: `${behaviorsModalClassPrefix}-property-widget-expression-value-invalid`
 };
 
 const ellipseStyles = {
@@ -64,11 +65,11 @@ export const getStyles = memoizeFunction((theme: Theme) =>
             classNames.expressionValuePrimary,
             {
                 width: '100%',
-                ...ellipseStyles,
                 color: theme.palette.themePrimary,
                 textAlign: 'center',
-                fontSize: FontSizes.size24,
-                lineHeight: 24
+                fontSize: FontSizes.size20,
+                whiteSpace: 'pre-wrap',
+                overflowWrap: 'break-word'
             } as IStyle
         ],
         expressionValueSecondary: [
@@ -78,9 +79,8 @@ export const getStyles = memoizeFunction((theme: Theme) =>
                 ...ellipseStyles,
                 color: theme.palette.themePrimary,
                 textAlign: 'center',
-                fontSize: FontSizes.size16,
-                lineHeight: 16,
-                paddingTop: 12
+                fontSize: 11,
+                paddingTop: 8
             } as IStyle
         ],
         expressionValueListItem: [
@@ -107,6 +107,19 @@ export const getStyles = memoizeFunction((theme: Theme) =>
                 overflowY: 'auto',
                 whiteSpace: 'pre-wrap',
                 overflowWrap: 'break-word'
+            } as IStyle
+        ],
+        invalidExpressionValue: [
+            classNames.invalidExpressionValue,
+            {
+                width: '100%',
+                overflowX: 'hidden',
+                overflowY: 'auto',
+                textAlign: 'center',
+                whiteSpace: 'pre-wrap',
+                overflowWrap: 'break-word',
+                fontFamily: 'monospace !important',
+                fontSize: FontSizes.size12
             } as IStyle
         ]
     })
