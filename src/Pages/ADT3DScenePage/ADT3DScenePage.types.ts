@@ -15,6 +15,7 @@ import {
     I3DScenesConfig,
     IScene
 } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
+import ADTandBlobAdapter from '../../Adapters/ADTandBlobAdapter';
 
 export interface IADT3DScenePageProps extends IConsumeCompositeCardProps {
     adapter: ADT3DSceneAdapter | MockAdapter;
