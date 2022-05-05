@@ -102,11 +102,17 @@ export const getStyles = memoizeFunction((theme: Theme) =>
                 color: theme.palette.themePrimary,
                 textAlign: 'center',
                 fontSize: FontSizes.size14,
-                lineHeight: 'unset',
-                overflowX: 'hidden',
-                overflowY: 'auto',
+                display: '-webkit-box',
+                '-webkit-line-clamp': '3 !important',
+                '-webkit-box-orient': 'vertical',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
                 whiteSpace: 'pre-wrap',
-                overflowWrap: 'break-word'
+                overflowWrap: 'break-word',
+                '&:hover': {
+                    overflowX: 'hidden',
+                    overflowY: 'auto'
+                }
             } as IStyle
         ],
         invalidExpressionValue: [
