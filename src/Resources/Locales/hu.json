@@ -482,7 +482,8 @@
       "expressionPlaceholder": "Tulajdonságkifejezés megadása",
       "selectProperty": "Tulajdonság kiválasztása",
       "toggleLabel": "Tulajdonságkifejezés",
-      "dropdownPlaceholder": "Tulajdonság kijelölése"
+      "dropdownPlaceholder": "Tulajdonság kijelölése",
+      "none": "Egyik sem"
     }
   },
   "widgets": {

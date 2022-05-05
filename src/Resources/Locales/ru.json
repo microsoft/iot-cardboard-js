@@ -482,7 +482,8 @@
       "expressionPlaceholder": "Введите выражение свойства",
       "selectProperty": "Выберите недвижимость",
       "toggleLabel": "Выражение свойства",
-      "dropdownPlaceholder": "Выберите недвижимость"
+      "dropdownPlaceholder": "Выберите недвижимость",
+      "none": "Никакой"
     }
   },
   "widgets": {
