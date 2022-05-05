@@ -23,6 +23,8 @@ import useValueRangeBuilder from '../../../../../Models/Hooks/useValueRangeBuild
 import { SceneBuilderContext } from '../../../ADT3DSceneBuilder';
 import useBehaviorAliasedTwinProperties from '../../../../../Models/Hooks/useBehaviorAliasedTwinProperties';
 import TwinPropertyBuilder from '../../../../TwinPropertyBuilder/TwinPropertyBuilder';
+import ModelledPropertyBuilder from '../../../../ModelledPropertyBuilder/ModelledPropertyBuilder';
+import { PropertyExpression } from '../../../../ModelledPropertyBuilder/ModelledPropertyBuilder.types';
 
 const getStatusFromBehavior = (behavior: IBehavior) =>
     behavior.visuals.filter(ViewerConfigUtility.isStatusColorVisual)[0] || null;
@@ -139,9 +141,11 @@ const StatusTab: React.FC<IStatusTabProps> = ({
     }, [valueRangeBuilderState.areRangesValid]);
 
     const onPropertyChange = useCallback(
-        (option: string) => {
-            setProperty('statusValueExpression', option);
-        },
+        (newPropertyExpression: PropertyExpression) =>
+            setProperty(
+                'statusValueExpression',
+                newPropertyExpression.expression
+            ),
         [setProperty]
     );
 
@@ -177,7 +181,29 @@ const StatusTab: React.FC<IStatusTabProps> = ({
         <Stack tokens={sectionStackTokens}>
             <Text className={commonPanelStyles.text}>{t(LOC_KEYS.notice)}</Text>
             <div>
-                <TwinPropertyBuilder
+                <ModelledPropertyBuilder
+                    adapter={adapter}
+                    twinIdParams={{
+                        behavior: behaviorToEdit,
+                        config,
+                        sceneId
+                    }}
+                    mode="TOGGLE"
+                    propertyExpression={{
+                        expression:
+                            getStatusFromBehavior(behaviorToEdit)
+                                ?.statusValueExpression || ''
+                    }}
+                    onChange={onPropertyChange}
+                    allowedPropertyValueTypes={[
+                        'double',
+                        'float',
+                        'integer',
+                        'long'
+                    ]}
+                    required
+                />
+                {/* <TwinPropertyBuilder
                     mode="TOGGLE"
                     intellisenseProps={{
                         onChange: onPropertyChange,
@@ -196,7 +222,7 @@ const StatusTab: React.FC<IStatusTabProps> = ({
                         dataTestId: 'behavior-form-state-property-dropdown',
                         onChange: onPropertyChange
                     }}
-                />
+                /> */}
                 {showRangeBuilder && <Separator />}
             </div>
             {showRangeBuilder && (
