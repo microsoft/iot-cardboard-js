@@ -5,8 +5,10 @@ import { MessageBar, MessageBarType } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import BaseComponent from '../BaseComponent/BaseComponent';
 import { ScenePageErrorHandlingWrapperProps } from './ScenePageErrorHandlingWrapper.types';
-import { ErrorImages } from '../../Models/Constants';
-import ErrorIllustration from './Internal/ErrorIllustration/ErrorIllustration';
+import IllustrationMessage from '../IllustrationMessage/IllustrationMessage';
+import BlobError from '../../Resources/Static/error.svg';
+import AccessRestrictedError from '../../Resources/Static/accessRestricted.svg';
+
 const ScenePageErrorHandlingWrapper: React.FC<ScenePageErrorHandlingWrapperProps> = ({
     errors,
     primaryClickAction,
@@ -17,24 +19,38 @@ const ScenePageErrorHandlingWrapper: React.FC<ScenePageErrorHandlingWrapperProps
     switch (errors?.[0]?.type) {
         case ComponentErrorType.NonExistentBlob:
             componentContent = (
-                <ErrorIllustration
-                    imageName={ErrorImages.BlobError}
-                    errorTitle={t('nonExistentBlobErrorTitle')}
-                    errorMessage={t('nonExistentBlobErrorMessage')}
-                    buttonText={primaryClickAction.buttonText}
-                    onClickAction={primaryClickAction.onClick}
-                ></ErrorIllustration>
+                <IllustrationMessage
+                    headerText={t('nonExistentBlobErrorTitle')}
+                    descriptionText={t('nonExistentBlobErrorMessage')}
+                    type={'error'}
+                    width={'wide'}
+                    imageProps={{
+                        src: BlobError,
+                        height: 200
+                    }}
+                    buttonProps={{
+                        onClick: primaryClickAction.onClick,
+                        text: primaryClickAction.buttonText
+                    }}
+                />
             );
             break;
         case ComponentErrorType.UnauthorizedAccess:
             componentContent = (
-                <ErrorIllustration
-                    imageName={ErrorImages.AccessRestricted}
-                    errorTitle={t('unauthorizedAccessErrorTitle')}
-                    errorMessage={t('unauthorizedAccessErrorMessage')}
-                    buttonText={primaryClickAction.buttonText}
-                    onClickAction={primaryClickAction.onClick}
-                ></ErrorIllustration>
+                <IllustrationMessage
+                    headerText={t('unauthorizedAccessErrorTitle')}
+                    descriptionText={t('unauthorizedAccessErrorMessage')}
+                    type={'error'}
+                    width={'wide'}
+                    imageProps={{
+                        src: AccessRestrictedError,
+                        height: 200
+                    }}
+                    buttonProps={{
+                        onClick: primaryClickAction.onClick,
+                        text: primaryClickAction.buttonText
+                    }}
+                />
             );
             break;
         case ComponentErrorType.ReaderAccessOnly:
@@ -53,17 +69,24 @@ const ScenePageErrorHandlingWrapper: React.FC<ScenePageErrorHandlingWrapperProps
         case ComponentErrorType.JsonSchemaError:
             // TODO SCHEMA MIGRATION -- update json schema error UI to clearly show error information
             componentContent = (
-                <ErrorIllustration
-                    imageName={ErrorImages.BlobError}
-                    errorTitle={'JSON schema validation failed'}
-                    errorMessage={errors[0].jsonSchemaErrors
+                <IllustrationMessage
+                    headerText={'JSON schema validation failed'}
+                    descriptionText={errors[0].jsonSchemaErrors
                         .map((schemaError) =>
                             JSON.stringify(schemaError, null, 2)
                         )
                         .join('\n\n')}
-                    buttonText={primaryClickAction.buttonText}
-                    onClickAction={primaryClickAction.onClick}
-                ></ErrorIllustration>
+                    type={'error'}
+                    width={'wide'}
+                    imageProps={{
+                        src: BlobError,
+                        height: 200
+                    }}
+                    buttonProps={{
+                        onClick: primaryClickAction.onClick,
+                        text: primaryClickAction.buttonText
+                    }}
+                />
             );
             break;
         default:

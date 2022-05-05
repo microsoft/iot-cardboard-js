@@ -31,7 +31,7 @@ import { createCustomMeshItems } from '../../../3DV/SceneView.Utils';
 import PanelFooter from '../Shared/PanelFooter';
 import { IADTObjectColor } from '../../../../Models/Constants';
 import { deepCopy } from '../../../../Models/Services/Utils';
-import NoDataMessage from '../../../NoDataMessage/NoDataMessage';
+import IllustrationMessage from '../../../IllustrationMessage/IllustrationMessage';
 
 const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
     elements,
@@ -231,11 +231,17 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
             )}
             <div className={commonPanelStyles.content}>
                 {elements.length === 0 ? (
-                    <NoDataMessage
+                    <IllustrationMessage
                         headerText={t('3dSceneBuilder.noElementsText')}
+                        type={'info'}
+                        width={'compact'}
                     />
                 ) : filteredElements.length === 0 ? (
-                    <NoDataMessage headerText={t('3dSceneBuilder.noResults')} />
+                    <IllustrationMessage
+                        headerText={t('3dSceneBuilder.noResults')}
+                        type={'info'}
+                        width={'compact'}
+                    />
                 ) : (
                     <CardboardList<ITwinToObjectMapping>
                         items={listItems}
