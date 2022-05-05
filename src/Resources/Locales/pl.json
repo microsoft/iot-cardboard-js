@@ -310,7 +310,9 @@
     "viewMode": "Tryb wyświetlania",
     "enterBlobUrl": "Wprowadzanie adresu URL obiektu blob kontenera usługi Azure Storage",
     "home": "Dom",
-    "globe": "Globus"
+    "globe": "Globus",
+    "breadcrumbAriaLabel": "Breadcrumb z elementami renderowanymi jako przyciski",
+    "breadcrumbOverflowAriaLabel": "Więcej linków"
   },
   "layersDropdown": {
     "placeholder": "Brak zaznaczonych warstw",

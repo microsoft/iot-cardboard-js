@@ -310,7 +310,9 @@
     "viewMode": "Weergavemodus",
     "enterBlobUrl": "Voer de blob-URL van uw Azure-opslagcontainer in",
     "home": "Thuis",
-    "globe": "Bol"
+    "globe": "Bol",
+    "breadcrumbAriaLabel": "Broodkruimel met items weergegeven als knoppen",
+    "breadcrumbOverflowAriaLabel": "Meer links"
   },
   "layersDropdown": {
     "placeholder": "Geen lagen geselecteerd",

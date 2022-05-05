@@ -310,7 +310,9 @@
     "viewMode": "Režim zobrazení",
     "enterBlobUrl": "Zadejte adresu URL objektu BLOB kontejneru úložiště Azure.",
     "home": "Domov",
-    "globe": "Glóbus"
+    "globe": "Glóbus",
+    "breadcrumbAriaLabel": "Drobečková navigace s položkami vykreslenými jako tlačítka",
+    "breadcrumbOverflowAriaLabel": "Další odkazy"
   },
   "layersDropdown": {
     "placeholder": "Nejsou vybrány žádné vrstvy",
