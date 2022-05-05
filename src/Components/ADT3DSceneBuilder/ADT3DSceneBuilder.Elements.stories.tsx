@@ -213,17 +213,18 @@ EditBehaviorsTabAddSearch.play = async ({ canvasElement }) => {
     await userEvent.type(searchBox, 'hot');
 };
 
-export const EditBehaviorsTabAddSelect = Template.bind({});
-EditBehaviorsTabAddSelect.play = async ({ canvasElement }) => {
-    // open the add behavior callout
-    await EditBehaviorsTabAddOpenCallout.play({ canvasElement });
+// TODO_FIX_INTERACTION_TEST
+// export const EditBehaviorsTabAddSelect = Template.bind({});
+// EditBehaviorsTabAddSelect.play = async ({ canvasElement }) => {
+//     // open the add behavior callout
+//     await EditBehaviorsTabAddOpenCallout.play({ canvasElement });
 
-    // click a list item
-    const listItem = await findCalloutItemByTestId(
-        'cardboard-list-item-behavior-callout-list-0'
-    );
-    await userEvent.click(listItem);
-};
+//     // click a list item
+//     const listItem = await findCalloutItemByTestId(
+//         'cardboard-list-item-behavior-callout-list-0'
+//     );
+//     await userEvent.click(listItem);
+// };
 
 // TODO_FIX_INTERACTION_TEST
 // export const EditBehaviorsTabAddThenOpenMenu = Template.bind({});
