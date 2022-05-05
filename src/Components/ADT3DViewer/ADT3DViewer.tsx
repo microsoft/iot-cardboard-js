@@ -563,8 +563,8 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
                         setOutlinedMeshItems([]);
                         outlinedMeshItemsRef.current = [];
                     }}
-                    twins={behaviorModalSceneVisual?.twins}
-                    behaviors={behaviorModalSceneVisual?.behaviors}
+                    twins={behaviorModalSceneVisual?.twins || {}}
+                    behaviors={behaviorModalSceneVisual?.behaviors || []}
                     title={behaviorModalSceneVisual?.element?.displayName}
                     adapter={
                         hasPropertyInspectorAdapter(adapter) ? adapter : null
