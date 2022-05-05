@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
     defaultAllowedPropertyValueTypes,
     IFlattenedModelledPropertiesFormat,
@@ -54,65 +54,90 @@ const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = ({
                 modelledProperties.flattenedFormat
             );
 
-            // If expression doesn't match option key, snap to expression mode
-            if (
-                !getIsExpressionValidOption(propertyExpression, dropdownOptions)
-            ) {
-                setInternalMode('INTELLISENSE');
-            }
             setDropdownOptions(dropdownOptions);
         }
     }, [modelledProperties]);
 
-    const onChangeDropdownSelection = (option: IDropdownOption) => {
-        onChange({
-            property: option.data.property,
-            expression: option.data.property.fullPath
-        });
-    };
-
-    const getIntellisenseProperty = (
-        _propertyName: string,
-        {
-            tokens,
-            leafToken
-        }: { search: string; tokens: string[]; leafToken: number }
-    ) => {
-        const nonPathChars = separators.replace('.', '');
-        let pathRootIdx = leafToken;
-        for (let i = leafToken; i >= 0; i--) {
-            if (!nonPathChars.includes(tokens[i])) {
-                pathRootIdx = i;
-            } else {
-                break;
-            }
-        }
-
-        const propertyPath = tokens.slice(pathRootIdx, leafToken + 1).join('');
-
-        // Return properties @ path if present
-        const properties = Object.keys(
-            getProperty(modelledProperties.intellisenseFormat, propertyPath, {})
-        );
-
-        return properties;
-    };
-
-    const toggleExpressionMode = (_event, checked: boolean) => {
-        const newInternalMode = checked ? 'INTELLISENSE' : 'PROPERTY_SELECTION';
-
-        // When changing from intellisense mode to property selection mode
-        // if expression doesn't match up with option, report onChange of
-        // empty expression to reset dropdown
+    useEffect(() => {
+        // If expression doesn't match option key, snap to expression mode
         if (
-            !getIsExpressionValidOption(propertyExpression, dropdownOptions) &&
-            internalMode === 'INTELLISENSE'
+            modelledProperties &&
+            dropdownOptions &&
+            !getIsExpressionValidOption(propertyExpression, dropdownOptions)
         ) {
-            onChange({ expression: '' });
+            setInternalMode('INTELLISENSE');
         }
+    }, [propertyExpression, dropdownOptions, modelledProperties]);
 
-        setInternalMode(newInternalMode);
-    };
+    const onChangeDropdownSelection = useCallback(
+        (option: IDropdownOption) => {
+            onChange({
+                property: option.data.property,
+                expression: option.data.property.fullPath
+            });
+        },
+        [onChange]
+    );
+
+    const getIntellisenseProperty = useCallback(
+        (
+            _propertyName: string,
+            {
+                tokens,
+                leafToken
+            }: { search: string; tokens: string[]; leafToken: number }
+        ) => {
+            const nonPathChars = separators.replace('.', '');
+            let pathRootIdx = leafToken;
+            for (let i = leafToken; i >= 0; i--) {
+                if (!nonPathChars.includes(tokens[i])) {
+                    pathRootIdx = i;
+                } else {
+                    break;
+                }
+            }
+
+            const propertyPath = tokens
+                .slice(pathRootIdx, leafToken + 1)
+                .join('');
+
+            // Return properties @ path if present
+            const properties = Object.keys(
+                getProperty(
+                    modelledProperties.intellisenseFormat,
+                    propertyPath,
+                    {}
+                )
+            );
+
+            return properties;
+        },
+        [modelledProperties?.intellisenseFormat]
+    );
+
+    const toggleExpressionMode = useCallback(
+        (_event, checked: boolean) => {
+            const newInternalMode = checked
+                ? 'INTELLISENSE'
+                : 'PROPERTY_SELECTION';
+
+            // When changing from intellisense mode to property selection mode
+            // if expression doesn't match up with option, report onChange of
+            // empty expression to reset dropdown
+            if (
+                !getIsExpressionValidOption(
+                    propertyExpression,
+                    dropdownOptions
+                ) &&
+                internalMode === 'INTELLISENSE'
+            ) {
+                onChange({ expression: '' });
+            }
+
+            setInternalMode(newInternalMode);
+        },
+        [dropdownOptions, internalMode, onChange, propertyExpression]
+    );
 
     if (isLoading) return <Spinner />;
 
