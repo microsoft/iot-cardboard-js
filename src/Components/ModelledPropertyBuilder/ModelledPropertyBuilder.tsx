@@ -23,12 +23,9 @@ import { DTDLPropertyIconographyMap } from '../../Models/Constants/Constants';
 
 const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = ({
     adapter,
-    behavior,
-    config,
-    sceneId,
-    disableAliasedTwins = false,
+    twinIdParams,
     propertyExpression,
-    mode,
+    mode = 'TOGGLE',
     allowedPropertyValueTypes = defaultAllowedPropertyValueTypes,
     onChange,
     required = false
@@ -46,10 +43,7 @@ const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = ({
 
     const { isLoading, modelledProperties } = useModelledProperties({
         adapter,
-        behavior,
-        config,
-        sceneId,
-        disableAliasedTwins,
+        twinIdParams,
         allowedPropertyValueTypes
     });
 

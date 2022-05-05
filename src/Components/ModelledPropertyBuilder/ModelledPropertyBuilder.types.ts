@@ -10,6 +10,28 @@ export type ModelledPropertyBuilderMode =
     | 'INTELLISENSE'
     | 'TOGGLE';
 
+export interface BehaviorTwinIdParams {
+    /** The behavior to derive primary & aliased Ids from */
+    behavior: IBehavior;
+
+    /** The 3D scenes configuration files for accessing elements linked & aliased twins */
+    config: I3DScenesConfig;
+
+    /** The active scene context -- used to limit the element matching to the current scene */
+    sceneId: string;
+
+    /** Optional flag to disable inclusion of twin aliases (default to false) */
+    disableAliasedTwins?: boolean;
+}
+
+export interface ResolvedTwinIdParams {
+    /** Array of twin Ids to find modelelled properties for */
+    primaryTwinIds: string[];
+
+    /** Optional map of alias to twinIds mappings. */
+    aliasedTwinMap?: Record<string, string>;
+}
+
 export interface ModelledPropertyBuilderProps {
     /** Adapter with necessary methods for accessing DTDL models & resolving twins */
     adapter: IModelledPropertyBuilderAdapter;
@@ -23,8 +45,8 @@ export interface ModelledPropertyBuilderProps {
     /** The active scene context -- used to limit the element matching to the current scene */
     sceneId: string;
 
-    /** Optional flag to disable inclusion of twin aliases (default to false) */
-    disableAliasedTwins?: boolean;
+    /** Params for deriving primary & aliased twin Ids */
+    twinIdParams: BehaviorTwinIdParams | ResolvedTwinIdParams;
 
     /** 
 		This is a controlled component which lets consumer store the
@@ -114,3 +136,9 @@ export const defaultAllowedPropertyValueTypes: PropertyValueType[] = [
     'time',
     'enum'
 ];
+
+export const isResolvedTwinIdMode = (
+    twinIdParams: BehaviorTwinIdParams | ResolvedTwinIdParams
+): twinIdParams is ResolvedTwinIdParams => {
+    return (twinIdParams as ResolvedTwinIdParams).primaryTwinIds !== undefined;
+};

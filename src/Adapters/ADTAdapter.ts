@@ -32,7 +32,8 @@ import {
     IComponentError,
     linkedTwinName,
     IAliasedTwinProperty,
-    IADTModel
+    IADTModel,
+    modelRefreshMaxAge
 } from '../Models/Constants';
 import ADTTwinData from '../Models/Classes/AdapterDataClasses/ADTTwinData';
 import ADTModelData, {
@@ -100,7 +101,12 @@ export default class ADTAdapter implements IADTAdapter {
         this.uniqueObjectId = uniqueObjectId;
         this.cachedTwinModelMap = new Map();
         this.adtTwinCache = new AdapterEntityCache<ADTTwinData>(9000);
-        this.adtModelsCache = new AdapterEntityCache<ADTAllModelsData>(3600000);
+        this.adtModelsCache = new AdapterEntityCache<ADTAllModelsData>(
+            modelRefreshMaxAge
+        );
+        this.adtTwinToModelMappingCache = new AdapterEntityCache<ADTTwinToModelMappingData>(
+            modelRefreshMaxAge
+        );
 
         this.authService.login();
         this.axiosInstance = axios.create({ baseURL: this.adtProxyServerPath });

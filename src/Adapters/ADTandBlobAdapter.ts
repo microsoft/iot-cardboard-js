@@ -1,5 +1,10 @@
 import { ADTTwinData } from '../Models/Classes';
+import {
+    ADTAllModelsData,
+    ADTTwinToModelMappingData
+} from '../Models/Classes/AdapterDataClasses/ADTModelData';
 import AdapterEntityCache from '../Models/Classes/AdapterEntityCache';
+import { modelRefreshMaxAge } from '../Models/Constants';
 import { IAuthService } from '../Models/Constants/Interfaces';
 import { applyMixins } from '../Models/Services/Utils';
 import ADTAdapter from './ADTAdapter';
@@ -20,6 +25,12 @@ export default class ADTandBlobAdapter {
         this.tenantId = tenantId;
         this.uniqueObjectId = uniqueObjectId;
         this.adtTwinCache = new AdapterEntityCache<ADTTwinData>(9000);
+        this.adtModelsCache = new AdapterEntityCache<ADTAllModelsData>(
+            modelRefreshMaxAge
+        );
+        this.adtTwinToModelMappingCache = new AdapterEntityCache<ADTTwinToModelMappingData>(
+            modelRefreshMaxAge
+        );
 
         if (blobContainerUrl) {
             const containerURL = new URL(blobContainerUrl);

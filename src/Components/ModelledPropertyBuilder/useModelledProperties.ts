@@ -1,29 +1,23 @@
 import { useEffect, useMemo, useState } from 'react';
 import ViewerConfigUtility from '../../Models/Classes/ViewerConfigUtility';
 import { IModelledPropertyBuilderAdapter } from '../../Models/Constants';
-import {
-    IBehavior,
-    I3DScenesConfig
-} from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { buildModelledProperties } from './ModelledPropertyBuilder.model';
 import {
+    BehaviorTwinIdParams,
     IModelledProperties,
-    PropertyValueType
+    isResolvedTwinIdMode,
+    PropertyValueType,
+    ResolvedTwinIdParams
 } from './ModelledPropertyBuilder.types';
 
 interface IUseModelledPropertiesParams {
+    twinIdParams: BehaviorTwinIdParams | ResolvedTwinIdParams;
+
     /** Network interface with cached DTDL models & ability to resolve twins by Id */
     adapter: IModelledPropertyBuilderAdapter;
-    /** The behavior to derive primary & aliased Ids from */
-    behavior: IBehavior;
-    /** The 3D scenes configuration files for accessing elements linked & aliased twins */
-    config: I3DScenesConfig;
-    /** Active scene context -- used to limit the element matching to the current scene */
-    sceneId: string;
+
     /** List of allowed DTDL primitive types to build value properties for */
     allowedPropertyValueTypes: Array<PropertyValueType>;
-    /** List of allowed DTDL complex types to build value properties for */
-    disableAliasedTwins: boolean;
 }
 
 /**React hook responsible for constructing internal data representation of modelled properties.
@@ -34,11 +28,8 @@ interface IUseModelledPropertiesParams {
  */
 export const useModelledProperties = ({
     adapter,
-    behavior,
-    config,
-    sceneId,
-    allowedPropertyValueTypes,
-    disableAliasedTwins
+    twinIdParams,
+    allowedPropertyValueTypes
 }: IUseModelledPropertiesParams) => {
     const [isLoading, setIsLoading] = useState(true);
     const [
@@ -49,13 +40,23 @@ export const useModelledProperties = ({
     // Gets both primary & aliased twin Ids for a behavior in the context of the current scene.
     const { primaryTwinIds, aliasedTwinMap } = useMemo(
         () =>
-            ViewerConfigUtility.getTwinIdsForBehaviorInScene(
-                behavior,
-                config,
-                sceneId
-            ),
-        [behavior, config, sceneId]
+            isResolvedTwinIdMode(twinIdParams)
+                ? {
+                      primaryTwinIds: twinIdParams.primaryTwinIds,
+                      aliasedTwinMap: twinIdParams.aliasedTwinMap ?? {}
+                  }
+                : ViewerConfigUtility.getTwinIdsForBehaviorInScene(
+                      twinIdParams.behavior,
+                      twinIdParams.config,
+                      twinIdParams.sceneId
+                  ),
+        [twinIdParams]
     );
+
+    const disableAliasedTwins =
+        (isResolvedTwinIdMode(twinIdParams) && !twinIdParams.aliasedTwinMap) ||
+        (!isResolvedTwinIdMode(twinIdParams) &&
+            twinIdParams.disableAliasedTwins);
 
     // Merge primary & aliased tags (if enabled) and map twin Ids to model Ids for each twin
     // Update model Id mapping if primary or aliased twins Ids change

@@ -94,6 +94,8 @@ export const availableWidgets: Array<IWidgetLibraryItem> = [
     }
 ];
 
+export const modelRefreshMaxAge = 3600000;
+
 export const linkedTwinName = 'LinkedTwin';
 export const ValidAdtHostSuffixes = [
     'digitaltwins.azure.net',
