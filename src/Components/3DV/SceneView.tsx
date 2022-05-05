@@ -861,6 +861,7 @@ function SceneView(props: ISceneViewProps, ref) {
                     if (engineRef.current) {
                         debugLog('Resize');
                         engineRef.current.resize();
+                        createMarkersWithPosition();
                     }
                 }, 10)
             );
@@ -1011,8 +1012,8 @@ function SceneView(props: ISceneViewProps, ref) {
                         // add to existing group
                         if (element) {
                             const groupItems =
-                                element.marker.UIElement?.props?.groupItems ||
-                                [];
+                                element.marker.GroupedUIElement?.props
+                                    ?.groupItems || [];
 
                             if (!groupItems.length) {
                                 groupItems.push({
@@ -1202,7 +1203,6 @@ function SceneView(props: ISceneViewProps, ref) {
                         (marker.attachedMeshIds &&
                             marker.attachedMeshIds.includes(name)));
                 if (!show) {
-                    //console.log(name);
                     return null;
                 }
             }
@@ -1665,8 +1665,8 @@ function SceneView(props: ISceneViewProps, ref) {
                 return (
                     <div
                         key={index}
+                        className={customStyles.markers}
                         style={{
-                            position: 'absolute',
                             left: markerAndPosition.left,
                             top: markerAndPosition.top
                         }}
@@ -1697,12 +1697,7 @@ function SceneView(props: ISceneViewProps, ref) {
                     <div
                         id={marker.id}
                         key={index}
-                        style={{
-                            position: 'absolute',
-                            left: 0,
-                            top: 0,
-                            zIndex: -1
-                        }}
+                        className={customStyles.placeholderMarkers}
                     >
                         {marker.UIElement}
                     </div>

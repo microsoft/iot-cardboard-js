@@ -124,67 +124,26 @@ export const MarkersWithSimpleModel = () => {
             showIfOccluded: true,
             UIElement: <ModelLabel label={'Marker 3'} />
         },
-
         {
             name: 'Marker 4',
-            id: 'id' + createGUID(),
-            attachedMeshIds: ['tank3_LOD0_primitive2'],
-            showIfOccluded: true,
-            UIElement: <ModelLabel label={'Marker 4'} />
-        },
-
-        {
-            name: 'Marker 5',
             id: 'id' + createGUID(),
             attachedMeshIds: ['tank3_LOD0.004_primitive0'],
             showIfOccluded: true,
             UIElement: <ModelLabel label={'Marker 5'} />
         },
-
         {
-            name: 'Marker 6',
-            id: 'id' + createGUID(),
-            attachedMeshIds: ['tank4_LOD0_primitive0'],
-            showIfOccluded: true,
-            UIElement: <ModelLabel label={'Marker 6'} />
-        },
-
-        {
-            name: 'Marker 7',
+            name: 'Marker 5',
             id: 'id' + createGUID(),
             attachedMeshIds: ['tank4_LOD0.007_primitive0'],
             showIfOccluded: true,
             UIElement: <ModelLabel label={'Marker 7'} />
         },
-
         {
-            name: 'Marker 8',
+            name: 'Marker 6',
             id: 'id' + createGUID(),
             attachedMeshIds: ['tank6_LOD0.003_primitive0'],
             showIfOccluded: true,
             UIElement: <ModelLabel label={'Marker 8'} />
-        },
-
-        {
-            name: 'Marker 9',
-            id: 'id' + createGUID(),
-            attachedMeshIds: ['tank6_LOD0.015_primitive0'],
-            showIfOccluded: true,
-            UIElement: <ModelLabel label={'Marker 9'} />
-        },
-        {
-            name: 'Marker 10',
-            id: 'id' + createGUID(),
-            attachedMeshIds: ['shellAndMisc_primitive1'],
-            showIfOccluded: true,
-            UIElement: <ModelLabel label={'Marker 10'} />
-        },
-        {
-            name: 'Marker 11',
-            id: 'id' + createGUID(),
-            attachedMeshIds: ['Cube.013'],
-            showIfOccluded: true,
-            UIElement: <ModelLabel label={'Marker 11'} />
         }
     ];
 
@@ -219,44 +178,23 @@ export const MarkersWithComplexModel = () => {
         {
             name: 'Marker 3',
             id: 'id' + createGUID(),
-            attachedMeshIds: ['MODULE_TOWER_SMALL_765_LOD1'],
-            showIfOccluded: true,
-            UIElement: <ModelLabel label={'Marker 3'} />
-        },
-        {
-            name: 'Marker 4',
-            id: 'id' + createGUID(),
             attachedMeshIds: ['WAREHOUSE_001_LOD1_002'],
             showIfOccluded: true,
             UIElement: <ModelLabel label={'Marker 4'} />
         },
         {
-            name: 'Marker 5',
-            id: 'id' + createGUID(),
-            attachedMeshIds: ['WAREHOUSE_EXT1_001_LOD1_002'],
-            showIfOccluded: true,
-            UIElement: <ModelLabel label={'Marker 5'} />
-        },
-        {
-            name: 'Marker 6',
+            name: 'Marker 4',
             id: 'id' + createGUID(),
             attachedMeshIds: ['Pipes_Foundation_20_LOD1_001'],
             showIfOccluded: true,
             UIElement: <ModelLabel label={'Marker 6'} />
         },
         {
-            name: 'Marker 7',
+            name: 'Marker 5',
             id: 'id' + createGUID(),
             attachedMeshIds: ['pCube1_LOD1'],
             showIfOccluded: true,
             UIElement: <ModelLabel label={'Marker 7'} />
-        },
-        {
-            name: 'Marker 8',
-            id: 'id' + createGUID(),
-            attachedMeshIds: ['Street_markings_LOD2'],
-            showIfOccluded: true,
-            UIElement: <ModelLabel label={'Marker 8'} />
         }
     ];
 
