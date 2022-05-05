@@ -211,7 +211,7 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
             );
         }
         // run only on first mount
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+        // // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const setSelectedElementId = useCallback(
@@ -267,7 +267,7 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
             }
         }
         // first mount only when data is present
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+        // // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [scenesConfig, panelItems]);
 
     useEffect(() => {
@@ -364,7 +364,7 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
     useEffect(() => {
         refetchConfig && refetchConfig();
         // only run on first mount
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+        // // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     useEffect(() => {
