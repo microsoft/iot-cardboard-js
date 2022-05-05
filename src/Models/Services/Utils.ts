@@ -360,7 +360,7 @@ export function rgbToHex(r, g, b) {
     return '#' + componentToHex(r) + componentToHex(g) + componentToHex(b);
 }
 
-export function addHttpsPrefix(url: stri ng) {
+export function addHttpsPrefix(url: string) {
     if (url?.startsWith('https://')) {
         // if it's got the prefix, don't add anything
         return url;
