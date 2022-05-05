@@ -3,7 +3,6 @@ import { ADTTwinData } from '../Models/Classes';
 import AdapterEntityCache from '../Models/Classes/AdapterEntityCache';
 import ADTInstanceConnectionData from '../Models/Classes/AdapterDataClasses/ADTInstanceConnectionData';
 import ADTInstancesData from '../Models/Classes/AdapterDataClasses/ADTInstancesData';
-import StorageContainersData from '../Models/Classes/AdapterDataClasses/StorageContainersData';
 import AdapterMethodSandbox from '../Models/Classes/AdapterMethodSandbox';
 import AdapterResult from '../Models/Classes/AdapterResult';
 import {
@@ -13,8 +12,7 @@ import {
 import {
     IADTInstance,
     IAuthService,
-    IAzureResource,
-    IStorageContainer
+    IAzureResource
 } from '../Models/Constants/Interfaces';
 import { applyMixins } from '../Models/Services/Utils';
 import ADTAdapter from './ADTAdapter';
@@ -28,11 +26,9 @@ import {
 import { modelRefreshMaxAge } from '../Models/Constants';
 
 export default class ADT3DSceneAdapter {
-    public accountName: string;
     constructor(
         authService: IAuthService,
         adtHostUrl: string,
-        accountName: string,
         blobContainerUrl?: string,
         tenantId?: string,
         uniqueObjectId?: string,
@@ -41,7 +37,6 @@ export default class ADT3DSceneAdapter {
     ) {
         this.adtHostUrl = adtHostUrl;
         this.authService = this.blobAuthService = authService;
-        this.accountName = accountName;
         this.tenantId = tenantId;
         this.uniqueObjectId = uniqueObjectId;
         this.adtTwinCache = new AdapterEntityCache<ADTTwinData>(9000);
@@ -116,40 +111,6 @@ export default class ADT3DSceneAdapter {
         }, 'azureManagement');
     };
 
-    //returns all the storage containers that the user has the specified permissions to
-    getContainers = async () => {
-        const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
-        const accessRolesToCheck = [
-            AzureAccessPermissionRoles.Reader,
-            AzureAccessPermissionRoles.StorageBlobDataContributor
-        ];
-        return await adapterMethodSandbox.safelyFetchData(async () => {
-            const storageEndPoint = `${AzureServiceResourceProviderEndpoints.Storage}/${this.accountName}/blobServices/default/containers`;
-            const storageResourcesResult = await this.getResources(
-                storageEndPoint
-            );
-            const storageResources: Array<IAzureResource> = storageResourcesResult.getData();
-            const storageContainers: Array<IStorageContainer> = [];
-            for (let i = 0; i < storageResources.length; i++) {
-                const storageResource = storageResources[i];
-                const haveAccess = await this.hasRoleDefinitions(
-                    storageResource.id,
-                    this.uniqueObjectId,
-                    accessRolesToCheck,
-                    true
-                );
-                if (haveAccess) {
-                    storageContainers.push({
-                        id: storageResource.id,
-                        name: storageResource.name
-                    });
-                }
-            }
-
-            return new StorageContainersData(storageContainers);
-        });
-    };
-
     //returns all the adt instances that the user has the specified permission/permissions to
     getADTInstances = async () => {
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
@@ -202,7 +163,6 @@ export default interface ADT3DSceneAdapter
         AdapterResult<ADTInstanceConnectionData>
     >;
     getADTInstances: () => Promise<AdapterResult<ADTInstancesData>>;
-    getContainers: () => Promise<AdapterResult<StorageContainersData>>;
 }
 applyMixins(ADT3DSceneAdapter, [
     ADTAdapter,

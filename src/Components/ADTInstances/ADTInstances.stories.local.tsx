@@ -21,7 +21,6 @@ export const Instances = (_args, { globals: { theme, locale } }) => {
                         authenticationParameters.adt.aadParameters
                     ),
                     authenticationParameters.adt.hostUrl,
-                    authenticationParameters.adt.aadParameters.accountName,
                     authenticationParameters.adt.aadParameters.tenantId,
                     authenticationParameters.adt.aadParameters.uniqueObjectId
                 )
