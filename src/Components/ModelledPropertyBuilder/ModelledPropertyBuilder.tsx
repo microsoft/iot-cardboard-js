@@ -20,6 +20,7 @@ import { ModelledPropertyDropdown } from './Internal/ModelledPropertyDropdown';
 import { Intellisense, separators } from '../AutoComplete/Intellisense';
 import { getProperty } from 'dot-prop';
 import { DTDLPropertyIconographyMap } from '../../Models/Constants/Constants';
+import i18next from 'i18next';
 
 const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = ({
     adapter,
@@ -28,7 +29,8 @@ const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = ({
     mode = 'TOGGLE',
     allowedPropertyValueTypes = defaultAllowedPropertyValueTypes,
     onChange,
-    required = false
+    required = false,
+    enableNoneDropdownOption = false
 }) => {
     const { t } = useTranslation();
     const styles = getStyles();
@@ -51,7 +53,8 @@ const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = ({
         if (modelledProperties) {
             // Once modelled properties load, construct dropdown options
             const dropdownOptions = getDropdownOptions(
-                modelledProperties.flattenedFormat
+                modelledProperties.flattenedFormat,
+                enableNoneDropdownOption
             );
 
             setDropdownOptions(dropdownOptions);
@@ -71,10 +74,16 @@ const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = ({
 
     const onChangeDropdownSelection = useCallback(
         (option: IDropdownOption) => {
-            onChange({
-                property: option.data.property,
-                expression: option.data.property.fullPath
-            });
+            if (option.key === 'none') {
+                onChange({
+                    expression: ''
+                });
+            } else {
+                onChange({
+                    property: option.data.property,
+                    expression: option.data.property.fullPath
+                });
+            }
         },
         [onChange]
     );
@@ -225,9 +234,21 @@ const getIsExpressionValidOption = (
 };
 
 const getDropdownOptions = (
-    flattenedProperties: IFlattenedModelledPropertiesFormat
+    flattenedProperties: IFlattenedModelledPropertiesFormat,
+    enableNoneDropdownOption: boolean
 ) => {
-    let modelledPropertyOptions: Array<IDropdownOption> = [];
+    let modelledPropertyOptions: Array<IDropdownOption> = [
+        ...(enableNoneDropdownOption
+            ? [
+                  {
+                      key: 'none',
+                      text: i18next.t(
+                          '3dSceneBuilder.ModelledPropertyBuilder.none'
+                      )
+                  }
+              ]
+            : [])
+    ];
 
     for (const tag of Object.keys(flattenedProperties)) {
         const tagProperties = [

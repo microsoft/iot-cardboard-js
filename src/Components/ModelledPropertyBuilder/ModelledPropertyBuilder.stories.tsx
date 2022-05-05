@@ -75,6 +75,7 @@ const Template: ModelledPropertyBuilderStory = (args) => {
                 }
                 propertyExpression={propertyExpression}
                 required
+                enableNoneDropdownOption
             />
 
             {showDebug && (
