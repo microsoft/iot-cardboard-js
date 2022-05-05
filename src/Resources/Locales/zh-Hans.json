@@ -760,5 +760,13 @@
     "pan": "泛",
     "orbit": "轨道",
     "zoom": "缩放"
+  },
+  "deeplinkFlyout": {
+    "buttonTitle": "共享",
+    "copyButtonText": "复制链接",
+    "copyConfirmationMessage": "复制",
+    "flyoutHeader": "共享场景",
+    "includeElementsOption": "与所选元素的链接",
+    "includeLayersOption": "与所选图层链接"
   }
 }

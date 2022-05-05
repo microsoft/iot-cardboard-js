@@ -760,5 +760,13 @@
     "pan": "Panna",
     "orbit": "Omloppsbana",
     "zoom": "Zooma"
+  },
+  "deeplinkFlyout": {
+    "buttonTitle": "Aktie",
+    "copyButtonText": "Kopiera länk",
+    "copyConfirmationMessage": "Kopieras",
+    "flyoutHeader": "Dela scen",
+    "includeElementsOption": "Länk till valt element",
+    "includeLayersOption": "Länka till valda lager"
   }
 }

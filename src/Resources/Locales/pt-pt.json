@@ -760,5 +760,13 @@
     "pan": "Pan",
     "orbit": "Órbita",
     "zoom": "Zoom"
+  },
+  "deeplinkFlyout": {
+    "buttonTitle": "Partilhar",
+    "copyButtonText": "Link de cópia",
+    "copyConfirmationMessage": "Copiado",
+    "flyoutHeader": "Partilhar cena",
+    "includeElementsOption": "Ligação com o elemento selecionado",
+    "includeLayersOption": "Ligação com camadas selecionadas"
   }
 }
