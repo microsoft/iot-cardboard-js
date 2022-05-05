@@ -123,7 +123,7 @@ const ProviderUpdater: React.FC = () => {
                     deeplinkDispatch({
                         type: DeeplinkContextActionType.SET_STORAGE_URL,
                         payload: {
-                            url: deeplinkState.adtUrl.replace(
+                            url: deeplinkState.storageUrl.replace(
                                 storageUrlIncrementor.toString(),
                                 newValue.toString()
                             )

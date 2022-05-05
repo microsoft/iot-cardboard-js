@@ -271,7 +271,7 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
     }, [scenesConfig, panelItems]);
 
     useEffect(() => {
-        // if we don't have any layer id from the context, set initial values
+        // if the zoom prop is provided, use that over the deeplink values
         if (zoomToElementIdsProp) {
             // take the first one since we only support a single element id today
             setZoomMeshesByElement(zoomToElementIdsProp[0]);
