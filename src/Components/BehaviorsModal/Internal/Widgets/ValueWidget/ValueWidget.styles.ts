@@ -45,7 +45,8 @@ export const getStyles = memoizeFunction((theme: Theme) =>
                 fontSize: FontSizes.size12,
                 maxHeight: 20,
                 lineHeight: 20,
-                flexShrink: 0
+                flexShrink: 0,
+                marginTop: 8
             } as IStyle
         ],
         expressionValueContainer: [
@@ -67,8 +68,7 @@ export const getStyles = memoizeFunction((theme: Theme) =>
                 color: theme.palette.themePrimary,
                 textAlign: 'center',
                 fontSize: FontSizes.size24,
-                lineHeight: 24,
-                paddingBottom: 12
+                lineHeight: 24
             } as IStyle
         ],
         expressionValueSecondary: [
@@ -80,7 +80,7 @@ export const getStyles = memoizeFunction((theme: Theme) =>
                 textAlign: 'center',
                 fontSize: FontSizes.size16,
                 lineHeight: 16,
-                paddingBottom: 12
+                paddingTop: 12
             } as IStyle
         ],
         expressionValueListItem: [
@@ -106,8 +106,7 @@ export const getStyles = memoizeFunction((theme: Theme) =>
                 overflowX: 'hidden',
                 overflowY: 'auto',
                 whiteSpace: 'pre-wrap',
-                overflowWrap: 'break-word',
-                marginBottom: 8
+                overflowWrap: 'break-word'
             } as IStyle
         ]
     })

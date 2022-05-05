@@ -38,7 +38,7 @@ export const getWidgetClassNames = memoizeFunction(
                     justifyContent: 'center',
                     alignItems: 'center',
                     width: '160px',
-                    height: '124px',
+                    height: '140px',
                     margin: 8,
                     textOverflow: 'ellipsis',
                     whiteSpace: 'nowrap',
