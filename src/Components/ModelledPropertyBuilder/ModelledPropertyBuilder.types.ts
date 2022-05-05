@@ -36,15 +36,6 @@ export interface ModelledPropertyBuilderProps {
     /** Adapter with necessary methods for accessing DTDL models & resolving twins */
     adapter: IModelledPropertyBuilderAdapter;
 
-    /** The behavior to derive primary & aliased Ids from */
-    behavior: IBehavior;
-
-    /** The 3D scenes configuration files for accessing elements linked & aliased twins */
-    config: I3DScenesConfig;
-
-    /** The active scene context -- used to limit the element matching to the current scene */
-    sceneId: string;
-
     /** Params for deriving primary & aliased twin Ids */
     twinIdParams: BehaviorTwinIdParams | ResolvedTwinIdParams;
 

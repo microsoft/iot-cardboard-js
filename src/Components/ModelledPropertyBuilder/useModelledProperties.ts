@@ -50,7 +50,15 @@ export const useModelledProperties = ({
                       twinIdParams.config,
                       twinIdParams.sceneId
                   ),
-        [twinIdParams]
+        // Set up refresh dependencies for memoized values
+        isResolvedTwinIdMode(twinIdParams)
+            ? [twinIdParams.aliasedTwinMap, twinIdParams.primaryTwinIds]
+            : [
+                  twinIdParams.behavior,
+                  twinIdParams.config,
+                  twinIdParams.disableAliasedTwins,
+                  twinIdParams.sceneId
+              ]
     );
 
     const disableAliasedTwins =

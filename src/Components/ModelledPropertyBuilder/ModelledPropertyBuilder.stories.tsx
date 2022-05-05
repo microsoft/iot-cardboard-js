@@ -70,9 +70,6 @@ const Template: ModelledPropertyBuilderStory = (args) => {
                     config: mockConfig,
                     sceneId: mockConfig.configuration.scenes[0].id
                 }}
-                config={mockConfig}
-                behavior={mockConfig.configuration.behaviors[0]}
-                sceneId={mockConfig.configuration.scenes[0].id}
                 onChange={(newPropertyExpression: PropertyExpression) =>
                     setPropertyExpression(newPropertyExpression)
                 }
