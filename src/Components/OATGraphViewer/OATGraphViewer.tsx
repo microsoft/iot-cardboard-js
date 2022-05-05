@@ -28,11 +28,10 @@ import {
     IOATElementsChangeEventArgs,
     IOATTwinModelNodes
 } from '../../Models/Constants/Interfaces';
-import { IsFileURL } from '@babylonjs/core';
 
 type OATGraphProps = {
     onElementsUpdate: (digitalTwinsModels: IOATElementsChangeEventArgs) => any;
-    inputElement: [];
+    importModels: [];
     setModel: (twinModel: IOATTwinModelNodes) => any;
     model: IOATTwinModelNodes;
     deletedModel: string;
@@ -43,7 +42,7 @@ type OATGraphProps = {
 
 const OATGraphViewer = ({
     onElementsUpdate,
-    inputElement,
+    importModels,
     setModel,
     model,
     deletedModel,
@@ -63,6 +62,7 @@ const OATGraphViewer = ({
     const idClassBase = 'dtmi:com:example:';
     const contextClassBase = 'dtmi:adt:context;2';
     const versionClassBase = '1';
+    const defaultPosition = 100;
     const [newModelId, setNewModelId] = useState(0);
     const graphViewerStyles = getGraphViewerStyles();
     const currentNodeId = useRef('');
@@ -106,92 +106,96 @@ const OATGraphViewer = ({
     }, [model]);
 
     useEffect(() => {
-        let inputElementList = [];
-        inputElement.map((input) => {
-            const node = elements.find(
-                (element) => element.id === input['@id']
-            );
-            if (!node) {
-                let relationships = [];
-                let contents = [];
-                input['contents'].map((content) => {
-                    if (content['@type'] === ComponentHandleName) {
-                        const componentRelationship = {
-                            id: `${input['@id']}${ComponentHandleName}${content['schema']}`,
-                            label: '',
-                            source: input['@id'],
-                            sourceHandle: ComponentHandleName,
-                            target: content['schema'],
-                            type: RelationshipHandleName,
-                            data: {
-                                name: content['name'],
-                                displayName: content['name'],
+        let importModelsList = [];
+        if (importModels.length > 0) {
+            importModels.map((input) => {
+                const node = elements.find(
+                    (element) => element.id === input['@id']
+                );
+                if (!node) {
+                    let relationships = [];
+                    let contents = [];
+                    input['contents'].map((content) => {
+                        if (content['@type'] === ComponentHandleName) {
+                            const componentRelationship = {
                                 id: `${input['@id']}${ComponentHandleName}${content['schema']}`,
-                                type: ComponentHandleName
-                            }
-                        };
-                        relationships = [
-                            ...relationships,
-                            componentRelationship
-                        ];
-                    } else if (content['@type'] === RelationshipHandleName) {
-                        const relationship = {
-                            id: content['@id'],
+                                label: '',
+                                source: input['@id'],
+                                sourceHandle: ComponentHandleName,
+                                target: content['schema'],
+                                type: RelationshipHandleName,
+                                data: {
+                                    name: content['name'],
+                                    displayName: content['name'],
+                                    id: `${input['@id']}${ComponentHandleName}${content['schema']}`,
+                                    type: ComponentHandleName
+                                }
+                            };
+                            relationships = [
+                                ...relationships,
+                                componentRelationship
+                            ];
+                        } else if (
+                            content['@type'] === RelationshipHandleName
+                        ) {
+                            const relationship = {
+                                id: content['@id'],
+                                label: '',
+                                source: input['@id'],
+                                sourceHandle: RelationshipHandleName,
+                                target: content['target'],
+                                type: RelationshipHandleName,
+                                data: {
+                                    name: content['name'],
+                                    displayName: content['displayName'],
+                                    id: content['@id'],
+                                    type: RelationshipHandleName
+                                }
+                            };
+                            relationships = [...relationships, relationship];
+                        } else {
+                            contents = [...contents, content];
+                        }
+                    });
+                    if (input['extends']) {
+                        const extendRelationship = {
+                            id: `${input['@id']}${ExtendHandleName}${input['extends']}`,
                             label: '',
                             source: input['@id'],
-                            sourceHandle: RelationshipHandleName,
-                            target: content['target'],
+                            sourceHandle: ExtendHandleName,
+                            target: input['extends'],
                             type: RelationshipHandleName,
                             data: {
-                                name: content['name'],
-                                displayName: content['displayName'],
-                                id: content['@id'],
-                                type: RelationshipHandleName
+                                name: '',
+                                displayName: '',
+                                id: `${input['@id']}${ExtendHandleName}${input['extends']}`,
+                                type: ExtendHandleName
                             }
                         };
-                        relationships = [...relationships, relationship];
-                    } else {
-                        contents = [...contents, content];
+                        relationships = [...relationships, extendRelationship];
                     }
-                });
-                if (input['extends']) {
-                    const extendRelationship = {
-                        id: `${input['@id']}${ExtendHandleName}${input['extends']}`,
-                        label: '',
-                        source: input['@id'],
-                        sourceHandle: ExtendHandleName,
-                        target: input['extends'],
-                        type: RelationshipHandleName,
+                    const newNode = {
+                        id: input['@id'],
+                        type: input['@type'],
+                        position: { x: defaultPosition, y: defaultPosition },
                         data: {
-                            name: '',
-                            displayName: '',
-                            id: `${input['@id']}${ExtendHandleName}${input['extends']}`,
-                            type: ExtendHandleName
+                            name: input['displayName'],
+                            type: input['@type'],
+                            id: input['@id'],
+                            content: contents,
+                            context: contextClassBase
                         }
                     };
-                    relationships = [...relationships, extendRelationship];
+                    importModelsList = [
+                        ...importModelsList,
+                        newNode,
+                        ...relationships
+                    ];
                 }
-                const newNode = {
-                    id: input['@id'],
-                    type: input['@type'],
-                    position: { x: 100, y: 100 },
-                    data: {
-                        name: input['displayName'],
-                        type: input['@type'],
-                        id: input['@id'],
-                        content: contents,
-                        context: contextClassBase
-                    }
-                };
-                inputElementList = [
-                    ...inputElementList,
-                    newNode,
-                    ...relationships
-                ];
-            }
-        });
-        setElements([...inputElementList]);
-    }, [inputElement]);
+            });
+            setElements([...importModelsList]);
+        }
+    }, [importModels]);
 
     useEffect(() => {
         if (deletedModel) {
@@ -283,7 +287,7 @@ const OATGraphViewer = ({
         const newNode = {
             id: id,
             type: InterfaceType,
-            position: { x: 100, y: 100 },
+            position: { x: defaultPosition, y: defaultPosition },
             data: {
                 name: name,
                 type: InterfaceType,
@@ -595,7 +599,8 @@ const OATGraphViewer = ({
 
 OATGraphViewer.defaultProps = {
     onElementsUpdate: () => null,
-    setModel: () => null
+    setModel: () => null,
+    importModels: []
 };
 
 export default OATGraphViewer;

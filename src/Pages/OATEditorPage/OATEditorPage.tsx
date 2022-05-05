@@ -13,7 +13,7 @@ import {
 
 const OATEditorPage = ({ theme }) => {
     const [elementHandler, setElementHandler] = useState([]);
-    const [inputElement, setInputElemet] = useState([]);
+    const [importModels, setImportModels] = useState([]);
     const [templatesActive, setTemplatesActive] = useState(false);
     const EditorPageStyles = getEditorPageStyles();
     const [deletedModel, setDeletedModel] = useState('');
@@ -67,11 +67,11 @@ const OATEditorPage = ({ theme }) => {
                     const content = await existingFilesRef.current[i].text();
                     newItem.content = JSON.parse(content);
                 } catch (error) {
-                    newItem.content = new Error(error);
+                    console.log(Error(error));
                 }
                 items = [...items, newItem.content];
             }
-            setInputElemet(items);
+            setImportModels(items);
             setIsJsonUploaderOpen((prev) => !prev);
         }
     };
@@ -105,7 +105,7 @@ const OATEditorPage = ({ theme }) => {
                 />
                 <OATGraphViewer
                     onElementsUpdate={setElementHandler}
-                    inputElement={inputElement}
+                    importModels={importModels}
                     model={model}
                     setModel={setModel}
                     deletedModel={deletedModel}
