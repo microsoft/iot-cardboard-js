@@ -34,7 +34,6 @@ import {
     IAzureResource,
     IUserSubscriptions,
     linkedTwinName,
-    IStorageContainer,
     AzureServiceResourceTypes,
     AzureServiceResourceProviderEndpoints,
     IADTInstance
@@ -72,7 +71,6 @@ import { applyPatch, Operation } from 'fast-json-patch';
 import { DTDLType } from '../Models/Classes/DTDL';
 import i18n from '../i18n';
 import ADTInstancesData from '../Models/Classes/AdapterDataClasses/ADTInstancesData';
-import StorageContainersData from '../Models/Classes/AdapterDataClasses/StorageContainersData';
 
 export default class MockAdapter
     implements
@@ -824,33 +822,6 @@ export default class MockAdapter
 
             return new AdapterResult({
                 result: new ADTInstancesData(digitalTwinsInstances),
-                errorInfo: null
-            });
-        } catch (err) {
-            return new AdapterResult({
-                result: null,
-                errorInfo: { catastrophicError: err, errors: [err] }
-            });
-        }
-    }
-
-    async getContainers() {
-        try {
-            const storageEndPoint = `${AzureServiceResourceProviderEndpoints.Storage}/{accountName}/blobServices/default/containers`;
-            const storageResourcesResult = await this.getResources(
-                storageEndPoint
-            );
-            const storageResources: Array<IAzureResource> = storageResourcesResult.getData();
-            const storageContainers: Array<IStorageContainer> = storageResources.map(
-                (resource) =>
-                    ({
-                        id: resource.id,
-                        name: resource.name
-                    } as IStorageContainer)
-            );
-
-            return new AdapterResult({
-                result: new StorageContainersData(storageContainers),
                 errorInfo: null
             });
         } catch (err) {
