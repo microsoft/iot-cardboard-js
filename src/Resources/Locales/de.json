@@ -761,5 +761,7 @@
     "pan": "Pfanne",
     "orbit": "Umlaufbahn",
     "zoom": "Zoom"
-  }
+  },
+  "active": "Aktiv",
+  "invalidValue": "Ungültiger Wert"
 }

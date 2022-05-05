@@ -761,5 +761,7 @@
     "pan": "Pan",
     "orbit": "Orbite",
     "zoom": "Zoom"
-  }
+  },
+  "active": "Actif",
+  "invalidValue": "Valeur non valide"
 }

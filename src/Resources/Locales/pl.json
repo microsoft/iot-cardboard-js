@@ -761,5 +761,7 @@
     "pan": "Patelnia",
     "orbit": "Orbita",
     "zoom": "Powiększenia"
-  }
+  },
+  "active": "Aktywny",
+  "invalidValue": "Nieprawidłowa wartość"
 }
