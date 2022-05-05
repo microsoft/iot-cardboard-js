@@ -15,7 +15,6 @@ import {
     I3DScenesConfig,
     IScene
 } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
-import ADTandBlobAdapter from '../../Adapters/ADTandBlobAdapter';
 
 export interface IADT3DScenePageProps extends IConsumeCompositeCardProps {
     adapter: ADT3DSceneAdapter | MockAdapter;
@@ -51,7 +50,7 @@ export interface IADT3DSceneBuilderProps extends IConsumeCompositeCardProps {
 }
 
 export interface ISceneContentsProps {
-    adapter: ADTandBlobAdapter | MockAdapter;
+    adapter: ADT3DSceneAdapter | MockAdapter;
     mode: ADT3DScenePageModes;
     refetchConfig?: () => void;
     sceneId: string;
