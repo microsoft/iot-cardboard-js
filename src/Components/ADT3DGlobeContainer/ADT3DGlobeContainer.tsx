@@ -29,8 +29,8 @@ const ADT3DGlobeContainer: React.FC<IADT3DGlobeContainerProps> = (props) => {
                     }
                 ]}
                 maxDisplayedItems={10}
-                ariaLabel="Breadcrumb with items rendered as buttons"
-                overflowAriaLabel="More links"
+                ariaLabel={t('3dScenePage.breadcrumbAriaLabel')}
+                overflowAriaLabel={t('3dScenePage.breadcrumbOverflowAriaLabel')}
             />
             <ADT3DGlobe
                 adapter={adapter}

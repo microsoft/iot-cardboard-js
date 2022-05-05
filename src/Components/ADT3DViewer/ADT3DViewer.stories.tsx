@@ -67,7 +67,7 @@ export const ZoomAndColor = (_args, { globals: { theme, locale } }) => {
     const [hoveredIndex, setHoveredIndex] = useState(-1);
     const [clickedIndex, setClickedIndex] = useState(-1);
     const [coloredMeshes, setColoredMeshes] = useState<CustomMeshItem[]>();
-    const [zoomedElementIds, setZoomedElementIds] = useState<string[]>();
+    const [zoomedElementId, setZoomedElementId] = useState<string>();
     const [hideElementsPanel, setHideElementsPanel] = useState(true);
 
     const scenesConfig = mockVConfig as I3DScenesConfig;
@@ -111,13 +111,13 @@ export const ZoomAndColor = (_args, { globals: { theme, locale } }) => {
                 index
             ] as ITwinToObjectMapping;
             if (element?.id) {
-                setZoomedElementIds([element.id]);
+                setZoomedElementId(element.id);
             } else {
-                setZoomedElementIds([]);
+                setZoomedElementId(null);
                 setColoredMeshes(null);
             }
         } else {
-            setZoomedElementIds([]);
+            setZoomedElementId(null);
             setColoredMeshes(null);
         }
     };
@@ -200,7 +200,7 @@ export const ZoomAndColor = (_args, { globals: { theme, locale } }) => {
                 sceneId={selectedScene.id}
                 connectionLineColor="#000"
                 coloredMeshItems={coloredMeshes}
-                zoomToElementIds={zoomedElementIds}
+                zoomToElementId={zoomedElementId}
                 hideElementsPanel={hideElementsPanel}
             />
         </div>

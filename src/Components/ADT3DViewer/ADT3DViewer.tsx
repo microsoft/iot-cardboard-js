@@ -68,7 +68,7 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
     showHoverOnSelected,
     coloredMeshItems: coloredMeshItemsProp,
     outlinedMeshItems: outlinedMeshItemsProp,
-    zoomToElementIds: zoomToElementIdsProp,
+    zoomToElementId: zoomToElementIdProp,
     unzoomedMeshOpacity,
     hideElementsPanel,
     hideViewModePickerUI
@@ -211,7 +211,7 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
             );
         }
         // run only on first mount
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+        // // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const setSelectedElementId = useCallback(
@@ -267,17 +267,17 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
             }
         }
         // first mount only when data is present
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+        // // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [scenesConfig, panelItems]);
 
     useEffect(() => {
-        // if we don't have any layer id from the context, set initial values
-        if (zoomToElementIdsProp) {
+        // if the zoom prop is provided, use that over the deeplink values
+        if (zoomToElementIdProp) {
             // take the first one since we only support a single element id today
-            setZoomMeshesByElement(zoomToElementIdsProp[0]);
-            setSelectedElementId(zoomToElementIdsProp[0]);
+            setZoomMeshesByElement(zoomToElementIdProp);
+            setSelectedElementId(zoomToElementIdProp);
         }
-    }, [setSelectedElementId, setZoomMeshesByElement, zoomToElementIdsProp]);
+    }, [setSelectedElementId, setZoomMeshesByElement, zoomToElementIdProp]);
 
     const showPopover = useCallback(
         (sceneVisual: Partial<SceneVisual>) => {
@@ -364,7 +364,7 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
     useEffect(() => {
         refetchConfig && refetchConfig();
         // only run on first mount
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+        // // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     useEffect(() => {

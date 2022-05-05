@@ -310,7 +310,9 @@
     "viewMode": "表示モード",
     "enterBlobUrl": "Azure ストレージ コンテナーの BLOB URL を入力します。",
     "home": "家",
-    "globe": "球"
+    "globe": "球",
+    "breadcrumbAriaLabel": "ボタンとしてレンダリングされた項目を含む階層リンク",
+    "breadcrumbOverflowAriaLabel": "その他のリンク"
   },
   "layersDropdown": {
     "placeholder": "レイヤーが選択されていません",

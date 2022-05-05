@@ -310,7 +310,9 @@
     "viewMode": "Режим просмотра",
     "enterBlobUrl": "Введите URL-адрес BLOB-объекта контейнера хранилища Azure",
     "home": "Дом",
-    "globe": "Глобус"
+    "globe": "Глобус",
+    "breadcrumbAriaLabel": "Навигационная цепочка с элементами, отображаемыми в виде кнопок",
+    "breadcrumbOverflowAriaLabel": "Больше ссылок"
   },
   "layersDropdown": {
     "placeholder": "Слои не выделены",

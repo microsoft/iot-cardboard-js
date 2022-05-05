@@ -310,7 +310,9 @@
     "viewMode": "Ansichtsmodus",
     "enterBlobUrl": "Geben Sie Ihre Azure-Speichercontainer-Blob-URL ein",
     "home": "Heim",
-    "globe": "Kugel"
+    "globe": "Kugel",
+    "breadcrumbAriaLabel": "Breadcrumb mit Elementen, die als Schaltflächen gerendert werden",
+    "breadcrumbOverflowAriaLabel": "Weitere Links"
   },
   "layersDropdown": {
     "placeholder": "Keine Ebenen ausgewählt",
