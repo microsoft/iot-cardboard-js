@@ -40,6 +40,7 @@ import {
     ValidContainerHostSuffixes
 } from '../../Models/Constants/Constants';
 import { IADTInstance } from '../../Models/Constants/Interfaces';
+import { addHttpsPrefix } from '../../Models/Services/Utils';
 
 const EnvironmentPicker = (props: EnvironmentPickerProps) => {
     const { t } = useTranslation();
@@ -139,7 +140,7 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
             }
 
             if (
-                selectedEnvironmentUrl !== '' &&
+                selectedEnvironmentUrl &&
                 !environments.includes(selectedEnvironmentUrl)
             ) {
                 environments.push(selectedEnvironmentUrl);
@@ -288,12 +289,7 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
     const environmentInputError = useMemo(
         () =>
             environmentToEdit &&
-            !isValidUrlStr(
-                typeof environmentToEdit === 'string'
-                    ? environmentToEdit
-                    : 'https://' + environmentToEdit.hostName,
-                'environment'
-            )
+            !isValidUrlStr(getUrl(environmentToEdit), 'environment')
                 ? t('environmentPicker.errors.invalidEnvironmentUrl')
                 : undefined,
         [environmentToEdit, isValidUrlStr, t]
@@ -337,10 +333,7 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                                     setEnvironments(restOfOptions);
                                     if (
                                         option.text ===
-                                        (typeof environmentToEdit === 'string'
-                                            ? environmentToEdit
-                                            : 'https://' +
-                                              environmentToEdit.hostName)
+                                        getUrl(environmentToEdit)
                                     ) {
                                         setEnvironmentToEdit('');
                                     }
@@ -458,10 +451,7 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                         if (!e) return;
                         return {
                             config: {
-                                appAdtUrl:
-                                    typeof e === 'string'
-                                        ? e
-                                        : 'https://' + e.hostName
+                                appAdtUrl: getUrl(e)
                             },
                             name: typeof e === 'string' ? e : e.name
                         };
@@ -472,10 +462,7 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                 props.selectedItemLocalStorageKey ??
                     SelectedEnvironmentLocalStorageKey,
                 JSON.stringify({
-                    appAdtUrl:
-                        typeof environmentToEdit === 'string'
-                            ? environmentToEdit
-                            : 'https://' + environmentToEdit.hostName
+                    appAdtUrl: getUrl(environmentToEdit)
                 })
             );
         }
@@ -506,10 +493,7 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
             // wait for dialog dismiss fade-out animation to reset the values
             const selectedEnvironmentIndex = environments.findIndex(
                 (e: string | IADTInstance) =>
-                    (typeof e === 'string' ? e : 'https://' + e.hostName) ===
-                    (typeof selectedEnvironment === 'string'
-                        ? selectedEnvironment
-                        : 'https://' + selectedEnvironment.hostName)
+                    getUrl(e) === getUrl(selectedEnvironment)
             );
             setEnvironmentToEdit(selectedEnvironment);
             setContainerUrlToEdit(selectedContainerUrl);
@@ -598,11 +582,7 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                         options={environmentOptions}
                         styles={comboBoxStyles}
                         required
-                        text={
-                            typeof environmentToEdit === 'string'
-                                ? environmentToEdit
-                                : 'https://' + environmentToEdit.hostName
-                        }
+                        text={getUrl(environmentToEdit)}
                         onChange={(_e, option, _idx, value) =>
                             handleOnEnvironmentUrlChange(option, value)
                         }
@@ -625,11 +605,7 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                                 )}
                             </div>
                         )}
-                        selectedKey={
-                            typeof environmentToEdit === 'string'
-                                ? environmentToEdit
-                                : 'https://' + environmentToEdit.hostName
-                        }
+                        selectedKey={getUrl(environmentToEdit)}
                     />
                     {props.storage && (
                         <ComboBox
@@ -662,10 +638,7 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                             props.storage
                                 ? !(
                                       isValidUrlStr(
-                                          typeof environmentToEdit === 'string'
-                                              ? environmentToEdit
-                                              : 'https://' +
-                                                    environmentToEdit.hostName,
+                                          getUrl(environmentToEdit),
                                           'environment'
                                       ) &&
                                       isValidUrlStr(
@@ -674,10 +647,7 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                                       )
                                   )
                                 : !isValidUrlStr(
-                                      typeof environmentToEdit === 'string'
-                                          ? environmentToEdit
-                                          : 'https://' +
-                                                environmentToEdit.hostName,
+                                      getUrl(environmentToEdit),
                                       'environment'
                                   )
                         }
@@ -690,6 +660,15 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
             </Dialog>
         </BaseComponent>
     );
+};
+
+const getUrl = (environment: string | IADTInstance) => {
+    if (!environment) return '';
+    if (typeof environment === 'string') {
+        return environment;
+    } else {
+        addHttpsPrefix(environment.hostName);
+    }
 };
 
 export default memo(EnvironmentPicker);
