@@ -5,8 +5,6 @@ import { Locale } from '../../../../../Models/Constants/Enums';
 import { IDTDLPropertyType } from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { getStyles } from './ValueWidget.styles';
 import { useTranslation } from 'react-i18next';
-
-const maxNumberOfCharactersBeforeTextWrap = 12;
 interface IProps {
     locale: Locale;
     value: any;
@@ -51,6 +49,19 @@ const FormattedValue: React.FC<IProps> = ({ locale, value, type }) => {
         );
     }
     switch (type) {
+        case 'boolean': {
+            stringValueToDisplay = typedValue.toString();
+            return (
+                <div className={styles.expressionValueContainer}>
+                    <span
+                        className={styles.expressionValuePrimary}
+                        title={stringValueToDisplay}
+                    >
+                        {stringValueToDisplay}
+                    </span>
+                </div>
+            );
+        }
         case 'date': {
             stringValueToDisplay = (typedValue as Date).toLocaleDateString(
                 locale,
@@ -118,6 +129,8 @@ const FormattedValue: React.FC<IProps> = ({ locale, value, type }) => {
                 </div>
             );
         }
+        case 'integer':
+        case 'long':
         case 'double':
         case 'float': {
             stringValueToDisplay = (typedValue as number).toLocaleString(
@@ -140,12 +153,7 @@ const FormattedValue: React.FC<IProps> = ({ locale, value, type }) => {
             return (
                 <div className={styles.expressionValueContainer}>
                     <span
-                        className={`${
-                            stringValueToDisplay.length >
-                            maxNumberOfCharactersBeforeTextWrap
-                                ? styles.expressionValueOverflowed
-                                : styles.expressionValuePrimary
-                        }`}
+                        className={styles.expressionValueOverflowed}
                         title={stringValueToDisplay}
                     >
                         {stringValueToDisplay}

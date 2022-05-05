@@ -24,6 +24,11 @@ const ellipseStyles = {
     textOverflow: 'ellipsis'
 };
 
+const overflowStyles = {
+    overflowX: 'hidden',
+    overflowY: 'auto'
+};
+
 export const getStyles = memoizeFunction((theme: Theme) =>
     mergeStyleSets({
         container: [
@@ -57,8 +62,7 @@ export const getStyles = memoizeFunction((theme: Theme) =>
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'center',
-                overflowX: 'hidden',
-                overflowY: 'auto'
+                ...overflowStyles
             } as IStyle
         ],
         expressionValuePrimary: [
@@ -69,7 +73,8 @@ export const getStyles = memoizeFunction((theme: Theme) =>
                 textAlign: 'center',
                 fontSize: FontSizes.size20,
                 whiteSpace: 'pre-wrap',
-                overflowWrap: 'break-word'
+                overflowWrap: 'break-word',
+                ...overflowStyles
             } as IStyle
         ],
         expressionValueSecondary: [
@@ -101,7 +106,7 @@ export const getStyles = memoizeFunction((theme: Theme) =>
                 width: '100%',
                 color: theme.palette.themePrimary,
                 textAlign: 'center',
-                fontSize: FontSizes.size14,
+                fontSize: FontSizes.size16,
                 display: '-webkit-box',
                 '-webkit-line-clamp': '3 !important',
                 '-webkit-box-orient': 'vertical',
@@ -110,8 +115,8 @@ export const getStyles = memoizeFunction((theme: Theme) =>
                 whiteSpace: 'pre-wrap',
                 overflowWrap: 'break-word',
                 '&:hover': {
-                    overflowX: 'hidden',
-                    overflowY: 'auto'
+                    '-webkit-line-clamp': 'unset !important',
+                    ...overflowStyles
                 }
             } as IStyle
         ],
@@ -119,8 +124,7 @@ export const getStyles = memoizeFunction((theme: Theme) =>
             classNames.invalidExpressionValue,
             {
                 width: '100%',
-                overflowX: 'hidden',
-                overflowY: 'auto',
+                ...overflowStyles,
                 textAlign: 'center',
                 whiteSpace: 'pre-wrap',
                 overflowWrap: 'break-word',
