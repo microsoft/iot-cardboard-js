@@ -5,7 +5,7 @@ import mockConfig from '../../Adapters/__mockData__/3DScenesConfiguration.json';
 import { deepCopy } from '../../Models/Services/Utils';
 import { DeeplinkContextProvider } from '../../Models/Context/DeeplinkContext';
 import {
-    DeeplinkContextState,
+    IDeeplinkContextState,
     IDeeplinkContextProviderProps
 } from '../../Models/Context/DeeplinkContext.types';
 import { ADT3DScenePageModes } from '../../Models/Constants';
@@ -40,7 +40,7 @@ export const Mock3DScenePage = (_args, { globals: { theme, locale } }) => {
 Mock3DScenePage.storyName = 'Mock 3D scene page';
 
 export const Deeplinked = (_args, { globals: { theme, locale } }) => {
-    const deeplinkState: DeeplinkContextState = {
+    const deeplinkState: IDeeplinkContextState = {
         adtUrl: 'https://mockAdt.api.wcus.digitaltwins.azure.net',
         deeplink: '',
         mode: ADT3DScenePageModes.ViewScene,

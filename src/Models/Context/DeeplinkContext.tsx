@@ -8,11 +8,12 @@ import { ADT3DScenePageModes } from '../Constants';
 import { getDebugLogger } from '../Services/Utils';
 import {
     IDeeplinkContext,
-    DeeplinkContextState,
+    IDeeplinkContextState,
     DeeplinkContextAction,
     DeeplinkContextActionType,
     IDeeplinkContextProviderProps,
-    IPublicDeeplink
+    IPublicDeeplink,
+    IDeeplinkOptions
 } from './DeeplinkContext.types';
 
 const debugLogging = false;
@@ -24,10 +25,10 @@ export const DeeplinkContext = React.createContext<IDeeplinkContext>(null);
 export const useDeeplinkContext = () => useContext(DeeplinkContext);
 
 export const DeeplinkContextReducer: (
-    draft: DeeplinkContextState,
+    draft: IDeeplinkContextState,
     action: DeeplinkContextAction
-) => DeeplinkContextState = produce(
-    (draft: DeeplinkContextState, action: DeeplinkContextAction) => {
+) => IDeeplinkContextState = produce(
+    (draft: IDeeplinkContextState, action: DeeplinkContextAction) => {
         logDebugConsole(
             `Updating Deeplink context ${action.type} with payload: `,
             action.payload
@@ -35,32 +36,26 @@ export const DeeplinkContextReducer: (
         switch (action.type) {
             case DeeplinkContextActionType.SET_ADT_URL: {
                 draft.adtUrl = action.payload.url || '';
-                draft.deeplink = buildDeeplink(draft);
                 break;
             }
             case DeeplinkContextActionType.SET_ELEMENT_ID: {
                 draft.selectedElementId = action.payload.id || '';
-                draft.deeplink = buildDeeplink(draft);
                 break;
             }
             case DeeplinkContextActionType.SET_LAYER_IDS: {
                 draft.selectedLayerIds = action.payload.ids || [];
-                draft.deeplink = buildDeeplink(draft);
                 break;
             }
             case DeeplinkContextActionType.SET_MODE: {
                 draft.mode = action.payload.mode;
-                draft.deeplink = buildDeeplink(draft);
                 break;
             }
             case DeeplinkContextActionType.SET_SCENE_ID: {
                 draft.sceneId = action.payload.sceneId || '';
-                draft.deeplink = buildDeeplink(draft);
                 break;
             }
             case DeeplinkContextActionType.SET_STORAGE_URL: {
                 draft.storageUrl = action.payload.url || '';
-                draft.deeplink = buildDeeplink(draft);
                 break;
             }
         }
@@ -88,9 +83,8 @@ export const DeeplinkContextProvider: React.FC<IDeeplinkContextProviderProps> = 
 
     // set the initial state for the Deeplink reducer
     // use the URL values and then fallback to initial state that is provided
-    const defaultState: DeeplinkContextState = {
+    const defaultState: IDeeplinkContextState = {
         adtUrl: parsed.adtUrl || initialState.adtUrl || '',
-        deeplink: '',
         mode: parsed.mode || initialState.mode || ADT3DScenePageModes.ViewScene,
         sceneId: parsed.sceneId || initialState.sceneId || '',
         selectedElementId:
@@ -103,7 +97,6 @@ export const DeeplinkContextProvider: React.FC<IDeeplinkContextProviderProps> = 
             [],
         storageUrl: parsed.storageUrl || initialState.storageUrl || ''
     };
-    defaultState.deeplink = buildDeeplink(defaultState);
 
     const [deeplinkState, deeplinkDispatch] = useReducer(
         DeeplinkContextReducer,
@@ -113,7 +106,9 @@ export const DeeplinkContextProvider: React.FC<IDeeplinkContextProviderProps> = 
         <DeeplinkContext.Provider
             value={{
                 deeplinkDispatch,
-                deeplinkState
+                deeplinkState,
+                getDeeplink: (options: IDeeplinkOptions) =>
+                    buildDeeplink(deeplinkState, options)
             }}
         >
             {children}
@@ -121,16 +116,21 @@ export const DeeplinkContextProvider: React.FC<IDeeplinkContextProviderProps> = 
     );
 };
 
-const buildDeeplink = (currentState: DeeplinkContextState): string => {
+const buildDeeplink = (
+    currentState: IDeeplinkContextState,
+    options: IDeeplinkOptions
+): string => {
     if (!currentState) return '';
 
     // note: the order of properties here is the order of that the QSPs will be in the URL
     const deeplink: IPublicDeeplink = {
         sceneId: currentState.sceneId,
-        selectedElementIds: serializeArrayParam([
-            currentState.selectedElementId
-        ]),
-        selectedLayerIds: serializeArrayParam(currentState.selectedLayerIds),
+        selectedElementIds: options?.includeSelectedElement
+            ? serializeArrayParam([currentState.selectedElementId])
+            : undefined,
+        selectedLayerIds: options?.includeSelectedLayers
+            ? serializeArrayParam(currentState.selectedLayerIds)
+            : undefined,
         mode: currentState.mode,
         adtUrl: currentState.adtUrl,
         storageUrl: currentState.storageUrl

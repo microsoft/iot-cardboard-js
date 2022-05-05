@@ -20,6 +20,7 @@ import {
 } from './DeeplinkContext.types';
 import { ADT3DScenePageModes } from '../Constants';
 import { userEvent, within } from '@storybook/testing-library';
+import { GET_MOCK_DEEPLINK_STATE } from './DeeplinkContext.mock';
 
 const wrapperStyle: React.CSSProperties = {
     width: 'auto',
@@ -235,25 +236,14 @@ const Template: SceneBuilderStory = (
     );
 };
 
-const getDefaultState = (): IDeeplinkContextProviderProps => ({
-    initialState: {
-        adtUrl: 'https://myurl.adt-0',
-        mode: ADT3DScenePageModes.BuildScene,
-        sceneId: 'scene id-0',
-        selectedElementId: 'some element-0',
-        selectedLayerIds: ['someLayerId-0'],
-        storageUrl: 'https://storageUrl'
-    }
-});
-
 export const Base = Template.bind({});
-Base.args = getDefaultState();
+Base.args = GET_MOCK_DEEPLINK_STATE();
 
 export const Empty = Template.bind({});
 Empty.args = {} as IDeeplinkContextProviderProps;
 
 export const UpdateAdtUrl = Template.bind({});
-UpdateAdtUrl.args = getDefaultState();
+UpdateAdtUrl.args = GET_MOCK_DEEPLINK_STATE();
 UpdateAdtUrl.play = async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     // Finds the button and clicks it
@@ -264,7 +254,7 @@ UpdateAdtUrl.play = async ({ canvasElement }) => {
 };
 
 export const UpdateStorageUrl = Template.bind({});
-UpdateStorageUrl.args = getDefaultState();
+UpdateStorageUrl.args = GET_MOCK_DEEPLINK_STATE();
 UpdateStorageUrl.play = async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     // Finds the button and clicks it
@@ -275,7 +265,7 @@ UpdateStorageUrl.play = async ({ canvasElement }) => {
 };
 
 export const UpdateMode = Template.bind({});
-UpdateMode.args = getDefaultState();
+UpdateMode.args = GET_MOCK_DEEPLINK_STATE();
 UpdateMode.play = async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     // Finds the button and clicks it
@@ -286,7 +276,7 @@ UpdateMode.play = async ({ canvasElement }) => {
 };
 
 export const UpdateSceneId = Template.bind({});
-UpdateSceneId.args = getDefaultState();
+UpdateSceneId.args = GET_MOCK_DEEPLINK_STATE();
 UpdateSceneId.play = async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     // Finds the button and clicks it
@@ -297,7 +287,7 @@ UpdateSceneId.play = async ({ canvasElement }) => {
 };
 
 export const UpdateSelectedElement = Template.bind({});
-UpdateSelectedElement.args = getDefaultState();
+UpdateSelectedElement.args = GET_MOCK_DEEPLINK_STATE();
 UpdateSelectedElement.play = async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     // Finds the button and clicks it
@@ -308,7 +298,7 @@ UpdateSelectedElement.play = async ({ canvasElement }) => {
 };
 
 export const AddLayer = Template.bind({});
-AddLayer.args = getDefaultState();
+AddLayer.args = GET_MOCK_DEEPLINK_STATE();
 AddLayer.play = async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     // Finds the button and clicks it
@@ -319,7 +309,7 @@ AddLayer.play = async ({ canvasElement }) => {
 };
 
 export const RemoveLayer = Template.bind({});
-RemoveLayer.args = getDefaultState();
+RemoveLayer.args = GET_MOCK_DEEPLINK_STATE();
 RemoveLayer.play = async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     // Finds the button and clicks it

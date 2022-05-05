@@ -738,6 +738,14 @@
         "transparent": "Transparent",
         "wireframe": "Wireframe"
     },
+    "deeplinkFlyout": {
+        "buttonTitle": "Share",
+        "copyButtonText": "Copy link",
+        "copyConfirmationMessage": "Copied",
+        "flyoutHeader": "Share scene",
+        "includeElementsOption": "Link with selected element",
+        "includeLayersOption": "Link with selected layers"
+    },
     "elementsPanel": {
         "title": "Elements",
         "noElements": "No elements to display",
