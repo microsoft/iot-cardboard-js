@@ -501,7 +501,8 @@
     "value": {
       "title": "Widget Hodnota",
       "description": "Základní widget pro zobrazení hodnot vlastností dvojčete",
-      "typePlaceholder": "Vyberte typ hodnoty"
+      "typePlaceholder": "Vyberte typ hodnoty",
+      "displayNamePlaceholder": "Zadejte zobrazovaný název"
     }
   },
   "sdkStrings": {

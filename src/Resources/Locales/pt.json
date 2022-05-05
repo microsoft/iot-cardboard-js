@@ -501,7 +501,8 @@
     "value": {
       "title": "Widget de valor",
       "description": "Widget básico para mostrar valores de propriedades gêmeas",
-      "typePlaceholder": "Selecione o tipo para o valor"
+      "typePlaceholder": "Selecione o tipo para o valor",
+      "displayNamePlaceholder": "Digite o nome do display"
     }
   },
   "sdkStrings": {

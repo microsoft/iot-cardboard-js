@@ -501,7 +501,8 @@
     "value": {
       "title": "Érték widget",
       "description": "Alapvető widget az ikertulajdonságok értékeinek megjelenítéséhez",
-      "typePlaceholder": "Az érték típusának kiválasztása"
+      "typePlaceholder": "Az érték típusának kiválasztása",
+      "displayNamePlaceholder": "Megjelenítendő név megadása"
     }
   },
   "sdkStrings": {

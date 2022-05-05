@@ -501,7 +501,8 @@
     "value": {
       "title": "Widżet Wartość",
       "description": "Widżet Podstawowy do wyświetlania wartości bliźniaczych właściwości",
-      "typePlaceholder": "Wybierz typ wartości"
+      "typePlaceholder": "Wybierz typ wartości",
+      "displayNamePlaceholder": "Wprowadź nazwę wyświetlaną"
     }
   },
   "sdkStrings": {
