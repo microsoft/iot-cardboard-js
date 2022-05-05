@@ -10,7 +10,11 @@ import { behaviorsModalClassPrefix } from '../../../BehaviorsModal.styles';
 const classNames = {
     container: `${behaviorsModalClassPrefix}-property-widget-container`,
     displayName: `${behaviorsModalClassPrefix}-property-widget-display-name`,
-    expressionValue: `${behaviorsModalClassPrefix}-property-widget-expression-value`
+    expressionValueContainer: `${behaviorsModalClassPrefix}-property-widget-expression-value-container`,
+    expressionValueOverflowed: `${behaviorsModalClassPrefix}-property-widget-expression-value-overflowed`,
+    expressionValuePrimary: `${behaviorsModalClassPrefix}-property-widget-expression-value-primary`,
+    expressionValueSecondary: `${behaviorsModalClassPrefix}-property-widget-expression-value-secondary`,
+    expressionValueListItem: `${behaviorsModalClassPrefix}-property-widget-expression-value-list-item`
 };
 
 const ellipseStyles = {
@@ -29,7 +33,7 @@ export const getStyles = memoizeFunction((theme: Theme) =>
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'center',
-                padding: 20
+                padding: 16
             } as IStyle
         ],
         displayName: [
@@ -38,19 +42,72 @@ export const getStyles = memoizeFunction((theme: Theme) =>
                 width: '100%',
                 ...ellipseStyles,
                 textAlign: 'center',
-                fontSize: FontSizes.size12
+                fontSize: FontSizes.size12,
+                maxHeight: 20,
+                lineHeight: 20,
+                flexShrink: 0
             } as IStyle
         ],
-        expressionValue: [
-            classNames.expressionValue,
+        expressionValueContainer: [
+            classNames.expressionValueContainer,
+            {
+                flexGrow: 1,
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                overflowX: 'hidden',
+                overflowY: 'auto'
+            } as IStyle
+        ],
+        expressionValuePrimary: [
+            classNames.expressionValuePrimary,
             {
                 width: '100%',
                 ...ellipseStyles,
                 color: theme.palette.themePrimary,
                 textAlign: 'center',
-                fontSize: FontSizes.size28,
-                lineHeight: 28,
+                fontSize: FontSizes.size24,
+                lineHeight: 24,
                 paddingBottom: 12
+            } as IStyle
+        ],
+        expressionValueSecondary: [
+            classNames.expressionValueSecondary,
+            {
+                width: '100%',
+                ...ellipseStyles,
+                color: theme.palette.themePrimary,
+                textAlign: 'center',
+                fontSize: FontSizes.size16,
+                lineHeight: 16,
+                paddingBottom: 12
+            } as IStyle
+        ],
+        expressionValueListItem: [
+            classNames.expressionValueListItem,
+            {
+                width: '100%',
+                ...ellipseStyles,
+                color: theme.palette.themePrimary,
+                textAlign: 'center',
+                fontSize: FontSizes.size10,
+                lineHeight: 10,
+                paddingBottom: 4
+            } as IStyle
+        ],
+        expressionValueOverflowed: [
+            classNames.expressionValueOverflowed,
+            {
+                width: '100%',
+                color: theme.palette.themePrimary,
+                textAlign: 'center',
+                fontSize: FontSizes.size14,
+                lineHeight: 'unset',
+                overflowX: 'hidden',
+                overflowY: 'auto',
+                whiteSpace: 'pre-wrap',
+                overflowWrap: 'break-word',
+                marginBottom: 8
             } as IStyle
         ]
     })

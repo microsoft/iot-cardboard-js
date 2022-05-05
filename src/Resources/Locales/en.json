@@ -496,6 +496,7 @@
         "value": {
             "title": "Value widget",
             "description": "A basic widget to show values of twin properties",
+            "displayNamePlaceholder": "Enter display name",
             "typePlaceholder": "Select the type for the value"
         },
         "panel": {

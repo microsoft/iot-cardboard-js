@@ -116,6 +116,7 @@ const ValueWidgetBuilder: React.FC<IValueWidgetBuilderProps> = ({
         <>
             <TextField
                 required
+                placeholder={t('widgets.value.displayNamePlaceholder')}
                 label={t('displayName')}
                 value={formData.widgetConfiguration.displayName}
                 onChange={onDisplayNameChange}

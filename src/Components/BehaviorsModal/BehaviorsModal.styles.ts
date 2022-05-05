@@ -92,7 +92,7 @@ export const getStyles = memoizeFunction(
                     display: 'flex',
                     flexFlow: 'column nowrap',
                     alignItems: 'stretch',
-                    width: 340,
+                    width: 412,
                     maxHeight: 'calc(100% - 40px)',
                     backgroundColor: 'var(--cb-color-glassy-modal)',
                     backdropFilter: 'blur(24px) brightness(150%)',
