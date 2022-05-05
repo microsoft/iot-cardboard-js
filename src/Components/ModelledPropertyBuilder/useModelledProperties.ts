@@ -1,7 +1,8 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import ViewerConfigUtility from '../../Models/Classes/ViewerConfigUtility';
 import { IModelledPropertyBuilderAdapter } from '../../Models/Constants';
 import { buildModelledProperties } from './ModelledPropertyBuilder.model';
+import useDeepCompareEffect from 'use-deep-compare-effect';
 import {
     BehaviorTwinIdParams,
     IModelledProperties,
@@ -38,7 +39,7 @@ export const useModelledProperties = ({
     ] = useState<IModelledProperties>(null);
 
     // Gets both primary & aliased twin Ids for a behavior in the context of the current scene.
-    const { primaryTwinIds, aliasedTwinMap } = useMemo(
+    const twinIds = useMemo(
         () =>
             isResolvedTwinIdMode(twinIdParams)
                 ? {
@@ -50,15 +51,7 @@ export const useModelledProperties = ({
                       twinIdParams.config,
                       twinIdParams.sceneId
                   ),
-        // Set up refresh dependencies for memoized values
-        isResolvedTwinIdMode(twinIdParams)
-            ? [twinIdParams.aliasedTwinMap, twinIdParams.primaryTwinIds]
-            : [
-                  twinIdParams.behavior,
-                  twinIdParams.config,
-                  twinIdParams.disableAliasedTwins,
-                  twinIdParams.sceneId
-              ]
+        [twinIdParams]
     );
 
     const disableAliasedTwins =
@@ -68,15 +61,17 @@ export const useModelledProperties = ({
 
     // Merge primary & aliased tags (if enabled) and map twin Ids to model Ids for each twin
     // Update model Id mapping if primary or aliased twins Ids change
-    useEffect(() => {
+    useDeepCompareEffect(() => {
         let isMounted = true;
 
         const updateModelProperties = async () => {
             setIsLoading(true);
             const modelledProperties = await buildModelledProperties({
                 adapter,
-                primaryTwinIds,
-                ...(!disableAliasedTwins && { aliasedTwinMap }),
+                primaryTwinIds: twinIds.primaryTwinIds,
+                ...(!disableAliasedTwins && {
+                    aliasedTwinMap: twinIds.aliasedTwinMap
+                }),
                 allowedPropertyValueTypes
             });
             if (isMounted) {
@@ -90,7 +85,7 @@ export const useModelledProperties = ({
         return () => {
             isMounted = false;
         };
-    }, [primaryTwinIds, aliasedTwinMap]);
+    }, [twinIds.primaryTwinIds, twinIds.aliasedTwinMap]);
 
     return { isLoading, modelledProperties };
 };

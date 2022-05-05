@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import {
     defaultAllowedPropertyValueTypes,
     IFlattenedModelledPropertiesFormat,
@@ -139,6 +139,32 @@ const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = ({
         [dropdownOptions, internalMode, onChange, propertyExpression]
     );
 
+    const autoCompleteProps = useMemo(
+        () => ({
+            textFieldProps: {
+                label: t(
+                    '3dSceneBuilder.ModelledPropertyBuilder.expressionLabel'
+                ),
+                multiline: true,
+                placeholder: t(
+                    '3dSceneBuilder.ModelledPropertyBuilder.expressionPlaceholder'
+                )
+            },
+            required
+        }),
+        [required, t]
+    );
+
+    const onIntellisenseChange = useCallback(
+        (value) => onChange({ expression: value }),
+        [onChange]
+    );
+
+    const aliasNames = useMemo(
+        () => Object.keys(modelledProperties?.nestedFormat || {}),
+        [modelledProperties?.nestedFormat]
+    );
+
     if (isLoading) return <Spinner />;
 
     return (
@@ -156,21 +182,10 @@ const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = ({
             )}
             {internalMode === 'INTELLISENSE' && (
                 <Intellisense
-                    autoCompleteProps={{
-                        textFieldProps: {
-                            label: t(
-                                '3dSceneBuilder.ModelledPropertyBuilder.expressionLabel'
-                            ),
-                            multiline: true,
-                            placeholder: t(
-                                '3dSceneBuilder.ModelledPropertyBuilder.expressionPlaceholder'
-                            )
-                        },
-                        required
-                    }}
-                    onChange={(value) => onChange({ expression: value })}
+                    autoCompleteProps={autoCompleteProps}
+                    onChange={onIntellisenseChange}
                     defaultValue={propertyExpression.expression}
-                    aliasNames={Object.keys(modelledProperties.nestedFormat)}
+                    aliasNames={aliasNames}
                     getPropertyNames={getIntellisenseProperty}
                 />
             )}
