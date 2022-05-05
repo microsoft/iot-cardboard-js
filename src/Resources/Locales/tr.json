@@ -482,7 +482,8 @@
       "expressionPlaceholder": "Özellik ifadesini girin",
       "selectProperty": "Mülk seçin",
       "toggleLabel": "Özellik ifadesi",
-      "dropdownPlaceholder": "Bir mülk seçin"
+      "dropdownPlaceholder": "Bir mülk seçin",
+      "none": "Hiç kimse"
     }
   },
   "widgets": {

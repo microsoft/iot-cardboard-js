@@ -482,7 +482,8 @@
       "expressionPlaceholder": "プロパティ式を入力",
       "selectProperty": "プロパティの選択",
       "toggleLabel": "プロパティ式",
-      "dropdownPlaceholder": "プロパティの選択"
+      "dropdownPlaceholder": "プロパティの選択",
+      "none": "何一つ"
     }
   },
   "widgets": {
