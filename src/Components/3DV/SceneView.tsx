@@ -1468,7 +1468,7 @@ function SceneView(props: ISceneViewProps, ref) {
                 clonedHighlightMeshes.current = [];
             }
         };
-    }, [outlinedMeshitems]);
+    }, [outlinedMeshitems, meshMap.current]);
 
     const theme = useTheme();
     const customStyles = getSceneViewStyles(theme);
