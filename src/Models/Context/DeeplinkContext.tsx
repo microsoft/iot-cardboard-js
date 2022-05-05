@@ -18,7 +18,7 @@ import {
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('DeeplinkContext', debugLogging);
 
-// &adtUrl=https://mockADTInstanceResourceName.api.wcus.digitaltwins.azure.net&mode=Viewer&sceneId=f7053e7537048e03be4d1e6f8f93aa8a&selectedElementIds=45131a84754280b924477f1df54ca547&selectedLayerIds=8904b620aa83c649888dadc7c8fdf492,9624b620aa83c649888dadc7c8fdf541&storageUrl=https://mockStorageAccountName.blob.core.windows.net/mockContainerName
+// &mode=Viewer&sceneId=f7053e7537048e03be4d1e6f8f93aa8a&selectedElementIds=45131a84754280b924477f1df54ca547&selectedLayerIds=8904b620aa83c649888dadc7c8fdf492,9624b620aa83c649888dadc7c8fdf541&storageUrl=https://mockstorage.blob.core.windows.net/mockContainerName&adtUrl=https://mockadt.api.wcus.digitaltwins.azure.net
 
 export const DeeplinkContext = React.createContext<IDeeplinkContext>(null);
 export const useDeeplinkContext = () => useContext(DeeplinkContext);
