@@ -23,7 +23,7 @@ type ModelledPropertyBuilderStory = ComponentStory<
     typeof ModelledPropertyBuilder
 >;
 
-const showDebug = true;
+const showDebug = false;
 
 const PropertyExpressionDebugRenderer: React.FC<{
     propertyExpression: PropertyExpression;
