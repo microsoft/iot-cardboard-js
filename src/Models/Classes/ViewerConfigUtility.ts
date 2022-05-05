@@ -1133,7 +1133,10 @@ abstract class ViewerConfigUtility {
 
         date-time       = full-date "T" full-time
      */
-    static getTypedDTDLPropertyValue(value: any, dataType: IDTDLPropertyType) {
+    static getTypedDTDLPropertyValue(
+        value: unknown,
+        dataType: IDTDLPropertyType
+    ) {
         try {
             const stringifiedValue = String(value); // cast to string in case the value originally does not comply with its original type
 
