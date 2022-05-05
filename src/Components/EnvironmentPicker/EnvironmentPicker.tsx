@@ -225,8 +225,9 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
 
     const environmentOptions: Array<IComboBoxOption> = useMemo(
         () =>
-            environments.map((e: string | IADTInstance, idx) =>
-                typeof e === 'string'
+            environments.map((e: string | IADTInstance, idx) => {
+                if (!e) return;
+                return typeof e === 'string'
                     ? ({
                           key: `adt-environment-${idx}`,
                           text: e
@@ -235,8 +236,8 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                           key: `adt-environment-${idx}`,
                           text: 'https://' + e.hostName,
                           data: e
-                      } as IComboBoxOption)
-            ),
+                      } as IComboBoxOption);
+            }),
         [environments]
     );
 
@@ -453,15 +454,18 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
             localStorage.setItem(
                 props.localStorageKey ?? EnvironmentsLocalStorageKey,
                 JSON.stringify(
-                    environments.map((e: string | IADTInstance) => ({
-                        config: {
-                            appAdtUrl:
-                                typeof e === 'string'
-                                    ? e
-                                    : 'https://' + e.hostName
-                        },
-                        name: typeof e === 'string' ? e : e.name
-                    }))
+                    environments.map((e: string | IADTInstance) => {
+                        if (!e) return;
+                        return {
+                            config: {
+                                appAdtUrl:
+                                    typeof e === 'string'
+                                        ? e
+                                        : 'https://' + e.hostName
+                            },
+                            name: typeof e === 'string' ? e : e.name
+                        };
+                    })
                 )
             );
             localStorage.setItem(
