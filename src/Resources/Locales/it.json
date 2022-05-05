@@ -762,5 +762,13 @@
     "pan": "Padella",
     "orbit": "Orbita",
     "zoom": "Zoom"
+  },
+  "deeplinkFlyout": {
+    "buttonTitle": "Condividi",
+    "copyButtonText": "Copia link",
+    "copyConfirmationMessage": "Copiato",
+    "flyoutHeader": "Condividi scena",
+    "includeElementsOption": "Collegamento con l'elemento selezionato",
+    "includeLayersOption": "Collegamento con i livelli selezionati"
   }
 }

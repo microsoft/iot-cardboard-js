@@ -762,5 +762,13 @@
     "pan": "Tava",
     "orbit": "Yörünge",
     "zoom": "Yakınlaştırmak"
+  },
+  "deeplinkFlyout": {
+    "buttonTitle": "Paylaş",
+    "copyButtonText": "Bağlantıyı kopyala",
+    "copyConfirmationMessage": "Kopya -lanan",
+    "flyoutHeader": "Sahneyi paylaş",
+    "includeElementsOption": "Seçili öğeyle bağlantı kurma",
+    "includeLayersOption": "Seçili katmanlarla bağlantı kurma"
   }
 }

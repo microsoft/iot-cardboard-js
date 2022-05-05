@@ -762,5 +762,13 @@
     "pan": "Pfanne",
     "orbit": "Umlaufbahn",
     "zoom": "Zoom"
+  },
+  "deeplinkFlyout": {
+    "buttonTitle": "Freigeben",
+    "copyButtonText": "Link kopieren",
+    "copyConfirmationMessage": "Kopiert",
+    "flyoutHeader": "Szene teilen",
+    "includeElementsOption": "Mit ausgewähltem Element verknüpfen",
+    "includeLayersOption": "Mit ausgewählten Ebenen verknüpfen"
   }
 }

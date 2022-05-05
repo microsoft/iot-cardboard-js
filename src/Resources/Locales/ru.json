@@ -762,5 +762,13 @@
     "pan": "Сковорода",
     "orbit": "Орбита",
     "zoom": "Увеличить"
+  },
+  "deeplinkFlyout": {
+    "buttonTitle": "Предоставить общий доступ",
+    "copyButtonText": "Копировать ссылку",
+    "copyConfirmationMessage": "Скопированы",
+    "flyoutHeader": "Поделиться сценой",
+    "includeElementsOption": "Связь с выбранным элементом",
+    "includeLayersOption": "Связывание с выбранными слоями"
   }
 }

@@ -762,5 +762,13 @@
     "pan": "Cacerola",
     "orbit": "Órbita",
     "zoom": "Zoom"
+  },
+  "deeplinkFlyout": {
+    "buttonTitle": "Compartir",
+    "copyButtonText": "Copiar enlace",
+    "copyConfirmationMessage": "Copiado",
+    "flyoutHeader": "Compartir escena",
+    "includeElementsOption": "Enlace con el elemento seleccionado",
+    "includeLayersOption": "Enlace con capas seleccionadas"
   }
 }

@@ -762,5 +762,13 @@
     "pan": "Serpenyő",
     "orbit": "Pálya",
     "zoom": "Búg"
+  },
+  "deeplinkFlyout": {
+    "buttonTitle": "Részvény",
+    "copyButtonText": "Hivatkozás másolása",
+    "copyConfirmationMessage": "Másolt",
+    "flyoutHeader": "Jelenet megosztása",
+    "includeElementsOption": "Csatolás a kijelölt elemmel",
+    "includeLayersOption": "Csatolás kijelölt rétegekkel"
   }
 }

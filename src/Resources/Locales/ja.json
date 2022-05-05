@@ -762,5 +762,13 @@
     "pan": "パン",
     "orbit": "軌道",
     "zoom": "ズーム"
+  },
+  "deeplinkFlyout": {
+    "buttonTitle": "共有",
+    "copyButtonText": "リンクのコピー",
+    "copyConfirmationMessage": "コピー",
+    "flyoutHeader": "シーンの共有",
+    "includeElementsOption": "選択した要素とのリンク",
+    "includeLayersOption": "選択したレイヤーとのリンク"
   }
 }
