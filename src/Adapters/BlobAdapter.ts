@@ -103,11 +103,11 @@ export default class BlobAdapter implements IBlobAdapter {
             const getConfigBlob = async () => {
                 let config: I3DScenesConfig;
                 if (this.storageAccountHostUrl && this.blobContainerPath) {
-                    const headers = new Headers();
-                    headers.append('x-ms-version', '2017-11-09');
-                    headers.append('x-blob-host', this.storageAccountHostUrl);
+                    const headers = {};
+                    headers['x-ms-version'] = '2017-11-09';
+                    headers['x-blob-host'] = this.storageAccountHostUrl;
                     if (token) {
-                        headers.append('Authorization', 'Bearer ' + token);
+                        headers['Authorization'] = 'Bearer ' + token;
                     }
 
                     const scenesBlob = await axios({
