@@ -476,6 +476,12 @@
       "errors": {
         "twinAliasAlreadyExists": "Alias dvojčete se stejným názvem již existuje, zvažte jeho přidání."
       }
+    },
+    "ModelledPropertyBuilder": {
+      "expressionLabel": "Výraz vlastnosti",
+      "expressionPlaceholder": "Zadejte výraz vlastnosti",
+      "selectProperty": "Vybrat nemovitost",
+      "toggleLabel": "Výraz vlastnosti"
     }
   },
   "widgets": {

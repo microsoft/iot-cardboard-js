@@ -476,6 +476,12 @@
       "errors": {
         "twinAliasAlreadyExists": "Aynı ada sahip ikiz takma ad zaten var, bunun yerine eklemeyi düşünün."
       }
+    },
+    "ModelledPropertyBuilder": {
+      "expressionLabel": "Özellik ifadesi",
+      "expressionPlaceholder": "Özellik ifadesini girin",
+      "selectProperty": "Mülk seçin",
+      "toggleLabel": "Özellik ifadesi"
     }
   },
   "widgets": {

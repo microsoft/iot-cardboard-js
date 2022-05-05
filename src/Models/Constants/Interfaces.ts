@@ -29,7 +29,9 @@ import {
     FileUploadStatus,
     ADT3DAddInEventTypes,
     GlobeTheme,
-    ViewerModeStyles
+    ViewerModeStyles,
+    AzureServiceResourceTypes,
+    AzureAccessPermissionRoles
 } from './Enums';
 import {
     AdapterReturnType,
@@ -43,13 +45,18 @@ import {
     ADTModel_ImgSrc_PropertyName
 } from './Constants';
 import ExpandedADTModelData from '../Classes/AdapterDataClasses/ExpandedADTModelData';
-import ADTInstancesData from '../Classes/AdapterDataClasses/ADTInstancesData';
+import AzureResourcesData from '../Classes/AdapterDataClasses/AzureResourcesData';
 import ADTScenesConfigData from '../Classes/AdapterDataClasses/ADTScenesConfigData';
 import ADT3DViewerData from '../Classes/AdapterDataClasses/ADT3DViewerData';
+import {
+    UserAssignmentsData,
+    SubscriptionData
+} from '../Classes/AdapterDataClasses/AzureManagementModelData';
 import { AssetDevice } from '../Classes/Simulations/Asset';
 import {
     CustomMeshItem,
-    ISceneViewProp,
+    ICameraPosition,
+    ISceneViewProps,
     Marker,
     SceneVisual
 } from '../Classes/SceneView.types';
@@ -61,6 +68,7 @@ import {
     IScene,
     ITwinToObjectMapping
 } from '../Types/Generated/3DScenesConfiguration-v1.0.0';
+import ADT3DSceneAdapter from '../../Adapters/ADT3DSceneAdapter';
 import { WrapperMode } from '../../Components/3DV/SceneView.types';
 import MockAdapter from '../../Adapters/MockAdapter';
 
@@ -232,11 +240,27 @@ export interface IHierarchyNode {
     isNewlyAdded?: boolean;
 }
 
-export interface IADTInstance {
+export interface IAzureResource {
+    id: string;
     name: string;
-    hostName: string;
-    resourceId: string;
-    location: string;
+    type: AzureServiceResourceTypes;
+    [additionalProperty: string]: any;
+    properties: Record<string, any>;
+}
+
+export interface IADTInstance {
+    // derived from IAzureResource
+    id: string;
+    name: string; // e.g. cardboard
+    hostName: string; // e.g. cardboard.api.wcus.digitaltwins.azure.net
+    location: string; // e.g. westcentralus
+}
+
+export interface IStorageContainer {
+    // derived from IAzureResource
+    id: string;
+    name: string; // e.g. cardboard-mock-files
+    url?: string; // e.g. https://cardboardresources.blob.core.windows.net/cardboard-mock-files, we can add support for this soon, for now optional
 }
 
 export interface IADTInstanceConnection {
@@ -420,10 +444,6 @@ export interface IADTAdapter extends IKeyValuePairAdapter, IADT3DViewerAdapter {
     getIncomingRelationships(
         twinId: string
     ): Promise<AdapterResult<ADTRelationshipsData>>;
-    getADTInstances: (
-        tenantId?: string,
-        uniqueObjectId?: string
-    ) => AdapterReturnType<ADTInstancesData>;
     getTwinsForBehavior(
         behavior: IBehavior,
         elementsInBehavior: Array<ITwinToObjectMapping>,
@@ -454,6 +474,25 @@ export interface IADTAdapter extends IKeyValuePairAdapter, IADT3DViewerAdapter {
         elementsInBehavior: Array<ITwinToObjectMapping>,
         isTwinAliasesIncluded: boolean
     ): Promise<string[]>;
+}
+
+export interface IAzureManagementAdapter {
+    getSubscriptions: () => AdapterReturnType<SubscriptionData>;
+    getRoleAssignments: (
+        resourceId: string,
+        uniqueObjectID: string
+    ) => AdapterReturnType<UserAssignmentsData>;
+    hasRoleDefinitions: (
+        resourceID: string,
+        uniqueObjectID: string,
+        roleIDs: Array<AzureAccessPermissionRoles>,
+        shouldEnforceAll?: boolean
+    ) => Promise<boolean>;
+    getResources: (
+        providerEndpoint: string,
+        tenantId?: string,
+        uniqueObjectId?: string
+    ) => AdapterReturnType<AzureResourcesData>;
 }
 
 export interface IBlobAdapter {
@@ -646,7 +685,7 @@ export interface IADTInstancesProps {
     theme?: Theme;
     locale?: Locale;
     localeStrings?: Record<string, any>;
-    adapter: IADTAdapter;
+    adapter: ADT3DSceneAdapter;
     hasLabel?: boolean;
     selectedInstance?: string;
     onInstanceChange?: (instanceHostName: string) => void;
@@ -674,13 +713,14 @@ export interface IADT3DAddInProps {
     onSceneLoaded?: (data: ADT3DAddInEventData) => boolean;
     onMeshClick?: (data: ADT3DAddInEventData) => boolean;
     onMeshHover?: (data: ADT3DAddInEventData) => boolean;
+    onCameraMove?: (position: ICameraPosition) => void;
 }
 
 export interface ISceneViewWrapperProps {
     config?: I3DScenesConfig;
     sceneId?: string;
     adapter?: IADT3DViewerAdapter;
-    sceneViewProps: ISceneViewProp;
+    sceneViewProps: ISceneViewProps;
     sceneVisuals?: SceneVisual[];
     addInProps?: IADT3DAddInProps;
     hideViewModePickerUI?: boolean;
@@ -709,6 +749,7 @@ export interface IADT3DViewerProps {
     hideViewModePickerUI?: boolean;
     hideElementsPanel?: boolean;
     outlinedMeshItems?: CustomMeshItem[];
+    sceneViewProps?: ISceneViewProps;
 }
 
 export interface IADT3DViewerMode {
@@ -751,6 +792,29 @@ export interface IBlobFile {
     Name: string;
     Path: string;
     Properties: Record<string, any>;
+}
+export interface IUserRoleAssignments {
+    value: IRoleAssignment[];
+}
+
+export interface IRoleAssignment {
+    properties: IRoleAssignmentPropertyData;
+    scope: string;
+    name: string;
+}
+
+export interface IRoleAssignmentPropertyData {
+    roleDefinitionId: string;
+}
+
+export interface IUserSubscriptions {
+    value: ISubscriptions[];
+}
+
+export interface ISubscriptions {
+    subscriptionId: string;
+    tenantId: string;
+    displayName: string;
 }
 
 export interface IAliasedTwinProperty {

@@ -476,6 +476,12 @@
       "errors": {
         "twinAliasAlreadyExists": "Twin Alias mit dem gleichen Namen existiert bereits, erwägen Sie stattdessen, es hinzuzufügen."
       }
+    },
+    "ModelledPropertyBuilder": {
+      "expressionLabel": "Eigenschaftsausdruck",
+      "expressionPlaceholder": "Eigenschaftsausdruck eingeben",
+      "selectProperty": "Eigenschaft auswählen",
+      "toggleLabel": "Eigenschaftsausdruck"
     }
   },
   "widgets": {

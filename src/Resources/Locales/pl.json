@@ -476,6 +476,12 @@
       "errors": {
         "twinAliasAlreadyExists": "Bliźniaczy alias o tej samej nazwie już istnieje, rozważ dodanie go zamiast tego."
       }
+    },
+    "ModelledPropertyBuilder": {
+      "expressionLabel": "Wyrażenie właściwości",
+      "expressionPlaceholder": "Wprowadź wyrażenie właściwości",
+      "selectProperty": "Wybierz właściwość",
+      "toggleLabel": "Wyrażenie właściwości"
     }
   },
   "widgets": {

@@ -4,10 +4,10 @@ import React, { useCallback, useContext, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { DTDLPropertyIconographyMap } from '../../../../../../Models/Constants/Constants';
 import { IDTDLPropertyType } from '../../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
+import TwinPropertyDropown from '../../../../../TwinPropertyBuilder/Internal/TwinPropertyDropdown';
 import { SceneBuilderContext } from '../../../../ADT3DSceneBuilder';
 
 import { IValueWidgetBuilderProps } from '../../../../ADT3DSceneBuilder.types';
-import TwinPropertyDropown from '../../Internal/TwinPropertyDropdown';
 
 const ValueWidgetBuilder: React.FC<IValueWidgetBuilderProps> = ({
     formData,
@@ -15,7 +15,9 @@ const ValueWidgetBuilder: React.FC<IValueWidgetBuilderProps> = ({
     setIsWidgetConfigValid
 }) => {
     const { t } = useTranslation();
-    const { behaviorToEdit } = useContext(SceneBuilderContext);
+    const { behaviorToEdit, config, sceneId, adapter } = useContext(
+        SceneBuilderContext
+    );
 
     useEffect(() => {
         const {
@@ -129,6 +131,9 @@ const ValueWidgetBuilder: React.FC<IValueWidgetBuilderProps> = ({
                 }
                 dataTestId={'behavior-form-state-property-dropdown'}
                 onChange={onPropertyChange}
+                config={config}
+                sceneId={sceneId}
+                adapter={adapter}
             />
             <Dropdown
                 required
