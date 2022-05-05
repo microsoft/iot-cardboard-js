@@ -507,7 +507,8 @@
     "value": {
       "title": "Değer widget'ı",
       "description": "İkiz özelliklerin değerlerini göstermek için temel widget",
-      "typePlaceholder": "Değer için türü seçin"
+      "typePlaceholder": "Değer için türü seçin",
+      "displayNamePlaceholder": "Görünen adı girin"
     }
   },
   "sdkStrings": {

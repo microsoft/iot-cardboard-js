@@ -507,7 +507,8 @@
     "value": {
       "title": "Виджет значения",
       "description": "Базовый виджет для отображения значений свойств близнецов",
-      "typePlaceholder": "Выберите тип значения"
+      "typePlaceholder": "Выберите тип значения",
+      "displayNamePlaceholder": "Введите отображаемое имя"
     }
   },
   "sdkStrings": {

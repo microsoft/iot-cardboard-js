@@ -507,7 +507,8 @@
     "value": {
       "title": "Widget Valore",
       "description": "Widget di base per mostrare i valori delle proprietà gemelle",
-      "typePlaceholder": "Selezionare il tipo per il valore"
+      "typePlaceholder": "Selezionare il tipo per il valore",
+      "displayNamePlaceholder": "Immettere il nome visualizzato"
     }
   },
   "sdkStrings": {

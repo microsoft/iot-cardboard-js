@@ -507,7 +507,8 @@
     "value": {
       "title": "Waarde widget",
       "description": "Basiswidget om waarden van dubbele eigenschappen weer te geven",
-      "typePlaceholder": "Selecteer het type voor de waarde"
+      "typePlaceholder": "Selecteer het type voor de waarde",
+      "displayNamePlaceholder": "Voer de weergavenaam in"
     }
   },
   "sdkStrings": {

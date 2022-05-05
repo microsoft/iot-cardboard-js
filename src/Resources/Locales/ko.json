@@ -507,7 +507,8 @@
     "value": {
       "title": "값 위젯",
       "description": "쌍둥이 속성의 값을 표시하는 기본 위젯",
-      "typePlaceholder": "값의 유형을 선택합니다."
+      "typePlaceholder": "값의 유형을 선택합니다.",
+      "displayNamePlaceholder": "표시 이름 입력"
     }
   },
   "sdkStrings": {
