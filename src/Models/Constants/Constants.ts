@@ -93,7 +93,7 @@ export const availableWidgets: Array<IWidgetLibraryItem> = [
         data: defaultValueWidget
     }
 ];
-
+export const twinRefreshMaxAge = 9000;
 export const modelRefreshMaxAge = 3600000;
 
 export const linkedTwinName = 'LinkedTwin';

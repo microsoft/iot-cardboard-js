@@ -33,7 +33,8 @@ import {
     linkedTwinName,
     IAliasedTwinProperty,
     IADTModel,
-    modelRefreshMaxAge
+    modelRefreshMaxAge,
+    twinRefreshMaxAge
 } from '../Models/Constants';
 import ADTTwinData from '../Models/Classes/AdapterDataClasses/ADTTwinData';
 import ADTModelData, {
@@ -100,7 +101,9 @@ export default class ADTAdapter implements IADTAdapter {
         this.tenantId = tenantId;
         this.uniqueObjectId = uniqueObjectId;
         this.cachedTwinModelMap = new Map();
-        this.adtTwinCache = new AdapterEntityCache<ADTTwinData>(9000);
+        this.adtTwinCache = new AdapterEntityCache<ADTTwinData>(
+            twinRefreshMaxAge
+        );
         this.adtModelsCache = new AdapterEntityCache<ADTAllModelsData>(
             modelRefreshMaxAge
         );

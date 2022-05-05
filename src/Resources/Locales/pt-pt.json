@@ -482,7 +482,8 @@
       "expressionPlaceholder": "Insira a expressão da propriedade",
       "selectProperty": "Selecione propriedade",
       "toggleLabel": "Expressão de propriedade",
-      "dropdownPlaceholder": "Selecione um imóvel"
+      "dropdownPlaceholder": "Selecione um imóvel",
+      "none": "Nenhum."
     }
   },
   "widgets": {
