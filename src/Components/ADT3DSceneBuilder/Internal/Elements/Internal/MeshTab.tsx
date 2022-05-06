@@ -31,7 +31,7 @@ const MeshTab: React.FC<MeshTabProps> = ({ elementToEdit }) => {
             objectColor
         );
         setListItems(listItems);
-    }, [elementToEdit, setColoredMeshItems, objectColor]);
+    }, []);
 
     const commonPanelStyles = getLeftPanelStyles(useTheme());
     return (
