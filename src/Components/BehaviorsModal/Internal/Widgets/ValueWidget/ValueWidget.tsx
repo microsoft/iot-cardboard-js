@@ -14,8 +14,8 @@ import { getStyles } from './ValueWidget.styles';
 
 const getValuePlaceholders = memoizeFunction((t: TFunction) => ({
     boolean: 'true',
-    date: 'Jan 10, 2022', // A full-date as defined in section 5.6 of RFC 3339
-    dateTime: '2019-10-12T07:20:50.52Z', // A date-time as defined in 5.6 of RFC 3339
+    date: 'Jan 1, 1970', // A full-date as defined in section 5.6 of RFC 3339
+    dateTime: '1970-01-01T00:00:00.000Z', // A date-time as defined in 5.6 of RFC 3339
     double: '123.4',
     duration: 'P3Y6M4DT12H30M5S', // A duration in ISO 8601 format
     enum: t('active'),
@@ -46,14 +46,17 @@ export const ValueWidget: React.FC<IProp> = ({ widget, placeholderValues }) => {
     const styles = getStyles(theme);
     return (
         <div className={styles.container}>
-            <FormattedValue
-                locale={i18n.language as Locale}
-                value={
-                    parsedValue ||
-                    (placeholderValues?.[type] ?? getValuePlaceholders(t)[type])
-                }
-                type={type}
-            />
+            <div className={styles.expressionValueContainer}>
+                <FormattedValue
+                    locale={i18n.language as Locale}
+                    value={
+                        parsedValue ||
+                        (placeholderValues?.[type] ??
+                            getValuePlaceholders(t)[type])
+                    }
+                    type={type}
+                />
+            </div>
             <span className={styles.displayName} title={displayName}>
                 {displayName}
             </span>

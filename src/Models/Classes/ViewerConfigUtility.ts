@@ -1158,7 +1158,7 @@ abstract class ViewerConfigUtility {
                 case 'duration': {
                     // Format: P(n)Y(n)M(n)DT(n)H(n)M(n)S, e.g. P3Y6M4DT12H30M5S
                     const regex = /P(?:(\d+)Y)?(?:(\d+)M)?(?:(\d+)W)?(?:(\d+)D)?(?:T(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?)?$/;
-                    const [, years, months, , days, hours, mins, secs] =
+                    const [, years, months, , days, hours, minutes, seconds] =
                         stringifiedValue?.match(regex)?.map(parseFloat) || []; // period and weeks are not used
 
                     return {
@@ -1166,8 +1166,8 @@ abstract class ViewerConfigUtility {
                         months,
                         days,
                         hours,
-                        mins,
-                        secs
+                        minutes,
+                        seconds
                     };
                 }
                 case 'enum': // Format: string, e.g. 'Active'

@@ -13,8 +13,8 @@ import { ValueWidget } from './ValueWidget';
 const wrapperStyle = { width: '400px', height: '600px', padding: 20 };
 const mockValues = {
     boolean: 'true',
-    date: 'Jan 10, 2022', // A full-date as defined in section 5.6 of RFC 3339
-    dateTime: '2019-10-12T07:20:50.52Z', // A date-time as defined in 5.6 of RFC 3339
+    date: 'Jan 1, 1970', // A full-date as defined in section 5.6 of RFC 3339
+    dateTime: '1970-01-01T00:00:00.000Z', // A date-time as defined in 5.6 of RFC 3339
     double: '123.4',
     duration: 'P3Y6M4DT12H30M5S', // A duration in ISO 8601 format
     enum: 'Active',

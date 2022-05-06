@@ -7,30 +7,12 @@ import { getStyles } from './ValueWidget.styles';
 import { useTranslation } from 'react-i18next';
 interface IProps {
     locale: Locale;
-    value: any;
+    value: boolean | Date | number | string;
     type: IDTDLPropertyType;
 }
 const FormattedValue: React.FC<IProps> = ({ locale, value, type }) => {
     const theme = useTheme();
     const { t } = useTranslation();
-
-    const dateOptions: Intl.DateTimeFormatOptions = {
-        year: '2-digit',
-        month: 'numeric', // not force 2 digits in case it is less than 10, i.e 01 -> 1
-        day: 'numeric' // not force 2 digits in case it is less than 10, i.e 01 -> 1
-    };
-
-    const timeOptions: Intl.DateTimeFormatOptions = {
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit',
-        timeZoneName: 'short'
-    };
-
-    const numberOptions: Intl.NumberFormatOptions = {
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 3
-    };
 
     let stringValueToDisplay = '';
     const typedValue = ViewerConfigUtility.getTypedDTDLPropertyValue(
@@ -41,25 +23,21 @@ const FormattedValue: React.FC<IProps> = ({ locale, value, type }) => {
     const styles = getStyles(theme);
     if (typedValue instanceof Error) {
         return (
-            <div className={styles.expressionValueContainer}>
-                <code className={styles.invalidExpressionValue}>
-                    {t('invalidValue')}
-                </code>
-            </div>
+            <code className={styles.invalidExpressionValue}>
+                {t('invalidValue')}
+            </code>
         );
     }
     switch (type) {
         case 'boolean': {
             stringValueToDisplay = typedValue.toString();
             return (
-                <div className={styles.expressionValueContainer}>
-                    <span
-                        className={styles.expressionValuePrimary}
-                        title={stringValueToDisplay}
-                    >
-                        {stringValueToDisplay}
-                    </span>
-                </div>
+                <span
+                    className={styles.expressionValuePrimary}
+                    title={stringValueToDisplay}
+                >
+                    {stringValueToDisplay}
+                </span>
             );
         }
         case 'date': {
@@ -68,43 +46,60 @@ const FormattedValue: React.FC<IProps> = ({ locale, value, type }) => {
                 dateOptions
             );
             return (
-                <div className={styles.expressionValueContainer}>
-                    <span
-                        className={styles.expressionValuePrimary}
-                        title={stringValueToDisplay}
-                    >
-                        {stringValueToDisplay}
-                    </span>
-                </div>
+                <span
+                    className={styles.expressionValuePrimary}
+                    title={stringValueToDisplay}
+                >
+                    {stringValueToDisplay}
+                </span>
             );
         }
         case 'duration': {
+            const years = (typedValue?.['years'] as number) ?? 0;
+            const months = (typedValue?.['months'] as number) ?? 0;
+            const days = (typedValue?.['days'] as number) ?? 0;
+            const hours = (typedValue?.['hours'] as number) ?? 0;
+            const minutes = (typedValue?.['minutes'] as number) ?? 0;
+            const seconds = (typedValue?.['seconds'] as number) ?? 0;
+
             return (
-                <div className={styles.expressionValueContainer}>
-                    <span
-                        className={styles.expressionValueListItem}
-                    >{`${typedValue['years']} years`}</span>
-                    <span
-                        className={styles.expressionValueListItem}
-                    >{`${typedValue['months']} months`}</span>
-                    <span
-                        className={styles.expressionValueListItem}
-                    >{`${typedValue['days']} days`}</span>
-                    <span
-                        className={styles.expressionValueListItem}
-                    >{`${typedValue['hours']} hours`}</span>
-                    <span
-                        className={styles.expressionValueListItem}
-                    >{`${typedValue['mins']} minutes`}</span>
-                    <span
-                        className={styles.expressionValueListItem}
-                    >{`${typedValue['secs']} seconds`}</span>
-                </div>
+                <>
+                    {years > 0 && (
+                        <span
+                            className={styles.expressionValueListItem}
+                        >{`${years} years`}</span>
+                    )}
+                    {months > 0 && (
+                        <span
+                            className={styles.expressionValueListItem}
+                        >{`${months} months`}</span>
+                    )}
+                    {days > 0 && (
+                        <span
+                            className={styles.expressionValueListItem}
+                        >{`${days} days`}</span>
+                    )}
+                    {hours > 0 && (
+                        <span
+                            className={styles.expressionValueListItem}
+                        >{`${hours} hours`}</span>
+                    )}
+                    {minutes > 0 && (
+                        <span
+                            className={styles.expressionValueListItem}
+                        >{`${minutes} minutes`}</span>
+                    )}
+                    {seconds > 0 && (
+                        <span
+                            className={styles.expressionValueListItem}
+                        >{`${seconds} seconds`}</span>
+                    )}
+                </>
             );
         }
         case 'dateTime':
             return (
-                <div className={styles.expressionValueContainer}>
+                <>
                     <span className={styles.expressionValuePrimary}>
                         {(typedValue as Date).toLocaleDateString(
                             locale,
@@ -117,16 +112,14 @@ const FormattedValue: React.FC<IProps> = ({ locale, value, type }) => {
                             timeOptions
                         )}
                     </span>
-                </div>
+                </>
             );
         case 'time': {
             const mockTypedValue = new Date('1970-01-01T' + typedValue); // temporarly append a fake date part for the time which is not needed when rendering
             return (
-                <div className={styles.expressionValueContainer}>
-                    <span className={styles.expressionValueSecondary}>
-                        {mockTypedValue.toLocaleTimeString(locale, timeOptions)}
-                    </span>
-                </div>
+                <span className={styles.expressionValueSecondary}>
+                    {mockTypedValue.toLocaleTimeString(locale, timeOptions)}
+                </span>
             );
         }
         case 'integer':
@@ -138,30 +131,44 @@ const FormattedValue: React.FC<IProps> = ({ locale, value, type }) => {
                 numberOptions
             );
             return (
-                <div className={styles.expressionValueContainer}>
-                    <span
-                        className={styles.expressionValuePrimary}
-                        title={(typedValue as number).toLocaleString(locale)}
-                    >
-                        {stringValueToDisplay}
-                    </span>
-                </div>
+                <span
+                    className={styles.expressionValuePrimary}
+                    title={(typedValue as number).toLocaleString(locale)}
+                >
+                    {stringValueToDisplay}
+                </span>
             );
         }
         default: {
             stringValueToDisplay = typedValue.toString();
             return (
-                <div className={styles.expressionValueContainer}>
-                    <span
-                        className={styles.expressionValueOverflowed}
-                        title={stringValueToDisplay}
-                    >
-                        {stringValueToDisplay}
-                    </span>
-                </div>
+                <span
+                    className={styles.expressionValueOverflowed}
+                    title={stringValueToDisplay}
+                >
+                    {stringValueToDisplay}
+                </span>
             );
         }
     }
+};
+
+const dateOptions: Intl.DateTimeFormatOptions = {
+    year: '2-digit',
+    month: 'numeric', // not force 2 digits in case it is less than 10, i.e 01 -> 1
+    day: 'numeric' // not force 2 digits in case it is less than 10, i.e 01 -> 1
+};
+
+const timeOptions: Intl.DateTimeFormatOptions = {
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    timeZoneName: 'short'
+};
+
+const numberOptions: Intl.NumberFormatOptions = {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 3
 };
 
 export default memo(FormattedValue);
