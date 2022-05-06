@@ -59,7 +59,11 @@ export const PropertyListEnumItemNested = ({
     };
 
     return (
-        <div className={propertyInspectorStyles.enumItem} tabIndex={0}>
+        <div
+            className={propertyInspectorStyles.enumItem}
+            tabIndex={0}
+            id={item.name}
+        >
             <TextField
                 styles={textFieldStyles}
                 borderless
@@ -84,6 +88,8 @@ export const PropertyListEnumItemNested = ({
                         subMenuActive={subMenuActive}
                         duplicateItem={false}
                         addItemToTemplates={false}
+                        targetId={item.name}
+                        setSubMenuActive={setSubMenuActive}
                     />
                 )}
             </IconButton>

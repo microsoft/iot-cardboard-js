@@ -124,6 +124,7 @@ export const PropertyListItemNest = ({
 
     return (
         <div
+            id={item.name}
             className={getItemClassName(index)}
             draggable
             onDragStart={(e) => {
@@ -181,6 +182,8 @@ export const PropertyListItemNest = ({
                             handleDuplicate={() => {
                                 handleDuplicate();
                             }}
+                            setSubMenuActive={setSubMenuActive}
+                            targetId={item.name}
                         />
                     )}
                 </IconButton>

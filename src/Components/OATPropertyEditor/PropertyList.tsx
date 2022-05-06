@@ -176,6 +176,7 @@ export const PropertyList = ({
                         model={model}
                         setModel={setModel}
                         lastPropertyFocused={lastPropertyFocused}
+                        targetId={PROPERTY_LIST_ID}
                     />
                 )}
                 {!propertySelectorVisible &&

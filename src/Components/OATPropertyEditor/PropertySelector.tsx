@@ -38,6 +38,7 @@ import { useTranslation } from 'react-i18next';
 interface IProperySelectorProps {
     lastPropertyFocused: any;
     model?: DTDLModel;
+    targetId?: string;
     setModel?: React.Dispatch<React.SetStateAction<DTDLModel>>;
     setPropertySelectorVisible: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -46,7 +47,8 @@ const PropertySelector = ({
     setPropertySelectorVisible,
     model,
     setModel,
-    lastPropertyFocused
+    lastPropertyFocused,
+    targetId
 }: IProperySelectorProps) => {
     const { t } = useTranslation();
     const propertyInspectorStyles = getPropertyInspectorStyles();
@@ -239,7 +241,7 @@ const PropertySelector = ({
         <FocusTrapCallout
             role="alertdialog"
             gapSpace={0}
-            target="#propertyList"
+            target={`#${targetId}`}
             isBeakVisible={false}
             setInitialFocus
             directionalHint={DirectionalHint.leftTopEdge}
