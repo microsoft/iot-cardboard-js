@@ -509,7 +509,8 @@
     "value": {
       "title": "Widget Hodnota",
       "description": "Základní widget pro zobrazení hodnot vlastností dvojčete",
-      "typePlaceholder": "Vyberte typ hodnoty"
+      "typePlaceholder": "Vyberte typ hodnoty",
+      "displayNamePlaceholder": "Zadejte zobrazovaný název"
     }
   },
   "sdkStrings": {
@@ -763,12 +764,6 @@
     "orbit": "Oběžná dráha",
     "zoom": "Zvětšení"
   },
-  "deeplinkFlyout": {
-    "buttonTitle": "Sdílet",
-    "copyButtonText": "Kopírovat odkaz",
-    "copyConfirmationMessage": "Zkopírovaný",
-    "flyoutHeader": "Sdílení scény",
-    "includeElementsOption": "Propojení s vybraným prvkem",
-    "includeLayersOption": "Propojení s vybranými vrstvami"
-  }
+  "active": "Aktivní",
+  "invalidValue": "Neplatná hodnota"
 }

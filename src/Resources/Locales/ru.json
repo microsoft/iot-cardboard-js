@@ -509,7 +509,8 @@
     "value": {
       "title": "Виджет значения",
       "description": "Базовый виджет для отображения значений свойств близнецов",
-      "typePlaceholder": "Выберите тип значения"
+      "typePlaceholder": "Выберите тип значения",
+      "displayNamePlaceholder": "Введите отображаемое имя"
     }
   },
   "sdkStrings": {
@@ -763,12 +764,6 @@
     "orbit": "Орбита",
     "zoom": "Увеличить"
   },
-  "deeplinkFlyout": {
-    "buttonTitle": "Предоставить общий доступ",
-    "copyButtonText": "Копировать ссылку",
-    "copyConfirmationMessage": "Скопированы",
-    "flyoutHeader": "Поделиться сценой",
-    "includeElementsOption": "Связь с выбранным элементом",
-    "includeLayersOption": "Связывание с выбранными слоями"
-  }
+  "active": "Активный",
+  "invalidValue": "Недопустимое значение"
 }

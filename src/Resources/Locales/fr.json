@@ -509,7 +509,8 @@
     "value": {
       "title": "Widget Valeur",
       "description": "Widget de base pour afficher les valeurs des propriétés jumelles",
-      "typePlaceholder": "Sélectionnez le type de la valeur"
+      "typePlaceholder": "Sélectionnez le type de la valeur",
+      "displayNamePlaceholder": "Entrez le nom complet"
     }
   },
   "sdkStrings": {
@@ -763,12 +764,6 @@
     "orbit": "Orbite",
     "zoom": "Zoom"
   },
-  "deeplinkFlyout": {
-    "buttonTitle": "Partager",
-    "copyButtonText": "Copier le lien",
-    "copyConfirmationMessage": "Copié",
-    "flyoutHeader": "Partager la scène",
-    "includeElementsOption": "Lien avec l’élément sélectionné",
-    "includeLayersOption": "Liaison avec les calques sélectionnés"
-  }
+  "active": "Actif",
+  "invalidValue": "Valeur non valide"
 }

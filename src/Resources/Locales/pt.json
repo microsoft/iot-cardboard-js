@@ -509,7 +509,8 @@
     "value": {
       "title": "Widget de valor",
       "description": "Widget básico para mostrar valores de propriedades gêmeas",
-      "typePlaceholder": "Selecione o tipo para o valor"
+      "typePlaceholder": "Selecione o tipo para o valor",
+      "displayNamePlaceholder": "Digite o nome do display"
     }
   },
   "sdkStrings": {
@@ -763,12 +764,6 @@
     "orbit": "Órbita",
     "zoom": "Zoom"
   },
-  "deeplinkFlyout": {
-    "buttonTitle": "Compartilhar",
-    "copyButtonText": "Copiar link",
-    "copyConfirmationMessage": "Copiado",
-    "flyoutHeader": "Compartilhar cena",
-    "includeElementsOption": "Link com elemento selecionado",
-    "includeLayersOption": "Link com camadas selecionadas"
-  }
+  "active": "Ativo",
+  "invalidValue": "Valor inválido"
 }

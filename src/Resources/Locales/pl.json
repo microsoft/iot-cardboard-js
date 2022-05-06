@@ -509,7 +509,8 @@
     "value": {
       "title": "Widżet Wartość",
       "description": "Widżet Podstawowy do wyświetlania wartości bliźniaczych właściwości",
-      "typePlaceholder": "Wybierz typ wartości"
+      "typePlaceholder": "Wybierz typ wartości",
+      "displayNamePlaceholder": "Wprowadź nazwę wyświetlaną"
     }
   },
   "sdkStrings": {
@@ -763,12 +764,6 @@
     "orbit": "Orbita",
     "zoom": "Powiększenia"
   },
-  "deeplinkFlyout": {
-    "buttonTitle": "Udostępnij",
-    "copyButtonText": "Kopiuj link",
-    "copyConfirmationMessage": "Kopiowane",
-    "flyoutHeader": "Udostępnianie sceny",
-    "includeElementsOption": "Link z wybranym elementem",
-    "includeLayersOption": "Łączenie z zaznaczonymi warstwami"
-  }
+  "active": "Aktywny",
+  "invalidValue": "Nieprawidłowa wartość"
 }

@@ -509,7 +509,8 @@
     "value": {
       "title": "Érték widget",
       "description": "Alapvető widget az ikertulajdonságok értékeinek megjelenítéséhez",
-      "typePlaceholder": "Az érték típusának kiválasztása"
+      "typePlaceholder": "Az érték típusának kiválasztása",
+      "displayNamePlaceholder": "Megjelenítendő név megadása"
     }
   },
   "sdkStrings": {
@@ -763,12 +764,6 @@
     "orbit": "Pálya",
     "zoom": "Búg"
   },
-  "deeplinkFlyout": {
-    "buttonTitle": "Részvény",
-    "copyButtonText": "Hivatkozás másolása",
-    "copyConfirmationMessage": "Másolt",
-    "flyoutHeader": "Jelenet megosztása",
-    "includeElementsOption": "Csatolás a kijelölt elemmel",
-    "includeLayersOption": "Csatolás kijelölt rétegekkel"
-  }
+  "active": "Aktív",
+  "invalidValue": "Érvénytelen érték"
 }

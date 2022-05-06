@@ -509,7 +509,8 @@
     "value": {
       "title": "값 위젯",
       "description": "쌍둥이 속성의 값을 표시하는 기본 위젯",
-      "typePlaceholder": "값의 유형을 선택합니다."
+      "typePlaceholder": "값의 유형을 선택합니다.",
+      "displayNamePlaceholder": "표시 이름 입력"
     }
   },
   "sdkStrings": {
@@ -763,12 +764,6 @@
     "orbit": "궤도",
     "zoom": "급상승"
   },
-  "deeplinkFlyout": {
-    "buttonTitle": "공유",
-    "copyButtonText": "링크 복사",
-    "copyConfirmationMessage": "복사",
-    "flyoutHeader": "장면 공유",
-    "includeElementsOption": "선택한 요소와의 연결",
-    "includeLayersOption": "선택한 레이어와의 연결"
-  }
+  "active": "활동적인",
+  "invalidValue": "잘못된 값"
 }

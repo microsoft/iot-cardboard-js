@@ -509,7 +509,8 @@
     "value": {
       "title": "Değer widget'ı",
       "description": "İkiz özelliklerin değerlerini göstermek için temel widget",
-      "typePlaceholder": "Değer için türü seçin"
+      "typePlaceholder": "Değer için türü seçin",
+      "displayNamePlaceholder": "Görünen adı girin"
     }
   },
   "sdkStrings": {
@@ -763,12 +764,6 @@
     "orbit": "Yörünge",
     "zoom": "Yakınlaştırmak"
   },
-  "deeplinkFlyout": {
-    "buttonTitle": "Paylaş",
-    "copyButtonText": "Bağlantıyı kopyala",
-    "copyConfirmationMessage": "Kopya -lanan",
-    "flyoutHeader": "Sahneyi paylaş",
-    "includeElementsOption": "Seçili öğeyle bağlantı kurma",
-    "includeLayersOption": "Seçili katmanlarla bağlantı kurma"
-  }
+  "active": "Etkin",
+  "invalidValue": "Geçersiz değer"
 }

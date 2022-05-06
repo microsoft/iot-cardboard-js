@@ -509,7 +509,8 @@
     "value": {
       "title": "Widgeten Värde",
       "description": "Grundläggande widget för att visa värden för dubbla egenskaper",
-      "typePlaceholder": "Välj typ för värdet"
+      "typePlaceholder": "Välj typ för värdet",
+      "displayNamePlaceholder": "Ange visningsnamn"
     }
   },
   "sdkStrings": {
@@ -763,12 +764,6 @@
     "orbit": "Omloppsbana",
     "zoom": "Zooma"
   },
-  "deeplinkFlyout": {
-    "buttonTitle": "Aktie",
-    "copyButtonText": "Kopiera länk",
-    "copyConfirmationMessage": "Kopieras",
-    "flyoutHeader": "Dela scen",
-    "includeElementsOption": "Länk till valt element",
-    "includeLayersOption": "Länka till valda lager"
-  }
+  "active": "Aktiv",
+  "invalidValue": "Ogiltigt värde"
 }
