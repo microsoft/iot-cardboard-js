@@ -28,6 +28,8 @@ import ConfirmDeleteDialog from '../ConfirmDeleteDialog/ConfirmDeleteDialog';
 import { getLeftPanelStyles } from '../Shared/LeftPanel.styles';
 import PanelFooter from '../Shared/PanelFooter';
 import SearchHeader from '../Shared/SearchHeader';
+import noResults from '../../../../Resources/Static/noResults.svg';
+import noLayers from '../../../../Resources/Static/noLayers.svg';
 
 interface Props {
     behaviors: Array<IBehavior>;
@@ -187,6 +189,10 @@ const SceneBehaviors: React.FC<Props> = ({
                         headerText={t('3dSceneBuilder.noBehaviorsText')}
                         type={'info'}
                         width={'compact'}
+                        imageProps={{
+                            src: noLayers,
+                            height: 100
+                        }}
                     />
                 ) : (
                     <>
@@ -202,6 +208,10 @@ const SceneBehaviors: React.FC<Props> = ({
                                 headerText={t('3dSceneBuilder.noResults')}
                                 type={'info'}
                                 width={'compact'}
+                                imageProps={{
+                                    src: noResults,
+                                    height: 100
+                                }}
                             />
                         )}
                         <div className={customStyles.content}>

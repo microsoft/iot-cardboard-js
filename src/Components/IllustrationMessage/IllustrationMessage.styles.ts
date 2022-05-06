@@ -1,4 +1,4 @@
-import { FontWeights, IStyle } from '@fluentui/react';
+import { FontWeights } from '@fluentui/react';
 import {
     IllustrationMessageStyleProps,
     IllustrationMessageStyles
@@ -8,14 +8,19 @@ export const getIllustrationMessageStyles = (
     props: IllustrationMessageStyleProps
 ): IllustrationMessageStyles => {
     return {
-        container: {
-            alignItems: 'center',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            paddingTop: 20,
-            fontFamily: 'Segoe UI'
-        } as IStyle,
+        container: [
+            props.width === 'wide' && {
+                height: '100%'
+            },
+            {
+                alignItems: 'center',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                paddingTop: 20,
+                fontFamily: 'Segoe UI'
+            }
+        ],
         descriptionContainer: [
             props.width === 'compact' && {
                 maxWidth: 200

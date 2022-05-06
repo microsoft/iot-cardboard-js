@@ -7,7 +7,7 @@ import BaseComponent from '../BaseComponent/BaseComponent';
 import { ScenePageErrorHandlingWrapperProps } from './ScenePageErrorHandlingWrapper.types';
 import IllustrationMessage from '../IllustrationMessage/IllustrationMessage';
 import BlobError from '../../Resources/Static/error.svg';
-import AccessRestrictedError from '../../Resources/Static/accessRestricted.svg';
+import PriviledgedAccess from '../../Resources/Static/priviledgedAccess.svg';
 
 const ScenePageErrorHandlingWrapper: React.FC<ScenePageErrorHandlingWrapperProps> = ({
     errors,
@@ -43,7 +43,7 @@ const ScenePageErrorHandlingWrapper: React.FC<ScenePageErrorHandlingWrapperProps
                     type={'error'}
                     width={'wide'}
                     imageProps={{
-                        src: AccessRestrictedError,
+                        src: PriviledgedAccess,
                         height: 200
                     }}
                     buttonProps={{
