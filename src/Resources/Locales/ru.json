@@ -765,5 +765,13 @@
     "zoom": "Увеличить"
   },
   "active": "Активный",
-  "invalidValue": "Недопустимое значение"
+  "invalidValue": "Недопустимое значение",
+  "deeplinkFlyout": {
+    "buttonTitle": "Предоставить общий доступ",
+    "copyButtonText": "Копировать ссылку",
+    "copyConfirmationMessage": "Скопированы",
+    "flyoutHeader": "Поделиться сценой",
+    "includeElementsOption": "Связь с выбранным элементом",
+    "includeLayersOption": "Связывание с выбранными слоями"
+  }
 }
