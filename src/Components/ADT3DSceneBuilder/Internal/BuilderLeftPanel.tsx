@@ -236,7 +236,20 @@ const BuilderLeftPanel: React.FC = () => {
         setColoredMeshItems([]);
     };
 
-    const onElementSave = (newElements: Array<ITwinToObjectMapping>) => {
+    const onElementSave = async (
+        updatedElement: ITwinToObjectMapping,
+        newElements: Array<ITwinToObjectMapping>,
+        updatedConfig: I3DScenesConfig
+    ) => {
+        await updateBehaviorAndElementsAdapterData.callAdapter({
+            config: updatedConfig,
+            mode: ADT3DSceneBuilderMode.EditElement,
+            behavior: undefined,
+            selectedLayerIds: undefined,
+            selectedElements: [updatedElement]
+        });
+        getConfig();
+
         dispatch({
             type: SET_ADT_SCENE_BUILDER_ELEMENTS,
             payload: newElements
@@ -444,7 +457,6 @@ const BuilderLeftPanel: React.FC = () => {
                         onBackClick(ADT3DSceneBuilderMode.ElementsIdle)
                     }
                     onElementSave={onElementSave}
-                    onBehaviorSave={onBehaviorSave}
                     onBehaviorClick={onBehaviorClick}
                     onCreateBehaviorWithElements={onCreateBehaviorWithElements}
                 />

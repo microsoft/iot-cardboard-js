@@ -49,7 +49,6 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
     behaviors,
     onElementSave,
     onElementBackClick,
-    onBehaviorSave,
     onBehaviorClick,
     onCreateBehaviorWithElements
 }) => {
@@ -122,18 +121,10 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                     undefined
                 );
             }
-
-            await onBehaviorSave(
-                configRef.current,
-                undefined,
-                ADT3DSceneBuilderMode.EditElement,
-                undefined,
-                [elementToEdit]
-            );
         }
         // end of behaviors update which this element exists in
 
-        onElementSave(newElements);
+        onElementSave(elementToEdit, newElements, configRef.current);
     };
 
     useEffect(() => {
