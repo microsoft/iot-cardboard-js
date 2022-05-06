@@ -372,7 +372,6 @@
     "addElementDetails": "요소 세부 정보 추가",
     "noBehaviorsOnElement": "이 요소에 할당된 동작이 없습니다.",
     "noElementsText": "아직 만들어진 요소가 없습니다.",
-    "noResults": "결과 없음",
     "behaviorsInSceneTitle": "이 장면에서 ({{count}})",
     "createWithElement": "{{element}}로 만들기",
     "elementActions": "요소 작업",

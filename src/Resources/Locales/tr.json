@@ -372,7 +372,6 @@
     "addElementDetails": "Öğe ayrıntıları ekleme",
     "noBehaviorsOnElement": "Bu öğeye atanmış davranış yok",
     "noElementsText": "Henüz oluşturulmuş bir öğe yok",
-    "noResults": "Sonuç yok",
     "behaviorsInSceneTitle": "Bu sahnede ({{count}})",
     "createWithElement": "{{element}} ile oluştur",
     "elementActions": "Öğe eylemleri",
