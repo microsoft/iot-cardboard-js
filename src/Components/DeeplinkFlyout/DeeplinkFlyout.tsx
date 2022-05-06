@@ -74,6 +74,7 @@ const DeeplinkFlyout: React.FC<IDeeplinkFlyoutProps> = (props) => {
 
     // callbacks
     const onCopyLinkClick = useCallback(() => {
+        setShowConfirmation(false);
         const deeplink = getDeeplink({
             includeSelectedElement: includeElement,
             includeSelectedLayers: includeLayers
