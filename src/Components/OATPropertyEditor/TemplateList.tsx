@@ -1,9 +1,14 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useReducer } from 'react';
 import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
 import { deepCopy } from '../../Models/Services/Utils';
 import { DTDLModel } from '../../Models/Classes/DTDL';
 import TemplateListItem from './TeplateListItem';
 import { DTDLProperty } from '../../Models/Constants/Interfaces';
+import {
+    OATEditorPageReducer,
+    defaultOATEditorState
+} from '../../Pages/OATEditorPage/OATEditorPage.state';
+import { UPDATE_TEMPLATES } from '../../Pages/OATEditorPage/Actions';
 
 interface ITemplateList {
     draggingTemplate?: boolean;
@@ -16,6 +21,7 @@ interface ITemplateList {
     setDraggingTemplate?: (dragging: boolean) => boolean;
     setModel?: React.Dispatch<React.SetStateAction<DTDLModel>>;
     setTemplates: React.Dispatch<React.SetStateAction<DTDLProperty>>;
+    dispatch?: React.Dispatch<React.SetStateAction<any>>;
 }
 
 export const TemplateList = ({
@@ -28,12 +34,18 @@ export const TemplateList = ({
     draggingTemplate,
     setDraggingTemplate,
     enteredTemplateRef,
-    draggingProperty
+    draggingProperty,
+    dispatch
 }: ITemplateList) => {
     const propertyInspectorStyles = getPropertyInspectorStyles();
     const dragItem = useRef(null);
     const dragNode = useRef(null);
     const [enteredItem, setEnteredItem] = useState(enteredTemplateRef.current);
+
+    // const [state, dispatch] = useReducer(
+    //     OATEditorPageReducer,
+    //     defaultOATEditorState
+    // );
 
     const handleTemplateItemDropOnPropertyList = () => {
         // Prevent drop if duplicate
@@ -128,6 +140,14 @@ export const TemplateList = ({
             newTemplate.splice(index, 1);
             return newTemplate;
         });
+
+        console.log('deleted!!');
+
+        // Use of reducer
+        const newTemplate = deepCopy(templates);
+        newTemplate.splice(index, 1);
+
+        dispatch({ type: UPDATE_TEMPLATES, payload: newTemplate });
     };
 
     return (

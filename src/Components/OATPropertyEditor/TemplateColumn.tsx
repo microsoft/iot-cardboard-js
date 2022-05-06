@@ -28,6 +28,7 @@ type ITemplateColumn = {
     setDraggingTemplate: any;
     enteredTemplateRef: any;
     draggingProperty: boolean;
+    dispatch?: React.Dispatch<React.SetStateAction<any>>;
 };
 
 export const TemplateColumn = ({
@@ -40,7 +41,8 @@ export const TemplateColumn = ({
     draggingTemplate,
     setDraggingTemplate,
     enteredTemplateRef,
-    draggingProperty
+    draggingProperty,
+    dispatch
 }: ITemplateColumn) => {
     const { t } = useTranslation();
     const propertyInspectorStyles = getPropertyInspectorStyles();
@@ -94,6 +96,7 @@ export const TemplateColumn = ({
                 setDraggingTemplate={setDraggingTemplate}
                 enteredTemplateRef={enteredTemplateRef}
                 draggingProperty={draggingProperty}
+                dispatch={dispatch}
             />
         </Stack>
     );

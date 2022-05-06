@@ -33,6 +33,7 @@ interface IEditor {
     setTemplates?: React.Dispatch<React.SetStateAction<DTDLProperty>>;
     templatesActive?: boolean;
     setTemplatesActive?: (active: boolean) => boolean;
+    dispatch?: React.Dispatch<React.SetStateAction<any>>;
 }
 
 const Editor = ({
@@ -47,7 +48,8 @@ const Editor = ({
     setCurrentPropertyIndex,
     currentPropertyIndex,
     templatesActive,
-    setTemplatesActive
+    setTemplatesActive,
+    dispatch
 }: IEditor) => {
     const { t } = useTranslation();
     const propertyInspectorStyles = getPropertyInspectorStyles();
@@ -165,6 +167,7 @@ const Editor = ({
                     setDraggingTemplate={setDraggingTemplate}
                     draggingProperty={draggingProperty}
                     enteredTemplateRef={enteredTemplateRef}
+                    dispatch={dispatch}
                 />
             )}
         </div>
