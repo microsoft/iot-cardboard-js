@@ -25,7 +25,15 @@ import {
     SphereMaterial
 } from '../../Models/Constants/SceneView.constants';
 import { AbstractMesh, HighlightLayer, Tools } from '@babylonjs/core';
-import { createBadgeGroup, getBoundingBox } from './SceneView.Utils';
+import {
+    convertLatLonToVector3,
+    createBadgeGroup,
+    elementsOverlap,
+    getBoundingBox,
+    getCameraPosition,
+    getMarkerPosition,
+    removeGroupedItems
+} from './SceneView.Utils';
 import { makeMaterial, outlineMaterial, ToColor3 } from './Shaders';
 import {
     CameraInteraction,
@@ -120,19 +128,6 @@ async function loadPromise(
         console.log(e);
         onError(null, e.message, e);
     }
-}
-
-function convertLatLonToVector3(
-    latitude: number,
-    longitude: number,
-    earthRadius = 50
-): BABYLON.Vector3 {
-    const latitude_rad = (latitude * Math.PI) / 180;
-    const longitude_rad = (longitude * Math.PI) / 180;
-    const x = earthRadius * Math.cos(latitude_rad) * Math.cos(longitude_rad);
-    const z = earthRadius * Math.cos(latitude_rad) * Math.sin(longitude_rad);
-    const y = earthRadius * Math.sin(latitude_rad);
-    return new BABYLON.Vector3(x, y, z);
 }
 
 function SceneView(props: ISceneViewProps, ref) {
@@ -945,16 +940,16 @@ function SceneView(props: ISceneViewProps, ref) {
             }
         }
 
+        // ensure scene is loaded and rendered before we add markers.
+        // It needs to be rendered so we can calculate position and occulsion of markers
         if (!isLoading && sceneRef.current) {
             sceneRef.current.render(); // Marker globes may not have rendered yet
             if (markers) {
                 cm = sceneRef.current.onAfterRenderObservable.add(function () {
                     // Only do marker work if camera has actually moved
-                    const pos = JSON.stringify({
-                        position: cameraRef.current.position,
-                        target: cameraRef.current.target,
-                        radius: cameraRef.current.radius
-                    });
+                    const pos = JSON.stringify(
+                        getCameraPosition(cameraRef.current)
+                    );
 
                     if (pos != lastCameraPositionOnMouseMoveRef.current) {
                         lastCameraPositionOnMouseMoveRef.current = pos;
@@ -976,7 +971,7 @@ function SceneView(props: ISceneViewProps, ref) {
         };
     }, [markers, modelUrl, isLoading]);
 
-    const createMarkersWithPosition = () => {
+    const createMarkersWithPosition = useCallback(() => {
         const markersAndPositions: {
             marker: Marker;
             top: number;
@@ -984,32 +979,37 @@ function SceneView(props: ISceneViewProps, ref) {
         }[] = [];
         if (markers) {
             markers.forEach((marker) => {
-                const position = getMarkerPosition(marker);
+                const position = getMarkerPosition(
+                    marker,
+                    meshMap.current,
+                    sceneRef.current,
+                    cameraRef.current,
+                    engineRef.current
+                );
                 if (position) {
                     const markerToRenderUIElement = document.getElementById(
                         marker.id
                     );
+                    const posLeft =
+                        position?.left -
+                        markerToRenderUIElement.clientWidth / 2;
+
+                    const posTop =
+                        position?.top -
+                        markerToRenderUIElement.clientHeight / 2;
                     //create first group
                     if (markersAndPositions.length === 0) {
                         marker.GroupedUIElement = null;
                         markersAndPositions.push({
                             marker: marker,
-                            left:
-                                position?.left -
-                                markerToRenderUIElement.clientWidth / 2,
-                            top:
-                                position?.top -
-                                markerToRenderUIElement.clientHeight / 2
+                            left: posLeft,
+                            top: posTop
                         });
                     } else {
                         const element = markersAndPositions.find((m) =>
                             elementsOverlap(m, markerToRenderUIElement, {
-                                left:
-                                    position?.left -
-                                    markerToRenderUIElement?.clientWidth / 2,
-                                top:
-                                    position?.top -
-                                    markerToRenderUIElement?.clientHeight / 2
+                                left: posLeft,
+                                top: posTop
                             })
                         );
 
@@ -1062,12 +1062,8 @@ function SceneView(props: ISceneViewProps, ref) {
                             marker.GroupedUIElement = null;
                             markersAndPositions.push({
                                 marker: marker,
-                                left:
-                                    position?.left -
-                                    markerToRenderUIElement.clientWidth / 2,
-                                top:
-                                    position?.top -
-                                    markerToRenderUIElement.clientHeight / 2
+                                left: posLeft,
+                                top: posTop
                             });
                         }
                     }
@@ -1078,145 +1074,7 @@ function SceneView(props: ISceneViewProps, ref) {
 
             setMarkersAndPositions(markersAndPositions);
         }
-    };
-
-    const removeGroupedItems = (
-        markersAndPositions: { marker: Marker; left: number; top: number }[],
-        marker: Marker
-    ) => {
-        // remove item if previously grouped
-        markersAndPositions.forEach((markerAndPosition) => {
-            if (
-                markerAndPosition.marker.UIElement?.props?.groupItems?.find(
-                    (item) => item.label === marker.name
-                )
-            ) {
-                const groupItems = markerAndPosition.marker.UIElement?.props?.groupItems?.filter(
-                    (item) => item.label !== marker.name
-                );
-
-                const groupedElement = (
-                    <ModelGroupLabel
-                        label={groupItems.length}
-                        groupItems={groupItems}
-                    />
-                );
-                markerAndPosition.marker.UIElement = groupedElement;
-            }
-        });
-    };
-
-    const elementsOverlap = (
-        renderedMarkerAndPosition: {
-            marker: Marker;
-            left: number;
-            top: number;
-        },
-        markerToRenderUIElement: HTMLElement,
-        markerPosition: { left: number; top: number }
-    ) => {
-        let doesOverlap = false;
-        const markerElement = document.getElementById(
-            renderedMarkerAndPosition.marker.id
-        );
-
-        const renderedMarkerUIElementArea = markerElement?.getBoundingClientRect();
-        const markerToRenderUIElementArea = markerToRenderUIElement?.getBoundingClientRect();
-
-        const markerIsGroup =
-            renderedMarkerAndPosition.marker.UIElement?.props?.groupItems
-                ?.length;
-
-        const markerElementWidth = markerIsGroup
-            ? 40
-            : renderedMarkerUIElementArea?.right;
-
-        if (renderedMarkerUIElementArea && markerToRenderUIElementArea) {
-            doesOverlap = !(
-                renderedMarkerUIElementArea.top +
-                    renderedMarkerAndPosition.top >
-                    markerToRenderUIElementArea.bottom + markerPosition.top ||
-                markerElementWidth + renderedMarkerAndPosition.left <
-                    markerToRenderUIElementArea.left + markerPosition.left ||
-                renderedMarkerUIElementArea.bottom +
-                    renderedMarkerAndPosition.top <
-                    markerToRenderUIElementArea.top + markerPosition.top ||
-                renderedMarkerUIElementArea.left +
-                    renderedMarkerAndPosition.left >
-                    markerToRenderUIElementArea.right + markerPosition.left
-            );
-        }
-
-        return doesOverlap;
-    };
-
-    const getMarkerPosition = (marker: Marker) => {
-        const lat = marker.latitude;
-        const lon = marker.longitude;
-        const position = { left: 0, top: 0 };
-        let pos: BABYLON.Vector3 = null;
-        const meshes: AbstractMesh[] = [];
-        if (marker.attachedMeshIds) {
-            for (const id of marker.attachedMeshIds) {
-                const mesh = meshMap.current[id];
-                if (!mesh) {
-                    console.log('Mesh not found ' + id);
-                    return null;
-                }
-                meshes.push(mesh);
-            }
-            pos = getBoundingBox(meshes).boundingBox.centerWorld;
-        } else {
-            pos = convertLatLonToVector3(lat, lon);
-        }
-
-        if (sceneRef.current && cameraRef.current && engineRef.current) {
-            const coordinates = BABYLON.Vector3.Project(
-                pos,
-                BABYLON.Matrix.Identity(),
-                sceneRef.current?.getTransformMatrix(),
-                cameraRef.current?.viewport?.toGlobal(
-                    engineRef.current?.getRenderWidth(),
-                    engineRef.current?.getRenderHeight()
-                )
-            );
-
-            if (!coordinates) {
-                return null;
-            }
-
-            if (!marker.showIfOccluded) {
-                // If the marker is occluded, don't show label
-                const p = scene.pick(
-                    coordinates.x,
-                    coordinates.y,
-                    (mesh) => {
-                        return !!mesh;
-                    },
-                    false,
-                    cameraRef.current
-                );
-
-                // You'll have to leave the marker stuff in for this to work, but just use the transparent ones
-                // There's two spheres for each marker, the red one and a transparent one
-                // If we hit something unexoected, its occluded
-                const name = p?.pickedMesh?.name;
-                const show =
-                    name &&
-                    (name?.startsWith(Scene_Marker) ||
-                        (marker.attachedMeshIds &&
-                            marker.attachedMeshIds.includes(name)));
-                if (!show) {
-                    return null;
-                }
-            }
-
-            position.left = coordinates.x;
-            position.top = coordinates.y;
-        }
-
-        return position;
-    };
+    }, []);
 
     // SETUP LOGIC FOR onMeshHover
     useEffect(() => {
@@ -1392,11 +1250,9 @@ function SceneView(props: ISceneViewProps, ref) {
         if (scene && onCameraMoveRef.current) {
             const cameraMove = () => {
                 if (onCameraMoveRef.current && cameraRef.current) {
-                    onCameraMoveRef.current({
-                        position: cameraRef.current.position,
-                        target: cameraRef.current.target,
-                        radius: cameraRef.current.radius
-                    });
+                    onCameraMoveRef.current(
+                        getCameraPosition(cameraRef.current)
+                    );
                 }
             };
 
