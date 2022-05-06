@@ -52,13 +52,12 @@ export const getStyles = (
                     width: 42
                 },
                 icon: {
-                    fontSize: FontSizes.size24
+                    fontSize: FontSizes.size16
                 }
             },
             callout: {
                 root: {
                     padding: 16,
-                    // backgroundColor: 'var(--cb-color-glassy-modal)',
                     backdropFilter: 'blur(24px) brightness(150%)'
                 }
             },
