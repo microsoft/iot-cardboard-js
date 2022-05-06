@@ -4,14 +4,14 @@ import {
     IDeeplinkFlyoutStyles
 } from './DeeplinkFlyout.types';
 
-const deeplinkFlyoutClassPrefix = 'cb-deeplinkflyout';
+const classPrefix = 'cb-deeplink-flyout';
 
 const classNames = {
-    root: `${deeplinkFlyoutClassPrefix}-root`,
-    button: `${deeplinkFlyoutClassPrefix}-button`,
-    callout: `${deeplinkFlyoutClassPrefix}-callout`,
-    calloutCheckbox: `${deeplinkFlyoutClassPrefix}-callout-checkbox`,
-    calloutTitle: `${deeplinkFlyoutClassPrefix}-callout-title`
+    root: `${classPrefix}-root`,
+    button: `${classPrefix}-button`,
+    callout: `${classPrefix}-callout`,
+    calloutCheckbox: `${classPrefix}-callout-checkbox`,
+    calloutTitle: `${classPrefix}-callout-title`
 };
 
 export const getStyles = (

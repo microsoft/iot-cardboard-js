@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
     IDeeplinkFlyoutProps,
     IDeeplinkFlyoutStyleProps,
@@ -10,8 +10,6 @@ import {
     Callout,
     Checkbox,
     classNamesFunction,
-    FocusTrapCallout,
-    FontSizes,
     Icon,
     IconButton,
     IIconProps,
