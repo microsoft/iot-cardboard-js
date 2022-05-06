@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useState } from 'react';
+import React, { memo, useCallback, useEffect, useState } from 'react';
 import {
     IDeeplinkFlyoutProps,
     IDeeplinkFlyoutStyleProps,
@@ -7,12 +7,14 @@ import {
 import { useBoolean, useId } from '@fluentui/react-hooks';
 import { getStyles } from './DeeplinkFlyout.styles';
 import {
+    Callout,
     Checkbox,
     classNamesFunction,
     FocusTrapCallout,
     FontSizes,
     Icon,
     IconButton,
+    IIconProps,
     PrimaryButton,
     Stack,
     styled,
@@ -30,6 +32,9 @@ const getClassNames = classNamesFunction<
     IDeeplinkFlyoutStyleProps,
     IDeeplinkFlyoutStyles
 >();
+const iconProps: IIconProps = {
+    iconName: 'Share'
+};
 
 const ROOT_LOC = 'deeplinkFlyout';
 const LOC_KEYS = {
@@ -55,8 +60,17 @@ const DeeplinkFlyout: React.FC<IDeeplinkFlyoutProps> = (props) => {
     const [includeElement, { toggle: toggleIncludeElement }] = useBoolean(true);
     const [showConfirmation, setShowConfirmation] = useState<boolean>(false);
 
+    // effects
+    useEffect(() => {
+        // reset the state whenever the flyout shows up so we don't persist when it closes and opens again
+        setShowConfirmation(false);
+        if (!includeLayers) toggleIncludeLayers();
+        if (!includeElement) toggleIncludeElement();
+    }, [showFlyout]);
+
     // styles
     const classNames = getClassNames(styles, {
+        isCalloutOpen: showFlyout,
         theme: useTheme()
     });
 
@@ -89,33 +103,39 @@ const DeeplinkFlyout: React.FC<IDeeplinkFlyoutProps> = (props) => {
     return (
         <div className={classNames.root}>
             <IconButton
+                className={classNames.button}
                 data-testid={'deeplink-open-flyout'}
-                iconProps={{ iconName: 'Share' }}
+                iconProps={iconProps}
                 id={flyoutButtonId}
-                onClick={() => toggleFlyout()}
+                onClick={toggleFlyout}
+                styles={classNames.subComponentStyles.button?.()}
                 title={t(LOC_KEYS.buttonTitle)}
             />
             {showFlyout && (
-                <FocusTrapCallout
-                    target={`#${flyoutButtonId}`}
+                <Callout
+                    onDismiss={toggleFlyout}
+                    setInitialFocus={true}
                     styles={classNames.subComponentStyles.callout}
+                    target={`#${flyoutButtonId}`}
                 >
-                    <Stack tokens={{ childrenGap: 8 }}>
+                    <Stack tokens={{ childrenGap: 14 }}>
                         <h4 className={classNames.calloutTitle}>
                             {t(LOC_KEYS.flyoutHeader)}
                         </h4>
-                        <Checkbox
-                            checked={includeLayers}
-                            label={t(LOC_KEYS.includeLayersOption)}
-                            onChange={toggleIncludeLayers}
-                            styles={classNames.subComponentStyles.checkbox}
-                        />
-                        <Checkbox
-                            checked={includeElement}
-                            label={t(LOC_KEYS.includeElementsOption)}
-                            onChange={toggleIncludeElement}
-                            styles={classNames.subComponentStyles.checkbox}
-                        />
+                        <Stack tokens={{ childrenGap: 8 }}>
+                            <Checkbox
+                                checked={includeLayers}
+                                label={t(LOC_KEYS.includeLayersOption)}
+                                onChange={toggleIncludeLayers}
+                                styles={classNames.subComponentStyles.checkbox}
+                            />
+                            <Checkbox
+                                checked={includeElement}
+                                label={t(LOC_KEYS.includeElementsOption)}
+                                onChange={toggleIncludeElement}
+                                styles={classNames.subComponentStyles.checkbox}
+                            />
+                        </Stack>
                         <Stack horizontal tokens={{ childrenGap: 8 }}>
                             <PrimaryButton
                                 data-testid={'deeplink-copy-link'}
@@ -126,7 +146,9 @@ const DeeplinkFlyout: React.FC<IDeeplinkFlyoutProps> = (props) => {
                                 <Stack
                                     horizontal
                                     tokens={{ childrenGap: 4 }}
-                                    className={classNames.confirmationMessage}
+                                    className={
+                                        classNames.calloutConfirmationMessage
+                                    }
                                 >
                                     <Icon iconName="Link" />
                                     <Text>
@@ -136,7 +158,7 @@ const DeeplinkFlyout: React.FC<IDeeplinkFlyoutProps> = (props) => {
                             )}
                         </Stack>
                     </Stack>
-                </FocusTrapCallout>
+                </Callout>
             )}
         </div>
     );

@@ -3,7 +3,9 @@ import {
     IStyle,
     ICalloutContentStyles,
     IStyleFunctionOrObject,
-    ICheckboxStyles
+    ICheckboxStyles,
+    IButtonStyles,
+    IStackStyles
 } from '@fluentui/react';
 
 export interface IDeeplinkFlyoutProps {
@@ -15,11 +17,15 @@ export interface IDeeplinkFlyoutProps {
 
 export interface IDeeplinkFlyoutStyleProps {
     theme: ITheme;
+    isCalloutOpen: boolean;
 }
 export interface IDeeplinkFlyoutStyles {
     root: IStyle;
+    button: IStyle;
+    callout: IStyle;
+    calloutCheckbox: IStyle;
     calloutTitle: IStyle;
-    confirmationMessage: IStyle;
+    calloutConfirmationMessage: IStyle;
 
     /**
      * SubComponent styles.
@@ -28,7 +34,7 @@ export interface IDeeplinkFlyoutStyles {
 }
 
 export interface IDeeplinkFlyoutSubComponentStyles {
-    /** Styles for the callout that hosts the ContextualMenu options. */
+    button?: IButtonStyles;
     callout?: Partial<ICalloutContentStyles>;
     checkbox?: ICheckboxStyles;
 }
