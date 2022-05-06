@@ -47,7 +47,7 @@ const getContainerStyles = (theme: ITheme) => ({
     } as IStyle
 });
 const ProviderContentRenderer: React.FC = () => {
-    const { deeplinkState } = useDeeplinkContext();
+    const { deeplinkState, getDeeplink } = useDeeplinkContext();
     const theme = useTheme();
     return (
         <Stack styles={getContainerStyles(theme)}>
@@ -77,7 +77,12 @@ const ProviderContentRenderer: React.FC = () => {
             </Stack>
             <Stack horizontal styles={itemStackStyles}>
                 <Label>Deeplink: </Label>
-                <Text>{deeplinkState?.deeplink}</Text>
+                <Text>
+                    {getDeeplink({
+                        includeSelectedElement: true,
+                        includeSelectedLayers: true
+                    })}
+                </Text>
             </Stack>
         </Stack>
     );
