@@ -100,9 +100,7 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
 
         // beginning of element update in scene
         const sceneToUpdate: IScene = deepCopy(
-            config.configuration.scenes[
-                config.configuration.scenes.findIndex((s) => s.id === sceneId)
-            ]
+            config.configuration.scenes.find((s) => s.id === sceneId)
         );
         sceneToUpdate.elements = newElements;
         configRef.current = ViewerConfigUtility.editScene(

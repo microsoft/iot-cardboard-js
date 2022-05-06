@@ -146,7 +146,11 @@ export interface IADT3DSceneBuilderElementFormProps {
     builderMode: ADT3DSceneBuilderMode;
     selectedElement: ITwinToObjectMapping;
     behaviors: Array<IBehavior>;
-    onElementSave: (elements: Array<ITwinToObjectMapping>) => void;
+    onElementSave: (
+        updatedElement: ITwinToObjectMapping,
+        newElements: Array<ITwinToObjectMapping>,
+        updatedConfig: I3DScenesConfig
+    ) => void;
     onElementBackClick: () => void;
     onBehaviorClick: (behavior: IBehavior) => void;
     onCreateBehaviorWithElements: () => void;
