@@ -8,6 +8,7 @@ export interface IDeeplinkContextProviderProps {
 export interface IDeeplinkOptions {
     includeSelectedElement: boolean;
     includeSelectedLayers: boolean;
+    excludeBaseUrl?: boolean;
 }
 
 /**

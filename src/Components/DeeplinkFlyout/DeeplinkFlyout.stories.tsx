@@ -2,8 +2,7 @@ import React from 'react';
 import { ComponentStory } from '@storybook/react';
 import {
     findCalloutItemByTestId,
-    getDefaultStoryDecorator,
-    sleep
+    getDefaultStoryDecorator
 } from '../../Models/Services/StoryUtilities';
 import DeeplinkFlyout from './DeeplinkFlyout';
 import { IDeeplinkFlyoutProps } from './DeeplinkFlyout.types';

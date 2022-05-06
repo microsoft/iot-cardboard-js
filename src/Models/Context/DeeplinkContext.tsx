@@ -30,6 +30,7 @@ export const DeeplinkContextReducer: (
 ) => IDeeplinkContextState = produce(
     (draft: IDeeplinkContextState, action: DeeplinkContextAction) => {
         logDebugConsole(
+            'info',
             `Updating Deeplink context ${action.type} with payload: `,
             action.payload
         );
@@ -136,13 +137,27 @@ const buildDeeplink = (
         storageUrl: currentState.storageUrl
     };
 
-    const newValue = queryString.stringify(deeplink, {
-        encode: true,
-        sort: false,
-        skipEmptyString: true
-    });
-    logDebugConsole(`*** Deeplink: `, deeplink, newValue);
-    return newValue;
+    // if we only want the stringified object
+    let url = '';
+    if (options.excludeBaseUrl) {
+        url = queryString.stringify(deeplink, {
+            encode: true,
+            sort: false,
+            skipEmptyString: true
+        });
+    } else {
+        url = queryString.stringifyUrl(
+            { url: location.href, query: { ...deeplink } },
+            {
+                encode: true,
+                sort: false,
+                skipEmptyString: true
+            }
+        );
+    }
+    logDebugConsole('debug', `Deeplink properties: `, deeplink);
+    logDebugConsole('info', `Full deeplink: `, url);
+    return url;
 };
 
 const ARRAY_VALUE_SEPARATOR = ',';

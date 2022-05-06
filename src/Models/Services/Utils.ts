@@ -375,7 +375,25 @@ export function addHttpsPrefix(url: string) {
 
 export function getDebugLogger(context: string, enabled: boolean) {
     if (!enabled) return () => undefined;
-    return (message: string, ...args: unknown[]) => {
-        console.log(`[CB-DEBUG][${context}] ${message}`, args);
+    return (
+        level: 'debug' | 'info' | 'warn' | 'error',
+        message: string,
+        ...args: unknown[]
+    ) => {
+        const formattedMessage = `[CB-DEBUG][${context}] ${message}`;
+        switch (level) {
+            case 'debug':
+                console.debug(formattedMessage, ...args);
+                break;
+            case 'error':
+                console.error(formattedMessage, ...args);
+                break;
+            case 'warn':
+                console.warn(formattedMessage, ...args);
+                break;
+            default:
+                console.info(formattedMessage, ...args);
+                break;
+        }
     };
 }

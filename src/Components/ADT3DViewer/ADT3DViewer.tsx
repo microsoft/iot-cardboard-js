@@ -202,6 +202,7 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
                 ...layersInScene.map((lis) => lis.id)
             ];
             logDebugConsole(
+                'debug',
                 'No layers found in state. Setting default layers',
                 layers
             );
@@ -216,7 +217,7 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
 
     const setSelectedElementId = useCallback(
         (elementId: string) => {
-            logDebugConsole('Selected Element Id: ', elementId);
+            logDebugConsole('debug', 'Selected Element Id: ', elementId);
             deeplinkDispatch?.({
                 type: DeeplinkContextActionType.SET_ELEMENT_ID,
                 payload: {
@@ -228,7 +229,7 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
     );
     const setZoomMeshesByElement = useCallback(
         (elementId: string) => {
-            logDebugConsole('Zooming to Element Id: ', elementId);
+            logDebugConsole('debug', 'Zooming to Element Id: ', elementId);
             if (elementId) {
                 const elements = ViewerConfigUtility.getElementsInScene(
                     scenesConfig,

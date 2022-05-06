@@ -40,7 +40,7 @@ const itemStackStyles: { root: IStyle } = {
 };
 const headerStyles: React.CSSProperties = {
     marginBottom: 4,
-    marginTop: 4
+    marginTop: 8
 };
 const getValueStyle = (theme: ITheme): ITextStyles => ({
     root: {
@@ -142,6 +142,7 @@ const ProviderUpdater: React.FC<ProviderUpdaterProps> = (props) => {
             >
                 <DefaultButton
                     data-testid={'DeeplinkContext-ChangeAdtUrl'}
+                    iconProps={{ iconName: 'Add' }}
                     text="Increment ADT url"
                     onClick={() => {
                         const newValue = adtUrlIncrementor + 1;
@@ -159,6 +160,7 @@ const ProviderUpdater: React.FC<ProviderUpdaterProps> = (props) => {
                 />
                 <DefaultButton
                     data-testid={'DeeplinkContext-ChangeStorageUrl'}
+                    iconProps={{ iconName: 'Add' }}
                     text="Increment storage url"
                     onClick={() => {
                         const newValue = storageUrlIncrementor + 1;
@@ -176,6 +178,7 @@ const ProviderUpdater: React.FC<ProviderUpdaterProps> = (props) => {
                 />
                 <DefaultButton
                     data-testid={'DeeplinkContext-ChangeMode'}
+                    iconProps={{ iconName: 'Switch' }}
                     text="Toggle mode"
                     onClick={() => {
                         deeplinkDispatch({
@@ -193,6 +196,7 @@ const ProviderUpdater: React.FC<ProviderUpdaterProps> = (props) => {
                 <DefaultButton
                     data-testid={'DeeplinkContext-SceneId'}
                     text="Update scene id"
+                    iconProps={{ iconName: 'Add' }}
                     onClick={() => {
                         const newValue = sceneIdIncrementor + 1;
                         deeplinkDispatch({
@@ -209,6 +213,7 @@ const ProviderUpdater: React.FC<ProviderUpdaterProps> = (props) => {
                 />
                 <DefaultButton
                     data-testid={'DeeplinkContext-SelectedElementId'}
+                    iconProps={{ iconName: 'Add' }}
                     text="Update selected element"
                     onClick={() => {
                         const newValue = elementIdIncrementor + 1;
@@ -226,6 +231,7 @@ const ProviderUpdater: React.FC<ProviderUpdaterProps> = (props) => {
                 />
                 <DefaultButton
                     data-testid={'DeeplinkContext-AddLayer'}
+                    iconProps={{ iconName: 'Add' }}
                     text="Add layer"
                     onClick={() => {
                         const newValue = layerIdIncrementor + 1;
@@ -244,6 +250,7 @@ const ProviderUpdater: React.FC<ProviderUpdaterProps> = (props) => {
                 />
                 <DefaultButton
                     data-testid={'DeeplinkContext-RemoveLayer'}
+                    iconProps={{ iconName: 'Delete' }}
                     text="Remove layer"
                     onClick={() => {
                         const newValue = layerIdIncrementor - 1;
@@ -267,6 +274,7 @@ const ProviderUpdater: React.FC<ProviderUpdaterProps> = (props) => {
             >
                 <DefaultButton
                     data-testid={'DeeplinkContext-IncludeElementId'}
+                    iconProps={{ iconName: 'Switch' }}
                     text="Toggle include element id"
                     onClick={() => {
                         toggleIncludeElementIds();
@@ -274,6 +282,7 @@ const ProviderUpdater: React.FC<ProviderUpdaterProps> = (props) => {
                 />
                 <DefaultButton
                     data-testid={'DeeplinkContext-IncludeLayerIds'}
+                    iconProps={{ iconName: 'Switch' }}
                     text="Toggle include layer ids"
                     onClick={() => {
                         toggleIncludeLayerIds();

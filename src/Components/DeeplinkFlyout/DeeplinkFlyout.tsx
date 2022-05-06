@@ -21,6 +21,10 @@ import {
 } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { useDeeplinkContext } from '../../Models/Context/DeeplinkContext';
+import { getDebugLogger } from '../../Models/Services/Utils';
+
+const debugLogging = true;
+const logDebugConsole = getDebugLogger('DeeplinkFlyout', debugLogging);
 
 const getClassNames = classNamesFunction<
     IDeeplinkFlyoutStyleProps,
@@ -58,12 +62,28 @@ const DeeplinkFlyout: React.FC<IDeeplinkFlyoutProps> = (props) => {
 
     // callbacks
     const onCopyLinkClick = useCallback(() => {
-        setShowConfirmation(true);
         const deeplink = getDeeplink({
             includeSelectedElement: includeElement,
             includeSelectedLayers: includeLayers
         });
-        alert(`Copied link to clipboard. \n${deeplink}`);
+        navigator.clipboard
+            .writeText(deeplink)
+            .then(() => {
+                setShowConfirmation(true);
+                logDebugConsole(
+                    'debug',
+                    'Copied deeplink to clipboard',
+                    deeplink
+                );
+            })
+            .catch((error) => {
+                logDebugConsole(
+                    'error',
+                    'Failed to copy deeplink to clipboard',
+                    error
+                );
+                console.error('Failed to copy text to clipboard');
+            });
     }, [includeElement, includeLayers]);
 
     return (
