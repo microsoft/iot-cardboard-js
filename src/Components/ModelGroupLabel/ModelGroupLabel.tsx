@@ -2,13 +2,11 @@ import {
     ActionButton,
     ContextualMenu,
     IContextualMenuItem,
-    memoizeFunction,
-    mergeStyleSets,
-    Theme,
     useTheme
 } from '@fluentui/react';
 import React, { useEffect, useState } from 'react';
 import { createGUID } from '../../Models/Services/Utils';
+import { getStyles } from './ModelGroupLabel.styles';
 
 interface GroupItem {
     label: string;
@@ -68,17 +66,3 @@ export const ModelGroupLabel: React.FC<ModelGroupLabelProps> = ({
         </div>
     );
 };
-
-const getStyles = memoizeFunction((theme: Theme) => {
-    return mergeStyleSets({
-        groupBadge: {
-            borderRadius: 25,
-            background: theme.semanticColors.buttonBackground,
-            padding: '8px 12px',
-            border: `1px solid ${theme.palette.neutralLight}`,
-            color: theme.semanticColors.bodyText,
-            horizontalAlignment: 'center',
-            width: 'fit-content'
-        }
-    });
-});

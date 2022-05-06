@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import SceneView from '../3DV/SceneView';
 import { useAdapter } from '../../Models/Hooks';
 import './ADT3DGlobe.scss';
@@ -11,6 +11,7 @@ import { IADT3DGlobeProps } from '../../Models/Constants/Interfaces';
 import { GlobeTheme } from '../../Models/Constants';
 import { hexToColor4 } from '../../Models/Services/Utils';
 import { hsv2rgb, rgb2hex, rgb2hsv } from '@fluentui/react';
+import { IScene } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 
 const blues = ['#174576', '#276EB5']; // Sea and darkest color - rest are interpolated
 const yellows = ['#8C7E25', '#C0A03D'];
@@ -32,16 +33,19 @@ const ADT3DGlobe: React.FC<IADT3DGlobeProps> = ({
         refetchDependencies: [adapter]
     });
 
-    const onLabelClick = (id: string) => {
-        if (id) {
-            const scene = config.adapterResult.result?.data?.configuration?.scenes?.find(
-                (scene) => scene?.id === id
-            );
-            if (scene) {
-                onSceneClick(scene);
+    const onLabelClick = useCallback(
+        (id: string) => {
+            if (id) {
+                const scene = config.adapterResult.result?.data?.configuration?.scenes?.find(
+                    (scene) => scene?.id === id
+                );
+                if (scene) {
+                    onSceneClick(scene);
+                }
             }
-        }
-    };
+        },
+        [config.adapterResult.result]
+    );
 
     useEffect(() => {
         const markers: Marker[] = [];
@@ -49,28 +53,33 @@ const ADT3DGlobe: React.FC<IADT3DGlobeProps> = ({
         if (scenes) {
             for (const scene of scenes) {
                 if (scene.latitude && scene.longitude) {
-                    const id = 'cb-label-' + scene.id;
-                    const marker: Marker = {
-                        scene: scene,
-                        id: id,
-                        latitude: scene.latitude || 0,
-                        longitude: scene.longitude || 0,
-                        name: scene.displayName || 'Unknown',
-                        UIElement: (
-                            <ModelLabel
-                                id={scene.id}
-                                label={scene.displayName}
-                                onLabelClick={(id: string) => onLabelClick(id)}
-                            />
-                        )
-                    };
-                    markers.push(marker);
+                    markers.push(createMarker(scene));
                 }
             }
 
             setMarkers(markers);
         }
     }, [config.adapterResult.result]);
+
+    const createMarker = (scene: IScene) => {
+        const id = 'cb-label-' + scene.id;
+        const marker: Marker = {
+            scene: scene,
+            id: id,
+            latitude: scene.latitude || 0,
+            longitude: scene.longitude || 0,
+            name: scene.displayName || 'Unknown',
+            UIElement: (
+                <ModelLabel
+                    id={scene.id}
+                    label={scene.displayName}
+                    onLabelClick={(id: string) => onLabelClick(id)}
+                />
+            )
+        };
+
+        return marker;
+    };
 
     const updateTheme = (scene: Scene) => {
         sceneRef.current = sceneRef.current || scene;

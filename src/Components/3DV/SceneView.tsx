@@ -1076,7 +1076,7 @@ function SceneView(props: ISceneViewProps, ref) {
 
             setMarkersAndPositions(markersAndPositions);
         }
-    }, []);
+    }, [markers]);
 
     // SETUP LOGIC FOR onMeshHover
     useEffect(() => {

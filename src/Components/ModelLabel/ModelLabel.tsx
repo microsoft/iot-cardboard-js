@@ -1,11 +1,6 @@
-import {
-    ActionButton,
-    memoizeFunction,
-    mergeStyleSets,
-    Theme,
-    useTheme
-} from '@fluentui/react';
+import { ActionButton, useTheme } from '@fluentui/react';
 import React from 'react';
+import { getStyles } from './ModelLabel.styles';
 
 interface ModelLabelProps {
     label: string;
@@ -33,16 +28,3 @@ export const ModelLabel: React.FC<ModelLabelProps> = ({
         </ActionButton>
     );
 };
-
-const getStyles = memoizeFunction((theme: Theme) => {
-    return mergeStyleSets({
-        badge: {
-            borderRadius: 25,
-            background: theme.semanticColors.buttonBackground,
-            padding: '8px 16px',
-            border: `1px solid ${theme.palette.neutralLight}`,
-            color: theme.semanticColors.bodyText,
-            width: 'fit-content'
-        }
-    });
-});
