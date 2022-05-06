@@ -310,7 +310,9 @@
     "viewMode": "Nézet mód",
     "enterBlobUrl": "Adja meg az Azure Storage-tároló blob URL-címét",
     "home": "Otthon",
-    "globe": "Földgömb"
+    "globe": "Földgömb",
+    "breadcrumbAriaLabel": "Zsemlemorzsa gombként megjelenített elemekkel",
+    "breadcrumbOverflowAriaLabel": "További linkek"
   },
   "layersDropdown": {
     "placeholder": "Nincsenek kijelölt rétegek",

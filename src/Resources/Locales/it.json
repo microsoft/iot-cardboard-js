@@ -310,7 +310,9 @@
     "viewMode": "Modalità di visualizzazione",
     "enterBlobUrl": "Immettere l'URL BLOB del contenitore di archiviazione di Azure",
     "home": "Casa",
-    "globe": "Globo"
+    "globe": "Globo",
+    "breadcrumbAriaLabel": "Breadcrumb con elementi sottoposti a rendering come pulsanti",
+    "breadcrumbOverflowAriaLabel": "Altri link"
   },
   "layersDropdown": {
     "placeholder": "Nessun livello selezionato",

@@ -181,7 +181,7 @@ const BehaviorsModal: React.FC<IBehaviorsModalProps> = ({
                                 adapter && (
                                     <PropertyInspector
                                         adapter={adapter}
-                                        twinId={twins[linkedTwinName].$dtId}
+                                        twinId={twins[linkedTwinName]?.$dtId}
                                         parentHandlesScroll={true}
                                         onPatch={(patchData) =>
                                             onPropertyInspectorPatch &&

@@ -310,7 +310,9 @@
     "viewMode": "Modo de visualización",
     "enterBlobUrl": "Escriba la dirección URL del blob del contenedor de almacenamiento de Azure",
     "home": "Hogar",
-    "globe": "Globo"
+    "globe": "Globo",
+    "breadcrumbAriaLabel": "Breadcrumb con elementos representados como botones",
+    "breadcrumbOverflowAriaLabel": "Más enlaces"
   },
   "layersDropdown": {
     "placeholder": "No hay capas seleccionadas",

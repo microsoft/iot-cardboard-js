@@ -310,7 +310,9 @@
     "viewMode": "Görünüm modu",
     "enterBlobUrl": "Azure depolama kapsayıcısı blob URL'nizi girin",
     "home": "Ev",
-    "globe": "Küre"
+    "globe": "Küre",
+    "breadcrumbAriaLabel": "Düğmeler olarak oluşturulan öğelerle içerik kırıntısı",
+    "breadcrumbOverflowAriaLabel": "Daha fazla bağlantı"
   },
   "layersDropdown": {
     "placeholder": "Katman seçilmedi",

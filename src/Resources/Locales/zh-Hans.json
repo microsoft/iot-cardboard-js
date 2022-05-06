@@ -310,7 +310,9 @@
     "viewMode": "视图模式",
     "enterBlobUrl": "输入 Azure 存储容器 blob URL",
     "home": "家",
-    "globe": "球"
+    "globe": "球",
+    "breadcrumbAriaLabel": "包含呈现为按钮的项目的痕迹导航",
+    "breadcrumbOverflowAriaLabel": "更多链接"
   },
   "layersDropdown": {
     "placeholder": "未选择图层",
