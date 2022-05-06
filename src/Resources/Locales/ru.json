@@ -310,7 +310,9 @@
     "viewMode": "Режим просмотра",
     "enterBlobUrl": "Введите URL-адрес BLOB-объекта контейнера хранилища Azure",
     "home": "Дом",
-    "globe": "Глобус"
+    "globe": "Глобус",
+    "breadcrumbAriaLabel": "Навигационная цепочка с элементами, отображаемыми в виде кнопок",
+    "breadcrumbOverflowAriaLabel": "Больше ссылок"
   },
   "layersDropdown": {
     "placeholder": "Слои не выделены",
@@ -507,7 +509,8 @@
     "value": {
       "title": "Виджет значения",
       "description": "Базовый виджет для отображения значений свойств близнецов",
-      "typePlaceholder": "Выберите тип значения"
+      "typePlaceholder": "Выберите тип значения",
+      "displayNamePlaceholder": "Введите отображаемое имя"
     }
   },
   "sdkStrings": {
@@ -760,5 +763,7 @@
     "pan": "Сковорода",
     "orbit": "Орбита",
     "zoom": "Увеличить"
-  }
+  },
+  "active": "Активный",
+  "invalidValue": "Недопустимое значение"
 }

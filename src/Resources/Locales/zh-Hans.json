@@ -310,7 +310,9 @@
     "viewMode": "视图模式",
     "enterBlobUrl": "输入 Azure 存储容器 blob URL",
     "home": "家",
-    "globe": "球"
+    "globe": "球",
+    "breadcrumbAriaLabel": "包含呈现为按钮的项目的痕迹导航",
+    "breadcrumbOverflowAriaLabel": "更多链接"
   },
   "layersDropdown": {
     "placeholder": "未选择图层",
@@ -507,7 +509,8 @@
     "value": {
       "title": "“值”小部件",
       "description": "用于显示孪生属性值的基本微件",
-      "typePlaceholder": "选择值的类型"
+      "typePlaceholder": "选择值的类型",
+      "displayNamePlaceholder": "输入显示名称"
     }
   },
   "sdkStrings": {
@@ -760,5 +763,7 @@
     "pan": "泛",
     "orbit": "轨道",
     "zoom": "缩放"
-  }
+  },
+  "active": "积极",
+  "invalidValue": "值无效"
 }

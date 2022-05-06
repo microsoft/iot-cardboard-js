@@ -256,13 +256,6 @@ export interface IADTInstance {
     location: string; // e.g. westcentralus
 }
 
-export interface IStorageContainer {
-    // derived from IAzureResource
-    id: string;
-    name: string; // e.g. cardboard-mock-files
-    url?: string; // e.g. https://cardboardresources.blob.core.windows.net/cardboard-mock-files, we can add support for this soon, for now optional
-}
-
 export interface IADTInstanceConnection {
     kustoClusterUrl: string;
     kustoDatabaseName: string;
@@ -744,12 +737,28 @@ export interface IADT3DViewerProps {
     showMeshesOnHover?: boolean;
     showHoverOnSelected?: boolean;
     coloredMeshItems?: CustomMeshItem[];
-    zoomToMeshIds?: string[];
+    /**
+     * Ids of the elements to zoom the camera to focus on
+     */
+    zoomToElementId?: string;
     unzoomedMeshOpacity?: number;
     hideViewModePickerUI?: boolean;
     hideElementsPanel?: boolean;
     outlinedMeshItems?: CustomMeshItem[];
-    sceneViewProps?: ISceneViewProps;
+    sceneViewProps?: Omit<
+        ISceneViewProps,
+        | 'badgeGroups'
+        | 'coloredMeshItems'
+        | 'modeUrl'
+        | 'onBadgeGroupHover'
+        | 'onMeshClick'
+        | 'onMeshHover'
+        | 'outlinedMeshitems'
+        | 'showHoverOnSelected'
+        | 'showMeshesOnHover'
+        | 'unzoomedMeshOpacity'
+        | 'zoomToMeshIds'
+    >;
 }
 
 export interface IADT3DViewerMode {
