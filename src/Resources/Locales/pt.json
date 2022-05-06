@@ -310,7 +310,9 @@
     "viewMode": "Modo de visualização",
     "enterBlobUrl": "Digite sua URL de bolha de contêiner de armazenamento do Azure",
     "home": "Casa",
-    "globe": "Globo"
+    "globe": "Globo",
+    "breadcrumbAriaLabel": "Migalhas de pão com itens renderizados como botões",
+    "breadcrumbOverflowAriaLabel": "Mais links"
   },
   "layersDropdown": {
     "placeholder": "Sem camadas selecionadas",
