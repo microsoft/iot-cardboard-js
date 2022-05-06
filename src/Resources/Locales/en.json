@@ -87,6 +87,8 @@
     "uploadFile": "Upload file",
     "uploadingFile": "Uploading file...",
     "twinId": "Twin ID",
+    "active": "Active",
+    "invalidValue": "Invalid value",
     "errors": {
         "errorBoundary": "Error boundary",
         "unkownError": "Unknown error occurred",
@@ -504,6 +506,7 @@
         "value": {
             "title": "Value widget",
             "description": "A basic widget to show values of twin properties",
+            "displayNamePlaceholder": "Enter display name",
             "typePlaceholder": "Select the type for the value"
         },
         "panel": {

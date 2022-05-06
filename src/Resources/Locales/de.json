@@ -509,7 +509,8 @@
     "value": {
       "title": "Wert-Widget",
       "description": "Einfaches Widget zum Anzeigen von Werten von Zwillingseigenschaften",
-      "typePlaceholder": "Wählen Sie den Typ für den Wert aus."
+      "typePlaceholder": "Wählen Sie den Typ für den Wert aus.",
+      "displayNamePlaceholder": "Anzeigenamen eingeben"
     }
   },
   "sdkStrings": {
@@ -762,5 +763,7 @@
     "pan": "Pfanne",
     "orbit": "Umlaufbahn",
     "zoom": "Zoom"
-  }
+  },
+  "active": "Aktiv",
+  "invalidValue": "Ungültiger Wert"
 }

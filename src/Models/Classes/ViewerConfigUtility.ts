@@ -6,6 +6,7 @@ import {
     IAlertVisual,
     IBehavior,
     IDataSource,
+    IDTDLPropertyType,
     IElement,
     IElementTwinToObjectMappingDataSource,
     ILayer,
@@ -1108,6 +1109,92 @@ abstract class ViewerConfigUtility {
         }
         return isValid;
     };
+
+    /**
+     * Gets an expression value which can by any and data type
+     * Returns the result of the data transformation of that value for the given type
+     * @param value the value of the expression in any type
+     * @param dataType the type of the expression to be used for the transformation
+     * @returns expression value in the given type
+     * 
+     * Date / Time Format based on RFC 3339: 
+     *  date-fullyear   = 4DIGIT
+        date-month      = 2DIGIT  ; 01-12
+        date-mday       = 2DIGIT  ; 01-28, 01-29, 01-30, 01-31 based on
+                                    ; month/year
+        time-hour       = 2DIGIT  ; 00-23
+        time-minute     = 2DIGIT  ; 00-59
+        time-second     = 2DIGIT  ; 00-58, 00-59, 00-60 based on leap second
+                                    ; rules
+        time-secfrac    = "." 1*DIGIT
+        time-numoffset  = ("+" / "-") time-hour ":" time-minute
+        time-offset     = "Z" / time-numoffset
+
+        partial-time    = time-hour ":" time-minute ":" time-second
+                            [time-secfrac]
+        full-date       = date-fullyear "-" date-month "-" date-mday
+        full-time       = partial-time time-offset
+
+        date-time       = full-date "T" full-time
+     */
+    static getTypedDTDLPropertyValue(
+        value: unknown,
+        dataType: IDTDLPropertyType
+    ) {
+        try {
+            const stringifiedValue = String(value); // cast to string in case the value originally does not comply with its original type
+
+            switch (dataType) {
+                case 'boolean':
+                    return stringifiedValue === 'true';
+                case 'date': {
+                    // Format: full-date, e.g. 1970-01-01
+                    const d = new Date(stringifiedValue);
+                    return d;
+                }
+                case 'dateTime': {
+                    // Format: date-time, e.g. 2019-10-12T07:20:50.52Z
+                    const d = new Date(stringifiedValue);
+                    return d;
+                }
+                case 'double':
+                    return parseFloat(stringifiedValue);
+                case 'duration': {
+                    // Format: P(n)Y(n)M(n)DT(n)H(n)M(n)S, e.g. P3Y6M4DT12H30M5S
+                    const regex = /P(?:(\d+)Y)?(?:(\d+)M)?(?:(\d+)W)?(?:(\d+)D)?(?:T(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?)?$/;
+                    const [, years, months, , days, hours, minutes, seconds] =
+                        stringifiedValue?.match(regex)?.map(parseFloat) || []; // period and weeks are not used
+
+                    return {
+                        years,
+                        months,
+                        days,
+                        hours,
+                        minutes,
+                        seconds
+                    };
+                }
+                case 'enum': // Format: string, e.g. 'Active'
+                    return stringifiedValue;
+                case 'float':
+                    return parseFloat(stringifiedValue);
+                case 'integer':
+                case 'long':
+                    return parseInt(stringifiedValue);
+                case 'string':
+                    return stringifiedValue;
+                case 'time': {
+                    // Format: partial-time time-offset, e.g. 07:20:50.52Z
+                    return stringifiedValue;
+                }
+                default:
+                    return stringifiedValue;
+            }
+        } catch (error) {
+            console.log(error);
+            return error;
+        }
+    }
 }
 
 export default ViewerConfigUtility;
