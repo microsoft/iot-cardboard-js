@@ -1,5 +1,6 @@
 import { useTheme } from '@fluentui/react';
 import { useArgs, useState } from '@storybook/addons';
+import { ComponentStory } from '@storybook/react';
 import React, { useEffect } from 'react';
 import { WidgetType } from '../../../../../Models/Classes/3DVConfig';
 import { BehaviorModalMode } from '../../../../../Models/Constants/Enums';
@@ -19,7 +20,7 @@ const mockValues = {
     enum: 'Active',
     float: '123.45',
     integer: '123',
-    long: '123456789000000000000',
+    long: '1234567890000000',
     string:
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
     time: '07:20:50.52Z' // A full-time as defined in section 5.6 of RFC 3339
@@ -47,7 +48,8 @@ const defaultValueWidget: IValueWidget = {
     }
 };
 
-export const ValueWidgetWithTypes = (args) => {
+type ValueWidgetStory = ComponentStory<typeof ValueWidget>;
+const Template: ValueWidgetStory = (args) => {
     const mode = BehaviorModalMode.preview;
     const theme = useTheme();
 
@@ -83,7 +85,9 @@ export const ValueWidgetWithTypes = (args) => {
     );
 };
 
-ValueWidgetWithTypes.argTypes = {
+// story with all options that can be controlled in the Controls add-on of Storybook
+export const ControlledValueWidget = Template.bind({});
+ControlledValueWidget.argTypes = {
     type: {
         type: 'select',
         options: [
@@ -105,4 +109,70 @@ ValueWidgetWithTypes.argTypes = {
             type: 'text'
         }
     }
+};
+
+export const BooleanValueWidget = Template.bind({});
+BooleanValueWidget.args = {
+    type: 'boolean',
+    value: mockValues.boolean
+};
+
+export const DateValueWidget = Template.bind({});
+DateValueWidget.args = {
+    type: 'date',
+    value: mockValues.date
+};
+
+export const DateTimeValueWidget = Template.bind({});
+DateTimeValueWidget.args = {
+    type: 'dateTime',
+    value: mockValues.dateTime
+};
+
+export const DoubleValueWidget = Template.bind({});
+DoubleValueWidget.args = {
+    type: 'double',
+    value: mockValues.double
+};
+
+export const DurationValueWidget = Template.bind({});
+DurationValueWidget.args = {
+    type: 'duration',
+    value: mockValues.duration
+};
+
+export const EnumValueWidget = Template.bind({});
+EnumValueWidget.args = {
+    type: 'enum',
+    value: mockValues.enum
+};
+
+export const FloatValueWidget = Template.bind({});
+FloatValueWidget.args = {
+    type: 'float',
+    value: mockValues.float
+};
+
+export const IntegerValueWidget = Template.bind({});
+IntegerValueWidget.args = {
+    type: 'integer',
+    value: mockValues.integer
+};
+
+export const LongValueWidget = Template.bind({});
+LongValueWidget.args = {
+    type: 'long',
+    value: mockValues.long
+};
+
+export const StringValueWidget = Template.bind({});
+StringValueWidget.args = {
+    type: 'string',
+    value: mockValues.string
+};
+
+export const TimeValueWidget = Template.bind({});
+TimeValueWidget.args = {
+    type: 'time',
+    value: mockValues.time
 };
