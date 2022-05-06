@@ -1,6 +1,6 @@
 import { IContextualMenuItem } from '@fluentui/react';
 import React from 'react';
-import ADTandBlobAdapter from '../../Adapters/ADTandBlobAdapter';
+import ADT3DSceneAdapter from '../../Adapters/ADT3DSceneAdapter';
 import MockAdapter from '../../Adapters/MockAdapter';
 import {
     IBehaviorTwinAliasItem,
@@ -62,13 +62,13 @@ export const SET_IS_LAYER_BUILDER_DIALOG_OPEN =
 
 export interface IADT3DSceneBuilderCardProps
     extends IConsumeCompositeCardProps {
-    adapter: ADTandBlobAdapter | MockAdapter;
+    adapter: ADT3DSceneAdapter | MockAdapter;
     sceneId: string;
     sceneViewProps?: ISceneViewProps;
 }
 
 export interface I3DSceneBuilderContext {
-    adapter: ADTandBlobAdapter | MockAdapter;
+    adapter: ADT3DSceneAdapter | MockAdapter;
     theme?: Theme;
     locale?: Locale;
     localeStrings?: Record<string, any>;

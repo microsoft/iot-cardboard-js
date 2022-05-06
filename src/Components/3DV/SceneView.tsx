@@ -64,6 +64,7 @@ const getModifiedTime = (url): Promise<string> => {
     const promise = new Promise<string>((resolve) => {
         const headers = new Headers();
         headers.append('Range', 'bytes=1-2');
+        headers.append('x-ms-version', '2017-11-09');
         if (Tools.CustomRequestHeaders.Authorization) {
             headers.append(
                 'Authorization',
@@ -75,7 +76,10 @@ const getModifiedTime = (url): Promise<string> => {
         fetch(url, { method: 'GET', headers: headers })
             .then((response) => {
                 const dt = new Date(response.headers.get('Last-Modified'));
-                if (dt.toString() === 'Invalid Date') {
+                if (
+                    dt.toString() === 'Invalid Date' ||
+                    dt.toISOString() === '1970-01-01T00:00:00.000Z'
+                ) {
                     resolve('');
                 }
                 resolve(dt.toISOString());
@@ -1640,7 +1644,7 @@ function SceneView(props: ISceneViewProps, ref) {
                 for (const mesh of clonedHighlightMeshes.current) {
                     mesh?.dispose();
                     //Assume that all new meshes are highlight clones and decrement the scene mesh array after disposal to prevent overflow
-                    if (sceneRef.current.meshes)
+                    if (sceneRef.current?.meshes)
                         sceneRef.current.meshes.length--;
                 }
                 clonedHighlightMeshes.current = [];

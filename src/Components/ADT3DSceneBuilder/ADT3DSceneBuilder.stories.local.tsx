@@ -1,6 +1,6 @@
 import React from 'react';
 import useAuthParams from '../../../.storybook/useAuthParams';
-import ADTandBlobAdapter from '../../Adapters/ADTandBlobAdapter';
+import ADT3DSceneAdapter from '../../Adapters/ADT3DSceneAdapter';
 import MsalAuthService from '../../Models/Services/MsalAuthService';
 import ADT3DSceneBuilder from './ADT3DSceneBuilder';
 
@@ -26,12 +26,12 @@ export const ADT3DBuilder = (_args, { globals: { theme, locale } }) => {
                 theme={theme}
                 locale={locale}
                 adapter={
-                    new ADTandBlobAdapter(
-                        authenticationParameters.adt.hostUrl,
-                        authenticationParameters.storage.blobContainerUrl,
+                    new ADT3DSceneAdapter(
                         new MsalAuthService(
                             authenticationParameters.adt.aadParameters
-                        )
+                        ),
+                        authenticationParameters.adt.hostUrl,
+                        authenticationParameters.storage.blobContainerUrl
                     )
                 }
                 sceneId="46743de47dfb6cf24365f57c7f69d3ba"

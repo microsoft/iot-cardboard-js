@@ -37,7 +37,6 @@ import ScenePageErrorHandlingWrapper from '../../Components/ScenePageErrorHandli
 import BaseComponent from '../../Components/BaseComponent/BaseComponent';
 import FloatingScenePageModeToggle from './Internal/FloatingScenePageModeToggle';
 import EnvironmentPicker from '../../Components/EnvironmentPicker/EnvironmentPicker';
-import ADTAdapter from '../../Adapters/ADTAdapter';
 import {
     I3DScenesConfig,
     IScene
@@ -224,7 +223,7 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
                                     theme={theme}
                                     locale={locale}
                                     localeStrings={localeStrings}
-                                    adapter={adapter as ADTAdapter}
+                                    adapter={adapter}
                                     shouldPullFromSubscription={
                                         environmentPickerOptions?.environment
                                             ?.shouldPullFromSubscription
