@@ -127,8 +127,6 @@ const LayerDropdown: React.FC<LayerDropdownProps> = ({
         [onShowHide]
     );
 
-    if (layers.length === 0) return null;
-
     return (
         <Dropdown
             placeholder={t('layersDropdown.placeholder')}
