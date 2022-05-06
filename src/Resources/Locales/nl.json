@@ -481,7 +481,8 @@
       "expressionPlaceholder": "Eigenschapsexpressie invoeren",
       "selectProperty": "Selecteer eigenschap",
       "toggleLabel": "Eigenschapsexpressie"
-    }
+    },
+    "noResults": "Geen resultaten gevonden"
   },
   "widgets": {
     "trend": {

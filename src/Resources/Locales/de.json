@@ -481,7 +481,8 @@
       "expressionPlaceholder": "Eigenschaftsausdruck eingeben",
       "selectProperty": "Eigenschaft auswählen",
       "toggleLabel": "Eigenschaftsausdruck"
-    }
+    },
+    "noResults": "Keine Ergebnisse gefunden"
   },
   "widgets": {
     "trend": {

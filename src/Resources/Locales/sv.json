@@ -481,7 +481,8 @@
       "expressionPlaceholder": "Ange egenskapsuttryck",
       "selectProperty": "Välj egenskap",
       "toggleLabel": "Egenskapsuttryck"
-    }
+    },
+    "noResults": "Inga resultat hittades"
   },
   "widgets": {
     "trend": {

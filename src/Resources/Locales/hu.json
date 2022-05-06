@@ -481,7 +481,8 @@
       "expressionPlaceholder": "Tulajdonságkifejezés megadása",
       "selectProperty": "Tulajdonság kiválasztása",
       "toggleLabel": "Tulajdonságkifejezés"
-    }
+    },
+    "noResults": "Nem található eredmény"
   },
   "widgets": {
     "trend": {

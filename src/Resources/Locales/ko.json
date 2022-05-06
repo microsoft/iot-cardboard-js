@@ -481,7 +481,8 @@
       "expressionPlaceholder": "속성 표현식 입력",
       "selectProperty": "속성 선택",
       "toggleLabel": "속성 표현식"
-    }
+    },
+    "noResults": "결과를 찾을 수 없음"
   },
   "widgets": {
     "trend": {

@@ -481,7 +481,8 @@
       "expressionPlaceholder": "Introducir expresión de propiedad",
       "selectProperty": "Seleccionar propiedad",
       "toggleLabel": "Expresión de propiedad"
-    }
+    },
+    "noResults": "No se han encontrado resultados"
   },
   "widgets": {
     "trend": {

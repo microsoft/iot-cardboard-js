@@ -481,7 +481,8 @@
       "expressionPlaceholder": "Özellik ifadesini girin",
       "selectProperty": "Mülk seçin",
       "toggleLabel": "Özellik ifadesi"
-    }
+    },
+    "noResults": "Sonuç bulunamadı"
   },
   "widgets": {
     "trend": {

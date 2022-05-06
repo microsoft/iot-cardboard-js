@@ -481,7 +481,8 @@
       "expressionPlaceholder": "输入属性表达式",
       "selectProperty": "选择房产",
       "toggleLabel": "属性表达式"
-    }
+    },
+    "noResults": "未找到结果"
   },
   "widgets": {
     "trend": {

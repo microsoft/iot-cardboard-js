@@ -481,7 +481,8 @@
       "expressionPlaceholder": "Введите выражение свойства",
       "selectProperty": "Выберите недвижимость",
       "toggleLabel": "Выражение свойства"
-    }
+    },
+    "noResults": "Результаты не найдены"
   },
   "widgets": {
     "trend": {
