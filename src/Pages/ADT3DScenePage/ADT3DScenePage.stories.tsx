@@ -3,6 +3,9 @@ import MockAdapter from '../../Adapters/MockAdapter';
 import ADT3DScenePage from './ADT3DScenePage';
 import mockConfig from '../../Adapters/__mockData__/3DScenesConfiguration.json';
 import { deepCopy } from '../../Models/Services/Utils';
+import { DeeplinkContextProvider } from '../../Models/Context/DeeplinkContext';
+import { DeeplinkContextState } from '../../Models/Context/DeeplinkContext.types';
+import { ADT3DScenePageModes } from '../../Models/Constants';
 
 export default {
     title: 'Pages/ADT3DScenePage',
@@ -31,8 +34,36 @@ export const Mock3DScenePage = (_args, { globals: { theme, locale } }) => {
         </div>
     );
 };
-
 Mock3DScenePage.storyName = 'Mock 3D scene page';
+
+export const Deeplinked = (_args, { globals: { theme, locale } }) => {
+    const deeplinkState: DeeplinkContextState = {
+        adtUrl: 'https://mockAdt.api.wcus.digitaltwins.azure.net',
+        deeplink: '',
+        mode: ADT3DScenePageModes.ViewScene,
+        sceneId: 'f7053e7537048e03be4d1e6f8f93aa8a',
+        selectedElementId: '45131a84754280b924477f1df54ca547',
+        selectedLayerIds: [
+            '8904b620aa83c649888dadc7c8fdf492',
+            '9624b620aa83c649888dadc7c8fdf541'
+        ],
+        storageUrl:
+            'https://mockStorageAccountName.blob.core.windows.net/mockContainer'
+    };
+    return (
+        <div style={cardStyle}>
+            <DeeplinkContextProvider initialState={deeplinkState}>
+                <ADT3DScenePage
+                    title={'3D Scene Page'}
+                    theme={theme}
+                    locale={locale}
+                    adapter={new MockAdapter({ mockData: mockConfig })}
+                />
+            </DeeplinkContextProvider>
+        </div>
+    );
+};
+Deeplinked.storyName = 'Mock 3D scene page (Deeplinked)';
 
 export const Mock3DScenePageSchemaErrors = (
     _args,

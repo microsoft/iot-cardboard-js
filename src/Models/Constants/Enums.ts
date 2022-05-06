@@ -143,9 +143,9 @@ export enum ModelAuthoringSteps {
 }
 
 export enum ADT3DScenePageSteps {
-    Globe,
-    SceneLobby,
-    SceneBuilder
+    Globe = 'Globe',
+    SceneList = 'SceneList',
+    Scene = 'Scene'
 }
 
 export enum ADT3DSceneBuilderMode {
@@ -176,8 +176,8 @@ export enum ADT3DSceneTwinBindingsMode {
 }
 
 export enum ADT3DScenePageModes {
-    BuildScene = 'adt-3d-scene-builder-mode-build',
-    ViewScene = 'adt-3d-scene-builder-mode-view'
+    BuildScene = 'Builder',
+    ViewScene = 'Viewer'
 }
 
 export enum BehaviorListSegment {
