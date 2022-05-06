@@ -47,6 +47,8 @@ import { getProgressStyles, getSceneViewStyles } from './SceneView.styles';
 import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
 import { sleep } from '../AutoComplete/AutoComplete';
 import { ModelGroupLabel } from '../ModelGroupLabel/ModelGroupLabel';
+import { MarkersPlaceholder } from './Internal/MarkersPlaceholder';
+import { Markers } from './Internal/Markers';
 
 const debug = false;
 
@@ -1521,22 +1523,7 @@ function SceneView(props: ISceneViewProps, ref) {
                 id={canvasId}
                 touch-action="none"
             />
-            {markersAndPositions?.map((markerAndPosition, index) => {
-                return (
-                    <div
-                        key={index}
-                        className={customStyles.markers}
-                        style={{
-                            left: markerAndPosition.left,
-                            top: markerAndPosition.top
-                        }}
-                    >
-                        {markerAndPosition.marker.GroupedUIElement
-                            ? markerAndPosition.marker.GroupedUIElement
-                            : markerAndPosition.marker.UIElement}
-                    </div>
-                );
-            })}
+            <Markers markersAndPositions={markersAndPositions} />
             {isLoading && url && (
                 <ProgressIndicator
                     styles={getProgressStyles(theme)}
@@ -1552,17 +1539,7 @@ function SceneView(props: ISceneViewProps, ref) {
                     Error loading model. Try Ctrl-F5
                 </div>
             )}
-            {markers?.map((marker, index) => {
-                return (
-                    <div
-                        id={marker.id}
-                        key={index}
-                        className={customStyles.placeholderMarkers}
-                    >
-                        {marker.UIElement}
-                    </div>
-                );
-            })}
+            <MarkersPlaceholder markers={markers} />
         </div>
     );
 }
