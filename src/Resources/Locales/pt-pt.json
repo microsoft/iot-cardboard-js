@@ -310,7 +310,9 @@
     "viewMode": "Ver modo",
     "enterBlobUrl": "Insira o seu URL blob de recipiente de armazenamento Azure",
     "home": "Casa",
-    "globe": "Globo"
+    "globe": "Globo",
+    "globeView": "Vista do globo",
+    "listView": "Vista da lista"
   },
   "layersDropdown": {
     "placeholder": "Sem camadas selecionadas",

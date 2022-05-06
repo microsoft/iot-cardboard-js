@@ -310,7 +310,9 @@
     "viewMode": "Mode d’affichage",
     "enterBlobUrl": "Entrez l’URL de votre objet blob de conteneur de stockage Azure",
     "home": "Domicile",
-    "globe": "Globe"
+    "globe": "Globe",
+    "globeView": "Vue du globe",
+    "listView": "Affichage de liste"
   },
   "layersDropdown": {
     "placeholder": "Aucun calque sélectionné",
