@@ -30,6 +30,7 @@ import {
 
 type OATGraphProps = {
     onElementsUpdate: (digitalTwinsModels: IOATElementsChangeEventArgs) => any;
+    importModels: [];
     setModel: (twinModel: IOATTwinModelNodes) => any;
     model: IOATTwinModelNodes;
     deletedModel: string;
@@ -40,6 +41,7 @@ type OATGraphProps = {
 
 const OATGraphViewer = ({
     onElementsUpdate,
+    importModels,
     setModel,
     model,
     deletedModel,
@@ -59,6 +61,7 @@ const OATGraphViewer = ({
     const idClassBase = 'dtmi:com:example:';
     const contextClassBase = 'dtmi:adt:context;2';
     const versionClassBase = '1';
+    const defaultPosition = 100;
     const [newModelId, setNewModelId] = useState(0);
     const graphViewerStyles = getGraphViewerStyles();
     const currentNodeId = useRef('');
@@ -100,6 +103,98 @@ const OATGraphViewer = ({
             currentNodeId.current = model['@id'];
         }
     }, [model]);
+
+    useEffect(() => {
+        let importModelsList = [];
+        if (importModels.length > 0) {
+            importModels.map((input) => {
+                const node = elements.find(
+                    (element) => element.id === input['@id']
+                );
+                if (!node) {
+                    let relationships = [];
+                    let contents = [];
+                    input['contents'].map((content) => {
+                        if (content['@type'] === ComponentHandleName) {
+                            const componentRelationship = {
+                                id: `${input['@id']}${ComponentHandleName}${content['schema']}`,
+                                label: '',
+                                source: input['@id'],
+                                sourceHandle: ComponentHandleName,
+                                target: content['schema'],
+                                type: RelationshipHandleName,
+                                data: {
+                                    name: content['name'],
+                                    displayName: content['name'],
+                                    id: `${input['@id']}${ComponentHandleName}${content['schema']}`,
+                                    type: ComponentHandleName
+                                }
+                            };
+                            relationships = [
+                                ...relationships,
+                                componentRelationship
+                            ];
+                        } else if (
+                            content['@type'] === RelationshipHandleName
+                        ) {
+                            const relationship = {
+                                id: content['@id'],
+                                label: '',
+                                source: input['@id'],
+                                sourceHandle: RelationshipHandleName,
+                                target: content['target'],
+                                type: RelationshipHandleName,
+                                data: {
+                                    name: content['name'],
+                                    displayName: content['displayName'],
+                                    id: content['@id'],
+                                    type: RelationshipHandleName
+                                }
+                            };
+                            relationships = [...relationships, relationship];
+                        } else {
+                            contents = [...contents, content];
+                        }
+                    });
+                    if (input['extends']) {
+                        const extendRelationship = {
+                            id: `${input['@id']}${ExtendHandleName}${input['extends']}`,
+                            label: '',
+                            source: input['@id'],
+                            sourceHandle: ExtendHandleName,
+                            target: input['extends'],
+                            type: RelationshipHandleName,
+                            data: {
+                                name: '',
+                                displayName: '',
+                                id: `${input['@id']}${ExtendHandleName}${input['extends']}`,
+                                type: ExtendHandleName
+                            }
+                        };
+                        relationships = [...relationships, extendRelationship];
+                    }
+                    const newNode = {
+                        id: input['@id'],
+                        type: input['@type'],
+                        position: { x: defaultPosition, y: defaultPosition },
+                        data: {
+                            name: input['displayName'],
+                            type: input['@type'],
+                            id: input['@id'],
+                            content: contents,
+                            context: contextClassBase
+                        }
+                    };
+                    importModelsList = [
+                        ...importModelsList,
+                        newNode,
+                        ...relationships
+                    ];
+                }
+            });
+            setElements([...importModelsList]);
+        }
+    }, [importModels]);
 
     useEffect(() => {
         if (deletedModel) {
@@ -191,7 +286,7 @@ const OATGraphViewer = ({
         const newNode = {
             id: id,
             type: InterfaceType,
-            position: { x: 100, y: 100 },
+            position: { x: defaultPosition, y: defaultPosition },
             data: {
                 name: name,
                 type: InterfaceType,
@@ -501,7 +596,8 @@ const OATGraphViewer = ({
 
 OATGraphViewer.defaultProps = {
     onElementsUpdate: () => null,
-    setModel: () => null
+    setModel: () => null,
+    importModels: []
 };
 
 export default OATGraphViewer;
