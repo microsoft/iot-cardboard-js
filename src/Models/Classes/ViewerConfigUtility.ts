@@ -154,12 +154,14 @@ abstract class ViewerConfigUtility {
             .find((scene) => scene.id === sceneId)
             ?.behaviorIDs?.push(behavior.id);
 
-        // Update behavior layer data
-        ViewerConfigUtility.setLayersForBehavior(
-            updatedConfig,
-            behavior.id,
-            selectedLayerIds
-        );
+        if (selectedLayerIds) {
+            // Update behavior layer data
+            ViewerConfigUtility.setLayersForBehavior(
+                updatedConfig,
+                behavior.id,
+                selectedLayerIds
+            );
+        }
         return updatedConfig;
     }
 
@@ -179,12 +181,14 @@ abstract class ViewerConfigUtility {
         );
         updatedConfig.configuration.behaviors[behaviorIdx] = behavior;
 
-        // Update behavior layer data
-        ViewerConfigUtility.setLayersForBehavior(
-            updatedConfig,
-            behavior.id,
-            selectedLayerIds
-        );
+        if (selectedLayerIds) {
+            // Update behavior layer data
+            ViewerConfigUtility.setLayersForBehavior(
+                updatedConfig,
+                behavior.id,
+                selectedLayerIds
+            );
+        }
 
         return updatedConfig;
     }
@@ -704,7 +708,10 @@ abstract class ViewerConfigUtility {
         dataSources[0].elementIDs = dataSources[0].elementIDs.filter(
             (mappingId) => mappingId !== element.id
         );
-        return behavior;
+        const updatedBehavior = deepCopy(behavior);
+        updatedBehavior.datasources = dataSources;
+
+        return updatedBehavior;
     }
 
     static addElementToBehavior(
@@ -726,7 +733,10 @@ abstract class ViewerConfigUtility {
             };
         }
 
-        return behavior;
+        const updatedBehavior = deepCopy(behavior);
+        updatedBehavior.datasources = dataSources;
+
+        return updatedBehavior;
     }
 
     static getColorOrNullFromStatusValueRange(

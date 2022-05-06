@@ -16,7 +16,6 @@ import {
 import { SceneBuilderContext } from '../../ADT3DSceneBuilder';
 import { ADT3DSceneBuilderMode } from '../../../../Models/Constants/Enums';
 import { createGUID, deepCopy } from '../../../../Models/Services/Utils';
-import useAdapter from '../../../../Models/Hooks/useAdapter';
 import ViewerConfigUtility from '../../../../Models/Classes/ViewerConfigUtility';
 import LeftPanelBuilderHeader, {
     getLeftPanelBuilderHeaderParamsForElements
@@ -73,33 +72,11 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
         adapter,
         config,
         sceneId,
-        getConfig,
         coloredMeshItems,
         setColoredMeshItems,
         elementTwinAliasFormInfo
     } = useContext(SceneBuilderContext);
     const configRef = useRef(config);
-
-    const updateTwinToObjectMappings = useAdapter({
-        adapterMethod: (params: { elements: Array<ITwinToObjectMapping> }) => {
-            const sceneToUpdate: IScene = deepCopy(
-                config.configuration.scenes[
-                    config.configuration.scenes.findIndex(
-                        (s) => s.id === sceneId
-                    )
-                ]
-            );
-            sceneToUpdate.elements = params.elements;
-            configRef.current = ViewerConfigUtility.editScene(
-                config,
-                sceneId,
-                sceneToUpdate
-            );
-            return adapter.putScenesConfig(configRef.current);
-        },
-        refetchDependencies: [adapter],
-        isAdapterCalledOnMount: false
-    });
 
     const handleSaveElement = async () => {
         const existingElements = config.configuration?.scenes
@@ -122,17 +99,39 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
             ] = elementToEdit;
         }
 
-        await updateTwinToObjectMappings.callAdapter({
-            elements: newElements
-        });
+        // beginning of element update in scene
+        const sceneToUpdate: IScene = deepCopy(
+            config.configuration.scenes[
+                config.configuration.scenes.findIndex((s) => s.id === sceneId)
+            ]
+        );
+        sceneToUpdate.elements = newElements;
+        configRef.current = ViewerConfigUtility.editScene(
+            config,
+            sceneId,
+            sceneToUpdate
+        );
+        // end of update of element update in scene
 
-        for (const behavior of behaviorsToEdit) {
+        // beginning of behaviors update which this element exists in
+        if (behaviorsToEdit) {
+            for (const behavior of behaviorsToEdit) {
+                configRef.current = ViewerConfigUtility.editBehavior(
+                    configRef.current,
+                    behavior,
+                    undefined
+                );
+            }
+
             await onBehaviorSave(
                 configRef.current,
-                behavior,
-                ADT3DSceneBuilderMode.EditBehavior
+                undefined,
+                ADT3DSceneBuilderMode.EditElement,
+                undefined,
+                [elementToEdit]
             );
         }
+        // end of behaviors update which this element exists in
 
         onElementSave(newElements);
     };
@@ -156,12 +155,6 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
         });
     }, [coloredMeshItems]);
 
-    useEffect(() => {
-        if (updateTwinToObjectMappings.adapterResult.result) {
-            getConfig();
-        }
-    }, [updateTwinToObjectMappings?.adapterResult]);
-
     const handleSelectTwinId = (selectedTwinId: string) => {
         if (
             !elementToEdit.displayName ||
@@ -179,12 +172,6 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
             });
         }
     };
-
-    useEffect(() => {
-        if (updateTwinToObjectMappings.adapterResult.result) {
-            getConfig();
-        }
-    }, [updateTwinToObjectMappings?.adapterResult]);
 
     useEffect(() => {
         configRef.current = config;
