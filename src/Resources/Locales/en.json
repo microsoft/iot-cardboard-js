@@ -310,7 +310,9 @@
         "viewMode": "View mode",
         "enterBlobUrl": "Enter your Azure storage container blob URL",
         "home": "Home",
-        "globe": "Globe"
+        "globe": "Globe",
+        "globeView": "Globe view",
+        "listView": "List view"
     },
     "layersDropdown": {
         "placeholder": "No layers selected",

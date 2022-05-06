@@ -11,7 +11,7 @@ import {
     IADT3DScenePageProps
 } from './ADT3DScenePage.types';
 import './ADT3DScenePage.scss';
-import { Breadcrumb } from '@fluentui/react';
+import { DefaultButton } from '@fluentui/react';
 import {
     ADT3DScenePageReducer,
     defaultADT3DScenePageState
@@ -41,6 +41,7 @@ import {
     I3DScenesConfig,
     IScene
 } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
+import { getStyles } from './ADT3DScenePage.styles';
 
 export const ADT3DScenePageContext = createContext<IADT3DScenePageContext>(
     null
@@ -58,6 +59,7 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
         defaultADT3DScenePageState
     );
     const { t } = useTranslation();
+    const customStyles = getStyles();
     const scenesConfig = useAdapter({
         adapterMethod: () => adapter.getScenesConfig(),
         refetchDependencies: [
@@ -216,57 +218,49 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
                         handleScenePageModeChange={handleScenePageModeChange}
                         selectedMode={state.scenePageMode}
                     />
-                    {state.currentStep === ADT3DScenePageSteps.SceneLobby && (
-                        <>
-                            <div className="cb-scene-page-scene-environment-picker">
-                                <EnvironmentPicker
-                                    theme={theme}
-                                    locale={locale}
-                                    localeStrings={localeStrings}
-                                    adapter={adapter}
-                                    shouldPullFromSubscription={
-                                        environmentPickerOptions?.environment
-                                            ?.shouldPullFromSubscription
-                                    }
-                                    {...(adapter.getAdtHostUrl() && {
-                                        environmentUrl:
-                                            'https://' + adapter.getAdtHostUrl()
-                                    })}
-                                    onEnvironmentUrlChange={
-                                        handleEnvironmentUrlChange
-                                    }
-                                    {...(environmentPickerOptions?.environment
-                                        ?.isLocalStorageEnabled && {
-                                        isLocalStorageEnabled: true,
-                                        localStorageKey:
-                                            environmentPickerOptions
-                                                ?.environment?.localStorageKey,
-                                        selectedItemLocalStorageKey:
-                                            environmentPickerOptions
-                                                ?.environment
-                                                ?.selectedItemLocalStorageKey
-                                    })}
-                                    storage={{
-                                        ...(adapter.getBlobContainerURL() && {
-                                            containerUrl: adapter.getBlobContainerURL()
-                                        }),
-                                        onContainerUrlChange: handleContainerUrlChange,
-                                        ...(environmentPickerOptions?.storage
-                                            ?.isLocalStorageEnabled && {
-                                            isLocalStorageEnabled: true,
-                                            localStorageKey:
-                                                environmentPickerOptions
-                                                    ?.storage?.localStorageKey,
-                                            selectedItemLocalStorageKey:
-                                                environmentPickerOptions
-                                                    ?.storage
-                                                    ?.selectedItemLocalStorageKey
-                                        })
-                                    }}
-                                />
-                            </div>
-                        </>
-                    )}
+                    <div className="cb-scene-page-scene-environment-picker">
+                        <EnvironmentPicker
+                            theme={theme}
+                            locale={locale}
+                            localeStrings={localeStrings}
+                            adapter={adapter}
+                            shouldPullFromSubscription={
+                                environmentPickerOptions?.environment
+                                    ?.shouldPullFromSubscription
+                            }
+                            {...(adapter.getAdtHostUrl() && {
+                                environmentUrl:
+                                    'https://' + adapter.getAdtHostUrl()
+                            })}
+                            onEnvironmentUrlChange={handleEnvironmentUrlChange}
+                            {...(environmentPickerOptions?.environment
+                                ?.isLocalStorageEnabled && {
+                                isLocalStorageEnabled: true,
+                                localStorageKey:
+                                    environmentPickerOptions?.environment
+                                        ?.localStorageKey,
+                                selectedItemLocalStorageKey:
+                                    environmentPickerOptions?.environment
+                                        ?.selectedItemLocalStorageKey
+                            })}
+                            storage={{
+                                ...(adapter.getBlobContainerURL() && {
+                                    containerUrl: adapter.getBlobContainerURL()
+                                }),
+                                onContainerUrlChange: handleContainerUrlChange,
+                                ...(environmentPickerOptions?.storage
+                                    ?.isLocalStorageEnabled && {
+                                    isLocalStorageEnabled: true,
+                                    localStorageKey:
+                                        environmentPickerOptions?.storage
+                                            ?.localStorageKey,
+                                    selectedItemLocalStorageKey:
+                                        environmentPickerOptions?.storage
+                                            ?.selectedItemLocalStorageKey
+                                })
+                            }}
+                        />
+                    </div>
 
                     <ScenePageErrorHandlingWrapper
                         errors={state.errors}
@@ -275,6 +269,46 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
                             onClick: state?.errorCallback?.buttonAction
                         }}
                     >
+                        {(state.currentStep ===
+                            ADT3DScenePageSteps.SceneLobby ||
+                            state.currentStep ===
+                                ADT3DScenePageSteps.Globe) && (
+                            <div className={customStyles.toggleContainer}>
+                                <div className={customStyles.toggleButtons}>
+                                    <DefaultButton
+                                        text={t('3dScenePage.listView')}
+                                        iconProps={{ iconName: 'List' }}
+                                        className={customStyles.toggleButton}
+                                        onClick={() => {
+                                            dispatch({
+                                                type: SET_SELECTED_SCENE,
+                                                payload: null
+                                            });
+                                            dispatch({
+                                                type: SET_CURRENT_STEP,
+                                                payload:
+                                                    ADT3DScenePageSteps.SceneLobby
+                                            });
+                                        }}
+                                    />
+                                    <DefaultButton
+                                        text={t('3dScenePage.globeView')}
+                                        iconProps={{ iconName: 'Globe' }}
+                                        onClick={() => {
+                                            dispatch({
+                                                type: SET_SELECTED_SCENE,
+                                                payload: null
+                                            });
+                                            dispatch({
+                                                type: SET_CURRENT_STEP,
+                                                payload:
+                                                    ADT3DScenePageSteps.Globe
+                                            });
+                                        }}
+                                    />
+                                </div>
+                            </div>
+                        )}
                         {state.currentStep ===
                             ADT3DScenePageSteps.SceneLobby && (
                             <div className="cb-scene-page-scene-list-container">
@@ -288,47 +322,12 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
                                         onSceneClick={(scene) => {
                                             handleOnSceneClick(scene);
                                         }}
-                                        additionalActions={[
-                                            {
-                                                iconProps: {
-                                                    iconName: 'Globe'
-                                                },
-                                                onClick: () => {
-                                                    dispatch({
-                                                        type: SET_SELECTED_SCENE,
-                                                        payload: null
-                                                    });
-                                                    dispatch({
-                                                        type: SET_CURRENT_STEP,
-                                                        payload:
-                                                            ADT3DScenePageSteps.Globe
-                                                    });
-                                                },
-                                                text: t('globe')
-                                            }
-                                        ]}
                                     />
                                 )}
                             </div>
                         )}
                         {state.currentStep === ADT3DScenePageSteps.Globe && (
                             <div className="cb-scene-page-scene-globe-container">
-                                <Breadcrumb
-                                    items={[
-                                        {
-                                            text: t('3dScenePage.home'),
-                                            key: 'Home',
-                                            onClick: handleOnHomeClick
-                                        },
-                                        {
-                                            text: t('3dScenePage.globe'),
-                                            key: 'Scene'
-                                        }
-                                    ]}
-                                    maxDisplayedItems={10}
-                                    ariaLabel="Breadcrumb with items rendered as buttons"
-                                    overflowAriaLabel="More links"
-                                />
                                 <ADT3DGlobe
                                     theme={theme}
                                     adapter={adapter as IBlobAdapter}
