@@ -1,7 +1,7 @@
 import { ADT3DScenePageModes } from '../Constants';
 
 export interface IDeeplinkContextProviderProps {
-    initialState?: Partial<Omit<IDeeplinkContextState, 'deeplink'>>;
+    initialState?: Partial<IDeeplinkContextState>;
 }
 
 /** options for generating the deeplink */
