@@ -5,7 +5,7 @@ import {
     getPropertyListItemIconWrapMoreStyles,
     getPropertyEditorTextFieldStyles
 } from './OATPropertyEditor.styles';
-import { DTDLModel, DTDLSchemaType } from '../../Models/Classes/DTDL';
+import { DTDLSchemaType } from '../../Models/Classes/DTDL';
 import AddPropertyBar from './AddPropertyBar';
 import PropertyListItemNested from './PropertyListItemNested';
 import PropertyListEnumItemNested from './PropertyListEnumItemNested';
@@ -13,9 +13,11 @@ import PropertyListMapItemNested from './PropertyListMapItemNested';
 import { deepCopy } from '../../Models/Services/Utils';
 import PropertyListItemSubMenu from './PropertyListItemSubMenu';
 import { useTranslation } from 'react-i18next';
+import { UPDATE_OAT_PROPERTY_EDITOR_MODEL } from '../../Models/Constants/ActionTypes';
 
 type IPropertyListItemNest = {
     deleteItem?: (index: number) => any;
+    dispatch?: React.Dispatch<React.SetStateAction<any>>;
     draggingProperty?: boolean;
     getItemClassName?: (index: number) => any;
     getNestedItemClassName?: () => any;
@@ -26,7 +28,6 @@ type IPropertyListItemNest = {
     index?: number;
     item?: any;
     lastPropertyFocused?: any;
-    model?: DTDLModel;
     setCurrentNestedPropertyIndex?: React.Dispatch<
         React.SetStateAction<number>
     >;
@@ -34,14 +35,15 @@ type IPropertyListItemNest = {
     setLastPropertyFocused?: React.Dispatch<React.SetStateAction<any>>;
     setModalBody?: React.Dispatch<React.SetStateAction<string>>;
     setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
-    setModel?: React.Dispatch<React.SetStateAction<DTDLModel>>;
     setPropertySelectorVisible: React.Dispatch<React.SetStateAction<boolean>>;
     setTemplates?: React.Dispatch<React.SetStateAction<any>>;
+    state?: any;
 };
 
 export const PropertyListItemNest = ({
     index,
     deleteItem,
+    dispatch,
     draggingProperty,
     getItemClassName,
     getNestedItemClassName,
@@ -57,9 +59,8 @@ export const PropertyListItemNest = ({
     setCurrentNestedPropertyIndex,
     setModalOpen,
     setModalBody,
-    model,
-    setModel,
-    setTemplates
+    setTemplates,
+    state
 }: IPropertyListItemNest) => {
     const { t } = useTranslation();
     const propertyInspectorStyles = getPropertyInspectorStyles();
@@ -96,31 +97,28 @@ export const PropertyListItemNest = ({
         )}`;
         itemCopy['@id'] = `${itemCopy['@id']}_${t('OATPropertyEditor.copy')}`;
 
-        const modelCopy = deepCopy(model);
+        const modelCopy = deepCopy(state.model);
         modelCopy.contents.push(itemCopy);
-        setModel(modelCopy);
+        dispatch({
+            type: UPDATE_OAT_PROPERTY_EDITOR_MODEL,
+            payload: modelCopy
+        });
     };
 
     const deleteNestedItem = (parentIndex, index) => {
-        setModel((prevModel) => {
-            const newModel = deepCopy(prevModel);
-            if (
-                newModel.contents[parentIndex].schema['@type'] ===
-                DTDLSchemaType.Enum
-            ) {
-                newModel.contents[parentIndex].schema.enumValues.splice(
-                    index,
-                    1
-                );
-            } else if (
-                newModel.contents[parentIndex].schema['@type'] ===
-                DTDLSchemaType.Object
-            ) {
-                newModel.contents[parentIndex].schema.fields.splice(index, 1);
-                return newModel;
-            }
-            return newModel;
-        });
+        const newModel = deepCopy(state.model);
+        if (
+            newModel.contents[parentIndex].schema['@type'] ===
+            DTDLSchemaType.Enum
+        ) {
+            newModel.contents[parentIndex].schema.enumValues.splice(index, 1);
+        } else if (
+            newModel.contents[parentIndex].schema['@type'] ===
+            DTDLSchemaType.Object
+        ) {
+            newModel.contents[parentIndex].schema.fields.splice(index, 1);
+        }
+        dispatch({ type: UPDATE_OAT_PROPERTY_EDITOR_MODEL, payload: newModel });
     };
 
     return (
@@ -212,8 +210,8 @@ export const PropertyListItemNest = ({
                         setModalOpen={setModalOpen}
                         deleteNestedItem={deleteNestedItem}
                         setTemplates={setTemplates}
-                        setModel={setModel}
-                        model={model}
+                        dispatch={dispatch}
+                        state={state}
                     />
                 ))}
 
@@ -224,8 +222,8 @@ export const PropertyListItemNest = ({
                     <PropertyListEnumItemNested
                         key={i}
                         item={item}
-                        model={model}
-                        setModel={setModel}
+                        dispatch={dispatch}
+                        state={state}
                         parentIndex={index}
                         index={i}
                         deleteNestedItem={deleteNestedItem}
@@ -235,8 +233,8 @@ export const PropertyListItemNest = ({
             {collapsed && item.schema['@type'] === DTDLSchemaType.Map && (
                 <PropertyListMapItemNested
                     item={item}
-                    model={model}
-                    setModel={setModel}
+                    dispatch={dispatch}
+                    state={state}
                     index={index}
                 />
             )}

@@ -5,14 +5,15 @@ import {
     getPropertyListItemIconWrapStyles,
     getPropertyListItemIconWrapMoreStyles
 } from './OATPropertyEditor.styles';
-import { DTDLModel } from '../../Models/Classes/DTDL';
 import { deepCopy } from '../../Models/Services/Utils';
 import PropertyListItemSubMenu from './PropertyListItemSubMenu';
 import { useTranslation } from 'react-i18next';
+import { UPDATE_OAT_PROPERTY_EDITOR_MODEL } from '../../Models/Constants/ActionTypes';
 
 type IPropertyListItem = {
     index?: number;
     deleteItem?: (index: number) => any;
+    dispatch?: React.Dispatch<React.SetStateAction<any>>;
     draggingProperty?: boolean;
     getItemClassName?: (index: number) => any;
     getErrorMessage?: (value: string, index?: number) => string;
@@ -20,32 +21,31 @@ type IPropertyListItem = {
     handleDragEnterExternalItem?: (index: number) => any;
     handleDragStart?: (event: any, item: any) => any;
     item?: any;
-    model: DTDLModel;
     setCurrentPropertyIndex?: React.Dispatch<React.SetStateAction<number>>;
     setLastPropertyFocused?: React.Dispatch<React.SetStateAction<any>>;
     setModalBody?: React.Dispatch<React.SetStateAction<string>>;
     setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
-    setModel?: React.Dispatch<React.SetStateAction<any>>;
     setTemplates?: React.Dispatch<React.SetStateAction<any>>;
+    state?: any;
 };
 
 export const PropertyListItem = ({
     index,
     deleteItem,
+    dispatch,
     draggingProperty,
     getItemClassName,
     getErrorMessage,
     handleDragEnter,
     handleDragEnterExternalItem,
     handleDragStart,
-    model,
     setCurrentPropertyIndex,
     setModalOpen,
     item,
     setLastPropertyFocused,
     setModalBody,
-    setModel,
-    setTemplates
+    setTemplates,
+    state
 }: IPropertyListItem) => {
     const { t } = useTranslation();
     const iconWrapStyles = getPropertyListItemIconWrapStyles();
@@ -65,9 +65,12 @@ export const PropertyListItem = ({
         )}`;
         itemCopy['@id'] = `${itemCopy['@id']}_${t('OATPropertyEditor.copy')}`;
 
-        const modelCopy = deepCopy(model);
+        const modelCopy = deepCopy(state.model);
         modelCopy.contents.push(itemCopy);
-        setModel(modelCopy);
+        dispatch({
+            type: UPDATE_OAT_PROPERTY_EDITOR_MODEL,
+            payload: modelCopy
+        });
     };
 
     return (

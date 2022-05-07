@@ -11,7 +11,6 @@ import {
 } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
-import { DTDLModel } from '../../Models/Classes/DTDL';
 import { DTDLProperty } from '../../Models/Constants/Interfaces';
 import PropertyList from './PropertyList';
 import JSONEditor from './JSONEditor';
@@ -20,7 +19,7 @@ import PropertiesModelSummary from './PropertiesModelSummary';
 
 interface IEditor {
     currentPropertyIndex?: number;
-    model?: DTDLModel;
+    dispatch?: React.Dispatch<React.SetStateAction<any>>;
     templates?: DTDLProperty[];
     theme?: Theme;
     setCurrentNestedPropertyIndex?: React.Dispatch<
@@ -29,16 +28,13 @@ interface IEditor {
     setCurrentPropertyIndex?: React.Dispatch<React.SetStateAction<number>>;
     setModalBody?: React.Dispatch<React.SetStateAction<string>>;
     setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
-    setModel?: React.Dispatch<React.SetStateAction<DTDLModel>>;
     setTemplates?: React.Dispatch<React.SetStateAction<DTDLProperty>>;
     templatesActive?: boolean;
-    setTemplatesActive?: (active: boolean) => boolean;
-    dispatch?: React.Dispatch<React.SetStateAction<any>>;
+    setTemplatesActive?: React.Dispatch<React.SetStateAction<boolean>>;
+    state: any;
 }
 
 const Editor = ({
-    model,
-    setModel,
     templates,
     setTemplates,
     theme,
@@ -49,7 +45,8 @@ const Editor = ({
     currentPropertyIndex,
     templatesActive,
     setTemplatesActive,
-    dispatch
+    dispatch,
+    state
 }: IEditor) => {
     const { t } = useTranslation();
     const propertyInspectorStyles = getPropertyInspectorStyles();
@@ -69,7 +66,7 @@ const Editor = ({
                     headerText={t('OATPropertyEditor.properties')}
                     className={propertyInspectorStyles.pivotItem}
                 >
-                    <PropertiesModelSummary model={model} setModel={setModel} />
+                    <PropertiesModelSummary dispatch={dispatch} state={state} />
                     <div>
                         <div className={propertyInspectorStyles.paddingWrap}>
                             <Stack
@@ -127,8 +124,8 @@ const Editor = ({
                     <PropertyList
                         propertySelectorVisible={propertySelectorVisible}
                         setPropertySelectorVisible={setPropertySelectorVisible}
-                        model={model}
-                        setModel={setModel}
+                        dispatch={dispatch}
+                        state={state}
                         setCurrentPropertyIndex={setCurrentPropertyIndex}
                         setModalOpen={setModalOpen}
                         currentPropertyIndex={currentPropertyIndex}
@@ -150,8 +147,8 @@ const Editor = ({
                 >
                     <JSONEditor
                         theme={theme}
-                        model={model}
-                        setModel={setModel}
+                        dispatch={dispatch}
+                        state={state}
                     />
                 </PivotItem>
             </Pivot>
@@ -161,8 +158,6 @@ const Editor = ({
                     templates={templates}
                     setTemplates={setTemplates}
                     enteredPropertyRef={enteredPropertyRef}
-                    model={model}
-                    setModel={setModel}
                     draggingTemplate={draggingTemplate}
                     setDraggingTemplate={setDraggingTemplate}
                     draggingProperty={draggingProperty}

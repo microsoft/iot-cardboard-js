@@ -7,20 +7,20 @@ import {
     getListMapItemTextStyles
 } from './OATPropertyEditor.styles';
 import { useTranslation } from 'react-i18next';
-import { DTDLModel } from '../../Models/Classes/DTDL';
+import { UPDATE_OAT_PROPERTY_EDITOR_MODEL } from '../../Models/Constants/ActionTypes';
 
 type IEnumItem = {
+    dispatch?: React.Dispatch<React.SetStateAction<any>>;
     index?: number;
     item?: any;
-    model?: DTDLModel;
-    setModel?: React.Dispatch<React.SetStateAction<DTDLModel>>;
+    state?: any;
 };
 
 export const PropertyListMapItemNested = ({
+    dispatch,
     item,
-    model,
-    setModel,
-    index
+    index,
+    state
 }: IEnumItem) => {
     const { t } = useTranslation();
     const propertyInspectorStyles = getPropertyInspectorStyles();
@@ -29,15 +29,21 @@ export const PropertyListMapItemNested = ({
     const textStyles = getListMapItemTextStyles();
 
     const updateMapKeyName = (value) => {
-        const modelCopy = Object.assign({}, model);
+        const modelCopy = Object.assign({}, state.model);
         modelCopy.contents[index].schema.mapKey.name = value;
-        setModel(modelCopy);
+        dispatch({
+            type: UPDATE_OAT_PROPERTY_EDITOR_MODEL,
+            payload: modelCopy
+        });
     };
 
     const updateMapValueName = (value) => {
-        const modelCopy = Object.assign({}, model);
+        const modelCopy = Object.assign({}, state.model);
         modelCopy.contents[index].schema.mapValue.name = value;
-        setModel(modelCopy);
+        dispatch({
+            type: UPDATE_OAT_PROPERTY_EDITOR_MODEL,
+            payload: modelCopy
+        });
     };
 
     return (

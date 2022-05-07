@@ -13,10 +13,10 @@ import {
     getPropertyInspectorStyles,
     getModalLabelStyles
 } from './OATPropertyEditor.styles';
-import { DTDLModel } from '../../Models/Classes/DTDL';
+import { UPDATE_OAT_PROPERTY_EDITOR_MODEL } from '../../Models/Constants/ActionTypes';
 
 interface IModal {
-    model?: DTDLModel;
+    dispatch?: React.Dispatch<React.SetStateAction<any>>;
     currentPropertyIndex?: number;
     currentNestedPropertyIndex?: number;
     setCurrentNestedPropertyIndex?: React.Dispatch<
@@ -24,17 +24,17 @@ interface IModal {
     >;
     setModalBody?: React.Dispatch<React.SetStateAction<string>>;
     setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
-    setModel?: React.Dispatch<React.SetStateAction<DTDLModel>>;
+    state?: any;
 }
 
 export const FormUpdateProperty = ({
+    dispatch,
     setModalOpen,
-    model,
-    setModel,
     currentPropertyIndex,
     currentNestedPropertyIndex,
     setCurrentNestedPropertyIndex,
-    setModalBody
+    setModalBody,
+    state
 }: IModal) => {
     const { t } = useTranslation();
     const propertyInspectorStyles = getPropertyInspectorStyles();
@@ -50,7 +50,7 @@ export const FormUpdateProperty = ({
 
     const handleUpdatedNestedProperty = () => {
         const activeNestedProperty =
-            model.contents[currentPropertyIndex].schema.fields[
+            state.model.contents[currentPropertyIndex].schema.fields[
                 currentNestedPropertyIndex
             ];
 
@@ -66,12 +66,15 @@ export const FormUpdateProperty = ({
             schema: activeNestedProperty.schema
         };
 
-        const modelCopy = Object.assign({}, model);
+        const modelCopy = Object.assign({}, state.model);
         modelCopy.contents[currentPropertyIndex].schema.fields[
             currentNestedPropertyIndex
         ] = prop;
 
-        setModel(modelCopy);
+        dispatch({
+            type: UPDATE_OAT_PROPERTY_EDITOR_MODEL,
+            payload: modelCopy
+        });
         setModalOpen(false);
         setModalBody(null);
         setCurrentNestedPropertyIndex(null);
@@ -82,7 +85,7 @@ export const FormUpdateProperty = ({
             handleUpdatedNestedProperty();
             return;
         }
-        const activeProperty = model.contents[currentPropertyIndex];
+        const activeProperty = state.model.contents[currentPropertyIndex];
         const prop = {
             comment: comment ? comment : activeProperty.comment,
             description: description ? description : activeProperty.description,
@@ -96,15 +99,18 @@ export const FormUpdateProperty = ({
             schema: activeProperty.schema
         };
 
-        const modelCopy = Object.assign({}, model);
+        const modelCopy = Object.assign({}, state.model);
         modelCopy.contents[currentPropertyIndex] = prop;
-        setModel(modelCopy);
+        dispatch({
+            type: UPDATE_OAT_PROPERTY_EDITOR_MODEL,
+            payload: modelCopy
+        });
         setModalOpen(false);
         setModalBody(null);
     };
 
     const getErrorMessage = (value) => {
-        const find = model.contents.find((item) => item.name === value);
+        const find = state.model.contents.find((item) => item.name === value);
 
         if (!find && value !== '') {
             setDisplayName(value);
@@ -121,8 +127,8 @@ export const FormUpdateProperty = ({
         <>
             <div className={propertyInspectorStyles.modalRowSpaceBetween}>
                 <Label>
-                    {model.contents[currentPropertyIndex]
-                        ? model.contents[currentPropertyIndex].name
+                    {state.model.contents[currentPropertyIndex]
+                        ? state.model.contents[currentPropertyIndex].name
                         : t('OATPropertyEditor.property')}
                 </Label>
                 <ActionButton onClick={() => setModalOpen(false)}>

@@ -1,34 +1,27 @@
 import React, { useState } from 'react';
 import BaseComponent from '../BaseComponent/BaseComponent';
 import { Theme } from '../../Models/Constants/Enums';
-import { DTDLModel } from '../../Models/Classes/DTDL';
-import { DTDLProperty } from '../../Models/Constants/Interfaces';
 import Modal from './Modal';
 import Editor from './Editor';
 
 type IOATPropertyEditor = {
-    model?: DTDLModel;
-    theme?: Theme;
-    templates?: DTDLProperty[];
-    setModel?: React.Dispatch<React.SetStateAction<DTDLModel>>;
-    setTemplates?: React.Dispatch<React.SetStateAction<DTDLProperty>>;
-    templatesActive?: boolean;
-    setTemplatesActive?: (active: boolean) => boolean;
     dispatch?: React.Dispatch<React.SetStateAction<any>>;
+    theme?: Theme;
+    templatesActive?: boolean;
+    setTemplatesActive?: React.Dispatch<React.SetStateAction<boolean>>;
+    state?: any;
 };
 
 const OATPropertyEditor = ({
-    model,
-    setModel,
     theme,
-    templates,
-    setTemplates,
     templatesActive,
     setTemplatesActive,
-    dispatch
+    dispatch,
+    state
 }: IOATPropertyEditor) => {
     const [modalOpen, setModalOpen] = useState(false);
     const [modalBody, setModalBody] = useState('formProperty');
+    const [templates, setTemplates] = useState([]);
     const [currentPropertyIndex, setCurrentPropertyIndex] = useState(null);
     const [
         currentNestedPropertyIndex,
@@ -40,17 +33,15 @@ const OATPropertyEditor = ({
             <Modal
                 modalOpen={modalOpen}
                 setModalOpen={setModalOpen}
-                model={model}
-                setModel={setModel}
                 currentPropertyIndex={currentPropertyIndex}
                 currentNestedPropertyIndex={currentNestedPropertyIndex}
                 setCurrentNestedPropertyIndex={setCurrentNestedPropertyIndex}
                 setModalBody={setModalBody}
                 modalBody={modalBody}
+                dispatch={dispatch}
+                state={state}
             />
             <Editor
-                model={model}
-                setModel={setModel}
                 templates={templates}
                 setTemplates={setTemplates}
                 theme={theme}
@@ -62,6 +53,7 @@ const OATPropertyEditor = ({
                 templatesActive={templatesActive}
                 setTemplatesActive={setTemplatesActive}
                 dispatch={dispatch}
+                state={state}
             />
         </BaseComponent>
     );

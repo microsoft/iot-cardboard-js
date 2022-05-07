@@ -11,7 +11,6 @@ import {
     getPropertySelectorStyles,
     getPropertySelectorSeparatorStyles
 } from './OATPropertyEditor.styles';
-import { DTDLModel } from '../../Models/Classes/DTDL';
 import { DTDLSchemaType } from '../../Models/Classes/DTDL';
 import Svg from 'react-inlinesvg';
 import IconBoolean from '../../Resources/Static/Boolean.svg';
@@ -34,21 +33,22 @@ import IconPolygon from '../../Resources/Static/polygon.svg';
 import IconString from '../../Resources/Static/string.svg';
 import IconTime from '../../Resources/Static/time.svg';
 import { useTranslation } from 'react-i18next';
+import { UPDATE_OAT_PROPERTY_EDITOR_MODEL } from '../../Models/Constants/ActionTypes';
 
 interface IProperySelectorProps {
+    dispatch?: React.Dispatch<React.SetStateAction<any>>;
     lastPropertyFocused: any;
-    model?: DTDLModel;
     targetId?: string;
-    setModel?: React.Dispatch<React.SetStateAction<DTDLModel>>;
     setPropertySelectorVisible: React.Dispatch<React.SetStateAction<boolean>>;
+    state: any;
 }
 
 const PropertySelector = ({
     setPropertySelectorVisible,
-    model,
-    setModel,
     lastPropertyFocused,
-    targetId
+    targetId,
+    dispatch,
+    state
 }: IProperySelectorProps) => {
     const { t } = useTranslation();
     const propertyInspectorStyles = getPropertyInspectorStyles();
@@ -166,7 +166,7 @@ const PropertySelector = ({
     };
 
     const addNestedProperty = (tag) => {
-        const modelCopy = Object.assign({}, model);
+        const modelCopy = Object.assign({}, state.model);
         const schemaCopy = Object.assign({}, lastPropertyFocused.item.schema);
         schemaCopy.fields.push({
             name: `${lastPropertyFocused.item.name}_${
@@ -176,7 +176,10 @@ const PropertySelector = ({
         });
 
         modelCopy.contents[lastPropertyFocused.index].schema = schemaCopy;
-        setModel(modelCopy);
+        dispatch({
+            type: UPDATE_OAT_PROPERTY_EDITOR_MODEL,
+            payload: modelCopy
+        });
         setPropertySelectorVisible(false);
     };
 
@@ -189,21 +192,24 @@ const PropertySelector = ({
             return;
         }
 
-        const modelCopy = Object.assign({}, model);
+        const modelCopy = Object.assign({}, state.model);
         modelCopy.contents = [
             ...modelCopy.contents,
             ...[
                 {
                     '@id': `dtmi:com:adt:model1:New_Property_${
-                        model.contents.length + 1
+                        state.model.contents.length + 1
                     }`,
                     '@type': ['property'],
-                    name: `New_Property_${model.contents.length + 1}`,
+                    name: `New_Property_${state.model.contents.length + 1}`,
                     schema: getSchema(tag)
                 }
             ]
         ];
-        setModel(modelCopy);
+        dispatch({
+            type: UPDATE_OAT_PROPERTY_EDITOR_MODEL,
+            payload: modelCopy
+        });
         setPropertySelectorVisible(false);
     };
 

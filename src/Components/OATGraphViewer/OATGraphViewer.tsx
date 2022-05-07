@@ -24,10 +24,8 @@ import {
 } from '../../Models/Constants/Constants';
 import { getGraphViewerStyles } from './OATGraphViewer.styles';
 import { ElementsContext } from './Internal/OATContext';
-import {
-    IOATElementsChangeEventArgs,
-    IOATTwinModelNodes
-} from '../../Models/Constants/Interfaces';
+import { IOATElementsChangeEventArgs } from '../../Models/Constants/Interfaces';
+import { UPDATE_OAT_PROPERTY_EDITOR_MODEL } from '../../Models/Constants/ActionTypes';
 
 const idClassBase = 'dtmi:com:example:';
 const contextClassBase = 'dtmi:adt:context;2';
@@ -35,22 +33,22 @@ const versionClassBase = '1';
 
 type OATGraphProps = {
     onElementsUpdate: (digitalTwinsModels: IOATElementsChangeEventArgs) => any;
-    setModel: (twinModel: IOATTwinModelNodes) => any;
-    model: IOATTwinModelNodes;
     deletedModelId: string;
     selectedModel: string;
     editedName: string;
     editedId: string;
+    dispatch?: React.Dispatch<React.SetStateAction<any>>;
+    state?: any;
 };
 
 const OATGraphViewer = ({
     onElementsUpdate,
-    setModel,
-    model,
     deletedModelId,
     selectedModel,
     editedName,
-    editedId
+    editedId,
+    state,
+    dispatch
 }: OATGraphProps) => {
     const { t } = useTranslation();
     const theme = useTheme();
@@ -90,18 +88,18 @@ const OATGraphViewer = ({
         if (node) {
             elements
                 .filter((x) => x.source === currentNodeIdRef.current)
-                .forEach((x) => (x.source = model['@id']));
+                .forEach((x) => (x.source = state.model['@id']));
             elements
                 .filter((x) => x.target === currentNodeIdRef.current)
-                .forEach((x) => (x.target = model['@id']));
-            node.id = model['@id'];
-            node.data.id = model['@id'];
-            node.data.name = model['displayName'];
-            node.data.content = model['contents'];
+                .forEach((x) => (x.target = state.model['@id']));
+            node.id = state.model['@id'];
+            node.data.id = state.model['@id'];
+            node.data.name = state.model['displayName'];
+            node.data.content = state.model['contents'];
             setElements([...elements]);
-            currentNodeIdRef.current = model['@id'];
+            currentNodeIdRef.current = state.model['@id'];
         }
-    }, [model]);
+    }, [state.model]);
 
     useEffect(() => {
         if (deletedModelId) {
@@ -125,7 +123,10 @@ const OATGraphViewer = ({
                 displayName: node.data.name,
                 contents: node.data.content
             };
-            setModel(modelClicked);
+            dispatch({
+                type: UPDATE_OAT_PROPERTY_EDITOR_MODEL,
+                payload: modelClicked
+            });
         }
     }, [selectedModel]);
 
@@ -140,7 +141,10 @@ const OATGraphViewer = ({
                 displayName: node.data.name,
                 contents: node.data.content
             };
-            setModel(modelClicked);
+            dispatch({
+                type: UPDATE_OAT_PROPERTY_EDITOR_MODEL,
+                payload: modelClicked
+            });
             setElements([...elements]);
         }
     }, [editedName]);
@@ -163,7 +167,10 @@ const OATGraphViewer = ({
                 displayName: node.data.name,
                 contents: node.data.content
             };
-            setModel(modelClicked);
+            dispatch({
+                type: UPDATE_OAT_PROPERTY_EDITOR_MODEL,
+                payload: modelClicked
+            });
             setElements([...elements]);
             currentNodeIdRef.current = editedId;
         }
@@ -174,8 +181,8 @@ const OATGraphViewer = ({
     };
 
     const providerVal = useMemo(
-        () => ({ elements, setElements, setModel, setCurrentNode }),
-        [elements, setElements, setModel, setCurrentNode]
+        () => ({ elements, setElements, setCurrentNode, dispatch }),
+        [elements, setElements, setCurrentNode, dispatch]
     );
 
     const nodeTypes = useMemo(() => ({ Interface: OATGraphCustomNode }), []);
@@ -460,7 +467,10 @@ const OATGraphViewer = ({
                 contents: currentModel.contents,
                 extends: extendsItems ? extendsItems : null
             };
-            setModel(selectedModel);
+            dispatch({
+                type: UPDATE_OAT_PROPERTY_EDITOR_MODEL,
+                payload: selectedModel
+            });
         }
     };
 
@@ -507,8 +517,7 @@ const OATGraphViewer = ({
 };
 
 OATGraphViewer.defaultProps = {
-    onElementsUpdate: () => null,
-    setModel: () => null
+    onElementsUpdate: () => null
 };
 
 export default OATGraphViewer;

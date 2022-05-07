@@ -11,6 +11,7 @@ import {
     OATExtendHandleName,
     OATUntargetedRelationshipName
 } from '../../../Models/Constants/Constants';
+import { UPDATE_OAT_PROPERTY_EDITOR_MODEL } from '../../../Models/Constants/ActionTypes';
 
 const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
     data,
@@ -22,7 +23,7 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
     const [idEditor, setIdEditor] = useState(false);
     const [idText, setIdText] = useState(data.id);
     const theme = useTheme();
-    const { elements, setElements, setModel, setCurrentNode } = useContext(
+    const { elements, setElements, setCurrentNode, dispatch } = useContext(
         ElementsContext
     );
     const graphViewerStyles = getGraphViewerStyles();
@@ -50,7 +51,10 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
                 displayName: nameText,
                 contents: data.content
             };
-            setModel(modelUpdated);
+            dispatch({
+                type: UPDATE_OAT_PROPERTY_EDITOR_MODEL,
+                payload: modelUpdated
+            });
         }
     };
 
@@ -83,7 +87,10 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
                 contents: data.content
             };
             setCurrentNode(idText);
-            setModel(updatedModel);
+            dispatch({
+                type: UPDATE_OAT_PROPERTY_EDITOR_MODEL,
+                payload: updatedModel
+            });
         }
     };
 
@@ -94,7 +101,7 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
             }
         ];
         setElements((els) => removeElements(elementsToRemove, els));
-        setModel(null);
+        dispatch({ type: UPDATE_OAT_PROPERTY_EDITOR_MODEL, payload: null });
     };
 
     return (

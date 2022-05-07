@@ -6,27 +6,28 @@ import {
     getPropertyListItemIconWrapMoreStyles
 } from './OATPropertyEditor.styles';
 import PropertyListItemSubMenu from './PropertyListItemSubMenu';
-import { DTDLModel } from '../../Models/Classes/DTDL';
 import { deepCopy } from '../../Models/Services/Utils';
 import { useTranslation } from 'react-i18next';
+import { UPDATE_OAT_PROPERTY_EDITOR_MODEL } from '../../Models/Constants/ActionTypes';
 
 type IPropertyListItemNested = {
     deleteNestedItem?: (parentIndex: number, index: number) => any;
+    dispatch?: React.Dispatch<React.SetStateAction<any>>;
     getItemClassName?: (index: number) => any;
     getErrorMessage?: (value: string) => string;
     index?: number;
     item?: any;
-    model?: DTDLModel;
     parentIndex?: number;
     setCurrentNestedPropertyIndex: React.Dispatch<React.SetStateAction<number>>;
     setCurrentPropertyIndex?: React.Dispatch<React.SetStateAction<number>>;
     setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
-    setModel?: React.Dispatch<React.SetStateAction<DTDLModel>>;
     setTemplates?: React.Dispatch<React.SetStateAction<any>>;
+    state?: any;
 };
 
 export const PropertyListItemNested = ({
     deleteNestedItem,
+    dispatch,
     getErrorMessage,
     getItemClassName,
     index,
@@ -36,8 +37,7 @@ export const PropertyListItemNested = ({
     setCurrentPropertyIndex,
     setModalOpen,
     setTemplates,
-    setModel,
-    model
+    state
 }: IPropertyListItemNested) => {
     const { t } = useTranslation();
     const textFieldStyles = getPropertyEditorTextFieldStyles();
@@ -53,9 +53,12 @@ export const PropertyListItemNested = ({
         )}`;
         itemCopy['@id'] = `${itemCopy['@id']}_${t('OATPropertyEditor.copy')}`;
 
-        const modelCopy = deepCopy(model);
+        const modelCopy = deepCopy(state.model);
         modelCopy.contents[parentIndex].schema.fields.push(itemCopy);
-        setModel(modelCopy);
+        dispatch({
+            type: UPDATE_OAT_PROPERTY_EDITOR_MODEL,
+            payload: modelCopy
+        });
     };
 
     const handleTemplateAddition = () => {

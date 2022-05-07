@@ -14,21 +14,19 @@ import {
     getTemplateColumnStyles
 } from './OATPropertyEditor.styles';
 import TemplateList from './TemplateList';
-import { DTDLModel } from '../../Models/Classes/DTDL';
 import { DTDLProperty } from '../../Models/Constants/Interfaces';
 
 type ITemplateColumn = {
-    setTemplatesActive: (active: boolean) => boolean;
+    setTemplatesActive: React.Dispatch<React.SetStateAction<boolean>>;
     templates?: DTDLProperty[];
     setTemplates: React.Dispatch<React.SetStateAction<DTDLProperty>>;
     enteredPropertyRef: any;
-    model: DTDLModel;
-    setModel?: React.Dispatch<React.SetStateAction<DTDLModel>>;
     draggingTemplate: boolean;
     setDraggingTemplate: any;
     enteredTemplateRef: any;
     draggingProperty: boolean;
     dispatch?: React.Dispatch<React.SetStateAction<any>>;
+    state?: any;
 };
 
 export const TemplateColumn = ({
@@ -36,13 +34,12 @@ export const TemplateColumn = ({
     templates,
     setTemplates,
     enteredPropertyRef,
-    model,
-    setModel,
     draggingTemplate,
     setDraggingTemplate,
     enteredTemplateRef,
     draggingProperty,
-    dispatch
+    dispatch,
+    state
 }: ITemplateColumn) => {
     const { t } = useTranslation();
     const propertyInspectorStyles = getPropertyInspectorStyles();
@@ -90,13 +87,12 @@ export const TemplateColumn = ({
                 setTemplates={setTemplates}
                 draggedTemplateItemRef={draggedTemplateItemRef}
                 enteredPropertyRef={enteredPropertyRef}
-                model={model}
-                setModel={setModel}
+                dispatch={dispatch}
+                state={state}
                 draggingTemplate={draggingTemplate}
                 setDraggingTemplate={setDraggingTemplate}
                 enteredTemplateRef={enteredTemplateRef}
                 draggingProperty={draggingProperty}
-                dispatch={dispatch}
             />
         </Stack>
     );

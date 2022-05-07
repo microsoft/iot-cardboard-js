@@ -7,15 +7,15 @@ import {
     Label
 } from '@fluentui/react';
 import { PrimaryButton } from '@fluentui/react/lib/Button';
-import { DTDLModel } from '../../Models/Classes/DTDL';
 import { useTranslation } from 'react-i18next';
 import {
     getPropertyInspectorStyles,
     getModalLabelStyles
 } from './OATPropertyEditor.styles';
+import { UPDATE_OAT_PROPERTY_EDITOR_MODEL } from '../../Models/Constants/ActionTypes';
 
 interface IModal {
-    model?: DTDLModel;
+    dispatch?: React.Dispatch<React.SetStateAction<any>>;
     currentPropertyIndex?: number;
     currentNestedPropertyIndex?: number;
     setCurrentNestedPropertyIndex?: React.Dispatch<
@@ -23,15 +23,15 @@ interface IModal {
     >;
     setModalBody?: React.Dispatch<React.SetStateAction<string>>;
     setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
-    setModel?: React.Dispatch<React.SetStateAction<DTDLModel>>;
+    state: any;
 }
 
 export const FormAddEnumItem = ({
+    dispatch,
     setModalOpen,
-    model,
-    setModel,
     currentPropertyIndex,
-    setModalBody
+    setModalBody,
+    state
 }: IModal) => {
     const { t } = useTranslation();
     const propertyInspectorStyles = getPropertyInspectorStyles();
@@ -46,7 +46,7 @@ export const FormAddEnumItem = ({
 
     const handleAddEnumValue = () => {
         const activeItem =
-            model.contents[currentPropertyIndex].schema.enumValues;
+            state.model.contents[currentPropertyIndex].schema.enumValues;
         const prop = {
             '@id': id ? `dtmi:com:adt:${id};` : 'dtmi:com:adt:enum;',
             name: name ? name : activeItem.name,
@@ -56,15 +56,18 @@ export const FormAddEnumItem = ({
             description: description ? description : activeItem.description
         };
 
-        const modelCopy = Object.assign({}, model);
+        const modelCopy = Object.assign({}, state.model);
         modelCopy.contents[currentPropertyIndex].schema.enumValues.push(prop);
-        setModel(modelCopy);
+        dispatch({
+            type: UPDATE_OAT_PROPERTY_EDITOR_MODEL,
+            payload: modelCopy
+        });
         setModalOpen(false);
         setModalBody(null);
     };
 
     const getErrorMessage = (value) => {
-        const find = model.contents[
+        const find = state.model.contents[
             currentPropertyIndex
         ].schema.enumValues.find((item) => item.enumValue === value);
         if (!find && value !== '') {

@@ -6,16 +6,16 @@ import {
     getGeneralPropertiesWrapStyles,
     getPropertyEditorTextFieldStyles
 } from './OATPropertyEditor.styles';
-import { DTDLModel } from '../../Models/Classes/DTDL';
+import { UPDATE_OAT_PROPERTY_EDITOR_MODEL } from '../../Models/Constants/ActionTypes';
 
 type IPropertiesModelSummary = {
-    model?: DTDLModel;
-    setModel?: React.Dispatch<React.SetStateAction<DTDLModel>>;
+    dispatch?: React.Dispatch<React.SetStateAction<any>>;
+    state: any;
 };
 
 export const PropertiesModelSummary = ({
-    model,
-    setModel
+    dispatch,
+    state
 }: IPropertiesModelSummary) => {
     const { t } = useTranslation();
     const propertyInspectorStyles = getPropertyInspectorStyles();
@@ -30,12 +30,15 @@ export const PropertiesModelSummary = ({
                 <TextField
                     styles={textFieldStyes}
                     borderless
-                    disabled={!model}
-                    value={model ? model.displayName : ''}
+                    disabled={!state.model}
+                    value={state.model ? state.model.displayName : ''}
                     onChange={(_ev, value) => {
-                        const modelCopy = Object.assign({}, model);
+                        const modelCopy = Object.assign({}, state.model);
                         modelCopy.displayName = value;
-                        setModel(modelCopy);
+                        dispatch({
+                            type: UPDATE_OAT_PROPERTY_EDITOR_MODEL,
+                            payload: modelCopy
+                        });
                     }}
                 />
             </div>
@@ -44,12 +47,15 @@ export const PropertiesModelSummary = ({
                 <TextField
                     styles={textFieldStyes}
                     borderless
-                    disabled={!model}
-                    value={model ? model['@id'] : ''}
+                    disabled={!state.model}
+                    value={state.model ? state.model['@id'] : ''}
                     onChange={(_ev, value) => {
-                        const modelCopy = Object.assign({}, model);
+                        const modelCopy = Object.assign({}, state.model);
                         modelCopy['@id'] = value;
-                        setModel(modelCopy);
+                        dispatch({
+                            type: UPDATE_OAT_PROPERTY_EDITOR_MODEL,
+                            payload: modelCopy
+                        });
                     }}
                 />
             </div>

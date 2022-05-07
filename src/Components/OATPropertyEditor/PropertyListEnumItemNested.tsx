@@ -6,25 +6,25 @@ import {
     getPropertyEditorTextFieldStyles
 } from './OATPropertyEditor.styles';
 import { useTranslation } from 'react-i18next';
-import { DTDLModel } from '../../Models/Classes/DTDL';
 import PropertyListItemSubMenu from './PropertyListItemSubMenu';
+import { UPDATE_OAT_PROPERTY_EDITOR_MODEL } from '../../Models/Constants/ActionTypes';
 
 type IEnumItem = {
     deleteNestedItem?: (parentIndex: number, index: number) => any;
+    dispatch?: React.Dispatch<React.SetStateAction<any>>;
     index?: number;
     item?: any;
-    model?: DTDLModel;
     parentIndex?: number;
-    setModel?: React.Dispatch<React.SetStateAction<DTDLModel>>;
+    state?: any;
 };
 
 export const PropertyListEnumItemNested = ({
     deleteNestedItem,
+    dispatch,
     item,
-    model,
-    setModel,
     index,
-    parentIndex
+    parentIndex,
+    state
 }: IEnumItem) => {
     const { t } = useTranslation();
     const propertyInspectorStyles = getPropertyInspectorStyles();
@@ -33,20 +33,24 @@ export const PropertyListEnumItemNested = ({
     const [subMenuActive, setSubMenuActive] = useState(false);
 
     const updateEnum = (value) => {
-        const activeItem = model.contents[parentIndex].schema.enumValues[index];
+        const activeItem =
+            state.model.contents[parentIndex].schema.enumValues[index];
         const prop = {
             displayName: value
         };
-        const modelCopy = Object.assign({}, model);
+        const modelCopy = Object.assign({}, state.mode);
         modelCopy.contents[parentIndex].schema.enumValues[index] = {
             ...activeItem,
             ...prop
         };
-        setModel(modelCopy);
+        dispatch({
+            type: UPDATE_OAT_PROPERTY_EDITOR_MODEL,
+            payload: modelCopy
+        });
     };
 
     const getErrorMessage = (value) => {
-        const find = model.contents[parentIndex].schema.enumValues.find(
+        const find = state.model.contents[parentIndex].schema.enumValues.find(
             (item) => item.name === value
         );
         if (!find && value !== '') {

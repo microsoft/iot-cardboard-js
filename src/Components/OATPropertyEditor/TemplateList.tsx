@@ -1,14 +1,9 @@
-import React, { useRef, useState, useReducer } from 'react';
+import React, { useRef, useState } from 'react';
 import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
 import { deepCopy } from '../../Models/Services/Utils';
-import { DTDLModel } from '../../Models/Classes/DTDL';
 import TemplateListItem from './TeplateListItem';
 import { DTDLProperty } from '../../Models/Constants/Interfaces';
-import {
-    OATEditorPageReducer,
-    defaultOATEditorState
-} from '../../Pages/OATEditorPage/OATEditorPage.state';
-import { UPDATE_TEMPLATES } from '../../Pages/OATEditorPage/Actions';
+import { UPDATE_OAT_PROPERTY_EDITOR_MODEL } from '../../Models/Constants/ActionTypes';
 
 interface ITemplateList {
     draggingTemplate?: boolean;
@@ -16,12 +11,11 @@ interface ITemplateList {
     enteredTemplateRef: any;
     draggedTemplateItemRef: any;
     enteredPropertyRef: any;
-    model?: DTDLModel;
     templates?: DTDLProperty[];
     setDraggingTemplate?: (dragging: boolean) => boolean;
-    setModel?: React.Dispatch<React.SetStateAction<DTDLModel>>;
     setTemplates: React.Dispatch<React.SetStateAction<DTDLProperty>>;
     dispatch?: React.Dispatch<React.SetStateAction<any>>;
+    state?: any;
 }
 
 export const TemplateList = ({
@@ -29,43 +23,35 @@ export const TemplateList = ({
     setTemplates,
     draggedTemplateItemRef,
     enteredPropertyRef,
-    model,
-    setModel,
     draggingTemplate,
     setDraggingTemplate,
     enteredTemplateRef,
     draggingProperty,
-    dispatch
+    dispatch,
+    state
 }: ITemplateList) => {
     const propertyInspectorStyles = getPropertyInspectorStyles();
     const dragItem = useRef(null);
     const dragNode = useRef(null);
     const [enteredItem, setEnteredItem] = useState(enteredTemplateRef.current);
 
-    // const [state, dispatch] = useReducer(
-    //     OATEditorPageReducer,
-    //     defaultOATEditorState
-    // );
-
     const handleTemplateItemDropOnPropertyList = () => {
         // Prevent drop if duplicate
-        const isTemplateAlreadyInModel = model.contents.find(
+        const isTemplateAlreadyInModel = state.model.contents.find(
             (item) =>
                 item['@id'] === templates[draggedTemplateItemRef.current]['@id']
         );
         if (isTemplateAlreadyInModel) return;
 
         // Drop
-        setModel((prevModel) => {
-            const newModel = deepCopy(prevModel);
-            // + 1 so that it drops under current item
-            newModel.contents.splice(
-                enteredPropertyRef.current + 1,
-                0,
-                templates[draggedTemplateItemRef.current]
-            );
-            return newModel;
-        });
+        const newModel = deepCopy(state.model);
+        // + 1 so that it drops under current item
+        newModel.contents.splice(
+            enteredPropertyRef.current + 1,
+            0,
+            templates[draggedTemplateItemRef.current]
+        );
+        dispatch({ type: UPDATE_OAT_PROPERTY_EDITOR_MODEL, payload: newModel });
     };
 
     const handleDragEnd = () => {
@@ -107,6 +93,15 @@ export const TemplateList = ({
                 dragItem.current = i;
                 return newTemplate;
             });
+
+            // Use of reducer
+            const newTemplate = deepCopy(templates);
+            newTemplate.splice(
+                i,
+                0,
+                newTemplate.splice(dragItem.current, 1)[0]
+            );
+            dragItem.current = i;
         }
     };
 
@@ -141,13 +136,8 @@ export const TemplateList = ({
             return newTemplate;
         });
 
-        console.log('deleted!!');
-
-        // Use of reducer
         const newTemplate = deepCopy(templates);
         newTemplate.splice(index, 1);
-
-        dispatch({ type: UPDATE_TEMPLATES, payload: newTemplate });
     };
 
     return (

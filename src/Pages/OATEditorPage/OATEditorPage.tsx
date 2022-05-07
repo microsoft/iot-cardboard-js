@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useReducer } from 'react';
+import React, { useState, useReducer } from 'react';
 import OATHeader from '../../Components/OATHeader/OATHeader';
 import OATModelList from '../../Components/OATModelList/OATModelList';
 import OATGraphViewer from '../../Components/OATGraphViewer/OATGraphViewer';
@@ -10,30 +10,22 @@ import {
 } from './OATEditorPage.state';
 
 const OATEditorPage = ({ theme }) => {
+    const [state, dispatch] = useReducer(
+        OATEditorPageReducer,
+        defaultOATEditorState
+    );
     const [elementHandler, setElementHandler] = useState([]);
-    const [templatesActive, setTemplatesActive] = useState(false);
     const [deletedModel, setDeletedModel] = useState('');
     const [selectedModel, setSelectedModel] = useState('');
     const [editedName, setEditedName] = useState('');
     const [editedId, setEditedId] = useState('');
     const EditorPageStyles = getEditorPageStyles();
-
-    const [state, dispatch] = useReducer(
-        OATEditorPageReducer,
-        defaultOATEditorState
-    );
-
-    const [model, setModel] = useState(null);
-    const [templates, setTemplates] = useState([]);
-
-    useEffect(() => {
-        console.log('state on root!', state);
-    }, [state]);
+    const [templatesActive, setTemplatesActive] = useState(false);
 
     return (
         <div className={EditorPageStyles.container}>
             <div
-                style={{ width: '100px', height: '100px', background: 'green' }}
+                style={{ width: '100px', height: '20px', background: 'green' }}
                 onClick={() => console.log('state on root', state)}
             >
                 log state
@@ -55,21 +47,18 @@ const OATEditorPage = ({ theme }) => {
                 />
                 <OATGraphViewer
                     onElementsUpdate={setElementHandler}
-                    model={model}
-                    setModel={setModel}
                     deletedModelId={deletedModel}
                     selectedModel={selectedModel}
                     editedName={editedName}
                     editedId={editedId}
+                    state={state}
+                    dispatch={dispatch}
                 />
                 <OATPropertyEditor
-                    model={model}
-                    setModel={setModel}
-                    templates={templates}
-                    setTemplates={setTemplates}
                     theme={theme}
                     templatesActive={templatesActive}
                     setTemplatesActive={setTemplatesActive}
+                    state={state}
                     dispatch={dispatch}
                 />
             </div>
