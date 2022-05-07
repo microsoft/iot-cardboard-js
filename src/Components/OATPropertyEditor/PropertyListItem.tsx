@@ -72,6 +72,7 @@ export const PropertyListItem = ({
 
     return (
         <div
+            id={item.name}
             className={getItemClassName(index)}
             draggable
             onDragStart={(e) => {
@@ -83,7 +84,7 @@ export const PropertyListItem = ({
                     : () => handleDragEnterExternalItem(index)
             }
             onFocus={() => setLastPropertyFocused(null)}
-            tabIndex={0}
+            tabIndex={90}
         >
             <TextField
                 borderless
@@ -119,6 +120,8 @@ export const PropertyListItem = ({
                         subMenuActive={subMenuActive}
                         handleTemplateAddition={handleTemplateAddition}
                         handleDuplicate={handleDuplicate}
+                        targetId={item.name}
+                        setSubMenuActive={setSubMenuActive}
                     />
                 )}
             </IconButton>

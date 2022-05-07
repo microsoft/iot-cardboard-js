@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Stack, Text, IconButton } from '@fluentui/react';
+import { Text, IconButton } from '@fluentui/react';
 import { getPropertyListItemIconWrapMoreStyles } from './OATPropertyEditor.styles';
 import PropertyListItemSubMenu from './PropertyListItemSubMenu';
 import { useTranslation } from 'react-i18next';
@@ -31,7 +31,8 @@ export const TemplateListItem = ({
     const [subMenuActive, setSubMenuActive] = useState(false);
 
     return (
-        <Stack
+        <div
+            id={`${item.name}_template_item`}
             className={getDragItemClassName(index)}
             key={index}
             draggable
@@ -62,10 +63,12 @@ export const TemplateListItem = ({
                         subMenuActive={subMenuActive}
                         duplicateItem={false}
                         addItemToTemplates={false}
+                        targetId={`${item.name}_template_item`}
+                        setSubMenuActive={setSubMenuActive}
                     />
                 )}
             </IconButton>
-        </Stack>
+        </div>
     );
 };
 

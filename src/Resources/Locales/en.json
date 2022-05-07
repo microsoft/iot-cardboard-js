@@ -762,6 +762,7 @@
         "collapse": "Collapse",
         "comment": "Comment",
         "complex": "Complex",
+        "copy": "copy",
         "data": "data",
         "dateTime": "dateTime",
         "description": "Description",

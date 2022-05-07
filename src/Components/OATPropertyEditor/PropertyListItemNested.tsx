@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TextField, Stack, Text, IconButton } from '@fluentui/react';
+import { TextField, Text, IconButton } from '@fluentui/react';
 import {
     getPropertyEditorTextFieldStyles,
     getPropertyListItemIconWrapStyles,
@@ -63,7 +63,7 @@ export const PropertyListItemNested = ({
     };
 
     return (
-        <Stack className={getItemClassName(index)}>
+        <div className={getItemClassName(index)} id={item.name}>
             <TextField
                 styles={textFieldStyles}
                 borderless
@@ -103,10 +103,12 @@ export const PropertyListItemNested = ({
                         handleDuplicate={() => {
                             handleDuplicate();
                         }}
+                        targetId={item.name}
+                        setSubMenuActive={setSubMenuActive}
                     />
                 )}
             </IconButton>
-        </Stack>
+        </div>
     );
 };
 

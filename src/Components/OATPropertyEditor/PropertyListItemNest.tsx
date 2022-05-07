@@ -67,6 +67,7 @@ export const PropertyListItemNest = ({
     const textFieldStyles = getPropertyEditorTextFieldStyles();
     const [subMenuActive, setSubMenuActive] = useState(false);
     const [collapsed, setCollapsed] = useState(true);
+    const [hover, setHover] = useState(false);
 
     const addPropertyCallback = () => {
         setCurrentPropertyIndex(index);
@@ -124,6 +125,7 @@ export const PropertyListItemNest = ({
 
     return (
         <div
+            id={item.name}
             className={getItemClassName(index)}
             draggable
             onDragStart={(e) => {
@@ -141,6 +143,12 @@ export const PropertyListItemNest = ({
                 });
             }}
             tabIndex={0}
+            onMouseOver={() => {
+                setHover(true);
+            }}
+            onMouseLeave={() => {
+                setHover(false);
+            }}
         >
             <div className={propertyInspectorStyles.propertyItemNestMainItem}>
                 <IconButton
@@ -181,6 +189,8 @@ export const PropertyListItemNest = ({
                             handleDuplicate={() => {
                                 handleDuplicate();
                             }}
+                            setSubMenuActive={setSubMenuActive}
+                            targetId={item.name}
                         />
                     )}
                 </IconButton>
@@ -231,11 +241,9 @@ export const PropertyListItemNest = ({
                 />
             )}
 
-            {lastPropertyFocused &&
-                lastPropertyFocused.index === index &&
-                item.schema['@type'] !== DTDLSchemaType.Map && (
-                    <AddPropertyBar onClick={addPropertyCallback} />
-                )}
+            {hover && item.schema['@type'] !== DTDLSchemaType.Map && (
+                <AddPropertyBar onClick={addPropertyCallback} />
+            )}
         </div>
     );
 };
