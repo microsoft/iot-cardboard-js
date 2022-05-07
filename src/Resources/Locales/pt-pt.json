@@ -148,7 +148,10 @@
     "simulating": "Simulação",
     "liveStatus": "Número do pacote: {{packetNumber}} | {{totalSuccessfulPatches}}/{totalTwinsPatched}} gémeos atualizados com sucesso",
     "generateEnvironmentDescription": "Empurre modelos, gémeos e relacionamentos para povoar o seu ambiente",
-    "simulateDescription": "Empurre os eventos para o seu ambiente"
+    "simulateDescription": "Empurre os eventos para o seu ambiente",
+    "pusherType": "Tipo de Simulação",
+    "robotArms": "Braços robô",
+    "dairyProduction": "Instalação de lacticínios"
   },
   "scenes": {
     "noScenes": "Não tens cenas 3D, adicione uma nova para começar.",

@@ -148,7 +148,10 @@
     "simulating": "Simulující",
     "liveStatus": "Číslo paketu: {{packetNumber}} | {{totalSuccessfulPatches}}/{{totalTwinsPatched}} dvojčata úspěšně aktualizována",
     "generateEnvironmentDescription": "Nabízení modelů, dvojčat a relací pro naplnění vašeho prostředí",
-    "simulateDescription": "Odesílání událostí do vašeho prostředí"
+    "simulateDescription": "Odesílání událostí do vašeho prostředí",
+    "pusherType": "Typ simulace",
+    "robotArms": "Robotická ramena",
+    "dairyProduction": "Mlékárenské zařízení"
   },
   "scenes": {
     "noScenes": "Nemáte žádné 3D scény, přidejte novou, abyste mohli začít.",

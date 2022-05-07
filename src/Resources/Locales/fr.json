@@ -148,7 +148,10 @@
     "simulating": "Simulant",
     "liveStatus": "Numéro de paquet : {{packetNumber}} | {{totalSuccessfulPatches}}/{{totalTwinsPatched}} jumeaux mis à jour avec succès",
     "generateEnvironmentDescription": "Poussez des modèles, des jumeaux et des relations pour peupler votre environnement",
-    "simulateDescription": "Diffusez des événements dans votre environnement"
+    "simulateDescription": "Diffusez des événements dans votre environnement",
+    "pusherType": "Simulation Type",
+    "robotArms": "Bras de robot",
+    "dairyProduction": "Installation laitière"
   },
   "scenes": {
     "noScenes": "Vous n’avez pas de scènes 3D, ajoutez-en une nouvelle pour commencer.",

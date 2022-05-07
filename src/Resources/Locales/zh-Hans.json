@@ -148,7 +148,10 @@
     "simulating": "模拟",
     "liveStatus": "数据包编号： {{数据包编号}} |{{totalSuccessfulPatches}}/{{totalTwinsPatched}} twins 已成功更新",
     "generateEnvironmentDescription": "推送模型、孪生和关系以填充您的环境",
-    "simulateDescription": "将事件推送到您的环境"
+    "simulateDescription": "将事件推送到您的环境",
+    "pusherType": "模拟类型",
+    "robotArms": "机器人手臂",
+    "dairyProduction": "乳品设施"
   },
   "scenes": {
     "noScenes": "您没有 3D 场景，请添加一个新场景以开始使用。",

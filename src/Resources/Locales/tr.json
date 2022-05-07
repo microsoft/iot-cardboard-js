@@ -148,7 +148,10 @@
     "simulating": "Simüle",
     "liveStatus": "Paket numarası: {{packetNumber}} | {{totalSuccessfulPatches}}/{{totalTwinsPatched}} twins başarıyla güncellendi",
     "generateEnvironmentDescription": "Ortamınızı doldurmak için modelleri, ikizleri ve ilişkileri itin",
-    "simulateDescription": "Olayları ortamınıza gönderin"
+    "simulateDescription": "Olayları ortamınıza gönderin",
+    "pusherType": "Simülasyon Türü",
+    "robotArms": "Robot Kolları",
+    "dairyProduction": "Süt Tesisi"
   },
   "scenes": {
     "noScenes": "3B sahneleriniz yok, başlamak için yeni bir tane ekleyin.",

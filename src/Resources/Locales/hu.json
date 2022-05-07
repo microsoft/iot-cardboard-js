@@ -148,7 +148,10 @@
     "simulating": "Szimuláló",
     "liveStatus": "Csomagszám: {{packetNumber}} | {{totalSuccessfulPatches}}/{{totalTwinsPatched}} ikrek frissítése sikeresen megtörtént",
     "generateEnvironmentDescription": "Push modellek, ikrek, és a kapcsolatok, hogy benépesítse a környezetet",
-    "simulateDescription": "Események leküldése a környezetbe"
+    "simulateDescription": "Események leküldése a környezetbe",
+    "pusherType": "Szimuláció típusa",
+    "robotArms": "Robotkarok",
+    "dairyProduction": "Tejüzem"
   },
   "scenes": {
     "noScenes": "Nincsenek 3D-s jelenetei, adjon hozzá egy újat az induláshoz.",
