@@ -33,7 +33,7 @@ import IconPolygon from '../../Resources/Static/polygon.svg';
 import IconString from '../../Resources/Static/string.svg';
 import IconTime from '../../Resources/Static/time.svg';
 import { useTranslation } from 'react-i18next';
-import { UPDATE_OAT_PROPERTY_EDITOR_MODEL } from '../../Models/Constants/ActionTypes';
+import { SET_OAT_PROPERTY_EDITOR_MODEL } from '../../Models/Constants/ActionTypes';
 
 interface IProperySelectorProps {
     dispatch?: React.Dispatch<React.SetStateAction<any>>;
@@ -177,7 +177,7 @@ const PropertySelector = ({
 
         modelCopy.contents[lastPropertyFocused.index].schema = schemaCopy;
         dispatch({
-            type: UPDATE_OAT_PROPERTY_EDITOR_MODEL,
+            type: SET_OAT_PROPERTY_EDITOR_MODEL,
             payload: modelCopy
         });
         setPropertySelectorVisible(false);
@@ -207,7 +207,7 @@ const PropertySelector = ({
             ]
         ];
         dispatch({
-            type: UPDATE_OAT_PROPERTY_EDITOR_MODEL,
+            type: SET_OAT_PROPERTY_EDITOR_MODEL,
             payload: modelCopy
         });
         setPropertySelectorVisible(false);

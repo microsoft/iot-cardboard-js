@@ -3,7 +3,7 @@ import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
 import { deepCopy } from '../../Models/Services/Utils';
 import TemplateListItem from './TeplateListItem';
 import { DTDLProperty } from '../../Models/Constants/Interfaces';
-import { UPDATE_OAT_PROPERTY_EDITOR_MODEL } from '../../Models/Constants/ActionTypes';
+import { SET_OAT_PROPERTY_EDITOR_MODEL } from '../../Models/Constants/ActionTypes';
 
 interface ITemplateList {
     draggingTemplate?: boolean;
@@ -51,7 +51,7 @@ export const TemplateList = ({
             0,
             templates[draggedTemplateItemRef.current]
         );
-        dispatch({ type: UPDATE_OAT_PROPERTY_EDITOR_MODEL, payload: newModel });
+        dispatch({ type: SET_OAT_PROPERTY_EDITOR_MODEL, payload: newModel });
     };
 
     const handleDragEnd = () => {

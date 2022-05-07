@@ -7,7 +7,7 @@ import {
     getListMapItemTextStyles
 } from './OATPropertyEditor.styles';
 import { useTranslation } from 'react-i18next';
-import { UPDATE_OAT_PROPERTY_EDITOR_MODEL } from '../../Models/Constants/ActionTypes';
+import { SET_OAT_PROPERTY_EDITOR_MODEL } from '../../Models/Constants/ActionTypes';
 
 type IEnumItem = {
     dispatch?: React.Dispatch<React.SetStateAction<any>>;
@@ -32,7 +32,7 @@ export const PropertyListMapItemNested = ({
         const modelCopy = Object.assign({}, state.model);
         modelCopy.contents[index].schema.mapKey.name = value;
         dispatch({
-            type: UPDATE_OAT_PROPERTY_EDITOR_MODEL,
+            type: SET_OAT_PROPERTY_EDITOR_MODEL,
             payload: modelCopy
         });
     };
@@ -41,7 +41,7 @@ export const PropertyListMapItemNested = ({
         const modelCopy = Object.assign({}, state.model);
         modelCopy.contents[index].schema.mapValue.name = value;
         dispatch({
-            type: UPDATE_OAT_PROPERTY_EDITOR_MODEL,
+            type: SET_OAT_PROPERTY_EDITOR_MODEL,
             payload: modelCopy
         });
     };

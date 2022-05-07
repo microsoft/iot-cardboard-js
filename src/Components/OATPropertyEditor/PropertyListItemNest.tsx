@@ -13,7 +13,7 @@ import PropertyListMapItemNested from './PropertyListMapItemNested';
 import { deepCopy } from '../../Models/Services/Utils';
 import PropertyListItemSubMenu from './PropertyListItemSubMenu';
 import { useTranslation } from 'react-i18next';
-import { UPDATE_OAT_PROPERTY_EDITOR_MODEL } from '../../Models/Constants/ActionTypes';
+import { SET_OAT_PROPERTY_EDITOR_MODEL } from '../../Models/Constants/ActionTypes';
 
 type IPropertyListItemNest = {
     deleteItem?: (index: number) => any;
@@ -100,7 +100,7 @@ export const PropertyListItemNest = ({
         const modelCopy = deepCopy(state.model);
         modelCopy.contents.push(itemCopy);
         dispatch({
-            type: UPDATE_OAT_PROPERTY_EDITOR_MODEL,
+            type: SET_OAT_PROPERTY_EDITOR_MODEL,
             payload: modelCopy
         });
     };
@@ -118,7 +118,7 @@ export const PropertyListItemNest = ({
         ) {
             newModel.contents[parentIndex].schema.fields.splice(index, 1);
         }
-        dispatch({ type: UPDATE_OAT_PROPERTY_EDITOR_MODEL, payload: newModel });
+        dispatch({ type: SET_OAT_PROPERTY_EDITOR_MODEL, payload: newModel });
     };
 
     return (

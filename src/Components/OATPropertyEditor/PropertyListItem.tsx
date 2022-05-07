@@ -8,7 +8,7 @@ import {
 import { deepCopy } from '../../Models/Services/Utils';
 import PropertyListItemSubMenu from './PropertyListItemSubMenu';
 import { useTranslation } from 'react-i18next';
-import { UPDATE_OAT_PROPERTY_EDITOR_MODEL } from '../../Models/Constants/ActionTypes';
+import { SET_OAT_PROPERTY_EDITOR_MODEL } from '../../Models/Constants/ActionTypes';
 
 type IPropertyListItem = {
     index?: number;
@@ -68,7 +68,7 @@ export const PropertyListItem = ({
         const modelCopy = deepCopy(state.model);
         modelCopy.contents.push(itemCopy);
         dispatch({
-            type: UPDATE_OAT_PROPERTY_EDITOR_MODEL,
+            type: SET_OAT_PROPERTY_EDITOR_MODEL,
             payload: modelCopy
         });
     };

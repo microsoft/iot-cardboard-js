@@ -15,9 +15,9 @@ import {
 } from './OATPropertyEditor.styles';
 import TemplateList from './TemplateList';
 import { DTDLProperty } from '../../Models/Constants/Interfaces';
+import { SET_OAT_TEMPLATES_ACTIVE } from '../../Models/Constants/ActionTypes';
 
 type ITemplateColumn = {
-    setTemplatesActive: React.Dispatch<React.SetStateAction<boolean>>;
     templates?: DTDLProperty[];
     setTemplates: React.Dispatch<React.SetStateAction<DTDLProperty>>;
     enteredPropertyRef: any;
@@ -30,7 +30,6 @@ type ITemplateColumn = {
 };
 
 export const TemplateColumn = ({
-    setTemplatesActive,
     templates,
     setTemplates,
     enteredPropertyRef,
@@ -52,7 +51,14 @@ export const TemplateColumn = ({
             <Stack styles={{ root: { padding: '8px' } }}>
                 <div className={propertyInspectorStyles.rowSpaceBetween}>
                     <Label>{t('OATPropertyEditor.templates')}</Label>
-                    <ActionButton onClick={() => setTemplatesActive(false)}>
+                    <ActionButton
+                        onClick={() =>
+                            dispatch({
+                                type: SET_OAT_TEMPLATES_ACTIVE,
+                                payload: false
+                            })
+                        }
+                    >
                         <FontIcon
                             iconName={'ChromeClose'}
                             className={

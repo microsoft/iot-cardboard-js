@@ -13,7 +13,7 @@ import {
     getPropertyInspectorStyles,
     getModalLabelStyles
 } from './OATPropertyEditor.styles';
-import { UPDATE_OAT_PROPERTY_EDITOR_MODEL } from '../../Models/Constants/ActionTypes';
+import { SET_OAT_PROPERTY_EDITOR_MODEL } from '../../Models/Constants/ActionTypes';
 
 interface IModal {
     dispatch?: React.Dispatch<React.SetStateAction<any>>;
@@ -72,7 +72,7 @@ export const FormUpdateProperty = ({
         ] = prop;
 
         dispatch({
-            type: UPDATE_OAT_PROPERTY_EDITOR_MODEL,
+            type: SET_OAT_PROPERTY_EDITOR_MODEL,
             payload: modelCopy
         });
         setModalOpen(false);
@@ -102,7 +102,7 @@ export const FormUpdateProperty = ({
         const modelCopy = Object.assign({}, state.model);
         modelCopy.contents[currentPropertyIndex] = prop;
         dispatch({
-            type: UPDATE_OAT_PROPERTY_EDITOR_MODEL,
+            type: SET_OAT_PROPERTY_EDITOR_MODEL,
             payload: modelCopy
         });
         setModalOpen(false);

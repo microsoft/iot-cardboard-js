@@ -7,7 +7,7 @@ import {
 } from './OATPropertyEditor.styles';
 import { useTranslation } from 'react-i18next';
 import PropertyListItemSubMenu from './PropertyListItemSubMenu';
-import { UPDATE_OAT_PROPERTY_EDITOR_MODEL } from '../../Models/Constants/ActionTypes';
+import { SET_OAT_PROPERTY_EDITOR_MODEL } from '../../Models/Constants/ActionTypes';
 
 type IEnumItem = {
     deleteNestedItem?: (parentIndex: number, index: number) => any;
@@ -44,7 +44,7 @@ export const PropertyListEnumItemNested = ({
             ...prop
         };
         dispatch({
-            type: UPDATE_OAT_PROPERTY_EDITOR_MODEL,
+            type: SET_OAT_PROPERTY_EDITOR_MODEL,
             payload: modelCopy
         });
     };

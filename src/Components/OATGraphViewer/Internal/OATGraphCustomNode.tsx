@@ -11,7 +11,7 @@ import {
     OATExtendHandleName,
     OATUntargetedRelationshipName
 } from '../../../Models/Constants/Constants';
-import { UPDATE_OAT_PROPERTY_EDITOR_MODEL } from '../../../Models/Constants/ActionTypes';
+import { SET_OAT_PROPERTY_EDITOR_MODEL } from '../../../Models/Constants/ActionTypes';
 
 const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
     data,
@@ -52,7 +52,7 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
                 contents: data.content
             };
             dispatch({
-                type: UPDATE_OAT_PROPERTY_EDITOR_MODEL,
+                type: SET_OAT_PROPERTY_EDITOR_MODEL,
                 payload: modelUpdated
             });
         }
@@ -88,7 +88,7 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
             };
             setCurrentNode(idText);
             dispatch({
-                type: UPDATE_OAT_PROPERTY_EDITOR_MODEL,
+                type: SET_OAT_PROPERTY_EDITOR_MODEL,
                 payload: updatedModel
             });
         }
@@ -101,7 +101,7 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
             }
         ];
         setElements((els) => removeElements(elementsToRemove, els));
-        dispatch({ type: UPDATE_OAT_PROPERTY_EDITOR_MODEL, payload: null });
+        dispatch({ type: SET_OAT_PROPERTY_EDITOR_MODEL, payload: null });
     };
 
     return (

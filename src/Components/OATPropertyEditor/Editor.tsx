@@ -16,7 +16,7 @@ import PropertyList from './PropertyList';
 import JSONEditor from './JSONEditor';
 import TemplateColumn from './TemplateColumn';
 import PropertiesModelSummary from './PropertiesModelSummary';
-
+import { SET_OAT_TEMPLATES_ACTIVE } from '../../Models/Constants/ActionTypes';
 interface IEditor {
     currentPropertyIndex?: number;
     dispatch?: React.Dispatch<React.SetStateAction<any>>;
@@ -29,8 +29,6 @@ interface IEditor {
     setModalBody?: React.Dispatch<React.SetStateAction<string>>;
     setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
     setTemplates?: React.Dispatch<React.SetStateAction<DTDLProperty>>;
-    templatesActive?: boolean;
-    setTemplatesActive?: React.Dispatch<React.SetStateAction<boolean>>;
     state: any;
 }
 
@@ -43,8 +41,6 @@ const Editor = ({
     setCurrentNestedPropertyIndex,
     setCurrentPropertyIndex,
     currentPropertyIndex,
-    templatesActive,
-    setTemplatesActive,
     dispatch,
     state
 }: IEditor) => {
@@ -78,7 +74,12 @@ const Editor = ({
                                     {t('OATPropertyEditor.properties')}
                                 </Label>
                                 <ActionButton
-                                    onClick={() => setTemplatesActive(true)}
+                                    onClick={() =>
+                                        dispatch({
+                                            type: SET_OAT_TEMPLATES_ACTIVE,
+                                            payload: true
+                                        })
+                                    }
                                     className={
                                         propertyInspectorStyles.viewTemplatesCta
                                     }
@@ -152,9 +153,8 @@ const Editor = ({
                     />
                 </PivotItem>
             </Pivot>
-            {templatesActive && (
+            {state.templatesActive && (
                 <TemplateColumn
-                    setTemplatesActive={setTemplatesActive}
                     templates={templates}
                     setTemplates={setTemplates}
                     enteredPropertyRef={enteredPropertyRef}

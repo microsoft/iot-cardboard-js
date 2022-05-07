@@ -12,7 +12,7 @@ import {
     getPropertyInspectorStyles,
     getModalLabelStyles
 } from './OATPropertyEditor.styles';
-import { UPDATE_OAT_PROPERTY_EDITOR_MODEL } from '../../Models/Constants/ActionTypes';
+import { SET_OAT_PROPERTY_EDITOR_MODEL } from '../../Models/Constants/ActionTypes';
 
 interface IModal {
     dispatch?: React.Dispatch<React.SetStateAction<any>>;
@@ -59,7 +59,7 @@ export const FormAddEnumItem = ({
         const modelCopy = Object.assign({}, state.model);
         modelCopy.contents[currentPropertyIndex].schema.enumValues.push(prop);
         dispatch({
-            type: UPDATE_OAT_PROPERTY_EDITOR_MODEL,
+            type: SET_OAT_PROPERTY_EDITOR_MODEL,
             payload: modelCopy
         });
         setModalOpen(false);

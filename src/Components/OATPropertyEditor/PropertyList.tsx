@@ -8,7 +8,7 @@ import PropertyListItem from './PropertyListItem';
 import PropertyListItemNest from './PropertyListItemNest';
 import PropertySelector from './PropertySelector';
 import AddPropertyBar from './AddPropertyBar';
-import { UPDATE_OAT_PROPERTY_EDITOR_MODEL } from '../../Models/Constants/ActionTypes';
+import { SET_OAT_PROPERTY_EDITOR_MODEL } from '../../Models/Constants/ActionTypes';
 
 type IPropertyList = {
     currentPropertyIndex: number;
@@ -93,7 +93,7 @@ export const PropertyList = ({
             );
             dragItem.current = i;
             dispatch({
-                type: UPDATE_OAT_PROPERTY_EDITOR_MODEL,
+                type: SET_OAT_PROPERTY_EDITOR_MODEL,
                 payload: newModel
             });
         }
@@ -141,7 +141,7 @@ export const PropertyList = ({
         } else {
             newModel.contents[index].name = value;
         }
-        dispatch({ type: UPDATE_OAT_PROPERTY_EDITOR_MODEL, payload: newModel });
+        dispatch({ type: SET_OAT_PROPERTY_EDITOR_MODEL, payload: newModel });
     };
 
     const generateErrorMessage = (value, index) => {
@@ -164,7 +164,7 @@ export const PropertyList = ({
         setLastPropertyFocused(null);
         const newModel = deepCopy(state.model);
         newModel.contents.splice(index, 1);
-        dispatch({ type: UPDATE_OAT_PROPERTY_EDITOR_MODEL, payload: newModel });
+        dispatch({ type: SET_OAT_PROPERTY_EDITOR_MODEL, payload: newModel });
     };
 
     return (

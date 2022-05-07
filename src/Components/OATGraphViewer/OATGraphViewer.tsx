@@ -24,32 +24,21 @@ import {
 } from '../../Models/Constants/Constants';
 import { getGraphViewerStyles } from './OATGraphViewer.styles';
 import { ElementsContext } from './Internal/OATContext';
-import { IOATElementsChangeEventArgs } from '../../Models/Constants/Interfaces';
-import { UPDATE_OAT_PROPERTY_EDITOR_MODEL } from '../../Models/Constants/ActionTypes';
+import {
+    SET_OAT_PROPERTY_EDITOR_MODEL,
+    SET_OAT_ELEMENTS_HANDLER
+} from '../../Models/Constants/ActionTypes';
 
 const idClassBase = 'dtmi:com:example:';
 const contextClassBase = 'dtmi:adt:context;2';
 const versionClassBase = '1';
 
 type OATGraphProps = {
-    onElementsUpdate: (digitalTwinsModels: IOATElementsChangeEventArgs) => any;
-    deletedModelId: string;
-    selectedModel: string;
-    editedName: string;
-    editedId: string;
     dispatch?: React.Dispatch<React.SetStateAction<any>>;
     state?: any;
 };
 
-const OATGraphViewer = ({
-    onElementsUpdate,
-    deletedModelId,
-    selectedModel,
-    editedName,
-    editedId,
-    state,
-    dispatch
-}: OATGraphProps) => {
+const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     const { t } = useTranslation();
     const theme = useTheme();
     const reactFlowWrapperRef = useRef(null);
@@ -102,18 +91,20 @@ const OATGraphViewer = ({
     }, [state.model]);
 
     useEffect(() => {
-        if (deletedModelId) {
+        if (state.deletedModelId) {
             const elementsToRemove = [
                 {
-                    id: deletedModelId
+                    id: state.deletedModelId
                 }
             ];
             setElements((els) => removeElements(elementsToRemove, els));
         }
-    }, [deletedModelId]);
+    }, [state.deletedModelId]);
 
     useEffect(() => {
-        const node = elements.find((element) => element.id === selectedModel);
+        const node = elements.find(
+            (element) => element.id === state.selectedModelId
+        );
         if (node) {
             currentNodeIdRef.current = node.id;
             const modelClicked = {
@@ -124,16 +115,18 @@ const OATGraphViewer = ({
                 contents: node.data.content
             };
             dispatch({
-                type: UPDATE_OAT_PROPERTY_EDITOR_MODEL,
+                type: SET_OAT_PROPERTY_EDITOR_MODEL,
                 payload: modelClicked
             });
         }
-    }, [selectedModel]);
+    }, [state.selectedModelId]);
 
     useEffect(() => {
-        const node = elements.find((element) => element.id === selectedModel);
+        const node = elements.find(
+            (element) => element.id === state.selectedModelId
+        );
         if (node) {
-            node.data.name = editedName;
+            node.data.name = state.editedModelName;
             const modelClicked = {
                 '@id': node.id,
                 '@type': node.data.type,
@@ -142,24 +135,26 @@ const OATGraphViewer = ({
                 contents: node.data.content
             };
             dispatch({
-                type: UPDATE_OAT_PROPERTY_EDITOR_MODEL,
+                type: SET_OAT_PROPERTY_EDITOR_MODEL,
                 payload: modelClicked
             });
             setElements([...elements]);
         }
-    }, [editedName]);
+    }, [state.editedModelName]);
 
     useEffect(() => {
-        const node = elements.find((element) => element.id === selectedModel);
+        const node = elements.find(
+            (element) => element.id === state.selectedModelId
+        );
         if (node) {
             elements
                 .filter((x) => x.source === currentNodeIdRef.current)
-                .forEach((x) => (x.source = editedId));
+                .forEach((x) => (x.source = state.editedModelId));
             elements
                 .filter((x) => x.target === currentNodeIdRef.current)
-                .forEach((x) => (x.target = editedId));
-            node.id = editedId;
-            node.data.id = editedId;
+                .forEach((x) => (x.target = state.editedModelId));
+            node.id = state.editedModelId;
+            node.data.id = state.editedModelId;
             const modelClicked = {
                 '@id': node.id,
                 '@type': node.data.type,
@@ -168,13 +163,13 @@ const OATGraphViewer = ({
                 contents: node.data.content
             };
             dispatch({
-                type: UPDATE_OAT_PROPERTY_EDITOR_MODEL,
+                type: SET_OAT_PROPERTY_EDITOR_MODEL,
                 payload: modelClicked
             });
             setElements([...elements]);
-            currentNodeIdRef.current = editedId;
+            currentNodeIdRef.current = state.editedModelId;
         }
-    }, [editedId]);
+    }, [state.editedModelId]);
 
     const setCurrentNode = (id) => {
         currentNodeIdRef.current = id;
@@ -440,7 +435,10 @@ const OATGraphViewer = ({
             OATTwinsLocalStorageKey,
             JSON.stringify({ digitalTwinsModels: translatedOutput })
         );
-        onElementsUpdate({ digitalTwinsModels: translatedOutput });
+        dispatch({
+            type: SET_OAT_ELEMENTS_HANDLER,
+            payload: { digitalTwinsModels: translatedOutput }
+        });
     }, [translatedOutput]);
 
     const onElementClick = (evt, node) => {
@@ -468,7 +466,7 @@ const OATGraphViewer = ({
                 extends: extendsItems ? extendsItems : null
             };
             dispatch({
-                type: UPDATE_OAT_PROPERTY_EDITOR_MODEL,
+                type: SET_OAT_PROPERTY_EDITOR_MODEL,
                 payload: selectedModel
             });
         }

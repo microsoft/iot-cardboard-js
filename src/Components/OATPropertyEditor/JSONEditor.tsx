@@ -3,7 +3,7 @@ import Editor from '@monaco-editor/react';
 import { Theme } from '../../Models/Constants/Enums';
 import { useLibTheme } from '../../Theming/ThemeProvider';
 import { useTranslation } from 'react-i18next';
-import { UPDATE_OAT_PROPERTY_EDITOR_MODEL } from '../../Models/Constants/ActionTypes';
+import { SET_OAT_PROPERTY_EDITOR_MODEL } from '../../Models/Constants/ActionTypes';
 
 type OATPropertyEditorProps = {
     dispatch?: React.Dispatch<React.SetStateAction<any>>;
@@ -49,7 +49,7 @@ const JSONEditor = ({ dispatch, theme, state }: OATPropertyEditorProps) => {
                 alert(t('OATPropertyEditor.errorRepeatedPropertyName'));
             } else {
                 dispatch({
-                    type: UPDATE_OAT_PROPERTY_EDITOR_MODEL,
+                    type: SET_OAT_PROPERTY_EDITOR_MODEL,
                     payload: validJson
                 });
             }

@@ -7,18 +7,10 @@ import Editor from './Editor';
 type IOATPropertyEditor = {
     dispatch?: React.Dispatch<React.SetStateAction<any>>;
     theme?: Theme;
-    templatesActive?: boolean;
-    setTemplatesActive?: React.Dispatch<React.SetStateAction<boolean>>;
     state?: any;
 };
 
-const OATPropertyEditor = ({
-    theme,
-    templatesActive,
-    setTemplatesActive,
-    dispatch,
-    state
-}: IOATPropertyEditor) => {
+const OATPropertyEditor = ({ theme, dispatch, state }: IOATPropertyEditor) => {
     const [modalOpen, setModalOpen] = useState(false);
     const [modalBody, setModalBody] = useState('formProperty');
     const [templates, setTemplates] = useState([]);
@@ -50,8 +42,6 @@ const OATPropertyEditor = ({
                 setCurrentNestedPropertyIndex={setCurrentNestedPropertyIndex}
                 setCurrentPropertyIndex={setCurrentPropertyIndex}
                 currentPropertyIndex={currentPropertyIndex}
-                templatesActive={templatesActive}
-                setTemplatesActive={setTemplatesActive}
                 dispatch={dispatch}
                 state={state}
             />
