@@ -150,7 +150,10 @@
         "simulating": "Simulating",
         "liveStatus": "Packet number: {{packetNumber}} | {{totalSuccessfulPatches}}/{{totalTwinsPatched}} twins successfully updated",
         "generateEnvironmentDescription": "Push models, twins, and relationships to populate your environment",
-        "simulateDescription": "Push events to your environment"
+        "simulateDescription": "Push events to your environment",
+        "pusherType": "Simulation Type",
+        "robotArms": "Robot Arms",
+        "dairyProduction": "Dairy Facility"
     },
     "scenes": {
         "noScenes": "You have no 3D scenes, add a new one to get started.",

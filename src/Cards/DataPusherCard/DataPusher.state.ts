@@ -1,4 +1,5 @@
 import produce from 'immer';
+import { AdtPusherSimulationType } from '../../Models/Constants';
 import { dataPusherActionType, IDataPusherState } from './DataPusher.types';
 
 export const defaultAdtDataPusherState: IDataPusherState = {
@@ -7,7 +8,7 @@ export const defaultAdtDataPusherState: IDataPusherState = {
     dataSpacing: 60000,
     quickStreamFrequency: 1000,
     isLiveDataSimulated: true,
-    liveStreamFrequency: 1,
+    liveStreamFrequency: 10,
     isSimulationRunning: false,
     isDataBackFilled: false,
     isEnvironmentReady: false,
@@ -19,7 +20,8 @@ export const defaultAdtDataPusherState: IDataPusherState = {
     simulationStatus: {
         areAssetsUploaded: false,
         liveStatus: null
-    }
+    },
+    simulationType: AdtPusherSimulationType.RobotArms
 };
 
 // Using immer immutability helper: https://github.com/immerjs/immer
@@ -75,6 +77,9 @@ export const dataPusherReducer = produce(
                 return;
             case dataPusherActionType.SET_LIVE_STATUS:
                 draft.simulationStatus.liveStatus = payload;
+                return;
+            case dataPusherActionType.SET_SIMULATION_TYPE:
+                draft.simulationType = payload;
                 return;
             default:
                 return;
