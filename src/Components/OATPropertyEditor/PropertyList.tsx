@@ -52,6 +52,7 @@ export const PropertyList = ({
     const draggedPropertyItemRef = useRef(null);
     const [enteredItem, setEnteredItem] = useState(enteredPropertyRef.current);
     const [lastPropertyFocused, setLastPropertyFocused] = useState(null);
+    const [hover, setHover] = useState(false);
     const dragItem = useRef(null);
     const dragNode = useRef(null);
 
@@ -168,6 +169,12 @@ export const PropertyList = ({
         <div
             className={propertyInspectorStyles.propertiesWrap}
             id={PROPERTY_LIST_ID}
+            onMouseOver={() => {
+                setHover(true);
+            }}
+            onMouseLeave={() => {
+                setHover(false);
+            }}
         >
             <div className={propertyInspectorStyles.propertiesWrapScroll}>
                 {propertySelectorVisible && (
@@ -268,7 +275,7 @@ export const PropertyList = ({
                         }
                     })}
 
-                {model && model.contents.length > 0 && (
+                {model && model.contents.length > 0 && hover && (
                     <AddPropertyBar
                         onClick={() => {
                             setLastPropertyFocused(null);

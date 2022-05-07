@@ -263,18 +263,28 @@ const PropertySelector = ({
             </div>
             <Separator styles={propertySelectorSeparatorStyles} />
             <div className={propertyInspectorStyles.propertyTagsWrap}>
-                {data.propertyTags.sectionFirst.map((tag, i) => (
-                    <Svg
-                        tabIndex={0}
-                        key={i}
-                        className={propertyInspectorStyles.propertyTag}
-                        onClick={() => {
-                            handleTagClick(tag.name);
-                        }}
-                        src={tag.icon}
-                        title={tag.title}
-                    ></Svg>
-                ))}
+                {data.propertyTags.sectionFirst.map((tag, i) => {
+                    if (
+                        lastPropertyFocused &&
+                        typeof lastPropertyFocused.item.schema === 'object' &&
+                        tag.complex
+                    ) {
+                        return <></>;
+                    } else {
+                        return (
+                            <Svg
+                                tabIndex={0}
+                                key={i}
+                                className={propertyInspectorStyles.propertyTag}
+                                onClick={() => {
+                                    handleTagClick(tag.name);
+                                }}
+                                src={tag.icon}
+                                title={tag.title}
+                            ></Svg>
+                        );
+                    }
+                })}
             </div>
             <Separator styles={propertySelectorSeparatorStyles} />
             <div className={propertyInspectorStyles.propertyTagsWrap}>
