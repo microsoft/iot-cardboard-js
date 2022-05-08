@@ -817,6 +817,9 @@
     "multiPoint": "flera punkter",
     "multiLinestring": "multilinestring",
     "multiPolygon": "flera polygoner",
-    "close": "Stänga"
+    "close": "Stänga",
+    "collapse": "Kollaps",
+    "info": "Information",
+    "more": "Mer"
   }
 }

@@ -817,6 +817,9 @@
     "multiPoint": "멀티포인트",
     "multiLinestring": "여러 줄 문자열",
     "multiPolygon": "다중 다각형",
-    "close": "닫다"
+    "close": "닫다",
+    "collapse": "무너지다",
+    "info": "정보",
+    "more": "더"
   }
 }
