@@ -487,7 +487,8 @@
       "selectProperty": "Selecione a propriedade",
       "toggleLabel": "Expressão de propriedade",
       "dropdownPlaceholder": "Selecione uma propriedade",
-      "none": "Nenhum"
+      "none": "Nenhum",
+      "customExpression": "Expressão personalizada"
     }
   },
   "widgets": {

@@ -430,6 +430,7 @@
             "expressionLabel": "Property expression",
             "expressionPlaceholder": "Enter property expression",
             "selectProperty": "Select property",
+            "customExpression": "Custom expression",
             "dropdownPlaceholder": "Select a property",
             "toggleLabel": "Expression mode",
             "none": "None"

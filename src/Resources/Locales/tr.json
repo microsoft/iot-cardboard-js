@@ -487,7 +487,8 @@
       "selectProperty": "Mülk seçin",
       "toggleLabel": "Özellik ifadesi",
       "dropdownPlaceholder": "Bir mülk seçin",
-      "none": "Hiç kimse"
+      "none": "Hiç kimse",
+      "customExpression": "Özel ifade"
     }
   },
   "widgets": {

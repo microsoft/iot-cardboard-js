@@ -487,7 +487,8 @@
       "selectProperty": "Selecteer eigenschap",
       "toggleLabel": "Eigenschapsexpressie",
       "dropdownPlaceholder": "Selecteer een woning",
-      "none": "Geen"
+      "none": "Geen",
+      "customExpression": "Aangepaste expressie"
     }
   },
   "widgets": {

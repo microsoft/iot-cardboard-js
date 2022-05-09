@@ -6,13 +6,20 @@ import {
     ModelledPropertyBuilderProps,
     PropertyExpression
 } from './ModelledPropertyBuilder.types';
-import { getStyles } from './ModelledPropertyBuilder.styles';
+import {
+    choiceGroupOptionStyles,
+    choiceGroupStyles,
+    getStyles,
+    propertyExpressionLabelStyles
+} from './ModelledPropertyBuilder.styles';
 import {
     DropdownMenuItemType,
     IDropdownOption,
     Spinner,
     Stack,
-    Toggle
+    ChoiceGroup,
+    Label,
+    IChoiceGroupOption
 } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { useModelledProperties } from './useModelledProperties';
@@ -32,9 +39,8 @@ const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = ({
     required = false,
     enableNoneDropdownOption = false,
     dropdownTestId = 'cb-modelled-property-dropdown-test-id',
-    intellisenseLabel,
     intellisensePlaceholder,
-    properyDropdownLabel
+    customLabel
 }) => {
     const { t } = useTranslation();
     const styles = getStyles();
@@ -128,11 +134,12 @@ const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = ({
         [modelledProperties?.intellisenseFormat]
     );
 
-    const toggleExpressionMode = useCallback(
-        (_event, checked: boolean) => {
-            const newInternalMode = checked
-                ? 'INTELLISENSE'
-                : 'PROPERTY_SELECTION';
+    const onChangeMode = useCallback(
+        (
+            _ev?: React.FormEvent<HTMLElement | HTMLInputElement>,
+            option?: IChoiceGroupOption
+        ) => {
+            const newInternalMode = option.key as ModelledPropertyBuilderMode;
 
             // When changing from intellisense mode to property selection mode
             // if expression doesn't match up with option, report onChange of
@@ -155,19 +162,15 @@ const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = ({
     const autoCompleteProps = useMemo(
         () => ({
             textFieldProps: {
-                label:
-                    intellisenseLabel ??
-                    t('3dSceneBuilder.ModelledPropertyBuilder.expressionLabel'),
                 multiline: true,
                 placeholder:
                     intellisensePlaceholder ??
                     t(
                         '3dSceneBuilder.ModelledPropertyBuilder.expressionPlaceholder'
                     )
-            },
-            required
+            }
         }),
-        [required, t, intellisenseLabel, intellisensePlaceholder]
+        [required, t, intellisensePlaceholder]
     );
 
     const onIntellisenseChange = useCallback(
@@ -184,18 +187,28 @@ const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = ({
 
     return (
         <Stack tokens={{ childrenGap: 4 }}>
+            <Label styles={propertyExpressionLabelStyles} required={required}>
+                {customLabel
+                    ? customLabel
+                    : t(
+                          '3dSceneBuilder.ModelledPropertyBuilder.expressionLabel'
+                      )}
+            </Label>
+            {mode === 'TOGGLE' && (
+                <div className={styles.radioContainer}>
+                    <ChoiceGroup
+                        selectedKey={internalMode}
+                        options={choiceGroupOptions}
+                        onChange={onChangeMode}
+                        styles={choiceGroupStyles}
+                    />
+                </div>
+            )}
             {internalMode === 'PROPERTY_SELECTION' && (
                 <ModelledPropertyDropdown
-                    required={required}
                     dropdownOptions={dropdownOptions}
                     onChange={onChangeDropdownSelection}
                     selectedKey={propertyExpression.expression}
-                    label={
-                        properyDropdownLabel ??
-                        t(
-                            '3dSceneBuilder.ModelledPropertyBuilder.selectProperty'
-                        )
-                    }
                     dropdownTestId={dropdownTestId}
                 />
             )}
@@ -207,21 +220,6 @@ const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = ({
                     aliasNames={aliasNames}
                     getPropertyNames={getIntellisenseProperty}
                 />
-            )}
-            {mode === 'TOGGLE' && (
-                <div className={styles.toggleContainer}>
-                    <Toggle
-                        checked={internalMode === 'INTELLISENSE'}
-                        label={t(
-                            '3dSceneBuilder.ModelledPropertyBuilder.toggleLabel'
-                        )}
-                        inlineLabel
-                        onText={t('on')}
-                        offText={t('off')}
-                        onChange={toggleExpressionMode}
-                        styles={{ root: { marginBottom: 0 } }}
-                    />
-                </div>
             )}
         </Stack>
     );
@@ -242,6 +240,23 @@ const getIsExpressionValidOption = (
     }
     return false;
 };
+
+const choiceGroupOptions = [
+    {
+        key: 'PROPERTY_SELECTION',
+        text: i18next.t(
+            '3dSceneBuilder.ModelledPropertyBuilder.selectProperty'
+        ),
+        styles: choiceGroupOptionStyles
+    },
+    {
+        key: 'INTELLISENSE',
+        text: i18next.t(
+            '3dSceneBuilder.ModelledPropertyBuilder.customExpression'
+        ),
+        styles: choiceGroupOptionStyles
+    }
+];
 
 const getDropdownOptions = (
     flattenedProperties: IFlattenedModelledPropertiesFormat,

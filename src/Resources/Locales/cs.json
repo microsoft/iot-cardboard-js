@@ -487,7 +487,8 @@
       "selectProperty": "Vybrat nemovitost",
       "toggleLabel": "Výraz vlastnosti",
       "dropdownPlaceholder": "Vyberte nemovitost",
-      "none": "Žádný"
+      "none": "Žádný",
+      "customExpression": "Vlastní výraz"
     }
   },
   "widgets": {

@@ -487,7 +487,8 @@
       "selectProperty": "プロパティの選択",
       "toggleLabel": "プロパティ式",
       "dropdownPlaceholder": "プロパティの選択",
-      "none": "何一つ"
+      "none": "何一つ",
+      "customExpression": "カスタム式"
     }
   },
   "widgets": {

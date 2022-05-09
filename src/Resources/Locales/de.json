@@ -487,7 +487,8 @@
       "selectProperty": "Eigenschaft auswählen",
       "toggleLabel": "Eigenschaftsausdruck",
       "dropdownPlaceholder": "Wählen Sie eine Immobilie aus",
-      "none": "Nichts"
+      "none": "Nichts",
+      "customExpression": "Benutzerdefinierter Ausdruck"
     }
   },
   "widgets": {

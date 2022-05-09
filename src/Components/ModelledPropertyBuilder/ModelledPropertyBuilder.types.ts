@@ -49,6 +49,9 @@ export interface ModelledPropertyBuilderProps {
     /** Configuration for supported modes */
     mode: 'PROPERTY_SELECTION' | 'INTELLISENSE' | 'TOGGLE';
 
+    /** Custom label for control */
+    customLabel?: string;
+
     /** Visual indication that this field is required.  Defaults to false */
     required?: boolean;
 
@@ -58,14 +61,8 @@ export interface ModelledPropertyBuilderProps {
     /** Test ID for property select dropdown */
     dropdownTestId?: string;
 
-    /** Custom text for intellisense label */
-    intellisenseLabel?: string;
-
     /** Custom text for intellisense placeholder */
     intellisensePlaceholder?: string;
-
-    /** Custom text for property dropdown label */
-    properyDropdownLabel?: string;
 
     /** 
 		Allows consumer to only allow specific property value types.

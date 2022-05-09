@@ -3,23 +3,28 @@ import {
     mergeStyleSets,
     IStyle,
     IIconStyles,
-    IDropdownStyles
+    IDropdownStyles,
+    IChoiceGroupStyles,
+    IChoiceGroupOptionStyles,
+    FontWeights,
+    FontSizes,
+    ILabelStyles
 } from '@fluentui/react';
 
 export const modelledPropertyBuilderClassPrefix = 'cb-modelledpropertybuilder';
 
 const classNames = {
-    toggleContainer: `${modelledPropertyBuilderClassPrefix}-toggle-container`,
+    radioContainer: `${modelledPropertyBuilderClassPrefix}-radio-container`,
     dropdownTitleText: `${modelledPropertyBuilderClassPrefix}-dropdown-title-text`
 };
 
 export const getStyles = memoizeFunction(() => {
     return mergeStyleSets({
-        toggleContainer: [
-            classNames.toggleContainer,
+        radioContainer: [
+            classNames.radioContainer,
             {
                 display: 'flex',
-                justifyContent: 'flex-end',
+                justifyContent: 'flex-start',
                 alignItems: 'center'
             } as IStyle
         ],
@@ -43,5 +48,27 @@ export const dropdownStyles: Partial<IDropdownStyles> = {
         display: 'inline-flex',
         alignItems: 'center',
         width: '100%'
+    }
+};
+
+export const choiceGroupStyles: Partial<IChoiceGroupStyles> = {
+    flexContainer: {
+        display: 'flex',
+        flexDirection: 'row',
+        marginBottom: 4
+    }
+};
+
+export const choiceGroupOptionStyles: Partial<IChoiceGroupOptionStyles> = {
+    root: {
+        marginRight: 16,
+        marginTop: 0
+    }
+};
+
+export const propertyExpressionLabelStyles: Partial<ILabelStyles> = {
+    root: {
+        fontWeight: FontWeights.semibold,
+        fontSize: FontSizes.size14
     }
 };

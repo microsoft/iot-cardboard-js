@@ -487,7 +487,8 @@
       "selectProperty": "Välj egenskap",
       "toggleLabel": "Egenskapsuttryck",
       "dropdownPlaceholder": "Välj en egenskap",
-      "none": "Ingen"
+      "none": "Ingen",
+      "customExpression": "Anpassat uttryck"
     }
   },
   "widgets": {

@@ -487,7 +487,8 @@
       "selectProperty": "Tulajdonság kiválasztása",
       "toggleLabel": "Tulajdonságkifejezés",
       "dropdownPlaceholder": "Tulajdonság kijelölése",
-      "none": "Egyik sem"
+      "none": "Egyik sem",
+      "customExpression": "Egyéni kifejezés"
     }
   },
   "widgets": {
