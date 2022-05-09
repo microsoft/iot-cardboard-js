@@ -767,5 +767,13 @@
     "zoom": "Zoom"
   },
   "active": "Actif",
-  "invalidValue": "Valeur non valide"
+  "invalidValue": "Valeur non valide",
+  "deeplinkFlyout": {
+    "buttonTitle": "Partager",
+    "copyButtonText": "Copier le lien",
+    "copyConfirmationMessage": "Copié!",
+    "flyoutHeader": "Partager la scène",
+    "includeElementsOption": "Lien avec l’élément sélectionné",
+    "includeLayersOption": "Liaison avec les calques sélectionnés"
+  }
 }

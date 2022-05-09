@@ -767,5 +767,13 @@
     "zoom": "Powiększenia"
   },
   "active": "Aktywny",
-  "invalidValue": "Nieprawidłowa wartość"
+  "invalidValue": "Nieprawidłowa wartość",
+  "deeplinkFlyout": {
+    "buttonTitle": "Udostępnij",
+    "copyButtonText": "Kopiuj link",
+    "copyConfirmationMessage": "Kopiowane!",
+    "flyoutHeader": "Udostępnianie sceny",
+    "includeElementsOption": "Link z wybranym elementem",
+    "includeLayersOption": "Łączenie z zaznaczonymi warstwami"
+  }
 }
