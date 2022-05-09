@@ -817,6 +817,10 @@
     "multiPoint": "多点",
     "multiLinestring": "多线字符串",
     "multiPolygon": "多多边形",
-    "close": "关闭"
+    "close": "关闭",
+    "collapse": "崩溃",
+    "info": "信息",
+    "more": "更多",
+    "copy": "复制"
   }
 }

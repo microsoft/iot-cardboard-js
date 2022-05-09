@@ -11,6 +11,8 @@ const classNames = {
     extendHandle: `${classPrefix}-extend-handle`,
     edgePath: `${classPrefix}-edge-path`,
     textPath: `${classPrefix}-text-path`,
+    textEdit: `${classPrefix}-text-edit`,
+    nodeCancel: `${classPrefix}-node-cancel`,
     componentPath: `${classPrefix}-component-path`,
     componentShape: `${classPrefix}-component-shape`,
     inheritancePath: `${classPrefix}-inheritance-path`,
@@ -24,6 +26,7 @@ export const getGraphViewerStyles = () => {
         container: [
             classNames.container,
             {
+                background: theme.semanticColors.bodyBackground,
                 height: '80vh'
             } as IStyle
         ],
@@ -75,7 +78,16 @@ export const getGraphViewerStyles = () => {
         textPath: [
             classNames.textPath,
             {
-                fontSize: FontSizes.size12
+                fontSize: FontSizes.size12,
+                fill: theme.semanticColors.bodyText
+            } as IStyle
+        ],
+        textEdit: [
+            classNames.textEdit,
+            {
+                fontSize: FontSizes.size12,
+                color: theme.semanticColors.bodyText,
+                background: theme.semanticColors.bodyBackground
             } as IStyle
         ],
         componentPath: [

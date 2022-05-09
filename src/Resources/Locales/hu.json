@@ -817,6 +817,10 @@
     "multiPoint": "többpontos",
     "multiLinestring": "többsoros",
     "multiPolygon": "több sokszög",
-    "close": "Bezár"
+    "close": "Bezár",
+    "collapse": "Összeomlás",
+    "info": "Infó",
+    "more": "Több",
+    "copy": "másolat"
   }
 }

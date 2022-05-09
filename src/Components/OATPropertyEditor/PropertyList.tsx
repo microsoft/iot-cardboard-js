@@ -3,12 +3,15 @@ import { FontIcon, ActionButton, Text } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
 import { deepCopy } from '../../Models/Services/Utils';
-import { DTDLModel } from '../../Models/Classes/DTDL';
-import { DTDLProperty } from '../../Models/Constants/Interfaces';
 import PropertyListItem from './PropertyListItem';
 import PropertyListItemNest from './PropertyListItemNest';
 import PropertySelector from './PropertySelector';
 import AddPropertyBar from './AddPropertyBar';
+import {
+    SET_OAT_PROPERTY_EDITOR_MODEL,
+    SET_OAT_TEMPLATES
+} from '../../Models/Constants/ActionTypes';
+import { IAction } from '../../Models/Constants/Interfaces';
 
 type IPropertyList = {
     currentPropertyIndex: number;
@@ -16,16 +19,15 @@ type IPropertyList = {
     draggingTemplate: boolean;
     enteredPropertyRef: any;
     enteredTemplateRef: any;
-    model: DTDLModel;
     propertySelectorVisible: boolean;
+    dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
     setCurrentNestedPropertyIndex: React.Dispatch<React.SetStateAction<number>>;
     setCurrentPropertyIndex?: React.Dispatch<React.SetStateAction<number>>;
     setDraggingProperty: React.Dispatch<React.SetStateAction<boolean>>;
     setModalBody?: React.Dispatch<React.SetStateAction<string>>;
     setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
-    setModel?: React.Dispatch<React.SetStateAction<DTDLModel>>;
-    setTemplates?: React.Dispatch<React.SetStateAction<DTDLProperty>>;
     setPropertySelectorVisible: React.Dispatch<React.SetStateAction<boolean>>;
+    state: any;
 };
 
 const PROPERTY_LIST_ID = 'propertyList';
@@ -33,11 +35,8 @@ const PROPERTY_LIST_ID = 'propertyList';
 export const PropertyList = ({
     propertySelectorVisible,
     setPropertySelectorVisible,
-    model,
-    setModel,
     setCurrentPropertyIndex,
     setModalOpen,
-    setTemplates,
     enteredPropertyRef,
     draggingTemplate,
     enteredTemplateRef,
@@ -45,22 +44,25 @@ export const PropertyList = ({
     setDraggingProperty,
     setCurrentNestedPropertyIndex,
     setModalBody,
-    currentPropertyIndex
+    currentPropertyIndex,
+    dispatch,
+    state
 }: IPropertyList) => {
     const { t } = useTranslation();
     const propertyInspectorStyles = getPropertyInspectorStyles();
     const draggedPropertyItemRef = useRef(null);
     const [enteredItem, setEnteredItem] = useState(enteredPropertyRef.current);
     const [lastPropertyFocused, setLastPropertyFocused] = useState(null);
+    const [hover, setHover] = useState(false);
     const dragItem = useRef(null);
     const dragNode = useRef(null);
 
     const handlePropertyItemDropOnTemplateList = () => {
-        // Drop
-        setTemplates((prevTemplate) => {
-            const newTemplate = deepCopy(prevTemplate);
-            newTemplate.push(model.contents[draggedPropertyItemRef.current]);
-            return newTemplate;
+        const newTemplate = state.templates ? deepCopy(state.templates) : [];
+        newTemplate.push(state.model.contents[draggedPropertyItemRef.current]);
+        dispatch({
+            type: SET_OAT_TEMPLATES,
+            payload: newTemplate
         });
     };
 
@@ -79,17 +81,19 @@ export const PropertyList = ({
     const handleDragEnter = (e, i) => {
         if (e.target !== dragNode.current) {
             //  Entered item is not the same as dragged node
-            setModel((prevModel) => {
-                const newModel = deepCopy(prevModel);
-                //  Replace entered item with dragged item
-                // --> Remove dragged item from model and then place it on entered item's position
-                newModel.contents.splice(
-                    i,
-                    0,
-                    newModel.contents.splice(dragItem.current, 1)[0]
-                );
-                dragItem.current = i;
-                return newModel;
+
+            const newModel = deepCopy(state.model);
+            //  Replace entered item with dragged item
+            // --> Remove dragged item from model and then place it on entered item's position
+            newModel.contents.splice(
+                i,
+                0,
+                newModel.contents.splice(dragItem.current, 1)[0]
+            );
+            dragItem.current = i;
+            dispatch({
+                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                payload: newModel
             });
         }
     };
@@ -130,20 +134,20 @@ export const PropertyList = ({
     };
 
     const handlePropertyNameChange = (value, index) => {
-        setModel((model) => {
-            const newModel = deepCopy(model);
-            if (index === undefined) {
-                newModel.contents[currentPropertyIndex].name = value;
-            } else {
-                newModel.contents[index].name = value;
-            }
-            return newModel;
-        });
+        const newModel = deepCopy(state.model);
+        if (index === undefined) {
+            newModel.contents[currentPropertyIndex].name = value;
+        } else {
+            newModel.contents[index].name = value;
+        }
+        dispatch({ type: SET_OAT_PROPERTY_EDITOR_MODEL, payload: newModel });
     };
 
     const generateErrorMessage = (value, index) => {
         if (value) {
-            const find = model.contents.find((item) => item.name === value);
+            const find = state.model.contents.find(
+                (item) => item.name === value
+            );
 
             if (!find && value !== '') {
                 handlePropertyNameChange(value, index);
@@ -157,33 +161,38 @@ export const PropertyList = ({
 
     const deleteItem = (index) => {
         setLastPropertyFocused(null);
-        setModel((prevModel) => {
-            const newModel = deepCopy(prevModel);
-            newModel.contents.splice(index, 1);
-            return newModel;
-        });
+        const newModel = deepCopy(state.model);
+        newModel.contents.splice(index, 1);
+        dispatch({ type: SET_OAT_PROPERTY_EDITOR_MODEL, payload: newModel });
     };
 
     return (
         <div
             className={propertyInspectorStyles.propertiesWrap}
             id={PROPERTY_LIST_ID}
+            onMouseOver={() => {
+                setHover(true);
+            }}
+            onMouseLeave={() => {
+                setHover(false);
+            }}
         >
             <div className={propertyInspectorStyles.propertiesWrapScroll}>
                 {propertySelectorVisible && (
                     <PropertySelector
                         setPropertySelectorVisible={setPropertySelectorVisible}
-                        model={model}
-                        setModel={setModel}
                         lastPropertyFocused={lastPropertyFocused}
+                        targetId={PROPERTY_LIST_ID}
+                        dispatch={dispatch}
+                        state={state}
                     />
                 )}
                 {!propertySelectorVisible &&
-                    model &&
-                    model.contents.length === 0 && (
+                    state.model &&
+                    state.model.contents.length === 0 && (
                         <ActionButton
                             onClick={() => setPropertySelectorVisible(true)}
-                            className={propertyInspectorStyles.addProperty}
+                            styles={{ root: { paddingLeft: '10px' } }}
                         >
                             <FontIcon
                                 iconName={'CirclePlus'}
@@ -195,9 +204,9 @@ export const PropertyList = ({
                         </ActionButton>
                     )}
 
-                {model &&
-                    model.contents.length > 0 &&
-                    model.contents.map((item, i) => {
+                {state.model &&
+                    state.model.contents.length > 0 &&
+                    state.model.contents.map((item, i) => {
                         if (typeof item.schema === 'object') {
                             return (
                                 <PropertyListItemNest
@@ -230,10 +239,9 @@ export const PropertyList = ({
                                     }
                                     setModalOpen={setModalOpen}
                                     setModalBody={setModalBody}
-                                    model={model}
-                                    setModel={setModel}
+                                    dispatch={dispatch}
+                                    state={state}
                                     deleteItem={deleteItem}
-                                    setTemplates={setTemplates}
                                 />
                             );
                         } else if (typeof item['@type'] === 'object') {
@@ -259,15 +267,14 @@ export const PropertyList = ({
                                     }
                                     setModalBody={setModalBody}
                                     deleteItem={deleteItem}
-                                    setTemplates={setTemplates}
-                                    setModel={setModel}
-                                    model={model}
+                                    dispatch={dispatch}
+                                    state={state}
                                 />
                             );
                         }
                     })}
 
-                {model && model.contents.length > 0 && (
+                {state.model && state.model.contents.length > 0 && hover && (
                     <AddPropertyBar
                         onClick={() => {
                             setLastPropertyFocused(null);

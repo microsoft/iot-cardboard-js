@@ -1,20 +1,24 @@
 import React, { useState } from 'react';
+import { TextField, Text, IconButton } from '@fluentui/react';
 import {
-    FontIcon,
-    TextField,
-    ActionButton,
-    Stack,
-    Text
-} from '@fluentui/react';
-import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
-import { DTDLModel } from '../../Models/Classes/DTDL';
+    getPropertyEditorTextFieldStyles,
+    getPropertyListItemIconWrapStyles,
+    getPropertyListItemIconWrapMoreStyles
+} from './OATPropertyEditor.styles';
 import { deepCopy } from '../../Models/Services/Utils';
 import PropertyListItemSubMenu from './PropertyListItemSubMenu';
 import { useTranslation } from 'react-i18next';
+import {
+    SET_OAT_PROPERTY_EDITOR_MODEL,
+    SET_OAT_TEMPLATES
+} from '../../Models/Constants/ActionTypes';
+import { IAction } from '../../Models/Constants/Interfaces';
+import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 
 type IPropertyListItem = {
     index?: number;
     deleteItem?: (index: number) => any;
+    dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
     draggingProperty?: boolean;
     getItemClassName?: (index: number) => any;
     getErrorMessage?: (value: string, index?: number) => string;
@@ -22,39 +26,41 @@ type IPropertyListItem = {
     handleDragEnterExternalItem?: (index: number) => any;
     handleDragStart?: (event: any, item: any) => any;
     item?: any;
-    model: DTDLModel;
     setCurrentPropertyIndex?: React.Dispatch<React.SetStateAction<number>>;
     setLastPropertyFocused?: React.Dispatch<React.SetStateAction<any>>;
     setModalBody?: React.Dispatch<React.SetStateAction<string>>;
     setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
-    setModel?: React.Dispatch<React.SetStateAction<any>>;
-    setTemplates?: React.Dispatch<React.SetStateAction<any>>;
+    state?: IOATEditorState;
 };
 
 export const PropertyListItem = ({
     index,
     deleteItem,
+    dispatch,
     draggingProperty,
     getItemClassName,
     getErrorMessage,
     handleDragEnter,
     handleDragEnterExternalItem,
     handleDragStart,
-    model,
     setCurrentPropertyIndex,
     setModalOpen,
     item,
     setLastPropertyFocused,
     setModalBody,
-    setModel,
-    setTemplates
+    state
 }: IPropertyListItem) => {
     const { t } = useTranslation();
-    const propertyInspectorStyles = getPropertyInspectorStyles();
+    const iconWrapStyles = getPropertyListItemIconWrapStyles();
+    const iconWrapMoreStyles = getPropertyListItemIconWrapMoreStyles();
+    const textFieldStyles = getPropertyEditorTextFieldStyles();
     const [subMenuActive, setSubMenuActive] = useState(false);
 
     const handleTemplateAddition = () => {
-        setTemplates((templates) => [...templates, item]);
+        dispatch({
+            type: SET_OAT_TEMPLATES,
+            payload: [...state.templates, item]
+        });
     };
 
     const handleDuplicate = () => {
@@ -65,13 +71,17 @@ export const PropertyListItem = ({
         )}`;
         itemCopy['@id'] = `${itemCopy['@id']}_${t('OATPropertyEditor.copy')}`;
 
-        const modelCopy = deepCopy(model);
+        const modelCopy = deepCopy(state.model);
         modelCopy.contents.push(itemCopy);
-        setModel(modelCopy);
+        dispatch({
+            type: SET_OAT_PROPERTY_EDITOR_MODEL,
+            payload: modelCopy
+        });
     };
 
     return (
-        <Stack
+        <div
+            id={item.name}
             className={getItemClassName(index)}
             draggable
             onDragStart={(e) => {
@@ -83,10 +93,9 @@ export const PropertyListItem = ({
                     : () => handleDragEnterExternalItem(index)
             }
             onFocus={() => setLastPropertyFocused(null)}
-            tabIndex={0}
+            tabIndex={90}
         >
             <TextField
-                className={propertyInspectorStyles.propertyItemTextField}
                 borderless
                 value={item.name}
                 validateOnFocusOut
@@ -94,29 +103,25 @@ export const PropertyListItem = ({
                     setCurrentPropertyIndex(index);
                     getErrorMessage(value, index);
                 }}
+                styles={textFieldStyles}
             />
             <Text>{item.schema}</Text>
-            <ActionButton
-                className={propertyInspectorStyles.propertyItemIconWrap}
+            <IconButton
+                styles={iconWrapStyles}
+                iconProps={{ iconName: 'info' }}
+                title={t('OATPropertyEditor.info')}
                 onClick={() => {
                     setCurrentPropertyIndex(index);
                     setModalOpen(true);
                     setModalBody('formProperty');
                 }}
-            >
-                <FontIcon
-                    iconName={'Info'}
-                    className={propertyInspectorStyles.propertyItemIcon}
-                />
-            </ActionButton>
-            <ActionButton
-                className={propertyInspectorStyles.propertyItemIconWrapMore}
+            />
+            <IconButton
+                styles={iconWrapMoreStyles}
+                iconProps={{ iconName: 'more' }}
+                title={t('OATPropertyEditor.more')}
                 onClick={() => setSubMenuActive(!subMenuActive)}
             >
-                <FontIcon
-                    iconName={'More'}
-                    className={propertyInspectorStyles.propertyItemIcon}
-                />
                 {subMenuActive && (
                     <PropertyListItemSubMenu
                         deleteItem={deleteItem}
@@ -124,10 +129,12 @@ export const PropertyListItem = ({
                         subMenuActive={subMenuActive}
                         handleTemplateAddition={handleTemplateAddition}
                         handleDuplicate={handleDuplicate}
+                        targetId={item.name}
+                        setSubMenuActive={setSubMenuActive}
                     />
                 )}
-            </ActionButton>
-        </Stack>
+            </IconButton>
+        </div>
     );
 };
 

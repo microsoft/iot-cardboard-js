@@ -1,56 +1,102 @@
-import React, { useState, useEffect } from 'react';
+import React, { useReducer, useRef } from 'react';
+import prettyBytes from 'pretty-bytes';
+import JsonUploader from '../../Components/JsonUploader/JsonUploader';
 import OATHeader from '../../Components/OATHeader/OATHeader';
 import OATModelList from '../../Components/OATModelList/OATModelList';
 import OATGraphViewer from '../../Components/OATGraphViewer/OATGraphViewer';
 import OATPropertyEditor from '../../Components/OATPropertyEditor/OATPropertyEditor';
 import { getEditorPageStyles } from './OATEditorPage.Styles';
+import {
+    OATEditorPageReducer,
+    defaultOATEditorState
+} from './OATEditorPage.state';
+import {
+    FileUploadStatus,
+    IJSONUploaderFileItem as IFileItem
+} from '../../Models/Constants';
+import {
+    SET_OAT_IMPORT_MODELS,
+    SET_OAT_IS_JSON_UPLOADER_OPEN
+} from '../../Models/Constants/ActionTypes';
 
 const OATEditorPage = ({ theme }) => {
-    const [elementHandler, setElementHandler] = useState([]);
-    const [templatesActive, setTemplatesActive] = useState(false);
-    const EditorPageStyles = getEditorPageStyles();
-    const [deletedModel, setDeletedModel] = useState('');
-    const [selectedModel, setSelectedModel] = useState('');
-    const [editedName, setEditedName] = useState('');
-    const [editedId, setEditedId] = useState('');
+    const [state, dispatch] = useReducer(
+        OATEditorPageReducer,
+        defaultOATEditorState
+    );
+    const existingFilesRef = useRef([]);
+    const jsonUploaderComponentRef = useRef();
 
-    const [model, setModel] = useState(null);
-    const [templates, setTemplates] = useState([]);
+    const EditorPageStyles = getEditorPageStyles();
+
+    const handleImportClick = () => {
+        existingFilesRef.current = [];
+        dispatch({
+            type: SET_OAT_IS_JSON_UPLOADER_OPEN,
+            payload: !state.isJsonUploaderOpen
+        });
+    };
+
+    const onFileListChanged = async (files: Array<File>) => {
+        existingFilesRef.current = files;
+        let items = [];
+        if (files.length > 0) {
+            for (let i = 0; i < files.length; i++) {
+                const newItem = {
+                    name: existingFilesRef.current[i].name,
+                    size: prettyBytes(existingFilesRef.current[i].size),
+                    status: FileUploadStatus.Uploading
+                } as IFileItem;
+                try {
+                    const content = await existingFilesRef.current[i].text();
+                    newItem.content = JSON.parse(content);
+                } catch (error) {
+                    console.log(Error(error));
+                }
+                items = [...items, newItem.content];
+            }
+
+            dispatch({
+                type: SET_OAT_IMPORT_MODELS,
+                payload: items
+            });
+
+            dispatch({
+                type: SET_OAT_IS_JSON_UPLOADER_OPEN,
+                payload: !state.isJsonUploaderOpen
+            });
+        }
+    };
 
     return (
         <div className={EditorPageStyles.container}>
-            <OATHeader elements={elementHandler.digitalTwinsModels} />
+            <OATHeader
+                elements={state.elementHandler.digitalTwinsModels}
+                handleImportClick={handleImportClick}
+            />
+            {state.isJsonUploaderOpen && (
+                <JsonUploader
+                    onFileListChanged={onFileListChanged}
+                    ref={jsonUploaderComponentRef}
+                    existingFiles={existingFilesRef.current}
+                />
+            )}
             <div
                 className={
-                    templatesActive
+                    state.templatesActive
                         ? EditorPageStyles.componentTemplate
                         : EditorPageStyles.component
                 }
             >
                 <OATModelList
-                    elements={elementHandler.digitalTwinsModels}
-                    onDeleteModel={setDeletedModel}
-                    onSelectedModel={setSelectedModel}
-                    onEditedName={setEditedName}
-                    onEditedId={setEditedId}
+                    elements={state.elementHandler.digitalTwinsModels}
+                    dispatch={dispatch}
                 />
-                <OATGraphViewer
-                    onElementsUpdate={setElementHandler}
-                    model={model}
-                    setModel={setModel}
-                    deletedModelId={deletedModel}
-                    selectedModel={selectedModel}
-                    editedName={editedName}
-                    editedId={editedId}
-                />
+                <OATGraphViewer state={state} dispatch={dispatch} />
                 <OATPropertyEditor
-                    model={model}
-                    setModel={setModel}
-                    templates={templates}
-                    setTemplates={setTemplates}
                     theme={theme}
-                    templatesActive={templatesActive}
-                    setTemplatesActive={setTemplatesActive}
+                    state={state}
+                    dispatch={dispatch}
                 />
             </div>
         </div>

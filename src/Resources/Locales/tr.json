@@ -817,6 +817,10 @@
     "multiPoint": "çok noktalı",
     "multiLinestring": "multilinestring",
     "multiPolygon": "çoklu Poligon",
-    "close": "Kapatmak"
+    "close": "Kapatmak",
+    "collapse": "Çökmek",
+    "info": "Bilgi",
+    "more": "Daha",
+    "copy": "kopya etmek"
   }
 }

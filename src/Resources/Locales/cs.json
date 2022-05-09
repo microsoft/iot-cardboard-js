@@ -817,6 +817,10 @@
     "multiPoint": "vícebodový",
     "multiLinestring": "víceřádková struna",
     "multiPolygon": "více mnohoúhelník",
-    "close": "Zavřít"
+    "close": "Zavřít",
+    "collapse": "Zhroucení",
+    "info": "Informace",
+    "more": "Více",
+    "copy": "kopírovat"
   }
 }

@@ -3,6 +3,7 @@ import { CardboardClassNamePrefix } from '../../Models/Constants';
 
 const classPrefix = `${CardboardClassNamePrefix}-oat-header`;
 const classNames = {
+    container: `${classPrefix}-container`,
     modelList: `${classPrefix}-model-list`,
     nodeCancel: `${classPrefix}-nodeCancel`
 };
@@ -10,6 +11,14 @@ const classNames = {
 export const getModelsStyles = () => {
     const theme = useTheme();
     return mergeStyleSets({
+        container: [
+            classNames.container,
+            {
+                backgroundColor: theme.semanticColors.bodyBackground,
+                width: '100%',
+                height: '100%'
+            } as IStyle
+        ],
         modelList: [
             classNames.modelList,
             {

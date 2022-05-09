@@ -10,6 +10,7 @@ import {
     OATComponentHandleName,
     OATExtendHandleName
 } from '../../../Models/Constants/Constants';
+import { SET_OAT_PROPERTY_EDITOR_MODEL } from '../../../Models/Constants/ActionTypes';
 
 const foreignObjectSize = 180;
 
@@ -27,7 +28,9 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
 }) => {
     const [nameEditor, setNameEditor] = useState(false);
     const [nameText, setNameText] = useState(data.name);
-    const { elements, setElements } = useContext(ElementsContext);
+    const { elements, setElements, dispatch, setCurrentNode } = useContext(
+        ElementsContext
+    );
     const graphViewerStyles = getGraphViewerStyles();
 
     const element = elements.find((x) => x.id === id);
@@ -67,6 +70,19 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
 
     const onNameClick = () => {
         setNameEditor(true);
+        const clickedRelationship = {
+            '@id': element.data.id,
+            id,
+            '@type': element.data.type,
+            '@context': element.data.context,
+            displayName: element.data.name,
+            contents: element.data.content ? element.data.content : []
+        };
+        setCurrentNode(element.id);
+        dispatch({
+            type: SET_OAT_PROPERTY_EDITOR_MODEL,
+            payload: clickedRelationship
+        });
     };
 
     const onNameBlur = () => {
@@ -142,6 +158,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                         <TextField
                             id="text"
                             name="text"
+                            className={graphViewerStyles.textEdit}
                             onChange={onNameChange}
                             value={nameText}
                             onBlur={onNameBlur}
@@ -155,7 +172,6 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                 <text>
                     <textPath
                         href={`#${id}`}
-                        style={{ fontSize: '12px' }}
                         className={graphViewerStyles.textPath}
                         startOffset="50%"
                         textAnchor="middle"

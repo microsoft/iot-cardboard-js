@@ -1,28 +1,37 @@
 import React, { useState } from 'react';
-import { TextField, Stack, Text, IconButton } from '@fluentui/react';
-import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
+import { TextField, Text, IconButton } from '@fluentui/react';
+import {
+    getPropertyEditorTextFieldStyles,
+    getPropertyListItemIconWrapStyles,
+    getPropertyListItemIconWrapMoreStyles
+} from './OATPropertyEditor.styles';
 import PropertyListItemSubMenu from './PropertyListItemSubMenu';
-import { DTDLModel } from '../../Models/Classes/DTDL';
 import { deepCopy } from '../../Models/Services/Utils';
 import { useTranslation } from 'react-i18next';
+import {
+    SET_OAT_PROPERTY_EDITOR_MODEL,
+    SET_OAT_TEMPLATES
+} from '../../Models/Constants/ActionTypes';
+import { IAction } from '../../Models/Constants/Interfaces';
+import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 
 type IPropertyListItemNested = {
     deleteNestedItem?: (parentIndex: number, index: number) => any;
+    dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
     getItemClassName?: (index: number) => any;
     getErrorMessage?: (value: string) => string;
     index?: number;
     item?: any;
-    model?: DTDLModel;
     parentIndex?: number;
     setCurrentNestedPropertyIndex: React.Dispatch<React.SetStateAction<number>>;
     setCurrentPropertyIndex?: React.Dispatch<React.SetStateAction<number>>;
     setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
-    setModel?: React.Dispatch<React.SetStateAction<DTDLModel>>;
-    setTemplates?: React.Dispatch<React.SetStateAction<any>>;
+    state?: IOATEditorState;
 };
 
 export const PropertyListItemNested = ({
     deleteNestedItem,
+    dispatch,
     getErrorMessage,
     getItemClassName,
     index,
@@ -31,12 +40,12 @@ export const PropertyListItemNested = ({
     setCurrentNestedPropertyIndex,
     setCurrentPropertyIndex,
     setModalOpen,
-    setTemplates,
-    setModel,
-    model
+    state
 }: IPropertyListItemNested) => {
     const { t } = useTranslation();
-    const propertyInspectorStyles = getPropertyInspectorStyles();
+    const textFieldStyles = getPropertyEditorTextFieldStyles();
+    const iconWrapStyles = getPropertyListItemIconWrapStyles();
+    const iconWrapMoreStyles = getPropertyListItemIconWrapMoreStyles();
     const [subMenuActive, setSubMenuActive] = useState(false);
 
     const handleDuplicate = () => {
@@ -47,19 +56,25 @@ export const PropertyListItemNested = ({
         )}`;
         itemCopy['@id'] = `${itemCopy['@id']}_${t('OATPropertyEditor.copy')}`;
 
-        const modelCopy = deepCopy(model);
+        const modelCopy = deepCopy(state.model);
         modelCopy.contents[parentIndex].schema.fields.push(itemCopy);
-        setModel(modelCopy);
+        dispatch({
+            type: SET_OAT_PROPERTY_EDITOR_MODEL,
+            payload: modelCopy
+        });
     };
 
     const handleTemplateAddition = () => {
-        setTemplates((templates) => [...templates, item]);
+        dispatch({
+            type: SET_OAT_TEMPLATES,
+            payload: [...state.templates.item]
+        });
     };
 
     return (
-        <Stack className={getItemClassName(index)}>
+        <div className={getItemClassName(index)} id={item.name}>
             <TextField
-                className={propertyInspectorStyles.propertyItemTextField}
+                styles={textFieldStyles}
                 borderless
                 placeholder={item.name}
                 validateOnFocusOut
@@ -70,9 +85,9 @@ export const PropertyListItemNested = ({
             />
             <Text>{item.schema}</Text>
             <IconButton
-                className={propertyInspectorStyles.propertyItemIconWrap}
+                styles={iconWrapStyles}
                 iconProps={{ iconName: 'info' }}
-                title="Info"
+                title={t('OATPropertyEditor.info')}
                 onClick={() => {
                     setCurrentNestedPropertyIndex(index);
                     setCurrentPropertyIndex(parentIndex);
@@ -80,9 +95,9 @@ export const PropertyListItemNested = ({
                 }}
             />
             <IconButton
-                className={propertyInspectorStyles.propertyItemIconWrapMore}
+                styles={iconWrapMoreStyles}
                 iconProps={{ iconName: 'more' }}
-                title="More"
+                title={t('OATPropertyEditor.more')}
                 onClick={() => setSubMenuActive(!subMenuActive)}
             >
                 {subMenuActive && (
@@ -97,10 +112,12 @@ export const PropertyListItemNested = ({
                         handleDuplicate={() => {
                             handleDuplicate();
                         }}
+                        targetId={item.name}
+                        setSubMenuActive={setSubMenuActive}
                     />
                 )}
             </IconButton>
-        </Stack>
+        </div>
     );
 };
 

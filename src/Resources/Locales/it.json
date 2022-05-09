@@ -817,6 +817,10 @@
     "multiPoint": "multipunto",
     "multiLinestring": "multilinestringa",
     "multiPolygon": "poligono multiplo",
-    "close": "Chiudere"
+    "close": "Chiudere",
+    "collapse": "Collasso",
+    "info": "Informazioni",
+    "more": "Più",
+    "copy": "copiare"
   }
 }

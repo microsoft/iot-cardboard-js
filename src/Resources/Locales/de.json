@@ -817,6 +817,10 @@
     "multiPoint": "Mehrpunktzahl",
     "multiLinestring": "mehrzeilige Zeichenfolge",
     "multiPolygon": "Multi-Polygon",
-    "close": "Schließen"
+    "close": "Schließen",
+    "collapse": "Zusammenbruch",
+    "info": "Info",
+    "more": "Mehr",
+    "copy": "kopieren"
   }
 }

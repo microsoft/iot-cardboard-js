@@ -3,13 +3,15 @@ import { CommandBar, ICommandBarItemProps } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { getHeaderStyles } from './OATHeader.styles';
 import JSZip from 'jszip';
-import { IOATTwinModelNodes } from '../../Models/Constants';
+import { IOATTwinModelNodes, OATDataStorageKey } from '../../Models/Constants';
+import { downloadText } from '../../Models/Services/Utils';
 
 type OATHeaderProps = {
     elements: IOATTwinModelNodes[];
+    handleImportClick: () => any;
 };
 
-const OATHeader = ({ elements }: OATHeaderProps) => {
+const OATHeader = ({ elements, handleImportClick }: OATHeaderProps) => {
     const { t } = useTranslation();
     const headerStyles = getHeaderStyles();
 
@@ -24,7 +26,7 @@ const OATHeader = ({ elements }: OATHeaderProps) => {
         link.parentNode.removeChild(link);
     };
 
-    const handleDownloadClick = () => {
+    const handleExportClick = () => {
         const zip = new JSZip();
         for (const element of elements) {
             let fileName = element['@id'];
@@ -37,11 +39,19 @@ const OATHeader = ({ elements }: OATHeaderProps) => {
         });
     };
 
+    const handleSaveClick = () => {
+        const editorData = localStorage.getItem(OATDataStorageKey);
+        if (editorData) {
+            downloadText(editorData, 'project.config');
+        }
+    };
+
     const items: ICommandBarItemProps[] = [
         {
             key: 'Save',
             text: t('OATHeader.save'),
-            iconProps: { iconName: 'Save' }
+            iconProps: { iconName: 'Save' },
+            onClick: () => handleSaveClick()
         },
         {
             key: 'Upload',
@@ -56,13 +66,14 @@ const OATHeader = ({ elements }: OATHeaderProps) => {
         {
             key: 'Import',
             text: t('OATHeader.import'),
-            iconProps: { iconName: 'Import' }
+            iconProps: { iconName: 'Import' },
+            onClick: () => handleImportClick()
         },
         {
             key: 'Export',
             text: t('OATHeader.export'),
             iconProps: { iconName: 'Export' },
-            onClick: () => handleDownloadClick()
+            onClick: () => handleExportClick()
         }
     ];
 
@@ -80,7 +91,8 @@ const OATHeader = ({ elements }: OATHeaderProps) => {
 };
 
 OATHeader.defaultProps = {
-    elements: []
+    elements: [],
+    handleImportClick: null
 };
 
 export default OATHeader;

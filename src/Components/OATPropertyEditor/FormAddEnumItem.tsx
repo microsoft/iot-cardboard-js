@@ -1,19 +1,22 @@
 import React, { useState } from 'react';
 import {
     TextField,
-    Stack,
     Text,
     ActionButton,
     FontIcon,
     Label
 } from '@fluentui/react';
 import { PrimaryButton } from '@fluentui/react/lib/Button';
-import { DTDLModel } from '../../Models/Classes/DTDL';
 import { useTranslation } from 'react-i18next';
-import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
+import {
+    getPropertyInspectorStyles,
+    getModalLabelStyles
+} from './OATPropertyEditor.styles';
+import { SET_OAT_PROPERTY_EDITOR_MODEL } from '../../Models/Constants/ActionTypes';
+import { IAction } from '../../Models/Constants/Interfaces';
 
 interface IModal {
-    model?: DTDLModel;
+    dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
     currentPropertyIndex?: number;
     currentNestedPropertyIndex?: number;
     setCurrentNestedPropertyIndex?: React.Dispatch<
@@ -21,18 +24,19 @@ interface IModal {
     >;
     setModalBody?: React.Dispatch<React.SetStateAction<string>>;
     setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
-    setModel?: React.Dispatch<React.SetStateAction<DTDLModel>>;
+    state: any;
 }
 
 export const FormAddEnumItem = ({
+    dispatch,
     setModalOpen,
-    model,
-    setModel,
     currentPropertyIndex,
-    setModalBody
+    setModalBody,
+    state
 }: IModal) => {
     const { t } = useTranslation();
     const propertyInspectorStyles = getPropertyInspectorStyles();
+    const columnLeftTextStyles = getModalLabelStyles();
     const [displayName, setDisplayName] = useState(null);
     const [name, setName] = useState(null);
     const [enumValue, setEnumValue] = useState(null);
@@ -43,7 +47,7 @@ export const FormAddEnumItem = ({
 
     const handleAddEnumValue = () => {
         const activeItem =
-            model.contents[currentPropertyIndex].schema.enumValues;
+            state.model.contents[currentPropertyIndex].schema.enumValues;
         const prop = {
             '@id': id ? `dtmi:com:adt:${id};` : 'dtmi:com:adt:enum;',
             name: name ? name : activeItem.name,
@@ -53,15 +57,18 @@ export const FormAddEnumItem = ({
             description: description ? description : activeItem.description
         };
 
-        const modelCopy = Object.assign({}, model);
+        const modelCopy = Object.assign({}, state.model);
         modelCopy.contents[currentPropertyIndex].schema.enumValues.push(prop);
-        setModel(modelCopy);
+        dispatch({
+            type: SET_OAT_PROPERTY_EDITOR_MODEL,
+            payload: modelCopy
+        });
         setModalOpen(false);
         setModalBody(null);
     };
 
     const getErrorMessage = (value) => {
-        const find = model.contents[
+        const find = state.model.contents[
             currentPropertyIndex
         ].schema.enumValues.find((item) => item.enumValue === value);
         if (!find && value !== '') {
@@ -75,14 +82,9 @@ export const FormAddEnumItem = ({
 
     return (
         <>
-            <Stack className={propertyInspectorStyles.modalRowSpaceBetween}>
+            <div className={propertyInspectorStyles.modalRowSpaceBetween}>
                 <Label>{t('OATPropertyEditor.addEnumValue')}</Label>
-                <ActionButton
-                    onClick={() => setModalOpen(false)}
-                    className={
-                        propertyInspectorStyles.iconClosePropertySelectorWrap
-                    }
-                >
+                <ActionButton onClick={() => setModalOpen(false)}>
                     <FontIcon
                         iconName={'ChromeClose'}
                         className={
@@ -90,10 +92,10 @@ export const FormAddEnumItem = ({
                         }
                     />
                 </ActionButton>
-            </Stack>
+            </div>
 
-            <Stack className={propertyInspectorStyles.modalRowSpaceBetween}>
-                <Text className={propertyInspectorStyles.modalColumnLeftItem}>
+            <div className={propertyInspectorStyles.modalRowSpaceBetween}>
+                <Text styles={columnLeftTextStyles}>
                     {t('OATPropertyEditor.comment')}
                 </Text>
                 <TextField
@@ -102,10 +104,10 @@ export const FormAddEnumItem = ({
                     )}
                     onChange={(_ev, value) => setComment(value)}
                 />
-            </Stack>
+            </div>
 
-            <Stack className={propertyInspectorStyles.modalRowSpaceBetween}>
-                <Text className={propertyInspectorStyles.modalColumnLeftItem}>
+            <div className={propertyInspectorStyles.modalRowSpaceBetween}>
+                <Text styles={columnLeftTextStyles}>
                     {`*${t('OATPropertyEditor.name')}`}
                 </Text>
                 <TextField
@@ -114,10 +116,10 @@ export const FormAddEnumItem = ({
                     )}
                     onChange={(_ev, value) => setName(value)}
                 />
-            </Stack>
+            </div>
 
-            <Stack className={propertyInspectorStyles.modalRowSpaceBetween}>
-                <Text className={propertyInspectorStyles.modalColumnLeftItem}>
+            <div className={propertyInspectorStyles.modalRowSpaceBetween}>
+                <Text styles={columnLeftTextStyles}>
                     {t('OATPropertyEditor.displayName')}
                 </Text>
                 <TextField
@@ -126,10 +128,10 @@ export const FormAddEnumItem = ({
                     )}
                     onChange={(_ev, value) => setDisplayName(value)}
                 />
-            </Stack>
+            </div>
 
-            <Stack className={propertyInspectorStyles.modalRowSpaceBetween}>
-                <Text className={propertyInspectorStyles.modalColumnLeftItem}>
+            <div className={propertyInspectorStyles.modalRowSpaceBetween}>
+                <Text styles={columnLeftTextStyles}>
                     {t('OATPropertyEditor.description')}
                 </Text>
                 <TextField
@@ -138,10 +140,10 @@ export const FormAddEnumItem = ({
                     )}
                     onChange={(_ev, value) => setDescription(value)}
                 />
-            </Stack>
+            </div>
 
-            <Stack className={propertyInspectorStyles.modalRowSpaceBetween}>
-                <Text className={propertyInspectorStyles.modalColumnLeftItem}>
+            <div className={propertyInspectorStyles.modalRowSpaceBetween}>
+                <Text styles={columnLeftTextStyles}>
                     {`*${t('OATPropertyEditor.enumValue')}`}
                 </Text>
                 <TextField
@@ -153,17 +155,17 @@ export const FormAddEnumItem = ({
                     validateOnFocusOut
                     onGetErrorMessage={getErrorMessage}
                 />
-            </Stack>
+            </div>
 
-            <Stack className={propertyInspectorStyles.modalRowSpaceBetween}>
-                <Text className={propertyInspectorStyles.modalColumnLeftItem}>
+            <div className={propertyInspectorStyles.modalRowSpaceBetween}>
+                <Text styles={columnLeftTextStyles}>
                     {t('OATPropertyEditor.id')}
                 </Text>
                 <TextField
                     placeholder={t('OATPropertyEditor.id')}
                     onChange={(_ev, value) => setId(value)}
                 />
-            </Stack>
+            </div>
 
             <PrimaryButton
                 text={t('OATPropertyEditor.update')}

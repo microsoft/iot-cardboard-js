@@ -8,49 +8,52 @@ import {
     Label
 } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
-import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
+import {
+    getPropertyInspectorStyles,
+    getPropertyEditorTextFieldStyles,
+    getTemplateColumnStyles
+} from './OATPropertyEditor.styles';
 import TemplateList from './TemplateList';
-import { DTDLModel } from '../../Models/Classes/DTDL';
-import { DTDLProperty } from '../../Models/Constants/Interfaces';
+import { SET_OAT_TEMPLATES_ACTIVE } from '../../Models/Constants/ActionTypes';
+import { IAction } from '../../Models/Constants/Interfaces';
+import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 
 type ITemplateColumn = {
-    setTemplatesActive: (active: boolean) => boolean;
-    templates?: DTDLProperty[];
-    setTemplates: React.Dispatch<React.SetStateAction<DTDLProperty>>;
     enteredPropertyRef: any;
-    model: DTDLModel;
-    setModel?: React.Dispatch<React.SetStateAction<DTDLModel>>;
     draggingTemplate: boolean;
     setDraggingTemplate: any;
     enteredTemplateRef: any;
     draggingProperty: boolean;
+    dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
+    state?: IOATEditorState;
 };
 
 export const TemplateColumn = ({
-    setTemplatesActive,
-    templates,
-    setTemplates,
     enteredPropertyRef,
-    model,
-    setModel,
     draggingTemplate,
     setDraggingTemplate,
     enteredTemplateRef,
-    draggingProperty
+    draggingProperty,
+    dispatch,
+    state
 }: ITemplateColumn) => {
     const { t } = useTranslation();
     const propertyInspectorStyles = getPropertyInspectorStyles();
+    const textFieldStyles = getPropertyEditorTextFieldStyles();
+    const templateColumnStyles = getTemplateColumnStyles();
     const draggedTemplateItemRef = useRef(null);
 
     return (
-        <Stack className={propertyInspectorStyles.templateColumn}>
-            <Stack className={propertyInspectorStyles.paddingWrap}>
-                <Stack className={propertyInspectorStyles.rowSpaceBetween}>
+        <Stack styles={templateColumnStyles}>
+            <Stack styles={{ root: { padding: '8px' } }}>
+                <div className={propertyInspectorStyles.rowSpaceBetween}>
                     <Label>{t('OATPropertyEditor.templates')}</Label>
                     <ActionButton
-                        onClick={() => setTemplatesActive(false)}
-                        className={
-                            propertyInspectorStyles.iconClosePropertySelectorWrap
+                        onClick={() =>
+                            dispatch({
+                                type: SET_OAT_TEMPLATES_ACTIVE,
+                                payload: false
+                            })
                         }
                     >
                         <FontIcon
@@ -60,9 +63,9 @@ export const TemplateColumn = ({
                             }
                         />
                     </ActionButton>
-                </Stack>
+                </div>
                 <TextField
-                    className={propertyInspectorStyles.propertyItemTextField}
+                    styles={textFieldStyles}
                     borderless
                     placeholder={t(
                         'OATPropertyEditor.templateSearchPlaceholder'
@@ -70,25 +73,23 @@ export const TemplateColumn = ({
                 ></TextField>
             </Stack>
             <Stack className={propertyInspectorStyles.gridRowPropertyHeading}>
-                <Stack className={propertyInspectorStyles.row}>
+                <div className={propertyInspectorStyles.row}>
                     <Text>{t('OATPropertyEditor.name')}</Text>
-                </Stack>
-                <Stack className={propertyInspectorStyles.row}>
+                </div>
+                <div className={propertyInspectorStyles.row}>
                     <FontIcon
                         className={propertyInspectorStyles.propertyHeadingIcon}
                         iconName={'SwitcherStartEnd'}
                     />
                     <Text>{t('OATPropertyEditor.schemaType')}</Text>
-                </Stack>
+                </div>
             </Stack>
 
             <TemplateList
-                templates={templates}
-                setTemplates={setTemplates}
                 draggedTemplateItemRef={draggedTemplateItemRef}
                 enteredPropertyRef={enteredPropertyRef}
-                model={model}
-                setModel={setModel}
+                dispatch={dispatch}
+                state={state}
                 draggingTemplate={draggingTemplate}
                 setDraggingTemplate={setDraggingTemplate}
                 enteredTemplateRef={enteredTemplateRef}

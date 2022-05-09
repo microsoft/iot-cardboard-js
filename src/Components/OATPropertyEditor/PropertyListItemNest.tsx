@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
+import { TextField, Text, IconButton } from '@fluentui/react';
 import {
-    TextField,
-    Stack,
-    Text,
-    ActionButton,
-    FontIcon
-} from '@fluentui/react';
-import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
-import { DTDLModel, DTDLSchemaType } from '../../Models/Classes/DTDL';
+    getPropertyInspectorStyles,
+    getPropertyListItemIconWrapMoreStyles,
+    getPropertyEditorTextFieldStyles
+} from './OATPropertyEditor.styles';
+import { DTDLSchemaType } from '../../Models/Classes/DTDL';
 import AddPropertyBar from './AddPropertyBar';
 import PropertyListItemNested from './PropertyListItemNested';
 import PropertyListEnumItemNested from './PropertyListEnumItemNested';
@@ -15,9 +13,16 @@ import PropertyListMapItemNested from './PropertyListMapItemNested';
 import { deepCopy } from '../../Models/Services/Utils';
 import PropertyListItemSubMenu from './PropertyListItemSubMenu';
 import { useTranslation } from 'react-i18next';
+import {
+    SET_OAT_PROPERTY_EDITOR_MODEL,
+    SET_OAT_TEMPLATES
+} from '../../Models/Constants/ActionTypes';
+import { IAction } from '../../Models/Constants/Interfaces';
+import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 
 type IPropertyListItemNest = {
     deleteItem?: (index: number) => any;
+    dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
     draggingProperty?: boolean;
     getItemClassName?: (index: number) => any;
     getNestedItemClassName?: () => any;
@@ -28,7 +33,6 @@ type IPropertyListItemNest = {
     index?: number;
     item?: any;
     lastPropertyFocused?: any;
-    model?: DTDLModel;
     setCurrentNestedPropertyIndex?: React.Dispatch<
         React.SetStateAction<number>
     >;
@@ -36,14 +40,14 @@ type IPropertyListItemNest = {
     setLastPropertyFocused?: React.Dispatch<React.SetStateAction<any>>;
     setModalBody?: React.Dispatch<React.SetStateAction<string>>;
     setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
-    setModel?: React.Dispatch<React.SetStateAction<DTDLModel>>;
     setPropertySelectorVisible: React.Dispatch<React.SetStateAction<boolean>>;
-    setTemplates?: React.Dispatch<React.SetStateAction<any>>;
+    state?: IOATEditorState;
 };
 
 export const PropertyListItemNest = ({
     index,
     deleteItem,
+    dispatch,
     draggingProperty,
     getItemClassName,
     getNestedItemClassName,
@@ -59,14 +63,15 @@ export const PropertyListItemNest = ({
     setCurrentNestedPropertyIndex,
     setModalOpen,
     setModalBody,
-    model,
-    setModel,
-    setTemplates
+    state
 }: IPropertyListItemNest) => {
     const { t } = useTranslation();
     const propertyInspectorStyles = getPropertyInspectorStyles();
+    const iconWrapMoreStyles = getPropertyListItemIconWrapMoreStyles();
+    const textFieldStyles = getPropertyEditorTextFieldStyles();
     const [subMenuActive, setSubMenuActive] = useState(false);
     const [collapsed, setCollapsed] = useState(true);
+    const [hover, setHover] = useState(false);
 
     const addPropertyCallback = () => {
         setCurrentPropertyIndex(index);
@@ -84,7 +89,10 @@ export const PropertyListItemNest = ({
     };
 
     const handleTemplateAddition = () => {
-        setTemplates((templates) => [...templates, item]);
+        dispatch({
+            type: SET_OAT_TEMPLATES,
+            payload: [...state.templates.item]
+        });
     };
 
     const handleDuplicate = () => {
@@ -95,35 +103,33 @@ export const PropertyListItemNest = ({
         )}`;
         itemCopy['@id'] = `${itemCopy['@id']}_${t('OATPropertyEditor.copy')}`;
 
-        const modelCopy = deepCopy(model);
+        const modelCopy = deepCopy(state.model);
         modelCopy.contents.push(itemCopy);
-        setModel(modelCopy);
-    };
-
-    const deleteNestedItem = (parentIndex, index) => {
-        setModel((prevModel) => {
-            const newModel = deepCopy(prevModel);
-            if (
-                newModel.contents[parentIndex].schema['@type'] ===
-                DTDLSchemaType.Enum
-            ) {
-                newModel.contents[parentIndex].schema.enumValues.splice(
-                    index,
-                    1
-                );
-            } else if (
-                newModel.contents[parentIndex].schema['@type'] ===
-                DTDLSchemaType.Object
-            ) {
-                newModel.contents[parentIndex].schema.fields.splice(index, 1);
-                return newModel;
-            }
-            return newModel;
+        dispatch({
+            type: SET_OAT_PROPERTY_EDITOR_MODEL,
+            payload: modelCopy
         });
     };
 
+    const deleteNestedItem = (parentIndex, index) => {
+        const newModel = deepCopy(state.model);
+        if (
+            newModel.contents[parentIndex].schema['@type'] ===
+            DTDLSchemaType.Enum
+        ) {
+            newModel.contents[parentIndex].schema.enumValues.splice(index, 1);
+        } else if (
+            newModel.contents[parentIndex].schema['@type'] ===
+            DTDLSchemaType.Object
+        ) {
+            newModel.contents[parentIndex].schema.fields.splice(index, 1);
+        }
+        dispatch({ type: SET_OAT_PROPERTY_EDITOR_MODEL, payload: newModel });
+    };
+
     return (
-        <Stack
+        <div
+            id={item.name}
             className={getItemClassName(index)}
             draggable
             onDragStart={(e) => {
@@ -141,20 +147,23 @@ export const PropertyListItemNest = ({
                 });
             }}
             tabIndex={0}
+            onMouseOver={() => {
+                setHover(true);
+            }}
+            onMouseLeave={() => {
+                setHover(false);
+            }}
         >
-            <Stack className={propertyInspectorStyles.propertyItemNestMainItem}>
-                <ActionButton
+            <div className={propertyInspectorStyles.propertyItemNestMainItem}>
+                <IconButton
+                    iconProps={{
+                        iconName: collapsed ? 'ChevronDown' : 'ChevronRight'
+                    }}
+                    title={t('OATPropertyEditor.collapse')}
                     onClick={() => setCollapsed(!collapsed)}
-                    className={propertyInspectorStyles.propertyItemIconWrap}
-                >
-                    <FontIcon
-                        iconName={collapsed ? 'ChevronDown' : 'ChevronRight'}
-                        className={propertyInspectorStyles.propertyItemIcon}
-                    />
-                </ActionButton>
-
+                />
                 <TextField
-                    className={propertyInspectorStyles.propertyItemTextField}
+                    styles={textFieldStyles}
                     borderless
                     placeholder={item.name}
                     validateOnFocusOut
@@ -165,14 +174,14 @@ export const PropertyListItemNest = ({
                 />
                 <Text>{item.schema['@type']}</Text>
 
-                <ActionButton
-                    className={propertyInspectorStyles.propertyItemIconWrapMore}
+                <IconButton
+                    iconProps={{
+                        iconName: 'more'
+                    }}
+                    styles={iconWrapMoreStyles}
+                    title={t('OATPropertyEditor.more')}
                     onClick={() => setSubMenuActive(!subMenuActive)}
                 >
-                    <FontIcon
-                        iconName={'More'}
-                        className={propertyInspectorStyles.propertyItemIcon}
-                    />
                     {subMenuActive && (
                         <PropertyListItemSubMenu
                             deleteItem={deleteItem}
@@ -184,10 +193,12 @@ export const PropertyListItemNest = ({
                             handleDuplicate={() => {
                                 handleDuplicate();
                             }}
+                            setSubMenuActive={setSubMenuActive}
+                            targetId={item.name}
                         />
                     )}
-                </ActionButton>
-            </Stack>
+                </IconButton>
+            </div>
             {collapsed &&
                 item.schema['@type'] === 'Object' &&
                 item.schema.fields.length > 0 &&
@@ -204,9 +215,8 @@ export const PropertyListItemNest = ({
                         setCurrentPropertyIndex={setCurrentPropertyIndex}
                         setModalOpen={setModalOpen}
                         deleteNestedItem={deleteNestedItem}
-                        setTemplates={setTemplates}
-                        setModel={setModel}
-                        model={model}
+                        dispatch={dispatch}
+                        state={state}
                     />
                 ))}
 
@@ -217,8 +227,8 @@ export const PropertyListItemNest = ({
                     <PropertyListEnumItemNested
                         key={i}
                         item={item}
-                        model={model}
-                        setModel={setModel}
+                        dispatch={dispatch}
+                        state={state}
                         parentIndex={index}
                         index={i}
                         deleteNestedItem={deleteNestedItem}
@@ -228,18 +238,16 @@ export const PropertyListItemNest = ({
             {collapsed && item.schema['@type'] === DTDLSchemaType.Map && (
                 <PropertyListMapItemNested
                     item={item}
-                    model={model}
-                    setModel={setModel}
+                    dispatch={dispatch}
+                    state={state}
                     index={index}
                 />
             )}
 
-            {lastPropertyFocused &&
-                lastPropertyFocused.index === index &&
-                item.schema['@type'] !== DTDLSchemaType.Map && (
-                    <AddPropertyBar onClick={addPropertyCallback} />
-                )}
-        </Stack>
+            {hover && item.schema['@type'] !== DTDLSchemaType.Map && (
+                <AddPropertyBar onClick={addPropertyCallback} />
+            )}
+        </div>
     );
 };
 

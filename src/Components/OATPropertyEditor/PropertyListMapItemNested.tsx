@@ -1,70 +1,78 @@
 import React from 'react';
 import { TextField, Stack, Text } from '@fluentui/react';
-import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
+import {
+    getPropertyInspectorStyles,
+    getMapItemStyles,
+    getPropertyEditorTextFieldStyles,
+    getListMapItemTextStyles
+} from './OATPropertyEditor.styles';
 import { useTranslation } from 'react-i18next';
-import { DTDLModel } from '../../Models/Classes/DTDL';
+import { SET_OAT_PROPERTY_EDITOR_MODEL } from '../../Models/Constants/ActionTypes';
+import { IAction } from '../../Models/Constants/Interfaces';
+import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 
 type IEnumItem = {
+    dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
     index?: number;
     item?: any;
-    model?: DTDLModel;
-    setModel?: React.Dispatch<React.SetStateAction<DTDLModel>>;
+    state?: IOATEditorState;
 };
 
 export const PropertyListMapItemNested = ({
+    dispatch,
     item,
-    model,
-    setModel,
-    index
+    index,
+    state
 }: IEnumItem) => {
     const { t } = useTranslation();
     const propertyInspectorStyles = getPropertyInspectorStyles();
+    const mapItemStyles = getMapItemStyles();
+    const textFieldStyles = getPropertyEditorTextFieldStyles();
+    const textStyles = getListMapItemTextStyles();
 
     const updateMapKeyName = (value) => {
-        const modelCopy = Object.assign({}, model);
+        const modelCopy = Object.assign({}, state.model);
         modelCopy.contents[index].schema.mapKey.name = value;
-        setModel(modelCopy);
+        dispatch({
+            type: SET_OAT_PROPERTY_EDITOR_MODEL,
+            payload: modelCopy
+        });
     };
 
     const updateMapValueName = (value) => {
-        const modelCopy = Object.assign({}, model);
+        const modelCopy = Object.assign({}, state.model);
         modelCopy.contents[index].schema.mapValue.name = value;
-        setModel(modelCopy);
+        dispatch({
+            type: SET_OAT_PROPERTY_EDITOR_MODEL,
+            payload: modelCopy
+        });
     };
 
     return (
         <>
-            <Stack className={propertyInspectorStyles.mapItem} tabIndex={0}>
-                <Text className={propertyInspectorStyles.mapItemKeyValueLabel}>
-                    {t('OATPropertyEditor.key')}
-                </Text>
-                <Stack className={propertyInspectorStyles.mapItemInputWrap}>
+            <Stack styles={mapItemStyles} tabIndex={0}>
+                <Text styles={textStyles}>{t('OATPropertyEditor.key')}</Text>
+                <div className={propertyInspectorStyles.mapItemInputWrap}>
                     <TextField
-                        className={
-                            propertyInspectorStyles.propertyItemTextField
-                        }
+                        styles={textFieldStyles}
                         borderless
                         placeholder={item.schema.mapKey.name}
                         onChange={(_ev, value) => updateMapKeyName(value)}
                     />
                     <Text>{item.schema.mapKey.schema}</Text>
-                </Stack>
+                </div>
             </Stack>
-            <Stack className={propertyInspectorStyles.mapItem} tabIndex={0}>
-                <Text className={propertyInspectorStyles.mapItemKeyValueLabel}>
-                    {t('OATPropertyEditor.value')}
-                </Text>
-                <Stack className={propertyInspectorStyles.mapItemInputWrap}>
+            <Stack styles={mapItemStyles} tabIndex={0}>
+                <Text styles={textStyles}>{t('OATPropertyEditor.value')}</Text>
+                <div className={propertyInspectorStyles.mapItemInputWrap}>
                     <TextField
-                        className={
-                            propertyInspectorStyles.propertyItemTextField
-                        }
+                        styles={textFieldStyles}
                         borderless
                         placeholder={item.schema.mapValue.name}
                         onChange={(_ev, value) => updateMapValueName(value)}
                     />
                     <Text>{item.schema.mapValue.schema}</Text>
-                </Stack>
+                </div>
             </Stack>
         </>
     );

@@ -817,6 +817,10 @@
     "multiPoint": "wielopunktowy",
     "multiLinestring": "ciąg wieloliniowy",
     "multiPolygon": "wielokąt wielokątny",
-    "close": "Zamykać"
+    "close": "Zamykać",
+    "collapse": "Zapaść",
+    "info": "Informacji",
+    "more": "Więcej",
+    "copy": "kopiować"
   }
 }

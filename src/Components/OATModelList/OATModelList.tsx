@@ -1,28 +1,24 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useTheme, List, ActionButton, Icon, TextField } from '@fluentui/react';
-import BaseComponent from '../BaseComponent/BaseComponent';
 import {
     getModelsStyles,
     getModelsIconStyles,
     getModelsActionButtonStyles
 } from './OATModelList.styles';
 import { IOATTwinModelNodes } from '../../Models/Constants';
+import {
+    SET_OAT_DELETED_MODEL_ID,
+    SET_OAT_SELECTED_MODEL_ID,
+    SET_OAT_EDITED_MODEL_NAME,
+    SET_OAT_EDITED_MODEL_ID
+} from '../../Models/Constants/ActionTypes';
 
 type OATModelListProps = {
     elements: IOATTwinModelNodes[];
-    onDeleteModel: (modelId: string) => any;
-    onSelectedModel: (modelId: string) => any;
-    onEditedName: (modelId: string) => any;
-    onEditedId: (modelId: string) => any;
+    dispatch: any;
 };
 
-const OATModelList = ({
-    elements,
-    onDeleteModel,
-    onSelectedModel,
-    onEditedName,
-    onEditedId
-}: OATModelListProps) => {
+const OATModelList = ({ elements, dispatch }: OATModelListProps) => {
     const theme = useTheme();
     const modelsStyles = getModelsStyles();
     const [nameEditor, setNameEditor] = useState(false);
@@ -38,8 +34,15 @@ const OATModelList = ({
         setItems(elements);
     }, [elements]);
 
+    useEffect(() => {
+        setItems([...elements]);
+    }, [theme]);
+
     const onSelectedClick = (id) => {
-        onSelectedModel(id);
+        dispatch({
+            type: SET_OAT_SELECTED_MODEL_ID,
+            payload: id
+        });
         currentNodeId.current = id;
     };
 
@@ -56,7 +59,10 @@ const OATModelList = ({
 
     const onNameBlur = () => {
         setNameEditor(false);
-        onEditedName(nameText);
+        dispatch({
+            type: SET_OAT_EDITED_MODEL_NAME,
+            payload: nameText
+        });
         setItems([...items]);
     };
 
@@ -73,7 +79,10 @@ const OATModelList = ({
 
     const onIdBlur = () => {
         setIdEditor(false);
-        onEditedId(idText);
+        dispatch({
+            type: SET_OAT_EDITED_MODEL_ID,
+            payload: idText
+        });
         currentNodeId.current = idText;
         setItems([...items]);
     };
@@ -87,7 +96,12 @@ const OATModelList = ({
                 <div className={modelsStyles.modelList}>
                     <ActionButton
                         className={modelsStyles.nodeCancel}
-                        onClick={() => onDeleteModel(item['@id'])}
+                        onClick={() => {
+                            dispatch({
+                                type: SET_OAT_DELETED_MODEL_ID,
+                                payload: item['@id']
+                            });
+                        }}
                     >
                         <Icon iconName="Cancel" styles={iconStyles} />
                     </ActionButton>
@@ -130,17 +144,14 @@ const OATModelList = ({
     };
 
     return (
-        <BaseComponent theme={theme}>
-            <div>
-                <List items={items} onRenderCell={onRenderCell} />
-            </div>
-        </BaseComponent>
+        <div className={modelsStyles.container}>
+            <List items={items} onRenderCell={onRenderCell} />
+        </div>
     );
 };
 
 OATModelList.defaultProps = {
     elements: [],
-    onDeleteModel: () => null,
     onSelectedModel: () => null,
     onEditedName: () => null,
     onEditedId: () => null

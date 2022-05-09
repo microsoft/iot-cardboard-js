@@ -817,6 +817,10 @@
     "multiPoint": "multipoint",
     "multiLinestring": "multilinestring",
     "multiPolygon": "multi Polygoon",
-    "close": "Sluiten"
+    "close": "Sluiten",
+    "collapse": "Instorting",
+    "info": "Info",
+    "more": "Meer",
+    "copy": "kopiëren"
   }
 }

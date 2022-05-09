@@ -1,30 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import BaseComponent from '../BaseComponent/BaseComponent';
 import { Theme } from '../../Models/Constants/Enums';
-import { DTDLModel } from '../../Models/Classes/DTDL';
-import { DTDLProperty } from '../../Models/Constants/Interfaces';
 import Modal from './Modal';
 import Editor from './Editor';
+import { IAction } from '../../Models/Constants/Interfaces';
+import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
+import { OATDataStorageKey } from '../../Models/Constants';
+import { SET_OAT_TEMPLATES } from '../../Models/Constants/ActionTypes';
 
 type IOATPropertyEditor = {
-    model?: DTDLModel;
+    dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
     theme?: Theme;
-    templates?: DTDLProperty[];
-    setModel?: React.Dispatch<React.SetStateAction<DTDLModel>>;
-    setTemplates?: React.Dispatch<React.SetStateAction<DTDLProperty>>;
-    templatesActive?: boolean;
-    setTemplatesActive?: (active: boolean) => boolean;
+    state?: IOATEditorState;
 };
 
-const OATPropertyEditor = ({
-    model,
-    setModel,
-    theme,
-    templates,
-    setTemplates,
-    templatesActive,
-    setTemplatesActive
-}: IOATPropertyEditor) => {
+const OATPropertyEditor = ({ theme, dispatch, state }: IOATPropertyEditor) => {
     const [modalOpen, setModalOpen] = useState(false);
     const [modalBody, setModalBody] = useState('formProperty');
     const [currentPropertyIndex, setCurrentPropertyIndex] = useState(null);
@@ -33,32 +23,52 @@ const OATPropertyEditor = ({
         setCurrentNestedPropertyIndex
     ] = useState(null);
 
+    // Default state.templates to storage value
+    // Save templates updates to local storage
+    useEffect(() => {
+        const oatEditorData = JSON.parse(
+            localStorage.getItem(OATDataStorageKey)
+        );
+
+        if (!state.templates && oatEditorData.templates) {
+            dispatch({
+                type: SET_OAT_TEMPLATES,
+                payload: oatEditorData.templates
+            });
+        }
+
+        if (oatEditorData && state.templates) {
+            oatEditorData.templates = state.templates;
+            console.log('saving data..', oatEditorData);
+            localStorage.setItem(
+                OATDataStorageKey,
+                JSON.stringify(oatEditorData)
+            );
+        }
+    }, [state.templates]);
+
     return (
         <BaseComponent theme={theme}>
             <Modal
                 modalOpen={modalOpen}
                 setModalOpen={setModalOpen}
-                model={model}
-                setModel={setModel}
                 currentPropertyIndex={currentPropertyIndex}
                 currentNestedPropertyIndex={currentNestedPropertyIndex}
                 setCurrentNestedPropertyIndex={setCurrentNestedPropertyIndex}
                 setModalBody={setModalBody}
                 modalBody={modalBody}
+                dispatch={dispatch}
+                state={state}
             />
             <Editor
-                model={model}
-                setModel={setModel}
-                templates={templates}
-                setTemplates={setTemplates}
                 theme={theme}
                 setModalBody={setModalBody}
                 setModalOpen={setModalOpen}
                 setCurrentNestedPropertyIndex={setCurrentNestedPropertyIndex}
                 setCurrentPropertyIndex={setCurrentPropertyIndex}
                 currentPropertyIndex={currentPropertyIndex}
-                templatesActive={templatesActive}
-                setTemplatesActive={setTemplatesActive}
+                dispatch={dispatch}
+                state={state}
             />
         </BaseComponent>
     );

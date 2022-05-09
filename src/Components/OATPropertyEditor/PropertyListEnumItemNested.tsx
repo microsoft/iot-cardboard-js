@@ -1,52 +1,58 @@
 import React, { useState } from 'react';
+import { TextField, Text, IconButton } from '@fluentui/react';
 import {
-    TextField,
-    Stack,
-    Text,
-    ActionButton,
-    FontIcon
-} from '@fluentui/react';
-import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
+    getPropertyInspectorStyles,
+    getPropertyListItemIconWrapMoreStyles,
+    getPropertyEditorTextFieldStyles
+} from './OATPropertyEditor.styles';
 import { useTranslation } from 'react-i18next';
-import { DTDLModel } from '../../Models/Classes/DTDL';
 import PropertyListItemSubMenu from './PropertyListItemSubMenu';
+import { SET_OAT_PROPERTY_EDITOR_MODEL } from '../../Models/Constants/ActionTypes';
+import { IAction } from '../../Models/Constants/Interfaces';
+import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 
 type IEnumItem = {
     deleteNestedItem?: (parentIndex: number, index: number) => any;
+    dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
     index?: number;
     item?: any;
-    model?: DTDLModel;
     parentIndex?: number;
-    setModel?: React.Dispatch<React.SetStateAction<DTDLModel>>;
+    state?: IOATEditorState;
 };
 
 export const PropertyListEnumItemNested = ({
     deleteNestedItem,
+    dispatch,
     item,
-    model,
-    setModel,
     index,
-    parentIndex
+    parentIndex,
+    state
 }: IEnumItem) => {
     const { t } = useTranslation();
     const propertyInspectorStyles = getPropertyInspectorStyles();
+    const iconWrapMoreStyles = getPropertyListItemIconWrapMoreStyles();
+    const textFieldStyles = getPropertyEditorTextFieldStyles();
     const [subMenuActive, setSubMenuActive] = useState(false);
 
     const updateEnum = (value) => {
-        const activeItem = model.contents[parentIndex].schema.enumValues[index];
+        const activeItem =
+            state.model.contents[parentIndex].schema.enumValues[index];
         const prop = {
             displayName: value
         };
-        const modelCopy = Object.assign({}, model);
+        const modelCopy = Object.assign({}, state.mode);
         modelCopy.contents[parentIndex].schema.enumValues[index] = {
             ...activeItem,
             ...prop
         };
-        setModel(modelCopy);
+        dispatch({
+            type: SET_OAT_PROPERTY_EDITOR_MODEL,
+            payload: modelCopy
+        });
     };
 
     const getErrorMessage = (value) => {
-        const find = model.contents[parentIndex].schema.enumValues.find(
+        const find = state.model.contents[parentIndex].schema.enumValues.find(
             (item) => item.name === value
         );
         if (!find && value !== '') {
@@ -59,23 +65,27 @@ export const PropertyListEnumItemNested = ({
     };
 
     return (
-        <Stack className={propertyInspectorStyles.enumItem} tabIndex={0}>
+        <div
+            className={propertyInspectorStyles.enumItem}
+            tabIndex={0}
+            id={item.name}
+        >
             <TextField
-                className={propertyInspectorStyles.propertyItemTextField}
+                styles={textFieldStyles}
                 borderless
                 placeholder={item.displayName}
                 validateOnFocusOut
                 onGetErrorMessage={getErrorMessage}
             />
             <Text>{item.enumValue}</Text>
-            <ActionButton
-                className={propertyInspectorStyles.propertyItemIconWrapMore}
+            <IconButton
+                iconProps={{
+                    iconName: 'more'
+                }}
+                styles={iconWrapMoreStyles}
+                title={t('OATPropertyEditor.more')}
                 onClick={() => setSubMenuActive(!subMenuActive)}
             >
-                <FontIcon
-                    iconName={'More'}
-                    className={propertyInspectorStyles.propertyItemIcon}
-                />
                 {subMenuActive && (
                     <PropertyListItemSubMenu
                         deleteNestedItem={deleteNestedItem}
@@ -84,10 +94,12 @@ export const PropertyListEnumItemNested = ({
                         subMenuActive={subMenuActive}
                         duplicateItem={false}
                         addItemToTemplates={false}
+                        targetId={item.name}
+                        setSubMenuActive={setSubMenuActive}
                     />
                 )}
-            </ActionButton>
-        </Stack>
+            </IconButton>
+        </div>
     );
 };
 
