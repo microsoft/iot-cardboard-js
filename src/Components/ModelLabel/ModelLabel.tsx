@@ -1,5 +1,5 @@
 import { ActionButton, useTheme } from '@fluentui/react';
-import React from 'react';
+import React, { useCallback } from 'react';
 import { getStyles } from './ModelLabel.styles';
 
 interface ModelLabelProps {
@@ -16,11 +16,11 @@ export const ModelLabel: React.FC<ModelLabelProps> = ({
     const theme = useTheme();
     const styles = getStyles(theme);
 
-    const onClick = () => {
+    const onClick = useCallback(() => {
         if (onLabelClick && id) {
             onLabelClick(id);
         }
-    };
+    }, [onLabelClick]);
 
     return (
         <ActionButton onClick={onClick} className={styles.badge}>
