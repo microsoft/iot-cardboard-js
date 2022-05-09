@@ -55,5 +55,4 @@ CopyLink.play = async ({ canvasElement }) => {
     // type in the search box
     const copyButton = await findCalloutItemByTestId('deeplink-copy-link');
     copyButton.click();
-    // await userEvent.click(copyButton);
 };

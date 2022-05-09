@@ -11,6 +11,8 @@ const classNames = {
     button: `${classPrefix}-button`,
     callout: `${classPrefix}-callout`,
     calloutCheckbox: `${classPrefix}-callout-checkbox`,
+    calloutConfirmationMessage: `${classPrefix}-callout-confirmation`,
+    calloutConfirmationMessageFadeOut: `${classPrefix}-callout-confirmation-fade-out`,
     calloutTitle: `${classPrefix}-callout-title`
 };
 
@@ -35,9 +37,17 @@ export const getStyles = (
             }
         ],
         calloutConfirmationMessage: [
+            classNames.calloutConfirmationMessage,
             {
                 alignItems: 'center',
                 animation: 'fadeIn 0.3s cubic-bezier(0.1, 0.9, 0.2, 1) forwards'
+            }
+        ],
+        calloutConfirmationMessageFadeOut: [
+            classNames.calloutConfirmationMessageFadeOut,
+            {
+                animation:
+                    'fadeOut 0.3s cubic-bezier(0.1, 0.9, 0.2, 1) forwards'
             }
         ],
         subComponentStyles: {

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
     IDeeplinkFlyoutProps,
     IDeeplinkFlyoutStyleProps,
@@ -10,7 +10,7 @@ import {
     Callout,
     Checkbox,
     classNamesFunction,
-    Icon,
+    css,
     IconButton,
     IIconProps,
     PrimaryButton,
@@ -44,6 +44,8 @@ const LOC_KEYS = {
     includeLayersOption: `${ROOT_LOC}.includeLayersOption`
 };
 
+const FADE_DELAY = 4000;
+
 const DeeplinkFlyout: React.FC<IDeeplinkFlyoutProps> = (props) => {
     const { styles } = props;
 
@@ -57,6 +59,12 @@ const DeeplinkFlyout: React.FC<IDeeplinkFlyoutProps> = (props) => {
     const [includeLayers, { toggle: toggleIncludeLayers }] = useBoolean(true);
     const [includeElement, { toggle: toggleIncludeElement }] = useBoolean(true);
     const [showConfirmation, setShowConfirmation] = useState<boolean>(false);
+    const [
+        isConfirmationFadingOut,
+        setIsConfirmationFadingOut
+    ] = useState<boolean>(false);
+    const confirmationTimeout = useRef<NodeJS.Timeout>();
+    const confirmationFadeoutTimeout = useRef<NodeJS.Timeout>();
 
     // effects
     useEffect(() => {
@@ -73,30 +81,40 @@ const DeeplinkFlyout: React.FC<IDeeplinkFlyoutProps> = (props) => {
     });
 
     // callbacks
-    const onCopyLinkClick = useCallback(() => {
+    const onCopyLinkClick = useCallback(async () => {
+        // if there's a pending timeout, clear that
+        if (confirmationTimeout.current) {
+            clearTimeout(confirmationTimeout.current);
+        }
+        if (confirmationFadeoutTimeout) {
+            clearTimeout(confirmationFadeoutTimeout.current);
+        }
+
+        // hide it initally so it can fade back in if it was already showing
         setShowConfirmation(false);
         const deeplink = getDeeplink({
             includeSelectedElement: includeElement,
             includeSelectedLayers: includeLayers
         });
-        navigator.clipboard
-            .writeText(deeplink)
-            .then(() => {
-                setShowConfirmation(true);
-                logDebugConsole(
-                    'debug',
-                    'Copied deeplink to clipboard',
-                    deeplink
-                );
-            })
-            .catch((error) => {
-                logDebugConsole(
-                    'error',
-                    'Failed to copy deeplink to clipboard',
-                    error
-                );
-                console.error('Failed to copy text to clipboard');
-            });
+        try {
+            await navigator.clipboard.writeText(deeplink);
+            setShowConfirmation(true);
+            confirmationFadeoutTimeout.current = setTimeout(() => {
+                setIsConfirmationFadingOut(true);
+            }, FADE_DELAY);
+            confirmationTimeout.current = setTimeout(() => {
+                setShowConfirmation(false);
+                setIsConfirmationFadingOut(false);
+            }, FADE_DELAY + 500);
+            logDebugConsole('debug', 'Copied deeplink to clipboard', deeplink);
+        } catch (error) {
+            logDebugConsole(
+                'error',
+                'Failed to copy deeplink to clipboard',
+                error
+            );
+            console.error('Failed to copy text to clipboard');
+        }
     }, [includeElement, includeLayers]);
 
     return (
@@ -145,11 +163,12 @@ const DeeplinkFlyout: React.FC<IDeeplinkFlyoutProps> = (props) => {
                                 <Stack
                                     horizontal
                                     tokens={{ childrenGap: 4 }}
-                                    className={
-                                        classNames.calloutConfirmationMessage
-                                    }
+                                    className={css(
+                                        classNames.calloutConfirmationMessage,
+                                        isConfirmationFadingOut &&
+                                            classNames.calloutConfirmationMessageFadeOut
+                                    )}
                                 >
-                                    <Icon iconName="Link" />
                                     <Text>
                                         {t(LOC_KEYS.copyConfirmationMessage)}
                                     </Text>

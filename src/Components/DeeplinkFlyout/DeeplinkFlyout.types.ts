@@ -4,8 +4,7 @@ import {
     ICalloutContentStyles,
     IStyleFunctionOrObject,
     ICheckboxStyles,
-    IButtonStyles,
-    IStackStyles
+    IButtonStyles
 } from '@fluentui/react';
 
 export interface IDeeplinkFlyoutProps {
@@ -26,6 +25,7 @@ export interface IDeeplinkFlyoutStyles {
     calloutCheckbox: IStyle;
     calloutTitle: IStyle;
     calloutConfirmationMessage: IStyle;
+    calloutConfirmationMessageFadeOut: IStyle;
 
     /**
      * SubComponent styles.
