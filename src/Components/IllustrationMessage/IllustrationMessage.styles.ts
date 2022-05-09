@@ -22,20 +22,18 @@ export const getIllustrationMessageStyles = (
             }
         ],
         descriptionContainer: [
-            props.width === 'compact' && {
-                maxWidth: 200
-            },
             {
                 textAlign: 'center',
-                marginBottom: 16
+                marginBottom: 16,
+                maxWidth: 400
+            },
+            props.width === 'compact' && {
+                maxWidth: 200
             }
         ],
         subComponentStyles: {
             header: {
                 root: [
-                    props.type === 'error' && {
-                        color: '#cb2431'
-                    },
                     {
                         fontWeight: FontWeights.semibold,
                         fontSize: 14,
