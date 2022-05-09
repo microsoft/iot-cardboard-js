@@ -42,7 +42,6 @@ import {
     IScene
 } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import SceneListModeToggle from './Internal/SceneListModeToggle';
-import ADT3DGlobeContainer from '../../Components/ADT3DGlobeContainer/ADT3DGlobeContainer';
 import {
     useDeeplinkContext,
     DeeplinkContextProvider
@@ -390,13 +389,6 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
                                     />
                                 </div>
                             </>
-                        )}
-                        {state.currentStep === ADT3DScenePageSteps.Globe && (
-                            <div className="cb-scene-page-scene-globe-container">
-                                <ADT3DGlobeContainer
-                                    adapter={adapter as IBlobAdapter}
-                                />
-                            </div>
                         )}
                     </ScenePageErrorHandlingWrapper>
                 </BaseComponent>
