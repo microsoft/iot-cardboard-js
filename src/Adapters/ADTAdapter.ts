@@ -126,6 +126,9 @@ export default class ADTAdapter implements IADTAdapter {
                 return (Math.pow(2, retryCount) - Math.random()) * 1000;
             }
         });
+
+        // Fetch & cache models on mount (makes first use of models faster as models should already be cached)
+        this.getAllAdtModels();
     }
 
     getAdtHostUrl() {

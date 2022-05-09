@@ -1,13 +1,6 @@
 import { DefaultButton, PrimaryButton, useTheme } from '@fluentui/react';
 import produce from 'immer';
-import React, {
-    useCallback,
-    useContext,
-    useEffect,
-    useMemo,
-    useRef,
-    useState
-} from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
     WidgetType,
@@ -87,7 +80,8 @@ const WidgetForm: React.FC = () => {
 
     const { t } = useTranslation();
 
-    const activeWidgetId = useRef(null);
+    const [activeWidgetId, setActiveWidgetId] = useState(null);
+
     // On initial render - create or locate widget
     useEffect(() => {
         if (widgetFormInfo.mode === WidgetFormMode.CreateWidget) {
@@ -97,20 +91,20 @@ const WidgetForm: React.FC = () => {
                     createWidget(draft, widgetFormInfo, newWidgetId);
                 })
             );
-            activeWidgetId.current = newWidgetId;
+            setActiveWidgetId(newWidgetId);
         } else if (widgetFormInfo.mode === WidgetFormMode.EditWidget) {
-            activeWidgetId.current = widgetFormInfo.widgetId;
+            setActiveWidgetId(widgetFormInfo.widgetId);
         }
     }, []);
 
     const updateWidgetData = useCallback(
         (widgetData: IWidget) => {
-            if (activeWidgetId.current) {
+            if (activeWidgetId) {
                 setBehaviorToEdit(
                     produce((draft) => {
                         const widgets = getWidgets(draft);
                         const widgetToUpdateIdx = widgets.findIndex(
-                            (w) => w.id === activeWidgetId.current
+                            (w) => w.id === activeWidgetId
                         );
                         widgets[widgetToUpdateIdx] = widgetData;
                     })
@@ -121,10 +115,7 @@ const WidgetForm: React.FC = () => {
     );
 
     const getWidgetBuilder = () => {
-        const widgetData = getActiveWidget(
-            activeWidgetId.current,
-            behaviorToEdit
-        );
+        const widgetData = getActiveWidget(activeWidgetId, behaviorToEdit);
 
         switch (widgetFormInfo.widget.data.type) {
             case WidgetType.Gauge:
@@ -164,7 +155,7 @@ const WidgetForm: React.FC = () => {
     const customStyles = getWidgetFormStyles(theme);
     const commonFormStyles = getPanelFormStyles(theme, 0);
 
-    if (!getActiveWidget(activeWidgetId.current, behaviorToEdit)) return null;
+    if (!getActiveWidget(activeWidgetId, behaviorToEdit)) return null;
     return (
         <>
             <div className={commonFormStyles.content}>
