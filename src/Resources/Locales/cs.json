@@ -310,7 +310,9 @@
     "viewMode": "Režim zobrazení",
     "enterBlobUrl": "Zadejte adresu URL objektu BLOB kontejneru úložiště Azure.",
     "home": "Domov",
-    "globe": "Glóbus"
+    "globe": "Glóbus",
+    "breadcrumbAriaLabel": "Drobečková navigace s položkami vykreslenými jako tlačítka",
+    "breadcrumbOverflowAriaLabel": "Další odkazy"
   },
   "layersDropdown": {
     "placeholder": "Nejsou vybrány žádné vrstvy",
@@ -507,7 +509,8 @@
     "value": {
       "title": "Widget Hodnota",
       "description": "Základní widget pro zobrazení hodnot vlastností dvojčete",
-      "typePlaceholder": "Vyberte typ hodnoty"
+      "typePlaceholder": "Vyberte typ hodnoty",
+      "displayNamePlaceholder": "Zadejte zobrazovaný název"
     }
   },
   "sdkStrings": {
@@ -760,5 +763,7 @@
     "pan": "Pánev",
     "orbit": "Oběžná dráha",
     "zoom": "Zvětšení"
-  }
+  },
+  "active": "Aktivní",
+  "invalidValue": "Neplatná hodnota"
 }

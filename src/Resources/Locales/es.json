@@ -310,7 +310,9 @@
     "viewMode": "Modo de visualización",
     "enterBlobUrl": "Escriba la dirección URL del blob del contenedor de almacenamiento de Azure",
     "home": "Hogar",
-    "globe": "Globo"
+    "globe": "Globo",
+    "breadcrumbAriaLabel": "Breadcrumb con elementos representados como botones",
+    "breadcrumbOverflowAriaLabel": "Más enlaces"
   },
   "layersDropdown": {
     "placeholder": "No hay capas seleccionadas",
@@ -507,7 +509,8 @@
     "value": {
       "title": "Widget de valor",
       "description": "Widget básico para mostrar valores de propiedades gemelas",
-      "typePlaceholder": "Seleccione el tipo para el valor"
+      "typePlaceholder": "Seleccione el tipo para el valor",
+      "displayNamePlaceholder": "Introduzca el nombre para mostrar"
     }
   },
   "sdkStrings": {
@@ -760,5 +763,7 @@
     "pan": "Cacerola",
     "orbit": "Órbita",
     "zoom": "Zoom"
-  }
+  },
+  "active": "Activo",
+  "invalidValue": "Valor no válido"
 }
