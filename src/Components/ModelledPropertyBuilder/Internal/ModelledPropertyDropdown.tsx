@@ -10,17 +10,13 @@ import {
 interface ModelledPropertyDropdownProps {
     selectedKey: string;
     onChange: (option: IDropdownOption) => void;
-    label: string;
     dropdownOptions: IDropdownOption<any>[];
-    required: boolean;
 }
 
 export const ModelledPropertyDropdown: React.FC<ModelledPropertyDropdownProps> = ({
     onChange,
     selectedKey,
-    label,
-    dropdownOptions,
-    required
+    dropdownOptions
 }) => {
     const { t } = useTranslation();
     const styles = getStyles();
@@ -77,8 +73,6 @@ export const ModelledPropertyDropdown: React.FC<ModelledPropertyDropdownProps> =
 
     return (
         <Dropdown
-            required={required}
-            label={label}
             options={dropdownOptions}
             onChange={(_event, option) => {
                 onChange(option);

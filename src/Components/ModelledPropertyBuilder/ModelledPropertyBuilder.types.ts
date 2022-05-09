@@ -49,6 +49,9 @@ export interface ModelledPropertyBuilderProps {
     /** Configuration for supported modes */
     mode: 'PROPERTY_SELECTION' | 'INTELLISENSE' | 'TOGGLE';
 
+    /** Custom label for control */
+    customLabel?: string;
+
     /** Visual indication that this field is required.  Defaults to false */
     required?: boolean;
 
