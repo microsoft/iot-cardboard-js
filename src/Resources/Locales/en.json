@@ -313,6 +313,8 @@
         "enterBlobUrl": "Enter your Azure storage container blob URL",
         "home": "Home",
         "globe": "Globe",
+        "globeView": "Globe view",
+        "listView": "List view",
         "breadcrumbAriaLabel": "Breadcrumb with items rendered as buttons",
         "breadcrumbOverflowAriaLabel": "More links"
     },
