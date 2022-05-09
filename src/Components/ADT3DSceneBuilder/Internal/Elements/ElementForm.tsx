@@ -142,6 +142,13 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                         updatedConfig,
                         behavior
                     );
+
+                    // add the behavior to the current scene if it is not there
+                    updatedConfig = ViewerConfigUtility.addBehaviorToScene(
+                        updatedConfig,
+                        sceneId,
+                        behavior
+                    );
                 }
             }
             // END of behaviors update which this element exists in

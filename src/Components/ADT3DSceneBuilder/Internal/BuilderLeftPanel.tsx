@@ -94,6 +94,8 @@ const BuilderLeftPanel: React.FC = () => {
             selectedElements: Array<ITwinToObjectMapping>; // update selected elements for behavior (e.g. in case twin aliases are changed)
         }) => {
             let updatedConfigWithBehavior;
+            // eslint-disable-next-line no-debugger
+            debugger;
             if (params.mode === ADT3DSceneBuilderMode.CreateBehavior) {
                 updatedConfigWithBehavior = ViewerConfigUtility.addBehavior(
                     params.config,

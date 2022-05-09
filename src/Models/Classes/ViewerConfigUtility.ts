@@ -201,9 +201,15 @@ abstract class ViewerConfigUtility {
         behavior: IBehavior
     ): I3DScenesConfig {
         const updatedConfig = deepCopy(config);
-        updatedConfig.configuration.scenes
-            .find((scene) => scene.id === sceneId)
-            ?.behaviorIDs?.push(behavior.id);
+        const currentScene = updatedConfig.configuration.scenes.find(
+            (scene) => scene.id === sceneId
+        );
+        const behaviorIdsInScene = currentScene.behaviorIDs || [];
+        if (!behaviorIdsInScene.includes(behavior.id)) {
+            behaviorIdsInScene.push(behavior.id);
+        }
+
+        currentScene.behaviorIDs = behaviorIdsInScene;
         return updatedConfig;
     }
 
