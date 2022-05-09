@@ -13,6 +13,9 @@ export default {
     parameters: {
         noGlobalWrapper: true,
         layout: 'fullscreen'
+    },
+    chromatic: {
+        delay: 1000
     }
 };
 
