@@ -10,6 +10,7 @@ import PropertyListItemSubMenu from './PropertyListItemSubMenu';
 import { useTranslation } from 'react-i18next';
 import { SET_OAT_PROPERTY_EDITOR_MODEL } from '../../Models/Constants/ActionTypes';
 import { IAction } from '../../Models/Constants/Interfaces';
+import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 
 type IPropertyListItem = {
     index?: number;
@@ -27,7 +28,7 @@ type IPropertyListItem = {
     setModalBody?: React.Dispatch<React.SetStateAction<string>>;
     setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
     setTemplates?: React.Dispatch<React.SetStateAction<any>>;
-    state?: any;
+    state?: IOATEditorState;
 };
 
 export const PropertyListItem = ({

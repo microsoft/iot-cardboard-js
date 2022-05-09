@@ -5,6 +5,7 @@ import TemplateListItem from './TeplateListItem';
 import { DTDLProperty } from '../../Models/Constants/Interfaces';
 import { SET_OAT_PROPERTY_EDITOR_MODEL } from '../../Models/Constants/ActionTypes';
 import { IAction } from '../../Models/Constants/Interfaces';
+import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 
 interface ITemplateList {
     draggingTemplate?: boolean;
@@ -16,7 +17,7 @@ interface ITemplateList {
     setDraggingTemplate?: (dragging: boolean) => boolean;
     setTemplates: React.Dispatch<React.SetStateAction<DTDLProperty>>;
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
-    state?: any;
+    state?: IOATEditorState;
 }
 
 export const TemplateList = ({

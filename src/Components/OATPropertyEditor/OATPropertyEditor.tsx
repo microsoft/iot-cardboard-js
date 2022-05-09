@@ -4,11 +4,12 @@ import { Theme } from '../../Models/Constants/Enums';
 import Modal from './Modal';
 import Editor from './Editor';
 import { IAction } from '../../Models/Constants/Interfaces';
+import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 
 type IOATPropertyEditor = {
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
     theme?: Theme;
-    state?: any;
+    state?: IOATEditorState;
 };
 
 const OATPropertyEditor = ({ theme, dispatch, state }: IOATPropertyEditor) => {

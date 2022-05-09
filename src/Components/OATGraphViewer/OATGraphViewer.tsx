@@ -26,10 +26,11 @@ import {
     SET_OAT_ELEMENTS_HANDLER
 } from '../../Models/Constants/ActionTypes';
 import { IAction } from '../../Models/Constants/Interfaces';
+import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 
 type OATGraphProps = {
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
-    state?: any;
+    state?: IOATEditorState;
 };
 
 const getStoredElements = () => {

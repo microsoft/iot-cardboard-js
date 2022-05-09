@@ -15,6 +15,7 @@ import PropertyListItemSubMenu from './PropertyListItemSubMenu';
 import { useTranslation } from 'react-i18next';
 import { SET_OAT_PROPERTY_EDITOR_MODEL } from '../../Models/Constants/ActionTypes';
 import { IAction } from '../../Models/Constants/Interfaces';
+import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 
 type IPropertyListItemNest = {
     deleteItem?: (index: number) => any;
@@ -38,7 +39,7 @@ type IPropertyListItemNest = {
     setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
     setPropertySelectorVisible: React.Dispatch<React.SetStateAction<boolean>>;
     setTemplates?: React.Dispatch<React.SetStateAction<any>>;
-    state?: any;
+    state?: IOATEditorState;
 };
 
 export const PropertyListItemNest = ({

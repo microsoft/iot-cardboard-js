@@ -26,27 +26,29 @@ export const defaultOATEditorState: IOATEditorState = {
     isJsonUploaderOpen: false
 };
 
-export const OATEditorPageReducer = produce((state, action: IAction) => {
-    const payload = action.payload;
+export const OATEditorPageReducer = produce(
+    (state: IOATEditorState, action: IAction) => {
+        const payload = action.payload;
 
-    switch (action.type) {
-        case SET_OAT_PROPERTY_EDITOR_MODEL:
-            return { ...state, model: payload };
-        case SET_OAT_ELEMENTS_HANDLER:
-            return { ...state, elementHandler: payload };
-        case SET_OAT_DELETED_MODEL_ID:
-            return { ...state, deletedModelId: payload };
-        case SET_OAT_SELECTED_MODEL_ID:
-            return { ...state, selectedModelId: payload };
-        case SET_OAT_EDITED_MODEL_NAME:
-            return { ...state, editedModelName: payload };
-        case SET_OAT_EDITED_MODEL_ID:
-            return { ...state, editedModelId: payload };
-        case SET_OAT_TEMPLATES_ACTIVE:
-            return { ...state, templatesActive: payload };
-        case SET_OAT_IMPORT_MODELS:
-            return { ...state, importModels: payload };
-        case SET_OAT_IS_JSON_UPLOADER_OPEN:
-            return { ...state, isJsonUploaderOpen: payload };
+        switch (action.type) {
+            case SET_OAT_PROPERTY_EDITOR_MODEL:
+                return { ...state, model: payload };
+            case SET_OAT_ELEMENTS_HANDLER:
+                return { ...state, elementHandler: payload };
+            case SET_OAT_DELETED_MODEL_ID:
+                return { ...state, deletedModelId: payload };
+            case SET_OAT_SELECTED_MODEL_ID:
+                return { ...state, selectedModelId: payload };
+            case SET_OAT_EDITED_MODEL_NAME:
+                return { ...state, editedModelName: payload };
+            case SET_OAT_EDITED_MODEL_ID:
+                return { ...state, editedModelId: payload };
+            case SET_OAT_TEMPLATES_ACTIVE:
+                return { ...state, templatesActive: payload };
+            case SET_OAT_IMPORT_MODELS:
+                return { ...state, importModels: payload };
+            case SET_OAT_IS_JSON_UPLOADER_OPEN:
+                return { ...state, isJsonUploaderOpen: payload };
+        }
     }
-});
+);
