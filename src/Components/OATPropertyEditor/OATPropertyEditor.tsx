@@ -3,9 +3,10 @@ import BaseComponent from '../BaseComponent/BaseComponent';
 import { Theme } from '../../Models/Constants/Enums';
 import Modal from './Modal';
 import Editor from './Editor';
+import { IAction } from '../../Models/Constants/Interfaces';
 
 type IOATPropertyEditor = {
-    dispatch?: React.Dispatch<React.SetStateAction<any>>;
+    dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
     theme?: Theme;
     state?: any;
 };

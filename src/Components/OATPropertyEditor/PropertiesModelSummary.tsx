@@ -7,9 +7,10 @@ import {
     getPropertyEditorTextFieldStyles
 } from './OATPropertyEditor.styles';
 import { SET_OAT_PROPERTY_EDITOR_MODEL } from '../../Models/Constants/ActionTypes';
+import { IAction } from '../../Models/Constants/Interfaces';
 
 type IPropertiesModelSummary = {
-    dispatch?: React.Dispatch<React.SetStateAction<any>>;
+    dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
     state: any;
 };
 

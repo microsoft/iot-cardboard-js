@@ -9,10 +9,11 @@ import PropertyListItemSubMenu from './PropertyListItemSubMenu';
 import { deepCopy } from '../../Models/Services/Utils';
 import { useTranslation } from 'react-i18next';
 import { SET_OAT_PROPERTY_EDITOR_MODEL } from '../../Models/Constants/ActionTypes';
+import { IAction } from '../../Models/Constants/Interfaces';
 
 type IPropertyListItemNested = {
     deleteNestedItem?: (parentIndex: number, index: number) => any;
-    dispatch?: React.Dispatch<React.SetStateAction<any>>;
+    dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
     getItemClassName?: (index: number) => any;
     getErrorMessage?: (value: string) => string;
     index?: number;

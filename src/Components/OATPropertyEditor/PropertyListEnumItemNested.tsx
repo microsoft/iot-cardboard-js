@@ -8,10 +8,11 @@ import {
 import { useTranslation } from 'react-i18next';
 import PropertyListItemSubMenu from './PropertyListItemSubMenu';
 import { SET_OAT_PROPERTY_EDITOR_MODEL } from '../../Models/Constants/ActionTypes';
+import { IAction } from '../../Models/Constants/Interfaces';
 
 type IEnumItem = {
     deleteNestedItem?: (parentIndex: number, index: number) => any;
-    dispatch?: React.Dispatch<React.SetStateAction<any>>;
+    dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
     index?: number;
     item?: any;
     parentIndex?: number;

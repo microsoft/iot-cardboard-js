@@ -1,4 +1,4 @@
-import React, { useReducer, useState, useRef } from 'react';
+import React, { useReducer, useRef } from 'react';
 import prettyBytes from 'pretty-bytes';
 import JsonUploader from '../../Components/JsonUploader/JsonUploader';
 import OATHeader from '../../Components/OATHeader/OATHeader';

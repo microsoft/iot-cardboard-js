@@ -16,6 +16,7 @@ import {
 import TemplateList from './TemplateList';
 import { DTDLProperty } from '../../Models/Constants/Interfaces';
 import { SET_OAT_TEMPLATES_ACTIVE } from '../../Models/Constants/ActionTypes';
+import { IAction } from '../../Models/Constants/Interfaces';
 
 type ITemplateColumn = {
     templates?: DTDLProperty[];
@@ -25,7 +26,7 @@ type ITemplateColumn = {
     setDraggingTemplate: any;
     enteredTemplateRef: any;
     draggingProperty: boolean;
-    dispatch?: React.Dispatch<React.SetStateAction<any>>;
+    dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
     state?: any;
 };
 

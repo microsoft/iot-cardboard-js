@@ -3,6 +3,7 @@ import { Modal as FluentModal } from '@fluentui/react';
 import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
 import FormUpdateProperty from './FormUpdateProperty';
 import FormAddEnumItem from './FormAddEnumItem';
+import { IAction } from '../../Models/Constants/Interfaces';
 
 export enum FromBody {
     property = 'Property',
@@ -11,7 +12,7 @@ export enum FromBody {
 interface IModal {
     currentNestedPropertyIndex?: number;
     currentPropertyIndex?: number;
-    dispatch?: React.Dispatch<React.SetStateAction<any>>;
+    dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
     modalBody?: string;
     modalOpen?: boolean;
     setCurrentNestedPropertyIndex?: React.Dispatch<

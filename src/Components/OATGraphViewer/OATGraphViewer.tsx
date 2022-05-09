@@ -25,9 +25,10 @@ import {
     SET_OAT_PROPERTY_EDITOR_MODEL,
     SET_OAT_ELEMENTS_HANDLER
 } from '../../Models/Constants/ActionTypes';
+import { IAction } from '../../Models/Constants/Interfaces';
 
 type OATGraphProps = {
-    dispatch?: React.Dispatch<React.SetStateAction<any>>;
+    dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
     state?: any;
 };
 

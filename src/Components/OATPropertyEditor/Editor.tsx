@@ -11,7 +11,7 @@ import {
 } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
-import { DTDLProperty } from '../../Models/Constants/Interfaces';
+import { DTDLProperty, IAction } from '../../Models/Constants/Interfaces';
 import PropertyList from './PropertyList';
 import JSONEditor from './JSONEditor';
 import TemplateColumn from './TemplateColumn';
@@ -19,7 +19,7 @@ import PropertiesModelSummary from './PropertiesModelSummary';
 import { SET_OAT_TEMPLATES_ACTIVE } from '../../Models/Constants/ActionTypes';
 interface IEditor {
     currentPropertyIndex?: number;
-    dispatch?: React.Dispatch<React.SetStateAction<any>>;
+    dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
     templates?: DTDLProperty[];
     theme?: Theme;
     setCurrentNestedPropertyIndex?: React.Dispatch<

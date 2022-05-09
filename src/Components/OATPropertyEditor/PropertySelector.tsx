@@ -34,9 +34,10 @@ import IconString from '../../Resources/Static/string.svg';
 import IconTime from '../../Resources/Static/time.svg';
 import { useTranslation } from 'react-i18next';
 import { SET_OAT_PROPERTY_EDITOR_MODEL } from '../../Models/Constants/ActionTypes';
+import { IAction } from '../../Models/Constants/Interfaces';
 
 interface IProperySelectorProps {
-    dispatch?: React.Dispatch<React.SetStateAction<any>>;
+    dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
     lastPropertyFocused: any;
     targetId?: string;
     setPropertySelectorVisible: React.Dispatch<React.SetStateAction<boolean>>;

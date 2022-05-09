@@ -13,9 +13,10 @@ import {
     getModalLabelStyles
 } from './OATPropertyEditor.styles';
 import { SET_OAT_PROPERTY_EDITOR_MODEL } from '../../Models/Constants/ActionTypes';
+import { IAction } from '../../Models/Constants/Interfaces';
 
 interface IModal {
-    dispatch?: React.Dispatch<React.SetStateAction<any>>;
+    dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
     currentPropertyIndex?: number;
     currentNestedPropertyIndex?: number;
     setCurrentNestedPropertyIndex?: React.Dispatch<
