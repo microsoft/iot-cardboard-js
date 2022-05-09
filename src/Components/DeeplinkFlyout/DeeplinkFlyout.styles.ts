@@ -75,6 +75,12 @@ export const getStyles = (
                 text: {
                     fontSize: FontSizes.size12
                 }
+            },
+            confirmationStack: {
+                root: {
+                    flex: 1,
+                    justifyContent: 'center'
+                }
             }
         }
     };

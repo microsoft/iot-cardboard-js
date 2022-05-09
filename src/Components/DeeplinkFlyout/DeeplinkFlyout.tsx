@@ -161,13 +161,17 @@ const DeeplinkFlyout: React.FC<IDeeplinkFlyoutProps> = (props) => {
                             />
                             {showConfirmation && (
                                 <Stack
-                                    horizontal
-                                    tokens={{ childrenGap: 4 }}
                                     className={css(
                                         classNames.calloutConfirmationMessage,
                                         isConfirmationFadingOut &&
                                             classNames.calloutConfirmationMessageFadeOut
                                     )}
+                                    horizontal
+                                    styles={
+                                        classNames.subComponentStyles
+                                            .confirmationStack
+                                    }
+                                    tokens={{ childrenGap: 4 }}
                                 >
                                     <Text>
                                         {t(LOC_KEYS.copyConfirmationMessage)}
