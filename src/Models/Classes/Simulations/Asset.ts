@@ -47,6 +47,13 @@ export class Asset {
         };
     };
 
+    public getStringValue = () => {
+        return (_currentValue: boolean) => {
+            const fourDigitNumber = Math.floor(Math.random() * 1000);
+            return `Box${fourDigitNumber}`;
+        };
+    };
+
     private getAssetProperties() {
         const assetProperties = [];
         this.properties.forEach((property) => {
@@ -77,27 +84,34 @@ export class Asset {
                         currentValue: false,
                         getNextValue: this.getBooleanValue(0.75),
                         schema: 'boolean'
+                    },
+                    {
+                        id: this.name,
+                        propertyName: 'PickupFailedBoxID',
+                        currentValue: 'Box1',
+                        getNextValue: this.getStringValue(),
+                        schema: 'string'
                     }
                 ];
                 [1, 2, 3, 4, 5, 6].forEach((idx) => {
                     this.twins.push({
-                        name: `Robot${idx}`,
+                        name: `Arm${idx}`,
                         properties: this.getAssetProperties()
                     });
                 });
                 break;
             }
-            case 'FactoryFloor': {
+            case 'DistributionCenter': {
                 this.relationships.push({
                     name: 'contains',
                     target: 'RobotArm'
                 });
                 this.twins.push({
-                    name: 'FactoryFloor1',
+                    name: 'DistCtr',
                     assetRelationships: [1, 2, 3, 4, 5, 6].map((idx) => {
                         return {
                             name: 'contains',
-                            target: `Robot${idx}`,
+                            target: `Arm${idx}`,
                             targetModel: 'RobotArm'
                         };
                     }),

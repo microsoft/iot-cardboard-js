@@ -40,7 +40,7 @@ export default class AssetSimulation implements IAdtPusherSimulation {
             this.assets.push(new Asset('Country'));
         } else if (simulationType === AdtPusherSimulationType.RobotArms) {
             this.assets.push(new Asset('RobotArm'));
-            this.assets.push(new Asset('FactoryFloor'));
+            this.assets.push(new Asset('DistributionCenter'));
         }
     }
 
