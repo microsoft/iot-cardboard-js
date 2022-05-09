@@ -312,7 +312,9 @@
     "home": "Hem",
     "globe": "Jordglob",
     "breadcrumbAriaLabel": "Brödsmulor med objekt som återges som knappar",
-    "breadcrumbOverflowAriaLabel": "Fler länkar"
+    "breadcrumbOverflowAriaLabel": "Fler länkar",
+    "globeView": "Vy över världen",
+    "listView": "Listvy"
   },
   "layersDropdown": {
     "placeholder": "Inga lager markerade",
@@ -765,13 +767,5 @@
     "zoom": "Zooma"
   },
   "active": "Aktiv",
-  "invalidValue": "Ogiltigt värde",
-  "deeplinkFlyout": {
-    "buttonTitle": "Aktie",
-    "copyButtonText": "Kopiera länk",
-    "copyConfirmationMessage": "Kopieras",
-    "flyoutHeader": "Dela scen",
-    "includeElementsOption": "Länk till valt element",
-    "includeLayersOption": "Länka till valda lager"
-  }
+  "invalidValue": "Ogiltigt värde"
 }
