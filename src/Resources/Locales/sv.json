@@ -312,7 +312,9 @@
     "home": "Hem",
     "globe": "Jordglob",
     "breadcrumbAriaLabel": "Brödsmulor med objekt som återges som knappar",
-    "breadcrumbOverflowAriaLabel": "Fler länkar"
+    "breadcrumbOverflowAriaLabel": "Fler länkar",
+    "globeView": "Vy över världen",
+    "listView": "Listvy"
   },
   "layersDropdown": {
     "placeholder": "Inga lager markerade",

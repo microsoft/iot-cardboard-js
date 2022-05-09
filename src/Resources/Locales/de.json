@@ -312,7 +312,9 @@
     "home": "Heim",
     "globe": "Kugel",
     "breadcrumbAriaLabel": "Breadcrumb mit Elementen, die als Schaltflächen gerendert werden",
-    "breadcrumbOverflowAriaLabel": "Weitere Links"
+    "breadcrumbOverflowAriaLabel": "Weitere Links",
+    "globeView": "Globus-Ansicht",
+    "listView": "Listenansicht"
   },
   "layersDropdown": {
     "placeholder": "Keine Ebenen ausgewählt",
