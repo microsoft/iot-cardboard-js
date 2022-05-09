@@ -49,6 +49,7 @@ import {
 import { DeeplinkContextActionType } from '../../Models/Context/DeeplinkContext.types';
 import { addHttpsPrefix } from '../../Models/Services/Utils';
 import ADT3DGlobe from '../../Components/ADT3DGlobe/ADT3DGlobe';
+import { getStyles } from './ADT3DScenePage.styles';
 
 export const ADT3DScenePageContext = createContext<IADT3DScenePageContext>(
     null
@@ -62,6 +63,7 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
     environmentPickerOptions
 }) => {
     const { t } = useTranslation();
+    const customStyles = getStyles();
     const errorCallbackSetRef = useRef<boolean>(false);
     const { deeplinkDispatch, deeplinkState } = useDeeplinkContext();
 
@@ -188,7 +190,7 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
         }
     }, [deeplinkState.sceneId, setCurrentStep]);
 
-    const handleSceneListModeChange = useCallback(
+    const onListModeChange = useCallback(
         (sceneListMode: ADT3DScenePageSteps) => {
             setSelectedSceneId(null);
             setCurrentStep(sceneListMode);
@@ -278,49 +280,30 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
                     localeStrings={localeStrings}
                     containerClassName={'cb-scene-page-container'}
                 >
-                    {(state.currentStep === ADT3DScenePageSteps.SceneList ||
-                        state.currentStep === ADT3DScenePageSteps.Globe) && (
-                        <SceneListModeToggle
-                            selectedMode={state.currentStep}
-                            handleSceneListModeChange={
-                                handleSceneListModeChange
-                            }
-                        />
-                    )}
-
+                    {' '}
                     {(state.currentStep === ADT3DScenePageSteps.SceneList ||
                         state.currentStep === ADT3DScenePageSteps.Globe) && (
                         <>
-                            <div className="cb-scene-page-scene-environment-picker">
-                                <EnvironmentPicker
-                                    adapter={adapter}
-                                    shouldPullFromSubscription={
-                                        environmentPickerOptions?.environment
-                                            ?.shouldPullFromSubscription
-                                    }
-                                    // temp hack until we clean up environmentPicker to output the value with https prefix
-                                    // if we have a url with the prefix, use it, otherwise append the prefix
-                                    // without this if you pass a value without the prefix it will crash the picker
-                                    environmentUrl={addHttpsPrefix(
-                                        deeplinkState.adtUrl
-                                    )}
-                                    onEnvironmentUrlChange={
-                                        handleEnvironmentUrlChange
-                                    }
-                                    {...(environmentPickerOptions?.environment
-                                        ?.isLocalStorageEnabled && {
-                                        isLocalStorageEnabled: true,
-                                        localStorageKey:
-                                            environmentPickerOptions?.storage
-                                                ?.localStorageKey,
-                                        selectedItemLocalStorageKey:
-                                            environmentPickerOptions?.storage
-                                                ?.selectedItemLocalStorageKey
-                                    })}
-                                    storage={{
-                                        containerUrl: deeplinkState.storageUrl,
-                                        onContainerUrlChange: handleContainerUrlChange,
-                                        ...(environmentPickerOptions?.storage
+                            <div className={customStyles.header}>
+                                <div className="cb-scene-page-scene-environment-picker">
+                                    <EnvironmentPicker
+                                        adapter={adapter}
+                                        shouldPullFromSubscription={
+                                            environmentPickerOptions
+                                                ?.environment
+                                                ?.shouldPullFromSubscription
+                                        }
+                                        // temp hack until we clean up environmentPicker to output the value with https prefix
+                                        // if we have a url with the prefix, use it, otherwise append the prefix
+                                        // without this if you pass a value without the prefix it will crash the picker
+                                        environmentUrl={addHttpsPrefix(
+                                            deeplinkState.adtUrl
+                                        )}
+                                        onEnvironmentUrlChange={
+                                            handleEnvironmentUrlChange
+                                        }
+                                        {...(environmentPickerOptions
+                                            ?.environment
                                             ?.isLocalStorageEnabled && {
                                             isLocalStorageEnabled: true,
                                             localStorageKey:
@@ -330,13 +313,34 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
                                                 environmentPickerOptions
                                                     ?.storage
                                                     ?.selectedItemLocalStorageKey
-                                        })
-                                    }}
+                                        })}
+                                        storage={{
+                                            containerUrl:
+                                                deeplinkState.storageUrl,
+                                            onContainerUrlChange: handleContainerUrlChange,
+                                            ...(environmentPickerOptions
+                                                ?.storage
+                                                ?.isLocalStorageEnabled && {
+                                                isLocalStorageEnabled: true,
+                                                localStorageKey:
+                                                    environmentPickerOptions
+                                                        ?.storage
+                                                        ?.localStorageKey,
+                                                selectedItemLocalStorageKey:
+                                                    environmentPickerOptions
+                                                        ?.storage
+                                                        ?.selectedItemLocalStorageKey
+                                            })
+                                        }}
+                                    />
+                                </div>
+                                <SceneListModeToggle
+                                    selectedMode={state.currentStep}
+                                    onListModeChange={onListModeChange}
                                 />
                             </div>
                         </>
                     )}
-
                     <ScenePageErrorHandlingWrapper
                         errors={state.errors}
                         primaryClickAction={{

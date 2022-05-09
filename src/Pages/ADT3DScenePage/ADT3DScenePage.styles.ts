@@ -1,16 +1,16 @@
 import { IStyle, memoizeFunction, mergeStyleSets } from '@fluentui/react';
 
-export const scenePageClassPrefix = 'cb-scene-list-toggle';
+export const scenePageClassPrefix = 'cb-scene-page';
 const classNames = {
-    pivot: `${scenePageClassPrefix}-pivot`
+    header: `${scenePageClassPrefix}-header`
 };
 
 export const getStyles = memoizeFunction(() => {
     return mergeStyleSets({
-        pivot: [
-            classNames.pivot,
+        header: [
+            classNames.header,
             {
-                marginLeft: 'auto'
+                display: 'flex'
             } as IStyle
         ]
     });
