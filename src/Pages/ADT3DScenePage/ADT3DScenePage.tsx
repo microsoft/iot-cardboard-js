@@ -289,7 +289,8 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
                         />
                     )}
 
-                    {state.currentStep === ADT3DScenePageSteps.SceneList && (
+                    {(state.currentStep === ADT3DScenePageSteps.SceneList ||
+                        state.currentStep === ADT3DScenePageSteps.Globe) && (
                         <>
                             <div className="cb-scene-page-scene-environment-picker">
                                 <EnvironmentPicker
@@ -336,49 +337,6 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
                             </div>
                         </>
                     )}
-                    <div className="cb-scene-page-scene-environment-picker">
-                        <EnvironmentPicker
-                            theme={theme}
-                            locale={locale}
-                            localeStrings={localeStrings}
-                            adapter={adapter}
-                            shouldPullFromSubscription={
-                                environmentPickerOptions?.environment
-                                    ?.shouldPullFromSubscription
-                            }
-                            {...(adapter.getAdtHostUrl() && {
-                                environmentUrl:
-                                    'https://' + adapter.getAdtHostUrl()
-                            })}
-                            onEnvironmentUrlChange={handleEnvironmentUrlChange}
-                            {...(environmentPickerOptions?.environment
-                                ?.isLocalStorageEnabled && {
-                                isLocalStorageEnabled: true,
-                                localStorageKey:
-                                    environmentPickerOptions?.environment
-                                        ?.localStorageKey,
-                                selectedItemLocalStorageKey:
-                                    environmentPickerOptions?.environment
-                                        ?.selectedItemLocalStorageKey
-                            })}
-                            storage={{
-                                ...(adapter.getBlobContainerURL() && {
-                                    containerUrl: adapter.getBlobContainerURL()
-                                }),
-                                onContainerUrlChange: handleContainerUrlChange,
-                                ...(environmentPickerOptions?.storage
-                                    ?.isLocalStorageEnabled && {
-                                    isLocalStorageEnabled: true,
-                                    localStorageKey:
-                                        environmentPickerOptions?.storage
-                                            ?.localStorageKey,
-                                    selectedItemLocalStorageKey:
-                                        environmentPickerOptions?.storage
-                                            ?.selectedItemLocalStorageKey
-                                })
-                            }}
-                        />
-                    </div>
 
                     <ScenePageErrorHandlingWrapper
                         errors={state.errors}
