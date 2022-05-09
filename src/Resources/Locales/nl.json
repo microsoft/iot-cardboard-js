@@ -767,5 +767,13 @@
     "zoom": "Zoom"
   },
   "active": "Actief",
-  "invalidValue": "Ongeldige waarde"
+  "invalidValue": "Ongeldige waarde",
+  "deeplinkFlyout": {
+    "buttonTitle": "Delen",
+    "copyButtonText": "Link kopiëren",
+    "copyConfirmationMessage": "Gekopieerd!",
+    "flyoutHeader": "Scène delen",
+    "includeElementsOption": "Koppeling met geselecteerd element",
+    "includeLayersOption": "Koppeling met geselecteerde lagen"
+  }
 }
