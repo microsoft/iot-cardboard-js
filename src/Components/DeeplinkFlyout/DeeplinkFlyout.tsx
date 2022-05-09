@@ -72,7 +72,13 @@ const DeeplinkFlyout: React.FC<IDeeplinkFlyoutProps> = (props) => {
         setShowConfirmation(false);
         if (!includeLayers) toggleIncludeLayers();
         if (!includeElement) toggleIncludeElement();
-    }, [showFlyout]);
+    }, [
+        includeElement,
+        includeLayers,
+        showFlyout,
+        toggleIncludeElement,
+        toggleIncludeLayers
+    ]);
 
     // styles
     const classNames = getClassNames(styles, {
@@ -115,7 +121,7 @@ const DeeplinkFlyout: React.FC<IDeeplinkFlyoutProps> = (props) => {
             );
             console.error('Failed to copy text to clipboard');
         }
-    }, [includeElement, includeLayers]);
+    }, [getDeeplink, includeElement, includeLayers]);
 
     return (
         <div className={classNames.root}>
