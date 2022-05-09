@@ -445,13 +445,17 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
             }
             return collection;
         }, []);
+        const editorData = JSON.parse(localStorage.getItem(OATDataStorageKey));
         const oatEditorData = {
+            ...editorData,
             models: elements,
             modelPositions: nodePositions,
-            projectName: 'Project',
-            projectDescription: 'Description',
-            templates: {},
-            modelTwins: null
+            projectName: editorData.projectName
+                ? editorData.projectName
+                : 'Project',
+            projectDescription: editorData.description
+                ? editorData.description
+                : 'Description'
         };
 
         localStorage.setItem(OATDataStorageKey, JSON.stringify(oatEditorData));

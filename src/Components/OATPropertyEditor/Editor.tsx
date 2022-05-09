@@ -11,7 +11,7 @@ import {
 } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
-import { DTDLProperty, IAction } from '../../Models/Constants/Interfaces';
+import { IAction } from '../../Models/Constants/Interfaces';
 import PropertyList from './PropertyList';
 import JSONEditor from './JSONEditor';
 import TemplateColumn from './TemplateColumn';
@@ -20,7 +20,6 @@ import { SET_OAT_TEMPLATES_ACTIVE } from '../../Models/Constants/ActionTypes';
 interface IEditor {
     currentPropertyIndex?: number;
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
-    templates?: DTDLProperty[];
     theme?: Theme;
     setCurrentNestedPropertyIndex?: React.Dispatch<
         React.SetStateAction<number>
@@ -28,13 +27,10 @@ interface IEditor {
     setCurrentPropertyIndex?: React.Dispatch<React.SetStateAction<number>>;
     setModalBody?: React.Dispatch<React.SetStateAction<string>>;
     setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
-    setTemplates?: React.Dispatch<React.SetStateAction<DTDLProperty>>;
     state: any;
 }
 
 const Editor = ({
-    templates,
-    setTemplates,
     theme,
     setModalBody,
     setModalOpen,
@@ -130,7 +126,6 @@ const Editor = ({
                         setCurrentPropertyIndex={setCurrentPropertyIndex}
                         setModalOpen={setModalOpen}
                         currentPropertyIndex={currentPropertyIndex}
-                        setTemplates={setTemplates}
                         enteredPropertyRef={enteredPropertyRef}
                         draggingTemplate={draggingTemplate}
                         enteredTemplateRef={enteredTemplateRef}
@@ -155,14 +150,13 @@ const Editor = ({
             </Pivot>
             {state.templatesActive && (
                 <TemplateColumn
-                    templates={templates}
-                    setTemplates={setTemplates}
                     enteredPropertyRef={enteredPropertyRef}
                     draggingTemplate={draggingTemplate}
                     setDraggingTemplate={setDraggingTemplate}
                     draggingProperty={draggingProperty}
                     enteredTemplateRef={enteredTemplateRef}
                     dispatch={dispatch}
+                    state={state}
                 />
             )}
         </div>

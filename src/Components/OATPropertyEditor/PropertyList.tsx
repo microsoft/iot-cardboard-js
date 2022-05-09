@@ -3,12 +3,14 @@ import { FontIcon, ActionButton, Text } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
 import { deepCopy } from '../../Models/Services/Utils';
-import { DTDLProperty } from '../../Models/Constants/Interfaces';
 import PropertyListItem from './PropertyListItem';
 import PropertyListItemNest from './PropertyListItemNest';
 import PropertySelector from './PropertySelector';
 import AddPropertyBar from './AddPropertyBar';
-import { SET_OAT_PROPERTY_EDITOR_MODEL } from '../../Models/Constants/ActionTypes';
+import {
+    SET_OAT_PROPERTY_EDITOR_MODEL,
+    SET_OAT_TEMPLATES
+} from '../../Models/Constants/ActionTypes';
 import { IAction } from '../../Models/Constants/Interfaces';
 
 type IPropertyList = {
@@ -24,7 +26,6 @@ type IPropertyList = {
     setDraggingProperty: React.Dispatch<React.SetStateAction<boolean>>;
     setModalBody?: React.Dispatch<React.SetStateAction<string>>;
     setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
-    setTemplates?: React.Dispatch<React.SetStateAction<DTDLProperty>>;
     setPropertySelectorVisible: React.Dispatch<React.SetStateAction<boolean>>;
     state: any;
 };
@@ -36,7 +37,6 @@ export const PropertyList = ({
     setPropertySelectorVisible,
     setCurrentPropertyIndex,
     setModalOpen,
-    setTemplates,
     enteredPropertyRef,
     draggingTemplate,
     enteredTemplateRef,
@@ -58,13 +58,11 @@ export const PropertyList = ({
     const dragNode = useRef(null);
 
     const handlePropertyItemDropOnTemplateList = () => {
-        // Drop
-        setTemplates((prevTemplate) => {
-            const newTemplate = deepCopy(prevTemplate);
-            newTemplate.push(
-                state.model.contents[draggedPropertyItemRef.current]
-            );
-            return newTemplate;
+        const newTemplate = state.templates ? deepCopy(state.templates) : [];
+        newTemplate.push(state.model.contents[draggedPropertyItemRef.current]);
+        dispatch({
+            type: SET_OAT_TEMPLATES,
+            payload: newTemplate
         });
     };
 
@@ -244,7 +242,6 @@ export const PropertyList = ({
                                     dispatch={dispatch}
                                     state={state}
                                     deleteItem={deleteItem}
-                                    setTemplates={setTemplates}
                                 />
                             );
                         } else if (typeof item['@type'] === 'object') {
@@ -270,7 +267,6 @@ export const PropertyList = ({
                                     }
                                     setModalBody={setModalBody}
                                     deleteItem={deleteItem}
-                                    setTemplates={setTemplates}
                                     dispatch={dispatch}
                                     state={state}
                                 />

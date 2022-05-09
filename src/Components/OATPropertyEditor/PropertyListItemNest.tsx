@@ -13,7 +13,10 @@ import PropertyListMapItemNested from './PropertyListMapItemNested';
 import { deepCopy } from '../../Models/Services/Utils';
 import PropertyListItemSubMenu from './PropertyListItemSubMenu';
 import { useTranslation } from 'react-i18next';
-import { SET_OAT_PROPERTY_EDITOR_MODEL } from '../../Models/Constants/ActionTypes';
+import {
+    SET_OAT_PROPERTY_EDITOR_MODEL,
+    SET_OAT_TEMPLATES
+} from '../../Models/Constants/ActionTypes';
 import { IAction } from '../../Models/Constants/Interfaces';
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 
@@ -38,7 +41,6 @@ type IPropertyListItemNest = {
     setModalBody?: React.Dispatch<React.SetStateAction<string>>;
     setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
     setPropertySelectorVisible: React.Dispatch<React.SetStateAction<boolean>>;
-    setTemplates?: React.Dispatch<React.SetStateAction<any>>;
     state?: IOATEditorState;
 };
 
@@ -61,7 +63,6 @@ export const PropertyListItemNest = ({
     setCurrentNestedPropertyIndex,
     setModalOpen,
     setModalBody,
-    setTemplates,
     state
 }: IPropertyListItemNest) => {
     const { t } = useTranslation();
@@ -88,7 +89,10 @@ export const PropertyListItemNest = ({
     };
 
     const handleTemplateAddition = () => {
-        setTemplates((templates) => [...templates, item]);
+        dispatch({
+            type: SET_OAT_TEMPLATES,
+            payload: [...state.templates.item]
+        });
     };
 
     const handleDuplicate = () => {
@@ -211,7 +215,6 @@ export const PropertyListItemNest = ({
                         setCurrentPropertyIndex={setCurrentPropertyIndex}
                         setModalOpen={setModalOpen}
                         deleteNestedItem={deleteNestedItem}
-                        setTemplates={setTemplates}
                         dispatch={dispatch}
                         state={state}
                     />

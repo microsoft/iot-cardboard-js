@@ -8,7 +8,10 @@ import {
 import PropertyListItemSubMenu from './PropertyListItemSubMenu';
 import { deepCopy } from '../../Models/Services/Utils';
 import { useTranslation } from 'react-i18next';
-import { SET_OAT_PROPERTY_EDITOR_MODEL } from '../../Models/Constants/ActionTypes';
+import {
+    SET_OAT_PROPERTY_EDITOR_MODEL,
+    SET_OAT_TEMPLATES
+} from '../../Models/Constants/ActionTypes';
 import { IAction } from '../../Models/Constants/Interfaces';
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 
@@ -23,7 +26,6 @@ type IPropertyListItemNested = {
     setCurrentNestedPropertyIndex: React.Dispatch<React.SetStateAction<number>>;
     setCurrentPropertyIndex?: React.Dispatch<React.SetStateAction<number>>;
     setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
-    setTemplates?: React.Dispatch<React.SetStateAction<any>>;
     state?: IOATEditorState;
 };
 
@@ -38,7 +40,6 @@ export const PropertyListItemNested = ({
     setCurrentNestedPropertyIndex,
     setCurrentPropertyIndex,
     setModalOpen,
-    setTemplates,
     state
 }: IPropertyListItemNested) => {
     const { t } = useTranslation();
@@ -64,7 +65,10 @@ export const PropertyListItemNested = ({
     };
 
     const handleTemplateAddition = () => {
-        setTemplates((templates) => [...templates, item]);
+        dispatch({
+            type: SET_OAT_TEMPLATES,
+            payload: [...state.templates.item]
+        });
     };
 
     return (

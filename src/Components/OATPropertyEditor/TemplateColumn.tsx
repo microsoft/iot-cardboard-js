@@ -20,8 +20,6 @@ import { IAction } from '../../Models/Constants/Interfaces';
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 
 type ITemplateColumn = {
-    templates?: DTDLProperty[];
-    setTemplates: React.Dispatch<React.SetStateAction<DTDLProperty>>;
     enteredPropertyRef: any;
     draggingTemplate: boolean;
     setDraggingTemplate: any;
@@ -32,8 +30,6 @@ type ITemplateColumn = {
 };
 
 export const TemplateColumn = ({
-    templates,
-    setTemplates,
     enteredPropertyRef,
     draggingTemplate,
     setDraggingTemplate,
@@ -91,8 +87,6 @@ export const TemplateColumn = ({
             </Stack>
 
             <TemplateList
-                templates={templates}
-                setTemplates={setTemplates}
                 draggedTemplateItemRef={draggedTemplateItemRef}
                 enteredPropertyRef={enteredPropertyRef}
                 dispatch={dispatch}

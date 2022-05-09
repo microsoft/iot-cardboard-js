@@ -1,9 +1,12 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
 import { deepCopy } from '../../Models/Services/Utils';
 import TemplateListItem from './TeplateListItem';
 import { DTDLProperty } from '../../Models/Constants/Interfaces';
-import { SET_OAT_PROPERTY_EDITOR_MODEL } from '../../Models/Constants/ActionTypes';
+import {
+    SET_OAT_PROPERTY_EDITOR_MODEL,
+    SET_OAT_TEMPLATES
+} from '../../Models/Constants/ActionTypes';
 import { IAction } from '../../Models/Constants/Interfaces';
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 
@@ -13,7 +16,7 @@ interface ITemplateList {
     enteredTemplateRef: any;
     draggedTemplateItemRef: any;
     enteredPropertyRef: any;
-    templates?: DTDLProperty[];
+
     setDraggingTemplate?: (dragging: boolean) => boolean;
     setTemplates: React.Dispatch<React.SetStateAction<DTDLProperty>>;
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
@@ -21,8 +24,6 @@ interface ITemplateList {
 }
 
 export const TemplateList = ({
-    templates,
-    setTemplates,
     draggedTemplateItemRef,
     enteredPropertyRef,
     draggingTemplate,
@@ -41,7 +42,8 @@ export const TemplateList = ({
         // Prevent drop if duplicate
         const isTemplateAlreadyInModel = state.model.contents.find(
             (item) =>
-                item['@id'] === templates[draggedTemplateItemRef.current]['@id']
+                item['@id'] ===
+                state.templates[draggedTemplateItemRef.current]['@id']
         );
         if (isTemplateAlreadyInModel) return;
 
@@ -51,7 +53,7 @@ export const TemplateList = ({
         newModel.contents.splice(
             enteredPropertyRef.current + 1,
             0,
-            templates[draggedTemplateItemRef.current]
+            state.templates[draggedTemplateItemRef.current]
         );
         dispatch({ type: SET_OAT_PROPERTY_EDITOR_MODEL, payload: newModel });
     };
@@ -83,27 +85,19 @@ export const TemplateList = ({
     const handleDragEnter = (e, i) => {
         if (e.target !== dragNode.current) {
             //  Entered item is not the same as dragged node
-            setTemplates((prevTemplate) => {
-                const newTemplate = deepCopy(prevTemplate);
-                //  Replace entered item with dragged item
-                // --> Remove dragged item and then place it on entered item's position
-                newTemplate.splice(
-                    i,
-                    0,
-                    newTemplate.splice(dragItem.current, 1)[0]
-                );
-                dragItem.current = i;
-                return newTemplate;
-            });
-
-            // Use of reducer
-            const newTemplate = deepCopy(templates);
+            //  Replace entered item with dragged item
+            // --> Remove dragged item and then place it on entered item's position
+            const newTemplate = deepCopy(state.templates);
             newTemplate.splice(
                 i,
                 0,
                 newTemplate.splice(dragItem.current, 1)[0]
             );
             dragItem.current = i;
+            dispatch({
+                type: SET_OAT_TEMPLATES,
+                payload: newTemplate
+            });
         }
     };
 
@@ -132,14 +126,13 @@ export const TemplateList = ({
     };
 
     const deleteItem = (index) => {
-        setTemplates((prevTemplate) => {
-            const newTemplate = deepCopy(prevTemplate);
-            newTemplate.splice(index, 1);
-            return newTemplate;
-        });
-
-        const newTemplate = deepCopy(templates);
+        const newTemplate = deepCopy(state.templates);
         newTemplate.splice(index, 1);
+
+        dispatch({
+            type: SET_OAT_TEMPLATES,
+            payload: newTemplate
+        });
     };
 
     return (
@@ -151,8 +144,10 @@ export const TemplateList = ({
                     : () => handleDragEnterExternalItem(0)
             }
         >
-            {templates.length > 0 &&
-                templates.map((item, i) => (
+            {state &&
+                state.templates &&
+                state.templates.length > 0 &&
+                state.templates.map((item, i) => (
                     <TemplateListItem
                         key={i}
                         draggingTemplate={draggingTemplate}
