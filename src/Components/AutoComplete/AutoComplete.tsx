@@ -3,6 +3,7 @@ import {
     css,
     DirectionalHint,
     ICalloutProps,
+    ITextField,
     ITextFieldProps,
     memoizeFunction,
     mergeStyleSets,
@@ -65,6 +66,7 @@ export const AutoComplete: React.FC<IAutoCompleteProps> = ({
     const topRef = useRef(0);
     const theme = useTheme();
     const styles = getStyles(theme);
+    const textFieldRef = useRef<ITextField>(null);
     itemContainerClassName = css(itemContainerClassName, styles.container);
     itemClassName = css(itemClassName, styles.autoCompleteItem);
     selectedItemClassName = css(
@@ -92,6 +94,7 @@ export const AutoComplete: React.FC<IAutoCompleteProps> = ({
             await sleep(50); // Wait for the re-render
             textField.setSelectionRange(caret, caret);
         }
+        textFieldRef.current?.focus?.();
         setCalloutVisible(false);
     };
 
@@ -235,6 +238,7 @@ export const AutoComplete: React.FC<IAutoCompleteProps> = ({
                 onBlur={onBlur}
                 validateOnFocusOut={true}
                 required={required}
+                componentRef={textFieldRef}
             />
             <Callout
                 styles={{ root: { marginTop: topRef.current } }}
