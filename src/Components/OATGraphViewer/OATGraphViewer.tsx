@@ -9,16 +9,15 @@ import ReactFlow, {
     removeElements
 } from 'react-flow-renderer';
 import { useTranslation } from 'react-i18next';
-import BaseComponent from '../BaseComponent/BaseComponent';
 import OATGraphCustomNode from './Internal/OATGraphCustomNode';
 import OATGraphCustomEdge from './Internal/OATGraphCustomEdge';
 import {
     OATDataStorageKey,
     OATUntargetedRelationshipName,
     OATRelationshipHandleName,
-    OATComponentHandleName,
     OATExtendHandleName,
-    OATInterfaceType
+    OATInterfaceType,
+    OATComponentHandleName
 } from '../../Models/Constants/Constants';
 import { getGraphViewerStyles } from './OATGraphViewer.styles';
 import { ElementsContext } from './Internal/OATContext';
@@ -26,10 +25,6 @@ import {
     SET_OAT_PROPERTY_EDITOR_MODEL,
     SET_OAT_ELEMENTS_HANDLER
 } from '../../Models/Constants/ActionTypes';
-
-const idClassBase = 'dtmi:com:example:';
-const contextClassBase = 'dtmi:adt:context;2';
-const versionClassBase = '1';
 
 type OATGraphProps = {
     dispatch?: React.Dispatch<React.SetStateAction<any>>;
@@ -54,6 +49,10 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     const [elements, setElements] = useState(
         storedElements === null ? [] : storedElements
     );
+    const idClassBase = 'dtmi:com:example:';
+    const contextClassBase = 'dtmi:adt:context;2';
+    const versionClassBase = '1';
+    const defaultPosition = 100;
     const [newModelId, setNewModelId] = useState(0);
     const graphViewerStyles = getGraphViewerStyles();
     const currentNodeIdRef = useRef('');
@@ -95,6 +94,98 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
             currentNodeIdRef.current = state.model['@id'];
         }
     }, [state.model]);
+
+    useEffect(() => {
+        let importModelsList = [];
+        if (state.importModels.length > 0) {
+            state.importModels.map((input) => {
+                const node = elements.find(
+                    (element) => element.id === input['@id']
+                );
+                if (!node) {
+                    let relationships = [];
+                    let contents = [];
+                    input['contents'].map((content) => {
+                        if (content['@type'] === OATComponentHandleName) {
+                            const componentRelationship = {
+                                id: `${input['@id']}${OATComponentHandleName}${content['schema']}`,
+                                label: '',
+                                source: input['@id'],
+                                sourceHandle: OATComponentHandleName,
+                                target: content['schema'],
+                                type: OATRelationshipHandleName,
+                                data: {
+                                    name: content['name'],
+                                    displayName: content['name'],
+                                    id: `${input['@id']}${OATComponentHandleName}${content['schema']}`,
+                                    type: OATComponentHandleName
+                                }
+                            };
+                            relationships = [
+                                ...relationships,
+                                componentRelationship
+                            ];
+                        } else if (
+                            content['@type'] === OATRelationshipHandleName
+                        ) {
+                            const relationship = {
+                                id: content['@id'],
+                                label: '',
+                                source: input['@id'],
+                                sourceHandle: OATRelationshipHandleName,
+                                target: content['target'],
+                                type: OATRelationshipHandleName,
+                                data: {
+                                    name: content['name'],
+                                    displayName: content['displayName'],
+                                    id: content['@id'],
+                                    type: OATRelationshipHandleName
+                                }
+                            };
+                            relationships = [...relationships, relationship];
+                        } else {
+                            contents = [...contents, content];
+                        }
+                    });
+                    if (input['extends']) {
+                        const extendRelationship = {
+                            id: `${input['@id']}${OATExtendHandleName}${input['extends']}`,
+                            label: '',
+                            source: input['@id'],
+                            sourceHandle: OATExtendHandleName,
+                            target: input['extends'],
+                            type: OATRelationshipHandleName,
+                            data: {
+                                name: '',
+                                displayName: '',
+                                id: `${input['@id']}${OATExtendHandleName}${input['extends']}`,
+                                type: OATExtendHandleName
+                            }
+                        };
+                        relationships = [...relationships, extendRelationship];
+                    }
+                    const newNode = {
+                        id: input['@id'],
+                        type: input['@type'],
+                        position: { x: defaultPosition, y: defaultPosition },
+                        data: {
+                            name: input['displayName'],
+                            type: input['@type'],
+                            id: input['@id'],
+                            content: contents,
+                            context: contextClassBase
+                        }
+                    };
+                    importModelsList = [
+                        ...importModelsList,
+                        newNode,
+                        ...relationships
+                    ];
+                }
+            });
+            setElements([...importModelsList]);
+        }
+    }, [state.importModels]);
 
     useEffect(() => {
         if (state.deletedModelId) {
@@ -201,7 +292,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
         const newNode = {
             id: id,
             type: OATInterfaceType,
-            position: { x: 100, y: 100 },
+            position: { x: defaultPosition, y: defaultPosition },
             data: {
                 name: name,
                 type: OATInterfaceType,
@@ -487,49 +578,47 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     };
 
     return (
-        <BaseComponent theme={theme}>
-            <div>
-                <ReactFlowProvider>
-                    <div
-                        className={graphViewerStyles.container}
-                        ref={reactFlowWrapperRef}
-                    >
-                        <ElementsContext.Provider value={providerVal}>
-                            <ReactFlow
-                                elements={elements}
-                                onElementClick={onElementClick}
-                                onElementsRemove={onElementsRemove}
-                                onConnectStart={onConnectStart}
-                                onConnectStop={onConnectStop}
-                                onLoad={onLoad}
-                                snapToGrid={true}
-                                snapGrid={[15, 15]}
-                                nodeTypes={nodeTypes}
-                                edgeTypes={edgeTypes}
-                                onNodeDragStop={onNodeDragStop}
-                            >
-                                <PrimaryButton
-                                    className={graphViewerStyles.button}
-                                    onClick={onNewModelClick}
-                                    text={t('OATGraphViewer.newModel')}
-                                />
-                                <MiniMap />
-                                <Controls />
-                                <Background
-                                    color={theme.semanticColors.bodyBackground}
-                                    gap={16}
-                                />
-                            </ReactFlow>
-                        </ElementsContext.Provider>
-                    </div>
-                </ReactFlowProvider>
-            </div>
-        </BaseComponent>
+        <div>
+            <ReactFlowProvider>
+                <div
+                    className={graphViewerStyles.container}
+                    ref={reactFlowWrapperRef}
+                >
+                    <ElementsContext.Provider value={providerVal}>
+                        <ReactFlow
+                            elements={elements}
+                            onElementClick={onElementClick}
+                            onElementsRemove={onElementsRemove}
+                            onConnectStart={onConnectStart}
+                            onConnectStop={onConnectStop}
+                            onLoad={onLoad}
+                            snapToGrid={true}
+                            snapGrid={[15, 15]}
+                            nodeTypes={nodeTypes}
+                            edgeTypes={edgeTypes}
+                            onNodeDragStop={onNodeDragStop}
+                        >
+                            <PrimaryButton
+                                className={graphViewerStyles.button}
+                                onClick={onNewModelClick}
+                                text={t('OATGraphViewer.newModel')}
+                            />
+                            <MiniMap />
+                            <Controls />
+                            <Background
+                                color={theme.semanticColors.bodyBackground}
+                                gap={16}
+                            />
+                        </ReactFlow>
+                    </ElementsContext.Provider>
+                </div>
+            </ReactFlowProvider>
+        </div>
     );
 };
 
 OATGraphViewer.defaultProps = {
-    onElementsUpdate: () => null
+    importModels: []
 };
 
 export default OATGraphViewer;

@@ -8,4 +8,6 @@ export interface IOATEditorState {
     editedModelName?: string;
     editedModelId?: string;
     templatesActive?: boolean;
+    importModels?: [];
+    isJsonUploaderOpen?: boolean;
 }

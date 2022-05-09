@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useTheme, List, ActionButton, Icon, FontSizes } from '@fluentui/react';
-import BaseComponent from '../BaseComponent/BaseComponent';
 import { getModelsStyles } from './OATModelList.styles';
 import { IOATTwinModelNodes } from '../../Models/Constants';
 import {
@@ -28,6 +27,10 @@ const OATModelList = ({ elements, dispatch }: OATModelListProps) => {
     useEffect(() => {
         setItems(elements);
     }, [elements]);
+
+    useEffect(() => {
+        setItems([...elements]);
+    }, [theme]);
 
     const onSelectedClick = (id) => {
         dispatch({
@@ -143,11 +146,9 @@ const OATModelList = ({ elements, dispatch }: OATModelListProps) => {
     };
 
     return (
-        <BaseComponent theme={theme}>
-            <div>
-                <List items={items} onRenderCell={onRenderCell} />
-            </div>
-        </BaseComponent>
+        <div className={modelsStyles.container}>
+            <List items={items} onRenderCell={onRenderCell} />
+        </div>
     );
 };
 

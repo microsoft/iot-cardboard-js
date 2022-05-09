@@ -1,3 +1,4 @@
+import produce, { setAutoFreeze } from 'immer';
 import { IAction } from '../../Models/Constants/Interfaces';
 import { IOATEditorState } from './OATEditorPage.types';
 import {
@@ -7,8 +8,11 @@ import {
     SET_OAT_DELETED_MODEL_ID,
     SET_OAT_EDITED_MODEL_NAME,
     SET_OAT_EDITED_MODEL_ID,
-    SET_OAT_TEMPLATES_ACTIVE
+    SET_OAT_TEMPLATES_ACTIVE,
+    SET_OAT_IMPORT_MODELS,
+    SET_OAT_IS_JSON_UPLOADER_OPEN
 } from '../../Models/Constants/ActionTypes';
+setAutoFreeze(false);
 
 export const defaultOATEditorState: IOATEditorState = {
     model: null,
@@ -17,10 +21,12 @@ export const defaultOATEditorState: IOATEditorState = {
     selectedModelId: '',
     editedModelName: '',
     editedModelId: '',
-    templatesActive: false
+    templatesActive: false,
+    importModels: [],
+    isJsonUploaderOpen: false
 };
 
-export const OATEditorPageReducer = (state, action?: IAction) => {
+export const OATEditorPageReducer = produce((state, action: IAction) => {
     const payload = action.payload;
 
     switch (action.type) {
@@ -38,5 +44,9 @@ export const OATEditorPageReducer = (state, action?: IAction) => {
             return { ...state, editedModelId: payload };
         case SET_OAT_TEMPLATES_ACTIVE:
             return { ...state, templatesActive: payload };
+        case SET_OAT_IMPORT_MODELS:
+            return { ...state, importModels: payload };
+        case SET_OAT_IS_JSON_UPLOADER_OPEN:
+            return { ...state, isJsonUploaderOpen: payload };
     }
-};
+});
