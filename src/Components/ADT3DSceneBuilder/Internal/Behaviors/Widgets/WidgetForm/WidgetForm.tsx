@@ -111,7 +111,7 @@ const WidgetForm: React.FC = () => {
                 );
             }
         },
-        [setBehaviorToEdit]
+        [setBehaviorToEdit, activeWidgetId]
     );
 
     const getWidgetBuilder = () => {
