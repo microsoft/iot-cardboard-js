@@ -3,7 +3,8 @@ import { FontIcon, ActionButton } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { getHeaderStyles } from './OATHeader.styles';
 import JSZip from 'jszip';
-import { IOATTwinModelNodes } from '../../Models/Constants';
+import { IOATTwinModelNodes, OATDataStorageKey } from '../../Models/Constants';
+import { downloadText } from '../../Models/Services/Utils';
 
 type OATHeaderProps = {
     elements: IOATTwinModelNodes[];
@@ -24,7 +25,7 @@ const OATHeader = ({ elements }: OATHeaderProps) => {
         link.parentNode.removeChild(link);
     };
 
-    const handleDownloadClick = () => {
+    const handleExportClick = () => {
         const zip = new JSZip();
         for (const element of elements) {
             let fileName = element['@id'];
@@ -37,12 +38,19 @@ const OATHeader = ({ elements }: OATHeaderProps) => {
         });
     };
 
+    const handleSaveClick = () => {
+        const editorData = localStorage.getItem(OATDataStorageKey);
+        if (editorData) {
+            downloadText(editorData, 'project.config');
+        }
+    };
+
     return (
         <div className={headerStyles.container}>
             <div className={headerStyles.menuComponent}>
                 <div className="cb-oat-header-model"></div>
                 <div className="cb-oat-header-menu">
-                    <ActionButton>
+                    <ActionButton onClick={handleSaveClick}>
                         <FontIcon
                             iconName={'Save'}
                             className={headerStyles.menuIcon}
@@ -70,7 +78,7 @@ const OATHeader = ({ elements }: OATHeaderProps) => {
                         />
                         {t('OATHeader.import')}
                     </ActionButton>
-                    <ActionButton onClick={handleDownloadClick}>
+                    <ActionButton onClick={handleExportClick}>
                         <FontIcon
                             iconName={'Export'}
                             className={headerStyles.menuIcon}

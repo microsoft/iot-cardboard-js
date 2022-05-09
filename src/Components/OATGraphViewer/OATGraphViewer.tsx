@@ -13,9 +13,7 @@ import BaseComponent from '../BaseComponent/BaseComponent';
 import OATGraphCustomNode from './Internal/OATGraphCustomNode';
 import OATGraphCustomEdge from './Internal/OATGraphCustomEdge';
 import {
-    OATElementsLocalStorageKey,
-    OATTwinsLocalStorageKey,
-    OATPositionsLocalStorageKey,
+    OATDataStorageKey,
     OATUntargetedRelationshipName,
     OATRelationshipHandleName,
     OATComponentHandleName,
@@ -38,13 +36,21 @@ type OATGraphProps = {
     state?: any;
 };
 
+const getStoredElements = () => {
+    const editorData = JSON.parse(localStorage.getItem(OATDataStorageKey));
+
+    if (editorData && editorData.models) {
+        return editorData.models;
+    }
+
+    return null;
+};
+
 const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     const { t } = useTranslation();
     const theme = useTheme();
     const reactFlowWrapperRef = useRef(null);
-    const storedElements = JSON.parse(
-        localStorage.getItem(OATElementsLocalStorageKey)
-    );
+    const storedElements = getStoredElements();
     const [elements, setElements] = useState(
         storedElements === null ? [] : storedElements
     );
@@ -346,14 +352,16 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
             }
             return collection;
         }, []);
-        localStorage.setItem(
-            OATPositionsLocalStorageKey,
-            JSON.stringify({ nodePositions })
-        );
-        localStorage.setItem(
-            OATElementsLocalStorageKey,
-            JSON.stringify(elements)
-        );
+        const oatEditorData = {
+            models: elements,
+            modelPositions: nodePositions,
+            projectName: 'Project',
+            projectDescription: 'Description',
+            templates: {},
+            modelTwins: null
+        };
+
+        localStorage.setItem(OATDataStorageKey, JSON.stringify(oatEditorData));
     };
 
     const translatedOutput = useMemo(() => {
@@ -431,10 +439,16 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     }, [elements]);
 
     useEffect(() => {
-        localStorage.setItem(
-            OATTwinsLocalStorageKey,
-            JSON.stringify({ digitalTwinsModels: translatedOutput })
+        const oatEditorData = JSON.parse(
+            localStorage.getItem(OATDataStorageKey)
         );
+        if (oatEditorData) {
+            oatEditorData.modelTwins = translatedOutput;
+            localStorage.setItem(
+                OATDataStorageKey,
+                JSON.stringify(oatEditorData)
+            );
+        }
         dispatch({
             type: SET_OAT_ELEMENTS_HANDLER,
             payload: { digitalTwinsModels: translatedOutput }
