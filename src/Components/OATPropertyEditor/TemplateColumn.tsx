@@ -14,7 +14,6 @@ import {
     getTemplateColumnStyles
 } from './OATPropertyEditor.styles';
 import TemplateList from './TemplateList';
-import { DTDLProperty } from '../../Models/Constants/Interfaces';
 import { SET_OAT_TEMPLATES_ACTIVE } from '../../Models/Constants/ActionTypes';
 import { IAction } from '../../Models/Constants/Interfaces';
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';

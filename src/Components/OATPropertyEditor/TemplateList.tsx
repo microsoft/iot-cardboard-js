@@ -1,8 +1,7 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState } from 'react';
 import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
 import { deepCopy } from '../../Models/Services/Utils';
 import TemplateListItem from './TeplateListItem';
-import { DTDLProperty } from '../../Models/Constants/Interfaces';
 import {
     SET_OAT_PROPERTY_EDITOR_MODEL,
     SET_OAT_TEMPLATES
@@ -16,9 +15,7 @@ interface ITemplateList {
     enteredTemplateRef: any;
     draggedTemplateItemRef: any;
     enteredPropertyRef: any;
-
     setDraggingTemplate?: (dragging: boolean) => boolean;
-    setTemplates: React.Dispatch<React.SetStateAction<DTDLProperty>>;
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
     state?: IOATEditorState;
 }

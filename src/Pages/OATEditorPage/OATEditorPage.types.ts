@@ -1,4 +1,7 @@
-import { IOATTwinModelNodes } from '../../Models/Constants/Interfaces';
+import {
+    DTDLProperty,
+    IOATTwinModelNodes
+} from '../../Models/Constants/Interfaces';
 
 export interface IOATEditorState {
     model?: IOATTwinModelNodes;
@@ -10,5 +13,5 @@ export interface IOATEditorState {
     templatesActive?: boolean;
     importModels?: [];
     isJsonUploaderOpen?: boolean;
-    templates?: any;
+    templates?: DTDLProperty[];
 }
