@@ -485,7 +485,10 @@
       "expressionLabel": "Eigenschapsexpressie",
       "expressionPlaceholder": "Eigenschapsexpressie invoeren",
       "selectProperty": "Selecteer eigenschap",
-      "toggleLabel": "Eigenschapsexpressie"
+      "toggleLabel": "Eigenschapsexpressie",
+      "dropdownPlaceholder": "Selecteer een woning",
+      "none": "Geen",
+      "customExpression": "Aangepaste expressie"
     }
   },
   "widgets": {

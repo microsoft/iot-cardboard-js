@@ -73,6 +73,10 @@ import { WrapperMode } from '../../Components/3DV/SceneView.types';
 import MockAdapter from '../../Adapters/MockAdapter';
 import { IStyleFunctionOrObject } from '@fluentui/react';
 import { ISceneViewWrapperStyles } from '../../Components/3DV/SceneViewWrapper.types';
+import {
+    ADTAllModelsData,
+    ADTTwinToModelMappingData
+} from '../Classes/AdapterDataClasses/ADTModelData';
 
 export interface IAction {
     type: string;
@@ -389,6 +393,14 @@ export type IPropertyInspectorAdapter = Pick<
     | 'updateRelationship'
 >;
 
+export interface IModelledPropertyBuilderAdapter {
+    getADTTwin(twinId: string): Promise<AdapterResult<ADTTwinData>>;
+    getAllAdtModels(): Promise<AdapterResult<ADTAllModelsData>>;
+    getModelIdFromTwinId(
+        twinId: string
+    ): Promise<AdapterResult<ADTTwinToModelMappingData>>;
+}
+
 export interface IADT3DViewerAdapter {
     getSceneData(
         sceneId: string,
@@ -396,7 +408,10 @@ export interface IADT3DViewerAdapter {
     ): AdapterReturnType<ADT3DViewerData>;
 }
 
-export interface IADTAdapter extends IKeyValuePairAdapter, IADT3DViewerAdapter {
+export interface IADTAdapter
+    extends IKeyValuePairAdapter,
+        IADT3DViewerAdapter,
+        IModelledPropertyBuilderAdapter {
     getADTModels(
         params?: AdapterMethodParamsForGetADTModels
     ): AdapterReturnType<ADTAdapterModelsData>;

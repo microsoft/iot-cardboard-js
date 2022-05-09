@@ -485,7 +485,10 @@
       "expressionLabel": "Tulajdonságkifejezés",
       "expressionPlaceholder": "Tulajdonságkifejezés megadása",
       "selectProperty": "Tulajdonság kiválasztása",
-      "toggleLabel": "Tulajdonságkifejezés"
+      "toggleLabel": "Tulajdonságkifejezés",
+      "dropdownPlaceholder": "Tulajdonság kijelölése",
+      "none": "Egyik sem",
+      "customExpression": "Egyéni kifejezés"
     }
   },
   "widgets": {

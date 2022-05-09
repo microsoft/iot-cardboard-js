@@ -485,7 +485,10 @@
       "expressionLabel": "Egenskapsuttryck",
       "expressionPlaceholder": "Ange egenskapsuttryck",
       "selectProperty": "Välj egenskap",
-      "toggleLabel": "Egenskapsuttryck"
+      "toggleLabel": "Egenskapsuttryck",
+      "dropdownPlaceholder": "Välj en egenskap",
+      "none": "Ingen",
+      "customExpression": "Anpassat uttryck"
     }
   },
   "widgets": {
