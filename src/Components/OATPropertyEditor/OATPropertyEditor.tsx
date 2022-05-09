@@ -39,7 +39,6 @@ const OATPropertyEditor = ({ theme, dispatch, state }: IOATPropertyEditor) => {
 
         if (oatEditorData && state.templates) {
             oatEditorData.templates = state.templates;
-            console.log('saving data..', oatEditorData);
             localStorage.setItem(
                 OATDataStorageKey,
                 JSON.stringify(oatEditorData)

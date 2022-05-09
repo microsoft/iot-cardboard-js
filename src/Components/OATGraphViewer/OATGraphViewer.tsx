@@ -450,12 +450,14 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
             ...editorData,
             models: elements,
             modelPositions: nodePositions,
-            projectName: editorData.projectName
-                ? editorData.projectName
-                : 'Project',
-            projectDescription: editorData.description
-                ? editorData.description
-                : 'Description'
+            projectName:
+                editorData && editorData.projectName
+                    ? editorData.projectName
+                    : 'Project',
+            projectDescription:
+                editorData && editorData.description
+                    ? editorData && editorData.description
+                    : 'Description'
         };
 
         localStorage.setItem(OATDataStorageKey, JSON.stringify(oatEditorData));
