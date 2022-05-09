@@ -273,6 +273,16 @@ abstract class ViewerConfigUtility {
                     scene.behaviorIDs.splice(matchingBehaviorIdIdx, 1);
                 }
             });
+
+            // If matching behavior Id found in ANY layers, splice out layers's behavior Id array
+            updatedConfig.configuration.layers.forEach((layer) => {
+                const matchingBehaviorIdIdx = layer.behaviorIDs.indexOf(
+                    behaviorId
+                );
+                if (matchingBehaviorIdIdx !== -1) {
+                    layer.behaviorIDs.splice(matchingBehaviorIdIdx, 1);
+                }
+            });
         }
         return updatedConfig;
     }

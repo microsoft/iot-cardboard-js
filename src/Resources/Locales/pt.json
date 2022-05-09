@@ -312,7 +312,9 @@
     "home": "Casa",
     "globe": "Globo",
     "breadcrumbAriaLabel": "Migalhas de pão com itens renderizados como botões",
-    "breadcrumbOverflowAriaLabel": "Mais links"
+    "breadcrumbOverflowAriaLabel": "Mais links",
+    "globeView": "Visão do Globo",
+    "listView": "Exibição da lista"
   },
   "layersDropdown": {
     "placeholder": "Sem camadas selecionadas",
