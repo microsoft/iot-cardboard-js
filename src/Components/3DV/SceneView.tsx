@@ -26,11 +26,18 @@ import {
 import {
     CameraZoomMultiplier,
     Scene_Marker,
-    Scene_Visible_Marker,
     SphereMaterial
 } from '../../Models/Constants/SceneView.constants';
 import { AbstractMesh, HighlightLayer, Tools } from '@babylonjs/core';
-import { createBadgeGroup, getBoundingBox } from './SceneView.Utils';
+import {
+    convertLatLonToVector3,
+    createBadgeGroup,
+    elementsOverlap,
+    getBoundingBox,
+    getCameraPosition,
+    getMarkerPosition,
+    removeGroupedItems
+} from './SceneView.Utils';
 import { makeMaterial, outlineMaterial, ToColor3 } from './Shaders';
 import {
     CameraInteraction,
@@ -43,6 +50,9 @@ import {
 import { getProgressStyles, getSceneViewStyles } from './SceneView.styles';
 import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
 import { sleep } from '../AutoComplete/AutoComplete';
+import { ModelGroupLabel } from '../ModelGroupLabel/ModelGroupLabel';
+import { MarkersPlaceholder } from './Internal/MarkersPlaceholder';
+import { Markers } from './Internal/Markers';
 
 const debugLogging = false;
 const debugLog = getDebugLogger('SceneView', debugLogging);
@@ -121,21 +131,6 @@ async function loadPromise(
     }
 }
 
-function convertLatLonToVector3(
-    latitude: number,
-    longitude: number,
-    earthRadius = 50
-): BABYLON.Vector3 {
-    const latitude_rad = (latitude * Math.PI) / 180;
-    const longitude_rad = (longitude * Math.PI) / 180;
-    const x = earthRadius * Math.cos(latitude_rad) * Math.cos(longitude_rad);
-    const z = earthRadius * Math.cos(latitude_rad) * Math.sin(longitude_rad);
-    const y = earthRadius * Math.sin(latitude_rad);
-    return new BABYLON.Vector3(x, y, z);
-}
-
-let lastName = '';
-
 function SceneView(props: ISceneViewProps, ref) {
     const {
         modelUrl,
@@ -171,12 +166,8 @@ function SceneView(props: ISceneViewProps, ref) {
     const engineRef = useRef<BABYLON.Engine>(null);
     const cameraRef = useRef<BABYLON.ArcRotateCamera>(null);
     const lastMeshRef = useRef<BABYLON.AbstractMesh>(null);
-    const lastMarkerRef = useRef<Marker>(null);
     const modelUrlRef = useRef('blank');
     const newInstanceRef = useRef(false);
-    const [tooltipText, setTooltipText] = useState('');
-    const tooltipLeft = useRef(0);
-    const tooltipTop = useRef(0);
     const highlightedMeshRef = useRef<string>(null);
     const hovMaterial = useRef<any>(null);
     const coloredHovMaterial = useRef<any>(null);
@@ -198,30 +189,21 @@ function SceneView(props: ISceneViewProps, ref) {
     const prevHideUnzoomedRef = useRef<number>(undefined);
     const materialCacheRef = useRef<any[]>([]);
     const pointerActive = useRef(false);
+    const lastCameraPositionOnMouseMoveRef = useRef('');
     const initialCameraRadiusRef = useRef(0);
     const zoomedCameraRadiusRef = useRef(0);
     const zoomedMeshesRef = useRef([]);
     const lastCameraPositionRef = useRef('');
 
-    const defaultMeshHover = (
-        marker: Marker,
-        mesh: any,
-        scene: BABYLON.Scene,
-        e: any
-    ) => {
-        if (lastName !== marker?.name) {
-            tooltipLeft.current = e.offsetX + 5;
-            tooltipTop.current = e.offsetY - 30;
-            setTooltipText(marker?.name);
-            lastName = marker?.name;
-        }
-    };
+    const [markersAndPositions, setMarkersAndPositions] = useState<
+        { marker: Marker; left: number; top: number }[]
+    >([]);
 
     // These next two lines are important! The handlers change very frequently (every parent render)
     // So copy their values into refs so as not to disturb our state/re-render (we only need the latest value when we want to fire)
     onMeshClickRef.current = onMeshClick;
     onCameraMoveRef.current = onCameraMove;
-    onMeshHoverRef.current = onMeshHover || defaultMeshHover;
+    onMeshHoverRef.current = onMeshHover;
     if (debugLogging && !newInstanceRef.current) {
         debugLog('-----------New instance-----------');
         newInstanceRef.current = true;
@@ -755,6 +737,7 @@ function SceneView(props: ISceneViewProps, ref) {
                     if (engineRef.current) {
                         debugLog('Resize');
                         engineRef.current.resize();
+                        createMarkersWithPosition();
                     }
                 }, 10)
             );
@@ -945,49 +928,24 @@ function SceneView(props: ISceneViewProps, ref) {
         };
     }, [modelUrl, init]);
 
-    // Add the marker spheres
+    // Add spheres for tracking markers
     useEffect(() => {
         const spheres: BABYLON.Mesh[] = [];
+        let cm: BABYLON.Observer<BABYLON.Scene>;
         if (markers && sceneRef.current) {
             for (const marker of markers) {
-                let sphereMaterial = new BABYLON.StandardMaterial(
-                    SphereMaterial,
-                    sceneRef.current
-                );
-                const rgba = hexToColor4(marker.color);
-                sphereMaterial.diffuseColor = BABYLON.Color3.FromInts(
-                    rgba.r * 255,
-                    rgba.g * 255,
-                    rgba.b * 255
-                );
-                let sphere = BABYLON.Mesh.CreateSphere(
-                    `${Scene_Visible_Marker}${marker.name}`,
-                    16,
-                    2,
-                    sceneRef.current
-                );
                 const position =
                     marker.position ||
                     convertLatLonToVector3(marker.latitude, marker.longitude);
-                sphere.position = position;
-                sphere.material = sphereMaterial;
-                spheres.push(sphere);
-
-                // Make the hit targets larger in case iPhone
-                sphereMaterial = new BABYLON.StandardMaterial(
+                const sphereMaterial = new BABYLON.StandardMaterial(
                     SphereMaterial,
                     sceneRef.current
                 );
-                sphereMaterial.diffuseColor = BABYLON.Color3.FromInts(
-                    rgba.r * 255,
-                    rgba.g * 255,
-                    rgba.b * 255
-                );
                 sphereMaterial.alpha = 0;
-                sphere = BABYLON.Mesh.CreateSphere(
+                const sphere = BABYLON.Mesh.CreateSphere(
                     `${Scene_Marker}${marker.name}`,
                     16,
-                    4,
+                    1,
                     sceneRef.current
                 );
                 sphere.position = position;
@@ -996,13 +954,141 @@ function SceneView(props: ISceneViewProps, ref) {
             }
         }
 
+        // ensure scene is loaded and rendered before we add markers.
+        // It needs to be rendered so we can calculate position and occulsion of markers
+        if (!isLoading && sceneRef.current) {
+            sceneRef.current.render(); // Marker globes may not have rendered yet
+            if (markers) {
+                cm = sceneRef.current.onAfterRenderObservable.add(function () {
+                    // Only do marker work if camera has actually moved
+                    const pos = JSON.stringify(
+                        getCameraPosition(cameraRef.current)
+                    );
+
+                    if (pos != lastCameraPositionOnMouseMoveRef.current) {
+                        lastCameraPositionOnMouseMoveRef.current = pos;
+                        createMarkersWithPosition();
+                    }
+                });
+            }
+        }
+
         return () => {
             for (const sphere of spheres) {
                 sceneRef.current?.removeMesh(sphere);
                 sphere.dispose(true, true);
             }
+
+            if (cm) {
+                sceneRef.current?.onAfterRenderObservable?.remove(cm);
+            }
         };
     }, [markers, modelUrl, isLoading]);
+
+    const createMarkersWithPosition = useCallback(() => {
+        const markersAndPositions: {
+            marker: Marker;
+            top: number;
+            left: number;
+        }[] = [];
+        if (markers) {
+            markers.forEach((marker) => {
+                const position = getMarkerPosition(
+                    marker,
+                    meshMap.current,
+                    sceneRef.current,
+                    cameraRef.current,
+                    engineRef.current
+                );
+                if (position) {
+                    const markerToRenderUIElement = document.getElementById(
+                        marker.id
+                    );
+                    const posLeft =
+                        position?.left -
+                        markerToRenderUIElement.clientWidth / 2;
+
+                    const posTop =
+                        position?.top -
+                        markerToRenderUIElement.clientHeight / 2;
+                    //create first group
+                    if (markersAndPositions.length === 0) {
+                        marker.GroupedUIElement = null;
+                        markersAndPositions.push({
+                            marker: marker,
+                            left: posLeft,
+                            top: posTop
+                        });
+                    } else {
+                        const element = markersAndPositions.find((m) =>
+                            elementsOverlap(m, markerToRenderUIElement, {
+                                left: posLeft,
+                                top: posTop
+                            })
+                        );
+
+                        // add to existing group
+                        if (element) {
+                            const groupItems =
+                                element.marker.GroupedUIElement?.props
+                                    ?.groupItems || [];
+
+                            if (!groupItems.length) {
+                                groupItems.push({
+                                    label: element.marker.name,
+                                    id: element.marker.scene?.id,
+                                    onItemClick:
+                                        element.marker.UIElement?.props
+                                            ?.onLabelClick
+                                });
+                            }
+
+                            if (
+                                !groupItems.find(
+                                    (item) => item.label === marker.name
+                                )
+                            ) {
+                                groupItems.push({
+                                    label: marker.name,
+                                    id: marker?.scene?.id,
+                                    onItemClick:
+                                        marker?.UIElement?.props?.onLabelClick
+                                });
+                            }
+
+                            const groupedUIElement = (
+                                <ModelGroupLabel
+                                    label={groupItems.length}
+                                    groupItems={groupItems}
+                                />
+                            );
+                            if (
+                                !element.marker.UIElement?.props?.groupItems
+                                    ?.length
+                            ) {
+                                element.left = position?.left - 20;
+                                element.top = position?.top - 20;
+                            }
+                            element.marker.GroupedUIElement = groupedUIElement;
+                        } else {
+                            removeGroupedItems(markersAndPositions, marker);
+                            // create new group
+                            marker.GroupedUIElement = null;
+                            markersAndPositions.push({
+                                marker: marker,
+                                left: posLeft,
+                                top: posTop
+                            });
+                        }
+                    }
+                } else {
+                    removeGroupedItems(markersAndPositions, marker);
+                }
+            });
+
+            setMarkersAndPositions(markersAndPositions);
+        }
+    }, [markers]);
 
     // SETUP LOGIC FOR onMeshHover
     useEffect(() => {
@@ -1030,7 +1116,7 @@ function SceneView(props: ISceneViewProps, ref) {
         if (
             scene &&
             onMeshHoverRef.current &&
-            (markers || coloredMeshItems || showMeshesOnHover)
+            (coloredMeshItems || showMeshesOnHover)
         ) {
             scene.onPointerMove = (e, p) => {
                 if (!pointerActive.current) {
@@ -1045,7 +1131,6 @@ function SceneView(props: ISceneViewProps, ref) {
                     );
 
                     const mesh: BABYLON.AbstractMesh = p?.pickedMesh;
-                    let marker: Marker = null;
 
                     if (showMeshesOnHover) {
                         if (mesh?.id) {
@@ -1111,29 +1196,13 @@ function SceneView(props: ISceneViewProps, ref) {
                         }
                     }
 
-                    if (
-                        mesh?.name &&
-                        p?.pickedMesh?.name.startsWith(Scene_Marker)
-                    ) {
-                        for (const m of markers) {
-                            if (mesh.name === `${Scene_Marker}${m.name}`) {
-                                marker = m;
-                                break;
-                            }
-                        }
-                    }
-
-                    if (
-                        mesh !== lastMeshRef.current ||
-                        lastMarkerRef.current !== marker
-                    ) {
+                    if (mesh !== lastMeshRef.current) {
                         debugLog('pointer move');
                         try {
-                            onMeshHoverRef.current(marker, mesh, scene, e);
+                            onMeshHoverRef.current(mesh, scene, e);
                         } catch {
                             console.log('Error calling hover event on scene');
                         }
-                        lastMarkerRef.current = marker;
                         lastMeshRef.current = mesh;
                     }
                 }
@@ -1160,27 +1229,12 @@ function SceneView(props: ISceneViewProps, ref) {
         debugLog('pointerTap effect' + (scene ? ' with scene' : ' no scene'));
         if (scene && onMeshClickRef.current) {
             const pointerTap = (e: any) => {
-                setTooltipText('');
                 const p = e.pickInfo;
                 const mesh: BABYLON.AbstractMesh = p?.pickedMesh;
-                let marker: Marker = null;
-
-                if (
-                    mesh?.name &&
-                    p.pickedMesh.name.startsWith(Scene_Marker) &&
-                    markers
-                ) {
-                    for (const m of markers) {
-                        if (mesh.name === `${Scene_Marker}${m.name}`) {
-                            marker = m;
-                            break;
-                        }
-                    }
-                }
 
                 if (onMeshClickRef.current) {
                     try {
-                        onMeshClickRef.current(marker, mesh, scene, e.event);
+                        onMeshClickRef.current(mesh, scene, e.event);
                     } catch {
                         console.log('Error calling tap event on scene');
                     }
@@ -1203,18 +1257,16 @@ function SceneView(props: ISceneViewProps, ref) {
         };
     }, [scene, markers]);
 
-    // Camera move handler
+    // Pointer move handler
     useEffect(() => {
         let pt: BABYLON.Observer<BABYLON.PointerInfo>;
         debugLog('pointerMove effect' + (scene ? ' with scene' : ' no scene'));
         if (scene && onCameraMoveRef.current) {
             const cameraMove = () => {
                 if (onCameraMoveRef.current && cameraRef.current) {
-                    onCameraMoveRef.current({
-                        position: cameraRef.current.position,
-                        target: cameraRef.current.target,
-                        radius: cameraRef.current.radius
-                    });
+                    onCameraMoveRef.current(
+                        getCameraPosition(cameraRef.current)
+                    );
                 }
             };
 
@@ -1483,6 +1535,7 @@ function SceneView(props: ISceneViewProps, ref) {
                 id={canvasId}
                 touch-action="none"
             />
+            <Markers markersAndPositions={markersAndPositions} />
             {isLoading && url && (
                 <ProgressIndicator
                     styles={getProgressStyles(theme)}
@@ -1498,18 +1551,7 @@ function SceneView(props: ISceneViewProps, ref) {
                     Error loading model. Try Ctrl-F5
                 </div>
             )}
-            {tooltipText && (
-                <div
-                    className={customStyles.globeTooltip}
-                    style={{
-                        top: tooltipTop.current,
-                        left: tooltipLeft.current
-                    }}
-                    id="tooltip"
-                >
-                    {tooltipText}
-                </div>
-            )}
+            <MarkersPlaceholder markers={markers} />
         </div>
     );
 }

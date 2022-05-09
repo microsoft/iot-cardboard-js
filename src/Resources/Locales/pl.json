@@ -312,7 +312,9 @@
     "home": "Dom",
     "globe": "Globus",
     "breadcrumbAriaLabel": "Breadcrumb z elementami renderowanymi jako przyciski",
-    "breadcrumbOverflowAriaLabel": "Więcej linków"
+    "breadcrumbOverflowAriaLabel": "Więcej linków",
+    "globeView": "Widok na kulę ziemską",
+    "listView": "Widok listy"
   },
   "layersDropdown": {
     "placeholder": "Brak zaznaczonych warstw",

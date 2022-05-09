@@ -312,7 +312,9 @@
     "home": "Hogar",
     "globe": "Globo",
     "breadcrumbAriaLabel": "Breadcrumb con elementos representados como botones",
-    "breadcrumbOverflowAriaLabel": "Más enlaces"
+    "breadcrumbOverflowAriaLabel": "Más enlaces",
+    "globeView": "Vista del globo terráqueo",
+    "listView": "Vista de lista"
   },
   "layersDropdown": {
     "placeholder": "No hay capas seleccionadas",
