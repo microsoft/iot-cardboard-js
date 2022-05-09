@@ -310,7 +310,9 @@
     "viewMode": "Visningsläge",
     "enterBlobUrl": "Ange url:en för Azure Storage Container BLOB",
     "home": "Hem",
-    "globe": "Jordglob"
+    "globe": "Jordglob",
+    "breadcrumbAriaLabel": "Brödsmulor med objekt som återges som knappar",
+    "breadcrumbOverflowAriaLabel": "Fler länkar"
   },
   "layersDropdown": {
     "placeholder": "Inga lager markerade",
@@ -507,7 +509,8 @@
     "value": {
       "title": "Widgeten Värde",
       "description": "Grundläggande widget för att visa värden för dubbla egenskaper",
-      "typePlaceholder": "Välj typ för värdet"
+      "typePlaceholder": "Välj typ för värdet",
+      "displayNamePlaceholder": "Ange visningsnamn"
     }
   },
   "sdkStrings": {
@@ -760,5 +763,7 @@
     "pan": "Panna",
     "orbit": "Omloppsbana",
     "zoom": "Zooma"
-  }
+  },
+  "active": "Aktiv",
+  "invalidValue": "Ogiltigt värde"
 }

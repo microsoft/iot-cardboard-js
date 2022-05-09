@@ -11,7 +11,11 @@ import React, {
     useState
 } from 'react';
 import './SceneView.scss';
-import { createGUID, hexToColor4 } from '../../Models/Services/Utils';
+import {
+    createGUID,
+    getDebugLogger,
+    hexToColor4
+} from '../../Models/Services/Utils';
 import {
     ICameraPosition,
     ISceneViewProps,
@@ -50,13 +54,8 @@ import { ModelGroupLabel } from '../ModelGroupLabel/ModelGroupLabel';
 import { MarkersPlaceholder } from './Internal/MarkersPlaceholder';
 import { Markers } from './Internal/Markers';
 
-const debug = false;
-
-function debugLog(s: string) {
-    if (debug) {
-        console.log(s);
-    }
-}
+const debugLogging = false;
+const debugLog = getDebugLogger('SceneView', debugLogging);
 
 function debounce(func: any, timeout = 300) {
     let timer: any;
@@ -205,141 +204,13 @@ function SceneView(props: ISceneViewProps, ref) {
     onMeshClickRef.current = onMeshClick;
     onCameraMoveRef.current = onCameraMove;
     onMeshHoverRef.current = onMeshHover;
-    if (debug && !newInstanceRef.current) {
+    if (debugLogging && !newInstanceRef.current) {
         debugLog('-----------New instance-----------');
         newInstanceRef.current = true;
     }
 
     debugLog('SceneView Render');
     const url = modelUrl === 'Globe' ? globeUrl : modelUrl;
-
-    // INITIALIZE AND LOAD SCENE
-    const init = useCallback(() => {
-        debugLog('**************init');
-
-        //TODO: load this private blob by getting token and using proxy for blob service REST API
-        async function load(
-            getToken: () => Promise<string>,
-            root: string,
-            file: string
-        ) {
-            let success = true;
-            let token = '';
-            if (getToken) {
-                token = await getToken();
-            }
-
-            if (token) {
-                Tools.CustomRequestHeaders.Authorization = 'Bearer ' + token;
-                Tools.CustomRequestHeaders['x-ms-version'] = '2017-11-09';
-                Tools.UseCustomRequestHeaders = true;
-            } else {
-                delete Tools.CustomRequestHeaders.Authorization;
-                delete Tools.CustomRequestHeaders['x-ms-version'];
-                Tools.UseCustomRequestHeaders = false;
-            }
-
-            dummyProgress = 0;
-            setLoadProgress(0);
-
-            const sc = await loadPromise(
-                root,
-                file,
-                engineRef.current,
-                (e: any) => onProgress(e),
-                (s: any, m: any, e: any) => {
-                    console.error('Error loading model. Try Ctrl-F5', s, e);
-                    success = false;
-                    setIsLoading(undefined);
-                }
-            );
-
-            if (success) {
-                sceneRef.current = sc;
-                createOrZoomCamera();
-                advancedTextureRef.current = GUI.AdvancedDynamicTexture.CreateFullscreenUI(
-                    'UI'
-                );
-
-                sortMeshesOnLoad();
-
-                sceneRef.current.clearColor = new BABYLON.Color4(0, 0, 0, 0);
-
-                //This layer is a bug fix for transparency not blending with background html on certain graphic cards like in macs.
-                //The texture is 99% transparent but forces the engine to blend the colors.
-                const layer = new BABYLON.Layer('', '', sceneRef.current, true);
-                layer.texture = BABYLON.Texture.CreateFromBase64String(
-                    TransparentTexture,
-                    'layerImg',
-                    sceneRef.current
-                );
-
-                hovMaterial.current = new BABYLON.StandardMaterial(
-                    'hover',
-                    sceneRef.current
-                );
-                hovMaterial.current.diffuseColor = BABYLON.Color3.FromHexString(
-                    currentObjectColor.meshHoverColor
-                );
-
-                coloredHovMaterial.current = new BABYLON.StandardMaterial(
-                    'colHov',
-                    sceneRef.current
-                );
-                coloredHovMaterial.current.diffuseColor = BABYLON.Color3.FromHexString(
-                    currentObjectColor.coloredMeshHoverColor
-                );
-
-                highlightLayer.current = new BABYLON.HighlightLayer(
-                    'hl1',
-                    sceneRef.current,
-                    {
-                        blurHorizontalSize: 0.5,
-                        blurVerticalSize: 0.5
-                    }
-                );
-
-                const light = new BABYLON.HemisphericLight(
-                    'light',
-                    new BABYLON.Vector3(1, 1, 0),
-                    sceneRef.current
-                );
-                light.diffuse = new BABYLON.Color3(0.8, 0.8, 0.8);
-                light.specular = new BABYLON.Color3(1, 1, 1);
-                light.groundColor = new BABYLON.Color3(0.2, 0.2, 0.2);
-
-                setScene(sceneRef.current);
-                setIsLoading(false);
-                engineRef.current.resize();
-                if (onSceneLoaded) {
-                    onSceneLoaded(sceneRef.current);
-                }
-            }
-        }
-
-        function onProgress(e: BABYLON.ISceneLoaderProgressEvent) {
-            let progress = e.total ? e.loaded / e.total : 0;
-            if (!e.lengthComputable) {
-                dummyProgress += dummyProgress > 0.8 ? 0.001 : 0.003;
-                progress = dummyProgress > 0.99 ? 0.99 : dummyProgress;
-            }
-            setLoadProgress(progress);
-        }
-
-        if (!sceneRef.current) {
-            const canvas = document.getElementById(
-                canvasId
-            ) as HTMLCanvasElement; // Get the canvas element
-            const engine = new BABYLON.Engine(canvas, true, { stencil: true }); // Generate the BABYLON 3D engine
-            engineRef.current = engine;
-            if (modelUrl) {
-                const n = url.lastIndexOf('/') + 1;
-                load(getToken, url.substring(0, n), url.substring(n));
-            }
-        }
-
-        return sceneRef.current;
-    }, [canvasId, modelUrl]);
 
     const sortMeshesOnLoad = () => {
         for (const mesh of sceneRef.current.meshes) {
@@ -363,119 +234,123 @@ function SceneView(props: ISceneViewProps, ref) {
         //
     }, [cameraPosition, isLoading]);
 
-    const createOrZoomCamera = (meshIds?: string[]) => {
-        const zoomMeshIds = meshIds || zoomToMeshIds;
-        const zoomTo = (zoomMeshIds || []).join(',');
-        // Only zoom if the Ids actually changed, not just a re-render or mesh ids have been passed to this function
-        const shouldZoom =
-            meshIds?.length > 0 || prevZoomToIds.current !== zoomTo;
-        if (
-            sceneRef.current?.meshes?.length &&
-            (!cameraRef.current ||
-                shouldZoom ||
-                prevHideUnzoomedRef.current !== unzoomedMeshOpacity)
-        ) {
-            debugLog('createOrZoomCamera');
-            prevHideUnzoomedRef.current = unzoomedMeshOpacity;
-            meshMap.current = cameraRef.current ? meshMap.current : {};
-            for (const mesh of sceneRef.current.meshes) {
-                if (!cameraRef.current && mesh.id) {
-                    meshMap.current[mesh.id] = mesh;
+    const createOrZoomCamera = useCallback(
+        (meshIds?: string[]) => {
+            const zoomMeshIds = meshIds || zoomToMeshIds;
+            const zoomTo = (zoomMeshIds || []).join(',');
+            // Only zoom if the Ids actually changed, not just a re-render or mesh ids have been passed to this function
+            const shouldZoom =
+                meshIds?.length > 0 || prevZoomToIds.current !== zoomTo;
+            if (
+                sceneRef.current?.meshes?.length &&
+                (!cameraRef.current ||
+                    shouldZoom ||
+                    prevHideUnzoomedRef.current !== unzoomedMeshOpacity)
+            ) {
+                debugLog('createOrZoomCamera');
+                prevHideUnzoomedRef.current = unzoomedMeshOpacity;
+                meshMap.current = cameraRef.current ? meshMap.current : {};
+                for (const mesh of sceneRef.current.meshes) {
+                    if (!cameraRef.current && mesh.id) {
+                        meshMap.current[mesh.id] = mesh;
+                    }
+
+                    mesh.computeWorldMatrix(true);
+                    mesh.visibility =
+                        unzoomedMeshOpacity !== undefined &&
+                        zoomMeshIds?.length &&
+                        !zoomMeshIds.includes(mesh.id)
+                            ? unzoomedMeshOpacity
+                            : 1;
                 }
 
-                mesh.computeWorldMatrix(true);
-                mesh.visibility =
-                    unzoomedMeshOpacity !== undefined &&
-                    zoomMeshIds?.length &&
-                    !zoomMeshIds.includes(mesh.id)
-                        ? unzoomedMeshOpacity
-                        : 1;
-            }
+                if (!cameraRef.current || shouldZoom) {
+                    prevZoomToIds.current = zoomTo;
+                    const someMeshFromTheArrayOfMeshes =
+                        sceneRef.current.meshes[0];
+                    let meshes = sceneRef.current.meshes;
+                    if (zoomMeshIds?.length) {
+                        const meshList: BABYLON.AbstractMesh[] = [];
+                        for (const id of zoomMeshIds) {
+                            const m = meshMap.current?.[id];
+                            if (m) {
+                                meshList.push(m);
+                            }
+                        }
 
-            if (!cameraRef.current || shouldZoom) {
-                prevZoomToIds.current = zoomTo;
-                const someMeshFromTheArrayOfMeshes = sceneRef.current.meshes[0];
-                let meshes = sceneRef.current.meshes;
-                if (zoomMeshIds?.length) {
-                    const meshList: BABYLON.AbstractMesh[] = [];
-                    for (const id of zoomMeshIds) {
-                        const m = meshMap.current?.[id];
-                        if (m) {
-                            meshList.push(m);
+                        if (meshList.length) {
+                            meshes = meshList;
                         }
                     }
 
-                    if (meshList.length) {
-                        meshes = meshList;
+                    let bbox = getBoundingBox(meshes);
+                    if (!bbox) {
+                        // Bad meshnames passed
+                        meshes = sceneRef.current.meshes;
+                        bbox = getBoundingBox(meshes);
                     }
-                }
 
-                let bbox = getBoundingBox(meshes);
-                if (!bbox) {
-                    // Bad meshnames passed
-                    meshes = sceneRef.current.meshes;
-                    bbox = getBoundingBox(meshes);
-                }
+                    zoomedMeshesRef.current = meshes;
+                    someMeshFromTheArrayOfMeshes.setBoundingInfo(bbox);
+                    someMeshFromTheArrayOfMeshes.showBoundingBox = false;
 
-                zoomedMeshesRef.current = meshes;
-                someMeshFromTheArrayOfMeshes.setBoundingInfo(bbox);
-                someMeshFromTheArrayOfMeshes.showBoundingBox = false;
-
-                const es = someMeshFromTheArrayOfMeshes.getBoundingInfo()
-                    .boundingBox.extendSize;
-                const es_scaled = es.scale(
-                    zoomMeshIds && zoomMeshIds.length < 10 ? 5 : 3
-                );
-                const width = es_scaled.x;
-                const height = es_scaled.y;
-                const depth = es_scaled.z;
-                let radius = Math.max(width, height, depth);
-
-                const center = someMeshFromTheArrayOfMeshes.getBoundingInfo()
-                    .boundingBox.centerWorld;
-
-                const canvas = document.getElementById(
-                    canvasId
-                ) as HTMLCanvasElement;
-
-                // First time in after loading - create the camera
-                if (!cameraRef.current) {
-                    initialCameraRadiusRef.current = radius;
-                    const camera = new BABYLON.ArcRotateCamera(
-                        'camera',
-                        0,
-                        Math.PI / 2.5,
-                        radius,
-                        center,
-                        sceneRef.current
+                    const es = someMeshFromTheArrayOfMeshes.getBoundingInfo()
+                        .boundingBox.extendSize;
+                    const es_scaled = es.scale(
+                        zoomMeshIds && zoomMeshIds.length < 10 ? 5 : 3
                     );
+                    const width = es_scaled.x;
+                    const height = es_scaled.y;
+                    const depth = es_scaled.z;
+                    let radius = Math.max(width, height, depth);
 
-                    camera.attachControl(canvas, false);
-                    camera.lowerRadiusLimit = 0;
-                    cameraRef.current = camera;
-                    cameraRef.current.zoomOn(meshes, true);
-                    cameraRef.current.radius = radius;
-                    cameraRef.current.wheelPrecision =
-                        (3 * 40) / bbox.boundingSphere.radius;
+                    const center = someMeshFromTheArrayOfMeshes.getBoundingInfo()
+                        .boundingBox.centerWorld;
 
-                    // Register a render loop to repeatedly render the scene
-                    engineRef.current.runRenderLoop(() => {
-                        if (cameraRef.current) {
-                            sceneRef.current.render();
+                    const canvas = document.getElementById(
+                        canvasId
+                    ) as HTMLCanvasElement;
+
+                    // First time in after loading - create the camera
+                    if (!cameraRef.current) {
+                        initialCameraRadiusRef.current = radius;
+                        const camera = new BABYLON.ArcRotateCamera(
+                            'camera',
+                            0,
+                            Math.PI / 2.5,
+                            radius,
+                            center,
+                            sceneRef.current
+                        );
+
+                        camera.attachControl(canvas, false);
+                        camera.lowerRadiusLimit = 0;
+                        cameraRef.current = camera;
+                        cameraRef.current.zoomOn(meshes, true);
+                        cameraRef.current.radius = radius;
+                        cameraRef.current.wheelPrecision =
+                            (3 * 40) / bbox.boundingSphere.radius;
+
+                        // Register a render loop to repeatedly render the scene
+                        engineRef.current.runRenderLoop(() => {
+                            if (cameraRef.current) {
+                                sceneRef.current.render();
+                            }
+                        });
+                    } else {
+                        // ensure if zoom to mesh ids are set we return to the original radius
+                        if (!zoomMeshIds?.length) {
+                            radius = initialCameraRadiusRef.current;
                         }
-                    });
-                } else {
-                    // ensure if zoom to mesh ids are set we return to the original radius
-                    if (!zoomMeshIds?.length) {
-                        radius = initialCameraRadiusRef.current;
+                        zoomedCameraRadiusRef.current = radius;
+                        // Here if the caller changed zoomToMeshIds - zoom the existing camera
+                        zoomCamera(radius, meshes, 30);
                     }
-                    zoomedCameraRadiusRef.current = radius;
-                    // Here if the caller changed zoomToMeshIds - zoom the existing camera
-                    zoomCamera(radius, meshes, 30);
                 }
             }
-        }
-    };
+        },
+        [canvasId, unzoomedMeshOpacity, zoomToMeshIds]
+    );
 
     // Handle mesh zooming
     useEffect(() => {
@@ -483,7 +358,7 @@ function SceneView(props: ISceneViewProps, ref) {
         if (!isLoading) {
             createOrZoomCamera();
         }
-    }, [zoomToMeshIds, unzoomedMeshOpacity]);
+    }, [zoomToMeshIds, unzoomedMeshOpacity, isLoading, createOrZoomCamera]);
 
     if (!originalMaterials.current && sceneRef.current?.meshes?.length) {
         originalMaterials.current = {};
@@ -897,6 +772,143 @@ function SceneView(props: ISceneViewProps, ref) {
         };
     }, [modelUrl]);
 
+    // INITIALIZE AND LOAD SCENE
+    const init = useCallback(() => {
+        debugLog('**************init');
+
+        //TODO: load this private blob by getting token and using proxy for blob service REST API
+        async function load(
+            getToken: () => Promise<string>,
+            root: string,
+            file: string
+        ) {
+            let success = true;
+            let token = '';
+            if (getToken) {
+                token = await getToken();
+            }
+
+            if (token) {
+                Tools.CustomRequestHeaders.Authorization = 'Bearer ' + token;
+                Tools.CustomRequestHeaders['x-ms-version'] = '2017-11-09';
+                Tools.UseCustomRequestHeaders = true;
+            } else {
+                delete Tools.CustomRequestHeaders.Authorization;
+                delete Tools.CustomRequestHeaders['x-ms-version'];
+                Tools.UseCustomRequestHeaders = false;
+            }
+
+            dummyProgress = 0;
+            setLoadProgress(0);
+
+            const sc = await loadPromise(
+                root,
+                file,
+                engineRef.current,
+                (e: any) => onProgress(e),
+                (s: any, m: any, e: any) => {
+                    console.error('Error loading model. Try Ctrl-F5', s, e);
+                    success = false;
+                    setIsLoading(undefined);
+                }
+            );
+
+            if (success) {
+                sceneRef.current = sc;
+                createOrZoomCamera();
+                advancedTextureRef.current = GUI.AdvancedDynamicTexture.CreateFullscreenUI(
+                    'UI'
+                );
+
+                sortMeshesOnLoad();
+
+                sceneRef.current.clearColor = new BABYLON.Color4(0, 0, 0, 0);
+
+                //This layer is a bug fix for transparency not blending with background html on certain graphic cards like in macs.
+                //The texture is 99% transparent but forces the engine to blend the colors.
+                const layer = new BABYLON.Layer('', '', sceneRef.current, true);
+                layer.texture = BABYLON.Texture.CreateFromBase64String(
+                    TransparentTexture,
+                    'layerImg',
+                    sceneRef.current
+                );
+
+                hovMaterial.current = new BABYLON.StandardMaterial(
+                    'hover',
+                    sceneRef.current
+                );
+                hovMaterial.current.diffuseColor = BABYLON.Color3.FromHexString(
+                    currentObjectColor.meshHoverColor
+                );
+
+                coloredHovMaterial.current = new BABYLON.StandardMaterial(
+                    'colHov',
+                    sceneRef.current
+                );
+                coloredHovMaterial.current.diffuseColor = BABYLON.Color3.FromHexString(
+                    currentObjectColor.coloredMeshHoverColor
+                );
+
+                highlightLayer.current = new BABYLON.HighlightLayer(
+                    'hl1',
+                    sceneRef.current,
+                    {
+                        blurHorizontalSize: 0.5,
+                        blurVerticalSize: 0.5
+                    }
+                );
+
+                const light = new BABYLON.HemisphericLight(
+                    'light',
+                    new BABYLON.Vector3(1, 1, 0),
+                    sceneRef.current
+                );
+                light.diffuse = new BABYLON.Color3(0.8, 0.8, 0.8);
+                light.specular = new BABYLON.Color3(1, 1, 1);
+                light.groundColor = new BABYLON.Color3(0.2, 0.2, 0.2);
+
+                setScene(sceneRef.current);
+                setIsLoading(false);
+                engineRef.current.resize();
+                if (onSceneLoaded) {
+                    onSceneLoaded(sceneRef.current);
+                }
+            }
+        }
+
+        function onProgress(e: BABYLON.ISceneLoaderProgressEvent) {
+            let progress = e.total ? e.loaded / e.total : 0;
+            if (!e.lengthComputable) {
+                dummyProgress += dummyProgress > 0.8 ? 0.001 : 0.003;
+                progress = dummyProgress > 0.99 ? 0.99 : dummyProgress;
+            }
+            setLoadProgress(progress);
+        }
+
+        if (!sceneRef.current) {
+            const canvas = document.getElementById(
+                canvasId
+            ) as HTMLCanvasElement; // Get the canvas element
+            const engine = new BABYLON.Engine(canvas, true, { stencil: true }); // Generate the BABYLON 3D engine
+            engineRef.current = engine;
+            if (modelUrl) {
+                const n = url.lastIndexOf('/') + 1;
+                load(getToken, url.substring(0, n), url.substring(n));
+            }
+        }
+
+        return sceneRef.current;
+    }, [
+        canvasId,
+        createOrZoomCamera,
+        currentObjectColor.coloredMeshHoverColor,
+        currentObjectColor.meshHoverColor,
+        getToken,
+        modelUrl,
+        onSceneLoaded,
+        url
+    ]);
+
     // Reload model if url changes
     useEffect(() => {
         debugLog('init effect' + (scene ? ' with scene ' : ' no scene '));
@@ -1282,7 +1294,7 @@ function SceneView(props: ISceneViewProps, ref) {
         );
 
         if (scene && coloredMeshItems && !isLoading) {
-            if (debug) {
+            if (debugLogging) {
                 console.time('coloring meshes');
             }
             try {
@@ -1401,7 +1413,7 @@ function SceneView(props: ISceneViewProps, ref) {
             } catch {
                 console.warn('unable to color mesh');
             }
-            if (debug) {
+            if (debugLogging) {
                 console.timeEnd('coloring meshes');
             }
         }
@@ -1508,7 +1520,7 @@ function SceneView(props: ISceneViewProps, ref) {
                 clonedHighlightMeshes.current = [];
             }
         };
-    }, [outlinedMeshitems]);
+    }, [outlinedMeshitems, meshMap.current]);
 
     const theme = useTheme();
     const customStyles = getSceneViewStyles(theme);

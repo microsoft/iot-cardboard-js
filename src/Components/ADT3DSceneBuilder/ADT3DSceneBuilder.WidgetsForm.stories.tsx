@@ -98,3 +98,14 @@ WidgetsFormCreateGaugeSave.play = async ({ canvasElement }) => {
     const saveButton = await canvas.findByTestId('widget-form-primary-button');
     await userEvent.click(saveButton);
 };
+
+export const WidgetsFormCreateValueEmpty = Template.bind({});
+WidgetsFormCreateValueEmpty.play = async ({ canvasElement }) => {
+    await WidgetsListAddDialogShow.play({ canvasElement });
+    const valueButton = await findCalloutItemByTestId('widget-library-Value');
+    await userEvent.click(valueButton);
+    const addButton = await findCalloutItemByTestId(
+        'widget-library-add-button'
+    );
+    await userEvent.click(addButton);
+};

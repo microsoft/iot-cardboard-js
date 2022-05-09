@@ -310,7 +310,9 @@
     "viewMode": "Görünüm modu",
     "enterBlobUrl": "Azure depolama kapsayıcısı blob URL'nizi girin",
     "home": "Ev",
-    "globe": "Küre"
+    "globe": "Küre",
+    "breadcrumbAriaLabel": "Düğmeler olarak oluşturulan öğelerle içerik kırıntısı",
+    "breadcrumbOverflowAriaLabel": "Daha fazla bağlantı"
   },
   "layersDropdown": {
     "placeholder": "Katman seçilmedi",
@@ -507,7 +509,8 @@
     "value": {
       "title": "Değer widget'ı",
       "description": "İkiz özelliklerin değerlerini göstermek için temel widget",
-      "typePlaceholder": "Değer için türü seçin"
+      "typePlaceholder": "Değer için türü seçin",
+      "displayNamePlaceholder": "Görünen adı girin"
     }
   },
   "sdkStrings": {
@@ -760,5 +763,7 @@
     "pan": "Tava",
     "orbit": "Yörünge",
     "zoom": "Yakınlaştırmak"
-  }
+  },
+  "active": "Etkin",
+  "invalidValue": "Geçersiz değer"
 }

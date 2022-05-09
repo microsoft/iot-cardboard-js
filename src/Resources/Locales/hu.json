@@ -310,7 +310,9 @@
     "viewMode": "Nézet mód",
     "enterBlobUrl": "Adja meg az Azure Storage-tároló blob URL-címét",
     "home": "Otthon",
-    "globe": "Földgömb"
+    "globe": "Földgömb",
+    "breadcrumbAriaLabel": "Zsemlemorzsa gombként megjelenített elemekkel",
+    "breadcrumbOverflowAriaLabel": "További linkek"
   },
   "layersDropdown": {
     "placeholder": "Nincsenek kijelölt rétegek",
@@ -507,7 +509,8 @@
     "value": {
       "title": "Érték widget",
       "description": "Alapvető widget az ikertulajdonságok értékeinek megjelenítéséhez",
-      "typePlaceholder": "Az érték típusának kiválasztása"
+      "typePlaceholder": "Az érték típusának kiválasztása",
+      "displayNamePlaceholder": "Megjelenítendő név megadása"
     }
   },
   "sdkStrings": {
@@ -760,5 +763,7 @@
     "pan": "Serpenyő",
     "orbit": "Pálya",
     "zoom": "Búg"
-  }
+  },
+  "active": "Aktív",
+  "invalidValue": "Érvénytelen érték"
 }

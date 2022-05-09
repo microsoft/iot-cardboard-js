@@ -310,7 +310,9 @@
     "viewMode": "Ansichtsmodus",
     "enterBlobUrl": "Geben Sie Ihre Azure-Speichercontainer-Blob-URL ein",
     "home": "Heim",
-    "globe": "Kugel"
+    "globe": "Kugel",
+    "breadcrumbAriaLabel": "Breadcrumb mit Elementen, die als Schaltflächen gerendert werden",
+    "breadcrumbOverflowAriaLabel": "Weitere Links"
   },
   "layersDropdown": {
     "placeholder": "Keine Ebenen ausgewählt",
@@ -507,7 +509,8 @@
     "value": {
       "title": "Wert-Widget",
       "description": "Einfaches Widget zum Anzeigen von Werten von Zwillingseigenschaften",
-      "typePlaceholder": "Wählen Sie den Typ für den Wert aus."
+      "typePlaceholder": "Wählen Sie den Typ für den Wert aus.",
+      "displayNamePlaceholder": "Anzeigenamen eingeben"
     }
   },
   "sdkStrings": {
@@ -760,5 +763,7 @@
     "pan": "Pfanne",
     "orbit": "Umlaufbahn",
     "zoom": "Zoom"
-  }
+  },
+  "active": "Aktiv",
+  "invalidValue": "Ungültiger Wert"
 }

@@ -310,7 +310,9 @@
     "viewMode": "Tryb wyświetlania",
     "enterBlobUrl": "Wprowadzanie adresu URL obiektu blob kontenera usługi Azure Storage",
     "home": "Dom",
-    "globe": "Globus"
+    "globe": "Globus",
+    "breadcrumbAriaLabel": "Breadcrumb z elementami renderowanymi jako przyciski",
+    "breadcrumbOverflowAriaLabel": "Więcej linków"
   },
   "layersDropdown": {
     "placeholder": "Brak zaznaczonych warstw",
@@ -507,7 +509,8 @@
     "value": {
       "title": "Widżet Wartość",
       "description": "Widżet Podstawowy do wyświetlania wartości bliźniaczych właściwości",
-      "typePlaceholder": "Wybierz typ wartości"
+      "typePlaceholder": "Wybierz typ wartości",
+      "displayNamePlaceholder": "Wprowadź nazwę wyświetlaną"
     }
   },
   "sdkStrings": {
@@ -760,5 +763,7 @@
     "pan": "Patelnia",
     "orbit": "Orbita",
     "zoom": "Powiększenia"
-  }
+  },
+  "active": "Aktywny",
+  "invalidValue": "Nieprawidłowa wartość"
 }

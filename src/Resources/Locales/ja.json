@@ -310,7 +310,9 @@
     "viewMode": "表示モード",
     "enterBlobUrl": "Azure ストレージ コンテナーの BLOB URL を入力します。",
     "home": "家",
-    "globe": "球"
+    "globe": "球",
+    "breadcrumbAriaLabel": "ボタンとしてレンダリングされた項目を含む階層リンク",
+    "breadcrumbOverflowAriaLabel": "その他のリンク"
   },
   "layersDropdown": {
     "placeholder": "レイヤーが選択されていません",
@@ -507,7 +509,8 @@
     "value": {
       "title": "値ウィジェット",
       "description": "ツインプロパティの値を表示するための基本ウィジェット",
-      "typePlaceholder": "値のタイプを選択します。"
+      "typePlaceholder": "値のタイプを選択します。",
+      "displayNamePlaceholder": "表示名を入力"
     }
   },
   "sdkStrings": {
@@ -760,5 +763,7 @@
     "pan": "パン",
     "orbit": "軌道",
     "zoom": "ズーム"
-  }
+  },
+  "active": "能動",
+  "invalidValue": "無効な値"
 }
