@@ -26,7 +26,6 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
     const [nameText, setNameText] = useState(data.name);
     const [idEditor, setIdEditor] = useState(false);
     const [idText, setIdText] = useState(data.id);
-    const theme = useTheme();
     const { elements, setElements, setCurrentNode, dispatch } = useContext(
         ElementsContext
     );
