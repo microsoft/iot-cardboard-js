@@ -28,7 +28,8 @@ import { useBoolean } from '@fluentui/react-hooks';
 
 const defaultDeeplinkOptions: IDeeplinkOptions = {
     includeSelectedElement: true,
-    includeSelectedLayers: true
+    includeSelectedLayers: true,
+    excludeBaseUrl: true
 };
 const itemStackStyles: { root: IStyle } = {
     root: {
