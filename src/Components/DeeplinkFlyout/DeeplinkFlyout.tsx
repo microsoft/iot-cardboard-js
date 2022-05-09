@@ -70,8 +70,10 @@ const DeeplinkFlyout: React.FC<IDeeplinkFlyoutProps> = (props) => {
     useEffect(() => {
         // reset the state whenever the flyout shows up so we don't persist when it closes and opens again
         setShowConfirmation(false);
-        if (!includeLayers) toggleIncludeLayers();
-        if (!includeElement) toggleIncludeElement();
+        if (!showFlyout) {
+            if (!includeLayers) toggleIncludeLayers();
+            if (!includeElement) toggleIncludeElement();
+        }
     }, [
         includeElement,
         includeLayers,
