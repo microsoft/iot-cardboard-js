@@ -1,23 +1,30 @@
 import { ADT3DScenePageModes } from '../Constants';
 
 export interface IDeeplinkContextProviderProps {
-    initialState?: Partial<Omit<DeeplinkContextState, 'deeplink'>>;
+    initialState?: Partial<IDeeplinkContextState>;
+}
+
+/** options for generating the deeplink */
+export interface IDeeplinkOptions {
+    includeSelectedElement: boolean;
+    includeSelectedLayers: boolean;
+    excludeBaseUrl?: boolean;
 }
 
 /**
  * A context used for capturing the current state of the app and restoring it to a new instance of the app
  */
 export interface IDeeplinkContext {
-    deeplinkState: DeeplinkContextState;
+    deeplinkState: IDeeplinkContextState;
     deeplinkDispatch: React.Dispatch<DeeplinkContextAction>;
+    getDeeplink: (options: IDeeplinkOptions) => string;
 }
 
 /**
  * The state of the context
  */
-export interface DeeplinkContextState {
+export interface IDeeplinkContextState {
     adtUrl: string;
-    deeplink: string;
     mode: ADT3DScenePageModes;
     sceneId: string;
     selectedElementId: string;

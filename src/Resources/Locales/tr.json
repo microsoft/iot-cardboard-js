@@ -312,7 +312,9 @@
     "home": "Ev",
     "globe": "Küre",
     "breadcrumbAriaLabel": "Düğmeler olarak oluşturulan öğelerle içerik kırıntısı",
-    "breadcrumbOverflowAriaLabel": "Daha fazla bağlantı"
+    "breadcrumbOverflowAriaLabel": "Daha fazla bağlantı",
+    "globeView": "Dünya görünümü",
+    "listView": "Liste görünümü"
   },
   "layersDropdown": {
     "placeholder": "Katman seçilmedi",
@@ -765,5 +767,13 @@
     "zoom": "Yakınlaştırmak"
   },
   "active": "Etkin",
-  "invalidValue": "Geçersiz değer"
+  "invalidValue": "Geçersiz değer",
+  "deeplinkFlyout": {
+    "buttonTitle": "Paylaş",
+    "copyButtonText": "Bağlantıyı kopyala",
+    "copyConfirmationMessage": "Kopya -lanan!",
+    "flyoutHeader": "Sahneyi paylaş",
+    "includeElementsOption": "Seçili öğeyle bağlantı kurma",
+    "includeLayersOption": "Seçili katmanlarla bağlantı kurma"
+  }
 }

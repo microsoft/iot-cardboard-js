@@ -312,7 +312,9 @@
     "home": "Casa",
     "globe": "Globo",
     "breadcrumbAriaLabel": "Migalha de pão com itens renderizados como botões",
-    "breadcrumbOverflowAriaLabel": "Mais links"
+    "breadcrumbOverflowAriaLabel": "Mais links",
+    "globeView": "Vista do globo",
+    "listView": "Vista da lista"
   },
   "layersDropdown": {
     "placeholder": "Sem camadas selecionadas",
@@ -765,5 +767,13 @@
     "zoom": "Zoom"
   },
   "active": "Ativo",
-  "invalidValue": "Valor inválido"
+  "invalidValue": "Valor inválido",
+  "deeplinkFlyout": {
+    "buttonTitle": "Partilhar",
+    "copyButtonText": "Link de cópia",
+    "copyConfirmationMessage": "Copiado!",
+    "flyoutHeader": "Partilhar cena",
+    "includeElementsOption": "Ligação com o elemento selecionado",
+    "includeLayersOption": "Ligação com camadas selecionadas"
+  }
 }

@@ -312,7 +312,9 @@
     "home": "Heim",
     "globe": "Kugel",
     "breadcrumbAriaLabel": "Breadcrumb mit Elementen, die als Schaltflächen gerendert werden",
-    "breadcrumbOverflowAriaLabel": "Weitere Links"
+    "breadcrumbOverflowAriaLabel": "Weitere Links",
+    "globeView": "Globus-Ansicht",
+    "listView": "Listenansicht"
   },
   "layersDropdown": {
     "placeholder": "Keine Ebenen ausgewählt",
@@ -765,5 +767,13 @@
     "zoom": "Zoom"
   },
   "active": "Aktiv",
-  "invalidValue": "Ungültiger Wert"
+  "invalidValue": "Ungültiger Wert",
+  "deeplinkFlyout": {
+    "buttonTitle": "Freigeben",
+    "copyButtonText": "Link kopieren",
+    "copyConfirmationMessage": "Kopiert!",
+    "flyoutHeader": "Szene teilen",
+    "includeElementsOption": "Mit ausgewähltem Element verknüpfen",
+    "includeLayersOption": "Mit ausgewählten Ebenen verknüpfen"
+  }
 }

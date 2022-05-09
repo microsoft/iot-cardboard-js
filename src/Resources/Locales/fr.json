@@ -312,7 +312,9 @@
     "home": "Domicile",
     "globe": "Globe",
     "breadcrumbAriaLabel": "Fil d’Ariane avec des éléments rendus sous forme de boutons",
-    "breadcrumbOverflowAriaLabel": "Plus de liens"
+    "breadcrumbOverflowAriaLabel": "Plus de liens",
+    "globeView": "Vue du globe",
+    "listView": "Affichage de liste"
   },
   "layersDropdown": {
     "placeholder": "Aucun calque sélectionné",
@@ -765,5 +767,13 @@
     "zoom": "Zoom"
   },
   "active": "Actif",
-  "invalidValue": "Valeur non valide"
+  "invalidValue": "Valeur non valide",
+  "deeplinkFlyout": {
+    "buttonTitle": "Partager",
+    "copyButtonText": "Copier le lien",
+    "copyConfirmationMessage": "Copié!",
+    "flyoutHeader": "Partager la scène",
+    "includeElementsOption": "Lien avec l’élément sélectionné",
+    "includeLayersOption": "Liaison avec les calques sélectionnés"
+  }
 }

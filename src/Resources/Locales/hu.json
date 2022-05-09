@@ -312,7 +312,9 @@
     "home": "Otthon",
     "globe": "Földgömb",
     "breadcrumbAriaLabel": "Zsemlemorzsa gombként megjelenített elemekkel",
-    "breadcrumbOverflowAriaLabel": "További linkek"
+    "breadcrumbOverflowAriaLabel": "További linkek",
+    "globeView": "Földgömb nézet",
+    "listView": "Listanézet"
   },
   "layersDropdown": {
     "placeholder": "Nincsenek kijelölt rétegek",
@@ -765,5 +767,13 @@
     "zoom": "Búg"
   },
   "active": "Aktív",
-  "invalidValue": "Érvénytelen érték"
+  "invalidValue": "Érvénytelen érték",
+  "deeplinkFlyout": {
+    "buttonTitle": "Részvény",
+    "copyButtonText": "Hivatkozás másolása",
+    "copyConfirmationMessage": "Másolt!",
+    "flyoutHeader": "Jelenet megosztása",
+    "includeElementsOption": "Csatolás a kijelölt elemmel",
+    "includeLayersOption": "Csatolás kijelölt rétegekkel"
+  }
 }

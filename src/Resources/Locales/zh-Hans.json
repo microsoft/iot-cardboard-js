@@ -312,7 +312,9 @@
     "home": "家",
     "globe": "球",
     "breadcrumbAriaLabel": "包含呈现为按钮的项目的痕迹导航",
-    "breadcrumbOverflowAriaLabel": "更多链接"
+    "breadcrumbOverflowAriaLabel": "更多链接",
+    "globeView": "地球视图",
+    "listView": "列表视图"
   },
   "layersDropdown": {
     "placeholder": "未选择图层",
@@ -765,5 +767,13 @@
     "zoom": "缩放"
   },
   "active": "积极",
-  "invalidValue": "值无效"
+  "invalidValue": "值无效",
+  "deeplinkFlyout": {
+    "buttonTitle": "共享",
+    "copyButtonText": "复制链接",
+    "copyConfirmationMessage": "复制！",
+    "flyoutHeader": "共享场景",
+    "includeElementsOption": "与所选元素的链接",
+    "includeLayersOption": "与所选图层链接"
+  }
 }
