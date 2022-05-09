@@ -45,7 +45,6 @@ const Template: ModelledPropertyBuilderStory = (args) => {
             adapterRef.current = new ADT3DSceneAdapter(
                 new MsalAuthService(authenticationParameters.adt.aadParameters),
                 authenticationParameters.adt.hostUrl,
-                authenticationParameters.adt.aadParameters.accountName,
                 authenticationParameters.storage.blobContainerUrl
             );
             const populateConfig = async () => {
