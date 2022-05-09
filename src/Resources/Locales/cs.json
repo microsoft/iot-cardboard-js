@@ -312,7 +312,9 @@
     "home": "Domov",
     "globe": "Glóbus",
     "breadcrumbAriaLabel": "Drobečková navigace s položkami vykreslenými jako tlačítka",
-    "breadcrumbOverflowAriaLabel": "Další odkazy"
+    "breadcrumbOverflowAriaLabel": "Další odkazy",
+    "globeView": "Zobrazení zeměkoule",
+    "listView": "Zobrazení seznamu"
   },
   "layersDropdown": {
     "placeholder": "Nejsou vybrány žádné vrstvy",
@@ -765,13 +767,5 @@
     "zoom": "Zvětšení"
   },
   "active": "Aktivní",
-  "invalidValue": "Neplatná hodnota",
-  "deeplinkFlyout": {
-    "buttonTitle": "Sdílet",
-    "copyButtonText": "Kopírovat odkaz",
-    "copyConfirmationMessage": "Zkopírovaný",
-    "flyoutHeader": "Sdílení scény",
-    "includeElementsOption": "Propojení s vybraným prvkem",
-    "includeLayersOption": "Propojení s vybranými vrstvami"
-  }
+  "invalidValue": "Neplatná hodnota"
 }

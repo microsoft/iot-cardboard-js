@@ -312,7 +312,9 @@
     "home": "Casa",
     "globe": "Globo",
     "breadcrumbAriaLabel": "Breadcrumb con elementi sottoposti a rendering come pulsanti",
-    "breadcrumbOverflowAriaLabel": "Altri link"
+    "breadcrumbOverflowAriaLabel": "Altri link",
+    "globeView": "Vista globo",
+    "listView": "Visualizzazione elenco"
   },
   "layersDropdown": {
     "placeholder": "Nessun livello selezionato",
@@ -765,13 +767,5 @@
     "zoom": "Zoom"
   },
   "active": "Attivo",
-  "invalidValue": "Valore non valido",
-  "deeplinkFlyout": {
-    "buttonTitle": "Condividi",
-    "copyButtonText": "Copia link",
-    "copyConfirmationMessage": "Copiato",
-    "flyoutHeader": "Condividi scena",
-    "includeElementsOption": "Collegamento con l'elemento selezionato",
-    "includeLayersOption": "Collegamento con i livelli selezionati"
-  }
+  "invalidValue": "Valore non valido"
 }

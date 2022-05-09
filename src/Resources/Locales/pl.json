@@ -312,7 +312,9 @@
     "home": "Dom",
     "globe": "Globus",
     "breadcrumbAriaLabel": "Breadcrumb z elementami renderowanymi jako przyciski",
-    "breadcrumbOverflowAriaLabel": "Więcej linków"
+    "breadcrumbOverflowAriaLabel": "Więcej linków",
+    "globeView": "Widok na kulę ziemską",
+    "listView": "Widok listy"
   },
   "layersDropdown": {
     "placeholder": "Brak zaznaczonych warstw",
@@ -765,13 +767,5 @@
     "zoom": "Powiększenia"
   },
   "active": "Aktywny",
-  "invalidValue": "Nieprawidłowa wartość",
-  "deeplinkFlyout": {
-    "buttonTitle": "Udostępnij",
-    "copyButtonText": "Kopiuj link",
-    "copyConfirmationMessage": "Kopiowane",
-    "flyoutHeader": "Udostępnianie sceny",
-    "includeElementsOption": "Link z wybranym elementem",
-    "includeLayersOption": "Łączenie z zaznaczonymi warstwami"
-  }
+  "invalidValue": "Nieprawidłowa wartość"
 }

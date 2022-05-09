@@ -312,7 +312,9 @@
     "home": "家",
     "globe": "球",
     "breadcrumbAriaLabel": "ボタンとしてレンダリングされた項目を含む階層リンク",
-    "breadcrumbOverflowAriaLabel": "その他のリンク"
+    "breadcrumbOverflowAriaLabel": "その他のリンク",
+    "globeView": "地球儀",
+    "listView": "リストビュー"
   },
   "layersDropdown": {
     "placeholder": "レイヤーが選択されていません",
@@ -765,13 +767,5 @@
     "zoom": "ズーム"
   },
   "active": "能動",
-  "invalidValue": "無効な値",
-  "deeplinkFlyout": {
-    "buttonTitle": "共有",
-    "copyButtonText": "リンクのコピー",
-    "copyConfirmationMessage": "コピー",
-    "flyoutHeader": "シーンの共有",
-    "includeElementsOption": "選択した要素とのリンク",
-    "includeLayersOption": "選択したレイヤーとのリンク"
-  }
+  "invalidValue": "無効な値"
 }

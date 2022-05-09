@@ -313,6 +313,8 @@
         "enterBlobUrl": "Enter your Azure storage container blob URL",
         "home": "Home",
         "globe": "Globe",
+        "globeView": "Globe view",
+        "listView": "List view",
         "breadcrumbAriaLabel": "Breadcrumb with items rendered as buttons",
         "breadcrumbOverflowAriaLabel": "More links"
     },
@@ -742,14 +744,6 @@
         "default": "Default",
         "transparent": "Transparent",
         "wireframe": "Wireframe"
-    },
-    "deeplinkFlyout": {
-        "buttonTitle": "Share",
-        "copyButtonText": "Copy link",
-        "copyConfirmationMessage": "Copied",
-        "flyoutHeader": "Share scene",
-        "includeElementsOption": "Link with selected element",
-        "includeLayersOption": "Link with selected layers"
     },
     "elementsPanel": {
         "title": "Elements",
