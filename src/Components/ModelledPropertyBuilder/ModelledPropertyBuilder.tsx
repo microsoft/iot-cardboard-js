@@ -23,8 +23,14 @@ import {
 } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { useModelledProperties } from './useModelledProperties';
-import { ModelledPropertyDropdown } from './Internal/ModelledPropertyDropdown';
-import { Intellisense, separators } from '../AutoComplete/Intellisense';
+import ModelledPropertyDropdown, {
+    IModelledPropertyDropdownItem
+} from './Internal/ModelledPropertyDropdown';
+import {
+    GetPropertyNamesFunc,
+    Intellisense,
+    separators
+} from '../AutoComplete/Intellisense';
 import { getProperty } from 'dot-prop';
 import { DTDLPropertyIconographyMap } from '../../Models/Constants/Constants';
 import i18next from 'i18next';
@@ -96,14 +102,8 @@ const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = ({
         [onChange]
     );
 
-    const getIntellisenseProperty = useCallback(
-        (
-            _propertyName: string,
-            {
-                tokens,
-                leafToken
-            }: { search: string; tokens: string[]; leafToken: number }
-        ) => {
+    const getIntellisenseProperty: GetPropertyNamesFunc = useCallback(
+        (_twinId, { leafToken, tokens }) => {
             const nonPathChars = separators.replace('.', '');
             let pathRootIdx = leafToken;
             for (let i = leafToken; i >= 0; i--) {
@@ -257,7 +257,9 @@ const getDropdownOptions = (
     flattenedProperties: IFlattenedModelledPropertiesFormat,
     enableNoneDropdownOption: boolean
 ) => {
-    let modelledPropertyOptions: Array<IDropdownOption> = [
+    let modelledPropertyOptions: Array<
+        IDropdownOption<IModelledPropertyDropdownItem>
+    > = [
         ...(enableNoneDropdownOption
             ? [
                   {

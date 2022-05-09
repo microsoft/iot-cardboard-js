@@ -6,14 +6,21 @@ import {
     dropdownStyles,
     getStyles
 } from '../ModelledPropertyBuilder.styles';
+import { IModelledProperty } from '../ModelledPropertyBuilder.types';
+
+export interface IModelledPropertyDropdownItem {
+    icon?: string;
+    iconTitle?: string;
+    property: IModelledProperty;
+}
 
 interface ModelledPropertyDropdownProps {
     selectedKey: string;
     onChange: (option: IDropdownOption) => void;
-    dropdownOptions: IDropdownOption<any>[];
+    dropdownOptions: IDropdownOption<IModelledPropertyDropdownItem>[];
 }
 
-export const ModelledPropertyDropdown: React.FC<ModelledPropertyDropdownProps> = ({
+const ModelledPropertyDropdown: React.FC<ModelledPropertyDropdownProps> = ({
     onChange,
     selectedKey,
     dropdownOptions
@@ -25,7 +32,9 @@ export const ModelledPropertyDropdown: React.FC<ModelledPropertyDropdownProps> =
         (option) => option.key === 'none'
     );
 
-    const onRenderOption = (option: IDropdownOption): JSX.Element => {
+    const onRenderOption = (
+        option: IDropdownOption<IModelledPropertyDropdownItem>
+    ): JSX.Element => {
         return (
             <>
                 {option.data && option.data.icon && (
@@ -46,7 +55,9 @@ export const ModelledPropertyDropdown: React.FC<ModelledPropertyDropdownProps> =
         );
     };
 
-    const onRenderTitle = (options: IDropdownOption[]): JSX.Element => {
+    const onRenderTitle = (
+        options: IDropdownOption<IModelledPropertyDropdownItem>[]
+    ): JSX.Element => {
         const option = options[0];
 
         return (
@@ -89,3 +100,5 @@ export const ModelledPropertyDropdown: React.FC<ModelledPropertyDropdownProps> =
         />
     );
 };
+
+export default React.memo(ModelledPropertyDropdown);
