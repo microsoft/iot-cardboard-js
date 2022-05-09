@@ -644,7 +644,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                             onNodeDragStop={onNodeDragStop}
                         >
                             <PrimaryButton
-                                className={graphViewerStyles.button}
+                                styles={buttonStyles}
                                 onClick={onNewModelClick}
                                 text={t('OATGraphViewer.newModel')}
                             />
