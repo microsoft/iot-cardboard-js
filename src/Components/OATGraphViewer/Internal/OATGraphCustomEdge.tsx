@@ -69,6 +69,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
     };
 
     const onNameClick = () => {
+        console.log('********** name click **********');
         setNameEditor(true);
         const clickedRelationship = {
             '@id': element.data.id,
