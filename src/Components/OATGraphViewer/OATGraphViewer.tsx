@@ -1,4 +1,10 @@
-import React, { useState, useEffect, useRef, useMemo } from 'react';
+import React, {
+    useState,
+    useEffect,
+    useRef,
+    useMemo,
+    useCallback
+} from 'react';
 import { useTheme, PrimaryButton } from '@fluentui/react';
 import ReactFlow, {
     ReactFlowProvider,
@@ -19,15 +25,27 @@ import {
     OATInterfaceType,
     OATComponentHandleName
 } from '../../Models/Constants/Constants';
-import { getGraphViewerStyles } from './OATGraphViewer.styles';
+import {
+    getGraphViewerStyles,
+    getGraphViewerButtonStyles
+} from './OATGraphViewer.styles';
 import { ElementsContext } from './Internal/OATContext';
 import {
     SET_OAT_PROPERTY_EDITOR_MODEL,
     SET_OAT_ELEMENTS_HANDLER
 } from '../../Models/Constants/ActionTypes';
-import { IAction } from '../../Models/Constants/Interfaces';
+import {
+    IAction,
+    IOATElementsChangeEventArgs,
+    IOATTwinModelNodes,
+    IOATNodeElement,
+    IOATRelationShipElement
+} from '../../Models/Constants/Interfaces';
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 
+const idClassBase = 'dtmi:com:example:';
+const contextClassBase = 'dtmi:adt:context;2';
+const versionClassBase = '1';
 type OATGraphProps = {
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
     state?: IOATEditorState;
@@ -49,18 +67,17 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     const reactFlowWrapperRef = useRef(null);
     const storedElements = getStoredElements();
     const [elements, setElements] = useState(
-        storedElements === null ? [] : storedElements
+        !storedElements ? [] : storedElements
     );
-    const idClassBase = 'dtmi:com:example:';
-    const contextClassBase = 'dtmi:adt:context;2';
-    const versionClassBase = '1';
     const defaultPosition = 100;
     const [newModelId, setNewModelId] = useState(0);
     const graphViewerStyles = getGraphViewerStyles();
+    const buttonStyles = getGraphViewerButtonStyles();
     const currentNodeIdRef = useRef('');
     const currentHandleId = useRef('');
 
     useEffect(() => {
+        //identifies wich is the next model Id on creating new nodes and updates the Local Storage
         let nextModelId = newModelId;
         let index = 0;
         while (index !== -1) {
@@ -78,26 +95,31 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     }, [elements]);
 
     useEffect(() => {
+        //detect changes outside of the component on the selected model
         const node = elements.find(
             (element) => element.id === currentNodeIdRef.current
         );
         if (node) {
-            elements
-                .filter((x) => x.source === currentNodeIdRef.current)
-                .forEach((x) => (x.source = state.model['@id']));
-            elements
-                .filter((x) => x.target === currentNodeIdRef.current)
-                .forEach((x) => (x.target = state.model['@id']));
-            node.id = state.model['@id'];
-            node.data.id = state.model['@id'];
+            const newId = state.model['@id'];
+            elements.forEach((x) => {
+                if (x.source && x.source === currentNodeIdRef.current) {
+                    x.source = newId;
+                }
+                if (x.target && x.target === currentNodeIdRef.current) {
+                    x.target = newId;
+                }
+            });
+            node.id = newId;
+            node.data.id = newId;
             node.data.name = state.model['displayName'];
             node.data.content = state.model['contents'];
             setElements([...elements]);
-            currentNodeIdRef.current = state.model['@id'];
+            currentNodeIdRef.current = newId;
         }
     }, [state.model]);
 
     useEffect(() => {
+        //detects when a Model is deleted outside of the component and Updates the elements state
         let importModelsList = [];
         if (state.importModels.length > 0) {
             state.importModels.map((input) => {
@@ -196,11 +218,12 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                     id: state.deletedModelId
                 }
             ];
-            setElements((els) => removeElements(elementsToRemove, els));
+            onElementsRemove(elementsToRemove);
         }
     }, [state.deletedModelId]);
 
     useEffect(() => {
+        //detects when a Model is selected outside of the component
         const node = elements.find(
             (element) => element.id === state.selectedModelId
         );
@@ -221,6 +244,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     }, [state.selectedModelId]);
 
     useEffect(() => {
+        //detects when a Model name is edited outside of the component and Updates the elements state
         const node = elements.find(
             (element) => element.id === state.selectedModelId
         );
@@ -242,6 +266,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     }, [state.editedModelName]);
 
     useEffect(() => {
+        //detects when a Model id is edited outside of the component and Updates the elements state
         const node = elements.find(
             (element) => element.id === state.selectedModelId
         );
@@ -270,10 +295,6 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
         }
     }, [state.editedModelId]);
 
-    const setCurrentNode = (id) => {
-        currentNodeIdRef.current = id;
-    };
-
     const providerVal = useMemo(
         () => ({ elements, setElements, setCurrentNode, dispatch }),
         [elements, setElements, setCurrentNode, dispatch]
@@ -283,12 +304,21 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
 
     const edgeTypes = useMemo(() => ({ Relationship: OATGraphCustomEdge }), []);
 
-    const onElementsRemove = (elementsToRemove) =>
+    const setCurrentNode = (id) => {
+        currentNodeIdRef.current = id;
+    };
+
+    const onElementsRemove = (elementsToRemove: IOATNodeElement) =>
+        //remove an specific node and all related edges
         setElements((els) => removeElements(elementsToRemove, els));
 
-    const onLoad = (_reactFlowInstance) => _reactFlowInstance.fitView();
+    const onLoad = useCallback(
+        (_reactFlowInstance) => _reactFlowInstance.fitView(),
+        []
+    );
 
     const onNewModelClick = () => {
+        //create a new floating node
         const name = `Model${newModelId}`;
         const id = `${idClassBase}model${newModelId};${versionClassBase}`;
         const newNode = {
@@ -307,6 +337,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     };
 
     const onNodeDragStop = (evt, node) => {
+        //checks if a node is being draged into another node to create a relationship between them
         let targetId = '';
         const areaDistanceX = 60;
         const areaDistanceY = 30;
@@ -329,7 +360,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
         if (targetIndex >= 0) {
             const id = node.id;
             if (node.data.type === elements[targetIndex].data.type) {
-                const params = {
+                const params: IOATRelationShipElement = {
                     source: node.id,
                     sourceHandle: OATExtendHandleName,
                     target: targetId,
@@ -351,7 +382,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                 } else {
                     sourceId = node.id;
                 }
-                const params = {
+                const params: IOATRelationShipElement = {
                     source: sourceId,
                     sourceHandle: OATComponentHandleName,
                     target: targetId,
@@ -374,12 +405,14 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     };
 
     const onConnectStart = (evt, params) => {
+        //stores values before connection is created
         currentNodeIdRef.current = params.nodeId;
         currentHandleId.current = params.handleId;
     };
 
     const onConnectStop = (evt) => {
-        const params = {
+        //retrieves information and creates a desired relationship between nodes
+        const params: IOATRelationShipElement = {
             source: currentNodeIdRef.current,
             sourceHandle: currentHandleId.current,
             label: '',
@@ -436,6 +469,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     };
 
     const storeElements = () => {
+        //save the desire session data into the local storage
         const nodePositions = elements.reduce((collection, element) => {
             if (!element.source) {
                 collection.push({
@@ -464,6 +498,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     };
 
     const translatedOutput = useMemo(() => {
+        //creates the json object in the DTDL standard based on the content of the nodes
         const outputObject = elements;
         const nodes = outputObject.reduce((currentNodes, currentNode) => {
             if (currentNode.data.type === OATInterfaceType) {
@@ -538,6 +573,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     }, [elements]);
 
     useEffect(() => {
+        //sends information to the page with the DTDL json
         const oatEditorData = JSON.parse(
             localStorage.getItem(OATDataStorageKey)
         );
@@ -555,6 +591,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     }, [translatedOutput]);
 
     const onElementClick = (evt, node) => {
+        //checks if a node is selected to display it in the property editor
         if (node.data.type === OATInterfaceType && translatedOutput) {
             currentNodeIdRef.current = node.id;
 
@@ -586,7 +623,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     };
 
     return (
-        <div>
+        <>
             <ReactFlowProvider>
                 <div
                     className={graphViewerStyles.container}
@@ -621,7 +658,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                     </ElementsContext.Provider>
                 </div>
             </ReactFlowProvider>
-        </div>
+        </>
     );
 };
 
