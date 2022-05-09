@@ -26,7 +26,7 @@ const SceneListModeToggle: React.FC<Props> = ({
                 }
             >
                 <PivotItem
-                    itemKey={ADT3DScenePageSteps.SceneLobby}
+                    itemKey={ADT3DScenePageSteps.SceneList}
                     headerText={t('3dScenePage.listView')}
                     itemIcon="BulletedList2"
                 />
