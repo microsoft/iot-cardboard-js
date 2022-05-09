@@ -10,7 +10,10 @@ const wrapperStyle = { width: 'auto', height: 'auto' };
 export default {
     title: 'Components/SceneView',
     component: 'SceneView',
-    decorators: [getDefaultStoryDecorator(wrapperStyle)]
+    decorators: [getDefaultStoryDecorator(wrapperStyle)],
+    parameters: {
+        chromatic: { delay: 10000 } // give the model time to load
+    }
 };
 
 export const Globe = () => {
