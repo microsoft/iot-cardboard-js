@@ -148,7 +148,10 @@
     "simulating": "Simuleren",
     "liveStatus": "Pakketnummer: {{packetNumber}} | {{totalSuccessfulPatches}}/{{totalTwinsPatched}} twins succesvol bijgewerkt",
     "generateEnvironmentDescription": "Push modellen, tweelingen en relaties om uw omgeving te bevolken",
-    "simulateDescription": "Push evenementen naar uw omgeving"
+    "simulateDescription": "Push evenementen naar uw omgeving",
+    "pusherType": "Simulatie type",
+    "robotArms": "Robotarmen",
+    "dairyProduction": "Zuivelfaciliteit"
   },
   "scenes": {
     "noScenes": "Je hebt geen 3D-scènes, voeg een nieuwe toe om aan de slag te gaan.",

@@ -148,7 +148,10 @@
     "simulating": "Simulera",
     "liveStatus": "Paketnummer: {{packetNumber}} | {{totalSuccessfulPatches}}/{totalTwinsPatched}} dubblar har uppdaterats",
     "generateEnvironmentDescription": "Push-modeller, tvillingar och relationer för att fylla din miljö",
-    "simulateDescription": "Skicka händelser till din miljö"
+    "simulateDescription": "Skicka händelser till din miljö",
+    "pusherType": "Typ av simulering",
+    "robotArms": "Robotarmar",
+    "dairyProduction": "Mejerianläggning"
   },
   "scenes": {
     "noScenes": "Du har inga 3D-scener, lägg till en ny för att komma igång.",

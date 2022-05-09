@@ -148,7 +148,10 @@
     "simulating": "Nachahmend",
     "liveStatus": "Paketnummer: {{packetNumber}} | {{totalSuccessfulPatches}}/{{totalTwinsPatched}} Zwillinge erfolgreich aktualisiert",
     "generateEnvironmentDescription": "Pushen von Modellen, Zwillingen und Beziehungen, um Ihre Umgebung zu füllen",
-    "simulateDescription": "Übertragen von Ereignissen in Ihre Umgebung"
+    "simulateDescription": "Übertragen von Ereignissen in Ihre Umgebung",
+    "pusherType": "Art der Simulation",
+    "robotArms": "Roboterarme",
+    "dairyProduction": "Molkerei"
   },
   "scenes": {
     "noScenes": "Sie haben keine 3D-Szenen, fügen Sie eine neue hinzu, um loszulegen.",
