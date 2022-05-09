@@ -11,7 +11,6 @@ import {
     IADT3DScenePageProps
 } from './ADT3DScenePage.types';
 import './ADT3DScenePage.scss';
-import { DefaultButton } from '@fluentui/react';
 import {
     ADT3DScenePageReducer,
     defaultADT3DScenePageState
@@ -41,7 +40,7 @@ import {
     I3DScenesConfig,
     IScene
 } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
-import { getStyles } from './ADT3DScenePage.styles';
+import SceneListModeToggle from './Internal/SceneListModeToggle';
 
 export const ADT3DScenePageContext = createContext<IADT3DScenePageContext>(
     null
@@ -59,7 +58,6 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
         defaultADT3DScenePageState
     );
     const { t } = useTranslation();
-    const customStyles = getStyles();
     const scenesConfig = useAdapter({
         adapterMethod: () => adapter.getScenesConfig(),
         refetchDependencies: [
@@ -132,6 +130,17 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
         dispatch({
             type: SET_ADT_SCENE_PAGE_MODE,
             payload: newScenePageMode
+        });
+    };
+
+    const handleSceneListModeChange = (sceneListMode: ADT3DScenePageSteps) => {
+        dispatch({
+            type: SET_SELECTED_SCENE,
+            payload: null
+        });
+        dispatch({
+            type: SET_CURRENT_STEP,
+            payload: sceneListMode
         });
     };
 
@@ -218,6 +227,15 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
                         handleScenePageModeChange={handleScenePageModeChange}
                         selectedMode={state.scenePageMode}
                     />
+                    {(state.currentStep === ADT3DScenePageSteps.SceneLobby ||
+                        state.currentStep === ADT3DScenePageSteps.Globe) && (
+                        <SceneListModeToggle
+                            selectedMode={state.currentStep}
+                            handleSceneListModeChange={
+                                handleSceneListModeChange
+                            }
+                        />
+                    )}
                     <div className="cb-scene-page-scene-environment-picker">
                         <EnvironmentPicker
                             theme={theme}
@@ -269,46 +287,6 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
                             onClick: state?.errorCallback?.buttonAction
                         }}
                     >
-                        {(state.currentStep ===
-                            ADT3DScenePageSteps.SceneLobby ||
-                            state.currentStep ===
-                                ADT3DScenePageSteps.Globe) && (
-                            <div className={customStyles.toggleContainer}>
-                                <div className={customStyles.toggleButtons}>
-                                    <DefaultButton
-                                        text={t('3dScenePage.listView')}
-                                        iconProps={{ iconName: 'List' }}
-                                        className={customStyles.toggleButton}
-                                        onClick={() => {
-                                            dispatch({
-                                                type: SET_SELECTED_SCENE,
-                                                payload: null
-                                            });
-                                            dispatch({
-                                                type: SET_CURRENT_STEP,
-                                                payload:
-                                                    ADT3DScenePageSteps.SceneLobby
-                                            });
-                                        }}
-                                    />
-                                    <DefaultButton
-                                        text={t('3dScenePage.globeView')}
-                                        iconProps={{ iconName: 'Globe' }}
-                                        onClick={() => {
-                                            dispatch({
-                                                type: SET_SELECTED_SCENE,
-                                                payload: null
-                                            });
-                                            dispatch({
-                                                type: SET_CURRENT_STEP,
-                                                payload:
-                                                    ADT3DScenePageSteps.Globe
-                                            });
-                                        }}
-                                    />
-                                </div>
-                            </div>
-                        )}
                         {state.currentStep ===
                             ADT3DScenePageSteps.SceneLobby && (
                             <div className="cb-scene-page-scene-list-container">

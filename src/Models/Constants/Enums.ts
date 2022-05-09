@@ -143,9 +143,9 @@ export enum ModelAuthoringSteps {
 }
 
 export enum ADT3DScenePageSteps {
-    Globe,
-    SceneLobby,
-    SceneBuilder
+    Globe = 'Globe',
+    SceneLobby = 'SceneLobby',
+    SceneBuilder = 'SceneBuilder'
 }
 
 export enum ADT3DSceneBuilderMode {
