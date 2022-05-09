@@ -15,7 +15,6 @@ import './ADT3DViewer.scss';
 import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
 import {
     CustomMeshItem,
-    Marker,
     SceneViewBadgeGroup,
     SceneVisual
 } from '../../Models/Classes/SceneView.types';
@@ -383,10 +382,9 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
         }
     }, [sceneVisuals, coloredMeshItemsProp, sceneAlerts]);
 
-    const meshClick = (_marker: Marker, mesh: { id: string }, scene: any) => {
+    const meshClick = (mesh: { id: string }, scene: any) => {
         // update the selected element on the context
         setSelectedElementId(getElementByMeshId(mesh.id)?.id);
-
         if (sceneVisuals) {
             const sceneVisual = sceneVisuals.find((sceneVisual) =>
                 sceneVisual.element.objectIDs.find((id) => id === mesh?.id)
@@ -438,7 +436,7 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
         }
     };
 
-    const meshHover = (_marker: Marker, mesh: { id: string }) => {
+    const meshHover = (mesh: { id: string }) => {
         if (mesh && sceneVisuals) {
             const sceneVisual = sceneVisuals.find((sceneVisual) =>
                 sceneVisual.element.objectIDs.find((id) => id === mesh?.id)
@@ -529,9 +527,8 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
                         coloredMeshItems: coloredMeshItems,
                         modelUrl: modelUrl,
                         onBadgeGroupHover: onBadgeGroupHover,
-                        onMeshClick: (marker, mesh, scene) =>
-                            meshClick(marker, mesh, scene),
-                        onMeshHover: (marker, mesh) => meshHover(marker, mesh),
+                        onMeshClick: meshClick,
+                        onMeshHover: meshHover,
                         outlinedMeshitems: outlinedMeshItems,
                         showHoverOnSelected: showHoverOnSelected,
                         showMeshesOnHover: showMeshesOnHover,

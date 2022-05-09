@@ -5,6 +5,8 @@
             {
                 "id": "f7053e7537048e03be4d1e6f8f93aa8a",
                 "displayName": "Contoso Factory",
+                "latitude": 51.5072,
+                "longitude": 0.1276,
                 "assets": [
                     {
                         "type": "3DAsset",
