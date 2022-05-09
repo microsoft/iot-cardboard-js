@@ -487,7 +487,8 @@
       "selectProperty": "Wybierz właściwość",
       "toggleLabel": "Wyrażenie właściwości",
       "dropdownPlaceholder": "Wybierz właściwość",
-      "none": "Żaden"
+      "none": "Żaden",
+      "customExpression": "Wyrażenie niestandardowe"
     }
   },
   "widgets": {

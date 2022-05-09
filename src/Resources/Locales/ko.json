@@ -487,7 +487,8 @@
       "selectProperty": "속성 선택",
       "toggleLabel": "속성 표현식",
       "dropdownPlaceholder": "속성 선택",
-      "none": "없음"
+      "none": "없음",
+      "customExpression": "사용자 지정 표현식"
     }
   },
   "widgets": {

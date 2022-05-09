@@ -487,7 +487,8 @@
       "selectProperty": "选择房产",
       "toggleLabel": "属性表达式",
       "dropdownPlaceholder": "选择房产",
-      "none": "没有"
+      "none": "没有",
+      "customExpression": "自定义表达式"
     }
   },
   "widgets": {

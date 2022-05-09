@@ -487,7 +487,8 @@
       "selectProperty": "Выберите недвижимость",
       "toggleLabel": "Выражение свойства",
       "dropdownPlaceholder": "Выберите недвижимость",
-      "none": "Никакой"
+      "none": "Никакой",
+      "customExpression": "Пользовательское выражение"
     }
   },
   "widgets": {
