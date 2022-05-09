@@ -310,7 +310,11 @@
     "viewMode": "보기 모드",
     "enterBlobUrl": "Azure 저장소 컨테이너 Blob URL을 입력합니다.",
     "home": "집",
-    "globe": "지구"
+    "globe": "지구",
+    "breadcrumbAriaLabel": "버튼으로 렌더링된 항목이 있는 이동 경로 기록(Breadcrumb)",
+    "breadcrumbOverflowAriaLabel": "더 많은 링크",
+    "globeView": "지구본 보기",
+    "listView": "목록 보기"
   },
   "layersDropdown": {
     "placeholder": "선택한 레이어가 없습니다.",
@@ -509,7 +513,8 @@
     "value": {
       "title": "값 위젯",
       "description": "쌍둥이 속성의 값을 표시하는 기본 위젯",
-      "typePlaceholder": "값의 유형을 선택합니다."
+      "typePlaceholder": "값의 유형을 선택합니다.",
+      "displayNamePlaceholder": "표시 이름 입력"
     }
   },
   "sdkStrings": {
@@ -762,5 +767,7 @@
     "pan": "팬",
     "orbit": "궤도",
     "zoom": "급상승"
-  }
+  },
+  "active": "활동적인",
+  "invalidValue": "잘못된 값"
 }

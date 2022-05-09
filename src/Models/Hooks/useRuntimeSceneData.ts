@@ -175,7 +175,12 @@ export const useRuntimeSceneData = (
             setSceneVisuals(sceneVisuals);
             setSceneAlerts(groupedAlerts);
         }
-    }, [sceneData.adapterResult.result, selectedLayerIds]);
+    }, [
+        sceneData.adapterResult.result,
+        sceneId,
+        scenesConfig,
+        selectedLayerIds
+    ]);
 
     return {
         modelUrl,

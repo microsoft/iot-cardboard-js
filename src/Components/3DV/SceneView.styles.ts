@@ -66,6 +66,19 @@ export const getSceneViewStyles = memoizeFunction((theme: Theme) =>
                 pointerEvents: 'none !important',
                 position: 'absolute'
             } as IStyle
+        ],
+        placeholderMarkers: [
+            {
+                position: 'absolute',
+                left: 0,
+                top: 0,
+                zIndex: -1
+            } as IStyle
+        ],
+        markers: [
+            {
+                position: 'absolute'
+            } as IStyle
         ]
     })
 );
