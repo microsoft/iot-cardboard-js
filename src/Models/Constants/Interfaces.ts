@@ -752,12 +752,28 @@ export interface IADT3DViewerProps {
     showMeshesOnHover?: boolean;
     showHoverOnSelected?: boolean;
     coloredMeshItems?: CustomMeshItem[];
-    zoomToMeshIds?: string[];
+    /**
+     * Ids of the elements to zoom the camera to focus on
+     */
+    zoomToElementId?: string;
     unzoomedMeshOpacity?: number;
     hideViewModePickerUI?: boolean;
     hideElementsPanel?: boolean;
     outlinedMeshItems?: CustomMeshItem[];
-    sceneViewProps?: ISceneViewProps;
+    sceneViewProps?: Omit<
+        ISceneViewProps,
+        | 'badgeGroups'
+        | 'coloredMeshItems'
+        | 'modeUrl'
+        | 'onBadgeGroupHover'
+        | 'onMeshClick'
+        | 'onMeshHover'
+        | 'outlinedMeshitems'
+        | 'showHoverOnSelected'
+        | 'showMeshesOnHover'
+        | 'unzoomedMeshOpacity'
+        | 'zoomToMeshIds'
+    >;
 }
 
 export interface IADT3DViewerMode {

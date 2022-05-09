@@ -29,12 +29,6 @@
         overflow: auto;
     }
 
-    .cb-scene-page-scene-globe-container {
-        display: flex;
-        flex-direction: column;
-        height: 100%;
-    }
-
     .cb-base-composite-card-item:last-child {
         display: flex;
         flex-direction: column;
@@ -100,8 +94,8 @@
 
 .cb-scene-page-mode-toggle-container {
     position: absolute;
-    right: 20px;
-    top: 22px;
+    right: 8px;
+    top: 0;
     z-index: 1;
 }
 

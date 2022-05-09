@@ -1,4 +1,10 @@
-import React, { createContext, useEffect, useReducer } from 'react';
+import React, {
+    createContext,
+    useCallback,
+    useEffect,
+    useReducer,
+    useRef
+} from 'react';
 import { useTranslation } from 'react-i18next';
 import {
     ADT3DScenePageModes,
@@ -11,21 +17,16 @@ import {
     IADT3DScenePageProps
 } from './ADT3DScenePage.types';
 import './ADT3DScenePage.scss';
-import { Breadcrumb } from '@fluentui/react';
 import {
     ADT3DScenePageReducer,
     defaultADT3DScenePageState
 } from './ADT3DScenePage.state';
 import {
     SET_ADT_SCENE_CONFIG,
-    SET_ADT_SCENE_PAGE_MODE,
     SET_CURRENT_STEP,
     SET_ERRORS,
-    SET_SELECTED_BLOB_CONTAINER_URL,
-    SET_SELECTED_SCENE,
     SET_ERROR_CALLBACK
 } from '../../Models/Constants/ActionTypes';
-import ADT3DGlobe from '../../Components/ADT3DGlobe/ADT3DGlobe';
 import {
     IADTInstance,
     IBlobAdapter,
@@ -35,104 +36,169 @@ import { ADT3DSceneBuilderContainer } from './Internal/ADT3DSceneBuilderContaine
 import useAdapter from '../../Models/Hooks/useAdapter';
 import ScenePageErrorHandlingWrapper from '../../Components/ScenePageErrorHandlingWrapper/ScenePageErrorHandlingWrapper';
 import BaseComponent from '../../Components/BaseComponent/BaseComponent';
-import FloatingScenePageModeToggle from './Internal/FloatingScenePageModeToggle';
 import EnvironmentPicker from '../../Components/EnvironmentPicker/EnvironmentPicker';
 import {
     I3DScenesConfig,
     IScene
 } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
+import SceneListModeToggle from './Internal/SceneListModeToggle';
+import {
+    useDeeplinkContext,
+    DeeplinkContextProvider
+} from '../../Models/Context/DeeplinkContext';
+import { DeeplinkContextActionType } from '../../Models/Context/DeeplinkContext.types';
+import { addHttpsPrefix } from '../../Models/Services/Utils';
+import ADT3DGlobe from '../../Components/ADT3DGlobe/ADT3DGlobe';
+import { getStyles } from './ADT3DScenePage.styles';
 
 export const ADT3DScenePageContext = createContext<IADT3DScenePageContext>(
     null
 );
 
-const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
+const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
     adapter,
     theme,
     locale,
     localeStrings,
     environmentPickerOptions
 }) => {
+    const { t } = useTranslation();
+    const customStyles = getStyles();
+    const errorCallbackSetRef = useRef<boolean>(false);
+    const { deeplinkDispatch, deeplinkState } = useDeeplinkContext();
+
     const [state, dispatch] = useReducer(
         ADT3DScenePageReducer,
         defaultADT3DScenePageState
     );
-    const { t } = useTranslation();
+
     const scenesConfig = useAdapter({
         adapterMethod: () => adapter.getScenesConfig(),
         refetchDependencies: [
             adapter,
-            state.selectedBlobContainerURL,
+            deeplinkState.storageUrl,
             state.selectedScene
         ]
     });
-
     const resetConfig = useAdapter({
         adapterMethod: () => adapter.resetSceneConfig(),
         isAdapterCalledOnMount: false,
         refetchDependencies: []
     });
 
-    const handleOnHomeClick = () => {
-        dispatch({
-            type: SET_SELECTED_SCENE,
-            payload: null
-        });
-        dispatch({
-            type: SET_CURRENT_STEP,
-            payload: ADT3DScenePageSteps.SceneLobby
-        });
-    };
+    const setSelectedSceneId = useCallback(
+        (sceneId: string | undefined) => {
+            // store the new step on the context
+            deeplinkDispatch({
+                type: DeeplinkContextActionType.SET_SCENE_ID,
+                payload: { sceneId }
+            });
+        },
+        [deeplinkDispatch]
+    );
+    const setCurrentStep = useCallback(
+        (step: ADT3DScenePageSteps) => {
+            // store the new step on the context
+            dispatch({
+                type: SET_CURRENT_STEP,
+                payload: step
+            });
+        },
+        [dispatch]
+    );
+    const setMode = useCallback(
+        (mode: ADT3DScenePageModes) => {
+            deeplinkDispatch({
+                type: DeeplinkContextActionType.SET_MODE,
+                payload: {
+                    mode
+                }
+            });
+        },
+        [deeplinkDispatch]
+    );
+    const setBlobContainerUrl = useCallback(
+        (url: string) => {
+            // store url to context
+            deeplinkDispatch({
+                type: DeeplinkContextActionType.SET_STORAGE_URL,
+                payload: { url }
+            });
+            adapter.setBlobContainerPath(url);
+        },
+        [adapter, deeplinkDispatch]
+    );
 
-    const handleOnSceneClick = (scene: IScene) => {
-        dispatch({
-            type: SET_SELECTED_SCENE,
-            payload: scene
-        });
-        dispatch({
-            type: SET_CURRENT_STEP,
-            payload: ADT3DScenePageSteps.SceneBuilder
-        });
-    };
+    const handleOnHomeClick = useCallback(() => {
+        setSelectedSceneId(null);
+        setCurrentStep(ADT3DScenePageSteps.SceneList);
+    }, [setSelectedSceneId, setCurrentStep]);
 
-    const handleContainerUrlChange = (
-        containerUrl: string,
-        containerUrls: Array<string>
-    ) => {
-        dispatch({
-            type: SET_SELECTED_BLOB_CONTAINER_URL,
-            payload: containerUrl
-        });
-        adapter.setBlobContainerPath(containerUrl);
-        if (environmentPickerOptions?.storage?.onContainerChange) {
-            environmentPickerOptions.storage.onContainerChange(
-                containerUrl,
-                containerUrls
-            );
+    const handleOnSceneClick = useCallback(
+        (scene: IScene) => {
+            setSelectedSceneId(scene?.id);
+            setMode(ADT3DScenePageModes.BuildScene);
+            setCurrentStep(ADT3DScenePageSteps.Scene);
+        },
+        [setCurrentStep, setMode, setSelectedSceneId]
+    );
+
+    const handleContainerUrlChange = useCallback(
+        (containerUrl: string, containerUrls: Array<string>) => {
+            setBlobContainerUrl(containerUrl);
+            if (environmentPickerOptions?.storage?.onContainerChange) {
+                environmentPickerOptions.storage.onContainerChange(
+                    containerUrl,
+                    containerUrls
+                );
+            }
+        },
+        [environmentPickerOptions?.storage, setBlobContainerUrl]
+    );
+
+    const handleEnvironmentUrlChange = useCallback(
+        (env: string | IADTInstance, envs: Array<string | IADTInstance>) => {
+            const url =
+                typeof env === 'string'
+                    ? env.replace('https://', '')
+                    : env.hostName;
+            deeplinkDispatch({
+                type: DeeplinkContextActionType.SET_ADT_URL,
+                payload: {
+                    url
+                }
+            });
+            if (environmentPickerOptions?.environment?.onEnvironmentChange) {
+                environmentPickerOptions.environment.onEnvironmentChange(
+                    env,
+                    envs
+                );
+            }
+        },
+        [deeplinkDispatch, environmentPickerOptions?.environment]
+    );
+
+    // update the adapter if the ADT instance changes
+    useEffect(() => {
+        adapter.setAdtHostUrl(deeplinkState.adtUrl);
+    }, [deeplinkState.adtUrl, adapter]);
+
+    // when a scene is selected show it
+    useEffect(() => {
+        if (deeplinkState.sceneId) {
+            setCurrentStep(ADT3DScenePageSteps.Scene);
         }
-    };
+    }, [deeplinkState.sceneId, setCurrentStep]);
 
-    const handleEnvironmentUrlChange = (
-        env: string | IADTInstance,
-        envs: Array<string | IADTInstance>
-    ) => {
-        adapter.setAdtHostUrl(
-            typeof env === 'string' ? env.replace('https://', '') : env.hostName
-        );
-        if (environmentPickerOptions?.environment?.onEnvironmentChange) {
-            environmentPickerOptions.environment.onEnvironmentChange(env, envs);
-        }
-    };
+    const onListModeChange = useCallback(
+        (sceneListMode: ADT3DScenePageSteps) => {
+            setSelectedSceneId(null);
+            setCurrentStep(sceneListMode);
+        },
+        [setSelectedSceneId, setCurrentStep]
+    );
 
-    const handleScenePageModeChange = (
-        newScenePageMode: ADT3DScenePageModes
-    ) => {
-        dispatch({
-            type: SET_ADT_SCENE_PAGE_MODE,
-            payload: newScenePageMode
-        });
-    };
-
+    // store the scene config when the fetch resolves
     useEffect(() => {
         if (!scenesConfig.adapterResult.hasNoData()) {
             const config: I3DScenesConfig = scenesConfig.adapterResult.getData();
@@ -160,19 +226,17 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
         }
     }, [scenesConfig?.adapterResult]);
 
-    useEffect(() => {
-        dispatch({
-            type: SET_SELECTED_BLOB_CONTAINER_URL,
-            payload: adapter.getBlobContainerURL()
-        });
-    }, []);
-
+    // show error screens if needed
     useEffect(() => {
         if (
-            state?.errors?.[0]?.type ===
+            (state?.errors?.[0]?.type ===
                 ComponentErrorType.UnauthorizedAccess ||
-            state?.errors?.[0]?.type === ComponentErrorType.NonExistentBlob
+                state?.errors?.[0]?.type ===
+                    ComponentErrorType.NonExistentBlob) &&
+            !errorCallbackSetRef.current
         ) {
+            // mark that we already set the callback so we don't get an infinite loop of setting
+            errorCallbackSetRef.current = true;
             dispatch({
                 type: SET_ERROR_CALLBACK,
                 payload: {
@@ -181,12 +245,16 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
                         window.open(
                             'https://docs.microsoft.com/azure/digital-twins/'
                         );
+                        errorCallbackSetRef.current = false;
                     }
                 }
             });
         } else if (
-            state?.errors?.[0]?.type === ComponentErrorType.JsonSchemaError
+            state?.errors?.[0]?.type === ComponentErrorType.JsonSchemaError &&
+            !errorCallbackSetRef.current
         ) {
+            // mark that we already set the callback so we don't get an infinite loop of setting
+            errorCallbackSetRef.current = true;
             dispatch({
                 type: SET_ERROR_CALLBACK,
                 payload: {
@@ -194,15 +262,16 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
                     buttonAction: async () => {
                         await resetConfig.callAdapter();
                         await scenesConfig.callAdapter();
+                        errorCallbackSetRef.current = false;
                     }
                 }
             });
         }
-    }, [state.errors]);
+    }, [resetConfig, scenesConfig, state?.errors, t]);
 
     return (
         <ADT3DScenePageContext.Provider
-            value={{ state, dispatch, handleOnHomeClick }}
+            value={{ state, dispatch, handleOnHomeClick, handleOnSceneClick }}
         >
             <div className="cb-scene-page-wrapper">
                 <BaseComponent
@@ -211,47 +280,30 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
                     localeStrings={localeStrings}
                     containerClassName={'cb-scene-page-container'}
                 >
-                    <FloatingScenePageModeToggle
-                        scene={state.selectedScene}
-                        handleScenePageModeChange={handleScenePageModeChange}
-                        selectedMode={state.scenePageMode}
-                    />
-                    {state.currentStep === ADT3DScenePageSteps.SceneLobby && (
+                    {' '}
+                    {(state.currentStep === ADT3DScenePageSteps.SceneList ||
+                        state.currentStep === ADT3DScenePageSteps.Globe) && (
                         <>
-                            <div className="cb-scene-page-scene-environment-picker">
-                                <EnvironmentPicker
-                                    theme={theme}
-                                    locale={locale}
-                                    localeStrings={localeStrings}
-                                    adapter={adapter}
-                                    shouldPullFromSubscription={
-                                        environmentPickerOptions?.environment
-                                            ?.shouldPullFromSubscription
-                                    }
-                                    {...(adapter.getAdtHostUrl() && {
-                                        environmentUrl:
-                                            'https://' + adapter.getAdtHostUrl()
-                                    })}
-                                    onEnvironmentUrlChange={
-                                        handleEnvironmentUrlChange
-                                    }
-                                    {...(environmentPickerOptions?.environment
-                                        ?.isLocalStorageEnabled && {
-                                        isLocalStorageEnabled: true,
-                                        localStorageKey:
-                                            environmentPickerOptions
-                                                ?.environment?.localStorageKey,
-                                        selectedItemLocalStorageKey:
+                            <div className={customStyles.header}>
+                                <div className="cb-scene-page-scene-environment-picker">
+                                    <EnvironmentPicker
+                                        adapter={adapter}
+                                        shouldPullFromSubscription={
                                             environmentPickerOptions
                                                 ?.environment
-                                                ?.selectedItemLocalStorageKey
-                                    })}
-                                    storage={{
-                                        ...(adapter.getBlobContainerURL() && {
-                                            containerUrl: adapter.getBlobContainerURL()
-                                        }),
-                                        onContainerUrlChange: handleContainerUrlChange,
-                                        ...(environmentPickerOptions?.storage
+                                                ?.shouldPullFromSubscription
+                                        }
+                                        // temp hack until we clean up environmentPicker to output the value with https prefix
+                                        // if we have a url with the prefix, use it, otherwise append the prefix
+                                        // without this if you pass a value without the prefix it will crash the picker
+                                        environmentUrl={addHttpsPrefix(
+                                            deeplinkState.adtUrl
+                                        )}
+                                        onEnvironmentUrlChange={
+                                            handleEnvironmentUrlChange
+                                        }
+                                        {...(environmentPickerOptions
+                                            ?.environment
                                             ?.isLocalStorageEnabled && {
                                             isLocalStorageEnabled: true,
                                             localStorageKey:
@@ -261,13 +313,34 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
                                                 environmentPickerOptions
                                                     ?.storage
                                                     ?.selectedItemLocalStorageKey
-                                        })
-                                    }}
+                                        })}
+                                        storage={{
+                                            containerUrl:
+                                                deeplinkState.storageUrl,
+                                            onContainerUrlChange: handleContainerUrlChange,
+                                            ...(environmentPickerOptions
+                                                ?.storage
+                                                ?.isLocalStorageEnabled && {
+                                                isLocalStorageEnabled: true,
+                                                localStorageKey:
+                                                    environmentPickerOptions
+                                                        ?.storage
+                                                        ?.localStorageKey,
+                                                selectedItemLocalStorageKey:
+                                                    environmentPickerOptions
+                                                        ?.storage
+                                                        ?.selectedItemLocalStorageKey
+                                            })
+                                        }}
+                                    />
+                                </div>
+                                <SceneListModeToggle
+                                    selectedMode={state.currentStep}
+                                    onListModeChange={onListModeChange}
                                 />
                             </div>
                         </>
                     )}
-
                     <ScenePageErrorHandlingWrapper
                         errors={state.errors}
                         primaryClickAction={{
@@ -276,11 +349,11 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
                         }}
                     >
                         {state.currentStep ===
-                            ADT3DScenePageSteps.SceneLobby && (
+                            ADT3DScenePageSteps.SceneList && (
                             <div className="cb-scene-page-scene-list-container">
-                                {state.selectedBlobContainerURL && (
+                                {deeplinkState.storageUrl && (
                                     <SceneList
-                                        key={state.selectedBlobContainerURL}
+                                        key={deeplinkState.storageUrl}
                                         title={'All scenes'}
                                         theme={theme}
                                         locale={locale}
@@ -288,47 +361,12 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
                                         onSceneClick={(scene) => {
                                             handleOnSceneClick(scene);
                                         }}
-                                        additionalActions={[
-                                            {
-                                                iconProps: {
-                                                    iconName: 'Globe'
-                                                },
-                                                onClick: () => {
-                                                    dispatch({
-                                                        type: SET_SELECTED_SCENE,
-                                                        payload: null
-                                                    });
-                                                    dispatch({
-                                                        type: SET_CURRENT_STEP,
-                                                        payload:
-                                                            ADT3DScenePageSteps.Globe
-                                                    });
-                                                },
-                                                text: t('globe')
-                                            }
-                                        ]}
                                     />
                                 )}
                             </div>
                         )}
                         {state.currentStep === ADT3DScenePageSteps.Globe && (
                             <div className="cb-scene-page-scene-globe-container">
-                                <Breadcrumb
-                                    items={[
-                                        {
-                                            text: t('3dScenePage.home'),
-                                            key: 'Home',
-                                            onClick: handleOnHomeClick
-                                        },
-                                        {
-                                            text: t('3dScenePage.globe'),
-                                            key: 'Scene'
-                                        }
-                                    ]}
-                                    maxDisplayedItems={10}
-                                    ariaLabel="Breadcrumb with items rendered as buttons"
-                                    overflowAriaLabel="More links"
-                                />
                                 <ADT3DGlobe
                                     theme={theme}
                                     adapter={adapter as IBlobAdapter}
@@ -338,14 +376,13 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
                                 />
                             </div>
                         )}
-                        {state.currentStep ===
-                            ADT3DScenePageSteps.SceneBuilder && (
+                        {state.currentStep === ADT3DScenePageSteps.Scene && (
                             <>
                                 <div className="cb-scene-builder-and-viewer-container">
                                     <ADT3DSceneBuilderContainer
-                                        mode={state.scenePageMode}
+                                        mode={deeplinkState.mode}
                                         scenesConfig={state.scenesConfig}
-                                        scene={state.selectedScene}
+                                        sceneId={deeplinkState.sceneId}
                                         adapter={adapter}
                                         theme={theme}
                                         locale={locale}
@@ -361,6 +398,20 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
                 </BaseComponent>
             </div>
         </ADT3DScenePageContext.Provider>
+    );
+};
+
+const ADT3DScenePage: React.FC<IADT3DScenePageProps> = (props) => {
+    const { adapter } = props;
+    return (
+        <DeeplinkContextProvider
+            initialState={{
+                adtUrl: adapter.getAdtHostUrl(),
+                storageUrl: adapter.getBlobContainerURL()
+            }}
+        >
+            <ADT3DScenePageBase {...props} />
+        </DeeplinkContextProvider>
     );
 };
 

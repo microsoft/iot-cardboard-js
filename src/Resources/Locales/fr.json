@@ -310,7 +310,11 @@
     "viewMode": "Mode d’affichage",
     "enterBlobUrl": "Entrez l’URL de votre objet blob de conteneur de stockage Azure",
     "home": "Domicile",
-    "globe": "Globe"
+    "globe": "Globe",
+    "breadcrumbAriaLabel": "Fil d’Ariane avec des éléments rendus sous forme de boutons",
+    "breadcrumbOverflowAriaLabel": "Plus de liens",
+    "globeView": "Vue du globe",
+    "listView": "Affichage de liste"
   },
   "layersDropdown": {
     "placeholder": "Aucun calque sélectionné",
@@ -509,7 +513,8 @@
     "value": {
       "title": "Widget Valeur",
       "description": "Widget de base pour afficher les valeurs des propriétés jumelles",
-      "typePlaceholder": "Sélectionnez le type de la valeur"
+      "typePlaceholder": "Sélectionnez le type de la valeur",
+      "displayNamePlaceholder": "Entrez le nom complet"
     }
   },
   "sdkStrings": {
@@ -762,5 +767,7 @@
     "pan": "Pan",
     "orbit": "Orbite",
     "zoom": "Zoom"
-  }
+  },
+  "active": "Actif",
+  "invalidValue": "Valeur non valide"
 }
