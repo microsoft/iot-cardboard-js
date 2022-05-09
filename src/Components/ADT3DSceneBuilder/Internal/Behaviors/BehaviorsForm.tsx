@@ -300,7 +300,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
             />
             {widgetFormInfo.mode === WidgetFormMode.CreateWidget ||
             widgetFormInfo.mode === WidgetFormMode.EditWidget ? (
-                <WidgetForm selectedElements={selectedElements} />
+                <WidgetForm />
             ) : behaviorTwinAliasFormInfo ? (
                 <BehaviorTwinAliasForm
                     selectedElements={selectedElements}

@@ -23,7 +23,6 @@ import {
     ILinkWidget,
     IPopoverVisual,
     IValueWidget,
-    ITwinToObjectMapping,
     IWidget
 } from '../../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { SceneBuilderContext } from '../../../../ADT3DSceneBuilder';
@@ -34,7 +33,6 @@ import GaugeWidgetBuilder from '../WidgetBuilders/GaugeWidgetBuilder';
 import LinkWidgetBuilder from '../WidgetBuilders/LinkWidgetBuilder';
 import { WidgetFormInfo } from '../../../../ADT3DSceneBuilder.types';
 import ViewerConfigUtility from '../../../../../../Models/Classes/ViewerConfigUtility';
-import useBehaviorAliasedTwinProperties from '../../../../../../Models/Hooks/useBehaviorAliasedTwinProperties';
 import ValueWidgetBuilder from '../WidgetBuilders/ValueWidgetBuilder';
 
 const createWidget = (
@@ -77,40 +75,13 @@ const getWidgets = (behavior: IBehavior) =>
 const getActiveWidget = (activeWidgetId: string, behavior: IBehavior) =>
     getWidgets(behavior).find((w) => w.id === activeWidgetId);
 
-// Note, this widget form does not currently support panels
-const WidgetForm: React.FC<{
-    selectedElements: Array<ITwinToObjectMapping>;
-}> = ({ selectedElements }) => {
+const WidgetForm: React.FC = () => {
     const {
         widgetFormInfo,
         setWidgetFormInfo,
         behaviorToEdit,
         setBehaviorToEdit
     } = useContext(SceneBuilderContext);
-
-    // get the aliased properties for intellisense
-    const { options: aliasedProperties } = useBehaviorAliasedTwinProperties({
-        behavior: behaviorToEdit,
-        isTwinAliasesIncluded: true,
-        selectedElements
-    });
-
-    const getPropertyNames = useCallback(
-        (twinAlias: string) =>
-            ViewerConfigUtility.getPropertyNamesFromAliasedPropertiesByAlias(
-                twinAlias,
-                aliasedProperties
-            ),
-        [aliasedProperties]
-    );
-
-    const propertyAliases = useMemo(
-        () =>
-            ViewerConfigUtility.getUniqueAliasNamesFromAliasedProperties(
-                aliasedProperties
-            ),
-        [aliasedProperties]
-    );
 
     const [isWidgetConfigValid, setIsWidgetConfigValid] = useState(true);
 
@@ -177,8 +148,6 @@ const WidgetForm: React.FC<{
                     <ValueWidgetBuilder
                         formData={widgetData as IValueWidget}
                         updateWidgetData={updateWidgetData}
-                        intellisenseAliasNames={propertyAliases}
-                        getIntellisensePropertyNames={getPropertyNames}
                         setIsWidgetConfigValid={setIsWidgetConfigValid}
                     />
                 );
