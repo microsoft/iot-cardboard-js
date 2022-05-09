@@ -69,6 +69,7 @@ export const choiceGroupOptionStyles: Partial<IChoiceGroupOptionStyles> = {
 export const propertyExpressionLabelStyles: Partial<ILabelStyles> = {
     root: {
         fontWeight: FontWeights.semibold,
-        fontSize: FontSizes.size14
+        fontSize: FontSizes.size14,
+        paddingBottom: 0
     }
 };
