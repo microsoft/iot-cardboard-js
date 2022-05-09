@@ -1,6 +1,10 @@
-import React from 'react';
+import React, { useReducer } from 'react';
 import BaseComponent from '../BaseComponent/BaseComponent';
 import OATModelList from './OATModelList';
+import {
+    OATGraphViewerReducer,
+    defaultOATEditorState
+} from './OATModelList.state';
 
 export default {
     title: 'Components/OATModelList',
@@ -8,6 +12,8 @@ export default {
 };
 
 export const Default = (_args, { globals: { theme } }) => {
+    const [dispatch] = useReducer(OATGraphViewerReducer, defaultOATEditorState);
+
     const elementHandler = [
         {
             '@id': 'dtmi:com:example:model0;1',
@@ -48,7 +54,7 @@ export const Default = (_args, { globals: { theme } }) => {
 
     return (
         <BaseComponent theme={theme}>
-            <OATModelList elements={elementHandler} />
+            <OATModelList elements={elementHandler} dispatch={dispatch} />
         </BaseComponent>
     );
 };
