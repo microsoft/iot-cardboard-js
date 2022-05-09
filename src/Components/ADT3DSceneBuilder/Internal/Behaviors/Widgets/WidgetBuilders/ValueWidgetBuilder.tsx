@@ -4,7 +4,8 @@ import React, { useCallback, useContext, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { DTDLPropertyIconographyMap } from '../../../../../../Models/Constants/Constants';
 import { IDTDLPropertyType } from '../../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
-import TwinPropertyDropown from '../../../../../TwinPropertyBuilder/Internal/TwinPropertyDropdown';
+import ModelledPropertyBuilder from '../../../../../ModelledPropertyBuilder/ModelledPropertyBuilder';
+import { PropertyExpression } from '../../../../../ModelledPropertyBuilder/ModelledPropertyBuilder.types';
 import { SceneBuilderContext } from '../../../../ADT3DSceneBuilder';
 
 import { IValueWidgetBuilderProps } from '../../../../ADT3DSceneBuilder.types';
@@ -44,10 +45,16 @@ const ValueWidgetBuilder: React.FC<IValueWidgetBuilderProps> = ({
     );
 
     const onPropertyChange = useCallback(
-        (option: string) => {
+        (newPropertyExpression: PropertyExpression) => {
             updateWidgetData(
                 produce(formData, (draft) => {
-                    draft.widgetConfiguration.valueExpression = option; // TODO: Also update the type as necessary after we get the modelled property
+                    draft.widgetConfiguration.valueExpression =
+                        newPropertyExpression.expression;
+                    // If type information included (non intellisense mode), update the value widget type
+                    if (newPropertyExpression.property) {
+                        draft.widgetConfiguration.type =
+                            newPropertyExpression.property.propertyType;
+                    }
                 })
             );
         },
@@ -123,17 +130,20 @@ const ValueWidgetBuilder: React.FC<IValueWidgetBuilderProps> = ({
                 value={formData.widgetConfiguration.displayName}
                 onChange={onDisplayNameChange}
             />
-            <TwinPropertyDropown // TODO: for now using existing TwinPropertyDropdown, replace this with ModelledPropertyBuilder
-                required
-                behavior={behaviorToEdit}
-                defaultSelectedKey={
-                    formData.widgetConfiguration.valueExpression
-                }
-                dataTestId={'behavior-form-state-property-dropdown'}
-                onChange={onPropertyChange}
-                config={config}
-                sceneId={sceneId}
+            <ModelledPropertyBuilder
                 adapter={adapter}
+                twinIdParams={{
+                    behavior: behaviorToEdit,
+                    config,
+                    sceneId
+                }}
+                mode="TOGGLE"
+                propertyExpression={{
+                    expression:
+                        formData.widgetConfiguration.valueExpression || ''
+                }}
+                onChange={onPropertyChange}
+                required
             />
             <Dropdown
                 required
