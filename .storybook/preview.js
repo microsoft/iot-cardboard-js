@@ -68,8 +68,7 @@ export const parameters = {
             method: 'Alphabetical'
         }
     },
-    layout: 'fullscreen',
-    chromatic: { delay: 1000 } // delay so images load and such
+    layout: 'fullscreen'
 };
 
 // Wrap stories with stable GUID provider
