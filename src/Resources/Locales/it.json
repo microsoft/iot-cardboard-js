@@ -767,5 +767,13 @@
     "zoom": "Zoom"
   },
   "active": "Attivo",
-  "invalidValue": "Valore non valido"
+  "invalidValue": "Valore non valido",
+  "deeplinkFlyout": {
+    "buttonTitle": "Condividi",
+    "copyButtonText": "Copia link",
+    "copyConfirmationMessage": "Copiato!",
+    "flyoutHeader": "Condividi scena",
+    "includeElementsOption": "Collegamento con l'elemento selezionato",
+    "includeLayersOption": "Collegamento con i livelli selezionati"
+  }
 }
