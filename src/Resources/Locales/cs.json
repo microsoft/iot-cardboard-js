@@ -312,7 +312,9 @@
     "home": "Domov",
     "globe": "Glóbus",
     "breadcrumbAriaLabel": "Drobečková navigace s položkami vykreslenými jako tlačítka",
-    "breadcrumbOverflowAriaLabel": "Další odkazy"
+    "breadcrumbOverflowAriaLabel": "Další odkazy",
+    "globeView": "Zobrazení zeměkoule",
+    "listView": "Zobrazení seznamu"
   },
   "layersDropdown": {
     "placeholder": "Nejsou vybrány žádné vrstvy",
