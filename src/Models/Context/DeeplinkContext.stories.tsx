@@ -314,6 +314,7 @@ const Template: SceneBuilderStory = (
             <Stack>
                 <ProviderContentRenderer
                     options={{
+                        ...args.deeplinkProps,
                         includeSelectedElement: includeElementId,
                         includeSelectedLayers: includeLayerIds
                     }}

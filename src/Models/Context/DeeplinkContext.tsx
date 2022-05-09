@@ -3,7 +3,7 @@
  */
 import produce from 'immer';
 import queryString from 'query-string';
-import React, { useContext, useReducer } from 'react';
+import React, { useCallback, useContext, useReducer } from 'react';
 import { ADT3DScenePageModes } from '../Constants';
 import { getDebugLogger } from '../Services/Utils';
 import {
@@ -103,13 +103,16 @@ export const DeeplinkContextProvider: React.FC<IDeeplinkContextProviderProps> = 
         DeeplinkContextReducer,
         defaultState
     );
+    const getDeeplinkCallback = useCallback(
+        (options: IDeeplinkOptions) => buildDeeplink(deeplinkState, options),
+        [deeplinkState]
+    );
     return (
         <DeeplinkContext.Provider
             value={{
                 deeplinkDispatch,
                 deeplinkState,
-                getDeeplink: (options: IDeeplinkOptions) =>
-                    buildDeeplink(deeplinkState, options)
+                getDeeplink: getDeeplinkCallback
             }}
         >
             {children}
@@ -155,6 +158,7 @@ const buildDeeplink = (
             }
         );
     }
+    logDebugConsole('debug', `Deeplink options: `, options);
     logDebugConsole('debug', `Deeplink properties: `, deeplink);
     logDebugConsole('info', `Full deeplink: `, url);
     return url;
