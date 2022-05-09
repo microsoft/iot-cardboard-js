@@ -3,6 +3,7 @@ import { getBezierPath, getEdgeCenter } from 'react-flow-renderer';
 import { IOATGraphCustomEdgeProps } from '../../Models/Constants/Interfaces';
 import { getGraphViewerStyles } from '../OATGraphViewer.styles';
 import { ElementsContext } from './OATContext';
+import { TextField } from '@fluentui/react';
 import {
     OATUntargetedRelationshipName,
     OATRelationshipHandleName,
@@ -138,7 +139,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                     requiredExtensions="http://www.w3.org/1999/xhtml"
                 >
                     <body>
-                        <input
+                        <TextField
                             id="text"
                             name="text"
                             onChange={onNameChange}

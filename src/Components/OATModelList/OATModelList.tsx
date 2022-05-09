@@ -1,7 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useTheme, List, ActionButton, Icon, FontSizes } from '@fluentui/react';
+import { useTheme, List, ActionButton, Icon, TextField } from '@fluentui/react';
 import BaseComponent from '../BaseComponent/BaseComponent';
-import { getModelsStyles } from './OATModelList.styles';
+import {
+    getModelsStyles,
+    getModelsIconStyles,
+    getModelsActionButtonStyles
+} from './OATModelList.styles';
 import { IOATTwinModelNodes } from '../../Models/Constants';
 
 type OATModelListProps = {
@@ -27,6 +31,8 @@ const OATModelList = ({
     const [idEditor, setIdEditor] = useState(false);
     const [idText, setIdText] = useState('');
     const currentNodeId = useRef('');
+    const iconStyles = getModelsIconStyles();
+    const actionButtonStyles = getModelsActionButtonStyles();
 
     useEffect(() => {
         setItems(elements);
@@ -74,24 +80,16 @@ const OATModelList = ({
 
     const onRenderCell = (item) => {
         return (
-            <div data-is-focusable={true}>
-                <div
-                    onClick={() => onSelectedClick(item['@id'])}
-                    className={modelsStyles.modelList}
-                >
+            <ActionButton
+                styles={actionButtonStyles}
+                onClick={() => onSelectedClick(item['@id'])}
+            >
+                <div className={modelsStyles.modelList}>
                     <ActionButton
                         className={modelsStyles.nodeCancel}
                         onClick={() => onDeleteModel(item['@id'])}
                     >
-                        <Icon
-                            iconName="Cancel"
-                            styles={{
-                                root: {
-                                    fontSize: FontSizes.size10,
-                                    color: theme.semanticColors.actionLink
-                                }
-                            }}
-                        />
+                        <Icon iconName="Cancel" styles={iconStyles} />
                     </ActionButton>
                     <div onClick={() => onNameClick(item['displayName'])}>
                         {(!nameEditor ||
@@ -100,7 +98,7 @@ const OATModelList = ({
                         )}
                         {nameEditor &&
                             currentNodeId.current === item['@id'] && (
-                                <input
+                                <TextField
                                     id="text"
                                     name="text"
                                     onChange={onNameChange}
@@ -116,7 +114,7 @@ const OATModelList = ({
                             <>{item['@id']}</>
                         )}
                         {idEditor && currentNodeId.current === item['@id'] && (
-                            <input
+                            <TextField
                                 id="text"
                                 name="text"
                                 onChange={onIdChange}
@@ -127,7 +125,7 @@ const OATModelList = ({
                         )}
                     </div>
                 </div>
-            </div>
+            </ActionButton>
         );
     };
 

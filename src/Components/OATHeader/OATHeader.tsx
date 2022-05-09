@@ -1,5 +1,5 @@
 import React from 'react';
-import { FontIcon, ActionButton } from '@fluentui/react';
+import { CommandBar, ICommandBarItemProps } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { getHeaderStyles } from './OATHeader.styles';
 import JSZip from 'jszip';
@@ -37,46 +37,41 @@ const OATHeader = ({ elements }: OATHeaderProps) => {
         });
     };
 
+    const items: ICommandBarItemProps[] = [
+        {
+            key: 'Save',
+            text: t('OATHeader.save'),
+            iconProps: { iconName: 'Save' }
+        },
+        {
+            key: 'Upload',
+            text: t('OATHeader.publish'),
+            iconProps: { iconName: 'Upload' }
+        },
+        {
+            key: 'Sync',
+            text: t('OATHeader.sync'),
+            iconProps: { iconName: 'Sync' }
+        },
+        {
+            key: 'Import',
+            text: t('OATHeader.import'),
+            iconProps: { iconName: 'Import' }
+        },
+        {
+            key: 'Export',
+            text: t('OATHeader.export'),
+            iconProps: { iconName: 'Export' },
+            onClick: () => handleDownloadClick()
+        }
+    ];
+
     return (
         <div className={headerStyles.container}>
             <div className={headerStyles.menuComponent}>
                 <div className="cb-oat-header-model"></div>
                 <div className="cb-oat-header-menu">
-                    <ActionButton>
-                        <FontIcon
-                            iconName={'Save'}
-                            className={headerStyles.menuIcon}
-                        />
-                        {t('OATHeader.save')}
-                    </ActionButton>
-                    <ActionButton>
-                        <FontIcon
-                            iconName={'Upload'}
-                            className={headerStyles.menuIcon}
-                        />
-                        {t('OATHeader.publish')}
-                    </ActionButton>
-                    <ActionButton>
-                        <FontIcon
-                            iconName={'Sync'}
-                            className={headerStyles.menuIcon}
-                        />
-                        {t('OATHeader.sync')}
-                    </ActionButton>
-                    <ActionButton>
-                        <FontIcon
-                            iconName={'Import'}
-                            className={headerStyles.menuIcon}
-                        />
-                        {t('OATHeader.import')}
-                    </ActionButton>
-                    <ActionButton onClick={handleDownloadClick}>
-                        <FontIcon
-                            iconName={'Export'}
-                            className={headerStyles.menuIcon}
-                        />
-                        {t('OATHeader.export')}
-                    </ActionButton>
+                    <CommandBar items={items} />
                 </div>
                 <div className="cb-oat-header-versioning"></div>
             </div>
