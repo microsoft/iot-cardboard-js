@@ -71,7 +71,7 @@ const GaugeWidgetBuilder: React.FC<IGaugeWidgetBuilderProps> = ({
     const theme = useTheme();
     const customStyles = getWidgetFormStyles(theme);
     return (
-        <div className={customStyles.gaugeWidgetFormContents}>
+        <div className={customStyles.widgetFormContents}>
             <TextField
                 data-testid={'widget-form-gauge-label-input'}
                 label={t('label')}

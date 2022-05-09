@@ -1,4 +1,10 @@
-import { Dropdown, Icon, IDropdownOption, TextField } from '@fluentui/react';
+import {
+    Dropdown,
+    Icon,
+    IDropdownOption,
+    TextField,
+    useTheme
+} from '@fluentui/react';
 import produce from 'immer';
 import React, { useCallback, useContext, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -9,6 +15,7 @@ import { PropertyExpression } from '../../../../../ModelledPropertyBuilder/Model
 import { SceneBuilderContext } from '../../../../ADT3DSceneBuilder';
 
 import { IValueWidgetBuilderProps } from '../../../../ADT3DSceneBuilder.types';
+import { getWidgetFormStyles } from '../WidgetForm/WidgetForm.styles';
 
 const ValueWidgetBuilder: React.FC<IValueWidgetBuilderProps> = ({
     formData,
@@ -121,8 +128,11 @@ const ValueWidgetBuilder: React.FC<IValueWidgetBuilderProps> = ({
         []
     );
 
+    const theme = useTheme();
+    const customStyles = getWidgetFormStyles(theme);
+
     return (
-        <>
+        <div className={customStyles.widgetFormContents}>
             <TextField
                 required
                 placeholder={t('widgets.value.displayNamePlaceholder')}
@@ -155,7 +165,7 @@ const ValueWidgetBuilder: React.FC<IValueWidgetBuilderProps> = ({
                 onRenderOption={onRenderTypeOption}
                 onRenderTitle={onRenderTypeTitle}
             />
-        </>
+        </div>
     );
 };
 

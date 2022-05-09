@@ -1,5 +1,5 @@
 // TODO SCHEMA MIGRATION -- update LinkWidgetBuilder to new schema / types
-import { TextField } from '@fluentui/react';
+import { TextField, useTheme } from '@fluentui/react';
 import produce from 'immer';
 import React, { useCallback, useContext, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -7,6 +7,7 @@ import ModelledPropertyBuilder from '../../../../../ModelledPropertyBuilder/Mode
 import { PropertyExpression } from '../../../../../ModelledPropertyBuilder/ModelledPropertyBuilder.types';
 import { SceneBuilderContext } from '../../../../ADT3DSceneBuilder';
 import { ILinkWidgetBuilderProps } from '../../../../ADT3DSceneBuilder.types';
+import { getWidgetFormStyles } from '../WidgetForm/WidgetForm.styles';
 
 const LinkWidgetBuilder: React.FC<ILinkWidgetBuilderProps> = ({
     formData,
@@ -40,8 +41,11 @@ const LinkWidgetBuilder: React.FC<ILinkWidgetBuilderProps> = ({
         }
     }, [formData]);
 
+    const theme = useTheme();
+    const customStyles = getWidgetFormStyles(theme);
+
     return (
-        <>
+        <div className={customStyles.widgetFormContents}>
             <TextField
                 label={t('label')}
                 value={formData.widgetConfiguration.label}
@@ -70,7 +74,7 @@ const LinkWidgetBuilder: React.FC<ILinkWidgetBuilderProps> = ({
                 intellisensePlaceholder={t('widgets.link.urlPlaceholder')}
                 intellisenseLabel={t('url')}
             />
-        </>
+        </div>
     );
 };
 
