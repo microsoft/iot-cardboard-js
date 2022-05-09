@@ -63,8 +63,8 @@ const DeeplinkFlyout: React.FC<IDeeplinkFlyoutProps> = (props) => {
         isConfirmationFadingOut,
         setIsConfirmationFadingOut
     ] = useState<boolean>(false);
-    const confirmationTimeout = useRef<NodeJS.Timeout>();
-    const confirmationFadeoutTimeout = useRef<NodeJS.Timeout>();
+    const confirmationTimeout = useRef<any>();
+    const confirmationFadeoutTimeout = useRef<any>();
 
     // effects
     useEffect(() => {
