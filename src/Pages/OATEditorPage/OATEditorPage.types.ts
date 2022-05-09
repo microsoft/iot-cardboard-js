@@ -10,4 +10,5 @@ export interface IOATEditorState {
     templatesActive?: boolean;
     importModels?: [];
     isJsonUploaderOpen?: boolean;
+    templates?: any;
 }

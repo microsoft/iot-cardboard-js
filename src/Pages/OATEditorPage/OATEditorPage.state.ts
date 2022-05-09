@@ -10,7 +10,8 @@ import {
     SET_OAT_EDITED_MODEL_ID,
     SET_OAT_TEMPLATES_ACTIVE,
     SET_OAT_IMPORT_MODELS,
-    SET_OAT_IS_JSON_UPLOADER_OPEN
+    SET_OAT_IS_JSON_UPLOADER_OPEN,
+    SET_OAT_TEMPLATES
 } from '../../Models/Constants/ActionTypes';
 setAutoFreeze(false);
 
@@ -23,7 +24,8 @@ export const defaultOATEditorState: IOATEditorState = {
     editedModelId: '',
     templatesActive: false,
     importModels: [],
-    isJsonUploaderOpen: false
+    isJsonUploaderOpen: false,
+    templates: null
 };
 
 export const OATEditorPageReducer = produce(
@@ -49,6 +51,8 @@ export const OATEditorPageReducer = produce(
                 return { ...state, importModels: payload };
             case SET_OAT_IS_JSON_UPLOADER_OPEN:
                 return { ...state, isJsonUploaderOpen: payload };
+            case SET_OAT_TEMPLATES:
+                return { ...state, templates: payload };
         }
     }
 );
