@@ -15,7 +15,8 @@ export const modelledPropertyBuilderClassPrefix = 'cb-modelledpropertybuilder';
 
 const classNames = {
     radioContainer: `${modelledPropertyBuilderClassPrefix}-radio-container`,
-    dropdownTitleText: `${modelledPropertyBuilderClassPrefix}-dropdown-title-text`
+    dropdownTitleText: `${modelledPropertyBuilderClassPrefix}-dropdown-title-text`,
+    loadingContainer: `${modelledPropertyBuilderClassPrefix}-loading-container`
 };
 
 export const getStyles = memoizeFunction(() => {
@@ -34,6 +35,15 @@ export const getStyles = memoizeFunction(() => {
                 overflow: 'hidden',
                 whiteSpace: 'nowrap',
                 textOverflow: 'ellipsis'
+            } as IStyle
+        ],
+        loadingContainer: [
+            classNames.loadingContainer,
+            {
+                minHeight: 94,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
             } as IStyle
         ]
     });

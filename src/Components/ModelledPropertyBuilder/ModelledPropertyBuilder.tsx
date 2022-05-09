@@ -183,45 +183,54 @@ const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = ({
         [modelledProperties?.nestedFormat]
     );
 
-    if (isLoading) return <Spinner />;
-
     return (
-        <Stack tokens={{ childrenGap: 4 }}>
-            <Label styles={propertyExpressionLabelStyles} required={required}>
-                {customLabel
-                    ? customLabel
-                    : t(
-                          '3dSceneBuilder.ModelledPropertyBuilder.expressionLabel'
-                      )}
-            </Label>
-            {mode === 'TOGGLE' && (
-                <div className={styles.radioContainer}>
-                    <ChoiceGroup
-                        selectedKey={internalMode}
-                        options={choiceGroupOptions}
-                        onChange={onChangeMode}
-                        styles={choiceGroupStyles}
-                    />
+        <>
+            {isLoading ? (
+                <div className={styles.loadingContainer}>
+                    <Spinner />{' '}
                 </div>
+            ) : (
+                <Stack tokens={{ childrenGap: 4 }}>
+                    <Label
+                        styles={propertyExpressionLabelStyles}
+                        required={required}
+                    >
+                        {customLabel
+                            ? customLabel
+                            : t(
+                                  '3dSceneBuilder.ModelledPropertyBuilder.expressionLabel'
+                              )}
+                    </Label>
+                    {mode === 'TOGGLE' && (
+                        <div className={styles.radioContainer}>
+                            <ChoiceGroup
+                                selectedKey={internalMode}
+                                options={choiceGroupOptions}
+                                onChange={onChangeMode}
+                                styles={choiceGroupStyles}
+                            />
+                        </div>
+                    )}
+                    {internalMode === 'PROPERTY_SELECTION' && (
+                        <ModelledPropertyDropdown
+                            dropdownOptions={dropdownOptions}
+                            onChange={onChangeDropdownSelection}
+                            selectedKey={propertyExpression.expression}
+                            dropdownTestId={dropdownTestId}
+                        />
+                    )}
+                    {internalMode === 'INTELLISENSE' && (
+                        <Intellisense
+                            autoCompleteProps={autoCompleteProps}
+                            onChange={onIntellisenseChange}
+                            defaultValue={propertyExpression.expression}
+                            aliasNames={aliasNames}
+                            getPropertyNames={getIntellisenseProperty}
+                        />
+                    )}
+                </Stack>
             )}
-            {internalMode === 'PROPERTY_SELECTION' && (
-                <ModelledPropertyDropdown
-                    dropdownOptions={dropdownOptions}
-                    onChange={onChangeDropdownSelection}
-                    selectedKey={propertyExpression.expression}
-                    dropdownTestId={dropdownTestId}
-                />
-            )}
-            {internalMode === 'INTELLISENSE' && (
-                <Intellisense
-                    autoCompleteProps={autoCompleteProps}
-                    onChange={onIntellisenseChange}
-                    defaultValue={propertyExpression.expression}
-                    aliasNames={aliasNames}
-                    getPropertyNames={getIntellisenseProperty}
-                />
-            )}
-        </Stack>
+        </>
     );
 };
 
