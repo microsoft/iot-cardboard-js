@@ -1,4 +1,11 @@
-import React, { useContext, useEffect, useMemo, useRef, useState } from 'react';
+import React, {
+    useCallback,
+    useContext,
+    useEffect,
+    useMemo,
+    useRef,
+    useState
+} from 'react';
 import { useTranslation } from 'react-i18next';
 import {
     DefaultButton,
@@ -32,12 +39,12 @@ import {
 } from '../Shared/PanelForms.styles';
 import {
     IBehavior,
-    IScene,
     ITwinToObjectMapping
 } from '../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { ElementType } from '../../../../Models/Classes/3DVConfig';
 import { createCustomMeshItems } from '../../../3DV/SceneView.Utils';
 import ElementTwinAliasForm from './Internal/ElementTwinAliasForm';
+import useAdapter from '../../../../Models/Hooks/useAdapter';
 
 export const ElementFormContext = React.createContext<IElementFormContext>(
     null
@@ -53,13 +60,44 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
     onCreateBehaviorWithElements
 }) => {
     const { t } = useTranslation();
+    const {
+        adapter,
+        config,
+        getConfig,
+        sceneId,
+        coloredMeshItems,
+        setColoredMeshItems,
+        elementTwinAliasFormInfo
+    } = useContext(SceneBuilderContext);
+
+    const existingElementsRef = useRef(null);
+    const newElementsRef = useRef(null);
     const [elementToEdit, setElementToEdit] = useState<ITwinToObjectMapping>(
-        selectedElement ?? {
-            type: ElementType.TwinToObjectMapping,
-            id: '',
-            displayName: '',
-            linkedTwinID: '',
-            objectIDs: []
+        () => {
+            if (builderMode === ADT3DSceneBuilderMode.EditElement) {
+                return selectedElement;
+            } else {
+                // builderMode is ADT3DSceneBuilderMode.CreateElement
+                const existingElements = config.configuration?.scenes
+                    ?.find((s) => s.id === sceneId)
+                    .elements.filter(
+                        ViewerConfigUtility.isTwinToObjectMappingElement
+                    );
+                existingElementsRef.current = existingElements;
+
+                let newId = createGUID();
+                const existingIds = existingElements?.map((e) => e.id);
+                while (existingIds?.includes(newId)) {
+                    newId = createGUID();
+                }
+                return {
+                    type: ElementType.TwinToObjectMapping,
+                    id: newId,
+                    displayName: '',
+                    linkedTwinID: '',
+                    objectIDs: []
+                };
+            }
         }
     );
 
@@ -67,63 +105,73 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
         []
     );
 
-    const {
-        adapter,
-        config,
-        sceneId,
-        coloredMeshItems,
-        setColoredMeshItems,
-        elementTwinAliasFormInfo
-    } = useContext(SceneBuilderContext);
-    const configRef = useRef(config);
-
-    const handleSaveElement = async () => {
-        const existingElements = config.configuration?.scenes
-            ?.find((s) => s.id === sceneId)
-            .elements.filter(ViewerConfigUtility.isTwinToObjectMappingElement);
-
-        const newElements = existingElements ? [...existingElements] : [];
-
-        if (builderMode === ADT3DSceneBuilderMode.CreateElement) {
-            let newId = createGUID();
-            const existingIds = existingElements?.map((e) => e.id);
-            while (existingIds?.includes(newId)) {
-                newId = createGUID();
-            }
-            const newElement = { ...elementToEdit, id: newId };
-            newElements.push(newElement);
-        } else {
-            newElements[
-                existingElements.findIndex((e) => e.id === selectedElement.id)
-            ] = elementToEdit;
+    useEffect(() => {
+        if (selectedElement) {
+            setElementToEdit(selectedElement);
         }
+    }, [selectedElement]);
 
-        // beginning of element update in scene
-        const sceneToUpdate: IScene = deepCopy(
-            config.configuration.scenes.find((s) => s.id === sceneId)
-        );
-        sceneToUpdate.elements = newElements;
-        configRef.current = ViewerConfigUtility.editScene(
-            config,
-            sceneId,
-            sceneToUpdate
-        );
-        // end of update of element update in scene
+    const saveElementAdapterData = useAdapter({
+        adapterMethod: () => {
+            let updatedConfig = deepCopy(config);
 
-        // beginning of behaviors update which this element exists in
-        if (behaviorsToEdit) {
-            for (const behavior of behaviorsToEdit) {
-                configRef.current = ViewerConfigUtility.editBehavior(
-                    configRef.current,
-                    behavior,
-                    undefined
-                );
+            // BEGINNING of updating elements in scene
+            const newElements = existingElementsRef.current
+                ? [...existingElementsRef.current]
+                : [];
+
+            if (builderMode === ADT3DSceneBuilderMode.CreateElement) {
+                newElements.push(elementToEdit);
+            } else {
+                newElements[
+                    newElements.findIndex((e) => e.id === selectedElement.id)
+                ] = elementToEdit;
+            }
+            newElementsRef.current = newElements;
+            updatedConfig = ViewerConfigUtility.updateElementsInScene(
+                updatedConfig,
+                sceneId,
+                newElements
+            );
+            // END of updating elements in scene
+
+            // BEGINNING of behaviors update which this element exists in
+            if (behaviorsToEdit) {
+                for (const behavior of behaviorsToEdit) {
+                    updatedConfig = ViewerConfigUtility.editBehavior(
+                        updatedConfig,
+                        behavior
+                    );
+                }
+            }
+            // END of behaviors update which this element exists in
+
+            return adapter.putScenesConfig(updatedConfig);
+        },
+        refetchDependencies: [adapter],
+        isAdapterCalledOnMount: false
+    });
+
+    const handleSaveElement = useCallback(() => {
+        saveElementAdapterData.callAdapter();
+    }, [saveElementAdapterData]);
+
+    const handleCreateBehavior = useCallback(() => {
+        selectedElement
+            ? onCreateBehaviorWithElements()
+            : onCreateBehaviorWithElements(
+                  elementToEdit // new element
+              );
+    }, [selectedElement, elementToEdit]);
+
+    useEffect(() => {
+        if (saveElementAdapterData.adapterResult.result) {
+            getConfig();
+            if (newElementsRef.current) {
+                onElementSave(newElementsRef.current);
             }
         }
-        // end of behaviors update which this element exists in
-
-        onElementSave(elementToEdit, newElements, configRef.current);
-    };
+    }, [saveElementAdapterData?.adapterResult]);
 
     useEffect(() => {
         if (selectedElement) {
@@ -131,7 +179,7 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                 createCustomMeshItems(selectedElement.objectIDs, null)
             );
         }
-    }, []);
+    }, [selectedElement]);
 
     useEffect(() => {
         const meshIds = [];
@@ -161,10 +209,6 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
             });
         }
     };
-
-    useEffect(() => {
-        configRef.current = config;
-    }, [config]);
 
     const { headerText, subHeaderText, iconName } = useMemo(
         () =>
@@ -254,14 +298,12 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                                         <BehaviorsTab
                                             elementToEdit={elementToEdit}
                                             behaviors={behaviors}
-                                            updateBehaviorsToEdit={(
-                                                behaviors
-                                            ) => {
-                                                setBehaviorsToEdit(behaviors);
-                                            }}
+                                            updateBehaviorsToEdit={
+                                                setBehaviorsToEdit
+                                            }
                                             onBehaviorClick={onBehaviorClick}
                                             onCreateBehaviorWithElements={
-                                                onCreateBehaviorWithElements
+                                                handleCreateBehavior
                                             }
                                         />
                                     </div>

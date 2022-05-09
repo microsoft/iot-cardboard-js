@@ -110,7 +110,7 @@ const BuilderLeftPanel: React.FC = () => {
             } else {
                 updatedConfigWithBehavior = params.config;
             }
-            updatedConfigWithBehavior = ViewerConfigUtility.editElements(
+            updatedConfigWithBehavior = ViewerConfigUtility.updateElementsInScene(
                 updatedConfigWithBehavior,
                 sceneId,
                 params.selectedElements
@@ -236,20 +236,7 @@ const BuilderLeftPanel: React.FC = () => {
         setColoredMeshItems([]);
     };
 
-    const onElementSave = async (
-        updatedElement: ITwinToObjectMapping,
-        newElements: Array<ITwinToObjectMapping>,
-        updatedConfig: I3DScenesConfig
-    ) => {
-        await updateBehaviorAndElementsAdapterData.callAdapter({
-            config: updatedConfig,
-            mode: ADT3DSceneBuilderMode.EditElement,
-            behavior: undefined,
-            selectedLayerIds: undefined,
-            selectedElements: [updatedElement]
-        });
-        getConfig();
-
+    const onElementSave = async (newElements: Array<ITwinToObjectMapping>) => {
         dispatch({
             type: SET_ADT_SCENE_BUILDER_ELEMENTS,
             payload: newElements
@@ -272,13 +259,16 @@ const BuilderLeftPanel: React.FC = () => {
         setBehaviorToEdit({ ...defaultBehavior, id: createGUID() });
     };
 
-    const onCreateBehaviorWithElements = () => {
+    const onCreateBehaviorWithElements = (
+        newElement?: ITwinToObjectMapping
+    ) => {
         const behavior = { ...defaultBehavior, id: createGUID() };
         const mappingIds = [];
-        const elementsToAssign =
-            state.selectedElements?.length > 0
-                ? state.selectedElements
-                : [state.selectedElement];
+        const elementsToAssign = newElement
+            ? [newElement]
+            : state.selectedElements?.length > 0
+            ? state.selectedElements
+            : [state.selectedElement];
         elementsToAssign.forEach((element) => {
             mappingIds.push(element.id);
         });

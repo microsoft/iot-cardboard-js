@@ -172,7 +172,7 @@ abstract class ViewerConfigUtility {
     static editBehavior(
         config: I3DScenesConfig,
         behavior: IBehavior,
-        selectedLayerIds: string[]
+        selectedLayerIds?: string[]
     ): I3DScenesConfig {
         const updatedConfig = deepCopy(config);
 
@@ -329,7 +329,7 @@ abstract class ViewerConfigUtility {
      * @param sceneId the scene Id where the elements to be updated are in
      * @returns the updated config
      */
-    static editElements(
+    static updateElementsInScene(
         config: I3DScenesConfig,
         sceneId: string,
         updatedElements: Array<ITwinToObjectMapping>
@@ -713,10 +713,9 @@ abstract class ViewerConfigUtility {
         dataSources[0].elementIDs = dataSources[0].elementIDs.filter(
             (mappingId) => mappingId !== element.id
         );
-        const updatedBehavior = deepCopy(behavior);
-        updatedBehavior.datasources = dataSources;
+        behavior.datasources = dataSources;
 
-        return updatedBehavior;
+        return behavior;
     }
 
     static addElementToBehavior(
@@ -737,11 +736,9 @@ abstract class ViewerConfigUtility {
                 elementIDs: [element.id]
             };
         }
+        behavior.datasources = dataSources;
 
-        const updatedBehavior = deepCopy(behavior);
-        updatedBehavior.datasources = dataSources;
-
-        return updatedBehavior;
+        return behavior;
     }
 
     static getColorOrNullFromStatusValueRange(
