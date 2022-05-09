@@ -312,7 +312,9 @@
     "home": "家",
     "globe": "球",
     "breadcrumbAriaLabel": "ボタンとしてレンダリングされた項目を含む階層リンク",
-    "breadcrumbOverflowAriaLabel": "その他のリンク"
+    "breadcrumbOverflowAriaLabel": "その他のリンク",
+    "globeView": "地球儀",
+    "listView": "リストビュー"
   },
   "layersDropdown": {
     "placeholder": "レイヤーが選択されていません",

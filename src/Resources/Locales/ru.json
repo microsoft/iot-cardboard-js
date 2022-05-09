@@ -312,7 +312,9 @@
     "home": "Дом",
     "globe": "Глобус",
     "breadcrumbAriaLabel": "Навигационная цепочка с элементами, отображаемыми в виде кнопок",
-    "breadcrumbOverflowAriaLabel": "Больше ссылок"
+    "breadcrumbOverflowAriaLabel": "Больше ссылок",
+    "globeView": "Вид глобуса",
+    "listView": "Представление списка"
   },
   "layersDropdown": {
     "placeholder": "Слои не выделены",

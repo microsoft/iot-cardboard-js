@@ -42,18 +42,20 @@ export interface SelectedMesh {
     material: Material;
 }
 
-export class Marker {
+export interface Marker {
     name: string;
+    id: string;
+    UIElement: any;
+    GroupedUIElement?: any;
     position?: Vector3;
+    attachedMeshIds?: string[];
+    showIfOccluded?: boolean;
     latitude?: number;
     longitude?: number;
-    color: string;
-    isNav?: boolean;
     scene?: IScene;
 }
 
 export type SceneViewCallbackHandler = (
-    marker: Marker,
     mesh: AbstractMesh,
     scene: BABYLON.Scene,
     e: IPointerEvent
@@ -87,7 +89,6 @@ export interface SceneViewBadgeGroup {
 }
 
 export type SceneViewEventHandler = (
-    marker: Marker,
     mesh: AbstractMesh,
     scene: BABYLON.Scene,
     e: PointerEvent

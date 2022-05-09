@@ -312,7 +312,9 @@
     "home": "Casa",
     "globe": "Globo",
     "breadcrumbAriaLabel": "Breadcrumb con elementi sottoposti a rendering come pulsanti",
-    "breadcrumbOverflowAriaLabel": "Altri link"
+    "breadcrumbOverflowAriaLabel": "Altri link",
+    "globeView": "Vista globo",
+    "listView": "Visualizzazione elenco"
   },
   "layersDropdown": {
     "placeholder": "Nessun livello selezionato",

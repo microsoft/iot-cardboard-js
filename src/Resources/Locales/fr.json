@@ -312,7 +312,9 @@
     "home": "Domicile",
     "globe": "Globe",
     "breadcrumbAriaLabel": "Fil d’Ariane avec des éléments rendus sous forme de boutons",
-    "breadcrumbOverflowAriaLabel": "Plus de liens"
+    "breadcrumbOverflowAriaLabel": "Plus de liens",
+    "globeView": "Vue du globe",
+    "listView": "Affichage de liste"
   },
   "layersDropdown": {
     "placeholder": "Aucun calque sélectionné",

@@ -312,7 +312,9 @@
     "home": "Thuis",
     "globe": "Bol",
     "breadcrumbAriaLabel": "Broodkruimel met items weergegeven als knoppen",
-    "breadcrumbOverflowAriaLabel": "Meer links"
+    "breadcrumbOverflowAriaLabel": "Meer links",
+    "globeView": "Globe weergave",
+    "listView": "Lijstweergave"
   },
   "layersDropdown": {
     "placeholder": "Geen lagen geselecteerd",

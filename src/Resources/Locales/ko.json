@@ -312,7 +312,9 @@
     "home": "집",
     "globe": "지구",
     "breadcrumbAriaLabel": "버튼으로 렌더링된 항목이 있는 이동 경로 기록(Breadcrumb)",
-    "breadcrumbOverflowAriaLabel": "더 많은 링크"
+    "breadcrumbOverflowAriaLabel": "더 많은 링크",
+    "globeView": "지구본 보기",
+    "listView": "목록 보기"
   },
   "layersDropdown": {
     "placeholder": "선택한 레이어가 없습니다.",
