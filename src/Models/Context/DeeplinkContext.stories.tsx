@@ -303,10 +303,10 @@ const Template: SceneBuilderStory = (
     _context: IStoryContext<IDeeplinkContextProviderProps>
 ) => {
     const [includeElementId, { toggle: toggleIncludeElementId }] = useBoolean(
-        args.deeplinkProps.includeSelectedElement
+        args.deeplinkProps?.includeSelectedElement
     );
     const [includeLayerIds, { toggle: toggleIncludeLayerIds }] = useBoolean(
-        args.deeplinkProps.includeSelectedElement
+        args.deeplinkProps?.includeSelectedElement
     );
     return (
         <DeeplinkContextProvider initialState={args.defaultState}>
