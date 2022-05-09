@@ -310,7 +310,9 @@
     "viewMode": "视图模式",
     "enterBlobUrl": "输入 Azure 存储容器 blob URL",
     "home": "家",
-    "globe": "球"
+    "globe": "球",
+    "globeView": "地球视图",
+    "listView": "列表视图"
   },
   "layersDropdown": {
     "placeholder": "未选择图层",

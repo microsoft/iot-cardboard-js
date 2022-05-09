@@ -310,7 +310,9 @@
     "viewMode": "Weergavemodus",
     "enterBlobUrl": "Voer de blob-URL van uw Azure-opslagcontainer in",
     "home": "Thuis",
-    "globe": "Bol"
+    "globe": "Bol",
+    "globeView": "Globe weergave",
+    "listView": "Lijstweergave"
   },
   "layersDropdown": {
     "placeholder": "Geen lagen geselecteerd",

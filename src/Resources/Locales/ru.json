@@ -310,7 +310,9 @@
     "viewMode": "Режим просмотра",
     "enterBlobUrl": "Введите URL-адрес BLOB-объекта контейнера хранилища Azure",
     "home": "Дом",
-    "globe": "Глобус"
+    "globe": "Глобус",
+    "globeView": "Вид глобуса",
+    "listView": "Представление списка"
   },
   "layersDropdown": {
     "placeholder": "Слои не выделены",

@@ -310,7 +310,9 @@
     "viewMode": "Görünüm modu",
     "enterBlobUrl": "Azure depolama kapsayıcısı blob URL'nizi girin",
     "home": "Ev",
-    "globe": "Küre"
+    "globe": "Küre",
+    "globeView": "Dünya görünümü",
+    "listView": "Liste görünümü"
   },
   "layersDropdown": {
     "placeholder": "Katman seçilmedi",

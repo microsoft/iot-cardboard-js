@@ -310,7 +310,9 @@
     "viewMode": "Tryb wyświetlania",
     "enterBlobUrl": "Wprowadzanie adresu URL obiektu blob kontenera usługi Azure Storage",
     "home": "Dom",
-    "globe": "Globus"
+    "globe": "Globus",
+    "globeView": "Widok na kulę ziemską",
+    "listView": "Widok listy"
   },
   "layersDropdown": {
     "placeholder": "Brak zaznaczonych warstw",

@@ -310,7 +310,9 @@
     "viewMode": "Visningsläge",
     "enterBlobUrl": "Ange url:en för Azure Storage Container BLOB",
     "home": "Hem",
-    "globe": "Jordglob"
+    "globe": "Jordglob",
+    "globeView": "Vy över världen",
+    "listView": "Listvy"
   },
   "layersDropdown": {
     "placeholder": "Inga lager markerade",

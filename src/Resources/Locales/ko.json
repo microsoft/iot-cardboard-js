@@ -310,7 +310,9 @@
     "viewMode": "보기 모드",
     "enterBlobUrl": "Azure 저장소 컨테이너 Blob URL을 입력합니다.",
     "home": "집",
-    "globe": "지구"
+    "globe": "지구",
+    "globeView": "지구본 보기",
+    "listView": "목록 보기"
   },
   "layersDropdown": {
     "placeholder": "선택한 레이어가 없습니다.",
