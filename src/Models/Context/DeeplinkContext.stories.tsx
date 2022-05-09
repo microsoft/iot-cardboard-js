@@ -335,7 +335,11 @@ Base.args = {
 } as StoryProps;
 
 export const Empty = Template.bind({});
-Empty.args = {} as StoryProps;
+Empty.args = {
+    deeplinkProps: {
+        excludeBaseUrl: true
+    }
+} as StoryProps;
 
 export const UpdateAdtUrl = Template.bind({});
 UpdateAdtUrl.args = {
