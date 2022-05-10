@@ -743,7 +743,9 @@
     "publish": "Publicera",
     "sync": "synkronisering",
     "import": "Import",
-    "export": "Export"
+    "export": "Export",
+    "undo": "Ångra",
+    "redo": "Göra om"
   },
   "cameraControls": {
     "mouseControls": "Muskontroller",

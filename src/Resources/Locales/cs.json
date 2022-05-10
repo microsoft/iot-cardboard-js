@@ -743,7 +743,9 @@
     "publish": "Publikovat",
     "sync": "synchronizovat",
     "import": "Dovoz",
-    "export": "Vývoz"
+    "export": "Vývoz",
+    "undo": "Odčinit",
+    "redo": "Předělat"
   },
   "cameraControls": {
     "mouseControls": "Ovládání myší",
