@@ -379,7 +379,6 @@
     "addElementDetails": "Elementdetails toevoegen",
     "noBehaviorsOnElement": "Geen gedrag toegewezen aan dit element",
     "noElementsText": "Nog geen elementen gemaakt",
-    "noResults": "Geen resultaten",
     "behaviorsInSceneTitle": "In deze scène ({{count}})",
     "createWithElement": "Maken met {{element}}",
     "elementActions": "Elementacties",

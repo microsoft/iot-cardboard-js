@@ -379,7 +379,6 @@
     "addElementDetails": "Aggiungere i dettagli dell'elemento",
     "noBehaviorsOnElement": "Nessun comportamento assegnato a questo elemento",
     "noElementsText": "Nessun elemento creato ancora",
-    "noResults": "Nessun risultato",
     "behaviorsInSceneTitle": "In questa scena ({{count}})",
     "createWithElement": "Crea con {{element}}",
     "elementActions": "Azioni elemento",
