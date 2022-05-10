@@ -156,8 +156,6 @@
   "scenes": {
     "noScenes": "3Dシーンがないので、新しいシーンを追加して開始します。",
     "addScene": "3D シーンの追加",
-    "sceneLatitude": "緯度",
-    "sceneLongitude": "経度",
     "blobUrl": "3D ファイルの BLOB URL",
     "addDialogTitle": "新しいシーンを作成する",
     "addDialogSubText": "シーンを BLOB ストレージ内の 3D ファイルの URL にリンクする",
@@ -168,7 +166,10 @@
     "3dFileAsset": "3D ファイルアセット",
     "overwriteIfExist": "ファイルが既に存在する場合は上書きする",
     "fileExistsErrorMessage": "この名前のファイルはすでにストレージに存在します。コンテナからそのファイルを選択するか、上書きすることができます。",
-    "description": "形容"
+    "description": "形容",
+    "latitude": "緯度",
+    "longitude": "経度",
+    "showOnGlobe": "地球儀に表示"
   },
   "BIMUpload": {
     "specifyFiles": "アップロード元のファイルを指定する",

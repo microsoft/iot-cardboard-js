@@ -156,8 +156,6 @@
   "scenes": {
     "noScenes": "3B sahneleriniz yok, başlamak için yeni bir tane ekleyin.",
     "addScene": "3B sahne ekleme",
-    "sceneLatitude": "Enlem",
-    "sceneLongitude": "Boylam",
     "blobUrl": "3B dosya blobu URL'si",
     "addDialogTitle": "Yeni sahne oluştur",
     "addDialogSubText": "Sahnenizi blob depolamadaki 3B dosyanızın URL'sine bağlama",
@@ -168,7 +166,10 @@
     "3dFileAsset": "3B dosya varlığı",
     "overwriteIfExist": "Dosya zaten varsa üzerine yaz",
     "fileExistsErrorMessage": "Bu ada sahip bir dosya depolama alanında zaten varsa, bu dosyayı kapsayıcıdan seçebilir veya üzerine yazabilirsiniz.",
-    "description": "Tarif"
+    "description": "Tarif",
+    "latitude": "Enlem",
+    "longitude": "Boylam",
+    "showOnGlobe": "Dünyada göster"
   },
   "BIMUpload": {
     "specifyFiles": "Karşıya yüklenecek dosyaları belirtme",

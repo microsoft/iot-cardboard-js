@@ -156,8 +156,6 @@
   "scenes": {
     "noScenes": "Du har inga 3D-scener, lägg till en ny för att komma igång.",
     "addScene": "Lägg till 3D-scen",
-    "sceneLatitude": "Breddgrad",
-    "sceneLongitude": "Longitud",
     "blobUrl": "URL för 3D-filblob",
     "addDialogTitle": "Skapa en ny scen",
     "addDialogSubText": "Länka din scen med URL:en för din 3D-fil i bloblagring",
@@ -168,7 +166,10 @@
     "3dFileAsset": "3D-filtillgång",
     "overwriteIfExist": "Skriva över om filen redan finns",
     "fileExistsErrorMessage": "En fil med det här namnet finns redan i lagring, du kan antingen välja den filen från behållaren eller skriva över.",
-    "description": "Beskrivning"
+    "description": "Beskrivning",
+    "latitude": "Breddgrad",
+    "longitude": "Longitud",
+    "showOnGlobe": "Visa på jordklotet"
   },
   "BIMUpload": {
     "specifyFiles": "Ange filer som ska överföras från",

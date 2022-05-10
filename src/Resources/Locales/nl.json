@@ -156,8 +156,6 @@
   "scenes": {
     "noScenes": "Je hebt geen 3D-scènes, voeg een nieuwe toe om aan de slag te gaan.",
     "addScene": "3D-scène toevoegen",
-    "sceneLatitude": "Breedtegraad",
-    "sceneLongitude": "Lengtegraad",
     "blobUrl": "BLOB-URL voor 3D-bestanden",
     "addDialogTitle": "Nieuwe scène maken",
     "addDialogSubText": "Uw scène koppelen aan de URL van uw 3D-bestand in blobopslag",
@@ -168,7 +166,10 @@
     "3dFileAsset": "3D-bestandsmiddel",
     "overwriteIfExist": "Overschrijven als het bestand al bestaat",
     "fileExistsErrorMessage": "Een bestand met deze naam bestaat al in de opslag, u kunt dat bestand selecteren in de container of overschrijven.",
-    "description": "Beschrijving"
+    "description": "Beschrijving",
+    "latitude": "Breedtegraad",
+    "longitude": "Lengtegraad",
+    "showOnGlobe": "Toon op globe"
   },
   "BIMUpload": {
     "specifyFiles": "Bestanden opgeven om van te uploaden",
