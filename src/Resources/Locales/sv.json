@@ -379,7 +379,6 @@
     "addElementDetails": "Lägga till elementinformation",
     "noBehaviorsOnElement": "Inga beteenden som tilldelats det här elementet",
     "noElementsText": "Inga element har skapats ännu",
-    "noResults": "Inga resultat",
     "behaviorsInSceneTitle": "I den här scenen ({{count}})",
     "createWithElement": "Skapa med {{element}}",
     "elementActions": "Elementåtgärder",
@@ -492,7 +491,8 @@
       "dropdownPlaceholder": "Välj en egenskap",
       "none": "Ingen",
       "customExpression": "Anpassat uttryck"
-    }
+    },
+    "noResults": "Inga resultat hittades"
   },
   "widgets": {
     "trend": {

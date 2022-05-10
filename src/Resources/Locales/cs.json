@@ -379,7 +379,6 @@
     "addElementDetails": "Přidání podrobností o prvku",
     "noBehaviorsOnElement": "Tomuto prvku nejsou přiřazena žádná chování",
     "noElementsText": "Zatím nebyly vytvořeny žádné prvky",
-    "noResults": "Žádné výsledky",
     "behaviorsInSceneTitle": "V této scéně ({{count}})",
     "createWithElement": "Vytvořit pomocí {{element}}",
     "elementActions": "Akce elementů",
@@ -492,7 +491,8 @@
       "dropdownPlaceholder": "Vyberte nemovitost",
       "none": "Žádný",
       "customExpression": "Vlastní výraz"
-    }
+    },
+    "noResults": "Nebyly nalezeny žádné výsledky"
   },
   "widgets": {
     "trend": {

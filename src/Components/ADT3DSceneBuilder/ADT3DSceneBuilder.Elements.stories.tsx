@@ -62,15 +62,42 @@ ElementsTab.play = async ({ canvasElement }) => {
     await userEvent.click(tabButton[0]);
 };
 
+export const EmptyElementsTab = Template.bind({});
+EmptyElementsTab.play = async ({ canvasElement }) => {
+    // switch to the elements tab
+    await ElementsTab.play({ canvasElement });
+};
+const emptyData = deepCopy(trucksMockVConfig) as I3DScenesConfig;
+emptyData.configuration.scenes = [
+    {
+        ...emptyData.configuration.scenes[0],
+        elements: []
+    }
+];
+EmptyElementsTab.parameters = {
+    data: emptyData
+};
+
 export const Search = Template.bind({});
 Search.play = async ({ canvasElement }) => {
-    // switch to the behaviors tab
+    // switch to the elements tab
     await ElementsTab.play({ canvasElement });
 
     const canvas = within(canvasElement);
     // type in the search box
     const searchBox = canvas.getByTestId('search-header-search-box');
     await userEvent.type(searchBox, 'box');
+};
+
+export const EmptySearch = Template.bind({});
+EmptySearch.play = async ({ canvasElement }) => {
+    // switch to the elements tab
+    await ElementsTab.play({ canvasElement });
+
+    const canvas = within(canvasElement);
+    // type in the search box
+    const searchBox = canvas.getByTestId('search-header-search-box');
+    await userEvent.type(searchBox, 'unknown value');
 };
 
 const mockElement: IElement = {
@@ -117,7 +144,7 @@ longData.configuration.scenes = [
 ];
 export const Scrolling = Template.bind({});
 Scrolling.play = async ({ canvasElement }) => {
-    // switch to the behaviors tab
+    // switch to the elements tab
     await ElementsTab.play({ canvasElement });
 };
 Scrolling.parameters = {
@@ -126,7 +153,7 @@ Scrolling.parameters = {
 
 export const MultiSelect = Template.bind({});
 MultiSelect.play = async ({ canvasElement }) => {
-    // switch to the behaviors tab
+    // switch to the elements tab
     await ElementsTab.play({ canvasElement });
 
     const canvas = within(canvasElement);

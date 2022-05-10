@@ -379,7 +379,6 @@
     "addElementDetails": "要素の詳細を追加する",
     "noBehaviorsOnElement": "この要素にビヘイビアが割り当てられていません",
     "noElementsText": "要素はまだ作成されていません",
-    "noResults": "結果なし",
     "behaviorsInSceneTitle": "このシーンでは ({{カウント}})",
     "createWithElement": "{{要素}}で作成",
     "elementActions": "要素アクション",
@@ -492,7 +491,8 @@
       "dropdownPlaceholder": "プロパティの選択",
       "none": "何一つ",
       "customExpression": "カスタム式"
-    }
+    },
+    "noResults": "結果が見つかりません"
   },
   "widgets": {
     "trend": {

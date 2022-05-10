@@ -379,7 +379,6 @@
     "addElementDetails": "Elem részleteinek hozzáadása",
     "noBehaviorsOnElement": "Nincs viselkedés hozzárendelve ehhez az elemhez",
     "noElementsText": "Még nem hoztak létre elemeket",
-    "noResults": "Nincs eredmény",
     "behaviorsInSceneTitle": "Ebben a jelenetben ({{count}})",
     "createWithElement": "Létrehozás a következővel: {{element}}",
     "elementActions": "Elemműveletek",
@@ -492,7 +491,8 @@
       "dropdownPlaceholder": "Tulajdonság kijelölése",
       "none": "Egyik sem",
       "customExpression": "Egyéni kifejezés"
-    }
+    },
+    "noResults": "Nem található eredmény"
   },
   "widgets": {
     "trend": {

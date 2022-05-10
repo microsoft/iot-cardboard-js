@@ -379,7 +379,6 @@
     "addElementDetails": "Ajouter des détails d’élément",
     "noBehaviorsOnElement": "Aucun comportement affecté à cet élément",
     "noElementsText": "Aucun élément créé pour l’instant",
-    "noResults": "Aucun résultat",
     "behaviorsInSceneTitle": "Dans cette scène ({{count}})",
     "createWithElement": "Créer avec {{element}}",
     "elementActions": "Actions des éléments",
@@ -492,7 +491,8 @@
       "dropdownPlaceholder": "Sélectionner une propriété",
       "none": "Aucun",
       "customExpression": "Expression personnalisée"
-    }
+    },
+    "noResults": "Aucun résultat trouvé"
   },
   "widgets": {
     "trend": {

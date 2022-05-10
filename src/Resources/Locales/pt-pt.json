@@ -379,7 +379,6 @@
     "addElementDetails": "Adicionar detalhes de elementos",
     "noBehaviorsOnElement": "Nenhum comportamento atribuído a este elemento",
     "noElementsText": "Nenhum elemento criado ainda",
-    "noResults": "Sem resultados",
     "behaviorsInSceneTitle": "Nesta cena ({{count}})",
     "createWithElement": "Criar com {{element}}",
     "elementActions": "Ações de elementos",
@@ -492,7 +491,8 @@
       "dropdownPlaceholder": "Selecione um imóvel",
       "none": "Nenhum.",
       "customExpression": "Expressão personalizada"
-    }
+    },
+    "noResults": "Não foram encontrados resultados"
   },
   "widgets": {
     "trend": {

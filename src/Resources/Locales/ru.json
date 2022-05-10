@@ -379,7 +379,6 @@
     "addElementDetails": "Добавление сведений об элементе",
     "noBehaviorsOnElement": "Нет вариантов поведения, назначенных этому элементу",
     "noElementsText": "Элементы еще не созданы",
-    "noResults": "Нет результатов",
     "behaviorsInSceneTitle": "В этой сцене ({{count}})",
     "createWithElement": "Создать с помощью {{element}}",
     "elementActions": "Действия элементов",
@@ -492,7 +491,8 @@
       "dropdownPlaceholder": "Выберите недвижимость",
       "none": "Никакой",
       "customExpression": "Пользовательское выражение"
-    }
+    },
+    "noResults": "Результаты не найдены"
   },
   "widgets": {
     "trend": {
