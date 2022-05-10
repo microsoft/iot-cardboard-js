@@ -295,6 +295,10 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
         }
     }, [state.editedModelId]);
 
+    const setCurrentNode = (id) => {
+        currentNodeIdRef.current = id;
+    };
+
     const providerVal = useMemo(
         () => ({ elements, setElements, setCurrentNode, dispatch }),
         [elements, setElements, setCurrentNode, dispatch]
@@ -303,10 +307,6 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     const nodeTypes = useMemo(() => ({ Interface: OATGraphCustomNode }), []);
 
     const edgeTypes = useMemo(() => ({ Relationship: OATGraphCustomEdge }), []);
-
-    const setCurrentNode = (id) => {
-        currentNodeIdRef.current = id;
-    };
 
     const onElementsRemove = (elementsToRemove: IOATNodeElement) =>
         //remove an specific node and all related edges
