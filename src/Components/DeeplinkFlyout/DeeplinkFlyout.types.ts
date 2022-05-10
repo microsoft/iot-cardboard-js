@@ -12,7 +12,10 @@ export interface IDeeplinkFlyoutProps {
     /**
      * Call to provide customized styling that will layer on top of the variant rules.
      */
-    styles?: IStyleFunctionOrObject<undefined, IDeeplinkFlyoutStyles>;
+    styles?: IStyleFunctionOrObject<
+        IDeeplinkFlyoutStyleProps,
+        IDeeplinkFlyoutStyles
+    >;
 }
 
 export interface IDeeplinkFlyoutStyleProps {

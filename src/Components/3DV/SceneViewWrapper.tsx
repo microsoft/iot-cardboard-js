@@ -34,25 +34,39 @@ import {
 import SceneLayers from '../ADT3DSceneBuilder/Internal/SceneLayers/SceneLayers';
 import { CameraControls } from './CameraControls';
 import {
-    memoizeFunction,
-    mergeStyleSets,
-    Theme,
+    classNamesFunction,
+    css,
+    Stack,
+    styled,
     useTheme
 } from '@fluentui/react';
 import { WrapperMode } from './SceneView.types';
+import DeeplinkFlyout from '../DeeplinkFlyout/DeeplinkFlyout';
+import { getStyles } from './SceneViewWrapper.styles';
+import {
+    ISceneViewWrapperStyleProps,
+    ISceneViewWrapperStyles
+} from './SceneViewWrapper.types';
 
-export const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = ({
-    config,
-    sceneId,
-    adapter,
-    sceneViewProps,
-    sceneVisuals,
-    addInProps,
-    objectColorUpdated,
-    hideViewModePickerUI,
-    wrapperMode,
-    selectedVisual
-}) => {
+const getClassNames = classNamesFunction<
+    ISceneViewWrapperStyleProps,
+    ISceneViewWrapperStyles
+>();
+
+const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = (props) => {
+    const {
+        adapter,
+        addInProps,
+        config,
+        hideViewModePickerUI,
+        objectColorUpdated,
+        sceneId,
+        sceneViewProps,
+        sceneVisuals,
+        selectedVisual,
+        styles,
+        wrapperMode
+    } = props;
     const { onMeshHover, onMeshClick, onSceneLoaded, ...svp } = sceneViewProps;
 
     const data = new ADT3DAddInEventData();
@@ -73,7 +87,7 @@ export const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = ({
     const sceneViewComponent = useRef();
 
     const theme = useTheme();
-    const styles = getStyles(theme);
+    const classNames = getClassNames(styles, { theme });
 
     useEffect(() => {
         const cameraInteraction = localStorage.getItem(
@@ -215,9 +229,13 @@ export const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = ({
                       }
                     : {}
             }
-            className="cb-sceneview-wrapper "
+            className={css('cb-sceneview-wrapper ', classNames.root)}
         >
-            <div className="cb-adt-3dviewer-tool-button-container">
+            <Stack
+                horizontal
+                tokens={{ childrenGap: 8 }}
+                styles={classNames.subComponentStyles.leftHeaderControlsStack}
+            >
                 {wrapperMode === WrapperMode.Builder && <SceneLayers />}
                 {!hideViewModePickerUI && (
                     <ModelViewerModePicker
@@ -231,8 +249,12 @@ export const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = ({
                         backgroundColors={ViewerModeBackgroundColors}
                     />
                 )}
-            </div>
-            <div className={styles.viewerControlsContainer}>
+                {wrapperMode === WrapperMode.Viewer && <DeeplinkFlyout />}
+            </Stack>
+            <Stack
+                horizontal
+                styles={classNames.subComponentStyles.centerHeaderControlsStack}
+            >
                 <CameraControls
                     cameraInteraction={cameraInteractionType}
                     onCameraInteractionChanged={onCameraInteractionChanged}
@@ -245,7 +267,7 @@ export const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = ({
                         )
                     }
                 />
-            </div>
+            </Stack>
             <SceneView
                 ref={sceneViewComponent}
                 isWireframe={selectedViewerMode?.isWireframe}
@@ -262,13 +284,8 @@ export const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = ({
     );
 };
 
-const getStyles = memoizeFunction((_theme: Theme) => {
-    return mergeStyleSets({
-        viewerControlsContainer: {
-            position: 'absolute',
-            display: 'flex',
-            width: '100%',
-            top: 10
-        }
-    });
-});
+export default styled<
+    ISceneViewWrapperProps,
+    ISceneViewWrapperStyleProps,
+    ISceneViewWrapperStyles
+>(SceneViewWrapper, getStyles);

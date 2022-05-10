@@ -63,16 +63,24 @@ const DeeplinkFlyout: React.FC<IDeeplinkFlyoutProps> = (props) => {
         isConfirmationFadingOut,
         setIsConfirmationFadingOut
     ] = useState<boolean>(false);
-    const confirmationTimeout = useRef<NodeJS.Timeout>();
-    const confirmationFadeoutTimeout = useRef<NodeJS.Timeout>();
+    const confirmationTimeout = useRef<any>();
+    const confirmationFadeoutTimeout = useRef<any>();
 
     // effects
     useEffect(() => {
         // reset the state whenever the flyout shows up so we don't persist when it closes and opens again
         setShowConfirmation(false);
-        if (!includeLayers) toggleIncludeLayers();
-        if (!includeElement) toggleIncludeElement();
-    }, [showFlyout]);
+        if (!showFlyout) {
+            if (!includeLayers) toggleIncludeLayers();
+            if (!includeElement) toggleIncludeElement();
+        }
+    }, [
+        includeElement,
+        includeLayers,
+        showFlyout,
+        toggleIncludeElement,
+        toggleIncludeLayers
+    ]);
 
     // styles
     const classNames = getClassNames(styles, {
@@ -115,7 +123,7 @@ const DeeplinkFlyout: React.FC<IDeeplinkFlyoutProps> = (props) => {
             );
             console.error('Failed to copy text to clipboard');
         }
-    }, [includeElement, includeLayers]);
+    }, [getDeeplink, includeElement, includeLayers]);
 
     return (
         <div className={classNames.root}>
