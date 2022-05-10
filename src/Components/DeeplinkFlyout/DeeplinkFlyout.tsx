@@ -4,14 +4,13 @@ import {
     IDeeplinkFlyoutStyleProps,
     IDeeplinkFlyoutStyles
 } from './DeeplinkFlyout.types';
-import { useBoolean, useId } from '@fluentui/react-hooks';
+import { useId } from '@fluentui/react-hooks';
 import { getStyles } from './DeeplinkFlyout.styles';
 import {
     Callout,
     classNamesFunction,
     DirectionalHint,
     IconButton,
-    IIconProps,
     styled,
     useTheme
 } from '@fluentui/react';
@@ -28,9 +27,6 @@ const getClassNames = classNamesFunction<
     IDeeplinkFlyoutStyleProps,
     IDeeplinkFlyoutStyles
 >();
-const iconProps: IIconProps = {
-    iconName: 'Share'
-};
 
 const ROOT_LOC = 'deeplinkFlyout';
 const LOC_KEYS = {
@@ -61,10 +57,6 @@ const DeeplinkFlyout: React.FC<IDeeplinkFlyoutProps> = (props) => {
         isCalloutOpen: showFlyout,
         theme: useTheme()
     });
-
-    const onCopied = useCallback(() => {
-        console.log('Copied');
-    }, []);
 
     const copyText = useCallback(
         async (deeplink: string) => {
