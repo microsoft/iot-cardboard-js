@@ -1,7 +1,8 @@
 export { DeeplinkContextProvider } from './DeeplinkContext/DeeplinkContext';
 export {
     IDeeplinkContextProviderProps,
-    IPublicDeeplink
+    IPublicDeeplink,
+    DEEPLINK_SERIALIZATION_OPTIONS
 } from './DeeplinkContext/DeeplinkContext.types';
 
 export { ConsumerDeeplinkContextProvider } from './ConsumerDeeplinkContext/ConsumerDeeplinkContext';

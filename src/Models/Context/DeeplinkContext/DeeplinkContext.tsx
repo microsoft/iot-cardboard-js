@@ -14,7 +14,8 @@ import {
     DeeplinkContextActionType,
     IDeeplinkContextProviderProps,
     IPublicDeeplink,
-    IDeeplinkOptions
+    IDeeplinkOptions,
+    DEEPLINK_SERIALIZATION_OPTIONS
 } from './DeeplinkContext.types';
 
 const debugLogging = false;
@@ -161,19 +162,11 @@ const buildDeeplink = (
     // if we only want the stringified object
     let url = '';
     if (options.excludeBaseUrl) {
-        url = queryString.stringify(deeplink, {
-            encode: true,
-            sort: false,
-            skipEmptyString: true
-        });
+        url = queryString.stringify(deeplink, DEEPLINK_SERIALIZATION_OPTIONS);
     } else {
         url = queryString.stringifyUrl(
             { url: location.href, query: { ...deeplink } },
-            {
-                encode: true,
-                sort: false,
-                skipEmptyString: true
-            }
+            DEEPLINK_SERIALIZATION_OPTIONS
         );
     }
     logDebugConsole('debug', `Deeplink options: `, options);

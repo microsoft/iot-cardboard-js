@@ -14,6 +14,7 @@ import {
 } from '../DeeplinkContext/DeeplinkContext';
 import { GET_MOCK_DEEPLINK_STATE } from '../DeeplinkContext/DeeplinkContext.mock';
 import { useBoolean } from '@fluentui/react-hooks';
+import { DEEPLINK_SERIALIZATION_OPTIONS } from '../DeeplinkContext/DeeplinkContext.types';
 
 const wrapperStyle: React.CSSProperties = {
     width: 'auto',
@@ -63,11 +64,7 @@ const Template: SceneBuilderStory = (
         };
         const newLink = queryString.stringifyUrl(
             { url: link, query: { ...customQsps } },
-            {
-                encode: true,
-                sort: false,
-                skipEmptyString: true
-            }
+            DEEPLINK_SERIALIZATION_OPTIONS
         );
         return newLink;
     };
