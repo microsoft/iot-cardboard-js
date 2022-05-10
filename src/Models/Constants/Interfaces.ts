@@ -71,6 +71,8 @@ import {
 import ADT3DSceneAdapter from '../../Adapters/ADT3DSceneAdapter';
 import { WrapperMode } from '../../Components/3DV/SceneView.types';
 import MockAdapter from '../../Adapters/MockAdapter';
+import { IStyleFunctionOrObject } from '@fluentui/react';
+import { ISceneViewWrapperStyles } from '../../Components/3DV/SceneViewWrapper.types';
 import {
     ADTAllModelsData,
     ADTTwinToModelMappingData
@@ -739,6 +741,10 @@ export interface ISceneViewWrapperProps {
     selectedVisual?: Partial<SceneVisual>;
     objectColorUpdated?: (objectColor: IADTObjectColor) => void;
     wrapperMode: WrapperMode;
+    /**
+     * Call to provide customized styling that will layer on top of the variant rules.
+     */
+    styles?: IStyleFunctionOrObject<undefined, ISceneViewWrapperStyles>;
 }
 
 export interface IADT3DViewerProps {
