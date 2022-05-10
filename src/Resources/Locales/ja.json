@@ -148,7 +148,10 @@
     "simulating": "シミュレーション",
     "liveStatus": "パケット番号: {{パケット番号}} |{{totalSuccessPatches}}/{{totalTwinsPatched}} 双子が更新されました",
     "generateEnvironmentDescription": "モデル、ツイン、リレーションシップをプッシュして環境にデータを設定",
-    "simulateDescription": "環境へのイベントのプッシュ"
+    "simulateDescription": "環境へのイベントのプッシュ",
+    "pusherType": "シミュレーションの種類",
+    "robotArms": "ロボットアーム",
+    "dairyProduction": "酪農施設"
   },
   "scenes": {
     "noScenes": "3Dシーンがないので、新しいシーンを追加して開始します。",

@@ -148,7 +148,10 @@
     "simulating": "시뮬레이션",
     "liveStatus": "패킷 번호: {{패킷 번호}} | {{totalSuccessPatches}}/{{totalTwinsPatched}} twins가 성공적으로 업데이트되었습니다.",
     "generateEnvironmentDescription": "모델, 쌍둥이 및 관계를 푸시하여 환경을 채웁니다.",
-    "simulateDescription": "환경에 이벤트 푸시"
+    "simulateDescription": "환경에 이벤트 푸시",
+    "pusherType": "시뮬레이션 유형",
+    "robotArms": "로봇 팔",
+    "dairyProduction": "유제품 시설"
   },
   "scenes": {
     "noScenes": "3D 장면이 없으며 새 장면을 추가하여 시작하십시오.",

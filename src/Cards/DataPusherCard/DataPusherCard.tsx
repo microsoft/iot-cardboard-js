@@ -21,13 +21,18 @@ import {
     IDataPusherProps
 } from './DataPusher.types';
 import {
+    Dropdown,
+    IDropdownOption,
     ISeparatorStyles,
     PrimaryButton,
     ProgressIndicator,
     Stack
 } from '@fluentui/react';
 import { useAdapter } from '../../Models/Hooks';
-import { DTwinUpdateEvent } from '../../Models/Constants/Interfaces';
+import {
+    AdtPusherSimulationType,
+    DTwinUpdateEvent
+} from '../../Models/Constants/Interfaces';
 import AssetSimulation from '../../Models/Classes/Simulations/AssetSimulation';
 import NumericSpinInput from '../../Components/NumericSpinInput/NumericSpinInput';
 import { useTranslation } from 'react-i18next';
@@ -48,7 +53,6 @@ const DataPusherCard = ({
     localeStrings,
     theme,
     adapter,
-    Simulation,
     initialInstanceUrl = '<your_adt_instance_url>.digitaltwins.azure.net',
     disablePastEvents = false
 }: IDataPusherProps) => {
@@ -88,9 +92,10 @@ const DataPusherCard = ({
 
         // Live simulator
         const startLiveSimulation = () => {
-            const sim = new Simulation(
+            const sim = new AssetSimulation(
                 new Date().valueOf(),
-                state.liveStreamFrequency * 1000
+                state.liveStreamFrequency * 1000,
+                state.simulationType
             );
 
             intervalRef.current = setInterval(() => {
@@ -104,7 +109,11 @@ const DataPusherCard = ({
             : new Date().valueOf(); // get starting date
 
         // Quick fill simulator
-        const sim = new Simulation(startDateMillis, state.dataSpacing);
+        const sim = new AssetSimulation(
+            startDateMillis,
+            state.dataSpacing,
+            state.simulationType
+        );
 
         intervalRef.current = setInterval(() => {
             if (
@@ -122,7 +131,7 @@ const DataPusherCard = ({
     };
 
     const generateEnvironment = async () => {
-        const assetSimulation = new AssetSimulation(0, 0);
+        const assetSimulation = new AssetSimulation(0, 0, state.simulationType);
         dispatch({
             type: dataPusherActionType.SET_MODELS,
             payload: assetSimulation.generateDTModels()
@@ -220,6 +229,7 @@ const DataPusherCard = ({
                                 root: { marginBottom: '8px' }
                             }}
                         />
+                        <SimulationTypeForm />
                         {!state.disablePastEvents && (
                             <>
                                 <Separator
@@ -317,6 +327,37 @@ const DataPusherCard = ({
                 </div>
             </DataPusherContext.Provider>
         </BaseCard>
+    );
+};
+
+const SimulationTypeForm = () => {
+    const { t } = useTranslation();
+    const { state, dispatch } = useDataPusherContext();
+    const options: IDropdownOption[] = [
+        {
+            key: AdtPusherSimulationType.RobotArms,
+            text: t('dataPusher.robotArms')
+        },
+        {
+            key: AdtPusherSimulationType.DairyProduction,
+            text: t('dataPusher.dairyProduction')
+        }
+    ];
+    const onChange = (_event, item: IDropdownOption) => {
+        dispatch({
+            type: dataPusherActionType.SET_SIMULATION_TYPE,
+            payload: item.key
+        });
+    };
+
+    return (
+        <Dropdown
+            styles={{ root: { width: 200 } }}
+            label={t('dataPusher.pusherType')}
+            options={options}
+            onChange={onChange}
+            selectedKey={state.simulationType}
+        />
     );
 };
 

@@ -52,7 +52,7 @@ import {
     UserAssignmentsData,
     SubscriptionData
 } from '../Classes/AdapterDataClasses/AzureManagementModelData';
-import { AssetDevice } from '../Classes/Simulations/Asset';
+import { AssetProperty } from '../Classes/Simulations/Asset';
 import {
     CustomMeshItem,
     ICameraPosition,
@@ -592,16 +592,15 @@ export interface AssetRelationship {
 export interface AssetTwin {
     name: string;
     assetRelationships?: Array<AssetRelationship>;
-    devices: Array<AssetDevice>;
+    properties: Array<AssetProperty<any>>;
 }
 
-export interface IAssetDevice {
+export interface IAssetProperty<T> {
     id: string;
-    deviceName: string;
-    seedValue: number;
-    minValue: number;
-    maxValue: number;
-    properties: any;
+    propertyName: string;
+    currentValue: T;
+    getNextValue: (currentValue: T) => T;
+    schema?: string; // ADT schema for the property
 }
 
 export interface DTModelContent {
@@ -656,6 +655,11 @@ export interface IAdtPusherSimulation {
         download?: boolean
     ): Array<DTwin>;
     generateTwinRelationships(): Array<DTwinRelationship>;
+}
+
+export enum AdtPusherSimulationType {
+    DairyProduction = 'dairyProduction',
+    RobotArms = 'robotArms'
 }
 
 export interface IGenerateADTAssetsProps {

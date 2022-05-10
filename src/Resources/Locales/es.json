@@ -148,7 +148,10 @@
     "simulating": "Simulando",
     "liveStatus": "Número de paquete: {{packetNumber}} | {{totalSuccessfulPatches}}/{{totalTwinsPatched}} gemelos actualizados correctamente",
     "generateEnvironmentDescription": "Impulse modelos, gemelos y relaciones para poblar su entorno",
-    "simulateDescription": "Envíe eventos a su entorno"
+    "simulateDescription": "Envíe eventos a su entorno",
+    "pusherType": "Tipo de simulación",
+    "robotArms": "Brazos robóticos",
+    "dairyProduction": "Instalación lechera"
   },
   "scenes": {
     "noScenes": "No tiene escenas 3D, agregue una nueva para comenzar.",
