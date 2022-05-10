@@ -5,7 +5,7 @@ module.exports = (componentName) => ({
         /**
          * Call to provide customized styling that will layer on top of the variant rules.
          */
-        styles?: IStyleFunctionOrObject<undefined, I${componentName}Styles>;
+        styles?: IStyleFunctionOrObject<I${componentName}StyleProps, I${componentName}Styles>;
     }
     
     export interface I${componentName}StyleProps {
