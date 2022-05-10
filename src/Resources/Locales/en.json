@@ -432,8 +432,8 @@
         "ModelledPropertyBuilder": {
             "expressionLabel": "Property expression",
             "expressionPlaceholder": "Enter property expression",
-            "selectProperty": "Select property",
-            "customExpression": "Custom expression",
+            "singleProperty": "Single property",
+            "customExpression": "Custom (advanced)",
             "dropdownPlaceholder": "Select a property",
             "toggleLabel": "Expression mode",
             "none": "None"

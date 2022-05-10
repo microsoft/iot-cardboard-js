@@ -254,7 +254,7 @@ const choiceGroupOptions = [
     {
         key: 'PROPERTY_SELECTION',
         text: i18next.t(
-            '3dSceneBuilder.ModelledPropertyBuilder.selectProperty'
+            '3dSceneBuilder.ModelledPropertyBuilder.singleProperty'
         ),
         styles: choiceGroupOptionStyles
     },
