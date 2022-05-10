@@ -601,8 +601,6 @@
     "Start time input": "Inmatning av starttid",
     "End time input": "Inmatning av sluttid",
     "snap end time to latest": "fäst sluttid till senaste",
-    "zoom in": "zooma in",
-    "zoom out": "zooma ut",
     "select quick time of": "välj snabb tid för",
     "a time selection control dialog": "en dialogruta för tidsvalskontroll.",
     "No color": "Ingen färg",
@@ -770,7 +768,10 @@
     "select": "Utvald",
     "pan": "Panna",
     "orbit": "Omloppsbana",
-    "zoom": "Zooma"
+    "zoom": "Zooma",
+    "reset": "Nollställa",
+    "zoomIn": "Zooma in",
+    "zoomOut": "Zooma ut"
   },
   "active": "Aktiv",
   "invalidValue": "Ogiltigt värde",

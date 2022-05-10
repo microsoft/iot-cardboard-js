@@ -601,8 +601,6 @@
     "Start time input": "Başlangıç saati girişi",
     "End time input": "Bitiş saati girişi",
     "snap end time to latest": "bitiş zamanını en sona erdirin",
-    "zoom in": "yakınlaştırma",
-    "zoom out": "uzaklaştırma",
     "select quick time of": "hızlı zaman seçin",
     "a time selection control dialog": "bir zaman seçimi kontrol iletişim kutusu.",
     "No color": "Renk yok",
@@ -770,7 +768,10 @@
     "select": "Seçmek",
     "pan": "Tava",
     "orbit": "Yörünge",
-    "zoom": "Yakınlaştırmak"
+    "zoom": "Yakınlaştırmak",
+    "reset": "Sıfırlama",
+    "zoomIn": "Yakınlaştırma",
+    "zoomOut": "Uzaklaştırma"
   },
   "active": "Etkin",
   "invalidValue": "Geçersiz değer",
