@@ -486,11 +486,11 @@
     "ModelledPropertyBuilder": {
       "expressionLabel": "Wyrażenie właściwości",
       "expressionPlaceholder": "Wprowadź wyrażenie właściwości",
-      "selectProperty": "Wybierz właściwość",
       "toggleLabel": "Wyrażenie właściwości",
       "dropdownPlaceholder": "Wybierz właściwość",
       "none": "Żaden",
-      "customExpression": "Wyrażenie niestandardowe"
+      "customExpression": "Wyrażenie niestandardowe",
+      "singleProperty": "Pojedyncza właściwość"
     },
     "noResults": "Nie znaleziono wyników"
   },
