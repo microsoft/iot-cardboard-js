@@ -141,7 +141,7 @@ export const getGraphViewerIconStyles = () => {
     const theme = useTheme();
     return {
         root: {
-            fontSize: FontSizes.size10,
+            fontSize: FontSizes.size18,
             color: theme.semanticColors.actionLink
         }
     } as Partial<IStyle>;
@@ -152,6 +152,16 @@ export const getGraphViewerActionButtonStyles = () => {
         root: {
             height: FontSizes.size12,
             float: 'right'
+        }
+    } as Partial<IStyle>;
+};
+
+export const getGraphViewerWarningStyles = () => {
+    const theme = useTheme();
+    return {
+        root: {
+            fontSize: FontSizes.size10,
+            color: theme.semanticColors.severeWarningIcon
         }
     } as Partial<IStyle>;
 };

@@ -5,7 +5,7 @@ import React, {
     useMemo,
     useCallback
 } from 'react';
-import { useTheme, PrimaryButton } from '@fluentui/react';
+import { useTheme, PrimaryButton, Label } from '@fluentui/react';
 import ReactFlow, {
     ReactFlowProvider,
     addEdge,
@@ -27,7 +27,8 @@ import {
 } from '../../Models/Constants/Constants';
 import {
     getGraphViewerStyles,
-    getGraphViewerButtonStyles
+    getGraphViewerButtonStyles,
+    getGraphViewerWarningStyles
 } from './OATGraphViewer.styles';
 import { ElementsContext } from './Internal/OATContext';
 import {
@@ -36,8 +37,6 @@ import {
 } from '../../Models/Constants/ActionTypes';
 import {
     IAction,
-    IOATElementsChangeEventArgs,
-    IOATTwinModelNodes,
     IOATNodeElement,
     IOATRelationShipElement
 } from '../../Models/Constants/Interfaces';
@@ -73,6 +72,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     const [newModelId, setNewModelId] = useState(0);
     const graphViewerStyles = getGraphViewerStyles();
     const buttonStyles = getGraphViewerButtonStyles();
+    const warningStyles = getGraphViewerWarningStyles();
     const currentNodeIdRef = useRef('');
     const currentHandleId = useRef('');
 
@@ -648,6 +648,12 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                                 onClick={onNewModelClick}
                                 text={t('OATGraphViewer.newModel')}
                             />
+                            {!elements[0] && (
+                                <Label styles={warningStyles}>
+                                    {t('OATGraphViewer.emptyGraph')}
+                                </Label>
+                            )}
+
                             <MiniMap />
                             <Controls />
                             <Background

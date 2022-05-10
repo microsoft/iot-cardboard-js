@@ -749,7 +749,8 @@
         "newModel": "New Model",
         "name": "Name",
         "id": "Id",
-        "type": "Type"
+        "type": "Type",
+        "emptyGraph": "No models available"
     },
     "OATPropertyEditor": {
         "addEnumValue": "Add Enum Value",
