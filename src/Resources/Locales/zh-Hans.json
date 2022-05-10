@@ -167,7 +167,8 @@
     "fromContainer": "从容器",
     "3dFileAsset": "3D 文件资源",
     "overwriteIfExist": "覆盖文件已存在",
-    "fileExistsErrorMessage": "具有此名称的文件已存在于存储中，可以从容器中选择该文件或覆盖。"
+    "fileExistsErrorMessage": "具有此名称的文件已存在于存储中，可以从容器中选择该文件或覆盖。",
+    "description": "描述"
   },
   "BIMUpload": {
     "specifyFiles": "指定要从中上载的文件",

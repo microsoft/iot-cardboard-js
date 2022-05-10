@@ -167,7 +167,8 @@
     "fromContainer": "Z kontenera",
     "3dFileAsset": "Zasób pliku 3D",
     "overwriteIfExist": "Zastąp, jeśli plik już istnieje",
-    "fileExistsErrorMessage": "Plik o tej nazwie już istnieje w magazynie, możesz wybrać ten plik z kontenera lub zastąpić."
+    "fileExistsErrorMessage": "Plik o tej nazwie już istnieje w magazynie, możesz wybrać ten plik z kontenera lub zastąpić.",
+    "description": "Opis"
   },
   "BIMUpload": {
     "specifyFiles": "Określanie plików do przesłania z",

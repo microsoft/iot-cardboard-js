@@ -167,7 +167,8 @@
     "fromContainer": "Do contentor",
     "3dFileAsset": "Ativo de ficheiro 3D",
     "overwriteIfExist": "Substitua se o ficheiro já existir",
-    "fileExistsErrorMessage": "Um ficheiro com este nome já existe no armazenamento, pode selecionar esse ficheiro a partir de um recipiente ou substituir."
+    "fileExistsErrorMessage": "Um ficheiro com este nome já existe no armazenamento, pode selecionar esse ficheiro a partir de um recipiente ou substituir.",
+    "description": "Descrição"
   },
   "BIMUpload": {
     "specifyFiles": "Especifique ficheiros para carregar a partir de",

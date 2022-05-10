@@ -167,7 +167,8 @@
     "fromContainer": "Från behållare",
     "3dFileAsset": "3D-filtillgång",
     "overwriteIfExist": "Skriva över om filen redan finns",
-    "fileExistsErrorMessage": "En fil med det här namnet finns redan i lagring, du kan antingen välja den filen från behållaren eller skriva över."
+    "fileExistsErrorMessage": "En fil med det här namnet finns redan i lagring, du kan antingen välja den filen från behållaren eller skriva över.",
+    "description": "Beskrivning"
   },
   "BIMUpload": {
     "specifyFiles": "Ange filer som ska överföras från",

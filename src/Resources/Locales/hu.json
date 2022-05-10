@@ -167,7 +167,8 @@
     "fromContainer": "Tárolóból",
     "3dFileAsset": "3D fájleszköz",
     "overwriteIfExist": "Felülírás, ha a fájl már létezik",
-    "fileExistsErrorMessage": "Egy ilyen nevű fájl már létezik a tárolóban, kiválaszthatja a fájlt a tárolóból, vagy felülírhatja."
+    "fileExistsErrorMessage": "Egy ilyen nevű fájl már létezik a tárolóban, kiválaszthatja a fájlt a tárolóból, vagy felülírhatja.",
+    "description": "Leírás"
   },
   "BIMUpload": {
     "specifyFiles": "A feltöltendő fájlok megadása",

@@ -167,7 +167,8 @@
     "fromContainer": "コンテナから",
     "3dFileAsset": "3D ファイルアセット",
     "overwriteIfExist": "ファイルが既に存在する場合は上書きする",
-    "fileExistsErrorMessage": "この名前のファイルはすでにストレージに存在します。コンテナからそのファイルを選択するか、上書きすることができます。"
+    "fileExistsErrorMessage": "この名前のファイルはすでにストレージに存在します。コンテナからそのファイルを選択するか、上書きすることができます。",
+    "description": "形容"
   },
   "BIMUpload": {
     "specifyFiles": "アップロード元のファイルを指定する",
