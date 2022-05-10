@@ -1004,45 +1004,47 @@ export default class ADTAdapter implements IADTAdapter {
                                                 ElementType.TwinToObjectMapping &&
                                             element.id === id
                                     ) as ITwinToObjectMapping;
+                                    if (element) {
+                                        twins[linkedTwinName] =
+                                            twinIdToResolvedTwinMap[
+                                                element.linkedTwinID
+                                            ];
 
-                                    twins[linkedTwinName] =
-                                        twinIdToResolvedTwinMap[
-                                            element.linkedTwinID
-                                        ];
-
-                                    // check for twin aliases and add to twins object
-                                    if (element.twinAliases) {
-                                        for (const alias of Object.keys(
-                                            element.twinAliases
-                                        )) {
-                                            twins[alias] =
-                                                twinIdToResolvedTwinMap[
-                                                    element.twinAliases[alias]
-                                                ];
+                                        // check for twin aliases and add to twins object
+                                        if (element.twinAliases) {
+                                            for (const alias of Object.keys(
+                                                element.twinAliases
+                                            )) {
+                                                twins[alias] =
+                                                    twinIdToResolvedTwinMap[
+                                                        element.twinAliases[
+                                                            alias
+                                                        ]
+                                                    ];
+                                            }
                                         }
-                                    }
 
-                                    const existingSceneVisual = sceneVisuals.find(
-                                        (sV) => sV.element.id === id
-                                    );
-                                    if (!existingSceneVisual) {
-                                        const sceneVisual = new SceneVisual(
-                                            element,
-                                            [behavior],
-                                            twins
+                                        const existingSceneVisual = sceneVisuals.find(
+                                            (sV) => sV.element.id === id
                                         );
-                                        sceneVisuals.push(sceneVisual);
-                                    } else {
-                                        existingSceneVisual.behaviors.push(
-                                            behavior
-                                        );
+                                        if (!existingSceneVisual) {
+                                            const sceneVisual = new SceneVisual(
+                                                element,
+                                                [behavior],
+                                                twins
+                                            );
+                                            sceneVisuals.push(sceneVisual);
+                                        } else {
+                                            existingSceneVisual.behaviors.push(
+                                                behavior
+                                            );
+                                        }
                                     }
                                 }
                             }
                     }
                 }
             }
-
             return new ADT3DViewerData(modelUrl, sceneVisuals);
         });
     }
