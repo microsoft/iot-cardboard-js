@@ -91,6 +91,12 @@ export class Asset {
                         currentValue: 'Box1',
                         getNextValue: this.getStringValue(),
                         schema: 'string'
+                    },
+                    {
+                        id: this.name,
+                        propertyName: 'HydraulicPressure',
+                        currentValue: 20,
+                        getNextValue: this.getDoubleValue(10, 100)
                     }
                 ];
                 [1, 2, 3, 4, 5, 6].forEach((idx) => {
