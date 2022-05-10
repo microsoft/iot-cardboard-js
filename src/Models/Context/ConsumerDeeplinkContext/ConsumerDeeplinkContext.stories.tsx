@@ -1,4 +1,5 @@
 import React, { useRef } from 'react';
+import queryString from 'query-string';
 import { ComponentStory } from '@storybook/react';
 import { DefaultButton, Label, Stack, Text } from '@fluentui/react';
 import {
@@ -57,7 +58,17 @@ const Template: SceneBuilderStory = (
     const countRef = useRef(0);
     const onLinkGenerated = (link: string) => {
         countRef.current++;
-        const newLink = link + '&customParam=' + countRef.current;
+        const customQsps = {
+            customParam: countRef.current
+        };
+        const newLink = queryString.stringifyUrl(
+            { url: link, query: { ...customQsps } },
+            {
+                encode: true,
+                sort: false,
+                skipEmptyString: true
+            }
+        );
         return newLink;
     };
 
