@@ -770,5 +770,13 @@
     "zoom": "급상승"
   },
   "active": "활동적인",
-  "invalidValue": "잘못된 값"
+  "invalidValue": "잘못된 값",
+  "deeplinkFlyout": {
+    "buttonTitle": "공유",
+    "copyButtonText": "링크 복사",
+    "copyConfirmationMessage": "복사!",
+    "flyoutHeader": "장면 공유",
+    "includeElementsOption": "선택한 요소와의 연결",
+    "includeLayersOption": "선택한 레이어와의 연결"
+  }
 }

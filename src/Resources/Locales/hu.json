@@ -770,5 +770,13 @@
     "zoom": "Búg"
   },
   "active": "Aktív",
-  "invalidValue": "Érvénytelen érték"
+  "invalidValue": "Érvénytelen érték",
+  "deeplinkFlyout": {
+    "buttonTitle": "Részvény",
+    "copyButtonText": "Hivatkozás másolása",
+    "copyConfirmationMessage": "Másolt!",
+    "flyoutHeader": "Jelenet megosztása",
+    "includeElementsOption": "Csatolás a kijelölt elemmel",
+    "includeLayersOption": "Csatolás kijelölt rétegekkel"
+  }
 }

@@ -770,5 +770,13 @@
     "zoom": "ズーム"
   },
   "active": "能動",
-  "invalidValue": "無効な値"
+  "invalidValue": "無効な値",
+  "deeplinkFlyout": {
+    "buttonTitle": "共有",
+    "copyButtonText": "リンクのコピー",
+    "copyConfirmationMessage": "コピー！",
+    "flyoutHeader": "シーンの共有",
+    "includeElementsOption": "選択した要素とのリンク",
+    "includeLayersOption": "選択したレイヤーとのリンク"
+  }
 }

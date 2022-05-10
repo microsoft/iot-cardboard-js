@@ -770,5 +770,13 @@
     "zoom": "Zooma"
   },
   "active": "Aktiv",
-  "invalidValue": "Ogiltigt värde"
+  "invalidValue": "Ogiltigt värde",
+  "deeplinkFlyout": {
+    "buttonTitle": "Aktie",
+    "copyButtonText": "Kopiera länk",
+    "copyConfirmationMessage": "Kopieras!",
+    "flyoutHeader": "Dela scen",
+    "includeElementsOption": "Länk till valt element",
+    "includeLayersOption": "Länka till valda lager"
+  }
 }

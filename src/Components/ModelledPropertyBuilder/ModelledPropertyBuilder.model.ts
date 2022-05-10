@@ -185,7 +185,7 @@ const expandModelIds = (
  * @param allowedPropertyValueTypes Set of property types to include as property value leaves
  * */
 const addInterface = (
-    root: any,
+    root: Record<string, any>,
     parsedInterface: InterfaceInfo,
     path: string,
     allowedPropertyValueTypes: Array<PropertyValueType>
@@ -217,8 +217,8 @@ const addInterface = (
  * @param allowedPropertyValueTypes Set of property types to include as property value leaves
  */
 const addEntity = (
-    root: any,
-    entity: any,
+    root: Record<string, any>,
+    entity: Record<string, any>,
     path: string,
     allowedPropertyValueTypes: Array<PropertyValueType>
 ) => {

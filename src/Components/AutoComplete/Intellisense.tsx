@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
 import { AutoComplete, IAutoCompleteProps } from './AutoComplete';
 
+export type GetPropertyNamesFunc = (
+    twinId: string,
+    meta?: { search: string; tokens: string[]; leafToken: number }
+) => string[];
+
 export interface IIntellisenseProps {
     autoCompleteProps?: IAutoCompleteProps;
     aliasNames?: string[];
     propertyNames?: string[];
     defaultValue?: string;
-    getPropertyNames?: (
-        twinId: string,
-        meta?: { search: string; tokens: string[]; leafToken: number }
-    ) => string[];
+    getPropertyNames?: GetPropertyNamesFunc;
     onChange: (value: string) => void;
 }
 

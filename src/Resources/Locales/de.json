@@ -770,5 +770,13 @@
     "zoom": "Zoom"
   },
   "active": "Aktiv",
-  "invalidValue": "Ungültiger Wert"
+  "invalidValue": "Ungültiger Wert",
+  "deeplinkFlyout": {
+    "buttonTitle": "Freigeben",
+    "copyButtonText": "Link kopieren",
+    "copyConfirmationMessage": "Kopiert!",
+    "flyoutHeader": "Szene teilen",
+    "includeElementsOption": "Mit ausgewähltem Element verknüpfen",
+    "includeLayersOption": "Mit ausgewählten Ebenen verknüpfen"
+  }
 }
