@@ -116,10 +116,12 @@ export const DeeplinkContextProvider: React.FC<IDeeplinkContextProviderProps> = 
                     'Consumer deeplink callback present, passing string to consumer. Initial link:',
                     link
                 );
-                link = consumerDeeplinkContext?.onGenerateDeeplink(
-                    link,
-                    options
-                );
+                if (link) {
+                    link = consumerDeeplinkContext?.onGenerateDeeplink(
+                        link,
+                        options
+                    );
+                }
                 logDebugConsole('debug', 'Consumer modified link:', link);
             }
             return link;

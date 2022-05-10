@@ -23,7 +23,6 @@ export const ConsumerDeeplinkContext: React.FC<IConsumerDeeplinkContextProviderP
     if (existingContext) {
         return <>{children}</>;
     }
-    ``;
 
     const { onGenerateDeeplink } = props;
 
