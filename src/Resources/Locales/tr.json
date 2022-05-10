@@ -486,11 +486,11 @@
     "ModelledPropertyBuilder": {
       "expressionLabel": "Özellik ifadesi",
       "expressionPlaceholder": "Özellik ifadesini girin",
-      "selectProperty": "Mülk seçin",
       "toggleLabel": "Özellik ifadesi",
       "dropdownPlaceholder": "Bir mülk seçin",
       "none": "Hiç kimse",
-      "customExpression": "Özel ifade"
+      "customExpression": "Özel ifade",
+      "singleProperty": "Tek kişilik özellik"
     },
     "noResults": "Sonuç bulunamadı"
   },

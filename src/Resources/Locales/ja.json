@@ -486,11 +486,11 @@
     "ModelledPropertyBuilder": {
       "expressionLabel": "プロパティ式",
       "expressionPlaceholder": "プロパティ式を入力",
-      "selectProperty": "プロパティの選択",
       "toggleLabel": "プロパティ式",
       "dropdownPlaceholder": "プロパティの選択",
       "none": "何一つ",
-      "customExpression": "カスタム式"
+      "customExpression": "カスタム式",
+      "singleProperty": "単一のプロパティ"
     },
     "noResults": "結果が見つかりません"
   },

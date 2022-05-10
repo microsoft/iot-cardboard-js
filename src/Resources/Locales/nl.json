@@ -486,11 +486,11 @@
     "ModelledPropertyBuilder": {
       "expressionLabel": "Eigenschapsexpressie",
       "expressionPlaceholder": "Eigenschapsexpressie invoeren",
-      "selectProperty": "Selecteer eigenschap",
       "toggleLabel": "Eigenschapsexpressie",
       "dropdownPlaceholder": "Selecteer een woning",
       "none": "Geen",
-      "customExpression": "Aangepaste expressie"
+      "customExpression": "Aangepaste expressie",
+      "singleProperty": "Enkele woning"
     },
     "noResults": "Geen resultaten gevonden"
   },

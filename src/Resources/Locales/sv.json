@@ -486,11 +486,11 @@
     "ModelledPropertyBuilder": {
       "expressionLabel": "Egenskapsuttryck",
       "expressionPlaceholder": "Ange egenskapsuttryck",
-      "selectProperty": "Välj egenskap",
       "toggleLabel": "Egenskapsuttryck",
       "dropdownPlaceholder": "Välj en egenskap",
       "none": "Ingen",
-      "customExpression": "Anpassat uttryck"
+      "customExpression": "Anpassat uttryck",
+      "singleProperty": "Enkel egendom"
     },
     "noResults": "Inga resultat hittades"
   },

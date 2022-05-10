@@ -486,11 +486,11 @@
     "ModelledPropertyBuilder": {
       "expressionLabel": "Выражение свойства",
       "expressionPlaceholder": "Введите выражение свойства",
-      "selectProperty": "Выберите недвижимость",
       "toggleLabel": "Выражение свойства",
       "dropdownPlaceholder": "Выберите недвижимость",
       "none": "Никакой",
-      "customExpression": "Пользовательское выражение"
+      "customExpression": "Пользовательское выражение",
+      "singleProperty": "Одноместный отель"
     },
     "noResults": "Результаты не найдены"
   },
