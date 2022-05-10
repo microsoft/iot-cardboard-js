@@ -156,8 +156,6 @@
   "scenes": {
     "noScenes": "Não tens cenas 3D, adicione uma nova para começar.",
     "addScene": "Adicionar cena 3D",
-    "sceneLatitude": "Latitude",
-    "sceneLongitude": "Longitude",
     "blobUrl": "URL de blob de arquivo 3D",
     "addDialogTitle": "Criar nova cena",
     "addDialogSubText": "Ligue a sua cena com o URL do seu ficheiro 3D no armazenamento de bolhas",
@@ -168,7 +166,10 @@
     "3dFileAsset": "Ativo de ficheiro 3D",
     "overwriteIfExist": "Substitua se o ficheiro já existir",
     "fileExistsErrorMessage": "Um ficheiro com este nome já existe no armazenamento, pode selecionar esse ficheiro a partir de um recipiente ou substituir.",
-    "description": "Descrição"
+    "description": "Descrição",
+    "latitude": "Latitude",
+    "longitude": "Longitude",
+    "showOnGlobe": "Mostrar no globo"
   },
   "BIMUpload": {
     "specifyFiles": "Especifique ficheiros para carregar a partir de",

@@ -156,8 +156,6 @@
   "scenes": {
     "noScenes": "Nincsenek 3D-s jelenetei, adjon hozzá egy újat az induláshoz.",
     "addScene": "3D jelenet hozzáadása",
-    "sceneLatitude": "Szélesség",
-    "sceneLongitude": "Hosszúság",
     "blobUrl": "3D fájl blob URL-címe",
     "addDialogTitle": "Új jelenet létrehozása",
     "addDialogSubText": "A jelenet összekapcsolása a 3D-s fájl URL-címével a blobtárolóban",
@@ -168,7 +166,10 @@
     "3dFileAsset": "3D fájleszköz",
     "overwriteIfExist": "Felülírás, ha a fájl már létezik",
     "fileExistsErrorMessage": "Egy ilyen nevű fájl már létezik a tárolóban, kiválaszthatja a fájlt a tárolóból, vagy felülírhatja.",
-    "description": "Leírás"
+    "description": "Leírás",
+    "latitude": "Szélesség",
+    "longitude": "Hosszúság",
+    "showOnGlobe": "Show a világon"
   },
   "BIMUpload": {
     "specifyFiles": "A feltöltendő fájlok megadása",

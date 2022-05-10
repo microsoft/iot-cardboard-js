@@ -156,8 +156,6 @@
   "scenes": {
     "noScenes": "Nie masz scen 3D, dodaj nową, aby rozpocząć.",
     "addScene": "Dodawanie sceny 3D",
-    "sceneLatitude": "Szerokość geograficzna",
-    "sceneLongitude": "Długość",
     "blobUrl": "Adres URL obiektu blob pliku 3D",
     "addDialogTitle": "Tworzenie nowej sceny",
     "addDialogSubText": "Łączenie sceny z adresem URL pliku 3D w magazynie obiektów blob",
@@ -168,7 +166,10 @@
     "3dFileAsset": "Zasób pliku 3D",
     "overwriteIfExist": "Zastąp, jeśli plik już istnieje",
     "fileExistsErrorMessage": "Plik o tej nazwie już istnieje w magazynie, możesz wybrać ten plik z kontenera lub zastąpić.",
-    "description": "Opis"
+    "description": "Opis",
+    "latitude": "Szerokość geograficzna",
+    "longitude": "Długość",
+    "showOnGlobe": "Pokaż na mapie świata"
   },
   "BIMUpload": {
     "specifyFiles": "Określanie plików do przesłania z",
