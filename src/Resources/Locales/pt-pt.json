@@ -148,7 +148,10 @@
     "simulating": "Simulação",
     "liveStatus": "Número do pacote: {{packetNumber}} | {{totalSuccessfulPatches}}/{totalTwinsPatched}} gémeos atualizados com sucesso",
     "generateEnvironmentDescription": "Empurre modelos, gémeos e relacionamentos para povoar o seu ambiente",
-    "simulateDescription": "Empurre os eventos para o seu ambiente"
+    "simulateDescription": "Empurre os eventos para o seu ambiente",
+    "pusherType": "Tipo de Simulação",
+    "robotArms": "Braços robô",
+    "dairyProduction": "Instalação de lacticínios"
   },
   "scenes": {
     "noScenes": "Não tens cenas 3D, adicione uma nova para começar.",
@@ -376,6 +379,7 @@
     "addElementDetails": "Adicionar detalhes de elementos",
     "noBehaviorsOnElement": "Nenhum comportamento atribuído a este elemento",
     "noElementsText": "Nenhum elemento criado ainda",
+    "noResults": "Sem resultados",
     "behaviorsInSceneTitle": "Nesta cena ({{count}})",
     "createWithElement": "Criar com {{element}}",
     "elementActions": "Ações de elementos",
@@ -484,9 +488,11 @@
       "expressionLabel": "Expressão de propriedade",
       "expressionPlaceholder": "Insira a expressão da propriedade",
       "selectProperty": "Selecione propriedade",
-      "toggleLabel": "Expressão de propriedade"
-    },
-    "noResults": "Não foram encontrados resultados"
+      "toggleLabel": "Expressão de propriedade",
+      "dropdownPlaceholder": "Selecione um imóvel",
+      "none": "Nenhum.",
+      "customExpression": "Expressão personalizada"
+    }
   },
   "widgets": {
     "trend": {
@@ -767,5 +773,13 @@
     "zoom": "Zoom"
   },
   "active": "Ativo",
-  "invalidValue": "Valor inválido"
+  "invalidValue": "Valor inválido",
+  "deeplinkFlyout": {
+    "buttonTitle": "Partilhar",
+    "copyButtonText": "Link de cópia",
+    "copyConfirmationMessage": "Copiado!",
+    "flyoutHeader": "Partilhar cena",
+    "includeElementsOption": "Ligação com o elemento selecionado",
+    "includeLayersOption": "Ligação com camadas selecionadas"
+  }
 }

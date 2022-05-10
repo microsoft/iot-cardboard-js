@@ -148,7 +148,10 @@
     "simulating": "Simüle",
     "liveStatus": "Paket numarası: {{packetNumber}} | {{totalSuccessfulPatches}}/{{totalTwinsPatched}} twins başarıyla güncellendi",
     "generateEnvironmentDescription": "Ortamınızı doldurmak için modelleri, ikizleri ve ilişkileri itin",
-    "simulateDescription": "Olayları ortamınıza gönderin"
+    "simulateDescription": "Olayları ortamınıza gönderin",
+    "pusherType": "Simülasyon Türü",
+    "robotArms": "Robot Kolları",
+    "dairyProduction": "Süt Tesisi"
   },
   "scenes": {
     "noScenes": "3B sahneleriniz yok, başlamak için yeni bir tane ekleyin.",
@@ -376,6 +379,7 @@
     "addElementDetails": "Öğe ayrıntıları ekleme",
     "noBehaviorsOnElement": "Bu öğeye atanmış davranış yok",
     "noElementsText": "Henüz oluşturulmuş bir öğe yok",
+    "noResults": "Sonuç yok",
     "behaviorsInSceneTitle": "Bu sahnede ({{count}})",
     "createWithElement": "{{element}} ile oluştur",
     "elementActions": "Öğe eylemleri",
@@ -484,9 +488,11 @@
       "expressionLabel": "Özellik ifadesi",
       "expressionPlaceholder": "Özellik ifadesini girin",
       "selectProperty": "Mülk seçin",
-      "toggleLabel": "Özellik ifadesi"
-    },
-    "noResults": "Sonuç bulunamadı"
+      "toggleLabel": "Özellik ifadesi",
+      "dropdownPlaceholder": "Bir mülk seçin",
+      "none": "Hiç kimse",
+      "customExpression": "Özel ifade"
+    }
   },
   "widgets": {
     "trend": {
@@ -767,5 +773,13 @@
     "zoom": "Yakınlaştırmak"
   },
   "active": "Etkin",
-  "invalidValue": "Geçersiz değer"
+  "invalidValue": "Geçersiz değer",
+  "deeplinkFlyout": {
+    "buttonTitle": "Paylaş",
+    "copyButtonText": "Bağlantıyı kopyala",
+    "copyConfirmationMessage": "Kopya -lanan!",
+    "flyoutHeader": "Sahneyi paylaş",
+    "includeElementsOption": "Seçili öğeyle bağlantı kurma",
+    "includeLayersOption": "Seçili katmanlarla bağlantı kurma"
+  }
 }

@@ -148,7 +148,10 @@
     "simulating": "Symulowanie",
     "liveStatus": "Numer pakietu: {{packetNumber}} | {{totalSuccessfulPatches}}/{{totalTwinsPatched}} bliźniaki zostały pomyślnie zaktualizowane",
     "generateEnvironmentDescription": "Wypychanie modeli, bliźniaków i relacji w celu wypełnienia środowiska",
-    "simulateDescription": "Wypychanie zdarzeń do środowiska"
+    "simulateDescription": "Wypychanie zdarzeń do środowiska",
+    "pusherType": "Typ symulacji",
+    "robotArms": "Ramiona robota",
+    "dairyProduction": "Zakład mleczarski"
   },
   "scenes": {
     "noScenes": "Nie masz scen 3D, dodaj nową, aby rozpocząć.",
@@ -376,6 +379,7 @@
     "addElementDetails": "Dodawanie szczegółów elementu",
     "noBehaviorsOnElement": "Brak zachowań przypisanych do tego elementu",
     "noElementsText": "Nie utworzono jeszcze żadnych elementów",
+    "noResults": "Brak wyników",
     "behaviorsInSceneTitle": "W tej scenie ({{count}})",
     "createWithElement": "Tworzenie za pomocą {{element}}",
     "elementActions": "Akcje elementów",
@@ -484,9 +488,11 @@
       "expressionLabel": "Wyrażenie właściwości",
       "expressionPlaceholder": "Wprowadź wyrażenie właściwości",
       "selectProperty": "Wybierz właściwość",
-      "toggleLabel": "Wyrażenie właściwości"
-    },
-    "noResults": "Nie znaleziono wyników"
+      "toggleLabel": "Wyrażenie właściwości",
+      "dropdownPlaceholder": "Wybierz właściwość",
+      "none": "Żaden",
+      "customExpression": "Wyrażenie niestandardowe"
+    }
   },
   "widgets": {
     "trend": {
@@ -767,5 +773,13 @@
     "zoom": "Powiększenia"
   },
   "active": "Aktywny",
-  "invalidValue": "Nieprawidłowa wartość"
+  "invalidValue": "Nieprawidłowa wartość",
+  "deeplinkFlyout": {
+    "buttonTitle": "Udostępnij",
+    "copyButtonText": "Kopiuj link",
+    "copyConfirmationMessage": "Kopiowane!",
+    "flyoutHeader": "Udostępnianie sceny",
+    "includeElementsOption": "Link z wybranym elementem",
+    "includeLayersOption": "Łączenie z zaznaczonymi warstwami"
+  }
 }

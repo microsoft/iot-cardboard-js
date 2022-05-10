@@ -148,7 +148,10 @@
     "simulating": "Simulera",
     "liveStatus": "Paketnummer: {{packetNumber}} | {{totalSuccessfulPatches}}/{totalTwinsPatched}} dubblar har uppdaterats",
     "generateEnvironmentDescription": "Push-modeller, tvillingar och relationer för att fylla din miljö",
-    "simulateDescription": "Skicka händelser till din miljö"
+    "simulateDescription": "Skicka händelser till din miljö",
+    "pusherType": "Typ av simulering",
+    "robotArms": "Robotarmar",
+    "dairyProduction": "Mejerianläggning"
   },
   "scenes": {
     "noScenes": "Du har inga 3D-scener, lägg till en ny för att komma igång.",
@@ -376,6 +379,7 @@
     "addElementDetails": "Lägga till elementinformation",
     "noBehaviorsOnElement": "Inga beteenden som tilldelats det här elementet",
     "noElementsText": "Inga element har skapats ännu",
+    "noResults": "Inga resultat",
     "behaviorsInSceneTitle": "I den här scenen ({{count}})",
     "createWithElement": "Skapa med {{element}}",
     "elementActions": "Elementåtgärder",
@@ -484,9 +488,11 @@
       "expressionLabel": "Egenskapsuttryck",
       "expressionPlaceholder": "Ange egenskapsuttryck",
       "selectProperty": "Välj egenskap",
-      "toggleLabel": "Egenskapsuttryck"
-    },
-    "noResults": "Inga resultat hittades"
+      "toggleLabel": "Egenskapsuttryck",
+      "dropdownPlaceholder": "Välj en egenskap",
+      "none": "Ingen",
+      "customExpression": "Anpassat uttryck"
+    }
   },
   "widgets": {
     "trend": {
@@ -767,5 +773,13 @@
     "zoom": "Zooma"
   },
   "active": "Aktiv",
-  "invalidValue": "Ogiltigt värde"
+  "invalidValue": "Ogiltigt värde",
+  "deeplinkFlyout": {
+    "buttonTitle": "Aktie",
+    "copyButtonText": "Kopiera länk",
+    "copyConfirmationMessage": "Kopieras!",
+    "flyoutHeader": "Dela scen",
+    "includeElementsOption": "Länk till valt element",
+    "includeLayersOption": "Länka till valda lager"
+  }
 }

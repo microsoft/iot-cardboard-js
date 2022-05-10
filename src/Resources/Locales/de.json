@@ -148,7 +148,10 @@
     "simulating": "Nachahmend",
     "liveStatus": "Paketnummer: {{packetNumber}} | {{totalSuccessfulPatches}}/{{totalTwinsPatched}} Zwillinge erfolgreich aktualisiert",
     "generateEnvironmentDescription": "Pushen von Modellen, Zwillingen und Beziehungen, um Ihre Umgebung zu füllen",
-    "simulateDescription": "Übertragen von Ereignissen in Ihre Umgebung"
+    "simulateDescription": "Übertragen von Ereignissen in Ihre Umgebung",
+    "pusherType": "Art der Simulation",
+    "robotArms": "Roboterarme",
+    "dairyProduction": "Molkerei"
   },
   "scenes": {
     "noScenes": "Sie haben keine 3D-Szenen, fügen Sie eine neue hinzu, um loszulegen.",
@@ -376,6 +379,7 @@
     "addElementDetails": "Hinzufügen von Elementdetails",
     "noBehaviorsOnElement": "Diesem Element sind keine Verhaltensweisen zugewiesen",
     "noElementsText": "Noch keine Elemente erstellt",
+    "noResults": "Keine Ergebnisse",
     "behaviorsInSceneTitle": "In dieser Szene ({{count}})",
     "createWithElement": "Erstellen mit {{element}}",
     "elementActions": "Elementaktionen",
@@ -484,9 +488,11 @@
       "expressionLabel": "Eigenschaftsausdruck",
       "expressionPlaceholder": "Eigenschaftsausdruck eingeben",
       "selectProperty": "Eigenschaft auswählen",
-      "toggleLabel": "Eigenschaftsausdruck"
-    },
-    "noResults": "Keine Ergebnisse gefunden"
+      "toggleLabel": "Eigenschaftsausdruck",
+      "dropdownPlaceholder": "Wählen Sie eine Immobilie aus",
+      "none": "Nichts",
+      "customExpression": "Benutzerdefinierter Ausdruck"
+    }
   },
   "widgets": {
     "trend": {
@@ -767,5 +773,13 @@
     "zoom": "Zoom"
   },
   "active": "Aktiv",
-  "invalidValue": "Ungültiger Wert"
+  "invalidValue": "Ungültiger Wert",
+  "deeplinkFlyout": {
+    "buttonTitle": "Freigeben",
+    "copyButtonText": "Link kopieren",
+    "copyConfirmationMessage": "Kopiert!",
+    "flyoutHeader": "Szene teilen",
+    "includeElementsOption": "Mit ausgewähltem Element verknüpfen",
+    "includeLayersOption": "Mit ausgewählten Ebenen verknüpfen"
+  }
 }

@@ -148,7 +148,10 @@
     "simulating": "Szimuláló",
     "liveStatus": "Csomagszám: {{packetNumber}} | {{totalSuccessfulPatches}}/{{totalTwinsPatched}} ikrek frissítése sikeresen megtörtént",
     "generateEnvironmentDescription": "Push modellek, ikrek, és a kapcsolatok, hogy benépesítse a környezetet",
-    "simulateDescription": "Események leküldése a környezetbe"
+    "simulateDescription": "Események leküldése a környezetbe",
+    "pusherType": "Szimuláció típusa",
+    "robotArms": "Robotkarok",
+    "dairyProduction": "Tejüzem"
   },
   "scenes": {
     "noScenes": "Nincsenek 3D-s jelenetei, adjon hozzá egy újat az induláshoz.",
@@ -376,6 +379,7 @@
     "addElementDetails": "Elem részleteinek hozzáadása",
     "noBehaviorsOnElement": "Nincs viselkedés hozzárendelve ehhez az elemhez",
     "noElementsText": "Még nem hoztak létre elemeket",
+    "noResults": "Nincs eredmény",
     "behaviorsInSceneTitle": "Ebben a jelenetben ({{count}})",
     "createWithElement": "Létrehozás a következővel: {{element}}",
     "elementActions": "Elemműveletek",
@@ -484,9 +488,11 @@
       "expressionLabel": "Tulajdonságkifejezés",
       "expressionPlaceholder": "Tulajdonságkifejezés megadása",
       "selectProperty": "Tulajdonság kiválasztása",
-      "toggleLabel": "Tulajdonságkifejezés"
-    },
-    "noResults": "Nem található eredmény"
+      "toggleLabel": "Tulajdonságkifejezés",
+      "dropdownPlaceholder": "Tulajdonság kijelölése",
+      "none": "Egyik sem",
+      "customExpression": "Egyéni kifejezés"
+    }
   },
   "widgets": {
     "trend": {
@@ -767,5 +773,13 @@
     "zoom": "Búg"
   },
   "active": "Aktív",
-  "invalidValue": "Érvénytelen érték"
+  "invalidValue": "Érvénytelen érték",
+  "deeplinkFlyout": {
+    "buttonTitle": "Részvény",
+    "copyButtonText": "Hivatkozás másolása",
+    "copyConfirmationMessage": "Másolt!",
+    "flyoutHeader": "Jelenet megosztása",
+    "includeElementsOption": "Csatolás a kijelölt elemmel",
+    "includeLayersOption": "Csatolás kijelölt rétegekkel"
+  }
 }

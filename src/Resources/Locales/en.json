@@ -150,7 +150,10 @@
         "simulating": "Simulating",
         "liveStatus": "Packet number: {{packetNumber}} | {{totalSuccessfulPatches}}/{{totalTwinsPatched}} twins successfully updated",
         "generateEnvironmentDescription": "Push models, twins, and relationships to populate your environment",
-        "simulateDescription": "Push events to your environment"
+        "simulateDescription": "Push events to your environment",
+        "pusherType": "Simulation Type",
+        "robotArms": "Robot arms",
+        "dairyProduction": "Dairy facility"
     },
     "scenes": {
         "noScenes": "You have no 3D scenes, add a new one to get started.",
@@ -378,7 +381,7 @@
         "addElementDetails": "Add element details",
         "noBehaviorsOnElement": "No behaviors assigned to this element",
         "noElementsText": "No elements created yet",
-        "noResults": "No results found",
+        "noResults": "No results",
         "behaviorsInSceneTitle": "In this scene ({{count}})",
         "createWithElement": "Create with {{element}}",
         "elementActions": "Element actions",
@@ -430,7 +433,10 @@
             "expressionLabel": "Property expression",
             "expressionPlaceholder": "Enter property expression",
             "selectProperty": "Select property",
-            "toggleLabel": "Expression mode"
+            "customExpression": "Custom expression",
+            "dropdownPlaceholder": "Select a property",
+            "toggleLabel": "Expression mode",
+            "none": "None"
         },
         "numericExpressionPlaceholder": "Enter an expression which evaluates to a number",
         "behaviorId": "Behavior Id",
@@ -744,6 +750,14 @@
         "default": "Default",
         "transparent": "Transparent",
         "wireframe": "Wireframe"
+    },
+    "deeplinkFlyout": {
+        "buttonTitle": "Share",
+        "copyButtonText": "Copy link",
+        "copyConfirmationMessage": "Copied!",
+        "flyoutHeader": "Share scene",
+        "includeElementsOption": "Link with selected element",
+        "includeLayersOption": "Link with selected layers"
     },
     "elementsPanel": {
         "title": "Elements",

@@ -148,7 +148,10 @@
     "simulating": "Simulant",
     "liveStatus": "Numéro de paquet : {{packetNumber}} | {{totalSuccessfulPatches}}/{{totalTwinsPatched}} jumeaux mis à jour avec succès",
     "generateEnvironmentDescription": "Poussez des modèles, des jumeaux et des relations pour peupler votre environnement",
-    "simulateDescription": "Diffusez des événements dans votre environnement"
+    "simulateDescription": "Diffusez des événements dans votre environnement",
+    "pusherType": "Simulation Type",
+    "robotArms": "Bras de robot",
+    "dairyProduction": "Installation laitière"
   },
   "scenes": {
     "noScenes": "Vous n’avez pas de scènes 3D, ajoutez-en une nouvelle pour commencer.",
@@ -376,6 +379,7 @@
     "addElementDetails": "Ajouter des détails d’élément",
     "noBehaviorsOnElement": "Aucun comportement affecté à cet élément",
     "noElementsText": "Aucun élément créé pour l’instant",
+    "noResults": "Aucun résultat",
     "behaviorsInSceneTitle": "Dans cette scène ({{count}})",
     "createWithElement": "Créer avec {{element}}",
     "elementActions": "Actions des éléments",
@@ -484,9 +488,11 @@
       "expressionLabel": "Expression de propriété",
       "expressionPlaceholder": "Entrer l’expression de propriété",
       "selectProperty": "Sélectionner une propriété",
-      "toggleLabel": "Expression de propriété"
-    },
-    "noResults": "Aucun résultat trouvé"
+      "toggleLabel": "Expression de propriété",
+      "dropdownPlaceholder": "Sélectionner une propriété",
+      "none": "Aucun",
+      "customExpression": "Expression personnalisée"
+    }
   },
   "widgets": {
     "trend": {
@@ -767,5 +773,13 @@
     "zoom": "Zoom"
   },
   "active": "Actif",
-  "invalidValue": "Valeur non valide"
+  "invalidValue": "Valeur non valide",
+  "deeplinkFlyout": {
+    "buttonTitle": "Partager",
+    "copyButtonText": "Copier le lien",
+    "copyConfirmationMessage": "Copié!",
+    "flyoutHeader": "Partager la scène",
+    "includeElementsOption": "Lien avec l’élément sélectionné",
+    "includeLayersOption": "Liaison avec les calques sélectionnés"
+  }
 }
