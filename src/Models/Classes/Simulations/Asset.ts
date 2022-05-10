@@ -11,7 +11,7 @@ export class Asset {
     public twins: Array<AssetTwin>;
     public properties: Array<IAssetProperty<any>>;
 
-    public getDoubleValue = (maxValue: number, minValue: number) => {
+    public getDoubleValue = (minValue: number, maxValue: number) => {
         return (currentValue: number) => {
             const direction =
                 currentValue > maxValue

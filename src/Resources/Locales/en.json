@@ -152,8 +152,8 @@
         "generateEnvironmentDescription": "Push models, twins, and relationships to populate your environment",
         "simulateDescription": "Push events to your environment",
         "pusherType": "Simulation Type",
-        "robotArms": "Robot Arms",
-        "dairyProduction": "Dairy Facility"
+        "robotArms": "Robot arms",
+        "dairyProduction": "Dairy facility"
     },
     "scenes": {
         "noScenes": "You have no 3D scenes, add a new one to get started.",
