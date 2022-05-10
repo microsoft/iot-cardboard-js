@@ -491,7 +491,8 @@
       "dropdownPlaceholder": "Vyberte nemovitost",
       "none": "Žádný",
       "customExpression": "Vlastní výraz"
-    }
+    },
+    "noResults": "Nebyly nalezeny žádné výsledky"
   },
   "widgets": {
     "trend": {

@@ -491,7 +491,8 @@
       "dropdownPlaceholder": "选择房产",
       "none": "没有",
       "customExpression": "自定义表达式"
-    }
+    },
+    "noResults": "未找到结果"
   },
   "widgets": {
     "trend": {

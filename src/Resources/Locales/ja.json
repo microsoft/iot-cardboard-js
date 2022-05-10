@@ -491,7 +491,8 @@
       "dropdownPlaceholder": "プロパティの選択",
       "none": "何一つ",
       "customExpression": "カスタム式"
-    }
+    },
+    "noResults": "結果が見つかりません"
   },
   "widgets": {
     "trend": {

@@ -491,7 +491,8 @@
       "dropdownPlaceholder": "Välj en egenskap",
       "none": "Ingen",
       "customExpression": "Anpassat uttryck"
-    }
+    },
+    "noResults": "Inga resultat hittades"
   },
   "widgets": {
     "trend": {

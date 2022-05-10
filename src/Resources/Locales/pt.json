@@ -491,7 +491,8 @@
       "dropdownPlaceholder": "Selecione uma propriedade",
       "none": "Nenhum",
       "customExpression": "Expressão personalizada"
-    }
+    },
+    "noResults": "Nenhum resultado encontrado"
   },
   "widgets": {
     "trend": {

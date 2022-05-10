@@ -491,7 +491,8 @@
       "dropdownPlaceholder": "Выберите недвижимость",
       "none": "Никакой",
       "customExpression": "Пользовательское выражение"
-    }
+    },
+    "noResults": "Результаты не найдены"
   },
   "widgets": {
     "trend": {

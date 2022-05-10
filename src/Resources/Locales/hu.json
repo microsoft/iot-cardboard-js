@@ -491,7 +491,8 @@
       "dropdownPlaceholder": "Tulajdonság kijelölése",
       "none": "Egyik sem",
       "customExpression": "Egyéni kifejezés"
-    }
+    },
+    "noResults": "Nem található eredmény"
   },
   "widgets": {
     "trend": {

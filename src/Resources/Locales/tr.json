@@ -491,7 +491,8 @@
       "dropdownPlaceholder": "Bir mülk seçin",
       "none": "Hiç kimse",
       "customExpression": "Özel ifade"
-    }
+    },
+    "noResults": "Sonuç bulunamadı"
   },
   "widgets": {
     "trend": {

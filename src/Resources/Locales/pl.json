@@ -491,7 +491,8 @@
       "dropdownPlaceholder": "Wybierz właściwość",
       "none": "Żaden",
       "customExpression": "Wyrażenie niestandardowe"
-    }
+    },
+    "noResults": "Nie znaleziono wyników"
   },
   "widgets": {
     "trend": {

@@ -491,7 +491,8 @@
       "dropdownPlaceholder": "Selecione um imóvel",
       "none": "Nenhum.",
       "customExpression": "Expressão personalizada"
-    }
+    },
+    "noResults": "Não foram encontrados resultados"
   },
   "widgets": {
     "trend": {
