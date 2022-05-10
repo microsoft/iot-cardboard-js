@@ -19,9 +19,9 @@ const Template: ${componentName}Story = (args) => {
     return <${componentName} {...args} />;
 };
 
-export const ${componentName}Mock = Template.bind({}) as ${componentName}Story;
+export const Base = Template.bind({}) as ${componentName}Story;
 
-${componentName}Mock.args = {};
+Base.args = {};
 `,
     extension: `.stories.tsx`
 });

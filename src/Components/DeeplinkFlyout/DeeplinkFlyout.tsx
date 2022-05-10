@@ -11,7 +11,6 @@ import {
     Checkbox,
     classNamesFunction,
     css,
-    IconButton,
     IIconProps,
     PrimaryButton,
     Stack,
@@ -22,6 +21,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { useDeeplinkContext } from '../../Models/Context/DeeplinkContext';
 import { getDebugLogger } from '../../Models/Services/Utils';
+import HeaderControlButton from '../HeaderControlButton/HeaderControlButton';
 
 const debugLogging = true;
 const logDebugConsole = getDebugLogger('DeeplinkFlyout', debugLogging);
@@ -127,14 +127,17 @@ const DeeplinkFlyout: React.FC<IDeeplinkFlyoutProps> = (props) => {
 
     return (
         <div className={classNames.root}>
-            <IconButton
+            <HeaderControlButton
+                buttonProps={{
+                    iconProps: iconProps,
+                    id: flyoutButtonId,
+                    onClick: toggleFlyout,
+                    title: t(LOC_KEYS.buttonTitle)
+                }}
                 className={classNames.button}
                 data-testid={'deeplink-open-flyout'}
-                iconProps={iconProps}
-                id={flyoutButtonId}
-                onClick={toggleFlyout}
+                isActive={showFlyout}
                 styles={classNames.subComponentStyles.button?.()}
-                title={t(LOC_KEYS.buttonTitle)}
             />
             {showFlyout && (
                 <Callout

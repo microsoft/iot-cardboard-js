@@ -1,6 +1,5 @@
 import {
     ChoiceGroup,
-    DefaultButton,
     FocusTrapCallout,
     FontIcon,
     IChoiceGroupOption,
@@ -12,13 +11,15 @@ import {
     Theme,
     useTheme
 } from '@fluentui/react';
+import { useBoolean } from '@fluentui/react-hooks';
 import produce from 'immer';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { IADTBackgroundColor, ViewerModeStyles } from '../../Models/Constants';
 import DefaultStyle from '../../Resources/Static/default.svg';
 import TransparentStyle from '../../Resources/Static/transparent.svg';
 import WireframeStyle from '../../Resources/Static/wireframe.svg';
+import HeaderControlButton from '../HeaderControlButton/HeaderControlButton';
 
 export interface ViewerMode {
     objectColor: string;
@@ -39,7 +40,7 @@ const ModelViewerModePicker: React.FC<ModelViewerModePickerProps> = ({
     defaultViewerMode,
     viewerModeUpdated
 }) => {
-    const [showPicker, setShowPicker] = useState(false);
+    const [showPicker, { toggle: togglePicker }] = useBoolean(false);
     const [viewerMode, setViewerMode] = useState<ViewerMode>(null);
     const [colors, setColors] = useState<IColorCellProps[]>([]);
     const [backgrounds, setBackgrounds] = useState<IColorCellProps[]>([]);
@@ -51,41 +52,56 @@ const ModelViewerModePicker: React.FC<ModelViewerModePickerProps> = ({
     const theme = useTheme();
     const styles = getStyles(theme);
 
-    const styleOptions: IChoiceGroupOption[] = [
-        {
-            key: ViewerModeStyles.Default,
-            imageSrc: DefaultStyle,
-            imageAlt: t('modelViewerModePicker.default'),
-            selectedImageSrc: DefaultStyle,
-            imageSize: { width: 40, height: 40 },
-            text: t('modelViewerModePicker.default'),
-            styles: {
-                innerField: { width: 100, padding: 0, justifyContent: 'center' }
+    const options: IChoiceGroupOption[] = useMemo(
+        () => [
+            {
+                key: ViewerModeStyles.Default,
+                imageSrc: DefaultStyle,
+                imageAlt: t('modelViewerModePicker.default'),
+                selectedImageSrc: DefaultStyle,
+                imageSize: { width: 40, height: 40 },
+                text: t('modelViewerModePicker.default'),
+                styles: {
+                    innerField: {
+                        width: 100,
+                        padding: 0,
+                        justifyContent: 'center'
+                    }
+                }
+            },
+            {
+                key: ViewerModeStyles.Transparent,
+                imageSrc: TransparentStyle,
+                imageAlt: t('modelViewerModePicker.transparent'),
+                selectedImageSrc: TransparentStyle,
+                imageSize: { width: 40, height: 40 },
+                text: t('modelViewerModePicker.transparent'),
+                styles: {
+                    innerField: {
+                        width: 100,
+                        padding: 0,
+                        justifyContent: 'center'
+                    }
+                }
+            },
+            {
+                key: ViewerModeStyles.Wireframe,
+                imageSrc: WireframeStyle,
+                imageAlt: t('modelViewerModePicker.wireframe'),
+                selectedImageSrc: WireframeStyle,
+                imageSize: { width: 40, height: 40 },
+                text: t('modelViewerModePicker.wireframe'),
+                styles: {
+                    innerField: {
+                        width: 100,
+                        padding: 0,
+                        justifyContent: 'center'
+                    }
+                }
             }
-        },
-        {
-            key: ViewerModeStyles.Transparent,
-            imageSrc: TransparentStyle,
-            imageAlt: t('modelViewerModePicker.transparent'),
-            selectedImageSrc: TransparentStyle,
-            imageSize: { width: 40, height: 40 },
-            text: t('modelViewerModePicker.transparent'),
-            styles: {
-                innerField: { width: 100, padding: 0, justifyContent: 'center' }
-            }
-        },
-        {
-            key: ViewerModeStyles.Wireframe,
-            imageSrc: WireframeStyle,
-            imageAlt: t('modelViewerModePicker.wireframe'),
-            selectedImageSrc: WireframeStyle,
-            imageSize: { width: 40, height: 40 },
-            text: t('modelViewerModePicker.wireframe'),
-            styles: {
-                innerField: { width: 100, padding: 0, justifyContent: 'center' }
-            }
-        }
-    ];
+        ],
+        [t]
+    );
 
     useEffect(() => {
         const colors: IColorCellProps[] = [];
@@ -205,22 +221,22 @@ const ModelViewerModePicker: React.FC<ModelViewerModePickerProps> = ({
 
     return (
         <div>
-            <DefaultButton
-                iconProps={{ iconName: 'Color' }}
-                onClick={() => setShowPicker(!showPicker)}
-                id={calloutAnchor}
-            >
-                {t('modelViewerModePicker.buttonLabel')}
-            </DefaultButton>
+            <HeaderControlButton
+                buttonProps={{
+                    iconProps: { iconName: 'Color' },
+                    id: calloutAnchor,
+                    onClick: togglePicker,
+                    title: t('modelViewerModePicker.buttonLabel')
+                }}
+                isActive={showPicker}
+            />
             {showPicker && (
                 <FocusTrapCallout
-                    gapSpace={12}
                     focusTrapProps={{
                         isClickableOutsideFocusTrap: true
                     }}
                     target={`#${calloutAnchor}`}
-                    isBeakVisible={false}
-                    onDismiss={() => setShowPicker(false)}
+                    onDismiss={togglePicker}
                     backgroundColor={theme.semanticColors.bodyBackground}
                 >
                     <div className={styles.calloutContent}>
@@ -240,7 +256,7 @@ const ModelViewerModePicker: React.FC<ModelViewerModePickerProps> = ({
                                             height: '32'
                                         }
                                     }}
-                                    onClick={() => setShowPicker(false)}
+                                    onClick={togglePicker}
                                 />
                             </div>
                         </div>
@@ -249,7 +265,7 @@ const ModelViewerModePicker: React.FC<ModelViewerModePickerProps> = ({
                         </h4>
                         <ChoiceGroup
                             defaultSelectedKey={viewerMode?.style}
-                            options={styleOptions}
+                            options={options}
                             onChange={(e, option) =>
                                 updateStyle(option.key as ViewerModeStyles)
                             }
