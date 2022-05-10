@@ -119,7 +119,9 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
     const [isSelectedFileExistInBlob, setIsSelectedFileExistInBlob] = useState(
         false
     );
-    const [isShowOnGlobeEnabled, setIsShowOnGlobeEnabled] = useState(false);
+    const [isShowOnGlobeEnabled, setIsShowOnGlobeEnabled] = useState(
+        Boolean(sceneToEdit?.latitude && sceneToEdit?.longitude)
+    );
     const { t } = useTranslation();
 
     const put3DFileBlob = useAdapter({
@@ -412,7 +414,7 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
             <Stack horizontal styles={styleStack} tokens={{ childrenGap: 20 }}>
                 <StackItem>
                     <Toggle
-                        defaultChecked={false}
+                        defaultChecked={isShowOnGlobeEnabled}
                         label={t('scenes.showOnGlobe')}
                         onText="On"
                         offText="Off"
@@ -427,7 +429,7 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
                             <SpinButton
                                 label={t('scenes.latitude')}
                                 labelPosition={Position.top}
-                                defaultValue="0"
+                                defaultValue={String(scene?.latitude ?? 0)}
                                 min={-90}
                                 max={90}
                                 step={0.000001}
@@ -441,7 +443,7 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
                             <SpinButton
                                 label={t('scenes.longitude')}
                                 labelPosition={Position.top}
-                                defaultValue="0"
+                                defaultValue={String(scene?.longitude ?? 0)}
                                 min={-180}
                                 max={180}
                                 step={0.000001}

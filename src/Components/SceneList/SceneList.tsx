@@ -398,36 +398,38 @@ const SceneList: React.FC<SceneListProps> = ({
                     />
                 </div>
             )}
-            <SceneDialog
-                adapter={adapter}
-                isOpen={isSceneDialogOpen}
-                onClose={() => {
-                    setIsSceneDialogOpen(false);
-                    setSelectedScene(null);
-                    addScene.cancelAdapter();
-                    editScene.cancelAdapter();
-                }}
-                sceneToEdit={selectedScene}
-                onEditScene={(updatedScene) => {
-                    editScene.callAdapter({
-                        config: config,
-                        sceneId: updatedScene.id,
-                        scene: updatedScene
-                    });
-                }}
-                onAddScene={(newScene) => {
-                    let newId = createGUID();
-                    const existingIds = sceneList.map((s) => s.id);
-                    while (existingIds.includes(newId)) {
-                        newId = createGUID();
-                    }
-                    addScene.callAdapter({
-                        config: config,
-                        scene: { ...newScene, id: newId }
-                    });
-                }}
-                renderBlobDropdown={renderBlobDropdown}
-            />
+            {isSceneDialogOpen && (
+                <SceneDialog
+                    adapter={adapter}
+                    isOpen={isSceneDialogOpen}
+                    onClose={() => {
+                        setIsSceneDialogOpen(false);
+                        setSelectedScene(null);
+                        addScene.cancelAdapter();
+                        editScene.cancelAdapter();
+                    }}
+                    sceneToEdit={selectedScene}
+                    onEditScene={(updatedScene) => {
+                        editScene.callAdapter({
+                            config: config,
+                            sceneId: updatedScene.id,
+                            scene: updatedScene
+                        });
+                    }}
+                    onAddScene={(newScene) => {
+                        let newId = createGUID();
+                        const existingIds = sceneList.map((s) => s.id);
+                        while (existingIds.includes(newId)) {
+                            newId = createGUID();
+                        }
+                        addScene.callAdapter({
+                            config: config,
+                            scene: { ...newScene, id: newId }
+                        });
+                    }}
+                    renderBlobDropdown={renderBlobDropdown}
+                />
+            )}
         </BaseComponent>
     );
 };
