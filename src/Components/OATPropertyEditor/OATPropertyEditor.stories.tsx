@@ -18,7 +18,18 @@ export const Default = (_args, { globals: { theme } }) => {
         components: null,
         trimmedCopy: null,
         properties: [],
-        contents: []
+        contents: [
+            {
+                '@id': 'dtmi:com:adt:model1:New_Property_1',
+                '@type': ['Property'],
+                name: 'New_Property_1',
+                schema: 'string',
+                writable: true,
+                comment: 'default comment',
+                description: 'default description',
+                unit: 'default unit'
+            }
+        ]
     });
     const [templates, setTemplates] = useState([
         {
@@ -44,12 +55,14 @@ export const Default = (_args, { globals: { theme } }) => {
     ]);
 
     return (
-        <OATPropertyEditor
-            model={model}
-            setModel={setModel}
-            theme={theme}
-            templates={templates}
-            setTemplates={setTemplates}
-        />
+        <div>
+            <OATPropertyEditor
+                model={model}
+                setModel={setModel}
+                theme={theme}
+                templates={templates}
+                setTemplates={setTemplates}
+            />
+        </div>
     );
 };
