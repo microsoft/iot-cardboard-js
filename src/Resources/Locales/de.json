@@ -167,7 +167,8 @@
     "fromContainer": "Aus dem Container",
     "3dFileAsset": "3D-Datei-Asset",
     "overwriteIfExist": "Überschreiben, wenn die Datei bereits vorhanden ist",
-    "fileExistsErrorMessage": "Eine Datei mit diesem Namen ist bereits im Speicher vorhanden, Sie können diese Datei entweder aus dem Container auswählen oder überschreiben."
+    "fileExistsErrorMessage": "Eine Datei mit diesem Namen ist bereits im Speicher vorhanden, Sie können diese Datei entweder aus dem Container auswählen oder überschreiben.",
+    "description": "Beschreibung"
   },
   "BIMUpload": {
     "specifyFiles": "Angeben von Dateien, aus denen hochgeladen werden soll",

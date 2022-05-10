@@ -167,7 +167,8 @@
     "fromContainer": "Konteynırdan",
     "3dFileAsset": "3B dosya varlığı",
     "overwriteIfExist": "Dosya zaten varsa üzerine yaz",
-    "fileExistsErrorMessage": "Bu ada sahip bir dosya depolama alanında zaten varsa, bu dosyayı kapsayıcıdan seçebilir veya üzerine yazabilirsiniz."
+    "fileExistsErrorMessage": "Bu ada sahip bir dosya depolama alanında zaten varsa, bu dosyayı kapsayıcıdan seçebilir veya üzerine yazabilirsiniz.",
+    "description": "Tarif"
   },
   "BIMUpload": {
     "specifyFiles": "Karşıya yüklenecek dosyaları belirtme",

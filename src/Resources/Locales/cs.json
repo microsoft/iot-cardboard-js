@@ -167,7 +167,8 @@
     "fromContainer": "Z kontejneru",
     "3dFileAsset": "Datový zdroj 3D souboru",
     "overwriteIfExist": "Přepsat, pokud soubor již existuje",
-    "fileExistsErrorMessage": "Soubor s tímto názvem již existuje v úložišti, můžete tento soubor vybrat z kontejneru nebo přepsat."
+    "fileExistsErrorMessage": "Soubor s tímto názvem již existuje v úložišti, můžete tento soubor vybrat z kontejneru nebo přepsat.",
+    "description": "Popis"
   },
   "BIMUpload": {
     "specifyFiles": "Určení souborů, ze kterých chcete nahrát",
