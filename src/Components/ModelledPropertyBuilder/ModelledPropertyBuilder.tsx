@@ -1,4 +1,10 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, {
+    useCallback,
+    useEffect,
+    useMemo,
+    useRef,
+    useState
+} from 'react';
 import {
     defaultAllowedPropertyValueTypes,
     IFlattenedModelledPropertiesFormat,
@@ -47,7 +53,8 @@ const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = ({
     enableNoneDropdownOption = false,
     dropdownTestId = 'cb-modelled-property-dropdown-test-id',
     intellisensePlaceholder,
-    customLabel
+    customLabel,
+    onInternalModeChanged
 }) => {
     const { t } = useTranslation();
     const styles = getStyles();
@@ -57,6 +64,13 @@ const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = ({
     ] = useState<ModelledPropertyBuilderMode>(
         mode === 'TOGGLE' ? 'PROPERTY_SELECTION' : mode
     );
+
+    // When the expression can't be parsed into
+    // a dropdown option key on initial load,
+    // we snap to intellisense mode.  This ref is
+    // used to indicate that this logic has already been
+    // executed
+    const initialModeFound = useRef(false);
 
     const [dropdownOptions, setDropdownOptions] = useState([]);
 
@@ -79,13 +93,27 @@ const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = ({
     }, [modelledProperties]);
 
     useEffect(() => {
+        // Report internal mode change
+        onInternalModeChanged?.(internalMode);
+    }, [internalMode]);
+
+    useEffect(() => {
         // If expression doesn't match option key, snap to expression mode
         if (
             modelledProperties &&
             dropdownOptions?.length > 0 &&
-            !getIsExpressionValidOption(propertyExpression, dropdownOptions)
+            !initialModeFound.current
         ) {
-            setInternalMode('INTELLISENSE');
+            initialModeFound.current = true;
+            if (
+                !getDropdownOptionByExpressionKey(
+                    propertyExpression,
+                    dropdownOptions
+                ) ||
+                propertyExpression.expression === ''
+            ) {
+                setInternalMode('INTELLISENSE');
+            }
         }
     }, [propertyExpression, dropdownOptions, modelledProperties]);
 
@@ -145,14 +173,20 @@ const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = ({
             // When changing from intellisense mode to property selection mode
             // if expression doesn't match up with option, report onChange of
             // empty expression to reset dropdown
-            if (
-                !getIsExpressionValidOption(
+            if (internalMode === 'INTELLISENSE') {
+                const targetOption = getDropdownOptionByExpressionKey(
                     propertyExpression,
                     dropdownOptions
-                ) &&
-                internalMode === 'INTELLISENSE'
-            ) {
-                onChange({ expression: '' });
+                );
+                if (!targetOption) {
+                    onChange({ expression: '' });
+                } else {
+                    // If matching option found, reset propertyExpression to typed property
+                    onChange({
+                        expression: targetOption.data.property.fullPath,
+                        property: targetOption.data.property
+                    });
+                }
             }
 
             setInternalMode(newInternalMode);
@@ -234,20 +268,11 @@ const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = ({
     );
 };
 
-const getIsExpressionValidOption = (
+const getDropdownOptionByExpressionKey = (
     propertyExpression: PropertyExpression,
-    dropdownOptions: IDropdownOption<any>[]
+    dropdownOptions: IDropdownOption<IModelledPropertyDropdownItem>[]
 ) => {
-    // If expression doesn't match option key, snap to expression mode
-    if (
-        propertyExpression.expression === '' ||
-        dropdownOptions
-            .map((o) => o.key)
-            .includes(propertyExpression.expression)
-    ) {
-        return true;
-    }
-    return false;
+    return dropdownOptions.find((o) => o.key === propertyExpression.expression);
 };
 
 const choiceGroupOptions = [

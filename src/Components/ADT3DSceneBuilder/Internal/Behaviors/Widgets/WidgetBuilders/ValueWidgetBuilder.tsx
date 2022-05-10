@@ -6,7 +6,13 @@ import {
     useTheme
 } from '@fluentui/react';
 import produce from 'immer';
-import React, { useCallback, useContext, useEffect, useMemo } from 'react';
+import React, {
+    useCallback,
+    useContext,
+    useEffect,
+    useMemo,
+    useState
+} from 'react';
 import { useTranslation } from 'react-i18next';
 import { DTDLPropertyIconographyMap } from '../../../../../../Models/Constants/Constants';
 import { IDTDLPropertyType } from '../../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
@@ -30,6 +36,10 @@ const ValueWidgetBuilder: React.FC<IValueWidgetBuilderProps> = ({
         adapter,
         state: { selectedElements }
     } = useContext(SceneBuilderContext);
+
+    const [isManualTypeDropdownShown, setIsManualTypeDropdownShown] = useState(
+        false
+    );
 
     useEffect(() => {
         const {
@@ -87,7 +97,6 @@ const ValueWidgetBuilder: React.FC<IValueWidgetBuilderProps> = ({
 
     const iconStyles = { marginRight: '8px' };
     const optionWrapperStyle = { display: 'flex', alignItems: 'center' };
-    const optionTextStyle = { marginTop: '-4px' };
     const onRenderTypeOption = (option: IDropdownOption): JSX.Element => {
         return (
             <div style={optionWrapperStyle}>
@@ -99,7 +108,7 @@ const ValueWidgetBuilder: React.FC<IValueWidgetBuilderProps> = ({
                         title={option.data.icon}
                     />
                 )}
-                <span style={optionTextStyle}>{option.text}</span>
+                <span>{option.text}</span>
             </div>
         );
     };
@@ -117,7 +126,7 @@ const ValueWidgetBuilder: React.FC<IValueWidgetBuilderProps> = ({
                         title={option.data.icon}
                     />
                 )}
-                <span style={optionTextStyle}>{option.text}</span>
+                <span>{option.text}</span>
             </div>
         );
     };
@@ -158,18 +167,27 @@ const ValueWidgetBuilder: React.FC<IValueWidgetBuilderProps> = ({
                         formData.widgetConfiguration.valueExpression || ''
                 }}
                 onChange={onPropertyChange}
+                onInternalModeChanged={(internalMode) => {
+                    if (internalMode === 'INTELLISENSE') {
+                        setIsManualTypeDropdownShown(true);
+                    } else {
+                        setIsManualTypeDropdownShown(false);
+                    }
+                }}
                 required
             />
-            <Dropdown
-                required
-                placeholder={t('widgets.value.typePlaceholder')}
-                label={t('type')}
-                selectedKey={`value-type-${formData.widgetConfiguration.type}`}
-                onChange={onTypeChange}
-                options={typeOptions}
-                onRenderOption={onRenderTypeOption}
-                onRenderTitle={onRenderTypeTitle}
-            />
+            {isManualTypeDropdownShown && (
+                <Dropdown
+                    required
+                    placeholder={t('widgets.value.typePlaceholder')}
+                    label={t('type')}
+                    selectedKey={`value-type-${formData.widgetConfiguration.type}`}
+                    onChange={onTypeChange}
+                    options={typeOptions}
+                    onRenderOption={onRenderTypeOption}
+                    onRenderTitle={onRenderTypeTitle}
+                />
+            )}
         </div>
     );
 };

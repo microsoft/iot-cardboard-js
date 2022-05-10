@@ -74,6 +74,13 @@ export interface ModelledPropertyBuilderProps {
 	*/
     allowedPropertyValueTypes?: Array<PropertyValueType>;
 
+    /**
+     * Callback which fires when internal mode is changed
+     * This will also call on intial mode selection to ensure
+     * the consuming component is in sync with the internal mode
+     */
+    onInternalModeChanged?: (internalMode: ModelledPropertyBuilderMode) => void;
+
     /** 
         Reports back property or expression to consuming component when changed.
         
