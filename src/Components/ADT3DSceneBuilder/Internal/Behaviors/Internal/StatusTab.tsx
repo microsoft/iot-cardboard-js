@@ -21,7 +21,10 @@ import { getLeftPanelStyles } from '../../Shared/LeftPanel.styles';
 import useValueRangeBuilder from '../../../../../Models/Hooks/useValueRangeBuilder';
 import { SceneBuilderContext } from '../../../ADT3DSceneBuilder';
 import ModelledPropertyBuilder from '../../../../ModelledPropertyBuilder/ModelledPropertyBuilder';
-import { PropertyExpression } from '../../../../ModelledPropertyBuilder/ModelledPropertyBuilder.types';
+import {
+    numericPropertyValueTypes,
+    PropertyExpression
+} from '../../../../ModelledPropertyBuilder/ModelledPropertyBuilder.types';
 
 const getStatusFromBehavior = (behavior: IBehavior) =>
     behavior.visuals.filter(ViewerConfigUtility.isStatusColorVisual)[0] || null;
@@ -164,12 +167,7 @@ const StatusTab: React.FC<IStatusTabProps> = ({ onValidityChange }) => {
                                 ?.statusValueExpression || ''
                     }}
                     onChange={onPropertyChange}
-                    allowedPropertyValueTypes={[
-                        'double',
-                        'float',
-                        'integer',
-                        'long'
-                    ]}
+                    allowedPropertyValueTypes={numericPropertyValueTypes}
                     enableNoneDropdownOption
                 />
                 {showRangeBuilder && <Separator />}

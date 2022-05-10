@@ -151,6 +151,13 @@ export const defaultAllowedPropertyValueTypes: PropertyValueType[] = [
     'enum'
 ];
 
+export const numericPropertyValueTypes: PropertyValueType[] = [
+    'double',
+    'float',
+    'integer',
+    'long'
+];
+
 export const isResolvedTwinIdMode = (
     twinIdParams: BehaviorTwinIdParams | ResolvedTwinIdParams
 ): twinIdParams is ResolvedTwinIdParams => {

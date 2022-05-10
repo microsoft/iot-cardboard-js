@@ -51,7 +51,7 @@ export const useModelledProperties = ({
             // This mocks the same functionality as commiting the changes to a behavior
             // Note -- because of the complexity of this, it may be worth storing a draft config in state and
             // using that config rather than applying different sets of changes to the config on behavior update
-            const draftConfigSnapshot = ViewerConfigUtility.snapshotDraftBehaviorToConfig(
+            const draftConfigSnapshot = ViewerConfigUtility.copyConfigWithBehaviorAndElementEditsApplied(
                 twinIdParams.config,
                 twinIdParams.behavior,
                 twinIdParams.selectedElements,

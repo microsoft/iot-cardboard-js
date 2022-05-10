@@ -979,9 +979,9 @@ abstract class ViewerConfigUtility {
     };
 
     /** Given a draft behavior, current config & set of selected elements for behavior
-     *  @returns snapshot of config with behavior applied
+     *  @returns copy of config with behavior & element updates applied to target scene
      */
-    static snapshotDraftBehaviorToConfig = (
+    static copyConfigWithBehaviorAndElementEditsApplied = (
         config: I3DScenesConfig,
         behavior: IBehavior,
         selectedElements: ITwinToObjectMapping[],
