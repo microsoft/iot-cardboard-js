@@ -1011,7 +1011,7 @@ abstract class ViewerConfigUtility {
         }
 
         // Apply updated elements to config
-        configSnapshot = ViewerConfigUtility.editElements(
+        configSnapshot = ViewerConfigUtility.updateElementsInScene(
             configSnapshot,
             sceneId,
             selectedElements
