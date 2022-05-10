@@ -45,7 +45,7 @@ import SceneListModeToggle from './Internal/SceneListModeToggle';
 import {
     useDeeplinkContext,
     DeeplinkContextProvider
-} from '../../Models/Context/DeeplinkContext';
+} from '../../Models/Context/DeeplinkContext/DeeplinkContext';
 import { DeeplinkContextActionType } from '../../Models/Context/DeeplinkContext/DeeplinkContext.types';
 import { addHttpsPrefix } from '../../Models/Services/Utils';
 import ADT3DGlobe from '../../Components/ADT3DGlobe/ADT3DGlobe';

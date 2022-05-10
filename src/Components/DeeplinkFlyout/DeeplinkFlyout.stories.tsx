@@ -7,8 +7,8 @@ import {
 import DeeplinkFlyout from './DeeplinkFlyout';
 import { IDeeplinkFlyoutProps } from './DeeplinkFlyout.types';
 import { userEvent, within } from '@storybook/testing-library';
-import { DeeplinkContextProvider } from '../../Models/Context/DeeplinkContext';
-import { GET_MOCK_DEEPLINK_STATE } from '../../Models/Context/DeeplinkContext.mock';
+import { DeeplinkContextProvider } from '../../Models/Context/DeeplinkContext/DeeplinkContext';
+import { GET_MOCK_DEEPLINK_STATE } from '../../Models/Context/DeeplinkContext/DeeplinkContext.mock';
 
 const wrapperStyle = { width: '100%', height: '600px', padding: 16 };
 

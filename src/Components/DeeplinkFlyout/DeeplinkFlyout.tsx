@@ -20,7 +20,7 @@ import {
     useTheme
 } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
-import { useDeeplinkContext } from '../../Models/Context/DeeplinkContext';
+import { useDeeplinkContext } from '../../Models/Context/DeeplinkContext/DeeplinkContext';
 import { getDebugLogger } from '../../Models/Services/Utils';
 
 const debugLogging = true;

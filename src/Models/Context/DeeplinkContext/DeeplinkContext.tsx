@@ -6,6 +6,7 @@ import queryString from 'query-string';
 import React, { useCallback, useContext, useReducer } from 'react';
 import { ADT3DScenePageModes } from '../../Constants';
 import { getDebugLogger } from '../../Services/Utils';
+import { useConsumerDeeplinkContext } from '../ConsumerDeeplinkContext/ConsumerDeeplinkContext';
 import {
     IDeeplinkContext,
     IDeeplinkContextState,
@@ -103,9 +104,26 @@ export const DeeplinkContextProvider: React.FC<IDeeplinkContextProviderProps> = 
         DeeplinkContextReducer,
         defaultState
     );
+    const consumerDeeplinkContext = useConsumerDeeplinkContext();
     const getDeeplinkCallback = useCallback(
-        (options: IDeeplinkOptions) => buildDeeplink(deeplinkState, options),
-        [deeplinkState]
+        (options: IDeeplinkOptions) => {
+            let link = buildDeeplink(deeplinkState, options);
+            // if the consumer provides a callback, call them and use the returned value
+            if (consumerDeeplinkContext?.onGenerateDeeplink) {
+                logDebugConsole(
+                    'debug',
+                    'Consumer deeplink callback present, passing string to consumer. Initial link:',
+                    link
+                );
+                link = consumerDeeplinkContext?.onGenerateDeeplink(
+                    link,
+                    options
+                );
+                logDebugConsole('debug', 'Consumer modified link:', link);
+            }
+            return link;
+        },
+        [deeplinkState, consumerDeeplinkContext?.onGenerateDeeplink]
     );
     return (
         <DeeplinkContext.Provider
