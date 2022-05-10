@@ -3,12 +3,7 @@ import { ComponentStory } from '@storybook/react';
 import { userEvent, within } from '@storybook/testing-library';
 import MockAdapter from '../../Adapters/MockAdapter';
 import ADT3DSceneBuilder from './ADT3DSceneBuilder';
-import {
-    IStoryContext,
-    openDropdownMenu,
-    selectDropDownMenuItem,
-    sleep
-} from '../../Models/Services/StoryUtilities';
+import { IStoryContext, sleep } from '../../Models/Services/StoryUtilities';
 import { IADT3DSceneBuilderCardProps } from './ADT3DSceneBuilder.types';
 import trucksMockVConfig from '../../Adapters/__mockData__/TruckAndMachinesConfig.json';
 import { deepCopy } from '../../Models/Services/Utils';

@@ -29,7 +29,6 @@ import {
     ComponentErrorType,
     DtdlInterface,
     IADTTwin,
-    IAliasedTwinProperty,
     IBlobAdapter,
     IBlobFile,
     IGetKeyValuePairsAdditionalParameters,
@@ -64,11 +63,9 @@ import {
 import BlobsData from '../Models/Classes/AdapterDataClasses/BlobsData';
 import {
     I3DScenesConfig,
-    IBehavior,
     ITwinToObjectMapping
 } from '../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { DatasourceType, ElementType } from '../Models/Classes/3DVConfig';
-import ViewerConfigUtility from '../Models/Classes/ViewerConfigUtility';
 import { SubscriptionData } from '../Models/Classes/AdapterDataClasses/AzureManagementModelData';
 import { ADTAdapterPatchData } from '../Models/Classes/AdapterDataClasses/ADTAdapterData';
 import ExpandedADTModelData from '../Models/Classes/AdapterDataClasses/ExpandedADTModelData';

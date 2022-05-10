@@ -31,7 +31,6 @@ import {
     DTwinUpdateEvent,
     IComponentError,
     linkedTwinName,
-    IAliasedTwinProperty,
     IADTModel,
     modelRefreshMaxAge,
     twinRefreshMaxAge
@@ -66,7 +65,6 @@ import { SceneVisual } from '../Models/Classes/SceneView.types';
 import ViewerConfigUtility from '../Models/Classes/ViewerConfigUtility';
 import {
     I3DScenesConfig,
-    IBehavior,
     ITwinToObjectMapping
 } from '../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { ElementType } from '../Models/Classes/3DVConfig';

@@ -64,9 +64,7 @@ import { ErrorObject } from 'ajv';
 import BlobsData from '../Classes/AdapterDataClasses/BlobsData';
 import {
     I3DScenesConfig,
-    IBehavior,
-    IScene,
-    ITwinToObjectMapping
+    IScene
 } from '../Types/Generated/3DScenesConfiguration-v1.0.0';
 import ADT3DSceneAdapter from '../../Adapters/ADT3DSceneAdapter';
 import { WrapperMode } from '../../Components/3DV/SceneView.types';
