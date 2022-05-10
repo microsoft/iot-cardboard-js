@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from 'react';
+import React from 'react';
 import {
     ISimpleCalloutProps,
     ISimpleCalloutStyleProps,
@@ -13,7 +13,6 @@ import {
     Text
 } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
-import { useDeeplinkContext } from '../../../../Models/Context/DeeplinkContext/DeeplinkContext';
 import { getDebugLogger } from '../../../../Models/Services/Utils';
 
 const debugLogging = false;
@@ -40,7 +39,7 @@ const SimpleCallout: React.FC<ISimpleCalloutProps> = (props) => {
 
     logDebugConsole('debug', 'Render simple callout. Props', props);
     return (
-        <Stack>
+        <Stack className={classNames.root}>
             <Text>{t(LOC_KEYS.copyConfirmationMessage)}</Text>
         </Stack>
     );

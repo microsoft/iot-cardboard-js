@@ -15,6 +15,7 @@ export interface ISimpleCalloutStyleProps {
 }
 export interface ISimpleCalloutStyles {
     root: IStyle;
+    message: IStyle;
 
     /**
      * SubComponent styles.

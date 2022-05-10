@@ -98,7 +98,7 @@ const OptionsCallout: React.FC<IOptionsCalloutProps> = (props) => {
     }, [getDeeplink, includeElement, includeLayers]);
 
     return (
-        <Stack tokens={{ childrenGap: 14 }}>
+        <Stack className={classNames.root} tokens={{ childrenGap: 14 }}>
             <h4 className={classNames.calloutTitle}>
                 {t(LOC_KEYS.flyoutHeader)}
             </h4>

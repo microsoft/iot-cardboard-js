@@ -5,7 +5,7 @@ module.exports = (componentName) => ({
         I${componentName}Styles
     } from './${componentName}.types';
     
-    export const classPrefix = 'cb-${componentName}';
+    export const classPrefix = 'cb-${componentName.toLowerCase()}';
     const classNames = {
         root: \`\${classPrefix}-root\`
     };
