@@ -743,7 +743,9 @@
     "publish": "출판하다",
     "sync": "동기화",
     "import": "수입",
-    "export": "수출"
+    "export": "수출",
+    "undo": "취소",
+    "redo": "다시"
   },
   "cameraControls": {
     "mouseControls": "마우스 컨트롤",

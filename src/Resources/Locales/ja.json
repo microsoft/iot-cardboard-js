@@ -743,7 +743,9 @@
     "publish": "著す",
     "sync": "同期",
     "import": "輸入",
-    "export": "輸出"
+    "export": "輸出",
+    "undo": "外す",
+    "redo": "やり直す"
   },
   "cameraControls": {
     "mouseControls": "マウスコントロール",

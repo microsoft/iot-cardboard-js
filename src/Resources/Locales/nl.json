@@ -743,7 +743,9 @@
     "publish": "Uitgeven",
     "sync": "Sync",
     "import": "Importeren",
-    "export": "Exporteren"
+    "export": "Exporteren",
+    "undo": "Ongedaan maken",
+    "redo": "Opnieuw"
   },
   "cameraControls": {
     "mouseControls": "Muisbediening",

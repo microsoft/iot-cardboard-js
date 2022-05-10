@@ -743,7 +743,9 @@
     "publish": "发布",
     "sync": "同步",
     "import": "进口",
-    "export": "出口"
+    "export": "出口",
+    "undo": "撤消",
+    "redo": "重做"
   },
   "cameraControls": {
     "mouseControls": "鼠标控制",

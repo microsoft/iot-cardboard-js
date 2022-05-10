@@ -743,7 +743,9 @@
     "publish": "Publikować",
     "sync": "synchronizować",
     "import": "Import",
-    "export": "Eksport"
+    "export": "Eksport",
+    "undo": "Cofnąć",
+    "redo": "Ponowić"
   },
   "cameraControls": {
     "mouseControls": "Sterowanie myszą",

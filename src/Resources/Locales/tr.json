@@ -743,7 +743,9 @@
     "publish": "Yayınlamak",
     "sync": "Eşitleme",
     "import": "Ithalat",
-    "export": "Ihracat"
+    "export": "Ihracat",
+    "undo": "Geri almak",
+    "redo": "Yinele"
   },
   "cameraControls": {
     "mouseControls": "Fare Kontrolleri",

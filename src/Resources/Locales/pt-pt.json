@@ -743,7 +743,9 @@
     "publish": "Publicar",
     "sync": "sincronização",
     "import": "Importação",
-    "export": "Exportação"
+    "export": "Exportação",
+    "undo": "Desfazer",
+    "redo": "Redo"
   },
   "cameraControls": {
     "mouseControls": "Controlos do rato",
