@@ -98,6 +98,7 @@ const SceneList: React.FC<SceneListProps> = ({
         if (!scenesConfig.adapterResult.hasNoData()) {
             const config: I3DScenesConfig = scenesConfig.adapterResult.getData();
             setConfig(config);
+            checkForLatAndLongValues(config);
             setSceneList(() => {
                 let scenes;
                 try {
@@ -222,7 +223,62 @@ const SceneList: React.FC<SceneListProps> = ({
                 return <span>{fieldContent}</span>;
         }
     };
-
+    const columns: IColumn[] = [
+        {
+            key: 'scene-name',
+            name: t('name'),
+            minWidth: 100,
+            isResizable: true,
+            onRender: (item: IScene) => <span>{item.displayName}</span>
+        },
+        {
+            key: 'scene-urls',
+            name: t('scenes.blobUrl'),
+            minWidth: 400,
+            isResizable: true,
+            onRender: (item: IScene) => (
+                <ul className="cb-scene-list-blob-urls">
+                    {item.assets.map((a: IAsset, idx) => {
+                        return <li key={`blob-url-${idx}`}>{a.url}</li>;
+                    })}
+                </ul>
+            )
+        },
+        {
+            key: 'scene-description',
+            name: t('scenes.description'),
+            minWidth: 100,
+            isResizable: true,
+            onRender: (item: IScene) => <span>{item.description}</span>
+        },
+        {
+            key: 'scene-action',
+            name: t('action'),
+            fieldName: 'action',
+            minWidth: 100
+        }
+    ];
+    const checkForLatAndLongValues = (config: I3DScenesConfig) => {
+        const result = ViewerConfigUtility.checkScenesHaveLatLongDefined(
+            config
+        );
+        if (result) {
+            columns.push(
+                {
+                    key: 'scene-latitude',
+                    name: t('scenes.sceneLatitude'),
+                    minWidth: 100,
+                    onRender: (item: IScene) => item.latitude
+                },
+                {
+                    key: 'scene-longitude',
+                    name: t('scenes.sceneLongitude'),
+                    minWidth: 100,
+                    onRender: (item: IScene) => item.longitude
+                }
+            );
+        }
+    };
     const renderBlobDropdown = useCallback(
         (
             onChange?: (blobUrl: string) => void,
@@ -289,56 +345,7 @@ const SceneList: React.FC<SceneListProps> = ({
                         <DetailsList
                             selectionMode={SelectionMode.none}
                             items={sceneList}
-                            columns={[
-                                {
-                                    key: 'scene-name',
-                                    name: t('name'),
-                                    minWidth: 100,
-                                    isResizable: true,
-                                    onRender: (item: IScene) => (
-                                        <span>{item.displayName}</span>
-                                    )
-                                },
-                                {
-                                    key: 'scene-urls',
-                                    name: t('scenes.blobUrl'),
-                                    minWidth: 400,
-                                    isResizable: true,
-                                    onRender: (item: IScene) => (
-                                        <ul className="cb-scene-list-blob-urls">
-                                            {item.assets.map(
-                                                (a: IAsset, idx) => {
-                                                    return (
-                                                        <li
-                                                            key={`blob-url-${idx}`}
-                                                        >
-                                                            {a.url}
-                                                        </li>
-                                                    );
-                                                }
-                                            )}
-                                        </ul>
-                                    )
-                                },
-                                {
-                                    key: 'scene-latitude',
-                                    name: t('scenes.sceneLatitude'),
-                                    minWidth: 100,
-                                    onRender: (item: IScene) => item.latitude
-                                },
-                                {
-                                    key: 'scene-longitude',
-                                    name: t('scenes.sceneLongitude'),
-                                    minWidth: 100,
-                                    onRender: (item: IScene) => item.longitude
-                                },
-                                {
-                                    key: 'scene-action',
-                                    name: t('action'),
-                                    fieldName: 'action',
-                                    minWidth: 100
-                                }
-                            ]}
+                            columns={columns}
                             setKey="set"
                             layoutMode={DetailsListLayoutMode.justified}
                             onRenderRow={renderListRow}

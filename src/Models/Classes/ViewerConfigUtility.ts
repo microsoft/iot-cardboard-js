@@ -1,3 +1,4 @@
+import { FabricSlots } from '@fluentui/react';
 import { unlayeredBehaviorKey } from '../../Components/LayerDropdown/LayerDropdown';
 import { IAliasedTwinProperty } from '../Constants/Interfaces';
 import { deepCopy } from '../Services/Utils';
@@ -974,7 +975,12 @@ abstract class ViewerConfigUtility {
 
         return twinAliases;
     };
-
+    static checkScenesHaveLatLongDefined = (config: I3DScenesConfig) => {
+        const scene = config.configuration.scenes.find(
+            (s) => s.latitude !== null || s.longitude !== null
+        );
+        return scene ? true : false;
+    };
     /**
      * Gets config, sceneId and selected elements in a behavior
      * Returns twin alias items available for a behavior to add which is

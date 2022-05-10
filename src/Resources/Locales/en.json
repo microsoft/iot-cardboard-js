@@ -168,6 +168,7 @@
         "3dFileSelectionMode": "3D file selection mode",
         "fromContainer": "From container",
         "3dFileAsset": "3D file asset",
+        "description": "Description",
         "overwriteIfExist": "Overwrite if file already exists",
         "fileExistsErrorMessage": "A file with this name already exist in storage, you can either select that file from container or overwrite."
     },

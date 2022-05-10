@@ -21,8 +21,13 @@ import {
     memoizeFunction,
     Pivot,
     PivotItem,
+    Position,
     PrimaryButton,
+    SpinButton,
+    Stack,
+    StackItem,
     TextField,
+    Toggle,
     TooltipHost
 } from '@fluentui/react';
 import File3DUploader from './3DFileUploader';
@@ -30,7 +35,7 @@ import { Supported3DFileTypes } from '../../../Models/Constants/Enums';
 import { IBlobFile } from '../../../Models/Constants/Interfaces';
 import useAdapter from '../../../Models/Hooks/useAdapter';
 import { IScene } from '../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
-import { deepCopy } from '../../../Models/Services/Utils';
+import { deepCopy, getNumericPart } from '../../../Models/Services/Utils';
 
 const fileUploadLabelTooltipStyles: ITooltipHostStyles = {
     root: {
@@ -96,6 +101,9 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
     renderBlobDropdown
 }) => {
     const [newSceneName, setNewSceneName] = useState('');
+    const [newSceneDescription, setNewSceneDescription] = useState('');
+    const [newLatitudeValue, setNewLatitudeValue] = useState(0);
+    const [newLongtitudeValue, setNewLongtitudeValue] = useState(0);
     const [newSceneBlobUrl, setNewSceneBlobUrl] = useState('');
     const [scene, setScene] = useState<IScene>({ ...sceneToEdit });
     const sceneRef = useRef(scene);
@@ -110,6 +118,7 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
     const [isSelectedFileExistInBlob, setIsSelectedFileExistInBlob] = useState(
         false
     );
+    const [isShowOnGlobeEnabled, setIsShowOnGlobeEnabled] = useState(false);
     const { t } = useTranslation();
 
     const put3DFileBlob = useAdapter({
@@ -134,18 +143,7 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
                     ]
                 });
             } else {
-                const newScene: IScene = {
-                    id: undefined,
-                    displayName: newSceneName,
-                    assets: [
-                        {
-                            type: '3DAsset',
-                            url: newlyAdded3DFile.Path
-                        }
-                    ],
-                    elements: [],
-                    behaviorIDs: []
-                };
+                const newScene = getNewScene(newlyAdded3DFile.Path);
                 onAddScene(newScene);
             }
         }
@@ -213,6 +211,43 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
         [sceneToEdit, scene]
     );
 
+    const handleSceneDescriptionChange = useCallback(
+        (e) => {
+            if (sceneToEdit) {
+                const selectedSceneCopy: IScene = deepCopy(sceneRef.current);
+                selectedSceneCopy.description = e.currentTarget.value;
+                setScene(selectedSceneCopy);
+            } else {
+                setNewSceneDescription(e.currentTarget.value);
+            }
+        },
+        [sceneToEdit, scene]
+    );
+
+    const handleLatitudeValueChange = useCallback(
+        (e) => {
+            if (sceneToEdit) {
+                const selectedSceneCopy: IScene = deepCopy(sceneRef.current);
+                selectedSceneCopy.latitude = Number(e.currentTarget.value);
+                setScene(selectedSceneCopy);
+            } else {
+                setNewLatitudeValue(Number(e.currentTarget.value));
+            }
+        },
+        [sceneToEdit, scene]
+    );
+    const handleLongitudeValueChange = useCallback(
+        (e) => {
+            if (sceneToEdit) {
+                const selectedSceneCopy: IScene = deepCopy(sceneRef.current);
+                selectedSceneCopy.longitude = Number(e.currentTarget.value);
+                setScene(selectedSceneCopy);
+            } else {
+                setNewLongtitudeValue(Number(e.currentTarget.value));
+            }
+        },
+        [sceneToEdit, scene]
+    );
     const handleBlobUrlChange = useCallback(
         (blobUrl: string) => {
             if (sceneToEdit) {
@@ -230,6 +265,24 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
         setIsOverwriteFile(checked);
     }, []);
 
+    const getNewScene = (assetUrl: string) => {
+        return {
+            id: undefined,
+            displayName: newSceneName,
+            description: newSceneDescription,
+            longitude: newLongtitudeValue,
+            latitude: newLatitudeValue,
+            assets: [
+                {
+                    type: '3DAsset',
+                    url: assetUrl
+                }
+            ],
+            elements: [],
+            behaviorIDs: []
+        };
+    };
+
     const handleSubmit = () => {
         if (
             selected3DFilePivotItem === SelectionModeOf3DFile.FromComputer &&
@@ -242,18 +295,7 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
             if (sceneToEdit) {
                 onEditScene(scene);
             } else {
-                const newScene: IScene = {
-                    id: undefined,
-                    displayName: newSceneName,
-                    assets: [
-                        {
-                            type: '3DAsset',
-                            url: newSceneBlobUrl
-                        }
-                    ],
-                    elements: [],
-                    behaviorIDs: []
-                };
+                const newScene = getNewScene(newSceneBlobUrl);
                 onAddScene(newScene);
             }
         }
@@ -298,6 +340,10 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
 
     const resetState = useCallback(() => {
         setNewSceneName('');
+        setNewSceneDescription('');
+        setNewLatitudeValue(0);
+        setNewLongtitudeValue(0);
+        setIsShowOnGlobeEnabled(false);
         setNewSceneBlobUrl('');
         setIsSelectedFileExistInBlob(false);
         setIsOverwriteFile(false);
@@ -328,6 +374,12 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
         ]
     );
 
+    const handleGlobeToggle = (
+        ev: React.MouseEvent<HTMLElement>,
+        checked?: boolean
+    ) => {
+        setIsShowOnGlobeEnabled(checked);
+    };
     return (
         <Dialog
             minWidth={640}
@@ -344,6 +396,60 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
                 value={sceneToEdit ? scene?.displayName : newSceneName}
                 onChange={handleNameChange}
             />
+            <TextField
+                className="cb-scene-list-form-dialog-description-field"
+                label={t('scenes.description')}
+                title={newSceneDescription}
+                value={sceneToEdit ? scene?.description : newSceneDescription}
+                onChange={handleSceneDescriptionChange}
+            />
+            <div style={{ margin: '8px', marginLeft: 0 }}>
+                <Stack horizontal tokens={{ childrenGap: 20 }}>
+                    <StackItem>
+                        <Toggle
+                            defaultChecked={false}
+                            label="Show on globe"
+                            onText="On"
+                            offText="Off"
+                            onFocus={() => console.log('onFocus called')}
+                            onBlur={() => console.log('onBlur called')}
+                            onChange={handleGlobeToggle}
+                        />
+                    </StackItem>
+                    {isShowOnGlobeEnabled && (
+                        <>
+                            <StackItem>
+                                <SpinButton
+                                    label="Latitude"
+                                    labelPosition={Position.top}
+                                    defaultValue="0"
+                                    min={-90}
+                                    max={90}
+                                    step={0.000001}
+                                    styles={{
+                                        spinButtonWrapper: { width: 200 }
+                                    }}
+                                    onChange={handleLatitudeValueChange}
+                                />
+                            </StackItem>
+                            <StackItem>
+                                <SpinButton
+                                    label="Longitude"
+                                    labelPosition={Position.top}
+                                    defaultValue="0"
+                                    min={-180}
+                                    max={180}
+                                    step={0.000001}
+                                    styles={{
+                                        spinButtonWrapper: { width: 200 }
+                                    }}
+                                    onChange={handleLongitudeValueChange}
+                                />
+                            </StackItem>
+                        </>
+                    )}
+                </Stack>
+            </div>
             <div>
                 <Label className="cb-scene-list-form-dialog-3d-file-pivot-label">
                     {t('scenes.3dFileAsset')}
