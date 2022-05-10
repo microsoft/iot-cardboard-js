@@ -259,9 +259,7 @@ const SceneList: React.FC<SceneListProps> = ({
         }
     ];
     const checkForLatAndLongValues = (config: I3DScenesConfig) => {
-        const result = ViewerConfigUtility.checkScenesHaveLatLongDefined(
-            config
-        );
+        const result = ViewerConfigUtility.hasGlobeCoordinates(config);
         if (result) {
             columns.push(
                 {

@@ -1,4 +1,3 @@
-import { FabricSlots } from '@fluentui/react';
 import { unlayeredBehaviorKey } from '../../Components/LayerDropdown/LayerDropdown';
 import { IAliasedTwinProperty } from '../Constants/Interfaces';
 import { deepCopy } from '../Services/Utils';
@@ -975,7 +974,7 @@ abstract class ViewerConfigUtility {
 
         return twinAliases;
     };
-    static checkScenesHaveLatLongDefined = (config: I3DScenesConfig) => {
+    static hasGlobeCoordinates = (config: I3DScenesConfig) => {
         const scene = config.configuration.scenes.find(
             (s) => s.latitude !== null || s.longitude !== null
         );

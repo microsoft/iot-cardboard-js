@@ -158,8 +158,9 @@
     "scenes": {
         "noScenes": "You have no 3D scenes, add a new one to get started.",
         "addScene": "Add 3D scene",
-        "sceneLatitude": "Latitude",
-        "sceneLongitude": "Longitude",
+        "latitude": "Latitude",
+        "longitude": "Longitude",
+        "showOnGlobe": "Show on globe",
         "blobUrl": "3D file blob URL",
         "addDialogTitle": "Create new scene",
         "addDialogSubText": "Link your scene with the URL of your 3D file in blob storage",

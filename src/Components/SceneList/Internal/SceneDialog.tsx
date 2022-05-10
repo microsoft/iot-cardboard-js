@@ -16,6 +16,7 @@ import {
     IDialogContentProps,
     IModalProps,
     IModalStyles,
+    IStackStyles,
     ITooltipHostStyles,
     Label,
     memoizeFunction,
@@ -35,7 +36,7 @@ import { Supported3DFileTypes } from '../../../Models/Constants/Enums';
 import { IBlobFile } from '../../../Models/Constants/Interfaces';
 import useAdapter from '../../../Models/Hooks/useAdapter';
 import { IScene } from '../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
-import { deepCopy, getNumericPart } from '../../../Models/Services/Utils';
+import { deepCopy } from '../../../Models/Services/Utils';
 
 const fileUploadLabelTooltipStyles: ITooltipHostStyles = {
     root: {
@@ -373,7 +374,12 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
             put3DFileBlob
         ]
     );
-
+    const styleStack: IStackStyles = {
+        root: {
+            margin: '8px',
+            marginLeft: 0
+        }
+    };
     const handleGlobeToggle = (
         ev: React.MouseEvent<HTMLElement>,
         checked?: boolean
@@ -403,53 +409,51 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
                 value={sceneToEdit ? scene?.description : newSceneDescription}
                 onChange={handleSceneDescriptionChange}
             />
-            <div style={{ margin: '8px', marginLeft: 0 }}>
-                <Stack horizontal tokens={{ childrenGap: 20 }}>
-                    <StackItem>
-                        <Toggle
-                            defaultChecked={false}
-                            label="Show on globe"
-                            onText="On"
-                            offText="Off"
-                            onFocus={() => console.log('onFocus called')}
-                            onBlur={() => console.log('onBlur called')}
-                            onChange={handleGlobeToggle}
-                        />
-                    </StackItem>
-                    {isShowOnGlobeEnabled && (
-                        <>
-                            <StackItem>
-                                <SpinButton
-                                    label="Latitude"
-                                    labelPosition={Position.top}
-                                    defaultValue="0"
-                                    min={-90}
-                                    max={90}
-                                    step={0.000001}
-                                    styles={{
-                                        spinButtonWrapper: { width: 200 }
-                                    }}
-                                    onChange={handleLatitudeValueChange}
-                                />
-                            </StackItem>
-                            <StackItem>
-                                <SpinButton
-                                    label="Longitude"
-                                    labelPosition={Position.top}
-                                    defaultValue="0"
-                                    min={-180}
-                                    max={180}
-                                    step={0.000001}
-                                    styles={{
-                                        spinButtonWrapper: { width: 200 }
-                                    }}
-                                    onChange={handleLongitudeValueChange}
-                                />
-                            </StackItem>
-                        </>
-                    )}
-                </Stack>
-            </div>
+            <Stack horizontal styles={styleStack} tokens={{ childrenGap: 20 }}>
+                <StackItem>
+                    <Toggle
+                        defaultChecked={false}
+                        label={t('scenes.showOnGlobe')}
+                        onText="On"
+                        offText="Off"
+                        onFocus={() => console.log('onFocus called')}
+                        onBlur={() => console.log('onBlur called')}
+                        onChange={handleGlobeToggle}
+                    />
+                </StackItem>
+                {isShowOnGlobeEnabled && (
+                    <>
+                        <StackItem>
+                            <SpinButton
+                                label={t('scenes.latitude')}
+                                labelPosition={Position.top}
+                                defaultValue="0"
+                                min={-90}
+                                max={90}
+                                step={0.000001}
+                                styles={{
+                                    spinButtonWrapper: { width: 200 }
+                                }}
+                                onChange={handleLatitudeValueChange}
+                            />
+                        </StackItem>
+                        <StackItem>
+                            <SpinButton
+                                label={t('scenes.longitude')}
+                                labelPosition={Position.top}
+                                defaultValue="0"
+                                min={-180}
+                                max={180}
+                                step={0.000001}
+                                styles={{
+                                    spinButtonWrapper: { width: 200 }
+                                }}
+                                onChange={handleLongitudeValueChange}
+                            />
+                        </StackItem>
+                    </>
+                )}
+            </Stack>
             <div>
                 <Label className="cb-scene-list-form-dialog-3d-file-pivot-label">
                     {t('scenes.3dFileAsset')}
