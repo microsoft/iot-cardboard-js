@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { FontIcon, TextField, ActionButton } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { getHeaderStyles } from './OATHeader.styles';
 import JSZip from 'jszip';
 import { IOATTwinModelNodes } from '../../Models/Constants';
+import { CommandHistoryContext } from '../../Pages/OATEditorPage/context/CommandHistoryContext';
 
 type OATHeaderProps = {
     elements: IOATTwinModelNodes[];
@@ -11,6 +12,7 @@ type OATHeaderProps = {
 
 const OATHeader = ({ elements }: OATHeaderProps) => {
     const { t } = useTranslation();
+    const { undo, redo, canUndo, canRedo } = useContext(CommandHistoryContext);
     const headerStyles = getHeaderStyles();
 
     const downloadModelExportBlob = (blob) => {
@@ -98,6 +100,20 @@ const OATHeader = ({ elements }: OATHeaderProps) => {
                             className={headerStyles.menuIcon}
                         />
                         {t('OATHeader.export')}
+                    </ActionButton>
+                    <ActionButton onClick={() => undo()} disabled={!canUndo()}>
+                        <FontIcon
+                            iconName={'Undo'}
+                            className={headerStyles.menuIcon}
+                        />
+                        {t('OATHeader.undo')}
+                    </ActionButton>
+                    <ActionButton onClick={() => redo()} disabled={!canRedo()}>
+                        <FontIcon
+                            iconName={'Redo'}
+                            className={headerStyles.menuIcon}
+                        />
+                        {t('OATHeader.redo')}
                     </ActionButton>
                 </div>
                 <div className="cb-oat-header-versioning"></div>

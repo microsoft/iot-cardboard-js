@@ -4,8 +4,18 @@ import OATModelList from '../../Components/OATModelList/OATModelList';
 import OATGraphViewer from '../../Components/OATGraphViewer/OATGraphViewer';
 import OATPropertyEditor from '../../Components/OATPropertyEditor/OATPropertyEditor';
 import { getEditorPageStyles } from './OATEditorPage.Styles';
+import { CommandHistoryContext } from './context/CommandHistoryContext';
+import useCommandHistory from './hooks/useCommandHistory';
 
 const OATEditorPage = ({ theme }) => {
+    const {
+        history,
+        execute,
+        redo,
+        undo,
+        canRedo,
+        canUndo
+    } = useCommandHistory([]);
     const [elementHandler, setElementHandler] = useState([]);
     const [templatesActive, setTemplatesActive] = useState(false);
     const EditorPageStyles = getEditorPageStyles();
@@ -38,43 +48,54 @@ const OATEditorPage = ({ theme }) => {
         }
     ]);
 
+    const providerValue = {
+        history,
+        execute,
+        redo,
+        undo,
+        canRedo,
+        canUndo
+    };
+
     return (
-        <div className={EditorPageStyles.container}>
-            <OATHeader elements={elementHandler.digitalTwinsModels} />
-            <div
-                className={
-                    templatesActive
-                        ? EditorPageStyles.componentTemplate
-                        : EditorPageStyles.component
-                }
-            >
-                <OATModelList
-                    elements={elementHandler.digitalTwinsModels}
-                    onDeleteModel={setDeletedModel}
-                    onSelectedModel={setSelectedModel}
-                    onEditedName={setEditedName}
-                    onEditedId={setEditedId}
-                />
-                <OATGraphViewer
-                    onElementsUpdate={setElementHandler}
-                    model={model}
-                    setModel={setModel}
-                    deletedModel={deletedModel}
-                    selectModel={selectedModel}
-                    editedName={editedName}
-                    editedId={editedId}
-                />
-                <OATPropertyEditor
-                    model={model}
-                    setModel={setModel}
-                    templates={templates}
-                    setTemplates={setTemplates}
-                    theme={theme}
-                    templatesActive={templatesActive}
-                    setTemplatesActive={setTemplatesActive}
-                />
+        <CommandHistoryContext.Provider value={providerValue}>
+            <div className={EditorPageStyles.container}>
+                <OATHeader elements={elementHandler.digitalTwinsModels} />
+                <div
+                    className={
+                        templatesActive
+                            ? EditorPageStyles.componentTemplate
+                            : EditorPageStyles.component
+                    }
+                >
+                    <OATModelList
+                        elements={elementHandler.digitalTwinsModels}
+                        onDeleteModel={setDeletedModel}
+                        onSelectedModel={setSelectedModel}
+                        onEditedName={setEditedName}
+                        onEditedId={setEditedId}
+                    />
+                    <OATGraphViewer
+                        onElementsUpdate={setElementHandler}
+                        model={model}
+                        setModel={setModel}
+                        deletedModel={deletedModel}
+                        selectModel={selectedModel}
+                        editedName={editedName}
+                        editedId={editedId}
+                    />
+                    <OATPropertyEditor
+                        model={model}
+                        setModel={setModel}
+                        templates={templates}
+                        setTemplates={setTemplates}
+                        theme={theme}
+                        templatesActive={templatesActive}
+                        setTemplatesActive={setTemplatesActive}
+                    />
+                </div>
             </div>
-        </div>
+        </CommandHistoryContext.Provider>
     );
 };
 

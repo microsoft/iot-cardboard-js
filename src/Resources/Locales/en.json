@@ -743,7 +743,9 @@
         "publish": "Publish",
         "sync": "sync",
         "import": "Import",
-        "export": "Export"
+        "export": "Export",
+        "undo": "Undo",
+        "redo": "Redo"
     },
     "OATGraphViewer": {
         "newModel": "New Model",

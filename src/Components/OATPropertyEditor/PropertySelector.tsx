@@ -3,7 +3,7 @@ import { FontIcon, ActionButton, Stack, Text } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
 import { DTDLModel } from '../../Models/Classes/DTDL';
-import { PropertyContext } from './context/PropertyContext';
+import { CommandHistoryContext } from '../../Pages/OATEditorPage/context/CommandHistoryContext';
 
 const data = {
     propertyTags: {
@@ -37,7 +37,7 @@ const PropertySelector = ({
 }: IProperySelectorProps) => {
     const { t } = useTranslation();
     const propertyInspectorStyles = getPropertyInspectorStyles();
-    const { execute, setUndoReference } = useContext(PropertyContext);
+    const { execute } = useContext(CommandHistoryContext);
 
     const addNestedProperty = (tag) => {
         const modelCopy = Object.assign({}, model);
@@ -73,23 +73,52 @@ const PropertySelector = ({
         setPropertySelectorVisible(false);
     };
 
-    const handleAddPropertyUndoReference = () => {
+    const handleAddPropertyUndo = () => {
         // Revert to previous state
         const modelCopy = Object.assign({}, model);
+        const contentsLength = modelCopy.contents.length;
+        if (contentsLength > 0) {
+            const foundCreatedProperty = modelCopy.contents.find(
+                (prop) =>
+                    prop['@id'] ===
+                    `dtmi:com:adt:model1:New_Property_${contentsLength + 1}`
+            );
+            if (foundCreatedProperty) {
+                modelCopy.contents.pop();
+            }
+        }
         setModel(modelCopy);
     };
 
+    const handleAddNestedPropertyUndo = () => {
+        const modelCopy = Object.assign({}, model);
+        // Find latest nested prop index
+        const foundNestedPropIndex = modelCopy.contents.findIndex(
+            (prop) => prop['@id'] === lastPropertyFocused.item['@id']
+        );
+        //  Remove latest property from object-property
+        if (foundNestedPropIndex > 0) {
+            modelCopy.contents[foundNestedPropIndex].schema.fields.pop();
+        }
+        setModel(modelCopy);
+    };
     const handleTagClick = async (tag) => {
         if (
             lastPropertyFocused &&
             typeof lastPropertyFocused.item.schema === 'object'
         ) {
-            addNestedProperty(tag);
+            // addNestedProperty(tag);
+            execute(
+                () => addNestedProperty(tag),
+                () => handleAddNestedPropertyUndo()
+            );
             return;
         }
 
-        execute(() => addProperty(tag));
-        setUndoReference(() => handleAddPropertyUndoReference());
+        execute(
+            () => addProperty(tag),
+            () => handleAddPropertyUndo()
+        );
     };
 
     const getSchema = (tag) => {
