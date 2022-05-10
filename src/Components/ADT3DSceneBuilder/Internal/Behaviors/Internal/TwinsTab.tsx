@@ -27,7 +27,10 @@ import {
     getLeftPanelStyles
 } from '../../Shared/LeftPanel.styles';
 import { SceneBuilderContext } from '../../../ADT3DSceneBuilder';
-import { linkedTwinName } from '../../../../../Models/Constants/Constants';
+import {
+    DTDLPropertyIconographyMap,
+    linkedTwinName
+} from '../../../../../Models/Constants/Constants';
 import { TwinAliasFormMode } from '../../../../../Models/Constants';
 import { IBehaviorTwinAliasItem } from '../../../../../Models/Classes/3DVConfig';
 import AddTwinAliasCallout from '../Twins/AddTwinAliasCallout';
@@ -204,12 +207,21 @@ const TwinsTab: React.FC<ITwinsTabProps> = ({
         []
     );
 
-    const linkedTwinProperties = useMemo(() => {
+    const linkedTwinProperties: Array<
+        ICardboardListItem<IModelledProperty>
+    > = useMemo(() => {
         const linkedTwinProperties =
             modelledProperties?.flattenedFormat?.[linkedTwinName] ?? [];
-        return linkedTwinProperties.map(
-            (lP: IModelledProperty) => lP.localPath
-        );
+        return linkedTwinProperties.map((lP: IModelledProperty) => {
+            const iconStart = DTDLPropertyIconographyMap[lP.propertyType]?.icon;
+            return {
+                textPrimary: lP.localPath,
+                ...(iconStart && { iconStart: { name: iconStart } }),
+                item: lP,
+                onClick: () => null,
+                ariaLabel: lP.localPath
+            };
+        });
     }, [modelledProperties]);
 
     const theme = useTheme();
@@ -227,7 +239,7 @@ const TwinsTab: React.FC<ITwinsTabProps> = ({
                 </Text>
                 {isLinkedTwinPropertiesCalloutVisible && (
                     <CardboardListCallout
-                        listType="Basic"
+                        listType="Complex"
                         calloutTarget={linkedTwinPropertiesTargetId}
                         title={t('3dSceneBuilder.twinAlias.commonProperties')}
                         listKey={'common-properties-callout-list'}
@@ -237,8 +249,11 @@ const TwinsTab: React.FC<ITwinsTabProps> = ({
                         filterPlaceholder={t(
                             '3dSceneBuilder.twinAlias.searchProperties'
                         )}
-                        filterPredicate={(property: string, searchTerm) =>
-                            property
+                        filterPredicate={(
+                            property: IModelledProperty,
+                            searchTerm
+                        ) =>
+                            property.localPath
                                 .toLowerCase()
                                 .includes(searchTerm.toLowerCase())
                         }
