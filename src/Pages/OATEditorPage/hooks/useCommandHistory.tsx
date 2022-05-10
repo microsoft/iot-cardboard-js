@@ -54,7 +54,6 @@ export const useCommandHistory = (initialState?: IUseCommandHistory) => {
     };
 
     return {
-        history,
         execute,
         redo,
         undo,
