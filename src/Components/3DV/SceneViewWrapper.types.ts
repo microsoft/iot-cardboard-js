@@ -9,7 +9,10 @@ export interface ISceneViewWrapperProps {
     /**
      * Call to provide customized styling that will layer on top of the variant rules.
      */
-    styles?: IStyleFunctionOrObject<undefined, ISceneViewWrapperStyles>;
+    styles?: IStyleFunctionOrObject<
+        ISceneViewWrapperStyleProps,
+        ISceneViewWrapperStyles
+    >;
 }
 
 export interface ISceneViewWrapperStyleProps {
