@@ -33,7 +33,7 @@ const LinkWidgetBuilder: React.FC<ILinkWidgetBuilderProps> = ({
                 })
             );
         },
-        [updateWidgetData]
+        [formData, updateWidgetData]
     );
 
     useEffect(() => {
@@ -43,7 +43,7 @@ const LinkWidgetBuilder: React.FC<ILinkWidgetBuilderProps> = ({
         } else {
             setIsWidgetConfigValid(false);
         }
-    }, [formData]);
+    }, [formData, setIsWidgetConfigValid]);
 
     const theme = useTheme();
     const customStyles = getWidgetFormStyles(theme);

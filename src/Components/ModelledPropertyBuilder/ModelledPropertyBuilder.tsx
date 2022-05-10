@@ -90,12 +90,12 @@ const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = ({
 
             setDropdownOptions(dropdownOptions);
         }
-    }, [modelledProperties]);
+    }, [enableNoneDropdownOption, modelledProperties]);
 
     useEffect(() => {
         // Report internal mode change
         onInternalModeChanged?.(internalMode);
-    }, [internalMode]);
+    }, [internalMode, onInternalModeChanged]);
 
     useEffect(() => {
         // If expression doesn't match option key, snap to expression mode
@@ -205,7 +205,7 @@ const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = ({
                     )
             }
         }),
-        [required, t, intellisensePlaceholder]
+        [t, intellisensePlaceholder]
     );
 
     const onIntellisenseChange = useCallback(
