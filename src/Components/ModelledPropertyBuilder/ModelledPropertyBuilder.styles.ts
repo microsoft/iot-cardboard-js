@@ -14,18 +14,18 @@ import {
 export const modelledPropertyBuilderClassPrefix = 'cb-modelledpropertybuilder';
 
 const classNames = {
-    radioContainer: `${modelledPropertyBuilderClassPrefix}-radio-container`,
+    toggleContainer: `${modelledPropertyBuilderClassPrefix}-toggle-container`,
     dropdownTitleText: `${modelledPropertyBuilderClassPrefix}-dropdown-title-text`,
-    loadingContainer: `${modelledPropertyBuilderClassPrefix}-loading-container`
+    loadingSpinnerContainer: `${modelledPropertyBuilderClassPrefix}-loading-spinner-container`
 };
 
 export const getStyles = memoizeFunction(() => {
     return mergeStyleSets({
-        radioContainer: [
-            classNames.radioContainer,
+        toggleContainer: [
+            classNames.toggleContainer,
             {
                 display: 'flex',
-                justifyContent: 'flex-start',
+                justifyContent: 'space-between',
                 alignItems: 'center'
             } as IStyle
         ],
@@ -37,13 +37,10 @@ export const getStyles = memoizeFunction(() => {
                 textOverflow: 'ellipsis'
             } as IStyle
         ],
-        loadingContainer: [
-            classNames.loadingContainer,
+        loadingSpinnerContainer: [
+            classNames.loadingSpinnerContainer,
             {
-                minHeight: 94,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center'
+                width: 40
             } as IStyle
         ]
     });

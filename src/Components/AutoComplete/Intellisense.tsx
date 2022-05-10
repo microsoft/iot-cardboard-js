@@ -13,6 +13,7 @@ export interface IIntellisenseProps {
     defaultValue?: string;
     getPropertyNames?: GetPropertyNamesFunc;
     onChange: (value: string) => void;
+    isLoading?: boolean;
 }
 
 export const separators = '+*&|(^/-).><={} \n';
@@ -62,7 +63,8 @@ export const Intellisense: React.FC<IIntellisenseProps> = ({
     propertyNames,
     defaultValue,
     getPropertyNames,
-    onChange
+    onChange,
+    isLoading = false
 }) => {
     const [value, setValue] = useState(defaultValue || '');
 
@@ -224,6 +226,7 @@ export const Intellisense: React.FC<IIntellisenseProps> = ({
                     multiline: value.length > 40
                 }}
                 {...autoCompleteProps}
+                isLoading={isLoading}
             />
         </div>
     );

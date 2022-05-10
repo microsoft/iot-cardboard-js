@@ -19,7 +19,8 @@ import {
     Stack,
     ChoiceGroup,
     Label,
-    IChoiceGroupOption
+    IChoiceGroupOption,
+    SpinnerSize
 } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { useModelledProperties } from './useModelledProperties';
@@ -184,53 +185,52 @@ const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = ({
     );
 
     return (
-        <>
-            {isLoading ? (
-                <div className={styles.loadingContainer}>
-                    <Spinner />{' '}
-                </div>
-            ) : (
-                <Stack tokens={{ childrenGap: 4 }}>
-                    <Label
-                        styles={propertyExpressionLabelStyles}
-                        required={required}
-                    >
-                        {customLabel
-                            ? customLabel
-                            : t(
-                                  '3dSceneBuilder.ModelledPropertyBuilder.expressionLabel'
-                              )}
-                    </Label>
-                    {mode === 'TOGGLE' && (
-                        <div className={styles.radioContainer}>
-                            <ChoiceGroup
-                                selectedKey={internalMode}
-                                options={choiceGroupOptions}
-                                onChange={onChangeMode}
-                                styles={choiceGroupStyles}
+        <Stack tokens={{ childrenGap: 4 }}>
+            <Label styles={propertyExpressionLabelStyles} required={required}>
+                {customLabel
+                    ? customLabel
+                    : t(
+                          '3dSceneBuilder.ModelledPropertyBuilder.expressionLabel'
+                      )}
+            </Label>
+            {mode === 'TOGGLE' && (
+                <div className={styles.toggleContainer}>
+                    <ChoiceGroup
+                        selectedKey={internalMode}
+                        options={choiceGroupOptions}
+                        onChange={onChangeMode}
+                        styles={choiceGroupStyles}
+                    />
+                    <div className={styles.loadingSpinnerContainer}>
+                        {isLoading && (
+                            <Spinner
+                                size={SpinnerSize.small}
+                                ariaLive="assertive"
                             />
-                        </div>
-                    )}
-                    {internalMode === 'PROPERTY_SELECTION' && (
-                        <ModelledPropertyDropdown
-                            dropdownOptions={dropdownOptions}
-                            onChange={onChangeDropdownSelection}
-                            selectedKey={propertyExpression.expression}
-                            dropdownTestId={dropdownTestId}
-                        />
-                    )}
-                    {internalMode === 'INTELLISENSE' && (
-                        <Intellisense
-                            autoCompleteProps={autoCompleteProps}
-                            onChange={onIntellisenseChange}
-                            defaultValue={propertyExpression.expression}
-                            aliasNames={aliasNames}
-                            getPropertyNames={getIntellisenseProperty}
-                        />
-                    )}
-                </Stack>
+                        )}
+                    </div>
+                </div>
             )}
-        </>
+            {internalMode === 'PROPERTY_SELECTION' && (
+                <ModelledPropertyDropdown
+                    dropdownOptions={dropdownOptions}
+                    onChange={onChangeDropdownSelection}
+                    selectedKey={propertyExpression.expression}
+                    dropdownTestId={dropdownTestId}
+                    isLoading={isLoading}
+                />
+            )}
+            {internalMode === 'INTELLISENSE' && (
+                <Intellisense
+                    autoCompleteProps={autoCompleteProps}
+                    onChange={onIntellisenseChange}
+                    defaultValue={propertyExpression.expression}
+                    aliasNames={aliasNames}
+                    getPropertyNames={getIntellisenseProperty}
+                    isLoading={isLoading}
+                />
+            )}
+        </Stack>
     );
 };
 
