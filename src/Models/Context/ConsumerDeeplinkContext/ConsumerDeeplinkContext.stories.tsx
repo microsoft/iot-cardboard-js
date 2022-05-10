@@ -28,7 +28,7 @@ export default {
 
 const ContextRenderer: React.FC = () => {
     // force a render cause we fetch the deeplink on each render
-    const [_forceRender, { toggle: toggleRender }] = useBoolean(false);
+    const [, { toggle: toggleRender }] = useBoolean(false);
     const { getDeeplink } = useDeeplinkContext();
     return (
         <Stack tokens={{ childrenGap: 8 }}>
