@@ -4,8 +4,8 @@
 import produce from 'immer';
 import queryString from 'query-string';
 import React, { useCallback, useContext, useReducer } from 'react';
-import { ADT3DScenePageModes } from '../Constants';
-import { getDebugLogger } from '../Services/Utils';
+import { ADT3DScenePageModes } from '../../Constants';
+import { getDebugLogger } from '../../Services/Utils';
 import {
     IDeeplinkContext,
     IDeeplinkContextState,

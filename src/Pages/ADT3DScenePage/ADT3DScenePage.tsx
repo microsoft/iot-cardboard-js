@@ -46,7 +46,7 @@ import {
     useDeeplinkContext,
     DeeplinkContextProvider
 } from '../../Models/Context/DeeplinkContext';
-import { DeeplinkContextActionType } from '../../Models/Context/DeeplinkContext.types';
+import { DeeplinkContextActionType } from '../../Models/Context/DeeplinkContext/DeeplinkContext.types';
 import { addHttpsPrefix } from '../../Models/Services/Utils';
 import ADT3DGlobe from '../../Components/ADT3DGlobe/ADT3DGlobe';
 import { getStyles } from './ADT3DScenePage.styles';

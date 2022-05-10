@@ -10,7 +10,7 @@ import {
 import FloatingScenePageModeToggle from './FloatingScenePageModeToggle';
 import { ISceneViewProps } from '../../../Models/Classes/SceneView.types';
 import { useDeeplinkContext } from '../../../Models/Context/DeeplinkContext';
-import { DeeplinkContextActionType } from '../../../Models/Context/DeeplinkContext.types';
+import { DeeplinkContextActionType } from '../../../Models/Context/DeeplinkContext/DeeplinkContext.types';
 
 export const ADT3DSceneBuilderContainer: React.FC<IADT3DSceneBuilderProps> = ({
     scenesConfig,

@@ -1,4 +1,4 @@
-import { ADT3DScenePageModes } from '../Constants';
+import { ADT3DScenePageModes } from '../../Constants';
 
 export interface IDeeplinkContextProviderProps {
     initialState?: Partial<IDeeplinkContextState>;
