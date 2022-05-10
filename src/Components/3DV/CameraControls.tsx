@@ -1,9 +1,9 @@
 import {
-    ActionButton,
     Callout,
     DirectionalHint,
     memoizeFunction,
     mergeStyleSets,
+    Stack,
     Theme,
     useTheme
 } from '@fluentui/react';
@@ -22,6 +22,9 @@ import {
     MiddleMouse,
     ZoomOut
 } from './CameraControlAssets';
+import HeaderControlButton from '../HeaderControlButton/HeaderControlButton';
+import HeaderControlGroup from '../HeaderControlGroup/HeaderControlGroup';
+import { IHeaderControlButtonStyles } from '../HeaderControlButton/HeaderControlButton.types';
 
 interface CameraControlProps {
     cameraInteraction?: CameraInteraction;
@@ -64,91 +67,105 @@ export const CameraControls: React.FC<CameraControlProps> = ({
 
     return (
         <div className={styles.panelContents}>
-            <div className={styles.buttonGroup}>
-                <ActionButton
-                    id={calloutAnchorOrbit}
-                    className={
-                        cameraInteractionType === CameraInteraction.Rotate
-                            ? styles.buttonChecked
-                            : styles.button
-                    }
-                    onClick={() =>
-                        updateCameraInteraction(CameraInteraction.Rotate)
-                    }
-                    onMouseEnter={() => setShowOrbitCallout(true)}
-                    onMouseLeave={() => setShowOrbitCallout(false)}
-                >
-                    <img
-                        src={`data:image/svg+xml;base64,${Rotate(theme)}`}
-                        style={{ height: 16, width: 16 }}
-                        className={styles.buttonIcon}
-                    />
-                    {cameraInteractionType === CameraInteraction.Rotate && (
+            <Stack horizontal tokens={{ childrenGap: 8 }}>
+                <HeaderControlGroup>
+                    <HeaderControlButton
+                        id={calloutAnchorOrbit}
+                        isActive={
+                            cameraInteractionType === CameraInteraction.Rotate
+                        }
+                        styles={headerButtonStyles}
+                        onClick={() =>
+                            updateCameraInteraction(CameraInteraction.Rotate)
+                        }
+                        onMouseEnter={() => setShowOrbitCallout(true)}
+                        onMouseLeave={() => setShowOrbitCallout(false)}
+                    >
                         <img
-                            src={`data:image/svg+xml;base64,${Selected(theme)}`}
-                            style={{ width: 24 }}
-                            className={styles.selected}
+                            src={`data:image/svg+xml;base64,${Rotate(theme)}`}
+                            style={{ height: 16, width: 16 }}
+                            className={styles.buttonIcon}
                         />
-                    )}
-                </ActionButton>
-                <ActionButton
-                    id={calloutAnchorPan}
-                    className={
-                        cameraInteractionType === CameraInteraction.Pan
-                            ? styles.buttonChecked
-                            : styles.button
-                    }
-                    onClick={() =>
-                        updateCameraInteraction(CameraInteraction.Pan)
-                    }
-                    onMouseEnter={() => setShowPanCallout(true)}
-                    onMouseLeave={() => setShowPanCallout(false)}
-                >
-                    <img
-                        src={`data:image/svg+xml;base64,${Pan(theme)}`}
-                        style={{ height: 16, width: 16 }}
-                        className={styles.buttonIcon}
-                    />
-                    {cameraInteractionType === CameraInteraction.Pan && (
+                        {cameraInteractionType === CameraInteraction.Rotate && (
+                            <img
+                                src={`data:image/svg+xml;base64,${Selected(
+                                    theme
+                                )}`}
+                                style={{ width: 24 }}
+                                className={styles.selected}
+                            />
+                        )}
+                    </HeaderControlButton>
+                    <HeaderControlButton
+                        buttonProps={{}}
+                        id={calloutAnchorPan}
+                        isActive={
+                            cameraInteractionType === CameraInteraction.Pan
+                        }
+                        styles={headerButtonStyles}
+                        onClick={() =>
+                            updateCameraInteraction(CameraInteraction.Pan)
+                        }
+                        onMouseEnter={() => setShowPanCallout(true)}
+                        onMouseLeave={() => setShowPanCallout(false)}
+                    >
                         <img
-                            src={`data:image/svg+xml;base64,${Selected(theme)}`}
-                            style={{ width: 24 }}
-                            className={styles.selected}
+                            src={`data:image/svg+xml;base64,${Pan(theme)}`}
+                            style={{ height: 16, width: 16 }}
+                            className={styles.buttonIcon}
                         />
-                    )}
-                </ActionButton>
-            </div>
-            <div className={styles.buttonGroup}>
-                <ActionButton
-                    className={styles.button}
-                    onClick={() => onCameraZoom(true)}
-                >
-                    <img
-                        src={`data:image/svg+xml;base64,${ZoomIn(theme)}`}
-                        style={{ height: 16, width: 16 }}
-                        className={styles.buttonIcon}
-                    />
-                </ActionButton>
-                <ActionButton
-                    className={styles.button}
-                    onClick={() => onCameraZoom(false)}
-                >
-                    <img
-                        src={`data:image/svg+xml;base64,${ZoomOut(theme)}`}
-                        style={{ height: 16, width: 16 }}
-                        className={styles.buttonIcon}
-                    />
-                </ActionButton>
-            </div>
-            <div className={styles.buttonGroup}>
-                <ActionButton className={styles.button} onClick={onResetCamera}>
-                    <img
-                        src={`data:image/svg+xml;base64,${Reset(theme)}`}
-                        style={{ height: 16, width: 16 }}
-                        className={styles.buttonIcon}
-                    />
-                </ActionButton>
-            </div>
+                        {cameraInteractionType === CameraInteraction.Pan && (
+                            <img
+                                src={`data:image/svg+xml;base64,${Selected(
+                                    theme
+                                )}`}
+                                style={{ width: 24 }}
+                                className={styles.selected}
+                            />
+                        )}
+                    </HeaderControlButton>
+                </HeaderControlGroup>
+                <HeaderControlGroup>
+                    <HeaderControlButton
+                        isActive={false}
+                        styles={headerButtonStyles}
+                        onClick={() => onCameraZoom(true)}
+                        title={t('cameraControls.zoomIn')}
+                    >
+                        <img
+                            src={`data:image/svg+xml;base64,${ZoomIn(theme)}`}
+                            style={{ height: 16, width: 16 }}
+                            className={styles.buttonIcon}
+                        />
+                    </HeaderControlButton>
+                    <HeaderControlButton
+                        isActive={false}
+                        styles={headerButtonStyles}
+                        title={t('cameraControls.zoomOut')}
+                        onClick={() => onCameraZoom(false)}
+                    >
+                        <img
+                            src={`data:image/svg+xml;base64,${ZoomOut(theme)}`}
+                            style={{ height: 16, width: 16 }}
+                            className={styles.buttonIcon}
+                        />
+                    </HeaderControlButton>
+                </HeaderControlGroup>
+                <HeaderControlGroup>
+                    <HeaderControlButton
+                        isActive={false}
+                        onClick={onResetCamera}
+                        styles={headerButtonStyles}
+                        title={t('cameraControls.reset')}
+                    >
+                        <img
+                            src={`data:image/svg+xml;base64,${Reset(theme)}`}
+                            style={{ height: 16, width: 16 }}
+                            className={styles.buttonIcon}
+                        />
+                    </HeaderControlButton>
+                </HeaderControlGroup>
+            </Stack>
             {showPanCallout && (
                 <Callout
                     target={`#${calloutAnchorPan}`}
@@ -273,6 +290,11 @@ export const CameraControls: React.FC<CameraControlProps> = ({
     );
 };
 
+const headerButtonStyles: IHeaderControlButtonStyles = {
+    root: {
+        zIndex: 999
+    }
+};
 const getStyles = memoizeFunction((theme: Theme) => {
     return mergeStyleSets({
         panelContents: {
@@ -280,46 +302,12 @@ const getStyles = memoizeFunction((theme: Theme) => {
             marginRight: 'auto',
             display: 'flex'
         },
-        button: {
-            position: 'relative',
-            marginLeft: 'auto',
-            marginRight: 'auto',
-            zIndex: 999,
-            color: theme.semanticColors.bodyText,
-            padding: '2px 12px',
-            selectors: {
-                ':hover': {
-                    backgroundColor: theme.palette.neutralLighter
-                }
-            }
-        },
-        buttonChecked: {
-            position: 'relative',
-            marginLeft: 'auto',
-            marginRight: 'auto',
-            zIndex: 999,
-            padding: '2px 12px',
-            background: theme.palette.neutralLight,
-            selectors: {
-                ':hover': {
-                    backgroundColor: theme.palette.neutralLighter
-                }
-            }
-        },
         buttonIcon: {
             fill: theme.semanticColors.bodyText
         },
         selected: {
             position: 'absolute',
-            top: 28,
-            left: 8
-        },
-        buttonGroup: {
-            borderRadius: 2,
-            zIndex: 999,
-            border: `1px solid ${theme.palette.neutralLight}`,
-            background: theme.semanticColors.buttonBackground,
-            marginRight: 16
+            top: 28
         },
         callout: {
             width: 200,

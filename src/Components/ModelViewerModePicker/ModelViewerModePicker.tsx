@@ -20,6 +20,7 @@ import DefaultStyle from '../../Resources/Static/default.svg';
 import TransparentStyle from '../../Resources/Static/transparent.svg';
 import WireframeStyle from '../../Resources/Static/wireframe.svg';
 import HeaderControlButton from '../HeaderControlButton/HeaderControlButton';
+import HeaderControlGroup from '../HeaderControlGroup/HeaderControlGroup';
 
 export interface ViewerMode {
     objectColor: string;
@@ -221,15 +222,15 @@ const ModelViewerModePicker: React.FC<ModelViewerModePickerProps> = ({
 
     return (
         <div>
-            <HeaderControlButton
-                buttonProps={{
-                    iconProps: { iconName: 'Color' },
-                    id: calloutAnchor,
-                    onClick: togglePicker,
-                    title: t('modelViewerModePicker.buttonLabel')
-                }}
-                isActive={showPicker}
-            />
+            <HeaderControlGroup>
+                <HeaderControlButton
+                    iconProps={{ iconName: 'Color' }}
+                    id={calloutAnchor}
+                    onClick={togglePicker}
+                    title={t('modelViewerModePicker.buttonLabel')}
+                    isActive={showPicker}
+                />
+            </HeaderControlGroup>
             {showPicker && (
                 <FocusTrapCallout
                     focusTrapProps={{

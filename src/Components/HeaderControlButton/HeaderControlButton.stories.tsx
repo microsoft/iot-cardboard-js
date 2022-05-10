@@ -20,19 +20,15 @@ const Template: HeaderControlButtonStory = (args) => {
 
 export const Base = Template.bind({}) as HeaderControlButtonStory;
 Base.args = {
-    buttonProps: {
-        onClick: () => alert('clicked'),
-        iconProps: { iconName: 'Color' }
-    },
-    isActive: false
+    iconProps: { iconName: 'Color' },
+    isActive: false,
+    onClick: () => alert('clicked')
 } as IHeaderControlButtonProps;
 
 export const Active = Template.bind({}) as HeaderControlButtonStory;
 
 Active.args = {
-    buttonProps: {
-        onClick: () => alert('clicked'),
-        iconProps: { iconName: 'Color' }
-    },
-    isActive: true
+    iconProps: { iconName: 'Color' },
+    isActive: true,
+    onClick: () => alert('clicked')
 } as IHeaderControlButtonProps;

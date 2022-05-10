@@ -24,22 +24,32 @@ const HeaderControlButton: React.FC<IHeaderControlButtonProps> = (props) => {
         buttonProps,
         children,
         className,
+        id,
+        iconProps,
         imageProps,
         isActive,
-        styles
+        onClick,
+        onMouseEnter,
+        onMouseLeave,
+        styles,
+        title
     } = props;
 
     /** ----- hooks ----- */
     const theme = useTheme();
-    // TODO -- remove eslint overrides if not using
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const classNames = getClassNames(styles, { theme, isActive });
 
     return (
         <IconButton
             {...buttonProps}
+            id={id}
+            iconProps={iconProps}
+            onClick={onClick}
+            onMouseEnter={onMouseEnter}
+            onMouseLeave={onMouseLeave}
             className={css(classNames.root, className)}
             styles={classNames.subComponentStyles.button()}
+            title={title}
         >
             {imageProps && <Image {...imageProps} />}
             {children}

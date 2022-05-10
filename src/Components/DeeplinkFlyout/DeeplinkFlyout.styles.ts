@@ -51,20 +51,6 @@ export const getStyles = (
             }
         ],
         subComponentStyles: {
-            button: {
-                root: {
-                    color: `${theme.semanticColors.bodyText} !important`,
-                    border: `1px solid ${theme.palette.neutralLight}`,
-                    backgroundColor: isCalloutOpen
-                        ? theme.semanticColors.buttonBackgroundPressed
-                        : theme.semanticColors.buttonBackground,
-                    height: 42,
-                    width: 42
-                },
-                icon: {
-                    fontSize: FontSizes.size16
-                }
-            },
             callout: {
                 root: {
                     padding: 16,

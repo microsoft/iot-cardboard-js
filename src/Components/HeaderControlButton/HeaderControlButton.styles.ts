@@ -15,21 +15,10 @@ export const getStyles = (
     const { isActive, theme } = props;
     return {
         root: [classNames.root],
-        button: [
-            classNames.button,
-            {
-                border: '1px solid var(--cb-color-input-border)',
-                borderRadius: '50%',
-                cursor: 'pointer',
-                height: 28,
-                width: 28
-            }
-        ],
         subComponentStyles: {
             button: {
                 root: {
                     color: `${theme.semanticColors.bodyText} !important`,
-                    border: `1px solid ${theme.palette.neutralLight}`,
                     backgroundColor: isActive
                         ? theme.semanticColors.buttonBackgroundPressed
                         : theme.semanticColors.buttonBackground,

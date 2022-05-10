@@ -38,7 +38,6 @@ export interface IDeeplinkFlyoutStyles {
 }
 
 export interface IDeeplinkFlyoutSubComponentStyles {
-    button?: IButtonStyles;
     callout?: Partial<ICalloutContentStyles>;
     checkbox?: ICheckboxStyles;
     confirmationStack?: IStackStyles;

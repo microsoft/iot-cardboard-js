@@ -2,22 +2,28 @@ import {
     IStyle,
     IStyleFunctionOrObject,
     ITheme,
-    ICalloutContentStyles,
-    IIconProps,
     IButtonProps,
     IImageProps,
-    IButtonStyles
+    IButtonStyles,
+    IIconProps
 } from '@fluentui/react';
 
 export interface IHeaderControlButtonProps {
     className?: string;
+    id?: string;
     /** is the button in an active state like having a flyout open or camera control active */
     isActive: boolean;
-    buttonProps: IButtonProps & {
-        onClick: () => void;
-    };
+    buttonProps?: Omit<
+        IButtonProps,
+        'iconProps' | 'id' | 'onClick' | 'onMouseEnter' | 'onMouseLeave'
+    >;
     /** optional image to load inside the button */
     imageProps?: IImageProps;
+    iconProps?: IIconProps;
+    onMouseEnter?: () => void;
+    onMouseLeave?: () => void;
+    onClick: () => void;
+    title?: string;
 
     /**
      * Call to provide customized styling that will layer on top of the variant rules.
@@ -31,7 +37,6 @@ export interface IHeaderControlButtonStyleProps {
 }
 export interface IHeaderControlButtonStyles {
     root: IStyle;
-    button: IStyle;
 
     /**
      * SubComponent styles.
