@@ -7,13 +7,13 @@ import {
     IConsumerDeeplinkContextProviderProps
 } from './ConsumerDeeplinkContext.types';
 
-export const ConsumerDeeplinkContext = React.createContext<IConsumerDeeplinkContext>(
+const ConsumerDeeplinkContextInstance = React.createContext<IConsumerDeeplinkContext>(
     null
 );
 export const useConsumerDeeplinkContext = () =>
-    useContext(ConsumerDeeplinkContext);
+    useContext(ConsumerDeeplinkContextInstance);
 
-export const ConsumerDeeplinkContextProvider: React.FC<IConsumerDeeplinkContextProviderProps> = (
+export const ConsumerDeeplinkContext: React.FC<IConsumerDeeplinkContextProviderProps> = (
     props
 ) => {
     const { children } = props;
@@ -23,16 +23,17 @@ export const ConsumerDeeplinkContextProvider: React.FC<IConsumerDeeplinkContextP
     if (existingContext) {
         return <>{children}</>;
     }
+    ``;
 
     const { onGenerateDeeplink } = props;
 
     return (
-        <ConsumerDeeplinkContext.Provider
+        <ConsumerDeeplinkContextInstance.Provider
             value={{
                 onGenerateDeeplink
             }}
         >
             {children}
-        </ConsumerDeeplinkContext.Provider>
+        </ConsumerDeeplinkContextInstance.Provider>
     );
 };

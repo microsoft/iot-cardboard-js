@@ -6,7 +6,7 @@ import {
     getDefaultStoryDecorator,
     IStoryContext
 } from '../../Services/StoryUtilities';
-import { ConsumerDeeplinkContextProvider } from './ConsumerDeeplinkContext';
+import { ConsumerDeeplinkContext } from './ConsumerDeeplinkContext';
 import { IConsumerDeeplinkContextProviderProps } from './ConsumerDeeplinkContext.types';
 import {
     DeeplinkContextProvider,
@@ -22,7 +22,7 @@ const wrapperStyle: React.CSSProperties = {
 };
 export default {
     title: 'Contexts/ConsumerDeeplinkContext',
-    component: ConsumerDeeplinkContextProvider,
+    component: ConsumerDeeplinkContext,
     decorators: [getDefaultStoryDecorator(wrapperStyle)]
 };
 
@@ -70,11 +70,11 @@ const Template: SceneBuilderStory = (
     };
 
     return (
-        <ConsumerDeeplinkContextProvider onGenerateDeeplink={onLinkGenerated}>
+        <ConsumerDeeplinkContext onGenerateDeeplink={onLinkGenerated}>
             <DeeplinkContextProvider initialState={GET_MOCK_DEEPLINK_STATE()}>
                 <ContextRenderer />
             </DeeplinkContextProvider>
-        </ConsumerDeeplinkContextProvider>
+        </ConsumerDeeplinkContext>
     );
 };
 

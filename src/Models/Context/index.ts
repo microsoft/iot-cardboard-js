@@ -5,5 +5,5 @@ export {
     DEEPLINK_SERIALIZATION_OPTIONS
 } from './DeeplinkContext/DeeplinkContext.types';
 
-export { ConsumerDeeplinkContextProvider } from './ConsumerDeeplinkContext/ConsumerDeeplinkContext';
+export { ConsumerDeeplinkContext } from './ConsumerDeeplinkContext/ConsumerDeeplinkContext';
 export { IConsumerDeeplinkContextProviderProps } from './ConsumerDeeplinkContext/ConsumerDeeplinkContext.types';
