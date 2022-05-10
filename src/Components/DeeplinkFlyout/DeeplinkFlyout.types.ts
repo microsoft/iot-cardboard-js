@@ -3,12 +3,11 @@ import {
     IStyle,
     ICalloutContentStyles,
     IStyleFunctionOrObject,
-    ICheckboxStyles,
-    IButtonStyles,
-    IStackStyles
+    IButtonStyles
 } from '@fluentui/react';
 
 export interface IDeeplinkFlyoutProps {
+    mode: 'Simple' | 'Options';
     /**
      * Call to provide customized styling that will layer on top of the variant rules.
      */
@@ -26,10 +25,6 @@ export interface IDeeplinkFlyoutStyles {
     root: IStyle;
     button: IStyle;
     callout: IStyle;
-    calloutCheckbox: IStyle;
-    calloutTitle: IStyle;
-    calloutConfirmationMessage: IStyle;
-    calloutConfirmationMessageFadeOut: IStyle;
 
     /**
      * SubComponent styles.
@@ -40,6 +35,4 @@ export interface IDeeplinkFlyoutStyles {
 export interface IDeeplinkFlyoutSubComponentStyles {
     button?: IButtonStyles;
     callout?: Partial<ICalloutContentStyles>;
-    checkbox?: ICheckboxStyles;
-    confirmationStack?: IStackStyles;
 }

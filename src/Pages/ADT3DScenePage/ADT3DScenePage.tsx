@@ -50,6 +50,8 @@ import { DeeplinkContextActionType } from '../../Models/Context/DeeplinkContext/
 import { addHttpsPrefix } from '../../Models/Services/Utils';
 import ADT3DGlobe from '../../Components/ADT3DGlobe/ADT3DGlobe';
 import { getStyles } from './ADT3DScenePage.styles';
+import { Button, DefaultButton, Stack } from '@fluentui/react';
+import DeeplinkFlyout from '../../Components/DeeplinkFlyout/DeeplinkFlyout';
 
 export const ADT3DScenePageContext = createContext<IADT3DScenePageContext>(
     null
@@ -334,10 +336,13 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
                                         }}
                                     />
                                 </div>
-                                <SceneListModeToggle
-                                    selectedMode={state.currentStep}
-                                    onListModeChange={onListModeChange}
-                                />
+                                <Stack horizontal tokens={{ childrenGap: 8 }}>
+                                    <DeeplinkFlyout mode="Simple" />
+                                    <SceneListModeToggle
+                                        selectedMode={state.currentStep}
+                                        onListModeChange={onListModeChange}
+                                    />
+                                </Stack>
                             </div>
                         </>
                     )}
