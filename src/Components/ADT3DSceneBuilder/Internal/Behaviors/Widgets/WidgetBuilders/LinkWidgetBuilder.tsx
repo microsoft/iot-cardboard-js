@@ -16,9 +16,13 @@ const LinkWidgetBuilder: React.FC<ILinkWidgetBuilderProps> = ({
 }) => {
     const { t } = useTranslation();
 
-    const { behaviorToEdit, adapter, config, sceneId } = useContext(
-        SceneBuilderContext
-    );
+    const {
+        behaviorToEdit,
+        adapter,
+        config,
+        sceneId,
+        state: { selectedElements }
+    } = useContext(SceneBuilderContext);
 
     const onExpressionChange = useCallback(
         (newPropertyExpression: PropertyExpression) => {
@@ -62,7 +66,8 @@ const LinkWidgetBuilder: React.FC<ILinkWidgetBuilderProps> = ({
                 twinIdParams={{
                     behavior: behaviorToEdit,
                     config,
-                    sceneId
+                    sceneId,
+                    selectedElements
                 }}
                 mode="INTELLISENSE"
                 propertyExpression={{
@@ -72,7 +77,7 @@ const LinkWidgetBuilder: React.FC<ILinkWidgetBuilderProps> = ({
                 onChange={onExpressionChange}
                 required
                 intellisensePlaceholder={t('widgets.link.urlPlaceholder')}
-                intellisenseLabel={t('url')}
+                customLabel={t('url')}
             />
         </div>
     );

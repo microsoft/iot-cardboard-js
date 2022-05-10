@@ -2,7 +2,8 @@ import { linkedTwinName } from '../../Models/Constants';
 import { IModelledPropertyBuilderAdapter } from '../../Models/Constants/Interfaces';
 import {
     I3DScenesConfig,
-    IBehavior
+    IBehavior,
+    ITwinToObjectMapping
 } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 
 export type ModelledPropertyBuilderMode =
@@ -19,6 +20,9 @@ export interface BehaviorTwinIdParams {
 
     /** The active scene context -- used to limit the element matching to the current scene */
     sceneId: string;
+
+    /** Currently selected elements (these elements include latest alias ID data) */
+    selectedElements: ITwinToObjectMapping[];
 
     /** Optional flag to disable inclusion of twin aliases (default to false) */
     disableAliasedTwins?: boolean;

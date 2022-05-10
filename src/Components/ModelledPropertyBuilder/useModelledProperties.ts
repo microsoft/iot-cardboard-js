@@ -39,20 +39,32 @@ export const useModelledProperties = ({
     ] = useState<IModelledProperties>(null);
 
     // Gets both primary & aliased twin Ids for a behavior in the context of the current scene.
-    const twinIds = useMemo(
-        () =>
-            isResolvedTwinIdMode(twinIdParams)
-                ? {
-                      primaryTwinIds: twinIdParams.primaryTwinIds,
-                      aliasedTwinMap: twinIdParams.aliasedTwinMap ?? {}
-                  }
-                : ViewerConfigUtility.getTwinIdsForBehaviorInScene(
-                      twinIdParams.behavior,
-                      twinIdParams.config,
-                      twinIdParams.sceneId
-                  ),
-        [twinIdParams]
-    );
+    const twinIds = useMemo(() => {
+        if (isResolvedTwinIdMode(twinIdParams)) {
+            return {
+                primaryTwinIds: twinIdParams.primaryTwinIds,
+                aliasedTwinMap: twinIdParams.aliasedTwinMap ?? {}
+            };
+        } else {
+            // Create a snapshot of the edited config by commiting the alias & behavior changes
+            // To a new object. Use this to derive the latest alias ID info from the un-commited behavior
+            // This mocks the same functionality as commiting the changes to a behavior
+            // Note -- because of the complexity of this, it may be worth storing a draft config in state and
+            // using that config rather than applying different sets of changes to the config on behavior update
+            const draftConfigSnapshot = ViewerConfigUtility.snapshotDraftBehaviorToConfig(
+                twinIdParams.config,
+                twinIdParams.behavior,
+                twinIdParams.selectedElements,
+                twinIdParams.sceneId
+            );
+
+            return ViewerConfigUtility.getTwinIdsForBehaviorInScene(
+                twinIdParams.behavior,
+                draftConfigSnapshot,
+                twinIdParams.sceneId
+            );
+        }
+    }, [twinIdParams]);
 
     const disableAliasedTwins =
         (isResolvedTwinIdMode(twinIdParams) && !twinIdParams.aliasedTwinMap) ||

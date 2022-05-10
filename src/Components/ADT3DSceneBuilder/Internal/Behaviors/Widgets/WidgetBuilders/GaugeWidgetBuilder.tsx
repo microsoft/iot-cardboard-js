@@ -17,9 +17,13 @@ const GaugeWidgetBuilder: React.FC<IGaugeWidgetBuilderProps> = ({
     setIsWidgetConfigValid
 }) => {
     const { t } = useTranslation();
-    const { behaviorToEdit, adapter, config, sceneId } = useContext(
-        SceneBuilderContext
-    );
+    const {
+        behaviorToEdit,
+        adapter,
+        config,
+        sceneId,
+        state: { selectedElements }
+    } = useContext(SceneBuilderContext);
 
     const {
         valueRangeBuilderState,
@@ -102,7 +106,8 @@ const GaugeWidgetBuilder: React.FC<IGaugeWidgetBuilderProps> = ({
                 twinIdParams={{
                     behavior: behaviorToEdit,
                     config,
-                    sceneId
+                    sceneId,
+                    selectedElements
                 }}
                 mode="TOGGLE"
                 propertyExpression={{

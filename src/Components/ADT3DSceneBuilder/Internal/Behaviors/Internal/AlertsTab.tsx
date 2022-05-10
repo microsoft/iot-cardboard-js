@@ -48,7 +48,8 @@ const AlertsTab: React.FC = () => {
         setBehaviorToEdit,
         adapter,
         config,
-        sceneId
+        sceneId,
+        state: { selectedElements }
     } = useContext(SceneBuilderContext);
     const alertVisualStateRef = useRef<IAlertVisual>(
         getAlertFromBehavior(behaviorToEdit) || defaultAlertVisual
@@ -131,14 +132,15 @@ const AlertsTab: React.FC = () => {
                 twinIdParams={{
                     behavior: behaviorToEdit,
                     config,
-                    sceneId
+                    sceneId,
+                    selectedElements
                 }}
                 mode="INTELLISENSE"
                 propertyExpression={{
                     expression: expression || ''
                 }}
                 onChange={onExpressionChange}
-                intellisenseLabel={t(LOC_KEYS.expressionLabel)}
+                customLabel={t(LOC_KEYS.expressionLabel)}
                 intellisensePlaceholder={t(LOC_KEYS.expressionPlaceholder)}
             />
             {alertVisual && (

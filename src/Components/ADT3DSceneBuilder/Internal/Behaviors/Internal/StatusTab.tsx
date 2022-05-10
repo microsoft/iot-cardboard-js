@@ -43,7 +43,8 @@ const StatusTab: React.FC<IStatusTabProps> = ({ onValidityChange }) => {
         setBehaviorToEdit,
         adapter,
         config,
-        sceneId
+        sceneId,
+        state: { selectedElements }
     } = useContext(SceneBuilderContext);
 
     const statusVisualToEdit =
@@ -153,7 +154,8 @@ const StatusTab: React.FC<IStatusTabProps> = ({ onValidityChange }) => {
                     twinIdParams={{
                         behavior: behaviorToEdit,
                         config,
-                        sceneId
+                        sceneId,
+                        selectedElements
                     }}
                     mode="TOGGLE"
                     propertyExpression={{

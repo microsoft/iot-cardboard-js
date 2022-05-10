@@ -23,9 +23,13 @@ const ValueWidgetBuilder: React.FC<IValueWidgetBuilderProps> = ({
     setIsWidgetConfigValid
 }) => {
     const { t } = useTranslation();
-    const { behaviorToEdit, config, sceneId, adapter } = useContext(
-        SceneBuilderContext
-    );
+    const {
+        behaviorToEdit,
+        config,
+        sceneId,
+        adapter,
+        state: { selectedElements }
+    } = useContext(SceneBuilderContext);
 
     useEffect(() => {
         const {
@@ -145,7 +149,8 @@ const ValueWidgetBuilder: React.FC<IValueWidgetBuilderProps> = ({
                 twinIdParams={{
                     behavior: behaviorToEdit,
                     config,
-                    sceneId
+                    sceneId,
+                    selectedElements
                 }}
                 mode="TOGGLE"
                 propertyExpression={{
