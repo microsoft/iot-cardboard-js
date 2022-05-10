@@ -205,11 +205,11 @@ function SceneView(props: ISceneViewProps, ref) {
     onCameraMoveRef.current = onCameraMove;
     onMeshHoverRef.current = onMeshHover;
     if (debugLogging && !newInstanceRef.current) {
-        debugLog('-----------New instance-----------');
+        debugLog('debug', 'debug', '-----------New instance-----------');
         newInstanceRef.current = true;
     }
 
-    debugLog('SceneView Render');
+    debugLog('debug', 'debug', 'SceneView Render');
     const url = modelUrl === 'Globe' ? globeUrl : modelUrl;
 
     const sortMeshesOnLoad = () => {
@@ -247,7 +247,7 @@ function SceneView(props: ISceneViewProps, ref) {
                     shouldZoom ||
                     prevHideUnzoomedRef.current !== unzoomedMeshOpacity)
             ) {
-                debugLog('createOrZoomCamera');
+                debugLog('debug', 'debug', 'createOrZoomCamera');
                 prevHideUnzoomedRef.current = unzoomedMeshOpacity;
                 meshMap.current = cameraRef.current ? meshMap.current : {};
                 for (const mesh of sceneRef.current.meshes) {
@@ -354,7 +354,7 @@ function SceneView(props: ISceneViewProps, ref) {
 
     // Handle mesh zooming
     useEffect(() => {
-        debugLog('Mesh zooming');
+        debugLog('debug', 'debug', 'Mesh zooming');
         if (!isLoading) {
             createOrZoomCamera();
         }
@@ -526,7 +526,7 @@ function SceneView(props: ISceneViewProps, ref) {
     };
 
     const clearBadgeGroups = (force: boolean) => {
-        debugLog('clearBadgeGroups');
+        debugLog('debug', 'clearBadgeGroups');
         const groupsToRemove = [];
         badgeGroupsRef?.current.forEach((badgeGroupRef) => {
             // remove badge if group is no longer in prop
@@ -534,7 +534,7 @@ function SceneView(props: ISceneViewProps, ref) {
                 !badgeGroups?.find((bg) => bg.id === badgeGroupRef.name) ||
                 force
             ) {
-                debugLog('removing badge');
+                debugLog('debug', 'removing badge');
                 advancedTextureRef.current.removeControl(badgeGroupRef);
                 groupsToRemove.push(badgeGroupRef);
             }
@@ -548,7 +548,7 @@ function SceneView(props: ISceneViewProps, ref) {
 
     const createBadgeGroups = () => {
         if (badgeGroups && advancedTextureRef.current && sceneRef.current) {
-            debugLog('createBadgeGroups');
+            debugLog('debug', 'createBadgeGroups');
             badgeGroups.forEach((bg) => {
                 const mesh = sceneRef.current.meshes.find(
                     (m) => m.id === bg.meshId
@@ -560,7 +560,7 @@ function SceneView(props: ISceneViewProps, ref) {
                     ) &&
                     mesh
                 ) {
-                    debugLog('adding badge group');
+                    debugLog('debug', 'adding badge group');
                     const badgeGroup = createBadgeGroup(
                         bg,
                         backgroundColor,
@@ -584,7 +584,7 @@ function SceneView(props: ISceneViewProps, ref) {
 
     // Update render mode
     useEffect(() => {
-        debugLog('Render Mode Effect');
+        debugLog('debug', 'Render Mode Effect');
         if (sceneRef.current?.meshes?.length) {
             const currentObjectColorId = currentColorId();
 
@@ -711,7 +711,7 @@ function SceneView(props: ISceneViewProps, ref) {
 
     // Handle isWireframe changes
     useEffect(() => {
-        debugLog('isWireframe Effect');
+        debugLog('debug', 'isWireframe Effect');
         if (sceneRef.current?.meshes?.length) {
             for (const mesh of sceneRef.current.meshes) {
                 if (mesh?.material) {
@@ -726,7 +726,7 @@ function SceneView(props: ISceneViewProps, ref) {
 
     // This is really our componentDidMount/componentWillUnmount stuff
     useEffect(() => {
-        debugLog('Mount');
+        debugLog('debug', 'Mount');
         // If this cleanup gets called with a non-empty scene, we can destroy the scene as the component is going away
         // This should save a lot of memory for large scenes
         const canvas = document.getElementById(canvasId);
@@ -735,7 +735,7 @@ function SceneView(props: ISceneViewProps, ref) {
             observer = new ResizeObserver(
                 debounce(() => {
                     if (engineRef.current) {
-                        debugLog('Resize');
+                        debugLog('debug', 'Resize');
                         engineRef.current.resize();
                         createMarkersWithPosition();
                     }
@@ -746,7 +746,7 @@ function SceneView(props: ISceneViewProps, ref) {
 
         return () => {
             if (sceneRef.current) {
-                debugLog('Unmount - has scene');
+                debugLog('debug', 'Unmount - has scene');
 
                 if (observer) {
                     observer.disconnect();
@@ -774,7 +774,7 @@ function SceneView(props: ISceneViewProps, ref) {
 
     // INITIALIZE AND LOAD SCENE
     const init = useCallback(() => {
-        debugLog('**************init');
+        debugLog('debug', '**************init');
 
         //TODO: load this private blob by getting token and using proxy for blob service REST API
         async function load(
@@ -911,7 +911,10 @@ function SceneView(props: ISceneViewProps, ref) {
 
     // Reload model if url changes
     useEffect(() => {
-        debugLog('init effect' + (scene ? ' with scene ' : ' no scene '));
+        debugLog(
+            'debug',
+            'init effect' + (scene ? ' with scene ' : ' no scene ')
+        );
         if (modelUrl && modelUrl !== modelUrlRef.current) {
             // Reload if modelUrl changes
             modelUrlRef.current = modelUrl;
@@ -1092,7 +1095,10 @@ function SceneView(props: ISceneViewProps, ref) {
 
     // SETUP LOGIC FOR onMeshHover
     useEffect(() => {
-        debugLog('hover effect' + (scene ? ' with scene' : ' no scene'));
+        debugLog(
+            'debug',
+            'hover effect' + (scene ? ' with scene' : ' no scene')
+        );
         let pt: BABYLON.Observer<BABYLON.PointerInfo>;
         if (scene) {
             // setting flag based on mouse down (i.e camera is being moved) to stop hover events firing at the same time
@@ -1197,7 +1203,7 @@ function SceneView(props: ISceneViewProps, ref) {
                     }
 
                     if (mesh !== lastMeshRef.current) {
-                        debugLog('pointer move');
+                        debugLog('debug', 'pointer move');
                         try {
                             onMeshHoverRef.current(mesh, scene, e);
                         } catch {
@@ -1210,7 +1216,10 @@ function SceneView(props: ISceneViewProps, ref) {
         }
 
         return () => {
-            debugLog('hover clean' + (scene ? ' with scene' : ' no scene'));
+            debugLog(
+                'debug',
+                'hover clean' + (scene ? ' with scene' : ' no scene')
+            );
             if (pt) {
                 scene.onPointerObservable.remove(pt);
             }
@@ -1226,7 +1235,10 @@ function SceneView(props: ISceneViewProps, ref) {
     // SETUP LOGIC FOR onMeshClick
     useEffect(() => {
         let pt: BABYLON.Observer<BABYLON.PointerInfo>;
-        debugLog('pointerTap effect' + (scene ? ' with scene' : ' no scene'));
+        debugLog(
+            'debug',
+            'pointerTap effect' + (scene ? ' with scene' : ' no scene')
+        );
         if (scene && onMeshClickRef.current) {
             const pointerTap = (e: any) => {
                 const p = e.pickInfo;
@@ -1250,7 +1262,7 @@ function SceneView(props: ISceneViewProps, ref) {
         }
 
         return () => {
-            debugLog('pointerTap effect clean');
+            debugLog('debug', 'pointerTap effect clean');
             if (pt) {
                 scene.onPointerObservable.remove(pt);
             }
@@ -1260,7 +1272,10 @@ function SceneView(props: ISceneViewProps, ref) {
     // Pointer move handler
     useEffect(() => {
         let pt: BABYLON.Observer<BABYLON.PointerInfo>;
-        debugLog('pointerMove effect' + (scene ? ' with scene' : ' no scene'));
+        debugLog(
+            'debug',
+            'pointerMove effect' + (scene ? ' with scene' : ' no scene')
+        );
         if (scene && onCameraMoveRef.current) {
             const cameraMove = () => {
                 if (onCameraMoveRef.current && cameraRef.current) {
@@ -1279,7 +1294,7 @@ function SceneView(props: ISceneViewProps, ref) {
         }
 
         return () => {
-            debugLog('pointerMove effect clean');
+            debugLog('debug', 'pointerMove effect clean');
             if (pt) {
                 scene.onPointerObservable.remove(pt);
             }
@@ -1289,6 +1304,7 @@ function SceneView(props: ISceneViewProps, ref) {
     // SETUP LOGIC FOR HANDLING COLORING MESHES
     useEffect(() => {
         debugLog(
+            'debug',
             'color meshes based on coloredmeshitems prop' +
                 (scene ? ' with scene' : ' no scene')
         );
@@ -1419,7 +1435,7 @@ function SceneView(props: ISceneViewProps, ref) {
         }
 
         return () => {
-            debugLog('Mesh coloring cleanup');
+            debugLog('debug', 'Mesh coloring cleanup');
             restoreMeshMaterials();
             coloredMaterials.current = [];
         };
@@ -1448,7 +1464,7 @@ function SceneView(props: ISceneViewProps, ref) {
             );
 
             materialCacheRef.current[materialId] = material;
-            debugLog('Creating material for ' + materialId);
+            debugLog('debug', 'Creating material for ' + materialId);
         }
 
         material.wireframe = !!isWireframe;
@@ -1458,7 +1474,7 @@ function SceneView(props: ISceneViewProps, ref) {
 
     // Handle outlinedMeshItems
     useEffect(() => {
-        debugLog('Outline Mesh effect');
+        debugLog('debug', 'Outline Mesh effect');
         if (outlinedMeshitems) {
             for (const item of outlinedMeshitems) {
                 let meshToOutline: BABYLON.Mesh =
@@ -1501,7 +1517,7 @@ function SceneView(props: ISceneViewProps, ref) {
         }
 
         return () => {
-            debugLog('Outline Mesh cleanup');
+            debugLog('debug', 'Outline Mesh cleanup');
             for (const mesh of outlinedMeshes.current) {
                 highlightLayer.current.removeMesh(mesh as BABYLON.Mesh);
             }

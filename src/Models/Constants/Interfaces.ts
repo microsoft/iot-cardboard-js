@@ -52,7 +52,7 @@ import {
     UserAssignmentsData,
     SubscriptionData
 } from '../Classes/AdapterDataClasses/AzureManagementModelData';
-import { AssetDevice } from '../Classes/Simulations/Asset';
+import { AssetProperty } from '../Classes/Simulations/Asset';
 import {
     CustomMeshItem,
     ICameraPosition,
@@ -71,6 +71,10 @@ import {
 import ADT3DSceneAdapter from '../../Adapters/ADT3DSceneAdapter';
 import { WrapperMode } from '../../Components/3DV/SceneView.types';
 import MockAdapter from '../../Adapters/MockAdapter';
+import {
+    ADTAllModelsData,
+    ADTTwinToModelMappingData
+} from '../Classes/AdapterDataClasses/ADTModelData';
 
 export interface IAction {
     type: string;
@@ -387,6 +391,14 @@ export type IPropertyInspectorAdapter = Pick<
     | 'updateRelationship'
 >;
 
+export interface IModelledPropertyBuilderAdapter {
+    getADTTwin(twinId: string): Promise<AdapterResult<ADTTwinData>>;
+    getAllAdtModels(): Promise<AdapterResult<ADTAllModelsData>>;
+    getModelIdFromTwinId(
+        twinId: string
+    ): Promise<AdapterResult<ADTTwinToModelMappingData>>;
+}
+
 export interface IADT3DViewerAdapter {
     getSceneData(
         sceneId: string,
@@ -394,7 +406,10 @@ export interface IADT3DViewerAdapter {
     ): AdapterReturnType<ADT3DViewerData>;
 }
 
-export interface IADTAdapter extends IKeyValuePairAdapter, IADT3DViewerAdapter {
+export interface IADTAdapter
+    extends IKeyValuePairAdapter,
+        IADT3DViewerAdapter,
+        IModelledPropertyBuilderAdapter {
     getADTModels(
         params?: AdapterMethodParamsForGetADTModels
     ): AdapterReturnType<ADTAdapterModelsData>;
@@ -577,16 +592,15 @@ export interface AssetRelationship {
 export interface AssetTwin {
     name: string;
     assetRelationships?: Array<AssetRelationship>;
-    devices: Array<AssetDevice>;
+    properties: Array<AssetProperty<any>>;
 }
 
-export interface IAssetDevice {
+export interface IAssetProperty<T> {
     id: string;
-    deviceName: string;
-    seedValue: number;
-    minValue: number;
-    maxValue: number;
-    properties: any;
+    propertyName: string;
+    currentValue: T;
+    getNextValue: (currentValue: T) => T;
+    schema?: string; // ADT schema for the property
 }
 
 export interface DTModelContent {
@@ -641,6 +655,11 @@ export interface IAdtPusherSimulation {
         download?: boolean
     ): Array<DTwin>;
     generateTwinRelationships(): Array<DTwinRelationship>;
+}
+
+export enum AdtPusherSimulationType {
+    DairyProduction = 'dairyProduction',
+    RobotArms = 'robotArms'
 }
 
 export interface IGenerateADTAssetsProps {

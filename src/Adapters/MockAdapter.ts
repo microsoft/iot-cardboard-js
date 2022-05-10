@@ -3,7 +3,10 @@ import {
     KeyValuePairAdapterData,
     TsiClientAdapterData
 } from '../Models/Classes';
-import ADTModelData from '../Models/Classes/AdapterDataClasses/ADTModelData';
+import ADTModelData, {
+    ADTAllModelsData,
+    ADTTwinToModelMappingData
+} from '../Models/Classes/AdapterDataClasses/ADTModelData';
 import ADTTwinData from '../Models/Classes/AdapterDataClasses/ADTTwinData';
 import AdapterResult from '../Models/Classes/AdapterResult';
 import AdapterMethodSandbox from '../Models/Classes/AdapterMethodSandbox';
@@ -30,6 +33,7 @@ import {
     IBlobAdapter,
     IBlobFile,
     IGetKeyValuePairsAdditionalParameters,
+    IModelledPropertyBuilderAdapter,
     IPropertyInspectorAdapter,
     IAzureResource,
     IUserSubscriptions,
@@ -54,6 +58,7 @@ import ADT3DViewerData from '../Models/Classes/AdapterDataClasses/ADT3DViewerDat
 import AzureResourcesData from '../Models/Classes/AdapterDataClasses/AzureResourcesData';
 import {
     getModelContentType,
+    parseDTDLModelsAsync,
     validate3DConfigWithSchema
 } from '../Models/Services/Utils';
 import BlobsData from '../Models/Classes/AdapterDataClasses/BlobsData';
@@ -79,7 +84,8 @@ export default class MockAdapter
         ITsiClientChartDataAdapter,
         IBlobAdapter,
         Partial<IADTAdapter>,
-        IPropertyInspectorAdapter {
+        IPropertyInspectorAdapter,
+        IModelledPropertyBuilderAdapter {
     private mockData = null;
     private mockError = null;
     private mockTwins: IADTTwin[] = null;
@@ -137,6 +143,29 @@ export default class MockAdapter
     async resetSceneConfig() {
         return new AdapterResult<ADTScenesConfigData>({
             result: null,
+            errorInfo: null
+        });
+    }
+
+    async getModelIdFromTwinId(twinId: string) {
+        const twinResult = await this.getADTTwin(twinId);
+        const twinData = twinResult.getData();
+        const modelId = twinData.$metadata.$model;
+
+        return new AdapterResult<ADTTwinToModelMappingData>({
+            result: new ADTTwinToModelMappingData({
+                twinId,
+                modelId
+            }),
+            errorInfo: null
+        });
+    }
+
+    async getAllAdtModels() {
+        const rawModels = (mockModelData as any) as DtdlInterface[];
+        const parsedModels = await parseDTDLModelsAsync(rawModels);
+        return new AdapterResult<ADTAllModelsData>({
+            result: new ADTAllModelsData({ rawModels, parsedModels }),
             errorInfo: null
         });
     }

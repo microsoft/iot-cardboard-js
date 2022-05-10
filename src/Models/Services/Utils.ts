@@ -9,7 +9,7 @@ import {
     ComponentErrorType,
     DTwin
 } from '../Constants';
-import { DtdlProperty } from '../Constants/dtdlInterfaces';
+import { DtdlInterface, DtdlProperty } from '../Constants/dtdlInterfaces';
 import { CharacterWidths } from '../Constants/Constants';
 import { Parser } from 'expr-eval';
 import Ajv from 'ajv/dist/2020';
@@ -20,8 +20,18 @@ import {
     IValueRange
 } from '../Types/Generated/3DScenesConfiguration-v1.0.0';
 import ViewerConfigUtility from '../Classes/ViewerConfigUtility';
+import { createParser, ModelParsingOption } from 'azure-iot-dtdl-parser';
 import { IDropdownOption } from '@fluentui/react';
 let ajv: Ajv = null;
+const parser = createParser(ModelParsingOption.PermitAnyTopLevelElement);
+
+/** Parse DTDL models via model parser */
+export const parseDTDLModelsAsync = async (dtdlInterfaces: DtdlInterface[]) => {
+    const modelDict = await parser.parse(
+        dtdlInterfaces.map((dtdlInterface) => JSON.stringify(dtdlInterface))
+    );
+    return modelDict;
+};
 
 /** Validates input data with JSON schema */
 export const validate3DConfigWithSchema = (
@@ -375,7 +385,25 @@ export function addHttpsPrefix(url: string) {
 
 export function getDebugLogger(context: string, enabled: boolean) {
     if (!enabled) return () => undefined;
-    return (message: string, ...args: unknown[]) => {
-        console.log(`[CB-DEBUG][${context}] ${message}`, args);
+    return (
+        level: 'debug' | 'info' | 'warn' | 'error',
+        message: string,
+        ...args: unknown[]
+    ) => {
+        const formattedMessage = `[CB-DEBUG][${context}] ${message}`;
+        switch (level) {
+            case 'debug':
+                console.debug(formattedMessage, ...args);
+                break;
+            case 'error':
+                console.error(formattedMessage, ...args);
+                break;
+            case 'warn':
+                console.warn(formattedMessage, ...args);
+                break;
+            default:
+                console.info(formattedMessage, ...args);
+                break;
+        }
     };
 }

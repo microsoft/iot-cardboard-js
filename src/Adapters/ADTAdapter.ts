@@ -31,10 +31,16 @@ import {
     DTwinUpdateEvent,
     IComponentError,
     linkedTwinName,
-    IAliasedTwinProperty
+    IAliasedTwinProperty,
+    IADTModel,
+    modelRefreshMaxAge,
+    twinRefreshMaxAge
 } from '../Models/Constants';
 import ADTTwinData from '../Models/Classes/AdapterDataClasses/ADTTwinData';
-import ADTModelData from '../Models/Classes/AdapterDataClasses/ADTModelData';
+import ADTModelData, {
+    ADTAllModelsData,
+    ADTTwinToModelMappingData
+} from '../Models/Classes/AdapterDataClasses/ADTModelData';
 import {
     ADTAdapterModelsData,
     ADTAdapterPatchData,
@@ -43,7 +49,10 @@ import {
 import ADTTwinLookupData from '../Models/Classes/AdapterDataClasses/ADTTwinLookupData';
 import axios, { AxiosError, AxiosInstance } from 'axios';
 import { DtdlInterface } from '../Models/Constants/dtdlInterfaces';
-import { getModelContentType } from '../Models/Services/Utils';
+import {
+    getModelContentType,
+    parseDTDLModelsAsync
+} from '../Models/Services/Utils';
 import { DTDLType } from '../Models/Classes/DTDL';
 import ExpandedADTModelData from '../Models/Classes/AdapterDataClasses/ExpandedADTModelData';
 import {
@@ -61,6 +70,7 @@ import {
     ITwinToObjectMapping
 } from '../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { ElementType } from '../Models/Classes/3DVConfig';
+import { ModelDict } from 'azure-iot-dtdl-parser/dist/parser/modelDict';
 import AdapterEntityCache from '../Models/Classes/AdapterEntityCache';
 
 export default class ADTAdapter implements IADTAdapter {
@@ -71,7 +81,12 @@ export default class ADTAdapter implements IADTAdapter {
     protected adtProxyServerPath: string;
     public packetNumber = 0;
     protected axiosInstance: AxiosInstance;
+    public cachedModels: DtdlInterface[];
+    public cachedTwinModelMap: Map<string, string>;
+    public parsedModels: ModelDict;
     protected adtTwinCache: AdapterEntityCache<ADTTwinData>;
+    protected adtModelsCache: AdapterEntityCache<ADTAllModelsData>;
+    protected adtTwinToModelMappingCache: AdapterEntityCache<ADTTwinToModelMappingData>;
 
     constructor(
         adtHostUrl: string,
@@ -85,7 +100,16 @@ export default class ADTAdapter implements IADTAdapter {
         this.authService = authService;
         this.tenantId = tenantId;
         this.uniqueObjectId = uniqueObjectId;
-        this.adtTwinCache = new AdapterEntityCache<ADTTwinData>(9000);
+        this.cachedTwinModelMap = new Map();
+        this.adtTwinCache = new AdapterEntityCache<ADTTwinData>(
+            twinRefreshMaxAge
+        );
+        this.adtModelsCache = new AdapterEntityCache<ADTAllModelsData>(
+            modelRefreshMaxAge
+        );
+        this.adtTwinToModelMappingCache = new AdapterEntityCache<ADTTwinToModelMappingData>(
+            modelRefreshMaxAge
+        );
 
         this.authService.login();
         this.axiosInstance = axios.create({ baseURL: this.adtProxyServerPath });
@@ -177,6 +201,82 @@ export default class ADTAdapter implements IADTAdapter {
         }
     }
 
+    async getModelIdFromTwinId(twinId: string) {
+        const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
+
+        const getDataMethod = () =>
+            adapterMethodSandbox.safelyFetchData(async () => {
+                try {
+                    const twinResult = await this.getADTTwin(twinId, true);
+                    if (!twinResult.hasNoData()) {
+                        const twinData = twinResult.getData();
+                        const modelId = twinData.$metadata.$model;
+                        return new ADTTwinToModelMappingData({
+                            twinId,
+                            modelId
+                        });
+                    } else {
+                        throw new Error('Twin fetch failed');
+                    }
+                } catch (err) {
+                    adapterMethodSandbox.pushError({
+                        isCatastrophic: true,
+                        type: ComponentErrorType.DataFetchFailed,
+                        rawError: err
+                    });
+                }
+            });
+
+        return this.adtTwinToModelMappingCache.getEntity(twinId, getDataMethod);
+    }
+
+    async getAllAdtModels() {
+        const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
+        const getDataMethod = () =>
+            adapterMethodSandbox.safelyFetchData(async () => {
+                try {
+                    let rawModels: DtdlInterface[] = [];
+                    const appendModels = async (nextLink?: string) => {
+                        // Get next chunk of models
+                        const adtModelsApiData = await this.getADTModels({
+                            shouldIncludeDefinitions: true,
+                            ...(nextLink && { continuationToken: nextLink })
+                        });
+
+                        // Add to models list
+                        rawModels = [
+                            ...rawModels,
+                            ...adtModelsApiData.result.data.value.map(
+                                (adtModel: IADTModel) => adtModel.model
+                            )
+                        ];
+
+                        // If next link present, fetch next chunk
+                        if (adtModelsApiData.result.data.nextLink) {
+                            await appendModels(
+                                adtModelsApiData.result.data.nextLink
+                            );
+                        }
+                    };
+
+                    await appendModels();
+
+                    const parsedModels = await parseDTDLModelsAsync(rawModels);
+                    return new ADTAllModelsData({
+                        rawModels,
+                        parsedModels
+                    });
+                } catch (err) {
+                    adapterMethodSandbox.pushError({
+                        type: ComponentErrorType.ModelsRetrievalFailed,
+                        isCatastrophic: true,
+                        rawError: err
+                    });
+                }
+            });
+        return this.adtModelsCache.getEntity('adt_models', getDataMethod);
+    }
+
     getADTModel(modelId: string) {
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
         return adapterMethodSandbox.safelyFetchDataCancellableAxiosPromise(
@@ -230,7 +330,7 @@ export default class ADTAdapter implements IADTAdapter {
         );
     }
 
-    getADTModels(params: AdapterMethodParamsForGetADTModels = null) {
+    async getADTModels(params: AdapterMethodParamsForGetADTModels = null) {
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
 
         return adapterMethodSandbox.safelyFetchDataCancellableAxiosPromise(
@@ -904,45 +1004,47 @@ export default class ADTAdapter implements IADTAdapter {
                                                 ElementType.TwinToObjectMapping &&
                                             element.id === id
                                     ) as ITwinToObjectMapping;
+                                    if (element) {
+                                        twins[linkedTwinName] =
+                                            twinIdToResolvedTwinMap[
+                                                element.linkedTwinID
+                                            ];
 
-                                    twins[linkedTwinName] =
-                                        twinIdToResolvedTwinMap[
-                                            element.linkedTwinID
-                                        ];
-
-                                    // check for twin aliases and add to twins object
-                                    if (element.twinAliases) {
-                                        for (const alias of Object.keys(
-                                            element.twinAliases
-                                        )) {
-                                            twins[alias] =
-                                                twinIdToResolvedTwinMap[
-                                                    element.twinAliases[alias]
-                                                ];
+                                        // check for twin aliases and add to twins object
+                                        if (element.twinAliases) {
+                                            for (const alias of Object.keys(
+                                                element.twinAliases
+                                            )) {
+                                                twins[alias] =
+                                                    twinIdToResolvedTwinMap[
+                                                        element.twinAliases[
+                                                            alias
+                                                        ]
+                                                    ];
+                                            }
                                         }
-                                    }
 
-                                    const existingSceneVisual = sceneVisuals.find(
-                                        (sV) => sV.element.id === id
-                                    );
-                                    if (!existingSceneVisual) {
-                                        const sceneVisual = new SceneVisual(
-                                            element,
-                                            [behavior],
-                                            twins
+                                        const existingSceneVisual = sceneVisuals.find(
+                                            (sV) => sV.element.id === id
                                         );
-                                        sceneVisuals.push(sceneVisual);
-                                    } else {
-                                        existingSceneVisual.behaviors.push(
-                                            behavior
-                                        );
+                                        if (!existingSceneVisual) {
+                                            const sceneVisual = new SceneVisual(
+                                                element,
+                                                [behavior],
+                                                twins
+                                            );
+                                            sceneVisuals.push(sceneVisual);
+                                        } else {
+                                            existingSceneVisual.behaviors.push(
+                                                behavior
+                                            );
+                                        }
                                     }
                                 }
                             }
                     }
                 }
             }
-
             return new ADT3DViewerData(modelUrl, sceneVisuals);
         });
     }

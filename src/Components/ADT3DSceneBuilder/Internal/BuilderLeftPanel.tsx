@@ -91,7 +91,7 @@ const BuilderLeftPanel: React.FC = () => {
             mode: ADT3DSceneBuilderMode;
             behavior: IBehavior;
             selectedLayerIds: string[];
-            selectedElements: Array<ITwinToObjectMapping>; // update selected elements for behavior in case twin aliases are changed
+            selectedElements: Array<ITwinToObjectMapping>; // update selected elements for behavior (e.g. in case twin aliases are changed)
         }) => {
             let updatedConfigWithBehavior;
             if (params.mode === ADT3DSceneBuilderMode.CreateBehavior) {
@@ -107,8 +107,10 @@ const BuilderLeftPanel: React.FC = () => {
                     params.behavior,
                     params.selectedLayerIds
                 );
+            } else {
+                updatedConfigWithBehavior = params.config;
             }
-            updatedConfigWithBehavior = ViewerConfigUtility.editElements(
+            updatedConfigWithBehavior = ViewerConfigUtility.updateElementsInScene(
                 updatedConfigWithBehavior,
                 sceneId,
                 params.selectedElements
@@ -234,7 +236,7 @@ const BuilderLeftPanel: React.FC = () => {
         setColoredMeshItems([]);
     };
 
-    const onElementSave = (newElements: Array<ITwinToObjectMapping>) => {
+    const onElementSave = async (newElements: Array<ITwinToObjectMapping>) => {
         dispatch({
             type: SET_ADT_SCENE_BUILDER_ELEMENTS,
             payload: newElements
@@ -257,13 +259,16 @@ const BuilderLeftPanel: React.FC = () => {
         setBehaviorToEdit({ ...defaultBehavior, id: createGUID() });
     };
 
-    const onCreateBehaviorWithElements = () => {
+    const onCreateBehaviorWithElements = (
+        newElement?: ITwinToObjectMapping
+    ) => {
         const behavior = { ...defaultBehavior, id: createGUID() };
         const mappingIds = [];
-        const elementsToAssign =
-            state.selectedElements?.length > 0
-                ? state.selectedElements
-                : [state.selectedElement];
+        const elementsToAssign = newElement
+            ? [newElement]
+            : state.selectedElements?.length > 0
+            ? state.selectedElements
+            : [state.selectedElement];
         elementsToAssign.forEach((element) => {
             mappingIds.push(element.id);
         });
@@ -442,7 +447,6 @@ const BuilderLeftPanel: React.FC = () => {
                         onBackClick(ADT3DSceneBuilderMode.ElementsIdle)
                     }
                     onElementSave={onElementSave}
-                    onBehaviorSave={onBehaviorSave}
                     onBehaviorClick={onBehaviorClick}
                     onCreateBehaviorWithElements={onCreateBehaviorWithElements}
                 />
