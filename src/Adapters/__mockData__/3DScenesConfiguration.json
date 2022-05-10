@@ -2375,7 +2375,7 @@
                         "type": "Alert",
                         "triggerExpression": "LinkedTwin.OutFlow > 120",
                         "labelExpression": "OutFlow rate too high",
-                        "iconName": "Squalls",
+                        "iconName": "SpeedHigh",
                         "color": "#a209de",
                         "objectIDs": {
                             "expression": "objectIDs"
