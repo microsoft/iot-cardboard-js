@@ -148,7 +148,10 @@
     "simulating": "シミュレーション",
     "liveStatus": "パケット番号: {{パケット番号}} |{{totalSuccessPatches}}/{{totalTwinsPatched}} 双子が更新されました",
     "generateEnvironmentDescription": "モデル、ツイン、リレーションシップをプッシュして環境にデータを設定",
-    "simulateDescription": "環境へのイベントのプッシュ"
+    "simulateDescription": "環境へのイベントのプッシュ",
+    "pusherType": "シミュレーションの種類",
+    "robotArms": "ロボットアーム",
+    "dairyProduction": "酪農施設"
   },
   "scenes": {
     "noScenes": "3Dシーンがないので、新しいシーンを追加して開始します。",
@@ -376,7 +379,6 @@
     "addElementDetails": "要素の詳細を追加する",
     "noBehaviorsOnElement": "この要素にビヘイビアが割り当てられていません",
     "noElementsText": "要素はまだ作成されていません",
-    "noResults": "結果なし",
     "behaviorsInSceneTitle": "このシーンでは ({{カウント}})",
     "createWithElement": "{{要素}}で作成",
     "elementActions": "要素アクション",
@@ -489,7 +491,8 @@
       "dropdownPlaceholder": "プロパティの選択",
       "none": "何一つ",
       "customExpression": "カスタム式"
-    }
+    },
+    "noResults": "結果が見つかりません"
   },
   "widgets": {
     "trend": {

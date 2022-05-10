@@ -148,7 +148,10 @@
     "simulating": "Simulando",
     "liveStatus": "Número de paquete: {{packetNumber}} | {{totalSuccessfulPatches}}/{{totalTwinsPatched}} gemelos actualizados correctamente",
     "generateEnvironmentDescription": "Impulse modelos, gemelos y relaciones para poblar su entorno",
-    "simulateDescription": "Envíe eventos a su entorno"
+    "simulateDescription": "Envíe eventos a su entorno",
+    "pusherType": "Tipo de simulación",
+    "robotArms": "Brazos robóticos",
+    "dairyProduction": "Instalación lechera"
   },
   "scenes": {
     "noScenes": "No tiene escenas 3D, agregue una nueva para comenzar.",
@@ -376,7 +379,6 @@
     "addElementDetails": "Agregar detalles del elemento",
     "noBehaviorsOnElement": "No hay comportamientos asignados a este elemento",
     "noElementsText": "Aún no se han creado elementos",
-    "noResults": "Sin resultados",
     "behaviorsInSceneTitle": "En esta escena ({{count}})",
     "createWithElement": "Crear con {{element}}",
     "elementActions": "Acciones de elementos",
@@ -489,7 +491,8 @@
       "dropdownPlaceholder": "Seleccione una propiedad",
       "none": "Ninguno",
       "customExpression": "Expresión personalizada"
-    }
+    },
+    "noResults": "No se han encontrado resultados"
   },
   "widgets": {
     "trend": {

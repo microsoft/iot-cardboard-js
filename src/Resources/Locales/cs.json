@@ -148,7 +148,10 @@
     "simulating": "Simulující",
     "liveStatus": "Číslo paketu: {{packetNumber}} | {{totalSuccessfulPatches}}/{{totalTwinsPatched}} dvojčata úspěšně aktualizována",
     "generateEnvironmentDescription": "Nabízení modelů, dvojčat a relací pro naplnění vašeho prostředí",
-    "simulateDescription": "Odesílání událostí do vašeho prostředí"
+    "simulateDescription": "Odesílání událostí do vašeho prostředí",
+    "pusherType": "Typ simulace",
+    "robotArms": "Robotická ramena",
+    "dairyProduction": "Mlékárenské zařízení"
   },
   "scenes": {
     "noScenes": "Nemáte žádné 3D scény, přidejte novou, abyste mohli začít.",
@@ -376,7 +379,6 @@
     "addElementDetails": "Přidání podrobností o prvku",
     "noBehaviorsOnElement": "Tomuto prvku nejsou přiřazena žádná chování",
     "noElementsText": "Zatím nebyly vytvořeny žádné prvky",
-    "noResults": "Žádné výsledky",
     "behaviorsInSceneTitle": "V této scéně ({{count}})",
     "createWithElement": "Vytvořit pomocí {{element}}",
     "elementActions": "Akce elementů",
@@ -489,7 +491,8 @@
       "dropdownPlaceholder": "Vyberte nemovitost",
       "none": "Žádný",
       "customExpression": "Vlastní výraz"
-    }
+    },
+    "noResults": "Nebyly nalezeny žádné výsledky"
   },
   "widgets": {
     "trend": {

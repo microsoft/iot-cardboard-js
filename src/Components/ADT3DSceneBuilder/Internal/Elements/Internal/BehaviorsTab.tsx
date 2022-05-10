@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { memo, useCallback, useEffect, useState } from 'react';
 import { TFunction, useTranslation } from 'react-i18next';
 import { ActionButton, IContextualMenuItem, useTheme } from '@fluentui/react';
 import { BehaviorState } from '../../../ADT3DSceneBuilder.types';
@@ -71,7 +71,7 @@ const BehaviorsTab: React.FC<IADT3DSceneBuilderElementBehaviorProps> = ({
 
                 draft.behaviorToEdit = ViewerConfigUtility.removeElementFromBehavior(
                     elementToEdit,
-                    draft.behaviorToEdit
+                    deepCopy(draft.behaviorToEdit)
                 );
 
                 draft.behaviorsToEdit.push(draft.behaviorToEdit);
@@ -85,7 +85,7 @@ const BehaviorsTab: React.FC<IADT3DSceneBuilderElementBehaviorProps> = ({
             produce((draft) => {
                 draft.behaviorToEdit = ViewerConfigUtility.addElementToBehavior(
                     elementToEdit,
-                    behavior
+                    deepCopy(behavior)
                 );
                 draft.behaviorsOnElement.push(draft.behaviorToEdit);
                 draft.behaviorsToEdit.push(draft.behaviorToEdit);
@@ -215,4 +215,4 @@ function getListItems(
     });
 }
 
-export default BehaviorsTab;
+export default memo(BehaviorsTab);

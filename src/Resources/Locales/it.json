@@ -148,7 +148,10 @@
     "simulating": "Simulazione",
     "liveStatus": "Numero di pacchetto: {{packetNumber}} | {{totalSuccessfulPatches}}/{{totalTwinsPatched}} twins aggiornato con successo",
     "generateEnvironmentDescription": "Eseguire il push di modelli, gemelli e relazioni per popolare l'ambiente",
-    "simulateDescription": "Esegui il push degli eventi nel tuo ambiente"
+    "simulateDescription": "Esegui il push degli eventi nel tuo ambiente",
+    "pusherType": "Tipo di simulazione",
+    "robotArms": "Bracci robotici",
+    "dairyProduction": "Impianto lattiero-caseario"
   },
   "scenes": {
     "noScenes": "Non hai scene 3D, aggiungine una nuova per iniziare.",
@@ -376,7 +379,6 @@
     "addElementDetails": "Aggiungere i dettagli dell'elemento",
     "noBehaviorsOnElement": "Nessun comportamento assegnato a questo elemento",
     "noElementsText": "Nessun elemento creato ancora",
-    "noResults": "Nessun risultato",
     "behaviorsInSceneTitle": "In questa scena ({{count}})",
     "createWithElement": "Crea con {{element}}",
     "elementActions": "Azioni elemento",
@@ -489,7 +491,8 @@
       "dropdownPlaceholder": "Seleziona una proprietà",
       "none": "Nessuno",
       "customExpression": "Espressione personalizzata"
-    }
+    },
+    "noResults": "Nessun risultato trovato"
   },
   "widgets": {
     "trend": {

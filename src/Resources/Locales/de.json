@@ -148,7 +148,10 @@
     "simulating": "Nachahmend",
     "liveStatus": "Paketnummer: {{packetNumber}} | {{totalSuccessfulPatches}}/{{totalTwinsPatched}} Zwillinge erfolgreich aktualisiert",
     "generateEnvironmentDescription": "Pushen von Modellen, Zwillingen und Beziehungen, um Ihre Umgebung zu füllen",
-    "simulateDescription": "Übertragen von Ereignissen in Ihre Umgebung"
+    "simulateDescription": "Übertragen von Ereignissen in Ihre Umgebung",
+    "pusherType": "Art der Simulation",
+    "robotArms": "Roboterarme",
+    "dairyProduction": "Molkerei"
   },
   "scenes": {
     "noScenes": "Sie haben keine 3D-Szenen, fügen Sie eine neue hinzu, um loszulegen.",
@@ -376,7 +379,6 @@
     "addElementDetails": "Hinzufügen von Elementdetails",
     "noBehaviorsOnElement": "Diesem Element sind keine Verhaltensweisen zugewiesen",
     "noElementsText": "Noch keine Elemente erstellt",
-    "noResults": "Keine Ergebnisse",
     "behaviorsInSceneTitle": "In dieser Szene ({{count}})",
     "createWithElement": "Erstellen mit {{element}}",
     "elementActions": "Elementaktionen",
@@ -489,7 +491,8 @@
       "dropdownPlaceholder": "Wählen Sie eine Immobilie aus",
       "none": "Nichts",
       "customExpression": "Benutzerdefinierter Ausdruck"
-    }
+    },
+    "noResults": "Keine Ergebnisse gefunden"
   },
   "widgets": {
     "trend": {

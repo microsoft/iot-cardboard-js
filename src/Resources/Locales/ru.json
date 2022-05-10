@@ -148,7 +148,10 @@
     "simulating": "Имитации",
     "liveStatus": "Номер пакета: {{packetNumber}} | {{totalSuccessfulPatches}}/{{totalTwinsPatched}} близнецы успешно обновлены",
     "generateEnvironmentDescription": "Отправка моделей, близнецов и связей для заполнения среды",
-    "simulateDescription": "Отправка событий в среду"
+    "simulateDescription": "Отправка событий в среду",
+    "pusherType": "Тип моделирования",
+    "robotArms": "Роботизированные руки",
+    "dairyProduction": "Молочный завод"
   },
   "scenes": {
     "noScenes": "У вас нет 3D-сцен, добавьте новую, чтобы начать.",
@@ -376,7 +379,6 @@
     "addElementDetails": "Добавление сведений об элементе",
     "noBehaviorsOnElement": "Нет вариантов поведения, назначенных этому элементу",
     "noElementsText": "Элементы еще не созданы",
-    "noResults": "Нет результатов",
     "behaviorsInSceneTitle": "В этой сцене ({{count}})",
     "createWithElement": "Создать с помощью {{element}}",
     "elementActions": "Действия элементов",
@@ -489,7 +491,8 @@
       "dropdownPlaceholder": "Выберите недвижимость",
       "none": "Никакой",
       "customExpression": "Пользовательское выражение"
-    }
+    },
+    "noResults": "Результаты не найдены"
   },
   "widgets": {
     "trend": {

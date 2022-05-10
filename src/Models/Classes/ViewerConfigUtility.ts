@@ -155,12 +155,14 @@ abstract class ViewerConfigUtility {
             .find((scene) => scene.id === sceneId)
             ?.behaviorIDs?.push(behavior.id);
 
-        // Update behavior layer data
-        ViewerConfigUtility.setLayersForBehavior(
-            updatedConfig,
-            behavior.id,
-            selectedLayerIds
-        );
+        if (selectedLayerIds) {
+            // Update behavior layer data
+            ViewerConfigUtility.setLayersForBehavior(
+                updatedConfig,
+                behavior.id,
+                selectedLayerIds
+            );
+        }
         return updatedConfig;
     }
 
@@ -170,7 +172,7 @@ abstract class ViewerConfigUtility {
     static editBehavior(
         config: I3DScenesConfig,
         behavior: IBehavior,
-        selectedLayerIds: string[]
+        selectedLayerIds?: string[]
     ): I3DScenesConfig {
         const updatedConfig = deepCopy(config);
 
@@ -180,12 +182,14 @@ abstract class ViewerConfigUtility {
         );
         updatedConfig.configuration.behaviors[behaviorIdx] = behavior;
 
-        // Update behavior layer data
-        ViewerConfigUtility.setLayersForBehavior(
-            updatedConfig,
-            behavior.id,
-            selectedLayerIds
-        );
+        if (selectedLayerIds) {
+            // Update behavior layer data
+            ViewerConfigUtility.setLayersForBehavior(
+                updatedConfig,
+                behavior.id,
+                selectedLayerIds
+            );
+        }
 
         return updatedConfig;
     }
@@ -197,9 +201,15 @@ abstract class ViewerConfigUtility {
         behavior: IBehavior
     ): I3DScenesConfig {
         const updatedConfig = deepCopy(config);
-        updatedConfig.configuration.scenes
-            .find((scene) => scene.id === sceneId)
-            ?.behaviorIDs?.push(behavior.id);
+        const currentScene = updatedConfig.configuration.scenes.find(
+            (scene) => scene.id === sceneId
+        );
+        const behaviorIdsInScene = currentScene.behaviorIDs || [];
+        if (!behaviorIdsInScene.includes(behavior.id)) {
+            behaviorIdsInScene.push(behavior.id);
+        }
+
+        currentScene.behaviorIDs = behaviorIdsInScene;
         return updatedConfig;
     }
 
@@ -352,7 +362,7 @@ abstract class ViewerConfigUtility {
      * @param sceneId the scene Id where the elements to be updated are in
      * @returns the updated config
      */
-    static editElements(
+    static updateElementsInScene(
         config: I3DScenesConfig,
         sceneId: string,
         updatedElements: Array<ITwinToObjectMapping>
@@ -736,6 +746,8 @@ abstract class ViewerConfigUtility {
         dataSources[0].elementIDs = dataSources[0].elementIDs.filter(
             (mappingId) => mappingId !== element.id
         );
+        behavior.datasources = dataSources;
+
         return behavior;
     }
 
@@ -757,6 +769,7 @@ abstract class ViewerConfigUtility {
                 elementIDs: [element.id]
             };
         }
+        behavior.datasources = dataSources;
 
         return behavior;
     }

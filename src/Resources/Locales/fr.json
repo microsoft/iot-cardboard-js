@@ -148,7 +148,10 @@
     "simulating": "Simulant",
     "liveStatus": "Numéro de paquet : {{packetNumber}} | {{totalSuccessfulPatches}}/{{totalTwinsPatched}} jumeaux mis à jour avec succès",
     "generateEnvironmentDescription": "Poussez des modèles, des jumeaux et des relations pour peupler votre environnement",
-    "simulateDescription": "Diffusez des événements dans votre environnement"
+    "simulateDescription": "Diffusez des événements dans votre environnement",
+    "pusherType": "Simulation Type",
+    "robotArms": "Bras de robot",
+    "dairyProduction": "Installation laitière"
   },
   "scenes": {
     "noScenes": "Vous n’avez pas de scènes 3D, ajoutez-en une nouvelle pour commencer.",
@@ -376,7 +379,6 @@
     "addElementDetails": "Ajouter des détails d’élément",
     "noBehaviorsOnElement": "Aucun comportement affecté à cet élément",
     "noElementsText": "Aucun élément créé pour l’instant",
-    "noResults": "Aucun résultat",
     "behaviorsInSceneTitle": "Dans cette scène ({{count}})",
     "createWithElement": "Créer avec {{element}}",
     "elementActions": "Actions des éléments",
@@ -489,7 +491,8 @@
       "dropdownPlaceholder": "Sélectionner une propriété",
       "none": "Aucun",
       "customExpression": "Expression personnalisée"
-    }
+    },
+    "noResults": "Aucun résultat trouvé"
   },
   "widgets": {
     "trend": {

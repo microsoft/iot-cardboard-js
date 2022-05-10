@@ -148,7 +148,10 @@
     "simulating": "Simuleren",
     "liveStatus": "Pakketnummer: {{packetNumber}} | {{totalSuccessfulPatches}}/{{totalTwinsPatched}} twins succesvol bijgewerkt",
     "generateEnvironmentDescription": "Push modellen, tweelingen en relaties om uw omgeving te bevolken",
-    "simulateDescription": "Push evenementen naar uw omgeving"
+    "simulateDescription": "Push evenementen naar uw omgeving",
+    "pusherType": "Simulatie type",
+    "robotArms": "Robotarmen",
+    "dairyProduction": "Zuivelfaciliteit"
   },
   "scenes": {
     "noScenes": "Je hebt geen 3D-scènes, voeg een nieuwe toe om aan de slag te gaan.",
@@ -376,7 +379,6 @@
     "addElementDetails": "Elementdetails toevoegen",
     "noBehaviorsOnElement": "Geen gedrag toegewezen aan dit element",
     "noElementsText": "Nog geen elementen gemaakt",
-    "noResults": "Geen resultaten",
     "behaviorsInSceneTitle": "In deze scène ({{count}})",
     "createWithElement": "Maken met {{element}}",
     "elementActions": "Elementacties",
@@ -489,7 +491,8 @@
       "dropdownPlaceholder": "Selecteer een woning",
       "none": "Geen",
       "customExpression": "Aangepaste expressie"
-    }
+    },
+    "noResults": "Geen resultaten gevonden"
   },
   "widgets": {
     "trend": {

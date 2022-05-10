@@ -150,7 +150,10 @@
         "simulating": "Simulating",
         "liveStatus": "Packet number: {{packetNumber}} | {{totalSuccessfulPatches}}/{{totalTwinsPatched}} twins successfully updated",
         "generateEnvironmentDescription": "Push models, twins, and relationships to populate your environment",
-        "simulateDescription": "Push events to your environment"
+        "simulateDescription": "Push events to your environment",
+        "pusherType": "Simulation Type",
+        "robotArms": "Robot arms",
+        "dairyProduction": "Dairy facility"
     },
     "scenes": {
         "noScenes": "You have no 3D scenes, add a new one to get started.",
@@ -378,7 +381,7 @@
         "addElementDetails": "Add element details",
         "noBehaviorsOnElement": "No behaviors assigned to this element",
         "noElementsText": "No elements created yet",
-        "noResults": "No results",
+        "noResults": "No results found",
         "behaviorsInSceneTitle": "In this scene ({{count}})",
         "createWithElement": "Create with {{element}}",
         "elementActions": "Element actions",

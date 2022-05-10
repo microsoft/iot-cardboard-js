@@ -148,7 +148,10 @@
     "simulating": "Simulação",
     "liveStatus": "Número do pacote: {{packetNumber}} | {{totalSuccessfulPatches}}/{totalTwinsPatched}} gémeos atualizados com sucesso",
     "generateEnvironmentDescription": "Empurre modelos, gémeos e relacionamentos para povoar o seu ambiente",
-    "simulateDescription": "Empurre os eventos para o seu ambiente"
+    "simulateDescription": "Empurre os eventos para o seu ambiente",
+    "pusherType": "Tipo de Simulação",
+    "robotArms": "Braços robô",
+    "dairyProduction": "Instalação de lacticínios"
   },
   "scenes": {
     "noScenes": "Não tens cenas 3D, adicione uma nova para começar.",
@@ -376,7 +379,6 @@
     "addElementDetails": "Adicionar detalhes de elementos",
     "noBehaviorsOnElement": "Nenhum comportamento atribuído a este elemento",
     "noElementsText": "Nenhum elemento criado ainda",
-    "noResults": "Sem resultados",
     "behaviorsInSceneTitle": "Nesta cena ({{count}})",
     "createWithElement": "Criar com {{element}}",
     "elementActions": "Ações de elementos",
@@ -489,7 +491,8 @@
       "dropdownPlaceholder": "Selecione um imóvel",
       "none": "Nenhum.",
       "customExpression": "Expressão personalizada"
-    }
+    },
+    "noResults": "Não foram encontrados resultados"
   },
   "widgets": {
     "trend": {

@@ -2,11 +2,18 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import useAuthParams from '../../../.storybook/useAuthParams';
 import { ComponentErrorType } from '../../Models/Constants';
+import { getDefaultStoryDecorator } from '../../Models/Services/StoryUtilities';
 import ScenePageErrorHandlingWrapper from './ScenePageErrorHandlingWrapper';
+
+const cardStyle = {
+    height: '600px',
+    width: 'unset'
+};
 
 export default {
     title: 'Components/ScenePageErrorHandlingWrapper',
-    component: ScenePageErrorHandlingWrapper
+    component: ScenePageErrorHandlingWrapper,
+    decorators: [getDefaultStoryDecorator<any>(cardStyle)]
 };
 
 export const NonExistentBlob = () => {

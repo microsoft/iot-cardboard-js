@@ -22,11 +22,14 @@ import {
 } from '../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { CardboardList } from '../../../CardboardList/CardboardList';
 import { ICardboardListItem } from '../../../CardboardList/CardboardList.types';
+import IllustrationMessage from '../../../IllustrationMessage/IllustrationMessage';
 import { SceneBuilderContext } from '../../ADT3DSceneBuilder';
 import ConfirmDeleteDialog from '../ConfirmDeleteDialog/ConfirmDeleteDialog';
 import { getLeftPanelStyles } from '../Shared/LeftPanel.styles';
 import PanelFooter from '../Shared/PanelFooter';
 import SearchHeader from '../Shared/SearchHeader';
+import noResults from '../../../../Resources/Static/noResults.svg';
+import noLayers from '../../../../Resources/Static/noLayers.svg';
 
 interface Props {
     behaviors: Array<IBehavior>;
@@ -182,9 +185,15 @@ const SceneBehaviors: React.FC<Props> = ({
         <div className="cb-scene-builder-pivot-contents">
             <div className={commonPanelStyles.content}>
                 {behaviors.length === 0 ? (
-                    <p className={commonPanelStyles.noDataText}>
-                        {t('3dSceneBuilder.noBehaviorsText')}
-                    </p>
+                    <IllustrationMessage
+                        headerText={t('3dSceneBuilder.noBehaviorsText')}
+                        type={'info'}
+                        width={'compact'}
+                        imageProps={{
+                            src: noLayers,
+                            height: 100
+                        }}
+                    />
                 ) : (
                     <>
                         <SearchHeader
@@ -195,9 +204,15 @@ const SceneBehaviors: React.FC<Props> = ({
                             searchText={searchText}
                         />
                         {!itemsInSceneVisible && !itemsNotInSceneVisible && (
-                            <p className={commonPanelStyles.noDataText}>
-                                {t('3dSceneBuilder.noResults')}
-                            </p>
+                            <IllustrationMessage
+                                headerText={t('3dSceneBuilder.noResults')}
+                                type={'info'}
+                                width={'compact'}
+                                imageProps={{
+                                    src: noResults,
+                                    height: 100
+                                }}
+                            />
                         )}
                         <div className={customStyles.content}>
                             {/* List of behaviors in the scene */}
