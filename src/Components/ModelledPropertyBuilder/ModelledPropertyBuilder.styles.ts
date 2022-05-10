@@ -16,7 +16,8 @@ export const modelledPropertyBuilderClassPrefix = 'cb-modelledpropertybuilder';
 const classNames = {
     toggleContainer: `${modelledPropertyBuilderClassPrefix}-toggle-container`,
     dropdownTitleText: `${modelledPropertyBuilderClassPrefix}-dropdown-title-text`,
-    loadingSpinnerContainer: `${modelledPropertyBuilderClassPrefix}-loading-spinner-container`
+    loadingSpinnerContainer: `${modelledPropertyBuilderClassPrefix}-loading-spinner-container`,
+    labelContainer: `${modelledPropertyBuilderClassPrefix}-label-container`
 };
 
 export const getStyles = memoizeFunction(() => {
@@ -40,7 +41,18 @@ export const getStyles = memoizeFunction(() => {
         loadingSpinnerContainer: [
             classNames.loadingSpinnerContainer,
             {
-                width: 40
+                width: 24,
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center'
+            } as IStyle
+        ],
+        labelContainer: [
+            classNames.labelContainer,
+            {
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center'
             } as IStyle
         ]
     });
@@ -77,6 +89,7 @@ export const propertyExpressionLabelStyles: Partial<ILabelStyles> = {
     root: {
         fontWeight: FontWeights.semibold,
         fontSize: FontSizes.size14,
-        paddingBottom: 0
+        paddingBottom: 0,
+        paddingTop: 0
     }
 };

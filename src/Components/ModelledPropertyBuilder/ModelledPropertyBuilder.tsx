@@ -109,8 +109,8 @@ const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = ({
                 !getDropdownOptionByExpressionKey(
                     propertyExpression,
                     dropdownOptions
-                ) ||
-                propertyExpression.expression === ''
+                ) &&
+                propertyExpression.expression !== ''
             ) {
                 setInternalMode('INTELLISENSE');
             }
@@ -220,13 +220,21 @@ const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = ({
 
     return (
         <Stack tokens={{ childrenGap: 4 }}>
-            <Label styles={propertyExpressionLabelStyles} required={required}>
-                {customLabel
-                    ? customLabel
-                    : t(
-                          '3dSceneBuilder.ModelledPropertyBuilder.expressionLabel'
-                      )}
-            </Label>
+            <div className={styles.labelContainer}>
+                <Label
+                    styles={propertyExpressionLabelStyles}
+                    required={required}
+                >
+                    {customLabel
+                        ? customLabel
+                        : t(
+                              '3dSceneBuilder.ModelledPropertyBuilder.expressionLabel'
+                          )}
+                </Label>
+                {(mode === 'INTELLISENSE' || mode === 'PROPERTY_SELECTION') && (
+                    <LoadingSpinner isLoading={isLoading} />
+                )}
+            </div>
             {mode === 'TOGGLE' && (
                 <div className={styles.toggleContainer}>
                     <ChoiceGroup
@@ -235,14 +243,7 @@ const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = ({
                         onChange={onChangeMode}
                         styles={choiceGroupStyles}
                     />
-                    <div className={styles.loadingSpinnerContainer}>
-                        {isLoading && (
-                            <Spinner
-                                size={SpinnerSize.small}
-                                ariaLive="assertive"
-                            />
-                        )}
-                    </div>
+                    <LoadingSpinner isLoading={isLoading} />
                 </div>
             )}
             {internalMode === 'PROPERTY_SELECTION' && (
@@ -265,6 +266,17 @@ const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = ({
                 />
             )}
         </Stack>
+    );
+};
+
+const LoadingSpinner: React.FC<{ isLoading: boolean }> = ({ isLoading }) => {
+    const styles = getStyles();
+    return (
+        <div className={styles.loadingSpinnerContainer}>
+            {isLoading && (
+                <Spinner size={SpinnerSize.small} ariaLive="assertive" />
+            )}
+        </div>
     );
 };
 
