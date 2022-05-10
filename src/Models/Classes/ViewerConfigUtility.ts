@@ -976,7 +976,7 @@ abstract class ViewerConfigUtility {
     };
     static hasGlobeCoordinates = (config: I3DScenesConfig) => {
         const scene = config.configuration.scenes.find(
-            (s) => s.latitude !== null || s.longitude !== null
+            (s) => s.latitude !== 0 || s.longitude !== 0
         );
         return scene ? true : false;
     };

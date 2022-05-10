@@ -98,7 +98,6 @@ const SceneList: React.FC<SceneListProps> = ({
         if (!scenesConfig.adapterResult.hasNoData()) {
             const config: I3DScenesConfig = scenesConfig.adapterResult.getData();
             setConfig(config);
-            checkForLatAndLongValues(config);
             setSceneList(() => {
                 let scenes;
                 try {
@@ -264,13 +263,13 @@ const SceneList: React.FC<SceneListProps> = ({
             columns.push(
                 {
                     key: 'scene-latitude',
-                    name: t('scenes.sceneLatitude'),
+                    name: t('scenes.latitude'),
                     minWidth: 100,
                     onRender: (item: IScene) => item.latitude
                 },
                 {
                     key: 'scene-longitude',
-                    name: t('scenes.sceneLongitude'),
+                    name: t('scenes.longitude'),
                     minWidth: 100,
                     onRender: (item: IScene) => item.longitude
                 }
@@ -340,6 +339,7 @@ const SceneList: React.FC<SceneListProps> = ({
                     </div>
 
                     <div className="cb-scenes-list">
+                        {checkForLatAndLongValues(config)}
                         <DetailsList
                             selectionMode={SelectionMode.none}
                             items={sceneList}
@@ -359,7 +359,6 @@ const SceneList: React.FC<SceneListProps> = ({
                             }}
                         />
                     </div>
-
                     <Dialog
                         hidden={!isConfirmDeleteDialogOpen}
                         onDismiss={() => setIsConfirmDeleteDialogOpen(false)}
