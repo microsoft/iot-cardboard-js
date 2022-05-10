@@ -7,8 +7,7 @@ module.exports = (componentName) => ({
     
     export const classPrefix = 'cb-${componentName}';
     const classNames = {
-        root: \`\${classPrefix}-root\`,
-        button: \`\${classPrefix}-button\`
+        root: \`\${classPrefix}-root\`
     };
     export const getStyles = (
         _props: I${componentName}StyleProps
