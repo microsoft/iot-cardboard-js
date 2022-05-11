@@ -2,6 +2,7 @@ import {
     Dropdown,
     Icon,
     IDropdownOption,
+    Stack,
     TextField,
     useTheme
 } from '@fluentui/react';
@@ -146,48 +147,50 @@ const ValueWidgetBuilder: React.FC<IValueWidgetBuilderProps> = ({
 
     return (
         <div className={customStyles.widgetFormContents}>
-            <TextField
-                required
-                placeholder={t('widgets.value.displayNamePlaceholder')}
-                label={t('displayName')}
-                value={formData.widgetConfiguration.displayName}
-                onChange={onDisplayNameChange}
-            />
-            <ModelledPropertyBuilder
-                adapter={adapter}
-                twinIdParams={{
-                    behavior: behaviorToEdit,
-                    config,
-                    sceneId,
-                    selectedElements
-                }}
-                mode="TOGGLE"
-                propertyExpression={{
-                    expression:
-                        formData.widgetConfiguration.valueExpression || ''
-                }}
-                onChange={onPropertyChange}
-                onInternalModeChanged={(internalMode) => {
-                    if (internalMode === 'INTELLISENSE') {
-                        setIsManualTypeDropdownShown(true);
-                    } else {
-                        setIsManualTypeDropdownShown(false);
-                    }
-                }}
-                required
-            />
-            {isManualTypeDropdownShown && (
-                <Dropdown
+            <Stack tokens={{ childrenGap: 8 }}>
+                <TextField
                     required
-                    placeholder={t('widgets.value.typePlaceholder')}
-                    label={t('type')}
-                    selectedKey={`value-type-${formData.widgetConfiguration.type}`}
-                    onChange={onTypeChange}
-                    options={typeOptions}
-                    onRenderOption={onRenderTypeOption}
-                    onRenderTitle={onRenderTypeTitle}
+                    placeholder={t('widgets.value.displayNamePlaceholder')}
+                    label={t('displayName')}
+                    value={formData.widgetConfiguration.displayName}
+                    onChange={onDisplayNameChange}
                 />
-            )}
+                <ModelledPropertyBuilder
+                    adapter={adapter}
+                    twinIdParams={{
+                        behavior: behaviorToEdit,
+                        config,
+                        sceneId,
+                        selectedElements
+                    }}
+                    mode="TOGGLE"
+                    propertyExpression={{
+                        expression:
+                            formData.widgetConfiguration.valueExpression || ''
+                    }}
+                    onChange={onPropertyChange}
+                    onInternalModeChanged={(internalMode) => {
+                        if (internalMode === 'INTELLISENSE') {
+                            setIsManualTypeDropdownShown(true);
+                        } else {
+                            setIsManualTypeDropdownShown(false);
+                        }
+                    }}
+                    required
+                />
+                {isManualTypeDropdownShown && (
+                    <Dropdown
+                        required
+                        placeholder={t('widgets.value.typePlaceholder')}
+                        label={t('type')}
+                        selectedKey={`value-type-${formData.widgetConfiguration.type}`}
+                        onChange={onTypeChange}
+                        options={typeOptions}
+                        onRenderOption={onRenderTypeOption}
+                        onRenderTitle={onRenderTypeTitle}
+                    />
+                )}
+            </Stack>
         </div>
     );
 };

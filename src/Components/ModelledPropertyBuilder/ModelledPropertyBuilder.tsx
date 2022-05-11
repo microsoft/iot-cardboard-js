@@ -219,53 +219,56 @@ const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = ({
     );
 
     return (
-        <Stack tokens={{ childrenGap: 4 }}>
-            <div className={styles.labelContainer}>
-                <Label
-                    styles={propertyExpressionLabelStyles}
-                    required={required}
-                >
-                    {customLabel
-                        ? customLabel
-                        : t(
-                              '3dSceneBuilder.ModelledPropertyBuilder.expressionLabel'
-                          )}
-                </Label>
-                {(mode === 'INTELLISENSE' || mode === 'PROPERTY_SELECTION') && (
-                    <LoadingSpinner isLoading={isLoading} />
-                )}
-            </div>
-            {mode === 'TOGGLE' && (
-                <div className={styles.toggleContainer}>
-                    <ChoiceGroup
-                        selectedKey={internalMode}
-                        options={choiceGroupOptions}
-                        onChange={onChangeMode}
-                        styles={choiceGroupStyles}
-                    />
-                    <LoadingSpinner isLoading={isLoading} />
+        <div className={styles.container}>
+            <Stack tokens={{ childrenGap: 4 }}>
+                <div className={styles.labelContainer}>
+                    <Label
+                        styles={propertyExpressionLabelStyles}
+                        required={required}
+                    >
+                        {customLabel
+                            ? customLabel
+                            : t(
+                                  '3dSceneBuilder.ModelledPropertyBuilder.expressionLabel'
+                              )}
+                    </Label>
+                    {(mode === 'INTELLISENSE' ||
+                        mode === 'PROPERTY_SELECTION') && (
+                        <LoadingSpinner isLoading={isLoading} />
+                    )}
                 </div>
-            )}
-            {internalMode === 'PROPERTY_SELECTION' && (
-                <ModelledPropertyDropdown
-                    dropdownOptions={dropdownOptions}
-                    onChange={onChangeDropdownSelection}
-                    selectedKey={propertyExpression.expression}
-                    dropdownTestId={dropdownTestId}
-                    isLoading={isLoading}
-                />
-            )}
-            {internalMode === 'INTELLISENSE' && (
-                <Intellisense
-                    autoCompleteProps={autoCompleteProps}
-                    onChange={onIntellisenseChange}
-                    defaultValue={propertyExpression.expression}
-                    aliasNames={aliasNames}
-                    getPropertyNames={getIntellisenseProperty}
-                    isLoading={isLoading}
-                />
-            )}
-        </Stack>
+                {mode === 'TOGGLE' && (
+                    <div className={styles.toggleContainer}>
+                        <ChoiceGroup
+                            selectedKey={internalMode}
+                            options={choiceGroupOptions}
+                            onChange={onChangeMode}
+                            styles={choiceGroupStyles}
+                        />
+                        <LoadingSpinner isLoading={isLoading} />
+                    </div>
+                )}
+                {internalMode === 'PROPERTY_SELECTION' && (
+                    <ModelledPropertyDropdown
+                        dropdownOptions={dropdownOptions}
+                        onChange={onChangeDropdownSelection}
+                        selectedKey={propertyExpression.expression}
+                        dropdownTestId={dropdownTestId}
+                        isLoading={isLoading}
+                    />
+                )}
+                {internalMode === 'INTELLISENSE' && (
+                    <Intellisense
+                        autoCompleteProps={autoCompleteProps}
+                        onChange={onIntellisenseChange}
+                        defaultValue={propertyExpression.expression}
+                        aliasNames={aliasNames}
+                        getPropertyNames={getIntellisenseProperty}
+                        isLoading={isLoading}
+                    />
+                )}
+            </Stack>
+        </div>
     );
 };
 
