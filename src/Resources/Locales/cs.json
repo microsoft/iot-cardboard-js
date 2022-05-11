@@ -778,6 +778,9 @@
     "select": "Vybrat",
     "pan": "Pánev",
     "orbit": "Oběžná dráha",
-    "zoom": "Zvětšení"
+    "zoom": "Zvětšení",
+    "reset": "Resetovat",
+    "zoomIn": "Přiblížit",
+    "zoomOut": "Oddálit"
   }
 }

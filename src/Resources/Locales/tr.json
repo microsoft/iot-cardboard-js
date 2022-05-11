@@ -778,6 +778,9 @@
     "select": "Seçmek",
     "pan": "Tava",
     "orbit": "Yörünge",
-    "zoom": "Yakınlaştırmak"
+    "zoom": "Yakınlaştırmak",
+    "reset": "Sıfırlama",
+    "zoomIn": "Yakınlaştırma",
+    "zoomOut": "Uzaklaştırma"
   }
 }

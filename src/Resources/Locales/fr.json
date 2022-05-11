@@ -778,6 +778,9 @@
     "select": "Choisir",
     "pan": "Pan",
     "orbit": "Orbite",
-    "zoom": "Zoom"
+    "zoom": "Zoom",
+    "reset": "Réinitialisation",
+    "zoomIn": "Zoom avant",
+    "zoomOut": "Zoom arrière"
   }
 }

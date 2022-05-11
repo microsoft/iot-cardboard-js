@@ -778,6 +778,9 @@
     "select": "Selecionar",
     "pan": "Panela",
     "orbit": "Órbita",
-    "zoom": "Zoom"
+    "zoom": "Zoom",
+    "reset": "Repor",
+    "zoomIn": "Ampliar",
+    "zoomOut": "Diminuir o zoom"
   }
 }

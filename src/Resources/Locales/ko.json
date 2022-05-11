@@ -778,6 +778,9 @@
     "select": "고르다",
     "pan": "팬",
     "orbit": "궤도",
-    "zoom": "급상승"
+    "zoom": "급상승",
+    "reset": "재설정",
+    "zoomIn": "확대",
+    "zoomOut": "축소"
   }
 }

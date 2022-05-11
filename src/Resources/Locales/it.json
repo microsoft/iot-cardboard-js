@@ -778,6 +778,9 @@
     "select": "Selezionare",
     "pan": "Padella",
     "orbit": "Orbita",
-    "zoom": "Zoom"
+    "zoom": "Zoom",
+    "reset": "Resettare",
+    "zoomIn": "Ingrandire",
+    "zoomOut": "Zoom indietro"
   }
 }

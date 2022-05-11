@@ -778,6 +778,9 @@
     "select": "Escoger",
     "pan": "Cacerola",
     "orbit": "Órbita",
-    "zoom": "Zoom"
+    "zoom": "Zoom",
+    "reset": "Restablecimiento",
+    "zoomIn": "Acercar",
+    "zoomOut": "Alejar"
   }
 }

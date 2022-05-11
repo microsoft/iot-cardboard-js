@@ -778,6 +778,9 @@
     "select": "Auswählen",
     "pan": "Pfanne",
     "orbit": "Umlaufbahn",
-    "zoom": "Zoom"
+    "zoom": "Zoom",
+    "reset": "Zurücksetzen",
+    "zoomIn": "Vergrößern",
+    "zoomOut": "Verkleinern"
   }
 }

@@ -778,6 +778,9 @@
     "select": "Wybrać",
     "pan": "Patelnia",
     "orbit": "Orbita",
-    "zoom": "Powiększenia"
+    "zoom": "Powiększenia",
+    "reset": "Resetować",
+    "zoomIn": "Powiększanie",
+    "zoomOut": "Pomniejszanie"
   }
 }

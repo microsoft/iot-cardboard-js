@@ -778,6 +778,9 @@
     "select": "Kiválaszt",
     "pan": "Serpenyő",
     "orbit": "Pálya",
-    "zoom": "Búg"
+    "zoom": "Búg",
+    "reset": "Átszed",
+    "zoomIn": "Nagyítás",
+    "zoomOut": "Kicsinyítés"
   }
 }
