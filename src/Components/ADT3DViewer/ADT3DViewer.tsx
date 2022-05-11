@@ -46,8 +46,8 @@ import {
 import {
     useDeeplinkContext,
     DeeplinkContextProvider
-} from '../../Models/Context/DeeplinkContext';
-import { DeeplinkContextActionType } from '../../Models/Context/DeeplinkContext.types';
+} from '../../Models/Context/DeeplinkContext/DeeplinkContext';
+import { DeeplinkContextActionType } from '../../Models/Context/DeeplinkContext/DeeplinkContext.types';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('ADT3DViewer', debugLogging);

@@ -1,4 +1,5 @@
-import { ADT3DScenePageModes } from '../Constants';
+import { ADT3DScenePageModes } from '../../Constants';
+import queryString from 'query-string';
 
 export interface IDeeplinkContextProviderProps {
     initialState?: Partial<IDeeplinkContextState>;
@@ -80,3 +81,9 @@ export type DeeplinkContextAction =
           type: DeeplinkContextActionType.SET_STORAGE_URL;
           payload: { url: string };
       };
+
+export const DEEPLINK_SERIALIZATION_OPTIONS: queryString.StringifyOptions = {
+    encode: true,
+    sort: false,
+    skipEmptyString: true
+};

@@ -1,6 +1,6 @@
 /** File for exporting common testing utilities for the context */
 
-import { ADT3DScenePageModes } from '../Constants';
+import { ADT3DScenePageModes } from '../../Constants';
 import { IDeeplinkContextState } from './DeeplinkContext.types';
 
 export const GET_MOCK_DEEPLINK_STATE = (): IDeeplinkContextState => ({
