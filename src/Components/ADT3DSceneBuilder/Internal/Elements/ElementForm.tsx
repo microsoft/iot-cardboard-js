@@ -193,7 +193,6 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
         for (const item of coloredMeshItems) {
             meshIds.push(item.meshId);
         }
-        // TODO: Check this one
         setElementToEdit({
             ...elementToEdit,
             objectIDs: meshIds
