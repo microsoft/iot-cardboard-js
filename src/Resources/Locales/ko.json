@@ -87,6 +87,8 @@
   "uploadFile": "파일 업로드",
   "uploadingFile": "파일 업로드 중...",
   "twinId": "트윈 ID",
+  "active": "활동적인",
+  "invalidValue": "잘못된 값",
   "errors": {
     "errorBoundary": "오류 경계",
     "unkownError": "알 수 없는 오류가 발생했습니다.",
@@ -314,10 +316,10 @@
     "enterBlobUrl": "Azure 저장소 컨테이너 Blob URL을 입력합니다.",
     "home": "집",
     "globe": "지구",
-    "breadcrumbAriaLabel": "버튼으로 렌더링된 항목이 있는 이동 경로 기록(Breadcrumb)",
-    "breadcrumbOverflowAriaLabel": "더 많은 링크",
     "globeView": "지구본 보기",
-    "listView": "목록 보기"
+    "listView": "목록 보기",
+    "breadcrumbAriaLabel": "버튼으로 렌더링된 항목이 있는 이동 경로 기록(Breadcrumb)",
+    "breadcrumbOverflowAriaLabel": "더 많은 링크"
   },
   "layersDropdown": {
     "placeholder": "선택한 레이어가 없습니다.",
@@ -379,6 +381,7 @@
     "addElementDetails": "요소 세부 정보 추가",
     "noBehaviorsOnElement": "이 요소에 할당된 동작이 없습니다.",
     "noElementsText": "아직 만들어진 요소가 없습니다.",
+    "noResults": "결과를 찾을 수 없음",
     "behaviorsInSceneTitle": "이 장면에서 ({{count}})",
     "createWithElement": "{{element}}로 만들기",
     "elementActions": "요소 작업",
@@ -400,8 +403,8 @@
     "addBehaviorToScene": "장면에 동작 추가",
     "behaviorMetaText": "{{numElementsInActiveScene}} elements, {{numSceneRefs}} scenes",
     "elementMetaText": "{{numBehaviors}} behaviors",
-    "linkedTwin": "연결된 트윈",
-    "linkedTwinInputInfo": "트윈 ID($dtId)를 입력하여 이 요소와 연결(대/소문자 구분)",
+    "primaryTwin": "기본 트윈",
+    "primaryTwinInputInfo": "트윈 ID($dtId)를 입력하여 이 요소와 연결(대/소문자 구분)",
     "noMeshAddedText": "아직 메쉬가 추가되지 않았으므로 3D 뷰어에서 메쉬를 선택하십시오.",
     "meshes": "메시",
     "behaviorElementsDropdownLabel": "대상 요소",
@@ -409,7 +412,7 @@
     "behaviorAlertForm": {
       "colorPickerLabel": "배지 색상",
       "expressionLabel": "트리거 표현식",
-      "expressionPlaceholder": "표현식을 입력하십시오 (예 : LinkedTwin.InFlow > 3)",
+      "expressionPlaceholder": "표현식을 입력하십시오 (예 : PrimaryTwin.InFlow > 3)",
       "iconPickerLabel": "배지 아이콘",
       "notice": "이 동작은 아래 트리거 표현식이 true로 평가되는 경우에만 활성화됩니다.",
       "notificationLabel": "알림 텍스트",
@@ -425,6 +428,15 @@
       "noSelectionValue": "없음",
       "propertyNotFound": "행동의 쌍둥이에서 찾을 수없는 속성",
       "propertyDropdownPlaceholder": "트윈 속성 선택"
+    },
+    "ModelledPropertyBuilder": {
+      "expressionLabel": "속성 표현식",
+      "expressionPlaceholder": "속성 표현식 입력",
+      "singleProperty": "단일 속성",
+      "customExpression": "사용자 지정(고급)",
+      "dropdownPlaceholder": "속성 선택",
+      "toggleLabel": "표현식 모드",
+      "none": "없음"
     },
     "numericExpressionPlaceholder": "숫자로 평가되는 표현식을 입력합니다.",
     "behaviorId": "동작 ID",
@@ -443,13 +455,13 @@
     "expression": "식",
     "warningBreakPointToggleLabel": "색상 중단점 사용",
     "warningBreakPointLabel": "경고 색상 중단점",
-    "linkWidgetUrlDescription": "링크 위젯 URL은 다음과 같은 자바 스크립트 템플릿 문자열 형식을 지원합니다 : $ {LinkedTwin.property}",
+    "linkWidgetUrlDescription": "링크 위젯 URL은 다음과 같은 JavaScript 템플릿 문자열 서식을 지원합니다: ${PrimaryTwin.property}",
     "behaviorTypes": {
       "alertBehavior": "경고 동작",
       "statusBehavior": "상태 동작"
     },
     "notImplemented": "구현되지 않음",
-    "noLinkedTwinProperties": "표시할 연결된 트윈 속성이 없습니다.",
+    "noPrimaryTwinProperties": "표시할 기본 쌍 속성이 없습니다.",
     "twinAlias": {
       "title": "트윈 별칭",
       "titlePlural": "트윈 별칭",
@@ -475,24 +487,14 @@
       },
       "descriptions": {
         "twins": "트윈을 사용하면 표현식에 사용할 수 있는 속성에 액세스할 수 있습니다.",
-        "linkedTwin": "LinkedTwin에는 연결된 쌍둥이 대상 요소 간에 공통된 모든 속성이 포함되어 있습니다.",
+        "primaryTwin": "PrimaryTwin에는 대상 요소 기본 쌍둥이 간에 공통된 모든 속성이 포함되어 있습니다.",
         "aliasChangeNotAllowed": "별칭 변경은 생성 후 허용되지 않습니다.",
-        "commonProperties": "선택한 요소의 연결된 쌍 속성의 결합"
+        "commonProperties": "선택한 요소의 기본 쌍 속성의 결합"
       },
       "errors": {
         "twinAliasAlreadyExists": "같은 이름의 트윈 별칭이 이미 있으므로 대신 추가하는 것이 좋습니다."
       }
-    },
-    "ModelledPropertyBuilder": {
-      "expressionLabel": "속성 표현식",
-      "expressionPlaceholder": "속성 표현식 입력",
-      "toggleLabel": "속성 표현식",
-      "dropdownPlaceholder": "속성 선택",
-      "none": "없음",
-      "customExpression": "사용자 지정 표현식",
-      "singleProperty": "단일 속성"
-    },
-    "noResults": "결과를 찾을 수 없음"
+    }
   },
   "widgets": {
     "trend": {
@@ -506,20 +508,20 @@
     "link": {
       "title": "링크 위젯",
       "description": "URL을 연결하여 외부 콘텐츠 참조",
-      "urlPlaceholder": "https://mypowerbi.biz/${링크드트윈.$dtId}",
+      "urlPlaceholder": "https://mypowerbi.biz/${PrimaryTwin.myproperty}",
       "openLink": "링크 열기"
+    },
+    "value": {
+      "title": "값 위젯",
+      "description": "쌍둥이 속성의 값을 표시하는 기본 위젯",
+      "displayNamePlaceholder": "표시 이름 입력",
+      "typePlaceholder": "값의 유형을 선택합니다."
     },
     "panel": {
       "title": "패널 위젯",
       "description": "레이아웃 패널"
     },
-    "notSupported": "이 위젯 유형은 현재 지원되지 않습니다.",
-    "value": {
-      "title": "값 위젯",
-      "description": "쌍둥이 속성의 값을 표시하는 기본 위젯",
-      "typePlaceholder": "값의 유형을 선택합니다.",
-      "displayNamePlaceholder": "표시 이름 입력"
-    }
+    "notSupported": "이 위젯 유형은 현재 지원되지 않습니다."
   },
   "sdkStrings": {
     "Last 30 mins": "지난 30분",
@@ -725,7 +727,7 @@
     "state": "상태",
     "allProperties": "모든 속성",
     "behaviorPreview": "미리 보기",
-    "LinkedTwinProperties": "연결된 트윈 속성"
+    "PrimaryTwinProperties": "기본 트윈 속성"
   },
   "svgTests": {
     "fluentUI": "유창한 이미지 구성 요소를 통한 SVG 로드(권장 패턴)",
@@ -749,6 +751,14 @@
     "transparent": "투명한",
     "wireframe": "와이어프레임"
   },
+  "deeplinkFlyout": {
+    "buttonTitle": "공유",
+    "copyButtonText": "링크 복사",
+    "copyConfirmationMessage": "복사!",
+    "flyoutHeader": "장면 공유",
+    "includeElementsOption": "선택한 요소와의 연결",
+    "includeLayersOption": "선택한 레이어와의 연결"
+  },
   "elementsPanel": {
     "title": "요소",
     "noElements": "표시할 요소 없음",
@@ -771,15 +781,5 @@
     "pan": "팬",
     "orbit": "궤도",
     "zoom": "급상승"
-  },
-  "active": "활동적인",
-  "invalidValue": "잘못된 값",
-  "deeplinkFlyout": {
-    "buttonTitle": "공유",
-    "copyButtonText": "링크 복사",
-    "copyConfirmationMessage": "복사!",
-    "flyoutHeader": "장면 공유",
-    "includeElementsOption": "선택한 요소와의 연결",
-    "includeLayersOption": "선택한 레이어와의 연결"
   }
 }

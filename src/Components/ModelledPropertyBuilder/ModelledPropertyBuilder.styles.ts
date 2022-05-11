@@ -90,6 +90,6 @@ export const propertyExpressionLabelStyles: Partial<ILabelStyles> = {
         fontWeight: FontWeights.semibold,
         fontSize: FontSizes.size14,
         paddingBottom: 0,
-        paddingTop: 0
+        paddingTop: 5
     }
 };

@@ -87,6 +87,8 @@
   "uploadFile": "Bestand uploaden",
   "uploadingFile": "Bestand uploaden...",
   "twinId": "Dubbele ID",
+  "active": "Actief",
+  "invalidValue": "Ongeldige waarde",
   "errors": {
     "errorBoundary": "Foutgrens",
     "unkownError": "Onbekende fout opgetreden",
@@ -314,10 +316,10 @@
     "enterBlobUrl": "Voer de blob-URL van uw Azure-opslagcontainer in",
     "home": "Thuis",
     "globe": "Bol",
-    "breadcrumbAriaLabel": "Broodkruimel met items weergegeven als knoppen",
-    "breadcrumbOverflowAriaLabel": "Meer links",
     "globeView": "Globe weergave",
-    "listView": "Lijstweergave"
+    "listView": "Lijstweergave",
+    "breadcrumbAriaLabel": "Broodkruimel met items weergegeven als knoppen",
+    "breadcrumbOverflowAriaLabel": "Meer links"
   },
   "layersDropdown": {
     "placeholder": "Geen lagen geselecteerd",
@@ -379,6 +381,7 @@
     "addElementDetails": "Elementdetails toevoegen",
     "noBehaviorsOnElement": "Geen gedrag toegewezen aan dit element",
     "noElementsText": "Nog geen elementen gemaakt",
+    "noResults": "Geen resultaten gevonden",
     "behaviorsInSceneTitle": "In deze scène ({{count}})",
     "createWithElement": "Maken met {{element}}",
     "elementActions": "Elementacties",
@@ -400,8 +403,8 @@
     "addBehaviorToScene": "Gedrag toevoegen aan scène",
     "behaviorMetaText": "{{numElementsInActiveScene}} elementen, {{numSceneRefs}} scènes",
     "elementMetaText": "{{numBehaviors}} behaviors",
-    "linkedTwin": "Gekoppelde tweeling",
-    "linkedTwinInputInfo": "Voer dubbele ID ($dtId) in om met dit element te koppelen (hoofdlettergevoelig)",
+    "primaryTwin": "Primaire tweeling",
+    "primaryTwinInputInfo": "Voer dubbele ID ($dtId) in om met dit element te koppelen (hoofdlettergevoelig)",
     "noMeshAddedText": "Nog geen meshes toegevoegd, selecteer meshes in 3D viewer",
     "meshes": "Netten",
     "behaviorElementsDropdownLabel": "Doelelement",
@@ -409,7 +412,7 @@
     "behaviorAlertForm": {
       "colorPickerLabel": "Badge kleur",
       "expressionLabel": "Triggerexpressie",
-      "expressionPlaceholder": "Expressie invoeren (bijv. LinkedTwin.InFlow > 3)",
+      "expressionPlaceholder": "Expressie invoeren (bijv. PrimaryTwin.InFlow > 3)",
       "iconPickerLabel": "Badge-pictogram",
       "notice": "Dit gedrag wordt alleen ingeschakeld wanneer de onderstaande triggerexpressie wordt geëvalueerd naar true.",
       "notificationLabel": "Tekst van melding",
@@ -425,6 +428,15 @@
       "noSelectionValue": "Geen",
       "propertyNotFound": "Eigendom niet gevonden op de tweeling van het gedrag",
       "propertyDropdownPlaceholder": "Selecteer twin property"
+    },
+    "ModelledPropertyBuilder": {
+      "expressionLabel": "Eigenschapsexpressie",
+      "expressionPlaceholder": "Eigenschapsexpressie invoeren",
+      "singleProperty": "Enkele woning",
+      "customExpression": "Aangepast (geavanceerd)",
+      "dropdownPlaceholder": "Selecteer een woning",
+      "toggleLabel": "Expressiemodus",
+      "none": "Geen"
     },
     "numericExpressionPlaceholder": "Een expressie invoeren die evalueert tot een getal",
     "behaviorId": "Gedrag Id",
@@ -443,13 +455,13 @@
     "expression": "Uitdrukking",
     "warningBreakPointToggleLabel": "Kleuronderbrekingspunt inschakelen",
     "warningBreakPointLabel": "Waarschuwingskleuronderbrekingspunt",
-    "linkWidgetUrlDescription": "Link widget URL ondersteunt JavaScript template string opmaak zoals: ${LinkedTwin.property}",
+    "linkWidgetUrlDescription": "Link widget URL ondersteunt JavaScript template string opmaak zoals: ${PrimaryTwin.property}",
     "behaviorTypes": {
       "alertBehavior": "Alert gedrag",
       "statusBehavior": "Statusgedrag"
     },
     "notImplemented": "Niet geïmplementeerd",
-    "noLinkedTwinProperties": "Geen gekoppelde dubbele eigenschappen om weer te geven",
+    "noPrimaryTwinProperties": "Geen primaire dubbele eigenschappen om weer te geven",
     "twinAlias": {
       "title": "Dubbele alias",
       "titlePlural": "Tweeling aliassen",
@@ -475,24 +487,14 @@
       },
       "descriptions": {
         "twins": "Tweelingen geven u toegang tot eigenschappen die kunnen worden gebruikt in uitdrukkingen.",
-        "linkedTwin": "De LinkedTwin bevat alle eigenschappen die gemeenschappelijk zijn tussen de doelelementen gekoppelde tweelingen.",
+        "primaryTwin": "De PrimaryTwin bevat alle eigenschappen die de doelelementen primaire tweelingen gemeen hebben.",
         "aliasChangeNotAllowed": "Aliaswijziging is niet toegestaan na het maken.",
-        "commonProperties": "De vereniging van gekoppelde tweelingeigenschappen van geselecteerde elementen"
+        "commonProperties": "De vereniging van primaire tweelingeigenschappen van geselecteerde elementen"
       },
       "errors": {
         "twinAliasAlreadyExists": "Dubbele alias met dezelfde naam bestaat al, overweeg deze in plaats daarvan toe te voegen."
       }
-    },
-    "ModelledPropertyBuilder": {
-      "expressionLabel": "Eigenschapsexpressie",
-      "expressionPlaceholder": "Eigenschapsexpressie invoeren",
-      "toggleLabel": "Eigenschapsexpressie",
-      "dropdownPlaceholder": "Selecteer een woning",
-      "none": "Geen",
-      "customExpression": "Aangepaste expressie",
-      "singleProperty": "Enkele woning"
-    },
-    "noResults": "Geen resultaten gevonden"
+    }
   },
   "widgets": {
     "trend": {
@@ -506,20 +508,20 @@
     "link": {
       "title": "Link widget",
       "description": "Verwijs naar externe inhoud door een URL te koppelen",
-      "urlPlaceholder": "https://mypowerbi.biz/${LinkedTwin.$dtId}",
+      "urlPlaceholder": "https://mypowerbi.biz/${PrimaryTwin.myproperty}",
       "openLink": "Link openen"
+    },
+    "value": {
+      "title": "Waarde widget",
+      "description": "Een basiswidget om waarden van dubbele eigenschappen weer te geven",
+      "displayNamePlaceholder": "Voer de weergavenaam in",
+      "typePlaceholder": "Selecteer het type voor de waarde"
     },
     "panel": {
       "title": "Paneelwidget",
       "description": "Een indelingspaneel"
     },
-    "notSupported": "Dit widgettype wordt momenteel niet ondersteund",
-    "value": {
-      "title": "Waarde widget",
-      "description": "Basiswidget om waarden van dubbele eigenschappen weer te geven",
-      "typePlaceholder": "Selecteer het type voor de waarde",
-      "displayNamePlaceholder": "Voer de weergavenaam in"
-    }
+    "notSupported": "Dit widgettype wordt momenteel niet ondersteund"
   },
   "sdkStrings": {
     "Last 30 mins": "Laatste 30 minuten",
@@ -725,7 +727,7 @@
     "state": "Staat",
     "allProperties": "Alle woningen",
     "behaviorPreview": "Voorbeeld",
-    "LinkedTwinProperties": "Linked Twin accommodaties"
+    "PrimaryTwinProperties": "Primaire Twin-eigenschappen"
   },
   "svgTests": {
     "fluentUI": "SVG laden via Fluent Image component (aanbevolen patroon)",
@@ -749,6 +751,14 @@
     "transparent": "Doorzichtig",
     "wireframe": "Draadframe"
   },
+  "deeplinkFlyout": {
+    "buttonTitle": "Delen",
+    "copyButtonText": "Link kopiëren",
+    "copyConfirmationMessage": "Gekopieerd!",
+    "flyoutHeader": "Scène delen",
+    "includeElementsOption": "Koppeling met geselecteerd element",
+    "includeLayersOption": "Koppeling met geselecteerde lagen"
+  },
   "elementsPanel": {
     "title": "Elementen",
     "noElements": "Geen elementen om weer te geven",
@@ -771,15 +781,5 @@
     "pan": "Pan",
     "orbit": "Baan",
     "zoom": "Zoom"
-  },
-  "active": "Actief",
-  "invalidValue": "Ongeldige waarde",
-  "deeplinkFlyout": {
-    "buttonTitle": "Delen",
-    "copyButtonText": "Link kopiëren",
-    "copyConfirmationMessage": "Gekopieerd!",
-    "flyoutHeader": "Scène delen",
-    "includeElementsOption": "Koppeling met geselecteerd element",
-    "includeLayersOption": "Koppeling met geselecteerde lagen"
   }
 }

@@ -87,6 +87,8 @@
   "uploadFile": "Fájl feltöltése",
   "uploadingFile": "Fájl feltöltése...",
   "twinId": "Ikerazonosító",
+  "active": "Aktív",
+  "invalidValue": "Érvénytelen érték",
   "errors": {
     "errorBoundary": "Hibahatár",
     "unkownError": "Ismeretlen hiba történt",
@@ -314,10 +316,10 @@
     "enterBlobUrl": "Adja meg az Azure Storage-tároló blob URL-címét",
     "home": "Otthon",
     "globe": "Földgömb",
-    "breadcrumbAriaLabel": "Zsemlemorzsa gombként megjelenített elemekkel",
-    "breadcrumbOverflowAriaLabel": "További linkek",
     "globeView": "Földgömb nézet",
-    "listView": "Listanézet"
+    "listView": "Listanézet",
+    "breadcrumbAriaLabel": "Zsemlemorzsa gombként megjelenített elemekkel",
+    "breadcrumbOverflowAriaLabel": "További linkek"
   },
   "layersDropdown": {
     "placeholder": "Nincsenek kijelölt rétegek",
@@ -379,6 +381,7 @@
     "addElementDetails": "Elem részleteinek hozzáadása",
     "noBehaviorsOnElement": "Nincs viselkedés hozzárendelve ehhez az elemhez",
     "noElementsText": "Még nem hoztak létre elemeket",
+    "noResults": "Nem található eredmény",
     "behaviorsInSceneTitle": "Ebben a jelenetben ({{count}})",
     "createWithElement": "Létrehozás a következővel: {{element}}",
     "elementActions": "Elemműveletek",
@@ -400,8 +403,8 @@
     "addBehaviorToScene": "Viselkedés hozzáadása a jelenethez",
     "behaviorMetaText": "{{numElementsInActiveScene}} elements, {{numSceneRefs}} scenes",
     "elementMetaText": "{{numBehaviors}} behaviors",
-    "linkedTwin": "Csatolt ikerpár",
-    "linkedTwinInputInfo": "Adja meg az ikerazonosítót ($dtId) az elemhez való csatoláshoz (kis- és nagybetűket megkülönböztető)",
+    "primaryTwin": "Elsődleges ikerpár",
+    "primaryTwinInputInfo": "Adja meg az ikerazonosítót ($dtId) az elemhez való csatoláshoz (kis- és nagybetűket megkülönböztető)",
     "noMeshAddedText": "Még nincs háló hozzáadása, kérjük, válasszon hálókat a 3D-s megjelenítőben",
     "meshes": "Rácsvonalak",
     "behaviorElementsDropdownLabel": "Célelem",
@@ -409,7 +412,7 @@
     "behaviorAlertForm": {
       "colorPickerLabel": "Jelvény színe",
       "expressionLabel": "Eseményindító kifejezése",
-      "expressionPlaceholder": "Kifejezés megadása (pl. LinkedTwin.InFlow > 3)",
+      "expressionPlaceholder": "Írja be a kifejezést (pl. PrimaryTwin.InFlow > 3)",
       "iconPickerLabel": "Jelvény ikon",
       "notice": "Ez a viselkedés csak akkor lesz engedélyezve, ha az alábbi eseményindító kifejezés igaz értéket ad ki.",
       "notificationLabel": "Értesítés szövege",
@@ -425,6 +428,15 @@
       "noSelectionValue": "Egyik sem",
       "propertyNotFound": "A viselkedés ikrein nem található tulajdonság",
       "propertyDropdownPlaceholder": "Ikertulajdonság kiválasztása"
+    },
+    "ModelledPropertyBuilder": {
+      "expressionLabel": "Tulajdonságkifejezés",
+      "expressionPlaceholder": "Tulajdonságkifejezés megadása",
+      "singleProperty": "Egyetlen tulajdonság",
+      "customExpression": "Egyéni (speciális)",
+      "dropdownPlaceholder": "Tulajdonság kijelölése",
+      "toggleLabel": "Kifejezésmód",
+      "none": "Egyik sem"
     },
     "numericExpressionPlaceholder": "Számmá kiértékelt kifejezés megadása",
     "behaviorId": "Viselkedésazonosító",
@@ -443,13 +455,13 @@
     "expression": "Kifejezés",
     "warningBreakPointToggleLabel": "Színtörési pont engedélyezése",
     "warningBreakPointLabel": "Figyelmeztető színtörési pont",
-    "linkWidgetUrlDescription": "A hivatkozás widget URL-címe támogatja a JavaScript sablon karakterlánc-formázását, például: ${LinkedTwin.property}",
+    "linkWidgetUrlDescription": "A hivatkozás widget URL-címe támogatja a JavaScript-sablon karakterlánc-formázását, például: ${PrimaryTwin.property}",
     "behaviorTypes": {
       "alertBehavior": "Riasztási viselkedés",
       "statusBehavior": "Állapot viselkedése"
     },
     "notImplemented": "Nincs megvalósítva",
-    "noLinkedTwinProperties": "Nincs megjelenítendő csatolt ikertulajdonság",
+    "noPrimaryTwinProperties": "Nincsenek megjelenítendő elsődleges ikertulajdonságok",
     "twinAlias": {
       "title": "Iker alias",
       "titlePlural": "Iker álnevek",
@@ -475,24 +487,14 @@
       },
       "descriptions": {
         "twins": "Az ikrek hozzáférést biztosítanak a kifejezésekben használható tulajdonságokhoz.",
-        "linkedTwin": "A LinkedTwin tartalmazza az összes közös tulajdonságot a célelemekhez kapcsolódó ikrek között.",
+        "primaryTwin": "A PrimaryTwin tartalmazza az összes közös tulajdonságot a célelemek elsődleges ikrek között.",
         "aliasChangeNotAllowed": "Az alias módosítása a létrehozás után nem engedélyezett.",
-        "commonProperties": "A kiválasztott elemek kapcsolt ikertulajdonságok uniója"
+        "commonProperties": "A kiválasztott elemek elsődleges ikertulajdonságok egyesítése"
       },
       "errors": {
         "twinAliasAlreadyExists": "Az azonos nevű ikeralias már létezik, fontolja meg a hozzáadását."
       }
-    },
-    "ModelledPropertyBuilder": {
-      "expressionLabel": "Tulajdonságkifejezés",
-      "expressionPlaceholder": "Tulajdonságkifejezés megadása",
-      "toggleLabel": "Tulajdonságkifejezés",
-      "dropdownPlaceholder": "Tulajdonság kijelölése",
-      "none": "Egyik sem",
-      "customExpression": "Egyéni kifejezés",
-      "singleProperty": "Egyetlen tulajdonság"
-    },
-    "noResults": "Nem található eredmény"
+    }
   },
   "widgets": {
     "trend": {
@@ -506,20 +508,20 @@
     "link": {
       "title": "Widget csatolása",
       "description": "Külső tartalomra való hivatkozás URL-cím csatolásával",
-      "urlPlaceholder": "https://mypowerbi.biz/${LinkedTwin.$dtId}",
+      "urlPlaceholder": "https://mypowerbi.biz/${PrimaryTwin.myproperty}",
       "openLink": "Hivatkozás megnyitása"
+    },
+    "value": {
+      "title": "Érték widget",
+      "description": "Alapvető widget az ikertulajdonságok értékeinek megjelenítéséhez",
+      "displayNamePlaceholder": "Megjelenítendő név megadása",
+      "typePlaceholder": "Az érték típusának kiválasztása"
     },
     "panel": {
       "title": "Panel widget",
       "description": "Elrendezéspanel"
     },
-    "notSupported": "Ez a widgettípus jelenleg nem támogatott",
-    "value": {
-      "title": "Érték widget",
-      "description": "Alapvető widget az ikertulajdonságok értékeinek megjelenítéséhez",
-      "typePlaceholder": "Az érték típusának kiválasztása",
-      "displayNamePlaceholder": "Megjelenítendő név megadása"
-    }
+    "notSupported": "Ez a widgettípus jelenleg nem támogatott"
   },
   "sdkStrings": {
     "Last 30 mins": "Utolsó 30 perc",
@@ -725,7 +727,7 @@
     "state": "Állam",
     "allProperties": "Minden tulajdonság",
     "behaviorPreview": "Előnézet",
-    "LinkedTwinProperties": "Csatolt ikertulajdonságok"
+    "PrimaryTwinProperties": "Elsődleges iker tulajdonságai"
   },
   "svgTests": {
     "fluentUI": "SVG betöltése a Fluent Image komponensen keresztül (ajánlott minta)",
@@ -749,6 +751,14 @@
     "transparent": "Átlátszó",
     "wireframe": "Drótváz"
   },
+  "deeplinkFlyout": {
+    "buttonTitle": "Részvény",
+    "copyButtonText": "Hivatkozás másolása",
+    "copyConfirmationMessage": "Másolt!",
+    "flyoutHeader": "Jelenet megosztása",
+    "includeElementsOption": "Csatolás a kijelölt elemmel",
+    "includeLayersOption": "Csatolás kijelölt rétegekkel"
+  },
   "elementsPanel": {
     "title": "Elemek",
     "noElements": "Nincs megjeleníthető elem",
@@ -771,15 +781,5 @@
     "pan": "Serpenyő",
     "orbit": "Pálya",
     "zoom": "Búg"
-  },
-  "active": "Aktív",
-  "invalidValue": "Érvénytelen érték",
-  "deeplinkFlyout": {
-    "buttonTitle": "Részvény",
-    "copyButtonText": "Hivatkozás másolása",
-    "copyConfirmationMessage": "Másolt!",
-    "flyoutHeader": "Jelenet megosztása",
-    "includeElementsOption": "Csatolás a kijelölt elemmel",
-    "includeLayersOption": "Csatolás kijelölt rétegekkel"
   }
 }

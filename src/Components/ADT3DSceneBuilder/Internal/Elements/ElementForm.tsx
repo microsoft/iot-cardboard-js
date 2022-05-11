@@ -94,7 +94,7 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                     type: ElementType.TwinToObjectMapping,
                     id: newId,
                     displayName: '',
-                    linkedTwinID: '',
+                    primaryTwinID: '',
                     objectIDs: []
                 };
             }
@@ -202,17 +202,17 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
     const handleSelectTwinId = (selectedTwinId: string) => {
         if (
             !elementToEdit.displayName ||
-            elementToEdit.displayName === elementToEdit.linkedTwinID
+            elementToEdit.displayName === elementToEdit.primaryTwinID
         ) {
             setElementToEdit({
                 ...elementToEdit,
-                linkedTwinID: selectedTwinId,
+                primaryTwinID: selectedTwinId,
                 displayName: selectedTwinId
             });
         } else {
             setElementToEdit({
                 ...elementToEdit,
-                linkedTwinID: selectedTwinId
+                primaryTwinID: selectedTwinId
             });
         }
     };
@@ -256,13 +256,13 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                             <div className={commonFormStyles.header}>
                                 <TwinSearchDropdown
                                     adapter={adapter}
-                                    label={t('3dSceneBuilder.linkedTwin')}
+                                    label={t('3dSceneBuilder.primaryTwin')}
                                     selectedTwinId={
-                                        selectedElement?.linkedTwinID
+                                        selectedElement?.primaryTwinID
                                     }
                                     onTwinIdSelect={handleSelectTwinId}
                                     descriptionText={t(
-                                        '3dSceneBuilder.linkedTwinInputInfo'
+                                        '3dSceneBuilder.primaryTwinInputInfo'
                                     )}
                                 />
                                 <TextField
@@ -345,7 +345,7 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                                 disabled={
                                     !(
                                         elementToEdit?.displayName &&
-                                        elementToEdit?.linkedTwinID &&
+                                        elementToEdit?.primaryTwinID &&
                                         elementToEdit?.objectIDs?.length > 0
                                     )
                                 }

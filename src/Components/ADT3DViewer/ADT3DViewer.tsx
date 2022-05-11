@@ -142,7 +142,7 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
             ViewerConfigUtility.getUnlayeredBehaviorIdsInScene(
                 scenesConfig,
                 sceneId
-            ).length > 0,
+            ).length >= 0,
         [scenesConfig, sceneId]
     );
 
