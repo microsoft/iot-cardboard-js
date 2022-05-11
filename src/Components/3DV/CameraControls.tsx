@@ -11,20 +11,14 @@ import React, { useEffect, useState } from 'react';
 import { CameraInteraction } from '../../Models/Constants/Enums';
 import { useTranslation } from 'react-i18next';
 import {
-    RightMouseMove,
-    Pan,
     LeftMouseClick,
-    Reset,
-    Rotate,
-    Selected,
     LeftMouseMove,
-    ZoomIn,
     MiddleMouse,
-    ZoomOut
+    RightMouseMove,
+    Selected
 } from './CameraControlAssets';
 import HeaderControlButton from '../HeaderControlButton/HeaderControlButton';
 import HeaderControlGroup from '../HeaderControlGroup/HeaderControlGroup';
-import { IHeaderControlButtonStyles } from '../HeaderControlButton/HeaderControlButton.types';
 
 interface CameraControlProps {
     cameraInteraction?: CameraInteraction;
