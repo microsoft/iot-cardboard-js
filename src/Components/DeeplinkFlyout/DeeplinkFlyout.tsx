@@ -94,7 +94,7 @@ const DeeplinkFlyout: React.FC<IDeeplinkFlyoutProps> = (props) => {
             copyText(deeplink);
         }
         setShowFlyout(true);
-    }, []);
+    }, [deeplink, mode]);
     const onDismiss = useCallback(() => {
         setIconName('Share');
         setShowFlyout(false);
