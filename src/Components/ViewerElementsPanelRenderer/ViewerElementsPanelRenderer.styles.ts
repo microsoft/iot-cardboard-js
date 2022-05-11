@@ -1,0 +1,39 @@
+import {
+    IViewerElementsPanelRendererStyleProps,
+    IViewerElementsPanelRendererStyles
+} from './ViewerElementsPanelRenderer.types';
+
+export const ELEMENTS_PANEL_BUTTON_HEIGHT = 54;
+export const ELEMENTS_PANEL_BUTTON_BOTTOM_OFFSET = 20;
+
+export const classPrefix = 'cb-ViewerElementsPanelRenderer';
+const classNames = {
+    root: `${classPrefix}-root`
+};
+export const getStyles = (
+    _props: IViewerElementsPanelRendererStyleProps
+): IViewerElementsPanelRendererStyles => {
+    return {
+        root: [classNames.root],
+        subComponentStyles: {
+            button: {
+                root: {
+                    minWidth: 'unset',
+                    width: 64,
+                    height: ELEMENTS_PANEL_BUTTON_HEIGHT,
+                    border: '1px solid var(--cb-color-modal-border)',
+                    borderRadius: 4,
+                    backdropFilter: 'blur(50px)',
+                    color: 'var(--cb-color-text-primary)',
+                    position: 'absolute',
+                    zIndex: 999,
+                    left: 20,
+                    bottom: ELEMENTS_PANEL_BUTTON_BOTTOM_OFFSET
+                },
+                rootChecked: {
+                    background: 'var(--cb-color-glassy-modal)'
+                }
+            }
+        }
+    };
+};

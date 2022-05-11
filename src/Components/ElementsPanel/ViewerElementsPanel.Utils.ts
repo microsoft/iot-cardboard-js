@@ -10,6 +10,7 @@ export const sortPanelItemsForDisplay = memoizeFunction(
     (
         panelItems: Array<IViewerElementsPanelItem>
     ): IViewerElementsPanelItem[] => {
+        if (!panelItems) return [];
         const panelItemsWithAlerts: Array<{
             activeAlertNumber: number;
             panelItem: IViewerElementsPanelItem;

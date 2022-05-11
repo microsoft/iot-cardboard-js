@@ -31,7 +31,7 @@ import { sortPanelItemsForDisplay } from '../ViewerElementsPanel.Utils';
 
 const ElementsList: React.FC<IViewerElementsPanelListProps> = ({
     isLoading,
-    panelItems,
+    panelItems = [],
     filterTerm,
     onItemClick,
     onItemHover,

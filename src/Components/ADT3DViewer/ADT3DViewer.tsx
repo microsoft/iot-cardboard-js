@@ -25,11 +25,7 @@ import BehaviorsModal from '../BehaviorsModal/BehaviorsModal';
 import { useRuntimeSceneData } from '../../Models/Hooks/useRuntimeSceneData';
 import { BaseComponentProps } from '../BaseComponent/BaseComponent.types';
 import { IViewerElementsPanelItem } from '../ElementsPanel/ViewerElementsPanel.types';
-import ViewerElementsPanel from '../ElementsPanel/ViewerElementsPanel';
 import { DefaultViewerModeObjectColor } from '../../Models/Constants/Constants';
-import { DefaultButton, IButtonStyles, memoizeFunction } from '@fluentui/react';
-import { useTranslation } from 'react-i18next';
-import { useBoolean } from '@fluentui/react-hooks';
 import { createCustomMeshItems } from '../3DV/SceneView.Utils';
 import { deepCopy, getDebugLogger } from '../../Models/Services/Utils';
 import AlertModal from '../AlertModal/AlertModal';
@@ -48,6 +44,7 @@ import {
     DeeplinkContextProvider
 } from '../../Models/Context/DeeplinkContext/DeeplinkContext';
 import { DeeplinkContextActionType } from '../../Models/Context/DeeplinkContext/DeeplinkContext.types';
+import ViewerElementsPanelRenderer from '../ViewerElementsPanelRenderer/ViewerElementsPanelRenderer';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('ADT3DViewer', debugLogging);
@@ -73,7 +70,6 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
     hideViewModePickerUI
 }) => {
     // hooks
-    const { t } = useTranslation();
     const { deeplinkState, deeplinkDispatch } = useDeeplinkContext();
     const {
         modelUrl,
@@ -105,10 +101,6 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
     const outlinedMeshItemsRef = useRef(outlinedMeshItems);
     const [zoomToMeshIds, setZoomToMeshIds] = useState<Array<string>>([]);
     const [showPopUp, setShowPopUp] = useState(false);
-    const [
-        isElementsPanelVisible,
-        { toggle: toggleIsElementsPanelVisible }
-    ] = useBoolean(!hideElementsPanel);
 
     const [
         behaviorModalSceneVisualElementId,
@@ -471,8 +463,6 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
         }
     };
 
-    const elementsPanelToggleButtonStyles = toggleElementsPanelStyles();
-
     const behaviorModalSceneVisual = useMemo(
         () =>
             sceneVisuals.find(
@@ -489,30 +479,14 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
             locale={locale}
         >
             <div id={sceneWrapperId} className="cb-adt-3dviewer-wrapper">
-                <DefaultButton
-                    toggle
-                    checked={isElementsPanelVisible}
-                    styles={elementsPanelToggleButtonStyles}
-                    iconProps={{
-                        iconName: 'BulletedTreeList',
-                        styles: { root: { fontSize: 20 } }
-                    }}
-                    ariaLabel={
-                        hideElementsPanel
-                            ? t('elementsPanel.showPanel')
-                            : t('elementsPanel.hidePanel')
-                    }
-                    onClick={toggleIsElementsPanelVisible}
+                <ViewerElementsPanelRenderer
+                    isLoading={isLoading}
+                    initialPanelOpen={!hideElementsPanel}
+                    items={panelItems}
+                    onItemBlur={onElementPanelItemBlured}
+                    onItemClick={onElementPanelItemClicked}
+                    onItemHover={onElementPanelItemHovered}
                 />
-                {isElementsPanelVisible && (
-                    <ViewerElementsPanel
-                        isLoading={isLoading}
-                        panelItems={panelItems}
-                        onItemClick={onElementPanelItemClicked}
-                        onItemHover={onElementPanelItemHovered}
-                        onItemBlur={onElementPanelItemBlured}
-                    />
-                )}
                 <SceneViewWrapper
                     adapter={adapter}
                     config={scenesConfig}
@@ -593,28 +567,6 @@ const hasPropertyInspectorAdapter = (
 ): adapter is IADT3DViewerAdapter & IPropertyInspectorAdapter =>
     !!(adapter as IPropertyInspectorAdapter).getADTTwin &&
     !!(adapter as IADT3DViewerAdapter).getSceneData;
-
-const toggleElementsPanelStyles = memoizeFunction(
-    () =>
-        ({
-            root: {
-                minWidth: 'unset',
-                width: 64,
-                height: 54,
-                border: '1px solid var(--cb-color-modal-border)',
-                borderRadius: 4,
-                backdropFilter: 'blur(50px)',
-                color: 'var(--cb-color-text-primary)',
-                position: 'absolute',
-                zIndex: 999,
-                left: 20,
-                bottom: 20
-            },
-            rootChecked: {
-                background: 'var(--cb-color-glassy-modal)'
-            }
-        } as Partial<IButtonStyles>)
-);
 
 const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = (
     props

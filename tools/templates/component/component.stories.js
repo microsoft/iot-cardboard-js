@@ -21,7 +21,7 @@ const Template: ${componentName}Story = (args) => {
 
 export const Base = Template.bind({}) as ${componentName}Story;
 
-Base.args = {};
+Base.args = {} as I${componentName}Props;
 `,
     extension: `.stories.tsx`
 });
