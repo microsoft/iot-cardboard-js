@@ -19,14 +19,23 @@ export const defaultLayerButtonStyles: Partial<IButtonStyles> = {
     root: { width: '100%', padding: '0px 8px 0px 6px' }
 };
 
-export const dropdownStyles: Partial<IDropdownStyles> = {
-    root: { width: 240 },
-    title: {
-        display: 'inline-flex',
-        alignItems: 'center',
-        width: '100%'
-    }
-};
+export const getDropdownStyles = memoizeFunction(
+    (theme: ITheme): Partial<IDropdownStyles> => ({
+        root: { width: 240 },
+        title: {
+            alignItems: 'center',
+            border: `1px solid ${theme.palette.neutralLight}`,
+            display: 'inline-flex',
+            width: '100%'
+        },
+        dropdown: {
+            // fluent has a jank style on their side so we get a jank one on ours too
+            ':hover .ms-Dropdown-title': {
+                borderColor: theme.palette.neutralSecondary
+            }
+        }
+    })
+);
 
 export const getStyles = memoizeFunction(() => {
     return mergeStyleSets({

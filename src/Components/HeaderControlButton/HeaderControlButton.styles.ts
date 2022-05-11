@@ -22,9 +22,12 @@ export const getStyles = (
                     backgroundColor: isActive
                         ? theme.semanticColors.buttonBackgroundPressed
                         : theme.semanticColors.buttonBackground,
-                    borderRadius: 0,
+                    borderRadius: 2,
                     height: 42,
-                    width: 42
+                    width: 42,
+                    ':hover': {
+                        border: `1px solid ${theme.palette.neutralSecondary}`
+                    }
                 },
                 icon: {
                     fontSize: FontSizes.size16

@@ -1,6 +1,7 @@
 import {
     Callout,
     DirectionalHint,
+    FocusZone,
     memoizeFunction,
     mergeStyleSets,
     Stack,
@@ -61,80 +62,87 @@ export const CameraControls: React.FC<CameraControlProps> = ({
 
     return (
         <div className={styles.panelContents}>
-            <Stack
-                horizontal
-                tokens={{ childrenGap: 8 }}
-                styles={{ root: { zIndex: 999 } }}
-            >
-                <HeaderControlGroup>
-                    <HeaderControlButton
-                        iconProps={{ iconName: 'Rotate90Clockwise' }}
-                        id={calloutAnchorOrbit}
-                        isActive={
-                            cameraInteractionType === CameraInteraction.Rotate
-                        }
-                        onClick={() =>
-                            updateCameraInteraction(CameraInteraction.Rotate)
-                        }
-                        onMouseEnter={() => setShowOrbitCallout(true)}
-                        onMouseLeave={() => setShowOrbitCallout(false)}
-                    >
-                        {cameraInteractionType === CameraInteraction.Rotate && (
-                            <img
-                                src={`data:image/svg+xml;base64,${Selected(
-                                    theme
-                                )}`}
-                                style={{ width: 24 }}
-                                className={styles.selected}
-                            />
-                        )}
-                    </HeaderControlButton>
-                    <HeaderControlButton
-                        iconProps={{ iconName: 'Move' }}
-                        id={calloutAnchorPan}
-                        isActive={
-                            cameraInteractionType === CameraInteraction.Pan
-                        }
-                        onClick={() =>
-                            updateCameraInteraction(CameraInteraction.Pan)
-                        }
-                        onMouseEnter={() => setShowPanCallout(true)}
-                        onMouseLeave={() => setShowPanCallout(false)}
-                    >
-                        {cameraInteractionType === CameraInteraction.Pan && (
-                            <img
-                                src={`data:image/svg+xml;base64,${Selected(
-                                    theme
-                                )}`}
-                                style={{ width: 24 }}
-                                className={styles.selected}
-                            />
-                        )}
-                    </HeaderControlButton>
-                </HeaderControlGroup>
-                <HeaderControlGroup>
-                    <HeaderControlButton
-                        isActive={false}
-                        iconProps={{ iconName: 'Add' }}
-                        onClick={() => onCameraZoom(true)}
-                        title={t('cameraControls.zoomIn')}
-                    />
-                    <HeaderControlButton
-                        isActive={false}
-                        iconProps={{ iconName: 'Remove' }}
-                        title={t('cameraControls.zoomOut')}
-                        onClick={() => onCameraZoom(false)}
-                    />
-                </HeaderControlGroup>
-                <HeaderControlGroup>
-                    <HeaderControlButton
-                        iconProps={{ iconName: 'CubeShape' }}
-                        isActive={false}
-                        onClick={onResetCamera}
-                        title={t('cameraControls.reset')}
-                    />
-                </HeaderControlGroup>
-            </Stack>
+            <FocusZone>
+                <Stack
+                    horizontal
+                    tokens={{ childrenGap: 8 }}
+                    styles={{ root: { zIndex: 999 } }}
+                >
+                    <HeaderControlGroup>
+                        <HeaderControlButton
+                            iconProps={{ iconName: 'Rotate90Clockwise' }}
+                            id={calloutAnchorOrbit}
+                            isActive={
+                                cameraInteractionType ===
+                                CameraInteraction.Rotate
+                            }
+                            onClick={() =>
+                                updateCameraInteraction(
+                                    CameraInteraction.Rotate
+                                )
+                            }
+                            onMouseEnter={() => setShowOrbitCallout(true)}
+                            onMouseLeave={() => setShowOrbitCallout(false)}
+                        >
+                            {cameraInteractionType ===
+                                CameraInteraction.Rotate && (
+                                <img
+                                    src={`data:image/svg+xml;base64,${Selected(
+                                        theme
+                                    )}`}
+                                    style={{ width: 24 }}
+                                    className={styles.selected}
+                                />
+                            )}
+                        </HeaderControlButton>
+                        <HeaderControlButton
+                            iconProps={{ iconName: 'Move' }}
+                            id={calloutAnchorPan}
+                            isActive={
+                                cameraInteractionType === CameraInteraction.Pan
+                            }
+                            onClick={() =>
+                                updateCameraInteraction(CameraInteraction.Pan)
+                            }
+                            onMouseEnter={() => setShowPanCallout(true)}
+                            onMouseLeave={() => setShowPanCallout(false)}
+                        >
+                            {cameraInteractionType ===
+                                CameraInteraction.Pan && (
+                                <img
+                                    src={`data:image/svg+xml;base64,${Selected(
+                                        theme
+                                    )}`}
+                                    style={{ width: 24 }}
+                                    className={styles.selected}
+                                />
+                            )}
+                        </HeaderControlButton>
+                    </HeaderControlGroup>
+                    <HeaderControlGroup>
+                        <HeaderControlButton
+                            isActive={false}
+                            iconProps={{ iconName: 'Add' }}
+                            onClick={() => onCameraZoom(true)}
+                            title={t('cameraControls.zoomIn')}
+                        />
+                        <HeaderControlButton
+                            isActive={false}
+                            iconProps={{ iconName: 'Remove' }}
+                            title={t('cameraControls.zoomOut')}
+                            onClick={() => onCameraZoom(false)}
+                        />
+                    </HeaderControlGroup>
+                    <HeaderControlGroup>
+                        <HeaderControlButton
+                            iconProps={{ iconName: 'CubeShape' }}
+                            isActive={false}
+                            onClick={onResetCamera}
+                            title={t('cameraControls.reset')}
+                        />
+                    </HeaderControlGroup>
+                </Stack>
+            </FocusZone>
             {showPanCallout && (
                 <Callout
                     target={`#${calloutAnchorPan}`}
