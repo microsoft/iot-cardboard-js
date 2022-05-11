@@ -20,6 +20,7 @@ import {
 } from './CameraControlAssets';
 import HeaderControlButton from '../HeaderControlButton/HeaderControlButton';
 import HeaderControlGroup from '../HeaderControlGroup/HeaderControlGroup';
+import CameraControlsCalloutContent from '../CameraControlsCalloutContent/CameraControlsCalloutContent';
 
 interface CameraControlProps {
     cameraInteraction?: CameraInteraction;
@@ -62,12 +63,8 @@ export const CameraControls: React.FC<CameraControlProps> = ({
 
     return (
         <div className={styles.panelContents}>
-            <FocusZone>
-                <Stack
-                    horizontal
-                    tokens={{ childrenGap: 8 }}
-                    styles={{ root: { zIndex: 999 } }}
-                >
+            <FocusZone style={{ zIndex: 999 }}>
+                <Stack horizontal tokens={{ childrenGap: 8 }}>
                     <HeaderControlGroup>
                         <HeaderControlButton
                             iconProps={{ iconName: 'Rotate90Clockwise' }}
@@ -148,59 +145,7 @@ export const CameraControls: React.FC<CameraControlProps> = ({
                     target={`#${calloutAnchorPan}`}
                     directionalHint={DirectionalHint.bottomCenter}
                 >
-                    <div className={styles.callout}>
-                        <div>{t('cameraControls.mouseControls')}</div>
-                        <div className={styles.modes}>
-                            <div className={styles.mode}>
-                                <div>{t('cameraControls.select')}</div>
-                                <div>
-                                    <img
-                                        src={`data:image/svg+xml;base64,${LeftMouseClick(
-                                            theme
-                                        )}`}
-                                        style={{ height: 28, width: 28 }}
-                                        className={styles.modeIcon}
-                                    />
-                                </div>
-                            </div>
-                            <div className={styles.mode}>
-                                <div>{t('cameraControls.pan')}</div>
-                                <div>
-                                    <img
-                                        src={`data:image/svg+xml;base64,${LeftMouseMove(
-                                            theme
-                                        )}`}
-                                        style={{ height: 28, width: 28 }}
-                                        className={styles.modeIcon}
-                                    />
-                                </div>
-                            </div>
-                            <div className={styles.mode}>
-                                <div>{t('cameraControls.orbit')}</div>
-                                <div>
-                                    <img
-                                        src={`data:image/svg+xml;base64,${RightMouseMove(
-                                            theme
-                                        )}`}
-                                        style={{ height: 28, width: 28 }}
-                                        className={styles.modeIcon}
-                                    />
-                                </div>
-                            </div>
-                            <div className={styles.mode}>
-                                <div>{t('cameraControls.zoom')}</div>
-                                <div>
-                                    <img
-                                        src={`data:image/svg+xml;base64,${MiddleMouse(
-                                            theme
-                                        )}`}
-                                        style={{ height: 28, width: 28 }}
-                                        className={styles.modeIcon}
-                                    />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <CameraControlsCalloutContent type={'Move'} />
                 </Callout>
             )}
             {showOrbitCallout && (
@@ -208,65 +153,17 @@ export const CameraControls: React.FC<CameraControlProps> = ({
                     target={`#${calloutAnchorOrbit}`}
                     directionalHint={DirectionalHint.bottomCenter}
                 >
-                    <div className={styles.callout}>
-                        <div>{t('cameraControls.mouseControls')}</div>
-                        <div className={styles.modes}>
-                            <div className={styles.mode}>
-                                <div>{t('cameraControls.select')}</div>
-                                <div>
-                                    <img
-                                        src={`data:image/svg+xml;base64,${LeftMouseClick(
-                                            theme
-                                        )}`}
-                                        style={{ height: 28, width: 28 }}
-                                        className={styles.modeIcon}
-                                    />
-                                </div>
-                            </div>
-                            <div className={styles.mode}>
-                                <div>{t('cameraControls.orbit')}</div>
-                                <div>
-                                    <img
-                                        src={`data:image/svg+xml;base64,${LeftMouseMove(
-                                            theme
-                                        )}`}
-                                        style={{ height: 28, width: 28 }}
-                                        className={styles.modeIcon}
-                                    />
-                                </div>
-                            </div>
-                            <div className={styles.mode}>
-                                <div>{t('cameraControls.pan')}</div>
-                                <div>
-                                    <img
-                                        src={`data:image/svg+xml;base64,${RightMouseMove(
-                                            theme
-                                        )}`}
-                                        style={{ height: 28, width: 28 }}
-                                        className={styles.modeIcon}
-                                    />
-                                </div>
-                            </div>
-                            <div className={styles.mode}>
-                                <div>{t('cameraControls.zoom')}</div>
-                                <div>
-                                    <img
-                                        src={`data:image/svg+xml;base64,${MiddleMouse(
-                                            theme
-                                        )}`}
-                                        style={{ height: 28, width: 28 }}
-                                        className={styles.modeIcon}
-                                    />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <CameraControlsCalloutContent type={'Orbit'} />
                 </Callout>
             )}
         </div>
     );
 };
 
+export const classPrefix = 'cb-camera-controls';
+const classNames = {
+    root: `${classPrefix}-root`
+};
 const getStyles = memoizeFunction((theme: Theme) => {
     return mergeStyleSets({
         panelContents: {
@@ -274,32 +171,9 @@ const getStyles = memoizeFunction((theme: Theme) => {
             marginRight: 'auto',
             display: 'flex'
         },
-        buttonIcon: {
-            fill: theme.semanticColors.bodyText
-        },
         selected: {
             position: 'absolute',
             top: 28
-        },
-        callout: {
-            width: 200,
-            borderRadius: 2,
-            background: theme.semanticColors.buttonBackground,
-            padding: '16px 16px',
-            border: `1px solid ${theme.palette.neutralLight}`
-        },
-        modes: {
-            display: 'flex',
-            fontSize: 12,
-            marginTop: 16
-        },
-        mode: {
-            flex: 1,
-            textAlign: 'center'
-        },
-        modeIcon: {
-            marginTop: 12,
-            marginBottom: 4
         }
     });
 });
