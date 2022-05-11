@@ -601,8 +601,6 @@
     "Start time input": "Entrée de l’heure de début",
     "End time input": "Entrée de l’heure de fin",
     "snap end time to latest": "ancrer l’heure de fin à la dernière",
-    "zoom in": "zoom avant",
-    "zoom out": "zoom arrière",
     "select quick time of": "sélectionnez le temps rapide de",
     "a time selection control dialog": "une boîte de dialogue de contrôle de sélection de l’heure.",
     "No color": "Pas de couleur",
@@ -770,7 +768,10 @@
     "select": "Choisir",
     "pan": "Pan",
     "orbit": "Orbite",
-    "zoom": "Zoom"
+    "zoom": "Zoom",
+    "reset": "Réinitialisation",
+    "zoomIn": "Zoom avant",
+    "zoomOut": "Zoom arrière"
   },
   "active": "Actif",
   "invalidValue": "Valeur non valide",
