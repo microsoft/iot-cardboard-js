@@ -67,8 +67,8 @@ const getDialogStyles = memoizeFunction(
                         height:
                             selected3DFilePivotItem ===
                             SelectionModeOf3DFile.FromContainer
-                                ? '338px'
-                                : '578px',
+                                ? '438px'
+                                : '588px',
                         justifyContent: 'space-between',
                         overflowX: 'hidden',
                         transition: 'height .6s ease'
