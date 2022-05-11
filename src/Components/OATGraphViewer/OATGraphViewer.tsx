@@ -85,7 +85,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     } = state;
 
     useEffect(() => {
-        //identifies wich is the next model Id on creating new nodes and updates the Local Storage
+        // Identifies which is the next model Id on creating new nodes and updates the Local Storage
         let nextModelId = newModelId;
         let index = 0;
         while (index !== -1) {
@@ -103,7 +103,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     }, [elements]);
 
     useEffect(() => {
-        //detect changes outside of the component on the selected model
+        // Detect changes outside of the component on the selected model
         const node = elements.find(
             (element) => element.id === currentNodeIdRef.current
         );
@@ -127,7 +127,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     }, [model]);
 
     useEffect(() => {
-        //detects when a Model is deleted outside of the component and Updates the elements state
+        // Ddetects when a Model is deleted outside of the component and Updates the elements state
         const importModelsList = [];
         if (importModels.length > 0) {
             importModels.forEach((input) => {
@@ -224,7 +224,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     }, [deletedModelId]);
 
     useEffect(() => {
-        //detects when a Model is selected outside of the component
+        // Detects when a Model is selected outside of the component
         const node = elements.find((element) => element.id === selectedModelId);
         if (node) {
             currentNodeIdRef.current = node.id;
@@ -243,7 +243,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     }, [selectedModelId]);
 
     useEffect(() => {
-        //detects when a Model name is edited outside of the component and Updates the elements state
+        // Detects when a Model name is edited outside of the component and Updates the elements state
         const node = elements.find((element) => element.id === selectedModelId);
         if (node) {
             node.data.name = editedModelName;
@@ -263,7 +263,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     }, [editedModelName]);
 
     useEffect(() => {
-        //detects when a Model id is edited outside of the component and Updates the elements state
+        // Detects when a Model id is edited outside of the component and Updates the elements state
         const node = elements.find((element) => element.id === selectedModelId);
         if (node) {
             elements
@@ -304,7 +304,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     const edgeTypes = useMemo(() => ({ Relationship: OATGraphCustomEdge }), []);
 
     const onElementsRemove = (elementsToRemove: IOATNodeElement) =>
-        //remove an specific node and all related edges
+        // Remove an specific node and all related edges
         setElements((els) => removeElements(elementsToRemove, els));
 
     const onLoad = useCallback(
@@ -313,7 +313,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     );
 
     const onNewModelClick = () => {
-        //create a new floating node
+        // Create a new floating node
         const name = `Model${newModelId}`;
         const id = `${idClassBase}model${newModelId};${versionClassBase}`;
         const newNode = {
@@ -332,7 +332,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     };
 
     const onNodeDragStop = (evt, node) => {
-        //checks if a node is being draged into another node to create a relationship between them
+        // Checks if a node is being draged into another node to create a relationship between them
         let targetId = '';
         const areaDistanceX = 60;
         const areaDistanceY = 30;
@@ -400,13 +400,13 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     };
 
     const onConnectStart = (evt, params) => {
-        //stores values before connection is created
+        // Stores values before connection is created
         currentNodeIdRef.current = params.nodeId;
         currentHandleId.current = params.handleId;
     };
 
     const onConnectStop = (evt) => {
-        //retrieves information and creates a desired relationship between nodes
+        // Retrieves information and creates a desired relationship between nodes
         const params: IOATRelationShipElement = {
             source: currentNodeIdRef.current,
             sourceHandle: currentHandleId.current,
@@ -464,7 +464,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     };
 
     const storeElements = () => {
-        //save the desire session data into the local storage
+        // Save the desire session data into the local storage
         const nodePositions = elements.reduce((collection, element) => {
             if (!element.source) {
                 collection.push({
@@ -493,7 +493,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     };
 
     const translatedOutput = useMemo(() => {
-        //creates the json object in the DTDL standard based on the content of the nodes
+        // Creates the json object in the DTDL standard based on the content of the nodes
         const outputObject = elements;
         const nodes = outputObject.reduce((currentNodes, currentNode) => {
             if (currentNode.data.type === OATInterfaceType) {
@@ -568,7 +568,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     }, [elements]);
 
     useEffect(() => {
-        //sends information to the page with the DTDL json
+        // Sends information to the page with the DTDL json
         const oatEditorData = JSON.parse(
             localStorage.getItem(OATDataStorageKey)
         );
@@ -586,7 +586,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     }, [translatedOutput]);
 
     const onElementClick = (evt, node) => {
-        //checks if a node is selected to display it in the property editor
+        // Checks if a node is selected to display it in the property editor
         if (node.data.type === OATInterfaceType && translatedOutput) {
             currentNodeIdRef.current = node.id;
 

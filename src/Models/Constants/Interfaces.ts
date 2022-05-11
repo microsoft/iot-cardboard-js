@@ -832,8 +832,8 @@ export interface IOATNodeElement {
 }
 
 export interface IOATNodePosition {
-    x: int;
-    y: int;
+    x: number;
+    y: number;
 }
 
 export interface IOATRelationShipElement {
