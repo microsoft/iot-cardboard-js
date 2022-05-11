@@ -19,22 +19,18 @@ type IPropertyList = {
     draggingTemplate: boolean;
     enteredPropertyRef: any;
     enteredTemplateRef: any;
-    propertySelectorVisible: boolean;
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
     setCurrentNestedPropertyIndex: React.Dispatch<React.SetStateAction<number>>;
     setCurrentPropertyIndex?: React.Dispatch<React.SetStateAction<number>>;
     setDraggingProperty: React.Dispatch<React.SetStateAction<boolean>>;
     setModalBody?: React.Dispatch<React.SetStateAction<string>>;
     setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
-    setPropertySelectorVisible: React.Dispatch<React.SetStateAction<boolean>>;
     state: any;
 };
 
 const PROPERTY_LIST_ID = 'propertyList';
 
 export const PropertyList = ({
-    propertySelectorVisible,
-    setPropertySelectorVisible,
     setCurrentPropertyIndex,
     setModalOpen,
     enteredPropertyRef,
@@ -54,6 +50,9 @@ export const PropertyList = ({
     const [enteredItem, setEnteredItem] = useState(enteredPropertyRef.current);
     const [lastPropertyFocused, setLastPropertyFocused] = useState(null);
     const [hover, setHover] = useState(false);
+    const [propertySelectorVisible, setPropertySelectorVisible] = useState(
+        false
+    );
     const dragItem = useRef(null);
     const dragNode = useRef(null);
 
@@ -262,6 +261,7 @@ export const PropertyList = ({
                                     }
                                     setModalOpen={setModalOpen}
                                     item={item}
+                                    lastPropertyFocused={lastPropertyFocused}
                                     setLastPropertyFocused={
                                         setLastPropertyFocused
                                     }
@@ -273,15 +273,6 @@ export const PropertyList = ({
                             );
                         }
                     })}
-
-                {state.model && state.model.contents.length > 0 && hover && (
-                    <AddPropertyBar
-                        onClick={() => {
-                            setLastPropertyFocused(null);
-                            setPropertySelectorVisible(true);
-                        }}
-                    />
-                )}
             </div>
         </div>
     );

@@ -1,10 +1,9 @@
 import React from 'react';
 import {
-    FontIcon,
-    ActionButton,
     Separator,
     FocusTrapCallout,
-    DirectionalHint
+    DirectionalHint,
+    Stack
 } from '@fluentui/react';
 import {
     getPropertyInspectorStyles,
@@ -64,22 +63,31 @@ const PropertySelector = ({
                     icon: IconBoolean
                 },
                 {
-                    name: 'data',
-                    title: t('OATPropertyEditor.data'),
-                    icon: IconData
-                },
-                {
                     name: 'float',
                     title: t('OATPropertyEditor.float'),
                     icon: IconFloat
                 },
-
                 {
                     name: 'dateTime',
                     title: t('OATPropertyEditor.dateTime'),
                     icon: IconDatetime
                 },
-
+                {
+                    name: DTDLSchemaType.Enum,
+                    title: t('OATPropertyEditor.enum'),
+                    icon: IconEnum,
+                    complex: true
+                },
+                {
+                    name: 'double',
+                    title: t('OATPropertyEditor.double'),
+                    icon: IconDouble
+                },
+                {
+                    name: 'data',
+                    title: t('OATPropertyEditor.data'),
+                    icon: IconData
+                },
                 {
                     name: 'integer',
                     title: t('OATPropertyEditor.integer'),
@@ -91,21 +99,10 @@ const PropertySelector = ({
                     icon: IconLong
                 },
                 {
-                    name: DTDLSchemaType.Enum,
-                    title: t('OATPropertyEditor.enum'),
-                    icon: IconEnum,
-                    complex: true
-                },
-                {
                     name: DTDLSchemaType.Map,
                     title: t('OATPropertyEditor.map'),
                     icon: IconMap,
                     complex: true
-                },
-                {
-                    name: 'double',
-                    title: t('OATPropertyEditor.double'),
-                    icon: IconDouble
                 },
                 {
                     name: 'duration',
@@ -253,86 +250,80 @@ const PropertySelector = ({
             setInitialFocus
             directionalHint={DirectionalHint.leftTopEdge}
             styles={propertySelectorStyles}
+            onDismiss={() => setPropertySelectorVisible(false)}
         >
-            <div className={propertyInspectorStyles.propertySelectorHeader}>
-                <ActionButton
-                    onClick={() => setPropertySelectorVisible(false)}
-                    styles={{ root: { height: 'unset' } }}
-                >
-                    <FontIcon
-                        iconName={'ChromeClose'}
-                        className={
-                            propertyInspectorStyles.iconClosePropertySelector
+            <Stack horizontal>
+                <div className={propertyInspectorStyles.propertyTagsWrapFirst}>
+                    {data.propertyTags.sectionFirst.map((tag, i) => {
+                        if (
+                            lastPropertyFocused &&
+                            typeof lastPropertyFocused.item.schema ===
+                                'object' &&
+                            tag.complex
+                        ) {
+                            return <></>;
+                        } else {
+                            return (
+                                <Svg
+                                    tabIndex={0}
+                                    key={i}
+                                    className={
+                                        propertyInspectorStyles.propertyTag
+                                    }
+                                    onClick={() => {
+                                        handleTagClick(tag.name);
+                                    }}
+                                    src={tag.icon}
+                                    title={tag.title}
+                                ></Svg>
+                            );
                         }
-                        title={t('OATPropertyEditor.close')}
-                    />
-                </ActionButton>
-            </div>
-            <Separator styles={propertySelectorSeparatorStyles} />
-            <div className={propertyInspectorStyles.propertyTagsWrap}>
-                {data.propertyTags.sectionFirst.map((tag, i) => {
-                    if (
-                        lastPropertyFocused &&
-                        typeof lastPropertyFocused.item.schema === 'object' &&
-                        tag.complex
-                    ) {
-                        return <></>;
-                    } else {
-                        return (
-                            <Svg
-                                tabIndex={0}
-                                key={i}
-                                className={propertyInspectorStyles.propertyTag}
-                                onClick={() => {
-                                    handleTagClick(tag.name);
-                                }}
-                                src={tag.icon}
-                                title={tag.title}
-                            ></Svg>
-                        );
-                    }
-                })}
-            </div>
-            <Separator styles={propertySelectorSeparatorStyles} />
-            <div className={propertyInspectorStyles.propertyTagsWrap}>
-                {data.propertyTags.sectionSecond.map((tag, i) => {
-                    if (
-                        lastPropertyFocused &&
-                        typeof lastPropertyFocused.item.schema === 'object' &&
-                        tag.complex
-                    ) {
-                        return <></>;
-                    } else {
-                        return (
-                            <Svg
-                                tabIndex={0}
-                                key={i}
-                                className={propertyInspectorStyles.propertyTag}
-                                onClick={() => {
-                                    handleTagClick(tag.name);
-                                }}
-                                src={tag.icon}
-                                title={tag.title}
-                            ></Svg>
-                        );
-                    }
-                })}
-            </div>
-            <Separator styles={propertySelectorSeparatorStyles} />
-            <div className={propertyInspectorStyles.propertyTagsWrap}>
-                {data.propertyTags.sectionThird.map((tag, i) => (
-                    <Svg
-                        tabIndex={0}
-                        key={i}
-                        className={propertyInspectorStyles.propertyTag}
-                        onClick={() => {
-                            handleTagClick(tag.name);
-                        }}
-                        src={tag.icon}
-                        title={tag.title}
-                    ></Svg>
-                ))}
-            </div>
+                    })}
+                </div>
+                <Separator styles={propertySelectorSeparatorStyles} vertical />
+                <div className={propertyInspectorStyles.propertyTagsWrapSecond}>
+                    {data.propertyTags.sectionSecond.map((tag, i) => {
+                        if (
+                            lastPropertyFocused &&
+                            typeof lastPropertyFocused.item.schema ===
+                                'object' &&
+                            tag.complex
+                        ) {
+                            return <></>;
+                        } else {
+                            return (
+                                <Svg
+                                    tabIndex={0}
+                                    key={i}
+                                    className={
+                                        propertyInspectorStyles.propertyTag
+                                    }
+                                    onClick={() => {
+                                        handleTagClick(tag.name);
+                                    }}
+                                    src={tag.icon}
+                                    title={tag.title}
+                                ></Svg>
+                            );
+                        }
+                    })}
+                </div>
+                <Separator styles={propertySelectorSeparatorStyles} vertical />
+                <div className={propertyInspectorStyles.propertyTagsWrapThird}>
+                    {data.propertyTags.sectionThird.map((tag, i) => (
+                        <Svg
+                            tabIndex={0}
+                            key={i}
+                            className={propertyInspectorStyles.propertyTag}
+                            onClick={() => {
+                                handleTagClick(tag.name);
+                            }}
+                            src={tag.icon}
+                            title={tag.title}
+                        ></Svg>
+                    ))}
+                </div>
+            </Stack>
         </FocusTrapCallout>
     );
 };

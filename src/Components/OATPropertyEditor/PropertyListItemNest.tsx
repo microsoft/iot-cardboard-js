@@ -245,7 +245,7 @@ export const PropertyListItemNest = ({
             )}
 
             {hover && item.schema['@type'] !== DTDLSchemaType.Map && (
-                <AddPropertyBar onClick={addPropertyCallback} />
+                <AddPropertyBar onMouseOver={addPropertyCallback} />
             )}
         </div>
     );

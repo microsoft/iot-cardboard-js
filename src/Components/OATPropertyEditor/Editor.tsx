@@ -43,9 +43,6 @@ const Editor = ({
     const { t } = useTranslation();
     const propertyInspectorStyles = getPropertyInspectorStyles();
 
-    const [propertySelectorVisible, setPropertySelectorVisible] = useState(
-        false
-    );
     const [draggingTemplate, setDraggingTemplate] = useState(false);
     const [draggingProperty, setDraggingProperty] = useState(false);
     const enteredTemplateRef = useRef(null);
@@ -119,8 +116,6 @@ const Editor = ({
                     </div>
 
                     <PropertyList
-                        propertySelectorVisible={propertySelectorVisible}
-                        setPropertySelectorVisible={setPropertySelectorVisible}
                         dispatch={dispatch}
                         state={state}
                         setCurrentPropertyIndex={setCurrentPropertyIndex}
