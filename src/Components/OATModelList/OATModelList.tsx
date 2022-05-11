@@ -1,15 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
-<<<<<<< HEAD
 import { useTheme, List, ActionButton, Icon, TextField } from '@fluentui/react';
 import {
     getModelsStyles,
     getModelsIconStyles,
     getModelsActionButtonStyles
 } from './OATModelList.styles';
-=======
-import { useTheme, List, ActionButton, Icon, FontSizes } from '@fluentui/react';
-import { getModelsStyles } from './OATModelList.styles';
->>>>>>> origin/zarmada/oat-development
 import { IOATTwinModelNodes } from '../../Models/Constants';
 import {
     SET_OAT_DELETED_MODEL_ID,

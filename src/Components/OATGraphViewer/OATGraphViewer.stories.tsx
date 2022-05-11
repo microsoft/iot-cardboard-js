@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 import React, { useReducer } from 'react';
-=======
-import React from 'react';
->>>>>>> origin/zarmada/oat-development
 import BaseComponent from '../BaseComponent/BaseComponent';
 import OATGraphViewer from './OATGraphViewer';
 import {
@@ -16,7 +12,6 @@ export default {
 };
 
 export const Default = (_args, { globals: { theme, locale } }) => {
-<<<<<<< HEAD
     const [state, dispatch] = useReducer(
         OATGraphViewerReducer,
         defaultOATEditorState
@@ -25,11 +20,6 @@ export const Default = (_args, { globals: { theme, locale } }) => {
     return (
         <BaseComponent locale={locale} theme={theme}>
             <OATGraphViewer state={state} dispatch={dispatch} />
-=======
-    return (
-        <BaseComponent locale={locale} theme={theme}>
-            <OATGraphViewer />
->>>>>>> origin/zarmada/oat-development
         </BaseComponent>
     );
 };

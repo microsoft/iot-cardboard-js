@@ -28,7 +28,9 @@ const classNames = {
     propertiesWrapScroll: `${classPrefix}-properties-wrap-scroll`,
     propertySelectorHeader: `${classPrefix}-row-property-selector-header`,
     iconClosePropertySelector: `${classPrefix}-icon-close-property-selector`,
-    propertyTagsWrap: `${classPrefix}-property-tags-wrap`,
+    propertyTagsWrapFirst: `${classPrefix}-property-tags-wrap-first`,
+    propertyTagsWrapSecond: `${classPrefix}-property-tags-wrap-second`,
+    propertyTagsWrapThird: `${classPrefix}-property-tags-wrap-third`,
     propertyTag: `${classPrefix}-property-tag`,
     iconAddProperty: `${classPrefix}-icon-add-property`,
     templateItem: `${classPrefix}-template-item`,
@@ -187,15 +189,35 @@ export const getPropertyInspectorStyles = () => {
                 fontSize: FontSizes.size10
             } as IStyle
         ],
-        propertyTagsWrap: [
-            classNames.propertyTagsWrap,
+        propertyTagsWrapFirst: [
+            classNames.propertyTagsWrapFirst,
+            {
+                display: 'grid',
+                gridTemplateColumns: '20% 20% 20% 20% 20%',
+                justifyContent: 'center',
+                flexWrap: 'wrap',
+                padding: '0px 8px'
+            } as IStyle
+        ],
+        propertyTagsWrapSecond: [
+            classNames.propertyTagsWrapSecond,
             {
                 display: 'grid',
                 gridTemplateColumns: '50% 50%',
                 justifyContent: 'center',
                 flexWrap: 'wrap',
-                padding: '0 8px',
-                marginBottom: '8px'
+                padding: '0px 8px',
+                backgroundColor: theme.semanticColors.buttonBackgroundDisabled
+            } as IStyle
+        ],
+        propertyTagsWrapThird: [
+            classNames.propertyTagsWrapThird,
+            {
+                display: 'grid',
+                gridTemplateColumns: '33% 33% 33%',
+                justifyContent: 'center',
+                flexWrap: 'wrap',
+                padding: '0px 8px'
             } as IStyle
         ],
         propertyTag: [
@@ -203,7 +225,7 @@ export const getPropertyInspectorStyles = () => {
             {
                 justifyContent: 'center',
                 alignItems: 'center',
-                backgroundColor: theme.semanticColors.listBackground,
+                backgroundColor: 'transparent',
                 borderRadius: '2px',
                 marginRight: '4px',
                 marginBottom: '1px',
@@ -300,7 +322,7 @@ export const getPropertyInspectorStyles = () => {
             classNames.propertyItem,
             {
                 display: 'grid',
-                gridTemplateColumns: '60% 20% 10% 10%',
+                gridTemplateColumns: '0% 55% 25% 10% 10%',
                 width: '100%',
                 backgroundColor: theme.semanticColors.listBackground,
                 alignItems: 'center',
@@ -309,7 +331,8 @@ export const getPropertyInspectorStyles = () => {
                 cursor: 'grab',
                 ':active': {
                     cursor: 'grabbing'
-                }
+                },
+                position: 'relative'
             } as IStyle
         ],
         propertyItemEntered: [
@@ -338,7 +361,7 @@ export const getPropertyInspectorStyles = () => {
         propertyItemNest: [
             classNames.propertyItemNest,
             {
-                backgroundColor: theme.semanticColors.listBackground,
+                backgroundColor: 'theme.semanticColors.listBackground',
                 alignItems: 'start',
                 padding: '12px 8px',
                 minHeight: '100px',
@@ -353,11 +376,11 @@ export const getPropertyInspectorStyles = () => {
             classNames.propertyItemNested,
             {
                 display: 'grid',
-                gridTemplateColumns: '50% 30% 10% 10%',
+                gridTemplateColumns: '10% 45% 25% 10% 10%',
                 width: '100%',
                 backgroundColor: theme.semanticColors.buttonBackgroundDisabled,
                 alignItems: 'center',
-                padding: '12px 8px',
+                padding: '8px 0px',
                 borderBottom: `1px solid ${theme.semanticColors.variantBorder}`,
                 borderRadius: '4px',
                 marginBottom: '8px',
@@ -368,7 +391,7 @@ export const getPropertyInspectorStyles = () => {
             classNames.propertyItemNestMainItem,
             {
                 display: 'grid',
-                gridTemplateColumns: '10% 50% 30% 10%',
+                gridTemplateColumns: '10% 45% 25% 10% 10%',
                 width: '100%',
                 alignItems: 'center',
                 paddingBottom: '12px',
@@ -428,8 +451,8 @@ export const getPropertyInspectorStyles = () => {
                 height: '1px',
                 width: '100%',
                 backgroundColor: theme.semanticColors.menuIcon,
-                position: 'relative',
-                top: '100%'
+                position: 'absolute',
+                top: '90%'
             } as IStyle
         ],
         addPropertyBarIcon: [
@@ -509,7 +532,8 @@ export const getPropertySelectorStyles = () => {
     const theme = useTheme();
     return {
         root: {
-            minHeight: '200px',
+            display: 'flex',
+            flexDirection: 'row',
             backgroundColor: theme.semanticColors.listBackground,
             borderRadius: '4px',
             borderBottom: `1px solid ${theme.semanticColors.variantBorder}`,
@@ -520,12 +544,16 @@ export const getPropertySelectorStyles = () => {
 };
 
 export const getPropertySelectorSeparatorStyles = () => {
+    const theme = useTheme();
     return {
         root: {
             width: '100%',
-            height: '1px',
+            height: 'fill-available',
             padding: 0,
-            margin: '2px 0px'
+            margin: '2px 0px',
+            ':after': {
+                backgroundColor: theme.semanticColors.variantBorder
+            }
         }
     } as Partial<ISeparatorStyles>;
 };
@@ -595,6 +623,13 @@ export const getTemplateColumnStyles = () => {
             width: '80%',
             height: '100%',
             backgroundColor: theme.semanticColors.buttonBackgroundDisabled
+        }
+    } as Partial<IButtonStyles>;
+};
+export const getTemplateColumnPaddingStyles = () => {
+    return {
+        root: {
+            padding: '8px'
         }
     } as Partial<IButtonStyles>;
 };

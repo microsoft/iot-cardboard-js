@@ -19,22 +19,18 @@ type IPropertyList = {
     draggingTemplate: boolean;
     enteredPropertyRef: any;
     enteredTemplateRef: any;
-    propertySelectorVisible: boolean;
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
     setCurrentNestedPropertyIndex: React.Dispatch<React.SetStateAction<number>>;
     setCurrentPropertyIndex?: React.Dispatch<React.SetStateAction<number>>;
     setDraggingProperty: React.Dispatch<React.SetStateAction<boolean>>;
     setModalBody?: React.Dispatch<React.SetStateAction<string>>;
     setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
-    setPropertySelectorVisible: React.Dispatch<React.SetStateAction<boolean>>;
     state: any;
 };
 
 const PROPERTY_LIST_ID = 'propertyList';
 
 export const PropertyList = ({
-    propertySelectorVisible,
-    setPropertySelectorVisible,
     setCurrentPropertyIndex,
     setModalOpen,
     enteredPropertyRef,
@@ -53,13 +49,16 @@ export const PropertyList = ({
     const draggedPropertyItemRef = useRef(null);
     const [enteredItem, setEnteredItem] = useState(enteredPropertyRef.current);
     const [lastPropertyFocused, setLastPropertyFocused] = useState(null);
-    const [hover, setHover] = useState(false);
+    const [propertySelectorVisible, setPropertySelectorVisible] = useState(
+        false
+    );
     const dragItem = useRef(null);
     const dragNode = useRef(null);
+    const { model, templates } = state;
 
     const handlePropertyItemDropOnTemplateList = () => {
-        const newTemplate = state.templates ? deepCopy(state.templates) : [];
-        newTemplate.push(state.model.contents[draggedPropertyItemRef.current]);
+        const newTemplate = templates ? deepCopy(templates) : [];
+        newTemplate.push(model.contents[draggedPropertyItemRef.current]);
         dispatch({
             type: SET_OAT_TEMPLATES,
             payload: newTemplate
@@ -82,7 +81,7 @@ export const PropertyList = ({
         if (e.target !== dragNode.current) {
             //  Entered item is not the same as dragged node
 
-            const newModel = deepCopy(state.model);
+            const newModel = deepCopy(model);
             //  Replace entered item with dragged item
             // --> Remove dragged item from model and then place it on entered item's position
             newModel.contents.splice(
@@ -134,7 +133,7 @@ export const PropertyList = ({
     };
 
     const handlePropertyNameChange = (value, index) => {
-        const newModel = deepCopy(state.model);
+        const newModel = deepCopy(model);
         if (index === undefined) {
             newModel.contents[currentPropertyIndex].name = value;
         } else {
@@ -145,9 +144,7 @@ export const PropertyList = ({
 
     const generateErrorMessage = (value, index) => {
         if (value) {
-            const find = state.model.contents.find(
-                (item) => item.name === value
-            );
+            const find = model.contents.find((item) => item.name === value);
 
             if (!find && value !== '') {
                 handlePropertyNameChange(value, index);
@@ -161,7 +158,7 @@ export const PropertyList = ({
 
     const deleteItem = (index) => {
         setLastPropertyFocused(null);
-        const newModel = deepCopy(state.model);
+        const newModel = deepCopy(model);
         newModel.contents.splice(index, 1);
         dispatch({ type: SET_OAT_PROPERTY_EDITOR_MODEL, payload: newModel });
     };
@@ -170,12 +167,6 @@ export const PropertyList = ({
         <div
             className={propertyInspectorStyles.propertiesWrap}
             id={PROPERTY_LIST_ID}
-            onMouseOver={() => {
-                setHover(true);
-            }}
-            onMouseLeave={() => {
-                setHover(false);
-            }}
         >
             <div className={propertyInspectorStyles.propertiesWrapScroll}>
                 {propertySelectorVisible && (
@@ -188,8 +179,8 @@ export const PropertyList = ({
                     />
                 )}
                 {!propertySelectorVisible &&
-                    state.model &&
-                    state.model.contents.length === 0 && (
+                    model &&
+                    model.contents.length === 0 && (
                         <ActionButton
                             onClick={() => setPropertySelectorVisible(true)}
                             styles={{ root: { paddingLeft: '10px' } }}
@@ -204,9 +195,9 @@ export const PropertyList = ({
                         </ActionButton>
                     )}
 
-                {state.model &&
-                    state.model.contents.length > 0 &&
-                    state.model.contents.map((item, i) => {
+                {model &&
+                    model.contents.length > 0 &&
+                    model.contents.map((item, i) => {
                         if (typeof item.schema === 'object') {
                             return (
                                 <PropertyListItemNest
@@ -230,9 +221,6 @@ export const PropertyList = ({
                                     lastPropertyFocused={lastPropertyFocused}
                                     setLastPropertyFocused={
                                         setLastPropertyFocused
-                                    }
-                                    setPropertySelectorVisible={
-                                        setPropertySelectorVisible
                                     }
                                     setCurrentNestedPropertyIndex={
                                         setCurrentNestedPropertyIndex
@@ -262,6 +250,7 @@ export const PropertyList = ({
                                     }
                                     setModalOpen={setModalOpen}
                                     item={item}
+                                    lastPropertyFocused={lastPropertyFocused}
                                     setLastPropertyFocused={
                                         setLastPropertyFocused
                                     }
@@ -273,15 +262,6 @@ export const PropertyList = ({
                             );
                         }
                     })}
-
-                {state.model && state.model.contents.length > 0 && hover && (
-                    <AddPropertyBar
-                        onClick={() => {
-                            setLastPropertyFocused(null);
-                            setPropertySelectorVisible(true);
-                        }}
-                    />
-                )}
             </div>
         </div>
     );

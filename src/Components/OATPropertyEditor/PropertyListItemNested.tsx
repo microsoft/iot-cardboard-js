@@ -47,6 +47,7 @@ export const PropertyListItemNested = ({
     const iconWrapStyles = getPropertyListItemIconWrapStyles();
     const iconWrapMoreStyles = getPropertyListItemIconWrapMoreStyles();
     const [subMenuActive, setSubMenuActive] = useState(false);
+    const { model, templates } = state;
 
     const handleDuplicate = () => {
         const itemCopy = deepCopy(item);
@@ -56,7 +57,7 @@ export const PropertyListItemNested = ({
         )}`;
         itemCopy['@id'] = `${itemCopy['@id']}_${t('OATPropertyEditor.copy')}`;
 
-        const modelCopy = deepCopy(state.model);
+        const modelCopy = deepCopy(model);
         modelCopy.contents[parentIndex].schema.fields.push(itemCopy);
         dispatch({
             type: SET_OAT_PROPERTY_EDITOR_MODEL,
@@ -67,12 +68,13 @@ export const PropertyListItemNested = ({
     const handleTemplateAddition = () => {
         dispatch({
             type: SET_OAT_TEMPLATES,
-            payload: [...state.templates.item]
+            payload: [...templates.item]
         });
     };
 
     return (
         <div className={getItemClassName(index)} id={item.name}>
+            <div></div> {/* Needed for gridTemplateColumns style  */}
             <TextField
                 styles={textFieldStyles}
                 borderless

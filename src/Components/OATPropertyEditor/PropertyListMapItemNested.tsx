@@ -10,6 +10,7 @@ import { useTranslation } from 'react-i18next';
 import { SET_OAT_PROPERTY_EDITOR_MODEL } from '../../Models/Constants/ActionTypes';
 import { IAction } from '../../Models/Constants/Interfaces';
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
+import { deepCopy } from '../../Models/Services/Utils';
 
 type IEnumItem = {
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
@@ -29,9 +30,10 @@ export const PropertyListMapItemNested = ({
     const mapItemStyles = getMapItemStyles();
     const textFieldStyles = getPropertyEditorTextFieldStyles();
     const textStyles = getListMapItemTextStyles();
+    const { model } = state;
 
     const updateMapKeyName = (value) => {
-        const modelCopy = Object.assign({}, state.model);
+        const modelCopy = deepCopy(model);
         modelCopy.contents[index].schema.mapKey.name = value;
         dispatch({
             type: SET_OAT_PROPERTY_EDITOR_MODEL,
@@ -40,7 +42,7 @@ export const PropertyListMapItemNested = ({
     };
 
     const updateMapValueName = (value) => {
-        const modelCopy = Object.assign({}, state.model);
+        const modelCopy = deepCopy(model);
         modelCopy.contents[index].schema.mapValue.name = value;
         dispatch({
             type: SET_OAT_PROPERTY_EDITOR_MODEL,

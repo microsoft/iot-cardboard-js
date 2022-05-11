@@ -34,23 +34,23 @@ export const TemplateList = ({
     const dragItem = useRef(null);
     const dragNode = useRef(null);
     const [enteredItem, setEnteredItem] = useState(enteredTemplateRef.current);
+    const { model, templates } = state;
 
     const handleTemplateItemDropOnPropertyList = () => {
         // Prevent drop if duplicate
-        const isTemplateAlreadyInModel = state.model.contents.find(
+        const isTemplateAlreadyInModel = model.contents.find(
             (item) =>
-                item['@id'] ===
-                state.templates[draggedTemplateItemRef.current]['@id']
+                item['@id'] === templates[draggedTemplateItemRef.current]['@id']
         );
         if (isTemplateAlreadyInModel) return;
 
         // Drop
-        const newModel = deepCopy(state.model);
+        const newModel = deepCopy(model);
         // + 1 so that it drops under current item
         newModel.contents.splice(
             enteredPropertyRef.current + 1,
             0,
-            state.templates[draggedTemplateItemRef.current]
+            templates[draggedTemplateItemRef.current]
         );
         dispatch({ type: SET_OAT_PROPERTY_EDITOR_MODEL, payload: newModel });
     };
@@ -84,7 +84,7 @@ export const TemplateList = ({
             //  Entered item is not the same as dragged node
             //  Replace entered item with dragged item
             // --> Remove dragged item and then place it on entered item's position
-            const newTemplate = deepCopy(state.templates);
+            const newTemplate = deepCopy(templates);
             newTemplate.splice(
                 i,
                 0,
@@ -123,7 +123,7 @@ export const TemplateList = ({
     };
 
     const deleteItem = (index) => {
-        const newTemplate = deepCopy(state.templates);
+        const newTemplate = deepCopy(templates);
         newTemplate.splice(index, 1);
 
         dispatch({
@@ -142,9 +142,9 @@ export const TemplateList = ({
             }
         >
             {state &&
-                state.templates &&
-                state.templates.length > 0 &&
-                state.templates.map((item, i) => (
+                templates &&
+                templates.length > 0 &&
+                templates.map((item, i) => (
                     <TemplateListItem
                         key={i}
                         draggingTemplate={draggingTemplate}

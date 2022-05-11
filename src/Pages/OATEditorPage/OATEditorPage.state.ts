@@ -1,4 +1,4 @@
-import produce, { setAutoFreeze } from 'immer';
+import produce from 'immer';
 import { IAction } from '../../Models/Constants/Interfaces';
 import { IOATEditorState } from './OATEditorPage.types';
 import {
@@ -13,7 +13,6 @@ import {
     SET_OAT_IS_JSON_UPLOADER_OPEN,
     SET_OAT_TEMPLATES
 } from '../../Models/Constants/ActionTypes';
-setAutoFreeze(false);
 
 export const defaultOATEditorState: IOATEditorState = {
     model: null,
@@ -34,25 +33,35 @@ export const OATEditorPageReducer = produce(
 
         switch (action.type) {
             case SET_OAT_PROPERTY_EDITOR_MODEL:
-                return { ...state, model: payload };
+                state.model = payload;
+                return;
             case SET_OAT_ELEMENTS:
-                return { ...state, elements: payload };
+                state.elements = payload;
+                return;
             case SET_OAT_DELETED_MODEL_ID:
-                return { ...state, deletedModelId: payload };
+                state.deletedModelId = payload;
+                return;
             case SET_OAT_SELECTED_MODEL_ID:
-                return { ...state, selectedModelId: payload };
+                state.selectedModelId = payload;
+                return;
             case SET_OAT_EDITED_MODEL_NAME:
-                return { ...state, editedModelName: payload };
+                state.editedModelName = payload;
+                return;
             case SET_OAT_EDITED_MODEL_ID:
-                return { ...state, editedModelId: payload };
+                state.editedModelId = payload;
+                return;
             case SET_OAT_TEMPLATES_ACTIVE:
-                return { ...state, templatesActive: payload };
+                state.templatesActive = payload;
+                return;
             case SET_OAT_IMPORT_MODELS:
-                return { ...state, importModels: payload };
+                state.importModels = payload;
+                return;
             case SET_OAT_IS_JSON_UPLOADER_OPEN:
-                return { ...state, isJsonUploaderOpen: payload };
+                state.isJsonUploaderOpen = payload;
+                return;
             case SET_OAT_TEMPLATES:
-                return { ...state, templates: payload };
+                state.templates = payload;
+                return;
         }
     }
 );

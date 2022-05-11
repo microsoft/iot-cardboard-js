@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TextField, Text, IconButton } from '@fluentui/react';
+import { TextField, Text, IconButton, Stack } from '@fluentui/react';
 import {
     getPropertyEditorTextFieldStyles,
     getPropertyListItemIconWrapStyles,
@@ -14,6 +14,8 @@ import {
 } from '../../Models/Constants/ActionTypes';
 import { IAction } from '../../Models/Constants/Interfaces';
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
+import AddPropertyBar from './AddPropertyBar';
+import PropertySelector from './PropertySelector';
 
 type IPropertyListItem = {
     index?: number;
@@ -26,6 +28,7 @@ type IPropertyListItem = {
     handleDragEnterExternalItem?: (index: number) => any;
     handleDragStart?: (event: any, item: any) => any;
     item?: any;
+    lastPropertyFocused?: boolean;
     setCurrentPropertyIndex?: React.Dispatch<React.SetStateAction<number>>;
     setLastPropertyFocused?: React.Dispatch<React.SetStateAction<any>>;
     setModalBody?: React.Dispatch<React.SetStateAction<string>>;
@@ -46,6 +49,7 @@ export const PropertyListItem = ({
     setCurrentPropertyIndex,
     setModalOpen,
     item,
+    lastPropertyFocused,
     setLastPropertyFocused,
     setModalBody,
     state
@@ -55,11 +59,16 @@ export const PropertyListItem = ({
     const iconWrapMoreStyles = getPropertyListItemIconWrapMoreStyles();
     const textFieldStyles = getPropertyEditorTextFieldStyles();
     const [subMenuActive, setSubMenuActive] = useState(false);
+    const [hover, setHover] = useState(false);
+    const [propertySelectorVisible, setPropertySelectorVisible] = useState(
+        false
+    );
+    const { model, templates } = state;
 
     const handleTemplateAddition = () => {
         dispatch({
             type: SET_OAT_TEMPLATES,
-            payload: [...state.templates, item]
+            payload: [...templates, item]
         });
     };
 
@@ -71,7 +80,7 @@ export const PropertyListItem = ({
         )}`;
         itemCopy['@id'] = `${itemCopy['@id']}_${t('OATPropertyEditor.copy')}`;
 
-        const modelCopy = deepCopy(state.model);
+        const modelCopy = deepCopy(model);
         modelCopy.contents.push(itemCopy);
         dispatch({
             type: SET_OAT_PROPERTY_EDITOR_MODEL,
@@ -81,59 +90,91 @@ export const PropertyListItem = ({
 
     return (
         <div
-            id={item.name}
-            className={getItemClassName(index)}
-            draggable
-            onDragStart={(e) => {
-                handleDragStart(e, index);
+            style={{
+                display: 'flex',
+                flexDirection: 'column',
+                position: 'relative'
             }}
-            onDragEnter={
-                draggingProperty
-                    ? (e) => handleDragEnter(e, index)
-                    : () => handleDragEnterExternalItem(index)
-            }
-            onFocus={() => setLastPropertyFocused(null)}
-            tabIndex={90}
+            onMouseOver={() => {
+                setHover(true);
+            }}
+            onMouseLeave={() => {
+                setHover(false);
+            }}
         >
-            <TextField
-                borderless
-                value={item.name}
-                validateOnFocusOut
-                onChange={(evt, value) => {
-                    setCurrentPropertyIndex(index);
-                    getErrorMessage(value, index);
+            <div
+                id={item.name}
+                className={getItemClassName(index)}
+                draggable
+                onDragStart={(e) => {
+                    handleDragStart(e, index);
                 }}
-                styles={textFieldStyles}
-            />
-            <Text>{item.schema}</Text>
-            <IconButton
-                styles={iconWrapStyles}
-                iconProps={{ iconName: 'info' }}
-                title={t('OATPropertyEditor.info')}
-                onClick={() => {
-                    setCurrentPropertyIndex(index);
-                    setModalOpen(true);
-                    setModalBody('formProperty');
-                }}
-            />
-            <IconButton
-                styles={iconWrapMoreStyles}
-                iconProps={{ iconName: 'more' }}
-                title={t('OATPropertyEditor.more')}
-                onClick={() => setSubMenuActive(!subMenuActive)}
+                onDragEnter={
+                    draggingProperty
+                        ? (e) => handleDragEnter(e, index)
+                        : () => handleDragEnterExternalItem(index)
+                }
+                onFocus={() => setLastPropertyFocused(null)}
+                tabIndex={0}
             >
-                {subMenuActive && (
-                    <PropertyListItemSubMenu
-                        deleteItem={deleteItem}
-                        index={index}
-                        subMenuActive={subMenuActive}
-                        handleTemplateAddition={handleTemplateAddition}
-                        handleDuplicate={handleDuplicate}
+                <div></div> {/* Needed for gridTemplateColumns style  */}
+                <TextField
+                    borderless
+                    value={item.name}
+                    validateOnFocusOut
+                    onChange={(evt, value) => {
+                        setCurrentPropertyIndex(index);
+                        getErrorMessage(value, index);
+                    }}
+                    styles={textFieldStyles}
+                />
+                <Text>{item.schema}</Text>
+                <IconButton
+                    styles={iconWrapStyles}
+                    iconProps={{ iconName: 'info' }}
+                    title={t('OATPropertyEditor.info')}
+                    onClick={() => {
+                        setCurrentPropertyIndex(index);
+                        setModalOpen(true);
+                        setModalBody('formProperty');
+                    }}
+                />
+                <IconButton
+                    styles={iconWrapMoreStyles}
+                    iconProps={{ iconName: 'more' }}
+                    title={t('OATPropertyEditor.more')}
+                    onClick={() => setSubMenuActive(!subMenuActive)}
+                >
+                    {subMenuActive && (
+                        <PropertyListItemSubMenu
+                            deleteItem={deleteItem}
+                            index={index}
+                            subMenuActive={subMenuActive}
+                            handleTemplateAddition={handleTemplateAddition}
+                            handleDuplicate={handleDuplicate}
+                            targetId={item.name}
+                            setSubMenuActive={setSubMenuActive}
+                        />
+                    )}
+                </IconButton>
+                {propertySelectorVisible && (
+                    <PropertySelector
+                        setPropertySelectorVisible={setPropertySelectorVisible}
+                        lastPropertyFocused={lastPropertyFocused}
                         targetId={item.name}
-                        setSubMenuActive={setSubMenuActive}
+                        dispatch={dispatch}
+                        state={state}
                     />
                 )}
-            </IconButton>
+            </div>
+            {hover && (
+                <AddPropertyBar
+                    onMouseOver={() => {
+                        setLastPropertyFocused(null);
+                        setPropertySelectorVisible(true);
+                    }}
+                />
+            )}
         </div>
     );
 };
