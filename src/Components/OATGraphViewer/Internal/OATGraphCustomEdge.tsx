@@ -1,6 +1,6 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { getBezierPath, getEdgeCenter } from 'react-flow-renderer';
-import { IOATGraphCustomEdgeProps } from '../../Models/Constants/Interfaces';
+import { IOATGraphCustomEdgeProps } from '../../../Models/Constants/Interfaces';
 import { getGraphViewerStyles } from '../OATGraphViewer.styles';
 import { ElementsContext } from './OATContext';
 import { TextField } from '@fluentui/react';

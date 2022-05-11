@@ -24,7 +24,7 @@ export const Default = (_args, { globals: { theme } }) => {
                     '@type': 'Relationship',
                     '@id':
                         'dtmi:com:example:model0;1Relationshipdtmi:com:example:model1;1_model1;1',
-                    name: 'ddddd',
+                    name: 'relationship1',
                     displayName: '',
                     target: 'dtmi:com:example:model1;1'
                 },
@@ -32,7 +32,7 @@ export const Default = (_args, { globals: { theme } }) => {
                     '@type': 'Relationship',
                     '@id':
                         'dtmi:com:example:model0;1Relationshipdtmi:com:example:model2;1_model2;1',
-                    name: 'sasa',
+                    name: 'relationship2',
                     displayName: '',
                     target: 'dtmi:com:example:model2;1'
                 }

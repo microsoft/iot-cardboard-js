@@ -5,7 +5,7 @@ import {
 
 export interface IOATEditorState {
     model?: IOATTwinModelNodes;
-    elementHandler?: any[];
+    elements?: any[];
     deletedModelId?: string;
     selectedModelId?: string;
     editedModelName?: string;

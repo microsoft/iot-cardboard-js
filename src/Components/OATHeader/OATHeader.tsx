@@ -8,10 +8,10 @@ import { downloadText } from '../../Models/Services/Utils';
 
 type OATHeaderProps = {
     elements: IOATTwinModelNodes[];
-    handleImportClick: () => any;
+    onImportClick: () => any;
 };
 
-const OATHeader = ({ elements, handleImportClick }: OATHeaderProps) => {
+const OATHeader = ({ elements, onImportClick }: OATHeaderProps) => {
     const { t } = useTranslation();
     const headerStyles = getHeaderStyles();
 
@@ -67,7 +67,7 @@ const OATHeader = ({ elements, handleImportClick }: OATHeaderProps) => {
             key: 'Import',
             text: t('OATHeader.import'),
             iconProps: { iconName: 'Import' },
-            onClick: () => handleImportClick()
+            onClick: () => onImportClick()
         },
         {
             key: 'Export',
@@ -92,7 +92,7 @@ const OATHeader = ({ elements, handleImportClick }: OATHeaderProps) => {
 
 OATHeader.defaultProps = {
     elements: [],
-    handleImportClick: null
+    onImportClick: () => null
 };
 
 export default OATHeader;
