@@ -281,7 +281,7 @@ const ModelViewerModePicker: React.FC<ModelViewerModePickerProps> = ({
                         <h4 className={styles.subHeading}>
                             {t('modelViewerModePicker.objectColors')}
                         </h4>
-                        <div className={styles.colorPickerContainer}>
+                        <div className={styles.colorPicker}>
                             <SwatchColorPicker
                                 selectedId={
                                     viewerMode?.objectColor
@@ -315,7 +315,7 @@ const ModelViewerModePicker: React.FC<ModelViewerModePickerProps> = ({
                         <h4 className={styles.subHeading}>
                             {t('modelViewerModePicker.background')}
                         </h4>
-                        <div className={styles.colorPickerContainer}>
+                        <div className={styles.colorPicker}>
                             <SwatchColorPicker
                                 className={styles.colorPicker}
                                 selectedId={viewerMode?.background}
@@ -356,15 +356,10 @@ const getStyles = memoizeFunction((_theme: Theme) => {
             marginTop: '12px',
             marginBottom: '12px'
         },
-        colorPickerContainer: {
+        colorPicker: {
             height: '45px',
             display: 'flex',
             alignItems: 'center'
-        },
-        colorPicker: {
-            tableCell: {
-                background: 'red'
-            }
         }
     });
 });
