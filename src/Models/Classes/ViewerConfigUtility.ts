@@ -155,12 +155,14 @@ abstract class ViewerConfigUtility {
             .find((scene) => scene.id === sceneId)
             ?.behaviorIDs?.push(behavior.id);
 
-        // Update behavior layer data
-        ViewerConfigUtility.setLayersForBehavior(
-            updatedConfig,
-            behavior.id,
-            selectedLayerIds
-        );
+        if (selectedLayerIds) {
+            // Update behavior layer data
+            ViewerConfigUtility.setLayersForBehavior(
+                updatedConfig,
+                behavior.id,
+                selectedLayerIds
+            );
+        }
         return updatedConfig;
     }
 
@@ -170,7 +172,7 @@ abstract class ViewerConfigUtility {
     static editBehavior(
         config: I3DScenesConfig,
         behavior: IBehavior,
-        selectedLayerIds: string[]
+        selectedLayerIds?: string[]
     ): I3DScenesConfig {
         const updatedConfig = deepCopy(config);
 
@@ -180,12 +182,14 @@ abstract class ViewerConfigUtility {
         );
         updatedConfig.configuration.behaviors[behaviorIdx] = behavior;
 
-        // Update behavior layer data
-        ViewerConfigUtility.setLayersForBehavior(
-            updatedConfig,
-            behavior.id,
-            selectedLayerIds
-        );
+        if (selectedLayerIds) {
+            // Update behavior layer data
+            ViewerConfigUtility.setLayersForBehavior(
+                updatedConfig,
+                behavior.id,
+                selectedLayerIds
+            );
+        }
 
         return updatedConfig;
     }
@@ -197,9 +201,15 @@ abstract class ViewerConfigUtility {
         behavior: IBehavior
     ): I3DScenesConfig {
         const updatedConfig = deepCopy(config);
-        updatedConfig.configuration.scenes
-            .find((scene) => scene.id === sceneId)
-            ?.behaviorIDs?.push(behavior.id);
+        const currentScene = updatedConfig.configuration.scenes.find(
+            (scene) => scene.id === sceneId
+        );
+        const behaviorIdsInScene = currentScene.behaviorIDs || [];
+        if (!behaviorIdsInScene.includes(behavior.id)) {
+            behaviorIdsInScene.push(behavior.id);
+        }
+
+        currentScene.behaviorIDs = behaviorIdsInScene;
         return updatedConfig;
     }
 
@@ -313,13 +323,30 @@ abstract class ViewerConfigUtility {
             .forEach((elementInScene) => {
                 // Check if objects Ids on element intersect with elementIds on behavior
                 if (elementIds.includes(elementInScene.id)) {
-                    // Add elements linked twin
-                    primaryTwinIds.set(elementInScene.linkedTwinID, '');
-                    // Add elements twin aliases
-                    aliasedTwinMap = {
-                        ...aliasedTwinMap,
-                        ...elementInScene.twinAliases
-                    };
+                    // Add elements primary twin
+                    primaryTwinIds.set(elementInScene.primaryTwinID, '');
+
+                    // Only add element alias if behavior contains alias
+                    if (behavior.twinAliases && elementInScene.twinAliases) {
+                        const twinAliasesOnBehavior = {};
+
+                        for (const [
+                            elementAlias,
+                            aliasedTwinId
+                        ] of Object.entries(elementInScene.twinAliases)) {
+                            if (behavior.twinAliases.includes(elementAlias)) {
+                                twinAliasesOnBehavior[
+                                    elementAlias
+                                ] = aliasedTwinId;
+                            }
+                        }
+
+                        // Add elements twin aliases
+                        aliasedTwinMap = {
+                            ...aliasedTwinMap,
+                            ...twinAliasesOnBehavior
+                        };
+                    }
                 }
             });
 
@@ -335,7 +362,7 @@ abstract class ViewerConfigUtility {
      * @param sceneId the scene Id where the elements to be updated are in
      * @returns the updated config
      */
-    static editElements(
+    static updateElementsInScene(
         config: I3DScenesConfig,
         sceneId: string,
         updatedElements: Array<ITwinToObjectMapping>
@@ -664,10 +691,10 @@ abstract class ViewerConfigUtility {
     }
 
     /**
-     * Gets the list of all (union of) the active properties from the provided linked twins
-     * Returns them with the Alias as a prefix. ex: LinkedTwin.MyProperty
+     * Gets the list of all (union of) the active properties from the provided primary twins
+     * Returns them with the Alias as a prefix. ex: PrimaryTwin.MyProperty
      * @param twins List of twins the get the properties from
-     * @returns list of properties with the alias prefixed (ex: LinkedTwin.MyProperty)
+     * @returns list of properties with the alias prefixed (ex: PrimaryTwin.MyProperty)
      */
     static getPropertyNamesWithAliasFromTwins(twins: Record<string, any>) {
         const properties = new Set<string>();
@@ -685,15 +712,15 @@ abstract class ViewerConfigUtility {
     }
 
     /**
-     * Takes in the property names that have an alias at the start ex: "LinkedTwin" and splits off that prefix to only have the raw property names.
+     * Takes in the property names that have an alias at the start ex: "PrimaryTwin" and splits off that prefix to only have the raw property names.
      * source of the input is usually `getPropertyNamesWithAliasFromTwins`
-     * @param properties List of properties with the LinkedTwin type prefix
+     * @param properties List of properties with the PrimaryTwin type prefix
      * @returns list of raw property names
      */
     static getPropertyNameFromAliasedProperty(properties: string[]) {
         return properties
             .map((x) => {
-                // comes back as LinkedTwin.PropertyName
+                // comes back as PrimaryTwin.PropertyName
                 const sliced = x.split('.');
                 return sliced[sliced.length - 1];
             })
@@ -719,6 +746,8 @@ abstract class ViewerConfigUtility {
         dataSources[0].elementIDs = dataSources[0].elementIDs.filter(
             (mappingId) => mappingId !== element.id
         );
+        behavior.datasources = dataSources;
+
         return behavior;
     }
 
@@ -740,6 +769,7 @@ abstract class ViewerConfigUtility {
                 elementIDs: [element.id]
             };
         }
+        behavior.datasources = dataSources;
 
         return behavior;
     }
@@ -946,6 +976,48 @@ abstract class ViewerConfigUtility {
             });
         });
         return twinAliases;
+    };
+
+    /** Given a draft behavior, current config & set of selected elements for behavior
+     *  @returns copy of config with behavior & element updates applied to target scene
+     */
+    static copyConfigWithBehaviorAndElementEditsApplied = (
+        config: I3DScenesConfig,
+        behavior: IBehavior,
+        selectedElements: ITwinToObjectMapping[],
+        sceneId: string
+    ) => {
+        // Copy config
+        let configSnapshot = deepCopy(config);
+
+        // Apply draft behavior to config
+        if (
+            configSnapshot.configuration.behaviors
+                .map((b) => b.id)
+                .includes(behavior.id)
+        ) {
+            configSnapshot = ViewerConfigUtility.editBehavior(
+                configSnapshot,
+                behavior,
+                []
+            );
+        } else {
+            configSnapshot = ViewerConfigUtility.addBehavior(
+                configSnapshot,
+                sceneId,
+                behavior,
+                []
+            );
+        }
+
+        // Apply updated elements to config
+        configSnapshot = ViewerConfigUtility.updateElementsInScene(
+            configSnapshot,
+            sceneId,
+            selectedElements
+        );
+
+        return configSnapshot;
     };
 
     static getTwinAliasItemsFromElement = (

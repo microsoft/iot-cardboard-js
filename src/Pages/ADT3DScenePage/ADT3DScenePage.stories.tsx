@@ -3,8 +3,8 @@ import MockAdapter from '../../Adapters/MockAdapter';
 import ADT3DScenePage from './ADT3DScenePage';
 import mockConfig from '../../Adapters/__mockData__/3DScenesConfiguration.json';
 import { deepCopy } from '../../Models/Services/Utils';
-import { DeeplinkContextProvider } from '../../Models/Context/DeeplinkContext';
-import { IDeeplinkContextState } from '../../Models/Context/DeeplinkContext.types';
+import { DeeplinkContextProvider } from '../../Models/Context/DeeplinkContext/DeeplinkContext';
+import { IDeeplinkContextState } from '../../Models/Context/DeeplinkContext/DeeplinkContext.types';
 import { ADT3DScenePageModes } from '../../Models/Constants';
 
 export default {

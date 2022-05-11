@@ -146,11 +146,10 @@ export interface IADT3DSceneBuilderElementFormProps {
     builderMode: ADT3DSceneBuilderMode;
     selectedElement: ITwinToObjectMapping;
     behaviors: Array<IBehavior>;
-    onElementSave: (elements: Array<ITwinToObjectMapping>) => void;
+    onElementSave: (newElements: Array<ITwinToObjectMapping>) => void;
     onElementBackClick: () => void;
-    onBehaviorSave: OnBehaviorSave;
     onBehaviorClick: (behavior: IBehavior) => void;
-    onCreateBehaviorWithElements: () => void;
+    onCreateBehaviorWithElements: (newElement?: ITwinToObjectMapping) => void;
 }
 
 export interface IADT3DSceneBuilderAddBehaviorCalloutProps {
@@ -169,8 +168,8 @@ export interface IADT3DSceneBuilderAddTwinAliasCalloutProps {
     hideCallout: () => void;
 }
 
-export interface IADT3DSceneBuilderLinkedTwinPropertiesCalloutProps {
-    commonLinkedTwinProperties: Array<string>;
+export interface IADT3DSceneBuilderPrimaryTwinPropertiesCalloutProps {
+    commonPrimaryTwinProperties: Array<string>;
     isLoading: boolean;
     calloutTarget: string;
     hideCallout: () => void;
@@ -245,8 +244,6 @@ export interface ADT3DSceneBuilderState {
 }
 
 export interface IWidgetBuilderFormDataProps {
-    intellisenseAliasNames?: string[];
-    getIntellisensePropertyNames?: (twinId: string) => string[];
     setIsWidgetConfigValid?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 

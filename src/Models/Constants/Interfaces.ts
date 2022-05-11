@@ -52,7 +52,7 @@ import {
     UserAssignmentsData,
     SubscriptionData
 } from '../Classes/AdapterDataClasses/AzureManagementModelData';
-import { AssetDevice } from '../Classes/Simulations/Asset';
+import { AssetProperty } from '../Classes/Simulations/Asset';
 import {
     CustomMeshItem,
     ICameraPosition,
@@ -64,13 +64,17 @@ import { ErrorObject } from 'ajv';
 import BlobsData from '../Classes/AdapterDataClasses/BlobsData';
 import {
     I3DScenesConfig,
-    IBehavior,
-    IScene,
-    ITwinToObjectMapping
+    IScene
 } from '../Types/Generated/3DScenesConfiguration-v1.0.0';
 import ADT3DSceneAdapter from '../../Adapters/ADT3DSceneAdapter';
 import { WrapperMode } from '../../Components/3DV/SceneView.types';
 import MockAdapter from '../../Adapters/MockAdapter';
+import { IStyleFunctionOrObject } from '@fluentui/react';
+import { ISceneViewWrapperStyles } from '../../Components/3DV/SceneViewWrapper.types';
+import {
+    ADTAllModelsData,
+    ADTTwinToModelMappingData
+} from '../Classes/AdapterDataClasses/ADTModelData';
 
 export interface IAction {
     type: string;
@@ -387,6 +391,14 @@ export type IPropertyInspectorAdapter = Pick<
     | 'updateRelationship'
 >;
 
+export interface IModelledPropertyBuilderAdapter {
+    getADTTwin(twinId: string): Promise<AdapterResult<ADTTwinData>>;
+    getAllAdtModels(): Promise<AdapterResult<ADTAllModelsData>>;
+    getModelIdFromTwinId(
+        twinId: string
+    ): Promise<AdapterResult<ADTTwinToModelMappingData>>;
+}
+
 export interface IADT3DViewerAdapter {
     getSceneData(
         sceneId: string,
@@ -394,7 +406,10 @@ export interface IADT3DViewerAdapter {
     ): AdapterReturnType<ADT3DViewerData>;
 }
 
-export interface IADTAdapter extends IKeyValuePairAdapter, IADT3DViewerAdapter {
+export interface IADTAdapter
+    extends IKeyValuePairAdapter,
+        IADT3DViewerAdapter,
+        IModelledPropertyBuilderAdapter {
     getADTModels(
         params?: AdapterMethodParamsForGetADTModels
     ): AdapterReturnType<ADTAdapterModelsData>;
@@ -437,36 +452,6 @@ export interface IADTAdapter extends IKeyValuePairAdapter, IADT3DViewerAdapter {
     getIncomingRelationships(
         twinId: string
     ): Promise<AdapterResult<ADTRelationshipsData>>;
-    getTwinsForBehavior(
-        behavior: IBehavior,
-        elementsInBehavior: Array<ITwinToObjectMapping>,
-        isTwinAliasesIncluded: boolean
-    ): Promise<Record<string, any>>;
-    /**
-     * Gets the list of all the twin properties that are exposed for all twins related to a behavior (linked twins and aliased twins).
-     * Returns the list of properties come in the format 'PropertyName'
-     * @param behavior behavior to look for the twins
-     * @param elementsInBehavior elements exist in dataSource of the behavior (these elements can be either the ones in config file or selected elements if behavior is in edit mode)
-     * @param isTwinAliasesIncluded to decide if aliased twin properties should be included in returned list (through twin alises in behavior and its elements)
-     */
-    getTwinPropertiesWithAliasesForBehavior(
-        behavior: IBehavior,
-        elementsInBehavior: Array<ITwinToObjectMapping>,
-        isTwinAliasesIncluded: boolean
-    ): Promise<IAliasedTwinProperty[]>;
-    /**
-     * Gets the list of all the twin properties that are exposed for all twins related to a behavior (linked twins and aliased twins).
-     * Returns the list of full names of the properties come in the format 'LinkedTwin.PropertyName' if it is a linked twin property or
-     * 'TemperatureTag.Temperature' if it is an aliased twin property
-     * @param behavior behavior to look for the twins
-     * @param elementsInBehavior elements exist in dataSource of the behavior (these elements can be either the ones in config file or selected elements if behavior is in edit mode)
-     * @param isTwinAliasesIncluded to decide if aliased twin properties should be included in returned list (through twin alises in behavior and its elements)
-     */
-    getTwinPropertiesForBehaviorWithFullName(
-        behavior: IBehavior,
-        elementsInBehavior: Array<ITwinToObjectMapping>,
-        isTwinAliasesIncluded: boolean
-    ): Promise<string[]>;
 }
 
 export interface IAzureManagementAdapter {
@@ -577,16 +562,15 @@ export interface AssetRelationship {
 export interface AssetTwin {
     name: string;
     assetRelationships?: Array<AssetRelationship>;
-    devices: Array<AssetDevice>;
+    properties: Array<AssetProperty<any>>;
 }
 
-export interface IAssetDevice {
+export interface IAssetProperty<T> {
     id: string;
-    deviceName: string;
-    seedValue: number;
-    minValue: number;
-    maxValue: number;
-    properties: any;
+    propertyName: string;
+    currentValue: T;
+    getNextValue: (currentValue: T) => T;
+    schema?: string; // ADT schema for the property
 }
 
 export interface DTModelContent {
@@ -641,6 +625,11 @@ export interface IAdtPusherSimulation {
         download?: boolean
     ): Array<DTwin>;
     generateTwinRelationships(): Array<DTwinRelationship>;
+}
+
+export enum AdtPusherSimulationType {
+    DairyProduction = 'dairyProduction',
+    RobotArms = 'robotArms'
 }
 
 export interface IGenerateADTAssetsProps {
@@ -720,6 +709,10 @@ export interface ISceneViewWrapperProps {
     selectedVisual?: Partial<SceneVisual>;
     objectColorUpdated?: (objectColor: IADTObjectColor) => void;
     wrapperMode: WrapperMode;
+    /**
+     * Call to provide customized styling that will layer on top of the variant rules.
+     */
+    styles?: IStyleFunctionOrObject<undefined, ISceneViewWrapperStyles>;
 }
 
 export interface IADT3DViewerProps {
@@ -827,6 +820,6 @@ export interface ISubscriptions {
 }
 
 export interface IAliasedTwinProperty {
-    alias: 'LinkedTwin' | string;
+    alias: 'PrimaryTwin' | string;
     property: string;
 }

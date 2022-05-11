@@ -19,6 +19,8 @@
     }
 
     .cb-scene-page-scene-environment-picker {
+        display: flex;
+        flex: 1;
         padding-bottom: 20px;
     }
 
@@ -38,6 +40,12 @@
     .cb-scene-page-action-button {
         margin-top: 20px;
         width: 100px;
+    }
+
+    .cb-scene-page-scene-globe-container {
+        flex-grow: 1;
+        height: calc(100% - 40px);
+        overflow: hidden;
     }
 
     .cb-scene-builder-and-viewer-container {

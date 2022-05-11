@@ -33,10 +33,17 @@
                     }
                 }
             },
-            "required": ["scenes", "behaviors", "layers"]
+            "required": [
+                "scenes",
+                "behaviors",
+                "layers"
+            ]
         }
     },
-    "required": ["$schema", "configuration"],
+    "required": [
+        "$schema",
+        "configuration"
+    ],
     "$defs": {
         "IScene": {
             "type": "object",
@@ -112,7 +119,10 @@
                     "$ref": "#/$defs/IExtensionProperties"
                 }
             },
-            "required": ["type", "url"]
+            "required": [
+                "type",
+                "url"
+            ]
         },
         "IDataSource": {
             "anyOf": [
@@ -158,7 +168,12 @@
                     }
                 }
             },
-            "required": ["id", "displayName", "datasources", "visuals"]
+            "required": [
+                "id",
+                "displayName",
+                "datasources",
+                "visuals"
+            ]
         },
         "IVisual": {
             "anyOf": [
@@ -194,7 +209,11 @@
                     "$ref": "#/$defs/IExtensionProperties"
                 }
             },
-            "required": ["id", "displayName", "behaviorIDs"]
+            "required": [
+                "id",
+                "displayName",
+                "behaviorIDs"
+            ]
         },
         "IExtensionProperties": {
             "type": "object",
@@ -236,13 +255,21 @@
                     "$ref": "#/$defs/IExtensionProperties"
                 }
             },
-            "required": ["expression"]
+            "required": [
+                "expression"
+            ]
         },
         "INumericOrInfinityType": {
             "anyOf": [
-                { "type": "number" },
-                { "const": "Infinity" },
-                { "const": "-Infinity" }
+                {
+                    "type": "number"
+                },
+                {
+                    "const": "Infinity"
+                },
+                {
+                    "const": "-Infinity"
+                }
             ]
         },
         "ICustomProperty": {
@@ -253,7 +280,9 @@
                     "const": "CustomProperty"
                 }
             },
-            "required": ["type"]
+            "required": [
+                "type"
+            ]
         },
         "ITwinToObjectMapping": {
             "type": "object",
@@ -269,7 +298,7 @@
                 "displayName": {
                     "type": "string"
                 },
-                "linkedTwinID": {
+                "primaryTwinID": {
                     "type": "string",
                     "description": "The twin referenced by this element"
                 },
@@ -284,7 +313,7 @@
                 },
                 "twinAliases": {
                     "type": "object",
-                    "description": "Links to relevant twins other than the primary linkedTwin.  These aliases can be referenced in behavior expressions.",
+                    "description": "Links to relevant twins other than the primary primaryTwin.  These aliases can be referenced in behavior expressions.",
                     "additionalProperties": {
                         "type": "string"
                     }
@@ -297,7 +326,7 @@
                 "type",
                 "id",
                 "displayName",
-                "linkedTwinID",
+                "primaryTwinID",
                 "objectIDs"
             ]
         },
@@ -321,7 +350,10 @@
                     "$ref": "#/$defs/IExtensionProperties"
                 }
             },
-            "required": ["type", "elementIDs"]
+            "required": [
+                "type",
+                "elementIDs"
+            ]
         },
         "IGaugeWidgetConfiguration": {
             "type": "object",
@@ -341,7 +373,10 @@
                     }
                 }
             },
-            "required": ["label", "valueRanges"]
+            "required": [
+                "label",
+                "valueRanges"
+            ]
         },
         "ILinkWidgetConfiguration": {
             "type": "object",
@@ -356,7 +391,10 @@
                     "description": "Template string which evalues to http link"
                 }
             },
-            "required": ["label", "linkExpression"]
+            "required": [
+                "label",
+                "linkExpression"
+            ]
         },
         "IValueWidgetConfiguration": {
             "type": "object",
@@ -373,7 +411,11 @@
                     "$ref": "#/$defs/IDTDLPropertyType"
                 }
             },
-            "required": ["displayName", "valueExpression", "type"]
+            "required": [
+                "displayName",
+                "valueExpression",
+                "type"
+            ]
         },
         "IGaugeWidget": {
             "type": "object",
@@ -399,7 +441,12 @@
                     "$ref": "#/$defs/IExtensionProperties"
                 }
             },
-            "required": ["type", "id", "valueExpression", "widgetConfiguration"]
+            "required": [
+                "type",
+                "id",
+                "valueExpression",
+                "widgetConfiguration"
+            ]
         },
         "ILinkWidget": {
             "type": "object",
@@ -422,7 +469,11 @@
                     "$ref": "#/$defs/IExtensionProperties"
                 }
             },
-            "required": ["type", "id", "widgetConfiguration"]
+            "required": [
+                "type",
+                "id",
+                "widgetConfiguration"
+            ]
         },
         "IValueWidget": {
             "type": "object",
@@ -445,7 +496,11 @@
                     "$ref": "#/$defs/IExtensionProperties"
                 }
             },
-            "required": ["type", "id", "widgetConfiguration"]
+            "required": [
+                "type",
+                "id",
+                "widgetConfiguration"
+            ]
         },
         "IWidget": {
             "anyOf": [
@@ -495,14 +550,21 @@
                                 "type": "string"
                             }
                         },
-                        "required": ["id"]
+                        "required": [
+                            "id"
+                        ]
                     }
                 },
                 "objectIDs": {
                     "$ref": "#/$defs/IObjectIDs"
                 }
             },
-            "required": ["type", "title", "widgets", "objectIDs"]
+            "required": [
+                "type",
+                "title",
+                "widgets",
+                "objectIDs"
+            ]
         },
         "IValueRange": {
             "type": "object",
@@ -522,7 +584,12 @@
                     "$ref": "#/$defs/INumericOrInfinityType"
                 }
             },
-            "required": ["id", "color", "min", "max"]
+            "required": [
+                "id",
+                "color",
+                "min",
+                "max"
+            ]
         },
         "IStatusColoringVisual": {
             "type": "object",

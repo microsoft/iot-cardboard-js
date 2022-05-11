@@ -87,6 +87,8 @@
   "uploadFile": "Prześlij plik",
   "uploadingFile": "Przesyłanie pliku...",
   "twinId": "Podwójny identyfikator",
+  "active": "Aktywny",
+  "invalidValue": "Nieprawidłowa wartość",
   "errors": {
     "errorBoundary": "Granica błędu",
     "unkownError": "Wystąpił nieznany błąd",
@@ -148,7 +150,10 @@
     "simulating": "Symulowanie",
     "liveStatus": "Numer pakietu: {{packetNumber}} | {{totalSuccessfulPatches}}/{{totalTwinsPatched}} bliźniaki zostały pomyślnie zaktualizowane",
     "generateEnvironmentDescription": "Wypychanie modeli, bliźniaków i relacji w celu wypełnienia środowiska",
-    "simulateDescription": "Wypychanie zdarzeń do środowiska"
+    "simulateDescription": "Wypychanie zdarzeń do środowiska",
+    "pusherType": "Typ symulacji",
+    "robotArms": "Ramiona robota",
+    "dairyProduction": "Zakład mleczarski"
   },
   "scenes": {
     "noScenes": "Nie masz scen 3D, dodaj nową, aby rozpocząć.",
@@ -311,10 +316,10 @@
     "enterBlobUrl": "Wprowadzanie adresu URL obiektu blob kontenera usługi Azure Storage",
     "home": "Dom",
     "globe": "Globus",
-    "breadcrumbAriaLabel": "Breadcrumb z elementami renderowanymi jako przyciski",
-    "breadcrumbOverflowAriaLabel": "Więcej linków",
     "globeView": "Widok na kulę ziemską",
-    "listView": "Widok listy"
+    "listView": "Widok listy",
+    "breadcrumbAriaLabel": "Breadcrumb z elementami renderowanymi jako przyciski",
+    "breadcrumbOverflowAriaLabel": "Więcej linków"
   },
   "layersDropdown": {
     "placeholder": "Brak zaznaczonych warstw",
@@ -376,7 +381,7 @@
     "addElementDetails": "Dodawanie szczegółów elementu",
     "noBehaviorsOnElement": "Brak zachowań przypisanych do tego elementu",
     "noElementsText": "Nie utworzono jeszcze żadnych elementów",
-    "noResults": "Brak wyników",
+    "noResults": "Nie znaleziono wyników",
     "behaviorsInSceneTitle": "W tej scenie ({{count}})",
     "createWithElement": "Tworzenie za pomocą {{element}}",
     "elementActions": "Akcje elementów",
@@ -398,8 +403,8 @@
     "addBehaviorToScene": "Dodawanie zachowania do sceny",
     "behaviorMetaText": "{{numElementsInActiveScene}} elementy, {{numSceneRefs}} sceny",
     "elementMetaText": "{{numBehaviors}} zachowania",
-    "linkedTwin": "Połączone bliźniacze",
-    "linkedTwinInputInfo": "Wprowadź podwójny identyfikator ($dtId), aby połączyć się z tym elementem (rozróżniana wielkość liter)",
+    "primaryTwin": "Podstawowy bliźniak",
+    "primaryTwinInputInfo": "Wprowadź podwójny identyfikator ($dtId), aby połączyć się z tym elementem (rozróżniana wielkość liter)",
     "noMeshAddedText": "Nie dodano jeszcze siatek, wybierz siatki w przeglądarce 3D",
     "meshes": "Siatki",
     "behaviorElementsDropdownLabel": "Element docelowy",
@@ -407,7 +412,7 @@
     "behaviorAlertForm": {
       "colorPickerLabel": "Kolor odznaki",
       "expressionLabel": "Wyrażenie wyzwalacza",
-      "expressionPlaceholder": "Wprowadź wyrażenie (np. LinkedTwin.InFlow > 3)",
+      "expressionPlaceholder": "Wprowadź wyrażenie (np. PrimaryTwin.InFlow > 3)",
       "iconPickerLabel": "Ikona odznaki",
       "notice": "To zachowanie zostanie włączone tylko wtedy, gdy poniższe wyrażenie wyzwalające oceni wartość true.",
       "notificationLabel": "Tekst powiadomienia",
@@ -423,6 +428,15 @@
       "noSelectionValue": "Żaden",
       "propertyNotFound": "Właściwość nie znaleziona na bliźniakach zachowania",
       "propertyDropdownPlaceholder": "Wybierz bliźniaczą właściwość"
+    },
+    "ModelledPropertyBuilder": {
+      "expressionLabel": "Wyrażenie właściwości",
+      "expressionPlaceholder": "Wprowadź wyrażenie właściwości",
+      "singleProperty": "Pojedyncza właściwość",
+      "customExpression": "Niestandardowy (zaawansowany)",
+      "dropdownPlaceholder": "Wybierz właściwość",
+      "toggleLabel": "Tryb ekspresji",
+      "none": "Żaden"
     },
     "numericExpressionPlaceholder": "Wprowadzanie wyrażenia, którego wynikiem jest liczba",
     "behaviorId": "Identyfikator zachowania",
@@ -441,13 +455,13 @@
     "expression": "Wyrażenie",
     "warningBreakPointToggleLabel": "Włączanie punktu przerwania koloru",
     "warningBreakPointLabel": "Punkt przerwania koloru ostrzegawczego",
-    "linkWidgetUrlDescription": "Link widget URL obsługuje formatowanie ciągów szablonów JavaScript, takie jak: ${LinkedTwin.property}",
+    "linkWidgetUrlDescription": "Link widget URL obsługuje formatowanie ciągów szablonów JavaScript, takie jak: ${PrimaryTwin.property}",
     "behaviorTypes": {
       "alertBehavior": "Zachowanie alertu",
       "statusBehavior": "Zachowanie stanu"
     },
     "notImplemented": "Nie zaimplementowano",
-    "noLinkedTwinProperties": "Brak połączonych bliźniaczych właściwości do wyświetlenia",
+    "noPrimaryTwinProperties": "Brak podstawowych właściwości bliźniaczych do wyświetlenia",
     "twinAlias": {
       "title": "Podwójny alias",
       "titlePlural": "Podwójne aliasy",
@@ -473,19 +487,13 @@
       },
       "descriptions": {
         "twins": "Bliźnięta dają dostęp do właściwości, które mogą być używane w wyrażeniach.",
-        "linkedTwin": "LinkedTwin zawiera wszystkie właściwości wspólne dla elementów docelowych połączonych bliźniaków.",
+        "primaryTwin": "PrimaryTwin zawiera wszystkie właściwości wspólne dla elementów docelowych bliźniaków pierwotnych.",
         "aliasChangeNotAllowed": "Zmiana aliasu nie jest dozwolona po utworzeniu.",
-        "commonProperties": "Połączenie połączonych bliźniaczych właściwości wybranych elementów"
+        "commonProperties": "Połączenie pierwotnych bliźniaczych właściwości wybranych elementów"
       },
       "errors": {
         "twinAliasAlreadyExists": "Bliźniaczy alias o tej samej nazwie już istnieje, rozważ dodanie go zamiast tego."
       }
-    },
-    "ModelledPropertyBuilder": {
-      "expressionLabel": "Wyrażenie właściwości",
-      "expressionPlaceholder": "Wprowadź wyrażenie właściwości",
-      "selectProperty": "Wybierz właściwość",
-      "toggleLabel": "Wyrażenie właściwości"
     }
   },
   "widgets": {
@@ -500,20 +508,20 @@
     "link": {
       "title": "Widżet Łącze",
       "description": "Odwoływanie się do zawartości zewnętrznej przez łączenie adresu URL",
-      "urlPlaceholder": "https://mypowerbi.biz/${LinkedTwin.$dtId}",
+      "urlPlaceholder": "https://mypowerbi.biz/${PrimaryTwin.myproperty}",
       "openLink": "Otwórz link"
+    },
+    "value": {
+      "title": "Widżet Wartość",
+      "description": "Podstawowy widżet pokazujący wartości bliźniaczych właściwości",
+      "displayNamePlaceholder": "Wprowadź nazwę wyświetlaną",
+      "typePlaceholder": "Wybierz typ wartości"
     },
     "panel": {
       "title": "Widżet Panel",
       "description": "Panel układu"
     },
-    "notSupported": "Ten typ widżetu nie jest obecnie obsługiwany",
-    "value": {
-      "title": "Widżet Wartość",
-      "description": "Widżet Podstawowy do wyświetlania wartości bliźniaczych właściwości",
-      "typePlaceholder": "Wybierz typ wartości",
-      "displayNamePlaceholder": "Wprowadź nazwę wyświetlaną"
-    }
+    "notSupported": "Ten typ widżetu nie jest obecnie obsługiwany"
   },
   "sdkStrings": {
     "Last 30 mins": "Ostatnie 30 minut",
@@ -719,7 +727,7 @@
     "state": "Stan",
     "allProperties": "Wszystkie właściwości",
     "behaviorPreview": "Prapremiera",
-    "LinkedTwinProperties": "Właściwości Połączonych bliźniaków"
+    "PrimaryTwinProperties": "Właściwości Podstawowych bliźniaków"
   },
   "svgTests": {
     "fluentUI": "Ładowanie SVG przez komponent Fluent Image (zalecany wzór)",
@@ -743,6 +751,14 @@
     "transparent": "Przejrzysty",
     "wireframe": "Szkielet"
   },
+  "deeplinkFlyout": {
+    "buttonTitle": "Udostępnij",
+    "copyButtonText": "Kopiuj link",
+    "copyConfirmationMessage": "Kopiowane!",
+    "flyoutHeader": "Udostępnianie sceny",
+    "includeElementsOption": "Link z wybranym elementem",
+    "includeLayersOption": "Łączenie z zaznaczonymi warstwami"
+  },
   "elementsPanel": {
     "title": "Pierwiastki",
     "noElements": "Brak elementów do wyświetlenia",
@@ -765,15 +781,5 @@
     "pan": "Patelnia",
     "orbit": "Orbita",
     "zoom": "Powiększenia"
-  },
-  "active": "Aktywny",
-  "invalidValue": "Nieprawidłowa wartość",
-  "deeplinkFlyout": {
-    "buttonTitle": "Udostępnij",
-    "copyButtonText": "Kopiuj link",
-    "copyConfirmationMessage": "Kopiowane!",
-    "flyoutHeader": "Udostępnianie sceny",
-    "includeElementsOption": "Link z wybranym elementem",
-    "includeLayersOption": "Łączenie z zaznaczonymi warstwami"
   }
 }

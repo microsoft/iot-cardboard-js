@@ -9,7 +9,7 @@ import {
 const classPrefix = 'widget-form';
 const classNames = {
     description: `${classPrefix}-description`,
-    gaugeWidgetFormContents: `${classPrefix}-gauge-widget-form-contents`,
+    widgetFormContents: `${classPrefix}-widget-form-contents`,
     rangeBuilderRoot: `${classPrefix}-gauge-widget-range-builder`
 };
 export const getWidgetFormStyles = memoizeFunction((theme: Theme) => {
@@ -21,13 +21,14 @@ export const getWidgetFormStyles = memoizeFunction((theme: Theme) => {
                 color: theme.palette.neutralSecondary
             } as IStyle
         ],
-        gaugeWidgetFormContents: [
-            classNames.gaugeWidgetFormContents,
+        widgetFormContents: [
+            classNames.widgetFormContents,
             {
                 overflowY: 'auto',
                 overflowX: 'hidden',
                 display: 'flex',
-                flexDirection: 'column'
+                flexDirection: 'column',
+                flexGrow: 1
             } as IStyle
         ],
         rangeBuilderRoot: [

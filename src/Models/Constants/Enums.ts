@@ -52,7 +52,8 @@ export enum ComponentErrorType {
     NonExistentBlob = 'NonExistentBlob',
     UnauthorizedAccess = 'UnauthorizedAccess',
     ReaderAccessOnly = 'ReaderAccessOnly',
-    JsonSchemaError = 'JsonSchemaError'
+    JsonSchemaError = 'JsonSchemaError',
+    ModelsRetrievalFailed = 'ModelsRetrievalFailed'
 }
 
 export enum ErrorImages {

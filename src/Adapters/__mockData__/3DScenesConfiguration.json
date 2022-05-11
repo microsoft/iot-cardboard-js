@@ -18,14 +18,16 @@
                         "type": "TwinToObjectMapping",
                         "id": "a7094c812e6870004b6485112cc859b6",
                         "displayName": "PasteurizationMachine_A02",
-                        "linkedTwinID": "PasteurizationMachine_A02",
-                        "objectIDs": ["tank3_LOD0.012_primitive2"]
+                        "primaryTwinID": "PasteurizationMachine_A02",
+                        "objectIDs": [
+                            "tank3_LOD0.012_primitive2"
+                        ]
                     },
                     {
                         "type": "TwinToObjectMapping",
                         "id": "d2e033bcff9ff392b9b233e8571fcf28",
                         "displayName": "PasteurizationMachine_A03",
-                        "linkedTwinID": "PasteurizationMachine_A03",
+                        "primaryTwinID": "PasteurizationMachine_A03",
                         "objectIDs": [
                             "tank3_LOD0.003_primitive0",
                             "tank3_LOD0.003_primitive1",
@@ -36,7 +38,7 @@
                         "type": "TwinToObjectMapping",
                         "id": "45131a84754280b924477f1df54ca547",
                         "displayName": "SaltMachine_C1",
-                        "linkedTwinID": "SaltMachine_C1",
+                        "primaryTwinID": "SaltMachine_C1",
                         "objectIDs": [
                             "tank6_LOD0.004_primitive0",
                             "tank6_LOD0.004_primitive1"
@@ -46,29 +48,46 @@
                         "type": "TwinToObjectMapping",
                         "id": "0a624edf8ee4b4df7dc4e61c863d3724",
                         "displayName": "Xenia's Boiler",
-                        "linkedTwinID": "PasteurizationMachine_A03",
-                        "objectIDs": ["tank1_LOD0"]
+                        "primaryTwinID": "PasteurizationMachine_A03",
+                        "objectIDs": [
+                            "tank1_LOD0"
+                        ]
                     },
                     {
                         "type": "TwinToObjectMapping",
                         "id": "1955cd3fe666d4e7eb69974703f040c9",
                         "displayName": "Amy's Salt Machine",
-                        "linkedTwinID": "SaltMachine_C2",
-                        "objectIDs": ["tank6_LOD0.013_primitive1"]
+                        "primaryTwinID": "SaltMachine_C2",
+                        "objectIDs": [
+                            "tank6_LOD0.013_primitive1"
+                        ]
                     },
                     {
                         "type": "TwinToObjectMapping",
                         "id": "41bca486feaf985f52130947d31675dc",
                         "displayName": "PasteurizationMachine_A01",
-                        "linkedTwinID": "PasteurizationMachine_A01",
-                        "objectIDs": ["tank4_LOD0.006_primitive2"]
+                        "primaryTwinID": "PasteurizationMachine_A01",
+                        "objectIDs": [
+                            "tank4_LOD0.006_primitive2"
+                        ]
                     },
                     {
                         "type": "TwinToObjectMapping",
                         "id": "8e3db965a88c8eac56af222786b53a08",
                         "displayName": "SaltMachine_C0",
-                        "linkedTwinID": "SaltMachine_C0",
-                        "objectIDs": ["tank6_LOD0.001_primitive1"]
+                        "primaryTwinID": "SaltMachine_C0",
+                        "objectIDs": [
+                            "tank6_LOD0.001_primitive1"
+                        ]
+                    },
+                    {
+                        "type": "TwinToObjectMapping",
+                        "id": "58d15472f7f9eeb88d5e2049363963cf",
+                        "displayName": "Tesla",
+                        "primaryTwinID": "Tesla",
+                        "objectIDs": [
+                            "Cube.006"
+                        ]
                     }
                 ],
                 "behaviorIDs": [
@@ -88,7 +107,7 @@
                         "type": "TwinToObjectMapping",
                         "id": "5ba433d52b8445979fabc818fd40ae3d",
                         "displayName": "Silo 1",
-                        "linkedTwinID": "PasteurizationMachine_A03",
+                        "primaryTwinID": "PasteurizationMachine_A03",
                         "objectIDs": [
                             "MODULE_SILOS_01_primitive0",
                             "MODULE_SILOS_01_primitive1",
@@ -102,7 +121,7 @@
                         "type": "TwinToObjectMapping",
                         "id": "4cb0990d646a4bbea3e1102676e200fe",
                         "displayName": "Silo 2",
-                        "linkedTwinID": "SaltMachine_C1",
+                        "primaryTwinID": "SaltMachine_C1",
                         "objectIDs": [
                             "MODULE_SILOS_645_primitive0",
                             "MODULE_SILOS_645_primitive1",
@@ -116,7 +135,7 @@
                         "type": "TwinToObjectMapping",
                         "id": "4cb0990d646a4bbea3e1102677e200fe",
                         "displayName": "Silo 3",
-                        "linkedTwinID": "SaltMachine_C1",
+                        "primaryTwinID": "SaltMachine_C1",
                         "objectIDs": [
                             "MODULE_SILOS_353_primitive0",
                             "MODULE_SILOS_353_primitive1",
@@ -130,7 +149,7 @@
                         "type": "TwinToObjectMapping",
                         "id": "4cb0990d646a4bcea3e1102677e200fe",
                         "displayName": "Silo 4",
-                        "linkedTwinID": "SaltMachine_C1",
+                        "primaryTwinID": "SaltMachine_C1",
                         "objectIDs": [
                             "MODULE_SILOS_177_primitive0",
                             "MODULE_SILOS_177_primitive1",
@@ -144,7 +163,7 @@
                         "type": "TwinToObjectMapping",
                         "id": "4cb0991d646a4bcea3e1102677e200fe",
                         "displayName": "Tank 1",
-                        "linkedTwinID": "SaltMachine_C1",
+                        "primaryTwinID": "SaltMachine_C1",
                         "objectIDs": [
                             "MODULE_BOWLS_89",
                             "MODULE_BOWLS_80_primitive0",
@@ -165,7 +184,7 @@
                         "type": "TwinToObjectMapping",
                         "id": "4cb0991d646a4bdea3e1102677e200fe",
                         "displayName": "Tank 2",
-                        "linkedTwinID": "SaltMachine_C1",
+                        "primaryTwinID": "SaltMachine_C1",
                         "objectIDs": [
                             "MODULE_BOWLS_47",
                             "MODULE_BOWLS_48",
@@ -183,7 +202,7 @@
                         "type": "TwinToObjectMapping",
                         "id": "4cb0991d646a4beea3e1102677e200fe",
                         "displayName": "Tank 3",
-                        "linkedTwinID": "SaltMachine_C1",
+                        "primaryTwinID": "SaltMachine_C1",
                         "objectIDs": [
                             "MODULE_BOWLS_20_primitive0",
                             "MODULE_BOWLS_20_primitive1",
@@ -209,7 +228,7 @@
                         "type": "TwinToObjectMapping",
                         "id": "0c785dde26664341b1f391a4e1b35180",
                         "displayName": "Tower 1",
-                        "linkedTwinID": "BoxA",
+                        "primaryTwinID": "BoxA",
                         "objectIDs": [
                             "MODULE_TOWER_800_primitive0",
                             "MODULE_TOWER_800_primitive1",
@@ -542,7 +561,7 @@
                         "type": "TwinToObjectMapping",
                         "id": "0c785dde26634341b1f391a4e1b35180",
                         "displayName": "Tower 2",
-                        "linkedTwinID": "BoxA",
+                        "primaryTwinID": "BoxA",
                         "objectIDs": [
                             "Element4_Tower_Hull_02",
                             "Element4_Tower_Hull_01",
@@ -593,7 +612,7 @@
                         "type": "TwinToObjectMapping",
                         "id": "0c785dde26634341b1f39104e1b35180",
                         "displayName": "Tower 3",
-                        "linkedTwinID": "BoxA",
+                        "primaryTwinID": "BoxA",
                         "objectIDs": [
                             "MODULE_TOWER_515",
                             "MODULE_TOWER_516_primitive0",
@@ -772,7 +791,7 @@
                         "type": "TwinToObjectMapping",
                         "id": "1c785dde26634341b1f39104e1b35180",
                         "displayName": "Warehouse",
-                        "linkedTwinID": "BoxA",
+                        "primaryTwinID": "BoxA",
                         "objectIDs": [
                             "Warehouse_Fassade_01_primitive0",
                             "Warehouse_Fassade_01_primitive1",
@@ -1050,7 +1069,7 @@
                         "type": "TwinToObjectMapping",
                         "id": "1c785dde2663434101f39104e1b35180",
                         "displayName": "Factory",
-                        "linkedTwinID": "BoxA",
+                        "primaryTwinID": "BoxA",
                         "objectIDs": [
                             "Element4_Mainbuilding_Mainbody_01",
                             "Element4_Mainbuilding_Mainbody_02",
@@ -1135,7 +1154,7 @@
                         "type": "TwinToObjectMapping",
                         "id": "1c785d0e26634341b1f39104e1b35180",
                         "displayName": "Power Plant",
-                        "linkedTwinID": "BoxA",
+                        "primaryTwinID": "BoxA",
                         "objectIDs": [
                             "MODULE_TOWER_SMALL_03_primitive0",
                             "MODULE_TOWER_SMALL_03_primitive1",
@@ -2154,7 +2173,9 @@
                         ]
                     }
                 ],
-                "behaviorIDs": ["8b99ab46fabd45fab3adbaf88245a6b5"],
+                "behaviorIDs": [
+                    "8b99ab46fabd45fab3adbaf88245a6b5"
+                ],
                 "assets": [
                     {
                         "type": "3DAsset",
@@ -2194,7 +2215,7 @@
                 "visuals": [
                     {
                         "type": "StatusColoring",
-                        "statusValueExpression": "LinkedTwin.OutFlow",
+                        "statusValueExpression": "PrimaryTwin.OutFlow",
                         "valueRanges": [
                             {
                                 "color": "#33A1FD",
@@ -2231,14 +2252,15 @@
                             "41bca486feaf985f52130947d31675dc",
                             "a7094c812e6870004b6485112cc859b6",
                             "d2e033bcff9ff392b9b233e8571fcf28",
-                            "0a624edf8ee4b4df7dc4e61c863d3724"
+                            "0a624edf8ee4b4df7dc4e61c863d3724",
+                            "58d15472f7f9eeb88d5e2049363963cf"
                         ]
                     }
                 ],
                 "visuals": [
                     {
                         "type": "StatusColoring",
-                        "statusValueExpression": "LinkedTwin.Temperature",
+                        "statusValueExpression": "PrimaryTwin.Temperature",
                         "valueRanges": [
                             {
                                 "color": "#33A1FD",
@@ -2265,7 +2287,7 @@
                     },
                     {
                         "type": "Alert",
-                        "triggerExpression": "LinkedTwin.Temperature > 15",
+                        "triggerExpression": "PrimaryTwin.Temperature > 15",
                         "labelExpression": "Temp too hot",
                         "iconName": "Frigid",
                         "color": "#d6940f",
@@ -2280,7 +2302,7 @@
                             {
                                 "id": "1d60362667067ff5763bb6f77654gc31",
                                 "type": "Gauge",
-                                "valueExpression": "LinkedTwin.PercentFull",
+                                "valueExpression": "PrimaryTwin.PercentFull",
                                 "widgetConfiguration": {
                                     "label": "Percent Full",
                                     "valueRanges": [
@@ -2311,7 +2333,7 @@
                                 "id": "1d60362667067ff5763bb6f7765a9cc8",
                                 "widgetConfiguration": {
                                     "label": "Power BI",
-                                    "linkExpression": "https://mypowerbi.biz/${LinkedTwin.$dtId}"
+                                    "linkExpression": "https://mypowerbi.biz/${PrimaryTwin.$dtId}"
                                 }
                             },
                             {
@@ -2319,7 +2341,7 @@
                                 "id": "2d60362667067ff5763bb6f7765a9cc1",
                                 "widgetConfiguration": {
                                     "displayName": "Temperature",
-                                    "valueExpression": "LinkedTwin.Temperature",
+                                    "valueExpression": "PrimaryTwin.Temperature",
                                     "type": "double"
                                 }
                             }
@@ -2346,7 +2368,7 @@
                 "visuals": [
                     {
                         "type": "StatusColoring",
-                        "statusValueExpression": "LinkedTwin.InFlow",
+                        "statusValueExpression": "PrimaryTwin.InFlow",
                         "valueRanges": [
                             {
                                 "color": "#33A1FD",
@@ -2373,9 +2395,9 @@
                     },
                     {
                         "type": "Alert",
-                        "triggerExpression": "LinkedTwin.OutFlow > 120",
+                        "triggerExpression": "PrimaryTwin.OutFlow > 120",
                         "labelExpression": "OutFlow rate too high",
-                        "iconName": "Squalls",
+                        "iconName": "SpeedHigh",
                         "color": "#a209de",
                         "objectIDs": {
                             "expression": "objectIDs"
@@ -2388,7 +2410,7 @@
                             {
                                 "id": "1d60362667067ff5763bb6f77654gc85",
                                 "type": "Gauge",
-                                "valueExpression": "LinkedTwin.InFlow",
+                                "valueExpression": "PrimaryTwin.InFlow",
                                 "widgetConfiguration": {
                                     "label": "In Flow",
                                     "valueRanges": [
@@ -2417,7 +2439,7 @@
                             {
                                 "id": "1d60362667067ff5763bb6f77654gcm9",
                                 "type": "Gauge",
-                                "valueExpression": "LinkedTwin.OutFlow",
+                                "valueExpression": "PrimaryTwin.OutFlow",
                                 "widgetConfiguration": {
                                     "label": "Out Flow",
                                     "valueRanges": [
@@ -2455,12 +2477,16 @@
             {
                 "id": "8904b620aa83c649888dadc7c8fdf492",
                 "displayName": "Flow",
-                "behaviorIDs": ["d6a2d68bc4007f3fa624eab19105e44b"]
+                "behaviorIDs": [
+                    "d6a2d68bc4007f3fa624eab19105e44b"
+                ]
             },
             {
                 "id": "9624b620aa83c649888dadc7c8fdf541",
                 "displayName": "Temperature",
-                "behaviorIDs": ["1e0aa8384c4546c7ae1ca6e6d244922e"]
+                "behaviorIDs": [
+                    "1e0aa8384c4546c7ae1ca6e6d244922e"
+                ]
             }
         ]
     }

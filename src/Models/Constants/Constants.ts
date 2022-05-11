@@ -56,13 +56,6 @@ export enum dtdlPropertyTypesEnum {
     Map = 'Map',
     Object = 'Object'
 }
-// placeholder icons based on segmdl2 font
-export const BadgeIcons = {
-    default: '\uE7C8',
-    squalls: '\uE945',
-    frigid: '\uEA38',
-    circlehalffull: '\uE93E'
-};
 
 export const dtdlComplexTypesList = ['Array', 'Enum', 'Map', 'Object'];
 export const ADTSceneTwinModelId = 'dtmi:com:visualontology:scene;1';
@@ -93,8 +86,10 @@ export const availableWidgets: Array<IWidgetLibraryItem> = [
         data: defaultValueWidget
     }
 ];
+export const twinRefreshMaxAge = 9000;
+export const modelRefreshMaxAge = 3600000;
 
-export const linkedTwinName = 'LinkedTwin';
+export const primaryTwinName = 'PrimaryTwin';
 export const ValidAdtHostSuffixes = [
     'digitaltwins.azure.net',
     'azuredigitaltwins-ppe.net',
@@ -215,47 +210,47 @@ export const globeUrl =
     'https://cardboardresources.blob.core.windows.net/cardboard-mock-files/RegionalGlobeScaled.glb';
 
 export const DTDLPropertyIconographyMap = {
-    Boolean: {
+    boolean: {
         text: 'boolean',
         icon: 'ToggleRight'
     },
-    Date: {
+    date: {
         text: 'date',
         icon: 'Calendar'
     },
-    DateTime: {
+    datetime: {
         text: 'dateTime',
         icon: 'DateTime'
     },
-    Double: {
+    double: {
         text: 'double',
         icon: 'NumberSymbol'
     },
-    Duration: {
+    duration: {
         text: 'duration',
         icon: 'BufferTimeBefore'
     },
-    Enum: {
+    enum: {
         text: 'enum',
         icon: 'BulletedList2'
     },
-    Float: {
+    float: {
         text: 'float',
         icon: 'NumberSymbol'
     },
-    Integer: {
+    integer: {
         text: 'integer',
         icon: 'NumberSymbol'
     },
-    Long: {
+    long: {
         text: 'long',
         icon: 'NumberSymbol'
     },
-    String: {
+    string: {
         text: 'string',
         icon: 'TextField'
     },
-    Time: {
+    time: {
         text: 'time',
         icon: 'Clock'
     }

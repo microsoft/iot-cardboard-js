@@ -87,6 +87,8 @@
   "uploadFile": "Nahrát soubor",
   "uploadingFile": "Nahrávání souboru...",
   "twinId": "ID dvojčat",
+  "active": "Aktivní",
+  "invalidValue": "Neplatná hodnota",
   "errors": {
     "errorBoundary": "Hranice chyby",
     "unkownError": "Došlo k neznámé chybě",
@@ -148,7 +150,10 @@
     "simulating": "Simulující",
     "liveStatus": "Číslo paketu: {{packetNumber}} | {{totalSuccessfulPatches}}/{{totalTwinsPatched}} dvojčata úspěšně aktualizována",
     "generateEnvironmentDescription": "Nabízení modelů, dvojčat a relací pro naplnění vašeho prostředí",
-    "simulateDescription": "Odesílání událostí do vašeho prostředí"
+    "simulateDescription": "Odesílání událostí do vašeho prostředí",
+    "pusherType": "Typ simulace",
+    "robotArms": "Robotická ramena",
+    "dairyProduction": "Mlékárenské zařízení"
   },
   "scenes": {
     "noScenes": "Nemáte žádné 3D scény, přidejte novou, abyste mohli začít.",
@@ -311,10 +316,10 @@
     "enterBlobUrl": "Zadejte adresu URL objektu BLOB kontejneru úložiště Azure.",
     "home": "Domov",
     "globe": "Glóbus",
-    "breadcrumbAriaLabel": "Drobečková navigace s položkami vykreslenými jako tlačítka",
-    "breadcrumbOverflowAriaLabel": "Další odkazy",
     "globeView": "Zobrazení zeměkoule",
-    "listView": "Zobrazení seznamu"
+    "listView": "Zobrazení seznamu",
+    "breadcrumbAriaLabel": "Drobečková navigace s položkami vykreslenými jako tlačítka",
+    "breadcrumbOverflowAriaLabel": "Další odkazy"
   },
   "layersDropdown": {
     "placeholder": "Nejsou vybrány žádné vrstvy",
@@ -376,7 +381,7 @@
     "addElementDetails": "Přidání podrobností o prvku",
     "noBehaviorsOnElement": "Tomuto prvku nejsou přiřazena žádná chování",
     "noElementsText": "Zatím nebyly vytvořeny žádné prvky",
-    "noResults": "Žádné výsledky",
+    "noResults": "Nebyly nalezeny žádné výsledky",
     "behaviorsInSceneTitle": "V této scéně ({{count}})",
     "createWithElement": "Vytvořit pomocí {{element}}",
     "elementActions": "Akce elementů",
@@ -398,8 +403,8 @@
     "addBehaviorToScene": "Přidání chování do scény",
     "behaviorMetaText": "{{numElementsInActiveScene}} elementy, {{numSceneRefs}} scény",
     "elementMetaText": "{{numBehaviors}} chování",
-    "linkedTwin": "Propojené dvojče",
-    "linkedTwinInputInfo": "Zadejte ID dvojčete ($dtId) pro propojení s tímto prvkem (rozlišují se malá a velká písmena).",
+    "primaryTwin": "Primární dvojče",
+    "primaryTwinInputInfo": "Zadejte ID dvojčete ($dtId) pro propojení s tímto prvkem (rozlišují se malá a velká písmena).",
     "noMeshAddedText": "Zatím nebyly přidány žádné sítě, vyberte sítě v prohlížeči 3D",
     "meshes": "Sítě",
     "behaviorElementsDropdownLabel": "Cílový prvek",
@@ -407,7 +412,7 @@
     "behaviorAlertForm": {
       "colorPickerLabel": "Barva odznaku",
       "expressionLabel": "Aktivační výraz",
-      "expressionPlaceholder": "Zadejte výraz (např. LinkedTwin.InFlow > 3)",
+      "expressionPlaceholder": "Zadejte výraz (např. PrimaryTwin.InFlow > 3)",
       "iconPickerLabel": "Ikona odznaku",
       "notice": "Toto chování bude povoleno pouze v případě, že níže uvedený aktivační výraz bude vyhodnocen jako true.",
       "notificationLabel": "Text oznámení",
@@ -423,6 +428,15 @@
       "noSelectionValue": "Žádný",
       "propertyNotFound": "Vlastnost nebyla nalezena u dvojčat chování",
       "propertyDropdownPlaceholder": "Vybrat vlastnost dvojčete"
+    },
+    "ModelledPropertyBuilder": {
+      "expressionLabel": "Výraz vlastnosti",
+      "expressionPlaceholder": "Zadejte výraz vlastnosti",
+      "singleProperty": "Jedna nemovitost",
+      "customExpression": "Vlastní (pokročilé)",
+      "dropdownPlaceholder": "Vyberte nemovitost",
+      "toggleLabel": "Režim výrazu",
+      "none": "Žádný"
     },
     "numericExpressionPlaceholder": "Zadejte výraz, který se vyhodnotí jako číslo",
     "behaviorId": "ID chování",
@@ -441,13 +455,13 @@
     "expression": "Výraz",
     "warningBreakPointToggleLabel": "Povolit barevný bod přerušení",
     "warningBreakPointLabel": "Výstražný barevný bod přerušení",
-    "linkWidgetUrlDescription": "Adresa URL widgetu odkazu podporuje formátování řetězce šablony JavaScript, například: ${LinkedTwin.property}",
+    "linkWidgetUrlDescription": "Adresa URL widgetu odkazu podporuje formátování řetězce šablony JavaScript, například: ${PrimaryTwin.property}",
     "behaviorTypes": {
       "alertBehavior": "Chování výstrah",
       "statusBehavior": "Stavové chování"
     },
     "notImplemented": "Neimplementováno",
-    "noLinkedTwinProperties": "Žádné propojené vlastnosti dvojčete k zobrazení",
+    "noPrimaryTwinProperties": "Žádné primární vlastnosti dvojčete k zobrazení",
     "twinAlias": {
       "title": "Alias dvojčat",
       "titlePlural": "Aliasy dvojčat",
@@ -473,19 +487,13 @@
       },
       "descriptions": {
         "twins": "Dvojčata poskytují přístup k vlastnostem, které lze použít ve výrazech.",
-        "linkedTwin": "LinkedTwin obsahuje všechny vlastnosti společné mezi cílovými elementy propojenými dvojčaty.",
+        "primaryTwin": "PrimaryTwin obsahuje všechny vlastnosti společné mezi primárními dvojčaty cílových prvků.",
         "aliasChangeNotAllowed": "Změna aliasu není po vytvoření povolena.",
-        "commonProperties": "Spojení propojených dvojčat vlastností vybraných prvků"
+        "commonProperties": "Sjednocení vlastností primárního dvojčete vybraných prvků"
       },
       "errors": {
         "twinAliasAlreadyExists": "Alias dvojčete se stejným názvem již existuje, zvažte jeho přidání."
       }
-    },
-    "ModelledPropertyBuilder": {
-      "expressionLabel": "Výraz vlastnosti",
-      "expressionPlaceholder": "Zadejte výraz vlastnosti",
-      "selectProperty": "Vybrat nemovitost",
-      "toggleLabel": "Výraz vlastnosti"
     }
   },
   "widgets": {
@@ -500,20 +508,20 @@
     "link": {
       "title": "Widget odkazu",
       "description": "Odkazování na externí obsah propojením adresy URL",
-      "urlPlaceholder": "https://mypowerbi.biz/${LinkedTwin.$dtId}",
+      "urlPlaceholder": "https://mypowerbi.biz/${PrimaryTwin.myproperty}",
       "openLink": "Otevřít odkaz"
+    },
+    "value": {
+      "title": "Widget Hodnota",
+      "description": "Základní widget pro zobrazení hodnot vlastností dvojčete",
+      "displayNamePlaceholder": "Zadejte zobrazovaný název",
+      "typePlaceholder": "Vyberte typ hodnoty"
     },
     "panel": {
       "title": "Widget Panel",
       "description": "Panel rozvržení"
     },
-    "notSupported": "Tento typ widgetu není v současné době podporován",
-    "value": {
-      "title": "Widget Hodnota",
-      "description": "Základní widget pro zobrazení hodnot vlastností dvojčete",
-      "typePlaceholder": "Vyberte typ hodnoty",
-      "displayNamePlaceholder": "Zadejte zobrazovaný název"
-    }
+    "notSupported": "Tento typ widgetu není v současné době podporován"
   },
   "sdkStrings": {
     "Last 30 mins": "Posledních 30 minut",
@@ -719,7 +727,7 @@
     "state": "Stát",
     "allProperties": "Všechny nemovitosti",
     "behaviorPreview": "Náhled",
-    "LinkedTwinProperties": "Propojené vlastnosti dvojčete"
+    "PrimaryTwinProperties": "Vlastnosti primárního dvojčete"
   },
   "svgTests": {
     "fluentUI": "Načítání SVG pomocí komponenty Fluent Image (doporučený vzor)",
@@ -743,6 +751,14 @@
     "transparent": "Transparentní",
     "wireframe": "Drátěný model"
   },
+  "deeplinkFlyout": {
+    "buttonTitle": "Sdílet",
+    "copyButtonText": "Kopírovat odkaz",
+    "copyConfirmationMessage": "Zkopírovaný!",
+    "flyoutHeader": "Sdílení scény",
+    "includeElementsOption": "Propojení s vybraným prvkem",
+    "includeLayersOption": "Propojení s vybranými vrstvami"
+  },
   "elementsPanel": {
     "title": "Elementy",
     "noElements": "Žádné prvky k zobrazení",
@@ -765,15 +781,5 @@
     "pan": "Pánev",
     "orbit": "Oběžná dráha",
     "zoom": "Zvětšení"
-  },
-  "active": "Aktivní",
-  "invalidValue": "Neplatná hodnota",
-  "deeplinkFlyout": {
-    "buttonTitle": "Sdílet",
-    "copyButtonText": "Kopírovat odkaz",
-    "copyConfirmationMessage": "Zkopírovaný!",
-    "flyoutHeader": "Sdílení scény",
-    "includeElementsOption": "Propojení s vybraným prvkem",
-    "includeLayersOption": "Propojení s vybranými vrstvami"
   }
 }

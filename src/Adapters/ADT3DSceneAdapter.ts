@@ -19,6 +19,11 @@ import ADTAdapter from './ADTAdapter';
 import ADXAdapter from './ADXAdapter';
 import AzureManagementAdapter from './AzureManagementAdapter';
 import BlobAdapter from './BlobAdapter';
+import {
+    ADTAllModelsData,
+    ADTTwinToModelMappingData
+} from '../Models/Classes/AdapterDataClasses/ADTModelData';
+import { modelRefreshMaxAge } from '../Models/Constants';
 
 export default class ADT3DSceneAdapter {
     constructor(
@@ -35,6 +40,12 @@ export default class ADT3DSceneAdapter {
         this.tenantId = tenantId;
         this.uniqueObjectId = uniqueObjectId;
         this.adtTwinCache = new AdapterEntityCache<ADTTwinData>(9000);
+        this.adtModelsCache = new AdapterEntityCache<ADTAllModelsData>(
+            modelRefreshMaxAge
+        );
+        this.adtTwinToModelMappingCache = new AdapterEntityCache<ADTTwinToModelMappingData>(
+            modelRefreshMaxAge
+        );
 
         if (blobContainerUrl) {
             const containerURL = new URL(blobContainerUrl);
@@ -45,6 +56,8 @@ export default class ADT3DSceneAdapter {
         this.adtProxyServerPath = adtProxyServerPath;
         this.blobProxyServerPath = blobProxyServerPath;
         this.authService.login();
+        // Fetch & cache models on mount (makes first use of models faster as models should already be cached)
+        this.getAllAdtModels();
     }
     getConnectionInformation = async () => {
         if (this.clusterUrl && this.databaseName && this.tableName) {

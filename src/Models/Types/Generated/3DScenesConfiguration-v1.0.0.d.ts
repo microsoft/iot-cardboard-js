@@ -68,13 +68,13 @@ export interface ITwinToObjectMapping {
     /**
      * The twin referenced by this element
      */
-    linkedTwinID: string;
+    primaryTwinID: string;
     /**
      * Array of of object IDs in the scene
      */
     objectIDs: string[];
     /**
-     * Links to relevant twins other than the primary linkedTwin.  These aliases can be referenced in behavior expressions.
+     * Links to relevant twins other than the primary primaryTwin.  These aliases can be referenced in behavior expressions.
      */
     twinAliases?: {
         [k: string]: string;

@@ -3,14 +3,14 @@ module.exports = (componentName) => ({
 import { ComponentStory } from '@storybook/react';
 import { getDefaultStoryDecorator } from '../../Models/Services/StoryUtilities';
 import ${componentName} from './${componentName}';
-import { ${componentName}Props } from './${componentName}.types';
+import { I${componentName}Props } from './${componentName}.types';
 
 const wrapperStyle = { width: '100%', height: '600px' };
 
 export default {
     title: 'Components/${componentName}',
     component: ${componentName},
-    decorators: [getDefaultStoryDecorator<${componentName}Props>(wrapperStyle)]
+    decorators: [getDefaultStoryDecorator<I${componentName}Props>(wrapperStyle)]
 };
 
 type ${componentName}Story = ComponentStory<typeof ${componentName}>;

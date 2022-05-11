@@ -1,16 +1,22 @@
 import React, { useState } from 'react';
 import { AutoComplete, IAutoCompleteProps } from './AutoComplete';
 
+export type GetPropertyNamesFunc = (
+    twinId: string,
+    meta?: { search: string; tokens: string[]; leafToken: number }
+) => string[];
+
 export interface IIntellisenseProps {
     autoCompleteProps?: IAutoCompleteProps;
     aliasNames?: string[];
     propertyNames?: string[];
     defaultValue?: string;
-    getPropertyNames?: (twinId: string) => string[];
+    getPropertyNames?: GetPropertyNamesFunc;
     onChange: (value: string) => void;
+    isLoading?: boolean;
 }
 
-const separators = '+*&|(^/-).><= \n';
+export const separators = '+*&|(^/-).><={} \n';
 
 function tokenize(str: string): string[] {
     let s = str;
@@ -57,7 +63,8 @@ export const Intellisense: React.FC<IIntellisenseProps> = ({
     propertyNames,
     defaultValue,
     getPropertyNames,
-    onChange
+    onChange,
+    isLoading = false
 }) => {
     const [value, setValue] = useState(defaultValue || '');
 
@@ -119,7 +126,7 @@ export const Intellisense: React.FC<IIntellisenseProps> = ({
             value.substring(0, changedPosition)
         );
 
-        let items = aliasNames || ['LinkedTwin'];
+        let items = aliasNames || ['PrimaryTwin'];
         let isTwin = true;
         if (
             (search === '.' && activeToken > 0) ||
@@ -129,12 +136,19 @@ export const Intellisense: React.FC<IIntellisenseProps> = ({
             isTwin = false;
             if (getPropertyNames) {
                 let twinId = '';
+                let leafToken = activeToken;
                 if (search === '.') {
-                    twinId = tokens[activeToken - 1];
+                    leafToken = activeToken - 1;
+                    twinId = tokens[leafToken];
                 } else if (activeToken > 1 && tokens[activeToken - 1] === '.') {
+                    leafToken = activeToken - 2;
                     twinId = tokens[activeToken - 2];
                 }
-                items = getPropertyNames(twinId);
+                items = getPropertyNames(twinId, {
+                    leafToken,
+                    search,
+                    tokens
+                });
             }
         }
 
@@ -212,6 +226,7 @@ export const Intellisense: React.FC<IIntellisenseProps> = ({
                     multiline: value.length > 40
                 }}
                 {...autoCompleteProps}
+                isLoading={isLoading}
             />
         </div>
     );

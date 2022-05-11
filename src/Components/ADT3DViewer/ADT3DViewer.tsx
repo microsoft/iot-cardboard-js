@@ -20,7 +20,7 @@ import {
 } from '../../Models/Classes/SceneView.types';
 import { VisualType } from '../../Models/Classes/3DVConfig';
 import BaseComponent from '../../Components/BaseComponent/BaseComponent';
-import { SceneViewWrapper } from '../../Components/3DV/SceneViewWrapper';
+import SceneViewWrapper from '../../Components/3DV/SceneViewWrapper';
 import BehaviorsModal from '../BehaviorsModal/BehaviorsModal';
 import { useRuntimeSceneData } from '../../Models/Hooks/useRuntimeSceneData';
 import { BaseComponentProps } from '../BaseComponent/BaseComponent.types';
@@ -46,8 +46,8 @@ import {
 import {
     useDeeplinkContext,
     DeeplinkContextProvider
-} from '../../Models/Context/DeeplinkContext';
-import { DeeplinkContextActionType } from '../../Models/Context/DeeplinkContext.types';
+} from '../../Models/Context/DeeplinkContext/DeeplinkContext';
+import { DeeplinkContextActionType } from '../../Models/Context/DeeplinkContext/DeeplinkContext.types';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('ADT3DViewer', debugLogging);
@@ -142,7 +142,7 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
             ViewerConfigUtility.getUnlayeredBehaviorIdsInScene(
                 scenesConfig,
                 sceneId
-            ).length > 0,
+            ).length >= 0,
         [scenesConfig, sceneId]
     );
 
