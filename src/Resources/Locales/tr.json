@@ -400,8 +400,8 @@
     "addBehaviorToScene": "Sahneye davranış ekleme",
     "behaviorMetaText": "{{numElementsInActiveScene}} öğeleri, {{numSceneRefs}} sahneleri",
     "elementMetaText": "{{numBehaviors}} davranışları",
-    "linkedTwin": "Bağlantılı ikiz",
-    "linkedTwinInputInfo": "Bu öğeyle bağlantı kurmak için ikiz kimliği ($dtId) girin (büyük/küçük harfe duyarlı)",
+    "primaryTwin": "Bağlantılı ikiz",
+    "primaryTwinInputInfo": "Bu öğeyle bağlantı kurmak için ikiz kimliği ($dtId) girin (büyük/küçük harfe duyarlı)",
     "noMeshAddedText": "Henüz kafes eklenmedi, lütfen 3B görüntüleyicide kafesleri seçin",
     "meshes": "Kafes",
     "behaviorElementsDropdownLabel": "Hedef öğe",
@@ -409,7 +409,7 @@
     "behaviorAlertForm": {
       "colorPickerLabel": "Rozet rengi",
       "expressionLabel": "Tetikleyici ifadesi",
-      "expressionPlaceholder": "İfadeyi girin (örneğin LinkedTwin.InFlow > 3)",
+      "expressionPlaceholder": "İfadeyi girin (örneğin PrimaryTwin.InFlow > 3)",
       "iconPickerLabel": "Rozet simgesi",
       "notice": "Bu davranış yalnızca aşağıdaki tetikleyici ifade true olarak değerlendirildiğinde etkinleştirilir.",
       "notificationLabel": "Bildirim metni",
@@ -443,13 +443,13 @@
     "expression": "İfade",
     "warningBreakPointToggleLabel": "Renk kesme noktasını etkinleştir",
     "warningBreakPointLabel": "Uyarı rengi kırılma noktası",
-    "linkWidgetUrlDescription": "Bağlantı widget'ı URL'si, aşağıdaki gibi JavaScript şablon dizesi biçimlendirmesini destekler: ${LinkedTwin.property}",
+    "linkWidgetUrlDescription": "Bağlantı widget'ı URL'si, aşağıdaki gibi JavaScript şablon dizesi biçimlendirmesini destekler: ${PrimaryTwin.property}",
     "behaviorTypes": {
       "alertBehavior": "Uyarı davranışı",
       "statusBehavior": "Durum davranışı"
     },
     "notImplemented": "Uygulanmadı",
-    "noLinkedTwinProperties": "Görüntülenecek bağlantılı ikiz özellik yok",
+    "noPrimaryTwinProperties": "Görüntülenecek bağlantılı ikiz özellik yok",
     "twinAlias": {
       "title": "İkiz takma ad",
       "titlePlural": "İkiz takma adlar",
@@ -475,7 +475,7 @@
       },
       "descriptions": {
         "twins": "İkizler, ifadelerde kullanılabilecek özelliklere erişmenizi sağlar.",
-        "linkedTwin": "LinkedTwin, hedef elemanlar bağlı ikizler arasındaki ortak tüm özellikleri içerir.",
+        "primaryTwin": "PrimaryTwin, hedef elemanlar bağlı ikizler arasındaki ortak tüm özellikleri içerir.",
         "aliasChangeNotAllowed": "Oluşturulduktan sonra diğer ad değişimine izin verilmez.",
         "commonProperties": "Seçili elemanların bağlantılı ikiz özelliklerinin birleşimi"
       },
@@ -506,7 +506,7 @@
     "link": {
       "title": "Bağlantı widget'ı",
       "description": "Bir URL'yi bağlayarak dış içeriğe başvurma",
-      "urlPlaceholder": "https://mypowerbi.biz/${LinkedTwin.$dtId}",
+      "urlPlaceholder": "https://mypowerbi.biz/${PrimaryTwin.$dtId}",
       "openLink": "Bağlantıyı aç"
     },
     "panel": {
@@ -725,7 +725,7 @@
     "state": "Devlet",
     "allProperties": "Tüm emlaklar",
     "behaviorPreview": "Önizleme",
-    "LinkedTwinProperties": "Bağlı İkiz özellikler"
+    "PrimaryTwinProperties": "Bağlı İkiz özellikler"
   },
   "svgTests": {
     "fluentUI": "Akıcı Görüntü bileşeni aracılığıyla SVG yükleme (önerilen desen)",

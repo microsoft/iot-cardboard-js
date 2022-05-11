@@ -82,7 +82,7 @@ const Template: ModelledPropertyBuilderStory = (args) => {
             >
                 <TextField
                     label="Comma separated Twin Ids"
-                    description="First token treated as linkedTwin, all other tokens treated as twin aliases"
+                    description="First token treated as primaryTwin, all other tokens treated as twin aliases"
                     placeholder="Enter comma separated Twin Ids"
                     value={twinIdText}
                     onChange={(_event, newValue) => setTwinIdText(newValue)}

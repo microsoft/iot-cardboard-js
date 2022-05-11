@@ -400,8 +400,8 @@
     "addBehaviorToScene": "Přidání chování do scény",
     "behaviorMetaText": "{{numElementsInActiveScene}} elementy, {{numSceneRefs}} scény",
     "elementMetaText": "{{numBehaviors}} chování",
-    "linkedTwin": "Propojené dvojče",
-    "linkedTwinInputInfo": "Zadejte ID dvojčete ($dtId) pro propojení s tímto prvkem (rozlišují se malá a velká písmena).",
+    "primaryTwin": "Propojené dvojče",
+    "primaryTwinInputInfo": "Zadejte ID dvojčete ($dtId) pro propojení s tímto prvkem (rozlišují se malá a velká písmena).",
     "noMeshAddedText": "Zatím nebyly přidány žádné sítě, vyberte sítě v prohlížeči 3D",
     "meshes": "Sítě",
     "behaviorElementsDropdownLabel": "Cílový prvek",
@@ -409,7 +409,7 @@
     "behaviorAlertForm": {
       "colorPickerLabel": "Barva odznaku",
       "expressionLabel": "Aktivační výraz",
-      "expressionPlaceholder": "Zadejte výraz (např. LinkedTwin.InFlow > 3)",
+      "expressionPlaceholder": "Zadejte výraz (např. PrimaryTwin.InFlow > 3)",
       "iconPickerLabel": "Ikona odznaku",
       "notice": "Toto chování bude povoleno pouze v případě, že níže uvedený aktivační výraz bude vyhodnocen jako true.",
       "notificationLabel": "Text oznámení",
@@ -443,13 +443,13 @@
     "expression": "Výraz",
     "warningBreakPointToggleLabel": "Povolit barevný bod přerušení",
     "warningBreakPointLabel": "Výstražný barevný bod přerušení",
-    "linkWidgetUrlDescription": "Adresa URL widgetu odkazu podporuje formátování řetězce šablony JavaScript, například: ${LinkedTwin.property}",
+    "linkWidgetUrlDescription": "Adresa URL widgetu odkazu podporuje formátování řetězce šablony JavaScript, například: ${PrimaryTwin.property}",
     "behaviorTypes": {
       "alertBehavior": "Chování výstrah",
       "statusBehavior": "Stavové chování"
     },
     "notImplemented": "Neimplementováno",
-    "noLinkedTwinProperties": "Žádné propojené vlastnosti dvojčete k zobrazení",
+    "noPrimaryTwinProperties": "Žádné propojené vlastnosti dvojčete k zobrazení",
     "twinAlias": {
       "title": "Alias dvojčat",
       "titlePlural": "Aliasy dvojčat",
@@ -475,7 +475,7 @@
       },
       "descriptions": {
         "twins": "Dvojčata poskytují přístup k vlastnostem, které lze použít ve výrazech.",
-        "linkedTwin": "LinkedTwin obsahuje všechny vlastnosti společné mezi cílovými elementy propojenými dvojčaty.",
+        "primaryTwin": "PrimaryTwin obsahuje všechny vlastnosti společné mezi cílovými elementy propojenými dvojčaty.",
         "aliasChangeNotAllowed": "Změna aliasu není po vytvoření povolena.",
         "commonProperties": "Spojení propojených dvojčat vlastností vybraných prvků"
       },
@@ -506,7 +506,7 @@
     "link": {
       "title": "Widget odkazu",
       "description": "Odkazování na externí obsah propojením adresy URL",
-      "urlPlaceholder": "https://mypowerbi.biz/${LinkedTwin.$dtId}",
+      "urlPlaceholder": "https://mypowerbi.biz/${PrimaryTwin.$dtId}",
       "openLink": "Otevřít odkaz"
     },
     "panel": {
@@ -725,7 +725,7 @@
     "state": "Stát",
     "allProperties": "Všechny nemovitosti",
     "behaviorPreview": "Náhled",
-    "LinkedTwinProperties": "Propojené vlastnosti dvojčete"
+    "PrimaryTwinProperties": "Propojené vlastnosti dvojčete"
   },
   "svgTests": {
     "fluentUI": "Načítání SVG pomocí komponenty Fluent Image (doporučený vzor)",

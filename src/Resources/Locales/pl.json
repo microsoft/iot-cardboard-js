@@ -400,8 +400,8 @@
     "addBehaviorToScene": "Dodawanie zachowania do sceny",
     "behaviorMetaText": "{{numElementsInActiveScene}} elementy, {{numSceneRefs}} sceny",
     "elementMetaText": "{{numBehaviors}} zachowania",
-    "linkedTwin": "Połączone bliźniacze",
-    "linkedTwinInputInfo": "Wprowadź podwójny identyfikator ($dtId), aby połączyć się z tym elementem (rozróżniana wielkość liter)",
+    "primaryTwin": "Połączone bliźniacze",
+    "primaryTwinInputInfo": "Wprowadź podwójny identyfikator ($dtId), aby połączyć się z tym elementem (rozróżniana wielkość liter)",
     "noMeshAddedText": "Nie dodano jeszcze siatek, wybierz siatki w przeglądarce 3D",
     "meshes": "Siatki",
     "behaviorElementsDropdownLabel": "Element docelowy",
@@ -409,7 +409,7 @@
     "behaviorAlertForm": {
       "colorPickerLabel": "Kolor odznaki",
       "expressionLabel": "Wyrażenie wyzwalacza",
-      "expressionPlaceholder": "Wprowadź wyrażenie (np. LinkedTwin.InFlow > 3)",
+      "expressionPlaceholder": "Wprowadź wyrażenie (np. PrimaryTwin.InFlow > 3)",
       "iconPickerLabel": "Ikona odznaki",
       "notice": "To zachowanie zostanie włączone tylko wtedy, gdy poniższe wyrażenie wyzwalające oceni wartość true.",
       "notificationLabel": "Tekst powiadomienia",
@@ -443,13 +443,13 @@
     "expression": "Wyrażenie",
     "warningBreakPointToggleLabel": "Włączanie punktu przerwania koloru",
     "warningBreakPointLabel": "Punkt przerwania koloru ostrzegawczego",
-    "linkWidgetUrlDescription": "Link widget URL obsługuje formatowanie ciągów szablonów JavaScript, takie jak: ${LinkedTwin.property}",
+    "linkWidgetUrlDescription": "Link widget URL obsługuje formatowanie ciągów szablonów JavaScript, takie jak: ${PrimaryTwin.property}",
     "behaviorTypes": {
       "alertBehavior": "Zachowanie alertu",
       "statusBehavior": "Zachowanie stanu"
     },
     "notImplemented": "Nie zaimplementowano",
-    "noLinkedTwinProperties": "Brak połączonych bliźniaczych właściwości do wyświetlenia",
+    "noPrimaryTwinProperties": "Brak połączonych bliźniaczych właściwości do wyświetlenia",
     "twinAlias": {
       "title": "Podwójny alias",
       "titlePlural": "Podwójne aliasy",
@@ -475,7 +475,7 @@
       },
       "descriptions": {
         "twins": "Bliźnięta dają dostęp do właściwości, które mogą być używane w wyrażeniach.",
-        "linkedTwin": "LinkedTwin zawiera wszystkie właściwości wspólne dla elementów docelowych połączonych bliźniaków.",
+        "primaryTwin": "PrimaryTwin zawiera wszystkie właściwości wspólne dla elementów docelowych połączonych bliźniaków.",
         "aliasChangeNotAllowed": "Zmiana aliasu nie jest dozwolona po utworzeniu.",
         "commonProperties": "Połączenie połączonych bliźniaczych właściwości wybranych elementów"
       },
@@ -506,7 +506,7 @@
     "link": {
       "title": "Widżet Łącze",
       "description": "Odwoływanie się do zawartości zewnętrznej przez łączenie adresu URL",
-      "urlPlaceholder": "https://mypowerbi.biz/${LinkedTwin.$dtId}",
+      "urlPlaceholder": "https://mypowerbi.biz/${PrimaryTwin.$dtId}",
       "openLink": "Otwórz link"
     },
     "panel": {
@@ -725,7 +725,7 @@
     "state": "Stan",
     "allProperties": "Wszystkie właściwości",
     "behaviorPreview": "Prapremiera",
-    "LinkedTwinProperties": "Właściwości Połączonych bliźniaków"
+    "PrimaryTwinProperties": "Właściwości Połączonych bliźniaków"
   },
   "svgTests": {
     "fluentUI": "Ładowanie SVG przez komponent Fluent Image (zalecany wzór)",

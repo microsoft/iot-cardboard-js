@@ -400,8 +400,8 @@
     "addBehaviorToScene": "Добавление поведения в сцену",
     "behaviorMetaText": "{{numElementsInActiveScene}} элементы, {{numSceneRefs}} сцены",
     "elementMetaText": "{{numBehaviors}} поведение",
-    "linkedTwin": "Связанный близнец",
-    "linkedTwinInputInfo": "Введите двойной идентификатор ($dtId) для связи с этим элементом (с учетом регистра)",
+    "primaryTwin": "Связанный близнец",
+    "primaryTwinInputInfo": "Введите двойной идентификатор ($dtId) для связи с этим элементом (с учетом регистра)",
     "noMeshAddedText": "Сетки еще не добавлены, пожалуйста, выберите сетки в 3D-просмотрщике",
     "meshes": "Сети",
     "behaviorElementsDropdownLabel": "Целевой элемент",
@@ -409,7 +409,7 @@
     "behaviorAlertForm": {
       "colorPickerLabel": "Цвет значка",
       "expressionLabel": "Триггерное выражение",
-      "expressionPlaceholder": "Введите выражение (например, LinkedTwin.InFlow > 3)",
+      "expressionPlaceholder": "Введите выражение (например, PrimaryTwin.InFlow > 3)",
       "iconPickerLabel": "Значок значка",
       "notice": "Это поведение будет включено только в том случае, если приведенное ниже выражение триггера вычисляет значение true.",
       "notificationLabel": "Текст уведомления",
@@ -443,13 +443,13 @@
     "expression": "Выражение",
     "warningBreakPointToggleLabel": "Включение точки разрыва цвета",
     "warningBreakPointLabel": "Предупреждающая точка разрыва цвета",
-    "linkWidgetUrlDescription": "URL-адрес виджета ссылок поддерживает форматирование строки шаблона JavaScript, например: ${LinkedTwin.property}",
+    "linkWidgetUrlDescription": "URL-адрес виджета ссылок поддерживает форматирование строки шаблона JavaScript, например: ${PrimaryTwin.property}",
     "behaviorTypes": {
       "alertBehavior": "Поведение оповещения",
       "statusBehavior": "Поведение состояния"
     },
     "notImplemented": "Не реализовано",
-    "noLinkedTwinProperties": "Нет связанных двойных свойств для отображения",
+    "noPrimaryTwinProperties": "Нет связанных двойных свойств для отображения",
     "twinAlias": {
       "title": "Двойной псевдоним",
       "titlePlural": "Двойные псевдонимы",
@@ -475,7 +475,7 @@
       },
       "descriptions": {
         "twins": "Близнецы дают вам доступ к свойствам, которые можно использовать в выражениях.",
-        "linkedTwin": "LinkedTwin содержит все свойства, общие для целевых элементов, связанных близнецами.",
+        "primaryTwin": "PrimaryTwin содержит все свойства, общие для целевых элементов, связанных близнецами.",
         "aliasChangeNotAllowed": "Изменение псевдонима не допускается после создания.",
         "commonProperties": "Объединение связанных двойных свойств выбранных элементов"
       },
@@ -506,7 +506,7 @@
     "link": {
       "title": "Виджет ссылок",
       "description": "Ссылка на внешнее содержимое путем связывания URL-адреса",
-      "urlPlaceholder": "https://mypowerbi.biz/${LinkedTwin.$dtId}",
+      "urlPlaceholder": "https://mypowerbi.biz/${PrimaryTwin.$dtId}",
       "openLink": "Открыть ссылку"
     },
     "panel": {
@@ -725,7 +725,7 @@
     "state": "Государство",
     "allProperties": "Все свойства",
     "behaviorPreview": "Предварительный просмотр",
-    "LinkedTwinProperties": "Связанные двойные свойства"
+    "PrimaryTwinProperties": "Связанные двойные свойства"
   },
   "svgTests": {
     "fluentUI": "Загрузка SVG через компонент Fluent Image (рекомендуемый шаблон)",

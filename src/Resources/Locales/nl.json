@@ -400,8 +400,8 @@
     "addBehaviorToScene": "Gedrag toevoegen aan scène",
     "behaviorMetaText": "{{numElementsInActiveScene}} elementen, {{numSceneRefs}} scènes",
     "elementMetaText": "{{numBehaviors}} behaviors",
-    "linkedTwin": "Gekoppelde tweeling",
-    "linkedTwinInputInfo": "Voer dubbele ID ($dtId) in om met dit element te koppelen (hoofdlettergevoelig)",
+    "primaryTwin": "Gekoppelde tweeling",
+    "primaryTwinInputInfo": "Voer dubbele ID ($dtId) in om met dit element te koppelen (hoofdlettergevoelig)",
     "noMeshAddedText": "Nog geen meshes toegevoegd, selecteer meshes in 3D viewer",
     "meshes": "Netten",
     "behaviorElementsDropdownLabel": "Doelelement",
@@ -409,7 +409,7 @@
     "behaviorAlertForm": {
       "colorPickerLabel": "Badge kleur",
       "expressionLabel": "Triggerexpressie",
-      "expressionPlaceholder": "Expressie invoeren (bijv. LinkedTwin.InFlow > 3)",
+      "expressionPlaceholder": "Expressie invoeren (bijv. PrimaryTwin.InFlow > 3)",
       "iconPickerLabel": "Badge-pictogram",
       "notice": "Dit gedrag wordt alleen ingeschakeld wanneer de onderstaande triggerexpressie wordt geëvalueerd naar true.",
       "notificationLabel": "Tekst van melding",
@@ -443,13 +443,13 @@
     "expression": "Uitdrukking",
     "warningBreakPointToggleLabel": "Kleuronderbrekingspunt inschakelen",
     "warningBreakPointLabel": "Waarschuwingskleuronderbrekingspunt",
-    "linkWidgetUrlDescription": "Link widget URL ondersteunt JavaScript template string opmaak zoals: ${LinkedTwin.property}",
+    "linkWidgetUrlDescription": "Link widget URL ondersteunt JavaScript template string opmaak zoals: ${PrimaryTwin.property}",
     "behaviorTypes": {
       "alertBehavior": "Alert gedrag",
       "statusBehavior": "Statusgedrag"
     },
     "notImplemented": "Niet geïmplementeerd",
-    "noLinkedTwinProperties": "Geen gekoppelde dubbele eigenschappen om weer te geven",
+    "noPrimaryTwinProperties": "Geen gekoppelde dubbele eigenschappen om weer te geven",
     "twinAlias": {
       "title": "Dubbele alias",
       "titlePlural": "Tweeling aliassen",
@@ -475,7 +475,7 @@
       },
       "descriptions": {
         "twins": "Tweelingen geven u toegang tot eigenschappen die kunnen worden gebruikt in uitdrukkingen.",
-        "linkedTwin": "De LinkedTwin bevat alle eigenschappen die gemeenschappelijk zijn tussen de doelelementen gekoppelde tweelingen.",
+        "primaryTwin": "De PrimaryTwin bevat alle eigenschappen die gemeenschappelijk zijn tussen de doelelementen gekoppelde tweelingen.",
         "aliasChangeNotAllowed": "Aliaswijziging is niet toegestaan na het maken.",
         "commonProperties": "De vereniging van gekoppelde tweelingeigenschappen van geselecteerde elementen"
       },
@@ -506,7 +506,7 @@
     "link": {
       "title": "Link widget",
       "description": "Verwijs naar externe inhoud door een URL te koppelen",
-      "urlPlaceholder": "https://mypowerbi.biz/${LinkedTwin.$dtId}",
+      "urlPlaceholder": "https://mypowerbi.biz/${PrimaryTwin.$dtId}",
       "openLink": "Link openen"
     },
     "panel": {
@@ -725,7 +725,7 @@
     "state": "Staat",
     "allProperties": "Alle woningen",
     "behaviorPreview": "Voorbeeld",
-    "LinkedTwinProperties": "Linked Twin accommodaties"
+    "PrimaryTwinProperties": "Linked Twin accommodaties"
   },
   "svgTests": {
     "fluentUI": "SVG laden via Fluent Image component (aanbevolen patroon)",

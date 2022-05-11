@@ -168,8 +168,8 @@ export interface IADT3DSceneBuilderAddTwinAliasCalloutProps {
     hideCallout: () => void;
 }
 
-export interface IADT3DSceneBuilderLinkedTwinPropertiesCalloutProps {
-    commonLinkedTwinProperties: Array<string>;
+export interface IADT3DSceneBuilderPrimaryTwinPropertiesCalloutProps {
+    commonPrimaryTwinProperties: Array<string>;
     isLoading: boolean;
     calloutTarget: string;
     hideCallout: () => void;

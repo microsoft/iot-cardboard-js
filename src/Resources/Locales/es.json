@@ -400,8 +400,8 @@
     "addBehaviorToScene": "Agregar comportamiento a la escena",
     "behaviorMetaText": "{{numElementsInActiveScene}} elementos, {{numSceneRefs}} escenas",
     "elementMetaText": "{{numBehaviors}} comportamientos",
-    "linkedTwin": "Gemelo vinculado",
-    "linkedTwinInputInfo": "Introduzca el ID de gemelo ($dtId) para vincular con este elemento (distingue entre mayúsculas y minúsculas)",
+    "primaryTwin": "Gemelo vinculado",
+    "primaryTwinInputInfo": "Introduzca el ID de gemelo ($dtId) para vincular con este elemento (distingue entre mayúsculas y minúsculas)",
     "noMeshAddedText": "Aún no se han agregado mallas, seleccione mallas en el visor 3D",
     "meshes": "Mallas",
     "behaviorElementsDropdownLabel": "Elemento de destino",
@@ -409,7 +409,7 @@
     "behaviorAlertForm": {
       "colorPickerLabel": "Color de la insignia",
       "expressionLabel": "Expresión de desencadenador",
-      "expressionPlaceholder": "Introduzca la expresión (por ejemplo, LinkedTwin.InFlow > 3)",
+      "expressionPlaceholder": "Introduzca la expresión (por ejemplo, PrimaryTwin.InFlow > 3)",
       "iconPickerLabel": "Icono de insignia",
       "notice": "Este comportamiento sólo se habilitará cuando la siguiente expresión de desencadenador se evalúe como true.",
       "notificationLabel": "Texto de notificación",
@@ -443,13 +443,13 @@
     "expression": "Expresión",
     "warningBreakPointToggleLabel": "Habilitar el punto de interrupción de color",
     "warningBreakPointLabel": "Punto de interrupción del color de advertencia",
-    "linkWidgetUrlDescription": "La URL del widget de enlace admite el formato de cadena de plantilla de JavaScript como: ${LinkedTwin.property}",
+    "linkWidgetUrlDescription": "La URL del widget de enlace admite el formato de cadena de plantilla de JavaScript como: ${PrimaryTwin.property}",
     "behaviorTypes": {
       "alertBehavior": "Comportamiento de alerta",
       "statusBehavior": "Comportamiento del estado"
     },
     "notImplemented": "No implementado",
-    "noLinkedTwinProperties": "No hay propiedades gemelas vinculadas para mostrar",
+    "noPrimaryTwinProperties": "No hay propiedades gemelas vinculadas para mostrar",
     "twinAlias": {
       "title": "Alias gemelo",
       "titlePlural": "Alias gemelos",
@@ -475,7 +475,7 @@
       },
       "descriptions": {
         "twins": "Los gemelos le dan acceso a propiedades que se pueden usar en expresiones.",
-        "linkedTwin": "El LinkedTwin contiene todas las propiedades en común entre los elementos de destino gemelos vinculados.",
+        "primaryTwin": "El PrimaryTwin contiene todas las propiedades en común entre los elementos de destino gemelos vinculados.",
         "aliasChangeNotAllowed": "El cambio de alias no está permitido después de la creación.",
         "commonProperties": "La unión de las propiedades gemelas vinculadas de los elementos seleccionados"
       },
@@ -506,7 +506,7 @@
     "link": {
       "title": "Widget de enlace",
       "description": "Hacer referencia a contenido externo vinculando una URL",
-      "urlPlaceholder": "https://mypowerbi.biz/${LinkedTwin.$dtId}",
+      "urlPlaceholder": "https://mypowerbi.biz/${PrimaryTwin.$dtId}",
       "openLink": "Abrir enlace"
     },
     "panel": {
@@ -725,7 +725,7 @@
     "state": "Estado",
     "allProperties": "Todas las propiedades",
     "behaviorPreview": "Vista previa",
-    "LinkedTwinProperties": "Propiedades de Linked Twin"
+    "PrimaryTwinProperties": "Propiedades de Linked Twin"
   },
   "svgTests": {
     "fluentUI": "Carga DE SVG a través del componente Fluent Image (patrón recomendado)",

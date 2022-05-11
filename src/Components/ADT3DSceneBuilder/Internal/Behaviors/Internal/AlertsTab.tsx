@@ -178,6 +178,6 @@ const AlertsTab: React.FC = () => {
         </Stack>
     );
 };
-const sectionStackTokens: IStackTokens = { childrenGap: 12 };
+const sectionStackTokens: IStackTokens = { childrenGap: 8 };
 
 export default AlertsTab;

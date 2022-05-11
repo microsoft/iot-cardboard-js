@@ -400,8 +400,8 @@
     "addBehaviorToScene": "Ajouter un comportement à la scène",
     "behaviorMetaText": "{{numElementsInActiveScene}} elements, {{numSceneRefs}} scènes",
     "elementMetaText": "{{numBehaviors}} comportements",
-    "linkedTwin": "Jumeau lié",
-    "linkedTwinInputInfo": "Entrez un ID jumeau ($dtId) pour créer un lien avec cet élément (sensible à la casse)",
+    "primaryTwin": "Jumeau lié",
+    "primaryTwinInputInfo": "Entrez un ID jumeau ($dtId) pour créer un lien avec cet élément (sensible à la casse)",
     "noMeshAddedText": "Aucun maillage ajouté pour le moment, veuillez sélectionner les maillages dans la visionneuse 3D",
     "meshes": "Mailles",
     "behaviorElementsDropdownLabel": "Élément cible",
@@ -409,7 +409,7 @@
     "behaviorAlertForm": {
       "colorPickerLabel": "Couleur du badge",
       "expressionLabel": "Expression de déclenchement",
-      "expressionPlaceholder": "Entrez l’expression (par exemple LinkedTwin.InFlow > 3)",
+      "expressionPlaceholder": "Entrez l’expression (par exemple PrimaryTwin.InFlow > 3)",
       "iconPickerLabel": "Icône de badge",
       "notice": "Ce comportement ne sera activé que lorsque l’expression de déclencheur ci-dessous aura la valeur true.",
       "notificationLabel": "Texte de notification",
@@ -443,13 +443,13 @@
     "expression": "Expression",
     "warningBreakPointToggleLabel": "Activer le point de rupture des couleurs",
     "warningBreakPointLabel": "Point d’arrêt des couleurs d’avertissement",
-    "linkWidgetUrlDescription": "L’URL du widget de lien prend en charge la mise en forme de chaîne de modèle JavaScript telle que : ${LinkedTwin.property}",
+    "linkWidgetUrlDescription": "L’URL du widget de lien prend en charge la mise en forme de chaîne de modèle JavaScript telle que : ${PrimaryTwin.property}",
     "behaviorTypes": {
       "alertBehavior": "Comportement d’alerte",
       "statusBehavior": "Comportement de l’état"
     },
     "notImplemented": "Non mis en œuvre",
-    "noLinkedTwinProperties": "Aucune propriété jumelle liée à afficher",
+    "noPrimaryTwinProperties": "Aucune propriété jumelle liée à afficher",
     "twinAlias": {
       "title": "Alias jumeau",
       "titlePlural": "Alias jumeaux",
@@ -475,7 +475,7 @@
       },
       "descriptions": {
         "twins": "Les jumeaux vous donnent accès à des propriétés qui peuvent être utilisées dans des expressions.",
-        "linkedTwin": "Le LinkedTwin contient toutes les propriétés en commun entre les éléments cibles liés aux jumeaux.",
+        "primaryTwin": "Le PrimaryTwin contient toutes les propriétés en commun entre les éléments cibles liés aux jumeaux.",
         "aliasChangeNotAllowed": "La modification de l’alias n’est pas autorisée après la création.",
         "commonProperties": "L’union des propriétés jumelles liées d’éléments sélectionnés"
       },
@@ -506,7 +506,7 @@
     "link": {
       "title": "Widget lien",
       "description": "Référencer un contenu externe en liant une URL",
-      "urlPlaceholder": "https://mypowerbi.biz/${LinkedTwin.$dtId}",
+      "urlPlaceholder": "https://mypowerbi.biz/${PrimaryTwin.$dtId}",
       "openLink": "Ouvrir le lien"
     },
     "panel": {
@@ -725,7 +725,7 @@
     "state": "État",
     "allProperties": "Toutes les propriétés",
     "behaviorPreview": "Aperçu",
-    "LinkedTwinProperties": "Propriétés Twin liées"
+    "PrimaryTwinProperties": "Propriétés Twin liées"
   },
   "svgTests": {
     "fluentUI": "Chargement SVG via le composant Fluent Image (modèle recommandé)",

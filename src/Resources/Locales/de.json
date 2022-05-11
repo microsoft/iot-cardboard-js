@@ -400,8 +400,8 @@
     "addBehaviorToScene": "Verhalten zur Szene hinzufügen",
     "behaviorMetaText": "{{numElementsInActiveScene}}-Elemente, {{numSceneRefs}}-Szenen",
     "elementMetaText": "{{numBehaviors}} Verhalten",
-    "linkedTwin": "Verbundener Zwilling",
-    "linkedTwinInputInfo": "Geben Sie eine Zwillings-ID ($dtId) ein, um eine Verknüpfung mit diesem Element herzustellen (Groß-/Kleinschreibung beachten)",
+    "primaryTwin": "Verbundener Zwilling",
+    "primaryTwinInputInfo": "Geben Sie eine Zwillings-ID ($dtId) ein, um eine Verknüpfung mit diesem Element herzustellen (Groß-/Kleinschreibung beachten)",
     "noMeshAddedText": "Noch keine Meshes hinzugefügt, bitte wählen Sie Meshes im 3D-Viewer aus",
     "meshes": "Maschen",
     "behaviorElementsDropdownLabel": "Zielelement",
@@ -409,7 +409,7 @@
     "behaviorAlertForm": {
       "colorPickerLabel": "Farbe des Abzeichens",
       "expressionLabel": "Trigger-Ausdruck",
-      "expressionPlaceholder": "Enter Ausdruck (z.B. LinkedTwin.InFlow > 3)",
+      "expressionPlaceholder": "Enter Ausdruck (z.B. PrimaryTwin.InFlow > 3)",
       "iconPickerLabel": "Badge-Symbol",
       "notice": "Dieses Verhalten wird nur aktiviert, wenn der folgende Triggerausdruck als true ausgewertet wird.",
       "notificationLabel": "Benachrichtigungstext",
@@ -443,13 +443,13 @@
     "expression": "Ausdruck",
     "warningBreakPointToggleLabel": "Farbhaltepunkt aktivieren",
     "warningBreakPointLabel": "Unterbrechungspunkt der Warnfarbe",
-    "linkWidgetUrlDescription": "Die Link-Widget-URL unterstützt die Formatierung von JavaScript-Vorlagenzeichenfolgen wie: ${LinkedTwin.property}",
+    "linkWidgetUrlDescription": "Die Link-Widget-URL unterstützt die Formatierung von JavaScript-Vorlagenzeichenfolgen wie: ${PrimaryTwin.property}",
     "behaviorTypes": {
       "alertBehavior": "Warnungsverhalten",
       "statusBehavior": "Statusverhalten"
     },
     "notImplemented": "Nicht implementiert",
-    "noLinkedTwinProperties": "Keine verknüpften Zwillingseigenschaften zum Anzeigen",
+    "noPrimaryTwinProperties": "Keine verknüpften Zwillingseigenschaften zum Anzeigen",
     "twinAlias": {
       "title": "Twin-Alias",
       "titlePlural": "Zwillingsaliase",
@@ -475,7 +475,7 @@
       },
       "descriptions": {
         "twins": "Zwillinge geben Ihnen Zugriff auf Eigenschaften, die in Ausdrücken verwendet werden können.",
-        "linkedTwin": "Der LinkedTwin enthält alle gemeinsamen Eigenschaften zwischen den Zielelementen verknüpften Zwillingen.",
+        "primaryTwin": "Der PrimaryTwin enthält alle gemeinsamen Eigenschaften zwischen den Zielelementen verknüpften Zwillingen.",
         "aliasChangeNotAllowed": "Eine Änderung des Alias ist nach der Erstellung nicht mehr zulässig.",
         "commonProperties": "Die Vereinigung verknüpfter Zwillingseigenschaften ausgewählter Elemente"
       },
@@ -506,7 +506,7 @@
     "link": {
       "title": "Link-Widget",
       "description": "Verweisen auf externe Inhalte durch Verknüpfen einer URL",
-      "urlPlaceholder": "https://mypowerbi.biz/${LinkedTwin.$dtId}",
+      "urlPlaceholder": "https://mypowerbi.biz/${PrimaryTwin.$dtId}",
       "openLink": "Link öffnen"
     },
     "panel": {
@@ -725,7 +725,7 @@
     "state": "Zustand",
     "allProperties": "Alle Immobilien",
     "behaviorPreview": "Vorschau",
-    "LinkedTwinProperties": "Verknüpfte Twin-Eigenschaften"
+    "PrimaryTwinProperties": "Verknüpfte Twin-Eigenschaften"
   },
   "svgTests": {
     "fluentUI": "SVG-Laden über Fluent Image-Komponente (empfohlenes Muster)",

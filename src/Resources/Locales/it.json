@@ -400,8 +400,8 @@
     "addBehaviorToScene": "Aggiungere un comportamento alla scena",
     "behaviorMetaText": "{{numElementsInActiveScene}} elementi, {{numSceneRefs}} scene",
     "elementMetaText": "Comportamenti di {{numBehaviors}}",
-    "linkedTwin": "Gemello collegato",
-    "linkedTwinInputInfo": "Immettere un ID doppio ($dtId) da collegare a questo elemento (con distinzione tra maiuscole e minuscole)",
+    "primaryTwin": "Gemello collegato",
+    "primaryTwinInputInfo": "Immettere un ID doppio ($dtId) da collegare a questo elemento (con distinzione tra maiuscole e minuscole)",
     "noMeshAddedText": "Nessuna mesh aggiunta ancora, selezionare le mesh nel visualizzatore 3D",
     "meshes": "Maglie",
     "behaviorElementsDropdownLabel": "Elemento di destinazione",
@@ -409,7 +409,7 @@
     "behaviorAlertForm": {
       "colorPickerLabel": "Colore del badge",
       "expressionLabel": "Espressione trigger",
-      "expressionPlaceholder": "Enter expression (es. LinkedTwin.InFlow > 3)",
+      "expressionPlaceholder": "Enter expression (es. PrimaryTwin.InFlow > 3)",
       "iconPickerLabel": "Icona del badge",
       "notice": "Questo comportamento verrà attivato solo quando l'espressione trigger riportata di seguito viene valutata come true.",
       "notificationLabel": "Testo della notifica",
@@ -443,13 +443,13 @@
     "expression": "Espressione",
     "warningBreakPointToggleLabel": "Abilita punto di interruzione colore",
     "warningBreakPointLabel": "Punto di interruzione del colore di avviso",
-    "linkWidgetUrlDescription": "L'URL del widget di collegamento supporta la formattazione della stringa del modello JavaScript come: ${LinkedTwin.property}",
+    "linkWidgetUrlDescription": "L'URL del widget di collegamento supporta la formattazione della stringa del modello JavaScript come: ${PrimaryTwin.property}",
     "behaviorTypes": {
       "alertBehavior": "Comportamento di avviso",
       "statusBehavior": "Comportamento dello stato"
     },
     "notImplemented": "Non implementato",
-    "noLinkedTwinProperties": "Nessuna proprietà gemella collegata da visualizzare",
+    "noPrimaryTwinProperties": "Nessuna proprietà gemella collegata da visualizzare",
     "twinAlias": {
       "title": "Alias gemello",
       "titlePlural": "Alias gemelli",
@@ -475,7 +475,7 @@
       },
       "descriptions": {
         "twins": "I gemelli consentono di accedere a proprietà che possono essere utilizzate nelle espressioni.",
-        "linkedTwin": "LinkedTwin contiene tutte le proprietà in comune tra gli elementi di destinazione collegati gemelli.",
+        "primaryTwin": "PrimaryTwin contiene tutte le proprietà in comune tra gli elementi di destinazione collegati gemelli.",
         "aliasChangeNotAllowed": "La modifica dell'alias non è consentita dopo la creazione.",
         "commonProperties": "L'unione delle proprietà gemelle collegate degli elementi selezionati"
       },
@@ -506,7 +506,7 @@
     "link": {
       "title": "Widget Link",
       "description": "Fare riferimento a contenuti esterni collegando un URL",
-      "urlPlaceholder": "https://mypowerbi.biz/${LinkedTwin.$dtId}",
+      "urlPlaceholder": "https://mypowerbi.biz/${PrimaryTwin.$dtId}",
       "openLink": "Apri link"
     },
     "panel": {
@@ -725,7 +725,7 @@
     "state": "Stato",
     "allProperties": "Tutte le proprietà",
     "behaviorPreview": "Anteprima",
-    "LinkedTwinProperties": "Proprietà gemelle collegate"
+    "PrimaryTwinProperties": "Proprietà gemelle collegate"
   },
   "svgTests": {
     "fluentUI": "Caricamento SVG tramite il componente Fluent Image (modello consigliato)",

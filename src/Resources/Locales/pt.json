@@ -400,8 +400,8 @@
     "addBehaviorToScene": "Adicionar comportamento à cena",
     "behaviorMetaText": "{{numElementsInActiveScene}} elementos{{numSceneRefs}}",
     "elementMetaText": "{{numBehaviors}} comportamentos",
-    "linkedTwin": "Gêmeo ligado",
-    "linkedTwinInputInfo": "Digite o ID gêmeo ($dtId) para vincular-se a este elemento (sensível ao caso)",
+    "primaryTwin": "Gêmeo ligado",
+    "primaryTwinInputInfo": "Digite o ID gêmeo ($dtId) para vincular-se a este elemento (sensível ao caso)",
     "noMeshAddedText": "Sem malhas adicionadas ainda, selecione malhas no visualizador 3D",
     "meshes": "Malhas",
     "behaviorElementsDropdownLabel": "Elemento alvo",
@@ -409,7 +409,7 @@
     "behaviorAlertForm": {
       "colorPickerLabel": "Cor do crachá",
       "expressionLabel": "Expressão do gatilho",
-      "expressionPlaceholder": "Inserir expressão (por exemplo, LinkedTwin.InFlow > 3)",
+      "expressionPlaceholder": "Inserir expressão (por exemplo, PrimaryTwin.InFlow > 3)",
       "iconPickerLabel": "Ícone do crachá",
       "notice": "Esse comportamento só será ativado quando a expressão do gatilho abaixo avaliar a verdade.",
       "notificationLabel": "Texto de notificação",
@@ -443,13 +443,13 @@
     "expression": "Expressão",
     "warningBreakPointToggleLabel": "Habilitar ponto de quebra de cor",
     "warningBreakPointLabel": "Ponto de quebra de cor de aviso",
-    "linkWidgetUrlDescription": "O URL do widget link suporta a formatação de sequência de caracteres do modelo JavaScript, tais como: ${LinkedTwin.property}",
+    "linkWidgetUrlDescription": "O URL do widget link suporta a formatação de sequência de caracteres do modelo JavaScript, tais como: ${PrimaryTwin.property}",
     "behaviorTypes": {
       "alertBehavior": "Comportamento de alerta",
       "statusBehavior": "Comportamento de status"
     },
     "notImplemented": "Não implementado",
-    "noLinkedTwinProperties": "Sem propriedades gêmeas vinculadas para exibir",
+    "noPrimaryTwinProperties": "Sem propriedades gêmeas vinculadas para exibir",
     "twinAlias": {
       "title": "Alias gêmeos",
       "titlePlural": "Codinomes gêmeos",
@@ -475,7 +475,7 @@
       },
       "descriptions": {
         "twins": "Gêmeos lhe dão acesso a propriedades que podem ser usadas em expressões.",
-        "linkedTwin": "O LinkedTwin contém todas as propriedades em comum entre os elementos-alvo ligados gêmeos.",
+        "primaryTwin": "O PrimaryTwin contém todas as propriedades em comum entre os elementos-alvo ligados gêmeos.",
         "aliasChangeNotAllowed": "A mudança de pseudônimo não é permitida após a criação.",
         "commonProperties": "A união de propriedades gêmeas vinculadas de elementos selecionados"
       },
@@ -506,7 +506,7 @@
     "link": {
       "title": "Widget de link",
       "description": "Referenciar conteúdo externo vinculando uma URL",
-      "urlPlaceholder": "https://mypowerbi.biz/${LinkedTwin.$dtId}",
+      "urlPlaceholder": "https://mypowerbi.biz/${PrimaryTwin.$dtId}",
       "openLink": "Link aberto"
     },
     "panel": {
@@ -725,7 +725,7 @@
     "state": "Estado",
     "allProperties": "Todas as propriedades",
     "behaviorPreview": "Visualizar",
-    "LinkedTwinProperties": "Propriedades gêmeas vinculadas"
+    "PrimaryTwinProperties": "Propriedades gêmeas vinculadas"
   },
   "svgTests": {
     "fluentUI": "Carregamento SVG via componente de imagem fluente (padrão recomendado)",

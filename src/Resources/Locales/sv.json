@@ -400,8 +400,8 @@
     "addBehaviorToScene": "Lägga till beteende i scenen",
     "behaviorMetaText": "{{numElementsInActiveScene}} elements, {{numSceneRefs}} scener",
     "elementMetaText": "{{numBehaviors}} behaviors",
-    "linkedTwin": "Länkad tvilling",
-    "linkedTwinInputInfo": "Ange dubbla ID ($dtId) för att länka till det här elementet (skiftlägeskänsligt)",
+    "primaryTwin": "Länkad tvilling",
+    "primaryTwinInputInfo": "Ange dubbla ID ($dtId) för att länka till det här elementet (skiftlägeskänsligt)",
     "noMeshAddedText": "Inga maskor har lagts till ännu, välj maskor i 3D-visningsprogrammet",
     "meshes": "Maskor",
     "behaviorElementsDropdownLabel": "Målelement",
@@ -409,7 +409,7 @@
     "behaviorAlertForm": {
       "colorPickerLabel": "Märke färg",
       "expressionLabel": "Utlösande uttryck",
-      "expressionPlaceholder": "Ange uttryck (t.ex. LinkedTwin.InFlow > 3)",
+      "expressionPlaceholder": "Ange uttryck (t.ex. PrimaryTwin.InFlow > 3)",
       "iconPickerLabel": "Ikon för Badge",
       "notice": "Det här beteendet aktiveras endast när uttrycket nedanstående utlösare utvärderas till true.",
       "notificationLabel": "Meddelandetext",
@@ -443,13 +443,13 @@
     "expression": "Uttryck",
     "warningBreakPointToggleLabel": "Aktivera färgbrytningspunkt",
     "warningBreakPointLabel": "Varningsfärg brytpunkt",
-    "linkWidgetUrlDescription": "Url för länkwidget stöder JavaScript-mallsträngsformatering, till exempel: ${LinkedTwin.property}",
+    "linkWidgetUrlDescription": "Url för länkwidget stöder JavaScript-mallsträngsformatering, till exempel: ${PrimaryTwin.property}",
     "behaviorTypes": {
       "alertBehavior": "Aviseringsbeteende",
       "statusBehavior": "Statusbeteende"
     },
     "notImplemented": "Inte implementerad",
-    "noLinkedTwinProperties": "Inga länkade dubbla egenskaper att visa",
+    "noPrimaryTwinProperties": "Inga länkade dubbla egenskaper att visa",
     "twinAlias": {
       "title": "Twin alias",
       "titlePlural": "Dubbla alias",
@@ -475,7 +475,7 @@
       },
       "descriptions": {
         "twins": "Tvillingar ger dig tillgång till egenskaper som kan användas i uttryck.",
-        "linkedTwin": "LinkedTwin innehåller alla egenskaper gemensamt mellan målelementen länkade tvillingar.",
+        "primaryTwin": "PrimaryTwin innehåller alla egenskaper gemensamt mellan målelementen länkade tvillingar.",
         "aliasChangeNotAllowed": "Aliasändring är inte tillåten efter att den har skapats.",
         "commonProperties": "Föreningen av länkade tvillingegenskaper för valda element"
       },
@@ -506,7 +506,7 @@
     "link": {
       "title": "Widgeten Länka",
       "description": "Referera till externt innehåll genom att länka en URL",
-      "urlPlaceholder": "https://mypowerbi.biz/${LinkedTwin.$dtId}",
+      "urlPlaceholder": "https://mypowerbi.biz/${PrimaryTwin.$dtId}",
       "openLink": "Öppna länk"
     },
     "panel": {
@@ -725,7 +725,7 @@
     "state": "Stat",
     "allProperties": "Alla egenskaper",
     "behaviorPreview": "Förhandsvisning",
-    "LinkedTwinProperties": "Länkade dubbla egenskaper"
+    "PrimaryTwinProperties": "Länkade dubbla egenskaper"
   },
   "svgTests": {
     "fluentUI": "SVG-inläsning via fluentbildskomponent (rekommenderat mönster)",

@@ -400,8 +400,8 @@
     "addBehaviorToScene": "向场景添加行为",
     "behaviorMetaText": "{{numElementsInActiveScene}} elements， {{numSceneRefs}} scenes",
     "elementMetaText": "{{numBehaviors}} 行为",
-    "linkedTwin": "链接双胞胎",
-    "linkedTwinInputInfo": "输入孪生 ID （$dtId） 以链接到此元素（区分大小写）",
+    "primaryTwin": "链接双胞胎",
+    "primaryTwinInputInfo": "输入孪生 ID （$dtId） 以链接到此元素（区分大小写）",
     "noMeshAddedText": "尚未添加网格，请在3D查看器中选择网格",
     "meshes": "网 格",
     "behaviorElementsDropdownLabel": "目标元素",
@@ -409,7 +409,7 @@
     "behaviorAlertForm": {
       "colorPickerLabel": "徽章颜色",
       "expressionLabel": "触发器表达式",
-      "expressionPlaceholder": "输入表达式（例如 LinkedTwin.InFlow > 3）",
+      "expressionPlaceholder": "输入表达式（例如 PrimaryTwin.InFlow > 3）",
       "iconPickerLabel": "徽章图标",
       "notice": "仅当下面的触发器表达式的计算结果为 true 时，才会启用此行为。",
       "notificationLabel": "通知文本",
@@ -443,13 +443,13 @@
     "expression": "表达",
     "warningBreakPointToggleLabel": "启用颜色断点",
     "warningBreakPointLabel": "警告颜色断点",
-    "linkWidgetUrlDescription": "链接小部件 URL 支持 JavaScript 模板字符串格式，例如：${LinkedTwin.property}",
+    "linkWidgetUrlDescription": "链接小部件 URL 支持 JavaScript 模板字符串格式，例如：${PrimaryTwin.property}",
     "behaviorTypes": {
       "alertBehavior": "警报行为",
       "statusBehavior": "状态行为"
     },
     "notImplemented": "未实现",
-    "noLinkedTwinProperties": "没有要显示的链接孪生属性",
+    "noPrimaryTwinProperties": "没有要显示的链接孪生属性",
     "twinAlias": {
       "title": "双别名",
       "titlePlural": "孪生别名",
@@ -475,7 +475,7 @@
       },
       "descriptions": {
         "twins": "孪生允许您访问可在表达式中使用的属性。",
-        "linkedTwin": "LinkedTwin 包含链接孪生的目标元素之间共有的所有属性。",
+        "primaryTwin": "PrimaryTwin 包含链接孪生的目标元素之间共有的所有属性。",
         "aliasChangeNotAllowed": "创建后不允许更改别名。",
         "commonProperties": "所选元素的链接孪生属性的并集"
       },
@@ -506,7 +506,7 @@
     "link": {
       "title": "链接小部件",
       "description": "通过链接 URL 引用外部内容",
-      "urlPlaceholder": "https://mypowerbi.biz/${LinkedTwin.$dtId}",
+      "urlPlaceholder": "https://mypowerbi.biz/${PrimaryTwin.$dtId}",
       "openLink": "打开链接"
     },
     "panel": {
@@ -725,7 +725,7 @@
     "state": "州",
     "allProperties": "所有房产",
     "behaviorPreview": "预览",
-    "LinkedTwinProperties": "链接孪生属性"
+    "PrimaryTwinProperties": "链接孪生属性"
   },
   "svgTests": {
     "fluentUI": "通过 Fluent Image 组件加载 SVG（推荐模式）",

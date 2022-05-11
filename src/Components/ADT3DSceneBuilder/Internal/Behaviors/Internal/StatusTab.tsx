@@ -180,6 +180,6 @@ const StatusTab: React.FC<IStatusTabProps> = ({ onValidityChange }) => {
         </Stack>
     );
 };
-const sectionStackTokens: IStackTokens = { childrenGap: 12 };
+const sectionStackTokens: IStackTokens = { childrenGap: 4 };
 
 export default StatusTab;
