@@ -27,10 +27,15 @@ import {
     IOATElementsChangeEventArgs,
     IOATTwinModelNodes
 } from '../../Models/Constants/Interfaces';
+import { ElementNode } from './Internal/Classes/ElementNode';
+import { ElementPosition } from './Internal/Classes/ElementPosition';
+import { ElementData } from './Internal/Classes/ElementData';
+import { ElementEdge } from './Internal/Classes/ElementEdge';
+import { ElementEdgeData } from './Internal/Classes/ElementEdgeData';
 
 type OATGraphProps = {
     onElementsUpdate: (digitalTwinsModels: IOATElementsChangeEventArgs) => any;
-    importModels: [];
+    importModels: IOATTwinModelNodes[];
     setModel: (twinModel: IOATTwinModelNodes) => any;
     model: IOATTwinModelNodes;
     deletedModel: string;
@@ -105,31 +110,30 @@ const OATGraphViewer = ({
     }, [model]);
 
     useEffect(() => {
-        let importModelsList = [];
+        const importModelsList = [];
         if (importModels.length > 0) {
-            importModels.map((input) => {
+            importModels.forEach((input) => {
                 const node = elements.find(
                     (element) => element.id === input['@id']
                 );
                 if (!node) {
                     let relationships = [];
                     let contents = [];
-                    input['contents'].map((content) => {
+                    input['contents'].forEach((content) => {
                         if (content['@type'] === ComponentHandleName) {
-                            const componentRelationship = {
-                                id: `${input['@id']}${ComponentHandleName}${content['schema']}`,
-                                label: '',
-                                source: input['@id'],
-                                sourceHandle: ComponentHandleName,
-                                target: content['schema'],
-                                type: RelationshipHandleName,
-                                data: {
-                                    name: content['name'],
-                                    displayName: content['name'],
-                                    id: `${input['@id']}${ComponentHandleName}${content['schema']}`,
-                                    type: ComponentHandleName
-                                }
-                            };
+                            const componentRelationship = new ElementEdge(
+                                `${input['@id']}${ComponentHandleName}${content['schema']}`,
+                                RelationshipHandleName,
+                                input['@id'],
+                                ComponentHandleName,
+                                content['schema'],
+                                new ElementEdgeData(
+                                    `${input['@id']}${ComponentHandleName}${content['schema']}`,
+                                    content['name'],
+                                    content['name'],
+                                    ComponentHandleName
+                                )
+                            );
                             relationships = [
                                 ...relationships,
                                 componentRelationship
@@ -137,59 +141,53 @@ const OATGraphViewer = ({
                         } else if (
                             content['@type'] === RelationshipHandleName
                         ) {
-                            const relationship = {
-                                id: content['@id'],
-                                label: '',
-                                source: input['@id'],
-                                sourceHandle: RelationshipHandleName,
-                                target: content['target'],
-                                type: RelationshipHandleName,
-                                data: {
-                                    name: content['name'],
-                                    displayName: content['displayName'],
-                                    id: content['@id'],
-                                    type: RelationshipHandleName
-                                }
-                            };
+                            const relationship = new ElementEdge(
+                                content['@id'],
+                                RelationshipHandleName,
+                                input['@id'],
+                                RelationshipHandleName,
+                                content['target'],
+                                new ElementEdgeData(
+                                    content['@id'],
+                                    content['name'],
+                                    content['displayName'],
+                                    RelationshipHandleName
+                                )
+                            );
                             relationships = [...relationships, relationship];
                         } else {
                             contents = [...contents, content];
                         }
                     });
                     if (input['extends']) {
-                        const extendRelationship = {
-                            id: `${input['@id']}${ExtendHandleName}${input['extends']}`,
-                            label: '',
-                            source: input['@id'],
-                            sourceHandle: ExtendHandleName,
-                            target: input['extends'],
-                            type: RelationshipHandleName,
-                            data: {
-                                name: '',
-                                displayName: '',
-                                id: `${input['@id']}${ExtendHandleName}${input['extends']}`,
-                                type: ExtendHandleName
-                            }
-                        };
+                        const extendRelationship = new ElementEdge(
+                            `${input['@id']}${ExtendHandleName}${input['extends']}`,
+                            RelationshipHandleName,
+                            input['@id'],
+                            ExtendHandleName,
+                            input['extends'],
+                            new ElementEdgeData(
+                                `${input['@id']}${ExtendHandleName}${input['extends']}`,
+                                '',
+                                '',
+                                ExtendHandleName
+                            )
+                        );
                         relationships = [...relationships, extendRelationship];
                     }
-                    const newNode = {
-                        id: input['@id'],
-                        type: input['@type'],
-                        position: { x: defaultPosition, y: defaultPosition },
-                        data: {
-                            name: input['displayName'],
-                            type: input['@type'],
-                            id: input['@id'],
-                            content: contents,
-                            context: contextClassBase
-                        }
-                    };
-                    importModelsList = [
-                        ...importModelsList,
-                        newNode,
-                        ...relationships
-                    ];
+                    const newNode = new ElementNode(
+                        input['@id'],
+                        input['@type'],
+                        new ElementPosition(defaultPosition, defaultPosition),
+                        new ElementData(
+                            input['@id'],
+                            input['displayName'],
+                            input['@type'],
+                            contents,
+                            contextClassBase
+                        )
+                    );
+                    importModelsList.push(newNode, ...relationships);
                 }
             });
             setElements([...importModelsList]);
@@ -555,7 +553,7 @@ const OATGraphViewer = ({
     };
 
     return (
-        <div>
+        <>
             <ReactFlowProvider>
                 <div
                     className={graphViewerStyles.container}
@@ -590,7 +588,7 @@ const OATGraphViewer = ({
                     </ElementsContext.Provider>
                 </div>
             </ReactFlowProvider>
-        </div>
+        </>
     );
 };
 

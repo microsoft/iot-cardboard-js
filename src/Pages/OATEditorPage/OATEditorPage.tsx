@@ -1,18 +1,13 @@
 import React, { useState, useRef } from 'react';
-import prettyBytes from 'pretty-bytes';
-import JsonUploader from '../../Components/JsonUploader/JsonUploader';
 import OATHeader from '../../Components/OATHeader/OATHeader';
 import OATModelList from '../../Components/OATModelList/OATModelList';
 import OATGraphViewer from '../../Components/OATGraphViewer/OATGraphViewer';
 import OATPropertyEditor from '../../Components/OATPropertyEditor/OATPropertyEditor';
+import OATImport from './Internal/OATImport';
 import { getEditorPageStyles } from './OATEditorPage.Styles';
-import {
-    FileUploadStatus,
-    IJSONUploaderFileItem as IFileItem
-} from '../../Models/Constants';
 
 const OATEditorPage = ({ theme }) => {
-    const [elementHandler, setElementHandler] = useState([]);
+    const [elements, setElements] = useState([]);
     const [importModels, setImportModels] = useState([]);
     const [templatesActive, setTemplatesActive] = useState(false);
     const EditorPageStyles = getEditorPageStyles();
@@ -21,8 +16,6 @@ const OATEditorPage = ({ theme }) => {
     const [editedName, setEditedName] = useState('');
     const [editedId, setEditedId] = useState('');
     const [isJsonUploaderOpen, setIsJsonUploaderOpen] = useState(false);
-    const existingFilesRef = useRef([]);
-    const jsonUploaderComponentRef = useRef();
 
     const [model, setModel] = useState(null);
     const [templates, setTemplates] = useState([
@@ -49,46 +42,20 @@ const OATEditorPage = ({ theme }) => {
     ]);
 
     const handleImportClick = () => {
-        existingFilesRef.current = [];
         setIsJsonUploaderOpen((prev) => !prev);
-    };
-
-    const onFileListChanged = async (files: Array<File>) => {
-        existingFilesRef.current = files;
-        let items = [];
-        if (files.length > 0) {
-            for (let i = 0; i < files.length; i++) {
-                const newItem = {
-                    name: existingFilesRef.current[i].name,
-                    size: prettyBytes(existingFilesRef.current[i].size),
-                    status: FileUploadStatus.Uploading
-                } as IFileItem;
-                try {
-                    const content = await existingFilesRef.current[i].text();
-                    newItem.content = JSON.parse(content);
-                } catch (error) {
-                    console.log(Error(error));
-                }
-                items = [...items, newItem.content];
-            }
-            setImportModels(items);
-            setIsJsonUploaderOpen((prev) => !prev);
-        }
     };
 
     return (
         <div className={EditorPageStyles.container}>
             <OATHeader
-                elements={elementHandler.digitalTwinsModels}
-                handleImportClick={handleImportClick}
+                elements={elements.digitalTwinsModels}
+                onImportClick={handleImportClick}
             />
-            {isJsonUploaderOpen && (
-                <JsonUploader
-                    onFileListChanged={onFileListChanged}
-                    ref={jsonUploaderComponentRef}
-                    existingFiles={existingFilesRef.current}
-                />
-            )}
+            <OATImport
+                isJsonUploaderOpen={isJsonUploaderOpen}
+                setIsJsonUploaderOpen={setIsJsonUploaderOpen}
+                setImportModels={setImportModels}
+            />
             <div
                 className={
                     templatesActive
@@ -97,14 +64,14 @@ const OATEditorPage = ({ theme }) => {
                 }
             >
                 <OATModelList
-                    elements={elementHandler.digitalTwinsModels}
+                    elements={elements.digitalTwinsModels}
                     onDeleteModel={setDeletedModel}
                     onSelectedModel={setSelectedModel}
                     onEditedName={setEditedName}
                     onEditedId={setEditedId}
                 />
                 <OATGraphViewer
-                    onElementsUpdate={setElementHandler}
+                    onElementsUpdate={setElements}
                     importModels={importModels}
                     model={model}
                     setModel={setModel}
