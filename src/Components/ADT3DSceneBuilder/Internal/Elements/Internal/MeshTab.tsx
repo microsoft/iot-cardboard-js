@@ -23,15 +23,25 @@ const MeshTab: React.FC<MeshTabProps> = ({ elementToEdit }) => {
         SceneBuilderContext
     );
 
+    const compareListItems = () => {
+        if (elementToEdit.objectIDs.length === listItems.length) {
+            return false;
+        } else {
+            return true;
+        }
+    };
+
     // generate the list of items to show
     useEffect(() => {
-        const listItems = getListItems(
-            elementToEdit.objectIDs,
-            setColoredMeshItems,
-            objectColor
-        );
-        setListItems(listItems);
-    }, []);
+        if (compareListItems()) {
+            const listItems = getListItems(
+                elementToEdit.objectIDs,
+                setColoredMeshItems,
+                objectColor
+            );
+            setListItems(listItems);
+        }
+    }, [elementToEdit.objectIDs, setColoredMeshItems, objectColor]);
 
     const commonPanelStyles = getLeftPanelStyles(useTheme());
     return (

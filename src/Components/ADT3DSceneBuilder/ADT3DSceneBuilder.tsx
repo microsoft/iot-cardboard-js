@@ -196,12 +196,15 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
         }
     }, [state.builderMode]);
 
-    const setColoredMeshItems = (coloredMeshItems: Array<CustomMeshItem>) => {
-        dispatch({
-            type: SET_ADT_SCENE_ELEMENT_SELECTED_OBJECT_IDS,
-            payload: coloredMeshItems
-        });
-    };
+    const setColoredMeshItems = useCallback(
+        (coloredMeshItems: Array<CustomMeshItem>) => {
+            dispatch({
+                type: SET_ADT_SCENE_ELEMENT_SELECTED_OBJECT_IDS,
+                payload: coloredMeshItems
+            });
+        },
+        []
+    );
 
     const setOutlinedMeshItems = (outlinedMeshItems: Array<CustomMeshItem>) => {
         dispatch({
