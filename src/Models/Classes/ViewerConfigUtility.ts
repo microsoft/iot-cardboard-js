@@ -184,33 +184,33 @@ abstract class ViewerConfigUtility {
         );
 
         // Get element ids from config (old) and form behavior (new)
-        const configDataSource = updatedConfig.configuration.behaviors[
+        const oldElementsDataSource = updatedConfig.configuration.behaviors[
             behaviorIdx
-        ].datasources.find(
+        ]?.datasources.find(
             (b) =>
                 b.type === DatasourceType.ElementTwinToObjectMappingDataSource
         ) as IElementTwinToObjectMappingDataSource;
-        const behaviorDataSource = updatedBehavior.datasources.find(
+        const newElementsDataSource = updatedBehavior.datasources.find(
             (b) =>
                 b.type === DatasourceType.ElementTwinToObjectMappingDataSource
         ) as IElementTwinToObjectMappingDataSource;
 
         // If found, remove elements that have been cleared out from old config
         // and merge with new behavior values
-        if (configDataSource && behaviorDataSource) {
-            let oldElementIds = [...configDataSource.elementIDs];
+        if (oldElementsDataSource && newElementsDataSource) {
+            let oldElementIds = [...oldElementsDataSource.elementIDs];
             if (removedElements) {
                 const removedElementIds = removedElements.map(
                     (element) => element.id
                 );
-                oldElementIds = configDataSource.elementIDs.filter(
+                oldElementIds = oldElementsDataSource.elementIDs.filter(
                     (elementid) => !removedElementIds.includes(elementid)
                 );
             }
             const mergedElementIds = Array.from(
-                new Set([...oldElementIds, ...behaviorDataSource.elementIDs])
+                new Set([...oldElementIds, ...newElementsDataSource.elementIDs])
             );
-            behaviorDataSource.elementIDs = mergedElementIds;
+            newElementsDataSource.elementIDs = mergedElementIds;
         }
 
         // Update modified behavior

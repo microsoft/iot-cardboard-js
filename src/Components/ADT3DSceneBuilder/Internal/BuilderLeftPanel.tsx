@@ -34,7 +34,7 @@ import {
     IBehavior,
     ITwinToObjectMapping
 } from '../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
-import { createGUID } from '../../../Models/Services/Utils';
+import { createGUID, deepCopy } from '../../../Models/Services/Utils';
 
 const BuilderLeftPanel: React.FC = () => {
     const { t } = useTranslation();
@@ -163,10 +163,10 @@ const BuilderLeftPanel: React.FC = () => {
         isSelected
     ) => {
         let selectedElements = state.selectedElements
-            ? [...state.selectedElements]
+            ? deepCopy(state.selectedElements)
             : [];
         let removedElements = state.removedElements
-            ? [...state.removedElements]
+            ? deepCopy(state.removedElements)
             : [];
 
         // add element if selected and not in list
@@ -395,7 +395,6 @@ const BuilderLeftPanel: React.FC = () => {
         sceneId
     ]);
 
-    console.log('Removed elements', state.removedElements);
     return (
         <BaseComponent
             theme={theme}
