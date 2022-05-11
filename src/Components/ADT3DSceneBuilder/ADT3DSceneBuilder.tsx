@@ -213,6 +213,7 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = (props) => {
                 }
             }
         ];
+        // // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     useEffect(() => {
@@ -748,7 +749,7 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = (props) => {
                 )}
             >
                 {state.config && <BuilderLeftPanel />}
-                <div className="cb-scene-builder-canvas">
+                <div className={classNames.wrapper}>
                     {state.config && (
                         <ADT3DBuilder
                             objectColorUpdated={objectColorUpdated}

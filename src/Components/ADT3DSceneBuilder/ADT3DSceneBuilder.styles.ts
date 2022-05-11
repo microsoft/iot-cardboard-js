@@ -17,6 +17,7 @@ export const getStyles = (
         root: [
             classNames.root,
             {
+                display: 'flex',
                 height: '100%',
                 width: '100%'
             }
@@ -24,6 +25,7 @@ export const getStyles = (
         wrapper: [
             classNames.wrapper,
             {
+                flexGrow: 1,
                 height: '100%',
                 position: 'relative',
                 width: '100%'
