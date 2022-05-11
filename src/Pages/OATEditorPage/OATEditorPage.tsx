@@ -1,18 +1,21 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import OATHeader from '../../Components/OATHeader/OATHeader';
 import OATModelList from '../../Components/OATModelList/OATModelList';
 import OATGraphViewer from '../../Components/OATGraphViewer/OATGraphViewer';
 import OATPropertyEditor from '../../Components/OATPropertyEditor/OATPropertyEditor';
+import OATImport from './Internal/OATImport';
 import { getEditorPageStyles } from './OATEditorPage.Styles';
 
 const OATEditorPage = ({ theme }) => {
-    const [elementHandler, setElementHandler] = useState([]);
+    const [elements, setElements] = useState([]);
+    const [importModels, setImportModels] = useState([]);
     const [templatesActive, setTemplatesActive] = useState(false);
     const EditorPageStyles = getEditorPageStyles();
     const [deletedModel, setDeletedModel] = useState('');
     const [selectedModel, setSelectedModel] = useState('');
     const [editedName, setEditedName] = useState('');
     const [editedId, setEditedId] = useState('');
+    const [isJsonUploaderOpen, setIsJsonUploaderOpen] = useState(false);
 
     const [model, setModel] = useState(null);
     const [templates, setTemplates] = useState([
@@ -38,9 +41,21 @@ const OATEditorPage = ({ theme }) => {
         }
     ]);
 
+    const handleImportClick = () => {
+        setIsJsonUploaderOpen((prev) => !prev);
+    };
+
     return (
         <div className={EditorPageStyles.container}>
-            <OATHeader elements={elementHandler.digitalTwinsModels} />
+            <OATHeader
+                elements={elements.digitalTwinsModels}
+                onImportClick={handleImportClick}
+            />
+            <OATImport
+                isJsonUploaderOpen={isJsonUploaderOpen}
+                setIsJsonUploaderOpen={setIsJsonUploaderOpen}
+                setImportModels={setImportModels}
+            />
             <div
                 className={
                     templatesActive
@@ -49,14 +64,15 @@ const OATEditorPage = ({ theme }) => {
                 }
             >
                 <OATModelList
-                    elements={elementHandler.digitalTwinsModels}
+                    elements={elements.digitalTwinsModels}
                     onDeleteModel={setDeletedModel}
                     onSelectedModel={setSelectedModel}
                     onEditedName={setEditedName}
                     onEditedId={setEditedId}
                 />
                 <OATGraphViewer
-                    onElementsUpdate={setElementHandler}
+                    onElementsUpdate={setElements}
+                    importModels={importModels}
                     model={model}
                     setModel={setModel}
                     deletedModel={deletedModel}

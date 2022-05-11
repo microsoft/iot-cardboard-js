@@ -141,6 +141,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                         <input
                             id="text"
                             name="text"
+                            className={graphViewerStyles.textEdit}
                             onChange={onNameChange}
                             value={nameText}
                             onBlur={onNameBlur}
@@ -154,7 +155,6 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                 <text>
                     <textPath
                         href={`#${id}`}
-                        style={{ fontSize: '12px' }}
                         className={graphViewerStyles.textPath}
                         startOffset="50%"
                         textAnchor="middle"

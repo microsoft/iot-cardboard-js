@@ -9,7 +9,6 @@ import ReactFlow, {
     removeElements
 } from 'react-flow-renderer';
 import { useTranslation } from 'react-i18next';
-import BaseComponent from '../BaseComponent/BaseComponent';
 import OATGraphCustomNode from './Internal/OATGraphCustomNode';
 import OATGraphCustomEdge from './Internal/OATGraphCustomEdge';
 import {
@@ -28,9 +27,15 @@ import {
     IOATElementsChangeEventArgs,
     IOATTwinModelNodes
 } from '../../Models/Constants/Interfaces';
+import { ElementNode } from './Internal/Classes/ElementNode';
+import { ElementPosition } from './Internal/Classes/ElementPosition';
+import { ElementData } from './Internal/Classes/ElementData';
+import { ElementEdge } from './Internal/Classes/ElementEdge';
+import { ElementEdgeData } from './Internal/Classes/ElementEdgeData';
 
 type OATGraphProps = {
     onElementsUpdate: (digitalTwinsModels: IOATElementsChangeEventArgs) => any;
+    importModels: IOATTwinModelNodes[];
     setModel: (twinModel: IOATTwinModelNodes) => any;
     model: IOATTwinModelNodes;
     deletedModel: string;
@@ -41,6 +46,7 @@ type OATGraphProps = {
 
 const OATGraphViewer = ({
     onElementsUpdate,
+    importModels,
     setModel,
     model,
     deletedModel,
@@ -60,6 +66,7 @@ const OATGraphViewer = ({
     const idClassBase = 'dtmi:com:example:';
     const contextClassBase = 'dtmi:adt:context;2';
     const versionClassBase = '1';
+    const defaultPosition = 100;
     const [newModelId, setNewModelId] = useState(0);
     const graphViewerStyles = getGraphViewerStyles();
     const currentNodeId = useRef('');
@@ -101,6 +108,91 @@ const OATGraphViewer = ({
             currentNodeId.current = model['@id'];
         }
     }, [model]);
+
+    useEffect(() => {
+        const importModelsList = [];
+        if (importModels.length > 0) {
+            importModels.forEach((input) => {
+                const node = elements.find(
+                    (element) => element.id === input['@id']
+                );
+                if (!node) {
+                    let relationships = [];
+                    let contents = [];
+                    input['contents'].forEach((content) => {
+                        if (content['@type'] === ComponentHandleName) {
+                            const componentRelationship = new ElementEdge(
+                                `${input['@id']}${ComponentHandleName}${content['schema']}`,
+                                RelationshipHandleName,
+                                input['@id'],
+                                ComponentHandleName,
+                                content['schema'],
+                                new ElementEdgeData(
+                                    `${input['@id']}${ComponentHandleName}${content['schema']}`,
+                                    content['name'],
+                                    content['name'],
+                                    ComponentHandleName
+                                )
+                            );
+                            relationships = [
+                                ...relationships,
+                                componentRelationship
+                            ];
+                        } else if (
+                            content['@type'] === RelationshipHandleName
+                        ) {
+                            const relationship = new ElementEdge(
+                                content['@id'],
+                                RelationshipHandleName,
+                                input['@id'],
+                                RelationshipHandleName,
+                                content['target'],
+                                new ElementEdgeData(
+                                    content['@id'],
+                                    content['name'],
+                                    content['displayName'],
+                                    RelationshipHandleName
+                                )
+                            );
+                            relationships = [...relationships, relationship];
+                        } else {
+                            contents = [...contents, content];
+                        }
+                    });
+                    if (input['extends']) {
+                        const extendRelationship = new ElementEdge(
+                            `${input['@id']}${ExtendHandleName}${input['extends']}`,
+                            RelationshipHandleName,
+                            input['@id'],
+                            ExtendHandleName,
+                            input['extends'],
+                            new ElementEdgeData(
+                                `${input['@id']}${ExtendHandleName}${input['extends']}`,
+                                '',
+                                '',
+                                ExtendHandleName
+                            )
+                        );
+                        relationships = [...relationships, extendRelationship];
+                    }
+                    const newNode = new ElementNode(
+                        input['@id'],
+                        input['@type'],
+                        new ElementPosition(defaultPosition, defaultPosition),
+                        new ElementData(
+                            input['@id'],
+                            input['displayName'],
+                            input['@type'],
+                            contents,
+                            contextClassBase
+                        )
+                    );
+                    importModelsList.push(newNode, ...relationships);
+                }
+            });
+            setElements([...importModelsList]);
+        }
+    }, [importModels]);
 
     useEffect(() => {
         if (deletedModel) {
@@ -192,7 +284,7 @@ const OATGraphViewer = ({
         const newNode = {
             id: id,
             type: InterfaceType,
-            position: { x: 100, y: 100 },
+            position: { x: defaultPosition, y: defaultPosition },
             data: {
                 name: name,
                 type: InterfaceType,
@@ -461,50 +553,49 @@ const OATGraphViewer = ({
     };
 
     return (
-        <BaseComponent theme={theme}>
-            <div>
-                <ReactFlowProvider>
-                    <div
-                        className={graphViewerStyles.container}
-                        ref={reactFlowWrapperRef}
-                    >
-                        <ElementsContext.Provider value={providerVal}>
-                            <ReactFlow
-                                elements={elements}
-                                onElementClick={onElementClick}
-                                onElementsRemove={onElementsRemove}
-                                onConnectStart={onConnectStart}
-                                onConnectStop={onConnectStop}
-                                onLoad={onLoad}
-                                snapToGrid={true}
-                                snapGrid={[15, 15]}
-                                nodeTypes={nodeTypes}
-                                edgeTypes={edgeTypes}
-                                onNodeDragStop={onNodeDragStop}
-                            >
-                                <PrimaryButton
-                                    className={graphViewerStyles.button}
-                                    onClick={onNewModelClick}
-                                    text={t('OATGraphViewer.newModel')}
-                                />
-                                <MiniMap />
-                                <Controls />
-                                <Background
-                                    color={theme.semanticColors.bodyBackground}
-                                    gap={16}
-                                />
-                            </ReactFlow>
-                        </ElementsContext.Provider>
-                    </div>
-                </ReactFlowProvider>
-            </div>
-        </BaseComponent>
+        <>
+            <ReactFlowProvider>
+                <div
+                    className={graphViewerStyles.container}
+                    ref={reactFlowWrapperRef}
+                >
+                    <ElementsContext.Provider value={providerVal}>
+                        <ReactFlow
+                            elements={elements}
+                            onElementClick={onElementClick}
+                            onElementsRemove={onElementsRemove}
+                            onConnectStart={onConnectStart}
+                            onConnectStop={onConnectStop}
+                            onLoad={onLoad}
+                            snapToGrid={true}
+                            snapGrid={[15, 15]}
+                            nodeTypes={nodeTypes}
+                            edgeTypes={edgeTypes}
+                            onNodeDragStop={onNodeDragStop}
+                        >
+                            <PrimaryButton
+                                className={graphViewerStyles.button}
+                                onClick={onNewModelClick}
+                                text={t('OATGraphViewer.newModel')}
+                            />
+                            <MiniMap />
+                            <Controls />
+                            <Background
+                                color={theme.semanticColors.bodyBackground}
+                                gap={16}
+                            />
+                        </ReactFlow>
+                    </ElementsContext.Provider>
+                </div>
+            </ReactFlowProvider>
+        </>
     );
 };
 
 OATGraphViewer.defaultProps = {
     onElementsUpdate: () => null,
-    setModel: () => null
+    setModel: () => null,
+    importModels: []
 };
 
 export default OATGraphViewer;
