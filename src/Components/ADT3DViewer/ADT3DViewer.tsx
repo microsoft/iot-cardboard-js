@@ -511,7 +511,7 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
             locale={locale}
             containerClassName={classNames.root}
         >
-            <div id={sceneWrapperId} className={classNames.viewerWrapper}>
+            <div id={sceneWrapperId} className={classNames.wrapper}>
                 {/* Left panel */}
                 <ViewerElementsPanelRenderer
                     isLoading={isLoading}
@@ -558,7 +558,7 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
                     styles={classNames.subComponentStyles.headerStack}
                     tokens={{ childrenGap: 8 }}
                 >
-                    <div className={classNames.layersDropdown}>
+                    <div className={classNames.layersPicker}>
                         <LayerDropdown
                             layers={layersInScene}
                             selectedLayerIds={deeplinkState.selectedLayerIds}

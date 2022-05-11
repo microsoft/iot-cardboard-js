@@ -7,23 +7,23 @@ import {
 export const classPrefix = 'cb-adt-3d-viewer';
 const classNames = {
     root: `${classPrefix}-root`,
-    viewerWrapper: `${classPrefix}-viewer-wrapper`,
-    layersDropdown: `${classPrefix}-layers-dropdown`
+    wrapper: `${classPrefix}-wrapper`,
+    layersDropdown: `${classPrefix}-layers-picker`
 };
 export const getStyles = (
     _props: IADT3DViewerStyleProps
 ): IADT3DViewerStyles => {
     return {
         root: [classNames.root, {}],
-        viewerWrapper: [
-            classNames.viewerWrapper,
+        wrapper: [
+            classNames.wrapper,
             {
                 height: '100%',
                 position: 'relative',
                 width: '100%'
             }
         ],
-        layersDropdown: [
+        layersPicker: [
             classNames.layersDropdown,
             {
                 position: 'relative'

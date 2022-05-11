@@ -1,7 +1,11 @@
 import {
+    classNamesFunction,
     ContextualMenu,
     ContextualMenuItemType,
+    css,
     mergeStyleSets,
+    Stack,
+    styled,
     useTheme
 } from '@fluentui/react';
 import React, {
@@ -13,6 +17,7 @@ import React, {
 } from 'react';
 import {
     ADT3DSceneBuilderMode,
+    ADT3DScenePageModes,
     BehaviorModalMode
 } from '../../Models/Constants/Enums';
 import ADT3DBuilder from '../ADT3DBuilder/ADT3DBuilder';
@@ -34,7 +39,9 @@ import {
     SET_WIDGET_FORM_INFO,
     BehaviorTwinAliasFormInfo,
     WidgetFormInfo,
-    ElementTwinAliasFormInfo
+    ElementTwinAliasFormInfo,
+    IADT3DSceneBuilderStyleProps,
+    IADT3DSceneBuilderStyles
 } from './ADT3DSceneBuilder.types';
 import './ADT3DSceneBuilder.scss';
 import BaseComponent from '../../Components/BaseComponent/BaseComponent';
@@ -55,7 +62,11 @@ import {
 } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { createCustomMeshItems } from '../3DV/SceneView.Utils';
 import ViewerConfigUtility from '../../Models/Classes/ViewerConfigUtility';
-import { createGUID, deepCopy } from '../../Models/Services/Utils';
+import {
+    createGUID,
+    deepCopy,
+    getDebugLogger
+} from '../../Models/Services/Utils';
 import {
     DatasourceType,
     defaultBehavior
@@ -63,6 +74,10 @@ import {
 import { IADTObjectColor } from '../../Models/Constants';
 import { getLeftPanelStyles } from './Internal/Shared/LeftPanel.styles';
 import BehaviorsModal from '../BehaviorsModal/BehaviorsModal';
+import FloatingScenePageModeToggle from '../../Pages/ADT3DScenePage/Internal/FloatingScenePageModeToggle';
+import { useDeeplinkContext } from '../../Models/Context/DeeplinkContext/DeeplinkContext';
+import { DeeplinkContextActionType } from '../../Models/Context/DeeplinkContext/DeeplinkContext.types';
+import { getStyles } from './ADT3DSceneBuilder.styles';
 
 const contextMenuStyles = mergeStyleSets({
     header: {
@@ -76,21 +91,39 @@ export const SceneBuilderContext = React.createContext<I3DSceneBuilderContext>(
     null
 );
 
-const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
-    sceneId,
-    sceneViewProps,
-    adapter,
-    theme,
-    locale,
-    localeStrings
-}) => {
+const getClassNames = classNamesFunction<
+    IADT3DSceneBuilderStyleProps,
+    IADT3DSceneBuilderStyles
+>();
+
+const debugLogging = false;
+const logDebugConsole = getDebugLogger('ADT3DSceneBuilder', debugLogging);
+
+const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = (props) => {
+    const {
+        adapter,
+        locale,
+        localeStrings,
+        sceneId,
+        sceneViewProps,
+        showModeToggle = false,
+        styles,
+        theme
+    } = props;
+
+    // hooks
     const { t } = useTranslation();
+    const { deeplinkState, deeplinkDispatch } = useDeeplinkContext();
     const fluentTheme = useTheme();
     const [state, dispatch] = useReducer(
         ADT3DSceneBuilderReducer,
         defaultADT3DSceneBuilderState
     );
 
+    // styles
+    const classNames = getClassNames(styles, { theme: fluentTheme });
+
+    // state
     const [behaviorToEdit, setBehaviorToEdit] = useState<IBehavior>(null);
 
     const previouslyColoredMeshItems = useRef([]);
@@ -270,6 +303,7 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
         }
     }, [getScenesConfig?.adapterResult]);
 
+    // viewer callbacks
     const onMeshClicked = useCallback(
         (mesh: AbstractMesh, e: PointerEvent) => {
             if (mesh) {
@@ -660,8 +694,22 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
         });
     };
 
+    // header callbacks
+    const handleScenePageModeChange = useCallback(
+        (newScenePageMode: ADT3DScenePageModes) => {
+            deeplinkDispatch({
+                type: DeeplinkContextActionType.SET_MODE,
+                payload: {
+                    mode: newScenePageMode
+                }
+            });
+        },
+        [deeplinkDispatch]
+    );
+
     const commonPanelStyles = getLeftPanelStyles(fluentTheme);
 
+    logDebugConsole('debug', 'Render');
     return (
         <SceneBuilderContext.Provider
             value={{
@@ -694,7 +742,10 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
                 theme={theme}
                 locale={locale}
                 localeStrings={localeStrings}
-                containerClassName="cb-scene-builder-card-wrapper"
+                containerClassName={css(
+                    classNames.root,
+                    'cb-scene-builder-card-wrapper'
+                )}
             >
                 {state.config && <BuilderLeftPanel />}
                 <div className="cb-scene-builder-canvas">
@@ -716,6 +767,22 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
                             showMeshesOnHover={state.enableHoverOnModel}
                         />
                     )}
+                    {/* Mode & layers */}
+                    <Stack
+                        horizontal
+                        styles={classNames.subComponentStyles.headerStack}
+                        tokens={{ childrenGap: 8 }}
+                    >
+                        {showModeToggle && (
+                            <FloatingScenePageModeToggle
+                                sceneId={sceneId}
+                                handleScenePageModeChange={
+                                    handleScenePageModeChange
+                                }
+                                selectedMode={deeplinkState.mode}
+                            />
+                        )}
+                    </Stack>
                     {contextualMenuProps.isVisible && (
                         <div>
                             <div
@@ -765,4 +832,9 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
         </SceneBuilderContext.Provider>
     );
 };
-export default React.memo(ADT3DSceneBuilder);
+
+export default styled<
+    IADT3DSceneBuilderCardProps,
+    IADT3DSceneBuilderStyleProps,
+    IADT3DSceneBuilderStyles
+>(ADT3DSceneBuilder, getStyles);

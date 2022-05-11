@@ -70,6 +70,7 @@ const SceneContents: React.FC<ISceneContentsProps> = (props) => {
                         adapter={adapter}
                         sceneId={sceneId}
                         sceneViewProps={svp}
+                        showModeToggle={true}
                     />
                 </div>
             );

@@ -5,8 +5,8 @@ export interface IADT3DViewerStyleProps {
 }
 export interface IADT3DViewerStyles {
     root: IStyle;
-    layersDropdown: IStyle;
-    viewerWrapper: IStyle;
+    layersPicker: IStyle;
+    wrapper: IStyle;
 
     /**
      * SubComponent styles.
