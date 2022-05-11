@@ -5,7 +5,7 @@ import { getDefaultStoryDecorator } from '../../Models/Services/StoryUtilities';
 import ${componentName} from './${componentName}';
 import { I${componentName}Props } from './${componentName}.types';
 
-const wrapperStyle = { width: '100%', height: '600px' };
+const wrapperStyle = { width: '100%', height: '600px', padding: 8 };
 
 export default {
     title: 'Components/${componentName}',

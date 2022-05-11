@@ -16,7 +16,7 @@ import HeaderControlButton from '../../../HeaderControlButton/HeaderControlButto
 import HeaderControlGroup from '../../../HeaderControlGroup/HeaderControlGroup';
 import CameraControlsCalloutContent from './Internal/CameraControlsCalloutContent/CameraControlsCalloutContent';
 
-interface CameraControlProps {
+export interface CameraControlProps {
     cameraInteraction?: CameraInteraction;
     onCameraInteractionChanged?: (CameraInteraction) => void;
     onCameraZoom?: (boolean) => void;
@@ -41,7 +41,7 @@ export const CameraControls: React.FC<CameraControlProps> = ({
         if (cameraInteractionType) {
             onCameraInteractionChanged(cameraInteractionType);
         }
-    }, [cameraInteractionType]);
+    }, [cameraInteractionType, onCameraInteractionChanged]);
 
     useEffect(() => {
         if (cameraInteraction) {

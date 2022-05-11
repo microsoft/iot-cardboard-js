@@ -3,11 +3,12 @@ import { ComponentStory } from '@storybook/react';
 import { getDefaultStoryDecorator } from '../../../../../../Models/Services/StoryUtilities';
 import CameraControlsCalloutContent from './CameraControlsCalloutContent';
 import { ICameraControlsCalloutContentProps } from './CameraControlsCalloutContent.types';
+import { Stack } from '@fluentui/react';
 
-const wrapperStyle = { width: '100%', height: '600px' };
+const wrapperStyle = { width: '100%', height: '600px', padding: 8 };
 
 export default {
-    title: 'Components/CameraControls/CalloutContent',
+    title: 'Components/CameraControls',
     component: CameraControlsCalloutContent,
     decorators: [
         getDefaultStoryDecorator<ICameraControlsCalloutContentProps>(
@@ -20,14 +21,17 @@ type CameraControlsCalloutContentStory = ComponentStory<
     typeof CameraControlsCalloutContent
 >;
 
-const Template: CameraControlsCalloutContentStory = (args) => {
-    return <CameraControlsCalloutContent {...args} />;
+const Template: CameraControlsCalloutContentStory = (_args) => {
+    return (
+        <Stack tokens={{ childrenGap: 8 }}>
+            Move
+            <CameraControlsCalloutContent type={'Move'} />
+            Orbit
+            <CameraControlsCalloutContent type={'Orbit'} />
+        </Stack>
+    );
 };
 
-export const Move = Template.bind({}) as CameraControlsCalloutContentStory;
-
-Move.args = { type: 'Move' } as ICameraControlsCalloutContentProps;
-
-export const Orbit = Template.bind({}) as CameraControlsCalloutContentStory;
-
-Orbit.args = { type: 'Orbit' } as ICameraControlsCalloutContentProps;
+export const CalloutContent = Template.bind(
+    {}
+) as CameraControlsCalloutContentStory;
