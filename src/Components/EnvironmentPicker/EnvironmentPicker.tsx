@@ -370,7 +370,9 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
 
     const handleOnEnvironmentUrlChange = useCallback(
         (option, value) => {
-            if (value) {
+            if (option) {
+                setEnvironmentToEdit(option.data ?? option.text);
+            } else {
                 let newVal = value;
                 if (
                     // let user enter hostname and gracefully append https protocol
@@ -395,8 +397,6 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                 ) {
                     setEnvironments(environments.concat(newVal));
                 }
-            } else {
-                setEnvironmentToEdit(option.data ?? option.text);
             }
         },
         [environments, isValidUrlStr]
@@ -404,7 +404,7 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
 
     const handleOnContainerUrlChange = useCallback(
         (option, value) => {
-            let newVal = value ?? option?.text;
+            let newVal = option ? option.text : value;
             if (!newVal.startsWith('https://')) {
                 // let user enter hostname and gracefully append https protocol
                 try {
