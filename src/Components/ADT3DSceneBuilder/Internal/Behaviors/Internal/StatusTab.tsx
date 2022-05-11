@@ -11,7 +11,7 @@ import ViewerConfigUtility from '../../../../../Models/Classes/ViewerConfigUtili
 import produce from 'immer';
 import {
     IBehavior,
-    IStatusColoringVisual
+    IExpressionRangeVisual
 } from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import ValueRangeBuilder from '../../../../ValueRangeBuilder/ValueRangeBuilder';
 import { defaultStatusColorVisual } from '../../../../../Models/Classes/3DVConfig';
@@ -63,11 +63,11 @@ const StatusTab: React.FC<IStatusTabProps> = ({ onValidityChange }) => {
     });
 
     const validateForm = useCallback(
-        (visual: IStatusColoringVisual) => {
+        (visual: IExpressionRangeVisual) => {
             let isValid = true;
             if (visual) {
                 // only look at the ranges when the expression is populated
-                if (visual.statusValueExpression) {
+                if (visual.valueExpression) {
                     isValid = isValid && valueRangeBuilderState.areRangesValid;
                 }
             }
@@ -80,7 +80,7 @@ const StatusTab: React.FC<IStatusTabProps> = ({ onValidityChange }) => {
     );
 
     const setProperty = useCallback(
-        (propertyName: keyof IStatusColoringVisual, value: string) => {
+        (propertyName: keyof IExpressionRangeVisual, value: string) => {
             setBehaviorToEdit(
                 produce((draft) => {
                     // Assuming only 1 alert visual per behavior
@@ -92,10 +92,10 @@ const StatusTab: React.FC<IStatusTabProps> = ({ onValidityChange }) => {
                             const index = draft.visuals.indexOf(statusVisual);
                             draft.visuals.splice(index, 1);
                         }
-                        statusVisual[propertyName] = value as any;
+                        statusVisual[propertyName as any] = value as any;
                     } else {
                         statusVisual = deepCopy(defaultStatusColorVisual);
-                        statusVisual[propertyName] = value as any;
+                        statusVisual[propertyName as any] = value as any;
                         statusVisual.valueRanges =
                             valueRangeBuilderState.valueRanges;
                         resetInitialValueRanges(
@@ -139,15 +139,12 @@ const StatusTab: React.FC<IStatusTabProps> = ({ onValidityChange }) => {
 
     const onPropertyChange = useCallback(
         (newPropertyExpression: PropertyExpression) =>
-            setProperty(
-                'statusValueExpression',
-                newPropertyExpression.expression
-            ),
+            setProperty('valueExpression', newPropertyExpression.expression),
         [setProperty]
     );
 
     const commonPanelStyles = getLeftPanelStyles(useTheme());
-    const showRangeBuilder = !!statusVisualToEdit.statusValueExpression;
+    const showRangeBuilder = !!statusVisualToEdit.valueExpression;
     return (
         <Stack tokens={sectionStackTokens}>
             <Text className={commonPanelStyles.text}>{t(LOC_KEYS.notice)}</Text>
@@ -164,7 +161,7 @@ const StatusTab: React.FC<IStatusTabProps> = ({ onValidityChange }) => {
                     propertyExpression={{
                         expression:
                             getStatusFromBehavior(behaviorToEdit)
-                                ?.statusValueExpression || ''
+                                ?.valueExpression || ''
                     }}
                     onChange={onPropertyChange}
                     allowedPropertyValueTypes={numericPropertyValueTypes}

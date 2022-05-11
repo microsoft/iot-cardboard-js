@@ -1,16 +1,11 @@
 import {
-    defaultSwatchColors,
-    defaultSwatchIcons
-} from '../../Theming/Palettes';
-import {
-    IAlertVisual,
     IBehavior,
+    IExpressionRangeVisual,
     IGaugeWidget,
     ILayer,
     ILinkWidget,
     IPopoverVisual,
     IValueWidget,
-    IStatusColoringVisual,
     IWidget
 } from '../Types/Generated/3DScenesConfiguration-v1.0.0';
 
@@ -24,8 +19,7 @@ export enum ElementType {
 
 export enum VisualType {
     Popover = 'Popover',
-    StatusColoring = 'StatusColoring',
-    Alert = 'Alert'
+    ExpressionRangeVisual = 'ExpressionRangeVisual'
 }
 
 export enum WidgetType {
@@ -77,21 +71,21 @@ export const defaultOnClickPopover: IPopoverVisual = {
     }
 };
 
-export const defaultStatusColorVisual: IStatusColoringVisual = {
-    type: VisualType.StatusColoring,
-    statusValueExpression: '',
+export const defaultStatusColorVisual: IExpressionRangeVisual = {
+    type: VisualType.ExpressionRangeVisual,
+    expressionType: 'NumericRange',
+    valueExpression: '',
     valueRanges: [],
     objectIDs: {
         expression: 'objectIDs'
     }
 };
 
-export const defaultAlertVisual: IAlertVisual = {
-    type: VisualType.Alert,
-    color: defaultSwatchColors[0].item,
-    iconName: defaultSwatchIcons[0].item,
-    labelExpression: '',
-    triggerExpression: '',
+export const defaultAlertVisual: IExpressionRangeVisual = {
+    type: VisualType.ExpressionRangeVisual,
+    expressionType: 'CategoricalValues',
+    valueExpression: '',
+    valueRanges: [],
     objectIDs: {
         expression: 'objectIDs'
     }

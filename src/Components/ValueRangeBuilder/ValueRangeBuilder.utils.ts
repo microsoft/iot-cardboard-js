@@ -1,7 +1,4 @@
-import {
-    INumericOrInfinityType,
-    IValueRange
-} from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
+import { IValueRange } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { IPickerOption } from '../Pickers/Internal/Picker.base.types';
 import {
     IValueRangeValidationMap,
@@ -38,11 +35,11 @@ export const getRangeValidation = (
         maxNumeric;
 
     try {
-        minNumeric = Number(valueRange.min);
+        minNumeric = Number(valueRange.values[0]);
         if (!isNaN(minNumeric)) {
             minValid = true;
         }
-        maxNumeric = Number(valueRange.max);
+        maxNumeric = Number(valueRange.values[1]);
         if (!isNaN(maxNumeric)) {
             maxValid = true;
         }
@@ -89,7 +86,7 @@ export const isRangeOverlapFound = (
 
     // Sort value ranges by min
     const sortedValueRanges = valueRanges.slice(0).sort((a, b) => {
-        return Number(a.min) - Number(b.min);
+        return Number(a.values[0]) - Number(b.values[0]);
     });
 
     // Verify all (max @ i) <= min @ i + 1
@@ -98,7 +95,7 @@ export const isRangeOverlapFound = (
         const valueRange = sortedValueRanges[i];
         const nextValueRange = sortedValueRanges[i + 1];
 
-        if (valueRange.max > nextValueRange.min) {
+        if (valueRange.values[1] > nextValueRange.values[0]) {
             overlapFound = true;
             break;
         }
@@ -115,7 +112,7 @@ export const getNextColor = (
         '#FF000';
 
     for (const { item } of colorSwatch) {
-        if (!valueRanges.map((vr) => vr.color).includes(item)) {
+        if (!valueRanges.map((vr) => vr.visual.color).includes(item)) {
             return item;
         }
     }
@@ -127,12 +124,14 @@ export const cleanValueRange = (valueRange: IValueRange): IValueRange => {
 
     return {
         ...cleanRange,
-        min: cleanValueOutput(cleanRange.min),
-        max: cleanValueOutput(cleanRange.max)
+        values: [
+            cleanValueOutput(cleanRange.values[0]),
+            cleanValueOutput(cleanRange.values[1])
+        ]
     };
 };
 
-export const cleanValueOutput = (value: any): INumericOrInfinityType => {
+export const cleanValueOutput = (value: any): number | string => {
     if (typeof value === 'number') {
         switch (value) {
             case Infinity:
