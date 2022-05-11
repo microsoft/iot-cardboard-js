@@ -33,6 +33,7 @@ const OATImport = ({
                     newItem.content = JSON.parse(content);
                 } catch (error) {
                     console.log(Error(error));
+                    alert(Error(error));
                 }
                 items.push(newItem.content);
             }
