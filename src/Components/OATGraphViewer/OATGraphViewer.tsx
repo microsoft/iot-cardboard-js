@@ -127,7 +127,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     }, [model]);
 
     useEffect(() => {
-        // Ddetects when a Model is deleted outside of the component and Updates the elements state
+        // Detects when a Model is deleted outside of the component and Updates the elements state
         const importModelsList = [];
         if (importModels.length > 0) {
             importModels.forEach((input) => {
