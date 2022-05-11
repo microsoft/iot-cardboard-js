@@ -54,10 +54,11 @@ export const PropertyList = ({
     );
     const dragItem = useRef(null);
     const dragNode = useRef(null);
+    const { model, templates } = state;
 
     const handlePropertyItemDropOnTemplateList = () => {
-        const newTemplate = state.templates ? deepCopy(state.templates) : [];
-        newTemplate.push(state.model.contents[draggedPropertyItemRef.current]);
+        const newTemplate = templates ? deepCopy(templates) : [];
+        newTemplate.push(model.contents[draggedPropertyItemRef.current]);
         dispatch({
             type: SET_OAT_TEMPLATES,
             payload: newTemplate
@@ -80,7 +81,7 @@ export const PropertyList = ({
         if (e.target !== dragNode.current) {
             //  Entered item is not the same as dragged node
 
-            const newModel = deepCopy(state.model);
+            const newModel = deepCopy(model);
             //  Replace entered item with dragged item
             // --> Remove dragged item from model and then place it on entered item's position
             newModel.contents.splice(
@@ -132,7 +133,7 @@ export const PropertyList = ({
     };
 
     const handlePropertyNameChange = (value, index) => {
-        const newModel = deepCopy(state.model);
+        const newModel = deepCopy(model);
         if (index === undefined) {
             newModel.contents[currentPropertyIndex].name = value;
         } else {
@@ -143,9 +144,7 @@ export const PropertyList = ({
 
     const generateErrorMessage = (value, index) => {
         if (value) {
-            const find = state.model.contents.find(
-                (item) => item.name === value
-            );
+            const find = model.contents.find((item) => item.name === value);
 
             if (!find && value !== '') {
                 handlePropertyNameChange(value, index);
@@ -159,7 +158,7 @@ export const PropertyList = ({
 
     const deleteItem = (index) => {
         setLastPropertyFocused(null);
-        const newModel = deepCopy(state.model);
+        const newModel = deepCopy(model);
         newModel.contents.splice(index, 1);
         dispatch({ type: SET_OAT_PROPERTY_EDITOR_MODEL, payload: newModel });
     };
@@ -180,8 +179,8 @@ export const PropertyList = ({
                     />
                 )}
                 {!propertySelectorVisible &&
-                    state.model &&
-                    state.model.contents.length === 0 && (
+                    model &&
+                    model.contents.length === 0 && (
                         <ActionButton
                             onClick={() => setPropertySelectorVisible(true)}
                             styles={{ root: { paddingLeft: '10px' } }}
@@ -196,9 +195,9 @@ export const PropertyList = ({
                         </ActionButton>
                     )}
 
-                {state.model &&
-                    state.model.contents.length > 0 &&
-                    state.model.contents.map((item, i) => {
+                {model &&
+                    model.contents.length > 0 &&
+                    model.contents.map((item, i) => {
                         if (typeof item.schema === 'object') {
                             return (
                                 <PropertyListItemNest

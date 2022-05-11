@@ -16,6 +16,7 @@ import {
 import { SET_OAT_PROPERTY_EDITOR_MODEL } from '../../Models/Constants/ActionTypes';
 import { IAction } from '../../Models/Constants/Interfaces';
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
+import { deepCopy } from '../../Models/Services/Utils';
 
 interface IModal {
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
@@ -49,10 +50,11 @@ export const FormUpdateProperty = ({
     const [unit, setUnit] = useState(null);
     const [id, setId] = useState(null);
     const [error, setError] = useState(null);
+    const { model } = state;
 
     const handleUpdatedNestedProperty = () => {
         const activeNestedProperty =
-            state.model.contents[currentPropertyIndex].schema.fields[
+            model.contents[currentPropertyIndex].schema.fields[
                 currentNestedPropertyIndex
             ];
 
@@ -68,7 +70,7 @@ export const FormUpdateProperty = ({
             schema: activeNestedProperty.schema
         };
 
-        const modelCopy = Object.assign({}, state.model);
+        const modelCopy = deepCopy(model);
         modelCopy.contents[currentPropertyIndex].schema.fields[
             currentNestedPropertyIndex
         ] = prop;
@@ -87,7 +89,7 @@ export const FormUpdateProperty = ({
             handleUpdatedNestedProperty();
             return;
         }
-        const activeProperty = state.model.contents[currentPropertyIndex];
+        const activeProperty = model.contents[currentPropertyIndex];
         const prop = {
             comment: comment ? comment : activeProperty.comment,
             description: description ? description : activeProperty.description,
@@ -101,7 +103,7 @@ export const FormUpdateProperty = ({
             schema: activeProperty.schema
         };
 
-        const modelCopy = Object.assign({}, state.model);
+        const modelCopy = deepCopy(model);
         modelCopy.contents[currentPropertyIndex] = prop;
         dispatch({
             type: SET_OAT_PROPERTY_EDITOR_MODEL,
@@ -112,7 +114,7 @@ export const FormUpdateProperty = ({
     };
 
     const getErrorMessage = (value) => {
-        const find = state.model.contents.find((item) => item.name === value);
+        const find = model.contents.find((item) => item.name === value);
 
         if (!find && value !== '') {
             setDisplayName(value);
@@ -129,8 +131,8 @@ export const FormUpdateProperty = ({
         <>
             <div className={propertyInspectorStyles.modalRowSpaceBetween}>
                 <Label>
-                    {state.model.contents[currentPropertyIndex]
-                        ? state.model.contents[currentPropertyIndex].name
+                    {model.contents[currentPropertyIndex]
+                        ? model.contents[currentPropertyIndex].name
                         : t('OATPropertyEditor.property')}
                 </Label>
                 <ActionButton onClick={() => setModalOpen(false)}>

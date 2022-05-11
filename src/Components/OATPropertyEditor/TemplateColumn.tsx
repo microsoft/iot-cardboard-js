@@ -11,7 +11,8 @@ import { useTranslation } from 'react-i18next';
 import {
     getPropertyInspectorStyles,
     getPropertyEditorTextFieldStyles,
-    getTemplateColumnStyles
+    getTemplateColumnStyles,
+    getTemplateColumnPaddingStyles
 } from './OATPropertyEditor.styles';
 import TemplateList from './TemplateList';
 import { SET_OAT_TEMPLATES_ACTIVE } from '../../Models/Constants/ActionTypes';
@@ -41,11 +42,12 @@ export const TemplateColumn = ({
     const propertyInspectorStyles = getPropertyInspectorStyles();
     const textFieldStyles = getPropertyEditorTextFieldStyles();
     const templateColumnStyles = getTemplateColumnStyles();
+    const templateColumnPaddingStyles = getTemplateColumnPaddingStyles();
     const draggedTemplateItemRef = useRef(null);
 
     return (
         <Stack styles={templateColumnStyles}>
-            <Stack styles={{ root: { padding: '8px' } }}>
+            <Stack styles={templateColumnPaddingStyles}>
                 <div className={propertyInspectorStyles.rowSpaceBetween}>
                     <Label>{t('OATPropertyEditor.templates')}</Label>
                     <ActionButton

@@ -67,7 +67,7 @@ const OATHeader = ({ elements, handleImportClick }: OATHeaderProps) => {
             key: 'Import',
             text: t('OATHeader.import'),
             iconProps: { iconName: 'Import' },
-            onClick: () => handleImportClick()
+            onClick: handleImportClick
         },
         {
             key: 'Export',

@@ -8,6 +8,7 @@ import {
 } from './OATPropertyEditor.styles';
 import { SET_OAT_PROPERTY_EDITOR_MODEL } from '../../Models/Constants/ActionTypes';
 import { IAction } from '../../Models/Constants/Interfaces';
+import { deepCopy } from '../../Models/Services/Utils';
 
 type IPropertiesModelSummary = {
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
@@ -22,6 +23,7 @@ export const PropertiesModelSummary = ({
     const propertyInspectorStyles = getPropertyInspectorStyles();
     const generalPropertiesWrapStyles = getGeneralPropertiesWrapStyles();
     const textFieldStyes = getPropertyEditorTextFieldStyles();
+    const { model } = state;
 
     return (
         <Stack styles={generalPropertiesWrapStyles}>
@@ -31,10 +33,10 @@ export const PropertiesModelSummary = ({
                 <TextField
                     styles={textFieldStyes}
                     borderless
-                    disabled={!state.model}
-                    value={state.model ? state.model.displayName : ''}
+                    disabled={!model}
+                    value={model ? model.displayName : ''}
                     onChange={(_ev, value) => {
-                        const modelCopy = Object.assign({}, state.model);
+                        const modelCopy = deepCopy(model);
                         modelCopy.displayName = value;
                         dispatch({
                             type: SET_OAT_PROPERTY_EDITOR_MODEL,
@@ -48,10 +50,10 @@ export const PropertiesModelSummary = ({
                 <TextField
                     styles={textFieldStyes}
                     borderless
-                    disabled={!state.model}
-                    value={state.model ? state.model['@id'] : ''}
+                    disabled={!model}
+                    value={model ? model['@id'] : ''}
                     onChange={(_ev, value) => {
-                        const modelCopy = Object.assign({}, state.model);
+                        const modelCopy = deepCopy(model);
                         modelCopy['@id'] = value;
                         dispatch({
                             type: SET_OAT_PROPERTY_EDITOR_MODEL,

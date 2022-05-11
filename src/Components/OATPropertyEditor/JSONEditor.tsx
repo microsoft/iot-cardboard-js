@@ -17,13 +17,12 @@ const JSONEditor = ({ dispatch, theme, state }: OATPropertyEditorProps) => {
     const libTheme = useLibTheme();
     const themeToUse = (libTheme || theme) ?? Theme.Light;
     const editorRef = useRef(null);
-    const [content, setContent] = useState(
-        JSON.stringify(state.model, null, 2)
-    );
+    const { model } = state;
+    const [content, setContent] = useState(JSON.stringify(model, null, 2));
 
     useEffect(() => {
-        setContent(JSON.stringify(state.model, null, 2));
-    }, [state.model]);
+        setContent(JSON.stringify(model, null, 2));
+    }, [model]);
 
     const onHandleEditorDidMount = (editor) => {
         editorRef.current = editor;

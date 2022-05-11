@@ -14,6 +14,7 @@ import {
 } from './OATPropertyEditor.styles';
 import { SET_OAT_PROPERTY_EDITOR_MODEL } from '../../Models/Constants/ActionTypes';
 import { IAction } from '../../Models/Constants/Interfaces';
+import { deepCopy } from '../../Models/Services/Utils';
 
 interface IModal {
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
@@ -44,10 +45,11 @@ export const FormAddEnumItem = ({
     const [comment, setComment] = useState(null);
     const [description, setDescription] = useState(null);
     const [error, setError] = useState(null);
+    const { model } = state;
 
     const handleAddEnumValue = () => {
         const activeItem =
-            state.model.contents[currentPropertyIndex].schema.enumValues;
+            model.contents[currentPropertyIndex].schema.enumValues;
         const prop = {
             '@id': id ? `dtmi:com:adt:${id};` : 'dtmi:com:adt:enum;',
             name: name ? name : activeItem.name,
@@ -57,7 +59,7 @@ export const FormAddEnumItem = ({
             description: description ? description : activeItem.description
         };
 
-        const modelCopy = Object.assign({}, state.model);
+        const modelCopy = deepCopy(model);
         modelCopy.contents[currentPropertyIndex].schema.enumValues.push(prop);
         dispatch({
             type: SET_OAT_PROPERTY_EDITOR_MODEL,
@@ -68,7 +70,7 @@ export const FormAddEnumItem = ({
     };
 
     const getErrorMessage = (value) => {
-        const find = state.model.contents[
+        const find = model.contents[
             currentPropertyIndex
         ].schema.enumValues.find((item) => item.enumValue === value);
         if (!find && value !== '') {

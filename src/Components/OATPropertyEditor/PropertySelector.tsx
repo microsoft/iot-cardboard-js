@@ -34,6 +34,7 @@ import IconTime from '../../Resources/Static/time.svg';
 import { useTranslation } from 'react-i18next';
 import { SET_OAT_PROPERTY_EDITOR_MODEL } from '../../Models/Constants/ActionTypes';
 import { IAction } from '../../Models/Constants/Interfaces';
+import { deepCopy } from '../../Models/Services/Utils';
 
 interface IProperySelectorProps {
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
@@ -54,6 +55,7 @@ const PropertySelector = ({
     const propertyInspectorStyles = getPropertyInspectorStyles();
     const propertySelectorStyles = getPropertySelectorStyles();
     const propertySelectorSeparatorStyles = getPropertySelectorSeparatorStyles();
+    const { model } = state;
     const data = {
         propertyTags: {
             sectionFirst: [
@@ -164,8 +166,8 @@ const PropertySelector = ({
     };
 
     const addNestedProperty = (tag) => {
-        const modelCopy = Object.assign({}, state.model);
-        const schemaCopy = Object.assign({}, lastPropertyFocused.item.schema);
+        const modelCopy = deepCopy(model);
+        const schemaCopy = deepCopy(lastPropertyFocused.item.schema);
         schemaCopy.fields.push({
             name: `${lastPropertyFocused.item.name}_${
                 schemaCopy.fields.length + 1
@@ -190,16 +192,16 @@ const PropertySelector = ({
             return;
         }
 
-        const modelCopy = Object.assign({}, state.model);
+        const modelCopy = deepCopy(model);
         modelCopy.contents = [
             ...modelCopy.contents,
             ...[
                 {
                     '@id': `dtmi:com:adt:model1:New_Property_${
-                        state.model.contents.length + 1
+                        model.contents.length + 1
                     }`,
                     '@type': ['property'],
-                    name: `New_Property_${state.model.contents.length + 1}`,
+                    name: `New_Property_${model.contents.length + 1}`,
                     schema: getSchema(tag)
                 }
             ]

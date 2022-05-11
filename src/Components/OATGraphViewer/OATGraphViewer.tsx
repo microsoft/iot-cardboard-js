@@ -52,12 +52,7 @@ type OATGraphProps = {
 
 const getStoredElements = () => {
     const editorData = JSON.parse(localStorage.getItem(OATDataStorageKey));
-
-    if (editorData && editorData.models) {
-        return editorData.models;
-    }
-
-    return null;
+    return editorData && editorData.models ? editorData.models : null;
 };
 
 const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
@@ -75,6 +70,14 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     const warningStyles = getGraphViewerWarningStyles();
     const currentNodeIdRef = useRef('');
     const currentHandleId = useRef('');
+    const {
+        model,
+        importModels,
+        deletedModelId,
+        selectedModelId,
+        editedModelName,
+        editedModelId
+    } = state;
 
     useEffect(() => {
         //identifies wich is the next model Id on creating new nodes and updates the Local Storage
@@ -100,7 +103,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
             (element) => element.id === currentNodeIdRef.current
         );
         if (node) {
-            const newId = state.model['@id'];
+            const newId = model['@id'];
             elements.forEach((x) => {
                 if (x.source && x.source === currentNodeIdRef.current) {
                     x.source = newId;
@@ -111,18 +114,18 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
             });
             node.id = newId;
             node.data.id = newId;
-            node.data.name = state.model['displayName'];
-            node.data.content = state.model['contents'];
+            node.data.name = model['displayName'];
+            node.data.content = model['contents'];
             setElements([...elements]);
             currentNodeIdRef.current = newId;
         }
-    }, [state.model]);
+    }, [model]);
 
     useEffect(() => {
         //detects when a Model is deleted outside of the component and Updates the elements state
         let importModelsList = [];
-        if (state.importModels.length > 0) {
-            state.importModels.map((input) => {
+        if (importModels.length > 0) {
+            importModels.map((input) => {
                 const node = elements.find(
                     (element) => element.id === input['@id']
                 );
@@ -209,24 +212,22 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
             });
             setElements([...importModelsList]);
         }
-    }, [state.importModels]);
+    }, [importModels]);
 
     useEffect(() => {
-        if (state.deletedModelId) {
+        if (deletedModelId) {
             const elementsToRemove = [
                 {
-                    id: state.deletedModelId
+                    id: deletedModelId
                 }
             ];
             onElementsRemove(elementsToRemove);
         }
-    }, [state.deletedModelId]);
+    }, [deletedModelId]);
 
     useEffect(() => {
         //detects when a Model is selected outside of the component
-        const node = elements.find(
-            (element) => element.id === state.selectedModelId
-        );
+        const node = elements.find((element) => element.id === selectedModelId);
         if (node) {
             currentNodeIdRef.current = node.id;
             const modelClicked = {
@@ -241,15 +242,13 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                 payload: modelClicked
             });
         }
-    }, [state.selectedModelId]);
+    }, [selectedModelId]);
 
     useEffect(() => {
         //detects when a Model name is edited outside of the component and Updates the elements state
-        const node = elements.find(
-            (element) => element.id === state.selectedModelId
-        );
+        const node = elements.find((element) => element.id === selectedModelId);
         if (node) {
-            node.data.name = state.editedModelName;
+            node.data.name = editedModelName;
             const modelClicked = {
                 '@id': node.id,
                 '@type': node.data.type,
@@ -263,22 +262,20 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
             });
             setElements([...elements]);
         }
-    }, [state.editedModelName]);
+    }, [editedModelName]);
 
     useEffect(() => {
         //detects when a Model id is edited outside of the component and Updates the elements state
-        const node = elements.find(
-            (element) => element.id === state.selectedModelId
-        );
+        const node = elements.find((element) => element.id === selectedModelId);
         if (node) {
             elements
                 .filter((x) => x.source === currentNodeIdRef.current)
-                .forEach((x) => (x.source = state.editedModelId));
+                .forEach((x) => (x.source = editedModelId));
             elements
                 .filter((x) => x.target === currentNodeIdRef.current)
-                .forEach((x) => (x.target = state.editedModelId));
-            node.id = state.editedModelId;
-            node.data.id = state.editedModelId;
+                .forEach((x) => (x.target = editedModelId));
+            node.id = editedModelId;
+            node.data.id = editedModelId;
             const modelClicked = {
                 '@id': node.id,
                 '@type': node.data.type,
@@ -291,9 +288,9 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                 payload: modelClicked
             });
             setElements([...elements]);
-            currentNodeIdRef.current = state.editedModelId;
+            currentNodeIdRef.current = editedModelId;
         }
-    }, [state.editedModelId]);
+    }, [editedModelId]);
 
     const setCurrentNode = (id) => {
         currentNodeIdRef.current = id;
@@ -487,11 +484,11 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
             projectName:
                 editorData && editorData.projectName
                     ? editorData.projectName
-                    : 'Project',
+                    : t('OATGraphViewer.project'),
             projectDescription:
                 editorData && editorData.description
                     ? editorData && editorData.description
-                    : 'Description'
+                    : t('OATGraphViewer.description')
         };
 
         localStorage.setItem(OATDataStorageKey, JSON.stringify(oatEditorData));

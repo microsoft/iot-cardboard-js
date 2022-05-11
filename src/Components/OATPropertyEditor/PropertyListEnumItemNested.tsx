@@ -10,6 +10,7 @@ import PropertyListItemSubMenu from './PropertyListItemSubMenu';
 import { SET_OAT_PROPERTY_EDITOR_MODEL } from '../../Models/Constants/ActionTypes';
 import { IAction } from '../../Models/Constants/Interfaces';
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
+import { deepCopy } from '../../Models/Services/Utils';
 
 type IEnumItem = {
     deleteNestedItem?: (parentIndex: number, index: number) => any;
@@ -33,14 +34,14 @@ export const PropertyListEnumItemNested = ({
     const iconWrapMoreStyles = getPropertyListItemIconWrapMoreStyles();
     const textFieldStyles = getPropertyEditorTextFieldStyles();
     const [subMenuActive, setSubMenuActive] = useState(false);
+    const { model } = state;
 
     const updateEnum = (value) => {
-        const activeItem =
-            state.model.contents[parentIndex].schema.enumValues[index];
+        const activeItem = model.contents[parentIndex].schema.enumValues[index];
         const prop = {
             displayName: value
         };
-        const modelCopy = Object.assign({}, state.mode);
+        const modelCopy = deepCopy(model);
         modelCopy.contents[parentIndex].schema.enumValues[index] = {
             ...activeItem,
             ...prop
@@ -52,7 +53,7 @@ export const PropertyListEnumItemNested = ({
     };
 
     const getErrorMessage = (value) => {
-        const find = state.model.contents[parentIndex].schema.enumValues.find(
+        const find = model.contents[parentIndex].schema.enumValues.find(
             (item) => item.name === value
         );
         if (!find && value !== '') {

@@ -75,6 +75,7 @@ export const PropertyListItemNest = ({
     const [propertySelectorVisible, setPropertySelectorVisible] = useState(
         false
     );
+    const { model, templates } = state;
 
     const addPropertyCallback = () => {
         setCurrentPropertyIndex(index);
@@ -94,7 +95,7 @@ export const PropertyListItemNest = ({
     const handleTemplateAddition = () => {
         dispatch({
             type: SET_OAT_TEMPLATES,
-            payload: [...state.templates.item]
+            payload: [...templates.item]
         });
     };
 
@@ -106,7 +107,7 @@ export const PropertyListItemNest = ({
         )}`;
         itemCopy['@id'] = `${itemCopy['@id']}_${t('OATPropertyEditor.copy')}`;
 
-        const modelCopy = deepCopy(state.model);
+        const modelCopy = deepCopy(model);
         modelCopy.contents.push(itemCopy);
         dispatch({
             type: SET_OAT_PROPERTY_EDITOR_MODEL,
@@ -115,7 +116,7 @@ export const PropertyListItemNest = ({
     };
 
     const deleteNestedItem = (parentIndex, index) => {
-        const newModel = deepCopy(state.model);
+        const newModel = deepCopy(model);
         if (
             newModel.contents[parentIndex].schema['@type'] ===
             DTDLSchemaType.Enum

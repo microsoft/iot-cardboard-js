@@ -63,11 +63,12 @@ export const PropertyListItem = ({
     const [propertySelectorVisible, setPropertySelectorVisible] = useState(
         false
     );
+    const { model, templates } = state;
 
     const handleTemplateAddition = () => {
         dispatch({
             type: SET_OAT_TEMPLATES,
-            payload: [...state.templates, item]
+            payload: [...templates, item]
         });
     };
 
@@ -79,7 +80,7 @@ export const PropertyListItem = ({
         )}`;
         itemCopy['@id'] = `${itemCopy['@id']}_${t('OATPropertyEditor.copy')}`;
 
-        const modelCopy = deepCopy(state.model);
+        const modelCopy = deepCopy(model);
         modelCopy.contents.push(itemCopy);
         dispatch({
             type: SET_OAT_PROPERTY_EDITOR_MODEL,
