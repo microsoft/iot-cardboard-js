@@ -322,7 +322,7 @@ export const getPropertyInspectorStyles = () => {
             classNames.propertyItem,
             {
                 display: 'grid',
-                gridTemplateColumns: '0% 60% 20% 10% 10%',
+                gridTemplateColumns: '0% 55% 25% 10% 10%',
                 width: '100%',
                 backgroundColor: theme.semanticColors.listBackground,
                 alignItems: 'center',
@@ -376,7 +376,7 @@ export const getPropertyInspectorStyles = () => {
             classNames.propertyItemNested,
             {
                 display: 'grid',
-                gridTemplateColumns: '10% 50% 20% 10% 10%',
+                gridTemplateColumns: '10% 45% 25% 10% 10%',
                 width: '100%',
                 backgroundColor: theme.semanticColors.buttonBackgroundDisabled,
                 alignItems: 'center',
@@ -391,7 +391,7 @@ export const getPropertyInspectorStyles = () => {
             classNames.propertyItemNestMainItem,
             {
                 display: 'grid',
-                gridTemplateColumns: '10% 50% 20% 10% 10%',
+                gridTemplateColumns: '10% 45% 25% 10% 10%',
                 width: '100%',
                 alignItems: 'center',
                 paddingBottom: '12px',

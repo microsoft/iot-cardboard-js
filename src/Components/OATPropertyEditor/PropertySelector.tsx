@@ -36,6 +36,7 @@ import { SET_OAT_PROPERTY_EDITOR_MODEL } from '../../Models/Constants/ActionType
 import { IAction } from '../../Models/Constants/Interfaces';
 import { deepCopy } from '../../Models/Services/Utils';
 
+const ASCII_VALUE_BEFORE_LOWERCASE_ALPHABET = 96;
 interface IProperySelectorProps {
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
     lastPropertyFocused: any;
@@ -169,9 +170,11 @@ const PropertySelector = ({
         const modelCopy = deepCopy(model);
         const schemaCopy = deepCopy(lastPropertyFocused.item.schema);
         schemaCopy.fields.push({
-            name: `${lastPropertyFocused.item.name}_${
-                schemaCopy.fields.length + 1
-            }`,
+            name: `${t('OATPropertyEditor.property')}_${String.fromCharCode(
+                ASCII_VALUE_BEFORE_LOWERCASE_ALPHABET +
+                    schemaCopy.fields.length +
+                    1
+            )}`,
             schema: tag
         });
 
