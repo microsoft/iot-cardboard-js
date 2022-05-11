@@ -20,6 +20,7 @@ export interface ISceneViewWrapperStyleProps {
 }
 export interface ISceneViewWrapperStyles {
     root: IStyle;
+    centerHeaderControlsContainer: IStyle;
     leftHeaderControlsContainer: IStyle;
 
     /**

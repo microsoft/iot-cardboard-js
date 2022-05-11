@@ -45,6 +45,17 @@ import {
 } from '../../Models/Context/DeeplinkContext/DeeplinkContext';
 import { DeeplinkContextActionType } from '../../Models/Context/DeeplinkContext/DeeplinkContext.types';
 import ViewerElementsPanelRenderer from '../ViewerElementsPanelRenderer/ViewerElementsPanelRenderer';
+import { classNamesFunction, styled, useTheme } from '@fluentui/react';
+import { getStyles } from './ADT3DViewer.styles';
+import {
+    IADT3DViewerStyleProps,
+    IADT3DViewerStyles
+} from './ADT3DViewer.types';
+
+const getClassNames = classNamesFunction<
+    IADT3DViewerStyleProps,
+    IADT3DViewerStyles
+>();
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('ADT3DViewer', debugLogging);
@@ -67,7 +78,8 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
     zoomToElementId: zoomToElementIdProp,
     unzoomedMeshOpacity,
     hideElementsPanel,
-    hideViewModePickerUI
+    hideViewModePickerUI,
+    styles
 }) => {
     // hooks
     const { deeplinkState, deeplinkDispatch } = useDeeplinkContext();
@@ -88,6 +100,10 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
     const selectedMesh = useRef(null);
     const sceneRef = useRef(null);
     const isDeeplinkContextLoaded = useRef(false);
+
+    // styles
+    const fluentTheme = useTheme();
+    const classNames = getClassNames(styles, { theme: fluentTheme });
 
     // --- State setup ---
     const [coloredMeshItems, setColoredMeshItems] = useState<CustomMeshItem[]>(
@@ -477,6 +493,7 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
             isLoading={isLoading && !sceneVisuals}
             theme={theme}
             locale={locale}
+            containerClassName={classNames.root}
         >
             <div id={sceneWrapperId} className="cb-adt-3dviewer-wrapper">
                 <ViewerElementsPanelRenderer
@@ -517,7 +534,7 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
                             : undefined
                     }}
                 />
-                <div className="cb-layer-dropdown-container">
+                <div className={classNames.layersDropdown}>
                     <LayerDropdown
                         layers={layersInScene}
                         selectedLayerIds={deeplinkState.selectedLayerIds}
@@ -578,4 +595,8 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = (
     );
 };
 
-export default withErrorBoundary(ADT3DViewer);
+export default styled<
+    IADT3DViewerProps,
+    IADT3DViewerStyleProps,
+    IADT3DViewerStyles
+>(withErrorBoundary(ADT3DViewer), getStyles);

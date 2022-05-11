@@ -1,3 +1,4 @@
+import { VIEWER_HEADER_TOP_OFFSET } from '../../Models/Constants/StyleConstants';
 import {
     ISceneViewWrapperStyleProps,
     ISceneViewWrapperStyles
@@ -7,6 +8,8 @@ const classPrefix = 'cb-scene-view-wrapper';
 
 const classNames = {
     root: `${classPrefix}-root`,
+    centerHeader: `${classPrefix}-center-header-controls`,
+    leftHeader: `${classPrefix}-left-header-controls`,
     button: `${classPrefix}-button`,
     callout: `${classPrefix}-callout`,
     calloutCheckbox: `${classPrefix}-callout-checkbox`,
@@ -16,18 +19,18 @@ const classNames = {
 export const getStyles = (
     _props: ISceneViewWrapperStyleProps
 ): ISceneViewWrapperStyles => {
-    // const { theme } = props;
     return {
         /** provide a hook for custom styling by consumers */
-        root: [classNames.root, {}],
-        leftHeaderControlsContainer: [''],
+        root: [classNames.root],
+        centerHeaderControlsContainer: [classNames.centerHeader],
+        leftHeaderControlsContainer: [classNames.leftHeader],
         subComponentStyles: {
             leftHeaderControlsStack: {
                 root: {
                     alignItems: 'center',
                     left: 20,
                     position: 'absolute',
-                    top: 10,
+                    top: VIEWER_HEADER_TOP_OFFSET,
                     zIndex: 1
                 }
             },
@@ -36,7 +39,7 @@ export const getStyles = (
                     position: 'absolute',
                     display: 'flex',
                     width: '100%',
-                    top: 10
+                    top: VIEWER_HEADER_TOP_OFFSET
                 }
             }
         }
