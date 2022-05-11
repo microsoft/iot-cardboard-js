@@ -161,8 +161,6 @@
     "blobUrl": "URL för 3D-filblob",
     "addDialogTitle": "Skapa en ny scen",
     "addDialogSubText": "Länka din scen med URL:en för din 3D-fil i bloblagring",
-    "sceneLatitude": "Breddgrad",
-    "sceneLongitude": "Longitud",
     "editDialogTitle": "Redigera scen",
     "editDialogSubText": "Redigera namnet och den länkade 3D-filen för din scen",
     "3dFileSelectionMode": "3D-filvalsläge",
