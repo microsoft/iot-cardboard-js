@@ -177,8 +177,8 @@ function SceneView(props: ISceneViewProps, ref) {
     const meshesAreOriginal = useRef(true);
     const reflectionTexture = useRef<BABYLON.Texture>(null);
     const outlinedMeshes = useRef<BABYLON.AbstractMesh[]>([]);
-    const clonedHighlightMeshes = useRef<BABYLON.AbstractMesh[]>([]);
-    const highlightLayer = useRef<HighlightLayer>(null);
+    //const clonedHighlightMeshes = useRef<BABYLON.AbstractMesh[]>([]);
+    //const highlightLayer = useRef<HighlightLayer>(null);
     const badgeGroupsRef = useRef<any[]>([]);
     const [currentObjectColor, setCurrentObjectColor] = useState(
         DefaultViewerModeObjectColor
@@ -837,7 +837,7 @@ function SceneView(props: ISceneViewProps, ref) {
                     'hover',
                     sceneRef.current
                 );
-                hovMaterial.current.diffuseColor = BABYLON.Color3.FromHexString(
+                hovMaterial.current.diffuseColor = BABYLON.Color4.FromHexString(
                     currentObjectColor.meshHoverColor
                 );
 
@@ -845,18 +845,18 @@ function SceneView(props: ISceneViewProps, ref) {
                     'colHov',
                     sceneRef.current
                 );
-                coloredHovMaterial.current.diffuseColor = BABYLON.Color3.FromHexString(
+                coloredHovMaterial.current.diffuseColor = BABYLON.Color4.FromHexString(
                     currentObjectColor.coloredMeshHoverColor
                 );
 
-                highlightLayer.current = new BABYLON.HighlightLayer(
-                    'hl1',
-                    sceneRef.current,
-                    {
-                        blurHorizontalSize: 0.5,
-                        blurVerticalSize: 0.5
-                    }
-                );
+                // highlightLayer.current = new BABYLON.HighlightLayer(
+                //     'hl1',
+                //     sceneRef.current,
+                //     {
+                //         blurHorizontalSize: 0,
+                //         blurVerticalSize: 0
+                //     }
+                // );
 
                 const light = new BABYLON.HemisphericLight(
                     'light',
@@ -1363,7 +1363,7 @@ function SceneView(props: ISceneViewProps, ref) {
                 };
 
                 const transition = 250;
-                const interval = 500;
+                const interval = 2000;
                 let elapsed = 0;
 
                 const transitionNrm = function () {
@@ -1380,13 +1380,13 @@ function SceneView(props: ISceneViewProps, ref) {
                                         meshMap.current?.[
                                             coloredMeshGroup.meshId
                                         ];
-                                    const transitionColor = BABYLON.Color3.Lerp(
-                                        BABYLON.Color3.FromHexString(
+                                    const transitionColor = BABYLON.Color4.Lerp(
+                                        hexToColor4(
                                             coloredMeshGroup.colors[
                                                 coloredMeshGroup.currentColor
                                             ]
                                         ),
-                                        BABYLON.Color3.FromHexString(
+                                        hexToColor4(
                                             coloredMeshGroup.colors[
                                                 nextColor(
                                                     coloredMeshGroup.currentColor,
@@ -1472,39 +1472,68 @@ function SceneView(props: ISceneViewProps, ref) {
         coloredMaterials.current[mesh.id] = material;
     };
 
+    const updateOutlineWidths = () => {
+        //if (!outlinedMeshes) return;
+        for (const mesh of outlinedMeshes.current) {
+            mesh.outlineWidth =
+                BABYLON.Vector3.Distance(
+                    cameraRef.current.position,
+                    mesh.position
+                ) * 10;
+        }
+    };
     // Handle outlinedMeshItems
     useEffect(() => {
         debugLog('debug', 'Outline Mesh effect');
         if (outlinedMeshitems) {
             for (const item of outlinedMeshitems) {
-                let meshToOutline: BABYLON.Mesh =
+                const meshToOutline: BABYLON.Mesh =
                     meshMap.current?.[item.meshId];
                 if (meshToOutline) {
                     try {
-                        if (currentObjectColor.lightingStyle > 0) {
-                            //Alpha_ADD blended meshes do not work well with highlight layers.
-                            //If we are alpha blending, we will duplicate the mesh, highlight the duplicate and overlay it to properly layer the highlight
-                            const clone = meshToOutline.clone(
-                                '',
-                                null,
-                                true,
-                                false
-                            );
-                            clone.material = outlineMaterial(sceneRef.current);
-                            clone.alphaIndex = 2;
-                            clone.isPickable = false;
-                            clonedHighlightMeshes.current.push(clone);
-                            sceneRef.current.meshes.push(clone);
-                            meshToOutline = clone;
-                        }
-                        highlightLayer.current.addMesh(
-                            meshToOutline,
-                            ToColor3(
-                                hexToColor4(
-                                    item.color
-                                        ? item.color
-                                        : currentObjectColor.outlinedMeshSelectedColor
-                                )
+                        // if (currentObjectColor.lightingStyle > 0) {
+                        //     //Alpha_ADD blended meshes do not work well with highlight layers.
+                        //     //If we are alpha blending, we will duplicate the mesh, highlight the duplicate and overlay it to properly layer the highlight
+                        //     const clone = meshToOutline.clone(
+                        //         '',
+                        //         null,
+                        //         true,
+                        //         false
+                        //     );
+                        //     clone.material = outlineMaterial(sceneRef.current);
+                        //     clone.alphaIndex = 2;
+                        //     clone.isPickable = false;
+                        //     clonedHighlightMeshes.current.push(clone);
+                        //     sceneRef.current.meshes.push(clone);
+                        //     meshToOutline = clone;
+                        // }
+                        // highlightLayer.current.addMesh(
+                        //     meshToOutline,
+                        //     ToColor3(
+                        //         hexToColor4(
+                        //             item.color
+                        //                 ? item.color
+                        //                 : currentObjectColor.outlinedMeshSelectedColor
+                        //         )
+                        //     )
+                        // );
+
+                        meshToOutline.renderOutline = true;
+                        meshToOutline.onBeforeRenderObservable.clear();
+                        meshToOutline.onBeforeRenderObservable.add(() => {
+                            meshToOutline.outlineWidth =
+                                BABYLON.Vector3.Distance(
+                                    cameraRef.current.position,
+                                    meshToOutline.getBoundingInfo().boundingBox
+                                        .centerWorld
+                                ) * 0.5;
+                        });
+
+                        meshToOutline.outlineColor = ToColor3(
+                            hexToColor4(
+                                item.color
+                                    ? item.color
+                                    : currentObjectColor.outlinedMeshSelectedColor
                             )
                         );
 
@@ -1519,22 +1548,23 @@ function SceneView(props: ISceneViewProps, ref) {
         return () => {
             debugLog('debug', 'Outline Mesh cleanup');
             for (const mesh of outlinedMeshes.current) {
-                highlightLayer.current.removeMesh(mesh as BABYLON.Mesh);
+                mesh.renderOutline = false;
             }
-            //This array keeps growing in length even though it is completely emptied during cleanup...
-            //Is this best practice for resetting an array?
+
+            // //This array keeps growing in length even though it is completely emptied during cleanup...
+            // //Is this best practice for resetting an array?
             outlinedMeshes.current = [];
 
-            //If we have cloned meshes for highlight, delete them
-            if (clonedHighlightMeshes.current) {
-                for (const mesh of clonedHighlightMeshes.current) {
-                    mesh?.dispose();
-                    //Assume that all new meshes are highlight clones and decrement the scene mesh array after disposal to prevent overflow
-                    if (sceneRef.current?.meshes)
-                        sceneRef.current.meshes.length--;
-                }
-                clonedHighlightMeshes.current = [];
-            }
+            // //If we have cloned meshes for highlight, delete them
+            // if (clonedHighlightMeshes.current) {
+            //     for (const mesh of clonedHighlightMeshes.current) {
+            //         mesh?.dispose();
+            //         //Assume that all new meshes are highlight clones and decrement the scene mesh array after disposal to prevent overflow
+            //         if (sceneRef.current?.meshes)
+            //             sceneRef.current.meshes.length--;
+            //     }
+            //     clonedHighlightMeshes.current = [];
+            // }
         };
     }, [outlinedMeshitems, meshMap.current]);
 

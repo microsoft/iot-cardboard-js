@@ -47,51 +47,64 @@ export function makeStandardMaterial(
         fresnelColor?.g,
         fresnelColor?.b
     );
+    const isTransparent = baseColor.a < 1;
     if (!lightingStyle) lightingStyle = 0;
 
     //diffuse
     material.diffuseColor = baseColor3;
 
-    //If translucent, set emissive settings
-    if (lightingStyle >= 1) {
-        material.disableLighting = true;
-        material.specularPower = 0;
-        material.roughness = 100;
-        material.emissiveColor = BABYLON.Color3.White();
-
-        material.emissiveFresnelParameters = new BABYLON.FresnelParameters();
-        material.emissiveFresnelParameters.leftColor = fresnelColor3;
-        material.emissiveFresnelParameters.rightColor = baseColor3;
-        material.emissiveFresnelParameters.power = 2;
-        material.emissiveFresnelParameters.bias = 0.2;
-
-        material.useEmissiveAsIllumination = true;
-    }
-
-    //diffuse fresnel
-    if (fresnelColor && lightingStyle == 0) {
-        material.diffuseFresnelParameters = new BABYLON.FresnelParameters();
-        material.diffuseFresnelParameters.leftColor = fresnelColor3;
-        material.diffuseFresnelParameters.rightColor = baseColor3;
-        material.diffuseFresnelParameters.bias = 4.0;
-        material.diffuseFresnelParameters.power = 4.5;
-    }
-
-    //Alpha and alphamode
-    material.backFaceCulling = baseColor.a >= 1;
     material.alpha = baseColor.a;
-    material.alphaMode = selectAlphaMode(baseColor.a);
 
-    //Reflection map
-    if (reflectionTexture) {
-        material.reflectionTexture = reflectionTexture;
-        material.useReflectionOverAlpha = lightingStyle !== 0;
-        material.reflectionFresnelParameters = new BABYLON.FresnelParameters();
-        material.reflectionFresnelParameters.leftColor = BABYLON.Color3.White();
-        material.reflectionFresnelParameters.rightColor = BABYLON.Color3.Black();
-        material.reflectionFresnelParameters.bias = 0.3;
-        material.reflectionFresnelParameters.power = 0.2;
+    material.backFaceCulling = !isTransparent;
+
+    if (isTransparent) {
+        material.specularPower = 0;
+    } else {
+        material.emissiveColor = baseColor3;
+        material.useEmissiveAsIllumination = true;
+        material.disableLighting = true;
     }
+
+    // //If translucent, set emissive settings
+    // if (lightingStyle >= 1) {
+    //     material.disableLighting = true;
+    //     material.specularPower = 0;
+    //     material.roughness = 100;
+    //     material.emissiveColor = BABYLON.Color3.White();
+
+    //     material.emissiveFresnelParameters = new BABYLON.FresnelParameters();
+    //     material.emissiveFresnelParameters.leftColor = fresnelColor3;
+    //     material.emissiveFresnelParameters.rightColor = baseColor3;
+    //     material.emissiveFresnelParameters.power = 2;
+    //     material.emissiveFresnelParameters.bias = 0.2;
+
+    //     material.useEmissiveAsIllumination = true;
+    // }
+
+    // //diffuse fresnel
+    // if (fresnelColor && lightingStyle == 0) {
+    //     material.diffuseFresnelParameters = new BABYLON.FresnelParameters();
+    //     material.diffuseFresnelParameters.leftColor = fresnelColor3;
+    //     material.diffuseFresnelParameters.rightColor = baseColor3;
+    //     material.diffuseFresnelParameters.bias = 4.0;
+    //     material.diffuseFresnelParameters.power = 4.5;
+    // }
+
+    // //Alpha and alphamode
+    // material.backFaceCulling = baseColor.a >= 1;
+    // material.alpha = baseColor.a;
+    // material.alphaMode = selectAlphaMode(baseColor.a);
+
+    // //Reflection map
+    // if (reflectionTexture) {
+    //     material.reflectionTexture = reflectionTexture;
+    //     material.useReflectionOverAlpha = lightingStyle !== 0;
+    //     material.reflectionFresnelParameters = new BABYLON.FresnelParameters();
+    //     material.reflectionFresnelParameters.leftColor = BABYLON.Color3.White();
+    //     material.reflectionFresnelParameters.rightColor = BABYLON.Color3.Black();
+    //     material.reflectionFresnelParameters.bias = 0.3;
+    //     material.reflectionFresnelParameters.power = 0.2;
+    // }
 
     return material;
 }

@@ -126,16 +126,16 @@ export const ViewerModeObjectColors: IADTObjectColor[] = [
     },
     //Blue
     {
-        color: '#0000FF',
+        color: '#0000DD',
         baseColor: '#368DFF1A',
         fresnelColor: '#d5e7ff4D',
         lightingStyle: 1,
         coloredMeshColor: '#00A8F055',
         meshHoverColor: '#F3FF1455',
         coloredMeshHoverColor: '#00EDD955',
-        outlinedMeshHoverColor: '#00A8F0FF',
-        outlinedMeshSelectedColor: '#f06900FF',
-        outlinedMeshHoverSelectedColor: '#ffb780FF',
+        outlinedMeshHoverColor: '#00A8F0DD',
+        outlinedMeshSelectedColor: '#f06900DD',
+        outlinedMeshHoverSelectedColor: '#ffb780DD',
         reflectionTexture: null
     },
     //Gold
