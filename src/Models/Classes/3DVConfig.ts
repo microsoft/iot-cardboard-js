@@ -1,3 +1,9 @@
+import produce from 'immer';
+import {
+    defaultSwatchColors,
+    defaultSwatchIcons
+} from '../../Theming/Palettes';
+import { createGUID } from '../Services/Utils';
 import {
     IBehavior,
     IExpressionRangeVisual,
@@ -85,10 +91,27 @@ export const defaultAlertVisual: IExpressionRangeVisual = {
     type: VisualType.ExpressionRangeVisual,
     expressionType: 'CategoricalValues',
     valueExpression: '',
-    valueRanges: [],
+    valueRanges: [
+        {
+            id: '',
+            values: [true],
+            visual: {
+                color: defaultSwatchColors[0].item,
+                iconName: defaultSwatchIcons[0].item,
+                labelExpression: ''
+            }
+        }
+    ],
     objectIDs: {
         expression: 'objectIDs'
     }
+};
+
+export const getUIDDefaultAlertVisual = () => {
+    const uniqueIdDefaultAlertVisual = produce(defaultAlertVisual, (draft) => {
+        draft.valueRanges[0].id = createGUID();
+    });
+    return uniqueIdDefaultAlertVisual;
 };
 
 export const defaultGaugeWidget: IGaugeWidget = {

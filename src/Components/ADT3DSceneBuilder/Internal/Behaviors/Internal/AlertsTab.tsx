@@ -2,8 +2,8 @@ import produce from 'immer';
 import React, { useCallback, useContext, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
-    IAlertVisual,
-    IBehavior
+    IBehavior,
+    IExpressionRangeVisual
 } from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import {
     IStackTokens,
@@ -17,7 +17,7 @@ import {
     defaultSwatchColors,
     defaultSwatchIcons
 } from '../../../../../Theming/Palettes';
-import { defaultAlertVisual } from '../../../../../Models/Classes/3DVConfig';
+import { getUIDDefaultAlertVisual } from '../../../../../Models/Classes/3DVConfig';
 import { deepCopy } from '../../../../../Models/Services/Utils';
 import ColorPicker from '../../../../Pickers/ColorSelectButton/ColorPicker';
 import { IPickerOption } from '../../../../Pickers/Internal/Picker.base.types';
@@ -51,19 +51,33 @@ const AlertsTab: React.FC = () => {
         sceneId,
         state: { selectedElements }
     } = useContext(SceneBuilderContext);
-    const alertVisualStateRef = useRef<IAlertVisual>(
-        getAlertFromBehavior(behaviorToEdit) || defaultAlertVisual
+
+    const alertVisualStateRef = useRef<IExpressionRangeVisual>(
+        getAlertFromBehavior(behaviorToEdit) || getUIDDefaultAlertVisual()
     );
 
-    const setProperty = useCallback(
-        (propertyName: keyof IAlertVisual, value: string) => {
+    const getAndCreateIfNotExistsAlertVisual = (draft: IBehavior) => {
+        // Assuming only 1 alert visual per behavior
+        const alertVisual = getAlertFromBehavior(draft);
+
+        if (alertVisual) {
+            return alertVisual;
+        } else {
+            const alertVisual = alertVisualStateRef.current;
+            draft.visuals.push(alertVisual);
+        }
+    };
+
+    const onExpressionChange = useCallback(
+        (newPropertyExpression: PropertyExpression) =>
             setBehaviorToEdit(
                 produce((draft) => {
-                    // Assuming only 1 alert visual per behavior
-                    const alertVisual = getAlertFromBehavior(draft);
+                    const alertVisual = getAndCreateIfNotExistsAlertVisual(
+                        draft
+                    );
 
-                    // If clearing out trigger expression
-                    if (propertyName === 'triggerExpression' && value === '') {
+                    // If clearing out expression
+                    if (newPropertyExpression.expression === '') {
                         // Remove visual from behavior
                         if (alertVisual) {
                             const avIdx = draft.visuals.indexOf(alertVisual);
@@ -71,56 +85,63 @@ const AlertsTab: React.FC = () => {
 
                             // Backup current state of alert visual form
                             alertVisualStateRef.current = deepCopy(alertVisual);
-                            alertVisual.triggerExpression = '';
+                            alertVisual.valueExpression = '';
                         }
                     } else {
-                        // Edit flow
-                        if (alertVisual) {
-                            alertVisual[propertyName] = value as any;
-                        } else {
-                            const alertVisual = alertVisualStateRef.current;
-                            alertVisual[propertyName] = value as any;
-                            draft.visuals.push(alertVisual);
-                        }
+                        alertVisual.valueExpression =
+                            newPropertyExpression.expression;
                     }
                 })
-            );
-        },
-        [setBehaviorToEdit, alertVisualStateRef.current]
-    );
-
-    const onExpressionChange = useCallback(
-        (newPropertyExpression: PropertyExpression) =>
-            setProperty('triggerExpression', newPropertyExpression.expression),
-        [setProperty]
+            ),
+        [setBehaviorToEdit]
     );
 
     const onColorChange = useCallback(
-        (newValue: IPickerOption) => {
-            setProperty('color', newValue.item);
-        },
-        [setProperty]
+        (newValue: IPickerOption) =>
+            setBehaviorToEdit(
+                produce((draft) => {
+                    const alertVisual = getAndCreateIfNotExistsAlertVisual(
+                        draft
+                    );
+                    alertVisual.valueRanges[0].visual.color = newValue.item;
+                })
+            ),
+        [setBehaviorToEdit]
     );
 
     const onIconChange = useCallback(
-        (newValue: IPickerOption) => {
-            setProperty('iconName', newValue.item);
-        },
-        [setProperty]
+        (newValue: IPickerOption) =>
+            setBehaviorToEdit(
+                produce((draft) => {
+                    const alertVisual = getAndCreateIfNotExistsAlertVisual(
+                        draft
+                    );
+                    alertVisual.valueRanges[0].visual.iconName = newValue.item;
+                })
+            ),
+        [setBehaviorToEdit]
     );
 
     const onNoteChange = useCallback(
-        (_e: any, newValue: string) => {
-            setProperty('labelExpression', newValue);
-        },
-        [setProperty]
+        (_e: any, newValue: string) =>
+            setBehaviorToEdit(
+                produce((draft) => {
+                    const alertVisual = getAndCreateIfNotExistsAlertVisual(
+                        draft
+                    );
+                    alertVisual.valueRanges[0].visual.labelExpression = newValue;
+                })
+            ),
+        [setBehaviorToEdit]
     );
 
     // we only grab the first alert in the collection
     const alertVisual = getAlertFromBehavior(behaviorToEdit);
-    const color = alertVisual?.color;
-    const icon = alertVisual?.iconName;
-    const expression = alertVisual?.triggerExpression;
+    const color = alertVisual.valueRanges[0]?.visual?.color;
+    const icon = alertVisual.valueRanges[0]?.visual?.iconName;
+    const notificationExpression =
+        alertVisual.valueRanges[0]?.visual?.labelExpression;
+    const expression = alertVisual?.valueExpression;
     const theme = useTheme();
     const commonPanelStyles = getLeftPanelStyles(theme);
 
@@ -171,7 +192,7 @@ const AlertsTab: React.FC = () => {
                                 paddingBottom: 4
                             }
                         }}
-                        value={alertVisual.labelExpression}
+                        value={notificationExpression}
                     />
                 </>
             )}
