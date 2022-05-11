@@ -300,7 +300,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
             />
             {widgetFormInfo.mode === WidgetFormMode.CreateWidget ||
             widgetFormInfo.mode === WidgetFormMode.EditWidget ? (
-                <WidgetForm selectedElements={selectedElements} />
+                <WidgetForm />
             ) : behaviorTwinAliasFormInfo ? (
                 <BehaviorTwinAliasForm
                     selectedElements={selectedElements}
@@ -399,7 +399,6 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                             >
                                 <StatusTab
                                     onValidityChange={onTabValidityChange}
-                                    selectedElements={selectedElements}
                                 />
                             </PivotItem>
                             <PivotItem
@@ -415,9 +414,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                                     )
                                 }
                             >
-                                <AlertsTab
-                                    selectedElements={selectedElements}
-                                />
+                                <AlertsTab />
                             </PivotItem>
                             <PivotItem
                                 className={commonPanelStyles.formTabContents}

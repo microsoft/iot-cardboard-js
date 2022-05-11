@@ -1,8 +1,9 @@
-import { linkedTwinName } from '../../Models/Constants';
+import { primaryTwinName } from '../../Models/Constants';
 import { IModelledPropertyBuilderAdapter } from '../../Models/Constants/Interfaces';
 import {
     I3DScenesConfig,
-    IBehavior
+    IBehavior,
+    ITwinToObjectMapping
 } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 
 export type ModelledPropertyBuilderMode =
@@ -14,11 +15,14 @@ export interface BehaviorTwinIdParams {
     /** The behavior to derive primary & aliased Ids from */
     behavior: IBehavior;
 
-    /** The 3D scenes configuration files for accessing elements linked & aliased twins */
+    /** The 3D scenes configuration files for accessing elements primary & aliased twins */
     config: I3DScenesConfig;
 
     /** The active scene context -- used to limit the element matching to the current scene */
     sceneId: string;
+
+    /** Currently selected elements (these elements include latest alias ID data) */
+    selectedElements: ITwinToObjectMapping[];
 
     /** Optional flag to disable inclusion of twin aliases (default to false) */
     disableAliasedTwins?: boolean;
@@ -58,11 +62,24 @@ export interface ModelledPropertyBuilderProps {
     /** Show 'None' option in dropdown */
     enableNoneDropdownOption?: boolean;
 
+    /** Test ID for property select dropdown */
+    dropdownTestId?: string;
+
+    /** Custom text for intellisense placeholder */
+    intellisensePlaceholder?: string;
+
     /** 
 		Allows consumer to only allow specific property value types.
 		Defaults to all value types.
 	*/
     allowedPropertyValueTypes?: Array<PropertyValueType>;
+
+    /**
+     * Callback which fires when internal mode is changed
+     * This will also call on intial mode selection to ensure
+     * the consuming component is in sync with the internal mode
+     */
+    onInternalModeChanged?: (internalMode: ModelledPropertyBuilderMode) => void;
 
     /** 
         Reports back property or expression to consuming component when changed.
@@ -98,7 +115,7 @@ export interface IModelledProperties {
 }
 
 export interface ITagModelMap {
-    [linkedTwinName]: string[];
+    [primaryTwinName]: string[];
     aliasTags?: Record<string, string>;
 }
 
@@ -132,6 +149,13 @@ export const defaultAllowedPropertyValueTypes: PropertyValueType[] = [
     'string',
     'time',
     'enum'
+];
+
+export const numericPropertyValueTypes: PropertyValueType[] = [
+    'double',
+    'float',
+    'integer',
+    'long'
 ];
 
 export const isResolvedTwinIdMode = (

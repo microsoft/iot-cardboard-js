@@ -403,8 +403,8 @@
         "addBehaviorToScene": "Add behavior to scene",
         "behaviorMetaText": "{{numElementsInActiveScene}} elements, {{numSceneRefs}} scenes",
         "elementMetaText": "{{numBehaviors}} behaviors",
-        "linkedTwin": "Linked twin",
-        "linkedTwinInputInfo": "Enter twin ID ($dtId) to link with this element (case sensitive)",
+        "primaryTwin": "Primary twin",
+        "primaryTwinInputInfo": "Enter twin ID ($dtId) to link with this element (case sensitive)",
         "noMeshAddedText": "No meshes added yet, please select meshes in 3D viewer",
         "meshes": "Meshes",
         "behaviorElementsDropdownLabel": "Target element",
@@ -412,7 +412,7 @@
         "behaviorAlertForm": {
             "colorPickerLabel": "Badge color",
             "expressionLabel": "Trigger expression",
-            "expressionPlaceholder": "Enter expression (eg LinkedTwin.InFlow > 3)",
+            "expressionPlaceholder": "Enter expression (eg PrimaryTwin.InFlow > 3)",
             "iconPickerLabel": "Badge icon",
             "notice": "This behavior will be enabled only when the below trigger expression evaluates to true.",
             "notificationLabel": "Notification text",
@@ -432,8 +432,8 @@
         "ModelledPropertyBuilder": {
             "expressionLabel": "Property expression",
             "expressionPlaceholder": "Enter property expression",
-            "selectProperty": "Select property",
-            "customExpression": "Custom expression",
+            "singleProperty": "Single property",
+            "customExpression": "Custom (advanced)",
             "dropdownPlaceholder": "Select a property",
             "toggleLabel": "Expression mode",
             "none": "None"
@@ -455,13 +455,13 @@
         "expression": "Expression",
         "warningBreakPointToggleLabel": "Enable color break point",
         "warningBreakPointLabel": "Warning color break point",
-        "linkWidgetUrlDescription": "Link widget URL supports JavaScript template string formatting such as: ${LinkedTwin.property}",
+        "linkWidgetUrlDescription": "Link widget URL supports JavaScript template string formatting such as: ${PrimaryTwin.property}",
         "behaviorTypes": {
             "alertBehavior": "Alert behavior",
             "statusBehavior": "Status behavior"
         },
         "notImplemented": "Not implemented",
-        "noLinkedTwinProperties": "No linked twin properties to display",
+        "noPrimaryTwinProperties": "No primary twin properties to display",
         "twinAlias": {
             "title": "Twin alias",
             "titlePlural": "Twin aliases",
@@ -487,9 +487,9 @@
             },
             "descriptions": {
                 "twins": "Twins give you access to properties which can be used in expressions.",
-                "linkedTwin": "The LinkedTwin contains all properties in common between the target elements linked twins.",
+                "primaryTwin": "The PrimaryTwin contains all properties in common between the target elements primary twins.",
                 "aliasChangeNotAllowed": "Alias change is not allowed after creation.",
-                "commonProperties": "The union of linked twin properties of selected elements"
+                "commonProperties": "The union of primary twin properties of selected elements"
             },
             "errors": {
                 "twinAliasAlreadyExists": "Twin alias with the same name already exists, consider adding it instead."
@@ -508,7 +508,7 @@
         "link": {
             "title": "Link widget",
             "description": "Reference external content by linking a URL",
-            "urlPlaceholder": "https://mypowerbi.biz/${LinkedTwin.$dtId}",
+            "urlPlaceholder": "https://mypowerbi.biz/${PrimaryTwin.myproperty}",
             "openLink": "Open link"
         },
         "value": {
@@ -725,7 +725,7 @@
         "state": "State",
         "allProperties": "All properties",
         "behaviorPreview": "Preview",
-        "LinkedTwinProperties": "Linked Twin properties"
+        "PrimaryTwinProperties": "Primary Twin properties"
     },
     "svgTests": {
         "fluentUI": "SVG loading via Fluent Image component (recommended pattern)",

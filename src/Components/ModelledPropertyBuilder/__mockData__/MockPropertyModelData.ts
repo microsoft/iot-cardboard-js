@@ -20,7 +20,7 @@ export const config: I3DScenesConfig = {
                         type: 'TwinToObjectMapping',
                         id: '37707f49068935a8f1f0a8f03f957460',
                         displayName: 'Tesla',
-                        linkedTwinID: 'Tesla',
+                        primaryTwinID: 'Tesla',
                         objectIDs: [
                             'Mesh3 LKHP_40_15_254TC2 Centrifugal_Pumps2 Model',
                             'Mesh4 LKHP_40_15_254TC3 Centrifugal_Pumps2 Model'
@@ -34,7 +34,7 @@ export const config: I3DScenesConfig = {
                         type: 'TwinToObjectMapping',
                         id: 'f6e98b086fc5759c39cbcd94f24277bb',
                         displayName: 'PasteurizationMachine_A02',
-                        linkedTwinID: 'PasteurizationMachine_A02',
+                        primaryTwinID: 'PasteurizationMachine_A02',
                         objectIDs: [
                             'Mesh2 LKHP_40_15_254TC1 Centrifugal_Pumps1 Model',
                             'Mesh6 LKHP_40_15_254TC5 Centrifugal_Pumps3 Model'
@@ -62,7 +62,7 @@ export const config: I3DScenesConfig = {
                         type: 'TwinToObjectMapping',
                         id: '675dc118e97acd4821fa06e2de984ddb',
                         displayName: 'SaltMachine_C2',
-                        linkedTwinID: 'SaltMachine_C2',
+                        primaryTwinID: 'SaltMachine_C2',
                         objectIDs: ['Mesh_0.719', 'Mesh_0.723', 'Mesh_0.724']
                     }
                 ],
@@ -85,7 +85,7 @@ export const config: I3DScenesConfig = {
                 visuals: [
                     {
                         type: 'StatusColoring',
-                        statusValueExpression: 'LinkedTwin.InFlow',
+                        statusValueExpression: 'PrimaryTwin.InFlow',
                         valueRanges: [
                             {
                                 color: '#33A1FD',

@@ -14,17 +14,19 @@ import {
 export const modelledPropertyBuilderClassPrefix = 'cb-modelledpropertybuilder';
 
 const classNames = {
-    radioContainer: `${modelledPropertyBuilderClassPrefix}-radio-container`,
-    dropdownTitleText: `${modelledPropertyBuilderClassPrefix}-dropdown-title-text`
+    toggleContainer: `${modelledPropertyBuilderClassPrefix}-toggle-container`,
+    dropdownTitleText: `${modelledPropertyBuilderClassPrefix}-dropdown-title-text`,
+    loadingSpinnerContainer: `${modelledPropertyBuilderClassPrefix}-loading-spinner-container`,
+    labelContainer: `${modelledPropertyBuilderClassPrefix}-label-container`
 };
 
 export const getStyles = memoizeFunction(() => {
     return mergeStyleSets({
-        radioContainer: [
-            classNames.radioContainer,
+        toggleContainer: [
+            classNames.toggleContainer,
             {
                 display: 'flex',
-                justifyContent: 'flex-start',
+                justifyContent: 'space-between',
                 alignItems: 'center'
             } as IStyle
         ],
@@ -34,6 +36,23 @@ export const getStyles = memoizeFunction(() => {
                 overflow: 'hidden',
                 whiteSpace: 'nowrap',
                 textOverflow: 'ellipsis'
+            } as IStyle
+        ],
+        loadingSpinnerContainer: [
+            classNames.loadingSpinnerContainer,
+            {
+                width: 24,
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center'
+            } as IStyle
+        ],
+        labelContainer: [
+            classNames.labelContainer,
+            {
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center'
             } as IStyle
         ]
     });
@@ -69,6 +88,8 @@ export const choiceGroupOptionStyles: Partial<IChoiceGroupOptionStyles> = {
 export const propertyExpressionLabelStyles: Partial<ILabelStyles> = {
     root: {
         fontWeight: FontWeights.semibold,
-        fontSize: FontSizes.size14
+        fontSize: FontSizes.size14,
+        paddingBottom: 0,
+        paddingTop: 5
     }
 };

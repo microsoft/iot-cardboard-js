@@ -249,7 +249,9 @@ const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = (props) => {
                         backgroundColors={ViewerModeBackgroundColors}
                     />
                 )}
-                {wrapperMode === WrapperMode.Viewer && <DeeplinkFlyout />}
+                {wrapperMode === WrapperMode.Viewer && (
+                    <DeeplinkFlyout mode="Options" />
+                )}
             </Stack>
             <Stack
                 horizontal

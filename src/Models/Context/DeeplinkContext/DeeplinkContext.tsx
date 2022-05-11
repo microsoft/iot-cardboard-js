@@ -4,8 +4,9 @@
 import produce from 'immer';
 import queryString from 'query-string';
 import React, { useCallback, useContext, useReducer } from 'react';
-import { ADT3DScenePageModes } from '../Constants';
-import { getDebugLogger } from '../Services/Utils';
+import { ADT3DScenePageModes } from '../../Constants';
+import { getDebugLogger } from '../../Services/Utils';
+import { useConsumerDeeplinkContext } from '../ConsumerDeeplinkContext/ConsumerDeeplinkContext';
 import {
     IDeeplinkContext,
     IDeeplinkContextState,
@@ -13,7 +14,8 @@ import {
     DeeplinkContextActionType,
     IDeeplinkContextProviderProps,
     IPublicDeeplink,
-    IDeeplinkOptions
+    IDeeplinkOptions,
+    DEEPLINK_SERIALIZATION_OPTIONS
 } from './DeeplinkContext.types';
 
 const debugLogging = false;
@@ -103,9 +105,28 @@ export const DeeplinkContextProvider: React.FC<IDeeplinkContextProviderProps> = 
         DeeplinkContextReducer,
         defaultState
     );
+    const consumerDeeplinkContext = useConsumerDeeplinkContext();
     const getDeeplinkCallback = useCallback(
-        (options: IDeeplinkOptions) => buildDeeplink(deeplinkState, options),
-        [deeplinkState]
+        (options: IDeeplinkOptions) => {
+            let link = buildDeeplink(deeplinkState, options);
+            // if the consumer provides a callback, call them and use the returned value
+            if (consumerDeeplinkContext?.onGenerateDeeplink) {
+                logDebugConsole(
+                    'debug',
+                    'Consumer deeplink callback present, passing string to consumer. Initial link:',
+                    link
+                );
+                if (link) {
+                    link = consumerDeeplinkContext?.onGenerateDeeplink(
+                        link,
+                        options
+                    );
+                }
+                logDebugConsole('debug', 'Consumer modified link:', link);
+            }
+            return link;
+        },
+        [deeplinkState, consumerDeeplinkContext?.onGenerateDeeplink]
     );
     return (
         <DeeplinkContext.Provider
@@ -143,19 +164,11 @@ const buildDeeplink = (
     // if we only want the stringified object
     let url = '';
     if (options.excludeBaseUrl) {
-        url = queryString.stringify(deeplink, {
-            encode: true,
-            sort: false,
-            skipEmptyString: true
-        });
+        url = queryString.stringify(deeplink, DEEPLINK_SERIALIZATION_OPTIONS);
     } else {
         url = queryString.stringifyUrl(
             { url: location.href, query: { ...deeplink } },
-            {
-                encode: true,
-                sort: false,
-                skipEmptyString: true
-            }
+            DEEPLINK_SERIALIZATION_OPTIONS
         );
     }
     logDebugConsole('debug', `Deeplink options: `, options);

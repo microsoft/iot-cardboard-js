@@ -87,6 +87,8 @@
   "uploadFile": "Subir archivo",
   "uploadingFile": "Cargando archivo...",
   "twinId": "Identificación doble",
+  "active": "Activo",
+  "invalidValue": "Valor no válido",
   "errors": {
     "errorBoundary": "Límite de error",
     "unkownError": "Error desconocido",
@@ -151,7 +153,7 @@
     "simulateDescription": "Envíe eventos a su entorno",
     "pusherType": "Tipo de simulación",
     "robotArms": "Brazos robóticos",
-    "dairyProduction": "Instalación lechera"
+    "dairyProduction": "Instalación láctea"
   },
   "scenes": {
     "noScenes": "No tiene escenas 3D, agregue una nueva para comenzar.",
@@ -314,10 +316,10 @@
     "enterBlobUrl": "Escriba la dirección URL del blob del contenedor de almacenamiento de Azure",
     "home": "Hogar",
     "globe": "Globo",
-    "breadcrumbAriaLabel": "Breadcrumb con elementos representados como botones",
-    "breadcrumbOverflowAriaLabel": "Más enlaces",
     "globeView": "Vista del globo terráqueo",
-    "listView": "Vista de lista"
+    "listView": "Vista de lista",
+    "breadcrumbAriaLabel": "Breadcrumb con elementos representados como botones",
+    "breadcrumbOverflowAriaLabel": "Más enlaces"
   },
   "layersDropdown": {
     "placeholder": "No hay capas seleccionadas",
@@ -379,6 +381,7 @@
     "addElementDetails": "Agregar detalles del elemento",
     "noBehaviorsOnElement": "No hay comportamientos asignados a este elemento",
     "noElementsText": "Aún no se han creado elementos",
+    "noResults": "No se han encontrado resultados",
     "behaviorsInSceneTitle": "En esta escena ({{count}})",
     "createWithElement": "Crear con {{element}}",
     "elementActions": "Acciones de elementos",
@@ -400,8 +403,8 @@
     "addBehaviorToScene": "Agregar comportamiento a la escena",
     "behaviorMetaText": "{{numElementsInActiveScene}} elementos, {{numSceneRefs}} escenas",
     "elementMetaText": "{{numBehaviors}} comportamientos",
-    "linkedTwin": "Gemelo vinculado",
-    "linkedTwinInputInfo": "Introduzca el ID de gemelo ($dtId) para vincular con este elemento (distingue entre mayúsculas y minúsculas)",
+    "primaryTwin": "Gemelo primario",
+    "primaryTwinInputInfo": "Introduzca el ID de gemelo ($dtId) para vincular con este elemento (distingue entre mayúsculas y minúsculas)",
     "noMeshAddedText": "Aún no se han agregado mallas, seleccione mallas en el visor 3D",
     "meshes": "Mallas",
     "behaviorElementsDropdownLabel": "Elemento de destino",
@@ -409,7 +412,7 @@
     "behaviorAlertForm": {
       "colorPickerLabel": "Color de la insignia",
       "expressionLabel": "Expresión de desencadenador",
-      "expressionPlaceholder": "Introduzca la expresión (por ejemplo, LinkedTwin.InFlow > 3)",
+      "expressionPlaceholder": "Introduzca la expresión (por ejemplo, PrimaryTwin.InFlow > 3)",
       "iconPickerLabel": "Icono de insignia",
       "notice": "Este comportamiento sólo se habilitará cuando la siguiente expresión de desencadenador se evalúe como true.",
       "notificationLabel": "Texto de notificación",
@@ -425,6 +428,15 @@
       "noSelectionValue": "Ninguno",
       "propertyNotFound": "Propiedad que no se encuentra en los gemelos del comportamiento",
       "propertyDropdownPlaceholder": "Seleccione la propiedad twin"
+    },
+    "ModelledPropertyBuilder": {
+      "expressionLabel": "Expresión de propiedad",
+      "expressionPlaceholder": "Introducir expresión de propiedad",
+      "singleProperty": "Propiedad única",
+      "customExpression": "Personalizado (avanzado)",
+      "dropdownPlaceholder": "Seleccione una propiedad",
+      "toggleLabel": "Modo de expresión",
+      "none": "Ninguno"
     },
     "numericExpressionPlaceholder": "Introduzca una expresión que evalúe a un número",
     "behaviorId": "Identificador de comportamiento",
@@ -443,13 +455,13 @@
     "expression": "Expresión",
     "warningBreakPointToggleLabel": "Habilitar el punto de interrupción de color",
     "warningBreakPointLabel": "Punto de interrupción del color de advertencia",
-    "linkWidgetUrlDescription": "La URL del widget de enlace admite el formato de cadena de plantilla de JavaScript como: ${LinkedTwin.property}",
+    "linkWidgetUrlDescription": "La URL del widget de vínculo admite el formato de cadena de plantilla de JavaScript como: ${PrimaryTwin.property}",
     "behaviorTypes": {
       "alertBehavior": "Comportamiento de alerta",
       "statusBehavior": "Comportamiento del estado"
     },
     "notImplemented": "No implementado",
-    "noLinkedTwinProperties": "No hay propiedades gemelas vinculadas para mostrar",
+    "noPrimaryTwinProperties": "No hay propiedades gemelas primarias que mostrar",
     "twinAlias": {
       "title": "Alias gemelo",
       "titlePlural": "Alias gemelos",
@@ -475,24 +487,14 @@
       },
       "descriptions": {
         "twins": "Los gemelos le dan acceso a propiedades que se pueden usar en expresiones.",
-        "linkedTwin": "El LinkedTwin contiene todas las propiedades en común entre los elementos de destino gemelos vinculados.",
+        "primaryTwin": "El PrimaryTwin contiene todas las propiedades en común entre los elementos de destino gemelos primarios.",
         "aliasChangeNotAllowed": "El cambio de alias no está permitido después de la creación.",
-        "commonProperties": "La unión de las propiedades gemelas vinculadas de los elementos seleccionados"
+        "commonProperties": "La unión de las propiedades gemelas primarias de los elementos seleccionados"
       },
       "errors": {
         "twinAliasAlreadyExists": "El alias gemelo con el mismo nombre ya existe, considere agregarlo en su lugar."
       }
-    },
-    "ModelledPropertyBuilder": {
-      "expressionLabel": "Expresión de propiedad",
-      "expressionPlaceholder": "Introducir expresión de propiedad",
-      "selectProperty": "Seleccionar propiedad",
-      "toggleLabel": "Expresión de propiedad",
-      "dropdownPlaceholder": "Seleccione una propiedad",
-      "none": "Ninguno",
-      "customExpression": "Expresión personalizada"
-    },
-    "noResults": "No se han encontrado resultados"
+    }
   },
   "widgets": {
     "trend": {
@@ -506,20 +508,20 @@
     "link": {
       "title": "Widget de enlace",
       "description": "Hacer referencia a contenido externo vinculando una URL",
-      "urlPlaceholder": "https://mypowerbi.biz/${LinkedTwin.$dtId}",
+      "urlPlaceholder": "https://mypowerbi.biz/${PrimaryTwin.myproperty}",
       "openLink": "Abrir enlace"
+    },
+    "value": {
+      "title": "Widget de valor",
+      "description": "Un widget básico para mostrar valores de propiedades gemelas",
+      "displayNamePlaceholder": "Introduzca el nombre para mostrar",
+      "typePlaceholder": "Seleccione el tipo para el valor"
     },
     "panel": {
       "title": "Widget de panel",
       "description": "Un panel de diseño"
     },
-    "notSupported": "Este tipo de widget no es compatible actualmente",
-    "value": {
-      "title": "Widget de valor",
-      "description": "Widget básico para mostrar valores de propiedades gemelas",
-      "typePlaceholder": "Seleccione el tipo para el valor",
-      "displayNamePlaceholder": "Introduzca el nombre para mostrar"
-    }
+    "notSupported": "Este tipo de widget no es compatible actualmente"
   },
   "sdkStrings": {
     "Last 30 mins": "Últimos 30 minutos",
@@ -723,7 +725,7 @@
     "state": "Estado",
     "allProperties": "Todas las propiedades",
     "behaviorPreview": "Vista previa",
-    "LinkedTwinProperties": "Propiedades de Linked Twin"
+    "PrimaryTwinProperties": "Propiedades de Primary Twin"
   },
   "svgTests": {
     "fluentUI": "Carga DE SVG a través del componente Fluent Image (patrón recomendado)",
@@ -747,6 +749,14 @@
     "transparent": "Transparente",
     "wireframe": "Wireframe"
   },
+  "deeplinkFlyout": {
+    "buttonTitle": "Compartir",
+    "copyButtonText": "Copiar enlace",
+    "copyConfirmationMessage": "¡Copiado!",
+    "flyoutHeader": "Compartir escena",
+    "includeElementsOption": "Enlace con el elemento seleccionado",
+    "includeLayersOption": "Enlace con capas seleccionadas"
+  },
   "elementsPanel": {
     "title": "Elementos",
     "noElements": "No hay elementos que mostrar",
@@ -768,19 +778,6 @@
     "select": "Escoger",
     "pan": "Cacerola",
     "orbit": "Órbita",
-    "zoom": "Zoom",
-    "reset": "Restablecimiento",
-    "zoomIn": "Acercar",
-    "zoomOut": "Alejar"
-  },
-  "active": "Activo",
-  "invalidValue": "Valor no válido",
-  "deeplinkFlyout": {
-    "buttonTitle": "Compartir",
-    "copyButtonText": "Copiar enlace",
-    "copyConfirmationMessage": "¡Copiado!",
-    "flyoutHeader": "Compartir escena",
-    "includeElementsOption": "Enlace con el elemento seleccionado",
-    "includeLayersOption": "Enlace con capas seleccionadas"
+    "zoom": "Zoom"
   }
 }

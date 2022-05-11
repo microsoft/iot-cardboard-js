@@ -104,7 +104,7 @@ const mockElement: IElement = {
     type: 'TwinToObjectMapping',
     id: '5ba433d52b8445979fabc818fd40ae3d',
     displayName: 'leftWheels',
-    linkedTwinID: 'SaltMachine_C1',
+    primaryTwinID: 'SaltMachine_C1',
     objectIDs: ['wheel1Mesh_primitive0', 'wheel2Mesh_primitive0'],
     extensionProperties: {}
 };

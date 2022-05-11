@@ -87,6 +87,8 @@
   "uploadFile": "Загрузить файл",
   "uploadingFile": "Загрузка файла...",
   "twinId": "Твин ID",
+  "active": "Активный",
+  "invalidValue": "Недопустимое значение",
   "errors": {
     "errorBoundary": "Граница ошибки",
     "unkownError": "Произошла неизвестная ошибка",
@@ -314,10 +316,10 @@
     "enterBlobUrl": "Введите URL-адрес BLOB-объекта контейнера хранилища Azure",
     "home": "Дом",
     "globe": "Глобус",
-    "breadcrumbAriaLabel": "Навигационная цепочка с элементами, отображаемыми в виде кнопок",
-    "breadcrumbOverflowAriaLabel": "Больше ссылок",
     "globeView": "Вид глобуса",
-    "listView": "Представление списка"
+    "listView": "Представление списка",
+    "breadcrumbAriaLabel": "Навигационная цепочка с элементами, отображаемыми в виде кнопок",
+    "breadcrumbOverflowAriaLabel": "Больше ссылок"
   },
   "layersDropdown": {
     "placeholder": "Слои не выделены",
@@ -379,6 +381,7 @@
     "addElementDetails": "Добавление сведений об элементе",
     "noBehaviorsOnElement": "Нет вариантов поведения, назначенных этому элементу",
     "noElementsText": "Элементы еще не созданы",
+    "noResults": "Результаты не найдены",
     "behaviorsInSceneTitle": "В этой сцене ({{count}})",
     "createWithElement": "Создать с помощью {{element}}",
     "elementActions": "Действия элементов",
@@ -400,8 +403,8 @@
     "addBehaviorToScene": "Добавление поведения в сцену",
     "behaviorMetaText": "{{numElementsInActiveScene}} элементы, {{numSceneRefs}} сцены",
     "elementMetaText": "{{numBehaviors}} поведение",
-    "linkedTwin": "Связанный близнец",
-    "linkedTwinInputInfo": "Введите двойной идентификатор ($dtId) для связи с этим элементом (с учетом регистра)",
+    "primaryTwin": "Основной близнец",
+    "primaryTwinInputInfo": "Введите двойной идентификатор ($dtId) для связи с этим элементом (с учетом регистра)",
     "noMeshAddedText": "Сетки еще не добавлены, пожалуйста, выберите сетки в 3D-просмотрщике",
     "meshes": "Сети",
     "behaviorElementsDropdownLabel": "Целевой элемент",
@@ -409,7 +412,7 @@
     "behaviorAlertForm": {
       "colorPickerLabel": "Цвет значка",
       "expressionLabel": "Триггерное выражение",
-      "expressionPlaceholder": "Введите выражение (например, LinkedTwin.InFlow > 3)",
+      "expressionPlaceholder": "Введите выражение (например, PrimaryTwin.InFlow > 3)",
       "iconPickerLabel": "Значок значка",
       "notice": "Это поведение будет включено только в том случае, если приведенное ниже выражение триггера вычисляет значение true.",
       "notificationLabel": "Текст уведомления",
@@ -425,6 +428,15 @@
       "noSelectionValue": "Никакой",
       "propertyNotFound": "Свойство, не найденное у близнецов поведения",
       "propertyDropdownPlaceholder": "Выберите двухместную недвижимость"
+    },
+    "ModelledPropertyBuilder": {
+      "expressionLabel": "Выражение свойства",
+      "expressionPlaceholder": "Введите выражение свойства",
+      "singleProperty": "Одноместный отель",
+      "customExpression": "Пользовательский (расширенный)",
+      "dropdownPlaceholder": "Выберите недвижимость",
+      "toggleLabel": "Режим выражения",
+      "none": "Никакой"
     },
     "numericExpressionPlaceholder": "Введите выражение, вычисляющее число",
     "behaviorId": "Идентификатор поведения",
@@ -443,13 +455,13 @@
     "expression": "Выражение",
     "warningBreakPointToggleLabel": "Включение точки разрыва цвета",
     "warningBreakPointLabel": "Предупреждающая точка разрыва цвета",
-    "linkWidgetUrlDescription": "URL-адрес виджета ссылок поддерживает форматирование строки шаблона JavaScript, например: ${LinkedTwin.property}",
+    "linkWidgetUrlDescription": "URL-адрес виджета ссылок поддерживает форматирование строки шаблона JavaScript, например: ${PrimaryTwin.property}",
     "behaviorTypes": {
       "alertBehavior": "Поведение оповещения",
       "statusBehavior": "Поведение состояния"
     },
     "notImplemented": "Не реализовано",
-    "noLinkedTwinProperties": "Нет связанных двойных свойств для отображения",
+    "noPrimaryTwinProperties": "Нет основных свойств сдвоенных соединений для отображения",
     "twinAlias": {
       "title": "Двойной псевдоним",
       "titlePlural": "Двойные псевдонимы",
@@ -475,24 +487,14 @@
       },
       "descriptions": {
         "twins": "Близнецы дают вам доступ к свойствам, которые можно использовать в выражениях.",
-        "linkedTwin": "LinkedTwin содержит все свойства, общие для целевых элементов, связанных близнецами.",
+        "primaryTwin": "PrimaryTwin содержит все свойства, общие между первичными близнецами целевых элементов.",
         "aliasChangeNotAllowed": "Изменение псевдонима не допускается после создания.",
-        "commonProperties": "Объединение связанных двойных свойств выбранных элементов"
+        "commonProperties": "Объединение первичных близнецовых свойств выбранных элементов"
       },
       "errors": {
         "twinAliasAlreadyExists": "Двойной псевдоним с таким же именем уже существует, рассмотрите возможность его добавления."
       }
-    },
-    "ModelledPropertyBuilder": {
-      "expressionLabel": "Выражение свойства",
-      "expressionPlaceholder": "Введите выражение свойства",
-      "selectProperty": "Выберите недвижимость",
-      "toggleLabel": "Выражение свойства",
-      "dropdownPlaceholder": "Выберите недвижимость",
-      "none": "Никакой",
-      "customExpression": "Пользовательское выражение"
-    },
-    "noResults": "Результаты не найдены"
+    }
   },
   "widgets": {
     "trend": {
@@ -506,20 +508,20 @@
     "link": {
       "title": "Виджет ссылок",
       "description": "Ссылка на внешнее содержимое путем связывания URL-адреса",
-      "urlPlaceholder": "https://mypowerbi.biz/${LinkedTwin.$dtId}",
+      "urlPlaceholder": "https://mypowerbi.biz/${PrimaryTwin.myproperty}",
       "openLink": "Открыть ссылку"
+    },
+    "value": {
+      "title": "Виджет значения",
+      "description": "Базовый виджет для отображения значений свойств twin",
+      "displayNamePlaceholder": "Введите отображаемое имя",
+      "typePlaceholder": "Выберите тип значения"
     },
     "panel": {
       "title": "Виджет панели",
       "description": "Панель макета"
     },
-    "notSupported": "Этот тип виджета в настоящее время не поддерживается",
-    "value": {
-      "title": "Виджет значения",
-      "description": "Базовый виджет для отображения значений свойств близнецов",
-      "typePlaceholder": "Выберите тип значения",
-      "displayNamePlaceholder": "Введите отображаемое имя"
-    }
+    "notSupported": "Этот тип виджета в настоящее время не поддерживается"
   },
   "sdkStrings": {
     "Last 30 mins": "Последние 30 минут",
@@ -723,7 +725,7 @@
     "state": "Государство",
     "allProperties": "Все свойства",
     "behaviorPreview": "Предварительный просмотр",
-    "LinkedTwinProperties": "Связанные двойные свойства"
+    "PrimaryTwinProperties": "Основные свойства Близнецов"
   },
   "svgTests": {
     "fluentUI": "Загрузка SVG через компонент Fluent Image (рекомендуемый шаблон)",
@@ -747,6 +749,14 @@
     "transparent": "Прозрачный",
     "wireframe": "Каркас"
   },
+  "deeplinkFlyout": {
+    "buttonTitle": "Предоставить общий доступ",
+    "copyButtonText": "Копировать ссылку",
+    "copyConfirmationMessage": "Скопированы!",
+    "flyoutHeader": "Поделиться сценой",
+    "includeElementsOption": "Связь с выбранным элементом",
+    "includeLayersOption": "Связывание с выбранными слоями"
+  },
   "elementsPanel": {
     "title": "Азы",
     "noElements": "Нет отображаемых элементов",
@@ -768,19 +778,6 @@
     "select": "Выбирать",
     "pan": "Сковорода",
     "orbit": "Орбита",
-    "zoom": "Увеличить",
-    "reset": "Сброс",
-    "zoomIn": "Увеличить",
-    "zoomOut": "Уменьшение масштаба"
-  },
-  "active": "Активный",
-  "invalidValue": "Недопустимое значение",
-  "deeplinkFlyout": {
-    "buttonTitle": "Предоставить общий доступ",
-    "copyButtonText": "Копировать ссылку",
-    "copyConfirmationMessage": "Скопированы!",
-    "flyoutHeader": "Поделиться сценой",
-    "includeElementsOption": "Связь с выбранным элементом",
-    "includeLayersOption": "Связывание с выбранными слоями"
+    "zoom": "Увеличить"
   }
 }

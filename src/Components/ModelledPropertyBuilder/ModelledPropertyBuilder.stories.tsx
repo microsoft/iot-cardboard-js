@@ -8,6 +8,7 @@ import {
 } from './ModelledPropertyBuilder.types';
 import { MockAdapter } from '../../Adapters';
 import { config as mockConfig } from './__mockData__/MockPropertyModelData';
+import ViewerConfigUtility from '../../Models/Classes/ViewerConfigUtility';
 
 const wrapperStyle = { width: '400px', height: '600px', padding: 20 };
 
@@ -53,6 +54,23 @@ const PropertyExpressionDebugRenderer: React.FC<{
     );
 };
 
+const sceneId = mockConfig.configuration.scenes[0].id;
+
+const elementsInScene = ViewerConfigUtility.getElementsInScene(
+    mockConfig,
+    sceneId
+);
+
+const behavior = mockConfig.configuration.behaviors[0];
+
+const elementIdsOnBehavior = ViewerConfigUtility.getMappingIdsForBehavior(
+    behavior
+);
+
+const selectedElements = elementsInScene.filter((element) =>
+    elementIdsOnBehavior.includes(element.id)
+);
+
 const Template: ModelledPropertyBuilderStory = (args) => {
     const [
         propertyExpression,
@@ -60,15 +78,17 @@ const Template: ModelledPropertyBuilderStory = (args) => {
     ] = useState<PropertyExpression>(
         args.propertyExpression ?? { expression: '' }
     );
+
     return (
         <div>
             <ModelledPropertyBuilder
                 {...args}
                 adapter={new MockAdapter()}
                 twinIdParams={{
-                    behavior: mockConfig.configuration.behaviors[0],
+                    behavior,
                     config: mockConfig,
-                    sceneId: mockConfig.configuration.scenes[0].id
+                    sceneId,
+                    selectedElements
                 }}
                 onChange={(newPropertyExpression: PropertyExpression) =>
                     setPropertyExpression(newPropertyExpression)
@@ -99,7 +119,7 @@ export const ToggleModeInitialValue = Template.bind(
 
 ToggleModeInitialValue.args = {
     mode: 'TOGGLE',
-    propertyExpression: { expression: 'LinkedTwin.Mileage - 1000' }
+    propertyExpression: { expression: 'PrimaryTwin.Mileage - 1000' }
 };
 
 export const PropertySelectionMode = Template.bind(
