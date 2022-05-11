@@ -742,6 +742,8 @@ export interface IADT3DViewerProps {
     hideViewModePickerUI?: boolean;
     hideElementsPanel?: boolean;
     outlinedMeshItems?: CustomMeshItem[];
+    /** show the toggle to switch between builder & viewer modes */
+    showModeToggle?: boolean;
     sceneViewProps?: Omit<
         ISceneViewProps,
         | 'badgeGroups'

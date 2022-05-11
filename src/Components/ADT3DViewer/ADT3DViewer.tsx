@@ -45,12 +45,14 @@ import {
 } from '../../Models/Context/DeeplinkContext/DeeplinkContext';
 import { DeeplinkContextActionType } from '../../Models/Context/DeeplinkContext/DeeplinkContext.types';
 import ViewerElementsPanelRenderer from '../ViewerElementsPanelRenderer/ViewerElementsPanelRenderer';
-import { classNamesFunction, styled, useTheme } from '@fluentui/react';
+import { classNamesFunction, Stack, styled, useTheme } from '@fluentui/react';
 import { getStyles } from './ADT3DViewer.styles';
 import {
     IADT3DViewerStyleProps,
     IADT3DViewerStyles
 } from './ADT3DViewer.types';
+import { ADT3DScenePageModes } from '../../Models/Constants';
+import FloatingScenePageModeToggle from '../../Pages/ADT3DScenePage/Internal/FloatingScenePageModeToggle';
 
 const getClassNames = classNamesFunction<
     IADT3DViewerStyleProps,
@@ -79,6 +81,7 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
     unzoomedMeshOpacity,
     hideElementsPanel,
     hideViewModePickerUI,
+    showModeToggle = false,
     styles
 }) => {
     // hooks
@@ -305,6 +308,7 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
         [getElementByMeshId, setSelectedElementId]
     );
 
+    // elements panel callbacks
     const onElementPanelItemClicked = useCallback(
         (
             _item: ITwinToObjectMapping | IVisual,
@@ -390,6 +394,7 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
         }
     }, [sceneVisuals, coloredMeshItemsProp, sceneAlerts]);
 
+    // mesh callbakcs
     const meshClick = (mesh: { id: string }, scene: any) => {
         // update the selected element on the context
         setSelectedElementId(getElementByMeshId(mesh.id)?.id);
@@ -443,7 +448,6 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
             }
         }
     };
-
     const meshHover = (mesh: { id: string }) => {
         if (mesh && sceneVisuals) {
             const sceneVisual = sceneVisuals.find((sceneVisual) =>
@@ -461,7 +465,6 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
             }
         }
     };
-
     const onBadgeGroupHover = (
         badgeGroup: SceneViewBadgeGroup,
         left: number,
@@ -479,6 +482,19 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
         }
     };
 
+    // header callbacks
+    const handleScenePageModeChange = useCallback(
+        (newScenePageMode: ADT3DScenePageModes) => {
+            deeplinkDispatch({
+                type: DeeplinkContextActionType.SET_MODE,
+                payload: {
+                    mode: newScenePageMode
+                }
+            });
+        },
+        [deeplinkDispatch]
+    );
+
     const behaviorModalSceneVisual = useMemo(
         () =>
             sceneVisuals.find(
@@ -495,7 +511,8 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
             locale={locale}
             containerClassName={classNames.root}
         >
-            <div id={sceneWrapperId} className="cb-adt-3dviewer-wrapper">
+            <div id={sceneWrapperId} className={classNames.viewerWrapper}>
+                {/* Left panel */}
                 <ViewerElementsPanelRenderer
                     isLoading={isLoading}
                     initialPanelOpen={!hideElementsPanel}
@@ -504,6 +521,7 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
                     onItemClick={onElementPanelItemClicked}
                     onItemHover={onElementPanelItemHovered}
                 />
+                {/* Viewer */}
                 <SceneViewWrapper
                     adapter={adapter}
                     config={scenesConfig}
@@ -534,14 +552,30 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
                             : undefined
                     }}
                 />
-                <div className={classNames.layersDropdown}>
-                    <LayerDropdown
-                        layers={layersInScene}
-                        selectedLayerIds={deeplinkState.selectedLayerIds}
-                        setSelectedLayerIds={setSelectedLayerIds}
-                        showUnlayeredOption={unlayeredBehaviorsPresent}
-                    />
-                </div>
+                {/* Mode & layers */}
+                <Stack
+                    horizontal
+                    styles={classNames.subComponentStyles.headerStack}
+                    tokens={{ childrenGap: 8 }}
+                >
+                    <div className={classNames.layersDropdown}>
+                        <LayerDropdown
+                            layers={layersInScene}
+                            selectedLayerIds={deeplinkState.selectedLayerIds}
+                            setSelectedLayerIds={setSelectedLayerIds}
+                            showUnlayeredOption={unlayeredBehaviorsPresent}
+                        />
+                    </div>
+                    {showModeToggle && (
+                        <FloatingScenePageModeToggle
+                            sceneId={sceneId}
+                            handleScenePageModeChange={
+                                handleScenePageModeChange
+                            }
+                            selectedMode={deeplinkState.mode}
+                        />
+                    )}
+                </Stack>
             </div>
             {showPopUp && (
                 <BehaviorsModal
