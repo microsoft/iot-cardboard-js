@@ -22,6 +22,8 @@ import {
 import ViewerConfigUtility from '../Classes/ViewerConfigUtility';
 import { createParser, ModelParsingOption } from 'azure-iot-dtdl-parser';
 import { IDropdownOption } from '@fluentui/react';
+import { isConstant, toConstant } from 'constantinople';
+
 let ajv: Ajv = null;
 const parser = createParser(ModelParsingOption.PermitAnyTopLevelElement);
 
@@ -245,7 +247,10 @@ export function getSceneElementStatusColor(
     valueRanges: IValueRange[],
     twins: Record<string, DTwin>
 ) {
-    const value = parseExpression(statusValueExpression, twins);
+    const value = parseLinkedTwinExpressionIntoConstant(
+        statusValueExpression,
+        twins
+    );
     return ViewerConfigUtility.getColorOrNullFromStatusValueRange(
         valueRanges,
         value
@@ -312,28 +317,31 @@ export function getTransparentColor(
     return `rgba(${hexToRgbCss(hex)}, ${transparency})`;
 }
 
-export function performSubstitutions(
+export function addTemplateStringsToText(text: string) {
+    const templatedText = text.replace(/`/g, '');
+    return '`' + templatedText + '`';
+}
+
+export function stripTemplateStringsFromText(text: string) {
+    return text.replace(/`/g, '');
+}
+
+export function parseLinkedTwinExpressionIntoConstant(
     expression: string,
-    twins: Record<string, DTwin>
+    twins: Record<string, DTwin>,
+    fallbackResult?: any
 ) {
-    while (expression) {
-        const n = expression.indexOf('${');
-        if (n < 0) {
-            break;
-        }
+    let result: any = fallbackResult ?? '';
 
-        const m = expression.indexOf('}', n + 1);
-        if (m < 0) {
-            break;
+    try {
+        if (isConstant(expression, twins)) {
+            result = toConstant(expression, twins);
         }
-
-        const sub = expression.substring(n + 2, m);
-        const target = parseExpression(sub, twins);
-        expression =
-            expression.substring(0, n) + target + expression.substring(m + 1);
+    } catch (err) {
+        console.log(`${expression} - could not be parsed into constant`);
     }
 
-    return expression;
+    return result;
 }
 
 export function hexToColor4(hex: string): BABYLON.Color4 {

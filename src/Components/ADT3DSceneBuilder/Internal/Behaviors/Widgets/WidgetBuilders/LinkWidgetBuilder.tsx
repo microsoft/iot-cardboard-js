@@ -3,6 +3,10 @@ import { Stack, TextField, useTheme } from '@fluentui/react';
 import produce from 'immer';
 import React, { useCallback, useContext, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import {
+    addTemplateStringsToText,
+    stripTemplateStringsFromText
+} from '../../../../../../Models/Services/Utils';
 import ModelledPropertyBuilder from '../../../../../ModelledPropertyBuilder/ModelledPropertyBuilder';
 import { PropertyExpression } from '../../../../../ModelledPropertyBuilder/ModelledPropertyBuilder.types';
 import { SceneBuilderContext } from '../../../../ADT3DSceneBuilder';
@@ -28,8 +32,9 @@ const LinkWidgetBuilder: React.FC<ILinkWidgetBuilderProps> = ({
         (newPropertyExpression: PropertyExpression) => {
             updateWidgetData(
                 produce(formData, (draft) => {
-                    draft.widgetConfiguration.linkExpression =
-                        newPropertyExpression.expression;
+                    draft.widgetConfiguration.linkExpression = addTemplateStringsToText(
+                        newPropertyExpression.expression
+                    );
                 })
             );
         },
@@ -73,7 +78,9 @@ const LinkWidgetBuilder: React.FC<ILinkWidgetBuilderProps> = ({
                     mode="INTELLISENSE"
                     propertyExpression={{
                         expression:
-                            formData.widgetConfiguration.linkExpression || ''
+                            stripTemplateStringsFromText(
+                                formData.widgetConfiguration.linkExpression
+                            ) || ''
                     }}
                     onChange={onExpressionChange}
                     required

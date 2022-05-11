@@ -5,8 +5,11 @@ import { Icon, SearchBox, Spinner, SpinnerSize } from '@fluentui/react';
 import { IViewerElementsPanelProps } from './ViewerElementsPanel.types';
 import { getElementsPanelStyles } from './ViewerElementsPanel.styles';
 import ViewerConfigUtility from '../../Models/Classes/ViewerConfigUtility';
-import { performSubstitutions } from '../../Models/Services/Utils';
 import Draggable from 'react-draggable';
+import {
+    addTemplateStringsToText,
+    parseLinkedTwinExpressionIntoConstant
+} from '../../Models/Services/Utils';
 
 const ViewerElementsPanel: React.FC<IViewerElementsPanelProps> = ({
     panelItems,
@@ -35,8 +38,10 @@ const ViewerElementsPanel: React.FC<IViewerElementsPanelProps> = ({
                               )
                               .filter(ViewerConfigUtility.isAlertVisual)
                               .filter((alertVisual) =>
-                                  performSubstitutions(
-                                      alertVisual.labelExpression,
+                                  parseLinkedTwinExpressionIntoConstant(
+                                      addTemplateStringsToText(
+                                          alertVisual.labelExpression
+                                      ),
                                       panelItem.twins
                                   )
                                       .toLowerCase()

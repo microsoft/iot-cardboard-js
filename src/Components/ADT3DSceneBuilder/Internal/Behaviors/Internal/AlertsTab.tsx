@@ -12,7 +12,11 @@ import {
     defaultSwatchIcons
 } from '../../../../../Theming/Palettes';
 import { defaultAlertVisual } from '../../../../../Models/Classes/3DVConfig';
-import { deepCopy } from '../../../../../Models/Services/Utils';
+import {
+    addTemplateStringsToText,
+    deepCopy,
+    stripTemplateStringsFromText
+} from '../../../../../Models/Services/Utils';
 import ColorPicker from '../../../../Pickers/ColorSelectButton/ColorPicker';
 import { IPickerOption } from '../../../../Pickers/Internal/Picker.base.types';
 import IconPicker from '../../../../Pickers/IconSelectButton/IconPicker';
@@ -91,7 +95,10 @@ const AlertsTab: React.FC = () => {
 
     const onLabelExpressionChange = useCallback(
         (newPropertyExpression: PropertyExpression) =>
-            setProperty('labelExpression', newPropertyExpression.expression),
+            setProperty(
+                'labelExpression',
+                addTemplateStringsToText(newPropertyExpression.expression)
+            ),
         [setProperty]
     );
 
@@ -163,7 +170,10 @@ const AlertsTab: React.FC = () => {
                         }}
                         mode="INTELLISENSE"
                         propertyExpression={{
-                            expression: notificationExpression || ''
+                            expression:
+                                stripTemplateStringsFromText(
+                                    notificationExpression
+                                ) || ''
                         }}
                         onChange={onLabelExpressionChange}
                         customLabel={t(LOC_KEYS.notificationLabel)}
