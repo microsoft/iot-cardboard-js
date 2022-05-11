@@ -244,8 +244,6 @@ export interface ADT3DSceneBuilderState {
 }
 
 export interface IWidgetBuilderFormDataProps {
-    intellisenseAliasNames?: string[];
-    getIntellisensePropertyNames?: (twinId: string) => string[];
     setIsWidgetConfigValid?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 

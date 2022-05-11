@@ -18,12 +18,16 @@ interface ModelledPropertyDropdownProps {
     selectedKey: string;
     onChange: (option: IDropdownOption) => void;
     dropdownOptions: IDropdownOption<IModelledPropertyDropdownItem>[];
+    dropdownTestId: string;
+    isLoading?: boolean;
 }
 
 const ModelledPropertyDropdown: React.FC<ModelledPropertyDropdownProps> = ({
     onChange,
     selectedKey,
-    dropdownOptions
+    dropdownOptions,
+    dropdownTestId,
+    isLoading = false
 }) => {
     const { t } = useTranslation();
     const styles = getStyles();
@@ -94,9 +98,11 @@ const ModelledPropertyDropdown: React.FC<ModelledPropertyDropdownProps> = ({
             placeholder={t(
                 '3dSceneBuilder.ModelledPropertyBuilder.dropdownPlaceholder'
             )}
+            data-testid={dropdownTestId}
             onRenderOption={onRenderOption}
             onRenderTitle={onRenderTitle}
             styles={dropdownStyles}
+            disabled={isLoading}
         />
     );
 };

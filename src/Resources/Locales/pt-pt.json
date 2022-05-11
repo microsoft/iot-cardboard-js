@@ -486,11 +486,11 @@
     "ModelledPropertyBuilder": {
       "expressionLabel": "Expressão de propriedade",
       "expressionPlaceholder": "Insira a expressão da propriedade",
-      "selectProperty": "Selecione propriedade",
       "toggleLabel": "Expressão de propriedade",
       "dropdownPlaceholder": "Selecione um imóvel",
       "none": "Nenhum.",
-      "customExpression": "Expressão personalizada"
+      "customExpression": "Expressão personalizada",
+      "singleProperty": "Propriedade única"
     },
     "noResults": "Não foram encontrados resultados"
   },

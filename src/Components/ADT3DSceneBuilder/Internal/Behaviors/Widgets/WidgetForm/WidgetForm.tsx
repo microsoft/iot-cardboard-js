@@ -1,13 +1,6 @@
 import { DefaultButton, PrimaryButton, useTheme } from '@fluentui/react';
 import produce from 'immer';
-import React, {
-    useCallback,
-    useContext,
-    useEffect,
-    useMemo,
-    useRef,
-    useState
-} from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
     WidgetType,
@@ -23,7 +16,6 @@ import {
     ILinkWidget,
     IPopoverVisual,
     IValueWidget,
-    ITwinToObjectMapping,
     IWidget
 } from '../../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { SceneBuilderContext } from '../../../../ADT3DSceneBuilder';
@@ -34,7 +26,6 @@ import GaugeWidgetBuilder from '../WidgetBuilders/GaugeWidgetBuilder';
 import LinkWidgetBuilder from '../WidgetBuilders/LinkWidgetBuilder';
 import { WidgetFormInfo } from '../../../../ADT3DSceneBuilder.types';
 import ViewerConfigUtility from '../../../../../../Models/Classes/ViewerConfigUtility';
-import useBehaviorAliasedTwinProperties from '../../../../../../Models/Hooks/useBehaviorAliasedTwinProperties';
 import ValueWidgetBuilder from '../WidgetBuilders/ValueWidgetBuilder';
 
 const createWidget = (
@@ -77,10 +68,7 @@ const getWidgets = (behavior: IBehavior) =>
 const getActiveWidget = (activeWidgetId: string, behavior: IBehavior) =>
     getWidgets(behavior).find((w) => w.id === activeWidgetId);
 
-// Note, this widget form does not currently support panels
-const WidgetForm: React.FC<{
-    selectedElements: Array<ITwinToObjectMapping>;
-}> = ({ selectedElements }) => {
+const WidgetForm: React.FC = () => {
     const {
         widgetFormInfo,
         setWidgetFormInfo,
@@ -88,35 +76,12 @@ const WidgetForm: React.FC<{
         setBehaviorToEdit
     } = useContext(SceneBuilderContext);
 
-    // get the aliased properties for intellisense
-    const { options: aliasedProperties } = useBehaviorAliasedTwinProperties({
-        behavior: behaviorToEdit,
-        isTwinAliasesIncluded: true,
-        selectedElements
-    });
-
-    const getPropertyNames = useCallback(
-        (twinAlias: string) =>
-            ViewerConfigUtility.getPropertyNamesFromAliasedPropertiesByAlias(
-                twinAlias,
-                aliasedProperties
-            ),
-        [aliasedProperties]
-    );
-
-    const propertyAliases = useMemo(
-        () =>
-            ViewerConfigUtility.getUniqueAliasNamesFromAliasedProperties(
-                aliasedProperties
-            ),
-        [aliasedProperties]
-    );
-
     const [isWidgetConfigValid, setIsWidgetConfigValid] = useState(true);
 
     const { t } = useTranslation();
 
-    const activeWidgetId = useRef(null);
+    const [activeWidgetId, setActiveWidgetId] = useState(null);
+
     // On initial render - create or locate widget
     useEffect(() => {
         if (widgetFormInfo.mode === WidgetFormMode.CreateWidget) {
@@ -126,34 +91,31 @@ const WidgetForm: React.FC<{
                     createWidget(draft, widgetFormInfo, newWidgetId);
                 })
             );
-            activeWidgetId.current = newWidgetId;
+            setActiveWidgetId(newWidgetId);
         } else if (widgetFormInfo.mode === WidgetFormMode.EditWidget) {
-            activeWidgetId.current = widgetFormInfo.widgetId;
+            setActiveWidgetId(widgetFormInfo.widgetId);
         }
     }, []);
 
     const updateWidgetData = useCallback(
         (widgetData: IWidget) => {
-            if (activeWidgetId.current) {
+            if (activeWidgetId) {
                 setBehaviorToEdit(
                     produce((draft) => {
                         const widgets = getWidgets(draft);
                         const widgetToUpdateIdx = widgets.findIndex(
-                            (w) => w.id === activeWidgetId.current
+                            (w) => w.id === activeWidgetId
                         );
                         widgets[widgetToUpdateIdx] = widgetData;
                     })
                 );
             }
         },
-        [setBehaviorToEdit]
+        [setBehaviorToEdit, activeWidgetId]
     );
 
     const getWidgetBuilder = () => {
-        const widgetData = getActiveWidget(
-            activeWidgetId.current,
-            behaviorToEdit
-        );
+        const widgetData = getActiveWidget(activeWidgetId, behaviorToEdit);
 
         switch (widgetFormInfo.widget.data.type) {
             case WidgetType.Gauge:
@@ -169,8 +131,6 @@ const WidgetForm: React.FC<{
                     <LinkWidgetBuilder
                         formData={widgetData as ILinkWidget}
                         updateWidgetData={updateWidgetData}
-                        intellisenseAliasNames={propertyAliases}
-                        getIntellisensePropertyNames={getPropertyNames}
                         setIsWidgetConfigValid={setIsWidgetConfigValid}
                     />
                 );
@@ -179,8 +139,6 @@ const WidgetForm: React.FC<{
                     <ValueWidgetBuilder
                         formData={widgetData as IValueWidget}
                         updateWidgetData={updateWidgetData}
-                        intellisenseAliasNames={propertyAliases}
-                        getIntellisensePropertyNames={getPropertyNames}
                         setIsWidgetConfigValid={setIsWidgetConfigValid}
                     />
                 );
@@ -197,7 +155,7 @@ const WidgetForm: React.FC<{
     const customStyles = getWidgetFormStyles(theme);
     const commonFormStyles = getPanelFormStyles(theme, 0);
 
-    if (!getActiveWidget(activeWidgetId.current, behaviorToEdit)) return null;
+    if (!getActiveWidget(activeWidgetId, behaviorToEdit)) return null;
     return (
         <>
             <div className={commonFormStyles.content}>

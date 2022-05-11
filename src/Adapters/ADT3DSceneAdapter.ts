@@ -56,6 +56,8 @@ export default class ADT3DSceneAdapter {
         this.adtProxyServerPath = adtProxyServerPath;
         this.blobProxyServerPath = blobProxyServerPath;
         this.authService.login();
+        // Fetch & cache models on mount (makes first use of models faster as models should already be cached)
+        this.getAllAdtModels();
     }
     getConnectionInformation = async () => {
         if (this.clusterUrl && this.databaseName && this.tableName) {

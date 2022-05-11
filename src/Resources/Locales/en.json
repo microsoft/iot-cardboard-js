@@ -432,8 +432,8 @@
         "ModelledPropertyBuilder": {
             "expressionLabel": "Property expression",
             "expressionPlaceholder": "Enter property expression",
-            "selectProperty": "Select property",
-            "customExpression": "Custom expression",
+            "singleProperty": "Single property",
+            "customExpression": "Custom (advanced)",
             "dropdownPlaceholder": "Select a property",
             "toggleLabel": "Expression mode",
             "none": "None"
@@ -508,7 +508,7 @@
         "link": {
             "title": "Link widget",
             "description": "Reference external content by linking a URL",
-            "urlPlaceholder": "https://mypowerbi.biz/${LinkedTwin.$dtId}",
+            "urlPlaceholder": "https://mypowerbi.biz/${LinkedTwin.myproperty}",
             "openLink": "Open link"
         },
         "value": {

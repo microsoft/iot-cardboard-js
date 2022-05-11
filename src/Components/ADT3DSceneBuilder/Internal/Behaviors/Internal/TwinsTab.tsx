@@ -27,18 +27,22 @@ import {
     getLeftPanelStyles
 } from '../../Shared/LeftPanel.styles';
 import { SceneBuilderContext } from '../../../ADT3DSceneBuilder';
-import { linkedTwinName } from '../../../../../Models/Constants/Constants';
 import {
-    IAliasedTwinProperty,
-    TwinAliasFormMode
-} from '../../../../../Models/Constants';
+    DTDLPropertyIconographyMap,
+    linkedTwinName
+} from '../../../../../Models/Constants/Constants';
+import { TwinAliasFormMode } from '../../../../../Models/Constants';
 import { IBehaviorTwinAliasItem } from '../../../../../Models/Classes/3DVConfig';
 import AddTwinAliasCallout from '../Twins/AddTwinAliasCallout';
 import ViewerConfigUtility from '../../../../../Models/Classes/ViewerConfigUtility';
 import produce from 'immer';
-import useBehaviorAliasedTwinProperties from '../../../../../Models/Hooks/useBehaviorAliasedTwinProperties';
 import { IValidityState, TabNames } from '../BehaviorForm.types';
 import CardboardListCallout from '../../../../CardboardListCallout/CardboardListCallout';
+import { useModelledProperties } from '../../../../ModelledPropertyBuilder/useModelledProperties';
+import {
+    defaultAllowedPropertyValueTypes,
+    IModelledProperty
+} from '../../../../ModelledPropertyBuilder/ModelledPropertyBuilder.types';
 
 interface ITwinsTabProps {
     selectedElements: Array<ITwinToObjectMapping>;
@@ -57,7 +61,8 @@ const TwinsTab: React.FC<ITwinsTabProps> = ({
         sceneId,
         setBehaviorTwinAliasFormInfo,
         behaviorToEdit,
-        setBehaviorToEdit
+        setBehaviorToEdit,
+        adapter
     } = useContext(SceneBuilderContext);
     const [linkedTwinList, setLinkedTwinList] = useState([]);
     const [twinAliasList, setTwinAliasList] = useState([]);
@@ -77,12 +82,18 @@ const TwinsTab: React.FC<ITwinsTabProps> = ({
 
     // get the property names to show the common properties in linked twins in the (selected) elements of the behavior
     const {
-        options: commonLinkedTwinProperties,
-        isLoading: isCommonLinkedTwinPropertiesLoading
-    } = useBehaviorAliasedTwinProperties({
-        behavior: behaviorToEdit,
-        isTwinAliasesIncluded: false,
-        selectedElements
+        isLoading: isCommonLinkedTwinPropertiesLoading,
+        modelledProperties
+    } = useModelledProperties({
+        adapter,
+        twinIdParams: {
+            selectedElements,
+            behavior: behaviorToEdit,
+            config,
+            sceneId,
+            disableAliasedTwins: true
+        },
+        allowedPropertyValueTypes: defaultAllowedPropertyValueTypes
     });
 
     // set the single item linked twin list on mount
@@ -196,13 +207,22 @@ const TwinsTab: React.FC<ITwinsTabProps> = ({
         []
     );
 
-    const linkedTwinProperties = useMemo(
-        () =>
-            commonLinkedTwinProperties.map(
-                (lP: IAliasedTwinProperty) => lP.property
-            ),
-        [commonLinkedTwinProperties]
-    );
+    const linkedTwinProperties: Array<
+        ICardboardListItem<IModelledProperty>
+    > = useMemo(() => {
+        const linkedTwinProperties =
+            modelledProperties?.flattenedFormat?.[linkedTwinName] ?? [];
+        return linkedTwinProperties.map((lP: IModelledProperty) => {
+            const iconStart = DTDLPropertyIconographyMap[lP.propertyType]?.icon;
+            return {
+                textPrimary: lP.localPath,
+                ...(iconStart && { iconStart: { name: iconStart } }),
+                item: lP,
+                onClick: () => null,
+                ariaLabel: lP.localPath
+            };
+        });
+    }, [modelledProperties]);
 
     const theme = useTheme();
     const commonPanelStyles = getLeftPanelStyles(theme);
@@ -219,7 +239,7 @@ const TwinsTab: React.FC<ITwinsTabProps> = ({
                 </Text>
                 {isLinkedTwinPropertiesCalloutVisible && (
                     <CardboardListCallout
-                        listType="Basic"
+                        listType="Complex"
                         calloutTarget={linkedTwinPropertiesTargetId}
                         title={t('3dSceneBuilder.twinAlias.commonProperties')}
                         listKey={'common-properties-callout-list'}
@@ -229,8 +249,11 @@ const TwinsTab: React.FC<ITwinsTabProps> = ({
                         filterPlaceholder={t(
                             '3dSceneBuilder.twinAlias.searchProperties'
                         )}
-                        filterPredicate={(property: string, searchTerm) =>
-                            property
+                        filterPredicate={(
+                            property: IModelledProperty,
+                            searchTerm
+                        ) =>
+                            property.localPath
                                 .toLowerCase()
                                 .includes(searchTerm.toLowerCase())
                         }

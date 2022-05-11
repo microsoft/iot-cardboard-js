@@ -486,11 +486,11 @@
     "ModelledPropertyBuilder": {
       "expressionLabel": "Tulajdonságkifejezés",
       "expressionPlaceholder": "Tulajdonságkifejezés megadása",
-      "selectProperty": "Tulajdonság kiválasztása",
       "toggleLabel": "Tulajdonságkifejezés",
       "dropdownPlaceholder": "Tulajdonság kijelölése",
       "none": "Egyik sem",
-      "customExpression": "Egyéni kifejezés"
+      "customExpression": "Egyéni kifejezés",
+      "singleProperty": "Egyetlen tulajdonság"
     },
     "noResults": "Nem található eredmény"
   },

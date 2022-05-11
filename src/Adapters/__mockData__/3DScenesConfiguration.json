@@ -69,6 +69,13 @@
                         "displayName": "SaltMachine_C0",
                         "linkedTwinID": "SaltMachine_C0",
                         "objectIDs": ["tank6_LOD0.001_primitive1"]
+                    },
+                    {
+                        "type": "TwinToObjectMapping",
+                        "id": "58d15472f7f9eeb88d5e2049363963cf",
+                        "displayName": "Tesla",
+                        "linkedTwinID": "Tesla",
+                        "objectIDs": ["Cube.006"]
                     }
                 ],
                 "behaviorIDs": [
@@ -2231,7 +2238,8 @@
                             "41bca486feaf985f52130947d31675dc",
                             "a7094c812e6870004b6485112cc859b6",
                             "d2e033bcff9ff392b9b233e8571fcf28",
-                            "0a624edf8ee4b4df7dc4e61c863d3724"
+                            "0a624edf8ee4b4df7dc4e61c863d3724",
+                            "58d15472f7f9eeb88d5e2049363963cf"
                         ]
                     }
                 ],

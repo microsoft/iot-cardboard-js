@@ -486,11 +486,11 @@
     "ModelledPropertyBuilder": {
       "expressionLabel": "Výraz vlastnosti",
       "expressionPlaceholder": "Zadejte výraz vlastnosti",
-      "selectProperty": "Vybrat nemovitost",
       "toggleLabel": "Výraz vlastnosti",
       "dropdownPlaceholder": "Vyberte nemovitost",
       "none": "Žádný",
-      "customExpression": "Vlastní výraz"
+      "customExpression": "Vlastní výraz",
+      "singleProperty": "Jedna nemovitost"
     },
     "noResults": "Nebyly nalezeny žádné výsledky"
   },

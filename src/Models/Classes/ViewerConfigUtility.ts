@@ -325,11 +325,28 @@ abstract class ViewerConfigUtility {
                 if (elementIds.includes(elementInScene.id)) {
                     // Add elements linked twin
                     primaryTwinIds.set(elementInScene.linkedTwinID, '');
-                    // Add elements twin aliases
-                    aliasedTwinMap = {
-                        ...aliasedTwinMap,
-                        ...elementInScene.twinAliases
-                    };
+
+                    // Only add element alias if behavior contains alias
+                    if (behavior.twinAliases && elementInScene.twinAliases) {
+                        const twinAliasesOnBehavior = {};
+
+                        for (const [
+                            elementAlias,
+                            aliasedTwinId
+                        ] of Object.entries(elementInScene.twinAliases)) {
+                            if (behavior.twinAliases.includes(elementAlias)) {
+                                twinAliasesOnBehavior[
+                                    elementAlias
+                                ] = aliasedTwinId;
+                            }
+                        }
+
+                        // Add elements twin aliases
+                        aliasedTwinMap = {
+                            ...aliasedTwinMap,
+                            ...twinAliasesOnBehavior
+                        };
+                    }
                 }
             });
 
@@ -959,6 +976,48 @@ abstract class ViewerConfigUtility {
             });
         });
         return twinAliases;
+    };
+
+    /** Given a draft behavior, current config & set of selected elements for behavior
+     *  @returns copy of config with behavior & element updates applied to target scene
+     */
+    static copyConfigWithBehaviorAndElementEditsApplied = (
+        config: I3DScenesConfig,
+        behavior: IBehavior,
+        selectedElements: ITwinToObjectMapping[],
+        sceneId: string
+    ) => {
+        // Copy config
+        let configSnapshot = deepCopy(config);
+
+        // Apply draft behavior to config
+        if (
+            configSnapshot.configuration.behaviors
+                .map((b) => b.id)
+                .includes(behavior.id)
+        ) {
+            configSnapshot = ViewerConfigUtility.editBehavior(
+                configSnapshot,
+                behavior,
+                []
+            );
+        } else {
+            configSnapshot = ViewerConfigUtility.addBehavior(
+                configSnapshot,
+                sceneId,
+                behavior,
+                []
+            );
+        }
+
+        // Apply updated elements to config
+        configSnapshot = ViewerConfigUtility.updateElementsInScene(
+            configSnapshot,
+            sceneId,
+            selectedElements
+        );
+
+        return configSnapshot;
     };
 
     static getTwinAliasItemsFromElement = (
