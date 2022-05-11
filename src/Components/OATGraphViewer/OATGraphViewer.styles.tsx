@@ -80,6 +80,17 @@ export const getGraphViewerStyles = () => {
             {
                 fontSize: FontSizes.size12,
                 fill: theme.semanticColors.bodyText
+<<<<<<< HEAD
+=======
+            } as IStyle
+        ],
+        textEdit: [
+            classNames.textEdit,
+            {
+                fontSize: FontSizes.size12,
+                color: theme.semanticColors.bodyText,
+                background: theme.semanticColors.bodyBackground
+>>>>>>> origin/zarmada/oat-development
             } as IStyle
         ],
         textEdit: [

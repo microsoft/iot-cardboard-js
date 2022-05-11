@@ -22,7 +22,16 @@ export const getModelsStyles = () => {
         modelList: [
             classNames.modelList,
             {
+<<<<<<< HEAD
                 width: '100%'
+=======
+                border: '1px',
+                borderColor: theme.semanticColors.bodyDivider,
+                borderStyle: 'solid',
+                backgroundColor: theme.semanticColors.bodyBackground,
+                padding: '5px',
+                margin: '5px'
+>>>>>>> origin/zarmada/oat-development
             } as IStyle
         ],
         nodeCancel: [

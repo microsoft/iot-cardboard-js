@@ -40,7 +40,10 @@ import {
     IOATNodeElement,
     IOATRelationShipElement
 } from '../../Models/Constants/Interfaces';
+<<<<<<< HEAD
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
+=======
+>>>>>>> origin/zarmada/oat-development
 import { ElementNode } from './Internal/Classes/ElementNode';
 import { ElementPosition } from './Internal/Classes/ElementPosition';
 import { ElementData } from './Internal/Classes/ElementData';
@@ -51,6 +54,7 @@ const idClassBase = 'dtmi:com:example:';
 const contextClassBase = 'dtmi:adt:context;2';
 const versionClassBase = '1';
 type OATGraphProps = {
+<<<<<<< HEAD
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
     state?: IOATEditorState;
 };
@@ -66,6 +70,28 @@ const getStoredElements = () => {
 };
 
 const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
+=======
+    onElementsUpdate: (digitalTwinsModels: IOATElementsChangeEventArgs) => any;
+    importModels: IOATTwinModelNodes[];
+    setModel: (twinModel: IOATTwinModelNodes) => any;
+    model: IOATTwinModelNodes;
+    deletedModel: string;
+    selectModel: string;
+    editedName: string;
+    editedId: string;
+};
+
+const OATGraphViewer = ({
+    onElementsUpdate,
+    importModels,
+    setModel,
+    model,
+    deletedModel,
+    selectModel,
+    editedName,
+    editedId
+}: OATGraphProps) => {
+>>>>>>> origin/zarmada/oat-development
     const { t } = useTranslation();
     const theme = useTheme();
     const reactFlowWrapperRef = useRef(null);
@@ -73,6 +99,12 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     const [elements, setElements] = useState(
         !storedElements ? [] : storedElements
     );
+<<<<<<< HEAD
+=======
+    const idClassBase = 'dtmi:com:example:';
+    const contextClassBase = 'dtmi:adt:context;2';
+    const versionClassBase = '1';
+>>>>>>> origin/zarmada/oat-development
     const defaultPosition = 100;
     const [newModelId, setNewModelId] = useState(0);
     const graphViewerStyles = getGraphViewerStyles();
@@ -273,10 +305,124 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                 .filter((x) => x.source === currentNodeIdRef.current)
                 .forEach((x) => (x.source = state.editedModelId));
             elements
+<<<<<<< HEAD
                 .filter((x) => x.target === currentNodeIdRef.current)
                 .forEach((x) => (x.target = state.editedModelId));
             node.id = state.editedModelId;
             node.data.id = state.editedModelId;
+=======
+                .filter((x) => x.target === currentNodeId.current)
+                .forEach((x) => (x.target = model['@id']));
+            node.id = model['@id'];
+            node.data.id = model['@id'];
+            node.data.name = model['displayName'];
+            node.data.content = model['contents'];
+            setElements([...elements]);
+            currentNodeId.current = model['@id'];
+        }
+    }, [model]);
+
+    useEffect(() => {
+        const importModelsList = [];
+        if (importModels.length > 0) {
+            importModels.forEach((input) => {
+                const node = elements.find(
+                    (element) => element.id === input['@id']
+                );
+                if (!node) {
+                    let relationships = [];
+                    let contents = [];
+                    input['contents'].forEach((content) => {
+                        if (content['@type'] === ComponentHandleName) {
+                            const componentRelationship = new ElementEdge(
+                                `${input['@id']}${ComponentHandleName}${content['schema']}`,
+                                RelationshipHandleName,
+                                input['@id'],
+                                ComponentHandleName,
+                                content['schema'],
+                                new ElementEdgeData(
+                                    `${input['@id']}${ComponentHandleName}${content['schema']}`,
+                                    content['name'],
+                                    content['name'],
+                                    ComponentHandleName
+                                )
+                            );
+                            relationships = [
+                                ...relationships,
+                                componentRelationship
+                            ];
+                        } else if (
+                            content['@type'] === RelationshipHandleName
+                        ) {
+                            const relationship = new ElementEdge(
+                                content['@id'],
+                                RelationshipHandleName,
+                                input['@id'],
+                                RelationshipHandleName,
+                                content['target'],
+                                new ElementEdgeData(
+                                    content['@id'],
+                                    content['name'],
+                                    content['displayName'],
+                                    RelationshipHandleName
+                                )
+                            );
+                            relationships = [...relationships, relationship];
+                        } else {
+                            contents = [...contents, content];
+                        }
+                    });
+                    if (input['extends']) {
+                        const extendRelationship = new ElementEdge(
+                            `${input['@id']}${ExtendHandleName}${input['extends']}`,
+                            RelationshipHandleName,
+                            input['@id'],
+                            ExtendHandleName,
+                            input['extends'],
+                            new ElementEdgeData(
+                                `${input['@id']}${ExtendHandleName}${input['extends']}`,
+                                '',
+                                '',
+                                ExtendHandleName
+                            )
+                        );
+                        relationships = [...relationships, extendRelationship];
+                    }
+                    const newNode = new ElementNode(
+                        input['@id'],
+                        input['@type'],
+                        new ElementPosition(defaultPosition, defaultPosition),
+                        new ElementData(
+                            input['@id'],
+                            input['displayName'],
+                            input['@type'],
+                            contents,
+                            contextClassBase
+                        )
+                    );
+                    importModelsList.push(newNode, ...relationships);
+                }
+            });
+            setElements([...importModelsList]);
+        }
+    }, [importModels]);
+
+    useEffect(() => {
+        if (deletedModel) {
+            const elementsToRemove = [
+                {
+                    id: deletedModel
+                }
+            ];
+            setElements((els) => removeElements(elementsToRemove, els));
+        }
+    }, [deletedModel]);
+
+    useEffect(() => {
+        const node = elements.find((element) => element.id === selectModel);
+        if (node) {
+            currentNodeId.current = node.id;
+>>>>>>> origin/zarmada/oat-development
             const modelClicked = {
                 '@id': node.id,
                 '@type': node.data.type,
@@ -321,7 +467,11 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
         const id = `${idClassBase}model${newModelId};${versionClassBase}`;
         const newNode = {
             id: id,
+<<<<<<< HEAD
             type: OATInterfaceType,
+=======
+            type: InterfaceType,
+>>>>>>> origin/zarmada/oat-development
             position: { x: defaultPosition, y: defaultPosition },
             data: {
                 name: name,
@@ -642,6 +792,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                             onNodeDragStop={onNodeDragStop}
                         >
                             <PrimaryButton
+<<<<<<< HEAD
                                 styles={buttonStyles}
                                 onClick={onNewModelClick}
                                 text={t('OATGraphViewer.newModel')}
@@ -652,6 +803,12 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                                 </Label>
                             )}
 
+=======
+                                className={graphViewerStyles.button}
+                                onClick={onNewModelClick}
+                                text={t('OATGraphViewer.newModel')}
+                            />
+>>>>>>> origin/zarmada/oat-development
                             <MiniMap />
                             <Controls />
                             <Background
@@ -667,6 +824,11 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
 };
 
 OATGraphViewer.defaultProps = {
+<<<<<<< HEAD
+=======
+    onElementsUpdate: () => null,
+    setModel: () => null,
+>>>>>>> origin/zarmada/oat-development
     importModels: []
 };
 

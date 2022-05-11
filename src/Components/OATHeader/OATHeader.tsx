@@ -82,7 +82,45 @@ const OATHeader = ({ elements, onImportClick }: OATHeaderProps) => {
             <div className={headerStyles.menuComponent}>
                 <div className="cb-oat-header-model"></div>
                 <div className="cb-oat-header-menu">
+<<<<<<< HEAD
                     <CommandBar items={items} />
+=======
+                    <ActionButton>
+                        <FontIcon
+                            iconName={'Save'}
+                            className={headerStyles.menuIcon}
+                        />
+                        {t('OATHeader.save')}
+                    </ActionButton>
+                    <ActionButton>
+                        <FontIcon
+                            iconName={'Upload'}
+                            className={headerStyles.menuIcon}
+                        />
+                        {t('OATHeader.publish')}
+                    </ActionButton>
+                    <ActionButton>
+                        <FontIcon
+                            iconName={'Sync'}
+                            className={headerStyles.menuIcon}
+                        />
+                        {t('OATHeader.sync')}
+                    </ActionButton>
+                    <ActionButton onClick={onImportClick}>
+                        <FontIcon
+                            iconName={'Import'}
+                            className={headerStyles.menuIcon}
+                        />
+                        {t('OATHeader.import')}
+                    </ActionButton>
+                    <ActionButton onClick={handleDownloadClick}>
+                        <FontIcon
+                            iconName={'Export'}
+                            className={headerStyles.menuIcon}
+                        />
+                        {t('OATHeader.export')}
+                    </ActionButton>
+>>>>>>> origin/zarmada/oat-development
                 </div>
                 <div className="cb-oat-header-versioning"></div>
             </div>

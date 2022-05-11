@@ -5,6 +5,7 @@ import {
     FileUploadStatus,
     IJSONUploaderFileItem as IFileItem
 } from '../../../Models/Constants';
+<<<<<<< HEAD
 import {
     SET_OAT_IMPORT_MODELS,
     SET_OAT_IS_JSON_UPLOADER_OPEN
@@ -17,6 +18,20 @@ type OATImportProps = {
 };
 
 const OATImport = ({ isJsonUploaderOpen, dispatch }: OATImportProps) => {
+=======
+
+type OATImportProps = {
+    isJsonUploaderOpen: boolean;
+    setIsJsonUploaderOpen: (boolean) => any;
+    setImportModels: () => any;
+};
+
+const OATImport = ({
+    isJsonUploaderOpen,
+    setIsJsonUploaderOpen,
+    setImportModels
+}: OATImportProps) => {
+>>>>>>> origin/zarmada/oat-development
     const jsonUploaderComponentRef = useRef();
 
     const handleFileListChanged = async (files: Array<File>) => {
@@ -37,6 +52,7 @@ const OATImport = ({ isJsonUploaderOpen, dispatch }: OATImportProps) => {
                 }
                 items.push(newItem.content);
             }
+<<<<<<< HEAD
             dispatch;
             dispatch({
                 type: SET_OAT_IMPORT_MODELS,
@@ -46,6 +62,10 @@ const OATImport = ({ isJsonUploaderOpen, dispatch }: OATImportProps) => {
                 type: SET_OAT_IS_JSON_UPLOADER_OPEN,
                 payload: !isJsonUploaderOpen
             });
+=======
+            setImportModels(items);
+            setIsJsonUploaderOpen((prev) => !prev);
+>>>>>>> origin/zarmada/oat-development
         }
     };
 

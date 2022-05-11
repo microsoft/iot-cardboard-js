@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import React, { useReducer } from 'react';
+=======
+import React from 'react';
+>>>>>>> origin/zarmada/oat-development
 import BaseComponent from '../BaseComponent/BaseComponent';
 import OATModelList from './OATModelList';
 import {
@@ -12,8 +16,11 @@ export default {
 };
 
 export const Default = (_args, { globals: { theme } }) => {
+<<<<<<< HEAD
     const [dispatch] = useReducer(OATGraphViewerReducer, defaultOATEditorState);
 
+=======
+>>>>>>> origin/zarmada/oat-development
     const elementHandler = [
         {
             '@id': 'dtmi:com:example:model0;1',
@@ -54,7 +61,11 @@ export const Default = (_args, { globals: { theme } }) => {
 
     return (
         <BaseComponent theme={theme}>
+<<<<<<< HEAD
             <OATModelList elements={elementHandler} dispatch={dispatch} />
+=======
+            <OATModelList elements={elementHandler} />
+>>>>>>> origin/zarmada/oat-development
         </BaseComponent>
     );
 };
