@@ -119,7 +119,7 @@ export const ToggleModeInitialValue = Template.bind(
 
 ToggleModeInitialValue.args = {
     mode: 'TOGGLE',
-    propertyExpression: { expression: 'LinkedTwin.Mileage - 1000' }
+    propertyExpression: { expression: 'PrimaryTwin.Mileage - 1000' }
 };
 
 export const PropertySelectionMode = Template.bind(

@@ -820,6 +820,6 @@ export interface ISubscriptions {
 }
 
 export interface IAliasedTwinProperty {
-    alias: 'LinkedTwin' | string;
+    alias: 'PrimaryTwin' | string;
     property: string;
 }

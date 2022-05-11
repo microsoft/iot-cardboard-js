@@ -13,7 +13,7 @@ import {
 import {
     getDefaultStoryDecorator,
     IStoryContext
-} from '../../Models/Services/StoryUtilities';
+} from '../../Services/StoryUtilities';
 import { DeeplinkContextProvider, useDeeplinkContext } from './DeeplinkContext';
 import {
     DeeplinkContextActionType,
@@ -21,7 +21,7 @@ import {
     IDeeplinkContextState,
     IDeeplinkOptions
 } from './DeeplinkContext.types';
-import { ADT3DScenePageModes } from '../Constants';
+import { ADT3DScenePageModes } from '../../Constants';
 import { userEvent, within } from '@storybook/testing-library';
 import { GET_MOCK_DEEPLINK_STATE } from './DeeplinkContext.mock';
 import { useBoolean } from '@fluentui/react-hooks';

@@ -87,6 +87,8 @@
   "uploadFile": "Datei hochladen",
   "uploadingFile": "Datei wird hochgeladen...",
   "twinId": "Twin-ID",
+  "active": "Aktiv",
+  "invalidValue": "Ungültiger Wert",
   "errors": {
     "errorBoundary": "Fehlergrenze",
     "unkownError": "Unbekannter Fehler aufgetreten",
@@ -314,10 +316,10 @@
     "enterBlobUrl": "Geben Sie Ihre Azure-Speichercontainer-Blob-URL ein",
     "home": "Heim",
     "globe": "Kugel",
-    "breadcrumbAriaLabel": "Breadcrumb mit Elementen, die als Schaltflächen gerendert werden",
-    "breadcrumbOverflowAriaLabel": "Weitere Links",
     "globeView": "Globus-Ansicht",
-    "listView": "Listenansicht"
+    "listView": "Listenansicht",
+    "breadcrumbAriaLabel": "Breadcrumb mit Elementen, die als Schaltflächen gerendert werden",
+    "breadcrumbOverflowAriaLabel": "Weitere Links"
   },
   "layersDropdown": {
     "placeholder": "Keine Ebenen ausgewählt",
@@ -379,6 +381,7 @@
     "addElementDetails": "Hinzufügen von Elementdetails",
     "noBehaviorsOnElement": "Diesem Element sind keine Verhaltensweisen zugewiesen",
     "noElementsText": "Noch keine Elemente erstellt",
+    "noResults": "Keine Ergebnisse gefunden",
     "behaviorsInSceneTitle": "In dieser Szene ({{count}})",
     "createWithElement": "Erstellen mit {{element}}",
     "elementActions": "Elementaktionen",
@@ -400,8 +403,8 @@
     "addBehaviorToScene": "Verhalten zur Szene hinzufügen",
     "behaviorMetaText": "{{numElementsInActiveScene}}-Elemente, {{numSceneRefs}}-Szenen",
     "elementMetaText": "{{numBehaviors}} Verhalten",
-    "linkedTwin": "Verbundener Zwilling",
-    "linkedTwinInputInfo": "Geben Sie eine Zwillings-ID ($dtId) ein, um eine Verknüpfung mit diesem Element herzustellen (Groß-/Kleinschreibung beachten)",
+    "primaryTwin": "Primärer Zwilling",
+    "primaryTwinInputInfo": "Geben Sie eine Zwillings-ID ($dtId) ein, um eine Verknüpfung mit diesem Element herzustellen (Groß-/Kleinschreibung beachten)",
     "noMeshAddedText": "Noch keine Meshes hinzugefügt, bitte wählen Sie Meshes im 3D-Viewer aus",
     "meshes": "Maschen",
     "behaviorElementsDropdownLabel": "Zielelement",
@@ -409,7 +412,7 @@
     "behaviorAlertForm": {
       "colorPickerLabel": "Farbe des Abzeichens",
       "expressionLabel": "Trigger-Ausdruck",
-      "expressionPlaceholder": "Enter Ausdruck (z.B. LinkedTwin.InFlow > 3)",
+      "expressionPlaceholder": "Geben Sie den Ausdruck ein (z. B. PrimaryTwin.InFlow > 3)",
       "iconPickerLabel": "Badge-Symbol",
       "notice": "Dieses Verhalten wird nur aktiviert, wenn der folgende Triggerausdruck als true ausgewertet wird.",
       "notificationLabel": "Benachrichtigungstext",
@@ -425,6 +428,15 @@
       "noSelectionValue": "Nichts",
       "propertyNotFound": "Eigenschaft, die bei den Zwillingen des Verhaltens nicht gefunden wurde",
       "propertyDropdownPlaceholder": "Twin-Eigenschaft auswählen"
+    },
+    "ModelledPropertyBuilder": {
+      "expressionLabel": "Eigenschaftsausdruck",
+      "expressionPlaceholder": "Eigenschaftsausdruck eingeben",
+      "singleProperty": "Einzelobjekt",
+      "customExpression": "Benutzerdefiniert (erweitert)",
+      "dropdownPlaceholder": "Wählen Sie eine Immobilie aus",
+      "toggleLabel": "Ausdrucksmodus",
+      "none": "Nichts"
     },
     "numericExpressionPlaceholder": "Geben Sie einen Ausdruck ein, der zu einer Zahl ausgewertet wird.",
     "behaviorId": "Verhaltens-ID",
@@ -443,13 +455,13 @@
     "expression": "Ausdruck",
     "warningBreakPointToggleLabel": "Farbhaltepunkt aktivieren",
     "warningBreakPointLabel": "Unterbrechungspunkt der Warnfarbe",
-    "linkWidgetUrlDescription": "Die Link-Widget-URL unterstützt die Formatierung von JavaScript-Vorlagenzeichenfolgen wie: ${LinkedTwin.property}",
+    "linkWidgetUrlDescription": "Link-Widget-URL unterstützt JavaScript-Vorlagenzeichenfolgenformatierung wie: ${PrimaryTwin.property}",
     "behaviorTypes": {
       "alertBehavior": "Warnungsverhalten",
       "statusBehavior": "Statusverhalten"
     },
     "notImplemented": "Nicht implementiert",
-    "noLinkedTwinProperties": "Keine verknüpften Zwillingseigenschaften zum Anzeigen",
+    "noPrimaryTwinProperties": "Keine primären Zwillingseigenschaften, die angezeigt werden sollen",
     "twinAlias": {
       "title": "Twin-Alias",
       "titlePlural": "Zwillingsaliase",
@@ -475,24 +487,14 @@
       },
       "descriptions": {
         "twins": "Zwillinge geben Ihnen Zugriff auf Eigenschaften, die in Ausdrücken verwendet werden können.",
-        "linkedTwin": "Der LinkedTwin enthält alle gemeinsamen Eigenschaften zwischen den Zielelementen verknüpften Zwillingen.",
+        "primaryTwin": "Der PrimaryTwin enthält alle Eigenschaften, die zwischen den primären Zwillingen der Zielelemente gemeinsam sind.",
         "aliasChangeNotAllowed": "Eine Änderung des Alias ist nach der Erstellung nicht mehr zulässig.",
-        "commonProperties": "Die Vereinigung verknüpfter Zwillingseigenschaften ausgewählter Elemente"
+        "commonProperties": "Die Vereinigung primärer Zwillingseigenschaften ausgewählter Elemente"
       },
       "errors": {
         "twinAliasAlreadyExists": "Twin Alias mit dem gleichen Namen existiert bereits, erwägen Sie stattdessen, es hinzuzufügen."
       }
-    },
-    "ModelledPropertyBuilder": {
-      "expressionLabel": "Eigenschaftsausdruck",
-      "expressionPlaceholder": "Eigenschaftsausdruck eingeben",
-      "toggleLabel": "Eigenschaftsausdruck",
-      "dropdownPlaceholder": "Wählen Sie eine Immobilie aus",
-      "none": "Nichts",
-      "customExpression": "Benutzerdefinierter Ausdruck",
-      "singleProperty": "Einzelobjekt"
-    },
-    "noResults": "Keine Ergebnisse gefunden"
+    }
   },
   "widgets": {
     "trend": {
@@ -506,20 +508,20 @@
     "link": {
       "title": "Link-Widget",
       "description": "Verweisen auf externe Inhalte durch Verknüpfen einer URL",
-      "urlPlaceholder": "https://mypowerbi.biz/${LinkedTwin.$dtId}",
+      "urlPlaceholder": "https://mypowerbi.biz/${PrimaryTwin.myproperty}",
       "openLink": "Link öffnen"
+    },
+    "value": {
+      "title": "Wert-Widget",
+      "description": "Ein einfaches Widget zum Anzeigen von Werten von Zwillingseigenschaften",
+      "displayNamePlaceholder": "Anzeigenamen eingeben",
+      "typePlaceholder": "Wählen Sie den Typ für den Wert aus."
     },
     "panel": {
       "title": "Panel-Widget",
       "description": "Ein Layoutpanel"
     },
-    "notSupported": "Dieser Widget-Typ wird derzeit nicht unterstützt",
-    "value": {
-      "title": "Wert-Widget",
-      "description": "Einfaches Widget zum Anzeigen von Werten von Zwillingseigenschaften",
-      "typePlaceholder": "Wählen Sie den Typ für den Wert aus.",
-      "displayNamePlaceholder": "Anzeigenamen eingeben"
-    }
+    "notSupported": "Dieser Widget-Typ wird derzeit nicht unterstützt"
   },
   "sdkStrings": {
     "Last 30 mins": "Letzte 30 Minuten",
@@ -725,7 +727,7 @@
     "state": "Zustand",
     "allProperties": "Alle Immobilien",
     "behaviorPreview": "Vorschau",
-    "LinkedTwinProperties": "Verknüpfte Twin-Eigenschaften"
+    "PrimaryTwinProperties": "Primäre Twin-Eigenschaften"
   },
   "svgTests": {
     "fluentUI": "SVG-Laden über Fluent Image-Komponente (empfohlenes Muster)",
@@ -749,6 +751,14 @@
     "transparent": "Durchsichtig",
     "wireframe": "Drahtmodell"
   },
+  "deeplinkFlyout": {
+    "buttonTitle": "Freigeben",
+    "copyButtonText": "Link kopieren",
+    "copyConfirmationMessage": "Kopiert!",
+    "flyoutHeader": "Szene teilen",
+    "includeElementsOption": "Mit ausgewähltem Element verknüpfen",
+    "includeLayersOption": "Mit ausgewählten Ebenen verknüpfen"
+  },
   "elementsPanel": {
     "title": "Elemente",
     "noElements": "Keine anzuzeigenden Elemente",
@@ -771,15 +781,5 @@
     "pan": "Pfanne",
     "orbit": "Umlaufbahn",
     "zoom": "Zoom"
-  },
-  "active": "Aktiv",
-  "invalidValue": "Ungültiger Wert",
-  "deeplinkFlyout": {
-    "buttonTitle": "Freigeben",
-    "copyButtonText": "Link kopieren",
-    "copyConfirmationMessage": "Kopiert!",
-    "flyoutHeader": "Szene teilen",
-    "includeElementsOption": "Mit ausgewähltem Element verknüpfen",
-    "includeLayersOption": "Mit ausgewählten Ebenen verknüpfen"
   }
 }

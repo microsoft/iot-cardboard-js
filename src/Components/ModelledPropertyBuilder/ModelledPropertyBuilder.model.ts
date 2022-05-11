@@ -4,7 +4,7 @@ import {
     EntityKinds,
     ObjectInfo
 } from 'azure-iot-dtdl-parser';
-import { linkedTwinName } from '../../Models/Constants/Constants';
+import { primaryTwinName } from '../../Models/Constants/Constants';
 import { IModelledPropertyBuilderAdapter } from '../../Models/Constants/Interfaces';
 import {
     PropertyValueType,
@@ -140,16 +140,16 @@ const expandModelIds = (
     const modelledProperties = {};
 
     // Add primary twin's modelled properties
-    for (const modelId of tagModelMap.LinkedTwin) {
+    for (const modelId of tagModelMap.PrimaryTwin) {
         if (modelDict[modelId]?.entityKind === 'interface') {
-            if (!(linkedTwinName in modelledProperties)) {
+            if (!(primaryTwinName in modelledProperties)) {
                 // Add primary tag to root object
-                modelledProperties[linkedTwinName] = {};
+                modelledProperties[primaryTwinName] = {};
             }
             addInterface(
-                modelledProperties[linkedTwinName],
+                modelledProperties[primaryTwinName],
                 modelDict[modelId] as InterfaceInfo,
-                linkedTwinName,
+                primaryTwinName,
                 allowedPropertyValueTypes
             );
         }
@@ -276,11 +276,11 @@ const addEntity = (
  * @param adapter network interface capable of resolving twins
  * @param primaryTwinIds list of primary twin Ids
  * @param aliasedTwinMap additional optional tag:twinId mapping
- * @returns tags mapped to model Ids where the primary tags (LinkedTwin) is a list
+ * @returns tags mapped to model Ids where the primary tags (PrimaryTwin) is a list
  * @example
  * ```
  * {
- *	  LinkedTwin: ['dtmi:assetGen:SaltMachine;1', 'dtmi:assetGen:PasteurizationMachine;1'],
+ *	  PrimaryTwin: ['dtmi:assetGen:SaltMachine;1', 'dtmi:assetGen:PasteurizationMachine;1'],
  *	  ElectricityTag: 'dtmi:assetGen:SaltMachineElectric;1',
  *	  TemperatureTag: 'dtmi:assetGen:SaltMachineTemperature;1'
  * }
@@ -292,7 +292,7 @@ export const mergeTagsAndMapTwinIdsToModelIds = async (
     aliasedTwinMap?: Record<string, string>
 ): Promise<ITagModelMap> => {
     const tagModelMap: ITagModelMap = {
-        LinkedTwin: []
+        PrimaryTwin: []
     };
 
     // Get model Ids for each primary twin
@@ -307,7 +307,7 @@ export const mergeTagsAndMapTwinIdsToModelIds = async (
         .map((result) => result.getData().modelId);
 
     if (primaryTwinModels?.length > 0) {
-        tagModelMap[linkedTwinName] = Array.from(
+        tagModelMap[primaryTwinName] = Array.from(
             new Set([...primaryTwinModels]).keys()
         ); // ensure uniqueness (drop duplicate model Ids)
     }

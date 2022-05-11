@@ -323,8 +323,8 @@ abstract class ViewerConfigUtility {
             .forEach((elementInScene) => {
                 // Check if objects Ids on element intersect with elementIds on behavior
                 if (elementIds.includes(elementInScene.id)) {
-                    // Add elements linked twin
-                    primaryTwinIds.set(elementInScene.linkedTwinID, '');
+                    // Add elements primary twin
+                    primaryTwinIds.set(elementInScene.primaryTwinID, '');
 
                     // Only add element alias if behavior contains alias
                     if (behavior.twinAliases && elementInScene.twinAliases) {
@@ -691,10 +691,10 @@ abstract class ViewerConfigUtility {
     }
 
     /**
-     * Gets the list of all (union of) the active properties from the provided linked twins
-     * Returns them with the Alias as a prefix. ex: LinkedTwin.MyProperty
+     * Gets the list of all (union of) the active properties from the provided primary twins
+     * Returns them with the Alias as a prefix. ex: PrimaryTwin.MyProperty
      * @param twins List of twins the get the properties from
-     * @returns list of properties with the alias prefixed (ex: LinkedTwin.MyProperty)
+     * @returns list of properties with the alias prefixed (ex: PrimaryTwin.MyProperty)
      */
     static getPropertyNamesWithAliasFromTwins(twins: Record<string, any>) {
         const properties = new Set<string>();
@@ -712,15 +712,15 @@ abstract class ViewerConfigUtility {
     }
 
     /**
-     * Takes in the property names that have an alias at the start ex: "LinkedTwin" and splits off that prefix to only have the raw property names.
+     * Takes in the property names that have an alias at the start ex: "PrimaryTwin" and splits off that prefix to only have the raw property names.
      * source of the input is usually `getPropertyNamesWithAliasFromTwins`
-     * @param properties List of properties with the LinkedTwin type prefix
+     * @param properties List of properties with the PrimaryTwin type prefix
      * @returns list of raw property names
      */
     static getPropertyNameFromAliasedProperty(properties: string[]) {
         return properties
             .map((x) => {
-                // comes back as LinkedTwin.PropertyName
+                // comes back as PrimaryTwin.PropertyName
                 const sliced = x.split('.');
                 return sliced[sliced.length - 1];
             })
