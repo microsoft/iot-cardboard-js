@@ -73,6 +73,7 @@ export const PropertyListItemNested = ({
 
     return (
         <div className={getItemClassName(index)} id={item.name}>
+            <div></div>
             <TextField
                 styles={textFieldStyles}
                 borderless

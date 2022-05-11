@@ -116,6 +116,7 @@ export const PropertyListItem = ({
                 onFocus={() => setLastPropertyFocused(null)}
                 tabIndex={0}
             >
+                <div></div>
                 <TextField
                     borderless
                     value={item.name}
