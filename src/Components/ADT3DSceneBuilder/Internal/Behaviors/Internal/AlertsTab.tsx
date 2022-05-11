@@ -1,11 +1,9 @@
 import produce from 'immer';
-import React, { useCallback, useContext, useMemo, useRef } from 'react';
+import React, { useCallback, useContext, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Intellisense } from '../../../../AutoComplete/Intellisense';
 import {
     IAlertVisual,
-    IBehavior,
-    ITwinToObjectMapping
+    IBehavior
 } from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import {
     IStackTokens,
@@ -25,8 +23,9 @@ import ColorPicker from '../../../../Pickers/ColorSelectButton/ColorPicker';
 import { IPickerOption } from '../../../../Pickers/Internal/Picker.base.types';
 import IconPicker from '../../../../Pickers/IconSelectButton/IconPicker';
 import { getLeftPanelStyles } from '../../Shared/LeftPanel.styles';
-import useBehaviorAliasedTwinProperties from '../../../../../Models/Hooks/useBehaviorAliasedTwinProperties';
 import { SceneBuilderContext } from '../../../ADT3DSceneBuilder';
+import ModelledPropertyBuilder from '../../../../ModelledPropertyBuilder/ModelledPropertyBuilder';
+import { PropertyExpression } from '../../../../ModelledPropertyBuilder/ModelledPropertyBuilder.types';
 
 const getAlertFromBehavior = (behavior: IBehavior) =>
     behavior.visuals.filter(ViewerConfigUtility.isAlertVisual)[0] || null;
@@ -42,31 +41,18 @@ const LOC_KEYS = {
     notificationPlaceholder: `${ROOT_LOC}.notificationPlaceholder`
 };
 
-const AlertsTab: React.FC<{
-    selectedElements: Array<ITwinToObjectMapping>;
-}> = ({ selectedElements }) => {
+const AlertsTab: React.FC = () => {
     const { t } = useTranslation();
-    const { behaviorToEdit, setBehaviorToEdit } = useContext(
-        SceneBuilderContext
-    );
+    const {
+        behaviorToEdit,
+        setBehaviorToEdit,
+        adapter,
+        config,
+        sceneId,
+        state: { selectedElements }
+    } = useContext(SceneBuilderContext);
     const alertVisualStateRef = useRef<IAlertVisual>(
         getAlertFromBehavior(behaviorToEdit) || defaultAlertVisual
-    );
-
-    // get the aliased properties for intellisense
-    const { options: aliasedProperties } = useBehaviorAliasedTwinProperties({
-        behavior: behaviorToEdit,
-        isTwinAliasesIncluded: true,
-        selectedElements
-    });
-
-    const getPropertyNames = useCallback(
-        (twinAlias: string) =>
-            ViewerConfigUtility.getPropertyNamesFromAliasedPropertiesByAlias(
-                twinAlias,
-                aliasedProperties
-            ),
-        [aliasedProperties]
     );
 
     const setProperty = useCallback(
@@ -104,9 +90,8 @@ const AlertsTab: React.FC<{
     );
 
     const onExpressionChange = useCallback(
-        (newValue: string) => {
-            setProperty('triggerExpression', newValue);
-        },
+        (newPropertyExpression: PropertyExpression) =>
+            setProperty('triggerExpression', newPropertyExpression.expression),
         [setProperty]
     );
 
@@ -131,14 +116,6 @@ const AlertsTab: React.FC<{
         [setProperty]
     );
 
-    const aliasNames = useMemo(
-        () =>
-            ViewerConfigUtility.getUniqueAliasNamesFromAliasedProperties(
-                aliasedProperties
-            ),
-        [aliasedProperties]
-    );
-
     // we only grab the first alert in the collection
     const alertVisual = getAlertFromBehavior(behaviorToEdit);
     const color = alertVisual?.color;
@@ -150,18 +127,21 @@ const AlertsTab: React.FC<{
     return (
         <Stack tokens={sectionStackTokens}>
             <Text className={commonPanelStyles.text}>{t(LOC_KEYS.notice)}</Text>
-            <Intellisense
-                autoCompleteProps={{
-                    textFieldProps: {
-                        label: t(LOC_KEYS.expressionLabel),
-                        multiline: expression?.length > 40,
-                        placeholder: t(LOC_KEYS.expressionPlaceholder)
-                    }
+            <ModelledPropertyBuilder
+                adapter={adapter}
+                twinIdParams={{
+                    behavior: behaviorToEdit,
+                    config,
+                    sceneId,
+                    selectedElements
+                }}
+                mode="INTELLISENSE"
+                propertyExpression={{
+                    expression: expression || ''
                 }}
                 onChange={onExpressionChange}
-                defaultValue={expression}
-                aliasNames={aliasNames}
-                getPropertyNames={getPropertyNames}
+                customLabel={t(LOC_KEYS.expressionLabel)}
+                intellisensePlaceholder={t(LOC_KEYS.expressionPlaceholder)}
             />
             {alertVisual && (
                 <>
@@ -198,6 +178,6 @@ const AlertsTab: React.FC<{
         </Stack>
     );
 };
-const sectionStackTokens: IStackTokens = { childrenGap: 12 };
+const sectionStackTokens: IStackTokens = { childrenGap: 8 };
 
 export default AlertsTab;

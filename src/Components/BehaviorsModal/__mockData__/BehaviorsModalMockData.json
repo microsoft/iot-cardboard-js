@@ -16,14 +16,16 @@
                         "type": "TwinToObjectMapping",
                         "id": "a7094c812e6870004b6485112cc859b6",
                         "displayName": "PasteurizationMachine_A02",
-                        "linkedTwinID": "PasteurizationMachine_A02",
-                        "objectIDs": ["tank3_LOD0.012_primitive2"]
+                        "primaryTwinID": "PasteurizationMachine_A02",
+                        "objectIDs": [
+                            "tank3_LOD0.012_primitive2"
+                        ]
                     },
                     {
                         "type": "TwinToObjectMapping",
                         "id": "d2e033bcff9ff392b9b233e8571fcf28",
                         "displayName": "PasteurizationMachine_A03",
-                        "linkedTwinID": "PasteurizationMachine_A03",
+                        "primaryTwinID": "PasteurizationMachine_A03",
                         "objectIDs": [
                             "tank3_LOD0.003_primitive0",
                             "tank3_LOD0.003_primitive1",
@@ -34,7 +36,7 @@
                         "type": "TwinToObjectMapping",
                         "id": "45131a84754280b924477f1df54ca547",
                         "displayName": "SaltMachine_C1",
-                        "linkedTwinID": "SaltMachine_C1",
+                        "primaryTwinID": "SaltMachine_C1",
                         "objectIDs": [
                             "tank6_LOD0.004_primitive0",
                             "tank6_LOD0.004_primitive1"
@@ -44,29 +46,37 @@
                         "type": "TwinToObjectMapping",
                         "id": "0a624edf8ee4b4df7dc4e61c863d3724",
                         "displayName": "Xenia's Boiler",
-                        "linkedTwinID": "PasteurizationMachine_A03",
-                        "objectIDs": ["tank1_LOD0"]
+                        "primaryTwinID": "PasteurizationMachine_A03",
+                        "objectIDs": [
+                            "tank1_LOD0"
+                        ]
                     },
                     {
                         "type": "TwinToObjectMapping",
                         "id": "1955cd3fe666d4e7eb69974703f040c9",
                         "displayName": "Amy's Salt Machine",
-                        "linkedTwinID": "SaltMachine_C2",
-                        "objectIDs": ["tank6_LOD0.013_primitive1"]
+                        "primaryTwinID": "SaltMachine_C2",
+                        "objectIDs": [
+                            "tank6_LOD0.013_primitive1"
+                        ]
                     },
                     {
                         "type": "TwinToObjectMapping",
                         "id": "41bca486feaf985f52130947d31675dc",
                         "displayName": "PasteurizationMachine_A01",
-                        "linkedTwinID": "PasteurizationMachine_A01",
-                        "objectIDs": ["tank4_LOD0.006_primitive2"]
+                        "primaryTwinID": "PasteurizationMachine_A01",
+                        "objectIDs": [
+                            "tank4_LOD0.006_primitive2"
+                        ]
                     },
                     {
                         "type": "TwinToObjectMapping",
                         "id": "8e3db965a88c8eac56af222786b53a08",
                         "displayName": "SaltMachine_C0",
-                        "linkedTwinID": "SaltMachine_C0",
-                        "objectIDs": ["tank6_LOD0.001_primitive1"]
+                        "primaryTwinID": "SaltMachine_C0",
+                        "objectIDs": [
+                            "tank6_LOD0.001_primitive1"
+                        ]
                     }
                 ],
                 "behaviorIDs": [
@@ -106,7 +116,7 @@
                 "visuals": [
                     {
                         "type": "StatusColoring",
-                        "statusValueExpression": "LinkedTwin.OutFlow",
+                        "statusValueExpression": "PrimaryTwin.OutFlow",
                         "valueRanges": [
                             {
                                 "color": "#33A1FD",
@@ -150,7 +160,7 @@
                 "visuals": [
                     {
                         "type": "StatusColoring",
-                        "statusValueExpression": "LinkedTwin.Temperature",
+                        "statusValueExpression": "PrimaryTwin.Temperature",
                         "valueRanges": [
                             {
                                 "color": "#33A1FD",
@@ -177,7 +187,7 @@
                     },
                     {
                         "type": "Alert",
-                        "triggerExpression": "LinkedTwin.InFlow > 0",
+                        "triggerExpression": "PrimaryTwin.InFlow > 0",
                         "labelExpression": "Tank Too Full",
                         "iconName": "CircleHalfFull",
                         "color": "#de3b09",
@@ -192,7 +202,7 @@
                             {
                                 "id": "740385bb6f8f235e5071ebca5ae0da89",
                                 "type": "Gauge",
-                                "valueExpression": "LinkedTwin.Temperature",
+                                "valueExpression": "PrimaryTwin.Temperature",
                                 "widgetConfiguration": {
                                     "label": "Temperature",
                                     "valueRanges": [
@@ -223,7 +233,7 @@
                                 "id": "1d60362667067ff5763bb6f7765a9cc8",
                                 "widgetConfiguration": {
                                     "label": "Power BI",
-                                    "linkExpression": "https://mypowerbi.biz/${LinkedTwin.$dtId}"
+                                    "linkExpression": "https://mypowerbi.biz/${PrimaryTwin.$dtId}"
                                 }
                             },
                             {
@@ -231,7 +241,7 @@
                                 "id": "2d60362667067ff5763bb6f7765a9cc1",
                                 "widgetConfiguration": {
                                     "displayName": "Temperature",
-                                    "valueExpression": "LinkedTwin.Temperature",
+                                    "valueExpression": "PrimaryTwin.Temperature",
                                     "type": "double"
                                 }
                             }
@@ -258,7 +268,7 @@
                 "visuals": [
                     {
                         "type": "StatusColoring",
-                        "statusValueExpression": "LinkedTwin.InFlow",
+                        "statusValueExpression": "PrimaryTwin.InFlow",
                         "valueRanges": [
                             {
                                 "color": "#33A1FD",
@@ -285,7 +295,7 @@
                     },
                     {
                         "type": "Alert",
-                        "triggerExpression": "LinkedTwin.Temperature > 200",
+                        "triggerExpression": "PrimaryTwin.Temperature > 200",
                         "labelExpression": "Temp too hot",
                         "iconName": "Frigid",
                         "color": "#d6940f",
@@ -300,7 +310,7 @@
                             {
                                 "id": "",
                                 "type": "Gauge",
-                                "valueExpression": "LinkedTwin.InFlow",
+                                "valueExpression": "PrimaryTwin.InFlow",
                                 "widgetConfiguration": {
                                     "label": "In Flow",
                                     "valueRanges": [
@@ -329,7 +339,7 @@
                             {
                                 "id": "",
                                 "type": "Gauge",
-                                "valueExpression": "LinkedTwin.OutFlow",
+                                "valueExpression": "PrimaryTwin.OutFlow",
                                 "widgetConfiguration": {
                                     "label": "Out Flow",
                                     "valueRanges": [

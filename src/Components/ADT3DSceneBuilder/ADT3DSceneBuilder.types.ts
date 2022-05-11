@@ -168,8 +168,8 @@ export interface IADT3DSceneBuilderAddTwinAliasCalloutProps {
     hideCallout: () => void;
 }
 
-export interface IADT3DSceneBuilderLinkedTwinPropertiesCalloutProps {
-    commonLinkedTwinProperties: Array<string>;
+export interface IADT3DSceneBuilderPrimaryTwinPropertiesCalloutProps {
+    commonPrimaryTwinProperties: Array<string>;
     isLoading: boolean;
     calloutTarget: string;
     hideCallout: () => void;
@@ -244,8 +244,6 @@ export interface ADT3DSceneBuilderState {
 }
 
 export interface IWidgetBuilderFormDataProps {
-    intellisenseAliasNames?: string[];
-    getIntellisensePropertyNames?: (twinId: string) => string[];
     setIsWidgetConfigValid?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 

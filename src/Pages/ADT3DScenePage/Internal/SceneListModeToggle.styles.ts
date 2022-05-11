@@ -7,11 +7,6 @@ const classNames = {
 
 export const getStyles = memoizeFunction(() => {
     return mergeStyleSets({
-        pivot: [
-            classNames.pivot,
-            {
-                marginLeft: 'auto'
-            } as IStyle
-        ]
+        pivot: [classNames.pivot, {} as IStyle]
     });
 });

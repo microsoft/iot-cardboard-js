@@ -1,21 +1,41 @@
 // TODO SCHEMA MIGRATION -- update LinkWidgetBuilder to new schema / types
-import { TextField } from '@fluentui/react';
+import { TextField, useTheme } from '@fluentui/react';
 import produce from 'immer';
-import React, { useEffect } from 'react';
+import React, { useCallback, useContext, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { intellisenseMultilineBreakpoint } from '../../../../../../Models/Constants';
-import { Intellisense } from '../../../../../AutoComplete/Intellisense';
-
+import ModelledPropertyBuilder from '../../../../../ModelledPropertyBuilder/ModelledPropertyBuilder';
+import { PropertyExpression } from '../../../../../ModelledPropertyBuilder/ModelledPropertyBuilder.types';
+import { SceneBuilderContext } from '../../../../ADT3DSceneBuilder';
 import { ILinkWidgetBuilderProps } from '../../../../ADT3DSceneBuilder.types';
+import { getWidgetFormStyles } from '../WidgetForm/WidgetForm.styles';
 
 const LinkWidgetBuilder: React.FC<ILinkWidgetBuilderProps> = ({
     formData,
     updateWidgetData,
-    setIsWidgetConfigValid,
-    intellisenseAliasNames,
-    getIntellisensePropertyNames
+    setIsWidgetConfigValid
 }) => {
     const { t } = useTranslation();
+
+    const {
+        behaviorToEdit,
+        adapter,
+        config,
+        sceneId,
+        state: { selectedElements }
+    } = useContext(SceneBuilderContext);
+
+    const onExpressionChange = useCallback(
+        (newPropertyExpression: PropertyExpression) => {
+            updateWidgetData(
+                produce(formData, (draft) => {
+                    draft.widgetConfiguration.linkExpression =
+                        newPropertyExpression.expression;
+                })
+            );
+        },
+        [formData, updateWidgetData]
+    );
+
     useEffect(() => {
         const { label, linkExpression } = formData.widgetConfiguration;
         if (label && linkExpression) {
@@ -23,10 +43,13 @@ const LinkWidgetBuilder: React.FC<ILinkWidgetBuilderProps> = ({
         } else {
             setIsWidgetConfigValid(false);
         }
-    }, [formData]);
+    }, [formData, setIsWidgetConfigValid]);
+
+    const theme = useTheme();
+    const customStyles = getWidgetFormStyles(theme);
 
     return (
-        <>
+        <div className={customStyles.widgetFormContents}>
             <TextField
                 label={t('label')}
                 value={formData.widgetConfiguration.label}
@@ -38,28 +61,25 @@ const LinkWidgetBuilder: React.FC<ILinkWidgetBuilderProps> = ({
                     )
                 }
             />
-            <Intellisense
-                autoCompleteProps={{
-                    textFieldProps: {
-                        label: t('url'),
-                        placeholder: t('widgets.link.urlPlaceholder'),
-                        multiline:
-                            formData.widgetConfiguration.linkExpression.length >
-                            intellisenseMultilineBreakpoint
-                    }
+            <ModelledPropertyBuilder
+                adapter={adapter}
+                twinIdParams={{
+                    behavior: behaviorToEdit,
+                    config,
+                    sceneId,
+                    selectedElements
                 }}
-                defaultValue={formData.widgetConfiguration.linkExpression}
-                onChange={(newVal) => {
-                    updateWidgetData(
-                        produce(formData, (draft) => {
-                            draft.widgetConfiguration.linkExpression = newVal;
-                        })
-                    );
+                mode="INTELLISENSE"
+                propertyExpression={{
+                    expression:
+                        formData.widgetConfiguration.linkExpression || ''
                 }}
-                aliasNames={intellisenseAliasNames}
-                getPropertyNames={getIntellisensePropertyNames}
+                onChange={onExpressionChange}
+                required
+                intellisensePlaceholder={t('widgets.link.urlPlaceholder')}
+                customLabel={t('url')}
             />
-        </>
+        </div>
     );
 };
 

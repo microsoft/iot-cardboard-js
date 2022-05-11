@@ -87,6 +87,8 @@
   "uploadFile": "Télécharger le fichier",
   "uploadingFile": "Téléchargement de fichier...",
   "twinId": "Id jumeau",
+  "active": "Actif",
+  "invalidValue": "Valeur non valide",
   "errors": {
     "errorBoundary": "Limite d’erreur",
     "unkownError": "Une erreur inconnue s’est produite",
@@ -316,10 +318,10 @@
     "enterBlobUrl": "Entrez l’URL de votre objet blob de conteneur de stockage Azure",
     "home": "Domicile",
     "globe": "Globe",
-    "breadcrumbAriaLabel": "Fil d’Ariane avec des éléments rendus sous forme de boutons",
-    "breadcrumbOverflowAriaLabel": "Plus de liens",
     "globeView": "Vue du globe",
-    "listView": "Affichage de liste"
+    "listView": "Affichage de liste",
+    "breadcrumbAriaLabel": "Fil d’Ariane avec des éléments rendus sous forme de boutons",
+    "breadcrumbOverflowAriaLabel": "Plus de liens"
   },
   "layersDropdown": {
     "placeholder": "Aucun calque sélectionné",
@@ -381,6 +383,7 @@
     "addElementDetails": "Ajouter des détails d’élément",
     "noBehaviorsOnElement": "Aucun comportement affecté à cet élément",
     "noElementsText": "Aucun élément créé pour l’instant",
+    "noResults": "Aucun résultat trouvé",
     "behaviorsInSceneTitle": "Dans cette scène ({{count}})",
     "createWithElement": "Créer avec {{element}}",
     "elementActions": "Actions des éléments",
@@ -402,8 +405,8 @@
     "addBehaviorToScene": "Ajouter un comportement à la scène",
     "behaviorMetaText": "{{numElementsInActiveScene}} elements, {{numSceneRefs}} scènes",
     "elementMetaText": "{{numBehaviors}} comportements",
-    "linkedTwin": "Jumeau lié",
-    "linkedTwinInputInfo": "Entrez un ID jumeau ($dtId) pour créer un lien avec cet élément (sensible à la casse)",
+    "primaryTwin": "Jumeau principal",
+    "primaryTwinInputInfo": "Entrez un ID jumeau ($dtId) pour créer un lien avec cet élément (sensible à la casse)",
     "noMeshAddedText": "Aucun maillage ajouté pour le moment, veuillez sélectionner les maillages dans la visionneuse 3D",
     "meshes": "Mailles",
     "behaviorElementsDropdownLabel": "Élément cible",
@@ -411,7 +414,7 @@
     "behaviorAlertForm": {
       "colorPickerLabel": "Couleur du badge",
       "expressionLabel": "Expression de déclenchement",
-      "expressionPlaceholder": "Entrez l’expression (par exemple LinkedTwin.InFlow > 3)",
+      "expressionPlaceholder": "Entrez l’expression (par exemple PrimaryTwin.InFlow > 3)",
       "iconPickerLabel": "Icône de badge",
       "notice": "Ce comportement ne sera activé que lorsque l’expression de déclencheur ci-dessous aura la valeur true.",
       "notificationLabel": "Texte de notification",
@@ -427,6 +430,15 @@
       "noSelectionValue": "Aucun",
       "propertyNotFound": "Propriété introuvable sur les jumeaux du comportement",
       "propertyDropdownPlaceholder": "Sélectionner une propriété jumelle"
+    },
+    "ModelledPropertyBuilder": {
+      "expressionLabel": "Expression de propriété",
+      "expressionPlaceholder": "Entrer l’expression de propriété",
+      "singleProperty": "Propriété unique",
+      "customExpression": "Personnalisé (avancé)",
+      "dropdownPlaceholder": "Sélectionner une propriété",
+      "toggleLabel": "Mode d’expression",
+      "none": "Aucun"
     },
     "numericExpressionPlaceholder": "Entrez une expression qui s’évalue à un nombre",
     "behaviorId": "ID de comportement",
@@ -445,13 +457,13 @@
     "expression": "Expression",
     "warningBreakPointToggleLabel": "Activer le point de rupture des couleurs",
     "warningBreakPointLabel": "Point d’arrêt des couleurs d’avertissement",
-    "linkWidgetUrlDescription": "L’URL du widget de lien prend en charge la mise en forme de chaîne de modèle JavaScript telle que : ${LinkedTwin.property}",
+    "linkWidgetUrlDescription": "L’URL du widget de lien prend en charge la mise en forme de chaîne de modèle JavaScript telle que : ${PrimaryTwin.property}",
     "behaviorTypes": {
       "alertBehavior": "Comportement d’alerte",
       "statusBehavior": "Comportement de l’état"
     },
     "notImplemented": "Non mis en œuvre",
-    "noLinkedTwinProperties": "Aucune propriété jumelle liée à afficher",
+    "noPrimaryTwinProperties": "Aucune propriété jumelle principale à afficher",
     "twinAlias": {
       "title": "Alias jumeau",
       "titlePlural": "Alias jumeaux",
@@ -477,24 +489,14 @@
       },
       "descriptions": {
         "twins": "Les jumeaux vous donnent accès à des propriétés qui peuvent être utilisées dans des expressions.",
-        "linkedTwin": "Le LinkedTwin contient toutes les propriétés en commun entre les éléments cibles liés aux jumeaux.",
+        "primaryTwin": "Le PrimaryTwin contient toutes les propriétés communes entre les éléments cibles des jumeaux primaires.",
         "aliasChangeNotAllowed": "La modification de l’alias n’est pas autorisée après la création.",
-        "commonProperties": "L’union des propriétés jumelles liées d’éléments sélectionnés"
+        "commonProperties": "L’union des propriétés jumelles primaires d’éléments sélectionnés"
       },
       "errors": {
         "twinAliasAlreadyExists": "Un alias jumeau portant le même nom existe déjà, envisagez de l’ajouter à la place."
       }
-    },
-    "ModelledPropertyBuilder": {
-      "expressionLabel": "Expression de propriété",
-      "expressionPlaceholder": "Entrer l’expression de propriété",
-      "selectProperty": "Sélectionner une propriété",
-      "toggleLabel": "Expression de propriété",
-      "dropdownPlaceholder": "Sélectionner une propriété",
-      "none": "Aucun",
-      "customExpression": "Expression personnalisée"
-    },
-    "noResults": "Aucun résultat trouvé"
+    }
   },
   "widgets": {
     "trend": {
@@ -508,20 +510,20 @@
     "link": {
       "title": "Widget lien",
       "description": "Référencer un contenu externe en liant une URL",
-      "urlPlaceholder": "https://mypowerbi.biz/${LinkedTwin.$dtId}",
+      "urlPlaceholder": "https://mypowerbi.biz/${PrimaryTwin.myproperty}",
       "openLink": "Ouvrir le lien"
+    },
+    "value": {
+      "title": "Widget Valeur",
+      "description": "Un widget de base pour afficher les valeurs des propriétés jumelles",
+      "displayNamePlaceholder": "Entrez le nom complet",
+      "typePlaceholder": "Sélectionnez le type de la valeur"
     },
     "panel": {
       "title": "Widget de panneau",
       "description": "Un panneau de mise en page"
     },
-    "notSupported": "Ce type de widget n’est actuellement pas pris en charge",
-    "value": {
-      "title": "Widget Valeur",
-      "description": "Widget de base pour afficher les valeurs des propriétés jumelles",
-      "typePlaceholder": "Sélectionnez le type de la valeur",
-      "displayNamePlaceholder": "Entrez le nom complet"
-    }
+    "notSupported": "Ce type de widget n’est actuellement pas pris en charge"
   },
   "sdkStrings": {
     "Last 30 mins": "Les 30 dernières minutes",
@@ -727,7 +729,7 @@
     "state": "État",
     "allProperties": "Toutes les propriétés",
     "behaviorPreview": "Aperçu",
-    "LinkedTwinProperties": "Propriétés Twin liées"
+    "PrimaryTwinProperties": "Propriétés jumelles principales"
   },
   "svgTests": {
     "fluentUI": "Chargement SVG via le composant Fluent Image (modèle recommandé)",
@@ -751,6 +753,14 @@
     "transparent": "Transparent",
     "wireframe": "Filaire"
   },
+  "deeplinkFlyout": {
+    "buttonTitle": "Partager",
+    "copyButtonText": "Copier le lien",
+    "copyConfirmationMessage": "Copié!",
+    "flyoutHeader": "Partager la scène",
+    "includeElementsOption": "Lien avec l’élément sélectionné",
+    "includeLayersOption": "Liaison avec les calques sélectionnés"
+  },
   "elementsPanel": {
     "title": "Éléments",
     "noElements": "Aucun élément à afficher",
@@ -773,15 +783,5 @@
     "pan": "Pan",
     "orbit": "Orbite",
     "zoom": "Zoom"
-  },
-  "active": "Actif",
-  "invalidValue": "Valeur non valide",
-  "deeplinkFlyout": {
-    "buttonTitle": "Partager",
-    "copyButtonText": "Copier le lien",
-    "copyConfirmationMessage": "Copié!",
-    "flyoutHeader": "Partager la scène",
-    "includeElementsOption": "Lien avec l’élément sélectionné",
-    "includeLayersOption": "Liaison avec les calques sélectionnés"
   }
 }

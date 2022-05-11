@@ -17,7 +17,7 @@
                         "type": "TwinToObjectMapping",
                         "id": "5ba433d52b8445979fabc818fd40ae3d",
                         "displayName": "leftWheels",
-                        "linkedTwinID": "SaltMachine_C1", // the twin that this element references
+                        "primaryTwinID": "SaltMachine_C1", // the twin that this element references
                         // in the web application, objectIDs will generally be meshIDs
                         // the name is deliberately generic to be suitable for other applications
                         "objectIDs": [
@@ -32,9 +32,9 @@
                         "type": "TwinToObjectMapping",
                         "id": "4cb0990d646a4bbea3e1102676e200fe",
                         "displayName": "tank",
-                        "linkedTwinID": "SaltMachine_C1",
+                        "primaryTwinID": "SaltMachine_C1",
                         "objectIDs": ["tankMesh"],
-                        /* in some situations, elements will need to reference more than just the LinkedTwin
+                        /* in some situations, elements will need to reference more than just the PrimaryTwin
                            aliases are used for other relevant twins, and they can be referenced in behavior expressions
                            twinAliases is an optional field
                            in practice any aliases required by behaviors should be present on elements that are used in those behaviors */
@@ -47,7 +47,7 @@
                         "type": "TwinToObjectMapping",
                         "id": "0c785dde26664341b1f391a4e1b35180",
                         "displayName": "box1",
-                        "linkedTwinID": "BoxA",
+                        "primaryTwinID": "BoxA",
                         "objectIDs": ["boxLid1Mesh", "boxBody1Mesh"]
                     }
                 ],
@@ -85,7 +85,7 @@
                     {
                         /* ElementDatasources get their object from the elements defined in a scene.
                            The structure returned from an ElementDatasource looks like this...
-                           [{LinkedTwin: <fromAdt>, aTwinAlias: <fromADT>, objectIDs: [arrayOfMeshIDs]}
+                           [{PrimaryTwin: <fromAdt>, aTwinAlias: <fromADT>, objectIDs: [arrayOfMeshIDs]}
                            Note that the properties in this object are referenced in expressions below */
                         "type": "ElementTwinToObjectMappingDataSource",
                         "elementIDs": [
@@ -107,12 +107,12 @@
                         // widgets are placed in the popover, and can be grouped using groups below
                         "widgets": [
                             {
-                                // this is a gauge that displays the outflow property of the linked twin returned from the datasource above
+                                // this is a gauge that displays the outflow property of the primary twin returned from the datasource above
                                 "type": "Gauge",
 
                                 // groupID is optional, may not match with any group either, we should handle its non-presence or mismatched value gracefully
                                 "groupID": "8bf489e804884596afe8abb7e803d5c5",
-                                "valueExpression": "LinkedTwin.OutFlow",
+                                "valueExpression": "PrimaryTwin.OutFlow",
 
                                 /* widget configuration specifies widget specific properties that are used for rendering this gauge
                                    like units, label, min and max value
@@ -130,7 +130,7 @@
                             {
                                 "type": "Gauge",
                                 "groupID": "8bf489e804884596afe8abb7e803d5c5",
-                                "valueExpression": "LinkedTwin.InFlow",
+                                "valueExpression": "PrimaryTwin.InFlow",
                                 "widgetConfiguration": {
                                     "units": "PSI",
                                     "label": "Right",
@@ -141,7 +141,7 @@
                             {
                                 "type": "Gauge",
                                 "groupID": "286fac42a4a645b4bdcad9bcee915d0f",
-                                "valueExpression": "LinkedTwin.Temperature",
+                                "valueExpression": "PrimaryTwin.Temperature",
                                 "widgetConfiguration": {
                                     "units": "PSI",
                                     "label": "Left",
@@ -152,7 +152,7 @@
                             {
                                 "type": "Gauge",
                                 "groupID": "286fac42a4a645b4bdcad9bcee915d0f",
-                                "valueExpression": "LinkedTwin.OutFlow",
+                                "valueExpression": "PrimaryTwin.OutFlow",
                                 "widgetConfiguration": {
                                     "units": "PSI",
                                     "label": "Right",
@@ -165,7 +165,7 @@
                                 "type": "Link",
                                 "groupID": "29dd688a00554d46be0eead725c668b4",
                                 "widgetConfiguration": {
-                                    "linkExpression": "https://mypowerbi.biz/${LinkedTwin.$dtId}"
+                                    "linkExpression": "https://mypowerbi.biz/${PrimaryTwin.$dtId}"
                                 }
                             },
                             {
@@ -174,7 +174,7 @@
                                 "groupID": "29dd688a00554d46be0eead725c668b4",
                                 "widgetConfiguration": {
                                     "displayName": "Temperature",
-                                    "valueExpression": "LinkedTwin.Temperature",
+                                    "valueExpression": "PrimaryTwin.Temperature",
                                     "type": "double"
                                 }
                             }
@@ -245,7 +245,7 @@
                         // an Alert visual is used for showing specific iconography when a boolean expression is true
                         "type": "Alert",
                         "triggerExpression": "temperatureTag.value > 100",
-                        "labelExpression": "${LinkedTwin.displayName} is too hot!",
+                        "labelExpression": "${PrimaryTwin.displayName} is too hot!",
                         "iconName": "heart",
                         "color": "#00FF00",
                         "objectIDs": {

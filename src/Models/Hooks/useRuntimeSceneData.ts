@@ -7,8 +7,8 @@ import {
     SceneVisual
 } from '../Classes/SceneView.types';
 import ViewerConfigUtility from '../Classes/ViewerConfigUtility';
-import { BadgeIcons } from '../Constants';
 import { IADT3DViewerAdapter } from '../Constants/Interfaces';
+import { BadgeIcons } from '../Constants/BadgeIcons';
 import {
     deepCopy,
     getSceneElementStatusColor,
@@ -104,12 +104,8 @@ export const useRuntimeSceneData = (
                                     const color = visual.color;
                                     const meshId =
                                         sceneVisual.element.objectIDs?.[0];
-                                    const icon = BadgeIcons?.[
-                                        visual.iconName.toLowerCase()
-                                    ]
-                                        ? BadgeIcons[
-                                              visual.iconName.toLowerCase()
-                                          ]
+                                    const icon = BadgeIcons?.[visual.iconName]
+                                        ? BadgeIcons[visual.iconName]
                                         : BadgeIcons.default;
 
                                     alerts.push({

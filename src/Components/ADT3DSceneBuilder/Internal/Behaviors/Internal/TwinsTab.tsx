@@ -27,18 +27,22 @@ import {
     getLeftPanelStyles
 } from '../../Shared/LeftPanel.styles';
 import { SceneBuilderContext } from '../../../ADT3DSceneBuilder';
-import { linkedTwinName } from '../../../../../Models/Constants/Constants';
 import {
-    IAliasedTwinProperty,
-    TwinAliasFormMode
-} from '../../../../../Models/Constants';
+    DTDLPropertyIconographyMap,
+    primaryTwinName
+} from '../../../../../Models/Constants/Constants';
+import { TwinAliasFormMode } from '../../../../../Models/Constants';
 import { IBehaviorTwinAliasItem } from '../../../../../Models/Classes/3DVConfig';
 import AddTwinAliasCallout from '../Twins/AddTwinAliasCallout';
 import ViewerConfigUtility from '../../../../../Models/Classes/ViewerConfigUtility';
 import produce from 'immer';
-import useBehaviorAliasedTwinProperties from '../../../../../Models/Hooks/useBehaviorAliasedTwinProperties';
 import { IValidityState, TabNames } from '../BehaviorForm.types';
 import CardboardListCallout from '../../../../CardboardListCallout/CardboardListCallout';
+import { useModelledProperties } from '../../../../ModelledPropertyBuilder/useModelledProperties';
+import {
+    defaultAllowedPropertyValueTypes,
+    IModelledProperty
+} from '../../../../ModelledPropertyBuilder/ModelledPropertyBuilder.types';
 
 interface ITwinsTabProps {
     selectedElements: Array<ITwinToObjectMapping>;
@@ -57,41 +61,50 @@ const TwinsTab: React.FC<ITwinsTabProps> = ({
         sceneId,
         setBehaviorTwinAliasFormInfo,
         behaviorToEdit,
-        setBehaviorToEdit
+        setBehaviorToEdit,
+        adapter
     } = useContext(SceneBuilderContext);
-    const [linkedTwinList, setLinkedTwinList] = useState([]);
+    const [primaryTwinList, setPrimaryTwinList] = useState([]);
     const [twinAliasList, setTwinAliasList] = useState([]);
     const [availableTwinAliases, setAvailableTwinAliases] = useState<
         Array<IBehaviorTwinAliasItem>
     >([]);
-    const linkedTwinPropertiesTargetId = useId('linkedTwinProperties-callout');
+    const primaryTwinPropertiesTargetId = useId(
+        'primaryTwinProperties-callout'
+    );
     const addAliasCalloutTargetId = useId('addAlias-callout');
     const [
-        isLinkedTwinPropertiesCalloutVisible,
-        { toggle: toggleIsLinkedTwinPropertiesCalloutVisible }
+        isPrimaryTwinPropertiesCalloutVisible,
+        { toggle: toggleIsPrimaryTwinPropertiesCalloutVisible }
     ] = useBoolean(false);
     const [
         isAddTwinAliasCalloutVisible,
         { toggle: toggleIsAddTwinAliasCalloutVisible }
     ] = useBoolean(false);
 
-    // get the property names to show the common properties in linked twins in the (selected) elements of the behavior
+    // get the property names to show the common properties in primary twins in the (selected) elements of the behavior
     const {
-        options: commonLinkedTwinProperties,
-        isLoading: isCommonLinkedTwinPropertiesLoading
-    } = useBehaviorAliasedTwinProperties({
-        behavior: behaviorToEdit,
-        isTwinAliasesIncluded: false,
-        selectedElements
+        isLoading: isCommonPrimaryTwinPropertiesLoading,
+        modelledProperties
+    } = useModelledProperties({
+        adapter,
+        twinIdParams: {
+            selectedElements,
+            behavior: behaviorToEdit,
+            config,
+            sceneId,
+            disableAliasedTwins: true
+        },
+        allowedPropertyValueTypes: defaultAllowedPropertyValueTypes
     });
 
-    // set the single item linked twin list on mount
+    // set the single item primary twin list on mount
     useEffect(() => {
-        setLinkedTwinList(
-            getLinkedTwinListItems(
+        setPrimaryTwinList(
+            getPrimaryTwinListItems(
                 t,
-                toggleIsLinkedTwinPropertiesCalloutVisible,
-                linkedTwinPropertiesTargetId
+                toggleIsPrimaryTwinPropertiesCalloutVisible,
+                primaryTwinPropertiesTargetId
             )
         );
     }, []);
@@ -196,13 +209,22 @@ const TwinsTab: React.FC<ITwinsTabProps> = ({
         []
     );
 
-    const linkedTwinProperties = useMemo(
-        () =>
-            commonLinkedTwinProperties.map(
-                (lP: IAliasedTwinProperty) => lP.property
-            ),
-        [commonLinkedTwinProperties]
-    );
+    const primaryTwinProperties: Array<
+        ICardboardListItem<IModelledProperty>
+    > = useMemo(() => {
+        const primaryTwinProperties =
+            modelledProperties?.flattenedFormat?.[primaryTwinName] ?? [];
+        return primaryTwinProperties.map((lP: IModelledProperty) => {
+            const iconStart = DTDLPropertyIconographyMap[lP.propertyType]?.icon;
+            return {
+                textPrimary: lP.localPath,
+                ...(iconStart && { iconStart: { name: iconStart } }),
+                item: lP,
+                onClick: () => null,
+                ariaLabel: lP.localPath
+            };
+        });
+    }, [modelledProperties]);
 
     const theme = useTheme();
     const commonPanelStyles = getLeftPanelStyles(theme);
@@ -213,37 +235,40 @@ const TwinsTab: React.FC<ITwinsTabProps> = ({
                 {t('3dSceneBuilder.twinAlias.descriptions.twins')}
             </Text>
             <div>
-                <Label>{t('3dSceneBuilder.linkedTwin')}</Label>
+                <Label>{t('3dSceneBuilder.primaryTwin')}</Label>
                 <Text className={commonPanelStyles.text}>
-                    {t('3dSceneBuilder.twinAlias.descriptions.linkedTwin')}
+                    {t('3dSceneBuilder.twinAlias.descriptions.primaryTwin')}
                 </Text>
-                {isLinkedTwinPropertiesCalloutVisible && (
+                {isPrimaryTwinPropertiesCalloutVisible && (
                     <CardboardListCallout
-                        listType="Basic"
-                        calloutTarget={linkedTwinPropertiesTargetId}
+                        listType="Complex"
+                        calloutTarget={primaryTwinPropertiesTargetId}
                         title={t('3dSceneBuilder.twinAlias.commonProperties')}
                         listKey={'common-properties-callout-list'}
-                        listItems={linkedTwinProperties}
-                        isListLoading={isCommonLinkedTwinPropertiesLoading}
-                        onDismiss={toggleIsLinkedTwinPropertiesCalloutVisible}
+                        listItems={primaryTwinProperties}
+                        isListLoading={isCommonPrimaryTwinPropertiesLoading}
+                        onDismiss={toggleIsPrimaryTwinPropertiesCalloutVisible}
                         filterPlaceholder={t(
                             '3dSceneBuilder.twinAlias.searchProperties'
                         )}
-                        filterPredicate={(property: string, searchTerm) =>
-                            property
+                        filterPredicate={(
+                            property: IModelledProperty,
+                            searchTerm
+                        ) =>
+                            property.localPath
                                 .toLowerCase()
                                 .includes(searchTerm.toLowerCase())
                         }
                         noResultText={t(
-                            '3dSceneBuilder.noLinkedTwinProperties'
+                            '3dSceneBuilder.noPrimaryTwinProperties'
                         )}
-                        searchBoxDataTestId="linked-twin-callout-search"
+                        searchBoxDataTestId="primary-twin-callout-search"
                     />
                 )}
-                {linkedTwinList.length > 0 && (
+                {primaryTwinList.length > 0 && (
                     <CardboardList<IBehaviorTwinAliasItem>
-                        items={linkedTwinList}
-                        listKey={`behavior-linked-twin-list`}
+                        items={primaryTwinList}
+                        listKey={`behavior-primary-twin-list`}
                     />
                 )}
             </div>
@@ -280,18 +305,18 @@ const TwinsTab: React.FC<ITwinsTabProps> = ({
     );
 };
 
-function getLinkedTwinListItems(
+function getPrimaryTwinListItems(
     t: TFunction<string>,
-    onLinkedTwinClick: () => void,
+    onPrimaryTwinClick: () => void,
     buttonId: string
 ): ICardboardListItem<string>[] {
     const listItem: ICardboardListItem<string> = {
-        ariaLabel: t('3dSceneBuilder.linkedTwin'),
+        ariaLabel: t('3dSceneBuilder.primaryTwin'),
         iconStart: { name: 'LinkedDatabase' },
         iconEnd: { name: 'RedEye' },
-        item: linkedTwinName,
-        onClick: onLinkedTwinClick,
-        textPrimary: linkedTwinName,
+        item: primaryTwinName,
+        onClick: onPrimaryTwinClick,
+        textPrimary: primaryTwinName,
         buttonProps: {
             id: buttonId
         }

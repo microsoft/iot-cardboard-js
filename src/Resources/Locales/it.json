@@ -87,6 +87,8 @@
   "uploadFile": "Carica file",
   "uploadingFile": "Caricamento del file...",
   "twinId": "DOPPIA ID",
+  "active": "Attivo",
+  "invalidValue": "Valore non valido",
   "errors": {
     "errorBoundary": "Limite di errore",
     "unkownError": "Si è verificato un errore sconosciuto",
@@ -151,7 +153,7 @@
     "simulateDescription": "Esegui il push degli eventi nel tuo ambiente",
     "pusherType": "Tipo di simulazione",
     "robotArms": "Bracci robotici",
-    "dairyProduction": "Impianto lattiero-caseario"
+    "dairyProduction": "Stabilimento lattiero-caseario"
   },
   "scenes": {
     "noScenes": "Non hai scene 3D, aggiungine una nuova per iniziare.",
@@ -316,10 +318,10 @@
     "enterBlobUrl": "Immettere l'URL BLOB del contenitore di archiviazione di Azure",
     "home": "Casa",
     "globe": "Globo",
-    "breadcrumbAriaLabel": "Breadcrumb con elementi sottoposti a rendering come pulsanti",
-    "breadcrumbOverflowAriaLabel": "Altri link",
     "globeView": "Vista globo",
-    "listView": "Visualizzazione elenco"
+    "listView": "Visualizzazione elenco",
+    "breadcrumbAriaLabel": "Breadcrumb con elementi sottoposti a rendering come pulsanti",
+    "breadcrumbOverflowAriaLabel": "Altri link"
   },
   "layersDropdown": {
     "placeholder": "Nessun livello selezionato",
@@ -381,6 +383,7 @@
     "addElementDetails": "Aggiungere i dettagli dell'elemento",
     "noBehaviorsOnElement": "Nessun comportamento assegnato a questo elemento",
     "noElementsText": "Nessun elemento creato ancora",
+    "noResults": "Nessun risultato trovato",
     "behaviorsInSceneTitle": "In questa scena ({{count}})",
     "createWithElement": "Crea con {{element}}",
     "elementActions": "Azioni elemento",
@@ -402,8 +405,8 @@
     "addBehaviorToScene": "Aggiungere un comportamento alla scena",
     "behaviorMetaText": "{{numElementsInActiveScene}} elementi, {{numSceneRefs}} scene",
     "elementMetaText": "Comportamenti di {{numBehaviors}}",
-    "linkedTwin": "Gemello collegato",
-    "linkedTwinInputInfo": "Immettere un ID doppio ($dtId) da collegare a questo elemento (con distinzione tra maiuscole e minuscole)",
+    "primaryTwin": "Gemello primario",
+    "primaryTwinInputInfo": "Immettere un ID doppio ($dtId) da collegare a questo elemento (con distinzione tra maiuscole e minuscole)",
     "noMeshAddedText": "Nessuna mesh aggiunta ancora, selezionare le mesh nel visualizzatore 3D",
     "meshes": "Maglie",
     "behaviorElementsDropdownLabel": "Elemento di destinazione",
@@ -411,7 +414,7 @@
     "behaviorAlertForm": {
       "colorPickerLabel": "Colore del badge",
       "expressionLabel": "Espressione trigger",
-      "expressionPlaceholder": "Enter expression (es. LinkedTwin.InFlow > 3)",
+      "expressionPlaceholder": "Enter expression (es. PrimaryTwin.InFlow > 3)",
       "iconPickerLabel": "Icona del badge",
       "notice": "Questo comportamento verrà attivato solo quando l'espressione trigger riportata di seguito viene valutata come true.",
       "notificationLabel": "Testo della notifica",
@@ -427,6 +430,15 @@
       "noSelectionValue": "Nessuno",
       "propertyNotFound": "Proprietà non trovata sui gemelli del comportamento",
       "propertyDropdownPlaceholder": "Seleziona proprietà doppia"
+    },
+    "ModelledPropertyBuilder": {
+      "expressionLabel": "Espressione di proprietà",
+      "expressionPlaceholder": "Immettere l'espressione di proprietà",
+      "singleProperty": "Proprietà singola",
+      "customExpression": "Personalizzato (avanzato)",
+      "dropdownPlaceholder": "Seleziona una proprietà",
+      "toggleLabel": "Modalità espressione",
+      "none": "Nessuno"
     },
     "numericExpressionPlaceholder": "Immettere un'espressione che restituisce un numero",
     "behaviorId": "ID comportamento",
@@ -445,13 +457,13 @@
     "expression": "Espressione",
     "warningBreakPointToggleLabel": "Abilita punto di interruzione colore",
     "warningBreakPointLabel": "Punto di interruzione del colore di avviso",
-    "linkWidgetUrlDescription": "L'URL del widget di collegamento supporta la formattazione della stringa del modello JavaScript come: ${LinkedTwin.property}",
+    "linkWidgetUrlDescription": "L'URL del widget di collegamento supporta la formattazione della stringa del modello JavaScript come: ${PrimaryTwin.property}",
     "behaviorTypes": {
       "alertBehavior": "Comportamento di avviso",
       "statusBehavior": "Comportamento dello stato"
     },
     "notImplemented": "Non implementato",
-    "noLinkedTwinProperties": "Nessuna proprietà gemella collegata da visualizzare",
+    "noPrimaryTwinProperties": "Nessuna proprietà gemella primaria da visualizzare",
     "twinAlias": {
       "title": "Alias gemello",
       "titlePlural": "Alias gemelli",
@@ -477,24 +489,14 @@
       },
       "descriptions": {
         "twins": "I gemelli consentono di accedere a proprietà che possono essere utilizzate nelle espressioni.",
-        "linkedTwin": "LinkedTwin contiene tutte le proprietà in comune tra gli elementi di destinazione collegati gemelli.",
+        "primaryTwin": "PrimaryTwin contiene tutte le proprietà in comune tra i gemelli primari degli elementi target.",
         "aliasChangeNotAllowed": "La modifica dell'alias non è consentita dopo la creazione.",
-        "commonProperties": "L'unione delle proprietà gemelle collegate degli elementi selezionati"
+        "commonProperties": "L'unione delle proprietà gemelle primarie degli elementi selezionati"
       },
       "errors": {
         "twinAliasAlreadyExists": "L'alias gemello con lo stesso nome esiste già, considera invece di aggiungerlo."
       }
-    },
-    "ModelledPropertyBuilder": {
-      "expressionLabel": "Espressione di proprietà",
-      "expressionPlaceholder": "Immettere l'espressione di proprietà",
-      "selectProperty": "Seleziona proprietà",
-      "toggleLabel": "Espressione di proprietà",
-      "dropdownPlaceholder": "Seleziona una proprietà",
-      "none": "Nessuno",
-      "customExpression": "Espressione personalizzata"
-    },
-    "noResults": "Nessun risultato trovato"
+    }
   },
   "widgets": {
     "trend": {
@@ -508,20 +510,20 @@
     "link": {
       "title": "Widget Link",
       "description": "Fare riferimento a contenuti esterni collegando un URL",
-      "urlPlaceholder": "https://mypowerbi.biz/${LinkedTwin.$dtId}",
+      "urlPlaceholder": "https://mypowerbi.biz/${PrimaryTwin.myproperty}",
       "openLink": "Apri link"
+    },
+    "value": {
+      "title": "Widget Valore",
+      "description": "Un widget di base per mostrare i valori delle proprietà gemelle",
+      "displayNamePlaceholder": "Immettere il nome visualizzato",
+      "typePlaceholder": "Selezionare il tipo per il valore"
     },
     "panel": {
       "title": "Widget del pannello",
       "description": "Un pannello di layout"
     },
-    "notSupported": "Questo tipo di widget non è attualmente supportato",
-    "value": {
-      "title": "Widget Valore",
-      "description": "Widget di base per mostrare i valori delle proprietà gemelle",
-      "typePlaceholder": "Selezionare il tipo per il valore",
-      "displayNamePlaceholder": "Immettere il nome visualizzato"
-    }
+    "notSupported": "Questo tipo di widget non è attualmente supportato"
   },
   "sdkStrings": {
     "Last 30 mins": "Ultimi 30 minuti",
@@ -727,7 +729,7 @@
     "state": "Stato",
     "allProperties": "Tutte le proprietà",
     "behaviorPreview": "Anteprima",
-    "LinkedTwinProperties": "Proprietà gemelle collegate"
+    "PrimaryTwinProperties": "Proprietà gemello primario"
   },
   "svgTests": {
     "fluentUI": "Caricamento SVG tramite il componente Fluent Image (modello consigliato)",
@@ -751,6 +753,14 @@
     "transparent": "Trasparente",
     "wireframe": "Wireframe"
   },
+  "deeplinkFlyout": {
+    "buttonTitle": "Condividi",
+    "copyButtonText": "Copia link",
+    "copyConfirmationMessage": "Copiato!",
+    "flyoutHeader": "Condividi scena",
+    "includeElementsOption": "Collegamento con l'elemento selezionato",
+    "includeLayersOption": "Collegamento con i livelli selezionati"
+  },
   "elementsPanel": {
     "title": "Elementi",
     "noElements": "Nessun elemento da visualizzare",
@@ -773,15 +783,5 @@
     "pan": "Padella",
     "orbit": "Orbita",
     "zoom": "Zoom"
-  },
-  "active": "Attivo",
-  "invalidValue": "Valore non valido",
-  "deeplinkFlyout": {
-    "buttonTitle": "Condividi",
-    "copyButtonText": "Copia link",
-    "copyConfirmationMessage": "Copiato!",
-    "flyoutHeader": "Condividi scena",
-    "includeElementsOption": "Collegamento con l'elemento selezionato",
-    "includeLayersOption": "Collegamento con i livelli selezionati"
   }
 }

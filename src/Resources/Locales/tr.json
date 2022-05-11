@@ -87,6 +87,8 @@
   "uploadFile": "Dosya yükle",
   "uploadingFile": "Dosya yükleniyor...",
   "twinId": "İkiz Kimlik",
+  "active": "Etkin",
+  "invalidValue": "Geçersiz değer",
   "errors": {
     "errorBoundary": "Hata sınırı",
     "unkownError": "Bilinmeyen hata oluştu",
@@ -150,8 +152,8 @@
     "generateEnvironmentDescription": "Ortamınızı doldurmak için modelleri, ikizleri ve ilişkileri itin",
     "simulateDescription": "Olayları ortamınıza gönderin",
     "pusherType": "Simülasyon Türü",
-    "robotArms": "Robot Kolları",
-    "dairyProduction": "Süt Tesisi"
+    "robotArms": "Robot kolları",
+    "dairyProduction": "Süt ürünleri tesisi"
   },
   "scenes": {
     "noScenes": "3B sahneleriniz yok, başlamak için yeni bir tane ekleyin.",
@@ -316,10 +318,10 @@
     "enterBlobUrl": "Azure depolama kapsayıcısı blob URL'nizi girin",
     "home": "Ev",
     "globe": "Küre",
-    "breadcrumbAriaLabel": "Düğmeler olarak oluşturulan öğelerle içerik kırıntısı",
-    "breadcrumbOverflowAriaLabel": "Daha fazla bağlantı",
     "globeView": "Dünya görünümü",
-    "listView": "Liste görünümü"
+    "listView": "Liste görünümü",
+    "breadcrumbAriaLabel": "Düğmeler olarak oluşturulan öğelerle içerik kırıntısı",
+    "breadcrumbOverflowAriaLabel": "Daha fazla bağlantı"
   },
   "layersDropdown": {
     "placeholder": "Katman seçilmedi",
@@ -381,6 +383,7 @@
     "addElementDetails": "Öğe ayrıntıları ekleme",
     "noBehaviorsOnElement": "Bu öğeye atanmış davranış yok",
     "noElementsText": "Henüz oluşturulmuş bir öğe yok",
+    "noResults": "Sonuç bulunamadı",
     "behaviorsInSceneTitle": "Bu sahnede ({{count}})",
     "createWithElement": "{{element}} ile oluştur",
     "elementActions": "Öğe eylemleri",
@@ -402,8 +405,8 @@
     "addBehaviorToScene": "Sahneye davranış ekleme",
     "behaviorMetaText": "{{numElementsInActiveScene}} öğeleri, {{numSceneRefs}} sahneleri",
     "elementMetaText": "{{numBehaviors}} davranışları",
-    "linkedTwin": "Bağlantılı ikiz",
-    "linkedTwinInputInfo": "Bu öğeyle bağlantı kurmak için ikiz kimliği ($dtId) girin (büyük/küçük harfe duyarlı)",
+    "primaryTwin": "Birincil ikiz",
+    "primaryTwinInputInfo": "Bu öğeyle bağlantı kurmak için ikiz kimliği ($dtId) girin (büyük/küçük harfe duyarlı)",
     "noMeshAddedText": "Henüz kafes eklenmedi, lütfen 3B görüntüleyicide kafesleri seçin",
     "meshes": "Kafes",
     "behaviorElementsDropdownLabel": "Hedef öğe",
@@ -411,7 +414,7 @@
     "behaviorAlertForm": {
       "colorPickerLabel": "Rozet rengi",
       "expressionLabel": "Tetikleyici ifadesi",
-      "expressionPlaceholder": "İfadeyi girin (örneğin LinkedTwin.InFlow > 3)",
+      "expressionPlaceholder": "Enter ifadesi (örn. PrimaryTwin.InFlow > 3)",
       "iconPickerLabel": "Rozet simgesi",
       "notice": "Bu davranış yalnızca aşağıdaki tetikleyici ifade true olarak değerlendirildiğinde etkinleştirilir.",
       "notificationLabel": "Bildirim metni",
@@ -427,6 +430,15 @@
       "noSelectionValue": "Hiç kimse",
       "propertyNotFound": "Davranışın ikizlerinde bulunmayan özellik",
       "propertyDropdownPlaceholder": "İki yataklı mülk seçin"
+    },
+    "ModelledPropertyBuilder": {
+      "expressionLabel": "Özellik ifadesi",
+      "expressionPlaceholder": "Özellik ifadesini girin",
+      "singleProperty": "Tek kişilik özellik",
+      "customExpression": "Özel (gelişmiş)",
+      "dropdownPlaceholder": "Bir mülk seçin",
+      "toggleLabel": "İfade modu",
+      "none": "Hiç kimse"
     },
     "numericExpressionPlaceholder": "Bir sayıyı değerlendiren bir ifade girin",
     "behaviorId": "Davranış Kimliği",
@@ -445,13 +457,13 @@
     "expression": "İfade",
     "warningBreakPointToggleLabel": "Renk kesme noktasını etkinleştir",
     "warningBreakPointLabel": "Uyarı rengi kırılma noktası",
-    "linkWidgetUrlDescription": "Bağlantı widget'ı URL'si, aşağıdaki gibi JavaScript şablon dizesi biçimlendirmesini destekler: ${LinkedTwin.property}",
+    "linkWidgetUrlDescription": "Bağlantı widget'ı URL'si, aşağıdaki gibi JavaScript şablon dizesi biçimlendirmesini destekler: ${PrimaryTwin.property}",
     "behaviorTypes": {
       "alertBehavior": "Uyarı davranışı",
       "statusBehavior": "Durum davranışı"
     },
     "notImplemented": "Uygulanmadı",
-    "noLinkedTwinProperties": "Görüntülenecek bağlantılı ikiz özellik yok",
+    "noPrimaryTwinProperties": "Görüntülenecek birincil ikiz özellik yok",
     "twinAlias": {
       "title": "İkiz takma ad",
       "titlePlural": "İkiz takma adlar",
@@ -477,24 +489,14 @@
       },
       "descriptions": {
         "twins": "İkizler, ifadelerde kullanılabilecek özelliklere erişmenizi sağlar.",
-        "linkedTwin": "LinkedTwin, hedef elemanlar bağlı ikizler arasındaki ortak tüm özellikleri içerir.",
+        "primaryTwin": "PrimaryTwin, hedef elemanlar birincil ikizleri arasındaki ortak tüm özellikleri içerir.",
         "aliasChangeNotAllowed": "Oluşturulduktan sonra diğer ad değişimine izin verilmez.",
-        "commonProperties": "Seçili elemanların bağlantılı ikiz özelliklerinin birleşimi"
+        "commonProperties": "Seçilen elemanların birincil ikiz özelliklerinin birliği"
       },
       "errors": {
         "twinAliasAlreadyExists": "Aynı ada sahip ikiz takma ad zaten var, bunun yerine eklemeyi düşünün."
       }
-    },
-    "ModelledPropertyBuilder": {
-      "expressionLabel": "Özellik ifadesi",
-      "expressionPlaceholder": "Özellik ifadesini girin",
-      "selectProperty": "Mülk seçin",
-      "toggleLabel": "Özellik ifadesi",
-      "dropdownPlaceholder": "Bir mülk seçin",
-      "none": "Hiç kimse",
-      "customExpression": "Özel ifade"
-    },
-    "noResults": "Sonuç bulunamadı"
+    }
   },
   "widgets": {
     "trend": {
@@ -508,20 +510,20 @@
     "link": {
       "title": "Bağlantı widget'ı",
       "description": "Bir URL'yi bağlayarak dış içeriğe başvurma",
-      "urlPlaceholder": "https://mypowerbi.biz/${LinkedTwin.$dtId}",
+      "urlPlaceholder": "https://mypowerbi.biz/${PrimaryTwin.myproperty}",
       "openLink": "Bağlantıyı aç"
+    },
+    "value": {
+      "title": "Değer widget'ı",
+      "description": "İkiz özelliklerin değerlerini göstermek için temel bir widget",
+      "displayNamePlaceholder": "Görünen adı girin",
+      "typePlaceholder": "Değer için türü seçin"
     },
     "panel": {
       "title": "Panel widget'ı",
       "description": "Mizanpaj paneli"
     },
-    "notSupported": "Bu widget türü şu anda desteklenmiyor",
-    "value": {
-      "title": "Değer widget'ı",
-      "description": "İkiz özelliklerin değerlerini göstermek için temel widget",
-      "typePlaceholder": "Değer için türü seçin",
-      "displayNamePlaceholder": "Görünen adı girin"
-    }
+    "notSupported": "Bu widget türü şu anda desteklenmiyor"
   },
   "sdkStrings": {
     "Last 30 mins": "Son 30 dakika",
@@ -727,7 +729,7 @@
     "state": "Devlet",
     "allProperties": "Tüm emlaklar",
     "behaviorPreview": "Önizleme",
-    "LinkedTwinProperties": "Bağlı İkiz özellikler"
+    "PrimaryTwinProperties": "Birincil İkiz özellikler"
   },
   "svgTests": {
     "fluentUI": "Akıcı Görüntü bileşeni aracılığıyla SVG yükleme (önerilen desen)",
@@ -751,6 +753,14 @@
     "transparent": "Saydam",
     "wireframe": "Tel kafes"
   },
+  "deeplinkFlyout": {
+    "buttonTitle": "Paylaş",
+    "copyButtonText": "Bağlantıyı kopyala",
+    "copyConfirmationMessage": "Kopya -lanan!",
+    "flyoutHeader": "Sahneyi paylaş",
+    "includeElementsOption": "Seçili öğeyle bağlantı kurma",
+    "includeLayersOption": "Seçili katmanlarla bağlantı kurma"
+  },
   "elementsPanel": {
     "title": "Öğe",
     "noElements": "Görüntülenecek öğe yok",
@@ -773,15 +783,5 @@
     "pan": "Tava",
     "orbit": "Yörünge",
     "zoom": "Yakınlaştırmak"
-  },
-  "active": "Etkin",
-  "invalidValue": "Geçersiz değer",
-  "deeplinkFlyout": {
-    "buttonTitle": "Paylaş",
-    "copyButtonText": "Bağlantıyı kopyala",
-    "copyConfirmationMessage": "Kopya -lanan!",
-    "flyoutHeader": "Sahneyi paylaş",
-    "includeElementsOption": "Seçili öğeyle bağlantı kurma",
-    "includeLayersOption": "Seçili katmanlarla bağlantı kurma"
   }
 }
