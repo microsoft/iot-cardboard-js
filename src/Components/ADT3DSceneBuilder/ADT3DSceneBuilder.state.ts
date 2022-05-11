@@ -39,6 +39,7 @@ export const defaultADT3DSceneBuilderState: ADT3DSceneBuilderState = {
     behaviors: [],
     selectedElement: null,
     selectedElements: null,
+    removedElements: null,
     selectedBehavior: null,
     showHoverOnSelected: false,
     enableHoverOnModel: false,
