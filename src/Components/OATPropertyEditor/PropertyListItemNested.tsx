@@ -74,7 +74,7 @@ export const PropertyListItemNested = ({
 
     return (
         <div className={getItemClassName(index)} id={item.name}>
-            <div></div>
+            <div></div> {/* Needed for gridTemplateColumns style  */}
             <TextField
                 styles={textFieldStyles}
                 borderless

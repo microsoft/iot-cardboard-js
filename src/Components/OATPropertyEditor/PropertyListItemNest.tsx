@@ -41,7 +41,6 @@ type IPropertyListItemNest = {
     setLastPropertyFocused?: React.Dispatch<React.SetStateAction<any>>;
     setModalBody?: React.Dispatch<React.SetStateAction<string>>;
     setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
-    // setPropertySelectorVisible: React.Dispatch<React.SetStateAction<boolean>>;
     state?: IOATEditorState;
 };
 
