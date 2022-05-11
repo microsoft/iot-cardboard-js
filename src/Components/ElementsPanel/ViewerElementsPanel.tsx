@@ -7,8 +7,8 @@ import { getElementsPanelStyles } from './ViewerElementsPanel.styles';
 import ViewerConfigUtility from '../../Models/Classes/ViewerConfigUtility';
 import Draggable from 'react-draggable';
 import {
-    addTemplateStringsToText,
-    parseLinkedTwinExpressionIntoConstant
+    wrapTextInTemplateString,
+    parseLinkedTwinExpression
 } from '../../Models/Services/Utils';
 
 const ViewerElementsPanel: React.FC<IViewerElementsPanelProps> = ({
@@ -38,8 +38,8 @@ const ViewerElementsPanel: React.FC<IViewerElementsPanelProps> = ({
                               )
                               .filter(ViewerConfigUtility.isAlertVisual)
                               .filter((alertVisual) =>
-                                  parseLinkedTwinExpressionIntoConstant(
-                                      addTemplateStringsToText(
+                                  parseLinkedTwinExpression(
+                                      wrapTextInTemplateString(
                                           alertVisual.labelExpression
                                       ),
                                       panelItem.twins

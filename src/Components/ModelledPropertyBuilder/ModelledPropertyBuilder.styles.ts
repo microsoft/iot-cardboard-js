@@ -18,7 +18,7 @@ const classNames = {
     dropdownTitleText: `${modelledPropertyBuilderClassPrefix}-dropdown-title-text`,
     loadingSpinnerContainer: `${modelledPropertyBuilderClassPrefix}-loading-spinner-container`,
     labelContainer: `${modelledPropertyBuilderClassPrefix}-label-container`,
-    container: `${modelledPropertyBuilderClassPrefix}-container`
+    root: `${modelledPropertyBuilderClassPrefix}-root`
 };
 
 export const getStyles = memoizeFunction(() => {
@@ -56,8 +56,8 @@ export const getStyles = memoizeFunction(() => {
                 alignItems: 'center'
             } as IStyle
         ],
-        container: [
-            classNames.container,
+        root: [
+            classNames.root,
             {
                 paddingTop: 4
             } as IStyle

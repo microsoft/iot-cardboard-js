@@ -219,7 +219,7 @@ const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = ({
     );
 
     return (
-        <div className={styles.container}>
+        <div className={styles.root}>
             <Stack tokens={{ childrenGap: 4 }}>
                 <div className={styles.labelContainer}>
                     <Label

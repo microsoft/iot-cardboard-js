@@ -4,7 +4,7 @@ import produce from 'immer';
 import React, { useCallback, useContext, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
-    addTemplateStringsToText,
+    wrapTextInTemplateString,
     stripTemplateStringsFromText
 } from '../../../../../../Models/Services/Utils';
 import ModelledPropertyBuilder from '../../../../../ModelledPropertyBuilder/ModelledPropertyBuilder';
@@ -32,7 +32,7 @@ const LinkWidgetBuilder: React.FC<ILinkWidgetBuilderProps> = ({
         (newPropertyExpression: PropertyExpression) => {
             updateWidgetData(
                 produce(formData, (draft) => {
-                    draft.widgetConfiguration.linkExpression = addTemplateStringsToText(
+                    draft.widgetConfiguration.linkExpression = wrapTextInTemplateString(
                         newPropertyExpression.expression
                     );
                 })

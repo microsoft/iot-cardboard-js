@@ -13,7 +13,7 @@ import {
 } from '../../../../../Theming/Palettes';
 import { defaultAlertVisual } from '../../../../../Models/Classes/3DVConfig';
 import {
-    addTemplateStringsToText,
+    wrapTextInTemplateString,
     deepCopy,
     stripTemplateStringsFromText
 } from '../../../../../Models/Services/Utils';
@@ -97,7 +97,7 @@ const AlertsTab: React.FC = () => {
         (newPropertyExpression: PropertyExpression) =>
             setProperty(
                 'labelExpression',
-                addTemplateStringsToText(newPropertyExpression.expression)
+                wrapTextInTemplateString(newPropertyExpression.expression)
             ),
         [setProperty]
     );

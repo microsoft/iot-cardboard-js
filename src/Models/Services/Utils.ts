@@ -247,10 +247,7 @@ export function getSceneElementStatusColor(
     valueRanges: IValueRange[],
     twins: Record<string, DTwin>
 ) {
-    const value = parseLinkedTwinExpressionIntoConstant(
-        statusValueExpression,
-        twins
-    );
+    const value = parseLinkedTwinExpression(statusValueExpression, twins);
     return ViewerConfigUtility.getColorOrNullFromStatusValueRange(
         valueRanges,
         value
@@ -317,7 +314,7 @@ export function getTransparentColor(
     return `rgba(${hexToRgbCss(hex)}, ${transparency})`;
 }
 
-export function addTemplateStringsToText(text: string) {
+export function wrapTextInTemplateString(text: string) {
     const templatedText = text.replace(/`/g, '');
     return '`' + templatedText + '`';
 }
@@ -326,7 +323,7 @@ export function stripTemplateStringsFromText(text: string) {
     return text.replace(/`/g, '');
 }
 
-export function parseLinkedTwinExpressionIntoConstant(
+export function parseLinkedTwinExpression(
     expression: string,
     twins: Record<string, DTwin>,
     fallbackResult?: any

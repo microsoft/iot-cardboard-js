@@ -3,9 +3,9 @@ import React, { memo, useEffect, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import ViewerConfigUtility from '../../../Models/Classes/ViewerConfigUtility';
 import {
-    addTemplateStringsToText,
+    wrapTextInTemplateString,
     getSceneElementStatusColor,
-    parseLinkedTwinExpressionIntoConstant
+    parseLinkedTwinExpression
 } from '../../../Models/Services/Utils';
 import {
     IAlertVisual,
@@ -111,7 +111,7 @@ function getListItems(
                     .filter(
                         (visual) =>
                             ViewerConfigUtility.isAlertVisual(visual) &&
-                            parseLinkedTwinExpressionIntoConstant(
+                            parseLinkedTwinExpression(
                                 visual.triggerExpression,
                                 panelItem.twins
                             )
@@ -121,8 +121,8 @@ function getListItems(
                             ({
                                 behavior: b,
                                 alertVisual: alertVisual,
-                                alertVisualDisplayTitle: parseLinkedTwinExpressionIntoConstant(
-                                    addTemplateStringsToText(
+                                alertVisualDisplayTitle: parseLinkedTwinExpression(
+                                    wrapTextInTemplateString(
                                         alertVisual.labelExpression
                                     ),
                                     panelItem.twins

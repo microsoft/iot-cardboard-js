@@ -3,9 +3,9 @@ import React, { useContext, useMemo } from 'react';
 import ViewerConfigUtility from '../../../../Models/Classes/ViewerConfigUtility';
 import { BehaviorModalMode } from '../../../../Models/Constants';
 import {
-    addTemplateStringsToText,
+    wrapTextInTemplateString,
     getSceneElementStatusColor,
-    parseLinkedTwinExpressionIntoConstant,
+    parseLinkedTwinExpression,
     stripTemplateStringsFromText
 } from '../../../../Models/Services/Utils';
 import {
@@ -32,10 +32,7 @@ const BehaviorSection: React.FC<IBehaviorsSectionProps> = ({ behavior }) => {
 
         if (mode !== BehaviorModalMode.preview) {
             visibleAlertVisuals = visibleAlertVisuals.filter((av) =>
-                parseLinkedTwinExpressionIntoConstant(
-                    av.triggerExpression,
-                    twins
-                )
+                parseLinkedTwinExpression(av.triggerExpression, twins)
             );
         }
         return visibleAlertVisuals;
@@ -84,8 +81,8 @@ const AlertBlock: React.FC<{ alertVisual: IAlertVisual }> = ({
             <div className={styles.infoTextContainer}>
                 {mode === BehaviorModalMode.preview
                     ? stripTemplateStringsFromText(alertVisual.labelExpression)
-                    : parseLinkedTwinExpressionIntoConstant(
-                          addTemplateStringsToText(alertVisual.labelExpression),
+                    : parseLinkedTwinExpression(
+                          wrapTextInTemplateString(alertVisual.labelExpression),
                           twins
                       )}
             </div>
@@ -119,10 +116,7 @@ const StatusBlock: React.FC<{ statusVisual: IStatusColoringVisual }> = ({
             statusStyles = getStatusBlockStyles(statusColor);
         }
     } else {
-        statusValue = parseLinkedTwinExpressionIntoConstant(
-            statusValueExpression,
-            twins
-        );
+        statusValue = parseLinkedTwinExpression(statusValueExpression, twins);
         statusColor = getSceneElementStatusColor(
             statusValueExpression,
             valueRanges,
