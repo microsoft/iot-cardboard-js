@@ -1,4 +1,3 @@
-import { FontSizes } from '@fluentui/react';
 import {
     IDeeplinkFlyoutStyleProps,
     IDeeplinkFlyoutStyles
@@ -13,9 +12,8 @@ const classNames = {
 };
 
 export const getStyles = (
-    props: IDeeplinkFlyoutStyleProps
+    _props: IDeeplinkFlyoutStyleProps
 ): IDeeplinkFlyoutStyles => {
-    const { theme, isCalloutOpen } = props;
     return {
         /** provide a hook for custom styling by consumers */
         root: [classNames.root, {}],

@@ -14,6 +14,9 @@ const getClassNames = classNamesFunction<
     ICameraControlsCalloutContentStyles
 >();
 
+/**
+ * Control for showing the right flyout content on the camera controls
+ */
 const CameraControlsCalloutContent: React.FC<ICameraControlsCalloutContentProps> = (
     props
 ) => {

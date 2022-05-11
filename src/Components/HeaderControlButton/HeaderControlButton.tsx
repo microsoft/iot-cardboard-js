@@ -19,6 +19,10 @@ const getClassNames = classNamesFunction<
     IHeaderControlButtonStyles
 >();
 
+/**
+ * Control for an action at the top of the screen on the 3D Viewer. Can accept children (most likely images) or can be styled with text/icon as appropriate.
+ * Should be wrapped in a `HeaderControlGroup` if you want a border.
+ */
 const HeaderControlButton: React.FC<IHeaderControlButtonProps> = (props) => {
     const {
         buttonProps,
