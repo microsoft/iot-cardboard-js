@@ -802,6 +802,7 @@ export interface IOATTwinModelNodes {
     '@type': string;
     displayName: string;
     contents: IOATTwinNodeContents[];
+    extends?: string;
 }
 
 export interface IOATTwinNodeContents {

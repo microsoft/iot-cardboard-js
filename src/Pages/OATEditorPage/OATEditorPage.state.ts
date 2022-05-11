@@ -3,7 +3,7 @@ import { IAction } from '../../Models/Constants/Interfaces';
 import { IOATEditorState } from './OATEditorPage.types';
 import {
     SET_OAT_PROPERTY_EDITOR_MODEL,
-    SET_OAT_ELEMENTS_HANDLER,
+    SET_OAT_ELEMENTS,
     SET_OAT_SELECTED_MODEL_ID,
     SET_OAT_DELETED_MODEL_ID,
     SET_OAT_EDITED_MODEL_NAME,
@@ -16,7 +16,7 @@ import {
 
 export const defaultOATEditorState: IOATEditorState = {
     model: null,
-    elementHandler: [],
+    elements: [],
     deletedModelId: '',
     selectedModelId: '',
     editedModelName: '',
@@ -35,8 +35,8 @@ export const OATEditorPageReducer = produce(
             case SET_OAT_PROPERTY_EDITOR_MODEL:
                 state.model = payload;
                 return;
-            case SET_OAT_ELEMENTS_HANDLER:
-                state.elementHandler = payload;
+            case SET_OAT_ELEMENTS:
+                state.elements = payload;
                 return;
             case SET_OAT_DELETED_MODEL_ID:
                 state.deletedModelId = payload;
