@@ -87,6 +87,8 @@
   "uploadFile": "上传文件",
   "uploadingFile": "正在上传文件...",
   "twinId": "双胞胎身份证",
+  "active": "积极",
+  "invalidValue": "值无效",
   "errors": {
     "errorBoundary": "错误边界",
     "unkownError": "发生未知错误",
@@ -314,10 +316,10 @@
     "enterBlobUrl": "输入 Azure 存储容器 blob URL",
     "home": "家",
     "globe": "球",
-    "breadcrumbAriaLabel": "包含呈现为按钮的项目的痕迹导航",
-    "breadcrumbOverflowAriaLabel": "更多链接",
     "globeView": "地球视图",
-    "listView": "列表视图"
+    "listView": "列表视图",
+    "breadcrumbAriaLabel": "包含呈现为按钮的项目的痕迹导航",
+    "breadcrumbOverflowAriaLabel": "更多链接"
   },
   "layersDropdown": {
     "placeholder": "未选择图层",
@@ -379,6 +381,7 @@
     "addElementDetails": "添加元素详细信息",
     "noBehaviorsOnElement": "没有分配给此元素的行为",
     "noElementsText": "尚未创建任何元素",
+    "noResults": "未找到结果",
     "behaviorsInSceneTitle": "在此场景中（{{计数}}）",
     "createWithElement": "使用 {{元素}} 创建",
     "elementActions": "元素操作",
@@ -400,7 +403,7 @@
     "addBehaviorToScene": "向场景添加行为",
     "behaviorMetaText": "{{numElementsInActiveScene}} elements， {{numSceneRefs}} scenes",
     "elementMetaText": "{{numBehaviors}} 行为",
-    "primaryTwin": "链接双胞胎",
+    "primaryTwin": "主双胞胎",
     "primaryTwinInputInfo": "输入孪生 ID （$dtId） 以链接到此元素（区分大小写）",
     "noMeshAddedText": "尚未添加网格，请在3D查看器中选择网格",
     "meshes": "网 格",
@@ -426,6 +429,15 @@
       "propertyNotFound": "在行为的孪生对象上找不到属性",
       "propertyDropdownPlaceholder": "选择双胞胎房产"
     },
+    "ModelledPropertyBuilder": {
+      "expressionLabel": "属性表达式",
+      "expressionPlaceholder": "输入属性表达式",
+      "singleProperty": "单一属性",
+      "customExpression": "自定义（高级）",
+      "dropdownPlaceholder": "选择房产",
+      "toggleLabel": "表达式模式",
+      "none": "没有"
+    },
     "numericExpressionPlaceholder": "输入计算结果为数字的表达式",
     "behaviorId": "行为标识",
     "widgetLibrary": "小部件库",
@@ -449,7 +461,7 @@
       "statusBehavior": "状态行为"
     },
     "notImplemented": "未实现",
-    "noPrimaryTwinProperties": "没有要显示的链接孪生属性",
+    "noPrimaryTwinProperties": "没有要显示的主要孪生属性",
     "twinAlias": {
       "title": "双别名",
       "titlePlural": "孪生别名",
@@ -475,24 +487,14 @@
       },
       "descriptions": {
         "twins": "孪生允许您访问可在表达式中使用的属性。",
-        "primaryTwin": "PrimaryTwin 包含链接孪生的目标元素之间共有的所有属性。",
+        "primaryTwin": "主孪生包含目标元素主孪生之间共有的所有属性。",
         "aliasChangeNotAllowed": "创建后不允许更改别名。",
-        "commonProperties": "所选元素的链接孪生属性的并集"
+        "commonProperties": "选定元素的主要孪生属性的并集"
       },
       "errors": {
         "twinAliasAlreadyExists": "具有相同名称的孪生别名已存在，请考虑添加它。"
       }
-    },
-    "ModelledPropertyBuilder": {
-      "expressionLabel": "属性表达式",
-      "expressionPlaceholder": "输入属性表达式",
-      "toggleLabel": "属性表达式",
-      "dropdownPlaceholder": "选择房产",
-      "none": "没有",
-      "customExpression": "自定义表达式",
-      "singleProperty": "单一属性"
-    },
-    "noResults": "未找到结果"
+    }
   },
   "widgets": {
     "trend": {
@@ -506,20 +508,20 @@
     "link": {
       "title": "链接小部件",
       "description": "通过链接 URL 引用外部内容",
-      "urlPlaceholder": "https://mypowerbi.biz/${PrimaryTwin.$dtId}",
+      "urlPlaceholder": "https://mypowerbi.biz/${PrimaryTwin.myproperty}",
       "openLink": "打开链接"
+    },
+    "value": {
+      "title": "“值”小部件",
+      "description": "用于显示孪生属性值的基本微件",
+      "displayNamePlaceholder": "输入显示名称",
+      "typePlaceholder": "选择值的类型"
     },
     "panel": {
       "title": "面板小部件",
       "description": "布局面板"
     },
-    "notSupported": "目前不支持此小组件类型",
-    "value": {
-      "title": "“值”小部件",
-      "description": "用于显示孪生属性值的基本微件",
-      "typePlaceholder": "选择值的类型",
-      "displayNamePlaceholder": "输入显示名称"
-    }
+    "notSupported": "目前不支持此小组件类型"
   },
   "sdkStrings": {
     "Last 30 mins": "最后 30 分钟",
@@ -725,7 +727,7 @@
     "state": "州",
     "allProperties": "所有房产",
     "behaviorPreview": "预览",
-    "PrimaryTwinProperties": "链接孪生属性"
+    "PrimaryTwinProperties": "主要孪生属性"
   },
   "svgTests": {
     "fluentUI": "通过 Fluent Image 组件加载 SVG（推荐模式）",
@@ -749,6 +751,14 @@
     "transparent": "透明",
     "wireframe": "线框"
   },
+  "deeplinkFlyout": {
+    "buttonTitle": "共享",
+    "copyButtonText": "复制链接",
+    "copyConfirmationMessage": "复制！",
+    "flyoutHeader": "共享场景",
+    "includeElementsOption": "与所选元素的链接",
+    "includeLayersOption": "与所选图层链接"
+  },
   "elementsPanel": {
     "title": "元素",
     "noElements": "没有要显示的元素",
@@ -771,15 +781,5 @@
     "pan": "泛",
     "orbit": "轨道",
     "zoom": "缩放"
-  },
-  "active": "积极",
-  "invalidValue": "值无效",
-  "deeplinkFlyout": {
-    "buttonTitle": "共享",
-    "copyButtonText": "复制链接",
-    "copyConfirmationMessage": "复制！",
-    "flyoutHeader": "共享场景",
-    "includeElementsOption": "与所选元素的链接",
-    "includeLayersOption": "与所选图层链接"
   }
 }

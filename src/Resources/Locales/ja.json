@@ -87,6 +87,8 @@
   "uploadFile": "ファイルのアップロード",
   "uploadingFile": "ファイルをアップロードしています...",
   "twinId": "ツイン ID",
+  "active": "能動",
+  "invalidValue": "無効な値",
   "errors": {
     "errorBoundary": "エラー境界",
     "unkownError": "不明なエラーが発生しました",
@@ -314,10 +316,10 @@
     "enterBlobUrl": "Azure ストレージ コンテナーの BLOB URL を入力します。",
     "home": "家",
     "globe": "球",
-    "breadcrumbAriaLabel": "ボタンとしてレンダリングされた項目を含む階層リンク",
-    "breadcrumbOverflowAriaLabel": "その他のリンク",
     "globeView": "地球儀",
-    "listView": "リストビュー"
+    "listView": "リストビュー",
+    "breadcrumbAriaLabel": "ボタンとしてレンダリングされた項目を含む階層リンク",
+    "breadcrumbOverflowAriaLabel": "その他のリンク"
   },
   "layersDropdown": {
     "placeholder": "レイヤーが選択されていません",
@@ -379,6 +381,7 @@
     "addElementDetails": "要素の詳細を追加する",
     "noBehaviorsOnElement": "この要素にビヘイビアが割り当てられていません",
     "noElementsText": "要素はまだ作成されていません",
+    "noResults": "結果が見つかりません",
     "behaviorsInSceneTitle": "このシーンでは ({{カウント}})",
     "createWithElement": "{{要素}}で作成",
     "elementActions": "要素アクション",
@@ -400,7 +403,7 @@
     "addBehaviorToScene": "シーンにビヘイビアを追加する",
     "behaviorMetaText": "{{numElementsInActiveScene}} elements, {{numSceneRefs}} scenes",
     "elementMetaText": "{{numBehaviors}} ビヘイビア",
-    "primaryTwin": "リンクされたツイン",
+    "primaryTwin": "プライマリツイン",
     "primaryTwinInputInfo": "ツイン ID ($dtId) を入力して、この要素とリンクします (大文字と小文字を区別します)。",
     "noMeshAddedText": "メッシュはまだ追加されていません。3Dビューアでメッシュを選択してください",
     "meshes": "メッシュ",
@@ -409,7 +412,7 @@
     "behaviorAlertForm": {
       "colorPickerLabel": "バッジの色",
       "expressionLabel": "トリガー式",
-      "expressionPlaceholder": "式を入力してください(例えば、PrimaryTwin.InFlow > 3)",
+      "expressionPlaceholder": "式を入力してください(例えば、プライマリツイン.InFlow > 3)",
       "iconPickerLabel": "バッジアイコン",
       "notice": "この動作は、以下のトリガー式が true と評価された場合にのみ有効になります。",
       "notificationLabel": "通知テキスト",
@@ -425,6 +428,15 @@
       "noSelectionValue": "何一つ",
       "propertyNotFound": "プロパティが動作の双子に見つかりません",
       "propertyDropdownPlaceholder": "ツインプロパティの選択"
+    },
+    "ModelledPropertyBuilder": {
+      "expressionLabel": "プロパティ式",
+      "expressionPlaceholder": "プロパティ式を入力",
+      "singleProperty": "単一のプロパティ",
+      "customExpression": "カスタム (詳細)",
+      "dropdownPlaceholder": "プロパティの選択",
+      "toggleLabel": "式モード",
+      "none": "何一つ"
     },
     "numericExpressionPlaceholder": "数値に評価される式を入力します。",
     "behaviorId": "動作 ID",
@@ -449,7 +461,7 @@
       "statusBehavior": "ステータスの動作"
     },
     "notImplemented": "未実装",
-    "noPrimaryTwinProperties": "表示するリンクされたツインプロパティがありません",
+    "noPrimaryTwinProperties": "表示するプライマリツインプロパティがありません",
     "twinAlias": {
       "title": "ツインエイリアス",
       "titlePlural": "ツインエイリアス",
@@ -475,24 +487,14 @@
       },
       "descriptions": {
         "twins": "ツインを使用すると、式で使用できるプロパティにアクセスできます。",
-        "primaryTwin": "PrimaryTwin には、リンクされたターゲット要素間で共通するすべてのプロパティが含まれています。",
+        "primaryTwin": "プライマリツインには、ターゲット要素のプライマリツイン間で共通するすべてのプロパティが含まれています。",
         "aliasChangeNotAllowed": "作成後のエイリアスの変更は許可されません。",
-        "commonProperties": "選択した要素のリンクされたツインプロパティの和集合"
+        "commonProperties": "選択した要素のプライマリツインプロパティの和集合"
       },
       "errors": {
         "twinAliasAlreadyExists": "同じ名前のツインエイリアスが既に存在するため、代わりに追加することを検討してください。"
       }
-    },
-    "ModelledPropertyBuilder": {
-      "expressionLabel": "プロパティ式",
-      "expressionPlaceholder": "プロパティ式を入力",
-      "toggleLabel": "プロパティ式",
-      "dropdownPlaceholder": "プロパティの選択",
-      "none": "何一つ",
-      "customExpression": "カスタム式",
-      "singleProperty": "単一のプロパティ"
-    },
-    "noResults": "結果が見つかりません"
+    }
   },
   "widgets": {
     "trend": {
@@ -506,20 +508,20 @@
     "link": {
       "title": "リンクウィジェット",
       "description": "URL をリンクして外部コンテンツを参照する",
-      "urlPlaceholder": "https://mypowerbi.biz/${PrimaryTwin.$dtId}",
+      "urlPlaceholder": "https://mypowerbi.biz/${PrimaryTwin.myproperty}",
       "openLink": "リンクを開く"
+    },
+    "value": {
+      "title": "値ウィジェット",
+      "description": "ツインプロパティの値を表示するための基本的なウィジェット",
+      "displayNamePlaceholder": "表示名を入力",
+      "typePlaceholder": "値のタイプを選択します。"
     },
     "panel": {
       "title": "パネルウィジェット",
       "description": "レイアウトパネル"
     },
-    "notSupported": "このウィジェットの種類は現在サポートされていません",
-    "value": {
-      "title": "値ウィジェット",
-      "description": "ツインプロパティの値を表示するための基本ウィジェット",
-      "typePlaceholder": "値のタイプを選択します。",
-      "displayNamePlaceholder": "表示名を入力"
-    }
+    "notSupported": "このウィジェットの種類は現在サポートされていません"
   },
   "sdkStrings": {
     "Last 30 mins": "最後の30分",
@@ -725,7 +727,7 @@
     "state": "状態",
     "allProperties": "すべてのプロパティ",
     "behaviorPreview": "プレビュー",
-    "PrimaryTwinProperties": "リンクされたツインのプロパティ"
+    "PrimaryTwinProperties": "プライマリツインのプロパティ"
   },
   "svgTests": {
     "fluentUI": "流暢な画像コンポーネントによるSVGの読み込み(推奨パターン)",
@@ -749,6 +751,14 @@
     "transparent": "透明",
     "wireframe": "ワイヤーフレーム"
   },
+  "deeplinkFlyout": {
+    "buttonTitle": "共有",
+    "copyButtonText": "リンクのコピー",
+    "copyConfirmationMessage": "コピー！",
+    "flyoutHeader": "シーンの共有",
+    "includeElementsOption": "選択した要素とのリンク",
+    "includeLayersOption": "選択したレイヤーとのリンク"
+  },
   "elementsPanel": {
     "title": "元素",
     "noElements": "表示する要素がありません",
@@ -771,15 +781,5 @@
     "pan": "パン",
     "orbit": "軌道",
     "zoom": "ズーム"
-  },
-  "active": "能動",
-  "invalidValue": "無効な値",
-  "deeplinkFlyout": {
-    "buttonTitle": "共有",
-    "copyButtonText": "リンクのコピー",
-    "copyConfirmationMessage": "コピー！",
-    "flyoutHeader": "シーンの共有",
-    "includeElementsOption": "選択した要素とのリンク",
-    "includeLayersOption": "選択したレイヤーとのリンク"
   }
 }
