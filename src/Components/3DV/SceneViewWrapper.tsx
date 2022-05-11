@@ -247,6 +247,9 @@ const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = (props) => {
                         viewerModeUpdated={onViewerModeUpdated}
                         objectColors={ViewerModeObjectColors}
                         backgroundColors={ViewerModeBackgroundColors}
+                        backgroundColorsToRemoveWhenNotDefault={[
+                            ViewerModeBackgroundColors?.[2].color
+                        ]}
                     />
                 )}
                 {wrapperMode === WrapperMode.Viewer && (

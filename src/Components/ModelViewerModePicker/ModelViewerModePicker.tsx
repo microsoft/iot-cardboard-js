@@ -29,6 +29,7 @@ export interface ViewerMode {
 interface ModelViewerModePickerProps {
     objectColors: any[];
     backgroundColors: IADTBackgroundColor[];
+    backgroundColorsToRemoveWhenNotDefault?: string[];
     defaultViewerMode?: ViewerMode;
     viewerModeUpdated: (viewerMode: ViewerMode) => void;
 }
@@ -36,6 +37,7 @@ interface ModelViewerModePickerProps {
 const ModelViewerModePicker: React.FC<ModelViewerModePickerProps> = ({
     objectColors,
     backgroundColors,
+    backgroundColorsToRemoveWhenNotDefault,
     defaultViewerMode,
     viewerModeUpdated
 }) => {
@@ -94,7 +96,23 @@ const ModelViewerModePicker: React.FC<ModelViewerModePickerProps> = ({
         });
 
         setColors(colors);
+        setBackgrounds(getBackgroundColors(backgroundColors));
+        setSelectedObjectColor(objectColors[0].color);
 
+        setViewerMode({
+            objectColor: null,
+            background: backgroundColors[0].color,
+            style: ViewerModeStyles.Default
+        });
+
+        viewerModeUpdated({
+            objectColor: null,
+            background: backgroundColors[0].color,
+            style: ViewerModeStyles.Default
+        });
+    }, []);
+
+    const getBackgroundColors = (backgroundColors: IADTBackgroundColor[]) => {
         const backgrounds: IColorCellProps[] = [];
         backgroundColors.forEach((background) => {
             // optimistically try to parse a hex from a radial gradient, gracefully degrade if unable
@@ -115,21 +133,8 @@ const ModelViewerModePicker: React.FC<ModelViewerModePickerProps> = ({
             });
         });
 
-        setBackgrounds(backgrounds);
-        setSelectedObjectColor(objectColors[0].color);
-
-        setViewerMode({
-            objectColor: null,
-            background: backgroundColors[0].color,
-            style: ViewerModeStyles.Default
-        });
-
-        viewerModeUpdated({
-            objectColor: null,
-            background: backgroundColors[0].color,
-            style: ViewerModeStyles.Default
-        });
-    }, []);
+        return backgrounds;
+    };
 
     useEffect(() => {
         if (defaultViewerMode) {
@@ -155,8 +160,27 @@ const ModelViewerModePicker: React.FC<ModelViewerModePickerProps> = ({
             produce((draft) => {
                 if (style === ViewerModeStyles.Default) {
                     draft.objectColor = null;
+                    setBackgrounds(getBackgroundColors(backgroundColors));
                 } else {
                     draft.objectColor = selectedObjectColor;
+                    setBackgrounds(
+                        getBackgroundColors(
+                            backgroundColors.filter(
+                                (bg) =>
+                                    bg.color !==
+                                    backgroundColorsToRemoveWhenNotDefault?.find(
+                                        (color) => color === bg.color
+                                    )
+                            )
+                        )
+                    );
+                    if (
+                        backgroundColorsToRemoveWhenNotDefault.find(
+                            (color) => color === draft.background
+                        )
+                    ) {
+                        draft.background = backgroundColors[0].color;
+                    }
                 }
                 draft.style = style;
 
@@ -257,8 +281,13 @@ const ModelViewerModePicker: React.FC<ModelViewerModePickerProps> = ({
                         <h4 className={styles.subHeading}>
                             {t('modelViewerModePicker.objectColors')}
                         </h4>
-                        <div className={styles.colorPicker}>
+                        <div className={styles.colorPickerContainer}>
                             <SwatchColorPicker
+                                selectedId={
+                                    viewerMode?.objectColor
+                                        ? viewerMode.objectColor
+                                        : selectedObjectColor
+                                }
                                 disabled={
                                     viewerMode?.style ===
                                     ViewerModeStyles.Default
@@ -266,27 +295,33 @@ const ModelViewerModePicker: React.FC<ModelViewerModePickerProps> = ({
                                 cellHeight={32}
                                 cellWidth={32}
                                 columnCount={colors.length}
-                                defaultSelectedId={
-                                    viewerMode?.objectColor
-                                        ? viewerMode.objectColor
-                                        : selectedObjectColor
-                                }
                                 cellShape={'circle'}
                                 colorCells={colors}
                                 onChange={(e, id, color) =>
                                     updateObjectColor(color)
                                 }
+                                getColorGridCellStyles={(props) => {
+                                    if (props.disabled) {
+                                        return {
+                                            colorCell: {
+                                                opacity: '0.05'
+                                            },
+                                            svg: null
+                                        };
+                                    }
+                                }}
                             />
                         </div>
                         <h4 className={styles.subHeading}>
                             {t('modelViewerModePicker.background')}
                         </h4>
-                        <div className={styles.colorPicker}>
+                        <div className={styles.colorPickerContainer}>
                             <SwatchColorPicker
+                                className={styles.colorPicker}
+                                selectedId={viewerMode?.background}
                                 cellHeight={32}
                                 cellWidth={32}
                                 columnCount={backgrounds.length}
-                                defaultSelectedId={viewerMode?.background}
                                 cellShape={'circle'}
                                 colorCells={backgrounds}
                                 onChange={(e, id) => updateBackgroundColor(id)}
@@ -321,10 +356,15 @@ const getStyles = memoizeFunction((_theme: Theme) => {
             marginTop: '12px',
             marginBottom: '12px'
         },
-        colorPicker: {
+        colorPickerContainer: {
             height: '45px',
             display: 'flex',
             alignItems: 'center'
+        },
+        colorPicker: {
+            tableCell: {
+                background: 'red'
+            }
         }
     });
 });
