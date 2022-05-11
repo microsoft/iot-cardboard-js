@@ -33,17 +33,10 @@
                     }
                 }
             },
-            "required": [
-                "scenes",
-                "behaviors",
-                "layers"
-            ]
+            "required": ["scenes", "behaviors", "layers"]
         }
     },
-    "required": [
-        "$schema",
-        "configuration"
-    ],
+    "required": ["$schema", "configuration"],
     "$defs": {
         "IScene": {
             "type": "object",
@@ -119,10 +112,7 @@
                     "$ref": "#/$defs/IExtensionProperties"
                 }
             },
-            "required": [
-                "type",
-                "url"
-            ]
+            "required": ["type", "url"]
         },
         "IDataSource": {
             "anyOf": [
@@ -168,12 +158,7 @@
                     }
                 }
             },
-            "required": [
-                "id",
-                "displayName",
-                "datasources",
-                "visuals"
-            ]
+            "required": ["id", "displayName", "datasources", "visuals"]
         },
         "IVisual": {
             "anyOf": [
@@ -181,10 +166,7 @@
                     "$ref": "#/$defs/IPopoverVisual"
                 },
                 {
-                    "$ref": "#/$defs/IStatusColoringVisual"
-                },
-                {
-                    "$ref": "#/$defs/IAlertVisual"
+                    "$ref": "#/$defs/IExpressionRangeVisual"
                 }
             ]
         },
@@ -209,11 +191,7 @@
                     "$ref": "#/$defs/IExtensionProperties"
                 }
             },
-            "required": [
-                "id",
-                "displayName",
-                "behaviorIDs"
-            ]
+            "required": ["id", "displayName", "behaviorIDs"]
         },
         "IExtensionProperties": {
             "type": "object",
@@ -255,9 +233,7 @@
                     "$ref": "#/$defs/IExtensionProperties"
                 }
             },
-            "required": [
-                "expression"
-            ]
+            "required": ["expression"]
         },
         "INumericOrInfinityType": {
             "anyOf": [
@@ -280,9 +256,7 @@
                     "const": "CustomProperty"
                 }
             },
-            "required": [
-                "type"
-            ]
+            "required": ["type"]
         },
         "ITwinToObjectMapping": {
             "type": "object",
@@ -350,10 +324,7 @@
                     "$ref": "#/$defs/IExtensionProperties"
                 }
             },
-            "required": [
-                "type",
-                "elementIDs"
-            ]
+            "required": ["type", "elementIDs"]
         },
         "IGaugeWidgetConfiguration": {
             "type": "object",
@@ -373,10 +344,7 @@
                     }
                 }
             },
-            "required": [
-                "label",
-                "valueRanges"
-            ]
+            "required": ["label", "valueRanges"]
         },
         "ILinkWidgetConfiguration": {
             "type": "object",
@@ -391,10 +359,7 @@
                     "description": "Template string which evalues to http link"
                 }
             },
-            "required": [
-                "label",
-                "linkExpression"
-            ]
+            "required": ["label", "linkExpression"]
         },
         "IValueWidgetConfiguration": {
             "type": "object",
@@ -411,11 +376,7 @@
                     "$ref": "#/$defs/IDTDLPropertyType"
                 }
             },
-            "required": [
-                "displayName",
-                "valueExpression",
-                "type"
-            ]
+            "required": ["displayName", "valueExpression", "type"]
         },
         "IGaugeWidget": {
             "type": "object",
@@ -441,12 +402,7 @@
                     "$ref": "#/$defs/IExtensionProperties"
                 }
             },
-            "required": [
-                "type",
-                "id",
-                "valueExpression",
-                "widgetConfiguration"
-            ]
+            "required": ["type", "id", "valueExpression", "widgetConfiguration"]
         },
         "ILinkWidget": {
             "type": "object",
@@ -469,11 +425,7 @@
                     "$ref": "#/$defs/IExtensionProperties"
                 }
             },
-            "required": [
-                "type",
-                "id",
-                "widgetConfiguration"
-            ]
+            "required": ["type", "id", "widgetConfiguration"]
         },
         "IValueWidget": {
             "type": "object",
@@ -496,11 +448,7 @@
                     "$ref": "#/$defs/IExtensionProperties"
                 }
             },
-            "required": [
-                "type",
-                "id",
-                "widgetConfiguration"
-            ]
+            "required": ["type", "id", "widgetConfiguration"]
         },
         "IWidget": {
             "anyOf": [
@@ -550,58 +498,33 @@
                                 "type": "string"
                             }
                         },
-                        "required": [
-                            "id"
-                        ]
+                        "required": ["id"]
                     }
                 },
                 "objectIDs": {
                     "$ref": "#/$defs/IObjectIDs"
                 }
             },
-            "required": [
-                "type",
-                "title",
-                "widgets",
-                "objectIDs"
-            ]
+            "required": ["type", "title", "widgets", "objectIDs"]
         },
-        "IValueRange": {
-            "type": "object",
-            "additionalProperties": false,
-            "description": "Numeric range to trigger coloring",
-            "properties": {
-                "id": {
-                    "type": "string"
-                },
-                "color": {
-                    "type": "string"
-                },
-                "min": {
-                    "$ref": "#/$defs/INumericOrInfinityType"
-                },
-                "max": {
-                    "$ref": "#/$defs/INumericOrInfinityType"
-                }
-            },
-            "required": [
-                "id",
-                "color",
-                "min",
-                "max"
-            ]
+        "IExpressionRangeType": {
+            "type": "string",
+            "enum": ["NumericRange", "CategoricalValues"]
         },
-        "IStatusColoringVisual": {
+        "IExpressionRangeVisual": {
             "type": "object",
-            "description": "a StatusColoring visual is used for mapping an expression result to a color",
+            "description": "An expression range visual maps an expression result to a visual",
             "additionalProperties": false,
             "properties": {
                 "type": {
-                    "const": "StatusColoring"
+                    "const": "ExpressionRangeVisual"
                 },
-                "statusValueExpression": {
+                "valueExpression": {
                     "type": "string",
-                    "description": "Expression which evaluates to numeric value"
+                    "description": "Expression to evaluate"
+                },
+                "expressionType": {
+                    "$ref": "#/$defs/IExpressionRangeType"
                 },
                 "valueRanges": {
                     "type": "array",
@@ -618,48 +541,41 @@
             },
             "required": [
                 "type",
-                "statusValueExpression",
+                "valueExpression",
+                "expressionType",
                 "valueRanges",
                 "objectIDs"
             ]
         },
-        "IAlertVisual": {
+        "IValueRange": {
             "type": "object",
-            "description": "Alert visual are used to show specific iconography when a boolean expression is true",
             "additionalProperties": false,
+            "description": "Range of values for which a visual indication is triggered",
             "properties": {
-                "type": {
-                    "const": "Alert"
-                },
-                "triggerExpression": {
-                    "type": "string",
-                    "description": "Expression which evaluates to a boolean value"
-                },
-                "labelExpression": {
-                    "type": "string",
-                    "description": "Expression which evalues to a string value"
-                },
-                "iconName": {
+                "id": {
                     "type": "string"
                 },
-                "color": {
-                    "type": "string"
+                "values": {
+                    "type": "array",
+                    "description": "min/max values are parsed as a two element array [min, max].  Boolean values are parsed as a single element array [true]."
                 },
-                "objectIDs": {
-                    "$ref": "#/$defs/IObjectIDs"
-                },
-                "extensionProperties": {
-                    "$ref": "#/$defs/IExtensionProperties"
+                "visual": {
+                    "type": "object",
+                    "description": "Visual data to apply when values are in range",
+                    "properties": {
+                        "color": {
+                            "type": "string"
+                        },
+                        "iconName": {
+                            "type": "string"
+                        },
+                        "labelExpression": {
+                            "type": "string"
+                        }
+                    }
                 }
             },
-            "required": [
-                "type",
-                "triggerExpression",
-                "labelExpression",
-                "iconName",
-                "color",
-                "objectIDs"
-            ]
+            "required": ["id", "values", "visual"]
         }
     }
 }
