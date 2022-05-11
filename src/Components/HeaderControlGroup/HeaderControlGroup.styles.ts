@@ -15,6 +15,7 @@ export const getStyles = (
         root: [
             classNames.root,
             {
+                backgroundColor: theme.semanticColors.buttonBackground,
                 border: `1px solid ${theme.palette.neutralLight}`,
                 borderRadius: 2
             }

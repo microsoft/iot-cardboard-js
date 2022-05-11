@@ -22,6 +22,7 @@ export const getStyles = (
                     backgroundColor: isActive
                         ? theme.semanticColors.buttonBackgroundPressed
                         : theme.semanticColors.buttonBackground,
+                    borderRadius: 0,
                     height: 42,
                     width: 42
                 },

@@ -67,25 +67,24 @@ export const CameraControls: React.FC<CameraControlProps> = ({
 
     return (
         <div className={styles.panelContents}>
-            <Stack horizontal tokens={{ childrenGap: 8 }}>
+            <Stack
+                horizontal
+                tokens={{ childrenGap: 8 }}
+                styles={{ root: { zIndex: 999 } }}
+            >
                 <HeaderControlGroup>
                     <HeaderControlButton
+                        iconProps={{ iconName: 'Rotate90Clockwise' }}
                         id={calloutAnchorOrbit}
                         isActive={
                             cameraInteractionType === CameraInteraction.Rotate
                         }
-                        styles={headerButtonStyles}
                         onClick={() =>
                             updateCameraInteraction(CameraInteraction.Rotate)
                         }
                         onMouseEnter={() => setShowOrbitCallout(true)}
                         onMouseLeave={() => setShowOrbitCallout(false)}
                     >
-                        <img
-                            src={`data:image/svg+xml;base64,${Rotate(theme)}`}
-                            style={{ height: 16, width: 16 }}
-                            className={styles.buttonIcon}
-                        />
                         {cameraInteractionType === CameraInteraction.Rotate && (
                             <img
                                 src={`data:image/svg+xml;base64,${Selected(
@@ -97,23 +96,17 @@ export const CameraControls: React.FC<CameraControlProps> = ({
                         )}
                     </HeaderControlButton>
                     <HeaderControlButton
-                        buttonProps={{}}
+                        iconProps={{ iconName: 'Move' }}
                         id={calloutAnchorPan}
                         isActive={
                             cameraInteractionType === CameraInteraction.Pan
                         }
-                        styles={headerButtonStyles}
                         onClick={() =>
                             updateCameraInteraction(CameraInteraction.Pan)
                         }
                         onMouseEnter={() => setShowPanCallout(true)}
                         onMouseLeave={() => setShowPanCallout(false)}
                     >
-                        <img
-                            src={`data:image/svg+xml;base64,${Pan(theme)}`}
-                            style={{ height: 16, width: 16 }}
-                            className={styles.buttonIcon}
-                        />
                         {cameraInteractionType === CameraInteraction.Pan && (
                             <img
                                 src={`data:image/svg+xml;base64,${Selected(
@@ -128,42 +121,24 @@ export const CameraControls: React.FC<CameraControlProps> = ({
                 <HeaderControlGroup>
                     <HeaderControlButton
                         isActive={false}
-                        styles={headerButtonStyles}
+                        iconProps={{ iconName: 'Add' }}
                         onClick={() => onCameraZoom(true)}
                         title={t('cameraControls.zoomIn')}
-                    >
-                        <img
-                            src={`data:image/svg+xml;base64,${ZoomIn(theme)}`}
-                            style={{ height: 16, width: 16 }}
-                            className={styles.buttonIcon}
-                        />
-                    </HeaderControlButton>
+                    />
                     <HeaderControlButton
                         isActive={false}
-                        styles={headerButtonStyles}
+                        iconProps={{ iconName: 'Remove' }}
                         title={t('cameraControls.zoomOut')}
                         onClick={() => onCameraZoom(false)}
-                    >
-                        <img
-                            src={`data:image/svg+xml;base64,${ZoomOut(theme)}`}
-                            style={{ height: 16, width: 16 }}
-                            className={styles.buttonIcon}
-                        />
-                    </HeaderControlButton>
+                    />
                 </HeaderControlGroup>
                 <HeaderControlGroup>
                     <HeaderControlButton
+                        iconProps={{ iconName: 'CubeShape' }}
                         isActive={false}
                         onClick={onResetCamera}
-                        styles={headerButtonStyles}
                         title={t('cameraControls.reset')}
-                    >
-                        <img
-                            src={`data:image/svg+xml;base64,${Reset(theme)}`}
-                            style={{ height: 16, width: 16 }}
-                            className={styles.buttonIcon}
-                        />
-                    </HeaderControlButton>
+                    />
                 </HeaderControlGroup>
             </Stack>
             {showPanCallout && (
@@ -290,11 +265,6 @@ export const CameraControls: React.FC<CameraControlProps> = ({
     );
 };
 
-const headerButtonStyles: IHeaderControlButtonStyles = {
-    root: {
-        zIndex: 999
-    }
-};
 const getStyles = memoizeFunction((theme: Theme) => {
     return mergeStyleSets({
         panelContents: {

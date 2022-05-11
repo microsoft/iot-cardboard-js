@@ -130,15 +130,13 @@ const DeeplinkFlyout: React.FC<IDeeplinkFlyoutProps> = (props) => {
         <div className={classNames.root}>
             <HeaderControlGroup>
                 <HeaderControlButton
-                    buttonProps={{
-                        iconProps: iconProps,
-                        id: flyoutButtonId,
-                        onClick: toggleFlyout,
-                        title: t(LOC_KEYS.buttonTitle)
-                    }}
                     className={classNames.button}
                     data-testid={'deeplink-open-flyout'}
+                    id={flyoutButtonId}
+                    iconProps={iconProps}
                     isActive={showFlyout}
+                    onClick={toggleFlyout}
+                    title={t(LOC_KEYS.buttonTitle)}
                 />
             </HeaderControlGroup>
             {showFlyout && (
