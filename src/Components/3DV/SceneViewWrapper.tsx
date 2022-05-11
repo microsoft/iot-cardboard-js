@@ -32,7 +32,7 @@ import {
     ViewerThemeKey
 } from '../../Models/Constants';
 import SceneLayers from '../ADT3DSceneBuilder/Internal/SceneLayers/SceneLayers';
-import { CameraControls } from './CameraControls';
+import { CameraControls } from './Internal/CameraControls/CameraControls';
 import {
     classNamesFunction,
     css,

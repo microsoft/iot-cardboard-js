@@ -6,8 +6,8 @@ import {
 } from './CameraControlsCalloutContent.types';
 import { getStyles } from './CameraControlsCalloutContent.styles';
 import { classNamesFunction, useTheme, styled } from '@fluentui/react';
-import OrbitContent from './Internal/OrbitContent';
 import MoveContent from './Internal/MoveContent';
+import OrbitContent from './Internal/OrbitContent';
 
 const getClassNames = classNamesFunction<
     ICameraControlsCalloutContentStyleProps,

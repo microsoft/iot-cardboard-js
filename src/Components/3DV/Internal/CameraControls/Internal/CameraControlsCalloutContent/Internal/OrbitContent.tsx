@@ -6,7 +6,7 @@ import {
     LeftMouseMove,
     RightMouseMove,
     MiddleMouse
-} from '../../3DV/CameraControlAssets';
+} from '../../CameraControlAssets';
 import { ICameraControlsCalloutContentStyles } from '../CameraControlsCalloutContent.types';
 
 interface IOrbitContentProps {

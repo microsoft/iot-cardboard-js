@@ -1,6 +1,6 @@
 import React from 'react';
 import { ComponentStory } from '@storybook/react';
-import { getDefaultStoryDecorator } from '../../Models/Services/StoryUtilities';
+import { getDefaultStoryDecorator } from '../../../../../../Models/Services/StoryUtilities';
 import CameraControlsCalloutContent from './CameraControlsCalloutContent';
 import { ICameraControlsCalloutContentProps } from './CameraControlsCalloutContent.types';
 

@@ -9,18 +9,12 @@ import {
     useTheme
 } from '@fluentui/react';
 import React, { useEffect, useState } from 'react';
-import { CameraInteraction } from '../../Models/Constants/Enums';
+import { CameraInteraction } from '../../../../Models/Constants/Enums';
 import { useTranslation } from 'react-i18next';
-import {
-    LeftMouseClick,
-    LeftMouseMove,
-    MiddleMouse,
-    RightMouseMove,
-    Selected
-} from './CameraControlAssets';
-import HeaderControlButton from '../HeaderControlButton/HeaderControlButton';
-import HeaderControlGroup from '../HeaderControlGroup/HeaderControlGroup';
-import CameraControlsCalloutContent from '../CameraControlsCalloutContent/CameraControlsCalloutContent';
+import { Selected } from './Internal/CameraControlAssets';
+import HeaderControlButton from '../../../HeaderControlButton/HeaderControlButton';
+import HeaderControlGroup from '../../../HeaderControlGroup/HeaderControlGroup';
+import CameraControlsCalloutContent from './Internal/CameraControlsCalloutContent/CameraControlsCalloutContent';
 
 interface CameraControlProps {
     cameraInteraction?: CameraInteraction;
@@ -62,7 +56,7 @@ export const CameraControls: React.FC<CameraControlProps> = ({
     const { t } = useTranslation();
 
     return (
-        <div className={styles.panelContents}>
+        <div className={styles.root}>
             <FocusZone style={{ zIndex: 999 }}>
                 <Stack horizontal tokens={{ childrenGap: 8 }}>
                     <HeaderControlGroup>
@@ -88,7 +82,7 @@ export const CameraControls: React.FC<CameraControlProps> = ({
                                         theme
                                     )}`}
                                     style={{ width: 24 }}
-                                    className={styles.selected}
+                                    className={styles.selectedIndicator}
                                 />
                             )}
                         </HeaderControlButton>
@@ -111,7 +105,7 @@ export const CameraControls: React.FC<CameraControlProps> = ({
                                         theme
                                     )}`}
                                     style={{ width: 24 }}
-                                    className={styles.selected}
+                                    className={styles.selectedIndicator}
                                 />
                             )}
                         </HeaderControlButton>
@@ -162,18 +156,25 @@ export const CameraControls: React.FC<CameraControlProps> = ({
 
 export const classPrefix = 'cb-camera-controls';
 const classNames = {
-    root: `${classPrefix}-root`
+    root: `${classPrefix}-root`,
+    selected: `${classPrefix}-selected`
 };
-const getStyles = memoizeFunction((theme: Theme) => {
+const getStyles = memoizeFunction((_theme: Theme) => {
     return mergeStyleSets({
-        panelContents: {
-            marginLeft: 'auto',
-            marginRight: 'auto',
-            display: 'flex'
-        },
-        selected: {
-            position: 'absolute',
-            top: 28
-        }
+        root: [
+            classNames.root,
+            {
+                marginLeft: 'auto',
+                marginRight: 'auto',
+                display: 'flex'
+            }
+        ],
+        selectedIndicator: [
+            classNames.selected,
+            {
+                position: 'absolute',
+                top: 28
+            }
+        ]
     });
 });
