@@ -19,7 +19,11 @@ const HeaderControlGroup: React.FC<IHeaderControlGroupProps> = (props) => {
     });
 
     return (
-        <Stack horizontal className={classNames.root}>
+        <Stack
+            horizontal
+            className={classNames.root}
+            styles={classNames.subComponentStyles.stack}
+        >
             {children}
         </Stack>
     );

@@ -20,6 +20,12 @@ export const getStyles = (
                 borderRadius: 2
             }
         ],
-        subComponentStyles: {}
+        subComponentStyles: {
+            stack: {
+                root: {
+                    width: 'fit-content'
+                }
+            }
+        }
     };
 };

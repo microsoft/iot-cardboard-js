@@ -1,4 +1,9 @@
-import { IStyle, IStyleFunctionOrObject, ITheme } from '@fluentui/react';
+import {
+    IStackStyles,
+    IStyle,
+    IStyleFunctionOrObject,
+    ITheme
+} from '@fluentui/react';
 
 export interface IHeaderControlGroupProps {
     /**
@@ -22,5 +27,6 @@ export interface IHeaderControlGroupStyles {
     subComponentStyles?: IHeaderControlGroupSubComponentStyles;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface IHeaderControlGroupSubComponentStyles {}
+export interface IHeaderControlGroupSubComponentStyles {
+    stack: IStackStyles;
+}
