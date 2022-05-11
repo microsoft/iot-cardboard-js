@@ -1,56 +1,49 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 
 interface ICommandRecord {
-    doFn: () => void;
-    undoFN: () => void;
+    do: () => void;
+    undo: () => void;
+}
+
+interface ICommandHistory {
+    execute: (doFn: () => void, undoFn: () => void) => void;
+    redo: () => void;
+    undo: () => void;
+    canRedo: boolean;
+    canUndo: boolean;
 }
 
 interface IUseCommandHistory {
     initialState?: ICommandRecord[];
 }
 
-export const useCommandHistory = (initialState?: IUseCommandHistory) => {
+export const useCommandHistory = (
+    initialState?: IUseCommandHistory
+): ICommandHistory => {
     const [index, setIndex] = useState(0);
-    const [history, setHistory] = useState(initialState);
+    const [history] = useState(initialState);
 
     const execute = (doFn, undoFn) => {
         doFn();
         setIndex(index + 1);
-        const newHistory = history;
-        newHistory[index] = { ...newHistory[index], doFn, undoFn };
-        setHistory(newHistory);
+        history.push({ doFn, undoFn });
     };
 
+    const canRedo = useMemo(() => history && !!history[index], [index]);
+    const canUndo = useMemo(() => history && !!history[index - 1], [index]);
+
     const redo = () => {
-        if (history[index]) {
+        if (canRedo) {
             history[index].doFn();
             setIndex((previousIndex) => previousIndex + 1);
-        } else {
-            console.log('Nothing to redo');
         }
     };
 
     const undo = () => {
-        if (history[index - 1]) {
+        if (canUndo) {
             history[index - 1].undoFn();
             setIndex((previousIndex) => previousIndex - 1);
-        } else {
-            console.log('Nothing to undo');
         }
-    };
-
-    const canRedo = () => {
-        if (history && history[index]) {
-            return true;
-        }
-        return false;
-    };
-
-    const canUndo = () => {
-        if (history && history[index - 1]) {
-            return true;
-        }
-        return false;
     };
 
     return {

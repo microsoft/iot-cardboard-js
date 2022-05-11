@@ -101,14 +101,14 @@ const OATHeader = ({ elements }: OATHeaderProps) => {
                         />
                         {t('OATHeader.export')}
                     </ActionButton>
-                    <ActionButton onClick={() => undo()} disabled={!canUndo()}>
+                    <ActionButton onClick={undo} disabled={!canUndo}>
                         <FontIcon
                             iconName={'Undo'}
                             className={headerStyles.menuIcon}
                         />
                         {t('OATHeader.undo')}
                     </ActionButton>
-                    <ActionButton onClick={() => redo()} disabled={!canRedo()}>
+                    <ActionButton onClick={redo} disabled={!canRedo}>
                         <FontIcon
                             iconName={'Redo'}
                             className={headerStyles.menuIcon}

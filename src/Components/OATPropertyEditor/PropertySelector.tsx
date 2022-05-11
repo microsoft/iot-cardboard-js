@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
 import { DTDLModel } from '../../Models/Classes/DTDL';
 import { CommandHistoryContext } from '../../Pages/OATEditorPage/context/CommandHistoryContext';
+import { deepCopy } from '../../Models/Services/Utils';
 
 const data = {
     propertyTags: {
@@ -39,11 +40,11 @@ const PropertySelector = ({
     const propertyInspectorStyles = getPropertyInspectorStyles();
     const { execute } = useContext(CommandHistoryContext);
 
-    const addNestedProperty = (tag) => {
-        const modelCopy = Object.assign({}, model);
-        const schemaCopy = Object.assign({}, lastPropertyFocused.item.schema);
+    const addNestedProperty = (tag, lastPropertyFocusedCopy) => {
+        const modelCopy = deepCopy(model);
+        const schemaCopy = deepCopy(lastPropertyFocusedCopy.item.schema);
         schemaCopy.fields.push({
-            name: `${lastPropertyFocused.item.name}_${
+            name: `${lastPropertyFocusedCopy.item.name}_${
                 schemaCopy.fields.length + 1
             }`,
             schema: tag
@@ -55,7 +56,7 @@ const PropertySelector = ({
     };
 
     const addProperty = async (tag) => {
-        const modelCopy = Object.assign({}, model);
+        const modelCopy = deepCopy(model);
         modelCopy.contents = [
             ...modelCopy.contents,
             ...[
@@ -73,51 +74,27 @@ const PropertySelector = ({
         setPropertySelectorVisible(false);
     };
 
-    const handleAddPropertyUndo = () => {
-        // Revert to previous state
-        const modelCopy = Object.assign({}, model);
-        const contentsLength = modelCopy.contents.length;
-        if (contentsLength > 0) {
-            const foundCreatedProperty = modelCopy.contents.find(
-                (prop) =>
-                    prop['@id'] ===
-                    `dtmi:com:adt:model1:New_Property_${contentsLength + 1}`
-            );
-            if (foundCreatedProperty) {
-                modelCopy.contents.pop();
-            }
-        }
-        setModel(modelCopy);
-    };
-
-    const handleAddNestedPropertyUndo = () => {
-        const modelCopy = Object.assign({}, model);
-        // Find latest nested prop index
-        const foundNestedPropIndex = modelCopy.contents.findIndex(
-            (prop) => prop['@id'] === lastPropertyFocused.item['@id']
-        );
-        //  Remove latest property from object-property
-        if (foundNestedPropIndex > 0) {
-            modelCopy.contents[foundNestedPropIndex].schema.fields.pop();
-        }
-        setModel(modelCopy);
-    };
     const handleTagClick = async (tag) => {
+        const modelCopy = deepCopy(model);
+        const lastPropertyFocusedCopy = deepCopy(lastPropertyFocused);
         if (
             lastPropertyFocused &&
             typeof lastPropertyFocused.item.schema === 'object'
         ) {
-            // addNestedProperty(tag);
             execute(
-                () => addNestedProperty(tag),
-                () => handleAddNestedPropertyUndo()
+                () => addNestedProperty(tag, lastPropertyFocusedCopy),
+                ((m) => {
+                    return () => setModel(m);
+                })({ ...modelCopy })
             );
             return;
         }
 
         execute(
             () => addProperty(tag),
-            () => handleAddPropertyUndo()
+            ((m) => {
+                return () => setModel(m);
+            })({ ...modelCopy })
         );
     };
 

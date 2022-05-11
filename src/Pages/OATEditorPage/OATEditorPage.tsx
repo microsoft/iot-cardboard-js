@@ -8,14 +8,6 @@ import { CommandHistoryContext } from './context/CommandHistoryContext';
 import useCommandHistory from './hooks/useCommandHistory';
 
 const OATEditorPage = ({ theme }) => {
-    const {
-        history,
-        execute,
-        redo,
-        undo,
-        canRedo,
-        canUndo
-    } = useCommandHistory([]);
     const [elementHandler, setElementHandler] = useState([]);
     const [templatesActive, setTemplatesActive] = useState(false);
     const EditorPageStyles = getEditorPageStyles();
@@ -48,14 +40,7 @@ const OATEditorPage = ({ theme }) => {
         }
     ]);
 
-    const providerValue = {
-        history,
-        execute,
-        redo,
-        undo,
-        canRedo,
-        canUndo
-    };
+    const providerValue = useCommandHistory([]);
 
     return (
         <CommandHistoryContext.Provider value={providerValue}>
