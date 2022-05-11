@@ -618,48 +618,46 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     };
 
     return (
-        <>
-            <ReactFlowProvider>
-                <div
-                    className={graphViewerStyles.container}
-                    ref={reactFlowWrapperRef}
-                >
-                    <ElementsContext.Provider value={providerVal}>
-                        <ReactFlow
-                            elements={elements}
-                            onElementClick={onElementClick}
-                            onElementsRemove={onElementsRemove}
-                            onConnectStart={onConnectStart}
-                            onConnectStop={onConnectStop}
-                            onLoad={onLoad}
-                            snapToGrid={true}
-                            snapGrid={[15, 15]}
-                            nodeTypes={nodeTypes}
-                            edgeTypes={edgeTypes}
-                            onNodeDragStop={onNodeDragStop}
-                        >
-                            <PrimaryButton
-                                styles={buttonStyles}
-                                onClick={onNewModelClick}
-                                text={t('OATGraphViewer.newModel')}
-                            />
-                            {!elements[0] && (
-                                <Label styles={warningStyles}>
-                                    {t('OATGraphViewer.emptyGraph')}
-                                </Label>
-                            )}
+        <ReactFlowProvider>
+            <div
+                className={graphViewerStyles.container}
+                ref={reactFlowWrapperRef}
+            >
+                <ElementsContext.Provider value={providerVal}>
+                    <ReactFlow
+                        elements={elements}
+                        onElementClick={onElementClick}
+                        onElementsRemove={onElementsRemove}
+                        onConnectStart={onConnectStart}
+                        onConnectStop={onConnectStop}
+                        onLoad={onLoad}
+                        snapToGrid={true}
+                        snapGrid={[15, 15]}
+                        nodeTypes={nodeTypes}
+                        edgeTypes={edgeTypes}
+                        onNodeDragStop={onNodeDragStop}
+                    >
+                        <PrimaryButton
+                            styles={buttonStyles}
+                            onClick={onNewModelClick}
+                            text={t('OATGraphViewer.newModel')}
+                        />
+                        {!elements[0] && (
+                            <Label styles={warningStyles}>
+                                {t('OATGraphViewer.emptyGraph')}
+                            </Label>
+                        )}
 
-                            <MiniMap />
-                            <Controls />
-                            <Background
-                                color={theme.semanticColors.bodyBackground}
-                                gap={16}
-                            />
-                        </ReactFlow>
-                    </ElementsContext.Provider>
-                </div>
-            </ReactFlowProvider>
-        </>
+                        <MiniMap />
+                        <Controls />
+                        <Background
+                            color={theme.semanticColors.bodyBackground}
+                            gap={16}
+                        />
+                    </ReactFlow>
+                </ElementsContext.Provider>
+            </div>
+        </ReactFlowProvider>
     );
 };
 
