@@ -21,7 +21,7 @@ import { useDeeplinkContext } from '../../Models/Context/DeeplinkContext/Deeplin
 import HeaderControlButton from '../HeaderControlButton/HeaderControlButton';
 import HeaderControlGroup from '../HeaderControlGroup/HeaderControlGroup';
 
-const debugLogging = true;
+const debugLogging = false;
 const logDebugConsole = getDebugLogger('DeeplinkSimpleFlyout', debugLogging);
 
 const getClassNames = classNamesFunction<
