@@ -206,52 +206,60 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
         []
     );
 
-    const setOutlinedMeshItems = (outlinedMeshItems: Array<CustomMeshItem>) => {
-        dispatch({
-            type: SET_MESH_IDS_TO_OUTLINE,
-            payload: outlinedMeshItems
-        });
-    };
+    const setOutlinedMeshItems = useCallback(
+        (outlinedMeshItems: Array<CustomMeshItem>) => {
+            dispatch({
+                type: SET_MESH_IDS_TO_OUTLINE,
+                payload: outlinedMeshItems
+            });
+        },
+        []
+    );
 
-    const setWidgetFormInfo = (widgetFormInfo: WidgetFormInfo) => {
+    const setWidgetFormInfo = useCallback((widgetFormInfo: WidgetFormInfo) => {
         dispatch({
             type: SET_WIDGET_FORM_INFO,
             payload: widgetFormInfo
         });
-    };
+    }, []);
 
-    const setBehaviorTwinAliasFormInfo = (
-        behaviorTwinAliasFormInfo: BehaviorTwinAliasFormInfo
-    ) => {
-        dispatch({
-            type: SET_BEHAVIOR_TWIN_ALIAS_FORM_INFO,
-            payload: behaviorTwinAliasFormInfo
-        });
-    };
+    const setBehaviorTwinAliasFormInfo = useCallback(
+        (behaviorTwinAliasFormInfo: BehaviorTwinAliasFormInfo) => {
+            dispatch({
+                type: SET_BEHAVIOR_TWIN_ALIAS_FORM_INFO,
+                payload: behaviorTwinAliasFormInfo
+            });
+        },
+        []
+    );
 
-    const setElementTwinAliasFormInfo = (
-        elementTwinAliasFormInfo: ElementTwinAliasFormInfo
-    ) => {
-        dispatch({
-            type: SET_ELEMENT_TWIN_ALIAS_FORM_INFO,
-            payload: elementTwinAliasFormInfo
-        });
-    };
+    const setElementTwinAliasFormInfo = useCallback(
+        (elementTwinAliasFormInfo: ElementTwinAliasFormInfo) => {
+            dispatch({
+                type: SET_ELEMENT_TWIN_ALIAS_FORM_INFO,
+                payload: elementTwinAliasFormInfo
+            });
+        },
+        []
+    );
 
-    const setIsLayerBuilderDialogOpen = (
-        isOpen: boolean,
-        behaviorId?: string,
-        onFocusDismiss?: (layerId: string) => void
-    ) => {
-        dispatch({
-            type: SET_IS_LAYER_BUILDER_DIALOG_OPEN,
-            payload: {
-                isOpen,
-                behaviorId: behaviorId,
-                onFocusDismiss
-            }
-        });
-    };
+    const setIsLayerBuilderDialogOpen = useCallback(
+        (
+            isOpen: boolean,
+            behaviorId?: string,
+            onFocusDismiss?: (layerId: string) => void
+        ) => {
+            dispatch({
+                type: SET_IS_LAYER_BUILDER_DIALOG_OPEN,
+                payload: {
+                    isOpen,
+                    behaviorId: behaviorId,
+                    onFocusDismiss
+                }
+            });
+        },
+        []
+    );
 
     const getScenesConfig = useAdapter({
         adapterMethod: () => adapter.getScenesConfig(),
@@ -656,12 +664,12 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
         }
     };
 
-    const objectColorUpdated = (objectColor: IADTObjectColor) => {
+    const objectColorUpdated = useCallback((objectColor: IADTObjectColor) => {
         dispatch({
             type: SET_ADT_SCENE_OBJECT_COLOR,
             payload: objectColor
         });
-    };
+    }, []);
 
     const commonPanelStyles = getLeftPanelStyles(fluentTheme);
 

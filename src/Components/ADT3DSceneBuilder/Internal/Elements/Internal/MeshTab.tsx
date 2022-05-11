@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { ITwinToObjectMapping } from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { useTranslation } from 'react-i18next';
 import { CardboardList } from '../../../../CardboardList';
@@ -23,13 +23,13 @@ const MeshTab: React.FC<MeshTabProps> = ({ elementToEdit }) => {
         SceneBuilderContext
     );
 
-    const compareListItems = () => {
+    const compareListItems = useCallback(() => {
         if (elementToEdit.objectIDs.length === listItems.length) {
             return false;
         } else {
             return true;
         }
-    };
+    }, [elementToEdit.objectIDs.length, listItems.length]);
 
     // generate the list of items to show
     useEffect(() => {
@@ -41,7 +41,12 @@ const MeshTab: React.FC<MeshTabProps> = ({ elementToEdit }) => {
             );
             setListItems(listItems);
         }
-    }, [elementToEdit.objectIDs, setColoredMeshItems, objectColor]);
+    }, [
+        elementToEdit.objectIDs,
+        setColoredMeshItems,
+        objectColor,
+        compareListItems
+    ]);
 
     const commonPanelStyles = getLeftPanelStyles(useTheme());
     return (
