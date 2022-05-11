@@ -725,7 +725,7 @@
     "state": "Estado",
     "allProperties": "Todas las propiedades",
     "behaviorPreview": "Vista previa",
-    "PrimaryTwinProperties": "Propiedades de Linked Twin"
+    "PrimaryTwinProperties": "Propiedades de Primary Twin"
   },
   "svgTests": {
     "fluentUI": "Carga DE SVG a través del componente Fluent Image (patrón recomendado)",

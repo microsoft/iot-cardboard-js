@@ -725,7 +725,7 @@
     "state": "Staat",
     "allProperties": "Alle woningen",
     "behaviorPreview": "Voorbeeld",
-    "PrimaryTwinProperties": "Linked Twin accommodaties"
+    "PrimaryTwinProperties": "Primary Twin accommodaties"
   },
   "svgTests": {
     "fluentUI": "SVG laden via Fluent Image component (aanbevolen patroon)",
