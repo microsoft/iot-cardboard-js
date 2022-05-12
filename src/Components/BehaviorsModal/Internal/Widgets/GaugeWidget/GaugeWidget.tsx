@@ -23,7 +23,9 @@ const GaugeWidget: React.FC<IProp> = ({ widget }) => {
             value = Number(
                 widget.widgetConfiguration.valueRanges
                     .slice(0)
-                    .sort((a, b) => Number(a.min) - Number(b.min))[0].min
+                    .sort(
+                        (a, b) => Number(a.values[0]) - Number(b.values[0])
+                    )[0].values[0]
             );
         } else {
             value = parseExpression(expression, twins);

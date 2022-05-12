@@ -8,9 +8,8 @@ import {
     performSubstitutions
 } from '../../../../Models/Services/Utils';
 import {
-    IAlertVisual,
     IBehavior,
-    IStatusColoringVisual
+    IExpressionRangeVisual
 } from '../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { getElementsPanelAlertStyles } from '../../../ElementsPanel/ViewerElementsPanel.styles';
 import { BehaviorsModalContext } from '../../BehaviorsModal';
@@ -31,11 +30,11 @@ const BehaviorSection: React.FC<IBehaviorsSectionProps> = ({ behavior }) => {
 
         if (mode !== BehaviorModalMode.preview) {
             visibleAlertVisuals = visibleAlertVisuals.filter((av) =>
-                parseExpression(av.triggerExpression, twins)
+                parseExpression(av.valueExpression, twins)
             );
         }
         return visibleAlertVisuals;
-    }, [behavior]);
+    }, [behavior.visuals, mode, twins]);
 
     const statusVisuals = useMemo(
         () =>
@@ -65,33 +64,38 @@ const BehaviorSection: React.FC<IBehaviorsSectionProps> = ({ behavior }) => {
     );
 };
 
-const AlertBlock: React.FC<{ alertVisual: IAlertVisual }> = ({
+const AlertBlock: React.FC<{ alertVisual: IExpressionRangeVisual }> = ({
     alertVisual
 }) => {
     const styles = getStyles();
-    const alertStyles = getElementsPanelAlertStyles(alertVisual.color);
+
+    const {
+        visual: { color, iconName, labelExpression }
+    } = alertVisual.valueRanges[0];
+
+    const alertStyles = getElementsPanelAlertStyles(color);
     const { twins, mode } = useContext(BehaviorsModalContext);
 
     return (
         <div className={styles.infoContainer}>
             <div className={alertStyles.alertCircle}>
-                <Icon iconName={alertVisual.iconName} />
+                <Icon iconName={iconName} />
             </div>
             <div className={styles.infoTextContainer}>
                 {mode === BehaviorModalMode.preview
-                    ? alertVisual.labelExpression
-                    : performSubstitutions(alertVisual.labelExpression, twins)}
+                    ? labelExpression
+                    : performSubstitutions(labelExpression, twins)}
             </div>
         </div>
     );
 };
 
-const StatusBlock: React.FC<{ statusVisual: IStatusColoringVisual }> = ({
+const StatusBlock: React.FC<{ statusVisual: IExpressionRangeVisual }> = ({
     statusVisual
 }) => {
     const styles = getStyles();
     const { twins, mode } = useContext(BehaviorsModalContext);
-    const { statusValueExpression, valueRanges } = statusVisual;
+    const { valueExpression, valueRanges } = statusVisual;
     const isStatusLineVisible = valueRanges.length > 0;
 
     let statusValue = 0;
@@ -105,16 +109,16 @@ const StatusBlock: React.FC<{ statusVisual: IStatusColoringVisual }> = ({
         } else {
             const minValueRange = valueRanges
                 .slice(0)
-                .sort((a, b) => Number(a.min) - Number(b.min))[0];
+                .sort((a, b) => Number(a.values[0]) - Number(b.values[0]))[0];
 
-            statusValue = Number(minValueRange.min);
-            statusColor = minValueRange.color;
+            statusValue = Number(minValueRange.values[0]);
+            statusColor = minValueRange.visual.color;
             statusStyles = getStatusBlockStyles(statusColor);
         }
     } else {
-        statusValue = parseExpression(statusValueExpression, twins);
+        statusValue = parseExpression(valueExpression, twins);
         statusColor = getSceneElementStatusColor(
-            statusValueExpression,
+            valueExpression,
             valueRanges,
             twins
         );
@@ -129,7 +133,7 @@ const StatusBlock: React.FC<{ statusVisual: IStatusColoringVisual }> = ({
                 )}
             </div>
             <div className={styles.infoTextContainer}>
-                {statusValueExpression}{' '}
+                {valueExpression}{' '}
                 {typeof statusValue === 'number' && `: ${statusValue}`}
             </div>
         </div>

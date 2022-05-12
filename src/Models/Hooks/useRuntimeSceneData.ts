@@ -75,48 +75,59 @@ export const useRuntimeSceneData = (
                 sceneVisual.behaviors?.forEach((behavior) => {
                     behavior.visuals?.forEach((visual) => {
                         switch (visual.type) {
-                            case VisualType.StatusColoring: {
-                                const color = getSceneElementStatusColor(
-                                    visual.statusValueExpression,
-                                    visual.valueRanges,
-                                    sceneVisual.twins
-                                );
-                                if (color) {
-                                    sceneVisual.element.objectIDs?.forEach(
-                                        (meshId) => {
-                                            const coloredMesh: CustomMeshItem = {
-                                                meshId: meshId,
-                                                color: color
-                                            };
-                                            coloredMeshItems.push(coloredMesh);
-                                        }
-                                    );
-                                }
-                                break;
-                            }
-                            case VisualType.Alert: {
-                                if (
-                                    parseExpression(
-                                        visual.triggerExpression,
+                            case VisualType.ExpressionRangeVisual: {
+                                // Status visual
+                                if (visual.expressionType === 'NumericRange') {
+                                    const color = getSceneElementStatusColor(
+                                        visual.valueExpression,
+                                        visual.valueRanges,
                                         sceneVisual.twins
-                                    )
+                                    );
+                                    if (color) {
+                                        sceneVisual.element.objectIDs?.forEach(
+                                            (meshId) => {
+                                                const coloredMesh: CustomMeshItem = {
+                                                    meshId: meshId,
+                                                    color: color
+                                                };
+                                                coloredMeshItems.push(
+                                                    coloredMesh
+                                                );
+                                            }
+                                        );
+                                    }
+                                } // Alert visual
+                                else if (
+                                    visual.expressionType ===
+                                    'CategoricalValues'
                                 ) {
-                                    const color = visual.color;
-                                    const meshId =
-                                        sceneVisual.element.objectIDs?.[0];
-                                    const icon = BadgeIcons?.[visual.iconName]
-                                        ? BadgeIcons[visual.iconName]
-                                        : BadgeIcons.default;
+                                    if (
+                                        parseExpression(
+                                            visual.valueExpression,
+                                            sceneVisual.twins
+                                        )
+                                    ) {
+                                        const color =
+                                            visual.valueRanges[0].visual.color;
+                                        const meshId =
+                                            sceneVisual.element.objectIDs?.[0];
+                                        const iconName =
+                                            visual.valueRanges[0].visual
+                                                .iconName;
+                                        const icon = BadgeIcons?.[iconName]
+                                            ? BadgeIcons[iconName]
+                                            : BadgeIcons.default;
 
-                                    alerts.push({
-                                        sceneVisual: sceneVisual,
-                                        sceneViewBadge: {
-                                            id: behavior.id,
-                                            meshId: meshId,
-                                            color: color,
-                                            icon: icon
-                                        }
-                                    });
+                                        alerts.push({
+                                            sceneVisual: sceneVisual,
+                                            sceneViewBadge: {
+                                                id: behavior.id,
+                                                meshId: meshId,
+                                                color: color,
+                                                icon: icon
+                                            }
+                                        });
+                                    }
                                 }
                                 break;
                             }
