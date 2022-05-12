@@ -1,4 +1,4 @@
-import produce, { setAutoFreeze } from 'immer';
+import produce from 'immer';
 import { IAction } from '../../Models/Constants/Interfaces';
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 import {
@@ -6,7 +6,6 @@ import {
     SET_OAT_TEMPLATES_ACTIVE,
     SET_OAT_TEMPLATES
 } from '../../Models/Constants/ActionTypes';
-setAutoFreeze(false);
 
 export const defaultOATEditorState: IOATEditorState = {
     model: null,
@@ -20,11 +19,14 @@ export const OATPropertyEditorReducer = produce(
 
         switch (action.type) {
             case SET_OAT_PROPERTY_EDITOR_MODEL:
-                return { ...state, model: payload };
+                state.model = payload;
+                return;
             case SET_OAT_TEMPLATES_ACTIVE:
-                return { ...state, templatesActive: payload };
+                state.templatesActive = payload;
+                return;
             case SET_OAT_TEMPLATES:
-                return { ...state, templates: payload };
+                state.templates = payload;
+                return;
         }
     }
 );
