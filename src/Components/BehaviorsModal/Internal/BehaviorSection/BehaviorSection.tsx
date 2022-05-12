@@ -52,12 +52,14 @@ const BehaviorSection: React.FC<IBehaviorsSectionProps> = ({ behavior }) => {
 
     return (
         <div className={styles.behaviorSection}>
-            <div className={styles.behaviorHeader}>{behavior.displayName}</div>
+            <div className={styles.behaviorHeader}>
+                {statusVisuals.map((sv, idx) => (
+                    <StatusBlock statusVisual={sv} key={`${sv.type}-${idx}`} />
+                ))}
+                {behavior.displayName}
+            </div>
             {alertVisuals.map((av, idx) => (
                 <AlertBlock alertVisual={av} key={`${av.type}-${idx}`} />
-            ))}
-            {statusVisuals.map((sv, idx) => (
-                <StatusBlock statusVisual={sv} key={`${sv.type}-${idx}`} />
             ))}
             {popoverVisual && (
                 <WidgetsContainer popoverVisual={popoverVisual} />
@@ -93,30 +95,26 @@ const AlertBlock: React.FC<{ alertVisual: IAlertVisual }> = ({
 const StatusBlock: React.FC<{ statusVisual: IStatusColoringVisual }> = ({
     statusVisual
 }) => {
-    const styles = getStyles();
     const { twins, mode } = useContext(BehaviorsModalContext);
     const { statusValueExpression, valueRanges } = statusVisual;
     const isStatusLineVisible = valueRanges.length > 0;
 
-    let statusValue = 0;
+    if (!isStatusLineVisible) {
+        return null;
+    }
+
     let statusColor;
     let statusStyles;
 
     // In preview mode, select min value range to display
     if (mode === BehaviorModalMode.preview) {
-        if (!isStatusLineVisible) {
-            statusStyles = getStatusBlockStyles(null);
-        } else {
-            const minValueRange = valueRanges
-                .slice(0)
-                .sort((a, b) => Number(a.min) - Number(b.min))[0];
+        const minValueRange = valueRanges
+            .slice(0)
+            .sort((a, b) => Number(a.min) - Number(b.min))[0];
 
-            statusValue = Number(minValueRange.min);
-            statusColor = minValueRange.color;
-            statusStyles = getStatusBlockStyles(statusColor);
-        }
+        statusColor = minValueRange.color;
+        statusStyles = getStatusBlockStyles(statusColor);
     } else {
-        statusValue = parseLinkedTwinExpression(statusValueExpression, twins);
         statusColor = getSceneElementStatusColor(
             statusValueExpression,
             valueRanges,
@@ -125,19 +123,7 @@ const StatusBlock: React.FC<{ statusVisual: IStatusColoringVisual }> = ({
         statusStyles = getStatusBlockStyles(statusColor);
     }
 
-    return (
-        <div className={styles.infoContainer}>
-            <div className={styles.infoIconContainer}>
-                {isStatusLineVisible && (
-                    <div className={statusStyles.statusColorLine}></div>
-                )}
-            </div>
-            <div className={styles.infoTextContainer}>
-                {statusValueExpression}{' '}
-                {typeof statusValue === 'number' && `: ${statusValue}`}
-            </div>
-        </div>
-    );
+    return <div className={statusStyles.statusColorLine}></div>;
 };
 
 export default React.memo(BehaviorSection);
