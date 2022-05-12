@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import { DefaultButton } from '@fluentui/react/lib/Button';
 import {
+    DefaultButton,
     Dropdown,
     IDropdownOption,
-    DropdownMenuItemType
-} from '@fluentui/react/lib/Dropdown';
-import { TextField } from '@fluentui/react/lib/TextField';
-import { Toggle } from '@fluentui/react/lib/Toggle';
-import { Stack } from '@fluentui/react/lib/Stack';
+    DropdownMenuItemType,
+    TextField,
+    Stack,
+    Toggle
+} from '@fluentui/react';
 import {
     DTDLEnum,
     DTDLProperty,
