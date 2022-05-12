@@ -341,12 +341,11 @@ export const getPropertyInspectorStyles = () => {
             classNames.enumItem,
             {
                 display: 'grid',
-                gridTemplateColumns: '55% 35% 10%',
+                gridTemplateColumns: '10% 45% 35% 10%',
                 width: '100%',
                 backgroundColor: theme.semanticColors.buttonBackgroundDisabled,
                 alignItems: 'center',
                 padding: '12px 0px',
-                paddingLeft: '10%',
                 borderBottom: `1px solid ${theme.semanticColors.buttonBackgroundPressed}'`,
                 borderRadius: '4px'
             } as IStyle
@@ -392,7 +391,7 @@ export const getPropertyInspectorStyles = () => {
             classNames.propertyItem,
             {
                 display: 'grid',
-                gridTemplateColumns: '0% 55% 25% 10% 10%',
+                gridTemplateColumns: '55% 25% 10% 10%',
                 width: '100%',
                 backgroundColor: theme.semanticColors.listBackground,
                 alignItems: 'center',
@@ -458,7 +457,7 @@ export const getPropertyInspectorStyles = () => {
             classNames.propertyItemNestMainItem,
             {
                 display: 'grid',
-                gridTemplateColumns: '10% 45% 26% 9% 10%',
+                gridTemplateColumns: '10% 45% 25% 10% 10%',
                 width: '100%',
                 alignItems: 'center',
                 paddingBottom: '12px',

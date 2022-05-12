@@ -120,7 +120,6 @@ export const PropertyListItem = ({
                 onFocus={() => setLastPropertyFocused(null)}
                 tabIndex={0}
             >
-                <div></div> {/* Needed for gridTemplateColumns style  */}
                 <TextField
                     borderless
                     value={item.name}
