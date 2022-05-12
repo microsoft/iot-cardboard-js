@@ -16,6 +16,8 @@ import PropertyList from './PropertyList';
 import JSONEditor from './JSONEditor';
 import TemplateColumn from './TemplateColumn';
 import PropertiesModelSummary from './PropertiesModelSummary';
+import PropertySelector from './PropertySelector';
+import AddPropertyBar from './AddPropertyBar';
 import { SET_OAT_TEMPLATES_ACTIVE } from '../../Models/Constants/ActionTypes';
 interface IEditor {
     currentPropertyIndex?: number;
@@ -47,8 +49,13 @@ const Editor = ({
     const [draggingProperty, setDraggingProperty] = useState(false);
     const enteredTemplateRef = useRef(null);
     const enteredPropertyRef = useRef(null);
-    const { templatesActive } = state;
+    const { model, templatesActive } = state;
+    const [hover, setHover] = useState(false);
+    const [propertySelectorVisible, setPropertySelectorVisible] = useState(
+        false
+    );
 
+    const PROPERTY_LIST_HEADER = 'PROPERTY_LIST_HEADER';
     return (
         <div className={propertyInspectorStyles.container}>
             <Pivot className={propertyInspectorStyles.pivot}>
@@ -57,11 +64,26 @@ const Editor = ({
                     className={propertyInspectorStyles.pivotItem}
                 >
                     <PropertiesModelSummary dispatch={dispatch} state={state} />
-                    <div className={propertyInspectorStyles.paddingWrap}>
+                    <div
+                        id={PROPERTY_LIST_HEADER}
+                        className={
+                            propertyInspectorStyles.propertyListHeaderWrap
+                        }
+                        onMouseOver={() => {
+                            setHover(true);
+                        }}
+                        onMouseLeave={() => {
+                            setHover(false);
+                        }}
+                    >
                         <Stack
                             className={propertyInspectorStyles.rowSpaceBetween}
                         >
-                            <Label>{t('OATPropertyEditor.properties')}</Label>
+                            <Label>{`${t('OATPropertyEditor.properties')} ${
+                                model && model.contents.length > 0
+                                    ? `(${model.contents.length})`
+                                    : ''
+                            }`}</Label>
                             <ActionButton
                                 onClick={() =>
                                     dispatch({
@@ -84,6 +106,24 @@ const Editor = ({
                                 </Text>
                             </ActionButton>
                         </Stack>
+                        {propertySelectorVisible && (
+                            <PropertySelector
+                                setPropertySelectorVisible={
+                                    setPropertySelectorVisible
+                                }
+                                lastPropertyFocused={null}
+                                targetId={PROPERTY_LIST_HEADER}
+                                dispatch={dispatch}
+                                state={state}
+                            />
+                        )}
+                        {hover && model && model.contents.length > 0 && (
+                            <AddPropertyBar
+                                onMouseOver={() => {
+                                    setPropertySelectorVisible(true);
+                                }}
+                            />
+                        )}
                     </div>
 
                     <PropertyList

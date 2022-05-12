@@ -30,7 +30,6 @@ export const PropertyListMapItemNested = ({
     const mapItemStyles = getMapItemStyles();
     const textFieldStyles = getPropertyEditorTextFieldStyles();
     const textStyles = getListMapItemTextStyles();
-    const mapItemWrapStyles = getMapItemWrap();
     const { model } = state;
 
     const updateMapKeyName = (value) => {
