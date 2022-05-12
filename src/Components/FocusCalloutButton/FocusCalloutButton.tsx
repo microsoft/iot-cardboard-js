@@ -103,10 +103,11 @@ const FocusCalloutButton: React.FC<IFocusCalloutButtonProps> = ({
                                     <IconButton
                                         iconProps={{
                                             iconName: 'Cancel',
-                                            style: {
-                                                fontSize: FontSizes.size14,
-                                                height: 32,
-                                                color: theme.palette.black
+                                            styles: {
+                                                root: {
+                                                    fontSize: FontSizes.size14,
+                                                    color: theme.palette.black
+                                                }
                                             }
                                         }}
                                         onClick={() => setIsOpen(false)}
