@@ -16,8 +16,9 @@ export function GET_HEADER_BUTTON_STYLES(
                 ? theme.semanticColors.buttonBackgroundPressed
                 : theme.semanticColors.buttonBackground,
             borderRadius: 2,
-            height: HEADER_BUTTON_HEIGHT,
-            width: HEADER_BUTTON_HEIGHT,
+            // remove the border for the groups
+            height: HEADER_BUTTON_HEIGHT - 2,
+            width: HEADER_BUTTON_HEIGHT - 2,
             ':hover': {
                 border: `1px solid ${theme.palette.neutralSecondary}`
             }

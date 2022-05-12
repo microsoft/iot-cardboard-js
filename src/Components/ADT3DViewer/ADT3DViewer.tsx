@@ -53,6 +53,7 @@ import {
 } from './ADT3DViewer.types';
 import { ADT3DScenePageModes } from '../../Models/Constants';
 import FloatingScenePageModeToggle from '../../Pages/ADT3DScenePage/Internal/FloatingScenePageModeToggle';
+import DeeplinkFlyout from '../DeeplinkFlyout/DeeplinkFlyout';
 
 const getClassNames = classNamesFunction<
     IADT3DViewerStyleProps,
@@ -558,6 +559,8 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
                     styles={classNames.subComponentStyles.headerStack}
                     tokens={{ childrenGap: 8 }}
                 >
+                    <DeeplinkFlyout mode="Options" />
+                    {/* TODO: MOVE THEME PICKER HERE */}
                     <div className={classNames.layersPicker}>
                         <LayerDropdown
                             layers={layersInScene}

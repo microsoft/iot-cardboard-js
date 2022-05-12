@@ -102,7 +102,7 @@ const SceneLayers: React.FC<ISceneLayersProps> = (props) => {
     };
 
     return (
-        <>
+        <div>
             <FocusCalloutButton
                 buttonText={t('sceneLayers.sceneLayers')}
                 calloutTitle={getCalloutTitle(mode)}
@@ -136,7 +136,7 @@ const SceneLayers: React.FC<ISceneLayersProps> = (props) => {
                             });
                             setMode(LayerDialogMode.NewLayer);
                         }}
-                        layers={config.configuration.layers}
+                        layers={config?.configuration?.layers || []}
                         onLayerClick={(layer: ILayer) => {
                             setLayerDraft(layer);
                             setMode(LayerDialogMode.EditLayer);
@@ -175,7 +175,7 @@ const SceneLayers: React.FC<ISceneLayersProps> = (props) => {
                 }}
                 onConfirmDeletion={() => onDeleteLayer(confirmDeleteLayerData)}
             />
-        </>
+        </div>
     );
 };
 

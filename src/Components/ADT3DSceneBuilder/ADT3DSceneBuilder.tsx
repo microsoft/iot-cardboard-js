@@ -78,6 +78,7 @@ import FloatingScenePageModeToggle from '../../Pages/ADT3DScenePage/Internal/Flo
 import { useDeeplinkContext } from '../../Models/Context/DeeplinkContext/DeeplinkContext';
 import { DeeplinkContextActionType } from '../../Models/Context/DeeplinkContext/DeeplinkContext.types';
 import { getStyles } from './ADT3DSceneBuilder.styles';
+import SceneLayers from './Internal/SceneLayers/SceneLayers';
 
 const contextMenuStyles = mergeStyleSets({
     header: {
@@ -774,6 +775,8 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = (props) => {
                         styles={classNames.subComponentStyles.headerStack}
                         tokens={{ childrenGap: 8 }}
                     >
+                        {/* TODO: MOVE THEME PICKER HERE */}
+                        <SceneLayers />
                         {showModeToggle && (
                             <FloatingScenePageModeToggle
                                 sceneId={sceneId}

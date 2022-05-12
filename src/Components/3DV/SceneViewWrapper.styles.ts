@@ -31,10 +31,11 @@ export const getStyles = (
         cameraControlsContainer: [classNames.cameraControls],
         leftHeaderControlsContainer: [classNames.leftHeader],
         subComponentStyles: {
-            leftHeaderControlsStack: {
+            rightHeaderControlsStack: {
                 root: {
                     alignItems: 'center',
-                    left: 20,
+                    // hacks for dayz. will remove when we pull the control up a layer
+                    right: mode === WrapperMode.Viewer ? 420 : 272,
                     position: 'absolute',
                     top: VIEWER_HEADER_TOP_OFFSET,
                     zIndex: 1

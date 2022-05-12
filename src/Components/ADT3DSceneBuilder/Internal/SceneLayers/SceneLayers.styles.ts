@@ -1,4 +1,5 @@
 import { FontWeights, IStyle, ITextStyles } from '@fluentui/react';
+import { HEADER_BUTTON_HEIGHT } from '../../../../Models/Constants/StyleConstants';
 import { GET_HEADER_BUTTON_STYLES } from '../../../HeaderControlButton/HeaderControlButton.styles';
 import {
     IPrimaryActionCalloutContentsStyleProps,
@@ -21,6 +22,7 @@ export const getStyles = (
                             headerButton.root,
                             {
                                 border: `1px solid ${theme.palette.neutralLight}`,
+                                height: HEADER_BUTTON_HEIGHT,
                                 width: 'fit-content'
                             }
                         ]

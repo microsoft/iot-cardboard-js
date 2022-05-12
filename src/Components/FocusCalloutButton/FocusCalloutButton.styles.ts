@@ -56,11 +56,7 @@ export const getStyles = (
             } as IStyle
         ],
         subComponentStyles: {
-            button: {
-                root: {
-                    marginRight: 8
-                }
-            },
+            button: {},
             stack: {
                 root: {
                     width: 'fit-content'

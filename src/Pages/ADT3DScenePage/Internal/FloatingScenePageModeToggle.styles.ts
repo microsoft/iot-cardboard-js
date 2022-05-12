@@ -1,3 +1,4 @@
+import { HEADER_BUTTON_HEIGHT } from '../../../Models/Constants/StyleConstants';
 import {
     IFloatingScenePageModeToggleStyles,
     IFloatingScenePageModeToggleStyleProps
@@ -17,7 +18,8 @@ export const getStyles = (
         subComponentStyles: {
             pivot: {
                 link: {
-                    background: theme.semanticColors.bodyBackground
+                    background: theme.semanticColors.bodyBackground,
+                    height: HEADER_BUTTON_HEIGHT
                 }
             }
         }
