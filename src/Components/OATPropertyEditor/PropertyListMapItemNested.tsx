@@ -30,6 +30,7 @@ export const PropertyListMapItemNested = ({
     const mapItemStyles = getMapItemStyles();
     const textFieldStyles = getPropertyEditorTextFieldStyles();
     const textStyles = getListMapItemTextStyles();
+    const mapItemWrapStyles = getMapItemWrap();
     const { model } = state;
 
     const updateMapKeyName = (value) => {
@@ -51,7 +52,7 @@ export const PropertyListMapItemNested = ({
     };
 
     return (
-        <>
+        <div className={propertyInspectorStyles.mapItemWrap}>
             <Stack styles={mapItemStyles} tabIndex={0}>
                 <Text styles={textStyles}>{t('OATPropertyEditor.key')}</Text>
                 <div className={propertyInspectorStyles.mapItemInputWrap}>
@@ -76,7 +77,7 @@ export const PropertyListMapItemNested = ({
                     <Text>{item.schema.mapValue.schema}</Text>
                 </div>
             </Stack>
-        </>
+        </div>
     );
 };
 

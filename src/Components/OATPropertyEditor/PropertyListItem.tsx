@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { TextField, Text, IconButton, Stack } from '@fluentui/react';
+import { TextField, Text, IconButton } from '@fluentui/react';
 import {
     getPropertyEditorTextFieldStyles,
     getPropertyListItemIconWrapStyles,
-    getPropertyListItemIconWrapMoreStyles
+    getPropertyListItemIconWrapMoreStyles,
+    getPropertyInspectorStyles
 } from './OATPropertyEditor.styles';
 import { deepCopy } from '../../Models/Services/Utils';
 import PropertyListItemSubMenu from './PropertyListItemSubMenu';
@@ -55,6 +56,7 @@ export const PropertyListItem = ({
     state
 }: IPropertyListItem) => {
     const { t } = useTranslation();
+    const propertyInspectorStyles = getPropertyInspectorStyles();
     const iconWrapStyles = getPropertyListItemIconWrapStyles();
     const iconWrapMoreStyles = getPropertyListItemIconWrapMoreStyles();
     const textFieldStyles = getPropertyEditorTextFieldStyles();
@@ -90,11 +92,7 @@ export const PropertyListItem = ({
 
     return (
         <div
-            style={{
-                display: 'flex',
-                flexDirection: 'column',
-                position: 'relative'
-            }}
+            className={propertyInspectorStyles.propertyListRelativeWrap}
             onMouseOver={() => {
                 setHover(true);
             }}

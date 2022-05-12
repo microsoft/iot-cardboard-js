@@ -38,6 +38,7 @@ const classNames = {
     templateItemDragging: `${classPrefix}-template-item-dragging`,
     enumItem: `${classPrefix}-enum-item`,
     mapItemInputWrap: `${classPrefix}-map-input-wrap-item`,
+    mapItemWrap: `${classPrefix}-map-item-wrap`,
     propertyItem: `${classPrefix}-property-item`,
     propertyItemNest: `${classPrefix}-property-item-nest`,
     propertyItemNested: `${classPrefix}-property-item-nested`,
@@ -47,6 +48,8 @@ const classNames = {
     propertyItemIconWrapMore: `${classPrefix}-property-item-icon-wrap-more`,
     propertyItemIconMoreSubMenu: `${classPrefix}-property-item-icon-more-sub-menu`,
     propertyItemIcon: `${classPrefix}-property-item-icon`,
+    propertyListRelativeWrap: `${classPrefix}-property-list-relative-wrap`,
+    propertyNestedItemRelativeWrap: `${classPrefix}-property-nested-item-relative-wrap`,
     propertySubMenuItemIcon: `${classPrefix}-property-sub-item-icon`,
     propertySubMenuItemIconRemove: `${classPrefix}-property-sub-item-icon-remove`,
     addPropertyBar: `${classPrefix}-property-bar`,
@@ -139,12 +142,13 @@ export const getPropertyInspectorStyles = () => {
                 color: theme.semanticColors.menuIcon
             } as IStyle
         ],
-        paddingWrap: [
+        propertyListHeaderWrap: [
             classNames.paddingWrap,
             {
-                padding: '8px'
+                padding: '8px',
+                position: 'relative'
             }
-        ], // moved inline
+        ],
         rowSpaceBetween: [
             classNames.rowSpaceBetween,
             {
@@ -168,7 +172,8 @@ export const getPropertyInspectorStyles = () => {
             {
                 overflowY: 'auto',
                 paddingBottom: '120px',
-                maxHeight: '500px'
+                maxHeight: '500px',
+                position: 'relative'
             } as IStyle
         ],
         propertySelectorHeader: [
@@ -299,12 +304,19 @@ export const getPropertyInspectorStyles = () => {
             classNames.enumItem,
             {
                 display: 'grid',
-                gridTemplateColumns: '50% 40% 10%',
+                gridTemplateColumns: '10% 45% 35% 10%',
                 width: '100%',
-                backgroundColor: theme.semanticColors.listBackground,
+                backgroundColor: theme.semanticColors.buttonBackgroundDisabled,
                 alignItems: 'center',
                 padding: '12px 8px',
-                borderBottom: `1px solid ${theme.semanticColors.buttonBackgroundPressed}'`
+                borderBottom: `1px solid ${theme.semanticColors.buttonBackgroundPressed}'`,
+                borderRadius: '4px'
+            } as IStyle
+        ],
+        mapItemWrap: [
+            classNames.mapItemWrap,
+            {
+                marginLeft: '10%'
             } as IStyle
         ],
         mapItemInputWrap: [
@@ -318,6 +330,24 @@ export const getPropertyInspectorStyles = () => {
                 borderBottom: `1px solid ${theme.semanticColors.buttonBackgroundPressed}'`
             } as IStyle
         ],
+        propertyListRelativeWrap: [
+            classNames.propertyListRelativeWrap,
+            {
+                display: 'flex',
+                flexDirection: 'column',
+                position: 'relative',
+                margin: '0, 4px'
+            } as IStyle
+        ],
+        propertyNestedItemRelativeWrap: [
+            classNames.propertyNestedItemRelativeWrap,
+            {
+                display: 'flex',
+                flexDirection: 'column',
+                position: 'relative',
+                margin: '0, 4px'
+            } as IStyle
+        ],
         propertyItem: [
             classNames.propertyItem,
             {
@@ -327,7 +357,6 @@ export const getPropertyInspectorStyles = () => {
                 backgroundColor: theme.semanticColors.listBackground,
                 alignItems: 'center',
                 padding: '12px 8px',
-                borderBottom: `1px solid ${theme.semanticColors.variantBorder}`,
                 cursor: 'grab',
                 ':active': {
                     cursor: 'grabbing'
@@ -365,7 +394,6 @@ export const getPropertyInspectorStyles = () => {
                 alignItems: 'start',
                 padding: '12px 8px',
                 minHeight: '100px',
-                borderBottom: `1px solid ${theme.semanticColors.variantBorder}`,
                 cursor: 'grab',
                 ':active': {
                     cursor: 'grabbing'
@@ -381,7 +409,6 @@ export const getPropertyInspectorStyles = () => {
                 backgroundColor: theme.semanticColors.buttonBackgroundDisabled,
                 alignItems: 'center',
                 padding: '8px 0px',
-                borderBottom: `1px solid ${theme.semanticColors.variantBorder}`,
                 borderRadius: '4px',
                 marginBottom: '8px',
                 cursor: 'default'
@@ -450,7 +477,7 @@ export const getPropertyInspectorStyles = () => {
             {
                 height: '1px',
                 width: '100%',
-                backgroundColor: theme.semanticColors.menuIcon,
+                backgroundColor: theme.semanticColors.primaryButtonTextDisabled,
                 position: 'absolute',
                 top: '90%'
             } as IStyle
@@ -463,8 +490,8 @@ export const getPropertyInspectorStyles = () => {
                 left: '4%',
                 zIndex: 1,
                 backgroundColor: theme.semanticColors.listBackground,
-                borderRadius: '100%',
-                color: theme.semanticColors.menuIcon
+                color: theme.semanticColors.primaryButtonTextDisabled,
+                borderRadius: '100%'
             } as IStyle
         ],
         modal: [
@@ -558,6 +585,19 @@ export const getPropertySelectorSeparatorStyles = () => {
     } as Partial<ISeparatorStyles>;
 };
 
+/* Property List */
+
+export const getPropertyListRelativeWrapStyles = () => {
+    const theme = useTheme();
+    return {
+        root: {
+            display: 'flex',
+            flexDirection: 'column',
+            position: 'relative'
+        }
+    } as Partial<IButtonStyles>;
+};
+
 /* Property List Item */
 
 export const getPropertyListItemIconWrapStyles = () => {
@@ -569,6 +609,7 @@ export const getPropertyListItemIconWrapStyles = () => {
         }
     } as Partial<IButtonStyles>;
 };
+
 export const getPropertyListItemIconWrapMoreStyles = () => {
     const theme = useTheme();
     return {

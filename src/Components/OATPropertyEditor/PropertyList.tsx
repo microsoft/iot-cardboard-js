@@ -28,7 +28,7 @@ type IPropertyList = {
     state: any;
 };
 
-const PROPERTY_LIST_ID = 'propertyList';
+const PROPERTY_ADD_PROPERTY_BAR_ID = 'addPropertyBar';
 
 export const PropertyList = ({
     setCurrentPropertyIndex,
@@ -49,11 +49,12 @@ export const PropertyList = ({
     const draggedPropertyItemRef = useRef(null);
     const [enteredItem, setEnteredItem] = useState(enteredPropertyRef.current);
     const [lastPropertyFocused, setLastPropertyFocused] = useState(null);
+    const dragItem = useRef(null);
+    const dragNode = useRef(null);
+    const [hover, setHover] = useState(false);
     const [propertySelectorVisible, setPropertySelectorVisible] = useState(
         false
     );
-    const dragItem = useRef(null);
-    const dragNode = useRef(null);
     const { model, templates } = state;
 
     const handlePropertyItemDropOnTemplateList = () => {
@@ -166,20 +167,26 @@ export const PropertyList = ({
     return (
         <div
             className={propertyInspectorStyles.propertiesWrap}
-            id={PROPERTY_LIST_ID}
+            onMouseOver={() => {
+                setHover(true);
+            }}
+            onMouseLeave={() => {
+                setHover(false);
+            }}
         >
             <div className={propertyInspectorStyles.propertiesWrapScroll}>
                 {propertySelectorVisible && (
                     <PropertySelector
                         setPropertySelectorVisible={setPropertySelectorVisible}
                         lastPropertyFocused={lastPropertyFocused}
-                        targetId={PROPERTY_LIST_ID}
+                        targetId={PROPERTY_ADD_PROPERTY_BAR_ID}
                         dispatch={dispatch}
                         state={state}
                     />
                 )}
                 {!propertySelectorVisible &&
                     model &&
+                    model.contents &&
                     model.contents.length === 0 && (
                         <ActionButton
                             onClick={() => setPropertySelectorVisible(true)}
@@ -196,6 +203,7 @@ export const PropertyList = ({
                     )}
 
                 {model &&
+                    model.contents &&
                     model.contents.length > 0 &&
                     model.contents.map((item, i) => {
                         if (typeof item.schema === 'object') {
@@ -262,6 +270,21 @@ export const PropertyList = ({
                             );
                         }
                     })}
+                <div
+                    id={PROPERTY_ADD_PROPERTY_BAR_ID}
+                    style={{ position: 'relative', marginTop: '20px' }}
+                >
+                    {hover &&
+                        model &&
+                        model.contents.length > 0 &&
+                        !lastPropertyFocused && (
+                            <AddPropertyBar
+                                onMouseOver={() => {
+                                    setPropertySelectorVisible(true);
+                                }}
+                            />
+                        )}
+                </div>
             </div>
         </div>
     );

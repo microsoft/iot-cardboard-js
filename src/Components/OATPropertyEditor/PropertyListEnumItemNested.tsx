@@ -71,6 +71,7 @@ export const PropertyListEnumItemNested = ({
             tabIndex={0}
             id={item.name}
         >
+            <div></div> {/* Needed for gridTemplateColumns style  */}
             <TextField
                 styles={textFieldStyles}
                 borderless

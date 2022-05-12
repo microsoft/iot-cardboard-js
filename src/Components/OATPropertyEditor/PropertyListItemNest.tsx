@@ -78,6 +78,10 @@ export const PropertyListItemNest = ({
 
     const addPropertyCallback = () => {
         setCurrentPropertyIndex(index);
+        if (!lastPropertyFocused) {
+            return;
+        }
+
         switch (lastPropertyFocused.item.schema['@type']) {
             case DTDLSchemaType.Object:
                 setPropertySelectorVisible(true);
@@ -132,13 +136,13 @@ export const PropertyListItemNest = ({
 
     return (
         <div
-            style={{
-                display: 'flex',
-                flexDirection: 'column',
-                position: 'relative'
-            }}
+            className={propertyInspectorStyles.propertyListRelativeWrap}
             onMouseOver={() => {
                 setHover(true);
+                setLastPropertyFocused({
+                    item: item,
+                    index: index
+                });
             }}
             onMouseLeave={() => {
                 setHover(false);
@@ -235,6 +239,7 @@ export const PropertyListItemNest = ({
                             deleteNestedItem={deleteNestedItem}
                             dispatch={dispatch}
                             state={state}
+                            lastPropertyFocused={lastPropertyFocused}
                         />
                     ))}
 
@@ -271,14 +276,23 @@ export const PropertyListItemNest = ({
                     />
                 )}
             </div>
-            {hover && item.schema['@type'] !== DTDLSchemaType.Map && (
+            {hover &&
+                item.schema['@type'] === DTDLSchemaType.Object &&
+                item.schema.fields.length === 0 && (
+                    <AddPropertyBar
+                        onMouseOver={() => {
+                            setLastPropertyFocused({
+                                item: item,
+                                index: index
+                            });
+                            setPropertySelectorVisible(true);
+                            addPropertyCallback(null);
+                        }}
+                    />
+                )}
+            {hover && item.schema['@type'] === DTDLSchemaType.Enum && (
                 <AddPropertyBar
-                    onMouseOver={() => {
-                        setLastPropertyFocused({
-                            item: item,
-                            index: index
-                        });
-                        setPropertySelectorVisible(true);
+                    onClick={() => {
                         addPropertyCallback(null);
                     }}
                 />
