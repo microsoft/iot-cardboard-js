@@ -69,8 +69,9 @@ export const PropertyListEnumItemNested = ({
         <div
             className={propertyInspectorStyles.enumItem}
             tabIndex={0}
-            id={item.name}
+            id={`enum_${item.name}`}
         >
+            <div></div> {/* Needed for gridTemplateColumns style  */}
             <TextField
                 styles={textFieldStyles}
                 borderless
@@ -95,7 +96,7 @@ export const PropertyListEnumItemNested = ({
                         subMenuActive={subMenuActive}
                         duplicateItem={false}
                         addItemToTemplates={false}
-                        targetId={item.name}
+                        targetId={`enum_${item.name}`}
                         setSubMenuActive={setSubMenuActive}
                     />
                 )}
