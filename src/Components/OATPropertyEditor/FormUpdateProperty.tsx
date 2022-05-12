@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import {
     TextField,
-    Stack,
     Text,
     Toggle,
     ActionButton,
@@ -10,11 +9,17 @@ import {
 } from '@fluentui/react';
 import { PrimaryButton } from '@fluentui/react/lib/Button';
 import { useTranslation } from 'react-i18next';
-import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
-import { DTDLModel } from '../../Models/Classes/DTDL';
+import {
+    getPropertyInspectorStyles,
+    getModalLabelStyles
+} from './OATPropertyEditor.styles';
+import { SET_OAT_PROPERTY_EDITOR_MODEL } from '../../Models/Constants/ActionTypes';
+import { IAction } from '../../Models/Constants/Interfaces';
+import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
+import { deepCopy } from '../../Models/Services/Utils';
 
 interface IModal {
-    model?: DTDLModel;
+    dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
     currentPropertyIndex?: number;
     currentNestedPropertyIndex?: number;
     setCurrentNestedPropertyIndex?: React.Dispatch<
@@ -22,20 +27,21 @@ interface IModal {
     >;
     setModalBody?: React.Dispatch<React.SetStateAction<string>>;
     setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
-    setModel?: React.Dispatch<React.SetStateAction<DTDLModel>>;
+    state?: IOATEditorState;
 }
 
 export const FormUpdateProperty = ({
+    dispatch,
     setModalOpen,
-    model,
-    setModel,
     currentPropertyIndex,
     currentNestedPropertyIndex,
     setCurrentNestedPropertyIndex,
-    setModalBody
+    setModalBody,
+    state
 }: IModal) => {
     const { t } = useTranslation();
     const propertyInspectorStyles = getPropertyInspectorStyles();
+    const columnLeftTextStyles = getModalLabelStyles();
     const [comment, setComment] = useState(null);
     const [description, setDescription] = useState(null);
     const [displayName, setDisplayName] = useState(null);
@@ -44,6 +50,7 @@ export const FormUpdateProperty = ({
     const [unit, setUnit] = useState(null);
     const [id, setId] = useState(null);
     const [error, setError] = useState(null);
+    const { model } = state;
 
     const handleUpdatedNestedProperty = () => {
         const activeNestedProperty =
@@ -63,12 +70,15 @@ export const FormUpdateProperty = ({
             schema: activeNestedProperty.schema
         };
 
-        const modelCopy = Object.assign({}, model);
+        const modelCopy = deepCopy(model);
         modelCopy.contents[currentPropertyIndex].schema.fields[
             currentNestedPropertyIndex
         ] = prop;
 
-        setModel(modelCopy);
+        dispatch({
+            type: SET_OAT_PROPERTY_EDITOR_MODEL,
+            payload: modelCopy
+        });
         setModalOpen(false);
         setModalBody(null);
         setCurrentNestedPropertyIndex(null);
@@ -93,9 +103,12 @@ export const FormUpdateProperty = ({
             schema: activeProperty.schema
         };
 
-        const modelCopy = Object.assign({}, model);
+        const modelCopy = deepCopy(model);
         modelCopy.contents[currentPropertyIndex] = prop;
-        setModel(modelCopy);
+        dispatch({
+            type: SET_OAT_PROPERTY_EDITOR_MODEL,
+            payload: modelCopy
+        });
         setModalOpen(false);
         setModalBody(null);
     };
@@ -116,18 +129,13 @@ export const FormUpdateProperty = ({
 
     return (
         <>
-            <Stack className={propertyInspectorStyles.modalRowSpaceBetween}>
+            <div className={propertyInspectorStyles.modalRowSpaceBetween}>
                 <Label>
                     {model.contents[currentPropertyIndex]
                         ? model.contents[currentPropertyIndex].name
                         : t('OATPropertyEditor.property')}
                 </Label>
-                <ActionButton
-                    onClick={() => setModalOpen(false)}
-                    className={
-                        propertyInspectorStyles.iconClosePropertySelectorWrap
-                    }
-                >
+                <ActionButton onClick={() => setModalOpen(false)}>
                     <FontIcon
                         iconName={'ChromeClose'}
                         className={
@@ -135,10 +143,10 @@ export const FormUpdateProperty = ({
                         }
                     />
                 </ActionButton>
-            </Stack>
+            </div>
 
-            <Stack className={propertyInspectorStyles.modalRowSpaceBetween}>
-                <Text className={propertyInspectorStyles.modalColumnLeftItem}>
+            <div className={propertyInspectorStyles.modalRowSpaceBetween}>
+                <Text styles={columnLeftTextStyles}>
                     {t('OATPropertyEditor.comment')}
                 </Text>
                 <TextField
@@ -147,10 +155,10 @@ export const FormUpdateProperty = ({
                     )}
                     onChange={(_ev, value) => setComment(value)}
                 />
-            </Stack>
+            </div>
 
-            <Stack className={propertyInspectorStyles.modalRowSpaceBetween}>
-                <Text className={propertyInspectorStyles.modalColumnLeftItem}>
+            <div className={propertyInspectorStyles.modalRowSpaceBetween}>
+                <Text styles={columnLeftTextStyles}>
                     {t('OATPropertyEditor.description')}
                 </Text>
                 <TextField
@@ -159,10 +167,10 @@ export const FormUpdateProperty = ({
                     )}
                     onChange={(_ev, value) => setDescription(value)}
                 />
-            </Stack>
+            </div>
 
-            <Stack className={propertyInspectorStyles.modalRowSpaceBetween}>
-                <Text className={propertyInspectorStyles.modalColumnLeftItem}>
+            <div className={propertyInspectorStyles.modalRowSpaceBetween}>
+                <Text styles={columnLeftTextStyles}>
                     {t('OATPropertyEditor.displayName')}
                 </Text>
                 <TextField
@@ -173,21 +181,21 @@ export const FormUpdateProperty = ({
                     validateOnFocusOut
                     onGetErrorMessage={getErrorMessage}
                 />
-            </Stack>
+            </div>
 
-            <Stack className={propertyInspectorStyles.row}>
+            <div className={propertyInspectorStyles.row}>
                 <Toggle
-                    className={propertyInspectorStyles.modalColumnLeftItem}
+                    styles={columnLeftTextStyles}
                     defaultChecked={writable}
                     onChange={() => {
                         setWritable(!writable);
                     }}
                 />
                 <Text>{t('OATPropertyEditor.writable')}</Text>
-            </Stack>
+            </div>
 
-            <Stack className={propertyInspectorStyles.modalRowSpaceBetween}>
-                <Text className={propertyInspectorStyles.modalColumnLeftItem}>
+            <div className={propertyInspectorStyles.modalRowSpaceBetween}>
+                <Text styles={columnLeftTextStyles}>
                     {t('OATPropertyEditor.semanticType')}
                 </Text>
                 <TextField
@@ -196,10 +204,10 @@ export const FormUpdateProperty = ({
                     )}
                     onChange={(_ev, value) => setSemanticType(value)}
                 />
-            </Stack>
+            </div>
 
-            <Stack className={propertyInspectorStyles.modalRowSpaceBetween}>
-                <Text className={propertyInspectorStyles.modalColumnLeftItem}>
+            <div className={propertyInspectorStyles.modalRowSpaceBetween}>
+                <Text styles={columnLeftTextStyles}>
                     {t('OATPropertyEditor.unit')}
                 </Text>
                 <TextField
@@ -209,17 +217,17 @@ export const FormUpdateProperty = ({
                     onChange={(_ev, value) => setUnit(value)}
                     disabled={semanticType === null || semanticType === ''}
                 />
-            </Stack>
+            </div>
 
-            <Stack className={propertyInspectorStyles.modalRowSpaceBetween}>
-                <Text className={propertyInspectorStyles.modalColumnLeftItem}>
+            <div className={propertyInspectorStyles.modalRowSpaceBetween}>
+                <Text styles={columnLeftTextStyles}>
                     {t('OATPropertyEditor.id')}
                 </Text>
                 <TextField
                     placeholder={t('OATPropertyEditor.id')}
                     onChange={(_ev, value) => setId(value)}
                 />
-            </Stack>
+            </div>
 
             <PrimaryButton
                 text={t('OATPropertyEditor.update')}

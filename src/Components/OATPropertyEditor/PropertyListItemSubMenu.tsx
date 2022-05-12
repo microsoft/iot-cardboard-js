@@ -1,19 +1,24 @@
 import React from 'react';
-import { FontIcon, ActionButton, Stack, Text } from '@fluentui/react';
+import { FontIcon, ActionButton, Stack, Text, Callout } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
-import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
+import {
+    getPropertyInspectorStyles,
+    getIconMoreSubMenuItemStyles
+} from './OATPropertyEditor.styles';
 
 type IPropertyListItem = {
     index?: number;
     subMenuActive?: boolean;
-    deleteItem?: (index: number) => any;
-    deleteNestedItem?: (parentIndex: number, index: number) => any;
+    deleteItem?: (index: number) => void;
+    deleteNestedItem?: (parentIndex: number, index: number) => void;
     parentIndex?: number;
-    handleDuplicate?: () => any;
-    handleTemplateAddition?: () => any;
+    handleDuplicate?: () => void;
+    handleTemplateAddition?: () => void;
     removeItem?: boolean;
     duplicateItem?: boolean;
     addItemToTemplates?: boolean;
+    targetId?: string;
+    setSubMenuActive: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export const PropertyListItemSubMenu = ({
@@ -26,28 +31,35 @@ export const PropertyListItemSubMenu = ({
     handleDuplicate,
     removeItem,
     duplicateItem,
-    addItemToTemplates
+    addItemToTemplates,
+    targetId,
+    setSubMenuActive
 }: IPropertyListItem) => {
     const { t } = useTranslation();
     const propertyInspectorStyles = getPropertyInspectorStyles();
+    const subMenuItemStyles = getIconMoreSubMenuItemStyles();
 
     return (
         <>
-            {' '}
             {subMenuActive && (
-                <Stack
+                <Callout
                     className={
                         propertyInspectorStyles.propertyItemIconMoreSubMenu
                     }
+                    role="dialog"
+                    gapSpace={0}
+                    target={`#${targetId}`}
+                    isBeakVisible={false}
+                    setInitialFocus
+                    onDismiss={() => setSubMenuActive(false)}
                 >
                     {addItemToTemplates && (
                         <Stack>
                             <ActionButton
-                                className={
-                                    propertyInspectorStyles.propertyItemIconMoreSubMenuItem
-                                }
+                                styles={subMenuItemStyles}
                                 onClick={() => {
                                     handleTemplateAddition();
+                                    setSubMenuActive(false);
                                 }}
                             >
                                 <FontIcon
@@ -65,11 +77,10 @@ export const PropertyListItemSubMenu = ({
                     {duplicateItem && (
                         <Stack>
                             <ActionButton
-                                className={
-                                    propertyInspectorStyles.propertyItemIconMoreSubMenuItem
-                                }
+                                styles={subMenuItemStyles}
                                 onClick={() => {
                                     handleDuplicate();
+                                    setSubMenuActive(false);
                                 }}
                             >
                                 <FontIcon
@@ -85,14 +96,14 @@ export const PropertyListItemSubMenu = ({
                     {removeItem && (
                         <Stack>
                             <ActionButton
-                                className={
-                                    propertyInspectorStyles.propertyItemIconMoreSubMenuItem
-                                }
+                                styles={subMenuItemStyles}
                                 onClick={() => {
                                     if (deleteNestedItem) {
                                         deleteNestedItem(parentIndex, index);
+                                        setSubMenuActive(false);
                                     } else {
                                         deleteItem(index);
+                                        setSubMenuActive(false);
                                     }
                                 }}
                             >
@@ -106,7 +117,7 @@ export const PropertyListItemSubMenu = ({
                             </ActionButton>
                         </Stack>
                     )}
-                </Stack>
+                </Callout>
             )}
         </>
     );

@@ -1,24 +1,24 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useTheme, List, ActionButton, Icon, FontSizes } from '@fluentui/react';
-import BaseComponent from '../BaseComponent/BaseComponent';
-import { getModelsStyles } from './OATModelList.styles';
-import { IOATTwinModelNodes } from '../../Models/Constants';
+import { useTheme, List, ActionButton, Icon, TextField } from '@fluentui/react';
+import {
+    getModelsStyles,
+    getModelsIconStyles,
+    getModelsActionButtonStyles
+} from './OATModelList.styles';
+import { IAction, IOATTwinModelNodes } from '../../Models/Constants';
+import {
+    SET_OAT_DELETED_MODEL_ID,
+    SET_OAT_SELECTED_MODEL_ID,
+    SET_OAT_EDITED_MODEL_NAME,
+    SET_OAT_EDITED_MODEL_ID
+} from '../../Models/Constants/ActionTypes';
 
 type OATModelListProps = {
     elements: IOATTwinModelNodes[];
-    onDeleteModel: (modelId: string) => any;
-    onSelectedModel: (modelId: string) => any;
-    onEditedName: (modelId: string) => any;
-    onEditedId: (modelId: string) => any;
+    dispatch: React.Dispatch<React.SetStateAction<IAction>>;
 };
 
-const OATModelList = ({
-    elements,
-    onDeleteModel,
-    onSelectedModel,
-    onEditedName,
-    onEditedId
-}: OATModelListProps) => {
+const OATModelList = ({ elements, dispatch }: OATModelListProps) => {
     const theme = useTheme();
     const modelsStyles = getModelsStyles();
     const [nameEditor, setNameEditor] = useState(false);
@@ -27,13 +27,22 @@ const OATModelList = ({
     const [idEditor, setIdEditor] = useState(false);
     const [idText, setIdText] = useState('');
     const currentNodeId = useRef('');
+    const iconStyles = getModelsIconStyles();
+    const actionButtonStyles = getModelsActionButtonStyles();
 
     useEffect(() => {
         setItems(elements);
     }, [elements]);
 
+    useEffect(() => {
+        setItems([...elements]);
+    }, [theme]);
+
     const onSelectedClick = (id) => {
-        onSelectedModel(id);
+        dispatch({
+            type: SET_OAT_SELECTED_MODEL_ID,
+            payload: id
+        });
         currentNodeId.current = id;
     };
 
@@ -50,7 +59,10 @@ const OATModelList = ({
 
     const onNameBlur = () => {
         setNameEditor(false);
-        onEditedName(nameText);
+        dispatch({
+            type: SET_OAT_EDITED_MODEL_NAME,
+            payload: nameText
+        });
         setItems([...items]);
     };
 
@@ -67,31 +79,31 @@ const OATModelList = ({
 
     const onIdBlur = () => {
         setIdEditor(false);
-        onEditedId(idText);
+        dispatch({
+            type: SET_OAT_EDITED_MODEL_ID,
+            payload: idText
+        });
         currentNodeId.current = idText;
         setItems([...items]);
     };
 
     const onRenderCell = (item) => {
         return (
-            <div data-is-focusable={true}>
-                <div
-                    onClick={() => onSelectedClick(item['@id'])}
-                    className={modelsStyles.modelList}
-                >
+            <ActionButton
+                styles={actionButtonStyles}
+                onClick={() => onSelectedClick(item['@id'])}
+            >
+                <div className={modelsStyles.modelList}>
                     <ActionButton
                         className={modelsStyles.nodeCancel}
-                        onClick={() => onDeleteModel(item['@id'])}
+                        onClick={() => {
+                            dispatch({
+                                type: SET_OAT_DELETED_MODEL_ID,
+                                payload: item['@id']
+                            });
+                        }}
                     >
-                        <Icon
-                            iconName="Cancel"
-                            styles={{
-                                root: {
-                                    fontSize: FontSizes.size10,
-                                    color: theme.semanticColors.actionLink
-                                }
-                            }}
-                        />
+                        <Icon iconName="Cancel" styles={iconStyles} />
                     </ActionButton>
                     <div onClick={() => onNameClick(item['displayName'])}>
                         {(!nameEditor ||
@@ -100,7 +112,7 @@ const OATModelList = ({
                         )}
                         {nameEditor &&
                             currentNodeId.current === item['@id'] && (
-                                <input
+                                <TextField
                                     id="text"
                                     name="text"
                                     onChange={onNameChange}
@@ -116,7 +128,7 @@ const OATModelList = ({
                             <>{item['@id']}</>
                         )}
                         {idEditor && currentNodeId.current === item['@id'] && (
-                            <input
+                            <TextField
                                 id="text"
                                 name="text"
                                 onChange={onIdChange}
@@ -127,22 +139,19 @@ const OATModelList = ({
                         )}
                     </div>
                 </div>
-            </div>
+            </ActionButton>
         );
     };
 
     return (
-        <BaseComponent theme={theme}>
-            <div>
-                <List items={items} onRenderCell={onRenderCell} />
-            </div>
-        </BaseComponent>
+        <div className={modelsStyles.container}>
+            <List items={items} onRenderCell={onRenderCell} />
+        </div>
     );
 };
 
 OATModelList.defaultProps = {
     elements: [],
-    onDeleteModel: () => null,
     onSelectedModel: () => null,
     onEditedName: () => null,
     onEditedId: () => null

@@ -11,16 +11,18 @@ import {
 } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
-import { DTDLModel } from '../../Models/Classes/DTDL';
+import { IAction } from '../../Models/Constants/Interfaces';
 import PropertyList from './PropertyList';
 import JSONEditor from './JSONEditor';
 import TemplateColumn from './TemplateColumn';
 import PropertiesModelSummary from './PropertiesModelSummary';
-
+import PropertySelector from './PropertySelector';
+import AddPropertyBar from './AddPropertyBar';
+import { SET_OAT_TEMPLATES_ACTIVE } from '../../Models/Constants/ActionTypes';
+import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 interface IEditor {
     currentPropertyIndex?: number;
-    model?: DTDLModel;
-    templates?: any;
+    dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
     theme?: Theme;
     setCurrentNestedPropertyIndex?: React.Dispatch<
         React.SetStateAction<number>
@@ -28,108 +30,113 @@ interface IEditor {
     setCurrentPropertyIndex?: React.Dispatch<React.SetStateAction<number>>;
     setModalBody?: React.Dispatch<React.SetStateAction<string>>;
     setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
-    setModel?: React.Dispatch<React.SetStateAction<DTDLModel>>;
-    setTemplates?: React.Dispatch<React.SetStateAction<any>>;
-    templatesActive?: boolean;
-    setTemplatesActive?: React.Dispatch<React.SetStateAction<any>>;
+    state?: IOATEditorState;
 }
 
 const Editor = ({
-    model,
-    setModel,
-    templates,
-    setTemplates,
     theme,
     setModalBody,
     setModalOpen,
     setCurrentNestedPropertyIndex,
     setCurrentPropertyIndex,
     currentPropertyIndex,
-    templatesActive,
-    setTemplatesActive
+    dispatch,
+    state
 }: IEditor) => {
     const { t } = useTranslation();
     const propertyInspectorStyles = getPropertyInspectorStyles();
 
-    const [propertySelectorVisible, setPropertySelectorVisible] = useState(
-        false
-    );
     const [draggingTemplate, setDraggingTemplate] = useState(false);
     const [draggingProperty, setDraggingProperty] = useState(false);
     const enteredTemplateRef = useRef(null);
     const enteredPropertyRef = useRef(null);
+    const { model, templatesActive } = state;
+    const [hover, setHover] = useState(false);
+    const [propertySelectorVisible, setPropertySelectorVisible] = useState(
+        false
+    );
 
+    const PROPERTY_LIST_HEADER = 'PROPERTY_LIST_HEADER';
     return (
-        <Stack className={propertyInspectorStyles.container}>
+        <div className={propertyInspectorStyles.container}>
             <Pivot className={propertyInspectorStyles.pivot}>
                 <PivotItem
                     headerText={t('OATPropertyEditor.properties')}
                     className={propertyInspectorStyles.pivotItem}
                 >
-                    <PropertiesModelSummary model={model} setModel={setModel} />
-                    <Stack>
-                        <Stack className={propertyInspectorStyles.paddingWrap}>
-                            <Stack
+                    <PropertiesModelSummary dispatch={dispatch} state={state} />
+                    <div
+                        id={PROPERTY_LIST_HEADER}
+                        className={
+                            propertyInspectorStyles.propertyListHeaderWrap
+                        }
+                        onMouseOver={() => {
+                            setHover(true);
+                        }}
+                        onMouseLeave={() => {
+                            setHover(false);
+                            setPropertySelectorVisible(false);
+                        }}
+                    >
+                        <Stack
+                            className={propertyInspectorStyles.rowSpaceBetween}
+                        >
+                            <Label>{`${t('OATPropertyEditor.properties')} ${
+                                model && model.contents.length > 0
+                                    ? `(${model.contents.length})`
+                                    : ''
+                            }`}</Label>
+                            <ActionButton
+                                onClick={() =>
+                                    dispatch({
+                                        type: SET_OAT_TEMPLATES_ACTIVE,
+                                        payload: true
+                                    })
+                                }
                                 className={
-                                    propertyInspectorStyles.rowSpaceBetween
+                                    propertyInspectorStyles.viewTemplatesCta
                                 }
                             >
-                                <Label>
-                                    {t('OATPropertyEditor.properties')}
-                                </Label>
-                                <ActionButton
-                                    onClick={() => setTemplatesActive(true)}
-                                    className={
-                                        propertyInspectorStyles.viewTemplatesCta
-                                    }
-                                >
-                                    <FontIcon
-                                        className={
-                                            propertyInspectorStyles.propertyHeadingIcon
-                                        }
-                                        iconName={'Library'}
-                                    />
-                                    <Text>
-                                        {t('OATPropertyEditor.viewTemplates')}
-                                    </Text>
-                                </ActionButton>
-                            </Stack>
-                        </Stack>
-                        <Stack
-                            className={
-                                propertyInspectorStyles.gridRowPropertyHeading
-                            }
-                        >
-                            <Stack className={propertyInspectorStyles.row}>
                                 <FontIcon
                                     className={
                                         propertyInspectorStyles.propertyHeadingIcon
                                     }
-                                    iconName={'SwitcherStartEnd'}
+                                    iconName={'Library'}
                                 />
-                                <Text>{t('OATPropertyEditor.name')}</Text>
-                            </Stack>
-                            <Stack className={propertyInspectorStyles.row}>
-                                <FontIcon
-                                    className={
-                                        propertyInspectorStyles.propertyHeadingIcon
-                                    }
-                                    iconName={'SwitcherStartEnd'}
-                                />
-                                <Text>{t('OATPropertyEditor.schemaType')}</Text>
-                            </Stack>
+                                <Text>
+                                    {t('OATPropertyEditor.viewTemplates')}
+                                </Text>
+                            </ActionButton>
                         </Stack>
-                    </Stack>
+                        {propertySelectorVisible && (
+                            <PropertySelector
+                                setPropertySelectorVisible={
+                                    setPropertySelectorVisible
+                                }
+                                lastPropertyFocused={null}
+                                targetId={PROPERTY_LIST_HEADER}
+                                dispatch={dispatch}
+                                state={state}
+                                className={
+                                    propertyInspectorStyles.propertySelectorPropertyListHeader
+                                }
+                            />
+                        )}
+                        {hover && model && model.contents.length > 0 && (
+                            <AddPropertyBar
+                                onMouseOver={() => {
+                                    setPropertySelectorVisible(true);
+                                }}
+                            />
+                        )}
+                    </div>
 
                     <PropertyList
-                        propertySelectorVisible={propertySelectorVisible}
-                        setPropertySelectorVisible={setPropertySelectorVisible}
-                        model={model}
-                        setModel={setModel}
+                        dispatch={dispatch}
+                        state={state}
                         setCurrentPropertyIndex={setCurrentPropertyIndex}
                         setModalOpen={setModalOpen}
                         currentPropertyIndex={currentPropertyIndex}
-                        setTemplates={setTemplates}
                         enteredPropertyRef={enteredPropertyRef}
                         draggingTemplate={draggingTemplate}
                         enteredTemplateRef={enteredTemplateRef}
@@ -147,26 +154,23 @@ const Editor = ({
                 >
                     <JSONEditor
                         theme={theme}
-                        model={model}
-                        setModel={setModel}
+                        dispatch={dispatch}
+                        state={state}
                     />
                 </PivotItem>
             </Pivot>
             {templatesActive && (
                 <TemplateColumn
-                    setTemplatesActive={setTemplatesActive}
-                    templates={templates}
-                    setTemplates={setTemplates}
                     enteredPropertyRef={enteredPropertyRef}
-                    model={model}
-                    setModel={setModel}
                     draggingTemplate={draggingTemplate}
                     setDraggingTemplate={setDraggingTemplate}
                     draggingProperty={draggingProperty}
                     enteredTemplateRef={enteredTemplateRef}
+                    dispatch={dispatch}
+                    state={state}
                 />
             )}
-        </Stack>
+        </div>
     );
 };
 

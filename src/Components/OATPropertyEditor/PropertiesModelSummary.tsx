@@ -1,52 +1,68 @@
 import React from 'react';
 import { TextField, Stack, Label, Text } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
-import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
-import { DTDLModel } from '../../Models/Classes/DTDL';
+import {
+    getPropertyInspectorStyles,
+    getGeneralPropertiesWrapStyles,
+    getPropertyEditorTextFieldStyles
+} from './OATPropertyEditor.styles';
+import { SET_OAT_PROPERTY_EDITOR_MODEL } from '../../Models/Constants/ActionTypes';
+import { IAction } from '../../Models/Constants/Interfaces';
+import { deepCopy } from '../../Models/Services/Utils';
+import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 
 type IPropertiesModelSummary = {
-    model?: DTDLModel;
-    setModel?: React.Dispatch<React.SetStateAction<DTDLModel>>;
+    dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
+    state?: IOATEditorState;
 };
 
 export const PropertiesModelSummary = ({
-    model,
-    setModel
+    dispatch,
+    state
 }: IPropertiesModelSummary) => {
     const { t } = useTranslation();
     const propertyInspectorStyles = getPropertyInspectorStyles();
+    const generalPropertiesWrapStyles = getGeneralPropertiesWrapStyles();
+    const textFieldStyes = getPropertyEditorTextFieldStyles();
+    const { model } = state;
 
     return (
-        <Stack className={propertyInspectorStyles.gridGeneralPropertiesWrap}>
+        <Stack styles={generalPropertiesWrapStyles}>
             <Label>{`${t('OATPropertyEditor.general')} (3)`}</Label>
-            <Stack className={propertyInspectorStyles.gridRow}>
+            <div className={propertyInspectorStyles.gridRow}>
                 <Text>{t('OATPropertyEditor.displayName')}</Text>
                 <TextField
-                    className={propertyInspectorStyles.propertyItemTextField}
+                    styles={textFieldStyes}
                     borderless
                     disabled={!model}
                     value={model ? model.displayName : ''}
                     onChange={(_ev, value) => {
-                        const modelCopy = Object.assign({}, model);
+                        const modelCopy = deepCopy(model);
                         modelCopy.displayName = value;
-                        setModel(modelCopy);
+                        dispatch({
+                            type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                            payload: modelCopy
+                        });
                     }}
                 />
-            </Stack>
-            <Stack className={propertyInspectorStyles.gridRow}>
+            </div>
+            <div className={propertyInspectorStyles.gridRow}>
                 <Text>{t('OATPropertyEditor.assetId')}</Text>
                 <TextField
-                    className={propertyInspectorStyles.propertyItemTextField}
+                    styles={textFieldStyes}
                     borderless
                     disabled={!model}
                     value={model ? model['@id'] : ''}
                     onChange={(_ev, value) => {
-                        const modelCopy = Object.assign({}, model);
+                        const modelCopy = deepCopy(model);
                         modelCopy['@id'] = value;
-                        setModel(modelCopy);
+                        dispatch({
+                            type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                            payload: modelCopy
+                        });
                     }}
                 />
-            </Stack>
+            </div>
         </Stack>
     );
 };

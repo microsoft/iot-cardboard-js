@@ -756,7 +756,10 @@
     "newModel": "Nouveau modèle",
     "name": "Nom",
     "id": "Id",
-    "type": "Type"
+    "type": "Type",
+    "emptyGraph": "Aucun modèle disponible",
+    "project": "Projet",
+    "description": "Description"
   },
   "OATPropertyEditor": {
     "displayName": "Nom d’affichage",
@@ -796,6 +799,31 @@
     "value": "Valeur",
     "addToTemplate": "Ajouter au modèle",
     "duplicate": "Dupliquer",
-    "remove": "Enlever"
+    "remove": "Enlever",
+    "boolean": "booléen",
+    "data": "données",
+    "float": "flotter",
+    "integer": "entier",
+    "string": "corde",
+    "enum": "enum",
+    "map": "carte",
+    "array": "tableau",
+    "object": "objet",
+    "dateTime": "dateHeure",
+    "time": "Heure",
+    "long": "long",
+    "double": "double",
+    "duration": "durée",
+    "point": "point",
+    "linestring": "chaîne de ligne",
+    "polygon": "polygone",
+    "multiPoint": "multipoint",
+    "multiLinestring": "chaîne multiligne",
+    "multiPolygon": "multi Polygone",
+    "close": "Fermer",
+    "collapse": "Effondrement",
+    "info": "Info",
+    "more": "Plus",
+    "copy": "copier"
   }
 }

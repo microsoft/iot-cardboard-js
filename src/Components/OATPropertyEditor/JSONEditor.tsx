@@ -3,19 +3,22 @@ import Editor from '@monaco-editor/react';
 import { Theme } from '../../Models/Constants/Enums';
 import { useLibTheme } from '../../Theming/ThemeProvider';
 import { useTranslation } from 'react-i18next';
-import { DTDLModel } from '../../Models/Classes/DTDL';
+import { SET_OAT_PROPERTY_EDITOR_MODEL } from '../../Models/Constants/ActionTypes';
+import { IAction } from '../../Models/Constants/Interfaces';
+import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 
 type OATPropertyEditorProps = {
-    model?: DTDLModel;
+    dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
     theme?: Theme;
-    setModel?: React.Dispatch<React.SetStateAction<DTDLModel>>;
+    state?: IOATEditorState;
 };
 
-const JSONEditor = ({ model, theme, setModel }: OATPropertyEditorProps) => {
+const JSONEditor = ({ dispatch, theme, state }: OATPropertyEditorProps) => {
     const { t } = useTranslation();
     const libTheme = useLibTheme();
     const themeToUse = (libTheme || theme) ?? Theme.Light;
     const editorRef = useRef(null);
+    const { model } = state;
     const [content, setContent] = useState(JSON.stringify(model, null, 2));
 
     useEffect(() => {
@@ -46,7 +49,10 @@ const JSONEditor = ({ model, theme, setModel }: OATPropertyEditorProps) => {
             if (validateJSONValues(validJson)) {
                 alert(t('OATPropertyEditor.errorRepeatedPropertyName'));
             } else {
-                setModel(validJson);
+                dispatch({
+                    type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                    payload: validJson
+                });
             }
         }
         setContent(value);

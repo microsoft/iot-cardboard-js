@@ -756,7 +756,10 @@
     "newModel": "Nuevo modelo",
     "name": "Nombre",
     "id": "Identificación",
-    "type": "Tipo"
+    "type": "Tipo",
+    "emptyGraph": "No hay modelos disponibles",
+    "project": "Proyecto",
+    "description": "Descripción"
   },
   "OATPropertyEditor": {
     "displayName": "Nombre para mostrar",
@@ -796,6 +799,31 @@
     "value": "Valor",
     "addToTemplate": "Añadir a plantilla",
     "duplicate": "Duplicado",
-    "remove": "Eliminar"
+    "remove": "Eliminar",
+    "boolean": "booleano",
+    "data": "datos",
+    "float": "flotar",
+    "integer": "entero",
+    "string": "cuerda",
+    "enum": "enum",
+    "map": "mapa",
+    "array": "arreglo",
+    "object": "objeto",
+    "dateTime": "dateTime",
+    "time": "Hora",
+    "long": "largo",
+    "double": "doble",
+    "duration": "duración",
+    "point": "punto",
+    "linestring": "cadena de línea",
+    "polygon": "polígono",
+    "multiPoint": "multipunto",
+    "multiLinestring": "multilinear",
+    "multiPolygon": "polígono múltiple",
+    "close": "Cerrar",
+    "collapse": "Colapso",
+    "info": "Información",
+    "more": "Más",
+    "copy": "copiar"
   }
 }

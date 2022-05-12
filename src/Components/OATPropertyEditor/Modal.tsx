@@ -1,9 +1,10 @@
 import React from 'react';
 import { Modal as FluentModal } from '@fluentui/react';
 import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
-import { DTDLModel } from '../../Models/Classes/DTDL';
 import FormUpdateProperty from './FormUpdateProperty';
 import FormAddEnumItem from './FormAddEnumItem';
+import { IAction } from '../../Models/Constants/Interfaces';
+import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 
 export enum FromBody {
     property = 'Property',
@@ -12,27 +13,27 @@ export enum FromBody {
 interface IModal {
     currentNestedPropertyIndex?: number;
     currentPropertyIndex?: number;
+    dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
     modalBody?: string;
     modalOpen?: boolean;
-    model?: DTDLModel;
     setCurrentNestedPropertyIndex?: React.Dispatch<
         React.SetStateAction<number>
     >;
     setModalBody?: React.Dispatch<React.SetStateAction<string>>;
     setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
-    setModel?: React.Dispatch<React.SetStateAction<DTDLModel>>;
+    state?: IOATEditorState;
 }
 
 export const Modal = ({
+    dispatch,
     modalOpen,
     setModalOpen,
-    model,
-    setModel,
     currentPropertyIndex,
     currentNestedPropertyIndex,
     setCurrentNestedPropertyIndex,
     setModalBody,
-    modalBody
+    modalBody,
+    state
 }: IModal) => {
     const propertyInspectorStyles = getPropertyInspectorStyles();
 
@@ -43,28 +44,28 @@ export const Modal = ({
                 return (
                     <FormUpdateProperty
                         setModalOpen={setModalOpen}
-                        model={model}
-                        setModel={setModel}
+                        dispatch={dispatch}
                         currentPropertyIndex={currentPropertyIndex}
                         currentNestedPropertyIndex={currentNestedPropertyIndex}
                         setCurrentNestedPropertyIndex={
                             setCurrentNestedPropertyIndex
                         }
                         setModalBody={setModalBody}
+                        state={state}
                     />
                 );
             case FromBody.enum:
                 return (
                     <FormAddEnumItem
                         setModalOpen={setModalOpen}
-                        model={model}
-                        setModel={setModel}
+                        dispatch={dispatch}
                         currentPropertyIndex={currentPropertyIndex}
                         currentNestedPropertyIndex={currentNestedPropertyIndex}
                         setCurrentNestedPropertyIndex={
                             setCurrentNestedPropertyIndex
                         }
                         setModalBody={setModalBody}
+                        state={state}
                     />
                 );
         }

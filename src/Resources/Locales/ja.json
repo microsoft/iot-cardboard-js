@@ -756,7 +756,10 @@
     "newModel": "新型",
     "name": "名前",
     "id": "身分証明書",
-    "type": "種類"
+    "type": "種類",
+    "emptyGraph": "利用可能なモデルはありません",
+    "project": "プロジェクト",
+    "description": "形容"
   },
   "OATPropertyEditor": {
     "displayName": "表示名",
@@ -796,6 +799,31 @@
     "value": "価値",
     "addToTemplate": "テンプレートに追加",
     "duplicate": "デュプリケート",
-    "remove": "取り去る"
+    "remove": "取り去る",
+    "boolean": "ブーリアン",
+    "data": "データ",
+    "float": "浮く",
+    "integer": "整数",
+    "string": "糸",
+    "enum": "列挙型",
+    "map": "地図",
+    "array": "配列",
+    "object": "オブジェクト",
+    "dateTime": "日時",
+    "time": "時間",
+    "long": "長い",
+    "double": "複",
+    "duration": "期間",
+    "point": "点",
+    "linestring": "行文字列",
+    "polygon": "多角形",
+    "multiPoint": "マルチポイント",
+    "multiLinestring": "複数行文字列",
+    "multiPolygon": "マルチポリゴン",
+    "close": "閉める",
+    "collapse": "倒れる",
+    "info": "情報",
+    "more": "もっとその",
+    "copy": "写し"
   }
 }
