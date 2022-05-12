@@ -39,6 +39,8 @@ export const SET_ADT_SCENE_BUILDER_BEHAVIORS =
     'SET_ADT_SCENE_BUILDER_BEHAVIORS';
 export const SET_ADT_SCENE_BUILDER_SELECTED_ELEMENTS =
     'SET_ADT_SCENE_BUILDER_SELECTED_ELEMENTS';
+export const SET_ADT_SCENE_BUILDER_REMOVED_ELEMENTS =
+    'SET_ADT_SCENE_BUILDER_REMOVED_ELEMENTS';
 export const SET_ADT_SCENE_BUILDER_SELECTED_ELEMENT =
     'SET_ADT_SCENE_BUILDER_SELECTED_ELEMENT';
 export const SET_ADT_SCENE_BUILDER_SELECTED_BEHAVIOR =
@@ -184,7 +186,8 @@ export type OnBehaviorSave = (
     behavior: IBehavior,
     mode: BehaviorSaveMode,
     selectedLayerIds?: string[],
-    selectedElements?: Array<ITwinToObjectMapping>
+    selectedElements?: Array<ITwinToObjectMapping>,
+    removedElements?: Array<ITwinToObjectMapping>
 ) => void;
 
 export interface IADT3DSceneBuilderBehaviorFormProps {
@@ -192,6 +195,7 @@ export interface IADT3DSceneBuilderBehaviorFormProps {
     behaviors: Array<IBehavior>;
     elements: Array<ITwinToObjectMapping>;
     selectedElements: Array<ITwinToObjectMapping>;
+    removedElements: Array<ITwinToObjectMapping>;
     onBehaviorBackClick: () => void;
     onBehaviorSave: OnBehaviorSave;
     setSelectedElements: (elements: Array<ITwinToObjectMapping>) => any;
@@ -232,6 +236,7 @@ export interface ADT3DSceneBuilderState {
     behaviors: Array<IBehavior>;
     selectedElement: ITwinToObjectMapping;
     selectedElements: Array<ITwinToObjectMapping>;
+    removedElements: Array<ITwinToObjectMapping>;
     selectedBehavior: IBehavior;
     showHoverOnSelected: boolean;
     enableHoverOnModel: boolean;

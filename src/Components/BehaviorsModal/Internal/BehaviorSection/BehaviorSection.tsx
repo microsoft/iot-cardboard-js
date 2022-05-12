@@ -3,9 +3,10 @@ import React, { useContext, useMemo } from 'react';
 import ViewerConfigUtility from '../../../../Models/Classes/ViewerConfigUtility';
 import { BehaviorModalMode } from '../../../../Models/Constants';
 import {
+    wrapTextInTemplateString,
     getSceneElementStatusColor,
-    parseExpression,
-    performSubstitutions
+    parseLinkedTwinExpression,
+    stripTemplateStringsFromText
 } from '../../../../Models/Services/Utils';
 import {
     IBehavior,
@@ -30,7 +31,7 @@ const BehaviorSection: React.FC<IBehaviorsSectionProps> = ({ behavior }) => {
 
         if (mode !== BehaviorModalMode.preview) {
             visibleAlertVisuals = visibleAlertVisuals.filter((av) =>
-                parseExpression(av.valueExpression, twins)
+                parseLinkedTwinExpression(av.valueExpression, twins)
             );
         }
         return visibleAlertVisuals;
@@ -83,8 +84,11 @@ const AlertBlock: React.FC<{ alertVisual: IExpressionRangeVisual }> = ({
             </div>
             <div className={styles.infoTextContainer}>
                 {mode === BehaviorModalMode.preview
-                    ? labelExpression
-                    : performSubstitutions(labelExpression, twins)}
+                    ? stripTemplateStringsFromText(labelExpression)
+                    : parseLinkedTwinExpression(
+                          wrapTextInTemplateString(labelExpression),
+                          twins
+                      )}
             </div>
         </div>
     );
@@ -116,7 +120,7 @@ const StatusBlock: React.FC<{ statusVisual: IExpressionRangeVisual }> = ({
             statusStyles = getStatusBlockStyles(statusColor);
         }
     } else {
-        statusValue = parseExpression(valueExpression, twins);
+        statusValue = parseLinkedTwinExpression(valueExpression, twins);
         statusColor = getSceneElementStatusColor(
             valueExpression,
             valueRanges,

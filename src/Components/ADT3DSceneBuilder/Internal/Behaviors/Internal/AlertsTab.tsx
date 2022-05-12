@@ -5,27 +5,28 @@ import {
     IBehavior,
     IExpressionRangeVisual
 } from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
-import {
-    IStackTokens,
-    Stack,
-    Text,
-    TextField,
-    useTheme
-} from '@fluentui/react';
+import { IStackTokens, Stack, Text, useTheme } from '@fluentui/react';
 import ViewerConfigUtility from '../../../../../Models/Classes/ViewerConfigUtility';
 import {
     defaultSwatchColors,
     defaultSwatchIcons
 } from '../../../../../Theming/Palettes';
 import { getUIDDefaultAlertVisual } from '../../../../../Models/Classes/3DVConfig';
-import { deepCopy } from '../../../../../Models/Services/Utils';
+import {
+    wrapTextInTemplateString,
+    deepCopy,
+    stripTemplateStringsFromText
+} from '../../../../../Models/Services/Utils';
 import ColorPicker from '../../../../Pickers/ColorSelectButton/ColorPicker';
 import { IPickerOption } from '../../../../Pickers/Internal/Picker.base.types';
 import IconPicker from '../../../../Pickers/IconSelectButton/IconPicker';
 import { getLeftPanelStyles } from '../../Shared/LeftPanel.styles';
 import { SceneBuilderContext } from '../../../ADT3DSceneBuilder';
 import ModelledPropertyBuilder from '../../../../ModelledPropertyBuilder/ModelledPropertyBuilder';
-import { PropertyExpression } from '../../../../ModelledPropertyBuilder/ModelledPropertyBuilder.types';
+import {
+    ModelledPropertyBuilderMode,
+    PropertyExpression
+} from '../../../../ModelledPropertyBuilder/ModelledPropertyBuilder.types';
 
 const getAlertFromBehavior = (behavior: IBehavior) =>
     behavior.visuals.filter(ViewerConfigUtility.isAlertVisual)[0] || null;
@@ -124,13 +125,15 @@ const AlertsTab: React.FC = () => {
     );
 
     const onNoteChange = useCallback(
-        (_e: any, newValue: string) =>
+        (newPropertyExpression: PropertyExpression) =>
             setBehaviorToEdit(
                 produce((draft) => {
                     const alertVisual = getAndCreateIfNotExistsAlertVisual(
                         draft
                     );
-                    alertVisual.valueRanges[0].visual.labelExpression = newValue;
+                    alertVisual.valueRanges[0].visual.labelExpression = wrapTextInTemplateString(
+                        newPropertyExpression.expression
+                    );
                 })
             ),
         [setBehaviorToEdit]
@@ -157,7 +160,7 @@ const AlertsTab: React.FC = () => {
                     sceneId,
                     selectedElements
                 }}
-                mode="INTELLISENSE"
+                mode={ModelledPropertyBuilderMode.INTELLISENSE}
                 propertyExpression={{
                     expression: expression || ''
                 }}
@@ -181,19 +184,26 @@ const AlertsTab: React.FC = () => {
                             onChangeItem={onColorChange}
                         />
                     </Stack>
-                    <TextField
-                        label={t(LOC_KEYS.notificationLabel)}
-                        placeholder={t(LOC_KEYS.notificationPlaceholder)}
-                        multiline
-                        onChange={onNoteChange}
-                        rows={3}
-                        styles={{
-                            root: {
-                                marginBottom: 4,
-                                paddingBottom: 4
-                            }
+                    <ModelledPropertyBuilder
+                        adapter={adapter}
+                        twinIdParams={{
+                            behavior: behaviorToEdit,
+                            config,
+                            sceneId,
+                            selectedElements
                         }}
-                        value={notificationExpression}
+                        mode={ModelledPropertyBuilderMode.INTELLISENSE}
+                        propertyExpression={{
+                            expression:
+                                stripTemplateStringsFromText(
+                                    notificationExpression
+                                ) || ''
+                        }}
+                        onChange={onNoteChange}
+                        customLabel={t(LOC_KEYS.notificationLabel)}
+                        intellisensePlaceholder={t(
+                            LOC_KEYS.notificationPlaceholder
+                        )}
                     />
                 </>
             )}

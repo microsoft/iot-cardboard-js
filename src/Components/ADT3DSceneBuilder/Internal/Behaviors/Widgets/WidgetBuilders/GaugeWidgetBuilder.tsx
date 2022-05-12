@@ -1,4 +1,4 @@
-import { TextField, useTheme } from '@fluentui/react';
+import { Stack, TextField, useTheme } from '@fluentui/react';
 import produce from 'immer';
 import React, { useCallback, useContext, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -9,7 +9,11 @@ import { deepCopy } from '../../../../../../Models/Services/Utils';
 import { SceneBuilderContext } from '../../../../ADT3DSceneBuilder';
 import { getWidgetFormStyles } from '../WidgetForm/WidgetForm.styles';
 import ModelledPropertyBuilder from '../../../../../ModelledPropertyBuilder/ModelledPropertyBuilder';
-import { PropertyExpression } from '../../../../../ModelledPropertyBuilder/ModelledPropertyBuilder.types';
+import {
+    ModelledPropertyBuilderMode,
+    numericPropertyValueTypes,
+    PropertyExpression
+} from '../../../../../ModelledPropertyBuilder/ModelledPropertyBuilder.types';
 
 const GaugeWidgetBuilder: React.FC<IGaugeWidgetBuilderProps> = ({
     formData,
@@ -76,57 +80,54 @@ const GaugeWidgetBuilder: React.FC<IGaugeWidgetBuilderProps> = ({
     const customStyles = getWidgetFormStyles(theme);
     return (
         <div className={customStyles.widgetFormContents}>
-            <TextField
-                data-testid={'widget-form-gauge-label-input'}
-                label={t('label')}
-                value={formData.widgetConfiguration.label}
-                required
-                onChange={(_ev, newVal) =>
-                    updateWidgetData(
-                        produce(formData, (draft) => {
-                            draft.widgetConfiguration.label = newVal;
-                        })
-                    )
-                }
-            />
-            <TextField
-                data-testid={'widget-form-gauge-units-input'}
-                label={t('3dSceneBuilder.unitOfMeasure')}
-                value={formData.widgetConfiguration.units}
-                onChange={(_ev, newVal) =>
-                    updateWidgetData(
-                        produce(formData, (draft) => {
-                            draft.widgetConfiguration.units = newVal;
-                        })
-                    )
-                }
-            />
-            <ModelledPropertyBuilder
-                adapter={adapter}
-                twinIdParams={{
-                    behavior: behaviorToEdit,
-                    config,
-                    sceneId,
-                    selectedElements
-                }}
-                mode="TOGGLE"
-                propertyExpression={{
-                    expression: formData.valueExpression || ''
-                }}
-                onChange={onPropertyChange}
-                allowedPropertyValueTypes={[
-                    'double',
-                    'float',
-                    'integer',
-                    'long'
-                ]}
-                dropdownTestId="widget-form-property-dropdown"
-                required
-            />
-            <ValueRangeBuilder
-                className={customStyles.rangeBuilderRoot}
-                valueRangeBuilderReducer={valueRangeBuilderReducer}
-            />
+            <Stack tokens={{ childrenGap: 8 }}>
+                <TextField
+                    data-testid={'widget-form-gauge-label-input'}
+                    label={t('label')}
+                    value={formData.widgetConfiguration.label}
+                    required
+                    onChange={(_ev, newVal) =>
+                        updateWidgetData(
+                            produce(formData, (draft) => {
+                                draft.widgetConfiguration.label = newVal;
+                            })
+                        )
+                    }
+                />
+                <TextField
+                    data-testid={'widget-form-gauge-units-input'}
+                    label={t('3dSceneBuilder.unitOfMeasure')}
+                    value={formData.widgetConfiguration.units}
+                    onChange={(_ev, newVal) =>
+                        updateWidgetData(
+                            produce(formData, (draft) => {
+                                draft.widgetConfiguration.units = newVal;
+                            })
+                        )
+                    }
+                />
+                <ModelledPropertyBuilder
+                    adapter={adapter}
+                    twinIdParams={{
+                        behavior: behaviorToEdit,
+                        config,
+                        sceneId,
+                        selectedElements
+                    }}
+                    mode={ModelledPropertyBuilderMode.TOGGLE}
+                    propertyExpression={{
+                        expression: formData.valueExpression || ''
+                    }}
+                    onChange={onPropertyChange}
+                    allowedPropertyValueTypes={numericPropertyValueTypes}
+                    dropdownTestId="widget-form-property-dropdown"
+                    required
+                />
+                <ValueRangeBuilder
+                    className={customStyles.rangeBuilderRoot}
+                    valueRangeBuilderReducer={valueRangeBuilderReducer}
+                />
+            </Stack>
         </div>
     );
 };

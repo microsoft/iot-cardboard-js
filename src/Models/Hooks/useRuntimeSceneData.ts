@@ -12,7 +12,7 @@ import { BadgeIcons } from '../Constants/BadgeIcons';
 import {
     deepCopy,
     getSceneElementStatusColor,
-    parseExpression
+    parseLinkedTwinExpression
 } from '../Services/Utils';
 import { I3DScenesConfig } from '../Types/Generated/3DScenesConfiguration-v1.0.0';
 import useAdapter from './useAdapter';
@@ -102,7 +102,7 @@ export const useRuntimeSceneData = (
                                     'CategoricalValues'
                                 ) {
                                     if (
-                                        parseExpression(
+                                        parseLinkedTwinExpression(
                                             visual.valueExpression,
                                             sceneVisual.twins
                                         )

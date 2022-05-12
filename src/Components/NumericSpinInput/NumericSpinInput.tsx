@@ -1,8 +1,4 @@
-import {
-    ISpinButtonStyles,
-    SpinButton
-} from '@fluentui/react/lib/components/SpinButton';
-import { Position } from '@fluentui/react/lib/Positioning';
+import { ISpinButtonStyles, SpinButton, Position } from '@fluentui/react';
 import React from 'react';
 import { getNumericPart } from '../../Models/Services/Utils';
 

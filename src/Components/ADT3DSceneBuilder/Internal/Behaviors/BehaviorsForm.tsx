@@ -81,6 +81,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
     elements,
     builderMode,
     selectedElements,
+    removedElements,
     onBehaviorBackClick,
     onBehaviorSave,
     setSelectedElements,
@@ -235,7 +236,8 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
             behaviorToEdit,
             builderMode as BehaviorSaveMode,
             selectedLayerIds,
-            selectedElements
+            selectedElements,
+            removedElements
         );
         onBehaviorBackClick();
         setSelectedElements([]);

@@ -2,7 +2,7 @@ import { memoizeFunction } from '@fluentui/react';
 import ViewerConfigUtility from '../../Models/Classes/ViewerConfigUtility';
 import {
     getSceneElementStatusColor,
-    parseExpression
+    parseLinkedTwinExpression
 } from '../../Models/Services/Utils';
 import { IViewerElementsPanelItem } from './ViewerElementsPanel.types';
 
@@ -29,7 +29,10 @@ export const sortPanelItemsForDisplay = memoizeFunction(
             const activeAlertVisuals = flattenedPanelItemVisuals.filter(
                 (visual) =>
                     ViewerConfigUtility.isAlertVisual(visual) &&
-                    parseExpression(visual.valueExpression, panelItem.twins)
+                    parseLinkedTwinExpression(
+                        visual.valueExpression,
+                        panelItem.twins
+                    )
             );
 
             const activeStatusVisuals = flattenedPanelItemVisuals.filter(

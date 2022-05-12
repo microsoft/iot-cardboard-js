@@ -22,6 +22,7 @@ import useValueRangeBuilder from '../../../../../Models/Hooks/useValueRangeBuild
 import { SceneBuilderContext } from '../../../ADT3DSceneBuilder';
 import ModelledPropertyBuilder from '../../../../ModelledPropertyBuilder/ModelledPropertyBuilder';
 import {
+    ModelledPropertyBuilderMode,
     numericPropertyValueTypes,
     PropertyExpression
 } from '../../../../ModelledPropertyBuilder/ModelledPropertyBuilder.types';
@@ -157,7 +158,7 @@ const StatusTab: React.FC<IStatusTabProps> = ({ onValidityChange }) => {
                         sceneId,
                         selectedElements
                     }}
-                    mode="TOGGLE"
+                    mode={ModelledPropertyBuilderMode.TOGGLE}
                     propertyExpression={{
                         expression:
                             getStatusFromBehavior(behaviorToEdit)
