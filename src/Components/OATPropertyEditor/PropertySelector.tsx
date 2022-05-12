@@ -1,13 +1,7 @@
 import React from 'react';
-import {
-    Separator,
-    FocusTrapCallout,
-    DirectionalHint,
-    Stack
-} from '@fluentui/react';
+import { Separator, Stack } from '@fluentui/react';
 import {
     getPropertyInspectorStyles,
-    getPropertySelectorStyles,
     getPropertySelectorSeparatorStyles
 } from './OATPropertyEditor.styles';
 import { DTDLSchemaType } from '../../Models/Classes/DTDL';
@@ -38,6 +32,7 @@ import { deepCopy } from '../../Models/Services/Utils';
 
 const ASCII_VALUE_BEFORE_LOWERCASE_ALPHABET = 96;
 interface IProperySelectorProps {
+    className?: string;
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
     lastPropertyFocused: any;
     targetId?: string;
@@ -46,15 +41,14 @@ interface IProperySelectorProps {
 }
 
 const PropertySelector = ({
+    className,
     setPropertySelectorVisible,
     lastPropertyFocused,
-    targetId,
     dispatch,
     state
 }: IProperySelectorProps) => {
     const { t } = useTranslation();
     const propertyInspectorStyles = getPropertyInspectorStyles();
-    const propertySelectorStyles = getPropertySelectorStyles();
     const propertySelectorSeparatorStyles = getPropertySelectorSeparatorStyles();
     const { model } = state;
     const data = {
@@ -247,15 +241,12 @@ const PropertySelector = ({
     };
 
     return (
-        <FocusTrapCallout
+        <div
             role="alertdialog"
-            gapSpace={0}
-            target={`#${targetId}`}
-            isBeakVisible={false}
-            setInitialFocus
-            directionalHint={DirectionalHint.leftTopEdge}
-            styles={propertySelectorStyles}
-            onDismiss={() => setPropertySelectorVisible(false)}
+            className={
+                className ? className : propertyInspectorStyles.propertySelector
+            }
+            onMouseLeave={() => setPropertySelectorVisible(false)}
         >
             <Stack horizontal>
                 <div className={propertyInspectorStyles.propertyTagsWrapFirst}>
@@ -329,7 +320,7 @@ const PropertySelector = ({
                     ))}
                 </div>
             </Stack>
-        </FocusTrapCallout>
+        </div>
     );
 };
 

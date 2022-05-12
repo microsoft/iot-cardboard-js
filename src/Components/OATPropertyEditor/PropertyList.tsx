@@ -55,6 +55,10 @@ export const PropertyList = ({
     const [propertySelectorVisible, setPropertySelectorVisible] = useState(
         false
     );
+    const [
+        actionButtonPropertySelectorVisible,
+        setActionButtonPropertySelectorVisible
+    ] = useState(false);
     const { model, templates } = state;
 
     const handlePropertyItemDropOnTemplateList = () => {
@@ -175,21 +179,30 @@ export const PropertyList = ({
             }}
         >
             <div className={propertyInspectorStyles.propertiesWrapScroll}>
-                {propertySelectorVisible && (
-                    <PropertySelector
-                        setPropertySelectorVisible={setPropertySelectorVisible}
-                        lastPropertyFocused={lastPropertyFocused}
-                        targetId={PROPERTY_ADD_PROPERTY_BAR_ID}
-                        dispatch={dispatch}
-                        state={state}
-                    />
-                )}
-                {!propertySelectorVisible &&
-                    model &&
-                    model.contents &&
-                    model.contents.length === 0 && (
+                {model && model.contents && model.contents.length === 0 && (
+                    <div
+                        className={
+                            propertyInspectorStyles.addPropertyMessageWrap
+                        }
+                        onMouseOver={() =>
+                            setActionButtonPropertySelectorVisible(true)
+                        }
+                        onMouseLeave={() =>
+                            setActionButtonPropertySelectorVisible(false)
+                        }
+                    >
+                        {actionButtonPropertySelectorVisible && (
+                            <PropertySelector
+                                setPropertySelectorVisible={
+                                    setActionButtonPropertySelectorVisible
+                                }
+                                lastPropertyFocused={lastPropertyFocused}
+                                targetId={PROPERTY_ADD_PROPERTY_BAR_ID}
+                                dispatch={dispatch}
+                                state={state}
+                            />
+                        )}
                         <ActionButton
-                            onClick={() => setPropertySelectorVisible(true)}
                             styles={{ root: { paddingLeft: '10px' } }}
                         >
                             <FontIcon
@@ -200,7 +213,8 @@ export const PropertyList = ({
                             />
                             <Text>{t('OATPropertyEditor.addProperty')}</Text>
                         </ActionButton>
-                    )}
+                    </div>
+                )}
 
                 {model &&
                     model.contents &&
@@ -271,8 +285,9 @@ export const PropertyList = ({
                         }
                     })}
                 <div
-                    id={PROPERTY_ADD_PROPERTY_BAR_ID}
-                    style={{ position: 'relative', marginTop: '20px' }}
+                    className={
+                        propertyInspectorStyles.addPropertyBarPropertyListWrap
+                    }
                 >
                     {hover &&
                         model &&
@@ -284,6 +299,16 @@ export const PropertyList = ({
                                 }}
                             />
                         )}
+                    {propertySelectorVisible && (
+                        <PropertySelector
+                            setPropertySelectorVisible={
+                                setPropertySelectorVisible
+                            }
+                            lastPropertyFocused={lastPropertyFocused}
+                            dispatch={dispatch}
+                            state={state}
+                        />
+                    )}
                 </div>
             </div>
         </div>

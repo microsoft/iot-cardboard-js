@@ -98,6 +98,7 @@ export const PropertyListItem = ({
             }}
             onMouseLeave={() => {
                 setHover(false);
+                setPropertySelectorVisible(false);
             }}
         >
             <div
@@ -161,6 +162,9 @@ export const PropertyListItem = ({
                         targetId={item.name}
                         dispatch={dispatch}
                         state={state}
+                        className={
+                            propertyInspectorStyles.propertySelectorPropertyListHeader
+                        }
                     />
                 )}
             </div>

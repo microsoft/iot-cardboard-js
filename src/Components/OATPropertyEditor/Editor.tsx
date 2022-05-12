@@ -74,6 +74,7 @@ const Editor = ({
                         }}
                         onMouseLeave={() => {
                             setHover(false);
+                            setPropertySelectorVisible(false);
                         }}
                     >
                         <Stack
@@ -115,6 +116,9 @@ const Editor = ({
                                 targetId={PROPERTY_LIST_HEADER}
                                 dispatch={dispatch}
                                 state={state}
+                                className={
+                                    propertyInspectorStyles.propertySelectorPropertyListHeader
+                                }
                             />
                         )}
                         {hover && model && model.contents.length > 0 && (

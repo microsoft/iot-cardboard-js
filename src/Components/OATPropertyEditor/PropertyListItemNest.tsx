@@ -146,6 +146,7 @@ export const PropertyListItemNest = ({
             }}
             onMouseLeave={() => {
                 setHover(false);
+                setPropertySelectorVisible(false);
             }}
         >
             <div
@@ -203,6 +204,7 @@ export const PropertyListItemNest = ({
                         styles={iconWrapMoreStyles}
                         title={t('OATPropertyEditor.more')}
                         onClick={() => setSubMenuActive(!subMenuActive)}
+                        id={`${item.name}_more`}
                     >
                         {subMenuActive && (
                             <PropertyListItemSubMenu
@@ -216,7 +218,7 @@ export const PropertyListItemNest = ({
                                     handleDuplicate();
                                 }}
                                 setSubMenuActive={setSubMenuActive}
-                                targetId={item.name}
+                                targetId={`${item.name}_more`}
                             />
                         )}
                     </IconButton>
@@ -273,6 +275,9 @@ export const PropertyListItemNest = ({
                         targetId={item.name}
                         dispatch={dispatch}
                         state={state}
+                        className={
+                            propertyInspectorStyles.propertySelectorPropertyListHeader
+                        }
                     />
                 )}
             </div>

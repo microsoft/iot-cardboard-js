@@ -12,6 +12,7 @@ import { CardboardClassNamePrefix } from '../../Models/Constants';
 
 const classPrefix = `${CardboardClassNamePrefix}-oat-property-editor`;
 const classNames = {
+    addPropertyMessageWrap: `${classPrefix}-add-property-message-wrap`,
     container: `${classPrefix}-container`,
     pivotItem: `${classPrefix}-pivot-item`,
     pivot: `${classPrefix}-pivot`,
@@ -26,6 +27,8 @@ const classNames = {
     rowSpaceBetween: `${classPrefix}-row-space-between`,
     propertiesWrap: `${classPrefix}-properties-wrap`,
     propertiesWrapScroll: `${classPrefix}-properties-wrap-scroll`,
+    propertySelector: `${classPrefix}-row-property-selector`,
+    propertySelectorPropertyListHeader: `${classPrefix}-row-property-selector-property-list-header`,
     propertySelectorHeader: `${classPrefix}-row-property-selector-header`,
     iconClosePropertySelector: `${classPrefix}-icon-close-property-selector`,
     propertyTagsWrapFirst: `${classPrefix}-property-tags-wrap-first`,
@@ -53,6 +56,7 @@ const classNames = {
     propertySubMenuItemIcon: `${classPrefix}-property-sub-item-icon`,
     propertySubMenuItemIconRemove: `${classPrefix}-property-sub-item-icon-remove`,
     addPropertyBar: `${classPrefix}-property-bar`,
+    addPropertyBarPropertyListWrap: `${classPrefix}-property-bar-list-wrap`,
     addPropertyBarIcon: `${classPrefix}-property-bar-icon`,
     modal: `${classPrefix}-modal`,
     modalRowSpaceBetween: `${classPrefix}-modal-row-space-between`,
@@ -170,11 +174,46 @@ export const getPropertyInspectorStyles = () => {
         propertiesWrapScroll: [
             classNames.propertiesWrapScroll,
             {
-                overflowY: 'auto',
                 paddingBottom: '120px',
                 maxHeight: '500px',
                 position: 'relative'
             } as IStyle
+        ],
+        addPropertyMessageWrap: [
+            classNames.addPropertyMessageWrap,
+            {
+                position: 'relative'
+            }
+        ],
+        propertySelector: [
+            classNames.propertySelector,
+            {
+                display: 'flex',
+                flexDirection: 'row',
+                backgroundColor: theme.semanticColors.listBackground,
+                borderRadius: '4px',
+                borderBottom: `1px solid ${theme.semanticColors.variantBorder}`,
+                zIndex: 100,
+                boxShadow: '0px 5px 10px 1px rgba(0,0,0,0.05)',
+                position: 'absolute',
+                left: '-50%',
+                bottom: '100%'
+            }
+        ],
+        propertySelectorPropertyListHeader: [
+            classNames.propertySelector,
+            {
+                display: 'flex',
+                flexDirection: 'row',
+                backgroundColor: theme.semanticColors.listBackground,
+                borderRadius: '4px',
+                borderBottom: `1px solid ${theme.semanticColors.variantBorder}`,
+                zIndex: 100,
+                boxShadow: '0px 5px 10px 1px rgba(0,0,0,0.05)',
+                position: 'absolute',
+                left: '-50%',
+                bottom: '25%'
+            }
         ],
         propertySelectorHeader: [
             classNames.propertySelectorHeader,
@@ -317,7 +356,10 @@ export const getPropertyInspectorStyles = () => {
         mapItemWrap: [
             classNames.mapItemWrap,
             {
-                marginLeft: '10%'
+                paddingLeft: '10%',
+                margin: '0px 4px',
+                borderRadius: '4px',
+                backgroundColor: theme.semanticColors.buttonBackgroundDisabled
             } as IStyle
         ],
         mapItemInputWrap: [
@@ -420,7 +462,7 @@ export const getPropertyInspectorStyles = () => {
             classNames.propertyItemNestMainItem,
             {
                 display: 'grid',
-                gridTemplateColumns: '10% 45% 25% 10% 10%',
+                gridTemplateColumns: '10% 45% 26% 9% 10%',
                 width: '100%',
                 alignItems: 'center',
                 paddingBottom: '12px',
@@ -482,6 +524,13 @@ export const getPropertyInspectorStyles = () => {
                 backgroundColor: theme.semanticColors.primaryButtonTextDisabled,
                 position: 'absolute',
                 top: '90%'
+            } as IStyle
+        ],
+        addPropertyBarPropertyListWrap: [
+            classNames.addPropertyBarPropertyListWrap,
+            {
+                position: 'relative',
+                marginTop: '20px'
             } as IStyle
         ],
         addPropertyBarIcon: [
@@ -567,7 +616,10 @@ export const getPropertySelectorStyles = () => {
             borderRadius: '4px',
             borderBottom: `1px solid ${theme.semanticColors.variantBorder}`,
             zIndex: 100,
-            boxShadow: '0px 5px 10px 1px rgba(0,0,0,0.05)'
+            boxShadow: '0px 5px 10px 1px rgba(0,0,0,0.05)',
+            position: 'absolute',
+            left: '-50%',
+            bottom: '100%'
         }
     };
 };
@@ -627,7 +679,6 @@ export const getMapItemStyles = () => {
     return {
         root: {
             width: '100%',
-            backgroundColor: theme.semanticColors.buttonBackgroundDisabled,
             padding: '12px 8px',
             borderBottom: `1px solid ${theme.semanticColors.buttonBackgroundPressed}'`
         }
