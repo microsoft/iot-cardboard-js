@@ -1,7 +1,4 @@
-import { Text } from '@fluentui/react/lib/Text';
-import { Separator } from '@fluentui/react/lib/components/Separator/Separator';
-import { TextField } from '@fluentui/react/lib/components/TextField/TextField';
-import { Toggle } from '@fluentui/react/lib/components/Toggle/Toggle';
+import { Text, Separator, TextField, Toggle } from '@fluentui/react';
 import React, {
     createContext,
     useContext,

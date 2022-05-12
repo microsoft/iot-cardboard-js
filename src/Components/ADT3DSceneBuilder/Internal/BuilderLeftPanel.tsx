@@ -9,6 +9,7 @@ import {
     OnBehaviorSave,
     SET_ADT_SCENE_BUILDER_ELEMENTS,
     SET_ADT_SCENE_BUILDER_MODE,
+    SET_ADT_SCENE_BUILDER_REMOVED_ELEMENTS,
     SET_ADT_SCENE_BUILDER_SELECTED_BEHAVIOR,
     SET_ADT_SCENE_BUILDER_SELECTED_ELEMENT,
     SET_ADT_SCENE_BUILDER_SELECTED_ELEMENTS
@@ -33,7 +34,7 @@ import {
     IBehavior,
     ITwinToObjectMapping
 } from '../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
-import { createGUID } from '../../../Models/Services/Utils';
+import { createGUID, deepCopy } from '../../../Models/Services/Utils';
 
 const BuilderLeftPanel: React.FC = () => {
     const { t } = useTranslation();
@@ -92,6 +93,7 @@ const BuilderLeftPanel: React.FC = () => {
             behavior: IBehavior;
             selectedLayerIds: string[];
             selectedElements: Array<ITwinToObjectMapping>; // update selected elements for behavior (e.g. in case twin aliases are changed)
+            removedElements: Array<ITwinToObjectMapping>;
         }) => {
             let updatedConfigWithBehavior;
             if (params.mode === ADT3DSceneBuilderMode.CreateBehavior) {
@@ -105,7 +107,8 @@ const BuilderLeftPanel: React.FC = () => {
                 updatedConfigWithBehavior = ViewerConfigUtility.editBehavior(
                     params.config,
                     params.behavior,
-                    params.selectedLayerIds
+                    params.selectedLayerIds,
+                    params.removedElements
                 );
             } else {
                 updatedConfigWithBehavior = params.config;
@@ -160,7 +163,10 @@ const BuilderLeftPanel: React.FC = () => {
         isSelected
     ) => {
         let selectedElements = state.selectedElements
-            ? [...state.selectedElements]
+            ? deepCopy(state.selectedElements)
+            : [];
+        let removedElements = state.removedElements
+            ? deepCopy(state.removedElements)
             : [];
 
         // add element if selected and not in list
@@ -171,6 +177,10 @@ const BuilderLeftPanel: React.FC = () => {
             )
         ) {
             selectedElements.push(updatedElement);
+            // Filter out from removed elements if re-selected
+            removedElements = removedElements.filter(
+                (element) => element.id !== updatedElement.id
+            );
         }
 
         // remove element if not selected and in list
@@ -178,6 +188,7 @@ const BuilderLeftPanel: React.FC = () => {
             !isSelected &&
             selectedElements.find((element) => element.id === updatedElement.id)
         ) {
+            removedElements.push(updatedElement);
             selectedElements = selectedElements.filter(
                 (element) => element.id !== updatedElement.id
             );
@@ -186,6 +197,11 @@ const BuilderLeftPanel: React.FC = () => {
         dispatch({
             type: SET_ADT_SCENE_BUILDER_SELECTED_ELEMENTS,
             payload: selectedElements
+        });
+
+        dispatch({
+            type: SET_ADT_SCENE_BUILDER_REMOVED_ELEMENTS,
+            payload: removedElements
         });
 
         const meshIds = [];
@@ -292,14 +308,16 @@ const BuilderLeftPanel: React.FC = () => {
         behavior,
         mode,
         selectedLayerIds,
-        selectedElements // passing this in case there is updated twin aliases in behavior
+        selectedElements, // passing this in case there is updated twin aliases in behavior
+        removedElements
     ) => {
         await updateBehaviorAndElementsAdapterData.callAdapter({
             config,
             mode,
             behavior,
             selectedLayerIds,
-            selectedElements
+            selectedElements,
+            removedElements
         });
         getConfig();
     };
@@ -462,6 +480,7 @@ const BuilderLeftPanel: React.FC = () => {
                     }
                     onBehaviorSave={onBehaviorSave}
                     selectedElements={state.selectedElements}
+                    removedElements={state.removedElements}
                     setSelectedElements={setSelectedElements}
                     updateSelectedElements={updateSelectedElements}
                     onRemoveElement={onRemoveElement}

@@ -1,5 +1,5 @@
 import { useTheme } from '@fluentui/react';
-import { memoizeFunction } from '@fluentui/react/lib/Utilities';
+import { memoizeFunction } from '@fluentui/react';
 import React, { useContext, useMemo } from 'react';
 import { TFunction, useTranslation } from 'react-i18next';
 import { Locale } from '../../../../../Models/Constants/Enums';
