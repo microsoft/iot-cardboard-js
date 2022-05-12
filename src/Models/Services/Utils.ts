@@ -331,8 +331,8 @@ export function parseLinkedTwinExpression(
     let result: any = fallbackResult ?? '';
 
     try {
-        if (isConstant(expression, twins)) {
-            result = toConstant(expression, twins);
+        if (isConstant(expression, { ...twins, Math: Math })) {
+            result = toConstant(expression, { ...twins, Math: Math });
         }
     } catch (err) {
         console.log(`${expression} - could not be parsed into constant`);
