@@ -315,11 +315,13 @@ export function getTransparentColor(
 }
 
 export function wrapTextInTemplateString(text: string) {
+    if (!text) return '';
     const templatedText = text.replace(/`/g, '');
     return '`' + templatedText + '`';
 }
 
 export function stripTemplateStringsFromText(text: string) {
+    if (!text) return '';
     return text.replace(/`/g, '');
 }
 

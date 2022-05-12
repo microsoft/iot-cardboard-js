@@ -11,6 +11,7 @@ import { getWidgetFormStyles } from '../WidgetForm/WidgetForm.styles';
 import ModelledPropertyBuilder from '../../../../../ModelledPropertyBuilder/ModelledPropertyBuilder';
 import {
     ModelledPropertyBuilderMode,
+    numericPropertyValueTypes,
     PropertyExpression
 } from '../../../../../ModelledPropertyBuilder/ModelledPropertyBuilder.types';
 
@@ -118,12 +119,7 @@ const GaugeWidgetBuilder: React.FC<IGaugeWidgetBuilderProps> = ({
                         expression: formData.valueExpression || ''
                     }}
                     onChange={onPropertyChange}
-                    allowedPropertyValueTypes={[
-                        'double',
-                        'float',
-                        'integer',
-                        'long'
-                    ]}
+                    allowedPropertyValueTypes={numericPropertyValueTypes}
                     dropdownTestId="widget-form-property-dropdown"
                     required
                 />

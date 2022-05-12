@@ -229,11 +229,10 @@ const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = ({
                         styles={propertyExpressionLabelStyles}
                         required={required}
                     >
-                        {customLabel
-                            ? customLabel
-                            : t(
-                                  '3dSceneBuilder.ModelledPropertyBuilder.expressionLabel'
-                              )}
+                        {customLabel ??
+                            t(
+                                '3dSceneBuilder.ModelledPropertyBuilder.expressionLabel'
+                            )}
                     </Label>
                     {(mode === ModelledPropertyBuilderMode.INTELLISENSE ||
                         mode ===
