@@ -3,6 +3,7 @@ import { ComponentStory } from '@storybook/react';
 import { getDefaultStoryDecorator } from '../../Models/Services/StoryUtilities';
 import ModelledPropertyBuilder from './ModelledPropertyBuilder';
 import {
+    ModelledPropertyBuilderMode,
     ModelledPropertyBuilderProps,
     PropertyExpression
 } from './ModelledPropertyBuilder.types';
@@ -110,7 +111,7 @@ const Template: ModelledPropertyBuilderStory = (args) => {
 export const ToggleMode = Template.bind({}) as ModelledPropertyBuilderStory;
 
 ToggleMode.args = {
-    mode: 'TOGGLE'
+    mode: ModelledPropertyBuilderMode.TOGGLE
 };
 
 export const ToggleModeInitialValue = Template.bind(
@@ -118,7 +119,7 @@ export const ToggleModeInitialValue = Template.bind(
 ) as ModelledPropertyBuilderStory;
 
 ToggleModeInitialValue.args = {
-    mode: 'TOGGLE',
+    mode: ModelledPropertyBuilderMode.TOGGLE,
     propertyExpression: { expression: 'PrimaryTwin.Mileage - 1000' }
 };
 
@@ -127,7 +128,7 @@ export const PropertySelectionMode = Template.bind(
 ) as ModelledPropertyBuilderStory;
 
 PropertySelectionMode.args = {
-    mode: 'PROPERTY_SELECTION'
+    mode: ModelledPropertyBuilderMode.PROPERTY_SELECT
 };
 
 export const IntellisenseMode = Template.bind(
@@ -135,5 +136,5 @@ export const IntellisenseMode = Template.bind(
 ) as ModelledPropertyBuilderStory;
 
 IntellisenseMode.args = {
-    mode: 'INTELLISENSE'
+    mode: ModelledPropertyBuilderMode.INTELLISENSE
 };

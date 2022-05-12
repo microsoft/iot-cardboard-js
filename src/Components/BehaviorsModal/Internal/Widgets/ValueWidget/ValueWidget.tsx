@@ -3,7 +3,7 @@ import { memoizeFunction } from '@fluentui/react';
 import React, { useContext, useMemo } from 'react';
 import { TFunction, useTranslation } from 'react-i18next';
 import { Locale } from '../../../../../Models/Constants/Enums';
-import { parseExpression } from '../../../../../Models/Services/Utils';
+import { parseLinkedTwinExpression } from '../../../../../Models/Services/Utils';
 import {
     IDTDLPropertyType,
     IValueWidget
@@ -38,7 +38,7 @@ export const ValueWidget: React.FC<IProp> = ({ widget, placeholderValues }) => {
     const { displayName, valueExpression, type } = widget.widgetConfiguration;
 
     const parsedValue = useMemo(
-        () => parseExpression(valueExpression, twins),
+        () => parseLinkedTwinExpression(valueExpression, twins),
 
         [valueExpression, twins]
     );

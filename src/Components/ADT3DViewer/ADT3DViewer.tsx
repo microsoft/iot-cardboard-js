@@ -504,6 +504,19 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
         [behaviorModalSceneVisualElementId, sceneVisuals]
     );
 
+    const onCloseBehaviorsModal = useCallback(() => {
+        setShowPopUp(false);
+        setZoomMeshesByElement(undefined);
+        setSelectedElementId(undefined);
+        setOutlinedMeshItems([]);
+        outlinedMeshItemsRef.current = [];
+    }, [setSelectedElementId, setZoomMeshesByElement]);
+
+    const onPropertyInspectorPatch = useCallback(
+        () => triggerRuntimeRefetch(),
+        [adapter]
+    );
+
     const svp = sceneViewProps || {};
     return (
         <BaseComponent
@@ -582,20 +595,14 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
             </div>
             {showPopUp && (
                 <BehaviorsModal
-                    onClose={() => {
-                        setShowPopUp(false);
-                        setZoomMeshesByElement(undefined);
-                        setSelectedElementId(undefined);
-                        setOutlinedMeshItems([]);
-                        outlinedMeshItemsRef.current = [];
-                    }}
+                    onClose={onCloseBehaviorsModal}
                     twins={behaviorModalSceneVisual?.twins || {}}
                     behaviors={behaviorModalSceneVisual?.behaviors || []}
                     title={behaviorModalSceneVisual?.element?.displayName}
                     adapter={
                         hasPropertyInspectorAdapter(adapter) ? adapter : null
                     }
-                    onPropertyInspectorPatch={() => triggerRuntimeRefetch()}
+                    onPropertyInspectorPatch={onPropertyInspectorPatch}
                 />
             )}
             {isAlertPopoverVisible && (

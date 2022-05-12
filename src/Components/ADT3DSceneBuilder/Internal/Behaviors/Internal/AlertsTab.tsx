@@ -5,27 +5,28 @@ import {
     IAlertVisual,
     IBehavior
 } from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
-import {
-    IStackTokens,
-    Stack,
-    Text,
-    TextField,
-    useTheme
-} from '@fluentui/react';
+import { IStackTokens, Stack, Text, useTheme } from '@fluentui/react';
 import ViewerConfigUtility from '../../../../../Models/Classes/ViewerConfigUtility';
 import {
     defaultSwatchColors,
     defaultSwatchIcons
 } from '../../../../../Theming/Palettes';
 import { defaultAlertVisual } from '../../../../../Models/Classes/3DVConfig';
-import { deepCopy } from '../../../../../Models/Services/Utils';
+import {
+    wrapTextInTemplateString,
+    deepCopy,
+    stripTemplateStringsFromText
+} from '../../../../../Models/Services/Utils';
 import ColorPicker from '../../../../Pickers/ColorSelectButton/ColorPicker';
 import { IPickerOption } from '../../../../Pickers/Internal/Picker.base.types';
 import IconPicker from '../../../../Pickers/IconSelectButton/IconPicker';
 import { getLeftPanelStyles } from '../../Shared/LeftPanel.styles';
 import { SceneBuilderContext } from '../../../ADT3DSceneBuilder';
 import ModelledPropertyBuilder from '../../../../ModelledPropertyBuilder/ModelledPropertyBuilder';
-import { PropertyExpression } from '../../../../ModelledPropertyBuilder/ModelledPropertyBuilder.types';
+import {
+    ModelledPropertyBuilderMode,
+    PropertyExpression
+} from '../../../../ModelledPropertyBuilder/ModelledPropertyBuilder.types';
 
 const getAlertFromBehavior = (behavior: IBehavior) =>
     behavior.visuals.filter(ViewerConfigUtility.isAlertVisual)[0] || null;
@@ -89,9 +90,18 @@ const AlertsTab: React.FC = () => {
         [setBehaviorToEdit, alertVisualStateRef.current]
     );
 
-    const onExpressionChange = useCallback(
+    const onTriggerExpressionChange = useCallback(
         (newPropertyExpression: PropertyExpression) =>
             setProperty('triggerExpression', newPropertyExpression.expression),
+        [setProperty]
+    );
+
+    const onLabelExpressionChange = useCallback(
+        (newPropertyExpression: PropertyExpression) =>
+            setProperty(
+                'labelExpression',
+                wrapTextInTemplateString(newPropertyExpression.expression)
+            ),
         [setProperty]
     );
 
@@ -109,18 +119,12 @@ const AlertsTab: React.FC = () => {
         [setProperty]
     );
 
-    const onNoteChange = useCallback(
-        (_e: any, newValue: string) => {
-            setProperty('labelExpression', newValue);
-        },
-        [setProperty]
-    );
-
     // we only grab the first alert in the collection
     const alertVisual = getAlertFromBehavior(behaviorToEdit);
     const color = alertVisual?.color;
     const icon = alertVisual?.iconName;
-    const expression = alertVisual?.triggerExpression;
+    const triggerExpression = alertVisual?.triggerExpression;
+    const notificationExpression = alertVisual?.labelExpression;
     const theme = useTheme();
     const commonPanelStyles = getLeftPanelStyles(theme);
 
@@ -135,11 +139,11 @@ const AlertsTab: React.FC = () => {
                     sceneId,
                     selectedElements
                 }}
-                mode="INTELLISENSE"
+                mode={ModelledPropertyBuilderMode.INTELLISENSE}
                 propertyExpression={{
-                    expression: expression || ''
+                    expression: triggerExpression || ''
                 }}
-                onChange={onExpressionChange}
+                onChange={onTriggerExpressionChange}
                 customLabel={t(LOC_KEYS.expressionLabel)}
                 intellisensePlaceholder={t(LOC_KEYS.expressionPlaceholder)}
             />
@@ -159,19 +163,26 @@ const AlertsTab: React.FC = () => {
                             onChangeItem={onColorChange}
                         />
                     </Stack>
-                    <TextField
-                        label={t(LOC_KEYS.notificationLabel)}
-                        placeholder={t(LOC_KEYS.notificationPlaceholder)}
-                        multiline
-                        onChange={onNoteChange}
-                        rows={3}
-                        styles={{
-                            root: {
-                                marginBottom: 4,
-                                paddingBottom: 4
-                            }
+                    <ModelledPropertyBuilder
+                        adapter={adapter}
+                        twinIdParams={{
+                            behavior: behaviorToEdit,
+                            config,
+                            sceneId,
+                            selectedElements
                         }}
-                        value={alertVisual.labelExpression}
+                        mode={ModelledPropertyBuilderMode.INTELLISENSE}
+                        propertyExpression={{
+                            expression:
+                                stripTemplateStringsFromText(
+                                    notificationExpression
+                                ) || ''
+                        }}
+                        onChange={onLabelExpressionChange}
+                        customLabel={t(LOC_KEYS.notificationLabel)}
+                        intellisensePlaceholder={t(
+                            LOC_KEYS.notificationPlaceholder
+                        )}
                     />
                 </>
             )}
