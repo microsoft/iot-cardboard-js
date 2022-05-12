@@ -4,6 +4,7 @@ import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
 import FormUpdateProperty from './FormUpdateProperty';
 import FormAddEnumItem from './FormAddEnumItem';
 import { IAction } from '../../Models/Constants/Interfaces';
+import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 
 export enum FromBody {
     property = 'Property',
@@ -20,7 +21,7 @@ interface IModal {
     >;
     setModalBody?: React.Dispatch<React.SetStateAction<string>>;
     setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
-    state: any;
+    state?: IOATEditorState;
 }
 
 export const Modal = ({

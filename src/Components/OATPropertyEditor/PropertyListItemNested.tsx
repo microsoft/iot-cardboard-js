@@ -13,7 +13,11 @@ import {
     SET_OAT_PROPERTY_EDITOR_MODEL,
     SET_OAT_TEMPLATES
 } from '../../Models/Constants/ActionTypes';
-import { IAction } from '../../Models/Constants/Interfaces';
+import {
+    IAction,
+    IOATLastPropertyFocused,
+    DTDLProperty
+} from '../../Models/Constants/Interfaces';
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 import AddPropertyBar from './AddPropertyBar';
 import PropertySelector from './PropertySelector';
@@ -24,13 +28,13 @@ type IPropertyListItemNested = {
     getItemClassName?: (index: number) => any;
     getErrorMessage?: (value: string) => string;
     index?: number;
-    item?: any;
+    item?: DTDLProperty;
     parentIndex?: number;
     setCurrentNestedPropertyIndex: React.Dispatch<React.SetStateAction<number>>;
     setCurrentPropertyIndex?: React.Dispatch<React.SetStateAction<number>>;
     setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
     state?: IOATEditorState;
-    lastPropertyFocused?: boolean;
+    lastPropertyFocused?: IOATLastPropertyFocused;
 };
 
 export const PropertyListItemNested = ({

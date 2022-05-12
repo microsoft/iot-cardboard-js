@@ -15,6 +15,7 @@ import {
 import { SET_OAT_PROPERTY_EDITOR_MODEL } from '../../Models/Constants/ActionTypes';
 import { IAction } from '../../Models/Constants/Interfaces';
 import { deepCopy } from '../../Models/Services/Utils';
+import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 
 interface IModal {
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
@@ -25,7 +26,7 @@ interface IModal {
     >;
     setModalBody?: React.Dispatch<React.SetStateAction<string>>;
     setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
-    state: any;
+    state?: IOATEditorState;
 }
 
 export const FormAddEnumItem = ({

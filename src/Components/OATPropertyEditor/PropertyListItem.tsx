@@ -13,7 +13,11 @@ import {
     SET_OAT_PROPERTY_EDITOR_MODEL,
     SET_OAT_TEMPLATES
 } from '../../Models/Constants/ActionTypes';
-import { IAction } from '../../Models/Constants/Interfaces';
+import {
+    DTDLProperty,
+    IAction,
+    IOATLastPropertyFocused
+} from '../../Models/Constants/Interfaces';
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 import AddPropertyBar from './AddPropertyBar';
 import PropertySelector from './PropertySelector';
@@ -28,8 +32,8 @@ type IPropertyListItem = {
     handleDragEnter?: (event: any, item: any) => any;
     handleDragEnterExternalItem?: (index: number) => any;
     handleDragStart?: (event: any, item: any) => any;
-    item?: any;
-    lastPropertyFocused?: boolean;
+    item?: DTDLProperty;
+    lastPropertyFocused?: IOATLastPropertyFocused;
     setCurrentPropertyIndex?: React.Dispatch<React.SetStateAction<number>>;
     setLastPropertyFocused?: React.Dispatch<React.SetStateAction<any>>;
     setModalBody?: React.Dispatch<React.SetStateAction<string>>;

@@ -12,6 +12,7 @@ import {
     SET_OAT_TEMPLATES
 } from '../../Models/Constants/ActionTypes';
 import { IAction } from '../../Models/Constants/Interfaces';
+import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 
 type IPropertyList = {
     currentPropertyIndex: number;
@@ -25,7 +26,7 @@ type IPropertyList = {
     setDraggingProperty: React.Dispatch<React.SetStateAction<boolean>>;
     setModalBody?: React.Dispatch<React.SetStateAction<string>>;
     setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
-    state: any;
+    state?: IOATEditorState;
 };
 
 const PROPERTY_ADD_PROPERTY_BAR_ID = 'addPropertyBar';

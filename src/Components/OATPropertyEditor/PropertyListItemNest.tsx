@@ -18,7 +18,11 @@ import {
     SET_OAT_PROPERTY_EDITOR_MODEL,
     SET_OAT_TEMPLATES
 } from '../../Models/Constants/ActionTypes';
-import { IAction } from '../../Models/Constants/Interfaces';
+import {
+    IAction,
+    IOATLastPropertyFocused,
+    DTDLProperty
+} from '../../Models/Constants/Interfaces';
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 
 type IPropertyListItemNest = {
@@ -32,8 +36,8 @@ type IPropertyListItemNest = {
     handleDragEnterExternalItem?: (index: number) => any;
     handleDragStart?: (event: any, item: any) => any;
     index?: number;
-    item?: any;
-    lastPropertyFocused?: any;
+    item?: DTDLProperty;
+    lastPropertyFocused?: IOATLastPropertyFocused;
     setCurrentNestedPropertyIndex?: React.Dispatch<
         React.SetStateAction<number>
     >;
@@ -138,6 +142,7 @@ export const PropertyListItemNest = ({
         <div
             className={propertyInspectorStyles.propertyListRelativeWrap}
             onMouseOver={() => {
+                console.log('item', item);
                 setHover(true);
                 setLastPropertyFocused({
                     item: item,

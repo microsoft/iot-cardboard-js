@@ -19,6 +19,7 @@ import PropertiesModelSummary from './PropertiesModelSummary';
 import PropertySelector from './PropertySelector';
 import AddPropertyBar from './AddPropertyBar';
 import { SET_OAT_TEMPLATES_ACTIVE } from '../../Models/Constants/ActionTypes';
+import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 interface IEditor {
     currentPropertyIndex?: number;
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
@@ -29,7 +30,7 @@ interface IEditor {
     setCurrentPropertyIndex?: React.Dispatch<React.SetStateAction<number>>;
     setModalBody?: React.Dispatch<React.SetStateAction<string>>;
     setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
-    state: any;
+    state?: IOATEditorState;
 }
 
 const Editor = ({

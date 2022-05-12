@@ -27,17 +27,21 @@ import IconString from '../../Resources/Static/string.svg';
 import IconTime from '../../Resources/Static/time.svg';
 import { useTranslation } from 'react-i18next';
 import { SET_OAT_PROPERTY_EDITOR_MODEL } from '../../Models/Constants/ActionTypes';
-import { IAction } from '../../Models/Constants/Interfaces';
+import {
+    IAction,
+    IOATLastPropertyFocused
+} from '../../Models/Constants/Interfaces';
 import { deepCopy } from '../../Models/Services/Utils';
+import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 
 const ASCII_VALUE_BEFORE_LOWERCASE_ALPHABET = 96;
-interface IProperySelectorProps {
+interface IPropertySelectorProps {
     className?: string;
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
-    lastPropertyFocused: any;
+    lastPropertyFocused?: IOATLastPropertyFocused;
     targetId?: string;
     setPropertySelectorVisible: React.Dispatch<React.SetStateAction<boolean>>;
-    state: any;
+    state?: IOATEditorState;
 }
 
 const PropertySelector = ({
@@ -46,7 +50,7 @@ const PropertySelector = ({
     lastPropertyFocused,
     dispatch,
     state
-}: IProperySelectorProps) => {
+}: IPropertySelectorProps) => {
     const { t } = useTranslation();
     const propertyInspectorStyles = getPropertyInspectorStyles();
     const propertySelectorSeparatorStyles = getPropertySelectorSeparatorStyles();

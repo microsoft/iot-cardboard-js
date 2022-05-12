@@ -847,3 +847,8 @@ export interface IOATRelationShipElement {
     type?: string;
     data?: IOATGraphCustomEdgeData;
 }
+
+export interface IOATLastPropertyFocused {
+    item: DTDLProperty;
+    index: number;
+}
