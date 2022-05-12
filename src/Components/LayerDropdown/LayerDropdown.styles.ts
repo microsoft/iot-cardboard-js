@@ -7,6 +7,7 @@ import {
     memoizeFunction,
     mergeStyleSets
 } from '@fluentui/react';
+import { HEADER_BUTTON_HEIGHT } from '../../Models/Constants/StyleConstants';
 
 export const layerDropdownClassPrefix = 'cb-layer-dropdown';
 
@@ -26,9 +27,16 @@ export const getDropdownStyles = memoizeFunction(
             alignItems: 'center',
             border: `1px solid ${theme.palette.neutralLight}`,
             display: 'inline-flex',
+            height: '100%',
             width: '100%'
         },
+        caretDownWrapper: {
+            alignItems: 'center',
+            display: 'flex',
+            height: '100%'
+        },
         dropdown: {
+            height: HEADER_BUTTON_HEIGHT,
             // fluent has a jank style on their side so we get a jank one on ours too
             ':hover .ms-Dropdown-title': {
                 borderColor: theme.palette.neutralSecondary

@@ -1,4 +1,5 @@
 import { FontSizes, IButtonStyles, ITheme } from '@fluentui/react';
+import { HEADER_BUTTON_HEIGHT } from '../../Models/Constants/StyleConstants';
 import {
     IHeaderControlButtonStyleProps,
     IHeaderControlButtonStyles
@@ -15,8 +16,8 @@ export function GET_HEADER_BUTTON_STYLES(
                 ? theme.semanticColors.buttonBackgroundPressed
                 : theme.semanticColors.buttonBackground,
             borderRadius: 2,
-            height: 42,
-            width: 42,
+            height: HEADER_BUTTON_HEIGHT,
+            width: HEADER_BUTTON_HEIGHT,
             ':hover': {
                 border: `1px solid ${theme.palette.neutralSecondary}`
             }

@@ -5,6 +5,8 @@ export const behaviorsModalPreviewContainerLeftOffset =
 export const VIEWER_HEADER_TOP_OFFSET = 10;
 export const BUILDER_HEADER_TOP_OFFSET = 10;
 
+export const HEADER_BUTTON_HEIGHT = 42;
+
 export const ELEMENTS_PANEL_BUTTON_HEIGHT = 54;
 export const ELEMENTS_PANEL_BUTTON_BOTTOM_OFFSET = 20;
 
