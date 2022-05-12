@@ -45,7 +45,7 @@ export const validate3DConfigWithSchema = (
     if (valid) {
         return data;
     } else {
-        console.warn('Schema validation errors: ', validate.errors);
+        console.error('Schema validation errors: ', validate.errors);
         throw new ComponentError({
             type: ComponentErrorType.JsonSchemaError,
             jsonSchemaErrors: validate.errors

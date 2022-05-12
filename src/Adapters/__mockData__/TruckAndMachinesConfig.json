@@ -83,21 +83,21 @@
                                         {
                                             "id": "0278cd377adbc30253b0fdb6b5fcf160",
                                             "values": ["-Infinity", 200],
-                                            "visuals": {
+                                            "visual": {
                                                 "color": "#C32F27"
                                             }
                                         },
                                         {
                                             "id": "0278cd377adbc30253b0fdb6b5fcf161",
                                             "values": [500, 800],
-                                            "visuals": {
+                                            "visual": {
                                                 "color": "#FEE440"
                                             }
                                         },
                                         {
                                             "id": "0278cd377adbc30253b0fdb6b5fcf162",
                                             "values": [800, 1000],
-                                            "visuals": {
+                                            "visual": {
                                                 "color": "#26C485"
                                             }
                                         }
@@ -117,14 +117,14 @@
                                         {
                                             "id": "0278cd377adbc30253b0fdb6b5fcf149",
                                             "values": [700, 900],
-                                            "visuals": {
+                                            "visual": {
                                                 "color": "#26C485"
                                             }
                                         },
                                         {
                                             "id": "0278cd377adbc30253b0fdb6b5fc3sak",
                                             "values": [2000, 3000],
-                                            "visuals": {
+                                            "visual": {
                                                 "color": "#26C485"
                                             }
                                         }
@@ -180,14 +180,14 @@
                             {
                                 "id": "0278cd377adbc30253b0fdb6b5fcf162",
                                 "values": [21, "Infinity"],
-                                "visuals": {
+                                "visual": {
                                     "color": "#FF0000"
                                 }
                             },
                             {
                                 "id": "0278cd377adbc30253b0fdb6b5fcf163",
                                 "values": ["-Infinity", 20],
-                                "visuals": {
+                                "visual": {
                                     "color": "#0000FF"
                                 }
                             }
@@ -218,14 +218,14 @@
                             {
                                 "id": "0278ed377adbc30153b0fdb6b5fcf167",
                                 "values": [100, "Infinity"],
-                                "visuals": {
+                                "visual": {
                                     "color": "#0000FF"
                                 }
                             },
                             {
                                 "id": "0278bd377adbc30254b0fdb6b5fcf169",
                                 "values": ["-Infinity", 100],
-                                "visuals": {
+                                "visual": {
                                     "color": "#00FF00"
                                 }
                             }
@@ -236,10 +236,10 @@
                         }
                     },
                     {
-                        "type": "Alert",
+                        "type": "ExpressionRangeVisual",
                         "expressionType": "CategoricalValues",
                         "valueExpression": "temperatureTag.Temperature > 25",
-                        "values": [
+                        "valueRanges": [
                             {
                                 "id": "d0d2edff7c80438fa529206848866i91",
                                 "values": [true],
@@ -250,7 +250,6 @@
                                 }
                             }
                         ],
-
                         "objectIDs": {
                             "expression": "objectIDs"
                         }
