@@ -65,6 +65,7 @@ const AlertsTab: React.FC = () => {
         } else {
             const alertVisual = alertVisualStateRef.current;
             draft.visuals.push(alertVisual);
+            return alertVisual;
         }
     };
 
@@ -137,10 +138,10 @@ const AlertsTab: React.FC = () => {
 
     // we only grab the first alert in the collection
     const alertVisual = getAlertFromBehavior(behaviorToEdit);
-    const color = alertVisual.valueRanges[0]?.visual?.color;
-    const icon = alertVisual.valueRanges[0]?.visual?.iconName;
+    const color = alertVisual?.valueRanges?.[0]?.visual?.color;
+    const icon = alertVisual?.valueRanges?.[0]?.visual?.iconName;
     const notificationExpression =
-        alertVisual.valueRanges[0]?.visual?.labelExpression;
+        alertVisual?.valueRanges?.[0]?.visual?.labelExpression;
     const expression = alertVisual?.valueExpression;
     const theme = useTheme();
     const commonPanelStyles = getLeftPanelStyles(theme);
