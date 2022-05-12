@@ -33,17 +33,17 @@ const ValueRangeRow: React.FC<{
             tokens={sectionStackTokens}
         >
             <ValueRangeInput
-                value={String(valueRange.min)}
+                value={String(valueRange.values[0])}
                 boundary={Boundary.min}
                 valueRange={valueRange}
             />
             <ValueRangeInput
-                value={String(valueRange.max)}
+                value={String(valueRange.values[1])}
                 boundary={Boundary.max}
                 valueRange={valueRange}
             />
             <ColorPicker
-                selectedItem={valueRange.color}
+                selectedItem={valueRange.visual.color}
                 items={colorSwatch}
                 onChangeItem={(color) => {
                     dispatch({

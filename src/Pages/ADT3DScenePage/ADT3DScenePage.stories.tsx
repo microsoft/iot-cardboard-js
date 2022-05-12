@@ -30,6 +30,7 @@ export const Mock3DScenePage = (_args, { globals: { theme, locale } }) => {
                 theme={theme}
                 locale={locale}
                 adapter={new MockAdapter({ mockData: mockConfig })}
+                enableTwinPropertyInspectorPatchMode
             />
         </div>
     );
@@ -57,6 +58,7 @@ export const Deeplinked = (_args, { globals: { theme, locale } }) => {
                     theme={theme}
                     locale={locale}
                     adapter={new MockAdapter({ mockData: mockConfig })}
+                    enableTwinPropertyInspectorPatchMode
                 />
             </DeeplinkContextProvider>
         </div>

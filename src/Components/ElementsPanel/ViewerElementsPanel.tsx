@@ -40,7 +40,8 @@ const ViewerElementsPanel: React.FC<IViewerElementsPanelProps> = ({
                               .filter((alertVisual) =>
                                   parseLinkedTwinExpression(
                                       wrapTextInTemplateString(
-                                          alertVisual.labelExpression
+                                          alertVisual.valueRanges[0].visual
+                                              .labelExpression
                                       ),
                                       panelItem.twins
                                   )

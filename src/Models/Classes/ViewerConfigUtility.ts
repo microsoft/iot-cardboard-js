@@ -3,16 +3,15 @@ import { IAliasedTwinProperty } from '../Constants/Interfaces';
 import { deepCopy } from '../Services/Utils';
 import {
     I3DScenesConfig,
-    IAlertVisual,
     IBehavior,
     IDataSource,
     IDTDLPropertyType,
     IElement,
     IElementTwinToObjectMappingDataSource,
+    IExpressionRangeVisual,
     ILayer,
     IPopoverVisual,
     IScene,
-    IStatusColoringVisual,
     ITwinToObjectMapping,
     IValueRange,
     IVisual
@@ -631,12 +630,18 @@ abstract class ViewerConfigUtility {
 
     static isStatusColorVisual(
         visual: IVisual
-    ): visual is IStatusColoringVisual {
-        return visual.type === VisualType.StatusColoring;
+    ): visual is IExpressionRangeVisual {
+        return (
+            visual.type === VisualType.ExpressionRangeVisual &&
+            visual.expressionType === 'NumericRange'
+        );
     }
 
-    static isAlertVisual(visual: IVisual): visual is IAlertVisual {
-        return visual.type === VisualType.Alert;
+    static isAlertVisual(visual: IVisual): visual is IExpressionRangeVisual {
+        return (
+            visual.type === VisualType.ExpressionRangeVisual &&
+            visual.expressionType === 'CategoricalValues'
+        );
     }
 
     static getBehaviorsSegmentedByPresenceInScene(
@@ -815,8 +820,11 @@ abstract class ViewerConfigUtility {
         let color = null;
         if (ranges) {
             for (const range of ranges) {
-                if (value >= Number(range.min) && value < Number(range.max)) {
-                    color = range.color;
+                if (
+                    value >= Number(range.values[0]) &&
+                    value < Number(range.values[1])
+                ) {
+                    color = range.visual.color;
                 }
             }
         }
@@ -831,7 +839,10 @@ abstract class ViewerConfigUtility {
         let targetRange: IValueRange = null;
         if (ranges) {
             for (const range of ranges) {
-                if (value >= Number(range.min) && value < Number(range.max)) {
+                if (
+                    value >= Number(range.values[0]) &&
+                    value < Number(range.values[1])
+                ) {
                     targetRange = range;
                 }
             }
@@ -856,8 +867,8 @@ abstract class ViewerConfigUtility {
         let nrOfLevels = ranges.length;
 
         for (const valueRange of ranges) {
-            const numericValueRangeMin = Number(valueRange.min);
-            const numericValueRangeMax = Number(valueRange.max);
+            const numericValueRangeMin = Number(valueRange.values[0]);
+            const numericValueRangeMax = Number(valueRange.values[1]);
 
             // Find minimum range value
             if (numericValueRangeMin < domainMin) {
@@ -887,18 +898,18 @@ abstract class ViewerConfigUtility {
         const isOutOfValueRange = targetRange === null;
 
         const sortedRanges = ranges.sort(
-            (a, b) => Number(a.min) - Number(b.min)
+            (a, b) => Number(a.values[0]) - Number(b.values[1])
         );
         let outOfRangeColorInsertionIndex = sortedRanges.length;
 
         const gaugeRanges = sortedRanges.map((vr) => ({
-            color: vr.color,
+            color: vr.visual.color,
             id: vr.id
         }));
 
         if (isOutOfValueRange) {
             for (let i = 0; i < sortedRanges.length; i++) {
-                if (value < Number(sortedRanges[i].min)) {
+                if (value < Number(sortedRanges[i].values[0])) {
                     outOfRangeColorInsertionIndex = i;
                     break;
                 }

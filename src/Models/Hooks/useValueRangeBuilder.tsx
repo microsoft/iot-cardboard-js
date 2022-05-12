@@ -43,7 +43,7 @@ const useValueRangeBuilder = ({
     const [state, dispatch] = useReducer(valueRangeBuilderReducer, {
         ...defaultValueRangeBuilderState,
         valueRanges: initialValueRangesRef.current.sort(
-            (a, b) => Number(a.min) - Number(b.min)
+            (a, b) => Number(a.values[0]) - Number(b.values[0])
         ),
         validationMap: initialValidationMap,
         ...(customSwatchColors && { colorSwatch: customSwatchColors }),

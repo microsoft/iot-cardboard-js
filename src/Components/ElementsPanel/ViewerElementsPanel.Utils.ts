@@ -30,7 +30,7 @@ export const sortPanelItemsForDisplay = memoizeFunction(
                 (visual) =>
                     ViewerConfigUtility.isAlertVisual(visual) &&
                     parseLinkedTwinExpression(
-                        visual.triggerExpression,
+                        visual.valueExpression,
                         panelItem.twins
                     )
             );
@@ -39,7 +39,7 @@ export const sortPanelItemsForDisplay = memoizeFunction(
                 (visual) =>
                     ViewerConfigUtility.isStatusColorVisual(visual) &&
                     getSceneElementStatusColor(
-                        visual.statusValueExpression,
+                        visual.valueExpression,
                         visual.valueRanges,
                         panelItem.twins
                     )

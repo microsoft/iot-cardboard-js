@@ -8,9 +8,8 @@ import {
     parseLinkedTwinExpression
 } from '../../../Models/Services/Utils';
 import {
-    IAlertVisual,
     IBehavior,
-    IStatusColoringVisual,
+    IExpressionRangeVisual,
     ITwinToObjectMapping,
     IVisual
 } from '../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
@@ -88,11 +87,11 @@ function getListItems(
         const element = panelItem.element;
         let statuses: Array<{
             behavior: IBehavior;
-            statusVisual: IStatusColoringVisual;
+            statusVisual: IExpressionRangeVisual;
         }> = [];
         let alerts: Array<{
             behavior: IBehavior;
-            alertVisual: IAlertVisual;
+            alertVisual: IExpressionRangeVisual;
             alertVisualDisplayTitle: string;
         }> = [];
 
@@ -112,18 +111,19 @@ function getListItems(
                         (visual) =>
                             ViewerConfigUtility.isAlertVisual(visual) &&
                             parseLinkedTwinExpression(
-                                visual.triggerExpression,
+                                visual.valueExpression,
                                 panelItem.twins
                             )
                     )
                     .map(
-                        (alertVisual: IAlertVisual) =>
+                        (alertVisual: IExpressionRangeVisual) =>
                             ({
                                 behavior: b,
                                 alertVisual: alertVisual,
                                 alertVisualDisplayTitle: parseLinkedTwinExpression(
                                     wrapTextInTemplateString(
-                                        alertVisual.labelExpression
+                                        alertVisual.valueRanges[0].visual
+                                            .labelExpression
                                     ),
                                     panelItem.twins
                                 )
@@ -170,13 +170,13 @@ function getListItems(
 
         alerts.map((alert) => {
             const alertStyles = getElementsPanelAlertStyles(
-                alert.alertVisual.color
+                alert.alertVisual.valueRanges[0].visual.color
             );
             const onEnter =
                 onItemHover && (() => onItemHover(element, panelItem));
             const onLeave =
                 onItemBlur && (() => onItemBlur(element, panelItem));
-            const alertItem: ICardboardGroupedListItem<IAlertVisual> = {
+            const alertItem: ICardboardGroupedListItem<IExpressionRangeVisual> = {
                 ariaLabel: alert.alertVisualDisplayTitle,
                 buttonProps: {
                     customStyles: buttonStyles.alertButton,
@@ -188,7 +188,12 @@ function getListItems(
                 iconStart: {
                     name: (
                         <span className={alertStyles.alertCircle}>
-                            <Icon iconName={alert.alertVisual.iconName} />
+                            <Icon
+                                iconName={
+                                    alert.alertVisual.valueRanges[0].visual
+                                        .iconName
+                                }
+                            />
                         </span>
                     )
                 },
@@ -208,7 +213,7 @@ function getListItems(
 interface IElementStatusProps {
     statuses: {
         behavior: IBehavior;
-        statusVisual: IStatusColoringVisual;
+        statusVisual: IExpressionRangeVisual;
     }[];
     panelItem: IViewerElementsPanelItem;
 }
@@ -230,7 +235,7 @@ const ElementStatus: React.FC<IElementStatusProps> = (props) => {
                     className={
                         getElementsPanelStatusStyles(
                             getSceneElementStatusColor(
-                                status.statusVisual.statusValueExpression,
+                                status.statusVisual.valueExpression,
                                 status.statusVisual.valueRanges,
                                 panelItem.twins
                             )
