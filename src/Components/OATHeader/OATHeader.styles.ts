@@ -20,7 +20,8 @@ export const getHeaderStyles = () => {
             {
                 display: 'grid',
                 gridTemplateColumns: '100%',
-                height: '5%'
+                height: '5%',
+                backgroundColor: theme.semanticColors.bodyBackground
             } as IStyle
         ],
         searchComponent: [

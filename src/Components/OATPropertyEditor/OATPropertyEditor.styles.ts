@@ -73,18 +73,16 @@ export const getPropertyInspectorStyles = () => {
                 height: '100%',
                 display: 'flex',
                 flexDirection: 'row',
-                minWidth: '300px',
-                backgroundColor: theme.semanticColors.listBackground
+                minWidth: '300px'
             } as IStyle
         ],
         pivot: [
             classNames.pivot,
             {
                 width: '100%',
-                height: '100%',
                 backgroundColor: theme.semanticColors.listBackground,
                 '& [role="tabpanel"]': {
-                    height: '100%'
+                    height: '80%'
                 }
             } as IStyle
         ],
@@ -343,11 +341,12 @@ export const getPropertyInspectorStyles = () => {
             classNames.enumItem,
             {
                 display: 'grid',
-                gridTemplateColumns: '10% 45% 35% 10%',
+                gridTemplateColumns: '55% 35% 10%',
                 width: '100%',
                 backgroundColor: theme.semanticColors.buttonBackgroundDisabled,
                 alignItems: 'center',
                 padding: '12px 0px',
+                paddingLeft: '10%',
                 borderBottom: `1px solid ${theme.semanticColors.buttonBackgroundPressed}'`,
                 borderRadius: '4px'
             } as IStyle

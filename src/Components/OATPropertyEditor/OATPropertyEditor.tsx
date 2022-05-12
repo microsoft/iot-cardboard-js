@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import BaseComponent from '../BaseComponent/BaseComponent';
 import { Theme } from '../../Models/Constants/Enums';
 import Modal from './Modal';
 import Editor from './Editor';
@@ -48,7 +47,7 @@ const OATPropertyEditor = ({ theme, dispatch, state }: IOATPropertyEditor) => {
     }, [templates]);
 
     return (
-        <BaseComponent theme={theme}>
+        <>
             <Modal
                 modalOpen={modalOpen}
                 setModalOpen={setModalOpen}
@@ -70,7 +69,7 @@ const OATPropertyEditor = ({ theme, dispatch, state }: IOATPropertyEditor) => {
                 dispatch={dispatch}
                 state={state}
             />
-        </BaseComponent>
+        </>
     );
 };
 
