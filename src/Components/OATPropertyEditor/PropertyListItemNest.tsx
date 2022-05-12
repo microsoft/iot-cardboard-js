@@ -142,7 +142,6 @@ export const PropertyListItemNest = ({
         <div
             className={propertyInspectorStyles.propertyListRelativeWrap}
             onMouseOver={() => {
-                console.log('item', item);
                 setHover(true);
                 setLastPropertyFocused({
                     item: item,
