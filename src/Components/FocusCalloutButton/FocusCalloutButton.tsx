@@ -43,9 +43,9 @@ const FocusCalloutButton: React.FC<IFocusCalloutButtonProps> = ({
     });
 
     return (
-        <div>
+        <div className={classNames.root}>
             <DefaultButton
-                className={classNames.root}
+                className={classNames.button}
                 iconProps={{ iconName: iconName }}
                 styles={classNames.subComponentStyles.button()}
                 onClick={() => setIsOpen(!isOpen)}

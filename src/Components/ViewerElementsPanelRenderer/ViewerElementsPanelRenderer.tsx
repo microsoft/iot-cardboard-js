@@ -48,7 +48,7 @@ const ViewerElementsPanelRenderer: React.FC<IViewerElementsPanelRendererProps> =
     });
 
     return (
-        <>
+        <div className={classNames.root}>
             <DefaultButton
                 toggle
                 checked={isElementsPanelVisible}
@@ -73,7 +73,7 @@ const ViewerElementsPanelRenderer: React.FC<IViewerElementsPanelRendererProps> =
                     onItemBlur={onItemBlur}
                 />
             )}
-        </>
+        </div>
     );
 };
 

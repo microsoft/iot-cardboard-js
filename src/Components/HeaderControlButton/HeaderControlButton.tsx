@@ -28,8 +28,8 @@ const HeaderControlButton: React.FC<IHeaderControlButtonProps> = (props) => {
         buttonProps,
         children,
         className,
-        id,
         iconProps,
+        id,
         imageProps,
         isActive,
         onClick,
@@ -46,12 +46,12 @@ const HeaderControlButton: React.FC<IHeaderControlButtonProps> = (props) => {
     return (
         <IconButton
             {...buttonProps}
-            id={id}
+            className={css(classNames.root, className)}
             iconProps={iconProps}
+            id={id}
             onClick={onClick}
             onMouseEnter={onMouseEnter}
             onMouseLeave={onMouseLeave}
-            className={css(classNames.root, className)}
             styles={classNames.subComponentStyles.button()}
             title={title}
         >

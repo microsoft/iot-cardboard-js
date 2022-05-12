@@ -7,6 +7,7 @@ import {
 export const focusCalloutClassPrefix = 'cb-focus-callout';
 const classNames = {
     root: `${focusCalloutClassPrefix}-root`,
+    button: `${focusCalloutClassPrefix}-button`,
     calloutContent: `${focusCalloutClassPrefix}-callout-content`,
     header: `${focusCalloutClassPrefix}-callout-header`,
     title: `${focusCalloutClassPrefix}-callout-title`,
@@ -18,6 +19,7 @@ export const getStyles = (
 ): IFocusCalloutButtonStyles => {
     return {
         root: [classNames.root],
+        button: [classNames.button],
         calloutContent: [
             classNames.calloutContent,
             {

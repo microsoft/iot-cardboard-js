@@ -15,7 +15,14 @@ export interface IHeaderControlButtonProps {
     isActive: boolean;
     buttonProps?: Omit<
         IButtonProps,
-        'iconProps' | 'id' | 'onClick' | 'onMouseEnter' | 'onMouseLeave'
+        | 'className'
+        | 'iconProps'
+        | 'id'
+        | 'onClick'
+        | 'onMouseEnter'
+        | 'onMouseLeave'
+        | 'styles'
+        | 'title'
     >;
     /** optional image to load inside the button */
     imageProps?: IImageProps;

@@ -31,6 +31,7 @@ export interface IFocusCalloutButtonStyleProps {
 }
 export interface IFocusCalloutButtonStyles {
     root: IStyle;
+    button: IStyle;
     calloutContent: IStyle;
     header: IStyle;
     title: IStyle;
