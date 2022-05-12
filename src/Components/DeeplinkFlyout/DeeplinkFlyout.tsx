@@ -20,7 +20,7 @@ import OptionsCallout from './Internal/OptionsCallout/OptionsCallout';
 import SimpleCallout from './Internal/SimpleCallout/SimpleCallout';
 import { useDeeplinkContext } from '../../Models/Context/DeeplinkContext/DeeplinkContext';
 
-const debugLogging = true;
+const debugLogging = false;
 const logDebugConsole = getDebugLogger('DeeplinkSimpleFlyout', debugLogging);
 
 const getClassNames = classNamesFunction<
