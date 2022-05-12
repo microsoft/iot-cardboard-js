@@ -272,13 +272,8 @@ const OATGraphViewer = ({
     };
 
     const onConnectStart = (evt, params) => {
-        if (params.handleId) {
-            currentNodeId.current = params.nodeId;
-            currentHandleId.current = params.handleId;
-        } else {
-            currentNodeId.current = null;
-            currentHandleId.current = null;
-        }
+        currentNodeId.current = params.handleId ? params.nodeId : null;
+        currentHandleId.current = params.handleId ? params.handleId : null;
     };
 
     const onConnectStop = (evt) => {

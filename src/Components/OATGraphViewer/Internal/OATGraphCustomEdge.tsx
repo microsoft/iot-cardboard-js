@@ -101,12 +101,10 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
         .replace('C', '')
         .split(' ');
 
-    let edgePath = '';
-    if (sourceX > targetX) {
-        edgePath = `M${bezierPath[3]} C${bezierPath[2]} ${bezierPath[1]} ${bezierPath[0]}`;
-    } else {
-        edgePath = `M${bezierPath[0]} C${bezierPath[1]} ${bezierPath[2]} ${bezierPath[3]}`;
-    }
+    const edgePath =
+        sourceX > targetX
+            ? `M${bezierPath[3]} C${bezierPath[2]} ${bezierPath[1]} ${bezierPath[0]}`
+            : `M${bezierPath[0]} C${bezierPath[1]} ${bezierPath[2]} ${bezierPath[3]}`;
     const [edgeCenterX, edgeCenterY] = getEdgeCenter({
         sourceX,
         sourceY,
