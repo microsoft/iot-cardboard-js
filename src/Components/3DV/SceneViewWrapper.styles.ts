@@ -1,7 +1,6 @@
 import {
-    BUILDER_FOOTER_BOTTOM_OFFSET,
-    ELEMENTS_PANEL_BUTTON_BOTTOM_OFFSET,
-    SCENE_PAGE_OUTER_OFFSET,
+    BUILDER_CAMERA_CONTROLS_BOTTOM_OFFSET,
+    VIEWER_CAMERA_CONTROLS_BOTTOM_OFFSET,
     VIEWER_HEADER_TOP_OFFSET
 } from '../../Models/Constants/StyleConstants';
 import { WrapperMode } from './SceneView.types';
@@ -48,9 +47,8 @@ export const getStyles = (
                     width: '100%',
                     bottom:
                         mode === WrapperMode.Viewer
-                            ? ELEMENTS_PANEL_BUTTON_BOTTOM_OFFSET
-                            : SCENE_PAGE_OUTER_OFFSET +
-                              BUILDER_FOOTER_BOTTOM_OFFSET
+                            ? VIEWER_CAMERA_CONTROLS_BOTTOM_OFFSET
+                            : BUILDER_CAMERA_CONTROLS_BOTTOM_OFFSET
                 }
             }
         }
