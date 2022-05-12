@@ -1,7 +1,8 @@
-import { Pivot, PivotItem } from '@fluentui/react';
+import { Pivot, PivotItem, useTheme } from '@fluentui/react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { ADT3DScenePageModes } from '../../../Models/Constants/Enums';
+import { pivotStyles } from './FloatingScenePageModeToggle.styles';
 
 interface Props {
     handleScenePageModeChange: (newScenePageMode: ADT3DScenePageModes) => void;
@@ -15,6 +16,7 @@ const FloatingScenePageModeToggle: React.FC<Props> = ({
     sceneId
 }) => {
     const { t } = useTranslation();
+    const theme = useTheme();
 
     if (!sceneId) return null;
 
@@ -27,6 +29,7 @@ const FloatingScenePageModeToggle: React.FC<Props> = ({
                         item.props.itemKey as ADT3DScenePageModes
                     )
                 }
+                styles={pivotStyles(theme)}
             >
                 <PivotItem
                     headerText={t('build')}
