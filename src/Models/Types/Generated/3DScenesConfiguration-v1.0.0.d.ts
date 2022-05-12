@@ -178,8 +178,10 @@ export interface IValueRange {
         color?: string;
         iconName?: string;
         labelExpression?: string;
+        extensionProperties?: IExtensionProperties;
         [k: string]: unknown;
     };
+    extensionProperties?: IExtensionProperties;
 }
 /**
  * A link widget which uses a string template to create a parametrized link

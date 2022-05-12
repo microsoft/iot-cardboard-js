@@ -571,8 +571,14 @@
                         },
                         "labelExpression": {
                             "type": "string"
+                        },
+                        "extensionProperties": {
+                            "$ref": "#/$defs/IExtensionProperties"
                         }
                     }
+                },
+                "extensionProperties": {
+                    "$ref": "#/$defs/IExtensionProperties"
                 }
             },
             "required": ["id", "values", "visual"]
