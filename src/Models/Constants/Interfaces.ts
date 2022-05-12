@@ -782,6 +782,8 @@ export interface IADTBackgroundColor {
     defaultBadgeTextColor: string;
     aggregateBadgeColor: string;
     aggregateBadgeTextColor: string;
+    outlineHover: string;
+    outlineSelected: string;
 }
 
 export interface IBlobFile {

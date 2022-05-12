@@ -1526,14 +1526,14 @@ function SceneView(props: ISceneViewProps, ref) {
                                     cameraRef.current.position,
                                     meshToOutline.getBoundingInfo().boundingBox
                                         .centerWorld
-                                ) * 0.5;
+                                ) * 1.0;
                         });
 
                         meshToOutline.outlineColor = ToColor3(
                             hexToColor4(
-                                item.color
-                                    ? item.color
-                                    : currentObjectColor.outlinedMeshSelectedColor
+                                backgroundColor.outlineHover
+                                    ? backgroundColor.outlineHover
+                                    : '#FFFFFFFF' //currentObjectColor.outlinedMeshSelectedColor
                             )
                         );
 

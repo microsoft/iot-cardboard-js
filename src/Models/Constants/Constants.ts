@@ -165,7 +165,9 @@ export const ViewerModeBackgroundColors: Array<IADTBackgroundColor> = [
         defaultBadgeColor: '#000000',
         defaultBadgeTextColor: '#ffffff',
         aggregateBadgeColor: '#ffffff',
-        aggregateBadgeTextColor: '#000000'
+        aggregateBadgeTextColor: '#000000',
+        outlineHover: '#FFFFFFFF',
+        outlineSelected: '#FFFFFFFF'
     },
     {
         color: 'radial-gradient(#333333 0%, #0d0f0e 70%)',
@@ -173,7 +175,9 @@ export const ViewerModeBackgroundColors: Array<IADTBackgroundColor> = [
         defaultBadgeColor: '#000000',
         defaultBadgeTextColor: '#ffffff',
         aggregateBadgeColor: '#ffffff',
-        aggregateBadgeTextColor: '#000000'
+        aggregateBadgeTextColor: '#000000',
+        outlineHover: '#FFFFFFFF',
+        outlineSelected: '#FFFFFFFF'
     },
     {
         color: 'radial-gradient(#dddddd 0%, #ffffff 70%)',
@@ -181,7 +185,9 @@ export const ViewerModeBackgroundColors: Array<IADTBackgroundColor> = [
         defaultBadgeColor: '#000000',
         defaultBadgeTextColor: '#ffffff',
         aggregateBadgeColor: '#ffffff',
-        aggregateBadgeTextColor: '#000000'
+        aggregateBadgeTextColor: '#000000',
+        outlineHover: '#f06900FF',
+        outlineSelected: '#f06900FF'
     }
 ];
 
