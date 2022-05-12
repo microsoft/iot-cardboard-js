@@ -120,7 +120,7 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
         false
     );
     const [isShowOnGlobeEnabled, setIsShowOnGlobeEnabled] = useState(
-        Boolean(sceneToEdit?.latitude && sceneToEdit?.longitude)
+        Boolean(sceneToEdit?.latitude || sceneToEdit?.longitude)
     );
     const { t } = useTranslation();
 
@@ -346,7 +346,7 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
         setNewSceneDescription('');
         setNewLatitudeValue(0);
         setNewLongtitudeValue(0);
-        setIsShowOnGlobeEnabled(false);
+        setIsShowOnGlobeEnabled(isShowOnGlobeEnabled);
         setNewSceneBlobUrl('');
         setIsSelectedFileExistInBlob(false);
         setIsOverwriteFile(false);
@@ -387,6 +387,10 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
         checked?: boolean
     ) => {
         setIsShowOnGlobeEnabled(checked);
+        if (!checked) {
+            sceneRef.current.latitude = 0;
+            sceneRef.current.longitude = 0;
+        }
     };
     return (
         <Dialog
