@@ -17,7 +17,8 @@ const classNames = {
     componentShape: `${classPrefix}-component-shape`,
     inheritancePath: `${classPrefix}-inheritance-path`,
     inheritanceShape: `${classPrefix}-inheritance-shape`,
-    nodeContainer: `${classPrefix}-node-container`
+    nodeContainer: `${classPrefix}-node-container`,
+    graphViewerControls: `${classPrefix}-graph-viewer-controls`
 };
 
 export const getGraphViewerStyles = () => {
@@ -125,6 +126,22 @@ export const getGraphViewerStyles = () => {
         nodeContainer: [
             classNames.nodeContainer,
             { display: 'grid', gridTemplateColumns: '10% 90%' } as IStyle
+        ],
+        graphViewerControls: [
+            classNames.graphViewerControls,
+            {
+                '& button': {
+                    background: theme.semanticColors.primaryButtonBackground,
+                    borderColor: theme.semanticColors.primaryButtonTextPressed,
+                    ':hover': {
+                        background:
+                            theme.semanticColors.primaryButtonBackgroundHovered
+                    },
+                    '& svg': {
+                        fill: theme.semanticColors.primaryButtonTextPressed
+                    }
+                }
+            } as IStyle
         ]
     });
 };

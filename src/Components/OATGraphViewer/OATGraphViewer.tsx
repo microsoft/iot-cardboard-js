@@ -649,7 +649,9 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                         )}
 
                         <MiniMap />
-                        <Controls />
+                        <Controls
+                            className={graphViewerStyles.graphViewerControls}
+                        />
                         <Background
                             color={theme.semanticColors.bodyBackground}
                             gap={16}
