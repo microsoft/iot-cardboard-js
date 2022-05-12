@@ -25,9 +25,7 @@
                         "id": "4cb0990d646a4bbea3e1102676e200fe",
                         "displayName": "tank",
                         "primaryTwinID": "SaltMachine_C1",
-                        "objectIDs": [
-                            "tankMesh"
-                        ],
+                        "objectIDs": ["tankMesh"],
                         "twinAliases": {
                             "temperatureTag": "PasteurizationMachine_A01"
                         },
@@ -38,10 +36,7 @@
                         "id": "0c785dde26664341b1f391a4e1b35180",
                         "displayName": "box1",
                         "primaryTwinID": "BoxA",
-                        "objectIDs": [
-                            "boxLid1Mesh",
-                            "boxBody1Mesh"
-                        ]
+                        "objectIDs": ["boxLid1Mesh", "boxBody1Mesh"]
                     }
                 ],
                 "behaviorIDs": [
@@ -87,21 +82,24 @@
                                     "valueRanges": [
                                         {
                                             "id": "0278cd377adbc30253b0fdb6b5fcf160",
-                                            "min": "-Infinity",
-                                            "max": 200,
-                                            "color": "#C32F27"
+                                            "values": ["-Infinity", 200],
+                                            "visuals": {
+                                                "color": "#C32F27"
+                                            }
                                         },
                                         {
                                             "id": "0278cd377adbc30253b0fdb6b5fcf161",
-                                            "min": 500,
-                                            "max": 800,
-                                            "color": "#FEE440"
+                                            "values": [500, 800],
+                                            "visuals": {
+                                                "color": "#FEE440"
+                                            }
                                         },
                                         {
                                             "id": "0278cd377adbc30253b0fdb6b5fcf162",
-                                            "min": 800,
-                                            "max": 1000,
-                                            "color": "#26C485"
+                                            "values": [800, 1000],
+                                            "visuals": {
+                                                "color": "#26C485"
+                                            }
                                         }
                                     ]
                                 },
@@ -118,15 +116,17 @@
                                     "valueRanges": [
                                         {
                                             "id": "0278cd377adbc30253b0fdb6b5fcf149",
-                                            "min": 700,
-                                            "max": 900,
-                                            "color": "#26C485"
+                                            "values": [700, 900],
+                                            "visuals": {
+                                                "color": "#26C485"
+                                            }
                                         },
                                         {
                                             "id": "0278cd377adbc30253b0fdb6b5fc3sak",
-                                            "min": 2000,
-                                            "max": 3000,
-                                            "color": "#26C485"
+                                            "values": [2000, 3000],
+                                            "visuals": {
+                                                "color": "#26C485"
+                                            }
                                         }
                                     ]
                                 }
@@ -173,20 +173,23 @@
                         }
                     },
                     {
-                        "type": "StatusColoring",
-                        "statusValueExpression": "PrimaryTwin.InFlow",
+                        "type": "ExpressionRangeVisual",
+                        "expressionType": "NumericRange",
+                        "valueExpression": "PrimaryTwin.InFlow",
                         "valueRanges": [
                             {
                                 "id": "0278cd377adbc30253b0fdb6b5fcf162",
-                                "color": "#FF0000",
-                                "min": 21,
-                                "max": "Infinity"
+                                "values": [21, "Infinity"],
+                                "visuals": {
+                                    "color": "#FF0000"
+                                }
                             },
                             {
                                 "id": "0278cd377adbc30253b0fdb6b5fcf163",
-                                "color": "#0000FF",
-                                "min": "-Infinity",
-                                "max": 20
+                                "values": ["-Infinity", 20],
+                                "visuals": {
+                                    "color": "#0000FF"
+                                }
                             }
                         ],
                         "objectIDs": {
@@ -199,33 +202,32 @@
             {
                 "id": "8b99ab46fabd45fab3adbaf88245a6b5",
                 "displayName": "Tank too hot",
-                "twinAliases": [
-                    "temperatureTag"
-                ],
+                "twinAliases": ["temperatureTag"],
                 "datasources": [
                     {
                         "type": "ElementTwinToObjectMappingDataSource",
-                        "elementIDs": [
-                            "4cb0990d646a4bbea3e1102676e200fe"
-                        ]
+                        "elementIDs": ["4cb0990d646a4bbea3e1102676e200fe"]
                     }
                 ],
                 "visuals": [
                     {
-                        "type": "StatusColoring",
-                        "statusValueExpression": "temperatureTag.OutFlow",
+                        "type": "ExpressionRangeVisual",
+                        "expressionType": "NumericRange",
+                        "valueExpression": "temperatureTag.OutFlow",
                         "valueRanges": [
                             {
                                 "id": "0278ed377adbc30153b0fdb6b5fcf167",
-                                "color": "#0000FF",
-                                "min": 100,
-                                "max": "Infinity"
+                                "values": [100, "Infinity"],
+                                "visuals": {
+                                    "color": "#0000FF"
+                                }
                             },
                             {
                                 "id": "0278bd377adbc30254b0fdb6b5fcf169",
-                                "color": "#00FF00",
-                                "min": "-Infinity",
-                                "max": 100
+                                "values": ["-Infinity", 100],
+                                "visuals": {
+                                    "color": "#00FF00"
+                                }
                             }
                         ],
                         "objectIDs": {
@@ -235,10 +237,20 @@
                     },
                     {
                         "type": "Alert",
-                        "triggerExpression": "temperatureTag.Temperature > 25",
-                        "labelExpression": "${PrimaryTwin.$dtId} is too hot!",
-                        "iconName": "heart",
-                        "color": "#00FF00",
+                        "expressionType": "CategoricalValues",
+                        "valueExpression": "temperatureTag.Temperature > 25",
+                        "values": [
+                            {
+                                "id": "d0d2edff7c80438fa529206848866i91",
+                                "values": [true],
+                                "visual": {
+                                    "labelExpression": "${PrimaryTwin.$dtId} is too hot!",
+                                    "iconName": "heart",
+                                    "color": "#00FF00"
+                                }
+                            }
+                        ],
+
                         "objectIDs": {
                             "expression": "objectIDs"
                         }
@@ -250,17 +262,13 @@
             {
                 "id": "3511cc0c61394d0e857cde735ddb4e81",
                 "displayName": "TireStuff",
-                "behaviorIDs": [
-                    "bf1ec41d7886438d880c140fb1bb570a"
-                ],
+                "behaviorIDs": ["bf1ec41d7886438d880c140fb1bb570a"],
                 "extensionProperties": {}
             },
             {
                 "id": "a2912b78335c4e75a58ba72d987fefac",
                 "displayName": "HotStuff",
-                "behaviorIDs": [
-                    "8b99ab46fabd45fab3adbaf88245a6b5"
-                ],
+                "behaviorIDs": ["8b99ab46fabd45fab3adbaf88245a6b5"],
                 "extensionProperties": {}
             }
         ]

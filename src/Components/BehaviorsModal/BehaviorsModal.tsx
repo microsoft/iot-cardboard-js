@@ -68,9 +68,7 @@ const BehaviorsModal: React.FC<IBehaviorsModalProps> = ({
     const theme = useTheme();
     const nodeRef = React.useRef(null); // <Draggable> requires an explicit ref to avoid using findDOMNode
 
-    const { isTwinPropertyInspectorPatchModeEnabled } = useContext(
-        ADT3DScenePageContext
-    );
+    const scenePageContext = useContext(ADT3DScenePageContext);
 
     const [activePivot, setActivePivot] = useState<BehaviorModalPivotKey>(
         BehaviorModalPivotKey.State
@@ -193,7 +191,7 @@ const BehaviorsModal: React.FC<IBehaviorsModalProps> = ({
                                             onPropertyInspectorPatch(patchData)
                                         }
                                         readonly={
-                                            !isTwinPropertyInspectorPatchModeEnabled
+                                            !scenePageContext?.isTwinPropertyInspectorPatchModeEnabled
                                         }
                                         customCommandBarTitleSpan={
                                             <span
