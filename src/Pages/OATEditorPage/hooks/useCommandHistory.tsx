@@ -25,6 +25,7 @@ export const useCommandHistory = (
 
     const execute = (doFn, undoFn) => {
         doFn();
+        history.length = index; // clear history after current index
         setIndex(index + 1);
         history.push({ doFn, undoFn });
     };

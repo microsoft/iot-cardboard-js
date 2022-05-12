@@ -77,24 +77,12 @@ const PropertySelector = ({
     const handleTagClick = async (tag) => {
         const modelCopy = deepCopy(model);
         const lastPropertyFocusedCopy = deepCopy(lastPropertyFocused);
-        if (
-            lastPropertyFocused &&
-            typeof lastPropertyFocused.item.schema === 'object'
-        ) {
-            execute(
-                () => addNestedProperty(tag, lastPropertyFocusedCopy),
-                ((m) => {
-                    return () => setModel(m);
-                })({ ...modelCopy })
-            );
-            return;
-        }
-
         execute(
-            () => addProperty(tag),
-            ((m) => {
-                return () => setModel(m);
-            })({ ...modelCopy })
+            lastPropertyFocused &&
+                typeof lastPropertyFocused.item.schema === 'object'
+                ? () => addNestedProperty(tag, lastPropertyFocusedCopy)
+                : () => addProperty(tag),
+            () => setModel(modelCopy)
         );
     };
 
