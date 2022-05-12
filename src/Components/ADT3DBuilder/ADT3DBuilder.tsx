@@ -4,7 +4,7 @@ import BaseComponent from '../BaseComponent/BaseComponent';
 import { AbstractMesh, Scene } from '@babylonjs/core';
 import SceneViewWrapper from '../3DV/SceneViewWrapper';
 import { WrapperMode } from '../3DV/SceneView.types';
-import { classNamesFunction, Stack, styled, useTheme } from '@fluentui/react';
+import { classNamesFunction, styled, useTheme } from '@fluentui/react';
 import { getDebugLogger } from '../../Models/Services/Utils';
 import { getStyles } from './ADT3DBuilder.styles';
 import {
@@ -12,10 +12,6 @@ import {
     IADT3DBuilderStyleProps,
     IADT3DBuilderStyles
 } from './ADT3DBuilder.types';
-import FloatingScenePageModeToggle from '../../Pages/ADT3DScenePage/Internal/FloatingScenePageModeToggle';
-import { useDeeplinkContext } from '../../Models/Context/DeeplinkContext/DeeplinkContext';
-import { ADT3DScenePageModes } from '../../Models/Constants';
-import { DeeplinkContextActionType } from '../../Models/Context/DeeplinkContext/DeeplinkContext.types';
 
 const getClassNames = classNamesFunction<
     IADT3DBuilderStyleProps,
