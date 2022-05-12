@@ -29,14 +29,14 @@ export const sortPanelItemsForDisplay = memoizeFunction(
             const activeAlertVisuals = flattenedPanelItemVisuals.filter(
                 (visual) =>
                     ViewerConfigUtility.isAlertVisual(visual) &&
-                    parseExpression(visual.triggerExpression, panelItem.twins)
+                    parseExpression(visual.valueExpression, panelItem.twins)
             );
 
             const activeStatusVisuals = flattenedPanelItemVisuals.filter(
                 (visual) =>
                     ViewerConfigUtility.isStatusColorVisual(visual) &&
                     getSceneElementStatusColor(
-                        visual.statusValueExpression,
+                        visual.valueExpression,
                         visual.valueRanges,
                         panelItem.twins
                     )
