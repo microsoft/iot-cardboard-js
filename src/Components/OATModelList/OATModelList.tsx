@@ -5,7 +5,7 @@ import {
     getModelsIconStyles,
     getModelsActionButtonStyles
 } from './OATModelList.styles';
-import { IOATTwinModelNodes } from '../../Models/Constants';
+import { IAction, IOATTwinModelNodes } from '../../Models/Constants';
 import {
     SET_OAT_DELETED_MODEL_ID,
     SET_OAT_SELECTED_MODEL_ID,
@@ -15,7 +15,7 @@ import {
 
 type OATModelListProps = {
     elements: IOATTwinModelNodes[];
-    dispatch: any;
+    dispatch: React.Dispatch<React.SetStateAction<IAction>>;
 };
 
 const OATModelList = ({ elements, dispatch }: OATModelListProps) => {

@@ -34,7 +34,7 @@ export const OATGraphViewerReducer = produce(
         switch (action.type) {
             case SET_OAT_PROPERTY_EDITOR_MODEL:
                 state.model = payload;
-                return { ...state, model: payload };
+                return;
             case SET_OAT_ELEMENTS:
                 state.elements = payload;
                 return;
