@@ -709,7 +709,7 @@ export const getTemplateColumnStyles = () => {
     const theme = useTheme();
     return {
         root: {
-            width: '80%',
+            width: '90%',
             height: '100%',
             backgroundColor: theme.semanticColors.buttonBackgroundDisabled
         }

@@ -185,9 +185,10 @@ export const PropertyList = ({
                         className={
                             propertyInspectorStyles.addPropertyMessageWrap
                         }
-                        onMouseOver={() =>
-                            setActionButtonPropertySelectorVisible(true)
-                        }
+                        onMouseOver={() => {
+                            setActionButtonPropertySelectorVisible(true);
+                            setLastPropertyFocused(null);
+                        }}
                         onMouseLeave={() =>
                             setActionButtonPropertySelectorVisible(false)
                         }
