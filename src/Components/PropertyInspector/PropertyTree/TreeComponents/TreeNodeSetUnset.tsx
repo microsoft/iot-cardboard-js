@@ -4,8 +4,7 @@ import { DTDLType } from '../../../../Models/Classes/DTDL';
 import { PropertyTreeContext } from '../PropertyTree';
 import { NodeProps } from '../PropertyTree.types';
 import '../PropertyTree.scss';
-import { Icon } from '@fluentui/react/lib/components/Icon/Icon';
-import { IIconStyleProps, IIconStyles } from '@fluentui/react';
+import { Icon, IIconStyleProps, IIconStyles } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 
 const TreeNodeSetUnset: React.FC<NodeProps> = ({ node }) => {

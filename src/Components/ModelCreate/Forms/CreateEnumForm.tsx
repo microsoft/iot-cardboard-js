@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
-import { Text } from '@fluentui/react/lib/Text';
-import { TextField } from '@fluentui/react/lib/TextField';
-import { Dropdown, IDropdownOption } from '@fluentui/react/lib/Dropdown';
+import { Text, TextField, Dropdown, IDropdownOption } from '@fluentui/react';
 import ElementsList from '../ElementsList';
 import BaseForm from './BaseForm';
 import { DTDLEnum, DTDLEnumValue } from '../../../Models/Classes/DTDL';
