@@ -4,7 +4,7 @@ import Modal from './Modal';
 import Editor from './Editor';
 import { IAction } from '../../Models/Constants/Interfaces';
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
-import { OATDataStorageKey } from '../../Models/Constants';
+import { OATDataStorageKey } from '../../Models/Constants/Constants';
 import { SET_OAT_TEMPLATES } from '../../Models/Constants/ActionTypes';
 
 type IOATPropertyEditor = {
@@ -47,7 +47,8 @@ const OATPropertyEditor = ({ theme, dispatch, state }: IOATPropertyEditor) => {
     }, [templates]);
 
     return (
-        <>
+        <div>
+            {/* Wrap as one element in case modal is open */}
             <Modal
                 modalOpen={modalOpen}
                 setModalOpen={setModalOpen}
@@ -69,7 +70,7 @@ const OATPropertyEditor = ({ theme, dispatch, state }: IOATPropertyEditor) => {
                 dispatch={dispatch}
                 state={state}
             />
-        </>
+        </div>
     );
 };
 

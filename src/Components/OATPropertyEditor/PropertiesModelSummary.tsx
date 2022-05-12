@@ -28,7 +28,7 @@ export const PropertiesModelSummary = ({
 
     return (
         <Stack styles={generalPropertiesWrapStyles}>
-            <Label>{`${t('OATPropertyEditor.general')} (3)`}</Label>
+            <Label>{`${t('OATPropertyEditor.general')}`}</Label>
             <div className={propertyInspectorStyles.gridRow}>
                 <Text>{t('OATPropertyEditor.displayName')}</Text>
                 <TextField
@@ -36,6 +36,7 @@ export const PropertiesModelSummary = ({
                     borderless
                     disabled={!model}
                     value={model ? model.displayName : ''}
+                    placeholder={t('OATPropertyEditor.displayName')}
                     onChange={(_ev, value) => {
                         const modelCopy = deepCopy(model);
                         modelCopy.displayName = value;
@@ -53,6 +54,7 @@ export const PropertiesModelSummary = ({
                     borderless
                     disabled={!model}
                     value={model ? model['@id'] : ''}
+                    placeholder={t('OATPropertyEditor.assetId')}
                     onChange={(_ev, value) => {
                         const modelCopy = deepCopy(model);
                         modelCopy['@id'] = value;
