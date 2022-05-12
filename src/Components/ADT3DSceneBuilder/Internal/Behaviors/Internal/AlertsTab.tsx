@@ -23,7 +23,10 @@ import IconPicker from '../../../../Pickers/IconSelectButton/IconPicker';
 import { getLeftPanelStyles } from '../../Shared/LeftPanel.styles';
 import { SceneBuilderContext } from '../../../ADT3DSceneBuilder';
 import ModelledPropertyBuilder from '../../../../ModelledPropertyBuilder/ModelledPropertyBuilder';
-import { PropertyExpression } from '../../../../ModelledPropertyBuilder/ModelledPropertyBuilder.types';
+import {
+    ModelledPropertyBuilderMode,
+    PropertyExpression
+} from '../../../../ModelledPropertyBuilder/ModelledPropertyBuilder.types';
 
 const getAlertFromBehavior = (behavior: IBehavior) =>
     behavior.visuals.filter(ViewerConfigUtility.isAlertVisual)[0] || null;
@@ -136,7 +139,7 @@ const AlertsTab: React.FC = () => {
                     sceneId,
                     selectedElements
                 }}
-                mode="INTELLISENSE"
+                mode={ModelledPropertyBuilderMode.INTELLISENSE}
                 propertyExpression={{
                     expression: triggerExpression || ''
                 }}
@@ -168,7 +171,7 @@ const AlertsTab: React.FC = () => {
                             sceneId,
                             selectedElements
                         }}
-                        mode="INTELLISENSE"
+                        mode={ModelledPropertyBuilderMode.INTELLISENSE}
                         propertyExpression={{
                             expression:
                                 stripTemplateStringsFromText(

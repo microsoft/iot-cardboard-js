@@ -8,7 +8,10 @@ import {
     stripTemplateStringsFromText
 } from '../../../../../../Models/Services/Utils';
 import ModelledPropertyBuilder from '../../../../../ModelledPropertyBuilder/ModelledPropertyBuilder';
-import { PropertyExpression } from '../../../../../ModelledPropertyBuilder/ModelledPropertyBuilder.types';
+import {
+    ModelledPropertyBuilderMode,
+    PropertyExpression
+} from '../../../../../ModelledPropertyBuilder/ModelledPropertyBuilder.types';
 import { SceneBuilderContext } from '../../../../ADT3DSceneBuilder';
 import { ILinkWidgetBuilderProps } from '../../../../ADT3DSceneBuilder.types';
 import { getWidgetFormStyles } from '../WidgetForm/WidgetForm.styles';
@@ -75,7 +78,7 @@ const LinkWidgetBuilder: React.FC<ILinkWidgetBuilderProps> = ({
                         sceneId,
                         selectedElements
                     }}
-                    mode="INTELLISENSE"
+                    mode={ModelledPropertyBuilderMode.INTELLISENSE}
                     propertyExpression={{
                         expression:
                             stripTemplateStringsFromText(

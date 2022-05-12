@@ -9,7 +9,10 @@ import { deepCopy } from '../../../../../../Models/Services/Utils';
 import { SceneBuilderContext } from '../../../../ADT3DSceneBuilder';
 import { getWidgetFormStyles } from '../WidgetForm/WidgetForm.styles';
 import ModelledPropertyBuilder from '../../../../../ModelledPropertyBuilder/ModelledPropertyBuilder';
-import { PropertyExpression } from '../../../../../ModelledPropertyBuilder/ModelledPropertyBuilder.types';
+import {
+    ModelledPropertyBuilderMode,
+    PropertyExpression
+} from '../../../../../ModelledPropertyBuilder/ModelledPropertyBuilder.types';
 
 const GaugeWidgetBuilder: React.FC<IGaugeWidgetBuilderProps> = ({
     formData,
@@ -110,7 +113,7 @@ const GaugeWidgetBuilder: React.FC<IGaugeWidgetBuilderProps> = ({
                         sceneId,
                         selectedElements
                     }}
-                    mode="TOGGLE"
+                    mode={ModelledPropertyBuilderMode.TOGGLE}
                     propertyExpression={{
                         expression: formData.valueExpression || ''
                     }}

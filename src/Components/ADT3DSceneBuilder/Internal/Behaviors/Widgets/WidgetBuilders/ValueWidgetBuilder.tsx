@@ -18,7 +18,10 @@ import { useTranslation } from 'react-i18next';
 import { DTDLPropertyIconographyMap } from '../../../../../../Models/Constants/Constants';
 import { IDTDLPropertyType } from '../../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import ModelledPropertyBuilder from '../../../../../ModelledPropertyBuilder/ModelledPropertyBuilder';
-import { PropertyExpression } from '../../../../../ModelledPropertyBuilder/ModelledPropertyBuilder.types';
+import {
+    ModelledPropertyBuilderMode,
+    PropertyExpression
+} from '../../../../../ModelledPropertyBuilder/ModelledPropertyBuilder.types';
 import { SceneBuilderContext } from '../../../../ADT3DSceneBuilder';
 
 import { IValueWidgetBuilderProps } from '../../../../ADT3DSceneBuilder.types';
@@ -163,7 +166,7 @@ const ValueWidgetBuilder: React.FC<IValueWidgetBuilderProps> = ({
                         sceneId,
                         selectedElements
                     }}
-                    mode="TOGGLE"
+                    mode={ModelledPropertyBuilderMode.TOGGLE}
                     propertyExpression={{
                         expression:
                             formData.widgetConfiguration.valueExpression || ''

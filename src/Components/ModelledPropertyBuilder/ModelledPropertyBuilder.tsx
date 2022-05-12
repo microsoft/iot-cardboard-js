@@ -46,7 +46,7 @@ const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = ({
     adapter,
     twinIdParams,
     propertyExpression,
-    mode = 'TOGGLE',
+    mode = ModelledPropertyBuilderMode.TOGGLE,
     allowedPropertyValueTypes = defaultAllowedPropertyValueTypes,
     onChange,
     required = false,
@@ -62,7 +62,10 @@ const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = ({
         internalMode,
         setInternalMode
     ] = useState<ModelledPropertyBuilderMode>(
-        mode === 'TOGGLE' ? 'PROPERTY_SELECTION' : mode
+        mode === ModelledPropertyBuilderMode.TOGGLE ||
+            mode === ModelledPropertyBuilderMode.PROPERTY_SELECT
+            ? ModelledPropertyBuilderMode.PROPERTY_SELECT
+            : ModelledPropertyBuilderMode.INTELLISENSE
     );
 
     // When the expression can't be parsed into
@@ -112,7 +115,7 @@ const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = ({
                 ) &&
                 propertyExpression.expression !== ''
             ) {
-                setInternalMode('INTELLISENSE');
+                setInternalMode(ModelledPropertyBuilderMode.INTELLISENSE);
             }
         }
     }, [propertyExpression, dropdownOptions, modelledProperties]);
@@ -173,7 +176,7 @@ const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = ({
             // When changing from intellisense mode to property selection mode
             // if expression doesn't match up with option, report onChange of
             // empty expression to reset dropdown
-            if (internalMode === 'INTELLISENSE') {
+            if (internalMode === ModelledPropertyBuilderMode.INTELLISENSE) {
                 const targetOption = getDropdownOptionByExpressionKey(
                     propertyExpression,
                     dropdownOptions
@@ -232,8 +235,9 @@ const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = ({
                                   '3dSceneBuilder.ModelledPropertyBuilder.expressionLabel'
                               )}
                     </Label>
-                    {(mode === 'INTELLISENSE' ||
-                        mode === 'PROPERTY_SELECTION') && (
+                    {(mode === ModelledPropertyBuilderMode.INTELLISENSE ||
+                        mode ===
+                            ModelledPropertyBuilderMode.PROPERTY_SELECT) && (
                         <LoadingSpinner isLoading={isLoading} />
                     )}
                 </div>
