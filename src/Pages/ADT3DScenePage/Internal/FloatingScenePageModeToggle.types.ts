@@ -1,4 +1,9 @@
-import { IStyle, IStyleFunctionOrObject, ITheme } from '@fluentui/react';
+import {
+    IPivotStyles,
+    IStyle,
+    IStyleFunctionOrObject,
+    ITheme
+} from '@fluentui/react';
 import { ADT3DScenePageModes } from '../../../Models/Constants';
 
 export interface IFloatingScenePageModeToggleProps {
@@ -26,5 +31,6 @@ export interface IFloatingScenePageModeToggleStyles {
     subComponentStyles?: IFloatingScenePageModeToggleSubComponentStyles;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface IFloatingScenePageModeToggleSubComponentStyles {}
+export interface IFloatingScenePageModeToggleSubComponentStyles {
+    pivot: Partial<IPivotStyles>;
+}

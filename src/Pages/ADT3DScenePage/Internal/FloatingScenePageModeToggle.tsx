@@ -28,8 +28,7 @@ const FloatingScenePageModeToggle: React.FC<IFloatingScenePageModeToggleProps> =
     const { t } = useTranslation();
 
     // styles
-    const fluentTheme = useTheme();
-    const classNames = getClassNames(styles, { theme: fluentTheme });
+    const classNames = getClassNames(styles, { theme: useTheme() });
 
     if (!sceneId) return null;
 
@@ -42,6 +41,7 @@ const FloatingScenePageModeToggle: React.FC<IFloatingScenePageModeToggleProps> =
                         item.props.itemKey as ADT3DScenePageModes
                     )
                 }
+                styles={classNames.subComponentStyles.pivot}
             >
                 <PivotItem
                     headerText={t('build')}

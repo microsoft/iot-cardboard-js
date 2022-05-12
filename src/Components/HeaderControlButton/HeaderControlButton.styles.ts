@@ -1,8 +1,28 @@
-import { FontSizes } from '@fluentui/react';
+import { FontSizes, IButtonStyles, ITheme } from '@fluentui/react';
 import {
     IHeaderControlButtonStyleProps,
     IHeaderControlButtonStyles
 } from './HeaderControlButton.types';
+
+export function GET_HEADER_BUTTON_STYLES(
+    theme: ITheme,
+    isActive: boolean
+): IButtonStyles {
+    return {
+        root: {
+            color: `${theme.semanticColors.bodyText} !important`,
+            backgroundColor: isActive
+                ? theme.semanticColors.buttonBackgroundPressed
+                : theme.semanticColors.buttonBackground,
+            borderRadius: 2,
+            height: 42,
+            width: 42,
+            ':hover': {
+                border: `1px solid ${theme.palette.neutralSecondary}`
+            }
+        }
+    };
+}
 
 const classPrefix = 'color-select-button';
 const classNames = {
@@ -17,18 +37,7 @@ export const getStyles = (
         root: [classNames.root],
         subComponentStyles: {
             button: {
-                root: {
-                    color: `${theme.semanticColors.bodyText} !important`,
-                    backgroundColor: isActive
-                        ? theme.semanticColors.buttonBackgroundPressed
-                        : theme.semanticColors.buttonBackground,
-                    borderRadius: 2,
-                    height: 42,
-                    width: 42,
-                    ':hover': {
-                        border: `1px solid ${theme.palette.neutralSecondary}`
-                    }
-                },
+                ...GET_HEADER_BUTTON_STYLES(theme, isActive),
                 icon: {
                     fontSize: FontSizes.size16
                 }

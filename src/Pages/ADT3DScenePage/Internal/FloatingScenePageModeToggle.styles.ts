@@ -1,4 +1,3 @@
-import { VIEWER_HEADER_TOP_OFFSET } from '../../../Models/Constants/StyleConstants';
 import {
     IFloatingScenePageModeToggleStyles,
     IFloatingScenePageModeToggleStyleProps
@@ -10,18 +9,17 @@ const classNames = {
     layersDropdown: `${classPrefix}-layers-dropdown`
 };
 export const getStyles = (
-    _props: IFloatingScenePageModeToggleStyleProps
+    props: IFloatingScenePageModeToggleStyleProps
 ): IFloatingScenePageModeToggleStyles => {
+    const { theme } = props;
     return {
-        root: [
-            classNames.root
-            // {
-            //     position: 'absolute',
-            //     right: 8,
-            //     top: VIEWER_HEADER_TOP_OFFSET,
-            //     zIndex: 999
-            // }
-        ],
-        subComponentStyles: {}
+        root: [classNames.root],
+        subComponentStyles: {
+            pivot: {
+                link: {
+                    background: theme.semanticColors.bodyBackground
+                }
+            }
+        }
     };
 };

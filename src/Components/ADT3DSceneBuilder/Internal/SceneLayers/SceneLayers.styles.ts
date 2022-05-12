@@ -1,23 +1,48 @@
+import { FontWeights, IStyle, ITextStyles } from '@fluentui/react';
+import { GET_HEADER_BUTTON_STYLES } from '../../../HeaderControlButton/HeaderControlButton.styles';
 import {
-    FontWeights,
-    IStyle,
-    ITextStyles,
-    memoizeFunction,
-    mergeStyleSets
-} from '@fluentui/react';
-
-export const sceneLayersClassPrefix = 'cb-scene-layers';
-
-const classNames = {
-    container: `${sceneLayersClassPrefix}-container`,
-    body: `${sceneLayersClassPrefix}-body`,
-    footer: `${sceneLayersClassPrefix}-footer`
+    IPrimaryActionCalloutContentsStyleProps,
+    IPrimaryActionCalloutContentsStyles,
+    ISceneLayersStyleProps,
+    ISceneLayersStyles
+} from './SceneLayers.types';
+export const getStyles = (
+    props: ISceneLayersStyleProps
+): ISceneLayersStyles => {
+    const { theme, isFlyoutOpen } = props;
+    const headerButton = GET_HEADER_BUTTON_STYLES(theme, isFlyoutOpen);
+    return {
+        subComponentStyles: {
+            button: {
+                subComponentStyles: {
+                    button: {
+                        ...headerButton,
+                        root: [
+                            headerButton.root,
+                            {
+                                border: `1px solid ${theme.palette.neutralLight}`,
+                                width: 'fit-content'
+                            }
+                        ]
+                    }
+                }
+            }
+        }
+    };
 };
 
-export const getStyles = memoizeFunction(() => {
-    return mergeStyleSets({
+export const primaryContentClassPrefix = 'cb-scene-layers-primary-content';
+const primaryContentClassNames = {
+    container: `${primaryContentClassPrefix}-container`,
+    body: `${primaryContentClassPrefix}-body`,
+    footer: `${primaryContentClassPrefix}-footer`
+};
+export const getPrimaryContentStyles = (
+    _props: IPrimaryActionCalloutContentsStyleProps
+): IPrimaryActionCalloutContentsStyles => {
+    return {
         container: [
-            classNames.container,
+            primaryContentClassNames.container,
             {
                 width: '100%',
                 display: 'flex',
@@ -25,7 +50,7 @@ export const getStyles = memoizeFunction(() => {
             } as IStyle
         ],
         footer: [
-            classNames.footer,
+            primaryContentClassNames.footer,
             {
                 width: '100%',
                 height: 60,
@@ -36,7 +61,7 @@ export const getStyles = memoizeFunction(() => {
             } as IStyle
         ],
         body: [
-            classNames.body,
+            primaryContentClassNames.body,
             {
                 minHeight: 100,
                 maxHeight: 220,
@@ -45,9 +70,16 @@ export const getStyles = memoizeFunction(() => {
                 padding: 20,
                 paddingTop: 8
             } as IStyle
-        ]
-    });
-});
+        ],
+        subComponentStyles: {
+            stack: {
+                root: {
+                    width: 'fit-content'
+                }
+            }
+        }
+    };
+};
 
 export const sectionHeaderStyles: Partial<ITextStyles> = {
     root: {

@@ -1,28 +1,29 @@
+import { FontSizes, FontWeights, IStyle } from '@fluentui/react';
 import {
-    FontSizes,
-    FontWeights,
-    IStyle,
-    memoizeFunction,
-    mergeStyleSets
-} from '@fluentui/react';
+    IFocusCalloutButtonStyleProps,
+    IFocusCalloutButtonStyles
+} from './FocusCalloutButton.types';
 
 export const focusCalloutClassPrefix = 'cb-focus-callout';
-
 const classNames = {
+    root: `${focusCalloutClassPrefix}-root`,
     calloutContent: `${focusCalloutClassPrefix}-callout-content`,
     header: `${focusCalloutClassPrefix}-callout-header`,
     title: `${focusCalloutClassPrefix}-callout-title`,
     titleIcon: `${focusCalloutClassPrefix}-title-icon`
 };
 
-export const getStyles = memoizeFunction(() => {
-    return mergeStyleSets({
+export const getStyles = (
+    _props: IFocusCalloutButtonStyleProps
+): IFocusCalloutButtonStyles => {
+    return {
+        root: [classNames.root],
         calloutContent: [
             classNames.calloutContent,
             {
                 position: 'relative',
                 overflow: 'hidden'
-            } as IStyle
+            }
         ],
         header: [
             classNames.header,
@@ -53,6 +54,18 @@ export const getStyles = memoizeFunction(() => {
                 justifyContent: 'center',
                 alignItems: 'center'
             } as IStyle
-        ]
-    });
-});
+        ],
+        subComponentStyles: {
+            button: {
+                root: {
+                    marginRight: 8
+                }
+            },
+            stack: {
+                root: {
+                    width: 'fit-content'
+                }
+            }
+        }
+    };
+};
