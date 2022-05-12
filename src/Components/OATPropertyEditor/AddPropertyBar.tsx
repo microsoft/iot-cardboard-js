@@ -1,23 +1,27 @@
 import React from 'react';
-import { FontIcon, ActionButton, Stack } from '@fluentui/react';
+import { FontIcon, ActionButton } from '@fluentui/react';
 import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
 
 type IAddPropertyBar = {
-    callback?: (prop: boolean) => any;
+    onMouseOver?: () => void;
+    onClick?: () => void;
 };
 
-export const AddPropertyBar = ({ callback }: IAddPropertyBar) => {
+export const AddPropertyBar = ({ onClick, onMouseOver }: IAddPropertyBar) => {
     const propertyInspectorStyles = getPropertyInspectorStyles();
 
     return (
-        <Stack className={propertyInspectorStyles.addPropertyBar}>
-            <ActionButton onClick={() => callback(true)}>
+        <div className={propertyInspectorStyles.addPropertyBar}>
+            <ActionButton
+                onMouseOver={() => onMouseOver && onMouseOver()}
+                onClick={() => onClick && onClick()}
+            >
                 <FontIcon
                     iconName={'CirclePlus'}
                     className={propertyInspectorStyles.addPropertyBarIcon}
                 />
             </ActionButton>
-        </Stack>
+        </div>
     );
 };
 

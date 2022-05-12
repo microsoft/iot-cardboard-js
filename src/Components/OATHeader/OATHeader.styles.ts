@@ -9,8 +9,7 @@ const classNames = {
     search: `${classPrefix}-search`,
     options: `${classPrefix}-options`,
     menuComponent: `${classPrefix}-menu-component`,
-    optionIcon: `${classPrefix}-option-icon`,
-    menuIcon: `${classPrefix}-menu-icon`
+    optionIcon: `${classPrefix}-option-icon`
 };
 
 export const getHeaderStyles = () => {
@@ -21,7 +20,8 @@ export const getHeaderStyles = () => {
             {
                 display: 'grid',
                 gridTemplateColumns: '100%',
-                height: '5%'
+                height: '5%',
+                backgroundColor: theme.semanticColors.bodyBackground
             } as IStyle
         ],
         searchComponent: [
@@ -69,13 +69,6 @@ export const getHeaderStyles = () => {
             {
                 fontSize: FontSizes.size20,
                 paddingLeft: '50%',
-                color: theme.semanticColors.actionLink
-            } as IStyle
-        ],
-        menuIcon: [
-            classNames.menuIcon,
-            {
-                fontSize: FontSizes.size14,
                 color: theme.semanticColors.actionLink
             } as IStyle
         ]

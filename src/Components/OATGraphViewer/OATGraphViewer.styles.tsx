@@ -4,7 +4,6 @@ import { CardboardClassNamePrefix } from '../../Models/Constants';
 const classPrefix = `${CardboardClassNamePrefix}-oat-graph-viewer`;
 const classNames = {
     container: `${classPrefix}-container`,
-    button: `${classPrefix}-button`,
     node: `${classPrefix}-node`,
     handle: `${classPrefix}-handle`,
     componentHandle: `${classPrefix}-component-handle`,
@@ -17,7 +16,9 @@ const classNames = {
     componentPath: `${classPrefix}-component-path`,
     componentShape: `${classPrefix}-component-shape`,
     inheritancePath: `${classPrefix}-inheritance-path`,
-    inheritanceShape: `${classPrefix}-inheritance-shape`
+    inheritanceShape: `${classPrefix}-inheritance-shape`,
+    nodeContainer: `${classPrefix}-node-container`,
+    graphViewerControls: `${classPrefix}-graph-viewer-controls`
 };
 
 export const getGraphViewerStyles = () => {
@@ -30,12 +31,6 @@ export const getGraphViewerStyles = () => {
                 height: '80vh'
             } as IStyle
         ],
-        button: [
-            classNames.button,
-            {
-                zIndex: '100'
-            } as IStyle
-        ],
         node: [
             classNames.node,
             {
@@ -43,7 +38,8 @@ export const getGraphViewerStyles = () => {
                 border: `1px solid ${theme.semanticColors.inputBorder}`,
                 borderRadius: '5px',
                 fontSize: FontSizes.size12,
-                textAlign: 'center'
+                textAlign: 'center',
+                width: '120%'
             } as IStyle
         ],
         handle: [
@@ -95,13 +91,6 @@ export const getGraphViewerStyles = () => {
                 background: theme.semanticColors.bodyBackground
             } as IStyle
         ],
-        nodeCancel: [
-            classNames.nodeCancel,
-            {
-                height: FontSizes.size12,
-                float: 'right'
-            } as IStyle
-        ],
         componentPath: [
             classNames.componentPath,
             {
@@ -133,6 +122,63 @@ export const getGraphViewerStyles = () => {
                 strokeWidth: '1',
                 fill: 'none'
             } as IStyle
+        ],
+        nodeContainer: [
+            classNames.nodeContainer,
+            { display: 'grid', gridTemplateColumns: '10% 90%' } as IStyle
+        ],
+        graphViewerControls: [
+            classNames.graphViewerControls,
+            {
+                '& button': {
+                    background: theme.semanticColors.primaryButtonBackground,
+                    borderColor: theme.semanticColors.primaryButtonTextPressed,
+                    ':hover': {
+                        background:
+                            theme.semanticColors.primaryButtonBackgroundHovered
+                    },
+                    '& svg': {
+                        fill: theme.semanticColors.primaryButtonTextPressed
+                    }
+                }
+            } as IStyle
         ]
     });
+};
+
+export const getGraphViewerButtonStyles = () => {
+    return {
+        root: {
+            zIndex: '100'
+        }
+    } as Partial<IStyle>;
+};
+
+export const getGraphViewerIconStyles = () => {
+    const theme = useTheme();
+    return {
+        root: {
+            fontSize: FontSizes.size18,
+            color: theme.semanticColors.actionLink
+        }
+    } as Partial<IStyle>;
+};
+
+export const getGraphViewerActionButtonStyles = () => {
+    return {
+        root: {
+            height: FontSizes.size12,
+            float: 'right'
+        }
+    } as Partial<IStyle>;
+};
+
+export const getGraphViewerWarningStyles = () => {
+    const theme = useTheme();
+    return {
+        root: {
+            fontSize: FontSizes.size10,
+            color: theme.semanticColors.severeWarningIcon
+        }
+    } as Partial<IStyle>;
 };

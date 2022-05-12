@@ -756,7 +756,10 @@
     "newModel": "Yeni Model",
     "name": "Ad",
     "id": "Kimliği",
-    "type": "Tür"
+    "type": "Tür",
+    "emptyGraph": "Model yok",
+    "project": "Proje",
+    "description": "Tarif"
   },
   "OATPropertyEditor": {
     "displayName": "Görünen Ad",
@@ -796,6 +799,31 @@
     "value": "Değer",
     "addToTemplate": "Şablona ekle",
     "duplicate": "Yinelenen",
-    "remove": "Kaldırmak"
+    "remove": "Kaldırmak",
+    "boolean": "Boolean",
+    "data": "veri",
+    "float": "yüzmek",
+    "integer": "tam sayı",
+    "string": "dizgi",
+    "enum": "enum",
+    "map": "harita",
+    "array": "dizi",
+    "object": "nesne",
+    "dateTime": "dateTime",
+    "time": "Saat",
+    "long": "uzun",
+    "double": "çift",
+    "duration": "süre",
+    "point": "nokta",
+    "linestring": "linestring",
+    "polygon": "çokgen",
+    "multiPoint": "çok noktalı",
+    "multiLinestring": "multilinestring",
+    "multiPolygon": "çoklu Poligon",
+    "close": "Kapatmak",
+    "collapse": "Çökmek",
+    "info": "Bilgi",
+    "more": "Daha",
+    "copy": "kopya etmek"
   }
 }

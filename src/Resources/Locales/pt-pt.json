@@ -756,7 +756,10 @@
     "newModel": "Novo Modelo",
     "name": "Nome",
     "id": "Id",
-    "type": "Tipo"
+    "type": "Tipo",
+    "emptyGraph": "Nenhum modelo disponível",
+    "project": "Projeto",
+    "description": "Descrição"
   },
   "OATPropertyEditor": {
     "displayName": "Nome do visor",
@@ -796,6 +799,31 @@
     "value": "Valor",
     "addToTemplate": "Adicionar ao modelo",
     "duplicate": "Duplicado",
-    "remove": "Remover"
+    "remove": "Remover",
+    "boolean": "booleano",
+    "data": "dados",
+    "float": "flutuar",
+    "integer": "inteiro",
+    "string": "cadeia",
+    "enum": "enum",
+    "map": "mapa",
+    "array": "matriz",
+    "object": "objeto",
+    "dateTime": "dataTime",
+    "time": "Hora",
+    "long": "Longo",
+    "double": "duplo",
+    "duration": "duração",
+    "point": "ponto",
+    "linestring": "linestring",
+    "polygon": "polígono",
+    "multiPoint": "multiponto",
+    "multiLinestring": "multilinestring",
+    "multiPolygon": "multi Polígono",
+    "close": "Fechar",
+    "collapse": "Colapso",
+    "info": "Informação",
+    "more": "Mais",
+    "copy": "cópia"
   }
 }

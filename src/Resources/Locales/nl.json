@@ -756,7 +756,10 @@
     "newModel": "Nieuw model",
     "name": "Naam",
     "id": "Legitimatiebewijs",
-    "type": "Type"
+    "type": "Type",
+    "emptyGraph": "Geen modellen beschikbaar",
+    "project": "Project",
+    "description": "Beschrijving"
   },
   "OATPropertyEditor": {
     "displayName": "Weergegeven naam",
@@ -796,6 +799,31 @@
     "value": "Waarde",
     "addToTemplate": "Toevoegen aan sjabloon",
     "duplicate": "Duplicaat",
-    "remove": "Verwijderen"
+    "remove": "Verwijderen",
+    "boolean": "booleaans",
+    "data": "gegevens",
+    "float": "drijven",
+    "integer": "geheel getal",
+    "string": "snaar",
+    "enum": "enum",
+    "map": "kaart",
+    "array": "array",
+    "object": "object",
+    "dateTime": "dateTime",
+    "time": "Tijd",
+    "long": "lang",
+    "double": "dubbel",
+    "duration": "duur",
+    "point": "punt",
+    "linestring": "lijnen",
+    "polygon": "veelhoek",
+    "multiPoint": "multipoint",
+    "multiLinestring": "multilinestring",
+    "multiPolygon": "multi Polygoon",
+    "close": "Sluiten",
+    "collapse": "Instorting",
+    "info": "Info",
+    "more": "Meer",
+    "copy": "kopiëren"
   }
 }

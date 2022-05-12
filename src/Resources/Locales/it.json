@@ -756,7 +756,10 @@
     "newModel": "Nuovo modello",
     "name": "Nome",
     "id": "Id",
-    "type": "Digitare"
+    "type": "Digitare",
+    "emptyGraph": "Nessun modello disponibile",
+    "project": "Progetto",
+    "description": "Descrizione"
   },
   "OATPropertyEditor": {
     "displayName": "Nome visualizzato",
@@ -796,6 +799,31 @@
     "value": "Valore",
     "addToTemplate": "Aggiungi al modello",
     "duplicate": "Duplicare",
-    "remove": "Togliere"
+    "remove": "Togliere",
+    "boolean": "booleano",
+    "data": "dati",
+    "float": "galleggiare",
+    "integer": "numero intero",
+    "string": "corda",
+    "enum": "enum",
+    "map": "mappa",
+    "array": "array",
+    "object": "oggetto",
+    "dateTime": "dateTime",
+    "time": "Ore",
+    "long": "lungo",
+    "double": "doppio",
+    "duration": "durata",
+    "point": "punto",
+    "linestring": "linestring",
+    "polygon": "poligono",
+    "multiPoint": "multipunto",
+    "multiLinestring": "multilinestringa",
+    "multiPolygon": "poligono multiplo",
+    "close": "Chiudere",
+    "collapse": "Collasso",
+    "info": "Informazioni",
+    "more": "Più",
+    "copy": "copiare"
   }
 }

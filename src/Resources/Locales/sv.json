@@ -756,7 +756,10 @@
     "newModel": "Ny modell",
     "name": "Namn",
     "id": "Id",
-    "type": "Typ"
+    "type": "Typ",
+    "emptyGraph": "Inga modeller tillgängliga",
+    "project": "Projekt",
+    "description": "Beskrivning"
   },
   "OATPropertyEditor": {
     "displayName": "Visningsnamn",
@@ -796,6 +799,31 @@
     "value": "Värde",
     "addToTemplate": "Lägg till i mall",
     "duplicate": "Duplicera",
-    "remove": "Avlägsna"
+    "remove": "Avlägsna",
+    "boolean": "boolesk",
+    "data": "data",
+    "float": "flyta",
+    "integer": "heltal",
+    "string": "sträng",
+    "enum": "uppräkning",
+    "map": "karta",
+    "array": "samling",
+    "object": "objekt",
+    "dateTime": "datumTid",
+    "time": "Tid",
+    "long": "lång",
+    "double": "dubbel",
+    "duration": "varaktighet",
+    "point": "punkt",
+    "linestring": "linjesträng",
+    "polygon": "polygon",
+    "multiPoint": "flera punkter",
+    "multiLinestring": "multilinestring",
+    "multiPolygon": "flera polygoner",
+    "close": "Stänga",
+    "collapse": "Kollaps",
+    "info": "Information",
+    "more": "Mer",
+    "copy": "kopia"
   }
 }

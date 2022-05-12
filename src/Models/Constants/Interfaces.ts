@@ -1,4 +1,4 @@
-import { AbstractMesh, Scene } from '@babylonjs/core';
+import { AbstractMesh, int, Scene } from '@babylonjs/core';
 import {
     ADTModelData,
     ADTRelationshipsData,
@@ -757,8 +757,16 @@ export interface IBlobFile {
 }
 
 export interface IOATGraphCustomNodeProps {
-    data: any;
+    data: IOATGraphCustomNodeData;
     isConnectable: boolean;
+}
+
+export interface IOATGraphCustomNodeData {
+    id: string;
+    name: string;
+    type: string;
+    context: string;
+    content: IOATTwinNodeContents[];
 }
 
 export interface IOATGraphCustomEdgeProps {
@@ -769,9 +777,16 @@ export interface IOATGraphCustomEdgeProps {
     targetY: string;
     sourcePosition: number;
     targetPosition: number;
-    style: any;
-    data: any;
+    style: React.CSSProperties;
+    data: IOATGraphCustomEdgeData;
     markerEnd: string;
+}
+
+export interface IOATGraphCustomEdgeData {
+    id: string;
+    name: string;
+    displayName: string;
+    type: string;
 }
 export interface IAliasedTwinProperty {
     alias: 'LinkedTwin' | string;
@@ -796,4 +811,44 @@ export interface IOATTwinNodeContents {
     name?: string;
     displayName?: string;
     target?: string;
+}
+export interface DTDLProperty {
+    readonly ['@type']: string;
+    ['@id']?: string;
+    name: string;
+    schema: string | Record<string, any>;
+    comment?: string;
+    description?: string;
+    displayName?: string;
+    unit?: string;
+    writable?: boolean;
+}
+
+export interface IOATNodeElement {
+    id: string;
+    data?: IOATGraphCustomNodeData;
+    position?: IOATNodePosition;
+    type?: string;
+}
+
+export interface IOATNodePosition {
+    x: number;
+    y: number;
+}
+
+export interface IOATRelationShipElement {
+    id?: string;
+    label?: string;
+    markerEnd?: string;
+    source?: string;
+    sourceHandle?: string;
+    target?: string;
+    targetHandle?: string;
+    type?: string;
+    data?: IOATGraphCustomEdgeData;
+}
+
+export interface IOATLastPropertyFocused {
+    item: DTDLProperty;
+    index: number;
 }

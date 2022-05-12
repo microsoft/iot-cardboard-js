@@ -9,26 +9,20 @@ const classNames = {
 };
 export const getEditorPageStyles = () => {
     return mergeStyleSets({
-        container: [
-            classNames.container,
-            {
-                height: '10%'
-            } as IStyle
-        ],
+        container: [classNames.container, {} as IStyle],
         component: [
             classNames.component,
             {
                 display: 'grid',
                 gridTemplateColumns: '20% 55% 25%',
-                height: '90%'
+                height: '100%'
             } as IStyle
         ],
         componentTemplate: [
             classNames.componentTemplate,
             {
                 display: 'grid',
-                gridTemplateColumns: '20% 30% 50%',
-                height: '90%'
+                gridTemplateColumns: '20% 30% 50%'
             } as IStyle
         ]
     });

@@ -1,129 +1,186 @@
 import React, { useState } from 'react';
+import { TextField, Text, IconButton } from '@fluentui/react';
 import {
-    FontIcon,
-    TextField,
-    ActionButton,
-    Stack,
-    Text
-} from '@fluentui/react';
-import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
-import { DTDLModel } from '../../Models/Classes/DTDL';
+    getPropertyEditorTextFieldStyles,
+    getPropertyListItemIconWrapStyles,
+    getPropertyListItemIconWrapMoreStyles,
+    getPropertyInspectorStyles
+} from './OATPropertyEditor.styles';
 import { deepCopy } from '../../Models/Services/Utils';
 import PropertyListItemSubMenu from './PropertyListItemSubMenu';
+import { useTranslation } from 'react-i18next';
+import {
+    SET_OAT_PROPERTY_EDITOR_MODEL,
+    SET_OAT_TEMPLATES
+} from '../../Models/Constants/ActionTypes';
+import {
+    DTDLProperty,
+    IAction,
+    IOATLastPropertyFocused
+} from '../../Models/Constants/Interfaces';
+import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
+import AddPropertyBar from './AddPropertyBar';
+import PropertySelector from './PropertySelector';
 
 type IPropertyListItem = {
     index?: number;
     deleteItem?: (index: number) => any;
+    dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
     draggingProperty?: boolean;
     getItemClassName?: (index: number) => any;
     getErrorMessage?: (value: string, index?: number) => string;
     handleDragEnter?: (event: any, item: any) => any;
     handleDragEnterExternalItem?: (index: number) => any;
     handleDragStart?: (event: any, item: any) => any;
-    item?: any;
-    model: DTDLModel;
+    item?: DTDLProperty;
+    lastPropertyFocused?: IOATLastPropertyFocused;
     setCurrentPropertyIndex?: React.Dispatch<React.SetStateAction<number>>;
     setLastPropertyFocused?: React.Dispatch<React.SetStateAction<any>>;
     setModalBody?: React.Dispatch<React.SetStateAction<string>>;
     setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
-    setModel?: React.Dispatch<React.SetStateAction<any>>;
-    setTemplates?: React.Dispatch<React.SetStateAction<any>>;
+    state?: IOATEditorState;
 };
 
 export const PropertyListItem = ({
     index,
     deleteItem,
+    dispatch,
     draggingProperty,
     getItemClassName,
     getErrorMessage,
     handleDragEnter,
     handleDragEnterExternalItem,
     handleDragStart,
-    model,
     setCurrentPropertyIndex,
     setModalOpen,
     item,
+    lastPropertyFocused,
     setLastPropertyFocused,
     setModalBody,
-    setModel,
-    setTemplates
+    state
 }: IPropertyListItem) => {
+    const { t } = useTranslation();
     const propertyInspectorStyles = getPropertyInspectorStyles();
+    const iconWrapStyles = getPropertyListItemIconWrapStyles();
+    const iconWrapMoreStyles = getPropertyListItemIconWrapMoreStyles();
+    const textFieldStyles = getPropertyEditorTextFieldStyles();
     const [subMenuActive, setSubMenuActive] = useState(false);
+    const [hover, setHover] = useState(false);
+    const [propertySelectorVisible, setPropertySelectorVisible] = useState(
+        false
+    );
+    const { model, templates } = state;
 
     const handleTemplateAddition = () => {
-        setTemplates((templates) => [...templates, item]);
+        dispatch({
+            type: SET_OAT_TEMPLATES,
+            payload: [...templates, item]
+        });
     };
 
     const handleDuplicate = () => {
         const itemCopy = deepCopy(item);
-        itemCopy.name = `${itemCopy.name}_copy`;
-        itemCopy.displayName = `${itemCopy.displayName}_copy`;
-        itemCopy['@id'] = `${itemCopy['@id']}_copy`;
+        itemCopy.name = `${itemCopy.name}_${t('OATPropertyEditor.copy')}`;
+        itemCopy.displayName = `${itemCopy.displayName}_${t(
+            'OATPropertyEditor.copy'
+        )}`;
+        itemCopy['@id'] = `${itemCopy['@id']}_${t('OATPropertyEditor.copy')}`;
 
         const modelCopy = deepCopy(model);
         modelCopy.contents.push(itemCopy);
-        setModel(modelCopy);
+        dispatch({
+            type: SET_OAT_PROPERTY_EDITOR_MODEL,
+            payload: modelCopy
+        });
     };
 
     return (
-        <Stack
-            className={getItemClassName(index)}
-            draggable
-            onDragStart={(e) => {
-                handleDragStart(e, index);
+        <div
+            className={propertyInspectorStyles.propertyListRelativeWrap}
+            onMouseOver={() => {
+                setHover(true);
             }}
-            onDragEnter={
-                draggingProperty
-                    ? (e) => handleDragEnter(e, index)
-                    : () => handleDragEnterExternalItem(index)
-            }
-            onFocus={() => setLastPropertyFocused(null)}
-            tabIndex={0}
+            onMouseLeave={() => {
+                setHover(false);
+                setPropertySelectorVisible(false);
+            }}
         >
-            <TextField
-                className={propertyInspectorStyles.propertyItemTextField}
-                borderless
-                value={item.name}
-                validateOnFocusOut
-                onChange={(evt, value) => {
-                    setCurrentPropertyIndex(index);
-                    getErrorMessage(value, index);
+            <div
+                id={item.name}
+                className={getItemClassName(index)}
+                draggable
+                onDragStart={(e) => {
+                    handleDragStart(e, index);
                 }}
-            />
-            <Text>{item.schema}</Text>
-            <ActionButton
-                className={propertyInspectorStyles.propertyItemIconWrap}
-                onClick={() => {
-                    setCurrentPropertyIndex(index);
-                    setModalOpen(true);
-                    setModalBody('formProperty');
-                }}
+                onDragEnter={
+                    draggingProperty
+                        ? (e) => handleDragEnter(e, index)
+                        : () => handleDragEnterExternalItem(index)
+                }
+                onFocus={() => setLastPropertyFocused(null)}
+                tabIndex={0}
             >
-                <FontIcon
-                    iconName={'Info'}
-                    className={propertyInspectorStyles.propertyItemIcon}
+                <TextField
+                    borderless
+                    value={item.name}
+                    validateOnFocusOut
+                    onChange={(evt, value) => {
+                        setCurrentPropertyIndex(index);
+                        getErrorMessage(value, index);
+                    }}
+                    styles={textFieldStyles}
                 />
-            </ActionButton>
-            <ActionButton
-                className={propertyInspectorStyles.propertyItemIconWrapMore}
-                onClick={() => setSubMenuActive(!subMenuActive)}
-            >
-                <FontIcon
-                    iconName={'More'}
-                    className={propertyInspectorStyles.propertyItemIcon}
+                <Text>{item.schema}</Text>
+                <IconButton
+                    styles={iconWrapStyles}
+                    iconProps={{ iconName: 'info' }}
+                    title={t('OATPropertyEditor.info')}
+                    onClick={() => {
+                        setCurrentPropertyIndex(index);
+                        setModalOpen(true);
+                        setModalBody('formProperty');
+                    }}
                 />
-                {subMenuActive && (
-                    <PropertyListItemSubMenu
-                        deleteItem={deleteItem}
-                        index={index}
-                        subMenuActive={subMenuActive}
-                        handleTemplateAddition={handleTemplateAddition}
-                        handleDuplicate={handleDuplicate}
+                <IconButton
+                    styles={iconWrapMoreStyles}
+                    iconProps={{ iconName: 'more' }}
+                    title={t('OATPropertyEditor.more')}
+                    onClick={() => setSubMenuActive(!subMenuActive)}
+                >
+                    {subMenuActive && (
+                        <PropertyListItemSubMenu
+                            deleteItem={deleteItem}
+                            index={index}
+                            subMenuActive={subMenuActive}
+                            handleTemplateAddition={handleTemplateAddition}
+                            handleDuplicate={handleDuplicate}
+                            targetId={item.name}
+                            setSubMenuActive={setSubMenuActive}
+                        />
+                    )}
+                </IconButton>
+                {propertySelectorVisible && (
+                    <PropertySelector
+                        setPropertySelectorVisible={setPropertySelectorVisible}
+                        lastPropertyFocused={lastPropertyFocused}
+                        targetId={item.name}
+                        dispatch={dispatch}
+                        state={state}
+                        className={
+                            propertyInspectorStyles.propertySelectorPropertyListHeader
+                        }
                     />
                 )}
-            </ActionButton>
-        </Stack>
+            </div>
+            {hover && (
+                <AddPropertyBar
+                    onMouseOver={() => {
+                        setLastPropertyFocused(null);
+                        setPropertySelectorVisible(true);
+                    }}
+                />
+            )}
+        </div>
     );
 };
 

@@ -1,16 +1,21 @@
 import React, { useState, useContext } from 'react';
-import { useTheme, Icon, FontSizes, ActionButton } from '@fluentui/react';
+import { Icon, ActionButton, TextField, Label } from '@fluentui/react';
 import { Handle, removeElements } from 'react-flow-renderer';
 import { useTranslation } from 'react-i18next';
 import { IOATGraphCustomNodeProps } from '../../Models/Constants/Interfaces';
-import { getGraphViewerStyles } from '../OATGraphViewer.styles';
+import {
+    getGraphViewerStyles,
+    getGraphViewerIconStyles,
+    getGraphViewerActionButtonStyles
+} from '../OATGraphViewer.styles';
 import { ElementsContext } from './OATContext';
 import {
-    RelationshipHandleName,
-    ComponentHandleName,
-    ExtendHandleName,
-    UntargetedRelationshipName
+    OATRelationshipHandleName,
+    OATComponentHandleName,
+    OATExtendHandleName,
+    OATUntargetedRelationshipName
 } from '../../../Models/Constants/Constants';
+import { SET_OAT_PROPERTY_EDITOR_MODEL } from '../../../Models/Constants/ActionTypes';
 
 const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
     data,
@@ -21,11 +26,12 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
     const [nameText, setNameText] = useState(data.name);
     const [idEditor, setIdEditor] = useState(false);
     const [idText, setIdText] = useState(data.id);
-    const theme = useTheme();
-    const { elements, setElements, setModel, setCurrentNode } = useContext(
+    const { elements, setElements, setCurrentNode, dispatch } = useContext(
         ElementsContext
     );
     const graphViewerStyles = getGraphViewerStyles();
+    const iconStyles = getGraphViewerIconStyles();
+    const actionButtonStyles = getGraphViewerActionButtonStyles();
 
     const onNameChange = (evt) => {
         setNameText(evt.target.value);
@@ -50,7 +56,10 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
                 displayName: nameText,
                 contents: data.content
             };
-            setModel(modelUpdated);
+            dispatch({
+                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                payload: modelUpdated
+            });
         }
     };
 
@@ -83,7 +92,10 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
                 contents: data.content
             };
             setCurrentNode(idText);
-            setModel(updatedModel);
+            dispatch({
+                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                payload: updatedModel
+            });
         }
     };
 
@@ -94,7 +106,7 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
             }
         ];
         setElements((els) => removeElements(elementsToRemove, els));
-        setModel(null);
+        dispatch({ type: SET_OAT_PROPERTY_EDITOR_MODEL, payload: null });
     };
 
     return (
@@ -106,31 +118,18 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
                 isConnectable={isConnectable}
             />
             <div className={graphViewerStyles.node}>
-                <ActionButton
-                    className={graphViewerStyles.nodeCancel}
-                    onClick={onDelete}
-                >
-                    <Icon
-                        iconName="Cancel"
-                        styles={{
-                            root: {
-                                fontSize: FontSizes.size10,
-                                color: theme.semanticColors.actionLink
-                            }
-                        }}
-                    />
+                <ActionButton styles={actionButtonStyles} onClick={onDelete}>
+                    <Icon iconName="Cancel" styles={iconStyles} />
                 </ActionButton>
-                {data.type !== UntargetedRelationshipName && (
+                {data.type !== OATUntargetedRelationshipName && (
                     <>
-                        <div>
-                            {t('OATGraphViewer.name')}:
+                        <div className={graphViewerStyles.nodeContainer}>
+                            <label>{t('OATGraphViewer.name')}:</label>
                             {!nameEditor && (
-                                <strong onClick={onNameClick}>
-                                    {data.name}
-                                </strong>
+                                <Label onClick={onNameClick}>{data.name}</Label>
                             )}
                             {nameEditor && (
-                                <input
+                                <TextField
                                     id="text"
                                     name="text"
                                     onChange={onNameChange}
@@ -140,13 +139,13 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
                                 />
                             )}
                         </div>
-                        <div>
+                        <div className={graphViewerStyles.nodeContainer}>
                             {t('OATGraphViewer.id')}:
                             {!idEditor && (
-                                <strong onClick={onIdClick}>{data.id}</strong>
+                                <Label onClick={onIdClick}>{data.id}</Label>
                             )}
                             {idEditor && (
-                                <input
+                                <TextField
                                     id="text"
                                     name="text"
                                     onChange={onIdChange}
@@ -158,10 +157,10 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
                         </div>
                     </>
                 )}
-                {data.type === UntargetedRelationshipName && (
+                {data.type === OATUntargetedRelationshipName && (
                     <>
                         <div>
-                            <strong>{data.type}</strong>
+                            <Label>{data.type}</Label>
                         </div>
                     </>
                 )}
@@ -171,21 +170,21 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
                     <Handle
                         type="source"
                         position="bottom"
-                        id={ComponentHandleName}
+                        id={OATComponentHandleName}
                         className={graphViewerStyles.componentHandle}
                         isConnectable={isConnectable}
                     />
                     <Handle
                         type="source"
                         position="bottom"
-                        id={RelationshipHandleName}
+                        id={OATRelationshipHandleName}
                         className={graphViewerStyles.relationshipHandle}
                         isConnectable={isConnectable}
                     />
                     <Handle
                         type="source"
                         position="bottom"
-                        id={ExtendHandleName}
+                        id={OATExtendHandleName}
                         className={graphViewerStyles.extendHandle}
                         isConnectable={isConnectable}
                     />

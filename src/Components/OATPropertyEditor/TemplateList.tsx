@@ -1,9 +1,13 @@
 import React, { useRef, useState } from 'react';
-import { Stack } from '@fluentui/react';
 import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
 import { deepCopy } from '../../Models/Services/Utils';
-import { DTDLModel } from '../../Models/Classes/DTDL';
 import TemplateListItem from './TeplateListItem';
+import {
+    SET_OAT_PROPERTY_EDITOR_MODEL,
+    SET_OAT_TEMPLATES
+} from '../../Models/Constants/ActionTypes';
+import { IAction } from '../../Models/Constants/Interfaces';
+import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 
 interface ITemplateList {
     draggingTemplate?: boolean;
@@ -11,29 +15,26 @@ interface ITemplateList {
     enteredTemplateRef: any;
     draggedTemplateItemRef: any;
     enteredPropertyRef: any;
-    model?: DTDLModel;
-    templates?: any;
     setDraggingTemplate?: (dragging: boolean) => boolean;
-    setModel?: React.Dispatch<React.SetStateAction<DTDLModel>>;
-    setTemplates: React.Dispatch<React.SetStateAction<any>>;
+    dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
+    state?: IOATEditorState;
 }
 
 export const TemplateList = ({
-    templates,
-    setTemplates,
     draggedTemplateItemRef,
     enteredPropertyRef,
-    model,
-    setModel,
     draggingTemplate,
     setDraggingTemplate,
     enteredTemplateRef,
-    draggingProperty
+    draggingProperty,
+    dispatch,
+    state
 }: ITemplateList) => {
     const propertyInspectorStyles = getPropertyInspectorStyles();
     const dragItem = useRef(null);
     const dragNode = useRef(null);
     const [enteredItem, setEnteredItem] = useState(enteredTemplateRef.current);
+    const { model, templates } = state;
 
     const handleTemplateItemDropOnPropertyList = () => {
         // Prevent drop if duplicate
@@ -44,16 +45,14 @@ export const TemplateList = ({
         if (isTemplateAlreadyInModel) return;
 
         // Drop
-        setModel((prevModel) => {
-            const newModel = deepCopy(prevModel);
-            // + 1 so that it drops under current item
-            newModel.contents.splice(
-                enteredPropertyRef.current + 1,
-                0,
-                templates[draggedTemplateItemRef.current]
-            );
-            return newModel;
-        });
+        const newModel = deepCopy(model);
+        // + 1 so that it drops under current item
+        newModel.contents.splice(
+            enteredPropertyRef.current + 1,
+            0,
+            templates[draggedTemplateItemRef.current]
+        );
+        dispatch({ type: SET_OAT_PROPERTY_EDITOR_MODEL, payload: newModel });
     };
 
     const handleDragEnd = () => {
@@ -83,17 +82,18 @@ export const TemplateList = ({
     const handleDragEnter = (e, i) => {
         if (e.target !== dragNode.current) {
             //  Entered item is not the same as dragged node
-            setTemplates((prevTemplate) => {
-                const newTemplate = deepCopy(prevTemplate);
-                //  Replace entered item with dragged item
-                // --> Remove dragged item and then place it on entered item's position
-                newTemplate.splice(
-                    i,
-                    0,
-                    newTemplate.splice(dragItem.current, 1)[0]
-                );
-                dragItem.current = i;
-                return newTemplate;
+            //  Replace entered item with dragged item
+            // --> Remove dragged item and then place it on entered item's position
+            const newTemplate = deepCopy(templates);
+            newTemplate.splice(
+                i,
+                0,
+                newTemplate.splice(dragItem.current, 1)[0]
+            );
+            dragItem.current = i;
+            dispatch({
+                type: SET_OAT_TEMPLATES,
+                payload: newTemplate
             });
         }
     };
@@ -123,15 +123,17 @@ export const TemplateList = ({
     };
 
     const deleteItem = (index) => {
-        setTemplates((prevTemplate) => {
-            const newTemplate = deepCopy(prevTemplate);
-            newTemplate.splice(index, 1);
-            return newTemplate;
+        const newTemplate = deepCopy(templates);
+        newTemplate.splice(index, 1);
+
+        dispatch({
+            type: SET_OAT_TEMPLATES,
+            payload: newTemplate
         });
     };
 
     return (
-        <Stack
+        <div
             className={propertyInspectorStyles.propertiesWrap}
             onDragEnter={
                 draggingTemplate
@@ -139,7 +141,9 @@ export const TemplateList = ({
                     : () => handleDragEnterExternalItem(0)
             }
         >
-            {templates.length > 0 &&
+            {state &&
+                templates &&
+                templates.length > 0 &&
                 templates.map((item, i) => (
                     <TemplateListItem
                         key={i}
@@ -156,7 +160,7 @@ export const TemplateList = ({
                         getSchemaText={getSchemaText}
                     />
                 ))}
-        </Stack>
+        </div>
     );
 };
 

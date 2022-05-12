@@ -22,12 +22,7 @@ export const getModelsStyles = () => {
         modelList: [
             classNames.modelList,
             {
-                border: '1px',
-                borderColor: theme.semanticColors.bodyDivider,
-                borderStyle: 'solid',
-                backgroundColor: theme.semanticColors.bodyBackground,
-                padding: '5px',
-                margin: '5px'
+                width: '100%'
             } as IStyle
         ],
         nodeCancel: [
@@ -38,4 +33,29 @@ export const getModelsStyles = () => {
             } as IStyle
         ]
     });
+};
+
+export const getModelsIconStyles = () => {
+    const theme = useTheme();
+    return {
+        root: {
+            fontSize: FontSizes.size10,
+            color: theme.semanticColors.actionLink
+        }
+    } as Partial<IStyle>;
+};
+
+export const getModelsActionButtonStyles = () => {
+    const theme = useTheme();
+    return {
+        root: {
+            border: '1px',
+            borderColor: theme.semanticColors.bodyDivider,
+            borderStyle: 'solid',
+            padding: '5px',
+            margin: '5px',
+            width: '95%',
+            height: '50px'
+        }
+    } as Partial<IStyle>;
 };
