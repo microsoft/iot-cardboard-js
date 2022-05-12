@@ -106,7 +106,7 @@ const SceneLayers: React.FC<ISceneLayersProps> = (props) => {
             <FocusCalloutButton
                 buttonText={t('sceneLayers.sceneLayers')}
                 calloutTitle={getCalloutTitle(mode)}
-                iconName="Stack"
+                iconName={'MapLayers'}
                 isOpen={isLayerBuilderDialogOpen}
                 setIsOpen={(isOpen: boolean) => {
                     if (!isOpen && keepOpenRef.current) {
