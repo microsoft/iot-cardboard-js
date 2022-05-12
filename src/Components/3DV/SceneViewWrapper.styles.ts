@@ -1,4 +1,10 @@
-import { VIEWER_HEADER_TOP_OFFSET } from '../../Models/Constants/StyleConstants';
+import {
+    BUILDER_FOOTER_BOTTOM_OFFSET,
+    ELEMENTS_PANEL_BUTTON_BOTTOM_OFFSET,
+    SCENE_PAGE_OUTER_OFFSET,
+    VIEWER_HEADER_TOP_OFFSET
+} from '../../Models/Constants/StyleConstants';
+import { WrapperMode } from './SceneView.types';
 import {
     ISceneViewWrapperStyleProps,
     ISceneViewWrapperStyles
@@ -8,7 +14,7 @@ const classPrefix = 'cb-scene-view-wrapper';
 
 const classNames = {
     root: `${classPrefix}-root`,
-    centerHeader: `${classPrefix}-center-header-controls`,
+    cameraControls: `${classPrefix}-camera-controls`,
     leftHeader: `${classPrefix}-left-header-controls`,
     button: `${classPrefix}-button`,
     callout: `${classPrefix}-callout`,
@@ -17,12 +23,13 @@ const classNames = {
 };
 
 export const getStyles = (
-    _props: ISceneViewWrapperStyleProps
+    props: ISceneViewWrapperStyleProps
 ): ISceneViewWrapperStyles => {
+    const { mode } = props;
     return {
         /** provide a hook for custom styling by consumers */
         root: [classNames.root],
-        centerHeaderControlsContainer: [classNames.centerHeader],
+        cameraControlsContainer: [classNames.cameraControls],
         leftHeaderControlsContainer: [classNames.leftHeader],
         subComponentStyles: {
             leftHeaderControlsStack: {
@@ -34,12 +41,16 @@ export const getStyles = (
                     zIndex: 1
                 }
             },
-            centerHeaderControlsStack: {
+            cameraControlsStack: {
                 root: {
                     position: 'absolute',
                     display: 'flex',
                     width: '100%',
-                    top: VIEWER_HEADER_TOP_OFFSET
+                    bottom:
+                        mode === WrapperMode.Viewer
+                            ? ELEMENTS_PANEL_BUTTON_BOTTOM_OFFSET
+                            : SCENE_PAGE_OUTER_OFFSET +
+                              BUILDER_FOOTER_BOTTOM_OFFSET
                 }
             }
         }

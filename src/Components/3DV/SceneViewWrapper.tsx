@@ -87,7 +87,7 @@ const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = (props) => {
     const sceneViewComponent = useRef();
 
     const theme = useTheme();
-    const classNames = getClassNames(styles, { theme });
+    const classNames = getClassNames(styles, { theme, mode: wrapperMode });
 
     useEffect(() => {
         const cameraInteraction = localStorage.getItem(
@@ -253,9 +253,21 @@ const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = (props) => {
                     <DeeplinkFlyout mode="Options" />
                 )}
             </Stack>
+            <SceneView
+                ref={sceneViewComponent}
+                isWireframe={selectedViewerMode?.isWireframe}
+                objectColors={selectedViewerMode?.objectColor}
+                backgroundColor={selectedViewerMode?.background}
+                onCameraMove={addInProps?.onCameraMove ? cameraMove : undefined}
+                {...svp}
+                onMeshHover={meshHover}
+                onMeshClick={meshClick}
+                onSceneLoaded={sceneLoaded}
+                cameraInteractionType={cameraInteractionType}
+            />
             <Stack
                 horizontal
-                styles={classNames.subComponentStyles.centerHeaderControlsStack}
+                styles={classNames.subComponentStyles.cameraControlsStack}
             >
                 <CameraControls
                     cameraInteraction={cameraInteractionType}
@@ -270,18 +282,6 @@ const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = (props) => {
                     }
                 />
             </Stack>
-            <SceneView
-                ref={sceneViewComponent}
-                isWireframe={selectedViewerMode?.isWireframe}
-                objectColors={selectedViewerMode?.objectColor}
-                backgroundColor={selectedViewerMode?.background}
-                onCameraMove={addInProps?.onCameraMove ? cameraMove : undefined}
-                {...svp}
-                onMeshHover={meshHover}
-                onMeshClick={meshClick}
-                onSceneLoaded={sceneLoaded}
-                cameraInteractionType={cameraInteractionType}
-            />
         </div>
     );
 };

@@ -1,10 +1,11 @@
 import {
+    ELEMENTS_PANEL_BUTTON_BOTTOM_OFFSET,
+    ELEMENTS_PANEL_BUTTON_HEIGHT
+} from '../../Models/Constants/StyleConstants';
+import {
     IViewerElementsPanelRendererStyleProps,
     IViewerElementsPanelRendererStyles
 } from './ViewerElementsPanelRenderer.types';
-
-export const ELEMENTS_PANEL_BUTTON_HEIGHT = 54;
-export const ELEMENTS_PANEL_BUTTON_BOTTOM_OFFSET = 20;
 
 export const classPrefix = 'cb-ViewerElementsPanelRenderer';
 const classNames = {
