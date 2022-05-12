@@ -664,7 +664,8 @@ export const getPropertyListItemIconWrapMoreStyles = () => {
     return {
         root: {
             color: theme.semanticColors.menuIcon,
-            position: 'relative'
+            position: 'relative',
+            width: '100%'
         }
     } as Partial<IButtonStyles>;
 };
