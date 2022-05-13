@@ -54,15 +54,28 @@ export function makeStandardMaterial(
     material.diffuseColor = baseColor3;
 
     material.alpha = baseColor.a;
-
     material.backFaceCulling = !isTransparent;
 
     if (isTransparent) {
         material.specularPower = 0;
+        material.disableLighting = true;
+        //material.alphaMode = 0;
+        //material.diffuseColor = baseColor3;
+        //material.ambientColor = BABYLON.Color3.White();
+        material.emissiveColor = baseColor3;
+        //material.needAlphaTesting = () => material.opacityTexture !== null;
+        //material.
     } else {
         material.emissiveColor = baseColor3;
         material.useEmissiveAsIllumination = true;
+        // material.specularPower = 1000;
+        // material.roughness = 1000;
         material.disableLighting = true;
+        material.emissiveFresnelParameters = new BABYLON.FresnelParameters();
+        material.emissiveFresnelParameters.leftColor = fresnelColor3;
+        material.emissiveFresnelParameters.rightColor = baseColor3;
+        material.emissiveFresnelParameters.power = 2;
+        material.emissiveFresnelParameters.bias = 0.2;
     }
 
     // //If translucent, set emissive settings

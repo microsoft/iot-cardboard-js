@@ -866,6 +866,8 @@ function SceneView(props: ISceneViewProps, ref) {
                 light.diffuse = new BABYLON.Color3(0.8, 0.8, 0.8);
                 light.specular = new BABYLON.Color3(1, 1, 1);
                 light.groundColor = new BABYLON.Color3(0.2, 0.2, 0.2);
+                light.lightmapMode = BABYLON.Light.LIGHTMAP_SHADOWSONLY;
+                sceneRef.current.environmentIntensity = 0;
 
                 setScene(sceneRef.current);
                 setIsLoading(false);
