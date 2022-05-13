@@ -62,7 +62,8 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
     theme,
     locale,
     localeStrings,
-    environmentPickerOptions
+    environmentPickerOptions,
+    enableTwinPropertyInspectorPatchMode = false
 }) => {
     const { t } = useTranslation();
     const customStyles = getStyles();
@@ -273,7 +274,13 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
 
     return (
         <ADT3DScenePageContext.Provider
-            value={{ state, dispatch, handleOnHomeClick, handleOnSceneClick }}
+            value={{
+                state,
+                dispatch,
+                handleOnHomeClick,
+                handleOnSceneClick,
+                isTwinPropertyInspectorPatchModeEnabled: enableTwinPropertyInspectorPatchMode
+            }}
         >
             <div className="cb-scene-page-wrapper">
                 <BaseComponent

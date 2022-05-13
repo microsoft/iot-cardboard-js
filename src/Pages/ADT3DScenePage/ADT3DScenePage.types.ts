@@ -39,6 +39,7 @@ export interface IADT3DScenePageProps extends IConsumeCompositeCardProps {
             ) => void;
         };
     };
+    enableTwinPropertyInspectorPatchMode?: boolean;
 }
 
 export interface IADT3DSceneBuilderProps extends IConsumeCompositeCardProps {
@@ -72,4 +73,5 @@ export interface IADT3DScenePageContext {
     dispatch: React.Dispatch<IAction>;
     handleOnHomeClick: () => void;
     handleOnSceneClick: (scene: IScene) => void;
+    isTwinPropertyInspectorPatchModeEnabled: boolean;
 }

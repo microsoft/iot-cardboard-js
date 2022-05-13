@@ -30,9 +30,10 @@ export const defaultValueRangeBuilderState: IValueRangeBuilderState = {
 };
 
 const defaultValueRange: Omit<IValueRange, 'id'> = {
-    color: defaultValueRangeColor,
-    min: 0,
-    max: 'Infinity'
+    values: [0, 'Infinity'],
+    visual: {
+        color: defaultValueRangeColor
+    }
 };
 
 export const valueRangeBuilderReducer: (
@@ -132,8 +133,8 @@ const addValueRange = (
     // Add value range
     let newMin = Number('-Infinity');
     draft.valueRanges.forEach((vr) => {
-        if (!isNaN(Number(vr.max)) && vr.max > newMin) {
-            newMin = Number(vr.max);
+        if (!isNaN(Number(vr.values[1])) && vr.values[1] > newMin) {
+            newMin = Number(vr.values[1]);
         }
     });
 
@@ -144,9 +145,12 @@ const addValueRange = (
 
     const newValueRange = cleanValueRange({
         ...defaultValueRange,
-        min: newMin,
-        id,
-        color
+        values: [newMin, defaultValueRange.values[1]],
+        visual: {
+            ...defaultValueRange.visual,
+            color
+        },
+        id
     });
 
     draft.valueRanges.push(newValueRange);
@@ -162,7 +166,7 @@ const addValueRange = (
     updateValueRangeValidation(
         draft,
         newValueRange,
-        String(newValueRange.min),
+        String(newValueRange.values[0]),
         true
     );
 
@@ -170,7 +174,7 @@ const addValueRange = (
     updateValueRangeValidation(
         draft,
         newValueRange,
-        String(newValueRange.max),
+        String(newValueRange.values[1]),
         false
     );
 
@@ -192,12 +196,12 @@ const updateValueRange = (
     if (!valueToUpdate) return;
 
     if (newColor) {
-        valueToUpdate.color = newColor;
+        valueToUpdate.visual.color = newColor;
     } else {
         const cleanValue = cleanValueOutput(newValue);
         boundary === Boundary.min
-            ? (valueToUpdate.min = cleanValue)
-            : (valueToUpdate.max = cleanValue);
+            ? (valueToUpdate.values[0] = cleanValue)
+            : (valueToUpdate.values[1] = cleanValue);
     }
 };
 
@@ -207,10 +211,17 @@ const updateValueRangeValidation = (
     newValue: string,
     isMin: boolean
 ) => {
+    const newRange = [currentValueRange.values[0], currentValueRange.values[1]];
+
+    if (isMin) {
+        newRange[0] = newValue;
+    } else {
+        newRange[1] = newValue;
+    }
+
     const newValueRangeToCheck: IValueRange = {
         ...currentValueRange,
-        ...(isMin && { min: newValue as any }),
-        ...(!isMin && { max: newValue as any })
+        values: newRange
     };
 
     const validation = getRangeValidation(newValueRangeToCheck);

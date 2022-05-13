@@ -45,8 +45,7 @@ export const validate3DConfigWithSchema = (
     if (valid) {
         return data;
     } else {
-        // TODO remove error printing
-        console.log('Schema validation errors: ', validate.errors);
+        console.error('Schema validation errors: ', validate.errors);
         throw new ComponentError({
             type: ComponentErrorType.JsonSchemaError,
             jsonSchemaErrors: validate.errors
@@ -243,11 +242,11 @@ export function deepCopy<T>(object: T): T {
 }
 
 export function getSceneElementStatusColor(
-    statusValueExpression: string,
+    valueExpression: string,
     valueRanges: IValueRange[],
     twins: Record<string, DTwin>
 ) {
-    const value = parseLinkedTwinExpression(statusValueExpression, twins);
+    const value = parseLinkedTwinExpression(valueExpression, twins);
     return ViewerConfigUtility.getColorOrNullFromStatusValueRange(
         valueRanges,
         value
