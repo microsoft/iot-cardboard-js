@@ -9,7 +9,7 @@ import { CardboardClassNamePrefix } from '../../Models/Constants';
 import {
     ELEMENTS_PANEL_BUTTON_BOTTOM_OFFSET,
     ELEMENTS_PANEL_BUTTON_HEIGHT
-} from '../ViewerElementsPanelRenderer/ViewerElementsPanelRenderer.styles';
+} from '../../Models/Constants/StyleConstants';
 
 const classPrefix = `${CardboardClassNamePrefix}-elements-panel`;
 const classNames = {
