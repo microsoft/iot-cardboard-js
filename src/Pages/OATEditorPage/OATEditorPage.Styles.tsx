@@ -1,4 +1,4 @@
-import { IStyle, mergeStyleSets } from '@fluentui/react';
+import { IStyle, mergeStyleSets, useTheme } from '@fluentui/react';
 import { CardboardClassNamePrefix } from '../../Models/Constants';
 
 const classPrefix = `${CardboardClassNamePrefix}-oat-body`;
@@ -8,6 +8,7 @@ const classNames = {
     componentTemplate: `${classPrefix}-component-template`
 };
 export const getEditorPageStyles = () => {
+    const theme = useTheme();
     return mergeStyleSets({
         container: [classNames.container, {} as IStyle],
         component: [
@@ -15,7 +16,8 @@ export const getEditorPageStyles = () => {
             {
                 display: 'grid',
                 gridTemplateColumns: '20% 55% 25%',
-                height: '100%'
+                height: '100vh',
+                backgroundColor: theme.semanticColors.bodyBackground
             } as IStyle
         ],
         componentTemplate: [
