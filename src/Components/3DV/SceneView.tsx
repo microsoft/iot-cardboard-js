@@ -38,7 +38,12 @@ import {
     getMarkerPosition,
     removeGroupedItems
 } from './SceneView.Utils';
-import { makeMaterial, outlineMaterial, ToColor3 } from './Shaders';
+import {
+    makeMaterial,
+    outlineMaterial,
+    ToColor3,
+    SetWireframe
+} from './Shaders';
 import {
     CameraInteraction,
     DefaultViewerModeObjectColor,
@@ -654,13 +659,13 @@ function SceneView(props: ISceneViewProps, ref) {
                             currentObjectColor.lightingStyle < 1;
                         if (material) {
                             mesh.material = material;
-                            mesh.material.wireframe = !!isWireframe;
+                            SetWireframe(mesh.material, !!isWireframe);
                         }
                     }
                 }
 
-                hovMaterial.current.wireframe = !!isWireframe;
-                coloredHovMaterial.current.wireframe = !!isWireframe;
+                SetWireframe(hovMaterial.current, !!isWireframe);
+                SetWireframe(coloredHovMaterial.current, !!isWireframe);
                 meshesAreOriginal.current = true;
             }
 
@@ -699,15 +704,21 @@ function SceneView(props: ISceneViewProps, ref) {
                                 mesh.material = shaderMaterial.current;
                                 mesh.useVertexColors =
                                     currentObjectColor.lightingStyle < 1;
-                                mesh.material.wireframe = isWireframe || false;
+                                SetWireframe(
+                                    mesh.material,
+                                    isWireframe || false
+                                );
                                 meshesAreOriginal.current = false;
                             }
                         }
                     }
                 }
 
-                hovMaterial.current.wireframe = !!isWireframe;
-                coloredHovMaterial.current.wireframe = !!isWireframe;
+                SetWireframe(hovMaterial.current, !!isWireframe);
+                SetWireframe(
+                    coloredHovMaterial.current.wireframe,
+                    !!isWireframe
+                );
             }
         }
     }, [isWireframe, isLoading, currentObjectColor]);
@@ -718,12 +729,12 @@ function SceneView(props: ISceneViewProps, ref) {
         if (sceneRef.current?.meshes?.length) {
             for (const mesh of sceneRef.current.meshes) {
                 if (mesh?.material) {
-                    mesh.material.wireframe = !!isWireframe;
+                    SetWireframe(mesh.material, !!isWireframe);
                 }
             }
 
-            hovMaterial.current.wireframe = !!isWireframe;
-            coloredHovMaterial.current.wireframe = !!isWireframe;
+            SetWireframe(hovMaterial.current, !!isWireframe);
+            SetWireframe(coloredHovMaterial.current, !!isWireframe);
         }
     }, [isWireframe, objectColors]);
 
@@ -1473,7 +1484,7 @@ function SceneView(props: ISceneViewProps, ref) {
             debugLog('debug', 'Creating material for ' + materialId);
         }
 
-        material.wireframe = !!isWireframe;
+        SetWireframe(material, !!isWireframe);
         mesh.material = material;
         coloredMaterials.current[mesh.id] = material;
     };

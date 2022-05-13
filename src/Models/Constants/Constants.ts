@@ -141,7 +141,7 @@ export const ViewerModeObjectColors: IADTObjectColor[] = [
     //Gold
     {
         color: '#e3d072',
-        baseColor: '#675d241A',
+        baseColor: '#e4b7691A',
         fresnelColor: '#ecdd684D',
         lightingStyle: 1,
         coloredMeshColor: '#00A8F055',
@@ -179,7 +179,7 @@ export const ViewerModeBackgroundColors: Array<IADTBackgroundColor> = [
         aggregateBadgeTextColor: '#000000',
         outlineHover: '#FFFFFFFF',
         outlineSelected: '#FFFFFFFF',
-        objectLuminanceRatio: 3
+        objectLuminanceRatio: 1.2
     },
     {
         color: 'radial-gradient(#dddddd 0%, #ffffff 70%)',

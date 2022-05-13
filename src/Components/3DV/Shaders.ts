@@ -186,3 +186,16 @@ export function selectAlphaMode(alpha: number) {
 export function ToColor3(input: BABYLON.Color4) {
     return new BABYLON.Color3(input.r, input.g, input.b);
 }
+export function SetWireframe(material: BABYLON.Material, isWireframe: boolean) {
+    if (!material) return;
+
+    if (material.alpha < 1) {
+        material.alphaMode = isWireframe
+            ? BABYLON.Constants.ALPHA_PREMULTIPLIED_PORTERDUFF
+            : BABYLON.Constants.ALPHA_COMBINE;
+    } else {
+        material.alphaMode = BABYLON.Constants.ALPHA_DISABLE;
+    }
+
+    material.wireframe = isWireframe;
+}
