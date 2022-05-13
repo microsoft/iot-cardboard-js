@@ -167,7 +167,8 @@ export const ViewerModeBackgroundColors: Array<IADTBackgroundColor> = [
         aggregateBadgeColor: '#ffffff',
         aggregateBadgeTextColor: '#000000',
         outlineHover: '#FFFFFFFF',
-        outlineSelected: '#FFFFFFFF'
+        outlineSelected: '#FFFFFFFF',
+        objectLuminanceRatio: 1.2
     },
     {
         color: 'radial-gradient(#333333 0%, #0d0f0e 70%)',
@@ -177,7 +178,8 @@ export const ViewerModeBackgroundColors: Array<IADTBackgroundColor> = [
         aggregateBadgeColor: '#ffffff',
         aggregateBadgeTextColor: '#000000',
         outlineHover: '#FFFFFFFF',
-        outlineSelected: '#FFFFFFFF'
+        outlineSelected: '#FFFFFFFF',
+        objectLuminanceRatio: 3
     },
     {
         color: 'radial-gradient(#dddddd 0%, #ffffff 70%)',

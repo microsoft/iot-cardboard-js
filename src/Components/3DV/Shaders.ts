@@ -6,7 +6,8 @@ export function makeMaterial(
     baseColor: BABYLON.Color4,
     fresnelColor?: BABYLON.Color4,
     reflectionTexture?: BABYLON.Texture,
-    lightingStyle?: number
+    lightingStyle?: number,
+    bgLuminanceRatio?: number
 ) {
     if (lightingStyle === 0)
         return makePBRMaterial(
@@ -15,7 +16,8 @@ export function makeMaterial(
             baseColor,
             fresnelColor,
             reflectionTexture,
-            lightingStyle
+            lightingStyle,
+            bgLuminanceRatio
         );
     else
         return makeStandardMaterial(
@@ -24,7 +26,8 @@ export function makeMaterial(
             baseColor,
             fresnelColor,
             reflectionTexture,
-            lightingStyle
+            lightingStyle,
+            bgLuminanceRatio
         );
 }
 
@@ -34,7 +37,8 @@ export function makeStandardMaterial(
     baseColor: BABYLON.Color4,
     fresnelColor?: BABYLON.Color4,
     reflectionTexture?: BABYLON.Texture,
-    lightingStyle?: number
+    lightingStyle?: number,
+    bgLuminanceRatio?: number
 ) {
     const material = new BABYLON.StandardMaterial(name, scene);
     const baseColor3 = new BABYLON.Color3(
@@ -49,6 +53,7 @@ export function makeStandardMaterial(
     );
     const isTransparent = baseColor.a < 1;
     if (!lightingStyle) lightingStyle = 0;
+    if (!bgLuminanceRatio) bgLuminanceRatio = 1;
 
     //diffuse
     material.diffuseColor = baseColor3;
@@ -62,7 +67,7 @@ export function makeStandardMaterial(
         //material.alphaMode = 0;
         //material.diffuseColor = baseColor3;
         //material.ambientColor = BABYLON.Color3.White();
-        material.emissiveColor = baseColor3;
+        material.emissiveColor = baseColor3.scale(bgLuminanceRatio);
         //material.needAlphaTesting = () => material.opacityTexture !== null;
         //material.
     } else {
@@ -128,7 +133,8 @@ export function makePBRMaterial(
     baseColor: BABYLON.Color4,
     fresnelColor?: BABYLON.Color4,
     reflectionTexture?: BABYLON.Texture,
-    lightingStyle?: number
+    lightingStyle?: number,
+    bgLuminanceRatio?: number
 ) {
     const material = new BABYLON.PBRMetallicRoughnessMaterial(name, scene);
     const baseColor3 = new BABYLON.Color3(

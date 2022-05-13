@@ -177,8 +177,8 @@ function SceneView(props: ISceneViewProps, ref) {
     const meshesAreOriginal = useRef(true);
     const reflectionTexture = useRef<BABYLON.Texture>(null);
     const outlinedMeshes = useRef<BABYLON.AbstractMesh[]>([]);
-    //const clonedHighlightMeshes = useRef<BABYLON.AbstractMesh[]>([]);
-    //const highlightLayer = useRef<HighlightLayer>(null);
+    const clonedHighlightMeshes = useRef<BABYLON.AbstractMesh[]>([]);
+    const highlightLayer = useRef<HighlightLayer>(null);
     const badgeGroupsRef = useRef<any[]>([]);
     const [currentObjectColor, setCurrentObjectColor] = useState(
         DefaultViewerModeObjectColor
@@ -615,7 +615,8 @@ function SceneView(props: ISceneViewProps, ref) {
                             currentObjectColor.meshHoverColor
                     ),
                     reflectionTexture.current,
-                    currentObjectColor.lightingStyle
+                    currentObjectColor.lightingStyle,
+                    backgroundColorRef.current.objectLuminanceRatio
                 ));
 
             //Use the matching cached selected-hover material or create a new one, cache it, and use it
@@ -636,7 +637,8 @@ function SceneView(props: ISceneViewProps, ref) {
                             currentObjectColor.coloredMeshHoverColor
                     ),
                     reflectionTexture.current,
-                    currentObjectColor.lightingStyle
+                    currentObjectColor.lightingStyle,
+                    backgroundColorRef.current.objectLuminanceRatio
                 ));
 
             if (
@@ -676,7 +678,8 @@ function SceneView(props: ISceneViewProps, ref) {
                     baseColor,
                     fresnelColor,
                     reflectionTexture.current,
-                    currentObjectColor.lightingStyle
+                    currentObjectColor.lightingStyle,
+                    backgroundColorRef.current.objectLuminanceRatio
                 );
 
                 shaderMaterial.current = material;
@@ -837,7 +840,7 @@ function SceneView(props: ISceneViewProps, ref) {
                     'hover',
                     sceneRef.current
                 );
-                hovMaterial.current.diffuseColor = BABYLON.Color4.FromHexString(
+                hovMaterial.current.diffuseColor = BABYLON.Color3.FromHexString(
                     currentObjectColor.meshHoverColor
                 );
 
@@ -845,18 +848,20 @@ function SceneView(props: ISceneViewProps, ref) {
                     'colHov',
                     sceneRef.current
                 );
-                coloredHovMaterial.current.diffuseColor = BABYLON.Color4.FromHexString(
+                coloredHovMaterial.current.diffuseColor = BABYLON.Color3.FromHexString(
                     currentObjectColor.coloredMeshHoverColor
                 );
 
-                // highlightLayer.current = new BABYLON.HighlightLayer(
-                //     'hl1',
-                //     sceneRef.current,
-                //     {
-                //         blurHorizontalSize: 0,
-                //         blurVerticalSize: 0
-                //     }
-                // );
+                highlightLayer.current = new BABYLON.HighlightLayer(
+                    'hl1',
+                    sceneRef.current,
+                    {
+                        isStroke: true,
+                        mainTextureRatio: 2,
+                        blurHorizontalSize: 0.4,
+                        blurVerticalSize: 0.4
+                    }
+                );
 
                 const light = new BABYLON.HemisphericLight(
                     'light',
@@ -866,8 +871,6 @@ function SceneView(props: ISceneViewProps, ref) {
                 light.diffuse = new BABYLON.Color3(0.8, 0.8, 0.8);
                 light.specular = new BABYLON.Color3(1, 1, 1);
                 light.groundColor = new BABYLON.Color3(0.2, 0.2, 0.2);
-                light.lightmapMode = BABYLON.Light.LIGHTMAP_SHADOWSONLY;
-                sceneRef.current.environmentIntensity = 0;
 
                 setScene(sceneRef.current);
                 setIsLoading(false);
@@ -1365,7 +1368,7 @@ function SceneView(props: ISceneViewProps, ref) {
                 };
 
                 const transition = 250;
-                const interval = 2000;
+                const interval = 500;
                 let elapsed = 0;
 
                 const transitionNrm = function () {
@@ -1382,13 +1385,13 @@ function SceneView(props: ISceneViewProps, ref) {
                                         meshMap.current?.[
                                             coloredMeshGroup.meshId
                                         ];
-                                    const transitionColor = BABYLON.Color4.Lerp(
-                                        hexToColor4(
+                                    const transitionColor = BABYLON.Color3.Lerp(
+                                        BABYLON.Color3.FromHexString(
                                             coloredMeshGroup.colors[
                                                 coloredMeshGroup.currentColor
                                             ]
                                         ),
-                                        hexToColor4(
+                                        BABYLON.Color3.FromHexString(
                                             coloredMeshGroup.colors[
                                                 nextColor(
                                                     coloredMeshGroup.currentColor,
@@ -1462,7 +1465,8 @@ function SceneView(props: ISceneViewProps, ref) {
                 hexToColor4(col),
                 hexToColor4(fresnelCol),
                 reflectionTexture.current,
-                currentObjectColor.lightingStyle
+                currentObjectColor.lightingStyle,
+                backgroundColorRef.current.objectLuminanceRatio
             );
 
             materialCacheRef.current[materialId] = material;
@@ -1474,68 +1478,39 @@ function SceneView(props: ISceneViewProps, ref) {
         coloredMaterials.current[mesh.id] = material;
     };
 
-    const updateOutlineWidths = () => {
-        //if (!outlinedMeshes) return;
-        for (const mesh of outlinedMeshes.current) {
-            mesh.outlineWidth =
-                BABYLON.Vector3.Distance(
-                    cameraRef.current.position,
-                    mesh.position
-                ) * 10;
-        }
-    };
     // Handle outlinedMeshItems
     useEffect(() => {
         debugLog('debug', 'Outline Mesh effect');
         if (outlinedMeshitems) {
             for (const item of outlinedMeshitems) {
-                const meshToOutline: BABYLON.Mesh =
+                let meshToOutline: BABYLON.Mesh =
                     meshMap.current?.[item.meshId];
                 if (meshToOutline) {
                     try {
-                        // if (currentObjectColor.lightingStyle > 0) {
-                        //     //Alpha_ADD blended meshes do not work well with highlight layers.
-                        //     //If we are alpha blending, we will duplicate the mesh, highlight the duplicate and overlay it to properly layer the highlight
-                        //     const clone = meshToOutline.clone(
-                        //         '',
-                        //         null,
-                        //         true,
-                        //         false
-                        //     );
-                        //     clone.material = outlineMaterial(sceneRef.current);
-                        //     clone.alphaIndex = 2;
-                        //     clone.isPickable = false;
-                        //     clonedHighlightMeshes.current.push(clone);
-                        //     sceneRef.current.meshes.push(clone);
-                        //     meshToOutline = clone;
-                        // }
-                        // highlightLayer.current.addMesh(
-                        //     meshToOutline,
-                        //     ToColor3(
-                        //         hexToColor4(
-                        //             item.color
-                        //                 ? item.color
-                        //                 : currentObjectColor.outlinedMeshSelectedColor
-                        //         )
-                        //     )
-                        // );
-
-                        meshToOutline.renderOutline = true;
-                        meshToOutline.onBeforeRenderObservable.clear();
-                        meshToOutline.onBeforeRenderObservable.add(() => {
-                            meshToOutline.outlineWidth =
-                                BABYLON.Vector3.Distance(
-                                    cameraRef.current.position,
-                                    meshToOutline.getBoundingInfo().boundingBox
-                                        .centerWorld
-                                ) * 1.0;
-                        });
-
-                        meshToOutline.outlineColor = ToColor3(
-                            hexToColor4(
-                                backgroundColor.outlineHover
-                                    ? backgroundColor.outlineHover
-                                    : '#FFFFFFFF' //currentObjectColor.outlinedMeshSelectedColor
+                        if (currentObjectColor.lightingStyle > 0) {
+                            //Alpha_ADD blended meshes do not work well with highlight layers.
+                            //If we are alpha blending, we will duplicate the mesh, highlight the duplicate and overlay it to properly layer the highlight
+                            const clone = meshToOutline.clone(
+                                '',
+                                null,
+                                true,
+                                false
+                            );
+                            clone.material = outlineMaterial(sceneRef.current);
+                            clone.alphaIndex = 2;
+                            clone.isPickable = false;
+                            clonedHighlightMeshes.current.push(clone);
+                            sceneRef.current.meshes.push(clone);
+                            meshToOutline = clone;
+                        }
+                        highlightLayer.current.addMesh(
+                            meshToOutline,
+                            ToColor3(
+                                hexToColor4(
+                                    item.color
+                                        ? item.color
+                                        : currentObjectColor.outlinedMeshSelectedColor
+                                )
                             )
                         );
 
@@ -1550,23 +1525,22 @@ function SceneView(props: ISceneViewProps, ref) {
         return () => {
             debugLog('debug', 'Outline Mesh cleanup');
             for (const mesh of outlinedMeshes.current) {
-                mesh.renderOutline = false;
+                highlightLayer.current.removeMesh(mesh as BABYLON.Mesh);
             }
-
-            // //This array keeps growing in length even though it is completely emptied during cleanup...
-            // //Is this best practice for resetting an array?
+            //This array keeps growing in length even though it is completely emptied during cleanup...
+            //Is this best practice for resetting an array?
             outlinedMeshes.current = [];
 
-            // //If we have cloned meshes for highlight, delete them
-            // if (clonedHighlightMeshes.current) {
-            //     for (const mesh of clonedHighlightMeshes.current) {
-            //         mesh?.dispose();
-            //         //Assume that all new meshes are highlight clones and decrement the scene mesh array after disposal to prevent overflow
-            //         if (sceneRef.current?.meshes)
-            //             sceneRef.current.meshes.length--;
-            //     }
-            //     clonedHighlightMeshes.current = [];
-            // }
+            //If we have cloned meshes for highlight, delete them
+            if (clonedHighlightMeshes.current) {
+                for (const mesh of clonedHighlightMeshes.current) {
+                    mesh?.dispose();
+                    //Assume that all new meshes are highlight clones and decrement the scene mesh array after disposal to prevent overflow
+                    if (sceneRef.current?.meshes)
+                        sceneRef.current.meshes.length--;
+                }
+                clonedHighlightMeshes.current = [];
+            }
         };
     }, [outlinedMeshitems, meshMap.current]);
 
