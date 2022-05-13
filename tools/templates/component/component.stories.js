@@ -5,7 +5,7 @@ import { getDefaultStoryDecorator } from '../../Models/Services/StoryUtilities';
 import ${componentName} from './${componentName}';
 import { I${componentName}Props } from './${componentName}.types';
 
-const wrapperStyle = { width: '100%', height: '600px' };
+const wrapperStyle = { width: '100%', height: '600px', padding: 8 };
 
 export default {
     title: 'Components/${componentName}',
@@ -19,9 +19,9 @@ const Template: ${componentName}Story = (args) => {
     return <${componentName} {...args} />;
 };
 
-export const ${componentName}Mock = Template.bind({}) as ${componentName}Story;
+export const Base = Template.bind({}) as ${componentName}Story;
 
-${componentName}Mock.args = {};
+Base.args = {} as I${componentName}Props;
 `,
     extension: `.stories.tsx`
 });

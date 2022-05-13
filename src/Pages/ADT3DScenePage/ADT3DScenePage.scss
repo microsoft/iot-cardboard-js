@@ -10,14 +10,6 @@
         background: transparent;
     }
 
-    .cb-scene-page-container {
-        background-color: var(--cb-color-bg-canvas);
-        display: flex;
-        flex-direction: column;
-        height: 100%;
-        padding: 16px;
-    }
-
     .cb-scene-page-scene-environment-picker {
         display: flex;
         flex: 1;
@@ -98,13 +90,6 @@
             height: 100%;
         }
     }
-}
-
-.cb-scene-page-mode-toggle-container {
-    position: absolute;
-    right: 8px;
-    top: 0;
-    z-index: 1;
 }
 
 .cb-left-panel-builder-header {

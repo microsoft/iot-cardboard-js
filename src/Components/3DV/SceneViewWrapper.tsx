@@ -31,8 +31,7 @@ import {
     ViewerModeObjectColors,
     ViewerThemeKey
 } from '../../Models/Constants';
-import SceneLayers from '../ADT3DSceneBuilder/Internal/SceneLayers/SceneLayers';
-import { CameraControls } from './CameraControls';
+import { CameraControls } from './Internal/CameraControls/CameraControls';
 import {
     classNamesFunction,
     css,
@@ -40,8 +39,6 @@ import {
     styled,
     useTheme
 } from '@fluentui/react';
-import { WrapperMode } from './SceneView.types';
-import DeeplinkFlyout from '../DeeplinkFlyout/DeeplinkFlyout';
 import { getStyles } from './SceneViewWrapper.styles';
 import {
     ISceneViewWrapperStyleProps,
@@ -87,7 +84,7 @@ const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = (props) => {
     const sceneViewComponent = useRef();
 
     const theme = useTheme();
-    const classNames = getClassNames(styles, { theme });
+    const classNames = getClassNames(styles, { theme, mode: wrapperMode });
 
     useEffect(() => {
         const cameraInteraction = localStorage.getItem(
@@ -231,31 +228,21 @@ const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = (props) => {
             }
             className={css('cb-sceneview-wrapper ', classNames.root)}
         >
+            <SceneView
+                ref={sceneViewComponent}
+                isWireframe={selectedViewerMode?.isWireframe}
+                objectColors={selectedViewerMode?.objectColor}
+                backgroundColor={selectedViewerMode?.background}
+                onCameraMove={addInProps?.onCameraMove ? cameraMove : undefined}
+                {...svp}
+                onMeshHover={meshHover}
+                onMeshClick={meshClick}
+                onSceneLoaded={sceneLoaded}
+                cameraInteractionType={cameraInteractionType}
+            />
             <Stack
                 horizontal
-                tokens={{ childrenGap: 8 }}
-                styles={classNames.subComponentStyles.leftHeaderControlsStack}
-            >
-                {wrapperMode === WrapperMode.Builder && <SceneLayers />}
-                {!hideViewModePickerUI && (
-                    <ModelViewerModePicker
-                        defaultViewerMode={{
-                            objectColor: selectedViewerMode?.objectColor?.color,
-                            style: selectedViewerMode?.style,
-                            background: selectedViewerMode?.background?.color
-                        }}
-                        viewerModeUpdated={onViewerModeUpdated}
-                        objectColors={ViewerModeObjectColors}
-                        backgroundColors={ViewerModeBackgroundColors}
-                    />
-                )}
-                {wrapperMode === WrapperMode.Viewer && (
-                    <DeeplinkFlyout mode="Options" />
-                )}
-            </Stack>
-            <Stack
-                horizontal
-                styles={classNames.subComponentStyles.centerHeaderControlsStack}
+                styles={classNames.subComponentStyles.cameraControlsStack}
             >
                 <CameraControls
                     cameraInteraction={cameraInteractionType}
@@ -270,18 +257,23 @@ const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = (props) => {
                     }
                 />
             </Stack>
-            <SceneView
-                ref={sceneViewComponent}
-                isWireframe={selectedViewerMode?.isWireframe}
-                objectColors={selectedViewerMode?.objectColor}
-                backgroundColor={selectedViewerMode?.background}
-                onCameraMove={addInProps?.onCameraMove ? cameraMove : undefined}
-                {...svp}
-                onMeshHover={meshHover}
-                onMeshClick={meshClick}
-                onSceneLoaded={sceneLoaded}
-                cameraInteractionType={cameraInteractionType}
-            />
+            <Stack
+                horizontal
+                styles={classNames.subComponentStyles.rightHeaderControlsStack}
+            >
+                {!hideViewModePickerUI && (
+                    <ModelViewerModePicker
+                        defaultViewerMode={{
+                            objectColor: selectedViewerMode?.objectColor?.color,
+                            style: selectedViewerMode?.style,
+                            background: selectedViewerMode?.background?.color
+                        }}
+                        viewerModeUpdated={onViewerModeUpdated}
+                        objectColors={ViewerModeObjectColors}
+                        backgroundColors={ViewerModeBackgroundColors}
+                    />
+                )}
+            </Stack>
         </div>
     );
 };

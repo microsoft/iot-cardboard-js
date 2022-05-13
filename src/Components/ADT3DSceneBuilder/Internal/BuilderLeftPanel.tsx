@@ -387,12 +387,11 @@ const BuilderLeftPanel: React.FC = () => {
                 payload: []
             });
         }
-    }, [config]);
+    }, [config, dispatch, sceneId]);
 
     // Get behaviors in active scene
     const behaviors = useMemo(() => config?.configuration?.behaviors || [], [
-        config,
-        sceneId
+        config
     ]);
 
     return (
