@@ -36,6 +36,7 @@ import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 
 const ASCII_VALUE_BEFORE_LOWERCASE_ALPHABET = 96;
 interface IPropertySelectorProps {
+    onTagClickCallback?: () => void;
     className?: string;
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
     lastPropertyFocused?: IOATLastPropertyFocused;
@@ -49,6 +50,7 @@ const PropertySelector = ({
     setPropertySelectorVisible,
     lastPropertyFocused,
     dispatch,
+    onTagClickCallback,
     state
 }: IPropertySelectorProps) => {
     const { t } = useTranslation();
@@ -185,6 +187,10 @@ const PropertySelector = ({
     };
 
     const handleTagClick = (tag) => {
+        if (onTagClickCallback) {
+            onTagClickCallback();
+        }
+
         if (
             lastPropertyFocused &&
             typeof lastPropertyFocused.item.schema === 'object'

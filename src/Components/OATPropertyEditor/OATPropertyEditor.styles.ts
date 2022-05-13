@@ -180,7 +180,8 @@ export const getPropertyInspectorStyles = () => {
         addPropertyMessageWrap: [
             classNames.addPropertyMessageWrap,
             {
-                position: 'relative'
+                position: 'relative',
+                width: 'fit-content'
             }
         ],
         propertySelector: [
@@ -195,22 +196,7 @@ export const getPropertyInspectorStyles = () => {
                 boxShadow: '0px 5px 10px 1px rgba(0,0,0,0.05)',
                 position: 'absolute',
                 left: '-50%',
-                bottom: '100%'
-            }
-        ],
-        propertySelectorPropertyListHeader: [
-            classNames.propertySelector,
-            {
-                display: 'flex',
-                flexDirection: 'row',
-                backgroundColor: theme.semanticColors.listBackground,
-                borderRadius: '4px',
-                borderBottom: `1px solid ${theme.semanticColors.variantBorder}`,
-                zIndex: 100,
-                boxShadow: '0px 5px 10px 1px rgba(0,0,0,0.05)',
-                position: 'absolute',
-                left: '-50%',
-                bottom: '25%'
+                bottom: '15%'
             }
         ],
         propertySelectorHeader: [
@@ -432,7 +418,7 @@ export const getPropertyInspectorStyles = () => {
                 backgroundColor: 'theme.semanticColors.listBackground',
                 alignItems: 'start',
                 padding: '12px 0px',
-                minHeight: '100px',
+                minHeight: '80px',
                 cursor: 'grab',
                 ':active': {
                     cursor: 'grabbing'
@@ -525,7 +511,7 @@ export const getPropertyInspectorStyles = () => {
             classNames.addPropertyBarPropertyListWrap,
             {
                 position: 'relative',
-                marginTop: '20px'
+                paddingTop: '20px'
             } as IStyle
         ],
         addPropertyBarIcon: [

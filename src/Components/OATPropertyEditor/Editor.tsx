@@ -52,11 +52,11 @@ const Editor = ({
     const enteredPropertyRef = useRef(null);
     const { model, templatesActive } = state;
     const [hover, setHover] = useState(false);
+    const [propertyOnHover, setPropertyOnHover] = useState(false);
     const [propertySelectorVisible, setPropertySelectorVisible] = useState(
         false
     );
 
-    const PROPERTY_LIST_HEADER = 'PROPERTY_LIST_HEADER';
     return (
         <div className={propertyInspectorStyles.container}>
             <Pivot className={propertyInspectorStyles.pivot}>
@@ -66,7 +66,6 @@ const Editor = ({
                 >
                     <PropertiesModelSummary dispatch={dispatch} state={state} />
                     <div
-                        id={PROPERTY_LIST_HEADER}
                         className={
                             propertyInspectorStyles.propertyListHeaderWrap
                         }
@@ -76,6 +75,7 @@ const Editor = ({
                         onMouseLeave={() => {
                             setHover(false);
                             setPropertySelectorVisible(false);
+                            setPropertyOnHover(false);
                         }}
                     >
                         <Stack
@@ -114,12 +114,8 @@ const Editor = ({
                                     setPropertySelectorVisible
                                 }
                                 lastPropertyFocused={null}
-                                targetId={PROPERTY_LIST_HEADER}
                                 dispatch={dispatch}
                                 state={state}
-                                className={
-                                    propertyInspectorStyles.propertySelectorPropertyListHeader
-                                }
                             />
                         )}
                         {hover && model && model.contents.length > 0 && (
@@ -146,6 +142,8 @@ const Editor = ({
                             setCurrentNestedPropertyIndex
                         }
                         setModalBody={setModalBody}
+                        setPropertyOnHover={setPropertyOnHover}
+                        propertyOnHover={propertyOnHover}
                     />
                 </PivotItem>
                 <PivotItem

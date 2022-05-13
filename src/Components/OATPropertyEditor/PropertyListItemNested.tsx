@@ -150,9 +150,6 @@ export const PropertyListItemNested = ({
                     targetId={item.name}
                     dispatch={dispatch}
                     state={state}
-                    className={
-                        propertyInspectorStyles.propertySelectorPropertyListHeader
-                    }
                 />
             )}
             {hover && (

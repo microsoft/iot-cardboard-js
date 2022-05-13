@@ -38,6 +38,7 @@ type IPropertyListItem = {
     setLastPropertyFocused?: React.Dispatch<React.SetStateAction<any>>;
     setModalBody?: React.Dispatch<React.SetStateAction<string>>;
     setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
+    setPropertyOnHover?: React.Dispatch<React.SetStateAction<boolean>>;
     state?: IOATEditorState;
 };
 
@@ -57,6 +58,7 @@ export const PropertyListItem = ({
     lastPropertyFocused,
     setLastPropertyFocused,
     setModalBody,
+    setPropertyOnHover,
     state
 }: IPropertyListItem) => {
     const { t } = useTranslation();
@@ -99,10 +101,16 @@ export const PropertyListItem = ({
             className={propertyInspectorStyles.propertyListRelativeWrap}
             onMouseOver={() => {
                 setHover(true);
+                setLastPropertyFocused({
+                    item: item,
+                    index: index
+                });
+                setPropertyOnHover(true);
             }}
             onMouseLeave={() => {
                 setHover(false);
                 setPropertySelectorVisible(false);
+                setPropertyOnHover(false);
             }}
         >
             <div
@@ -117,7 +125,12 @@ export const PropertyListItem = ({
                         ? (e) => handleDragEnter(e, index)
                         : () => handleDragEnterExternalItem(index)
                 }
-                onFocus={() => setLastPropertyFocused(null)}
+                onFocus={() =>
+                    setLastPropertyFocused({
+                        item: item,
+                        index: index
+                    })
+                }
                 tabIndex={0}
             >
                 <TextField
@@ -166,16 +179,20 @@ export const PropertyListItem = ({
                         targetId={item.name}
                         dispatch={dispatch}
                         state={state}
-                        className={
-                            propertyInspectorStyles.propertySelectorPropertyListHeader
-                        }
+                        onTagClickCallback={() => {
+                            setHover(false);
+                            setPropertyOnHover(false);
+                        }}
                     />
                 )}
             </div>
             {hover && (
                 <AddPropertyBar
                     onMouseOver={() => {
-                        setLastPropertyFocused(null);
+                        setLastPropertyFocused({
+                            item: item,
+                            index: index
+                        });
                         setPropertySelectorVisible(true);
                     }}
                 />

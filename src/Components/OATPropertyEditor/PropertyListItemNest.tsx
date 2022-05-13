@@ -45,6 +45,7 @@ type IPropertyListItemNest = {
     setLastPropertyFocused?: React.Dispatch<React.SetStateAction<any>>;
     setModalBody?: React.Dispatch<React.SetStateAction<string>>;
     setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
+    setPropertyOnHover?: React.Dispatch<React.SetStateAction<boolean>>;
     state?: IOATEditorState;
 };
 
@@ -66,6 +67,7 @@ export const PropertyListItemNest = ({
     setCurrentNestedPropertyIndex,
     setModalOpen,
     setModalBody,
+    setPropertyOnHover,
     state
 }: IPropertyListItemNest) => {
     const { t } = useTranslation();
@@ -147,10 +149,12 @@ export const PropertyListItemNest = ({
                     item: item,
                     index: index
                 });
+                setPropertyOnHover(true);
             }}
             onMouseLeave={() => {
                 setHover(false);
                 setPropertySelectorVisible(false);
+                setPropertyOnHover(false);
             }}
         >
             <div
@@ -279,9 +283,10 @@ export const PropertyListItemNest = ({
                         targetId={item.name}
                         dispatch={dispatch}
                         state={state}
-                        className={
-                            propertyInspectorStyles.propertySelectorPropertyListHeader
-                        }
+                        onTagClickCallback={() => {
+                            setHover(false);
+                            setPropertyOnHover(false);
+                        }}
                     />
                 )}
             </div>

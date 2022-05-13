@@ -20,12 +20,14 @@ type IPropertyList = {
     draggingTemplate: boolean;
     enteredPropertyRef: any;
     enteredTemplateRef: any;
+    propertyOnHover: boolean;
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
     setCurrentNestedPropertyIndex: React.Dispatch<React.SetStateAction<number>>;
     setCurrentPropertyIndex?: React.Dispatch<React.SetStateAction<number>>;
     setDraggingProperty: React.Dispatch<React.SetStateAction<boolean>>;
     setModalBody?: React.Dispatch<React.SetStateAction<string>>;
     setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
+    setPropertyOnHover?: React.Dispatch<React.SetStateAction<boolean>>;
     state?: IOATEditorState;
 };
 
@@ -43,7 +45,9 @@ export const PropertyList = ({
     setModalBody,
     currentPropertyIndex,
     dispatch,
-    state
+    state,
+    propertyOnHover,
+    setPropertyOnHover
 }: IPropertyList) => {
     const { t } = useTranslation();
     const propertyInspectorStyles = getPropertyInspectorStyles();
@@ -202,6 +206,10 @@ export const PropertyList = ({
                                 targetId={PROPERTY_ADD_PROPERTY_BAR_ID}
                                 dispatch={dispatch}
                                 state={state}
+                                onTagClickCallback={() => {
+                                    setHover(false);
+                                    setPropertyOnHover(false);
+                                }}
                             />
                         )}
                         <ActionButton
@@ -254,6 +262,7 @@ export const PropertyList = ({
                                     dispatch={dispatch}
                                     state={state}
                                     deleteItem={deleteItem}
+                                    setPropertyOnHover={setPropertyOnHover}
                                 />
                             );
                         } else if (typeof item['@type'] === 'object') {
@@ -282,6 +291,7 @@ export const PropertyList = ({
                                     deleteItem={deleteItem}
                                     dispatch={dispatch}
                                     state={state}
+                                    setPropertyOnHover={setPropertyOnHover}
                                 />
                             );
                         }
@@ -290,11 +300,12 @@ export const PropertyList = ({
                     className={
                         propertyInspectorStyles.addPropertyBarPropertyListWrap
                     }
+                    onMouseLeave={() => setPropertySelectorVisible(false)}
                 >
                     {hover &&
                         model &&
                         model.contents.length > 0 &&
-                        !lastPropertyFocused && (
+                        !propertyOnHover && (
                             <AddPropertyBar
                                 onMouseOver={() => {
                                     setPropertySelectorVisible(true);
