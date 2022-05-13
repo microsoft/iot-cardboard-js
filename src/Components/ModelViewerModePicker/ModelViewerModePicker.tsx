@@ -276,6 +276,16 @@ const ModelViewerModePicker: React.FC<ModelViewerModePickerProps> = ({
                                 onChange={(e, id, color) =>
                                     updateObjectColor(color)
                                 }
+                                getColorGridCellStyles={(props) => {
+                                    if (props.disabled) {
+                                        return {
+                                            colorCell: {
+                                                opacity: '0.05'
+                                            },
+                                            svg: null
+                                        };
+                                    }
+                                }}
                             />
                         </div>
                         <h4 className={styles.subHeading}>
