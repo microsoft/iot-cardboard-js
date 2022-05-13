@@ -75,7 +75,10 @@ import { IADTObjectColor } from '../../Models/Constants';
 import { getLeftPanelStyles } from './Internal/Shared/LeftPanel.styles';
 import BehaviorsModal from '../BehaviorsModal/BehaviorsModal';
 import FloatingScenePageModeToggle from '../../Pages/ADT3DScenePage/Internal/FloatingScenePageModeToggle';
-import { useDeeplinkContext } from '../../Models/Context/DeeplinkContext/DeeplinkContext';
+import {
+    DeeplinkContextProvider,
+    useDeeplinkContext
+} from '../../Models/Context/DeeplinkContext/DeeplinkContext';
 import { DeeplinkContextActionType } from '../../Models/Context/DeeplinkContext/DeeplinkContext.types';
 import { getStyles } from './ADT3DSceneBuilder.styles';
 import SceneLayers from './Internal/SceneLayers/SceneLayers';
@@ -100,7 +103,9 @@ const getClassNames = classNamesFunction<
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('ADT3DSceneBuilder', debugLogging);
 
-const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = (props) => {
+const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
+    props
+) => {
     const {
         adapter,
         locale,
@@ -845,6 +850,14 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = (props) => {
                 </div>
             </BaseComponent>
         </SceneBuilderContext.Provider>
+    );
+};
+
+const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = (props) => {
+    return (
+        <DeeplinkContextProvider>
+            <ADT3DSceneBuilderBase {...props} />
+        </DeeplinkContextProvider>
     );
 };
 
