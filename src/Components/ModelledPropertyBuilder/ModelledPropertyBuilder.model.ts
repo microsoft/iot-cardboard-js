@@ -249,7 +249,7 @@ const addEntity = (
         addInterface(
             componentEntry,
             entity.schema,
-            path,
+            path + '.' + entity.name,
             allowedPropertyValueTypes
         );
     }
