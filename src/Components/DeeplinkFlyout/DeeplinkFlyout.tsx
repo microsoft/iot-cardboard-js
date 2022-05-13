@@ -107,7 +107,7 @@ const DeeplinkFlyout: React.FC<IDeeplinkFlyoutProps> = (props) => {
             <HeaderControlGroup>
                 <HeaderControlButton
                     className={classNames.button}
-                    data-testid={'deeplink-open-flyout'}
+                    dataTestId={'deeplink-open-flyout'}
                     id={flyoutButtonId}
                     iconProps={{ iconName: iconName }}
                     isActive={showFlyout}

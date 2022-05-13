@@ -10,6 +10,7 @@ import {
 
 export interface IHeaderControlButtonProps {
     className?: string;
+    dataTestId?: string;
     id?: string;
     /** is the button in an active state like having a flyout open or camera control active */
     isActive: boolean;

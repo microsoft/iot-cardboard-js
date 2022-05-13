@@ -27,6 +27,7 @@ const HeaderControlButton: React.FC<IHeaderControlButtonProps> = (props) => {
     const {
         buttonProps,
         children,
+        dataTestId,
         className,
         iconProps,
         id,
@@ -47,6 +48,7 @@ const HeaderControlButton: React.FC<IHeaderControlButtonProps> = (props) => {
         <IconButton
             {...buttonProps}
             className={css(classNames.root, className)}
+            data-testid={dataTestId}
             iconProps={iconProps}
             id={id}
             onClick={onClick}
