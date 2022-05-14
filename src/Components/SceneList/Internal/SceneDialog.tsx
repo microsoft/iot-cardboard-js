@@ -22,9 +22,7 @@ import {
     memoizeFunction,
     Pivot,
     PivotItem,
-    Position,
     PrimaryButton,
-    SpinButton,
     Stack,
     StackItem,
     TextField,
@@ -103,8 +101,8 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
 }) => {
     const [newSceneName, setNewSceneName] = useState('');
     const [newSceneDescription, setNewSceneDescription] = useState('');
-    const [newLatitudeValue, setNewLatitudeValue] = useState(0);
-    const [newLongtitudeValue, setNewLongtitudeValue] = useState(0);
+    const [newLatitudeValue, setNewLatitudeValue] = useState(undefined);
+    const [newLongtitudeValue, setNewLongtitudeValue] = useState(undefined);
     const [newSceneBlobUrl, setNewSceneBlobUrl] = useState('');
     const [scene, setScene] = useState<IScene>({ ...sceneToEdit });
     const sceneRef = useRef(scene);
@@ -273,8 +271,8 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
             id: undefined,
             displayName: newSceneName,
             description: newSceneDescription,
-            longitude: newLongtitudeValue,
             latitude: newLatitudeValue,
+            longitude: newLongtitudeValue,
             assets: [
                 {
                     type: '3DAsset',
@@ -344,8 +342,8 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
     const resetState = useCallback(() => {
         setNewSceneName('');
         setNewSceneDescription('');
-        setNewLatitudeValue(0);
-        setNewLongtitudeValue(0);
+        setNewLatitudeValue(undefined);
+        setNewLatitudeValue(undefined);
         setIsShowOnGlobeEnabled(isShowOnGlobeEnabled);
         setNewSceneBlobUrl('');
         setIsSelectedFileExistInBlob(false);
@@ -358,6 +356,11 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
     const isSubmitButtonDisabled = useMemo(
         () =>
             !(sceneToEdit ? scene?.displayName : newSceneName) ||
+            (isShowOnGlobeEnabled &&
+                !(
+                    (sceneToEdit ? scene?.latitude : newLatitudeValue) &&
+                    (sceneToEdit ? scene?.longitude : newLongtitudeValue)
+                )) ||
             (selected3DFilePivotItem === SelectionModeOf3DFile.FromContainer &&
                 !(sceneToEdit ? scene?.assets?.[0]?.url : newSceneBlobUrl)) ||
             (selected3DFilePivotItem === SelectionModeOf3DFile.FromComputer &&
@@ -388,9 +391,26 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
     ) => {
         setIsShowOnGlobeEnabled(checked);
         if (!checked) {
-            sceneRef.current.latitude = 0;
-            sceneRef.current.longitude = 0;
+            if (sceneRef.current?.latitude) {
+                delete sceneRef.current.latitude;
+            }
+            if (sceneRef.current?.longitude) {
+                delete sceneRef.current.longitude;
+            }
         }
+    };
+
+    const getLatitudeErrorMessage = (value: string): string => {
+        return !Number(value) || !(Number(value) >= -90 && Number(value) <= 90)
+            ? t('latitudeErrorMessage')
+            : '';
+    };
+
+    const getLongitudeErrorMessage = (value: string): string => {
+        return !Number(value) ||
+            !(Number(value) >= -180 && Number(value) <= 180)
+            ? t('longitudeErrorMessage')
+            : '';
     };
     return (
         <Dialog
@@ -430,31 +450,25 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
                 {isShowOnGlobeEnabled && (
                     <>
                         <StackItem>
-                            <SpinButton
+                            <TextField
                                 label={t('scenes.latitude')}
-                                labelPosition={Position.top}
-                                defaultValue={String(scene?.latitude ?? 0)}
-                                min={-90}
-                                max={90}
-                                step={0.000001}
-                                styles={{
-                                    spinButtonWrapper: { width: 200 }
-                                }}
+                                defaultValue={String(scene?.latitude ?? '')}
+                                onGetErrorMessage={getLatitudeErrorMessage}
+                                placeholder={t('scenes.sampleLatitude')}
+                                required
                                 onChange={handleLatitudeValueChange}
+                                validateOnLoad={false}
                             />
                         </StackItem>
                         <StackItem>
-                            <SpinButton
+                            <TextField
                                 label={t('scenes.longitude')}
-                                labelPosition={Position.top}
-                                defaultValue={String(scene?.longitude ?? 0)}
-                                min={-180}
-                                max={180}
-                                step={0.000001}
-                                styles={{
-                                    spinButtonWrapper: { width: 200 }
-                                }}
+                                defaultValue={String(scene?.longitude ?? '')}
+                                placeholder={t('scenes.sampleLongitude')}
+                                onGetErrorMessage={getLongitudeErrorMessage}
+                                required
                                 onChange={handleLongitudeValueChange}
+                                validateOnLoad={false}
                             />
                         </StackItem>
                     </>

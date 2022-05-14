@@ -257,10 +257,12 @@ const SceneList: React.FC<SceneListProps> = ({
             minWidth: 100
         }
     ];
-    const checkForLatAndLongValues = (config: I3DScenesConfig) => {
-        const result = ViewerConfigUtility.hasGlobeCoordinates(config);
-        if (result) {
-            columns.push(
+
+    const getColumns = React.useMemo(() => {
+        if (ViewerConfigUtility.hasGlobeCoordinates(sceneList)) {
+            columns.splice(
+                3,
+                0,
                 {
                     key: 'scene-latitude',
                     name: t('scenes.latitude'),
@@ -275,7 +277,8 @@ const SceneList: React.FC<SceneListProps> = ({
                 }
             );
         }
-    };
+        return columns;
+    }, [sceneList]);
     const renderBlobDropdown = useCallback(
         (
             onChange?: (blobUrl: string) => void,
@@ -339,11 +342,10 @@ const SceneList: React.FC<SceneListProps> = ({
                     </div>
 
                     <div className="cb-scenes-list">
-                        {checkForLatAndLongValues(config)}
                         <DetailsList
                             selectionMode={SelectionMode.none}
                             items={sceneList}
-                            columns={columns}
+                            columns={getColumns}
                             setKey="set"
                             layoutMode={DetailsListLayoutMode.justified}
                             onRenderRow={renderListRow}

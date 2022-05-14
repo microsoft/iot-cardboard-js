@@ -1033,9 +1033,9 @@ abstract class ViewerConfigUtility {
 
         return twinAliases;
     };
-    static hasGlobeCoordinates = (config: I3DScenesConfig) => {
-        const scene = config.configuration.scenes.find(
-            (s) => s.latitude !== 0 || s.longitude !== 0
+    static hasGlobeCoordinates = (sceneList: IScene[]) => {
+        const scene = sceneList.find(
+            (s) => s?.latitude !== undefined || s?.longitude !== undefined
         );
         return scene ? true : false;
     };
