@@ -35,6 +35,26 @@ import IllustrationMessage from '../../../IllustrationMessage/IllustrationMessag
 import noResults from '../../../../Resources/Static/noResults.svg';
 import noElements from '../../../../Resources/Static/noElements.svg';
 
+const sortElements = (elements: ITwinToObjectMapping[]) => {
+    return elements?.sort((a, b) => (a.displayName > b.displayName ? 1 : -1));
+};
+
+const sortAndGroupElements = (
+    elements: ITwinToObjectMapping[],
+    selectedElements: ITwinToObjectMapping[]
+) => {
+    const sortedSelectedElements = sortElements(selectedElements);
+
+    const sortedElements = sortElements(elements);
+
+    // put selected items first
+    const nonSelectedElements = sortedElements?.filter(
+        (element) => !sortedSelectedElements?.find((x) => x.id === element.id)
+    );
+
+    return sortedSelectedElements?.concat(nonSelectedElements);
+};
+
 const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
     elements,
     selectedElements,
@@ -184,7 +204,7 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
             filteredSelected
         );
         setFilteredElements(sortedFilteredElements);
-    }, [searchText]);
+    }, [searchText, elements, selectedElements]);
 
     const onUpdateCheckbox = useCallback(
         (element: ITwinToObjectMapping) => {
@@ -196,29 +216,6 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
         },
         [selectedElements, updateSelectedElements, elementsSorted.current]
     );
-
-    const sortElements = (elements: ITwinToObjectMapping[]) => {
-        return elements?.sort((a, b) =>
-            a.displayName > b.displayName ? 1 : -1
-        );
-    };
-
-    const sortAndGroupElements = (
-        elements: ITwinToObjectMapping[],
-        selectedElements: ITwinToObjectMapping[]
-    ) => {
-        const sortedSelectedElements = sortElements(selectedElements);
-
-        const sortedElements = sortElements(elements);
-
-        // put selected items first
-        const nonSelectedElements = sortedElements?.filter(
-            (element) =>
-                !sortedSelectedElements?.find((x) => x.id === element.id)
-        );
-
-        return sortedSelectedElements?.concat(nonSelectedElements);
-    };
 
     const onMultiSelectChanged = useCallback(() => {
         clearSelectedElements();
