@@ -824,6 +824,11 @@
     "collapse": "Összeomlás",
     "info": "Infó",
     "more": "Több",
-    "copy": "másolat"
+    "copy": "másolat",
+    "cancel": "Érvénytelenít",
+    "delete": "Töröl",
+    "multiLanguage": "többnyelvű",
+    "region": "Régió",
+    "singleLanguage": "Egynyelvű"
   }
 }

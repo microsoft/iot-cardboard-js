@@ -824,6 +824,11 @@
     "collapse": "Çökmek",
     "info": "Bilgi",
     "more": "Daha",
-    "copy": "kopya etmek"
+    "copy": "kopya etmek",
+    "cancel": "İptal",
+    "delete": "Silmek",
+    "multiLanguage": "çoklu dil",
+    "region": "Bölge",
+    "singleLanguage": "Tek dil"
   }
 }

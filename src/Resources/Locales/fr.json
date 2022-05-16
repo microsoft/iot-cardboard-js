@@ -824,6 +824,11 @@
     "collapse": "Effondrement",
     "info": "Info",
     "more": "Plus",
-    "copy": "copier"
+    "copy": "copier",
+    "cancel": "Annuler",
+    "delete": "Supprimer",
+    "multiLanguage": "multilingue",
+    "region": "Région",
+    "singleLanguage": "Langue unique"
   }
 }

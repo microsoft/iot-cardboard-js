@@ -824,6 +824,11 @@
     "collapse": "Colapso",
     "info": "Informação",
     "more": "Mais",
-    "copy": "cópia"
+    "copy": "cópia",
+    "cancel": "Cancelar",
+    "delete": "Excluir",
+    "multiLanguage": "multi-língua",
+    "region": "Região",
+    "singleLanguage": "Língua única"
   }
 }
