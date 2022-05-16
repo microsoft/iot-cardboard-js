@@ -19,6 +19,11 @@ import { SET_OAT_PROPERTY_EDITOR_MODEL } from '../../../Models/Constants/ActionT
 
 const foreignObjectSize = 180;
 
+export enum modelTypes {
+    relationship = 'Relationship',
+    untargeted = 'Untargeted'
+}
+
 const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
     id,
     sourceX,
@@ -102,6 +107,17 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
 
     const onNameClick = () => {
         setNameEditor(true);
+        if (
+            element.data.type !== modelTypes.relationship ||
+            element.data.type !== modelTypes.untargeted
+        ) {
+            setCurrentNode(null);
+            dispatch({
+                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                payload: null
+            });
+            return;
+        }
         const clickedRelationship = {
             '@id': element.data.id,
             id,
