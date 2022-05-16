@@ -171,7 +171,11 @@
     "description": "Description",
     "latitude": "Latitude",
     "longitude": "Longitude",
-    "showOnGlobe": "Afficher sur le globe"
+    "showOnGlobe": "Afficher sur le globe",
+    "sampleLatitude": "Ex. : 6.4511366",
+    "sampleLongitude": "Ex. : 3.3883963",
+    "longitudeErrorMessage": "La valeur d’entrée doit être comprise entre -180 et 180 degrés",
+    "latitudeErrorMessage": "La valeur d’entrée doit être comprise entre -90 et 90 degrés"
   },
   "BIMUpload": {
     "specifyFiles": "Spécifier les fichiers à partir desquels télécharger",

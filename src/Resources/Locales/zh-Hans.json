@@ -171,7 +171,11 @@
     "description": "描述",
     "latitude": "纬度",
     "longitude": "经度",
-    "showOnGlobe": "在全球显示"
+    "showOnGlobe": "在全球显示",
+    "sampleLatitude": "例如： 6.4511366",
+    "sampleLongitude": "例如： 3.3883963",
+    "longitudeErrorMessage": "输入值必须在-180和180度以内",
+    "latitudeErrorMessage": "输入值必须在-90和90度以内"
   },
   "BIMUpload": {
     "specifyFiles": "指定要从中上载的文件",

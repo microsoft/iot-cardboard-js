@@ -171,7 +171,11 @@
     "description": "Leírás",
     "latitude": "Szélesség",
     "longitude": "Hosszúság",
-    "showOnGlobe": "Show a világon"
+    "showOnGlobe": "Show a világon",
+    "sampleLatitude": "pl.: 6.4511366",
+    "sampleLongitude": "pl.: 3.3883963",
+    "longitudeErrorMessage": "A bemeneti értéknek -180 és 180 fokon belül kell lennie.",
+    "latitudeErrorMessage": "A bemeneti értéknek -90 és 90 fokon belül kell lennie"
   },
   "BIMUpload": {
     "specifyFiles": "A feltöltendő fájlok megadása",

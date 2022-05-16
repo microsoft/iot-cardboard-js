@@ -171,7 +171,11 @@
     "description": "Tarif",
     "latitude": "Enlem",
     "longitude": "Boylam",
-    "showOnGlobe": "Dünyada göster"
+    "showOnGlobe": "Dünyada göster",
+    "sampleLatitude": "Örnek: 6.4511366",
+    "sampleLongitude": "Örnek: 3.3883963",
+    "longitudeErrorMessage": "Giriş değeri -180 ve 180 derece arasında olmalıdır",
+    "latitudeErrorMessage": "Giriş değeri -90 ve 90 derece arasında olmalıdır"
   },
   "BIMUpload": {
     "specifyFiles": "Karşıya yüklenecek dosyaları belirtme",

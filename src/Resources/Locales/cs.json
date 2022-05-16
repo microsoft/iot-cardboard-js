@@ -171,7 +171,11 @@
     "description": "Popis",
     "latitude": "Zeměpisná šířka",
     "longitude": "Zeměpisná délka",
-    "showOnGlobe": "Zobrazit na zeměkouli"
+    "showOnGlobe": "Zobrazit na zeměkouli",
+    "sampleLatitude": "např.: 6.4511366",
+    "sampleLongitude": "např.: 3.3883963",
+    "longitudeErrorMessage": "Vstupní hodnota musí být v rozmezí -180 a 180 stupňů",
+    "latitudeErrorMessage": "Vstupní hodnota musí být v rozmezí -90 a 90 stupňů"
   },
   "BIMUpload": {
     "specifyFiles": "Určení souborů, ze kterých chcete nahrát",

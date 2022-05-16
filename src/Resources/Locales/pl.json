@@ -171,7 +171,11 @@
     "description": "Opis",
     "latitude": "Szerokość geograficzna",
     "longitude": "Długość",
-    "showOnGlobe": "Pokaż na mapie świata"
+    "showOnGlobe": "Pokaż na mapie świata",
+    "sampleLatitude": "np.: 6.4511366",
+    "sampleLongitude": "np.: 3.3883963",
+    "longitudeErrorMessage": "Wartość wejściowa musi mieścić się w zakresie -180 i 180 stopni",
+    "latitudeErrorMessage": "Wartość wejściowa musi mieścić się w zakresie -90 i 90 stopni"
   },
   "BIMUpload": {
     "specifyFiles": "Określanie plików do przesłania z",
