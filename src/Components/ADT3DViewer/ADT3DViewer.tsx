@@ -398,7 +398,8 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
     // mesh callbakcs
     const meshClick = (mesh: { id: string }, scene: any) => {
         // update the selected element on the context
-        setSelectedElementId(getElementByMeshId(mesh.id)?.id);
+        setSelectedElementId(getElementByMeshId(mesh?.id)?.id);
+
         if (sceneVisuals) {
             const sceneVisual = sceneVisuals.find((sceneVisual) =>
                 sceneVisual.element.objectIDs.find((id) => id === mesh?.id)
