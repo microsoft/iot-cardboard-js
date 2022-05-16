@@ -342,10 +342,10 @@ function SceneView(props: ISceneViewProps, ref) {
                                 sceneRef.current.render();
 
                                 // Update FPS counter
-                                const fps = document.getElementById('FPS');
-                                fps.innerHTML =
-                                    'FPS: ' +
-                                    engineRef.current.getFps().toFixed();
+                                // const fps = document.getElementById('FPS');
+                                // fps.innerHTML =
+                                //     'FPS: ' +
+                                //     engineRef.current.getFps().toFixed();
                             }
                         });
                     } else {
