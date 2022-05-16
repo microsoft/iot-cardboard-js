@@ -19,6 +19,11 @@ type IPropertiesModelSummary = {
     state?: IOATEditorState;
 };
 
+enum modelTypes {
+    interface = 'Interface',
+    relationship = 'Relationship'
+}
+
 export const PropertiesModelSummary = ({
     dispatch,
     setModalBody,
@@ -36,7 +41,7 @@ export const PropertiesModelSummary = ({
         <Stack styles={generalPropertiesWrapStyles}>
             <div className={propertyInspectorStyles.rowSpaceBetween}>
                 <Label>{`${t('OATPropertyEditor.general')}`}</Label>
-                {model && (
+                {model && model['@type'] === modelTypes.interface && (
                     <IconButton
                         styles={iconWrapStyles}
                         iconProps={{ iconName: 'info' }}
