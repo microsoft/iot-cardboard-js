@@ -280,7 +280,7 @@ const ModelViewerModePicker: React.FC<ModelViewerModePickerProps> = ({
                                     if (props.disabled) {
                                         return {
                                             colorCell: {
-                                                opacity: '0.05'
+                                                opacity: '0.1'
                                             },
                                             svg: null
                                         };
