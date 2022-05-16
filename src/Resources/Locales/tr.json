@@ -759,7 +759,10 @@
     "type": "Tür",
     "emptyGraph": "Model yok",
     "project": "Proje",
-    "description": "Tarif"
+    "description": "Tarif",
+    "relationships": "Ilişki",
+    "inheritances": "Miras",
+    "components": "Bileşen"
   },
   "OATPropertyEditor": {
     "displayName": "Görünen Ad",

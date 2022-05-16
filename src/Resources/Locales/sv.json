@@ -759,7 +759,10 @@
     "type": "Typ",
     "emptyGraph": "Inga modeller tillgängliga",
     "project": "Projekt",
-    "description": "Beskrivning"
+    "description": "Beskrivning",
+    "relationships": "Relationer",
+    "inheritances": "Arv",
+    "components": "Komponenter"
   },
   "OATPropertyEditor": {
     "displayName": "Visningsnamn",

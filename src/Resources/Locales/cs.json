@@ -759,7 +759,10 @@
     "type": "Typ",
     "emptyGraph": "Nejsou k dispozici žádné modely",
     "project": "Projekt",
-    "description": "Popis"
+    "description": "Popis",
+    "relationships": "Vztahy",
+    "inheritances": "Dědictví",
+    "components": "Součásti"
   },
   "OATPropertyEditor": {
     "displayName": "Zobrazovaný název",

@@ -759,7 +759,10 @@
     "type": "Type",
     "emptyGraph": "Geen modellen beschikbaar",
     "project": "Project",
-    "description": "Beschrijving"
+    "description": "Beschrijving",
+    "relationships": "Relaties",
+    "inheritances": "Erfenissen",
+    "components": "Onderdelen"
   },
   "OATPropertyEditor": {
     "displayName": "Weergegeven naam",

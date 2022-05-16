@@ -759,7 +759,10 @@
     "type": "형",
     "emptyGraph": "사용 가능한 모델 없음",
     "project": "프로젝트",
-    "description": "묘사"
+    "description": "묘사",
+    "relationships": "관계",
+    "inheritances": "상속",
+    "components": "구성 요소"
   },
   "OATPropertyEditor": {
     "displayName": "표시 이름",

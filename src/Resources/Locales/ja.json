@@ -759,7 +759,10 @@
     "type": "種類",
     "emptyGraph": "利用可能なモデルはありません",
     "project": "プロジェクト",
-    "description": "形容"
+    "description": "形容",
+    "relationships": "関係",
+    "inheritances": "遺産",
+    "components": "コンポーネント"
   },
   "OATPropertyEditor": {
     "displayName": "表示名",

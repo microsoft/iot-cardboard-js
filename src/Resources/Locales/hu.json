@@ -759,7 +759,10 @@
     "type": "Típus",
     "emptyGraph": "Nincsenek elérhető modellek",
     "project": "Projekt",
-    "description": "Leírás"
+    "description": "Leírás",
+    "relationships": "Kapcsolatok",
+    "inheritances": "Öröklések",
+    "components": "Összetevők"
   },
   "OATPropertyEditor": {
     "displayName": "Megjelenítendő név",
