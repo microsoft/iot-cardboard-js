@@ -340,6 +340,12 @@ function SceneView(props: ISceneViewProps, ref) {
                         engineRef.current.runRenderLoop(() => {
                             if (cameraRef.current) {
                                 sceneRef.current.render();
+
+                                // Update FPS counter
+                                const fps = document.getElementById('FPS');
+                                fps.innerHTML =
+                                    'FPS: ' +
+                                    engineRef.current.getFps().toFixed();
                             }
                         });
                     } else {
@@ -889,6 +895,32 @@ function SceneView(props: ISceneViewProps, ref) {
                 if (onSceneLoaded) {
                     onSceneLoaded(sceneRef.current);
                 }
+
+                const ssao = new BABYLON.SSAO2RenderingPipeline(
+                    'ssao',
+                    sceneRef.current,
+                    {
+                        ssaoRatio: 1, // Ratio of the SSAO post-process, in a lower resolution
+                        blurRatio: 1 // Ratio of the combine post-process (combines the SSAO and the scene)
+                    }
+                );
+                ssao.radius = 8;
+                ssao.totalStrength = 0.9;
+                ssao.expensiveBlur = true;
+                ssao.samples = 16;
+                ssao.maxZ = 100;
+                sceneRef.current.postProcessRenderPipelineManager.attachCamerasToRenderPipeline(
+                    'ssao',
+                    cameraRef.current
+                );
+
+                const defaultPipeline = new BABYLON.DefaultRenderingPipeline(
+                    'default',
+                    true,
+                    sceneRef.current,
+                    [cameraRef.current]
+                );
+                defaultPipeline.fxaaEnabled = true;
             }
         }
 
@@ -1494,25 +1526,41 @@ function SceneView(props: ISceneViewProps, ref) {
         debugLog('debug', 'Outline Mesh effect');
         if (outlinedMeshitems) {
             for (const item of outlinedMeshitems) {
-                let meshToOutline: BABYLON.Mesh =
+                const currentMesh: BABYLON.Mesh =
                     meshMap.current?.[item.meshId];
-                if (meshToOutline) {
+                if (currentMesh) {
+                    let meshToOutline = currentMesh;
                     try {
-                        if (currentObjectColor.lightingStyle > 0) {
-                            //Alpha_ADD blended meshes do not work well with highlight layers.
-                            //If we are alpha blending, we will duplicate the mesh, highlight the duplicate and overlay it to properly layer the highlight
-                            const clone = meshToOutline.clone(
+                        if (currentMesh.material.wireframe === true) {
+                            // When outlining a wireframed object, we only want to outline the silhouette, not the wireframe
+                            // lines themselves.  To do this we need to duplicate the mesh, disable wireframe rendering and set
+                            // the alpha to 0 so we do not see it.
+                            const clone = currentMesh.clone(
                                 '',
                                 null,
                                 true,
                                 false
                             );
-                            clone.material = outlineMaterial(sceneRef.current);
+
+                            // For some reason when rendering the duplicated outline mesh at 1:1 scale we get outline artifacts
+                            // on the wireframe itself.  We scale this up slightly to alleviate this.
+                            clone.scaling = new BABYLON.Vector3(
+                                1.01,
+                                1.01,
+                                1.01
+                            );
+
+                            clone.material = new BABYLON.StandardMaterial(
+                                'standard',
+                                scene
+                            );
+                            clone.material.alpha = 0.0;
                             clone.alphaIndex = 2;
                             clone.isPickable = false;
                             clonedHighlightMeshes.current.push(clone);
                             sceneRef.current.meshes.push(clone);
                             meshToOutline = clone;
+                            highlightLayer.current.addExcludedMesh(currentMesh);
                         }
                         highlightLayer.current.addMesh(
                             meshToOutline,

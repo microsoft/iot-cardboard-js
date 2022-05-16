@@ -36,6 +36,7 @@ import { CameraControls } from './CameraControls';
 import {
     classNamesFunction,
     css,
+    FontSizes,
     Stack,
     styled,
     useTheme
@@ -220,6 +221,13 @@ const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = (props) => {
         );
     };
 
+    const FPSCounterStyle = {
+        position: 'absolute',
+        display: 'flex',
+        bottom: 0,
+        right: 0
+    } as const;
+
     return (
         <div
             style={
@@ -282,6 +290,9 @@ const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = (props) => {
                 onSceneLoaded={sceneLoaded}
                 cameraInteractionType={cameraInteractionType}
             />
+            <label id="FPS" style={FPSCounterStyle}>
+                FPS:
+            </label>
         </div>
     );
 };
