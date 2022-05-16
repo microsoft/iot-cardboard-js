@@ -74,7 +74,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     const buttonStyles = getGraphViewerButtonStyles();
     const warningStyles = getGraphViewerWarningStyles();
     const currentNodeIdRef = useRef('');
-    const currentHandleId = useRef('');
+    const currentHandleIdRef = useRef('');
     const {
         model,
         importModels,
@@ -400,24 +400,23 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     };
 
     const onConnectStart = (evt, params) => {
-        // Stores values before connection is created
-        currentNodeIdRef.current = params.nodeId;
-        currentHandleId.current = params.handleId;
+        currentNodeIdRef.current = params.handleId ? params.nodeId : null;
+        currentHandleIdRef.current = params.handleId ? params.handleId : null;
     };
 
     const onConnectStop = (evt) => {
         // Retrieves information and creates a desired relationship between nodes
         const params: IOATRelationShipElement = {
             source: currentNodeIdRef.current,
-            sourceHandle: currentHandleId.current,
+            sourceHandle: currentHandleIdRef.current,
             label: '',
             markerEnd: 'arrow',
             type: OATRelationshipHandleName,
             data: {
                 name: '',
                 displayName: '',
-                id: `${currentNodeIdRef.current}${currentHandleId.current}`,
-                type: currentHandleId.current
+                id: `${currentNodeIdRef.current}${currentHandleIdRef.current}`,
+                type: currentHandleIdRef.current
             }
         };
         const target = (evt.path || []).find(
@@ -425,6 +424,8 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
         );
         if (target) {
             params.target = target.dataset.id;
+            params.id = `${currentNodeIdRef.current}${currentHandleIdRef.current}${target.dataset.id}`;
+            params.data.id = `${currentNodeIdRef.current}${currentHandleIdRef.current}${target.dataset.id}`;
             setElements((els) => addEdge(params, els));
         } else {
             const node = elements.find(
@@ -432,7 +433,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
             );
             const componentRelativePosition = 120;
 
-            if (currentHandleId.current === OATRelationshipHandleName) {
+            if (currentHandleIdRef.current === OATRelationshipHandleName) {
                 const name = `${node.data.name}:${OATUntargetedRelationshipName}`;
                 const id = `${node.id}:${OATUntargetedRelationshipName}`;
                 const untargetedRelationship = {
@@ -457,6 +458,8 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                     }
                 };
                 params.target = id;
+                params.id = `${currentNodeIdRef.current}${currentHandleIdRef.current}${id}`;
+                params.data.id = `${currentNodeIdRef.current}${currentHandleIdRef.current}${id}`;
                 params.data.type = `${OATUntargetedRelationshipName}`;
                 setElements((es) => [...addEdge(params, es), newNode]);
             }
