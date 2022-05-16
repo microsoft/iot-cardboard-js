@@ -824,6 +824,11 @@
     "collapse": "崩溃",
     "info": "信息",
     "more": "更多",
-    "copy": "复制"
+    "copy": "复制",
+    "cancel": "取消",
+    "delete": "删除",
+    "multiLanguage": "多国语言",
+    "region": "地区",
+    "singleLanguage": "单一语言"
   }
 }

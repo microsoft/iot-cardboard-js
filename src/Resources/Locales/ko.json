@@ -824,6 +824,11 @@
     "collapse": "무너지다",
     "info": "정보",
     "more": "더",
-    "copy": "복사"
+    "copy": "복사",
+    "cancel": "취소",
+    "delete": "삭제하다",
+    "multiLanguage": "다국어",
+    "region": "부위",
+    "singleLanguage": "단일 언어"
   }
 }

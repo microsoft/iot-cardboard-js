@@ -824,6 +824,11 @@
     "collapse": "Kollaps",
     "info": "Information",
     "more": "Mer",
-    "copy": "kopia"
+    "copy": "kopia",
+    "cancel": "Annullera",
+    "delete": "Ta bort",
+    "multiLanguage": "flera språk",
+    "region": "Region",
+    "singleLanguage": "Ett enda språk"
   }
 }

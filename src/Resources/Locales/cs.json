@@ -824,6 +824,11 @@
     "collapse": "Zhroucení",
     "info": "Informace",
     "more": "Více",
-    "copy": "kopírovat"
+    "copy": "kopírovat",
+    "cancel": "Zrušit",
+    "delete": "Vymazat",
+    "multiLanguage": "vícejazyčné",
+    "region": "Oblast",
+    "singleLanguage": "Jeden jazyk"
   }
 }

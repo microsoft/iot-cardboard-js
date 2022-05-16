@@ -824,6 +824,11 @@
     "collapse": "Zapaść",
     "info": "Informacji",
     "more": "Więcej",
-    "copy": "kopiować"
+    "copy": "kopiować",
+    "cancel": "Anuluj",
+    "delete": "Usunąć",
+    "multiLanguage": "wielojęzyczny",
+    "region": "Region",
+    "singleLanguage": "Pojedynczy język"
   }
 }

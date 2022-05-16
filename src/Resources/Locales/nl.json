@@ -824,6 +824,11 @@
     "collapse": "Instorting",
     "info": "Info",
     "more": "Meer",
-    "copy": "kopiëren"
+    "copy": "kopiëren",
+    "cancel": "Annuleren",
+    "delete": "Verwijderen",
+    "multiLanguage": "meertalig",
+    "region": "Regio",
+    "singleLanguage": "Eén taal"
   }
 }

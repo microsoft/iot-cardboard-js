@@ -824,6 +824,11 @@
     "collapse": "倒れる",
     "info": "情報",
     "more": "もっとその",
-    "copy": "写し"
+    "copy": "写し",
+    "cancel": "キャンセル",
+    "delete": "削除",
+    "multiLanguage": "多言語",
+    "region": "地域",
+    "singleLanguage": "単一言語"
   }
 }
