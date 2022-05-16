@@ -68,7 +68,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
 
     const onNameChange = (evt) => {
         setNameText(evt.target.value);
-        const clickedRelationship = {
+        const relationshipData = {
             '@id': element.data.id,
             id,
             '@type': element.data.type,
@@ -84,7 +84,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
         };
         dispatch({
             type: SET_OAT_PROPERTY_EDITOR_MODEL,
-            payload: clickedRelationship
+            payload: relationshipData
         });
     };
 
