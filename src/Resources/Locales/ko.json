@@ -171,7 +171,11 @@
     "description": "묘사",
     "latitude": "위도",
     "longitude": "경도",
-    "showOnGlobe": "전 세계에 표시"
+    "showOnGlobe": "전 세계에 표시",
+    "sampleLatitude": "예: 6.4511366",
+    "sampleLongitude": "예: 3.3883963",
+    "longitudeErrorMessage": "입력 값은 -180도 및 180도 이내여야 합니다.",
+    "latitudeErrorMessage": "입력 값은 -90도 및 90도 이내여야 합니다."
   },
   "BIMUpload": {
     "specifyFiles": "업로드할 파일 지정",

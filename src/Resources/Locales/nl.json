@@ -171,7 +171,11 @@
     "description": "Beschrijving",
     "latitude": "Breedtegraad",
     "longitude": "Lengtegraad",
-    "showOnGlobe": "Toon op globe"
+    "showOnGlobe": "Toon op globe",
+    "sampleLatitude": "bijvoorbeeld: 6,4511366",
+    "sampleLongitude": "bijvoorbeeld: 3,3883963",
+    "longitudeErrorMessage": "De invoerwaarde moet binnen -180 en 180 graden zijn",
+    "latitudeErrorMessage": "De invoerwaarde moet binnen -90 en 90 graden zijn"
   },
   "BIMUpload": {
     "specifyFiles": "Bestanden opgeven om van te uploaden",

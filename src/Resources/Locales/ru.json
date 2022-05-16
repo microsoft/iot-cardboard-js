@@ -171,7 +171,11 @@
     "description": "Описание",
     "latitude": "Широта",
     "longitude": "Долгота",
-    "showOnGlobe": "Шоу на глобусе"
+    "showOnGlobe": "Шоу на глобусе",
+    "sampleLatitude": "например: 6.4511366",
+    "sampleLongitude": "например: 3.3883963",
+    "longitudeErrorMessage": "Входное значение должно находиться в пределах -180 и 180 градусов",
+    "latitudeErrorMessage": "Входное значение должно находиться в пределах -90 и 90 градусов"
   },
   "BIMUpload": {
     "specifyFiles": "Указание файлов для загрузки из",
