@@ -108,7 +108,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
     const onNameClick = () => {
         setNameEditor(true);
         if (
-            element.data.type !== modelTypes.relationship ||
+            element.data.type !== modelTypes.relationship &&
             element.data.type !== modelTypes.untargeted
         ) {
             setCurrentNode(null);
@@ -118,6 +118,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
             });
             return;
         }
+
         const clickedRelationship = {
             '@id': element.data.id,
             id,
@@ -139,7 +140,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
             type: SET_OAT_PROPERTY_EDITOR_MODEL,
             payload: clickedRelationship
         });
-    };
+    }; //
 
     const onNameBlur = () => {
         setNameEditor(false);
@@ -240,6 +241,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                             name="text"
                             className={graphViewerStyles.textEdit}
                             onChange={onNameChange}
+                            onClick={onNameClick}
                             value={nameText}
                             onKeyDown={onKeyDown}
                             autoFocus
