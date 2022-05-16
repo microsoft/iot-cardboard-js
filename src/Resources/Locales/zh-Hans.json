@@ -759,7 +759,10 @@
     "type": "类型",
     "emptyGraph": "沒有可用的型號",
     "project": "项目",
-    "description": "描述"
+    "description": "描述",
+    "relationships": "关系",
+    "inheritances": "遗产",
+    "components": "组件"
   },
   "OATPropertyEditor": {
     "displayName": "显示名称",

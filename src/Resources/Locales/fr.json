@@ -759,7 +759,10 @@
     "type": "Type",
     "emptyGraph": "Aucun modèle disponible",
     "project": "Projet",
-    "description": "Description"
+    "description": "Description",
+    "relationships": "Relations",
+    "inheritances": "Héritages",
+    "components": "Composants"
   },
   "OATPropertyEditor": {
     "displayName": "Nom d’affichage",

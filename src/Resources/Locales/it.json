@@ -759,7 +759,10 @@
     "type": "Digitare",
     "emptyGraph": "Nessun modello disponibile",
     "project": "Progetto",
-    "description": "Descrizione"
+    "description": "Descrizione",
+    "relationships": "Relazioni",
+    "inheritances": "Eredità",
+    "components": "Componenti"
   },
   "OATPropertyEditor": {
     "displayName": "Nome visualizzato",

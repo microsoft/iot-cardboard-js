@@ -759,7 +759,10 @@
     "type": "Тип",
     "emptyGraph": "Нет доступных моделей",
     "project": "Проект",
-    "description": "Описание"
+    "description": "Описание",
+    "relationships": "Отношения",
+    "inheritances": "Наследства",
+    "components": "Компоненты"
   },
   "OATPropertyEditor": {
     "displayName": "Отображаемое имя",
