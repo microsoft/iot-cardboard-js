@@ -96,12 +96,23 @@ export const PropertyListItemNested = ({
                 setHover(false);
             }}
         >
-            <div className={getItemClassName(index)} id={item.name}>
+            <div
+                className={getItemClassName(index)}
+                id={
+                    typeof item.name === 'string'
+                        ? item.name
+                        : Object.values(item.name)[0]
+                }
+            >
                 <div></div> {/* Needed for gridTemplateColumns style  */}
                 <TextField
                     styles={textFieldStyles}
                     borderless
-                    placeholder={item.name}
+                    placeholder={
+                        typeof item.name === 'string'
+                            ? item.name
+                            : Object.values(item.name)[0]
+                    }
                     validateOnFocusOut
                     onChange={() => {
                         setCurrentPropertyIndex(parentIndex);
@@ -137,7 +148,11 @@ export const PropertyListItemNested = ({
                             handleDuplicate={() => {
                                 handleDuplicate();
                             }}
-                            targetId={item.name}
+                            targetId={
+                                typeof item.name === 'string'
+                                    ? item.name
+                                    : Object.values(item.name)[0]
+                            }
                             setSubMenuActive={setSubMenuActive}
                         />
                     )}
@@ -147,7 +162,6 @@ export const PropertyListItemNested = ({
                 <PropertySelector
                     setPropertySelectorVisible={setPropertySelectorVisible}
                     lastPropertyFocused={lastPropertyFocused}
-                    targetId={item.name}
                     dispatch={dispatch}
                     state={state}
                 />

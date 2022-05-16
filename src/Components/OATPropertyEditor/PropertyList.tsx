@@ -31,8 +31,6 @@ type IPropertyList = {
     state?: IOATEditorState;
 };
 
-const PROPERTY_ADD_PROPERTY_BAR_ID = 'addPropertyBar';
-
 export const PropertyList = ({
     setCurrentPropertyIndex,
     setModalOpen,
@@ -203,7 +201,6 @@ export const PropertyList = ({
                                     setActionButtonPropertySelectorVisible
                                 }
                                 lastPropertyFocused={lastPropertyFocused}
-                                targetId={PROPERTY_ADD_PROPERTY_BAR_ID}
                                 dispatch={dispatch}
                                 state={state}
                                 onTagClickCallback={() => {

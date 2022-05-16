@@ -27,7 +27,9 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
     markerEnd
 }) => {
     const [nameEditor, setNameEditor] = useState(false);
-    const [nameText, setNameText] = useState(data.name);
+    const [nameText, setNameText] = useState(
+        typeof data.name === 'string' ? data.name : Object.values(data.name)[0]
+    );
     const { elements, setElements, dispatch, setCurrentNode } = useContext(
         ElementsContext
     );
@@ -66,6 +68,24 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
 
     const onNameChange = (evt) => {
         setNameText(evt.target.value);
+        const clickedRelationship = {
+            '@id': element.data.id,
+            id,
+            '@type': element.data.type,
+            '@context': element.data.context,
+            displayName:
+                typeof element.data.name === 'string'
+                    ? evt.target.value
+                    : {
+                          ...element.data.name,
+                          [Object.keys(data.name)[0]]: evt.target.value
+                      },
+            contents: element.data.content ? element.data.content : []
+        };
+        dispatch({
+            type: SET_OAT_PROPERTY_EDITOR_MODEL,
+            payload: clickedRelationship
+        });
     };
 
     const onNameClick = () => {
@@ -75,7 +95,15 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
             id,
             '@type': element.data.type,
             '@context': element.data.context,
-            displayName: element.data.name,
+            displayName:
+                typeof element.data.name === 'string'
+                    ? element.data.name
+                    : {
+                          ...element.data.name,
+                          [Object.keys(element.data.name)[0]]: Object.values(
+                              element.data.name
+                          )[0]
+                      },
             contents: element.data.content ? element.data.content : []
         };
         setCurrentNode(element.id);
@@ -87,7 +115,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
 
     const onNameBlur = () => {
         setNameEditor(false);
-        if (data.name !== nameText) {
+        if (typeof data.name === 'string' && data.name !== nameText) {
             elements.find(
                 (element) => element.data.id === data.id
             ).data.name = nameText;
@@ -177,7 +205,9 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                         textAnchor="middle"
                         onClick={onNameClick}
                     >
-                        {data.name}
+                        {typeof data.name === 'string'
+                            ? data.name
+                            : Object.values(data.name)[0]}
                     </textPath>
                 </text>
             )}

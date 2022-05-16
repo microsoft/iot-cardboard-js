@@ -5,10 +5,12 @@ import FormUpdateProperty from './FormUpdateProperty';
 import FormAddEnumItem from './FormAddEnumItem';
 import { IAction } from '../../Models/Constants/Interfaces';
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
+import FormRootModelDetails from './FormRootModelDetails';
 
 export enum FromBody {
     property = 'Property',
-    enum = 'Enum'
+    enum = 'Enum',
+    rootModel = 'FormRootModel'
 }
 interface IModal {
     currentNestedPropertyIndex?: number;
@@ -64,6 +66,15 @@ export const Modal = ({
                         setCurrentNestedPropertyIndex={
                             setCurrentNestedPropertyIndex
                         }
+                        setModalBody={setModalBody}
+                        state={state}
+                    />
+                );
+            case FromBody.rootModel:
+                return (
+                    <FormRootModelDetails
+                        setModalOpen={setModalOpen}
+                        dispatch={dispatch}
                         setModalBody={setModalBody}
                         state={state}
                     />

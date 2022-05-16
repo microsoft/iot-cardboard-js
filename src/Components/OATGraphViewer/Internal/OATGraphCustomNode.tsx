@@ -23,7 +23,9 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
 }) => {
     const { t } = useTranslation();
     const [nameEditor, setNameEditor] = useState(false);
-    const [nameText, setNameText] = useState(data.name);
+    const [nameText, setNameText] = useState(
+        data.name === 'string' ? data.name : Object.values(data.name)[0]
+    );
     const [idEditor, setIdEditor] = useState(false);
     const [idText, setIdText] = useState(data.id);
     const { elements, setElements, setCurrentNode, dispatch } = useContext(
@@ -38,13 +40,17 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
     };
 
     const onNameClick = () => {
-        setNameText(data.name);
+        setNameText(
+            typeof data.name === 'string'
+                ? data.name
+                : Object.values(data.name)[0]
+        );
         setNameEditor(true);
     };
 
     const onNameBlur = () => {
         setNameEditor(false);
-        if (data.name !== nameText) {
+        if (typeof data.name === 'string' && data.name !== nameText) {
             elements.find(
                 (element) => element.id === data.id
             ).data.name = nameText;
@@ -60,7 +66,27 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
                 type: SET_OAT_PROPERTY_EDITOR_MODEL,
                 payload: modelUpdated
             });
+            return;
         }
+        elements.find((element) => element.id === data.id).data.name[
+            Object.keys(data.name)[0]
+        ] = nameText;
+
+        setElements([...elements]);
+        const modelUpdated = {
+            '@id': data.id,
+            '@type': data.type,
+            '@context': data.context,
+            displayName: {
+                ...data.name,
+                [Object.keys(data.name)[0]]: Object.values(data.name)[0]
+            },
+            contents: data.content
+        };
+        dispatch({
+            type: SET_OAT_PROPERTY_EDITOR_MODEL,
+            payload: modelUpdated
+        });
     };
 
     const onIdChange = (evt) => {
@@ -126,7 +152,11 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
                         <div className={graphViewerStyles.nodeContainer}>
                             <label>{t('OATGraphViewer.name')}:</label>
                             {!nameEditor && (
-                                <Label onClick={onNameClick}>{data.name}</Label>
+                                <Label onClick={onNameClick}>
+                                    {typeof data.name === 'string'
+                                        ? data.name
+                                        : Object.values(data.name)[0]}
+                                </Label>
                             )}
                             {nameEditor && (
                                 <TextField

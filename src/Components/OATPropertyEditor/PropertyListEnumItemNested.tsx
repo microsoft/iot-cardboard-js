@@ -75,7 +75,13 @@ export const PropertyListEnumItemNested = ({
             <TextField
                 styles={textFieldStyles}
                 borderless
-                placeholder={item.displayName}
+                placeholder={
+                    typeof item.displayName === 'string'
+                        ? item.displayName
+                            ? item.displayName
+                            : item.name
+                        : Object.values(item.displayName)[0]
+                }
                 validateOnFocusOut
                 onGetErrorMessage={getErrorMessage}
             />

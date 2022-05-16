@@ -19,8 +19,8 @@ import {
 } from './OATPropertyEditor.styles';
 import { SET_OAT_PROPERTY_EDITOR_MODEL } from '../../Models/Constants/ActionTypes';
 import { IAction } from '../../Models/Constants/Interfaces';
-import { deepCopy } from '../../Models/Services/Utils';
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
+import { deepCopy } from '../../Models/Services/Utils';
 import CountryList from '../../Pages/OATEditorPage/Resources/CountryList.json';
 
 const MULTI_LANGUAGE_OPTION_VALUE = 'multiLanguage';
@@ -28,11 +28,6 @@ const SINGLE_LANGUAGE_OPTION_VALUE = 'singleLanguage';
 
 interface IModal {
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
-    currentPropertyIndex?: number;
-    currentNestedPropertyIndex?: number;
-    setCurrentNestedPropertyIndex?: React.Dispatch<
-        React.SetStateAction<number>
-    >;
     setModalBody?: React.Dispatch<React.SetStateAction<string>>;
     setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
     state?: IOATEditorState;
@@ -43,10 +38,9 @@ enum multiLanguageSelectionType {
     description = 'description'
 }
 
-export const FormAddEnumItem = ({
+export const FormUpdateProperty = ({
     dispatch,
     setModalOpen,
-    currentPropertyIndex,
     setModalBody,
     state
 }: IModal) => {
@@ -54,13 +48,10 @@ export const FormAddEnumItem = ({
     const propertyInspectorStyles = getPropertyInspectorStyles();
     const columnLeftTextStyles = getModalLabelStyles();
     const radioGroupRowStyle = getRadioGroupRowStyles();
-    const [displayName, setDisplayName] = useState(null);
-    const [name, setName] = useState(null);
-    const [enumValue, setEnumValue] = useState(null);
-    const [id, setId] = useState(null);
     const [comment, setComment] = useState(null);
+    const [displayName, setDisplayName] = useState(null);
     const [description, setDescription] = useState(null);
-    const [error, setError] = useState(null);
+    const [id, setId] = useState(null);
     const [languageSelection, setLanguageSelection] = useState(
         SINGLE_LANGUAGE_OPTION_VALUE
     );
@@ -107,51 +98,6 @@ export const FormAddEnumItem = ({
         option: IChoiceGroupOption
     ): void => {
         setLanguageSelection(option.key);
-    };
-
-    const handleAddEnumValue = () => {
-        const activeItem =
-            model.contents[currentPropertyIndex].schema.enumValues;
-        const prop = {
-            '@id': id ? `dtmi:com:adt:${id};` : 'dtmi:com:adt:enum;',
-            name: name ? name : activeItem.name,
-            description:
-                languageSelection === SINGLE_LANGUAGE_OPTION_VALUE
-                    ? description
-                        ? description
-                        : activeItem.description
-                    : multiLanguageSelectionsDescription,
-            displayName:
-                languageSelection === SINGLE_LANGUAGE_OPTION_VALUE
-                    ? displayName
-                        ? displayName
-                        : 'enum_item'
-                    : multiLanguageSelectionsDisplayName,
-            enumValue: enumValue ? enumValue : activeItem.enumValue,
-            comment: comment ? comment : activeItem.comment
-        };
-
-        const modelCopy = deepCopy(model);
-        modelCopy.contents[currentPropertyIndex].schema.enumValues.push(prop);
-        dispatch({
-            type: SET_OAT_PROPERTY_EDITOR_MODEL,
-            payload: modelCopy
-        });
-        setModalOpen(false);
-        setModalBody(null);
-    };
-
-    const getErrorMessage = (value) => {
-        const find = model.contents[
-            currentPropertyIndex
-        ].schema.enumValues.find((item) => item.enumValue === value);
-        if (!find && value !== '') {
-            setEnumValue(value);
-        }
-
-        setError(!!find);
-
-        return find ? `${t('OATPropertyEditor.errorRepeatedEnumValue')}` : '';
     };
 
     const handleMultiLanguageSelectionsDisplayNameKeyChange = (
@@ -264,6 +210,27 @@ export const FormAddEnumItem = ({
         }
     };
 
+    const handleFormSubmit = () => {
+        const modelCopy = deepCopy(model);
+        modelCopy.comment = comment ? comment : model.comment;
+        modelCopy.displayName =
+            languageSelection === SINGLE_LANGUAGE_OPTION_VALUE
+                ? displayName
+                : multiLanguageSelectionsDisplayName;
+        modelCopy.description =
+            languageSelection === SINGLE_LANGUAGE_OPTION_VALUE
+                ? description
+                : multiLanguageSelectionsDescription;
+        modelCopy['@id'] = id ? id : model['@id'];
+
+        dispatch({
+            type: SET_OAT_PROPERTY_EDITOR_MODEL,
+            payload: modelCopy
+        });
+        setModalOpen(false);
+        setModalBody(null);
+    };
+
     // Update multiLanguageSelectionsDisplayNames on every new language change
     useEffect(() => {
         // Create an array of the keys and values
@@ -313,7 +280,13 @@ export const FormAddEnumItem = ({
     return (
         <>
             <div className={propertyInspectorStyles.modalRowSpaceBetween}>
-                <Label>{t('OATPropertyEditor.addEnumValue')}</Label>
+                <Label>
+                    {model
+                        ? typeof model.displayName === 'string'
+                            ? model.displayName
+                            : Object.values(model.displayName)[0]
+                        : ''}
+                </Label>
                 <ActionButton onClick={() => setModalOpen(false)}>
                     <FontIcon
                         iconName={'ChromeClose'}
@@ -322,6 +295,16 @@ export const FormAddEnumItem = ({
                         }
                     />
                 </ActionButton>
+            </div>
+
+            <div className={propertyInspectorStyles.modalRow}>
+                <Text styles={columnLeftTextStyles}>
+                    {t('OATPropertyEditor.id')}
+                </Text>
+                <TextField
+                    placeholder={t('OATPropertyEditor.id')}
+                    onChange={(_ev, value) => setId(value)}
+                />
             </div>
 
             <div className={propertyInspectorStyles.modalRow}>
@@ -338,14 +321,10 @@ export const FormAddEnumItem = ({
             </div>
 
             {languageSelection === SINGLE_LANGUAGE_OPTION_VALUE && (
-                <div className={propertyInspectorStyles.modalRowSpaceBetween}>
-                    <Text styles={columnLeftTextStyles}>
-                        {t('OATPropertyEditor.displayName')}
-                    </Text>
+                <div className={propertyInspectorStyles.modalRow}>
+                    <div></div> {/* Needed for gridTemplateColumns style  */}
                     <TextField
-                        placeholder={t(
-                            'OATPropertyEditor.modalTextInputPlaceHolder'
-                        )}
+                        placeholder={t('OATPropertyEditor.displayName')}
                         onChange={(_ev, value) => setDisplayName(value)}
                         value={displayName}
                     />
@@ -436,11 +415,13 @@ export const FormAddEnumItem = ({
             )}
 
             {languageSelection === SINGLE_LANGUAGE_OPTION_VALUE && (
-                <div className={propertyInspectorStyles.modalRowSpaceBetween}>
+                <div className={propertyInspectorStyles.modalRow}>
                     <Text styles={columnLeftTextStyles}>
                         {t('OATPropertyEditor.description')}
                     </Text>
                     <TextField
+                        multiline
+                        rows={3}
                         placeholder={t(
                             'OATPropertyEditor.modalTextInputPlaceHolderDescription'
                         )}
@@ -541,7 +522,7 @@ export const FormAddEnumItem = ({
                 </div>
             )}
 
-            <div className={propertyInspectorStyles.modalRowSpaceBetween}>
+            <div className={propertyInspectorStyles.modalRow}>
                 <Text styles={columnLeftTextStyles}>
                     {t('OATPropertyEditor.comment')}
                 </Text>
@@ -553,51 +534,21 @@ export const FormAddEnumItem = ({
                 />
             </div>
 
-            <div className={propertyInspectorStyles.modalRowSpaceBetween}>
-                <Text styles={columnLeftTextStyles}>
-                    {`*${t('OATPropertyEditor.name')}`}
-                </Text>
-                <TextField
-                    placeholder={t(
-                        'OATPropertyEditor.modalTextInputPlaceHolder'
-                    )}
-                    onChange={(_ev, value) => setName(value)}
+            <div className={propertyInspectorStyles.modalRowFlexEnd}>
+                <PrimaryButton
+                    text={t('OATPropertyEditor.update')}
+                    allowDisabledFocus
+                    onClick={handleFormSubmit}
+                />
+
+                <PrimaryButton
+                    text={t('OATPropertyEditor.cancel')}
+                    allowDisabledFocus
+                    onClick={() => setModalOpen(false)}
                 />
             </div>
-
-            <div className={propertyInspectorStyles.modalRowSpaceBetween}>
-                <Text styles={columnLeftTextStyles}>
-                    {`*${t('OATPropertyEditor.enumValue')}`}
-                </Text>
-                <TextField
-                    className={propertyInspectorStyles.modalTexField}
-                    placeholder={t(
-                        'OATPropertyEditor.modalTextInputPlaceHolder'
-                    )}
-                    type="number"
-                    validateOnFocusOut
-                    onGetErrorMessage={getErrorMessage}
-                />
-            </div>
-
-            <div className={propertyInspectorStyles.modalRowSpaceBetween}>
-                <Text styles={columnLeftTextStyles}>
-                    {t('OATPropertyEditor.id')}
-                </Text>
-                <TextField
-                    placeholder={t('OATPropertyEditor.id')}
-                    onChange={(_ev, value) => setId(value)}
-                />
-            </div>
-
-            <PrimaryButton
-                text={t('OATPropertyEditor.update')}
-                allowDisabledFocus
-                onClick={handleAddEnumValue}
-                disabled={error || !enumValue || !name}
-            />
         </>
     );
 };
 
-export default FormAddEnumItem;
+export default FormUpdateProperty;

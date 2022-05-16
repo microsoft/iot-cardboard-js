@@ -40,7 +40,6 @@ interface IPropertySelectorProps {
     className?: string;
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
     lastPropertyFocused?: IOATLastPropertyFocused;
-    targetId?: string;
     setPropertySelectorVisible: React.Dispatch<React.SetStateAction<boolean>>;
     state?: IOATEditorState;
 }

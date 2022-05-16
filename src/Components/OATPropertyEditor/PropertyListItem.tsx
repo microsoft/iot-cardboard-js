@@ -114,7 +114,11 @@ export const PropertyListItem = ({
             }}
         >
             <div
-                id={item.name}
+                id={
+                    typeof item.name === 'string'
+                        ? item.name
+                        : Object.values(item.name)[0]
+                }
                 className={getItemClassName(index)}
                 draggable
                 onDragStart={(e) => {
@@ -135,7 +139,11 @@ export const PropertyListItem = ({
             >
                 <TextField
                     borderless
-                    value={item.name}
+                    value={
+                        typeof item.name === 'string'
+                            ? item.name
+                            : Object.values(item.name)[0]
+                    }
                     validateOnFocusOut
                     onChange={(evt, value) => {
                         setCurrentPropertyIndex(index);
@@ -167,7 +175,11 @@ export const PropertyListItem = ({
                             subMenuActive={subMenuActive}
                             handleTemplateAddition={handleTemplateAddition}
                             handleDuplicate={handleDuplicate}
-                            targetId={item.name}
+                            targetId={
+                                typeof item.name === 'string'
+                                    ? item.name
+                                    : Object.values(item.name)[0]
+                            }
                             setSubMenuActive={setSubMenuActive}
                         />
                     )}
@@ -176,7 +188,6 @@ export const PropertyListItem = ({
                     <PropertySelector
                         setPropertySelectorVisible={setPropertySelectorVisible}
                         lastPropertyFocused={lastPropertyFocused}
-                        targetId={item.name}
                         dispatch={dispatch}
                         state={state}
                         onTagClickCallback={() => {

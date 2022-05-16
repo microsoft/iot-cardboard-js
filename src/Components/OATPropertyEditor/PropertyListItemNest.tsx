@@ -158,7 +158,11 @@ export const PropertyListItemNest = ({
             }}
         >
             <div
-                id={item.name}
+                id={
+                    typeof item.name === 'string'
+                        ? item.name
+                        : Object.values(item.name)[0]
+                }
                 className={getItemClassName(index)}
                 draggable
                 onDragStart={(e) => {
@@ -190,7 +194,11 @@ export const PropertyListItemNest = ({
                     <TextField
                         styles={textFieldStyles}
                         borderless
-                        placeholder={item.name}
+                        placeholder={
+                            typeof item.name === 'string'
+                                ? item.name
+                                : Object.values(item.name)[0]
+                        }
                         validateOnFocusOut
                         onChange={() => {
                             setCurrentPropertyIndex(index);
@@ -212,7 +220,11 @@ export const PropertyListItemNest = ({
                         styles={iconWrapMoreStyles}
                         title={t('OATPropertyEditor.more')}
                         onClick={() => setSubMenuActive(!subMenuActive)}
-                        id={`${item.name}_more`}
+                        id={`${
+                            typeof item.name === 'string'
+                                ? item.name
+                                : Object.values(item.name)[0]
+                        }_more`}
                     >
                         {subMenuActive && (
                             <PropertyListItemSubMenu
@@ -226,7 +238,11 @@ export const PropertyListItemNest = ({
                                     handleDuplicate();
                                 }}
                                 setSubMenuActive={setSubMenuActive}
-                                targetId={`${item.name}_more`}
+                                targetId={`${
+                                    typeof item.name === 'string'
+                                        ? item.name
+                                        : Object.values(item.name)[0]
+                                }_more`}
                             />
                         )}
                     </IconButton>
@@ -280,7 +296,6 @@ export const PropertyListItemNest = ({
                     <PropertySelector
                         setPropertySelectorVisible={setPropertySelectorVisible}
                         lastPropertyFocused={lastPropertyFocused}
-                        targetId={item.name}
                         dispatch={dispatch}
                         state={state}
                         onTagClickCallback={() => {

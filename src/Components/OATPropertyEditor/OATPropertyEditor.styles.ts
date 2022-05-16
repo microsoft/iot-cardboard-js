@@ -59,6 +59,9 @@ const classNames = {
     addPropertyBarPropertyListWrap: `${classPrefix}-property-bar-list-wrap`,
     addPropertyBarIcon: `${classPrefix}-property-bar-icon`,
     modal: `${classPrefix}-modal`,
+    modalRow: `${classPrefix}-modal-row`,
+    modalRowLanguageSelection: `${classPrefix}-modal-row-language-selection`,
+    modalRowFlexEnd: `${classPrefix}-modal-row-flex-end`,
     modalRowSpaceBetween: `${classPrefix}-modal-row-space-between`,
     modalTexField: `${classPrefix}-modal-tex-field`,
     booleanIcon: `${classPrefix}-boolean-icon`
@@ -532,7 +535,45 @@ export const getPropertyInspectorStyles = () => {
                 border: `1px solid ${theme.semanticColors.variantBorder}`,
                 borderRadius: '2px',
                 padding: '15px 25px',
-                minWidth: '400px'
+                minWidth: '600px'
+            } as IStyle
+        ],
+        modalRow: [
+            classNames.modalRow,
+            {
+                display: 'grid',
+                width: '100%',
+                gridTemplateColumns: '35% 65%',
+                alignItems: 'center',
+                marginBottom: '15px',
+                '& div:not(:last-of-type)': {
+                    marginRight: '10px'
+                }
+            } as IStyle
+        ],
+        modalRowLanguageSelection: [
+            classNames.modalRowLanguageSelection,
+            {
+                display: 'grid',
+                gridTemplateColumns: '8% 27% 65%',
+                alignItems: 'center',
+                marginBottom: '15px',
+                '& div:not(:last-of-type)': {
+                    marginRight: '10px'
+                }
+            } as IStyle
+        ],
+        modalRowFlexEnd: [
+            classNames.modalRowFlexEnd,
+            {
+                display: 'flex',
+                justifyContent: 'flex-end',
+                alignItems: 'center',
+                marginBottom: '15px',
+                width: '100%',
+                '& button:not(:last-of-type)': {
+                    marginRight: '10px'
+                }
             } as IStyle
         ],
         modalRowSpaceBetween: [
@@ -585,6 +626,16 @@ export const getGeneralPropertiesWrapStyles = () => {
     } as Partial<IStackStyles>;
 };
 
+export const geIconWrapFitContentStyles = () => {
+    const theme = useTheme();
+    return {
+        root: {
+            color: theme.semanticColors.menuIcon,
+            width: 'fit-content'
+        }
+    } as Partial<IButtonStyles>;
+};
+
 /* Property Selector */
 
 export const getPropertySelectorStyles = () => {
@@ -623,7 +674,6 @@ export const getPropertySelectorSeparatorStyles = () => {
 /* Property List */
 
 export const getPropertyListRelativeWrapStyles = () => {
-    const theme = useTheme();
     return {
         root: {
             display: 'flex',
@@ -716,6 +766,20 @@ export const getModalLabelStyles = () => {
     return {
         root: {
             marginRight: '20px'
+        }
+    };
+};
+
+export const getRadioGroupRowStyles = () => {
+    return {
+        root: {
+            '& .ms-ChoiceFieldGroup-flexContainer': {
+                display: 'flex',
+                justifyContent: 'flex-end',
+                '& div:not(:last-of-type)': {
+                    marginRight: '10px'
+                }
+            }
         }
     };
 };

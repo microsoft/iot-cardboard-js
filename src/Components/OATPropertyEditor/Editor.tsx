@@ -64,7 +64,12 @@ const Editor = ({
                     headerText={t('OATPropertyEditor.properties')}
                     className={propertyInspectorStyles.pivotItem}
                 >
-                    <PropertiesModelSummary dispatch={dispatch} state={state} />
+                    <PropertiesModelSummary
+                        dispatch={dispatch}
+                        state={state}
+                        setModalBody={setModalBody}
+                        setModalOpen={setModalOpen}
+                    />
                     <div
                         className={
                             propertyInspectorStyles.propertyListHeaderWrap
