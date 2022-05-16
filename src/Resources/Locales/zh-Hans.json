@@ -605,8 +605,6 @@
     "Start time input": "开始时间输入",
     "End time input": "结束时间输入",
     "snap end time to latest": "将结束时间捕捉到最新",
-    "zoom in": "放大",
-    "zoom out": "缩小",
     "select quick time of": "选择快速时间",
     "a time selection control dialog": "时间选择控制对话框。",
     "No color": "无颜色",
@@ -782,6 +780,9 @@
     "select": "选择",
     "pan": "泛",
     "orbit": "轨道",
-    "zoom": "缩放"
+    "zoom": "缩放",
+    "reset": "重置",
+    "zoomIn": "放大",
+    "zoomOut": "缩小"
   }
 }

@@ -1,12 +1,17 @@
-import { IStyle, memoizeFunction, mergeStyleSets } from '@fluentui/react';
+import {
+    ISceneListModeToggleStyleProps,
+    ISceneListModeToggleStyles
+} from './SceneListModeToggle.types';
 
-export const scenePageClassPrefix = 'cb-scene-list-toggle';
+const classPrefix = 'cb-scene-list-toggle';
 const classNames = {
-    pivot: `${scenePageClassPrefix}-pivot`
+    root: `${classPrefix}-root`
 };
-
-export const getStyles = memoizeFunction(() => {
-    return mergeStyleSets({
-        pivot: [classNames.pivot, {} as IStyle]
-    });
-});
+export const getStyles = (
+    _props: ISceneListModeToggleStyleProps
+): ISceneListModeToggleStyles => {
+    return {
+        root: [classNames.root],
+        subComponentStyles: {}
+    };
+};

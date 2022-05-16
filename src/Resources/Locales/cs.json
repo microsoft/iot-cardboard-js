@@ -605,8 +605,6 @@
     "Start time input": "Zadání času spuštění",
     "End time input": "Vstup času ukončení",
     "snap end time to latest": "přichytit čas ukončení na nejnovější",
-    "zoom in": "přiblížit",
-    "zoom out": "oddálit",
     "select quick time of": "vyberte rychlý čas",
     "a time selection control dialog": "dialog ovládacího prvku pro výběr času.",
     "No color": "Žádná barva",
@@ -782,6 +780,9 @@
     "select": "Vybrat",
     "pan": "Pánev",
     "orbit": "Oběžná dráha",
-    "zoom": "Zvětšení"
+    "zoom": "Zvětšení",
+    "reset": "Resetovat",
+    "zoomIn": "Přiblížit",
+    "zoomOut": "Oddálit"
   }
 }

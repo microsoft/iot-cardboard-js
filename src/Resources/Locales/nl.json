@@ -605,8 +605,6 @@
     "Start time input": "Invoer starttijd",
     "End time input": "Eindtijd invoer",
     "snap end time to latest": "snap eindtijd naar laatste",
-    "zoom in": "inzoomen",
-    "zoom out": "uitzoomen",
     "select quick time of": "selecteer snelle tijd van",
     "a time selection control dialog": "een dialoogvenster voor tijdselectie.",
     "No color": "Geen kleur",
@@ -782,6 +780,9 @@
     "select": "Selecteren",
     "pan": "Pan",
     "orbit": "Baan",
-    "zoom": "Zoom"
+    "zoom": "Zoom",
+    "reset": "Terugstellen",
+    "zoomIn": "Inzoomen",
+    "zoomOut": "Uitzoomen"
   }
 }

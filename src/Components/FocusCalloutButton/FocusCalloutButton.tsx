@@ -1,29 +1,29 @@
 import {
+    classNamesFunction,
     DefaultButton,
     FocusTrapCallout,
     FontIcon,
+    FontSizes,
     IconButton,
-    IFocusTrapZone,
+    styled,
     useTheme
 } from '@fluentui/react';
 import React from 'react';
 import { useId } from '@fluentui/react-hooks';
 import { getStyles } from './FocusCalloutButton.styles';
 import BaseComponent from '../BaseComponent/BaseComponent';
+import {
+    IFocusCalloutButtonStyleProps,
+    IFocusCalloutButtonStyles,
+    IFocusCalloutButtonProps
+} from './FocusCalloutButton.types';
 
-interface Props {
-    iconName: string;
-    buttonText: string;
-    calloutTitle: string;
-    children: React.ReactNode;
-    isOpen: boolean;
-    setIsOpen: (isOpen: boolean) => void;
-    onBackIconClick?: () => void;
-    onFocusDismiss?: () => void;
-    componentRef?: React.MutableRefObject<IFocusTrapZone>;
-}
+const getClassNames = classNamesFunction<
+    IFocusCalloutButtonStyleProps,
+    IFocusCalloutButtonStyles
+>();
 
-const FocusCalloutButton: React.FC<Props> = ({
+const FocusCalloutButton: React.FC<IFocusCalloutButtonProps> = ({
     iconName,
     buttonText,
     calloutTitle,
@@ -32,18 +32,22 @@ const FocusCalloutButton: React.FC<Props> = ({
     setIsOpen,
     onBackIconClick,
     onFocusDismiss,
-    componentRef
+    componentRef,
+    styles
 }) => {
     const buttonId = useId();
 
     const theme = useTheme();
-    const styles = getStyles();
+    const classNames = getClassNames(styles, {
+        theme: theme
+    });
 
     return (
-        <>
+        <div className={classNames.root}>
             <DefaultButton
+                className={classNames.button}
                 iconProps={{ iconName: iconName }}
-                styles={{ root: { marginRight: 8 } }}
+                styles={classNames.subComponentStyles.button()}
                 onClick={() => setIsOpen(!isOpen)}
                 id={buttonId}
             >
@@ -70,8 +74,8 @@ const FocusCalloutButton: React.FC<Props> = ({
                     }}
                 >
                     <BaseComponent>
-                        <div className={styles.calloutContent}>
-                            <div className={styles.header}>
+                        <div className={classNames.calloutContent}>
+                            <div className={classNames.header}>
                                 <div>
                                     {onBackIconClick ? (
                                         <IconButton
@@ -88,21 +92,22 @@ const FocusCalloutButton: React.FC<Props> = ({
                                     ) : (
                                         <FontIcon
                                             iconName={iconName}
-                                            className={styles.titleIcon}
+                                            className={classNames.titleIcon}
                                         />
                                     )}
                                 </div>
-                                <div className={styles.title}>
+                                <div className={classNames.title}>
                                     {calloutTitle}
                                 </div>
                                 <div>
                                     <IconButton
                                         iconProps={{
                                             iconName: 'Cancel',
-                                            style: {
-                                                fontSize: '14',
-                                                height: '32',
-                                                color: theme.palette.black
+                                            styles: {
+                                                root: {
+                                                    fontSize: FontSizes.size14,
+                                                    color: theme.palette.black
+                                                }
                                             }
                                         }}
                                         onClick={() => setIsOpen(false)}
@@ -114,8 +119,12 @@ const FocusCalloutButton: React.FC<Props> = ({
                     </BaseComponent>
                 </FocusTrapCallout>
             )}
-        </>
+        </div>
     );
 };
 
-export default FocusCalloutButton;
+export default styled<
+    IFocusCalloutButtonProps,
+    IFocusCalloutButtonStyleProps,
+    IFocusCalloutButtonStyles
+>(FocusCalloutButton, getStyles);

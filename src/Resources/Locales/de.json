@@ -605,8 +605,6 @@
     "Start time input": "Eingabe der Startzeit",
     "End time input": "Endzeiteingabe",
     "snap end time to latest": "Endzeit auf Neueste einstellen",
-    "zoom in": "vergrößern",
-    "zoom out": "verkleinern",
     "select quick time of": "Wählen Sie Schnellzeit von",
     "a time selection control dialog": "ein Dialogfeld zur Steuerung der Zeitauswahl.",
     "No color": "Keine Farbe",
@@ -782,6 +780,9 @@
     "select": "Auswählen",
     "pan": "Pfanne",
     "orbit": "Umlaufbahn",
-    "zoom": "Zoom"
+    "zoom": "Zoom",
+    "reset": "Zurücksetzen",
+    "zoomIn": "Vergrößern",
+    "zoomOut": "Verkleinern"
   }
 }

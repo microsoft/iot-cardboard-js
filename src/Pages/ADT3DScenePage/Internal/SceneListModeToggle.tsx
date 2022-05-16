@@ -1,23 +1,36 @@
-import { Pivot, PivotItem } from '@fluentui/react';
+import {
+    classNamesFunction,
+    Pivot,
+    PivotItem,
+    styled,
+    useTheme
+} from '@fluentui/react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { ADT3DScenePageSteps } from '../../../Models/Constants/Enums';
 import { getStyles } from './SceneListModeToggle.styles';
+import {
+    ISceneListModeToggleProps,
+    ISceneListModeToggleStyleProps,
+    ISceneListModeToggleStyles
+} from './SceneListModeToggle.types';
 
-interface Props {
-    onListModeChange: (SceneListMode: ADT3DScenePageSteps) => void;
-    selectedMode: ADT3DScenePageSteps;
-}
+const getClassNames = classNamesFunction<
+    ISceneListModeToggleStyleProps,
+    ISceneListModeToggleStyles
+>();
 
-const SceneListModeToggle: React.FC<Props> = ({
-    onListModeChange,
-    selectedMode
-}) => {
+const SceneListModeToggle: React.FC<ISceneListModeToggleProps> = (props) => {
+    const { onListModeChange, selectedMode, styles } = props;
+
+    /** ----- hooks ----- */
     const { t } = useTranslation();
-    const customStyles = getStyles();
+    const classNames = getClassNames(styles, { theme: useTheme() });
+
     return (
         <Pivot
-            className={customStyles.pivot}
+            className={classNames.root}
+            styles={classNames.subComponentStyles.pivot}
             selectedKey={selectedMode}
             onLinkClick={(item) =>
                 onListModeChange(item.props.itemKey as ADT3DScenePageSteps)
@@ -37,4 +50,8 @@ const SceneListModeToggle: React.FC<Props> = ({
     );
 };
 
-export default SceneListModeToggle;
+export default styled<
+    ISceneListModeToggleProps,
+    ISceneListModeToggleStyleProps,
+    ISceneListModeToggleStyles
+>(SceneListModeToggle, getStyles);

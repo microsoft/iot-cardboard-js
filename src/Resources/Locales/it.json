@@ -605,8 +605,6 @@
     "Start time input": "Input dell'ora di inizio",
     "End time input": "Input dell'ora di fine",
     "snap end time to latest": "agganciare l'ora di fine all'ultima versione",
-    "zoom in": "ingrandire",
-    "zoom out": "zoom indietro",
     "select quick time of": "seleziona il tempo rapido di",
     "a time selection control dialog": "una finestra di dialogo di controllo della selezione del tempo.",
     "No color": "Nessun colore",
@@ -782,6 +780,9 @@
     "select": "Selezionare",
     "pan": "Padella",
     "orbit": "Orbita",
-    "zoom": "Zoom"
+    "zoom": "Zoom",
+    "reset": "Resettare",
+    "zoomIn": "Ingrandire",
+    "zoomOut": "Zoom indietro"
   }
 }

@@ -16,7 +16,8 @@ import {
     SET_ADT_SCENE_OBJECT_COLOR,
     SET_IS_LAYER_BUILDER_DIALOG_OPEN,
     SET_BEHAVIOR_TWIN_ALIAS_FORM_INFO,
-    SET_ELEMENT_TWIN_ALIAS_FORM_INFO
+    SET_ELEMENT_TWIN_ALIAS_FORM_INFO,
+    SET_ADT_SCENE_BUILDER_REMOVED_ELEMENTS
 } from './ADT3DSceneBuilder.types';
 import {
     ADT3DSceneBuilderMode,
@@ -38,6 +39,7 @@ export const defaultADT3DSceneBuilderState: ADT3DSceneBuilderState = {
     behaviors: [],
     selectedElement: null,
     selectedElements: null,
+    removedElements: null,
     selectedBehavior: null,
     showHoverOnSelected: false,
     enableHoverOnModel: false,
@@ -80,6 +82,9 @@ export const ADT3DSceneBuilderReducer: (
                 break;
             case SET_ADT_SCENE_BUILDER_SELECTED_ELEMENTS:
                 draft.selectedElements = payload;
+                break;
+            case SET_ADT_SCENE_BUILDER_REMOVED_ELEMENTS:
+                draft.removedElements = payload;
                 break;
             case SET_ADT_SCENE_OBJECT_COLOR:
                 draft.objectColor = payload;

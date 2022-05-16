@@ -6,6 +6,10 @@ import {
     mergeStyleSets
 } from '@fluentui/react';
 import { CardboardClassNamePrefix } from '../../Models/Constants';
+import {
+    ELEMENTS_PANEL_BUTTON_BOTTOM_OFFSET,
+    ELEMENTS_PANEL_BUTTON_HEIGHT
+} from '../../Models/Constants/StyleConstants';
 
 const classPrefix = `${CardboardClassNamePrefix}-elements-panel`;
 const classNames = {
@@ -21,19 +25,21 @@ const classNames = {
     listItembutton: `${classPrefix}--list-item-button`
 };
 
-const initialElementsPanelTopOffset = 52;
-const initialElementsPanelLeftOffset = 20;
+const INITIAL_ELEMENTS_PANEL_TOP_OFFSET = 64;
+const INITIAL_ELEMENTS_PANEL_LEFT_OFFSET = 20;
+const PANEL_BOTTOM_OFFSET =
+    ELEMENTS_PANEL_BUTTON_HEIGHT + ELEMENTS_PANEL_BUTTON_BOTTOM_OFFSET + 8;
 
 export const getElementsPanelStyles = () => {
     return mergeStyleSets({
         boundaryLayer: [
             classNames.boundaryLayer,
             {
-                height: `calc(100% - ${initialElementsPanelTopOffset}px)`,
+                height: `calc(100% - ${INITIAL_ELEMENTS_PANEL_TOP_OFFSET}px)`,
                 left: 0,
                 pointerEvents: 'none',
                 position: 'absolute',
-                top: initialElementsPanelTopOffset,
+                top: INITIAL_ELEMENTS_PANEL_TOP_OFFSET,
                 width: '100%',
                 zIndex: 1000
             } as IStyle
@@ -41,8 +47,8 @@ export const getElementsPanelStyles = () => {
         draggable: [
             classNames.draggable,
             {
-                top: 0,
-                left: initialElementsPanelLeftOffset
+                bottom: PANEL_BOTTOM_OFFSET,
+                left: INITIAL_ELEMENTS_PANEL_LEFT_OFFSET
             } as IStyle
         ],
         modalContainer: [

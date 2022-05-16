@@ -214,7 +214,7 @@ const BlobDropdown: React.FC<BlobDropdownProps> = ({
 
     const handleChange = useCallback(
         (option, value) => {
-            setInputOrOption(value ? 'input' : 'option');
+            setInputOrOption(option ? 'option' : 'input');
             let newVal = value ?? option?.text;
             if (value && isValidUrlStr(newVal)) {
                 if (!newVal.startsWith('https://')) {
