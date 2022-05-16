@@ -402,14 +402,14 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
 
     const getLatitudeErrorMessage = (value: string): string => {
         return !Number(value) || !(Number(value) >= -90 && Number(value) <= 90)
-            ? t('latitudeErrorMessage')
+            ? t('scenes.latitudeErrorMessage')
             : '';
     };
 
     const getLongitudeErrorMessage = (value: string): string => {
         return !Number(value) ||
             !(Number(value) >= -180 && Number(value) <= 180)
-            ? t('longitudeErrorMessage')
+            ? t('scenes.longitudeErrorMessage')
             : '';
     };
     return (
