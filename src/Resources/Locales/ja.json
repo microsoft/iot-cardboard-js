@@ -603,8 +603,6 @@
     "Start time input": "開始時刻入力",
     "End time input": "終了時刻入力",
     "snap end time to latest": "終了時刻を最新にスナップ",
-    "zoom in": "ズームインする",
-    "zoom out": "ズームアウト",
     "select quick time of": "のクイックタイムを選択",
     "a time selection control dialog": "時間選択制御ダイアログ。",
     "No color": "色なし",
@@ -780,6 +778,9 @@
     "select": "選ぶ",
     "pan": "パン",
     "orbit": "軌道",
-    "zoom": "ズーム"
+    "zoom": "ズーム",
+    "reset": "リセット",
+    "zoomIn": "ズームインする",
+    "zoomOut": "ズームアウト"
   }
 }

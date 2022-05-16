@@ -603,8 +603,6 @@
     "Start time input": "시작 시간 입력",
     "End time input": "종료 시간 입력",
     "snap end time to latest": "종료 시간을 최신으로 스냅",
-    "zoom in": "확대",
-    "zoom out": "축소",
     "select quick time of": "빠른 시간 선택",
     "a time selection control dialog": "시간 선택 제어 대화 상자입니다.",
     "No color": "색상 없음",
@@ -780,6 +778,9 @@
     "select": "고르다",
     "pan": "팬",
     "orbit": "궤도",
-    "zoom": "급상승"
+    "zoom": "급상승",
+    "reset": "재설정",
+    "zoomIn": "확대",
+    "zoomOut": "축소"
   }
 }

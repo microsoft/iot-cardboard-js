@@ -1,16 +1,17 @@
 import React from 'react';
-import { ActionButton, IconButton } from '@fluentui/react/lib/Button';
 import {
+    ActionButton,
+    IconButton,
     DetailsList,
     DetailsListLayoutMode,
     SelectionMode,
     DetailsRow,
     IDetailsListProps,
-    IColumn
-} from '@fluentui/react/lib/DetailsList';
-import { Text } from '@fluentui/react/lib/Text';
-import { IIconProps } from '@fluentui/react/lib/Icon';
-import { Stack } from '@fluentui/react/lib/Stack';
+    IColumn,
+    Text,
+    Stack,
+    IIconProps
+} from '@fluentui/react';
 import './ElementsList.scss';
 import { FormMode } from '../../Models/Constants/Enums';
 import { useTranslation } from 'react-i18next';

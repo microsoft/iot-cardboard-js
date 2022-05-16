@@ -1,4 +1,10 @@
-import { IContextualMenuItem } from '@fluentui/react';
+import {
+    IContextualMenuItem,
+    IStackStyles,
+    IStyle,
+    IStyleFunctionOrObject,
+    ITheme
+} from '@fluentui/react';
 import React from 'react';
 import ADT3DSceneAdapter from '../../Adapters/ADT3DSceneAdapter';
 import MockAdapter from '../../Adapters/MockAdapter';
@@ -39,6 +45,8 @@ export const SET_ADT_SCENE_BUILDER_BEHAVIORS =
     'SET_ADT_SCENE_BUILDER_BEHAVIORS';
 export const SET_ADT_SCENE_BUILDER_SELECTED_ELEMENTS =
     'SET_ADT_SCENE_BUILDER_SELECTED_ELEMENTS';
+export const SET_ADT_SCENE_BUILDER_REMOVED_ELEMENTS =
+    'SET_ADT_SCENE_BUILDER_REMOVED_ELEMENTS';
 export const SET_ADT_SCENE_BUILDER_SELECTED_ELEMENT =
     'SET_ADT_SCENE_BUILDER_SELECTED_ELEMENT';
 export const SET_ADT_SCENE_BUILDER_SELECTED_BEHAVIOR =
@@ -65,6 +73,32 @@ export interface IADT3DSceneBuilderCardProps
     adapter: ADT3DSceneAdapter | MockAdapter;
     sceneId: string;
     sceneViewProps?: ISceneViewProps;
+    /** show the toggle to switch between builder & viewer modes */
+    showModeToggle?: boolean;
+    /**
+     * Call to provide customized styling that will layer on top of the variant rules.
+     */
+    styles?: IStyleFunctionOrObject<
+        IADT3DSceneBuilderStyleProps,
+        IADT3DSceneBuilderStyles
+    >;
+}
+
+export interface IADT3DSceneBuilderStyleProps {
+    theme: ITheme;
+}
+export interface IADT3DSceneBuilderStyles {
+    root: IStyle;
+    wrapper: IStyle;
+
+    /**
+     * SubComponent styles.
+     */
+    subComponentStyles?: IADT3DSceneBuilderSubComponentStyles;
+}
+
+export interface IADT3DSceneBuilderSubComponentStyles {
+    headerStack?: IStackStyles;
 }
 
 export interface I3DSceneBuilderContext {
@@ -184,7 +218,8 @@ export type OnBehaviorSave = (
     behavior: IBehavior,
     mode: BehaviorSaveMode,
     selectedLayerIds?: string[],
-    selectedElements?: Array<ITwinToObjectMapping>
+    selectedElements?: Array<ITwinToObjectMapping>,
+    removedElements?: Array<ITwinToObjectMapping>
 ) => void;
 
 export interface IADT3DSceneBuilderBehaviorFormProps {
@@ -192,6 +227,7 @@ export interface IADT3DSceneBuilderBehaviorFormProps {
     behaviors: Array<IBehavior>;
     elements: Array<ITwinToObjectMapping>;
     selectedElements: Array<ITwinToObjectMapping>;
+    removedElements: Array<ITwinToObjectMapping>;
     onBehaviorBackClick: () => void;
     onBehaviorSave: OnBehaviorSave;
     setSelectedElements: (elements: Array<ITwinToObjectMapping>) => any;
@@ -232,6 +268,7 @@ export interface ADT3DSceneBuilderState {
     behaviors: Array<IBehavior>;
     selectedElement: ITwinToObjectMapping;
     selectedElements: Array<ITwinToObjectMapping>;
+    removedElements: Array<ITwinToObjectMapping>;
     selectedBehavior: IBehavior;
     showHoverOnSelected: boolean;
     enableHoverOnModel: boolean;

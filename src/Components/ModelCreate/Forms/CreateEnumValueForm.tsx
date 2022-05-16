@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TextField } from '@fluentui/react/lib/TextField';
+import { TextField } from '@fluentui/react';
 import { DTDLEnumValue } from '../../../Models/Classes/DTDL';
 import BaseForm from './BaseForm';
 import { useTranslation } from 'react-i18next';

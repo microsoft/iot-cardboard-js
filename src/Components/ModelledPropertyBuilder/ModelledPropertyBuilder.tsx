@@ -46,7 +46,7 @@ const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = ({
     adapter,
     twinIdParams,
     propertyExpression,
-    mode = 'TOGGLE',
+    mode = ModelledPropertyBuilderMode.TOGGLE,
     allowedPropertyValueTypes = defaultAllowedPropertyValueTypes,
     onChange,
     required = false,
@@ -62,7 +62,10 @@ const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = ({
         internalMode,
         setInternalMode
     ] = useState<ModelledPropertyBuilderMode>(
-        mode === 'TOGGLE' ? 'PROPERTY_SELECTION' : mode
+        mode === ModelledPropertyBuilderMode.TOGGLE ||
+            mode === ModelledPropertyBuilderMode.PROPERTY_SELECT
+            ? ModelledPropertyBuilderMode.PROPERTY_SELECT
+            : ModelledPropertyBuilderMode.INTELLISENSE
     );
 
     // When the expression can't be parsed into
@@ -112,7 +115,7 @@ const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = ({
                 ) &&
                 propertyExpression.expression !== ''
             ) {
-                setInternalMode('INTELLISENSE');
+                setInternalMode(ModelledPropertyBuilderMode.INTELLISENSE);
             }
         }
     }, [propertyExpression, dropdownOptions, modelledProperties]);
@@ -173,7 +176,7 @@ const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = ({
             // When changing from intellisense mode to property selection mode
             // if expression doesn't match up with option, report onChange of
             // empty expression to reset dropdown
-            if (internalMode === 'INTELLISENSE') {
+            if (internalMode === ModelledPropertyBuilderMode.INTELLISENSE) {
                 const targetOption = getDropdownOptionByExpressionKey(
                     propertyExpression,
                     dropdownOptions
@@ -219,53 +222,56 @@ const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = ({
     );
 
     return (
-        <Stack tokens={{ childrenGap: 4 }}>
-            <div className={styles.labelContainer}>
-                <Label
-                    styles={propertyExpressionLabelStyles}
-                    required={required}
-                >
-                    {customLabel
-                        ? customLabel
-                        : t(
-                              '3dSceneBuilder.ModelledPropertyBuilder.expressionLabel'
-                          )}
-                </Label>
-                {(mode === 'INTELLISENSE' || mode === 'PROPERTY_SELECTION') && (
-                    <LoadingSpinner isLoading={isLoading} />
-                )}
-            </div>
-            {mode === 'TOGGLE' && (
-                <div className={styles.toggleContainer}>
-                    <ChoiceGroup
-                        selectedKey={internalMode}
-                        options={choiceGroupOptions}
-                        onChange={onChangeMode}
-                        styles={choiceGroupStyles}
-                    />
-                    <LoadingSpinner isLoading={isLoading} />
+        <div className={styles.root}>
+            <Stack tokens={{ childrenGap: 4 }}>
+                <div className={styles.labelContainer}>
+                    <Label
+                        styles={propertyExpressionLabelStyles}
+                        required={required}
+                    >
+                        {customLabel ??
+                            t(
+                                '3dSceneBuilder.ModelledPropertyBuilder.expressionLabel'
+                            )}
+                    </Label>
+                    {(mode === ModelledPropertyBuilderMode.INTELLISENSE ||
+                        mode ===
+                            ModelledPropertyBuilderMode.PROPERTY_SELECT) && (
+                        <LoadingSpinner isLoading={isLoading} />
+                    )}
                 </div>
-            )}
-            {internalMode === 'PROPERTY_SELECTION' && (
-                <ModelledPropertyDropdown
-                    dropdownOptions={dropdownOptions}
-                    onChange={onChangeDropdownSelection}
-                    selectedKey={propertyExpression.expression}
-                    dropdownTestId={dropdownTestId}
-                    isLoading={isLoading}
-                />
-            )}
-            {internalMode === 'INTELLISENSE' && (
-                <Intellisense
-                    autoCompleteProps={autoCompleteProps}
-                    onChange={onIntellisenseChange}
-                    defaultValue={propertyExpression.expression}
-                    aliasNames={aliasNames}
-                    getPropertyNames={getIntellisenseProperty}
-                    isLoading={isLoading}
-                />
-            )}
-        </Stack>
+                {mode === 'TOGGLE' && (
+                    <div className={styles.toggleContainer}>
+                        <ChoiceGroup
+                            selectedKey={internalMode}
+                            options={choiceGroupOptions}
+                            onChange={onChangeMode}
+                            styles={choiceGroupStyles}
+                        />
+                        <LoadingSpinner isLoading={isLoading} />
+                    </div>
+                )}
+                {internalMode === 'PROPERTY_SELECTION' && (
+                    <ModelledPropertyDropdown
+                        dropdownOptions={dropdownOptions}
+                        onChange={onChangeDropdownSelection}
+                        selectedKey={propertyExpression.expression}
+                        dropdownTestId={dropdownTestId}
+                        isLoading={isLoading}
+                    />
+                )}
+                {internalMode === 'INTELLISENSE' && (
+                    <Intellisense
+                        autoCompleteProps={autoCompleteProps}
+                        onChange={onIntellisenseChange}
+                        defaultValue={propertyExpression.expression}
+                        aliasNames={aliasNames}
+                        getPropertyNames={getIntellisenseProperty}
+                        isLoading={isLoading}
+                    />
+                )}
+            </Stack>
+        </div>
     );
 };
 
