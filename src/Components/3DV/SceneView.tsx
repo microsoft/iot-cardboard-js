@@ -1600,6 +1600,12 @@ function SceneView(props: ISceneViewProps, ref) {
                 }
                 clonedHighlightMeshes.current = [];
             }
+
+            for (const mesh of outlinedMeshitems) {
+                highlightLayer.current.removeExcludedMesh(
+                    meshMap.current?.[mesh.meshId]
+                );
+            }
         };
     }, [outlinedMeshitems, meshMap.current]);
 
