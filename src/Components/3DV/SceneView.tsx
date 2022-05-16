@@ -727,7 +727,7 @@ function SceneView(props: ISceneViewProps, ref) {
                 );
             }
         }
-    }, [isWireframe, isLoading, currentObjectColor]);
+    }, [isWireframe, isLoading, currentObjectColor, backgroundColor]);
 
     // Handle isWireframe changes
     useEffect(() => {
@@ -1277,7 +1277,8 @@ function SceneView(props: ISceneViewProps, ref) {
         markers,
         showHoverOnSelected,
         coloredMeshItems,
-        currentObjectColor
+        currentObjectColor,
+        backgroundColor
     ]);
 
     // SETUP LOGIC FOR onMeshClick
@@ -1487,7 +1488,13 @@ function SceneView(props: ISceneViewProps, ref) {
             restoreMeshMaterials();
             coloredMaterials.current = [];
         };
-    }, [coloredMeshItems, isLoading, isWireframe, currentObjectColor]);
+    }, [
+        coloredMeshItems,
+        isLoading,
+        isWireframe,
+        currentObjectColor,
+        backgroundColor
+    ]);
 
     const colorMesh = (mesh: AbstractMesh, color: string) => {
         if (!mesh) {
