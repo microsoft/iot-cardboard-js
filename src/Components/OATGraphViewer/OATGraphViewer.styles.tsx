@@ -10,9 +10,11 @@ const classNames = {
     relationshipHandle: `${classPrefix}-relationship-handle`,
     extendHandle: `${classPrefix}-extend-handle`,
     edgePath: `${classPrefix}-edge-path`,
+    widthPath: `${classPrefix}-width-path`,
     textPath: `${classPrefix}-text-path`,
     textEdit: `${classPrefix}-text-edit`,
     nodeCancel: `${classPrefix}-node-cancel`,
+    edgeCancel: `${classPrefix}-edge-cancel`,
     componentPath: `${classPrefix}-component-path`,
     componentShape: `${classPrefix}-component-shape`,
     inheritancePath: `${classPrefix}-inheritance-path`,
@@ -78,6 +80,14 @@ export const getGraphViewerStyles = () => {
                 fill: 'none'
             } as IStyle
         ],
+        widthPath: [
+            classNames.widthPath,
+            {
+                stroke: theme.semanticColors.bodyBackground,
+                strokeWidth: '5',
+                fill: 'none'
+            } as IStyle
+        ],
         textPath: [
             classNames.textPath,
             {
@@ -91,6 +101,13 @@ export const getGraphViewerStyles = () => {
                 fontSize: FontSizes.size12,
                 color: theme.semanticColors.bodyText,
                 background: theme.semanticColors.bodyBackground
+            } as IStyle
+        ],
+        edgeCancel: [
+            classNames.edgeCancel,
+            {
+                height: FontSizes.size12,
+                float: 'right'
             } as IStyle
         ],
         componentPath: [
