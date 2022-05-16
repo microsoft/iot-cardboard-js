@@ -5,7 +5,7 @@ import React, {
     useMemo,
     useCallback
 } from 'react';
-import { useTheme, PrimaryButton, Label } from '@fluentui/react';
+import { useTheme, PrimaryButton, Label, Toggle, Stack } from '@fluentui/react';
 import ReactFlow, {
     ReactFlowProvider,
     addEdge,
@@ -83,6 +83,9 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
         editedModelName,
         editedModelId
     } = state;
+    const [showRelationships, setShowRelationships] = useState(true);
+    const [showInheritances, setShowInheritances] = useState(true);
+    const [showComponents, setShowComponents] = useState(true);
 
     useEffect(() => {
         // Identifies which is the next model Id on creating new nodes and updates the Local Storage
@@ -295,8 +298,24 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     };
 
     const providerVal = useMemo(
-        () => ({ elements, setElements, setCurrentNode, dispatch }),
-        [elements, setElements, setCurrentNode, dispatch]
+        () => ({
+            elements,
+            setElements,
+            setCurrentNode,
+            dispatch,
+            showRelationships,
+            showInheritances,
+            showComponents
+        }),
+        [
+            elements,
+            setElements,
+            setCurrentNode,
+            dispatch,
+            showRelationships,
+            showInheritances,
+            showComponents
+        ]
     );
 
     const nodeTypes = useMemo(() => ({ Interface: OATGraphCustomNode }), []);
@@ -647,6 +666,96 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                                 {t('OATGraphViewer.emptyGraph')}
                             </Label>
                         )}
+                        <Stack>
+                            <div
+                                className={
+                                    graphViewerStyles.graphViewerFiltersWrap
+                                }
+                            >
+                                <div
+                                    className={
+                                        graphViewerStyles.graphViewerFiltersKey
+                                    }
+                                >
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 23 8.86"
+                                    >
+                                        <g>
+                                            <polygon
+                                                fill="#ffb200"
+                                                points="18.57 0 17.3 1.27 19.96 3.93 0 3.93 0 4.93 19.96 4.93 17.3 7.59 18.57 8.86 23 4.43 18.57 0"
+                                            />
+                                        </g>
+                                    </svg>
+                                    <span className="rel-title">
+                                        {t('OATGraphViewer.relationships')}
+                                    </span>
+                                    <Toggle
+                                        defaultChecked={showRelationships}
+                                        onChange={() => {
+                                            setShowRelationships(
+                                                !showRelationships
+                                            );
+                                        }}
+                                    />
+                                </div>
+                                <div
+                                    className={
+                                        graphViewerStyles.graphViewerFiltersKey
+                                    }
+                                >
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 23.15 9.46"
+                                    >
+                                        <g>
+                                            <path
+                                                fill="#008945"
+                                                d="M15,9.46l8.19-4.73L15,0V4.23H0v1H15V9.46Zm1-7.84,5.4,3.11-5.4,3.11Z"
+                                            />
+                                        </g>
+                                    </svg>
+                                    <span className="rel-title">
+                                        {t('OATGraphViewer.inheritances')}
+                                    </span>
+                                    <Toggle
+                                        defaultChecked={showInheritances}
+                                        onChange={() => {
+                                            setShowInheritances(
+                                                !showInheritances
+                                            );
+                                        }}
+                                    />
+                                </div>
+                                <div
+                                    className={
+                                        graphViewerStyles.graphViewerFiltersKey
+                                    }
+                                >
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 23.06 8.12"
+                                    >
+                                        <g>
+                                            <polygon
+                                                fill="#0078ce"
+                                                points="23.06 3.56 7.72 3.56 4.11 0 0 4.06 4.11 8.12 7.72 4.56 23.06 4.56 23.06 3.56"
+                                            />
+                                        </g>
+                                    </svg>
+                                    <span className="rel-title">
+                                        {t('OATGraphViewer.components')}
+                                    </span>
+                                    <Toggle
+                                        defaultChecked={showComponents}
+                                        onChange={() => {
+                                            setShowComponents(!showComponents);
+                                        }}
+                                    />
+                                </div>
+                            </div>
+                        </Stack>
 
                         <MiniMap />
                         <Controls

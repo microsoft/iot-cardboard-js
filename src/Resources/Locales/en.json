@@ -752,7 +752,10 @@
         "type": "Type",
         "emptyGraph": "No models available",
         "project": "Project",
-        "description": "Description"
+        "description": "Description",
+        "relationships": "Relationships",
+        "inheritances": "Inheritances",
+        "components": "Components"
     },
     "OATPropertyEditor": {
         "addEnumValue": "Add Enum Value",

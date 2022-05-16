@@ -30,9 +30,15 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
     const [nameText, setNameText] = useState(
         typeof data.name === 'string' ? data.name : Object.values(data.name)[0]
     );
-    const { elements, setElements, dispatch, setCurrentNode } = useContext(
-        ElementsContext
-    );
+    const {
+        elements,
+        setElements,
+        dispatch,
+        setCurrentNode,
+        showRelationships,
+        showInheritances,
+        showComponents
+    } = useContext(ElementsContext);
     const graphViewerStyles = getGraphViewerStyles();
 
     const element = elements.find((x) => x.id === id);
@@ -146,7 +152,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
 
     return (
         <>
-            {data.type === OATExtendHandleName && (
+            {data.type === OATExtendHandleName && showInheritances && (
                 <path
                     id={id}
                     className={graphViewerStyles.inheritancePath}
@@ -156,16 +162,17 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                 />
             )}
             {(data.type === OATRelationshipHandleName ||
-                data.type === OATUntargetedRelationshipName) && (
-                <path
-                    id={id}
-                    className={graphViewerStyles.edgePath}
-                    d={edgePath}
-                    onClick={onNameClick}
-                    markerEnd={markerEnd}
-                />
-            )}
-            {data.type === OATComponentHandleName && (
+                data.type === OATUntargetedRelationshipName) &&
+                showRelationships && (
+                    <path
+                        id={id}
+                        className={graphViewerStyles.edgePath}
+                        d={edgePath}
+                        onClick={onNameClick}
+                        markerEnd={markerEnd}
+                    />
+                )}
+            {data.type === OATComponentHandleName && showComponents && (
                 <path
                     id={id}
                     className={graphViewerStyles.componentPath}
@@ -211,7 +218,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                     </textPath>
                 </text>
             )}
-            {data.type === OATExtendHandleName && (
+            {data.type === OATExtendHandleName && showInheritances && (
                 <polygon
                     points={`${targetX - 5},${targetY - 10} ${targetX + 5},${
                         targetY - 10
@@ -224,21 +231,22 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                 />
             )}
             {(data.type === OATRelationshipHandleName ||
-                data.type === OATUntargetedRelationshipName) && (
-                <polygon
-                    points={`${targetX - 5},${
-                        targetY - 5
-                    } ${targetX},${targetY} ${targetX + 5},${
-                        targetY - 5
-                    } ${targetX},${targetY}`}
-                    cx={targetX}
-                    cy={targetY}
-                    r={3}
-                    strokeWidth={1.5}
-                    className={graphViewerStyles.edgePath}
-                />
-            )}
-            {data.type === OATComponentHandleName && (
+                data.type === OATUntargetedRelationshipName) &&
+                showRelationships && (
+                    <polygon
+                        points={`${targetX - 5},${
+                            targetY - 5
+                        } ${targetX},${targetY} ${targetX + 5},${
+                            targetY - 5
+                        } ${targetX},${targetY}`}
+                        cx={targetX}
+                        cy={targetY}
+                        r={3}
+                        strokeWidth={1.5}
+                        className={graphViewerStyles.edgePath}
+                    />
+                )}
+            {data.type === OATComponentHandleName && showComponents && (
                 <polygon
                     points={`${sourceX + 5},${sourceY + 5} ${sourceX},${
                         sourceY + 10

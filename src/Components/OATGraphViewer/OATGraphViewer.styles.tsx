@@ -18,7 +18,9 @@ const classNames = {
     inheritancePath: `${classPrefix}-inheritance-path`,
     inheritanceShape: `${classPrefix}-inheritance-shape`,
     nodeContainer: `${classPrefix}-node-container`,
-    graphViewerControls: `${classPrefix}-graph-viewer-controls`
+    graphViewerControls: `${classPrefix}-graph-viewer-controls`,
+    graphViewerFiltersWrap: `${classPrefix}-graph-viewer-filters-wrap`,
+    graphViewerFiltersKey: `${classPrefix}-graph-viewer-filters-key`
 };
 
 export const getGraphViewerStyles = () => {
@@ -142,6 +144,43 @@ export const getGraphViewerStyles = () => {
                     }
                 }
             } as IStyle
+        ],
+        graphViewerFiltersWrap: [
+            classNames.graphViewerFiltersWrap,
+            {
+                display: 'flex',
+                flexDirection: 'column',
+                background: theme.palette.neutralLight,
+                border: `1px solid ${theme.semanticColors.inputBorder}`,
+                borderRadius: '5px',
+                fontSize: FontSizes.size12,
+                textAlign: 'center',
+                width: '180px',
+                padding: '10px',
+                zIndex: '100',
+                height: 'fit-content'
+            } as IStyle
+        ],
+        graphViewerFiltersKey: [
+            classNames.graphViewerFiltersKey,
+            {
+                zIndex: '100',
+                display: 'flex',
+                alignItems: 'center',
+                marginBottom: '4px',
+                '& svg': {
+                    minWidth: '28px',
+                    width: '28px',
+                    marginRight: '10px'
+                },
+                '& span.rel-title': {
+                    marginRight: '10px',
+                    minWidth: '70px'
+                },
+                '& div.ms-Toggle': {
+                    marginBottom: '0'
+                }
+            } as IStyle
         ]
     });
 };
@@ -149,7 +188,8 @@ export const getGraphViewerStyles = () => {
 export const getGraphViewerButtonStyles = () => {
     return {
         root: {
-            zIndex: '100'
+            zIndex: '100',
+            marginBottom: '8px'
         }
     } as Partial<IStyle>;
 };
