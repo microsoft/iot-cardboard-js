@@ -105,6 +105,12 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
         []
     );
 
+    const isCreateElementDisabled = !(
+        elementToEdit?.displayName &&
+        elementToEdit?.primaryTwinID &&
+        elementToEdit?.objectIDs?.length > 0
+    );
+
     useEffect(() => {
         if (selectedElement) {
             setElementToEdit(selectedElement);
@@ -159,17 +165,18 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
         isAdapterCalledOnMount: false
     });
 
-    const handleSaveElement = useCallback(() => {
-        saveElementAdapterData.callAdapter();
+    const handleSaveElement = useCallback(async () => {
+        await saveElementAdapterData.callAdapter();
     }, [saveElementAdapterData]);
 
-    const handleCreateBehavior = useCallback(() => {
-        selectedElement
-            ? onCreateBehaviorWithElements()
-            : onCreateBehaviorWithElements(
-                  elementToEdit // new element
-              );
-    }, [selectedElement, elementToEdit]);
+    const handleCreateBehavior = useCallback(async () => {
+        // Save element
+        await handleSaveElement();
+
+        onCreateBehaviorWithElements(
+            elementToEdit // new element
+        );
+    }, [selectedElement, elementToEdit, handleSaveElement]);
 
     useEffect(() => {
         if (saveElementAdapterData.adapterResult.result) {
@@ -312,6 +319,9 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                                             onCreateBehaviorWithElements={
                                                 handleCreateBehavior
                                             }
+                                            isCreateBehaviorDisabled={
+                                                isCreateElementDisabled
+                                            }
                                         />
                                     </div>
                                 </PivotItem>
@@ -342,13 +352,7 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                                         ? t('3dSceneBuilder.createElement')
                                         : t('3dSceneBuilder.updateElement')
                                 }
-                                disabled={
-                                    !(
-                                        elementToEdit?.displayName &&
-                                        elementToEdit?.primaryTwinID &&
-                                        elementToEdit?.objectIDs?.length > 0
-                                    )
-                                }
+                                disabled={isCreateElementDisabled}
                             />
                             <DefaultButton
                                 text={t('cancel')}
