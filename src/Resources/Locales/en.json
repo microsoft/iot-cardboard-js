@@ -492,7 +492,9 @@
                 "commonProperties": "The union of primary twin properties of selected elements"
             },
             "errors": {
-                "twinAliasAlreadyExists": "Twin alias with the same name already exists, consider adding it instead."
+                "twinAliasAlreadyExists": "Twin alias with the same name already exists, consider adding it instead.",
+                "alphanumericOnly": "Twin alias must only contain alphanumeric characters",
+                "noNumberPrefix": "Twin alias must not start with a number"
             }
         }
     },
