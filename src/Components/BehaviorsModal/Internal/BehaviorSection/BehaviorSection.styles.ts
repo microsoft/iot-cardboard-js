@@ -1,6 +1,5 @@
 import {
     FontSizes,
-    FontWeights,
     IStyle,
     memoizeFunction,
     mergeStyleSets
