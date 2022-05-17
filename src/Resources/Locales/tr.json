@@ -694,7 +694,8 @@
       "undoAll": "Tüm düzenlemeleri sıfırla",
       "expandTree": "Ağacı genişlet",
       "collapseTree": "Ağacı daralt",
-      "save": "Değişiklikleri kaydetme"
+      "save": "Değişiklikleri kaydetme",
+      "refresh": "Verileri yenileme"
     },
     "dateTimePicker": {
       "datePickerTitle": "Tarih seçici",
@@ -727,7 +728,7 @@
     "state": "Devlet",
     "allProperties": "Tüm emlaklar",
     "behaviorPreview": "Önizleme",
-    "PrimaryTwinProperties": "Birincil İkiz özellikler"
+    "PrimaryTwin": "Birincil İki Yataklı"
   },
   "svgTests": {
     "fluentUI": "Akıcı Görüntü bileşeni aracılığıyla SVG yükleme (önerilen desen)",

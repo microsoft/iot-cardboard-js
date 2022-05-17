@@ -694,7 +694,8 @@
       "undoAll": "Redefinir todas as edições",
       "expandTree": "Expandir árvore",
       "collapseTree": "Árvore de colapso",
-      "save": "Guardar alterações"
+      "save": "Guardar alterações",
+      "refresh": "Atualizar dados"
     },
     "dateTimePicker": {
       "datePickerTitle": "Selecionador de datas",
@@ -727,7 +728,7 @@
     "state": "Estado",
     "allProperties": "Todas as propriedades",
     "behaviorPreview": "Previsualizar",
-    "PrimaryTwinProperties": "Propriedades principais de Twin"
+    "PrimaryTwin": "Gémeo Primário"
   },
   "svgTests": {
     "fluentUI": "Carregamento SVG através de componente de imagem fluente (padrão recomendado)",

@@ -694,7 +694,8 @@
       "undoAll": "Az összes szerkesztés alaphelyzetbe állítása",
       "expandTree": "Fa kibontása",
       "collapseTree": "Fa összecsukása",
-      "save": "Módosítások mentése"
+      "save": "Módosítások mentése",
+      "refresh": "Adatok frissítése"
     },
     "dateTimePicker": {
       "datePickerTitle": "Dátumválasztó",
@@ -727,7 +728,7 @@
     "state": "Állam",
     "allProperties": "Minden tulajdonság",
     "behaviorPreview": "Előnézet",
-    "PrimaryTwinProperties": "Elsődleges iker tulajdonságai"
+    "PrimaryTwin": "Elsődleges ikerpár"
   },
   "svgTests": {
     "fluentUI": "SVG betöltése a Fluent Image komponensen keresztül (ajánlott minta)",

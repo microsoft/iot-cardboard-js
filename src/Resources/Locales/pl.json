@@ -694,7 +694,8 @@
       "undoAll": "Resetowanie wszystkich zmian",
       "expandTree": "Rozwiń drzewo",
       "collapseTree": "Zwiń drzewo",
-      "save": "Zapisywanie zmian"
+      "save": "Zapisywanie zmian",
+      "refresh": "Odświeżanie danych"
     },
     "dateTimePicker": {
       "datePickerTitle": "Selektor dat",
@@ -727,7 +728,7 @@
     "state": "Stan",
     "allProperties": "Wszystkie właściwości",
     "behaviorPreview": "Prapremiera",
-    "PrimaryTwinProperties": "Właściwości Podstawowych bliźniaków"
+    "PrimaryTwin": "Podstawowy Pokój typu Twin (Primary Twin"
   },
   "svgTests": {
     "fluentUI": "Ładowanie SVG przez komponent Fluent Image (zalecany wzór)",

@@ -694,7 +694,8 @@
       "undoAll": "Obnovit všechny úpravy",
       "expandTree": "Rozbalit strom",
       "collapseTree": "Sbalit strom",
-      "save": "Uložení změn"
+      "save": "Uložení změn",
+      "refresh": "Aktualizace dat"
     },
     "dateTimePicker": {
       "datePickerTitle": "Výběr data",
@@ -727,7 +728,7 @@
     "state": "Stát",
     "allProperties": "Všechny nemovitosti",
     "behaviorPreview": "Náhled",
-    "PrimaryTwinProperties": "Vlastnosti primárního dvojčete"
+    "PrimaryTwin": "Primární dvojče"
   },
   "svgTests": {
     "fluentUI": "Načítání SVG pomocí komponenty Fluent Image (doporučený vzor)",

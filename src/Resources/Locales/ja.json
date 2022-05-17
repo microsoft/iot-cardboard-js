@@ -694,7 +694,8 @@
       "undoAll": "すべての編集をリセットする",
       "expandTree": "ツリーの展開",
       "collapseTree": "ツリーの折りたたみ",
-      "save": "変更の保存"
+      "save": "変更の保存",
+      "refresh": "データの更新"
     },
     "dateTimePicker": {
       "datePickerTitle": "日付ピッカー",
@@ -727,7 +728,7 @@
     "state": "状態",
     "allProperties": "すべてのプロパティ",
     "behaviorPreview": "プレビュー",
-    "PrimaryTwinProperties": "プライマリツインのプロパティ"
+    "PrimaryTwin": "プライマリツイン"
   },
   "svgTests": {
     "fluentUI": "流暢な画像コンポーネントによるSVGの読み込み(推奨パターン)",
