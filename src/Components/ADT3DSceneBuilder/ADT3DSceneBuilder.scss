@@ -1,15 +1,6 @@
 @import '../../Resources/Styles/BaseStyles';
 
 .cb-scene-builder-card-wrapper {
-    display: flex;
-    height: 100%;
-    width: 100%;
-
-    .cb-scene-builder-canvas {
-        flex-grow: 1;
-        position: relative;
-    }
-
     .cb-base-composite-card-item {
         overflow: hidden;
     }

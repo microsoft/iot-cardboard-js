@@ -1,6 +1,5 @@
 import {
     FontSizes,
-    FontWeights,
     IStyle,
     memoizeFunction,
     mergeStyleSets
@@ -28,10 +27,8 @@ export const getStyles = memoizeFunction(() => {
         behaviorHeader: [
             classNames.behaviorHeader,
             {
-                fontSize: FontSizes.size14,
-                fontWeight: FontWeights.semibold,
-                marginBottom: 16
-            } as IStyle
+                marginBottom: 8
+            }
         ],
         infoContainer: [
             classNames.infoContainer,
@@ -63,17 +60,3 @@ export const getStyles = memoizeFunction(() => {
         ]
     });
 });
-
-export const getStatusBlockStyles = memoizeFunction((statusColor: string) =>
-    mergeStyleSets({
-        statusColorLine: [
-            classNames.statusColorLine,
-            {
-                width: 12,
-                height: 3,
-                boxShadow: `0px 0px 4px ${statusColor}`,
-                background: statusColor
-            } as IStyle
-        ]
-    })
-);

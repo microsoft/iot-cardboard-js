@@ -603,8 +603,6 @@
         "Start time input": "Start time input",
         "End time input": "End time input",
         "snap end time to latest": "snap end time to latest",
-        "zoom in": "zoom in",
-        "zoom out": "zoom out",
         "select quick time of": "select quick time of",
         "a time selection control dialog": "a time selection control dialog.",
         "No color": "No color",
@@ -777,9 +775,12 @@
     },
     "cameraControls": {
         "mouseControls": "Mouse Controls",
-        "select": "Select",
-        "pan": "Pan",
         "orbit": "Orbit",
-        "zoom": "Zoom"
+        "pan": "Pan",
+        "reset": "Reset",
+        "select": "Select",
+        "zoom": "Zoom",
+        "zoomIn": "Zoom in",
+        "zoomOut": "Zoom out"
     }
 }

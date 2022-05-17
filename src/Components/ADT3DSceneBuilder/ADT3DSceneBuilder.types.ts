@@ -1,4 +1,10 @@
-import { IContextualMenuItem } from '@fluentui/react';
+import {
+    IContextualMenuItem,
+    IStackStyles,
+    IStyle,
+    IStyleFunctionOrObject,
+    ITheme
+} from '@fluentui/react';
 import React from 'react';
 import ADT3DSceneAdapter from '../../Adapters/ADT3DSceneAdapter';
 import MockAdapter from '../../Adapters/MockAdapter';
@@ -67,6 +73,32 @@ export interface IADT3DSceneBuilderCardProps
     adapter: ADT3DSceneAdapter | MockAdapter;
     sceneId: string;
     sceneViewProps?: ISceneViewProps;
+    /** show the toggle to switch between builder & viewer modes */
+    showModeToggle?: boolean;
+    /**
+     * Call to provide customized styling that will layer on top of the variant rules.
+     */
+    styles?: IStyleFunctionOrObject<
+        IADT3DSceneBuilderStyleProps,
+        IADT3DSceneBuilderStyles
+    >;
+}
+
+export interface IADT3DSceneBuilderStyleProps {
+    theme: ITheme;
+}
+export interface IADT3DSceneBuilderStyles {
+    root: IStyle;
+    wrapper: IStyle;
+
+    /**
+     * SubComponent styles.
+     */
+    subComponentStyles?: IADT3DSceneBuilderSubComponentStyles;
+}
+
+export interface IADT3DSceneBuilderSubComponentStyles {
+    headerStack?: IStackStyles;
 }
 
 export interface I3DSceneBuilderContext {
