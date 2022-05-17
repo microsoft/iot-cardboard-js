@@ -87,6 +87,7 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
     );
 
     const elementsSorted = useRef(false);
+    const lastSearch = useRef('');
 
     const [filteredElements, setFilteredElements] = useState<
         ITwinToObjectMapping[]
@@ -180,30 +181,33 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
 
     // apply filtering
     useEffect(() => {
-        const filtered = elements
-            ? deepCopy(
-                  elements?.filter((element) =>
-                      element.displayName
-                          .toLowerCase()
-                          .includes(searchText.toLowerCase())
+        if (lastSearch.current != searchText) {
+            lastSearch.current = searchText;
+            const filtered = elements
+                ? deepCopy(
+                      elements?.filter((element) =>
+                          element.displayName
+                              .toLowerCase()
+                              .includes(searchText.toLowerCase())
+                      )
                   )
-              )
-            : [];
-        const filteredSelected = selectedElements
-            ? deepCopy(
-                  selectedElements?.filter((element) =>
-                      element.displayName
-                          .toLowerCase()
-                          .includes(searchText.toLowerCase())
+                : [];
+            const filteredSelected = selectedElements
+                ? deepCopy(
+                      selectedElements?.filter((element) =>
+                          element.displayName
+                              .toLowerCase()
+                              .includes(searchText.toLowerCase())
+                      )
                   )
-              )
-            : [];
+                : [];
 
-        const sortedFilteredElements = sortAndGroupElements(
-            filtered,
-            filteredSelected
-        );
-        setFilteredElements(sortedFilteredElements);
+            const sortedFilteredElements = sortAndGroupElements(
+                filtered,
+                filteredSelected
+            );
+            setFilteredElements(sortedFilteredElements);
+        }
     }, [searchText, elements, selectedElements]);
 
     const onUpdateCheckbox = useCallback(
