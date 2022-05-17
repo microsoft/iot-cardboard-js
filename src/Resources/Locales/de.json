@@ -694,7 +694,8 @@
       "undoAll": "Alle Bearbeitungen zurücksetzen",
       "expandTree": "Baum erweitern",
       "collapseTree": "Baum reduzieren",
-      "save": "Änderungen speichern"
+      "save": "Änderungen speichern",
+      "refresh": "Aktualisieren von Daten"
     },
     "dateTimePicker": {
       "datePickerTitle": "Datumsauswahl",
@@ -727,7 +728,7 @@
     "state": "Zustand",
     "allProperties": "Alle Immobilien",
     "behaviorPreview": "Vorschau",
-    "PrimaryTwinProperties": "Primäre Twin-Eigenschaften"
+    "PrimaryTwin": "Primäre Zwillingszwillinge"
   },
   "svgTests": {
     "fluentUI": "SVG-Laden über Fluent Image-Komponente (empfohlenes Muster)",

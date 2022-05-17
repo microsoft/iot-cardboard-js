@@ -694,7 +694,8 @@
       "undoAll": "Сброс всех изменений",
       "expandTree": "Развернуть дерево",
       "collapseTree": "Свернуть дерево",
-      "save": "Сохранение изменений"
+      "save": "Сохранение изменений",
+      "refresh": "Обновление данных"
     },
     "dateTimePicker": {
       "datePickerTitle": "Средство выбора даты",
@@ -727,7 +728,7 @@
     "state": "Государство",
     "allProperties": "Все свойства",
     "behaviorPreview": "Предварительный просмотр",
-    "PrimaryTwinProperties": "Основные свойства Близнецов"
+    "PrimaryTwin": "Основной Близнец"
   },
   "svgTests": {
     "fluentUI": "Загрузка SVG через компонент Fluent Image (рекомендуемый шаблон)",

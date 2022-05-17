@@ -694,7 +694,8 @@
       "undoAll": "Réinitialiser toutes les modifications",
       "expandTree": "Développer l’arborescence",
       "collapseTree": "Réduire l’arbre",
-      "save": "Enregistrer les modifications"
+      "save": "Enregistrer les modifications",
+      "refresh": "Actualiser les données"
     },
     "dateTimePicker": {
       "datePickerTitle": "Sélecteur de dates",
@@ -727,7 +728,7 @@
     "state": "État",
     "allProperties": "Toutes les propriétés",
     "behaviorPreview": "Aperçu",
-    "PrimaryTwinProperties": "Propriétés jumelles principales"
+    "PrimaryTwin": "Jumeau principal"
   },
   "svgTests": {
     "fluentUI": "Chargement SVG via le composant Fluent Image (modèle recommandé)",

@@ -694,7 +694,8 @@
       "undoAll": "重置所有编辑",
       "expandTree": "展开树",
       "collapseTree": "折叠树",
-      "save": "保存更改"
+      "save": "保存更改",
+      "refresh": "刷新数据"
     },
     "dateTimePicker": {
       "datePickerTitle": "日期选取器",
@@ -727,7 +728,7 @@
     "state": "州",
     "allProperties": "所有房产",
     "behaviorPreview": "预览",
-    "PrimaryTwinProperties": "主要孪生属性"
+    "PrimaryTwin": "主双床房"
   },
   "svgTests": {
     "fluentUI": "通过 Fluent Image 组件加载 SVG（推荐模式）",
