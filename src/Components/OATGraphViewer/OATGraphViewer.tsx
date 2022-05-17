@@ -6,6 +6,7 @@ import React, {
     useCallback
 } from 'react';
 import { useTheme, PrimaryButton, Label } from '@fluentui/react';
+import { createParser, ModelParsingOption } from 'azure-iot-dtdl-parser';
 import ReactFlow, {
     ReactFlowProvider,
     addEdge,
@@ -48,7 +49,7 @@ import { ElementEdge } from './Internal/Classes/ElementEdge';
 import { ElementEdgeData } from './Internal/Classes/ElementEdgeData';
 
 const idClassBase = 'dtmi:com:example:';
-const contextClassBase = 'dtmi:adt:context;2';
+const contextClassBase = 'dtmi:dtdl:context;2';
 const versionClassBase = '1';
 type OATGraphProps = {
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
@@ -58,6 +59,21 @@ type OATGraphProps = {
 const getStoredElements = () => {
     const editorData = JSON.parse(localStorage.getItem(OATDataStorageKey));
     return editorData && editorData.models ? editorData.models : null;
+};
+
+const parseModels = (models) => {
+    const modelParser = createParser(
+        ModelParsingOption.PermitAnyTopLevelElement
+    );
+    modelParser.options = ModelParsingOption.PermitAnyTopLevelElement;
+    Object.entries(models).forEach(async (model) => {
+        const modelJson = JSON.stringify(model[1]);
+        try {
+            await modelParser.parse([modelJson]);
+        } catch (err) {
+            alert(err._parsingErrors[0].action);
+        }
+    });
 };
 
 const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
@@ -303,9 +319,11 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
 
     const edgeTypes = useMemo(() => ({ Relationship: OATGraphCustomEdge }), []);
 
-    const onElementsRemove = (elementsToRemove: IOATNodeElement) =>
+    const onElementsRemove = (elementsToRemove: IOATNodeElement) => {
         // Remove an specific node and all related edges
+        dispatch({ type: SET_OAT_PROPERTY_EDITOR_MODEL, payload: null });
         setElements((els) => removeElements(elementsToRemove, els));
+    };
 
     const onLoad = useCallback(
         (_reactFlowInstance) => _reactFlowInstance.fitView(),
@@ -500,6 +518,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                 const node = {
                     '@id': currentNode.id,
                     '@type': OATInterfaceType,
+                    '@context': currentNode.data.context,
                     displayName: currentNode.data.name,
                     contents: [...currentNode.data.content]
                 };
@@ -532,7 +551,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                 const sourceNode = currentNodes.find(
                     (element) => element['@id'] === currentNode.source
                 );
-                sourceNode.extends = currentNode.target;
+                sourceNode.extend = currentNode.target;
             } else if (currentNode.data.type === OATComponentHandleName) {
                 const sourceNode = currentNodes.find(
                     (element) => element['@id'] === currentNode.source
@@ -563,7 +582,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
             }
             return currentNodes;
         }, []);
-
+        parseModels(nodes);
         return nodes;
     }, [elements]);
 

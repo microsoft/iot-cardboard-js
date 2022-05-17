@@ -18,11 +18,15 @@ const JSONEditor = ({ dispatch, theme, state }: OATPropertyEditorProps) => {
     const libTheme = useLibTheme();
     const themeToUse = (libTheme || theme) ?? Theme.Light;
     const editorRef = useRef(null);
+    const internalChange = useRef(false);
     const { model } = state;
     const [content, setContent] = useState(JSON.stringify(model, null, 2));
 
     useEffect(() => {
-        setContent(JSON.stringify(model, null, 2));
+        if (!internalChange.current) {
+            setContent(JSON.stringify(model, null, 2));
+        }
+        internalChange.current = false;
     }, [model]);
 
     const onHandleEditorDidMount = (editor) => {
@@ -49,6 +53,7 @@ const JSONEditor = ({ dispatch, theme, state }: OATPropertyEditorProps) => {
             if (validateJSONValues(validJson)) {
                 alert(t('OATPropertyEditor.errorRepeatedPropertyName'));
             } else {
+                internalChange.current = true;
                 dispatch({
                     type: SET_OAT_PROPERTY_EDITOR_MODEL,
                     payload: validJson
