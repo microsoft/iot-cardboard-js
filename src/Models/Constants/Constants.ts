@@ -88,6 +88,7 @@ export const availableWidgets: Array<IWidgetLibraryItem> = [
 ];
 export const twinRefreshMaxAge = 9000;
 export const modelRefreshMaxAge = 3600000;
+export const instancesRefreshMaxAge = 3600000;
 
 export const primaryTwinName = 'PrimaryTwin';
 export const ValidAdtHostSuffixes = [

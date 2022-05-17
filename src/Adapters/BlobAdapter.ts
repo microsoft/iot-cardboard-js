@@ -1,7 +1,7 @@
 import {
     IAuthService,
     IBlobAdapter,
-    IBlobFile
+    IStorageBlob
 } from '../Models/Constants/Interfaces';
 import AdapterMethodSandbox from '../Models/Classes/AdapterMethodSandbox';
 import { ComponentErrorType } from '../Models/Constants/Enums';
@@ -13,14 +13,16 @@ import {
     getTimeStamp
 } from '../Models/Services/Utils';
 import { XMLParser } from 'fast-xml-parser';
-import BlobsData from '../Models/Classes/AdapterDataClasses/BlobsData';
+import { StorageBlobsData } from '../Models/Classes/AdapterDataClasses/StorageData';
 import { I3DScenesConfig } from '../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import defaultConfig from './__mockData__/3DScenesConfiguration.default.json';
 import { ComponentError } from '../Models/Classes';
 
 export default class BlobAdapter implements IBlobAdapter {
+    protected accountName: string;
     protected storageAccountHostUrl: string;
-    protected blobContainerPath: string;
+    protected containerName: string;
+    protected containerResourceId: string; // resource scope
     protected blobAuthService: IAuthService;
     protected blobProxyServerPath: string;
 
@@ -32,7 +34,8 @@ export default class BlobAdapter implements IBlobAdapter {
         if (blobContainerUrl) {
             const containerURL = new URL(blobContainerUrl);
             this.storageAccountHostUrl = containerURL.hostname;
-            this.blobContainerPath = containerURL.pathname;
+            this.accountName = containerURL.hostname.split('.')[0];
+            this.containerName = containerURL.pathname.split('/')[1];
         }
         this.blobAuthService = authService;
         this.blobAuthService.login();
@@ -48,14 +51,14 @@ export default class BlobAdapter implements IBlobAdapter {
                 const todayDate = getTimeStamp();
                 await axios({
                     method: 'put',
-                    url: `${this.blobProxyServerPath}${this.blobContainerPath}/3DScenesConfiguration_corrupted_${todayDate}.json`,
+                    url: `${this.blobProxyServerPath}/${this.containerName}/3DScenesConfiguration_corrupted_${todayDate}.json`,
                     headers: {
                         authorization: 'Bearer ' + token,
                         'x-ms-version': '2017-11-09',
                         'Content-Type': 'application/json',
                         'x-ms-blob-type': 'BlockBlob',
                         'x-blob-host': this.storageAccountHostUrl,
-                        'x-ms-copy-source': `https://${this.storageAccountHostUrl}${this.blobContainerPath}/${ADT3DSceneConfigFileNameInBlobStore}.json`,
+                        'x-ms-copy-source': `https://${this.storageAccountHostUrl}/${this.containerName}/${ADT3DSceneConfigFileNameInBlobStore}.json`,
                         'x-ms-requires-sync': 'true'
                     }
                 });
@@ -76,8 +79,8 @@ export default class BlobAdapter implements IBlobAdapter {
     }
 
     getBlobContainerURL() {
-        return this.storageAccountHostUrl && this.blobContainerPath
-            ? `https://${this.storageAccountHostUrl}${this.blobContainerPath}`
+        return this.storageAccountHostUrl && this.containerName
+            ? `https://${this.storageAccountHostUrl}/${this.containerName}`
             : '';
     }
 
@@ -87,7 +90,8 @@ export default class BlobAdapter implements IBlobAdapter {
                 const url = new URL(blobContainerURL);
                 if (url.hostname.endsWith('blob.core.windows.net')) {
                     this.storageAccountHostUrl = url.hostname;
-                    this.blobContainerPath = url.pathname;
+                    this.accountName = url.hostname.split('.')[0];
+                    this.containerName = url.pathname.split('/')[1];
                 }
             } catch (error) {
                 console.error('Unable to parse container URL!');
@@ -102,7 +106,7 @@ export default class BlobAdapter implements IBlobAdapter {
         return await adapterMethodSandbox.safelyFetchData(async (token) => {
             const getConfigBlob = async () => {
                 let config: I3DScenesConfig;
-                if (this.storageAccountHostUrl && this.blobContainerPath) {
+                if (this.storageAccountHostUrl && this.containerName) {
                     const headers = {};
                     headers['x-ms-version'] = '2017-11-09';
                     headers['x-blob-host'] = this.storageAccountHostUrl;
@@ -112,7 +116,7 @@ export default class BlobAdapter implements IBlobAdapter {
 
                     const scenesBlob = await axios({
                         method: 'GET',
-                        url: `${this.blobProxyServerPath}${this.blobContainerPath}/${ADT3DSceneConfigFileNameInBlobStore}.json`,
+                        url: `${this.blobProxyServerPath}/${this.containerName}/${ADT3DSceneConfigFileNameInBlobStore}.json`,
                         headers: headers
                     });
                     if (scenesBlob.data) {
@@ -165,7 +169,7 @@ export default class BlobAdapter implements IBlobAdapter {
             ADTScenesConfigData,
             {
                 method: 'put',
-                url: `${this.blobProxyServerPath}${this.blobContainerPath}/${ADT3DSceneConfigFileNameInBlobStore}.json`,
+                url: `${this.blobProxyServerPath}/${this.containerName}/${ADT3DSceneConfigFileNameInBlobStore}.json`,
                 headers: {
                     'Content-Type': 'application/json',
                     'x-ms-version': '2017-11-09',
@@ -191,7 +195,7 @@ export default class BlobAdapter implements IBlobAdapter {
             try {
                 const filesData = await axios({
                     method: 'GET',
-                    url: `${this.blobProxyServerPath}${this.blobContainerPath}`,
+                    url: `${this.blobProxyServerPath}/${this.containerName}`,
                     headers: {
                         authorization: 'Bearer ' + token,
                         'Content-Type': 'application/json',
@@ -205,7 +209,7 @@ export default class BlobAdapter implements IBlobAdapter {
                 });
                 const filesXML = filesData.data;
                 const parser = new XMLParser();
-                let files: Array<IBlobFile> = parser.parse(filesXML)
+                let files: Array<IStorageBlob> = parser.parse(filesXML)
                     ?.EnumerationResults?.Blobs?.Blob;
                 if (fileTypes) {
                     files = files.filter((f) =>
@@ -214,10 +218,10 @@ export default class BlobAdapter implements IBlobAdapter {
                 }
                 files.map(
                     (f) =>
-                        (f.Path = `https://${this.storageAccountHostUrl}${this.blobContainerPath}/${f.Name}`)
+                        (f.Path = `https://${this.storageAccountHostUrl}/${this.containerName}/${f.Name}`)
                 );
 
-                return new BlobsData(files);
+                return new StorageBlobsData(files);
             } catch (err) {
                 adapterMethodSandbox.pushError({
                     type: ComponentErrorType.DataFetchFailed,
@@ -236,9 +240,9 @@ export default class BlobAdapter implements IBlobAdapter {
         const createBlobFileData = (apiResponse: string) => {
             // successful response data is alwasy empty string which is not useful
             if (apiResponse === '') {
-                const blobFile: IBlobFile = {
+                const blobFile: IStorageBlob = {
                     Name: file.name,
-                    Path: `https://${this.storageAccountHostUrl}${this.blobContainerPath}/${file.name}`,
+                    Path: `https://${this.storageAccountHostUrl}/${this.containerName}/${file.name}`,
                     Properties: { 'Content-Length': file.size }
                 };
                 return [blobFile];
@@ -248,10 +252,10 @@ export default class BlobAdapter implements IBlobAdapter {
         };
 
         return adapterMethodSandbox.safelyFetchDataCancellableAxiosPromise(
-            BlobsData,
+            StorageBlobsData,
             {
                 method: 'put',
-                url: `${this.blobProxyServerPath}${this.blobContainerPath}/${file.name}`,
+                url: `${this.blobProxyServerPath}/${this.containerName}/${file.name}`,
                 headers: {
                     'x-ms-version': '2017-11-09',
                     'x-blob-host': this.storageAccountHostUrl,

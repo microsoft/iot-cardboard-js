@@ -336,25 +336,33 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
                                         }}
                                     />
                                 </div>
-                                <Stack horizontal tokens={{ childrenGap: 8 }}>
-                                    <DeeplinkFlyout mode="Simple" />
-                                    <SceneListModeToggle
-                                        selectedMode={state.currentStep}
-                                        onListModeChange={onListModeChange}
-                                    />
-                                </Stack>
+                                {!state.errors && (
+                                    <Stack
+                                        horizontal
+                                        tokens={{ childrenGap: 8 }}
+                                    >
+                                        <DeeplinkFlyout mode="Simple" />
+                                        <SceneListModeToggle
+                                            selectedMode={state.currentStep}
+                                            onListModeChange={onListModeChange}
+                                        />
+                                    </Stack>
+                                )}
                             </div>
                         </>
                     )}
-                    <ScenePageErrorHandlingWrapper
-                        errors={state.errors}
-                        primaryClickAction={{
-                            buttonText: state?.errorCallback?.buttonText,
-                            onClick: state?.errorCallback?.buttonAction
-                        }}
-                    >
-                        {state.currentStep ===
-                            ADT3DScenePageSteps.SceneList && (
+                    {state.errors.length > 0 ? (
+                        <ScenePageErrorHandlingWrapper
+                            adapter={adapter}
+                            errors={state.errors}
+                            primaryClickAction={{
+                                buttonText: state?.errorCallback?.buttonText,
+                                onClick: state?.errorCallback?.buttonAction
+                            }}
+                            reloadPageAdapterData={scenesConfig}
+                        />
+                    ) : (
+                        state.currentStep === ADT3DScenePageSteps.SceneList && (
                             <div className="cb-scene-page-scene-list-container">
                                 {deeplinkState.storageUrl && (
                                     <SceneList
@@ -369,37 +377,37 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
                                     />
                                 )}
                             </div>
-                        )}
-                        {state.currentStep === ADT3DScenePageSteps.Globe && (
-                            <div className="cb-scene-page-scene-globe-container">
-                                <ADT3DGlobe
+                        )
+                    )}
+                    {state.currentStep === ADT3DScenePageSteps.Globe && (
+                        <div className="cb-scene-page-scene-globe-container">
+                            <ADT3DGlobe
+                                theme={theme}
+                                adapter={adapter as IBlobAdapter}
+                                onSceneClick={(scene) => {
+                                    handleOnSceneClick(scene);
+                                }}
+                            />
+                        </div>
+                    )}
+                    {state.currentStep === ADT3DScenePageSteps.Scene && (
+                        <>
+                            <div className="cb-scene-builder-and-viewer-container">
+                                <ADT3DSceneBuilderContainer
+                                    mode={deeplinkState.mode}
+                                    scenesConfig={state.scenesConfig}
+                                    sceneId={deeplinkState.sceneId}
+                                    adapter={adapter}
                                     theme={theme}
-                                    adapter={adapter as IBlobAdapter}
-                                    onSceneClick={(scene) => {
-                                        handleOnSceneClick(scene);
-                                    }}
+                                    locale={locale}
+                                    localeStrings={localeStrings}
+                                    refetchConfig={() =>
+                                        scenesConfig.callAdapter()
+                                    }
                                 />
                             </div>
-                        )}
-                        {state.currentStep === ADT3DScenePageSteps.Scene && (
-                            <>
-                                <div className="cb-scene-builder-and-viewer-container">
-                                    <ADT3DSceneBuilderContainer
-                                        mode={deeplinkState.mode}
-                                        scenesConfig={state.scenesConfig}
-                                        sceneId={deeplinkState.sceneId}
-                                        adapter={adapter}
-                                        theme={theme}
-                                        locale={locale}
-                                        localeStrings={localeStrings}
-                                        refetchConfig={() =>
-                                            scenesConfig.callAdapter()
-                                        }
-                                    />
-                                </div>
-                            </>
-                        )}
-                    </ScenePageErrorHandlingWrapper>
+                        </>
+                    )}
                 </BaseComponent>
             </div>
         </ADT3DScenePageContext.Provider>

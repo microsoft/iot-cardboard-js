@@ -12,7 +12,7 @@ import React, { useMemo, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { useTranslation } from 'react-i18next';
 import { AdapterResult } from '../../../Models/Classes';
-import BlobsData from '../../../Models/Classes/AdapterDataClasses/BlobsData';
+import { StorageBlobsData } from '../../../Models/Classes/AdapterDataClasses/StorageData';
 import { Supported3DFileTypes } from '../../../Models/Constants/Enums';
 import DropFileIcon from '../../../Resources/Static/dropFile.svg';
 import { CardboardList } from '../../CardboardList/CardboardList';
@@ -27,7 +27,7 @@ interface File3DUploaderProps {
     ) => void;
     onFileChange: (file: File) => void;
     isUploadingFile?: boolean;
-    uploadFileAdapterResult?: AdapterResult<BlobsData>;
+    uploadFileAdapterResult?: AdapterResult<StorageBlobsData>;
 }
 
 const File3DUploader: React.FC<File3DUploaderProps> = ({

@@ -7,7 +7,9 @@ import AdapterMethodSandbox from '../Models/Classes/AdapterMethodSandbox';
 import AdapterResult from '../Models/Classes/AdapterResult';
 import {
     AzureAccessPermissionRoles,
-    AzureServiceResourceProviderEndpoints
+    AzureResourceProviderEndpoints,
+    AzureResourceTypes,
+    ComponentErrorType
 } from '../Models/Constants/Enums';
 import {
     IADTInstance,
@@ -23,7 +25,26 @@ import {
     ADTAllModelsData,
     ADTTwinToModelMappingData
 } from '../Models/Classes/AdapterDataClasses/ADTModelData';
-import { modelRefreshMaxAge } from '../Models/Constants';
+import {
+    IAzureRoleAssignment,
+    instancesRefreshMaxAge,
+    IStorageContainer,
+    MissingAzureRoleDefinitionAssignments,
+    modelRefreshMaxAge
+} from '../Models/Constants';
+import { StorageContainersData } from '../Models/Classes/AdapterDataClasses/StorageData';
+import {
+    AzureMissingRoleDefinitionsData,
+    AzureRoleAssignmentsData
+} from '../Models/Classes/AdapterDataClasses/AzureManagementData';
+
+const EnforcedStorageContainerAccessRoleIdsToCheck = [
+    AzureAccessPermissionRoles.Reader
+];
+const AlternatedStorageContainerAccessRoleIdsToCheck = [
+    AzureAccessPermissionRoles['Storage Blob Data Owner'],
+    AzureAccessPermissionRoles['Storage Blob Data Contributor']
+];
 
 export default class ADT3DSceneAdapter {
     constructor(
@@ -46,11 +67,15 @@ export default class ADT3DSceneAdapter {
         this.adtTwinToModelMappingCache = new AdapterEntityCache<ADTTwinToModelMappingData>(
             modelRefreshMaxAge
         );
+        this.adtInstancesCache = new AdapterEntityCache<ADTInstancesData>(
+            instancesRefreshMaxAge
+        );
 
         if (blobContainerUrl) {
             const containerURL = new URL(blobContainerUrl);
             this.storageAccountHostUrl = containerURL.hostname;
-            this.blobContainerPath = containerURL.pathname;
+            this.accountName = containerURL.hostname.split('.')[0];
+            this.containerName = containerURL.pathname.split('/')[1];
         }
 
         this.adtProxyServerPath = adtProxyServerPath;
@@ -114,44 +139,219 @@ export default class ADT3DSceneAdapter {
     };
 
     //returns all the adt instances that the user has the specified permission/permissions to
-    getADTInstances = async () => {
+    async getADTInstances() {
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
-        const accessRolesToCheck = [
-            AzureAccessPermissionRoles.AzureDigitalTwinsDataOwner,
-            AzureAccessPermissionRoles.AzureDigitalTwinsDataReader
-        ];
-        return await adapterMethodSandbox.safelyFetchData(async () => {
-            const adtInstanceResourcesResult = await this.getResources(
-                AzureServiceResourceProviderEndpoints.ADT
-            );
-            const adtInstanceResources: Array<IAzureResource> = adtInstanceResourcesResult.getData();
-            const digitalTwinsInstances: Array<IADTInstance> = [];
 
-            if (adtInstanceResources) {
-                const hasRoleDefinitionsResults = await Promise.all(
-                    adtInstanceResources.map((adtInstanceResource) =>
-                        this.hasRoleDefinitions(
-                            adtInstanceResource.id,
-                            this.uniqueObjectId,
-                            accessRolesToCheck
+        const getDataMethod = () => {
+            const alternatedRolesToCheck = [
+                AzureAccessPermissionRoles['Azure Digital Twins Data Owner'],
+                AzureAccessPermissionRoles['Azure Digital Twins Data Reader']
+            ];
+            return adapterMethodSandbox.safelyFetchData(async () => {
+                const adtInstanceResourcesResult = await this.getResources(
+                    AzureResourceTypes.ADT,
+                    AzureResourceProviderEndpoints.ADT
+                );
+                const adtInstanceResources: Array<IAzureResource> = adtInstanceResourcesResult.getData();
+                const digitalTwinsInstances: Array<IADTInstance> = [];
+
+                if (adtInstanceResources) {
+                    const hasRoleDefinitionsResults = await Promise.all(
+                        adtInstanceResources.map((adtInstanceResource) =>
+                            this.hasRoleDefinitions(
+                                adtInstanceResource.id,
+                                this.uniqueObjectId,
+                                [],
+                                alternatedRolesToCheck
+                            )
+                        )
+                    );
+                    hasRoleDefinitionsResults.forEach((haveAccess, idx) => {
+                        if (haveAccess) {
+                            const adtInstanceResource =
+                                adtInstanceResources[idx];
+                            digitalTwinsInstances.push({
+                                id: adtInstanceResource.id,
+                                name: adtInstanceResource.name,
+                                hostName:
+                                    adtInstanceResource.properties['hostName'],
+                                location: adtInstanceResource.location
+                            });
+                        }
+                    });
+                }
+
+                return new ADTInstancesData(digitalTwinsInstances);
+            });
+        };
+
+        return this.adtInstancesCache.getEntity('adt_instances', getDataMethod);
+    }
+
+    //returns all the storage containers that the user has the specified permissions to
+    getStorageContainers = async () => {
+        const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
+
+        return await adapterMethodSandbox.safelyFetchData(async () => {
+            const storageEndPoint = `${AzureResourceProviderEndpoints.Storage}/${this.accountName}/blobServices/default/containers`;
+            const storageResourcesResult = await this.getResources(
+                AzureResourceTypes.Container,
+                storageEndPoint
+            );
+            const storageResources: Array<IAzureResource> = storageResourcesResult.getData();
+            const storageContainers: Array<IStorageContainer> = [];
+            for (let i = 0; i < storageResources.length; i++) {
+                const storageResource = storageResources[i];
+                const haveAccess = await this.hasRoleDefinitions(
+                    storageResource.id,
+                    this.uniqueObjectId,
+                    EnforcedStorageContainerAccessRoleIdsToCheck,
+                    AlternatedStorageContainerAccessRoleIdsToCheck
+                );
+                if (haveAccess) {
+                    storageContainers.push({
+                        id: storageResource.id,
+                        name: storageResource.name
+                    });
+                }
+            }
+
+            return new StorageContainersData(storageContainers);
+        });
+    };
+
+    getMissingStorageContainerAccessRoles = async (
+        containerUrlString?: string
+    ) => {
+        let accountName, containerName;
+        if (containerUrlString) {
+            try {
+                const containerURL = new URL(containerUrlString);
+                this.accountName = containerURL.hostname.split('.')[0];
+                this.containerName = containerURL.pathname.split('/')[1];
+            } catch (error) {
+                accountName = null;
+                containerName = null;
+                console.log(error);
+            }
+        } else {
+            accountName = this.accountName;
+            containerName = this.containerName;
+        }
+
+        const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
+        return await adapterMethodSandbox.safelyFetchData(async () => {
+            try {
+                const storageEndPoint = `${AzureResourceProviderEndpoints.Storage}/${accountName}/blobServices/default/containers`;
+                const storageResourcesInUsersSubscriptionsResult = await this.getResources(
+                    AzureResourceTypes.Container,
+                    storageEndPoint
+                );
+
+                const storageResources: Array<IAzureResource> = storageResourcesInUsersSubscriptionsResult.getData();
+                const storageResource = storageResources.find(
+                    (sR) => sR.name === containerName
+                );
+                if (storageResource) {
+                    this.containerResourceId = storageResource.id;
+                    const missingRoles = await this.getMissingRoleDefinitions(
+                        storageResource.id,
+                        this.uniqueObjectId,
+                        EnforcedStorageContainerAccessRoleIdsToCheck,
+                        AlternatedStorageContainerAccessRoleIdsToCheck
+                    );
+
+                    const missingEnforcedRoles = missingRoles?.filter((role) =>
+                        EnforcedStorageContainerAccessRoleIdsToCheck.includes(
+                            role
+                        )
+                    );
+                    const missingAlternatedRoles = missingRoles?.filter(
+                        (role) =>
+                            AlternatedStorageContainerAccessRoleIdsToCheck.includes(
+                                role
+                            )
+                    );
+                    return new AzureMissingRoleDefinitionsData({
+                        enforced: missingEnforcedRoles,
+                        alternated: missingAlternatedRoles
+                    });
+                } else {
+                    // return null as the container is not even in user's subscription
+                    return new AzureMissingRoleDefinitionsData({
+                        enforced: null,
+                        alternated: null
+                    });
+                }
+            } catch (error) {
+                adapterMethodSandbox.pushError({
+                    type: ComponentErrorType.DataFetchFailed,
+                    isCatastrophic: false,
+                    rawError: error
+                });
+                return null;
+            }
+        });
+    };
+
+    addMissingRolesToStorageContainer = async (
+        missingRoleDefinitionIds: MissingAzureRoleDefinitionAssignments
+    ) => {
+        const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
+        return await adapterMethodSandbox.safelyFetchData(async () => {
+            try {
+                const enforcedRoleAssignmentResults = await Promise.all(
+                    missingRoleDefinitionIds.enforced?.map((roleDefinitionId) =>
+                        this.assignRole(
+                            roleDefinitionId,
+                            this.containerResourceId,
+                            this.uniqueObjectId
                         )
                     )
                 );
-                hasRoleDefinitionsResults.forEach((haveAccess, idx) => {
-                    if (haveAccess) {
-                        const adtInstanceResource = adtInstanceResources[idx];
-                        digitalTwinsInstances.push({
-                            id: adtInstanceResource.id,
-                            name: adtInstanceResource.name,
-                            hostName:
-                                adtInstanceResource.properties['hostName'],
-                            location: adtInstanceResource.location
-                        });
+
+                let alternatedRoleAssignmentResult;
+                if (
+                    missingRoleDefinitionIds.alternated?.length &&
+                    missingRoleDefinitionIds.alternated.includes(
+                        AzureAccessPermissionRoles[
+                            'Storage Blob Data Contributor'
+                        ]
+                    )
+                ) {
+                    // if alternated role assignment is missing, just add 'Storage Blob Data Contributor' by default
+                    alternatedRoleAssignmentResult = await this.assignRole(
+                        AzureAccessPermissionRoles[
+                            'Storage Blob Data Contributor'
+                        ],
+                        this.containerResourceId,
+                        this.uniqueObjectId
+                    );
+                }
+
+                const newRoleAssignments: Array<IAzureRoleAssignment> = [];
+
+                enforcedRoleAssignmentResults?.forEach((result) => {
+                    if (!result?.hasNoData()) {
+                        newRoleAssignments.push(result.getData());
                     }
                 });
-            }
 
-            return new ADTInstancesData(digitalTwinsInstances);
+                if (!alternatedRoleAssignmentResult?.hasNoData()) {
+                    newRoleAssignments.push(
+                        alternatedRoleAssignmentResult.getData()
+                    );
+                }
+
+                return new AzureRoleAssignmentsData(newRoleAssignments);
+            } catch (error) {
+                adapterMethodSandbox.pushError({
+                    type: ComponentErrorType.DataFetchFailed,
+                    isCatastrophic: false,
+                    rawError: error
+                });
+                return null;
+            }
         });
     };
 }
@@ -164,7 +364,14 @@ export default interface ADT3DSceneAdapter
     getConnectionInformation: () => Promise<
         AdapterResult<ADTInstanceConnectionData>
     >;
-    getADTInstances: () => Promise<AdapterResult<ADTInstancesData>>;
+    getADTInstances(): Promise<AdapterResult<ADTInstancesData>>;
+    getStorageContainers: () => Promise<AdapterResult<StorageContainersData>>;
+    getMissingStorageContainerAccessRoles: (
+        containerURLString?: string
+    ) => Promise<AdapterResult<AzureMissingRoleDefinitionsData>>;
+    addMissingRolesToStorageContainer: (
+        missingRoleDefinitionIds: MissingAzureRoleDefinitionAssignments
+    ) => Promise<AdapterResult<AzureRoleAssignmentsData>>;
 }
 applyMixins(ADT3DSceneAdapter, [
     ADTAdapter,

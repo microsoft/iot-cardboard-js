@@ -16,11 +16,6 @@
     "emptyCompositeCard": "Empty composite card",
     "compositeCardWithErrors": "Composite card with error boundaries",
     "showMore": "Show more",
-    "unauthorizedAccessErrorTitle": "Access Restricted",
-    "unauthorizedAccessErrorMessage": "You do not have access to this blob. Request Reader access or try a different blob.",
-    "nonExistentBlobErrorTitle": "Blob Error",
-    "nonExistentBlobErrorMessage": "Blob does not exist.",
-    "readerAccessOnlyErrorMessage": "You have read access for this blob. This means that you will be able to view the models, but will not be able to create or configure any scenes, elements, or behaviors.",
     "tryAgain": "Try Again",
     "learnMore": "Learn More",
     "DataFetchFailed": "Data Fetch Failed",
@@ -89,6 +84,8 @@
     "twinId": "Twin ID",
     "active": "Active",
     "invalidValue": "Invalid value",
+    "refreshing": "Refreshing...",
+    "refreshPage": "Refresh page",
     "errors": {
         "errorBoundary": "Error boundary",
         "unkownError": "Unknown error occurred",
@@ -781,5 +778,21 @@
         "pan": "Pan",
         "orbit": "Orbit",
         "zoom": "Zoom"
+    },
+    "scenePageErrorHandling": {
+        "unauthorizedAccessErrorTitle": "Access Restricted",
+        "unauthorizedAccessErrorMessage": "You do not have access to this storage container. Diagnose your access or try a different container.",
+        "nonExistentBlobErrorTitle": "Blob Error",
+        "nonExistentBlobErrorMessage": "Blob does not exist.",
+        "readerAccessOnlyErrorMessage": "You have read access for this blob. This means that you will be able to view the models, but will not be able to create or configure any scenes, elements, or behaviors.",
+        "diagnoseAccessPermissions": "Diagnose access permissions",
+        "checkingPermissions": "Checking permissions...",
+        "resolveIssues": "Resolve issues",
+        "resolvingIssues": "Resolving issues...",
+        "missingPermissions": "Missing permissions",
+        "assignRoleSuccessTitle": "Successfully assigned missing permissions!",
+        "assignRoleSuccessDesc": "It can take up to 30 minutes for changes to take effect. Please wait while we try refreshing the scene page every 15 seconds or you can reload scene page after a while.",
+        "noMissingRoleDesc": "No missing permission issue detected, please wait some time for the recently assigned permissions to propagate before reloading the scene page.",
+        "finishedWithFailureDesc": "Diagnosis failed, please contact to the resource owner."
     }
 }

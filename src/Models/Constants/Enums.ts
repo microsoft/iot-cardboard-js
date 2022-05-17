@@ -222,22 +222,36 @@ export enum GlobeTheme {
 }
 
 /** we can extend this list as needed */
-export enum AzureServiceResourceProviderEndpoints {
+export enum AzureResourceProviderEndpoints {
     ADT = 'Microsoft.DigitalTwins/digitalTwinsInstances',
     Storage = 'Microsoft.Storage/storageAccounts'
 }
 
 /** we can extend this list as needed */
-export enum AzureServiceResourceTypes {
+export enum AzureResourceTypes {
     ADT = 'Microsoft.DigitalTwins/digitalTwinsInstances',
-    Container = 'Microsoft.Storage/storageAccounts/blobServices/containers'
+    Container = 'Microsoft.Storage/storageAccounts/blobServices/containers',
+    ResourceGroups = 'Microsoft.Resources/resourceGroups',
+    RoleAssignments = 'Microsoft.Authorization/roleAssignments'
 }
 
+/** See details for the following roles here: https://docs.microsoft.com/en-us/azure/role-based-access-control/built-in-roles */
 export enum AzureAccessPermissionRoles {
-    AzureDigitalTwinsDataReader = 'd57506d4-4c8d-48b1-8587-93c323f6a5a3',
-    AzureDigitalTwinsDataOwner = 'bcd981a7-7f74-457b-83e1-cceb9e632ffe',
-    StorageBlobDataContributor = 'ba92f5b4-2d11-453d-a403-e96b0029c9fe', // required to access blob data with credentials
-    Contributor = 'b24988ac-6180-42a0-ab88-20f7382dd24c',
-    Owner = '8e3af657-a8ff-443c-a75c-2fe8c4bcb635',
-    Reader = 'acdd72a7-3385-48ef-bd42-f606fba81ae7' // required to access blob data with credentials
+    'Azure Digital Twins Data Reader' = 'd57506d4-4c8d-48b1-8587-93c323f6a5a3',
+    'Azure Digital Twins Data Owner' = 'bcd981a7-7f74-457b-83e1-cceb9e632ffe',
+    'Storage Blob Data Contributor' = 'ba92f5b4-2d11-453d-a403-e96b0029c9fe', // required to access blob data with credentials
+    'Storage Blob Data Owner' = 'b7e6dc6d-f1e8-4753-8033-0f276bb0955b', // required to access blob data with credentials
+    'Storage Blob Data Reader' = '2a2b9908-6ea1-4ae2-8e65-a410df84e7d1',
+    'Contributor' = 'b24988ac-6180-42a0-ab88-20f7382dd24c',
+    'Owner' = '8e3af657-a8ff-443c-a75c-2fe8c4bcb635',
+    'Reader' = 'acdd72a7-3385-48ef-bd42-f606fba81ae7' // required to access blob data with credentials
+}
+
+export enum ScenePageErrorHandlingMode {
+    Idle,
+    CheckingIssues,
+    DiagnosedIssues,
+    ResolvingIssues,
+    FinishedWithSuccess,
+    FinishedWithFailure
 }

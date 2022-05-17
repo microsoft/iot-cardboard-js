@@ -30,7 +30,7 @@ import {
     ADT3DAddInEventTypes,
     GlobeTheme,
     ViewerModeStyles,
-    AzureServiceResourceTypes,
+    AzureResourceTypes,
     AzureAccessPermissionRoles
 } from './Enums';
 import {
@@ -45,13 +45,16 @@ import {
     ADTModel_ImgSrc_PropertyName
 } from './Constants';
 import ExpandedADTModelData from '../Classes/AdapterDataClasses/ExpandedADTModelData';
-import AzureResourcesData from '../Classes/AdapterDataClasses/AzureResourcesData';
+import {
+    AzureRoleAssignmentsData,
+    AzureResourcesData
+} from '../Classes/AdapterDataClasses/AzureManagementData';
 import ADTScenesConfigData from '../Classes/AdapterDataClasses/ADTScenesConfigData';
 import ADT3DViewerData from '../Classes/AdapterDataClasses/ADT3DViewerData';
 import {
-    UserAssignmentsData,
-    SubscriptionData
-} from '../Classes/AdapterDataClasses/AzureManagementModelData';
+    AzureUserAssignmentsData,
+    AzureSubscriptionData
+} from '../Classes/AdapterDataClasses/AzureManagementData';
 import { AssetProperty } from '../Classes/Simulations/Asset';
 import {
     CustomMeshItem,
@@ -61,7 +64,7 @@ import {
     SceneVisual
 } from '../Classes/SceneView.types';
 import { ErrorObject } from 'ajv';
-import BlobsData from '../Classes/AdapterDataClasses/BlobsData';
+import { StorageBlobsData } from '../Classes/AdapterDataClasses/StorageData';
 import {
     I3DScenesConfig,
     IScene
@@ -247,7 +250,7 @@ export interface IHierarchyNode {
 export interface IAzureResource {
     id: string;
     name: string;
-    type: AzureServiceResourceTypes;
+    type: AzureResourceTypes;
     [additionalProperty: string]: any;
     properties: Record<string, any>;
 }
@@ -258,6 +261,13 @@ export interface IADTInstance {
     name: string; // e.g. cardboard
     hostName: string; // e.g. cardboard.api.wcus.digitaltwins.azure.net
     location: string; // e.g. westcentralus
+}
+
+export interface IStorageContainer {
+    // derived from IAzureResource
+    id: string;
+    name: string;
+    url?: string;
 }
 
 export interface IADTInstanceConnection {
@@ -455,22 +465,28 @@ export interface IADTAdapter
 }
 
 export interface IAzureManagementAdapter {
-    getSubscriptions: () => AdapterReturnType<SubscriptionData>;
+    getSubscriptions: () => AdapterReturnType<AzureSubscriptionData>;
     getRoleAssignments: (
         resourceId: string,
-        uniqueObjectID: string
-    ) => AdapterReturnType<UserAssignmentsData>;
+        uniqueObjectId: string
+    ) => AdapterReturnType<AzureUserAssignmentsData>;
     hasRoleDefinitions: (
-        resourceID: string,
-        uniqueObjectID: string,
-        roleIDs: Array<AzureAccessPermissionRoles>,
-        shouldEnforceAll?: boolean
+        resourceId: string,
+        uniqueObjectId: string,
+        enforcedRoleIds: Array<AzureAccessPermissionRoles>, // roles that have to exist
+        alternatedRoleIds: Array<AzureAccessPermissionRoles> // roles that one or the other has to exist
     ) => Promise<boolean>;
     getResources: (
+        resourceType: AzureResourceTypes,
         providerEndpoint: string,
         tenantId?: string,
         uniqueObjectId?: string
     ) => AdapterReturnType<AzureResourcesData>;
+    assignRole: (
+        roleId: AzureAccessPermissionRoles,
+        resourceId: string, // scope
+        uniqueObjectId: string
+    ) => AdapterReturnType<AzureRoleAssignmentsData>;
 }
 
 export interface IBlobAdapter {
@@ -482,8 +498,8 @@ export interface IBlobAdapter {
     ) => AdapterReturnType<ADTScenesConfigData>;
     getContainerBlobs: (
         fileTypes?: Array<string>
-    ) => AdapterReturnType<BlobsData>;
-    putBlob: (file: File) => AdapterReturnType<BlobsData>;
+    ) => AdapterReturnType<StorageBlobsData>;
+    putBlob: (file: File) => AdapterReturnType<StorageBlobsData>;
     resetSceneConfig(): AdapterReturnType<ADTScenesConfigData>;
 }
 
@@ -784,39 +800,38 @@ export interface IADTBackgroundColor {
     aggregateBadgeTextColor: string;
 }
 
-export interface IBlobFile {
+export interface IStorageBlob {
     Name: string;
     Path: string;
     Properties: Record<string, any>;
 }
 
-export interface IBlobFile {
-    Name: string;
-    Path: string;
-    Properties: Record<string, any>;
-}
-export interface IUserRoleAssignments {
-    value: IRoleAssignment[];
+export interface IAzureUserRoleAssignments {
+    value: IAzureRoleAssignment[];
 }
 
-export interface IRoleAssignment {
-    properties: IRoleAssignmentPropertyData;
-    scope: string;
-    name: string;
+export interface IAzureRoleAssignment extends IAzureResource {
+    type: AzureResourceTypes.RoleAssignments;
+    properties: IAzureRoleAssignmentPropertyData;
 }
 
-export interface IRoleAssignmentPropertyData {
+export interface IAzureRoleAssignmentPropertyData {
     roleDefinitionId: string;
+    [additionalProperty: string]: any;
 }
 
-export interface IUserSubscriptions {
-    value: ISubscriptions[];
+export interface IAzureUserSubscriptions {
+    value: IAzureSubscriptions[];
 }
 
-export interface ISubscriptions {
+export interface IAzureSubscriptions {
     subscriptionId: string;
     tenantId: string;
     displayName: string;
+}
+
+export interface IAzureResourceGroup extends IAzureResource {
+    type: AzureResourceTypes.ResourceGroups;
 }
 
 export interface IAliasedTwinProperty {

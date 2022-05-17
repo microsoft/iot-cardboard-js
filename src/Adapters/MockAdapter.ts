@@ -30,16 +30,20 @@ import {
     DtdlInterface,
     IADTTwin,
     IBlobAdapter,
-    IBlobFile,
+    IStorageBlob,
     IGetKeyValuePairsAdditionalParameters,
     IModelledPropertyBuilderAdapter,
     IPropertyInspectorAdapter,
     IAzureResource,
-    IUserSubscriptions,
+    IAzureUserSubscriptions,
     primaryTwinName,
-    AzureServiceResourceTypes,
-    AzureServiceResourceProviderEndpoints,
-    IADTInstance
+    AzureResourceTypes,
+    AzureResourceProviderEndpoints,
+    IADTInstance,
+    IStorageContainer,
+    AzureAccessPermissionRoles,
+    MissingAzureRoleDefinitionAssignments,
+    IAzureRoleAssignment
 } from '../Models/Constants';
 import seedRandom from 'seedrandom';
 import {
@@ -54,19 +58,26 @@ import mockModelData from './__mockData__/MockAdapterData/MockModelData.json';
 import mockSubscriptionData from './__mockData__/MockAdapterData/MockSubscriptionData.json';
 import ADTScenesConfigData from '../Models/Classes/AdapterDataClasses/ADTScenesConfigData';
 import ADT3DViewerData from '../Models/Classes/AdapterDataClasses/ADT3DViewerData';
-import AzureResourcesData from '../Models/Classes/AdapterDataClasses/AzureResourcesData';
+import {
+    AzureMissingRoleDefinitionsData,
+    AzureResourcesData,
+    AzureRoleAssignmentsData
+} from '../Models/Classes/AdapterDataClasses/AzureManagementData';
 import {
     getModelContentType,
     parseDTDLModelsAsync,
     validate3DConfigWithSchema
 } from '../Models/Services/Utils';
-import BlobsData from '../Models/Classes/AdapterDataClasses/BlobsData';
+import {
+    StorageBlobsData,
+    StorageContainersData
+} from '../Models/Classes/AdapterDataClasses/StorageData';
 import {
     I3DScenesConfig,
     ITwinToObjectMapping
 } from '../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { DatasourceType, ElementType } from '../Models/Classes/3DVConfig';
-import { SubscriptionData } from '../Models/Classes/AdapterDataClasses/AzureManagementModelData';
+import { AzureSubscriptionData } from '../Models/Classes/AdapterDataClasses/AzureManagementData';
 import { ADTAdapterPatchData } from '../Models/Classes/AdapterDataClasses/ADTAdapterData';
 import ExpandedADTModelData from '../Models/Classes/AdapterDataClasses/ExpandedADTModelData';
 import { applyPatch, Operation } from 'fast-json-patch';
@@ -498,17 +509,17 @@ export default class MockAdapter
     async putBlob(file: File) {
         try {
             await this.mockNetwork();
-            const mockBlobFile: IBlobFile = {
+            const mockBlobFile: IStorageBlob = {
                 Name: file.name,
                 Path: `https://mockADTInstanceResourceName.api.wcus.digitaltwins.azure.net/${file.name}`,
                 Properties: { 'Content-Length': file.size }
             };
-            return new AdapterResult<BlobsData>({
-                result: new BlobsData([mockBlobFile]),
+            return new AdapterResult<StorageBlobsData>({
+                result: new StorageBlobsData([mockBlobFile]),
                 errorInfo: null
             });
         } catch (err) {
-            return new AdapterResult<BlobsData>({
+            return new AdapterResult<StorageBlobsData>({
                 result: null,
                 errorInfo: { catastrophicError: err, errors: [err] }
             });
@@ -688,31 +699,34 @@ export default class MockAdapter
     }
 
     async getSubscriptions() {
-        const mockSubscriptions: IUserSubscriptions = {
+        const mockSubscriptions: IAzureUserSubscriptions = {
             value: mockSubscriptionData
         };
         try {
             await this.mockNetwork();
 
             return new AdapterResult({
-                result: new SubscriptionData(mockSubscriptions),
+                result: new AzureSubscriptionData(mockSubscriptions),
                 errorInfo: null
             });
         } catch (err) {
-            return new AdapterResult<SubscriptionData>({
+            return new AdapterResult<AzureSubscriptionData>({
                 result: null,
                 errorInfo: { catastrophicError: err, errors: [err] }
             });
         }
     }
 
-    async getResources(providerEndpoint: string) {
+    async getResources(
+        resourceType: AzureResourceTypes,
+        _providerEndpoint: string
+    ) {
         const mockContainerResources: Array<IAzureResource> = [
             {
                 name: 'container123',
                 id:
-                    '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Storage/storageAccounts/{storageAccount}/blobServices/default/containers/container123',
-                type: AzureServiceResourceTypes.Container,
+                    '/subscriptions/subscription123/resourceGroups/resourceGroup123/providers/Microsoft.Storage/storageAccounts/storageAccount123/blobServices/default/containers/container123',
+                type: AzureResourceTypes.Container,
                 properties: {
                     publicAccess: 'Container'
                 }
@@ -722,8 +736,8 @@ export default class MockAdapter
             {
                 name: 'adtInstance123',
                 id:
-                    '/subscriptions/{subscriptionId}/resourcegroups/{resourceGroup}/providers/Microsoft.DigitalTwins/digitalTwinsInstances/adtInstance123',
-                type: AzureServiceResourceTypes.ADT,
+                    '/subscriptions/subscription123/resourcegroups/resourceGroup123/providers/Microsoft.DigitalTwins/digitalTwinsInstances/adtInstance123',
+                type: AzureResourceTypes.ADT,
                 location: 'westus2',
                 properties: {
                     hostName:
@@ -731,16 +745,12 @@ export default class MockAdapter
                 }
             }
         ];
-        if (providerEndpoint === AzureServiceResourceProviderEndpoints.ADT) {
+        if (resourceType === AzureResourceTypes.ADT) {
             return new AdapterResult({
                 result: new AzureResourcesData(mockADTInstanceResources),
                 errorInfo: null
             });
-        } else if (
-            providerEndpoint.startsWith(
-                AzureServiceResourceProviderEndpoints.Storage
-            )
-        ) {
+        } else if (resourceType === AzureResourceTypes.Container) {
             return new AdapterResult({
                 result: new AzureResourcesData(mockContainerResources),
                 errorInfo: null
@@ -756,13 +766,14 @@ export default class MockAdapter
     async getADTInstances() {
         try {
             const adtInstanceResourcesResult = await this.getResources(
-                AzureServiceResourceProviderEndpoints.ADT
+                AzureResourceTypes.ADT,
+                AzureResourceProviderEndpoints.ADT
             );
             const adtInstanceResources: Array<IAzureResource> = adtInstanceResourcesResult.getData();
             const digitalTwinsInstances: Array<IADTInstance> = adtInstanceResources.map(
                 (adtInstanceResource) =>
                     ({
-                        id: adtInstanceResource.name,
+                        id: adtInstanceResource.id,
                         name: adtInstanceResource.name,
                         hostName: adtInstanceResource.properties['hostName'],
                         location: adtInstanceResource.location
@@ -781,8 +792,87 @@ export default class MockAdapter
         }
     }
 
+    async getStorageContainers() {
+        try {
+            const storageEndPoint = `${AzureResourceProviderEndpoints.Storage}/accountName123/blobServices/default/containers`;
+            const containerResourcesResult = await this.getResources(
+                AzureResourceTypes.Container,
+                storageEndPoint
+            );
+            const containerResources: Array<IAzureResource> = containerResourcesResult.getData();
+            const containers: Array<IStorageContainer> = containerResources.map(
+                (containerResource) =>
+                    ({
+                        id: containerResource.id,
+                        name: containerResource.name
+                    } as IStorageContainer)
+            );
+
+            return new AdapterResult({
+                result: new StorageContainersData(containers),
+                errorInfo: null
+            });
+        } catch (err) {
+            return new AdapterResult({
+                result: null,
+                errorInfo: { catastrophicError: err, errors: [err] }
+            });
+        }
+    }
+
+    async getMissingStorageContainerAccessRoles(_containerURLString?: string) {
+        try {
+            await this.mockNetwork();
+
+            return new AdapterResult({
+                result: new AzureMissingRoleDefinitionsData({
+                    alternated: [
+                        AzureAccessPermissionRoles[
+                            'Storage Blob Data Contributor'
+                        ]
+                    ]
+                }),
+                errorInfo: null
+            });
+        } catch (err) {
+            return new AdapterResult<AzureMissingRoleDefinitionsData>({
+                result: null,
+                errorInfo: { catastrophicError: err, errors: [err] }
+            });
+        }
+    }
+
+    async addMissingRolesToStorageContainer(
+        _missingRoleDefinitionIds: MissingAzureRoleDefinitionAssignments
+    ) {
+        try {
+            await this.mockNetwork();
+
+            return new AdapterResult({
+                result: new AzureRoleAssignmentsData([
+                    {
+                        properties: {
+                            roleDefinitionId:
+                                '/subscriptions/subscriptionId123/providers/Microsoft.Authorization/roleDefinitions/00000000-0000-0000-0000-000000000000'
+                        },
+                        id:
+                            '/subscriptions/subscriptionId123/providers/Microsoft.Authorization/roleAssignments/roleAssignmentId123',
+                        type: 'Microsoft.Authorization/roleAssignments',
+                        name: 'roleAssignmentId123'
+                    } as IAzureRoleAssignment
+                ]),
+                errorInfo: null
+            });
+        } catch (err) {
+            return new AdapterResult<AzureRoleAssignmentsData>({
+                result: null,
+                errorInfo: { catastrophicError: err, errors: [err] }
+            });
+        }
+    }
+
     async getContainerBlobs() {
-        const mockBlobs: Array<IBlobFile> = [
+        const mockBlobs: Array<IStorageBlob> = [
             {
                 Name: 'BasicObjects.gltf',
                 Path:
@@ -806,11 +896,11 @@ export default class MockAdapter
             await this.mockNetwork();
 
             return new AdapterResult({
-                result: new BlobsData(mockBlobs),
+                result: new StorageBlobsData(mockBlobs),
                 errorInfo: null
             });
         } catch (err) {
-            return new AdapterResult<BlobsData>({
+            return new AdapterResult<StorageBlobsData>({
                 result: null,
                 errorInfo: { catastrophicError: err, errors: [err] }
             });

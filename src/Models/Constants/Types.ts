@@ -4,7 +4,9 @@ import {
     DTwinRelationship,
     IADTAdapter,
     IKeyValuePairAdapter,
-    ITsiClientChartDataAdapter
+    IAzureResourceGroup,
+    ITsiClientChartDataAdapter,
+    AzureAccessPermissionRoles
 } from '.';
 import AdapterResult from '../Classes/AdapterResult';
 import {
@@ -167,3 +169,13 @@ export type CardboardIconNames =
     | 'Shapes'
     | 'SpeedHigh'
     | 'View';
+
+export type AzureResourceGroupsApiData = {
+    value: IAzureResourceGroup[];
+    nextLink: string;
+};
+
+export type MissingAzureRoleDefinitionAssignments = {
+    enforced?: Array<AzureAccessPermissionRoles>;
+    alternated?: Array<AzureAccessPermissionRoles>;
+};

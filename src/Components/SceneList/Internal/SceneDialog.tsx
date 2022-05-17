@@ -27,7 +27,7 @@ import {
 } from '@fluentui/react';
 import File3DUploader from './3DFileUploader';
 import { Supported3DFileTypes } from '../../../Models/Constants/Enums';
-import { IBlobFile } from '../../../Models/Constants/Interfaces';
+import { IStorageBlob } from '../../../Models/Constants/Interfaces';
 import useAdapter from '../../../Models/Hooks/useAdapter';
 import { IScene } from '../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { deepCopy } from '../../../Models/Services/Utils';
@@ -104,9 +104,9 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
     );
     const [isOverwriteFile, setIsOverwriteFile] = useState(false);
     const [selectedFile, setSelectedFile] = useState<File>(null);
-    const [blobsInContainer, setBlobsInContainer] = useState<Array<IBlobFile>>(
-        []
-    );
+    const [blobsInContainer, setBlobsInContainer] = useState<
+        Array<IStorageBlob>
+    >([]);
     const [isSelectedFileExistInBlob, setIsSelectedFileExistInBlob] = useState(
         false
     );
@@ -121,7 +121,7 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
 
     useEffect(() => {
         if (!put3DFileBlob.adapterResult.hasNoData()) {
-            const newlyAdded3DFile: IBlobFile =
+            const newlyAdded3DFile: IStorageBlob =
                 put3DFileBlob.adapterResult.result.data[0];
             if (sceneToEdit) {
                 onEditScene({
@@ -284,7 +284,7 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
         [blobsInContainer]
     );
 
-    const handleOnBlobsLoaded = (blobs: Array<IBlobFile>) => {
+    const handleOnBlobsLoaded = (blobs: Array<IStorageBlob>) => {
         setBlobsInContainer(blobs);
     };
 
