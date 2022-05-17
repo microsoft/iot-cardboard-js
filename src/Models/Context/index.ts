@@ -8,5 +8,5 @@ export {
 export { ConsumerDeeplinkContext } from './ConsumerDeeplinkContext/ConsumerDeeplinkContext';
 export { IConsumerDeeplinkContextProviderProps } from './ConsumerDeeplinkContext/ConsumerDeeplinkContext.types';
 
-export { _3DColorContextProvider } from './3DColorContext/3DColorContext';
-export { I3DColorContextProviderProps } from './3DColorContext/3DColorContext.types';
+export { ColorContextProvider } from './ColorContext/ColorContext';
+export { IColorContextProviderProps } from './ColorContext/ColorContext.types';

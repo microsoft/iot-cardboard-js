@@ -11,15 +11,13 @@ import SceneView from './SceneView';
 import {
     ADT3DAddInEventTypes,
     CameraInteraction,
-    ViewerModeStyles
+    ViewerObjectStyle
 } from '../../Models/Constants/Enums';
 import {
     ADT3DAddInEventData,
     ISceneViewWrapperProps
 } from '../../Models/Constants/Interfaces';
-import ModelViewerModePicker, {
-    ViewerMode
-} from '../ModelViewerModePicker/ModelViewerModePicker';
+import ModelViewerModePicker from '../ModelViewerModePicker/ModelViewerModePicker';
 import './SceneView.scss';
 import {
     DefaultViewerModeObjectColor,
@@ -44,6 +42,7 @@ import {
     ISceneViewWrapperStyleProps,
     ISceneViewWrapperStyles
 } from './SceneViewWrapper.types';
+import { ViewerMode } from '../../Models/Context/ColorContext/ColorContext.types';
 
 const getClassNames = classNamesFunction<
     ISceneViewWrapperStyleProps,
@@ -102,7 +101,7 @@ const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = (props) => {
         } else {
             setSelectedViewerMode({
                 objectColor: null,
-                style: ViewerModeStyles.Default,
+                style: ViewerObjectStyle.Default,
                 isWireframe: false,
                 background: ViewerModeBackgroundColors[0]
             });
@@ -187,19 +186,21 @@ const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = (props) => {
             }
 
             let backgroundColor: IADTBackgroundColor = null;
-            if (viewerMode.background) {
+            if (viewerMode.sceneBackground) {
                 backgroundColor = ViewerModeBackgroundColors.find(
-                    (bc) => viewerMode?.background === bc.color
+                    (bc) => viewerMode?.sceneBackground === bc.color
                 );
             }
 
             const isWireframe =
-                viewerMode.style === ViewerModeStyles.Wireframe ? true : false;
+                viewerMode.objectStyle === ViewerObjectStyle.Wireframe
+                    ? true
+                    : false;
 
             setSelectedViewerMode({
                 objectColor: objectColor,
                 background: backgroundColor,
-                style: viewerMode.style,
+                style: viewerMode.objectStyle,
                 isWireframe: isWireframe
             });
 
@@ -272,8 +273,9 @@ const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = (props) => {
                     <ModelViewerModePicker
                         defaultViewerMode={{
                             objectColor: selectedViewerMode?.objectColor?.color,
-                            style: selectedViewerMode?.style,
-                            background: selectedViewerMode?.background?.color
+                            objectStyle: selectedViewerMode?.style,
+                            sceneBackground:
+                                selectedViewerMode?.background?.color
                         }}
                         viewerModeUpdated={onViewerModeUpdated}
                         objectColors={ViewerModeObjectColors}

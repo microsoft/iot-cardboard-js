@@ -3,8 +3,9 @@ import {
     ViewerModeBackgroundColors,
     ViewerModeObjectColors
 } from '../../Models/Constants';
+import { ViewerMode } from '../../Models/Context/ColorContext/ColorContext.types';
 import BaseComponent from '../BaseComponent/BaseComponent';
-import ModelViewerModePicker, { ViewerMode } from './ModelViewerModePicker';
+import ModelViewerModePicker from './ModelViewerModePicker';
 
 export default {
     title: 'Components/ModelViewerModePicker',
@@ -19,7 +20,7 @@ export const Picker = (_arg, { globals: { theme } }) => {
                 <div style={{ marginBottom: '30px' }}>
                     <div>
                         <span>Style: </span>
-                        <span>{viewerMode?.style}</span>
+                        <span>{viewerMode?.objectStyle}</span>
                     </div>
                     <div>
                         <span>Object color: </span>
@@ -27,7 +28,7 @@ export const Picker = (_arg, { globals: { theme } }) => {
                     </div>
                     <div>
                         <span>Background: </span>
-                        <span>{viewerMode?.background}</span>
+                        <span>{viewerMode?.sceneBackground}</span>
                     </div>
                 </div>
                 <ModelViewerModePicker
