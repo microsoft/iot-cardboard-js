@@ -694,7 +694,8 @@
             "undoAll": "Reset all edits",
             "expandTree": "Expand tree",
             "collapseTree": "Collapse tree",
-            "save": "Save changes"
+            "save": "Save changes",
+            "refresh": "Refresh data"
         },
         "dateTimePicker": {
             "datePickerTitle": "Date picker",
@@ -727,7 +728,7 @@
         "state": "State",
         "allProperties": "All properties",
         "behaviorPreview": "Preview",
-        "PrimaryTwinProperties": "Primary Twin properties"
+        "PrimaryTwin": "Primary Twin"
     },
     "svgTests": {
         "fluentUI": "SVG loading via Fluent Image component (recommended pattern)",
