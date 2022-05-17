@@ -123,7 +123,6 @@ const InfoCallout: React.FC = () => {
                 ariaLabel={t('sceneLayers.infoCalloutButtonTitle')}
                 id={id}
                 iconProps={{ iconName: 'Info' }}
-                // onClick={toggleFlyout}
                 onFocus={toggleFlyout}
                 onBlur={toggleFlyout}
                 onMouseEnter={toggleFlyout}
