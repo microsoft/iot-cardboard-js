@@ -40,6 +40,7 @@ import {
 } from './SceneView.Utils';
 import {
     makeMaterial,
+    makeStandardMaterial,
     outlineMaterial,
     ToColor3,
     SetWireframe
@@ -1609,9 +1610,11 @@ function SceneView(props: ISceneViewProps, ref) {
             }
 
             for (const mesh of outlinedMeshitems) {
-                highlightLayer.current.removeExcludedMesh(
-                    meshMap.current?.[mesh.meshId]
-                );
+                if (meshMap.current?.[mesh.meshId]) {
+                    highlightLayer.current.removeExcludedMesh(
+                        meshMap.current?.[mesh.meshId]
+                    );
+                }
             }
         };
     }, [outlinedMeshitems, meshMap.current]);
