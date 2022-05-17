@@ -17,7 +17,7 @@ export default {
     decorators: [getDefaultStoryDecorator(wrapperStyle)]
 };
 
-const InnerContents: React.FC<any> = (args) => {
+const InnerContents: React.FC = () => {
     const { sceneThemeState } = useSceneThemeContext();
     return (
         <>
@@ -35,16 +35,16 @@ const InnerContents: React.FC<any> = (args) => {
                     <span>{sceneThemeState?.sceneBackground}</span>
                 </div>
             </div>
-            <SceneThemePicker {...args} />
+            <SceneThemePicker />
         </>
     );
 };
 type TemplateStory = ComponentStory<typeof SceneThemePicker>;
 
-const Template: React.FC = (args) => {
+const Template: React.FC = () => {
     return (
         <SceneThemeContextProvider>
-            <InnerContents args />
+            <InnerContents />
         </SceneThemeContextProvider>
     );
 };
