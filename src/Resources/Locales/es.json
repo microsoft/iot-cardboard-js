@@ -84,7 +84,6 @@
   "globe": "Globo",
   "list": "Lista",
   "selectFile": "Seleccionar archivo",
-  "uploadFile": "Subir archivo",
   "uploadingFile": "Cargando archivo...",
   "twinId": "Identificación doble",
   "active": "Activo",
@@ -161,15 +160,16 @@
     "sceneLatitude": "Latitud",
     "sceneLongitude": "Longitud",
     "blobUrl": "URL de blob de archivo 3D",
-    "addDialogTitle": "Crear nueva escena",
-    "addDialogSubText": "Vincula tu escena con la URL de tu archivo 3D en el almacenamiento de blobs",
-    "editDialogTitle": "Editar escena",
-    "editDialogSubText": "Edita el nombre y el archivo 3D vinculado de tu escena",
     "3dFileSelectionMode": "Modo de selección de archivos 3D",
-    "fromContainer": "Desde el contenedor",
     "3dFileAsset": "Recurso de archivo 3D",
     "overwriteIfExist": "Sobrescribir si el archivo ya existe",
-    "fileExistsErrorMessage": "Un archivo con este nombre ya existe en el almacenamiento, puede seleccionar ese archivo del contenedor o sobrescribirlo."
+    "fileExistsErrorMessage": "Un archivo con este nombre ya existe en el almacenamiento, puede seleccionar ese archivo del contenedor o sobrescribirlo.",
+    "dialogTitleCreate": "Crear nueva escena",
+    "dialogSubTitle": "Apunte a un archivo 3D existente a través de url o cargue un nuevo archivo directamente en su contenedor",
+    "dialogTitleEdit": "Edita tu escena 3D",
+    "sceneNamePlaceholder": "Introducir un nombre de escena",
+    "tabNameFromContainer": "Elegir archivo",
+    "tabNameUploadFile": "Subir archivo"
   },
   "BIMUpload": {
     "specifyFiles": "Especificar archivos desde los que cargar",
@@ -336,7 +336,6 @@
     "noneSelected": "No hay capas seleccionadas",
     "newLayer": "Nueva capa",
     "layerName": "Nombre de la capa",
-    "behaviorsOnThisLayer": "Comportamientos en esta capa",
     "layerNamePlaceholder": "Introduzca el nombre de la capa",
     "createNewLayer": "Crear nueva capa",
     "editLayer": "Editar capa",
@@ -344,7 +343,10 @@
     "layers": "Capas",
     "noLayersFound": "¡Todavía no tienes capas!",
     "noLayersDescription": "Las capas son como etiquetas en los comportamientos. Comience creando una capa aquí.",
-    "noBehaviorsOnLayer": "No hay comportamientos en esta capa"
+    "noBehaviorsOnLayer": "No hay comportamientos en esta capa",
+    "behaviorsListTitle": "Comportamientos ({{count}})",
+    "deleteConfirmationTitle": "¿Eliminar esta capa?",
+    "deleteConfirmationMessage": "Esto elimina permanentemente la capa y cualquier comportamiento asociado de todos los entornos de Digital Twins."
   },
   "3dSceneBuilder": {
     "elements": "Elementos",

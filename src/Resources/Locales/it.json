@@ -84,7 +84,6 @@
   "globe": "Globo",
   "list": "Lista",
   "selectFile": "Seleziona file",
-  "uploadFile": "Carica file",
   "uploadingFile": "Caricamento del file...",
   "twinId": "DOPPIA ID",
   "active": "Attivo",
@@ -161,15 +160,16 @@
     "sceneLatitude": "Latitudine",
     "sceneLongitude": "Longitudine",
     "blobUrl": "URL BLOB di file 3D",
-    "addDialogTitle": "Crea una nuova scena",
-    "addDialogSubText": "Collegare la scena con l'URL del file 3D nell'archiviazione BLOB",
-    "editDialogTitle": "Modifica scena",
-    "editDialogSubText": "Modificare il nome e il file 3D collegato della scena",
     "3dFileSelectionMode": "Modalità di selezione file 3D",
-    "fromContainer": "Dal contenitore",
     "3dFileAsset": "Risorsa per file 3D",
     "overwriteIfExist": "Sovrascrivi se il file esiste già",
-    "fileExistsErrorMessage": "Un file con questo nome esiste già nella memoria, è possibile selezionare quel file dal contenitore o sovrascrivere."
+    "fileExistsErrorMessage": "Un file con questo nome esiste già nella memoria, è possibile selezionare quel file dal contenitore o sovrascrivere.",
+    "dialogTitleCreate": "Crea una nuova scena",
+    "dialogSubTitle": "Scegli come target un file 3D esistente tramite URL o carica un nuovo file direttamente sul tuo contenitore",
+    "dialogTitleEdit": "Modifica la tua scena 3D",
+    "sceneNamePlaceholder": "Immettere il nome di una scena",
+    "tabNameFromContainer": "Scegli il file",
+    "tabNameUploadFile": "Carica file"
   },
   "BIMUpload": {
     "specifyFiles": "Specificare i file da cui caricare",
@@ -336,7 +336,6 @@
     "noneSelected": "Nessun livello selezionato",
     "newLayer": "Nuovo livello",
     "layerName": "Nome del livello",
-    "behaviorsOnThisLayer": "Comportamenti su questo livello",
     "layerNamePlaceholder": "Immettere il nome del livello",
     "createNewLayer": "Creare un nuovo livello",
     "editLayer": "Modifica livello",
@@ -344,7 +343,10 @@
     "layers": "Strati",
     "noLayersFound": "Non hai ancora alcun livello!",
     "noLayersDescription": "I livelli sono come tag sui comportamenti. Inizia creando un livello qui.",
-    "noBehaviorsOnLayer": "Non ci sono comportamenti su questo livello"
+    "noBehaviorsOnLayer": "Non ci sono comportamenti su questo livello",
+    "behaviorsListTitle": "Comportamenti ({{count}})",
+    "deleteConfirmationTitle": "Eliminare questo livello?",
+    "deleteConfirmationMessage": "In questo modo il livello e tutti i comportamenti associati vengono rimossi in modo permanente da tutti gli ambienti gemelli digitali."
   },
   "3dSceneBuilder": {
     "elements": "Elementi",

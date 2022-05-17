@@ -84,7 +84,6 @@
   "globe": "지구",
   "list": "목록",
   "selectFile": "파일 선택",
-  "uploadFile": "파일 업로드",
   "uploadingFile": "파일 업로드 중...",
   "twinId": "트윈 ID",
   "active": "활동적인",
@@ -161,15 +160,16 @@
     "sceneLatitude": "위도",
     "sceneLongitude": "경도",
     "blobUrl": "3D 파일 얼룩 URL",
-    "addDialogTitle": "새 장면 만들기",
-    "addDialogSubText": "장면을 Blob 저장소의 3D 파일 URL과 연결",
-    "editDialogTitle": "장면 편집",
-    "editDialogSubText": "장면의 이름과 연결된 3D 파일 편집",
     "3dFileSelectionMode": "3D 파일 선택 모드",
-    "fromContainer": "컨테이너에서",
     "3dFileAsset": "3D 파일 자산",
     "overwriteIfExist": "파일이 이미 있는 경우 덮어쓰기",
-    "fileExistsErrorMessage": "이 이름의 파일이 저장소에 이미 있으므로 컨테이너에서 해당 파일을 선택하거나 덮어쓸 수 있습니다."
+    "fileExistsErrorMessage": "이 이름의 파일이 저장소에 이미 있으므로 컨테이너에서 해당 파일을 선택하거나 덮어쓸 수 있습니다.",
+    "dialogTitleCreate": "새 장면 만들기",
+    "dialogSubTitle": "URL을 통해 기존 3D 파일을 타겟팅하거나 컨테이너에 직접 새 파일을 업로드합니다.",
+    "dialogTitleEdit": "3D 장면 편집",
+    "sceneNamePlaceholder": "장면 이름 입력",
+    "tabNameFromContainer": "파일 선택",
+    "tabNameUploadFile": "파일 업로드"
   },
   "BIMUpload": {
     "specifyFiles": "업로드할 파일 지정",
@@ -336,7 +336,6 @@
     "noneSelected": "선택한 레이어가 없습니다.",
     "newLayer": "새 레이어",
     "layerName": "레이어 이름",
-    "behaviorsOnThisLayer": "이 계층의 동작",
     "layerNamePlaceholder": "레이어 이름 입력",
     "createNewLayer": "새 레이어 만들기",
     "editLayer": "레이어 편집",
@@ -344,7 +343,10 @@
     "layers": "레이어",
     "noLayersFound": "아직 레이어가 없습니다!",
     "noLayersDescription": "레이어는 동작에 대한 태그와 같습니다. 여기에서 레이어를 만드는 것으로 시작하십시오.",
-    "noBehaviorsOnLayer": "이 계층에는 동작이 없습니다."
+    "noBehaviorsOnLayer": "이 계층에는 동작이 없습니다.",
+    "behaviorsListTitle": "동작 ({{count}})",
+    "deleteConfirmationTitle": "이 레이어를 삭제하시겠습니까?",
+    "deleteConfirmationMessage": "이렇게 하면 모든 Digital Twins 환경에서 레이어 및 관련 동작이 영구적으로 제거됩니다."
   },
   "3dSceneBuilder": {
     "elements": "요소",

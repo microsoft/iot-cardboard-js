@@ -84,7 +84,6 @@
   "globe": "Glóbus",
   "list": "Seznam",
   "selectFile": "Vybrat soubor",
-  "uploadFile": "Nahrát soubor",
   "uploadingFile": "Nahrávání souboru...",
   "twinId": "ID dvojčat",
   "active": "Aktivní",
@@ -161,15 +160,16 @@
     "sceneLatitude": "Zeměpisná šířka",
     "sceneLongitude": "Zeměpisná délka",
     "blobUrl": "Adresa URL objektu BLOB 3D souboru",
-    "addDialogTitle": "Vytvořit novou scénu",
-    "addDialogSubText": "Propojení scény s adresou URL 3D souboru v úložišti objektů BLOB",
-    "editDialogTitle": "Upravit scénu",
-    "editDialogSubText": "Úprava názvu a připojeného 3D souboru scény",
     "3dFileSelectionMode": "Režim výběru 3D souborů",
-    "fromContainer": "Z kontejneru",
     "3dFileAsset": "Datový zdroj 3D souboru",
     "overwriteIfExist": "Přepsat, pokud soubor již existuje",
-    "fileExistsErrorMessage": "Soubor s tímto názvem již existuje v úložišti, můžete tento soubor vybrat z kontejneru nebo přepsat."
+    "fileExistsErrorMessage": "Soubor s tímto názvem již existuje v úložišti, můžete tento soubor vybrat z kontejneru nebo přepsat.",
+    "dialogTitleCreate": "Vytvořit novou scénu",
+    "dialogSubTitle": "Cílení na existující 3D soubor prostřednictvím adresy URL nebo nahrání nového souboru přímo do kontejneru",
+    "dialogTitleEdit": "Úprava 3D scény",
+    "sceneNamePlaceholder": "Zadejte název scény",
+    "tabNameFromContainer": "Vybrat soubor",
+    "tabNameUploadFile": "Nahrát soubor"
   },
   "BIMUpload": {
     "specifyFiles": "Určení souborů, ze kterých chcete nahrát",
@@ -336,7 +336,6 @@
     "noneSelected": "Nejsou vybrány žádné vrstvy",
     "newLayer": "Nová vrstva",
     "layerName": "Název vrstvy",
-    "behaviorsOnThisLayer": "Chování v této vrstvě",
     "layerNamePlaceholder": "Zadejte název vrstvy",
     "createNewLayer": "Vytvoření nové vrstvy",
     "editLayer": "Upravit vrstvu",
@@ -344,7 +343,10 @@
     "layers": "Vrstvy",
     "noLayersFound": "Zatím nemáte žádné vrstvy!",
     "noLayersDescription": "Vrstvy jsou jako tagy chování. Začněte vytvořením vrstvy zde.",
-    "noBehaviorsOnLayer": "V této vrstvě nejsou žádná chování"
+    "noBehaviorsOnLayer": "V této vrstvě nejsou žádná chování",
+    "behaviorsListTitle": "Chování ({{count}})",
+    "deleteConfirmationTitle": "Odstranit tuto vrstvu?",
+    "deleteConfirmationMessage": "Tím se trvale odstraní vrstva a všechna související chování ze všech prostředí digitálních dvojčat."
   },
   "3dSceneBuilder": {
     "elements": "Elementy",

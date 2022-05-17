@@ -84,7 +84,6 @@
   "globe": "Földgömb",
   "list": "Lista",
   "selectFile": "Fájl kijelölése",
-  "uploadFile": "Fájl feltöltése",
   "uploadingFile": "Fájl feltöltése...",
   "twinId": "Ikerazonosító",
   "active": "Aktív",
@@ -161,15 +160,16 @@
     "sceneLatitude": "Szélesség",
     "sceneLongitude": "Hosszúság",
     "blobUrl": "3D fájl blob URL-címe",
-    "addDialogTitle": "Új jelenet létrehozása",
-    "addDialogSubText": "A jelenet összekapcsolása a 3D-s fájl URL-címével a blobtárolóban",
-    "editDialogTitle": "Jelenet szerkesztése",
-    "editDialogSubText": "A jelenet nevének és csatolt 3D-fájljának szerkesztése",
     "3dFileSelectionMode": "3D fájlkijelölési mód",
-    "fromContainer": "Tárolóból",
     "3dFileAsset": "3D fájleszköz",
     "overwriteIfExist": "Felülírás, ha a fájl már létezik",
-    "fileExistsErrorMessage": "Egy ilyen nevű fájl már létezik a tárolóban, kiválaszthatja a fájlt a tárolóból, vagy felülírhatja."
+    "fileExistsErrorMessage": "Egy ilyen nevű fájl már létezik a tárolóban, kiválaszthatja a fájlt a tárolóból, vagy felülírhatja.",
+    "dialogTitleCreate": "Új jelenet létrehozása",
+    "dialogSubTitle": "Meglévő 3D-s fájl megcélzása URL-címen keresztül, vagy új fájl feltöltése közvetlenül a tárolóba",
+    "dialogTitleEdit": "A 3D-s jelenet szerkesztése",
+    "sceneNamePlaceholder": "Jelenet nevének megadása",
+    "tabNameFromContainer": "Fájl kiválasztása",
+    "tabNameUploadFile": "Fájl feltöltése"
   },
   "BIMUpload": {
     "specifyFiles": "A feltöltendő fájlok megadása",
@@ -336,7 +336,6 @@
     "noneSelected": "Nincsenek kijelölt rétegek",
     "newLayer": "Új réteg",
     "layerName": "Réteg neve",
-    "behaviorsOnThisLayer": "Viselkedés ezen a rétegen",
     "layerNamePlaceholder": "Rétegnév megadása",
     "createNewLayer": "Új réteg létrehozása",
     "editLayer": "Réteg szerkesztése",
@@ -344,7 +343,10 @@
     "layers": "Rétegek",
     "noLayersFound": "Még nincsenek rétegeid!",
     "noLayersDescription": "A rétegek olyanok, mint a viselkedéscímkék. Kezdje azzal, hogy itt létrehoz egy réteget.",
-    "noBehaviorsOnLayer": "Ezen a rétegen nincsenek viselkedések."
+    "noBehaviorsOnLayer": "Ezen a rétegen nincsenek viselkedések.",
+    "behaviorsListTitle": "Viselkedés ({{count}})",
+    "deleteConfirmationTitle": "Törli ezt a réteget?",
+    "deleteConfirmationMessage": "Ez véglegesen eltávolítja a réteget és a kapcsolódó viselkedéseket az összes Digital Twins környezetből."
   },
   "3dSceneBuilder": {
     "elements": "Elemek",

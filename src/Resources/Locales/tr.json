@@ -84,7 +84,6 @@
   "globe": "Küre",
   "list": "Liste",
   "selectFile": "Dosya seç",
-  "uploadFile": "Dosya yükle",
   "uploadingFile": "Dosya yükleniyor...",
   "twinId": "İkiz Kimlik",
   "active": "Etkin",
@@ -161,15 +160,16 @@
     "sceneLatitude": "Enlem",
     "sceneLongitude": "Boylam",
     "blobUrl": "3B dosya blobu URL'si",
-    "addDialogTitle": "Yeni sahne oluştur",
-    "addDialogSubText": "Sahnenizi blob depolamadaki 3B dosyanızın URL'sine bağlama",
-    "editDialogTitle": "Sahneyi düzenle",
-    "editDialogSubText": "Sahnenizin adını ve bağlantılı 3B dosyasını düzenleme",
     "3dFileSelectionMode": "3D dosya seçim modu",
-    "fromContainer": "Konteynırdan",
     "3dFileAsset": "3B dosya varlığı",
     "overwriteIfExist": "Dosya zaten varsa üzerine yaz",
-    "fileExistsErrorMessage": "Bu ada sahip bir dosya depolama alanında zaten varsa, bu dosyayı kapsayıcıdan seçebilir veya üzerine yazabilirsiniz."
+    "fileExistsErrorMessage": "Bu ada sahip bir dosya depolama alanında zaten varsa, bu dosyayı kapsayıcıdan seçebilir veya üzerine yazabilirsiniz.",
+    "dialogTitleCreate": "Yeni sahne oluştur",
+    "dialogSubTitle": "Mevcut bir 3B dosyayı URL üzerinden hedefleyin veya doğrudan kapsayıcınıza yeni bir dosya yükleyin",
+    "dialogTitleEdit": "3B sahnenizi düzenleme",
+    "sceneNamePlaceholder": "Bir sahne adı girin",
+    "tabNameFromContainer": "Dosya seç",
+    "tabNameUploadFile": "Dosya yükle"
   },
   "BIMUpload": {
     "specifyFiles": "Karşıya yüklenecek dosyaları belirtme",
@@ -336,7 +336,6 @@
     "noneSelected": "Katman seçilmedi",
     "newLayer": "Yeni katman",
     "layerName": "Katman adı",
-    "behaviorsOnThisLayer": "Bu katmandaki davranışlar",
     "layerNamePlaceholder": "Katman adını girin",
     "createNewLayer": "Yeni katman oluşturma",
     "editLayer": "Katmanı düzenle",
@@ -344,7 +343,10 @@
     "layers": "Katman",
     "noLayersFound": "Henüz katmanınız yok!",
     "noLayersDescription": "Katmanlar, davranışlardaki etiketler gibidir. Burada bir katman oluşturarak başlayın.",
-    "noBehaviorsOnLayer": "Bu katmanda hiçbir davranış yoktur"
+    "noBehaviorsOnLayer": "Bu katmanda hiçbir davranış yoktur",
+    "behaviorsListTitle": "Davranışlar ({{count}})",
+    "deleteConfirmationTitle": "Bu katmanı silin mi?",
+    "deleteConfirmationMessage": "Bu, katmanı ve ilişkili davranışları tüm Digital Twins ortamlarından kalıcı olarak kaldırır."
   },
   "3dSceneBuilder": {
     "elements": "Öğe",
