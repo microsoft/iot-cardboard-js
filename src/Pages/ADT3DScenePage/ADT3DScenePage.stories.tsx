@@ -215,7 +215,7 @@ export const ThemeCustomization = (_args, { globals: { theme, locale } }) => {
         </div>
     );
 };
-DeeplinkedBuilder.storyName = 'Mock 3D scene page (Deeplinked Builder)';
+ThemeCustomization.storyName = 'Mock 3D scene page (Theme customizer)';
 
 export const Mock3DScenePageSchemaErrors = (
     _args,
