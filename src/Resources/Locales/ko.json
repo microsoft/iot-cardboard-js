@@ -492,7 +492,9 @@
         "commonProperties": "선택한 요소의 기본 쌍 속성의 결합"
       },
       "errors": {
-        "twinAliasAlreadyExists": "같은 이름의 트윈 별칭이 이미 있으므로 대신 추가하는 것이 좋습니다."
+        "twinAliasAlreadyExists": "같은 이름의 트윈 별칭이 이미 있으므로 대신 추가하는 것이 좋습니다.",
+        "alphanumericOnly": "트윈 별칭은 영숫자만 포함해야 합니다.",
+        "noNumberPrefix": "트윈 별칭은 숫자로 시작하면 안 됩니다."
       }
     }
   },

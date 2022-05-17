@@ -492,7 +492,9 @@
         "commonProperties": "De vereniging van primaire tweelingeigenschappen van geselecteerde elementen"
       },
       "errors": {
-        "twinAliasAlreadyExists": "Dubbele alias met dezelfde naam bestaat al, overweeg deze in plaats daarvan toe te voegen."
+        "twinAliasAlreadyExists": "Dubbele alias met dezelfde naam bestaat al, overweeg deze in plaats daarvan toe te voegen.",
+        "alphanumericOnly": "Dubbele alias mag alleen alfanumerieke tekens bevatten",
+        "noNumberPrefix": "Dubbele alias mag niet beginnen met een getal"
       }
     }
   },

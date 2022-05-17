@@ -492,7 +492,9 @@
         "commonProperties": "La unión de las propiedades gemelas primarias de los elementos seleccionados"
       },
       "errors": {
-        "twinAliasAlreadyExists": "El alias gemelo con el mismo nombre ya existe, considere agregarlo en su lugar."
+        "twinAliasAlreadyExists": "El alias gemelo con el mismo nombre ya existe, considere agregarlo en su lugar.",
+        "alphanumericOnly": "El alias gemelo solo debe contener caracteres alfanuméricos",
+        "noNumberPrefix": "El alias gemelo no debe comenzar con un número"
       }
     }
   },

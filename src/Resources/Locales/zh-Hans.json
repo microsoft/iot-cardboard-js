@@ -492,7 +492,9 @@
         "commonProperties": "选定元素的主要孪生属性的并集"
       },
       "errors": {
-        "twinAliasAlreadyExists": "具有相同名称的孪生别名已存在，请考虑添加它。"
+        "twinAliasAlreadyExists": "具有相同名称的孪生别名已存在，请考虑添加它。",
+        "alphanumericOnly": "孪生别名只能包含字母数字字符",
+        "noNumberPrefix": "孪生别名不得以数字开头"
       }
     }
   },

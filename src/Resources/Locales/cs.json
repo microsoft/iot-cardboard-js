@@ -492,7 +492,9 @@
         "commonProperties": "Sjednocení vlastností primárního dvojčete vybraných prvků"
       },
       "errors": {
-        "twinAliasAlreadyExists": "Alias dvojčete se stejným názvem již existuje, zvažte jeho přidání."
+        "twinAliasAlreadyExists": "Alias dvojčete se stejným názvem již existuje, zvažte jeho přidání.",
+        "alphanumericOnly": "Alias dvojčete musí obsahovat pouze alfanumerické znaky",
+        "noNumberPrefix": "Alias dvojčete nesmí začínat číslem"
       }
     }
   },
