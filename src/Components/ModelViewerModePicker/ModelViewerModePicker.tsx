@@ -225,7 +225,14 @@ const mapStylesToOptions = (
     styles: IObjectStyleOption[]
 ): IChoiceGroupOption[] => {
     return styles.map((x) => ({
-        ...x
+        ...x,
+        styles: {
+            innerField: {
+                width: 100,
+                padding: 0,
+                justifyContent: 'center'
+            }
+        }
     }));
 };
 

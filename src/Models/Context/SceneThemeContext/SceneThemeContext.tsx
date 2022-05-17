@@ -171,14 +171,7 @@ const buildDefaultStyleChoices = (t: TFunction<string>) => {
                 imageAlt: t('modelViewerModePicker.default'),
                 selectedImageSrc: DefaultStyle,
                 imageSize: { width: 40, height: 40 },
-                text: t('modelViewerModePicker.default'),
-                styles: {
-                    innerField: {
-                        width: 100,
-                        padding: 0,
-                        justifyContent: 'center'
-                    }
-                }
+                text: t('modelViewerModePicker.default')
             },
             {
                 key: ViewerObjectStyle.Transparent,
@@ -186,14 +179,7 @@ const buildDefaultStyleChoices = (t: TFunction<string>) => {
                 imageAlt: t('modelViewerModePicker.transparent'),
                 selectedImageSrc: TransparentStyle,
                 imageSize: { width: 40, height: 40 },
-                text: t('modelViewerModePicker.transparent'),
-                styles: {
-                    innerField: {
-                        width: 100,
-                        padding: 0,
-                        justifyContent: 'center'
-                    }
-                }
+                text: t('modelViewerModePicker.transparent')
             },
             {
                 key: ViewerObjectStyle.Wireframe,
@@ -201,14 +187,7 @@ const buildDefaultStyleChoices = (t: TFunction<string>) => {
                 imageAlt: t('modelViewerModePicker.wireframe'),
                 selectedImageSrc: WireframeStyle,
                 imageSize: { width: 40, height: 40 },
-                text: t('modelViewerModePicker.wireframe'),
-                styles: {
-                    innerField: {
-                        width: 100,
-                        padding: 0,
-                        justifyContent: 'center'
-                    }
-                }
+                text: t('modelViewerModePicker.wireframe')
             }
         ],
         [t]

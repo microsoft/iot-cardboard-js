@@ -1,4 +1,3 @@
-import { IChoiceGroupOptionStyles } from '@fluentui/react';
 import { IADTBackgroundColor, IADTObjectColor } from '../../Constants';
 import { ViewerObjectStyle } from '../../Constants/Enums';
 
@@ -78,5 +77,4 @@ export interface IObjectStyleOption {
     selectedImageSrc: string;
     imageSize: { width: 40; height: 40 };
     text: string;
-    styles: IChoiceGroupOptionStyles;
 }
