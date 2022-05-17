@@ -369,14 +369,12 @@
         "searchBehaviorsPlaceholder": "Search behaviors",
         "modifyElement": "Modify element",
         "manageTargetElements": "Manage target elements",
-        "selectBehaviorElements": "Select elements for this behavior to target",
+        "elementsListInstructions": "Select the elements you want included in this behavior's visualization",
         "multiSelectElements": "Multi-select elements",
         "updateBehavior": "Update behavior",
         "removeBehaviorFromScene": "Remove behavior from scene",
         "removeBehaviorFromAllScenes": "Remove behavior from all scenes",
         "manageSceneLayer": "Manage scene layer",
-        "createBehavior": "Create behavior",
-        "modifyBehavior": "Edit behavior",
         "addBehaviorButton": "Add behavior",
         "addBehavior": "Add Behavior",
         "searchBehaviors": "Search Behaviors",
@@ -395,7 +393,6 @@
         "confirmRemoveBehaviorFromScene": "Are you sure you want to remove this behavior from the current scene?",
         "confirmRemoveBehaviorFromAllScenes": "Are you sure you want to remove this behavior from all scenes. You can't undo this action.",
         "newElement": "New element",
-        "newBehavior": "New behavior",
         "newBehaviorId": "NewBehaviorId",
         "cancel": "Cancel",
         "Done": "Done",
@@ -413,6 +410,12 @@
         "meshes": "Meshes",
         "behaviorElementsDropdownLabel": "Target element",
         "behaviorElementsDropdownPlaceholder": "Select an element",
+        "behaviorForm": {
+            "newBehavior": "New behavior",
+            "createBehavior": "Create behavior",
+            "modifyBehavior": "Edit behavior",
+            "formSubTitle": "Behaviors are visual cues that occur under specific conditions—for instance, at specific intervals, or at data thresholds."
+        },
         "behaviorAlertForm": {
             "colorPickerLabel": "Badge color",
             "expressionLabel": "Trigger expression",
@@ -460,10 +463,6 @@
         "warningBreakPointToggleLabel": "Enable color break point",
         "warningBreakPointLabel": "Warning color break point",
         "linkWidgetUrlDescription": "Link widget URL supports JavaScript template string formatting such as: ${PrimaryTwin.property}",
-        "behaviorTypes": {
-            "alertBehavior": "Alert behavior",
-            "statusBehavior": "Status behavior"
-        },
         "notImplemented": "Not implemented",
         "noPrimaryTwinProperties": "No primary twin properties to display",
         "twinAlias": {

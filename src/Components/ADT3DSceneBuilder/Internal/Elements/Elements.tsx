@@ -263,7 +263,7 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
         <div className="cb-scene-builder-pivot-contents">
             {isEditBehavior && (
                 <div className="cb-scene-builder-elements-title">
-                    {t('3dSceneBuilder.selectBehaviorElements')}
+                    {t('3dSceneBuilder.elementsListInstructions')}
                 </div>
             )}
             {!hideSearch && (

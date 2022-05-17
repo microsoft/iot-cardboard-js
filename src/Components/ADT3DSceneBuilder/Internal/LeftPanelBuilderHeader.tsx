@@ -54,12 +54,11 @@ export const getLeftPanelBuilderHeaderParamsForBehaviors = (
         subHeaderText = behaviorTwinAliasFormInfo.twinAlias?.alias;
     } else {
         if (builderMode === ADT3DSceneBuilderMode.CreateBehavior) {
-            headerText = i18n.t('3dSceneBuilder.newBehavior');
+            headerText = i18n.t('3dSceneBuilder.behaviorForm.newBehavior');
         } else if (builderMode === ADT3DSceneBuilderMode.EditBehavior) {
-            headerText = i18n.t('3dSceneBuilder.modifyBehavior');
+            headerText = i18n.t('3dSceneBuilder.behaviorForm.modifyBehavior');
         }
-        subHeaderText = i18n.t('3dSceneBuilder.behaviorTypes.alertBehavior');
-        iconName = 'Ringer';
+        subHeaderText = i18n.t('3dSceneBuilder.behaviorForm.formSubTitle');
     }
 
     return {

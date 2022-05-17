@@ -298,7 +298,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
             <LeftPanelBuilderHeader
                 headerText={headerText}
                 subHeaderText={subHeaderText}
-                iconName={iconName}
+                iconName={undefined}
             />
             {widgetFormInfo.mode === WidgetFormMode.CreateWidget ||
             widgetFormInfo.mode === WidgetFormMode.EditWidget ? (
