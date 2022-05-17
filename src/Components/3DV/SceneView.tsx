@@ -843,7 +843,12 @@ function SceneView(props: ISceneViewProps, ref) {
 
                 sortMeshesOnLoad();
 
-                sceneRef.current.clearColor = new BABYLON.Color4(0, 0, 0, 0);
+                sceneRef.current.clearColor = new BABYLON.Color4(
+                    0,
+                    0,
+                    0,
+                    0
+                ).toLinearSpace();
 
                 //This layer is a bug fix for transparency not blending with background html on certain graphic cards like in macs.
                 //The texture is 99% transparent but forces the engine to blend the colors.
@@ -1413,7 +1418,7 @@ function SceneView(props: ISceneViewProps, ref) {
                 };
 
                 const transition = 250;
-                const interval = 500;
+                const interval = 2000;
                 let elapsed = 0;
 
                 const transitionNrm = function () {
@@ -1421,7 +1426,7 @@ function SceneView(props: ISceneViewProps, ref) {
                 };
 
                 scene.beforeRender = () => {
-                    elapsed += 10;
+                    elapsed += sceneRef.current.deltaTime;
                     if (elapsed >= interval) {
                         if (elapsed <= interval + transition) {
                             for (const coloredMeshGroup of coloredMeshGroups) {
