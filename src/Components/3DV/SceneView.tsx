@@ -407,17 +407,13 @@ function SceneView(props: ISceneViewProps, ref) {
     };
 
     useEffect(() => {
-        createBadgeGroups();
-        return () => {
-            clearBadgeGroups(false);
-        };
+        createBadgeGroups(false);
     }, [badgeGroups, isLoading]);
 
     useEffect(() => {
         if (backgroundColor !== backgroundColorRef?.current) {
             backgroundColorRef.current = backgroundColor;
-            clearBadgeGroups(true);
-            createBadgeGroups();
+            createBadgeGroups(true);
         }
     }, [backgroundColor]);
 
@@ -525,62 +521,69 @@ function SceneView(props: ISceneViewProps, ref) {
         );
     };
 
-    const clearBadgeGroups = (force: boolean) => {
-        debugLog('debug', 'clearBadgeGroups');
-        const groupsToRemove = [];
-        badgeGroupsRef?.current.forEach((badgeGroupRef) => {
-            // remove badge if group is no longer in prop
-            if (
-                !badgeGroups?.find((bg) => bg.id === badgeGroupRef.name) ||
-                force
-            ) {
-                debugLog('debug', 'removing badge');
-                advancedTextureRef.current.removeControl(badgeGroupRef);
-                groupsToRemove.push(badgeGroupRef);
-            }
-        });
-        groupsToRemove?.forEach((group) => {
-            badgeGroupsRef.current = badgeGroupsRef.current.filter(
-                (bg) => bg.name !== group.name
-            );
-        });
-    };
-
-    const createBadgeGroups = () => {
-        if (badgeGroups && advancedTextureRef.current && sceneRef.current) {
-            debugLog('debug', 'createBadgeGroups');
-            badgeGroups.forEach((bg) => {
-                const mesh = sceneRef.current.meshes.find(
-                    (m) => m.id === bg.meshId
-                );
-                // only add badge group if not already present and mesh exists
+    const clearBadgeGroups = useCallback(
+        (force: boolean) => {
+            debugLog('debug', 'clearBadgeGroups');
+            const groupsToRemove = [];
+            badgeGroupsRef?.current.forEach((badgeGroupRef) => {
+                // remove badge if group is no longer in prop
                 if (
-                    !badgeGroupsRef.current.find(
-                        (badgeGroupRef) => badgeGroupRef.name === bg.id
-                    ) &&
-                    mesh
+                    !badgeGroups?.find((bg) => bg.id === badgeGroupRef.name) ||
+                    force
                 ) {
-                    debugLog('debug', 'adding badge group');
-                    const badgeGroup = createBadgeGroup(
-                        bg,
-                        backgroundColor,
-                        onBadgeGroupHover
-                    );
-                    advancedTextureRef.current.addControl(badgeGroup);
-                    badgeGroup.linkWithMesh(mesh);
-
-                    // badges can only be linked to meshes after being added to the scene
-                    // so adding a delay in making it visible so it doesn't jump
-                    const waitUntilPostioned = async () => {
-                        await sleep(1);
-                        badgeGroup.isVisible = true;
-                    };
-                    waitUntilPostioned();
-                    badgeGroupsRef.current.push(badgeGroup);
+                    debugLog('debug', 'removing badge');
+                    advancedTextureRef.current.removeControl(badgeGroupRef);
+                    groupsToRemove.push(badgeGroupRef);
                 }
             });
-        }
-    };
+            groupsToRemove?.forEach((group) => {
+                badgeGroupsRef.current = badgeGroupsRef.current.filter(
+                    (bg) => bg.name !== group.name
+                );
+            });
+        },
+        [badgeGroups]
+    );
+
+    const createBadgeGroups = useCallback(
+        (forceClear: boolean) => {
+            clearBadgeGroups(forceClear);
+            if (badgeGroups && advancedTextureRef.current && sceneRef.current) {
+                debugLog('debug', 'createBadgeGroups');
+                badgeGroups.forEach((bg) => {
+                    const mesh = sceneRef.current.meshes.find(
+                        (m) => m.id === bg.meshId
+                    );
+                    // only add badge group if not already present and mesh exists
+                    if (
+                        !badgeGroupsRef.current.find(
+                            (badgeGroupRef) => badgeGroupRef.name === bg.id
+                        ) &&
+                        mesh
+                    ) {
+                        debugLog('debug', 'adding badge group');
+                        const badgeGroup = createBadgeGroup(
+                            bg,
+                            backgroundColor,
+                            onBadgeGroupHover
+                        );
+                        advancedTextureRef.current.addControl(badgeGroup);
+                        badgeGroup.linkWithMesh(mesh);
+
+                        // badges can only be linked to meshes after being added to the scene
+                        // so adding a delay in making it visible so it doesn't jump
+                        const waitUntilPostioned = async () => {
+                            await sleep(1);
+                            badgeGroup.isVisible = true;
+                        };
+                        waitUntilPostioned();
+                        badgeGroupsRef.current.push(badgeGroup);
+                    }
+                });
+            }
+        },
+        [badgeGroups, backgroundColor]
+    );
 
     // Update render mode
     useEffect(() => {
