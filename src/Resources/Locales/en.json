@@ -336,7 +336,7 @@
         "noneSelected": "No layers selected",
         "newLayer": "New layer",
         "layerName": "Layer name",
-        "behaviorsOnThisLayer": "Behaviors on this layer",
+        "behaviorsListTitle": "Behaviors ({{count}})",
         "layerNamePlaceholder": "Enter layer name",
         "createNewLayer": "Create new layer",
         "editLayer": "Edit layer",
@@ -344,7 +344,9 @@
         "layers": "Layers",
         "noLayersFound": "You don't have any layers yet!",
         "noLayersDescription": "Layers are like tags on behaviors. Start by creating a layer here.",
-        "noBehaviorsOnLayer": "There are no behaviors on this layer"
+        "noBehaviorsOnLayer": "There are no behaviors on this layer",
+        "deleteConfirmationTitle": "Delete this layer?",
+        "deleteConfirmationMessage": "This permanently removes the layer and any associated behaviors from all Digital Twins environments."
     },
     "3dSceneBuilder": {
         "elements": "Elements",
@@ -372,7 +374,7 @@
         "removeBehaviorFromAllScenes": "Remove behavior from all scenes",
         "manageSceneLayer": "Manage scene layer",
         "createBehavior": "Create behavior",
-        "modifyBehavior": "Modify Behavior",
+        "modifyBehavior": "Edit behavior",
         "addBehaviorButton": "Add behavior",
         "addBehavior": "Add Behavior",
         "searchBehaviors": "Search Behaviors",
