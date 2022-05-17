@@ -143,6 +143,7 @@ const BuilderLeftPanel: React.FC = () => {
             payload: newElements
         });
         setColoredMeshItems([]);
+        getConfig();
     };
 
     const onElementClick = (element: ITwinToObjectMapping) => {
