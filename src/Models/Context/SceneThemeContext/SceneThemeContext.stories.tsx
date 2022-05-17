@@ -8,21 +8,21 @@ import {
     IStoryContext
 } from '../../Services/StoryUtilities';
 import {
-    ColorContextProvider,
-    useColorContext
-} from '../ColorContext/ColorContext';
+    SceneThemeContextProvider,
+    useSceneThemeContext
+} from './SceneThemeContext';
 import {
-    ColorContextActionType,
-    IColorContextProviderProps
-} from './ColorContext.types';
+    SceneThemeContextActionType,
+    ISceneThemeContextProviderProps
+} from './SceneThemeContext.types';
 
 const wrapperStyle: React.CSSProperties = {
     width: 'auto',
     padding: 10
 };
 export default {
-    title: 'Contexts/ColorContext',
-    component: ColorContextProvider,
+    title: 'Contexts/SceneThemeContext',
+    component: SceneThemeContextProvider,
     decorators: [getDefaultStoryDecorator(wrapperStyle)]
 };
 
@@ -35,28 +35,28 @@ const STYLE_OPTIONS: ViewerObjectStyle[] = [
 ];
 
 const ContextRenderer: React.FC = () => {
-    const { colorState } = useColorContext();
+    const { sceneThemeState } = useSceneThemeContext();
 
     return (
         <Stack tokens={{ childrenGap: 8 }}>
             <div>Context state</div>
-            <div>Object color: {colorState.objectColor}</div>
-            <div>Object style: {colorState.objectStyle}</div>
-            <div>Scene background: {colorState.sceneBackground}</div>
+            <div>Object color: {sceneThemeState.objectColor}</div>
+            <div>Object style: {sceneThemeState.objectStyle}</div>
+            <div>Scene background: {sceneThemeState.sceneBackground}</div>
         </Stack>
     );
 };
 
 const ContextUpdater: React.FC = () => {
-    const { colorDispatch } = useColorContext();
+    const { sceneThemeDispatch } = useSceneThemeContext();
     const [objectColorIndex, setObjectColorIndex] = useState<number>(0);
     const [objectStyleIndex, setObjectStyleIndex] = useState<number>(0);
     const [sceneBackgroundIndex, setSceneBackgroundIndex] = useState<number>(0);
 
     const onObjectColorClick = () => {
         const index = objectColorIndex;
-        colorDispatch({
-            type: ColorContextActionType.SET_OBJECT_COLOR,
+        sceneThemeDispatch({
+            type: SceneThemeContextActionType.SET_OBJECT_COLOR,
             payload: {
                 color: OBJECT_COLOR_OPTIONS[index % OBJECT_COLOR_OPTIONS.length]
             }
@@ -65,8 +65,8 @@ const ContextUpdater: React.FC = () => {
     };
     const onStyleClick = () => {
         const index = objectStyleIndex;
-        colorDispatch({
-            type: ColorContextActionType.SET_OBJECT_STYLE,
+        sceneThemeDispatch({
+            type: SceneThemeContextActionType.SET_OBJECT_STYLE,
             payload: {
                 style: STYLE_OPTIONS[index % STYLE_OPTIONS.length]
             }
@@ -75,8 +75,8 @@ const ContextUpdater: React.FC = () => {
     };
     const onBackgroundClick = () => {
         const index = sceneBackgroundIndex;
-        colorDispatch({
-            type: ColorContextActionType.SET_SCENE_BACKGROUND,
+        sceneThemeDispatch({
+            type: SceneThemeContextActionType.SET_SCENE_BACKGROUND,
             payload: {
                 color:
                     SCENE_BACKGROUND_OPTIONS[
@@ -104,13 +104,13 @@ const ContextUpdater: React.FC = () => {
 type SceneBuilderStory = ComponentStory<any>;
 const Template: SceneBuilderStory = (
     _args: any,
-    _context: IStoryContext<IColorContextProviderProps>
+    _context: IStoryContext<ISceneThemeContextProviderProps>
 ) => {
     return (
-        <ColorContextProvider>
+        <SceneThemeContextProvider>
             <ContextRenderer />
             <ContextUpdater />
-        </ColorContextProvider>
+        </SceneThemeContextProvider>
     );
 };
 

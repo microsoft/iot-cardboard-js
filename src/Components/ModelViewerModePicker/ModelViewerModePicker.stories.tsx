@@ -3,7 +3,7 @@ import {
     ViewerModeBackgroundColors,
     ViewerModeObjectColors
 } from '../../Models/Constants';
-import { ViewerMode } from '../../Models/Context/ColorContext/ColorContext.types';
+import { ViewerMode } from '../../Models/Context/SceneThemeContext/SceneThemeContext.types';
 import BaseComponent from '../BaseComponent/BaseComponent';
 import ModelViewerModePicker from './ModelViewerModePicker';
 

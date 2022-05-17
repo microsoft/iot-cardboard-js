@@ -52,6 +52,7 @@ import ADT3DGlobe from '../../Components/ADT3DGlobe/ADT3DGlobe';
 import { getStyles } from './ADT3DScenePage.styles';
 import { Stack } from '@fluentui/react';
 import DeeplinkFlyout from '../../Components/DeeplinkFlyout/DeeplinkFlyout';
+import { SceneThemeContextProvider } from '../../Models/Context';
 
 export const ADT3DScenePageContext = createContext<IADT3DScenePageContext>(
     null
@@ -422,7 +423,9 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = (props) => {
                 storageUrl: adapter.getBlobContainerURL()
             }}
         >
-            <ADT3DScenePageBase {...props} />
+            <SceneThemeContextProvider>
+                <ADT3DScenePageBase {...props} />
+            </SceneThemeContextProvider>
         </DeeplinkContextProvider>
     );
 };
