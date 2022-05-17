@@ -138,29 +138,11 @@ const BehaviorTwinAliasForm: React.FC<{
     );
 
     useEffect(() => {
-        const isValid =
+        let isValid =
             formData.alias &&
             formData.elementToTwinMappings?.length ===
                 selectedElements?.length &&
             !formData.elementToTwinMappings.some((mapping) => !mapping.twinId);
-
-        let showErrorMessage = false;
-
-        // Alias must be only alphanumeric
-        if (!/^[a-zA-Z0-9]*$/.test(formData.alias)) {
-            showErrorMessage = true;
-            setErrorMessage(
-                t('3dSceneBuilder.twinAlias.errors.alphanumericOnly')
-            );
-        }
-
-        // Alias must not start with a number
-        if (/^\d/.test(formData.alias[0])) {
-            showErrorMessage = true;
-            setErrorMessage(
-                t('3dSceneBuilder.twinAlias.errors.noNumberPrefix')
-            );
-        }
 
         // Alias name must be unique
         if (
@@ -168,17 +150,29 @@ const BehaviorTwinAliasForm: React.FC<{
                 TwinAliasFormMode.CreateTwinAlias &&
             existingTwinAliasNames.includes(formData.alias)
         ) {
-            showErrorMessage = true;
+            isValid = false;
             setErrorMessage(
                 t('3dSceneBuilder.twinAlias.errors.twinAliasAlreadyExists')
             );
         }
-
-        if (!showErrorMessage) {
+        // Alias must not start with a number
+        else if (/^\d/.test(formData.alias[0])) {
+            isValid = false;
+            setErrorMessage(
+                t('3dSceneBuilder.twinAlias.errors.noNumberPrefix')
+            );
+        }
+        // Alias must be only alphanumeric
+        else if (!/^[a-zA-Z0-9]*$/.test(formData.alias)) {
+            isValid = false;
+            setErrorMessage(
+                t('3dSceneBuilder.twinAlias.errors.alphanumericOnly')
+            );
+        } else {
             setErrorMessage(null);
         }
 
-        setIsFormValid(isValid && !showErrorMessage);
+        setIsFormValid(isValid);
     }, [
         behaviorTwinAliasFormInfo.mode,
         existingTwinAliasNames,

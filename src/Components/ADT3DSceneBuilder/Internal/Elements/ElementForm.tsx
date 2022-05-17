@@ -179,10 +179,6 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
 
     useEffect(() => {
         if (saveElementAdapterData.adapterResult.result) {
-            console.log(
-                'Adapter result: ',
-                saveElementAdapterData.adapterResult.result
-            );
             getConfig();
             if (newElementsRef.current) {
                 onElementSave(newElementsRef.current);
