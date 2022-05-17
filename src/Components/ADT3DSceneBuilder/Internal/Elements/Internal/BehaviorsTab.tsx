@@ -20,13 +20,15 @@ export interface IADT3DSceneBuilderElementBehaviorProps {
     onBehaviorClick: (behavior: IBehavior) => void;
     onCreateBehaviorWithElements: () => void;
     updateBehaviorsToEdit: (behaviorsToEdit: Array<IBehavior>) => void;
+    isCreateBehaviorDisabled?: boolean;
 }
 const BehaviorsTab: React.FC<IADT3DSceneBuilderElementBehaviorProps> = ({
     behaviors,
     elementToEdit,
     onBehaviorClick,
     onCreateBehaviorWithElements,
-    updateBehaviorsToEdit
+    updateBehaviorsToEdit,
+    isCreateBehaviorDisabled = false
 }) => {
     const { t } = useTranslation();
     const calloutTarget = 'calloutTarget';
@@ -163,6 +165,7 @@ const BehaviorsTab: React.FC<IADT3DSceneBuilderElementBehaviorProps> = ({
                     hideCallout={() => setShowAddBehavior(false)}
                     onAddBehavior={addBehaviorToElement}
                     onCreateBehaviorWithElements={onCreateBehaviorWithElements}
+                    isCreateBehaviorDisabled={isCreateBehaviorDisabled}
                 />
             )}
         </>

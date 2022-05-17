@@ -119,6 +119,7 @@ const CardboardListCallout = <T extends unknown>({
                 <PrimaryButton
                     styles={cardboardListCalloutPrimaryButtonStyles}
                     onClick={primaryActionProps.onPrimaryActionClick}
+                    disabled={primaryActionProps.disabled}
                 >
                     {primaryActionProps.primaryActionLabel}
                 </PrimaryButton>

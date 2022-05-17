@@ -492,7 +492,9 @@
         "commonProperties": "Die Vereinigung primärer Zwillingseigenschaften ausgewählter Elemente"
       },
       "errors": {
-        "twinAliasAlreadyExists": "Twin Alias mit dem gleichen Namen existiert bereits, erwägen Sie stattdessen, es hinzuzufügen."
+        "twinAliasAlreadyExists": "Twin Alias mit dem gleichen Namen existiert bereits, erwägen Sie stattdessen, es hinzuzufügen.",
+        "alphanumericOnly": "Zwillingsalias darf nur alphanumerische Zeichen enthalten",
+        "noNumberPrefix": "Twin Alias darf nicht mit einer Zahl beginnen"
       }
     }
   },
@@ -692,7 +694,8 @@
       "undoAll": "Alle Bearbeitungen zurücksetzen",
       "expandTree": "Baum erweitern",
       "collapseTree": "Baum reduzieren",
-      "save": "Änderungen speichern"
+      "save": "Änderungen speichern",
+      "refresh": "Aktualisieren von Daten"
     },
     "dateTimePicker": {
       "datePickerTitle": "Datumsauswahl",
@@ -725,7 +728,7 @@
     "state": "Zustand",
     "allProperties": "Alle Immobilien",
     "behaviorPreview": "Vorschau",
-    "PrimaryTwinProperties": "Primäre Twin-Eigenschaften"
+    "PrimaryTwin": "Primäre Zwillingszwillinge"
   },
   "svgTests": {
     "fluentUI": "SVG-Laden über Fluent Image-Komponente (empfohlenes Muster)",

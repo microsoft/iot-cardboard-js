@@ -492,7 +492,9 @@
         "commonProperties": "A união das propriedades gémeas primárias de elementos selecionados"
       },
       "errors": {
-        "twinAliasAlreadyExists": "O pseudónimo gémeo com o mesmo nome já existe, considere adicioná-lo em vez disso."
+        "twinAliasAlreadyExists": "O pseudónimo gémeo com o mesmo nome já existe, considere adicioná-lo em vez disso.",
+        "alphanumericOnly": "O pseudónimo gémeo só deve conter caracteres alfanuméricos",
+        "noNumberPrefix": "Pseudónimo gémeo não deve começar com um número"
       }
     }
   },
@@ -692,7 +694,8 @@
       "undoAll": "Redefinir todas as edições",
       "expandTree": "Expandir árvore",
       "collapseTree": "Árvore de colapso",
-      "save": "Guardar alterações"
+      "save": "Guardar alterações",
+      "refresh": "Atualizar dados"
     },
     "dateTimePicker": {
       "datePickerTitle": "Selecionador de datas",
@@ -725,7 +728,7 @@
     "state": "Estado",
     "allProperties": "Todas as propriedades",
     "behaviorPreview": "Previsualizar",
-    "PrimaryTwinProperties": "Propriedades principais de Twin"
+    "PrimaryTwin": "Gémeo Primário"
   },
   "svgTests": {
     "fluentUI": "Carregamento SVG através de componente de imagem fluente (padrão recomendado)",

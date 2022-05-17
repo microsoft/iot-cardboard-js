@@ -492,7 +492,9 @@
         "commonProperties": "A kiválasztott elemek elsődleges ikertulajdonságok egyesítése"
       },
       "errors": {
-        "twinAliasAlreadyExists": "Az azonos nevű ikeralias már létezik, fontolja meg a hozzáadását."
+        "twinAliasAlreadyExists": "Az azonos nevű ikeralias már létezik, fontolja meg a hozzáadását.",
+        "alphanumericOnly": "Az iker alias csak alfanumerikus karaktereket tartalmazhat",
+        "noNumberPrefix": "Az iker alias nem kezdődhet számmal"
       }
     }
   },
@@ -692,7 +694,8 @@
       "undoAll": "Az összes szerkesztés alaphelyzetbe állítása",
       "expandTree": "Fa kibontása",
       "collapseTree": "Fa összecsukása",
-      "save": "Módosítások mentése"
+      "save": "Módosítások mentése",
+      "refresh": "Adatok frissítése"
     },
     "dateTimePicker": {
       "datePickerTitle": "Dátumválasztó",
@@ -725,7 +728,7 @@
     "state": "Állam",
     "allProperties": "Minden tulajdonság",
     "behaviorPreview": "Előnézet",
-    "PrimaryTwinProperties": "Elsődleges iker tulajdonságai"
+    "PrimaryTwin": "Elsődleges ikerpár"
   },
   "svgTests": {
     "fluentUI": "SVG betöltése a Fluent Image komponensen keresztül (ajánlott minta)",

@@ -192,6 +192,7 @@ export interface IADT3DSceneBuilderAddBehaviorCalloutProps {
     onAddBehavior: (behavior: IBehavior) => void;
     onCreateBehaviorWithElements: () => void;
     hideCallout: () => void;
+    isCreateBehaviorDisabled?: boolean;
 }
 
 export interface IADT3DSceneBuilderAddTwinAliasCalloutProps {

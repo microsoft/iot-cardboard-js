@@ -167,6 +167,7 @@ const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = 
                     customTitleSpan={props.customCommandBarTitleSpan}
                     editStatus={state.editStatus}
                     readonly={props.readonly}
+                    onRefresh={props.onRefresh}
                 />
                 <div
                     className={`cb-property-inspector-scrollable-container ${
@@ -266,6 +267,7 @@ type StandalonePropertyInspectorCommandBarProps = {
     editStatus: Record<string, boolean>;
     readonly: boolean;
     customTitleSpan?: React.ReactNode;
+    onRefresh?: () => any;
 };
 
 const PropertyInspectorCommandBarButton: React.FC<IButtonProps> = (props) => {
@@ -283,7 +285,8 @@ const StandalonePropertyInspectorCommandBar: React.FC<StandalonePropertyInspecto
     commandBarTitle,
     editStatus,
     readonly,
-    customTitleSpan
+    customTitleSpan,
+    onRefresh
 }) => {
     const { t } = useTranslation();
 
@@ -341,6 +344,22 @@ const StandalonePropertyInspectorCommandBar: React.FC<StandalonePropertyInspecto
                         iconProps: { iconName: 'CollapseContent' },
                         onClick: () => setIsTreeCollapsed(true)
                     },
+                    ...(onRefresh
+                        ? [
+                              {
+                                  key: 'refresh',
+                                  text: t(
+                                      'propertyInspector.commandBar.refresh'
+                                  ),
+                                  ariaLabel: t(
+                                      'propertyInspector.commandBar.refresh'
+                                  ),
+                                  iconOnly: true,
+                                  iconProps: { iconName: 'Refresh' },
+                                  onClick: () => onRefresh()
+                              }
+                          ]
+                        : []),
                     ...(!readonly
                         ? [
                               {

@@ -1066,7 +1066,7 @@ abstract class ViewerConfigUtility {
         configSnapshot = ViewerConfigUtility.updateElementsInScene(
             configSnapshot,
             sceneId,
-            selectedElements
+            selectedElements ?? []
         );
 
         return configSnapshot;

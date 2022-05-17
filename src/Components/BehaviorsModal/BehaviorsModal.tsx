@@ -199,11 +199,11 @@ const BehaviorsModal: React.FC<IBehaviorsModalProps> = ({
                                                     styles.customPropertyInspectorCommandBarTitle
                                                 }
                                                 title={t(
-                                                    'behaviorsModal.PrimaryTwinProperties'
+                                                    'behaviorsModal.PrimaryTwin'
                                                 )}
                                             >
                                                 {t(
-                                                    'behaviorsModal.PrimaryTwinProperties'
+                                                    'behaviorsModal.PrimaryTwin'
                                                 )}
                                             </span>
                                         }

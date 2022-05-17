@@ -492,7 +492,9 @@
         "commonProperties": "選択した要素のプライマリツインプロパティの和集合"
       },
       "errors": {
-        "twinAliasAlreadyExists": "同じ名前のツインエイリアスが既に存在するため、代わりに追加することを検討してください。"
+        "twinAliasAlreadyExists": "同じ名前のツインエイリアスが既に存在するため、代わりに追加することを検討してください。",
+        "alphanumericOnly": "ツイン エイリアスには英数字のみを含める必要があります。",
+        "noNumberPrefix": "ツイン エイリアスは数字で始まってはなりません。"
       }
     }
   },
@@ -692,7 +694,8 @@
       "undoAll": "すべての編集をリセットする",
       "expandTree": "ツリーの展開",
       "collapseTree": "ツリーの折りたたみ",
-      "save": "変更の保存"
+      "save": "変更の保存",
+      "refresh": "データの更新"
     },
     "dateTimePicker": {
       "datePickerTitle": "日付ピッカー",
@@ -725,7 +728,7 @@
     "state": "状態",
     "allProperties": "すべてのプロパティ",
     "behaviorPreview": "プレビュー",
-    "PrimaryTwinProperties": "プライマリツインのプロパティ"
+    "PrimaryTwin": "プライマリツイン"
   },
   "svgTests": {
     "fluentUI": "流暢な画像コンポーネントによるSVGの読み込み(推奨パターン)",
