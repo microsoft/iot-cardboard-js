@@ -5,14 +5,8 @@ import mockConfig from '../../Adapters/__mockData__/3DScenesConfiguration.json';
 import { deepCopy } from '../../Models/Services/Utils';
 import { DeeplinkContextProvider } from '../../Models/Context/DeeplinkContext/DeeplinkContext';
 import { IDeeplinkContextState } from '../../Models/Context/DeeplinkContext/DeeplinkContext.types';
-import { _3DColorContextProvider } from '../../Models/Context/3DColorContext/3DColorContext';
-import { ViewerMode } from '../../Components/ModelViewerModePicker/ModelViewerModePicker';
 
-import {
-    ADT3DScenePageModes,
-    IADTBackgroundColor,
-    IADTObjectColor
-} from '../../Models/Constants';
+import { ADT3DScenePageModes } from '../../Models/Constants';
 
 export default {
     title: 'Pages/ADT3DScenePage',
@@ -121,25 +115,3 @@ export const Mock3DScenePageSchemaErrors = (
 };
 
 Mock3DScenePageSchemaErrors.storyName = 'Mock 3D scene page (invalid config)';
-
-export const ColorTest3DScenePage = (_args, { globals: { theme, locale } }) => {
-    return (
-        <div style={cardStyle}>
-            <_3DColorContextProvider
-                onOverrideColors={function (
-                    overrideViewMode: ViewerMode
-                ): string {
-                    throw new Error('Function not implemented.');
-                }}
-            >
-                <ADT3DScenePage
-                    title={'3D Scene Page'}
-                    theme={theme}
-                    locale={locale}
-                    adapter={new MockAdapter({ mockData: mockConfig })}
-                />
-            </_3DColorContextProvider>
-        </div>
-    );
-};
-ColorTest3DScenePage.storyName = 'Color Test 3D scene page';

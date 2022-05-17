@@ -54,6 +54,7 @@ import {
 import { ADT3DScenePageModes } from '../../Models/Constants';
 import FloatingScenePageModeToggle from '../../Pages/ADT3DScenePage/Internal/FloatingScenePageModeToggle';
 import DeeplinkFlyout from '../DeeplinkFlyout/DeeplinkFlyout';
+import { SceneThemeContextProvider } from '../../Models/Context';
 
 const getClassNames = classNamesFunction<
     IADT3DViewerStyleProps,
@@ -635,7 +636,9 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = (
 ) => {
     return (
         <DeeplinkContextProvider>
-            <ADT3DViewerBase {...props} />
+            <SceneThemeContextProvider>
+                <ADT3DViewerBase {...props} />
+            </SceneThemeContextProvider>
         </DeeplinkContextProvider>
     );
 };

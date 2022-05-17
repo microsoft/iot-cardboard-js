@@ -82,6 +82,7 @@ import {
 import { DeeplinkContextActionType } from '../../Models/Context/DeeplinkContext/DeeplinkContext.types';
 import { getStyles } from './ADT3DSceneBuilder.styles';
 import SceneLayers from './Internal/SceneLayers/SceneLayers';
+import { SceneThemeContextProvider } from '../../Models/Context';
 
 const contextMenuStyles = mergeStyleSets({
     header: {
@@ -856,7 +857,9 @@ const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
 const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = (props) => {
     return (
         <DeeplinkContextProvider>
-            <ADT3DSceneBuilderBase {...props} />
+            <SceneThemeContextProvider>
+                <ADT3DSceneBuilderBase {...props} />
+            </SceneThemeContextProvider>
         </DeeplinkContextProvider>
     );
 };
