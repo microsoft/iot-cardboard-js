@@ -119,6 +119,7 @@ const getNavLinkGroups = (
                 {
                     key: TutorialModalPage.INTRODUCTION,
                     name: 'Introduction',
+                    icon: 'Info',
                     url: '',
                     onClick: () =>
                         dispatch({
@@ -129,6 +130,7 @@ const getNavLinkGroups = (
                 {
                     key: TutorialModalPage.CONCEPTS,
                     name: 'Concepts',
+                    icon: 'Zoom',
                     url: '',
                     onClick: () =>
                         dispatch({
@@ -141,6 +143,7 @@ const getNavLinkGroups = (
                         {
                             key: TutorialModalPage.ELEMENTS,
                             name: 'Elements',
+                            icon: 'Shapes',
                             url: '',
                             onClick: () =>
                                 dispatch({
@@ -151,6 +154,7 @@ const getNavLinkGroups = (
                         {
                             key: TutorialModalPage.BEHAVIORS,
                             name: 'Behaviors',
+                            icon: 'Ringer',
                             url: '',
                             onClick: () =>
                                 dispatch({
@@ -161,6 +165,7 @@ const getNavLinkGroups = (
                         {
                             key: TutorialModalPage.TWINS,
                             name: 'Twins',
+                            icon: 'Link',
                             url: '',
                             onClick: () =>
                                 dispatch({
@@ -171,6 +176,7 @@ const getNavLinkGroups = (
                         {
                             key: TutorialModalPage.WIDGETS,
                             name: 'Widgets',
+                            icon: 'SpeedHigh',
                             url: '',
                             onClick: () =>
                                 dispatch({
@@ -181,6 +187,7 @@ const getNavLinkGroups = (
                         {
                             key: TutorialModalPage.SCENELAYERS,
                             name: 'Scene layers',
+                            icon: 'MapLayers',
                             url: '',
                             onClick: () =>
                                 dispatch({
