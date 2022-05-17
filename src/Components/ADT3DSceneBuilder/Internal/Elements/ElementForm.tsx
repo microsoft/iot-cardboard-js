@@ -74,17 +74,16 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
     const newElementsRef = useRef(null);
     const [elementToEdit, setElementToEdit] = useState<ITwinToObjectMapping>(
         () => {
+            const existingElements = config.configuration?.scenes
+                ?.find((s) => s.id === sceneId)
+                .elements.filter(
+                    ViewerConfigUtility.isTwinToObjectMappingElement
+                );
+            existingElementsRef.current = existingElements;
             if (builderMode === ADT3DSceneBuilderMode.EditElement) {
                 return selectedElement;
             } else {
                 // builderMode is ADT3DSceneBuilderMode.CreateElement
-                const existingElements = config.configuration?.scenes
-                    ?.find((s) => s.id === sceneId)
-                    .elements.filter(
-                        ViewerConfigUtility.isTwinToObjectMappingElement
-                    );
-                existingElementsRef.current = existingElements;
-
                 let newId = createGUID();
                 const existingIds = existingElements?.map((e) => e.id);
                 while (existingIds?.includes(newId)) {
@@ -180,6 +179,10 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
 
     useEffect(() => {
         if (saveElementAdapterData.adapterResult.result) {
+            console.log(
+                'Adapter result: ',
+                saveElementAdapterData.adapterResult.result
+            );
             getConfig();
             if (newElementsRef.current) {
                 onElementSave(newElementsRef.current);
