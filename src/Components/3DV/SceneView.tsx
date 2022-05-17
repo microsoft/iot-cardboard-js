@@ -1510,7 +1510,7 @@ function SceneView(props: ISceneViewProps, ref) {
 
         let material = materialCacheRef.current[materialId];
         if (!material) {
-            material = makeMaterial(
+            material = makeStandardMaterial(
                 'coloredMeshMaterial',
                 sceneRef.current,
                 hexToColor4(col),
