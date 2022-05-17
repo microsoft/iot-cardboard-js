@@ -96,19 +96,23 @@ export const SceneThemeContextProvider: React.FC<ISceneThemeContextProviderProps
 
     // set the initial state for the Color reducer
     const persistedTheme = getPersistedTheme();
+    const objectColorOptions =
+        initialState?.objectColorOptions || ViewerModeObjectColors;
+    const backgroundOptions =
+        initialState?.sceneBackgroundOptions || ViewerModeBackgroundColors;
     const defaultState: ISceneThemeContextState = {
         sceneBackground:
             initialState?.sceneBackground ||
             persistedTheme?.background?.color ||
-            DEFAULT_SCENE_BACKGROUND,
-        sceneBackgroundOptions:
-            initialState?.sceneBackgroundOptions || ViewerModeBackgroundColors,
+            initialState?.objectColorOptions?.[0]?.color ||
+            '',
+        sceneBackgroundOptions: backgroundOptions,
         objectColor:
             initialState?.objectColor ||
             persistedTheme?.objectColor?.color ||
-            DEFAULT_OBJECT_COLOR,
-        objectColorOptions:
-            initialState?.objectColorOptions || ViewerModeObjectColors,
+            objectColorOptions?.[0].color ||
+            '',
+        objectColorOptions: objectColorOptions,
         objectStyle: initialState?.objectStyle || ViewerObjectStyle.Default,
         objectStyleOptions:
             initialState?.objectStyleOptions || buildDefaultStyleChoices(t)
