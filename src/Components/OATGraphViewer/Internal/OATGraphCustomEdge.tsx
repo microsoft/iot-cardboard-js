@@ -1,8 +1,4 @@
 import React, { useContext, useState } from 'react';
-<<<<<<< HEAD
-import { getBezierPath, getEdgeCenter } from 'react-flow-renderer';
-import { IOATGraphCustomEdgeProps } from '../../../Models/Constants/Interfaces';
-=======
 import { useTheme, Icon, FontSizes, ActionButton } from '@fluentui/react';
 import {
     getBezierPath,
@@ -10,7 +6,6 @@ import {
     removeElements
 } from 'react-flow-renderer';
 import { IOATGraphCustomEdgeProps } from '../../Models/Constants/Interfaces';
->>>>>>> origin/zarmada/oat-development-staging
 import { getGraphViewerStyles } from '../OATGraphViewer.styles';
 import { ElementsContext } from './OATContext';
 import { TextField } from '@fluentui/react';
@@ -146,15 +141,12 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
 
     return (
         <>
-<<<<<<< HEAD
-=======
             <path
                 id={id}
                 className={graphViewerStyles.widthPath}
                 d={edgePath}
                 onClick={onNameClick}
             />
->>>>>>> origin/zarmada/oat-development-staging
             {data.type === OATExtendHandleName && (
                 <path
                     id={id}

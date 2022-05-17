@@ -341,19 +341,11 @@ export const getPropertyInspectorStyles = () => {
             classNames.enumItem,
             {
                 display: 'grid',
-<<<<<<< HEAD
-                gridTemplateColumns: '55% 35% 10%',
-=======
                 gridTemplateColumns: '10% 45% 35% 10%',
->>>>>>> origin/zarmada/oat-development-staging
                 width: '100%',
                 backgroundColor: theme.semanticColors.buttonBackgroundDisabled,
                 alignItems: 'center',
                 padding: '12px 0px',
-<<<<<<< HEAD
-                paddingLeft: '10%',
-=======
->>>>>>> origin/zarmada/oat-development-staging
                 borderBottom: `1px solid ${theme.semanticColors.buttonBackgroundPressed}'`,
                 borderRadius: '4px'
             } as IStyle
@@ -399,11 +391,7 @@ export const getPropertyInspectorStyles = () => {
             classNames.propertyItem,
             {
                 display: 'grid',
-<<<<<<< HEAD
-                gridTemplateColumns: '0% 55% 25% 10% 10%',
-=======
                 gridTemplateColumns: '55% 25% 10% 10%',
->>>>>>> origin/zarmada/oat-development-staging
                 width: '100%',
                 backgroundColor: theme.semanticColors.listBackground,
                 alignItems: 'center',
@@ -469,11 +457,7 @@ export const getPropertyInspectorStyles = () => {
             classNames.propertyItemNestMainItem,
             {
                 display: 'grid',
-<<<<<<< HEAD
-                gridTemplateColumns: '10% 45% 26% 9% 10%',
-=======
                 gridTemplateColumns: '10% 45% 25% 10% 10%',
->>>>>>> origin/zarmada/oat-development-staging
                 width: '100%',
                 alignItems: 'center',
                 paddingBottom: '12px',
@@ -680,12 +664,8 @@ export const getPropertyListItemIconWrapMoreStyles = () => {
     return {
         root: {
             color: theme.semanticColors.menuIcon,
-<<<<<<< HEAD
-            position: 'relative'
-=======
             position: 'relative',
             width: '100%'
->>>>>>> origin/zarmada/oat-development-staging
         }
     } as Partial<IButtonStyles>;
 };
@@ -730,11 +710,7 @@ export const getTemplateColumnStyles = () => {
     const theme = useTheme();
     return {
         root: {
-<<<<<<< HEAD
-            width: '80%',
-=======
             width: '90%',
->>>>>>> origin/zarmada/oat-development-staging
             height: '100%',
             backgroundColor: theme.semanticColors.buttonBackgroundDisabled
         }

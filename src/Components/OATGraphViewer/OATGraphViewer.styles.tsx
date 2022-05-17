@@ -19,12 +19,8 @@ const classNames = {
     componentShape: `${classPrefix}-component-shape`,
     inheritancePath: `${classPrefix}-inheritance-path`,
     inheritanceShape: `${classPrefix}-inheritance-shape`,
-<<<<<<< HEAD
-    nodeContainer: `${classPrefix}-node-container`
-=======
     nodeContainer: `${classPrefix}-node-container`,
     graphViewerControls: `${classPrefix}-graph-viewer-controls`
->>>>>>> origin/zarmada/oat-development-staging
 };
 
 export const getGraphViewerStyles = () => {
@@ -105,8 +101,6 @@ export const getGraphViewerStyles = () => {
                 background: theme.semanticColors.bodyBackground
             } as IStyle
         ],
-<<<<<<< HEAD
-=======
         edgeCancel: [
             classNames.edgeCancel,
             {
@@ -114,7 +108,6 @@ export const getGraphViewerStyles = () => {
                 float: 'right'
             } as IStyle
         ],
->>>>>>> origin/zarmada/oat-development-staging
         componentPath: [
             classNames.componentPath,
             {
@@ -150,8 +143,6 @@ export const getGraphViewerStyles = () => {
         nodeContainer: [
             classNames.nodeContainer,
             { display: 'grid', gridTemplateColumns: '10% 90%' } as IStyle
-<<<<<<< HEAD
-=======
         ],
         graphViewerControls: [
             classNames.graphViewerControls,
@@ -168,7 +159,6 @@ export const getGraphViewerStyles = () => {
                     }
                 }
             } as IStyle
->>>>>>> origin/zarmada/oat-development-staging
         ]
     });
 };
