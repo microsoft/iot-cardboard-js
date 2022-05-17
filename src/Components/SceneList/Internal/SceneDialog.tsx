@@ -154,12 +154,10 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
     const dialogContentProps: IDialogContentProps = {
         type: DialogType.normal,
         title: sceneToEdit
-            ? t('scenes.editDialogTitle')
-            : t('scenes.addDialogTitle'),
+            ? t('scenes.dialogTitleEdit')
+            : t('scenes.dialogTitleCreate'),
         closeButtonAriaLabel: t('close'),
-        subText: sceneToEdit
-            ? t('scenes.editDialogSubText')
-            : t('scenes.addDialogSubText')
+        subText: t('scenes.dialogSubTitle')
     };
 
     const dialogModalProps: IModalProps = useMemo(
@@ -339,6 +337,7 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
             <TextField
                 className="cb-scene-list-form-dialog-text-field"
                 label={t('name')}
+                placeholder={t('scenes.sceneNamePlaceholder')}
                 required
                 title={newSceneName}
                 value={sceneToEdit ? scene?.displayName : newSceneName}
@@ -367,7 +366,7 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
                 styles={{ root: { marginBottom: 16 } }}
             >
                 <PivotItem
-                    headerText={t('scenes.fromContainer')}
+                    headerText={t('scenes.tabNameFromContainer')}
                     itemKey={SelectionModeOf3DFile.FromContainer}
                     style={{ width: '100%' }}
                 >
@@ -377,7 +376,7 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
                     )}
                 </PivotItem>
                 <PivotItem
-                    headerText={t('uploadFile')}
+                    headerText={t('scenes.tabNameUploadFile')}
                     itemKey={SelectionModeOf3DFile.FromComputer}
                     style={{ width: '100%' }}
                 >
