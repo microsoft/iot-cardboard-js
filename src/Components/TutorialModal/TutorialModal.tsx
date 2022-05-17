@@ -36,15 +36,20 @@ const getClassNames = classNamesFunction<
 >();
 
 const TutorialModal: React.FC<ITutorialModalProps> = (props) => {
-    const { styles, isOpen, onDismiss } = props;
+    const {
+        styles,
+        isOpen,
+        onDismiss,
+        defaultPageKey = TutorialModalPage.INTRODUCTION
+    } = props;
     const classNames = getClassNames(styles, {
         theme: useTheme()
     });
     const titleId = useId('tutorial-modal-title');
-    const [state, dispatch] = useReducer(
-        tutorialModalReducer,
-        defaultTutorialModalState
-    );
+    const [state, dispatch] = useReducer(tutorialModalReducer, {
+        ...defaultTutorialModalState,
+        pageKey: defaultPageKey
+    });
 
     const navLinkGroups = getNavLinkGroups(dispatch);
 
@@ -71,6 +76,7 @@ const TutorialModal: React.FC<ITutorialModalProps> = (props) => {
                     <div className={classNames.navContainer}>
                         <Nav
                             groups={navLinkGroups}
+                            initialSelectedKey={state.pageKey}
                             styles={classNames.subComponentStyles.nav}
                         />
                     </div>
@@ -119,7 +125,7 @@ const getNavLinkGroups = (
                 {
                     key: TutorialModalPage.INTRODUCTION,
                     name: 'Introduction',
-                    icon: 'Info',
+                    icon: 'CRMCustomerInsightsApp',
                     url: '',
                     onClick: () =>
                         dispatch({

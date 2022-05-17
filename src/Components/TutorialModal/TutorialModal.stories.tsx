@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { ComponentStory } from '@storybook/react';
 import { getDefaultStoryDecorator } from '../../Models/Services/StoryUtilities';
 import TutorialModal from './TutorialModal';
-import { ITutorialModalProps } from './TutorialModal.types';
+import { ITutorialModalProps, TutorialModalPage } from './TutorialModal.types';
 import { PrimaryButton } from '@fluentui/react';
 
 const wrapperStyle = { width: '100%', height: '600px', padding: 8 };
@@ -32,6 +32,12 @@ const Template: TutorialModalStory = (args) => {
     );
 };
 
-export const Base = Template.bind({}) as TutorialModalStory;
+export const FirstRunExperience = Template.bind({}) as TutorialModalStory;
+FirstRunExperience.args = {} as ITutorialModalProps;
+FirstRunExperience.storyName = 'First-run experience';
 
-Base.args = {} as ITutorialModalProps;
+export const customPageEntry = Template.bind({}) as TutorialModalStory;
+customPageEntry.args = {
+    defaultPageKey: TutorialModalPage.CONCEPTS
+} as ITutorialModalProps;
+customPageEntry.storyName = 'Custom page entry';

@@ -11,6 +11,8 @@ export interface ITutorialModalProps {
 
     onDismiss: () => void;
 
+    defaultPageKey?: string;
+
     /**
      * Call to provide customized styling that will layer on top of the variant rules.
      */
