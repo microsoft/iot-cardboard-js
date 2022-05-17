@@ -7,7 +7,6 @@ import {
     IADT3DSceneBuilderProps,
     ISceneContentsProps
 } from '../ADT3DScenePage.types';
-import FloatingScenePageModeToggle from './FloatingScenePageModeToggle';
 import { ISceneViewProps } from '../../../Models/Classes/SceneView.types';
 import { useDeeplinkContext } from '../../../Models/Context/DeeplinkContext/DeeplinkContext';
 import { DeeplinkContextActionType } from '../../../Models/Context/DeeplinkContext/DeeplinkContext.types';
@@ -21,18 +20,7 @@ export const ADT3DSceneBuilderContainer: React.FC<IADT3DSceneBuilderProps> = ({
     localeStrings,
     refetchConfig
 }) => {
-    const { deeplinkState, deeplinkDispatch } = useDeeplinkContext();
-
-    const handleScenePageModeChange = (
-        newScenePageMode: ADT3DScenePageModes
-    ) => {
-        deeplinkDispatch({
-            type: DeeplinkContextActionType.SET_MODE,
-            payload: {
-                mode: newScenePageMode
-            }
-        });
-    };
+    const { deeplinkState } = useDeeplinkContext();
 
     useEffect(() => {
         if (deeplinkState.mode === ADT3DScenePageModes.ViewScene) {
@@ -60,11 +48,6 @@ export const ADT3DSceneBuilderContainer: React.FC<IADT3DSceneBuilderProps> = ({
                 sceneId={sceneId}
                 scenesConfig={scenesConfig}
             />
-            <FloatingScenePageModeToggle
-                sceneId={sceneId}
-                handleScenePageModeChange={handleScenePageModeChange}
-                selectedMode={deeplinkState.mode}
-            />
         </BaseComponent>
     );
 };
@@ -87,6 +70,7 @@ const SceneContents: React.FC<ISceneContentsProps> = (props) => {
                         adapter={adapter}
                         sceneId={sceneId}
                         sceneViewProps={svp}
+                        showModeToggle={true}
                     />
                 </div>
             );
@@ -100,6 +84,7 @@ const SceneContents: React.FC<ISceneContentsProps> = (props) => {
                         scenesConfig={scenesConfig}
                         refetchConfig={refetchConfig}
                         sceneViewProps={svp}
+                        showModeToggle={true}
                     />
                 </div>
             );

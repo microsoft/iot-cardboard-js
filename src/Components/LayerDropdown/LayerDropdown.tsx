@@ -2,7 +2,7 @@ import React, { useCallback, useMemo } from 'react';
 import { LayerDropdownProps } from './LayerDropdown.types';
 import {
     defaultLayerButtonStyles,
-    dropdownStyles,
+    getDropdownStyles,
     getEyeIconStyles,
     getStyles,
     iconStyles
@@ -15,7 +15,8 @@ import {
     IDropdownOption,
     IDropdownProps,
     IRenderFunction,
-    ISelectableOption
+    ISelectableOption,
+    useTheme
 } from '@fluentui/react';
 import i18n from '../../i18n';
 import { useTranslation } from 'react-i18next';
@@ -31,6 +32,7 @@ const LayerDropdown: React.FC<LayerDropdownProps> = ({
     showUnlayeredOption = true
 }) => {
     const { t } = useTranslation();
+    const theme = useTheme();
 
     const options = useMemo(
         () =>
@@ -52,6 +54,7 @@ const LayerDropdown: React.FC<LayerDropdownProps> = ({
     );
 
     const styles = getStyles();
+    const dropdownStyles = getDropdownStyles(theme);
 
     const onRenderTitle = useCallback(
         (options: IDropdownOption[], defaultRender): JSX.Element => {

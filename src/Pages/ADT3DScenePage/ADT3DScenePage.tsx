@@ -287,7 +287,7 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
                     theme={theme}
                     locale={locale}
                     localeStrings={localeStrings}
-                    containerClassName={'cb-scene-page-container'}
+                    containerClassName={customStyles.container}
                 >
                     {' '}
                     {(state.currentStep === ADT3DScenePageSteps.SceneList ||

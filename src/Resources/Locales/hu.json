@@ -603,8 +603,6 @@
     "Start time input": "Kezdési idő bemenete",
     "End time input": "Befejezési idő beírása",
     "snap end time to latest": "befejezési idő leképezése a legújabbra",
-    "zoom in": "nagyítás",
-    "zoom out": "kicsinyítés",
     "select quick time of": "válassza ki a gyors idő",
     "a time selection control dialog": "időkijelölés-vezérlő párbeszédpanel.",
     "No color": "Nincs szín",
@@ -780,6 +778,9 @@
     "select": "Kiválaszt",
     "pan": "Serpenyő",
     "orbit": "Pálya",
-    "zoom": "Búg"
+    "zoom": "Búg",
+    "reset": "Átszed",
+    "zoomIn": "Nagyítás",
+    "zoomOut": "Kicsinyítés"
   }
 }

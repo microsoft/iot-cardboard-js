@@ -603,8 +603,6 @@
     "Start time input": "Wprowadzanie czasu rozpoczęcia",
     "End time input": "Wprowadzanie czasu zakończenia",
     "snap end time to latest": "przyciąganie czasu zakończenia do najnowszego",
-    "zoom in": "powiększanie",
-    "zoom out": "pomniejszenie",
     "select quick time of": "wybierz szybki czas",
     "a time selection control dialog": "okno dialogowe kontroli wyboru czasu.",
     "No color": "Brak koloru",
@@ -780,6 +778,9 @@
     "select": "Wybrać",
     "pan": "Patelnia",
     "orbit": "Orbita",
-    "zoom": "Powiększenia"
+    "zoom": "Powiększenia",
+    "reset": "Resetować",
+    "zoomIn": "Powiększanie",
+    "zoomOut": "Pomniejszanie"
   }
 }

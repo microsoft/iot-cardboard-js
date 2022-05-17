@@ -603,8 +603,6 @@
     "Start time input": "Entrada de tempo de início",
     "End time input": "Entrada de fim de tempo",
     "snap end time to latest": "tempo de fim de instantâneo para o mais recente",
-    "zoom in": "zoom em",
-    "zoom out": "zoom para fora",
     "select quick time of": "selecione tempo rápido de",
     "a time selection control dialog": "um diálogo de controlo de seleção de tempo.",
     "No color": "Sem cor",
@@ -780,6 +778,9 @@
     "select": "Selecione",
     "pan": "Pan",
     "orbit": "Órbita",
-    "zoom": "Zoom"
+    "zoom": "Zoom",
+    "reset": "Reset",
+    "zoomIn": "Zoom in",
+    "zoomOut": "Zoom para fora"
   }
 }
