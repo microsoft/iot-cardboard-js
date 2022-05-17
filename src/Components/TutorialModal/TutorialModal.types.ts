@@ -1,4 +1,10 @@
-import { IStyle, IStyleFunctionOrObject, ITheme } from '@fluentui/react';
+import {
+    IButtonStyles,
+    INavStyles,
+    IStyle,
+    IStyleFunctionOrObject,
+    ITheme
+} from '@fluentui/react';
 
 export interface ITutorialModalProps {
     isOpen: boolean;
@@ -19,12 +25,18 @@ export interface ITutorialModalStyleProps {
 }
 export interface ITutorialModalStyles {
     root: IStyle;
-
+    header: IStyle;
+    body: IStyle;
+    contentPane: IStyle;
+    footer: IStyle;
+    navContainer: IStyle;
     /**
      * SubComponent styles.
      */
     subComponentStyles?: ITutorialModalSubComponentStyles;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface ITutorialModalSubComponentStyles {}
+export interface ITutorialModalSubComponentStyles {
+    closeButton: IButtonStyles;
+    nav: Partial<INavStyles>;
+}

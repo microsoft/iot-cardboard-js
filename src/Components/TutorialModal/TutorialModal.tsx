@@ -11,8 +11,15 @@ import {
     styled,
     Modal,
     Nav,
-    INavLinkGroup
+    INavLinkGroup,
+    IconButton,
+    Link,
+    Stack,
+    PrimaryButton,
+    DefaultButton
 } from '@fluentui/react';
+import { useId } from '@fluentui/react-hooks';
+import { scenesDemoUrl } from '../../Models/Constants';
 
 const getClassNames = classNamesFunction<
     ITutorialModalStyleProps,
@@ -24,13 +31,52 @@ const TutorialModal: React.FC<ITutorialModalProps> = (props) => {
     const classNames = getClassNames(styles, {
         theme: useTheme()
     });
-
+    const titleId = useId('tutorial-modal-title');
     return (
-        <div className={classNames.root}>
-            <Modal isOpen={isOpen} onDismiss={() => onDismiss()}>
-                <Nav groups={navLinkGroups} />
-            </Modal>
-        </div>
+        <Modal
+            isOpen={isOpen}
+            onDismiss={() => onDismiss()}
+            titleAriaId={titleId}
+            styles={{
+                main: { overflow: 'hidden' }
+            }}
+        >
+            <div className={classNames.root}>
+                <div className={classNames.header}>
+                    <span id={titleId}>Welcome to 3D Scenes Studio!</span>
+                    <IconButton
+                        styles={classNames.subComponentStyles.closeButton()}
+                        iconProps={{ iconName: 'Cancel' }}
+                        ariaLabel="Close popup modal"
+                        onClick={onDismiss}
+                    />
+                </div>
+                <div className={classNames.body}>
+                    <div className={classNames.navContainer}>
+                        <Nav
+                            groups={navLinkGroups}
+                            styles={classNames.subComponentStyles.nav}
+                        />
+                    </div>
+                    <div className={classNames.contentPane}>Content pane</div>
+                </div>
+                <div className={classNames.footer}>
+                    <Link href="https://google.com" target="_blank">
+                        Learn more
+                    </Link>
+                    <Stack horizontal tokens={{ childrenGap: 8 }}>
+                        <PrimaryButton
+                            onClick={() => window.open(scenesDemoUrl, '_blank')}
+                        >
+                            Explore the demo
+                        </PrimaryButton>
+                        <DefaultButton onClick={onDismiss}>
+                            Dismiss
+                        </DefaultButton>
+                    </Stack>
+                </div>
+            </div>
+        </Modal>
     );
 };
 
@@ -47,7 +93,35 @@ const navLinkGroups: INavLinkGroup[] = [
                 key: 'concepts',
                 name: 'Concepts',
                 url: '',
-                onClick: () => null
+                onClick: () => null,
+                isExpanded: true,
+                forceAnchor: true,
+                links: [
+                    {
+                        key: 'elements',
+                        name: 'Elements',
+                        url: '',
+                        onClick: () => null
+                    },
+                    {
+                        key: 'behaviors',
+                        name: 'Behaviors',
+                        url: '',
+                        onClick: () => null
+                    },
+                    {
+                        key: 'aliases',
+                        name: 'Aliases',
+                        url: '',
+                        onClick: () => null
+                    },
+                    {
+                        key: 'widgets',
+                        name: 'Widgets',
+                        url: '',
+                        onClick: () => null
+                    }
+                ]
             }
         ]
     }
