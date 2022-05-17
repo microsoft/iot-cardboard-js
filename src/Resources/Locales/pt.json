@@ -492,7 +492,9 @@
         "commonProperties": "A união das propriedades gêmeas primárias dos elementos selecionados"
       },
       "errors": {
-        "twinAliasAlreadyExists": "O pseudônimo de gêmeos com o mesmo nome já existe, considere adicioná-lo em seu lugar."
+        "twinAliasAlreadyExists": "O pseudônimo de gêmeos com o mesmo nome já existe, considere adicioná-lo em seu lugar.",
+        "alphanumericOnly": "O pseudônimo gêmeo só deve conter caracteres alfanuméricos",
+        "noNumberPrefix": "O pseudônimo de gêmeos não deve começar com um número"
       }
     }
   },

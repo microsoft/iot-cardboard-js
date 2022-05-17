@@ -492,7 +492,9 @@
         "commonProperties": "L’union des propriétés jumelles primaires d’éléments sélectionnés"
       },
       "errors": {
-        "twinAliasAlreadyExists": "Un alias jumeau portant le même nom existe déjà, envisagez de l’ajouter à la place."
+        "twinAliasAlreadyExists": "Un alias jumeau portant le même nom existe déjà, envisagez de l’ajouter à la place.",
+        "alphanumericOnly": "L’alias jumeau ne doit contenir que des caractères alphanumériques",
+        "noNumberPrefix": "L’alias jumeau ne doit pas commencer par un nombre"
       }
     }
   },

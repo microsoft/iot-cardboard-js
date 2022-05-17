@@ -492,7 +492,9 @@
         "commonProperties": "A kiválasztott elemek elsődleges ikertulajdonságok egyesítése"
       },
       "errors": {
-        "twinAliasAlreadyExists": "Az azonos nevű ikeralias már létezik, fontolja meg a hozzáadását."
+        "twinAliasAlreadyExists": "Az azonos nevű ikeralias már létezik, fontolja meg a hozzáadását.",
+        "alphanumericOnly": "Az iker alias csak alfanumerikus karaktereket tartalmazhat",
+        "noNumberPrefix": "Az iker alias nem kezdődhet számmal"
       }
     }
   },

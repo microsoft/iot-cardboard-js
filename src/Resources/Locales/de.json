@@ -492,7 +492,9 @@
         "commonProperties": "Die Vereinigung primärer Zwillingseigenschaften ausgewählter Elemente"
       },
       "errors": {
-        "twinAliasAlreadyExists": "Twin Alias mit dem gleichen Namen existiert bereits, erwägen Sie stattdessen, es hinzuzufügen."
+        "twinAliasAlreadyExists": "Twin Alias mit dem gleichen Namen existiert bereits, erwägen Sie stattdessen, es hinzuzufügen.",
+        "alphanumericOnly": "Zwillingsalias darf nur alphanumerische Zeichen enthalten",
+        "noNumberPrefix": "Twin Alias darf nicht mit einer Zahl beginnen"
       }
     }
   },

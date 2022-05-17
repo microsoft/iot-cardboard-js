@@ -492,7 +492,9 @@
         "commonProperties": "Seçilen elemanların birincil ikiz özelliklerinin birliği"
       },
       "errors": {
-        "twinAliasAlreadyExists": "Aynı ada sahip ikiz takma ad zaten var, bunun yerine eklemeyi düşünün."
+        "twinAliasAlreadyExists": "Aynı ada sahip ikiz takma ad zaten var, bunun yerine eklemeyi düşünün.",
+        "alphanumericOnly": "İkiz diğer ad yalnızca alfasayısal karakterler içermelidir",
+        "noNumberPrefix": "İkiz takma ad bir sayı ile başlamamalıdır"
       }
     }
   },

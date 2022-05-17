@@ -492,7 +492,9 @@
         "commonProperties": "選択した要素のプライマリツインプロパティの和集合"
       },
       "errors": {
-        "twinAliasAlreadyExists": "同じ名前のツインエイリアスが既に存在するため、代わりに追加することを検討してください。"
+        "twinAliasAlreadyExists": "同じ名前のツインエイリアスが既に存在するため、代わりに追加することを検討してください。",
+        "alphanumericOnly": "ツイン エイリアスには英数字のみを含める必要があります。",
+        "noNumberPrefix": "ツイン エイリアスは数字で始まってはなりません。"
       }
     }
   },
