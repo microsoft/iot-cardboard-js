@@ -5,13 +5,17 @@ import {
     DialogFooter,
     DialogType,
     FontIcon,
+    FontSizes,
     IComboBoxOption,
     IComboBoxStyles,
     Icon,
     IconButton,
+    IDialogContentProps,
+    Link,
     PrimaryButton,
     Spinner,
-    SpinnerSize
+    SpinnerSize,
+    Stack
 } from '@fluentui/react';
 import { useBoolean } from '@fluentui/react-hooks';
 import React, {
@@ -34,6 +38,7 @@ import './EnvironmentPicker.scss';
 import {
     ContainersLocalStorageKey,
     EnvironmentsLocalStorageKey,
+    LINKS,
     SelectedContainerLocalStorageKey,
     SelectedEnvironmentLocalStorageKey,
     ValidAdtHostSuffixes,
@@ -60,7 +65,7 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
     const dialogResettingValuesTimeoutRef = useRef(null);
     const hasPulledEnvironmentsFromSubscription = useRef(false);
 
-    const dialogContentProps = {
+    const dialogContentProps: IDialogContentProps = {
         type: DialogType.normal,
         title: t('environmentPicker.editEnvironment'),
         closeButtonAriaLabel: t('close'),
@@ -635,6 +640,18 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                     )}
                 </div>
                 <DialogFooter>
+                    <Link
+                        styles={{
+                            root: {
+                                float: 'left',
+                                fontSize: FontSizes.size14
+                            }
+                        }}
+                        href={LINKS.EnvironmentPickerLearnMore}
+                        target={'_blank'}
+                    >
+                        {t('learnMore')}
+                    </Link>
                     <PrimaryButton
                         onClick={handleOnSave}
                         text={t('save')}

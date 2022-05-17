@@ -8,6 +8,10 @@ import {
 import i18n from '../../i18n';
 import { FontSizes } from '@fluentui/react';
 
+export const LINKS = {
+    EnvironmentPickerLearnMore: 'http://aka.ms/EnvironmentsLearnMore'
+};
+
 // make sure models in the ADT instance have these definitions and twins have these properties for process graphics card
 export const ADTModel_ImgSrc_PropertyName = 'processGraphicImageSrc';
 export const ADTModel_ViewData_PropertyName = 'cb_viewdata';
