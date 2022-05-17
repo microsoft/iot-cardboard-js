@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next';
 import ViewerConfigUtility from '../../../Models/Classes/ViewerConfigUtility';
 import {
     wrapTextInTemplateString,
-    getSceneElementStatusColor,
     parseLinkedTwinExpression
 } from '../../../Models/Services/Utils';
 import {
@@ -15,10 +14,10 @@ import {
 } from '../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { ICardboardGroupedListItem } from '../../CardboardList/CardboardGroupedList.types';
 import { CardboardList } from '../../CardboardList/CardboardList';
+import { StatusPills } from '../../StatusPills/StatusPills';
 import {
     getElementsPanelAlertStyles,
     getElementsPanelStyles,
-    getElementsPanelStatusStyles,
     getElementsPanelButtonSyles
 } from '../ViewerElementsPanel.styles';
 import {
@@ -219,31 +218,13 @@ interface IElementStatusProps {
 }
 const ElementStatus: React.FC<IElementStatusProps> = (props) => {
     const { statuses, panelItem } = props;
+    const statusVisuals = statuses.map((s) => s.statusVisual);
     return (
-        <div
-            style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                width: 40,
-                overflow: 'hidden'
-            }}
-        >
-            {statuses.map((status, index) => (
-                <div
-                    key={index}
-                    className={
-                        getElementsPanelStatusStyles(
-                            getSceneElementStatusColor(
-                                status.statusVisual.valueExpression,
-                                status.statusVisual.valueRanges,
-                                panelItem.twins
-                            )
-                        ).statusLine
-                    }
-                ></div>
-            ))}
-        </div>
+        <StatusPills
+            statusVisuals={statusVisuals}
+            twins={panelItem.twins}
+            width={'wide'}
+        />
     );
 };
 

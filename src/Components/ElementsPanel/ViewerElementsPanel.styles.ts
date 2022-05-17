@@ -117,8 +117,9 @@ export const getElementsPanelStatusStyles = memoizeFunction(
             statusLine: [
                 classNames.statusLine,
                 {
-                    width: 5,
-                    height: 3,
+                    width: 3,
+                    height: 12,
+                    borderRadius: 5,
                     boxShadow: `0px 0px 4px ${statusColor}`,
                     background: statusColor,
                     marginRight: 1
