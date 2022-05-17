@@ -18,7 +18,10 @@ const JSONEditor = ({ dispatch, theme, state }: OATPropertyEditorProps) => {
     const libTheme = useLibTheme();
     const themeToUse = (libTheme || theme) ?? Theme.Light;
     const editorRef = useRef(null);
+<<<<<<< HEAD
     const internalChange = useRef(false);
+=======
+>>>>>>> origin/zarmada/oat-development-staging
     const { model } = state;
     const [content, setContent] = useState(JSON.stringify(model, null, 2));
 
@@ -53,7 +56,10 @@ const JSONEditor = ({ dispatch, theme, state }: OATPropertyEditorProps) => {
             if (validateJSONValues(validJson)) {
                 alert(t('OATPropertyEditor.errorRepeatedPropertyName'));
             } else {
+<<<<<<< HEAD
                 internalChange.current = true;
+=======
+>>>>>>> origin/zarmada/oat-development-staging
                 dispatch({
                     type: SET_OAT_PROPERTY_EDITOR_MODEL,
                     payload: validJson

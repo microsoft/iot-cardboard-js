@@ -6,7 +6,10 @@ import React, {
     useCallback
 } from 'react';
 import { useTheme, PrimaryButton, Label } from '@fluentui/react';
+<<<<<<< HEAD
 import { createParser, ModelParsingOption } from 'azure-iot-dtdl-parser';
+=======
+>>>>>>> origin/zarmada/oat-development-staging
 import ReactFlow, {
     ReactFlowProvider,
     addEdge,
@@ -49,7 +52,11 @@ import { ElementEdge } from './Internal/Classes/ElementEdge';
 import { ElementEdgeData } from './Internal/Classes/ElementEdgeData';
 
 const idClassBase = 'dtmi:com:example:';
+<<<<<<< HEAD
 const contextClassBase = 'dtmi:dtdl:context;2';
+=======
+const contextClassBase = 'dtmi:adt:context;2';
+>>>>>>> origin/zarmada/oat-development-staging
 const versionClassBase = '1';
 type OATGraphProps = {
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
@@ -61,6 +68,7 @@ const getStoredElements = () => {
     return editorData && editorData.models ? editorData.models : null;
 };
 
+<<<<<<< HEAD
 const parseModels = (models) => {
     const modelParser = createParser(
         ModelParsingOption.PermitAnyTopLevelElement
@@ -76,6 +84,8 @@ const parseModels = (models) => {
     });
 };
 
+=======
+>>>>>>> origin/zarmada/oat-development-staging
 const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     const { t } = useTranslation();
     const theme = useTheme();
@@ -90,7 +100,11 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     const buttonStyles = getGraphViewerButtonStyles();
     const warningStyles = getGraphViewerWarningStyles();
     const currentNodeIdRef = useRef('');
+<<<<<<< HEAD
     const currentHandleId = useRef('');
+=======
+    const currentHandleIdRef = useRef('');
+>>>>>>> origin/zarmada/oat-development-staging
     const {
         model,
         importModels,
@@ -319,9 +333,14 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
 
     const edgeTypes = useMemo(() => ({ Relationship: OATGraphCustomEdge }), []);
 
+<<<<<<< HEAD
     const onElementsRemove = (elementsToRemove: IOATNodeElement) => {
         // Remove an specific node and all related edges
         dispatch({ type: SET_OAT_PROPERTY_EDITOR_MODEL, payload: null });
+=======
+    const onElementsRemove = (elementsToRemove: IOATNodeElement) =>
+        // Remove an specific node and all related edges
+>>>>>>> origin/zarmada/oat-development-staging
         setElements((els) => removeElements(elementsToRemove, els));
     };
 
@@ -418,24 +437,38 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     };
 
     const onConnectStart = (evt, params) => {
+<<<<<<< HEAD
         // Stores values before connection is created
         currentNodeIdRef.current = params.nodeId;
         currentHandleId.current = params.handleId;
+=======
+        currentNodeIdRef.current = params.handleId ? params.nodeId : null;
+        currentHandleIdRef.current = params.handleId ? params.handleId : null;
+>>>>>>> origin/zarmada/oat-development-staging
     };
 
     const onConnectStop = (evt) => {
         // Retrieves information and creates a desired relationship between nodes
         const params: IOATRelationShipElement = {
             source: currentNodeIdRef.current,
+<<<<<<< HEAD
             sourceHandle: currentHandleId.current,
+=======
+            sourceHandle: currentHandleIdRef.current,
+>>>>>>> origin/zarmada/oat-development-staging
             label: '',
             markerEnd: 'arrow',
             type: OATRelationshipHandleName,
             data: {
                 name: '',
                 displayName: '',
+<<<<<<< HEAD
                 id: `${currentNodeIdRef.current}${currentHandleId.current}`,
                 type: currentHandleId.current
+=======
+                id: `${currentNodeIdRef.current}${currentHandleIdRef.current}`,
+                type: currentHandleIdRef.current
+>>>>>>> origin/zarmada/oat-development-staging
             }
         };
         const target = (evt.path || []).find(
@@ -443,6 +476,8 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
         );
         if (target) {
             params.target = target.dataset.id;
+            params.id = `${currentNodeIdRef.current}${currentHandleIdRef.current}${target.dataset.id}`;
+            params.data.id = `${currentNodeIdRef.current}${currentHandleIdRef.current}${target.dataset.id}`;
             setElements((els) => addEdge(params, els));
         } else {
             const node = elements.find(
@@ -450,7 +485,11 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
             );
             const componentRelativePosition = 120;
 
+<<<<<<< HEAD
             if (currentHandleId.current === OATRelationshipHandleName) {
+=======
+            if (currentHandleIdRef.current === OATRelationshipHandleName) {
+>>>>>>> origin/zarmada/oat-development-staging
                 const name = `${node.data.name}:${OATUntargetedRelationshipName}`;
                 const id = `${node.id}:${OATUntargetedRelationshipName}`;
                 const untargetedRelationship = {
@@ -475,6 +514,11 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                     }
                 };
                 params.target = id;
+<<<<<<< HEAD
+=======
+                params.id = `${currentNodeIdRef.current}${currentHandleIdRef.current}${id}`;
+                params.data.id = `${currentNodeIdRef.current}${currentHandleIdRef.current}${id}`;
+>>>>>>> origin/zarmada/oat-development-staging
                 params.data.type = `${OATUntargetedRelationshipName}`;
                 setElements((es) => [...addEdge(params, es), newNode]);
             }
@@ -518,7 +562,10 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                 const node = {
                     '@id': currentNode.id,
                     '@type': OATInterfaceType,
+<<<<<<< HEAD
                     '@context': currentNode.data.context,
+=======
+>>>>>>> origin/zarmada/oat-development-staging
                     displayName: currentNode.data.name,
                     contents: [...currentNode.data.content]
                 };
@@ -551,7 +598,11 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                 const sourceNode = currentNodes.find(
                     (element) => element['@id'] === currentNode.source
                 );
+<<<<<<< HEAD
                 sourceNode.extend = currentNode.target;
+=======
+                sourceNode.extends = currentNode.target;
+>>>>>>> origin/zarmada/oat-development-staging
             } else if (currentNode.data.type === OATComponentHandleName) {
                 const sourceNode = currentNodes.find(
                     (element) => element['@id'] === currentNode.source
@@ -668,7 +719,13 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                         )}
 
                         <MiniMap />
+<<<<<<< HEAD
                         <Controls />
+=======
+                        <Controls
+                            className={graphViewerStyles.graphViewerControls}
+                        />
+>>>>>>> origin/zarmada/oat-development-staging
                         <Background
                             color={theme.semanticColors.bodyBackground}
                             gap={16}

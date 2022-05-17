@@ -142,7 +142,10 @@ export const PropertyListItemNest = ({
         <div
             className={propertyInspectorStyles.propertyListRelativeWrap}
             onMouseOver={() => {
+<<<<<<< HEAD
                 console.log('item', item);
+=======
+>>>>>>> origin/zarmada/oat-development-staging
                 setHover(true);
                 setLastPropertyFocused({
                     item: item,

@@ -10,14 +10,21 @@ const classNames = {
     relationshipHandle: `${classPrefix}-relationship-handle`,
     extendHandle: `${classPrefix}-extend-handle`,
     edgePath: `${classPrefix}-edge-path`,
+    widthPath: `${classPrefix}-width-path`,
     textPath: `${classPrefix}-text-path`,
     textEdit: `${classPrefix}-text-edit`,
     nodeCancel: `${classPrefix}-node-cancel`,
+    edgeCancel: `${classPrefix}-edge-cancel`,
     componentPath: `${classPrefix}-component-path`,
     componentShape: `${classPrefix}-component-shape`,
     inheritancePath: `${classPrefix}-inheritance-path`,
     inheritanceShape: `${classPrefix}-inheritance-shape`,
+<<<<<<< HEAD
     nodeContainer: `${classPrefix}-node-container`
+=======
+    nodeContainer: `${classPrefix}-node-container`,
+    graphViewerControls: `${classPrefix}-graph-viewer-controls`
+>>>>>>> origin/zarmada/oat-development-staging
 };
 
 export const getGraphViewerStyles = () => {
@@ -75,6 +82,14 @@ export const getGraphViewerStyles = () => {
                 fill: 'none'
             } as IStyle
         ],
+        widthPath: [
+            classNames.widthPath,
+            {
+                stroke: theme.semanticColors.bodyBackground,
+                strokeWidth: '5',
+                fill: 'none'
+            } as IStyle
+        ],
         textPath: [
             classNames.textPath,
             {
@@ -90,6 +105,16 @@ export const getGraphViewerStyles = () => {
                 background: theme.semanticColors.bodyBackground
             } as IStyle
         ],
+<<<<<<< HEAD
+=======
+        edgeCancel: [
+            classNames.edgeCancel,
+            {
+                height: FontSizes.size12,
+                float: 'right'
+            } as IStyle
+        ],
+>>>>>>> origin/zarmada/oat-development-staging
         componentPath: [
             classNames.componentPath,
             {
@@ -125,6 +150,25 @@ export const getGraphViewerStyles = () => {
         nodeContainer: [
             classNames.nodeContainer,
             { display: 'grid', gridTemplateColumns: '10% 90%' } as IStyle
+<<<<<<< HEAD
+=======
+        ],
+        graphViewerControls: [
+            classNames.graphViewerControls,
+            {
+                '& button': {
+                    background: theme.semanticColors.primaryButtonBackground,
+                    borderColor: theme.semanticColors.primaryButtonTextPressed,
+                    ':hover': {
+                        background:
+                            theme.semanticColors.primaryButtonBackgroundHovered
+                    },
+                    '& svg': {
+                        fill: theme.semanticColors.primaryButtonTextPressed
+                    }
+                }
+            } as IStyle
+>>>>>>> origin/zarmada/oat-development-staging
         ]
     });
 };

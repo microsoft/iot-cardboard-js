@@ -120,7 +120,10 @@ export const PropertyListItem = ({
                 onFocus={() => setLastPropertyFocused(null)}
                 tabIndex={0}
             >
+<<<<<<< HEAD
                 <div></div> {/* Needed for gridTemplateColumns style  */}
+=======
+>>>>>>> origin/zarmada/oat-development-staging
                 <TextField
                     borderless
                     value={item.name}

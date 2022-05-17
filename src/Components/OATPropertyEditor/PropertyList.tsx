@@ -185,9 +185,16 @@ export const PropertyList = ({
                         className={
                             propertyInspectorStyles.addPropertyMessageWrap
                         }
+<<<<<<< HEAD
                         onMouseOver={() =>
                             setActionButtonPropertySelectorVisible(true)
                         }
+=======
+                        onMouseOver={() => {
+                            setActionButtonPropertySelectorVisible(true);
+                            setLastPropertyFocused(null);
+                        }}
+>>>>>>> origin/zarmada/oat-development-staging
                         onMouseLeave={() =>
                             setActionButtonPropertySelectorVisible(false)
                         }
