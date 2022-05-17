@@ -39,7 +39,8 @@ import {
 import {
     IAction,
     IOATNodeElement,
-    IOATRelationShipElement
+    IOATRelationShipElement,
+    IOATTwinModelNodes
 } from '../../Models/Constants/Interfaces';
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 import { ElementNode } from './Internal/Classes/ElementNode';
@@ -61,19 +62,18 @@ const getStoredElements = () => {
     return editorData && editorData.models ? editorData.models : null;
 };
 
-const parseModels = (models) => {
+const parseModels = async (models: IOATTwinModelNodes[]) => {
     const modelParser = createParser(
         ModelParsingOption.PermitAnyTopLevelElement
     );
-    modelParser.options = ModelParsingOption.PermitAnyTopLevelElement;
-    Object.entries(models).forEach(async (model) => {
-        const modelJson = JSON.stringify(model[1]);
+    for (const model of models) {
+        const modelJson = JSON.stringify(model);
         try {
             await modelParser.parse([modelJson]);
         } catch (err) {
             alert(err._parsingErrors[0].action);
         }
-    });
+    }
 };
 
 const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
