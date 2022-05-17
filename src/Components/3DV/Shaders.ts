@@ -76,11 +76,11 @@ export function makeStandardMaterial(
         // material.specularPower = 1000;
         // material.roughness = 1000;
         material.disableLighting = true;
-        material.emissiveFresnelParameters = new BABYLON.FresnelParameters();
-        material.emissiveFresnelParameters.leftColor = fresnelColor3;
-        material.emissiveFresnelParameters.rightColor = baseColor3;
-        material.emissiveFresnelParameters.power = 2;
-        material.emissiveFresnelParameters.bias = 0.2;
+        // material.emissiveFresnelParameters = new BABYLON.FresnelParameters();
+        // material.emissiveFresnelParameters.leftColor = fresnelColor3;
+        // material.emissiveFresnelParameters.rightColor = baseColor3;
+        // material.emissiveFresnelParameters.power = 2;
+        // material.emissiveFresnelParameters.bias = 0.2;
     }
 
     // //If translucent, set emissive settings
