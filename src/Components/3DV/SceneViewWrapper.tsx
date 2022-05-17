@@ -198,7 +198,8 @@ const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = (props) => {
             <SceneView
                 ref={sceneViewComponent}
                 isWireframe={sceneIsWireframe}
-                objectColors={sceneObjectColor}
+                objectColor={sceneObjectColor}
+                objectColorOptions={sceneThemeState.objectColorOptions}
                 backgroundColor={sceneObjectBackgroundColor}
                 onCameraMove={addInProps?.onCameraMove ? cameraMove : undefined}
                 {...svp}

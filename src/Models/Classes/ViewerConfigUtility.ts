@@ -573,6 +573,7 @@ abstract class ViewerConfigUtility {
         selectedLayerIds: string[],
         sceneId: string
     ) {
+        if (!config) return [];
         const uniqueBehaviorIds = new Map();
 
         // Check if unlayered behavior mode selected

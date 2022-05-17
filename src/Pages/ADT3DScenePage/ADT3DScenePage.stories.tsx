@@ -8,7 +8,12 @@ import { IDeeplinkContextState } from '../../Models/Context/DeeplinkContext/Deep
 
 import { ADT3DScenePageModes } from '../../Models/Constants';
 import { SceneThemeContextProvider } from '../../Models/Context';
-import { IStackStyles, Stack, TextField } from '@fluentui/react';
+import {
+    IStackStyles,
+    ITextFieldStyles,
+    Stack,
+    TextField
+} from '@fluentui/react';
 import { useSceneThemeContext } from '../../Models/Context/SceneThemeContext/SceneThemeContext';
 import { SceneThemeContextActionType } from '../../Models/Context/SceneThemeContext/SceneThemeContext.types';
 
@@ -106,6 +111,11 @@ const customSceneStyles: IStackStyles = {
         }
     }
 };
+const textFieldStyles: Partial<ITextFieldStyles> = {
+    root: {
+        width: 500
+    }
+};
 const ThemeCustomizationContent: React.FC<{ theme; locale }> = ({
     theme,
     locale
@@ -157,23 +167,26 @@ const ThemeCustomizationContent: React.FC<{ theme; locale }> = ({
             <Stack horizontal tokens={{ childrenGap: 8 }}>
                 <TextField
                     label={'Object color options'}
+                    multiline
                     onChange={onChangeColorOptions}
                     value={JSON.stringify(sceneThemeState.objectColorOptions)}
-                    multiline
+                    styles={textFieldStyles}
                 />
                 <TextField
                     label={'Object style options'}
+                    multiline
                     onChange={onChangeStyleOptions}
                     value={JSON.stringify(sceneThemeState.objectStyleOptions)}
-                    multiline
+                    styles={textFieldStyles}
                 />
                 <TextField
                     label={'Background color options'}
+                    multiline
                     onChange={onChangeBackgroundOptions}
                     value={JSON.stringify(
                         sceneThemeState.sceneBackgroundOptions
                     )}
-                    multiline
+                    styles={textFieldStyles}
                 />
             </Stack>
         </Stack>
@@ -194,11 +207,11 @@ export const ThemeCustomization = (_args, { globals: { theme, locale } }) => {
     };
     return (
         <div style={cardStyle}>
-            <SceneThemeContextProvider initialState={{}}>
-                <DeeplinkContextProvider initialState={deeplinkState}>
+            <DeeplinkContextProvider initialState={deeplinkState}>
+                <SceneThemeContextProvider initialState={{}}>
                     <ThemeCustomizationContent theme={theme} locale={locale} />
-                </DeeplinkContextProvider>
-            </SceneThemeContextProvider>
+                </SceneThemeContextProvider>
+            </DeeplinkContextProvider>
         </div>
     );
 };

@@ -50,8 +50,7 @@ import {
     DefaultViewerModeObjectColor,
     globeUrl,
     IADTBackgroundColor,
-    TransparentTexture,
-    ViewerModeObjectColors
+    TransparentTexture
 } from '../../Models/Constants';
 import { getProgressStyles, getSceneViewStyles } from './SceneView.styles';
 import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
@@ -146,7 +145,8 @@ function SceneView(props: ISceneViewProps, ref) {
         onCameraMove,
         onBadgeGroupHover,
         showMeshesOnHover,
-        objectColors,
+        objectColor,
+        objectColorOptions,
         zoomToMeshIds,
         unzoomedMeshOpacity,
         onSceneLoaded,
@@ -392,14 +392,14 @@ function SceneView(props: ISceneViewProps, ref) {
 
     //Get the index of the current objectColor to use as an ID for caching
     const currentColorId = () => {
-        return ViewerModeObjectColors.indexOf(currentObjectColor);
+        return objectColorOptions.indexOf(currentObjectColor);
     };
 
     useEffect(() => {
-        if (objectColors) {
-            setCurrentObjectColor(objectColors);
+        if (objectColor) {
+            setCurrentObjectColor(objectColor);
         }
-    }, [objectColors]);
+    }, [objectColor]);
 
     const restoreMeshMaterials = () => {
         if (sceneRef.current?.meshes?.length && !isLoading) {
@@ -743,7 +743,7 @@ function SceneView(props: ISceneViewProps, ref) {
             SetWireframe(hovMaterial.current, !!isWireframe);
             SetWireframe(coloredHovMaterial.current, !!isWireframe);
         }
-    }, [isWireframe, objectColors]);
+    }, [isWireframe, objectColor]);
 
     // This is really our componentDidMount/componentWillUnmount stuff
     useEffect(() => {
