@@ -16,11 +16,6 @@
   "emptyCompositeCard": "Leere Composite-Karte",
   "compositeCardWithErrors": "Composite-Karte mit Fehlergrenzen",
   "showMore": "Zeige mehr",
-  "unauthorizedAccessErrorTitle": "Zugriff eingeschränkt",
-  "unauthorizedAccessErrorMessage": "Sie haben keinen Zugriff auf diesen Blob. Fordern Sie Leserzugriff an oder probieren Sie einen anderen Blob aus.",
-  "nonExistentBlobErrorTitle": "Blob-Fehler",
-  "nonExistentBlobErrorMessage": "Blob existiert nicht.",
-  "readerAccessOnlyErrorMessage": "Sie haben Lesezugriff für diesen Blob. Dies bedeutet, dass Sie die Modelle anzeigen können, aber keine Szenen, Elemente oder Verhaltensweisen erstellen oder konfigurieren können.",
   "tryAgain": "Wiederholen",
   "learnMore": "Weitere Informationen",
   "DataFetchFailed": "Datenabruf fehlgeschlagen",
@@ -781,5 +776,23 @@
     "pan": "Pfanne",
     "orbit": "Umlaufbahn",
     "zoom": "Zoom"
+  },
+  "refreshing": "Auffrischend...",
+  "refreshPage": "Seite aktualisieren",
+  "scenePageErrorHandling": {
+    "unauthorizedAccessErrorTitle": "Zugriff eingeschränkt",
+    "unauthorizedAccessErrorMessage": "Sie haben keinen Zugriff auf diesen Lagerbehälter. Diagnostizieren Sie Ihren Zugriff, oder versuchen Sie es mit einem anderen Container.",
+    "nonExistentBlobErrorTitle": "Blob-Fehler",
+    "nonExistentBlobErrorMessage": "Blob existiert nicht.",
+    "readerAccessOnlyErrorMessage": "Sie haben Lesezugriff für diesen Blob. Dies bedeutet, dass Sie die Modelle anzeigen können, aber keine Szenen, Elemente oder Verhaltensweisen erstellen oder konfigurieren können.",
+    "diagnoseAccessPermissions": "Diagnostizieren von Zugriffsberechtigungen",
+    "checkingPermissions": "Berechtigungen werden überprüft...",
+    "resolveIssues": "Beheben von Problemen",
+    "resolvingIssues": "Probleme lösen...",
+    "missingPermissions": "Fehlende Berechtigungen",
+    "assignRoleSuccessTitle": "Fehlende Berechtigungen wurden erfolgreich zugewiesen!",
+    "assignRoleSuccessDesc": "Es kann bis zu 30 Minuten dauern, bis Änderungen wirksam werden. Bitte warten Sie, während wir versuchen, die Szenenseite alle 15 Sekunden zu aktualisieren, oder Sie können die Szenenseite nach einer Weile neu laden.",
+    "noMissingRoleDesc": "Kein fehlendes Berechtigungsproblem erkannt, warten Sie einige Zeit, bis die kürzlich zugewiesenen Berechtigungen weitergegeben wurden, bevor Sie die Szenenseite neu laden.",
+    "finishedWithFailureDesc": "Die Diagnose ist fehlgeschlagen, wenden Sie sich bitte an den Ressourcenbesitzer."
   }
 }

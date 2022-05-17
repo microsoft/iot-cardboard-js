@@ -16,11 +16,6 @@
   "emptyCompositeCard": "Tarjeta compuesta vacía",
   "compositeCardWithErrors": "Tarjeta compuesta con límites de error",
   "showMore": "Mostrar más",
-  "unauthorizedAccessErrorTitle": "Acceso restringido",
-  "unauthorizedAccessErrorMessage": "No tiene acceso a este blob. Solicite acceso al lector o pruebe con un blob diferente.",
-  "nonExistentBlobErrorTitle": "Blob Error",
-  "nonExistentBlobErrorMessage": "Blob no existe.",
-  "readerAccessOnlyErrorMessage": "Tiene acceso de lectura para este blob. Esto significa que podrá ver los modelos, pero no podrá crear ni configurar escenas, elementos o comportamientos.",
   "tryAgain": "Vuelve a intentarlo",
   "learnMore": "Aprende más",
   "DataFetchFailed": "Error en la captura de datos",
@@ -781,5 +776,23 @@
     "pan": "Cacerola",
     "orbit": "Órbita",
     "zoom": "Zoom"
+  },
+  "refreshing": "Refrescante...",
+  "refreshPage": "Actualizar página",
+  "scenePageErrorHandling": {
+    "unauthorizedAccessErrorTitle": "Acceso restringido",
+    "unauthorizedAccessErrorMessage": "No tiene acceso a este contenedor de almacenamiento. Diagnostique su acceso o pruebe con un contenedor diferente.",
+    "nonExistentBlobErrorTitle": "Blob Error",
+    "nonExistentBlobErrorMessage": "Blob no existe.",
+    "readerAccessOnlyErrorMessage": "Tiene acceso de lectura para este blob. Esto significa que podrá ver los modelos, pero no podrá crear ni configurar escenas, elementos o comportamientos.",
+    "diagnoseAccessPermissions": "Diagnosticar permisos de acceso",
+    "checkingPermissions": "Comprobando permisos...",
+    "resolveIssues": "Resolver problemas",
+    "resolvingIssues": "Resolviendo problemas...",
+    "missingPermissions": "Faltan permisos",
+    "assignRoleSuccessTitle": "¡Se han asignado correctamente los permisos que faltan!",
+    "assignRoleSuccessDesc": "Los cambios pueden tardar hasta 30 minutos en surtir efecto. Espere mientras intentamos actualizar la página de la escena cada 15 segundos o puede volver a cargar la página de la escena después de un tiempo.",
+    "noMissingRoleDesc": "No se detectó ningún problema de permisos faltantes, espere un tiempo para que los permisos asignados recientemente se propaguen antes de volver a cargar la página de escena.",
+    "finishedWithFailureDesc": "Error de diagnóstico, comuníquese con el propietario del recurso."
   }
 }

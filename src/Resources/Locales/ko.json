@@ -16,11 +16,6 @@
   "emptyCompositeCard": "빈 복합 카드",
   "compositeCardWithErrors": "오류 경계가 있는 복합 카드",
   "showMore": "더 보기",
-  "unauthorizedAccessErrorTitle": "액세스 제한",
-  "unauthorizedAccessErrorMessage": "이 Blob에 액세스할 수 없습니다. 판독기 액세스를 요청하거나 다른 Blob을 사용해 보십시오.",
-  "nonExistentBlobErrorTitle": "Blob 오류",
-  "nonExistentBlobErrorMessage": "Blob이 존재하지 않습니다.",
-  "readerAccessOnlyErrorMessage": "이 Blob에 대한 읽기 액세스 권한이 있습니다. 즉, 모델을 볼 수는 있지만 장면, 요소 또는 동작을 만들거나 구성 할 수는 없습니다.",
   "tryAgain": "다시 한 번 시도해 보세요",
   "learnMore": "더 알아보세요",
   "DataFetchFailed": "데이터 가져오기 실패",
@@ -781,5 +776,23 @@
     "pan": "팬",
     "orbit": "궤도",
     "zoom": "급상승"
+  },
+  "refreshing": "상쾌한...",
+  "refreshPage": "페이지 새로 고침",
+  "scenePageErrorHandling": {
+    "unauthorizedAccessErrorTitle": "액세스 제한",
+    "unauthorizedAccessErrorMessage": "이 저장소 컨테이너에 액세스할 수 없습니다. 액세스를 진단하거나 다른 컨테이너를 사용해 보십시오.",
+    "nonExistentBlobErrorTitle": "Blob 오류",
+    "nonExistentBlobErrorMessage": "Blob이 존재하지 않습니다.",
+    "readerAccessOnlyErrorMessage": "이 Blob에 대한 읽기 액세스 권한이 있습니다. 즉, 모델을 볼 수는 있지만 장면, 요소 또는 동작을 만들거나 구성 할 수는 없습니다.",
+    "diagnoseAccessPermissions": "액세스 권한 진단",
+    "checkingPermissions": "사용 권한 확인 중...",
+    "resolveIssues": "문제 해결",
+    "resolvingIssues": "문제 해결...",
+    "missingPermissions": "누락된 사용 권한",
+    "assignRoleSuccessTitle": "누락 된 권한을 성공적으로 할당했습니다!",
+    "assignRoleSuccessDesc": "변경 내용이 적용되는 데 최대 30분이 걸릴 수 있습니다. 15초마다 장면 페이지를 새로 고치는 동안 기다리거나 잠시 후 장면 페이지를 다시 로드할 수 있습니다.",
+    "noMissingRoleDesc": "누락 된 권한 문제가 감지되지 않았으므로 장면 페이지를 다시로드하기 전에 최근에 할당 된 권한이 전파 될 때까지 잠시 기다려주십시오.",
+    "finishedWithFailureDesc": "진단에 실패했습니다, 자원 소유자에게 문의하십시오."
   }
 }

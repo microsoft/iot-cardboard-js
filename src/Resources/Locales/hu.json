@@ -16,11 +16,6 @@
   "emptyCompositeCard": "Üres kompozit kártya",
   "compositeCardWithErrors": "Összetett kártya hibahatárokkal",
   "showMore": "Továbbiak megjelenítése",
-  "unauthorizedAccessErrorTitle": "Hozzáférés korlátozott",
-  "unauthorizedAccessErrorMessage": "Nincs hozzáférése ehhez a blobhoz. Kérjen hozzáférést az olvasóhoz, vagy próbáljon ki egy másik blobot.",
-  "nonExistentBlobErrorTitle": "Blobhiba",
-  "nonExistentBlobErrorMessage": "Blob nem létezik.",
-  "readerAccessOnlyErrorMessage": "Van olvasási hozzáférése ehhez a blobhoz. Ez azt jelenti, hogy megtekintheti a modelleket, de nem tud jeleneteket, elemeket vagy viselkedéseket létrehozni vagy konfigurálni.",
   "tryAgain": "Próbáld újra",
   "learnMore": "Tudj meg többet",
   "DataFetchFailed": "Az adatok lekérése nem sikerült",
@@ -781,5 +776,23 @@
     "pan": "Serpenyő",
     "orbit": "Pálya",
     "zoom": "Búg"
+  },
+  "refreshing": "Frissítő...",
+  "refreshPage": "Frissítési lap",
+  "scenePageErrorHandling": {
+    "unauthorizedAccessErrorTitle": "Hozzáférés korlátozott",
+    "unauthorizedAccessErrorMessage": "Nincs hozzáférése ehhez a tárolótárolóhoz. Diagnosztizálja a hozzáférést, vagy próbáljon ki egy másik tárolót.",
+    "nonExistentBlobErrorTitle": "Blobhiba",
+    "nonExistentBlobErrorMessage": "Blob nem létezik.",
+    "readerAccessOnlyErrorMessage": "Van olvasási hozzáférése ehhez a blobhoz. Ez azt jelenti, hogy megtekintheti a modelleket, de nem tud jeleneteket, elemeket vagy viselkedéseket létrehozni vagy konfigurálni.",
+    "diagnoseAccessPermissions": "Hozzáférési engedélyek diagnosztizálása",
+    "checkingPermissions": "Engedélyek ellenőrzése...",
+    "resolveIssues": "Problémák megoldása",
+    "resolvingIssues": "Problémák megoldása...",
+    "missingPermissions": "Hiányzó engedélyek",
+    "assignRoleSuccessTitle": "A hiányzó engedélyek hozzárendelése sikeresen megtörtént!",
+    "assignRoleSuccessDesc": "A módosítások érvénybe léptetése akár 30 percet is igénybe vehet. Kérjük, várjon, amíg megpróbáljuk frissíteni a jelenetoldalt 15 másodpercenként, vagy egy idő után újra betöltheti a jelenetoldalt.",
+    "noMissingRoleDesc": "A jelenetoldal újratöltése előtt várjon egy kis időt a legutóbb hozzárendelt engedélyek propagálására.",
+    "finishedWithFailureDesc": "A diagnózis nem sikerült, kérjük, vegye fel a kapcsolatot az erőforrás tulajdonosával."
   }
 }

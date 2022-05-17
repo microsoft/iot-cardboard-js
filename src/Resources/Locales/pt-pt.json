@@ -16,11 +16,6 @@
   "emptyCompositeCard": "Cartão composto vazio",
   "compositeCardWithErrors": "Cartão composto com limites de erro",
   "showMore": "Mostrar mais",
-  "unauthorizedAccessErrorTitle": "Acesso Restrito",
-  "unauthorizedAccessErrorMessage": "Não tem acesso a esta bolha. Solicite o acesso ao Leitor ou experimente uma bolha diferente.",
-  "nonExistentBlobErrorTitle": "Erro blob",
-  "nonExistentBlobErrorMessage": "Blob não existe.",
-  "readerAccessOnlyErrorMessage": "Leu o acesso a esta bolha. Isto significa que poderá ver os modelos, mas não será capaz de criar ou configurar quaisquer cenas, elementos ou comportamentos.",
   "tryAgain": "Tentar novamente",
   "learnMore": "Saiba mais",
   "DataFetchFailed": "Data Fetch Falhou",
@@ -781,5 +776,23 @@
     "pan": "Pan",
     "orbit": "Órbita",
     "zoom": "Zoom"
+  },
+  "refreshing": "Refrescante...",
+  "refreshPage": "Página de atualização",
+  "scenePageErrorHandling": {
+    "unauthorizedAccessErrorTitle": "Acesso Restrito",
+    "unauthorizedAccessErrorMessage": "Não tem acesso a este recipiente de armazenamento. Diagnostice o seu acesso ou experimente um recipiente diferente.",
+    "nonExistentBlobErrorTitle": "Erro blob",
+    "nonExistentBlobErrorMessage": "Blob não existe.",
+    "readerAccessOnlyErrorMessage": "Leu o acesso a esta bolha. Isto significa que poderá ver os modelos, mas não será capaz de criar ou configurar quaisquer cenas, elementos ou comportamentos.",
+    "diagnoseAccessPermissions": "Diagnosticar permissões de acesso",
+    "checkingPermissions": "A verificar permissões...",
+    "resolveIssues": "Resolver problemas",
+    "resolvingIssues": "Resolver problemas...",
+    "missingPermissions": "Permissões em falta",
+    "assignRoleSuccessTitle": "Permissões em falta com sucesso!",
+    "assignRoleSuccessDesc": "Pode levar até 30 minutos para que as alterações entrem em vigor. Por favor, aguarde enquanto tentamos refrescar a página da cena a cada 15 segundos ou pode recarregar a página da cena depois de um tempo.",
+    "noMissingRoleDesc": "Sem qualquer problema de permissão em falta detetado, por favor, aguarde algum tempo para que as permissões recentemente atribuídas se propaguem antes de recarregar a página da cena.",
+    "finishedWithFailureDesc": "O diagnóstico falhou, por favor contacte o proprietário do recurso."
   }
 }

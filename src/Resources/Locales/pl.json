@@ -16,11 +16,6 @@
   "emptyCompositeCard": "Pusta karta kompozytowa",
   "compositeCardWithErrors": "Karta kompozytowa z granicami błędów",
   "showMore": "Pokaż więcej",
-  "unauthorizedAccessErrorTitle": "Dostęp ograniczony",
-  "unauthorizedAccessErrorMessage": "Nie masz dostępu do tego obiektu blob. Poproś o dostęp do programu Reader lub wypróbuj inny obiekt blob.",
-  "nonExistentBlobErrorTitle": "Błąd obiektu blob",
-  "nonExistentBlobErrorMessage": "Obiekt blob nie istnieje.",
-  "readerAccessOnlyErrorMessage": "Masz dostęp do odczytu dla tego obiektu blob. Oznacza to, że będzie można wyświetlać modele, ale nie będzie można tworzyć ani konfigurować żadnych scen, elementów ani zachowań.",
   "tryAgain": "Spróbuj ponownie",
   "learnMore": "Dowiedz się więcej",
   "DataFetchFailed": "Pobieranie danych nie powiodło się",
@@ -781,5 +776,23 @@
     "pan": "Patelnia",
     "orbit": "Orbita",
     "zoom": "Powiększenia"
+  },
+  "refreshing": "Orzeźwiające...",
+  "refreshPage": "Odśwież stronę",
+  "scenePageErrorHandling": {
+    "unauthorizedAccessErrorTitle": "Dostęp ograniczony",
+    "unauthorizedAccessErrorMessage": "Nie masz dostępu do tego kontenera magazynu. Zdiagnozuj dostęp lub wypróbuj inny kontener.",
+    "nonExistentBlobErrorTitle": "Błąd obiektu blob",
+    "nonExistentBlobErrorMessage": "Obiekt blob nie istnieje.",
+    "readerAccessOnlyErrorMessage": "Masz dostęp do odczytu dla tego obiektu blob. Oznacza to, że będzie można wyświetlać modele, ale nie będzie można tworzyć ani konfigurować żadnych scen, elementów ani zachowań.",
+    "diagnoseAccessPermissions": "Diagnozowanie uprawnień dostępu",
+    "checkingPermissions": "Sprawdzanie uprawnień...",
+    "resolveIssues": "Rozwiązywanie problemów",
+    "resolvingIssues": "Rozwiązywanie problemów...",
+    "missingPermissions": "Brakujące uprawnienia",
+    "assignRoleSuccessTitle": "Pomyślnie przypisano brakujące uprawnienia!",
+    "assignRoleSuccessDesc": "Zastosowanie zmian może potrwać do 30 minut. Poczekaj, aż spróbujemy odświeżyć stronę sceny co 15 sekund lub możesz ponownie załadować stronę sceny po chwili.",
+    "noMissingRoleDesc": "Nie wykryto problemu z brakującymi uprawnieniami, poczekaj trochę czasu na propagację ostatnio przypisanych uprawnień przed ponownym załadowaniem strony sceny.",
+    "finishedWithFailureDesc": "Diagnoza nie powiodła się, skontaktuj się z właścicielem zasobu."
   }
 }

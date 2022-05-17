@@ -16,11 +16,6 @@
   "emptyCompositeCard": "空のコンポジットカード",
   "compositeCardWithErrors": "エラー境界のあるコンポジットカード",
   "showMore": "もっと見る",
-  "unauthorizedAccessErrorTitle": "アクセス制限",
-  "unauthorizedAccessErrorMessage": "この BLOB にアクセスできません。閲覧者アクセスを要求するか、別の BLOB を試してください。",
-  "nonExistentBlobErrorTitle": "ブロブ エラー",
-  "nonExistentBlobErrorMessage": "BLOB は存在しません。",
-  "readerAccessOnlyErrorMessage": "この BLOB の読み取りアクセス権があります。つまり、モデルを表示することはできますが、シーン、要素、またはビヘイビアを作成または構成することはできません。",
   "tryAgain": "もう一度やり直してください",
   "learnMore": "詳細情報",
   "DataFetchFailed": "データフェッチに失敗しました",
@@ -781,5 +776,23 @@
     "pan": "パン",
     "orbit": "軌道",
     "zoom": "ズーム"
+  },
+  "refreshing": "爽やか。。。",
+  "refreshPage": "ページの更新",
+  "scenePageErrorHandling": {
+    "unauthorizedAccessErrorTitle": "アクセス制限",
+    "unauthorizedAccessErrorMessage": "このストレージコンテナにアクセスできません。アクセスを診断するか、別のコンテナーを試してください。",
+    "nonExistentBlobErrorTitle": "ブロブ エラー",
+    "nonExistentBlobErrorMessage": "BLOB は存在しません。",
+    "readerAccessOnlyErrorMessage": "この BLOB の読み取りアクセス権があります。つまり、モデルを表示することはできますが、シーン、要素、またはビヘイビアを作成または構成することはできません。",
+    "diagnoseAccessPermissions": "アクセス許可の診断",
+    "checkingPermissions": "権限を確認しています...",
+    "resolveIssues": "問題を解決する",
+    "resolvingIssues": "問題を解決しています...",
+    "missingPermissions": "権限の欠落",
+    "assignRoleSuccessTitle": "不足しているアクセス許可の割り当てに成功しました!",
+    "assignRoleSuccessDesc": "変更が有効になるまでに最大 30 分かかることがあります。15秒ごとにシーンページを更新しようとするまで待つか、しばらくしてからシーンページをリロードすることができます。",
+    "noMissingRoleDesc": "権限の欠落の問題は検出されませんでした。シーン ページをリロードする前に、最近割り当てられた権限が反映されるまでしばらくお待ちください。",
+    "finishedWithFailureDesc": "診断に失敗しました。リソース所有者に連絡してください。"
   }
 }

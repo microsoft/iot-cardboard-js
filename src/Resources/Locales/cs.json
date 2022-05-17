@@ -16,11 +16,6 @@
   "emptyCompositeCard": "Prázdná složená karta",
   "compositeCardWithErrors": "Složená karta s hranicemi chyb",
   "showMore": "Zobrazit více",
-  "unauthorizedAccessErrorTitle": "Přístup omezen",
-  "unauthorizedAccessErrorMessage": "K tomuto objektu BLOB nemáte přístup. Požádejte o přístup ke čtečce nebo vyzkoušejte jiný objekt BLOB.",
-  "nonExistentBlobErrorTitle": "Chyba objektu BLOB",
-  "nonExistentBlobErrorMessage": "Objekt blob neexistuje.",
-  "readerAccessOnlyErrorMessage": "Pro tento objekt BLOB máte přístup pro čtení. To znamená, že budete moci zobrazit modely, ale nebudete moci vytvářet ani konfigurovat žádné scény, prvky nebo chování.",
   "tryAgain": "Zkuste to znovu",
   "learnMore": "Víc se uč",
   "DataFetchFailed": "Načtení dat se nezdařilo",
@@ -781,5 +776,23 @@
     "pan": "Pánev",
     "orbit": "Oběžná dráha",
     "zoom": "Zvětšení"
+  },
+  "refreshing": "Osvěžující...",
+  "refreshPage": "Aktualizovat stránku",
+  "scenePageErrorHandling": {
+    "unauthorizedAccessErrorTitle": "Přístup omezen",
+    "unauthorizedAccessErrorMessage": "K tomuto kontejneru úložiště nemáte přístup. Diagnostikujte přístup nebo vyzkoušejte jiný kontejner.",
+    "nonExistentBlobErrorTitle": "Chyba objektu BLOB",
+    "nonExistentBlobErrorMessage": "Objekt blob neexistuje.",
+    "readerAccessOnlyErrorMessage": "Pro tento objekt BLOB máte přístup pro čtení. To znamená, že budete moci zobrazit modely, ale nebudete moci vytvářet ani konfigurovat žádné scény, prvky nebo chování.",
+    "diagnoseAccessPermissions": "Diagnostika přístupových oprávnění",
+    "checkingPermissions": "Kontrola oprávnění...",
+    "resolveIssues": "Řešení problémů",
+    "resolvingIssues": "Řešení problémů...",
+    "missingPermissions": "Chybějící oprávnění",
+    "assignRoleSuccessTitle": "Úspěšně přiřazena chybějící oprávnění!",
+    "assignRoleSuccessDesc": "Může trvat až 30 minut, než se změny projeví. Počkejte prosím, než se pokusíme aktualizovat stránku scény každých 15 sekund, nebo můžete stránku scény po chvíli znovu načíst.",
+    "noMissingRoleDesc": "Nebyl zjištěn žádný problém s chybějícími oprávněními, před opětovným načtením stránky scény počkejte nějakou dobu, než se nedávno přiřazená oprávnění rozšíří.",
+    "finishedWithFailureDesc": "Diagnóza se nezdařila, obraťte se na vlastníka zdroje."
   }
 }

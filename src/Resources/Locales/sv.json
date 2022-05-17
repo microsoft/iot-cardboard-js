@@ -16,11 +16,6 @@
   "emptyCompositeCard": "Tomt sammansatt kort",
   "compositeCardWithErrors": "Sammansatt kort med felgränser",
   "showMore": "Visa mer",
-  "unauthorizedAccessErrorTitle": "Begränsad åtkomst",
-  "unauthorizedAccessErrorMessage": "Du har inte åtkomst till den här bloben. Begär läsaråtkomst eller prova en annan blob.",
-  "nonExistentBlobErrorTitle": "Blob-fel",
-  "nonExistentBlobErrorMessage": "Blob finns inte.",
-  "readerAccessOnlyErrorMessage": "Du har läsbehörighet för den här bloben. Det betyder att du kommer att kunna se modellerna, men kommer inte att kunna skapa eller konfigurera några scener, element eller beteenden.",
   "tryAgain": "Försök igen",
   "learnMore": "Lära sig mer",
   "DataFetchFailed": "Datahämtning misslyckades",
@@ -781,5 +776,23 @@
     "pan": "Panna",
     "orbit": "Omloppsbana",
     "zoom": "Zooma"
+  },
+  "refreshing": "Uppfriskande...",
+  "refreshPage": "Uppdatera sida",
+  "scenePageErrorHandling": {
+    "unauthorizedAccessErrorTitle": "Begränsad åtkomst",
+    "unauthorizedAccessErrorMessage": "Du har inte åtkomst till den här lagringscontainern. Diagnostisera din åtkomst eller prova en annan container.",
+    "nonExistentBlobErrorTitle": "Blob-fel",
+    "nonExistentBlobErrorMessage": "Blob finns inte.",
+    "readerAccessOnlyErrorMessage": "Du har läsbehörighet för den här bloben. Det betyder att du kommer att kunna se modellerna, men kommer inte att kunna skapa eller konfigurera några scener, element eller beteenden.",
+    "diagnoseAccessPermissions": "Diagnostisera åtkomstbehörigheter",
+    "checkingPermissions": "Kontrollera behörigheter...",
+    "resolveIssues": "Lösa problem",
+    "resolvingIssues": "Lösa problem ...",
+    "missingPermissions": "Behörigheter saknas",
+    "assignRoleSuccessTitle": "Har tilldelat saknade behörigheter!",
+    "assignRoleSuccessDesc": "Det kan ta upp till 30 minuter innan ändringarna träder i kraft. Vänta medan vi försöker uppdatera scensidan var 15: e sekund eller så kan du ladda om scensidan efter ett tag.",
+    "noMissingRoleDesc": "Inget saknat behörighetsproblem har upptäckts, vänta en stund tills de nyligen tilldelade behörigheterna sprids innan du laddar om scensidan.",
+    "finishedWithFailureDesc": "Diagnosen misslyckades, kontakta resursägaren."
   }
 }

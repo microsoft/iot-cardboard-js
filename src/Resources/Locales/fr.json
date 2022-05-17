@@ -16,11 +16,6 @@
   "emptyCompositeCard": "Carte composite vide",
   "compositeCardWithErrors": "Carte composite avec limites d’erreur",
   "showMore": "Afficher plus",
-  "unauthorizedAccessErrorTitle": "Accès restreint",
-  "unauthorizedAccessErrorMessage": "Vous n’avez pas accès à cet objet blob. Demandez l’accès au lecteur ou essayez un autre objet blob.",
-  "nonExistentBlobErrorTitle": "Erreur d’objet blob",
-  "nonExistentBlobErrorMessage": "Blob n’existe pas.",
-  "readerAccessOnlyErrorMessage": "Vous disposez d’un accès en lecture pour cet objet blob. Cela signifie que vous pourrez afficher les modèles, mais que vous ne pourrez pas créer ou configurer de scènes, d’éléments ou de comportements.",
   "tryAgain": "Réessayez",
   "learnMore": "Pour en savoir plus",
   "DataFetchFailed": "Échec de la récupération des données",
@@ -781,5 +776,23 @@
     "pan": "Pan",
     "orbit": "Orbite",
     "zoom": "Zoom"
+  },
+  "refreshing": "Rafraîchissant...",
+  "refreshPage": "Actualiser la page",
+  "scenePageErrorHandling": {
+    "unauthorizedAccessErrorTitle": "Accès restreint",
+    "unauthorizedAccessErrorMessage": "Vous n’avez pas accès à ce conteneur de stockage. Diagnostiquez votre accès ou essayez un autre conteneur.",
+    "nonExistentBlobErrorTitle": "Erreur d’objet blob",
+    "nonExistentBlobErrorMessage": "Blob n’existe pas.",
+    "readerAccessOnlyErrorMessage": "Vous disposez d’un accès en lecture pour cet objet blob. Cela signifie que vous pourrez afficher les modèles, mais que vous ne pourrez pas créer ou configurer de scènes, d’éléments ou de comportements.",
+    "diagnoseAccessPermissions": "Diagnostiquer les autorisations d’accès",
+    "checkingPermissions": "Vérification des autorisations...",
+    "resolveIssues": "Résoudre les problèmes",
+    "resolvingIssues": "Résolution des problèmes...",
+    "missingPermissions": "Autorisations manquantes",
+    "assignRoleSuccessTitle": "Attribution réussie des autorisations manquantes!",
+    "assignRoleSuccessDesc": "Cela peut prendre jusqu’à 30 minutes pour que les modifications prennent effet. Veuillez patienter pendant que nous essayons d’actualiser la page de scène toutes les 15 secondes ou vous pouvez recharger la page de scène après un certain temps.",
+    "noMissingRoleDesc": "Aucun problème d’autorisation manquant détecté, veuillez attendre un certain temps que les autorisations récemment attribuées se propagent avant de recharger la page de scène.",
+    "finishedWithFailureDesc": "Échec du diagnostic, veuillez contacter le propriétaire de la ressource."
   }
 }

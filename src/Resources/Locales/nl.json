@@ -16,11 +16,6 @@
   "emptyCompositeCard": "Lege composietkaart",
   "compositeCardWithErrors": "Samengestelde kaart met foutgrenzen",
   "showMore": "Toon meer",
-  "unauthorizedAccessErrorTitle": "Toegang beperkt",
-  "unauthorizedAccessErrorMessage": "Je hebt geen toegang tot deze blob. Vraag readertoegang aan of probeer een andere blob.",
-  "nonExistentBlobErrorTitle": "Blob-fout",
-  "nonExistentBlobErrorMessage": "Blob bestaat niet.",
-  "readerAccessOnlyErrorMessage": "Je hebt leestoegang voor deze blob. Dit betekent dat u de modellen kunt bekijken, maar geen scènes, elementen of gedragingen kunt maken of configureren.",
   "tryAgain": "Probeer het opnieuw",
   "learnMore": "Meer informatie",
   "DataFetchFailed": "Ophalen van gegevens is mislukt",
@@ -781,5 +776,23 @@
     "pan": "Pan",
     "orbit": "Baan",
     "zoom": "Zoom"
+  },
+  "refreshing": "Verfrissend...",
+  "refreshPage": "Pagina vernieuwen",
+  "scenePageErrorHandling": {
+    "unauthorizedAccessErrorTitle": "Toegang beperkt",
+    "unauthorizedAccessErrorMessage": "U hebt geen toegang tot deze opslagcontainer. Diagnosticeer uw toegang of probeer een andere container.",
+    "nonExistentBlobErrorTitle": "Blob-fout",
+    "nonExistentBlobErrorMessage": "Blob bestaat niet.",
+    "readerAccessOnlyErrorMessage": "Je hebt leestoegang voor deze blob. Dit betekent dat u de modellen kunt bekijken, maar geen scènes, elementen of gedragingen kunt maken of configureren.",
+    "diagnoseAccessPermissions": "Toegangsmachtigingen diagnosticeren",
+    "checkingPermissions": "Machtigingen controleren...",
+    "resolveIssues": "Problemen oplossen",
+    "resolvingIssues": "Problemen oplossen...",
+    "missingPermissions": "Ontbrekende machtigingen",
+    "assignRoleSuccessTitle": "Met succes ontbrekende machtigingen toegewezen!",
+    "assignRoleSuccessDesc": "Het kan tot 30 minuten duren voordat de wijzigingen van kracht worden. Wacht even terwijl we proberen de scènepagina elke 15 seconden te vernieuwen of u kunt de scènepagina na een tijdje opnieuw laden.",
+    "noMissingRoleDesc": "Er is geen ontbrekend machtigingsprobleem gedetecteerd, wacht enige tijd totdat de onlangs toegewezen machtigingen zijn doorgegeven voordat u de scènepagina opnieuw laadt.",
+    "finishedWithFailureDesc": "Diagnose mislukt, neem contact op met de eigenaar van de bron."
   }
 }

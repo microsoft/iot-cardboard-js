@@ -16,11 +16,6 @@
   "emptyCompositeCard": "Scheda composita vuota",
   "compositeCardWithErrors": "Scheda composita con limiti di errore",
   "showMore": "Mostra di più",
-  "unauthorizedAccessErrorTitle": "Accesso limitato",
-  "unauthorizedAccessErrorMessage": "Non si dispone dell'accesso a questo BLOB. Richiedi l'accesso a Reader o prova un BLOB diverso.",
-  "nonExistentBlobErrorTitle": "Errore BLOB",
-  "nonExistentBlobErrorMessage": "BLOB non esiste.",
-  "readerAccessOnlyErrorMessage": "Si dispone dell'accesso in lettura per questo BLOB. Ciò significa che sarà possibile visualizzare i modelli, ma non sarà possibile creare o configurare scene, elementi o comportamenti.",
   "tryAgain": "Riprova",
   "learnMore": "Ulteriori informazioni",
   "DataFetchFailed": "Recupero dati non riuscito",
@@ -781,5 +776,23 @@
     "pan": "Padella",
     "orbit": "Orbita",
     "zoom": "Zoom"
+  },
+  "refreshing": "Rinfrescante...",
+  "refreshPage": "Aggiorna pagina",
+  "scenePageErrorHandling": {
+    "unauthorizedAccessErrorTitle": "Accesso limitato",
+    "unauthorizedAccessErrorMessage": "Non si ha accesso a questo contenitore di archiviazione. Diagnosticare l'accesso o provare un contenitore diverso.",
+    "nonExistentBlobErrorTitle": "Errore BLOB",
+    "nonExistentBlobErrorMessage": "BLOB non esiste.",
+    "readerAccessOnlyErrorMessage": "Si dispone dell'accesso in lettura per questo BLOB. Ciò significa che sarà possibile visualizzare i modelli, ma non sarà possibile creare o configurare scene, elementi o comportamenti.",
+    "diagnoseAccessPermissions": "Diagnosticare le autorizzazioni di accesso",
+    "checkingPermissions": "Controllo delle autorizzazioni...",
+    "resolveIssues": "Risolvere i problemi",
+    "resolvingIssues": "Risoluzione dei problemi...",
+    "missingPermissions": "Autorizzazioni mancanti",
+    "assignRoleSuccessTitle": "Assegnate con successo le autorizzazioni mancanti!",
+    "assignRoleSuccessDesc": "Possono essere necessari fino a 30 minuti prima che le modifiche abbiano effetto. Attendi mentre proviamo ad aggiornare la pagina della scena ogni 15 secondi o puoi ricaricare la pagina della scena dopo un po '.",
+    "noMissingRoleDesc": "Nessun problema di autorizzazione mancante rilevato, attendere un po 'di tempo affinché le autorizzazioni assegnate di recente si propaghino prima di ricaricare la pagina della scena.",
+    "finishedWithFailureDesc": "Diagnosi non riuscita, contattare il proprietario della risorsa."
   }
 }

@@ -16,11 +16,6 @@
   "emptyCompositeCard": "空复合卡",
   "compositeCardWithErrors": "具有错误边界的复合卡",
   "showMore": "显示全部",
-  "unauthorizedAccessErrorTitle": "访问受限",
-  "unauthorizedAccessErrorMessage": "你无权访问此 Blob。请求读取器访问权限或尝试其他 Blob。",
-  "nonExistentBlobErrorTitle": "斑点错误",
-  "nonExistentBlobErrorMessage": "Blob 不存在。",
-  "readerAccessOnlyErrorMessage": "你具有此 blob 的读取访问权限。这意味着您将能够查看模型，但无法创建或配置任何场景、元素或行为。",
   "tryAgain": "再试一次",
   "learnMore": "了解更多信息",
   "DataFetchFailed": "数据提取失败",
@@ -781,5 +776,23 @@
     "pan": "泛",
     "orbit": "轨道",
     "zoom": "缩放"
+  },
+  "refreshing": "刷新。。。",
+  "refreshPage": "刷新页面",
+  "scenePageErrorHandling": {
+    "unauthorizedAccessErrorTitle": "访问受限",
+    "unauthorizedAccessErrorMessage": "您无权访问此存储容器。诊断您的访问权限或尝试其他容器。",
+    "nonExistentBlobErrorTitle": "斑点错误",
+    "nonExistentBlobErrorMessage": "Blob 不存在。",
+    "readerAccessOnlyErrorMessage": "你具有此 blob 的读取访问权限。这意味着您将能够查看模型，但无法创建或配置任何场景、元素或行为。",
+    "diagnoseAccessPermissions": "诊断访问权限",
+    "checkingPermissions": "正在检查权限...",
+    "resolveIssues": "解决问题",
+    "resolvingIssues": "正在解决问题...",
+    "missingPermissions": "缺少权限",
+    "assignRoleSuccessTitle": "已成功分配缺少的权限！",
+    "assignRoleSuccessDesc": "更改最长可能需要 30 分钟才能生效。请稍候，我们尝试每 15 秒刷新一次场景页面，或者您可以在一段时间后重新加载场景页面。",
+    "noMissingRoleDesc": "未检测到缺少权限问题，请等待一段时间，等待最近分配的权限传播，然后再重新加载场景页面。",
+    "finishedWithFailureDesc": "诊断失败，请联系资源所有者。"
   }
 }

@@ -16,11 +16,6 @@
   "emptyCompositeCard": "Cartão composto vazio",
   "compositeCardWithErrors": "Cartão composto com limites de erro",
   "showMore": "Mostre mais",
-  "unauthorizedAccessErrorTitle": "Acesso restrito",
-  "unauthorizedAccessErrorMessage": "Você não tem acesso a esta bolha. Solicite acesso ao Leitor ou tente uma bolha diferente.",
-  "nonExistentBlobErrorTitle": "Erro de bolha",
-  "nonExistentBlobErrorMessage": "Blob não existe.",
-  "readerAccessOnlyErrorMessage": "Você leu acesso para esta bolha. Isso significa que você será capaz de visualizar os modelos, mas não será capaz de criar ou configurar quaisquer cenas, elementos ou comportamentos.",
   "tryAgain": "Tentar novamente",
   "learnMore": "Saiba Mais",
   "DataFetchFailed": "Falha na busca de dados",
@@ -781,5 +776,23 @@
     "pan": "Panela",
     "orbit": "Órbita",
     "zoom": "Zoom"
+  },
+  "refreshing": "Refrescante...",
+  "refreshPage": "Página de atualização",
+  "scenePageErrorHandling": {
+    "unauthorizedAccessErrorTitle": "Acesso restrito",
+    "unauthorizedAccessErrorMessage": "Você não tem acesso a este contêiner de armazenamento. Diagnostice seu acesso ou tente um recipiente diferente.",
+    "nonExistentBlobErrorTitle": "Erro de bolha",
+    "nonExistentBlobErrorMessage": "Blob não existe.",
+    "readerAccessOnlyErrorMessage": "Você leu acesso para esta bolha. Isso significa que você será capaz de visualizar os modelos, mas não será capaz de criar ou configurar quaisquer cenas, elementos ou comportamentos.",
+    "diagnoseAccessPermissions": "Diagnosticar permissões de acesso",
+    "checkingPermissions": "Verificando permissões...",
+    "resolveIssues": "Resolver problemas",
+    "resolvingIssues": "Resolvendo problemas...",
+    "missingPermissions": "Permissões perdidas",
+    "assignRoleSuccessTitle": "Com sucesso, atribuíram permissões perdidas!",
+    "assignRoleSuccessDesc": "Pode levar até 30 minutos para que as alterações entrem em vigor. Por favor, espere enquanto tentamos atualizar a página de cena a cada 15 segundos ou você pode recarregar a página da cena depois de um tempo.",
+    "noMissingRoleDesc": "Nenhum problema de permissão ausente detectado, por favor, espere algum tempo para as permissões recentemente atribuídas para propagar antes de recarregar a página da cena.",
+    "finishedWithFailureDesc": "O diagnóstico falhou, por favor entre em contato com o proprietário do recurso."
   }
 }
