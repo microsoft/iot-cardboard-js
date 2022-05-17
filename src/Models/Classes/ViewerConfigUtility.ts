@@ -26,6 +26,13 @@ import {
 
 /** Static utilty methods for operations on the configuration file. */
 abstract class ViewerConfigUtility {
+    static getSceneById(
+        config: I3DScenesConfig,
+        sceneId: string
+    ): IScene | undefined {
+        return config.configuration.scenes.find((s) => s.id === sceneId);
+    }
+
     /** Add new scene to config file */
     static addScene(config: I3DScenesConfig, scene: IScene): I3DScenesConfig {
         const updatedConfig = deepCopy(config);
@@ -683,7 +690,7 @@ abstract class ViewerConfigUtility {
     }
 
     static getBehaviorIdsInScene(config: I3DScenesConfig, sceneId: string) {
-        const scene = config.configuration.scenes.find((s) => s.id === sceneId);
+        const scene = ViewerConfigUtility.getSceneById(config, sceneId);
         return scene?.behaviorIDs || [];
     }
 
