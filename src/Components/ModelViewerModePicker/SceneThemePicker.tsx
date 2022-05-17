@@ -47,8 +47,8 @@ const SceneThemePicker: React.FC<SceneThemePickerProps> = () => {
             selectedObjectColor={sceneThemeState.objectColor}
             selectedObjectStyle={sceneThemeState.objectStyle}
             selectedSceneBackground={sceneThemeState.sceneBackground}
-            objectColors={sceneThemeState.objectColorOptions}
-            backgroundColors={sceneThemeState.sceneBackgroundOptions}
+            objectColorOptions={sceneThemeState.objectColorOptions}
+            backgroundColorOptions={sceneThemeState.sceneBackgroundOptions}
             objectStyleOptions={sceneThemeState.objectStyleOptions}
             onChangeObjectColor={onChangeObjectColor}
             onChangeObjectStyle={onChangeObjectStyle}

@@ -2,6 +2,7 @@ import {
     ChoiceGroup,
     FocusTrapCallout,
     FontIcon,
+    FontSizes,
     IChoiceGroupOption,
     IColorCellProps,
     IconButton,
@@ -31,8 +32,8 @@ interface ModelViewerModePickerProps {
     selectedObjectColor: string;
     selectedObjectStyle: ViewerObjectStyle;
     selectedSceneBackground: string;
-    objectColors: IADTObjectColor[];
-    backgroundColors: IADTBackgroundColor[];
+    objectColorOptions: IADTObjectColor[];
+    backgroundColorOptions: IADTBackgroundColor[];
     objectStyleOptions: IObjectStyleOption[];
     onChangeObjectColor: (value: string) => void;
     onChangeObjectStyle: (value: ViewerObjectStyle) => void;
@@ -41,8 +42,8 @@ interface ModelViewerModePickerProps {
 
 const ModelViewerModePicker: React.FC<ModelViewerModePickerProps> = (props) => {
     const {
-        backgroundColors,
-        objectColors,
+        backgroundColorOptions,
+        objectColorOptions,
         objectStyleOptions,
         onChangeObjectColor,
         onChangeObjectStyle,
@@ -61,14 +62,14 @@ const ModelViewerModePicker: React.FC<ModelViewerModePickerProps> = (props) => {
 
     useEffect(() => {
         const colors: IColorCellProps[] = [];
-        objectColors.forEach((oc) => {
+        objectColorOptions.forEach((oc) => {
             colors.push({ id: oc.color, color: oc.color });
         });
 
         setColors(colors);
 
         const backgrounds: IColorCellProps[] = [];
-        backgroundColors.forEach((background) => {
+        backgroundColorOptions.forEach((background) => {
             // optimistically try to parse a hex from a radial gradient, gracefully degrade if unable
             let hexBackground = background.color;
             if (background.color.startsWith('radial-gradient')) {
@@ -88,8 +89,8 @@ const ModelViewerModePicker: React.FC<ModelViewerModePickerProps> = (props) => {
         });
 
         setBackgrounds(backgrounds);
-        onChangeObjectColor(objectColors[0].color);
-        onChangeSceneBackground(backgroundColors[0].color);
+        onChangeObjectColor(objectColorOptions[0].color);
+        onChangeSceneBackground(backgroundColorOptions[0].color);
         onChangeObjectStyle(ViewerObjectStyle.Default);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
@@ -132,6 +133,7 @@ const ModelViewerModePicker: React.FC<ModelViewerModePickerProps> = (props) => {
         <div>
             <HeaderControlGroup>
                 <HeaderControlButton
+                    dataTestId="scene-theme-picker-button"
                     iconProps={{ iconName: 'Color' }}
                     id={calloutAnchor}
                     onClick={togglePicker}
@@ -161,8 +163,7 @@ const ModelViewerModePicker: React.FC<ModelViewerModePickerProps> = (props) => {
                                     iconProps={{
                                         iconName: 'Cancel',
                                         style: {
-                                            fontSize: '14',
-                                            height: '32'
+                                            fontSize: FontSizes.size14
                                         }
                                     }}
                                     onClick={togglePicker}

@@ -1,4 +1,10 @@
-import { DefaultButton, Stack } from '@fluentui/react';
+import {
+    DefaultButton,
+    IStyle,
+    ITheme,
+    Stack,
+    useTheme
+} from '@fluentui/react';
 import { ComponentStory } from '@storybook/react';
 import React, { useState } from 'react';
 import { ViewerObjectStyle } from '../../Constants';
@@ -34,15 +40,43 @@ const STYLE_OPTIONS: ViewerObjectStyle[] = [
     ViewerObjectStyle.Wireframe
 ];
 
+const itemStackStyles: { root: IStyle } = {
+    root: {
+        alignItems: 'baseline',
+        '> span': {
+            paddingLeft: 4
+        }
+    } as IStyle
+};
+const headerStyles: React.CSSProperties = {
+    marginBottom: 4,
+    marginTop: 8
+};
+const getContainerStyles = (_theme: ITheme) => ({
+    root: {
+        padding: 8,
+        border: `1px solid ${_theme.palette.neutralLight}`
+    } as IStyle
+});
+
 const ContextRenderer: React.FC = () => {
     const { sceneThemeState } = useSceneThemeContext();
+    const containerStyle = getContainerStyles(useTheme());
 
     return (
-        <Stack tokens={{ childrenGap: 8 }}>
-            <div>Context state</div>
-            <div>Object color: {sceneThemeState.objectColor}</div>
-            <div>Object style: {sceneThemeState.objectStyle}</div>
-            <div>Scene background: {sceneThemeState.sceneBackground}</div>
+        <Stack>
+            <h4 style={headerStyles}>Context</h4>
+            <Stack tokens={{ childrenGap: 8 }} styles={containerStyle}>
+                <Stack horizontal styles={itemStackStyles}>
+                    Object color: {sceneThemeState.objectColor}
+                </Stack>
+                <Stack horizontal styles={itemStackStyles}>
+                    Object style: {sceneThemeState.objectStyle}
+                </Stack>
+                <Stack horizontal styles={itemStackStyles}>
+                    Scene background: {sceneThemeState.sceneBackground}
+                </Stack>
+            </Stack>
         </Stack>
     );
 };
@@ -87,16 +121,23 @@ const ContextUpdater: React.FC = () => {
         setSceneBackgroundIndex(index + 1);
     };
     return (
-        <Stack horizontal tokens={{ childrenGap: 8 }}>
-            <DefaultButton onClick={onObjectColorClick}>
-                Change object color
-            </DefaultButton>
-            <DefaultButton onClick={onStyleClick}>
-                Change object style
-            </DefaultButton>
-            <DefaultButton onClick={onBackgroundClick}>
-                Change background color
-            </DefaultButton>
+        <Stack>
+            <h4 style={headerStyles}>Updates</h4>
+            <Stack
+                horizontal
+                tokens={{ childrenGap: 8 }}
+                styles={getContainerStyles(useTheme())}
+            >
+                <DefaultButton onClick={onObjectColorClick}>
+                    Change object color
+                </DefaultButton>
+                <DefaultButton onClick={onStyleClick}>
+                    Change object style
+                </DefaultButton>
+                <DefaultButton onClick={onBackgroundClick}>
+                    Change background color
+                </DefaultButton>
+            </Stack>
         </Stack>
     );
 };
