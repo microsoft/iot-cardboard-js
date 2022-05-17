@@ -917,7 +917,7 @@ function SceneView(props: ISceneViewProps, ref) {
 
                 const defaultPipeline = new BABYLON.DefaultRenderingPipeline(
                     'default',
-                    true,
+                    false,
                     sceneRef.current,
                     [cameraRef.current]
                 );
