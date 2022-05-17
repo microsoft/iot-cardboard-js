@@ -22,7 +22,6 @@ export interface ISceneViewWrapperStyleProps {
 }
 export interface ISceneViewWrapperStyles {
     root: IStyle;
-    cameraControlsContainer: IStyle;
     leftHeaderControlsContainer: IStyle;
 
     /**
