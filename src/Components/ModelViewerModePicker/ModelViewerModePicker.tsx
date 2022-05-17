@@ -25,7 +25,7 @@ import { getDebugLogger } from '../../Models/Services/Utils';
 import HeaderControlButton from '../HeaderControlButton/HeaderControlButton';
 import HeaderControlGroup from '../HeaderControlGroup/HeaderControlGroup';
 
-const debugLogging = true;
+const debugLogging = false;
 const logDebugConsole = getDebugLogger('ModelViewerModePicker', debugLogging);
 
 interface ModelViewerModePickerProps {
