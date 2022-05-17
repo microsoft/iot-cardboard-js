@@ -40,3 +40,33 @@ export interface ITutorialModalSubComponentStyles {
     closeButton: IButtonStyles;
     nav: Partial<INavStyles>;
 }
+
+export enum TutorialModalActionType {
+    SET_PAGE = 'SET_PAGE',
+    SET_SLIDE = 'SET_SLIDE'
+}
+
+export enum TutorialModalPage {
+    CONCEPTS = 'CONCEPTS',
+    INTRODUCTION = 'INTRODUCTION',
+    ELEMENTS = 'ELEMENTS',
+    BEHAVIORS = 'BEHAVIORS',
+    TWINS = 'TWINS',
+    WIDGETS = 'WIDGETS',
+    SCENELAYERS = 'SCENELAYERS'
+}
+
+export type TutorialModalAction =
+    | {
+          type: TutorialModalActionType.SET_PAGE;
+          pageKey: string;
+      }
+    | {
+          type: TutorialModalActionType.SET_SLIDE;
+          slide: number;
+      };
+
+export interface ITutorialModalState {
+    pageKey: string;
+    slideNumber: number;
+}

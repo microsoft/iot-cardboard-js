@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useReducer } from 'react';
 import {
     ITutorialModalProps,
     ITutorialModalStyleProps,
-    ITutorialModalStyles
+    ITutorialModalStyles,
+    TutorialModalAction,
+    TutorialModalActionType,
+    TutorialModalPage
 } from './TutorialModal.types';
 import { getStyles } from './TutorialModal.styles';
 import {
@@ -20,6 +23,12 @@ import {
 } from '@fluentui/react';
 import { useId } from '@fluentui/react-hooks';
 import { scenesDemoUrl } from '../../Models/Constants';
+import IntroductionSlider from './Internal/IntroductionSlider';
+import {
+    defaultTutorialModalState,
+    tutorialModalReducer
+} from './TutorialModal.state';
+import ConceptPage from './Internal/ConceptPage';
 
 const getClassNames = classNamesFunction<
     ITutorialModalStyleProps,
@@ -32,13 +41,20 @@ const TutorialModal: React.FC<ITutorialModalProps> = (props) => {
         theme: useTheme()
     });
     const titleId = useId('tutorial-modal-title');
+    const [state, dispatch] = useReducer(
+        tutorialModalReducer,
+        defaultTutorialModalState
+    );
+
+    const navLinkGroups = getNavLinkGroups(dispatch);
+
     return (
         <Modal
             isOpen={isOpen}
             onDismiss={() => onDismiss()}
             titleAriaId={titleId}
             styles={{
-                main: { overflow: 'hidden' }
+                main: { overflow: 'hidden', display: 'flex' }
             }}
         >
             <div className={classNames.root}>
@@ -58,7 +74,21 @@ const TutorialModal: React.FC<ITutorialModalProps> = (props) => {
                             styles={classNames.subComponentStyles.nav}
                         />
                     </div>
-                    <div className={classNames.contentPane}>Content pane</div>
+                    <div className={classNames.contentPane}>
+                        {state.pageKey === TutorialModalPage.INTRODUCTION ? (
+                            <IntroductionSlider
+                                slideNumber={state.slideNumber}
+                                setSliderNumber={(slideNumber) =>
+                                    dispatch({
+                                        type: TutorialModalActionType.SET_SLIDE,
+                                        slide: slideNumber
+                                    })
+                                }
+                            />
+                        ) : (
+                            <ConceptPage pageKey={state.pageKey} />
+                        )}
+                    </div>
                 </div>
                 <div className={classNames.footer}>
                     <Link href="https://google.com" target="_blank">
@@ -80,52 +110,90 @@ const TutorialModal: React.FC<ITutorialModalProps> = (props) => {
     );
 };
 
-const navLinkGroups: INavLinkGroup[] = [
-    {
-        links: [
-            {
-                key: 'introduction',
-                name: 'Introduction',
-                url: '',
-                onClick: () => null
-            },
-            {
-                key: 'concepts',
-                name: 'Concepts',
-                url: '',
-                onClick: () => null,
-                isExpanded: true,
-                forceAnchor: true,
-                links: [
-                    {
-                        key: 'elements',
-                        name: 'Elements',
-                        url: '',
-                        onClick: () => null
-                    },
-                    {
-                        key: 'behaviors',
-                        name: 'Behaviors',
-                        url: '',
-                        onClick: () => null
-                    },
-                    {
-                        key: 'aliases',
-                        name: 'Aliases',
-                        url: '',
-                        onClick: () => null
-                    },
-                    {
-                        key: 'widgets',
-                        name: 'Widgets',
-                        url: '',
-                        onClick: () => null
-                    }
-                ]
-            }
-        ]
-    }
-];
+const getNavLinkGroups = (
+    dispatch: React.Dispatch<TutorialModalAction>
+): INavLinkGroup[] => {
+    return [
+        {
+            links: [
+                {
+                    key: TutorialModalPage.INTRODUCTION,
+                    name: 'Introduction',
+                    url: '',
+                    onClick: () =>
+                        dispatch({
+                            type: TutorialModalActionType.SET_PAGE,
+                            pageKey: TutorialModalPage.INTRODUCTION
+                        })
+                },
+                {
+                    key: TutorialModalPage.CONCEPTS,
+                    name: 'Concepts',
+                    url: '',
+                    onClick: () =>
+                        dispatch({
+                            type: TutorialModalActionType.SET_PAGE,
+                            pageKey: TutorialModalPage.CONCEPTS
+                        }),
+                    isExpanded: true,
+                    forceAnchor: true,
+                    links: [
+                        {
+                            key: TutorialModalPage.ELEMENTS,
+                            name: 'Elements',
+                            url: '',
+                            onClick: () =>
+                                dispatch({
+                                    type: TutorialModalActionType.SET_PAGE,
+                                    pageKey: TutorialModalPage.ELEMENTS
+                                })
+                        },
+                        {
+                            key: TutorialModalPage.BEHAVIORS,
+                            name: 'Behaviors',
+                            url: '',
+                            onClick: () =>
+                                dispatch({
+                                    type: TutorialModalActionType.SET_PAGE,
+                                    pageKey: TutorialModalPage.BEHAVIORS
+                                })
+                        },
+                        {
+                            key: TutorialModalPage.TWINS,
+                            name: 'Twins',
+                            url: '',
+                            onClick: () =>
+                                dispatch({
+                                    type: TutorialModalActionType.SET_PAGE,
+                                    pageKey: TutorialModalPage.TWINS
+                                })
+                        },
+                        {
+                            key: TutorialModalPage.WIDGETS,
+                            name: 'Widgets',
+                            url: '',
+                            onClick: () =>
+                                dispatch({
+                                    type: TutorialModalActionType.SET_PAGE,
+                                    pageKey: TutorialModalPage.WIDGETS
+                                })
+                        },
+                        {
+                            key: TutorialModalPage.SCENELAYERS,
+                            name: 'Scene layers',
+                            url: '',
+                            onClick: () =>
+                                dispatch({
+                                    type: TutorialModalActionType.SET_PAGE,
+                                    pageKey: TutorialModalPage.SCENELAYERS
+                                })
+                        }
+                    ]
+                }
+            ]
+        }
+    ];
+};
 
 export default styled<
     ITutorialModalProps,

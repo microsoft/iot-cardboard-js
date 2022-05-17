@@ -45,6 +45,7 @@ export const getStyles = (
                 width: 900,
                 paddingRight: 20,
                 paddingLeft: 20,
+                minHeight: 348,
                 maxHeight: 'calc(100% - 120px)',
                 overflowY: 'auto'
             } as IStyle
@@ -52,13 +53,9 @@ export const getStyles = (
         contentPane: [
             classNames.contentPane,
             {
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
                 width: '100%',
                 borderRadius: 4,
-                marginLeft: 8,
-                filter: 'brightness(120%)'
+                marginLeft: 8
             } as IStyle
         ],
         footer: [
@@ -93,7 +90,10 @@ export const getStyles = (
                 }
             },
             nav: {
-                linkText: { color: props.theme.palette.black }
+                linkText: { color: props.theme.palette.black },
+                chevronButton: {
+                    display: 'none'
+                }
             }
         }
     };
