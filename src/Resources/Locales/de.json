@@ -84,7 +84,6 @@
   "globe": "Kugel",
   "list": "Liste",
   "selectFile": "Datei auswählen",
-  "uploadFile": "Datei hochladen",
   "uploadingFile": "Datei wird hochgeladen...",
   "twinId": "Twin-ID",
   "active": "Aktiv",
@@ -161,15 +160,16 @@
     "sceneLatitude": "Breite",
     "sceneLongitude": "Länge",
     "blobUrl": "3D-Datei-Blob-URL",
-    "addDialogTitle": "Neue Szene erstellen",
-    "addDialogSubText": "Verknüpfen Sie Ihre Szene mit der URL Ihrer 3D-Datei im Blobspeicher",
-    "editDialogTitle": "Szene bearbeiten",
-    "editDialogSubText": "Bearbeiten Sie den Namen und die verknüpfte 3D-Datei Ihrer Szene",
     "3dFileSelectionMode": "3D-Dateiauswahlmodus",
-    "fromContainer": "Aus dem Container",
     "3dFileAsset": "3D-Datei-Asset",
     "overwriteIfExist": "Überschreiben, wenn die Datei bereits vorhanden ist",
-    "fileExistsErrorMessage": "Eine Datei mit diesem Namen ist bereits im Speicher vorhanden, Sie können diese Datei entweder aus dem Container auswählen oder überschreiben."
+    "fileExistsErrorMessage": "Eine Datei mit diesem Namen ist bereits im Speicher vorhanden, Sie können diese Datei entweder aus dem Container auswählen oder überschreiben.",
+    "dialogTitleCreate": "Neue Szene erstellen",
+    "dialogSubTitle": "Richten Sie eine vorhandene 3D-Datei per URL aus oder laden Sie eine neue Datei direkt in Ihren Container hoch",
+    "dialogTitleEdit": "Bearbeiten der 3D-Szene",
+    "sceneNamePlaceholder": "Eingeben eines Szenennamens",
+    "tabNameFromContainer": "Datei auswählen",
+    "tabNameUploadFile": "Datei hochladen"
   },
   "BIMUpload": {
     "specifyFiles": "Angeben von Dateien, aus denen hochgeladen werden soll",
@@ -336,7 +336,6 @@
     "noneSelected": "Keine Ebenen ausgewählt",
     "newLayer": "Neue Ebene",
     "layerName": "Name der Ebene",
-    "behaviorsOnThisLayer": "Verhalten auf dieser Ebene",
     "layerNamePlaceholder": "Geben Sie den Layer-Namen ein",
     "createNewLayer": "Neuen Layer erstellen",
     "editLayer": "Ebene bearbeiten",
@@ -344,7 +343,10 @@
     "layers": "Schichten",
     "noLayersFound": "Sie haben noch keine Ebenen!",
     "noLayersDescription": "Ebenen sind wie Tags für Verhaltensweisen. Beginnen Sie hier, indem Sie eine Ebene erstellen.",
-    "noBehaviorsOnLayer": "Es gibt keine Verhaltensweisen auf dieser Ebene"
+    "noBehaviorsOnLayer": "Es gibt keine Verhaltensweisen auf dieser Ebene",
+    "behaviorsListTitle": "Verhalten ({{count}})",
+    "deleteConfirmationTitle": "Diese Ebene löschen?",
+    "deleteConfirmationMessage": "Dadurch werden die Ebene und alle damit verbundenen Verhaltensweisen dauerhaft aus allen Digital Twins-Umgebungen entfernt."
   },
   "3dSceneBuilder": {
     "elements": "Elemente",

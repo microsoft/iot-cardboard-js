@@ -84,7 +84,6 @@
   "globe": "Globo",
   "list": "Lista",
   "selectFile": "Selecione ficheiro",
-  "uploadFile": "Ficheiro de upload",
   "uploadingFile": "Arquivo de upload...",
   "twinId": "ID de gémeos",
   "active": "Ativo",
@@ -161,15 +160,16 @@
     "sceneLatitude": "Latitude",
     "sceneLongitude": "Longitude",
     "blobUrl": "URL de blob de arquivo 3D",
-    "addDialogTitle": "Criar nova cena",
-    "addDialogSubText": "Ligue a sua cena com o URL do seu ficheiro 3D no armazenamento de bolhas",
-    "editDialogTitle": "Cena de edição",
-    "editDialogSubText": "Edite o nome e o ficheiro 3D ligado da sua cena",
     "3dFileSelectionMode": "Modo de seleção de ficheiros 3D",
-    "fromContainer": "Do contentor",
     "3dFileAsset": "Ativo de ficheiro 3D",
     "overwriteIfExist": "Substitua se o ficheiro já existir",
-    "fileExistsErrorMessage": "Um ficheiro com este nome já existe no armazenamento, pode selecionar esse ficheiro a partir de um recipiente ou substituir."
+    "fileExistsErrorMessage": "Um ficheiro com este nome já existe no armazenamento, pode selecionar esse ficheiro a partir de um recipiente ou substituir.",
+    "dialogTitleCreate": "Criar nova cena",
+    "dialogSubTitle": "Destino um ficheiro 3D existente via URL ou faça upload de um novo ficheiro diretamente para o seu contentor",
+    "dialogTitleEdit": "Edite a sua cena 3D",
+    "sceneNamePlaceholder": "Insira um nome de cena",
+    "tabNameFromContainer": "Escolha o arquivo",
+    "tabNameUploadFile": "Ficheiro de upload"
   },
   "BIMUpload": {
     "specifyFiles": "Especifique ficheiros para carregar a partir de",
@@ -336,7 +336,6 @@
     "noneSelected": "Sem camadas selecionadas",
     "newLayer": "Nova camada",
     "layerName": "Nome da camada",
-    "behaviorsOnThisLayer": "Comportamentos nesta camada",
     "layerNamePlaceholder": "Insira o nome da camada",
     "createNewLayer": "Criar nova camada",
     "editLayer": "Editar camada",
@@ -344,7 +343,10 @@
     "layers": "Camadas",
     "noLayersFound": "Ainda não tens camadas!",
     "noLayersDescription": "Camadas são como etiquetas em comportamentos. Comece por criar uma camada aqui.",
-    "noBehaviorsOnLayer": "Não há comportamentos nesta camada"
+    "noBehaviorsOnLayer": "Não há comportamentos nesta camada",
+    "behaviorsListTitle": "Comportamentos ({{count}})",
+    "deleteConfirmationTitle": "Apagar esta camada?",
+    "deleteConfirmationMessage": "Isto remove permanentemente a camada e quaisquer comportamentos associados de todos os ambientes de Gémeos Digitais."
   },
   "3dSceneBuilder": {
     "elements": "Elementos",

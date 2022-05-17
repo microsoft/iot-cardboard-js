@@ -84,7 +84,6 @@
   "globe": "球",
   "list": "列表",
   "selectFile": "选择文件",
-  "uploadFile": "上传文件",
   "uploadingFile": "正在上传文件...",
   "twinId": "双胞胎身份证",
   "active": "积极",
@@ -161,15 +160,16 @@
     "sceneLatitude": "纬度",
     "sceneLongitude": "经度",
     "blobUrl": "3D 文件 blob URL",
-    "addDialogTitle": "创建新场景",
-    "addDialogSubText": "将场景与 blob 存储中 3D 文件的 URL 链接",
-    "editDialogTitle": "编辑场景",
-    "editDialogSubText": "编辑场景的名称和链接的 3D 文件",
     "3dFileSelectionMode": "3D 文件选择模式",
-    "fromContainer": "从容器",
     "3dFileAsset": "3D 文件资源",
     "overwriteIfExist": "覆盖文件已存在",
-    "fileExistsErrorMessage": "具有此名称的文件已存在于存储中，可以从容器中选择该文件或覆盖。"
+    "fileExistsErrorMessage": "具有此名称的文件已存在于存储中，可以从容器中选择该文件或覆盖。",
+    "dialogTitleCreate": "创建新场景",
+    "dialogSubTitle": "通过 URL 定位现有 3D 文件或将新文件直接上传到容器",
+    "dialogTitleEdit": "编辑 3D 场景",
+    "sceneNamePlaceholder": "输入场景名称",
+    "tabNameFromContainer": "选择文件",
+    "tabNameUploadFile": "上传文件"
   },
   "BIMUpload": {
     "specifyFiles": "指定要从中上载的文件",
@@ -336,7 +336,6 @@
     "noneSelected": "未选择图层",
     "newLayer": "新图层",
     "layerName": "图层名称",
-    "behaviorsOnThisLayer": "此层上的行为",
     "layerNamePlaceholder": "输入图层名称",
     "createNewLayer": "创建新图层",
     "editLayer": "编辑图层",
@@ -344,7 +343,10 @@
     "layers": "层",
     "noLayersFound": "您还没有任何图层！",
     "noLayersDescription": "图层类似于行为上的标签。首先在此处创建一个图层。",
-    "noBehaviorsOnLayer": "此层上没有行为"
+    "noBehaviorsOnLayer": "此层上没有行为",
+    "behaviorsListTitle": "行为 （{{计数}}）",
+    "deleteConfirmationTitle": "删除此图层？",
+    "deleteConfirmationMessage": "这将从所有数字孪生环境中永久删除该层和任何关联的行为。"
   },
   "3dSceneBuilder": {
     "elements": "元素",

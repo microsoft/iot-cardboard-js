@@ -84,7 +84,6 @@
   "globe": "Globe",
   "list": "Liste",
   "selectFile": "Sélectionner un fichier",
-  "uploadFile": "Télécharger le fichier",
   "uploadingFile": "Téléchargement de fichier...",
   "twinId": "Id jumeau",
   "active": "Actif",
@@ -161,15 +160,16 @@
     "sceneLatitude": "Latitude",
     "sceneLongitude": "Longitude",
     "blobUrl": "URL d’objet blob de fichier 3D",
-    "addDialogTitle": "Créer une nouvelle scène",
-    "addDialogSubText": "Lier votre scène à l’URL de votre fichier 3D dans le stockage d’objets blob",
-    "editDialogTitle": "Modifier la scène",
-    "editDialogSubText": "Modifier le nom et le fichier 3D lié de votre scène",
     "3dFileSelectionMode": "Mode de sélection de fichiers 3D",
-    "fromContainer": "À partir du conteneur",
     "3dFileAsset": "Ressource de fichier 3D",
     "overwriteIfExist": "Remplacer si le fichier existe déjà",
-    "fileExistsErrorMessage": "Un fichier portant ce nom existe déjà dans le stockage, vous pouvez sélectionner ce fichier dans le conteneur ou l’écraser."
+    "fileExistsErrorMessage": "Un fichier portant ce nom existe déjà dans le stockage, vous pouvez sélectionner ce fichier dans le conteneur ou l’écraser.",
+    "dialogTitleCreate": "Créer une nouvelle scène",
+    "dialogSubTitle": "Ciblez un fichier 3D existant via une URL ou téléchargez un nouveau fichier directement dans votre conteneur",
+    "dialogTitleEdit": "Modifier votre scène 3D",
+    "sceneNamePlaceholder": "Entrez un nom de scène",
+    "tabNameFromContainer": "Choisir un fichier",
+    "tabNameUploadFile": "Télécharger le fichier"
   },
   "BIMUpload": {
     "specifyFiles": "Spécifier les fichiers à partir desquels télécharger",
@@ -336,7 +336,6 @@
     "noneSelected": "Aucun calque sélectionné",
     "newLayer": "Nouveau calque",
     "layerName": "Nom de la couche",
-    "behaviorsOnThisLayer": "Comportements sur cette couche",
     "layerNamePlaceholder": "Entrez le nom du calque",
     "createNewLayer": "Créer un nouveau calque",
     "editLayer": "Modifier le calque",
@@ -344,7 +343,10 @@
     "layers": "Couches",
     "noLayersFound": "Vous n'avez pas encore de couches !",
     "noLayersDescription": "Les calques sont comme des balises sur les comportements. Commencez par créer un calque ici.",
-    "noBehaviorsOnLayer": "Il n’y a aucun comportement sur cette couche"
+    "noBehaviorsOnLayer": "Il n’y a aucun comportement sur cette couche",
+    "behaviorsListTitle": "Comportements ({{count}})",
+    "deleteConfirmationTitle": "Supprimer ce calque ?",
+    "deleteConfirmationMessage": "Cela supprime définitivement la couche et tous les comportements associés de tous les environnements Digital Twins."
   },
   "3dSceneBuilder": {
     "elements": "Éléments",

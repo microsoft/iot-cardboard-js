@@ -84,7 +84,6 @@
   "globe": "Globus",
   "list": "Lista",
   "selectFile": "Wybierz plik",
-  "uploadFile": "Prześlij plik",
   "uploadingFile": "Przesyłanie pliku...",
   "twinId": "Podwójny identyfikator",
   "active": "Aktywny",
@@ -161,15 +160,16 @@
     "sceneLatitude": "Szerokość geograficzna",
     "sceneLongitude": "Długość",
     "blobUrl": "Adres URL obiektu blob pliku 3D",
-    "addDialogTitle": "Tworzenie nowej sceny",
-    "addDialogSubText": "Łączenie sceny z adresem URL pliku 3D w magazynie obiektów blob",
-    "editDialogTitle": "Edytuj scenę",
-    "editDialogSubText": "Edytowanie nazwy i połączonego pliku 3D sceny",
     "3dFileSelectionMode": "Tryb wyboru plików 3D",
-    "fromContainer": "Z kontenera",
     "3dFileAsset": "Zasób pliku 3D",
     "overwriteIfExist": "Zastąp, jeśli plik już istnieje",
-    "fileExistsErrorMessage": "Plik o tej nazwie już istnieje w magazynie, możesz wybrać ten plik z kontenera lub zastąpić."
+    "fileExistsErrorMessage": "Plik o tej nazwie już istnieje w magazynie, możesz wybrać ten plik z kontenera lub zastąpić.",
+    "dialogTitleCreate": "Tworzenie nowej sceny",
+    "dialogSubTitle": "Kierowanie istniejącego pliku 3D za pomocą adresu URL lub przesyłanie nowego pliku bezpośrednio do kontenera",
+    "dialogTitleEdit": "Edytowanie sceny 3D",
+    "sceneNamePlaceholder": "Wprowadzanie nazwy sceny",
+    "tabNameFromContainer": "Wybierz plik",
+    "tabNameUploadFile": "Prześlij plik"
   },
   "BIMUpload": {
     "specifyFiles": "Określanie plików do przesłania z",
@@ -336,7 +336,6 @@
     "noneSelected": "Brak zaznaczonych warstw",
     "newLayer": "Nowa warstwa",
     "layerName": "Nazwa warstwy",
-    "behaviorsOnThisLayer": "Zachowania na tej warstwie",
     "layerNamePlaceholder": "Wprowadź nazwę warstwy",
     "createNewLayer": "Tworzenie nowej warstwy",
     "editLayer": "Edytuj warstwę",
@@ -344,7 +343,10 @@
     "layers": "Warstwy",
     "noLayersFound": "Nie masz jeszcze żadnych warstw!",
     "noLayersDescription": "Warstwy są jak znaczniki zachowań. Zacznij od utworzenia warstwy tutaj.",
-    "noBehaviorsOnLayer": "Na tej warstwie nie ma żadnych zachowań"
+    "noBehaviorsOnLayer": "Na tej warstwie nie ma żadnych zachowań",
+    "behaviorsListTitle": "Zachowania ({{count}})",
+    "deleteConfirmationTitle": "Usunąć tę warstwę?",
+    "deleteConfirmationMessage": "Spowoduje to trwałe usunięcie warstwy i wszelkich powiązanych zachowań ze wszystkich środowisk Digital Twins."
   },
   "3dSceneBuilder": {
     "elements": "Pierwiastki",

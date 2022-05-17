@@ -84,7 +84,6 @@
   "globe": "Bol",
   "list": "Lijst",
   "selectFile": "Selecteer bestand",
-  "uploadFile": "Bestand uploaden",
   "uploadingFile": "Bestand uploaden...",
   "twinId": "Dubbele ID",
   "active": "Actief",
@@ -161,15 +160,16 @@
     "sceneLatitude": "Breedtegraad",
     "sceneLongitude": "Lengtegraad",
     "blobUrl": "BLOB-URL voor 3D-bestanden",
-    "addDialogTitle": "Nieuwe scène maken",
-    "addDialogSubText": "Uw scène koppelen aan de URL van uw 3D-bestand in blobopslag",
-    "editDialogTitle": "Scène bewerken",
-    "editDialogSubText": "Bewerk de naam en het gekoppelde 3D-bestand van uw scène",
     "3dFileSelectionMode": "3D-bestandsselectiemodus",
-    "fromContainer": "Uit container",
     "3dFileAsset": "3D-bestandsmiddel",
     "overwriteIfExist": "Overschrijven als het bestand al bestaat",
-    "fileExistsErrorMessage": "Een bestand met deze naam bestaat al in de opslag, u kunt dat bestand selecteren in de container of overschrijven."
+    "fileExistsErrorMessage": "Een bestand met deze naam bestaat al in de opslag, u kunt dat bestand selecteren in de container of overschrijven.",
+    "dialogTitleCreate": "Nieuwe scène maken",
+    "dialogSubTitle": "Target een bestaand 3D-bestand via URL of upload een nieuw bestand rechtstreeks naar uw container",
+    "dialogTitleEdit": "Uw 3D-scène bewerken",
+    "sceneNamePlaceholder": "Voer een scènenaam in",
+    "tabNameFromContainer": "Kies bestand",
+    "tabNameUploadFile": "Bestand uploaden"
   },
   "BIMUpload": {
     "specifyFiles": "Bestanden opgeven om van te uploaden",
@@ -336,7 +336,6 @@
     "noneSelected": "Geen lagen geselecteerd",
     "newLayer": "Nieuwe laag",
     "layerName": "Laagnaam",
-    "behaviorsOnThisLayer": "Gedrag op deze laag",
     "layerNamePlaceholder": "Laagnaam invoeren",
     "createNewLayer": "Nieuwe laag maken",
     "editLayer": "Laag bewerken",
@@ -344,7 +343,10 @@
     "layers": "Lagen",
     "noLayersFound": "Je hebt nog geen lagen!",
     "noLayersDescription": "Lagen zijn als tags op gedragingen. Begin hier met het maken van een laag.",
-    "noBehaviorsOnLayer": "Er zijn geen gedragingen op deze laag"
+    "noBehaviorsOnLayer": "Er zijn geen gedragingen op deze laag",
+    "behaviorsListTitle": "Gedrag ({{count}})",
+    "deleteConfirmationTitle": "Deze laag verwijderen?",
+    "deleteConfirmationMessage": "Dit verwijdert permanent de laag en alle bijbehorende gedragingen uit alle Digital Twins-omgevingen."
   },
   "3dSceneBuilder": {
     "elements": "Elementen",

@@ -84,7 +84,6 @@
   "globe": "Jordglob",
   "list": "Lista",
   "selectFile": "Välj fil",
-  "uploadFile": "Ladda upp fil",
   "uploadingFile": "Ladda upp fil...",
   "twinId": "Tvilling-ID",
   "active": "Aktiv",
@@ -161,15 +160,16 @@
     "sceneLatitude": "Breddgrad",
     "sceneLongitude": "Longitud",
     "blobUrl": "Blob-URL för 3D-fil",
-    "addDialogTitle": "Skapa ny scen",
-    "addDialogSubText": "Länka din scen till URL:en för din 3D-fil i Blob Storage",
-    "editDialogTitle": "Redigera scen",
-    "editDialogSubText": "Redigera namnet och den länkade 3D-filen för din scen",
     "3dFileSelectionMode": "3D-filvalsläge",
-    "fromContainer": "Från behållare",
     "3dFileAsset": "3D-filtillgång",
     "overwriteIfExist": "Skriv över om filen redan finns",
-    "fileExistsErrorMessage": "En fil med det här namnet finns redan i lagring, du kan antingen välja den filen från containern eller skriva över."
+    "fileExistsErrorMessage": "En fil med det här namnet finns redan i lagring, du kan antingen välja den filen från containern eller skriva över.",
+    "dialogTitleCreate": "Skapa ny scen",
+    "dialogSubTitle": "Rikta in dig på en befintlig 3D-fil via URL eller ladda upp en ny fil direkt till containern",
+    "dialogTitleEdit": "Redigera din 3D-scen",
+    "sceneNamePlaceholder": "Ange ett scennamn",
+    "tabNameFromContainer": "Välj fil",
+    "tabNameUploadFile": "Ladda upp fil"
   },
   "BIMUpload": {
     "specifyFiles": "Ange filer som ska laddas upp från",
@@ -336,7 +336,6 @@
     "noneSelected": "Inga lager valda",
     "newLayer": "Nytt lager",
     "layerName": "Lagernamn",
-    "behaviorsOnThisLayer": "Beteenden på det här lagret",
     "layerNamePlaceholder": "Ange lagernamn",
     "createNewLayer": "Skapa nytt lager",
     "editLayer": "Redigera lager",
@@ -344,7 +343,10 @@
     "layers": "Lager",
     "noLayersFound": "Du har inga lager än!",
     "noLayersDescription": "Lager är som taggar på beteenden. Börja med att skapa ett lager här.",
-    "noBehaviorsOnLayer": "Det finns inga beteenden på det här lagret"
+    "noBehaviorsOnLayer": "Det finns inga beteenden på det här lagret",
+    "behaviorsListTitle": "Beteenden ({{count}})",
+    "deleteConfirmationTitle": "Ta bort det här lagret?",
+    "deleteConfirmationMessage": "Detta tar permanent bort lagret och eventuella associerade beteenden från alla Digital Twins miljöer."
   },
   "3dSceneBuilder": {
     "elements": "Element",

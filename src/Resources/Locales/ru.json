@@ -84,7 +84,6 @@
   "globe": "Глобус",
   "list": "Список",
   "selectFile": "Выберите файл",
-  "uploadFile": "Загрузить файл",
   "uploadingFile": "Загрузка файла...",
   "twinId": "Твин ID",
   "active": "Активный",
@@ -161,15 +160,16 @@
     "sceneLatitude": "Широта",
     "sceneLongitude": "Долгота",
     "blobUrl": "URL-адрес большого двоичного объекта 3D-файла",
-    "addDialogTitle": "Создать новую сцену",
-    "addDialogSubText": "Связывание сцены с URL-адресом 3D-файла в хранилище BLOB-объектов",
-    "editDialogTitle": "Редактирование сцены",
-    "editDialogSubText": "Отредактируйте имя и связанный 3D-файл вашей сцены",
     "3dFileSelectionMode": "Режим выбора 3D-файла",
-    "fromContainer": "Из контейнера",
     "3dFileAsset": "Ресурс 3D-файла",
     "overwriteIfExist": "Перезаписать, если файл уже существует",
-    "fileExistsErrorMessage": "Файл с таким именем уже существует в хранилище, вы можете либо выбрать этот файл из контейнера, либо перезаписать."
+    "fileExistsErrorMessage": "Файл с таким именем уже существует в хранилище, вы можете либо выбрать этот файл из контейнера, либо перезаписать.",
+    "dialogTitleCreate": "Создать новую сцену",
+    "dialogSubTitle": "Нацеливайтесь на существующий 3D-файл по URL-адресу или загружайте новый файл непосредственно в контейнер",
+    "dialogTitleEdit": "Редактирование 3D-сцены",
+    "sceneNamePlaceholder": "Введите название сцены",
+    "tabNameFromContainer": "Выберите файл",
+    "tabNameUploadFile": "Загрузить файл"
   },
   "BIMUpload": {
     "specifyFiles": "Указание файлов для загрузки из",
@@ -336,7 +336,6 @@
     "noneSelected": "Слои не выделены",
     "newLayer": "Новый слой",
     "layerName": "Имя слоя",
-    "behaviorsOnThisLayer": "Поведение на этом уровне",
     "layerNamePlaceholder": "Введите имя слоя",
     "createNewLayer": "Создание нового слоя",
     "editLayer": "Редактирование слоя",
@@ -344,7 +343,10 @@
     "layers": "Слои",
     "noLayersFound": "У вас еще нет слоев!",
     "noLayersDescription": "Слои похожи на теги поведения. Начните с создания слоя здесь.",
-    "noBehaviorsOnLayer": "На этом уровне нет вариантов поведения"
+    "noBehaviorsOnLayer": "На этом уровне нет вариантов поведения",
+    "behaviorsListTitle": "Варианты поведения ({{count}})",
+    "deleteConfirmationTitle": "Удалить этот слой?",
+    "deleteConfirmationMessage": "Это навсегда удаляет слой и любое связанное с ним поведение из всех сред Digital Twins."
   },
   "3dSceneBuilder": {
     "elements": "Азы",

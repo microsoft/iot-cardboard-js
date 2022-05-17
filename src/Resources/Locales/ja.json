@@ -84,7 +84,6 @@
   "globe": "球",
   "list": "リスト",
   "selectFile": "ファイルの選択",
-  "uploadFile": "ファイルのアップロード",
   "uploadingFile": "ファイルをアップロードしています...",
   "twinId": "ツイン ID",
   "active": "能動",
@@ -161,15 +160,16 @@
     "sceneLatitude": "緯度",
     "sceneLongitude": "経度",
     "blobUrl": "3D ファイルの BLOB URL",
-    "addDialogTitle": "新しいシーンを作成する",
-    "addDialogSubText": "シーンを BLOB ストレージ内の 3D ファイルの URL にリンクする",
-    "editDialogTitle": "シーンの編集",
-    "editDialogSubText": "シーンの名前とリンクされた 3D ファイルを編集する",
     "3dFileSelectionMode": "3Dファイル選択モード",
-    "fromContainer": "コンテナから",
     "3dFileAsset": "3D ファイルアセット",
     "overwriteIfExist": "ファイルが既に存在する場合は上書きする",
-    "fileExistsErrorMessage": "この名前のファイルはすでにストレージに存在します。コンテナからそのファイルを選択するか、上書きすることができます。"
+    "fileExistsErrorMessage": "この名前のファイルはすでにストレージに存在します。コンテナからそのファイルを選択するか、上書きすることができます。",
+    "dialogTitleCreate": "新しいシーンを作成する",
+    "dialogSubTitle": "URL経由で既存の3Dファイルをターゲットにするか、新しいファイルをコンテナに直接アップロードする",
+    "dialogTitleEdit": "3D シーンを編集する",
+    "sceneNamePlaceholder": "シーン名を入力する",
+    "tabNameFromContainer": "ファイルを選択",
+    "tabNameUploadFile": "ファイルのアップロード"
   },
   "BIMUpload": {
     "specifyFiles": "アップロード元のファイルを指定する",
@@ -336,7 +336,6 @@
     "noneSelected": "レイヤーが選択されていません",
     "newLayer": "新しいレイヤー",
     "layerName": "レイヤー名",
-    "behaviorsOnThisLayer": "このレイヤー上の動作",
     "layerNamePlaceholder": "レイヤー名を入力",
     "createNewLayer": "新しいレイヤーを作成する",
     "editLayer": "レイヤーの編集",
@@ -344,7 +343,10 @@
     "layers": "層",
     "noLayersFound": "あなたはまだレイヤーを持っていません!",
     "noLayersDescription": "レイヤーは、ビヘイビアのタグのようなものです。まず、ここでレイヤーを作成します。",
-    "noBehaviorsOnLayer": "このレイヤーには動作はありません"
+    "noBehaviorsOnLayer": "このレイヤーには動作はありません",
+    "behaviorsListTitle": "ビヘイビア ({{カウント}})",
+    "deleteConfirmationTitle": "このレイヤーを削除しますか?",
+    "deleteConfirmationMessage": "これにより、レイヤーと関連するすべての動作がすべてのデジタルツイン環境から完全に削除されます。"
   },
   "3dSceneBuilder": {
     "elements": "元素",
