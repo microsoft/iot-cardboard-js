@@ -6,10 +6,11 @@ import {
     ITwinToObjectMapping
 } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 
-export type ModelledPropertyBuilderMode =
-    | 'PROPERTY_SELECTION'
-    | 'INTELLISENSE'
-    | 'TOGGLE';
+export enum ModelledPropertyBuilderMode {
+    PROPERTY_SELECT = 'PROPERTY_SELECTION',
+    INTELLISENSE = 'INTELLISENSE',
+    TOGGLE = 'TOGGLE'
+}
 
 export interface BehaviorTwinIdParams {
     /** The behavior to derive primary & aliased Ids from */
@@ -51,7 +52,7 @@ export interface ModelledPropertyBuilderProps {
     propertyExpression: PropertyExpression;
 
     /** Configuration for supported modes */
-    mode: 'PROPERTY_SELECTION' | 'INTELLISENSE' | 'TOGGLE';
+    mode: ModelledPropertyBuilderMode;
 
     /** Custom label for control */
     customLabel?: string;

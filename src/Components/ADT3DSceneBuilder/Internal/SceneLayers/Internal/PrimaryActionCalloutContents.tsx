@@ -1,26 +1,40 @@
-import { PrimaryButton } from '@fluentui/react';
+import {
+    classNamesFunction,
+    PrimaryButton,
+    styled,
+    useTheme
+} from '@fluentui/react';
 import React from 'react';
-import { getStyles } from '../SceneLayers.styles';
+import { getPrimaryContentStyles } from '../SceneLayers.styles';
+import {
+    IPrimaryActionCalloutContentsStyleProps,
+    IPrimaryActionCalloutContentsStyles,
+    IPrimaryActionCalloutContentsProps
+} from '../SceneLayers.types';
 
-interface PrimaryActionCalloutContentsProps {
-    children?: React.ReactNode;
-    primaryButtonText: string;
-    onPrimaryButtonClick: () => any;
-    disablePrimaryButton?: boolean;
-}
+const getClassNames = classNamesFunction<
+    IPrimaryActionCalloutContentsStyleProps,
+    IPrimaryActionCalloutContentsStyles
+>();
 
-const PrimaryActionCalloutContents: React.FC<PrimaryActionCalloutContentsProps> = ({
-    children,
-    onPrimaryButtonClick,
-    primaryButtonText,
-    disablePrimaryButton = false
-}) => {
-    const styles = getStyles();
+const PrimaryActionCalloutContents: React.FC<IPrimaryActionCalloutContentsProps> = (
+    props
+) => {
+    const {
+        children,
+        disablePrimaryButton = false,
+        onPrimaryButtonClick,
+        primaryButtonText,
+        styles
+    } = props;
+    const classNames = getClassNames(styles, {
+        theme: useTheme()
+    });
 
     return (
-        <div className={styles.container}>
-            <div className={styles.body}>{children}</div>
-            <div className={styles.footer}>
+        <div className={classNames.container}>
+            <div className={classNames.body}>{children}</div>
+            <div className={classNames.footer}>
                 <PrimaryButton
                     onClick={onPrimaryButtonClick}
                     disabled={disablePrimaryButton}
@@ -32,4 +46,8 @@ const PrimaryActionCalloutContents: React.FC<PrimaryActionCalloutContentsProps> 
     );
 };
 
-export default PrimaryActionCalloutContents;
+export default styled<
+    IPrimaryActionCalloutContentsProps,
+    IPrimaryActionCalloutContentsStyleProps,
+    IPrimaryActionCalloutContentsStyles
+>(PrimaryActionCalloutContents, getPrimaryContentStyles);

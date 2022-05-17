@@ -1,4 +1,4 @@
-import { Separator, Stack, IStackTokens } from '@fluentui/react';
+import { Separator, Stack, IStackTokens, css } from '@fluentui/react';
 import React from 'react';
 import {
     PanelFooterStackStyles,
@@ -11,7 +11,7 @@ interface IPanelFooterProps {
 const sectionStackTokens: IStackTokens = { childrenGap: 8 };
 const PanelFooter: React.FC<IPanelFooterProps> = ({ children, className }) => {
     return (
-        <div className={`${PanelFooterStyles.root} ${className}`}>
+        <div className={css(PanelFooterStyles.root, className)}>
             <Separator />
             <Stack
                 horizontal

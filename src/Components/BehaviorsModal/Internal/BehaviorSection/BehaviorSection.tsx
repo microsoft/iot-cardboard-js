@@ -1,21 +1,21 @@
-import { Icon } from '@fluentui/react';
+import { Icon, Stack } from '@fluentui/react';
 import React, { useContext, useMemo } from 'react';
 import ViewerConfigUtility from '../../../../Models/Classes/ViewerConfigUtility';
 import { BehaviorModalMode } from '../../../../Models/Constants';
 import {
-    getSceneElementStatusColor,
-    parseExpression,
-    performSubstitutions
+    wrapTextInTemplateString,
+    parseLinkedTwinExpression,
+    stripTemplateStringsFromText
 } from '../../../../Models/Services/Utils';
 import {
-    IAlertVisual,
     IBehavior,
-    IStatusColoringVisual
+    IExpressionRangeVisual
 } from '../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { getElementsPanelAlertStyles } from '../../../ElementsPanel/ViewerElementsPanel.styles';
+import { StatusPills } from '../../../StatusPills/StatusPills';
 import { BehaviorsModalContext } from '../../BehaviorsModal';
 import WidgetsContainer from '../Widgets/WidgetsContainer';
-import { getStatusBlockStyles, getStyles } from './BehaviorSection.styles';
+import { getStyles } from './BehaviorSection.styles';
 
 export interface IBehaviorsSectionProps {
     behavior: IBehavior;
@@ -31,11 +31,11 @@ const BehaviorSection: React.FC<IBehaviorsSectionProps> = ({ behavior }) => {
 
         if (mode !== BehaviorModalMode.preview) {
             visibleAlertVisuals = visibleAlertVisuals.filter((av) =>
-                parseExpression(av.triggerExpression, twins)
+                parseLinkedTwinExpression(av.valueExpression, twins)
             );
         }
         return visibleAlertVisuals;
-    }, [behavior]);
+    }, [behavior.visuals, mode, twins]);
 
     const statusVisuals = useMemo(
         () =>
@@ -51,12 +51,21 @@ const BehaviorSection: React.FC<IBehaviorsSectionProps> = ({ behavior }) => {
 
     return (
         <div className={styles.behaviorSection}>
-            <div className={styles.behaviorHeader}>{behavior.displayName}</div>
+            <Stack
+                horizontal={true}
+                verticalAlign={'center'}
+                disableShrink={true}
+                className={styles.behaviorHeader}
+            >
+                <StatusPills
+                    statusVisuals={statusVisuals}
+                    width={'compact'}
+                    twins={twins}
+                />
+                {behavior.displayName}
+            </Stack>
             {alertVisuals.map((av, idx) => (
                 <AlertBlock alertVisual={av} key={`${av.type}-${idx}`} />
-            ))}
-            {statusVisuals.map((sv, idx) => (
-                <StatusBlock statusVisual={sv} key={`${sv.type}-${idx}`} />
             ))}
             {popoverVisual && (
                 <WidgetsContainer popoverVisual={popoverVisual} />
@@ -65,72 +74,30 @@ const BehaviorSection: React.FC<IBehaviorsSectionProps> = ({ behavior }) => {
     );
 };
 
-const AlertBlock: React.FC<{ alertVisual: IAlertVisual }> = ({
+const AlertBlock: React.FC<{ alertVisual: IExpressionRangeVisual }> = ({
     alertVisual
 }) => {
     const styles = getStyles();
-    const alertStyles = getElementsPanelAlertStyles(alertVisual.color);
+
+    const {
+        visual: { color, iconName, labelExpression }
+    } = alertVisual.valueRanges[0];
+
+    const alertStyles = getElementsPanelAlertStyles(color);
     const { twins, mode } = useContext(BehaviorsModalContext);
 
     return (
         <div className={styles.infoContainer}>
             <div className={alertStyles.alertCircle}>
-                <Icon iconName={alertVisual.iconName} />
+                <Icon iconName={iconName} />
             </div>
             <div className={styles.infoTextContainer}>
                 {mode === BehaviorModalMode.preview
-                    ? alertVisual.labelExpression
-                    : performSubstitutions(alertVisual.labelExpression, twins)}
-            </div>
-        </div>
-    );
-};
-
-const StatusBlock: React.FC<{ statusVisual: IStatusColoringVisual }> = ({
-    statusVisual
-}) => {
-    const styles = getStyles();
-    const { twins, mode } = useContext(BehaviorsModalContext);
-    const { statusValueExpression, valueRanges } = statusVisual;
-    const isStatusLineVisible = valueRanges.length > 0;
-
-    let statusValue = 0;
-    let statusColor;
-    let statusStyles;
-
-    // In preview mode, select min value range to display
-    if (mode === BehaviorModalMode.preview) {
-        if (!isStatusLineVisible) {
-            statusStyles = getStatusBlockStyles(null);
-        } else {
-            const minValueRange = valueRanges
-                .slice(0)
-                .sort((a, b) => Number(a.min) - Number(b.min))[0];
-
-            statusValue = Number(minValueRange.min);
-            statusColor = minValueRange.color;
-            statusStyles = getStatusBlockStyles(statusColor);
-        }
-    } else {
-        statusValue = parseExpression(statusValueExpression, twins);
-        statusColor = getSceneElementStatusColor(
-            statusValueExpression,
-            valueRanges,
-            twins
-        );
-        statusStyles = getStatusBlockStyles(statusColor);
-    }
-
-    return (
-        <div className={styles.infoContainer}>
-            <div className={styles.infoIconContainer}>
-                {isStatusLineVisible && (
-                    <div className={statusStyles.statusColorLine}></div>
-                )}
-            </div>
-            <div className={styles.infoTextContainer}>
-                {statusValueExpression}{' '}
-                {typeof statusValue === 'number' && `: ${statusValue}`}
+                    ? stripTemplateStringsFromText(labelExpression)
+                    : parseLinkedTwinExpression(
+                          wrapTextInTemplateString(labelExpression),
+                          twins
+                      )}
             </div>
         </div>
     );

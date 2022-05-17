@@ -78,6 +78,10 @@ import {
     ADTAllModelsData,
     ADTTwinToModelMappingData
 } from '../Classes/AdapterDataClasses/ADTModelData';
+import {
+    IADT3DViewerStyleProps,
+    IADT3DViewerStyles
+} from '../../Components/ADT3DViewer/ADT3DViewer.types';
 
 export interface IAction {
     type: string;
@@ -754,6 +758,8 @@ export interface IADT3DViewerProps {
     hideViewModePickerUI?: boolean;
     hideElementsPanel?: boolean;
     outlinedMeshItems?: CustomMeshItem[];
+    /** show the toggle to switch between builder & viewer modes */
+    showModeToggle?: boolean;
     sceneViewProps?: Omit<
         ISceneViewProps,
         | 'badgeGroups'
@@ -768,6 +774,10 @@ export interface IADT3DViewerProps {
         | 'unzoomedMeshOpacity'
         | 'zoomToMeshIds'
     >;
+    /**
+     * Call to provide customized styling that will layer on top of the variant rules.
+     */
+    styles?: IStyleFunctionOrObject<IADT3DViewerStyleProps, IADT3DViewerStyles>;
 }
 
 export interface IADT3DViewerMode {

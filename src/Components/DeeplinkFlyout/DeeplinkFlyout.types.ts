@@ -2,8 +2,7 @@ import {
     ITheme,
     IStyle,
     ICalloutContentStyles,
-    IStyleFunctionOrObject,
-    IButtonStyles
+    IStyleFunctionOrObject
 } from '@fluentui/react';
 
 export interface IDeeplinkFlyoutProps {
@@ -33,6 +32,5 @@ export interface IDeeplinkFlyoutStyles {
 }
 
 export interface IDeeplinkFlyoutSubComponentStyles {
-    button?: IButtonStyles;
     callout?: Partial<ICalloutContentStyles>;
 }

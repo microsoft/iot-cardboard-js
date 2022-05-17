@@ -4,6 +4,7 @@ import {
     IStyleFunctionOrObject,
     IStackStyles
 } from '@fluentui/react';
+import { WrapperMode } from './SceneView.types';
 
 export interface ISceneViewWrapperProps {
     /**
@@ -16,6 +17,7 @@ export interface ISceneViewWrapperProps {
 }
 
 export interface ISceneViewWrapperStyleProps {
+    mode: WrapperMode;
     theme: ITheme;
 }
 export interface ISceneViewWrapperStyles {
@@ -29,6 +31,6 @@ export interface ISceneViewWrapperStyles {
 }
 
 export interface ISceneViewWrapperSubComponentStyles {
-    leftHeaderControlsStack: IStackStyles;
-    centerHeaderControlsStack: IStackStyles;
+    rightHeaderControlsStack: IStackStyles;
+    cameraControlsStack: IStackStyles;
 }

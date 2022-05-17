@@ -30,16 +30,46 @@ export const Mock3DScenePage = (_args, { globals: { theme, locale } }) => {
                 theme={theme}
                 locale={locale}
                 adapter={new MockAdapter({ mockData: mockConfig })}
+                enableTwinPropertyInspectorPatchMode
             />
         </div>
     );
 };
 Mock3DScenePage.storyName = 'Mock 3D scene page';
 
-export const Deeplinked = (_args, { globals: { theme, locale } }) => {
+export const DeeplinkedViewer = (_args, { globals: { theme, locale } }) => {
     const deeplinkState: IDeeplinkContextState = {
         adtUrl: 'https://mockAdt.api.wcus.digitaltwins.azure.net',
         mode: ADT3DScenePageModes.ViewScene,
+        sceneId: 'f7053e7537048e03be4d1e6f8f93aa8a',
+        selectedElementId: '45131a84754280b924477f1df54ca547',
+        selectedLayerIds: [
+            '8904b620aa83c649888dadc7c8fdf492',
+            '9624b620aa83c649888dadc7c8fdf541'
+        ],
+        storageUrl:
+            'https://mockStorageAccountName.blob.core.windows.net/mockContainer'
+    };
+    return (
+        <div style={cardStyle}>
+            <DeeplinkContextProvider initialState={deeplinkState}>
+                <ADT3DScenePage
+                    title={'3D Scene Page'}
+                    theme={theme}
+                    locale={locale}
+                    adapter={new MockAdapter({ mockData: mockConfig })}
+                    enableTwinPropertyInspectorPatchMode
+                />
+            </DeeplinkContextProvider>
+        </div>
+    );
+};
+DeeplinkedViewer.storyName = 'Mock 3D scene page (Deeplinked Viewer)';
+
+export const DeeplinkedBuilder = (_args, { globals: { theme, locale } }) => {
+    const deeplinkState: IDeeplinkContextState = {
+        adtUrl: 'https://mockAdt.api.wcus.digitaltwins.azure.net',
+        mode: ADT3DScenePageModes.BuildScene,
         sceneId: 'f7053e7537048e03be4d1e6f8f93aa8a',
         selectedElementId: '45131a84754280b924477f1df54ca547',
         selectedLayerIds: [
@@ -62,7 +92,7 @@ export const Deeplinked = (_args, { globals: { theme, locale } }) => {
         </div>
     );
 };
-Deeplinked.storyName = 'Mock 3D scene page (Deeplinked)';
+DeeplinkedBuilder.storyName = 'Mock 3D scene page (Deeplinked Builder)';
 
 export const Mock3DScenePageSchemaErrors = (
     _args,

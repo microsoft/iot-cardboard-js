@@ -6,6 +6,9 @@ export const getPivotStyles = (
     _theme: ITheme
 ): Partial<IPivotStyles> => {
     return {
+        icon: {
+            marginRight: 4
+        },
         link: {
             height: '36px'
         }

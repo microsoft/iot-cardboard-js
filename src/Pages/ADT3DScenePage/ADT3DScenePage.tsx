@@ -52,6 +52,7 @@ import ADT3DGlobe from '../../Components/ADT3DGlobe/ADT3DGlobe';
 import { getStyles } from './ADT3DScenePage.styles';
 import { Stack } from '@fluentui/react';
 import DeeplinkFlyout from '../../Components/DeeplinkFlyout/DeeplinkFlyout';
+import ViewerConfigUtility from '../../Models/Classes/ViewerConfigUtility';
 
 export const ADT3DScenePageContext = createContext<IADT3DScenePageContext>(
     null
@@ -62,7 +63,8 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
     theme,
     locale,
     localeStrings,
-    environmentPickerOptions
+    environmentPickerOptions,
+    enableTwinPropertyInspectorPatchMode = false
 }) => {
     const { t } = useTranslation();
     const customStyles = getStyles();
@@ -183,14 +185,26 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
     // update the adapter if the ADT instance changes
     useEffect(() => {
         adapter.setAdtHostUrl(deeplinkState.adtUrl);
-    }, [deeplinkState.adtUrl, adapter]);
+    }, [adapter, deeplinkState.adtUrl]);
+
+    // update the adapter if the Storage instance changes
+    useEffect(() => {
+        adapter.setBlobContainerPath(deeplinkState.storageUrl);
+    }, [adapter, deeplinkState.storageUrl]);
 
     // when a scene is selected show it
     useEffect(() => {
-        if (deeplinkState.sceneId) {
-            setCurrentStep(ADT3DScenePageSteps.Scene);
+        if (deeplinkState.sceneId && state.scenesConfig) {
+            // check if we can resolve the scene, if not, don't navigate
+            const scene = ViewerConfigUtility.getSceneById(
+                state.scenesConfig,
+                deeplinkState.sceneId
+            );
+            if (scene) {
+                setCurrentStep(ADT3DScenePageSteps.Scene);
+            }
         }
-    }, [deeplinkState.sceneId, setCurrentStep]);
+    }, [deeplinkState.sceneId, state.scenesConfig, setCurrentStep]);
 
     const onListModeChange = useCallback(
         (sceneListMode: ADT3DScenePageSteps) => {
@@ -273,14 +287,20 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
 
     return (
         <ADT3DScenePageContext.Provider
-            value={{ state, dispatch, handleOnHomeClick, handleOnSceneClick }}
+            value={{
+                state,
+                dispatch,
+                handleOnHomeClick,
+                handleOnSceneClick,
+                isTwinPropertyInspectorPatchModeEnabled: enableTwinPropertyInspectorPatchMode
+            }}
         >
             <div className="cb-scene-page-wrapper">
                 <BaseComponent
                     theme={theme}
                     locale={locale}
                     localeStrings={localeStrings}
-                    containerClassName={'cb-scene-page-container'}
+                    containerClassName={customStyles.container}
                 >
                     {' '}
                     {(state.currentStep === ADT3DScenePageSteps.SceneList ||

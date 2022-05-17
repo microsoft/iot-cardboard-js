@@ -8,14 +8,12 @@ import {
 } from './StandalonePropertyInspector.types';
 import PropertyInspectorModel from './PropertyInspectoryModel';
 import { ADTPatch, PropertyInspectorPatchMode } from '../../Models/Constants';
-import { CommandBar } from '@fluentui/react/lib/components/CommandBar/CommandBar';
+import { CommandBar, MessageBar, MessageBarType } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import StandalonePropertyInspectorReducer, {
     defaultStandalonePropertyInspectorState,
     spiActionType
 } from './StandalonePropertyInspector.state';
-import { MessageBar } from '@fluentui/react/lib/components/MessageBar/MessageBar';
-import { MessageBarType } from '@fluentui/react/lib/components/MessageBar/MessageBar.types';
 import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
 import BaseComponent from '../BaseComponent/BaseComponent';
 import {
