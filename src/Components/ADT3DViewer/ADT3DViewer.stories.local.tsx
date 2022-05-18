@@ -9,7 +9,7 @@ export default {
     component: ADT3DViewer
 };
 
-// wrapper styles for div containing scene viewer component
+// Wrapper style for div containing scene viewer component
 const cardStyle = {
     height: '800px',
     width: '1200px',
