@@ -1,4 +1,4 @@
-import { FontWeights, IStyle } from '@fluentui/react';
+import { FontSizes, FontWeights, IStyle } from '@fluentui/react';
 import {
     ITutorialModalStyleProps,
     ITutorialModalStyles
@@ -10,9 +10,26 @@ const classNames = {
     header: `${classPrefix}-header`,
     body: `${classPrefix}-body`,
     contentPane: `${classPrefix}-content-pane`,
+    slideshowContainer: `${classPrefix}-slideshow-container`,
+    slideChangeBtnContainerLeft: `${classPrefix}-slide-change-btn-container-left`,
+    slideChangeBtnContainerRight: `${classPrefix}-slide-change-btn-container-right`,
     footer: `${classPrefix}-footer`,
     navContainer: `${classPrefix}-nav-container`
 };
+
+const slideChangeBtnContainerBaseStyles: IStyle = {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    marginTop: 'auto',
+    marginBottom: 'auto',
+    width: 40,
+    height: 40,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center'
+};
+
 export const getStyles = (
     props: ITutorialModalStyleProps
 ): ITutorialModalStyles => {
@@ -58,6 +75,28 @@ export const getStyles = (
                 marginLeft: 8
             } as IStyle
         ],
+        slideshowContainer: [
+            classNames.slideshowContainer,
+            {
+                width: '100%',
+                height: '100%',
+                position: 'relative'
+            } as IStyle
+        ],
+        slideChangeBtnContainerLeft: [
+            classNames.slideChangeBtnContainerLeft,
+            slideChangeBtnContainerBaseStyles,
+            {
+                left: '0px'
+            } as IStyle
+        ],
+        slideChangeBtnContainerRight: [
+            classNames.slideChangeBtnContainerRight,
+            slideChangeBtnContainerBaseStyles,
+            {
+                right: '0px'
+            } as IStyle
+        ],
         footer: [
             classNames.footer,
             {
@@ -87,6 +126,20 @@ export const getStyles = (
                     marginLeft: 'auto',
                     marginTop: '4px',
                     marginRight: '2px'
+                }
+            },
+            chevronButton: {
+                root: {
+                    color: props.theme.palette.neutralPrimary
+                },
+                icon: {
+                    fontSize: FontSizes.xLarge
+                },
+                rootDisabled: {
+                    backgroundColor: props.theme.palette.white
+                },
+                iconDisabled: {
+                    color: props.theme.palette.white
                 }
             },
             nav: {

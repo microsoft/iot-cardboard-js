@@ -32,6 +32,9 @@ export interface ITutorialModalStyles {
     contentPane: IStyle;
     footer: IStyle;
     navContainer: IStyle;
+    slideshowContainer: IStyle;
+    slideChangeBtnContainerLeft: IStyle;
+    slideChangeBtnContainerRight: IStyle;
     /**
      * SubComponent styles.
      */
@@ -40,6 +43,7 @@ export interface ITutorialModalStyles {
 
 export interface ITutorialModalSubComponentStyles {
     closeButton: IButtonStyles;
+    chevronButton: IButtonStyles;
     nav: Partial<INavStyles>;
 }
 

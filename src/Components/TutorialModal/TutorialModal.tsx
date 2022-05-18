@@ -23,7 +23,7 @@ import {
 } from '@fluentui/react';
 import { useId } from '@fluentui/react-hooks';
 import { scenesDemoUrl } from '../../Models/Constants';
-import IntroductionSlider from './Internal/IntroductionSlider';
+import IntroductionSlideShow from './Internal/IntroductionSlideShow';
 import {
     defaultTutorialModalState,
     tutorialModalReducer
@@ -82,14 +82,15 @@ const TutorialModal: React.FC<ITutorialModalProps> = (props) => {
                     </div>
                     <div className={classNames.contentPane}>
                         {state.pageKey === TutorialModalPage.INTRODUCTION ? (
-                            <IntroductionSlider
+                            <IntroductionSlideShow
                                 slideNumber={state.slideNumber}
-                                setSliderNumber={(slideNumber) =>
+                                setSlideNumber={(slideNumber) =>
                                     dispatch({
                                         type: TutorialModalActionType.SET_SLIDE,
                                         slide: slideNumber
                                     })
                                 }
+                                classNames={classNames}
                             />
                         ) : (
                             <ConceptPage pageKey={state.pageKey} />
