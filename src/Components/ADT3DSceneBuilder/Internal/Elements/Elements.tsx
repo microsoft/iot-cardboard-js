@@ -32,8 +32,6 @@ import PanelFooter from '../Shared/PanelFooter';
 import { IADTObjectColor } from '../../../../Models/Constants';
 import { deepCopy } from '../../../../Models/Services/Utils';
 import IllustrationMessage from '../../../IllustrationMessage/IllustrationMessage';
-import noResults from '../../../../Resources/Static/noResults.svg';
-import noElements from '../../../../Resources/Static/noElements.svg';
 
 const sortElements = (elements: ITwinToObjectMapping[]) => {
     return elements?.sort((a, b) => (a.displayName > b.displayName ? 1 : -1));
@@ -283,20 +281,12 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
                         headerText={t('3dSceneBuilder.noElementsText')}
                         type={'info'}
                         width={'compact'}
-                        imageProps={{
-                            src: noElements,
-                            height: 100
-                        }}
                     />
                 ) : filteredElements.length === 0 ? (
                     <IllustrationMessage
                         headerText={t('3dSceneBuilder.noResults')}
                         type={'info'}
                         width={'compact'}
-                        imageProps={{
-                            src: noResults,
-                            height: 100
-                        }}
                     />
                 ) : (
                     <CardboardList<ITwinToObjectMapping>

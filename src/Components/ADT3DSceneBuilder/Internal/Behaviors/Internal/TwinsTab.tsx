@@ -352,7 +352,7 @@ function getTwinAliasListItems(
         ariaLabel: t('3dSceneBuilder.primaryTwin'),
         iconStart: { name: 'LinkedDatabase' },
         iconEnd: { name: 'EntryView' },
-        // we don't care about the item anyways so this is fine, it just gets fed back to the onclick
+        // we don't care about the item anyways so the casting is fine, it just gets fed back to the onclick
         item: (PRIMARY_TWIN_NAME as unknown) as IBehaviorTwinAliasItem,
         onClick: onPrimaryTwinClick,
         textPrimary: PRIMARY_TWIN_NAME,

@@ -45,6 +45,7 @@ export const getLeftPanelStyles = memoizeFunction((theme: Theme) => {
                 display: 'flex',
                 flexDirection: 'column',
                 flexGrow: 1,
+                minHeight: 60,
                 overflowY: 'auto',
                 overflowX: 'hidden'
             } as IStyle
