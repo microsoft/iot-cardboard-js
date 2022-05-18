@@ -4,6 +4,7 @@ import { IOATEditorState } from '../../../Pages/OATEditorPage/OATEditorPage.type
 import { IAction } from '../../../Models/Constants/Interfaces';
 import { getHeaderStyles } from '../OATHeader.styles';
 import FormSaveAs from './FormSaveAs';
+import FromOpen from './FormOpen';
 
 export enum FromBody {
     delete = 'delete',
@@ -48,17 +49,11 @@ export const Modal = ({
                 );
             case FromBody.open:
                 return (
-                    <div
-                        style={{
-                            width: '100%',
-                            display: 'flex',
-                            justifyContent: 'flex-end'
-                        }}
-                    >
-                        <ActionButton onClick={() => setModalOpen(false)}>
-                            <FontIcon iconName={'ChromeClose'} />
-                        </ActionButton>
-                    </div>
+                    <FromOpen
+                        dispatch={dispatch}
+                        setModalOpen={setModalOpen}
+                        setModalBody={setModalBody}
+                    />
                 );
             case FromBody.save:
                 return (

@@ -33,9 +33,9 @@ export const FormSaveAs = ({
 
     const handleOnSave = () => {
         const editorData = JSON.parse(localStorage.getItem(OATDataStorageKey));
+        const files = JSON.parse(localStorage.getItem(OATFilesStorageKey));
 
         // Find if project name already exists
-        const files = JSON.parse(localStorage.getItem(OATFilesStorageKey));
         console.log('files', files);
         const fileAlreadyExists = files.some(
             (file) => file.name === projectName
@@ -57,6 +57,8 @@ export const FormSaveAs = ({
             name: projectName,
             data: editorData
         });
+        editorData.projectName = projectName;
+        localStorage.setItem(OATDataStorageKey, JSON.stringify(editorData));
         localStorage.setItem(OATFilesStorageKey, JSON.stringify(files));
 
         setModalOpen(false);
@@ -78,11 +80,12 @@ export const FormSaveAs = ({
             </div>
 
             <div className={headerStyles.modalRow}>
-                <Text>Save as:</Text>
+                <Text>{t('OATHeader.saveAs')}</Text>
                 <TextField
                     placeholder={t('OATHeader.enterAName')}
                     value={projectName}
                     onChange={(e, v) => setProjectName(v)}
+                    errorMessage="Project with same name already exists, would you like to override it?"
                 />
             </div>
 

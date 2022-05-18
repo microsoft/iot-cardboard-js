@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ActionButton, Text, Callout } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { getSubMenuItemStyles, getSubMenuStyles } from '../OATHeader.styles';
@@ -31,12 +31,14 @@ export const FileSubMenu = ({
     const { t } = useTranslation();
     const subMenuItemStyles = getSubMenuItemStyles();
     const subMenuStyles = getSubMenuStyles();
+    const [files] = useState(
+        JSON.parse(localStorage.getItem(OATFilesStorageKey))
+    );
 
     const { projectName } = state;
 
     const handleSave = () => {
         setSubMenuActive(false);
-        const files = JSON.parse(localStorage.getItem(OATFilesStorageKey));
         if (files.length > 0 && projectName) {
             // Update file
             const foundIndex = files.findIndex(
@@ -77,16 +79,18 @@ export const FileSubMenu = ({
                         <Text>{t('OATHeader.new')}</Text>
                     </ActionButton>
 
-                    <ActionButton
-                        styles={subMenuItemStyles}
-                        onClick={() => {
-                            setSubMenuActive(false);
-                            setModalBody('open');
-                            setModalOpen(true);
-                        }}
-                    >
-                        <Text>{t('OATHeader.open')}</Text>
-                    </ActionButton>
+                    {files.length > 0 && (
+                        <ActionButton
+                            styles={subMenuItemStyles}
+                            onClick={() => {
+                                setSubMenuActive(false);
+                                setModalBody('open');
+                                setModalOpen(true);
+                            }}
+                        >
+                            <Text>{t('OATHeader.open')}</Text>
+                        </ActionButton>
+                    )}
 
                     <ActionButton
                         styles={subMenuItemStyles}

@@ -82,7 +82,9 @@ const Editor = ({
                             className={propertyInspectorStyles.rowSpaceBetween}
                         >
                             <Label>{`${t('OATPropertyEditor.properties')} ${
-                                model && model.contents.length > 0
+                                model &&
+                                model.contents &&
+                                model.contents.length > 0
                                     ? `(${model.contents.length})`
                                     : ''
                             }`}</Label>
@@ -122,13 +124,16 @@ const Editor = ({
                                 }
                             />
                         )}
-                        {hover && model && model.contents.length > 0 && (
-                            <AddPropertyBar
-                                onMouseOver={() => {
-                                    setPropertySelectorVisible(true);
-                                }}
-                            />
-                        )}
+                        {hover &&
+                            model &&
+                            model.contents &&
+                            model.contents.length > 0 && (
+                                <AddPropertyBar
+                                    onMouseOver={() => {
+                                        setPropertySelectorVisible(true);
+                                    }}
+                                />
+                            )}
                     </div>
 
                     <PropertyList

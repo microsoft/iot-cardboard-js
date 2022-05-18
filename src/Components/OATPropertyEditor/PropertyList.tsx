@@ -293,6 +293,7 @@ export const PropertyList = ({
                 >
                     {hover &&
                         model &&
+                        model.contents &&
                         model.contents.length > 0 &&
                         !lastPropertyFocused && (
                             <AddPropertyBar
