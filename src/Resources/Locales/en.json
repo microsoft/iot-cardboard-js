@@ -802,6 +802,18 @@
             "title": "How do I choose twins?",
             "mainContent": "On the Twins tab, you can modify the set of twins whose data is available to this behavior. This includes the targeted elements' primary twins and non-primary twins.\n\nA non-primary twin is a secondary digital twin data source for an element. You'll be able to use properties from that twin in your behavior expressions for this element. You should only add non-primary twins when there are additional twins with data beyond your primary twin that you want to leverage in your status, alerts, and widgets for this behavior.\n\n",
             "tipContent": "Azure Digital Twins Explorer can help you see twins that might be related to the primary twin for this element. You can query your graph using SELECT * FROM digitaltwins WHERE $dtId='<primary-twin-id>', and then use the double-click expansion feature to explore related twins."
+        },
+        "widgets": {
+            "title": "What's a widget?",
+            "mainContent": "Widgets are data-driven visuals that provide additional context and data, to help you understand the scenario that the behavior represents. Configuring widgets will help you make sure the right data is discoverable when an alert or status is active.\n\n",
+            "typesOfWidgets": "Types of widgets\n\n",
+            "gaugeDescription": "<Underline>Gauge:</Underline> For representing numerical data points visually\n\n",
+            "linkDescription": "<Underline>Link:</Underline> For including externally-referenced content via a linked URL\n\n",
+            "valueDescription": "<Underline>Value:</Underline> For directly displaying twin property values\n\n"
+        },
+        "sceneLayers": {
+            "title": "What's a scene layer?",
+            "mainContent": "You can create layers in your scene to help organize your behaviors. Layers act like tags on the behaviors, enabling you to define which behaviors need to be seen together, thus creating custom views of your scene for different roles or tasks.\n\nIf there are no layers in a scene, all of the behaviors will show up in the scene viewer. If there's at least one layer present in the scene, then only behaviors that are tagged with a layer will show up in the viewer.\n\nOne way to create layers is to use the Scene layers button in the Build view for a scene. Alternatively, you can create layers while creating or modifying a behavior."
         }
     }
 }

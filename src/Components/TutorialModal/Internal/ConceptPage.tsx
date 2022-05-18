@@ -35,6 +35,12 @@ const ConceptPage: React.FC<{ pageKey: string }> = ({ pageKey }) => {
             case TutorialModalPage.TWINS:
                 content = <Twins />;
                 break;
+            case TutorialModalPage.WIDGETS:
+                content = <Widgets />;
+                break;
+            case TutorialModalPage.SCENELAYERS:
+                content = <SceneLayers />;
+                break;
             default:
                 break;
         }
@@ -162,6 +168,93 @@ const Twins = () => {
     );
 };
 
+const Widgets = () => {
+    const { t } = useTranslation();
+    const classNames = getStyles();
+    const underlineComponent = {
+        Underline: <Text styles={underlineTextStyles}></Text>
+    };
+
+    return (
+        <>
+            <Text as={'h3'} styles={conceptTitleStyles} block>
+                {t('tutorialModal.widgets.title')}
+            </Text>
+            <div className={classNames.growContent}>
+                <Text block>{t('tutorialModal.widgets.mainContent')}</Text>
+                <Text block styles={boldTextStyles}>
+                    {t('tutorialModal.widgets.typesOfWidgets')}
+                </Text>
+                <Text>
+                    <Trans
+                        t={t}
+                        i18nKey="tutorialModal.widgets.gaugeDescription"
+                        components={underlineComponent}
+                    />
+                </Text>
+                <Text>
+                    <Trans
+                        t={t}
+                        i18nKey="tutorialModal.widgets.linkDescription"
+                        components={underlineComponent}
+                    />
+                </Text>
+                <Text>
+                    <Trans
+                        t={t}
+                        i18nKey="tutorialModal.widgets.valueDescription"
+                        components={underlineComponent}
+                    />
+                </Text>
+            </div>
+            <Text>
+                <Trans
+                    t={t}
+                    i18nKey="tutorialModal.docLinkBlurb"
+                    components={{
+                        DocLink: (
+                            <Link
+                                href="https://www.google.com"
+                                target="_blank"
+                            ></Link>
+                        )
+                    }}
+                />
+            </Text>
+        </>
+    );
+};
+
+const SceneLayers = () => {
+    const { t } = useTranslation();
+    const classNames = getStyles();
+
+    return (
+        <>
+            <Text as={'h3'} styles={conceptTitleStyles} block>
+                {t('tutorialModal.sceneLayers.title')}
+            </Text>
+            <div className={classNames.growContent}>
+                <Text block>{t('tutorialModal.sceneLayers.mainContent')}</Text>
+            </div>
+            <Text>
+                <Trans
+                    t={t}
+                    i18nKey="tutorialModal.docLinkBlurb"
+                    components={{
+                        DocLink: (
+                            <Link
+                                href="https://www.google.com"
+                                target="_blank"
+                            ></Link>
+                        )
+                    }}
+                />
+            </Text>
+        </>
+    );
+};
+
 export const classPrefix = 'cb-tutorialmodal-concept-page';
 const classNames = {
     iconLabelContainer: `${classPrefix}-icon-label-container-styles`,
@@ -184,6 +277,12 @@ const getStyles = memoizeFunction(() => {
         ]
     });
 });
+
+const underlineTextStyles: Partial<ITextStyles> = {
+    root: {
+        textDecoration: 'underline'
+    }
+};
 
 const boldTextStyles: Partial<ITextStyles> = {
     root: {
