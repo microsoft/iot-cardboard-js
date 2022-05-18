@@ -158,8 +158,6 @@
   "scenes": {
     "noScenes": "3B sahneleriniz yok, başlamak için yeni bir tane ekleyin.",
     "addScene": "3B sahne ekleme",
-    "sceneLatitude": "Enlem",
-    "sceneLongitude": "Boylam",
     "blobUrl": "3B dosya blobu URL'si",
     "addDialogTitle": "Yeni sahne oluştur",
     "addDialogSubText": "Sahnenizi blob depolamadaki 3B dosyanızın URL'sine bağlama",
@@ -169,7 +167,15 @@
     "fromContainer": "Konteynırdan",
     "3dFileAsset": "3B dosya varlığı",
     "overwriteIfExist": "Dosya zaten varsa üzerine yaz",
-    "fileExistsErrorMessage": "Bu ada sahip bir dosya depolama alanında zaten varsa, bu dosyayı kapsayıcıdan seçebilir veya üzerine yazabilirsiniz."
+    "fileExistsErrorMessage": "Bu ada sahip bir dosya depolama alanında zaten varsa, bu dosyayı kapsayıcıdan seçebilir veya üzerine yazabilirsiniz.",
+    "description": "Tarif",
+    "latitude": "Enlem",
+    "longitude": "Boylam",
+    "showOnGlobe": "Dünyada göster",
+    "sampleLatitude": "Örnek: 6.4511366",
+    "sampleLongitude": "Örnek: 3.3883963",
+    "longitudeErrorMessage": "Giriş değeri -180 ve 180 derece arasında olmalıdır",
+    "latitudeErrorMessage": "Giriş değeri -90 ve 90 derece arasında olmalıdır"
   },
   "BIMUpload": {
     "specifyFiles": "Karşıya yüklenecek dosyaları belirtme",
