@@ -814,6 +814,43 @@
     "sceneLayers": {
       "title": "Sahne katmanı nedir?",
       "mainContent": "Davranışlarınızı düzenlemenize yardımcı olması için sahnenizde katmanlar oluşturabilirsiniz. Katmanlar, davranışlar üzerindeki etiketler gibi davranarak hangi davranışların birlikte görülmesi gerektiğini tanımlamanıza olanak tanır, böylece farklı roller veya görevler için sahnenizin özel görünümlerini oluşturur.\n\nBir sahnede katman yoksa, tüm davranışlar sahne görüntüleyicisinde görünür. Sahnede en az bir katman varsa görüntüleyicide yalnızca bir katmanla etiketlenmiş davranışlar görünür.\n\nKatmanlar oluşturmanın bir yolu, bir sahne için Yapı görünümündeki Sahne katmanları düğmesini kullanmaktır. Alternatif olarak, bir davranış oluştururken veya değiştirirken katmanlar oluşturabilirsiniz."
+    },
+    "modalTitle": "3D Sahneler Stüdyosu'na hoş geldiniz!",
+    "publicPreview": "Genel Önizleme",
+    "closeAriaLabel": "Modal'ı kapat",
+    "viewTheDocs": "Dokümanları görüntüleme",
+    "exploreTheDemo": "Demoyu keşfedin",
+    "dismiss": "Kapatmak",
+    "nextSlide": "Sonraki slayt",
+    "previousSlide": "Önceki slayt",
+    "statusIndicatorSelectedAria": "Slayt {{slayt}} seçildi",
+    "statusIndicatorUnselectedAria": "Slayt {{slayt}} öğesini seçin",
+    "tabs": {
+      "introduction": "Giriş",
+      "concepts": "Kavram",
+      "elements": "Öğe",
+      "behaviors": "Davranış",
+      "twins": "İkizler",
+      "widgets": "Widget",
+      "sceneLayers": "Sahne katmanları"
+    },
+    "frePages": {
+      "intro": {
+        "title": "En yeni düşük kod oluşturucumuz",
+        "text": "Bu sürükleyici 3B ortamda, 3B uzmanlığa gerek kalmadan Azure Digital Twins verileriyle desteklenen 3B varlıkların görsel bağlamıyla operasyonel verileri izleyebilir, tanılayabilir ve araştırabilirsiniz."
+      },
+      "builder": {
+        "title": "Oluşturucumuzda sahnenizi özelleştirin",
+        "text": "3D Scenes Studio'daki oluşturucu, sahnelerinizi yapılandırmak için birincil arayüzdür. Düşük kodlu, görsel bir deneyimdir."
+      },
+      "viewer": {
+        "title": "Çevreyi keşfedin veya başka bir yere yerleştirin",
+        "text": "3B sahneyi burada, Studio'da görüntüleyin. Görüntüleyici bileşeni özel uygulamalara gömülebilir ve 3. taraf bileşenlerle birlikte çalışabilir."
+      }
+    },
+    "conceptsRoot": {
+      "title": "Kavramlar hakkında daha derin bir dalışa mı ihtiyacınız var?",
+      "text": "Yardım içeriğine göz atın veya adım adım öğreticiler için belgelerimize göz atın!"
     }
   }
 }

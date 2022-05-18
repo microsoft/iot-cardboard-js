@@ -814,6 +814,43 @@
     "sceneLayers": {
       "title": "Vad är ett scenlager?",
       "mainContent": "Du kan skapa lager i din scen för att organisera dina beteenden. Lager fungerar som taggar på beteendena, så att du kan definiera vilka beteenden som behöver ses tillsammans, vilket skapar anpassade vyer av din scen för olika roller eller uppgifter.\n\nOm det inte finns några lager i en scen visas alla beteenden i scenvisaren. Om det finns minst ett lager i scenen visas bara beteenden som är taggade med ett lager i visningsprogrammet.\n\nEtt sätt att skapa lager är att använda knappen Scenlager i vyn Skapa för en scen. Du kan också skapa lager när du skapar eller ändrar ett beteende."
+    },
+    "modalTitle": "Välkommen till 3D Scenes Studio!",
+    "publicPreview": "Offentlig förhandsversion",
+    "closeAriaLabel": "Stäng modal",
+    "viewTheDocs": "Visa dokumenten",
+    "exploreTheDemo": "Utforska demon",
+    "dismiss": "Avskeda",
+    "nextSlide": "Nästa bild",
+    "previousSlide": "Föregående bild",
+    "statusIndicatorSelectedAria": "Slide {{slide}} markerad",
+    "statusIndicatorUnselectedAria": "Välj bild {{slide}}",
+    "tabs": {
+      "introduction": "Införandet",
+      "concepts": "Begrepp",
+      "elements": "Element",
+      "behaviors": "Beteenden",
+      "twins": "Tvillingar",
+      "widgets": "Widgets",
+      "sceneLayers": "Scenlager"
+    },
+    "frePages": {
+      "intro": {
+        "title": "Vår senaste low-code-byggare",
+        "text": "I den här integrerande 3D-miljön kan du övervaka, diagnostisera och undersöka driftdata med den visuella kontexten för 3D-tillgångar, som drivs av Azure Digital Twins data, utan behov av 3D-expertis."
+      },
+      "builder": {
+        "title": "Anpassa din scen i vår Builder",
+        "text": "Byggaren i 3D Scenes Studio är det primära gränssnittet för att konfigurera dina scener. Det är en visuell upplevelse med låg kod."
+      },
+      "viewer": {
+        "title": "Utforska runt eller bädda in det någon annanstans",
+        "text": "Se 3D-scenen här i studion. Visningsprogramkomponenten kan bäddas in i anpassade program och kan fungera tillsammans med komponenter från tredje part."
+      }
+    },
+    "conceptsRoot": {
+      "title": "Behöver du en djupare dykning i begreppen?",
+      "text": "Bläddra i hjälpinnehållet eller kolla in vår dokumentation för steg för steg handledning!"
     }
   }
 }

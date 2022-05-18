@@ -814,6 +814,43 @@
     "sceneLayers": {
       "title": "Che cos'è un livello di scena?",
       "mainContent": "È possibile creare livelli nella scena per organizzare i comportamenti. I livelli agiscono come tag sui comportamenti, consentendo di definire quali comportamenti devono essere visti insieme, creando così viste personalizzate della scena per ruoli o attività diversi.\n\nSe non ci sono livelli in una scena, tutti i comportamenti verranno visualizzati nel visualizzatore della scena. Se nella scena è presente almeno un livello, nel visualizzatore verranno visualizzati solo i comportamenti contrassegnati con un livello.\n\nUn modo per creare livelli consiste nell'utilizzare il pulsante Livelli scena nella vista Crea per una scena. In alternativa, potete creare livelli durante la creazione o la modifica di un comportamento."
+    },
+    "modalTitle": "Benvenuto a 3D Scenes Studio!",
+    "publicPreview": "Anteprima pubblica",
+    "closeAriaLabel": "Chiudi modale",
+    "viewTheDocs": "Visualizza i documenti",
+    "exploreTheDemo": "Esplora la demo",
+    "dismiss": "Licenziare",
+    "nextSlide": "Diapositiva successiva",
+    "previousSlide": "Diapositiva precedente",
+    "statusIndicatorSelectedAria": "Diapositiva {{slide}} selected",
+    "statusIndicatorUnselectedAria": "Seleziona diapositiva {{slide}}",
+    "tabs": {
+      "introduction": "Introduzione",
+      "concepts": "Concetti",
+      "elements": "Elementi",
+      "behaviors": "Comportamenti",
+      "twins": "Gemelli",
+      "widgets": "Widget",
+      "sceneLayers": "Livelli scena"
+    },
+    "frePages": {
+      "intro": {
+        "title": "Il nostro nuovo costruttore low-code",
+        "text": "In questo ambiente 3D immersivo è possibile monitorare, diagnosticare e analizzare i dati operativi con il contesto visivo delle risorse 3D, basato sui dati di Gemelli digitali di Azure, senza la necessità di competenze 3D."
+      },
+      "builder": {
+        "title": "Personalizza la tua scena nel nostro Builder",
+        "text": "Il builder in 3D Scenes Studio è l'interfaccia principale per la configurazione delle scene. È un'esperienza visiva low-code."
+      },
+      "viewer": {
+        "title": "Esplora nei dintorni o incorporalo altrove",
+        "text": "Guarda la scena 3D proprio qui nello Studio. Il componente visualizzatore può essere incorporato in applicazioni personalizzate e può funzionare in combinazione con i componenti di terze parti."
+      }
+    },
+    "conceptsRoot": {
+      "title": "Hai bisogno di un approfondimento sui concetti?",
+      "text": "Sfoglia il contenuto della guida o consulta la nostra documentazione per tutorial passo passo!"
     }
   }
 }

@@ -814,6 +814,43 @@
     "sceneLayers": {
       "title": "Qu'est-ce qu'une couche de scène ?",
       "mainContent": "Vous pouvez créer des calques dans votre scène pour vous aider à organiser vos comportements. Les calques agissent comme des balises sur les comportements, ce qui vous permet de définir quels comportements doivent être vus ensemble, créant ainsi des vues personnalisées de votre scène pour différents rôles ou tâches.\n\nS’il n’y a pas de calques dans une scène, tous les comportements apparaîtront dans la visionneuse de scène. Si au moins un calque est présent dans la scène, seuls les comportements marqués d'un calque apparaîtront dans la visionneuse.\n\nUne façon de créer des calques consiste à utiliser le bouton Calques de scène dans la vue Générer d’une scène. Vous pouvez également créer des calques lors de la création ou de la modification d’un comportement."
+    },
+    "modalTitle": "Bienvenue sur 3D Scenes Studio !",
+    "publicPreview": "Aperçu public",
+    "closeAriaLabel": "Fermer modal",
+    "viewTheDocs": "Voir les documents",
+    "exploreTheDemo": "Explorez la démo",
+    "dismiss": "Congédier",
+    "nextSlide": "Diapositive suivante",
+    "previousSlide": "Diapositive précédente",
+    "statusIndicatorSelectedAria": "Diapositive {{slide}} sélectionnée",
+    "statusIndicatorUnselectedAria": "Sélectionnez la diapositive {{slide}}",
+    "tabs": {
+      "introduction": "Introduction",
+      "concepts": "Concepts",
+      "elements": "Éléments",
+      "behaviors": "Comportements",
+      "twins": "Jumeaux",
+      "widgets": "Widgets",
+      "sceneLayers": "Calques de scène"
+    },
+    "frePages": {
+      "intro": {
+        "title": "Notre nouveau générateur low-code",
+        "text": "Dans cet environnement 3D immersif, vous pouvez surveiller, diagnostiquer et étudier les données opérationnelles avec le contexte visuel des ressources 3D, optimisées par les données Azure Digital Twins, sans avoir besoin d’expertise 3D."
+      },
+      "builder": {
+        "title": "Personnalisez votre scène dans notre Builder",
+        "text": "Le générateur de 3D Scenes Studio est l’interface principale pour configurer vos scènes. C’est une expérience visuelle low-code."
+      },
+      "viewer": {
+        "title": "Explorez autour de vous ou intégrez-le ailleurs",
+        "text": "Regardez la scène 3D ici même dans le Studio. Le composant de visionneuse peut être incorporé dans des applications personnalisées et peut fonctionner conjointement avec des composants tiers 3rd."
+      }
+    },
+    "conceptsRoot": {
+      "title": "Besoin d’une plongée plus profonde sur les concepts?",
+      "text": "Parcourez le contenu de l’aide ou consultez notre documentation pour des tutoriels étape par étape!"
     }
   }
 }
