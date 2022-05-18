@@ -30,6 +30,10 @@ export const DTDLNameRegex = new RegExp(
 export const scenesDemoUrl =
     'https://explorer.digitaltwins.azure.net/3DScenes/demo';
 
+export const FRE_MODAL_LINKS = {
+    
+}
+
 export const dtdlPrimitiveTypesList = [
     'boolean',
     'date',

@@ -1,5 +1,6 @@
 import { IconButton, IProcessedStyleSet } from '@fluentui/react';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import useKeyPress from '../../../Models/Hooks/useKeyPress';
 import { ITutorialModalStyles } from '../TutorialModal.types';
 import SlideContentManager from './SlideContentManager';
@@ -10,6 +11,7 @@ const IntroductionSlideShow: React.FC<{
     setSlideNumber: (slideNumber: number) => void;
     classNames: IProcessedStyleSet<ITutorialModalStyles>;
 }> = ({ slideNumber, setSlideNumber, classNames }) => {
+    const { t } = useTranslation();
     const numSlides = 3;
 
     const prevSlide = () => setSlideNumber(Math.max(slideNumber - 1, 0));
@@ -26,7 +28,7 @@ const IntroductionSlideShow: React.FC<{
                     <IconButton
                         styles={classNames.subComponentStyles.chevronButton()}
                         iconProps={{ iconName: 'ChevronLeft' }}
-                        ariaLabel="Previous slide"
+                        ariaLabel={t('tutorialModal.previousSlide')}
                         onClick={prevSlide}
                     />
                 </div>
@@ -36,7 +38,7 @@ const IntroductionSlideShow: React.FC<{
                     <IconButton
                         styles={classNames.subComponentStyles.chevronButton()}
                         iconProps={{ iconName: 'ChevronRight' }}
-                        ariaLabel="Next slide"
+                        ariaLabel={t('tutorialModal.nextSlide')}
                         onClick={nextSlide}
                     />
                 </div>

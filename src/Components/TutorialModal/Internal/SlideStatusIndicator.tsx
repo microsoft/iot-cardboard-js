@@ -1,5 +1,6 @@
 import { IconButton, IProcessedStyleSet } from '@fluentui/react';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { ITutorialModalStyles } from '../TutorialModal.types';
 
 const SlideStatusIndicator: React.FC<{
@@ -8,6 +9,7 @@ const SlideStatusIndicator: React.FC<{
     classNames: IProcessedStyleSet<ITutorialModalStyles>;
     numSlides: number;
 }> = ({ slideNumber, setSlideNumber, classNames, numSlides }) => {
+    const { t } = useTranslation();
     return (
         <div className={classNames.slideStatusIndicatorContainer}>
             {Array.from(Array(numSlides).keys()).map((slide) => {
@@ -23,8 +25,14 @@ const SlideStatusIndicator: React.FC<{
                         }}
                         ariaLabel={
                             isActiveSlide
-                                ? `Slide ${slide} selected`
-                                : `Select slide ${slide}`
+                                ? t(
+                                      'tutorialModal.statusIndicatorSelectedAria',
+                                      { slide }
+                                  )
+                                : t(
+                                      'tutorialModal.statusIndicatorUnselectedAria',
+                                      { slide }
+                                  )
                         }
                         onClick={() => setSlideNumber(slide)}
                     />

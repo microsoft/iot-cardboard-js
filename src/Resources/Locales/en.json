@@ -784,6 +784,43 @@
         "zoomOut": "Zoom out"
     },
     "tutorialModal": {
+        "modalTitle": "Welcome to 3D Scenes Studio!",
+        "publicPreview": "Public Preview",
+        "closeAriaLabel": "Close modal",
+        "viewTheDocs": "View the docs",
+        "exploreTheDemo": "Explore the demo",
+        "dismiss": "Dismiss",
+        "nextSlide": "Next slide",
+        "previousSlide": "Previous slide",
+        "statusIndicatorSelectedAria": "Slide {{slide}} selected",
+        "statusIndicatorUnselectedAria": "Select slide {{slide}}",
+        "tabs": {
+            "introduction": "Introduction",
+            "concepts": "Concepts",
+            "elements": "Elements",
+            "behaviors": "Behaviors",
+            "twins": "Twins",
+            "widgets": "Widgets",
+            "sceneLayers": "Scene layers"
+        },
+        "frePages": {
+            "intro": {
+                "title": "Our newest low-code builder",
+                "text": "In this immersive 3D environment, you can monitor, diagnose, and investigate operational data with the visual context of 3D assets, powered by Azure Digital Twins data, without the need for 3D expertise."
+            },
+            "builder": {
+                "title": "Customize your scene in our Builder",
+                "text": "The builder in 3D Scenes Studio is the primary interface for configuring your scenes. It is a low-code, visual experience."
+            },
+            "viewer": {
+                "title": "Explore around, or embed it elsewhere",
+                "text": "View the 3D scene right here in the Studio. The viewer component can be embedded into custom applications, and can work in conjunction with 3rd party components."
+            }
+        },
+        "conceptsRoot": {
+            "title": "Need a deeper dive on the concepts?",
+            "text": "Browse the help content or check out our documentation for step by step tutorials!"
+        },
         "docLinkBlurb": "For a more detailed step-by-step, check out our <DocLink>docs here.</DocLink>",
         "tip": "Tip",
         "elements": {

@@ -15,12 +15,13 @@ import IllustrationPage from './IllustrationPage';
 import { useTranslation, Trans } from 'react-i18next';
 
 const ConceptPage: React.FC<{ pageKey: string }> = ({ pageKey }) => {
+    const { t } = useTranslation();
     if (pageKey === TutorialModalPage.CONCEPTS) {
         return (
             <IllustrationPage
                 svgSrc={ConceptsRootSvg}
-                title="Need a deeper dive on the concepts?"
-                text="Browse the help content or check out our documentation for step by step tutorials!"
+                title={t('tutorialModal.conceptsRoot.title')}
+                text={t('tutorialModal.conceptsRoot.text')}
             />
         );
     } else {

@@ -30,6 +30,7 @@ import {
     tutorialModalReducer
 } from './TutorialModal.state';
 import ConceptPage from './Internal/ConceptPage';
+import { TFunction, useTranslation } from 'react-i18next';
 
 const getClassNames = classNamesFunction<
     ITutorialModalStyleProps,
@@ -37,6 +38,7 @@ const getClassNames = classNamesFunction<
 >();
 
 const TutorialModal: React.FC<ITutorialModalProps> = (props) => {
+    const { t } = useTranslation();
     const {
         styles,
         isOpen,
@@ -52,7 +54,7 @@ const TutorialModal: React.FC<ITutorialModalProps> = (props) => {
         pageKey: defaultPageKey
     });
 
-    const navLinkGroups = getNavLinkGroups(dispatch);
+    const navLinkGroups = getNavLinkGroups(dispatch, t);
 
     return (
         <Modal
@@ -69,20 +71,20 @@ const TutorialModal: React.FC<ITutorialModalProps> = (props) => {
                 <div className={classNames.header}>
                     <div className={classNames.headerTextContainer}>
                         <span id={titleId} className={classNames.headerText}>
-                            Welcome to 3D Scenes Studio!
+                            {t('tutorialModal.modalTitle')}
                         </span>
                         <div className={classNames.previewBadge}>
                             <Icon
                                 iconName="Globe"
                                 styles={{ root: { marginRight: 4 } }}
                             />
-                            Public Preview
+                            {t('tutorialModal.publicPreview')}
                         </div>
                     </div>
                     <IconButton
                         styles={classNames.subComponentStyles.closeButton()}
                         iconProps={{ iconName: 'Cancel' }}
-                        ariaLabel="Close popup modal"
+                        ariaLabel={t('tutorialModal.closeAriaLabel')}
                         onClick={onDismiss}
                     />
                 </div>
@@ -113,16 +115,16 @@ const TutorialModal: React.FC<ITutorialModalProps> = (props) => {
                 </div>
                 <div className={classNames.footer}>
                     <Link href="https://google.com" target="_blank">
-                        View the docs
+                        {t('tutorialModal.viewTheDocs')}
                     </Link>
                     <Stack horizontal tokens={{ childrenGap: 8 }}>
                         <PrimaryButton
                             onClick={() => window.open(scenesDemoUrl, '_blank')}
                         >
-                            Explore the demo
+                            {t('tutorialModal.exploreTheDemo')}
                         </PrimaryButton>
                         <DefaultButton onClick={onDismiss}>
-                            Dismiss
+                            {t('tutorialModal.dismiss')}
                         </DefaultButton>
                     </Stack>
                 </div>
@@ -132,14 +134,15 @@ const TutorialModal: React.FC<ITutorialModalProps> = (props) => {
 };
 
 const getNavLinkGroups = (
-    dispatch: React.Dispatch<TutorialModalAction>
+    dispatch: React.Dispatch<TutorialModalAction>,
+    t: TFunction<string>
 ): INavLinkGroup[] => {
     return [
         {
             links: [
                 {
                     key: TutorialModalPage.INTRODUCTION,
-                    name: 'Introduction',
+                    name: t('tutorialModal.tabs.introduction'),
                     url: '',
                     iconProps: {
                         styles: { root: { marginLeft: 8 } },
@@ -153,7 +156,7 @@ const getNavLinkGroups = (
                 },
                 {
                     key: TutorialModalPage.CONCEPTS,
-                    name: 'Concepts',
+                    name: t('tutorialModal.tabs.concepts'),
                     url: '',
                     onClick: () =>
                         dispatch({
@@ -169,7 +172,7 @@ const getNavLinkGroups = (
                     links: [
                         {
                             key: TutorialModalPage.ELEMENTS,
-                            name: 'Elements',
+                            name: t('tutorialModal.tabs.elements'),
                             icon: 'Shapes',
                             url: '',
                             onClick: () =>
@@ -180,7 +183,7 @@ const getNavLinkGroups = (
                         },
                         {
                             key: TutorialModalPage.BEHAVIORS,
-                            name: 'Behaviors',
+                            name: t('tutorialModal.tabs.behaviors'),
                             icon: 'Ringer',
                             url: '',
                             onClick: () =>
@@ -191,7 +194,7 @@ const getNavLinkGroups = (
                         },
                         {
                             key: TutorialModalPage.TWINS,
-                            name: 'Twins',
+                            name: t('tutorialModal.tabs.twins'),
                             icon: 'Link',
                             url: '',
                             onClick: () =>
@@ -202,7 +205,7 @@ const getNavLinkGroups = (
                         },
                         {
                             key: TutorialModalPage.WIDGETS,
-                            name: 'Widgets',
+                            name: t('tutorialModal.tabs.widgets'),
                             icon: 'SpeedHigh',
                             url: '',
                             onClick: () =>
@@ -213,7 +216,7 @@ const getNavLinkGroups = (
                         },
                         {
                             key: TutorialModalPage.SCENELAYERS,
-                            name: 'Scene layers',
+                            name: t('tutorialModal.tabs.sceneLayers'),
                             icon: 'MapLayers',
                             url: '',
                             onClick: () =>
