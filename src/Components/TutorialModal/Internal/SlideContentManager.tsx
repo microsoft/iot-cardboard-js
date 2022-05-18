@@ -8,9 +8,11 @@ const SlideContentManager: React.FC<{
     activeSlide: number;
     classNames: IProcessedStyleSet<ITutorialModalStyles>;
 }> = ({ activeSlide, classNames }) => {
+    let page = null;
+
     switch (activeSlide) {
         case 0:
-            return (
+            page = (
                 <IllustrationPage
                     svgSrc={Slide1Svg}
                     title="Our newest low-code builder"
@@ -20,8 +22,10 @@ const SlideContentManager: React.FC<{
             );
             break;
         default:
-            return null;
+            break;
     }
+
+    return <div className={classNames.slideshowContainer}>{page}</div>;
 };
 
 export default SlideContentManager;

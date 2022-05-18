@@ -20,7 +20,7 @@ const IntroductionSlideShow: React.FC<{
     useKeyPress('ArrowRight', nextSlide);
 
     return (
-        <div className={classNames.slideshowContainer}>
+        <>
             {slideNumber > 0 && (
                 <div className={classNames.slideChangeBtnContainerLeft}>
                     <IconButton
@@ -41,17 +41,17 @@ const IntroductionSlideShow: React.FC<{
                     />
                 </div>
             )}
+            <SlideContentManager
+                activeSlide={slideNumber}
+                classNames={classNames}
+            />
             <SlideStatusIndicator
                 slideNumber={slideNumber}
                 setSlideNumber={setSlideNumber}
                 numSlides={numSlides}
                 classNames={classNames}
             />
-            <SlideContentManager
-                activeSlide={slideNumber}
-                classNames={classNames}
-            />
-        </div>
+        </>
     );
 };
 

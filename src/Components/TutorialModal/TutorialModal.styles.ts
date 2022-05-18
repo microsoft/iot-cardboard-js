@@ -87,8 +87,7 @@ export const getStyles = (
                 width: 900,
                 paddingRight: 20,
                 paddingLeft: 20,
-                maxHeight: 'calc(100% - 120px)',
-                overflowY: 'auto'
+                maxHeight: 'calc(100% - 120px)'
             } as IStyle
         ],
         contentPane: [
@@ -96,7 +95,11 @@ export const getStyles = (
             {
                 width: '100%',
                 borderRadius: 4,
-                marginLeft: 8
+                marginLeft: 8,
+                overflowY: 'auto',
+                position: 'relative',
+                display: 'flex',
+                flexDirection: 'column'
             } as IStyle
         ],
         illustrationPageContainer: [
@@ -104,16 +107,13 @@ export const getStyles = (
             {
                 width: '100%',
                 height: '100%',
-
                 padding: '0px 40px'
             } as IStyle
         ],
         slideshowContainer: [
             classNames.slideshowContainer,
             {
-                width: '100%',
-                height: '100%',
-                position: 'relative'
+                flexGrow: 1
             } as IStyle
         ],
         slideChangeBtnContainerLeft: [
@@ -133,12 +133,8 @@ export const getStyles = (
         slideStatusIndicatorContainer: [
             classNames.slideStatusIndicatorContainer,
             {
-                position: 'absolute',
-                bottom: 20,
-                left: 0,
-                right: 0,
-                marginLeft: 'auto',
-                marginRight: 'auto',
+                height: 32,
+                marginBottom: 8,
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center'
@@ -153,7 +149,6 @@ export const getStyles = (
                 width: '100%',
                 height: 60,
                 borderTop: `1px solid ${props.theme.palette.neutralLight}`,
-                marginTop: 8,
                 padding: '0 20px'
             } as IStyle
         ],
