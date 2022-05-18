@@ -22,7 +22,9 @@ import {
     DefaultButton,
     Icon,
     Text,
-    IProcessedStyleSet
+    IProcessedStyleSet,
+    IIconProps,
+    IIconStyles
 } from '@fluentui/react';
 import { useId } from '@fluentui/react-hooks';
 import { FRE_MODAL_LINKS, scenesDemoUrl } from '../../Models/Constants';
@@ -221,6 +223,10 @@ const getNavLinkGroups = (
                             key: TutorialModalPage.ELEMENTS,
                             name: t('tutorialModal.tabs.elements'),
                             icon: 'Shapes',
+                            iconProps: {
+                                styles: nestedLinkIconProps,
+                                iconName: 'Shapes'
+                            },
                             url: '',
                             onClick: () =>
                                 dispatch({
@@ -231,7 +237,10 @@ const getNavLinkGroups = (
                         {
                             key: TutorialModalPage.BEHAVIORS,
                             name: t('tutorialModal.tabs.behaviors'),
-                            icon: 'Ringer',
+                            iconProps: {
+                                styles: nestedLinkIconProps,
+                                iconName: 'Ringer'
+                            },
                             url: '',
                             onClick: () =>
                                 dispatch({
@@ -242,7 +251,10 @@ const getNavLinkGroups = (
                         {
                             key: TutorialModalPage.TWINS,
                             name: t('tutorialModal.tabs.twins'),
-                            icon: 'Link',
+                            iconProps: {
+                                styles: nestedLinkIconProps,
+                                iconName: 'Link'
+                            },
                             url: '',
                             onClick: () =>
                                 dispatch({
@@ -253,7 +265,10 @@ const getNavLinkGroups = (
                         {
                             key: TutorialModalPage.WIDGETS,
                             name: t('tutorialModal.tabs.widgets'),
-                            icon: 'SpeedHigh',
+                            iconProps: {
+                                styles: nestedLinkIconProps,
+                                iconName: 'SpeedHigh'
+                            },
                             url: '',
                             onClick: () =>
                                 dispatch({
@@ -264,7 +279,10 @@ const getNavLinkGroups = (
                         {
                             key: TutorialModalPage.SCENELAYERS,
                             name: t('tutorialModal.tabs.sceneLayers'),
-                            icon: 'MapLayers',
+                            iconProps: {
+                                styles: nestedLinkIconProps,
+                                iconName: 'MapLayers'
+                            },
                             url: '',
                             onClick: () =>
                                 dispatch({
@@ -277,6 +295,12 @@ const getNavLinkGroups = (
             ]
         }
     ];
+};
+
+const nestedLinkIconProps: IIconStyles = {
+    root: {
+        marginLeft: 18
+    }
 };
 
 export default styled<
