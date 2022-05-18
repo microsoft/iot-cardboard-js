@@ -414,13 +414,14 @@
       "expressionLabel": "Triggerexpressie",
       "expressionPlaceholder": "Expressie invoeren (bijv. PrimaryTwin.InFlow > 3)",
       "iconPickerLabel": "Badge-pictogram",
-      "notice": "Dit gedrag wordt alleen ingeschakeld wanneer de onderstaande triggerexpressie wordt geëvalueerd naar true.",
       "notificationLabel": "Tekst van melding",
-      "notificationPlaceholder": "Tekst die bij de waarschuwing moet worden weergegeven voor extra context."
+      "notificationPlaceholder": "Tekst die bij de waarschuwing moet worden weergegeven voor extra context.",
+      "tabDescription": "Waarschuwingen , pictogrammen vergezeld van tekst, helpen de aandacht te vestigen op kritieke gegevenscondities. Gebruik hieronder expressies om waarschuwingen in uw visualisatie te activeren.",
+      "notificationLabelTooltip": "Deze tekst geeft een consument context wanneer deze badge actief is."
     },
     "behaviorStatusForm": {
-      "notice": "Gebruik één eigenschap om de doelelementen van dit gedrag opnieuw in te kleuren.",
-      "stateItemLabel": "Staat {{index}}"
+      "stateItemLabel": "Staat {{index}}",
+      "tabDescription": "Selecteer een eigenschap en stel vervolgens bereiken in voor het toepassen van kleur op bepaalde omstandigheden, bijvoorbeeld rood om hoge temperaturen aan te geven of groen voor optimale snelheid."
     },
     "twinPropertyDropdown": {
       "propertyDropdownLabel": "Eigenschap",
@@ -442,7 +443,6 @@
     "behaviorId": "Gedrag Id",
     "widgetLibrary": "Widget bibliotheek",
     "exploreWidgets": "Verken onze widgets en voeg een extra informatielaag toe aan uw 3D-scène.",
-    "addWidget": "Widget toevoegen",
     "newWidget": "Nieuwe widget",
     "createWidget": "Widget maken",
     "updateWidget": "Widget bijwerken",
@@ -450,7 +450,6 @@
     "removeWidget": "Widget verwijderen",
     "noWidgets": "Geen widgets gevonden",
     "modifyWidget": "Widget wijzigen",
-    "noWidgetsConfigured": "Geen widgets geconfigureerd",
     "unitOfMeasure": "Meeteenheid",
     "expression": "Uitdrukking",
     "warningBreakPointToggleLabel": "Kleuronderbrekingspunt inschakelen",
@@ -490,7 +489,8 @@
       },
       "tabDescriptionPart1": "Elk element maakt gebruik van gegevens van zijn primaire tweeling. Voeg andere tweelingen toe waarvan uw elementen gegevens kunnen gebruiken.",
       "tabDescriptionPart2": "Bekijk de eigenschappen die de doelelementen gemeen hebben en verwijs naar deze eigenschappen met behulp van de primaire tweeling of de andere tweeling in uw expressies. ",
-      "linkedTwinListHeader": "Gekoppelde tweeling ({{count}})"
+      "linkedTwinListHeader": "Gekoppelde tweeling ({{count}})",
+      "calloutDescription": "De vereniging van gekoppelde tweelingeigenschappen van geselecteerde elementen"
     },
     "elementsListInstructions": "Selecteer de elementen die u wilt opnemen in de visualisatie van dit gedrag",
     "behaviorForm": {
@@ -498,6 +498,11 @@
       "createBehavior": "Gedrag creëren",
       "modifyBehavior": "Gedrag bewerken",
       "formSubTitle": "Gedragingen zijn visuele aanwijzingen die optreden onder specifieke omstandigheden, bijvoorbeeld met specifieke intervallen of bij gegevensdrempels."
+    },
+    "behaviorWidgetsForm": {
+      "addWidgetButtonText": "Widget toevoegen",
+      "noData": "Je hebt nog geen widgets geconfigureerd",
+      "tabDescription": "Widgets definiëren die in de context van het element worden weergegeven"
     }
   },
   "widgets": {

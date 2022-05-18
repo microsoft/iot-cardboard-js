@@ -414,13 +414,14 @@
       "expressionLabel": "Tetikleyici ifadesi",
       "expressionPlaceholder": "Enter ifadesi (örn. PrimaryTwin.InFlow > 3)",
       "iconPickerLabel": "Rozet simgesi",
-      "notice": "Bu davranış yalnızca aşağıdaki tetikleyici ifade true olarak değerlendirildiğinde etkinleştirilir.",
       "notificationLabel": "Bildirim metni",
-      "notificationPlaceholder": "Ek bağlam için uyarıyla birlikte gösterilecek metin."
+      "notificationPlaceholder": "Ek bağlam için uyarıyla birlikte gösterilecek metin.",
+      "tabDescription": "Uyarılar (metin eşliğinde simgeler) kritik veri koşullarına dikkat çekmeye yardımcı olur. Aşağıda, görselleştirmenizdeki uyarıları tetiklemek için ifadeleri kullanın.",
+      "notificationLabelTooltip": "Bu metin, bu rozet etkinken tüketiciye bir bağlam sağlayacaktır."
     },
     "behaviorStatusForm": {
-      "notice": "Bu davranışın hedef öğelerini yeniden renklendirmek için tek bir özellik kullanın.",
-      "stateItemLabel": "Durum {{index}}"
+      "stateItemLabel": "Durum {{index}}",
+      "tabDescription": "Bir özellik seçin, sonra belirli koşullara renk uygulamak için aralıkları ayarlayın (örneğin, yüksek sıcaklıkları belirtmek için kırmızı veya optimum hız için yeşil)."
     },
     "twinPropertyDropdown": {
       "propertyDropdownLabel": "Mülk",
@@ -442,7 +443,6 @@
     "behaviorId": "Davranış Kimliği",
     "widgetLibrary": "Widget kitaplığı",
     "exploreWidgets": "Widget'larımızı keşfedin ve 3B sahnenize ekstra bir bilgi katmanı ekleyin.",
-    "addWidget": "Widget ekle",
     "newWidget": "Yeni widget",
     "createWidget": "Widget oluşturma",
     "updateWidget": "Widget'ı güncelleme",
@@ -450,7 +450,6 @@
     "removeWidget": "Widget'ı kaldırma",
     "noWidgets": "Widget bulunamadı",
     "modifyWidget": "Widget'ı değiştirme",
-    "noWidgetsConfigured": "Yapılandırılmış widget yok",
     "unitOfMeasure": "Ölçü birimi",
     "expression": "İfade",
     "warningBreakPointToggleLabel": "Renk kesme noktasını etkinleştir",
@@ -490,7 +489,8 @@
       },
       "tabDescriptionPart1": "Her öğe birincil ikizinden gelen verilerden yararlanır. Öğelerinizin verilerden yararlanabileceği diğer ikizleri ekleyin.",
       "tabDescriptionPart2": "Hedeflenen öğeler arasındaki ortak özellikleri görüntüleyin ve ifadelerinizdeki birincil ikizi veya diğer ikizleri kullanarak bu özelliklere başvurun. ",
-      "linkedTwinListHeader": "Bağlı ikizler ({{count}})"
+      "linkedTwinListHeader": "Bağlı ikizler ({{count}})",
+      "calloutDescription": "Seçili elemanların bağlantılı ikiz özelliklerinin birleşimi"
     },
     "elementsListInstructions": "Bu davranışın görselleştirmesine dahil edilmesini istediğiniz öğeleri seçin",
     "behaviorForm": {
@@ -498,6 +498,11 @@
       "createBehavior": "Davranış oluşturma",
       "modifyBehavior": "Düzenleme davranışı",
       "formSubTitle": "Davranışlar, belirli koşullar altında (örneğin, belirli aralıklarla veya veri eşiklerinde) meydana gelen görsel ipuçlarıdır."
+    },
+    "behaviorWidgetsForm": {
+      "addWidgetButtonText": "Widget ekle",
+      "noData": "Henüz herhangi bir widget yapılandırmadınız",
+      "tabDescription": "Öğenin bağlamında görünen widget'ları tanımlama"
     }
   },
   "widgets": {

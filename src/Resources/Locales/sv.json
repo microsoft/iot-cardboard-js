@@ -414,13 +414,14 @@
       "expressionLabel": "Utlösa uttryck",
       "expressionPlaceholder": "Ange uttryck (t.ex. PrimaryTwin.InFlow > 3)",
       "iconPickerLabel": "Ikon för märke",
-      "notice": "Det här beteendet aktiveras endast när utlösaruttrycket nedan utvärderas till true.",
       "notificationLabel": "Meddelandetext",
-      "notificationPlaceholder": "Text som ska visas med aviseringen för ytterligare kontext."
+      "notificationPlaceholder": "Text som ska visas med aviseringen för ytterligare kontext.",
+      "tabDescription": "Varningar – ikoner som åtföljs av text – hjälper till att uppmärksamma kritiska dataförhållanden. Nedan använder du uttryck för att utlösa aviseringar i visualiseringen.",
+      "notificationLabelTooltip": "Den här texten ger en konsumentkontext när det här märket är aktivt."
     },
     "behaviorStatusForm": {
-      "notice": "Använd en enda egenskap för att färga om det här beteendets målelement.",
-      "stateItemLabel": "Tillstånd {{index}}"
+      "stateItemLabel": "Tillstånd {{index}}",
+      "tabDescription": "Välj en egenskap och ställ sedan in intervall för att tillämpa färg på vissa förhållanden, till exempel rött för att indikera höga temperaturer eller grönt för optimal hastighet."
     },
     "twinPropertyDropdown": {
       "propertyDropdownLabel": "Egenskap",
@@ -442,7 +443,6 @@
     "behaviorId": "Beteende ID",
     "widgetLibrary": "Widget-bibliotek",
     "exploreWidgets": "Utforska våra widgets och lägg till ett extra lager av information till din 3D-scen.",
-    "addWidget": "Lägg till widget",
     "newWidget": "Ny widget",
     "createWidget": "Skapa widget",
     "updateWidget": "Uppdatera widget",
@@ -450,7 +450,6 @@
     "removeWidget": "Ta bort widget",
     "noWidgets": "Inga widgets hittades",
     "modifyWidget": "Ändra widget",
-    "noWidgetsConfigured": "Inga widgetar konfigurerade",
     "unitOfMeasure": "Måttenhet",
     "expression": "Uttryck",
     "warningBreakPointToggleLabel": "Aktivera färgbrytpunkt",
@@ -490,7 +489,8 @@
       },
       "tabDescriptionPart1": "Varje element utnyttjar data från sin primära tvilling. Lägg till andra tvillingar som dina element kan utnyttja data från.",
       "tabDescriptionPart2": "Visa egenskaperna gemensamt mellan målelementen och referera till dessa egenskaper med hjälp av den primära tvillingen eller de andra tvillingarna i dina uttryck. ",
-      "linkedTwinListHeader": "Länkade tvillingar ({{count}})"
+      "linkedTwinListHeader": "Länkade tvillingar ({{count}})",
+      "calloutDescription": "Föreningen av länkade tvillingegenskaper hos valda element"
     },
     "elementsListInstructions": "Välj de element som du vill ska ingå i visualiseringen av det här beteendet",
     "behaviorForm": {
@@ -498,6 +498,11 @@
       "createBehavior": "Skapa beteende",
       "modifyBehavior": "Redigera beteende",
       "formSubTitle": "Beteenden är visuella signaler som inträffar under specifika förhållanden, till exempel vid specifika intervall eller vid datatrösklar."
+    },
+    "behaviorWidgetsForm": {
+      "addWidgetButtonText": "Lägg till widget",
+      "noData": "Du har inte konfigurerat några widgets ännu",
+      "tabDescription": "Definiera widgetar som visas i elementets kontext"
     }
   },
   "widgets": {

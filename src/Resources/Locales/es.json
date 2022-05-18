@@ -414,13 +414,14 @@
       "expressionLabel": "Expresión de desencadenador",
       "expressionPlaceholder": "Introduzca la expresión (por ejemplo, PrimaryTwin.InFlow > 3)",
       "iconPickerLabel": "Icono de insignia",
-      "notice": "Este comportamiento sólo se habilitará cuando la siguiente expresión de desencadenador se evalúe como true.",
       "notificationLabel": "Texto de notificación",
-      "notificationPlaceholder": "Texto para mostrar con la alerta para un contexto adicional."
+      "notificationPlaceholder": "Texto para mostrar con la alerta para un contexto adicional.",
+      "tabDescription": "Las alertas (iconos acompañados de texto) ayudan a llamar la atención sobre las condiciones críticas de los datos. A continuación, use expresiones para activar alertas en su visualización.",
+      "notificationLabelTooltip": "Este texto proporcionará un contexto de consumidor cuando esta insignia esté activa."
     },
     "behaviorStatusForm": {
-      "notice": "Utilice una sola propiedad para volver a colorear los elementos de destino de este comportamiento.",
-      "stateItemLabel": "Estado {{índice}}"
+      "stateItemLabel": "Estado {{índice}}",
+      "tabDescription": "Seleccione una propiedad y, a continuación, establezca rangos para aplicar color a ciertas condiciones, por ejemplo, rojo para indicar altas temperaturas o verde para una velocidad óptima."
     },
     "twinPropertyDropdown": {
       "propertyDropdownLabel": "Propiedad",
@@ -442,7 +443,6 @@
     "behaviorId": "Identificador de comportamiento",
     "widgetLibrary": "Biblioteca de widgets",
     "exploreWidgets": "Explore nuestros widgets y agregue una capa adicional de información a su escena 3D.",
-    "addWidget": "Añadir widget",
     "newWidget": "Nuevo widget",
     "createWidget": "Crear widget",
     "updateWidget": "Widget de actualización",
@@ -450,7 +450,6 @@
     "removeWidget": "Eliminar widget",
     "noWidgets": "No se han encontrado widgets",
     "modifyWidget": "Modificar widget",
-    "noWidgetsConfigured": "No hay widgets configurados",
     "unitOfMeasure": "Unidad de medida",
     "expression": "Expresión",
     "warningBreakPointToggleLabel": "Habilitar el punto de interrupción de color",
@@ -490,7 +489,8 @@
       },
       "tabDescriptionPart1": "Cada elemento aprovecha los datos de su gemelo principal. Agregue otros gemelos de los que sus elementos puedan aprovechar los datos.",
       "tabDescriptionPart2": "Vea las propiedades en común entre los elementos de destino y haga referencia a estas propiedades utilizando el gemelo principal o los otros gemelos en sus expresiones. ",
-      "linkedTwinListHeader": "Gemelos vinculados ({{count}})"
+      "linkedTwinListHeader": "Gemelos vinculados ({{count}})",
+      "calloutDescription": "La unión de las propiedades gemelas vinculadas de los elementos seleccionados"
     },
     "elementsListInstructions": "Seleccione los elementos que desea incluir en la visualización de este comportamiento",
     "behaviorForm": {
@@ -498,6 +498,11 @@
       "createBehavior": "Crear comportamiento",
       "modifyBehavior": "Editar comportamiento",
       "formSubTitle": "Los comportamientos son señales visuales que ocurren bajo condiciones específicas, por ejemplo, a intervalos específicos o en umbrales de datos."
+    },
+    "behaviorWidgetsForm": {
+      "addWidgetButtonText": "Añadir widget",
+      "noData": "Aún no has configurado ningún widget",
+      "tabDescription": "Definir widgets que aparecen en el contexto del elemento"
     }
   },
   "widgets": {

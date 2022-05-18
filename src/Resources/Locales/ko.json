@@ -414,13 +414,14 @@
       "expressionLabel": "트리거 표현식",
       "expressionPlaceholder": "표현식을 입력하십시오 (예 : PrimaryTwin.InFlow > 3)",
       "iconPickerLabel": "배지 아이콘",
-      "notice": "이 동작은 아래 트리거 표현식이 true로 평가되는 경우에만 활성화됩니다.",
       "notificationLabel": "알림 텍스트",
-      "notificationPlaceholder": "추가 컨텍스트에 대한 경고와 함께 표시할 텍스트입니다."
+      "notificationPlaceholder": "추가 컨텍스트에 대한 경고와 함께 표시할 텍스트입니다.",
+      "tabDescription": "텍스트와 함께 제공되는 아이콘인 경고는 중요한 데이터 조건에 주의를 기울이는 데 도움이 됩니다. 아래에서 표현식을 사용하여 시각화에서 경고를 트리거합니다.",
+      "notificationLabelTooltip": "이 텍스트는 이 배지가 활성 상태일 때 소비자 컨텍스트를 제공합니다."
     },
     "behaviorStatusForm": {
-      "notice": "단일 속성을 사용하여 이 동작의 대상 요소를 다시 색칠합니다.",
-      "stateItemLabel": "상태 {{인덱스}}"
+      "stateItemLabel": "상태 {{인덱스}}",
+      "tabDescription": "속성을 선택한 다음 특정 조건에 색상을 적용하기 위한 범위(예: 고온을 나타내려면 빨간색, 최적의 속도를 위해 녹색)를 설정합니다."
     },
     "twinPropertyDropdown": {
       "propertyDropdownLabel": "재산",
@@ -442,7 +443,6 @@
     "behaviorId": "동작 ID",
     "widgetLibrary": "위젯 라이브러리",
     "exploreWidgets": "위젯을 탐색하고 3D 장면에 추가 정보 레이어를 추가하십시오.",
-    "addWidget": "위젯 추가",
     "newWidget": "새로운 위젯",
     "createWidget": "위젯 만들기",
     "updateWidget": "업데이트 위젯",
@@ -450,7 +450,6 @@
     "removeWidget": "위젯 제거",
     "noWidgets": "위젯을 찾을 수 없음",
     "modifyWidget": "위젯 수정",
-    "noWidgetsConfigured": "구성된 위젯이 없습니다.",
     "unitOfMeasure": "측정 단위",
     "expression": "식",
     "warningBreakPointToggleLabel": "색상 중단점 사용",
@@ -490,7 +489,8 @@
       },
       "tabDescriptionPart1": "각 요소는 기본 트윈의 데이터를 활용합니다. 요소가 데이터를 활용할 수 있는 다른 쌍둥이를 추가합니다.",
       "tabDescriptionPart2": "대상 요소 간의 공통된 속성을 보고 표현식의 기본 쌍 또는 다른 쌍둥이를 사용하여 이러한 속성을 참조합니다. ",
-      "linkedTwinListHeader": "연결된 쌍둥이 ({{count}})"
+      "linkedTwinListHeader": "연결된 쌍둥이 ({{count}})",
+      "calloutDescription": "선택한 요소의 연결된 쌍 속성의 결합"
     },
     "elementsListInstructions": "이 동작의 시각화에 포함할 요소를 선택합니다.",
     "behaviorForm": {
@@ -498,6 +498,11 @@
       "createBehavior": "동작 만들기",
       "modifyBehavior": "동작 편집",
       "formSubTitle": "동작은 특정 조건(예: 특정 간격 또는 데이터 임계값)에서 발생하는 시각적 단서입니다."
+    },
+    "behaviorWidgetsForm": {
+      "addWidgetButtonText": "위젯 추가",
+      "noData": "위젯을 아직 구성하지 않았습니다.",
+      "tabDescription": "요소의 컨텍스트에 나타나는 위젯 정의"
     }
   },
   "widgets": {

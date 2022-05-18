@@ -414,13 +414,14 @@
       "expressionLabel": "Aktivační výraz",
       "expressionPlaceholder": "Zadejte výraz (např. PrimaryTwin.InFlow > 3)",
       "iconPickerLabel": "Ikona odznaku",
-      "notice": "Toto chování bude povoleno pouze v případě, že níže uvedený aktivační výraz bude vyhodnocen jako true.",
       "notificationLabel": "Text oznámení",
-      "notificationPlaceholder": "Text, který se má zobrazit s upozorněním pro další kontext."
+      "notificationPlaceholder": "Text, který se má zobrazit s upozorněním pro další kontext.",
+      "tabDescription": "Výstrahy – ikony doprovázené textem – pomáhají upozornit na kritické podmínky dat. Níže použijte výrazy k aktivaci výstrah ve vizualizaci.",
+      "notificationLabelTooltip": "Tento text poskytne spotřebiteli kontext, když je tento odznak aktivní."
     },
     "behaviorStatusForm": {
-      "notice": "Použijte jednu vlastnost k přebarvení cílových prvků tohoto chování.",
-      "stateItemLabel": "Stav {{index}}"
+      "stateItemLabel": "Stav {{index}}",
+      "tabDescription": "Vyberte vlastnost a pak nastavte rozsahy pro použití barvy na určité podmínky – například červená pro označení vysokých teplot nebo zelená pro optimální rychlost."
     },
     "twinPropertyDropdown": {
       "propertyDropdownLabel": "Vlastnost",
@@ -442,7 +443,6 @@
     "behaviorId": "ID chování",
     "widgetLibrary": "Knihovna widgetů",
     "exploreWidgets": "Prozkoumejte naše widgety a přidejte do své 3D scény další vrstvu informací.",
-    "addWidget": "Přidat widget",
     "newWidget": "Nový widget",
     "createWidget": "Vytvořit widget",
     "updateWidget": "Aktualizovat widget",
@@ -450,7 +450,6 @@
     "removeWidget": "Odstranit widget",
     "noWidgets": "Nebyly nalezeny žádné widgety",
     "modifyWidget": "Upravit widget",
-    "noWidgetsConfigured": "Nejsou nakonfigurovány žádné widgety",
     "unitOfMeasure": "Měrná jednotka",
     "expression": "Výraz",
     "warningBreakPointToggleLabel": "Povolit barevný bod přerušení",
@@ -490,7 +489,8 @@
       },
       "tabDescriptionPart1": "Každý prvek využívá data ze svého primárního dvojčete. Přidejte další dvojčata, ze kterých mohou vaše prvky využívat data.",
       "tabDescriptionPart2": "Zobrazte společné vlastnosti mezi cílovými prvky a odkazujte na tyto vlastnosti pomocí primárního dvojčete nebo jiných dvojčat ve výrazech. ",
-      "linkedTwinListHeader": "Propojená dvojčata ({{count}})"
+      "linkedTwinListHeader": "Propojená dvojčata ({{count}})",
+      "calloutDescription": "Spojení propojených dvojčat vlastností vybraných prvků"
     },
     "elementsListInstructions": "Vyberte prvky, které chcete zahrnout do vizualizace tohoto chování.",
     "behaviorForm": {
@@ -498,6 +498,11 @@
       "createBehavior": "Vytvoření chování",
       "modifyBehavior": "Chování úprav",
       "formSubTitle": "Chování jsou vizuální podněty, ke kterým dochází za určitých podmínek – například v určitých intervalech nebo při prahových hodnotách dat."
+    },
+    "behaviorWidgetsForm": {
+      "addWidgetButtonText": "Přidat widget",
+      "noData": "Zatím jste nenakonfigurovali žádné widgety",
+      "tabDescription": "Definování widgetů, které se zobrazují v kontextu prvku"
     }
   },
   "widgets": {
