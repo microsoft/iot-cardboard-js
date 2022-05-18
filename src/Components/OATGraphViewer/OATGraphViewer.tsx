@@ -536,7 +536,6 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
 
                 const relationship = {
                     '@type': currentNode.data.type,
-                    '@id': relationshipId,
                     name: currentNode.data.name,
                     displayName: currentNode.data.displayName,
                     target: currentNode.target
