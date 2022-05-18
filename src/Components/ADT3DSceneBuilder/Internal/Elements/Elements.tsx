@@ -35,6 +35,26 @@ import IllustrationMessage from '../../../IllustrationMessage/IllustrationMessag
 import noResults from '../../../../Resources/Static/noResults.svg';
 import noElements from '../../../../Resources/Static/noElements.svg';
 
+const sortElements = (elements: ITwinToObjectMapping[]) => {
+    return elements?.sort((a, b) => (a.displayName > b.displayName ? 1 : -1));
+};
+
+const sortAndGroupElements = (
+    elements: ITwinToObjectMapping[],
+    selectedElements: ITwinToObjectMapping[]
+) => {
+    const sortedSelectedElements = sortElements(selectedElements);
+
+    const sortedElements = sortElements(elements);
+
+    // put selected items first
+    const nonSelectedElements = sortedElements?.filter(
+        (element) => !sortedSelectedElements?.find((x) => x.id === element.id)
+    );
+
+    return sortedSelectedElements?.concat(nonSelectedElements);
+};
+
 const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
     elements,
     selectedElements,
@@ -67,6 +87,7 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
     );
 
     const elementsSorted = useRef(false);
+    const lastSearch = useRef('');
 
     const [filteredElements, setFilteredElements] = useState<
         ITwinToObjectMapping[]
@@ -132,37 +153,62 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
     useEffect(() => {
         if (elements) {
             const elementsCopy: ITwinToObjectMapping[] = deepCopy(elements);
-            const sortedElements = elementsCopy.sort((a, b) =>
-                a.displayName > b.displayName ? 1 : -1
-            );
+            const sortedElements = sortElements(elementsCopy);
             setFilteredElements(sortedElements);
         }
     }, [elements]);
 
-    // put the selected items first in the list
+    // sort the list items and put the selected items first in the list
     useEffect(() => {
-        if (selectedElements?.length > 0 && !elementsSorted.current) {
-            // sort the list
-            elementsSorted.current = true;
-            selectedElements?.sort((a, b) =>
-                a.displayName > b.displayName ? 1 : -1
+        if (
+            elements &&
+            selectedElements?.length > 0 &&
+            !elementsSorted.current
+        ) {
+            const selectedElementsCopy: ITwinToObjectMapping[] = deepCopy(
+                selectedElements
             );
+            const elementsCopy: ITwinToObjectMapping[] = deepCopy(elements);
+            const sortedElements = sortAndGroupElements(
+                elementsCopy,
+                selectedElementsCopy
+            );
+            setFilteredElements(sortedElements);
 
-            // put selected items first
-            const nonSelectedElements = elements?.filter(
-                (element) => !selectedElements.find((x) => x.id === element.id)
-            );
-            setFilteredElements(selectedElements.concat(nonSelectedElements));
+            elementsSorted.current = true;
         }
     }, [selectedElements]);
 
     // apply filtering
     useEffect(() => {
-        const filtered = elements.filter((element) =>
-            element.displayName.toLowerCase().includes(searchText.toLowerCase())
-        );
-        setFilteredElements(filtered);
-    }, [searchText]);
+        if (lastSearch.current != searchText) {
+            lastSearch.current = searchText;
+            const filtered = elements
+                ? deepCopy(
+                      elements?.filter((element) =>
+                          element.displayName
+                              .toLowerCase()
+                              .includes(searchText.toLowerCase())
+                      )
+                  )
+                : [];
+            const filteredSelected = selectedElements
+                ? deepCopy(
+                      selectedElements?.filter((element) =>
+                          element.displayName
+                              .toLowerCase()
+                              .includes(searchText.toLowerCase())
+                      )
+                  )
+                : [];
+
+            const sortedFilteredElements = sortAndGroupElements(
+                filtered,
+                filteredSelected
+            );
+            setFilteredElements(sortedFilteredElements);
+        }
+    }, [searchText, elements, selectedElements]);
 
     const onUpdateCheckbox = useCallback(
         (element: ITwinToObjectMapping) => {

@@ -158,8 +158,6 @@
   "scenes": {
     "noScenes": "您没有 3D 场景，请添加一个新场景以开始使用。",
     "addScene": "添加 3D 场景",
-    "sceneLatitude": "纬度",
-    "sceneLongitude": "经度",
     "blobUrl": "3D 文件 blob URL",
     "addDialogTitle": "创建新场景",
     "addDialogSubText": "将场景与 blob 存储中 3D 文件的 URL 链接",
@@ -169,7 +167,15 @@
     "fromContainer": "从容器",
     "3dFileAsset": "3D 文件资源",
     "overwriteIfExist": "覆盖文件已存在",
-    "fileExistsErrorMessage": "具有此名称的文件已存在于存储中，可以从容器中选择该文件或覆盖。"
+    "fileExistsErrorMessage": "具有此名称的文件已存在于存储中，可以从容器中选择该文件或覆盖。",
+    "description": "描述",
+    "latitude": "纬度",
+    "longitude": "经度",
+    "showOnGlobe": "在全球显示",
+    "sampleLatitude": "例如： 6.4511366",
+    "sampleLongitude": "例如： 3.3883963",
+    "longitudeErrorMessage": "输入值必须在-180和180度以内",
+    "latitudeErrorMessage": "输入值必须在-90和90度以内"
   },
   "BIMUpload": {
     "specifyFiles": "指定要从中上载的文件",
@@ -492,7 +498,9 @@
         "commonProperties": "选定元素的主要孪生属性的并集"
       },
       "errors": {
-        "twinAliasAlreadyExists": "具有相同名称的孪生别名已存在，请考虑添加它。"
+        "twinAliasAlreadyExists": "具有相同名称的孪生别名已存在，请考虑添加它。",
+        "alphanumericOnly": "孪生别名只能包含字母数字字符",
+        "noNumberPrefix": "孪生别名不得以数字开头"
       }
     }
   },
@@ -603,8 +611,6 @@
     "Start time input": "开始时间输入",
     "End time input": "结束时间输入",
     "snap end time to latest": "将结束时间捕捉到最新",
-    "zoom in": "放大",
-    "zoom out": "缩小",
     "select quick time of": "选择快速时间",
     "a time selection control dialog": "时间选择控制对话框。",
     "No color": "无颜色",
@@ -694,7 +700,8 @@
       "undoAll": "重置所有编辑",
       "expandTree": "展开树",
       "collapseTree": "折叠树",
-      "save": "保存更改"
+      "save": "保存更改",
+      "refresh": "刷新数据"
     },
     "dateTimePicker": {
       "datePickerTitle": "日期选取器",
@@ -727,7 +734,7 @@
     "state": "州",
     "allProperties": "所有房产",
     "behaviorPreview": "预览",
-    "PrimaryTwinProperties": "主要孪生属性"
+    "PrimaryTwin": "主双床房"
   },
   "svgTests": {
     "fluentUI": "通过 Fluent Image 组件加载 SVG（推荐模式）",
@@ -780,6 +787,9 @@
     "select": "选择",
     "pan": "泛",
     "orbit": "轨道",
-    "zoom": "缩放"
+    "zoom": "缩放",
+    "reset": "重置",
+    "zoomIn": "放大",
+    "zoomOut": "缩小"
   }
 }

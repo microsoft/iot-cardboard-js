@@ -158,8 +158,6 @@
   "scenes": {
     "noScenes": "Non hai scene 3D, aggiungine una nuova per iniziare.",
     "addScene": "Aggiungi scena 3D",
-    "sceneLatitude": "Latitudine",
-    "sceneLongitude": "Longitudine",
     "blobUrl": "URL BLOB di file 3D",
     "addDialogTitle": "Crea una nuova scena",
     "addDialogSubText": "Collegare la scena con l'URL del file 3D nell'archiviazione BLOB",
@@ -169,7 +167,15 @@
     "fromContainer": "Dal contenitore",
     "3dFileAsset": "Risorsa per file 3D",
     "overwriteIfExist": "Sovrascrivi se il file esiste già",
-    "fileExistsErrorMessage": "Un file con questo nome esiste già nella memoria, è possibile selezionare quel file dal contenitore o sovrascrivere."
+    "fileExistsErrorMessage": "Un file con questo nome esiste già nella memoria, è possibile selezionare quel file dal contenitore o sovrascrivere.",
+    "description": "Descrizione",
+    "latitude": "Latitudine",
+    "longitude": "Longitudine",
+    "showOnGlobe": "Mostra sul globo",
+    "sampleLatitude": "ad esempio: 6,4511366",
+    "sampleLongitude": "ad esempio: 3,3883963",
+    "longitudeErrorMessage": "Il valore di input deve essere compreso tra -180 e 180 gradi",
+    "latitudeErrorMessage": "Il valore di input deve essere compreso tra -90 e 90 gradi"
   },
   "BIMUpload": {
     "specifyFiles": "Specificare i file da cui caricare",
@@ -492,7 +498,9 @@
         "commonProperties": "L'unione delle proprietà gemelle primarie degli elementi selezionati"
       },
       "errors": {
-        "twinAliasAlreadyExists": "L'alias gemello con lo stesso nome esiste già, considera invece di aggiungerlo."
+        "twinAliasAlreadyExists": "L'alias gemello con lo stesso nome esiste già, considera invece di aggiungerlo.",
+        "alphanumericOnly": "L'alias gemello deve contenere solo caratteri alfanumerici",
+        "noNumberPrefix": "L'alias gemello non deve iniziare con un numero"
       }
     }
   },
@@ -603,8 +611,6 @@
     "Start time input": "Input dell'ora di inizio",
     "End time input": "Input dell'ora di fine",
     "snap end time to latest": "agganciare l'ora di fine all'ultima versione",
-    "zoom in": "ingrandire",
-    "zoom out": "zoom indietro",
     "select quick time of": "seleziona il tempo rapido di",
     "a time selection control dialog": "una finestra di dialogo di controllo della selezione del tempo.",
     "No color": "Nessun colore",
@@ -694,7 +700,8 @@
       "undoAll": "Ripristina tutte le modifiche",
       "expandTree": "Espandi albero",
       "collapseTree": "Comprimi albero",
-      "save": "Salvare le modifiche"
+      "save": "Salvare le modifiche",
+      "refresh": "Aggiornare i dati"
     },
     "dateTimePicker": {
       "datePickerTitle": "Selezione data",
@@ -727,7 +734,7 @@
     "state": "Stato",
     "allProperties": "Tutte le proprietà",
     "behaviorPreview": "Anteprima",
-    "PrimaryTwinProperties": "Proprietà gemello primario"
+    "PrimaryTwin": "Gemella primaria"
   },
   "svgTests": {
     "fluentUI": "Caricamento SVG tramite il componente Fluent Image (modello consigliato)",
@@ -780,6 +787,9 @@
     "select": "Selezionare",
     "pan": "Padella",
     "orbit": "Orbita",
-    "zoom": "Zoom"
+    "zoom": "Zoom",
+    "reset": "Resettare",
+    "zoomIn": "Ingrandire",
+    "zoomOut": "Zoom indietro"
   }
 }

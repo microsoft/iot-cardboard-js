@@ -158,8 +158,6 @@
   "scenes": {
     "noScenes": "Nemáte žádné 3D scény, přidejte novou, abyste mohli začít.",
     "addScene": "Přidat 3D scénu",
-    "sceneLatitude": "Zeměpisná šířka",
-    "sceneLongitude": "Zeměpisná délka",
     "blobUrl": "Adresa URL objektu BLOB 3D souboru",
     "addDialogTitle": "Vytvořit novou scénu",
     "addDialogSubText": "Propojení scény s adresou URL 3D souboru v úložišti objektů BLOB",
@@ -169,7 +167,15 @@
     "fromContainer": "Z kontejneru",
     "3dFileAsset": "Datový zdroj 3D souboru",
     "overwriteIfExist": "Přepsat, pokud soubor již existuje",
-    "fileExistsErrorMessage": "Soubor s tímto názvem již existuje v úložišti, můžete tento soubor vybrat z kontejneru nebo přepsat."
+    "fileExistsErrorMessage": "Soubor s tímto názvem již existuje v úložišti, můžete tento soubor vybrat z kontejneru nebo přepsat.",
+    "description": "Popis",
+    "latitude": "Zeměpisná šířka",
+    "longitude": "Zeměpisná délka",
+    "showOnGlobe": "Zobrazit na zeměkouli",
+    "sampleLatitude": "např.: 6.4511366",
+    "sampleLongitude": "např.: 3.3883963",
+    "longitudeErrorMessage": "Vstupní hodnota musí být v rozmezí -180 a 180 stupňů",
+    "latitudeErrorMessage": "Vstupní hodnota musí být v rozmezí -90 a 90 stupňů"
   },
   "BIMUpload": {
     "specifyFiles": "Určení souborů, ze kterých chcete nahrát",
@@ -492,7 +498,9 @@
         "commonProperties": "Sjednocení vlastností primárního dvojčete vybraných prvků"
       },
       "errors": {
-        "twinAliasAlreadyExists": "Alias dvojčete se stejným názvem již existuje, zvažte jeho přidání."
+        "twinAliasAlreadyExists": "Alias dvojčete se stejným názvem již existuje, zvažte jeho přidání.",
+        "alphanumericOnly": "Alias dvojčete musí obsahovat pouze alfanumerické znaky",
+        "noNumberPrefix": "Alias dvojčete nesmí začínat číslem"
       }
     }
   },
@@ -603,8 +611,6 @@
     "Start time input": "Zadání času spuštění",
     "End time input": "Vstup času ukončení",
     "snap end time to latest": "přichytit čas ukončení na nejnovější",
-    "zoom in": "přiblížit",
-    "zoom out": "oddálit",
     "select quick time of": "vyberte rychlý čas",
     "a time selection control dialog": "dialog ovládacího prvku pro výběr času.",
     "No color": "Žádná barva",
@@ -694,7 +700,8 @@
       "undoAll": "Obnovit všechny úpravy",
       "expandTree": "Rozbalit strom",
       "collapseTree": "Sbalit strom",
-      "save": "Uložení změn"
+      "save": "Uložení změn",
+      "refresh": "Aktualizace dat"
     },
     "dateTimePicker": {
       "datePickerTitle": "Výběr data",
@@ -727,7 +734,7 @@
     "state": "Stát",
     "allProperties": "Všechny nemovitosti",
     "behaviorPreview": "Náhled",
-    "PrimaryTwinProperties": "Vlastnosti primárního dvojčete"
+    "PrimaryTwin": "Primární dvojče"
   },
   "svgTests": {
     "fluentUI": "Načítání SVG pomocí komponenty Fluent Image (doporučený vzor)",
@@ -780,6 +787,9 @@
     "select": "Vybrat",
     "pan": "Pánev",
     "orbit": "Oběžná dráha",
-    "zoom": "Zvětšení"
+    "zoom": "Zvětšení",
+    "reset": "Resetovat",
+    "zoomIn": "Přiblížit",
+    "zoomOut": "Oddálit"
   }
 }

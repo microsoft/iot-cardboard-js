@@ -8,8 +8,8 @@ import {
 } from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { CardboardList } from '../../../../CardboardList';
 import { ICardboardListItem } from '../../../../CardboardList/CardboardList.types';
-import { LayerDialogMode } from '../SceneLayers';
 import { sectionHeaderStyles } from '../SceneLayers.styles';
+import { LayerDialogMode } from '../SceneLayers.types';
 import PrimaryActionCalloutContents from './PrimaryActionCalloutContents';
 
 interface INewLayer {

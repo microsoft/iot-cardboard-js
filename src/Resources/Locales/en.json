@@ -158,8 +158,13 @@
     "scenes": {
         "noScenes": "You have no 3D scenes, add a new one to get started.",
         "addScene": "Add 3D scene",
-        "sceneLatitude": "Latitude",
-        "sceneLongitude": "Longitude",
+        "latitude": "Latitude",
+        "longitude": "Longitude",
+        "sampleLatitude": "e.g: 6.4511366",
+        "sampleLongitude": "e.g: 3.3883963",
+        "longitudeErrorMessage": "Input value must be within -180 and 180 degrees",
+        "latitudeErrorMessage": "Input value must be within -90 and 90 degrees",
+        "showOnGlobe": "Show on globe",
         "blobUrl": "3D file blob URL",
         "addDialogTitle": "Create new scene",
         "addDialogSubText": "Link your scene with the URL of your 3D file in blob storage",
@@ -168,6 +173,7 @@
         "3dFileSelectionMode": "3D file selection mode",
         "fromContainer": "From container",
         "3dFileAsset": "3D file asset",
+        "description": "Description",
         "overwriteIfExist": "Overwrite if file already exists",
         "fileExistsErrorMessage": "A file with this name already exist in storage, you can either select that file from container or overwrite."
     },
@@ -492,7 +498,9 @@
                 "commonProperties": "The union of primary twin properties of selected elements"
             },
             "errors": {
-                "twinAliasAlreadyExists": "Twin alias with the same name already exists, consider adding it instead."
+                "twinAliasAlreadyExists": "Twin alias with the same name already exists, consider adding it instead.",
+                "alphanumericOnly": "Twin alias must only contain alphanumeric characters",
+                "noNumberPrefix": "Twin alias must not start with a number"
             }
         }
     },
@@ -603,8 +611,6 @@
         "Start time input": "Start time input",
         "End time input": "End time input",
         "snap end time to latest": "snap end time to latest",
-        "zoom in": "zoom in",
-        "zoom out": "zoom out",
         "select quick time of": "select quick time of",
         "a time selection control dialog": "a time selection control dialog.",
         "No color": "No color",
@@ -694,7 +700,8 @@
             "undoAll": "Reset all edits",
             "expandTree": "Expand tree",
             "collapseTree": "Collapse tree",
-            "save": "Save changes"
+            "save": "Save changes",
+            "refresh": "Refresh data"
         },
         "dateTimePicker": {
             "datePickerTitle": "Date picker",
@@ -727,7 +734,7 @@
         "state": "State",
         "allProperties": "All properties",
         "behaviorPreview": "Preview",
-        "PrimaryTwinProperties": "Primary Twin properties"
+        "PrimaryTwin": "Primary Twin"
     },
     "svgTests": {
         "fluentUI": "SVG loading via Fluent Image component (recommended pattern)",
@@ -777,9 +784,12 @@
     },
     "cameraControls": {
         "mouseControls": "Mouse Controls",
-        "select": "Select",
-        "pan": "Pan",
         "orbit": "Orbit",
-        "zoom": "Zoom"
+        "pan": "Pan",
+        "reset": "Reset",
+        "select": "Select",
+        "zoom": "Zoom",
+        "zoomIn": "Zoom in",
+        "zoomOut": "Zoom out"
     }
 }

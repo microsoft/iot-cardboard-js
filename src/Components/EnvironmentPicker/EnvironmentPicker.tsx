@@ -370,7 +370,9 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
 
     const handleOnEnvironmentUrlChange = useCallback(
         (option, value) => {
-            if (value) {
+            if (option) {
+                setEnvironmentToEdit(option.data ?? option.text);
+            } else {
                 let newVal = value;
                 if (
                     // let user enter hostname and gracefully append https protocol
@@ -395,8 +397,6 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                 ) {
                     setEnvironments(environments.concat(newVal));
                 }
-            } else {
-                setEnvironmentToEdit(option.data ?? option.text);
             }
         },
         [environments, isValidUrlStr]
@@ -404,7 +404,7 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
 
     const handleOnContainerUrlChange = useCallback(
         (option, value) => {
-            let newVal = value ?? option?.text;
+            let newVal = option ? option.text : value;
             if (!newVal.startsWith('https://')) {
                 // let user enter hostname and gracefully append https protocol
                 try {
@@ -491,20 +491,24 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
         toggleIsDialogHidden();
         dialogResettingValuesTimeoutRef.current = setTimeout(() => {
             // wait for dialog dismiss fade-out animation to reset the values
-            const selectedEnvironmentIndex = environments.findIndex(
-                (e: string | IADTInstance) =>
-                    getUrl(e) === getUrl(selectedEnvironment)
-            );
-            setEnvironmentToEdit(selectedEnvironment);
-            setContainerUrlToEdit(selectedContainerUrl);
-            if (selectedEnvironmentIndex === -1) {
-                setEnvironments(environments.concat(selectedEnvironment));
+            if (selectedEnvironment) {
+                const selectedEnvironmentIndex = environments.findIndex(
+                    (e: string | IADTInstance) =>
+                        getUrl(e) === getUrl(selectedEnvironment)
+                );
+                if (selectedEnvironmentIndex === -1) {
+                    setEnvironments(environments.concat(selectedEnvironment));
+                }
             }
+            setEnvironmentToEdit(selectedEnvironment);
+
             if (
+                selectedContainerUrl &&
                 containers.findIndex((e) => e === selectedContainerUrl) === -1
             ) {
                 setContainers(containers.concat(selectedContainerUrl));
             }
+            setContainerUrlToEdit(selectedContainerUrl);
         }, 500);
     }, [
         toggleIsDialogHidden,
@@ -667,7 +671,7 @@ const getUrl = (environment: string | IADTInstance) => {
     if (typeof environment === 'string') {
         return environment;
     } else {
-        addHttpsPrefix(environment.hostName);
+        return addHttpsPrefix(environment.hostName);
     }
 };
 

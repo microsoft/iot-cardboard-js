@@ -10,7 +10,6 @@ import {
     Callout,
     classNamesFunction,
     DirectionalHint,
-    IconButton,
     styled,
     useTheme
 } from '@fluentui/react';
@@ -19,8 +18,10 @@ import { getDebugLogger } from '../../Models/Services/Utils';
 import OptionsCallout from './Internal/OptionsCallout/OptionsCallout';
 import SimpleCallout from './Internal/SimpleCallout/SimpleCallout';
 import { useDeeplinkContext } from '../../Models/Context/DeeplinkContext/DeeplinkContext';
+import HeaderControlButton from '../HeaderControlButton/HeaderControlButton';
+import HeaderControlGroup from '../HeaderControlGroup/HeaderControlGroup';
 
-const debugLogging = true;
+const debugLogging = false;
 const logDebugConsole = getDebugLogger('DeeplinkSimpleFlyout', debugLogging);
 
 const getClassNames = classNamesFunction<
@@ -86,15 +87,15 @@ const DeeplinkFlyout: React.FC<IDeeplinkFlyoutProps> = (props) => {
                 }
             }
         },
-        [mode, showFlyout]
+        [mode]
     );
 
     const onButtonClick = useCallback(() => {
         if (mode === 'Simple') {
             copyText(deeplink);
         }
-        setShowFlyout(true);
-    }, [deeplink, mode]);
+        setShowFlyout((current) => !current);
+    }, [copyText, deeplink, mode]);
     const onDismiss = useCallback(() => {
         setIconName('Share');
         setShowFlyout(false);
@@ -103,15 +104,17 @@ const DeeplinkFlyout: React.FC<IDeeplinkFlyoutProps> = (props) => {
     logDebugConsole('debug', 'render deeplink flyout');
     return (
         <div className={classNames.root}>
-            <IconButton
-                className={classNames.button}
-                data-testid={'deeplink-open-flyout'}
-                iconProps={{ iconName: iconName }}
-                id={flyoutButtonId}
-                onClick={onButtonClick}
-                styles={classNames.subComponentStyles.button?.()}
-                title={t(LOC_KEYS.buttonTitle)}
-            />
+            <HeaderControlGroup>
+                <HeaderControlButton
+                    className={classNames.button}
+                    dataTestId={'deeplink-open-flyout'}
+                    id={flyoutButtonId}
+                    iconProps={{ iconName: iconName }}
+                    isActive={showFlyout}
+                    onClick={onButtonClick}
+                    title={t(LOC_KEYS.buttonTitle)}
+                />
+            </HeaderControlGroup>
             {showFlyout && (
                 <Callout
                     onDismiss={onDismiss}

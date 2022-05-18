@@ -51,6 +51,8 @@ export const DeeplinkContextReducer: (
             }
             case DeeplinkContextActionType.SET_MODE: {
                 draft.mode = action.payload.mode;
+                draft.selectedElementId = '';
+                draft.selectedLayerIds = [];
                 break;
             }
             case DeeplinkContextActionType.SET_SCENE_ID: {

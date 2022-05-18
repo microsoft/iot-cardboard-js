@@ -7,7 +7,7 @@ import {
     useTheme
 } from '@fluentui/react';
 import { useId } from '@fluentui/react-hooks';
-import React, { createContext, useRef, useState } from 'react';
+import React, { createContext, useContext, useRef, useState } from 'react';
 import Draggable from 'react-draggable';
 import { useTranslation } from 'react-i18next';
 import {
@@ -17,6 +17,7 @@ import {
     primaryTwinName
 } from '../../Models/Constants';
 import { IBehavior } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
+import { ADT3DScenePageContext } from '../../Pages/ADT3DScenePage/ADT3DScenePage';
 import PropertyInspector from '../PropertyInspector/PropertyInspector';
 import { OnCommitPatchParams } from '../PropertyInspector/StandalonePropertyInspector.types';
 import {
@@ -66,6 +67,8 @@ const BehaviorsModal: React.FC<IBehaviorsModalProps> = ({
     const titleId = useId('title');
     const theme = useTheme();
     const nodeRef = React.useRef(null); // <Draggable> requires an explicit ref to avoid using findDOMNode
+
+    const scenePageContext = useContext(ADT3DScenePageContext);
 
     const [activePivot, setActivePivot] = useState<BehaviorModalPivotKey>(
         BehaviorModalPivotKey.State
@@ -187,18 +190,20 @@ const BehaviorsModal: React.FC<IBehaviorsModalProps> = ({
                                             onPropertyInspectorPatch &&
                                             onPropertyInspectorPatch(patchData)
                                         }
-                                        readonly={true}
+                                        readonly={
+                                            !scenePageContext?.isTwinPropertyInspectorPatchModeEnabled
+                                        }
                                         customCommandBarTitleSpan={
                                             <span
                                                 className={
                                                     styles.customPropertyInspectorCommandBarTitle
                                                 }
                                                 title={t(
-                                                    'behaviorsModal.PrimaryTwinProperties'
+                                                    'behaviorsModal.PrimaryTwin'
                                                 )}
                                             >
                                                 {t(
-                                                    'behaviorsModal.PrimaryTwinProperties'
+                                                    'behaviorsModal.PrimaryTwin'
                                                 )}
                                             </span>
                                         }

@@ -59,6 +59,7 @@ import { ModelGroupLabel } from '../ModelGroupLabel/ModelGroupLabel';
 import { MarkersPlaceholder } from './Internal/MarkersPlaceholder';
 import { Markers } from './Internal/Markers';
 
+export const showFpsCounter = false;
 const debugLogging = false;
 const debugLog = getDebugLogger('SceneView', debugLogging);
 
@@ -342,10 +343,12 @@ function SceneView(props: ISceneViewProps, ref) {
                                 sceneRef.current.render();
 
                                 // Update FPS counter
-                                const fps = document.getElementById('FPS');
-                                fps.innerHTML =
-                                    'FPS: ' +
-                                    engineRef.current.getFps().toFixed();
+                                if (showFpsCounter) {
+                                    const fps = document.getElementById('FPS');
+                                    fps.innerHTML =
+                                        'FPS: ' +
+                                        engineRef.current.getFps().toFixed();
+                                }
                             }
                         });
                     } else {

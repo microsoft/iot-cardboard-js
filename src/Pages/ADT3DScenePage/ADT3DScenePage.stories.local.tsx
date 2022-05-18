@@ -52,6 +52,7 @@ export const ADT3DScenePageCard = (_args, { globals: { theme, locale } }) => {
                     },
                     storage: { isLocalStorageEnabled: true, onContainerChange }
                 }}
+                enableTwinPropertyInspectorPatchMode
             />
         </div>
     );

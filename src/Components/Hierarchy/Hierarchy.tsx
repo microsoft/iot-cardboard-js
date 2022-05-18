@@ -5,8 +5,7 @@ import {
     IHierarchyProps
 } from '../../Models/Constants';
 import './Hierarchy.scss';
-import { Icon } from '@fluentui/react/lib/Icon';
-import { Spinner, SpinnerSize } from '@fluentui/react';
+import { Icon, Spinner, SpinnerSize } from '@fluentui/react';
 import { Utils } from '../../Models/Services';
 import { useTranslation } from 'react-i18next';
 

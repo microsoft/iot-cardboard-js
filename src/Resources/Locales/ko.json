@@ -158,8 +158,6 @@
   "scenes": {
     "noScenes": "3D 장면이 없으며 새 장면을 추가하여 시작하십시오.",
     "addScene": "3D 장면 추가",
-    "sceneLatitude": "위도",
-    "sceneLongitude": "경도",
     "blobUrl": "3D 파일 얼룩 URL",
     "addDialogTitle": "새 장면 만들기",
     "addDialogSubText": "장면을 Blob 저장소의 3D 파일 URL과 연결",
@@ -169,7 +167,15 @@
     "fromContainer": "컨테이너에서",
     "3dFileAsset": "3D 파일 자산",
     "overwriteIfExist": "파일이 이미 있는 경우 덮어쓰기",
-    "fileExistsErrorMessage": "이 이름의 파일이 저장소에 이미 있으므로 컨테이너에서 해당 파일을 선택하거나 덮어쓸 수 있습니다."
+    "fileExistsErrorMessage": "이 이름의 파일이 저장소에 이미 있으므로 컨테이너에서 해당 파일을 선택하거나 덮어쓸 수 있습니다.",
+    "description": "묘사",
+    "latitude": "위도",
+    "longitude": "경도",
+    "showOnGlobe": "전 세계에 표시",
+    "sampleLatitude": "예: 6.4511366",
+    "sampleLongitude": "예: 3.3883963",
+    "longitudeErrorMessage": "입력 값은 -180도 및 180도 이내여야 합니다.",
+    "latitudeErrorMessage": "입력 값은 -90도 및 90도 이내여야 합니다."
   },
   "BIMUpload": {
     "specifyFiles": "업로드할 파일 지정",
@@ -492,7 +498,9 @@
         "commonProperties": "선택한 요소의 기본 쌍 속성의 결합"
       },
       "errors": {
-        "twinAliasAlreadyExists": "같은 이름의 트윈 별칭이 이미 있으므로 대신 추가하는 것이 좋습니다."
+        "twinAliasAlreadyExists": "같은 이름의 트윈 별칭이 이미 있으므로 대신 추가하는 것이 좋습니다.",
+        "alphanumericOnly": "트윈 별칭은 영숫자만 포함해야 합니다.",
+        "noNumberPrefix": "트윈 별칭은 숫자로 시작하면 안 됩니다."
       }
     }
   },
@@ -603,8 +611,6 @@
     "Start time input": "시작 시간 입력",
     "End time input": "종료 시간 입력",
     "snap end time to latest": "종료 시간을 최신으로 스냅",
-    "zoom in": "확대",
-    "zoom out": "축소",
     "select quick time of": "빠른 시간 선택",
     "a time selection control dialog": "시간 선택 제어 대화 상자입니다.",
     "No color": "색상 없음",
@@ -694,7 +700,8 @@
       "undoAll": "모든 편집 내용 재설정",
       "expandTree": "트리 확장",
       "collapseTree": "트리 축소",
-      "save": "변경 내용 저장"
+      "save": "변경 내용 저장",
+      "refresh": "데이터 새로 고침"
     },
     "dateTimePicker": {
       "datePickerTitle": "날짜 선택기",
@@ -727,7 +734,7 @@
     "state": "상태",
     "allProperties": "모든 속성",
     "behaviorPreview": "미리 보기",
-    "PrimaryTwinProperties": "기본 트윈 속성"
+    "PrimaryTwin": "초등회 쌍둥이"
   },
   "svgTests": {
     "fluentUI": "유창한 이미지 구성 요소를 통한 SVG 로드(권장 패턴)",
@@ -780,6 +787,9 @@
     "select": "고르다",
     "pan": "팬",
     "orbit": "궤도",
-    "zoom": "급상승"
+    "zoom": "급상승",
+    "reset": "재설정",
+    "zoomIn": "확대",
+    "zoomOut": "축소"
   }
 }

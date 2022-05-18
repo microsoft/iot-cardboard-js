@@ -158,8 +158,6 @@
   "scenes": {
     "noScenes": "Je hebt geen 3D-scènes, voeg een nieuwe toe om aan de slag te gaan.",
     "addScene": "3D-scène toevoegen",
-    "sceneLatitude": "Breedtegraad",
-    "sceneLongitude": "Lengtegraad",
     "blobUrl": "BLOB-URL voor 3D-bestanden",
     "addDialogTitle": "Nieuwe scène maken",
     "addDialogSubText": "Uw scène koppelen aan de URL van uw 3D-bestand in blobopslag",
@@ -169,7 +167,15 @@
     "fromContainer": "Uit container",
     "3dFileAsset": "3D-bestandsmiddel",
     "overwriteIfExist": "Overschrijven als het bestand al bestaat",
-    "fileExistsErrorMessage": "Een bestand met deze naam bestaat al in de opslag, u kunt dat bestand selecteren in de container of overschrijven."
+    "fileExistsErrorMessage": "Een bestand met deze naam bestaat al in de opslag, u kunt dat bestand selecteren in de container of overschrijven.",
+    "description": "Beschrijving",
+    "latitude": "Breedtegraad",
+    "longitude": "Lengtegraad",
+    "showOnGlobe": "Toon op globe",
+    "sampleLatitude": "bijvoorbeeld: 6,4511366",
+    "sampleLongitude": "bijvoorbeeld: 3,3883963",
+    "longitudeErrorMessage": "De invoerwaarde moet binnen -180 en 180 graden zijn",
+    "latitudeErrorMessage": "De invoerwaarde moet binnen -90 en 90 graden zijn"
   },
   "BIMUpload": {
     "specifyFiles": "Bestanden opgeven om van te uploaden",
@@ -492,7 +498,9 @@
         "commonProperties": "De vereniging van primaire tweelingeigenschappen van geselecteerde elementen"
       },
       "errors": {
-        "twinAliasAlreadyExists": "Dubbele alias met dezelfde naam bestaat al, overweeg deze in plaats daarvan toe te voegen."
+        "twinAliasAlreadyExists": "Dubbele alias met dezelfde naam bestaat al, overweeg deze in plaats daarvan toe te voegen.",
+        "alphanumericOnly": "Dubbele alias mag alleen alfanumerieke tekens bevatten",
+        "noNumberPrefix": "Dubbele alias mag niet beginnen met een getal"
       }
     }
   },
@@ -603,8 +611,6 @@
     "Start time input": "Invoer starttijd",
     "End time input": "Eindtijd invoer",
     "snap end time to latest": "snap eindtijd naar laatste",
-    "zoom in": "inzoomen",
-    "zoom out": "uitzoomen",
     "select quick time of": "selecteer snelle tijd van",
     "a time selection control dialog": "een dialoogvenster voor tijdselectie.",
     "No color": "Geen kleur",
@@ -694,7 +700,8 @@
       "undoAll": "Alle bewerkingen opnieuw instellen",
       "expandTree": "Boomstructuur uitbreiden",
       "collapseTree": "Boom instorten",
-      "save": "Wijzigingen opslaan"
+      "save": "Wijzigingen opslaan",
+      "refresh": "Gegevens vernieuwen"
     },
     "dateTimePicker": {
       "datePickerTitle": "Datumkiezer",
@@ -727,7 +734,7 @@
     "state": "Staat",
     "allProperties": "Alle woningen",
     "behaviorPreview": "Voorbeeld",
-    "PrimaryTwinProperties": "Primaire Twin-eigenschappen"
+    "PrimaryTwin": "Primaire Twin"
   },
   "svgTests": {
     "fluentUI": "SVG laden via Fluent Image component (aanbevolen patroon)",
@@ -780,6 +787,9 @@
     "select": "Selecteren",
     "pan": "Pan",
     "orbit": "Baan",
-    "zoom": "Zoom"
+    "zoom": "Zoom",
+    "reset": "Terugstellen",
+    "zoomIn": "Inzoomen",
+    "zoomOut": "Uitzoomen"
   }
 }

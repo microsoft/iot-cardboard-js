@@ -158,18 +158,24 @@
   "scenes": {
     "noScenes": "Du har inga 3D-scener, lägg till en ny för att komma igång.",
     "addScene": "Lägg till 3D-scen",
-    "sceneLatitude": "Breddgrad",
-    "sceneLongitude": "Longitud",
-    "blobUrl": "Blob-URL för 3D-fil",
-    "addDialogTitle": "Skapa ny scen",
-    "addDialogSubText": "Länka din scen till URL:en för din 3D-fil i Blob Storage",
+    "blobUrl": "URL för 3D-filblob",
+    "addDialogTitle": "Skapa en ny scen",
+    "addDialogSubText": "Länka din scen med URL:en för din 3D-fil i bloblagring",
     "editDialogTitle": "Redigera scen",
     "editDialogSubText": "Redigera namnet och den länkade 3D-filen för din scen",
     "3dFileSelectionMode": "3D-filvalsläge",
     "fromContainer": "Från behållare",
     "3dFileAsset": "3D-filtillgång",
-    "overwriteIfExist": "Skriv över om filen redan finns",
-    "fileExistsErrorMessage": "En fil med det här namnet finns redan i lagring, du kan antingen välja den filen från containern eller skriva över."
+    "overwriteIfExist": "Skriva över om filen redan finns",
+    "fileExistsErrorMessage": "En fil med det här namnet finns redan i lagring, du kan antingen välja den filen från behållaren eller skriva över.",
+    "description": "Beskrivning",
+    "latitude": "Breddgrad",
+    "longitude": "Longitud",
+    "showOnGlobe": "Visa på jordklotet",
+    "sampleLatitude": "t.ex.: 6.4511366",
+    "sampleLongitude": "t.ex.: 3.3883963",
+    "longitudeErrorMessage": "Ingångsvärdet måste ligga inom -180 och 180 grader",
+    "latitudeErrorMessage": "Ingångsvärdet måste ligga inom -90 och 90 grader"
   },
   "BIMUpload": {
     "specifyFiles": "Ange filer som ska laddas upp från",
@@ -492,7 +498,9 @@
         "commonProperties": "Föreningen av primära tvillingegenskaper hos utvalda element"
       },
       "errors": {
-        "twinAliasAlreadyExists": "Tvillingalias med samma namn finns redan, överväg att lägga till det i stället."
+        "twinAliasAlreadyExists": "Tvillingalias med samma namn finns redan, överväg att lägga till det i stället.",
+        "alphanumericOnly": "Tvillingalias får endast innehålla alfanumeriska tecken",
+        "noNumberPrefix": "Tvillingalias får inte börja med ett tal"
       }
     }
   },
@@ -603,8 +611,6 @@
     "Start time input": "Ingång för starttid",
     "End time input": "Indata för sluttid",
     "snap end time to latest": "knäpp sluttid till senaste",
-    "zoom in": "zooma in",
-    "zoom out": "zooma ut",
     "select quick time of": "välj snabb tid för",
     "a time selection control dialog": "en dialogruta för tidsvalskontroll.",
     "No color": "Ingen färg",
@@ -694,7 +700,8 @@
       "undoAll": "Återställ alla redigeringar",
       "expandTree": "Expandera träd",
       "collapseTree": "Kollapsa träd",
-      "save": "Spara ändringar"
+      "save": "Spara ändringar",
+      "refresh": "Uppdatera data"
     },
     "dateTimePicker": {
       "datePickerTitle": "Datumväljare",
@@ -727,7 +734,7 @@
     "state": "Stat",
     "allProperties": "Alla egenskaper",
     "behaviorPreview": "Förhandsvisning",
-    "PrimaryTwinProperties": "Primära tvillingegenskaper"
+    "PrimaryTwin": "Primär tvilling"
   },
   "svgTests": {
     "fluentUI": "SVG-inläsning via Fluent Image-komponent (rekommenderat mönster)",
@@ -780,6 +787,9 @@
     "select": "Utvald",
     "pan": "Panna",
     "orbit": "Omloppsbana",
-    "zoom": "Zooma"
+    "zoom": "Zooma",
+    "reset": "Nollställa",
+    "zoomIn": "Zooma in",
+    "zoomOut": "Zooma ut"
   }
 }

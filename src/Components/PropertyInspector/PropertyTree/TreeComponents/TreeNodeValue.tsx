@@ -4,12 +4,7 @@ import { PropertyTreeContext } from '../PropertyTree';
 import { NodeProps, PropertyTreeNode } from '../PropertyTree.types';
 import '../PropertyTree.scss';
 import { useTranslation } from 'react-i18next';
-import { Checkbox } from '@fluentui/react/lib/components/Checkbox/Checkbox';
-import { Icon } from '@fluentui/react/lib/components/Icon/Icon';
-import {
-    IIconStyleProps,
-    IIconStyles
-} from '@fluentui/react/lib/components/Icon/Icon.types';
+import { Checkbox, Icon, IIconStyleProps, IIconStyles } from '@fluentui/react';
 import { DateTimeValue } from './TreeNodeDateTimeValue';
 
 const TreeNodeValue: React.FC<NodeProps> = ({ node }) => {

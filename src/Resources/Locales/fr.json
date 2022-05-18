@@ -158,8 +158,6 @@
   "scenes": {
     "noScenes": "Vous n’avez pas de scènes 3D, ajoutez-en une nouvelle pour commencer.",
     "addScene": "Ajouter une scène 3D",
-    "sceneLatitude": "Latitude",
-    "sceneLongitude": "Longitude",
     "blobUrl": "URL d’objet blob de fichier 3D",
     "addDialogTitle": "Créer une nouvelle scène",
     "addDialogSubText": "Lier votre scène à l’URL de votre fichier 3D dans le stockage d’objets blob",
@@ -169,7 +167,15 @@
     "fromContainer": "À partir du conteneur",
     "3dFileAsset": "Ressource de fichier 3D",
     "overwriteIfExist": "Remplacer si le fichier existe déjà",
-    "fileExistsErrorMessage": "Un fichier portant ce nom existe déjà dans le stockage, vous pouvez sélectionner ce fichier dans le conteneur ou l’écraser."
+    "fileExistsErrorMessage": "Un fichier portant ce nom existe déjà dans le stockage, vous pouvez sélectionner ce fichier dans le conteneur ou l’écraser.",
+    "description": "Description",
+    "latitude": "Latitude",
+    "longitude": "Longitude",
+    "showOnGlobe": "Afficher sur le globe",
+    "sampleLatitude": "Ex. : 6.4511366",
+    "sampleLongitude": "Ex. : 3.3883963",
+    "longitudeErrorMessage": "La valeur d’entrée doit être comprise entre -180 et 180 degrés",
+    "latitudeErrorMessage": "La valeur d’entrée doit être comprise entre -90 et 90 degrés"
   },
   "BIMUpload": {
     "specifyFiles": "Spécifier les fichiers à partir desquels télécharger",
@@ -492,7 +498,9 @@
         "commonProperties": "L’union des propriétés jumelles primaires d’éléments sélectionnés"
       },
       "errors": {
-        "twinAliasAlreadyExists": "Un alias jumeau portant le même nom existe déjà, envisagez de l’ajouter à la place."
+        "twinAliasAlreadyExists": "Un alias jumeau portant le même nom existe déjà, envisagez de l’ajouter à la place.",
+        "alphanumericOnly": "L’alias jumeau ne doit contenir que des caractères alphanumériques",
+        "noNumberPrefix": "L’alias jumeau ne doit pas commencer par un nombre"
       }
     }
   },
@@ -603,8 +611,6 @@
     "Start time input": "Entrée de l’heure de début",
     "End time input": "Entrée de l’heure de fin",
     "snap end time to latest": "ancrer l’heure de fin à la dernière",
-    "zoom in": "zoom avant",
-    "zoom out": "zoom arrière",
     "select quick time of": "sélectionnez le temps rapide de",
     "a time selection control dialog": "une boîte de dialogue de contrôle de sélection de l’heure.",
     "No color": "Pas de couleur",
@@ -694,7 +700,8 @@
       "undoAll": "Réinitialiser toutes les modifications",
       "expandTree": "Développer l’arborescence",
       "collapseTree": "Réduire l’arbre",
-      "save": "Enregistrer les modifications"
+      "save": "Enregistrer les modifications",
+      "refresh": "Actualiser les données"
     },
     "dateTimePicker": {
       "datePickerTitle": "Sélecteur de dates",
@@ -727,7 +734,7 @@
     "state": "État",
     "allProperties": "Toutes les propriétés",
     "behaviorPreview": "Aperçu",
-    "PrimaryTwinProperties": "Propriétés jumelles principales"
+    "PrimaryTwin": "Jumeau principal"
   },
   "svgTests": {
     "fluentUI": "Chargement SVG via le composant Fluent Image (modèle recommandé)",
@@ -780,6 +787,9 @@
     "select": "Choisir",
     "pan": "Pan",
     "orbit": "Orbite",
-    "zoom": "Zoom"
+    "zoom": "Zoom",
+    "reset": "Réinitialisation",
+    "zoomIn": "Zoom avant",
+    "zoomOut": "Zoom arrière"
   }
 }
