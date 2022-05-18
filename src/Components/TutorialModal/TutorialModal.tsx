@@ -111,7 +111,7 @@ const TutorialModal: React.FC<ITutorialModalProps> = (props) => {
                 </div>
                 <div className={classNames.footer}>
                     <Link href="https://google.com" target="_blank">
-                        Learn more
+                        View the docs
                     </Link>
                     <Stack horizontal tokens={{ childrenGap: 8 }}>
                         <PrimaryButton

@@ -134,7 +134,7 @@ export const getStyles = (
             classNames.slideStatusIndicatorContainer,
             {
                 height: 32,
-                marginBottom: 8,
+                margin: '8px 0',
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center'

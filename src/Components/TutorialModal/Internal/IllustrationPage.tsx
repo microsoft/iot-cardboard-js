@@ -21,7 +21,7 @@ const IllustrationPage: React.FC<{
     return (
         <Stack tokens={{ childrenGap: 16 }} styles={stackStyles}>
             <Stack.Item align="center">
-                <Image src={svgSrc} shouldStartVisible={true} height={172} />
+                <Image src={svgSrc} height={172} />
             </Stack.Item>
             <Stack.Item align="center" styles={textContainerStackStyles}>
                 <Text styles={titleStyles}>{title}</Text>
@@ -35,7 +35,8 @@ const IllustrationPage: React.FC<{
 
 const stackStyles: Partial<IStackStyles> = {
     root: {
-        padding: '0 40px'
+        padding: '0 80px',
+        flexGrow: 1
     }
 };
 
