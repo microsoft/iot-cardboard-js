@@ -118,7 +118,9 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
         false
     );
     const [isShowOnGlobeEnabled, setIsShowOnGlobeEnabled] = useState(
-        Boolean(sceneToEdit?.latitude || sceneToEdit?.longitude)
+        Boolean(
+            !(isNaN(sceneToEdit?.latitude) || isNaN(sceneToEdit?.longitude))
+        )
     );
     const { t } = useTranslation();
 
@@ -227,24 +229,28 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
 
     const handleLatitudeValueChange = useCallback(
         (e) => {
+            const newValue = e.currentTarget.value;
+            const lat = newValue?.length ? Number(newValue) : undefined;
             if (sceneToEdit) {
                 const selectedSceneCopy: IScene = deepCopy(sceneRef.current);
-                selectedSceneCopy.latitude = Number(e.currentTarget.value);
+                selectedSceneCopy.latitude = lat;
                 setScene(selectedSceneCopy);
             } else {
-                setNewLatitudeValue(Number(e.currentTarget.value));
+                setNewLatitudeValue(lat);
             }
         },
         [sceneToEdit, scene]
     );
     const handleLongitudeValueChange = useCallback(
         (e) => {
+            const newValue = e.currentTarget.value;
+            const long = newValue?.length ? Number(newValue) : undefined;
             if (sceneToEdit) {
                 const selectedSceneCopy: IScene = deepCopy(sceneRef.current);
-                selectedSceneCopy.longitude = Number(e.currentTarget.value);
+                selectedSceneCopy.longitude = long;
                 setScene(selectedSceneCopy);
             } else {
-                setNewLongtitudeValue(Number(e.currentTarget.value));
+                setNewLongtitudeValue(long);
             }
         },
         [sceneToEdit, scene]
@@ -353,32 +359,34 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
         setSelected3DFilePivotItem(SelectionModeOf3DFile.FromContainer);
     }, []);
 
-    const isSubmitButtonDisabled = useMemo(
-        () =>
+    const isSubmitButtonDisabled = useMemo(() => {
+        return (
             !(sceneToEdit ? scene?.displayName : newSceneName) ||
             (isShowOnGlobeEnabled &&
-                !(
-                    (sceneToEdit ? scene?.latitude : newLatitudeValue) &&
-                    (sceneToEdit ? scene?.longitude : newLongtitudeValue)
-                )) ||
+                ((sceneToEdit
+                    ? isNaN(scene?.latitude)
+                    : isNaN(newLatitudeValue)) ||
+                    (sceneToEdit
+                        ? isNaN(scene?.longitude)
+                        : isNaN(newLongtitudeValue)))) ||
             (selected3DFilePivotItem === SelectionModeOf3DFile.FromContainer &&
                 !(sceneToEdit ? scene?.assets?.[0]?.url : newSceneBlobUrl)) ||
             (selected3DFilePivotItem === SelectionModeOf3DFile.FromComputer &&
                 (!selectedFile ||
                     (isSelectedFileExistInBlob && !isOverwriteFile))) ||
-            put3DFileBlob.isLoading,
-        [
-            sceneToEdit,
-            scene,
-            newSceneName,
-            newSceneBlobUrl,
-            selected3DFilePivotItem,
-            selectedFile,
-            isSelectedFileExistInBlob,
-            isOverwriteFile,
-            put3DFileBlob
-        ]
-    );
+            put3DFileBlob.isLoading
+        );
+    }, [
+        sceneToEdit,
+        scene,
+        newSceneName,
+        newSceneBlobUrl,
+        selected3DFilePivotItem,
+        selectedFile,
+        isSelectedFileExistInBlob,
+        isOverwriteFile,
+        put3DFileBlob
+    ]);
     const styleStack: IStackStyles = {
         root: {
             margin: '8px',
@@ -391,24 +399,23 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
     ) => {
         setIsShowOnGlobeEnabled(checked);
         if (!checked) {
-            if (sceneRef.current?.latitude) {
+            if (!isNaN(sceneRef.current?.latitude)) {
                 delete sceneRef.current.latitude;
             }
-            if (sceneRef.current?.longitude) {
+            if (!isNaN(sceneRef.current?.longitude)) {
                 delete sceneRef.current.longitude;
             }
         }
     };
 
     const getLatitudeErrorMessage = (value: string): string => {
-        return !Number(value) || !(Number(value) >= -90 && Number(value) <= 90)
+        return !(Number(value) >= -90 && Number(value) <= 90)
             ? t('scenes.latitudeErrorMessage')
             : '';
     };
 
     const getLongitudeErrorMessage = (value: string): string => {
-        return !Number(value) ||
-            !(Number(value) >= -180 && Number(value) <= 180)
+        return !(Number(value) >= -180 && Number(value) <= 180)
             ? t('scenes.longitudeErrorMessage')
             : '';
     };
@@ -451,6 +458,7 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
                     <>
                         <StackItem>
                             <TextField
+                                styles={{ root: { width: 200 } }}
                                 label={t('scenes.latitude')}
                                 defaultValue={String(scene?.latitude ?? '')}
                                 onGetErrorMessage={getLatitudeErrorMessage}
@@ -462,6 +470,7 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
                         </StackItem>
                         <StackItem>
                             <TextField
+                                styles={{ root: { width: 200 } }}
                                 label={t('scenes.longitude')}
                                 defaultValue={String(scene?.longitude ?? '')}
                                 placeholder={t('scenes.sampleLongitude')}

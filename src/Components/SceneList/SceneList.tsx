@@ -231,9 +231,16 @@ const SceneList: React.FC<SceneListProps> = ({
             onRender: (item: IScene) => <span>{item.displayName}</span>
         },
         {
+            key: 'scene-description',
+            name: t('scenes.description'),
+            minWidth: 280,
+            isResizable: true,
+            onRender: (item: IScene) => <span>{item.description}</span>
+        },
+        {
             key: 'scene-urls',
             name: t('scenes.blobUrl'),
-            minWidth: 400,
+            minWidth: 280,
             isResizable: true,
             onRender: (item: IScene) => (
                 <ul className="cb-scene-list-blob-urls">
@@ -242,13 +249,6 @@ const SceneList: React.FC<SceneListProps> = ({
                     })}
                 </ul>
             )
-        },
-        {
-            key: 'scene-description',
-            name: t('scenes.description'),
-            minWidth: 100,
-            isResizable: true,
-            onRender: (item: IScene) => <span>{item.description}</span>
         },
         {
             key: 'scene-action',
