@@ -346,7 +346,9 @@
     "noBehaviorsOnLayer": "このレイヤーには動作はありません",
     "behaviorsListTitle": "ビヘイビア ({{カウント}})",
     "deleteConfirmationTitle": "このレイヤーを削除しますか?",
-    "deleteConfirmationMessage": "これにより、レイヤーと関連するすべての動作がすべてのデジタルツイン環境から完全に削除されます。"
+    "deleteConfirmationMessage": "これにより、レイヤーと関連するすべての動作がすべてのデジタルツイン環境から完全に削除されます。",
+    "infoCalloutButtonTitle": "詳細情報",
+    "infoCalloutContent": "レイヤーはタスクベースのグループで、コンシューマーが動作をフィルター処理できるようにします。レイヤーはシーン全体に存在します。"
   },
   "3dSceneBuilder": {
     "elements": "元素",
@@ -367,14 +369,11 @@
     "searchBehaviorsPlaceholder": "検索動作",
     "modifyElement": "要素の変更",
     "manageTargetElements": "ターゲット要素の管理",
-    "selectBehaviorElements": "この動作をターゲットとする要素を選択する",
     "multiSelectElements": "複数選択要素",
     "updateBehavior": "更新動作",
     "removeBehaviorFromScene": "シーンからビヘイビアを削除する",
     "removeBehaviorFromAllScenes": "すべてのシーンからビヘイビアを削除する",
     "manageSceneLayer": "シーンレイヤーの管理",
-    "createBehavior": "ビヘイビアの作成",
-    "modifyBehavior": "動作の変更",
     "addBehaviorButton": "動作の追加",
     "addBehavior": "ビヘイビアの追加",
     "searchBehaviors": "検索動作",
@@ -393,7 +392,6 @@
     "confirmRemoveBehaviorFromScene": "現在のシーンからこの動作を削除してもよろしいですか?",
     "confirmRemoveBehaviorFromAllScenes": "すべてのシーンからこの動作を削除してもよろしいですか?この操作を元に戻すことはできません。",
     "newElement": "新しい要素",
-    "newBehavior": "新しい動作",
     "newBehaviorId": "NewBehaviorId",
     "cancel": "キャンセル",
     "Done": "完成です",
@@ -458,19 +456,13 @@
     "warningBreakPointToggleLabel": "カラーブレークポイントを有効にする",
     "warningBreakPointLabel": "警告色のブレークポイント",
     "linkWidgetUrlDescription": "リンクウィジェットの URL は、次のような JavaScript テンプレート文字列フォーマットをサポートしています: ${PrimaryTwin.property}",
-    "behaviorTypes": {
-      "alertBehavior": "アラートの動作",
-      "statusBehavior": "ステータスの動作"
-    },
     "notImplemented": "未実装",
     "noPrimaryTwinProperties": "表示するプライマリツインプロパティがありません",
     "twinAlias": {
       "title": "ツインエイリアス",
-      "titlePlural": "ツインエイリアス",
       "aliasedTwin": "別名ツイン",
       "aliasedTwins": "別名双子",
       "add": "ツインエイリアスの追加",
-      "noTwinAliasesAdded": "ツインエイリアスはまだ追加されていません",
       "new": "新しいツインエイリアス",
       "edit": "ツインエイリアスの編集",
       "create": "ツインエイリアスの作成",
@@ -488,8 +480,6 @@
         "elementTwinMappingsNotExist": "使用可能なマッピングはありません。最初に動作に要素を追加します。"
       },
       "descriptions": {
-        "twins": "ツインを使用すると、式で使用できるプロパティにアクセスできます。",
-        "primaryTwin": "プライマリツインには、ターゲット要素のプライマリツイン間で共通するすべてのプロパティが含まれています。",
         "aliasChangeNotAllowed": "作成後のエイリアスの変更は許可されません。",
         "commonProperties": "選択した要素のプライマリツインプロパティの和集合"
       },
@@ -497,7 +487,17 @@
         "twinAliasAlreadyExists": "同じ名前のツインエイリアスが既に存在するため、代わりに追加することを検討してください。",
         "alphanumericOnly": "ツイン エイリアスには英数字のみを含める必要があります。",
         "noNumberPrefix": "ツイン エイリアスは数字で始まってはなりません。"
-      }
+      },
+      "tabDescriptionPart1": "各要素は、プライマリ ツインからのデータを活用します。要素がデータを活用できる他のツインを追加します。",
+      "tabDescriptionPart2": "ターゲット要素間で共通するプロパティを表示し、式内のプライマリ ツインまたは他のツインを使用してこれらのプロパティを参照します。",
+      "linkedTwinListHeader": "リンクされた双子 ({{カウント}})"
+    },
+    "elementsListInstructions": "このビヘイビアのビジュアライゼーションに含める要素を選択します。",
+    "behaviorForm": {
+      "newBehavior": "新しい動作",
+      "createBehavior": "ビヘイビアの作成",
+      "modifyBehavior": "動作の編集",
+      "formSubTitle": "ビヘイビアは、特定の条件 (特定の間隔やデータのしきい値など) で発生する視覚的な手がかりです。"
     }
   },
   "widgets": {

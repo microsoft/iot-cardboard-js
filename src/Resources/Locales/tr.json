@@ -346,7 +346,9 @@
     "noBehaviorsOnLayer": "Bu katmanda hiçbir davranış yoktur",
     "behaviorsListTitle": "Davranışlar ({{count}})",
     "deleteConfirmationTitle": "Bu katmanı silin mi?",
-    "deleteConfirmationMessage": "Bu, katmanı ve ilişkili davranışları tüm Digital Twins ortamlarından kalıcı olarak kaldırır."
+    "deleteConfirmationMessage": "Bu, katmanı ve ilişkili davranışları tüm Digital Twins ortamlarından kalıcı olarak kaldırır.",
+    "infoCalloutButtonTitle": "Daha fazla bilgi",
+    "infoCalloutContent": "Katmanlar, tüketicilerin davranışları filtreleme ölçütü yapmasına olanak tanıyan görev tabanlı gruplandırmalardır. Sahneler arasında katmanlar vardır."
   },
   "3dSceneBuilder": {
     "elements": "Öğe",
@@ -367,14 +369,11 @@
     "searchBehaviorsPlaceholder": "Arama davranışları",
     "modifyElement": "Öğeyi değiştir",
     "manageTargetElements": "Hedef öğeleri yönetme",
-    "selectBehaviorElements": "Bu davranışın hedefleneceği öğeleri seçin",
     "multiSelectElements": "Çoklu seçim öğeleri",
     "updateBehavior": "Güncelleştirme davranışı",
     "removeBehaviorFromScene": "Davranışı sahneden kaldırma",
     "removeBehaviorFromAllScenes": "Tüm sahnelerden davranışı kaldırma",
     "manageSceneLayer": "Sahne katmanını yönetme",
-    "createBehavior": "Davranış oluşturma",
-    "modifyBehavior": "Davranışı Değiştir",
     "addBehaviorButton": "Davranış ekleme",
     "addBehavior": "Davranış Ekle",
     "searchBehaviors": "Arama Davranışları",
@@ -393,7 +392,6 @@
     "confirmRemoveBehaviorFromScene": "Bu davranışı geçerli sahneden kaldırmak istediğinizden emin misiniz?",
     "confirmRemoveBehaviorFromAllScenes": "Bu davranışı tüm sahnelerden kaldırmak istediğinizden emin misiniz? Bu eylemi geri alamazsınız.",
     "newElement": "Yeni öğe",
-    "newBehavior": "Yeni davranış",
     "newBehaviorId": "NewBehaviorId",
     "cancel": "İptal",
     "Done": "Yapılmış",
@@ -458,19 +456,13 @@
     "warningBreakPointToggleLabel": "Renk kesme noktasını etkinleştir",
     "warningBreakPointLabel": "Uyarı rengi kırılma noktası",
     "linkWidgetUrlDescription": "Bağlantı widget'ı URL'si, aşağıdaki gibi JavaScript şablon dizesi biçimlendirmesini destekler: ${PrimaryTwin.property}",
-    "behaviorTypes": {
-      "alertBehavior": "Uyarı davranışı",
-      "statusBehavior": "Durum davranışı"
-    },
     "notImplemented": "Uygulanmadı",
     "noPrimaryTwinProperties": "Görüntülenecek birincil ikiz özellik yok",
     "twinAlias": {
       "title": "İkiz takma ad",
-      "titlePlural": "İkiz takma adlar",
       "aliasedTwin": "Takma adlı ikiz",
       "aliasedTwins": "Takma adlı ikizler",
       "add": "İkiz diğer ad ekleme",
-      "noTwinAliasesAdded": "Henüz ikiz takma ad eklenmedi",
       "new": "Yeni ikiz takma ad",
       "edit": "İkiz takma adı düzenleme",
       "create": "İkiz diğer ad oluşturma",
@@ -488,8 +480,6 @@
         "elementTwinMappingsNotExist": "Kullanılabilir eşleme yok, önce davranışa öğeler ekleyin."
       },
       "descriptions": {
-        "twins": "İkizler, ifadelerde kullanılabilecek özelliklere erişmenizi sağlar.",
-        "primaryTwin": "PrimaryTwin, hedef elemanlar birincil ikizleri arasındaki ortak tüm özellikleri içerir.",
         "aliasChangeNotAllowed": "Oluşturulduktan sonra diğer ad değişimine izin verilmez.",
         "commonProperties": "Seçilen elemanların birincil ikiz özelliklerinin birliği"
       },
@@ -497,7 +487,17 @@
         "twinAliasAlreadyExists": "Aynı ada sahip ikiz takma ad zaten var, bunun yerine eklemeyi düşünün.",
         "alphanumericOnly": "İkiz diğer ad yalnızca alfasayısal karakterler içermelidir",
         "noNumberPrefix": "İkiz takma ad bir sayı ile başlamamalıdır"
-      }
+      },
+      "tabDescriptionPart1": "Her öğe birincil ikizinden gelen verilerden yararlanır. Öğelerinizin verilerden yararlanabileceği diğer ikizleri ekleyin.",
+      "tabDescriptionPart2": "Hedeflenen öğeler arasındaki ortak özellikleri görüntüleyin ve ifadelerinizdeki birincil ikizi veya diğer ikizleri kullanarak bu özelliklere başvurun. ",
+      "linkedTwinListHeader": "Bağlı ikizler ({{count}})"
+    },
+    "elementsListInstructions": "Bu davranışın görselleştirmesine dahil edilmesini istediğiniz öğeleri seçin",
+    "behaviorForm": {
+      "newBehavior": "Yeni davranış",
+      "createBehavior": "Davranış oluşturma",
+      "modifyBehavior": "Düzenleme davranışı",
+      "formSubTitle": "Davranışlar, belirli koşullar altında (örneğin, belirli aralıklarla veya veri eşiklerinde) meydana gelen görsel ipuçlarıdır."
     }
   },
   "widgets": {

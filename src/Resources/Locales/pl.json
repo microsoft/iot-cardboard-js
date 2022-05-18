@@ -346,7 +346,9 @@
     "noBehaviorsOnLayer": "Na tej warstwie nie ma żadnych zachowań",
     "behaviorsListTitle": "Zachowania ({{count}})",
     "deleteConfirmationTitle": "Usunąć tę warstwę?",
-    "deleteConfirmationMessage": "Spowoduje to trwałe usunięcie warstwy i wszelkich powiązanych zachowań ze wszystkich środowisk Digital Twins."
+    "deleteConfirmationMessage": "Spowoduje to trwałe usunięcie warstwy i wszelkich powiązanych zachowań ze wszystkich środowisk Digital Twins.",
+    "infoCalloutButtonTitle": "Więcej informacji",
+    "infoCalloutContent": "Warstwy to grupy oparte na zadaniach, które umożliwiają konsumentom filtrowanie zachowań. Warstwy istnieją w różnych scenach."
   },
   "3dSceneBuilder": {
     "elements": "Pierwiastki",
@@ -367,14 +369,11 @@
     "searchBehaviorsPlaceholder": "Zachowania związane z wyszukiwaniem",
     "modifyElement": "Element Modyfikuj",
     "manageTargetElements": "Zarządzanie elementami docelowymi",
-    "selectBehaviorElements": "Wybierz elementy dla tego zachowania, które mają być kierowane",
     "multiSelectElements": "Elementy wielokrotnego wyboru",
     "updateBehavior": "Zachowanie aktualizacji",
     "removeBehaviorFromScene": "Usuwanie zachowania ze sceny",
     "removeBehaviorFromAllScenes": "Usuwanie zachowania ze wszystkich scen",
     "manageSceneLayer": "Zarządzanie warstwą sceny",
-    "createBehavior": "Tworzenie zachowania",
-    "modifyBehavior": "Modyfikowanie zachowania",
     "addBehaviorButton": "Dodaj zachowanie",
     "addBehavior": "Dodaj zachowanie",
     "searchBehaviors": "Zachowania związane z wyszukiwaniem",
@@ -393,7 +392,6 @@
     "confirmRemoveBehaviorFromScene": "Czy na pewno chcesz usunąć to zachowanie z bieżącej sceny?",
     "confirmRemoveBehaviorFromAllScenes": "Czy na pewno chcesz usunąć to zachowanie ze wszystkich scen? Nie można cofnąć tej akcji.",
     "newElement": "Nowy element",
-    "newBehavior": "Nowe zachowanie",
     "newBehaviorId": "NewBehaviorId",
     "cancel": "Anuluj",
     "Done": "Gotowy",
@@ -458,19 +456,13 @@
     "warningBreakPointToggleLabel": "Włączanie punktu przerwania koloru",
     "warningBreakPointLabel": "Punkt przerwania koloru ostrzegawczego",
     "linkWidgetUrlDescription": "Link widget URL obsługuje formatowanie ciągów szablonów JavaScript, takie jak: ${PrimaryTwin.property}",
-    "behaviorTypes": {
-      "alertBehavior": "Zachowanie alertu",
-      "statusBehavior": "Zachowanie stanu"
-    },
     "notImplemented": "Nie zaimplementowano",
     "noPrimaryTwinProperties": "Brak podstawowych właściwości bliźniaczych do wyświetlenia",
     "twinAlias": {
       "title": "Podwójny alias",
-      "titlePlural": "Podwójne aliasy",
       "aliasedTwin": "Aliasowany bliźniak",
       "aliasedTwins": "Aliasowane bliźnięta",
       "add": "Dodawanie bliźniaczego aliasu",
-      "noTwinAliasesAdded": "Nie dodano jeszcze bliźniaczych aliasów",
       "new": "Nowy podwójny alias",
       "edit": "Edytuj alias bliźniaczy",
       "create": "Tworzenie bliźniaczego aliasu",
@@ -488,8 +480,6 @@
         "elementTwinMappingsNotExist": "Nie ma dostępnego mapowania, najpierw dodaj elementy do zachowania."
       },
       "descriptions": {
-        "twins": "Bliźnięta dają dostęp do właściwości, które mogą być używane w wyrażeniach.",
-        "primaryTwin": "PrimaryTwin zawiera wszystkie właściwości wspólne dla elementów docelowych bliźniaków pierwotnych.",
         "aliasChangeNotAllowed": "Zmiana aliasu nie jest dozwolona po utworzeniu.",
         "commonProperties": "Połączenie pierwotnych bliźniaczych właściwości wybranych elementów"
       },
@@ -497,7 +487,17 @@
         "twinAliasAlreadyExists": "Bliźniaczy alias o tej samej nazwie już istnieje, rozważ dodanie go zamiast tego.",
         "alphanumericOnly": "Bliźniaczy alias może zawierać tylko znaki alfanumeryczne",
         "noNumberPrefix": "Podwójny alias nie może zaczynać się od cyfry"
-      }
+      },
+      "tabDescriptionPart1": "Każdy element wykorzystuje dane ze swojego podstawowego bliźniaka. Dodaj inne bliźniaki, z których elementy mogą wykorzystywać dane.",
+      "tabDescriptionPart2": "Wyświetl właściwości wspólne dla elementów docelowych i odwołaj się do tych właściwości przy użyciu bliźniaczej nitki podstawowej lub innych bliźniąt w wyrażeniach. ",
+      "linkedTwinListHeader": "Połączone bliźnięta ({{count}})"
+    },
+    "elementsListInstructions": "Wybierz elementy, które chcesz uwzględnić w wizualizacji tego zachowania",
+    "behaviorForm": {
+      "newBehavior": "Nowe zachowanie",
+      "createBehavior": "Tworzenie zachowania",
+      "modifyBehavior": "Edytuj zachowanie",
+      "formSubTitle": "Zachowania to wskazówki wizualne, które występują w określonych warunkach — na przykład w określonych odstępach czasu lub na progach danych."
     }
   },
   "widgets": {

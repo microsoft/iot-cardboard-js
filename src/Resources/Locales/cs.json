@@ -346,7 +346,9 @@
     "noBehaviorsOnLayer": "V této vrstvě nejsou žádná chování",
     "behaviorsListTitle": "Chování ({{count}})",
     "deleteConfirmationTitle": "Odstranit tuto vrstvu?",
-    "deleteConfirmationMessage": "Tím se trvale odstraní vrstva a všechna související chování ze všech prostředí digitálních dvojčat."
+    "deleteConfirmationMessage": "Tím se trvale odstraní vrstva a všechna související chování ze všech prostředí digitálních dvojčat.",
+    "infoCalloutButtonTitle": "Více",
+    "infoCalloutContent": "Vrstvy jsou seskupení založená na úlohách, která umožňují uživatelům filtrovat chování podle. Vrstvy existují napříč scénami."
   },
   "3dSceneBuilder": {
     "elements": "Elementy",
@@ -367,14 +369,11 @@
     "searchBehaviorsPlaceholder": "Chování vyhledávání",
     "modifyElement": "Upravit prvek",
     "manageTargetElements": "Správa cílových prvků",
-    "selectBehaviorElements": "Vyberte prvky pro toto chování, na které chcete cílit",
     "multiSelectElements": "Prvky s vícenásobným výběrem",
     "updateBehavior": "Chování aktualizace",
     "removeBehaviorFromScene": "Odstranění chování ze scény",
     "removeBehaviorFromAllScenes": "Odstranění chování ze všech scén",
     "manageSceneLayer": "Správa vrstvy scény",
-    "createBehavior": "Vytvoření chování",
-    "modifyBehavior": "Upravit chování",
     "addBehaviorButton": "Přidat chování",
     "addBehavior": "Přidat chování",
     "searchBehaviors": "Chování vyhledávání",
@@ -393,7 +392,6 @@
     "confirmRemoveBehaviorFromScene": "Opravdu chcete toto chování odebrat z aktuální scény?",
     "confirmRemoveBehaviorFromAllScenes": "Opravdu chcete toto chování odstranit ze všech scén? Tuto akci nelze vrátit zpět.",
     "newElement": "Nový prvek",
-    "newBehavior": "Nové chování",
     "newBehaviorId": "NewBehaviorId",
     "cancel": "Zrušit",
     "Done": "Hotový",
@@ -458,19 +456,13 @@
     "warningBreakPointToggleLabel": "Povolit barevný bod přerušení",
     "warningBreakPointLabel": "Výstražný barevný bod přerušení",
     "linkWidgetUrlDescription": "Adresa URL widgetu odkazu podporuje formátování řetězce šablony JavaScript, například: ${PrimaryTwin.property}",
-    "behaviorTypes": {
-      "alertBehavior": "Chování výstrah",
-      "statusBehavior": "Stavové chování"
-    },
     "notImplemented": "Neimplementováno",
     "noPrimaryTwinProperties": "Žádné primární vlastnosti dvojčete k zobrazení",
     "twinAlias": {
       "title": "Alias dvojčat",
-      "titlePlural": "Aliasy dvojčat",
       "aliasedTwin": "Aliasované dvojče",
       "aliasedTwins": "Aliasovaná dvojčata",
       "add": "Přidání aliasu dvojčete",
-      "noTwinAliasesAdded": "Zatím nebyly přidány žádné aliasy dvojčat",
       "new": "Nový alias dvojčete",
       "edit": "Upravit alias dvojčete",
       "create": "Vytvoření aliasu dvojčete",
@@ -488,8 +480,6 @@
         "elementTwinMappingsNotExist": "Není k dispozici žádné mapování, nejprve přidejte prvky do chování."
       },
       "descriptions": {
-        "twins": "Dvojčata poskytují přístup k vlastnostem, které lze použít ve výrazech.",
-        "primaryTwin": "PrimaryTwin obsahuje všechny vlastnosti společné mezi primárními dvojčaty cílových prvků.",
         "aliasChangeNotAllowed": "Změna aliasu není po vytvoření povolena.",
         "commonProperties": "Sjednocení vlastností primárního dvojčete vybraných prvků"
       },
@@ -497,7 +487,17 @@
         "twinAliasAlreadyExists": "Alias dvojčete se stejným názvem již existuje, zvažte jeho přidání.",
         "alphanumericOnly": "Alias dvojčete musí obsahovat pouze alfanumerické znaky",
         "noNumberPrefix": "Alias dvojčete nesmí začínat číslem"
-      }
+      },
+      "tabDescriptionPart1": "Každý prvek využívá data ze svého primárního dvojčete. Přidejte další dvojčata, ze kterých mohou vaše prvky využívat data.",
+      "tabDescriptionPart2": "Zobrazte společné vlastnosti mezi cílovými prvky a odkazujte na tyto vlastnosti pomocí primárního dvojčete nebo jiných dvojčat ve výrazech. ",
+      "linkedTwinListHeader": "Propojená dvojčata ({{count}})"
+    },
+    "elementsListInstructions": "Vyberte prvky, které chcete zahrnout do vizualizace tohoto chování.",
+    "behaviorForm": {
+      "newBehavior": "Nové chování",
+      "createBehavior": "Vytvoření chování",
+      "modifyBehavior": "Chování úprav",
+      "formSubTitle": "Chování jsou vizuální podněty, ke kterým dochází za určitých podmínek – například v určitých intervalech nebo při prahových hodnotách dat."
     }
   },
   "widgets": {
