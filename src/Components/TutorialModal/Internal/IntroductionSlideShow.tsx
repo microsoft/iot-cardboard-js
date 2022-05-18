@@ -1,14 +1,15 @@
 import { IconButton, IProcessedStyleSet } from '@fluentui/react';
 import React from 'react';
 import { ITutorialModalStyles } from '../TutorialModal.types';
-
-const numSlides = 3;
+import SlideStatusIndicator from './SlideStatusIndicator';
 
 const IntroductionSlideShow: React.FC<{
     slideNumber: number;
     setSlideNumber: (slideNumber: number) => void;
     classNames: IProcessedStyleSet<ITutorialModalStyles>;
 }> = ({ slideNumber, setSlideNumber, classNames }) => {
+    const numSlides = 3;
+
     return (
         <div className={classNames.slideshowContainer}>
             <div className={classNames.slideChangeBtnContainerLeft}>
@@ -28,9 +29,15 @@ const IntroductionSlideShow: React.FC<{
                     onClick={() =>
                         setSlideNumber(Math.min(slideNumber + 1, numSlides))
                     }
-                    disabled={slideNumber >= numSlides}
+                    disabled={slideNumber >= numSlides - 1}
                 />
             </div>
+            <SlideStatusIndicator
+                slideNumber={slideNumber}
+                setSlideNumber={setSlideNumber}
+                numSlides={numSlides}
+                classNames={classNames}
+            />
         </div>
     );
 };

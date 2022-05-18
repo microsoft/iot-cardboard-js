@@ -35,6 +35,7 @@ export interface ITutorialModalStyles {
     slideshowContainer: IStyle;
     slideChangeBtnContainerLeft: IStyle;
     slideChangeBtnContainerRight: IStyle;
+    slideStatusIndicatorContainer: IStyle;
     /**
      * SubComponent styles.
      */
@@ -44,6 +45,7 @@ export interface ITutorialModalStyles {
 export interface ITutorialModalSubComponentStyles {
     closeButton: IButtonStyles;
     chevronButton: IButtonStyles;
+    slideIndicatorButton: IButtonStyles;
     nav: Partial<INavStyles>;
 }
 

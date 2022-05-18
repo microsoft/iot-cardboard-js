@@ -13,6 +13,7 @@ const classNames = {
     slideshowContainer: `${classPrefix}-slideshow-container`,
     slideChangeBtnContainerLeft: `${classPrefix}-slide-change-btn-container-left`,
     slideChangeBtnContainerRight: `${classPrefix}-slide-change-btn-container-right`,
+    slideStatusIndicatorContainer: `${classPrefix}-slide-status-indicator-container`,
     footer: `${classPrefix}-footer`,
     navContainer: `${classPrefix}-nav-container`
 };
@@ -97,6 +98,20 @@ export const getStyles = (
                 right: '0px'
             } as IStyle
         ],
+        slideStatusIndicatorContainer: [
+            classNames.slideStatusIndicatorContainer,
+            {
+                position: 'absolute',
+                bottom: 20,
+                left: 0,
+                right: 0,
+                marginLeft: 'auto',
+                marginRight: 'auto',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center'
+            } as IStyle
+        ],
         footer: [
             classNames.footer,
             {
@@ -140,6 +155,11 @@ export const getStyles = (
                 },
                 iconDisabled: {
                     color: props.theme.palette.white
+                }
+            },
+            slideIndicatorButton: {
+                icon: {
+                    fontSize: FontSizes.small
                 }
             },
             nav: {
