@@ -430,6 +430,11 @@
             "tabDescription": "Select a property, then set ranges for applying color to certain conditions—for instance, red to indicate high temperatures, or green for optimal speed.",
             "stateItemLabel": "State {{index}}"
         },
+        "behaviorWidgetsForm": {
+            "addWidgetButtonText": "Add widget",
+            "noData": "You haven't configured any widgets yet",
+            "tabDescription": "Define widgets that appear in the element's context"
+        },
         "twinPropertyDropdown": {
             "propertyDropdownLabel": "Property",
             "noElementsSelected": "No elements selected",
@@ -450,7 +455,6 @@
         "behaviorId": "Behavior Id",
         "widgetLibrary": "Widget library",
         "exploreWidgets": "Explore our widgets and add an extra layer of information to your 3D scene.",
-        "addWidget": "Add widget",
         "newWidget": "New widget",
         "createWidget": "Create widget",
         "updateWidget": "Update widget",
@@ -458,7 +462,6 @@
         "removeWidget": "Remove widget",
         "noWidgets": "No widgets found",
         "modifyWidget": "Modify widget",
-        "noWidgetsConfigured": "No widgets configured",
         "unitOfMeasure": "Unit of measure",
         "expression": "Expression",
         "warningBreakPointToggleLabel": "Enable color break point",
