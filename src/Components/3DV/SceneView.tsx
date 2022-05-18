@@ -41,7 +41,6 @@ import {
 import {
     makeMaterial,
     makeStandardMaterial,
-    outlineMaterial,
     ToColor3,
     SetWireframe
 } from './Shaders';
@@ -901,15 +900,16 @@ function SceneView(props: ISceneViewProps, ref) {
                 if (onSceneLoaded) {
                     onSceneLoaded(sceneRef.current);
                 }
-
+                //The rendering pipeline allows for effects to be set in the scene
                 const defaultPipeline = new BABYLON.DefaultRenderingPipeline(
                     'default',
                     false,
                     sceneRef.current,
                     [cameraRef.current]
                 );
+                //Fast, approximate anti-aliasing removes the jagged edge appearance from meshes by doing a pass over the screen
                 defaultPipeline.fxaaEnabled = true;
-
+                //Add a Screen Space Ambient Occlusion pass to add soft shadowing in crevices and between objects.
                 const ssao = new BABYLON.SSAO2RenderingPipeline(
                     'ssao',
                     sceneRef.current,
@@ -923,6 +923,7 @@ function SceneView(props: ISceneViewProps, ref) {
                 ssao.expensiveBlur = true;
                 ssao.samples = 16;
                 ssao.maxZ = 100;
+                //Attach the ssao pass to the current camera
                 sceneRef.current.postProcessRenderPipelineManager.attachCamerasToRenderPipeline(
                     'ssao',
                     cameraRef.current
