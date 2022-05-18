@@ -786,8 +786,16 @@
   "tutorialModal": {
     "elements": {
       "title": "Cos'è un elemento?",
-      "content": "Un elemento è un insieme autodefinito di mesh 3D collegato ai dati su uno o più gemelli digitali sottostanti. Elements consente di valutare rapidamente le operazioni e l'integrità del sistema. \n\nUn gemello primario è la principale controparte del gemello digitale per un elemento. È possibile connettere l'elemento a un gemello nell'istanza di Gemelli digitali di Azure in modo che l'elemento possa rappresentare il gemello e i relativi dati all'interno della visualizzazione 3D.",
-      "docLinkBlurb": "Per un passo più dettagliato, dai un'occhiata al nostro <DocLink>docs here.</DocLink>"
+      "content": "Un elemento è un insieme autodefinito di mesh 3D collegato ai dati su uno o più gemelli digitali sottostanti. Elements consente di valutare rapidamente le operazioni e l'integrità del sistema. \n\nUn gemello primario è la principale controparte del gemello digitale per un elemento. È possibile connettere l'elemento a un gemello nell'istanza di Gemelli digitali di Azure in modo che l'elemento possa rappresentare il gemello e i relativi dati all'interno della visualizzazione 3D."
+    },
+    "docLinkBlurb": "Per un passo più dettagliato, dai un'occhiata al nostro <DocLink>docs here.</DocLink>",
+    "behaviors": {
+      "title": "Cos'è un comportamento?",
+      "mainContent": "Un comportamento è uno scenario per la scena che sfrutterà dati particolari sul gemello digitale dell'elemento correlato per guidare le visualizzazioni degli spettatori.\n\nLa creazione di un comportamento include la scelta di due gemelli, la configurazione dello stato e degli avvisi, l'aggiunta di un widget e la scelta del livello su cui visualizzare.\n\n",
+      "statusTitle": "Stato",
+      "statusDescription": "Gli stati sono sovrapposizioni basate sui dati sugli elementi per indicare l'integrità o lo stato dell'elemento. impostare intervalli di valori per creare limiti di stato e scegliere i colori per rappresentare ogni stato nella visualizzazione.\n\n",
+      "alertsTitle": "Avvisi",
+      "alertsDescription": "Gli avvisi sono notifiche condizionali che ti aiutano a vedere rapidamente quando un elemento richiede la tua attenzione. Personalizza il tuo badge di avviso con un'icona, un colore e un testo.\n\n"
     }
   }
 }

@@ -786,8 +786,16 @@
   "tutorialModal": {
     "elements": {
       "title": "Mi az az elem?",
-      "content": "Az elem egy 3D-s hálók önállóan definiált készlete, amely egy vagy több mögöttes digitális iker adataihoz kapcsolódik. Az elemek segítenek a rendszer működésének és állapotának gyors mérésében. \n\nAz elsődleges iker az elem fő digitális ikerpárja. Az elemet az Azure Digital Twins-példányban egy ikerpárhoz csatlakoztathatja, hogy az elem képviselhesse az ikertestvérét és annak adatait a 3D vizualizációban.",
-      "docLinkBlurb": "Részletesebben, lépésről lépésre, nézd meg a <DocLink>docs itt.</DocLink>"
+      "content": "Az elem egy 3D-s hálók önállóan definiált készlete, amely egy vagy több mögöttes digitális iker adataihoz kapcsolódik. Az elemek segítenek a rendszer működésének és állapotának gyors mérésében. \n\nAz elsődleges iker az elem fő digitális ikerpárja. Az elemet az Azure Digital Twins-példányban egy ikerpárhoz csatlakoztathatja, hogy az elem képviselhesse az ikertestvérét és annak adatait a 3D vizualizációban."
+    },
+    "docLinkBlurb": "Részletesebben, lépésről lépésre, nézd meg a <DocLink>docs itt.</DocLink>",
+    "behaviors": {
+      "title": "Mi az a viselkedés?",
+      "mainContent": "A viselkedés olyan forgatókönyv a jelenethez, amely a kapcsolódó elem digitális ikertestvérének bizonyos adatait felhasználja a nézői vizualizációk ösztönzésére.\n\nA viselkedés létrehozása magában foglalja az ikrek kiválasztását, az állapot és a riasztások konfigurálását, a widget hozzáadását és annak kiválasztását, hogy melyik rétegen jelenjen meg.\n\n",
+      "statusTitle": "Állapot",
+      "statusDescription": "Az állapotok az elemek adatvezérelt fedvényei, amelyek jelzik az elem állapotát vagy állapotát. állítsa be az értéktartományokat állapothatárok létrehozásához, és válassza ki a színeket, hogy az egyes állapotokat képviselje a vizualizációban.\n\n",
+      "alertsTitle": "Figyelmeztetések",
+      "alertsDescription": "A riasztások feltételes értesítések, amelyek segítenek gyorsan látni, hogy egy elem mikor igényli a figyelmet. Testreszabhatja a figyelmeztető jelvényt egy ikonnal, színnel és szöveggel.\n\n"
     }
   }
 }

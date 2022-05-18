@@ -786,8 +786,16 @@
   "tutorialModal": {
     "elements": {
       "title": "O que é um elemento?",
-      "content": "Um elemento é um conjunto auto-definido de malhas 3D que está ligada a dados sobre um ou mais gémeos digitais subjacentes. Os elementos ajudam-no a medir rapidamente as operações do sistema e a saúde. \n\nUm gémeo primário é a principal congénere digital de um elemento. Liga o elemento a um gémeo no seu exemplo Azure Digital Twins para que o elemento possa representar o seu gémeo e os seus dados dentro da visualização 3D.",
-      "docLinkBlurb": "Para um passo a passo mais detalhado, consulte os nossos <DocLink>docs aqui.</DocLink>"
+      "content": "Um elemento é um conjunto auto-definido de malhas 3D que está ligada a dados sobre um ou mais gémeos digitais subjacentes. Os elementos ajudam-no a medir rapidamente as operações do sistema e a saúde. \n\nUm gémeo primário é a principal congénere digital de um elemento. Liga o elemento a um gémeo no seu exemplo Azure Digital Twins para que o elemento possa representar o seu gémeo e os seus dados dentro da visualização 3D."
+    },
+    "docLinkBlurb": "Para um passo a passo mais detalhado, consulte os nossos <DocLink>docs aqui.</DocLink>",
+    "behaviors": {
+      "title": "O que é um comportamento?",
+      "mainContent": "Um comportamento é um cenário para a sua cena que irá aproveitar dados particulares sobre o gémeo digital do elemento relacionado para impulsionar visualizações de espectadores.\n\nCriar um comportamento inclui escolher gémeos, configurar o estado e os alertas, adicionar um widget e escolher em que camada exibir.\n\n",
+      "statusTitle": "Estado",
+      "statusDescription": "Os estados são sobreposições baseadas em dados nos seus elementos para indicar a saúde ou o estado do elemento. definir gamas de valor para criar limites de estado, e escolher cores para representar cada estado na visualização.\n\n",
+      "alertsTitle": "Alertas",
+      "alertsDescription": "Os alertas são notificações condicionais para ajudá-lo a ver rapidamente quando um elemento requer a sua atenção. Personalize o seu crachá de alerta com um ícone, cor e texto.\n\n"
     }
   }
 }

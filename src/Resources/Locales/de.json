@@ -786,8 +786,16 @@
   "tutorialModal": {
     "elements": {
       "title": "Was ist ein Element?",
-      "content": "Ein Element ist ein selbstdefinierter Satz von 3D-Netzen, der mit Daten zu einem oder mehreren zugrunde liegenden digitalen Zwillingen verknüpft ist. Mithilfe von Elementen können Sie den Systembetrieb und den Zustand schnell einschätzen. \n\nEin primärer Zwilling ist das Hauptgegenstück des digitalen Zwillings für ein Element. Sie verbinden das Element mit einem Zwilling in Ihrer Azure Digital Twins-Instanz, sodass das Element Ihren Zwilling und seine Daten in der 3D-Visualisierung darstellen kann.",
-      "docLinkBlurb": "Für einen detaillierteren Schritt für Schritt, schauen Sie sich unsere <DocLink>docs hier an.</DocLink>"
+      "content": "Ein Element ist ein selbstdefinierter Satz von 3D-Netzen, der mit Daten zu einem oder mehreren zugrunde liegenden digitalen Zwillingen verknüpft ist. Mithilfe von Elementen können Sie den Systembetrieb und den Zustand schnell einschätzen. \n\nEin primärer Zwilling ist das Hauptgegenstück des digitalen Zwillings für ein Element. Sie verbinden das Element mit einem Zwilling in Ihrer Azure Digital Twins-Instanz, sodass das Element Ihren Zwilling und seine Daten in der 3D-Visualisierung darstellen kann."
+    },
+    "docLinkBlurb": "Für einen detaillierteren Schritt für Schritt, schauen Sie sich unsere <DocLink>docs hier an.</DocLink>",
+    "behaviors": {
+      "title": "Was ist ein Verhalten?",
+      "mainContent": "Ein Verhalten ist ein Szenario für Ihre Szene, das bestimmte Daten auf dem digitalen Zwilling des zugehörigen Elements nutzt, um Visualisierungen des Betrachters zu steuern.\n\nDas Erstellen eines Verhaltens umfasst das Auswählen von Zwillingen, das Konfigurieren von Status und Warnungen, das Hinzufügen eines Widgets und das Auswählen der anzuzeigenden Ebene.\n\n",
+      "statusTitle": "Status",
+      "statusDescription": "Zustände sind datengesteuerte Überlagerungen Ihrer Elemente, um die Integrität oder den Status des Elements anzuzeigen. Legen Sie Wertebereiche fest, um Zustandsgrenzen zu erstellen, und wählen Sie Farben aus, um jeden Status in der Visualisierung darzustellen.\n\n",
+      "alertsTitle": "Alarmsignale",
+      "alertsDescription": "Warnungen sind bedingte Benachrichtigungen, mit denen Sie schnell erkennen können, wann ein Element Ihre Aufmerksamkeit erfordert. Passen Sie Ihr Benachrichtigungs-Badge mit einem Symbol, einer Farbe und einem Text an.\n\n"
     }
   }
 }

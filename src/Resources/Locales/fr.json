@@ -786,8 +786,16 @@
   "tutorialModal": {
     "elements": {
       "title": "Qu'est-ce qu'un élément ?",
-      "content": "Un élément est un ensemble auto-défini de maillages 3D liés à des données sur un ou plusieurs jumeaux numériques sous-jacents. Les éléments vous aident à évaluer rapidement les opérations et l’intégrité du système. \n\nUn jumeau primaire est la contrepartie principale du jumeau numérique d’un élément. Vous connectez l’élément à un jumeau dans votre instance Azure Digital Twins afin que l’élément puisse représenter votre jumeau et ses données dans la visualisation 3D.",
-      "docLinkBlurb": "Pour une étape plus détaillée, consultez notre <DocLink>docs ici.</DocLink>"
+      "content": "Un élément est un ensemble auto-défini de maillages 3D liés à des données sur un ou plusieurs jumeaux numériques sous-jacents. Les éléments vous aident à évaluer rapidement les opérations et l’intégrité du système. \n\nUn jumeau primaire est la contrepartie principale du jumeau numérique d’un élément. Vous connectez l’élément à un jumeau dans votre instance Azure Digital Twins afin que l’élément puisse représenter votre jumeau et ses données dans la visualisation 3D."
+    },
+    "docLinkBlurb": "Pour une étape plus détaillée, consultez notre <DocLink>docs ici.</DocLink>",
+    "behaviors": {
+      "title": "Qu'est-ce qu'un comportement ?",
+      "mainContent": "Un comportement est un scénario pour votre scène qui exploitera des données particulières sur le jumeau numérique de l'élément associé pour piloter les visualisations du spectateur.\n\nLa création d’un comportement inclut le choix de jumeaux, la configuration de l’état et des alertes, l’ajout d’un widget et le choix de la couche sur laquelle s’afficher.\n\n",
+      "statusTitle": "Statut",
+      "statusDescription": "Les états sont des superpositions pilotées par les données sur vos éléments pour indiquer l’intégrité ou l’état de l’élément. définissez des plages de valeurs pour créer des limites d’état et choisissez des couleurs pour représenter chaque état dans la visualisation.\n\n",
+      "alertsTitle": "Alertes",
+      "alertsDescription": "Les alertes sont des notifications conditionnelles pour vous aider à voir rapidement quand un élément nécessite votre attention. Personnalisez votre badge d’alerte avec une icône, une couleur et du texte.\n\n"
     }
   }
 }
