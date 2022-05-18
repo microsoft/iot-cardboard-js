@@ -20,7 +20,6 @@ const SlideContentManager: React.FC<{
                     svgSrc={Slide1Svg}
                     title="Our newest low-code builder"
                     text="In this immersive 3D environment, you can monitor, diagnose, and investigate operational data with the visual context of 3D assets, powered by Azure Digital Twins data, without the need for 3D expertise."
-                    classNames={classNames}
                 />
             );
             break;
@@ -30,7 +29,6 @@ const SlideContentManager: React.FC<{
                     svgSrc={Slide2Svg}
                     title="Customize your scene in our Builder"
                     text="The builder in 3D Scenes Studio is the primary interface for configuring your scenes. It is a low-code, visual experience."
-                    classNames={classNames}
                 />
             );
             break;
@@ -40,7 +38,6 @@ const SlideContentManager: React.FC<{
                     svgSrc={Slide3Svg}
                     title="Explore around, or embed it elsewhere"
                     text="View the 3D scene right here in the Studio. The viewer component can be embedded into custom applications, and can work in conjunction with 3rd party components."
-                    classNames={classNames}
                 />
             );
             break;

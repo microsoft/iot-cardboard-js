@@ -1,7 +1,6 @@
 import React from 'react';
 import {
     Image,
-    IProcessedStyleSet,
     Text,
     Stack,
     IStackItemStyles,
@@ -10,13 +9,11 @@ import {
     FontWeights,
     IStackStyles
 } from '@fluentui/react';
-import { ITutorialModalStyles } from '../TutorialModal.types';
 
 const IllustrationPage: React.FC<{
     svgSrc: string;
     title: string;
     text: string;
-    classNames: IProcessedStyleSet<ITutorialModalStyles>;
 }> = ({ svgSrc, title, text }) => {
     return (
         <Stack tokens={{ childrenGap: 16 }} styles={stackStyles}>
