@@ -256,3 +256,20 @@ export const DTDLPropertyIconographyMap = {
         icon: 'Clock'
     }
 };
+
+export const BlobStorageServiceCorsAllowedOrigins = [
+    'https://explorer.digitaltwins.azure.net'
+];
+
+export const BlobStorageServiceCorsAllowedMethods = [
+    'GET',
+    'POST',
+    'OPTIONS',
+    'PUT'
+];
+
+export const BlobStorageServiceCorsAllowedHeaders = [
+    'Authorization',
+    'x-ms-version',
+    'x-ms-blob-type'
+];

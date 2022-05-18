@@ -11,12 +11,12 @@ import {
 } from '../Models/Classes/AdapterDataClasses/AzureManagementData';
 import {
     AzureAccessPermissionRoles,
-    AzureResourceGroupsApiData,
     AzureResourceTypes,
     ComponentErrorType,
     IAuthService,
     IAzureManagementAdapter,
     IAzureResource,
+    IAzureResourceGroup,
     IAzureRoleAssignment,
     IAzureUserRoleAssignments,
     IAzureUserSubscriptions
@@ -63,7 +63,8 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
         }, 'azureManagement');
     }
 
-    /** Given a resource it will return a list of all of the role assignments for that instance*/
+    /** Given a resource id and user object id, it will return a list of all of the role assignments
+     * of the user defined for that resource */
     async getRoleAssignments(resourceId: string, uniqueObjectId: string) {
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
         return await adapterMethodSandbox.safelyFetchData(async (token) => {
@@ -96,12 +97,13 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
         }, 'azureManagement');
     }
 
-    /** this function checks if a user has a list of certain role defintions like Reader, Writer, Storage Owner, and etc in their list of role assignments */
+    /** Checks if a user has a list of certain role defintions like Reader, Writer, Storage Owner, and etc.
+     *  in their list of role assignments for a particular resource */
     async hasRoleDefinitions(
         resourceId: string,
         uniqueObjectId: string,
-        enforcedRoleIds: Array<AzureAccessPermissionRoles>,
-        alternatedRoleIds: Array<AzureAccessPermissionRoles>
+        enforcedRoleIds: Array<AzureAccessPermissionRoles>, // means required (and)
+        alternatedRoleIds: Array<AzureAccessPermissionRoles> // means any of them would be enough (either/or)
     ) {
         const userRoleAssignments = await this.getRoleAssignments(
             resourceId,
@@ -129,7 +131,8 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
         }
     }
 
-    /** this function returns a subset of expected role definition ids which are not present in user's current role assignments */
+    /** Returns a subset of expected role definition ids which are not present
+     * in user's current role assignments for a particular resource */
     async getMissingRoleDefinitions(
         resourceId: string,
         uniqueObjectId: string,
@@ -179,36 +182,60 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
         }
     }
 
+    /** Returns list of all the resource groups in the provided subscription */
     async getResourceGroupsInSubscription(subscriptionId: string) {
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
         return await adapterMethodSandbox.safelyFetchData(async (token) => {
-            let resourceGroups: AzureResourceGroupsApiData;
-            const result = await axios({
-                method: 'get',
-                url: `https://management.azure.com/subscriptions/${subscriptionId}/resourcegroups`,
-                headers: {
-                    'Content-Type': 'application/json',
-                    authorization: 'Bearer ' + token
-                },
-                params: {
-                    'api-version': '2021-04-01'
-                }
-            }).catch((err) => {
+            let resourceGroups: IAzureResourceGroup[] = [];
+            try {
+                const appendResourceGroups = async (nextLink?: string) => {
+                    const result = await axios({
+                        method: 'get',
+                        url: `https://management.azure.com/subscriptions/${subscriptionId}/resourcegroups`,
+                        headers: {
+                            'Content-Type': 'application/json',
+                            authorization: 'Bearer ' + token
+                        },
+                        params: {
+                            'api-version': '2021-04-01',
+                            ...(nextLink && { continuationToken: nextLink })
+                        }
+                    }).catch((err) => {
+                        adapterMethodSandbox.pushError({
+                            type: ComponentErrorType.DataFetchFailed,
+                            isCatastrophic: false,
+                            rawError: err
+                        });
+                        return null;
+                    });
+
+                    if (result.data?.value) {
+                        resourceGroups = [
+                            ...resourceGroups,
+                            ...result.data.value
+                        ];
+                    }
+
+                    // If next link present, fetch next chunk
+                    if (result.data.nextLink) {
+                        await appendResourceGroups(result.data.nextLink);
+                    }
+                };
+
+                await appendResourceGroups();
+            } catch (err) {
                 adapterMethodSandbox.pushError({
                     type: ComponentErrorType.DataFetchFailed,
-                    isCatastrophic: false,
+                    isCatastrophic: true,
                     rawError: err
                 });
-                return null;
-            });
-
-            if (result.data) {
-                resourceGroups = result.data;
             }
+
             return new AzureResourceGroupsData(resourceGroups);
         }, 'azureManagement');
     }
 
+    /** Returns list of all the resources of the given type in all of user's subscriptions */
     async getResources(
         resourceType: AzureResourceTypes,
         providerEndpoint: string,
@@ -234,12 +261,13 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
             const resourcesBySubscriptionsResponse = await Promise.all(
                 subscriptionIdsByTenantId.map(async (subscriptionId) => {
                     if (resourceType === AzureResourceTypes.Container) {
+                        // if it is container type we need to pull all the resource groups in every subscription
                         const resourceGroupsInSubscription = await this.getResourceGroupsInSubscription(
                             subscriptionId
                         );
-                        const resourceGroups: AzureResourceGroupsApiData = resourceGroupsInSubscription.getData();
+                        const resourceGroups: Array<IAzureResourceGroup> = resourceGroupsInSubscription.getData();
                         return Promise.all(
-                            resourceGroups?.value?.map((resourceGroup) =>
+                            resourceGroups?.map((resourceGroup) =>
                                 axios({
                                     method: 'get',
                                     url: `https://management.azure.com/subscriptions/${subscriptionId}/resourceGroups/${resourceGroup.name}/providers/${providerEndpoint}`,
@@ -260,7 +288,14 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
                                     return null;
                                 })
                             )
-                        );
+                        ).catch((err) => {
+                            adapterMethodSandbox.pushError({
+                                type: ComponentErrorType.DataFetchFailed,
+                                isCatastrophic: false,
+                                rawError: err
+                            });
+                            return null;
+                        });
                     } else {
                         return axios({
                             method: 'get',
@@ -282,7 +317,14 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
                         });
                     }
                 })
-            );
+            ).catch((err) => {
+                adapterMethodSandbox.pushError({
+                    type: ComponentErrorType.DataFetchFailed,
+                    isCatastrophic: false,
+                    rawError: err
+                });
+                return null;
+            });
 
             //filter out nulls, i.e. errors
             let successfulResourcesResponse;

@@ -49,11 +49,12 @@ export enum ComponentErrorType {
     InvalidCardType = 'InvalidCardType',
     ErrorBoundary = 'ErrorBoundary',
     UnknownError = 'UnknownError',
-    NonExistentBlob = 'NonExistentBlob',
+    BlobNotFound = 'BlobNotFound',
     UnauthorizedAccess = 'UnauthorizedAccess',
-    ReaderAccessOnly = 'ReaderAccessOnly',
     JsonSchemaError = 'JsonSchemaError',
-    ModelsRetrievalFailed = 'ModelsRetrievalFailed'
+    ModelsRetrievalFailed = 'ModelsRetrievalFailed',
+    InternalServerError = 'InternalServerError',
+    CORSError = 'CORSError'
 }
 
 export enum ErrorImages {
@@ -232,7 +233,9 @@ export enum AzureResourceTypes {
     ADT = 'Microsoft.DigitalTwins/digitalTwinsInstances',
     Container = 'Microsoft.Storage/storageAccounts/blobServices/containers',
     ResourceGroups = 'Microsoft.Resources/resourceGroups',
-    RoleAssignments = 'Microsoft.Authorization/roleAssignments'
+    RoleAssignments = 'Microsoft.Authorization/roleAssignments',
+    StorageAccounts = 'Microsoft.Storage/storageAccounts',
+    BlobServices = 'Microsoft.Storage/storageAccounts/blobServices'
 }
 
 /** See details for the following roles here: https://docs.microsoft.com/en-us/azure/role-based-access-control/built-in-roles */

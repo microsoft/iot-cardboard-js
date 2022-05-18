@@ -1,26 +1,35 @@
 import {
     IAuthService,
     IBlobAdapter,
-    IStorageBlob
+    IStorageBlob,
+    IBlobServiceCorsRule
 } from '../Models/Constants/Interfaces';
 import AdapterMethodSandbox from '../Models/Classes/AdapterMethodSandbox';
 import { ComponentErrorType } from '../Models/Constants/Enums';
 import axios from 'axios';
 import ADTScenesConfigData from '../Models/Classes/AdapterDataClasses/ADTScenesConfigData';
-import { ADT3DSceneConfigFileNameInBlobStore } from '../Models/Constants/Constants';
+import {
+    ADT3DSceneConfigFileNameInBlobStore,
+    BlobStorageServiceCorsAllowedHeaders,
+    BlobStorageServiceCorsAllowedMethods,
+    BlobStorageServiceCorsAllowedOrigins
+} from '../Models/Constants/Constants';
 import {
     validate3DConfigWithSchema,
     getTimeStamp
 } from '../Models/Services/Utils';
-import { XMLParser } from 'fast-xml-parser';
-import { StorageBlobsData } from '../Models/Classes/AdapterDataClasses/StorageData';
+import { XMLBuilder, XMLParser } from 'fast-xml-parser';
+import {
+    StorageBlobsData,
+    StorageBlobServiceCorsRulesData
+} from '../Models/Classes/AdapterDataClasses/StorageData';
 import { I3DScenesConfig } from '../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import defaultConfig from './__mockData__/3DScenesConfiguration.default.json';
 import { ComponentError } from '../Models/Classes';
 
 export default class BlobAdapter implements IBlobAdapter {
     protected accountName: string;
-    protected storageAccountHostUrl: string;
+    protected storageAccountHostName: string;
     protected containerName: string;
     protected containerResourceId: string; // resource scope
     protected blobAuthService: IAuthService;
@@ -33,7 +42,7 @@ export default class BlobAdapter implements IBlobAdapter {
     ) {
         if (blobContainerUrl) {
             const containerURL = new URL(blobContainerUrl);
-            this.storageAccountHostUrl = containerURL.hostname;
+            this.storageAccountHostName = containerURL.hostname;
             this.accountName = containerURL.hostname.split('.')[0];
             this.containerName = containerURL.pathname.split('/')[1];
         }
@@ -57,8 +66,8 @@ export default class BlobAdapter implements IBlobAdapter {
                         'x-ms-version': '2017-11-09',
                         'Content-Type': 'application/json',
                         'x-ms-blob-type': 'BlockBlob',
-                        'x-blob-host': this.storageAccountHostUrl,
-                        'x-ms-copy-source': `https://${this.storageAccountHostUrl}/${this.containerName}/${ADT3DSceneConfigFileNameInBlobStore}.json`,
+                        'x-blob-host': this.storageAccountHostName,
+                        'x-ms-copy-source': `https://${this.storageAccountHostName}/${this.containerName}/${ADT3DSceneConfigFileNameInBlobStore}.json`,
                         'x-ms-requires-sync': 'true'
                     }
                 });
@@ -79,8 +88,8 @@ export default class BlobAdapter implements IBlobAdapter {
     }
 
     getBlobContainerURL() {
-        return this.storageAccountHostUrl && this.containerName
-            ? `https://${this.storageAccountHostUrl}/${this.containerName}`
+        return this.storageAccountHostName && this.containerName
+            ? `https://${this.storageAccountHostName}/${this.containerName}`
             : '';
     }
 
@@ -89,7 +98,7 @@ export default class BlobAdapter implements IBlobAdapter {
             try {
                 const url = new URL(blobContainerURL);
                 if (url.hostname.endsWith('blob.core.windows.net')) {
-                    this.storageAccountHostUrl = url.hostname;
+                    this.storageAccountHostName = url.hostname;
                     this.accountName = url.hostname.split('.')[0];
                     this.containerName = url.pathname.split('/')[1];
                 }
@@ -106,10 +115,10 @@ export default class BlobAdapter implements IBlobAdapter {
         return await adapterMethodSandbox.safelyFetchData(async (token) => {
             const getConfigBlob = async () => {
                 let config: I3DScenesConfig;
-                if (this.storageAccountHostUrl && this.containerName) {
+                if (this.storageAccountHostName && this.containerName) {
                     const headers = {};
                     headers['x-ms-version'] = '2017-11-09';
-                    headers['x-blob-host'] = this.storageAccountHostUrl;
+                    headers['x-blob-host'] = this.storageAccountHostName;
                     if (token) {
                         headers['Authorization'] = 'Bearer ' + token;
                     }
@@ -150,6 +159,13 @@ export default class BlobAdapter implements IBlobAdapter {
                             rawError: err
                         });
                         break;
+                    case 500:
+                        adapterMethodSandbox.pushError({
+                            type: ComponentErrorType.InternalServerError,
+                            isCatastrophic: true,
+                            rawError: err
+                        });
+                        break;
                     default:
                         adapterMethodSandbox.pushError({
                             type: ComponentErrorType.DataFetchFailed,
@@ -173,7 +189,7 @@ export default class BlobAdapter implements IBlobAdapter {
                 headers: {
                     'Content-Type': 'application/json',
                     'x-ms-version': '2017-11-09',
-                    'x-blob-host': this.storageAccountHostUrl,
+                    'x-blob-host': this.storageAccountHostName,
                     'x-ms-blob-type': 'BlockBlob'
                 },
                 data: config
@@ -200,7 +216,7 @@ export default class BlobAdapter implements IBlobAdapter {
                         authorization: 'Bearer ' + token,
                         'Content-Type': 'application/json',
                         'x-ms-version': '2017-11-09',
-                        'x-blob-host': this.storageAccountHostUrl
+                        'x-blob-host': this.storageAccountHostName
                     },
                     params: {
                         restype: 'container',
@@ -218,7 +234,7 @@ export default class BlobAdapter implements IBlobAdapter {
                 }
                 files.map(
                     (f) =>
-                        (f.Path = `https://${this.storageAccountHostUrl}/${this.containerName}/${f.Name}`)
+                        (f.Path = `https://${this.storageAccountHostName}/${this.containerName}/${f.Name}`)
                 );
 
                 return new StorageBlobsData(files);
@@ -238,11 +254,11 @@ export default class BlobAdapter implements IBlobAdapter {
             this.blobAuthService
         );
         const createBlobFileData = (apiResponse: string) => {
-            // successful response data is alwasy empty string which is not useful
+            // successful response data is always empty string which is not useful
             if (apiResponse === '') {
                 const blobFile: IStorageBlob = {
                     Name: file.name,
-                    Path: `https://${this.storageAccountHostUrl}/${this.containerName}/${file.name}`,
+                    Path: `https://${this.storageAccountHostName}/${this.containerName}/${file.name}`,
                     Properties: { 'Content-Length': file.size }
                 };
                 return [blobFile];
@@ -258,13 +274,186 @@ export default class BlobAdapter implements IBlobAdapter {
                 url: `${this.blobProxyServerPath}/${this.containerName}/${file.name}`,
                 headers: {
                     'x-ms-version': '2017-11-09',
-                    'x-blob-host': this.storageAccountHostUrl,
+                    'x-blob-host': this.storageAccountHostName,
                     'x-ms-blob-type': 'BlockBlob',
                     'Content-Type': 'application/octet-stream'
                 },
                 data: file
             },
             createBlobFileData,
+            'storage'
+        );
+    }
+
+    // This method fetches the properties of storage account
+    getBlobServiceCorsProperties() {
+        const adapterMethodSandbox = new AdapterMethodSandbox(
+            this.blobAuthService
+        );
+
+        const getCorsData = (apiResponse: string) => {
+            if (apiResponse) {
+                const parser = new XMLParser();
+                const parsedCors = parser.parse(apiResponse)
+                    ?.StorageServiceProperties?.Cors;
+
+                const corsRules: Array<IBlobServiceCorsRule> = [];
+                if (parsedCors) {
+                    if (Array.isArray(parsedCors.CorsRule)) {
+                        parsedCors.CorsRule.map((corsRule: any) => {
+                            corsRules.push({
+                                AllowedOrigins: corsRule.AllowedOrigins.split(
+                                    ','
+                                ),
+                                AllowedMethods: corsRule.AllowedMethods.split(
+                                    ','
+                                ),
+                                AllowedHeaders: corsRule.AllowedHeaders.split(
+                                    ','
+                                )
+                            } as IBlobServiceCorsRule);
+                        });
+                    } else {
+                        corsRules.push({
+                            AllowedOrigins: parsedCors.CorsRule.AllowedOrigins.split(
+                                ','
+                            ),
+                            AllowedMethods: parsedCors.CorsRule.AllowedMethods.split(
+                                ','
+                            ),
+                            AllowedHeaders: parsedCors.CorsRule.AllowedHeaders.split(
+                                ','
+                            )
+                        } as IBlobServiceCorsRule);
+                    }
+                }
+
+                const uniqueAllowedOrigins = new Set(
+                    ...corsRules.map((rule) => rule.AllowedOrigins)
+                );
+                const originToMethodsAndHeadersMapping: Record<
+                    string, //origin
+                    {
+                        allowedMethods: Array<string>;
+                        allowedHeaders: Array<string>;
+                    }
+                > = {};
+                uniqueAllowedOrigins.forEach((origin) => {
+                    originToMethodsAndHeadersMapping[origin] = {
+                        allowedMethods: corsRules.reduce((acc, rule) => {
+                            if (rule.AllowedOrigins.includes(origin)) {
+                                acc.push(rule.AllowedMethods);
+                            }
+                            return acc;
+                        }, []),
+                        allowedHeaders: corsRules.reduce((acc, rule) => {
+                            if (rule.AllowedOrigins.includes(origin)) {
+                                acc.push(rule.AllowedHeaders);
+                            }
+                            return acc;
+                        }, [])
+                    };
+                });
+
+                if (
+                    BlobStorageServiceCorsAllowedOrigins.every(
+                        (origin: string) =>
+                            Object.keys(
+                                originToMethodsAndHeadersMapping
+                            ).includes(origin)
+                    ) &&
+                    BlobStorageServiceCorsAllowedMethods.every(
+                        (method: string) =>
+                            Object.values(originToMethodsAndHeadersMapping)
+                                .map((mapping) => mapping.allowedMethods)
+                                .reduce(
+                                    (acc: boolean, methodGroup) =>
+                                        acc && methodGroup[0].includes(method),
+                                    true
+                                )
+                    ) &&
+                    BlobStorageServiceCorsAllowedHeaders.every(
+                        (header: string) =>
+                            Object.values(originToMethodsAndHeadersMapping)
+                                .map((mapping) => mapping.allowedHeaders)
+                                .reduce(
+                                    (acc: boolean, headerGroup) =>
+                                        acc && headerGroup[0].includes(header),
+                                    true
+                                )
+                    )
+                ) {
+                    return corsRules;
+                } else {
+                    adapterMethodSandbox.pushError({
+                        type: ComponentErrorType.CORSError,
+                        isCatastrophic: true
+                    });
+                }
+            } else {
+                return null;
+            }
+        };
+
+        return adapterMethodSandbox.safelyFetchDataCancellableAxiosPromise(
+            StorageBlobServiceCorsRulesData,
+            {
+                method: 'get',
+                url: `${this.blobProxyServerPath}`,
+                headers: {
+                    'x-ms-version': '2021-06-08',
+                    'x-blob-host': this.storageAccountHostName
+                },
+                params: {
+                    restype: 'service',
+                    comp: 'properties'
+                }
+            },
+            getCorsData,
+            'storage'
+        );
+    }
+
+    // TODO: make sure you don't override but append missing CORS rules
+    setBlobServiceCorsProperties() {
+        const adapterMethodSandbox = new AdapterMethodSandbox(
+            this.blobAuthService
+        );
+
+        const builder = new XMLBuilder({
+            ignoreAttributes: false
+        });
+        const xmlContent = builder.build({
+            StorageServiceProperties: {
+                Cors: {
+                    CorsRule: {
+                        AllowedOrigins: BlobStorageServiceCorsAllowedOrigins.join(),
+                        AllowedMethods: BlobStorageServiceCorsAllowedMethods.join(),
+                        AllowedHeaders: BlobStorageServiceCorsAllowedHeaders.join(),
+                        ExposedHeaders: '',
+                        MaxAgeInSeconds: 0
+                    }
+                }
+            }
+        });
+
+        return adapterMethodSandbox.safelyFetchDataCancellableAxiosPromise(
+            StorageBlobServiceCorsRulesData,
+            {
+                method: 'put',
+                url: `${this.blobProxyServerPath}`,
+                headers: {
+                    'x-ms-version': '2020-08-04',
+                    'x-blob-host': this.storageAccountHostName,
+                    'Content-Type': 'text/xml'
+                },
+                params: {
+                    restype: 'service',
+                    comp: 'properties'
+                },
+                data: xmlContent
+            },
+            undefined,
             'storage'
         );
     }

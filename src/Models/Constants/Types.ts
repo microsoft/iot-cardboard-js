@@ -33,7 +33,7 @@ export type AxiosParams = {
     method: 'get' | 'post' | 'put' | 'delete' | 'patch';
     headers?: AxiosObjParam;
     params?: AxiosObjParam;
-    data?: AxiosObjParam;
+    data?: AxiosObjParam | string;
 };
 
 export type AxiosObjParam = {

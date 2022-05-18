@@ -73,7 +73,7 @@ export default class ADT3DSceneAdapter {
 
         if (blobContainerUrl) {
             const containerURL = new URL(blobContainerUrl);
-            this.storageAccountHostUrl = containerURL.hostname;
+            this.storageAccountHostName = containerURL.hostname;
             this.accountName = containerURL.hostname.split('.')[0];
             this.containerName = containerURL.pathname.split('/')[1];
         }
@@ -220,6 +220,9 @@ export default class ADT3DSceneAdapter {
         });
     };
 
+    /** Checking missing role assignments for the container, for this we need the resouce id of the container and we need to make
+     * series of Azure Management calls for be able to find that container - if exist in user's subscription.
+     */
     getMissingStorageContainerAccessRoles = async (
         containerUrlString?: string
     ) => {
@@ -294,6 +297,9 @@ export default class ADT3DSceneAdapter {
         });
     };
 
+    /** Adding provided role definitions to the user's role assignments for the container resource. This method assumes that
+     * containerResourceId is already set in the previous getMissingStorageContainerAccessRoles method and present for assigning roles for.
+     */
     addMissingRolesToStorageContainer = async (
         missingRoleDefinitionIds: MissingAzureRoleDefinitionAssignments
     ) => {

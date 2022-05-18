@@ -76,8 +76,20 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
         defaultADT3DScenePageState
     );
 
+    const getCorsPropertiesAdapterData = useAdapter({
+        adapterMethod: () => adapter.getBlobServiceCorsProperties(),
+        refetchDependencies: [adapter, deeplinkState.storageUrl]
+    });
+
+    const setCorsPropertiesAdapterData = useAdapter({
+        adapterMethod: () => adapter.setBlobServiceCorsProperties(),
+        isAdapterCalledOnMount: false,
+        refetchDependencies: [adapter, deeplinkState.storageUrl]
+    });
+
     const scenesConfig = useAdapter({
         adapterMethod: () => adapter.getScenesConfig(),
+        isAdapterCalledOnMount: false, // don't fetch scenes config until making sure cors is all good with getCorsPropertiesAdapterData call
         refetchDependencies: [
             adapter,
             deeplinkState.storageUrl,
@@ -242,48 +254,92 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
         }
     }, [scenesConfig?.adapterResult]);
 
-    // show error screens if needed
+    // set the error callbacks for button actions of the ScenePageErrorHandlingWrapper component
+    // ScenePageErrorHandlingWrapper is intended to have single action with learn more button and illustration by default if not specified otherwise
+    // but for a certain type of error - ComponentErrorType.UnauthorizedAccess - we handle it internally with a stepper wizard since multiple steps required
     useEffect(() => {
-        if (
-            (state?.errors?.[0]?.type ===
-                ComponentErrorType.UnauthorizedAccess ||
+        if (state?.errors.length > 0) {
+            if (
+                state?.errors?.[0]?.type === ComponentErrorType.CORSError &&
+                !errorCallbackSetRef.current
+            ) {
+                // mark that we already set the callback so we don't get an infinite loop of setting
+                errorCallbackSetRef.current = true;
+                dispatch({
+                    type: SET_ERROR_CALLBACK,
+                    payload: {
+                        buttonText: t('scenePageErrorHandling.resolveIssues'),
+                        buttonAction: async () => {
+                            setCorsPropertiesAdapterData.callAdapter();
+                            errorCallbackSetRef.current = false;
+                        }
+                    }
+                });
+            } else if (
                 state?.errors?.[0]?.type ===
-                    ComponentErrorType.NonExistentBlob) &&
-            !errorCallbackSetRef.current
-        ) {
-            // mark that we already set the callback so we don't get an infinite loop of setting
-            errorCallbackSetRef.current = true;
-            dispatch({
-                type: SET_ERROR_CALLBACK,
-                payload: {
-                    buttonText: t('learnMore'),
-                    buttonAction: () => {
-                        window.open(
-                            'https://docs.microsoft.com/azure/digital-twins/'
-                        );
-                        errorCallbackSetRef.current = false;
+                    ComponentErrorType.JsonSchemaError &&
+                !errorCallbackSetRef.current
+            ) {
+                // mark that we already set the callback so we don't get an infinite loop of setting
+                errorCallbackSetRef.current = true;
+                dispatch({
+                    type: SET_ERROR_CALLBACK,
+                    payload: {
+                        buttonText: t('scenePageErrorHandling.resetConfigFile'),
+                        buttonAction: async () => {
+                            await resetConfig.callAdapter();
+                            await scenesConfig.callAdapter();
+                            errorCallbackSetRef.current = false;
+                        }
                     }
-                }
-            });
-        } else if (
-            state?.errors?.[0]?.type === ComponentErrorType.JsonSchemaError &&
-            !errorCallbackSetRef.current
-        ) {
-            // mark that we already set the callback so we don't get an infinite loop of setting
-            errorCallbackSetRef.current = true;
-            dispatch({
-                type: SET_ERROR_CALLBACK,
-                payload: {
-                    buttonText: 'Reset Configuration File',
-                    buttonAction: async () => {
-                        await resetConfig.callAdapter();
-                        await scenesConfig.callAdapter();
-                        errorCallbackSetRef.current = false;
+                });
+            } else if (!errorCallbackSetRef.current) {
+                // mark that we already set the callback so we don't get an infinite loop of setting
+                errorCallbackSetRef.current = true;
+                dispatch({
+                    type: SET_ERROR_CALLBACK,
+                    payload: {
+                        buttonText: t('learnMore'),
+                        buttonAction: () => {
+                            window.open(
+                                'https://docs.microsoft.com/azure/digital-twins/'
+                            );
+                            errorCallbackSetRef.current = false;
+                        }
                     }
-                }
-            });
+                });
+            }
         }
     }, [resetConfig, scenesConfig, state?.errors, t]);
+
+    // if the result of get cors request has error which we send manually if the storage's blob service
+    // does not have required CORS rules in its properties, then set the errors to render ScenePageErrorHandlingWrapper component,
+    // otherwise if there is no issues, clear the errors and with CORS fetch scenes config
+    useEffect(() => {
+        if (getCorsPropertiesAdapterData?.adapterResult.getErrors()) {
+            const errors: Array<IComponentError> = getCorsPropertiesAdapterData?.adapterResult.getErrors();
+            dispatch({
+                type: SET_ERRORS,
+                payload: errors
+            });
+        } else if (getCorsPropertiesAdapterData?.adapterResult.getData()) {
+            dispatch({
+                type: SET_ERRORS,
+                payload: []
+            });
+            scenesConfig.callAdapter();
+        }
+    }, [getCorsPropertiesAdapterData?.adapterResult]);
+
+    // if setting CORS rules is successful fetch scenes config
+    useEffect(() => {
+        if (
+            setCorsPropertiesAdapterData?.adapterResult.result !== null &&
+            !setCorsPropertiesAdapterData?.adapterResult.getErrors()
+        ) {
+            scenesConfig.callAdapter();
+        }
+    }, [setCorsPropertiesAdapterData?.adapterResult]);
 
     return (
         <ADT3DScenePageContext.Provider
@@ -302,7 +358,6 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
                     localeStrings={localeStrings}
                     containerClassName={customStyles.container}
                 >
-                    {' '}
                     {(state.currentStep === ADT3DScenePageSteps.SceneList ||
                         state.currentStep === ADT3DScenePageSteps.Globe) && (
                         <>

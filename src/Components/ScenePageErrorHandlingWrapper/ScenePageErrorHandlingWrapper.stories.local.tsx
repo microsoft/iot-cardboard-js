@@ -18,7 +18,7 @@ export default {
     decorators: [getDefaultStoryDecorator<any>(cardStyle)]
 };
 
-export const NonExistentBlob = () => {
+export const BlobNotFoundError = () => {
     const { t } = useTranslation();
     const authenticationParameters = useAuthParams();
     return !authenticationParameters ? (
@@ -38,7 +38,7 @@ export const NonExistentBlob = () => {
             }
             errors={[
                 {
-                    type: ComponentErrorType.NonExistentBlob,
+                    type: ComponentErrorType.BlobNotFound,
                     isCatastrophic: true
                 }
             ]}
@@ -88,7 +88,7 @@ export const UnauthorizedAccessError = () => {
     );
 };
 
-export const ReaderAccessOnly = () => {
+export const InternalServerError = () => {
     const authenticationParameters = useAuthParams();
     return !authenticationParameters ? (
         <div></div>
@@ -108,7 +108,7 @@ export const ReaderAccessOnly = () => {
                 }
                 errors={[
                     {
-                        type: ComponentErrorType.ReaderAccessOnly,
+                        type: ComponentErrorType.InternalServerError,
                         isCatastrophic: true
                     }
                 ]}

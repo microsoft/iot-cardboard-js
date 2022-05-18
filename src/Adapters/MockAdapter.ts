@@ -43,7 +43,10 @@ import {
     IStorageContainer,
     AzureAccessPermissionRoles,
     MissingAzureRoleDefinitionAssignments,
-    IAzureRoleAssignment
+    IAzureRoleAssignment,
+    BlobStorageServiceCorsAllowedOrigins,
+    BlobStorageServiceCorsAllowedMethods,
+    BlobStorageServiceCorsAllowedHeaders
 } from '../Models/Constants';
 import seedRandom from 'seedrandom';
 import {
@@ -70,6 +73,7 @@ import {
 } from '../Models/Services/Utils';
 import {
     StorageBlobsData,
+    StorageBlobServiceCorsRulesData,
     StorageContainersData
 } from '../Models/Classes/AdapterDataClasses/StorageData';
 import {
@@ -915,5 +919,44 @@ export default class MockAdapter
         this.mockTwinPropertiesMap['BoxA'] = {
             Volume: 237
         };
+    }
+
+    async getBlobServiceCorsProperties() {
+        try {
+            await this.mockNetwork();
+
+            return new AdapterResult({
+                result: new StorageBlobServiceCorsRulesData([
+                    {
+                        AllowedMethods: BlobStorageServiceCorsAllowedOrigins,
+                        AllowedOrigins: BlobStorageServiceCorsAllowedMethods,
+                        AllowedHeaders: BlobStorageServiceCorsAllowedHeaders,
+                        MaxAgeInSeconds: 0
+                    }
+                ]),
+                errorInfo: null
+            });
+        } catch (err) {
+            return new AdapterResult<StorageBlobServiceCorsRulesData>({
+                result: null,
+                errorInfo: { catastrophicError: err, errors: [err] }
+            });
+        }
+    }
+
+    async setBlobServiceCorsProperties() {
+        try {
+            await this.mockNetwork();
+
+            return new AdapterResult({
+                result: new StorageBlobServiceCorsRulesData(''),
+                errorInfo: null
+            });
+        } catch (err) {
+            return new AdapterResult<StorageBlobServiceCorsRulesData>({
+                result: null,
+                errorInfo: { catastrophicError: err, errors: [err] }
+            });
+        }
     }
 }

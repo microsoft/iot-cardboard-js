@@ -53,7 +53,7 @@ const IllustrationMessage: React.FunctionComponent<IllustrationMessageProps> = (
                 <div className={classNames.descriptionContainer}>
                     <Text styles={classNames.subComponentStyles.description}>
                         {descriptionText}
-                    </Text>
+                    </Text>{' '}
                     <Link
                         styles={classNames.subComponentStyles.link}
                         {...linkProps}

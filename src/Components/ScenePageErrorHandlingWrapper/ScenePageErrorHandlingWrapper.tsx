@@ -22,8 +22,10 @@ import { useTranslation } from 'react-i18next';
 import BaseComponent from '../BaseComponent/BaseComponent';
 import { ScenePageErrorHandlingWrapperProps } from './ScenePageErrorHandlingWrapper.types';
 import IllustrationMessage from '../IllustrationMessage/IllustrationMessage';
-import BlobError from '../../Resources/Static/error.svg';
-import PriviledgedAccess from '../../Resources/Static/priviledgedAccess.svg';
+import BlobErrorImg from '../../Resources/Static/error.svg';
+import PriviledgedAccessImg from '../../Resources/Static/priviledgedAccess.svg';
+import DefaultErrorImg from '../../Resources/Static/noResults.svg';
+import CorsErrorImg from '../../Resources/Static/corsError.svg';
 import useAdapter from '../../Models/Hooks/useAdapter';
 import { getScenePageErrorHandlingStyles } from './ScenePageErrorHandlingWrapper.styles';
 
@@ -31,8 +33,7 @@ const ScenePageErrorHandlingWrapper: React.FC<ScenePageErrorHandlingWrapperProps
     adapter,
     errors,
     primaryClickAction,
-    reloadPageAdapterData,
-    children
+    reloadPageAdapterData
 }) => {
     const { t } = useTranslation();
     const [mode, setMode] = useState(ScenePageErrorHandlingMode.Idle);
@@ -40,7 +41,9 @@ const ScenePageErrorHandlingWrapper: React.FC<ScenePageErrorHandlingWrapperProps
         missingPermissions,
         setMissingPermissions
     ] = useState<MissingAzureRoleDefinitionAssignments>(null);
-    const [primaryActionText, setPrimaryActionText] = useState('');
+    const [internalPrimaryButtonText, setInternalPrimaryButtonText] = useState(
+        ''
+    );
     const reloadPageTimeoutRef = useRef(null);
 
     const checkAccessOnContainerAdapterData = useAdapter({
@@ -58,7 +61,7 @@ const ScenePageErrorHandlingWrapper: React.FC<ScenePageErrorHandlingWrapperProps
         isAdapterCalledOnMount: false
     });
 
-    const onPrimaryActionButtonClick = useCallback(() => {
+    const onInternalPrimaryActionButtonClick = useCallback(async () => {
         {
             if (mode === ScenePageErrorHandlingMode.Idle) {
                 setMode(ScenePageErrorHandlingMode.CheckingIssues);
@@ -71,7 +74,6 @@ const ScenePageErrorHandlingWrapper: React.FC<ScenePageErrorHandlingWrapperProps
             } else if (
                 mode === ScenePageErrorHandlingMode.FinishedWithSuccess
             ) {
-                reloadPageAdapterData.cancelAdapter(); // in case it is triggered by timeout
                 reloadPageAdapterData.callAdapter();
             } else if (
                 mode === ScenePageErrorHandlingMode.FinishedWithFailure
@@ -83,19 +85,21 @@ const ScenePageErrorHandlingWrapper: React.FC<ScenePageErrorHandlingWrapperProps
 
     useEffect(() => {
         if (mode === ScenePageErrorHandlingMode.Idle) {
-            setPrimaryActionText(
+            setInternalPrimaryButtonText(
                 t('scenePageErrorHandling.diagnoseAccessPermissions')
             );
         } else if (mode === ScenePageErrorHandlingMode.DiagnosedIssues) {
-            setPrimaryActionText(t('scenePageErrorHandling.resolveIssues'));
+            setInternalPrimaryButtonText(
+                t('scenePageErrorHandling.resolveIssues')
+            );
         } else if (mode === ScenePageErrorHandlingMode.FinishedWithSuccess) {
             reloadPageAdapterData.isLoading
-                ? setPrimaryActionText(t('refreshing'))
-                : setPrimaryActionText(t('refreshPage'));
+                ? setInternalPrimaryButtonText(t('refreshing'))
+                : setInternalPrimaryButtonText(t('refreshPage'));
         } else if (mode === ScenePageErrorHandlingMode.FinishedWithFailure) {
-            setPrimaryActionText(t('learnMore'));
+            setInternalPrimaryButtonText(t('learnMore'));
         }
-    }, [mode, reloadPageAdapterData.isLoading]);
+    }, [mode, reloadPageAdapterData?.isLoading]);
 
     useEffect(() => {
         const missingPermissionData = checkAccessOnContainerAdapterData.adapterResult.getData();
@@ -140,19 +144,19 @@ const ScenePageErrorHandlingWrapper: React.FC<ScenePageErrorHandlingWrapperProps
     const errorContent = useMemo(() => {
         let content;
         switch (errors?.[0]?.type) {
-            case ComponentErrorType.NonExistentBlob:
+            case ComponentErrorType.BlobNotFound:
                 content = (
                     <IllustrationMessage
                         headerText={t(
-                            'scenePageErrorHandling.nonExistentBlobErrorTitle'
+                            'scenePageErrorHandling.blobNotFoundErrorTitle'
                         )}
                         descriptionText={t(
-                            'scenePageErrorHandling.nonExistentBlobErrorMessage'
+                            'scenePageErrorHandling.blobNotFoundErrorMessage'
                         )}
                         type={'error'}
                         width={'wide'}
                         imageProps={{
-                            src: BlobError,
+                            src: BlobErrorImg,
                             height: 200
                         }}
                         buttonProps={{
@@ -162,19 +166,27 @@ const ScenePageErrorHandlingWrapper: React.FC<ScenePageErrorHandlingWrapperProps
                     />
                 );
                 break;
-            case ComponentErrorType.UnauthorizedAccess:
+            case ComponentErrorType.UnauthorizedAccess: // this specific type or error is handled differently by this component as multiple steps required to resolve
                 content = (
                     <IllustrationMessage
+                        key={errors?.[0]?.type}
                         headerText={t(
                             'scenePageErrorHandling.unauthorizedAccessErrorTitle'
                         )}
                         descriptionText={t(
                             'scenePageErrorHandling.unauthorizedAccessErrorMessage'
                         )}
+                        linkProps={{
+                            target: '_blank',
+                            underline: true,
+                            href:
+                                'https://docs.microsoft.com/en-us/azure/storage/blobs/assign-azure-role-data-access?tabs=portal#assign-an-azure-role' // TODO: move this to Constants file along with other links
+                        }}
+                        linkText={t('learnMore')}
                         type={'error'}
                         width={'wide'}
                         imageProps={{
-                            src: PriviledgedAccess,
+                            src: PriviledgedAccessImg,
                             height: 200
                         }}
                         {...(mode !==
@@ -182,15 +194,15 @@ const ScenePageErrorHandlingWrapper: React.FC<ScenePageErrorHandlingWrapperProps
                             mode !==
                                 ScenePageErrorHandlingMode.ResolvingIssues && {
                                 buttonProps: {
-                                    onClick: onPrimaryActionButtonClick, //primaryClickAction.onClick,
-                                    text: primaryActionText //primaryClickAction.buttonText
+                                    onClick: onInternalPrimaryActionButtonClick,
+                                    text: internalPrimaryButtonText
                                 }
                             })}
                         styles={{ container: { height: 'auto', flexGrow: 1 } }}
                     />
                 );
                 break;
-            case ComponentErrorType.ReaderAccessOnly:
+            case ComponentErrorType.InternalServerError:
                 content = (
                     <MessageBar
                         messageBarType={MessageBarType.warning}
@@ -199,9 +211,7 @@ const ScenePageErrorHandlingWrapper: React.FC<ScenePageErrorHandlingWrapperProps
                         dismissButtonAriaLabel={t('close')}
                         className={styles.warningMessage}
                     >
-                        {t(
-                            'scenePageErrorHandling.readerAccessOnlyErrorMessage'
-                        )}
+                        {t('scenePageErrorHandling.internalServerErrorMessage')}
                     </MessageBar>
                 );
                 break;
@@ -218,7 +228,7 @@ const ScenePageErrorHandlingWrapper: React.FC<ScenePageErrorHandlingWrapperProps
                         type={'error'}
                         width={'wide'}
                         imageProps={{
-                            src: BlobError,
+                            src: BlobErrorImg,
                             height: 200
                         }}
                         buttonProps={{
@@ -228,11 +238,77 @@ const ScenePageErrorHandlingWrapper: React.FC<ScenePageErrorHandlingWrapperProps
                     />
                 );
                 break;
+            case ComponentErrorType.CORSError:
+                content = (
+                    <IllustrationMessage
+                        headerText={t('scenePageErrorHandling.corsErrorTitle')}
+                        descriptionText={t(
+                            'scenePageErrorHandling.corsErrorMessage'
+                        )}
+                        type={'error'}
+                        width={'wide'}
+                        imageProps={{
+                            src: CorsErrorImg,
+                            height: 200
+                        }}
+                        buttonProps={{
+                            onClick: primaryClickAction.onClick,
+                            text: primaryClickAction.buttonText
+                        }}
+                        styles={{ container: { height: 'auto', flexGrow: 1 } }}
+                    />
+                );
+                break;
+            case ComponentErrorType.UnknownError:
+                content = (
+                    <IllustrationMessage
+                        headerText={t(
+                            'scenePageErrorHandling.unknownErrorTitle'
+                        )}
+                        descriptionText={errors?.[0]?.message}
+                        type={'error'}
+                        width={'wide'}
+                        imageProps={{
+                            src: PriviledgedAccessImg,
+                            height: 200
+                        }}
+                        buttonProps={{
+                            onClick: primaryClickAction.onClick,
+                            text: primaryClickAction.buttonText
+                        }}
+                        styles={{ container: { height: 'auto', flexGrow: 1 } }}
+                    />
+                );
+                break;
             default:
-                content = children;
+                content = (
+                    <IllustrationMessage
+                        headerText={errors?.[0]?.name}
+                        descriptionText={
+                            errors?.[0]?.rawError?.message ??
+                            errors?.[0]?.message
+                        }
+                        type={'error'}
+                        width={'wide'}
+                        imageProps={{
+                            src: DefaultErrorImg,
+                            height: 200
+                        }}
+                        buttonProps={{
+                            onClick: primaryClickAction.onClick,
+                            text: primaryClickAction.buttonText
+                        }}
+                        styles={{ container: { height: 'auto', flexGrow: 1 } }}
+                    />
+                );
         }
         return content;
-    }, [errors, mode, primaryActionText]);
+    }, [
+        errors,
+        mode,
+        internalPrimaryButtonText,
+        onInternalPrimaryActionButtonClick
+    ]);
 
     const progressContent = useMemo(() => {
         let content;
@@ -321,7 +397,13 @@ const ScenePageErrorHandlingWrapper: React.FC<ScenePageErrorHandlingWrapperProps
                 content = (
                     <>
                         <span>
-                            {t('scenePageErrorHandling.assignRoleSuccessTitle')}
+                            {addMissingRolesToContainerAdapterData.adapterResult.getData()
+                                ? t(
+                                      'scenePageErrorHandling.assignRoleSuccessTitle'
+                                  )
+                                : t(
+                                      'scenePageErrorHandling.noMissingRolesTitle' // if missing roles already assigned without add missing roles call being made in the stepper flow
+                                  )}
                         </span>
                         <p>
                             {t('scenePageErrorHandling.assignRoleSuccessDesc')}

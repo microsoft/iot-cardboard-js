@@ -1,14 +1,12 @@
 import {
     IAdapterData,
     IAzureResource,
+    IAzureResourceGroup,
     IAzureRoleAssignment,
     IAzureUserRoleAssignments,
     IAzureUserSubscriptions
 } from '../../Constants/Interfaces';
-import {
-    AzureResourceGroupsApiData,
-    MissingAzureRoleDefinitionAssignments
-} from '../../Constants/Types';
+import { MissingAzureRoleDefinitionAssignments } from '../../Constants/Types';
 
 export class AzureUserAssignmentsData implements IAdapterData {
     data: IAzureUserRoleAssignments;
@@ -59,9 +57,9 @@ export class AzureRoleAssignmentsData implements IAdapterData {
 }
 
 export class AzureResourceGroupsData implements IAdapterData {
-    data: AzureResourceGroupsApiData;
+    data: Array<IAzureResourceGroup>;
 
-    constructor(data: AzureResourceGroupsApiData) {
+    constructor(data: Array<IAzureResourceGroup>) {
         this.data = data;
     }
 

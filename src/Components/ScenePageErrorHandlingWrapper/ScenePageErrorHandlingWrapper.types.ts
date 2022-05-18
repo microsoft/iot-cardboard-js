@@ -10,5 +10,4 @@ export interface ScenePageErrorHandlingWrapperProps {
         onClick: () => void;
     };
     reloadPageAdapterData?: IUseAdapter<ADTScenesConfigData>;
-    children?: React.ReactNode;
 }

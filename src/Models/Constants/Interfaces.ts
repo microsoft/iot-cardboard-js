@@ -848,3 +848,11 @@ export interface IAliasedTwinProperty {
     alias: 'PrimaryTwin' | string;
     property: string;
 }
+
+export interface IBlobServiceCorsRule {
+    AllowedOrigins: Array<string>;
+    AllowedMethods: Array<string>;
+    AllowedHeaders?: Array<string>;
+    ExposedHeaders?: Array<string>;
+    MaxAgeInSeconds: number;
+}
