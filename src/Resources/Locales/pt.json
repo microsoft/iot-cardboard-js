@@ -818,9 +818,6 @@
     "modalTitle": "Bem-vindos ao Estúdio de Cenas 3D!",
     "publicPreview": "Pré-visualização pública",
     "closeAriaLabel": "Fechar modal",
-    "viewTheDocs": "Veja os documentos",
-    "exploreTheDemo": "Explore a demonstração",
-    "dismiss": "Demitir",
     "nextSlide": "Próximo slide",
     "previousSlide": "Slide anterior",
     "statusIndicatorSelectedAria": "Slide {{slide}} selecionado",
@@ -852,7 +849,10 @@
       "title": "Precisa de um mergulho mais profundo nos conceitos?",
       "text": "Navegue pelo conteúdo da ajuda ou confira nossa documentação para tutoriais passo a passo!"
     },
-    "viewOnGithub": "GitHub",
-    "viewTheQuickstart": "Início rápido"
+    "rootDocsLinkText": "Documentação",
+    "githubLinkText": "GitHub",
+    "quickstartLinkText": "Início rápido",
+    "primaryButtonText": "Explore a demonstração",
+    "dismissText": "Demitir"
   }
 }

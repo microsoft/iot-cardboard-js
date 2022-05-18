@@ -818,9 +818,6 @@
     "modalTitle": "Benvenuto a 3D Scenes Studio!",
     "publicPreview": "Anteprima pubblica",
     "closeAriaLabel": "Chiudi modale",
-    "viewTheDocs": "Visualizza i documenti",
-    "exploreTheDemo": "Esplora la demo",
-    "dismiss": "Licenziare",
     "nextSlide": "Diapositiva successiva",
     "previousSlide": "Diapositiva precedente",
     "statusIndicatorSelectedAria": "Diapositiva {{slide}} selected",
@@ -852,7 +849,10 @@
       "title": "Hai bisogno di un approfondimento sui concetti?",
       "text": "Sfoglia il contenuto della guida o consulta la nostra documentazione per tutorial passo passo!"
     },
-    "viewOnGithub": "GitHub",
-    "viewTheQuickstart": "Guida introduttiva"
+    "rootDocsLinkText": "Documentazione",
+    "githubLinkText": "GitHub",
+    "quickstartLinkText": "Guida introduttiva",
+    "primaryButtonText": "Esplora la demo",
+    "dismissText": "Licenziare"
   }
 }

@@ -818,9 +818,6 @@
     "modalTitle": "Vítejte ve studiu 3D Scenes!",
     "publicPreview": "Public Preview",
     "closeAriaLabel": "Zavřít modální",
-    "viewTheDocs": "Zobrazit dokumentaci",
-    "exploreTheDemo": "Prozkoumejte ukázku",
-    "dismiss": "Propustit",
     "nextSlide": "Další snímek",
     "previousSlide": "Předchozí snímek",
     "statusIndicatorSelectedAria": "Snímek {{slide}} vybrán",
@@ -852,7 +849,10 @@
       "title": "Potřebujete se hlouběji ponořit do konceptů?",
       "text": "Projděte si obsah nápovědy nebo se podívejte na naši dokumentaci, kde najdete podrobné návody!"
     },
-    "viewOnGithub": "GitHub",
-    "viewTheQuickstart": "Rychlý start"
+    "rootDocsLinkText": "Dokumentace",
+    "githubLinkText": "GitHub",
+    "quickstartLinkText": "Rychlý start",
+    "primaryButtonText": "Prozkoumejte ukázku",
+    "dismissText": "Propustit"
   }
 }

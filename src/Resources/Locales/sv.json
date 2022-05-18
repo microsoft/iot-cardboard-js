@@ -818,9 +818,6 @@
     "modalTitle": "Välkommen till 3D Scenes Studio!",
     "publicPreview": "Offentlig förhandsversion",
     "closeAriaLabel": "Stäng modal",
-    "viewTheDocs": "Visa dokumenten",
-    "exploreTheDemo": "Utforska demon",
-    "dismiss": "Avskeda",
     "nextSlide": "Nästa bild",
     "previousSlide": "Föregående bild",
     "statusIndicatorSelectedAria": "Slide {{slide}} markerad",
@@ -852,7 +849,10 @@
       "title": "Behöver du en djupare dykning i begreppen?",
       "text": "Bläddra i hjälpinnehållet eller kolla in vår dokumentation för steg för steg handledning!"
     },
-    "viewOnGithub": "GitHub",
-    "viewTheQuickstart": "Snabbstart"
+    "rootDocsLinkText": "Dokumentation",
+    "githubLinkText": "GitHub",
+    "quickstartLinkText": "Snabbstart",
+    "primaryButtonText": "Utforska demon",
+    "dismissText": "Avskeda"
   }
 }

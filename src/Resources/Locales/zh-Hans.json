@@ -818,9 +818,6 @@
     "modalTitle": "欢迎来到3D场景工作室！",
     "publicPreview": "公共预览版",
     "closeAriaLabel": "闭合模态",
-    "viewTheDocs": "查看文档",
-    "exploreTheDemo": "探索演示",
-    "dismiss": "解雇",
     "nextSlide": "下一张幻灯片",
     "previousSlide": "上一张幻灯片",
     "statusIndicatorSelectedAria": "幻灯片 {{幻灯片}} 已选中",
@@ -852,7 +849,10 @@
       "title": "需要更深入地了解这些概念？",
       "text": "浏览帮助内容或查看我们的文档，了解分步教程！"
     },
-    "viewOnGithub": "GitHub",
-    "viewTheQuickstart": "快速入门"
+    "rootDocsLinkText": "文档",
+    "githubLinkText": "GitHub",
+    "quickstartLinkText": "快速入门",
+    "primaryButtonText": "探索演示",
+    "dismissText": "解雇"
   }
 }
