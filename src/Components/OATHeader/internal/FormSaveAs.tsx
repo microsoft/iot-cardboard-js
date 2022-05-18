@@ -29,23 +29,12 @@ export const FormSaveAs = ({
 }: IModal) => {
     const { t } = useTranslation();
     const [projectName, setProjectName] = useState('');
+    const [error, setError] = useState(false);
     const headerStyles = getHeaderStyles();
 
     const handleOnSave = () => {
         const editorData = JSON.parse(localStorage.getItem(OATDataStorageKey));
         const files = JSON.parse(localStorage.getItem(OATFilesStorageKey));
-
-        // Find if project name already exists
-        console.log('files', files);
-        const fileAlreadyExists = files.some(
-            (file) => file.name === projectName
-        );
-
-        console.log('fileAlreadyExists', fileAlreadyExists);
-        if (fileAlreadyExists) {
-            console.log('File already exists');
-            return;
-        }
 
         dispatch({
             type: SET_OAT_PROJECT_NAME,
@@ -63,6 +52,20 @@ export const FormSaveAs = ({
 
         setModalOpen(false);
         setModalBody('');
+    };
+
+    const handleProjectNameChange = (value) => {
+        // Find if project name already exists
+        const fileAlreadyExists = files.some(
+            (file) => file.name === projectName
+        );
+
+        if (fileAlreadyExists) {
+            console.log('File already exists');
+            return;
+        }
+
+        setProjectName(value);
     };
 
     return (
@@ -84,7 +87,7 @@ export const FormSaveAs = ({
                 <TextField
                     placeholder={t('OATHeader.enterAName')}
                     value={projectName}
-                    onChange={(e, v) => setProjectName(v)}
+                    onChange={(e, v) => handleProjectNameChange(v)}
                     errorMessage="Project with same name already exists, would you like to override it?"
                 />
             </div>
