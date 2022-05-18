@@ -32,7 +32,7 @@ const IllustrationPage: React.FC<{
 
 const stackStyles: Partial<IStackStyles> = {
     root: {
-        padding: '0 80px',
+        padding: '20px 80px 0px 80px',
         flexGrow: 1
     }
 };

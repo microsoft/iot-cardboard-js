@@ -96,7 +96,7 @@ export const getStyles = (
             classNames.body,
             {
                 display: 'flex',
-                flex: '1 1 auto',
+                flex: '1 1 420px',
                 width: 900,
                 paddingRight: 20,
                 paddingLeft: 20,

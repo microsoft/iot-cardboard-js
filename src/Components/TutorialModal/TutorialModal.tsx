@@ -140,8 +140,11 @@ const getNavLinkGroups = (
                 {
                     key: TutorialModalPage.INTRODUCTION,
                     name: 'Introduction',
-                    icon: 'CRMCustomerInsightsApp',
                     url: '',
+                    iconProps: {
+                        styles: { root: { marginLeft: 8 } },
+                        iconName: 'CRMCustomerInsightsApp'
+                    },
                     onClick: () =>
                         dispatch({
                             type: TutorialModalActionType.SET_PAGE,
@@ -151,7 +154,6 @@ const getNavLinkGroups = (
                 {
                     key: TutorialModalPage.CONCEPTS,
                     name: 'Concepts',
-                    icon: 'Zoom',
                     url: '',
                     onClick: () =>
                         dispatch({
@@ -160,6 +162,10 @@ const getNavLinkGroups = (
                         }),
                     isExpanded: true,
                     forceAnchor: true,
+                    iconProps: {
+                        styles: { root: { marginLeft: 8 } },
+                        iconName: 'Zoom'
+                    },
                     links: [
                         {
                             key: TutorialModalPage.ELEMENTS,
