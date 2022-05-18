@@ -23,6 +23,15 @@ import { IAction } from '../../Models/Constants/Interfaces';
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 import { deepCopy } from '../../Models/Services/Utils';
 import CountryList from '../../Pages/OATEditorPage/Resources/CountryList.json';
+import { MultiLanguageSelectionType } from '../../Models/Constants/Enums';
+import {
+    getModelPropertyCollectionName,
+    handleMultiLanguageSelectionRemoval,
+    handleMultiLanguageSelectionsDescriptionKeyChange,
+    handleMultiLanguageSelectionsDescriptionValueChange,
+    handleMultiLanguageSelectionsDisplayNameKeyChange,
+    handleMultiLanguageSelectionsDisplayNameValueChange
+} from './Utils';
 
 const MULTI_LANGUAGE_OPTION_VALUE = 'multiLanguage';
 const SINGLE_LANGUAGE_OPTION_VALUE = 'singleLanguage';
@@ -37,11 +46,6 @@ interface IModal {
     setModalBody?: React.Dispatch<React.SetStateAction<string>>;
     setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
     state?: IOATEditorState;
-}
-
-enum multiLanguageSelectionType {
-    displayName = 'displayName',
-    description = 'description'
 }
 
 export const FormUpdateProperty = ({
@@ -94,6 +98,10 @@ export const FormUpdateProperty = ({
     ] = useState(true);
     const { model } = state;
 
+    const propertiesKeyName = getModelPropertyCollectionName(
+        model ? model['@type'] : null
+    );
+
     const options: IChoiceGroupOption[] = [
         {
             key: SINGLE_LANGUAGE_OPTION_VALUE,
@@ -115,7 +123,7 @@ export const FormUpdateProperty = ({
 
     const handleUpdatedNestedProperty = () => {
         const activeNestedProperty =
-            model.contents[currentPropertyIndex].schema.fields[
+            model[propertiesKeyName][currentPropertyIndex].schema.fields[
                 currentNestedPropertyIndex
             ];
 
@@ -140,7 +148,7 @@ export const FormUpdateProperty = ({
         };
 
         const modelCopy = deepCopy(model);
-        modelCopy.contents[currentPropertyIndex].schema.fields[
+        modelCopy[propertiesKeyName][currentPropertyIndex].schema.fields[
             currentNestedPropertyIndex
         ] = prop;
 
@@ -158,20 +166,20 @@ export const FormUpdateProperty = ({
             handleUpdatedNestedProperty();
             return;
         }
-        const activeProperty = model.contents[currentPropertyIndex];
+        const activeProperty = model[propertiesKeyName][currentPropertyIndex];
         const prop = {
             comment: comment ? comment : activeProperty.comment,
             description:
                 languageSelection === SINGLE_LANGUAGE_OPTION_VALUE
                     ? description
                         ? description
-                        : activeNestedProperty.description
+                        : activeProperty.description
                     : multiLanguageSelectionsDescription,
             name:
                 languageSelection === SINGLE_LANGUAGE_OPTION_VALUE
                     ? displayName
                         ? displayName
-                        : activeNestedProperty.name
+                        : activeProperty.name
                     : multiLanguageSelectionsDisplayName,
             writable,
             '@type': semanticType
@@ -183,7 +191,7 @@ export const FormUpdateProperty = ({
         };
 
         const modelCopy = deepCopy(model);
-        modelCopy.contents[currentPropertyIndex] = prop;
+        modelCopy[propertiesKeyName][currentPropertyIndex] = prop;
         dispatch({
             type: SET_OAT_PROPERTY_EDITOR_MODEL,
             payload: modelCopy
@@ -193,7 +201,9 @@ export const FormUpdateProperty = ({
     };
 
     const getErrorMessage = (value) => {
-        const find = model.contents.find((item) => item.name === value);
+        const find = model[propertiesKeyName].find(
+            (item) => item.name === value
+        );
 
         if (!find && value !== '') {
             setDisplayName(value);
@@ -206,117 +216,6 @@ export const FormUpdateProperty = ({
             : '';
     };
 
-    const handleMultiLanguageSelectionsDisplayNameKeyChange = (
-        value,
-        index = null
-    ) => {
-        const multiLanguageSelectionsDisplayNamesKeys = Object.keys(
-            multiLanguageSelectionsDisplayName
-        );
-        const key = multiLanguageSelectionsDisplayNamesKeys[index]
-            ? multiLanguageSelectionsDisplayNamesKeys[index]
-            : value;
-        const newMultiLanguageSelectionsDisplayName = {
-            ...multiLanguageSelectionsDisplayName,
-            [key]: multiLanguageSelectionsDisplayName[value]
-                ? multiLanguageSelectionsDisplayName[value]
-                : ''
-        };
-
-        setMultiLanguageSelectionsDisplayName(
-            newMultiLanguageSelectionsDisplayName
-        );
-    };
-
-    const handleMultiLanguageSelectionsDisplayNameValueChange = (
-        index,
-        value
-    ) => {
-        const newMultiLanguageSelectionsDisplayName = {
-            ...multiLanguageSelectionsDisplayName,
-            [multiLanguageSelectionsDisplayNames[index].key]: value
-        };
-
-        setMultiLanguageSelectionsDisplayName(
-            newMultiLanguageSelectionsDisplayName
-        );
-    };
-
-    const handleMultiLanguageSelectionsDescriptionKeyChange = (
-        value,
-        index = null
-    ) => {
-        const multiLanguageSelectionsDescriptionsKeys = Object.keys(
-            multiLanguageSelectionsDescription
-        );
-        const key = multiLanguageSelectionsDescriptionsKeys[index]
-            ? multiLanguageSelectionsDescriptionsKeys[index]
-            : value;
-        const newMultiLanguageSelectionsDescription = {
-            ...multiLanguageSelectionsDescription,
-            [key]: multiLanguageSelectionsDescription[value]
-                ? multiLanguageSelectionsDescription[value]
-                : ''
-        };
-
-        setMultiLanguageSelectionsDescription(
-            newMultiLanguageSelectionsDescription
-        );
-    };
-
-    const handleMultiLanguageSelectionsDescriptionValueChange = (
-        index,
-        value
-    ) => {
-        const newMultiLanguageSelectionsDescription = {
-            ...multiLanguageSelectionsDescription,
-            [multiLanguageSelectionsDescriptions[index].key]: value
-        };
-
-        setMultiLanguageSelectionsDescription(
-            newMultiLanguageSelectionsDescription
-        );
-    };
-
-    const handleMultiLanguageSelectionRemoval = (index, type) => {
-        if (type === multiLanguageSelectionType.displayName) {
-            const newMultiLanguageSelectionsDisplayName = multiLanguageSelectionsDisplayName;
-            delete newMultiLanguageSelectionsDisplayName[
-                multiLanguageSelectionsDisplayNames[index].key
-            ];
-            setMultiLanguageSelectionsDisplayName(
-                newMultiLanguageSelectionsDisplayName
-            );
-
-            const newMultiLanguageSelectionsDisplayNames = [
-                ...multiLanguageSelectionsDisplayNames
-            ];
-            newMultiLanguageSelectionsDisplayNames.splice(index, 1);
-
-            setMultiLanguageSelectionsDisplayNames(
-                newMultiLanguageSelectionsDisplayNames
-            );
-        } else {
-            const newMultiLanguageSelectionsDescription = multiLanguageSelectionsDescription;
-            delete newMultiLanguageSelectionsDescription[
-                multiLanguageSelectionsDescriptions[index].key
-            ];
-            setMultiLanguageSelectionsDescription(
-                newMultiLanguageSelectionsDescription
-            );
-
-            const newMultiLanguageSelectionsDescriptions = [
-                ...multiLanguageSelectionsDescriptions
-            ];
-            newMultiLanguageSelectionsDescriptions.splice(index, 1);
-
-            setMultiLanguageSelectionsDescriptions(
-                newMultiLanguageSelectionsDescriptions
-            );
-        }
-    };
-
-    // Update multiLanguageSelectionsDisplayNames on every new language change
     useEffect(() => {
         // Create an array of the keys and values
         const newMultiLanguageSelectionsDisplayNames = Object.keys(
@@ -366,10 +265,11 @@ export const FormUpdateProperty = ({
         <>
             <div className={propertyInspectorStyles.modalRowSpaceBetween}>
                 <Label>
-                    {model.contents[currentPropertyIndex]
-                        ? typeof model.contents[currentPropertyIndex].name ===
-                          'string'
-                            ? model.contents[currentPropertyIndex].name
+                    {model[propertiesKeyName][currentPropertyIndex]
+                        ? typeof model[propertiesKeyName][currentPropertyIndex]
+                              .name === 'string'
+                            ? model[propertiesKeyName][currentPropertyIndex]
+                                  .name
                             : Object.values(model.displayName)[0]
                         : t('OATPropertyEditor.property')}
                 </Label>
@@ -427,7 +327,15 @@ export const FormUpdateProperty = ({
                             onClick={() =>
                                 handleMultiLanguageSelectionRemoval(
                                     index,
-                                    multiLanguageSelectionType.displayName
+                                    MultiLanguageSelectionType.displayName,
+                                    multiLanguageSelectionsDisplayName,
+                                    multiLanguageSelectionsDisplayNames,
+                                    multiLanguageSelectionsDescription,
+                                    multiLanguageSelectionsDescriptions,
+                                    setMultiLanguageSelectionsDisplayName,
+                                    setMultiLanguageSelectionsDisplayNames,
+                                    setMultiLanguageSelectionsDescription,
+                                    setMultiLanguageSelectionsDescriptions
                                 )
                             }
                         />
@@ -437,7 +345,9 @@ export const FormUpdateProperty = ({
                             onChange={(_ev, option) =>
                                 handleMultiLanguageSelectionsDisplayNameKeyChange(
                                     option.key,
-                                    index
+                                    index,
+                                    multiLanguageSelectionsDisplayName,
+                                    setMultiLanguageSelectionsDisplayName
                                 )
                             }
                             value={language.key}
@@ -447,8 +357,11 @@ export const FormUpdateProperty = ({
                             value={language.value}
                             onChange={(_ev, value) =>
                                 handleMultiLanguageSelectionsDisplayNameValueChange(
+                                    value,
                                     index,
-                                    value
+                                    multiLanguageSelectionsDisplayNames,
+                                    multiLanguageSelectionsDisplayName,
+                                    setMultiLanguageSelectionsDisplayName
                                 )
                             }
                             disabled={
@@ -532,7 +445,15 @@ export const FormUpdateProperty = ({
                             onClick={() =>
                                 handleMultiLanguageSelectionRemoval(
                                     index,
-                                    multiLanguageSelectionType.description
+                                    MultiLanguageSelectionType.description,
+                                    multiLanguageSelectionsDisplayName,
+                                    multiLanguageSelectionsDisplayNames,
+                                    multiLanguageSelectionsDescription,
+                                    multiLanguageSelectionsDescriptions,
+                                    setMultiLanguageSelectionsDisplayName,
+                                    setMultiLanguageSelectionsDisplayNames,
+                                    setMultiLanguageSelectionsDescription,
+                                    setMultiLanguageSelectionsDescriptions
                                 )
                             }
                         />
@@ -542,7 +463,9 @@ export const FormUpdateProperty = ({
                             onChange={(_ev, option) =>
                                 handleMultiLanguageSelectionsDescriptionKeyChange(
                                     option.key,
-                                    index
+                                    index,
+                                    multiLanguageSelectionsDescription,
+                                    setMultiLanguageSelectionsDescription
                                 )
                             }
                             value={language.key}
@@ -552,8 +475,11 @@ export const FormUpdateProperty = ({
                             value={language.value}
                             onChange={(_ev, value) =>
                                 handleMultiLanguageSelectionsDescriptionValueChange(
+                                    value,
                                     index,
-                                    value
+                                    multiLanguageSelectionsDescription,
+                                    multiLanguageSelectionsDescriptions,
+                                    setMultiLanguageSelectionsDescription
                                 )
                             }
                             disabled={

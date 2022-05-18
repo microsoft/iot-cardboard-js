@@ -16,6 +16,8 @@ import {
     OATUntargetedRelationshipName
 } from '../../../Models/Constants/Constants';
 import { SET_OAT_PROPERTY_EDITOR_MODEL } from '../../../Models/Constants/ActionTypes';
+import { DTDLModel } from '../../../Models/Classes/DTDL';
+import { getPropertyDisplayName } from '../../OATPropertyEditor/Utils';
 
 const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
     data,
@@ -40,11 +42,7 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
     };
 
     const onNameClick = () => {
-        setNameText(
-            typeof data.name === 'string'
-                ? data.name
-                : Object.values(data.name)[0]
-        );
+        setNameText(getPropertyDisplayName(data));
         setNameEditor(true);
     };
 
@@ -55,16 +53,18 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
                 (element) => element.id === data.id
             ).data.name = nameText;
             setElements([...elements]);
-            const modelUpdated = {
-                '@id': data.id,
-                '@type': data.type,
-                '@context': data.context,
-                displayName: nameText,
-                contents: data.content
-            };
+            const updatedModel = new DTDLModel(
+                data.id,
+                nameText,
+                data.description,
+                data.comment,
+                data.content,
+                data.relationships,
+                data.components
+            );
             dispatch({
                 type: SET_OAT_PROPERTY_EDITOR_MODEL,
-                payload: modelUpdated
+                payload: updatedModel
             });
             return;
         }
@@ -153,9 +153,7 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
                             <label>{t('OATGraphViewer.name')}:</label>
                             {!nameEditor && (
                                 <Label onClick={onNameClick}>
-                                    {typeof data.name === 'string'
-                                        ? data.name
-                                        : Object.values(data.name)[0]}
+                                    {getPropertyDisplayName(data)}
                                 </Label>
                             )}
                             {nameEditor && (

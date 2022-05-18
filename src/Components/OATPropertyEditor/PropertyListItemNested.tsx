@@ -21,6 +21,7 @@ import {
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 import AddPropertyBar from './AddPropertyBar';
 import PropertySelector from './PropertySelector';
+import { getModelPropertyCollectionName } from './Utils';
 
 type IPropertyListItemNested = {
     deleteNestedItem?: (parentIndex: number, index: number) => any;
@@ -63,6 +64,10 @@ export const PropertyListItemNested = ({
     );
     const { model, templates } = state;
 
+    const propertiesKeyName = getModelPropertyCollectionName(
+        model ? model['@type'] : null
+    );
+
     const handleDuplicate = () => {
         const itemCopy = deepCopy(item);
         itemCopy.name = `${itemCopy.name}_${t('OATPropertyEditor.copy')}`;
@@ -72,7 +77,7 @@ export const PropertyListItemNested = ({
         itemCopy['@id'] = `${itemCopy['@id']}_${t('OATPropertyEditor.copy')}`;
 
         const modelCopy = deepCopy(model);
-        modelCopy.contents[parentIndex].schema.fields.push(itemCopy);
+        modelCopy[propertiesKeyName][parentIndex].schema.fields.push(itemCopy);
         dispatch({
             type: SET_OAT_PROPERTY_EDITOR_MODEL,
             payload: modelCopy

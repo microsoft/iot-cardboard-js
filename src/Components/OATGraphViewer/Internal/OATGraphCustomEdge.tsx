@@ -16,13 +16,13 @@ import {
     OATExtendHandleName
 } from '../../../Models/Constants/Constants';
 import { SET_OAT_PROPERTY_EDITOR_MODEL } from '../../../Models/Constants/ActionTypes';
+import { ModelTypes } from '../../../Models/Constants/Enums';
+import { DTDLRelationship } from '../../../Models/Classes/DTDL';
+import { getPropertyDisplayName } from '../../OATPropertyEditor/Utils';
 
 const foreignObjectSize = 180;
-
-export enum modelTypes {
-    relationship = 'Relationship',
-    untargeted = 'Untargeted'
-}
+const OFFSET_SMALL = 5;
+const OFFSET_MEDIUM = 10;
 
 const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
     id,
@@ -37,9 +37,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
     markerEnd
 }) => {
     const [nameEditor, setNameEditor] = useState(false);
-    const [nameText, setNameText] = useState(
-        typeof data.name === 'string' ? data.name : Object.values(data.name)[0]
-    );
+    const [nameText, setNameText] = useState(getPropertyDisplayName(data));
     const {
         elements,
         setElements,
@@ -108,8 +106,8 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
     const onNameClick = () => {
         setNameEditor(true);
         if (
-            element.data.type !== modelTypes.relationship &&
-            element.data.type !== modelTypes.untargeted
+            element.data.type !== ModelTypes.relationship &&
+            element.data.type !== ModelTypes.untargeted
         ) {
             setCurrentNode(null);
             dispatch({
@@ -119,28 +117,33 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
             return;
         }
 
-        const clickedRelationship = {
-            '@id': element.data.id,
-            id,
-            '@type': element.data.type,
-            '@context': element.data.context,
-            displayName:
-                typeof element.data.name === 'string'
-                    ? element.data.name
-                    : {
-                          ...element.data.name,
-                          [Object.keys(element.data.name)[0]]: Object.values(
-                              element.data.name
-                          )[0]
-                      },
-            contents: element.data.content ? element.data.content : []
-        };
+        const displayName =
+            typeof element.data.name === 'string'
+                ? element.data.name
+                : {
+                      ...element.data.name,
+                      [Object.keys(element.data.name)[0]]: Object.values(
+                          element.data.name
+                      )[0]
+                  };
+        const relationship = new DTDLRelationship(
+            element.data.id,
+            element.data.name,
+            displayName,
+            element.data.description,
+            element.data.comment,
+            element.data.writable,
+            element.data.content ? element.data.content : [],
+            element.data.target,
+            element.data.maxMultiplicity
+        );
+
         setCurrentNode(element.id);
         dispatch({
             type: SET_OAT_PROPERTY_EDITOR_MODEL,
-            payload: clickedRelationship
+            payload: relationship
         });
-    }; //
+    };
 
     const onNameBlur = () => {
         setNameEditor(false);
@@ -290,16 +293,16 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                         textAnchor="middle"
                         onClick={onNameClick}
                     >
-                        {typeof data.name === 'string'
-                            ? data.name
-                            : Object.values(data.name)[0]}
+                        {getPropertyDisplayName(data)}
                     </textPath>
                 </text>
             )}
             {data.type === OATExtendHandleName && showInheritances && (
                 <polygon
-                    points={`${targetX - 5},${targetY - 10} ${targetX + 5},${
-                        targetY - 10
+                    points={`${targetX - OFFSET_SMALL},${
+                        targetY - OFFSET_SMALL
+                    } ${targetX + OFFSET_SMALL},${
+                        targetY - OFFSET_MEDIUM
                     } ${targetX},${targetY}`}
                     cx={targetX}
                     cy={targetY}
@@ -312,10 +315,10 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                 data.type === OATUntargetedRelationshipName) &&
                 showRelationships && (
                     <polygon
-                        points={`${targetX - 5},${
-                            targetY - 5
-                        } ${targetX},${targetY} ${targetX + 5},${
-                            targetY - 5
+                        points={`${targetX - OFFSET_SMALL},${
+                            targetY - OFFSET_SMALL
+                        } ${targetX},${targetY} ${targetX + OFFSET_SMALL},${
+                            targetY - OFFSET_SMALL
                         } ${targetX},${targetY}`}
                         cx={targetX}
                         cy={targetY}
@@ -326,9 +329,11 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                 )}
             {data.type === OATComponentHandleName && showComponents && (
                 <polygon
-                    points={`${sourceX + 5},${sourceY + 5} ${sourceX},${
-                        sourceY + 10
-                    } ${sourceX - 5},${sourceY + 5} ${sourceX},${sourceY}`}
+                    points={`${sourceX + OFFSET_SMALL},${
+                        sourceY + OFFSET_SMALL
+                    } ${sourceX},${sourceY + OFFSET_MEDIUM} ${
+                        sourceX - OFFSET_SMALL
+                    },${sourceY + OFFSET_SMALL} ${sourceX},${sourceY}`}
                     cx={sourceX}
                     cy={sourceY}
                     r={3}

@@ -11,6 +11,7 @@ import { SET_OAT_PROPERTY_EDITOR_MODEL } from '../../Models/Constants/ActionType
 import { IAction } from '../../Models/Constants/Interfaces';
 import { deepCopy } from '../../Models/Services/Utils';
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
+import { ModelTypes } from '../../Models/Constants/Enums';
 
 type IPropertiesModelSummary = {
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
@@ -18,11 +19,6 @@ type IPropertiesModelSummary = {
     setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
     state?: IOATEditorState;
 };
-
-enum modelTypes {
-    interface = 'Interface',
-    relationship = 'Relationship'
-}
 
 export const PropertiesModelSummary = ({
     dispatch,
@@ -41,7 +37,7 @@ export const PropertiesModelSummary = ({
         <Stack styles={generalPropertiesWrapStyles}>
             <div className={propertyInspectorStyles.rowSpaceBetween}>
                 <Label>{`${t('OATPropertyEditor.general')}`}</Label>
-                {model && model['@type'] === modelTypes.interface && (
+                {model && model['@type'] === ModelTypes.interface && (
                     <IconButton
                         styles={iconWrapStyles}
                         iconProps={{ iconName: 'info' }}

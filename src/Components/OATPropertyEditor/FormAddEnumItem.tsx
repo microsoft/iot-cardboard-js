@@ -22,6 +22,15 @@ import { IAction } from '../../Models/Constants/Interfaces';
 import { deepCopy } from '../../Models/Services/Utils';
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 import CountryList from '../../Pages/OATEditorPage/Resources/CountryList.json';
+import { MultiLanguageSelectionType } from '../../Models/Constants/Enums';
+import {
+    getModelPropertyCollectionName,
+    handleMultiLanguageSelectionRemoval,
+    handleMultiLanguageSelectionsDescriptionKeyChange,
+    handleMultiLanguageSelectionsDescriptionValueChange,
+    handleMultiLanguageSelectionsDisplayNameKeyChange,
+    handleMultiLanguageSelectionsDisplayNameValueChange
+} from './Utils';
 
 const MULTI_LANGUAGE_OPTION_VALUE = 'multiLanguage';
 const SINGLE_LANGUAGE_OPTION_VALUE = 'singleLanguage';
@@ -36,11 +45,6 @@ interface IModal {
     setModalBody?: React.Dispatch<React.SetStateAction<string>>;
     setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
     state?: IOATEditorState;
-}
-
-enum multiLanguageSelectionType {
-    displayName = 'displayName',
-    description = 'description'
 }
 
 export const FormAddEnumItem = ({
@@ -90,6 +94,10 @@ export const FormAddEnumItem = ({
     ] = useState(true);
     const { model } = state;
 
+    const propertiesKeyName = getModelPropertyCollectionName(
+        model ? model['@type'] : null
+    );
+
     const options: IChoiceGroupOption[] = [
         {
             key: SINGLE_LANGUAGE_OPTION_VALUE,
@@ -111,7 +119,7 @@ export const FormAddEnumItem = ({
 
     const handleAddEnumValue = () => {
         const activeItem =
-            model.contents[currentPropertyIndex].schema.enumValues;
+            model[propertiesKeyName][currentPropertyIndex].schema.enumValues;
         const prop = {
             '@id': id ? `dtmi:com:adt:${id};` : 'dtmi:com:adt:enum;',
             name: name ? name : activeItem.name,
@@ -132,7 +140,9 @@ export const FormAddEnumItem = ({
         };
 
         const modelCopy = deepCopy(model);
-        modelCopy.contents[currentPropertyIndex].schema.enumValues.push(prop);
+        modelCopy[propertiesKeyName][
+            currentPropertyIndex
+        ].schema.enumValues.push(prop);
         dispatch({
             type: SET_OAT_PROPERTY_EDITOR_MODEL,
             payload: modelCopy
@@ -142,7 +152,7 @@ export const FormAddEnumItem = ({
     };
 
     const getErrorMessage = (value) => {
-        const find = model.contents[
+        const find = model[propertiesKeyName][
             currentPropertyIndex
         ].schema.enumValues.find((item) => item.enumValue === value);
         if (!find && value !== '') {
@@ -154,117 +164,6 @@ export const FormAddEnumItem = ({
         return find ? `${t('OATPropertyEditor.errorRepeatedEnumValue')}` : '';
     };
 
-    const handleMultiLanguageSelectionsDisplayNameKeyChange = (
-        value,
-        index = null
-    ) => {
-        const multiLanguageSelectionsDisplayNamesKeys = Object.keys(
-            multiLanguageSelectionsDisplayName
-        );
-        const key = multiLanguageSelectionsDisplayNamesKeys[index]
-            ? multiLanguageSelectionsDisplayNamesKeys[index]
-            : value;
-        const newMultiLanguageSelectionsDisplayName = {
-            ...multiLanguageSelectionsDisplayName,
-            [key]: multiLanguageSelectionsDisplayName[value]
-                ? multiLanguageSelectionsDisplayName[value]
-                : ''
-        };
-
-        setMultiLanguageSelectionsDisplayName(
-            newMultiLanguageSelectionsDisplayName
-        );
-    };
-
-    const handleMultiLanguageSelectionsDisplayNameValueChange = (
-        index,
-        value
-    ) => {
-        const newMultiLanguageSelectionsDisplayName = {
-            ...multiLanguageSelectionsDisplayName,
-            [multiLanguageSelectionsDisplayNames[index].key]: value
-        };
-
-        setMultiLanguageSelectionsDisplayName(
-            newMultiLanguageSelectionsDisplayName
-        );
-    };
-
-    const handleMultiLanguageSelectionsDescriptionKeyChange = (
-        value,
-        index = null
-    ) => {
-        const multiLanguageSelectionsDescriptionsKeys = Object.keys(
-            multiLanguageSelectionsDescription
-        );
-        const key = multiLanguageSelectionsDescriptionsKeys[index]
-            ? multiLanguageSelectionsDescriptionsKeys[index]
-            : value;
-        const newMultiLanguageSelectionsDescription = {
-            ...multiLanguageSelectionsDescription,
-            [key]: multiLanguageSelectionsDescription[value]
-                ? multiLanguageSelectionsDescription[value]
-                : ''
-        };
-
-        setMultiLanguageSelectionsDescription(
-            newMultiLanguageSelectionsDescription
-        );
-    };
-
-    const handleMultiLanguageSelectionsDescriptionValueChange = (
-        index,
-        value
-    ) => {
-        const newMultiLanguageSelectionsDescription = {
-            ...multiLanguageSelectionsDescription,
-            [multiLanguageSelectionsDescriptions[index].key]: value
-        };
-
-        setMultiLanguageSelectionsDescription(
-            newMultiLanguageSelectionsDescription
-        );
-    };
-
-    const handleMultiLanguageSelectionRemoval = (index, type) => {
-        if (type === multiLanguageSelectionType.displayName) {
-            const newMultiLanguageSelectionsDisplayName = multiLanguageSelectionsDisplayName;
-            delete newMultiLanguageSelectionsDisplayName[
-                multiLanguageSelectionsDisplayNames[index].key
-            ];
-            setMultiLanguageSelectionsDisplayName(
-                newMultiLanguageSelectionsDisplayName
-            );
-
-            const newMultiLanguageSelectionsDisplayNames = [
-                ...multiLanguageSelectionsDisplayNames
-            ];
-            newMultiLanguageSelectionsDisplayNames.splice(index, 1);
-
-            setMultiLanguageSelectionsDisplayNames(
-                newMultiLanguageSelectionsDisplayNames
-            );
-        } else {
-            const newMultiLanguageSelectionsDescription = multiLanguageSelectionsDescription;
-            delete newMultiLanguageSelectionsDescription[
-                multiLanguageSelectionsDescriptions[index].key
-            ];
-            setMultiLanguageSelectionsDescription(
-                newMultiLanguageSelectionsDescription
-            );
-
-            const newMultiLanguageSelectionsDescriptions = [
-                ...multiLanguageSelectionsDescriptions
-            ];
-            newMultiLanguageSelectionsDescriptions.splice(index, 1);
-
-            setMultiLanguageSelectionsDescriptions(
-                newMultiLanguageSelectionsDescriptions
-            );
-        }
-    };
-
-    // Update multiLanguageSelectionsDisplayNames on every new language change
     useEffect(() => {
         // Create an array of the keys and values
         const newMultiLanguageSelectionsDisplayNames = Object.keys(
@@ -368,7 +267,15 @@ export const FormAddEnumItem = ({
                             onClick={() =>
                                 handleMultiLanguageSelectionRemoval(
                                     index,
-                                    multiLanguageSelectionType.displayName
+                                    MultiLanguageSelectionType.displayName,
+                                    multiLanguageSelectionsDisplayName,
+                                    multiLanguageSelectionsDisplayNames,
+                                    multiLanguageSelectionsDescription,
+                                    multiLanguageSelectionsDescriptions,
+                                    setMultiLanguageSelectionsDisplayName,
+                                    setMultiLanguageSelectionsDisplayNames,
+                                    setMultiLanguageSelectionsDescription,
+                                    setMultiLanguageSelectionsDescriptions
                                 )
                             }
                         />
@@ -378,7 +285,9 @@ export const FormAddEnumItem = ({
                             onChange={(_ev, option) =>
                                 handleMultiLanguageSelectionsDisplayNameKeyChange(
                                     option.key,
-                                    index
+                                    index,
+                                    multiLanguageSelectionsDisplayName,
+                                    setMultiLanguageSelectionsDisplayName
                                 )
                             }
                             value={language.key}
@@ -388,8 +297,11 @@ export const FormAddEnumItem = ({
                             value={language.value}
                             onChange={(_ev, value) =>
                                 handleMultiLanguageSelectionsDisplayNameValueChange(
+                                    value,
                                     index,
-                                    value
+                                    multiLanguageSelectionsDisplayNames,
+                                    multiLanguageSelectionsDisplayName,
+                                    setMultiLanguageSelectionsDisplayName
                                 )
                             }
                             disabled={
@@ -474,7 +386,15 @@ export const FormAddEnumItem = ({
                             onClick={() =>
                                 handleMultiLanguageSelectionRemoval(
                                     index,
-                                    multiLanguageSelectionType.description
+                                    MultiLanguageSelectionType.description,
+                                    multiLanguageSelectionsDisplayName,
+                                    multiLanguageSelectionsDisplayNames,
+                                    multiLanguageSelectionsDescription,
+                                    multiLanguageSelectionsDescriptions,
+                                    setMultiLanguageSelectionsDisplayName,
+                                    setMultiLanguageSelectionsDisplayNames,
+                                    setMultiLanguageSelectionsDescription,
+                                    setMultiLanguageSelectionsDescriptions
                                 )
                             }
                         />
@@ -484,7 +404,9 @@ export const FormAddEnumItem = ({
                             onChange={(_ev, option) =>
                                 handleMultiLanguageSelectionsDescriptionKeyChange(
                                     option.key,
-                                    index
+                                    index,
+                                    multiLanguageSelectionsDescription,
+                                    setMultiLanguageSelectionsDescription
                                 )
                             }
                             value={language.key}
@@ -494,8 +416,11 @@ export const FormAddEnumItem = ({
                             value={language.value}
                             onChange={(_ev, value) =>
                                 handleMultiLanguageSelectionsDescriptionValueChange(
+                                    value,
                                     index,
-                                    value
+                                    multiLanguageSelectionsDescription,
+                                    multiLanguageSelectionsDescriptions,
+                                    setMultiLanguageSelectionsDescription
                                 )
                             }
                             disabled={

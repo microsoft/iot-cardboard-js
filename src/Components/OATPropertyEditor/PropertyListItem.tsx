@@ -21,6 +21,7 @@ import {
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 import AddPropertyBar from './AddPropertyBar';
 import PropertySelector from './PropertySelector';
+import { getModelPropertyCollectionName } from './Utils';
 
 type IPropertyListItem = {
     index?: number;
@@ -73,6 +74,10 @@ export const PropertyListItem = ({
     );
     const { model, templates } = state;
 
+    const propertiesKeyName = getModelPropertyCollectionName(
+        model ? model['@type'] : null
+    );
+
     const handleTemplateAddition = () => {
         dispatch({
             type: SET_OAT_TEMPLATES,
@@ -89,7 +94,7 @@ export const PropertyListItem = ({
         itemCopy['@id'] = `${itemCopy['@id']}_${t('OATPropertyEditor.copy')}`;
 
         const modelCopy = deepCopy(model);
-        modelCopy.contents.push(itemCopy);
+        modelCopy[propertiesKeyName].push(itemCopy);
         dispatch({
             type: SET_OAT_PROPERTY_EDITOR_MODEL,
             payload: modelCopy

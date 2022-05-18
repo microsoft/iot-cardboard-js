@@ -24,6 +24,7 @@ import {
     DTDLProperty
 } from '../../Models/Constants/Interfaces';
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
+import { getModelPropertyCollectionName } from './Utils';
 
 type IPropertyListItemNest = {
     deleteItem?: (index: number) => any;
@@ -82,6 +83,10 @@ export const PropertyListItemNest = ({
     );
     const { model, templates } = state;
 
+    const propertiesKeyName = getModelPropertyCollectionName(
+        model ? model['@type'] : null
+    );
+
     const addPropertyCallback = () => {
         setCurrentPropertyIndex(index);
         if (!lastPropertyFocused) {
@@ -117,7 +122,7 @@ export const PropertyListItemNest = ({
         itemCopy['@id'] = `${itemCopy['@id']}_${t('OATPropertyEditor.copy')}`;
 
         const modelCopy = deepCopy(model);
-        modelCopy.contents.push(itemCopy);
+        modelCopy[propertiesKeyName].push(itemCopy);
         dispatch({
             type: SET_OAT_PROPERTY_EDITOR_MODEL,
             payload: modelCopy
@@ -127,15 +132,21 @@ export const PropertyListItemNest = ({
     const deleteNestedItem = (parentIndex, index) => {
         const newModel = deepCopy(model);
         if (
-            newModel.contents[parentIndex].schema['@type'] ===
+            newModel[propertiesKeyName][parentIndex].schema['@type'] ===
             DTDLSchemaType.Enum
         ) {
-            newModel.contents[parentIndex].schema.enumValues.splice(index, 1);
+            newModel[propertiesKeyName][parentIndex].schema.enumValues.splice(
+                index,
+                1
+            );
         } else if (
-            newModel.contents[parentIndex].schema['@type'] ===
+            newModel[propertiesKeyName][parentIndex].schema['@type'] ===
             DTDLSchemaType.Object
         ) {
-            newModel.contents[parentIndex].schema.fields.splice(index, 1);
+            newModel[propertiesKeyName][parentIndex].schema.fields.splice(
+                index,
+                1
+            );
         }
         dispatch({ type: SET_OAT_PROPERTY_EDITOR_MODEL, payload: newModel });
     };

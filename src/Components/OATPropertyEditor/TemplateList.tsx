@@ -8,6 +8,7 @@ import {
 } from '../../Models/Constants/ActionTypes';
 import { IAction } from '../../Models/Constants/Interfaces';
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
+import { getModelPropertyCollectionName } from './Utils';
 
 interface ITemplateList {
     draggingTemplate?: boolean;
@@ -36,9 +37,13 @@ export const TemplateList = ({
     const [enteredItem, setEnteredItem] = useState(enteredTemplateRef.current);
     const { model, templates } = state;
 
+    const propertiesKeyName = getModelPropertyCollectionName(
+        model ? model['@type'] : null
+    );
+
     const handleTemplateItemDropOnPropertyList = () => {
         // Prevent drop if duplicate
-        const isTemplateAlreadyInModel = model.contents.find(
+        const isTemplateAlreadyInModel = model[propertiesKeyName].find(
             (item) =>
                 item['@id'] === templates[draggedTemplateItemRef.current]['@id']
         );
@@ -47,7 +52,7 @@ export const TemplateList = ({
         // Drop
         const newModel = deepCopy(model);
         // + 1 so that it drops under current item
-        newModel.contents.splice(
+        newModel[propertiesKeyName].splice(
             enteredPropertyRef.current + 1,
             0,
             templates[draggedTemplateItemRef.current]

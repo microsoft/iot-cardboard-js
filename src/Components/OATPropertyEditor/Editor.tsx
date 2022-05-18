@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { Theme } from '../../Models/Constants/Enums';
+import { ModelTypes, Theme } from '../../Models/Constants/Enums';
 import {
     FontIcon,
     Stack,
@@ -20,6 +20,7 @@ import PropertySelector from './PropertySelector';
 import AddPropertyBar from './AddPropertyBar';
 import { SET_OAT_TEMPLATES_ACTIVE } from '../../Models/Constants/ActionTypes';
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
+import { getModelPropertyCollectionName } from './Utils';
 interface IEditor {
     currentPropertyIndex?: number;
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
@@ -50,11 +51,15 @@ const Editor = ({
     const [draggingProperty, setDraggingProperty] = useState(false);
     const enteredTemplateRef = useRef(null);
     const enteredPropertyRef = useRef(null);
-    const { model, templatesActive } = state;
     const [hover, setHover] = useState(false);
     const [propertyOnHover, setPropertyOnHover] = useState(false);
     const [propertySelectorVisible, setPropertySelectorVisible] = useState(
         false
+    );
+    const { model, templatesActive } = state;
+
+    const propertiesKeyName = getModelPropertyCollectionName(
+        model ? model['@type'] : null
     );
 
     return (
@@ -87,8 +92,8 @@ const Editor = ({
                             className={propertyInspectorStyles.rowSpaceBetween}
                         >
                             <Label>{`${t('OATPropertyEditor.properties')} ${
-                                model && model.contents.length > 0
-                                    ? `(${model.contents.length})`
+                                model && model[propertiesKeyName].length > 0
+                                    ? `(${model[propertiesKeyName].length})`
                                     : ''
                             }`}</Label>
                             <ActionButton
@@ -123,7 +128,7 @@ const Editor = ({
                                 state={state}
                             />
                         )}
-                        {hover && model && model.contents.length > 0 && (
+                        {hover && model && model[propertiesKeyName].length > 0 && (
                             <AddPropertyBar
                                 onMouseOver={() => {
                                     setPropertySelectorVisible(true);
