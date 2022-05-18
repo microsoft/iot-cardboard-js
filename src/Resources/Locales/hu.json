@@ -851,6 +851,8 @@
     "conceptsRoot": {
       "title": "Mélyebb merülésre van szüksége a fogalmakról?",
       "text": "Böngésszen a súgó tartalmában, vagy nézze meg dokumentációnkat lépésről lépésre oktatóanyagokért!"
-    }
+    },
+    "viewOnGithub": "GitHub",
+    "viewTheQuickstart": "Rövid útmutató"
   }
 }

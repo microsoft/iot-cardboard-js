@@ -851,6 +851,8 @@
     "conceptsRoot": {
       "title": "개념에 대해 더 깊이 파고 들으시겠습니까?",
       "text": "도움말 콘텐츠를 찾아보거나 설명서에서 단계별 자습서를 확인하십시오!"
-    }
+    },
+    "viewOnGithub": "깃허브",
+    "viewTheQuickstart": "빠른 시작"
   }
 }

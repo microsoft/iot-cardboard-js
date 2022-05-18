@@ -851,6 +851,8 @@
     "conceptsRoot": {
       "title": "Brauchen Sie einen tieferen Einblick in die Konzepte?",
       "text": "Durchsuchen Sie den Hilfeinhalt oder lesen Sie unsere Dokumentation für Schritt-für-Schritt-Anleitungen!"
-    }
+    },
+    "viewOnGithub": "GitHub",
+    "viewTheQuickstart": "Schnellstart"
   }
 }

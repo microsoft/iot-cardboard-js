@@ -851,6 +851,8 @@
     "conceptsRoot": {
       "title": "需要更深入地了解这些概念？",
       "text": "浏览帮助内容或查看我们的文档，了解分步教程！"
-    }
+    },
+    "viewOnGithub": "GitHub",
+    "viewTheQuickstart": "快速入门"
   }
 }
