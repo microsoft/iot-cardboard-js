@@ -28,6 +28,7 @@ const classNames = {
 
 const slideChangeBtnContainerBaseStyles: IStyle = {
     position: 'absolute',
+    zIndex: 2,
     top: 0,
     bottom: 0,
     marginTop: 'auto',
