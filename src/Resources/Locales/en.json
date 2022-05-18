@@ -393,6 +393,9 @@
         "confirmRemoveBehaviorFromScene": "Are you sure you want to remove this behavior from the current scene?",
         "confirmRemoveBehaviorFromAllScenes": "Are you sure you want to remove this behavior from all scenes. You can't undo this action.",
         "newElement": "New element",
+        "newBehavior": "New behavior",
+        "modifyBehavior": "Edit behavior",
+        "createBehavior": "Create behavior",
         "newBehaviorId": "NewBehaviorId",
         "cancel": "Cancel",
         "Done": "Done",
@@ -411,9 +414,6 @@
         "behaviorElementsDropdownLabel": "Target element",
         "behaviorElementsDropdownPlaceholder": "Select an element",
         "behaviorForm": {
-            "newBehavior": "New behavior",
-            "createBehavior": "Create behavior",
-            "modifyBehavior": "Edit behavior",
             "formSubTitle": "Behaviors are visual cues that occur under specific conditions—for instance, at specific intervals, or at data thresholds."
         },
         "behaviorAlertForm": {

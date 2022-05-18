@@ -66,9 +66,9 @@ export const getLeftPanelBuilderHeaderParamsForBehaviors = (
         subHeaderText = behaviorTwinAliasFormInfo.twinAlias?.alias;
     } else {
         if (builderMode === ADT3DSceneBuilderMode.CreateBehavior) {
-            headerText = i18n.t('3dSceneBuilder.behaviorForm.newBehavior');
+            headerText = i18n.t('3dSceneBuilder.newBehavior');
         } else if (builderMode === ADT3DSceneBuilderMode.EditBehavior) {
-            headerText = i18n.t('3dSceneBuilder.behaviorForm.modifyBehavior');
+            headerText = i18n.t('3dSceneBuilder.modifyBehavior');
         }
         subHeaderText = i18n.t('3dSceneBuilder.behaviorForm.formSubTitle');
     }

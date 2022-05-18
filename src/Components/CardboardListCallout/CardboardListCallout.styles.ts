@@ -85,6 +85,7 @@ export const getCardboardListCalloutStyles = memoizeFunction(
 
 export const cardboardListCalloutPrimaryButtonStyles = {
     root: {
-        marginTop: 16
+        marginTop: 16,
+        width: 'fit-content'
     }
 } as IButtonStyles;
