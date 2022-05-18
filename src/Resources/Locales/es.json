@@ -782,5 +782,12 @@
     "reset": "Restablecimiento",
     "zoomIn": "Acercar",
     "zoomOut": "Alejar"
+  },
+  "tutorialModal": {
+    "elements": {
+      "title": "¿Qué es un elemento?",
+      "content": "Un elemento es un conjunto autodefinido de mallas 3D que está vinculado a datos sobre uno o más gemelos digitales subyacentes. Elements le ayuda a medir rápidamente las operaciones y el estado del sistema. \n\nUn gemelo primario es la contraparte principal del gemelo digital para un elemento. Conecte el elemento a un gemelo en la instancia de Azure Digital Twins para que el elemento pueda representar al gemelo y sus datos dentro de la visualización 3D.",
+      "docLinkBlurb": "Para un paso a paso más detallado, consulte nuestro <DocLink>docs aquí.</DocLink>"
+    }
   }
 }

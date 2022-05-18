@@ -782,5 +782,12 @@
     "reset": "Sıfırlama",
     "zoomIn": "Yakınlaştırma",
     "zoomOut": "Uzaklaştırma"
+  },
+  "tutorialModal": {
+    "elements": {
+      "title": "Öğe nedir?",
+      "content": "Öğe, bir veya daha fazla altta yatan dijital ikizdeki verilere bağlanan, kendi kendini tanımlayan bir 3B kafes kümesidir. Elements, sistem işlemlerini ve sistem durumunu hızlı bir şekilde ölçmenize yardımcı olur. \n\nBirincil ikiz, bir elemanın ana dijital ikiz karşılığıdır. Öğenin ikizinizi ve verilerini 3B görselleştirme içinde temsil edebilmesi için öğeyi Azure Digital Twins örneğinizdeki bir ikize bağlarsınız.",
+      "docLinkBlurb": "Adım adım daha ayrıntılı bilgi için <DocLink>docs sayfamıza buradan göz atın.</DocLink>"
+    }
   }
 }

@@ -782,5 +782,12 @@
     "reset": "Terugstellen",
     "zoomIn": "Inzoomen",
     "zoomOut": "Uitzoomen"
+  },
+  "tutorialModal": {
+    "elements": {
+      "title": "Wat is een element?",
+      "content": "Een element is een zelf gedefinieerde set 3D-meshes die is gekoppeld aan gegevens over een of meer onderliggende digitale tweelingen. Elementen helpen u snel de werking en status van het systeem te meten. \n\nEen primaire tweeling is de belangrijkste digitale tweeling tegenhanger voor een element. U verbindt het element met een tweeling in uw Azure Digital Twins-instantie, zodat het element uw tweeling en de bijbehorende gegevens kan vertegenwoordigen in de 3D-visualisatie.",
+      "docLinkBlurb": "Voor een meer gedetailleerde stap-voor-stap, bekijk onze <DocLink>docs here.</DocLink>"
+    }
   }
 }

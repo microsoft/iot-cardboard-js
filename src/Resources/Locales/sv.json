@@ -782,5 +782,12 @@
     "reset": "Nollställa",
     "zoomIn": "Zooma in",
     "zoomOut": "Zooma ut"
+  },
+  "tutorialModal": {
+    "elements": {
+      "title": "Vad är ett element?",
+      "content": "Ett element är en självdefinierad uppsättning 3D-maskor som är länkade till data på en eller flera underliggande digitala tvillingar. Element hjälper dig att snabbt mäta systemåtgärder och hälsa. \n\nEn primär tvilling är den viktigaste digitala tvillingmotsvarigheten för ett element. Du ansluter elementet till en tvilling i din Azure Digital Twins instans så att elementet kan representera din tvilling och dess data i 3D-visualiseringen.",
+      "docLinkBlurb": "För en mer detaljerad steg-för-steg, kolla in vår <DocLink>docs här.</DocLink>"
+    }
   }
 }
