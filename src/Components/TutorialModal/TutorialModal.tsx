@@ -23,7 +23,7 @@ import {
     Icon
 } from '@fluentui/react';
 import { useId } from '@fluentui/react-hooks';
-import { scenesDemoUrl } from '../../Models/Constants';
+import { FRE_MODAL_LINKS, scenesDemoUrl } from '../../Models/Constants';
 import IntroductionSlideShow from './Internal/IntroductionSlideShow';
 import {
     defaultTutorialModalState,
@@ -114,7 +114,7 @@ const TutorialModal: React.FC<ITutorialModalProps> = (props) => {
                     </div>
                 </div>
                 <div className={classNames.footer}>
-                    <Link href="https://google.com" target="_blank">
+                    <Link href={FRE_MODAL_LINKS.viewTheDocs} target="_blank">
                         {t('tutorialModal.viewTheDocs')}
                     </Link>
                     <Stack horizontal tokens={{ childrenGap: 8 }}>

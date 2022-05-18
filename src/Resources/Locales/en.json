@@ -821,7 +821,7 @@
             "title": "Need a deeper dive on the concepts?",
             "text": "Browse the help content or check out our documentation for step by step tutorials!"
         },
-        "docLinkBlurb": "For a more detailed step-by-step, check out our <DocLink>docs here.</DocLink>",
+        "docLinkBlurb": "For a more detailed step-by-step, check out the <DocLink>docs here.</DocLink>",
         "tip": "Tip",
         "elements": {
             "title": "What's an element?",

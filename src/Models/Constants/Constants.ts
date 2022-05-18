@@ -31,8 +31,13 @@ export const scenesDemoUrl =
     'https://explorer.digitaltwins.azure.net/3DScenes/demo';
 
 export const FRE_MODAL_LINKS = {
-    
-}
+    viewTheDocs: 'https://aka.ms/adt3dscenes-concepts',
+    elementsHowTo: 'https://aka.ms/adt3dscenes-howto#add-elements',
+    behaviorsHowTo: 'https://aka.ms/adt3dscenes-howto#behaviors',
+    twinsHowTo: 'https://aka.ms/adt3dscenes-howto#twins',
+    widgetsHowTo: 'https://aka.ms/adt3dscenes-howto#widgets',
+    layersHowTo: 'https://aka.ms/adt3dscenes-howto#manage-layers'
+};
 
 export const dtdlPrimitiveTypesList = [
     'boolean',
