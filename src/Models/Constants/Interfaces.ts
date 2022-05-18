@@ -744,20 +744,7 @@ export interface IADT3DViewerProps {
     outlinedMeshItems?: CustomMeshItem[];
     /** show the toggle to switch between builder & viewer modes */
     showModeToggle?: boolean;
-    sceneViewProps?: Omit<
-        ISceneViewProps,
-        | 'badgeGroups'
-        | 'coloredMeshItems'
-        | 'modeUrl'
-        | 'onBadgeGroupHover'
-        | 'onMeshClick'
-        | 'onMeshHover'
-        | 'outlinedMeshitems'
-        | 'showHoverOnSelected'
-        | 'showMeshesOnHover'
-        | 'unzoomedMeshOpacity'
-        | 'zoomToMeshIds'
-    >;
+    sceneViewProps?: ISceneViewProps;
     /**
      * Call to provide customized styling that will layer on top of the variant rules.
      */
