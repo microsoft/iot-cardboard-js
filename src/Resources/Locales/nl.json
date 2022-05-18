@@ -818,9 +818,6 @@
     "modalTitle": "Welkom bij 3D Scenes Studio!",
     "publicPreview": "Openbare preview",
     "closeAriaLabel": "Modaal sluiten",
-    "viewTheDocs": "Bekijk de documenten",
-    "exploreTheDemo": "Bekijk de demo",
-    "dismiss": "Ontslaan",
     "nextSlide": "Volgende dia",
     "previousSlide": "Vorige dia",
     "statusIndicatorSelectedAria": "Dia {{slide}} geselecteerd",
@@ -852,7 +849,10 @@
       "title": "Wil je dieper ingaan op de concepten?",
       "text": "Blader door de Help-inhoud of bekijk onze documentatie voor stapsgewijze zelfstudies!"
     },
-    "viewOnGithub": "Github",
-    "viewTheQuickstart": "Snelstart"
+    "rootDocsLinkText": "Documentatie",
+    "githubLinkText": "Github",
+    "quickstartLinkText": "Snelstart",
+    "primaryButtonText": "Bekijk de demo",
+    "dismissText": "Ontslaan"
   }
 }

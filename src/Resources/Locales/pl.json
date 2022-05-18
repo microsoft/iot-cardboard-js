@@ -818,9 +818,6 @@
     "modalTitle": "Witamy w 3D Scenes Studio!",
     "publicPreview": "Publiczna wersja zapoznawcza",
     "closeAriaLabel": "Zamknij modal",
-    "viewTheDocs": "Wyświetlanie dokumentów",
-    "exploreTheDemo": "Zapoznaj się z wersją demonstracyjną",
-    "dismiss": "Zwolnić",
     "nextSlide": "Następny slajd",
     "previousSlide": "Poprzedni slajd",
     "statusIndicatorSelectedAria": "Slajd {{slide}} zaznaczony",
@@ -852,7 +849,10 @@
       "title": "Potrzebujesz głębszego zanurzenia się w koncepcjach?",
       "text": "Przejrzyj zawartość pomocy lub zapoznaj się z naszą dokumentacją, aby uzyskać samouczki krok po kroku!"
     },
-    "viewOnGithub": "GitHub",
-    "viewTheQuickstart": "Szybki start"
+    "rootDocsLinkText": "Dokumentacja",
+    "githubLinkText": "GitHub",
+    "quickstartLinkText": "Szybki start",
+    "primaryButtonText": "Zapoznaj się z wersją demonstracyjną",
+    "dismissText": "Zwolnić"
   }
 }

@@ -818,9 +818,6 @@
     "modalTitle": "Üdvözöljük a 3D Scenes Studio-ban!",
     "publicPreview": "Nyilvános előzetes verzió",
     "closeAriaLabel": "Modális mód bezárása",
-    "viewTheDocs": "A dokumentumok megtekintése",
-    "exploreTheDemo": "Fedezd fel a demót",
-    "dismiss": "Elbocsát",
     "nextSlide": "Következő dia",
     "previousSlide": "Előző dia",
     "statusIndicatorSelectedAria": "A(z) {{dia}} dia kijelölve",
@@ -852,7 +849,10 @@
       "title": "Mélyebb merülésre van szüksége a fogalmakról?",
       "text": "Böngésszen a súgó tartalmában, vagy nézze meg dokumentációnkat lépésről lépésre oktatóanyagokért!"
     },
-    "viewOnGithub": "GitHub",
-    "viewTheQuickstart": "Rövid útmutató"
+    "rootDocsLinkText": "Dokumentáció",
+    "githubLinkText": "GitHub",
+    "quickstartLinkText": "Rövid útmutató",
+    "primaryButtonText": "Fedezd fel a demót",
+    "dismissText": "Elbocsát"
   }
 }

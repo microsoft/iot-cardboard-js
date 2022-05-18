@@ -818,9 +818,6 @@
     "modalTitle": "3D Sahneler Stüdyosu'na hoş geldiniz!",
     "publicPreview": "Genel Önizleme",
     "closeAriaLabel": "Modal'ı kapat",
-    "viewTheDocs": "Dokümanları görüntüleme",
-    "exploreTheDemo": "Demoyu keşfedin",
-    "dismiss": "Kapatmak",
     "nextSlide": "Sonraki slayt",
     "previousSlide": "Önceki slayt",
     "statusIndicatorSelectedAria": "Slayt {{slayt}} seçildi",
@@ -852,7 +849,10 @@
       "title": "Kavramlar hakkında daha derin bir dalışa mı ihtiyacınız var?",
       "text": "Yardım içeriğine göz atın veya adım adım öğreticiler için belgelerimize göz atın!"
     },
-    "viewOnGithub": "GitHub Hesabı",
-    "viewTheQuickstart": "Hızlı başlangıçQuickstart"
+    "rootDocsLinkText": "Belge",
+    "githubLinkText": "GitHub Hesabı",
+    "quickstartLinkText": "Hızlı başlangıçQuickstart",
+    "primaryButtonText": "Demoyu keşfedin",
+    "dismissText": "Kapatmak"
   }
 }

@@ -818,9 +818,6 @@
     "modalTitle": "3Dシーンスタジオへようこそ!",
     "publicPreview": "パブリック プレビュー",
     "closeAriaLabel": "モーダルを閉じる",
-    "viewTheDocs": "ドキュメントを見る",
-    "exploreTheDemo": "デモを見る",
-    "dismiss": "解任する",
     "nextSlide": "次のスライド",
     "previousSlide": "前のスライド",
     "statusIndicatorSelectedAria": "スライド {{スライド}} が選択されました",
@@ -852,7 +849,10 @@
       "title": "コンセプトを深く掘り下げる必要がありますか?",
       "text": "ヘルプコンテンツを閲覧するか、ドキュメントをチェックしてステップバイステップのチュートリアルを確認してください!"
     },
-    "viewOnGithub": "GitHub",
-    "viewTheQuickstart": "クイック スタート"
+    "rootDocsLinkText": "ドキュメンテーション",
+    "githubLinkText": "GitHub",
+    "quickstartLinkText": "クイック スタート",
+    "primaryButtonText": "デモを見る",
+    "dismissText": "解任する"
   }
 }
