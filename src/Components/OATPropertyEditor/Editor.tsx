@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { ModelTypes, Theme } from '../../Models/Constants/Enums';
+import { Theme } from '../../Models/Constants/Enums';
 import {
     FontIcon,
     Stack,

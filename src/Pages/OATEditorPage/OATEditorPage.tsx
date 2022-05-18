@@ -10,6 +10,7 @@ import {
     defaultOATEditorState
 } from './OATEditorPage.state';
 import { SET_OAT_IS_JSON_UPLOADER_OPEN } from '../../Models/Constants/ActionTypes';
+import { getLanguages } from '../../Components/OATPropertyEditor/Utils';
 
 const OATEditorPage = ({ theme }) => {
     const [state, dispatch] = useReducer(
@@ -24,6 +25,8 @@ const OATEditorPage = ({ theme }) => {
             payload: !state.isJsonUploaderOpen
         });
     };
+
+    const languages = getLanguages();
 
     return (
         <div className={EditorPageStyles.container}>
@@ -51,6 +54,7 @@ const OATEditorPage = ({ theme }) => {
                     theme={theme}
                     state={state}
                     dispatch={dispatch}
+                    languages={languages}
                 />
             </div>
         </div>

@@ -6,14 +6,21 @@ import { IAction } from '../../Models/Constants/Interfaces';
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 import { OATDataStorageKey } from '../../Models/Constants/Constants';
 import { SET_OAT_TEMPLATES } from '../../Models/Constants/ActionTypes';
+import { IDropdownOption } from '@fluentui/react';
 
 type IOATPropertyEditor = {
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
     theme?: Theme;
     state?: IOATEditorState;
+    languages: IDropdownOption[];
 };
 
-const OATPropertyEditor = ({ theme, dispatch, state }: IOATPropertyEditor) => {
+const OATPropertyEditor = ({
+    theme,
+    dispatch,
+    state,
+    languages
+}: IOATPropertyEditor) => {
     const [modalOpen, setModalOpen] = useState(false);
     const [modalBody, setModalBody] = useState('formProperty');
     const [currentPropertyIndex, setCurrentPropertyIndex] = useState(null);
@@ -59,6 +66,7 @@ const OATPropertyEditor = ({ theme, dispatch, state }: IOATPropertyEditor) => {
                 modalBody={modalBody}
                 dispatch={dispatch}
                 state={state}
+                languages={languages}
             />
             <Editor
                 theme={theme}

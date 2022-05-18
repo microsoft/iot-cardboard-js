@@ -8,20 +8,21 @@ import {
     ChoiceGroup,
     IconButton,
     Dropdown,
-    IChoiceGroupOption
+    IChoiceGroupOption,
+    IDropdownOption
 } from '@fluentui/react';
 import { PrimaryButton } from '@fluentui/react/lib/Button';
 import { useTranslation } from 'react-i18next';
 import {
     getPropertyInspectorStyles,
     getModalLabelStyles,
-    getRadioGroupRowStyles
+    getRadioGroupRowStyles,
+    getModalTextFieldStyles
 } from './OATPropertyEditor.styles';
 import { SET_OAT_PROPERTY_EDITOR_MODEL } from '../../Models/Constants/ActionTypes';
 import { IAction } from '../../Models/Constants/Interfaces';
 import { deepCopy } from '../../Models/Services/Utils';
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
-import CountryList from '../../Pages/OATEditorPage/Resources/CountryList.json';
 import { MultiLanguageSelectionType } from '../../Models/Constants/Enums';
 import {
     getModelPropertyCollectionName,
@@ -45,6 +46,7 @@ interface IModal {
     setModalBody?: React.Dispatch<React.SetStateAction<string>>;
     setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
     state?: IOATEditorState;
+    languages: IDropdownOption[];
 }
 
 export const FormAddEnumItem = ({
@@ -52,11 +54,13 @@ export const FormAddEnumItem = ({
     setModalOpen,
     currentPropertyIndex,
     setModalBody,
-    state
+    state,
+    languages
 }: IModal) => {
     const { t } = useTranslation();
     const propertyInspectorStyles = getPropertyInspectorStyles();
     const columnLeftTextStyles = getModalLabelStyles();
+    const textFieldStyles = getModalTextFieldStyles();
     const radioGroupRowStyle = getRadioGroupRowStyles();
     const [displayName, setDisplayName] = useState(null);
     const [name, setName] = useState(null);
@@ -237,7 +241,7 @@ export const FormAddEnumItem = ({
             </div>
 
             {languageSelection === SINGLE_LANGUAGE_OPTION_VALUE && (
-                <div className={propertyInspectorStyles.modalRowSpaceBetween}>
+                <div className={propertyInspectorStyles.modalRow}>
                     <Text styles={columnLeftTextStyles}>
                         {t('OATPropertyEditor.displayName')}
                     </Text>
@@ -247,6 +251,7 @@ export const FormAddEnumItem = ({
                         )}
                         onChange={(_ev, value) => setDisplayName(value)}
                         value={displayName}
+                        styles={textFieldStyles}
                     />
                 </div>
             )}
@@ -281,7 +286,7 @@ export const FormAddEnumItem = ({
                         />
                         <Dropdown
                             placeholder={t('OATPropertyEditor.region')}
-                            options={CountryList}
+                            options={languages}
                             onChange={(_ev, option) =>
                                 handleMultiLanguageSelectionsDisplayNameKeyChange(
                                     option.key,
@@ -307,6 +312,7 @@ export const FormAddEnumItem = ({
                             disabled={
                                 !multiLanguageSelectionsDisplayNames[index].key
                             }
+                            styles={textFieldStyles}
                         />
                     </div>
                 ))}
@@ -348,7 +354,7 @@ export const FormAddEnumItem = ({
             )}
 
             {languageSelection === SINGLE_LANGUAGE_OPTION_VALUE && (
-                <div className={propertyInspectorStyles.modalRowSpaceBetween}>
+                <div className={propertyInspectorStyles.modalRow}>
                     <Text styles={columnLeftTextStyles}>
                         {t('OATPropertyEditor.description')}
                     </Text>
@@ -358,6 +364,7 @@ export const FormAddEnumItem = ({
                         )}
                         onChange={(_ev, value) => setDescription(value)}
                         value={description}
+                        styles={textFieldStyles}
                     />
                 </div>
             )}
@@ -400,7 +407,7 @@ export const FormAddEnumItem = ({
                         />
                         <Dropdown
                             placeholder={t('OATPropertyEditor.region')}
-                            options={CountryList}
+                            options={languages}
                             onChange={(_ev, option) =>
                                 handleMultiLanguageSelectionsDescriptionKeyChange(
                                     option.key,
@@ -426,6 +433,7 @@ export const FormAddEnumItem = ({
                             disabled={
                                 !multiLanguageSelectionsDescriptions[index].key
                             }
+                            styles={textFieldStyles}
                         />
                     </div>
                 ))}
@@ -466,7 +474,7 @@ export const FormAddEnumItem = ({
                 </div>
             )}
 
-            <div className={propertyInspectorStyles.modalRowSpaceBetween}>
+            <div className={propertyInspectorStyles.modalRow}>
                 <Text styles={columnLeftTextStyles}>
                     {t('OATPropertyEditor.comment')}
                 </Text>
@@ -475,10 +483,11 @@ export const FormAddEnumItem = ({
                         'OATPropertyEditor.modalTextInputPlaceHolder'
                     )}
                     onChange={(_ev, value) => setComment(value)}
+                    styles={textFieldStyles}
                 />
             </div>
 
-            <div className={propertyInspectorStyles.modalRowSpaceBetween}>
+            <div className={propertyInspectorStyles.modalRow}>
                 <Text styles={columnLeftTextStyles}>
                     {`*${t('OATPropertyEditor.name')}`}
                 </Text>
@@ -487,10 +496,11 @@ export const FormAddEnumItem = ({
                         'OATPropertyEditor.modalTextInputPlaceHolder'
                     )}
                     onChange={(_ev, value) => setName(value)}
+                    styles={textFieldStyles}
                 />
             </div>
 
-            <div className={propertyInspectorStyles.modalRowSpaceBetween}>
+            <div className={propertyInspectorStyles.modalRow}>
                 <Text styles={columnLeftTextStyles}>
                     {`*${t('OATPropertyEditor.enumValue')}`}
                 </Text>
@@ -502,16 +512,18 @@ export const FormAddEnumItem = ({
                     type="number"
                     validateOnFocusOut
                     onGetErrorMessage={getErrorMessage}
+                    styles={textFieldStyles}
                 />
             </div>
 
-            <div className={propertyInspectorStyles.modalRowSpaceBetween}>
+            <div className={propertyInspectorStyles.modalRow}>
                 <Text styles={columnLeftTextStyles}>
                     {t('OATPropertyEditor.id')}
                 </Text>
                 <TextField
                     placeholder={t('OATPropertyEditor.id')}
                     onChange={(_ev, value) => setId(value)}
+                    styles={textFieldStyles}
                 />
             </div>
 

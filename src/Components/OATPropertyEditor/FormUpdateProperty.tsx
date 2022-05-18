@@ -22,7 +22,6 @@ import { SET_OAT_PROPERTY_EDITOR_MODEL } from '../../Models/Constants/ActionType
 import { IAction } from '../../Models/Constants/Interfaces';
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 import { deepCopy } from '../../Models/Services/Utils';
-import CountryList from '../../Pages/OATEditorPage/Resources/CountryList.json';
 import { MultiLanguageSelectionType } from '../../Models/Constants/Enums';
 import {
     getModelPropertyCollectionName,
@@ -46,6 +45,7 @@ interface IModal {
     setModalBody?: React.Dispatch<React.SetStateAction<string>>;
     setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
     state?: IOATEditorState;
+    languages: IChoiceGroupOption[];
 }
 
 export const FormUpdateProperty = ({
@@ -55,7 +55,8 @@ export const FormUpdateProperty = ({
     currentNestedPropertyIndex,
     setCurrentNestedPropertyIndex,
     setModalBody,
-    state
+    state,
+    languages
 }: IModal) => {
     const { t } = useTranslation();
     const propertyInspectorStyles = getPropertyInspectorStyles();
@@ -341,7 +342,7 @@ export const FormUpdateProperty = ({
                         />
                         <Dropdown
                             placeholder={t('OATPropertyEditor.region')}
-                            options={CountryList}
+                            options={languages}
                             onChange={(_ev, option) =>
                                 handleMultiLanguageSelectionsDisplayNameKeyChange(
                                     option.key,
@@ -459,7 +460,7 @@ export const FormUpdateProperty = ({
                         />
                         <Dropdown
                             placeholder={t('OATPropertyEditor.region')}
-                            options={CountryList}
+                            options={languages}
                             onChange={(_ev, option) =>
                                 handleMultiLanguageSelectionsDescriptionKeyChange(
                                     option.key,

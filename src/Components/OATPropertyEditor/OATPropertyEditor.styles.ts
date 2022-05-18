@@ -783,3 +783,12 @@ export const getRadioGroupRowStyles = () => {
         }
     };
 };
+
+export const getModalTextFieldStyles = () => {
+    return {
+        root: {
+            width: '100%',
+            minWidth: '100%'
+        }
+    };
+};

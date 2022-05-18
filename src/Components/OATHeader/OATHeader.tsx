@@ -1,5 +1,9 @@
 import React from 'react';
-import { CommandBar, ICommandBarItemProps } from '@fluentui/react';
+import {
+    CommandBar,
+    ICommandBarItemProps,
+    IDropdownOption
+} from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { getHeaderStyles } from './OATHeader.styles';
 import JSZip from 'jszip';
