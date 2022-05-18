@@ -113,13 +113,15 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
             elements.find((element) => element.id === prevId).data.id = idText;
             elements.find((element) => element.id === prevId).id = idText;
             setElements([...elements]);
-            const updatedModel = {
-                '@id': idText,
-                '@type': data.type,
-                '@context': data.context,
-                displayName: data.name,
-                contents: data.content
-            };
+            const updatedModel = new DTDLModel(
+                data.id,
+                data.name,
+                data.description,
+                data.comment,
+                data.content,
+                data.relationships,
+                data.components
+            );
             setCurrentNode(idText);
             dispatch({
                 type: SET_OAT_PROPERTY_EDITOR_MODEL,
