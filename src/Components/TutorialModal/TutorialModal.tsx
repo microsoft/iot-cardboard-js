@@ -20,7 +20,8 @@ import {
     Stack,
     PrimaryButton,
     DefaultButton,
-    Icon
+    Icon,
+    Text
 } from '@fluentui/react';
 import { useId } from '@fluentui/react-hooks';
 import { FRE_MODAL_LINKS, scenesDemoUrl } from '../../Models/Constants';
@@ -114,9 +115,28 @@ const TutorialModal: React.FC<ITutorialModalProps> = (props) => {
                     </div>
                 </div>
                 <div className={classNames.footer}>
-                    <Link href={FRE_MODAL_LINKS.viewTheDocs} target="_blank">
-                        {t('tutorialModal.viewTheDocs')}
-                    </Link>
+                    <Stack horizontal tokens={{ childrenGap: 8 }}>
+                        <Link
+                            href={FRE_MODAL_LINKS.viewTheDocs}
+                            target="_blank"
+                        >
+                            {t('tutorialModal.viewTheDocs')}
+                        </Link>{' '}
+                        <Text block>|</Text>{' '}
+                        <Link
+                            href={FRE_MODAL_LINKS.viewOnGithub}
+                            target="_blank"
+                        >
+                            {t('tutorialModal.viewOnGithub')}
+                        </Link>
+                        <Text block>|</Text>{' '}
+                        <Link
+                            href={FRE_MODAL_LINKS.viewTheQuickstart}
+                            target="_blank"
+                        >
+                            {t('tutorialModal.viewTheQuickstart')}
+                        </Link>
+                    </Stack>
                     <Stack horizontal tokens={{ childrenGap: 8 }}>
                         <PrimaryButton
                             onClick={() => window.open(scenesDemoUrl, '_blank')}

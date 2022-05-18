@@ -32,6 +32,8 @@ export const scenesDemoUrl =
 
 export const FRE_MODAL_LINKS = {
     viewTheDocs: 'https://aka.ms/adt3dscenes-concepts',
+    viewOnGithub: 'https://github.com/microsoft/iot-cardboard-js',
+    viewTheQuickstart: 'https://aka.ms/adt3dscenes-quickstart',
     elementsHowTo: 'https://aka.ms/adt3dscenes-howto#add-elements',
     behaviorsHowTo: 'https://aka.ms/adt3dscenes-howto#behaviors',
     twinsHowTo: 'https://aka.ms/adt3dscenes-howto#twins',
