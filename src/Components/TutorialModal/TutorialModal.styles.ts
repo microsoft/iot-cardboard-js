@@ -12,6 +12,7 @@ const classNames = {
     previewBadge: `${classPrefix}-preview-badge`,
     body: `${classPrefix}-body`,
     contentPane: `${classPrefix}-content-pane`,
+    illustrationPageContainer: `${classPrefix}-illustration-page-container`,
     slideshowContainer: `${classPrefix}-slideshow-container`,
     slideChangeBtnContainerLeft: `${classPrefix}-slide-change-btn-container-left`,
     slideChangeBtnContainerRight: `${classPrefix}-slide-change-btn-container-right`,
@@ -98,6 +99,15 @@ export const getStyles = (
                 marginLeft: 8
             } as IStyle
         ],
+        illustrationPageContainer: [
+            classNames.illustrationPageContainer,
+            {
+                width: '100%',
+                height: '100%',
+
+                padding: '0px 40px'
+            } as IStyle
+        ],
         slideshowContainer: [
             classNames.slideshowContainer,
             {
@@ -171,12 +181,6 @@ export const getStyles = (
                 },
                 icon: {
                     fontSize: FontSizes.xLarge
-                },
-                rootDisabled: {
-                    backgroundColor: props.theme.palette.white
-                },
-                iconDisabled: {
-                    color: props.theme.palette.white
                 }
             },
             slideIndicatorButton: {

@@ -31,6 +31,7 @@ export interface ITutorialModalStyles {
     headerText: IStyle;
     body: IStyle;
     contentPane: IStyle;
+    illustrationPageContainer: IStyle;
     footer: IStyle;
     navContainer: IStyle;
     slideshowContainer: IStyle;

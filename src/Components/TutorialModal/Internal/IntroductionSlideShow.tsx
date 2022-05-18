@@ -2,6 +2,7 @@ import { IconButton, IProcessedStyleSet } from '@fluentui/react';
 import React from 'react';
 import useKeyPress from '../../../Models/Hooks/useKeyPress';
 import { ITutorialModalStyles } from '../TutorialModal.types';
+import SlideContentManager from './SlideContentManager';
 import SlideStatusIndicator from './SlideStatusIndicator';
 
 const IntroductionSlideShow: React.FC<{
@@ -20,28 +21,34 @@ const IntroductionSlideShow: React.FC<{
 
     return (
         <div className={classNames.slideshowContainer}>
-            <div className={classNames.slideChangeBtnContainerLeft}>
-                <IconButton
-                    styles={classNames.subComponentStyles.chevronButton()}
-                    iconProps={{ iconName: 'ChevronLeft' }}
-                    ariaLabel="Previous slide"
-                    onClick={prevSlide}
-                    disabled={slideNumber <= 0}
-                />
-            </div>
-            <div className={classNames.slideChangeBtnContainerRight}>
-                <IconButton
-                    styles={classNames.subComponentStyles.chevronButton()}
-                    iconProps={{ iconName: 'ChevronRight' }}
-                    ariaLabel="Next slide"
-                    onClick={nextSlide}
-                    disabled={slideNumber >= numSlides - 1}
-                />
-            </div>
+            {slideNumber > 0 && (
+                <div className={classNames.slideChangeBtnContainerLeft}>
+                    <IconButton
+                        styles={classNames.subComponentStyles.chevronButton()}
+                        iconProps={{ iconName: 'ChevronLeft' }}
+                        ariaLabel="Previous slide"
+                        onClick={prevSlide}
+                    />
+                </div>
+            )}
+            {slideNumber < numSlides - 1 && (
+                <div className={classNames.slideChangeBtnContainerRight}>
+                    <IconButton
+                        styles={classNames.subComponentStyles.chevronButton()}
+                        iconProps={{ iconName: 'ChevronRight' }}
+                        ariaLabel="Next slide"
+                        onClick={nextSlide}
+                    />
+                </div>
+            )}
             <SlideStatusIndicator
                 slideNumber={slideNumber}
                 setSlideNumber={setSlideNumber}
                 numSlides={numSlides}
+                classNames={classNames}
+            />
+            <SlideContentManager
+                activeSlide={slideNumber}
                 classNames={classNames}
             />
         </div>
