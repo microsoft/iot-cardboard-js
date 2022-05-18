@@ -8,7 +8,7 @@ import {
 import i18n from '../../i18n';
 import { FontSizes } from '@fluentui/react';
 
-export const LINKS = {
+export const DOCUMENTATION_LINKS = {
     EnvironmentPickerLearnMore: 'http://aka.ms/EnvironmentsLearnMore'
 };
 

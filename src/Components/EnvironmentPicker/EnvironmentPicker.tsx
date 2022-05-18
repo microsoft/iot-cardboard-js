@@ -38,7 +38,7 @@ import './EnvironmentPicker.scss';
 import {
     ContainersLocalStorageKey,
     EnvironmentsLocalStorageKey,
-    LINKS,
+    DOCUMENTATION_LINKS,
     SelectedContainerLocalStorageKey,
     SelectedEnvironmentLocalStorageKey,
     ValidAdtHostSuffixes,
@@ -647,7 +647,7 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                                 fontSize: FontSizes.size14
                             }
                         }}
-                        href={LINKS.EnvironmentPickerLearnMore}
+                        href={DOCUMENTATION_LINKS.EnvironmentPickerLearnMore}
                         target={'_blank'}
                     >
                         {t('learnMore')}

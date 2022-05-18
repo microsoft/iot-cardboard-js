@@ -467,6 +467,7 @@
         "noPrimaryTwinProperties": "No primary twin properties to display",
         "twinAlias": {
             "title": "Twin alias",
+            "calloutDescription": "The union of linked twin properties of selected elements",
             "aliasedTwin": "Aliased twin",
             "aliasedTwins": "Aliased twins",
             "add": "Add twin alias",

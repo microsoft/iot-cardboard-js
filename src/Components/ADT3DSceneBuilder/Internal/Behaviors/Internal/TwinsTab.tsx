@@ -289,6 +289,9 @@ const TwinsTab: React.FC<ITwinsTabProps> = ({
                     listType="Complex"
                     calloutTarget={primaryTwinPropertiesTargetId}
                     title={t('3dSceneBuilder.twinAlias.commonProperties')}
+                    description={t(
+                        '3dSceneBuilder.twinAlias.calloutDescription'
+                    )}
                     listKey={'common-properties-callout-list'}
                     listItems={primaryTwinProperties}
                     isListLoading={isCommonPrimaryTwinPropertiesLoading}
