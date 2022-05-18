@@ -26,6 +26,9 @@ const ConceptPage: React.FC<{ pageKey: string }> = ({ pageKey }) => {
             case TutorialModalPage.ELEMENTS:
                 content = <Elements />;
                 break;
+            case TutorialModalPage.BEHAVIORS:
+                content = <Behaviors />;
+                break;
             default:
                 break;
         }
@@ -58,7 +61,7 @@ const Elements = () => {
             <Text>
                 <Trans
                     t={t}
-                    i18nKey="tutorialModal.elements.docLinkBlurb"
+                    i18nKey="tutorialModal.docLinkBlurb"
                     components={{
                         DocLink: (
                             <Link
@@ -71,6 +74,58 @@ const Elements = () => {
             </Text>
         </>
     );
+};
+
+const Behaviors = () => {
+    const { t } = useTranslation();
+    return (
+        <>
+            <Text as={'h3'} styles={conceptTitleStyles} block>
+                {t('tutorialModal.behaviors.title')}
+            </Text>
+            <div style={growContentStyles}>
+                <Text block>{t('tutorialModal.behaviors.mainContent')}</Text>
+                <Text block styles={boldTextStyles}>
+                    {t('tutorialModal.behaviors.statusTitle')}
+                </Text>
+                <Text block>
+                    {t('tutorialModal.behaviors.statusDescription')}
+                </Text>
+                <Text block styles={boldTextStyles}>
+                    {t('tutorialModal.behaviors.alertsTitle')}
+                </Text>
+                <Text block>
+                    {t('tutorialModal.behaviors.alertsDescription')}
+                </Text>
+            </div>
+            <Text>
+                <Trans
+                    t={t}
+                    i18nKey="tutorialModal.docLinkBlurb"
+                    components={{
+                        DocLink: (
+                            <Link
+                                href="https://www.google.com"
+                                target="_blank"
+                            ></Link>
+                        )
+                    }}
+                />
+            </Text>
+        </>
+    );
+};
+
+const growContentStyles = {
+    flexGrow: 1
+};
+
+const boldTextStyles: Partial<ITextStyles> = {
+    root: {
+        fontWeight: FontWeights.bold,
+        fontSize: FontSizes.size14,
+        marginBottom: 2
+    }
 };
 
 const conceptTitleStyles: Partial<ITextStyles> = {

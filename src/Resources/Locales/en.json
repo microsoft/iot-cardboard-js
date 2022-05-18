@@ -784,10 +784,18 @@
         "zoomOut": "Zoom out"
     },
     "tutorialModal": {
+        "docLinkBlurb": "For a more detailed step-by-step, check out our <DocLink>docs here.</DocLink>",
         "elements": {
             "title": "What's an element?",
-            "content": "An element is a self-defined set of 3D meshes that is linked to data on one or more underlying digital twins. Elements help you quickly gauge system operations and health. \n\nA primary twin is the main digital twin counterpart for an element. You connect the element to a twin in your Azure Digital Twins instance so that the element can represent your twin and its data within the 3D visualization.",
-            "docLinkBlurb": "For a more detailed step-by-step, check out our <DocLink>docs here.</DocLink>"
+            "content": "An element is a self-defined set of 3D meshes that is linked to data on one or more underlying digital twins. Elements help you quickly gauge system operations and health. \n\nA primary twin is the main digital twin counterpart for an element. You connect the element to a twin in your Azure Digital Twins instance so that the element can represent your twin and its data within the 3D visualization."
+        },
+        "behaviors": {
+            "title": "What's a behavior?",
+            "mainContent": "A behavior is a scenario for your scene that will leverage particular data on the related element's digital twin to drive viewer visualizations.\n\nCreating a behavior includes choosing twins, configuring status and alerts, adding a widget, and choosing which layer to display on.\n\n",
+            "statusTitle": "Status",
+            "statusDescription": "States are data-driven overlays on your elements to indicate the health or status of the element. set value ranges to create state boundaries, and choose colors to represent each state in the visualization.\n\n",
+            "alertsTitle": "Alerts",
+            "alertsDescription": "Alerts are conditional notifications to help you quickly see when an element requires your attention. Customize your alert badge with an icon, color, and text.\n\n"
         }
     }
 }

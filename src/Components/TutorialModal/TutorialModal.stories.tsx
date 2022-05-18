@@ -5,7 +5,7 @@ import TutorialModal from './TutorialModal';
 import { ITutorialModalProps, TutorialModalPage } from './TutorialModal.types';
 import { PrimaryButton } from '@fluentui/react';
 
-const wrapperStyle = { width: '100%', height: '600px', padding: 8 };
+const wrapperStyle = { width: '100%', height: '100vh', padding: 8 };
 
 export default {
     title: 'Components/TutorialModal',
