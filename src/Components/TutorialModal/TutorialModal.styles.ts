@@ -117,7 +117,7 @@ export const getStyles = (
         ],
         slideshowContainer: [
             classNames.slideshowContainer,
-            AnimationStyles.fadeIn400,
+            AnimationStyles.scaleUpIn100,
             {
                 flexGrow: 1
             } as IStyle
