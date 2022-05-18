@@ -64,6 +64,7 @@ export const getLeftPanelStyles = memoizeFunction((theme: Theme) => {
         text: [
             classNames.text,
             {
+                color: theme.palette.neutralSecondary,
                 padding: '4px 0',
                 display: 'block'
             } as IStyle

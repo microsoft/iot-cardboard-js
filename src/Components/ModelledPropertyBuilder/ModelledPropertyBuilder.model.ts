@@ -4,7 +4,7 @@ import {
     EntityKinds,
     ObjectInfo
 } from 'azure-iot-dtdl-parser';
-import { primaryTwinName } from '../../Models/Constants/Constants';
+import { PRIMARY_TWIN_NAME } from '../../Models/Constants/Constants';
 import { IModelledPropertyBuilderAdapter } from '../../Models/Constants/Interfaces';
 import {
     PropertyValueType,
@@ -142,14 +142,14 @@ const expandModelIds = (
     // Add primary twin's modelled properties
     for (const modelId of tagModelMap.PrimaryTwin) {
         if (modelDict[modelId]?.entityKind === 'interface') {
-            if (!(primaryTwinName in modelledProperties)) {
+            if (!(PRIMARY_TWIN_NAME in modelledProperties)) {
                 // Add primary tag to root object
-                modelledProperties[primaryTwinName] = {};
+                modelledProperties[PRIMARY_TWIN_NAME] = {};
             }
             addInterface(
-                modelledProperties[primaryTwinName],
+                modelledProperties[PRIMARY_TWIN_NAME],
                 modelDict[modelId] as InterfaceInfo,
-                primaryTwinName,
+                PRIMARY_TWIN_NAME,
                 allowedPropertyValueTypes
             );
         }
@@ -307,7 +307,7 @@ export const mergeTagsAndMapTwinIdsToModelIds = async (
         .map((result) => result.getData().modelId);
 
     if (primaryTwinModels?.length > 0) {
-        tagModelMap[primaryTwinName] = Array.from(
+        tagModelMap[PRIMARY_TWIN_NAME] = Array.from(
             new Set([...primaryTwinModels]).keys()
         ); // ensure uniqueness (drop duplicate model Ids)
     }

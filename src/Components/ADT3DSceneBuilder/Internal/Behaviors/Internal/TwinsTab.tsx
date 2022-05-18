@@ -8,7 +8,6 @@ import React, {
 import {
     ActionButton,
     IContextualMenuItem,
-    IStackTokens,
     Label,
     Stack,
     Text,
@@ -29,7 +28,7 @@ import {
 import { SceneBuilderContext } from '../../../ADT3DSceneBuilder';
 import {
     DTDLPropertyIconographyMap,
-    primaryTwinName
+    PRIMARY_TWIN_NAME
 } from '../../../../../Models/Constants/Constants';
 import { TwinAliasFormMode } from '../../../../../Models/Constants';
 import { IBehaviorTwinAliasItem } from '../../../../../Models/Classes/3DVConfig';
@@ -64,8 +63,7 @@ const TwinsTab: React.FC<ITwinsTabProps> = ({
         setBehaviorToEdit,
         adapter
     } = useContext(SceneBuilderContext);
-    const [primaryTwinList, setPrimaryTwinList] = useState([]);
-    const [twinAliasList, setTwinAliasList] = useState([]);
+    const [twinList, setTwinList] = useState([]);
     const [availableTwinAliases, setAvailableTwinAliases] = useState<
         Array<IBehaviorTwinAliasItem>
     >([]);
@@ -98,89 +96,7 @@ const TwinsTab: React.FC<ITwinsTabProps> = ({
         allowedPropertyValueTypes: defaultAllowedPropertyValueTypes
     });
 
-    // set the single item primary twin list on mount
-    useEffect(() => {
-        setPrimaryTwinList(
-            getPrimaryTwinListItems(
-                t,
-                toggleIsPrimaryTwinPropertiesCalloutVisible,
-                primaryTwinPropertiesTargetId
-            )
-        );
-    }, []);
-
-    // when behavior to edit or selected elements (to keep track of element to twin id mappings) changes in Elements tab, update the twin alias list
-    useEffect(() => {
-        const twinAliases = ViewerConfigUtility.getTwinAliasItemsFromBehaviorAndElements(
-            behaviorToEdit,
-            selectedElements
-        );
-
-        setTwinAliasList(
-            getTwinAliasListItems(
-                twinAliases,
-                onTwinAliasClick,
-                onTwinAliasRemoveFromBehavior,
-                t
-            )
-        );
-
-        // if any of the twin ids in the element to twin mappings in a behavior twin alias item is null,
-        // set Twins Tab in the behavior as not valid to show red alert icon since user needs to set all the element twin ids for an alias
-        onValidityChange('Twins', {
-            isValid: ViewerConfigUtility.areTwinAliasesValidInBehavior(
-                behaviorToEdit,
-                selectedElements
-            )
-        });
-    }, [behaviorToEdit, selectedElements]);
-
-    // when any of the dependency changes, update the list of available twin aliases to sho in the add twin alias callout for behavior
-    useEffect(() => {
-        const availableTwinAliasesForBehavior = ViewerConfigUtility.getAvailableBehaviorTwinAliasItemsBySceneAndElements(
-            config,
-            sceneId,
-            selectedElements
-        );
-        const twinAliasesInBehavior = ViewerConfigUtility.getTwinAliasItemsFromBehaviorAndElements(
-            behaviorToEdit,
-            selectedElements
-        );
-
-        // filter the available twin aliases for behavior to display only the ones which are not currently added/existing in behavior
-        setAvailableTwinAliases(
-            availableTwinAliasesForBehavior.filter(
-                (availableTwinAlias) =>
-                    twinAliasesInBehavior.findIndex(
-                        (twinAlias) =>
-                            twinAlias.alias === availableTwinAlias.alias
-                    ) === -1
-            )
-        );
-    }, [behaviors, config, sceneId, selectedElements, behaviorToEdit]);
-
-    // when adding a twin alias from available list, just update the twinAliases field in edited behavior to be reflected in config changes
-    const onAddTwinAlias = useCallback((twinAlias: IBehaviorTwinAliasItem) => {
-        setBehaviorToEdit(
-            produce((draft) => {
-                if (draft.twinAliases) {
-                    draft.twinAliases = draft.twinAliases.concat(
-                        twinAlias.alias
-                    );
-                } else {
-                    draft.twinAliases = [twinAlias.alias];
-                }
-            })
-        );
-    }, []);
-
-    const onCreateTwinAlias = useCallback(() => {
-        setBehaviorTwinAliasFormInfo({
-            twinAlias: null,
-            mode: TwinAliasFormMode.CreateTwinAlias
-        });
-    }, [setBehaviorTwinAliasFormInfo]);
-
+    // ----- callbacks -----
     const onTwinAliasClick = useCallback(
         (twinAliasItem: IBehaviorTwinAliasItem, idx: number) => {
             setBehaviorTwinAliasFormInfo({
@@ -206,14 +122,112 @@ const TwinsTab: React.FC<ITwinsTabProps> = ({
                 })
             );
         },
-        []
+        [setBehaviorToEdit]
     );
+
+    // when adding a twin alias from available list, just update the twinAliases field in edited behavior to be reflected in config changes
+    const onAddTwinAlias = useCallback(
+        (twinAlias: IBehaviorTwinAliasItem) => {
+            setBehaviorToEdit(
+                produce((draft) => {
+                    if (draft.twinAliases) {
+                        draft.twinAliases = draft.twinAliases.concat(
+                            twinAlias.alias
+                        );
+                    } else {
+                        draft.twinAliases = [twinAlias.alias];
+                    }
+                })
+            );
+        },
+        [setBehaviorToEdit]
+    );
+
+    const onCreateTwinAlias = useCallback(() => {
+        setBehaviorTwinAliasFormInfo({
+            twinAlias: null,
+            mode: TwinAliasFormMode.CreateTwinAlias
+        });
+    }, [setBehaviorTwinAliasFormInfo]);
+
+    // set the single item primary twin list on mount
+    // useEffect(() => {
+    //     setPrimaryTwinList(
+    //         getPrimaryTwinListItems(
+    //             t,
+    //             toggleIsPrimaryTwinPropertiesCalloutVisible,
+    //             primaryTwinPropertiesTargetId
+    //         )
+    //     );
+    //     // eslint-disable-next-line react-hooks/exhaustive-deps
+    // }, []);
+
+    // when behavior to edit or selected elements (to keep track of element to twin id mappings) changes in Elements tab, update the twin alias list
+    useEffect(() => {
+        const twinAliases = ViewerConfigUtility.getTwinAliasItemsFromBehaviorAndElements(
+            behaviorToEdit,
+            selectedElements
+        );
+
+        setTwinList(
+            getTwinAliasListItems(
+                twinAliases,
+                toggleIsPrimaryTwinPropertiesCalloutVisible,
+                primaryTwinPropertiesTargetId,
+                onTwinAliasClick,
+                onTwinAliasRemoveFromBehavior,
+                t
+            )
+        );
+
+        // if any of the twin ids in the element to twin mappings in a behavior twin alias item is null,
+        // set Twins Tab in the behavior as not valid to show red alert icon since user needs to set all the element twin ids for an alias
+        onValidityChange('Twins', {
+            isValid: ViewerConfigUtility.areTwinAliasesValidInBehavior(
+                behaviorToEdit,
+                selectedElements
+            )
+        });
+    }, [
+        behaviorToEdit,
+        onTwinAliasClick,
+        onTwinAliasRemoveFromBehavior,
+        onValidityChange,
+        primaryTwinPropertiesTargetId,
+        selectedElements,
+        t,
+        toggleIsPrimaryTwinPropertiesCalloutVisible
+    ]);
+
+    // when any of the dependency changes, update the list of available twin aliases to sho in the add twin alias callout for behavior
+    useEffect(() => {
+        const availableTwinAliasesForBehavior = ViewerConfigUtility.getAvailableBehaviorTwinAliasItemsBySceneAndElements(
+            config,
+            sceneId,
+            selectedElements
+        );
+        const twinAliasesInBehavior = ViewerConfigUtility.getTwinAliasItemsFromBehaviorAndElements(
+            behaviorToEdit,
+            selectedElements
+        );
+
+        // filter the available twin aliases for behavior to display only the ones which are not currently added/existing in behavior
+        setAvailableTwinAliases(
+            availableTwinAliasesForBehavior.filter(
+                (availableTwinAlias) =>
+                    twinAliasesInBehavior.findIndex(
+                        (twinAlias) =>
+                            twinAlias.alias === availableTwinAlias.alias
+                    ) === -1
+            )
+        );
+    }, [behaviors, config, sceneId, selectedElements, behaviorToEdit]);
 
     const primaryTwinProperties: Array<
         ICardboardListItem<IModelledProperty>
     > = useMemo(() => {
         const primaryTwinProperties =
-            modelledProperties?.flattenedFormat?.[primaryTwinName] ?? [];
+            modelledProperties?.flattenedFormat?.[PRIMARY_TWIN_NAME] ?? [];
         return primaryTwinProperties.map((lP: IModelledProperty) => {
             const iconStart = DTDLPropertyIconographyMap[lP.propertyType]?.icon;
             return {
@@ -230,50 +244,28 @@ const TwinsTab: React.FC<ITwinsTabProps> = ({
     const commonPanelStyles = getLeftPanelStyles(theme);
     const actionButtonStyles = getActionButtonStyles(theme);
     return (
-        <Stack tokens={sectionStackTokens}>
+        <Stack tokens={{ childrenGap: 12 }}>
             <Text className={commonPanelStyles.text}>
-                {t('3dSceneBuilder.twinAlias.descriptions.twins')}
+                {t('3dSceneBuilder.twinAlias.tabDescriptionPart1')}
+            </Text>
+            <Text className={commonPanelStyles.text}>
+                {t('3dSceneBuilder.twinAlias.tabDescriptionPart2')}
             </Text>
             <div>
-                <Label>{t('3dSceneBuilder.primaryTwin')}</Label>
-                <Text className={commonPanelStyles.text}>
-                    {t('3dSceneBuilder.twinAlias.descriptions.primaryTwin')}
-                </Text>
-                {isPrimaryTwinPropertiesCalloutVisible && (
-                    <CardboardListCallout
-                        listType="Complex"
-                        calloutTarget={primaryTwinPropertiesTargetId}
-                        title={t('3dSceneBuilder.twinAlias.commonProperties')}
-                        listKey={'common-properties-callout-list'}
-                        listItems={primaryTwinProperties}
-                        isListLoading={isCommonPrimaryTwinPropertiesLoading}
-                        onDismiss={toggleIsPrimaryTwinPropertiesCalloutVisible}
-                        filterPlaceholder={t(
-                            '3dSceneBuilder.twinAlias.searchProperties'
-                        )}
-                        filterPredicate={(
-                            property: IModelledProperty,
-                            searchTerm
-                        ) =>
-                            property.localPath
-                                .toLowerCase()
-                                .includes(searchTerm.toLowerCase())
-                        }
-                        noResultText={t(
-                            '3dSceneBuilder.noPrimaryTwinProperties'
-                        )}
-                        searchBoxDataTestId="primary-twin-callout-search"
-                    />
-                )}
-                {primaryTwinList.length > 0 && (
-                    <CardboardList<IBehaviorTwinAliasItem>
-                        items={primaryTwinList}
+                <Label>
+                    {t('3dSceneBuilder.twinAlias.linkedTwinListHeader', {
+                        count: twinList?.length || 0
+                    })}
+                </Label>
+                {twinList.length > 0 && (
+                    <CardboardList<string>
+                        items={twinList}
                         listKey={`behavior-primary-twin-list`}
                     />
                 )}
             </div>
-            <div>
-                <Label>{t('3dSceneBuilder.twinAlias.titlePlural')}</Label>
+            {/* <div> */}
+            {/* <Label>{t('3dSceneBuilder.twinAlias.titlePlural')}</Label>
                 {twinAliasList.length === 0 ? (
                     <div className={commonPanelStyles.noDataText}>
                         {t('3dSceneBuilder.twinAlias.noTwinAliasesAdded')}
@@ -283,15 +275,39 @@ const TwinsTab: React.FC<ITwinsTabProps> = ({
                         items={twinAliasList}
                         listKey={`behavior-aliased-twin-list`}
                     />
-                )}
-                <ActionButton
-                    id={addAliasCalloutTargetId}
-                    styles={actionButtonStyles}
-                    text={t('3dSceneBuilder.twinAlias.add')}
-                    data-testid={'twinsTab-addTwinAlias'}
-                    onClick={toggleIsAddTwinAliasCalloutVisible}
+                )} */}
+            <ActionButton
+                id={addAliasCalloutTargetId}
+                styles={actionButtonStyles}
+                text={t('3dSceneBuilder.twinAlias.add')}
+                data-testid={'twinsTab-addTwinAlias'}
+                onClick={toggleIsAddTwinAliasCalloutVisible}
+            />
+            {/* </div> */}
+            {isPrimaryTwinPropertiesCalloutVisible && (
+                <CardboardListCallout
+                    listType="Complex"
+                    calloutTarget={primaryTwinPropertiesTargetId}
+                    title={t('3dSceneBuilder.twinAlias.commonProperties')}
+                    listKey={'common-properties-callout-list'}
+                    listItems={primaryTwinProperties}
+                    isListLoading={isCommonPrimaryTwinPropertiesLoading}
+                    onDismiss={toggleIsPrimaryTwinPropertiesCalloutVisible}
+                    filterPlaceholder={t(
+                        '3dSceneBuilder.twinAlias.searchProperties'
+                    )}
+                    filterPredicate={(
+                        property: IModelledProperty,
+                        searchTerm
+                    ) =>
+                        property.localPath
+                            .toLowerCase()
+                            .includes(searchTerm.toLowerCase())
+                    }
+                    noResultText={t('3dSceneBuilder.noPrimaryTwinProperties')}
+                    searchBoxDataTestId="primary-twin-callout-search"
                 />
-            </div>
+            )}
             {isAddTwinAliasCalloutVisible && (
                 <AddTwinAliasCallout
                     calloutTarget={addAliasCalloutTargetId}
@@ -305,28 +321,10 @@ const TwinsTab: React.FC<ITwinsTabProps> = ({
     );
 };
 
-function getPrimaryTwinListItems(
-    t: TFunction<string>,
-    onPrimaryTwinClick: () => void,
-    buttonId: string
-): ICardboardListItem<string>[] {
-    const listItem: ICardboardListItem<string> = {
-        ariaLabel: t('3dSceneBuilder.primaryTwin'),
-        iconStart: { name: 'LinkedDatabase' },
-        iconEnd: { name: 'RedEye' },
-        item: primaryTwinName,
-        onClick: onPrimaryTwinClick,
-        textPrimary: primaryTwinName,
-        buttonProps: {
-            id: buttonId
-        }
-    };
-
-    return [listItem];
-}
-
 function getTwinAliasListItems(
     twinAliases: Array<IBehaviorTwinAliasItem>,
+    onPrimaryTwinClick: () => void,
+    primaryTwinButtonId: string,
     onTwinAliasClick: (item: IBehaviorTwinAliasItem, idx: number) => void,
     onTwinAliasRemove: (item: IBehaviorTwinAliasItem) => void,
     t: TFunction<string>
@@ -359,7 +357,23 @@ function getTwinAliasListItems(
         ];
     };
 
-    return twinAliases.map((twinAlias, idx) => {
+    const listItemsPrimary: ICardboardListItem<IBehaviorTwinAliasItem> = {
+        ariaLabel: t('3dSceneBuilder.primaryTwin'),
+        iconStart: { name: 'LinkedDatabase' },
+        iconEnd: { name: 'EntryView' },
+        // we don't care about the item anyways so this is fine, it just gets fed back to the onclick
+        item: (PRIMARY_TWIN_NAME as unknown) as IBehaviorTwinAliasItem,
+        onClick: onPrimaryTwinClick,
+        textPrimary: PRIMARY_TWIN_NAME,
+        buttonProps: {
+            id: primaryTwinButtonId
+        }
+    };
+    const listItems: ICardboardListItem<IBehaviorTwinAliasItem>[] = [
+        listItemsPrimary
+    ];
+
+    twinAliases.forEach((twinAlias, idx) => {
         const listItem: ICardboardListItem<IBehaviorTwinAliasItem> = {
             ariaLabel: twinAlias.alias,
             iconStart: { name: 'LinkedDatabase' },
@@ -367,15 +381,15 @@ function getTwinAliasListItems(
             isValid: !twinAlias.elementToTwinMappings.some(
                 (mapping) => !mapping.twinId
             ),
-            onClick: () => onTwinAliasClick(twinAlias, idx),
+            onClick: (item) => onTwinAliasClick(item, idx),
             textPrimary: twinAlias.alias,
             overflowMenuItems: getMenuItems(twinAlias, idx)
         };
 
-        return listItem;
+        listItems.push(listItem);
     });
-}
 
-const sectionStackTokens: IStackTokens = { childrenGap: 12 };
+    return listItems;
+}
 
 export default TwinsTab;

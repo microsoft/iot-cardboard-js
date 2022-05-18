@@ -1,4 +1,4 @@
-import { primaryTwinName } from '../../Models/Constants';
+import { PRIMARY_TWIN_NAME } from '../../Models/Constants';
 import { IModelledPropertyBuilderAdapter } from '../../Models/Constants/Interfaces';
 import {
     I3DScenesConfig,
@@ -116,7 +116,7 @@ export interface IModelledProperties {
 }
 
 export interface ITagModelMap {
-    [primaryTwinName]: string[];
+    [PRIMARY_TWIN_NAME]: string[];
     aliasTags?: Record<string, string>;
 }
 

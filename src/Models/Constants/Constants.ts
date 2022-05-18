@@ -93,7 +93,7 @@ export const availableWidgets: Array<IWidgetLibraryItem> = [
 export const twinRefreshMaxAge = 9000;
 export const modelRefreshMaxAge = 3600000;
 
-export const primaryTwinName = 'PrimaryTwin';
+export const PRIMARY_TWIN_NAME = 'PrimaryTwin';
 export const ValidAdtHostSuffixes = [
     'digitaltwins.azure.net',
     'azuredigitaltwins-ppe.net',

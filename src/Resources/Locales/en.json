@@ -467,11 +467,9 @@
         "noPrimaryTwinProperties": "No primary twin properties to display",
         "twinAlias": {
             "title": "Twin alias",
-            "titlePlural": "Twin aliases",
             "aliasedTwin": "Aliased twin",
             "aliasedTwins": "Aliased twins",
             "add": "Add twin alias",
-            "noTwinAliasesAdded": "No twin aliases added yet",
             "new": "New twin alias",
             "edit": "Edit twin alias",
             "create": "Create twin alias",
@@ -488,9 +486,10 @@
                 "elementTwinMappings": "Element twin mappings",
                 "elementTwinMappingsNotExist": "There is no available mapping, add elements to behavior first."
             },
+            "tabDescriptionPart1": "Each element leverages data from its primary twin. Add other twins that your elements can leverage data from.",
+            "tabDescriptionPart2": "View the properties in common between the targeted elements and reference these properties using the primary twin or the other twins in your expressions. ",
+            "linkedTwinListHeader": "Linked twins ({{count}})",
             "descriptions": {
-                "twins": "Twins give you access to properties which can be used in expressions.",
-                "primaryTwin": "The PrimaryTwin contains all properties in common between the target elements primary twins.",
                 "aliasChangeNotAllowed": "Alias change is not allowed after creation.",
                 "commonProperties": "The union of primary twin properties of selected elements"
             },
