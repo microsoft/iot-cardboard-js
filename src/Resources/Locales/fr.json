@@ -796,6 +796,24 @@
       "statusDescription": "Les états sont des superpositions pilotées par les données sur vos éléments pour indiquer l’intégrité ou l’état de l’élément. définissez des plages de valeurs pour créer des limites d’état et choisissez des couleurs pour représenter chaque état dans la visualisation.\n\n",
       "alertsTitle": "Alertes",
       "alertsDescription": "Les alertes sont des notifications conditionnelles pour vous aider à voir rapidement quand un élément nécessite votre attention. Personnalisez votre badge d’alerte avec une icône, une couleur et du texte.\n\n"
+    },
+    "tip": "Pourboire",
+    "twins": {
+      "title": "Comment choisir des jumeaux ?",
+      "mainContent": "Sous l’onglet Jumeaux, vous pouvez modifier l’ensemble des jumeaux dont les données sont disponibles pour ce comportement. Cela inclut les jumeaux primaires et les jumeaux non primaires des éléments ciblés.\n\nUn jumeau non primaire est une source de données de jumeau numérique secondaire pour un élément. Vous pourrez utiliser les propriétés de ce jumeau dans vos expressions de comportement pour cet élément. Vous ne devez ajouter des jumeaux non primaires que lorsqu’il existe des jumeaux supplémentaires avec des données au-delà de votre jumeau principal que vous souhaitez exploiter dans votre statut, vos alertes et vos widgets pour ce comportement.\n\n",
+      "tipContent": "Azure Digital Twins Explorer peut vous aider à voir des jumeaux qui peuvent être liés au jumeau principal pour cet élément. Vous pouvez interroger votre graphique à l'aide de SELECT * FROM digitaltwins WHERE $dtId='<primary-twin-id>', puis utiliser la fonction d'extension double-cliquez pour explorer les jumeaux associés."
+    },
+    "widgets": {
+      "title": "Qu'est-ce qu'un widget ?",
+      "mainContent": "Les widgets sont des visuels pilotés par les données qui fournissent un contexte et des données supplémentaires pour vous aider à comprendre le scénario que représente le comportement. La configuration des widgets vous aidera à vous assurer que les bonnes données sont détectables lorsqu’une alerte ou un état est actif.\n\n",
+      "typesOfWidgets": "Types de widgets\n\n",
+      "gaugeDescription": "<Retour>Gauge:</Underline> Pour représenter visuellement des points de données numériques\n\n",
+      "linkDescription": "<Lien ligne>Liens:</Souligner> Pour inclure du contenu référencé en externe via une URL liée\n\n",
+      "valueDescription": "<Supprime>Valeur:</Soulignement> Pour afficher directement les valeurs de propriétés jumelles\n\n"
+    },
+    "sceneLayers": {
+      "title": "Qu'est-ce qu'une couche de scène ?",
+      "mainContent": "Vous pouvez créer des calques dans votre scène pour vous aider à organiser vos comportements. Les calques agissent comme des balises sur les comportements, ce qui vous permet de définir quels comportements doivent être vus ensemble, créant ainsi des vues personnalisées de votre scène pour différents rôles ou tâches.\n\nS’il n’y a pas de calques dans une scène, tous les comportements apparaîtront dans la visionneuse de scène. Si au moins un calque est présent dans la scène, seuls les comportements marqués d'un calque apparaîtront dans la visionneuse.\n\nUne façon de créer des calques consiste à utiliser le bouton Calques de scène dans la vue Générer d’une scène. Vous pouvez également créer des calques lors de la création ou de la modification d’un comportement."
     }
   }
 }

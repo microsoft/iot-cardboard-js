@@ -796,6 +796,24 @@
       "statusDescription": "Stany są nakładkami opartymi na danych na elementach, aby wskazać kondycję lub stan elementu. ustaw zakresy wartości, aby utworzyć granice stanów, i wybierz kolory reprezentujące każdy stan w wizualizacji.\n\n",
       "alertsTitle": "Alerty",
       "alertsDescription": "Alerty to powiadomienia warunkowe, które pomagają szybko sprawdzić, kiedy element wymaga uwagi. Dostosuj odznakę alertu za pomocą ikony, koloru i tekstu.\n\n"
+    },
+    "tip": "Napiwek",
+    "twins": {
+      "title": "Jak wybrać bliźnięta?",
+      "mainContent": "Na karcie Bliźnięta można zmodyfikować zestaw bliźniąt, których dane są dostępne dla tego zachowania. Obejmuje to bliźnięta pierwotne elementów docelowych i bliźnięta inne niż pierwotne.\n\nBliźniak inny niż pierwotny jest drugorzędnym cyfrowym źródłem danych bliźniaka dla elementu. Będziesz mógł używać właściwości z tego bliźniaka w wyrażeniach zachowania dla tego elementu. Bliźnięta inne niż podstawowe należy dodawać tylko wtedy, gdy istnieją dodatkowe bliźnięta z danymi wykraczającymi poza bliźnięta podstawowego, które chcesz wykorzystać w swoim statusie, alertach i widżetach dla tego zachowania.\n\n",
+      "tipContent": "Eksplorator usługi Azure Digital Twins może pomóc w wyświetlaniu bliźniąt, które mogą być powiązane z podstawowym bliźniakiem dla tego elementu. Możesz wysłać zapytanie do wykresu za pomocą SELECT * FROM digitaltwins WHERE $dtId='<primary-twin-id>\", a następnie użyj funkcji rozszerzenia dwukrotnego kliknięcia, aby zbadać powiązane bliźnięta."
+    },
+    "widgets": {
+      "title": "Co to jest widżet?",
+      "mainContent": "Widżety to wizualizacje oparte na danych, które zapewniają dodatkowy kontekst i dane, aby pomóc w zrozumieniu scenariusza reprezentowanego przez zachowanie. Konfiguracja widżetów pomoże Ci upewnić się, że odpowiednie dane są wykrywalne, gdy alert lub status jest aktywny.\n\n",
+      "typesOfWidgets": "Typy widżetów\n\n",
+      "gaugeDescription": "<Underline>Gauge:</Underline> Do wizualnego reprezentowania numerycznych punktów danych\n\n",
+      "linkDescription": "<Underline>Link:</Underline> Do dołączania treści z zewnętrznymi odniesieniami za pośrednictwem połączonego adresu URL\n\n",
+      "valueDescription": "<Underline>Value:</Underline> Do bezpośredniego wyświetlania wartości właściwości bliźniaczych\n\n"
+    },
+    "sceneLayers": {
+      "title": "Co to jest warstwa sceny?",
+      "mainContent": "Możesz tworzyć warstwy w scenie, aby pomóc w organizowaniu zachowań. Warstwy działają jak znaczniki zachowań, umożliwiając zdefiniowanie, które zachowania muszą być widoczne razem, tworząc w ten sposób niestandardowe widoki sceny dla różnych ról lub zadań.\n\nJeśli w scenie nie ma warstw, wszystkie zachowania będą widoczne w przeglądarce scen. Jeśli w scenie znajduje się co najmniej jedna warstwa, w przeglądarce pojawią się tylko zachowania oznaczone warstwą.\n\nJednym ze sposobów tworzenia warstw jest użycie przycisku Warstwy sceny w widoku Buduj dla sceny. Alternatywnie można tworzyć warstwy podczas tworzenia lub modyfikowania zachowania."
     }
   }
 }

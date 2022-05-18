@@ -796,6 +796,24 @@
       "statusDescription": "Staten zijn gegevensgestuurde overlays op uw elementen om de status of status van het element aan te geven. stel waardebereiken in om statusgrenzen te maken en kies kleuren om elke status in de visualisatie weer te geven.\n\n",
       "alertsTitle": "Waarschuwingen",
       "alertsDescription": "Waarschuwingen zijn voorwaardelijke meldingen waarmee u snel kunt zien wanneer een element uw aandacht vereist. Pas uw waarschuwingsbadge aan met een pictogram, kleur en tekst.\n\n"
+    },
+    "tip": "Fooi",
+    "twins": {
+      "title": "Hoe kies ik een tweeling?",
+      "mainContent": "Op het tabblad Tweelingen kunt u de set tweelingen wijzigen waarvan de gegevens beschikbaar zijn voor dit gedrag. Dit omvat de primaire tweelingen en niet-primaire tweelingen van de beoogde elementen.\n\nEen niet-primaire tweeling is een secundaire digitale tweelinggegevensbron voor een element. U kunt eigenschappen van die tweeling gebruiken in uw gedragsexpressies voor dit element. U moet alleen niet-primaire tweelingen toevoegen als er extra tweelingen zijn met gegevens buiten uw primaire tweeling die u wilt gebruiken in uw status, waarschuwingen en widgets voor dit gedrag.\n\n",
+      "tipContent": "Azure Digital Twins Explorer kan u helpen tweelingen te zien die mogelijk gerelateerd zijn aan de primaire tweeling voor dit element. U kunt uw grafiek opvragen met SELECT * FROM digitaltwins WHERE $dtId='<primary-twin-id>', en vervolgens de dubbelklik-uitbreidingsfunctie gebruiken om gerelateerde tweelingen te verkennen."
+    },
+    "widgets": {
+      "title": "Wat is een widget?",
+      "mainContent": "Widgets zijn gegevensgestuurde visuals die extra context en gegevens bieden om u te helpen het scenario te begrijpen dat het gedrag vertegenwoordigt. Door widgets te configureren, kunt u ervoor zorgen dat de juiste gegevens detecteerbaar zijn wanneer een waarschuwing of status actief is.\n\n",
+      "typesOfWidgets": "Soorten widgets\n\n",
+      "gaugeDescription": "<Onderlijn>Gauge:</Onderstrepen> Voor het visueel weergeven van numerieke gegevenspunten\n\n",
+      "linkDescription": "<Onderlijnd>Link:</Onderstrepen> Voor het opnemen van inhoud waarnaar extern wordt verwezen via een gekoppelde URL\n\n",
+      "valueDescription": "<Onderlijn>Waarde:</Onderstrepen> Voor het rechtstreeks weergeven van dubbele eigenschapswaarden\n\n"
+    },
+    "sceneLayers": {
+      "title": "Wat is een scènelaag?",
+      "mainContent": "U kunt lagen in uw scène maken om uw gedrag te ordenen. Lagen fungeren als tags op het gedrag, zodat u kunt definiëren welk gedrag samen moet worden gezien, waardoor aangepaste weergaven van uw scène worden gemaakt voor verschillende rollen of taken.\n\nAls er geen lagen in een scène zijn, worden alle gedragingen weergegeven in de scèneviewer. Als er ten minste één laag in de scène aanwezig is, worden alleen gedragingen die met een laag zijn getagd, in de kijker weergegeven.\n\nU kunt lagen maken door de knop Scènelagen in de weergave Bouwen voor een scène te gebruiken. U kunt ook lagen maken tijdens het maken of wijzigen van een gedrag."
     }
   }
 }
