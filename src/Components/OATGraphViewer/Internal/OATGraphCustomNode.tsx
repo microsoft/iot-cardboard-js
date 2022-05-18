@@ -71,21 +71,24 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
         elements.find((element) => element.id === data.id).data.name[
             Object.keys(data.name)[0]
         ] = nameText;
-
-        setElements([...elements]);
-        const modelUpdated = {
-            '@id': data.id,
-            '@type': data.type,
-            '@context': data.context,
-            displayName: {
-                ...data.name,
-                [Object.keys(data.name)[0]]: Object.values(data.name)[0]
-            },
-            contents: data.content
+        const displayName = {
+            ...data.name,
+            [Object.keys(data.name)[0]]: Object.values(data.name)[0]
         };
+        setElements([...elements]);
+        const updatedModel = new DTDLModel(
+            data.id,
+            displayName,
+            data.description,
+            data.comment,
+            data.content,
+            data.relationships,
+            data.components
+        );
+
         dispatch({
             type: SET_OAT_PROPERTY_EDITOR_MODEL,
-            payload: modelUpdated
+            payload: updatedModel
         });
     };
 

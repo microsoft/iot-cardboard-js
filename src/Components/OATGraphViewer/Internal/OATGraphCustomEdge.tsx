@@ -83,23 +83,30 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
 
     const onNameChange = (evt) => {
         setNameText(evt.target.value);
-        const relationshipData = {
-            '@id': element.data.id,
-            id,
-            '@type': element.data.type,
-            '@context': element.data.context,
-            displayName:
-                typeof element.data.name === 'string'
-                    ? evt.target.value
-                    : {
-                          ...element.data.name,
-                          [Object.keys(data.name)[0]]: evt.target.value
-                      },
-            contents: element.data.content ? element.data.content : []
-        };
+
+        const displayName =
+            typeof element.data.name === 'string'
+                ? evt.target.value
+                : {
+                      ...element.data.name,
+                      [Object.keys(data.name)[0]]: evt.target.value
+                  };
+
+        const relationship = new DTDLRelationship(
+            element.data.id,
+            element.data.name,
+            displayName,
+            element.data.description,
+            element.data.comment,
+            element.data.writable,
+            element.data.content ? element.data.content : [],
+            element.data.target,
+            element.data.maxMultiplicity
+        );
+
         dispatch({
             type: SET_OAT_PROPERTY_EDITOR_MODEL,
-            payload: relationshipData
+            payload: relationship
         });
     };
 
