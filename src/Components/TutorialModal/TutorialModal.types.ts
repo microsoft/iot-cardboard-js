@@ -28,6 +28,7 @@ export interface ITutorialModalStyleProps {
 export interface ITutorialModalStyles {
     root: IStyle;
     header: IStyle;
+    headerTextContainer: IStyle;
     headerText: IStyle;
     body: IStyle;
     contentPane: IStyle;

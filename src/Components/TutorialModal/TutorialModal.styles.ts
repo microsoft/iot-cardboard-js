@@ -13,6 +13,7 @@ export const classPrefix = 'cb-tutorialmodal';
 const classNames = {
     root: `${classPrefix}-root`,
     header: `${classPrefix}-header`,
+    headerTextContainer: `${classPrefix}-header-text-container`,
     headerText: `${classPrefix}-header-text`,
     previewBadge: `${classPrefix}-preview-badge`,
     body: `${classPrefix}-body`,
@@ -64,10 +65,16 @@ export const getStyles = (
                 padding: '12px 12px 14px 24px'
             } as IStyle
         ],
+        headerTextContainer: [
+            classNames.headerTextContainer,
+            {
+                display: 'flex'
+            } as IStyle
+        ],
         headerText: [
             classNames.headerText,
             {
-                display: 'flex'
+                fontSize: FontSizes.size20
             } as IStyle
         ],
         previewBadge: [

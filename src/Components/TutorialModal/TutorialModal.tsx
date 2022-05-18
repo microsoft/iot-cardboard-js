@@ -67,8 +67,10 @@ const TutorialModal: React.FC<ITutorialModalProps> = (props) => {
         >
             <div className={classNames.root}>
                 <div className={classNames.header}>
-                    <div className={classNames.headerText}>
-                        <span id={titleId}>Welcome to 3D Scenes Studio!</span>
+                    <div className={classNames.headerTextContainer}>
+                        <span id={titleId} className={classNames.headerText}>
+                            Welcome to 3D Scenes Studio!
+                        </span>
                         <div className={classNames.previewBadge}>
                             <Icon
                                 iconName="Globe"
