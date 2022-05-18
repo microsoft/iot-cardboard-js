@@ -158,8 +158,6 @@
   "scenes": {
     "noScenes": "3D 장면이 없으며 새 장면을 추가하여 시작하십시오.",
     "addScene": "3D 장면 추가",
-    "sceneLatitude": "위도",
-    "sceneLongitude": "경도",
     "blobUrl": "3D 파일 얼룩 URL",
     "addDialogTitle": "새 장면 만들기",
     "addDialogSubText": "장면을 Blob 저장소의 3D 파일 URL과 연결",
@@ -169,7 +167,15 @@
     "fromContainer": "컨테이너에서",
     "3dFileAsset": "3D 파일 자산",
     "overwriteIfExist": "파일이 이미 있는 경우 덮어쓰기",
-    "fileExistsErrorMessage": "이 이름의 파일이 저장소에 이미 있으므로 컨테이너에서 해당 파일을 선택하거나 덮어쓸 수 있습니다."
+    "fileExistsErrorMessage": "이 이름의 파일이 저장소에 이미 있으므로 컨테이너에서 해당 파일을 선택하거나 덮어쓸 수 있습니다.",
+    "description": "묘사",
+    "latitude": "위도",
+    "longitude": "경도",
+    "showOnGlobe": "전 세계에 표시",
+    "sampleLatitude": "예: 6.4511366",
+    "sampleLongitude": "예: 3.3883963",
+    "longitudeErrorMessage": "입력 값은 -180도 및 180도 이내여야 합니다.",
+    "latitudeErrorMessage": "입력 값은 -90도 및 90도 이내여야 합니다."
   },
   "BIMUpload": {
     "specifyFiles": "업로드할 파일 지정",

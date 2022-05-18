@@ -158,8 +158,6 @@
   "scenes": {
     "noScenes": "Você não tem cenas 3D, adicione uma nova para começar.",
     "addScene": "Adicionar cena 3D",
-    "sceneLatitude": "Latitude",
-    "sceneLongitude": "Longitude",
     "blobUrl": "URL de bolha de arquivo 3D",
     "addDialogTitle": "Criar uma nova cena",
     "addDialogSubText": "Vincule sua cena com a URL do seu arquivo 3D no armazenamento de bolhas",
@@ -169,7 +167,15 @@
     "fromContainer": "Do contêiner",
     "3dFileAsset": "Ativo de arquivo 3D",
     "overwriteIfExist": "Substituir se o arquivo já existe",
-    "fileExistsErrorMessage": "Um arquivo com este nome já existe no armazenamento, você pode selecionar esse arquivo a partir de contêiner ou sobregravar."
+    "fileExistsErrorMessage": "Um arquivo com este nome já existe no armazenamento, você pode selecionar esse arquivo a partir de contêiner ou sobregravar.",
+    "description": "Descrição",
+    "latitude": "Latitude",
+    "longitude": "Longitude",
+    "showOnGlobe": "Show na Globo",
+    "sampleLatitude": "por exemplo: 6.4511366",
+    "sampleLongitude": "por exemplo: 3.3883963",
+    "longitudeErrorMessage": "O valor de entrada deve estar dentro de -180 e 180 graus",
+    "latitudeErrorMessage": "O valor de entrada deve estar dentro de -90 e 90 graus"
   },
   "BIMUpload": {
     "specifyFiles": "Especifique arquivos a serem carregados",

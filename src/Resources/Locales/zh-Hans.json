@@ -158,8 +158,6 @@
   "scenes": {
     "noScenes": "您没有 3D 场景，请添加一个新场景以开始使用。",
     "addScene": "添加 3D 场景",
-    "sceneLatitude": "纬度",
-    "sceneLongitude": "经度",
     "blobUrl": "3D 文件 blob URL",
     "addDialogTitle": "创建新场景",
     "addDialogSubText": "将场景与 blob 存储中 3D 文件的 URL 链接",
@@ -169,7 +167,15 @@
     "fromContainer": "从容器",
     "3dFileAsset": "3D 文件资源",
     "overwriteIfExist": "覆盖文件已存在",
-    "fileExistsErrorMessage": "具有此名称的文件已存在于存储中，可以从容器中选择该文件或覆盖。"
+    "fileExistsErrorMessage": "具有此名称的文件已存在于存储中，可以从容器中选择该文件或覆盖。",
+    "description": "描述",
+    "latitude": "纬度",
+    "longitude": "经度",
+    "showOnGlobe": "在全球显示",
+    "sampleLatitude": "例如： 6.4511366",
+    "sampleLongitude": "例如： 3.3883963",
+    "longitudeErrorMessage": "输入值必须在-180和180度以内",
+    "latitudeErrorMessage": "输入值必须在-90和90度以内"
   },
   "BIMUpload": {
     "specifyFiles": "指定要从中上载的文件",
