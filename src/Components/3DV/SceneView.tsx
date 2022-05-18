@@ -902,6 +902,14 @@ function SceneView(props: ISceneViewProps, ref) {
                     onSceneLoaded(sceneRef.current);
                 }
 
+                const defaultPipeline = new BABYLON.DefaultRenderingPipeline(
+                    'default',
+                    false,
+                    sceneRef.current,
+                    [cameraRef.current]
+                );
+                defaultPipeline.fxaaEnabled = true;
+
                 const ssao = new BABYLON.SSAO2RenderingPipeline(
                     'ssao',
                     sceneRef.current,
@@ -919,14 +927,6 @@ function SceneView(props: ISceneViewProps, ref) {
                     'ssao',
                     cameraRef.current
                 );
-
-                const defaultPipeline = new BABYLON.DefaultRenderingPipeline(
-                    'default',
-                    false,
-                    sceneRef.current,
-                    [cameraRef.current]
-                );
-                defaultPipeline.fxaaEnabled = true;
             }
         }
 
