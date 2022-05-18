@@ -1,17 +1,18 @@
-import { IconButton, IProcessedStyleSet } from '@fluentui/react';
-import React from 'react';
+import { IconButton } from '@fluentui/react';
+import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import useKeyPress from '../../../Models/Hooks/useKeyPress';
-import { ITutorialModalStyles } from '../TutorialModal.types';
+import { TutorialModalContext } from '../TutorialModal';
 import SlideContentManager from './SlideContentManager';
 import SlideStatusIndicator from './SlideStatusIndicator';
 
 const IntroductionSlideShow: React.FC<{
     slideNumber: number;
     setSlideNumber: (slideNumber: number) => void;
-    classNames: IProcessedStyleSet<ITutorialModalStyles>;
-}> = ({ slideNumber, setSlideNumber, classNames }) => {
+}> = ({ slideNumber, setSlideNumber }) => {
     const { t } = useTranslation();
+    const { classNames } = useContext(TutorialModalContext);
+
     const numSlides = 3;
 
     const prevSlide = () => setSlideNumber(Math.max(slideNumber - 1, 0));
@@ -43,15 +44,11 @@ const IntroductionSlideShow: React.FC<{
                     />
                 </div>
             )}
-            <SlideContentManager
-                activeSlide={slideNumber}
-                classNames={classNames}
-            />
+            <SlideContentManager activeSlide={slideNumber} />
             <SlideStatusIndicator
                 slideNumber={slideNumber}
                 setSlideNumber={setSlideNumber}
                 numSlides={numSlides}
-                classNames={classNames}
             />
         </>
     );

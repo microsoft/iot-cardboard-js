@@ -1,12 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {
     FontSizes,
     FontWeights,
     Icon,
     ITextStyles,
     Link,
-    memoizeFunction,
-    mergeStyleSets,
     Text
 } from '@fluentui/react';
 import { TutorialModalPage } from '../TutorialModal.types';
@@ -14,9 +12,11 @@ import ConceptsRootSvg from '../../../Resources/Static/concepts.svg';
 import IllustrationPage from './IllustrationPage';
 import { useTranslation, Trans } from 'react-i18next';
 import { FRE_MODAL_LINKS } from '../../../Models/Constants';
+import { TutorialModalContext } from '../TutorialModal';
 
-const ConceptPage: React.FC<{ pageKey: string }> = ({ pageKey }) => {
+const ConceptPage: React.FC<{ pageKey: TutorialModalPage }> = ({ pageKey }) => {
     const { t } = useTranslation();
+
     if (pageKey === TutorialModalPage.CONCEPTS) {
         return (
             <IllustrationPage
@@ -26,7 +26,7 @@ const ConceptPage: React.FC<{ pageKey: string }> = ({ pageKey }) => {
             />
         );
     } else {
-        let content: any = pageKey;
+        let content: React.ReactElement | string = pageKey;
         switch (pageKey) {
             case TutorialModalPage.ELEMENTS:
                 content = <Elements />;
@@ -92,7 +92,7 @@ const Elements = () => {
 
 const Behaviors = () => {
     const { t } = useTranslation();
-    const classNames = getStyles();
+    const { classNames } = useContext(TutorialModalContext);
     return (
         <>
             <Text as={'h3'} styles={conceptTitleStyles} block>
@@ -133,7 +133,8 @@ const Behaviors = () => {
 
 const Twins = () => {
     const { t } = useTranslation();
-    const classNames = getStyles();
+    const { classNames } = useContext(TutorialModalContext);
+
     return (
         <>
             <Text as={'h3'} styles={conceptTitleStyles} block>
@@ -172,7 +173,8 @@ const Twins = () => {
 
 const Widgets = () => {
     const { t } = useTranslation();
-    const classNames = getStyles();
+    const { classNames } = useContext(TutorialModalContext);
+
     const underlineComponent = {
         Underline: <Text styles={underlineTextStyles}></Text>
     };
@@ -229,7 +231,7 @@ const Widgets = () => {
 
 const SceneLayers = () => {
     const { t } = useTranslation();
-    const classNames = getStyles();
+    const { classNames } = useContext(TutorialModalContext);
 
     return (
         <>
@@ -256,29 +258,6 @@ const SceneLayers = () => {
         </>
     );
 };
-
-export const classPrefix = 'cb-tutorialmodal-concept-page';
-const classNames = {
-    iconLabelContainer: `${classPrefix}-icon-label-container-styles`,
-    growContent: `${classPrefix}-grow-content`
-};
-const getStyles = memoizeFunction(() => {
-    return mergeStyleSets({
-        iconLabelContainer: [
-            classNames.iconLabelContainer,
-            {
-                display: 'flex',
-                alignItems: 'center'
-            }
-        ],
-        growContent: [
-            classNames.growContent,
-            {
-                flexGrow: 1
-            }
-        ]
-    });
-});
 
 const underlineTextStyles: Partial<ITextStyles> = {
     root: {

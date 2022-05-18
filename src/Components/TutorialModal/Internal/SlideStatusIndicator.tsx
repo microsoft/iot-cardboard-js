@@ -1,15 +1,15 @@
-import { IconButton, IProcessedStyleSet } from '@fluentui/react';
-import React from 'react';
+import { IconButton } from '@fluentui/react';
+import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ITutorialModalStyles } from '../TutorialModal.types';
+import { TutorialModalContext } from '../TutorialModal';
 
 const SlideStatusIndicator: React.FC<{
     slideNumber: number;
     setSlideNumber: (slideNumber: number) => void;
-    classNames: IProcessedStyleSet<ITutorialModalStyles>;
     numSlides: number;
-}> = ({ slideNumber, setSlideNumber, classNames, numSlides }) => {
+}> = ({ slideNumber, setSlideNumber, numSlides }) => {
     const { t } = useTranslation();
+    const { classNames } = useContext(TutorialModalContext);
     return (
         <div className={classNames.slideStatusIndicatorContainer}>
             {Array.from(Array(numSlides).keys()).map((slide) => {

@@ -12,7 +12,7 @@ export interface ITutorialModalProps {
 
     onDismiss: () => void;
 
-    defaultPageKey?: string;
+    defaultPageKey?: TutorialModalPage;
 
     /**
      * Call to provide customized styling that will layer on top of the variant rules.
@@ -41,6 +41,8 @@ export interface ITutorialModalStyles {
     slideChangeBtnContainerRight: IStyle;
     slideStatusIndicatorContainer: IStyle;
     previewBadge: IStyle;
+    iconLabelContainer: IStyle;
+    growContent: IStyle;
     /**
      * SubComponent styles.
      */
@@ -73,7 +75,7 @@ export enum TutorialModalPage {
 export type TutorialModalAction =
     | {
           type: TutorialModalActionType.SET_PAGE;
-          pageKey: string;
+          pageKey: TutorialModalPage;
       }
     | {
           type: TutorialModalActionType.SET_SLIDE;
@@ -81,6 +83,6 @@ export type TutorialModalAction =
       };
 
 export interface ITutorialModalState {
-    pageKey: string;
+    pageKey: TutorialModalPage;
     slideNumber: number;
 }

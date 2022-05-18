@@ -24,7 +24,9 @@ const classNames = {
     slideChangeBtnContainerRight: `${classPrefix}-slide-change-btn-container-right`,
     slideStatusIndicatorContainer: `${classPrefix}-slide-status-indicator-container`,
     footer: `${classPrefix}-footer`,
-    navContainer: `${classPrefix}-nav-container`
+    navContainer: `${classPrefix}-nav-container`,
+    iconLabelContainer: `${classPrefix}-icon-label-container`,
+    growContent: `${classPrefix}-grow-content`
 };
 
 const slideChangeBtnContainerBaseStyles: IStyle = {
@@ -175,6 +177,19 @@ export const getStyles = (
                 minWidth: 200
             } as IStyle
         ],
+        iconLabelContainer: [
+            classNames.iconLabelContainer,
+            {
+                display: 'flex',
+                alignItems: 'center'
+            }
+        ],
+        growContent: [
+            classNames.growContent,
+            {
+                flexGrow: 1
+            }
+        ],
         subComponentStyles: {
             closeButton: {
                 root: {
@@ -206,7 +221,8 @@ export const getStyles = (
             linkSeparator: {
                 root: {
                     opacity: '25%',
-                    cursor: 'default'
+                    cursor: 'default',
+                    margin: '0 4px'
                 }
             }
         }

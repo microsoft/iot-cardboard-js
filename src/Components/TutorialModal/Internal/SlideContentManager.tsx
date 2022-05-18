@@ -1,18 +1,17 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import IllustrationPage from './IllustrationPage';
 import Slide1Svg from '../../../Resources/Static/freSlide1.svg';
 import Slide2Svg from '../../../Resources/Static/freSlide2.svg';
 import Slide3Svg from '../../../Resources/Static/freSlide3.svg';
-
-import { IProcessedStyleSet } from '@fluentui/react';
-import { ITutorialModalStyles } from '../TutorialModal.types';
 import { useTranslation } from 'react-i18next';
+import { TutorialModalContext } from '../TutorialModal';
 
 const SlideContentManager: React.FC<{
     activeSlide: number;
-    classNames: IProcessedStyleSet<ITutorialModalStyles>;
-}> = ({ activeSlide, classNames }) => {
+}> = ({ activeSlide }) => {
     const { t } = useTranslation();
+    const { classNames } = useContext(TutorialModalContext);
+
     let page = null;
 
     switch (activeSlide) {
