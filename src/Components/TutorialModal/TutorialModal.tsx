@@ -19,7 +19,8 @@ import {
     Link,
     Stack,
     PrimaryButton,
-    DefaultButton
+    DefaultButton,
+    Icon
 } from '@fluentui/react';
 import { useId } from '@fluentui/react-hooks';
 import { scenesDemoUrl } from '../../Models/Constants';
@@ -64,7 +65,16 @@ const TutorialModal: React.FC<ITutorialModalProps> = (props) => {
         >
             <div className={classNames.root}>
                 <div className={classNames.header}>
-                    <span id={titleId}>Welcome to 3D Scenes Studio!</span>
+                    <div className={classNames.headerText}>
+                        <span id={titleId}>Welcome to 3D Scenes Studio!</span>
+                        <div className={classNames.previewBadge}>
+                            <Icon
+                                iconName="Globe"
+                                styles={{ root: { marginRight: 4 } }}
+                            />
+                            Public Preview
+                        </div>
+                    </div>
                     <IconButton
                         styles={classNames.subComponentStyles.closeButton()}
                         iconProps={{ iconName: 'Cancel' }}

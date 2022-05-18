@@ -8,6 +8,8 @@ export const classPrefix = 'cb-tutorialmodal';
 const classNames = {
     root: `${classPrefix}-root`,
     header: `${classPrefix}-header`,
+    headerText: `${classPrefix}-header-text`,
+    previewBadge: `${classPrefix}-preview-badge`,
     body: `${classPrefix}-body`,
     contentPane: `${classPrefix}-content-pane`,
     slideshowContainer: `${classPrefix}-slideshow-container`,
@@ -53,6 +55,27 @@ export const getStyles = (
                 alignItems: 'center',
                 fontWeight: FontWeights.semibold,
                 padding: '12px 12px 14px 24px'
+            } as IStyle
+        ],
+        headerText: [
+            classNames.headerText,
+            {
+                display: 'flex'
+            } as IStyle
+        ],
+        previewBadge: [
+            classNames.previewBadge,
+            {
+                borderRadius: 4,
+                border: `1px solid ${props.theme.palette.black}`,
+                filter: `brightness(75%)`,
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                fontSize: FontSizes.size12,
+                fontWeight: FontWeights.regular,
+                marginLeft: 12,
+                padding: '2px 6px'
             } as IStyle
         ],
         body: [

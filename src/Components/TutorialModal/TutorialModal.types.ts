@@ -28,6 +28,7 @@ export interface ITutorialModalStyleProps {
 export interface ITutorialModalStyles {
     root: IStyle;
     header: IStyle;
+    headerText: IStyle;
     body: IStyle;
     contentPane: IStyle;
     footer: IStyle;
@@ -36,6 +37,7 @@ export interface ITutorialModalStyles {
     slideChangeBtnContainerLeft: IStyle;
     slideChangeBtnContainerRight: IStyle;
     slideStatusIndicatorContainer: IStyle;
+    previewBadge: IStyle;
     /**
      * SubComponent styles.
      */
