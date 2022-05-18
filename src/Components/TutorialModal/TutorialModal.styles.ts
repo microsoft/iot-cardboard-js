@@ -1,4 +1,9 @@
-import { FontSizes, FontWeights, IStyle } from '@fluentui/react';
+import {
+    FontSizes,
+    FontWeights,
+    IStyle,
+    AnimationStyles
+} from '@fluentui/react';
 import {
     ITutorialModalStyleProps,
     ITutorialModalStyles
@@ -112,6 +117,7 @@ export const getStyles = (
         ],
         slideshowContainer: [
             classNames.slideshowContainer,
+            AnimationStyles.fadeIn400,
             {
                 flexGrow: 1
             } as IStyle

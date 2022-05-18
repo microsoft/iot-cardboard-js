@@ -48,7 +48,11 @@ const SlideContentManager: React.FC<{
             break;
     }
 
-    return <div className={classNames.slideshowContainer}>{page}</div>;
+    return (
+        <div className={classNames.slideshowContainer} key={activeSlide}>
+            {page}
+        </div>
+    );
 };
 
 export default SlideContentManager;
