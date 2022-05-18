@@ -814,6 +814,43 @@
     "sceneLayers": {
       "title": "Co to jest warstwa sceny?",
       "mainContent": "Możesz tworzyć warstwy w scenie, aby pomóc w organizowaniu zachowań. Warstwy działają jak znaczniki zachowań, umożliwiając zdefiniowanie, które zachowania muszą być widoczne razem, tworząc w ten sposób niestandardowe widoki sceny dla różnych ról lub zadań.\n\nJeśli w scenie nie ma warstw, wszystkie zachowania będą widoczne w przeglądarce scen. Jeśli w scenie znajduje się co najmniej jedna warstwa, w przeglądarce pojawią się tylko zachowania oznaczone warstwą.\n\nJednym ze sposobów tworzenia warstw jest użycie przycisku Warstwy sceny w widoku Buduj dla sceny. Alternatywnie można tworzyć warstwy podczas tworzenia lub modyfikowania zachowania."
+    },
+    "modalTitle": "Witamy w 3D Scenes Studio!",
+    "publicPreview": "Publiczna wersja zapoznawcza",
+    "closeAriaLabel": "Zamknij modal",
+    "viewTheDocs": "Wyświetlanie dokumentów",
+    "exploreTheDemo": "Zapoznaj się z wersją demonstracyjną",
+    "dismiss": "Zwolnić",
+    "nextSlide": "Następny slajd",
+    "previousSlide": "Poprzedni slajd",
+    "statusIndicatorSelectedAria": "Slajd {{slide}} zaznaczony",
+    "statusIndicatorUnselectedAria": "Wybierz slajd {{slide}}",
+    "tabs": {
+      "introduction": "Wprowadzenie",
+      "concepts": "Pojęcia",
+      "elements": "Pierwiastki",
+      "behaviors": "Zachowania",
+      "twins": "Bliźnięta",
+      "widgets": "Widżety",
+      "sceneLayers": "Warstwy scen"
+    },
+    "frePages": {
+      "intro": {
+        "title": "Nasz najnowszy kreator niskokodowy",
+        "text": "W tym wciągającym środowisku 3D można monitorować, diagnozować i badać dane operacyjne za pomocą wizualnego kontekstu zasobów 3D, obsługiwanych przez dane usługi Azure Digital Twins, bez potrzeby korzystania z wiedzy specjalistycznej w zakresie 3D."
+      },
+      "builder": {
+        "title": "Dostosuj swoją scenę w naszym Kreatorze",
+        "text": "Kreator w 3D Scenes Studio jest podstawowym interfejsem do konfigurowania scen. Jest to niskokodowe, wizualne doświadczenie."
+      },
+      "viewer": {
+        "title": "Przeglądaj lub osadzaj go w innym miejscu",
+        "text": "Zobacz scenę 3D tutaj w Studio. Komponent przeglądarki może być osadzony w niestandardowych aplikacjach i może działać w połączeniu z komponentami 3rd party."
+      }
+    },
+    "conceptsRoot": {
+      "title": "Potrzebujesz głębszego zanurzenia się w koncepcjach?",
+      "text": "Przejrzyj zawartość pomocy lub zapoznaj się z naszą dokumentacją, aby uzyskać samouczki krok po kroku!"
     }
   }
 }

@@ -814,6 +814,43 @@
     "sceneLayers": {
       "title": "¿Qué es una capa de escena?",
       "mainContent": "Puede crear capas en su escena para ayudar a organizar sus comportamientos. Las capas actúan como etiquetas en los comportamientos, lo que le permite definir qué comportamientos deben verse juntos, creando así vistas personalizadas de su escena para diferentes roles o tareas.\n\nSi no hay capas en una escena, todos los comportamientos aparecerán en el visor de escenas. Si hay al menos una capa presente en la escena, solo los comportamientos etiquetados con una capa aparecerán en el visor.\n\nUna forma de crear capas es usar el botón Capas de escena en la vista Generar para una escena. Como alternativa, puede crear capas mientras crea o modifica un comportamiento."
+    },
+    "modalTitle": "¡Bienvenido a 3D Scenes Studio!",
+    "publicPreview": "Vista previa pública",
+    "closeAriaLabel": "Cerrar modal",
+    "viewTheDocs": "Ver los documentos",
+    "exploreTheDemo": "Explora la demo",
+    "dismiss": "Despedir",
+    "nextSlide": "Siguiente diapositiva",
+    "previousSlide": "Diapositiva anterior",
+    "statusIndicatorSelectedAria": "Diapositiva {{diapositiva}} seleccionada",
+    "statusIndicatorUnselectedAria": "Seleccione la diapositiva {{diapositiva}}",
+    "tabs": {
+      "introduction": "Introducción",
+      "concepts": "Conceptos",
+      "elements": "Elementos",
+      "behaviors": "Comportamientos",
+      "twins": "Gemelos",
+      "widgets": "Widgets",
+      "sceneLayers": "Capas de escena"
+    },
+    "frePages": {
+      "intro": {
+        "title": "Nuestro nuevo creador de código bajo",
+        "text": "En este entorno 3D inmersivo, puede supervisar, diagnosticar e investigar datos operativos con el contexto visual de los activos 3D, con tecnología de datos de Azure Digital Twins, sin necesidad de experiencia en 3D."
+      },
+      "builder": {
+        "title": "Personaliza tu escena en nuestro Builder",
+        "text": "El constructor de 3D Scenes Studio es la interfaz principal para configurar las escenas. Es una experiencia visual de código bajo."
+      },
+      "viewer": {
+        "title": "Explora los alrededores o incorpóralo en otro lugar",
+        "text": "Vea la escena 3D aquí mismo en el estudio. El componente del visor se puede incrustar en aplicaciones personalizadas y puede funcionar junto con los componentes de 3rd party."
+      }
+    },
+    "conceptsRoot": {
+      "title": "¿Necesitas una inmersión más profunda en los conceptos?",
+      "text": "¡Explore el contenido de la ayuda o consulte nuestra documentación para obtener tutoriales paso a paso!"
     }
   }
 }

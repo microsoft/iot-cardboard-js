@@ -814,6 +814,43 @@
     "sceneLayers": {
       "title": "什么是场景图层？",
       "mainContent": "您可以在场景中创建图层以帮助组织行为。图层的作用类似于行为上的标签，使您能够定义需要一起查看的行为，从而为不同的角色或任务创建场景的自定义视图。\n\n如果场景中没有图层，则所有行为都将显示在场景查看器中。如果场景中至少存在一个图层，则只有使用图层标记的行为才会显示在查看器中。\n\n创建图层的一种方法是使用场景构建视图中的场景图层按钮。或者，您可以在创建或修改行为时创建图层。"
+    },
+    "modalTitle": "欢迎来到3D场景工作室！",
+    "publicPreview": "公共预览版",
+    "closeAriaLabel": "闭合模态",
+    "viewTheDocs": "查看文档",
+    "exploreTheDemo": "探索演示",
+    "dismiss": "解雇",
+    "nextSlide": "下一张幻灯片",
+    "previousSlide": "上一张幻灯片",
+    "statusIndicatorSelectedAria": "幻灯片 {{幻灯片}} 已选中",
+    "statusIndicatorUnselectedAria": "选择幻灯片 {{幻灯片}}",
+    "tabs": {
+      "introduction": "介绍",
+      "concepts": "概念",
+      "elements": "元素",
+      "behaviors": "行为",
+      "twins": "双胞胎",
+      "widgets": "部件",
+      "sceneLayers": "场景图层"
+    },
+    "frePages": {
+      "intro": {
+        "title": "我们最新的低代码构建器",
+        "text": "在此沉浸式 3D 环境中，可以使用由 Azure 数字孪生数据提供支持的 3D 资产的可视上下文来监视、诊断和调查操作数据，而无需 3D 专业知识。"
+      },
+      "builder": {
+        "title": "在我们的构建器中自定义您的场景",
+        "text": "3D 场景工作室中的构建器是配置场景的主要界面。这是一种低代码的视觉体验。"
+      },
+      "viewer": {
+        "title": "探索周围，或将其嵌入其他地方",
+        "text": "在工作室中查看 3D 场景。查看器组件可以嵌入到自定义应用程序中，并且可以与第三方组件结合使用。"
+      }
+    },
+    "conceptsRoot": {
+      "title": "需要更深入地了解这些概念？",
+      "text": "浏览帮助内容或查看我们的文档，了解分步教程！"
     }
   }
 }

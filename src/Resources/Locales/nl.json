@@ -814,6 +814,43 @@
     "sceneLayers": {
       "title": "Wat is een scènelaag?",
       "mainContent": "U kunt lagen in uw scène maken om uw gedrag te ordenen. Lagen fungeren als tags op het gedrag, zodat u kunt definiëren welk gedrag samen moet worden gezien, waardoor aangepaste weergaven van uw scène worden gemaakt voor verschillende rollen of taken.\n\nAls er geen lagen in een scène zijn, worden alle gedragingen weergegeven in de scèneviewer. Als er ten minste één laag in de scène aanwezig is, worden alleen gedragingen die met een laag zijn getagd, in de kijker weergegeven.\n\nU kunt lagen maken door de knop Scènelagen in de weergave Bouwen voor een scène te gebruiken. U kunt ook lagen maken tijdens het maken of wijzigen van een gedrag."
+    },
+    "modalTitle": "Welkom bij 3D Scenes Studio!",
+    "publicPreview": "Openbare preview",
+    "closeAriaLabel": "Modaal sluiten",
+    "viewTheDocs": "Bekijk de documenten",
+    "exploreTheDemo": "Bekijk de demo",
+    "dismiss": "Ontslaan",
+    "nextSlide": "Volgende dia",
+    "previousSlide": "Vorige dia",
+    "statusIndicatorSelectedAria": "Dia {{slide}} geselecteerd",
+    "statusIndicatorUnselectedAria": "Dia {{slide}} selecteren",
+    "tabs": {
+      "introduction": "Introductie",
+      "concepts": "Concepten",
+      "elements": "Elementen",
+      "behaviors": "Gedrag",
+      "twins": "Tweeling",
+      "widgets": "Widgets",
+      "sceneLayers": "Scènelagen"
+    },
+    "frePages": {
+      "intro": {
+        "title": "Onze nieuwste low-code bouwer",
+        "text": "In deze meeslepende 3D-omgeving kunt u operationele gegevens bewaken, diagnosticeren en onderzoeken met de visuele context van 3D-assets, aangedreven door Azure Digital Twins-gegevens, zonder dat u 3D-expertise nodig hebt."
+      },
+      "builder": {
+        "title": "Pas uw scène aan in onze Builder",
+        "text": "De bouwer in 3D Scenes Studio is de primaire interface voor het configureren van uw scènes. Het is een low-code, visuele ervaring."
+      },
+      "viewer": {
+        "title": "Verken rond of sluit het elders in",
+        "text": "Bekijk de 3D-scène hier in de Studio. De viewercomponent kan worden ingesloten in aangepaste toepassingen en kan samenwerken met 3rd party-componenten."
+      }
+    },
+    "conceptsRoot": {
+      "title": "Wil je dieper ingaan op de concepten?",
+      "text": "Blader door de Help-inhoud of bekijk onze documentatie voor stapsgewijze zelfstudies!"
     }
   }
 }

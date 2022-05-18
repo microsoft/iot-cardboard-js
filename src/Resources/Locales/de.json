@@ -814,6 +814,43 @@
     "sceneLayers": {
       "title": "Was ist eine Szenenebene?",
       "mainContent": "Sie können Ebenen in Ihrer Szene erstellen, um Ihr Verhalten zu organisieren. Ebenen verhalten sich wie Tags für die Verhaltensweisen, sodass Sie definieren können, welche Verhaltensweisen zusammen angezeigt werden müssen, und so benutzerdefinierte Ansichten Ihrer Szene für verschiedene Rollen oder Aufgaben erstellen.\n\nWenn es keine Ebenen in einer Szene gibt, werden alle Verhaltensweisen im Szenenbetrachter angezeigt. Wenn in der Szene mindestens eine Ebene vorhanden ist, werden nur Verhaltensweisen angezeigt, die mit einer Ebene gekennzeichnet sind.\n\nEine Möglichkeit, Ebenen zu erstellen, besteht darin, die Schaltfläche \"Szenenebenen\" in der Ansicht \"Erstellen\" für eine Szene zu verwenden. Alternativ können Sie Ebenen erstellen, während Sie ein Verhalten erstellen oder ändern."
+    },
+    "modalTitle": "Willkommen bei 3D Scenes Studio!",
+    "publicPreview": "Öffentliche Vorschau",
+    "closeAriaLabel": "Modal schließen",
+    "viewTheDocs": "Dokumente anzeigen",
+    "exploreTheDemo": "Entdecken Sie die Demo",
+    "dismiss": "Entlassen",
+    "nextSlide": "Nächste Folie",
+    "previousSlide": "Vorherige Folie",
+    "statusIndicatorSelectedAria": "Folie {{slide}} ausgewählt",
+    "statusIndicatorUnselectedAria": "Wählen Sie Folie {{slide}}",
+    "tabs": {
+      "introduction": "Einleitung",
+      "concepts": "Konzepte",
+      "elements": "Elemente",
+      "behaviors": "Verhaltensweisen",
+      "twins": "Zwillinge",
+      "widgets": "Widgets",
+      "sceneLayers": "Szenen-Layer"
+    },
+    "frePages": {
+      "intro": {
+        "title": "Unser neuester Low-Code-Builder",
+        "text": "In dieser immersiven 3D-Umgebung können Sie Betriebsdaten mit dem visuellen Kontext von 3D-Assets überwachen, diagnostizieren und untersuchen, die auf Azure Digital Twins-Daten basieren, ohne dass 3D-Fachwissen erforderlich ist."
+      },
+      "builder": {
+        "title": "Passen Sie Ihre Szene in unserem Builder an",
+        "text": "Der Builder in 3D Scenes Studio ist die primäre Schnittstelle zum Konfigurieren Ihrer Szenen. Es ist eine Low-Code, visuelle Erfahrung."
+      },
+      "viewer": {
+        "title": "Erkunden Sie die Umgebung oder betten Sie sie an anderer Stelle ein",
+        "text": "Sehen Sie sich die 3D-Szene direkt hier im Studio an. Die Viewer-Komponente kann in benutzerdefinierte Anwendungen eingebettet werden und kann in Verbindung mit 3rd-Party-Komponenten verwendet werden."
+      }
+    },
+    "conceptsRoot": {
+      "title": "Brauchen Sie einen tieferen Einblick in die Konzepte?",
+      "text": "Durchsuchen Sie den Hilfeinhalt oder lesen Sie unsere Dokumentation für Schritt-für-Schritt-Anleitungen!"
     }
   }
 }
