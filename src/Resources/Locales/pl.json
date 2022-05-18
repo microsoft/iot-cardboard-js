@@ -786,8 +786,16 @@
   "tutorialModal": {
     "elements": {
       "title": "Co to jest element?",
-      "content": "Element to samodzielnie zdefiniowany zestaw siatek 3D, który jest połączony z danymi na jednym lub kilku podstawowych cyfrowych bliźniakach. Elementy pomagają szybko ocenić działanie i kondycję systemu. \n\nPierwotny bliźniak jest głównym cyfrowym odpowiednikiem bliźniaka dla elementu. Łączysz element z bliźniaczką w wystąpieniu usługi Azure Digital Twins, aby element mógł reprezentować bliźniaka i jego dane w wizualizacji 3D.",
-      "docLinkBlurb": "Aby uzyskać bardziej szczegółowe informacje krok po kroku, sprawdź naszą <DocLink>docs here.</DocLink>"
+      "content": "Element to samodzielnie zdefiniowany zestaw siatek 3D, który jest połączony z danymi na jednym lub kilku podstawowych cyfrowych bliźniakach. Elementy pomagają szybko ocenić działanie i kondycję systemu. \n\nPierwotny bliźniak jest głównym cyfrowym odpowiednikiem bliźniaka dla elementu. Łączysz element z bliźniaczką w wystąpieniu usługi Azure Digital Twins, aby element mógł reprezentować bliźniaka i jego dane w wizualizacji 3D."
+    },
+    "docLinkBlurb": "Aby uzyskać bardziej szczegółowe informacje krok po kroku, sprawdź naszą <DocLink>docs here.</DocLink>",
+    "behaviors": {
+      "title": "Co to jest zachowanie?",
+      "mainContent": "Zachowanie to scenariusz sceny, który wykorzystuje określone dane dotyczące cyfrowego bliźniaka powiązanego elementu do tworzenia wizualizacji w przeglądarce.\n\nTworzenie zachowania obejmuje wybieranie bliźniaków, konfigurowanie stanu i alertów, dodawanie widżetu i wybieranie warstwy, na której mają być wyświetlane.\n\n",
+      "statusTitle": "Stan",
+      "statusDescription": "Stany są nakładkami opartymi na danych na elementach, aby wskazać kondycję lub stan elementu. ustaw zakresy wartości, aby utworzyć granice stanów, i wybierz kolory reprezentujące każdy stan w wizualizacji.\n\n",
+      "alertsTitle": "Alerty",
+      "alertsDescription": "Alerty to powiadomienia warunkowe, które pomagają szybko sprawdzić, kiedy element wymaga uwagi. Dostosuj odznakę alertu za pomocą ikony, koloru i tekstu.\n\n"
     }
   }
 }

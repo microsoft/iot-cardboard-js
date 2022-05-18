@@ -786,8 +786,16 @@
   "tutorialModal": {
     "elements": {
       "title": "Co je to prvek?",
-      "content": "Prvek je samodefinovaná sada 3D sítí, která je propojena s daty na jednom nebo více podkladových digitálních dvojčatech. Prvky vám pomohou rychle posoudit provoz a stav systému. \n\nPrimární dvojče je hlavním protějškem digitálního dvojčete prvku. Prvek připojíte k dvojčeti v instanci Azure Digital Twins, aby prvek mohl reprezentovat vaše dvojče a jeho data v rámci 3D vizualizace.",
-      "docLinkBlurb": "Podrobnější informace naleznete v našich <DocLink>docs here.</DocLink>"
+      "content": "Prvek je samodefinovaná sada 3D sítí, která je propojena s daty na jednom nebo více podkladových digitálních dvojčatech. Prvky vám pomohou rychle posoudit provoz a stav systému. \n\nPrimární dvojče je hlavním protějškem digitálního dvojčete prvku. Prvek připojíte k dvojčeti v instanci Azure Digital Twins, aby prvek mohl reprezentovat vaše dvojče a jeho data v rámci 3D vizualizace."
+    },
+    "docLinkBlurb": "Podrobnější informace naleznete v našich <DocLink>docs here.</DocLink>",
+    "behaviors": {
+      "title": "Co je to chování?",
+      "mainContent": "Chování je scénář pro vaši scénu, který využije konkrétní data o digitálním dvojčeti souvisejícího prvku k podpoře vizualizací prohlížeče.\n\nVytvoření chování zahrnuje výběr dvojčat, konfiguraci stavu a výstrah, přidání widgetu a výběr vrstvy, na které se má zobrazit.\n\n",
+      "statusTitle": "Stav",
+      "statusDescription": "Stavy jsou překryvné vrstvy založené na datech na vašich prvcích, které označují stav nebo stav prvku. nastavte rozsahy hodnot pro vytvoření hranic stavů a zvolte barvy, které budou reprezentovat každý stav ve vizualizaci.\n\n",
+      "alertsTitle": "Výstrahy",
+      "alertsDescription": "Výstrahy jsou podmíněná oznámení, která vám pomohou rychle zjistit, kdy prvek vyžaduje vaši pozornost. Přizpůsobte si výstražný odznak ikonou, barvou a textem.\n\n"
     }
   }
 }

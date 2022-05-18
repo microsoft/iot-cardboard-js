@@ -786,8 +786,16 @@
   "tutorialModal": {
     "elements": {
       "title": "¿Qué es un elemento?",
-      "content": "Un elemento es un conjunto autodefinido de mallas 3D que está vinculado a datos sobre uno o más gemelos digitales subyacentes. Elements le ayuda a medir rápidamente las operaciones y el estado del sistema. \n\nUn gemelo primario es la contraparte principal del gemelo digital para un elemento. Conecte el elemento a un gemelo en la instancia de Azure Digital Twins para que el elemento pueda representar al gemelo y sus datos dentro de la visualización 3D.",
-      "docLinkBlurb": "Para un paso a paso más detallado, consulte nuestro <DocLink>docs aquí.</DocLink>"
+      "content": "Un elemento es un conjunto autodefinido de mallas 3D que está vinculado a datos sobre uno o más gemelos digitales subyacentes. Elements le ayuda a medir rápidamente las operaciones y el estado del sistema. \n\nUn gemelo primario es la contraparte principal del gemelo digital para un elemento. Conecte el elemento a un gemelo en la instancia de Azure Digital Twins para que el elemento pueda representar al gemelo y sus datos dentro de la visualización 3D."
+    },
+    "docLinkBlurb": "Para un paso a paso más detallado, consulte nuestro <DocLink>docs aquí.</DocLink>",
+    "behaviors": {
+      "title": "¿Qué es un comportamiento?",
+      "mainContent": "Un comportamiento es un escenario para su escena que aprovechará datos particulares en el gemelo digital del elemento relacionado para impulsar las visualizaciones del visor.\n\nLa creación de un comportamiento incluye elegir gemelos, configurar el estado y las alertas, agregar un widget y elegir en qué capa mostrar.\n\n",
+      "statusTitle": "Estado",
+      "statusDescription": "Los estados son superposiciones basadas en datos en los elementos para indicar el estado o el estado del elemento. establezca rangos de valores para crear límites de estado y elija colores para representar cada estado en la visualización.\n\n",
+      "alertsTitle": "Alertas",
+      "alertsDescription": "Las alertas son notificaciones condicionales para ayudarte a ver rápidamente cuándo un elemento requiere tu atención. Personaliza tu insignia de alerta con un icono, color y texto.\n\n"
     }
   }
 }
