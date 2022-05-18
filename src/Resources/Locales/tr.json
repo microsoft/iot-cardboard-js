@@ -796,6 +796,24 @@
       "statusDescription": "Durumlar, öğenin sistem durumunu veya durumunu belirtmek için öğeleriniz üzerindeki veri odaklı kaplamalardır. durum sınırları oluşturmak için değer aralıkları ayarlayın ve görselleştirmedeki her durumu temsil edecek renkleri seçin.\n\n",
       "alertsTitle": "Uyarı",
       "alertsDescription": "Uyarılar, bir öğenin ne zaman dikkat etmeniz gerektiğini hızlı bir şekilde görmenize yardımcı olan koşullu bildirimlerdir. Uyarı rozetinizi bir simge, renk ve metinle özelleştirin.\n\n"
+    },
+    "tip": "Bahşiş",
+    "twins": {
+      "title": "İkizleri nasıl seçerim?",
+      "mainContent": "İkizler sekmesinde, verileri bu davranış için kullanılabilir olan ikizler kümesini değiştirebilirsiniz. Bu, hedeflenen elementlerin birincil ikizlerini ve birincil olmayan ikizleri içerir.\n\nBirincil olmayan ikiz, bir öğe için ikincil bir dijital ikiz veri kaynağıdır. Bu öğenin davranış ifadelerinde bu ikizin özelliklerini kullanabilirsiniz. Birincil olmayan ikizleri yalnızca, birincil ikizinizin ötesinde, bu davranış için durumunuzda, uyarılarınızda ve widget'larınızda kullanmak istediğiniz verilere sahip ek ikizler olduğunda eklemelisiniz.\n\n",
+      "tipContent": "Azure Digital Twins Explorer, bu öğenin birincil ikizi ile ilişkili olabilecek ikizleri görmenize yardımcı olabilir. SELECT * FROM digitaltwins WHERE $dtId='<primary-twin-id>' komutunu kullanarak grafiğinizi sorgulayabilir ve ardından ilgili ikizleri keşfetmek için çift tıklatmalı genişletme özelliğini kullanabilirsiniz."
+    },
+    "widgets": {
+      "title": "Widget nedir?",
+      "mainContent": "Pencere öğeleri, davranışın temsil ettiği senaryoyu anlamanıza yardımcı olmak için ek bağlam ve veriler sağlayan veri odaklı görsellerdir. Widget'ları yapılandırmak, bir uyarı veya durum etkinken doğru verilerin bulunabilir olduğundan emin olmanıza yardımcı olur.\n\n",
+      "typesOfWidgets": "Widget türleri\n\n",
+      "gaugeDescription": "<Altı çizili>Ölçer: < / Altı çizili> Sayısal veri noktalarını görsel olarak temsil etmek için\n\n",
+      "linkDescription": "<Altı çizili>Bağlantı:</Altı Çizili> Harici olarak başvurulan içeriği bağlantılı bir URL aracılığıyla dahil etmek için\n\n",
+      "valueDescription": "<Underline>Value:</Underline> İkiz özellik değerlerini doğrudan görüntülemek için\n\n"
+    },
+    "sceneLayers": {
+      "title": "Sahne katmanı nedir?",
+      "mainContent": "Davranışlarınızı düzenlemenize yardımcı olması için sahnenizde katmanlar oluşturabilirsiniz. Katmanlar, davranışlar üzerindeki etiketler gibi davranarak hangi davranışların birlikte görülmesi gerektiğini tanımlamanıza olanak tanır, böylece farklı roller veya görevler için sahnenizin özel görünümlerini oluşturur.\n\nBir sahnede katman yoksa, tüm davranışlar sahne görüntüleyicisinde görünür. Sahnede en az bir katman varsa görüntüleyicide yalnızca bir katmanla etiketlenmiş davranışlar görünür.\n\nKatmanlar oluşturmanın bir yolu, bir sahne için Yapı görünümündeki Sahne katmanları düğmesini kullanmaktır. Alternatif olarak, bir davranış oluştururken veya değiştirirken katmanlar oluşturabilirsiniz."
     }
   }
 }

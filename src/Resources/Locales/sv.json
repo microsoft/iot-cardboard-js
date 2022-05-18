@@ -796,6 +796,24 @@
       "statusDescription": "Tillstånd är datadrivna överlagringar på dina element för att ange elementets hälsa eller status. ange värdeintervall för att skapa tillståndsgränser och välj färger som representerar varje tillstånd i visualiseringen.\n\n",
       "alertsTitle": "Varningar",
       "alertsDescription": "Aviseringar är villkorliga meddelanden som hjälper dig att snabbt se när ett element kräver din uppmärksamhet. Anpassa ditt varningsmärke med en ikon, färg och text.\n\n"
+    },
+    "tip": "Dricks",
+    "twins": {
+      "title": "Hur väljer jag tvillingar?",
+      "mainContent": "På fliken Tvillingar kan du ändra den uppsättning tvillingar vars data är tillgängliga för det här beteendet. Detta inkluderar de riktade elementens primära tvillingar och icke-primära tvillingar.\n\nEn icke-primär tvilling är en sekundär datakälla för en digital tvilling för ett element. Du kommer att kunna använda egenskaper från den tvillingen i dina beteendeuttryck för det här elementet. Du bör bara lägga till icke-primära tvillingar när det finns ytterligare tvillingar med data utöver din primära tvilling som du vill utnyttja i din status, aviseringar och widgetar för det här beteendet.\n\n",
+      "tipContent": "Azure Digital Twins Explorer kan hjälpa dig att se tvillingar som kan vara relaterade till den primära tvillingen för det här elementet. Du kan fråga diagrammet med SELECT * FROM digitaltwins WHERE $dtId='<primary-twin-id>' och sedan använda expansionsfunktionen för att dubbelklicka för att utforska relaterade tvillingar."
+    },
+    "widgets": {
+      "title": "Vad är en widget?",
+      "mainContent": "Widgetar är datadrivna visuella objekt som ger ytterligare kontext och data som hjälper dig att förstå scenariot som beteendet representerar. Genom att konfigurera widgetar kan du se till att rätt data kan upptäckas när en avisering eller status är aktiv.\n\n",
+      "typesOfWidgets": "Typer av widgets\n\n",
+      "gaugeDescription": "<Underline>Gauge:</Underline> För att representera numeriska datapunkter visuellt\n\n",
+      "linkDescription": "<Underline>Link:</Underline> För att inkludera externt refererat innehåll via en länkad URL\n\n",
+      "valueDescription": "<Underline>Value:</Underline> För direkt visning av tvillingegenskapsvärden\n\n"
+    },
+    "sceneLayers": {
+      "title": "Vad är ett scenlager?",
+      "mainContent": "Du kan skapa lager i din scen för att organisera dina beteenden. Lager fungerar som taggar på beteendena, så att du kan definiera vilka beteenden som behöver ses tillsammans, vilket skapar anpassade vyer av din scen för olika roller eller uppgifter.\n\nOm det inte finns några lager i en scen visas alla beteenden i scenvisaren. Om det finns minst ett lager i scenen visas bara beteenden som är taggade med ett lager i visningsprogrammet.\n\nEtt sätt att skapa lager är att använda knappen Scenlager i vyn Skapa för en scen. Du kan också skapa lager när du skapar eller ändrar ett beteende."
     }
   }
 }

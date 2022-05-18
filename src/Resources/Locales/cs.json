@@ -796,6 +796,24 @@
       "statusDescription": "Stavy jsou překryvné vrstvy založené na datech na vašich prvcích, které označují stav nebo stav prvku. nastavte rozsahy hodnot pro vytvoření hranic stavů a zvolte barvy, které budou reprezentovat každý stav ve vizualizaci.\n\n",
       "alertsTitle": "Výstrahy",
       "alertsDescription": "Výstrahy jsou podmíněná oznámení, která vám pomohou rychle zjistit, kdy prvek vyžaduje vaši pozornost. Přizpůsobte si výstražný odznak ikonou, barvou a textem.\n\n"
+    },
+    "tip": "Spropitné",
+    "twins": {
+      "title": "Jak si mohu vybrat dvojčata?",
+      "mainContent": "Na kartě Dvojčata můžete upravit sadu dvojčat, jejichž data jsou k dispozici pro toto chování. To zahrnuje primární dvojčata cílových prvků a neprimární dvojčata.\n\nNeprimární dvojče je sekundární zdroj dat digitálního dvojčete pro prvek. Pro tento prvek budete moci použít vlastnosti z tohoto dvojčete ve výrazech chování. Neprimární dvojčata byste měli přidávat pouze v případě, že existují další dvojčata s daty mimo primární dvojče, která chcete využít ve svém stavu, výstrahách a widgetech pro toto chování.\n\n",
+      "tipContent": "Průzkumník digitálních vláken Azure vám může pomoci zobrazit dvojčata, která mohou souviset s primárním dvojčetem pro tento prvek. Graf můžete zadat dotaz pomocí příkazu SELECT * FROM digitaltwins WHERE $dtId='<primary-twin-id>\" a pak pomocí funkce rozšíření dvojitým kliknutím prozkoumat související dvojčata."
+    },
+    "widgets": {
+      "title": "Co je to widget?",
+      "mainContent": "Widgety jsou vizuály řízené daty, které poskytují další kontext a data, aby vám pomohly pochopit scénář, který chování představuje. Konfigurace widgetů vám pomůže zajistit, aby byla správná data zjistitelná, když je aktivní výstraha nebo stav.\n\n",
+      "typesOfWidgets": "Typy widgetů\n\n",
+      "gaugeDescription": "<Podpis>Gauge:</Podtržení> Pro vizuální znázornění číselných datových bodů\n\n",
+      "linkDescription": "<Podpis>Link:</Podtržení> Pro zahrnutí externě odkazovaného obsahu prostřednictvím odkazované adresy URL\n\n",
+      "valueDescription": "<Podpis>Hodnota:</Podtržení> Pro přímé zobrazení hodnot vlastností dvojčat\n\n"
+    },
+    "sceneLayers": {
+      "title": "Co je vrstva scény?",
+      "mainContent": "Ve scéně můžete vytvořit vrstvy, které vám pomohou uspořádat chování. Vrstvy se chovají jako tagy chování, což vám umožňuje definovat, která chování je třeba vidět společně, a tím vytvářet vlastní zobrazení scény pro různé role nebo úkoly.\n\nPokud ve scéně nejsou žádné vrstvy, všechna chování se zobrazí v prohlížeči scény. Pokud je ve scéně přítomna alespoň jedna vrstva, zobrazí se v prohlížeči pouze chování, která jsou označena vrstvou.\n\nJedním ze způsobů, jak vytvořit vrstvy, je použít tlačítko Vrstvy scény v zobrazení Vytvořit. Alternativně můžete vytvářet vrstvy při vytváření nebo úpravě chování."
     }
   }
 }

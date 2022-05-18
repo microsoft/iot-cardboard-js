@@ -796,6 +796,24 @@
       "statusDescription": "Zustände sind datengesteuerte Überlagerungen Ihrer Elemente, um die Integrität oder den Status des Elements anzuzeigen. Legen Sie Wertebereiche fest, um Zustandsgrenzen zu erstellen, und wählen Sie Farben aus, um jeden Status in der Visualisierung darzustellen.\n\n",
       "alertsTitle": "Alarmsignale",
       "alertsDescription": "Warnungen sind bedingte Benachrichtigungen, mit denen Sie schnell erkennen können, wann ein Element Ihre Aufmerksamkeit erfordert. Passen Sie Ihr Benachrichtigungs-Badge mit einem Symbol, einer Farbe und einem Text an.\n\n"
+    },
+    "tip": "Trinkgeld",
+    "twins": {
+      "title": "Wie wähle ich Zwillinge aus?",
+      "mainContent": "Auf der Registerkarte Zwillinge können Sie die Gruppe von Zwillingen ändern, deren Daten für dieses Verhalten verfügbar sind. Dazu gehören die primären Zwillinge der Zielelemente und die nicht-primären Zwillinge.\n\nEin nicht-primärer Zwilling ist eine sekundäre digitale Zwillingsdatenquelle für ein Element. Sie können Eigenschaften aus diesem Zwilling in Ihren Verhaltensausdrücken für dieses Element verwenden. Sie sollten nur dann nicht-primäre Zwillinge hinzufügen, wenn es zusätzliche Zwillinge mit Daten gibt, die über Ihren primären Zwilling hinausgehen und die Sie in Ihrem Status, Ihren Warnungen und Widgets für dieses Verhalten nutzen möchten.\n\n",
+      "tipContent": "Azure Digital Twins Explorer kann Ihnen helfen, Zwillinge zu sehen, die möglicherweise mit dem primären Zwilling für dieses Element verwandt sind. Sie können Ihr Diagramm mit SELECT * FROM digitaltwins WHERE $dtId='<primary-twin-id>' abfragen und dann die Doppelklick-Erweiterungsfunktion verwenden, um verwandte Zwillinge zu erkunden."
+    },
+    "widgets": {
+      "title": "Was ist ein Widget?",
+      "mainContent": "Widgets sind datengesteuerte visuelle Elemente, die zusätzlichen Kontext und zusätzliche Daten bereitstellen, um Ihnen zu helfen, das Szenario zu verstehen, das das Verhalten darstellt. Durch das Konfigurieren von Widgets können Sie sicherstellen, dass die richtigen Daten erkennbar sind, wenn eine Warnung oder ein Status aktiv ist.\n\n",
+      "typesOfWidgets": "Arten von Widgets\n\n",
+      "gaugeDescription": "<Unterstreichung>Spur:</Unterstreichung> Zur visuellen Darstellung numerischer Datenpunkte\n\n",
+      "linkDescription": "<Unterstreichung>Link:</Unterstreichung> Zum Einbinden von extern referenzierten Inhalten über eine verlinkte URL\n\n",
+      "valueDescription": "<Unterstreichung>Wert:</Unterstreichung> Zum direkten Anzeigen von Twin-Eigenschaftswerten\n\n"
+    },
+    "sceneLayers": {
+      "title": "Was ist eine Szenenebene?",
+      "mainContent": "Sie können Ebenen in Ihrer Szene erstellen, um Ihr Verhalten zu organisieren. Ebenen verhalten sich wie Tags für die Verhaltensweisen, sodass Sie definieren können, welche Verhaltensweisen zusammen angezeigt werden müssen, und so benutzerdefinierte Ansichten Ihrer Szene für verschiedene Rollen oder Aufgaben erstellen.\n\nWenn es keine Ebenen in einer Szene gibt, werden alle Verhaltensweisen im Szenenbetrachter angezeigt. Wenn in der Szene mindestens eine Ebene vorhanden ist, werden nur Verhaltensweisen angezeigt, die mit einer Ebene gekennzeichnet sind.\n\nEine Möglichkeit, Ebenen zu erstellen, besteht darin, die Schaltfläche \"Szenenebenen\" in der Ansicht \"Erstellen\" für eine Szene zu verwenden. Alternativ können Sie Ebenen erstellen, während Sie ein Verhalten erstellen oder ändern."
     }
   }
 }

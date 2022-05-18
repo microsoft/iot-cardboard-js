@@ -796,6 +796,24 @@
       "statusDescription": "Os estados são sobreposições baseadas em dados nos seus elementos para indicar a saúde ou o estado do elemento. definir gamas de valor para criar limites de estado, e escolher cores para representar cada estado na visualização.\n\n",
       "alertsTitle": "Alertas",
       "alertsDescription": "Os alertas são notificações condicionais para ajudá-lo a ver rapidamente quando um elemento requer a sua atenção. Personalize o seu crachá de alerta com um ícone, cor e texto.\n\n"
+    },
+    "tip": "Ponta",
+    "twins": {
+      "title": "Como escolho gémeos?",
+      "mainContent": "No separador Gémeos, pode modificar o conjunto de gémeos cujos dados estão disponíveis para este comportamento. Isto inclui os gémeos primários dos elementos visados e os gémeos não primários.\n\nUm gémeo não primário é uma fonte de dados digital digital secundária para um elemento. Poderá usar propriedades desse gémeo nas suas expressões de comportamento para este elemento. Só deve adicionar gémeos não primários quando há gémeos adicionais com dados para além do seu gémeo primário que quer alavancar no seu estado, alertas e widgets para este comportamento.\n\n",
+      "tipContent": "O Azure Digital Twins Explorer pode ajudá-lo a ver gémeos que podem estar relacionados com o gémeo primário para este elemento. Pode consultar o seu gráfico utilizando SELECT * FROM digitaltwins WHERE $dtId='<primary-twin-id>', e, em seguida, usar a funcionalidade de expansão de duplo clique para explorar gémeos relacionados."
+    },
+    "widgets": {
+      "title": "O que é um widget?",
+      "mainContent": "Os Widgets são visuais orientados por dados que fornecem contexto e dados adicionais, para ajudá-lo a entender o cenário que o comportamento representa. Configurar widgets irá ajudá-lo a certificar-se de que os dados certos são detetáveis quando um alerta ou estado está ativo.\n\n",
+      "typesOfWidgets": "Tipos de widgets\n\n",
+      "gaugeDescription": "<Underline>Gauge:</Underline> Para representar pontos de dados numéricos visualmente\n\n",
+      "linkDescription": "<Underline>Link:</Underline> Para incluir conteúdo referenciado externamente através de um URL ligado\n\n",
+      "valueDescription": "<Underline>Valor:</Underline> Para exibir diretamente valores de propriedade dupla\n\n"
+    },
+    "sceneLayers": {
+      "title": "O que é uma camada de cena?",
+      "mainContent": "Pode criar camadas na sua cena para ajudar a organizar os seus comportamentos. As camadas agem como tags sobre os comportamentos, permitindo-lhe definir quais comportamentos precisam ser vistos em conjunto, criando assim vistas personalizadas da sua cena para diferentes papéis ou tarefas.\n\nSe não houver camadas numa cena, todos os comportamentos aparecerão no espectador de cena. Se houver pelo menos uma camada presente na cena, então apenas os comportamentos que são marcados com uma camada aparecerão no espectador.\n\nUma maneira de criar camadas é usar o botão de camadas de cena na vista Build para uma cena. Em alternativa, pode criar camadas enquanto cria ou modifica um comportamento."
     }
   }
 }

@@ -796,6 +796,24 @@
       "statusDescription": "Los estados son superposiciones basadas en datos en los elementos para indicar el estado o el estado del elemento. establezca rangos de valores para crear límites de estado y elija colores para representar cada estado en la visualización.\n\n",
       "alertsTitle": "Alertas",
       "alertsDescription": "Las alertas son notificaciones condicionales para ayudarte a ver rápidamente cuándo un elemento requiere tu atención. Personaliza tu insignia de alerta con un icono, color y texto.\n\n"
+    },
+    "tip": "Propina",
+    "twins": {
+      "title": "¿Cómo elijo gemelos?",
+      "mainContent": "En la pestaña Gemelos, puede modificar el conjunto de gemelos cuyos datos están disponibles para este comportamiento. Esto incluye a los gemelos primarios de los elementos objetivo y a los gemelos no primarios.\n\nUn gemelo no primario es una fuente de datos de gemelo digital secundario para un elemento. Podrá usar propiedades de ese gemelo en sus expresiones de comportamiento para este elemento. Solo debe agregar gemelos no primarios cuando haya gemelos adicionales con datos más allá de su gemelo principal que desee aprovechar en su estado, alertas y widgets para este comportamiento.\n\n",
+      "tipContent": "Azure Digital Twins Explorer puede ayudarle a ver gemelos que podrían estar relacionados con el gemelo principal para este elemento. Puede consultar el gráfico mediante SELECT * FROM digitaltwins WHERE $dtId='<primary-twin-id>', y luego usar la función de expansión de doble clic para explorar gemelos relacionados."
+    },
+    "widgets": {
+      "title": "¿Qué es un widget?",
+      "mainContent": "Los widgets son objetos visuales basados en datos que proporcionan contexto y datos adicionales para ayudarle a comprender el escenario que representa el comportamiento. La configuración de widgets le ayudará a asegurarse de que los datos correctos se puedan detectar cuando una alerta o estado esté activo.\n\n",
+      "typesOfWidgets": "Tipos de widgets\n\n",
+      "gaugeDescription": "<Sínda>Gauge:</Underline> Para representar visualmente los puntos de datos numéricos\n\n",
+      "linkDescription": "<Línea inferior>Enlace:</Subrayado> Para incluir contenido referenciado externamente a través de una URL vinculada\n\n",
+      "valueDescription": "<Línea inferior>Valor:</Subrayado> Para mostrar directamente los valores de propiedad gemelos\n\n"
+    },
+    "sceneLayers": {
+      "title": "¿Qué es una capa de escena?",
+      "mainContent": "Puede crear capas en su escena para ayudar a organizar sus comportamientos. Las capas actúan como etiquetas en los comportamientos, lo que le permite definir qué comportamientos deben verse juntos, creando así vistas personalizadas de su escena para diferentes roles o tareas.\n\nSi no hay capas en una escena, todos los comportamientos aparecerán en el visor de escenas. Si hay al menos una capa presente en la escena, solo los comportamientos etiquetados con una capa aparecerán en el visor.\n\nUna forma de crear capas es usar el botón Capas de escena en la vista Generar para una escena. Como alternativa, puede crear capas mientras crea o modifica un comportamiento."
     }
   }
 }
