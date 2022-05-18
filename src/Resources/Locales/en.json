@@ -785,6 +785,7 @@
     },
     "tutorialModal": {
         "docLinkBlurb": "For a more detailed step-by-step, check out our <DocLink>docs here.</DocLink>",
+        "tip": "Tip",
         "elements": {
             "title": "What's an element?",
             "content": "An element is a self-defined set of 3D meshes that is linked to data on one or more underlying digital twins. Elements help you quickly gauge system operations and health. \n\nA primary twin is the main digital twin counterpart for an element. You connect the element to a twin in your Azure Digital Twins instance so that the element can represent your twin and its data within the 3D visualization."
@@ -796,6 +797,11 @@
             "statusDescription": "States are data-driven overlays on your elements to indicate the health or status of the element. set value ranges to create state boundaries, and choose colors to represent each state in the visualization.\n\n",
             "alertsTitle": "Alerts",
             "alertsDescription": "Alerts are conditional notifications to help you quickly see when an element requires your attention. Customize your alert badge with an icon, color, and text.\n\n"
+        },
+        "twins": {
+            "title": "How do I choose twins?",
+            "mainContent": "On the Twins tab, you can modify the set of twins whose data is available to this behavior. This includes the targeted elements' primary twins and non-primary twins.\n\nA non-primary twin is a secondary digital twin data source for an element. You'll be able to use properties from that twin in your behavior expressions for this element. You should only add non-primary twins when there are additional twins with data beyond your primary twin that you want to leverage in your status, alerts, and widgets for this behavior.\n\n",
+            "tipContent": "Azure Digital Twins Explorer can help you see twins that might be related to the primary twin for this element. You can query your graph using SELECT * FROM digitaltwins WHERE $dtId='<primary-twin-id>', and then use the double-click expansion feature to explore related twins."
         }
     }
 }

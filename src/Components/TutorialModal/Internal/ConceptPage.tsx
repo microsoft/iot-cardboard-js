@@ -2,8 +2,11 @@ import React from 'react';
 import {
     FontSizes,
     FontWeights,
+    Icon,
     ITextStyles,
     Link,
+    memoizeFunction,
+    mergeStyleSets,
     Text
 } from '@fluentui/react';
 import { TutorialModalPage } from '../TutorialModal.types';
@@ -28,6 +31,9 @@ const ConceptPage: React.FC<{ pageKey: string }> = ({ pageKey }) => {
                 break;
             case TutorialModalPage.BEHAVIORS:
                 content = <Behaviors />;
+                break;
+            case TutorialModalPage.TWINS:
+                content = <Twins />;
                 break;
             default:
                 break;
@@ -78,12 +84,13 @@ const Elements = () => {
 
 const Behaviors = () => {
     const { t } = useTranslation();
+    const classNames = getStyles();
     return (
         <>
             <Text as={'h3'} styles={conceptTitleStyles} block>
                 {t('tutorialModal.behaviors.title')}
             </Text>
-            <div style={growContentStyles}>
+            <div className={classNames.growContent}>
                 <Text block>{t('tutorialModal.behaviors.mainContent')}</Text>
                 <Text block styles={boldTextStyles}>
                     {t('tutorialModal.behaviors.statusTitle')}
@@ -116,15 +123,72 @@ const Behaviors = () => {
     );
 };
 
-const growContentStyles = {
-    flexGrow: 1
+const Twins = () => {
+    const { t } = useTranslation();
+    const classNames = getStyles();
+    return (
+        <>
+            <Text as={'h3'} styles={conceptTitleStyles} block>
+                {t('tutorialModal.twins.title')}
+            </Text>
+            <div className={classNames.growContent}>
+                <Text block>{t('tutorialModal.twins.mainContent')}</Text>
+                <div className={classNames.iconLabelContainer}>
+                    <Icon
+                        iconName="CRMCustomerInsightsApp"
+                        styles={{ root: { marginRight: 8 } }}
+                    />
+                    <Text styles={boldTextStyles}>
+                        {t('tutorialModal.tip')}
+                    </Text>
+                </div>
+                <Text block>{t('tutorialModal.twins.tipContent')}</Text>
+            </div>
+            <Text>
+                <Trans
+                    t={t}
+                    i18nKey="tutorialModal.docLinkBlurb"
+                    components={{
+                        DocLink: (
+                            <Link
+                                href="https://www.google.com"
+                                target="_blank"
+                            ></Link>
+                        )
+                    }}
+                />
+            </Text>
+        </>
+    );
 };
+
+export const classPrefix = 'cb-tutorialmodal-concept-page';
+const classNames = {
+    iconLabelContainer: `${classPrefix}-icon-label-container-styles`,
+    growContent: `${classPrefix}-grow-content`
+};
+const getStyles = memoizeFunction(() => {
+    return mergeStyleSets({
+        iconLabelContainer: [
+            classNames.iconLabelContainer,
+            {
+                display: 'flex',
+                alignItems: 'center'
+            }
+        ],
+        growContent: [
+            classNames.growContent,
+            {
+                flexGrow: 1
+            }
+        ]
+    });
+});
 
 const boldTextStyles: Partial<ITextStyles> = {
     root: {
         fontWeight: FontWeights.bold,
-        fontSize: FontSizes.size14,
-        marginBottom: 2
+        fontSize: FontSizes.size14
     }
 };
 
