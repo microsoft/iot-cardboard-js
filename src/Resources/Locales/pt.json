@@ -414,13 +414,14 @@
       "expressionLabel": "Expressão do gatilho",
       "expressionPlaceholder": "Inserir expressão (por exemplo, PrimaryTwin.InFlow > 3)",
       "iconPickerLabel": "Ícone do crachá",
-      "notice": "Esse comportamento só será ativado quando a expressão do gatilho abaixo avaliar a verdade.",
       "notificationLabel": "Texto de notificação",
-      "notificationPlaceholder": "Texto para mostrar com o alerta para contexto adicional."
+      "notificationPlaceholder": "Texto para mostrar com o alerta para contexto adicional.",
+      "tabDescription": "Alertas — ícones acompanhados de texto — ajudam a chamar a atenção para condições críticas de dados. Abaixo, use expressões para disparar alertas em sua visualização.",
+      "notificationLabelTooltip": "Este texto dará um contexto ao consumidor quando esse crachá estiver ativo."
     },
     "behaviorStatusForm": {
-      "notice": "Use uma única propriedade para recolorir os elementos-alvo desse comportamento.",
-      "stateItemLabel": "Estado {{índice}}"
+      "stateItemLabel": "Estado {{índice}}",
+      "tabDescription": "Selecione uma propriedade e, em seguida, defina faixas para aplicar cores a determinadas condições — por exemplo, vermelho para indicar altas temperaturas ou verde para uma velocidade ideal."
     },
     "twinPropertyDropdown": {
       "propertyDropdownLabel": "Propriedade",
@@ -442,7 +443,6 @@
     "behaviorId": "ID de comportamento",
     "widgetLibrary": "Biblioteca Widget",
     "exploreWidgets": "Explore nossos widgets e adicione uma camada extra de informações à sua cena 3D.",
-    "addWidget": "Adicionar widget",
     "newWidget": "Novo widget",
     "createWidget": "Criar widget",
     "updateWidget": "Atualizar widget",
@@ -450,7 +450,6 @@
     "removeWidget": "Remover widget",
     "noWidgets": "Não foram encontrados widgets",
     "modifyWidget": "Modificar widget",
-    "noWidgetsConfigured": "Sem widgets configurados",
     "unitOfMeasure": "Unidade de medida",
     "expression": "Expressão",
     "warningBreakPointToggleLabel": "Habilitar ponto de quebra de cor",
@@ -490,7 +489,8 @@
       },
       "tabDescriptionPart1": "Cada elemento aproveita dados de seu gêmeo principal. Adicione outros gêmeos dos seus elementos.",
       "tabDescriptionPart2": "Veja as propriedades em comum entre os elementos-alvo e referencia essas propriedades usando o gêmeo primário ou os outros gêmeos em suas expressões. ",
-      "linkedTwinListHeader": "Gêmeos vinculados ({{count}})"
+      "linkedTwinListHeader": "Gêmeos vinculados ({{count}})",
+      "calloutDescription": "A união de propriedades gêmeas vinculadas de elementos selecionados"
     },
     "elementsListInstructions": "Selecione os elementos que deseja incluídos na visualização deste comportamento",
     "behaviorForm": {
@@ -498,6 +498,11 @@
       "createBehavior": "Criar comportamento",
       "modifyBehavior": "Editar comportamento",
       "formSubTitle": "Comportamentos são pistas visuais que ocorrem em condições específicas — por exemplo, em intervalos específicos ou em limiares de dados."
+    },
+    "behaviorWidgetsForm": {
+      "addWidgetButtonText": "Adicionar widget",
+      "noData": "Você ainda não configurou nenhum widgets",
+      "tabDescription": "Definir widgets que aparecem no contexto do elemento"
     }
   },
   "widgets": {

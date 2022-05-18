@@ -414,13 +414,14 @@
       "expressionLabel": "Expression de déclenchement",
       "expressionPlaceholder": "Entrez l’expression (par exemple PrimaryTwin.InFlow > 3)",
       "iconPickerLabel": "Icône de badge",
-      "notice": "Ce comportement ne sera activé que lorsque l’expression de déclencheur ci-dessous aura la valeur true.",
       "notificationLabel": "Texte de notification",
-      "notificationPlaceholder": "Texte à afficher avec l’alerte pour un contexte supplémentaire."
+      "notificationPlaceholder": "Texte à afficher avec l’alerte pour un contexte supplémentaire.",
+      "tabDescription": "Les alertes,c’est-à-dire les icônes accompagnées de texte, aident à attirer l’attention sur les conditions critiques des données. Ci-dessous, utilisez des expressions pour déclencher des alertes dans votre visualisation.",
+      "notificationLabelTooltip": "Ce texte donnera un contexte au consommateur lorsque ce badge est actif."
     },
     "behaviorStatusForm": {
-      "notice": "Utilisez une seule propriété pour recolorier les éléments cibles de ce comportement.",
-      "stateItemLabel": "État {{index}}"
+      "stateItemLabel": "État {{index}}",
+      "tabDescription": "Sélectionnez une propriété, puis définissez des plages pour appliquer la couleur à certaines conditions, par exemple, rouge pour indiquer des températures élevées ou vert pour une vitesse optimale."
     },
     "twinPropertyDropdown": {
       "propertyDropdownLabel": "Propriété",
@@ -442,7 +443,6 @@
     "behaviorId": "ID de comportement",
     "widgetLibrary": "Bibliothèque de widgets",
     "exploreWidgets": "Explorez nos widgets et ajoutez une couche supplémentaire d’informations à votre scène 3D.",
-    "addWidget": "Ajouter un widget",
     "newWidget": "Nouveau widget",
     "createWidget": "Créer un widget",
     "updateWidget": "Widget de mise à jour",
@@ -450,7 +450,6 @@
     "removeWidget": "Supprimer le widget",
     "noWidgets": "Aucun widget trouvé",
     "modifyWidget": "Modifier le widget",
-    "noWidgetsConfigured": "Aucun widget configuré",
     "unitOfMeasure": "Unité de mesure",
     "expression": "Expression",
     "warningBreakPointToggleLabel": "Activer le point de rupture des couleurs",
@@ -490,7 +489,8 @@
       },
       "tabDescriptionPart1": "Chaque élément exploite les données de son jumeau principal. Ajoutez d’autres jumeaux à partir desquels vos éléments peuvent exploiter les données.",
       "tabDescriptionPart2": "Affichez les propriétés communes entre les éléments ciblés et référencez ces propriétés à l’aide du jumeau principal ou des autres jumeaux dans vos expressions. ",
-      "linkedTwinListHeader": "Jumeaux liés ({{count}})"
+      "linkedTwinListHeader": "Jumeaux liés ({{count}})",
+      "calloutDescription": "L’union des propriétés jumelles liées d’éléments sélectionnés"
     },
     "elementsListInstructions": "Sélectionnez les éléments que vous souhaitez inclure dans la visualisation de ce comportement",
     "behaviorForm": {
@@ -498,6 +498,11 @@
       "createBehavior": "Créer un comportement",
       "modifyBehavior": "Modifier le comportement",
       "formSubTitle": "Les comportements sont des indices visuels qui se produisent dans des conditions spécifiques, par exemple à des intervalles spécifiques ou à des seuils de données."
+    },
+    "behaviorWidgetsForm": {
+      "addWidgetButtonText": "Ajouter un widget",
+      "noData": "Vous n'avez pas encore configuré de widgets",
+      "tabDescription": "Définir les widgets qui apparaissent dans le contexte de l'élément"
     }
   },
   "widgets": {

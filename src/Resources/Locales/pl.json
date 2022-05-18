@@ -414,13 +414,14 @@
       "expressionLabel": "Wyrażenie wyzwalacza",
       "expressionPlaceholder": "Wprowadź wyrażenie (np. PrimaryTwin.InFlow > 3)",
       "iconPickerLabel": "Ikona odznaki",
-      "notice": "To zachowanie zostanie włączone tylko wtedy, gdy poniższe wyrażenie wyzwalające oceni wartość true.",
       "notificationLabel": "Tekst powiadomienia",
-      "notificationPlaceholder": "Tekst do wyświetlenia z alertem dla dodatkowego kontekstu."
+      "notificationPlaceholder": "Tekst do wyświetlenia z alertem dla dodatkowego kontekstu.",
+      "tabDescription": "Alerty — ikony wraz z tekstem — pomagają zwrócić uwagę na krytyczne warunki danych. Poniżej użyj wyrażeń, aby wyzwolić alerty w wizualizacji.",
+      "notificationLabelTooltip": "Ten tekst poda kontekst konsumenta, gdy ta plakietka jest aktywna."
     },
     "behaviorStatusForm": {
-      "notice": "Użyj pojedynczej właściwości, aby ponownie pokolorować elementy docelowe tego zachowania.",
-      "stateItemLabel": "Stan {{index}}"
+      "stateItemLabel": "Stan {{index}}",
+      "tabDescription": "Wybierz właściwość, a następnie ustaw zakresy stosowania koloru do określonych warunków — na przykład czerwony, aby wskazać wysokie temperatury, lub zielony, aby uzyskać optymalną prędkość."
     },
     "twinPropertyDropdown": {
       "propertyDropdownLabel": "Własność",
@@ -442,7 +443,6 @@
     "behaviorId": "Identyfikator zachowania",
     "widgetLibrary": "Biblioteka widżetów",
     "exploreWidgets": "Zapoznaj się z naszymi widżetami i dodaj dodatkową warstwę informacji do sceny 3D.",
-    "addWidget": "Dodaj widżet",
     "newWidget": "Nowy widget",
     "createWidget": "Utwórz widżet",
     "updateWidget": "Widżet Aktualizacji",
@@ -450,7 +450,6 @@
     "removeWidget": "Usuń widżet",
     "noWidgets": "Nie znaleziono widżetów",
     "modifyWidget": "Widżet Modyfikuj",
-    "noWidgetsConfigured": "Brak skonfigurowanych widżetów",
     "unitOfMeasure": "Jednostka miary",
     "expression": "Wyrażenie",
     "warningBreakPointToggleLabel": "Włączanie punktu przerwania koloru",
@@ -490,7 +489,8 @@
       },
       "tabDescriptionPart1": "Każdy element wykorzystuje dane ze swojego podstawowego bliźniaka. Dodaj inne bliźniaki, z których elementy mogą wykorzystywać dane.",
       "tabDescriptionPart2": "Wyświetl właściwości wspólne dla elementów docelowych i odwołaj się do tych właściwości przy użyciu bliźniaczej nitki podstawowej lub innych bliźniąt w wyrażeniach. ",
-      "linkedTwinListHeader": "Połączone bliźnięta ({{count}})"
+      "linkedTwinListHeader": "Połączone bliźnięta ({{count}})",
+      "calloutDescription": "Połączenie połączonych bliźniaczych właściwości wybranych elementów"
     },
     "elementsListInstructions": "Wybierz elementy, które chcesz uwzględnić w wizualizacji tego zachowania",
     "behaviorForm": {
@@ -498,6 +498,11 @@
       "createBehavior": "Tworzenie zachowania",
       "modifyBehavior": "Edytuj zachowanie",
       "formSubTitle": "Zachowania to wskazówki wizualne, które występują w określonych warunkach — na przykład w określonych odstępach czasu lub na progach danych."
+    },
+    "behaviorWidgetsForm": {
+      "addWidgetButtonText": "Dodaj widżet",
+      "noData": "Nie skonfigurowano jeszcze żadnych widżetów",
+      "tabDescription": "Definiowanie widżetów wyświetlanych w kontekście elementu"
     }
   },
   "widgets": {

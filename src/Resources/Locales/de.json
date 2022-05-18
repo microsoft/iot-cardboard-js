@@ -414,13 +414,14 @@
       "expressionLabel": "Trigger-Ausdruck",
       "expressionPlaceholder": "Geben Sie den Ausdruck ein (z. B. PrimaryTwin.InFlow > 3)",
       "iconPickerLabel": "Badge-Symbol",
-      "notice": "Dieses Verhalten wird nur aktiviert, wenn der folgende Triggerausdruck als true ausgewertet wird.",
       "notificationLabel": "Benachrichtigungstext",
-      "notificationPlaceholder": "Text, der mit der Warnung für zusätzlichen Kontext angezeigt werden soll."
+      "notificationPlaceholder": "Text, der mit der Warnung für zusätzlichen Kontext angezeigt werden soll.",
+      "tabDescription": "Warnungen – Symbole, die von Text begleitet werden – helfen, die Aufmerksamkeit auf kritische Datenzustände zu lenken. Verwenden Sie unten Ausdrücke, um Warnungen in Ihrer Visualisierung auszulösen.",
+      "notificationLabelTooltip": "Dieser Text gibt einen Verbraucherkontext an, wenn dieses Badge aktiv ist."
     },
     "behaviorStatusForm": {
-      "notice": "Verwenden Sie eine einzelne Eigenschaft, um die Zielelemente dieses Verhaltens neu einzufärben.",
-      "stateItemLabel": "Status {{index}}"
+      "stateItemLabel": "Status {{index}}",
+      "tabDescription": "Wählen Sie eine Eigenschaft aus, und legen Sie dann Bereiche für die Anwendung von Farben auf bestimmte Bedingungen fest, z. B. Rot, um hohe Temperaturen anzuzeigen, oder Grün für optimale Geschwindigkeit."
     },
     "twinPropertyDropdown": {
       "propertyDropdownLabel": "Eigentum",
@@ -442,7 +443,6 @@
     "behaviorId": "Verhaltens-ID",
     "widgetLibrary": "Widget-Bibliothek",
     "exploreWidgets": "Erkunden Sie unsere Widgets und fügen Sie Ihrer 3D-Szene eine zusätzliche Informationsebene hinzu.",
-    "addWidget": "Widget hinzufügen",
     "newWidget": "Neues Widget",
     "createWidget": "Widget erstellen",
     "updateWidget": "Widget \"Aktualisieren\"",
@@ -450,7 +450,6 @@
     "removeWidget": "Widget entfernen",
     "noWidgets": "Keine Widgets gefunden",
     "modifyWidget": "Widget \"Ändern\"",
-    "noWidgetsConfigured": "Keine Widgets konfiguriert",
     "unitOfMeasure": "Maßeinheit",
     "expression": "Ausdruck",
     "warningBreakPointToggleLabel": "Farbhaltepunkt aktivieren",
@@ -490,7 +489,8 @@
       },
       "tabDescriptionPart1": "Jedes Element nutzt Daten aus seinem primären Zwilling. Fügen Sie weitere Zwillinge hinzu, von denen Ihre Elemente Daten nutzen können.",
       "tabDescriptionPart2": "Zeigen Sie die gemeinsamen Eigenschaften zwischen den Zielelementen an, und verweisen Sie auf diese Eigenschaften, indem Sie den primären Zwilling oder die anderen Zwillinge in Ihren Ausdrücken verwenden. ",
-      "linkedTwinListHeader": "Verknüpfte Zwillinge ({{count}})"
+      "linkedTwinListHeader": "Verknüpfte Zwillinge ({{count}})",
+      "calloutDescription": "Die Vereinigung verknüpfter Zwillingseigenschaften ausgewählter Elemente"
     },
     "elementsListInstructions": "Wählen Sie die Elemente aus, die in die Visualisierung dieses Verhaltens aufgenommen werden sollen",
     "behaviorForm": {
@@ -498,6 +498,11 @@
       "createBehavior": "Verhalten erzeugen",
       "modifyBehavior": "Verhalten bearbeiten",
       "formSubTitle": "Verhaltensweisen sind visuelle Hinweise, die unter bestimmten Bedingungen auftreten, z. B. in bestimmten Intervallen oder bei Datenschwellenwerten."
+    },
+    "behaviorWidgetsForm": {
+      "addWidgetButtonText": "Widget hinzufügen",
+      "noData": "Sie haben noch keine Widgets konfiguriert",
+      "tabDescription": "Definieren von Widgets, die im Kontext des Elements angezeigt werden"
     }
   },
   "widgets": {

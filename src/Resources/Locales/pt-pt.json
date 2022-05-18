@@ -414,13 +414,14 @@
       "expressionLabel": "Expressão do gatilho",
       "expressionPlaceholder": "Introduzir a expressão (por exemplo, PrimaryTwin.InFlow > 3)",
       "iconPickerLabel": "Ícone do crachá",
-      "notice": "Este comportamento só será ativado quando a expressão do gatilho abaixo avaliar a verdade.",
       "notificationLabel": "Texto de notificação",
-      "notificationPlaceholder": "Texto para mostrar com o alerta para contexto adicional."
+      "notificationPlaceholder": "Texto para mostrar com o alerta para contexto adicional.",
+      "tabDescription": "Alertas — ícones acompanhados por texto — ajudam a chamar a atenção para as condições críticas dos dados. Abaixo, utilize expressões para desencadear alertas na sua visualização.",
+      "notificationLabelTooltip": "Este texto dará um contexto ao consumidor quando este crachá estiver ativo."
     },
     "behaviorStatusForm": {
-      "notice": "Use uma única propriedade para recolorir os elementos-alvo deste comportamento.",
-      "stateItemLabel": "Estado {{index}}"
+      "stateItemLabel": "Estado {{index}}",
+      "tabDescription": "Selecione uma propriedade e, em seguida, desa ajuste gamas para aplicar a cor a determinadas condições - por exemplo, vermelho para indicar altas temperaturas, ou verde para uma velocidade ideal."
     },
     "twinPropertyDropdown": {
       "propertyDropdownLabel": "Propriedade",
@@ -442,7 +443,6 @@
     "behaviorId": "ID de comportamento",
     "widgetLibrary": "Biblioteca Widget",
     "exploreWidgets": "Explore os nossos widgets e adicione uma camada extra de informação à sua cena 3D.",
-    "addWidget": "Adicionar widget",
     "newWidget": "Novo widget",
     "createWidget": "Criar widget",
     "updateWidget": "Atualizar widget",
@@ -450,7 +450,6 @@
     "removeWidget": "Remover widget",
     "noWidgets": "Sem widgets encontrados",
     "modifyWidget": "Modificar widget",
-    "noWidgetsConfigured": "Sem widgets configurados",
     "unitOfMeasure": "Unidade de medida",
     "expression": "Expressão",
     "warningBreakPointToggleLabel": "Ativar o ponto de rutura da cor",
@@ -490,7 +489,8 @@
       },
       "tabDescriptionPart1": "Cada elemento aproveita os dados do seu gémeo primário. Adicione outros gémeos dos que os seus elementos podem aproveitar os dados.",
       "tabDescriptionPart2": "Veja as propriedades em comum entre os elementos visados e refira estas propriedades utilizando o gémeo primário ou os outros gémeos nas suas expressões. ",
-      "linkedTwinListHeader": "Gémeos ligados ({{count}}}"
+      "linkedTwinListHeader": "Gémeos ligados ({{count}}}",
+      "calloutDescription": "A união de propriedades gémeas ligadas de elementos selecionados"
     },
     "elementsListInstructions": "Selecione os elementos que pretende incluídos na visualização deste comportamento",
     "behaviorForm": {
@@ -498,6 +498,11 @@
       "createBehavior": "Criar comportamento",
       "modifyBehavior": "Editar comportamento",
       "formSubTitle": "Os comportamentos são pistas visuais que ocorrem em condições específicas , por exemplo, em intervalos específicos, ou em limiares de dados."
+    },
+    "behaviorWidgetsForm": {
+      "addWidgetButtonText": "Adicionar widget",
+      "noData": "Ainda não configuraste nenhum widgets.",
+      "tabDescription": "Defina widgets que aparecem no contexto do elemento"
     }
   },
   "widgets": {

@@ -414,13 +414,14 @@
       "expressionLabel": "トリガー式",
       "expressionPlaceholder": "式を入力してください(例えば、プライマリツイン.InFlow > 3)",
       "iconPickerLabel": "バッジアイコン",
-      "notice": "この動作は、以下のトリガー式が true と評価された場合にのみ有効になります。",
       "notificationLabel": "通知テキスト",
-      "notificationPlaceholder": "追加のコンテキストのアラートと共に表示するテキスト。"
+      "notificationPlaceholder": "追加のコンテキストのアラートと共に表示するテキスト。",
+      "tabDescription": "アラート (テキストが付いたアイコン) は、重要なデータ条件に注意を喚起するのに役立ちます。以下では、式を使用してビジュアライゼーションでアラートをトリガーします。",
+      "notificationLabelTooltip": "このテキストは、このバッジがアクティブなときにコンシューマーのコンテキストを提供します。"
     },
     "behaviorStatusForm": {
-      "notice": "1 つのプロパティを使用して、このビヘイビアのターゲット要素の色を変更します。",
-      "stateItemLabel": "状態 {{インデックス}}"
+      "stateItemLabel": "状態 {{インデックス}}",
+      "tabDescription": "プロパティを選択し、特定の条件に色を適用する範囲を設定します。たとえば、高温を示す赤、最適な速度を示す緑などです。"
     },
     "twinPropertyDropdown": {
       "propertyDropdownLabel": "財産",
@@ -442,7 +443,6 @@
     "behaviorId": "動作 ID",
     "widgetLibrary": "ウィジェットライブラリ",
     "exploreWidgets": "ウィジェットを探索し、3Dシーンに情報のレイヤーを追加します。",
-    "addWidget": "ウィジェットの追加",
     "newWidget": "新しいウィジェット",
     "createWidget": "ウィジェットの作成",
     "updateWidget": "更新ウィジェット",
@@ -450,7 +450,6 @@
     "removeWidget": "ウィジェットの削除",
     "noWidgets": "ウィジェットが見つかりません",
     "modifyWidget": "ウィジェットの変更",
-    "noWidgetsConfigured": "ウィジェットが構成されていません",
     "unitOfMeasure": "数量単位",
     "expression": "表現",
     "warningBreakPointToggleLabel": "カラーブレークポイントを有効にする",
@@ -490,7 +489,8 @@
       },
       "tabDescriptionPart1": "各要素は、プライマリ ツインからのデータを活用します。要素がデータを活用できる他のツインを追加します。",
       "tabDescriptionPart2": "ターゲット要素間で共通するプロパティを表示し、式内のプライマリ ツインまたは他のツインを使用してこれらのプロパティを参照します。",
-      "linkedTwinListHeader": "リンクされた双子 ({{カウント}})"
+      "linkedTwinListHeader": "リンクされた双子 ({{カウント}})",
+      "calloutDescription": "選択した要素のリンクされたツインプロパティの和集合"
     },
     "elementsListInstructions": "このビヘイビアのビジュアライゼーションに含める要素を選択します。",
     "behaviorForm": {
@@ -498,6 +498,11 @@
       "createBehavior": "ビヘイビアの作成",
       "modifyBehavior": "動作の編集",
       "formSubTitle": "ビヘイビアは、特定の条件 (特定の間隔やデータのしきい値など) で発生する視覚的な手がかりです。"
+    },
+    "behaviorWidgetsForm": {
+      "addWidgetButtonText": "ウィジェットの追加",
+      "noData": "ウィジェットをまだ構成していない",
+      "tabDescription": "要素のコンテキストに表示されるウィジェットを定義する"
     }
   },
   "widgets": {

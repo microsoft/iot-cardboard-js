@@ -414,13 +414,14 @@
       "expressionLabel": "Eseményindító kifejezése",
       "expressionPlaceholder": "Írja be a kifejezést (pl. PrimaryTwin.InFlow > 3)",
       "iconPickerLabel": "Jelvény ikon",
-      "notice": "Ez a viselkedés csak akkor lesz engedélyezve, ha az alábbi eseményindító kifejezés igaz értéket ad ki.",
       "notificationLabel": "Értesítés szövege",
-      "notificationPlaceholder": "A további környezethez tartozó riasztással megjelenítendő szöveg."
+      "notificationPlaceholder": "A további környezethez tartozó riasztással megjelenítendő szöveg.",
+      "tabDescription": "A figyelmeztetések – a szöveggel kísért ikonok – segítenek felhívni a figyelmet a kritikus adatfeltételekre. Az alábbiakban kifejezésekkel riasztásokat válthat ki a vizualizációban.",
+      "notificationLabelTooltip": "Ez a szöveg fogyasztói környezetet ad, amikor ez a jelvény aktív."
     },
     "behaviorStatusForm": {
-      "notice": "A viselkedés célelemeinek újraszínezéséhez használjon egyetlen tulajdonságot.",
-      "stateItemLabel": "Állapot {{index}}"
+      "stateItemLabel": "Állapot {{index}}",
+      "tabDescription": "Jelöljön ki egy tulajdonságot, majd állítsa be a szín bizonyos feltételekre való alkalmazásához szükséges tartományokat – például pirosat a magas hőmérséklet jelzéséhez, vagy zöldet az optimális sebességhez."
     },
     "twinPropertyDropdown": {
       "propertyDropdownLabel": "Ingatlan",
@@ -442,7 +443,6 @@
     "behaviorId": "Viselkedésazonosító",
     "widgetLibrary": "Widget könyvtár",
     "exploreWidgets": "Fedezze fel widgetjeinket, és adjon hozzá egy további információréteget a 3D-s jelenetéhez.",
-    "addWidget": "Widget hozzáadása",
     "newWidget": "Új widget",
     "createWidget": "Widget létrehozása",
     "updateWidget": "Widget frissítése",
@@ -450,7 +450,6 @@
     "removeWidget": "Widget eltávolítása",
     "noWidgets": "Nem található widget",
     "modifyWidget": "Widget módosítása",
-    "noWidgetsConfigured": "Nincs konfigurálva widget",
     "unitOfMeasure": "Mértékegység",
     "expression": "Kifejezés",
     "warningBreakPointToggleLabel": "Színtörési pont engedélyezése",
@@ -490,7 +489,8 @@
       },
       "tabDescriptionPart1": "Minden elem felhasználja az elsődleges ikeradatait. Adjon hozzá más ikreket, amelyekből az elemek kihasználhatják az adatokat.",
       "tabDescriptionPart2": "Tekintse meg a megcélzott elemek közötti közös tulajdonságokat, és hivatkozzon ezekre a tulajdonságokra az elsődleges iker vagy a kifejezésekben szereplő többi ikerpár használatával. ",
-      "linkedTwinListHeader": "Csatolt ikrek ({{count}})"
+      "linkedTwinListHeader": "Csatolt ikrek ({{count}})",
+      "calloutDescription": "A kiválasztott elemek kapcsolt ikertulajdonságok uniója"
     },
     "elementsListInstructions": "Válassza ki a viselkedés vizualizációjában szerepeltetni kívánt elemeket",
     "behaviorForm": {
@@ -498,6 +498,11 @@
       "createBehavior": "Viselkedés létrehozása",
       "modifyBehavior": "Viselkedés szerkesztése",
       "formSubTitle": "A viselkedés olyan vizuális jelek, amelyek meghatározott körülmények között fordulnak elő – például meghatározott időközönként vagy adatküszöbökben."
+    },
+    "behaviorWidgetsForm": {
+      "addWidgetButtonText": "Widget hozzáadása",
+      "noData": "Még nem állított be widgeteket",
+      "tabDescription": "Az elem környezetében megjelenő widgetek meghatározása"
     }
   },
   "widgets": {

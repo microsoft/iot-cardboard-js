@@ -414,13 +414,14 @@
       "expressionLabel": "触发器表达式",
       "expressionPlaceholder": "输入表达式（例如 PrimaryTwin.InFlow > 3）",
       "iconPickerLabel": "徽章图标",
-      "notice": "仅当下面的触发器表达式的计算结果为 true 时，才会启用此行为。",
       "notificationLabel": "通知文本",
-      "notificationPlaceholder": "要与警报一起显示的文本，以获取其他上下文。"
+      "notificationPlaceholder": "要与警报一起显示的文本，以获取其他上下文。",
+      "tabDescription": "警报（带有文本的图标）有助于引起人们对关键数据条件的注意。下面，使用表达式在可视化效果中触发警报。",
+      "notificationLabelTooltip": "此文本将在此锁屏提醒处于活动状态时提供使用者上下文。"
     },
     "behaviorStatusForm": {
-      "notice": "使用单个属性重新着色此行为的目标元素。",
-      "stateItemLabel": "状态 {{索引}}"
+      "stateItemLabel": "状态 {{索引}}",
+      "tabDescription": "选择一个属性，然后设置将颜色应用于特定条件的范围，例如，红色表示高温，绿色表示最佳速度。"
     },
     "twinPropertyDropdown": {
       "propertyDropdownLabel": "财产",
@@ -442,7 +443,6 @@
     "behaviorId": "行为标识",
     "widgetLibrary": "小部件库",
     "exploreWidgets": "探索我们的微件，为您的 3D 场景添加额外的信息图层。",
-    "addWidget": "添加小部件",
     "newWidget": "新小部件",
     "createWidget": "创建微件",
     "updateWidget": "更新小部件",
@@ -450,7 +450,6 @@
     "removeWidget": "删除小部件",
     "noWidgets": "未找到小部件",
     "modifyWidget": "修改微件",
-    "noWidgetsConfigured": "未配置小部件",
     "unitOfMeasure": "计量单位",
     "expression": "表达",
     "warningBreakPointToggleLabel": "启用颜色断点",
@@ -490,7 +489,8 @@
       },
       "tabDescriptionPart1": "每个元素都利用其主要孪生中的数据。添加元素可从中利用数据的其他孪生。",
       "tabDescriptionPart2": "查看目标元素之间共有的属性，并使用表达式中的主孪生或其他孪生来引用这些属性。",
-      "linkedTwinListHeader": "Linked twins （{{count}}）"
+      "linkedTwinListHeader": "Linked twins （{{count}}）",
+      "calloutDescription": "所选元素的链接孪生属性的并集"
     },
     "elementsListInstructions": "选择要包含在此行为的可视化效果中的元素",
     "behaviorForm": {
@@ -498,6 +498,11 @@
       "createBehavior": "创建行为",
       "modifyBehavior": "编辑行为",
       "formSubTitle": "行为是在特定条件下发生的视觉提示，例如，以特定间隔或数据阈值发生。"
+    },
+    "behaviorWidgetsForm": {
+      "addWidgetButtonText": "添加微件",
+      "noData": "您尚未配置任何微件",
+      "tabDescription": "定义出现在元素上下文中的小部件"
     }
   },
   "widgets": {
