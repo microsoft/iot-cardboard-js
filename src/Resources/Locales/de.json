@@ -346,7 +346,9 @@
     "noBehaviorsOnLayer": "Es gibt keine Verhaltensweisen auf dieser Ebene",
     "behaviorsListTitle": "Verhalten ({{count}})",
     "deleteConfirmationTitle": "Diese Ebene löschen?",
-    "deleteConfirmationMessage": "Dadurch werden die Ebene und alle damit verbundenen Verhaltensweisen dauerhaft aus allen Digital Twins-Umgebungen entfernt."
+    "deleteConfirmationMessage": "Dadurch werden die Ebene und alle damit verbundenen Verhaltensweisen dauerhaft aus allen Digital Twins-Umgebungen entfernt.",
+    "infoCalloutButtonTitle": "Mehr Info",
+    "infoCalloutContent": "Ebenen sind aufgabenbasierte Gruppierungen, mit denen Verbraucher Verhaltensweisen filtern können. Ebenen sind in allen Szenen vorhanden."
   },
   "3dSceneBuilder": {
     "elements": "Elemente",
@@ -367,14 +369,11 @@
     "searchBehaviorsPlaceholder": "Suchverhalten",
     "modifyElement": "Element ändern",
     "manageTargetElements": "Verwalten von Zielelementen",
-    "selectBehaviorElements": "Auswählen von Elementen, auf die dieses Verhalten abzielen soll",
     "multiSelectElements": "Elemente mit mehreren Auswahlmöglichkeiten",
     "updateBehavior": "Aktualisierungsverhalten",
     "removeBehaviorFromScene": "Entfernen des Verhaltens aus der Szene",
     "removeBehaviorFromAllScenes": "Entfernen des Verhaltens aus allen Szenen",
     "manageSceneLayer": "Szenenebene verwalten",
-    "createBehavior": "Verhalten erzeugen",
-    "modifyBehavior": "Verhalten ändern",
     "addBehaviorButton": "Verhalten hinzufügen",
     "addBehavior": "Verhalten hinzufügen",
     "searchBehaviors": "Suchverhalten",
@@ -393,7 +392,6 @@
     "confirmRemoveBehaviorFromScene": "Sind Sie sicher, dass Sie dieses Verhalten aus der aktuellen Szene entfernen möchten?",
     "confirmRemoveBehaviorFromAllScenes": "Sind Sie sicher, dass Sie dieses Verhalten aus allen Szenen entfernen möchten? Sie können diese Aktion nicht rückgängig machen.",
     "newElement": "Neues Element",
-    "newBehavior": "Neues Verhalten",
     "newBehaviorId": "NewBehaviorId",
     "cancel": "Abbrechen",
     "Done": "Fertig",
@@ -458,19 +456,13 @@
     "warningBreakPointToggleLabel": "Farbhaltepunkt aktivieren",
     "warningBreakPointLabel": "Unterbrechungspunkt der Warnfarbe",
     "linkWidgetUrlDescription": "Link-Widget-URL unterstützt JavaScript-Vorlagenzeichenfolgenformatierung wie: ${PrimaryTwin.property}",
-    "behaviorTypes": {
-      "alertBehavior": "Warnungsverhalten",
-      "statusBehavior": "Statusverhalten"
-    },
     "notImplemented": "Nicht implementiert",
     "noPrimaryTwinProperties": "Keine primären Zwillingseigenschaften, die angezeigt werden sollen",
     "twinAlias": {
       "title": "Twin-Alias",
-      "titlePlural": "Zwillingsaliase",
       "aliasedTwin": "Aliased Zwilling",
       "aliasedTwins": "Gestrichelte Zwillinge",
       "add": "Hinzufügen eines Zwillingsalias",
-      "noTwinAliasesAdded": "Noch keine Zwillingsaliase hinzugefügt",
       "new": "Neuer Zwillingsalias",
       "edit": "Zwillingsalias bearbeiten",
       "create": "Erstellen eines Zwillingsalias",
@@ -488,8 +480,6 @@
         "elementTwinMappingsNotExist": "Es ist keine Zuordnung verfügbar, fügen Sie dem Verhalten zuerst Elemente hinzu."
       },
       "descriptions": {
-        "twins": "Zwillinge geben Ihnen Zugriff auf Eigenschaften, die in Ausdrücken verwendet werden können.",
-        "primaryTwin": "Der PrimaryTwin enthält alle Eigenschaften, die zwischen den primären Zwillingen der Zielelemente gemeinsam sind.",
         "aliasChangeNotAllowed": "Eine Änderung des Alias ist nach der Erstellung nicht mehr zulässig.",
         "commonProperties": "Die Vereinigung primärer Zwillingseigenschaften ausgewählter Elemente"
       },
@@ -497,7 +487,17 @@
         "twinAliasAlreadyExists": "Twin Alias mit dem gleichen Namen existiert bereits, erwägen Sie stattdessen, es hinzuzufügen.",
         "alphanumericOnly": "Zwillingsalias darf nur alphanumerische Zeichen enthalten",
         "noNumberPrefix": "Twin Alias darf nicht mit einer Zahl beginnen"
-      }
+      },
+      "tabDescriptionPart1": "Jedes Element nutzt Daten aus seinem primären Zwilling. Fügen Sie weitere Zwillinge hinzu, von denen Ihre Elemente Daten nutzen können.",
+      "tabDescriptionPart2": "Zeigen Sie die gemeinsamen Eigenschaften zwischen den Zielelementen an, und verweisen Sie auf diese Eigenschaften, indem Sie den primären Zwilling oder die anderen Zwillinge in Ihren Ausdrücken verwenden. ",
+      "linkedTwinListHeader": "Verknüpfte Zwillinge ({{count}})"
+    },
+    "elementsListInstructions": "Wählen Sie die Elemente aus, die in die Visualisierung dieses Verhaltens aufgenommen werden sollen",
+    "behaviorForm": {
+      "newBehavior": "Neues Verhalten",
+      "createBehavior": "Verhalten erzeugen",
+      "modifyBehavior": "Verhalten bearbeiten",
+      "formSubTitle": "Verhaltensweisen sind visuelle Hinweise, die unter bestimmten Bedingungen auftreten, z. B. in bestimmten Intervallen oder bei Datenschwellenwerten."
     }
   },
   "widgets": {

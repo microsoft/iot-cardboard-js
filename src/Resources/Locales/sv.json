@@ -346,7 +346,9 @@
     "noBehaviorsOnLayer": "Det finns inga beteenden på det här lagret",
     "behaviorsListTitle": "Beteenden ({{count}})",
     "deleteConfirmationTitle": "Ta bort det här lagret?",
-    "deleteConfirmationMessage": "Detta tar permanent bort lagret och eventuella associerade beteenden från alla Digital Twins miljöer."
+    "deleteConfirmationMessage": "Detta tar permanent bort lagret och eventuella associerade beteenden från alla Digital Twins miljöer.",
+    "infoCalloutButtonTitle": "Läs mer",
+    "infoCalloutContent": "Lager är uppgiftsbaserade grupperingar som gör att konsumenter kan filtrera beteenden efter. Lager finns över scener."
   },
   "3dSceneBuilder": {
     "elements": "Element",
@@ -367,14 +369,11 @@
     "searchBehaviorsPlaceholder": "Sökbeteenden",
     "modifyElement": "Ändra element",
     "manageTargetElements": "Hantera målelement",
-    "selectBehaviorElements": "Välj element som det här beteendet ska rikta in sig på",
     "multiSelectElements": "Element med flera val",
     "updateBehavior": "Uppdatera beteende",
     "removeBehaviorFromScene": "Ta bort beteende från scenen",
     "removeBehaviorFromAllScenes": "Ta bort beteende från alla scener",
     "manageSceneLayer": "Hantera scenlager",
-    "createBehavior": "Skapa beteende",
-    "modifyBehavior": "Ändra beteende",
     "addBehaviorButton": "Lägg till beteende",
     "addBehavior": "Lägg till beteende",
     "searchBehaviors": "Sök beteenden",
@@ -393,7 +392,6 @@
     "confirmRemoveBehaviorFromScene": "Är du säker på att du vill ta bort det här beteendet från den aktuella scenen?",
     "confirmRemoveBehaviorFromAllScenes": "Är du säker på att du vill ta bort detta beteende från alla scener. Du kan inte ångra den här åtgärden.",
     "newElement": "Nytt element",
-    "newBehavior": "Nytt beteende",
     "newBehaviorId": "NewBehaviorId",
     "cancel": "Annullera",
     "Done": "Färdig",
@@ -458,19 +456,13 @@
     "warningBreakPointToggleLabel": "Aktivera färgbrytpunkt",
     "warningBreakPointLabel": "Brytpunkt för varningsfärg",
     "linkWidgetUrlDescription": "Länkwidget-URL stöder JavaScript-mallsträngformatering, till exempel: ${PrimaryTwin.property}",
-    "behaviorTypes": {
-      "alertBehavior": "Aviseringsbeteende",
-      "statusBehavior": "Status beteende"
-    },
     "notImplemented": "Inte implementerad",
     "noPrimaryTwinProperties": "Inga primära tvillingegenskaper att visa",
     "twinAlias": {
       "title": "Tvillingalias",
-      "titlePlural": "Dubbla alias",
       "aliasedTwin": "Aliased tvilling",
       "aliasedTwins": "Aliased tvillingar",
       "add": "Lägg till tvillingalias",
-      "noTwinAliasesAdded": "Inga tvillingalias har lagts till ännu",
       "new": "Nytt tvillingalias",
       "edit": "Redigera tvillingalias",
       "create": "Skapa tvillingalias",
@@ -488,8 +480,6 @@
         "elementTwinMappingsNotExist": "Det finns ingen tillgänglig mappning, lägg till element i beteendet först."
       },
       "descriptions": {
-        "twins": "Tvillingar ger dig tillgång till egenskaper som kan användas i uttryck.",
-        "primaryTwin": "PrimaryTwin innehåller alla egenskaper som är gemensamma mellan de primära tvillingarna i målelementen.",
         "aliasChangeNotAllowed": "Aliasändring tillåts inte när den har skapats.",
         "commonProperties": "Föreningen av primära tvillingegenskaper hos utvalda element"
       },
@@ -497,7 +487,17 @@
         "twinAliasAlreadyExists": "Tvillingalias med samma namn finns redan, överväg att lägga till det i stället.",
         "alphanumericOnly": "Tvillingalias får endast innehålla alfanumeriska tecken",
         "noNumberPrefix": "Tvillingalias får inte börja med ett tal"
-      }
+      },
+      "tabDescriptionPart1": "Varje element utnyttjar data från sin primära tvilling. Lägg till andra tvillingar som dina element kan utnyttja data från.",
+      "tabDescriptionPart2": "Visa egenskaperna gemensamt mellan målelementen och referera till dessa egenskaper med hjälp av den primära tvillingen eller de andra tvillingarna i dina uttryck. ",
+      "linkedTwinListHeader": "Länkade tvillingar ({{count}})"
+    },
+    "elementsListInstructions": "Välj de element som du vill ska ingå i visualiseringen av det här beteendet",
+    "behaviorForm": {
+      "newBehavior": "Nytt beteende",
+      "createBehavior": "Skapa beteende",
+      "modifyBehavior": "Redigera beteende",
+      "formSubTitle": "Beteenden är visuella signaler som inträffar under specifika förhållanden, till exempel vid specifika intervall eller vid datatrösklar."
     }
   },
   "widgets": {

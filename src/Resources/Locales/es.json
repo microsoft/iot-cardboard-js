@@ -346,7 +346,9 @@
     "noBehaviorsOnLayer": "No hay comportamientos en esta capa",
     "behaviorsListTitle": "Comportamientos ({{count}})",
     "deleteConfirmationTitle": "¿Eliminar esta capa?",
-    "deleteConfirmationMessage": "Esto elimina permanentemente la capa y cualquier comportamiento asociado de todos los entornos de Digital Twins."
+    "deleteConfirmationMessage": "Esto elimina permanentemente la capa y cualquier comportamiento asociado de todos los entornos de Digital Twins.",
+    "infoCalloutButtonTitle": "Más información",
+    "infoCalloutContent": "Las capas son agrupaciones basadas en tareas que permiten a los consumidores filtrar los comportamientos por. Existen capas en todas las escenas."
   },
   "3dSceneBuilder": {
     "elements": "Elementos",
@@ -367,14 +369,11 @@
     "searchBehaviorsPlaceholder": "Comportamientos de búsqueda",
     "modifyElement": "Modificar elemento",
     "manageTargetElements": "Administrar elementos de destino",
-    "selectBehaviorElements": "Seleccionar elementos para este comportamiento a los que dirigirse",
     "multiSelectElements": "Elementos de selección múltiple",
     "updateBehavior": "Comportamiento de actualización",
     "removeBehaviorFromScene": "Quitar comportamiento de la escena",
     "removeBehaviorFromAllScenes": "Eliminar el comportamiento de todas las escenas",
     "manageSceneLayer": "Administrar capa de escena",
-    "createBehavior": "Crear comportamiento",
-    "modifyBehavior": "Modificar comportamiento",
     "addBehaviorButton": "Agregar comportamiento",
     "addBehavior": "Agregar comportamiento",
     "searchBehaviors": "Comportamientos de búsqueda",
@@ -393,7 +392,6 @@
     "confirmRemoveBehaviorFromScene": "¿Está seguro de que desea eliminar este comportamiento de la escena actual?",
     "confirmRemoveBehaviorFromAllScenes": "¿Está seguro de que desea eliminar este comportamiento de todas las escenas? No puedes deshacer esta acción.",
     "newElement": "Nuevo elemento",
-    "newBehavior": "Nuevo comportamiento",
     "newBehaviorId": "NewBehaviorId",
     "cancel": "Cancelar",
     "Done": "Hecho",
@@ -458,19 +456,13 @@
     "warningBreakPointToggleLabel": "Habilitar el punto de interrupción de color",
     "warningBreakPointLabel": "Punto de interrupción del color de advertencia",
     "linkWidgetUrlDescription": "La URL del widget de vínculo admite el formato de cadena de plantilla de JavaScript como: ${PrimaryTwin.property}",
-    "behaviorTypes": {
-      "alertBehavior": "Comportamiento de alerta",
-      "statusBehavior": "Comportamiento del estado"
-    },
     "notImplemented": "No implementado",
     "noPrimaryTwinProperties": "No hay propiedades gemelas primarias que mostrar",
     "twinAlias": {
       "title": "Alias gemelo",
-      "titlePlural": "Alias gemelos",
       "aliasedTwin": "Gemelo con alias",
       "aliasedTwins": "Gemelos con alias",
       "add": "Agregar alias gemelo",
-      "noTwinAliasesAdded": "Aún no se han agregado alias gemelos",
       "new": "Nuevo alias gemelo",
       "edit": "Editar alias gemelo",
       "create": "Crear alias gemelo",
@@ -488,8 +480,6 @@
         "elementTwinMappingsNotExist": "No hay mapeo disponible, agregue elementos al comportamiento primero."
       },
       "descriptions": {
-        "twins": "Los gemelos le dan acceso a propiedades que se pueden usar en expresiones.",
-        "primaryTwin": "El PrimaryTwin contiene todas las propiedades en común entre los elementos de destino gemelos primarios.",
         "aliasChangeNotAllowed": "El cambio de alias no está permitido después de la creación.",
         "commonProperties": "La unión de las propiedades gemelas primarias de los elementos seleccionados"
       },
@@ -497,7 +487,17 @@
         "twinAliasAlreadyExists": "El alias gemelo con el mismo nombre ya existe, considere agregarlo en su lugar.",
         "alphanumericOnly": "El alias gemelo solo debe contener caracteres alfanuméricos",
         "noNumberPrefix": "El alias gemelo no debe comenzar con un número"
-      }
+      },
+      "tabDescriptionPart1": "Cada elemento aprovecha los datos de su gemelo principal. Agregue otros gemelos de los que sus elementos puedan aprovechar los datos.",
+      "tabDescriptionPart2": "Vea las propiedades en común entre los elementos de destino y haga referencia a estas propiedades utilizando el gemelo principal o los otros gemelos en sus expresiones. ",
+      "linkedTwinListHeader": "Gemelos vinculados ({{count}})"
+    },
+    "elementsListInstructions": "Seleccione los elementos que desea incluir en la visualización de este comportamiento",
+    "behaviorForm": {
+      "newBehavior": "Nuevo comportamiento",
+      "createBehavior": "Crear comportamiento",
+      "modifyBehavior": "Editar comportamiento",
+      "formSubTitle": "Los comportamientos son señales visuales que ocurren bajo condiciones específicas, por ejemplo, a intervalos específicos o en umbrales de datos."
     }
   },
   "widgets": {

@@ -346,7 +346,9 @@
     "noBehaviorsOnLayer": "Não há comportamentos nesta camada",
     "behaviorsListTitle": "Comportamentos ({{count}})",
     "deleteConfirmationTitle": "Apagar esta camada?",
-    "deleteConfirmationMessage": "Isto remove permanentemente a camada e quaisquer comportamentos associados de todos os ambientes de Gémeos Digitais."
+    "deleteConfirmationMessage": "Isto remove permanentemente a camada e quaisquer comportamentos associados de todos os ambientes de Gémeos Digitais.",
+    "infoCalloutButtonTitle": "Mais informações",
+    "infoCalloutContent": "As camadas são agrupamentos baseados em tarefas que permitem aos consumidores filtrar comportamentos. Camadas existem em todas as cenas."
   },
   "3dSceneBuilder": {
     "elements": "Elementos",
@@ -367,14 +369,11 @@
     "searchBehaviorsPlaceholder": "Pesquisar comportamentos",
     "modifyElement": "Elemento de modificação",
     "manageTargetElements": "Gerir elementos-alvo",
-    "selectBehaviorElements": "Selecione elementos para este comportamento a visar",
     "multiSelectElements": "Elementos multi-selecionados",
     "updateBehavior": "Atualizar o comportamento",
     "removeBehaviorFromScene": "Remover o comportamento da cena",
     "removeBehaviorFromAllScenes": "Remover o comportamento de todas as cenas",
     "manageSceneLayer": "Gerir a camada de cena",
-    "createBehavior": "Criar comportamento",
-    "modifyBehavior": "Modificar o comportamento",
     "addBehaviorButton": "Adicionar comportamento",
     "addBehavior": "Adicionar Comportamento",
     "searchBehaviors": "Pesquisar Comportamentos",
@@ -393,7 +392,6 @@
     "confirmRemoveBehaviorFromScene": "Tem certeza de que quer remover este comportamento da cena atual?",
     "confirmRemoveBehaviorFromAllScenes": "Tem certeza de que quer remover este comportamento de todas as cenas. Não podes desfazer esta ação.",
     "newElement": "Novo elemento",
-    "newBehavior": "Novo comportamento",
     "newBehaviorId": "NewBehaviorId",
     "cancel": "Cancelar",
     "Done": "Feito",
@@ -458,19 +456,13 @@
     "warningBreakPointToggleLabel": "Ativar o ponto de rutura da cor",
     "warningBreakPointLabel": "Ponto de rutura da cor de aviso",
     "linkWidgetUrlDescription": "Link widget URL suporta formatação de cadeia de modelo JavaScript como: ${PrimaryTwin.property}",
-    "behaviorTypes": {
-      "alertBehavior": "Comportamento de alerta",
-      "statusBehavior": "Comportamento do estado"
-    },
     "notImplemented": "Não implementado",
     "noPrimaryTwinProperties": "Sem propriedades gémeas primárias para exibir",
     "twinAlias": {
       "title": "Pseudónimo gémeo",
-      "titlePlural": "Pseudónimos gémeos",
       "aliasedTwin": "Gémeo pseudónimo",
       "aliasedTwins": "Gémeos pseudónimos",
       "add": "Adicione pseudónimos gémeos",
-      "noTwinAliasesAdded": "Nenhum pseudónimo gémeo adicionado ainda",
       "new": "Novo pseudónimo gémeo",
       "edit": "Editar pseudónimos gémeos",
       "create": "Criar pseudónimos gémeos",
@@ -488,8 +480,6 @@
         "elementTwinMappingsNotExist": "Não há mapeamento disponível, adicione elementos ao comportamento primeiro."
       },
       "descriptions": {
-        "twins": "Os gémeos dão-lhe acesso a propriedades que podem ser usadas em expressões.",
-        "primaryTwin": "O PrimaryTwin contém todas as propriedades em comum entre os gémeos primários dos elementos-alvo.",
         "aliasChangeNotAllowed": "A mudança de pseudónimo não é permitida após a criação.",
         "commonProperties": "A união das propriedades gémeas primárias de elementos selecionados"
       },
@@ -497,7 +487,17 @@
         "twinAliasAlreadyExists": "O pseudónimo gémeo com o mesmo nome já existe, considere adicioná-lo em vez disso.",
         "alphanumericOnly": "O pseudónimo gémeo só deve conter caracteres alfanuméricos",
         "noNumberPrefix": "Pseudónimo gémeo não deve começar com um número"
-      }
+      },
+      "tabDescriptionPart1": "Cada elemento aproveita os dados do seu gémeo primário. Adicione outros gémeos dos que os seus elementos podem aproveitar os dados.",
+      "tabDescriptionPart2": "Veja as propriedades em comum entre os elementos visados e refira estas propriedades utilizando o gémeo primário ou os outros gémeos nas suas expressões. ",
+      "linkedTwinListHeader": "Gémeos ligados ({{count}}}"
+    },
+    "elementsListInstructions": "Selecione os elementos que pretende incluídos na visualização deste comportamento",
+    "behaviorForm": {
+      "newBehavior": "Novo comportamento",
+      "createBehavior": "Criar comportamento",
+      "modifyBehavior": "Editar comportamento",
+      "formSubTitle": "Os comportamentos são pistas visuais que ocorrem em condições específicas , por exemplo, em intervalos específicos, ou em limiares de dados."
     }
   },
   "widgets": {

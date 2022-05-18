@@ -346,7 +346,9 @@
     "noBehaviorsOnLayer": "Il n’y a aucun comportement sur cette couche",
     "behaviorsListTitle": "Comportements ({{count}})",
     "deleteConfirmationTitle": "Supprimer ce calque ?",
-    "deleteConfirmationMessage": "Cela supprime définitivement la couche et tous les comportements associés de tous les environnements Digital Twins."
+    "deleteConfirmationMessage": "Cela supprime définitivement la couche et tous les comportements associés de tous les environnements Digital Twins.",
+    "infoCalloutButtonTitle": "Plus d’infos",
+    "infoCalloutContent": "Les couches sont des regroupements basés sur des tâches qui permettent aux consommateurs de filtrer les comportements. Les calques existent sur plusieurs scènes."
   },
   "3dSceneBuilder": {
     "elements": "Éléments",
@@ -367,14 +369,11 @@
     "searchBehaviorsPlaceholder": "Comportements de recherche",
     "modifyElement": "Modifier l’élément",
     "manageTargetElements": "Gérer les éléments cibles",
-    "selectBehaviorElements": "Sélectionner les éléments à cibler pour ce comportement",
     "multiSelectElements": "Éléments à sélection multiple",
     "updateBehavior": "Comportement de mise à jour",
     "removeBehaviorFromScene": "Supprimer le comportement de la scène",
     "removeBehaviorFromAllScenes": "Supprimer le comportement de toutes les scènes",
     "manageSceneLayer": "Gérer la couche de scène",
-    "createBehavior": "Créer un comportement",
-    "modifyBehavior": "Modifier le comportement",
     "addBehaviorButton": "Ajouter un comportement",
     "addBehavior": "Ajouter un comportement",
     "searchBehaviors": "Comportements de recherche",
@@ -393,7 +392,6 @@
     "confirmRemoveBehaviorFromScene": "Voulez-vous vraiment supprimer ce comportement de la scène actuelle ?",
     "confirmRemoveBehaviorFromAllScenes": "Voulez-vous vraiment supprimer ce comportement de toutes les scènes? Vous ne pouvez pas annuler cette action.",
     "newElement": "Nouvel élément",
-    "newBehavior": "Nouveau comportement",
     "newBehaviorId": "NewBehaviorId",
     "cancel": "Annuler",
     "Done": "Fait",
@@ -458,19 +456,13 @@
     "warningBreakPointToggleLabel": "Activer le point de rupture des couleurs",
     "warningBreakPointLabel": "Point d’arrêt des couleurs d’avertissement",
     "linkWidgetUrlDescription": "L’URL du widget de lien prend en charge la mise en forme de chaîne de modèle JavaScript telle que : ${PrimaryTwin.property}",
-    "behaviorTypes": {
-      "alertBehavior": "Comportement d’alerte",
-      "statusBehavior": "Comportement de l’état"
-    },
     "notImplemented": "Non mis en œuvre",
     "noPrimaryTwinProperties": "Aucune propriété jumelle principale à afficher",
     "twinAlias": {
       "title": "Alias jumeau",
-      "titlePlural": "Alias jumeaux",
       "aliasedTwin": "Jumeau aliasé",
       "aliasedTwins": "Jumeaux aliasés",
       "add": "Ajouter un alias jumeau",
-      "noTwinAliasesAdded": "Aucun alias jumeau n’a encore été ajouté",
       "new": "Nouvel alias jumeau",
       "edit": "Modifier l’alias jumeau",
       "create": "Créer un alias jumeau",
@@ -488,8 +480,6 @@
         "elementTwinMappingsNotExist": "Il n’y a pas de mappage disponible, ajoutez d’abord des éléments au comportement."
       },
       "descriptions": {
-        "twins": "Les jumeaux vous donnent accès à des propriétés qui peuvent être utilisées dans des expressions.",
-        "primaryTwin": "Le PrimaryTwin contient toutes les propriétés communes entre les éléments cibles des jumeaux primaires.",
         "aliasChangeNotAllowed": "La modification de l’alias n’est pas autorisée après la création.",
         "commonProperties": "L’union des propriétés jumelles primaires d’éléments sélectionnés"
       },
@@ -497,7 +487,17 @@
         "twinAliasAlreadyExists": "Un alias jumeau portant le même nom existe déjà, envisagez de l’ajouter à la place.",
         "alphanumericOnly": "L’alias jumeau ne doit contenir que des caractères alphanumériques",
         "noNumberPrefix": "L’alias jumeau ne doit pas commencer par un nombre"
-      }
+      },
+      "tabDescriptionPart1": "Chaque élément exploite les données de son jumeau principal. Ajoutez d’autres jumeaux à partir desquels vos éléments peuvent exploiter les données.",
+      "tabDescriptionPart2": "Affichez les propriétés communes entre les éléments ciblés et référencez ces propriétés à l’aide du jumeau principal ou des autres jumeaux dans vos expressions. ",
+      "linkedTwinListHeader": "Jumeaux liés ({{count}})"
+    },
+    "elementsListInstructions": "Sélectionnez les éléments que vous souhaitez inclure dans la visualisation de ce comportement",
+    "behaviorForm": {
+      "newBehavior": "Nouveau comportement",
+      "createBehavior": "Créer un comportement",
+      "modifyBehavior": "Modifier le comportement",
+      "formSubTitle": "Les comportements sont des indices visuels qui se produisent dans des conditions spécifiques, par exemple à des intervalles spécifiques ou à des seuils de données."
     }
   },
   "widgets": {

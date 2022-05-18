@@ -346,7 +346,9 @@
     "noBehaviorsOnLayer": "이 계층에는 동작이 없습니다.",
     "behaviorsListTitle": "동작 ({{count}})",
     "deleteConfirmationTitle": "이 레이어를 삭제하시겠습니까?",
-    "deleteConfirmationMessage": "이렇게 하면 모든 Digital Twins 환경에서 레이어 및 관련 동작이 영구적으로 제거됩니다."
+    "deleteConfirmationMessage": "이렇게 하면 모든 Digital Twins 환경에서 레이어 및 관련 동작이 영구적으로 제거됩니다.",
+    "infoCalloutButtonTitle": "추가 정보",
+    "infoCalloutContent": "계층은 소비자가 동작을 필터링할 수 있도록 하는 작업 기반 그룹입니다. 레이어는 장면 전체에 걸쳐 존재합니다."
   },
   "3dSceneBuilder": {
     "elements": "요소",
@@ -367,14 +369,11 @@
     "searchBehaviorsPlaceholder": "검색 동작",
     "modifyElement": "요소 수정",
     "manageTargetElements": "대상 요소 관리",
-    "selectBehaviorElements": "이 동작을 대상으로 지정할 요소 선택",
     "multiSelectElements": "다중 선택 요소",
     "updateBehavior": "업데이트 동작",
     "removeBehaviorFromScene": "장면에서 동작 제거",
     "removeBehaviorFromAllScenes": "모든 장면에서 동작 제거",
     "manageSceneLayer": "씬 레이어 관리",
-    "createBehavior": "동작 만들기",
-    "modifyBehavior": "동작 수정",
     "addBehaviorButton": "동작 추가",
     "addBehavior": "비헤이비어 추가",
     "searchBehaviors": "검색 동작",
@@ -393,7 +392,6 @@
     "confirmRemoveBehaviorFromScene": "현재 장면에서 이 동작을 제거하시겠습니까?",
     "confirmRemoveBehaviorFromAllScenes": "모든 장면에서 이 동작을 제거하시겠습니까? 이 작업은 실행 취소할 수 없습니다.",
     "newElement": "새 요소",
-    "newBehavior": "새 동작",
     "newBehaviorId": "NewBehaviorId",
     "cancel": "취소",
     "Done": "수행",
@@ -458,19 +456,13 @@
     "warningBreakPointToggleLabel": "색상 중단점 사용",
     "warningBreakPointLabel": "경고 색상 중단점",
     "linkWidgetUrlDescription": "링크 위젯 URL은 다음과 같은 JavaScript 템플릿 문자열 서식을 지원합니다: ${PrimaryTwin.property}",
-    "behaviorTypes": {
-      "alertBehavior": "경고 동작",
-      "statusBehavior": "상태 동작"
-    },
     "notImplemented": "구현되지 않음",
     "noPrimaryTwinProperties": "표시할 기본 쌍 속성이 없습니다.",
     "twinAlias": {
       "title": "트윈 별칭",
-      "titlePlural": "트윈 별칭",
       "aliasedTwin": "앨리어싱된 트윈",
       "aliasedTwins": "별칭이 있는 쌍둥이",
       "add": "트윈 별칭 추가",
-      "noTwinAliasesAdded": "아직 트윈 별칭이 추가되지 않았습니다.",
       "new": "새 트윈 별칭",
       "edit": "트윈 별칭 편집",
       "create": "트윈 별칭 만들기",
@@ -488,8 +480,6 @@
         "elementTwinMappingsNotExist": "사용 가능한 매핑이 없으며 먼저 동작에 요소를 추가하십시오."
       },
       "descriptions": {
-        "twins": "트윈을 사용하면 표현식에 사용할 수 있는 속성에 액세스할 수 있습니다.",
-        "primaryTwin": "PrimaryTwin에는 대상 요소 기본 쌍둥이 간에 공통된 모든 속성이 포함되어 있습니다.",
         "aliasChangeNotAllowed": "별칭 변경은 생성 후 허용되지 않습니다.",
         "commonProperties": "선택한 요소의 기본 쌍 속성의 결합"
       },
@@ -497,7 +487,17 @@
         "twinAliasAlreadyExists": "같은 이름의 트윈 별칭이 이미 있으므로 대신 추가하는 것이 좋습니다.",
         "alphanumericOnly": "트윈 별칭은 영숫자만 포함해야 합니다.",
         "noNumberPrefix": "트윈 별칭은 숫자로 시작하면 안 됩니다."
-      }
+      },
+      "tabDescriptionPart1": "각 요소는 기본 트윈의 데이터를 활용합니다. 요소가 데이터를 활용할 수 있는 다른 쌍둥이를 추가합니다.",
+      "tabDescriptionPart2": "대상 요소 간의 공통된 속성을 보고 표현식의 기본 쌍 또는 다른 쌍둥이를 사용하여 이러한 속성을 참조합니다. ",
+      "linkedTwinListHeader": "연결된 쌍둥이 ({{count}})"
+    },
+    "elementsListInstructions": "이 동작의 시각화에 포함할 요소를 선택합니다.",
+    "behaviorForm": {
+      "newBehavior": "새 동작",
+      "createBehavior": "동작 만들기",
+      "modifyBehavior": "동작 편집",
+      "formSubTitle": "동작은 특정 조건(예: 특정 간격 또는 데이터 임계값)에서 발생하는 시각적 단서입니다."
     }
   },
   "widgets": {

@@ -346,7 +346,9 @@
     "noBehaviorsOnLayer": "Non ci sono comportamenti su questo livello",
     "behaviorsListTitle": "Comportamenti ({{count}})",
     "deleteConfirmationTitle": "Eliminare questo livello?",
-    "deleteConfirmationMessage": "In questo modo il livello e tutti i comportamenti associati vengono rimossi in modo permanente da tutti gli ambienti gemelli digitali."
+    "deleteConfirmationMessage": "In questo modo il livello e tutti i comportamenti associati vengono rimossi in modo permanente da tutti gli ambienti gemelli digitali.",
+    "infoCalloutButtonTitle": "Per saperne di più",
+    "infoCalloutContent": "I layer sono raggruppamenti basati su attività che consentono ai consumatori di filtrare i comportamenti in base a. I livelli esistono tra le scene."
   },
   "3dSceneBuilder": {
     "elements": "Elementi",
@@ -367,14 +369,11 @@
     "searchBehaviorsPlaceholder": "Comportamenti di ricerca",
     "modifyElement": "Elemento Modify",
     "manageTargetElements": "Gestire gli elementi di destinazione",
-    "selectBehaviorElements": "Selezionare gli elementi per questo comportamento da scegliere come destinazione",
     "multiSelectElements": "Elementi multi-selezione",
     "updateBehavior": "Comportamento di aggiornamento",
     "removeBehaviorFromScene": "Rimuovere il comportamento dalla scena",
     "removeBehaviorFromAllScenes": "Rimuovere il comportamento da tutte le scene",
     "manageSceneLayer": "Gestire il livello della scena",
-    "createBehavior": "Creare un comportamento",
-    "modifyBehavior": "Modifica comportamento",
     "addBehaviorButton": "Aggiungere un comportamento",
     "addBehavior": "Aggiungi comportamento",
     "searchBehaviors": "Comportamenti di ricerca",
@@ -393,7 +392,6 @@
     "confirmRemoveBehaviorFromScene": "Sei sicuro di voler rimuovere questo comportamento dalla scena corrente?",
     "confirmRemoveBehaviorFromAllScenes": "Sei sicuro di voler rimuovere questo comportamento da tutte le scene. Non è possibile annullare questa azione.",
     "newElement": "Nuovo elemento",
-    "newBehavior": "Nuovo comportamento",
     "newBehaviorId": "NewBehaviorId",
     "cancel": "Annulla",
     "Done": "Fatto",
@@ -458,19 +456,13 @@
     "warningBreakPointToggleLabel": "Abilita punto di interruzione colore",
     "warningBreakPointLabel": "Punto di interruzione del colore di avviso",
     "linkWidgetUrlDescription": "L'URL del widget di collegamento supporta la formattazione della stringa del modello JavaScript come: ${PrimaryTwin.property}",
-    "behaviorTypes": {
-      "alertBehavior": "Comportamento di avviso",
-      "statusBehavior": "Comportamento dello stato"
-    },
     "notImplemented": "Non implementato",
     "noPrimaryTwinProperties": "Nessuna proprietà gemella primaria da visualizzare",
     "twinAlias": {
       "title": "Alias gemello",
-      "titlePlural": "Alias gemelli",
       "aliasedTwin": "Gemello con alias",
       "aliasedTwins": "Gemelli con alias",
       "add": "Aggiungi alias gemello",
-      "noTwinAliasesAdded": "Nessun alias gemello ancora aggiunto",
       "new": "Nuovo alias gemello",
       "edit": "Modifica alias doppio",
       "create": "Creare un alias gemello",
@@ -488,8 +480,6 @@
         "elementTwinMappingsNotExist": "Non è disponibile alcuna mappatura, aggiungi prima elementi al comportamento."
       },
       "descriptions": {
-        "twins": "I gemelli consentono di accedere a proprietà che possono essere utilizzate nelle espressioni.",
-        "primaryTwin": "PrimaryTwin contiene tutte le proprietà in comune tra i gemelli primari degli elementi target.",
         "aliasChangeNotAllowed": "La modifica dell'alias non è consentita dopo la creazione.",
         "commonProperties": "L'unione delle proprietà gemelle primarie degli elementi selezionati"
       },
@@ -497,7 +487,17 @@
         "twinAliasAlreadyExists": "L'alias gemello con lo stesso nome esiste già, considera invece di aggiungerlo.",
         "alphanumericOnly": "L'alias gemello deve contenere solo caratteri alfanumerici",
         "noNumberPrefix": "L'alias gemello non deve iniziare con un numero"
-      }
+      },
+      "tabDescriptionPart1": "Ogni elemento sfrutta i dati del suo gemello primario. Aggiungi altri gemelli da cui i tuoi elementi possono sfruttare i dati.",
+      "tabDescriptionPart2": "Visualizzare le proprietà in comune tra gli elementi di destinazione e fare riferimento a queste proprietà utilizzando il gemello primario o gli altri gemelli nelle espressioni. ",
+      "linkedTwinListHeader": "Gemelli collegati ({{count}})"
+    },
+    "elementsListInstructions": "Selezionare gli elementi che si desidera includere nella visualizzazione di questo comportamento",
+    "behaviorForm": {
+      "newBehavior": "Nuovo comportamento",
+      "createBehavior": "Creare un comportamento",
+      "modifyBehavior": "Modificare il comportamento",
+      "formSubTitle": "I comportamenti sono segnali visivi che si verificano in condizioni specifiche, ad esempio a intervalli specifici o a soglie di dati."
     }
   },
   "widgets": {

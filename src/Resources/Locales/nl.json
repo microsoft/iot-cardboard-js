@@ -346,7 +346,9 @@
     "noBehaviorsOnLayer": "Er zijn geen gedragingen op deze laag",
     "behaviorsListTitle": "Gedrag ({{count}})",
     "deleteConfirmationTitle": "Deze laag verwijderen?",
-    "deleteConfirmationMessage": "Dit verwijdert permanent de laag en alle bijbehorende gedragingen uit alle Digital Twins-omgevingen."
+    "deleteConfirmationMessage": "Dit verwijdert permanent de laag en alle bijbehorende gedragingen uit alle Digital Twins-omgevingen.",
+    "infoCalloutButtonTitle": "Meer info",
+    "infoCalloutContent": "Lagen zijn taakgebaseerde groeperingen waarmee consumenten gedrag kunnen filteren. Er bestaan lagen over scènes heen."
   },
   "3dSceneBuilder": {
     "elements": "Elementen",
@@ -367,14 +369,11 @@
     "searchBehaviorsPlaceholder": "Zoekgedrag",
     "modifyElement": "Element wijzigen",
     "manageTargetElements": "Doelelementen beheren",
-    "selectBehaviorElements": "Selecteer elementen voor dit gedrag om te targeten",
     "multiSelectElements": "Multi-select elementen",
     "updateBehavior": "Gedrag bijwerken",
     "removeBehaviorFromScene": "Gedrag uit scène verwijderen",
     "removeBehaviorFromAllScenes": "Gedrag uit alle scènes verwijderen",
     "manageSceneLayer": "Scènelaag beheren",
-    "createBehavior": "Gedrag creëren",
-    "modifyBehavior": "Gedrag wijzigen",
     "addBehaviorButton": "Gedrag toevoegen",
     "addBehavior": "Gedrag toevoegen",
     "searchBehaviors": "Zoekgedrag",
@@ -393,7 +392,6 @@
     "confirmRemoveBehaviorFromScene": "Weet je zeker dat je dit gedrag uit de huidige scène wilt verwijderen?",
     "confirmRemoveBehaviorFromAllScenes": "Weet je zeker dat je dit gedrag uit alle scènes wilt verwijderen. U kunt deze actie niet ongedaan maken.",
     "newElement": "Nieuw element",
-    "newBehavior": "Nieuw gedrag",
     "newBehaviorId": "NewBehaviorId",
     "cancel": "Annuleren",
     "Done": "Klaar",
@@ -458,19 +456,13 @@
     "warningBreakPointToggleLabel": "Kleuronderbrekingspunt inschakelen",
     "warningBreakPointLabel": "Waarschuwingskleuronderbrekingspunt",
     "linkWidgetUrlDescription": "Link widget URL ondersteunt JavaScript template string opmaak zoals: ${PrimaryTwin.property}",
-    "behaviorTypes": {
-      "alertBehavior": "Alert gedrag",
-      "statusBehavior": "Statusgedrag"
-    },
     "notImplemented": "Niet geïmplementeerd",
     "noPrimaryTwinProperties": "Geen primaire dubbele eigenschappen om weer te geven",
     "twinAlias": {
       "title": "Dubbele alias",
-      "titlePlural": "Tweeling aliassen",
       "aliasedTwin": "Aliased tweeling",
       "aliasedTwins": "Aliased tweeling",
       "add": "Dubbele alias toevoegen",
-      "noTwinAliasesAdded": "Nog geen tweelingaliassen toegevoegd",
       "new": "Nieuwe tweelingalias",
       "edit": "Dubbele alias bewerken",
       "create": "Dubbele alias maken",
@@ -488,8 +480,6 @@
         "elementTwinMappingsNotExist": "Er is geen beschikbare toewijzing, voeg eerst elementen toe aan gedrag."
       },
       "descriptions": {
-        "twins": "Tweelingen geven u toegang tot eigenschappen die kunnen worden gebruikt in uitdrukkingen.",
-        "primaryTwin": "De PrimaryTwin bevat alle eigenschappen die de doelelementen primaire tweelingen gemeen hebben.",
         "aliasChangeNotAllowed": "Aliaswijziging is niet toegestaan na het maken.",
         "commonProperties": "De vereniging van primaire tweelingeigenschappen van geselecteerde elementen"
       },
@@ -497,7 +487,17 @@
         "twinAliasAlreadyExists": "Dubbele alias met dezelfde naam bestaat al, overweeg deze in plaats daarvan toe te voegen.",
         "alphanumericOnly": "Dubbele alias mag alleen alfanumerieke tekens bevatten",
         "noNumberPrefix": "Dubbele alias mag niet beginnen met een getal"
-      }
+      },
+      "tabDescriptionPart1": "Elk element maakt gebruik van gegevens van zijn primaire tweeling. Voeg andere tweelingen toe waarvan uw elementen gegevens kunnen gebruiken.",
+      "tabDescriptionPart2": "Bekijk de eigenschappen die de doelelementen gemeen hebben en verwijs naar deze eigenschappen met behulp van de primaire tweeling of de andere tweeling in uw expressies. ",
+      "linkedTwinListHeader": "Gekoppelde tweeling ({{count}})"
+    },
+    "elementsListInstructions": "Selecteer de elementen die u wilt opnemen in de visualisatie van dit gedrag",
+    "behaviorForm": {
+      "newBehavior": "Nieuw gedrag",
+      "createBehavior": "Gedrag creëren",
+      "modifyBehavior": "Gedrag bewerken",
+      "formSubTitle": "Gedragingen zijn visuele aanwijzingen die optreden onder specifieke omstandigheden, bijvoorbeeld met specifieke intervallen of bij gegevensdrempels."
     }
   },
   "widgets": {

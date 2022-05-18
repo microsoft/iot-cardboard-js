@@ -346,7 +346,9 @@
     "noBehaviorsOnLayer": "Ezen a rétegen nincsenek viselkedések.",
     "behaviorsListTitle": "Viselkedés ({{count}})",
     "deleteConfirmationTitle": "Törli ezt a réteget?",
-    "deleteConfirmationMessage": "Ez véglegesen eltávolítja a réteget és a kapcsolódó viselkedéseket az összes Digital Twins környezetből."
+    "deleteConfirmationMessage": "Ez véglegesen eltávolítja a réteget és a kapcsolódó viselkedéseket az összes Digital Twins környezetből.",
+    "infoCalloutButtonTitle": "További információ",
+    "infoCalloutContent": "A rétegek feladatalapú csoportosítások, amelyek lehetővé teszik a fogyasztók számára, hogy szűrjék a viselkedéseket. A rétegek a jelenetek között léteznek."
   },
   "3dSceneBuilder": {
     "elements": "Elemek",
@@ -367,14 +369,11 @@
     "searchBehaviorsPlaceholder": "Keresési viselkedések",
     "modifyElement": "Elem módosítása",
     "manageTargetElements": "Célelemek kezelése",
-    "selectBehaviorElements": "Válassza ki a kívánt viselkedés elemeit",
     "multiSelectElements": "Többszörös kijelölési elemek",
     "updateBehavior": "Frissítési viselkedés",
     "removeBehaviorFromScene": "Viselkedés eltávolítása a jelenetből",
     "removeBehaviorFromAllScenes": "Viselkedés eltávolítása az összes jelenetből",
     "manageSceneLayer": "Jelenetréteg kezelése",
-    "createBehavior": "Viselkedés létrehozása",
-    "modifyBehavior": "Viselkedés módosítása",
     "addBehaviorButton": "Viselkedés hozzáadása",
     "addBehavior": "Viselkedés hozzáadása",
     "searchBehaviors": "Keresési viselkedés",
@@ -393,7 +392,6 @@
     "confirmRemoveBehaviorFromScene": "Biztosan eltávolítja ezt a viselkedést az aktuális jelenetből?",
     "confirmRemoveBehaviorFromAllScenes": "Biztos, hogy el szeretné távolítani ezt a viselkedést az összes jelenetből? Ezt a műveletet nem lehet visszavonni.",
     "newElement": "Új elem",
-    "newBehavior": "Új viselkedés",
     "newBehaviorId": "NewBehaviorId",
     "cancel": "Érvénytelenít",
     "Done": "Kész",
@@ -458,19 +456,13 @@
     "warningBreakPointToggleLabel": "Színtörési pont engedélyezése",
     "warningBreakPointLabel": "Figyelmeztető színtörési pont",
     "linkWidgetUrlDescription": "A hivatkozás widget URL-címe támogatja a JavaScript-sablon karakterlánc-formázását, például: ${PrimaryTwin.property}",
-    "behaviorTypes": {
-      "alertBehavior": "Riasztási viselkedés",
-      "statusBehavior": "Állapot viselkedése"
-    },
     "notImplemented": "Nincs megvalósítva",
     "noPrimaryTwinProperties": "Nincsenek megjelenítendő elsődleges ikertulajdonságok",
     "twinAlias": {
       "title": "Iker alias",
-      "titlePlural": "Iker álnevek",
       "aliasedTwin": "Aliasozott ikerpár",
       "aliasedTwins": "Álnevesített ikrek",
       "add": "Iker alias hozzáadása",
-      "noTwinAliasesAdded": "Még nincs két alias hozzáadva",
       "new": "Új iker alias",
       "edit": "Iker alias szerkesztése",
       "create": "Iker alias létrehozása",
@@ -488,8 +480,6 @@
         "elementTwinMappingsNotExist": "Nincs elérhető leképezés, először adjon hozzá elemeket a viselkedéshez."
       },
       "descriptions": {
-        "twins": "Az ikrek hozzáférést biztosítanak a kifejezésekben használható tulajdonságokhoz.",
-        "primaryTwin": "A PrimaryTwin tartalmazza az összes közös tulajdonságot a célelemek elsődleges ikrek között.",
         "aliasChangeNotAllowed": "Az alias módosítása a létrehozás után nem engedélyezett.",
         "commonProperties": "A kiválasztott elemek elsődleges ikertulajdonságok egyesítése"
       },
@@ -497,7 +487,17 @@
         "twinAliasAlreadyExists": "Az azonos nevű ikeralias már létezik, fontolja meg a hozzáadását.",
         "alphanumericOnly": "Az iker alias csak alfanumerikus karaktereket tartalmazhat",
         "noNumberPrefix": "Az iker alias nem kezdődhet számmal"
-      }
+      },
+      "tabDescriptionPart1": "Minden elem felhasználja az elsődleges ikeradatait. Adjon hozzá más ikreket, amelyekből az elemek kihasználhatják az adatokat.",
+      "tabDescriptionPart2": "Tekintse meg a megcélzott elemek közötti közös tulajdonságokat, és hivatkozzon ezekre a tulajdonságokra az elsődleges iker vagy a kifejezésekben szereplő többi ikerpár használatával. ",
+      "linkedTwinListHeader": "Csatolt ikrek ({{count}})"
+    },
+    "elementsListInstructions": "Válassza ki a viselkedés vizualizációjában szerepeltetni kívánt elemeket",
+    "behaviorForm": {
+      "newBehavior": "Új viselkedés",
+      "createBehavior": "Viselkedés létrehozása",
+      "modifyBehavior": "Viselkedés szerkesztése",
+      "formSubTitle": "A viselkedés olyan vizuális jelek, amelyek meghatározott körülmények között fordulnak elő – például meghatározott időközönként vagy adatküszöbökben."
     }
   },
   "widgets": {
