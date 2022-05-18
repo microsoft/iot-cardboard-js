@@ -21,8 +21,7 @@ import {
     ISceneViewProps,
     ColoredMeshGroup,
     Marker,
-    SceneViewCallbackHandler,
-    CachedMaterial
+    SceneViewCallbackHandler
 } from '../../Models/Classes/SceneView.types';
 import {
     CameraZoomMultiplier,
@@ -61,7 +60,7 @@ import { ModelGroupLabel } from '../ModelGroupLabel/ModelGroupLabel';
 import { MarkersPlaceholder } from './Internal/MarkersPlaceholder';
 import { Markers } from './Internal/Markers';
 
-const debugLogging = true;
+const debugLogging = false;
 const debugLog = getDebugLogger('SceneView', debugLogging);
 
 function debounce(func: any, timeout = 300) {
@@ -194,7 +193,7 @@ function SceneView(props: ISceneViewProps, ref) {
     const meshMap = useRef<any>(null);
     const prevZoomToIds = useRef('');
     const prevHideUnzoomedRef = useRef<number>(undefined);
-    const materialCacheRef = useRef<BABYLON.Material[]>({[key:string]: number});
+    const materialCacheRef = useRef<any[]>([]);
     const pointerActive = useRef(false);
     const lastCameraPositionOnMouseMoveRef = useRef('');
     const initialCameraRadiusRef = useRef(0);
@@ -903,17 +902,14 @@ function SceneView(props: ISceneViewProps, ref) {
                     onSceneLoaded(sceneRef.current);
                 }
 
-                //The rendering pipeline allows for effects to be set in the scene
                 const defaultPipeline = new BABYLON.DefaultRenderingPipeline(
                     'default',
                     false,
                     sceneRef.current,
                     [cameraRef.current]
                 );
-                //Fast, approximate anti-aliasing removes the jagged edge appearance from meshes by doing a pass over the screen
                 defaultPipeline.fxaaEnabled = true;
 
-                //Add a Screen Space Ambient Occlusion pass to add soft shadowing in crevices and between objects.
                 const ssao = new BABYLON.SSAO2RenderingPipeline(
                     'ssao',
                     sceneRef.current,
@@ -927,8 +923,6 @@ function SceneView(props: ISceneViewProps, ref) {
                 ssao.expensiveBlur = true;
                 ssao.samples = 16;
                 ssao.maxZ = 100;
-
-                //Attach the ssao pass to the current camera
                 sceneRef.current.postProcessRenderPipelineManager.attachCamerasToRenderPipeline(
                     'ssao',
                     cameraRef.current
@@ -984,8 +978,8 @@ function SceneView(props: ISceneViewProps, ref) {
 
         return () => {
             for (const material of materialCacheRef.current) {
-                sceneRef.current?.removeMaterial(material.value);
-                material.value.dispose(true, true);
+                sceneRef.current?.removeMaterial(material);
+                material.dispose(true, true);
             }
             materialCacheRef.current = [];
         };
@@ -1486,7 +1480,6 @@ function SceneView(props: ISceneViewProps, ref) {
                             }
                         }
                     }
-                    console.log(materialCacheRef.current.length);
                 };
             } catch {
                 console.warn('unable to color mesh');
