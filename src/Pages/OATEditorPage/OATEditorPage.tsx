@@ -1,4 +1,4 @@
-import React, { useReducer } from 'react';
+import React, { useReducer, useEffect } from 'react';
 import OATHeader from '../../Components/OATHeader/OATHeader';
 import OATModelList from '../../Components/OATModelList/OATModelList';
 import OATGraphViewer from '../../Components/OATGraphViewer/OATGraphViewer';
@@ -10,6 +10,7 @@ import {
     defaultOATEditorState
 } from './OATEditorPage.state';
 import { SET_OAT_IS_JSON_UPLOADER_OPEN } from '../../Models/Constants/ActionTypes';
+import { OATFilesStorageKey } from '../../Models/Constants/Constants';
 
 const OATEditorPage = ({ theme }) => {
     const [state, dispatch] = useReducer(
@@ -25,11 +26,21 @@ const OATEditorPage = ({ theme }) => {
         });
     };
 
+    useEffect(() => {
+        //  Set the OATFilesStorageKey to the localStorage
+        const files = JSON.parse(localStorage.getItem(OATFilesStorageKey));
+        if (!files) {
+            localStorage.setItem(OATFilesStorageKey, JSON.stringify([]));
+        }
+    }, []);
+
     return (
         <div className={EditorPageStyles.container}>
             <OATHeader
                 elements={state.elements.digitalTwinsModels}
                 onImportClick={handleImportClick}
+                state={state}
+                dispatch={dispatch}
             />
             <OATImport
                 isJsonUploaderOpen={state.isJsonUploaderOpen}

@@ -14,4 +14,5 @@ export interface IOATEditorState {
     importModels?: [];
     isJsonUploaderOpen?: boolean;
     templates?: DTDLProperty[];
+    projectName?: string;
 }

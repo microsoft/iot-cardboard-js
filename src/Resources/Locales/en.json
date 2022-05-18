@@ -743,7 +743,14 @@
         "publish": "Publish",
         "sync": "sync",
         "import": "Import",
-        "export": "Export"
+        "export": "Export",
+        "file": "File",
+        "new": "New",
+        "open": "Open",
+        "saveAs": "Save as",
+        "delete": "Delete",
+        "enterAName": "Enter a name",
+        "cancel": "Cancel"
     },
     "OATGraphViewer": {
         "newModel": "New Model",
