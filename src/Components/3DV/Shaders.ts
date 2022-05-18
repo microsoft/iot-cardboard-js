@@ -186,6 +186,8 @@ export function selectAlphaMode(alpha: number) {
 export function ToColor3(input: BABYLON.Color4) {
     return new BABYLON.Color3(input.r, input.g, input.b);
 }
+
+//SetWireframe changes the alpha blending of the material to get rid of the dark halo that appears around transparent wireframe objects
 export function SetWireframe(material: BABYLON.Material, isWireframe: boolean) {
     if (!material) return;
 
