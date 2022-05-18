@@ -22,6 +22,7 @@ const AddTwinAliasCallout: React.FC<IADT3DSceneBuilderAddTwinAliasCalloutProps> 
         <CardboardListCallout
             listType="Complex"
             calloutTarget={calloutTarget}
+            dataButtonTestId={'create-twin-callout-button'}
             title={t('3dSceneBuilder.twinAlias.add')}
             listKey={'twin-alias-callout-list'}
             listItems={listItems}

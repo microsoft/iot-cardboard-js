@@ -175,7 +175,7 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
         onCreateBehaviorWithElements(
             elementToEdit // new element
         );
-    }, [selectedElement, elementToEdit, handleSaveElement]);
+    }, [handleSaveElement, onCreateBehaviorWithElements, elementToEdit]);
 
     useEffect(() => {
         if (saveElementAdapterData.adapterResult.result) {
@@ -326,7 +326,7 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                                 </PivotItem>
                                 <PivotItem
                                     headerText={t(
-                                        '3dSceneBuilder.twinAlias.aliasedTwins'
+                                        '3dSceneBuilder.twinAlias.elementsAliasedTwinsTabName'
                                     )}
                                     className={
                                         commonPanelStyles.formTabContents

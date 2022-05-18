@@ -26,6 +26,7 @@ const CardboardListCallout = <T extends unknown>({
     calloutProps,
     calloutTarget,
     className,
+    dataButtonTestId,
     description,
     directionalHint,
     filterPlaceholder,
@@ -124,6 +125,7 @@ const CardboardListCallout = <T extends unknown>({
 
                 {primaryActionProps && (
                     <PrimaryButton
+                        data-testid={dataButtonTestId}
                         styles={cardboardListCalloutPrimaryButtonStyles}
                         onClick={primaryActionProps.onPrimaryActionClick}
                         disabled={primaryActionProps.disabled}

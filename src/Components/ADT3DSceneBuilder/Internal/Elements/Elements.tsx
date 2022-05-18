@@ -302,6 +302,7 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
                         <div>
                             <PrimaryButton
                                 className="cb-scene-builder-create-button"
+                                data-testid={'elements-list-new-button'}
                                 text={t('3dSceneBuilder.createBehavior')}
                                 onClick={onCreateBehaviorClick}
                                 disabled={

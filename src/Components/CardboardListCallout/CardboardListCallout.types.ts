@@ -9,6 +9,8 @@ import { ICardboardListItem } from '../CardboardList/CardboardList.types';
 export interface ICardboardListCalloutProps<T = void> {
     /** name of the class to put on the root node of the callout */
     className?: string;
+    /** test id for the callout primary button */
+    dataButtonTestId?: string;
     /** optional sub header text on the callout describing the contents */
     description?: string;
     /** header of the callout */

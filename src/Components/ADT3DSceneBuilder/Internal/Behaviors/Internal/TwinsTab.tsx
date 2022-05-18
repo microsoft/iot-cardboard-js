@@ -150,18 +150,6 @@ const TwinsTab: React.FC<ITwinsTabProps> = ({
         });
     }, [setBehaviorTwinAliasFormInfo]);
 
-    // set the single item primary twin list on mount
-    // useEffect(() => {
-    //     setPrimaryTwinList(
-    //         getPrimaryTwinListItems(
-    //             t,
-    //             toggleIsPrimaryTwinPropertiesCalloutVisible,
-    //             primaryTwinPropertiesTargetId
-    //         )
-    //     );
-    //     // eslint-disable-next-line react-hooks/exhaustive-deps
-    // }, []);
-
     // when behavior to edit or selected elements (to keep track of element to twin id mappings) changes in Elements tab, update the twin alias list
     useEffect(() => {
         const twinAliases = ViewerConfigUtility.getTwinAliasItemsFromBehaviorAndElements(
