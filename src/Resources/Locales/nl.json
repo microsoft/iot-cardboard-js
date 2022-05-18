@@ -492,7 +492,9 @@
         "commonProperties": "De vereniging van primaire tweelingeigenschappen van geselecteerde elementen"
       },
       "errors": {
-        "twinAliasAlreadyExists": "Dubbele alias met dezelfde naam bestaat al, overweeg deze in plaats daarvan toe te voegen."
+        "twinAliasAlreadyExists": "Dubbele alias met dezelfde naam bestaat al, overweeg deze in plaats daarvan toe te voegen.",
+        "alphanumericOnly": "Dubbele alias mag alleen alfanumerieke tekens bevatten",
+        "noNumberPrefix": "Dubbele alias mag niet beginnen met een getal"
       }
     }
   },
@@ -692,7 +694,8 @@
       "undoAll": "Alle bewerkingen opnieuw instellen",
       "expandTree": "Boomstructuur uitbreiden",
       "collapseTree": "Boom instorten",
-      "save": "Wijzigingen opslaan"
+      "save": "Wijzigingen opslaan",
+      "refresh": "Gegevens vernieuwen"
     },
     "dateTimePicker": {
       "datePickerTitle": "Datumkiezer",
@@ -725,7 +728,7 @@
     "state": "Staat",
     "allProperties": "Alle woningen",
     "behaviorPreview": "Voorbeeld",
-    "PrimaryTwinProperties": "Primaire Twin-eigenschappen"
+    "PrimaryTwin": "Primaire Twin"
   },
   "svgTests": {
     "fluentUI": "SVG laden via Fluent Image component (aanbevolen patroon)",

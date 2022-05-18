@@ -492,7 +492,9 @@
         "commonProperties": "선택한 요소의 기본 쌍 속성의 결합"
       },
       "errors": {
-        "twinAliasAlreadyExists": "같은 이름의 트윈 별칭이 이미 있으므로 대신 추가하는 것이 좋습니다."
+        "twinAliasAlreadyExists": "같은 이름의 트윈 별칭이 이미 있으므로 대신 추가하는 것이 좋습니다.",
+        "alphanumericOnly": "트윈 별칭은 영숫자만 포함해야 합니다.",
+        "noNumberPrefix": "트윈 별칭은 숫자로 시작하면 안 됩니다."
       }
     }
   },
@@ -692,7 +694,8 @@
       "undoAll": "모든 편집 내용 재설정",
       "expandTree": "트리 확장",
       "collapseTree": "트리 축소",
-      "save": "변경 내용 저장"
+      "save": "변경 내용 저장",
+      "refresh": "데이터 새로 고침"
     },
     "dateTimePicker": {
       "datePickerTitle": "날짜 선택기",
@@ -725,7 +728,7 @@
     "state": "상태",
     "allProperties": "모든 속성",
     "behaviorPreview": "미리 보기",
-    "PrimaryTwinProperties": "기본 트윈 속성"
+    "PrimaryTwin": "초등회 쌍둥이"
   },
   "svgTests": {
     "fluentUI": "유창한 이미지 구성 요소를 통한 SVG 로드(권장 패턴)",

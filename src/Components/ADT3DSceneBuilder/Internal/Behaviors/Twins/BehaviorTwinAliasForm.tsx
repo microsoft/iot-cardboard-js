@@ -50,6 +50,7 @@ const BehaviorTwinAliasForm: React.FC<{
             : behaviorTwinAliasFormInfo.twinAlias
     );
     const [isFormValid, setIsFormValid] = useState(false);
+    const [errorMessage, setErrorMessage] = useState(null);
 
     const handleTwinSelect = useCallback(
         (elementId: string, twinId: string) => {
@@ -115,40 +116,75 @@ const BehaviorTwinAliasForm: React.FC<{
         setSelectedElements(newSelectedElements);
         setBehaviorTwinAliasFormInfo(null);
         setFormData(null);
-    }, [behaviorTwinAliasFormInfo, formData, selectedElements]);
-
-    const showAliasExistsErrorMessage = useMemo(() => {
-        const existingTwinAliasNames = ViewerConfigUtility.getAvailableBehaviorTwinAliasItemsBySceneAndElements(
-            config,
-            sceneId,
-            selectedElements
-        )?.map((twinAliasItem) => twinAliasItem.alias);
-        return (
-            behaviorTwinAliasFormInfo.mode ===
-                TwinAliasFormMode.CreateTwinAlias &&
-            existingTwinAliasNames.includes(formData.alias)
-        );
     }, [
-        config,
-        sceneId,
+        behaviorTwinAliasFormInfo.mode,
+        behaviorTwinAliasFormInfo.twinAliasIdx,
+        formData.alias,
+        formData.elementToTwinMappings,
         selectedElements,
-        behaviorTwinAliasFormInfo,
-        formData
+        setBehaviorToEdit,
+        setBehaviorTwinAliasFormInfo,
+        setSelectedElements
     ]);
 
+    const existingTwinAliasNames = useMemo(
+        () =>
+            ViewerConfigUtility.getAvailableBehaviorTwinAliasItemsBySceneAndElements(
+                config,
+                sceneId,
+                selectedElements
+            )?.map((twinAliasItem) => twinAliasItem.alias),
+        [config, sceneId, selectedElements]
+    );
+
     useEffect(() => {
-        const isValid =
+        let isValid =
             formData.alias &&
-            !showAliasExistsErrorMessage &&
             formData.elementToTwinMappings?.length ===
                 selectedElements?.length &&
             !formData.elementToTwinMappings.some((mapping) => !mapping.twinId);
+
+        // Alias name must be unique
+        if (
+            behaviorTwinAliasFormInfo.mode ===
+                TwinAliasFormMode.CreateTwinAlias &&
+            existingTwinAliasNames.includes(formData.alias)
+        ) {
+            isValid = false;
+            setErrorMessage(
+                t('3dSceneBuilder.twinAlias.errors.twinAliasAlreadyExists')
+            );
+        }
+        // Alias must not start with a number
+        else if (/^\d/.test(formData.alias[0])) {
+            isValid = false;
+            setErrorMessage(
+                t('3dSceneBuilder.twinAlias.errors.noNumberPrefix')
+            );
+        }
+        // Alias must be only alphanumeric
+        else if (!/^[a-zA-Z0-9]*$/.test(formData.alias)) {
+            isValid = false;
+            setErrorMessage(
+                t('3dSceneBuilder.twinAlias.errors.alphanumericOnly')
+            );
+        } else {
+            setErrorMessage(null);
+        }
+
         setIsFormValid(isValid);
-    }, [formData, selectedElements, showAliasExistsErrorMessage]);
+    }, [
+        behaviorTwinAliasFormInfo.mode,
+        existingTwinAliasNames,
+        formData,
+        selectedElements,
+        t
+    ]);
 
     const theme = useTheme();
     const commonFormStyles = getPanelFormStyles(theme, 0);
     const commonPanelStyles = getLeftPanelStyles(theme);
+
     return (
         <>
             <div className={commonFormStyles.content}>
@@ -170,14 +206,8 @@ const BehaviorTwinAliasForm: React.FC<{
                     description={t(
                         '3dSceneBuilder.twinAlias.descriptions.aliasChangeNotAllowed'
                     )}
+                    errorMessage={errorMessage}
                 />
-                {showAliasExistsErrorMessage && (
-                    <div className={styles.errorMessage}>
-                        {t(
-                            '3dSceneBuilder.twinAlias.errors.twinAliasAlreadyExists'
-                        )}
-                    </div>
-                )}
                 <div className={styles.elementTwinMappingsSection}>
                     <Label>
                         {t(

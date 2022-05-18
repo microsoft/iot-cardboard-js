@@ -492,7 +492,9 @@
         "commonProperties": "L’union des propriétés jumelles primaires d’éléments sélectionnés"
       },
       "errors": {
-        "twinAliasAlreadyExists": "Un alias jumeau portant le même nom existe déjà, envisagez de l’ajouter à la place."
+        "twinAliasAlreadyExists": "Un alias jumeau portant le même nom existe déjà, envisagez de l’ajouter à la place.",
+        "alphanumericOnly": "L’alias jumeau ne doit contenir que des caractères alphanumériques",
+        "noNumberPrefix": "L’alias jumeau ne doit pas commencer par un nombre"
       }
     }
   },
@@ -692,7 +694,8 @@
       "undoAll": "Réinitialiser toutes les modifications",
       "expandTree": "Développer l’arborescence",
       "collapseTree": "Réduire l’arbre",
-      "save": "Enregistrer les modifications"
+      "save": "Enregistrer les modifications",
+      "refresh": "Actualiser les données"
     },
     "dateTimePicker": {
       "datePickerTitle": "Sélecteur de dates",
@@ -725,7 +728,7 @@
     "state": "État",
     "allProperties": "Toutes les propriétés",
     "behaviorPreview": "Aperçu",
-    "PrimaryTwinProperties": "Propriétés jumelles principales"
+    "PrimaryTwin": "Jumeau principal"
   },
   "svgTests": {
     "fluentUI": "Chargement SVG via le composant Fluent Image (modèle recommandé)",

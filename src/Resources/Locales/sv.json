@@ -492,7 +492,9 @@
         "commonProperties": "Föreningen av primära tvillingegenskaper hos utvalda element"
       },
       "errors": {
-        "twinAliasAlreadyExists": "Tvillingalias med samma namn finns redan, överväg att lägga till det i stället."
+        "twinAliasAlreadyExists": "Tvillingalias med samma namn finns redan, överväg att lägga till det i stället.",
+        "alphanumericOnly": "Tvillingalias får endast innehålla alfanumeriska tecken",
+        "noNumberPrefix": "Tvillingalias får inte börja med ett tal"
       }
     }
   },
@@ -692,7 +694,8 @@
       "undoAll": "Återställ alla redigeringar",
       "expandTree": "Expandera träd",
       "collapseTree": "Kollapsa träd",
-      "save": "Spara ändringar"
+      "save": "Spara ändringar",
+      "refresh": "Uppdatera data"
     },
     "dateTimePicker": {
       "datePickerTitle": "Datumväljare",
@@ -725,7 +728,7 @@
     "state": "Stat",
     "allProperties": "Alla egenskaper",
     "behaviorPreview": "Förhandsvisning",
-    "PrimaryTwinProperties": "Primära tvillingegenskaper"
+    "PrimaryTwin": "Primär tvilling"
   },
   "svgTests": {
     "fluentUI": "SVG-inläsning via Fluent Image-komponent (rekommenderat mönster)",
