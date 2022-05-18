@@ -122,14 +122,24 @@ const TutorialModal: React.FC<ITutorialModalProps> = (props) => {
                         >
                             {t('tutorialModal.viewTheDocs')}
                         </Link>{' '}
-                        <Text block>|</Text>{' '}
+                        <Text
+                            block
+                            styles={classNames.subComponentStyles.linkSeparator}
+                        >
+                            |
+                        </Text>{' '}
                         <Link
                             href={FRE_MODAL_LINKS.viewOnGithub}
                             target="_blank"
                         >
                             {t('tutorialModal.viewOnGithub')}
                         </Link>
-                        <Text block>|</Text>{' '}
+                        <Text
+                            block
+                            styles={classNames.subComponentStyles.linkSeparator}
+                        >
+                            |
+                        </Text>{' '}
                         <Link
                             href={FRE_MODAL_LINKS.viewTheQuickstart}
                             target="_blank"

@@ -202,6 +202,12 @@ export const getStyles = (
                 chevronButton: {
                     display: 'none'
                 }
+            },
+            linkSeparator: {
+                root: {
+                    opacity: '25%',
+                    cursor: 'default'
+                }
             }
         }
     };

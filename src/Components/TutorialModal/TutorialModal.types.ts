@@ -3,6 +3,7 @@ import {
     INavStyles,
     IStyle,
     IStyleFunctionOrObject,
+    ITextStyles,
     ITheme
 } from '@fluentui/react';
 
@@ -50,6 +51,7 @@ export interface ITutorialModalSubComponentStyles {
     closeButton: IButtonStyles;
     chevronButton: IButtonStyles;
     slideIndicatorButton: IButtonStyles;
+    linkSeparator: ITextStyles;
     nav: Partial<INavStyles>;
 }
 
