@@ -782,5 +782,12 @@
     "reset": "Resettare",
     "zoomIn": "Ingrandire",
     "zoomOut": "Zoom indietro"
+  },
+  "tutorialModal": {
+    "elements": {
+      "title": "Cos'è un elemento?",
+      "content": "Un elemento è un insieme autodefinito di mesh 3D collegato ai dati su uno o più gemelli digitali sottostanti. Elements consente di valutare rapidamente le operazioni e l'integrità del sistema. \n\nUn gemello primario è la principale controparte del gemello digitale per un elemento. È possibile connettere l'elemento a un gemello nell'istanza di Gemelli digitali di Azure in modo che l'elemento possa rappresentare il gemello e i relativi dati all'interno della visualizzazione 3D.",
+      "docLinkBlurb": "Per un passo più dettagliato, dai un'occhiata al nostro <DocLink>docs here.</DocLink>"
+    }
   }
 }

@@ -782,5 +782,12 @@
     "reset": "Zurücksetzen",
     "zoomIn": "Vergrößern",
     "zoomOut": "Verkleinern"
+  },
+  "tutorialModal": {
+    "elements": {
+      "title": "Was ist ein Element?",
+      "content": "Ein Element ist ein selbstdefinierter Satz von 3D-Netzen, der mit Daten zu einem oder mehreren zugrunde liegenden digitalen Zwillingen verknüpft ist. Mithilfe von Elementen können Sie den Systembetrieb und den Zustand schnell einschätzen. \n\nEin primärer Zwilling ist das Hauptgegenstück des digitalen Zwillings für ein Element. Sie verbinden das Element mit einem Zwilling in Ihrer Azure Digital Twins-Instanz, sodass das Element Ihren Zwilling und seine Daten in der 3D-Visualisierung darstellen kann.",
+      "docLinkBlurb": "Für einen detaillierteren Schritt für Schritt, schauen Sie sich unsere <DocLink>docs hier an.</DocLink>"
+    }
   }
 }

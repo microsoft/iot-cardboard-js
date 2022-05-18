@@ -782,5 +782,12 @@
     "reset": "Átszed",
     "zoomIn": "Nagyítás",
     "zoomOut": "Kicsinyítés"
+  },
+  "tutorialModal": {
+    "elements": {
+      "title": "Mi az az elem?",
+      "content": "Az elem egy 3D-s hálók önállóan definiált készlete, amely egy vagy több mögöttes digitális iker adataihoz kapcsolódik. Az elemek segítenek a rendszer működésének és állapotának gyors mérésében. \n\nAz elsődleges iker az elem fő digitális ikerpárja. Az elemet az Azure Digital Twins-példányban egy ikerpárhoz csatlakoztathatja, hogy az elem képviselhesse az ikertestvérét és annak adatait a 3D vizualizációban.",
+      "docLinkBlurb": "Részletesebben, lépésről lépésre, nézd meg a <DocLink>docs itt.</DocLink>"
+    }
   }
 }

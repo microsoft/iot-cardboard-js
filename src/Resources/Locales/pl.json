@@ -782,5 +782,12 @@
     "reset": "Resetować",
     "zoomIn": "Powiększanie",
     "zoomOut": "Pomniejszanie"
+  },
+  "tutorialModal": {
+    "elements": {
+      "title": "Co to jest element?",
+      "content": "Element to samodzielnie zdefiniowany zestaw siatek 3D, który jest połączony z danymi na jednym lub kilku podstawowych cyfrowych bliźniakach. Elementy pomagają szybko ocenić działanie i kondycję systemu. \n\nPierwotny bliźniak jest głównym cyfrowym odpowiednikiem bliźniaka dla elementu. Łączysz element z bliźniaczką w wystąpieniu usługi Azure Digital Twins, aby element mógł reprezentować bliźniaka i jego dane w wizualizacji 3D.",
+      "docLinkBlurb": "Aby uzyskać bardziej szczegółowe informacje krok po kroku, sprawdź naszą <DocLink>docs here.</DocLink>"
+    }
   }
 }

@@ -782,5 +782,12 @@
     "reset": "Réinitialisation",
     "zoomIn": "Zoom avant",
     "zoomOut": "Zoom arrière"
+  },
+  "tutorialModal": {
+    "elements": {
+      "title": "Qu'est-ce qu'un élément ?",
+      "content": "Un élément est un ensemble auto-défini de maillages 3D liés à des données sur un ou plusieurs jumeaux numériques sous-jacents. Les éléments vous aident à évaluer rapidement les opérations et l’intégrité du système. \n\nUn jumeau primaire est la contrepartie principale du jumeau numérique d’un élément. Vous connectez l’élément à un jumeau dans votre instance Azure Digital Twins afin que l’élément puisse représenter votre jumeau et ses données dans la visualisation 3D.",
+      "docLinkBlurb": "Pour une étape plus détaillée, consultez notre <DocLink>docs ici.</DocLink>"
+    }
   }
 }

@@ -782,5 +782,12 @@
     "reset": "Resetovat",
     "zoomIn": "Přiblížit",
     "zoomOut": "Oddálit"
+  },
+  "tutorialModal": {
+    "elements": {
+      "title": "Co je to prvek?",
+      "content": "Prvek je samodefinovaná sada 3D sítí, která je propojena s daty na jednom nebo více podkladových digitálních dvojčatech. Prvky vám pomohou rychle posoudit provoz a stav systému. \n\nPrimární dvojče je hlavním protějškem digitálního dvojčete prvku. Prvek připojíte k dvojčeti v instanci Azure Digital Twins, aby prvek mohl reprezentovat vaše dvojče a jeho data v rámci 3D vizualizace.",
+      "docLinkBlurb": "Podrobnější informace naleznete v našich <DocLink>docs here.</DocLink>"
+    }
   }
 }

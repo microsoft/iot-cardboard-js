@@ -782,5 +782,12 @@
     "reset": "Reset",
     "zoomIn": "Zoom in",
     "zoomOut": "Zoom para fora"
+  },
+  "tutorialModal": {
+    "elements": {
+      "title": "O que é um elemento?",
+      "content": "Um elemento é um conjunto auto-definido de malhas 3D que está ligada a dados sobre um ou mais gémeos digitais subjacentes. Os elementos ajudam-no a medir rapidamente as operações do sistema e a saúde. \n\nUm gémeo primário é a principal congénere digital de um elemento. Liga o elemento a um gémeo no seu exemplo Azure Digital Twins para que o elemento possa representar o seu gémeo e os seus dados dentro da visualização 3D.",
+      "docLinkBlurb": "Para um passo a passo mais detalhado, consulte os nossos <DocLink>docs aqui.</DocLink>"
+    }
   }
 }
