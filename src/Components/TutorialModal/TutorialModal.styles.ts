@@ -100,7 +100,6 @@ export const getStyles = (
                 display: 'flex',
                 flex: '1 1 420px',
                 width: 900,
-                paddingRight: 20,
                 paddingLeft: 20,
                 maxHeight: 'calc(100% - 120px)'
             } as IStyle
@@ -110,11 +109,13 @@ export const getStyles = (
             {
                 width: '100%',
                 borderRadius: 4,
-                marginLeft: 8,
+                margin: '0 20px 20px 20px',
                 overflowY: 'auto',
                 position: 'relative',
                 display: 'flex',
-                flexDirection: 'column'
+                flexDirection: 'column',
+                backgroundColor:
+                    props.theme.semanticColors.listItemBackgroundHovered
             } as IStyle
         ],
         illustrationPageContainer: [
