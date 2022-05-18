@@ -86,7 +86,6 @@ export const getStyles = (
                 width: 900,
                 paddingRight: 20,
                 paddingLeft: 20,
-                minHeight: 348,
                 maxHeight: 'calc(100% - 120px)',
                 overflowY: 'auto'
             } as IStyle

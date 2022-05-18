@@ -14,6 +14,7 @@ const SlideStatusIndicator: React.FC<{
                 const isActiveSlide = slide === slideNumber;
                 return (
                     <IconButton
+                        key={slide}
                         styles={classNames.subComponentStyles.slideIndicatorButton()}
                         iconProps={{
                             iconName: isActiveSlide

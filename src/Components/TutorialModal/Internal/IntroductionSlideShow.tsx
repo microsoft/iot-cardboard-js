@@ -1,5 +1,6 @@
 import { IconButton, IProcessedStyleSet } from '@fluentui/react';
 import React from 'react';
+import useKeyPress from '../../../Models/Hooks/useKeyPress';
 import { ITutorialModalStyles } from '../TutorialModal.types';
 import SlideStatusIndicator from './SlideStatusIndicator';
 
@@ -10,6 +11,13 @@ const IntroductionSlideShow: React.FC<{
 }> = ({ slideNumber, setSlideNumber, classNames }) => {
     const numSlides = 3;
 
+    const prevSlide = () => setSlideNumber(Math.max(slideNumber - 1, 0));
+    const nextSlide = () =>
+        setSlideNumber(Math.min(slideNumber + 1, numSlides - 1));
+
+    useKeyPress('ArrowLeft', prevSlide);
+    useKeyPress('ArrowRight', nextSlide);
+
     return (
         <div className={classNames.slideshowContainer}>
             <div className={classNames.slideChangeBtnContainerLeft}>
@@ -17,7 +25,7 @@ const IntroductionSlideShow: React.FC<{
                     styles={classNames.subComponentStyles.chevronButton()}
                     iconProps={{ iconName: 'ChevronLeft' }}
                     ariaLabel="Previous slide"
-                    onClick={() => setSlideNumber(Math.max(slideNumber - 1, 0))}
+                    onClick={prevSlide}
                     disabled={slideNumber <= 0}
                 />
             </div>
@@ -26,9 +34,7 @@ const IntroductionSlideShow: React.FC<{
                     styles={classNames.subComponentStyles.chevronButton()}
                     iconProps={{ iconName: 'ChevronRight' }}
                     ariaLabel="Next slide"
-                    onClick={() =>
-                        setSlideNumber(Math.min(slideNumber + 1, numSlides))
-                    }
+                    onClick={nextSlide}
                     disabled={slideNumber >= numSlides - 1}
                 />
             </div>

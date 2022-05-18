@@ -60,8 +60,10 @@ const TutorialModal: React.FC<ITutorialModalProps> = (props) => {
             onDismiss={() => onDismiss()}
             titleAriaId={titleId}
             styles={{
-                main: { overflow: 'hidden', display: 'flex' }
+                main: { overflow: 'hidden', display: 'flex' },
+                scrollableContent: { overflow: 'hidden' }
             }}
+            layerProps={{ eventBubblingEnabled: true }}
         >
             <div className={classNames.root}>
                 <div className={classNames.header}>
