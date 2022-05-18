@@ -54,6 +54,7 @@ import {
 import { ADT3DScenePageModes } from '../../Models/Constants';
 import FloatingScenePageModeToggle from '../../Pages/ADT3DScenePage/Internal/FloatingScenePageModeToggle';
 import DeeplinkFlyout from '../DeeplinkFlyout/DeeplinkFlyout';
+import ADT3DSceneBreadcrumbFactory from '../ADT3DSceneBreadcrumb/ADT3DSceneBreadcrumbFactory';
 
 const getClassNames = classNamesFunction<
     IADT3DViewerStyleProps,
@@ -528,6 +529,10 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
             containerClassName={classNames.root}
         >
             <div id={sceneWrapperId} className={classNames.wrapper}>
+                <ADT3DSceneBreadcrumbFactory
+                    sceneId={sceneId}
+                    config={scenesConfig}
+                />
                 {/* Left panel */}
                 <ViewerElementsPanelRenderer
                     isLoading={isLoading}

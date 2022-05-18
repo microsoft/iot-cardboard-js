@@ -26,7 +26,7 @@ import SceneBehaviors from '../Internal/Behaviors/Behaviors';
 import SceneBehaviorsForm from '../Internal/Behaviors/BehaviorsForm';
 import SceneElementForm from '../Internal/Elements/ElementForm';
 import SceneElements from '../Internal/Elements/Elements';
-import LeftPanelBuilderBreadcrumb from '../Internal/LeftPanelBuilderBreadcrumb';
+import ADT3DSceneBreadcrumbFactory from '../../ADT3DSceneBreadcrumb/ADT3DSceneBreadcrumbFactory';
 import { SceneBuilderContext } from '../ADT3DSceneBuilder';
 import { createCustomMeshItems } from '../../3DV/SceneView.Utils';
 import {
@@ -401,6 +401,25 @@ const BuilderLeftPanel: React.FC = () => {
         config
     ]);
 
+    // Callback for breadcrumb depending if builder is in behavior or element mode
+    const elementModes = [
+        ADT3DSceneBuilderMode.ElementsIdle,
+        ADT3DSceneBuilderMode.CreateElement,
+        ADT3DSceneBuilderMode.EditElement,
+        ADT3DSceneBuilderMode.TargetElements
+    ];
+    let onSceneClick: VoidFunction;
+    if (elementModes.includes(state.builderMode)) {
+        onSceneClick = () => {
+            onBackClick(ADT3DSceneBuilderMode.ElementsIdle);
+            setSelectedElements([]);
+        };
+    } else {
+        onSceneClick = () => {
+            onBackClick(ADT3DSceneBuilderMode.BehaviorIdle);
+        };
+    }
+
     return (
         <BaseComponent
             theme={theme}
@@ -408,15 +427,11 @@ const BuilderLeftPanel: React.FC = () => {
             localeStrings={localeStrings}
             containerClassName="cb-scene-builder-left-panel"
         >
-            <LeftPanelBuilderBreadcrumb
+            <ADT3DSceneBreadcrumbFactory
+                config={config}
+                sceneId={sceneId}
                 builderMode={state.builderMode}
-                onBehaviorsRootClick={() => {
-                    onBackClick(ADT3DSceneBuilderMode.BehaviorIdle);
-                    setSelectedElements([]);
-                }}
-                onElementsRootClick={() =>
-                    onBackClick(ADT3DSceneBuilderMode.ElementsIdle)
-                }
+                onSceneClick={onSceneClick}
             />
             {(state.builderMode === ADT3DSceneBuilderMode.ElementsIdle ||
                 state.builderMode === ADT3DSceneBuilderMode.BehaviorIdle) && (

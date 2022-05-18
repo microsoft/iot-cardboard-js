@@ -73,5 +73,6 @@ export interface IADT3DScenePageContext {
     dispatch: React.Dispatch<IAction>;
     handleOnHomeClick: () => void;
     handleOnSceneClick: (scene: IScene) => void;
+    handleOnSceneSwap: (scene: IScene) => void;
     isTwinPropertyInspectorPatchModeEnabled: boolean;
 }

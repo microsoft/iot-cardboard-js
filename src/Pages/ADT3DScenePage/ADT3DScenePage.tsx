@@ -147,6 +147,13 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
         [setCurrentStep, setMode, setSelectedSceneId]
     );
 
+    const handleOnSceneSwap = useCallback(
+        (scene: IScene) => {
+            setSelectedSceneId(scene?.id);
+        },
+        [setSelectedSceneId]
+    );
+
     const handleContainerUrlChange = useCallback(
         (containerUrl: string, containerUrls: Array<string>) => {
             setBlobContainerUrl(containerUrl);
@@ -292,6 +299,7 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
                 dispatch,
                 handleOnHomeClick,
                 handleOnSceneClick,
+                handleOnSceneSwap,
                 isTwinPropertyInspectorPatchModeEnabled: enableTwinPropertyInspectorPatchMode
             }}
         >
