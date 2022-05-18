@@ -21,9 +21,9 @@ import { SET_OAT_PROPERTY_EDITOR_MODEL } from '../../Models/Constants/ActionType
 import { IAction } from '../../Models/Constants/Interfaces';
 import { deepCopy } from '../../Models/Services/Utils';
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
-import CountryList from '../../Pages/OATEditorPage/Resources/CountryList.json';
 import { MultiLanguageSelectionType } from '../../Models/Constants/Enums';
 import {
+    getLanguages,
     getModelPropertyCollectionName,
     handleMultiLanguageSelectionRemoval,
     handleMultiLanguageSelectionsDescriptionKeyChange,
@@ -92,6 +92,7 @@ export const FormAddEnumItem = ({
         isAMultiLanguageDescriptionEmpty,
         setIsAMultiLanguageDescriptionEmpty
     ] = useState(true);
+    const [languages] = useState(getLanguages());
     const { model } = state;
 
     const propertiesKeyName = getModelPropertyCollectionName(
@@ -281,7 +282,7 @@ export const FormAddEnumItem = ({
                         />
                         <Dropdown
                             placeholder={t('OATPropertyEditor.region')}
-                            options={CountryList}
+                            options={languages}
                             onChange={(_ev, option) =>
                                 handleMultiLanguageSelectionsDisplayNameKeyChange(
                                     option.key,
@@ -400,7 +401,7 @@ export const FormAddEnumItem = ({
                         />
                         <Dropdown
                             placeholder={t('OATPropertyEditor.region')}
-                            options={CountryList}
+                            options={languages}
                             onChange={(_ev, option) =>
                                 handleMultiLanguageSelectionsDescriptionKeyChange(
                                     option.key,
