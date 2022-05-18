@@ -510,6 +510,7 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
         setZoomMeshesByElement(undefined);
         setSelectedElementId(undefined);
         setOutlinedMeshItems([]);
+        setSelectedVisual(null);
         outlinedMeshItemsRef.current = [];
     }, [setSelectedElementId, setZoomMeshesByElement]);
 
