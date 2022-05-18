@@ -1,21 +1,16 @@
 import {
     ActionButton,
-    Callout,
     ComboBox,
-    DirectionalHint,
     IComboBox,
     IComboBoxOption,
-    IComboBoxProps,
-    IconButton,
     IOnRenderComboBoxLabelProps,
     Label,
-    Stack,
-    useTheme
+    Stack
 } from '@fluentui/react';
-import { useBoolean, useId } from '@fluentui/react-hooks';
 import produce from 'immer';
 import React, { useContext, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
+import TooltipCallout from '../../../TooltipCallout/TooltipCallout';
 import { SceneBuilderContext } from '../../ADT3DSceneBuilder';
 
 interface ISceneLayerMultiSelectBuilder {
@@ -50,7 +45,10 @@ const SceneLayerMultiSelectBuilder: React.FC<ISceneLayerMultiSelectBuilder> = ({
         return (
             <Stack horizontal verticalAlign={'center'}>
                 <Label>{renderProps.props.label}</Label>
-                <InfoCallout />
+                <TooltipCallout
+                    buttonAriaLabel={t('sceneLayers.infoCalloutButtonTitle')}
+                    calloutContent={t('sceneLayers.infoCalloutContent')}
+                />
             </Stack>
         );
     };
@@ -105,52 +103,6 @@ const SceneLayerMultiSelectBuilder: React.FC<ISceneLayerMultiSelectBuilder> = ({
                 </div>
             )}
         />
-    );
-};
-
-const InfoCallout: React.FC = () => {
-    // state
-    const [flyoutVisible, { toggle: toggleFlyout }] = useBoolean(false);
-
-    // hooks
-    const id = useId();
-    const { t } = useTranslation();
-    const theme = useTheme();
-
-    return (
-        <>
-            <IconButton
-                ariaLabel={t('sceneLayers.infoCalloutButtonTitle')}
-                id={id}
-                iconProps={{ iconName: 'Info' }}
-                onFocus={toggleFlyout}
-                onBlur={toggleFlyout}
-                onMouseEnter={toggleFlyout}
-                onMouseLeave={toggleFlyout}
-                styles={{
-                    root: {
-                        marginBottom: -3,
-                        color: theme.semanticColors.bodyText
-                    }
-                }}
-                title={t('sceneLayers.infoCalloutButtonTitle')}
-            />
-            {flyoutVisible && (
-                <Callout
-                    target={`#${id}`}
-                    directionalHint={DirectionalHint.rightCenter}
-                    onDismiss={toggleFlyout}
-                    styles={{
-                        root: {
-                            maxWidth: 300,
-                            padding: 8
-                        }
-                    }}
-                >
-                    {t('sceneLayers.infoCalloutContent')}
-                </Callout>
-            )}
-        </>
     );
 };
 

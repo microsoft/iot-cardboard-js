@@ -417,16 +417,17 @@
             "formSubTitle": "Behaviors are visual cues that occur under specific conditions—for instance, at specific intervals, or at data thresholds."
         },
         "behaviorAlertForm": {
-            "colorPickerLabel": "Badge color",
+            "colorPickerLabel": "Color",
             "expressionLabel": "Trigger expression",
-            "expressionPlaceholder": "Enter expression (eg PrimaryTwin.InFlow > 3)",
-            "iconPickerLabel": "Badge icon",
-            "notice": "This behavior will be enabled only when the below trigger expression evaluates to true.",
-            "notificationLabel": "Notification text",
-            "notificationPlaceholder": "Text to show with the alert for additional context."
+            "expressionPlaceholder": "Enter expression (eg PrimaryTwin.InFlow > 200)",
+            "iconPickerLabel": "Icon",
+            "tabDescription": "Alerts—icons accompanied by text—help draw attention to critical data conditions. Below, use expressions to trigger alerts in your visualization.",
+            "notificationLabel": "Scenerio description",
+            "notificationLabelTooltip": "This text will give a consumer context when this badge is active.",
+            "notificationPlaceholder": "Enter a description"
         },
         "behaviorStatusForm": {
-            "notice": "Use a single property to recolor this behavior's target elements.",
+            "tabDescription": "Select a property, then set ranges for applying color to certain conditions—for instance, red to indicate high temperatures, or green for optimal speed.",
             "stateItemLabel": "State {{index}}"
         },
         "twinPropertyDropdown": {

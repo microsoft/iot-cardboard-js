@@ -1,4 +1,4 @@
-import { PRIMARY_TWIN_NAME } from '../../Models/Constants';
+import { IIconNames, PRIMARY_TWIN_NAME } from '../../Models/Constants';
 import { IModelledPropertyBuilderAdapter } from '../../Models/Constants/Interfaces';
 import {
     I3DScenesConfig,
@@ -56,6 +56,14 @@ export interface ModelledPropertyBuilderProps {
 
     /** Custom label for control */
     customLabel?: string;
+
+    /** Custom tooltip next to the label for the control */
+    customLabelTooltip?: {
+        ariaLabel: string;
+        text: string;
+        /** will default to info */
+        iconName?: IIconNames;
+    };
 
     /** Visual indication that this field is required.  Defaults to false */
     required?: boolean;

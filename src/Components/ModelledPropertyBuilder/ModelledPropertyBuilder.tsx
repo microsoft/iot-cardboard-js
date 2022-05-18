@@ -26,7 +26,8 @@ import {
     ChoiceGroup,
     Label,
     IChoiceGroupOption,
-    SpinnerSize
+    SpinnerSize,
+    IconButton
 } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { useModelledProperties } from './useModelledProperties';
@@ -41,6 +42,7 @@ import {
 import { getProperty } from 'dot-prop';
 import { DTDLPropertyIconographyMap } from '../../Models/Constants/Constants';
 import i18next from 'i18next';
+import TooltipCallout from '../TooltipCallout/TooltipCallout';
 
 const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = ({
     adapter,
@@ -54,6 +56,7 @@ const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = ({
     dropdownTestId = 'cb-modelled-property-dropdown-test-id',
     intellisensePlaceholder,
     customLabel,
+    customLabelTooltip,
     onInternalModeChanged
 }) => {
     const { t } = useTranslation();
@@ -225,15 +228,24 @@ const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = ({
         <div className={styles.root}>
             <Stack tokens={{ childrenGap: 4 }}>
                 <div className={styles.labelContainer}>
-                    <Label
-                        styles={propertyExpressionLabelStyles}
-                        required={required}
-                    >
-                        {customLabel ??
-                            t(
-                                '3dSceneBuilder.ModelledPropertyBuilder.expressionLabel'
-                            )}
-                    </Label>
+                    <Stack horizontal>
+                        <Label
+                            styles={propertyExpressionLabelStyles}
+                            required={required}
+                        >
+                            {customLabel ??
+                                t(
+                                    '3dSceneBuilder.ModelledPropertyBuilder.expressionLabel'
+                                )}
+                        </Label>
+                        {customLabelTooltip && (
+                            <TooltipCallout
+                                buttonAriaLabel={customLabelTooltip.ariaLabel}
+                                calloutContent={customLabelTooltip.text}
+                                iconName={customLabelTooltip.iconName || 'Info'}
+                            />
+                        )}
+                    </Stack>
                     {(mode === ModelledPropertyBuilderMode.INTELLISENSE ||
                         mode ===
                             ModelledPropertyBuilderMode.PROPERTY_SELECT) && (

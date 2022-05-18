@@ -264,18 +264,6 @@ const TwinsTab: React.FC<ITwinsTabProps> = ({
                     />
                 )}
             </div>
-            {/* <div> */}
-            {/* <Label>{t('3dSceneBuilder.twinAlias.titlePlural')}</Label>
-                {twinAliasList.length === 0 ? (
-                    <div className={commonPanelStyles.noDataText}>
-                        {t('3dSceneBuilder.twinAlias.noTwinAliasesAdded')}
-                    </div>
-                ) : (
-                    <CardboardList<IBehaviorTwinAliasItem>
-                        items={twinAliasList}
-                        listKey={`behavior-aliased-twin-list`}
-                    />
-                )} */}
             <ActionButton
                 id={addAliasCalloutTargetId}
                 styles={actionButtonStyles}
