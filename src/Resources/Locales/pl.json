@@ -851,6 +851,8 @@
     "conceptsRoot": {
       "title": "Potrzebujesz głębszego zanurzenia się w koncepcjach?",
       "text": "Przejrzyj zawartość pomocy lub zapoznaj się z naszą dokumentacją, aby uzyskać samouczki krok po kroku!"
-    }
+    },
+    "viewOnGithub": "GitHub",
+    "viewTheQuickstart": "Szybki start"
   }
 }

@@ -851,6 +851,8 @@
     "conceptsRoot": {
       "title": "Kavramlar hakkında daha derin bir dalışa mı ihtiyacınız var?",
       "text": "Yardım içeriğine göz atın veya adım adım öğreticiler için belgelerimize göz atın!"
-    }
+    },
+    "viewOnGithub": "GitHub Hesabı",
+    "viewTheQuickstart": "Hızlı başlangıçQuickstart"
   }
 }

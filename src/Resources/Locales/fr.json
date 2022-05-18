@@ -851,6 +851,8 @@
     "conceptsRoot": {
       "title": "Besoin d’une plongée plus profonde sur les concepts?",
       "text": "Parcourez le contenu de l’aide ou consultez notre documentation pour des tutoriels étape par étape!"
-    }
+    },
+    "viewOnGithub": "GitHub (en anglais)",
+    "viewTheQuickstart": "Démarrage rapide"
   }
 }

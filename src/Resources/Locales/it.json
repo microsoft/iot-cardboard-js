@@ -851,6 +851,8 @@
     "conceptsRoot": {
       "title": "Hai bisogno di un approfondimento sui concetti?",
       "text": "Sfoglia il contenuto della guida o consulta la nostra documentazione per tutorial passo passo!"
-    }
+    },
+    "viewOnGithub": "GitHub",
+    "viewTheQuickstart": "Guida introduttiva"
   }
 }

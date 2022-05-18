@@ -851,6 +851,8 @@
     "conceptsRoot": {
       "title": "Potřebujete se hlouběji ponořit do konceptů?",
       "text": "Projděte si obsah nápovědy nebo se podívejte na naši dokumentaci, kde najdete podrobné návody!"
-    }
+    },
+    "viewOnGithub": "GitHub",
+    "viewTheQuickstart": "Rychlý start"
   }
 }

@@ -851,6 +851,8 @@
     "conceptsRoot": {
       "title": "Wil je dieper ingaan op de concepten?",
       "text": "Blader door de Help-inhoud of bekijk onze documentatie voor stapsgewijze zelfstudies!"
-    }
+    },
+    "viewOnGithub": "Github",
+    "viewTheQuickstart": "Snelstart"
   }
 }

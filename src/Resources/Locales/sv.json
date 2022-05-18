@@ -851,6 +851,8 @@
     "conceptsRoot": {
       "title": "Behöver du en djupare dykning i begreppen?",
       "text": "Bläddra i hjälpinnehållet eller kolla in vår dokumentation för steg för steg handledning!"
-    }
+    },
+    "viewOnGithub": "GitHub",
+    "viewTheQuickstart": "Snabbstart"
   }
 }
