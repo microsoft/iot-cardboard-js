@@ -380,7 +380,6 @@
         "manageTargetElements": "Manage target elements",
         "elementsListInstructions": "Select the elements you want included in this behavior's visualization",
         "multiSelectElements": "Multi-select elements",
-        "updateBehavior": "Update behavior",
         "removeBehaviorFromScene": "Remove behavior from scene",
         "removeBehaviorFromAllScenes": "Remove behavior from all scenes",
         "manageSceneLayer": "Manage scene layer",
@@ -405,6 +404,7 @@
         "newBehavior": "New behavior",
         "modifyBehavior": "Edit behavior",
         "createBehavior": "Create behavior",
+        "updateBehavior": "Update behavior",
         "newBehaviorId": "NewBehaviorId",
         "cancel": "Cancel",
         "Done": "Done",
@@ -431,7 +431,8 @@
             "tabDescription": "Alerts—icons accompanied by text—help draw attention to critical data conditions. Below, use expressions to trigger alerts in your visualization.",
             "notificationLabel": "Scenario description",
             "notificationLabelTooltip": "This text will give a consumer context when this badge is active.",
-            "notificationLabelDescription": "Twin properties need to be escaped using template string syntax. For example, ${PrimaryTwin.DisplayName} is hot",
+            "notificationLabelDescriptionPart1": "Twin properties need to be surrounded with template string syntax.",
+            "notificationLabelDescriptionPart2": "E.g. $PrimaryTwin.DisplayName} requires maintenance",
             "notificationPlaceholder": "Enter a description"
         },
         "behaviorStatusForm": {

@@ -5,7 +5,13 @@ import {
     IBehavior,
     IExpressionRangeVisual
 } from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
-import { IStackTokens, Stack, Text, useTheme } from '@fluentui/react';
+import {
+    FontSizes,
+    IStackTokens,
+    Stack,
+    Text,
+    useTheme
+} from '@fluentui/react';
 import ViewerConfigUtility from '../../../../../Models/Classes/ViewerConfigUtility';
 import {
     defaultSwatchColors,
@@ -39,7 +45,8 @@ const LOC_KEYS = {
     iconPickerLabel: `${ROOT_LOC}.iconPickerLabel`,
     tabDescription: `${ROOT_LOC}.tabDescription`,
     notificationLabel: `${ROOT_LOC}.notificationLabel`,
-    notificationLabelDescription: `${ROOT_LOC}.notificationLabelDescription`,
+    notificationLabelDescription: `${ROOT_LOC}.notificationLabelDescriptionPart1`,
+    notificationLabelDescriptionExample: `${ROOT_LOC}.notificationLabelDescriptionPart2`,
     notificationLabelTooltip: `${ROOT_LOC}.notificationLabelTooltip`,
     notificationPlaceholder: `${ROOT_LOC}.notificationPlaceholder`
 };
@@ -195,31 +202,40 @@ const AlertsTab: React.FC = () => {
                             }}
                         />
                     </Stack>
-                    <ModelledPropertyBuilder
-                        adapter={adapter}
-                        description={t(LOC_KEYS.notificationLabelDescription)}
-                        twinIdParams={{
-                            behavior: behaviorToEdit,
-                            config,
-                            sceneId,
-                            selectedElements
-                        }}
-                        mode={ModelledPropertyBuilderMode.INTELLISENSE}
-                        propertyExpression={{
-                            expression:
-                                stripTemplateStringsFromText(
-                                    notificationExpression
-                                ) || ''
-                        }}
-                        onChange={onNoteChange}
-                        customLabel={t(LOC_KEYS.notificationLabel)}
-                        customLabelTooltip={{
-                            text: t(LOC_KEYS.notificationLabelTooltip)
-                        }}
-                        intellisensePlaceholder={t(
-                            LOC_KEYS.notificationPlaceholder
-                        )}
-                    />
+                    <Stack tokens={{ childrenGap: 4 }}>
+                        <ModelledPropertyBuilder
+                            adapter={adapter}
+                            twinIdParams={{
+                                behavior: behaviorToEdit,
+                                config,
+                                sceneId,
+                                selectedElements
+                            }}
+                            mode={ModelledPropertyBuilderMode.INTELLISENSE}
+                            propertyExpression={{
+                                expression:
+                                    stripTemplateStringsFromText(
+                                        notificationExpression
+                                    ) || ''
+                            }}
+                            onChange={onNoteChange}
+                            customLabel={t(LOC_KEYS.notificationLabel)}
+                            customLabelTooltip={{
+                                text: t(LOC_KEYS.notificationLabelTooltip)
+                            }}
+                            intellisensePlaceholder={t(
+                                LOC_KEYS.notificationPlaceholder
+                            )}
+                        />
+                        <Text styles={{ root: { fontSize: FontSizes.small } }}>
+                            {t(LOC_KEYS.notificationLabelDescription)}{' '}
+                            <i>
+                                {t(
+                                    LOC_KEYS.notificationLabelDescriptionExample
+                                )}
+                            </i>
+                        </Text>
+                    </Stack>
                 </>
             )}
         </Stack>
