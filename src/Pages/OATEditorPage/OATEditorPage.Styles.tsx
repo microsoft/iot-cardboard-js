@@ -16,7 +16,7 @@ export const getEditorPageStyles = () => {
             {
                 display: 'grid',
                 gridTemplateColumns: '20% 55% 25%',
-                height: '100vh',
+                height: '100%',
                 backgroundColor: theme.semanticColors.bodyBackground
             } as IStyle
         ],
@@ -24,7 +24,7 @@ export const getEditorPageStyles = () => {
             classNames.componentTemplate,
             {
                 display: 'grid',
-                height: '100vh',
+                height: '100%',
                 backgroundColor: theme.semanticColors.bodyBackground,
                 gridTemplateColumns: '20% 30% 50%'
             } as IStyle

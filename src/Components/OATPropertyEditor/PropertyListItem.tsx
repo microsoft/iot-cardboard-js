@@ -21,7 +21,10 @@ import {
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 import AddPropertyBar from './AddPropertyBar';
 import PropertySelector from './PropertySelector';
-import { getModelPropertyCollectionName } from './Utils';
+import {
+    getModelPropertyCollectionName,
+    getModelPropertyListItemName
+} from './Utils';
 
 type IPropertyListItem = {
     index?: number;
@@ -119,11 +122,7 @@ export const PropertyListItem = ({
             }}
         >
             <div
-                id={
-                    typeof item.name === 'string'
-                        ? item.name
-                        : Object.values(item.name)[0]
-                }
+                id={getModelPropertyListItemName(item.name)}
                 className={getItemClassName(index)}
                 draggable
                 onDragStart={(e) => {
@@ -144,11 +143,7 @@ export const PropertyListItem = ({
             >
                 <TextField
                     borderless
-                    value={
-                        typeof item.name === 'string'
-                            ? item.name
-                            : Object.values(item.name)[0]
-                    }
+                    value={getModelPropertyListItemName(item.name)}
                     validateOnFocusOut
                     onChange={(evt, value) => {
                         setCurrentPropertyIndex(index);
@@ -180,11 +175,7 @@ export const PropertyListItem = ({
                             subMenuActive={subMenuActive}
                             handleTemplateAddition={handleTemplateAddition}
                             handleDuplicate={handleDuplicate}
-                            targetId={
-                                typeof item.name === 'string'
-                                    ? item.name
-                                    : Object.values(item.name)[0]
-                            }
+                            targetId={getModelPropertyListItemName(item.name)}
                             setSubMenuActive={setSubMenuActive}
                         />
                     )}

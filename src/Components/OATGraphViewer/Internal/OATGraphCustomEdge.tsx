@@ -21,8 +21,8 @@ import { DTDLRelationship } from '../../../Models/Classes/DTDL';
 import { getPropertyDisplayName } from '../../OATPropertyEditor/Utils';
 
 const foreignObjectSize = 180;
-const OFFSET_SMALL = 5;
-const OFFSET_MEDIUM = 10;
+const offsetSmall = 5;
+const offsetMedium = 10;
 
 const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
     id,
@@ -306,10 +306,10 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
             )}
             {data.type === OATExtendHandleName && showInheritances && (
                 <polygon
-                    points={`${targetX - OFFSET_SMALL},${
-                        targetY - OFFSET_SMALL
-                    } ${targetX + OFFSET_SMALL},${
-                        targetY - OFFSET_MEDIUM
+                    points={`${targetX - offsetSmall},${
+                        targetY - offsetSmall
+                    } ${targetX + offsetSmall},${
+                        targetY - offsetMedium
                     } ${targetX},${targetY}`}
                     cx={targetX}
                     cy={targetY}
@@ -322,10 +322,10 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                 data.type === OATUntargetedRelationshipName) &&
                 showRelationships && (
                     <polygon
-                        points={`${targetX - OFFSET_SMALL},${
-                            targetY - OFFSET_SMALL
-                        } ${targetX},${targetY} ${targetX + OFFSET_SMALL},${
-                            targetY - OFFSET_SMALL
+                        points={`${targetX - offsetSmall},${
+                            targetY - offsetSmall
+                        } ${targetX},${targetY} ${targetX + offsetSmall},${
+                            targetY - offsetSmall
                         } ${targetX},${targetY}`}
                         cx={targetX}
                         cy={targetY}
@@ -336,11 +336,11 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                 )}
             {data.type === OATComponentHandleName && showComponents && (
                 <polygon
-                    points={`${sourceX + OFFSET_SMALL},${
-                        sourceY + OFFSET_SMALL
-                    } ${sourceX},${sourceY + OFFSET_MEDIUM} ${
-                        sourceX - OFFSET_SMALL
-                    },${sourceY + OFFSET_SMALL} ${sourceX},${sourceY}`}
+                    points={`${sourceX + offsetSmall},${
+                        sourceY + offsetSmall
+                    } ${sourceX},${sourceY + offsetMedium} ${
+                        sourceX - offsetSmall
+                    },${sourceY + offsetSmall} ${sourceX},${sourceY}`}
                     cx={sourceX}
                     cy={sourceY}
                     r={3}

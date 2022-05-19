@@ -24,7 +24,10 @@ import {
     DTDLProperty
 } from '../../Models/Constants/Interfaces';
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
-import { getModelPropertyCollectionName } from './Utils';
+import {
+    getModelPropertyCollectionName,
+    getModelPropertyListItemName
+} from './Utils';
 
 type IPropertyListItemNest = {
     deleteItem?: (index: number) => any;
@@ -169,11 +172,7 @@ export const PropertyListItemNest = ({
             }}
         >
             <div
-                id={
-                    typeof item.name === 'string'
-                        ? item.name
-                        : Object.values(item.name)[0]
-                }
+                id={getModelPropertyListItemName(item.name)}
                 className={getItemClassName(index)}
                 draggable
                 onDragStart={(e) => {
@@ -205,11 +204,7 @@ export const PropertyListItemNest = ({
                     <TextField
                         styles={textFieldStyles}
                         borderless
-                        placeholder={
-                            typeof item.name === 'string'
-                                ? item.name
-                                : Object.values(item.name)[0]
-                        }
+                        placeholder={getModelPropertyListItemName(item.name)}
                         validateOnFocusOut
                         onChange={() => {
                             setCurrentPropertyIndex(index);
@@ -231,11 +226,7 @@ export const PropertyListItemNest = ({
                         styles={iconWrapMoreStyles}
                         title={t('OATPropertyEditor.more')}
                         onClick={() => setSubMenuActive(!subMenuActive)}
-                        id={`${
-                            typeof item.name === 'string'
-                                ? item.name
-                                : Object.values(item.name)[0]
-                        }_more`}
+                        id={getModelPropertyListItemName(item.name)}
                     >
                         {subMenuActive && (
                             <PropertyListItemSubMenu
@@ -249,11 +240,9 @@ export const PropertyListItemNest = ({
                                     handleDuplicate();
                                 }}
                                 setSubMenuActive={setSubMenuActive}
-                                targetId={`${
-                                    typeof item.name === 'string'
-                                        ? item.name
-                                        : Object.values(item.name)[0]
-                                }_more`}
+                                targetId={getModelPropertyListItemName(
+                                    item.name
+                                )}
                             />
                         )}
                     </IconButton>

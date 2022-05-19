@@ -10,6 +10,13 @@ export const getModelPropertyCollectionName = (type: string) => {
     return 'contents';
 };
 
+export const getModelPropertyListItemName = (name) => {
+    if (name && typeof name === 'string') {
+        return name;
+    }
+    return Object.values(name)[0];
+};
+
 /* Returns collection of languages from resource file */
 export const getLanguages = () => {
     const languages = Object.keys(i18n.options.resources).map((language) => {

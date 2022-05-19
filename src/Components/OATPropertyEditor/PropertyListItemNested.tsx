@@ -21,7 +21,10 @@ import {
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 import AddPropertyBar from './AddPropertyBar';
 import PropertySelector from './PropertySelector';
-import { getModelPropertyCollectionName } from './Utils';
+import {
+    getModelPropertyCollectionName,
+    getModelPropertyListItemName
+} from './Utils';
 
 type IPropertyListItemNested = {
     deleteNestedItem?: (parentIndex: number, index: number) => any;
@@ -103,21 +106,13 @@ export const PropertyListItemNested = ({
         >
             <div
                 className={getItemClassName(index)}
-                id={
-                    typeof item.name === 'string'
-                        ? item.name
-                        : Object.values(item.name)[0]
-                }
+                id={getModelPropertyListItemName(item.name)}
             >
                 <div></div> {/* Needed for gridTemplateColumns style  */}
                 <TextField
                     styles={textFieldStyles}
                     borderless
-                    placeholder={
-                        typeof item.name === 'string'
-                            ? item.name
-                            : Object.values(item.name)[0]
-                    }
+                    placeholder={getModelPropertyListItemName(item.name)}
                     validateOnFocusOut
                     onChange={() => {
                         setCurrentPropertyIndex(parentIndex);
@@ -153,11 +148,7 @@ export const PropertyListItemNested = ({
                             handleDuplicate={() => {
                                 handleDuplicate();
                             }}
-                            targetId={
-                                typeof item.name === 'string'
-                                    ? item.name
-                                    : Object.values(item.name)[0]
-                            }
+                            targetId={getModelPropertyListItemName(item.name)}
                             setSubMenuActive={setSubMenuActive}
                         />
                     )}
