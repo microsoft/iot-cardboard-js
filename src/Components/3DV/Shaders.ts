@@ -66,7 +66,13 @@ export function makeStandardMaterial(
         material.disableLighting = true;
         material.emissiveColor = baseColor3.scale(bgLuminanceRatio);
     } else {
-        material.emissiveColor = baseColor3;
+        material.emissiveColor = BABYLON.Color3.White(); //baseColor3;
+        const emFresnel = new BABYLON.FresnelParameters();
+        emFresnel.rightColor = baseColor3;
+        emFresnel.leftColor = baseColor3.scale(1.5);
+        emFresnel.bias = 0.5;
+        emFresnel.power = 2;
+        material.emissiveFresnelParameters = emFresnel;
         material.useEmissiveAsIllumination = true;
         material.disableLighting = true;
     }

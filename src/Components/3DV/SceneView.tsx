@@ -904,14 +904,14 @@ function SceneView(props: ISceneViewProps, ref) {
                     onSceneLoaded(sceneRef.current);
                 }
                 //The rendering pipeline allows for effects to be set in the scene
-                const defaultPipeline = new BABYLON.DefaultRenderingPipeline(
-                    'default',
-                    false,
-                    sceneRef.current,
-                    [cameraRef.current]
-                );
+                // const defaultPipeline = new BABYLON.DefaultRenderingPipeline(
+                //     'default',
+                //     false,
+                //     sceneRef.current,
+                //     [cameraRef.current]
+                // );
                 //Fast, approximate anti-aliasing removes the jagged edge appearance from meshes by doing a pass over the screen
-                defaultPipeline.fxaaEnabled = true;
+                //defaultPipeline.fxaaEnabled = true;
 
                 //Add a Screen Space Ambient Occlusion pass to add soft shadowing in crevices and between objects.
                 // const ssao = new BABYLON.SSAO2RenderingPipeline(
