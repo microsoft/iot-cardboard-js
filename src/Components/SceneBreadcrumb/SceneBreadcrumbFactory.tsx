@@ -8,7 +8,7 @@ import {
 } from '../../Models/Constants/Enums';
 import { SceneBuilderContext } from '../ADT3DSceneBuilder/ADT3DSceneBuilder';
 import { WidgetFormInfo } from '../ADT3DSceneBuilder/ADT3DSceneBuilder.types';
-import { IADT3DSceneBreadcrumbFactoryProps } from './ADT3DSceneBreadcrumb.types';
+import { ISceneBreadcrumbFactoryProps } from './SceneBreadcrumb.types';
 import { BaseBreadcrumb } from './BaseBreadcrumb';
 
 const cancelWidgetForm = (
@@ -30,7 +30,7 @@ const isCreateOrEditWidget = (formMode: WidgetFormMode) => {
     );
 };
 
-const ADT3DSceneBreadcrumbFactory: React.FC<IADT3DSceneBreadcrumbFactoryProps> = ({
+const SceneBreadcrumbFactory: React.FC<ISceneBreadcrumbFactoryProps> = ({
     sceneId,
     sceneName,
     builderMode,
@@ -224,4 +224,4 @@ const ADT3DSceneBreadcrumbFactory: React.FC<IADT3DSceneBreadcrumbFactoryProps> =
     }
 };
 
-export default ADT3DSceneBreadcrumbFactory;
+export default SceneBreadcrumbFactory;

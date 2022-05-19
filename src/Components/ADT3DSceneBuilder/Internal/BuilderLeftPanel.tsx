@@ -26,7 +26,7 @@ import SceneBehaviors from '../Internal/Behaviors/Behaviors';
 import SceneBehaviorsForm from '../Internal/Behaviors/BehaviorsForm';
 import SceneElementForm from '../Internal/Elements/ElementForm';
 import SceneElements from '../Internal/Elements/Elements';
-import ADT3DSceneBreadcrumbFactory from '../../ADT3DSceneBreadcrumb/ADT3DSceneBreadcrumbFactory';
+import SceneBreadcrumbFactory from '../../SceneBreadcrumb/SceneBreadcrumbFactory';
 import { SceneBuilderContext } from '../ADT3DSceneBuilder';
 import { createCustomMeshItems } from '../../3DV/SceneView.Utils';
 import {
@@ -430,7 +430,7 @@ const BuilderLeftPanel: React.FC = () => {
             localeStrings={localeStrings}
             containerClassName="cb-scene-builder-left-panel"
         >
-            <ADT3DSceneBreadcrumbFactory
+            <SceneBreadcrumbFactory
                 sceneName={sceneName}
                 sceneId={sceneId}
                 builderMode={state.builderMode}

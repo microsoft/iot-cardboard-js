@@ -8,8 +8,8 @@ import {
 import React, { useContext, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ADT3DScenePageContext } from '../../Pages/ADT3DScenePage/ADT3DScenePage';
-import { breadcrumbStyles } from './ADT3DSceneBreadcrumb.styles';
-import { IBaseBreadcrumbProps } from './ADT3DSceneBreadcrumb.types';
+import { breadcrumbStyles } from './SceneBreadcrumb.styles';
+import { IBaseBreadcrumbProps } from './SceneBreadcrumb.types';
 import SceneDropdown from './Internal/SceneDropdown';
 
 export const BaseBreadcrumb: React.FC<IBaseBreadcrumbProps> = ({

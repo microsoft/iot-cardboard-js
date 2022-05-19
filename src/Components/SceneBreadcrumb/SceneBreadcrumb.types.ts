@@ -18,7 +18,7 @@ export interface IBaseBreadcrumbProps {
     onRenderSceneItem?: (props?: IBreadcrumbItem) => JSX.Element;
 }
 
-export interface IADT3DSceneBreadcrumbFactoryProps {
+export interface ISceneBreadcrumbFactoryProps {
     sceneId: string;
     sceneName: string;
     builderMode?: ADT3DSceneBuilderMode;
