@@ -791,5 +791,77 @@
     "reset": "Átszed",
     "zoomIn": "Nagyítás",
     "zoomOut": "Kicsinyítés"
+  },
+  "tutorialModal": {
+    "elements": {
+      "title": "Mi az az elem?",
+      "content": "Az elem egy 3D-s hálók önállóan definiált készlete, amely egy vagy több mögöttes digitális iker adataihoz kapcsolódik. Az elemek segítenek a rendszer működésének és állapotának gyors mérésében. \n\nAz elsődleges iker az elem fő digitális ikerpárja. Az elemet az Azure Digital Twins-példányban egy ikerpárhoz csatlakoztathatja, hogy az elem képviselhesse az ikertestvérét és annak adatait a 3D vizualizációban."
+    },
+    "docLinkBlurb": "Részletesebben, lépésről lépésre, nézd meg a <DocLink>docs itt.</DocLink>",
+    "behaviors": {
+      "title": "Mi az a viselkedés?",
+      "mainContent": "A viselkedés olyan forgatókönyv a jelenethez, amely a kapcsolódó elem digitális ikertestvérének bizonyos adatait felhasználja a nézői vizualizációk ösztönzésére.\n\nA viselkedés létrehozása magában foglalja az ikrek kiválasztását, az állapot és a riasztások konfigurálását, a widget hozzáadását és annak kiválasztását, hogy melyik rétegen jelenjen meg.\n\n",
+      "statusTitle": "Állapot",
+      "statusDescription": "Az állapotok az elemek adatvezérelt fedvényei, amelyek jelzik az elem állapotát vagy állapotát. állítsa be az értéktartományokat állapothatárok létrehozásához, és válassza ki a színeket, hogy az egyes állapotokat képviselje a vizualizációban.\n\n",
+      "alertsTitle": "Figyelmeztetések",
+      "alertsDescription": "A riasztások feltételes értesítések, amelyek segítenek gyorsan látni, hogy egy elem mikor igényli a figyelmet. Testreszabhatja a figyelmeztető jelvényt egy ikonnal, színnel és szöveggel.\n\n"
+    },
+    "tip": "Borravaló",
+    "twins": {
+      "title": "Hogyan válasszunk ikreket?",
+      "mainContent": "Az Ikrek lapon módosíthatja azoknak az ikreknek a készletét, akiknek az adatai elérhetők ehhez a viselkedéshez. Ez magában foglalja a megcélzott elemek elsődleges ikreit és nem elsődleges ikreket.\n\nA nem elsődleges iker egy elem másodlagos digitális ikeradatforrása. Ehhez az elemhez az iker tulajdonságait használhatja a viselkedéskifejezéseiben. Csak akkor adjon hozzá nem elsődleges ikreket, ha további ikrek vannak az elsődleges ikerpáron túli adatokkal, amelyeket az állapotában, riasztásaiban és widgetjeiben szeretne felhasználni ehhez a viselkedéshez.\n\n",
+      "tipContent": "Az Azure Digital Twins Explorer segítségével megtekintheti azokat az ikreket, amelyek kapcsolatban állhatnak az elem elsődleges ikertestvérével. A grafikont a SELECT * FROM digitaltwins WHERE $dtId='<primary-twin-id>' segítségével lekérdezheti, majd a dupla kattintással bővítő funkcióval felfedezheti a kapcsolódó ikreket."
+    },
+    "widgets": {
+      "title": "Mi az a widget?",
+      "mainContent": "A widgetek olyan adatvezérelt vizualizációk, amelyek további környezetet és adatokat biztosítanak, hogy segítsenek megérteni a viselkedés által képviselt forgatókönyvet. A widgetek konfigurálása segít abban, hogy megbizonyosodjon arról, hogy a megfelelő adatok felderíthetők-e, ha egy riasztás vagy állapot aktív.\n\n",
+      "typesOfWidgets": "A widgetek típusai\n\n",
+      "gaugeDescription": "<Underline>Gauge:</Aláhúzás> Numerikus adatpontok vizuális megjelenítéséhez\n\n",
+      "linkDescription": "<Underline>Link:</Underline> Külső hivatkozással ellátott tartalom csatolt URL-en keresztüli felvétele\n\n",
+      "valueDescription": "<Underline>Value:</Underline> Ikertulajdonság-értékek közvetlen megjelenítéséhez\n\n"
+    },
+    "sceneLayers": {
+      "title": "Mi az a jelenetréteg?",
+      "mainContent": "Rétegeket hozhat létre a jelenetben, hogy segítsen megszervezni a viselkedését. A rétegek címkékként működnek a viselkedésen, lehetővé téve annak meghatározását, hogy mely viselkedéseket kell együtt látni, így egyéni nézeteket hoz létre a jelenetről a különböző szerepkörökhöz vagy feladatokhoz.\n\nHa nincsenek rétegek egy jelenetben, az összes viselkedés megjelenik a jelenetmegjelenítőben. Ha legalább egy réteg van jelen a jelenetben, akkor csak a réteggel jelölt viselkedések jelennek meg a nézőben.\n\nA rétegek létrehozásának egyik módja a Jelenet rétegek gomb használata a Jelenet rétegek nézetben egy jelenethez. Másik lehetőségként rétegeket is létrehozhat a viselkedés létrehozása vagy módosítása közben."
+    },
+    "modalTitle": "Üdvözöljük a 3D Scenes Studio-ban!",
+    "publicPreview": "Nyilvános előzetes verzió",
+    "closeAriaLabel": "Modális mód bezárása",
+    "nextSlide": "Következő dia",
+    "previousSlide": "Előző dia",
+    "statusIndicatorSelectedAria": "A(z) {{dia}} dia kijelölve",
+    "statusIndicatorUnselectedAria": "{{dia} kijelölése",
+    "tabs": {
+      "introduction": "Bevezetés",
+      "concepts": "Fogalmak",
+      "elements": "Elemek",
+      "behaviors": "Viselkedésmódok",
+      "twins": "Ikrek",
+      "widgets": "Kütyü",
+      "sceneLayers": "Jelenetrétegek"
+    },
+    "frePages": {
+      "intro": {
+        "title": "Legújabb alacsony kódú építőnk",
+        "text": "Ebben a magával ragadó 3D-s környezetben 3D-s szakértelem nélkül figyelheti, diagnosztizálhatja és vizsgálhatja a működési adatokat a 3D-s eszközök vizuális környezetével, amelyet az Azure Digital Twins adatai táplálnak."
+      },
+      "builder": {
+        "title": "A jelenet testreszabása az építőnkben",
+        "text": "A 3D Scenes Studio építője az elsődleges felület a jelenetek konfigurálásához. Ez egy alacsony kódú, vizuális élmény."
+      },
+      "viewer": {
+        "title": "Fedezze körül, vagy ágyazza be máshová",
+        "text": "Tekintse meg a 3D-s jelenetet itt a stúdióban. A megjelenítő összetevő beágyazható egyéni alkalmazásokba, és harmadik féltől származó összetevőkkel együtt működhet."
+      }
+    },
+    "conceptsRoot": {
+      "title": "Mélyebb merülésre van szüksége a fogalmakról?",
+      "text": "Böngésszen a súgó tartalmában, vagy nézze meg dokumentációnkat lépésről lépésre oktatóanyagokért!"
+    },
+    "rootDocsLinkText": "Dokumentáció",
+    "githubLinkText": "GitHub",
+    "quickstartLinkText": "Rövid útmutató",
+    "primaryButtonText": "Fedezd fel a demót",
+    "dismissText": "Elbocsát"
   }
 }
