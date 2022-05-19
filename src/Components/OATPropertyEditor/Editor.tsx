@@ -1,5 +1,5 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { Theme } from '../../Models/Constants/Enums';
+import React, { useState, useRef, useEffect, useMemo } from 'react';
+import { ModelTypes, Theme } from '../../Models/Constants/Enums';
 import {
     FontIcon,
     Stack,
@@ -50,23 +50,22 @@ const Editor = ({
     const enteredTemplateRef = useRef(null);
     const enteredPropertyRef = useRef(null);
     const [propertyOnHover, setPropertyOnHover] = useState(false);
-    const [propertyList, setPropertyList] = useState([]);
     const { model, templatesActive } = state;
 
     const propertiesKeyName = getModelPropertyCollectionName(
         model ? model['@type'] : null
     );
 
-    useEffect(() => {
+    const propertyList = useMemo(() => {
         // Get contents excluding relationship items
+        let propertyItems = [];
         if (model && model[propertiesKeyName].length > 0) {
-            const propertyItems = model[propertiesKeyName].filter(
-                (property) => property['@type'] !== 'Relationship'
+            propertyItems = model[propertiesKeyName].filter(
+                (property) => property['@type'] !== ModelTypes.relationship
             );
-            setPropertyList(propertyItems);
-            return;
+            return propertyItems;
         }
-        setPropertyList([]);
+        return propertyItems;
     }, [model]);
 
     return (
