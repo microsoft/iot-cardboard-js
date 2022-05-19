@@ -1490,7 +1490,7 @@ function SceneView(props: ISceneViewProps, ref) {
                 sceneRef.current,
                 hexToColor4(col),
                 currentObjectColor.lightingStyle,
-                backgroundColorRef.current.objectLuminanceRatio
+                backgroundColorRef.current?.objectLuminanceRatio || 1
             );
 
             materialCacheRef.current[materialId] = material;
