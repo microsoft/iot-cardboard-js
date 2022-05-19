@@ -74,17 +74,16 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
     const newElementsRef = useRef(null);
     const [elementToEdit, setElementToEdit] = useState<ITwinToObjectMapping>(
         () => {
+            const existingElements = config.configuration?.scenes
+                ?.find((s) => s.id === sceneId)
+                .elements.filter(
+                    ViewerConfigUtility.isTwinToObjectMappingElement
+                );
+            existingElementsRef.current = existingElements;
             if (builderMode === ADT3DSceneBuilderMode.EditElement) {
                 return selectedElement;
             } else {
                 // builderMode is ADT3DSceneBuilderMode.CreateElement
-                const existingElements = config.configuration?.scenes
-                    ?.find((s) => s.id === sceneId)
-                    .elements.filter(
-                        ViewerConfigUtility.isTwinToObjectMappingElement
-                    );
-                existingElementsRef.current = existingElements;
-
                 let newId = createGUID();
                 const existingIds = existingElements?.map((e) => e.id);
                 while (existingIds?.includes(newId)) {
@@ -103,6 +102,12 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
 
     const [behaviorsToEdit, setBehaviorsToEdit] = useState<Array<IBehavior>>(
         []
+    );
+
+    const isCreateElementDisabled = !(
+        elementToEdit?.displayName &&
+        elementToEdit?.primaryTwinID &&
+        elementToEdit?.objectIDs?.length > 0
     );
 
     useEffect(() => {
@@ -159,17 +164,18 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
         isAdapterCalledOnMount: false
     });
 
-    const handleSaveElement = useCallback(() => {
-        saveElementAdapterData.callAdapter();
+    const handleSaveElement = useCallback(async () => {
+        await saveElementAdapterData.callAdapter();
     }, [saveElementAdapterData]);
 
-    const handleCreateBehavior = useCallback(() => {
-        selectedElement
-            ? onCreateBehaviorWithElements()
-            : onCreateBehaviorWithElements(
-                  elementToEdit // new element
-              );
-    }, [selectedElement, elementToEdit]);
+    const handleCreateBehavior = useCallback(async () => {
+        // Save element
+        await handleSaveElement();
+
+        onCreateBehaviorWithElements(
+            elementToEdit // new element
+        );
+    }, [selectedElement, elementToEdit, handleSaveElement]);
 
     useEffect(() => {
         if (saveElementAdapterData.adapterResult.result) {
@@ -312,6 +318,9 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                                             onCreateBehaviorWithElements={
                                                 handleCreateBehavior
                                             }
+                                            isCreateBehaviorDisabled={
+                                                isCreateElementDisabled
+                                            }
                                         />
                                     </div>
                                 </PivotItem>
@@ -342,13 +351,7 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                                         ? t('3dSceneBuilder.createElement')
                                         : t('3dSceneBuilder.updateElement')
                                 }
-                                disabled={
-                                    !(
-                                        elementToEdit?.displayName &&
-                                        elementToEdit?.primaryTwinID &&
-                                        elementToEdit?.objectIDs?.length > 0
-                                    )
-                                }
+                                disabled={isCreateElementDisabled}
                             />
                             <DefaultButton
                                 text={t('cancel')}

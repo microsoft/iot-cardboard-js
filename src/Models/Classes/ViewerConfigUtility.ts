@@ -1066,7 +1066,7 @@ abstract class ViewerConfigUtility {
         configSnapshot = ViewerConfigUtility.updateElementsInScene(
             configSnapshot,
             sceneId,
-            selectedElements
+            selectedElements ?? []
         );
 
         return configSnapshot;
@@ -1085,7 +1085,12 @@ abstract class ViewerConfigUtility {
 
         return twinAliases;
     };
-
+    static hasGlobeCoordinates = (sceneList: IScene[]) => {
+        const scene = sceneList.find(
+            (s) => s?.latitude !== undefined || s?.longitude !== undefined
+        );
+        return scene ? true : false;
+    };
     /**
      * Gets config, sceneId and selected elements in a behavior
      * Returns twin alias items available for a behavior to add which is

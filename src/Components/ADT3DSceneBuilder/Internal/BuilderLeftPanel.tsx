@@ -143,6 +143,7 @@ const BuilderLeftPanel: React.FC = () => {
             payload: newElements
         });
         setColoredMeshItems([]);
+        getConfig();
     };
 
     const onElementClick = (element: ITwinToObjectMapping) => {
@@ -280,6 +281,12 @@ const BuilderLeftPanel: React.FC = () => {
     ) => {
         const behavior = { ...defaultBehavior, id: createGUID() };
         const mappingIds = [];
+
+        // Update selected elements with new element
+        if (newElement) {
+            updateSelectedElements(newElement, true);
+        }
+
         const elementsToAssign = newElement
             ? [newElement]
             : state.selectedElements?.length > 0
