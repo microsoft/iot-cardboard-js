@@ -13,6 +13,7 @@ import {
     PivotItem,
     PrimaryButton,
     Separator,
+    Stack,
     TextField,
     useTheme
 } from '@fluentui/react';
@@ -260,28 +261,36 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                     <>
                         <div className={commonFormStyles.content}>
                             <div className={commonFormStyles.header}>
-                                <TwinSearchDropdown
-                                    adapter={adapter}
-                                    label={t('3dSceneBuilder.primaryTwin')}
-                                    selectedTwinId={
-                                        selectedElement?.primaryTwinID
-                                    }
-                                    onTwinIdSelect={handleSelectTwinId}
-                                    descriptionText={t(
-                                        '3dSceneBuilder.elementForm.primaryTwinInputInfo'
-                                    )}
-                                />
-                                <TextField
-                                    label={t('name')}
-                                    value={elementToEdit?.displayName}
-                                    required
-                                    onChange={(e) => {
-                                        setElementToEdit({
-                                            ...elementToEdit,
-                                            displayName: e.currentTarget.value
-                                        });
-                                    }}
-                                />
+                                <Stack tokens={{ childrenGap: 8 }}>
+                                    <TwinSearchDropdown
+                                        adapter={adapter}
+                                        descriptionText={t(
+                                            '3dSceneBuilder.elementForm.twinNameDescription'
+                                        )}
+                                        label={t('3dSceneBuilder.primaryTwin')}
+                                        labelTooltip={{
+                                            content: t(
+                                                '3dSceneBuilder.elementForm.twinNameTooltip'
+                                            )
+                                        }}
+                                        selectedTwinId={
+                                            selectedElement?.primaryTwinID
+                                        }
+                                        onTwinIdSelect={handleSelectTwinId}
+                                    />
+                                    <TextField
+                                        label={t('name')}
+                                        value={elementToEdit?.displayName}
+                                        required
+                                        onChange={(e) => {
+                                            setElementToEdit({
+                                                ...elementToEdit,
+                                                displayName:
+                                                    e.currentTarget.value
+                                            });
+                                        }}
+                                    />
+                                </Stack>
                             </div>
                             <Separator />
                             <Pivot

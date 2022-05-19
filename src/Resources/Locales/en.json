@@ -401,14 +401,13 @@
         "Done": "Done",
         "edit": "Edit {{elementDisplayName}}",
         "editBehavior": "Edit behavior",
-        "searchTwinId": "Search Twin ID...",
+        "searchTwinId": "Search Twin ID ($dtId)...",
         "noTwinsFound": "No twins found (search is case sensitive)",
         "useNonExistingTwinId": "No exact match, use",
         "addBehaviorToScene": "Add behavior to scene",
         "behaviorMetaText": "{{numElementsInActiveScene}} elements, {{numSceneRefs}} scenes",
         "elementMetaText": "{{numBehaviors}} behaviors",
         "primaryTwin": "Primary twin",
-        "noMeshAddedText": "No meshes added yet, please select meshes in 3D viewer",
         "meshes": "Meshes",
         "behaviorElementsDropdownLabel": "Target element",
         "behaviorElementsDropdownPlaceholder": "Select an element",
@@ -436,10 +435,17 @@
             "tabDescription": "Define widgets that appear in the element's context"
         },
         "elementForm": {
+            "twinNameTooltip": "This field is case sensitive",
+            "twinNameDescription": "Select a digital twin to link this element to. You will use this linked twin's properties for associated behaviors.",
             "meshTabName": "Meshes",
             "behaviorsTabName": "Behaviors",
-            "twinTabName": "Other twins",
-            "primaryTwinInputInfo": "Enter twin ID ($dtId) to link with this element (case sensitive)"
+            "twinTabName": "Other twins"
+        },
+        "elementFormMeshTab": {
+            "noDataMessage": "Select associated meshes from your 3D model for this element."
+        },
+        "elementBehaviorMeshTab": {
+            "noDataMessage": "Assign or modify behaviors for this element. You can always add behaviors later."
         },
         "elementFormTwinTab": {
             "tabDescription": "These twins contain data beyond your primary twin that you can leverage in your status, alerts, and widgets for your behaviors.",
@@ -481,7 +487,7 @@
         "noPrimaryTwinProperties": "No primary twin properties to display",
         "twinAlias": {
             "title": "Twin alias",
-            "calloutDescription": "The union of linked twin properties of selected elements",
+            "calloutDescription": "The union of twin properties of selected elements",
             "aliasedTwin": "Aliased twin",
             "add": "Add twin",
             "new": "New twin",
