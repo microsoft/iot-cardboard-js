@@ -1,4 +1,3 @@
-import i18n from '../../i18n';
 import { DTDLProperty } from '../../Models/Classes/DTDL';
 import { ModelTypes, MultiLanguageSelectionType } from '../../Models/Constants';
 
@@ -15,17 +14,6 @@ export const getModelPropertyListItemName = (name) => {
         return name;
     }
     return Object.values(name)[0];
-};
-
-/* Returns collection of languages from resource file */
-export const getLanguages = () => {
-    const languages = Object.keys(i18n.options.resources).map((language) => {
-        return {
-            key: i18n.options.resources[language].translation.languageCode,
-            text: i18n.options.resources[language].translation.languageName
-        };
-    });
-    return languages;
 };
 
 /* Returns property's display name, depending on whether it is a string or a object of localized displayNames */

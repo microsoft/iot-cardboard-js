@@ -10,7 +10,7 @@ import {
     defaultOATEditorState
 } from './OATEditorPage.state';
 import { SET_OAT_IS_JSON_UPLOADER_OPEN } from '../../Models/Constants/ActionTypes';
-import { getLanguages } from '../../Components/OATPropertyEditor/Utils';
+import i18n from '../../i18n';
 
 const OATEditorPage = ({ theme }) => {
     const [state, dispatch] = useReducer(
@@ -26,7 +26,12 @@ const OATEditorPage = ({ theme }) => {
         });
     };
 
-    const languages = getLanguages();
+    const languages = Object.keys(i18n.options.resources).map((language) => {
+        return {
+            key: i18n.options.resources[language].translation.languageCode,
+            text: i18n.options.resources[language].translation.languageName
+        };
+    });
 
     return (
         <div className={EditorPageStyles.container}>
