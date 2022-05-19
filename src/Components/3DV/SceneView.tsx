@@ -879,10 +879,11 @@ function SceneView(props: ISceneViewProps, ref) {
                     {
                         isStroke: true,
                         mainTextureRatio: 2,
-                        blurHorizontalSize: 0.4,
-                        blurVerticalSize: 0.4
+                        blurHorizontalSize: 1,
+                        blurVerticalSize: 1
                     }
                 );
+                highlightLayer.current.innerGlow = false;
 
                 const light = new BABYLON.HemisphericLight(
                     'light',
