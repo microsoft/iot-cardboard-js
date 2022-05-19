@@ -62,22 +62,6 @@ const getStoredElements = () => {
     return editorData && editorData.models ? editorData.models : null;
 };
 
-const parseModels = async (models: IOATTwinModelNodes[]) => {
-    const modelParser = createParser(
-        ModelParsingOption.PermitAnyTopLevelElement
-    );
-    for (const model of models) {
-        const modelJson = JSON.stringify(model);
-        try {
-            await modelParser.parse([modelJson]);
-        } catch (err) {
-            for (const parsingError of err._parsingErrors) {
-                alert(`${parsingError.action} ${parsingError.cause}`);
-            }
-        }
-    }
-};
-
 const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     const { t } = useTranslation();
     const theme = useTheme();
@@ -135,10 +119,15 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                     x.target = newId;
                 }
             });
+            const propertyItems = model.contents.filter(
+                (property) =>
+                    typeof property['@type'] === 'object' &&
+                    property['@type'][0] === 'property'
+            );
             node.id = newId;
             node.data.id = newId;
             node.data.name = model['displayName'];
-            node.data.content = model['contents'];
+            node.data.content = propertyItems;
             setElements([...elements]);
             currentNodeIdRef.current = newId;
         }
@@ -587,7 +576,6 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
             }
             return currentNodes;
         }, []);
-        parseModels(nodes);
         return nodes;
     }, [elements]);
 
@@ -603,6 +591,24 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                 JSON.stringify(oatEditorData)
             );
         }
+
+        const parseModels = async (models: IOATTwinModelNodes[]) => {
+            const modelParser = createParser(
+                ModelParsingOption.PermitAnyTopLevelElement
+            );
+            for (const model of models) {
+                const modelJson = JSON.stringify(model);
+                try {
+                    await modelParser.parse([modelJson]);
+                } catch (err) {
+                    for (const parsingError of err._parsingErrors) {
+                        alert(`${parsingError.action} ${parsingError.cause}`);
+                    }
+                }
+            }
+        };
+
+        parseModels(translatedOutput).catch(console.error);
     }, [translatedOutput]);
 
     const onElementClick = (evt, node) => {

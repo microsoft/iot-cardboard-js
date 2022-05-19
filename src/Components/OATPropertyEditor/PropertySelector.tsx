@@ -200,8 +200,8 @@ const PropertySelector = ({
                 {
                     '@id': `dtmi:com:adt:model1:New_Property_${
                         model.contents.length + 1
-                    }`,
-                    '@type': ['property'],
+                    };${model.contents.length + 1}`,
+                    '@type': ['Property'],
                     name: `New_Property_${model.contents.length + 1}`,
                     schema: getSchema(tag)
                 }
