@@ -404,7 +404,6 @@
     "behaviorMetaText": "{{numElementsInActiveScene}} elementy, {{numSceneRefs}} sceny",
     "elementMetaText": "{{numBehaviors}} zachowania",
     "primaryTwin": "Podstawowy bliźniak",
-    "noMeshAddedText": "Nie dodano jeszcze siatek, wybierz siatki w przeglądarce 3D",
     "meshes": "Siatki",
     "behaviorElementsDropdownLabel": "Element docelowy",
     "behaviorElementsDropdownPlaceholder": "Zaznaczanie elementu",
@@ -508,11 +507,18 @@
       "meshTabName": "Siatki",
       "behaviorsTabName": "Zachowania",
       "twinTabName": "Inne bliźnięta",
-      "primaryTwinInputInfo": "Wprowadź podwójny identyfikator ($dtId), aby połączyć się z tym elementem (rozróżniana wielkość liter)"
+      "twinNameTooltip": "W tym polu rozróżniana jest wielkość liter",
+      "twinNameDescription": "Wybierz cyfrowego bliźniaka, z którym chcesz połączyć ten element. Właściwości tego połączonego bliźniaka będą używane do skojarzonych zachowań."
     },
     "elementFormTwinTab": {
       "tabDescription": "Te bliźnięta zawierają dane wykraczające poza głównego bliźniaka, które możesz wykorzystać w swoim statusie, alertach i widżetach dla swoich zachowań.",
       "noDataMessage": "Kiedy utworzysz dodatkowe bliźniaki w zachowaniach tego elementu, pojawią się one tutaj."
+    },
+    "elementFormMeshTab": {
+      "noDataMessage": "Wybierz skojarzone siatki z modelu 3D dla tego elementu."
+    },
+    "elementBehaviorMeshTab": {
+      "noDataMessage": "Przypisz lub zmodyfikuj zachowania dla tego elementu. Zawsze możesz dodać zachowania później."
     }
   },
   "widgets": {

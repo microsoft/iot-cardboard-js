@@ -404,7 +404,6 @@
     "behaviorMetaText": "{{numElementsInActiveScene}} elementi, {{numSceneRefs}} scene",
     "elementMetaText": "Comportamenti di {{numBehaviors}}",
     "primaryTwin": "Gemello primario",
-    "noMeshAddedText": "Nessuna mesh aggiunta ancora, selezionare le mesh nel visualizzatore 3D",
     "meshes": "Maglie",
     "behaviorElementsDropdownLabel": "Elemento di destinazione",
     "behaviorElementsDropdownPlaceholder": "Seleziona un elemento",
@@ -508,11 +507,18 @@
       "meshTabName": "Maglie",
       "behaviorsTabName": "Comportamenti",
       "twinTabName": "Altri gemelli",
-      "primaryTwinInputInfo": "Immettere un ID doppio ($dtId) da collegare a questo elemento (con distinzione tra maiuscole e minuscole)"
+      "twinNameTooltip": "Questo campo fa distinzione tra maiuscole e minuscole",
+      "twinNameDescription": "Selezionare un gemello digitale a cui collegare questo elemento. Le proprietà di questo gemello collegato verranno utilizzate per i comportamenti associati."
     },
     "elementFormTwinTab": {
       "tabDescription": "Questi gemelli contengono dati oltre il tuo gemello principale che puoi sfruttare nel tuo stato, avvisi e widget per i tuoi comportamenti.",
       "noDataMessage": "Quando crei altri gemelli nei comportamenti di questo elemento, verranno visualizzati qui."
+    },
+    "elementFormMeshTab": {
+      "noDataMessage": "Selezionare le mesh associate dal modello 3D per questo elemento."
+    },
+    "elementBehaviorMeshTab": {
+      "noDataMessage": "Assegnare o modificare i comportamenti per questo elemento. È sempre possibile aggiungere comportamenti in un secondo momento."
     }
   },
   "widgets": {

@@ -404,7 +404,6 @@
     "behaviorMetaText": "{{numElementsInActiveScene}} elements, {{numSceneRefs}} scenes",
     "elementMetaText": "{{numBehaviors}} behaviors",
     "primaryTwin": "Elsődleges ikerpár",
-    "noMeshAddedText": "Még nincs háló hozzáadása, kérjük, válasszon hálókat a 3D-s megjelenítőben",
     "meshes": "Rácsvonalak",
     "behaviorElementsDropdownLabel": "Célelem",
     "behaviorElementsDropdownPlaceholder": "Elem kijelölése",
@@ -508,11 +507,18 @@
       "meshTabName": "Rácsvonalak",
       "behaviorsTabName": "Viselkedésmódok",
       "twinTabName": "Egyéb ikrek",
-      "primaryTwinInputInfo": "Adja meg az ikerazonosítót ($dtId) az elemhez való csatoláshoz (kis- és nagybetűket megkülönböztető)"
+      "twinNameTooltip": "Ez a mező megkülönbözteti a kis- és nagybetűket",
+      "twinNameDescription": "Jelöljön ki egy digitális ikerpárt, amelyhez csatolni szeretné ezt az elemet. A csatolt iker tulajdonságait a kapcsolódó viselkedésekhez fogja használni."
     },
     "elementFormTwinTab": {
       "tabDescription": "Ezek az ikrek az elsődleges ikertestvérén túli adatokat tartalmaznak, amelyeket az állapotodban, a riasztásokban és a widgetekben használhatsz a viselkedésedhez.",
       "noDataMessage": "Amikor további ikreket hoz létre az elem viselkedésében, itt jelennek meg."
+    },
+    "elementFormMeshTab": {
+      "noDataMessage": "Válassza ki a kapcsolódó hálószemeket az elemhez tartozó 3D modellből."
+    },
+    "elementBehaviorMeshTab": {
+      "noDataMessage": "Az elem viselkedésének hozzárendelése vagy módosítása. Később bármikor hozzáadhat viselkedést."
     }
   },
   "widgets": {
