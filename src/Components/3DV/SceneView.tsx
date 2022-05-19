@@ -638,7 +638,7 @@ function SceneView(props: ISceneViewProps, ref) {
                     hexToColor4(currentObjectColor.meshHoverColor),
                     reflectionTexture.current,
                     currentObjectColor.lightingStyle,
-                    backgroundColorRef.current.objectLuminanceRatio
+                    backgroundColorRef.current?.objectLuminanceRatio || 1
                 ));
 
             //Use the matching cached selected-hover material or create a new one, cache it, and use it
@@ -656,7 +656,7 @@ function SceneView(props: ISceneViewProps, ref) {
                     hexToColor4(currentObjectColor.coloredMeshHoverColor),
                     reflectionTexture.current,
                     currentObjectColor.lightingStyle,
-                    backgroundColorRef.current.objectLuminanceRatio
+                    backgroundColorRef.current?.objectLuminanceRatio || 1
                 ));
 
             if (!currentObjectColor.baseColor && !meshesAreOriginal.current) {
@@ -1561,11 +1561,12 @@ function SceneView(props: ISceneViewProps, ref) {
 
         return () => {
             debugLog('debug', 'Outline Mesh cleanup');
-            for (const mesh of outlinedMeshes.current) {
-                highlightLayer.current.removeMesh(mesh as BABYLON.Mesh);
+            if (outlinedMeshes.current) {
+                for (const mesh of outlinedMeshes.current) {
+                    highlightLayer.current?.removeMesh(mesh as BABYLON.Mesh);
+                }
+                outlinedMeshes.current = [];
             }
-            outlinedMeshes.current = [];
-
             //If we have cloned meshes for highlight, delete them
             if (clonedHighlightMeshes.current) {
                 for (const mesh of clonedHighlightMeshes.current) {
@@ -1576,12 +1577,13 @@ function SceneView(props: ISceneViewProps, ref) {
                 }
                 clonedHighlightMeshes.current = [];
             }
-
-            for (const mesh of outlinedMeshitems) {
-                if (meshMap.current?.[mesh.meshId]) {
-                    highlightLayer.current.removeExcludedMesh(
-                        meshMap.current?.[mesh.meshId]
-                    );
+            if (outlinedMeshitems) {
+                for (const mesh of outlinedMeshitems) {
+                    if (meshMap.current?.[mesh.meshId]) {
+                        highlightLayer.current.removeExcludedMesh(
+                            meshMap.current?.[mesh.meshId]
+                        );
+                    }
                 }
             }
         };
