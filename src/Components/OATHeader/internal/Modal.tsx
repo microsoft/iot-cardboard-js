@@ -5,11 +5,14 @@ import { IAction } from '../../../Models/Constants/Interfaces';
 import { getHeaderStyles } from '../OATHeader.styles';
 import FormSaveAs from './FormSaveAs';
 import FromOpen from './FormOpen';
+import ModalSaveCurrentProjectAndClear from './ModalSaveCurrentProjectAndClear';
 
 export enum FromBody {
     delete = 'delete',
     open = 'open',
-    save = 'save'
+    save = 'save',
+    saveCurrentProjectAndClear = 'saveCurrentProjectAndClear',
+    saveNewProjectAndClear = 'saveNewProjectAndClear'
 }
 interface IModal {
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
@@ -61,6 +64,24 @@ export const Modal = ({
                         dispatch={dispatch}
                         setModalOpen={setModalOpen}
                         setModalBody={setModalBody}
+                    />
+                );
+            case FromBody.saveCurrentProjectAndClear:
+                return (
+                    <ModalSaveCurrentProjectAndClear
+                        dispatch={dispatch}
+                        setModalOpen={setModalOpen}
+                        setModalBody={setModalBody}
+                        state={state}
+                    />
+                );
+            case FromBody.saveNewProjectAndClear:
+                return (
+                    <FormSaveAs
+                        dispatch={dispatch}
+                        setModalOpen={setModalOpen}
+                        setModalBody={setModalBody}
+                        resetProjectOnSave
                     />
                 );
         }

@@ -37,7 +37,6 @@ export const OATEditorPageReducer = produce(
 
         switch (action.type) {
             case SET_OAT_PROPERTY_EDITOR_MODEL:
-                console.log('reducer called');
                 state.model = payload;
                 return;
             case SET_OAT_ELEMENTS:

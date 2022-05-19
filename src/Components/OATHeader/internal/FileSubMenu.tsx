@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ActionButton, Text, Callout } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { getSubMenuItemStyles, getSubMenuStyles } from '../OATHeader.styles';
@@ -8,6 +8,11 @@ import {
 } from '../../../Models/Constants/Constants';
 import { IAction } from '../../../Models/Constants';
 import { IOATEditorState } from '../../../Pages/OATEditorPage/OATEditorPage.types';
+import {
+    SET_OAT_PROJECT_NAME,
+    SET_OAT_PROPERTY_EDITOR_MODEL,
+    SET_OAT_RELOAD_PROJECT
+} from '../../../Models/Constants/ActionTypes';
 
 type IFileSubMenu = {
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
@@ -21,6 +26,7 @@ type IFileSubMenu = {
 };
 
 export const FileSubMenu = ({
+    dispatch,
     subMenuActive,
     targetId,
     setModalBody,
@@ -34,29 +40,95 @@ export const FileSubMenu = ({
     const [files] = useState(
         JSON.parse(localStorage.getItem(OATFilesStorageKey))
     );
-
+    const [isFileStored, setIsFileStored] = useState(false);
+    const [fileIndex, setFileIndex] = useState(-1);
     const { projectName } = state;
 
     const handleSave = () => {
         setSubMenuActive(false);
-        if (files.length > 0 && projectName) {
+
+        if (isFileStored) {
             // Update file
-            const foundIndex = files.findIndex(
-                (file) => file.name === projectName
+            const editorData = JSON.parse(
+                localStorage.getItem(OATDataStorageKey)
             );
-            if (foundIndex > -1) {
-                const editorData = JSON.parse(
-                    localStorage.getItem(OATDataStorageKey)
-                );
-                files[foundIndex].data = editorData;
-                localStorage.setItem(OATFilesStorageKey, JSON.stringify(files));
-            }
+            files[fileIndex].data = editorData;
+            localStorage.setItem(OATFilesStorageKey, JSON.stringify(files));
         } else {
             // Create new file
             setModalBody('save');
             setModalOpen(true);
         }
     };
+
+    const resetProject = () => {
+        const clearProject = {
+            modelPositions: [],
+            models: [],
+            projectDescription: t('OATHeader.description'),
+            projectName: t('OATHeader.project')
+        };
+
+        localStorage.setItem(OATDataStorageKey, JSON.stringify(clearProject));
+
+        dispatch({
+            type: SET_OAT_PROPERTY_EDITOR_MODEL,
+            payload: clearProject
+        });
+
+        dispatch({
+            type: SET_OAT_PROJECT_NAME,
+            payload: t('OATHeader.project')
+        });
+
+        dispatch({
+            type: SET_OAT_RELOAD_PROJECT,
+            payload: true
+        });
+    };
+
+    const handleNew = () => {
+        setSubMenuActive(false);
+        const editorData = JSON.parse(localStorage.getItem(OATDataStorageKey));
+
+        if (isFileStored) {
+            // Check if current project has been modified
+            if (
+                JSON.stringify(editorData) !==
+                JSON.stringify(files[fileIndex].data)
+            ) {
+                // Prompt the if user would like to save current progress
+                setModalBody('saveCurrentProjectAndClear');
+                setModalOpen(true);
+                return;
+            }
+            //  Reset project data and project name
+            resetProject();
+        } else if (
+            // Check if current file has any progress
+            editorData &&
+            editorData.models &&
+            editorData.models.length > 0
+        ) {
+            dispatch({
+                type: SET_OAT_PROJECT_NAME,
+                payload: t('OATHeader.project')
+            });
+            setModalBody('saveCurrentProjectAndClear');
+            setModalOpen(true);
+        }
+    };
+
+    useEffect(() => {
+        let foundIndex = -1;
+        if (files.length > 0 && projectName) {
+            foundIndex = files.findIndex((file) => file.name === projectName);
+            setFileIndex(foundIndex);
+            if (foundIndex > -1) {
+                setIsFileStored(true);
+            }
+        }
+    }, []);
 
     return (
         <>
@@ -72,9 +144,7 @@ export const FileSubMenu = ({
                 >
                     <ActionButton
                         styles={subMenuItemStyles}
-                        onClick={() => {
-                            setSubMenuActive(false);
-                        }}
+                        onClick={handleNew}
                     >
                         <Text>{t('OATHeader.new')}</Text>
                     </ActionButton>
@@ -118,7 +188,7 @@ export const FileSubMenu = ({
                             setModalOpen(true);
                         }}
                     >
-                        <Text>{t('OATPropertyEditor.delete')}</Text>
+                        <Text>{t('OATHeader.delete')}</Text>
                     </ActionButton>
                 </Callout>
             )}

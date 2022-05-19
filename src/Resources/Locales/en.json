@@ -750,7 +750,10 @@
         "saveAs": "Save as",
         "delete": "Delete",
         "enterAName": "Enter a name",
-        "cancel": "Cancel"
+        "cancel": "Cancel",
+        "project": "Project",
+        "description": "Description",
+        "dontSave": "Don't save"
     },
     "OATGraphViewer": {
         "newModel": "New Model",

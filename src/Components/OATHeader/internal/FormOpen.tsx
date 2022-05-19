@@ -33,7 +33,6 @@ export const FormOpen = ({ dispatch, setModalOpen, setModalBody }: IModal) => {
     const [selectedFile, setSelectedFile] = useState(null);
 
     const handleOpen = () => {
-        console.log('b4 dispatch', dispatch);
         dispatch({
             type: SET_OAT_PROPERTY_EDITOR_MODEL,
             payload: null
@@ -54,13 +53,11 @@ export const FormOpen = ({ dispatch, setModalOpen, setModalBody }: IModal) => {
             JSON.stringify(selectedFile.key)
         );
 
-        console.log('selectedFile', selectedFile);
-
         setModalBody('');
         setModalOpen(false);
     };
 
-    useEffect(() => {
+    const formatFilesToDropDownOptions = () => {
         const storedFiles = JSON.parse(
             localStorage.getItem(OATFilesStorageKey)
         );
@@ -74,6 +71,10 @@ export const FormOpen = ({ dispatch, setModalOpen, setModalBody }: IModal) => {
 
             setFiles(formattedFiles);
         }
+    };
+
+    useEffect(() => {
+        formatFilesToDropDownOptions();
     }, []);
 
     return (

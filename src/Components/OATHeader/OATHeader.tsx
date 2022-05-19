@@ -3,12 +3,7 @@ import { CommandBar, ICommandBarItemProps } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { getHeaderStyles } from './OATHeader.styles';
 import JSZip from 'jszip';
-import {
-    IAction,
-    IOATTwinModelNodes,
-    OATDataStorageKey
-} from '../../Models/Constants';
-import { downloadText } from '../../Models/Services/Utils';
+import { IAction, IOATTwinModelNodes } from '../../Models/Constants';
 import FileSubMenu from './internal/FileSubMenu';
 import Modal from './internal/Modal';
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
