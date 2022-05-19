@@ -1,6 +1,6 @@
 import React from 'react';
 import { ComponentStory } from '@storybook/react';
-import { userEvent, within, screen } from '@storybook/testing-library';
+import { userEvent, within } from '@storybook/testing-library';
 import { MockAdapter } from '../../../../../Adapters';
 import trucksMockVConfig from '../../../../../Adapters/__mockData__/TruckAndMachinesConfig.json';
 import { IStoryContext } from '../../../../../Models/Services/StoryUtilities';
@@ -48,12 +48,12 @@ ElementsBase.play = async ({ canvasElement }) => {
     const canvas = within(canvasElement);
 
     // Finds the tabs and clicks the second one
-    const behaviorsTabButton = await canvas.findAllByRole('tab');
-    userEvent.click(behaviorsTabButton[0]);
+    const tabButton = await canvas.findAllByRole('tab');
+    userEvent.click(tabButton[0]);
 
     // click the behavior
     const button = await canvas.findByTestId(
-        'cardboard-list-item-elements-in-scene-0'
+        'cardboard-list-item-elements-in-scene-2'
     );
     userEvent.click(button);
 
@@ -61,15 +61,9 @@ ElementsBase.play = async ({ canvasElement }) => {
     const tab = await canvas.findAllByRole('tab');
     userEvent.click(tab[2]);
 
-    // click the behavior
-    // const createTwinCallout = await canvas.findByTestId(
-    //     'twinsTab-addTwinAlias'
-    // );
-    // userEvent.click(createTwinCallout);
-
-    // // click the behavior
-    // const createTwinButton = await screen.findByTestId(
-    //     'create-twin-callout-button'
-    // );
-    // createTwinButton.click();
+    // click the twin
+    const createTwinCallout = await canvas.findByTestId(
+        'cardboard-list-item-element-aliased-twin-list-0'
+    );
+    userEvent.click(createTwinCallout);
 };

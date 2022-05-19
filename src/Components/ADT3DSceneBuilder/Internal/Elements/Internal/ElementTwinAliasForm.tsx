@@ -1,6 +1,8 @@
 import {
     DefaultButton,
+    ITextFieldProps,
     PrimaryButton,
+    Stack,
     TextField,
     useTheme
 } from '@fluentui/react';
@@ -12,6 +14,7 @@ import {
     IElementTwinAliasItem
 } from '../../../../../Models/Classes/3DVConfig';
 import { TwinAliasFormMode } from '../../../../../Models/Constants';
+import TooltipCallout from '../../../../TooltipCallout/TooltipCallout';
 import TwinSearchDropdown from '../../../../TwinSearchDropdown/TwinSearchDropdown';
 import { SceneBuilderContext } from '../../../ADT3DSceneBuilder';
 import { ElementFormContext } from '../../Elements/ElementForm';
@@ -55,7 +58,35 @@ const ElementTwinAliasForm: React.FC = () => {
         }
         setElementTwinAliasFormInfo(null);
         setFormData(null);
-    }, [elementTwinAliasFormInfo, formData]);
+    }, [
+        elementTwinAliasFormInfo.mode,
+        formData.alias,
+        formData.twinId,
+        setElementToEdit,
+        setElementTwinAliasFormInfo
+    ]);
+
+    const onRenderLabel = useCallback(
+        (
+            props?: ITextFieldProps,
+            defaultRender?: (props?: ITextFieldProps) => JSX.Element | null
+        ): JSX.Element => {
+            return (
+                <Stack horizontal verticalAlign={'center'}>
+                    {defaultRender(props)}
+                    <TooltipCallout
+                        buttonAriaLabel={t(
+                            '3dSceneBuilder.twinAlias.twinAliasForm.aliasNameTooltipContent'
+                        )}
+                        calloutContent={t(
+                            '3dSceneBuilder.twinAlias.twinAliasForm.aliasNameTooltipContent'
+                        )}
+                    />
+                </Stack>
+            );
+        },
+        [t]
+    );
 
     useEffect(() => {
         const isValid = Boolean(formData.alias && formData.twinId);
@@ -68,7 +99,10 @@ const ElementTwinAliasForm: React.FC = () => {
         <>
             <div className={commonFormStyles.content}>
                 <TextField
-                    label={t('3dSceneBuilder.twinAlias.twinAliasForm.alias')}
+                    label={t(
+                        '3dSceneBuilder.twinAlias.twinAliasForm.aliasNameLabel'
+                    )}
+                    onRenderLabel={onRenderLabel}
                     value={formData.alias}
                     required
                     onChange={(_ev, newVal) =>
@@ -82,9 +116,13 @@ const ElementTwinAliasForm: React.FC = () => {
                         elementTwinAliasFormInfo.mode ===
                         TwinAliasFormMode.EditTwinAlias
                     }
-                    description={t(
-                        '3dSceneBuilder.twinAlias.descriptions.aliasChangeNotAllowed'
-                    )}
+                    styles={{
+                        root: {
+                            '.ms-Label::after': {
+                                paddingRight: 4
+                            }
+                        }
+                    }}
                 />
                 <TwinSearchDropdown
                     key={'aliased-twin'}
