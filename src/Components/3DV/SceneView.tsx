@@ -28,7 +28,12 @@ import {
     Scene_Marker,
     SphereMaterial
 } from '../../Models/Constants/SceneView.constants';
-import { AbstractMesh, HighlightLayer, Tools } from '@babylonjs/core';
+import {
+    AbstractMesh,
+    HighlightLayer,
+    Tools,
+    UtilityLayerRenderer
+} from '@babylonjs/core';
 import {
     convertLatLonToVector3,
     createBadgeGroup,
@@ -185,6 +190,7 @@ function SceneView(props: ISceneViewProps, ref) {
     const outlinedMeshes = useRef<BABYLON.AbstractMesh[]>([]);
     const clonedHighlightMeshes = useRef<BABYLON.AbstractMesh[]>([]);
     const highlightLayer = useRef<HighlightLayer>(null);
+    const utilLayer = useRef<UtilityLayerRenderer>(null);
     const badgeGroupsRef = useRef<any[]>([]);
     const [currentObjectColor, setCurrentObjectColor] = useState(
         DefaultViewerModeObjectColor
@@ -877,9 +883,13 @@ function SceneView(props: ISceneViewProps, ref) {
                     currentObjectColor.coloredMeshHoverColor
                 );
 
+                utilLayer.current = new BABYLON.UtilityLayerRenderer(
+                    sceneRef.current
+                );
+
                 highlightLayer.current = new BABYLON.HighlightLayer(
                     'hl1',
-                    sceneRef.current,
+                    utilLayer.current.utilityLayerScene,
                     {
                         isStroke: true,
                         mainTextureRatio: 2,
@@ -1555,6 +1565,8 @@ function SceneView(props: ISceneViewProps, ref) {
                         // lines themselves.  To do this we need to duplicate the mesh, disable wireframe rendering and set
                         // the alpha to 0 so we do not see it.
                         const clone = currentMesh.clone('', null, true, false);
+                        // Move to utility layer so we can draw this on top of other scene elements
+                        clone._scene = utilLayer.current.utilityLayerScene;
 
                         // For some reason when rendering the duplicated outline mesh at 1:1 scale we get outline artifacts
                         // on the wireframe itself.  We scale this up slightly to alleviate this.
@@ -1567,13 +1579,14 @@ function SceneView(props: ISceneViewProps, ref) {
 
                         clone.material = new BABYLON.StandardMaterial(
                             'standard',
-                            scene
+                            utilLayer.current.utilityLayerScene
                         );
                         clone.material.alpha = 0.0;
                         clone.alphaIndex = 2;
                         clone.isPickable = false;
                         clonedHighlightMeshes.current.push(clone);
-                        sceneRef.current.meshes.push(clone);
+                        // sceneRef.current.meshes.push(clone);
+                        utilLayer.current.utilityLayerScene.meshes.push(clone);
                         meshToOutline = clone;
                         highlightLayer.current.addExcludedMesh(currentMesh);
                         //}
@@ -1587,7 +1600,6 @@ function SceneView(props: ISceneViewProps, ref) {
                                 )
                             )
                         );
-
                         outlinedMeshes.current.push(meshToOutline);
                     } catch {
                         console.error('Unable to highlight mesh');
