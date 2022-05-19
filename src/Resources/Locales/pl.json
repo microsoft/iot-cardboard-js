@@ -178,7 +178,8 @@
     "3dFileAsset": "Połącz plik 3D",
     "description": "Opis",
     "overwriteIfExist": "Zastąp, jeśli plik już istnieje",
-    "fileExistsErrorMessage": "Plik o tej nazwie już istnieje w magazynie, możesz wybrać ten plik z kontenera lub zastąpić."
+    "fileExistsErrorMessage": "Plik o tej nazwie już istnieje w magazynie, możesz wybrać ten plik z kontenera lub zastąpić.",
+    "sceneDescriptionPlaceholder": "Wprowadź opis sceny"
   },
   "BIMUpload": {
     "specifyFiles": "Określanie plików do przesłania z",

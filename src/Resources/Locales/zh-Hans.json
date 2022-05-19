@@ -178,7 +178,8 @@
     "3dFileAsset": "链接 3D 文件",
     "description": "描述",
     "overwriteIfExist": "如果文件已存在，则覆盖",
-    "fileExistsErrorMessage": "具有此名称的文件已存在于存储中，您可以从容器中选择该文件，也可以覆盖。"
+    "fileExistsErrorMessage": "具有此名称的文件已存在于存储中，您可以从容器中选择该文件，也可以覆盖。",
+    "sceneDescriptionPlaceholder": "输入场景描述"
   },
   "BIMUpload": {
     "specifyFiles": "指定要从中上载的文件",

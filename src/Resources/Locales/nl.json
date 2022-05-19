@@ -178,7 +178,8 @@
     "3dFileAsset": "3D-bestand koppelen",
     "description": "Beschrijving",
     "overwriteIfExist": "Overschrijven als het bestand al bestaat",
-    "fileExistsErrorMessage": "Een bestand met deze naam bestaat al in de opslag, u kunt dat bestand selecteren in de container of overschrijven."
+    "fileExistsErrorMessage": "Een bestand met deze naam bestaat al in de opslag, u kunt dat bestand selecteren in de container of overschrijven.",
+    "sceneDescriptionPlaceholder": "Voer een scènebeschrijving in"
   },
   "BIMUpload": {
     "specifyFiles": "Bestanden opgeven om van te uploaden",

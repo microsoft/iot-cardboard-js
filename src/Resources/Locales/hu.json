@@ -178,7 +178,8 @@
     "3dFileAsset": "3D fájl csatolása",
     "description": "Leírás",
     "overwriteIfExist": "Felülírás, ha a fájl már létezik",
-    "fileExistsErrorMessage": "Egy ilyen nevű fájl már létezik a tárolóban, kiválaszthatja a fájlt a tárolóból, vagy felülírhatja."
+    "fileExistsErrorMessage": "Egy ilyen nevű fájl már létezik a tárolóban, kiválaszthatja a fájlt a tárolóból, vagy felülírhatja.",
+    "sceneDescriptionPlaceholder": "Jelenetleírás megadása"
   },
   "BIMUpload": {
     "specifyFiles": "A feltöltendő fájlok megadása",

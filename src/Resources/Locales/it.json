@@ -178,7 +178,8 @@
     "3dFileAsset": "Collega il file 3D",
     "description": "Descrizione",
     "overwriteIfExist": "Sovrascrivi se il file esiste già",
-    "fileExistsErrorMessage": "Un file con questo nome esiste già nella memoria, è possibile selezionare quel file dal contenitore o sovrascrivere."
+    "fileExistsErrorMessage": "Un file con questo nome esiste già nella memoria, è possibile selezionare quel file dal contenitore o sovrascrivere.",
+    "sceneDescriptionPlaceholder": "Inserisci la descrizione di una scena"
   },
   "BIMUpload": {
     "specifyFiles": "Specificare i file da cui caricare",
