@@ -35,6 +35,7 @@ import { deepCopy } from '../../Models/Services/Utils';
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 
 const ASCII_VALUE_BEFORE_LOWERCASE_ALPHABET = 96;
+const versionClassBase = '1';
 interface IPropertySelectorProps {
     className?: string;
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
@@ -200,7 +201,7 @@ const PropertySelector = ({
                 {
                     '@id': `dtmi:com:adt:model1:New_Property_${
                         model.contents.length + 1
-                    };${model.contents.length + 1}`,
+                    };${versionClassBase}`,
                     '@type': ['Property'],
                     name: `New_Property_${model.contents.length + 1}`,
                     schema: getSchema(tag)
