@@ -791,5 +791,77 @@
     "reset": "Sıfırlama",
     "zoomIn": "Yakınlaştırma",
     "zoomOut": "Uzaklaştırma"
+  },
+  "tutorialModal": {
+    "elements": {
+      "title": "Öğe nedir?",
+      "content": "Öğe, bir veya daha fazla altta yatan dijital ikizdeki verilere bağlanan, kendi kendini tanımlayan bir 3B kafes kümesidir. Elements, sistem işlemlerini ve sistem durumunu hızlı bir şekilde ölçmenize yardımcı olur. \n\nBirincil ikiz, bir elemanın ana dijital ikiz karşılığıdır. Öğenin ikizinizi ve verilerini 3B görselleştirme içinde temsil edebilmesi için öğeyi Azure Digital Twins örneğinizdeki bir ikize bağlarsınız."
+    },
+    "docLinkBlurb": "Adım adım daha ayrıntılı bilgi için <DocLink>docs sayfamıza buradan göz atın.</DocLink>",
+    "behaviors": {
+      "title": "Davranış nedir?",
+      "mainContent": "Davranış, izleyici görselleştirmelerini yönlendirmek için ilgili öğenin dijital ikizi üzerindeki belirli verilerden yararlanacak sahneniz için bir senaryodur.\n\nBir davranış oluşturmak, ikizleri seçmeyi, durumu ve uyarıları yapılandırmayı, bir widget eklemeyi ve hangi katmanda görüntüleneceğini seçmeyi içerir.\n\n",
+      "statusTitle": "Durum",
+      "statusDescription": "Durumlar, öğenin sistem durumunu veya durumunu belirtmek için öğeleriniz üzerindeki veri odaklı kaplamalardır. durum sınırları oluşturmak için değer aralıkları ayarlayın ve görselleştirmedeki her durumu temsil edecek renkleri seçin.\n\n",
+      "alertsTitle": "Uyarı",
+      "alertsDescription": "Uyarılar, bir öğenin ne zaman dikkat etmeniz gerektiğini hızlı bir şekilde görmenize yardımcı olan koşullu bildirimlerdir. Uyarı rozetinizi bir simge, renk ve metinle özelleştirin.\n\n"
+    },
+    "tip": "Bahşiş",
+    "twins": {
+      "title": "İkizleri nasıl seçerim?",
+      "mainContent": "İkizler sekmesinde, verileri bu davranış için kullanılabilir olan ikizler kümesini değiştirebilirsiniz. Bu, hedeflenen elementlerin birincil ikizlerini ve birincil olmayan ikizleri içerir.\n\nBirincil olmayan ikiz, bir öğe için ikincil bir dijital ikiz veri kaynağıdır. Bu öğenin davranış ifadelerinde bu ikizin özelliklerini kullanabilirsiniz. Birincil olmayan ikizleri yalnızca, birincil ikizinizin ötesinde, bu davranış için durumunuzda, uyarılarınızda ve widget'larınızda kullanmak istediğiniz verilere sahip ek ikizler olduğunda eklemelisiniz.\n\n",
+      "tipContent": "Azure Digital Twins Explorer, bu öğenin birincil ikizi ile ilişkili olabilecek ikizleri görmenize yardımcı olabilir. SELECT * FROM digitaltwins WHERE $dtId='<primary-twin-id>' komutunu kullanarak grafiğinizi sorgulayabilir ve ardından ilgili ikizleri keşfetmek için çift tıklatmalı genişletme özelliğini kullanabilirsiniz."
+    },
+    "widgets": {
+      "title": "Widget nedir?",
+      "mainContent": "Pencere öğeleri, davranışın temsil ettiği senaryoyu anlamanıza yardımcı olmak için ek bağlam ve veriler sağlayan veri odaklı görsellerdir. Widget'ları yapılandırmak, bir uyarı veya durum etkinken doğru verilerin bulunabilir olduğundan emin olmanıza yardımcı olur.\n\n",
+      "typesOfWidgets": "Widget türleri\n\n",
+      "gaugeDescription": "<Altı çizili>Ölçer: < / Altı çizili> Sayısal veri noktalarını görsel olarak temsil etmek için\n\n",
+      "linkDescription": "<Altı çizili>Bağlantı:</Altı Çizili> Harici olarak başvurulan içeriği bağlantılı bir URL aracılığıyla dahil etmek için\n\n",
+      "valueDescription": "<Underline>Value:</Underline> İkiz özellik değerlerini doğrudan görüntülemek için\n\n"
+    },
+    "sceneLayers": {
+      "title": "Sahne katmanı nedir?",
+      "mainContent": "Davranışlarınızı düzenlemenize yardımcı olması için sahnenizde katmanlar oluşturabilirsiniz. Katmanlar, davranışlar üzerindeki etiketler gibi davranarak hangi davranışların birlikte görülmesi gerektiğini tanımlamanıza olanak tanır, böylece farklı roller veya görevler için sahnenizin özel görünümlerini oluşturur.\n\nBir sahnede katman yoksa, tüm davranışlar sahne görüntüleyicisinde görünür. Sahnede en az bir katman varsa görüntüleyicide yalnızca bir katmanla etiketlenmiş davranışlar görünür.\n\nKatmanlar oluşturmanın bir yolu, bir sahne için Yapı görünümündeki Sahne katmanları düğmesini kullanmaktır. Alternatif olarak, bir davranış oluştururken veya değiştirirken katmanlar oluşturabilirsiniz."
+    },
+    "modalTitle": "3D Sahneler Stüdyosu'na hoş geldiniz!",
+    "publicPreview": "Genel Önizleme",
+    "closeAriaLabel": "Modal'ı kapat",
+    "nextSlide": "Sonraki slayt",
+    "previousSlide": "Önceki slayt",
+    "statusIndicatorSelectedAria": "Slayt {{slayt}} seçildi",
+    "statusIndicatorUnselectedAria": "Slayt {{slayt}} öğesini seçin",
+    "tabs": {
+      "introduction": "Giriş",
+      "concepts": "Kavram",
+      "elements": "Öğe",
+      "behaviors": "Davranış",
+      "twins": "İkizler",
+      "widgets": "Widget",
+      "sceneLayers": "Sahne katmanları"
+    },
+    "frePages": {
+      "intro": {
+        "title": "En yeni düşük kod oluşturucumuz",
+        "text": "Bu sürükleyici 3B ortamda, 3B uzmanlığa gerek kalmadan Azure Digital Twins verileriyle desteklenen 3B varlıkların görsel bağlamıyla operasyonel verileri izleyebilir, tanılayabilir ve araştırabilirsiniz."
+      },
+      "builder": {
+        "title": "Oluşturucumuzda sahnenizi özelleştirin",
+        "text": "3D Scenes Studio'daki oluşturucu, sahnelerinizi yapılandırmak için birincil arayüzdür. Düşük kodlu, görsel bir deneyimdir."
+      },
+      "viewer": {
+        "title": "Çevreyi keşfedin veya başka bir yere yerleştirin",
+        "text": "3B sahneyi burada, Studio'da görüntüleyin. Görüntüleyici bileşeni özel uygulamalara gömülebilir ve 3. taraf bileşenlerle birlikte çalışabilir."
+      }
+    },
+    "conceptsRoot": {
+      "title": "Kavramlar hakkında daha derin bir dalışa mı ihtiyacınız var?",
+      "text": "Yardım içeriğine göz atın veya adım adım öğreticiler için belgelerimize göz atın!"
+    },
+    "rootDocsLinkText": "Belge",
+    "githubLinkText": "GitHub Hesabı",
+    "quickstartLinkText": "Hızlı başlangıçQuickstart",
+    "primaryButtonText": "Demoyu keşfedin",
+    "dismissText": "Kapatmak"
   }
 }

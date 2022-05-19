@@ -27,6 +27,21 @@ export const DTDLNameRegex = new RegExp(
     '^[A-Za-z](?:[A-Za-z0-9_]*[A-Za-z0-9])?$'
 );
 
+export const scenesDemoUrl =
+    'https://explorer.digitaltwins.azure.net/3DScenes/demo';
+
+export const FRE_MODAL_LINKS = {
+    viewTheDocs: 'https://go.microsoft.com/fwlink/?linkid=2195695',
+    viewOnGithub: 'https://github.com/microsoft/iot-cardboard-js',
+    viewTheQuickstart: 'https://go.microsoft.com/fwlink/?linkid=2195592',
+    elementsHowTo:
+        'https://go.microsoft.com/fwlink/?linkid=2195591#add-elements',
+    behaviorsHowTo: 'https://go.microsoft.com/fwlink/?linkid=2195591#behaviors',
+    twinsHowTo: 'https://go.microsoft.com/fwlink/?linkid=2195591#twins',
+    widgetsHowTo: 'https://go.microsoft.com/fwlink/?linkid=2195591#widgets',
+    layersHowTo: 'https://go.microsoft.com/fwlink/?linkid=2195591#manage-layers'
+};
+
 export const dtdlPrimitiveTypesList = [
     'boolean',
     'date',

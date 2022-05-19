@@ -79,6 +79,7 @@ import {
     IADT3DViewerStyleProps,
     IADT3DViewerStyles
 } from '../../Components/ADT3DViewer/ADT3DViewer.types';
+import { BaseComponentProps } from '../../Components/BaseComponent/BaseComponent.types';
 
 export interface IAction {
     type: string;
@@ -719,7 +720,7 @@ export interface ISceneViewWrapperProps {
     styles?: IStyleFunctionOrObject<undefined, ISceneViewWrapperStyles>;
 }
 
-export interface IADT3DViewerProps {
+export interface IADT3DViewerProps extends BaseComponentProps {
     adapter:
         | IADT3DViewerAdapter
         | (IADT3DViewerAdapter & IPropertyInspectorAdapter);
