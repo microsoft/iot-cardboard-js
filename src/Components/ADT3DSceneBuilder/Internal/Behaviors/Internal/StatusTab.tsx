@@ -111,8 +111,6 @@ const StatusTab: React.FC<IStatusTabProps> = ({ onValidityChange }) => {
         },
         [
             setBehaviorToEdit,
-            getStatusFromBehavior,
-            deepCopy,
             valueRangeBuilderState,
             resetInitialValueRanges,
             validateForm
@@ -156,9 +154,6 @@ const StatusTab: React.FC<IStatusTabProps> = ({ onValidityChange }) => {
                     adapter={adapter}
                     customLabelTooltip={{
                         text: t(
-                            '3dSceneBuilder.behaviorStatusForm.propertyExpressionTooltipContent'
-                        ),
-                        ariaLabel: t(
                             '3dSceneBuilder.behaviorStatusForm.propertyExpressionTooltipContent'
                         )
                     }}
