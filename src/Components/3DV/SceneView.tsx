@@ -636,10 +636,6 @@ function SceneView(props: ISceneViewProps, ref) {
                     'hover',
                     sceneRef.current,
                     hexToColor4(currentObjectColor.meshHoverColor),
-                    hexToColor4(
-                        currentObjectColor.fresnelColor ||
-                            currentObjectColor.meshHoverColor
-                    ),
                     reflectionTexture.current,
                     currentObjectColor.lightingStyle,
                     backgroundColorRef.current.objectLuminanceRatio
@@ -658,20 +654,12 @@ function SceneView(props: ISceneViewProps, ref) {
                     'hover',
                     sceneRef.current,
                     hexToColor4(currentObjectColor.coloredMeshHoverColor),
-                    hexToColor4(
-                        currentObjectColor.fresnelColor ||
-                            currentObjectColor.coloredMeshHoverColor
-                    ),
                     reflectionTexture.current,
                     currentObjectColor.lightingStyle,
                     backgroundColorRef.current.objectLuminanceRatio
                 ));
 
-            if (
-                (!currentObjectColor.baseColor ||
-                    !currentObjectColor.fresnelColor) &&
-                !meshesAreOriginal.current
-            ) {
+            if (!currentObjectColor.baseColor && !meshesAreOriginal.current) {
                 for (const mesh of sceneRef.current.meshes) {
                     const ignore = shouldIgnore(mesh);
                     if (!ignore) {
@@ -690,38 +678,23 @@ function SceneView(props: ISceneViewProps, ref) {
                 meshesAreOriginal.current = true;
             }
 
-            if (
-                currentObjectColor.baseColor &&
-                currentObjectColor.fresnelColor
-            ) {
+            if (currentObjectColor.baseColor) {
                 const baseColor = hexToColor4(currentObjectColor.baseColor);
-                const fresnelColor = hexToColor4(
-                    currentObjectColor.fresnelColor
-                );
                 const material = makeMaterial(
                     'col',
                     sceneRef.current,
                     baseColor,
-                    fresnelColor,
                     reflectionTexture.current,
                     currentObjectColor.lightingStyle,
                     backgroundColorRef.current.objectLuminanceRatio
                 );
 
                 shaderMaterial.current = material;
-                if (
-                    !!isWireframe ||
-                    (currentObjectColor.baseColor &&
-                        currentObjectColor.fresnelColor)
-                ) {
+                if (!!isWireframe || currentObjectColor.baseColor) {
                     for (const mesh of sceneRef.current.meshes) {
                         if (mesh?.material) {
                             const ignore = shouldIgnore(mesh);
-                            if (
-                                currentObjectColor.baseColor &&
-                                currentObjectColor.fresnelColor &&
-                                !ignore
-                            ) {
+                            if (currentObjectColor.baseColor && !ignore) {
                                 mesh.material = shaderMaterial.current;
                                 mesh.useVertexColors =
                                     currentObjectColor.lightingStyle < 1;
@@ -926,36 +899,6 @@ function SceneView(props: ISceneViewProps, ref) {
                 if (onSceneLoaded) {
                     onSceneLoaded(sceneRef.current);
                 }
-                //The rendering pipeline allows for effects to be set in the scene
-                // const defaultPipeline = new BABYLON.DefaultRenderingPipeline(
-                //     'default',
-                //     false,
-                //     sceneRef.current,
-                //     [cameraRef.current]
-                // );
-                //Fast, approximate anti-aliasing removes the jagged edge appearance from meshes by doing a pass over the screen
-                //defaultPipeline.fxaaEnabled = true;
-
-                //Add a Screen Space Ambient Occlusion pass to add soft shadowing in crevices and between objects.
-                // const ssao = new BABYLON.SSAO2RenderingPipeline(
-                //     'ssao',
-                //     sceneRef.current,
-                //     {
-                //         ssaoRatio: 1, // Ratio of the SSAO post-process, in a lower resolution
-                //         blurRatio: 1 // Ratio of the combine post-process (combines the SSAO and the scene)
-                //     }
-                // );
-                // ssao.radius = 8;
-                // ssao.totalStrength = 0.9;
-                // ssao.expensiveBlur = true;
-                // ssao.samples = 16;
-                // ssao.maxZ = 100;
-
-                //Attach the ssao pass to the current camera
-                // sceneRef.current.postProcessRenderPipelineManager.attachCamerasToRenderPipeline(
-                //     'ssao',
-                //     cameraRef.current
-                // );
             }
         }
 
@@ -1538,8 +1481,6 @@ function SceneView(props: ISceneViewProps, ref) {
 
         // Creating materials is VERY expensive, so try and avoid it
         const col = color || currentObjectColor?.coloredMeshColor;
-        //const fresnelCol = currentObjectColor?.fresnelColor || color;
-
         const materialId = currentColorId() + col;
 
         let material = materialCacheRef.current[materialId];

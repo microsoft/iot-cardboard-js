@@ -4,7 +4,6 @@ export function makeMaterial(
     name: string,
     scene: any,
     baseColor: BABYLON.Color4,
-    fresnelColor?: BABYLON.Color4,
     reflectionTexture?: BABYLON.Texture,
     lightingStyle?: number,
     bgLuminanceRatio?: number
