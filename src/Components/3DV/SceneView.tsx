@@ -796,6 +796,8 @@ function SceneView(props: ISceneViewProps, ref) {
             materialCacheRef.current = [];
             badgeGroupsRef.current = [];
             sceneRef.current = null;
+            utilLayer.current = null;
+            advancedTextureRef.current = null;
             cameraRef.current = null;
             reflectionTexture.current = null;
         };
@@ -845,9 +847,6 @@ function SceneView(props: ISceneViewProps, ref) {
             if (success) {
                 sceneRef.current = sc;
                 createOrZoomCamera();
-                advancedTextureRef.current = GUI.AdvancedDynamicTexture.CreateFullscreenUI(
-                    'UI'
-                );
 
                 sortMeshesOnLoad();
 
@@ -885,6 +884,14 @@ function SceneView(props: ISceneViewProps, ref) {
 
                 utilLayer.current = new BABYLON.UtilityLayerRenderer(
                     sceneRef.current
+                );
+
+                //Create the advancedDynamicTexture to hold gui elements.
+                //Set the scene to the utility layer to fix sorting issues with outlines
+                advancedTextureRef.current = GUI.AdvancedDynamicTexture.CreateFullscreenUI(
+                    'UI',
+                    true,
+                    utilLayer.current.utilityLayerScene
                 );
 
                 highlightLayer.current = new BABYLON.HighlightLayer(
