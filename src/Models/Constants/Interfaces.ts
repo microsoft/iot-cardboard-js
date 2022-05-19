@@ -762,7 +762,6 @@ export interface IADT3DViewerMode {
 export interface IADTObjectColor {
     color: string;
     baseColor: string;
-    fresnelColor: string;
     lightingStyle: number;
     reflectionTexture?: string;
     coloredMeshColor: string;
@@ -780,6 +779,7 @@ export interface IADTBackgroundColor {
     defaultBadgeTextColor: string;
     aggregateBadgeColor: string;
     aggregateBadgeTextColor: string;
+    objectLuminanceRatio?: number;
 }
 
 export interface IBlobFile {
