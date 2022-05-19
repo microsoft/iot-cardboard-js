@@ -150,6 +150,14 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
     const handleOnSceneSwap = useCallback(
         (sceneId: string) => {
             setSelectedSceneId(sceneId);
+            deeplinkDispatch({
+                type: DeeplinkContextActionType.SET_ELEMENT_ID,
+                payload: { id: '' }
+            });
+            deeplinkDispatch({
+                type: DeeplinkContextActionType.SET_LAYER_IDS,
+                payload: { ids: [] }
+            });
         },
         [setSelectedSceneId]
     );
