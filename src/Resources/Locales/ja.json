@@ -404,7 +404,6 @@
     "behaviorMetaText": "{{numElementsInActiveScene}} elements, {{numSceneRefs}} scenes",
     "elementMetaText": "{{numBehaviors}} ビヘイビア",
     "primaryTwin": "プライマリツイン",
-    "primaryTwinInputInfo": "ツイン ID ($dtId) を入力して、この要素とリンクします (大文字と小文字を区別します)。",
     "noMeshAddedText": "メッシュはまだ追加されていません。3Dビューアでメッシュを選択してください",
     "meshes": "メッシュ",
     "behaviorElementsDropdownLabel": "ターゲット要素",
@@ -421,7 +420,8 @@
     },
     "behaviorStatusForm": {
       "stateItemLabel": "状態 {{インデックス}}",
-      "tabDescription": "プロパティを選択し、特定の条件に色を適用する範囲を設定します。たとえば、高温を示す赤、最適な速度を示す緑などです。"
+      "tabDescription": "プロパティを選択し、特定の条件に色を適用する範囲を設定します。たとえば、高温を示す赤、最適な速度を示す緑などです。",
+      "propertyExpressionTooltipContent": "カスタム式は、複数のプロパティを利用するより複雑な式に使用します。"
     },
     "twinPropertyDropdown": {
       "propertyDropdownLabel": "財産",
@@ -460,7 +460,6 @@
     "twinAlias": {
       "title": "ツインエイリアス",
       "aliasedTwin": "別名ツイン",
-      "aliasedTwins": "別名双子",
       "add": "ツインエイリアスの追加",
       "new": "新しいツインエイリアス",
       "edit": "ツインエイリアスの編集",
@@ -474,12 +473,13 @@
       "removeFromElement": "要素からツインエイリアスを削除する",
       "commonProperties": "共通プロパティ",
       "twinAliasForm": {
-        "alias": "別名",
-        "elementTwinMappings": "要素ツインマッピング",
-        "elementTwinMappingsNotExist": "使用可能なマッピングはありません。最初に動作に要素を追加します。"
+        "elementTwinMappingsNotExist": "使用可能なマッピングはありません。最初に動作に要素を追加します。",
+        "aliasNameLabel": "ツイン名",
+        "aliasNameTooltipContent": "作成後にこの双子の名前を変更することはできません。",
+        "mappingSectionHeader": "要素のツインマッピング",
+        "mappingSectionSubHeader": "要素ごとに、このツインが参照するデジタルツインを選択します。"
       },
       "descriptions": {
-        "aliasChangeNotAllowed": "作成後のエイリアスの変更は許可されません。",
         "commonProperties": "選択した要素のプライマリツインプロパティの和集合"
       },
       "errors": {
@@ -494,15 +494,25 @@
     },
     "elementsListInstructions": "このビヘイビアのビジュアライゼーションに含める要素を選択します。",
     "behaviorForm": {
-      "newBehavior": "新しい動作",
-      "createBehavior": "ビヘイビアの作成",
-      "modifyBehavior": "動作の編集",
       "formSubTitle": "ビヘイビアは、特定の条件 (特定の間隔やデータのしきい値など) で発生する視覚的な手がかりです。"
     },
     "behaviorWidgetsForm": {
       "addWidgetButtonText": "ウィジェットの追加",
       "noData": "ウィジェットをまだ構成していない",
       "tabDescription": "要素のコンテキストに表示されるウィジェットを定義する"
+    },
+    "newBehavior": "新しい動作",
+    "modifyBehavior": "動作の編集",
+    "createBehavior": "ビヘイビアの作成",
+    "elementForm": {
+      "meshTabName": "メッシュ",
+      "behaviorsTabName": "動作",
+      "twinTabName": "その他の双子",
+      "primaryTwinInputInfo": "ツイン ID ($dtId) を入力して、この要素とリンクします (大文字と小文字を区別します)。"
+    },
+    "elementFormTwinTab": {
+      "tabDescription": "これらのツインには、プライマリ ツイン以外のデータが含まれており、状態、アラート、および動作のウィジェットで活用できます。",
+      "noDataMessage": "この要素の動作に追加のツインを作成すると、ここに表示されます。"
     }
   },
   "widgets": {

@@ -404,7 +404,6 @@
     "behaviorMetaText": "{{numElementsInActiveScene}} elementos, {{numSceneRefs}} escenas",
     "elementMetaText": "{{numBehaviors}} comportamientos",
     "primaryTwin": "Gemelo primario",
-    "primaryTwinInputInfo": "Introduzca el ID de gemelo ($dtId) para vincular con este elemento (distingue entre mayúsculas y minúsculas)",
     "noMeshAddedText": "Aún no se han agregado mallas, seleccione mallas en el visor 3D",
     "meshes": "Mallas",
     "behaviorElementsDropdownLabel": "Elemento de destino",
@@ -421,7 +420,8 @@
     },
     "behaviorStatusForm": {
       "stateItemLabel": "Estado {{índice}}",
-      "tabDescription": "Seleccione una propiedad y, a continuación, establezca rangos para aplicar color a ciertas condiciones, por ejemplo, rojo para indicar altas temperaturas o verde para una velocidad óptima."
+      "tabDescription": "Seleccione una propiedad y, a continuación, establezca rangos para aplicar color a ciertas condiciones, por ejemplo, rojo para indicar altas temperaturas o verde para una velocidad óptima.",
+      "propertyExpressionTooltipContent": "Use una expresión personalizada para expresiones más complejas que aprovechen varias propiedades."
     },
     "twinPropertyDropdown": {
       "propertyDropdownLabel": "Propiedad",
@@ -460,7 +460,6 @@
     "twinAlias": {
       "title": "Alias gemelo",
       "aliasedTwin": "Gemelo con alias",
-      "aliasedTwins": "Gemelos con alias",
       "add": "Agregar alias gemelo",
       "new": "Nuevo alias gemelo",
       "edit": "Editar alias gemelo",
@@ -474,12 +473,13 @@
       "removeFromElement": "Quitar alias gemelo del elemento",
       "commonProperties": "Propiedades comunes",
       "twinAliasForm": {
-        "alias": "Alias",
-        "elementTwinMappings": "Asignaciones de elementos gemelos",
-        "elementTwinMappingsNotExist": "No hay mapeo disponible, agregue elementos al comportamiento primero."
+        "elementTwinMappingsNotExist": "No hay mapeo disponible, agregue elementos al comportamiento primero.",
+        "aliasNameLabel": "Nombre del gemelo",
+        "aliasNameTooltipContent": "No puedes cambiar el nombre de este gemelo después de la creación.",
+        "mappingSectionHeader": "Mapeos gemelos para elementos",
+        "mappingSectionSubHeader": "Para cada elemento, seleccione el gemelo digital al que hace referencia este gemelo"
       },
       "descriptions": {
-        "aliasChangeNotAllowed": "El cambio de alias no está permitido después de la creación.",
         "commonProperties": "La unión de las propiedades gemelas primarias de los elementos seleccionados"
       },
       "errors": {
@@ -494,15 +494,25 @@
     },
     "elementsListInstructions": "Seleccione los elementos que desea incluir en la visualización de este comportamiento",
     "behaviorForm": {
-      "newBehavior": "Nuevo comportamiento",
-      "createBehavior": "Crear comportamiento",
-      "modifyBehavior": "Editar comportamiento",
       "formSubTitle": "Los comportamientos son señales visuales que ocurren bajo condiciones específicas, por ejemplo, a intervalos específicos o en umbrales de datos."
     },
     "behaviorWidgetsForm": {
       "addWidgetButtonText": "Añadir widget",
       "noData": "Aún no has configurado ningún widget",
       "tabDescription": "Definir widgets que aparecen en el contexto del elemento"
+    },
+    "newBehavior": "Nuevo comportamiento",
+    "modifyBehavior": "Editar comportamiento",
+    "createBehavior": "Crear comportamiento",
+    "elementForm": {
+      "meshTabName": "Mallas",
+      "behaviorsTabName": "Comportamientos",
+      "twinTabName": "Otros gemelos",
+      "primaryTwinInputInfo": "Introduzca el ID de gemelo ($dtId) para vincular con este elemento (distingue entre mayúsculas y minúsculas)"
+    },
+    "elementFormTwinTab": {
+      "tabDescription": "Estos gemelos contienen datos más allá de su gemelo principal que puede aprovechar en su estado, alertas y widgets para sus comportamientos.",
+      "noDataMessage": "Cuando crees gemelos adicionales en los comportamientos de este elemento, aparecerán aquí."
     }
   },
   "widgets": {

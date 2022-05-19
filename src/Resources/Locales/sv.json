@@ -404,7 +404,6 @@
     "behaviorMetaText": "{{numElementsInActiveScene}} elements, {{numSceneRefs}} scenes",
     "elementMetaText": "{{numBehaviors}} beteenden",
     "primaryTwin": "Primär tvilling",
-    "primaryTwinInputInfo": "Ange tvilling-ID ($dtId) för att länka till det här elementet (skiftlägeskänsligt)",
     "noMeshAddedText": "Inga maskor har lagts till ännu, välj maskor i 3D-visaren",
     "meshes": "Maskor",
     "behaviorElementsDropdownLabel": "Målelement",
@@ -421,7 +420,8 @@
     },
     "behaviorStatusForm": {
       "stateItemLabel": "Tillstånd {{index}}",
-      "tabDescription": "Välj en egenskap och ställ sedan in intervall för att tillämpa färg på vissa förhållanden, till exempel rött för att indikera höga temperaturer eller grönt för optimal hastighet."
+      "tabDescription": "Välj en egenskap och ställ sedan in intervall för att tillämpa färg på vissa förhållanden, till exempel rött för att indikera höga temperaturer eller grönt för optimal hastighet.",
+      "propertyExpressionTooltipContent": "Använd ett anpassat uttryck för mer komplexa uttryck som utnyttjar flera egenskaper."
     },
     "twinPropertyDropdown": {
       "propertyDropdownLabel": "Egenskap",
@@ -460,7 +460,6 @@
     "twinAlias": {
       "title": "Tvillingalias",
       "aliasedTwin": "Aliased tvilling",
-      "aliasedTwins": "Aliased tvillingar",
       "add": "Lägg till tvillingalias",
       "new": "Nytt tvillingalias",
       "edit": "Redigera tvillingalias",
@@ -474,12 +473,13 @@
       "removeFromElement": "Ta bort tvillingalias från elementet",
       "commonProperties": "Vanliga egenskaper",
       "twinAliasForm": {
-        "alias": "Alias",
-        "elementTwinMappings": "Mappningar av elementtvilling",
-        "elementTwinMappingsNotExist": "Det finns ingen tillgänglig mappning, lägg till element i beteendet först."
+        "elementTwinMappingsNotExist": "Det finns ingen tillgänglig mappning, lägg till element i beteendet först.",
+        "aliasNameLabel": "Tvilling namn",
+        "aliasNameTooltipContent": "Du kan inte ändra tvillingens namn när den har skapats.",
+        "mappingSectionHeader": "Tvillingmappningar för element",
+        "mappingSectionSubHeader": "För varje element väljer du den digitala tvilling som den här tvillingen refererar till"
       },
       "descriptions": {
-        "aliasChangeNotAllowed": "Aliasändring tillåts inte när den har skapats.",
         "commonProperties": "Föreningen av primära tvillingegenskaper hos utvalda element"
       },
       "errors": {
@@ -494,15 +494,25 @@
     },
     "elementsListInstructions": "Välj de element som du vill ska ingå i visualiseringen av det här beteendet",
     "behaviorForm": {
-      "newBehavior": "Nytt beteende",
-      "createBehavior": "Skapa beteende",
-      "modifyBehavior": "Redigera beteende",
       "formSubTitle": "Beteenden är visuella signaler som inträffar under specifika förhållanden, till exempel vid specifika intervall eller vid datatrösklar."
     },
     "behaviorWidgetsForm": {
       "addWidgetButtonText": "Lägg till widget",
       "noData": "Du har inte konfigurerat några widgets ännu",
       "tabDescription": "Definiera widgetar som visas i elementets kontext"
+    },
+    "newBehavior": "Nytt beteende",
+    "modifyBehavior": "Redigera beteende",
+    "createBehavior": "Skapa beteende",
+    "elementForm": {
+      "meshTabName": "Maskor",
+      "behaviorsTabName": "Beteenden",
+      "twinTabName": "Andra tvillingar",
+      "primaryTwinInputInfo": "Ange tvilling-ID ($dtId) för att länka till det här elementet (skiftlägeskänsligt)"
+    },
+    "elementFormTwinTab": {
+      "tabDescription": "Dessa tvillingar innehåller data utöver din primära tvilling som du kan utnyttja i din status, aviseringar och widgetar för dina beteenden.",
+      "noDataMessage": "När du skapar ytterligare tvillingar i det här elementets beteenden visas de här."
     }
   },
   "widgets": {

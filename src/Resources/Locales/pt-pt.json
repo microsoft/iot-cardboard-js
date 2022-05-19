@@ -404,7 +404,6 @@
     "behaviorMetaText": "{{numElementsInActiveScene}} elementos, {{numSceneRefs}} cenas",
     "elementMetaText": "{{numBehaviors}} comportamentos",
     "primaryTwin": "Gémeo primário",
-    "primaryTwinInputInfo": "Introduza o ID gémeo ($dtId) para ligar a este elemento (sensível a caso)",
     "noMeshAddedText": "Sem malhas adicionadas ainda, por favor selecione malhas em espectador 3D",
     "meshes": "Malhas",
     "behaviorElementsDropdownLabel": "Elemento-alvo",
@@ -421,7 +420,8 @@
     },
     "behaviorStatusForm": {
       "stateItemLabel": "Estado {{index}}",
-      "tabDescription": "Selecione uma propriedade e, em seguida, desa ajuste gamas para aplicar a cor a determinadas condições - por exemplo, vermelho para indicar altas temperaturas, ou verde para uma velocidade ideal."
+      "tabDescription": "Selecione uma propriedade e, em seguida, desa ajuste gamas para aplicar a cor a determinadas condições - por exemplo, vermelho para indicar altas temperaturas, ou verde para uma velocidade ideal.",
+      "propertyExpressionTooltipContent": "Use uma expressão personalizada para expressões mais complexas que alavancam várias propriedades."
     },
     "twinPropertyDropdown": {
       "propertyDropdownLabel": "Propriedade",
@@ -460,7 +460,6 @@
     "twinAlias": {
       "title": "Pseudónimo gémeo",
       "aliasedTwin": "Gémeo pseudónimo",
-      "aliasedTwins": "Gémeos pseudónimos",
       "add": "Adicione pseudónimos gémeos",
       "new": "Novo pseudónimo gémeo",
       "edit": "Editar pseudónimos gémeos",
@@ -474,12 +473,13 @@
       "removeFromElement": "Remova o pseudónimo gémeo do elemento",
       "commonProperties": "Propriedades comuns",
       "twinAliasForm": {
-        "alias": "Pseudónimo",
-        "elementTwinMappings": "Mapeamentos gémeos do elemento",
-        "elementTwinMappingsNotExist": "Não há mapeamento disponível, adicione elementos ao comportamento primeiro."
+        "elementTwinMappingsNotExist": "Não há mapeamento disponível, adicione elementos ao comportamento primeiro.",
+        "aliasNameLabel": "Nome gémeo",
+        "aliasNameTooltipContent": "Não podes mudar o nome deste gémeo depois da criação.",
+        "mappingSectionHeader": "Mapeamentos duplos para elementos",
+        "mappingSectionSubHeader": "Para cada elemento, selecione o gémeo digital que este gémeo refere"
       },
       "descriptions": {
-        "aliasChangeNotAllowed": "A mudança de pseudónimo não é permitida após a criação.",
         "commonProperties": "A união das propriedades gémeas primárias de elementos selecionados"
       },
       "errors": {
@@ -494,15 +494,25 @@
     },
     "elementsListInstructions": "Selecione os elementos que pretende incluídos na visualização deste comportamento",
     "behaviorForm": {
-      "newBehavior": "Novo comportamento",
-      "createBehavior": "Criar comportamento",
-      "modifyBehavior": "Editar comportamento",
       "formSubTitle": "Os comportamentos são pistas visuais que ocorrem em condições específicas , por exemplo, em intervalos específicos, ou em limiares de dados."
     },
     "behaviorWidgetsForm": {
       "addWidgetButtonText": "Adicionar widget",
       "noData": "Ainda não configuraste nenhum widgets.",
       "tabDescription": "Defina widgets que aparecem no contexto do elemento"
+    },
+    "newBehavior": "Novo comportamento",
+    "modifyBehavior": "Editar comportamento",
+    "createBehavior": "Criar comportamento",
+    "elementForm": {
+      "meshTabName": "Malhas",
+      "behaviorsTabName": "Comportamentos",
+      "twinTabName": "Outros gémeos",
+      "primaryTwinInputInfo": "Introduza o ID gémeo ($dtId) para ligar a este elemento (sensível a caso)"
+    },
+    "elementFormTwinTab": {
+      "tabDescription": "Estes gémeos contêm dados para além do seu gémeo primário que pode alavancar no seu estado, alertas e widgets para os seus comportamentos.",
+      "noDataMessage": "Quando criares gémeos adicionais nos comportamentos deste elemento, eles aparecem aqui."
     }
   },
   "widgets": {

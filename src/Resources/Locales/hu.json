@@ -404,7 +404,6 @@
     "behaviorMetaText": "{{numElementsInActiveScene}} elements, {{numSceneRefs}} scenes",
     "elementMetaText": "{{numBehaviors}} behaviors",
     "primaryTwin": "Elsődleges ikerpár",
-    "primaryTwinInputInfo": "Adja meg az ikerazonosítót ($dtId) az elemhez való csatoláshoz (kis- és nagybetűket megkülönböztető)",
     "noMeshAddedText": "Még nincs háló hozzáadása, kérjük, válasszon hálókat a 3D-s megjelenítőben",
     "meshes": "Rácsvonalak",
     "behaviorElementsDropdownLabel": "Célelem",
@@ -421,7 +420,8 @@
     },
     "behaviorStatusForm": {
       "stateItemLabel": "Állapot {{index}}",
-      "tabDescription": "Jelöljön ki egy tulajdonságot, majd állítsa be a szín bizonyos feltételekre való alkalmazásához szükséges tartományokat – például pirosat a magas hőmérséklet jelzéséhez, vagy zöldet az optimális sebességhez."
+      "tabDescription": "Jelöljön ki egy tulajdonságot, majd állítsa be a szín bizonyos feltételekre való alkalmazásához szükséges tartományokat – például pirosat a magas hőmérséklet jelzéséhez, vagy zöldet az optimális sebességhez.",
+      "propertyExpressionTooltipContent": "Használjon egyéni kifejezést összetettebb kifejezésekhez, amelyek több tulajdonságot használnak."
     },
     "twinPropertyDropdown": {
       "propertyDropdownLabel": "Ingatlan",
@@ -460,7 +460,6 @@
     "twinAlias": {
       "title": "Iker alias",
       "aliasedTwin": "Aliasozott ikerpár",
-      "aliasedTwins": "Álnevesített ikrek",
       "add": "Iker alias hozzáadása",
       "new": "Új iker alias",
       "edit": "Iker alias szerkesztése",
@@ -474,12 +473,13 @@
       "removeFromElement": "Iker alias eltávolítása az elemből",
       "commonProperties": "Gyakori tulajdonságok",
       "twinAliasForm": {
-        "alias": "Álnév",
-        "elementTwinMappings": "Elem ikerleképezései",
-        "elementTwinMappingsNotExist": "Nincs elérhető leképezés, először adjon hozzá elemeket a viselkedéshez."
+        "elementTwinMappingsNotExist": "Nincs elérhető leképezés, először adjon hozzá elemeket a viselkedéshez.",
+        "aliasNameLabel": "Ikernév",
+        "aliasNameTooltipContent": "Nem változtathatod meg ennek az ikernek a nevét a teremtés után.",
+        "mappingSectionHeader": "Elemek ikerleképezései",
+        "mappingSectionSubHeader": "Minden elemhez válassza ki azt a digitális ikerpárt, amelyre ez az iker utal."
       },
       "descriptions": {
-        "aliasChangeNotAllowed": "Az alias módosítása a létrehozás után nem engedélyezett.",
         "commonProperties": "A kiválasztott elemek elsődleges ikertulajdonságok egyesítése"
       },
       "errors": {
@@ -494,15 +494,25 @@
     },
     "elementsListInstructions": "Válassza ki a viselkedés vizualizációjában szerepeltetni kívánt elemeket",
     "behaviorForm": {
-      "newBehavior": "Új viselkedés",
-      "createBehavior": "Viselkedés létrehozása",
-      "modifyBehavior": "Viselkedés szerkesztése",
       "formSubTitle": "A viselkedés olyan vizuális jelek, amelyek meghatározott körülmények között fordulnak elő – például meghatározott időközönként vagy adatküszöbökben."
     },
     "behaviorWidgetsForm": {
       "addWidgetButtonText": "Widget hozzáadása",
       "noData": "Még nem állított be widgeteket",
       "tabDescription": "Az elem környezetében megjelenő widgetek meghatározása"
+    },
+    "newBehavior": "Új viselkedés",
+    "modifyBehavior": "Viselkedés szerkesztése",
+    "createBehavior": "Viselkedés létrehozása",
+    "elementForm": {
+      "meshTabName": "Rácsvonalak",
+      "behaviorsTabName": "Viselkedésmódok",
+      "twinTabName": "Egyéb ikrek",
+      "primaryTwinInputInfo": "Adja meg az ikerazonosítót ($dtId) az elemhez való csatoláshoz (kis- és nagybetűket megkülönböztető)"
+    },
+    "elementFormTwinTab": {
+      "tabDescription": "Ezek az ikrek az elsődleges ikertestvérén túli adatokat tartalmaznak, amelyeket az állapotodban, a riasztásokban és a widgetekben használhatsz a viselkedésedhez.",
+      "noDataMessage": "Amikor további ikreket hoz létre az elem viselkedésében, itt jelennek meg."
     }
   },
   "widgets": {

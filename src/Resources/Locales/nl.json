@@ -404,7 +404,6 @@
     "behaviorMetaText": "{{numElementsInActiveScene}} elementen, {{numSceneRefs}} scènes",
     "elementMetaText": "{{numBehaviors}} behaviors",
     "primaryTwin": "Primaire tweeling",
-    "primaryTwinInputInfo": "Voer dubbele ID ($dtId) in om met dit element te koppelen (hoofdlettergevoelig)",
     "noMeshAddedText": "Nog geen meshes toegevoegd, selecteer meshes in 3D viewer",
     "meshes": "Netten",
     "behaviorElementsDropdownLabel": "Doelelement",
@@ -421,7 +420,8 @@
     },
     "behaviorStatusForm": {
       "stateItemLabel": "Staat {{index}}",
-      "tabDescription": "Selecteer een eigenschap en stel vervolgens bereiken in voor het toepassen van kleur op bepaalde omstandigheden, bijvoorbeeld rood om hoge temperaturen aan te geven of groen voor optimale snelheid."
+      "tabDescription": "Selecteer een eigenschap en stel vervolgens bereiken in voor het toepassen van kleur op bepaalde omstandigheden, bijvoorbeeld rood om hoge temperaturen aan te geven of groen voor optimale snelheid.",
+      "propertyExpressionTooltipContent": "Gebruik een aangepaste expressie voor complexere expressies die gebruikmaken van meerdere eigenschappen."
     },
     "twinPropertyDropdown": {
       "propertyDropdownLabel": "Eigenschap",
@@ -460,7 +460,6 @@
     "twinAlias": {
       "title": "Dubbele alias",
       "aliasedTwin": "Aliased tweeling",
-      "aliasedTwins": "Aliased tweeling",
       "add": "Dubbele alias toevoegen",
       "new": "Nieuwe tweelingalias",
       "edit": "Dubbele alias bewerken",
@@ -474,12 +473,13 @@
       "removeFromElement": "Dubbele alias uit element verwijderen",
       "commonProperties": "Gemeenschappelijke eigenschappen",
       "twinAliasForm": {
-        "alias": "Alias",
-        "elementTwinMappings": "Element twin mappings",
-        "elementTwinMappingsNotExist": "Er is geen beschikbare toewijzing, voeg eerst elementen toe aan gedrag."
+        "elementTwinMappingsNotExist": "Er is geen beschikbare toewijzing, voeg eerst elementen toe aan gedrag.",
+        "aliasNameLabel": "Dubbele naam",
+        "aliasNameTooltipContent": "Je kunt de naam van deze tweeling niet veranderen na het maken.",
+        "mappingSectionHeader": "Dubbele toewijzingen voor elementen",
+        "mappingSectionSubHeader": "Selecteer voor elk element de digitale tweeling waarnaar deze tweeling verwijst"
       },
       "descriptions": {
-        "aliasChangeNotAllowed": "Aliaswijziging is niet toegestaan na het maken.",
         "commonProperties": "De vereniging van primaire tweelingeigenschappen van geselecteerde elementen"
       },
       "errors": {
@@ -494,15 +494,25 @@
     },
     "elementsListInstructions": "Selecteer de elementen die u wilt opnemen in de visualisatie van dit gedrag",
     "behaviorForm": {
-      "newBehavior": "Nieuw gedrag",
-      "createBehavior": "Gedrag creëren",
-      "modifyBehavior": "Gedrag bewerken",
       "formSubTitle": "Gedragingen zijn visuele aanwijzingen die optreden onder specifieke omstandigheden, bijvoorbeeld met specifieke intervallen of bij gegevensdrempels."
     },
     "behaviorWidgetsForm": {
       "addWidgetButtonText": "Widget toevoegen",
       "noData": "Je hebt nog geen widgets geconfigureerd",
       "tabDescription": "Widgets definiëren die in de context van het element worden weergegeven"
+    },
+    "newBehavior": "Nieuw gedrag",
+    "modifyBehavior": "Gedrag bewerken",
+    "createBehavior": "Gedrag creëren",
+    "elementForm": {
+      "meshTabName": "Netten",
+      "behaviorsTabName": "Gedrag",
+      "twinTabName": "Andere tweelingen",
+      "primaryTwinInputInfo": "Voer dubbele ID ($dtId) in om met dit element te koppelen (hoofdlettergevoelig)"
+    },
+    "elementFormTwinTab": {
+      "tabDescription": "Deze tweelingen bevatten gegevens die verder gaan dan je primaire tweeling die je kunt gebruiken in je status, waarschuwingen en widgets voor je gedrag.",
+      "noDataMessage": "Wanneer je extra tweelingen creëert in het gedrag van dit element, verschijnen ze hier."
     }
   },
   "widgets": {

@@ -404,7 +404,6 @@
     "behaviorMetaText": "{{numElementsInActiveScene}} öğeleri, {{numSceneRefs}} sahneleri",
     "elementMetaText": "{{numBehaviors}} davranışları",
     "primaryTwin": "Birincil ikiz",
-    "primaryTwinInputInfo": "Bu öğeyle bağlantı kurmak için ikiz kimliği ($dtId) girin (büyük/küçük harfe duyarlı)",
     "noMeshAddedText": "Henüz kafes eklenmedi, lütfen 3B görüntüleyicide kafesleri seçin",
     "meshes": "Kafes",
     "behaviorElementsDropdownLabel": "Hedef öğe",
@@ -421,7 +420,8 @@
     },
     "behaviorStatusForm": {
       "stateItemLabel": "Durum {{index}}",
-      "tabDescription": "Bir özellik seçin, sonra belirli koşullara renk uygulamak için aralıkları ayarlayın (örneğin, yüksek sıcaklıkları belirtmek için kırmızı veya optimum hız için yeşil)."
+      "tabDescription": "Bir özellik seçin, sonra belirli koşullara renk uygulamak için aralıkları ayarlayın (örneğin, yüksek sıcaklıkları belirtmek için kırmızı veya optimum hız için yeşil).",
+      "propertyExpressionTooltipContent": "Birden çok özellikten yararlanan daha karmaşık ifadeler için özel bir ifade kullanın."
     },
     "twinPropertyDropdown": {
       "propertyDropdownLabel": "Mülk",
@@ -460,7 +460,6 @@
     "twinAlias": {
       "title": "İkiz takma ad",
       "aliasedTwin": "Takma adlı ikiz",
-      "aliasedTwins": "Takma adlı ikizler",
       "add": "İkiz diğer ad ekleme",
       "new": "Yeni ikiz takma ad",
       "edit": "İkiz takma adı düzenleme",
@@ -474,12 +473,13 @@
       "removeFromElement": "İkiz diğer adı öğeden kaldırma",
       "commonProperties": "Ortak özellikler",
       "twinAliasForm": {
-        "alias": "Diğer ad",
-        "elementTwinMappings": "Öğe ikizi eşlemeleri",
-        "elementTwinMappingsNotExist": "Kullanılabilir eşleme yok, önce davranışa öğeler ekleyin."
+        "elementTwinMappingsNotExist": "Kullanılabilir eşleme yok, önce davranışa öğeler ekleyin.",
+        "aliasNameLabel": "İkiz isim",
+        "aliasNameTooltipContent": "Bu ikizin adını oluşturulduktan sonra değiştiremezsiniz.",
+        "mappingSectionHeader": "Öğeler için ikiz eşlemeler",
+        "mappingSectionSubHeader": "Her öğe için, bu ikizin başvurduğu dijital ikizi seçin"
       },
       "descriptions": {
-        "aliasChangeNotAllowed": "Oluşturulduktan sonra diğer ad değişimine izin verilmez.",
         "commonProperties": "Seçilen elemanların birincil ikiz özelliklerinin birliği"
       },
       "errors": {
@@ -494,15 +494,25 @@
     },
     "elementsListInstructions": "Bu davranışın görselleştirmesine dahil edilmesini istediğiniz öğeleri seçin",
     "behaviorForm": {
-      "newBehavior": "Yeni davranış",
-      "createBehavior": "Davranış oluşturma",
-      "modifyBehavior": "Düzenleme davranışı",
       "formSubTitle": "Davranışlar, belirli koşullar altında (örneğin, belirli aralıklarla veya veri eşiklerinde) meydana gelen görsel ipuçlarıdır."
     },
     "behaviorWidgetsForm": {
       "addWidgetButtonText": "Widget ekle",
       "noData": "Henüz herhangi bir widget yapılandırmadınız",
       "tabDescription": "Öğenin bağlamında görünen widget'ları tanımlama"
+    },
+    "newBehavior": "Yeni davranış",
+    "modifyBehavior": "Düzenleme davranışı",
+    "createBehavior": "Davranış oluşturma",
+    "elementForm": {
+      "meshTabName": "Kafes",
+      "behaviorsTabName": "Davranış",
+      "twinTabName": "Diğer ikizler",
+      "primaryTwinInputInfo": "Bu öğeyle bağlantı kurmak için ikiz kimliği ($dtId) girin (büyük/küçük harfe duyarlı)"
+    },
+    "elementFormTwinTab": {
+      "tabDescription": "Bu ikizler, birincil ikizinizin ötesinde, davranışlarınız için durumunuzda, uyarılarınızda ve widget'larınızda yararlanabileceğiniz veriler içerir.",
+      "noDataMessage": "Bu öğenin davranışlarında ek ikizler oluşturduğunuzda, burada görünürler."
     }
   },
   "widgets": {

@@ -404,7 +404,6 @@
     "behaviorMetaText": "{{numElementsInActiveScene}} elements, {{numSceneRefs}} scènes",
     "elementMetaText": "{{numBehaviors}} comportements",
     "primaryTwin": "Jumeau principal",
-    "primaryTwinInputInfo": "Entrez un ID jumeau ($dtId) pour créer un lien avec cet élément (sensible à la casse)",
     "noMeshAddedText": "Aucun maillage ajouté pour le moment, veuillez sélectionner les maillages dans la visionneuse 3D",
     "meshes": "Mailles",
     "behaviorElementsDropdownLabel": "Élément cible",
@@ -421,7 +420,8 @@
     },
     "behaviorStatusForm": {
       "stateItemLabel": "État {{index}}",
-      "tabDescription": "Sélectionnez une propriété, puis définissez des plages pour appliquer la couleur à certaines conditions, par exemple, rouge pour indiquer des températures élevées ou vert pour une vitesse optimale."
+      "tabDescription": "Sélectionnez une propriété, puis définissez des plages pour appliquer la couleur à certaines conditions, par exemple, rouge pour indiquer des températures élevées ou vert pour une vitesse optimale.",
+      "propertyExpressionTooltipContent": "Utilisez une expression personnalisée pour les expressions plus complexes qui exploitent plusieurs propriétés."
     },
     "twinPropertyDropdown": {
       "propertyDropdownLabel": "Propriété",
@@ -460,7 +460,6 @@
     "twinAlias": {
       "title": "Alias jumeau",
       "aliasedTwin": "Jumeau aliasé",
-      "aliasedTwins": "Jumeaux aliasés",
       "add": "Ajouter un alias jumeau",
       "new": "Nouvel alias jumeau",
       "edit": "Modifier l’alias jumeau",
@@ -474,12 +473,13 @@
       "removeFromElement": "Supprimer l’alias jumeau de l’élément",
       "commonProperties": "Propriétés communes",
       "twinAliasForm": {
-        "alias": "Alias",
-        "elementTwinMappings": "Mappages de jumeaux d’éléments",
-        "elementTwinMappingsNotExist": "Il n’y a pas de mappage disponible, ajoutez d’abord des éléments au comportement."
+        "elementTwinMappingsNotExist": "Il n’y a pas de mappage disponible, ajoutez d’abord des éléments au comportement.",
+        "aliasNameLabel": "Nom jumeau",
+        "aliasNameTooltipContent": "Vous ne pouvez pas changer le nom de ce jumeau après sa création.",
+        "mappingSectionHeader": "Mappages jumeaux pour les éléments",
+        "mappingSectionSubHeader": "Pour chaque élément, sélectionnez le jumeau numérique auquel ce jumeau fait référence"
       },
       "descriptions": {
-        "aliasChangeNotAllowed": "La modification de l’alias n’est pas autorisée après la création.",
         "commonProperties": "L’union des propriétés jumelles primaires d’éléments sélectionnés"
       },
       "errors": {
@@ -494,15 +494,25 @@
     },
     "elementsListInstructions": "Sélectionnez les éléments que vous souhaitez inclure dans la visualisation de ce comportement",
     "behaviorForm": {
-      "newBehavior": "Nouveau comportement",
-      "createBehavior": "Créer un comportement",
-      "modifyBehavior": "Modifier le comportement",
       "formSubTitle": "Les comportements sont des indices visuels qui se produisent dans des conditions spécifiques, par exemple à des intervalles spécifiques ou à des seuils de données."
     },
     "behaviorWidgetsForm": {
       "addWidgetButtonText": "Ajouter un widget",
       "noData": "Vous n'avez pas encore configuré de widgets",
       "tabDescription": "Définir les widgets qui apparaissent dans le contexte de l'élément"
+    },
+    "newBehavior": "Nouveau comportement",
+    "modifyBehavior": "Modifier le comportement",
+    "createBehavior": "Créer un comportement",
+    "elementForm": {
+      "meshTabName": "Mailles",
+      "behaviorsTabName": "Comportements",
+      "twinTabName": "Autres jumeaux",
+      "primaryTwinInputInfo": "Entrez un ID jumeau ($dtId) pour créer un lien avec cet élément (sensible à la casse)"
+    },
+    "elementFormTwinTab": {
+      "tabDescription": "Ces jumeaux contiennent des données au-delà de votre jumeau principal que vous pouvez exploiter dans votre statut, vos alertes et vos widgets pour vos comportements.",
+      "noDataMessage": "Lorsque vous créez des jumeaux supplémentaires dans les comportements de cet élément, ils apparaissent ici."
     }
   },
   "widgets": {
