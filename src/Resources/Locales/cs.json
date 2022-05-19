@@ -178,7 +178,8 @@
     "3dFileAsset": "Odkaz 3D soubor",
     "description": "Popis",
     "overwriteIfExist": "Přepsat, pokud soubor již existuje",
-    "fileExistsErrorMessage": "Soubor s tímto názvem již existuje v úložišti, můžete tento soubor vybrat z kontejneru nebo přepsat."
+    "fileExistsErrorMessage": "Soubor s tímto názvem již existuje v úložišti, můžete tento soubor vybrat z kontejneru nebo přepsat.",
+    "sceneDescriptionPlaceholder": "Zadejte popis scény"
   },
   "BIMUpload": {
     "specifyFiles": "Určení souborů, ze kterých chcete nahrát",

@@ -178,7 +178,8 @@
     "3dFileAsset": "リンク 3D ファイル",
     "description": "形容",
     "overwriteIfExist": "ファイルが既に存在する場合は上書きする",
-    "fileExistsErrorMessage": "この名前のファイルはすでにストレージに存在します。コンテナからそのファイルを選択するか、上書きすることができます。"
+    "fileExistsErrorMessage": "この名前のファイルはすでにストレージに存在します。コンテナからそのファイルを選択するか、上書きすることができます。",
+    "sceneDescriptionPlaceholder": "シーンの説明を入力する"
   },
   "BIMUpload": {
     "specifyFiles": "アップロード元のファイルを指定する",

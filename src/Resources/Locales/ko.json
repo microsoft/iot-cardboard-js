@@ -178,7 +178,8 @@
     "3dFileAsset": "3D 파일 연결",
     "description": "묘사",
     "overwriteIfExist": "파일이 이미 있는 경우 덮어쓰기",
-    "fileExistsErrorMessage": "이 이름의 파일이 저장소에 이미 있으므로 컨테이너에서 해당 파일을 선택하거나 덮어쓸 수 있습니다."
+    "fileExistsErrorMessage": "이 이름의 파일이 저장소에 이미 있으므로 컨테이너에서 해당 파일을 선택하거나 덮어쓸 수 있습니다.",
+    "sceneDescriptionPlaceholder": "장면 설명 입력"
   },
   "BIMUpload": {
     "specifyFiles": "업로드할 파일 지정",

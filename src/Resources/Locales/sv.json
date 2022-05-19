@@ -178,7 +178,8 @@
     "3dFileAsset": "Länka 3D-fil",
     "description": "Beskrivning",
     "overwriteIfExist": "Skriv över om filen redan finns",
-    "fileExistsErrorMessage": "En fil med det här namnet finns redan i lagring, du kan antingen välja den filen från containern eller skriva över."
+    "fileExistsErrorMessage": "En fil med det här namnet finns redan i lagring, du kan antingen välja den filen från containern eller skriva över.",
+    "sceneDescriptionPlaceholder": "Ange en scenbeskrivning"
   },
   "BIMUpload": {
     "specifyFiles": "Ange filer som ska laddas upp från",
