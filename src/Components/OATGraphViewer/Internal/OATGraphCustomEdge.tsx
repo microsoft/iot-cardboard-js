@@ -197,7 +197,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
             }
         ];
         setElements((els) => removeElements(elementsToRemove, els));
-        setModel(null);
+        dispatch({ type: SET_OAT_PROPERTY_EDITOR_MODEL, payload: null });
     };
 
     return (
@@ -291,19 +291,24 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                     </body>
                 </foreignObject>
             )}
-            {!nameEditor && (
-                <text>
-                    <textPath
-                        href={`#${id}`}
-                        className={graphViewerStyles.textPath}
-                        startOffset="50%"
-                        textAnchor="middle"
-                        onClick={onNameClick}
-                    >
-                        {getPropertyDisplayName(data)}
-                    </textPath>
-                </text>
-            )}
+            {!nameEditor &&
+                ((data.type === OATExtendHandleName && showInheritances) ||
+                    (data.type === OATComponentHandleName && showComponents) ||
+                    ((data.type === OATRelationshipHandleName ||
+                        data.type === OATUntargetedRelationshipName) &&
+                        showRelationships)) && (
+                    <text>
+                        <textPath
+                            href={`#${id}`}
+                            className={graphViewerStyles.textPath}
+                            startOffset="50%"
+                            textAnchor="middle"
+                            onClick={onNameClick}
+                        >
+                            {getPropertyDisplayName(data)}
+                        </textPath>
+                    </text>
+                )}
             {data.type === OATExtendHandleName && showInheritances && (
                 <polygon
                     points={`${targetX - offsetSmall},${
