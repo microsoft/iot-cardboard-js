@@ -413,7 +413,10 @@ function SceneView(props: ISceneViewProps, ref) {
         if (sceneRef.current?.meshes?.length && !isLoading) {
             if (meshesAreOriginal.current) {
                 for (const mesh of sceneRef.current.meshes) {
-                    mesh.material = originalMaterials.current[mesh.id];
+                    //Meshes with higher alphaIndex are highlight clones and should not have their material swapped
+                    if (mesh.alphaIndex <= 1) {
+                        mesh.material = originalMaterials.current[mesh.id];
+                    }
                 }
             } else {
                 for (const mesh of sceneRef.current.meshes) {
