@@ -46,11 +46,7 @@ export function makeStandardMaterial(
         baseColor.g,
         baseColor.b
     );
-    const fresnelColor3 = new BABYLON.Color3(
-        fresnelColor?.r,
-        fresnelColor?.g,
-        fresnelColor?.b
-    );
+
     const isTransparent = baseColor.a < 1;
     if (!lightingStyle) lightingStyle = 0;
     if (!bgLuminanceRatio) bgLuminanceRatio = 1;
@@ -59,7 +55,7 @@ export function makeStandardMaterial(
     material.diffuseColor = baseColor3;
 
     material.alpha = baseColor.a;
-    material.backFaceCulling = !isTransparent;
+    material.backFaceCulling = false;
 
     if (isTransparent) {
         material.specularPower = 0;
