@@ -431,8 +431,9 @@
       "tabDescription": "A figyelmeztetések – a szöveggel kísért ikonok – segítenek felhívni a figyelmet a kritikus adatfeltételekre. Az alábbiakban kifejezésekkel riasztásokat válthat ki a vizualizációban.",
       "notificationLabel": "Forgatókönyv leírása",
       "notificationLabelTooltip": "Ez a szöveg fogyasztói környezetet ad, amikor ez a jelvény aktív.",
-      "notificationLabelDescription": "Az ikertulajdonságokat sablon karakterlánc szintaxisával kell elkerülni. A ${PrimaryTwin.DisplayName} például forró",
-      "notificationPlaceholder": "Leírás megadása"
+      "notificationPlaceholder": "Leírás megadása",
+      "notificationLabelDescriptionPart1": "Az ikertulajdonságokat sablon karakterlánc szintaxissal kell körülvenni.",
+      "notificationLabelDescriptionPart2": "Például a $PrimaryTwin.DisplayName} karbantartást igényel"
     },
     "behaviorStatusForm": {
       "tabDescription": "Jelöljön ki egy tulajdonságot, majd állítsa be a szín bizonyos feltételekre való alkalmazásához szükséges tartományokat – például pirosat a magas hőmérséklet jelzéséhez, vagy zöldet az optimális sebességhez.",

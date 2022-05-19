@@ -431,8 +431,9 @@
       "tabDescription": "Alertas — ícones acompanhados por texto — ajudam a chamar a atenção para as condições críticas dos dados. Abaixo, utilize expressões para desencadear alertas na sua visualização.",
       "notificationLabel": "Descrição do cenário",
       "notificationLabelTooltip": "Este texto dará um contexto ao consumidor quando este crachá estiver ativo.",
-      "notificationLabelDescription": "As propriedades gémeas precisam de ser escapadas usando a sintaxe da corda do modelo. Por exemplo, ${PrimaryTwin.DisplayName} está quente",
-      "notificationPlaceholder": "Insira uma descrição"
+      "notificationPlaceholder": "Insira uma descrição",
+      "notificationLabelDescriptionPart1": "As propriedades gémeas precisam de ser rodeadas com sintaxe de corda de modelo.",
+      "notificationLabelDescriptionPart2": "Por exemplo, $PrimaryTwin.DisplayName} requer manutenção"
     },
     "behaviorStatusForm": {
       "tabDescription": "Selecione uma propriedade e, em seguida, desa ajuste gamas para aplicar a cor a determinadas condições - por exemplo, vermelho para indicar altas temperaturas, ou verde para uma velocidade ideal.",

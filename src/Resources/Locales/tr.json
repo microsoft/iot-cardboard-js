@@ -431,8 +431,9 @@
       "tabDescription": "Uyarılar (metin eşliğinde simgeler) kritik veri koşullarına dikkat çekmeye yardımcı olur. Aşağıda, görselleştirmenizdeki uyarıları tetiklemek için ifadeleri kullanın.",
       "notificationLabel": "Senaryo açıklaması",
       "notificationLabelTooltip": "Bu metin, bu rozet etkinken tüketiciye bir bağlam sağlayacaktır.",
-      "notificationLabelDescription": "İkiz özelliklerin şablon dizesi sözdizimi kullanılarak çıkış yapılması gerekir. Örneğin, ${PrimaryTwin.DisplayName} etkin",
-      "notificationPlaceholder": "Bir açıklama girin"
+      "notificationPlaceholder": "Bir açıklama girin",
+      "notificationLabelDescriptionPart1": "İkiz özelliklerin şablon dizesi sözdizimi ile çevrelenmesi gerekir.",
+      "notificationLabelDescriptionPart2": "Örneğin, $PrimaryTwin.DisplayName} bakım gerektirir"
     },
     "behaviorStatusForm": {
       "tabDescription": "Bir özellik seçin, sonra belirli koşullara renk uygulamak için aralıkları ayarlayın (örneğin, yüksek sıcaklıkları belirtmek için kırmızı veya optimum hız için yeşil).",

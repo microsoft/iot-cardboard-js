@@ -431,8 +431,9 @@
       "tabDescription": "Alerty — ikony wraz z tekstem — pomagają zwrócić uwagę na krytyczne warunki danych. Poniżej użyj wyrażeń, aby wyzwolić alerty w wizualizacji.",
       "notificationLabel": "Opis scenariusza",
       "notificationLabelTooltip": "Ten tekst poda kontekst konsumenta, gdy ta plakietka jest aktywna.",
-      "notificationLabelDescription": "Właściwości bliźniąt muszą być zmieniane przy użyciu składni ciągu szablonu. Na przykład ${PrimaryTwin.DisplayName} jest gorący",
-      "notificationPlaceholder": "Wprowadź opis"
+      "notificationPlaceholder": "Wprowadź opis",
+      "notificationLabelDescriptionPart1": "Właściwości bliźniacze muszą być otoczone składnią ciągu szablonu.",
+      "notificationLabelDescriptionPart2": "Np. $PrimaryTwin.DisplayName} wymaga konserwacji"
     },
     "behaviorStatusForm": {
       "tabDescription": "Wybierz właściwość, a następnie ustaw zakresy stosowania koloru do określonych warunków — na przykład czerwony, aby wskazać wysokie temperatury, lub zielony, aby uzyskać optymalną prędkość.",

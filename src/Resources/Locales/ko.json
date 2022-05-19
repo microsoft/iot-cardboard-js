@@ -431,8 +431,9 @@
       "tabDescription": "텍스트와 함께 제공되는 아이콘인 경고는 중요한 데이터 조건에 주의를 기울이는 데 도움이 됩니다. 아래에서 표현식을 사용하여 시각화에서 경고를 트리거합니다.",
       "notificationLabel": "시나리오 설명",
       "notificationLabelTooltip": "이 텍스트는 이 배지가 활성 상태일 때 소비자 컨텍스트를 제공합니다.",
-      "notificationLabelDescription": "트윈 속성은 템플릿 문자열 구문을 사용하여 이스케이프해야 합니다. 예를 들어 ${PrimaryTwin.DisplayName}이 뜨겁습니다.",
-      "notificationPlaceholder": "설명 입력"
+      "notificationPlaceholder": "설명 입력",
+      "notificationLabelDescriptionPart1": "트윈 속성은 템플릿 문자열 구문으로 둘러싸여야합니다.",
+      "notificationLabelDescriptionPart2": "예 : $PrimaryTwin.DisplayName}은 유지 보수가 필요합니다."
     },
     "behaviorStatusForm": {
       "tabDescription": "속성을 선택한 다음 특정 조건에 색상을 적용하기 위한 범위(예: 고온을 나타내려면 빨간색, 최적의 속도를 위해 녹색)를 설정합니다.",

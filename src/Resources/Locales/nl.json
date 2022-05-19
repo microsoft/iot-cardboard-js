@@ -431,8 +431,9 @@
       "tabDescription": "Waarschuwingen , pictogrammen vergezeld van tekst, helpen de aandacht te vestigen op kritieke gegevenscondities. Gebruik hieronder expressies om waarschuwingen in uw visualisatie te activeren.",
       "notificationLabel": "Beschrijving van het scenario",
       "notificationLabelTooltip": "Deze tekst geeft een consument context wanneer deze badge actief is.",
-      "notificationLabelDescription": "Dubbele eigenschappen moeten worden ontsnapt met behulp van de syntaxis van sjabloonreeksen. ${PrimaryTwin.DisplayName} is bijvoorbeeld hot",
-      "notificationPlaceholder": "Voer een beschrijving in"
+      "notificationPlaceholder": "Voer een beschrijving in",
+      "notificationLabelDescriptionPart1": "Dubbele eigenschappen moeten worden omgeven door syntaxis van sjabloonreeksen.",
+      "notificationLabelDescriptionPart2": "Bijv. $PrimaryTwin.DisplayName} onderhoud vereist"
     },
     "behaviorStatusForm": {
       "tabDescription": "Selecteer een eigenschap en stel vervolgens bereiken in voor het toepassen van kleur op bepaalde omstandigheden, bijvoorbeeld rood om hoge temperaturen aan te geven of groen voor optimale snelheid.",

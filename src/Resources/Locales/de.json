@@ -431,8 +431,9 @@
       "tabDescription": "Warnungen – Symbole, die von Text begleitet werden – helfen, die Aufmerksamkeit auf kritische Datenzustände zu lenken. Verwenden Sie unten Ausdrücke, um Warnungen in Ihrer Visualisierung auszulösen.",
       "notificationLabel": "Szenariobeschreibung",
       "notificationLabelTooltip": "Dieser Text gibt einen Verbraucherkontext an, wenn dieses Badge aktiv ist.",
-      "notificationLabelDescription": "Twin-Eigenschaften müssen mithilfe der Vorlagenzeichenfolgensyntax mit Escapezeichen versehen werden. Beispiel: ${PrimaryTwin.DisplayName} ist heiß",
-      "notificationPlaceholder": "Geben Sie eine Beschreibung ein"
+      "notificationPlaceholder": "Geben Sie eine Beschreibung ein",
+      "notificationLabelDescriptionPart1": "Twin-Eigenschaften müssen mit Vorlagenzeichenfolgensyntax umgeben sein.",
+      "notificationLabelDescriptionPart2": "Z.B. $PrimaryTwin.DisplayName} wartungsbedürftig"
     },
     "behaviorStatusForm": {
       "tabDescription": "Wählen Sie eine Eigenschaft aus, und legen Sie dann Bereiche für die Anwendung von Farben auf bestimmte Bedingungen fest, z. B. Rot, um hohe Temperaturen anzuzeigen, oder Grün für optimale Geschwindigkeit.",

@@ -431,8 +431,9 @@
       "tabDescription": "Las alertas (iconos acompañados de texto) ayudan a llamar la atención sobre las condiciones críticas de los datos. A continuación, use expresiones para activar alertas en su visualización.",
       "notificationLabel": "Descripción del escenario",
       "notificationLabelTooltip": "Este texto proporcionará un contexto de consumidor cuando esta insignia esté activa.",
-      "notificationLabelDescription": "Es necesario escapar de las propiedades gemelas mediante la sintaxis de cadena de plantilla. Por ejemplo, ${PrimaryTwin.DisplayName} está de moda",
-      "notificationPlaceholder": "Introduzca una descripción"
+      "notificationPlaceholder": "Introduzca una descripción",
+      "notificationLabelDescriptionPart1": "Las propiedades gemelas deben estar rodeadas de sintaxis de cadena de plantilla.",
+      "notificationLabelDescriptionPart2": "Por ejemplo, $PrimaryTwin.DisplayName} requiere mantenimiento"
     },
     "behaviorStatusForm": {
       "tabDescription": "Seleccione una propiedad y, a continuación, establezca rangos para aplicar color a ciertas condiciones, por ejemplo, rojo para indicar altas temperaturas o verde para una velocidad óptima.",

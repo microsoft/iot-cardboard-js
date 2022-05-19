@@ -431,8 +431,9 @@
       "tabDescription": "警报（带有文本的图标）有助于引起人们对关键数据条件的注意。下面，使用表达式在可视化效果中触发警报。",
       "notificationLabel": "场景描述",
       "notificationLabelTooltip": "此文本将在此锁屏提醒处于活动状态时提供使用者上下文。",
-      "notificationLabelDescription": "需要使用模板字符串语法对孪生属性进行转义。例如，${PrimaryTwin.DisplayName} 是 hot",
-      "notificationPlaceholder": "输入说明"
+      "notificationPlaceholder": "输入说明",
+      "notificationLabelDescriptionPart1": "孪生属性需要用模板字符串语法括起来。",
+      "notificationLabelDescriptionPart2": "例如，$PrimaryTwin.DisplayName} 需要维护"
     },
     "behaviorStatusForm": {
       "tabDescription": "选择一个属性，然后设置将颜色应用于特定条件的范围，例如，红色表示高温，绿色表示最佳速度。",
