@@ -63,7 +63,7 @@ const IllustrationMessage: React.FunctionComponent<IllustrationMessageProps> = (
                 </div>
             );
         }
-    }, []);
+    }, [linkProps, descriptionText, linkText]);
 
     return (
         <div className={classNames.container}>

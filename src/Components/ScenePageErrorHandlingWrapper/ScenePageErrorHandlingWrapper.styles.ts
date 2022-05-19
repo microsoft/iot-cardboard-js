@@ -10,8 +10,8 @@ const classPrefix = 'cb-scene-page-error-handling-wrapper';
 const classNames = {
     root: `${classPrefix}-root`,
     warningMessage: `${classPrefix}-warning-message`,
+    progressContainer: `${classPrefix}-progress-container`,
     progressMessage: `${classPrefix}-progress-message`,
-    list: `${classPrefix}-list-items`,
     alternatedSuffix: `${classPrefix}-alternated-suffix`
 };
 
@@ -30,20 +30,23 @@ export const getScenePageErrorHandlingStyles = memoizeFunction(
                 classNames.warningMessage,
                 { marginTop: 14 } as IStyle
             ],
+            progressContainer: [
+                classNames.progressContainer,
+                {
+                    width: 420,
+                    margin: '0 auto',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center'
+                } as IStyle
+            ],
             progressMessage: [
                 classNames.progressMessage,
                 {
                     textAlign: 'center',
                     fontSize: 12,
-                    height: 120,
-                    paddingBottom: 40,
-                    margin: '0 auto',
-                    width: '50%'
+                    padding: '24px 0px 4px'
                 } as IStyle
-            ],
-            list: [
-                classNames.list,
-                { listStyleType: 'none', padding: 0 } as IStyle
             ],
             alternatedSuffix: [
                 classNames.alternatedSuffix,

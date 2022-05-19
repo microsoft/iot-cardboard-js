@@ -434,54 +434,63 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
                                 buttonText: state?.errorCallback?.buttonText,
                                 onClick: state?.errorCallback?.buttonAction
                             }}
-                            reloadPageAdapterData={scenesConfig}
+                            verifyCallbackAdapterData={scenesConfig}
                         />
                     ) : (
-                        state.currentStep === ADT3DScenePageSteps.SceneList && (
-                            <div className="cb-scene-page-scene-list-container">
-                                {deeplinkState.storageUrl && (
-                                    <SceneList
-                                        key={deeplinkState.storageUrl}
-                                        title={'All scenes'}
-                                        theme={theme}
-                                        locale={locale}
-                                        adapter={adapter}
-                                        onSceneClick={(scene) => {
-                                            handleOnSceneClick(scene);
-                                        }}
-                                    />
+                        state.scenesConfig && (
+                            <>
+                                {state.currentStep ===
+                                    ADT3DScenePageSteps.SceneList && (
+                                    <div className="cb-scene-page-scene-list-container">
+                                        {deeplinkState.storageUrl && (
+                                            <SceneList
+                                                key={deeplinkState.storageUrl}
+                                                title={'All scenes'}
+                                                theme={theme}
+                                                locale={locale}
+                                                adapter={adapter}
+                                                onSceneClick={(scene) => {
+                                                    handleOnSceneClick(scene);
+                                                }}
+                                            />
+                                        )}
+                                    </div>
                                 )}
-                            </div>
+                                {state.currentStep ===
+                                    ADT3DScenePageSteps.Globe && (
+                                    <div className="cb-scene-page-scene-globe-container">
+                                        <ADT3DGlobe
+                                            theme={theme}
+                                            adapter={adapter as IBlobAdapter}
+                                            onSceneClick={(scene) => {
+                                                handleOnSceneClick(scene);
+                                            }}
+                                        />
+                                    </div>
+                                )}
+                                {state.currentStep ===
+                                    ADT3DScenePageSteps.Scene && (
+                                    <>
+                                        <div className="cb-scene-builder-and-viewer-container">
+                                            <ADT3DSceneBuilderContainer
+                                                mode={deeplinkState.mode}
+                                                scenesConfig={
+                                                    state.scenesConfig
+                                                }
+                                                sceneId={deeplinkState.sceneId}
+                                                adapter={adapter}
+                                                theme={theme}
+                                                locale={locale}
+                                                localeStrings={localeStrings}
+                                                refetchConfig={() =>
+                                                    scenesConfig.callAdapter()
+                                                }
+                                            />
+                                        </div>
+                                    </>
+                                )}
+                            </>
                         )
-                    )}
-                    {state.currentStep === ADT3DScenePageSteps.Globe && (
-                        <div className="cb-scene-page-scene-globe-container">
-                            <ADT3DGlobe
-                                theme={theme}
-                                adapter={adapter as IBlobAdapter}
-                                onSceneClick={(scene) => {
-                                    handleOnSceneClick(scene);
-                                }}
-                            />
-                        </div>
-                    )}
-                    {state.currentStep === ADT3DScenePageSteps.Scene && (
-                        <>
-                            <div className="cb-scene-builder-and-viewer-container">
-                                <ADT3DSceneBuilderContainer
-                                    mode={deeplinkState.mode}
-                                    scenesConfig={state.scenesConfig}
-                                    sceneId={deeplinkState.sceneId}
-                                    adapter={adapter}
-                                    theme={theme}
-                                    locale={locale}
-                                    localeStrings={localeStrings}
-                                    refetchConfig={() =>
-                                        scenesConfig.callAdapter()
-                                    }
-                                />
-                            </div>
-                        </>
                     )}
                 </BaseComponent>
             </div>

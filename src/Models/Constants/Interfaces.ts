@@ -31,7 +31,8 @@ import {
     GlobeTheme,
     ViewerModeStyles,
     AzureResourceTypes,
-    AzureAccessPermissionRoles
+    AzureAccessPermissionRoles,
+    StepperWizardType
 } from './Enums';
 import {
     AdapterReturnType,
@@ -666,9 +667,13 @@ export interface IStepperWizardStep {
 }
 
 export interface IStepperWizardProps {
+    type: StepperWizardType;
     steps: Array<IStepperWizardStep>;
     currentStepIndex?: number;
+    isCurrentStepWithWarning?: boolean;
     isNavigationDisabled?: boolean;
+    includeIcons?: boolean;
+    isAllCompletedSuccessfully?: boolean; // to color the steps green
 }
 
 export interface IJSONUploaderProps {

@@ -1,6 +1,9 @@
 import { ADT3DSceneAdapter, MockAdapter } from '../../Adapters';
-import ADTScenesConfigData from '../../Models/Classes/AdapterDataClasses/ADTScenesConfigData';
-import { IComponentError, IUseAdapter } from '../../Models/Constants';
+import {
+    IAdapterData,
+    IComponentError,
+    IUseAdapter
+} from '../../Models/Constants';
 
 export interface ScenePageErrorHandlingWrapperProps {
     adapter: ADT3DSceneAdapter | MockAdapter;
@@ -9,5 +12,11 @@ export interface ScenePageErrorHandlingWrapperProps {
         buttonText: string;
         onClick: () => void;
     };
-    reloadPageAdapterData?: IUseAdapter<ADTScenesConfigData>;
+    verifyCallbackAdapterData?: IUseAdapter<IAdapterData>;
+}
+
+export interface UnauthorizedAccessHandlingProps {
+    adapter: ADT3DSceneAdapter | MockAdapter;
+    errors: Array<IComponentError>;
+    verifyCallbackAdapterData?: IUseAdapter<IAdapterData>;
 }

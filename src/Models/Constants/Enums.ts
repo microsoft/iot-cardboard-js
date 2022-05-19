@@ -258,3 +258,8 @@ export enum ScenePageErrorHandlingMode {
     FinishedWithSuccess,
     FinishedWithFailure
 }
+
+export enum StepperWizardType {
+    Vertical = 'vertical',
+    Horizontal = 'horizontal'
+}
