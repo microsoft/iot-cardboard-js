@@ -214,6 +214,7 @@ const BehaviorTwinAliasForm: React.FC<{
         <>
             <div className={commonFormStyles.content}>
                 <TextField
+                    data-testid={'behavior-alias-twin-name-text-field'}
                     label={t(
                         '3dSceneBuilder.twinAlias.twinAliasForm.aliasNameLabel'
                     )}
