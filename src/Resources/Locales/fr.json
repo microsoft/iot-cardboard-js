@@ -863,5 +863,6 @@
     "quickstartLinkText": "Démarrage rapide",
     "primaryButtonText": "Explorez la démo",
     "dismissText": "Congédier"
-  }
+  },
+  "noName": "Pas de nom"
 }
