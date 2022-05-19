@@ -404,7 +404,6 @@
     "behaviorMetaText": "{{numElementsInActiveScene}} elementy, {{numSceneRefs}} scény",
     "elementMetaText": "{{numBehaviors}} chování",
     "primaryTwin": "Primární dvojče",
-    "noMeshAddedText": "Zatím nebyly přidány žádné sítě, vyberte sítě v prohlížeči 3D",
     "meshes": "Sítě",
     "behaviorElementsDropdownLabel": "Cílový prvek",
     "behaviorElementsDropdownPlaceholder": "Výběr prvku",
@@ -508,11 +507,18 @@
       "meshTabName": "Sítě",
       "behaviorsTabName": "Chování",
       "twinTabName": "Ostatní dvojčata",
-      "primaryTwinInputInfo": "Zadejte ID dvojčete ($dtId) pro propojení s tímto prvkem (rozlišují se malá a velká písmena)."
+      "twinNameTooltip": "V tomto poli se rozlišují malá a velká písmena",
+      "twinNameDescription": "Vyberte digitální dvojče, se kterým chcete tento prvek propojit. Vlastnosti tohoto propojeného dvojčete použijete pro přidružená chování."
     },
     "elementFormTwinTab": {
       "tabDescription": "Tato dvojčata obsahují data nad rámec vašeho primárního dvojčete, která můžete využít ve svém stavu, výstrahách a widgetech pro vaše chování.",
       "noDataMessage": "Když vytvoříte další dvojčata v chování tohoto prvku, zobrazí se zde."
+    },
+    "elementFormMeshTab": {
+      "noDataMessage": "Vyberte přidružené mřížky z 3D modelu pro tento prvek."
+    },
+    "elementBehaviorMeshTab": {
+      "noDataMessage": "Přiřaďte nebo upravte chování pro tento prvek. Chování můžete kdykoli přidat později."
     }
   },
   "widgets": {

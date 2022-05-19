@@ -404,7 +404,6 @@
     "behaviorMetaText": "{{numElementsInActiveScene}} elementos, {{numSceneRefs}} escenas",
     "elementMetaText": "{{numBehaviors}} comportamientos",
     "primaryTwin": "Gemelo primario",
-    "noMeshAddedText": "Aún no se han agregado mallas, seleccione mallas en el visor 3D",
     "meshes": "Mallas",
     "behaviorElementsDropdownLabel": "Elemento de destino",
     "behaviorElementsDropdownPlaceholder": "Seleccionar un elemento",
@@ -508,11 +507,18 @@
       "meshTabName": "Mallas",
       "behaviorsTabName": "Comportamientos",
       "twinTabName": "Otros gemelos",
-      "primaryTwinInputInfo": "Introduzca el ID de gemelo ($dtId) para vincular con este elemento (distingue entre mayúsculas y minúsculas)"
+      "twinNameTooltip": "Este campo distingue entre mayúsculas y minúsculas",
+      "twinNameDescription": "Seleccione un gemelo digital al que vincular este elemento. Utilizará las propiedades de este gemelo vinculado para los comportamientos asociados."
     },
     "elementFormTwinTab": {
       "tabDescription": "Estos gemelos contienen datos más allá de su gemelo principal que puede aprovechar en su estado, alertas y widgets para sus comportamientos.",
       "noDataMessage": "Cuando crees gemelos adicionales en los comportamientos de este elemento, aparecerán aquí."
+    },
+    "elementFormMeshTab": {
+      "noDataMessage": "Seleccione las mallas asociadas de su modelo 3D para este elemento."
+    },
+    "elementBehaviorMeshTab": {
+      "noDataMessage": "Asigne o modifique comportamientos para este elemento. Siempre puede agregar comportamientos más adelante."
     }
   },
   "widgets": {

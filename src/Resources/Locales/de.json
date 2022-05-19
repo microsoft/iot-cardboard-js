@@ -404,7 +404,6 @@
     "behaviorMetaText": "{{numElementsInActiveScene}}-Elemente, {{numSceneRefs}}-Szenen",
     "elementMetaText": "{{numBehaviors}} Verhalten",
     "primaryTwin": "Primärer Zwilling",
-    "noMeshAddedText": "Noch keine Meshes hinzugefügt, bitte wählen Sie Meshes im 3D-Viewer aus",
     "meshes": "Maschen",
     "behaviorElementsDropdownLabel": "Zielelement",
     "behaviorElementsDropdownPlaceholder": "Auswählen eines Elements",
@@ -508,11 +507,18 @@
       "meshTabName": "Maschen",
       "behaviorsTabName": "Verhaltensweisen",
       "twinTabName": "Andere Zwillinge",
-      "primaryTwinInputInfo": "Geben Sie eine Zwillings-ID ($dtId) ein, um eine Verknüpfung mit diesem Element herzustellen (Groß-/Kleinschreibung beachten)"
+      "twinNameTooltip": "Bei diesem Feld wird zwischen Groß- und Kleinschreibung unterschieden",
+      "twinNameDescription": "Wählen Sie einen digitalen Zwilling aus, mit dem dieses Element verknüpft werden soll. Sie verwenden die Eigenschaften dieses verknüpften Zwillings für zugeordnete Verhaltensweisen."
     },
     "elementFormTwinTab": {
       "tabDescription": "Diese Zwillinge enthalten Daten, die über Ihren primären Zwilling hinausgehen und die Sie in Ihrem Status, Ihren Warnungen und Widgets für Ihr Verhalten nutzen können.",
       "noDataMessage": "Wenn Sie zusätzliche Zwillinge im Verhalten dieses Elements erstellen, werden diese hier angezeigt."
+    },
+    "elementFormMeshTab": {
+      "noDataMessage": "Wählen Sie die zugehörigen Netze aus dem 3D-Modell für dieses Element aus."
+    },
+    "elementBehaviorMeshTab": {
+      "noDataMessage": "Zuweisen oder Ändern von Verhalten für dieses Element. Sie können Verhaltensweisen später jederzeit hinzufügen."
     }
   },
   "widgets": {

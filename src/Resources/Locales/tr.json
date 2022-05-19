@@ -404,7 +404,6 @@
     "behaviorMetaText": "{{numElementsInActiveScene}} öğeleri, {{numSceneRefs}} sahneleri",
     "elementMetaText": "{{numBehaviors}} davranışları",
     "primaryTwin": "Birincil ikiz",
-    "noMeshAddedText": "Henüz kafes eklenmedi, lütfen 3B görüntüleyicide kafesleri seçin",
     "meshes": "Kafes",
     "behaviorElementsDropdownLabel": "Hedef öğe",
     "behaviorElementsDropdownPlaceholder": "Bir öğe seçin",
@@ -508,11 +507,18 @@
       "meshTabName": "Kafes",
       "behaviorsTabName": "Davranış",
       "twinTabName": "Diğer ikizler",
-      "primaryTwinInputInfo": "Bu öğeyle bağlantı kurmak için ikiz kimliği ($dtId) girin (büyük/küçük harfe duyarlı)"
+      "twinNameTooltip": "Bu alan büyük/küçük harfe duyarlıdır",
+      "twinNameDescription": "Bu öğeyi bağlamak için bir dijital ikiz seçin. İlişkili davranışlar için bu bağlantılı ikizin özelliklerini kullanacaksınız."
     },
     "elementFormTwinTab": {
       "tabDescription": "Bu ikizler, birincil ikizinizin ötesinde, davranışlarınız için durumunuzda, uyarılarınızda ve widget'larınızda yararlanabileceğiniz veriler içerir.",
       "noDataMessage": "Bu öğenin davranışlarında ek ikizler oluşturduğunuzda, burada görünürler."
+    },
+    "elementFormMeshTab": {
+      "noDataMessage": "Bu öğe için 3B modelinizden ilişkili ağları seçin."
+    },
+    "elementBehaviorMeshTab": {
+      "noDataMessage": "Bu öğe için davranışları atayın veya değiştirin. Daha sonra istediğiniz zaman davranış ekleyebilirsiniz."
     }
   },
   "widgets": {

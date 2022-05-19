@@ -404,7 +404,6 @@
     "behaviorMetaText": "{{numElementsInActiveScene}} elements, {{numSceneRefs}} scènes",
     "elementMetaText": "{{numBehaviors}} comportements",
     "primaryTwin": "Jumeau principal",
-    "noMeshAddedText": "Aucun maillage ajouté pour le moment, veuillez sélectionner les maillages dans la visionneuse 3D",
     "meshes": "Mailles",
     "behaviorElementsDropdownLabel": "Élément cible",
     "behaviorElementsDropdownPlaceholder": "Sélectionner un élément",
@@ -508,11 +507,18 @@
       "meshTabName": "Mailles",
       "behaviorsTabName": "Comportements",
       "twinTabName": "Autres jumeaux",
-      "primaryTwinInputInfo": "Entrez un ID jumeau ($dtId) pour créer un lien avec cet élément (sensible à la casse)"
+      "twinNameTooltip": "Ce champ est sensible à la casse",
+      "twinNameDescription": "Sélectionnez un jumeau numérique auquel lier cet élément. Vous utiliserez les propriétés de ce jumeau lié pour les comportements associés."
     },
     "elementFormTwinTab": {
       "tabDescription": "Ces jumeaux contiennent des données au-delà de votre jumeau principal que vous pouvez exploiter dans votre statut, vos alertes et vos widgets pour vos comportements.",
       "noDataMessage": "Lorsque vous créez des jumeaux supplémentaires dans les comportements de cet élément, ils apparaissent ici."
+    },
+    "elementFormMeshTab": {
+      "noDataMessage": "Sélectionnez les maillages associés à partir de votre modèle 3D pour cet élément."
+    },
+    "elementBehaviorMeshTab": {
+      "noDataMessage": "Attribuez ou modifiez des comportements pour cet élément. Vous pouvez toujours ajouter des comportements ultérieurement."
     }
   },
   "widgets": {

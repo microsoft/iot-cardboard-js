@@ -404,7 +404,6 @@
     "behaviorMetaText": "{{numElementsInActiveScene}} elements, {{numSceneRefs}} scenes",
     "elementMetaText": "{{numBehaviors}} ビヘイビア",
     "primaryTwin": "プライマリツイン",
-    "noMeshAddedText": "メッシュはまだ追加されていません。3Dビューアでメッシュを選択してください",
     "meshes": "メッシュ",
     "behaviorElementsDropdownLabel": "ターゲット要素",
     "behaviorElementsDropdownPlaceholder": "要素の選択",
@@ -508,11 +507,18 @@
       "meshTabName": "メッシュ",
       "behaviorsTabName": "動作",
       "twinTabName": "その他の双子",
-      "primaryTwinInputInfo": "ツイン ID ($dtId) を入力して、この要素とリンクします (大文字と小文字を区別します)。"
+      "twinNameTooltip": "このフィールドでは大文字と小文字が区別されます",
+      "twinNameDescription": "この要素をリンクするデジタルツインを選択します。このリンクされたツインのプロパティは、関連する動作に使用します。"
     },
     "elementFormTwinTab": {
       "tabDescription": "これらのツインには、プライマリ ツイン以外のデータが含まれており、状態、アラート、および動作のウィジェットで活用できます。",
       "noDataMessage": "この要素の動作に追加のツインを作成すると、ここに表示されます。"
+    },
+    "elementFormMeshTab": {
+      "noDataMessage": "この要素の 3D モデルから関連メッシュを選択します。"
+    },
+    "elementBehaviorMeshTab": {
+      "noDataMessage": "この要素の動作を割り当てまたは変更します。ビヘイビアは後でいつでも追加できます。"
     }
   },
   "widgets": {

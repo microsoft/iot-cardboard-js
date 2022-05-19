@@ -404,7 +404,6 @@
     "behaviorMetaText": "{{numElementsInActiveScene}} elements, {{numSceneRefs}} scenes",
     "elementMetaText": "{{numBehaviors}} beteenden",
     "primaryTwin": "Primär tvilling",
-    "noMeshAddedText": "Inga maskor har lagts till ännu, välj maskor i 3D-visaren",
     "meshes": "Maskor",
     "behaviorElementsDropdownLabel": "Målelement",
     "behaviorElementsDropdownPlaceholder": "Välj ett element",
@@ -508,11 +507,18 @@
       "meshTabName": "Maskor",
       "behaviorsTabName": "Beteenden",
       "twinTabName": "Andra tvillingar",
-      "primaryTwinInputInfo": "Ange tvilling-ID ($dtId) för att länka till det här elementet (skiftlägeskänsligt)"
+      "twinNameTooltip": "Det här fältet är skiftlägeskänsligt",
+      "twinNameDescription": "Välj en digital tvilling att länka det här elementet till. Du kommer att använda den länkade tvillingens egenskaper för associerade beteenden."
     },
     "elementFormTwinTab": {
       "tabDescription": "Dessa tvillingar innehåller data utöver din primära tvilling som du kan utnyttja i din status, aviseringar och widgetar för dina beteenden.",
       "noDataMessage": "När du skapar ytterligare tvillingar i det här elementets beteenden visas de här."
+    },
+    "elementFormMeshTab": {
+      "noDataMessage": "Välj associerade maskor från din 3D-modell för det här elementet."
+    },
+    "elementBehaviorMeshTab": {
+      "noDataMessage": "Tilldela eller ändra beteenden för det här elementet. Du kan alltid lägga till beteenden senare."
     }
   },
   "widgets": {

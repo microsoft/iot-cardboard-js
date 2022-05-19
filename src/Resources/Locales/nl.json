@@ -404,7 +404,6 @@
     "behaviorMetaText": "{{numElementsInActiveScene}} elementen, {{numSceneRefs}} scènes",
     "elementMetaText": "{{numBehaviors}} behaviors",
     "primaryTwin": "Primaire tweeling",
-    "noMeshAddedText": "Nog geen meshes toegevoegd, selecteer meshes in 3D viewer",
     "meshes": "Netten",
     "behaviorElementsDropdownLabel": "Doelelement",
     "behaviorElementsDropdownPlaceholder": "Selecteer een element",
@@ -508,11 +507,18 @@
       "meshTabName": "Netten",
       "behaviorsTabName": "Gedrag",
       "twinTabName": "Andere tweelingen",
-      "primaryTwinInputInfo": "Voer dubbele ID ($dtId) in om met dit element te koppelen (hoofdlettergevoelig)"
+      "twinNameTooltip": "Dit veld is hoofdlettergevoelig",
+      "twinNameDescription": "Selecteer een digitale tweeling waaraan u dit element wilt koppelen. Je gebruikt de eigenschappen van deze gekoppelde tweeling voor geassocieerd gedrag."
     },
     "elementFormTwinTab": {
       "tabDescription": "Deze tweelingen bevatten gegevens die verder gaan dan je primaire tweeling die je kunt gebruiken in je status, waarschuwingen en widgets voor je gedrag.",
       "noDataMessage": "Wanneer je extra tweelingen creëert in het gedrag van dit element, verschijnen ze hier."
+    },
+    "elementFormMeshTab": {
+      "noDataMessage": "Selecteer gekoppelde netten in uw 3D-model voor dit element."
+    },
+    "elementBehaviorMeshTab": {
+      "noDataMessage": "Gedrag voor dit element toewijzen of wijzigen. U kunt later altijd gedragingen toevoegen."
     }
   },
   "widgets": {
