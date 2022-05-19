@@ -545,7 +545,7 @@
             "title": "Link widget",
             "libraryName": "Link",
             "description": "Navigate to URLs specific to the element",
-            "urlPlaceholder": "https://mypowerbi.biz/${PrimaryTwin.$dtId}",
+            "urlPlaceholder": "https://contoso.com/userManual/${PrimaryTwin.SerialNumber}",
             "openLink": "Open link"
         },
         "value": {
@@ -781,10 +781,10 @@
     },
     "modelViewerModePicker": {
         "buttonLabel": "Theme",
-        "title": "Viewer Theme",
-        "style": "Style",
-        "objectColors": "Object color",
-        "background": "Background",
+        "title": "Scene Theme",
+        "style": "3D model style",
+        "objectColors": "3D model color",
+        "background": "Scene background",
         "default": "Default",
         "transparent": "Transparent",
         "wireframe": "Wireframe"
