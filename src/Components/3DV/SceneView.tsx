@@ -59,7 +59,7 @@ import { ModelGroupLabel } from '../ModelGroupLabel/ModelGroupLabel';
 import { MarkersPlaceholder } from './Internal/MarkersPlaceholder';
 import { Markers } from './Internal/Markers';
 
-export const showFpsCounter = false;
+export const showFpsCounter = true;
 const debugLogging = false;
 const debugLog = getDebugLogger('SceneView', debugLogging);
 
@@ -912,25 +912,27 @@ function SceneView(props: ISceneViewProps, ref) {
                 );
                 //Fast, approximate anti-aliasing removes the jagged edge appearance from meshes by doing a pass over the screen
                 defaultPipeline.fxaaEnabled = true;
+
                 //Add a Screen Space Ambient Occlusion pass to add soft shadowing in crevices and between objects.
-                const ssao = new BABYLON.SSAO2RenderingPipeline(
-                    'ssao',
-                    sceneRef.current,
-                    {
-                        ssaoRatio: 1, // Ratio of the SSAO post-process, in a lower resolution
-                        blurRatio: 1 // Ratio of the combine post-process (combines the SSAO and the scene)
-                    }
-                );
-                ssao.radius = 8;
-                ssao.totalStrength = 0.9;
-                ssao.expensiveBlur = true;
-                ssao.samples = 16;
-                ssao.maxZ = 100;
+                // const ssao = new BABYLON.SSAO2RenderingPipeline(
+                //     'ssao',
+                //     sceneRef.current,
+                //     {
+                //         ssaoRatio: 1, // Ratio of the SSAO post-process, in a lower resolution
+                //         blurRatio: 1 // Ratio of the combine post-process (combines the SSAO and the scene)
+                //     }
+                // );
+                // ssao.radius = 8;
+                // ssao.totalStrength = 0.9;
+                // ssao.expensiveBlur = true;
+                // ssao.samples = 16;
+                // ssao.maxZ = 100;
+
                 //Attach the ssao pass to the current camera
-                sceneRef.current.postProcessRenderPipelineManager.attachCamerasToRenderPipeline(
-                    'ssao',
-                    cameraRef.current
-                );
+                // sceneRef.current.postProcessRenderPipelineManager.attachCamerasToRenderPipeline(
+                //     'ssao',
+                //     cameraRef.current
+                // );
             }
         }
 
@@ -1548,37 +1550,33 @@ function SceneView(props: ISceneViewProps, ref) {
                 if (currentMesh) {
                     let meshToOutline = currentMesh;
                     try {
-                        if (currentMesh.material.wireframe === true) {
-                            // When outlining a wireframed object, we only want to outline the silhouette, not the wireframe
-                            // lines themselves.  To do this we need to duplicate the mesh, disable wireframe rendering and set
-                            // the alpha to 0 so we do not see it.
-                            const clone = currentMesh.clone(
-                                '',
-                                null,
-                                true,
-                                false
-                            );
+                        //if (currentMesh.material.wireframe === true) {
+                        // When outlining a wireframed object, we only want to outline the silhouette, not the wireframe
+                        // lines themselves.  To do this we need to duplicate the mesh, disable wireframe rendering and set
+                        // the alpha to 0 so we do not see it.
+                        const clone = currentMesh.clone('', null, true, false);
 
-                            // For some reason when rendering the duplicated outline mesh at 1:1 scale we get outline artifacts
-                            // on the wireframe itself.  We scale this up slightly to alleviate this.
+                        // For some reason when rendering the duplicated outline mesh at 1:1 scale we get outline artifacts
+                        // on the wireframe itself.  We scale this up slightly to alleviate this.
+                        if (currentMesh.material.wireframe === true)
                             clone.scaling = new BABYLON.Vector3(
                                 1.01,
                                 1.01,
                                 1.01
                             );
 
-                            clone.material = new BABYLON.StandardMaterial(
-                                'standard',
-                                scene
-                            );
-                            clone.material.alpha = 0.0;
-                            clone.alphaIndex = 2;
-                            clone.isPickable = false;
-                            clonedHighlightMeshes.current.push(clone);
-                            sceneRef.current.meshes.push(clone);
-                            meshToOutline = clone;
-                            highlightLayer.current.addExcludedMesh(currentMesh);
-                        }
+                        clone.material = new BABYLON.StandardMaterial(
+                            'standard',
+                            scene
+                        );
+                        clone.material.alpha = 0.0;
+                        clone.alphaIndex = 2;
+                        clone.isPickable = false;
+                        clonedHighlightMeshes.current.push(clone);
+                        sceneRef.current.meshes.push(clone);
+                        meshToOutline = clone;
+                        highlightLayer.current.addExcludedMesh(currentMesh);
+                        //}
                         highlightLayer.current.addMesh(
                             meshToOutline,
                             ToColor3(
