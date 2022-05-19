@@ -29,7 +29,7 @@ export const getStyles = (
             classNames.subHeader,
             {
                 color: theme.palette.neutralSecondary,
-                fontSize: FontSizes.size16
+                fontSize: FontSizes.medium
             }
         ],
         subHeaderIcon: [classNames.subHeaderIcon],

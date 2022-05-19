@@ -437,6 +437,7 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
             <TextField
                 className="cb-scene-list-form-dialog-description-field"
                 label={t('scenes.description')}
+                placeholder={t('scenes.sceneDescriptionPlaceholder')}
                 title={newSceneDescription}
                 value={sceneToEdit ? scene?.description : newSceneDescription}
                 onChange={handleSceneDescriptionChange}

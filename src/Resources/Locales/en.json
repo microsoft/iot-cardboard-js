@@ -173,6 +173,7 @@
         "dialogTitleEdit": "Edit your 3D scene",
         "3dFileSelectionMode": "3D file selection mode",
         "sceneNamePlaceholder": "Enter a scene name",
+        "sceneDescriptionPlaceholder": "Enter a scene description",
         "tabNameFromContainer": "Choose file",
         "tabNameUploadFile": "Upload file",
         "3dFileAsset": "Link 3D file",
