@@ -64,7 +64,7 @@ import { ModelGroupLabel } from '../ModelGroupLabel/ModelGroupLabel';
 import { MarkersPlaceholder } from './Internal/MarkersPlaceholder';
 import { Markers } from './Internal/Markers';
 
-export const showFpsCounter = true;
+export const showFpsCounter = false;
 const debugLogging = false;
 const debugLog = getDebugLogger('SceneView', debugLogging);
 
