@@ -451,6 +451,16 @@
             "tabDescription": "These twins contain data beyond your primary twin that you can leverage in your status, alerts, and widgets for your behaviors.",
             "noDataMessage": "When you create additional twins in this element's behaviors, they'll show up here."
         },
+        "widgetLibrary": {
+            "dialogTitle": "Widget library",
+            "dialogSubTitle": "Explore widgets and display data-driven-insights for your element",
+            "gaugeItemTitle": "Gauge",
+            "gaugeItemDescription": "Represent numeric properties with custom ranges",
+            "linkItemTitle": "Link",
+            "linkItemDescription": "Navigate to URLs specific to the element",
+            "valueItemTitle": "Value",
+            "valueItemDescription": "Display any primitive property"
+        },
         "twinPropertyDropdown": {
             "propertyDropdownLabel": "Property",
             "noElementsSelected": "No elements selected",
@@ -469,9 +479,8 @@
         },
         "numericExpressionPlaceholder": "Enter an expression which evaluates to a number",
         "behaviorId": "Behavior Id",
-        "widgetLibrary": "Widget library",
-        "exploreWidgets": "Explore our widgets and add an extra layer of information to your 3D scene.",
         "newWidget": "New widget",
+        "addWidget": "Add widget",
         "createWidget": "Create widget",
         "updateWidget": "Update widget",
         "editWidget": "Edit widget",
