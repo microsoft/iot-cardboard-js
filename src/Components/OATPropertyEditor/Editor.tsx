@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Theme } from '../../Models/Constants/Enums';
 import {
     FontIcon,
@@ -16,8 +16,6 @@ import PropertyList from './PropertyList';
 import JSONEditor from './JSONEditor';
 import TemplateColumn from './TemplateColumn';
 import PropertiesModelSummary from './PropertiesModelSummary';
-import PropertySelector from './PropertySelector';
-import AddPropertyBar from './AddPropertyBar';
 import { SET_OAT_TEMPLATES_ACTIVE } from '../../Models/Constants/ActionTypes';
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 import { getModelPropertyCollectionName } from './Utils';
@@ -51,16 +49,25 @@ const Editor = ({
     const [draggingProperty, setDraggingProperty] = useState(false);
     const enteredTemplateRef = useRef(null);
     const enteredPropertyRef = useRef(null);
-    const [hover, setHover] = useState(false);
     const [propertyOnHover, setPropertyOnHover] = useState(false);
-    const [propertySelectorVisible, setPropertySelectorVisible] = useState(
-        false
-    );
+    const [propertyList, setPropertyList] = useState([]);
     const { model, templatesActive } = state;
 
     const propertiesKeyName = getModelPropertyCollectionName(
         model ? model['@type'] : null
     );
+
+    useEffect(() => {
+        // Get contents excluding relationship items
+        if (model && model[propertiesKeyName].length > 0) {
+            const propertyItems = model[propertiesKeyName].filter(
+                (property) => property['@type'] !== 'Relationship'
+            );
+            setPropertyList(propertyItems);
+            return;
+        }
+        setPropertyList([]);
+    }, [model]);
 
     return (
         <div className={propertyInspectorStyles.container}>
@@ -79,21 +86,13 @@ const Editor = ({
                         className={
                             propertyInspectorStyles.propertyListHeaderWrap
                         }
-                        onMouseOver={() => {
-                            setHover(true);
-                        }}
-                        onMouseLeave={() => {
-                            setHover(false);
-                            setPropertySelectorVisible(false);
-                            setPropertyOnHover(false);
-                        }}
                     >
                         <Stack
                             className={propertyInspectorStyles.rowSpaceBetween}
                         >
                             <Label>{`${t('OATPropertyEditor.properties')} ${
-                                model && model[propertiesKeyName].length > 0
-                                    ? `(${model[propertiesKeyName].length})`
+                                propertyList.length > 0
+                                    ? `(${propertyList.length})`
                                     : ''
                             }`}</Label>
                             <ActionButton
@@ -118,23 +117,6 @@ const Editor = ({
                                 </Text>
                             </ActionButton>
                         </Stack>
-                        {propertySelectorVisible && (
-                            <PropertySelector
-                                setPropertySelectorVisible={
-                                    setPropertySelectorVisible
-                                }
-                                lastPropertyFocused={null}
-                                dispatch={dispatch}
-                                state={state}
-                            />
-                        )}
-                        {hover && model && model[propertiesKeyName].length > 0 && (
-                            <AddPropertyBar
-                                onMouseOver={() => {
-                                    setPropertySelectorVisible(true);
-                                }}
-                            />
-                        )}
                     </div>
 
                     <PropertyList
@@ -154,6 +136,7 @@ const Editor = ({
                         setModalBody={setModalBody}
                         setPropertyOnHover={setPropertyOnHover}
                         propertyOnHover={propertyOnHover}
+                        propertyList={propertyList}
                     />
                 </PivotItem>
                 <PivotItem

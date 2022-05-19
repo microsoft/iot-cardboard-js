@@ -11,7 +11,7 @@ import {
     SET_OAT_PROPERTY_EDITOR_MODEL,
     SET_OAT_TEMPLATES
 } from '../../Models/Constants/ActionTypes';
-import { IAction } from '../../Models/Constants/Interfaces';
+import { DTDLProperty, IAction } from '../../Models/Constants/Interfaces';
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 import { getModelPropertyCollectionName } from './Utils';
 
@@ -21,6 +21,7 @@ type IPropertyList = {
     draggingTemplate: boolean;
     enteredPropertyRef: any;
     enteredTemplateRef: any;
+    propertyList?: DTDLProperty[];
     propertyOnHover: boolean;
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
     setCurrentNestedPropertyIndex: React.Dispatch<React.SetStateAction<number>>;
@@ -45,6 +46,7 @@ export const PropertyList = ({
     currentPropertyIndex,
     dispatch,
     state,
+    propertyList,
     propertyOnHover,
     setPropertyOnHover
 }: IPropertyList) => {
@@ -191,50 +193,49 @@ export const PropertyList = ({
             }}
         >
             <div className={propertyInspectorStyles.propertiesWrapScroll}>
-                {model &&
-                    model[propertiesKeyName] &&
-                    model[propertiesKeyName].length === 0 && (
-                        <div
-                            className={
-                                propertyInspectorStyles.addPropertyMessageWrap
-                            }
-                            onMouseOver={() => {
-                                setActionButtonPropertySelectorVisible(true);
-                                setLastPropertyFocused(null);
-                            }}
-                            onMouseLeave={() =>
-                                setActionButtonPropertySelectorVisible(false)
-                            }
+                {model && propertyList && propertyList.length === 0 && (
+                    <div
+                        className={
+                            propertyInspectorStyles.addPropertyMessageWrap
+                        }
+                        onMouseOver={() => {
+                            setActionButtonPropertySelectorVisible(true);
+                            setLastPropertyFocused(null);
+                        }}
+                        onMouseLeave={() =>
+                            setActionButtonPropertySelectorVisible(false)
+                        }
+                    >
+                        {actionButtonPropertySelectorVisible && (
+                            <PropertySelector
+                                setPropertySelectorVisible={
+                                    setActionButtonPropertySelectorVisible
+                                }
+                                lastPropertyFocused={lastPropertyFocused}
+                                dispatch={dispatch}
+                                state={state}
+                                onTagClickCallback={() => {
+                                    setHover(false);
+                                    setPropertyOnHover(false);
+                                }}
+                                className={
+                                    propertyInspectorStyles.propertySelectorAddMore
+                                }
+                            />
+                        )}
+                        <ActionButton
+                            styles={{ root: { paddingLeft: '10px' } }}
                         >
-                            {actionButtonPropertySelectorVisible && (
-                                <PropertySelector
-                                    setPropertySelectorVisible={
-                                        setActionButtonPropertySelectorVisible
-                                    }
-                                    lastPropertyFocused={lastPropertyFocused}
-                                    dispatch={dispatch}
-                                    state={state}
-                                    onTagClickCallback={() => {
-                                        setHover(false);
-                                        setPropertyOnHover(false);
-                                    }}
-                                />
-                            )}
-                            <ActionButton
-                                styles={{ root: { paddingLeft: '10px' } }}
-                            >
-                                <FontIcon
-                                    iconName={'CirclePlus'}
-                                    className={
-                                        propertyInspectorStyles.iconAddProperty
-                                    }
-                                />
-                                <Text>
-                                    {t('OATPropertyEditor.addProperty')}
-                                </Text>
-                            </ActionButton>
-                        </div>
-                    )}
+                            <FontIcon
+                                iconName={'CirclePlus'}
+                                className={
+                                    propertyInspectorStyles.iconAddProperty
+                                }
+                            />
+                            <Text>{t('OATPropertyEditor.addProperty')}</Text>
+                        </ActionButton>
+                    </div>
+                )}
 
                 {model &&
                     model[propertiesKeyName] &&
@@ -293,7 +294,6 @@ export const PropertyList = ({
                                     }
                                     setModalOpen={setModalOpen}
                                     item={item}
-                                    lastPropertyFocused={lastPropertyFocused}
                                     setLastPropertyFocused={
                                         setLastPropertyFocused
                                     }
@@ -319,6 +319,7 @@ export const PropertyList = ({
                             <AddPropertyBar
                                 onMouseOver={() => {
                                     setPropertySelectorVisible(true);
+                                    setLastPropertyFocused(null);
                                 }}
                             />
                         )}

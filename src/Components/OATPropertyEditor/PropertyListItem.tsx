@@ -13,14 +13,8 @@ import {
     SET_OAT_PROPERTY_EDITOR_MODEL,
     SET_OAT_TEMPLATES
 } from '../../Models/Constants/ActionTypes';
-import {
-    DTDLProperty,
-    IAction,
-    IOATLastPropertyFocused
-} from '../../Models/Constants/Interfaces';
+import { DTDLProperty, IAction } from '../../Models/Constants/Interfaces';
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
-import AddPropertyBar from './AddPropertyBar';
-import PropertySelector from './PropertySelector';
 import {
     getModelPropertyCollectionName,
     getModelPropertyListItemName
@@ -37,7 +31,6 @@ type IPropertyListItem = {
     handleDragEnterExternalItem?: (index: number) => any;
     handleDragStart?: (event: any, item: any) => any;
     item?: DTDLProperty;
-    lastPropertyFocused?: IOATLastPropertyFocused;
     setCurrentPropertyIndex?: React.Dispatch<React.SetStateAction<number>>;
     setLastPropertyFocused?: React.Dispatch<React.SetStateAction<any>>;
     setModalBody?: React.Dispatch<React.SetStateAction<string>>;
@@ -59,7 +52,6 @@ export const PropertyListItem = ({
     setCurrentPropertyIndex,
     setModalOpen,
     item,
-    lastPropertyFocused,
     setLastPropertyFocused,
     setModalBody,
     setPropertyOnHover,
@@ -71,10 +63,6 @@ export const PropertyListItem = ({
     const iconWrapMoreStyles = getPropertyListItemIconWrapMoreStyles();
     const textFieldStyles = getPropertyEditorTextFieldStyles();
     const [subMenuActive, setSubMenuActive] = useState(false);
-    const [hover, setHover] = useState(false);
-    const [propertySelectorVisible, setPropertySelectorVisible] = useState(
-        false
-    );
     const { model, templates } = state;
 
     const propertiesKeyName = getModelPropertyCollectionName(
@@ -108,16 +96,12 @@ export const PropertyListItem = ({
         <div
             className={propertyInspectorStyles.propertyListRelativeWrap}
             onMouseOver={() => {
-                setHover(true);
                 setLastPropertyFocused({
                     item: item,
                     index: index
                 });
-                setPropertyOnHover(true);
             }}
             onMouseLeave={() => {
-                setHover(false);
-                setPropertySelectorVisible(false);
                 setPropertyOnHover(false);
             }}
         >
@@ -180,30 +164,7 @@ export const PropertyListItem = ({
                         />
                     )}
                 </IconButton>
-                {propertySelectorVisible && (
-                    <PropertySelector
-                        setPropertySelectorVisible={setPropertySelectorVisible}
-                        lastPropertyFocused={lastPropertyFocused}
-                        dispatch={dispatch}
-                        state={state}
-                        onTagClickCallback={() => {
-                            setHover(false);
-                            setPropertyOnHover(false);
-                        }}
-                    />
-                )}
             </div>
-            {hover && (
-                <AddPropertyBar
-                    onMouseOver={() => {
-                        setLastPropertyFocused({
-                            item: item,
-                            index: index
-                        });
-                        setPropertySelectorVisible(true);
-                    }}
-                />
-            )}
         </div>
     );
 };

@@ -3,8 +3,7 @@ import { TextField, Text, IconButton } from '@fluentui/react';
 import {
     getPropertyEditorTextFieldStyles,
     getPropertyListItemIconWrapStyles,
-    getPropertyListItemIconWrapMoreStyles,
-    getPropertyInspectorStyles
+    getPropertyListItemIconWrapMoreStyles
 } from './OATPropertyEditor.styles';
 import PropertyListItemSubMenu from './PropertyListItemSubMenu';
 import { deepCopy } from '../../Models/Services/Utils';
@@ -13,14 +12,8 @@ import {
     SET_OAT_PROPERTY_EDITOR_MODEL,
     SET_OAT_TEMPLATES
 } from '../../Models/Constants/ActionTypes';
-import {
-    IAction,
-    IOATLastPropertyFocused,
-    DTDLProperty
-} from '../../Models/Constants/Interfaces';
+import { IAction, DTDLProperty } from '../../Models/Constants/Interfaces';
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
-import AddPropertyBar from './AddPropertyBar';
-import PropertySelector from './PropertySelector';
 import {
     getModelPropertyCollectionName,
     getModelPropertyListItemName
@@ -38,7 +31,6 @@ type IPropertyListItemNested = {
     setCurrentPropertyIndex?: React.Dispatch<React.SetStateAction<number>>;
     setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
     state?: IOATEditorState;
-    lastPropertyFocused?: IOATLastPropertyFocused;
 };
 
 export const PropertyListItemNested = ({
@@ -52,19 +44,13 @@ export const PropertyListItemNested = ({
     setCurrentNestedPropertyIndex,
     setCurrentPropertyIndex,
     setModalOpen,
-    state,
-    lastPropertyFocused
+    state
 }: IPropertyListItemNested) => {
     const { t } = useTranslation();
-    const propertyInspectorStyles = getPropertyInspectorStyles();
     const textFieldStyles = getPropertyEditorTextFieldStyles();
     const iconWrapStyles = getPropertyListItemIconWrapStyles();
     const iconWrapMoreStyles = getPropertyListItemIconWrapMoreStyles();
     const [subMenuActive, setSubMenuActive] = useState(false);
-    const [hover, setHover] = useState(false);
-    const [propertySelectorVisible, setPropertySelectorVisible] = useState(
-        false
-    );
     const { model, templates } = state;
 
     const propertiesKeyName = getModelPropertyCollectionName(
@@ -96,79 +82,54 @@ export const PropertyListItemNested = ({
 
     return (
         <div
-            className={propertyInspectorStyles.propertyNestedItemRelativeWrap}
-            onMouseOver={() => {
-                setHover(true);
-            }}
-            onMouseLeave={() => {
-                setHover(false);
-            }}
+            className={getItemClassName(index)}
+            id={getModelPropertyListItemName(item.name)}
         >
-            <div
-                className={getItemClassName(index)}
-                id={getModelPropertyListItemName(item.name)}
+            <div></div> {/* Needed for gridTemplateColumns style  */}
+            <TextField
+                styles={textFieldStyles}
+                borderless
+                placeholder={getModelPropertyListItemName(item.name)}
+                validateOnFocusOut
+                onChange={() => {
+                    setCurrentPropertyIndex(parentIndex);
+                }}
+                onGetErrorMessage={getErrorMessage}
+            />
+            <Text>{item.schema}</Text>
+            <IconButton
+                styles={iconWrapStyles}
+                iconProps={{ iconName: 'info' }}
+                title={t('OATPropertyEditor.info')}
+                onClick={() => {
+                    setCurrentNestedPropertyIndex(index);
+                    setCurrentPropertyIndex(parentIndex);
+                    setModalOpen(true);
+                }}
+            />
+            <IconButton
+                styles={iconWrapMoreStyles}
+                iconProps={{ iconName: 'more' }}
+                title={t('OATPropertyEditor.more')}
+                onClick={() => setSubMenuActive(!subMenuActive)}
             >
-                <div></div> {/* Needed for gridTemplateColumns style  */}
-                <TextField
-                    styles={textFieldStyles}
-                    borderless
-                    placeholder={getModelPropertyListItemName(item.name)}
-                    validateOnFocusOut
-                    onChange={() => {
-                        setCurrentPropertyIndex(parentIndex);
-                    }}
-                    onGetErrorMessage={getErrorMessage}
-                />
-                <Text>{item.schema}</Text>
-                <IconButton
-                    styles={iconWrapStyles}
-                    iconProps={{ iconName: 'info' }}
-                    title={t('OATPropertyEditor.info')}
-                    onClick={() => {
-                        setCurrentNestedPropertyIndex(index);
-                        setCurrentPropertyIndex(parentIndex);
-                        setModalOpen(true);
-                    }}
-                />
-                <IconButton
-                    styles={iconWrapMoreStyles}
-                    iconProps={{ iconName: 'more' }}
-                    title={t('OATPropertyEditor.more')}
-                    onClick={() => setSubMenuActive(!subMenuActive)}
-                >
-                    {subMenuActive && (
-                        <PropertyListItemSubMenu
-                            deleteNestedItem={deleteNestedItem}
-                            index={index}
-                            parentIndex={parentIndex}
-                            subMenuActive={subMenuActive}
-                            handleTemplateAddition={() => {
-                                handleTemplateAddition();
-                            }}
-                            handleDuplicate={() => {
-                                handleDuplicate();
-                            }}
-                            targetId={getModelPropertyListItemName(item.name)}
-                            setSubMenuActive={setSubMenuActive}
-                        />
-                    )}
-                </IconButton>
-            </div>
-            {propertySelectorVisible && (
-                <PropertySelector
-                    setPropertySelectorVisible={setPropertySelectorVisible}
-                    lastPropertyFocused={lastPropertyFocused}
-                    dispatch={dispatch}
-                    state={state}
-                />
-            )}
-            {hover && (
-                <AddPropertyBar
-                    onMouseOver={() => {
-                        setPropertySelectorVisible(true);
-                    }}
-                />
-            )}
+                {subMenuActive && (
+                    <PropertyListItemSubMenu
+                        deleteNestedItem={deleteNestedItem}
+                        index={index}
+                        parentIndex={parentIndex}
+                        subMenuActive={subMenuActive}
+                        handleTemplateAddition={() => {
+                            handleTemplateAddition();
+                        }}
+                        handleDuplicate={() => {
+                            handleDuplicate();
+                        }}
+                        targetId={getModelPropertyListItemName(item.name)}
+                        setSubMenuActive={setSubMenuActive}
+                    />
+                )}
+            </IconButton>
         </div>
     );
 };

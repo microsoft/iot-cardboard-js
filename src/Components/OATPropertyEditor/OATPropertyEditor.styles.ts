@@ -28,6 +28,8 @@ const classNames = {
     propertiesWrap: `${classPrefix}-properties-wrap`,
     propertiesWrapScroll: `${classPrefix}-properties-wrap-scroll`,
     propertySelector: `${classPrefix}-row-property-selector`,
+    propertySelectorAddMore: `${classPrefix}-row-property-selector-add-more`,
+    propertySelectorNestItem: `${classPrefix}-row-property-selector-nest-item`,
     propertySelectorPropertyListHeader: `${classPrefix}-row-property-selector-property-list-header`,
     propertySelectorHeader: `${classPrefix}-row-property-selector-header`,
     iconClosePropertySelector: `${classPrefix}-icon-close-property-selector`,
@@ -58,6 +60,7 @@ const classNames = {
     addPropertyBar: `${classPrefix}-property-bar`,
     addPropertyBarPropertyListWrap: `${classPrefix}-property-bar-list-wrap`,
     addPropertyBarIcon: `${classPrefix}-property-bar-icon`,
+    addPropertyBarIconNestItem: `${classPrefix}-property-bar-icon-nest-item`,
     modal: `${classPrefix}-modal`,
     modalRow: `${classPrefix}-modal-row`,
     modalRowLanguageSelection: `${classPrefix}-modal-row-language-selection`,
@@ -199,7 +202,37 @@ export const getPropertyInspectorStyles = () => {
                 boxShadow: '0px 5px 10px 1px rgba(0,0,0,0.05)',
                 position: 'absolute',
                 left: '-50%',
-                bottom: '15%'
+                bottom: '42%'
+            }
+        ],
+        propertySelectorNestItem: [
+            classNames.propertySelectorNestItem,
+            {
+                display: 'flex',
+                flexDirection: 'row',
+                backgroundColor: theme.semanticColors.listBackground,
+                borderRadius: '4px',
+                borderBottom: `1px solid ${theme.semanticColors.variantBorder}`,
+                zIndex: 100,
+                boxShadow: '0px 5px 10px 1px rgba(0,0,0,0.05)',
+                position: 'absolute',
+                left: '-50%',
+                bottom: '20%'
+            }
+        ],
+        propertySelectorAddMore: [
+            classNames.propertySelector,
+            {
+                display: 'flex',
+                flexDirection: 'row',
+                backgroundColor: theme.semanticColors.listBackground,
+                borderRadius: '4px',
+                borderBottom: `1px solid ${theme.semanticColors.variantBorder}`,
+                zIndex: 100,
+                boxShadow: '0px 5px 10px 1px rgba(0,0,0,0.05)',
+                position: 'absolute',
+                left: '-50%',
+                bottom: '75%'
             }
         ],
         propertySelectorHeader: [
@@ -507,7 +540,10 @@ export const getPropertyInspectorStyles = () => {
                 width: '100%',
                 backgroundColor: theme.semanticColors.primaryButtonTextDisabled,
                 position: 'absolute',
-                top: '90%'
+                top: '90%',
+                ':hover': {
+                    backgroundColor: theme.semanticColors.menuIcon
+                }
             } as IStyle
         ],
         addPropertyBarPropertyListWrap: [
@@ -526,7 +562,25 @@ export const getPropertyInspectorStyles = () => {
                 zIndex: 1,
                 backgroundColor: theme.semanticColors.listBackground,
                 color: theme.semanticColors.primaryButtonTextDisabled,
-                borderRadius: '100%'
+                borderRadius: '100%',
+                ':hover': {
+                    color: theme.semanticColors.menuIcon
+                }
+            } as IStyle
+        ],
+        addPropertyBarIconNestItem: [
+            classNames.addPropertyBarIconNestItem,
+            {
+                position: 'absolute',
+                top: '-7px',
+                left: '20px',
+                zIndex: 1,
+                backgroundColor: theme.semanticColors.listBackground,
+                color: theme.semanticColors.primaryButtonTextDisabled,
+                borderRadius: '100%',
+                ':hover': {
+                    color: theme.semanticColors.menuIcon
+                }
             } as IStyle
         ],
         modal: [

@@ -194,13 +194,23 @@ export const PropertyListItemNest = ({
                 <div
                     className={propertyInspectorStyles.propertyItemNestMainItem}
                 >
-                    <IconButton
-                        iconProps={{
-                            iconName: collapsed ? 'ChevronDown' : 'ChevronRight'
-                        }}
-                        title={t('OATPropertyEditor.collapse')}
-                        onClick={() => setCollapsed(!collapsed)}
-                    />
+                    {(item.schema['@type'] === DTDLSchemaType.Object &&
+                        item.schema.fields.length > 0) ||
+                    (item.schema['@type'] === DTDLSchemaType.Enum &&
+                        item.schema.enumValues.length > 0) ? (
+                        <IconButton
+                            iconProps={{
+                                iconName: collapsed
+                                    ? 'ChevronDown'
+                                    : 'ChevronRight'
+                            }}
+                            title={t('OATPropertyEditor.collapse')}
+                            onClick={() => setCollapsed(!collapsed)}
+                        />
+                    ) : (
+                        <div></div>
+                    )}
+
                     <TextField
                         styles={textFieldStyles}
                         borderless
@@ -248,7 +258,7 @@ export const PropertyListItemNest = ({
                     </IconButton>
                 </div>
                 {collapsed &&
-                    item.schema['@type'] === 'Object' &&
+                    item.schema['@type'] === DTDLSchemaType.Object &&
                     item.schema.fields.length > 0 &&
                     item.schema.fields.map((field, i) => (
                         <PropertyListItemNested
@@ -265,7 +275,6 @@ export const PropertyListItemNest = ({
                             deleteNestedItem={deleteNestedItem}
                             dispatch={dispatch}
                             state={state}
-                            lastPropertyFocused={lastPropertyFocused}
                         />
                     ))}
 
@@ -302,28 +311,35 @@ export const PropertyListItemNest = ({
                             setHover(false);
                             setPropertyOnHover(false);
                         }}
+                        className={
+                            propertyInspectorStyles.propertySelectorNestItem
+                        }
                     />
                 )}
             </div>
-            {hover &&
-                item.schema['@type'] === DTDLSchemaType.Object &&
-                item.schema.fields.length === 0 && (
-                    <AddPropertyBar
-                        onMouseOver={() => {
-                            setLastPropertyFocused({
-                                item: item,
-                                index: index
-                            });
-                            setPropertySelectorVisible(true);
-                            addPropertyCallback(null);
-                        }}
-                    />
-                )}
+            {hover && item.schema['@type'] === DTDLSchemaType.Object && (
+                <AddPropertyBar
+                    onMouseOver={() => {
+                        setLastPropertyFocused({
+                            item: item,
+                            index: index
+                        });
+                        setPropertySelectorVisible(true);
+                        addPropertyCallback(null);
+                    }}
+                    classNameIcon={
+                        propertyInspectorStyles.addPropertyBarIconNestItem
+                    }
+                />
+            )}
             {hover && item.schema['@type'] === DTDLSchemaType.Enum && (
                 <AddPropertyBar
                     onClick={() => {
                         addPropertyCallback(null);
                     }}
+                    classNameIcon={
+                        propertyInspectorStyles.addPropertyBarIconNestItem
+                    }
                 />
             )}
         </div>
