@@ -404,7 +404,6 @@
     "behaviorMetaText": "{{numElementsInActiveScene}} elementy, {{numSceneRefs}} sceny",
     "elementMetaText": "{{numBehaviors}} zachowania",
     "primaryTwin": "Podstawowy bliźniak",
-    "primaryTwinInputInfo": "Wprowadź podwójny identyfikator ($dtId), aby połączyć się z tym elementem (rozróżniana wielkość liter)",
     "noMeshAddedText": "Nie dodano jeszcze siatek, wybierz siatki w przeglądarce 3D",
     "meshes": "Siatki",
     "behaviorElementsDropdownLabel": "Element docelowy",
@@ -421,7 +420,8 @@
     },
     "behaviorStatusForm": {
       "stateItemLabel": "Stan {{index}}",
-      "tabDescription": "Wybierz właściwość, a następnie ustaw zakresy stosowania koloru do określonych warunków — na przykład czerwony, aby wskazać wysokie temperatury, lub zielony, aby uzyskać optymalną prędkość."
+      "tabDescription": "Wybierz właściwość, a następnie ustaw zakresy stosowania koloru do określonych warunków — na przykład czerwony, aby wskazać wysokie temperatury, lub zielony, aby uzyskać optymalną prędkość.",
+      "propertyExpressionTooltipContent": "Wyrażenie niestandardowe służy do bardziej złożonych wyrażeń wykorzystujących wiele właściwości."
     },
     "twinPropertyDropdown": {
       "propertyDropdownLabel": "Własność",
@@ -460,7 +460,6 @@
     "twinAlias": {
       "title": "Podwójny alias",
       "aliasedTwin": "Aliasowany bliźniak",
-      "aliasedTwins": "Aliasowane bliźnięta",
       "add": "Dodawanie bliźniaczego aliasu",
       "new": "Nowy podwójny alias",
       "edit": "Edytuj alias bliźniaczy",
@@ -474,12 +473,13 @@
       "removeFromElement": "Usuń bliźniaczy alias z elementu",
       "commonProperties": "Wspólne właściwości",
       "twinAliasForm": {
-        "alias": "Pseudonim",
-        "elementTwinMappings": "Mapowania bliźniaczych elementów",
-        "elementTwinMappingsNotExist": "Nie ma dostępnego mapowania, najpierw dodaj elementy do zachowania."
+        "elementTwinMappingsNotExist": "Nie ma dostępnego mapowania, najpierw dodaj elementy do zachowania.",
+        "aliasNameLabel": "Podwójna nazwa",
+        "aliasNameTooltipContent": "Nie możesz zmienić nazwy tego bliźniaka po utworzeniu.",
+        "mappingSectionHeader": "Podwójne mapowania elementów",
+        "mappingSectionSubHeader": "Dla każdego elementu wybierz cyfrowego bliźniaka, do którego odwołuje się ten bliźniak"
       },
       "descriptions": {
-        "aliasChangeNotAllowed": "Zmiana aliasu nie jest dozwolona po utworzeniu.",
         "commonProperties": "Połączenie pierwotnych bliźniaczych właściwości wybranych elementów"
       },
       "errors": {
@@ -494,15 +494,25 @@
     },
     "elementsListInstructions": "Wybierz elementy, które chcesz uwzględnić w wizualizacji tego zachowania",
     "behaviorForm": {
-      "newBehavior": "Nowe zachowanie",
-      "createBehavior": "Tworzenie zachowania",
-      "modifyBehavior": "Edytuj zachowanie",
       "formSubTitle": "Zachowania to wskazówki wizualne, które występują w określonych warunkach — na przykład w określonych odstępach czasu lub na progach danych."
     },
     "behaviorWidgetsForm": {
       "addWidgetButtonText": "Dodaj widżet",
       "noData": "Nie skonfigurowano jeszcze żadnych widżetów",
       "tabDescription": "Definiowanie widżetów wyświetlanych w kontekście elementu"
+    },
+    "newBehavior": "Nowe zachowanie",
+    "modifyBehavior": "Edytuj zachowanie",
+    "createBehavior": "Tworzenie zachowania",
+    "elementForm": {
+      "meshTabName": "Siatki",
+      "behaviorsTabName": "Zachowania",
+      "twinTabName": "Inne bliźnięta",
+      "primaryTwinInputInfo": "Wprowadź podwójny identyfikator ($dtId), aby połączyć się z tym elementem (rozróżniana wielkość liter)"
+    },
+    "elementFormTwinTab": {
+      "tabDescription": "Te bliźnięta zawierają dane wykraczające poza głównego bliźniaka, które możesz wykorzystać w swoim statusie, alertach i widżetach dla swoich zachowań.",
+      "noDataMessage": "Kiedy utworzysz dodatkowe bliźniaki w zachowaniach tego elementu, pojawią się one tutaj."
     }
   },
   "widgets": {

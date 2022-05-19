@@ -404,7 +404,6 @@
     "behaviorMetaText": "{{numElementsInActiveScene}} elementi, {{numSceneRefs}} scene",
     "elementMetaText": "Comportamenti di {{numBehaviors}}",
     "primaryTwin": "Gemello primario",
-    "primaryTwinInputInfo": "Immettere un ID doppio ($dtId) da collegare a questo elemento (con distinzione tra maiuscole e minuscole)",
     "noMeshAddedText": "Nessuna mesh aggiunta ancora, selezionare le mesh nel visualizzatore 3D",
     "meshes": "Maglie",
     "behaviorElementsDropdownLabel": "Elemento di destinazione",
@@ -421,7 +420,8 @@
     },
     "behaviorStatusForm": {
       "stateItemLabel": "Stato {{index}}",
-      "tabDescription": "Seleziona una proprietà, quindi imposta gli intervalli per l'applicazione del colore a determinate condizioni, ad esempio il rosso per indicare le alte temperature o il verde per la velocità ottimale."
+      "tabDescription": "Seleziona una proprietà, quindi imposta gli intervalli per l'applicazione del colore a determinate condizioni, ad esempio il rosso per indicare le alte temperature o il verde per la velocità ottimale.",
+      "propertyExpressionTooltipContent": "Utilizzare un'espressione personalizzata per espressioni più complesse che sfruttano più proprietà."
     },
     "twinPropertyDropdown": {
       "propertyDropdownLabel": "Proprietà",
@@ -460,7 +460,6 @@
     "twinAlias": {
       "title": "Alias gemello",
       "aliasedTwin": "Gemello con alias",
-      "aliasedTwins": "Gemelli con alias",
       "add": "Aggiungi alias gemello",
       "new": "Nuovo alias gemello",
       "edit": "Modifica alias doppio",
@@ -474,12 +473,13 @@
       "removeFromElement": "Rimuovere l'alias gemello dall'elemento",
       "commonProperties": "Proprietà comuni",
       "twinAliasForm": {
-        "alias": "Alias",
-        "elementTwinMappings": "Mappature gemelle degli elementi",
-        "elementTwinMappingsNotExist": "Non è disponibile alcuna mappatura, aggiungi prima elementi al comportamento."
+        "elementTwinMappingsNotExist": "Non è disponibile alcuna mappatura, aggiungi prima elementi al comportamento.",
+        "aliasNameLabel": "Nome gemello",
+        "aliasNameTooltipContent": "Non puoi cambiare il nome di questo gemello dopo la creazione.",
+        "mappingSectionHeader": "Mappature gemelle per gli elementi",
+        "mappingSectionSubHeader": "Per ogni elemento, selezionare il gemello digitale a cui fa riferimento questo gemello"
       },
       "descriptions": {
-        "aliasChangeNotAllowed": "La modifica dell'alias non è consentita dopo la creazione.",
         "commonProperties": "L'unione delle proprietà gemelle primarie degli elementi selezionati"
       },
       "errors": {
@@ -494,15 +494,25 @@
     },
     "elementsListInstructions": "Selezionare gli elementi che si desidera includere nella visualizzazione di questo comportamento",
     "behaviorForm": {
-      "newBehavior": "Nuovo comportamento",
-      "createBehavior": "Creare un comportamento",
-      "modifyBehavior": "Modificare il comportamento",
       "formSubTitle": "I comportamenti sono segnali visivi che si verificano in condizioni specifiche, ad esempio a intervalli specifici o a soglie di dati."
     },
     "behaviorWidgetsForm": {
       "addWidgetButtonText": "Aggiungi widget",
       "noData": "Non hai ancora configurato alcun widget",
       "tabDescription": "Definire i widget visualizzati nel contesto dell'elemento"
+    },
+    "newBehavior": "Nuovo comportamento",
+    "modifyBehavior": "Modificare il comportamento",
+    "createBehavior": "Creare un comportamento",
+    "elementForm": {
+      "meshTabName": "Maglie",
+      "behaviorsTabName": "Comportamenti",
+      "twinTabName": "Altri gemelli",
+      "primaryTwinInputInfo": "Immettere un ID doppio ($dtId) da collegare a questo elemento (con distinzione tra maiuscole e minuscole)"
+    },
+    "elementFormTwinTab": {
+      "tabDescription": "Questi gemelli contengono dati oltre il tuo gemello principale che puoi sfruttare nel tuo stato, avvisi e widget per i tuoi comportamenti.",
+      "noDataMessage": "Quando crei altri gemelli nei comportamenti di questo elemento, verranno visualizzati qui."
     }
   },
   "widgets": {

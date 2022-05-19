@@ -404,7 +404,6 @@
     "behaviorMetaText": "{{numElementsInActiveScene}}-Elemente, {{numSceneRefs}}-Szenen",
     "elementMetaText": "{{numBehaviors}} Verhalten",
     "primaryTwin": "Primärer Zwilling",
-    "primaryTwinInputInfo": "Geben Sie eine Zwillings-ID ($dtId) ein, um eine Verknüpfung mit diesem Element herzustellen (Groß-/Kleinschreibung beachten)",
     "noMeshAddedText": "Noch keine Meshes hinzugefügt, bitte wählen Sie Meshes im 3D-Viewer aus",
     "meshes": "Maschen",
     "behaviorElementsDropdownLabel": "Zielelement",
@@ -421,7 +420,8 @@
     },
     "behaviorStatusForm": {
       "stateItemLabel": "Status {{index}}",
-      "tabDescription": "Wählen Sie eine Eigenschaft aus, und legen Sie dann Bereiche für die Anwendung von Farben auf bestimmte Bedingungen fest, z. B. Rot, um hohe Temperaturen anzuzeigen, oder Grün für optimale Geschwindigkeit."
+      "tabDescription": "Wählen Sie eine Eigenschaft aus, und legen Sie dann Bereiche für die Anwendung von Farben auf bestimmte Bedingungen fest, z. B. Rot, um hohe Temperaturen anzuzeigen, oder Grün für optimale Geschwindigkeit.",
+      "propertyExpressionTooltipContent": "Verwenden Sie einen benutzerdefinierten Ausdruck für komplexere Ausdrücke, die mehrere Eigenschaften nutzen."
     },
     "twinPropertyDropdown": {
       "propertyDropdownLabel": "Eigentum",
@@ -460,7 +460,6 @@
     "twinAlias": {
       "title": "Twin-Alias",
       "aliasedTwin": "Aliased Zwilling",
-      "aliasedTwins": "Gestrichelte Zwillinge",
       "add": "Hinzufügen eines Zwillingsalias",
       "new": "Neuer Zwillingsalias",
       "edit": "Zwillingsalias bearbeiten",
@@ -474,12 +473,13 @@
       "removeFromElement": "Entfernen des Zwillingsalias aus dem Element",
       "commonProperties": "Gemeingüter",
       "twinAliasForm": {
-        "alias": "Alias",
-        "elementTwinMappings": "Element-Twin-Mappings",
-        "elementTwinMappingsNotExist": "Es ist keine Zuordnung verfügbar, fügen Sie dem Verhalten zuerst Elemente hinzu."
+        "elementTwinMappingsNotExist": "Es ist keine Zuordnung verfügbar, fügen Sie dem Verhalten zuerst Elemente hinzu.",
+        "aliasNameLabel": "Zwillingsname",
+        "aliasNameTooltipContent": "Sie können den Namen dieses Zwillings nach der Schöpfung nicht mehr ändern.",
+        "mappingSectionHeader": "Twin-Mappings für Elemente",
+        "mappingSectionSubHeader": "Wählen Sie für jedes Element den digitalen Zwilling aus, auf den dieser Zwilling verweist"
       },
       "descriptions": {
-        "aliasChangeNotAllowed": "Eine Änderung des Alias ist nach der Erstellung nicht mehr zulässig.",
         "commonProperties": "Die Vereinigung primärer Zwillingseigenschaften ausgewählter Elemente"
       },
       "errors": {
@@ -494,15 +494,25 @@
     },
     "elementsListInstructions": "Wählen Sie die Elemente aus, die in die Visualisierung dieses Verhaltens aufgenommen werden sollen",
     "behaviorForm": {
-      "newBehavior": "Neues Verhalten",
-      "createBehavior": "Verhalten erzeugen",
-      "modifyBehavior": "Verhalten bearbeiten",
       "formSubTitle": "Verhaltensweisen sind visuelle Hinweise, die unter bestimmten Bedingungen auftreten, z. B. in bestimmten Intervallen oder bei Datenschwellenwerten."
     },
     "behaviorWidgetsForm": {
       "addWidgetButtonText": "Widget hinzufügen",
       "noData": "Sie haben noch keine Widgets konfiguriert",
       "tabDescription": "Definieren von Widgets, die im Kontext des Elements angezeigt werden"
+    },
+    "newBehavior": "Neues Verhalten",
+    "modifyBehavior": "Verhalten bearbeiten",
+    "createBehavior": "Verhalten erzeugen",
+    "elementForm": {
+      "meshTabName": "Maschen",
+      "behaviorsTabName": "Verhaltensweisen",
+      "twinTabName": "Andere Zwillinge",
+      "primaryTwinInputInfo": "Geben Sie eine Zwillings-ID ($dtId) ein, um eine Verknüpfung mit diesem Element herzustellen (Groß-/Kleinschreibung beachten)"
+    },
+    "elementFormTwinTab": {
+      "tabDescription": "Diese Zwillinge enthalten Daten, die über Ihren primären Zwilling hinausgehen und die Sie in Ihrem Status, Ihren Warnungen und Widgets für Ihr Verhalten nutzen können.",
+      "noDataMessage": "Wenn Sie zusätzliche Zwillinge im Verhalten dieses Elements erstellen, werden diese hier angezeigt."
     }
   },
   "widgets": {

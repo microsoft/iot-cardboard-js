@@ -404,7 +404,6 @@
     "behaviorMetaText": "{{numElementsInActiveScene}} elementy, {{numSceneRefs}} scény",
     "elementMetaText": "{{numBehaviors}} chování",
     "primaryTwin": "Primární dvojče",
-    "primaryTwinInputInfo": "Zadejte ID dvojčete ($dtId) pro propojení s tímto prvkem (rozlišují se malá a velká písmena).",
     "noMeshAddedText": "Zatím nebyly přidány žádné sítě, vyberte sítě v prohlížeči 3D",
     "meshes": "Sítě",
     "behaviorElementsDropdownLabel": "Cílový prvek",
@@ -421,7 +420,8 @@
     },
     "behaviorStatusForm": {
       "stateItemLabel": "Stav {{index}}",
-      "tabDescription": "Vyberte vlastnost a pak nastavte rozsahy pro použití barvy na určité podmínky – například červená pro označení vysokých teplot nebo zelená pro optimální rychlost."
+      "tabDescription": "Vyberte vlastnost a pak nastavte rozsahy pro použití barvy na určité podmínky – například červená pro označení vysokých teplot nebo zelená pro optimální rychlost.",
+      "propertyExpressionTooltipContent": "Použijte vlastní výraz pro složitější výrazy, které využívají více vlastností."
     },
     "twinPropertyDropdown": {
       "propertyDropdownLabel": "Vlastnost",
@@ -460,7 +460,6 @@
     "twinAlias": {
       "title": "Alias dvojčat",
       "aliasedTwin": "Aliasované dvojče",
-      "aliasedTwins": "Aliasovaná dvojčata",
       "add": "Přidání aliasu dvojčete",
       "new": "Nový alias dvojčete",
       "edit": "Upravit alias dvojčete",
@@ -474,12 +473,13 @@
       "removeFromElement": "Odebrání aliasu dvojčete z elementu",
       "commonProperties": "Společné vlastnosti",
       "twinAliasForm": {
-        "alias": "Alias",
-        "elementTwinMappings": "Mapování dvojčat prvků",
-        "elementTwinMappingsNotExist": "Není k dispozici žádné mapování, nejprve přidejte prvky do chování."
+        "elementTwinMappingsNotExist": "Není k dispozici žádné mapování, nejprve přidejte prvky do chování.",
+        "aliasNameLabel": "Jméno dvojčete",
+        "aliasNameTooltipContent": "Jméno tohoto dvojčete nemůžete po vytvoření změnit.",
+        "mappingSectionHeader": "Dvojitá mapování prvků",
+        "mappingSectionSubHeader": "Pro každý prvek vyberte digitální dvojče, na které toto dvojče odkazuje."
       },
       "descriptions": {
-        "aliasChangeNotAllowed": "Změna aliasu není po vytvoření povolena.",
         "commonProperties": "Sjednocení vlastností primárního dvojčete vybraných prvků"
       },
       "errors": {
@@ -494,15 +494,25 @@
     },
     "elementsListInstructions": "Vyberte prvky, které chcete zahrnout do vizualizace tohoto chování.",
     "behaviorForm": {
-      "newBehavior": "Nové chování",
-      "createBehavior": "Vytvoření chování",
-      "modifyBehavior": "Chování úprav",
       "formSubTitle": "Chování jsou vizuální podněty, ke kterým dochází za určitých podmínek – například v určitých intervalech nebo při prahových hodnotách dat."
     },
     "behaviorWidgetsForm": {
       "addWidgetButtonText": "Přidat widget",
       "noData": "Zatím jste nenakonfigurovali žádné widgety",
       "tabDescription": "Definování widgetů, které se zobrazují v kontextu prvku"
+    },
+    "newBehavior": "Nové chování",
+    "modifyBehavior": "Chování úprav",
+    "createBehavior": "Vytvoření chování",
+    "elementForm": {
+      "meshTabName": "Sítě",
+      "behaviorsTabName": "Chování",
+      "twinTabName": "Ostatní dvojčata",
+      "primaryTwinInputInfo": "Zadejte ID dvojčete ($dtId) pro propojení s tímto prvkem (rozlišují se malá a velká písmena)."
+    },
+    "elementFormTwinTab": {
+      "tabDescription": "Tato dvojčata obsahují data nad rámec vašeho primárního dvojčete, která můžete využít ve svém stavu, výstrahách a widgetech pro vaše chování.",
+      "noDataMessage": "Když vytvoříte další dvojčata v chování tohoto prvku, zobrazí se zde."
     }
   },
   "widgets": {
