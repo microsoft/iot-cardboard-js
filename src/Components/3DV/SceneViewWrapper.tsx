@@ -184,6 +184,13 @@ const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = (props) => {
         ]
     );
 
+    const FPSCounterStyle = {
+        position: 'absolute',
+        display: 'flex',
+        bottom: 0,
+        right: 0
+    } as const;
+
     return (
         <div
             style={
