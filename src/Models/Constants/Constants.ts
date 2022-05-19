@@ -139,7 +139,7 @@ export const ViewerModeObjectColors: IADTObjectColor[] = [
     },
     //Blue
     {
-        color: '#0000DD',
+        color: '#5783bb',
         baseColor: '#5783bb1A',
         lightingStyle: 1,
         coloredMeshColor: '#2087D6FF',
