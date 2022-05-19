@@ -355,7 +355,7 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
         setBlobsInContainer([]);
         setSelectedFile(null);
         setSelected3DFilePivotItem(SelectionModeOf3DFile.FromContainer);
-    }, []);
+    }, [isShowOnGlobeEnabled]);
 
     const isSubmitButtonDisabled = useMemo(() => {
         return (
