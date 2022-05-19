@@ -14,18 +14,14 @@ export function makeMaterial(
             name,
             scene,
             baseColor,
-            fresnelColor,
             reflectionTexture,
-            lightingStyle,
-            bgLuminanceRatio
+            lightingStyle
         );
     else
         return makeStandardMaterial(
             name,
             scene,
             baseColor,
-            fresnelColor,
-            reflectionTexture,
             lightingStyle,
             bgLuminanceRatio
         );
@@ -35,8 +31,6 @@ export function makeStandardMaterial(
     name: string,
     scene: any,
     baseColor: BABYLON.Color4,
-    fresnelColor?: BABYLON.Color4,
-    reflectionTexture?: BABYLON.Texture,
     lightingStyle?: number,
     bgLuminanceRatio?: number
 ) {
@@ -60,6 +54,7 @@ export function makeStandardMaterial(
     if (isTransparent) {
         material.specularPower = 0;
         material.disableLighting = true;
+        //We scale the brightness of the object color if the background requires a higher contrast
         material.emissiveColor = baseColor3.scale(bgLuminanceRatio);
     } else {
         material.emissiveColor = BABYLON.Color3.White(); //baseColor3;
@@ -80,10 +75,8 @@ export function makePBRMaterial(
     name: string,
     scene: any,
     baseColor: BABYLON.Color4,
-    fresnelColor?: BABYLON.Color4,
     reflectionTexture?: BABYLON.Texture,
-    lightingStyle?: number,
-    bgLuminanceRatio?: number
+    lightingStyle?: number
 ) {
     const material = new BABYLON.PBRMetallicRoughnessMaterial(name, scene);
     const baseColor3 = new BABYLON.Color3(

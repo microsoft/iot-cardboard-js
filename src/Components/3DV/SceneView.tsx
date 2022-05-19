@@ -1535,7 +1535,7 @@ function SceneView(props: ISceneViewProps, ref) {
 
         // Creating materials is VERY expensive, so try and avoid it
         const col = color || currentObjectColor?.coloredMeshColor;
-        const fresnelCol = currentObjectColor?.fresnelColor || color;
+        //const fresnelCol = currentObjectColor?.fresnelColor || color;
 
         const materialId = currentColorId() + col;
 
@@ -1545,8 +1545,6 @@ function SceneView(props: ISceneViewProps, ref) {
                 'coloredMeshMaterial',
                 sceneRef.current,
                 hexToColor4(col),
-                hexToColor4(fresnelCol),
-                reflectionTexture.current,
                 currentObjectColor.lightingStyle,
                 backgroundColorRef.current.objectLuminanceRatio
             );
@@ -1570,16 +1568,15 @@ function SceneView(props: ISceneViewProps, ref) {
                 if (currentMesh) {
                     let meshToOutline = currentMesh;
                     try {
-                        //if (currentMesh.material.wireframe === true) {
-                        // When outlining a wireframed object, we only want to outline the silhouette, not the wireframe
-                        // lines themselves.  To do this we need to duplicate the mesh, disable wireframe rendering and set
-                        // the alpha to 0 so we do not see it.
+                        // To fix issues with the outline rendering behind the object when it is occluded,
+                        // we will duplicate the mesh, and use the duplicate to render the outline set to a higher
+                        // alphaIndex.
                         const clone = currentMesh.clone('', null, true, false);
-                        // Move to utility layer so we can draw this on top of other scene elements
+                        // Move the clone to a utility layer so we can draw it on top of other opaque scene elements
                         clone._scene = utilLayer.current.utilityLayerScene;
 
-                        // For some reason when rendering the duplicated outline mesh at 1:1 scale we get outline artifacts
-                        // on the wireframe itself.  We scale this up slightly to alleviate this.
+                        // For some reason when rendering the duplicated outline mesh at 1:1 scale in wireframe mode,
+                        // we get outline artifacts on the wireframe itself.  We scale the mesh up slightly to alleviate this.
                         if (currentMesh.material.wireframe === true)
                             clone.scaling = new BABYLON.Vector3(
                                 1.01,
@@ -1595,11 +1592,9 @@ function SceneView(props: ISceneViewProps, ref) {
                         clone.alphaIndex = 2;
                         clone.isPickable = false;
                         clonedHighlightMeshes.current.push(clone);
-                        // sceneRef.current.meshes.push(clone);
                         utilLayer.current.utilityLayerScene.meshes.push(clone);
                         meshToOutline = clone;
                         highlightLayer.current.addExcludedMesh(currentMesh);
-                        //}
                         highlightLayer.current.addMesh(
                             meshToOutline,
                             ToColor3(
@@ -1623,8 +1618,6 @@ function SceneView(props: ISceneViewProps, ref) {
             for (const mesh of outlinedMeshes.current) {
                 highlightLayer.current.removeMesh(mesh as BABYLON.Mesh);
             }
-            //This array keeps growing in length even though it is completely emptied during cleanup...
-            //Is this best practice for resetting an array?
             outlinedMeshes.current = [];
 
             //If we have cloned meshes for highlight, delete them
