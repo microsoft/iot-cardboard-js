@@ -791,5 +791,77 @@
     "reset": "Réinitialisation",
     "zoomIn": "Zoom avant",
     "zoomOut": "Zoom arrière"
+  },
+  "tutorialModal": {
+    "elements": {
+      "title": "Qu'est-ce qu'un élément ?",
+      "content": "Un élément est un ensemble auto-défini de maillages 3D liés à des données sur un ou plusieurs jumeaux numériques sous-jacents. Les éléments vous aident à évaluer rapidement les opérations et l’intégrité du système. \n\nUn jumeau primaire est la contrepartie principale du jumeau numérique d’un élément. Vous connectez l’élément à un jumeau dans votre instance Azure Digital Twins afin que l’élément puisse représenter votre jumeau et ses données dans la visualisation 3D."
+    },
+    "docLinkBlurb": "Pour une étape plus détaillée, consultez notre <DocLink>docs ici.</DocLink>",
+    "behaviors": {
+      "title": "Qu'est-ce qu'un comportement ?",
+      "mainContent": "Un comportement est un scénario pour votre scène qui exploitera des données particulières sur le jumeau numérique de l'élément associé pour piloter les visualisations du spectateur.\n\nLa création d’un comportement inclut le choix de jumeaux, la configuration de l’état et des alertes, l’ajout d’un widget et le choix de la couche sur laquelle s’afficher.\n\n",
+      "statusTitle": "Statut",
+      "statusDescription": "Les états sont des superpositions pilotées par les données sur vos éléments pour indiquer l’intégrité ou l’état de l’élément. définissez des plages de valeurs pour créer des limites d’état et choisissez des couleurs pour représenter chaque état dans la visualisation.\n\n",
+      "alertsTitle": "Alertes",
+      "alertsDescription": "Les alertes sont des notifications conditionnelles pour vous aider à voir rapidement quand un élément nécessite votre attention. Personnalisez votre badge d’alerte avec une icône, une couleur et du texte.\n\n"
+    },
+    "tip": "Pourboire",
+    "twins": {
+      "title": "Comment choisir des jumeaux ?",
+      "mainContent": "Sous l’onglet Jumeaux, vous pouvez modifier l’ensemble des jumeaux dont les données sont disponibles pour ce comportement. Cela inclut les jumeaux primaires et les jumeaux non primaires des éléments ciblés.\n\nUn jumeau non primaire est une source de données de jumeau numérique secondaire pour un élément. Vous pourrez utiliser les propriétés de ce jumeau dans vos expressions de comportement pour cet élément. Vous ne devez ajouter des jumeaux non primaires que lorsqu’il existe des jumeaux supplémentaires avec des données au-delà de votre jumeau principal que vous souhaitez exploiter dans votre statut, vos alertes et vos widgets pour ce comportement.\n\n",
+      "tipContent": "Azure Digital Twins Explorer peut vous aider à voir des jumeaux qui peuvent être liés au jumeau principal pour cet élément. Vous pouvez interroger votre graphique à l'aide de SELECT * FROM digitaltwins WHERE $dtId='<primary-twin-id>', puis utiliser la fonction d'extension double-cliquez pour explorer les jumeaux associés."
+    },
+    "widgets": {
+      "title": "Qu'est-ce qu'un widget ?",
+      "mainContent": "Les widgets sont des visuels pilotés par les données qui fournissent un contexte et des données supplémentaires pour vous aider à comprendre le scénario que représente le comportement. La configuration des widgets vous aidera à vous assurer que les bonnes données sont détectables lorsqu’une alerte ou un état est actif.\n\n",
+      "typesOfWidgets": "Types de widgets\n\n",
+      "gaugeDescription": "<Retour>Gauge:</Underline> Pour représenter visuellement des points de données numériques\n\n",
+      "linkDescription": "<Lien ligne>Liens:</Souligner> Pour inclure du contenu référencé en externe via une URL liée\n\n",
+      "valueDescription": "<Supprime>Valeur:</Soulignement> Pour afficher directement les valeurs de propriétés jumelles\n\n"
+    },
+    "sceneLayers": {
+      "title": "Qu'est-ce qu'une couche de scène ?",
+      "mainContent": "Vous pouvez créer des calques dans votre scène pour vous aider à organiser vos comportements. Les calques agissent comme des balises sur les comportements, ce qui vous permet de définir quels comportements doivent être vus ensemble, créant ainsi des vues personnalisées de votre scène pour différents rôles ou tâches.\n\nS’il n’y a pas de calques dans une scène, tous les comportements apparaîtront dans la visionneuse de scène. Si au moins un calque est présent dans la scène, seuls les comportements marqués d'un calque apparaîtront dans la visionneuse.\n\nUne façon de créer des calques consiste à utiliser le bouton Calques de scène dans la vue Générer d’une scène. Vous pouvez également créer des calques lors de la création ou de la modification d’un comportement."
+    },
+    "modalTitle": "Bienvenue sur 3D Scenes Studio !",
+    "publicPreview": "Aperçu public",
+    "closeAriaLabel": "Fermer modal",
+    "nextSlide": "Diapositive suivante",
+    "previousSlide": "Diapositive précédente",
+    "statusIndicatorSelectedAria": "Diapositive {{slide}} sélectionnée",
+    "statusIndicatorUnselectedAria": "Sélectionnez la diapositive {{slide}}",
+    "tabs": {
+      "introduction": "Introduction",
+      "concepts": "Concepts",
+      "elements": "Éléments",
+      "behaviors": "Comportements",
+      "twins": "Jumeaux",
+      "widgets": "Widgets",
+      "sceneLayers": "Calques de scène"
+    },
+    "frePages": {
+      "intro": {
+        "title": "Notre nouveau générateur low-code",
+        "text": "Dans cet environnement 3D immersif, vous pouvez surveiller, diagnostiquer et étudier les données opérationnelles avec le contexte visuel des ressources 3D, optimisées par les données Azure Digital Twins, sans avoir besoin d’expertise 3D."
+      },
+      "builder": {
+        "title": "Personnalisez votre scène dans notre Builder",
+        "text": "Le générateur de 3D Scenes Studio est l’interface principale pour configurer vos scènes. C’est une expérience visuelle low-code."
+      },
+      "viewer": {
+        "title": "Explorez autour de vous ou intégrez-le ailleurs",
+        "text": "Regardez la scène 3D ici même dans le Studio. Le composant de visionneuse peut être incorporé dans des applications personnalisées et peut fonctionner conjointement avec des composants tiers 3rd."
+      }
+    },
+    "conceptsRoot": {
+      "title": "Besoin d’une plongée plus profonde sur les concepts?",
+      "text": "Parcourez le contenu de l’aide ou consultez notre documentation pour des tutoriels étape par étape!"
+    },
+    "rootDocsLinkText": "Documentation",
+    "githubLinkText": "GitHub (en anglais)",
+    "quickstartLinkText": "Démarrage rapide",
+    "primaryButtonText": "Explorez la démo",
+    "dismissText": "Congédier"
   }
 }

@@ -791,5 +791,77 @@
     "reset": "Resettare",
     "zoomIn": "Ingrandire",
     "zoomOut": "Zoom indietro"
+  },
+  "tutorialModal": {
+    "elements": {
+      "title": "Cos'è un elemento?",
+      "content": "Un elemento è un insieme autodefinito di mesh 3D collegato ai dati su uno o più gemelli digitali sottostanti. Elements consente di valutare rapidamente le operazioni e l'integrità del sistema. \n\nUn gemello primario è la principale controparte del gemello digitale per un elemento. È possibile connettere l'elemento a un gemello nell'istanza di Gemelli digitali di Azure in modo che l'elemento possa rappresentare il gemello e i relativi dati all'interno della visualizzazione 3D."
+    },
+    "docLinkBlurb": "Per un passo più dettagliato, dai un'occhiata al nostro <DocLink>docs here.</DocLink>",
+    "behaviors": {
+      "title": "Cos'è un comportamento?",
+      "mainContent": "Un comportamento è uno scenario per la scena che sfrutterà dati particolari sul gemello digitale dell'elemento correlato per guidare le visualizzazioni degli spettatori.\n\nLa creazione di un comportamento include la scelta di due gemelli, la configurazione dello stato e degli avvisi, l'aggiunta di un widget e la scelta del livello su cui visualizzare.\n\n",
+      "statusTitle": "Stato",
+      "statusDescription": "Gli stati sono sovrapposizioni basate sui dati sugli elementi per indicare l'integrità o lo stato dell'elemento. impostare intervalli di valori per creare limiti di stato e scegliere i colori per rappresentare ogni stato nella visualizzazione.\n\n",
+      "alertsTitle": "Avvisi",
+      "alertsDescription": "Gli avvisi sono notifiche condizionali che ti aiutano a vedere rapidamente quando un elemento richiede la tua attenzione. Personalizza il tuo badge di avviso con un'icona, un colore e un testo.\n\n"
+    },
+    "tip": "Mancia",
+    "twins": {
+      "title": "Come scelgo i gemelli?",
+      "mainContent": "Nella scheda Gemelli è possibile modificare il set di gemelli i cui dati sono disponibili per questo comportamento. Ciò include i gemelli primari e i gemelli non primari degli elementi bersaglio.\n\nUn gemello non primario è un'origine dati gemello digitale secondaria per un elemento. Sarai in grado di utilizzare le proprietà di quel gemello nelle espressioni di comportamento per questo elemento. È consigliabile aggiungere gemelli non primari solo quando sono presenti gemelli aggiuntivi con dati oltre al gemello principale che si desidera sfruttare nello stato, negli avvisi e nei widget per questo comportamento.\n\n",
+      "tipContent": "Esplora gemelli digitali di Azure può aiutarti a visualizzare i gemelli che potrebbero essere correlati al gemello principale per questo elemento. Puoi interrogare il tuo grafico usando SELECT * FROM digitaltwins WHERE $dtId='<primary-twin-id>', quindi utilizzare la funzione di espansione con doppio clic per esplorare i gemelli correlati."
+    },
+    "widgets": {
+      "title": "Cos'è un widget?",
+      "mainContent": "I widget sono oggetti visivi basati sui dati che forniscono contesto e dati aggiuntivi per aiutarti a comprendere lo scenario rappresentato dal comportamento. La configurazione dei widget ti aiuterà ad assicurarti che i dati corretti siano individuabili quando un avviso o uno stato è attivo.\n\n",
+      "typesOfWidgets": "Tipi di widget\n\n",
+      "gaugeDescription": "<Underline>Gauge:</Underline> Per rappresentare visivamente i punti dati numerici\n\n",
+      "linkDescription": "<Underline>Link:</Underline> Per includere contenuti con riferimenti esterni tramite un URL collegato\n\n",
+      "valueDescription": "<Underline>Value:</Underline> Per visualizzare direttamente i valori delle proprietà gemelle\n\n"
+    },
+    "sceneLayers": {
+      "title": "Che cos'è un livello di scena?",
+      "mainContent": "È possibile creare livelli nella scena per organizzare i comportamenti. I livelli agiscono come tag sui comportamenti, consentendo di definire quali comportamenti devono essere visti insieme, creando così viste personalizzate della scena per ruoli o attività diversi.\n\nSe non ci sono livelli in una scena, tutti i comportamenti verranno visualizzati nel visualizzatore della scena. Se nella scena è presente almeno un livello, nel visualizzatore verranno visualizzati solo i comportamenti contrassegnati con un livello.\n\nUn modo per creare livelli consiste nell'utilizzare il pulsante Livelli scena nella vista Crea per una scena. In alternativa, potete creare livelli durante la creazione o la modifica di un comportamento."
+    },
+    "modalTitle": "Benvenuto a 3D Scenes Studio!",
+    "publicPreview": "Anteprima pubblica",
+    "closeAriaLabel": "Chiudi modale",
+    "nextSlide": "Diapositiva successiva",
+    "previousSlide": "Diapositiva precedente",
+    "statusIndicatorSelectedAria": "Diapositiva {{slide}} selected",
+    "statusIndicatorUnselectedAria": "Seleziona diapositiva {{slide}}",
+    "tabs": {
+      "introduction": "Introduzione",
+      "concepts": "Concetti",
+      "elements": "Elementi",
+      "behaviors": "Comportamenti",
+      "twins": "Gemelli",
+      "widgets": "Widget",
+      "sceneLayers": "Livelli scena"
+    },
+    "frePages": {
+      "intro": {
+        "title": "Il nostro nuovo costruttore low-code",
+        "text": "In questo ambiente 3D immersivo è possibile monitorare, diagnosticare e analizzare i dati operativi con il contesto visivo delle risorse 3D, basato sui dati di Gemelli digitali di Azure, senza la necessità di competenze 3D."
+      },
+      "builder": {
+        "title": "Personalizza la tua scena nel nostro Builder",
+        "text": "Il builder in 3D Scenes Studio è l'interfaccia principale per la configurazione delle scene. È un'esperienza visiva low-code."
+      },
+      "viewer": {
+        "title": "Esplora nei dintorni o incorporalo altrove",
+        "text": "Guarda la scena 3D proprio qui nello Studio. Il componente visualizzatore può essere incorporato in applicazioni personalizzate e può funzionare in combinazione con i componenti di terze parti."
+      }
+    },
+    "conceptsRoot": {
+      "title": "Hai bisogno di un approfondimento sui concetti?",
+      "text": "Sfoglia il contenuto della guida o consulta la nostra documentazione per tutorial passo passo!"
+    },
+    "rootDocsLinkText": "Documentazione",
+    "githubLinkText": "GitHub",
+    "quickstartLinkText": "Guida introduttiva",
+    "primaryButtonText": "Esplora la demo",
+    "dismissText": "Licenziare"
   }
 }
