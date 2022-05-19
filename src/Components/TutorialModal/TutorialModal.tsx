@@ -45,16 +45,13 @@ export const TutorialModalContext = createContext<{
     classNames: IProcessedStyleSet<ITutorialModalStyles>;
 }>(null);
 
-const TutorialModal: React.FC<ITutorialModalProps> = (props) => {
+const TutorialModalBase: React.FC<ITutorialModalProps> = (props) => {
     const { t } = useTranslation();
     const {
         defaultPageKey = TutorialModalPage.INTRODUCTION,
         isOpen,
-        locale,
-        localeStrings,
         onDismiss,
-        styles,
-        theme
+        styles
     } = props;
     const classNames = getClassNames(styles, {
         theme: useTheme()
@@ -68,128 +65,120 @@ const TutorialModal: React.FC<ITutorialModalProps> = (props) => {
     const navLinkGroups = getNavLinkGroups(dispatch, t);
 
     return (
-        <BaseComponent
-            locale={locale}
-            localeStrings={localeStrings}
-            theme={theme}
+        <Modal
+            isOpen={isOpen}
+            onDismiss={() => onDismiss()}
+            titleAriaId={titleId}
+            styles={{
+                main: { overflow: 'hidden', display: 'flex' },
+                scrollableContent: { overflow: 'hidden' }
+            }}
+            layerProps={{ eventBubblingEnabled: true }}
         >
-            <Modal
-                isOpen={isOpen}
-                onDismiss={() => onDismiss()}
-                titleAriaId={titleId}
-                styles={{
-                    main: { overflow: 'hidden', display: 'flex' },
-                    scrollableContent: { overflow: 'hidden' }
-                }}
-                layerProps={{ eventBubblingEnabled: true }}
-            >
-                <TutorialModalContext.Provider value={{ classNames }}>
-                    <div className={classNames.root}>
-                        <div className={classNames.header}>
-                            <div className={classNames.headerTextContainer}>
-                                <span
-                                    id={titleId}
-                                    className={classNames.headerText}
-                                >
-                                    {t('tutorialModal.modalTitle')}
-                                </span>
-                                <div className={classNames.previewBadge}>
-                                    <Icon
-                                        iconName="Globe"
-                                        styles={{ root: { marginRight: 4 } }}
-                                    />
-                                    {t('tutorialModal.publicPreview')}
-                                </div>
+            <TutorialModalContext.Provider value={{ classNames }}>
+                <div className={classNames.root}>
+                    <div className={classNames.header}>
+                        <div className={classNames.headerTextContainer}>
+                            <span
+                                id={titleId}
+                                className={classNames.headerText}
+                            >
+                                {t('tutorialModal.modalTitle')}
+                            </span>
+                            <div className={classNames.previewBadge}>
+                                <Icon
+                                    iconName="Globe"
+                                    styles={{ root: { marginRight: 4 } }}
+                                />
+                                {t('tutorialModal.publicPreview')}
                             </div>
-                            <IconButton
-                                styles={classNames.subComponentStyles.closeButton()}
-                                iconProps={{ iconName: 'Cancel' }}
-                                ariaLabel={t('tutorialModal.closeAriaLabel')}
-                                onClick={onDismiss}
+                        </div>
+                        <IconButton
+                            styles={classNames.subComponentStyles.closeButton()}
+                            iconProps={{ iconName: 'Cancel' }}
+                            ariaLabel={t('tutorialModal.closeAriaLabel')}
+                            onClick={onDismiss}
+                        />
+                    </div>
+                    <div className={classNames.body}>
+                        <div className={classNames.navContainer}>
+                            <Nav
+                                groups={navLinkGroups}
+                                initialSelectedKey={state.pageKey}
+                                styles={classNames.subComponentStyles.nav}
                             />
                         </div>
-                        <div className={classNames.body}>
-                            <div className={classNames.navContainer}>
-                                <Nav
-                                    groups={navLinkGroups}
-                                    initialSelectedKey={state.pageKey}
-                                    styles={classNames.subComponentStyles.nav}
+                        <div className={classNames.contentPane}>
+                            {state.pageKey ===
+                            TutorialModalPage.INTRODUCTION ? (
+                                <IntroductionSlideShow
+                                    slideNumber={state.slideNumber}
+                                    setSlideNumber={(slideNumber) =>
+                                        dispatch({
+                                            type:
+                                                TutorialModalActionType.SET_SLIDE,
+                                            slide: slideNumber
+                                        })
+                                    }
                                 />
-                            </div>
-                            <div className={classNames.contentPane}>
-                                {state.pageKey ===
-                                TutorialModalPage.INTRODUCTION ? (
-                                    <IntroductionSlideShow
-                                        slideNumber={state.slideNumber}
-                                        setSlideNumber={(slideNumber) =>
-                                            dispatch({
-                                                type:
-                                                    TutorialModalActionType.SET_SLIDE,
-                                                slide: slideNumber
-                                            })
-                                        }
-                                    />
-                                ) : (
-                                    <ConceptPage pageKey={state.pageKey} />
-                                )}
-                            </div>
-                        </div>
-                        <div className={classNames.footer}>
-                            <Stack horizontal tokens={{ childrenGap: 8 }}>
-                                <Link
-                                    href={FRE_MODAL_LINKS.viewTheDocs}
-                                    target="_blank"
-                                >
-                                    {t('tutorialModal.rootDocsLinkText')}
-                                </Link>
-                                <Text
-                                    block
-                                    styles={
-                                        classNames.subComponentStyles
-                                            .linkSeparator
-                                    }
-                                >
-                                    |
-                                </Text>
-                                <Link
-                                    href={FRE_MODAL_LINKS.viewOnGithub}
-                                    target="_blank"
-                                >
-                                    {t('tutorialModal.githubLinkText')}
-                                </Link>
-                                <Text
-                                    block
-                                    styles={
-                                        classNames.subComponentStyles
-                                            .linkSeparator
-                                    }
-                                >
-                                    |
-                                </Text>
-                                <Link
-                                    href={FRE_MODAL_LINKS.viewTheQuickstart}
-                                    target="_blank"
-                                >
-                                    {t('tutorialModal.quickstartLinkText')}
-                                </Link>
-                            </Stack>
-                            <Stack horizontal tokens={{ childrenGap: 8 }}>
-                                <PrimaryButton
-                                    onClick={() =>
-                                        window.open(scenesDemoUrl, '_blank')
-                                    }
-                                >
-                                    {t('tutorialModal.primaryButtonText')}
-                                </PrimaryButton>
-                                <DefaultButton onClick={onDismiss}>
-                                    {t('tutorialModal.dismissText')}
-                                </DefaultButton>
-                            </Stack>
+                            ) : (
+                                <ConceptPage pageKey={state.pageKey} />
+                            )}
                         </div>
                     </div>
-                </TutorialModalContext.Provider>
-            </Modal>
-        </BaseComponent>
+                    <div className={classNames.footer}>
+                        <Stack horizontal tokens={{ childrenGap: 8 }}>
+                            <Link
+                                href={FRE_MODAL_LINKS.viewTheDocs}
+                                target="_blank"
+                            >
+                                {t('tutorialModal.rootDocsLinkText')}
+                            </Link>
+                            <Text
+                                block
+                                styles={
+                                    classNames.subComponentStyles.linkSeparator
+                                }
+                            >
+                                |
+                            </Text>
+                            <Link
+                                href={FRE_MODAL_LINKS.viewOnGithub}
+                                target="_blank"
+                            >
+                                {t('tutorialModal.githubLinkText')}
+                            </Link>
+                            <Text
+                                block
+                                styles={
+                                    classNames.subComponentStyles.linkSeparator
+                                }
+                            >
+                                |
+                            </Text>
+                            <Link
+                                href={FRE_MODAL_LINKS.viewTheQuickstart}
+                                target="_blank"
+                            >
+                                {t('tutorialModal.quickstartLinkText')}
+                            </Link>
+                        </Stack>
+                        <Stack horizontal tokens={{ childrenGap: 8 }}>
+                            <PrimaryButton
+                                onClick={() =>
+                                    window.open(scenesDemoUrl, '_blank')
+                                }
+                            >
+                                {t('tutorialModal.primaryButtonText')}
+                            </PrimaryButton>
+                            <DefaultButton onClick={onDismiss}>
+                                {t('tutorialModal.dismissText')}
+                            </DefaultButton>
+                        </Stack>
+                    </div>
+                </div>
+            </TutorialModalContext.Provider>
+        </Modal>
     );
 };
 
@@ -312,6 +301,19 @@ const nestedLinkIconProps: IIconStyles = {
     root: {
         marginLeft: 18
     }
+};
+
+const TutorialModal: React.FC<ITutorialModalProps> = (props) => {
+    const { locale, localeStrings, theme } = props;
+    return (
+        <BaseComponent
+            locale={locale}
+            localeStrings={localeStrings}
+            theme={theme}
+        >
+            <TutorialModalBase {...props} />
+        </BaseComponent>
+    );
 };
 
 export default styled<
