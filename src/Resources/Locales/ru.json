@@ -864,5 +864,8 @@
     "primaryButtonText": "Изучите демонстрацию",
     "dismissText": "Увольнять"
   },
-  "noName": "Без имени"
+  "noName": "Без имени",
+  "discardChanges": "Отмена изменений",
+  "discard": "Отбрасывать",
+  "discardChangesDesc": "Уверен? Вы не можете отменить это действие."
 }

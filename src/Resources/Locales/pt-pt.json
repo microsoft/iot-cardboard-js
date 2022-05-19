@@ -864,5 +864,8 @@
     "primaryButtonText": "Explore a demonstração",
     "dismissText": "Dispensar"
   },
-  "noName": "Sem nome"
+  "noName": "Sem nome",
+  "discardChanges": "Devoluções de alterações",
+  "discard": "Devoluções",
+  "discardChangesDesc": "Tens a certeza? Não podes desfazer esta ação."
 }

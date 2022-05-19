@@ -864,5 +864,8 @@
     "primaryButtonText": "探索演示",
     "dismissText": "解雇"
   },
-  "noName": "无名称"
+  "noName": "无名称",
+  "discardChanges": "放弃更改",
+  "discard": "丢弃",
+  "discardChangesDesc": "是否确定？您无法撤消此操作。"
 }

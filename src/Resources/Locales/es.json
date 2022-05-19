@@ -864,5 +864,8 @@
     "primaryButtonText": "Explora la demo",
     "dismissText": "Despedir"
   },
-  "noName": "Sin nombre"
+  "noName": "Sin nombre",
+  "discardChanges": "Descartar cambios",
+  "discard": "Descartar",
+  "discardChangesDesc": "¿Estás seguro? No puedes deshacer esta acción."
 }

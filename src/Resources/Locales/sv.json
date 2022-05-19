@@ -864,5 +864,8 @@
     "primaryButtonText": "Utforska demon",
     "dismissText": "Avskeda"
   },
-  "noName": "Inget namn"
+  "noName": "Inget namn",
+  "discardChanges": "Ignorera ändringar",
+  "discard": "Kasta bort",
+  "discardChangesDesc": "Är du säker? Du kan inte ångra den här åtgärden."
 }

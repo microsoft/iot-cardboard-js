@@ -864,5 +864,8 @@
     "primaryButtonText": "Entdecken Sie die Demo",
     "dismissText": "Entlassen"
   },
-  "noName": "Kein Name"
+  "noName": "Kein Name",
+  "discardChanges": "Änderungen verwerfen",
+  "discard": "Abwerfen",
+  "discardChangesDesc": "Bist du sicher? Sie können diese Aktion nicht rückgängig machen."
 }
