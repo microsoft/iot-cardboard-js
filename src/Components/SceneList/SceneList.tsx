@@ -222,7 +222,63 @@ const SceneList: React.FC<SceneListProps> = ({
                 return <span>{fieldContent}</span>;
         }
     };
+    const columns: IColumn[] = [
+        {
+            key: 'scene-name',
+            name: t('name'),
+            minWidth: 100,
+            isResizable: true,
+            onRender: (item: IScene) => <span>{item.displayName}</span>
+        },
+        {
+            key: 'scene-description',
+            name: t('scenes.description'),
+            minWidth: 280,
+            isResizable: true,
+            onRender: (item: IScene) => <span>{item.description}</span>
+        },
+        {
+            key: 'scene-urls',
+            name: t('scenes.blobUrl'),
+            minWidth: 280,
+            isResizable: true,
+            onRender: (item: IScene) => (
+                <ul className="cb-scene-list-blob-urls">
+                    {item.assets.map((a: IAsset, idx) => {
+                        return <li key={`blob-url-${idx}`}>{a.url}</li>;
+                    })}
+                </ul>
+            )
+        },
+        {
+            key: 'scene-action',
+            name: t('action'),
+            fieldName: 'action',
+            minWidth: 100
+        }
+    ];
 
+    const getColumns = React.useMemo(() => {
+        if (ViewerConfigUtility.hasGlobeCoordinates(sceneList)) {
+            columns.splice(
+                3,
+                0,
+                {
+                    key: 'scene-latitude',
+                    name: t('scenes.latitude'),
+                    minWidth: 100,
+                    onRender: (item: IScene) => item.latitude
+                },
+                {
+                    key: 'scene-longitude',
+                    name: t('scenes.longitude'),
+                    minWidth: 100,
+                    onRender: (item: IScene) => item.longitude
+                }
+            );
+        }
+        return columns;
+    }, [sceneList]);
     const renderBlobDropdown = useCallback(
         (
             onChange?: (blobUrl: string) => void,
@@ -289,56 +345,7 @@ const SceneList: React.FC<SceneListProps> = ({
                         <DetailsList
                             selectionMode={SelectionMode.none}
                             items={sceneList}
-                            columns={[
-                                {
-                                    key: 'scene-name',
-                                    name: t('name'),
-                                    minWidth: 100,
-                                    isResizable: true,
-                                    onRender: (item: IScene) => (
-                                        <span>{item.displayName}</span>
-                                    )
-                                },
-                                {
-                                    key: 'scene-urls',
-                                    name: t('scenes.blobUrl'),
-                                    minWidth: 400,
-                                    isResizable: true,
-                                    onRender: (item: IScene) => (
-                                        <ul className="cb-scene-list-blob-urls">
-                                            {item.assets.map(
-                                                (a: IAsset, idx) => {
-                                                    return (
-                                                        <li
-                                                            key={`blob-url-${idx}`}
-                                                        >
-                                                            {a.url}
-                                                        </li>
-                                                    );
-                                                }
-                                            )}
-                                        </ul>
-                                    )
-                                },
-                                {
-                                    key: 'scene-latitude',
-                                    name: t('scenes.sceneLatitude'),
-                                    minWidth: 100,
-                                    onRender: (item: IScene) => item.latitude
-                                },
-                                {
-                                    key: 'scene-longitude',
-                                    name: t('scenes.sceneLongitude'),
-                                    minWidth: 100,
-                                    onRender: (item: IScene) => item.longitude
-                                },
-                                {
-                                    key: 'scene-action',
-                                    name: t('action'),
-                                    fieldName: 'action',
-                                    minWidth: 100
-                                }
-                            ]}
+                            columns={getColumns}
                             setKey="set"
                             layoutMode={DetailsListLayoutMode.justified}
                             onRenderRow={renderListRow}
@@ -354,7 +361,6 @@ const SceneList: React.FC<SceneListProps> = ({
                             }}
                         />
                     </div>
-
                     <Dialog
                         hidden={!isConfirmDeleteDialogOpen}
                         onDismiss={() => setIsConfirmDeleteDialogOpen(false)}
@@ -393,36 +399,38 @@ const SceneList: React.FC<SceneListProps> = ({
                     />
                 </div>
             )}
-            <SceneDialog
-                adapter={adapter}
-                isOpen={isSceneDialogOpen}
-                onClose={() => {
-                    setIsSceneDialogOpen(false);
-                    setSelectedScene(null);
-                    addScene.cancelAdapter();
-                    editScene.cancelAdapter();
-                }}
-                sceneToEdit={selectedScene}
-                onEditScene={(updatedScene) => {
-                    editScene.callAdapter({
-                        config: config,
-                        sceneId: updatedScene.id,
-                        scene: updatedScene
-                    });
-                }}
-                onAddScene={(newScene) => {
-                    let newId = createGUID();
-                    const existingIds = sceneList.map((s) => s.id);
-                    while (existingIds.includes(newId)) {
-                        newId = createGUID();
-                    }
-                    addScene.callAdapter({
-                        config: config,
-                        scene: { ...newScene, id: newId }
-                    });
-                }}
-                renderBlobDropdown={renderBlobDropdown}
-            />
+            {isSceneDialogOpen && (
+                <SceneDialog
+                    adapter={adapter}
+                    isOpen={isSceneDialogOpen}
+                    onClose={() => {
+                        setIsSceneDialogOpen(false);
+                        setSelectedScene(null);
+                        addScene.cancelAdapter();
+                        editScene.cancelAdapter();
+                    }}
+                    sceneToEdit={selectedScene}
+                    onEditScene={(updatedScene) => {
+                        editScene.callAdapter({
+                            config: config,
+                            sceneId: updatedScene.id,
+                            scene: updatedScene
+                        });
+                    }}
+                    onAddScene={(newScene) => {
+                        let newId = createGUID();
+                        const existingIds = sceneList.map((s) => s.id);
+                        while (existingIds.includes(newId)) {
+                            newId = createGUID();
+                        }
+                        addScene.callAdapter({
+                            config: config,
+                            scene: { ...newScene, id: newId }
+                        });
+                    }}
+                    renderBlobDropdown={renderBlobDropdown}
+                />
+            )}
         </BaseComponent>
     );
 };

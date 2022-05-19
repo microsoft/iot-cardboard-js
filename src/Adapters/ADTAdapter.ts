@@ -70,6 +70,7 @@ import {
 import { ElementType } from '../Models/Classes/3DVConfig';
 import { ModelDict } from 'azure-iot-dtdl-parser/dist/parser/modelDict';
 import AdapterEntityCache from '../Models/Classes/AdapterEntityCache';
+import queryString from 'query-string';
 
 export default class ADTAdapter implements IADTAdapter {
     public tenantId: string;
@@ -251,9 +252,20 @@ export default class ADTAdapter implements IADTAdapter {
 
                         // If next link present, fetch next chunk
                         if (adtModelsApiData.result.data.nextLink) {
-                            await appendModels(
-                                adtModelsApiData.result.data.nextLink
-                            );
+                            try {
+                                const url = new URL(
+                                    adtModelsApiData.result.data.nextLink
+                                );
+                                const continuationToken = queryString.parse(
+                                    url.search
+                                ).continuationToken as string;
+                                await appendModels(continuationToken);
+                            } catch (e) {
+                                console.log(
+                                    'Continuation token for models call unsuccessfully parsed',
+                                    e
+                                );
+                            }
                         }
                     };
 
