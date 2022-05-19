@@ -84,8 +84,6 @@
   "twinId": "ID de gémeos",
   "active": "Ativo",
   "invalidValue": "Valor inválido",
-  "refreshing": "Refrescante...",
-  "refreshPage": "Página de atualização",
   "errors": {
     "errorBoundary": "Limite de erro",
     "unkownError": "Erro desconhecido ocorreu",
@@ -796,8 +794,6 @@
     "checkingPermissions": "A verificar permissões...",
     "resolveIssues": "Resolver problemas",
     "resolvingIssues": "Resolver problemas...",
-    "missingPermissions": "Permissões em falta",
-    "assignRoleSuccessTitle": "Permissões em falta com sucesso!",
     "assignRoleSuccessDesc": "Pode levar até 30 minutos para que as alterações entrem em vigor. Por favor, aguarde enquanto tentamos refrescar a página da cena a cada 15 segundos ou pode recarregar a página da cena depois de um tempo.",
     "noMissingRoleDesc": "Sem qualquer problema de permissão em falta detetado, por favor, aguarde algum tempo para que as permissões recentemente atribuídas se propaguem antes de recarregar a página da cena.",
     "finishedWithFailureDesc": "O diagnóstico falhou, por favor contacte o proprietário do recurso.",
@@ -808,6 +804,11 @@
     "corsErrorTitle": "Erro do CORS",
     "corsErrorMessage": "O serviço de blob da sua conta de armazenamento deve ter algumas propriedades certas para permitir que o CORS possa usar ativos 3D nas suas cenas.",
     "internalServerErrorMessage": "Erro interno do servidor, verifique os registos do servidor.",
-    "noMissingRolesTitle": "Não foram detetados papéis em falta."
-  }
+    "missingPermissionsMessage": "Tem permissões que faltam. Você precisará de acesso como Leitor e ou Proprietário de Dados Blob de Armazenamento ou Colaborador de Dados blob de armazenamento.",
+    "verifyingPermissionsMessage": "Verificação de permissões...\nPode levar vários minutos para que as alterações se propaguem."
+  },
+  "diagnose": "Diagnóstico",
+  "resolve": "Resolver",
+  "verify": "Verificar",
+  "success": "Que sucesso!"
 }

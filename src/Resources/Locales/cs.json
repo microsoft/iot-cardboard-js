@@ -84,8 +84,6 @@
   "twinId": "ID dvojčat",
   "active": "Aktivní",
   "invalidValue": "Neplatná hodnota",
-  "refreshing": "Osvěžující...",
-  "refreshPage": "Aktualizovat stránku",
   "errors": {
     "errorBoundary": "Hranice chyby",
     "unkownError": "Došlo k neznámé chybě",
@@ -796,8 +794,6 @@
     "checkingPermissions": "Kontrola oprávnění...",
     "resolveIssues": "Řešení problémů",
     "resolvingIssues": "Řešení problémů...",
-    "missingPermissions": "Chybějící oprávnění",
-    "assignRoleSuccessTitle": "Úspěšně přiřazena chybějící oprávnění!",
     "assignRoleSuccessDesc": "Může trvat až 30 minut, než se změny projeví. Počkejte prosím, než se pokusíme aktualizovat stránku scény každých 15 sekund, nebo můžete stránku scény po chvíli znovu načíst.",
     "noMissingRoleDesc": "Nebyl zjištěn žádný problém s chybějícími oprávněními, před opětovným načtením stránky scény počkejte nějakou dobu, než se nedávno přiřazená oprávnění rozšíří.",
     "finishedWithFailureDesc": "Diagnóza se nezdařila, obraťte se na vlastníka zdroje.",
@@ -808,6 +804,11 @@
     "corsErrorTitle": "Chyba CORS",
     "corsErrorMessage": "Služba blob vašeho účtu úložiště by měla mít některé určité vlastnosti, aby CORS mohl ve vašich scénách používat 3D prostředky.",
     "internalServerErrorMessage": "Vnitřní chyba serveru, zkontrolujte protokoly serveru.",
-    "noMissingRolesTitle": "Nebyly zjištěny žádné chybějící role."
-  }
+    "missingPermissionsMessage": "Chybí vám oprávnění. Budete potřebovat přístup jako čtenář a buď vlastník dat objektů BLOB úložiště, nebo přispěvatel dat objektů BLOB úložiště.",
+    "verifyingPermissionsMessage": "Ověření oprávnění...\nMůže trvat několik minut, než se změny rozšíří."
+  },
+  "diagnose": "Diagnostikovat",
+  "resolve": "Vyřešit",
+  "verify": "Ověřit",
+  "success": "Úspěch!"
 }

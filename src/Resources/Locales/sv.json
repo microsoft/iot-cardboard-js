@@ -84,8 +84,6 @@
   "twinId": "Tvilling-ID",
   "active": "Aktiv",
   "invalidValue": "Ogiltigt värde",
-  "refreshing": "Uppfriskande...",
-  "refreshPage": "Uppdatera sida",
   "errors": {
     "errorBoundary": "Felgräns",
     "unkownError": "Okänt fel inträffade",
@@ -796,8 +794,6 @@
     "checkingPermissions": "Kontrollera behörigheter...",
     "resolveIssues": "Lösa problem",
     "resolvingIssues": "Lösa problem ...",
-    "missingPermissions": "Behörigheter saknas",
-    "assignRoleSuccessTitle": "Har tilldelat saknade behörigheter!",
     "assignRoleSuccessDesc": "Det kan ta upp till 30 minuter innan ändringarna träder i kraft. Vänta medan vi försöker uppdatera scensidan var 15: e sekund eller så kan du ladda om scensidan efter ett tag.",
     "noMissingRoleDesc": "Inget saknat behörighetsproblem har upptäckts, vänta en stund tills de nyligen tilldelade behörigheterna sprids innan du laddar om scensidan.",
     "finishedWithFailureDesc": "Diagnosen misslyckades, kontakta resursägaren.",
@@ -808,6 +804,11 @@
     "corsErrorTitle": "CORS-fel",
     "corsErrorMessage": "Lagringskontots blobtjänst bör ha vissa egenskaper så att CORS kan använda 3D-tillgångar i dina scener.",
     "internalServerErrorMessage": "Internt serverfel, kontrollera serverloggarna.",
-    "noMissingRolesTitle": "Inga saknade roller har identifierats."
-  }
+    "missingPermissionsMessage": "Du saknar behörigheter. Du behöver åtkomst som läsare och antingen Storage Blob Data Owner eller Storage Blob Data Contributor.",
+    "verifyingPermissionsMessage": "Verifiera behörigheter...\nDet kan ta flera minuter innan ändringarna sprids."
+  },
+  "diagnose": "Diagnostisera",
+  "resolve": "Lösa",
+  "verify": "Kontrollera",
+  "success": "Framgång!"
 }

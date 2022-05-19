@@ -84,8 +84,6 @@
   "twinId": "Id jumeau",
   "active": "Actif",
   "invalidValue": "Valeur non valide",
-  "refreshing": "Rafraîchissant...",
-  "refreshPage": "Actualiser la page",
   "errors": {
     "errorBoundary": "Limite d’erreur",
     "unkownError": "Une erreur inconnue s’est produite",
@@ -796,8 +794,6 @@
     "checkingPermissions": "Vérification des autorisations...",
     "resolveIssues": "Résoudre les problèmes",
     "resolvingIssues": "Résolution des problèmes...",
-    "missingPermissions": "Autorisations manquantes",
-    "assignRoleSuccessTitle": "Attribution réussie des autorisations manquantes!",
     "assignRoleSuccessDesc": "Cela peut prendre jusqu’à 30 minutes pour que les modifications prennent effet. Veuillez patienter pendant que nous essayons d’actualiser la page de scène toutes les 15 secondes ou vous pouvez recharger la page de scène après un certain temps.",
     "noMissingRoleDesc": "Aucun problème d’autorisation manquant détecté, veuillez attendre un certain temps que les autorisations récemment attribuées se propagent avant de recharger la page de scène.",
     "finishedWithFailureDesc": "Échec du diagnostic, veuillez contacter le propriétaire de la ressource.",
@@ -808,6 +804,11 @@
     "corsErrorTitle": "Erreur CORS",
     "corsErrorMessage": "Le service d'objets blob de votre compte de stockage doit avoir certaines propriétés pour permettre à CORS de pouvoir utiliser des ressources 3D dans vos scènes.",
     "internalServerErrorMessage": "Erreur interne du serveur, veuillez vérifier les journaux du serveur.",
-    "noMissingRolesTitle": "Aucun rôle manquant détecté."
-  }
+    "missingPermissionsMessage": "Vous avez des autorisations manquantes. Vous aurez besoin d’un accès en tant que lecteur et propriétaire des données d’objets blob de stockage ou contributeur de données d’objets blob de stockage.",
+    "verifyingPermissionsMessage": "Vérification des autorisations...\nLa propagation des modifications peut prendre plusieurs minutes."
+  },
+  "diagnose": "Diagnostiquer",
+  "resolve": "Résoudre",
+  "verify": "Vérifier",
+  "success": "Succès!"
 }

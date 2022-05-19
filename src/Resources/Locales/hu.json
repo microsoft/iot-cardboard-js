@@ -84,8 +84,6 @@
   "twinId": "Ikerazonosító",
   "active": "Aktív",
   "invalidValue": "Érvénytelen érték",
-  "refreshing": "Frissítő...",
-  "refreshPage": "Frissítési lap",
   "errors": {
     "errorBoundary": "Hibahatár",
     "unkownError": "Ismeretlen hiba történt",
@@ -796,8 +794,6 @@
     "checkingPermissions": "Engedélyek ellenőrzése...",
     "resolveIssues": "Problémák megoldása",
     "resolvingIssues": "Problémák megoldása...",
-    "missingPermissions": "Hiányzó engedélyek",
-    "assignRoleSuccessTitle": "A hiányzó engedélyek hozzárendelése sikeresen megtörtént!",
     "assignRoleSuccessDesc": "A módosítások érvénybe léptetése akár 30 percet is igénybe vehet. Kérjük, várjon, amíg megpróbáljuk frissíteni a jelenetoldalt 15 másodpercenként, vagy egy idő után újra betöltheti a jelenetoldalt.",
     "noMissingRoleDesc": "A jelenetoldal újratöltése előtt várjon egy kis időt a legutóbb hozzárendelt engedélyek propagálására.",
     "finishedWithFailureDesc": "A diagnózis nem sikerült, kérjük, vegye fel a kapcsolatot az erőforrás tulajdonosával.",
@@ -808,6 +804,11 @@
     "corsErrorTitle": "CORS hiba",
     "corsErrorMessage": "A tárfiók blob szolgáltatásának rendelkeznie kell néhány bizonyos tulajdonsággal, hogy a CORS képes legyen 3D-s eszközöket használni a jelenetekben.",
     "internalServerErrorMessage": "Belső kiszolgálóhiba, ellenőrizze a kiszolgáló naplóit.",
-    "noMissingRolesTitle": "Nem észleltek hiányzó szerepköröket."
-  }
+    "missingPermissionsMessage": "Hiányoznak az engedélyei. Hozzá kell férnie olvasóként és tárolóblob adattulajdonosként vagy tárolóblob adatszolgáltatóként.",
+    "verifyingPermissionsMessage": "Engedélyek ellenőrzése...\nA módosítások propagálása több percet is igénybe vehet."
+  },
+  "diagnose": "Diagnosztizál",
+  "resolve": "Megfejt",
+  "verify": "Igazol",
+  "success": "Siker!"
 }

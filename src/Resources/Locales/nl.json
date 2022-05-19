@@ -84,8 +84,6 @@
   "twinId": "Dubbele ID",
   "active": "Actief",
   "invalidValue": "Ongeldige waarde",
-  "refreshing": "Verfrissend...",
-  "refreshPage": "Pagina vernieuwen",
   "errors": {
     "errorBoundary": "Foutgrens",
     "unkownError": "Onbekende fout opgetreden",
@@ -796,8 +794,6 @@
     "checkingPermissions": "Machtigingen controleren...",
     "resolveIssues": "Problemen oplossen",
     "resolvingIssues": "Problemen oplossen...",
-    "missingPermissions": "Ontbrekende machtigingen",
-    "assignRoleSuccessTitle": "Met succes ontbrekende machtigingen toegewezen!",
     "assignRoleSuccessDesc": "Het kan tot 30 minuten duren voordat de wijzigingen van kracht worden. Wacht even terwijl we proberen de scènepagina elke 15 seconden te vernieuwen of u kunt de scènepagina na een tijdje opnieuw laden.",
     "noMissingRoleDesc": "Er is geen ontbrekend machtigingsprobleem gedetecteerd, wacht enige tijd totdat de onlangs toegewezen machtigingen zijn doorgegeven voordat u de scènepagina opnieuw laadt.",
     "finishedWithFailureDesc": "Diagnose mislukt, neem contact op met de eigenaar van de bron.",
@@ -808,6 +804,11 @@
     "corsErrorTitle": "CORS-fout",
     "corsErrorMessage": "De blobservice van uw opslagaccount moet bepaalde eigenschappen hebben om CORS in staat te stellen 3D-elementen in uw scènes te gebruiken.",
     "internalServerErrorMessage": "Interne serverfout, controleer de serverlogboeken.",
-    "noMissingRolesTitle": "Geen ontbrekende rollen gedetecteerd."
-  }
+    "missingPermissionsMessage": "Er ontbreken machtigingen. U hebt toegang nodig als reader en eigenaar van opslagblobdesktgegevens of opslag blobgegevensbijdrager.",
+    "verifyingPermissionsMessage": "Machtigingen verifiëren...\nHet kan enkele minuten duren voordat de wijzigingen zich verspreiden."
+  },
+  "diagnose": "Diagnosticeren",
+  "resolve": "Oplossen",
+  "verify": "Verifiëren",
+  "success": "Succes!"
 }

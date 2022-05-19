@@ -84,8 +84,6 @@
   "twinId": "Twin-ID",
   "active": "Aktiv",
   "invalidValue": "Ungültiger Wert",
-  "refreshing": "Auffrischend...",
-  "refreshPage": "Seite aktualisieren",
   "errors": {
     "errorBoundary": "Fehlergrenze",
     "unkownError": "Unbekannter Fehler aufgetreten",
@@ -796,8 +794,6 @@
     "checkingPermissions": "Berechtigungen werden überprüft...",
     "resolveIssues": "Beheben von Problemen",
     "resolvingIssues": "Probleme lösen...",
-    "missingPermissions": "Fehlende Berechtigungen",
-    "assignRoleSuccessTitle": "Fehlende Berechtigungen wurden erfolgreich zugewiesen!",
     "assignRoleSuccessDesc": "Es kann bis zu 30 Minuten dauern, bis Änderungen wirksam werden. Bitte warten Sie, während wir versuchen, die Szenenseite alle 15 Sekunden zu aktualisieren, oder Sie können die Szenenseite nach einer Weile neu laden.",
     "noMissingRoleDesc": "Kein fehlendes Berechtigungsproblem erkannt, warten Sie einige Zeit, bis die kürzlich zugewiesenen Berechtigungen weitergegeben wurden, bevor Sie die Szenenseite neu laden.",
     "finishedWithFailureDesc": "Die Diagnose ist fehlgeschlagen, wenden Sie sich bitte an den Ressourcenbesitzer.",
@@ -808,6 +804,11 @@
     "corsErrorTitle": "CORS-Fehler",
     "corsErrorMessage": "Der Blob-Dienst Ihres Speicherkontos sollte über einige bestimmte Eigenschaften verfügen, damit CORS 3D-Assets in Ihren Szenen verwenden kann.",
     "internalServerErrorMessage": "Interner Serverfehler, bitte überprüfen Sie die Serverprotokolle.",
-    "noMissingRolesTitle": "Keine fehlenden Rollen erkannt."
-  }
+    "missingPermissionsMessage": "Sie haben fehlende Berechtigungen. Sie benötigen Zugriff als Reader und entweder Storage Blob Data Owner oder Storage Blob Data Contributor.",
+    "verifyingPermissionsMessage": "Berechtigungen überprüfen...\nEs kann einige Minuten dauern, bis sich die Änderungen ausbreiten."
+  },
+  "diagnose": "Diagnostizieren",
+  "resolve": "Beschließen",
+  "verify": "Überprüfen",
+  "success": "Erfolg!"
 }

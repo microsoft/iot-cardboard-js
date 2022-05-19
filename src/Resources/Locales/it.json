@@ -84,8 +84,6 @@
   "twinId": "DOPPIA ID",
   "active": "Attivo",
   "invalidValue": "Valore non valido",
-  "refreshing": "Rinfrescante...",
-  "refreshPage": "Aggiorna pagina",
   "errors": {
     "errorBoundary": "Limite di errore",
     "unkownError": "Si è verificato un errore sconosciuto",
@@ -796,8 +794,6 @@
     "checkingPermissions": "Controllo delle autorizzazioni...",
     "resolveIssues": "Risolvere i problemi",
     "resolvingIssues": "Risoluzione dei problemi...",
-    "missingPermissions": "Autorizzazioni mancanti",
-    "assignRoleSuccessTitle": "Assegnate con successo le autorizzazioni mancanti!",
     "assignRoleSuccessDesc": "Possono essere necessari fino a 30 minuti prima che le modifiche abbiano effetto. Attendi mentre proviamo ad aggiornare la pagina della scena ogni 15 secondi o puoi ricaricare la pagina della scena dopo un po '.",
     "noMissingRoleDesc": "Nessun problema di autorizzazione mancante rilevato, attendere un po 'di tempo affinché le autorizzazioni assegnate di recente si propaghino prima di ricaricare la pagina della scena.",
     "finishedWithFailureDesc": "Diagnosi non riuscita, contattare il proprietario della risorsa.",
@@ -808,6 +804,11 @@
     "corsErrorTitle": "Errore CORS",
     "corsErrorMessage": "Il servizio BLOB dell'account di archiviazione deve disporre di alcune proprietà specifiche per consentire a CORS di utilizzare le risorse 3D nelle scene.",
     "internalServerErrorMessage": "Errore interno del server, controllare i registri del server.",
-    "noMissingRolesTitle": "Nessun ruolo mancante rilevato."
-  }
+    "missingPermissionsMessage": "Mancano le autorizzazioni. Sarà necessario accedere come lettore e proprietario dei dati BLOB di archiviazione o collaboratore dei dati BLOB di archiviazione.",
+    "verifyingPermissionsMessage": "Verifica delle autorizzazioni...\nLa propagazione delle modifiche potrebbe richiedere alcuni minuti."
+  },
+  "diagnose": "Diagnosticare",
+  "resolve": "Risolvere",
+  "verify": "Verificare",
+  "success": "Successo!"
 }

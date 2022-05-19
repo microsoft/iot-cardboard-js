@@ -84,8 +84,6 @@
   "twinId": "ID duplo",
   "active": "Ativo",
   "invalidValue": "Valor inválido",
-  "refreshing": "Refrescante...",
-  "refreshPage": "Página de atualização",
   "errors": {
     "errorBoundary": "Limite de erro",
     "unkownError": "Ocorreu erro desconhecido",
@@ -796,8 +794,6 @@
     "checkingPermissions": "Verificando permissões...",
     "resolveIssues": "Resolver problemas",
     "resolvingIssues": "Resolvendo problemas...",
-    "missingPermissions": "Permissões perdidas",
-    "assignRoleSuccessTitle": "Com sucesso, atribuíram permissões perdidas!",
     "assignRoleSuccessDesc": "Pode levar até 30 minutos para que as alterações entrem em vigor. Por favor, espere enquanto tentamos atualizar a página de cena a cada 15 segundos ou você pode recarregar a página da cena depois de um tempo.",
     "noMissingRoleDesc": "Nenhum problema de permissão ausente detectado, por favor, espere algum tempo para as permissões recentemente atribuídas para propagar antes de recarregar a página da cena.",
     "finishedWithFailureDesc": "O diagnóstico falhou, por favor entre em contato com o proprietário do recurso.",
@@ -808,6 +804,11 @@
     "corsErrorTitle": "Erro cors",
     "corsErrorMessage": "O serviço de bolhas da sua conta de armazenamento deve ter algumas propriedades certas para permitir que o CORS possa usar ativos 3D em suas cenas.",
     "internalServerErrorMessage": "Erro interno do servidor, verifique os registros do servidor.",
-    "noMissingRolesTitle": "Não são detectados papéis perdidos."
-  }
+    "missingPermissionsMessage": "Você tem permissões perdidas. Você precisará de acesso como leitor e proprietário de dados do Storage Blob ou colaborador de dados do Blob de armazenamento.",
+    "verifyingPermissionsMessage": "Verificando permissões...\nPode levar vários minutos para que as mudanças se propaguem."
+  },
+  "diagnose": "Diagnosticar",
+  "resolve": "Resolver",
+  "verify": "Verificar",
+  "success": "Êxito!"
 }

@@ -84,8 +84,6 @@
   "twinId": "트윈 ID",
   "active": "활동적인",
   "invalidValue": "잘못된 값",
-  "refreshing": "상쾌한...",
-  "refreshPage": "페이지 새로 고침",
   "errors": {
     "errorBoundary": "오류 경계",
     "unkownError": "알 수 없는 오류가 발생했습니다.",
@@ -796,8 +794,6 @@
     "checkingPermissions": "사용 권한 확인 중...",
     "resolveIssues": "문제 해결",
     "resolvingIssues": "문제 해결...",
-    "missingPermissions": "누락된 사용 권한",
-    "assignRoleSuccessTitle": "누락 된 권한을 성공적으로 할당했습니다!",
     "assignRoleSuccessDesc": "변경 내용이 적용되는 데 최대 30분이 걸릴 수 있습니다. 15초마다 장면 페이지를 새로 고치는 동안 기다리거나 잠시 후 장면 페이지를 다시 로드할 수 있습니다.",
     "noMissingRoleDesc": "누락 된 권한 문제가 감지되지 않았으므로 장면 페이지를 다시로드하기 전에 최근에 할당 된 권한이 전파 될 때까지 잠시 기다려주십시오.",
     "finishedWithFailureDesc": "진단에 실패했습니다, 자원 소유자에게 문의하십시오.",
@@ -808,6 +804,11 @@
     "corsErrorTitle": "CORS 오류",
     "corsErrorMessage": "저장소 계정의 Blob 서비스에는 CORS가 장면에서 3D 자산을 사용할 수 있도록 하는 몇 가지 특정 속성이 있어야 합니다.",
     "internalServerErrorMessage": "내부 서버 오류, 서버 로그를 확인하십시오.",
-    "noMissingRolesTitle": "누락된 역할이 감지되지 않았습니다."
-  }
+    "missingPermissionsMessage": "사용 권한이 누락되었습니다. 판독기 및 저장소 Blob 데이터 소유자 또는 저장소 Blob 데이터 기여자로 액세스해야 합니다.",
+    "verifyingPermissionsMessage": "사용 권한 확인 중...\n변경 내용이 전파되는 데 몇 분 정도 걸릴 수 있습니다."
+  },
+  "diagnose": "진단하다",
+  "resolve": "해결하다",
+  "verify": "확인",
+  "success": "성공!"
 }

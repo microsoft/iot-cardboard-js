@@ -84,8 +84,6 @@
   "twinId": "Identificación doble",
   "active": "Activo",
   "invalidValue": "Valor no válido",
-  "refreshing": "Refrescante...",
-  "refreshPage": "Actualizar página",
   "errors": {
     "errorBoundary": "Límite de error",
     "unkownError": "Error desconocido",
@@ -796,8 +794,6 @@
     "checkingPermissions": "Comprobando permisos...",
     "resolveIssues": "Resolver problemas",
     "resolvingIssues": "Resolviendo problemas...",
-    "missingPermissions": "Faltan permisos",
-    "assignRoleSuccessTitle": "¡Se han asignado correctamente los permisos que faltan!",
     "assignRoleSuccessDesc": "Los cambios pueden tardar hasta 30 minutos en surtir efecto. Espere mientras intentamos actualizar la página de la escena cada 15 segundos o puede volver a cargar la página de la escena después de un tiempo.",
     "noMissingRoleDesc": "No se detectó ningún problema de permisos faltantes, espere un tiempo para que los permisos asignados recientemente se propaguen antes de volver a cargar la página de escena.",
     "finishedWithFailureDesc": "Error de diagnóstico, comuníquese con el propietario del recurso.",
@@ -808,6 +804,11 @@
     "corsErrorTitle": "Error de CORS",
     "corsErrorMessage": "El servicio de blobs de su cuenta de almacenamiento debe tener algunas propiedades determinadas para permitir que CORS pueda usar activos 3D en sus escenas.",
     "internalServerErrorMessage": "Error interno del servidor, verifique los registros del servidor.",
-    "noMissingRolesTitle": "No se han detectado roles faltantes."
-  }
+    "missingPermissionsMessage": "Faltan permisos. Necesitará acceso como lector y como propietario de datos de blobs de almacenamiento o colaborador de datos de blobs de almacenamiento.",
+    "verifyingPermissionsMessage": "Verificando permisos...\nLos cambios pueden tardar varios minutos en propagarse."
+  },
+  "diagnose": "Diagnosticar",
+  "resolve": "Resolver",
+  "verify": "Verificar",
+  "success": "¡Éxito!"
 }

@@ -84,8 +84,6 @@
   "twinId": "Podwójny identyfikator",
   "active": "Aktywny",
   "invalidValue": "Nieprawidłowa wartość",
-  "refreshing": "Orzeźwiające...",
-  "refreshPage": "Odśwież stronę",
   "errors": {
     "errorBoundary": "Granica błędu",
     "unkownError": "Wystąpił nieznany błąd",
@@ -796,8 +794,6 @@
     "checkingPermissions": "Sprawdzanie uprawnień...",
     "resolveIssues": "Rozwiązywanie problemów",
     "resolvingIssues": "Rozwiązywanie problemów...",
-    "missingPermissions": "Brakujące uprawnienia",
-    "assignRoleSuccessTitle": "Pomyślnie przypisano brakujące uprawnienia!",
     "assignRoleSuccessDesc": "Zastosowanie zmian może potrwać do 30 minut. Poczekaj, aż spróbujemy odświeżyć stronę sceny co 15 sekund lub możesz ponownie załadować stronę sceny po chwili.",
     "noMissingRoleDesc": "Nie wykryto problemu z brakującymi uprawnieniami, poczekaj trochę czasu na propagację ostatnio przypisanych uprawnień przed ponownym załadowaniem strony sceny.",
     "finishedWithFailureDesc": "Diagnoza nie powiodła się, skontaktuj się z właścicielem zasobu.",
@@ -808,6 +804,11 @@
     "corsErrorTitle": "Błąd CORS",
     "corsErrorMessage": "Usługa obiektów blob konta magazynu powinna mieć pewne właściwości umożliwiające CORS używanie zasobów 3D w scenach.",
     "internalServerErrorMessage": "Wewnętrzny błąd serwera, sprawdź logi serwera.",
-    "noMissingRolesTitle": "Nie wykryto brakujących ról."
-  }
+    "missingPermissionsMessage": "Brakuje Ci uprawnień. Będziesz potrzebować dostępu jako czytelnik i właściciel danych obiektów blob magazynu lub współtwórca danych obiektów blob magazynu.",
+    "verifyingPermissionsMessage": "Weryfikowanie uprawnień...\nPropagacja zmian może potrwać kilka minut."
+  },
+  "diagnose": "Diagnozować",
+  "resolve": "Rozwiązać",
+  "verify": "Zweryfikować",
+  "success": "Sukces!"
 }

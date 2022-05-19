@@ -84,8 +84,6 @@
   "twinId": "İkiz Kimlik",
   "active": "Etkin",
   "invalidValue": "Geçersiz değer",
-  "refreshing": "Canlandırıcı...",
-  "refreshPage": "Sayfayı yenile",
   "errors": {
     "errorBoundary": "Hata sınırı",
     "unkownError": "Bilinmeyen hata oluştu",
@@ -796,8 +794,6 @@
     "checkingPermissions": "İzinler kontrol ediliyor...",
     "resolveIssues": "Sorunları çözme",
     "resolvingIssues": "Sorunları çözmek...",
-    "missingPermissions": "Eksik izinler",
-    "assignRoleSuccessTitle": "Eksik izinler başarıyla atandı!",
     "assignRoleSuccessDesc": "Değişikliklerin geçerlilik kazanması 30 dakika kadar sürebilir. Sahne sayfasını her 15 saniyede bir yenilemeyi denerken lütfen bekleyin, aksi takdirde sahne sayfasını bir süre sonra yeniden yükleyebilirsiniz.",
     "noMissingRoleDesc": "Eksik izin sorunu algılanmadı, lütfen sahne sayfasını yeniden yüklemeden önce son atanan izinlerin yayılması için biraz bekleyin.",
     "finishedWithFailureDesc": "Tanılama başarısız oldu, lütfen kaynak sahibine başvurun.",
@@ -808,6 +804,11 @@
     "corsErrorTitle": "CORS hatası",
     "corsErrorMessage": "Depolama hesabınızın blob hizmeti, CORS'un sahnelerinizde 3B varlıkları kullanabilmesini sağlamak için bazı belirli özelliklere sahip olmalıdır.",
     "internalServerErrorMessage": "Dahili sunucu hatası, lütfen sunucu günlüklerini kontrol edin.",
-    "noMissingRolesTitle": "Eksik rol algılanmadı."
-  }
+    "missingPermissionsMessage": "Eksik izinleriniz var. Okuyucu ve Depolama Blobu Veri Sahibi veya Depolama Blobu Veri Katılımcısı olarak erişime ihtiyacınız olacaktır.",
+    "verifyingPermissionsMessage": "İzinler doğrulanıyor...\nDeğişikliklerin yayılması birkaç dakika sürebilir."
+  },
+  "diagnose": "Tanılamak",
+  "resolve": "Çözmek",
+  "verify": "Doğrulamak",
+  "success": "Başarı!"
 }

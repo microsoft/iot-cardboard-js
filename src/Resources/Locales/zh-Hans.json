@@ -84,8 +84,6 @@
   "twinId": "双胞胎身份证",
   "active": "积极",
   "invalidValue": "值无效",
-  "refreshing": "刷新。。。",
-  "refreshPage": "刷新页面",
   "errors": {
     "errorBoundary": "错误边界",
     "unkownError": "发生未知错误",
@@ -796,8 +794,6 @@
     "checkingPermissions": "正在检查权限...",
     "resolveIssues": "解决问题",
     "resolvingIssues": "正在解决问题...",
-    "missingPermissions": "缺少权限",
-    "assignRoleSuccessTitle": "已成功分配缺少的权限！",
     "assignRoleSuccessDesc": "更改最长可能需要 30 分钟才能生效。请稍候，我们尝试每 15 秒刷新一次场景页面，或者您可以在一段时间后重新加载场景页面。",
     "noMissingRoleDesc": "未检测到缺少权限问题，请等待一段时间，等待最近分配的权限传播，然后再重新加载场景页面。",
     "finishedWithFailureDesc": "诊断失败，请联系资源所有者。",
@@ -808,6 +804,11 @@
     "corsErrorTitle": "CORS 错误",
     "corsErrorMessage": "存储帐户的 Blob 服务应具有一些特定属性，以使 CORS 能够在场景中使用 3D 资产。",
     "internalServerErrorMessage": "内部服务器错误，请检查服务器日志。",
-    "noMissingRolesTitle": "未检测到缺少的角色。"
-  }
+    "missingPermissionsMessage": "您缺少权限。需要以读取者身份和存储 Blob 数据所有者或存储 Blob 数据参与者进行访问。",
+    "verifyingPermissionsMessage": "正在验证权限...\n传播更改可能需要几分钟时间。"
+  },
+  "diagnose": "诊断",
+  "resolve": "解决",
+  "verify": "验证",
+  "success": "成功！"
 }
