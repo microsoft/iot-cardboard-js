@@ -208,7 +208,7 @@ export const PropertyListItemNest = ({
                             onClick={() => setCollapsed(!collapsed)}
                         />
                     ) : (
-                        <div></div>
+                        <div>{/* Needed for gridTemplateColumns style  */}</div>
                     )}
 
                     <TextField
