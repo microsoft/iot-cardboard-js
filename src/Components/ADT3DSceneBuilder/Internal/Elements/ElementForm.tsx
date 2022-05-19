@@ -268,7 +268,7 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                                     }
                                     onTwinIdSelect={handleSelectTwinId}
                                     descriptionText={t(
-                                        '3dSceneBuilder.primaryTwinInputInfo'
+                                        '3dSceneBuilder.elementForm.primaryTwinInputInfo'
                                     )}
                                 />
                                 <TextField
@@ -290,7 +290,9 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                                 styles={panelFormPivotStyles}
                             >
                                 <PivotItem
-                                    headerText={t('3dSceneBuilder.meshes')}
+                                    headerText={t(
+                                        '3dSceneBuilder.elementForm.meshTabName'
+                                    )}
                                     className={
                                         commonPanelStyles.formTabContents
                                     }
@@ -298,7 +300,9 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                                     <MeshTab elementToEdit={elementToEdit} />
                                 </PivotItem>
                                 <PivotItem
-                                    headerText={t('3dSceneBuilder.behaviors')}
+                                    headerText={t(
+                                        '3dSceneBuilder.elementForm.behaviorsTabName'
+                                    )}
                                     className={
                                         commonPanelStyles.formTabContents
                                     }
@@ -326,7 +330,7 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                                 </PivotItem>
                                 <PivotItem
                                     headerText={t(
-                                        '3dSceneBuilder.twinAlias.elementsAliasedTwinsTabName'
+                                        '3dSceneBuilder.elementForm.twinTabName'
                                     )}
                                     className={
                                         commonPanelStyles.formTabContents

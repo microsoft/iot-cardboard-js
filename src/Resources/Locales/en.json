@@ -408,7 +408,6 @@
         "behaviorMetaText": "{{numElementsInActiveScene}} elements, {{numSceneRefs}} scenes",
         "elementMetaText": "{{numBehaviors}} behaviors",
         "primaryTwin": "Primary twin",
-        "primaryTwinInputInfo": "Enter twin ID ($dtId) to link with this element (case sensitive)",
         "noMeshAddedText": "No meshes added yet, please select meshes in 3D viewer",
         "meshes": "Meshes",
         "behaviorElementsDropdownLabel": "Target element",
@@ -434,6 +433,16 @@
             "addWidgetButtonText": "Add widget",
             "noData": "You haven't configured any widgets yet",
             "tabDescription": "Define widgets that appear in the element's context"
+        },
+        "elementForm": {
+            "meshTabName": "Meshes",
+            "behaviorsTabName": "Behaviors",
+            "twinTabName": "Other twins",
+            "primaryTwinInputInfo": "Enter twin ID ($dtId) to link with this element (case sensitive)"
+        },
+        "elementFormTwinTab": {
+            "tabDescription": "These twins contain data beyond your primary twin that you can leverage in your status, alerts, and widgets for your behaviors.",
+            "noDataMessage": "When you create aliased twins in this element's behaviors, they'll show up here."
         },
         "twinPropertyDropdown": {
             "propertyDropdownLabel": "Property",
@@ -473,8 +482,6 @@
             "title": "Twin alias",
             "calloutDescription": "The union of linked twin properties of selected elements",
             "aliasedTwin": "Aliased twin",
-            "elementsAliasedTwinsTabName": "Other twins",
-            "elementsAliasedTwinsTabNoData": "When you create aliased twins in this element's behaviors, they'll show up here.",
             "add": "Add twin",
             "new": "New twin",
             "edit": "Edit twin",

@@ -69,15 +69,20 @@ const AliasedTwinsTab: React.FC = () => {
             <div>
                 {twinAliasList.length === 0 ? (
                     <div className={commonPanelStyles.noDataText}>
-                        {t(
-                            '3dSceneBuilder.twinAlias.elementsAliasedTwinsTabNoData'
-                        )}
+                        {t('3dSceneBuilder.elementFormTwinTab.noDataMessage')}
                     </div>
                 ) : (
-                    <CardboardList<IElementTwinAliasItem>
-                        items={twinAliasList}
-                        listKey={`element-aliased-twin-list`}
-                    />
+                    <>
+                        <Text className={commonPanelStyles.text}>
+                            {t(
+                                '3dSceneBuilder.elementFormTwinTab.tabDescription'
+                            )}
+                        </Text>
+                        <CardboardList<IElementTwinAliasItem>
+                            items={twinAliasList}
+                            listKey={`element-aliased-twin-list`}
+                        />
+                    </>
                 )}
             </div>
         </Stack>
