@@ -38,7 +38,7 @@ export const getLeftPanelBuilderHeaderParamsForBehaviors = (
 ) => {
     let headerText = '',
         subHeaderText = '',
-        iconName: '' | CardboardIconNames = 'Ringer';
+        iconName: '' | CardboardIconNames;
 
     if (
         widgetFormInfo.mode === WidgetFormMode.CreateWidget ||

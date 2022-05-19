@@ -263,6 +263,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
             ),
         [widgetFormInfo, behaviorTwinAliasFormInfo, builderMode]
     );
+
     // report out initial state
     useEffect(() => {
         onTabValidityChange('Root', { isValid: !!behaviorToEdit.displayName });
@@ -298,7 +299,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
             <LeftPanelBuilderHeader
                 headerText={headerText}
                 subHeaderText={subHeaderText}
-                iconName={undefined}
+                iconName={iconName}
             />
             {widgetFormInfo.mode === WidgetFormMode.CreateWidget ||
             widgetFormInfo.mode === WidgetFormMode.EditWidget ? (

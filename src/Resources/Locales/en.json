@@ -2,6 +2,7 @@
     "preview": "Preview",
     "loading": "Loading...",
     "label": "Label",
+    "labelPlaceholder": "Enter label",
     "min": "Min",
     "max": "Max",
     "noData": "No data",
@@ -12,6 +13,7 @@
     "theme": "Theme",
     "hierarchy": "Hierarchy",
     "displayName": "Display name",
+    "displayNamePlaceholder": "Enter display name",
     "realTimeStatus": "Real-time status",
     "emptyCompositeCard": "Empty composite card",
     "compositeCardWithErrors": "Composite card with error boundaries",
@@ -97,12 +99,12 @@
         }
     },
     "valueRangeBuilder": {
-        "overlapDetectedMessage": "Overlapping ranges detected. Verify that all value ranges are distinct. Min values are inclusive, Max values are exclusive.",
-        "addValueRangeButtonText": "Add value range",
+        "overlapDetectedMessage": "Overlapping ranges detected. Verify that all ranges are distinct. Min values are inclusive, Max values are exclusive.",
+        "addValueRangeButtonText": "Add range",
         "rangeValueInvalidMessage": "Values must be numeric, '-Infinity', or 'Infinity'",
-        "rangeInvalidMessage": "Min value must be less than (<) Max value",
-        "colorButtonAriaLabel": "Select color for value range",
-        "deleteValueRangeTitle": "Delete value range",
+        "rangeInvalidMessage": "This min value must be less than (<) max value",
+        "colorButtonAriaLabel": "Select color for range",
+        "deleteValueRangeTitle": "Delete range",
         "negativeInfinityIconMessage": "Set value to -Infinity",
         "positiveInfinityIconMessage": "Set value to Infinity"
     },
@@ -453,13 +455,12 @@
         },
         "widgetLibrary": {
             "dialogTitle": "Widget library",
-            "dialogSubTitle": "Explore widgets and display data-driven-insights for your element",
-            "gaugeItemTitle": "Gauge",
-            "gaugeItemDescription": "Represent numeric properties with custom ranges",
-            "linkItemTitle": "Link",
-            "linkItemDescription": "Navigate to URLs specific to the element",
-            "valueItemTitle": "Value",
-            "valueItemDescription": "Display any primitive property"
+            "dialogSubTitle": "Explore widgets and display data-driven-insights for your element"
+        },
+        "widgetForm": {
+            "unitOfMeasureLabel": "Unit of measure",
+            "unitOfMeasurePlaceholder": "E.g. miles/hour",
+            "linkUrlDescription": "Enter a URL and add twin properties as parameters--for instance, ${PrimaryTwin.SerialNumber}"
         },
         "twinPropertyDropdown": {
             "propertyDropdownLabel": "Property",
@@ -487,7 +488,6 @@
         "removeWidget": "Remove widget",
         "noWidgets": "No widgets found",
         "modifyWidget": "Modify widget",
-        "unitOfMeasure": "Unit of measure",
         "expression": "Expression",
         "warningBreakPointToggleLabel": "Enable color break point",
         "warningBreakPointLabel": "Warning color break point",
@@ -533,26 +533,31 @@
     "widgets": {
         "trend": {
             "title": "Trend widget",
-            "description": "Show historical data in context of your 3D scene"
+            "libraryName": "Trend",
+            "description": "Show charts of historical data"
         },
         "gauge": {
             "title": "Gauge widget",
-            "description": "Represent numerical datapoints with visual context"
+            "libraryName": "Gauge",
+            "description": "Represent numeric properties with custom ranges"
         },
         "link": {
             "title": "Link widget",
-            "description": "Reference external content by linking a URL",
-            "urlPlaceholder": "https://mypowerbi.biz/${PrimaryTwin.myproperty}",
+            "libraryName": "Link",
+            "description": "Navigate to URLs specific to the element",
+            "urlPlaceholder": "https://mypowerbi.biz/${PrimaryTwin.$dtId}",
             "openLink": "Open link"
         },
         "value": {
             "title": "Value widget",
-            "description": "A basic widget to show values of twin properties",
+            "libraryName": "Value",
+            "description": "Display any primitive property",
             "displayNamePlaceholder": "Enter display name",
             "typePlaceholder": "Select the type for the value"
         },
         "panel": {
             "title": "Panel widget",
+            "libraryName": "Panel",
             "description": "A layout panel"
         },
         "notSupported": "This widget type is not currently supported"

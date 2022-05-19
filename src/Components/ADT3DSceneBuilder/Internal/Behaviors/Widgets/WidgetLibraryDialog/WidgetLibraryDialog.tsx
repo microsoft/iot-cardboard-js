@@ -79,8 +79,9 @@ const WidgetLibraryDialog: React.FC<{
                             }}
                             data-testid={`widget-library-${widget.data.type}`}
                             styles={{
-                                root: {}
+                                flexContainer: { justifyContent: 'start' }
                             }}
+                            selected={index === selectedWidget}
                         >
                             <Stack horizontal>
                                 <Stack

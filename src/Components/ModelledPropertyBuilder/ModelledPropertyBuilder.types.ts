@@ -41,6 +41,9 @@ export interface ModelledPropertyBuilderProps {
     /** Adapter with necessary methods for accessing DTDL models & resolving twins */
     adapter: IModelledPropertyBuilderAdapter;
 
+    /** description of the field to show below the input */
+    description?: string;
+
     /** Params for deriving primary & aliased twin Ids */
     twinIdParams: BehaviorTwinIdParams | ResolvedTwinIdParams;
 
