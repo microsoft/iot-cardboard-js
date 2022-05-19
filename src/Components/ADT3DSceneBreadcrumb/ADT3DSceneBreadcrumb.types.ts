@@ -1,11 +1,10 @@
 import { IBreadcrumbItem } from '@fluentui/react';
 import { ADT3DSceneBuilderMode } from '../../Models/Constants/Enums';
-import { I3DScenesConfig } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 
 type BreadcrumbClassNames = {
-    container: string;
-    breadcrumb: string;
     root: string;
+    breadcrumb: string;
+    sceneRoot: string;
 };
 
 export interface IBaseBreadcrumbProps {
@@ -21,11 +20,7 @@ export interface IBaseBreadcrumbProps {
 
 export interface IADT3DSceneBreadcrumbFactoryProps {
     sceneId: string;
-    config: I3DScenesConfig;
+    sceneName: string;
     builderMode?: ADT3DSceneBuilderMode;
     onSceneClick?: () => void;
-}
-
-export interface SceneDropdownProps {
-    sceneId: string;
 }

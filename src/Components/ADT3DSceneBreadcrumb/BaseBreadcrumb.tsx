@@ -1,25 +1,16 @@
 import {
     Breadcrumb,
-    Dropdown,
     IBreadcrumbItem,
     IconButton,
-    IDropdownOption,
     IRenderFunction,
-    ResponsiveMode,
     useTheme
 } from '@fluentui/react';
-import React, { useContext } from 'react';
+import React, { useContext, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { IScene } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { ADT3DScenePageContext } from '../../Pages/ADT3DScenePage/ADT3DScenePage';
-import {
-    breadcrumbStyles,
-    dropdownStyles
-} from './ADT3DSceneBreadcrumb.styles';
-import {
-    IBaseBreadcrumbProps,
-    SceneDropdownProps
-} from './ADT3DSceneBreadcrumb.types';
+import { breadcrumbStyles } from './ADT3DSceneBreadcrumb.styles';
+import { IBaseBreadcrumbProps } from './ADT3DSceneBreadcrumb.types';
+import SceneDropdown from './Internal/SceneDropdown';
 
 export const BaseBreadcrumb: React.FC<IBaseBreadcrumbProps> = ({
     extraItems,
@@ -52,37 +43,47 @@ export const BaseBreadcrumb: React.FC<IBaseBreadcrumbProps> = ({
         } else return defaultRender(props);
     };
 
-    let breadCrumbItems: IBreadcrumbItem[] = [
-        {
-            text: t('3dScenePage.home'),
-            key: 'Home',
-            ...(scenePageContext && {
-                onClick: () => {
-                    scenePageContext.handleOnHomeClick();
-                    if (onCancelForm) {
-                        onCancelForm();
+    const homeText = t('3dScenePage.home');
+    const breadCrumbItems: IBreadcrumbItem[] = useMemo(() => {
+        return [
+            {
+                text: homeText,
+                key: 'Home',
+                ...(scenePageContext && {
+                    onClick: () => {
+                        scenePageContext.handleOnHomeClick();
+                        if (onCancelForm) {
+                            onCancelForm();
+                        }
                     }
-                }
-            })
-        },
-        {
-            text: sceneName,
-            key: 'Scene',
-            ...(!isAtSceneRoot && {
-                onClick: onSceneClick
-            })
-        }
-    ];
+                })
+            },
+            {
+                text: sceneName,
+                key: 'Scene',
+                ...(!isAtSceneRoot && {
+                    onClick: onSceneClick
+                })
+            }
+        ];
+    }, [
+        isAtSceneRoot,
+        onCancelForm,
+        onSceneClick,
+        sceneName,
+        scenePageContext,
+        homeText
+    ]);
 
     if (extraItems) {
-        breadCrumbItems = breadCrumbItems.concat(extraItems);
+        breadCrumbItems.push(...extraItems);
     }
 
     return (
-        <div className={classNames.container}>
+        <div className={classNames.root}>
             <Breadcrumb
                 className={`${classNames.breadcrumb} ${
-                    isAtSceneRoot ? classNames.root : ''
+                    isAtSceneRoot ? classNames.sceneRoot : ''
                 }`}
                 items={breadCrumbItems}
                 overflowIndex={1}
@@ -90,30 +91,5 @@ export const BaseBreadcrumb: React.FC<IBaseBreadcrumbProps> = ({
                 onRenderItem={onRenderItem}
             />
         </div>
-    );
-};
-
-const SceneDropdown: React.FC<SceneDropdownProps> = ({ sceneId }) => {
-    const scenePageContext = useContext(ADT3DScenePageContext);
-    const scenes = scenePageContext.state.scenesConfig.configuration.scenes;
-    const dropdownOptions: IDropdownOption<IScene>[] = scenes.map((scene) => {
-        return {
-            key: scene.id,
-            text: scene.displayName
-        };
-    });
-    const onChange = (_e, option: IDropdownOption) => {
-        const newScene = scenes.find((s) => s.id === option.key);
-        scenePageContext.handleOnSceneSwap(newScene);
-    };
-
-    return (
-        <Dropdown
-            options={dropdownOptions}
-            defaultSelectedKey={sceneId}
-            onChange={onChange}
-            responsiveMode={ResponsiveMode.large}
-            styles={dropdownStyles}
-        />
     );
 };

@@ -148,8 +148,8 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
     );
 
     const handleOnSceneSwap = useCallback(
-        (scene: IScene) => {
-            setSelectedSceneId(scene?.id);
+        (sceneId: string) => {
+            setSelectedSceneId(sceneId);
         },
         [setSelectedSceneId]
     );

@@ -1,17 +1,8 @@
-import { IBreadcrumbStyles, IDropdownStyles } from '@fluentui/react';
+import { FontSizes, IBreadcrumbStyles } from '@fluentui/react';
 
 export const breadcrumbStyles: Partial<IBreadcrumbStyles> = {
     root: { marginTop: 0 },
-    item: { fontSize: 14 },
-    listItem: { fontSize: 14 },
-    itemLink: { fontSize: 14 }
-};
-
-export const dropdownStyles: Partial<IDropdownStyles> = {
-    root: {
-        minWidth: 135
-    },
-    title: {
-        border: 'none'
-    }
+    item: { fontSize: FontSizes.size14 },
+    listItem: { fontSize: FontSizes.size14 },
+    itemLink: { fontSize: FontSizes.size14 }
 };

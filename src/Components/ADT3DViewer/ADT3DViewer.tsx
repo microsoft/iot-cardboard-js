@@ -521,6 +521,8 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
     );
 
     const svp = sceneViewProps || {};
+    const sceneName = ViewerConfigUtility.getSceneById(scenesConfig, sceneId)
+        .displayName;
     return (
         <BaseComponent
             isLoading={isLoading && !sceneVisuals}
@@ -531,7 +533,7 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
             <div id={sceneWrapperId} className={classNames.wrapper}>
                 <ADT3DSceneBreadcrumbFactory
                     sceneId={sceneId}
-                    config={scenesConfig}
+                    sceneName={sceneName}
                 />
                 {/* Left panel */}
                 <ViewerElementsPanelRenderer

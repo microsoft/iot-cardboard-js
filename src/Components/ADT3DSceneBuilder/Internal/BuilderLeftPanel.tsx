@@ -1,5 +1,5 @@
 import { Pivot, PivotItem } from '@fluentui/react';
-import React, { useContext, useEffect, useMemo } from 'react';
+import React, { useCallback, useContext, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
     ADT3DSceneBuilderMode,
@@ -35,6 +35,7 @@ import {
     ITwinToObjectMapping
 } from '../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { createGUID, deepCopy } from '../../../Models/Services/Utils';
+import { ElementModes } from '../../../Models/Constants/Breadcrumb';
 
 const BuilderLeftPanel: React.FC = () => {
     const { t } = useTranslation();
@@ -220,19 +221,22 @@ const BuilderLeftPanel: React.FC = () => {
         );
     };
 
-    const setSelectedElements = (elements: Array<ITwinToObjectMapping>) => {
-        dispatch({
-            type: SET_ADT_SCENE_BUILDER_SELECTED_ELEMENTS,
-            payload: elements
-        });
+    const setSelectedElements = useCallback(
+        (elements: Array<ITwinToObjectMapping>) => {
+            dispatch({
+                type: SET_ADT_SCENE_BUILDER_SELECTED_ELEMENTS,
+                payload: elements
+            });
 
-        const meshIds = [];
-        for (const element of elements) {
-            for (const id of element.objectIDs) {
-                meshIds.push(id);
+            const meshIds = [];
+            for (const element of elements) {
+                for (const id of element.objectIDs) {
+                    meshIds.push(id);
+                }
             }
-        }
-    };
+        },
+        [dispatch]
+    );
 
     const clearSelectedElements = () => {
         dispatch({
@@ -243,15 +247,18 @@ const BuilderLeftPanel: React.FC = () => {
         setOutlinedMeshItems([]);
     };
 
-    const onBackClick = (
-        idleMode: ADT3DSceneBuilderMode = ADT3DSceneBuilderMode.ElementsIdle
-    ) => {
-        dispatch({
-            type: SET_ADT_SCENE_BUILDER_MODE,
-            payload: idleMode
-        });
-        setColoredMeshItems([]);
-    };
+    const onBackClick = useCallback(
+        (
+            idleMode: ADT3DSceneBuilderMode = ADT3DSceneBuilderMode.ElementsIdle
+        ) => {
+            dispatch({
+                type: SET_ADT_SCENE_BUILDER_MODE,
+                payload: idleMode
+            });
+            setColoredMeshItems([]);
+        },
+        [dispatch, setColoredMeshItems]
+    );
 
     const onElementSave = async (newElements: Array<ITwinToObjectMapping>) => {
         dispatch({
@@ -402,23 +409,19 @@ const BuilderLeftPanel: React.FC = () => {
     ]);
 
     // Callback for breadcrumb depending if builder is in behavior or element mode
-    const elementModes = [
-        ADT3DSceneBuilderMode.ElementsIdle,
-        ADT3DSceneBuilderMode.CreateElement,
-        ADT3DSceneBuilderMode.EditElement,
-        ADT3DSceneBuilderMode.TargetElements
-    ];
     let onSceneClick: VoidFunction;
-    if (elementModes.includes(state.builderMode)) {
-        onSceneClick = () => {
+    if (ElementModes.includes(state.builderMode)) {
+        onSceneClick = useCallback(() => {
             onBackClick(ADT3DSceneBuilderMode.ElementsIdle);
             setSelectedElements([]);
-        };
+        }, [onBackClick, setSelectedElements]);
     } else {
-        onSceneClick = () => {
+        onSceneClick = useCallback(() => {
             onBackClick(ADT3DSceneBuilderMode.BehaviorIdle);
-        };
+        }, [onBackClick]);
     }
+    const sceneName = ViewerConfigUtility.getSceneById(config, sceneId)
+        .displayName;
 
     return (
         <BaseComponent
@@ -428,7 +431,7 @@ const BuilderLeftPanel: React.FC = () => {
             containerClassName="cb-scene-builder-left-panel"
         >
             <ADT3DSceneBreadcrumbFactory
-                config={config}
+                sceneName={sceneName}
                 sceneId={sceneId}
                 builderMode={state.builderMode}
                 onSceneClick={onSceneClick}
