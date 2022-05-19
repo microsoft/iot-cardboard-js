@@ -70,8 +70,8 @@ export function makeStandardMaterial(
         const emFresnel = new BABYLON.FresnelParameters();
         emFresnel.rightColor = baseColor3;
         emFresnel.leftColor = baseColor3.scale(1.5);
-        emFresnel.bias = 0.5;
-        emFresnel.power = 2;
+        emFresnel.bias = 0.4;
+        emFresnel.power = 1.8;
         material.emissiveFresnelParameters = emFresnel;
         material.useEmissiveAsIllumination = true;
         material.disableLighting = true;
