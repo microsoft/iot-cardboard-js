@@ -79,7 +79,7 @@ const Elements = () => {
                     components={{
                         DocLink: (
                             <Link
-                                href={DOCUMENTATION_LINKS.elementsHowTo}
+                                href={DOCUMENTATION_LINKS.howToElements}
                                 target="_blank"
                             ></Link>
                         )

@@ -26,7 +26,7 @@ import {
     IIconStyles
 } from '@fluentui/react';
 import { useId } from '@fluentui/react-hooks';
-import { DOCUMENTATION_LINKS, scenesDemoUrl } from '../../Models/Constants';
+import { DOCUMENTATION_LINKS, SCENES_DEMO_URL } from '../../Models/Constants';
 import IntroductionSlideShow from './Internal/IntroductionSlideShow';
 import {
     defaultTutorialModalState,
@@ -166,7 +166,7 @@ const TutorialModalBase: React.FC<ITutorialModalProps> = (props) => {
                         <Stack horizontal tokens={{ childrenGap: 8 }}>
                             <PrimaryButton
                                 onClick={() =>
-                                    window.open(scenesDemoUrl, '_blank')
+                                    window.open(SCENES_DEMO_URL, '_blank')
                                 }
                             >
                                 {t('tutorialModal.primaryButtonText')}

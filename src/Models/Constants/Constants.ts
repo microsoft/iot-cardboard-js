@@ -27,21 +27,23 @@ export const DTDLNameRegex = new RegExp(
     '^[A-Za-z](?:[A-Za-z0-9_]*[A-Za-z0-9])?$'
 );
 
-export const scenesDemoUrl =
+export const SCENES_DEMO_URL =
     'https://explorer.digitaltwins.azure.net/3DScenes/demo';
 
+const HOW_TO_DOC = 'https://go.microsoft.com/fwlink/?linkid=2195591';
+const QUICK_START_DOC = 'https://go.microsoft.com/fwlink/?linkid=2195592';
+const OVERVIEW_3D_SCENES = 'https://go.microsoft.com/fwlink/?linkid=2195695';
+const GITHUB_REPO = 'https://github.com/microsoft/iot-cardboard-js';
 export const DOCUMENTATION_LINKS = {
-    overviewDoc: 'https://go.microsoft.com/fwlink/?linkid=2195695',
-    overviewDocSetupSection:
-        'https://go.microsoft.com/fwlink/?linkid=2195695#set-up',
-    viewOnGithub: 'https://github.com/microsoft/iot-cardboard-js',
-    viewTheQuickstart: 'https://go.microsoft.com/fwlink/?linkid=2195592',
-    elementsHowTo:
-        'https://go.microsoft.com/fwlink/?linkid=2195591#add-elements',
-    behaviorsHowTo: 'https://go.microsoft.com/fwlink/?linkid=2195591#behaviors',
-    twinsHowTo: 'https://go.microsoft.com/fwlink/?linkid=2195591#twins',
-    widgetsHowTo: 'https://go.microsoft.com/fwlink/?linkid=2195591#widgets',
-    layersHowTo: 'https://go.microsoft.com/fwlink/?linkid=2195591#manage-layers'
+    overviewDoc: OVERVIEW_3D_SCENES,
+    overviewDocSetupSection: `${OVERVIEW_3D_SCENES}#set-up`,
+    viewOnGithub: GITHUB_REPO,
+    viewTheQuickstart: QUICK_START_DOC,
+    howToElements: `${HOW_TO_DOC}#add-elements`,
+    behaviorsHowTo: `${HOW_TO_DOC}#behaviors`,
+    twinsHowTo: `${HOW_TO_DOC}#twins`,
+    widgetsHowTo: `${HOW_TO_DOC}#widgets`,
+    layersHowTo: `${HOW_TO_DOC}#manage-layers`
 };
 
 export const dtdlPrimitiveTypesList = [
