@@ -864,7 +864,5 @@
     "primaryButtonText": "Bekijk de demo",
     "dismissText": "Ontslaan"
   },
-  "discardChanges": "Wijzigingen negeren",
-  "discard": "Afdanken",
-  "discardChangesDesc": "Weet je het zeker? U kunt deze actie niet ongedaan maken."
+  "noName": "Geen naam"
 }

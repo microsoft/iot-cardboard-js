@@ -864,7 +864,5 @@
     "primaryButtonText": "Explore a demonstração",
     "dismissText": "Demitir"
   },
-  "discardChanges": "Descartar alterações",
-  "discard": "Descartar",
-  "discardChangesDesc": "Tem certeza? Você não pode desfazer essa ação."
+  "noName": "Sem nome"
 }

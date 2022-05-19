@@ -28,7 +28,12 @@ import {
     Scene_Marker,
     SphereMaterial
 } from '../../Models/Constants/SceneView.constants';
-import { AbstractMesh, HighlightLayer, Tools } from '@babylonjs/core';
+import {
+    AbstractMesh,
+    HighlightLayer,
+    Tools,
+    UtilityLayerRenderer
+} from '@babylonjs/core';
 import {
     convertLatLonToVector3,
     createBadgeGroup,
@@ -38,7 +43,12 @@ import {
     getMarkerPosition,
     removeGroupedItems
 } from './SceneView.Utils';
-import { makeMaterial, outlineMaterial, ToColor3 } from './Shaders';
+import {
+    makeMaterial,
+    makeStandardMaterial,
+    ToColor3,
+    SetWireframe
+} from './Shaders';
 import {
     CameraInteraction,
     DefaultViewerModeObjectColor,
@@ -54,6 +64,7 @@ import { ModelGroupLabel } from '../ModelGroupLabel/ModelGroupLabel';
 import { MarkersPlaceholder } from './Internal/MarkersPlaceholder';
 import { Markers } from './Internal/Markers';
 
+export const showFpsCounter = false;
 const debugLogging = false;
 const debugLog = getDebugLogger('SceneView', debugLogging);
 
@@ -179,6 +190,7 @@ function SceneView(props: ISceneViewProps, ref) {
     const outlinedMeshes = useRef<BABYLON.AbstractMesh[]>([]);
     const clonedHighlightMeshes = useRef<BABYLON.AbstractMesh[]>([]);
     const highlightLayer = useRef<HighlightLayer>(null);
+    const utilLayer = useRef<UtilityLayerRenderer>(null);
     const badgeGroupsRef = useRef<any[]>([]);
     const [currentObjectColor, setCurrentObjectColor] = useState(
         DefaultViewerModeObjectColor
@@ -335,6 +347,14 @@ function SceneView(props: ISceneViewProps, ref) {
                         engineRef.current.runRenderLoop(() => {
                             if (cameraRef.current) {
                                 sceneRef.current.render();
+
+                                // Update FPS counter
+                                if (showFpsCounter) {
+                                    const fps = document.getElementById('FPS');
+                                    fps.innerHTML =
+                                        'FPS: ' +
+                                        engineRef.current.getFps().toFixed();
+                                }
                             }
                         });
                     } else {
@@ -393,7 +413,10 @@ function SceneView(props: ISceneViewProps, ref) {
         if (sceneRef.current?.meshes?.length && !isLoading) {
             if (meshesAreOriginal.current) {
                 for (const mesh of sceneRef.current.meshes) {
-                    mesh.material = originalMaterials.current[mesh.id];
+                    //Meshes with higher alphaIndex are highlight clones and should not have their material swapped
+                    if (mesh.alphaIndex <= 1) {
+                        mesh.material = originalMaterials.current[mesh.id];
+                    }
                 }
             } else {
                 for (const mesh of sceneRef.current.meshes) {
@@ -613,12 +636,9 @@ function SceneView(props: ISceneViewProps, ref) {
                     'hover',
                     sceneRef.current,
                     hexToColor4(currentObjectColor.meshHoverColor),
-                    hexToColor4(
-                        currentObjectColor.fresnelColor ||
-                            currentObjectColor.meshHoverColor
-                    ),
                     reflectionTexture.current,
-                    currentObjectColor.lightingStyle
+                    currentObjectColor.lightingStyle,
+                    backgroundColorRef.current?.objectLuminanceRatio || 1
                 ));
 
             //Use the matching cached selected-hover material or create a new one, cache it, and use it
@@ -634,19 +654,12 @@ function SceneView(props: ISceneViewProps, ref) {
                     'hover',
                     sceneRef.current,
                     hexToColor4(currentObjectColor.coloredMeshHoverColor),
-                    hexToColor4(
-                        currentObjectColor.fresnelColor ||
-                            currentObjectColor.coloredMeshHoverColor
-                    ),
                     reflectionTexture.current,
-                    currentObjectColor.lightingStyle
+                    currentObjectColor.lightingStyle,
+                    backgroundColorRef.current?.objectLuminanceRatio || 1
                 ));
 
-            if (
-                (!currentObjectColor.baseColor ||
-                    !currentObjectColor.fresnelColor) &&
-                !meshesAreOriginal.current
-            ) {
+            if (!currentObjectColor.baseColor && !meshesAreOriginal.current) {
                 for (const mesh of sceneRef.current.meshes) {
                     const ignore = shouldIgnore(mesh);
                     if (!ignore) {
@@ -655,62 +668,54 @@ function SceneView(props: ISceneViewProps, ref) {
                             currentObjectColor.lightingStyle < 1;
                         if (material) {
                             mesh.material = material;
-                            mesh.material.wireframe = !!isWireframe;
+                            SetWireframe(mesh.material, !!isWireframe);
                         }
                     }
                 }
 
-                hovMaterial.current.wireframe = !!isWireframe;
-                coloredHovMaterial.current.wireframe = !!isWireframe;
+                SetWireframe(hovMaterial.current, !!isWireframe);
+                SetWireframe(coloredHovMaterial.current, !!isWireframe);
                 meshesAreOriginal.current = true;
             }
 
-            if (
-                currentObjectColor.baseColor &&
-                currentObjectColor.fresnelColor
-            ) {
+            if (currentObjectColor.baseColor) {
                 const baseColor = hexToColor4(currentObjectColor.baseColor);
-                const fresnelColor = hexToColor4(
-                    currentObjectColor.fresnelColor
-                );
                 const material = makeMaterial(
                     'col',
                     sceneRef.current,
                     baseColor,
-                    fresnelColor,
                     reflectionTexture.current,
-                    currentObjectColor.lightingStyle
+                    currentObjectColor.lightingStyle,
+                    backgroundColorRef.current.objectLuminanceRatio || 1
                 );
 
                 shaderMaterial.current = material;
-                if (
-                    !!isWireframe ||
-                    (currentObjectColor.baseColor &&
-                        currentObjectColor.fresnelColor)
-                ) {
+                if (!!isWireframe || currentObjectColor.baseColor) {
                     for (const mesh of sceneRef.current.meshes) {
                         if (mesh?.material) {
                             const ignore = shouldIgnore(mesh);
-                            if (
-                                currentObjectColor.baseColor &&
-                                currentObjectColor.fresnelColor &&
-                                !ignore
-                            ) {
+                            if (currentObjectColor.baseColor && !ignore) {
                                 mesh.material = shaderMaterial.current;
                                 mesh.useVertexColors =
                                     currentObjectColor.lightingStyle < 1;
-                                mesh.material.wireframe = isWireframe || false;
+                                SetWireframe(
+                                    mesh.material,
+                                    isWireframe || false
+                                );
                                 meshesAreOriginal.current = false;
                             }
                         }
                     }
                 }
 
-                hovMaterial.current.wireframe = !!isWireframe;
-                coloredHovMaterial.current.wireframe = !!isWireframe;
+                SetWireframe(hovMaterial.current, !!isWireframe);
+                SetWireframe(
+                    coloredHovMaterial.current.wireframe,
+                    !!isWireframe
+                );
             }
         }
-    }, [isWireframe, isLoading, currentObjectColor]);
+    }, [isWireframe, isLoading, currentObjectColor, backgroundColor]);
 
     // Handle isWireframe changes
     useEffect(() => {
@@ -718,12 +723,12 @@ function SceneView(props: ISceneViewProps, ref) {
         if (sceneRef.current?.meshes?.length) {
             for (const mesh of sceneRef.current.meshes) {
                 if (mesh?.material) {
-                    mesh.material.wireframe = !!isWireframe;
+                    SetWireframe(mesh.material, !!isWireframe);
                 }
             }
 
-            hovMaterial.current.wireframe = !!isWireframe;
-            coloredHovMaterial.current.wireframe = !!isWireframe;
+            SetWireframe(hovMaterial.current, !!isWireframe);
+            SetWireframe(coloredHovMaterial.current, !!isWireframe);
         }
     }, [isWireframe, objectColors]);
 
@@ -770,6 +775,8 @@ function SceneView(props: ISceneViewProps, ref) {
             materialCacheRef.current = [];
             badgeGroupsRef.current = [];
             sceneRef.current = null;
+            utilLayer.current = null;
+            advancedTextureRef.current = null;
             cameraRef.current = null;
             reflectionTexture.current = null;
         };
@@ -819,13 +826,15 @@ function SceneView(props: ISceneViewProps, ref) {
             if (success) {
                 sceneRef.current = sc;
                 createOrZoomCamera();
-                advancedTextureRef.current = GUI.AdvancedDynamicTexture.CreateFullscreenUI(
-                    'UI'
-                );
 
                 sortMeshesOnLoad();
 
-                sceneRef.current.clearColor = new BABYLON.Color4(0, 0, 0, 0);
+                sceneRef.current.clearColor = new BABYLON.Color4(
+                    0,
+                    0,
+                    0,
+                    0
+                ).toLinearSpace();
 
                 //This layer is a bug fix for transparency not blending with background html on certain graphic cards like in macs.
                 //The texture is 99% transparent but forces the engine to blend the colors.
@@ -852,14 +861,29 @@ function SceneView(props: ISceneViewProps, ref) {
                     currentObjectColor.coloredMeshHoverColor
                 );
 
+                utilLayer.current = new BABYLON.UtilityLayerRenderer(
+                    sceneRef.current
+                );
+
+                //Create the advancedDynamicTexture to hold gui elements.
+                //Set the scene to the utility layer to fix sorting issues with outlines
+                advancedTextureRef.current = GUI.AdvancedDynamicTexture.CreateFullscreenUI(
+                    'UI',
+                    true,
+                    utilLayer.current.utilityLayerScene
+                );
+
                 highlightLayer.current = new BABYLON.HighlightLayer(
                     'hl1',
-                    sceneRef.current,
+                    utilLayer.current.utilityLayerScene,
                     {
-                        blurHorizontalSize: 0.5,
-                        blurVerticalSize: 0.5
+                        isStroke: true,
+                        mainTextureRatio: 2,
+                        blurHorizontalSize: 1,
+                        blurVerticalSize: 1
                     }
                 );
+                highlightLayer.current.innerGlow = false;
 
                 const light = new BABYLON.HemisphericLight(
                     'light',
@@ -1232,7 +1256,8 @@ function SceneView(props: ISceneViewProps, ref) {
         markers,
         showHoverOnSelected,
         coloredMeshItems,
-        currentObjectColor
+        currentObjectColor,
+        backgroundColor
     ]);
 
     // SETUP LOGIC FOR onMeshClick
@@ -1366,7 +1391,7 @@ function SceneView(props: ISceneViewProps, ref) {
                 };
 
                 const transition = 250;
-                const interval = 500;
+                const interval = 2000;
                 let elapsed = 0;
 
                 const transitionNrm = function () {
@@ -1374,7 +1399,7 @@ function SceneView(props: ISceneViewProps, ref) {
                 };
 
                 scene.beforeRender = () => {
-                    elapsed += 10;
+                    elapsed += sceneRef.current.deltaTime;
                     if (elapsed >= interval) {
                         if (elapsed <= interval + transition) {
                             for (const coloredMeshGroup of coloredMeshGroups) {
@@ -1442,7 +1467,13 @@ function SceneView(props: ISceneViewProps, ref) {
             restoreMeshMaterials();
             coloredMaterials.current = [];
         };
-    }, [coloredMeshItems, isLoading, isWireframe, currentObjectColor]);
+    }, [
+        coloredMeshItems,
+        isLoading,
+        isWireframe,
+        currentObjectColor,
+        backgroundColor
+    ]);
 
     const colorMesh = (mesh: AbstractMesh, color: string) => {
         if (!mesh) {
@@ -1451,26 +1482,23 @@ function SceneView(props: ISceneViewProps, ref) {
 
         // Creating materials is VERY expensive, so try and avoid it
         const col = color || currentObjectColor?.coloredMeshColor;
-        const fresnelCol = currentObjectColor?.fresnelColor || color;
-
         const materialId = currentColorId() + col;
 
         let material = materialCacheRef.current[materialId];
         if (!material) {
-            material = makeMaterial(
+            material = makeStandardMaterial(
                 'coloredMeshMaterial',
                 sceneRef.current,
                 hexToColor4(col),
-                hexToColor4(fresnelCol),
-                reflectionTexture.current,
-                currentObjectColor.lightingStyle
+                currentObjectColor.lightingStyle,
+                backgroundColorRef.current?.objectLuminanceRatio || 1
             );
 
             materialCacheRef.current[materialId] = material;
             debugLog('debug', 'Creating material for ' + materialId);
         }
 
-        material.wireframe = !!isWireframe;
+        SetWireframe(material, !!isWireframe);
         mesh.material = material;
         coloredMaterials.current[mesh.id] = material;
     };
@@ -1480,26 +1508,40 @@ function SceneView(props: ISceneViewProps, ref) {
         debugLog('debug', 'Outline Mesh effect');
         if (outlinedMeshitems) {
             for (const item of outlinedMeshitems) {
-                let meshToOutline: BABYLON.Mesh =
+                const currentMesh: BABYLON.Mesh =
                     meshMap.current?.[item.meshId];
-                if (meshToOutline) {
+                if (currentMesh) {
+                    let meshToOutline = currentMesh;
                     try {
-                        if (currentObjectColor.lightingStyle > 0) {
-                            //Alpha_ADD blended meshes do not work well with highlight layers.
-                            //If we are alpha blending, we will duplicate the mesh, highlight the duplicate and overlay it to properly layer the highlight
-                            const clone = meshToOutline.clone(
-                                '',
-                                null,
-                                true,
-                                false
+                        // To fix issues with the outline rendering behind the object when it is occluded,
+                        // we will duplicate the mesh, and use the duplicate to render the outline set to a higher
+                        // alphaIndex.
+                        const clone = currentMesh.clone('', null, true, false);
+                        // Move the clone to a utility layer so we can draw it on top of other opaque scene elements
+                        clone._scene = utilLayer.current.utilityLayerScene;
+
+                        // For some reason when rendering the duplicated outline mesh at 1:1 scale in wireframe mode,
+                        // we get outline artifacts on the wireframe itself.  We scale the mesh up slightly to alleviate this.
+                        if (currentMesh.material.wireframe === true)
+                            clone.scaling = new BABYLON.Vector3(
+                                1.01,
+                                1.01,
+                                1.01
                             );
-                            clone.material = outlineMaterial(sceneRef.current);
-                            clone.alphaIndex = 2;
-                            clone.isPickable = false;
-                            clonedHighlightMeshes.current.push(clone);
-                            sceneRef.current.meshes.push(clone);
-                            meshToOutline = clone;
-                        }
+
+                        const cloneMaterial = new BABYLON.StandardMaterial(
+                            'standard',
+                            utilLayer.current.utilityLayerScene
+                        );
+                        cloneMaterial.alpha = 0.0;
+                        cloneMaterial.backFaceCulling = false;
+                        clone.material = cloneMaterial;
+                        clone.alphaIndex = 2;
+                        clone.isPickable = false;
+                        clonedHighlightMeshes.current.push(clone);
+                        utilLayer.current.utilityLayerScene.meshes.push(clone);
+                        meshToOutline = clone;
+                        highlightLayer.current.addExcludedMesh(currentMesh);
                         highlightLayer.current.addMesh(
                             meshToOutline,
                             ToColor3(
@@ -1510,7 +1552,6 @@ function SceneView(props: ISceneViewProps, ref) {
                                 )
                             )
                         );
-
                         outlinedMeshes.current.push(meshToOutline);
                     } catch {
                         console.error('Unable to highlight mesh');
@@ -1521,13 +1562,12 @@ function SceneView(props: ISceneViewProps, ref) {
 
         return () => {
             debugLog('debug', 'Outline Mesh cleanup');
-            for (const mesh of outlinedMeshes.current) {
-                highlightLayer.current.removeMesh(mesh as BABYLON.Mesh);
+            if (outlinedMeshes.current) {
+                for (const mesh of outlinedMeshes.current) {
+                    highlightLayer.current?.removeMesh(mesh as BABYLON.Mesh);
+                }
+                outlinedMeshes.current = [];
             }
-            //This array keeps growing in length even though it is completely emptied during cleanup...
-            //Is this best practice for resetting an array?
-            outlinedMeshes.current = [];
-
             //If we have cloned meshes for highlight, delete them
             if (clonedHighlightMeshes.current) {
                 for (const mesh of clonedHighlightMeshes.current) {
@@ -1537,6 +1577,15 @@ function SceneView(props: ISceneViewProps, ref) {
                         sceneRef.current.meshes.length--;
                 }
                 clonedHighlightMeshes.current = [];
+            }
+            if (outlinedMeshitems) {
+                for (const mesh of outlinedMeshitems) {
+                    if (meshMap.current?.[mesh.meshId]) {
+                        highlightLayer.current.removeExcludedMesh(
+                            meshMap.current?.[mesh.meshId]
+                        );
+                    }
+                }
             }
         };
     }, [outlinedMeshitems, meshMap.current]);

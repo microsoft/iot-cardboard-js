@@ -864,7 +864,5 @@
     "primaryButtonText": "Zapoznaj się z wersją demonstracyjną",
     "dismissText": "Zwolnić"
   },
-  "discardChanges": "Odrzucanie zmian",
-  "discard": "Odrzucić",
-  "discardChangesDesc": "Czy na pewno? Nie można cofnąć tej akcji."
+  "noName": "Bez imienia i nazwiska"
 }

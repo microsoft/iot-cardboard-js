@@ -23,7 +23,6 @@ import {
     Icon,
     Text,
     IProcessedStyleSet,
-    IIconProps,
     IIconStyles
 } from '@fluentui/react';
 import { useId } from '@fluentui/react-hooks';
@@ -35,6 +34,7 @@ import {
 } from './TutorialModal.state';
 import ConceptPage from './Internal/ConceptPage';
 import { TFunction, useTranslation } from 'react-i18next';
+import BaseComponent from '../BaseComponent/BaseComponent';
 
 const getClassNames = classNamesFunction<
     ITutorialModalStyleProps,
@@ -45,13 +45,13 @@ export const TutorialModalContext = createContext<{
     classNames: IProcessedStyleSet<ITutorialModalStyles>;
 }>(null);
 
-const TutorialModal: React.FC<ITutorialModalProps> = (props) => {
+const TutorialModalBase: React.FC<ITutorialModalProps> = (props) => {
     const { t } = useTranslation();
     const {
-        styles,
+        defaultPageKey = TutorialModalPage.INTRODUCTION,
         isOpen,
         onDismiss,
-        defaultPageKey = TutorialModalPage.INTRODUCTION
+        styles
     } = props;
     const classNames = getClassNames(styles, {
         theme: useTheme()
@@ -301,6 +301,19 @@ const nestedLinkIconProps: IIconStyles = {
     root: {
         marginLeft: 18
     }
+};
+
+const TutorialModal: React.FC<ITutorialModalProps> = (props) => {
+    const { locale, localeStrings, theme } = props;
+    return (
+        <BaseComponent
+            locale={locale}
+            localeStrings={localeStrings}
+            theme={theme}
+        >
+            <TutorialModalBase {...props} />
+        </BaseComponent>
+    );
 };
 
 export default styled<

@@ -864,7 +864,5 @@
     "primaryButtonText": "Prozkoumejte ukázku",
     "dismissText": "Propustit"
   },
-  "discardChanges": "Zahodit změny",
-  "discard": "Odhodit",
-  "discardChangesDesc": "Opravdu? Tuto akci nelze vrátit zpět."
+  "noName": "Bez jména"
 }

@@ -864,7 +864,5 @@
     "primaryButtonText": "Demoyu keşfedin",
     "dismissText": "Kapatmak"
   },
-  "discardChanges": "Değişiklikleri atma",
-  "discard": "Atmak",
-  "discardChangesDesc": "Emin misiniz? Bu eylemi geri alamazsınız."
+  "noName": "İsimsiz"
 }
