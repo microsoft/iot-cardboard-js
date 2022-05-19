@@ -68,6 +68,7 @@
     "discard": "Discard",
     "discardChangesDesc": "Are you sure? You can't undo this action.",
     "action": "Action",
+    "actions": "Actions",
     "name": "Name",
     "title": "Title",
     "enterTitle": "Enter title",

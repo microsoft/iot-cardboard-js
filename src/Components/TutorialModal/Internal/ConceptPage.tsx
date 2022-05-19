@@ -11,7 +11,7 @@ import { TutorialModalPage } from '../TutorialModal.types';
 import ConceptsRootSvg from '../../../Resources/Static/concepts.svg';
 import IllustrationPage from './IllustrationPage';
 import { useTranslation, Trans } from 'react-i18next';
-import { FRE_MODAL_LINKS } from '../../../Models/Constants';
+import { DOCUMENTATION_LINKS } from '../../../Models/Constants';
 import { TutorialModalContext } from '../TutorialModal';
 
 const ConceptPage: React.FC<{ pageKey: TutorialModalPage }> = ({ pageKey }) => {
@@ -79,7 +79,7 @@ const Elements = () => {
                     components={{
                         DocLink: (
                             <Link
-                                href={FRE_MODAL_LINKS.elementsHowTo}
+                                href={DOCUMENTATION_LINKS.elementsHowTo}
                                 target="_blank"
                             ></Link>
                         )
@@ -120,7 +120,7 @@ const Behaviors = () => {
                     components={{
                         DocLink: (
                             <Link
-                                href={FRE_MODAL_LINKS.behaviorsHowTo}
+                                href={DOCUMENTATION_LINKS.behaviorsHowTo}
                                 target="_blank"
                             ></Link>
                         )
@@ -160,7 +160,7 @@ const Twins = () => {
                     components={{
                         DocLink: (
                             <Link
-                                href={FRE_MODAL_LINKS.twinsHowTo}
+                                href={DOCUMENTATION_LINKS.twinsHowTo}
                                 target="_blank"
                             ></Link>
                         )
@@ -218,7 +218,7 @@ const Widgets = () => {
                     components={{
                         DocLink: (
                             <Link
-                                href={FRE_MODAL_LINKS.widgetsHowTo}
+                                href={DOCUMENTATION_LINKS.widgetsHowTo}
                                 target="_blank"
                             ></Link>
                         )
@@ -248,7 +248,7 @@ const SceneLayers = () => {
                     components={{
                         DocLink: (
                             <Link
-                                href={FRE_MODAL_LINKS.layersHowTo}
+                                href={DOCUMENTATION_LINKS.layersHowTo}
                                 target="_blank"
                             ></Link>
                         )

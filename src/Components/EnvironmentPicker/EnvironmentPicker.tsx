@@ -14,8 +14,7 @@ import {
     Link,
     PrimaryButton,
     Spinner,
-    SpinnerSize,
-    Stack
+    SpinnerSize
 } from '@fluentui/react';
 import { useBoolean } from '@fluentui/react-hooks';
 import React, {
@@ -647,7 +646,7 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                                 fontSize: FontSizes.size14
                             }
                         }}
-                        href={DOCUMENTATION_LINKS.EnvironmentPickerLearnMore}
+                        href={DOCUMENTATION_LINKS.overviewDocSetupSection}
                         target={'_blank'}
                     >
                         {t('learnMore')}

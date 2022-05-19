@@ -8,10 +8,6 @@ import {
 import i18n from '../../i18n';
 import { FontSizes } from '@fluentui/react';
 
-export const DOCUMENTATION_LINKS = {
-    EnvironmentPickerLearnMore: 'http://aka.ms/EnvironmentsLearnMore'
-};
-
 // make sure models in the ADT instance have these definitions and twins have these properties for process graphics card
 export const ADTModel_ImgSrc_PropertyName = 'processGraphicImageSrc';
 export const ADTModel_ViewData_PropertyName = 'cb_viewdata';
@@ -34,8 +30,10 @@ export const DTDLNameRegex = new RegExp(
 export const scenesDemoUrl =
     'https://explorer.digitaltwins.azure.net/3DScenes/demo';
 
-export const FRE_MODAL_LINKS = {
-    viewTheDocs: 'https://go.microsoft.com/fwlink/?linkid=2195695',
+export const DOCUMENTATION_LINKS = {
+    overviewDoc: 'https://go.microsoft.com/fwlink/?linkid=2195695',
+    overviewDocSetupSection:
+        'https://go.microsoft.com/fwlink/?linkid=2195695#set-up',
     viewOnGithub: 'https://github.com/microsoft/iot-cardboard-js',
     viewTheQuickstart: 'https://go.microsoft.com/fwlink/?linkid=2195592',
     elementsHowTo:

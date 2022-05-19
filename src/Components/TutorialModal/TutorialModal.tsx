@@ -26,7 +26,7 @@ import {
     IIconStyles
 } from '@fluentui/react';
 import { useId } from '@fluentui/react-hooks';
-import { FRE_MODAL_LINKS, scenesDemoUrl } from '../../Models/Constants';
+import { DOCUMENTATION_LINKS, scenesDemoUrl } from '../../Models/Constants';
 import IntroductionSlideShow from './Internal/IntroductionSlideShow';
 import {
     defaultTutorialModalState,
@@ -129,7 +129,7 @@ const TutorialModalBase: React.FC<ITutorialModalProps> = (props) => {
                     <div className={classNames.footer}>
                         <Stack horizontal tokens={{ childrenGap: 8 }}>
                             <Link
-                                href={FRE_MODAL_LINKS.viewTheDocs}
+                                href={DOCUMENTATION_LINKS.overviewDoc}
                                 target="_blank"
                             >
                                 {t('tutorialModal.rootDocsLinkText')}
@@ -143,7 +143,7 @@ const TutorialModalBase: React.FC<ITutorialModalProps> = (props) => {
                                 |
                             </Text>
                             <Link
-                                href={FRE_MODAL_LINKS.viewOnGithub}
+                                href={DOCUMENTATION_LINKS.viewOnGithub}
                                 target="_blank"
                             >
                                 {t('tutorialModal.githubLinkText')}
@@ -157,7 +157,7 @@ const TutorialModalBase: React.FC<ITutorialModalProps> = (props) => {
                                 |
                             </Text>
                             <Link
-                                href={FRE_MODAL_LINKS.viewTheQuickstart}
+                                href={DOCUMENTATION_LINKS.viewTheQuickstart}
                                 target="_blank"
                             >
                                 {t('tutorialModal.quickstartLinkText')}

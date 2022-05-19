@@ -252,7 +252,7 @@ const SceneList: React.FC<SceneListProps> = ({
         },
         {
             key: 'scene-action',
-            name: t('action'),
+            name: t('actions'),
             fieldName: 'action',
             minWidth: 100
         }
