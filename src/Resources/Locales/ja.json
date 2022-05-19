@@ -863,5 +863,6 @@
     "quickstartLinkText": "クイック スタート",
     "primaryButtonText": "デモを見る",
     "dismissText": "解任する"
-  }
+  },
+  "noName": "名前なし"
 }

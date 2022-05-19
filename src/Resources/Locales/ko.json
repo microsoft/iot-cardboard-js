@@ -863,5 +863,6 @@
     "quickstartLinkText": "빠른 시작",
     "primaryButtonText": "데모 살펴보기",
     "dismissText": "해고하다"
-  }
+  },
+  "noName": "이름 없음"
 }
