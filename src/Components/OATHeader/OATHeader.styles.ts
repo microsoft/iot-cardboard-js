@@ -174,5 +174,5 @@ export const getPromptTextStyles = () => {
         root: {
             fontSize: '16px'
         }
-    } as Partial<IButtonStyles>;
+    };
 };
