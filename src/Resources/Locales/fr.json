@@ -863,5 +863,8 @@
     "quickstartLinkText": "Démarrage rapide",
     "primaryButtonText": "Explorez la démo",
     "dismissText": "Congédier"
-  }
+  },
+  "discardChanges": "Ignorer les modifications",
+  "discard": "Jeter",
+  "discardChangesDesc": "Es-tu sûr? Vous ne pouvez pas annuler cette action."
 }
