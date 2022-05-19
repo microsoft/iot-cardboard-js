@@ -71,7 +71,9 @@ const parseModels = async (models: IOATTwinModelNodes[]) => {
         try {
             await modelParser.parse([modelJson]);
         } catch (err) {
-            alert(err._parsingErrors[0].action);
+            for (const parsingError of err._parsingErrors) {
+                alert(`${parsingError.action} ${parsingError.cause}`);
+            }
         }
     }
 };
@@ -601,10 +603,6 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                 JSON.stringify(oatEditorData)
             );
         }
-        dispatch({
-            type: SET_OAT_ELEMENTS,
-            payload: { digitalTwinsModels: translatedOutput }
-        });
     }, [translatedOutput]);
 
     const onElementClick = (evt, node) => {
