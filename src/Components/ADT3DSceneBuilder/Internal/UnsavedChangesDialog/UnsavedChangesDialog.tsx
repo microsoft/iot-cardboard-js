@@ -15,9 +15,16 @@ interface Props {
     title?: string;
     message?: string;
     isOpen: boolean;
-    onClose: () => any;
-    onConfirmDiscard: () => any;
+    onClose: () => void;
+    onConfirmDiscard: () => void;
 }
+
+const unsavedChangesDialogStyles: Partial<IDialogStyles> = {
+    main: {
+        maxWidth: 450,
+        minHeight: 165
+    }
+};
 
 const UnsavedChangesDialog: React.FC<Props> = ({
     title,
@@ -35,13 +42,6 @@ const UnsavedChangesDialog: React.FC<Props> = ({
         subText: message ?? t('discardChangesDesc')
     };
 
-    const unsavedChangesDialogStyles: Partial<IDialogStyles> = {
-        main: {
-            maxWidth: 450,
-            minHeight: 165
-        }
-    };
-
     const unsavedChangesModalProps: IModalProps = {
         isBlocking: false,
         styles: unsavedChangesDialogStyles
@@ -50,19 +50,12 @@ const UnsavedChangesDialog: React.FC<Props> = ({
     return (
         <Dialog
             hidden={!isOpen}
-            onDismiss={() => {
-                onClose();
-            }}
+            onDismiss={onClose}
             dialogContentProps={unsavedChangesDialogProps}
             modalProps={unsavedChangesModalProps}
         >
             <DialogFooter>
-                <DefaultButton
-                    onClick={() => {
-                        onClose();
-                    }}
-                    text={t('cancel')}
-                />
+                <DefaultButton onClick={onClose} text={t('cancel')} />
                 <PrimaryButton
                     onClick={() => {
                         onConfirmDiscard();
