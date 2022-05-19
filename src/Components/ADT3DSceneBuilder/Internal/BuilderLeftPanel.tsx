@@ -421,7 +421,7 @@ const BuilderLeftPanel: React.FC = () => {
         }, [onBackClick]);
     }
     const sceneName = ViewerConfigUtility.getSceneById(config, sceneId)
-        .displayName;
+        ?.displayName;
 
     return (
         <BaseComponent

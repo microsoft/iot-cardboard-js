@@ -7,13 +7,18 @@ import { SceneDropdownProps } from './SceneDropdown.types';
 
 const SceneDropdown: React.FC<SceneDropdownProps> = ({ sceneId }) => {
     const scenePageContext = useContext(ADT3DScenePageContext);
-    const scenes = scenePageContext.state.scenesConfig.configuration.scenes;
-    const dropdownOptions: IDropdownOption<IScene>[] = scenes.map((scene) => {
-        return {
-            key: scene.id,
-            text: scene.displayName
-        };
-    });
+    if (!scenePageContext) {
+        return null;
+    }
+    const scenes = scenePageContext?.state?.scenesConfig?.configuration?.scenes;
+    const dropdownOptions: IDropdownOption<IScene>[] = scenes
+        ? scenes?.map((scene) => {
+              return {
+                  key: scene.id,
+                  text: scene.displayName
+              };
+          })
+        : [];
     const onChange = useCallback(
         (_e, option: IDropdownOption) => {
             scenePageContext.handleOnSceneSwap(String(option.key));

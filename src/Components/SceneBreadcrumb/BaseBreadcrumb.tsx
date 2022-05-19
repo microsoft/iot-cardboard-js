@@ -38,7 +38,7 @@ export const BaseBreadcrumb: React.FC<IBaseBreadcrumbProps> = ({
                     }}
                 />
             );
-        } else if (isAtSceneRoot) {
+        } else if (isAtSceneRoot && scenePageContext) {
             return <SceneDropdown sceneId={sceneId} />;
         } else return defaultRender(props);
     };
@@ -59,7 +59,7 @@ export const BaseBreadcrumb: React.FC<IBaseBreadcrumbProps> = ({
                 })
             },
             {
-                text: sceneName,
+                text: sceneName || `(${t('noName')})`,
                 key: 'Scene',
                 ...(!isAtSceneRoot && {
                     onClick: onSceneClick
