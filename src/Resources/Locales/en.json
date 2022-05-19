@@ -422,8 +422,9 @@
             "expressionPlaceholder": "Enter expression (eg PrimaryTwin.InFlow > 200)",
             "iconPickerLabel": "Icon",
             "tabDescription": "Alerts—icons accompanied by text—help draw attention to critical data conditions. Below, use expressions to trigger alerts in your visualization.",
-            "notificationLabel": "Scenerio description",
+            "notificationLabel": "Scenario description",
             "notificationLabelTooltip": "This text will give a consumer context when this badge is active.",
+            "notificationLabelDescription": "Twin properties need to be escaped using template string syntax. E.g ${PrimaryTwin.DisplayName} is hot",
             "notificationPlaceholder": "Enter a description"
         },
         "behaviorStatusForm": {

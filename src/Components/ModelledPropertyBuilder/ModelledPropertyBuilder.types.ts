@@ -62,7 +62,6 @@ export interface ModelledPropertyBuilderProps {
 
     /** Custom tooltip next to the label for the control */
     customLabelTooltip?: {
-        ariaLabel: string;
         text: string;
         /** will default to info */
         iconName?: IIconNames;

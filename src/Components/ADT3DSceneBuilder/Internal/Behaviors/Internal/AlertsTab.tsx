@@ -39,6 +39,7 @@ const LOC_KEYS = {
     iconPickerLabel: `${ROOT_LOC}.iconPickerLabel`,
     tabDescription: `${ROOT_LOC}.tabDescription`,
     notificationLabel: `${ROOT_LOC}.notificationLabel`,
+    notificationLabelDescription: `${ROOT_LOC}.notificationLabelDescription`,
     notificationLabelTooltip: `${ROOT_LOC}.notificationLabelTooltip`,
     notificationPlaceholder: `${ROOT_LOC}.notificationPlaceholder`
 };
@@ -196,6 +197,7 @@ const AlertsTab: React.FC = () => {
                     </Stack>
                     <ModelledPropertyBuilder
                         adapter={adapter}
+                        description={t(LOC_KEYS.notificationLabelDescription)}
                         twinIdParams={{
                             behavior: behaviorToEdit,
                             config,
@@ -212,7 +214,6 @@ const AlertsTab: React.FC = () => {
                         onChange={onNoteChange}
                         customLabel={t(LOC_KEYS.notificationLabel)}
                         customLabelTooltip={{
-                            ariaLabel: '',
                             text: t(LOC_KEYS.notificationLabelTooltip)
                         }}
                         intellisensePlaceholder={t(
