@@ -743,7 +743,20 @@
     "publish": "Publikovat",
     "sync": "synchronizovat",
     "import": "Dovoz",
-    "export": "Vývoz"
+    "export": "Vývoz",
+    "file": "Soubor",
+    "new": "Nový",
+    "open": "Otevřený",
+    "saveAs": "Uložit jako",
+    "delete": "Vymazat",
+    "enterAName": "Zadejte název",
+    "cancel": "Zrušit",
+    "project": "Projekt",
+    "untitledProject": "Projekt bez názvu",
+    "description": "Popis",
+    "dontSave": "Neukládejte",
+    "doYouWantToSaveChangesYouMadeTo": "Chcete uložit změny, které jste provedli",
+    "doYouWantToDelete": "Chcete odstranit"
   },
   "cameraControls": {
     "mouseControls": "Ovládání myší",

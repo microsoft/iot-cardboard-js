@@ -743,7 +743,20 @@
     "publish": "Издавать",
     "sync": "синхронизировать",
     "import": "Импорт",
-    "export": "Экспорт"
+    "export": "Экспорт",
+    "file": "Файл",
+    "new": "Новые функции",
+    "open": "Открытый",
+    "saveAs": "Сохранить как",
+    "delete": "Удалить",
+    "enterAName": "Введите имя",
+    "cancel": "Отмена",
+    "project": "Проект",
+    "untitledProject": "Безымянный проект",
+    "description": "Описание",
+    "dontSave": "Не экономьте",
+    "doYouWantToSaveChangesYouMadeTo": "Вы хотите сохранить изменения, внесенные в",
+    "doYouWantToDelete": "Вы хотите удалить"
   },
   "cameraControls": {
     "mouseControls": "Элементы управления мышью",
