@@ -864,5 +864,8 @@
     "primaryButtonText": "Esplora la demo",
     "dismissText": "Licenziare"
   },
-  "noName": "Nessun nome"
+  "noName": "Nessun nome",
+  "discardChanges": "Elimina le modifiche",
+  "discard": "Scartare",
+  "discardChangesDesc": "Sei sicuro? Non è possibile annullare questa azione."
 }

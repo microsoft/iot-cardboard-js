@@ -864,5 +864,8 @@
     "primaryButtonText": "데모 살펴보기",
     "dismissText": "해고하다"
   },
-  "noName": "이름 없음"
+  "noName": "이름 없음",
+  "discardChanges": "변경 내용 삭제",
+  "discard": "버리다",
+  "discardChangesDesc": "확실한가요? 이 작업은 실행 취소할 수 없습니다."
 }

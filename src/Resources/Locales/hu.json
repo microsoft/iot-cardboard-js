@@ -864,5 +864,8 @@
     "primaryButtonText": "Fedezd fel a demót",
     "dismissText": "Elbocsát"
   },
-  "noName": "Nincs név"
+  "noName": "Nincs név",
+  "discardChanges": "Módosítások elvetése",
+  "discard": "Eldob",
+  "discardChangesDesc": "Biztos vagy benne? Ezt a műveletet nem lehet visszavonni."
 }

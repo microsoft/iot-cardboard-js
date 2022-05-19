@@ -864,5 +864,8 @@
     "primaryButtonText": "Explorez la démo",
     "dismissText": "Congédier"
   },
-  "noName": "Pas de nom"
+  "noName": "Pas de nom",
+  "discardChanges": "Ignorer les modifications",
+  "discard": "Jeter",
+  "discardChangesDesc": "Es-tu sûr? Vous ne pouvez pas annuler cette action."
 }
