@@ -3,7 +3,7 @@
 ## What is **iot-cardboard-js**?
 **iot-cardboard-js** or *Cardboard* is an open source React component library for creating internet of things (IoT) web experiences.  
 
-The components in Cardboard are also used for building the experiences in [Azure Digital Twins 3D Scenes Studio](https://explorer.digitaltwins.azure.net), and can be leveraged by Azure Digital Twins customers in their own applications.  Learn more about leveraging Cardboard components for 3D Scenes in the [wiki](https://github.com/microsoft/iot-cardboard-js/wiki/Embedding-3D-Scenes).
+The components in Cardboard are also used for building the experiences in [Azure Digital Twins 3D Scenes Studio](https://explorer.digitaltwins.azure.net/3dscenes/demo), and can be leveraged by Azure Digital Twins customers in their own applications.  Learn more about leveraging Cardboard components for 3D Scenes in the [wiki](https://github.com/microsoft/iot-cardboard-js/wiki/Embedding-3D-Scenes).
 
 The 3D visualization components in this library leverage the fantastic [BabylonJS](https://www.babylonjs.com/) library under the hood.  If you haven't used it yet, we can't say enough great things about the library, definitely check it out!
 
