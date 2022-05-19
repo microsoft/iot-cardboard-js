@@ -5,6 +5,7 @@
     "min": "Min",
     "max": "Max",
     "noData": "No data",
+    "noName": "No name",
     "error": "Error fetching data",
     "unsupportedFileType": "Unsupported file type",
     "selectProperties": "Select properties",
