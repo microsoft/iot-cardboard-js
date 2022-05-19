@@ -62,6 +62,7 @@
     "editTwin": "Edit twin",
     "confirmDeletion": "Confirm deletion",
     "confirmDeletionDesc": "Are you sure? You can't undo this action.",
+    "discardChanges": "Discard unsaved changes?",
     "discard": "Discard",
     "discardChangesDesc": "Are you sure? You can't undo this action.",
     "action": "Action",
