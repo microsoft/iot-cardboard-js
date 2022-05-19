@@ -115,7 +115,6 @@ export const DefaultViewerModeObjectColor: IADTObjectColor = {
     color: '#00A8F0',
     lightingStyle: 0,
     baseColor: null,
-    fresnelColor: null,
     coloredMeshColor: '#2087D6FF',
     meshHoverColor: '#8BC1E9FF',
     coloredMeshHoverColor: '#4AA7EEFF',
@@ -128,7 +127,6 @@ export const ViewerModeObjectColors: IADTObjectColor[] = [
     {
         color: '#FFFFFF',
         baseColor: '#FFFFFFFF',
-        fresnelColor: '#FFFFFFFF',
         lightingStyle: 0,
         coloredMeshColor: '#2087D6FF',
         meshHoverColor: '#8BC1E9FF',
@@ -141,9 +139,8 @@ export const ViewerModeObjectColors: IADTObjectColor[] = [
     },
     //Blue
     {
-        color: '#0000DD',
+        color: '#5783bb',
         baseColor: '#5783bb1A',
-        fresnelColor: '#d5e7ff4D',
         lightingStyle: 1,
         coloredMeshColor: '#2087D6FF',
         meshHoverColor: '#8BC1E9FF',
@@ -157,7 +154,6 @@ export const ViewerModeObjectColors: IADTObjectColor[] = [
     {
         color: '#e3d072',
         baseColor: '#e4b7691A',
-        fresnelColor: '#ecdd684D',
         lightingStyle: 1,
         coloredMeshColor: '#2087D6FF',
         meshHoverColor: '#8BC1E9FF',

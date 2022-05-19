@@ -430,20 +430,80 @@ function SceneView(props: ISceneViewProps, ref) {
         }
     };
 
+    const clearBadgeGroups = useCallback(
+        (force: boolean) => {
+            debugLog('debug', 'clearBadgeGroups');
+            const groupsToRemove = [];
+            badgeGroupsRef?.current.forEach((badgeGroupRef) => {
+                // remove badge if group is no longer in prop
+                if (
+                    !badgeGroups?.find((bg) => bg.id === badgeGroupRef.name) ||
+                    force
+                ) {
+                    debugLog('debug', 'removing badge');
+                    advancedTextureRef.current.removeControl(badgeGroupRef);
+                    groupsToRemove.push(badgeGroupRef);
+                }
+            });
+            groupsToRemove?.forEach((group) => {
+                badgeGroupsRef.current = badgeGroupsRef.current.filter(
+                    (bg) => bg.name !== group.name
+                );
+            });
+        },
+        [badgeGroups]
+    );
+
+    const createBadgeGroups = useCallback(
+        (forceClear: boolean) => {
+            clearBadgeGroups(forceClear);
+            if (badgeGroups && advancedTextureRef.current && sceneRef.current) {
+                debugLog('debug', 'createBadgeGroups');
+                badgeGroups.forEach((bg) => {
+                    const mesh = sceneRef.current.meshes.find(
+                        (m) => m.id === bg.meshId
+                    );
+                    // only add badge group if not already present and mesh exists
+                    if (
+                        !badgeGroupsRef.current.find(
+                            (badgeGroupRef) => badgeGroupRef.name === bg.id
+                        ) &&
+                        mesh
+                    ) {
+                        debugLog('debug', 'adding badge group');
+                        const badgeGroup = createBadgeGroup(
+                            bg,
+                            backgroundColor,
+                            onBadgeGroupHover
+                        );
+                        advancedTextureRef.current.addControl(badgeGroup);
+                        badgeGroup.linkWithMesh(mesh);
+
+                        // badges can only be linked to meshes after being added to the scene
+                        // so adding a delay in making it visible so it doesn't jump
+                        const waitUntilPostioned = async () => {
+                            await sleep(1);
+                            badgeGroup.isVisible = true;
+                        };
+                        waitUntilPostioned();
+                        badgeGroupsRef.current.push(badgeGroup);
+                    }
+                });
+            }
+        },
+        [badgeGroups, backgroundColor]
+    );
+
     useEffect(() => {
-        createBadgeGroups();
-        return () => {
-            clearBadgeGroups(false);
-        };
+        createBadgeGroups(false);
     }, [badgeGroups, isLoading]);
 
     useEffect(() => {
         if (backgroundColor !== backgroundColorRef?.current) {
             backgroundColorRef.current = backgroundColor;
-            clearBadgeGroups(true);
-            createBadgeGroups();
+            createBadgeGroups(true);
         }
-    }, [backgroundColor]);
+    }, [backgroundColor, createBadgeGroups]);
 
     useEffect(() => {
         if (cameraInteractionType && cameraRef.current) {
@@ -549,63 +609,6 @@ function SceneView(props: ISceneViewProps, ref) {
         );
     };
 
-    const clearBadgeGroups = (force: boolean) => {
-        debugLog('debug', 'clearBadgeGroups');
-        const groupsToRemove = [];
-        badgeGroupsRef?.current.forEach((badgeGroupRef) => {
-            // remove badge if group is no longer in prop
-            if (
-                !badgeGroups?.find((bg) => bg.id === badgeGroupRef.name) ||
-                force
-            ) {
-                debugLog('debug', 'removing badge');
-                advancedTextureRef.current.removeControl(badgeGroupRef);
-                groupsToRemove.push(badgeGroupRef);
-            }
-        });
-        groupsToRemove?.forEach((group) => {
-            badgeGroupsRef.current = badgeGroupsRef.current.filter(
-                (bg) => bg.name !== group.name
-            );
-        });
-    };
-
-    const createBadgeGroups = () => {
-        if (badgeGroups && advancedTextureRef.current && sceneRef.current) {
-            debugLog('debug', 'createBadgeGroups');
-            badgeGroups.forEach((bg) => {
-                const mesh = sceneRef.current.meshes.find(
-                    (m) => m.id === bg.meshId
-                );
-                // only add badge group if not already present and mesh exists
-                if (
-                    !badgeGroupsRef.current.find(
-                        (badgeGroupRef) => badgeGroupRef.name === bg.id
-                    ) &&
-                    mesh
-                ) {
-                    debugLog('debug', 'adding badge group');
-                    const badgeGroup = createBadgeGroup(
-                        bg,
-                        backgroundColor,
-                        onBadgeGroupHover
-                    );
-                    advancedTextureRef.current.addControl(badgeGroup);
-                    badgeGroup.linkWithMesh(mesh);
-
-                    // badges can only be linked to meshes after being added to the scene
-                    // so adding a delay in making it visible so it doesn't jump
-                    const waitUntilPostioned = async () => {
-                        await sleep(1);
-                        badgeGroup.isVisible = true;
-                    };
-                    waitUntilPostioned();
-                    badgeGroupsRef.current.push(badgeGroup);
-                }
-            });
-        }
-    };
-
     // Update render mode
     useEffect(() => {
         debugLog('debug', 'Render Mode Effect');
@@ -634,10 +637,6 @@ function SceneView(props: ISceneViewProps, ref) {
                     'hover',
                     sceneRef.current,
                     hexToColor4(currentObjectColor.meshHoverColor),
-                    hexToColor4(
-                        currentObjectColor.fresnelColor ||
-                            currentObjectColor.meshHoverColor
-                    ),
                     reflectionTexture.current,
                     currentObjectColor.lightingStyle,
                     backgroundColorRef.current.objectLuminanceRatio
@@ -656,20 +655,12 @@ function SceneView(props: ISceneViewProps, ref) {
                     'hover',
                     sceneRef.current,
                     hexToColor4(currentObjectColor.coloredMeshHoverColor),
-                    hexToColor4(
-                        currentObjectColor.fresnelColor ||
-                            currentObjectColor.coloredMeshHoverColor
-                    ),
                     reflectionTexture.current,
                     currentObjectColor.lightingStyle,
                     backgroundColorRef.current.objectLuminanceRatio
                 ));
 
-            if (
-                (!currentObjectColor.baseColor ||
-                    !currentObjectColor.fresnelColor) &&
-                !meshesAreOriginal.current
-            ) {
+            if (!currentObjectColor.baseColor && !meshesAreOriginal.current) {
                 for (const mesh of sceneRef.current.meshes) {
                     const ignore = shouldIgnore(mesh);
                     if (!ignore) {
@@ -688,38 +679,23 @@ function SceneView(props: ISceneViewProps, ref) {
                 meshesAreOriginal.current = true;
             }
 
-            if (
-                currentObjectColor.baseColor &&
-                currentObjectColor.fresnelColor
-            ) {
+            if (currentObjectColor.baseColor) {
                 const baseColor = hexToColor4(currentObjectColor.baseColor);
-                const fresnelColor = hexToColor4(
-                    currentObjectColor.fresnelColor
-                );
                 const material = makeMaterial(
                     'col',
                     sceneRef.current,
                     baseColor,
-                    fresnelColor,
                     reflectionTexture.current,
                     currentObjectColor.lightingStyle,
                     backgroundColorRef.current.objectLuminanceRatio
                 );
 
                 shaderMaterial.current = material;
-                if (
-                    !!isWireframe ||
-                    (currentObjectColor.baseColor &&
-                        currentObjectColor.fresnelColor)
-                ) {
+                if (!!isWireframe || currentObjectColor.baseColor) {
                     for (const mesh of sceneRef.current.meshes) {
                         if (mesh?.material) {
                             const ignore = shouldIgnore(mesh);
-                            if (
-                                currentObjectColor.baseColor &&
-                                currentObjectColor.fresnelColor &&
-                                !ignore
-                            ) {
+                            if (currentObjectColor.baseColor && !ignore) {
                                 mesh.material = shaderMaterial.current;
                                 mesh.useVertexColors =
                                     currentObjectColor.lightingStyle < 1;
@@ -924,36 +900,6 @@ function SceneView(props: ISceneViewProps, ref) {
                 if (onSceneLoaded) {
                     onSceneLoaded(sceneRef.current);
                 }
-                //The rendering pipeline allows for effects to be set in the scene
-                // const defaultPipeline = new BABYLON.DefaultRenderingPipeline(
-                //     'default',
-                //     false,
-                //     sceneRef.current,
-                //     [cameraRef.current]
-                // );
-                //Fast, approximate anti-aliasing removes the jagged edge appearance from meshes by doing a pass over the screen
-                //defaultPipeline.fxaaEnabled = true;
-
-                //Add a Screen Space Ambient Occlusion pass to add soft shadowing in crevices and between objects.
-                // const ssao = new BABYLON.SSAO2RenderingPipeline(
-                //     'ssao',
-                //     sceneRef.current,
-                //     {
-                //         ssaoRatio: 1, // Ratio of the SSAO post-process, in a lower resolution
-                //         blurRatio: 1 // Ratio of the combine post-process (combines the SSAO and the scene)
-                //     }
-                // );
-                // ssao.radius = 8;
-                // ssao.totalStrength = 0.9;
-                // ssao.expensiveBlur = true;
-                // ssao.samples = 16;
-                // ssao.maxZ = 100;
-
-                //Attach the ssao pass to the current camera
-                // sceneRef.current.postProcessRenderPipelineManager.attachCamerasToRenderPipeline(
-                //     'ssao',
-                //     cameraRef.current
-                // );
             }
         }
 
@@ -1536,8 +1482,6 @@ function SceneView(props: ISceneViewProps, ref) {
 
         // Creating materials is VERY expensive, so try and avoid it
         const col = color || currentObjectColor?.coloredMeshColor;
-        //const fresnelCol = currentObjectColor?.fresnelColor || color;
-
         const materialId = currentColorId() + col;
 
         let material = materialCacheRef.current[materialId];
@@ -1585,11 +1529,13 @@ function SceneView(props: ISceneViewProps, ref) {
                                 1.01
                             );
 
-                        clone.material = new BABYLON.StandardMaterial(
+                        const cloneMaterial = new BABYLON.StandardMaterial(
                             'standard',
                             utilLayer.current.utilityLayerScene
                         );
-                        clone.material.alpha = 0.0;
+                        cloneMaterial.alpha = 0.0;
+                        cloneMaterial.backFaceCulling = false;
+                        clone.material = cloneMaterial;
                         clone.alphaIndex = 2;
                         clone.isPickable = false;
                         clonedHighlightMeshes.current.push(clone);

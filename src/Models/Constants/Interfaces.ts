@@ -762,7 +762,6 @@ export interface IADT3DViewerMode {
 export interface IADTObjectColor {
     color: string;
     baseColor: string;
-    fresnelColor: string;
     lightingStyle: number;
     reflectionTexture?: string;
     coloredMeshColor: string;
