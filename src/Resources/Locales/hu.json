@@ -743,7 +743,20 @@
     "publish": "Közzétesz",
     "sync": "szinkronizál",
     "import": "Importál",
-    "export": "Kivitel"
+    "export": "Kivitel",
+    "file": "Fájl",
+    "new": "Új",
+    "open": "Nyitott",
+    "saveAs": "Mentés másként",
+    "delete": "Töröl",
+    "enterAName": "Adjon meg egy nevet",
+    "cancel": "Érvénytelenít",
+    "project": "Projekt",
+    "untitledProject": "Cím nélküli projekt",
+    "description": "Leírás",
+    "dontSave": "Ne mentsen",
+    "doYouWantToSaveChangesYouMadeTo": "Menti a módosításokat, amelyeket",
+    "doYouWantToDelete": "Törölni szeretné?"
   },
   "cameraControls": {
     "mouseControls": "Egérvezérlők",

@@ -743,7 +743,20 @@
     "publish": "Publier",
     "sync": "Synchronisation",
     "import": "Importation",
-    "export": "Exportation"
+    "export": "Exportation",
+    "file": "Lime",
+    "new": "Nouveau",
+    "open": "Ouvrir",
+    "saveAs": "Enregistrer sous",
+    "delete": "Supprimer",
+    "enterAName": "Entrez un nom",
+    "cancel": "Annuler",
+    "project": "Projet",
+    "untitledProject": "Projet sans titre",
+    "description": "Description",
+    "dontSave": "Ne pas enregistrer",
+    "doYouWantToSaveChangesYouMadeTo": "Voulez-vous enregistrer les modifications que vous avez apportées à",
+    "doYouWantToDelete": "Voulez-vous supprimer"
   },
   "cameraControls": {
     "mouseControls": "Contrôles de la souris",

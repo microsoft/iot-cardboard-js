@@ -743,7 +743,20 @@
     "publish": "Publicera",
     "sync": "synkronisering",
     "import": "Import",
-    "export": "Export"
+    "export": "Export",
+    "file": "Fil",
+    "new": "Ny",
+    "open": "Öppna",
+    "saveAs": "Spara som",
+    "delete": "Ta bort",
+    "enterAName": "Ange ett namn",
+    "cancel": "Annullera",
+    "project": "Projekt",
+    "untitledProject": "Namnlöst projekt",
+    "description": "Beskrivning",
+    "dontSave": "Spara inte",
+    "doYouWantToSaveChangesYouMadeTo": "Vill du spara de ändringar du gjort i",
+    "doYouWantToDelete": "Vill du ta bort"
   },
   "cameraControls": {
     "mouseControls": "Muskontroller",

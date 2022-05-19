@@ -743,7 +743,20 @@
     "publish": "Yayınlamak",
     "sync": "Eşitleme",
     "import": "Ithalat",
-    "export": "Ihracat"
+    "export": "Ihracat",
+    "file": "Dosya",
+    "new": "Yeni",
+    "open": "Açık",
+    "saveAs": "Farklı kaydet",
+    "delete": "Silmek",
+    "enterAName": "Bir ad girin",
+    "cancel": "İptal",
+    "project": "Proje",
+    "untitledProject": "İsimsiz proje",
+    "description": "Tarif",
+    "dontSave": "Kaydetme",
+    "doYouWantToSaveChangesYouMadeTo": "Yaptığınız değişiklikleri kaydetmek istiyor musunuz?",
+    "doYouWantToDelete": "Silmek istiyor musunuz?"
   },
   "cameraControls": {
     "mouseControls": "Fare Kontrolleri",

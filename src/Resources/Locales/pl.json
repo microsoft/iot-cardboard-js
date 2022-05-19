@@ -743,7 +743,20 @@
     "publish": "Publikować",
     "sync": "synchronizować",
     "import": "Import",
-    "export": "Eksport"
+    "export": "Eksport",
+    "file": "Plik",
+    "new": "Nowy",
+    "open": "Otwierać",
+    "saveAs": "Zapisz jako",
+    "delete": "Usunąć",
+    "enterAName": "Wprowadź nazwę",
+    "cancel": "Anuluj",
+    "project": "Projekt",
+    "untitledProject": "Projekt bez tytułu",
+    "description": "Opis",
+    "dontSave": "Nie zapisuj",
+    "doYouWantToSaveChangesYouMadeTo": "Czy chcesz zapisać wprowadzone zmiany",
+    "doYouWantToDelete": "Czy chcesz usunąć"
   },
   "cameraControls": {
     "mouseControls": "Sterowanie myszą",
