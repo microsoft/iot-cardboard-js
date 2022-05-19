@@ -863,5 +863,8 @@
     "quickstartLinkText": "Rövid útmutató",
     "primaryButtonText": "Fedezd fel a demót",
     "dismissText": "Elbocsát"
-  }
+  },
+  "discardChanges": "Módosítások elvetése",
+  "discard": "Eldob",
+  "discardChangesDesc": "Biztos vagy benne? Ezt a műveletet nem lehet visszavonni."
 }

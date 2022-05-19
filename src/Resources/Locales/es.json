@@ -863,5 +863,8 @@
     "quickstartLinkText": "Inicio rápido",
     "primaryButtonText": "Explora la demo",
     "dismissText": "Despedir"
-  }
+  },
+  "discardChanges": "Descartar cambios",
+  "discard": "Descartar",
+  "discardChangesDesc": "¿Estás seguro? No puedes deshacer esta acción."
 }

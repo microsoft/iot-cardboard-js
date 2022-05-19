@@ -863,5 +863,8 @@
     "quickstartLinkText": "Arranque rápido",
     "primaryButtonText": "Explore a demonstração",
     "dismissText": "Dispensar"
-  }
+  },
+  "discardChanges": "Devoluções de alterações",
+  "discard": "Devoluções",
+  "discardChangesDesc": "Tens a certeza? Não podes desfazer esta ação."
 }

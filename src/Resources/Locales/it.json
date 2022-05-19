@@ -863,5 +863,8 @@
     "quickstartLinkText": "Guida introduttiva",
     "primaryButtonText": "Esplora la demo",
     "dismissText": "Licenziare"
-  }
+  },
+  "discardChanges": "Elimina le modifiche",
+  "discard": "Scartare",
+  "discardChangesDesc": "Sei sicuro? Non è possibile annullare questa azione."
 }

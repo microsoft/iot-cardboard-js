@@ -863,5 +863,8 @@
     "quickstartLinkText": "クイック スタート",
     "primaryButtonText": "デモを見る",
     "dismissText": "解任する"
-  }
+  },
+  "discardChanges": "変更を破棄する",
+  "discard": "捨てる",
+  "discardChangesDesc": "確かですか。この操作を元に戻すことはできません。"
 }
