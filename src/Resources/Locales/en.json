@@ -64,6 +64,9 @@
     "editTwin": "Edit twin",
     "confirmDeletion": "Confirm deletion",
     "confirmDeletionDesc": "Are you sure? You can't undo this action.",
+    "discardChanges": "Discard unsaved changes?",
+    "discard": "Discard",
+    "discardChangesDesc": "Are you sure? You can't undo this action.",
     "action": "Action",
     "name": "Name",
     "title": "Title",
@@ -802,7 +805,7 @@
     "deeplinkFlyout": {
         "buttonTitle": "Share",
         "copyButtonText": "Copy link",
-        "copyConfirmationMessage": "Copied!",
+        "copyConfirmationMessage": "Link copied!",
         "flyoutHeader": "Share scene",
         "includeElementsOption": "Link with selected element",
         "includeLayersOption": "Link with selected layers"

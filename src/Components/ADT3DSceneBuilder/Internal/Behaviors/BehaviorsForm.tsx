@@ -62,6 +62,8 @@ import { customPivotItemStyles } from './BehaviorsForm.styles';
 import TwinsTab from './Internal/TwinsTab';
 import SceneLayerMultiSelectBuilder from '../SceneLayerMultiSelectBuilder/SceneLayerMultiSelectBuilder';
 import BehaviorTwinAliasForm from './Twins/BehaviorTwinAliasForm';
+import UnsavedChangesDialog from '../UnsavedChangesDialog/UnsavedChangesDialog';
+import { deepCopy } from '../../../../Models/Services/Utils';
 
 const getElementsFromBehavior = (behavior: IBehavior) =>
     behavior.datasources.filter(
@@ -95,11 +97,16 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
         config,
         widgetFormInfo,
         behaviorTwinAliasFormInfo,
+        checkIfBehaviorHasBeenEdited,
         setBehaviorToEdit,
+        setOriginalBehaviorToEdit,
+        setUnsavedBehaviorChangesDialog,
+        setUnsavedChangesDialogDiscardAction,
+        state,
         behaviorToEdit
     } = useContext(SceneBuilderContext);
 
-    const [state, dispatch] = useReducer(
+    const [behaviorState, dispatch] = useReducer(
         BehaviorFormReducer,
         defaultBehaviorFormState
     );
@@ -133,6 +140,9 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
         if (selectedElements?.length > 0) {
             setSelectedElements(selectedElements);
         }
+
+        // store original behavior so we can determine if it has changed
+        setOriginalBehaviorToEdit(deepCopy(behaviorToEdit));
     }, []);
 
     // Prior to entering widget form -- freeze copy of draft behavior
@@ -249,10 +259,35 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
         onBehaviorSave,
         setSelectedElements
     ]);
-    const onCancelClick = useCallback(() => {
+
+    const discardChanges = useCallback(() => {
         onBehaviorBackClick();
         setSelectedElements([]);
     }, [onBehaviorBackClick, setSelectedElements]);
+
+    const onCancelClick = useCallback(() => {
+        if (checkIfBehaviorHasBeenEdited()) {
+            setUnsavedBehaviorChangesDialog(true);
+            setUnsavedChangesDialogDiscardAction(discardChanges);
+        } else {
+            discardChanges();
+        }
+    }, [
+        discardChanges,
+        checkIfBehaviorHasBeenEdited,
+        setUnsavedChangesDialogDiscardAction,
+        setUnsavedBehaviorChangesDialog
+    ]);
+
+    const onDiscardChangesClick = useCallback(() => {
+        setUnsavedBehaviorChangesDialog(false);
+        if (state.unsavedChangesDialogDiscardAction) {
+            state.unsavedChangesDialogDiscardAction();
+        }
+    }, [
+        state.unsavedChangesDialogDiscardAction,
+        setUnsavedBehaviorChangesDialog
+    ]);
 
     const { headerText, subHeaderText, iconName } = useMemo(
         () =>
@@ -279,7 +314,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
             )
         });
     }, []);
-    const isFormValid = checkValidityMap(state.validityMap);
+    const isFormValid = checkValidityMap(behaviorState.validityMap);
 
     // console.log(
     //     `***Rendering, isValid: ${isFormValid}, Elements: ${
@@ -341,6 +376,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                             selectedKey={selectedBehaviorPivotKey}
                             onLinkClick={onPivotItemClick}
                             className={commonFormStyles.pivot}
+                            overflowBehavior={'menu'}
                             styles={panelFormPivotStyles}
                         >
                             <PivotItem
@@ -349,8 +385,9 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                                 itemKey={BehaviorPivot.elements}
                                 onRenderItemLink={(props, defaultRenderer) =>
                                     _customTabRenderer(
-                                        state.validityMap?.get('Elements')
-                                            ?.isValid,
+                                        behaviorState.validityMap?.get(
+                                            'Elements'
+                                        )?.isValid,
                                         props,
                                         defaultRenderer
                                     )
@@ -374,7 +411,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                                 itemKey={BehaviorPivot.twins}
                                 onRenderItemLink={(props, defaultRenderer) =>
                                     _customTabRenderer(
-                                        state.validityMap?.get('Twins')
+                                        behaviorState.validityMap?.get('Twins')
                                             ?.isValid,
                                         props,
                                         defaultRenderer
@@ -393,7 +430,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                                 itemKey={BehaviorPivot.states}
                                 onRenderItemLink={(props, defaultRenderer) =>
                                     _customTabRenderer(
-                                        state.validityMap?.get('Status')
+                                        behaviorState.validityMap?.get('Status')
                                             ?.isValid,
                                         props,
                                         defaultRenderer
@@ -410,7 +447,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                                 itemKey={BehaviorPivot.alerts}
                                 onRenderItemLink={(props, defaultRenderer) =>
                                     _customTabRenderer(
-                                        state.validityMap?.get('Alerts')
+                                        behaviorState.validityMap?.get('Alerts')
                                             ?.isValid,
                                         props,
                                         defaultRenderer
@@ -425,8 +462,9 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                                 itemKey={BehaviorPivot.widgets}
                                 onRenderItemLink={(props, defaultRenderer) =>
                                     _customTabRenderer(
-                                        state.validityMap?.get('Widgets')
-                                            ?.isValid,
+                                        behaviorState.validityMap?.get(
+                                            'Widgets'
+                                        )?.isValid,
                                         props,
                                         defaultRenderer
                                     )
@@ -457,6 +495,11 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                     </PanelFooter>
                 </>
             )}
+            <UnsavedChangesDialog
+                isOpen={state.unsavedBehaviorDialogOpen}
+                onConfirmDiscard={onDiscardChangesClick}
+                onClose={() => setUnsavedBehaviorChangesDialog(false)}
+            />
         </div>
     );
 };
