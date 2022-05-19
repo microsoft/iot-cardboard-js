@@ -1587,11 +1587,13 @@ function SceneView(props: ISceneViewProps, ref) {
                                 1.01
                             );
 
-                        clone.material = new BABYLON.StandardMaterial(
+                        const cloneMaterial = new BABYLON.StandardMaterial(
                             'standard',
                             utilLayer.current.utilityLayerScene
                         );
-                        clone.material.alpha = 0.0;
+                        cloneMaterial.alpha = 0.0;
+                        cloneMaterial.backFaceCulling = false;
+                        clone.material = cloneMaterial;
                         clone.alphaIndex = 2;
                         clone.isPickable = false;
                         clonedHighlightMeshes.current.push(clone);
