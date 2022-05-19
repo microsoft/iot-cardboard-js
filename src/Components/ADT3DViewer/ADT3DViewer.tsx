@@ -23,7 +23,6 @@ import BaseComponent from '../../Components/BaseComponent/BaseComponent';
 import SceneViewWrapper from '../../Components/3DV/SceneViewWrapper';
 import BehaviorsModal from '../BehaviorsModal/BehaviorsModal';
 import { useRuntimeSceneData } from '../../Models/Hooks/useRuntimeSceneData';
-import { BaseComponentProps } from '../BaseComponent/BaseComponent.types';
 import { IViewerElementsPanelItem } from '../ElementsPanel/ViewerElementsPanel.types';
 import { DefaultViewerModeObjectColor } from '../../Models/Constants/Constants';
 import { createCustomMeshItems } from '../3DV/SceneView.Utils';
@@ -64,7 +63,7 @@ const getClassNames = classNamesFunction<
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('ADT3DViewer', debugLogging);
 
-const ADT3DViewerBase: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
+const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
     theme,
     locale,
     adapter,
@@ -511,6 +510,7 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
         setZoomMeshesByElement(undefined);
         setSelectedElementId(undefined);
         setOutlinedMeshItems([]);
+        setSelectedVisual(null);
         outlinedMeshItemsRef.current = [];
     }, [setSelectedElementId, setZoomMeshesByElement]);
 
@@ -631,9 +631,7 @@ const hasPropertyInspectorAdapter = (
     !!(adapter as IPropertyInspectorAdapter).getADTTwin &&
     !!(adapter as IADT3DViewerAdapter).getSceneData;
 
-const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = (
-    props
-) => {
+const ADT3DViewer: React.FC<IADT3DViewerProps> = (props) => {
     return (
         <DeeplinkContextProvider>
             <SceneThemeContextProvider>

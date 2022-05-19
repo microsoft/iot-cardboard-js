@@ -158,8 +158,6 @@
   "scenes": {
     "noScenes": "您没有 3D 场景，请添加一个新场景以开始使用。",
     "addScene": "添加 3D 场景",
-    "sceneLatitude": "纬度",
-    "sceneLongitude": "经度",
     "blobUrl": "3D 文件 blob URL",
     "addDialogTitle": "创建新场景",
     "addDialogSubText": "将场景与 blob 存储中 3D 文件的 URL 链接",
@@ -169,7 +167,15 @@
     "fromContainer": "从容器",
     "3dFileAsset": "3D 文件资源",
     "overwriteIfExist": "覆盖文件已存在",
-    "fileExistsErrorMessage": "具有此名称的文件已存在于存储中，可以从容器中选择该文件或覆盖。"
+    "fileExistsErrorMessage": "具有此名称的文件已存在于存储中，可以从容器中选择该文件或覆盖。",
+    "description": "描述",
+    "latitude": "纬度",
+    "longitude": "经度",
+    "showOnGlobe": "在全球显示",
+    "sampleLatitude": "例如： 6.4511366",
+    "sampleLongitude": "例如： 3.3883963",
+    "longitudeErrorMessage": "输入值必须在-180和180度以内",
+    "latitudeErrorMessage": "输入值必须在-90和90度以内"
   },
   "BIMUpload": {
     "specifyFiles": "指定要从中上载的文件",
@@ -492,7 +498,9 @@
         "commonProperties": "选定元素的主要孪生属性的并集"
       },
       "errors": {
-        "twinAliasAlreadyExists": "具有相同名称的孪生别名已存在，请考虑添加它。"
+        "twinAliasAlreadyExists": "具有相同名称的孪生别名已存在，请考虑添加它。",
+        "alphanumericOnly": "孪生别名只能包含字母数字字符",
+        "noNumberPrefix": "孪生别名不得以数字开头"
       }
     }
   },
@@ -692,7 +700,8 @@
       "undoAll": "重置所有编辑",
       "expandTree": "展开树",
       "collapseTree": "折叠树",
-      "save": "保存更改"
+      "save": "保存更改",
+      "refresh": "刷新数据"
     },
     "dateTimePicker": {
       "datePickerTitle": "日期选取器",
@@ -725,7 +734,7 @@
     "state": "州",
     "allProperties": "所有房产",
     "behaviorPreview": "预览",
-    "PrimaryTwinProperties": "主要孪生属性"
+    "PrimaryTwin": "主双床房"
   },
   "svgTests": {
     "fluentUI": "通过 Fluent Image 组件加载 SVG（推荐模式）",
@@ -782,5 +791,77 @@
     "reset": "重置",
     "zoomIn": "放大",
     "zoomOut": "缩小"
+  },
+  "tutorialModal": {
+    "elements": {
+      "title": "什么是元素？",
+      "content": "元素是一组自定义的 3D 网格，它链接到一个或多个底层数字孪生上的数据。元素可帮助您快速衡量系统操作和运行状况。\n\n主孪生是元素的主要数字孪生对应项。将元素连接到 Azure 数字孪生实例中的孪生，以便该元素可以在 3D 可视化效果中表示孪生及其数据。"
+    },
+    "docLinkBlurb": "有关更详细的分步操作，请查看我们的<DocLink>docs here.</DocLink>",
+    "behaviors": {
+      "title": "什么是行为？",
+      "mainContent": "行为是场景的一种方案，它将利用相关元素的数字孪生上的特定数据来驱动查看器可视化效果。\n\n创建行为包括选择孪生、配置状态和警报、添加微件以及选择要在哪个图层上显示。\n\n",
+      "statusTitle": "地位",
+      "statusDescription": "状态是元素上的数据驱动叠加，用于指示元素的运行状况或状态。设置值范围以创建状态边界，并选择颜色来表示可视化效果中的每个状态。\n\n",
+      "alertsTitle": "警报",
+      "alertsDescription": "警报是条件通知，可帮助您快速查看何时需要您注意的元素。使用图标、颜色和文本自定义警报徽章。\n\n"
+    },
+    "tip": "提示",
+    "twins": {
+      "title": "如何选择双胞胎？",
+      "mainContent": "在“孪生”选项卡上，可以修改其数据可用于此行为的孪生集。这包括目标元素的主要双胞胎和非主要双胞胎。\n\n非主孪生是元素的辅助数字孪生数据源。你将能够在此元素的行为表达式中使用该孪生的属性。仅当存在数据超出主孪生的其他孪生时，才应添加非主要孪生，而您希望在状态、警报和小组件中利用这些孪生来实现此行为。\n\n",
+      "tipContent": "Azure 数字孪生资源管理器可帮助你查看可能与此元素的主孪生相关的孪生。您可以使用 SELECT * FROM digitaltwins WHERE $dtId='<primary-twin-id>' 查询图形，然后使用双击扩展功能来浏览相关的孪生。"
+    },
+    "widgets": {
+      "title": "什么是小部件？",
+      "mainContent": "小组件是数据驱动的视觉对象，可提供其他上下文和数据，以帮助你了解行为所代表的方案。配置小组件将帮助您确保在警报或状态处于活动状态时可发现正确的数据。\n\n",
+      "typesOfWidgets": "小部件的类型\n\n",
+      "gaugeDescription": "<下划线>测量：</下划线> 用于直观地表示数值数据点\n\n",
+      "linkDescription": "<下划线>链接：</下划线> 用于通过链接的 URL 包含外部引用的内容\n\n",
+      "valueDescription": "<下划线>值：</下划线>用于直接显示孪生属性值\n\n"
+    },
+    "sceneLayers": {
+      "title": "什么是场景图层？",
+      "mainContent": "您可以在场景中创建图层以帮助组织行为。图层的作用类似于行为上的标签，使您能够定义需要一起查看的行为，从而为不同的角色或任务创建场景的自定义视图。\n\n如果场景中没有图层，则所有行为都将显示在场景查看器中。如果场景中至少存在一个图层，则只有使用图层标记的行为才会显示在查看器中。\n\n创建图层的一种方法是使用场景构建视图中的场景图层按钮。或者，您可以在创建或修改行为时创建图层。"
+    },
+    "modalTitle": "欢迎来到3D场景工作室！",
+    "publicPreview": "公共预览版",
+    "closeAriaLabel": "闭合模态",
+    "nextSlide": "下一张幻灯片",
+    "previousSlide": "上一张幻灯片",
+    "statusIndicatorSelectedAria": "幻灯片 {{幻灯片}} 已选中",
+    "statusIndicatorUnselectedAria": "选择幻灯片 {{幻灯片}}",
+    "tabs": {
+      "introduction": "介绍",
+      "concepts": "概念",
+      "elements": "元素",
+      "behaviors": "行为",
+      "twins": "双胞胎",
+      "widgets": "部件",
+      "sceneLayers": "场景图层"
+    },
+    "frePages": {
+      "intro": {
+        "title": "我们最新的低代码构建器",
+        "text": "在此沉浸式 3D 环境中，可以使用由 Azure 数字孪生数据提供支持的 3D 资产的可视上下文来监视、诊断和调查操作数据，而无需 3D 专业知识。"
+      },
+      "builder": {
+        "title": "在我们的构建器中自定义您的场景",
+        "text": "3D 场景工作室中的构建器是配置场景的主要界面。这是一种低代码的视觉体验。"
+      },
+      "viewer": {
+        "title": "探索周围，或将其嵌入其他地方",
+        "text": "在工作室中查看 3D 场景。查看器组件可以嵌入到自定义应用程序中，并且可以与第三方组件结合使用。"
+      }
+    },
+    "conceptsRoot": {
+      "title": "需要更深入地了解这些概念？",
+      "text": "浏览帮助内容或查看我们的文档，了解分步教程！"
+    },
+    "rootDocsLinkText": "文档",
+    "githubLinkText": "GitHub",
+    "quickstartLinkText": "快速入门",
+    "primaryButtonText": "探索演示",
+    "dismissText": "解雇"
   }
 }

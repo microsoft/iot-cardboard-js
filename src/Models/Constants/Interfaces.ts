@@ -79,6 +79,7 @@ import {
     IADT3DViewerStyleProps,
     IADT3DViewerStyles
 } from '../../Components/ADT3DViewer/ADT3DViewer.types';
+import { BaseComponentProps } from '../../Components/BaseComponent/BaseComponent.types';
 
 export interface IAction {
     type: string;
@@ -719,7 +720,7 @@ export interface ISceneViewWrapperProps {
     styles?: IStyleFunctionOrObject<undefined, ISceneViewWrapperStyles>;
 }
 
-export interface IADT3DViewerProps {
+export interface IADT3DViewerProps extends BaseComponentProps {
     adapter:
         | IADT3DViewerAdapter
         | (IADT3DViewerAdapter & IPropertyInspectorAdapter);
@@ -744,20 +745,7 @@ export interface IADT3DViewerProps {
     outlinedMeshItems?: CustomMeshItem[];
     /** show the toggle to switch between builder & viewer modes */
     showModeToggle?: boolean;
-    sceneViewProps?: Omit<
-        ISceneViewProps,
-        | 'badgeGroups'
-        | 'coloredMeshItems'
-        | 'modeUrl'
-        | 'onBadgeGroupHover'
-        | 'onMeshClick'
-        | 'onMeshHover'
-        | 'outlinedMeshitems'
-        | 'showHoverOnSelected'
-        | 'showMeshesOnHover'
-        | 'unzoomedMeshOpacity'
-        | 'zoomToMeshIds'
-    >;
+    sceneViewProps?: ISceneViewProps;
     /**
      * Call to provide customized styling that will layer on top of the variant rules.
      */
@@ -792,8 +780,6 @@ export interface IADTBackgroundColor {
     defaultBadgeTextColor: string;
     aggregateBadgeColor: string;
     aggregateBadgeTextColor: string;
-    outlineHover: string;
-    outlineSelected: string;
     objectLuminanceRatio?: number;
 }
 

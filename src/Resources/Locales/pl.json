@@ -158,8 +158,6 @@
   "scenes": {
     "noScenes": "Nie masz scen 3D, dodaj nową, aby rozpocząć.",
     "addScene": "Dodawanie sceny 3D",
-    "sceneLatitude": "Szerokość geograficzna",
-    "sceneLongitude": "Długość",
     "blobUrl": "Adres URL obiektu blob pliku 3D",
     "addDialogTitle": "Tworzenie nowej sceny",
     "addDialogSubText": "Łączenie sceny z adresem URL pliku 3D w magazynie obiektów blob",
@@ -169,7 +167,15 @@
     "fromContainer": "Z kontenera",
     "3dFileAsset": "Zasób pliku 3D",
     "overwriteIfExist": "Zastąp, jeśli plik już istnieje",
-    "fileExistsErrorMessage": "Plik o tej nazwie już istnieje w magazynie, możesz wybrać ten plik z kontenera lub zastąpić."
+    "fileExistsErrorMessage": "Plik o tej nazwie już istnieje w magazynie, możesz wybrać ten plik z kontenera lub zastąpić.",
+    "description": "Opis",
+    "latitude": "Szerokość geograficzna",
+    "longitude": "Długość",
+    "showOnGlobe": "Pokaż na mapie świata",
+    "sampleLatitude": "np.: 6.4511366",
+    "sampleLongitude": "np.: 3.3883963",
+    "longitudeErrorMessage": "Wartość wejściowa musi mieścić się w zakresie -180 i 180 stopni",
+    "latitudeErrorMessage": "Wartość wejściowa musi mieścić się w zakresie -90 i 90 stopni"
   },
   "BIMUpload": {
     "specifyFiles": "Określanie plików do przesłania z",
@@ -492,7 +498,9 @@
         "commonProperties": "Połączenie pierwotnych bliźniaczych właściwości wybranych elementów"
       },
       "errors": {
-        "twinAliasAlreadyExists": "Bliźniaczy alias o tej samej nazwie już istnieje, rozważ dodanie go zamiast tego."
+        "twinAliasAlreadyExists": "Bliźniaczy alias o tej samej nazwie już istnieje, rozważ dodanie go zamiast tego.",
+        "alphanumericOnly": "Bliźniaczy alias może zawierać tylko znaki alfanumeryczne",
+        "noNumberPrefix": "Podwójny alias nie może zaczynać się od cyfry"
       }
     }
   },
@@ -692,7 +700,8 @@
       "undoAll": "Resetowanie wszystkich zmian",
       "expandTree": "Rozwiń drzewo",
       "collapseTree": "Zwiń drzewo",
-      "save": "Zapisywanie zmian"
+      "save": "Zapisywanie zmian",
+      "refresh": "Odświeżanie danych"
     },
     "dateTimePicker": {
       "datePickerTitle": "Selektor dat",
@@ -725,7 +734,7 @@
     "state": "Stan",
     "allProperties": "Wszystkie właściwości",
     "behaviorPreview": "Prapremiera",
-    "PrimaryTwinProperties": "Właściwości Podstawowych bliźniaków"
+    "PrimaryTwin": "Podstawowy Pokój typu Twin (Primary Twin"
   },
   "svgTests": {
     "fluentUI": "Ładowanie SVG przez komponent Fluent Image (zalecany wzór)",
@@ -782,5 +791,77 @@
     "reset": "Resetować",
     "zoomIn": "Powiększanie",
     "zoomOut": "Pomniejszanie"
+  },
+  "tutorialModal": {
+    "elements": {
+      "title": "Co to jest element?",
+      "content": "Element to samodzielnie zdefiniowany zestaw siatek 3D, który jest połączony z danymi na jednym lub kilku podstawowych cyfrowych bliźniakach. Elementy pomagają szybko ocenić działanie i kondycję systemu. \n\nPierwotny bliźniak jest głównym cyfrowym odpowiednikiem bliźniaka dla elementu. Łączysz element z bliźniaczką w wystąpieniu usługi Azure Digital Twins, aby element mógł reprezentować bliźniaka i jego dane w wizualizacji 3D."
+    },
+    "docLinkBlurb": "Aby uzyskać bardziej szczegółowe informacje krok po kroku, sprawdź naszą <DocLink>docs here.</DocLink>",
+    "behaviors": {
+      "title": "Co to jest zachowanie?",
+      "mainContent": "Zachowanie to scenariusz sceny, który wykorzystuje określone dane dotyczące cyfrowego bliźniaka powiązanego elementu do tworzenia wizualizacji w przeglądarce.\n\nTworzenie zachowania obejmuje wybieranie bliźniaków, konfigurowanie stanu i alertów, dodawanie widżetu i wybieranie warstwy, na której mają być wyświetlane.\n\n",
+      "statusTitle": "Stan",
+      "statusDescription": "Stany są nakładkami opartymi na danych na elementach, aby wskazać kondycję lub stan elementu. ustaw zakresy wartości, aby utworzyć granice stanów, i wybierz kolory reprezentujące każdy stan w wizualizacji.\n\n",
+      "alertsTitle": "Alerty",
+      "alertsDescription": "Alerty to powiadomienia warunkowe, które pomagają szybko sprawdzić, kiedy element wymaga uwagi. Dostosuj odznakę alertu za pomocą ikony, koloru i tekstu.\n\n"
+    },
+    "tip": "Napiwek",
+    "twins": {
+      "title": "Jak wybrać bliźnięta?",
+      "mainContent": "Na karcie Bliźnięta można zmodyfikować zestaw bliźniąt, których dane są dostępne dla tego zachowania. Obejmuje to bliźnięta pierwotne elementów docelowych i bliźnięta inne niż pierwotne.\n\nBliźniak inny niż pierwotny jest drugorzędnym cyfrowym źródłem danych bliźniaka dla elementu. Będziesz mógł używać właściwości z tego bliźniaka w wyrażeniach zachowania dla tego elementu. Bliźnięta inne niż podstawowe należy dodawać tylko wtedy, gdy istnieją dodatkowe bliźnięta z danymi wykraczającymi poza bliźnięta podstawowego, które chcesz wykorzystać w swoim statusie, alertach i widżetach dla tego zachowania.\n\n",
+      "tipContent": "Eksplorator usługi Azure Digital Twins może pomóc w wyświetlaniu bliźniąt, które mogą być powiązane z podstawowym bliźniakiem dla tego elementu. Możesz wysłać zapytanie do wykresu za pomocą SELECT * FROM digitaltwins WHERE $dtId='<primary-twin-id>\", a następnie użyj funkcji rozszerzenia dwukrotnego kliknięcia, aby zbadać powiązane bliźnięta."
+    },
+    "widgets": {
+      "title": "Co to jest widżet?",
+      "mainContent": "Widżety to wizualizacje oparte na danych, które zapewniają dodatkowy kontekst i dane, aby pomóc w zrozumieniu scenariusza reprezentowanego przez zachowanie. Konfiguracja widżetów pomoże Ci upewnić się, że odpowiednie dane są wykrywalne, gdy alert lub status jest aktywny.\n\n",
+      "typesOfWidgets": "Typy widżetów\n\n",
+      "gaugeDescription": "<Underline>Gauge:</Underline> Do wizualnego reprezentowania numerycznych punktów danych\n\n",
+      "linkDescription": "<Underline>Link:</Underline> Do dołączania treści z zewnętrznymi odniesieniami za pośrednictwem połączonego adresu URL\n\n",
+      "valueDescription": "<Underline>Value:</Underline> Do bezpośredniego wyświetlania wartości właściwości bliźniaczych\n\n"
+    },
+    "sceneLayers": {
+      "title": "Co to jest warstwa sceny?",
+      "mainContent": "Możesz tworzyć warstwy w scenie, aby pomóc w organizowaniu zachowań. Warstwy działają jak znaczniki zachowań, umożliwiając zdefiniowanie, które zachowania muszą być widoczne razem, tworząc w ten sposób niestandardowe widoki sceny dla różnych ról lub zadań.\n\nJeśli w scenie nie ma warstw, wszystkie zachowania będą widoczne w przeglądarce scen. Jeśli w scenie znajduje się co najmniej jedna warstwa, w przeglądarce pojawią się tylko zachowania oznaczone warstwą.\n\nJednym ze sposobów tworzenia warstw jest użycie przycisku Warstwy sceny w widoku Buduj dla sceny. Alternatywnie można tworzyć warstwy podczas tworzenia lub modyfikowania zachowania."
+    },
+    "modalTitle": "Witamy w 3D Scenes Studio!",
+    "publicPreview": "Publiczna wersja zapoznawcza",
+    "closeAriaLabel": "Zamknij modal",
+    "nextSlide": "Następny slajd",
+    "previousSlide": "Poprzedni slajd",
+    "statusIndicatorSelectedAria": "Slajd {{slide}} zaznaczony",
+    "statusIndicatorUnselectedAria": "Wybierz slajd {{slide}}",
+    "tabs": {
+      "introduction": "Wprowadzenie",
+      "concepts": "Pojęcia",
+      "elements": "Pierwiastki",
+      "behaviors": "Zachowania",
+      "twins": "Bliźnięta",
+      "widgets": "Widżety",
+      "sceneLayers": "Warstwy scen"
+    },
+    "frePages": {
+      "intro": {
+        "title": "Nasz najnowszy kreator niskokodowy",
+        "text": "W tym wciągającym środowisku 3D można monitorować, diagnozować i badać dane operacyjne za pomocą wizualnego kontekstu zasobów 3D, obsługiwanych przez dane usługi Azure Digital Twins, bez potrzeby korzystania z wiedzy specjalistycznej w zakresie 3D."
+      },
+      "builder": {
+        "title": "Dostosuj swoją scenę w naszym Kreatorze",
+        "text": "Kreator w 3D Scenes Studio jest podstawowym interfejsem do konfigurowania scen. Jest to niskokodowe, wizualne doświadczenie."
+      },
+      "viewer": {
+        "title": "Przeglądaj lub osadzaj go w innym miejscu",
+        "text": "Zobacz scenę 3D tutaj w Studio. Komponent przeglądarki może być osadzony w niestandardowych aplikacjach i może działać w połączeniu z komponentami 3rd party."
+      }
+    },
+    "conceptsRoot": {
+      "title": "Potrzebujesz głębszego zanurzenia się w koncepcjach?",
+      "text": "Przejrzyj zawartość pomocy lub zapoznaj się z naszą dokumentacją, aby uzyskać samouczki krok po kroku!"
+    },
+    "rootDocsLinkText": "Dokumentacja",
+    "githubLinkText": "GitHub",
+    "quickstartLinkText": "Szybki start",
+    "primaryButtonText": "Zapoznaj się z wersją demonstracyjną",
+    "dismissText": "Zwolnić"
   }
 }

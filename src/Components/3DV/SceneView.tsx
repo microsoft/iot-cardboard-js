@@ -28,7 +28,12 @@ import {
     Scene_Marker,
     SphereMaterial
 } from '../../Models/Constants/SceneView.constants';
-import { AbstractMesh, HighlightLayer, Tools } from '@babylonjs/core';
+import {
+    AbstractMesh,
+    HighlightLayer,
+    Tools,
+    UtilityLayerRenderer
+} from '@babylonjs/core';
 import {
     convertLatLonToVector3,
     createBadgeGroup,
@@ -41,7 +46,6 @@ import {
 import {
     makeMaterial,
     makeStandardMaterial,
-    outlineMaterial,
     ToColor3,
     SetWireframe
 } from './Shaders';
@@ -50,7 +54,8 @@ import {
     DefaultViewerModeObjectColor,
     globeUrl,
     IADTBackgroundColor,
-    TransparentTexture
+    TransparentTexture,
+    ViewerModeObjectColors
 } from '../../Models/Constants';
 import { getProgressStyles, getSceneViewStyles } from './SceneView.styles';
 import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
@@ -59,6 +64,7 @@ import { ModelGroupLabel } from '../ModelGroupLabel/ModelGroupLabel';
 import { MarkersPlaceholder } from './Internal/MarkersPlaceholder';
 import { Markers } from './Internal/Markers';
 
+export const showFpsCounter = false;
 const debugLogging = false;
 const debugLog = getDebugLogger('SceneView', debugLogging);
 
@@ -185,6 +191,7 @@ function SceneView(props: ISceneViewProps, ref) {
     const outlinedMeshes = useRef<BABYLON.AbstractMesh[]>([]);
     const clonedHighlightMeshes = useRef<BABYLON.AbstractMesh[]>([]);
     const highlightLayer = useRef<HighlightLayer>(null);
+    const utilLayer = useRef<UtilityLayerRenderer>(null);
     const badgeGroupsRef = useRef<any[]>([]);
     const [currentObjectColor, setCurrentObjectColor] = useState(
         DefaultViewerModeObjectColor
@@ -343,10 +350,12 @@ function SceneView(props: ISceneViewProps, ref) {
                                 sceneRef.current.render();
 
                                 // Update FPS counter
-                                // const fps = document.getElementById('FPS');
-                                // fps.innerHTML =
-                                //     'FPS: ' +
-                                //     engineRef.current.getFps().toFixed();
+                                if (showFpsCounter) {
+                                    const fps = document.getElementById('FPS');
+                                    fps.innerHTML =
+                                        'FPS: ' +
+                                        engineRef.current.getFps().toFixed();
+                                }
                             }
                         });
                     } else {
@@ -392,7 +401,7 @@ function SceneView(props: ISceneViewProps, ref) {
 
     //Get the index of the current objectColor to use as an ID for caching
     const currentColorId = () => {
-        return objectColorOptions.indexOf(currentObjectColor);
+        return ViewerModeObjectColors.indexOf(currentObjectColor);
     };
 
     useEffect(() => {
@@ -405,7 +414,10 @@ function SceneView(props: ISceneViewProps, ref) {
         if (sceneRef.current?.meshes?.length && !isLoading) {
             if (meshesAreOriginal.current) {
                 for (const mesh of sceneRef.current.meshes) {
-                    mesh.material = originalMaterials.current[mesh.id];
+                    //Meshes with higher alphaIndex are highlight clones and should not have their material swapped
+                    if (mesh.alphaIndex <= 1) {
+                        mesh.material = originalMaterials.current[mesh.id];
+                    }
                 }
             } else {
                 for (const mesh of sceneRef.current.meshes) {
@@ -788,6 +800,8 @@ function SceneView(props: ISceneViewProps, ref) {
             materialCacheRef.current = [];
             badgeGroupsRef.current = [];
             sceneRef.current = null;
+            utilLayer.current = null;
+            advancedTextureRef.current = null;
             cameraRef.current = null;
             reflectionTexture.current = null;
         };
@@ -837,9 +851,6 @@ function SceneView(props: ISceneViewProps, ref) {
             if (success) {
                 sceneRef.current = sc;
                 createOrZoomCamera();
-                advancedTextureRef.current = GUI.AdvancedDynamicTexture.CreateFullscreenUI(
-                    'UI'
-                );
 
                 sortMeshesOnLoad();
 
@@ -875,9 +886,21 @@ function SceneView(props: ISceneViewProps, ref) {
                     currentObjectColor.coloredMeshHoverColor
                 );
 
+                utilLayer.current = new BABYLON.UtilityLayerRenderer(
+                    sceneRef.current
+                );
+
+                //Create the advancedDynamicTexture to hold gui elements.
+                //Set the scene to the utility layer to fix sorting issues with outlines
+                advancedTextureRef.current = GUI.AdvancedDynamicTexture.CreateFullscreenUI(
+                    'UI',
+                    true,
+                    utilLayer.current.utilityLayerScene
+                );
+
                 highlightLayer.current = new BABYLON.HighlightLayer(
                     'hl1',
-                    sceneRef.current,
+                    utilLayer.current.utilityLayerScene,
                     {
                         isStroke: true,
                         mainTextureRatio: 2,
@@ -901,32 +924,36 @@ function SceneView(props: ISceneViewProps, ref) {
                 if (onSceneLoaded) {
                     onSceneLoaded(sceneRef.current);
                 }
+                //The rendering pipeline allows for effects to be set in the scene
+                // const defaultPipeline = new BABYLON.DefaultRenderingPipeline(
+                //     'default',
+                //     false,
+                //     sceneRef.current,
+                //     [cameraRef.current]
+                // );
+                //Fast, approximate anti-aliasing removes the jagged edge appearance from meshes by doing a pass over the screen
+                //defaultPipeline.fxaaEnabled = true;
 
-                const ssao = new BABYLON.SSAO2RenderingPipeline(
-                    'ssao',
-                    sceneRef.current,
-                    {
-                        ssaoRatio: 1, // Ratio of the SSAO post-process, in a lower resolution
-                        blurRatio: 1 // Ratio of the combine post-process (combines the SSAO and the scene)
-                    }
-                );
-                ssao.radius = 8;
-                ssao.totalStrength = 0.9;
-                ssao.expensiveBlur = true;
-                ssao.samples = 16;
-                ssao.maxZ = 100;
-                sceneRef.current.postProcessRenderPipelineManager.attachCamerasToRenderPipeline(
-                    'ssao',
-                    cameraRef.current
-                );
+                //Add a Screen Space Ambient Occlusion pass to add soft shadowing in crevices and between objects.
+                // const ssao = new BABYLON.SSAO2RenderingPipeline(
+                //     'ssao',
+                //     sceneRef.current,
+                //     {
+                //         ssaoRatio: 1, // Ratio of the SSAO post-process, in a lower resolution
+                //         blurRatio: 1 // Ratio of the combine post-process (combines the SSAO and the scene)
+                //     }
+                // );
+                // ssao.radius = 8;
+                // ssao.totalStrength = 0.9;
+                // ssao.expensiveBlur = true;
+                // ssao.samples = 16;
+                // ssao.maxZ = 100;
 
-                const defaultPipeline = new BABYLON.DefaultRenderingPipeline(
-                    'default',
-                    false,
-                    sceneRef.current,
-                    [cameraRef.current]
-                );
-                defaultPipeline.fxaaEnabled = true;
+                //Attach the ssao pass to the current camera
+                // sceneRef.current.postProcessRenderPipelineManager.attachCamerasToRenderPipeline(
+                //     'ssao',
+                //     cameraRef.current
+                // );
             }
         }
 
@@ -1509,7 +1536,7 @@ function SceneView(props: ISceneViewProps, ref) {
 
         // Creating materials is VERY expensive, so try and avoid it
         const col = color || currentObjectColor?.coloredMeshColor;
-        const fresnelCol = currentObjectColor?.fresnelColor || color;
+        //const fresnelCol = currentObjectColor?.fresnelColor || color;
 
         const materialId = currentColorId() + col;
 
@@ -1519,8 +1546,6 @@ function SceneView(props: ISceneViewProps, ref) {
                 'coloredMeshMaterial',
                 sceneRef.current,
                 hexToColor4(col),
-                hexToColor4(fresnelCol),
-                reflectionTexture.current,
                 currentObjectColor.lightingStyle,
                 backgroundColorRef.current.objectLuminanceRatio
             );
@@ -1544,37 +1569,33 @@ function SceneView(props: ISceneViewProps, ref) {
                 if (currentMesh) {
                     let meshToOutline = currentMesh;
                     try {
-                        if (currentMesh.material.wireframe === true) {
-                            // When outlining a wireframed object, we only want to outline the silhouette, not the wireframe
-                            // lines themselves.  To do this we need to duplicate the mesh, disable wireframe rendering and set
-                            // the alpha to 0 so we do not see it.
-                            const clone = currentMesh.clone(
-                                '',
-                                null,
-                                true,
-                                false
-                            );
+                        // To fix issues with the outline rendering behind the object when it is occluded,
+                        // we will duplicate the mesh, and use the duplicate to render the outline set to a higher
+                        // alphaIndex.
+                        const clone = currentMesh.clone('', null, true, false);
+                        // Move the clone to a utility layer so we can draw it on top of other opaque scene elements
+                        clone._scene = utilLayer.current.utilityLayerScene;
 
-                            // For some reason when rendering the duplicated outline mesh at 1:1 scale we get outline artifacts
-                            // on the wireframe itself.  We scale this up slightly to alleviate this.
+                        // For some reason when rendering the duplicated outline mesh at 1:1 scale in wireframe mode,
+                        // we get outline artifacts on the wireframe itself.  We scale the mesh up slightly to alleviate this.
+                        if (currentMesh.material.wireframe === true)
                             clone.scaling = new BABYLON.Vector3(
                                 1.01,
                                 1.01,
                                 1.01
                             );
 
-                            clone.material = new BABYLON.StandardMaterial(
-                                'standard',
-                                scene
-                            );
-                            clone.material.alpha = 0.0;
-                            clone.alphaIndex = 2;
-                            clone.isPickable = false;
-                            clonedHighlightMeshes.current.push(clone);
-                            sceneRef.current.meshes.push(clone);
-                            meshToOutline = clone;
-                            highlightLayer.current.addExcludedMesh(currentMesh);
-                        }
+                        clone.material = new BABYLON.StandardMaterial(
+                            'standard',
+                            utilLayer.current.utilityLayerScene
+                        );
+                        clone.material.alpha = 0.0;
+                        clone.alphaIndex = 2;
+                        clone.isPickable = false;
+                        clonedHighlightMeshes.current.push(clone);
+                        utilLayer.current.utilityLayerScene.meshes.push(clone);
+                        meshToOutline = clone;
+                        highlightLayer.current.addExcludedMesh(currentMesh);
                         highlightLayer.current.addMesh(
                             meshToOutline,
                             ToColor3(
@@ -1585,7 +1606,6 @@ function SceneView(props: ISceneViewProps, ref) {
                                 )
                             )
                         );
-
                         outlinedMeshes.current.push(meshToOutline);
                     } catch {
                         console.error('Unable to highlight mesh');
@@ -1599,8 +1619,6 @@ function SceneView(props: ISceneViewProps, ref) {
             for (const mesh of outlinedMeshes.current) {
                 highlightLayer.current.removeMesh(mesh as BABYLON.Mesh);
             }
-            //This array keeps growing in length even though it is completely emptied during cleanup...
-            //Is this best practice for resetting an array?
             outlinedMeshes.current = [];
 
             //If we have cloned meshes for highlight, delete them

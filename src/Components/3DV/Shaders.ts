@@ -14,18 +14,14 @@ export function makeMaterial(
             name,
             scene,
             baseColor,
-            fresnelColor,
             reflectionTexture,
-            lightingStyle,
-            bgLuminanceRatio
+            lightingStyle
         );
     else
         return makeStandardMaterial(
             name,
             scene,
             baseColor,
-            fresnelColor,
-            reflectionTexture,
             lightingStyle,
             bgLuminanceRatio
         );
@@ -35,8 +31,6 @@ export function makeStandardMaterial(
     name: string,
     scene: any,
     baseColor: BABYLON.Color4,
-    fresnelColor?: BABYLON.Color4,
-    reflectionTexture?: BABYLON.Texture,
     lightingStyle?: number,
     bgLuminanceRatio?: number
 ) {
@@ -46,11 +40,7 @@ export function makeStandardMaterial(
         baseColor.g,
         baseColor.b
     );
-    const fresnelColor3 = new BABYLON.Color3(
-        fresnelColor?.r,
-        fresnelColor?.g,
-        fresnelColor?.b
-    );
+
     const isTransparent = baseColor.a < 1;
     if (!lightingStyle) lightingStyle = 0;
     if (!bgLuminanceRatio) bgLuminanceRatio = 1;
@@ -59,70 +49,24 @@ export function makeStandardMaterial(
     material.diffuseColor = baseColor3;
 
     material.alpha = baseColor.a;
-    material.backFaceCulling = !isTransparent;
+    material.backFaceCulling = false;
 
     if (isTransparent) {
         material.specularPower = 0;
         material.disableLighting = true;
-        //material.alphaMode = 0;
-        //material.diffuseColor = baseColor3;
-        //material.ambientColor = BABYLON.Color3.White();
+        //We scale the brightness of the object color if the background requires a higher contrast
         material.emissiveColor = baseColor3.scale(bgLuminanceRatio);
-        //material.needAlphaTesting = () => material.opacityTexture !== null;
-        //material.
     } else {
-        material.emissiveColor = baseColor3;
+        material.emissiveColor = BABYLON.Color3.White(); //baseColor3;
+        const emFresnel = new BABYLON.FresnelParameters();
+        emFresnel.rightColor = baseColor3;
+        emFresnel.leftColor = baseColor3.scale(1.5);
+        emFresnel.bias = 0.4;
+        emFresnel.power = 1.8;
+        material.emissiveFresnelParameters = emFresnel;
         material.useEmissiveAsIllumination = true;
-        // material.specularPower = 1000;
-        // material.roughness = 1000;
         material.disableLighting = true;
-        // material.emissiveFresnelParameters = new BABYLON.FresnelParameters();
-        // material.emissiveFresnelParameters.leftColor = fresnelColor3;
-        // material.emissiveFresnelParameters.rightColor = baseColor3;
-        // material.emissiveFresnelParameters.power = 2;
-        // material.emissiveFresnelParameters.bias = 0.2;
     }
-
-    // //If translucent, set emissive settings
-    // if (lightingStyle >= 1) {
-    //     material.disableLighting = true;
-    //     material.specularPower = 0;
-    //     material.roughness = 100;
-    //     material.emissiveColor = BABYLON.Color3.White();
-
-    //     material.emissiveFresnelParameters = new BABYLON.FresnelParameters();
-    //     material.emissiveFresnelParameters.leftColor = fresnelColor3;
-    //     material.emissiveFresnelParameters.rightColor = baseColor3;
-    //     material.emissiveFresnelParameters.power = 2;
-    //     material.emissiveFresnelParameters.bias = 0.2;
-
-    //     material.useEmissiveAsIllumination = true;
-    // }
-
-    // //diffuse fresnel
-    // if (fresnelColor && lightingStyle == 0) {
-    //     material.diffuseFresnelParameters = new BABYLON.FresnelParameters();
-    //     material.diffuseFresnelParameters.leftColor = fresnelColor3;
-    //     material.diffuseFresnelParameters.rightColor = baseColor3;
-    //     material.diffuseFresnelParameters.bias = 4.0;
-    //     material.diffuseFresnelParameters.power = 4.5;
-    // }
-
-    // //Alpha and alphamode
-    // material.backFaceCulling = baseColor.a >= 1;
-    // material.alpha = baseColor.a;
-    // material.alphaMode = selectAlphaMode(baseColor.a);
-
-    // //Reflection map
-    // if (reflectionTexture) {
-    //     material.reflectionTexture = reflectionTexture;
-    //     material.useReflectionOverAlpha = lightingStyle !== 0;
-    //     material.reflectionFresnelParameters = new BABYLON.FresnelParameters();
-    //     material.reflectionFresnelParameters.leftColor = BABYLON.Color3.White();
-    //     material.reflectionFresnelParameters.rightColor = BABYLON.Color3.Black();
-    //     material.reflectionFresnelParameters.bias = 0.3;
-    //     material.reflectionFresnelParameters.power = 0.2;
-    // }
 
     return material;
 }
@@ -131,10 +75,8 @@ export function makePBRMaterial(
     name: string,
     scene: any,
     baseColor: BABYLON.Color4,
-    fresnelColor?: BABYLON.Color4,
     reflectionTexture?: BABYLON.Texture,
-    lightingStyle?: number,
-    bgLuminanceRatio?: number
+    lightingStyle?: number
 ) {
     const material = new BABYLON.PBRMetallicRoughnessMaterial(name, scene);
     const baseColor3 = new BABYLON.Color3(
@@ -186,6 +128,8 @@ export function selectAlphaMode(alpha: number) {
 export function ToColor3(input: BABYLON.Color4) {
     return new BABYLON.Color3(input.r, input.g, input.b);
 }
+
+//SetWireframe changes the alpha blending of the material to get rid of the dark halo that appears around transparent wireframe objects
 export function SetWireframe(material: BABYLON.Material, isWireframe: boolean) {
     if (!material) return;
 

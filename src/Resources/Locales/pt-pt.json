@@ -158,8 +158,6 @@
   "scenes": {
     "noScenes": "Não tens cenas 3D, adicione uma nova para começar.",
     "addScene": "Adicionar cena 3D",
-    "sceneLatitude": "Latitude",
-    "sceneLongitude": "Longitude",
     "blobUrl": "URL de blob de arquivo 3D",
     "addDialogTitle": "Criar nova cena",
     "addDialogSubText": "Ligue a sua cena com o URL do seu ficheiro 3D no armazenamento de bolhas",
@@ -169,7 +167,15 @@
     "fromContainer": "Do contentor",
     "3dFileAsset": "Ativo de ficheiro 3D",
     "overwriteIfExist": "Substitua se o ficheiro já existir",
-    "fileExistsErrorMessage": "Um ficheiro com este nome já existe no armazenamento, pode selecionar esse ficheiro a partir de um recipiente ou substituir."
+    "fileExistsErrorMessage": "Um ficheiro com este nome já existe no armazenamento, pode selecionar esse ficheiro a partir de um recipiente ou substituir.",
+    "description": "Descrição",
+    "latitude": "Latitude",
+    "longitude": "Longitude",
+    "showOnGlobe": "Mostrar no globo",
+    "sampleLatitude": "por exemplo: 6.4511366",
+    "sampleLongitude": "por exemplo: 3.3883963",
+    "longitudeErrorMessage": "O valor de entrada deve estar dentro de -180 e 180 graus",
+    "latitudeErrorMessage": "O valor de entrada deve estar dentro de -90 e 90 graus"
   },
   "BIMUpload": {
     "specifyFiles": "Especifique ficheiros para carregar a partir de",
@@ -492,7 +498,9 @@
         "commonProperties": "A união das propriedades gémeas primárias de elementos selecionados"
       },
       "errors": {
-        "twinAliasAlreadyExists": "O pseudónimo gémeo com o mesmo nome já existe, considere adicioná-lo em vez disso."
+        "twinAliasAlreadyExists": "O pseudónimo gémeo com o mesmo nome já existe, considere adicioná-lo em vez disso.",
+        "alphanumericOnly": "O pseudónimo gémeo só deve conter caracteres alfanuméricos",
+        "noNumberPrefix": "Pseudónimo gémeo não deve começar com um número"
       }
     }
   },
@@ -692,7 +700,8 @@
       "undoAll": "Redefinir todas as edições",
       "expandTree": "Expandir árvore",
       "collapseTree": "Árvore de colapso",
-      "save": "Guardar alterações"
+      "save": "Guardar alterações",
+      "refresh": "Atualizar dados"
     },
     "dateTimePicker": {
       "datePickerTitle": "Selecionador de datas",
@@ -725,7 +734,7 @@
     "state": "Estado",
     "allProperties": "Todas as propriedades",
     "behaviorPreview": "Previsualizar",
-    "PrimaryTwinProperties": "Propriedades principais de Twin"
+    "PrimaryTwin": "Gémeo Primário"
   },
   "svgTests": {
     "fluentUI": "Carregamento SVG através de componente de imagem fluente (padrão recomendado)",
@@ -782,5 +791,77 @@
     "reset": "Reset",
     "zoomIn": "Zoom in",
     "zoomOut": "Zoom para fora"
+  },
+  "tutorialModal": {
+    "elements": {
+      "title": "O que é um elemento?",
+      "content": "Um elemento é um conjunto auto-definido de malhas 3D que está ligada a dados sobre um ou mais gémeos digitais subjacentes. Os elementos ajudam-no a medir rapidamente as operações do sistema e a saúde. \n\nUm gémeo primário é a principal congénere digital de um elemento. Liga o elemento a um gémeo no seu exemplo Azure Digital Twins para que o elemento possa representar o seu gémeo e os seus dados dentro da visualização 3D."
+    },
+    "docLinkBlurb": "Para um passo a passo mais detalhado, consulte os nossos <DocLink>docs aqui.</DocLink>",
+    "behaviors": {
+      "title": "O que é um comportamento?",
+      "mainContent": "Um comportamento é um cenário para a sua cena que irá aproveitar dados particulares sobre o gémeo digital do elemento relacionado para impulsionar visualizações de espectadores.\n\nCriar um comportamento inclui escolher gémeos, configurar o estado e os alertas, adicionar um widget e escolher em que camada exibir.\n\n",
+      "statusTitle": "Estado",
+      "statusDescription": "Os estados são sobreposições baseadas em dados nos seus elementos para indicar a saúde ou o estado do elemento. definir gamas de valor para criar limites de estado, e escolher cores para representar cada estado na visualização.\n\n",
+      "alertsTitle": "Alertas",
+      "alertsDescription": "Os alertas são notificações condicionais para ajudá-lo a ver rapidamente quando um elemento requer a sua atenção. Personalize o seu crachá de alerta com um ícone, cor e texto.\n\n"
+    },
+    "tip": "Ponta",
+    "twins": {
+      "title": "Como escolho gémeos?",
+      "mainContent": "No separador Gémeos, pode modificar o conjunto de gémeos cujos dados estão disponíveis para este comportamento. Isto inclui os gémeos primários dos elementos visados e os gémeos não primários.\n\nUm gémeo não primário é uma fonte de dados digital digital secundária para um elemento. Poderá usar propriedades desse gémeo nas suas expressões de comportamento para este elemento. Só deve adicionar gémeos não primários quando há gémeos adicionais com dados para além do seu gémeo primário que quer alavancar no seu estado, alertas e widgets para este comportamento.\n\n",
+      "tipContent": "O Azure Digital Twins Explorer pode ajudá-lo a ver gémeos que podem estar relacionados com o gémeo primário para este elemento. Pode consultar o seu gráfico utilizando SELECT * FROM digitaltwins WHERE $dtId='<primary-twin-id>', e, em seguida, usar a funcionalidade de expansão de duplo clique para explorar gémeos relacionados."
+    },
+    "widgets": {
+      "title": "O que é um widget?",
+      "mainContent": "Os Widgets são visuais orientados por dados que fornecem contexto e dados adicionais, para ajudá-lo a entender o cenário que o comportamento representa. Configurar widgets irá ajudá-lo a certificar-se de que os dados certos são detetáveis quando um alerta ou estado está ativo.\n\n",
+      "typesOfWidgets": "Tipos de widgets\n\n",
+      "gaugeDescription": "<Underline>Gauge:</Underline> Para representar pontos de dados numéricos visualmente\n\n",
+      "linkDescription": "<Underline>Link:</Underline> Para incluir conteúdo referenciado externamente através de um URL ligado\n\n",
+      "valueDescription": "<Underline>Valor:</Underline> Para exibir diretamente valores de propriedade dupla\n\n"
+    },
+    "sceneLayers": {
+      "title": "O que é uma camada de cena?",
+      "mainContent": "Pode criar camadas na sua cena para ajudar a organizar os seus comportamentos. As camadas agem como tags sobre os comportamentos, permitindo-lhe definir quais comportamentos precisam ser vistos em conjunto, criando assim vistas personalizadas da sua cena para diferentes papéis ou tarefas.\n\nSe não houver camadas numa cena, todos os comportamentos aparecerão no espectador de cena. Se houver pelo menos uma camada presente na cena, então apenas os comportamentos que são marcados com uma camada aparecerão no espectador.\n\nUma maneira de criar camadas é usar o botão de camadas de cena na vista Build para uma cena. Em alternativa, pode criar camadas enquanto cria ou modifica um comportamento."
+    },
+    "modalTitle": "Bem-vindos ao Estúdio 3D Scenes!",
+    "publicPreview": "Pré-visualização pública",
+    "closeAriaLabel": "Feche modal",
+    "nextSlide": "Próximo slide",
+    "previousSlide": "Slide anterior",
+    "statusIndicatorSelectedAria": "Slide {{slide}} selecionado",
+    "statusIndicatorUnselectedAria": "Selecione slide {{slide}}",
+    "tabs": {
+      "introduction": "Introdução",
+      "concepts": "Conceitos",
+      "elements": "Elementos",
+      "behaviors": "Comportamentos",
+      "twins": "Gémeos",
+      "widgets": "Widgets",
+      "sceneLayers": "Camadas de cena"
+    },
+    "frePages": {
+      "intro": {
+        "title": "O nosso mais recente construtor de código baixo",
+        "text": "Neste ambiente imersivo em 3D, pode monitorizar, diagnosticar e investigar dados operacionais com o contexto visual de ativos 3D, alimentados por dados da Azure Digital Twins, sem necessidade de conhecimentos 3D."
+      },
+      "builder": {
+        "title": "Personalize a sua cena no nosso Construtor",
+        "text": "O construtor no Estúdio 3D Scenes é a interface principal para configurar as suas cenas. É uma experiência visual de baixo código."
+      },
+      "viewer": {
+        "title": "Explore ao redor, ou incorpore-o em outro lugar",
+        "text": "Veja a cena 3D aqui no estúdio. O componente do espectador pode ser incorporado em aplicações personalizadas, e pode funcionar em conjunto com componentes da 3ª parte."
+      }
+    },
+    "conceptsRoot": {
+      "title": "Precisa de um mergulho mais profundo nos conceitos?",
+      "text": "Navegue pelo conteúdo da ajuda ou consulte a nossa documentação para tutoriais passo a passo!"
+    },
+    "rootDocsLinkText": "Documentação",
+    "githubLinkText": "GitHub",
+    "quickstartLinkText": "Arranque rápido",
+    "primaryButtonText": "Explore a demonstração",
+    "dismissText": "Dispensar"
   }
 }

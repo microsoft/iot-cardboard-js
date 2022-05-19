@@ -158,8 +158,13 @@
     "scenes": {
         "noScenes": "You have no 3D scenes, add a new one to get started.",
         "addScene": "Add 3D scene",
-        "sceneLatitude": "Latitude",
-        "sceneLongitude": "Longitude",
+        "latitude": "Latitude",
+        "longitude": "Longitude",
+        "sampleLatitude": "e.g: 6.4511366",
+        "sampleLongitude": "e.g: 3.3883963",
+        "longitudeErrorMessage": "Input value must be within -180 and 180 degrees",
+        "latitudeErrorMessage": "Input value must be within -90 and 90 degrees",
+        "showOnGlobe": "Show on globe",
         "blobUrl": "3D file blob URL",
         "addDialogTitle": "Create new scene",
         "addDialogSubText": "Link your scene with the URL of your 3D file in blob storage",
@@ -168,6 +173,7 @@
         "3dFileSelectionMode": "3D file selection mode",
         "fromContainer": "From container",
         "3dFileAsset": "3D file asset",
+        "description": "Description",
         "overwriteIfExist": "Overwrite if file already exists",
         "fileExistsErrorMessage": "A file with this name already exist in storage, you can either select that file from container or overwrite."
     },
@@ -492,7 +498,9 @@
                 "commonProperties": "The union of primary twin properties of selected elements"
             },
             "errors": {
-                "twinAliasAlreadyExists": "Twin alias with the same name already exists, consider adding it instead."
+                "twinAliasAlreadyExists": "Twin alias with the same name already exists, consider adding it instead.",
+                "alphanumericOnly": "Twin alias must only contain alphanumeric characters",
+                "noNumberPrefix": "Twin alias must not start with a number"
             }
         }
     },
@@ -692,7 +700,8 @@
             "undoAll": "Reset all edits",
             "expandTree": "Expand tree",
             "collapseTree": "Collapse tree",
-            "save": "Save changes"
+            "save": "Save changes",
+            "refresh": "Refresh data"
         },
         "dateTimePicker": {
             "datePickerTitle": "Date picker",
@@ -725,7 +734,7 @@
         "state": "State",
         "allProperties": "All properties",
         "behaviorPreview": "Preview",
-        "PrimaryTwinProperties": "Primary Twin properties"
+        "PrimaryTwin": "Primary Twin"
     },
     "svgTests": {
         "fluentUI": "SVG loading via Fluent Image component (recommended pattern)",
@@ -782,5 +791,77 @@
         "zoom": "Zoom",
         "zoomIn": "Zoom in",
         "zoomOut": "Zoom out"
+    },
+    "tutorialModal": {
+        "modalTitle": "Welcome to 3D Scenes Studio!",
+        "publicPreview": "Public Preview",
+        "closeAriaLabel": "Close modal",
+        "rootDocsLinkText": "Documentation",
+        "githubLinkText": "GitHub",
+        "quickstartLinkText": "Quickstart",
+        "primaryButtonText": "Explore the demo",
+        "dismissText": "Dismiss",
+        "nextSlide": "Next slide",
+        "previousSlide": "Previous slide",
+        "statusIndicatorSelectedAria": "Slide {{slide}} selected",
+        "statusIndicatorUnselectedAria": "Select slide {{slide}}",
+        "tabs": {
+            "introduction": "Introduction",
+            "concepts": "Concepts",
+            "elements": "Elements",
+            "behaviors": "Behaviors",
+            "twins": "Twins",
+            "widgets": "Widgets",
+            "sceneLayers": "Scene layers"
+        },
+        "frePages": {
+            "intro": {
+                "title": "Our newest low-code builder",
+                "text": "In this low-code builder, you can monitor, diagnose, and investigate operational data with the visual context of 3D assets, powered by Azure Digital Twins data, without the need for 3D expertise."
+            },
+            "builder": {
+                "title": "Customize your scene in our Builder",
+                "text": "The builder in 3D Scenes Studio is the primary interface for configuring your scenes. It is a low-code, visual experience."
+            },
+            "viewer": {
+                "title": "Explore around, or embed it elsewhere",
+                "text": "View the 3D scene right here in the Studio. The viewer component can be embedded into custom applications, and can work in conjunction with 3rd party components."
+            }
+        },
+        "conceptsRoot": {
+            "title": "Need a deeper dive on the concepts?",
+            "text": "Browse the help content or check out our documentation for step by step tutorials!"
+        },
+        "docLinkBlurb": "For a more detailed step-by-step, check out the <DocLink>docs here.</DocLink>",
+        "tip": "Tip",
+        "elements": {
+            "title": "What's an element?",
+            "content": "An element is a self-defined set of 3D meshes that is linked to data on one or more underlying digital twins.\n\nA primary twin is the main digital twin counterpart for an element. You connect the element to a twin in your Azure Digital Twins instance so that the element can represent your twin and its data within the 3D visualization."
+        },
+        "behaviors": {
+            "title": "What's a behavior?",
+            "mainContent": "A behavior is a scenario for your scene that will leverage particular data on the related element's digital twin to drive viewer visualizations.\n\nCreating a behavior includes choosing twins, configuring status and alerts, adding a widget, and choosing which layer to display on.\n\n",
+            "statusTitle": "Status",
+            "statusDescription": "States are data-driven overlays on your elements to indicate the health or status of the element. Set value ranges to create state boundaries, and choose colors to represent each state in the visualization.\n\n",
+            "alertsTitle": "Alerts",
+            "alertsDescription": "Alerts are conditional notifications to help you quickly see when an element requires your attention. Customize your alert badge with an icon, color, and text.\n\n"
+        },
+        "twins": {
+            "title": "How do I choose twins?",
+            "mainContent": "On the Twins tab, you can modify the set of twins whose data is available to this behavior. This includes the targeted elements' primary twins and additional twins.\n\nAn additional twin is a secondary digital twin data source for an element. You'll be able to use properties from that twin in your behavior expressions for this element. You should only add additional twins when there are twins with data beyond your primary twin that you want to leverage in your status, alerts, and widgets for this behavior.\n\n",
+            "tipContent": "Azure Digital Twins Explorer can help you see twins that might be related to the primary twin for this element. You can query your graph using SELECT * FROM digitaltwins WHERE $dtId='<primary-twin-id>', and then use the double-click expansion feature to explore related twins."
+        },
+        "widgets": {
+            "title": "What's a widget?",
+            "mainContent": "Widgets are data-driven visuals that provide additional context and data, to help you understand the scenario that the behavior represents. Configuring widgets will help you make sure the right data is discoverable when an alert or status is active.\n\n",
+            "typesOfWidgets": "Types of widgets\n\n",
+            "gaugeDescription": "<Underline>Gauge:</Underline> For representing numerical data points visually\n\n",
+            "linkDescription": "<Underline>Link:</Underline> For including externally-referenced content via a linked URL\n\n",
+            "valueDescription": "<Underline>Value:</Underline> For directly displaying twin property values\n\n"
+        },
+        "sceneLayers": {
+            "title": "What's a scene layer?",
+            "mainContent": "You can create layers in your scene to help organize your behaviors. Layers act like tags on the behaviors, enabling you to define which behaviors need to be seen together, thus creating custom views of your scene for different roles or tasks.\n\nIf there are no layers in a scene, all of the behaviors will show up in the scene viewer. Any behaviors not tagged with a layer will appear in the Default layer until they're tagged with a layer.\n\nOne way to create layers is to use the Scene layers button in the Build view for a scene. Alternatively, you can create layers while creating or modifying a behavior."
+        }
     }
 }

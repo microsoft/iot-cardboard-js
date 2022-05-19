@@ -26,6 +26,13 @@ import {
 
 /** Static utilty methods for operations on the configuration file. */
 abstract class ViewerConfigUtility {
+    static getSceneById(
+        config: I3DScenesConfig,
+        sceneId: string
+    ): IScene | undefined {
+        return config.configuration.scenes.find((s) => s.id === sceneId);
+    }
+
     /** Add new scene to config file */
     static addScene(config: I3DScenesConfig, scene: IScene): I3DScenesConfig {
         const updatedConfig = deepCopy(config);
@@ -684,7 +691,7 @@ abstract class ViewerConfigUtility {
     }
 
     static getBehaviorIdsInScene(config: I3DScenesConfig, sceneId: string) {
-        const scene = config.configuration.scenes.find((s) => s.id === sceneId);
+        const scene = ViewerConfigUtility.getSceneById(config, sceneId);
         return scene?.behaviorIDs || [];
     }
 
@@ -1060,7 +1067,7 @@ abstract class ViewerConfigUtility {
         configSnapshot = ViewerConfigUtility.updateElementsInScene(
             configSnapshot,
             sceneId,
-            selectedElements
+            selectedElements ?? []
         );
 
         return configSnapshot;
@@ -1079,7 +1086,12 @@ abstract class ViewerConfigUtility {
 
         return twinAliases;
     };
-
+    static hasGlobeCoordinates = (sceneList: IScene[]) => {
+        const scene = sceneList.find(
+            (s) => s?.latitude !== undefined || s?.longitude !== undefined
+        );
+        return scene ? true : false;
+    };
     /**
      * Gets config, sceneId and selected elements in a behavior
      * Returns twin alias items available for a behavior to add which is

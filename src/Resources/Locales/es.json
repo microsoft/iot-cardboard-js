@@ -158,8 +158,6 @@
   "scenes": {
     "noScenes": "No tiene escenas 3D, agregue una nueva para comenzar.",
     "addScene": "Añadir escena 3D",
-    "sceneLatitude": "Latitud",
-    "sceneLongitude": "Longitud",
     "blobUrl": "URL de blob de archivo 3D",
     "addDialogTitle": "Crear nueva escena",
     "addDialogSubText": "Vincula tu escena con la URL de tu archivo 3D en el almacenamiento de blobs",
@@ -169,7 +167,15 @@
     "fromContainer": "Desde el contenedor",
     "3dFileAsset": "Recurso de archivo 3D",
     "overwriteIfExist": "Sobrescribir si el archivo ya existe",
-    "fileExistsErrorMessage": "Un archivo con este nombre ya existe en el almacenamiento, puede seleccionar ese archivo del contenedor o sobrescribirlo."
+    "fileExistsErrorMessage": "Un archivo con este nombre ya existe en el almacenamiento, puede seleccionar ese archivo del contenedor o sobrescribirlo.",
+    "description": "Descripción",
+    "latitude": "Latitud",
+    "longitude": "Longitud",
+    "showOnGlobe": "Mostrar en el mundo",
+    "sampleLatitude": "por ejemplo: 6.4511366",
+    "sampleLongitude": "por ejemplo: 3.3883963",
+    "longitudeErrorMessage": "El valor de entrada debe estar dentro de -180 y 180 grados",
+    "latitudeErrorMessage": "El valor de entrada debe estar dentro de -90 y 90 grados"
   },
   "BIMUpload": {
     "specifyFiles": "Especificar archivos desde los que cargar",
@@ -492,7 +498,9 @@
         "commonProperties": "La unión de las propiedades gemelas primarias de los elementos seleccionados"
       },
       "errors": {
-        "twinAliasAlreadyExists": "El alias gemelo con el mismo nombre ya existe, considere agregarlo en su lugar."
+        "twinAliasAlreadyExists": "El alias gemelo con el mismo nombre ya existe, considere agregarlo en su lugar.",
+        "alphanumericOnly": "El alias gemelo solo debe contener caracteres alfanuméricos",
+        "noNumberPrefix": "El alias gemelo no debe comenzar con un número"
       }
     }
   },
@@ -692,7 +700,8 @@
       "undoAll": "Restablecer todas las ediciones",
       "expandTree": "Expandir árbol",
       "collapseTree": "Árbol de colapso",
-      "save": "Guardar cambios"
+      "save": "Guardar cambios",
+      "refresh": "Actualizar datos"
     },
     "dateTimePicker": {
       "datePickerTitle": "Selector de fecha",
@@ -725,7 +734,7 @@
     "state": "Estado",
     "allProperties": "Todas las propiedades",
     "behaviorPreview": "Vista previa",
-    "PrimaryTwinProperties": "Propiedades de Primary Twin"
+    "PrimaryTwin": "Gemelo primario"
   },
   "svgTests": {
     "fluentUI": "Carga DE SVG a través del componente Fluent Image (patrón recomendado)",
@@ -782,5 +791,77 @@
     "reset": "Restablecimiento",
     "zoomIn": "Acercar",
     "zoomOut": "Alejar"
+  },
+  "tutorialModal": {
+    "elements": {
+      "title": "¿Qué es un elemento?",
+      "content": "Un elemento es un conjunto autodefinido de mallas 3D que está vinculado a datos sobre uno o más gemelos digitales subyacentes. Elements le ayuda a medir rápidamente las operaciones y el estado del sistema. \n\nUn gemelo primario es la contraparte principal del gemelo digital para un elemento. Conecte el elemento a un gemelo en la instancia de Azure Digital Twins para que el elemento pueda representar al gemelo y sus datos dentro de la visualización 3D."
+    },
+    "docLinkBlurb": "Para un paso a paso más detallado, consulte nuestro <DocLink>docs aquí.</DocLink>",
+    "behaviors": {
+      "title": "¿Qué es un comportamiento?",
+      "mainContent": "Un comportamiento es un escenario para su escena que aprovechará datos particulares en el gemelo digital del elemento relacionado para impulsar las visualizaciones del visor.\n\nLa creación de un comportamiento incluye elegir gemelos, configurar el estado y las alertas, agregar un widget y elegir en qué capa mostrar.\n\n",
+      "statusTitle": "Estado",
+      "statusDescription": "Los estados son superposiciones basadas en datos en los elementos para indicar el estado o el estado del elemento. establezca rangos de valores para crear límites de estado y elija colores para representar cada estado en la visualización.\n\n",
+      "alertsTitle": "Alertas",
+      "alertsDescription": "Las alertas son notificaciones condicionales para ayudarte a ver rápidamente cuándo un elemento requiere tu atención. Personaliza tu insignia de alerta con un icono, color y texto.\n\n"
+    },
+    "tip": "Propina",
+    "twins": {
+      "title": "¿Cómo elijo gemelos?",
+      "mainContent": "En la pestaña Gemelos, puede modificar el conjunto de gemelos cuyos datos están disponibles para este comportamiento. Esto incluye a los gemelos primarios de los elementos objetivo y a los gemelos no primarios.\n\nUn gemelo no primario es una fuente de datos de gemelo digital secundario para un elemento. Podrá usar propiedades de ese gemelo en sus expresiones de comportamiento para este elemento. Solo debe agregar gemelos no primarios cuando haya gemelos adicionales con datos más allá de su gemelo principal que desee aprovechar en su estado, alertas y widgets para este comportamiento.\n\n",
+      "tipContent": "Azure Digital Twins Explorer puede ayudarle a ver gemelos que podrían estar relacionados con el gemelo principal para este elemento. Puede consultar el gráfico mediante SELECT * FROM digitaltwins WHERE $dtId='<primary-twin-id>', y luego usar la función de expansión de doble clic para explorar gemelos relacionados."
+    },
+    "widgets": {
+      "title": "¿Qué es un widget?",
+      "mainContent": "Los widgets son objetos visuales basados en datos que proporcionan contexto y datos adicionales para ayudarle a comprender el escenario que representa el comportamiento. La configuración de widgets le ayudará a asegurarse de que los datos correctos se puedan detectar cuando una alerta o estado esté activo.\n\n",
+      "typesOfWidgets": "Tipos de widgets\n\n",
+      "gaugeDescription": "<Sínda>Gauge:</Underline> Para representar visualmente los puntos de datos numéricos\n\n",
+      "linkDescription": "<Línea inferior>Enlace:</Subrayado> Para incluir contenido referenciado externamente a través de una URL vinculada\n\n",
+      "valueDescription": "<Línea inferior>Valor:</Subrayado> Para mostrar directamente los valores de propiedad gemelos\n\n"
+    },
+    "sceneLayers": {
+      "title": "¿Qué es una capa de escena?",
+      "mainContent": "Puede crear capas en su escena para ayudar a organizar sus comportamientos. Las capas actúan como etiquetas en los comportamientos, lo que le permite definir qué comportamientos deben verse juntos, creando así vistas personalizadas de su escena para diferentes roles o tareas.\n\nSi no hay capas en una escena, todos los comportamientos aparecerán en el visor de escenas. Si hay al menos una capa presente en la escena, solo los comportamientos etiquetados con una capa aparecerán en el visor.\n\nUna forma de crear capas es usar el botón Capas de escena en la vista Generar para una escena. Como alternativa, puede crear capas mientras crea o modifica un comportamiento."
+    },
+    "modalTitle": "¡Bienvenido a 3D Scenes Studio!",
+    "publicPreview": "Vista previa pública",
+    "closeAriaLabel": "Cerrar modal",
+    "nextSlide": "Siguiente diapositiva",
+    "previousSlide": "Diapositiva anterior",
+    "statusIndicatorSelectedAria": "Diapositiva {{diapositiva}} seleccionada",
+    "statusIndicatorUnselectedAria": "Seleccione la diapositiva {{diapositiva}}",
+    "tabs": {
+      "introduction": "Introducción",
+      "concepts": "Conceptos",
+      "elements": "Elementos",
+      "behaviors": "Comportamientos",
+      "twins": "Gemelos",
+      "widgets": "Widgets",
+      "sceneLayers": "Capas de escena"
+    },
+    "frePages": {
+      "intro": {
+        "title": "Nuestro nuevo creador de código bajo",
+        "text": "En este entorno 3D inmersivo, puede supervisar, diagnosticar e investigar datos operativos con el contexto visual de los activos 3D, con tecnología de datos de Azure Digital Twins, sin necesidad de experiencia en 3D."
+      },
+      "builder": {
+        "title": "Personaliza tu escena en nuestro Builder",
+        "text": "El constructor de 3D Scenes Studio es la interfaz principal para configurar las escenas. Es una experiencia visual de código bajo."
+      },
+      "viewer": {
+        "title": "Explora los alrededores o incorpóralo en otro lugar",
+        "text": "Vea la escena 3D aquí mismo en el estudio. El componente del visor se puede incrustar en aplicaciones personalizadas y puede funcionar junto con los componentes de 3rd party."
+      }
+    },
+    "conceptsRoot": {
+      "title": "¿Necesitas una inmersión más profunda en los conceptos?",
+      "text": "¡Explore el contenido de la ayuda o consulte nuestra documentación para obtener tutoriales paso a paso!"
+    },
+    "rootDocsLinkText": "Documentación",
+    "githubLinkText": "GitHub",
+    "quickstartLinkText": "Inicio rápido",
+    "primaryButtonText": "Explora la demo",
+    "dismissText": "Despedir"
   }
 }

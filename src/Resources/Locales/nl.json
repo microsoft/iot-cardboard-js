@@ -158,8 +158,6 @@
   "scenes": {
     "noScenes": "Je hebt geen 3D-scènes, voeg een nieuwe toe om aan de slag te gaan.",
     "addScene": "3D-scène toevoegen",
-    "sceneLatitude": "Breedtegraad",
-    "sceneLongitude": "Lengtegraad",
     "blobUrl": "BLOB-URL voor 3D-bestanden",
     "addDialogTitle": "Nieuwe scène maken",
     "addDialogSubText": "Uw scène koppelen aan de URL van uw 3D-bestand in blobopslag",
@@ -169,7 +167,15 @@
     "fromContainer": "Uit container",
     "3dFileAsset": "3D-bestandsmiddel",
     "overwriteIfExist": "Overschrijven als het bestand al bestaat",
-    "fileExistsErrorMessage": "Een bestand met deze naam bestaat al in de opslag, u kunt dat bestand selecteren in de container of overschrijven."
+    "fileExistsErrorMessage": "Een bestand met deze naam bestaat al in de opslag, u kunt dat bestand selecteren in de container of overschrijven.",
+    "description": "Beschrijving",
+    "latitude": "Breedtegraad",
+    "longitude": "Lengtegraad",
+    "showOnGlobe": "Toon op globe",
+    "sampleLatitude": "bijvoorbeeld: 6,4511366",
+    "sampleLongitude": "bijvoorbeeld: 3,3883963",
+    "longitudeErrorMessage": "De invoerwaarde moet binnen -180 en 180 graden zijn",
+    "latitudeErrorMessage": "De invoerwaarde moet binnen -90 en 90 graden zijn"
   },
   "BIMUpload": {
     "specifyFiles": "Bestanden opgeven om van te uploaden",
@@ -492,7 +498,9 @@
         "commonProperties": "De vereniging van primaire tweelingeigenschappen van geselecteerde elementen"
       },
       "errors": {
-        "twinAliasAlreadyExists": "Dubbele alias met dezelfde naam bestaat al, overweeg deze in plaats daarvan toe te voegen."
+        "twinAliasAlreadyExists": "Dubbele alias met dezelfde naam bestaat al, overweeg deze in plaats daarvan toe te voegen.",
+        "alphanumericOnly": "Dubbele alias mag alleen alfanumerieke tekens bevatten",
+        "noNumberPrefix": "Dubbele alias mag niet beginnen met een getal"
       }
     }
   },
@@ -692,7 +700,8 @@
       "undoAll": "Alle bewerkingen opnieuw instellen",
       "expandTree": "Boomstructuur uitbreiden",
       "collapseTree": "Boom instorten",
-      "save": "Wijzigingen opslaan"
+      "save": "Wijzigingen opslaan",
+      "refresh": "Gegevens vernieuwen"
     },
     "dateTimePicker": {
       "datePickerTitle": "Datumkiezer",
@@ -725,7 +734,7 @@
     "state": "Staat",
     "allProperties": "Alle woningen",
     "behaviorPreview": "Voorbeeld",
-    "PrimaryTwinProperties": "Primaire Twin-eigenschappen"
+    "PrimaryTwin": "Primaire Twin"
   },
   "svgTests": {
     "fluentUI": "SVG laden via Fluent Image component (aanbevolen patroon)",
@@ -782,5 +791,77 @@
     "reset": "Terugstellen",
     "zoomIn": "Inzoomen",
     "zoomOut": "Uitzoomen"
+  },
+  "tutorialModal": {
+    "elements": {
+      "title": "Wat is een element?",
+      "content": "Een element is een zelf gedefinieerde set 3D-meshes die is gekoppeld aan gegevens over een of meer onderliggende digitale tweelingen. Elementen helpen u snel de werking en status van het systeem te meten. \n\nEen primaire tweeling is de belangrijkste digitale tweeling tegenhanger voor een element. U verbindt het element met een tweeling in uw Azure Digital Twins-instantie, zodat het element uw tweeling en de bijbehorende gegevens kan vertegenwoordigen in de 3D-visualisatie."
+    },
+    "docLinkBlurb": "Voor een meer gedetailleerde stap-voor-stap, bekijk onze <DocLink>docs here.</DocLink>",
+    "behaviors": {
+      "title": "Wat is een gedrag?",
+      "mainContent": "Een gedrag is een scenario voor uw scène waarin bepaalde gegevens over de digitale tweeling van het gerelateerde element worden gebruikt om viewervisualisaties te stimuleren.\n\nHet maken van een gedrag omvat het kiezen van tweelingen, het configureren van status en waarschuwingen, het toevoegen van een widget en het kiezen van de laag waarop moet worden weergegeven.\n\n",
+      "statusTitle": "Status",
+      "statusDescription": "Staten zijn gegevensgestuurde overlays op uw elementen om de status of status van het element aan te geven. stel waardebereiken in om statusgrenzen te maken en kies kleuren om elke status in de visualisatie weer te geven.\n\n",
+      "alertsTitle": "Waarschuwingen",
+      "alertsDescription": "Waarschuwingen zijn voorwaardelijke meldingen waarmee u snel kunt zien wanneer een element uw aandacht vereist. Pas uw waarschuwingsbadge aan met een pictogram, kleur en tekst.\n\n"
+    },
+    "tip": "Fooi",
+    "twins": {
+      "title": "Hoe kies ik een tweeling?",
+      "mainContent": "Op het tabblad Tweelingen kunt u de set tweelingen wijzigen waarvan de gegevens beschikbaar zijn voor dit gedrag. Dit omvat de primaire tweelingen en niet-primaire tweelingen van de beoogde elementen.\n\nEen niet-primaire tweeling is een secundaire digitale tweelinggegevensbron voor een element. U kunt eigenschappen van die tweeling gebruiken in uw gedragsexpressies voor dit element. U moet alleen niet-primaire tweelingen toevoegen als er extra tweelingen zijn met gegevens buiten uw primaire tweeling die u wilt gebruiken in uw status, waarschuwingen en widgets voor dit gedrag.\n\n",
+      "tipContent": "Azure Digital Twins Explorer kan u helpen tweelingen te zien die mogelijk gerelateerd zijn aan de primaire tweeling voor dit element. U kunt uw grafiek opvragen met SELECT * FROM digitaltwins WHERE $dtId='<primary-twin-id>', en vervolgens de dubbelklik-uitbreidingsfunctie gebruiken om gerelateerde tweelingen te verkennen."
+    },
+    "widgets": {
+      "title": "Wat is een widget?",
+      "mainContent": "Widgets zijn gegevensgestuurde visuals die extra context en gegevens bieden om u te helpen het scenario te begrijpen dat het gedrag vertegenwoordigt. Door widgets te configureren, kunt u ervoor zorgen dat de juiste gegevens detecteerbaar zijn wanneer een waarschuwing of status actief is.\n\n",
+      "typesOfWidgets": "Soorten widgets\n\n",
+      "gaugeDescription": "<Onderlijn>Gauge:</Onderstrepen> Voor het visueel weergeven van numerieke gegevenspunten\n\n",
+      "linkDescription": "<Onderlijnd>Link:</Onderstrepen> Voor het opnemen van inhoud waarnaar extern wordt verwezen via een gekoppelde URL\n\n",
+      "valueDescription": "<Onderlijn>Waarde:</Onderstrepen> Voor het rechtstreeks weergeven van dubbele eigenschapswaarden\n\n"
+    },
+    "sceneLayers": {
+      "title": "Wat is een scènelaag?",
+      "mainContent": "U kunt lagen in uw scène maken om uw gedrag te ordenen. Lagen fungeren als tags op het gedrag, zodat u kunt definiëren welk gedrag samen moet worden gezien, waardoor aangepaste weergaven van uw scène worden gemaakt voor verschillende rollen of taken.\n\nAls er geen lagen in een scène zijn, worden alle gedragingen weergegeven in de scèneviewer. Als er ten minste één laag in de scène aanwezig is, worden alleen gedragingen die met een laag zijn getagd, in de kijker weergegeven.\n\nU kunt lagen maken door de knop Scènelagen in de weergave Bouwen voor een scène te gebruiken. U kunt ook lagen maken tijdens het maken of wijzigen van een gedrag."
+    },
+    "modalTitle": "Welkom bij 3D Scenes Studio!",
+    "publicPreview": "Openbare preview",
+    "closeAriaLabel": "Modaal sluiten",
+    "nextSlide": "Volgende dia",
+    "previousSlide": "Vorige dia",
+    "statusIndicatorSelectedAria": "Dia {{slide}} geselecteerd",
+    "statusIndicatorUnselectedAria": "Dia {{slide}} selecteren",
+    "tabs": {
+      "introduction": "Introductie",
+      "concepts": "Concepten",
+      "elements": "Elementen",
+      "behaviors": "Gedrag",
+      "twins": "Tweeling",
+      "widgets": "Widgets",
+      "sceneLayers": "Scènelagen"
+    },
+    "frePages": {
+      "intro": {
+        "title": "Onze nieuwste low-code bouwer",
+        "text": "In deze meeslepende 3D-omgeving kunt u operationele gegevens bewaken, diagnosticeren en onderzoeken met de visuele context van 3D-assets, aangedreven door Azure Digital Twins-gegevens, zonder dat u 3D-expertise nodig hebt."
+      },
+      "builder": {
+        "title": "Pas uw scène aan in onze Builder",
+        "text": "De bouwer in 3D Scenes Studio is de primaire interface voor het configureren van uw scènes. Het is een low-code, visuele ervaring."
+      },
+      "viewer": {
+        "title": "Verken rond of sluit het elders in",
+        "text": "Bekijk de 3D-scène hier in de Studio. De viewercomponent kan worden ingesloten in aangepaste toepassingen en kan samenwerken met 3rd party-componenten."
+      }
+    },
+    "conceptsRoot": {
+      "title": "Wil je dieper ingaan op de concepten?",
+      "text": "Blader door de Help-inhoud of bekijk onze documentatie voor stapsgewijze zelfstudies!"
+    },
+    "rootDocsLinkText": "Documentatie",
+    "githubLinkText": "Github",
+    "quickstartLinkText": "Snelstart",
+    "primaryButtonText": "Bekijk de demo",
+    "dismissText": "Ontslaan"
   }
 }

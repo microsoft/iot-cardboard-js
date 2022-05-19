@@ -158,8 +158,6 @@
   "scenes": {
     "noScenes": "Nemáte žádné 3D scény, přidejte novou, abyste mohli začít.",
     "addScene": "Přidat 3D scénu",
-    "sceneLatitude": "Zeměpisná šířka",
-    "sceneLongitude": "Zeměpisná délka",
     "blobUrl": "Adresa URL objektu BLOB 3D souboru",
     "addDialogTitle": "Vytvořit novou scénu",
     "addDialogSubText": "Propojení scény s adresou URL 3D souboru v úložišti objektů BLOB",
@@ -169,7 +167,15 @@
     "fromContainer": "Z kontejneru",
     "3dFileAsset": "Datový zdroj 3D souboru",
     "overwriteIfExist": "Přepsat, pokud soubor již existuje",
-    "fileExistsErrorMessage": "Soubor s tímto názvem již existuje v úložišti, můžete tento soubor vybrat z kontejneru nebo přepsat."
+    "fileExistsErrorMessage": "Soubor s tímto názvem již existuje v úložišti, můžete tento soubor vybrat z kontejneru nebo přepsat.",
+    "description": "Popis",
+    "latitude": "Zeměpisná šířka",
+    "longitude": "Zeměpisná délka",
+    "showOnGlobe": "Zobrazit na zeměkouli",
+    "sampleLatitude": "např.: 6.4511366",
+    "sampleLongitude": "např.: 3.3883963",
+    "longitudeErrorMessage": "Vstupní hodnota musí být v rozmezí -180 a 180 stupňů",
+    "latitudeErrorMessage": "Vstupní hodnota musí být v rozmezí -90 a 90 stupňů"
   },
   "BIMUpload": {
     "specifyFiles": "Určení souborů, ze kterých chcete nahrát",
@@ -492,7 +498,9 @@
         "commonProperties": "Sjednocení vlastností primárního dvojčete vybraných prvků"
       },
       "errors": {
-        "twinAliasAlreadyExists": "Alias dvojčete se stejným názvem již existuje, zvažte jeho přidání."
+        "twinAliasAlreadyExists": "Alias dvojčete se stejným názvem již existuje, zvažte jeho přidání.",
+        "alphanumericOnly": "Alias dvojčete musí obsahovat pouze alfanumerické znaky",
+        "noNumberPrefix": "Alias dvojčete nesmí začínat číslem"
       }
     }
   },
@@ -692,7 +700,8 @@
       "undoAll": "Obnovit všechny úpravy",
       "expandTree": "Rozbalit strom",
       "collapseTree": "Sbalit strom",
-      "save": "Uložení změn"
+      "save": "Uložení změn",
+      "refresh": "Aktualizace dat"
     },
     "dateTimePicker": {
       "datePickerTitle": "Výběr data",
@@ -725,7 +734,7 @@
     "state": "Stát",
     "allProperties": "Všechny nemovitosti",
     "behaviorPreview": "Náhled",
-    "PrimaryTwinProperties": "Vlastnosti primárního dvojčete"
+    "PrimaryTwin": "Primární dvojče"
   },
   "svgTests": {
     "fluentUI": "Načítání SVG pomocí komponenty Fluent Image (doporučený vzor)",
@@ -782,5 +791,77 @@
     "reset": "Resetovat",
     "zoomIn": "Přiblížit",
     "zoomOut": "Oddálit"
+  },
+  "tutorialModal": {
+    "elements": {
+      "title": "Co je to prvek?",
+      "content": "Prvek je samodefinovaná sada 3D sítí, která je propojena s daty na jednom nebo více podkladových digitálních dvojčatech. Prvky vám pomohou rychle posoudit provoz a stav systému. \n\nPrimární dvojče je hlavním protějškem digitálního dvojčete prvku. Prvek připojíte k dvojčeti v instanci Azure Digital Twins, aby prvek mohl reprezentovat vaše dvojče a jeho data v rámci 3D vizualizace."
+    },
+    "docLinkBlurb": "Podrobnější informace naleznete v našich <DocLink>docs here.</DocLink>",
+    "behaviors": {
+      "title": "Co je to chování?",
+      "mainContent": "Chování je scénář pro vaši scénu, který využije konkrétní data o digitálním dvojčeti souvisejícího prvku k podpoře vizualizací prohlížeče.\n\nVytvoření chování zahrnuje výběr dvojčat, konfiguraci stavu a výstrah, přidání widgetu a výběr vrstvy, na které se má zobrazit.\n\n",
+      "statusTitle": "Stav",
+      "statusDescription": "Stavy jsou překryvné vrstvy založené na datech na vašich prvcích, které označují stav nebo stav prvku. nastavte rozsahy hodnot pro vytvoření hranic stavů a zvolte barvy, které budou reprezentovat každý stav ve vizualizaci.\n\n",
+      "alertsTitle": "Výstrahy",
+      "alertsDescription": "Výstrahy jsou podmíněná oznámení, která vám pomohou rychle zjistit, kdy prvek vyžaduje vaši pozornost. Přizpůsobte si výstražný odznak ikonou, barvou a textem.\n\n"
+    },
+    "tip": "Spropitné",
+    "twins": {
+      "title": "Jak si mohu vybrat dvojčata?",
+      "mainContent": "Na kartě Dvojčata můžete upravit sadu dvojčat, jejichž data jsou k dispozici pro toto chování. To zahrnuje primární dvojčata cílových prvků a neprimární dvojčata.\n\nNeprimární dvojče je sekundární zdroj dat digitálního dvojčete pro prvek. Pro tento prvek budete moci použít vlastnosti z tohoto dvojčete ve výrazech chování. Neprimární dvojčata byste měli přidávat pouze v případě, že existují další dvojčata s daty mimo primární dvojče, která chcete využít ve svém stavu, výstrahách a widgetech pro toto chování.\n\n",
+      "tipContent": "Průzkumník digitálních vláken Azure vám může pomoci zobrazit dvojčata, která mohou souviset s primárním dvojčetem pro tento prvek. Graf můžete zadat dotaz pomocí příkazu SELECT * FROM digitaltwins WHERE $dtId='<primary-twin-id>\" a pak pomocí funkce rozšíření dvojitým kliknutím prozkoumat související dvojčata."
+    },
+    "widgets": {
+      "title": "Co je to widget?",
+      "mainContent": "Widgety jsou vizuály řízené daty, které poskytují další kontext a data, aby vám pomohly pochopit scénář, který chování představuje. Konfigurace widgetů vám pomůže zajistit, aby byla správná data zjistitelná, když je aktivní výstraha nebo stav.\n\n",
+      "typesOfWidgets": "Typy widgetů\n\n",
+      "gaugeDescription": "<Podpis>Gauge:</Podtržení> Pro vizuální znázornění číselných datových bodů\n\n",
+      "linkDescription": "<Podpis>Link:</Podtržení> Pro zahrnutí externě odkazovaného obsahu prostřednictvím odkazované adresy URL\n\n",
+      "valueDescription": "<Podpis>Hodnota:</Podtržení> Pro přímé zobrazení hodnot vlastností dvojčat\n\n"
+    },
+    "sceneLayers": {
+      "title": "Co je vrstva scény?",
+      "mainContent": "Ve scéně můžete vytvořit vrstvy, které vám pomohou uspořádat chování. Vrstvy se chovají jako tagy chování, což vám umožňuje definovat, která chování je třeba vidět společně, a tím vytvářet vlastní zobrazení scény pro různé role nebo úkoly.\n\nPokud ve scéně nejsou žádné vrstvy, všechna chování se zobrazí v prohlížeči scény. Pokud je ve scéně přítomna alespoň jedna vrstva, zobrazí se v prohlížeči pouze chování, která jsou označena vrstvou.\n\nJedním ze způsobů, jak vytvořit vrstvy, je použít tlačítko Vrstvy scény v zobrazení Vytvořit. Alternativně můžete vytvářet vrstvy při vytváření nebo úpravě chování."
+    },
+    "modalTitle": "Vítejte ve studiu 3D Scenes!",
+    "publicPreview": "Public Preview",
+    "closeAriaLabel": "Zavřít modální",
+    "nextSlide": "Další snímek",
+    "previousSlide": "Předchozí snímek",
+    "statusIndicatorSelectedAria": "Snímek {{slide}} vybrán",
+    "statusIndicatorUnselectedAria": "Vybrat snímek {{slide}}",
+    "tabs": {
+      "introduction": "Úvod",
+      "concepts": "Koncepty",
+      "elements": "Elementy",
+      "behaviors": "Chování",
+      "twins": "Dvojčata",
+      "widgets": "Widgety",
+      "sceneLayers": "Vrstvy scény"
+    },
+    "frePages": {
+      "intro": {
+        "title": "Náš nejnovější tvůrce s minimem kódu",
+        "text": "V tomto poutavém 3D prostředí můžete monitorovat, diagnostikovat a zkoumat provozní data pomocí vizuálního kontextu 3D prostředků využívajících data Azure Digital Twins bez nutnosti 3D odborných znalostí."
+      },
+      "builder": {
+        "title": "Přizpůsobte si scénu v našem Builderu",
+        "text": "Tvůrce v aplikaci 3D Scenes Studio je primárním rozhraním pro konfiguraci scén. Jedná se o vizuální zážitek s nízkým kódem."
+      },
+      "viewer": {
+        "title": "Prozkoumejte okolí nebo ho vložte jinam",
+        "text": "Prohlédněte si 3D scénu přímo zde ve Studiu. Komponenta prohlížeče může být vložena do vlastních aplikací a může pracovat ve spojení s komponentami 3. strany."
+      }
+    },
+    "conceptsRoot": {
+      "title": "Potřebujete se hlouběji ponořit do konceptů?",
+      "text": "Projděte si obsah nápovědy nebo se podívejte na naši dokumentaci, kde najdete podrobné návody!"
+    },
+    "rootDocsLinkText": "Dokumentace",
+    "githubLinkText": "GitHub",
+    "quickstartLinkText": "Rychlý start",
+    "primaryButtonText": "Prozkoumejte ukázku",
+    "dismissText": "Propustit"
   }
 }

@@ -158,18 +158,24 @@
   "scenes": {
     "noScenes": "Du har inga 3D-scener, lägg till en ny för att komma igång.",
     "addScene": "Lägg till 3D-scen",
-    "sceneLatitude": "Breddgrad",
-    "sceneLongitude": "Longitud",
-    "blobUrl": "Blob-URL för 3D-fil",
-    "addDialogTitle": "Skapa ny scen",
-    "addDialogSubText": "Länka din scen till URL:en för din 3D-fil i Blob Storage",
+    "blobUrl": "URL för 3D-filblob",
+    "addDialogTitle": "Skapa en ny scen",
+    "addDialogSubText": "Länka din scen med URL:en för din 3D-fil i bloblagring",
     "editDialogTitle": "Redigera scen",
     "editDialogSubText": "Redigera namnet och den länkade 3D-filen för din scen",
     "3dFileSelectionMode": "3D-filvalsläge",
     "fromContainer": "Från behållare",
     "3dFileAsset": "3D-filtillgång",
-    "overwriteIfExist": "Skriv över om filen redan finns",
-    "fileExistsErrorMessage": "En fil med det här namnet finns redan i lagring, du kan antingen välja den filen från containern eller skriva över."
+    "overwriteIfExist": "Skriva över om filen redan finns",
+    "fileExistsErrorMessage": "En fil med det här namnet finns redan i lagring, du kan antingen välja den filen från behållaren eller skriva över.",
+    "description": "Beskrivning",
+    "latitude": "Breddgrad",
+    "longitude": "Longitud",
+    "showOnGlobe": "Visa på jordklotet",
+    "sampleLatitude": "t.ex.: 6.4511366",
+    "sampleLongitude": "t.ex.: 3.3883963",
+    "longitudeErrorMessage": "Ingångsvärdet måste ligga inom -180 och 180 grader",
+    "latitudeErrorMessage": "Ingångsvärdet måste ligga inom -90 och 90 grader"
   },
   "BIMUpload": {
     "specifyFiles": "Ange filer som ska laddas upp från",
@@ -492,7 +498,9 @@
         "commonProperties": "Föreningen av primära tvillingegenskaper hos utvalda element"
       },
       "errors": {
-        "twinAliasAlreadyExists": "Tvillingalias med samma namn finns redan, överväg att lägga till det i stället."
+        "twinAliasAlreadyExists": "Tvillingalias med samma namn finns redan, överväg att lägga till det i stället.",
+        "alphanumericOnly": "Tvillingalias får endast innehålla alfanumeriska tecken",
+        "noNumberPrefix": "Tvillingalias får inte börja med ett tal"
       }
     }
   },
@@ -692,7 +700,8 @@
       "undoAll": "Återställ alla redigeringar",
       "expandTree": "Expandera träd",
       "collapseTree": "Kollapsa träd",
-      "save": "Spara ändringar"
+      "save": "Spara ändringar",
+      "refresh": "Uppdatera data"
     },
     "dateTimePicker": {
       "datePickerTitle": "Datumväljare",
@@ -725,7 +734,7 @@
     "state": "Stat",
     "allProperties": "Alla egenskaper",
     "behaviorPreview": "Förhandsvisning",
-    "PrimaryTwinProperties": "Primära tvillingegenskaper"
+    "PrimaryTwin": "Primär tvilling"
   },
   "svgTests": {
     "fluentUI": "SVG-inläsning via Fluent Image-komponent (rekommenderat mönster)",
@@ -782,5 +791,77 @@
     "reset": "Nollställa",
     "zoomIn": "Zooma in",
     "zoomOut": "Zooma ut"
+  },
+  "tutorialModal": {
+    "elements": {
+      "title": "Vad är ett element?",
+      "content": "Ett element är en självdefinierad uppsättning 3D-maskor som är länkade till data på en eller flera underliggande digitala tvillingar. Element hjälper dig att snabbt mäta systemåtgärder och hälsa. \n\nEn primär tvilling är den viktigaste digitala tvillingmotsvarigheten för ett element. Du ansluter elementet till en tvilling i din Azure Digital Twins instans så att elementet kan representera din tvilling och dess data i 3D-visualiseringen."
+    },
+    "docLinkBlurb": "För en mer detaljerad steg-för-steg, kolla in vår <DocLink>docs här.</DocLink>",
+    "behaviors": {
+      "title": "Vad är ett beteende?",
+      "mainContent": "Ett beteende är ett scenario för din scen som utnyttjar vissa data på det relaterade elementets digitala tvilling för att driva visualiseringar av visningsprogram.\n\nAtt skapa ett beteende omfattar att välja tvillingar, konfigurera status och aviseringar, lägga till en widget och välja vilket lager som ska visas på.\n\n",
+      "statusTitle": "Status",
+      "statusDescription": "Tillstånd är datadrivna överlagringar på dina element för att ange elementets hälsa eller status. ange värdeintervall för att skapa tillståndsgränser och välj färger som representerar varje tillstånd i visualiseringen.\n\n",
+      "alertsTitle": "Varningar",
+      "alertsDescription": "Aviseringar är villkorliga meddelanden som hjälper dig att snabbt se när ett element kräver din uppmärksamhet. Anpassa ditt varningsmärke med en ikon, färg och text.\n\n"
+    },
+    "tip": "Dricks",
+    "twins": {
+      "title": "Hur väljer jag tvillingar?",
+      "mainContent": "På fliken Tvillingar kan du ändra den uppsättning tvillingar vars data är tillgängliga för det här beteendet. Detta inkluderar de riktade elementens primära tvillingar och icke-primära tvillingar.\n\nEn icke-primär tvilling är en sekundär datakälla för en digital tvilling för ett element. Du kommer att kunna använda egenskaper från den tvillingen i dina beteendeuttryck för det här elementet. Du bör bara lägga till icke-primära tvillingar när det finns ytterligare tvillingar med data utöver din primära tvilling som du vill utnyttja i din status, aviseringar och widgetar för det här beteendet.\n\n",
+      "tipContent": "Azure Digital Twins Explorer kan hjälpa dig att se tvillingar som kan vara relaterade till den primära tvillingen för det här elementet. Du kan fråga diagrammet med SELECT * FROM digitaltwins WHERE $dtId='<primary-twin-id>' och sedan använda expansionsfunktionen för att dubbelklicka för att utforska relaterade tvillingar."
+    },
+    "widgets": {
+      "title": "Vad är en widget?",
+      "mainContent": "Widgetar är datadrivna visuella objekt som ger ytterligare kontext och data som hjälper dig att förstå scenariot som beteendet representerar. Genom att konfigurera widgetar kan du se till att rätt data kan upptäckas när en avisering eller status är aktiv.\n\n",
+      "typesOfWidgets": "Typer av widgets\n\n",
+      "gaugeDescription": "<Underline>Gauge:</Underline> För att representera numeriska datapunkter visuellt\n\n",
+      "linkDescription": "<Underline>Link:</Underline> För att inkludera externt refererat innehåll via en länkad URL\n\n",
+      "valueDescription": "<Underline>Value:</Underline> För direkt visning av tvillingegenskapsvärden\n\n"
+    },
+    "sceneLayers": {
+      "title": "Vad är ett scenlager?",
+      "mainContent": "Du kan skapa lager i din scen för att organisera dina beteenden. Lager fungerar som taggar på beteendena, så att du kan definiera vilka beteenden som behöver ses tillsammans, vilket skapar anpassade vyer av din scen för olika roller eller uppgifter.\n\nOm det inte finns några lager i en scen visas alla beteenden i scenvisaren. Om det finns minst ett lager i scenen visas bara beteenden som är taggade med ett lager i visningsprogrammet.\n\nEtt sätt att skapa lager är att använda knappen Scenlager i vyn Skapa för en scen. Du kan också skapa lager när du skapar eller ändrar ett beteende."
+    },
+    "modalTitle": "Välkommen till 3D Scenes Studio!",
+    "publicPreview": "Offentlig förhandsversion",
+    "closeAriaLabel": "Stäng modal",
+    "nextSlide": "Nästa bild",
+    "previousSlide": "Föregående bild",
+    "statusIndicatorSelectedAria": "Slide {{slide}} markerad",
+    "statusIndicatorUnselectedAria": "Välj bild {{slide}}",
+    "tabs": {
+      "introduction": "Införandet",
+      "concepts": "Begrepp",
+      "elements": "Element",
+      "behaviors": "Beteenden",
+      "twins": "Tvillingar",
+      "widgets": "Widgets",
+      "sceneLayers": "Scenlager"
+    },
+    "frePages": {
+      "intro": {
+        "title": "Vår senaste low-code-byggare",
+        "text": "I den här integrerande 3D-miljön kan du övervaka, diagnostisera och undersöka driftdata med den visuella kontexten för 3D-tillgångar, som drivs av Azure Digital Twins data, utan behov av 3D-expertis."
+      },
+      "builder": {
+        "title": "Anpassa din scen i vår Builder",
+        "text": "Byggaren i 3D Scenes Studio är det primära gränssnittet för att konfigurera dina scener. Det är en visuell upplevelse med låg kod."
+      },
+      "viewer": {
+        "title": "Utforska runt eller bädda in det någon annanstans",
+        "text": "Se 3D-scenen här i studion. Visningsprogramkomponenten kan bäddas in i anpassade program och kan fungera tillsammans med komponenter från tredje part."
+      }
+    },
+    "conceptsRoot": {
+      "title": "Behöver du en djupare dykning i begreppen?",
+      "text": "Bläddra i hjälpinnehållet eller kolla in vår dokumentation för steg för steg handledning!"
+    },
+    "rootDocsLinkText": "Dokumentation",
+    "githubLinkText": "GitHub",
+    "quickstartLinkText": "Snabbstart",
+    "primaryButtonText": "Utforska demon",
+    "dismissText": "Avskeda"
   }
 }
