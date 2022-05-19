@@ -79,13 +79,7 @@ export const FormOpen = ({ dispatch, setModalOpen, setModalBody }: IModal) => {
 
     return (
         <Stack>
-            <div
-                style={{
-                    width: '100%',
-                    display: 'flex',
-                    justifyContent: 'flex-end'
-                }}
-            >
+            <div className={headerStyles.modalRowFlexEnd}>
                 <ActionButton onClick={() => setModalOpen(false)}>
                     <FontIcon iconName={'ChromeClose'} />
                 </ActionButton>

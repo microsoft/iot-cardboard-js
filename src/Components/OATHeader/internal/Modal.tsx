@@ -1,11 +1,12 @@
 import React from 'react';
-import { Modal as FluentModal, ActionButton, FontIcon } from '@fluentui/react';
+import { Modal as FluentModal } from '@fluentui/react';
 import { IOATEditorState } from '../../../Pages/OATEditorPage/OATEditorPage.types';
 import { IAction } from '../../../Models/Constants/Interfaces';
 import { getHeaderStyles } from '../OATHeader.styles';
 import FormSaveAs from './FormSaveAs';
 import FromOpen from './FormOpen';
 import ModalSaveCurrentProjectAndClear from './ModalSaveCurrentProjectAndClear';
+import ModalDelete from './ModalDelete';
 
 export enum FromBody {
     delete = 'delete',
@@ -18,6 +19,7 @@ interface IModal {
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
     modalBody?: string;
     modalOpen?: boolean;
+    resetProject?: () => void;
     setModalBody?: React.Dispatch<React.SetStateAction<string>>;
     setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
     state?: IOATEditorState;
@@ -27,6 +29,7 @@ export const Modal = ({
     dispatch,
     modalBody,
     modalOpen,
+    resetProject,
     setModalOpen,
     setModalBody,
     state
@@ -38,17 +41,12 @@ export const Modal = ({
             case FromBody.delete:
             default:
                 return (
-                    <div
-                        style={{
-                            width: '100%',
-                            display: 'flex',
-                            justifyContent: 'flex-end'
-                        }}
-                    >
-                        <ActionButton onClick={() => setModalOpen(false)}>
-                            <FontIcon iconName={'ChromeClose'} />
-                        </ActionButton>
-                    </div>
+                    <ModalDelete
+                        setModalOpen={setModalOpen}
+                        setModalBody={setModalBody}
+                        state={state}
+                        resetProject={resetProject}
+                    />
                 );
             case FromBody.open:
                 return (
@@ -64,15 +62,16 @@ export const Modal = ({
                         dispatch={dispatch}
                         setModalOpen={setModalOpen}
                         setModalBody={setModalBody}
+                        resetProject={resetProject}
                     />
                 );
             case FromBody.saveCurrentProjectAndClear:
                 return (
                     <ModalSaveCurrentProjectAndClear
-                        dispatch={dispatch}
                         setModalOpen={setModalOpen}
                         setModalBody={setModalBody}
                         state={state}
+                        resetProject={resetProject}
                     />
                 );
             case FromBody.saveNewProjectAndClear:
@@ -82,6 +81,7 @@ export const Modal = ({
                         setModalOpen={setModalOpen}
                         setModalBody={setModalBody}
                         resetProjectOnSave
+                        resetProject={resetProject}
                     />
                 );
         }

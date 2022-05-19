@@ -8,31 +8,28 @@ import {
 } from '../../../Models/Constants/Constants';
 import { IAction } from '../../../Models/Constants';
 import { IOATEditorState } from '../../../Pages/OATEditorPage/OATEditorPage.types';
-import {
-    SET_OAT_PROJECT_NAME,
-    SET_OAT_PROPERTY_EDITOR_MODEL,
-    SET_OAT_RELOAD_PROJECT
-} from '../../../Models/Constants/ActionTypes';
+import { SET_OAT_PROJECT_NAME } from '../../../Models/Constants/ActionTypes';
 
 type IFileSubMenu = {
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
-    subMenuActive?: boolean;
-    parentIndex?: number;
-    targetId?: string;
+    resetProject?: () => void;
     setModalBody?: React.Dispatch<React.SetStateAction<string>>;
     setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
     setSubMenuActive: React.Dispatch<React.SetStateAction<boolean>>;
+    subMenuActive?: boolean;
     state?: IOATEditorState;
+    targetId?: string;
 };
 
 export const FileSubMenu = ({
     dispatch,
-    subMenuActive,
-    targetId,
+    resetProject,
     setModalBody,
     setModalOpen,
     setSubMenuActive,
-    state
+    subMenuActive,
+    state,
+    targetId
 }: IFileSubMenu) => {
     const { t } = useTranslation();
     const subMenuItemStyles = getSubMenuItemStyles();
@@ -61,32 +58,6 @@ export const FileSubMenu = ({
         }
     };
 
-    const resetProject = () => {
-        const clearProject = {
-            modelPositions: [],
-            models: [],
-            projectDescription: t('OATHeader.description'),
-            projectName: t('OATHeader.project')
-        };
-
-        localStorage.setItem(OATDataStorageKey, JSON.stringify(clearProject));
-
-        dispatch({
-            type: SET_OAT_PROPERTY_EDITOR_MODEL,
-            payload: clearProject
-        });
-
-        dispatch({
-            type: SET_OAT_PROJECT_NAME,
-            payload: t('OATHeader.project')
-        });
-
-        dispatch({
-            type: SET_OAT_RELOAD_PROJECT,
-            payload: true
-        });
-    };
-
     const handleNew = () => {
         setSubMenuActive(false);
         const editorData = JSON.parse(localStorage.getItem(OATDataStorageKey));
@@ -112,7 +83,7 @@ export const FileSubMenu = ({
         ) {
             dispatch({
                 type: SET_OAT_PROJECT_NAME,
-                payload: t('OATHeader.project')
+                payload: t('OATHeader.untitledProject')
             });
             setModalBody('saveCurrentProjectAndClear');
             setModalOpen(true);
@@ -180,16 +151,18 @@ export const FileSubMenu = ({
                         <Text>{t('OATHeader.save')}</Text>
                     </ActionButton>
 
-                    <ActionButton
-                        styles={subMenuItemStyles}
-                        onClick={() => {
-                            setSubMenuActive(false);
-                            setModalBody('delete');
-                            setModalOpen(true);
-                        }}
-                    >
-                        <Text>{t('OATHeader.delete')}</Text>
-                    </ActionButton>
+                    {isFileStored && (
+                        <ActionButton
+                            styles={subMenuItemStyles}
+                            onClick={() => {
+                                setSubMenuActive(false);
+                                setModalBody('delete');
+                                setModalOpen(true);
+                            }}
+                        >
+                            <Text>{t('OATHeader.delete')}</Text>
+                        </ActionButton>
+                    )}
                 </Callout>
             )}
         </>

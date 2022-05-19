@@ -13,17 +13,14 @@ import {
     OATDataStorageKey,
     OATFilesStorageKey
 } from '../../../Models/Constants';
-import {
-    SET_OAT_PROJECT_NAME,
-    SET_OAT_PROPERTY_EDITOR_MODEL,
-    SET_OAT_RELOAD_PROJECT
-} from '../../../Models/Constants/ActionTypes';
+import { SET_OAT_PROJECT_NAME } from '../../../Models/Constants/ActionTypes';
 import { getHeaderStyles } from '../OATHeader.styles';
 
 interface IModal {
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
     setModalBody?: React.Dispatch<React.SetStateAction<string>>;
     setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
+    resetProject?: () => void;
     resetProjectOnSave?: boolean;
 }
 
@@ -31,38 +28,13 @@ export const FormSaveAs = ({
     dispatch,
     setModalOpen,
     setModalBody,
+    resetProject,
     resetProjectOnSave
 }: IModal) => {
     const { t } = useTranslation();
     const [projectName, setProjectName] = useState('');
     const [error, setError] = useState(false);
     const headerStyles = getHeaderStyles();
-
-    const resetProject = () => {
-        const clearProject = {
-            modelPositions: [],
-            models: [],
-            projectDescription: t('OATHeader.description'),
-            projectName: t('OATHeader.project')
-        };
-
-        localStorage.setItem(OATDataStorageKey, JSON.stringify(clearProject));
-
-        dispatch({
-            type: SET_OAT_PROPERTY_EDITOR_MODEL,
-            payload: clearProject
-        });
-
-        dispatch({
-            type: SET_OAT_PROJECT_NAME,
-            payload: t('OATHeader.project')
-        });
-
-        dispatch({
-            type: SET_OAT_RELOAD_PROJECT,
-            payload: true
-        });
-    };
 
     const handleOnSave = () => {
         const editorData = JSON.parse(localStorage.getItem(OATDataStorageKey));
@@ -125,13 +97,7 @@ export const FormSaveAs = ({
 
     return (
         <Stack>
-            <div
-                style={{
-                    width: '100%',
-                    display: 'flex',
-                    justifyContent: 'flex-end'
-                }}
-            >
+            <div className={headerStyles.modalRowFlexEnd}>
                 <ActionButton onClick={() => setModalOpen(false)}>
                     <FontIcon iconName={'ChromeClose'} />
                 </ActionButton>

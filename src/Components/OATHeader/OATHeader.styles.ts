@@ -117,6 +117,19 @@ export const getHeaderStyles = () => {
                     marginRight: '10px'
                 }
             } as IStyle
+        ],
+        modalRowCenterItem: [
+            classNames.modalRowFlexEnd,
+            {
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                marginBottom: '25px',
+                width: '100%',
+                '& button:not(:last-of-type)': {
+                    marginRight: '10px'
+                }
+            } as IStyle
         ]
     });
 };
@@ -152,6 +165,14 @@ export const getSubMenuStyles = () => {
             flexDirection: 'column',
             borderRadius: '4px',
             width: '400px'
+        }
+    } as Partial<IButtonStyles>;
+};
+
+export const getPromptTextStyles = () => {
+    return {
+        root: {
+            fontSize: '16px'
         }
     } as Partial<IButtonStyles>;
 };

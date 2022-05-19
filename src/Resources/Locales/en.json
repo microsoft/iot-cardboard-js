@@ -752,8 +752,11 @@
         "enterAName": "Enter a name",
         "cancel": "Cancel",
         "project": "Project",
+        "untitledProject": "Untitled project",
         "description": "Description",
-        "dontSave": "Don't save"
+        "dontSave": "Don't save",
+        "doYouWantToSaveChangesYouMadeTo": "Do you want to save the changes you made to",
+        "doYouWantToDelete": "Do you want to delete"
     },
     "OATGraphViewer": {
         "newModel": "New Model",

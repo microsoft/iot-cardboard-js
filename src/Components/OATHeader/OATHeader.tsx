@@ -3,10 +3,20 @@ import { CommandBar, ICommandBarItemProps } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { getHeaderStyles } from './OATHeader.styles';
 import JSZip from 'jszip';
-import { IAction, IOATTwinModelNodes } from '../../Models/Constants';
+import {
+    IAction,
+    IOATTwinModelNodes,
+    OATDataStorageKey
+} from '../../Models/Constants';
 import FileSubMenu from './internal/FileSubMenu';
 import Modal from './internal/Modal';
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
+import {
+    SET_OAT_PROJECT_NAME,
+    SET_OAT_PROPERTY_EDITOR_MODEL,
+    SET_OAT_RELOAD_PROJECT
+} from '../../Models/Constants/ActionTypes';
+import { ProjectData } from './internal/Classes';
 
 const ID_FILE = 'file';
 
@@ -75,6 +85,32 @@ const OATHeader = ({
         }
     ];
 
+    const resetProject = () => {
+        const clearProject = new ProjectData(
+            [],
+            [],
+            t('OATHeader.description'),
+            t('OATHeader.untitledProject')
+        );
+
+        localStorage.setItem(OATDataStorageKey, JSON.stringify(clearProject));
+
+        dispatch({
+            type: SET_OAT_PROPERTY_EDITOR_MODEL,
+            payload: clearProject
+        });
+
+        dispatch({
+            type: SET_OAT_PROJECT_NAME,
+            payload: t('OATHeader.untitledProject')
+        });
+
+        dispatch({
+            type: SET_OAT_RELOAD_PROJECT,
+            payload: true
+        });
+    };
+
     return (
         <div className={headerStyles.container}>
             <div className={headerStyles.menuComponent}>
@@ -90,6 +126,7 @@ const OATHeader = ({
                             setModalBody={setModalBody}
                             dispatch={dispatch}
                             state={state}
+                            resetProject={resetProject}
                         />
                     )}
                     <Modal
@@ -99,6 +136,7 @@ const OATHeader = ({
                         modalBody={modalBody}
                         dispatch={dispatch}
                         state={state}
+                        resetProject={resetProject}
                     />
                 </div>
                 <div className="cb-oat-header-versioning"></div>

@@ -7,10 +7,7 @@ import {
     Stack
 } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
-import {
-    OATDataStorageKey,
-    OATFilesStorageKey
-} from '../../../Models/Constants';
+import { OATFilesStorageKey } from '../../../Models/Constants';
 import { getHeaderStyles, getPromptTextStyles } from '../OATHeader.styles';
 import { IOATEditorState } from '../../../Pages/OATEditorPage/OATEditorPage.types';
 
@@ -21,7 +18,7 @@ interface IModal {
     state?: IOATEditorState;
 }
 
-export const ModalSaveCurrentProjectAndClear = ({
+export const ModalDelete = ({
     resetProject,
     setModalOpen,
     setModalBody,
@@ -32,28 +29,20 @@ export const ModalSaveCurrentProjectAndClear = ({
     const promptTextStyles = getPromptTextStyles();
     const { projectName } = state;
 
-    const handleOnSave = () => {
+    const handleOnDelete = () => {
         const files = JSON.parse(localStorage.getItem(OATFilesStorageKey));
 
         //  Overwrite existing file
         const foundIndex = files.findIndex((file) => file.name === projectName);
         if (foundIndex > -1) {
-            const editorData = JSON.parse(
-                localStorage.getItem(OATDataStorageKey)
-            );
-            files[foundIndex].data = editorData;
+            // Remove file
+            files.splice(foundIndex, 1);
             localStorage.setItem(OATFilesStorageKey, JSON.stringify(files));
             setModalOpen(false);
             setModalBody('');
             resetProject();
         }
         setModalBody('saveNewProjectAndClear');
-    };
-
-    const handleDoNotSave = () => {
-        setModalOpen(false);
-        setModalBody('');
-        resetProject();
     };
 
     return (
@@ -65,22 +54,15 @@ export const ModalSaveCurrentProjectAndClear = ({
             </div>
 
             <div className={headerStyles.modalRowCenterItem}>
-                <Text styles={promptTextStyles}>
-                    {`${t(
-                        'OATHeader.doYouWantToSaveChangesYouMadeTo'
-                    )} ${projectName}?`}
-                </Text>
+                <Text styles={promptTextStyles}>{`${t(
+                    'OATHeader.delete'
+                )} ${projectName}`}</Text>
             </div>
 
             <div className={headerStyles.modalRowCenterItem}>
                 <PrimaryButton
-                    text={t('OATHeader.save')}
-                    onClick={handleOnSave}
-                />
-
-                <PrimaryButton
-                    text={t('OATHeader.dontSave')}
-                    onClick={handleDoNotSave}
+                    text={t('OATHeader.delete')}
+                    onClick={handleOnDelete}
                 />
 
                 <PrimaryButton
@@ -92,4 +74,4 @@ export const ModalSaveCurrentProjectAndClear = ({
     );
 };
 
-export default ModalSaveCurrentProjectAndClear;
+export default ModalDelete;
