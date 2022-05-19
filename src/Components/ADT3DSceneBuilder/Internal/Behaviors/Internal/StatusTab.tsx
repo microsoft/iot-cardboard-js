@@ -154,6 +154,14 @@ const StatusTab: React.FC<IStatusTabProps> = ({ onValidityChange }) => {
             <div>
                 <ModelledPropertyBuilder
                     adapter={adapter}
+                    customLabelTooltip={{
+                        text: t(
+                            '3dSceneBuilder.behaviorStatusForm.propertyExpressionTooltipContent'
+                        ),
+                        ariaLabel: t(
+                            '3dSceneBuilder.behaviorStatusForm.propertyExpressionTooltipContent'
+                        )
+                    }}
                     twinIdParams={{
                         behavior: behaviorToEdit,
                         config,

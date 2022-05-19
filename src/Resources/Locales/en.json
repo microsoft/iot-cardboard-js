@@ -427,7 +427,8 @@
         },
         "behaviorStatusForm": {
             "tabDescription": "Select a property, then set ranges for applying color to certain conditions—for instance, red to indicate high temperatures, or green for optimal speed.",
-            "stateItemLabel": "State {{index}}"
+            "stateItemLabel": "State {{index}}",
+            "propertyExpressionTooltipContent": "Use a custom expression for more complex expressions that leverage multiple properties."
         },
         "behaviorWidgetsForm": {
             "addWidgetButtonText": "Add widget",
@@ -442,7 +443,7 @@
         },
         "elementFormTwinTab": {
             "tabDescription": "These twins contain data beyond your primary twin that you can leverage in your status, alerts, and widgets for your behaviors.",
-            "noDataMessage": "When you create aliased twins in this element's behaviors, they'll show up here."
+            "noDataMessage": "When you create additional twins in this element's behaviors, they'll show up here."
         },
         "twinPropertyDropdown": {
             "propertyDropdownLabel": "Property",
