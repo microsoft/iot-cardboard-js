@@ -16,6 +16,7 @@
     flex-direction: column;
     height: 100%;
     overflow: hidden;
+    padding-top: 10px;
     width: 360px;
 
     .cb-scene-builder-left-panel-collapse-chevron-header {
@@ -187,23 +188,6 @@
     height: 36px;
     margin-bottom: 4px;
     width: 100%;
-}
-
-.cb-left-panel-builder-breadcrumb-home-icon-container {
-    align-items: center;
-    background-color: unset;
-    border: unset;
-    cursor: pointer;
-    display: flex;
-    height: 32px;
-    justify-content: center;
-    margin-right: 2px;
-    width: 32px;
-}
-.cb-left-panel-builder-breadcrumb-home-icon {
-    color: var(--cb-color-text-primary);
-    font-size: 16px;
-    margin-bottom: 2px;
 }
 
 .cb-left-panel-builder-breadcrumb {

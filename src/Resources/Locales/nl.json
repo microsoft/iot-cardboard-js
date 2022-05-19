@@ -863,5 +863,6 @@
     "quickstartLinkText": "Snelstart",
     "primaryButtonText": "Bekijk de demo",
     "dismissText": "Ontslaan"
-  }
+  },
+  "noName": "Geen naam"
 }
