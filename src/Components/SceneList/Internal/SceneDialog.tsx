@@ -3,7 +3,8 @@ import React, {
     useCallback,
     useState,
     useMemo,
-    useRef
+    useRef,
+    useReducer
 } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ISceneDialogProps, SelectionModeOf3DFile } from '../SceneList.types';
@@ -35,6 +36,23 @@ import { IBlobFile } from '../../../Models/Constants/Interfaces';
 import useAdapter from '../../../Models/Hooks/useAdapter';
 import { IScene } from '../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { deepCopy } from '../../../Models/Services/Utils';
+import {
+    defaultSceneDialogState,
+    SceneDialogReducer
+} from './SceneDialog.state';
+import {
+    RESET,
+    SET_BLOBS_IN_CONTAINER,
+    SET_IS_OVER_WRITE_FILE,
+    SET_IS_SELECTED_FILE_EXIST_IN_BLOB,
+    SET_NEW_LATITUDE_VALUE,
+    SET_NEW_LONGITUDE_VALUE,
+    SET_NEW_SCENE_BLOB_URL,
+    SET_NEW_SCENE_DESCRIPTION,
+    SET_NEW_SCENE_NAME,
+    SET_SELECTED_3D_FILE_PIVOT_ITEM,
+    SET_SELECTED_FILE
+} from '../../../Models/Constants/ActionTypes';
 
 const fileUploadLabelTooltipStyles: ITooltipHostStyles = {
     root: {
@@ -99,24 +117,12 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
     onEditScene,
     renderBlobDropdown
 }) => {
-    const [newSceneName, setNewSceneName] = useState('');
-    const [newSceneDescription, setNewSceneDescription] = useState('');
-    const [newLatitudeValue, setNewLatitudeValue] = useState(undefined);
-    const [newLongtitudeValue, setNewLongtitudeValue] = useState(undefined);
-    const [newSceneBlobUrl, setNewSceneBlobUrl] = useState('');
+    const [state, dispatch] = useReducer(
+        SceneDialogReducer,
+        defaultSceneDialogState
+    );
     const [scene, setScene] = useState<IScene>({ ...sceneToEdit });
     const sceneRef = useRef(scene);
-    const [selected3DFilePivotItem, setSelected3DFilePivotItem] = useState(
-        SelectionModeOf3DFile.FromContainer
-    );
-    const [isOverwriteFile, setIsOverwriteFile] = useState(false);
-    const [selectedFile, setSelectedFile] = useState<File>(null);
-    const [blobsInContainer, setBlobsInContainer] = useState<Array<IBlobFile>>(
-        []
-    );
-    const [isSelectedFileExistInBlob, setIsSelectedFileExistInBlob] = useState(
-        false
-    );
     const [isShowOnGlobeEnabled, setIsShowOnGlobeEnabled] = useState(
         Boolean(
             !(isNaN(sceneToEdit?.latitude) || isNaN(sceneToEdit?.longitude))
@@ -167,10 +173,10 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
         () => ({
             layerProps: { eventBubblingEnabled: true }, // this is for making react-dropzone work in dialog
             isBlocking: true,
-            styles: getDialogStyles(selected3DFilePivotItem),
+            styles: getDialogStyles(state.selected3DFilePivotItem),
             className: 'cb-scene-list-dialog-wrapper'
         }),
-        [getDialogStyles, selected3DFilePivotItem]
+        [getDialogStyles, state.selected3DFilePivotItem]
     );
 
     useEffect(() => {
@@ -193,13 +199,25 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
      * when it is mounted again when we switch tabs back to it again
      */
     useEffect(() => {
-        if (selected3DFilePivotItem === SelectionModeOf3DFile.FromContainer) {
+        if (
+            state.selected3DFilePivotItem ===
+            SelectionModeOf3DFile.FromContainer
+        ) {
             put3DFileBlob.cancelAdapter();
-            setIsSelectedFileExistInBlob(false);
-            setIsOverwriteFile(false);
-            setSelectedFile(null);
+            dispatch({
+                type: SET_IS_SELECTED_FILE_EXIST_IN_BLOB,
+                payload: false
+            });
+            dispatch({
+                type: SET_IS_OVER_WRITE_FILE,
+                payload: false
+            });
+            dispatch({
+                type: SET_SELECTED_FILE,
+                payload: null
+            });
         }
-    }, [selected3DFilePivotItem]);
+    }, [state.selected3DFilePivotItem]);
 
     const handleNameChange = useCallback(
         (e) => {
@@ -208,7 +226,11 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
                 selectedSceneCopy.displayName = e.currentTarget.value;
                 setScene(selectedSceneCopy);
             } else {
-                setNewSceneName(e.currentTarget.value);
+                // setNewSceneName(e.currentTarget.value);
+                dispatch({
+                    type: SET_NEW_SCENE_NAME,
+                    payload: e.currentTarget.value
+                });
             }
         },
         [sceneToEdit, scene]
@@ -221,7 +243,10 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
                 selectedSceneCopy.description = e.currentTarget.value;
                 setScene(selectedSceneCopy);
             } else {
-                setNewSceneDescription(e.currentTarget.value);
+                dispatch({
+                    type: SET_NEW_SCENE_DESCRIPTION,
+                    payload: e.currentTarget.value
+                });
             }
         },
         [sceneToEdit, scene]
@@ -236,7 +261,10 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
                 selectedSceneCopy.latitude = lat;
                 setScene(selectedSceneCopy);
             } else {
-                setNewLatitudeValue(lat);
+                dispatch({
+                    type: SET_NEW_LATITUDE_VALUE,
+                    payload: lat
+                });
             }
         },
         [sceneToEdit, scene]
@@ -250,7 +278,10 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
                 selectedSceneCopy.longitude = long;
                 setScene(selectedSceneCopy);
             } else {
-                setNewLongtitudeValue(long);
+                dispatch({
+                    type: SET_NEW_LONGITUDE_VALUE,
+                    payload: long
+                });
             }
         },
         [sceneToEdit, scene]
@@ -262,23 +293,29 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
                 selectedSceneCopy.assets[0].url = blobUrl;
                 setScene(selectedSceneCopy);
             } else {
-                setNewSceneBlobUrl(blobUrl);
+                dispatch({
+                    type: SET_NEW_SCENE_BLOB_URL,
+                    payload: blobUrl
+                });
             }
         },
         [sceneToEdit, scene]
     );
 
     const handleFileOverwriteChange = useCallback((_e, checked: boolean) => {
-        setIsOverwriteFile(checked);
+        dispatch({
+            type: SET_IS_OVER_WRITE_FILE,
+            payload: checked
+        });
     }, []);
 
     const getNewScene = (assetUrl: string) => {
         return {
             id: undefined,
-            displayName: newSceneName,
-            description: newSceneDescription,
-            latitude: newLatitudeValue,
-            longitude: newLongtitudeValue,
+            displayName: state.newSceneName,
+            description: state.newSceneDescription,
+            latitude: state.newLatitudeValue,
+            longitude: state.newLongitudeValue,
             assets: [
                 {
                     type: '3DAsset',
@@ -292,17 +329,18 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
 
     const handleSubmit = () => {
         if (
-            selected3DFilePivotItem === SelectionModeOf3DFile.FromComputer &&
-            selectedFile
+            state.selected3DFilePivotItem ===
+                SelectionModeOf3DFile.FromComputer &&
+            state.selectedFile
         ) {
             put3DFileBlob.callAdapter({
-                fileToUpload: selectedFile
+                fileToUpload: state.selectedFile
             });
         } else {
             if (sceneToEdit) {
                 onEditScene(scene);
             } else {
-                const newScene = getNewScene(newSceneBlobUrl);
+                const newScene = getNewScene(state.newSceneBlobUrl);
                 onAddScene(newScene);
             }
         }
@@ -319,72 +357,94 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
     const handleFileChange = useCallback(
         (file: File) => {
             if (file) {
-                if (blobsInContainer.map((e) => e.Name).includes(file.name)) {
-                    setIsSelectedFileExistInBlob(true);
+                if (
+                    state.blobsInContainer
+                        .map((e) => e.Name)
+                        .includes(file.name)
+                ) {
+                    dispatch({
+                        type: SET_IS_SELECTED_FILE_EXIST_IN_BLOB,
+                        payload: true
+                    });
                 } else {
-                    setIsSelectedFileExistInBlob(false);
+                    dispatch({
+                        type: SET_IS_SELECTED_FILE_EXIST_IN_BLOB,
+                        payload: false
+                    });
                 }
             } else {
-                setIsSelectedFileExistInBlob(false);
-                setIsOverwriteFile(false);
+                dispatch({
+                    type: SET_IS_SELECTED_FILE_EXIST_IN_BLOB,
+                    payload: false
+                });
+                dispatch({
+                    type: SET_IS_OVER_WRITE_FILE,
+                    payload: false
+                });
             }
-            setSelectedFile(file);
+            dispatch({
+                type: SET_SELECTED_FILE,
+                payload: file
+            });
         },
-        [blobsInContainer]
+        [state.blobsInContainer]
     );
 
     const handleOnBlobsLoaded = (blobs: Array<IBlobFile>) => {
-        setBlobsInContainer(blobs);
+        dispatch({
+            type: SET_BLOBS_IN_CONTAINER,
+            payload: blobs
+        });
     };
 
     const handleOnPivotClick = useCallback(
         (item) =>
-            setSelected3DFilePivotItem(
-                item.props.itemKey as SelectionModeOf3DFile
-            ),
+            dispatch({
+                type: SET_SELECTED_3D_FILE_PIVOT_ITEM,
+                payload: item.props.itemKey as SelectionModeOf3DFile
+            }),
         []
     );
 
     const resetState = useCallback(() => {
-        setNewSceneName('');
-        setNewSceneDescription('');
-        setNewLatitudeValue(undefined);
-        setNewLatitudeValue(undefined);
+        dispatch({
+            type: RESET,
+            payload: defaultSceneDialogState
+        });
         setIsShowOnGlobeEnabled(isShowOnGlobeEnabled);
-        setNewSceneBlobUrl('');
-        setIsSelectedFileExistInBlob(false);
-        setIsOverwriteFile(false);
-        setBlobsInContainer([]);
-        setSelectedFile(null);
-        setSelected3DFilePivotItem(SelectionModeOf3DFile.FromContainer);
     }, []);
 
     const isSubmitButtonDisabled = useMemo(() => {
         return (
-            !(sceneToEdit ? scene?.displayName : newSceneName) ||
+            !(sceneToEdit ? scene?.displayName : state.newSceneName) ||
             (isShowOnGlobeEnabled &&
                 ((sceneToEdit
                     ? isNaN(scene?.latitude)
-                    : isNaN(newLatitudeValue)) ||
+                    : isNaN(state.newLatitudeValue)) ||
                     (sceneToEdit
                         ? isNaN(scene?.longitude)
-                        : isNaN(newLongtitudeValue)))) ||
-            (selected3DFilePivotItem === SelectionModeOf3DFile.FromContainer &&
-                !(sceneToEdit ? scene?.assets?.[0]?.url : newSceneBlobUrl)) ||
-            (selected3DFilePivotItem === SelectionModeOf3DFile.FromComputer &&
-                (!selectedFile ||
-                    (isSelectedFileExistInBlob && !isOverwriteFile))) ||
+                        : isNaN(state.newLongitudeValue)))) ||
+            (state.selected3DFilePivotItem ===
+                SelectionModeOf3DFile.FromContainer &&
+                !(sceneToEdit
+                    ? scene?.assets?.[0]?.url
+                    : state.newSceneBlobUrl)) ||
+            (state.selected3DFilePivotItem ===
+                SelectionModeOf3DFile.FromComputer &&
+                (!state.selectedFile ||
+                    (state.isSelectedFileExistInBlob &&
+                        !state.isOverwriteFile))) ||
             put3DFileBlob.isLoading
         );
     }, [
         sceneToEdit,
         scene,
-        newSceneName,
-        newSceneBlobUrl,
-        selected3DFilePivotItem,
-        selectedFile,
-        isSelectedFileExistInBlob,
-        isOverwriteFile,
+        state.newSceneName,
+        state.newSceneBlobUrl,
+        state.selected3DFilePivotItem,
+        state.selectedFile,
+        state.isSelectedFileExistInBlob,
+        state.isOverwriteFile,
         put3DFileBlob
     ]);
     const styleStack: IStackStyles = {
@@ -431,15 +491,17 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
                 className="cb-scene-list-form-dialog-text-field"
                 label={t('name')}
                 required
-                title={newSceneName}
-                value={sceneToEdit ? scene?.displayName : newSceneName}
+                title={state.newSceneName}
+                value={sceneToEdit ? scene?.displayName : state.newSceneName}
                 onChange={handleNameChange}
             />
             <TextField
                 className="cb-scene-list-form-dialog-description-field"
                 label={t('scenes.description')}
-                title={newSceneDescription}
-                value={sceneToEdit ? scene?.description : newSceneDescription}
+                title={state.newSceneDescription}
+                value={
+                    sceneToEdit ? scene?.description : state.newSceneDescription
+                }
                 onChange={handleSceneDescriptionChange}
             />
             <Stack horizontal styles={styleStack} tokens={{ childrenGap: 20 }}>
@@ -501,7 +563,7 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
 
             <Pivot
                 aria-label={t('scenes.3dFileSelectionMode')}
-                selectedKey={selected3DFilePivotItem}
+                selectedKey={state.selected3DFilePivotItem}
                 onLinkClick={handleOnPivotClick}
                 styles={{ root: { marginBottom: 16 } }}
             >
@@ -521,8 +583,8 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
                     style={{ width: '100%' }}
                 >
                     <File3DUploader
-                        isOverwriteVisible={isSelectedFileExistInBlob}
-                        isOverwriteChecked={isOverwriteFile}
+                        isOverwriteVisible={state.isSelectedFileExistInBlob}
+                        isOverwriteChecked={state.isOverwriteFile}
                         onOverwriteChange={handleFileOverwriteChange}
                         onFileChange={handleFileChange}
                         isUploadingFile={put3DFileBlob.isLoading}

@@ -30,3 +30,16 @@ export enum SelectionModeOf3DFile {
     FromContainer = 'fromContainer',
     FromComputer = 'fromComputer'
 }
+
+export interface SceneDialogState {
+    newSceneName: string;
+    newSceneDescription: string;
+    newLatitudeValue: any;
+    newLongitudeValue: any;
+    newSceneBlobUrl: string;
+    isSelectedFileExistInBlob: boolean;
+    isOverwriteFile: boolean;
+    blobsInContainer: IBlobFile[];
+    selectedFile: File;
+    selected3DFilePivotItem: SelectionModeOf3DFile;
+}
