@@ -5,13 +5,7 @@ import {
     IBehavior,
     IExpressionRangeVisual
 } from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
-import {
-    FontSizes,
-    IStackTokens,
-    Stack,
-    Text,
-    useTheme
-} from '@fluentui/react';
+import { FontSizes, Stack, Text, useTheme } from '@fluentui/react';
 import ViewerConfigUtility from '../../../../../Models/Classes/ViewerConfigUtility';
 import {
     defaultSwatchColors,

@@ -10,6 +10,8 @@ import {
     DefaultButton,
     IContextualMenuItem,
     PrimaryButton,
+    Stack,
+    Text,
     useTheme
 } from '@fluentui/react';
 import { SceneBuilderContext } from '../../ADT3DSceneBuilder';
@@ -258,11 +260,12 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
     const theme = useTheme();
     const commonPanelStyles = getLeftPanelStyles(theme);
     return (
-        <div className="cb-scene-builder-pivot-contents">
+        <Stack tokens={{ childrenGap: 8 }}>
             {isEditBehavior && (
-                <div className="cb-scene-builder-elements-title">
+                <Text className={commonPanelStyles.text}>
+                    {/* <div className="cb-scene-builder-elements-title"> */}
                     {t('3dSceneBuilder.elementsListInstructions')}
-                </div>
+                </Text>
             )}
             {!hideSearch && (
                 <SearchHeader
@@ -338,7 +341,7 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
                 }}
                 onConfirmDeletion={handleDeleteElement}
             />
-        </div>
+        </Stack>
     );
 };
 

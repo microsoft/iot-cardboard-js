@@ -395,7 +395,7 @@
         "removeBehavior": "Remove behavior from this element",
         "addElementDetails": "Add element details",
         "noBehaviorsOnElement": "No behaviors assigned to this element",
-        "noElementsText": "No elements created yet",
+        "noElementsText": "No elements created yet. Select an object in the scene to create an element",
         "noResults": "No results found",
         "behaviorsInSceneTitle": "In this scene ({{count}})",
         "createWithElement": "Create with {{element}}",
@@ -426,7 +426,7 @@
         "behaviorElementsDropdownLabel": "Target element",
         "behaviorElementsDropdownPlaceholder": "Select an element",
         "behaviorForm": {
-            "formSubTitle": "Behaviors are visual cues that occur under specific conditions—for instance, at specific intervals, or at data thresholds."
+            "formSubTitle": "Behaviors are visual cues that occur under specific conditions."
         },
         "behaviorAlertForm": {
             "colorPickerLabel": "Color",
@@ -559,7 +559,7 @@
             "title": "Link widget",
             "libraryName": "Link",
             "description": "Navigate to URLs specific to the element",
-            "urlPlaceholder": "https://contoso.com/userManual/${PrimaryTwin.SerialNumber}",
+            "urlPlaceholder": "https://contoso.com/${PrimaryTwin.SerialNumber}",
             "openLink": "Open link"
         },
         "value": {
