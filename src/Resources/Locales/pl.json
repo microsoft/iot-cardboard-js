@@ -791,5 +791,6 @@
     "reset": "Resetować",
     "zoomIn": "Powiększanie",
     "zoomOut": "Pomniejszanie"
-  }
+  },
+  "noName": "Bez imienia i nazwiska"
 }

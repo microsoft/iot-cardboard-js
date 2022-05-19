@@ -791,5 +791,6 @@
     "reset": "Repor",
     "zoomIn": "Ampliar",
     "zoomOut": "Diminuir o zoom"
-  }
+  },
+  "noName": "Sem nome"
 }

@@ -791,5 +791,6 @@
     "reset": "Reset",
     "zoomIn": "Zoom in",
     "zoomOut": "Zoom para fora"
-  }
+  },
+  "noName": "Sem nome"
 }

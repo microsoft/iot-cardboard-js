@@ -791,5 +791,6 @@
     "reset": "Terugstellen",
     "zoomIn": "Inzoomen",
     "zoomOut": "Uitzoomen"
-  }
+  },
+  "noName": "Geen naam"
 }

@@ -791,5 +791,6 @@
     "reset": "Nollställa",
     "zoomIn": "Zooma in",
     "zoomOut": "Zooma ut"
-  }
+  },
+  "noName": "Inget namn"
 }

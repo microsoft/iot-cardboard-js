@@ -791,5 +791,6 @@
     "reset": "Átszed",
     "zoomIn": "Nagyítás",
     "zoomOut": "Kicsinyítés"
-  }
+  },
+  "noName": "Nincs név"
 }
