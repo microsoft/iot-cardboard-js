@@ -74,7 +74,7 @@ const mockBuilderContext: I3DSceneBuilderContext = {
 
 /** Base template */
 type TemplateStory = ComponentStory<typeof SceneBreadcrumbFactory>;
-const Template: TemplateStory = (args: ISceneBreadcrumbFactoryProps) => (
+const BuilderTemplate: TemplateStory = (args: ISceneBreadcrumbFactoryProps) => (
     <SceneBuilderContext.Provider value={mockBuilderContext}>
         <ADT3DScenePageContext.Provider value={mockScenePageContext}>
             <SceneBreadcrumbFactory {...args} />
@@ -82,17 +82,19 @@ const Template: TemplateStory = (args: ISceneBreadcrumbFactoryProps) => (
     </SceneBuilderContext.Provider>
 );
 
-/** Breadcrumb as dropdown */
+const ViewerTemplate: TemplateStory = (args: ISceneBreadcrumbFactoryProps) => (
+    <ADT3DScenePageContext.Provider value={mockScenePageContext}>
+        <SceneBreadcrumbFactory {...args} />
+    </ADT3DScenePageContext.Provider>
+);
+
+/** Breadcrumb as dropdown, in viewer */
 const sceneRootBreadcrumbProps: ISceneBreadcrumbFactoryProps = {
     sceneId: '58e02362287440d9a5bf3f8d6d6bfcf9',
-    sceneName: 'TruckAndBoxes1',
-    builderMode: ADT3DSceneBuilderMode.ElementsIdle,
-    onSceneClick: () => {
-        return;
-    }
+    sceneName: 'TruckAndBoxes1'
 };
 
-export const DropdownBreadcrumb = Template.bind({}) as TemplateStory;
+export const DropdownBreadcrumb = ViewerTemplate.bind({}) as TemplateStory;
 DropdownBreadcrumb.args = sceneRootBreadcrumbProps;
 
 /** Breadcrumb as normal items */
@@ -105,7 +107,7 @@ const formBreadcrumbProps: ISceneBreadcrumbFactoryProps = {
     }
 };
 
-export const FormBreadcrumb = Template.bind({}) as TemplateStory;
+export const FormBreadcrumb = BuilderTemplate.bind({}) as TemplateStory;
 FormBreadcrumb.args = formBreadcrumbProps;
 
 /** No name breadcrumb */
@@ -118,5 +120,5 @@ const noNameBreadcrumbProps: ISceneBreadcrumbFactoryProps = {
     }
 };
 
-export const NoNameBreadcrumb = Template.bind({}) as TemplateStory;
+export const NoNameBreadcrumb = BuilderTemplate.bind({}) as TemplateStory;
 NoNameBreadcrumb.args = noNameBreadcrumbProps;
