@@ -14,7 +14,10 @@ import {
 import React, { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { TFunction, useTranslation } from 'react-i18next';
 import ViewerConfigUtility from '../../../../Models/Classes/ViewerConfigUtility';
-import { deepCopy } from '../../../../Models/Services/Utils';
+import {
+    deepCopy,
+    sortAlphabetically
+} from '../../../../Models/Services/Utils';
 
 import {
     I3DScenesConfig,
@@ -438,9 +441,7 @@ function getListItems(
         return viewModel;
     });
 
-    return listItems.sort((a, b) =>
-        a.textPrimary?.toLowerCase() > b.textPrimary?.toLowerCase() ? 1 : -1
-    );
+    return listItems.sort(sortAlphabetically('textPrimary'));
 }
 
 export default SceneBehaviors;
