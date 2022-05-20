@@ -40,7 +40,6 @@ import {
     IAzureUserSubscriptions,
     AzureResourceTypes,
     AzureResourceProviderEndpoints,
-    IStorageContainer,
     AzureAccessPermissionRoles,
     MissingAzureRoleDefinitionAssignments,
     IAzureRoleAssignment,
@@ -73,8 +72,7 @@ import {
 } from '../Models/Services/Utils';
 import {
     StorageBlobsData,
-    StorageBlobServiceCorsRulesData,
-    StorageContainersData
+    StorageBlobServiceCorsRulesData
 } from '../Models/Classes/AdapterDataClasses/StorageData';
 import {
     I3DScenesConfig,
@@ -786,34 +784,6 @@ export default class MockAdapter
 
             return new AdapterResult({
                 result: new ADTInstancesData(digitalTwinsInstances),
-                errorInfo: null
-            });
-        } catch (err) {
-            return new AdapterResult({
-                result: null,
-                errorInfo: { catastrophicError: err, errors: [err] }
-            });
-        }
-    }
-
-    async getStorageContainers() {
-        try {
-            const storageEndPoint = `${AzureResourceProviderEndpoints.Storage}/accountName123/blobServices/default/containers`;
-            const containerResourcesResult = await this.getResources(
-                AzureResourceTypes.Container,
-                storageEndPoint
-            );
-            const containerResources: Array<IAzureResource> = containerResourcesResult.getData();
-            const containers: Array<IStorageContainer> = containerResources.map(
-                (containerResource) =>
-                    ({
-                        id: containerResource.id,
-                        name: containerResource.name
-                    } as IStorageContainer)
-            );
-
-            return new AdapterResult({
-                result: new StorageContainersData(containers),
                 errorInfo: null
             });
         } catch (err) {

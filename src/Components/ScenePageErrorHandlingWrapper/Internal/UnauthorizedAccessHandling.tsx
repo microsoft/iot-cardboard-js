@@ -12,7 +12,7 @@ import {
     IUseAdapter,
     MissingAzureRoleDefinitionAssignments
 } from '../../../Models/Constants';
-import { PrimaryButton, Spinner, SpinnerSize, useTheme } from '@fluentui/react';
+import { PrimaryButton, Spinner, SpinnerSize } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { ScenePageErrorHandlingMode } from '../ScenePageErrorHandlingWrapper.types';
 import IllustrationMessage from '../../IllustrationMessage/IllustrationMessage';

@@ -22,6 +22,7 @@ import {
     IAzureUserSubscriptions
 } from '../Models/Constants';
 import { createGUID } from '../Models/Services/Utils';
+import queryString from 'query-string';
 
 export default class AzureManagementAdapter implements IAzureManagementAdapter {
     public authService: IAuthService;
@@ -188,7 +189,7 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
         return await adapterMethodSandbox.safelyFetchData(async (token) => {
             let resourceGroups: IAzureResourceGroup[] = [];
             try {
-                const appendResourceGroups = async (nextLink?: string) => {
+                const appendResourceGroups = async (skipToken?: string) => {
                     const result = await axios({
                         method: 'get',
                         url: `https://management.azure.com/subscriptions/${subscriptionId}/resourcegroups`,
@@ -198,7 +199,7 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
                         },
                         params: {
                             'api-version': '2021-04-01',
-                            ...(nextLink && { continuationToken: nextLink })
+                            ...(skipToken && { continuationToken: skipToken })
                         }
                     }).catch((err) => {
                         adapterMethodSandbox.pushError({
@@ -217,8 +218,18 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
                     }
 
                     // If next link present, fetch next chunk
-                    if (result.data.nextLink) {
-                        await appendResourceGroups(result.data.nextLink);
+                    if (result.data?.nextLink) {
+                        try {
+                            const url = new URL(result.data?.nextLink);
+                            const skipToken = queryString.parse(url.search)
+                                .skipToken as string;
+                            await appendResourceGroups(skipToken);
+                        } catch (e) {
+                            console.log(
+                                'Continuation token for resource groups call unsuccessfully parsed',
+                                e
+                            );
+                        }
                     }
                 };
 
@@ -229,6 +240,7 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
                     isCatastrophic: true,
                     rawError: err
                 });
+                return null;
             }
 
             return new AzureResourceGroupsData(resourceGroups);
