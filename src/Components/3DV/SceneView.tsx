@@ -950,11 +950,13 @@ function SceneView(props: ISceneViewProps, ref) {
         }
 
         return () => {
-            for (const material of materialCacheRef.current) {
-                sceneRef.current?.removeMaterial(material);
-                material.dispose(true, true);
+            if (modelUrl && modelUrl !== modelUrlRef.current) {
+                for (const material of materialCacheRef.current) {
+                    sceneRef.current?.removeMaterial(material);
+                    material.dispose(true, true);
+                }
+                materialCacheRef.current = [];
             }
-            materialCacheRef.current = [];
         };
     }, [modelUrl, init]);
 
