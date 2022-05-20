@@ -1,4 +1,6 @@
 {
+  "languageName": "Czech",
+  "languageCode": "cs",
   "preview": "Náhled",
   "loading": "Nakládka...",
   "label": "Označit",
@@ -759,7 +761,10 @@
     "type": "Typ",
     "emptyGraph": "Nejsou k dispozici žádné modely",
     "project": "Projekt",
-    "description": "Popis"
+    "description": "Popis",
+    "relationships": "Vztahy",
+    "inheritances": "Dědictví",
+    "components": "Součásti"
   },
   "OATPropertyEditor": {
     "displayName": "Zobrazovaný název",
@@ -824,6 +829,11 @@
     "collapse": "Zhroucení",
     "info": "Informace",
     "more": "Více",
-    "copy": "kopírovat"
+    "copy": "kopírovat",
+    "cancel": "Zrušit",
+    "delete": "Vymazat",
+    "multiLanguage": "vícejazyčné",
+    "region": "Oblast",
+    "singleLanguage": "Jeden jazyk"
   }
 }

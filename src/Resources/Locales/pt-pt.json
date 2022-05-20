@@ -1,4 +1,6 @@
 {
+  "languageName": "Portuguese (Portugal)",
+  "languageCode": "pt-pt",
   "preview": "Previsualizar",
   "loading": "A carregar...",
   "label": "Etiqueta",
@@ -759,7 +761,10 @@
     "type": "Tipo",
     "emptyGraph": "Nenhum modelo disponível",
     "project": "Projeto",
-    "description": "Descrição"
+    "description": "Descrição",
+    "relationships": "Relacionamentos",
+    "inheritances": "Heranças",
+    "components": "Componentes"
   },
   "OATPropertyEditor": {
     "displayName": "Nome do visor",
@@ -824,6 +829,11 @@
     "collapse": "Colapso",
     "info": "Informação",
     "more": "Mais",
-    "copy": "cópia"
+    "copy": "cópia",
+    "cancel": "Cancelar",
+    "delete": "Excluir",
+    "multiLanguage": "multi-língua",
+    "region": "Região",
+    "singleLanguage": "Língua única"
   }
 }

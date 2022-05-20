@@ -1,4 +1,6 @@
 {
+    "languageName": "English",
+    "languageCode": "en",
     "preview": "Preview",
     "loading": "Loading...",
     "label": "Label",
@@ -752,7 +754,10 @@
         "type": "Type",
         "emptyGraph": "No models available",
         "project": "Project",
-        "description": "Description"
+        "description": "Description",
+        "relationships": "Relationships",
+        "inheritances": "Inheritances",
+        "components": "Components"
     },
     "OATPropertyEditor": {
         "addEnumValue": "Add Enum Value",
@@ -761,6 +766,7 @@
         "array": "array",
         "assetId": "Asset ID",
         "boolean": "boolean",
+        "cancel": "Cancel",
         "close": "Close",
         "collapse": "Collapse",
         "comment": "Comment",
@@ -768,6 +774,7 @@
         "copy": "copy",
         "data": "data",
         "dateTime": "dateTime",
+        "delete": "Delete",
         "description": "Description",
         "displayName": "Display Name",
         "double": "double",
@@ -794,6 +801,7 @@
         "modalTextInputPlaceHolderSemanticType": "current...",
         "modalTextInputPlaceHolderUnit": "unit...",
         "more": "More",
+        "multiLanguage": "multi-language",
         "multiLinestring": "multilinestring",
         "multiPoint": "multipoint",
         "multiPolygon": "multi Polygon",
@@ -806,8 +814,10 @@
         "properties": "Properties",
         "property": "Property",
         "remove": "Remove",
+        "region": "Region",
         "schemaType": "Schema Type",
         "semanticType": "Semantic Type",
+        "singleLanguage": "Single language",
         "string": "string",
         "templateSearchPlaceholder": "Search name, id, property",
         "templates": "Templates",

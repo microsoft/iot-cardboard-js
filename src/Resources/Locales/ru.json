@@ -1,4 +1,6 @@
 {
+  "languageName": "Russian",
+  "languageCode": "ru",
   "preview": "Предварительный просмотр",
   "loading": "Погрузка...",
   "label": "Ярлык",
@@ -759,7 +761,10 @@
     "type": "Тип",
     "emptyGraph": "Нет доступных моделей",
     "project": "Проект",
-    "description": "Описание"
+    "description": "Описание",
+    "relationships": "Отношения",
+    "inheritances": "Наследства",
+    "components": "Компоненты"
   },
   "OATPropertyEditor": {
     "displayName": "Отображаемое имя",
@@ -824,6 +829,11 @@
     "collapse": "Коллапс",
     "info": "Информация",
     "more": "Больше",
-    "copy": "копировать"
+    "copy": "копировать",
+    "cancel": "Отмена",
+    "delete": "Удалить",
+    "multiLanguage": "многоязычность",
+    "region": "Область",
+    "singleLanguage": "Один язык"
   }
 }
