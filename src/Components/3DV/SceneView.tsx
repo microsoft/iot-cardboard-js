@@ -325,12 +325,7 @@ function SceneView(props: ISceneViewProps, ref) {
 
                     // First time in after loading - create the camera
                     if (!cameraRef.current) {
-                        if (cameraPosition?.radius) {
-                            initialCameraRadiusRef.current =
-                                cameraPosition?.radius;
-                        } else {
-                            initialCameraRadiusRef.current = radius;
-                        }
+                        initialCameraRadiusRef.current = radius;
 
                         const camera = new BABYLON.ArcRotateCamera(
                             'camera',
