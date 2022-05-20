@@ -120,6 +120,7 @@
   },
   "relationshipsTable": {
     "twinID": "Twin-ID",
+<<<<<<< HEAD
     "model": "Modell",
     "relationshipName": "Name der Beziehung"
   },
@@ -228,6 +229,116 @@
     "empty": "Dieses Board hat keine Karten",
     "twinID": "Twin-ID",
     "model": "Modell",
+=======
+    "model": "Modell",
+    "relationshipName": "Name der Beziehung"
+  },
+  "dataPusher": {
+    "dataPusherTitle": "Azure Digital Twins-Datensimulator",
+    "instanceUrl": "Instanz-URL",
+    "pastEventsLabel": "Vergangene Ereignisse simulieren",
+    "pastEventsDescriptionOn": "Schnelle Simulation vergangener Ereignisse",
+    "pastEventsDescriptionOff": "Es werden keine Daten aus der Vergangenheit simuliert",
+    "daysToSimulateLabel": "Zu simulierende Tage",
+    "daysToSimulateDescription": "Beginnen Sie vor vielen Tagen mit der Simulation",
+    "dataSpacingLabel": "Datenabstand",
+    "dataSpacingDescription": "Zeit zwischen den Ereigniszeitstempeln",
+    "quickStreamFrequencyLabel": "Streaming-Häufigkeit vergangener Ereignisse",
+    "quickStreamFrequencyDescription": "Wie häufig vergangene Ereignisse verschoben werden sollen. Wenn das Live-Streaming deaktiviert ist, werden die Daten weiterhin mit dieser Frequenz gedrückt, sobald die aktuelle Zeit erreicht ist.",
+    "liveStreamLabel": "Live-Stream-Daten",
+    "liveStreamDescriptionOn": "Sobald die aktuelle Zeit erreicht ist, überträgt die Simulation die Daten mit der eingestellten Live-Stream-Frequenz",
+    "liveStreamDescriptionOff": "Die Simulation wird weiterhin Ereignisse mit der eingestellten schnellen Stream-Frequenz auf unbestimmte Zeit in die Zukunft schieben",
+    "liveStreamFrequencyLabel": "Frequenz",
+    "liveStreamFrequencyDescription": "Wie häufig Ereignisse übertragen werden sollen. Diese Zahl stellt sowohl die Zeit zwischen den Ereigniszeitstempeln als auch das Intervall dar, in dem neue Ereignisse übertragen werden.",
+    "otherOptionsLabel": "Weitere Optionen",
+    "includeImagesLabel": "Bilder für das Modell einschließen",
+    "includeImagesDescriptionOn": "Die Simulation pusht das Modell mit Standardbildern",
+    "includeImagesDescriptionOff": "Simulation pusht keine Bilder",
+    "generateEnvironment": "Umgebung generieren",
+    "startSimulation": "Simulation starten",
+    "stopSimulation": "Simulation stoppen",
+    "days": "Tage",
+    "create": "Schaffen",
+    "simulate": "Simulieren",
+    "models": "Modelle",
+    "twins": "Zwillinge",
+    "relationships": "Beziehungen",
+    "simulating": "Nachahmend",
+    "liveStatus": "Paketnummer: {{packetNumber}} | {{totalSuccessfulPatches}}/{{totalTwinsPatched}} Zwillinge erfolgreich aktualisiert",
+    "generateEnvironmentDescription": "Pushen von Modellen, Zwillingen und Beziehungen, um Ihre Umgebung zu füllen",
+    "simulateDescription": "Übertragen von Ereignissen in Ihre Umgebung",
+    "pusherType": "Art der Simulation",
+    "robotArms": "Roboterarme",
+    "dairyProduction": "Molkerei"
+  },
+  "scenes": {
+    "noScenes": "Sie haben keine 3D-Szenen, fügen Sie eine neue hinzu, um loszulegen.",
+    "addScene": "3D-Szene hinzufügen",
+    "latitude": "Breite",
+    "longitude": "Länge",
+    "sampleLatitude": "z.B.: 6.4511366",
+    "sampleLongitude": "z.B.: 3.3883963",
+    "longitudeErrorMessage": "Der Eingangswert muss innerhalb von -180 und 180 Grad liegen",
+    "latitudeErrorMessage": "Eingangswert muss innerhalb von -90 und 90 Grad liegen",
+    "showOnGlobe": "Auf Globus anzeigen",
+    "blobUrl": "3D-Datei-Blob-URL",
+    "dialogTitleCreate": "Neue Szene erstellen",
+    "dialogSubTitle": "Richten Sie eine vorhandene 3D-Datei per URL aus oder laden Sie eine neue Datei direkt in Ihren Container hoch",
+    "dialogTitleEdit": "Bearbeiten der 3D-Szene",
+    "3dFileSelectionMode": "3D-Dateiauswahlmodus",
+    "sceneNamePlaceholder": "Eingeben eines Szenennamens",
+    "sceneDescriptionPlaceholder": "Eingeben einer Szenenbeschreibung",
+    "tabNameFromContainer": "Datei auswählen",
+    "tabNameUploadFile": "Datei hochladen",
+    "3dFileAsset": "3D-Datei verknüpfen",
+    "description": "Beschreibung",
+    "overwriteIfExist": "Überschreiben, wenn die Datei bereits vorhanden ist",
+    "fileExistsErrorMessage": "Eine Datei mit diesem Namen ist bereits im Speicher vorhanden, Sie können diese Datei entweder aus dem Container auswählen oder überschreiben."
+  },
+  "BIMUpload": {
+    "specifyFiles": "Angeben von Dateien, aus denen hochgeladen werden soll",
+    "selectModels": "Modelle zum Hochladen auswählen",
+    "generateEnvironment": "Umgebung generieren",
+    "specifyFilesSubheader": "Die angegebene BIM-Datei und die zugehörigen Metadaten werden verwendet, um Modelle, Zwillinge und Beziehungen zum Hochladen in Ihre ADT-Umgebung zu extrahieren.",
+    "selectModelsSubheader": "Die ausgewählten Modelle und die zugehörigen Zwillinge und Beziehungen werden im nächsten Schritt zu Ihrer Umgebung hinzugefügt.",
+    "generateEnvironmentSubheader": "Die Modelle, Zwillinge und Beziehungen (gefiltert nach den im vorherigen Schritt ausgewählten Modellen) werden per Push in Ihre ADT-Umgebung übertragen.",
+    "initiateUpload": "Upload initiieren",
+    "bimFilePath": "BIM-Dateipfad",
+    "metadataFilePath": "Metadaten-Dateipfad",
+    "parsingModels": "Parsen von Modellen...",
+    "noModelsParsed": "Keine Modelle analysiert",
+    "modelsSelectedCount": "Ausgewählte Modelle ({{count}})",
+    "goToEnvironment": "Gehe zu Umwelt"
+  },
+  "generateADTAssets": {
+    "assetsPushError": "Beim Übertragen von {{assetType}} auf ADT ist ein Problem aufgetreten",
+    "assetsPushedCount": "{{count}} {{assetType}} gepusht",
+    "uploadProgress": "{{pushed}} von {{total}}",
+    "uploading": "Hochladen...",
+    "partialError": "Fehler beim Hochladen von {{assetType}}: {{errorCount}} {{assetType}} konnte nicht hochgeladen werden"
+  },
+  "uploadProgress": {
+    "uploading": "Hochladen von {{assetType}}",
+    "uploadSuccess": "{{assetType}} erfolgreich hochgeladen",
+    "uploadPartiallyFailed": "{{assetType}} mit einigen Fehlern hochgeladen",
+    "uploadFailed": "Fehler beim Hochladen von {{assetType}} "
+  },
+  "modelSearch": {
+    "placeholder": "Geben Sie die Modellsuchzeichenfolge ein",
+    "fileNameOnly": "Nur nach Dateinamen suchen",
+    "cdnModelSearchdescription": "Dieses Tool durchsucht <CndLink>gehostete DTDL-Modelle</CndLink> die öffentlich zugänglich gemacht wurden. Die bereitgestellte Suchzeichenfolge wird mit Modell-IDs, Anzeigenamen und Beschreibungen abgeglichen.",
+    "githubModelSearchdescription": "Dieses Tool durchsucht DTDL-Modelle, die im Repository <GithubRepo>{{repo}}</GithubRepo> öffentlich verfügbar gemacht wurden. Die bereitgestellte Suchzeichenfolge wird sowohl mit Dateipfaden als auch mit Inhalten abgeglichen.",
+    "rateLimitExceededTitle": "GitHub-Such-API-Ratenlimit überschritten",
+    "rateLimitExceededDescription": "Diese Suche ist von der GitHub-Such-API auf 10 API-Anforderungen pro Minute beschränkt. Ihr Limit wird in {{numSeconds}} Sekunden zurückgesetzt",
+    "githubLink": "GitHub-Link",
+    "modelListItemAction": "Schaffen",
+    "modelListItemPreview": "DTDL anzeigen"
+  },
+  "board": {
+    "empty": "Dieses Board hat keine Karten",
+    "twinID": "Twin-ID",
+    "model": "Modell",
+>>>>>>> 6ab3a88097f7f7bd643f659079009a434c68b227
     "relationshipsTable": "Tabelle \"Beziehungen\"",
     "processGraphic": "Prozessgrafik",
     "dataHistory": "Datenhistorie",
@@ -251,6 +362,7 @@
     "invalidDTDLName": "Ungültiger Name. Siehe {{dtdlLink}} für das unterstützte Format.",
     "invalidTypeForUnitSupport": "Damit die Einheiteneigenschaft verfügbar ist, ist ein semantischer Typ erforderlich.",
     "displayName": "Anzeigename",
+<<<<<<< HEAD
     "description": "Beschreibung",
     "comment": "Kommentar",
     "otherFields": "Sonstige Bereiche",
@@ -281,6 +393,8 @@
     "relationshipId": "Beziehungs-ID",
     "componentId": "Komponenten-ID",
     "propertyId": "Eigenschaften-ID",
+=======
+>>>>>>> 6ab3a88097f7f7bd643f659079009a434c68b227
     "true": "STIMMT",
     "false": "FALSE",
     "primitives": "Primitive",
@@ -300,7 +414,41 @@
     "addEnumValue": "Enumerationswert hinzufügen",
     "editEnumValue": "Bearbeiten des Enumerationswerts",
     "enumValueDetails": "Details zum Enumerationswert",
+<<<<<<< HEAD
     "inherit": "Erben"
+=======
+    "inherit": "Erben",
+    "description": "Beschreibung",
+    "comment": "Kommentar",
+    "otherFields": "Sonstige Bereiche",
+    "unit": "Einheit",
+    "writable": "Ist beschreibbar",
+    "contents": "Inhalt",
+    "properties": "Eigenschaften",
+    "addProperty": "Eigenschaft hinzufügen",
+    "editProperty": "Eigenschaft bearbeiten",
+    "propertyDetails": "Details zur Immobilie",
+    "noProperties": "Dieses Modell hat keine Eigenschaften",
+    "relationships": "Beziehungen",
+    "addRelationship": "Beziehung hinzufügen",
+    "editRelationship": "Beziehung bearbeiten",
+    "relationshipDetails": "Details zur Beziehung",
+    "noRelationships": "Dieses Modell hat keine Beziehungen",
+    "components": "Komponenten",
+    "addComponent": "Komponente hinzufügen",
+    "editComponent": "Komponente bearbeiten",
+    "componentDetails": "Details zu den Komponenten",
+    "noComponents": "Dieses Modell hat keine Komponenten",
+    "complexSchema": "Komplexes Schema ",
+    "complexSchemas": "Komplexe Schemata",
+    "addComplexSchema": "Hinzufügen eines komplexen Schemas",
+    "noComplexSchemas": "Dieses Modell hat keine komplexen Schemas",
+    "schema": "Schema",
+    "valueSchema": "Wertschema",
+    "relationshipId": "Beziehungs-ID",
+    "componentId": "Komponenten-ID",
+    "propertyId": "Eigenschaften-ID"
+>>>>>>> 6ab3a88097f7f7bd643f659079009a434c68b227
   },
   "fileUploader": {
     "dragAndDropFiles": "Ziehen Sie Dateien per Drag & Drop hierher",
@@ -425,6 +573,7 @@
     "behaviorElementsDropdownPlaceholder": "Auswählen eines Elements",
     "behaviorForm": {
       "formSubTitle": "Verhaltensweisen sind visuelle Hinweise, die unter bestimmten Bedingungen auftreten, z. B. in bestimmten Intervallen oder bei Datenschwellenwerten."
+<<<<<<< HEAD
     },
     "behaviorAlertForm": {
       "colorPickerLabel": "Farbe",
@@ -747,6 +896,330 @@
       "save": "Änderungen speichern",
       "refresh": "Aktualisieren von Daten"
     },
+=======
+    },
+    "behaviorAlertForm": {
+      "colorPickerLabel": "Farbe",
+      "expressionLabel": "Trigger-Ausdruck",
+      "expressionPlaceholder": "Geben Sie den Ausdruck ein (z. B. PrimaryTwin.InFlow > 200)",
+      "iconPickerLabel": "Ikone",
+      "tabDescription": "Warnungen – Symbole, die von Text begleitet werden – helfen, die Aufmerksamkeit auf kritische Datenzustände zu lenken. Verwenden Sie unten Ausdrücke, um Warnungen in Ihrer Visualisierung auszulösen.",
+      "notificationLabel": "Szenariobeschreibung",
+      "notificationLabelTooltip": "Dieser Text gibt einen Verbraucherkontext an, wenn dieses Badge aktiv ist.",
+      "notificationLabelDescriptionPart1": "Twin-Eigenschaften müssen mit Vorlagenzeichenfolgensyntax umgeben sein.",
+      "notificationLabelDescriptionPart2": "Z.B. $PrimaryTwin.DisplayName} wartungsbedürftig",
+      "notificationPlaceholder": "Geben Sie eine Beschreibung ein"
+    },
+    "behaviorStatusForm": {
+      "tabDescription": "Wählen Sie eine Eigenschaft aus, und legen Sie dann Bereiche für die Anwendung von Farben auf bestimmte Bedingungen fest, z. B. Rot, um hohe Temperaturen anzuzeigen, oder Grün für optimale Geschwindigkeit.",
+      "stateItemLabel": "Status {{index}}",
+      "propertyExpressionTooltipContent": "Verwenden Sie einen benutzerdefinierten Ausdruck für komplexere Ausdrücke, die mehrere Eigenschaften nutzen."
+    },
+    "behaviorWidgetsForm": {
+      "addWidgetButtonText": "Widget hinzufügen",
+      "noData": "Sie haben noch keine Widgets konfiguriert",
+      "tabDescription": "Definieren von Widgets, die im Kontext des Elements angezeigt werden"
+    },
+    "elementForm": {
+      "twinNameTooltip": "Bei diesem Feld wird zwischen Groß- und Kleinschreibung unterschieden",
+      "twinNameDescription": "Wählen Sie einen digitalen Zwilling aus, mit dem dieses Element verknüpft werden soll. Sie verwenden die Eigenschaften dieses verknüpften Zwillings für zugeordnete Verhaltensweisen.",
+      "meshTabName": "Maschen",
+      "behaviorsTabName": "Verhaltensweisen",
+      "twinTabName": "Andere Zwillinge",
+      "formSubTitle": ""
+    },
+    "elementFormMeshTab": {
+      "noDataMessage": "Wählen Sie die zugehörigen Netze aus dem 3D-Modell für dieses Element aus."
+    },
+    "elementBehaviorMeshTab": {
+      "noDataMessage": "Zuweisen oder Ändern von Verhalten für dieses Element. Sie können Verhaltensweisen später jederzeit hinzufügen."
+    },
+    "elementFormTwinTab": {
+      "tabDescription": "Diese Zwillinge enthalten Daten, die über Ihren primären Zwilling hinausgehen und die Sie in Ihrem Status, Ihren Warnungen und Widgets für Ihr Verhalten nutzen können.",
+      "noDataMessage": "Wenn Sie zusätzliche Zwillinge im Verhalten dieses Elements erstellen, werden diese hier angezeigt."
+    },
+    "widgetLibrary": {
+      "dialogTitle": "Widget-Bibliothek",
+      "dialogSubTitle": "Erkunden Sie Widgets und zeigen Sie datengesteuerte Einblicke für Ihr Element an."
+    },
+    "widgetForm": {
+      "unitOfMeasureLabel": "Maßeinheit",
+      "unitOfMeasurePlaceholder": "Z.B. Meilen/Stunde",
+      "linkUrlDescription": "Geben Sie eine URL ein und fügen Sie Zwillingseigenschaften als Parameter hinzu, z. B. ${PrimaryTwin.SerialNumber}"
+    },
+    "twinPropertyDropdown": {
+      "propertyDropdownLabel": "Eigentum",
+      "noElementsSelected": "Keine Elemente ausgewählt",
+      "noSelectionValue": "Nichts",
+      "propertyNotFound": "Eigenschaft, die bei den Zwillingen des Verhaltens nicht gefunden wurde",
+      "propertyDropdownPlaceholder": "Twin-Eigenschaft auswählen"
+    },
+    "ModelledPropertyBuilder": {
+      "expressionLabel": "Eigenschaftsausdruck",
+      "expressionPlaceholder": "Eigenschaftsausdruck eingeben",
+      "singleProperty": "Einzelobjekt",
+      "customExpression": "Benutzerdefiniert (erweitert)",
+      "dropdownPlaceholder": "Wählen Sie eine Immobilie aus",
+      "toggleLabel": "Ausdrucksmodus",
+      "none": "Nichts"
+    },
+    "numericExpressionPlaceholder": "Geben Sie einen Ausdruck ein, der zu einer Zahl ausgewertet wird.",
+    "behaviorId": "Verhaltens-ID",
+    "newWidget": "Neues Widget",
+    "addWidget": "Widget hinzufügen",
+    "createWidget": "Widget erstellen",
+    "updateWidget": "Widget \"Aktualisieren\"",
+    "editWidget": "Widget \"Bearbeiten\"",
+    "removeWidget": "Widget entfernen",
+    "noWidgets": "Keine Widgets gefunden",
+    "modifyWidget": "Widget \"Ändern\"",
+    "expression": "Ausdruck",
+    "warningBreakPointToggleLabel": "Farbhaltepunkt aktivieren",
+    "warningBreakPointLabel": "Unterbrechungspunkt der Warnfarbe",
+    "linkWidgetUrlDescription": "Link-Widget-URL unterstützt JavaScript-Vorlagenzeichenfolgenformatierung wie: ${PrimaryTwin.property}",
+    "notImplemented": "Nicht implementiert",
+    "noPrimaryTwinProperties": "Keine primären Zwillingseigenschaften, die angezeigt werden sollen",
+    "twinAlias": {
+      "title": "Twin-Alias",
+      "calloutDescription": "Die Vereinigung von Zwillingseigenschaften ausgewählter Elemente",
+      "aliasedTwin": "Aliased Zwilling",
+      "add": "Zweibettzimmer hinzufügen",
+      "new": "Neuer Zwilling",
+      "edit": "Zwilling bearbeiten",
+      "create": "Zwilling erstellen",
+      "update": "Zwilling aktualisieren",
+      "modify": "Zwilling modifizieren",
+      "search": "Zwillinge suchen",
+      "searchProperties": "Immobilien suchen",
+      "noTwinAliasesToAdd": "Keine Zwillingsaliasnamen zum Hinzufügen",
+      "removeFromBehavior": "Entfernen des Zwillingsalias aus dem Verhalten",
+      "removeFromElement": "Entfernen des Zwillingsalias aus dem Element",
+      "commonProperties": "Gemeingüter",
+      "twinAliasForm": {
+        "aliasNameLabel": "Zwillingsname",
+        "aliasNameTooltipContent": "Sie können den Namen dieses Zwillings nach der Schöpfung nicht mehr ändern.",
+        "mappingSectionHeader": "Twin-Mappings für Elemente",
+        "mappingSectionSubHeader": "Wählen Sie für jedes Element den digitalen Zwilling aus, auf den dieser Zwilling verweist",
+        "elementTwinMappingsNotExist": "Es ist keine Zuordnung verfügbar, fügen Sie dem Verhalten zuerst Elemente hinzu."
+      },
+      "tabDescriptionPart1": "Jedes Element nutzt Daten aus seinem primären Zwilling. Fügen Sie weitere Zwillinge hinzu, von denen Ihre Elemente Daten nutzen können.",
+      "tabDescriptionPart2": "Zeigen Sie die gemeinsamen Eigenschaften zwischen den Zielelementen an, und verweisen Sie auf diese Eigenschaften, indem Sie den primären Zwilling oder die anderen Zwillinge in Ihren Ausdrücken verwenden. ",
+      "linkedTwinListHeader": "Verknüpfte Zwillinge ({{count}})",
+      "descriptions": {
+        "commonProperties": "Die Vereinigung primärer Zwillingseigenschaften ausgewählter Elemente"
+      },
+      "errors": {
+        "twinAliasAlreadyExists": "Twin Alias mit dem gleichen Namen existiert bereits, erwägen Sie stattdessen, es hinzuzufügen.",
+        "alphanumericOnly": "Zwillingsalias darf nur alphanumerische Zeichen enthalten",
+        "noNumberPrefix": "Twin Alias darf nicht mit einer Zahl beginnen"
+      }
+    }
+  },
+  "widgets": {
+    "trend": {
+      "title": "Trend-Widget",
+      "libraryName": "Trend",
+      "description": "Diagramme mit historischen Daten anzeigen"
+    },
+    "gauge": {
+      "title": "Messgerät-Widget",
+      "libraryName": "Messgerät",
+      "description": "Darstellen numerischer Eigenschaften mit benutzerdefinierten Bereichen"
+    },
+    "link": {
+      "title": "Link-Widget",
+      "libraryName": "Verbinden",
+      "description": "Navigieren Sie zu URLs, die für das Element spezifisch sind",
+      "urlPlaceholder": "https://contoso.com/userManual/${PrimaryTwin.SerialNumber}",
+      "openLink": "Link öffnen"
+    },
+    "value": {
+      "title": "Wert-Widget",
+      "libraryName": "Wert",
+      "description": "Anzeigen einer beliebigen primitiven Eigenschaft",
+      "displayNamePlaceholder": "Anzeigenamen eingeben",
+      "typePlaceholder": "Wählen Sie den Typ für den Wert aus."
+    },
+    "panel": {
+      "title": "Panel-Widget",
+      "libraryName": "Gremium",
+      "description": "Ein Layoutpanel"
+    },
+    "notSupported": "Dieser Widget-Typ wird derzeit nicht unterstützt"
+  },
+  "sdkStrings": {
+    "Last 30 mins": "Letzte 30 Minuten",
+    "Last Hour": "Letzte Stunde",
+    "Last 2 Hours": "Letzte 2 Stunden",
+    "Last 4 Hours": "Letzte 4 Stunden",
+    "Last 12 Hours": "Letzte 12 Stunden",
+    "Last 24 Hours": "Letzte 24 Stunden",
+    "Last 7 Days": "Letzte 7 Tage",
+    "Last 30 Days": "Letzte 30 Tage",
+    "Custom": "Gewohnheit",
+    "Timeframe": "Zeitrahmen",
+    "Save": "Retten",
+    "timezone": "Zeitzone",
+    "start": "anfangen",
+    "end": "Ende",
+    "Latest": "Neueste",
+    "Show ellipsis menu": "Ellipsenmenü anzeigen",
+    "Hide ellipsis menu": "Menü \"Auslassungspunkte ausblenden\"",
+    "Download as CSV": "Download als CSV",
+    "Toggle all columns": "Alle Spalten ein-/ausschalten",
+    "All Columns": "Alle Spalten",
+    "only": "nur",
+    "Invalid Date": "Ungültiges Datum",
+    "Stack/Unstack Bars": "Stapeln/Entstapeln von Balken",
+    "Stack bars": "Stapelstangen",
+    "Unstack bars": "Balken entstapeln",
+    "No filter results": "Keine Filterergebnisse",
+    "All": "Alle",
+    "Selected": "Ausgewählt",
+    "toggle visibility for": "Sichtbarkeit einschalten für",
+    "Series type selection for": "Serientypauswahl für",
+    "shifted": "versetzt",
+    "Click to drop marker": "Zum Ablegen der Markierung hier klicken",
+    "drag to reposition": "Ziehen, um die Position neu zu positionieren",
+    "Delete marker at": "Markierung löschen bei",
+    "set axis state to": "Setzen Sie den Achsenstatus auf",
+    "Drop a Marker": "Löschen einer Markierung",
+    "Search Time Series Instances": "Durchsuchen von Zeitreiheninstanzen",
+    "No results": "Keine Ergebnisse",
+    "No instances": "Keine Instanzen gefunden",
+    "No search result": "Für den eingegebenen Suchbegriff wurden keine Instanzen gefunden.",
+    "Instance not found": "Instanz, die in der ausgewählten Hierarchie nicht gefunden wurde.",
+    "Dismiss": "Entlassen",
+    "Show more": "Zeige mehr",
+    "No description": "Keine Beschreibung",
+    "Time Series ID": "Zeitreihen-ID",
+    "Currently displayed time is": "Die aktuell angezeigte Uhrzeit ist",
+    "Left arrow to go back in time": "Pfeil nach links, um in der Zeit zurückzugehen",
+    "right arrow to go forward": "Pfeil nach rechts, um vorwärts zu gehen",
+    "Local": "Lokal",
+    "Display Grid": "Raster anzeigen",
+    "Previous Month": "Vormonat",
+    "Next Month": "Nächster Monat",
+    "All hierarchies": "Alle Hierarchien",
+    "Unassigned Time Series Instances": "Nicht zugewiesene Zeitreiheninstanzen",
+    "Search globally": "Global suchen",
+    "Lookup globally": "Global nachschlagen",
+    "Show More Instances": "Weitere Instanzen anzeigen",
+    "Show More Hierarchies": "Weitere Hierarchien anzeigen",
+    "Add to Filter Path": "Zum Filterpfad hinzufügen",
+    "Empty": "Leer",
+    "date and time": "Datum und Uhrzeit",
+    "show series": "Serie anzeigen",
+    "hide series": "Serie ausblenden",
+    "in group": "in der Gruppe",
+    "show group": "Gruppe anzeigen",
+    "hide group": "Gruppe ausblenden",
+    "Use the arrow keys to navigate the values of each cell": "Verwenden Sie die Pfeiltasten, um durch die Werte der einzelnen Zellen zu navigieren",
+    "A grid of values": "Ein Werteraster",
+    "close grid": "Raster schließen",
+    "column header for date": "Spaltenüberschrift für Datum",
+    "row header for": "Zeilenüberschrift für",
+    "values for cell at": "Werte für Zelle bei",
+    "no values at": "keine Werte bei",
+    "and": "und",
+    "are": "sind",
+    "timezone selection": "Auswahl der Zeitzone",
+    "Start time input": "Eingabe der Startzeit",
+    "End time input": "Endzeiteingabe",
+    "snap end time to latest": "Endzeit auf Neueste einstellen",
+    "select quick time of": "Wählen Sie Schnellzeit von",
+    "a time selection control dialog": "ein Dialogfeld zur Steuerung der Zeitauswahl.",
+    "No color": "Keine Farbe",
+    "Change y-axis type": "Ändern des Y-Achsentyps",
+    "Show/Hide values": "Werte ein-/ausblenden",
+    "Select color": "Farbe auswählen",
+    "Search suggestion instruction": "Wenn AutoVervollständigen-Ergebnisse verfügbar sind, verwenden Sie die Aufwärts- und Abwärtspfeile zum Überprüfen, und die Eingabetaste, um auszuwählen",
+    "Search suggestions available": "Ergebnisse verfügbar, Verwenden Sie Tastaturbenutzer die Pfeile nach oben und unten, um sie zu überprüfen, und die Eingabetaste, um sie auszuwählen.",
+    "Hierarchy list": "Hierarchieliste",
+    "Looking for": "Auf der Suche nach",
+    "Hierarchy error": "Fehler aufgetreten! Hierarchie wird aktualisiert...",
+    "Failed to get token": "Fehler beim Abrufen des Tokens",
+    "Error in hierarchy navigation": "Fehler in der Hierarchienavigation",
+    "Failed to load types for navigation": "Fehler beim Laden von Typen für die Navigation",
+    "Failed to load hierarchies for navigation": "Hierarchien für die Navigation konnten nicht geladen werden",
+    "Failed to complete search": "Suche konnte nicht abgeschlossen werden",
+    "Failed to get instance details": "Fehler beim Abrufen von Instanzdetails",
+    "Add": "Hinzufügen",
+    "Search": "Suchen",
+    "Date/Time": "Datum/Uhrzeit"
+  },
+  "propertyInspector": {
+    "chevronExpand": "Knoten erweitern",
+    "chevronCollapse": "Knoten reduzieren",
+    "modelNotFound": "Ein oder mehrere Modelle, die von diesem {{piMode}} verwendet werden, fehlen. Bitte fügen Sie die folgenden fehlenden Modelle zu dieser Umgebung hinzu:",
+    "unmodelledPropertyWarning": "Eigenschaften, denen ein Modell fehlt und die durch ein Warnsymbol gekennzeichnet sind, werden beim nächsten Aktualisierungsereignis entfernt. Um diese Eigenschaften beizubehalten, fügen Sie ihr Modell der Umgebung hinzu, bevor Sie diesen {{piMode}} aktualisieren.",
+    "unmodelledProperty": "Für diese Eigenschaft wurde kein Modell gefunden",
+    "commandBarTitleTwin": "TWIN-EIGENSCHAFTEN",
+    "commandBarTitleRelationship": "BEZIEHUNGSEIGENSCHAFTEN",
+    "addProperty": "Eigenschaft hinzufügen",
+    "unsetProperty": "Unset-Eigenschaft",
+    "notSet": "nicht gesetzt",
+    "property": "Eigentum",
+    "component": "Bestandteil",
+    "noTwinFound": "Kein Zwilling gefunden",
+    "noRelationshipFound": "Keine Beziehung gefunden",
+    "mapKeyPlaceholder": "Neuen Kartenschlüssel eingeben",
+    "addMapIconTitle": "Kartenwert hinzufügen",
+    "removeMapValueIconTitle": "Kartenwert entfernen",
+    "propertyTypes": {
+      "boolean": "Boolesch",
+      "date": "Datum",
+      "dateTime": "Datum/Uhrzeit",
+      "double": "Doppelt",
+      "float": "Schweben",
+      "long": "Lang",
+      "duration": "Dauer",
+      "integer": "Ganze Zahl",
+      "string": "Schnur",
+      "time": "Zeit",
+      "enum": "Enumeration",
+      "map": "Landkarte",
+      "array": "Anordnung",
+      "object": "Objekt"
+    },
+    "schemaInfo": {
+      "date": {
+        "text": "Geben Sie einen Datumswert im Format JJJJ-MM-TT ein.",
+        "ariaLabel": "Geben Sie einen Datumswert im Format JJJJ-MM-TT ein."
+      },
+      "dateTime": {
+        "text": "Geben Sie einen Wert im <DocLink>RFC 3339-Datums-Uhrzeit-Format</DocLink> ein, z. B.: 2007-04-05T14:30:15-08:00",
+        "ariaLabel": "Geben Sie einen Wert im RFC 3339-Datums-/Uhrzeitformat ein, z. B.: 2007-04-05T14:30:15-08:00"
+      },
+      "duration": {
+        "text": "Geben Sie einen Wert für die Dauer im ISO-8601-Format ein, wobei n eine Zahl ist: P(n)Y(n)M(n)DT(n)H(n)M(n)S",
+        "ariaLabel": "Geben Sie einen Wert für die Dauer im ISO-8601-Format ein, wobei n eine Zahl ist: P(n)Y(n)M(n)DT(n)H(n)M(n)S"
+      },
+      "integer": {
+        "text": "Geben Sie einen nicht dezimalen numerischen Wert ein (4-Byte-Ganzzahl mit Vorzeichen)",
+        "ariaLabel": "Geben Sie einen nicht dezimalen numerischen Wert ein (4-Byte-Ganzzahl mit Vorzeichen)"
+      },
+      "long": {
+        "text": "Geben Sie einen nicht dezimalen numerischen Wert ein (8-Byte-Ganzzahl mit Vorzeichen)",
+        "ariaLabel": "Geben Sie einen nicht dezimalen numerischen Wert ein (8-Byte-Ganzzahl mit Vorzeichen)"
+      },
+      "time": {
+        "text": "Geben Sie einen Wert im <DocLink>RFC 3339 full-time format</DocLink> ein, z. B.: 14:22:33−08:00",
+        "ariaLabel": "Geben Sie einen Wert im RFC 3339-Vollzeitformat ein, z. B.: 14:22:33−08:00"
+      },
+      "map": {
+        "text": "Ein <DocLink>Zuordnungsschlüssel</DocLink> verwendet eine Zeichenfolge, um den Schlüssel in einer Karte zu beschreiben. Verwenden Sie die folgenden Zeichen: a-z, A-Z, 0-9 und Unterstrich.",
+        "ariaLabel": "Ein Zuordnungsschlüssel verwendet eine Zeichenfolge, um den Schlüssel in einer Karte zu beschreiben. Verwenden Sie die folgenden Zeichen: a-z, A-Z, 0-9 und Unterstrich."
+      }
+    },
+    "commandBar": {
+      "undoAll": "Alle Bearbeitungen zurücksetzen",
+      "expandTree": "Baum erweitern",
+      "collapseTree": "Baum reduzieren",
+      "save": "Änderungen speichern",
+      "refresh": "Aktualisieren von Daten"
+    },
+>>>>>>> 6ab3a88097f7f7bd643f659079009a434c68b227
     "dateTimePicker": {
       "datePickerTitle": "Datumsauswahl",
       "dateTimePickerTitle": "Datetime-Auswahl",
@@ -907,5 +1380,32 @@
       "title": "Was ist eine Szenenebene?",
       "mainContent": "Sie können Ebenen in Ihrer Szene erstellen, um Ihr Verhalten zu organisieren. Ebenen verhalten sich wie Tags für die Verhaltensweisen, sodass Sie definieren können, welche Verhaltensweisen zusammen angezeigt werden müssen, und so benutzerdefinierte Ansichten Ihrer Szene für verschiedene Rollen oder Aufgaben erstellen.\n\nWenn es keine Ebenen in einer Szene gibt, werden alle Verhaltensweisen im Szenenbetrachter angezeigt. Alle Verhaltensweisen, die nicht mit einer Ebene gekennzeichnet sind, werden in der Standardebene angezeigt, bis sie mit einer Ebene gekennzeichnet sind.\n\nEine Möglichkeit, Ebenen zu erstellen, besteht darin, die Schaltfläche \"Szenenebenen\" in der Ansicht \"Erstellen\" für eine Szene zu verwenden. Alternativ können Sie Ebenen erstellen, während Sie ein Verhalten erstellen oder ändern."
     }
+<<<<<<< HEAD
+=======
+  },
+  "diagnose": "Diagnostizieren",
+  "resolve": "Beschließen",
+  "verify": "Überprüfen",
+  "success": "Erfolg!",
+  "scenePageErrorHandling": {
+    "resetConfigFile": "Konfigurationsdatei zurücksetzen",
+    "unauthorizedAccessErrorTitle": "Zugriff eingeschränkt",
+    "unauthorizedAccessErrorMessage": "Sie haben keinen Zugriff auf diesen Lagerbehälter. Diagnostizieren Sie Ihren Zugriff, oder versuchen Sie es mit einem anderen Container.",
+    "blobNotFoundErrorTitle": "Blob nicht gefunden",
+    "blobNotFoundErrorMessage": "Blob existiert nicht.",
+    "unknownErrorTitle": "Unbekannter Fehler",
+    "corsErrorTitle": "CORS-Fehler",
+    "corsErrorMessage": "Der Blob-Dienst Ihres Speicherkontos sollte über einige bestimmte Eigenschaften verfügen, damit CORS 3D-Assets in Ihren Szenen verwenden kann.",
+    "internalServerErrorMessage": "Interner Serverfehler, bitte überprüfen Sie die Serverprotokolle.",
+    "diagnoseAccessPermissions": "Diagnostizieren von Zugriffsberechtigungen",
+    "checkingPermissions": "Berechtigungen werden überprüft...",
+    "resolveIssues": "Beheben von Problemen",
+    "resolvingIssues": "Probleme lösen...",
+    "missingPermissionsMessage": "Sie haben fehlende Berechtigungen. Sie benötigen Zugriff als Reader und entweder Storage Blob Data Owner oder Storage Blob Data Contributor.",
+    "assignRoleSuccessDesc": "Wir haben die fehlenden Berechtigungen vergeben. Bitte warten Sie, während wir versuchen zu überprüfen, ob die Änderungen wirksam sind.",
+    "noMissingRoleDesc": "Keine fehlenden Berechtigungen erkannt, versuchen wir zu überprüfen, ob zugewiesene Berechtigungen wirksam sind.",
+    "finishedWithFailureDesc": "Der Versuch ist fehlgeschlagen, wenden Sie sich an den Ressourcenbesitzer.",
+    "verifyingPermissionsMessage": "Berechtigungen überprüfen...\nEs kann einige Minuten dauern, bis sich die Änderungen ausbreiten."
+>>>>>>> 6ab3a88097f7f7bd643f659079009a434c68b227
   }
 }
