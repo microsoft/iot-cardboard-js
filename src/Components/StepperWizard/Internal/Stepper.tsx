@@ -1,6 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { StepperWizardType } from '../../../Models/Constants/Enums';
-import { IStepperWizardStep } from '../../../Models/Constants/Interfaces';
+import { IStepperWizardStep, StepperWizardType } from '../StepperWizard.types';
 import { IStep, Step } from './Step';
 import { StepSeparator } from './StepSeparator';
 

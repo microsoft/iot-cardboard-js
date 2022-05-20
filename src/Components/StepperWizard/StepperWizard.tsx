@@ -1,7 +1,7 @@
 import React from 'react';
 import './StepperWizard.scss';
 import { Stepper } from './Internal/Stepper';
-import { IStepperWizardProps } from '../../Models/Constants/Interfaces';
+import { IStepperWizardProps } from './StepperWizard.types';
 
 const StepperWizard = ({
     type,

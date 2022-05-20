@@ -15,8 +15,11 @@ export interface ScenePageErrorHandlingWrapperProps {
     verifyCallbackAdapterData?: IUseAdapter<IAdapterData>;
 }
 
-export interface UnauthorizedAccessHandlingProps {
-    adapter: ADT3DSceneAdapter | MockAdapter;
-    errors: Array<IComponentError>;
-    verifyCallbackAdapterData?: IUseAdapter<IAdapterData>;
+export enum ScenePageErrorHandlingMode {
+    Idle,
+    CheckingIssues,
+    DiagnosedIssues,
+    ResolvingIssues,
+    FinishedWithSuccess,
+    FinishedWithFailure
 }

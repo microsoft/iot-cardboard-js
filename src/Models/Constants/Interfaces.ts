@@ -31,8 +31,7 @@ import {
     GlobeTheme,
     ViewerModeStyles,
     AzureResourceTypes,
-    AzureAccessPermissionRoles,
-    StepperWizardType
+    AzureAccessPermissionRoles
 } from './Enums';
 import {
     AdapterReturnType,
@@ -661,20 +660,6 @@ export interface IGenerateADTAssetsProps {
     relationships: readonly DTwinRelationship[];
     triggerUpload: boolean;
     onComplete(models, twins, relationships): void;
-}
-export interface IStepperWizardStep {
-    label: string;
-    onClick?: () => void;
-}
-
-export interface IStepperWizardProps {
-    type: StepperWizardType;
-    steps: Array<IStepperWizardStep>;
-    currentStepIndex?: number;
-    isCurrentStepWithWarning?: boolean;
-    isNavigationDisabled?: boolean;
-    includeIcons?: boolean;
-    isAllCompletedSuccessfully?: boolean; // to color the steps green
 }
 
 export interface IJSONUploaderProps {

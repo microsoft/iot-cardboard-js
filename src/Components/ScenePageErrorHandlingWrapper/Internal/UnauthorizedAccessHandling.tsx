@@ -7,19 +7,31 @@ import React, {
 } from 'react';
 import {
     DOCUMENTATION_LINKS,
-    IStepperWizardStep,
-    MissingAzureRoleDefinitionAssignments,
-    ScenePageErrorHandlingMode,
-    StepperWizardType
+    IAdapterData,
+    IComponentError,
+    IUseAdapter,
+    MissingAzureRoleDefinitionAssignments
 } from '../../../Models/Constants';
 import { PrimaryButton, Spinner, SpinnerSize, useTheme } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
-import { UnauthorizedAccessHandlingProps } from '../ScenePageErrorHandlingWrapper.types';
+import { ScenePageErrorHandlingMode } from '../ScenePageErrorHandlingWrapper.types';
 import IllustrationMessage from '../../IllustrationMessage/IllustrationMessage';
 import PriviledgedAccessImg from '../../../Resources/Static/priviledgedAccess.svg';
 import useAdapter from '../../../Models/Hooks/useAdapter';
 import { getScenePageErrorHandlingStyles } from '../ScenePageErrorHandlingWrapper.styles';
 import StepperWizard from '../../StepperWizard/StepperWizard';
+import {
+    IStepperWizardStep,
+    StepperWizardType
+} from '../../StepperWizard/StepperWizard.types';
+import ADT3DSceneAdapter from '../../../Adapters/ADT3DSceneAdapter';
+import MockAdapter from '../../../Adapters/MockAdapter';
+
+interface UnauthorizedAccessHandlingProps {
+    adapter: ADT3DSceneAdapter | MockAdapter;
+    errors: Array<IComponentError>;
+    verifyCallbackAdapterData?: IUseAdapter<IAdapterData>;
+}
 
 const UnauthorizedAccessHandling: React.FC<UnauthorizedAccessHandlingProps> = ({
     // for now this unauthorized access handling component is designed for blob service, not for ADT

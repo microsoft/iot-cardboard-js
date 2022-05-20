@@ -1,6 +1,6 @@
 import { FontIcon } from '@fluentui/react';
 import React from 'react';
-import { StepperWizardType } from '../../../Models/Constants/Enums';
+import { StepperWizardType } from '../StepperWizard.types';
 export interface IStep {
     type: StepperWizardType;
     label: string;

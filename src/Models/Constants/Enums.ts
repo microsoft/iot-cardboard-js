@@ -249,17 +249,3 @@ export enum AzureAccessPermissionRoles {
     'Owner' = '8e3af657-a8ff-443c-a75c-2fe8c4bcb635',
     'Reader' = 'acdd72a7-3385-48ef-bd42-f606fba81ae7' // required to access blob data with credentials
 }
-
-export enum ScenePageErrorHandlingMode {
-    Idle,
-    CheckingIssues,
-    DiagnosedIssues,
-    ResolvingIssues,
-    FinishedWithSuccess,
-    FinishedWithFailure
-}
-
-export enum StepperWizardType {
-    Vertical = 'vertical',
-    Horizontal = 'horizontal'
-}

@@ -1,5 +1,5 @@
 import React from 'react';
-import { StepperWizardType } from '../../../Models/Constants/Enums';
+import { StepperWizardType } from '../StepperWizard.types';
 
 interface ISeparator {
     orientation: StepperWizardType;

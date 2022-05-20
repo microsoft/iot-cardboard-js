@@ -914,14 +914,14 @@
         }
     },
     "scenePageErrorHandling": {
-        "resetConfigFile": "Reset Configuration File",
-        "unauthorizedAccessErrorTitle": "Access Restricted",
+        "resetConfigFile": "Reset configuration file",
+        "unauthorizedAccessErrorTitle": "Access restricted",
         "unauthorizedAccessErrorMessage": "You do not have access to this storage container. Diagnose your access or try a different container.",
-        "blobNotFoundErrorTitle": "Blob Not Found",
+        "blobNotFoundErrorTitle": "Blob not found",
         "blobNotFoundErrorMessage": "Blob does not exist.",
         "unknownErrorTitle": "Unknown error",
         "corsErrorTitle": "CORS error",
-        "corsErrorMessage": "Your storage account's blob service should have the some certain properties to enable CORS to be able to use 3D assets in your scenes.",
+        "corsErrorMessage": "Your storage account needs to have certain CORS properties enabled to be able to use 3D assets in your scenes.",
         "internalServerErrorMessage": "Internal server error, please check server logs.",
         "diagnoseAccessPermissions": "Diagnose access permissions",
         "checkingPermissions": "Checking permissions...",
@@ -929,8 +929,8 @@
         "resolvingIssues": "Resolving issues...",
         "missingPermissionsMessage": "You have missing permissions. You will need access as a Reader and either Storage Blob Data Owner or Storage Blob Data Contributor.",
         "assignRoleSuccessDesc": "We have assigned the missing permissions. Please wait while we are attempting to verify if the changes are in effect.",
-        "noMissingRoleDesc": "No missing permissions detected, we are attempting to verify if assigned permissions are in effect.",
+        "noMissingRoleDesc": "The missing permissions have been assigned, verifying the changes.",
         "finishedWithFailureDesc": "Attempt failed, please contact to the resource owner.",
-        "verifyingPermissionsMessage": "Verifying permissions...\nIt may take up several minutes for the changes to propagate."
+        "verifyingPermissionsMessag": "Verifying permissions...\nThis may take several minutes."
     }
 }

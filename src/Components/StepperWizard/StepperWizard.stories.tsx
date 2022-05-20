@@ -1,9 +1,12 @@
 import React from 'react';
 import { ComponentStory } from '@storybook/react';
-import { IStepperWizardProps, StepperWizardType } from '../../Models/Constants';
-import { IStepperWizardStep } from '../../Models/Constants/Interfaces';
 import { getDefaultStoryDecorator } from '../../Models/Services/StoryUtilities';
 import StepperWizard from './StepperWizard';
+import {
+    IStepperWizardProps,
+    IStepperWizardStep,
+    StepperWizardType
+} from './StepperWizard.types';
 
 const wrapperStyle = { width: 'fit-content', height: 'auto' };
 
