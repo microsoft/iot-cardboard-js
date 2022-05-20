@@ -6,6 +6,7 @@ import {
 } from 'azure-iot-dtdl-parser';
 import { PRIMARY_TWIN_NAME } from '../../Models/Constants/Constants';
 import { IModelledPropertyBuilderAdapter } from '../../Models/Constants/Interfaces';
+import { deepCopy } from '../../Models/Services/Utils';
 import {
     PropertyValueType,
     ITagModelMap,
@@ -18,6 +19,17 @@ interface IBuildModelledPropertiesParams {
     aliasedTwinMap?: Record<string, string>;
     allowedPropertyValueTypes: Array<PropertyValueType>;
 }
+
+// $dtId Model
+const dtIdModel = {
+    fullPath: '.$dtId',
+    key: '.$dtId',
+    localPath: '$dtId',
+    name: '$dtId',
+    propertyType: 'string',
+    schema: null,
+    entity: null
+};
 
 /**
  * Builds internal data representation for modelled properties
@@ -71,6 +83,35 @@ export const buildModelledProperties = async ({
         modelledProperties.intellisenseFormat = generatePropertySkeleton(
             modelledProperties.nestedFormat
         );
+
+        if (allowedPropertyValueTypes.includes('string')) {
+            /** Add $dtId manually to all twins' modelled properties in all the possible formats */
+            Object.keys(modelledProperties.flattenedFormat).forEach(
+                (key: string) => {
+                    const uniquedtIdModel = deepCopy(dtIdModel);
+                    uniquedtIdModel.fullPath = key + uniquedtIdModel.fullPath;
+                    uniquedtIdModel.key = key + uniquedtIdModel.key;
+                    modelledProperties.flattenedFormat[key].push(
+                        uniquedtIdModel
+                    );
+                }
+            );
+            Object.keys(modelledProperties.intellisenseFormat).forEach(
+                (key: string) => {
+                    modelledProperties.intellisenseFormat[key]['$dtId'] = {};
+                }
+            );
+            Object.keys(modelledProperties.nestedFormat).forEach(
+                (key: string) => {
+                    const uniquedtIdModel = deepCopy(dtIdModel);
+                    uniquedtIdModel.fullPath = key + uniquedtIdModel.fullPath;
+                    uniquedtIdModel.key = key + uniquedtIdModel.key;
+                    modelledProperties.nestedFormat[key]['properties'][
+                        '$dtId'
+                    ] = uniquedtIdModel;
+                }
+            );
+        }
     } catch (err) {
         console.error(err);
     }
