@@ -95,6 +95,10 @@
     "twinId": "Twin ID",
     "active": "Active",
     "invalidValue": "Invalid value",
+    "diagnose": "Diagnose",
+    "resolve": "Resolve",
+    "verify": "Verify",
+    "success": "Success!",
     "errors": {
         "errorBoundary": "Error boundary",
         "unkownError": "Unknown error occurred",
@@ -908,5 +912,25 @@
             "title": "What's a scene layer?",
             "mainContent": "You can create layers in your scene to help organize your behaviors. Layers act like tags on the behaviors, enabling you to define which behaviors need to be seen together, thus creating custom views of your scene for different roles or tasks.\n\nIf there are no layers in a scene, all of the behaviors will show up in the scene viewer. Any behaviors not tagged with a layer will appear in the Default layer until they're tagged with a layer.\n\nOne way to create layers is to use the Scene layers button in the Build view for a scene. Alternatively, you can create layers while creating or modifying a behavior."
         }
+    },
+    "scenePageErrorHandling": {
+        "resetConfigFile": "Reset Configuration File",
+        "unauthorizedAccessErrorTitle": "Access Restricted",
+        "unauthorizedAccessErrorMessage": "You do not have access to this storage container. Diagnose your access or try a different container.",
+        "blobNotFoundErrorTitle": "Blob Not Found",
+        "blobNotFoundErrorMessage": "Blob does not exist.",
+        "unknownErrorTitle": "Unknown error",
+        "corsErrorTitle": "CORS error",
+        "corsErrorMessage": "Your storage account's blob service should have the some certain properties to enable CORS to be able to use 3D assets in your scenes.",
+        "internalServerErrorMessage": "Internal server error, please check server logs.",
+        "diagnoseAccessPermissions": "Diagnose access permissions",
+        "checkingPermissions": "Checking permissions...",
+        "resolveIssues": "Resolve issues",
+        "resolvingIssues": "Resolving issues...",
+        "missingPermissionsMessage": "You have missing permissions. You will need access as a Reader and either Storage Blob Data Owner or Storage Blob Data Contributor.",
+        "assignRoleSuccessDesc": "We have assigned the missing permissions. Please wait while we are attempting to verify if the changes are in effect.",
+        "noMissingRoleDesc": "No missing permissions detected, we are attempting to verify if assigned permissions are in effect.",
+        "finishedWithFailureDesc": "Attempt failed, please contact to the resource owner.",
+        "verifyingPermissionsMessage": "Verifying permissions...\nIt may take up several minutes for the changes to propagate."
     }
 }
