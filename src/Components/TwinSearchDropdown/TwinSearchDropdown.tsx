@@ -258,7 +258,7 @@ const TwinSearchDropdown: React.FC<IADTTwinSearchProps> = ({
                 {descriptionText && (
                     <Text
                         className="cb-search-autocomplete-desc"
-                        variant={'xSmall'}
+                        variant={'small'}
                     >
                         {descriptionText}
                     </Text>
