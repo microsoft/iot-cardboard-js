@@ -32,11 +32,11 @@ export enum SelectionModeOf3DFile {
 }
 
 export interface SceneDialogState {
-    newSceneName: string;
-    newSceneDescription: string;
-    newLatitudeValue: any;
-    newLongitudeValue: any;
-    newSceneBlobUrl: string;
+    sceneName: string;
+    sceneDescription: string;
+    latitudeValue: any;
+    longitudeValue: any;
+    sceneBlobUrl: string;
     isSelectedFileExistInBlob: boolean;
     isOverwriteFile: boolean;
     blobsInContainer: IBlobFile[];

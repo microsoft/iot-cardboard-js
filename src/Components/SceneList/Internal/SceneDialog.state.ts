@@ -1,26 +1,28 @@
 import { IAction } from '../../../Models/Constants/Interfaces';
 import produce from 'immer';
 import {
-    SET_NEW_SCENE_NAME,
-    SET_NEW_SCENE_DESCRIPTION,
-    SET_NEW_LATITUDE_VALUE,
-    SET_NEW_LONGITUDE_VALUE,
-    SET_NEW_SCENE_BLOB_URL,
+    SET_SCENE_NAME,
+    SET_SCENE_DESCRIPTION,
+    SET_LATITUDE_VALUE,
+    SET_LONGITUDE_VALUE,
+    SET_SCENE_BLOB_URL,
     SET_IS_SELECTED_FILE_EXIST_IN_BLOB,
     SET_IS_OVER_WRITE_FILE,
     SET_BLOBS_IN_CONTAINER,
     SET_SELECTED_FILE,
     SET_SELECTED_3D_FILE_PIVOT_ITEM,
-    RESET
+    RESET_FILE,
+    RESET_SCENE,
+    RESET_OVERWRITE_FILE_AND_EXIST_IN_BLOB
 } from '../../../Models/Constants/ActionTypes';
 import { SceneDialogState, SelectionModeOf3DFile } from '../SceneList.types';
 
 export const defaultSceneDialogState: SceneDialogState = {
-    newSceneName: '',
-    newSceneDescription: '',
-    newLatitudeValue: undefined,
-    newLongitudeValue: undefined,
-    newSceneBlobUrl: '',
+    sceneName: '',
+    sceneDescription: '',
+    latitudeValue: undefined,
+    longitudeValue: undefined,
+    sceneBlobUrl: '',
     isSelectedFileExistInBlob: false,
     isOverwriteFile: false,
     blobsInContainer: [],
@@ -35,20 +37,20 @@ export const SceneDialogReducer: (
     const payload = action.payload;
 
     switch (action.type) {
-        case SET_NEW_SCENE_NAME:
-            draft.newSceneName = payload;
+        case SET_SCENE_NAME:
+            draft.sceneName = payload;
             break;
-        case SET_NEW_SCENE_DESCRIPTION:
-            draft.newSceneDescription = payload;
+        case SET_SCENE_DESCRIPTION:
+            draft.sceneDescription = payload;
             break;
-        case SET_NEW_LATITUDE_VALUE:
-            draft.newLatitudeValue = payload;
+        case SET_LATITUDE_VALUE:
+            draft.latitudeValue = payload;
             break;
-        case SET_NEW_LONGITUDE_VALUE:
-            draft.newLongitudeValue = payload;
+        case SET_LONGITUDE_VALUE:
+            draft.longitudeValue = payload;
             break;
-        case SET_NEW_SCENE_BLOB_URL:
-            draft.newSceneBlobUrl = payload;
+        case SET_SCENE_BLOB_URL:
+            draft.sceneBlobUrl = payload;
             break;
         case SET_IS_SELECTED_FILE_EXIST_IN_BLOB:
             draft.isSelectedFileExistInBlob = payload;
@@ -65,8 +67,17 @@ export const SceneDialogReducer: (
         case SET_SELECTED_3D_FILE_PIVOT_ITEM:
             draft.selected3DFilePivotItem = payload;
             break;
-        case RESET:
-            draft = payload;
+        case RESET_FILE:
+            draft.isSelectedFileExistInBlob = payload.isSelectedFileExistInBlob;
+            draft.isOverwriteFile = payload.isOverwriteFile;
+            draft.selectedFile = payload.selectedFile;
+            break;
+        case RESET_SCENE:
+            draft = defaultSceneDialogState;
+            break;
+        case RESET_OVERWRITE_FILE_AND_EXIST_IN_BLOB:
+            draft.isSelectedFileExistInBlob = payload.isSelectedFileExistInBlob;
+            draft.isOverwriteFile = payload.isOverwriteFile;
             break;
         default:
             break;

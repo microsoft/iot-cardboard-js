@@ -41,15 +41,17 @@ import {
     SceneDialogReducer
 } from './SceneDialog.state';
 import {
-    RESET,
+    RESET_FILE,
+    RESET_SCENE,
+    RESET_OVERWRITE_FILE_AND_EXIST_IN_BLOB,
     SET_BLOBS_IN_CONTAINER,
     SET_IS_OVER_WRITE_FILE,
     SET_IS_SELECTED_FILE_EXIST_IN_BLOB,
-    SET_NEW_LATITUDE_VALUE,
-    SET_NEW_LONGITUDE_VALUE,
-    SET_NEW_SCENE_BLOB_URL,
-    SET_NEW_SCENE_DESCRIPTION,
-    SET_NEW_SCENE_NAME,
+    SET_LATITUDE_VALUE,
+    SET_LONGITUDE_VALUE,
+    SET_SCENE_BLOB_URL,
+    SET_SCENE_DESCRIPTION,
+    SET_SCENE_NAME,
     SET_SELECTED_3D_FILE_PIVOT_ITEM,
     SET_SELECTED_FILE
 } from '../../../Models/Constants/ActionTypes';
@@ -205,31 +207,26 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
         ) {
             put3DFileBlob.cancelAdapter();
             dispatch({
-                type: SET_IS_SELECTED_FILE_EXIST_IN_BLOB,
-                payload: false
-            });
-            dispatch({
-                type: SET_IS_OVER_WRITE_FILE,
-                payload: false
-            });
-            dispatch({
-                type: SET_SELECTED_FILE,
-                payload: null
+                type: RESET_FILE,
+                payload: {
+                    isSelectedFileExistInBlob: false,
+                    isOverwriteFile: false,
+                    selectedFile: null
+                }
             });
         }
     }, [state.selected3DFilePivotItem]);
 
     const handleNameChange = useCallback(
-        (e) => {
+        (e, newValue?: string) => {
             if (sceneToEdit) {
                 const selectedSceneCopy: IScene = deepCopy(sceneRef.current);
                 selectedSceneCopy.displayName = e.currentTarget.value;
                 setScene(selectedSceneCopy);
             } else {
-                // setNewSceneName(e.currentTarget.value);
                 dispatch({
-                    type: SET_NEW_SCENE_NAME,
-                    payload: e.currentTarget.value
+                    type: SET_SCENE_NAME,
+                    payload: newValue
                 });
             }
         },
@@ -237,15 +234,15 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
     );
 
     const handleSceneDescriptionChange = useCallback(
-        (e) => {
+        (e, newValue?: string) => {
             if (sceneToEdit) {
                 const selectedSceneCopy: IScene = deepCopy(sceneRef.current);
                 selectedSceneCopy.description = e.currentTarget.value;
                 setScene(selectedSceneCopy);
             } else {
                 dispatch({
-                    type: SET_NEW_SCENE_DESCRIPTION,
-                    payload: e.currentTarget.value
+                    type: SET_SCENE_DESCRIPTION,
+                    payload: newValue
                 });
             }
         },
@@ -262,7 +259,7 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
                 setScene(selectedSceneCopy);
             } else {
                 dispatch({
-                    type: SET_NEW_LATITUDE_VALUE,
+                    type: SET_LATITUDE_VALUE,
                     payload: lat
                 });
             }
@@ -279,7 +276,7 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
                 setScene(selectedSceneCopy);
             } else {
                 dispatch({
-                    type: SET_NEW_LONGITUDE_VALUE,
+                    type: SET_LONGITUDE_VALUE,
                     payload: long
                 });
             }
@@ -294,7 +291,7 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
                 setScene(selectedSceneCopy);
             } else {
                 dispatch({
-                    type: SET_NEW_SCENE_BLOB_URL,
+                    type: SET_SCENE_BLOB_URL,
                     payload: blobUrl
                 });
             }
@@ -312,10 +309,10 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
     const getNewScene = (assetUrl: string) => {
         return {
             id: undefined,
-            displayName: state.newSceneName,
-            description: state.newSceneDescription,
-            latitude: state.newLatitudeValue,
-            longitude: state.newLongitudeValue,
+            displayName: state.sceneName,
+            description: state.sceneDescription,
+            latitude: state.latitudeValue,
+            longitude: state.longitudeValue,
             assets: [
                 {
                     type: '3DAsset',
@@ -340,7 +337,7 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
             if (sceneToEdit) {
                 onEditScene(scene);
             } else {
-                const newScene = getNewScene(state.newSceneBlobUrl);
+                const newScene = getNewScene(state.sceneBlobUrl);
                 onAddScene(newScene);
             }
         }
@@ -374,12 +371,11 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
                 }
             } else {
                 dispatch({
-                    type: SET_IS_SELECTED_FILE_EXIST_IN_BLOB,
-                    payload: false
-                });
-                dispatch({
-                    type: SET_IS_OVER_WRITE_FILE,
-                    payload: false
+                    type: RESET_OVERWRITE_FILE_AND_EXIST_IN_BLOB,
+                    payload: {
+                        isSelectedFileExistInBlob: false,
+                        isOverwriteFile: false
+                    }
                 });
             }
             dispatch({
@@ -408,27 +404,26 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
 
     const resetState = useCallback(() => {
         dispatch({
-            type: RESET,
-            payload: defaultSceneDialogState
+            type: RESET_SCENE
         });
         setIsShowOnGlobeEnabled(isShowOnGlobeEnabled);
     }, []);
 
     const isSubmitButtonDisabled = useMemo(() => {
         return (
-            !(sceneToEdit ? scene?.displayName : state.newSceneName) ||
+            !(sceneToEdit ? scene?.displayName : state.sceneName) ||
             (isShowOnGlobeEnabled &&
                 ((sceneToEdit
                     ? isNaN(scene?.latitude)
-                    : isNaN(state.newLatitudeValue)) ||
+                    : isNaN(state.latitudeValue)) ||
                     (sceneToEdit
                         ? isNaN(scene?.longitude)
-                        : isNaN(state.newLongitudeValue)))) ||
+                        : isNaN(state.longitudeValue)))) ||
             (state.selected3DFilePivotItem ===
                 SelectionModeOf3DFile.FromContainer &&
                 !(sceneToEdit
                     ? scene?.assets?.[0]?.url
-                    : state.newSceneBlobUrl)) ||
+                    : state.sceneBlobUrl)) ||
             (state.selected3DFilePivotItem ===
                 SelectionModeOf3DFile.FromComputer &&
                 (!state.selectedFile ||
@@ -439,8 +434,8 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
     }, [
         sceneToEdit,
         scene,
-        state.newSceneName,
-        state.newSceneBlobUrl,
+        state.sceneName,
+        state.sceneBlobUrl,
         state.selected3DFilePivotItem,
         state.selectedFile,
         state.isSelectedFileExistInBlob,
@@ -491,16 +486,16 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
                 className="cb-scene-list-form-dialog-text-field"
                 label={t('name')}
                 required
-                title={state.newSceneName}
-                value={sceneToEdit ? scene?.displayName : state.newSceneName}
+                title={state.sceneName}
+                value={sceneToEdit ? scene?.displayName : state.sceneName}
                 onChange={handleNameChange}
             />
             <TextField
                 className="cb-scene-list-form-dialog-description-field"
                 label={t('scenes.description')}
-                title={state.newSceneDescription}
+                title={state.sceneDescription}
                 value={
-                    sceneToEdit ? scene?.description : state.newSceneDescription
+                    sceneToEdit ? scene?.description : state.sceneDescription
                 }
                 onChange={handleSceneDescriptionChange}
             />
