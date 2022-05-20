@@ -41,3 +41,21 @@
     right: 200px;
     top: 10px;
 }
+
+.cb-viewer-breadcrumb-container {
+    height: 36px;
+    margin-bottom: 4px;
+    width: 100%;
+}
+
+.cb-viewer-breadcrumb {
+    left: 0;
+    position: relative;
+    top: 10px;
+    transform: scale(1);
+    transform-origin: left;
+    transition: transform 0.15s ease;
+    &.cb-viewer-breadcrumb-scene-root {
+        transform: scale(1.2);
+    }
+}

@@ -10,7 +10,7 @@
 }
 
 .cb-sceneview-wrapper-wide {
-    height: 100%;
+    height: calc(100% - 40px);
     overflow: hidden;
     width: calc(100% + 360px);
 }
