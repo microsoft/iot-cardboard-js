@@ -12,8 +12,7 @@ export default {
 // Wrapper style for div containing scene viewer component
 const cardStyle = {
     height: '800px',
-    width: '1200px',
-    position: 'absolute'
+    width: '1200px'
 } as React.CSSProperties;
 
 export const ADT3DViewerCard = (_args, { globals: { theme, locale } }) => {

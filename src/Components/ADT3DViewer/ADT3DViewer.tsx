@@ -521,7 +521,7 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
 
     const svp = sceneViewProps || {};
     const sceneName = ViewerConfigUtility.getSceneById(scenesConfig, sceneId)
-        .displayName;
+        ?.displayName;
     return (
         <BaseComponent
             isLoading={isLoading && !sceneVisuals}
