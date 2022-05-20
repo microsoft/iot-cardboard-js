@@ -930,6 +930,6 @@
     "assignRoleSuccessDesc": "不足している権限を割り当てました。変更が有効かどうかを確認しようとしている間、しばらくお待ちください。",
     "noMissingRoleDesc": "不足しているアクセス許可は検出されませんでした。割り当てられたアクセス許可が有効かどうかを確認しようとしています。",
     "finishedWithFailureDesc": "試行に失敗しました。リソース所有者に連絡してください。",
-    "verifyingPermissionsMessag": "アクセス許可を確認しています...\nこれには数分かかる場合があります。"
+    "verifyingPermissionsMessage": "アクセス許可を確認しています...\nこれには数分かかる場合があります。"
   }
 }

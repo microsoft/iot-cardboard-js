@@ -930,6 +930,6 @@
     "assignRoleSuccessDesc": "Nous avons attribué les autorisations manquantes. Veuillez patienter pendant que nous tentons de vérifier si les modifications sont en vigueur.",
     "noMissingRoleDesc": "Aucune autorisation manquante détectée, nous essayons de vérifier si les autorisations attribuées sont en vigueur.",
     "finishedWithFailureDesc": "Échec de la tentative, veuillez contacter le propriétaire de la ressource.",
-    "verifyingPermissionsMessag": "Vérification des autorisations...\nCela peut prendre plusieurs minutes."
+    "verifyingPermissionsMessage": "Vérification des autorisations...\nCela peut prendre plusieurs minutes."
   }
 }
