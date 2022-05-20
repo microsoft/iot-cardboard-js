@@ -337,11 +337,11 @@
   },
   "layersDropdown": {
     "placeholder": "No hay capas seleccionadas",
-    "unlayeredBehaviors": "Comportamientos sin capas",
-    "unlayered": "Sin capas",
     "title": "Seleccionar capas",
     "selectAll": "Seleccionar todo",
-    "selectNone": "Anule la selección de todo"
+    "selectNone": "Anule la selección de todo",
+    "unlayeredItemListItemDisplayName": "Capa predeterminada",
+    "unlayeredItemCollapsedDisplayName": "Predeterminado"
   },
   "sceneLayers": {
     "noBehaviors": "Sin comportamientos",

@@ -337,11 +337,11 @@
   },
   "layersDropdown": {
     "placeholder": "Aucun calque sélectionné",
-    "unlayeredBehaviors": "Comportements non superposés",
-    "unlayered": "Non superposé",
     "title": "Sélectionner des calques",
     "selectAll": "Sélectionner tout",
-    "selectNone": "Désélectionner tout"
+    "selectNone": "Désélectionner tout",
+    "unlayeredItemListItemDisplayName": "Calque par défaut",
+    "unlayeredItemCollapsedDisplayName": "Faire défaut"
   },
   "sceneLayers": {
     "noBehaviors": "Aucun comportement",

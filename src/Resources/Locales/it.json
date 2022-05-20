@@ -337,11 +337,11 @@
   },
   "layersDropdown": {
     "placeholder": "Nessun livello selezionato",
-    "unlayeredBehaviors": "Comportamenti non stratificati",
-    "unlayered": "Senza strati",
     "title": "Seleziona livelli",
     "selectAll": "Seleziona tutto",
-    "selectNone": "Deseleziona tutto"
+    "selectNone": "Deseleziona tutto",
+    "unlayeredItemListItemDisplayName": "Livello predefinito",
+    "unlayeredItemCollapsedDisplayName": "Default"
   },
   "sceneLayers": {
     "noBehaviors": "Nessun comportamento",

@@ -337,11 +337,11 @@
   },
   "layersDropdown": {
     "placeholder": "Brak zaznaczonych warstw",
-    "unlayeredBehaviors": "Zachowania niewarstwowe",
-    "unlayered": "Bez warstw",
     "title": "Zaznaczanie warstw",
     "selectAll": "Zaznacz wszystko",
-    "selectNone": "Usuń zaznaczenie wszystkich"
+    "selectNone": "Usuń zaznaczenie wszystkich",
+    "unlayeredItemListItemDisplayName": "Warstwa domyślna",
+    "unlayeredItemCollapsedDisplayName": "Domyślny"
   },
   "sceneLayers": {
     "noBehaviors": "Brak zachowań",

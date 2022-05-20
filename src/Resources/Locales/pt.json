@@ -337,11 +337,11 @@
   },
   "layersDropdown": {
     "placeholder": "Sem camadas selecionadas",
-    "unlayeredBehaviors": "Comportamentos semcamadas",
-    "unlayered": "Semcamadas",
     "title": "Selecione camadas",
     "selectAll": "Selecione todos",
-    "selectNone": "Desmarque todos"
+    "selectNone": "Desmarque todos",
+    "unlayeredItemListItemDisplayName": "Camada padrão",
+    "unlayeredItemCollapsedDisplayName": "Inadimplência"
   },
   "sceneLayers": {
     "noBehaviors": "Sem comportamentos",

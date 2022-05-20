@@ -337,11 +337,11 @@
   },
   "layersDropdown": {
     "placeholder": "Inga lager valda",
-    "unlayeredBehaviors": "Beteenden utan ilager",
-    "unlayered": "Ej ilager",
     "title": "Välj lager",
     "selectAll": "Markera alla",
-    "selectNone": "Avmarkera alla"
+    "selectNone": "Avmarkera alla",
+    "unlayeredItemListItemDisplayName": "Standardlager",
+    "unlayeredItemCollapsedDisplayName": "Standard"
   },
   "sceneLayers": {
     "noBehaviors": "Inga beteenden",

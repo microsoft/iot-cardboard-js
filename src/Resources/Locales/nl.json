@@ -337,11 +337,11 @@
   },
   "layersDropdown": {
     "placeholder": "Geen lagen geselecteerd",
-    "unlayeredBehaviors": "Ongelaagd gedrag",
-    "unlayered": "Ongelaagd",
     "title": "Lagen selecteren",
     "selectAll": "Alles selecteren",
-    "selectNone": "Alles deselecteren"
+    "selectNone": "Alles deselecteren",
+    "unlayeredItemListItemDisplayName": "Standaardlaag",
+    "unlayeredItemCollapsedDisplayName": "Verstek"
   },
   "sceneLayers": {
     "noBehaviors": "Geen gedrag",
