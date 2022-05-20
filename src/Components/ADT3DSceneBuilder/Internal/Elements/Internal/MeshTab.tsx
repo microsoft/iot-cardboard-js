@@ -53,7 +53,7 @@ const MeshTab: React.FC<MeshTabProps> = ({ elementToEdit }) => {
         <>
             {elementToEdit.objectIDs.length === 0 ? (
                 <div className={commonPanelStyles.noDataText}>
-                    {t('3dSceneBuilder.noMeshAddedText')}
+                    {t('3dSceneBuilder.elementFormMeshTab.noDataMessage')}
                 </div>
             ) : (
                 <CardboardList<string>

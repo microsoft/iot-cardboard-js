@@ -102,7 +102,9 @@ const NewLayer: React.FC<INewLayer> = ({
                 {layerDraft.behaviorIDs.length > 0 ? (
                     <div>
                         <Text variant="medium" styles={sectionHeaderStyles}>
-                            {t('sceneLayers.behaviorsOnThisLayer')}
+                            {t('sceneLayers.behaviorsListTitle', {
+                                count: behaviorListItems.length
+                            })}
                         </Text>
                         <CardboardList
                             items={behaviorListItems}

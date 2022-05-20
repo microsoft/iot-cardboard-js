@@ -27,19 +27,24 @@ export const DTDLNameRegex = new RegExp(
     '^[A-Za-z](?:[A-Za-z0-9_]*[A-Za-z0-9])?$'
 );
 
-export const scenesDemoUrl =
+export const SCENES_DEMO_URL =
     'https://explorer.digitaltwins.azure.net/3DScenes/demo';
 
-export const FRE_MODAL_LINKS = {
-    viewTheDocs: 'https://go.microsoft.com/fwlink/?linkid=2195695',
-    viewOnGithub: 'https://github.com/microsoft/iot-cardboard-js',
-    viewTheQuickstart: 'https://go.microsoft.com/fwlink/?linkid=2195592',
-    elementsHowTo:
-        'https://go.microsoft.com/fwlink/?linkid=2195591#add-elements',
-    behaviorsHowTo: 'https://go.microsoft.com/fwlink/?linkid=2195591#behaviors',
-    twinsHowTo: 'https://go.microsoft.com/fwlink/?linkid=2195591#twins',
-    widgetsHowTo: 'https://go.microsoft.com/fwlink/?linkid=2195591#widgets',
-    layersHowTo: 'https://go.microsoft.com/fwlink/?linkid=2195591#manage-layers'
+const HOW_TO_DOC = 'https://go.microsoft.com/fwlink/?linkid=2195591';
+const QUICK_START_DOC = 'https://go.microsoft.com/fwlink/?linkid=2195592';
+const OVERVIEW_3D_SCENES = 'https://go.microsoft.com/fwlink/?linkid=2195695';
+const GITHUB_REPO = 'https://github.com/microsoft/iot-cardboard-js';
+export const DOCUMENTATION_LINKS = {
+    overviewDoc: OVERVIEW_3D_SCENES,
+    overviewDocSetupSection: `${OVERVIEW_3D_SCENES}#set-up`,
+    viewOnGithub: GITHUB_REPO,
+    viewTheQuickstart: QUICK_START_DOC,
+    howToBehaviors: `${HOW_TO_DOC}#behaviors`,
+    howToElements: `${HOW_TO_DOC}#add-elements`,
+    howToExpressions: `${HOW_TO_DOC}#use-custom-advanced-expressions`,
+    howToLayers: `${HOW_TO_DOC}#manage-layers`,
+    howToTwins: `${HOW_TO_DOC}#twins`,
+    howToWidgets: `${HOW_TO_DOC}#widgets`
 };
 
 export const dtdlPrimitiveTypesList = [
@@ -105,7 +110,7 @@ export const twinRefreshMaxAge = 9000;
 export const modelRefreshMaxAge = 3600000;
 export const instancesRefreshMaxAge = 3600000;
 
-export const primaryTwinName = 'PrimaryTwin';
+export const PRIMARY_TWIN_NAME = 'PrimaryTwin';
 export const ValidAdtHostSuffixes = [
     'digitaltwins.azure.net',
     'azuredigitaltwins-ppe.net',

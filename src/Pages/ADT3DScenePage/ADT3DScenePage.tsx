@@ -93,7 +93,8 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
         refetchDependencies: [
             adapter,
             deeplinkState.storageUrl,
-            state.selectedScene
+            state.selectedScene,
+            state.currentStep
         ]
     });
     const resetConfig = useAdapter({
@@ -427,12 +428,23 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
                                         }}
                                     />
                                 </div>
-                                {!state.errors && (
+                                {!state.errors && ( // show the scene list toggle mode only if there is no error
                                     <Stack
                                         horizontal
                                         tokens={{ childrenGap: 8 }}
                                     >
-                                        <DeeplinkFlyout mode="Simple" />
+                                        <DeeplinkFlyout
+                                            mode="Simple"
+                                            styles={{
+                                                subComponentStyles: {
+                                                    headerControlGroup: {
+                                                        root: {
+                                                            border: 'none'
+                                                        }
+                                                    }
+                                                }
+                                            }}
+                                        />
                                         <SceneListModeToggle
                                             selectedMode={state.currentStep}
                                             onListModeChange={onListModeChange}
