@@ -6,6 +6,7 @@ import React, {
     useState
 } from 'react';
 import {
+    DOCUMENTATION_LINKS,
     IStepperWizardStep,
     MissingAzureRoleDefinitionAssignments,
     ScenePageErrorHandlingMode,
@@ -69,7 +70,7 @@ const UnauthorizedAccessHandling: React.FC<UnauthorizedAccessHandlingProps> = ({
             } else if (
                 mode === ScenePageErrorHandlingMode.FinishedWithFailure
             ) {
-                window.open('https://docs.microsoft.com/azure/digital-twins/'); // TODO: update these doc links to be more specific as appropriate
+                window.open(DOCUMENTATION_LINKS.overviewDocSetupSection);
             }
         }
     }, [mode, missingPermissions]);
@@ -153,7 +154,7 @@ const UnauthorizedAccessHandling: React.FC<UnauthorizedAccessHandlingProps> = ({
                     linkProps: {
                         target: '_blank',
                         underline: true,
-                        href: 'https://docs.microsoft.com/azure/digital-twins/' // TODO: update those links as appropriate and move this to Constants file along with other links
+                        href: DOCUMENTATION_LINKS.overviewDocSetupSection
                     },
                     linkText: t('learnMore')
                 })}

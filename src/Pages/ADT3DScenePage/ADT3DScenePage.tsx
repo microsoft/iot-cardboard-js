@@ -53,6 +53,7 @@ import { getStyles } from './ADT3DScenePage.styles';
 import { Stack } from '@fluentui/react';
 import DeeplinkFlyout from '../../Components/DeeplinkFlyout/DeeplinkFlyout';
 import ViewerConfigUtility from '../../Models/Classes/ViewerConfigUtility';
+import { DOCUMENTATION_LINKS } from '../../Models/Constants/Constants';
 
 export const ADT3DScenePageContext = createContext<IADT3DScenePageContext>(
     null
@@ -318,7 +319,7 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
                         buttonText: t('learnMore'),
                         buttonAction: () => {
                             window.open(
-                                'https://docs.microsoft.com/azure/digital-twins/'
+                                DOCUMENTATION_LINKS.overviewDocSetupSection
                             );
                             errorCallbackSetRef.current = false;
                         }
