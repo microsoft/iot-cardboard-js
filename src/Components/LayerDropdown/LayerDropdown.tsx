@@ -53,8 +53,9 @@ const LayerDropdown: React.FC<LayerDropdownProps> = ({
         [setSelectedLayerIds, selectedLayerIds]
     );
 
+    const hasNoLayerOptions = layers.length === 0; // select all, divider, default, divider
     const styles = getStyles();
-    const dropdownStyles = getDropdownStyles(theme);
+    const dropdownStyles = getDropdownStyles(theme, hasNoLayerOptions);
 
     const onRenderTitle = useCallback(
         (options: IDropdownOption[], defaultRender): JSX.Element => {
@@ -66,7 +67,11 @@ const LayerDropdown: React.FC<LayerDropdownProps> = ({
                             options.map((o) => ({
                                 ...o,
                                 ...(o.key === unlayeredBehaviorKey
-                                    ? { text: t('layersDropdown.unlayered') }
+                                    ? {
+                                          text: t(
+                                              'layersDropdown.unlayeredItemCollapsedDisplayName'
+                                          )
+                                      }
                                     : {})
                             }))
                         )}
@@ -132,7 +137,12 @@ const LayerDropdown: React.FC<LayerDropdownProps> = ({
 
     return (
         <Dropdown
-            placeholder={t('layersDropdown.placeholder')}
+            disabled={hasNoLayerOptions}
+            placeholder={
+                hasNoLayerOptions
+                    ? t('layersDropdown.unlayeredItemListItemDisplayName')
+                    : t('layersDropdown.placeholder')
+            }
             title={t('layersDropdown.title')}
             selectedKeys={selectedLayerIds}
             onChange={onChange}
@@ -165,7 +175,9 @@ const getLayerOptionsData = (
             ? [
                   {
                       key: unlayeredBehaviorKey,
-                      text: i18n.t('layersDropdown.unlayeredBehaviors')
+                      text: i18n.t(
+                          'layersDropdown.unlayeredItemListItemDisplayName'
+                      )
                   }
               ]
             : []),

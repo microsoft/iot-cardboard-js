@@ -337,8 +337,8 @@
     },
     "layersDropdown": {
         "placeholder": "No layers selected",
-        "unlayeredBehaviors": "Unlayered behaviors",
-        "unlayered": "Unlayered",
+        "unlayeredItemListItemDisplayName": "Default layer",
+        "unlayeredItemCollapsedDisplayName": "Default",
         "title": "Select layers",
         "selectAll": "Select all",
         "selectNone": "Deselect all"
