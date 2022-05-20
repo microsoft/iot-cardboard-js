@@ -930,6 +930,6 @@
     "assignRoleSuccessDesc": "Kiosztottuk a hiányzó engedélyeket. Kérjük, várjon, amíg megpróbáljuk ellenőrizni, hogy a módosítások érvényben vannak-e.",
     "noMissingRoleDesc": "Nem észleltek hiányzó engedélyeket, megpróbáljuk ellenőrizni, hogy a hozzárendelt engedélyek érvényben vannak-e.",
     "finishedWithFailureDesc": "A kísérlet sikertelen volt, lépjen kapcsolatba az erőforrás tulajdonosával.",
-    "verifyingPermissionsMessag": "Engedélyek ellenőrzése...\nEz eltarthat néhány percig."
+    "verifyingPermissionsMessage": "Engedélyek ellenőrzése...\nEz eltarthat néhány percig."
   }
 }
