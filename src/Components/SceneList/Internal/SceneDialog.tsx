@@ -44,8 +44,17 @@ const fileUploadLabelTooltipStyles: ITooltipHostStyles = {
     }
 };
 
+const DEFAULT_HEIGHT_UPLOAD = 432;
+const DEFAULT_HEIGHT_WITH_CONTAINER = 652;
 const getDialogStyles = memoizeFunction(
     (selected3DFilePivotItem: SelectionModeOf3DFile): Partial<IModalStyles> => {
+        const isContainerTab =
+            selected3DFilePivotItem === SelectionModeOf3DFile.FromContainer;
+        const isUploadTab =
+            selected3DFilePivotItem === SelectionModeOf3DFile.FromComputer;
+        const modalHeight = isContainerTab
+            ? DEFAULT_HEIGHT_UPLOAD
+            : DEFAULT_HEIGHT_WITH_CONTAINER;
         return {
             scrollableContent: {
                 selectors: {
@@ -55,18 +64,13 @@ const getDialogStyles = memoizeFunction(
                         height: '100%'
                     },
                     '.ms-Dialog-inner': {
-                        ...(selected3DFilePivotItem ===
-                            SelectionModeOf3DFile.FromComputer && {
+                        ...(isUploadTab && {
                             animation: 'show-scroll-y 1s'
                         }),
                         display: 'flex',
                         flexDirection: 'column',
                         flexGrow: 1,
-                        height:
-                            selected3DFilePivotItem ===
-                            SelectionModeOf3DFile.FromContainer
-                                ? '438px'
-                                : '588px',
+                        height: modalHeight,
                         justifyContent: 'space-between',
                         overflowX: 'hidden',
                         transition: 'height .6s ease'
@@ -155,12 +159,10 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
     const dialogContentProps: IDialogContentProps = {
         type: DialogType.normal,
         title: sceneToEdit
-            ? t('scenes.editDialogTitle')
-            : t('scenes.addDialogTitle'),
+            ? t('scenes.dialogTitleEdit')
+            : t('scenes.dialogTitleCreate'),
         closeButtonAriaLabel: t('close'),
-        subText: sceneToEdit
-            ? t('scenes.editDialogSubText')
-            : t('scenes.addDialogSubText')
+        subText: t('scenes.dialogSubTitle')
     };
 
     const dialogModalProps: IModalProps = useMemo(
@@ -357,7 +359,7 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
         setBlobsInContainer([]);
         setSelectedFile(null);
         setSelected3DFilePivotItem(SelectionModeOf3DFile.FromContainer);
-    }, []);
+    }, [isShowOnGlobeEnabled]);
 
     const isSubmitButtonDisabled = useMemo(() => {
         return (
@@ -430,6 +432,7 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
             <TextField
                 className="cb-scene-list-form-dialog-text-field"
                 label={t('name')}
+                placeholder={t('scenes.sceneNamePlaceholder')}
                 required
                 title={newSceneName}
                 value={sceneToEdit ? scene?.displayName : newSceneName}
@@ -438,6 +441,7 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
             <TextField
                 className="cb-scene-list-form-dialog-description-field"
                 label={t('scenes.description')}
+                placeholder={t('scenes.sceneDescriptionPlaceholder')}
                 title={newSceneDescription}
                 value={sceneToEdit ? scene?.description : newSceneDescription}
                 onChange={handleSceneDescriptionChange}
@@ -506,7 +510,7 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
                 styles={{ root: { marginBottom: 16 } }}
             >
                 <PivotItem
-                    headerText={t('scenes.fromContainer')}
+                    headerText={t('scenes.tabNameFromContainer')}
                     itemKey={SelectionModeOf3DFile.FromContainer}
                     style={{ width: '100%' }}
                 >
@@ -516,7 +520,7 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
                     )}
                 </PivotItem>
                 <PivotItem
-                    headerText={t('uploadFile')}
+                    headerText={t('scenes.tabNameUploadFile')}
                     itemKey={SelectionModeOf3DFile.FromComputer}
                     style={{ width: '100%' }}
                 >

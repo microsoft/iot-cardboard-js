@@ -104,7 +104,9 @@ const DeeplinkFlyout: React.FC<IDeeplinkFlyoutProps> = (props) => {
     logDebugConsole('debug', 'render deeplink flyout');
     return (
         <div className={classNames.root}>
-            <HeaderControlGroup>
+            <HeaderControlGroup
+                styles={classNames.subComponentStyles.headerControlGroup}
+            >
                 <HeaderControlButton
                     className={classNames.button}
                     dataTestId={'deeplink-open-flyout'}
@@ -112,6 +114,7 @@ const DeeplinkFlyout: React.FC<IDeeplinkFlyoutProps> = (props) => {
                     iconProps={{ iconName: iconName }}
                     isActive={showFlyout}
                     onClick={onButtonClick}
+                    styles={classNames.subComponentStyles.headerControlButton}
                     title={t(LOC_KEYS.buttonTitle)}
                 />
             </HeaderControlGroup>

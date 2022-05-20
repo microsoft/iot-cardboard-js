@@ -145,6 +145,7 @@ export type AdapterTypes =
     | ITsiClientChartDataAdapter
     | IADTAdapter;
 
+export type IIconNames = CardboardIconNames | string;
 export type CardboardIconNames =
     | 'Add'
     | 'Chart'

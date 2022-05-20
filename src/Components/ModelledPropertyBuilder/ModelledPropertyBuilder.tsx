@@ -26,7 +26,9 @@ import {
     ChoiceGroup,
     Label,
     IChoiceGroupOption,
-    SpinnerSize
+    SpinnerSize,
+    Text,
+    FontSizes
 } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { useModelledProperties } from './useModelledProperties';
@@ -41,9 +43,11 @@ import {
 import { getProperty } from 'dot-prop';
 import { DTDLPropertyIconographyMap } from '../../Models/Constants/Constants';
 import i18next from 'i18next';
+import TooltipCallout from '../TooltipCallout/TooltipCallout';
 
 const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = ({
     adapter,
+    description,
     twinIdParams,
     propertyExpression,
     mode = ModelledPropertyBuilderMode.TOGGLE,
@@ -54,6 +58,7 @@ const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = ({
     dropdownTestId = 'cb-modelled-property-dropdown-test-id',
     intellisensePlaceholder,
     customLabel,
+    customLabelTooltip,
     onInternalModeChanged
 }) => {
     const { t } = useTranslation();
@@ -222,9 +227,9 @@ const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = ({
     );
 
     return (
-        <div className={styles.root}>
-            <Stack tokens={{ childrenGap: 4 }}>
-                <div className={styles.labelContainer}>
+        <Stack tokens={{ childrenGap: 4 }} className={styles.root}>
+            <div className={styles.labelContainer}>
+                <Stack horizontal>
                     <Label
                         styles={propertyExpressionLabelStyles}
                         required={required}
@@ -234,44 +239,56 @@ const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = ({
                                 '3dSceneBuilder.ModelledPropertyBuilder.expressionLabel'
                             )}
                     </Label>
-                    {(mode === ModelledPropertyBuilderMode.INTELLISENSE ||
-                        mode ===
-                            ModelledPropertyBuilderMode.PROPERTY_SELECT) && (
-                        <LoadingSpinner isLoading={isLoading} />
-                    )}
-                </div>
-                {mode === 'TOGGLE' && (
-                    <div className={styles.toggleContainer}>
-                        <ChoiceGroup
-                            selectedKey={internalMode}
-                            options={choiceGroupOptions}
-                            onChange={onChangeMode}
-                            styles={choiceGroupStyles}
+                    {customLabelTooltip && (
+                        <TooltipCallout
+                            content={{
+                                ...customLabelTooltip,
+                                iconName: customLabelTooltip.iconName || 'Info'
+                            }}
                         />
-                        <LoadingSpinner isLoading={isLoading} />
-                    </div>
+                    )}
+                </Stack>
+                {(mode === ModelledPropertyBuilderMode.INTELLISENSE ||
+                    mode === ModelledPropertyBuilderMode.PROPERTY_SELECT) && (
+                    <LoadingSpinner isLoading={isLoading} />
                 )}
-                {internalMode === 'PROPERTY_SELECTION' && (
-                    <ModelledPropertyDropdown
-                        dropdownOptions={dropdownOptions}
-                        onChange={onChangeDropdownSelection}
-                        selectedKey={propertyExpression.expression}
-                        dropdownTestId={dropdownTestId}
-                        isLoading={isLoading}
+            </div>
+            {mode === 'TOGGLE' && (
+                <div className={styles.toggleContainer}>
+                    <ChoiceGroup
+                        selectedKey={internalMode}
+                        options={choiceGroupOptions}
+                        onChange={onChangeMode}
+                        styles={choiceGroupStyles}
                     />
-                )}
-                {internalMode === 'INTELLISENSE' && (
-                    <Intellisense
-                        autoCompleteProps={autoCompleteProps}
-                        onChange={onIntellisenseChange}
-                        defaultValue={propertyExpression.expression}
-                        aliasNames={aliasNames}
-                        getPropertyNames={getIntellisenseProperty}
-                        isLoading={isLoading}
-                    />
-                )}
-            </Stack>
-        </div>
+                    <LoadingSpinner isLoading={isLoading} />
+                </div>
+            )}
+            {internalMode === 'PROPERTY_SELECTION' && (
+                <ModelledPropertyDropdown
+                    dropdownOptions={dropdownOptions}
+                    onChange={onChangeDropdownSelection}
+                    selectedKey={propertyExpression.expression}
+                    dropdownTestId={dropdownTestId}
+                    isLoading={isLoading}
+                />
+            )}
+            {internalMode === 'INTELLISENSE' && (
+                <Intellisense
+                    autoCompleteProps={autoCompleteProps}
+                    onChange={onIntellisenseChange}
+                    defaultValue={propertyExpression.expression}
+                    aliasNames={aliasNames}
+                    getPropertyNames={getIntellisenseProperty}
+                    isLoading={isLoading}
+                />
+            )}
+            {description && (
+                <Text styles={{ root: { fontSize: FontSizes.small } }}>
+                    {description}
+                </Text>
+            )}
+        </Stack>
     );
 };
 

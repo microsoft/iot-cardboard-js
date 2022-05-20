@@ -5,7 +5,7 @@ import {
     IBehavior,
     IExpressionRangeVisual
 } from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
-import { IStackTokens, Stack, Text, useTheme } from '@fluentui/react';
+import { FontSizes, Stack, Text, useTheme } from '@fluentui/react';
 import ViewerConfigUtility from '../../../../../Models/Classes/ViewerConfigUtility';
 import {
     defaultSwatchColors,
@@ -37,8 +37,11 @@ const LOC_KEYS = {
     expressionLabel: `${ROOT_LOC}.expressionLabel`,
     expressionPlaceholder: `${ROOT_LOC}.expressionPlaceholder`,
     iconPickerLabel: `${ROOT_LOC}.iconPickerLabel`,
-    notice: `${ROOT_LOC}.notice`,
+    tabDescription: `${ROOT_LOC}.tabDescription`,
     notificationLabel: `${ROOT_LOC}.notificationLabel`,
+    notificationLabelDescription: `${ROOT_LOC}.notificationLabelDescriptionPart1`,
+    notificationLabelDescriptionExample: `${ROOT_LOC}.notificationLabelDescriptionPart2`,
+    notificationLabelTooltip: `${ROOT_LOC}.notificationLabelTooltip`,
     notificationPlaceholder: `${ROOT_LOC}.notificationPlaceholder`
 };
 
@@ -150,8 +153,10 @@ const AlertsTab: React.FC = () => {
     const commonPanelStyles = getLeftPanelStyles(theme);
 
     return (
-        <Stack tokens={sectionStackTokens}>
-            <Text className={commonPanelStyles.text}>{t(LOC_KEYS.notice)}</Text>
+        <Stack tokens={{ childrenGap: 8 }}>
+            <Text className={commonPanelStyles.text}>
+                {t(LOC_KEYS.tabDescription)}
+            </Text>
             <ModelledPropertyBuilder
                 adapter={adapter}
                 twinIdParams={{
@@ -170,7 +175,7 @@ const AlertsTab: React.FC = () => {
             />
             {alertVisual && (
                 <>
-                    <Stack tokens={sectionStackTokens} horizontal>
+                    <Stack tokens={{ childrenGap: 12 }} horizontal>
                         <IconPicker
                             selectedItem={icon}
                             items={defaultSwatchIcons}
@@ -182,34 +187,58 @@ const AlertsTab: React.FC = () => {
                             items={defaultSwatchColors}
                             label={t(LOC_KEYS.colorPickerLabel)}
                             onChangeItem={onColorChange}
+                            styles={{
+                                // match the icon picker
+                                button: {
+                                    height: 32,
+                                    width: 32
+                                }
+                            }}
                         />
                     </Stack>
-                    <ModelledPropertyBuilder
-                        adapter={adapter}
-                        twinIdParams={{
-                            behavior: behaviorToEdit,
-                            config,
-                            sceneId,
-                            selectedElements
-                        }}
-                        mode={ModelledPropertyBuilderMode.INTELLISENSE}
-                        propertyExpression={{
-                            expression:
-                                stripTemplateStringsFromText(
-                                    notificationExpression
-                                ) || ''
-                        }}
-                        onChange={onNoteChange}
-                        customLabel={t(LOC_KEYS.notificationLabel)}
-                        intellisensePlaceholder={t(
-                            LOC_KEYS.notificationPlaceholder
-                        )}
-                    />
+                    <Stack tokens={{ childrenGap: 4 }}>
+                        <ModelledPropertyBuilder
+                            adapter={adapter}
+                            twinIdParams={{
+                                behavior: behaviorToEdit,
+                                config,
+                                sceneId,
+                                selectedElements
+                            }}
+                            mode={ModelledPropertyBuilderMode.INTELLISENSE}
+                            propertyExpression={{
+                                expression:
+                                    stripTemplateStringsFromText(
+                                        notificationExpression
+                                    ) || ''
+                            }}
+                            onChange={onNoteChange}
+                            customLabel={t(LOC_KEYS.notificationLabel)}
+                            customLabelTooltip={{
+                                buttonAriaLabel: t(
+                                    LOC_KEYS.notificationLabelTooltip
+                                ),
+                                calloutContent: t(
+                                    LOC_KEYS.notificationLabelTooltip
+                                )
+                            }}
+                            intellisensePlaceholder={t(
+                                LOC_KEYS.notificationPlaceholder
+                            )}
+                        />
+                        <Text styles={{ root: { fontSize: FontSizes.small } }}>
+                            {t(LOC_KEYS.notificationLabelDescription)}{' '}
+                            <i>
+                                {t(
+                                    LOC_KEYS.notificationLabelDescriptionExample
+                                )}
+                            </i>
+                        </Text>
+                    </Stack>
                 </>
             )}
         </Stack>
     );
 };
-const sectionStackTokens: IStackTokens = { childrenGap: 8 };
 
 export default AlertsTab;

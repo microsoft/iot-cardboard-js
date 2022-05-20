@@ -83,7 +83,8 @@ const GaugeWidgetBuilder: React.FC<IGaugeWidgetBuilderProps> = ({
             <Stack tokens={{ childrenGap: 8 }}>
                 <TextField
                     data-testid={'widget-form-gauge-label-input'}
-                    label={t('label')}
+                    label={t('displayName')}
+                    placeholder={t('displayNamePlaceholder')}
                     value={formData.widgetConfiguration.label}
                     required
                     onChange={(_ev, newVal) =>
@@ -96,7 +97,10 @@ const GaugeWidgetBuilder: React.FC<IGaugeWidgetBuilderProps> = ({
                 />
                 <TextField
                     data-testid={'widget-form-gauge-units-input'}
-                    label={t('3dSceneBuilder.unitOfMeasure')}
+                    label={t('3dSceneBuilder.widgetForm.unitOfMeasureLabel')}
+                    placeholder={t(
+                        '3dSceneBuilder.widgetForm.unitOfMeasurePlaceholder'
+                    )}
                     value={formData.widgetConfiguration.units}
                     onChange={(_ev, newVal) =>
                         updateWidgetData(

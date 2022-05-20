@@ -36,7 +36,7 @@ import {
     IPropertyInspectorAdapter,
     IAzureResource,
     IUserSubscriptions,
-    primaryTwinName,
+    PRIMARY_TWIN_NAME,
     AzureServiceResourceTypes,
     AzureServiceResourceProviderEndpoints,
     IADTInstance
@@ -590,7 +590,7 @@ export default class MockAdapter
                                 if (element) {
                                     // get primary twin
                                     twins[
-                                        primaryTwinName
+                                        PRIMARY_TWIN_NAME
                                     ] = this.mockTwins.find(
                                         (t) => t.$dtId === element.primaryTwinID
                                     ) || {

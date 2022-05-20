@@ -9,7 +9,7 @@ import trucksMockVConfig from '../../Adapters/__mockData__/TruckAndMachinesConfi
 import { deepCopy } from '../../Models/Services/Utils';
 
 export default {
-    title: 'Components/ADT3DSceneBuilder/BehaviorTwinAliasList',
+    title: 'Components/ADT3DSceneBuilder/Behaviors',
     component: ADT3DSceneBuilder
 };
 
@@ -43,8 +43,8 @@ const Template: SceneBuilderStory = (
     );
 };
 
-export const TwinAliasListEmpty = Template.bind({});
-TwinAliasListEmpty.play = async ({ canvasElement }) => {
+export const EditTwinAliasTabListEmpty = Template.bind({});
+EditTwinAliasTabListEmpty.play = async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     // Finds the behaviors tab
     const behaviorsTabButton = (await canvas.findAllByRole('tab'))[1];
@@ -61,9 +61,9 @@ TwinAliasListEmpty.play = async ({ canvasElement }) => {
     await userEvent.click(tab[1]);
 };
 
-export const TwinAliasAddCallout = Template.bind({});
-TwinAliasAddCallout.play = async ({ canvasElement }) => {
-    await TwinAliasListEmpty.play({ canvasElement });
+export const EditEditTwinAliasTabAddCallout = Template.bind({});
+EditEditTwinAliasTabAddCallout.play = async ({ canvasElement }) => {
+    await EditTwinAliasTabListEmpty.play({ canvasElement });
     const canvas = within(canvasElement);
     const addTwinAliasButton = await canvas.findByTestId(
         'twinsTab-addTwinAlias'
@@ -74,9 +74,9 @@ TwinAliasAddCallout.play = async ({ canvasElement }) => {
 };
 
 // TODO_FIX_INTERACTION_TEST
-// export const TwinAliasAdd = Template.bind({});
-// TwinAliasAdd.play = async ({ canvasElement }) => {
-//     await TwinAliasAddCallout.play({ canvasElement });
+// export const EditTwinAliasTabAdd = Template.bind({});
+// EditTwinAliasTabAdd.play = async ({ canvasElement }) => {
+//     await EditTwinAliasTabAddCallout.play({ canvasElement });
 
 //     // Find the first available twin alias in the list and add it to behavior
 //     const twinAliasItem1 = await findCalloutItemByTestId(
@@ -91,7 +91,7 @@ TwinAliasAddCallout.play = async ({ canvasElement }) => {
 // TODO_FIX_INTERACTION_TEST
 // export const TwinAliasListItemMenu = Template.bind({});
 // TwinAliasListItemMenu.play = async ({ canvasElement }) => {
-//     await TwinAliasAdd.play({ canvasElement });
+//     await EditTwinAliasTabAdd.play({ canvasElement });
 //     const canvas = within(canvasElement);
 
 //     // Find overflow menu of the first twin alias just added
@@ -103,8 +103,8 @@ TwinAliasAddCallout.play = async ({ canvasElement }) => {
 // };
 
 // TODO_FIX_INTERACTION_TEST
-// export const TwinAliasRemove = Template.bind({});
-// TwinAliasRemove.play = async ({ canvasElement }) => {
+// export const EditTwinAliasTabRemove = Template.bind({});
+// EditTwinAliasTabRemove.play = async ({ canvasElement }) => {
 //     await TwinAliasListItemMenu.play({ canvasElement });
 //     await sleep(1000);
 

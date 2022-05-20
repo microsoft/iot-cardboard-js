@@ -373,7 +373,18 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
                                     />
                                 </div>
                                 <Stack horizontal tokens={{ childrenGap: 8 }}>
-                                    <DeeplinkFlyout mode="Simple" />
+                                    <DeeplinkFlyout
+                                        mode="Simple"
+                                        styles={{
+                                            subComponentStyles: {
+                                                headerControlGroup: {
+                                                    root: {
+                                                        border: 'none'
+                                                    }
+                                                }
+                                            }
+                                        }}
+                                    />
                                     <SceneListModeToggle
                                         selectedMode={state.currentStep}
                                         onListModeChange={onListModeChange}

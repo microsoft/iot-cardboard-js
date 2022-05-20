@@ -2,9 +2,11 @@
   "preview": "Förhandsvisning",
   "loading": "Lastning...",
   "label": "Etikett",
+  "labelPlaceholder": "Ange etikett",
   "min": "Min",
   "max": "Max",
   "noData": "Inga data",
+  "noName": "Inget namn",
   "error": "Fel vid hämtning av data",
   "unsupportedFileType": "Filtyp som inte stöds",
   "selectProperties": "Välj egenskaper",
@@ -12,6 +14,7 @@
   "theme": "Tema",
   "hierarchy": "Hierarki",
   "displayName": "Visningsnamn",
+  "displayNamePlaceholder": "Ange visningsnamn",
   "realTimeStatus": "Status i realtid",
   "emptyCompositeCard": "Tomt sammansatt kort",
   "compositeCardWithErrors": "Sammansatt kort med felgränser",
@@ -23,7 +26,7 @@
   "readerAccessOnlyErrorMessage": "Du har läsbehörighet för den här bloben. Det betyder att du kommer att kunna se modellerna, men kommer inte att kunna skapa eller konfigurera några scener, element eller beteenden.",
   "tryAgain": "Försök igen",
   "learnMore": "Lära sig mer",
-  "DataFetchFailed": "Datahämtning misslyckades",
+  "DataFetchFailed": "Datahämtningen misslyckades",
   "more": "Mer",
   "search": "Söka",
   "noSearchResults": "Inga tvillingar hittades för inmatad sökterm (sökningen är skiftlägeskänslig).",
@@ -61,7 +64,11 @@
   "editTwin": "Redigera tvilling",
   "confirmDeletion": "Bekräfta borttagning",
   "confirmDeletionDesc": "Är du säker? Du kan inte ångra den här åtgärden.",
+  "discardChanges": "Kassera osparade ändringar?",
+  "discard": "Kasta bort",
+  "discardChangesDesc": "Är du säker? Du kan inte ångra den här åtgärden.",
   "action": "Handling",
+  "actions": "Åtgärder",
   "name": "Namn",
   "title": "Titel",
   "enterTitle": "Ange titel",
@@ -84,7 +91,6 @@
   "globe": "Jordglob",
   "list": "Lista",
   "selectFile": "Välj fil",
-  "uploadFile": "Ladda upp fil",
   "uploadingFile": "Ladda upp fil...",
   "twinId": "Tvilling-ID",
   "active": "Aktiv",
@@ -98,12 +104,12 @@
     }
   },
   "valueRangeBuilder": {
-    "overlapDetectedMessage": "Överlappande intervall identifieras. Kontrollera att alla värdeintervall är distinkta. Minsta värden är inkluderande, Maxvärden är exklusiva.",
-    "addValueRangeButtonText": "Lägg till värdeintervall",
+    "overlapDetectedMessage": "Överlappande intervall identifieras. Kontrollera att alla intervall är distinkta. Minsta värden är inkluderande, Maxvärden är exklusiva.",
+    "addValueRangeButtonText": "Lägg till intervall",
     "rangeValueInvalidMessage": "Värdena måste vara numeriska, \"-Infinity\" eller \"Infinity\"",
-    "rangeInvalidMessage": "Minsta värde måste vara mindre än (<) Maxvärde",
-    "colorButtonAriaLabel": "Välj färg för värdeintervall",
-    "deleteValueRangeTitle": "Ta bort värdeintervall",
+    "rangeInvalidMessage": "Detta minsta värde måste vara mindre än (<) maxvärdet",
+    "colorButtonAriaLabel": "Välj färg för intervall",
+    "deleteValueRangeTitle": "Ta bort intervall",
     "negativeInfinityIconMessage": "Ställ in värdet på -Infinity",
     "positiveInfinityIconMessage": "Ställ in värdet på Infinity"
   },
@@ -158,24 +164,26 @@
   "scenes": {
     "noScenes": "Du har inga 3D-scener, lägg till en ny för att komma igång.",
     "addScene": "Lägg till 3D-scen",
-    "blobUrl": "URL för 3D-filblob",
-    "addDialogTitle": "Skapa en ny scen",
-    "addDialogSubText": "Länka din scen med URL:en för din 3D-fil i bloblagring",
-    "editDialogTitle": "Redigera scen",
-    "editDialogSubText": "Redigera namnet och den länkade 3D-filen för din scen",
-    "3dFileSelectionMode": "3D-filvalsläge",
-    "fromContainer": "Från behållare",
-    "3dFileAsset": "3D-filtillgång",
-    "overwriteIfExist": "Skriva över om filen redan finns",
-    "fileExistsErrorMessage": "En fil med det här namnet finns redan i lagring, du kan antingen välja den filen från behållaren eller skriva över.",
-    "description": "Beskrivning",
     "latitude": "Breddgrad",
     "longitude": "Longitud",
-    "showOnGlobe": "Visa på jordklotet",
     "sampleLatitude": "t.ex.: 6.4511366",
     "sampleLongitude": "t.ex.: 3.3883963",
     "longitudeErrorMessage": "Ingångsvärdet måste ligga inom -180 och 180 grader",
-    "latitudeErrorMessage": "Ingångsvärdet måste ligga inom -90 och 90 grader"
+    "latitudeErrorMessage": "Ingångsvärdet måste ligga inom -90 och 90 grader",
+    "showOnGlobe": "Visa på jordklotet",
+    "blobUrl": "Blob-URL för 3D-fil",
+    "dialogTitleCreate": "Skapa ny scen",
+    "dialogSubTitle": "Rikta in dig på en befintlig 3D-fil via URL eller ladda upp en ny fil direkt till containern",
+    "dialogTitleEdit": "Redigera din 3D-scen",
+    "3dFileSelectionMode": "3D-filvalsläge",
+    "sceneNamePlaceholder": "Ange ett scennamn",
+    "sceneDescriptionPlaceholder": "Ange en scenbeskrivning",
+    "tabNameFromContainer": "Välj fil",
+    "tabNameUploadFile": "Ladda upp fil",
+    "3dFileAsset": "Länka 3D-fil",
+    "description": "Beskrivning",
+    "overwriteIfExist": "Skriv över om filen redan finns",
+    "fileExistsErrorMessage": "En fil med det här namnet finns redan i lagring, du kan antingen välja den filen från containern eller skriva över."
   },
   "BIMUpload": {
     "specifyFiles": "Ange filer som ska laddas upp från",
@@ -342,7 +350,7 @@
     "noneSelected": "Inga lager valda",
     "newLayer": "Nytt lager",
     "layerName": "Lagernamn",
-    "behaviorsOnThisLayer": "Beteenden på det här lagret",
+    "behaviorsListTitle": "Beteenden ({{count}})",
     "layerNamePlaceholder": "Ange lagernamn",
     "createNewLayer": "Skapa nytt lager",
     "editLayer": "Redigera lager",
@@ -350,7 +358,10 @@
     "layers": "Lager",
     "noLayersFound": "Du har inga lager än!",
     "noLayersDescription": "Lager är som taggar på beteenden. Börja med att skapa ett lager här.",
-    "noBehaviorsOnLayer": "Det finns inga beteenden på det här lagret"
+    "noBehaviorsOnLayer": "Det finns inga beteenden på det här lagret",
+    "deleteConfirmationTitle": "Ta bort det här lagret?",
+    "deleteConfirmationMessage": "Detta tar permanent bort lagret och eventuella associerade beteenden från alla Digital Twins miljöer.",
+    "infoCalloutContent": "Lager är uppgiftsbaserade grupperingar som gör att konsumenter kan filtrera beteenden efter. Lager finns över scener."
   },
   "3dSceneBuilder": {
     "elements": "Element",
@@ -371,20 +382,16 @@
     "searchBehaviorsPlaceholder": "Sökbeteenden",
     "modifyElement": "Ändra element",
     "manageTargetElements": "Hantera målelement",
-    "selectBehaviorElements": "Välj element som det här beteendet ska rikta in sig på",
+    "elementsListInstructions": "Välj de element som du vill ska ingå i visualiseringen av det här beteendet",
     "multiSelectElements": "Element med flera val",
-    "updateBehavior": "Uppdatera beteende",
     "removeBehaviorFromScene": "Ta bort beteende från scenen",
     "removeBehaviorFromAllScenes": "Ta bort beteende från alla scener",
     "manageSceneLayer": "Hantera scenlager",
-    "createBehavior": "Skapa beteende",
-    "modifyBehavior": "Ändra beteende",
     "addBehaviorButton": "Lägg till beteende",
     "addBehavior": "Lägg till beteende",
     "searchBehaviors": "Sök beteenden",
     "noAvailableBehaviors": "Inga tillgängliga beteenden",
     "removeBehavior": "Ta bort beteende från det här elementet",
-    "addElementDetails": "Lägga till elementinformation",
     "noBehaviorsOnElement": "Inga beteenden som tilldelats det här elementet",
     "noElementsText": "Inga element skapade ännu",
     "noResults": "Inga resultat hittades",
@@ -398,35 +405,75 @@
     "confirmRemoveBehaviorFromAllScenes": "Är du säker på att du vill ta bort detta beteende från alla scener. Du kan inte ångra den här åtgärden.",
     "newElement": "Nytt element",
     "newBehavior": "Nytt beteende",
+    "modifyBehavior": "Redigera beteende",
+    "createBehavior": "Skapa beteende",
+    "updateBehavior": "Uppdatera beteende",
     "newBehaviorId": "NewBehaviorId",
     "cancel": "Annullera",
     "Done": "Färdig",
     "edit": "Redigera {{elementDisplayName}}",
     "editBehavior": "Redigera beteende",
-    "searchTwinId": "Sök tvilling-ID...",
+    "searchTwinId": "Sök efter tvilling-ID ($dtId)...",
     "noTwinsFound": "Inga tvillingar hittades (sökningen är skiftlägeskänslig)",
     "useNonExistingTwinId": "Ingen exakt matchning, använd",
     "addBehaviorToScene": "Lägg till beteende i scenen",
     "behaviorMetaText": "{{numElementsInActiveScene}} elements, {{numSceneRefs}} scenes",
     "elementMetaText": "{{numBehaviors}} beteenden",
     "primaryTwin": "Primär tvilling",
-    "primaryTwinInputInfo": "Ange tvilling-ID ($dtId) för att länka till det här elementet (skiftlägeskänsligt)",
-    "noMeshAddedText": "Inga maskor har lagts till ännu, välj maskor i 3D-visaren",
     "meshes": "Maskor",
     "behaviorElementsDropdownLabel": "Målelement",
     "behaviorElementsDropdownPlaceholder": "Välj ett element",
+    "behaviorForm": {
+      "formSubTitle": "Beteenden är visuella signaler som inträffar under specifika förhållanden, till exempel vid specifika intervall eller vid datatrösklar."
+    },
     "behaviorAlertForm": {
-      "colorPickerLabel": "Märke färg",
+      "colorPickerLabel": "Färg",
       "expressionLabel": "Utlösa uttryck",
-      "expressionPlaceholder": "Ange uttryck (t.ex. PrimaryTwin.InFlow > 3)",
-      "iconPickerLabel": "Ikon för märke",
-      "notice": "Det här beteendet aktiveras endast när utlösaruttrycket nedan utvärderas till true.",
-      "notificationLabel": "Meddelandetext",
-      "notificationPlaceholder": "Text som ska visas med aviseringen för ytterligare kontext."
+      "expressionPlaceholder": "Ange uttryck (t.ex. PrimaryTwin.InFlow > 200)",
+      "iconPickerLabel": "Ikon",
+      "tabDescription": "Varningar – ikoner som åtföljs av text – hjälper till att uppmärksamma kritiska dataförhållanden. Nedan använder du uttryck för att utlösa aviseringar i visualiseringen.",
+      "notificationLabel": "Beskrivning av scenario",
+      "notificationLabelTooltip": "Den här texten ger en konsumentkontext när det här märket är aktivt.",
+      "notificationLabelDescriptionPart1": "Tvillingegenskaper måste omges av mallsträngssyntax.",
+      "notificationLabelDescriptionPart2": "T.ex. $PrimaryTwin.DisplayName} kräver underhåll",
+      "notificationPlaceholder": "Ange en beskrivning"
     },
     "behaviorStatusForm": {
-      "notice": "Använd en enda egenskap för att färga om det här beteendets målelement.",
-      "stateItemLabel": "Tillstånd {{index}}"
+      "tabDescription": "Välj en egenskap och ställ sedan in intervall för att tillämpa färg på vissa förhållanden, till exempel rött för att indikera höga temperaturer eller grönt för optimal hastighet.",
+      "stateItemLabel": "Tillstånd {{index}}",
+      "propertyExpressionTooltipContent": "Använd ett anpassat uttryck för mer komplexa uttryck som utnyttjar flera egenskaper."
+    },
+    "behaviorWidgetsForm": {
+      "addWidgetButtonText": "Lägg till widget",
+      "noData": "Du har inte konfigurerat några widgets ännu",
+      "tabDescription": "Definiera widgetar som visas i elementets kontext"
+    },
+    "elementForm": {
+      "twinNameTooltip": "Det här fältet är skiftlägeskänsligt",
+      "twinNameDescription": "Välj en digital tvilling att länka det här elementet till. Du kommer att använda den länkade tvillingens egenskaper för associerade beteenden.",
+      "meshTabName": "Maskor",
+      "behaviorsTabName": "Beteenden",
+      "twinTabName": "Andra tvillingar",
+      "formSubTitle": ""
+    },
+    "elementFormMeshTab": {
+      "noDataMessage": "Välj associerade maskor från din 3D-modell för det här elementet."
+    },
+    "elementBehaviorMeshTab": {
+      "noDataMessage": "Tilldela eller ändra beteenden för det här elementet. Du kan alltid lägga till beteenden senare."
+    },
+    "elementFormTwinTab": {
+      "tabDescription": "Dessa tvillingar innehåller data utöver din primära tvilling som du kan utnyttja i din status, aviseringar och widgetar för dina beteenden.",
+      "noDataMessage": "När du skapar ytterligare tvillingar i det här elementets beteenden visas de här."
+    },
+    "widgetLibrary": {
+      "dialogTitle": "Widget-bibliotek",
+      "dialogSubTitle": "Utforska widgetar och visa datadrivna insikter för ditt element."
+    },
+    "widgetForm": {
+      "unitOfMeasureLabel": "Måttenhet",
+      "unitOfMeasurePlaceholder": "T.ex. miles/timme",
+      "linkUrlDescription": "Ange en URL och lägg till tvillingegenskaper som parametrar, till exempel ${PrimaryTwin.SerialNumber}"
     },
     "twinPropertyDropdown": {
       "propertyDropdownLabel": "Egenskap",
@@ -446,55 +493,47 @@
     },
     "numericExpressionPlaceholder": "Ange ett uttryck som utvärderas till ett tal",
     "behaviorId": "Beteende ID",
-    "widgetLibrary": "Widget-bibliotek",
-    "exploreWidgets": "Utforska våra widgets och lägg till ett extra lager av information till din 3D-scen.",
-    "addWidget": "Lägg till widget",
     "newWidget": "Ny widget",
+    "addWidget": "Lägg till widget",
     "createWidget": "Skapa widget",
     "updateWidget": "Uppdatera widget",
     "editWidget": "Redigera widget",
     "removeWidget": "Ta bort widget",
     "noWidgets": "Inga widgets hittades",
     "modifyWidget": "Ändra widget",
-    "noWidgetsConfigured": "Inga widgetar konfigurerade",
-    "unitOfMeasure": "Måttenhet",
     "expression": "Uttryck",
     "warningBreakPointToggleLabel": "Aktivera färgbrytpunkt",
     "warningBreakPointLabel": "Brytpunkt för varningsfärg",
     "linkWidgetUrlDescription": "Länkwidget-URL stöder JavaScript-mallsträngformatering, till exempel: ${PrimaryTwin.property}",
-    "behaviorTypes": {
-      "alertBehavior": "Aviseringsbeteende",
-      "statusBehavior": "Status beteende"
-    },
     "notImplemented": "Inte implementerad",
     "noPrimaryTwinProperties": "Inga primära tvillingegenskaper att visa",
     "twinAlias": {
       "title": "Tvillingalias",
-      "titlePlural": "Dubbla alias",
+      "calloutDescription": "Föreningen av tvillingegenskaper hos utvalda element",
       "aliasedTwin": "Aliased tvilling",
-      "aliasedTwins": "Aliased tvillingar",
-      "add": "Lägg till tvillingalias",
-      "noTwinAliasesAdded": "Inga tvillingalias har lagts till ännu",
-      "new": "Nytt tvillingalias",
-      "edit": "Redigera tvillingalias",
-      "create": "Skapa tvillingalias",
-      "update": "Uppdatera tvillingalias",
-      "modify": "Ändra tvillingalias",
-      "search": "Sök efter tvillingalias",
+      "add": "Lägg till tvilling",
+      "new": "Ny tvilling",
+      "edit": "Redigera tvilling",
+      "create": "Skapa tvilling",
+      "update": "Uppdatera tvilling",
+      "modify": "Ändra tvilling",
+      "search": "Sök tvillingar",
       "searchProperties": "Sök fastigheter",
       "noTwinAliasesToAdd": "Inga tvillingalias att lägga till",
       "removeFromBehavior": "Ta bort tvillingalias från beteendet",
       "removeFromElement": "Ta bort tvillingalias från elementet",
       "commonProperties": "Vanliga egenskaper",
       "twinAliasForm": {
-        "alias": "Alias",
-        "elementTwinMappings": "Mappningar av elementtvilling",
+        "aliasNameLabel": "Tvilling namn",
+        "aliasNameTooltipContent": "Du kan inte ändra tvillingens namn när den har skapats.",
+        "mappingSectionHeader": "Tvillingmappningar för element",
+        "mappingSectionSubHeader": "För varje element väljer du den digitala tvilling som den här tvillingen refererar till",
         "elementTwinMappingsNotExist": "Det finns ingen tillgänglig mappning, lägg till element i beteendet först."
       },
+      "tabDescriptionPart1": "Varje element utnyttjar data från sin primära tvilling. Lägg till andra tvillingar som dina element kan utnyttja data från.",
+      "tabDescriptionPart2": "Visa egenskaperna gemensamt mellan målelementen och referera till dessa egenskaper med hjälp av den primära tvillingen eller de andra tvillingarna i dina uttryck. ",
+      "linkedTwinListHeader": "Länkade tvillingar ({{count}})",
       "descriptions": {
-        "twins": "Tvillingar ger dig tillgång till egenskaper som kan användas i uttryck.",
-        "primaryTwin": "PrimaryTwin innehåller alla egenskaper som är gemensamma mellan de primära tvillingarna i målelementen.",
-        "aliasChangeNotAllowed": "Aliasändring tillåts inte när den har skapats.",
         "commonProperties": "Föreningen av primära tvillingegenskaper hos utvalda element"
       },
       "errors": {
@@ -507,26 +546,31 @@
   "widgets": {
     "trend": {
       "title": "Trend widget",
-      "description": "Visa historiska data i samband med din 3D-scen"
+      "libraryName": "Trend",
+      "description": "Visa diagram över historiska data"
     },
     "gauge": {
       "title": "Widget för mätare",
-      "description": "Representera numeriska datapunkter med visuell kontext"
+      "libraryName": "Mätare",
+      "description": "Representera numeriska egenskaper med anpassade intervall"
     },
     "link": {
       "title": "Länka widget",
-      "description": "Referera till externt innehåll genom att länka en URL",
-      "urlPlaceholder": "https://mypowerbi.biz/${PrimaryTwin.myproperty}",
+      "libraryName": "Länk",
+      "description": "Navigera till webbadresser som är specifika för elementet",
+      "urlPlaceholder": "https://contoso.com/userManual/${PrimaryTwin.SerialNumber}",
       "openLink": "Öppna länk"
     },
     "value": {
       "title": "Widget för värde",
-      "description": "En grundläggande widget för att visa värden för tvillingegenskaper",
+      "libraryName": "Värde",
+      "description": "Visa alla primitiva egendomar",
       "displayNamePlaceholder": "Ange visningsnamn",
       "typePlaceholder": "Välj typ för värdet"
     },
     "panel": {
       "title": "Panelwidget",
+      "libraryName": "Panel",
       "description": "En layoutpanel"
     },
     "notSupported": "Den här widgettypen stöds inte för närvarande"
@@ -711,13 +755,13 @@
     }
   },
   "environmentPicker": {
-    "environmentUrl": "Miljö-URL",
-    "containerUrl": "Container-URL",
+    "environmentUrl": "Azure Digital Twins instans-URL",
+    "containerUrl": "Azure Storage container URL",
     "enterEnvironmentUrl": "t.ex. https://example.api.wus2.digitaltwins.azure.net",
     "enterContainerUrl": "t.ex. https://example.blob.core.windows.net/example",
-    "editEnvironment": "Redigera miljö",
-    "descriptionForEnvironment": "Anslut din miljö för att lista dina tillgångar.",
-    "descriptionForEnvAndCont": "Anslut url:en för din miljö och lagringscontainer för att visa en lista över dina scener.",
+    "editEnvironment": "Konfigurera 3D-scenmiljö",
+    "descriptionForEnvironment": "Länka din Azure Digital Twins instans för att börja skapa 3D-scener.",
+    "descriptionForEnvAndCont": "Länka din Azure Digital Twins instans och din lagringscontainer för att börja skapa 3D-scener.",
     "descriptionForLocalStorage": "Konfigurationsdata sparas i lokal lagring.",
     "selectContainerUrl": "Välj URL för lagringscontainer",
     "noEnvironment": "Ingen miljö har lagts till",
@@ -742,7 +786,7 @@
     "reactComponent": "SVG-illustration via React-komponentsyntax"
   },
   "blobDropdown": {
-    "selectFileOrEnter": "Välj fil eller ange blob-URL",
+    "selectFileOrEnter": "Ange fil-URL eller välj från lista",
     "3dFileFromContainer": "3D-fil i behållare",
     "loading3DFiles": "Laddar filer ...",
     "invalidBlobUrlPath": "Det här är inte en blob-URL som stöds (t.ex. https://<storageAccountName>.blob.core.windows.net/<containerName>/<3DFileName>)",
@@ -750,10 +794,10 @@
   },
   "modelViewerModePicker": {
     "buttonLabel": "Tema",
-    "title": "Tema för tittare",
-    "style": "Stil",
-    "objectColors": "Objektets färg",
-    "background": "Bakgrund",
+    "title": "Scen Tema",
+    "style": "3D-modell stil",
+    "objectColors": "3D-modell färg",
+    "background": "Scen bakgrund",
     "default": "Standard",
     "transparent": "Genomskinlig",
     "wireframe": "Trådram"
@@ -761,7 +805,7 @@
   "deeplinkFlyout": {
     "buttonTitle": "Aktie",
     "copyButtonText": "Kopiera länk",
-    "copyConfirmationMessage": "Kopieras!",
+    "copyConfirmationMessage": "Länk kopierad!",
     "flyoutHeader": "Dela scen",
     "includeElementsOption": "Länk till valt element",
     "includeLayersOption": "Länka till valda lager"
@@ -784,49 +828,23 @@
   },
   "cameraControls": {
     "mouseControls": "Muskontroller",
-    "select": "Utvald",
-    "pan": "Panna",
     "orbit": "Omloppsbana",
-    "zoom": "Zooma",
+    "pan": "Panna",
     "reset": "Nollställa",
+    "select": "Utvald",
+    "zoom": "Zooma",
     "zoomIn": "Zooma in",
     "zoomOut": "Zooma ut"
   },
   "tutorialModal": {
-    "elements": {
-      "title": "Vad är ett element?",
-      "content": "Ett element är en självdefinierad uppsättning 3D-maskor som är länkade till data på en eller flera underliggande digitala tvillingar. Element hjälper dig att snabbt mäta systemåtgärder och hälsa. \n\nEn primär tvilling är den viktigaste digitala tvillingmotsvarigheten för ett element. Du ansluter elementet till en tvilling i din Azure Digital Twins instans så att elementet kan representera din tvilling och dess data i 3D-visualiseringen."
-    },
-    "docLinkBlurb": "För en mer detaljerad steg-för-steg, kolla in vår <DocLink>docs här.</DocLink>",
-    "behaviors": {
-      "title": "Vad är ett beteende?",
-      "mainContent": "Ett beteende är ett scenario för din scen som utnyttjar vissa data på det relaterade elementets digitala tvilling för att driva visualiseringar av visningsprogram.\n\nAtt skapa ett beteende omfattar att välja tvillingar, konfigurera status och aviseringar, lägga till en widget och välja vilket lager som ska visas på.\n\n",
-      "statusTitle": "Status",
-      "statusDescription": "Tillstånd är datadrivna överlagringar på dina element för att ange elementets hälsa eller status. ange värdeintervall för att skapa tillståndsgränser och välj färger som representerar varje tillstånd i visualiseringen.\n\n",
-      "alertsTitle": "Varningar",
-      "alertsDescription": "Aviseringar är villkorliga meddelanden som hjälper dig att snabbt se när ett element kräver din uppmärksamhet. Anpassa ditt varningsmärke med en ikon, färg och text.\n\n"
-    },
-    "tip": "Dricks",
-    "twins": {
-      "title": "Hur väljer jag tvillingar?",
-      "mainContent": "På fliken Tvillingar kan du ändra den uppsättning tvillingar vars data är tillgängliga för det här beteendet. Detta inkluderar de riktade elementens primära tvillingar och icke-primära tvillingar.\n\nEn icke-primär tvilling är en sekundär datakälla för en digital tvilling för ett element. Du kommer att kunna använda egenskaper från den tvillingen i dina beteendeuttryck för det här elementet. Du bör bara lägga till icke-primära tvillingar när det finns ytterligare tvillingar med data utöver din primära tvilling som du vill utnyttja i din status, aviseringar och widgetar för det här beteendet.\n\n",
-      "tipContent": "Azure Digital Twins Explorer kan hjälpa dig att se tvillingar som kan vara relaterade till den primära tvillingen för det här elementet. Du kan fråga diagrammet med SELECT * FROM digitaltwins WHERE $dtId='<primary-twin-id>' och sedan använda expansionsfunktionen för att dubbelklicka för att utforska relaterade tvillingar."
-    },
-    "widgets": {
-      "title": "Vad är en widget?",
-      "mainContent": "Widgetar är datadrivna visuella objekt som ger ytterligare kontext och data som hjälper dig att förstå scenariot som beteendet representerar. Genom att konfigurera widgetar kan du se till att rätt data kan upptäckas när en avisering eller status är aktiv.\n\n",
-      "typesOfWidgets": "Typer av widgets\n\n",
-      "gaugeDescription": "<Underline>Gauge:</Underline> För att representera numeriska datapunkter visuellt\n\n",
-      "linkDescription": "<Underline>Link:</Underline> För att inkludera externt refererat innehåll via en länkad URL\n\n",
-      "valueDescription": "<Underline>Value:</Underline> För direkt visning av tvillingegenskapsvärden\n\n"
-    },
-    "sceneLayers": {
-      "title": "Vad är ett scenlager?",
-      "mainContent": "Du kan skapa lager i din scen för att organisera dina beteenden. Lager fungerar som taggar på beteendena, så att du kan definiera vilka beteenden som behöver ses tillsammans, vilket skapar anpassade vyer av din scen för olika roller eller uppgifter.\n\nOm det inte finns några lager i en scen visas alla beteenden i scenvisaren. Om det finns minst ett lager i scenen visas bara beteenden som är taggade med ett lager i visningsprogrammet.\n\nEtt sätt att skapa lager är att använda knappen Scenlager i vyn Skapa för en scen. Du kan också skapa lager när du skapar eller ändrar ett beteende."
-    },
     "modalTitle": "Välkommen till 3D Scenes Studio!",
     "publicPreview": "Offentlig förhandsversion",
     "closeAriaLabel": "Stäng modal",
+    "rootDocsLinkText": "Dokumentation",
+    "githubLinkText": "GitHub",
+    "quickstartLinkText": "Snabbstart",
+    "primaryButtonText": "Utforska demon",
+    "dismissText": "Avskeda",
     "nextSlide": "Nästa bild",
     "previousSlide": "Föregående bild",
     "statusIndicatorSelectedAria": "Slide {{slide}} markerad",
@@ -843,7 +861,7 @@
     "frePages": {
       "intro": {
         "title": "Vår senaste low-code-byggare",
-        "text": "I den här integrerande 3D-miljön kan du övervaka, diagnostisera och undersöka driftdata med den visuella kontexten för 3D-tillgångar, som drivs av Azure Digital Twins data, utan behov av 3D-expertis."
+        "text": "I det här byggverktyget med lite kod kan du övervaka, diagnostisera och undersöka driftdata med den visuella kontexten för 3D-tillgångar, som drivs av Azure Digital Twins data, utan behov av 3D-expertis."
       },
       "builder": {
         "title": "Anpassa din scen i vår Builder",
@@ -858,14 +876,36 @@
       "title": "Behöver du en djupare dykning i begreppen?",
       "text": "Bläddra i hjälpinnehållet eller kolla in vår dokumentation för steg för steg handledning!"
     },
-    "rootDocsLinkText": "Dokumentation",
-    "githubLinkText": "GitHub",
-    "quickstartLinkText": "Snabbstart",
-    "primaryButtonText": "Utforska demon",
-    "dismissText": "Avskeda"
-  },
-  "noName": "Inget namn",
-  "discardChanges": "Ignorera ändringar",
-  "discard": "Kasta bort",
-  "discardChangesDesc": "Är du säker? Du kan inte ångra den här åtgärden."
+    "docLinkBlurb": "För en mer detaljerad steg-för-steg, kolla in <DocLink>docs här.</DocLink>",
+    "tip": "Dricks",
+    "elements": {
+      "title": "Vad är ett element?",
+      "content": "Ett element är en självdefinierad uppsättning 3D-maskor som är länkade till data på en eller flera underliggande digitala tvillingar.\n\nEn primär tvilling är den viktigaste digitala tvillingmotsvarigheten för ett element. Du ansluter elementet till en tvilling i din Azure Digital Twins instans så att elementet kan representera din tvilling och dess data i 3D-visualiseringen."
+    },
+    "behaviors": {
+      "title": "Vad är ett beteende?",
+      "mainContent": "Ett beteende är ett scenario för din scen som utnyttjar vissa data på det relaterade elementets digitala tvilling för att driva visualiseringar av visningsprogram.\n\nAtt skapa ett beteende omfattar att välja tvillingar, konfigurera status och aviseringar, lägga till en widget och välja vilket lager som ska visas på.\n\n",
+      "statusTitle": "Status",
+      "statusDescription": "Tillstånd är datadrivna överlagringar på dina element för att ange elementets hälsa eller status. Ange värdeintervall för att skapa tillståndsgränser och välj färger som representerar varje tillstånd i visualiseringen.\n\n",
+      "alertsTitle": "Varningar",
+      "alertsDescription": "Aviseringar är villkorliga meddelanden som hjälper dig att snabbt se när ett element kräver din uppmärksamhet. Anpassa ditt varningsmärke med en ikon, färg och text.\n\n"
+    },
+    "twins": {
+      "title": "Hur väljer jag tvillingar?",
+      "mainContent": "På fliken Tvillingar kan du ändra den uppsättning tvillingar vars data är tillgängliga för det här beteendet. Detta inkluderar de riktade elementens primära tvillingar och ytterligare tvillingar.\n\nYtterligare en tvilling är en sekundär datakälla för en digital tvilling för ett element. Du kommer att kunna använda egenskaper från den tvillingen i dina beteendeuttryck för det här elementet. Du bör bara lägga till ytterligare tvillingar när det finns tvillingar med data utöver din primära tvilling som du vill utnyttja i din status, aviseringar och widgetar för det här beteendet.\n\n",
+      "tipContent": "Azure Digital Twins Explorer kan hjälpa dig att se tvillingar som kan vara relaterade till den primära tvillingen för det här elementet. Du kan fråga diagrammet med SELECT * FROM digitaltwins WHERE $dtId='<primary-twin-id>' och sedan använda expansionsfunktionen för att dubbelklicka för att utforska relaterade tvillingar."
+    },
+    "widgets": {
+      "title": "Vad är en widget?",
+      "mainContent": "Widgetar är datadrivna visuella objekt som ger ytterligare kontext och data som hjälper dig att förstå scenariot som beteendet representerar. Genom att konfigurera widgetar kan du se till att rätt data kan upptäckas när en avisering eller status är aktiv.\n\n",
+      "typesOfWidgets": "Typer av widgets\n\n",
+      "gaugeDescription": "<Underline>Gauge:</Underline> För att representera numeriska datapunkter visuellt\n\n",
+      "linkDescription": "<Underline>Link:</Underline> För att inkludera externt refererat innehåll via en länkad URL\n\n",
+      "valueDescription": "<Underline>Value:</Underline> För direkt visning av tvillingegenskapsvärden\n\n"
+    },
+    "sceneLayers": {
+      "title": "Vad är ett scenlager?",
+      "mainContent": "Du kan skapa lager i din scen för att organisera dina beteenden. Lager fungerar som taggar på beteendena, så att du kan definiera vilka beteenden som behöver ses tillsammans, vilket skapar anpassade vyer av din scen för olika roller eller uppgifter.\n\nOm det inte finns några lager i en scen visas alla beteenden i scenvisaren. Alla beteenden som inte har taggats med ett lager visas i standardlagret tills de har taggats med ett lager.\n\nEtt sätt att skapa lager är att använda knappen Scenlager i vyn Skapa för en scen. Du kan också skapa lager när du skapar eller ändrar ett beteende."
+    }
+  }
 }

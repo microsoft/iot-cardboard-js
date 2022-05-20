@@ -61,6 +61,7 @@ const LinkWidgetBuilder: React.FC<ILinkWidgetBuilderProps> = ({
             <Stack tokens={{ childrenGap: 8 }}>
                 <TextField
                     label={t('label')}
+                    placeholder={t('labelPlaceholder')}
                     value={formData.widgetConfiguration.label}
                     onChange={(_ev, newVal) =>
                         updateWidgetData(
@@ -72,6 +73,9 @@ const LinkWidgetBuilder: React.FC<ILinkWidgetBuilderProps> = ({
                 />
                 <ModelledPropertyBuilder
                     adapter={adapter}
+                    description={t(
+                        '3dSceneBuilder.widgetForm.linkUrlDescription'
+                    )}
                     twinIdParams={{
                         behavior: behaviorToEdit,
                         config,

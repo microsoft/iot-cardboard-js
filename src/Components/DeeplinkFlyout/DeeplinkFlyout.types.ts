@@ -4,6 +4,8 @@ import {
     ICalloutContentStyles,
     IStyleFunctionOrObject
 } from '@fluentui/react';
+import { IHeaderControlButtonStyles } from '../HeaderControlButton/HeaderControlButton.types';
+import { IHeaderControlGroupStyles } from '../HeaderControlGroup/HeaderControlGroup.types';
 
 export interface IDeeplinkFlyoutProps {
     mode: 'Simple' | 'Options';
@@ -33,4 +35,6 @@ export interface IDeeplinkFlyoutStyles {
 
 export interface IDeeplinkFlyoutSubComponentStyles {
     callout?: Partial<ICalloutContentStyles>;
+    headerControlGroup?: IHeaderControlGroupStyles;
+    headerControlButton?: IHeaderControlButtonStyles;
 }

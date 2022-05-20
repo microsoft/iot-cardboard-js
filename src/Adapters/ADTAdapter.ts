@@ -30,7 +30,7 @@ import {
     KeyValuePairData,
     DTwinUpdateEvent,
     IComponentError,
-    primaryTwinName,
+    PRIMARY_TWIN_NAME,
     IADTModel,
     modelRefreshMaxAge,
     twinRefreshMaxAge
@@ -1015,7 +1015,7 @@ export default class ADTAdapter implements IADTAdapter {
                                             element.id === id
                                     ) as ITwinToObjectMapping;
                                     if (element) {
-                                        twins[primaryTwinName] =
+                                        twins[PRIMARY_TWIN_NAME] =
                                             twinIdToResolvedTwinMap[
                                                 element.primaryTwinID
                                             ];
