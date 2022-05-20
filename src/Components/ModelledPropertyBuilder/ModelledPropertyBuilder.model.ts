@@ -67,8 +67,6 @@ export const buildModelledProperties = async ({
             aliasedTwinMap
         );
 
-        // eslint-disable-next-line no-debugger
-        debugger;
         // Expand each model ID into DTDL property array
         modelledProperties.nestedFormat = expandModelIds(
             modelDict,
