@@ -605,7 +605,7 @@ abstract class ViewerConfigUtility {
         }
 
         // Add behavior Ids from selected scene layers to Id dict
-        config.configuration.layers.forEach((layer) => {
+        config?.configuration.layers.forEach((layer) => {
             if (selectedLayerIds.includes(layer.id)) {
                 layer.behaviorIDs.forEach((behaviorId) => {
                     uniqueBehaviorIds.set(behaviorId, '');
