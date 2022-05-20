@@ -571,7 +571,6 @@ abstract class ViewerConfigUtility {
                 unlayeredBehaviorIdMap.add(behaviorId);
             }
         });
-        console.log('***config utility', unlayeredBehaviorIdMap);
 
         return Array.from(unlayeredBehaviorIdMap.values());
     }

@@ -149,16 +149,15 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
         [scenesConfig, sceneId]
     );
 
-    const unlayeredBehaviorsPresent = useMemo(() => {
-        console.log('*(**hit it, ', scenesConfig, sceneId);
-        return (
+    const unlayeredBehaviorsPresent = useMemo(
+        () =>
             ViewerConfigUtility.getUnlayeredBehaviorIdsInScene(
                 scenesConfig,
                 sceneId
-            ).length > 0
-        );
-    }, [scenesConfig, sceneId]);
-    console.log('****render', unlayeredBehaviorsPresent);
+            ).length > 0,
+
+        [scenesConfig, sceneId]
+    );
 
     // panel items includes partial SceneVisual object with filtered properties needed to render elements panel overlay
     const panelItems: Array<IViewerElementsPanelItem> = useMemo(
