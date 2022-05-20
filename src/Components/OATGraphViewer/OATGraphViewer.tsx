@@ -591,24 +591,6 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                 JSON.stringify(oatEditorData)
             );
         }
-
-        const parseModels = async (models: IOATTwinModelNodes[]) => {
-            const modelParser = createParser(
-                ModelParsingOption.PermitAnyTopLevelElement
-            );
-            for (const model of models) {
-                const modelJson = JSON.stringify(model);
-                try {
-                    await modelParser.parse([modelJson]);
-                } catch (err) {
-                    for (const parsingError of err._parsingErrors) {
-                        alert(`${parsingError.action} ${parsingError.cause}`);
-                    }
-                }
-            }
-        };
-
-        parseModels(translatedOutput).catch(console.error);
     }, [translatedOutput]);
 
     const onElementClick = (evt, node) => {
