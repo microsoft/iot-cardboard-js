@@ -2,9 +2,11 @@
   "preview": "Önizleme",
   "loading": "Yükleme...",
   "label": "Etiket",
+  "labelPlaceholder": "Etiketi girin",
   "min": "Min",
   "max": "Max",
   "noData": "Veri yok",
+  "noName": "İsimsiz",
   "error": "Veri alınırken hata oluştu",
   "unsupportedFileType": "Desteklenmeyen dosya türü",
   "selectProperties": "Özellikleri seçin",
@@ -12,18 +14,19 @@
   "theme": "Tema",
   "hierarchy": "Hiyerarşi",
   "displayName": "Görünen ad",
+  "displayNamePlaceholder": "Görünen adı girin",
   "realTimeStatus": "Gerçek zamanlı durum",
   "emptyCompositeCard": "Boş kompozit kart",
   "compositeCardWithErrors": "Hata sınırları olan bileşik kart",
   "showMore": "Daha fazlasını göster",
-  "unauthorizedAccessErrorTitle": "Erişim Kısıtlı",
+  "unauthorizedAccessErrorTitle": "Erişim kısıtlı",
   "unauthorizedAccessErrorMessage": "Bu bloba erişiminiz yok. Okuyucu erişimi isteyin veya farklı bir blob deneyin.",
-  "nonExistentBlobErrorTitle": "Blob Hatası",
+  "nonExistentBlobErrorTitle": "Blob hatası",
   "nonExistentBlobErrorMessage": "Blob yok.",
   "readerAccessOnlyErrorMessage": "Bu blob için okuma erişiminiz var. Bu, modelleri görüntüleyebileceğiniz, ancak herhangi bir sahne, öğe veya davranış oluşturamayacağınız veya yapılandıramayacağınız anlamına gelir.",
   "tryAgain": "Yeniden Deneyin",
   "learnMore": "Daha fazla bilgi edinin",
-  "DataFetchFailed": "Veri Getirme Başarısız Oldu",
+  "DataFetchFailed": "Veri getirme başarısız oldu",
   "more": "Daha",
   "search": "Aramak",
   "noSearchResults": "Girilen arama terimi için ikiz bulunamadı (arama büyük/küçük harfe duyarlıdır).",
@@ -61,7 +64,11 @@
   "editTwin": "İkizi düzenle",
   "confirmDeletion": "Silme işlemini onaylama",
   "confirmDeletionDesc": "Emin misiniz? Bu eylemi geri alamazsınız.",
+  "discardChanges": "Kaydedilmemiş değişiklikleri mi atıyorsunuz?",
+  "discard": "Atmak",
+  "discardChangesDesc": "Emin misiniz? Bu eylemi geri alamazsınız.",
   "action": "Eylem",
+  "actions": "Eylemler",
   "name": "Ad",
   "title": "Başlık",
   "enterTitle": "Başlığı girin",
@@ -75,7 +82,7 @@
   "id": "Kimliği",
   "select": "Seçmek",
   "info": "Bilgi",
-  "ADTInstances": "Azure Digital Twins Örnekleri",
+  "ADTInstances": "Azure Digital Twins örnekleri",
   "ADTInstancesInfo": "Kullanıcının Azure Digital Twins Veri Sahibi veya Azure Digital Twins Veri Okuyucusu iznine sahip olduğu ADT örneklerinin listesi",
   "loadingInstances": "Bulut sunucuları yükleniyor...",
   "selectInstance": "Bir örnek seçin",
@@ -84,7 +91,6 @@
   "globe": "Küre",
   "list": "Liste",
   "selectFile": "Dosya seç",
-  "uploadFile": "Dosya yükle",
   "uploadingFile": "Dosya yükleniyor...",
   "twinId": "İkiz Kimlik",
   "active": "Etkin",
@@ -98,12 +104,12 @@
     }
   },
   "valueRangeBuilder": {
-    "overlapDetectedMessage": "Çakışan aralıklar algılandı. Tüm değer aralıklarının farklı olduğunu doğrulayın. Minimum değerler kapsayıcıdır, Maksimum değerler özeldir.",
-    "addValueRangeButtonText": "Değer aralığı ekleyin",
+    "overlapDetectedMessage": "Çakışan aralıklar algılandı. Tüm aralıkların farklı olduğunu doğrulayın. Minimum değerler kapsayıcıdır, Maksimum değerler özeldir.",
+    "addValueRangeButtonText": "Aralık ekle",
     "rangeValueInvalidMessage": "Değerler sayısal, '-Sonsuz' veya 'Sonsuzluk' olmalıdır",
-    "rangeInvalidMessage": "Minimum değer (<) Maksimum değerden küçük olmalıdır",
-    "colorButtonAriaLabel": "Değer aralığı için renk seçme",
-    "deleteValueRangeTitle": "Değer aralığını sil",
+    "rangeInvalidMessage": "Bu minimum değer, (<) maksimum değerden küçük olmalıdır",
+    "colorButtonAriaLabel": "Aralık için renk seçin",
+    "deleteValueRangeTitle": "Aralığı sil",
     "negativeInfinityIconMessage": "Değeri -Infinity olarak ayarlayın",
     "positiveInfinityIconMessage": "Değeri Sonsuzluk olarak ayarlama"
   },
@@ -158,24 +164,26 @@
   "scenes": {
     "noScenes": "3B sahneleriniz yok, başlamak için yeni bir tane ekleyin.",
     "addScene": "3B sahne ekleme",
-    "blobUrl": "3B dosya blobu URL'si",
-    "addDialogTitle": "Yeni sahne oluştur",
-    "addDialogSubText": "Sahnenizi blob depolamadaki 3B dosyanızın URL'sine bağlama",
-    "editDialogTitle": "Sahneyi düzenle",
-    "editDialogSubText": "Sahnenizin adını ve bağlantılı 3B dosyasını düzenleme",
-    "3dFileSelectionMode": "3D dosya seçim modu",
-    "fromContainer": "Konteynırdan",
-    "3dFileAsset": "3B dosya varlığı",
-    "overwriteIfExist": "Dosya zaten varsa üzerine yaz",
-    "fileExistsErrorMessage": "Bu ada sahip bir dosya depolama alanında zaten varsa, bu dosyayı kapsayıcıdan seçebilir veya üzerine yazabilirsiniz.",
-    "description": "Tarif",
     "latitude": "Enlem",
     "longitude": "Boylam",
-    "showOnGlobe": "Dünyada göster",
     "sampleLatitude": "Örnek: 6.4511366",
     "sampleLongitude": "Örnek: 3.3883963",
     "longitudeErrorMessage": "Giriş değeri -180 ve 180 derece arasında olmalıdır",
-    "latitudeErrorMessage": "Giriş değeri -90 ve 90 derece arasında olmalıdır"
+    "latitudeErrorMessage": "Giriş değeri -90 ve 90 derece arasında olmalıdır",
+    "showOnGlobe": "Dünyada göster",
+    "blobUrl": "3B dosya blobu URL'si",
+    "dialogTitleCreate": "Yeni sahne oluştur",
+    "dialogSubTitle": "Mevcut bir 3B dosyayı URL üzerinden hedefleyin veya doğrudan kapsayıcınıza yeni bir dosya yükleyin",
+    "dialogTitleEdit": "3B sahnenizi düzenleme",
+    "3dFileSelectionMode": "3D dosya seçim modu",
+    "sceneNamePlaceholder": "Bir sahne adı girin",
+    "sceneDescriptionPlaceholder": "Bir sahne açıklaması girin",
+    "tabNameFromContainer": "Dosya seç",
+    "tabNameUploadFile": "Dosya yükle",
+    "3dFileAsset": "3B dosyayı bağlama",
+    "description": "Tarif",
+    "overwriteIfExist": "Dosya zaten varsa üzerine yaz",
+    "fileExistsErrorMessage": "Bu ada sahip bir dosya depolama alanında zaten varsa, bu dosyayı kapsayıcıdan seçebilir veya üzerine yazabilirsiniz."
   },
   "BIMUpload": {
     "specifyFiles": "Karşıya yüklenecek dosyaları belirtme",
@@ -342,7 +350,7 @@
     "noneSelected": "Katman seçilmedi",
     "newLayer": "Yeni katman",
     "layerName": "Katman adı",
-    "behaviorsOnThisLayer": "Bu katmandaki davranışlar",
+    "behaviorsListTitle": "Davranışlar ({{count}})",
     "layerNamePlaceholder": "Katman adını girin",
     "createNewLayer": "Yeni katman oluşturma",
     "editLayer": "Katmanı düzenle",
@@ -350,7 +358,10 @@
     "layers": "Katman",
     "noLayersFound": "Henüz katmanınız yok!",
     "noLayersDescription": "Katmanlar, davranışlardaki etiketler gibidir. Burada bir katman oluşturarak başlayın.",
-    "noBehaviorsOnLayer": "Bu katmanda hiçbir davranış yoktur"
+    "noBehaviorsOnLayer": "Bu katmanda hiçbir davranış yoktur",
+    "deleteConfirmationTitle": "Bu katmanı silin mi?",
+    "deleteConfirmationMessage": "Bu, katmanı ve ilişkili davranışları tüm Digital Twins ortamlarından kalıcı olarak kaldırır.",
+    "infoCalloutContent": "Katmanlar, tüketicilerin davranışları filtreleme ölçütü yapmasına olanak tanıyan görev tabanlı gruplandırmalardır. Sahneler arasında katmanlar vardır."
   },
   "3dSceneBuilder": {
     "elements": "Öğe",
@@ -371,20 +382,16 @@
     "searchBehaviorsPlaceholder": "Arama davranışları",
     "modifyElement": "Öğeyi değiştir",
     "manageTargetElements": "Hedef öğeleri yönetme",
-    "selectBehaviorElements": "Bu davranışın hedefleneceği öğeleri seçin",
+    "elementsListInstructions": "Bu davranışın görselleştirmesine dahil edilmesini istediğiniz öğeleri seçin",
     "multiSelectElements": "Çoklu seçim öğeleri",
-    "updateBehavior": "Güncelleştirme davranışı",
     "removeBehaviorFromScene": "Davranışı sahneden kaldırma",
     "removeBehaviorFromAllScenes": "Tüm sahnelerden davranışı kaldırma",
     "manageSceneLayer": "Sahne katmanını yönetme",
-    "createBehavior": "Davranış oluşturma",
-    "modifyBehavior": "Davranışı Değiştir",
     "addBehaviorButton": "Davranış ekleme",
     "addBehavior": "Davranış Ekle",
     "searchBehaviors": "Arama Davranışları",
     "noAvailableBehaviors": "Kullanılabilir davranış yok",
     "removeBehavior": "Bu öğeden davranışı kaldır",
-    "addElementDetails": "Öğe ayrıntıları ekleme",
     "noBehaviorsOnElement": "Bu öğeye atanmış davranış yok",
     "noElementsText": "Henüz oluşturulmuş bir öğe yok",
     "noResults": "Sonuç bulunamadı",
@@ -398,35 +405,75 @@
     "confirmRemoveBehaviorFromAllScenes": "Bu davranışı tüm sahnelerden kaldırmak istediğinizden emin misiniz? Bu eylemi geri alamazsınız.",
     "newElement": "Yeni öğe",
     "newBehavior": "Yeni davranış",
+    "modifyBehavior": "Düzenleme davranışı",
+    "createBehavior": "Davranış oluşturma",
+    "updateBehavior": "Güncelleştirme davranışı",
     "newBehaviorId": "NewBehaviorId",
     "cancel": "İptal",
     "Done": "Yapılmış",
     "edit": "Düzenle {{elementDisplayName}}",
     "editBehavior": "Düzenleme davranışı",
-    "searchTwinId": "İkiz Kimliği Ara...",
+    "searchTwinId": "Arama İkiz Kimlik ($dtId)...",
     "noTwinsFound": "İkiz bulunamadı (arama büyük/küçük harfe duyarlıdır)",
     "useNonExistingTwinId": "Tam eşleşme yok, kullanın",
     "addBehaviorToScene": "Sahneye davranış ekleme",
     "behaviorMetaText": "{{numElementsInActiveScene}} öğeleri, {{numSceneRefs}} sahneleri",
     "elementMetaText": "{{numBehaviors}} davranışları",
     "primaryTwin": "Birincil ikiz",
-    "primaryTwinInputInfo": "Bu öğeyle bağlantı kurmak için ikiz kimliği ($dtId) girin (büyük/küçük harfe duyarlı)",
-    "noMeshAddedText": "Henüz kafes eklenmedi, lütfen 3B görüntüleyicide kafesleri seçin",
     "meshes": "Kafes",
     "behaviorElementsDropdownLabel": "Hedef öğe",
     "behaviorElementsDropdownPlaceholder": "Bir öğe seçin",
+    "behaviorForm": {
+      "formSubTitle": "Davranışlar, belirli koşullar altında (örneğin, belirli aralıklarla veya veri eşiklerinde) meydana gelen görsel ipuçlarıdır."
+    },
     "behaviorAlertForm": {
-      "colorPickerLabel": "Rozet rengi",
+      "colorPickerLabel": "Renk",
       "expressionLabel": "Tetikleyici ifadesi",
-      "expressionPlaceholder": "Enter ifadesi (örn. PrimaryTwin.InFlow > 3)",
-      "iconPickerLabel": "Rozet simgesi",
-      "notice": "Bu davranış yalnızca aşağıdaki tetikleyici ifade true olarak değerlendirildiğinde etkinleştirilir.",
-      "notificationLabel": "Bildirim metni",
-      "notificationPlaceholder": "Ek bağlam için uyarıyla birlikte gösterilecek metin."
+      "expressionPlaceholder": "Enter ifadesi (örn. PrimaryTwin.InFlow > 200)",
+      "iconPickerLabel": "İkon",
+      "tabDescription": "Uyarılar (metin eşliğinde simgeler) kritik veri koşullarına dikkat çekmeye yardımcı olur. Aşağıda, görselleştirmenizdeki uyarıları tetiklemek için ifadeleri kullanın.",
+      "notificationLabel": "Senaryo açıklaması",
+      "notificationLabelTooltip": "Bu metin, bu rozet etkinken tüketiciye bir bağlam sağlayacaktır.",
+      "notificationLabelDescriptionPart1": "İkiz özelliklerin şablon dizesi sözdizimi ile çevrelenmesi gerekir.",
+      "notificationLabelDescriptionPart2": "Örneğin, $PrimaryTwin.DisplayName} bakım gerektirir",
+      "notificationPlaceholder": "Bir açıklama girin"
     },
     "behaviorStatusForm": {
-      "notice": "Bu davranışın hedef öğelerini yeniden renklendirmek için tek bir özellik kullanın.",
-      "stateItemLabel": "Durum {{index}}"
+      "tabDescription": "Bir özellik seçin, sonra belirli koşullara renk uygulamak için aralıkları ayarlayın (örneğin, yüksek sıcaklıkları belirtmek için kırmızı veya optimum hız için yeşil).",
+      "stateItemLabel": "Durum {{index}}",
+      "propertyExpressionTooltipContent": "Birden çok özellikten yararlanan daha karmaşık ifadeler için özel bir ifade kullanın."
+    },
+    "behaviorWidgetsForm": {
+      "addWidgetButtonText": "Widget ekle",
+      "noData": "Henüz herhangi bir widget yapılandırmadınız",
+      "tabDescription": "Öğenin bağlamında görünen widget'ları tanımlama"
+    },
+    "elementForm": {
+      "twinNameTooltip": "Bu alan büyük/küçük harfe duyarlıdır",
+      "twinNameDescription": "Bu öğeyi bağlamak için bir dijital ikiz seçin. İlişkili davranışlar için bu bağlantılı ikizin özelliklerini kullanacaksınız.",
+      "meshTabName": "Kafes",
+      "behaviorsTabName": "Davranış",
+      "twinTabName": "Diğer ikizler",
+      "formSubTitle": ""
+    },
+    "elementFormMeshTab": {
+      "noDataMessage": "Bu öğe için 3B modelinizden ilişkili ağları seçin."
+    },
+    "elementBehaviorMeshTab": {
+      "noDataMessage": "Bu öğe için davranışları atayın veya değiştirin. Daha sonra istediğiniz zaman davranış ekleyebilirsiniz."
+    },
+    "elementFormTwinTab": {
+      "tabDescription": "Bu ikizler, birincil ikizinizin ötesinde, davranışlarınız için durumunuzda, uyarılarınızda ve widget'larınızda yararlanabileceğiniz veriler içerir.",
+      "noDataMessage": "Bu öğenin davranışlarında ek ikizler oluşturduğunuzda, burada görünürler."
+    },
+    "widgetLibrary": {
+      "dialogTitle": "Widget kitaplığı",
+      "dialogSubTitle": "Widget'ları keşfedin ve öğeniz için veri odaklı içgörüleri görüntüleyin."
+    },
+    "widgetForm": {
+      "unitOfMeasureLabel": "Ölçü birimi",
+      "unitOfMeasurePlaceholder": "Örneğin mil/saat",
+      "linkUrlDescription": "Bir URL girin ve ikiz özellikleri parametre olarak ekleyin -- örneğin, ${PrimaryTwin.SerialNumber}"
     },
     "twinPropertyDropdown": {
       "propertyDropdownLabel": "Mülk",
@@ -446,55 +493,47 @@
     },
     "numericExpressionPlaceholder": "Bir sayıyı değerlendiren bir ifade girin",
     "behaviorId": "Davranış Kimliği",
-    "widgetLibrary": "Widget kitaplığı",
-    "exploreWidgets": "Widget'larımızı keşfedin ve 3B sahnenize ekstra bir bilgi katmanı ekleyin.",
-    "addWidget": "Widget ekle",
     "newWidget": "Yeni widget",
+    "addWidget": "Widget ekle",
     "createWidget": "Widget oluşturma",
     "updateWidget": "Widget'ı güncelleme",
     "editWidget": "Widget'ı düzenle",
     "removeWidget": "Widget'ı kaldırma",
     "noWidgets": "Widget bulunamadı",
     "modifyWidget": "Widget'ı değiştirme",
-    "noWidgetsConfigured": "Yapılandırılmış widget yok",
-    "unitOfMeasure": "Ölçü birimi",
     "expression": "İfade",
     "warningBreakPointToggleLabel": "Renk kesme noktasını etkinleştir",
     "warningBreakPointLabel": "Uyarı rengi kırılma noktası",
     "linkWidgetUrlDescription": "Bağlantı widget'ı URL'si, aşağıdaki gibi JavaScript şablon dizesi biçimlendirmesini destekler: ${PrimaryTwin.property}",
-    "behaviorTypes": {
-      "alertBehavior": "Uyarı davranışı",
-      "statusBehavior": "Durum davranışı"
-    },
     "notImplemented": "Uygulanmadı",
     "noPrimaryTwinProperties": "Görüntülenecek birincil ikiz özellik yok",
     "twinAlias": {
       "title": "İkiz takma ad",
-      "titlePlural": "İkiz takma adlar",
+      "calloutDescription": "Seçilen elemanların ikiz özelliklerinin birliği",
       "aliasedTwin": "Takma adlı ikiz",
-      "aliasedTwins": "Takma adlı ikizler",
-      "add": "İkiz diğer ad ekleme",
-      "noTwinAliasesAdded": "Henüz ikiz takma ad eklenmedi",
-      "new": "Yeni ikiz takma ad",
-      "edit": "İkiz takma adı düzenleme",
-      "create": "İkiz diğer ad oluşturma",
-      "update": "İkiz diğer adı güncelleştirme",
-      "modify": "İkiz diğer adı değiştirme",
-      "search": "İkiz takma adları arama",
+      "add": "İkiz ekle",
+      "new": "Yeni iki yataklı",
+      "edit": "İkizi düzenle",
+      "create": "İkiz oluştur",
+      "update": "İkizi güncelle",
+      "modify": "İkizi değiştirme",
+      "search": "İkizleri ara",
       "searchProperties": "Mülk ara",
       "noTwinAliasesToAdd": "Eklenecek ikiz takma ad yok",
       "removeFromBehavior": "İkiz diğer adı davranıştan kaldırma",
       "removeFromElement": "İkiz diğer adı öğeden kaldırma",
       "commonProperties": "Ortak özellikler",
       "twinAliasForm": {
-        "alias": "Diğer ad",
-        "elementTwinMappings": "Öğe ikizi eşlemeleri",
+        "aliasNameLabel": "İkiz isim",
+        "aliasNameTooltipContent": "Bu ikizin adını oluşturulduktan sonra değiştiremezsiniz.",
+        "mappingSectionHeader": "Öğeler için ikiz eşlemeler",
+        "mappingSectionSubHeader": "Her öğe için, bu ikizin başvurduğu dijital ikizi seçin",
         "elementTwinMappingsNotExist": "Kullanılabilir eşleme yok, önce davranışa öğeler ekleyin."
       },
+      "tabDescriptionPart1": "Her öğe birincil ikizinden gelen verilerden yararlanır. Öğelerinizin verilerden yararlanabileceği diğer ikizleri ekleyin.",
+      "tabDescriptionPart2": "Hedeflenen öğeler arasındaki ortak özellikleri görüntüleyin ve ifadelerinizdeki birincil ikizi veya diğer ikizleri kullanarak bu özelliklere başvurun. ",
+      "linkedTwinListHeader": "Bağlı ikizler ({{count}})",
       "descriptions": {
-        "twins": "İkizler, ifadelerde kullanılabilecek özelliklere erişmenizi sağlar.",
-        "primaryTwin": "PrimaryTwin, hedef elemanlar birincil ikizleri arasındaki ortak tüm özellikleri içerir.",
-        "aliasChangeNotAllowed": "Oluşturulduktan sonra diğer ad değişimine izin verilmez.",
         "commonProperties": "Seçilen elemanların birincil ikiz özelliklerinin birliği"
       },
       "errors": {
@@ -507,26 +546,31 @@
   "widgets": {
     "trend": {
       "title": "Trend widget'ı",
-      "description": "Geçmiş verileri 3B sahnenizin bağlamında gösterme"
+      "libraryName": "Eğilim",
+      "description": "Geçmiş verilerin grafiklerini gösterme"
     },
     "gauge": {
       "title": "Ölçer widget'ı",
-      "description": "Sayısal veri noktalarını görsel bağlamla temsil etme"
+      "libraryName": "Ölçer",
+      "description": "Sayısal özellikleri özel aralıklarla temsil etme"
     },
     "link": {
       "title": "Bağlantı widget'ı",
-      "description": "Bir URL'yi bağlayarak dış içeriğe başvurma",
-      "urlPlaceholder": "https://mypowerbi.biz/${PrimaryTwin.myproperty}",
+      "libraryName": "Bağlantı",
+      "description": "Öğeye özgü URL'lere gitme",
+      "urlPlaceholder": "https://contoso.com/userManual/${PrimaryTwin.SerialNumber}",
       "openLink": "Bağlantıyı aç"
     },
     "value": {
       "title": "Değer widget'ı",
-      "description": "İkiz özelliklerin değerlerini göstermek için temel bir widget",
+      "libraryName": "Değer",
+      "description": "Herhangi bir ilkel özelliği görüntüleme",
       "displayNamePlaceholder": "Görünen adı girin",
       "typePlaceholder": "Değer için türü seçin"
     },
     "panel": {
       "title": "Panel widget'ı",
+      "libraryName": "Panel",
       "description": "Mizanpaj paneli"
     },
     "notSupported": "Bu widget türü şu anda desteklenmiyor"
@@ -711,13 +755,13 @@
     }
   },
   "environmentPicker": {
-    "environmentUrl": "Ortam URL'si",
-    "containerUrl": "Kapsayıcı URL'si",
+    "environmentUrl": "Azure Digital Twins örneği URL'si",
+    "containerUrl": "Azure Depolama kapsayıcı URL'si",
     "enterEnvironmentUrl": "örneğin https://example.api.wus2.digitaltwins.azure.net",
     "enterContainerUrl": "örneğin https://example.blob.core.windows.net/example",
-    "editEnvironment": "Ortamı düzenleme",
-    "descriptionForEnvironment": "Varlıklarınızı listelemek için ortamınızı bağlayın.",
-    "descriptionForEnvAndCont": "Sahnelerinizi listelemek için ortamınızı ve depolama kapsayıcısı URL'nizi bağlayın.",
+    "editEnvironment": "3B Sahneler ortamını yapılandırma",
+    "descriptionForEnvironment": "3B sahneler oluşturmaya başlamak için Azure Digital Twins örneğinizi bağlayın.",
+    "descriptionForEnvAndCont": "3B sahneler oluşturmaya başlamak için Azure Digital Twins örneğinizi ve depolama kapsayıcınızı bağlayın.",
     "descriptionForLocalStorage": "Yapılandırma verileri yerel depolama alanına kaydedilir.",
     "selectContainerUrl": "Depolama kapsayıcısı URL'sini seçin",
     "noEnvironment": "Ortam eklenmedi",
@@ -742,7 +786,7 @@
     "reactComponent": "React bileşeni sözdizimi aracılığıyla SVG gösterimi"
   },
   "blobDropdown": {
-    "selectFileOrEnter": "Dosya seçin veya blob URL'sini girin",
+    "selectFileOrEnter": "Dosya URL'sini girin veya listeden seçin",
     "3dFileFromContainer": "Konteynerde 3D dosya",
     "loading3DFiles": "Dosyalar yükleniyor...",
     "invalidBlobUrlPath": "Bu desteklenen bir blob URL'si değil (ör. https://<storageAccountName>.blob.core.windows.net/<containerName>/<3DFileName>)",
@@ -750,10 +794,10 @@
   },
   "modelViewerModePicker": {
     "buttonLabel": "Tema",
-    "title": "Görüntüleyici Teması",
-    "style": "Üslup",
-    "objectColors": "Nesne rengi",
-    "background": "Arka plan",
+    "title": "Sahne Teması",
+    "style": "3B model stili",
+    "objectColors": "3B model rengi",
+    "background": "Sahne arka planı",
     "default": "Temerrüt",
     "transparent": "Saydam",
     "wireframe": "Tel kafes"
@@ -761,7 +805,7 @@
   "deeplinkFlyout": {
     "buttonTitle": "Paylaş",
     "copyButtonText": "Bağlantıyı kopyala",
-    "copyConfirmationMessage": "Kopya -lanan!",
+    "copyConfirmationMessage": "Bağlantı kopyalandı!",
     "flyoutHeader": "Sahneyi paylaş",
     "includeElementsOption": "Seçili öğeyle bağlantı kurma",
     "includeLayersOption": "Seçili katmanlarla bağlantı kurma"
@@ -784,49 +828,23 @@
   },
   "cameraControls": {
     "mouseControls": "Fare Kontrolleri",
-    "select": "Seçmek",
-    "pan": "Tava",
     "orbit": "Yörünge",
-    "zoom": "Yakınlaştırmak",
+    "pan": "Tava",
     "reset": "Sıfırlama",
+    "select": "Seçmek",
+    "zoom": "Yakınlaştırmak",
     "zoomIn": "Yakınlaştırma",
     "zoomOut": "Uzaklaştırma"
   },
   "tutorialModal": {
-    "elements": {
-      "title": "Öğe nedir?",
-      "content": "Öğe, bir veya daha fazla altta yatan dijital ikizdeki verilere bağlanan, kendi kendini tanımlayan bir 3B kafes kümesidir. Elements, sistem işlemlerini ve sistem durumunu hızlı bir şekilde ölçmenize yardımcı olur. \n\nBirincil ikiz, bir elemanın ana dijital ikiz karşılığıdır. Öğenin ikizinizi ve verilerini 3B görselleştirme içinde temsil edebilmesi için öğeyi Azure Digital Twins örneğinizdeki bir ikize bağlarsınız."
-    },
-    "docLinkBlurb": "Adım adım daha ayrıntılı bilgi için <DocLink>docs sayfamıza buradan göz atın.</DocLink>",
-    "behaviors": {
-      "title": "Davranış nedir?",
-      "mainContent": "Davranış, izleyici görselleştirmelerini yönlendirmek için ilgili öğenin dijital ikizi üzerindeki belirli verilerden yararlanacak sahneniz için bir senaryodur.\n\nBir davranış oluşturmak, ikizleri seçmeyi, durumu ve uyarıları yapılandırmayı, bir widget eklemeyi ve hangi katmanda görüntüleneceğini seçmeyi içerir.\n\n",
-      "statusTitle": "Durum",
-      "statusDescription": "Durumlar, öğenin sistem durumunu veya durumunu belirtmek için öğeleriniz üzerindeki veri odaklı kaplamalardır. durum sınırları oluşturmak için değer aralıkları ayarlayın ve görselleştirmedeki her durumu temsil edecek renkleri seçin.\n\n",
-      "alertsTitle": "Uyarı",
-      "alertsDescription": "Uyarılar, bir öğenin ne zaman dikkat etmeniz gerektiğini hızlı bir şekilde görmenize yardımcı olan koşullu bildirimlerdir. Uyarı rozetinizi bir simge, renk ve metinle özelleştirin.\n\n"
-    },
-    "tip": "Bahşiş",
-    "twins": {
-      "title": "İkizleri nasıl seçerim?",
-      "mainContent": "İkizler sekmesinde, verileri bu davranış için kullanılabilir olan ikizler kümesini değiştirebilirsiniz. Bu, hedeflenen elementlerin birincil ikizlerini ve birincil olmayan ikizleri içerir.\n\nBirincil olmayan ikiz, bir öğe için ikincil bir dijital ikiz veri kaynağıdır. Bu öğenin davranış ifadelerinde bu ikizin özelliklerini kullanabilirsiniz. Birincil olmayan ikizleri yalnızca, birincil ikizinizin ötesinde, bu davranış için durumunuzda, uyarılarınızda ve widget'larınızda kullanmak istediğiniz verilere sahip ek ikizler olduğunda eklemelisiniz.\n\n",
-      "tipContent": "Azure Digital Twins Explorer, bu öğenin birincil ikizi ile ilişkili olabilecek ikizleri görmenize yardımcı olabilir. SELECT * FROM digitaltwins WHERE $dtId='<primary-twin-id>' komutunu kullanarak grafiğinizi sorgulayabilir ve ardından ilgili ikizleri keşfetmek için çift tıklatmalı genişletme özelliğini kullanabilirsiniz."
-    },
-    "widgets": {
-      "title": "Widget nedir?",
-      "mainContent": "Pencere öğeleri, davranışın temsil ettiği senaryoyu anlamanıza yardımcı olmak için ek bağlam ve veriler sağlayan veri odaklı görsellerdir. Widget'ları yapılandırmak, bir uyarı veya durum etkinken doğru verilerin bulunabilir olduğundan emin olmanıza yardımcı olur.\n\n",
-      "typesOfWidgets": "Widget türleri\n\n",
-      "gaugeDescription": "<Altı çizili>Ölçer: < / Altı çizili> Sayısal veri noktalarını görsel olarak temsil etmek için\n\n",
-      "linkDescription": "<Altı çizili>Bağlantı:</Altı Çizili> Harici olarak başvurulan içeriği bağlantılı bir URL aracılığıyla dahil etmek için\n\n",
-      "valueDescription": "<Underline>Value:</Underline> İkiz özellik değerlerini doğrudan görüntülemek için\n\n"
-    },
-    "sceneLayers": {
-      "title": "Sahne katmanı nedir?",
-      "mainContent": "Davranışlarınızı düzenlemenize yardımcı olması için sahnenizde katmanlar oluşturabilirsiniz. Katmanlar, davranışlar üzerindeki etiketler gibi davranarak hangi davranışların birlikte görülmesi gerektiğini tanımlamanıza olanak tanır, böylece farklı roller veya görevler için sahnenizin özel görünümlerini oluşturur.\n\nBir sahnede katman yoksa, tüm davranışlar sahne görüntüleyicisinde görünür. Sahnede en az bir katman varsa görüntüleyicide yalnızca bir katmanla etiketlenmiş davranışlar görünür.\n\nKatmanlar oluşturmanın bir yolu, bir sahne için Yapı görünümündeki Sahne katmanları düğmesini kullanmaktır. Alternatif olarak, bir davranış oluştururken veya değiştirirken katmanlar oluşturabilirsiniz."
-    },
     "modalTitle": "3D Sahneler Stüdyosu'na hoş geldiniz!",
     "publicPreview": "Genel Önizleme",
     "closeAriaLabel": "Modal'ı kapat",
+    "rootDocsLinkText": "Belge",
+    "githubLinkText": "GitHub Hesabı",
+    "quickstartLinkText": "Hızlı başlangıçQuickstart",
+    "primaryButtonText": "Demoyu keşfedin",
+    "dismissText": "Kapatmak",
     "nextSlide": "Sonraki slayt",
     "previousSlide": "Önceki slayt",
     "statusIndicatorSelectedAria": "Slayt {{slayt}} seçildi",
@@ -843,7 +861,7 @@
     "frePages": {
       "intro": {
         "title": "En yeni düşük kod oluşturucumuz",
-        "text": "Bu sürükleyici 3B ortamda, 3B uzmanlığa gerek kalmadan Azure Digital Twins verileriyle desteklenen 3B varlıkların görsel bağlamıyla operasyonel verileri izleyebilir, tanılayabilir ve araştırabilirsiniz."
+        "text": "Bu düşük kodlu oluşturucuda, 3B uzmanlığa gerek kalmadan Azure Digital Twins verileriyle desteklenen 3B varlıkların görsel bağlamıyla operasyonel verileri izleyebilir, tanılayabilir ve araştırabilirsiniz."
       },
       "builder": {
         "title": "Oluşturucumuzda sahnenizi özelleştirin",
@@ -858,10 +876,36 @@
       "title": "Kavramlar hakkında daha derin bir dalışa mı ihtiyacınız var?",
       "text": "Yardım içeriğine göz atın veya adım adım öğreticiler için belgelerimize göz atın!"
     },
-    "rootDocsLinkText": "Belge",
-    "githubLinkText": "GitHub Hesabı",
-    "quickstartLinkText": "Hızlı başlangıçQuickstart",
-    "primaryButtonText": "Demoyu keşfedin",
-    "dismissText": "Kapatmak"
+    "docLinkBlurb": "Daha ayrıntılı bir adım adım için buradan <DocLink>docs sayfasına göz atın.</DocLink>",
+    "tip": "Bahşiş",
+    "elements": {
+      "title": "Öğe nedir?",
+      "content": "Öğe, bir veya daha fazla altta yatan dijital ikizdeki verilere bağlanan, kendi kendini tanımlayan bir 3B kafes kümesidir.\n\nBirincil ikiz, bir elemanın ana dijital ikiz karşılığıdır. Öğenin ikizinizi ve verilerini 3B görselleştirme içinde temsil edebilmesi için öğeyi Azure Digital Twins örneğinizdeki bir ikize bağlarsınız."
+    },
+    "behaviors": {
+      "title": "Davranış nedir?",
+      "mainContent": "Davranış, izleyici görselleştirmelerini yönlendirmek için ilgili öğenin dijital ikizi üzerindeki belirli verilerden yararlanacak sahneniz için bir senaryodur.\n\nBir davranış oluşturmak, ikizleri seçmeyi, durumu ve uyarıları yapılandırmayı, bir widget eklemeyi ve hangi katmanda görüntüleneceğini seçmeyi içerir.\n\n",
+      "statusTitle": "Durum",
+      "statusDescription": "Durumlar, öğenin sistem durumunu veya durumunu belirtmek için öğeleriniz üzerindeki veri odaklı kaplamalardır. Durum sınırları oluşturmak için değer aralıkları ayarlayın ve görselleştirmedeki her durumu temsil edecek renkleri seçin.\n\n",
+      "alertsTitle": "Uyarı",
+      "alertsDescription": "Uyarılar, bir öğenin ne zaman dikkat etmeniz gerektiğini hızlı bir şekilde görmenize yardımcı olan koşullu bildirimlerdir. Uyarı rozetinizi bir simge, renk ve metinle özelleştirin.\n\n"
+    },
+    "twins": {
+      "title": "İkizleri nasıl seçerim?",
+      "mainContent": "İkizler sekmesinde, verileri bu davranış için kullanılabilir olan ikizler kümesini değiştirebilirsiniz. Bu, hedeflenen elementlerin birincil ikizlerini ve ek ikizleri içerir.\n\nEk bir ikiz, bir öğe için ikincil bir dijital ikiz veri kaynağıdır. Bu öğenin davranış ifadelerinde bu ikizin özelliklerini kullanabilirsiniz. Yalnızca birincil ikizinizin ötesinde, bu davranış için durumunuzda, uyarılarınızda ve widget'larınızda kullanmak istediğiniz verilere sahip ikizler olduğunda ek ikizler eklemelisiniz.\n\n",
+      "tipContent": "Azure Digital Twins Explorer, bu öğenin birincil ikizi ile ilişkili olabilecek ikizleri görmenize yardımcı olabilir. SELECT * FROM digitaltwins WHERE $dtId='<primary-twin-id>' komutunu kullanarak grafiğinizi sorgulayabilir ve ardından ilgili ikizleri keşfetmek için çift tıklatmalı genişletme özelliğini kullanabilirsiniz."
+    },
+    "widgets": {
+      "title": "Widget nedir?",
+      "mainContent": "Pencere öğeleri, davranışın temsil ettiği senaryoyu anlamanıza yardımcı olmak için ek bağlam ve veriler sağlayan veri odaklı görsellerdir. Widget'ları yapılandırmak, bir uyarı veya durum etkinken doğru verilerin bulunabilir olduğundan emin olmanıza yardımcı olur.\n\n",
+      "typesOfWidgets": "Widget türleri\n\n",
+      "gaugeDescription": "<Altı çizili>Ölçer: < / Altı çizili> Sayısal veri noktalarını görsel olarak temsil etmek için\n\n",
+      "linkDescription": "<Altı çizili>Bağlantı:</Altı Çizili> Harici olarak başvurulan içeriği bağlantılı bir URL aracılığıyla dahil etmek için\n\n",
+      "valueDescription": "<Underline>Value:</Underline> İkiz özellik değerlerini doğrudan görüntülemek için\n\n"
+    },
+    "sceneLayers": {
+      "title": "Sahne katmanı nedir?",
+      "mainContent": "Davranışlarınızı düzenlemenize yardımcı olması için sahnenizde katmanlar oluşturabilirsiniz. Katmanlar, davranışlar üzerindeki etiketler gibi davranarak hangi davranışların birlikte görülmesi gerektiğini tanımlamanıza olanak tanır, böylece farklı roller veya görevler için sahnenizin özel görünümlerini oluşturur.\n\nBir sahnede katman yoksa, tüm davranışlar sahne görüntüleyicisinde görünür. Bir katmanla etiketlenmemiş tüm davranışlar, bir katmanla etiketlenene kadar Varsayılan katmanda görünür.\n\nKatmanlar oluşturmanın bir yolu, bir sahne için Yapı görünümündeki Sahne katmanları düğmesini kullanmaktır. Alternatif olarak, bir davranış oluştururken veya değiştirirken katmanlar oluşturabilirsiniz."
+    }
   }
 }

@@ -82,7 +82,8 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
         refetchDependencies: [
             adapter,
             deeplinkState.storageUrl,
-            state.selectedScene
+            state.selectedScene,
+            state.currentStep
         ]
     });
     const resetConfig = useAdapter({
@@ -146,6 +147,21 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
             setCurrentStep(ADT3DScenePageSteps.Scene);
         },
         [setCurrentStep, setMode, setSelectedSceneId]
+    );
+
+    const handleOnSceneSwap = useCallback(
+        (sceneId: string) => {
+            setSelectedSceneId(sceneId);
+            deeplinkDispatch({
+                type: DeeplinkContextActionType.SET_ELEMENT_ID,
+                payload: { id: '' }
+            });
+            deeplinkDispatch({
+                type: DeeplinkContextActionType.SET_LAYER_IDS,
+                payload: { ids: [] }
+            });
+        },
+        [setSelectedSceneId]
     );
 
     const handleContainerUrlChange = useCallback(
@@ -293,6 +309,7 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
                 dispatch,
                 handleOnHomeClick,
                 handleOnSceneClick,
+                handleOnSceneSwap,
                 isTwinPropertyInspectorPatchModeEnabled: enableTwinPropertyInspectorPatchMode
             }}
         >
@@ -358,7 +375,18 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
                                     />
                                 </div>
                                 <Stack horizontal tokens={{ childrenGap: 8 }}>
-                                    <DeeplinkFlyout mode="Simple" />
+                                    <DeeplinkFlyout
+                                        mode="Simple"
+                                        styles={{
+                                            subComponentStyles: {
+                                                headerControlGroup: {
+                                                    root: {
+                                                        border: 'none'
+                                                    }
+                                                }
+                                            }
+                                        }}
+                                    />
                                     <SceneListModeToggle
                                         selectedMode={state.currentStep}
                                         onListModeChange={onListModeChange}

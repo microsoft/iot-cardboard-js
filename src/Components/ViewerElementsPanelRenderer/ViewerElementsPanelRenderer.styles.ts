@@ -1,6 +1,7 @@
 import {
     ELEMENTS_PANEL_BUTTON_BOTTOM_OFFSET,
-    ELEMENTS_PANEL_BUTTON_HEIGHT
+    ELEMENTS_PANEL_BUTTON_HEIGHT,
+    INITIAL_ELEMENTS_PANEL_LEFT_OFFSET
 } from '../../Models/Constants/StyleConstants';
 import {
     IViewerElementsPanelRendererStyleProps,
@@ -28,7 +29,7 @@ export const getStyles = (
                     color: 'var(--cb-color-text-primary)',
                     position: 'absolute',
                     zIndex: 999,
-                    left: 20,
+                    left: INITIAL_ELEMENTS_PANEL_LEFT_OFFSET,
                     bottom: ELEMENTS_PANEL_BUTTON_BOTTOM_OFFSET
                 },
                 rootChecked: {

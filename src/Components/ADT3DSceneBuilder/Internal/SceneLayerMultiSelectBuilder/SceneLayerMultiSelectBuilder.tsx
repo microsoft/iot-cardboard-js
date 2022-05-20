@@ -2,11 +2,15 @@ import {
     ActionButton,
     ComboBox,
     IComboBox,
-    IComboBoxOption
+    IComboBoxOption,
+    IOnRenderComboBoxLabelProps,
+    Label,
+    Stack
 } from '@fluentui/react';
 import produce from 'immer';
 import React, { useContext, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
+import TooltipCallout from '../../../TooltipCallout/TooltipCallout';
 import { SceneBuilderContext } from '../../ADT3DSceneBuilder';
 
 interface ISceneLayerMultiSelectBuilder {
@@ -35,6 +39,22 @@ const SceneLayerMultiSelectBuilder: React.FC<ISceneLayerMultiSelectBuilder> = ({
         })
     );
 
+    const onRenderLabel = (
+        renderProps: IOnRenderComboBoxLabelProps
+    ): JSX.Element => {
+        return (
+            <Stack horizontal verticalAlign={'center'}>
+                <Label>{renderProps.props.label}</Label>
+                <TooltipCallout
+                    content={{
+                        buttonAriaLabel: t('sceneLayers.infoCalloutContent'),
+                        calloutContent: t('sceneLayers.infoCalloutContent')
+                    }}
+                />
+            </Stack>
+        );
+    };
+
     const onSelectedLayerChanges = (
         _event: React.FormEvent<IComboBox>,
         option: IComboBoxOption
@@ -60,6 +80,7 @@ const SceneLayerMultiSelectBuilder: React.FC<ISceneLayerMultiSelectBuilder> = ({
             onChange={onSelectedLayerChanges}
             placeholder={t('sceneLayers.noneSelected')}
             componentRef={comboBoxRef}
+            onRenderLabel={onRenderLabel}
             onRenderLowerContent={() => (
                 <div>
                     <ActionButton

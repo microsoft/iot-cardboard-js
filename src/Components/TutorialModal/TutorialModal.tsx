@@ -23,11 +23,10 @@ import {
     Icon,
     Text,
     IProcessedStyleSet,
-    IIconProps,
     IIconStyles
 } from '@fluentui/react';
 import { useId } from '@fluentui/react-hooks';
-import { FRE_MODAL_LINKS, scenesDemoUrl } from '../../Models/Constants';
+import { DOCUMENTATION_LINKS, SCENES_DEMO_URL } from '../../Models/Constants';
 import IntroductionSlideShow from './Internal/IntroductionSlideShow';
 import {
     defaultTutorialModalState,
@@ -35,6 +34,7 @@ import {
 } from './TutorialModal.state';
 import ConceptPage from './Internal/ConceptPage';
 import { TFunction, useTranslation } from 'react-i18next';
+import BaseComponent from '../BaseComponent/BaseComponent';
 
 const getClassNames = classNamesFunction<
     ITutorialModalStyleProps,
@@ -45,13 +45,13 @@ export const TutorialModalContext = createContext<{
     classNames: IProcessedStyleSet<ITutorialModalStyles>;
 }>(null);
 
-const TutorialModal: React.FC<ITutorialModalProps> = (props) => {
+const TutorialModalBase: React.FC<ITutorialModalProps> = (props) => {
     const { t } = useTranslation();
     const {
-        styles,
+        defaultPageKey = TutorialModalPage.INTRODUCTION,
         isOpen,
         onDismiss,
-        defaultPageKey = TutorialModalPage.INTRODUCTION
+        styles
     } = props;
     const classNames = getClassNames(styles, {
         theme: useTheme()
@@ -129,7 +129,7 @@ const TutorialModal: React.FC<ITutorialModalProps> = (props) => {
                     <div className={classNames.footer}>
                         <Stack horizontal tokens={{ childrenGap: 8 }}>
                             <Link
-                                href={FRE_MODAL_LINKS.viewTheDocs}
+                                href={DOCUMENTATION_LINKS.overviewDoc}
                                 target="_blank"
                             >
                                 {t('tutorialModal.rootDocsLinkText')}
@@ -143,7 +143,7 @@ const TutorialModal: React.FC<ITutorialModalProps> = (props) => {
                                 |
                             </Text>
                             <Link
-                                href={FRE_MODAL_LINKS.viewOnGithub}
+                                href={DOCUMENTATION_LINKS.viewOnGithub}
                                 target="_blank"
                             >
                                 {t('tutorialModal.githubLinkText')}
@@ -157,7 +157,7 @@ const TutorialModal: React.FC<ITutorialModalProps> = (props) => {
                                 |
                             </Text>
                             <Link
-                                href={FRE_MODAL_LINKS.viewTheQuickstart}
+                                href={DOCUMENTATION_LINKS.viewTheQuickstart}
                                 target="_blank"
                             >
                                 {t('tutorialModal.quickstartLinkText')}
@@ -166,7 +166,7 @@ const TutorialModal: React.FC<ITutorialModalProps> = (props) => {
                         <Stack horizontal tokens={{ childrenGap: 8 }}>
                             <PrimaryButton
                                 onClick={() =>
-                                    window.open(scenesDemoUrl, '_blank')
+                                    window.open(SCENES_DEMO_URL, '_blank')
                                 }
                             >
                                 {t('tutorialModal.primaryButtonText')}
@@ -301,6 +301,19 @@ const nestedLinkIconProps: IIconStyles = {
     root: {
         marginLeft: 18
     }
+};
+
+const TutorialModal: React.FC<ITutorialModalProps> = (props) => {
+    const { locale, localeStrings, theme } = props;
+    return (
+        <BaseComponent
+            locale={locale}
+            localeStrings={localeStrings}
+            theme={theme}
+        >
+            <TutorialModalBase {...props} />
+        </BaseComponent>
+    );
 };
 
 export default styled<

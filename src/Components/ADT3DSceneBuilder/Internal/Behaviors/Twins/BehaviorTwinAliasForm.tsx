@@ -1,8 +1,10 @@
 import {
     DefaultButton,
+    ITextFieldProps,
     Label,
     mergeStyleSets,
     PrimaryButton,
+    Stack,
     Text,
     TextField,
     useTheme
@@ -24,6 +26,7 @@ import ViewerConfigUtility from '../../../../../Models/Classes/ViewerConfigUtili
 import { TwinAliasFormMode } from '../../../../../Models/Constants';
 import { deepCopy } from '../../../../../Models/Services/Utils';
 import { ITwinToObjectMapping } from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
+import TooltipCallout from '../../../../TooltipCallout/TooltipCallout';
 import TwinSearchDropdown from '../../../../TwinSearchDropdown/TwinSearchDropdown';
 import { SceneBuilderContext } from '../../../ADT3DSceneBuilder';
 import { getLeftPanelStyles } from '../../Shared/LeftPanel.styles';
@@ -127,6 +130,30 @@ const BehaviorTwinAliasForm: React.FC<{
         setSelectedElements
     ]);
 
+    const onRenderLabel = useCallback(
+        (
+            props?: ITextFieldProps,
+            defaultRender?: (props?: ITextFieldProps) => JSX.Element | null
+        ): JSX.Element => {
+            return (
+                <Stack horizontal verticalAlign={'center'}>
+                    {defaultRender(props)}
+                    <TooltipCallout
+                        content={{
+                            buttonAriaLabel: t(
+                                '3dSceneBuilder.twinAlias.twinAliasForm.aliasNameTooltipContent'
+                            ),
+                            calloutContent: t(
+                                '3dSceneBuilder.twinAlias.twinAliasForm.aliasNameTooltipContent'
+                            )
+                        }}
+                    />
+                </Stack>
+            );
+        },
+        [t]
+    );
+
     const existingTwinAliasNames = useMemo(
         () =>
             ViewerConfigUtility.getAvailableBehaviorTwinAliasItemsBySceneAndElements(
@@ -189,7 +216,10 @@ const BehaviorTwinAliasForm: React.FC<{
         <>
             <div className={commonFormStyles.content}>
                 <TextField
-                    label={t('3dSceneBuilder.twinAlias.twinAliasForm.alias')}
+                    data-testid={'behavior-alias-twin-name-text-field'}
+                    label={t(
+                        '3dSceneBuilder.twinAlias.twinAliasForm.aliasNameLabel'
+                    )}
                     value={formData.alias}
                     required
                     onChange={(_ev, newVal) =>
@@ -199,21 +229,31 @@ const BehaviorTwinAliasForm: React.FC<{
                             })
                         )
                     }
+                    onRenderLabel={onRenderLabel}
                     disabled={
                         behaviorTwinAliasFormInfo.mode ===
                         TwinAliasFormMode.EditTwinAlias
                     }
-                    description={t(
-                        '3dSceneBuilder.twinAlias.descriptions.aliasChangeNotAllowed'
-                    )}
                     errorMessage={errorMessage}
+                    styles={{
+                        root: {
+                            '.ms-Label::after': {
+                                paddingRight: 4
+                            }
+                        }
+                    }}
                 />
                 <div className={styles.elementTwinMappingsSection}>
                     <Label>
                         {t(
-                            '3dSceneBuilder.twinAlias.twinAliasForm.elementTwinMappings'
+                            '3dSceneBuilder.twinAlias.twinAliasForm.mappingSectionHeader'
                         )}
                     </Label>
+                    <Text className={commonPanelStyles.text}>
+                        {t(
+                            '3dSceneBuilder.twinAlias.twinAliasForm.mappingSectionSubHeader'
+                        )}
+                    </Text>
                     <div className={styles.elementTwinMappingsWrapper}>
                         {!selectedElements || selectedElements.length === 0 ? (
                             <Text className={commonPanelStyles.text}>

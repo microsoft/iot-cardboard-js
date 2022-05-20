@@ -6,13 +6,16 @@ import {
     ITextStyles,
     ITheme
 } from '@fluentui/react';
+import { Locale, Theme } from '../../Models/Constants';
 
 export interface ITutorialModalProps {
+    defaultPageKey?: TutorialModalPage;
     isOpen: boolean;
 
+    locale?: Locale;
+    localeStrings?: Record<string, any>;
     onDismiss: () => void;
-
-    defaultPageKey?: TutorialModalPage;
+    theme?: Theme;
 
     /**
      * Call to provide customized styling that will layer on top of the variant rules.
