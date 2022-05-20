@@ -927,9 +927,9 @@
     "resolveIssues": "Resolver problemas",
     "resolvingIssues": "Resolviendo problemas...",
     "missingPermissionsMessage": "Faltan permisos. Necesitará acceso como lector y como propietario de datos de blobs de almacenamiento o colaborador de datos de blobs de almacenamiento.",
-    "assignRoleSuccessDesc": "Hemos asignado los permisos que faltan. Espere mientras intentamos verificar si los cambios están en vigor.",
     "noMissingRoleDesc": "No se han detectado permisos faltantes, estamos intentando verificar si los permisos asignados están en vigor.",
     "finishedWithFailureDesc": "Intento fallido, póngase en contacto con el propietario del recurso.",
-    "verifyingPermissionsMessage": "Verificando permisos...\nEsto puede tardar varios minutos."
+    "verifyingPermissionsMessage": "Verificando permisos...\nEsto puede tardar varios minutos.",
+    "assignRoleSuccessDes": "Se han asignado permisos que faltan. Espere mientras intentamos verificar si los cambios están en vigor."
   }
 }

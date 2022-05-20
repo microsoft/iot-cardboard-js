@@ -927,9 +927,9 @@
     "resolveIssues": "Beheben von Problemen",
     "resolvingIssues": "Probleme lösen...",
     "missingPermissionsMessage": "Sie haben fehlende Berechtigungen. Sie benötigen Zugriff als Reader und entweder Storage Blob Data Owner oder Storage Blob Data Contributor.",
-    "assignRoleSuccessDesc": "Wir haben die fehlenden Berechtigungen vergeben. Bitte warten Sie, während wir versuchen zu überprüfen, ob die Änderungen wirksam sind.",
     "noMissingRoleDesc": "Keine fehlenden Berechtigungen erkannt, versuchen wir zu überprüfen, ob zugewiesene Berechtigungen wirksam sind.",
     "finishedWithFailureDesc": "Der Versuch ist fehlgeschlagen, wenden Sie sich an den Ressourcenbesitzer.",
-    "verifyingPermissionsMessage": "Berechtigungen überprüfen...\nDies kann einige Minuten dauern."
+    "verifyingPermissionsMessage": "Berechtigungen überprüfen...\nDies kann einige Minuten dauern.",
+    "assignRoleSuccessDes": "Fehlende Berechtigungen wurden vergeben. Bitte warten Sie, während wir versuchen zu überprüfen, ob die Änderungen wirksam sind."
   }
 }

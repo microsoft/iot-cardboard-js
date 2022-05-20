@@ -927,9 +927,9 @@
     "resolveIssues": "Rozwiązywanie problemów",
     "resolvingIssues": "Rozwiązywanie problemów...",
     "missingPermissionsMessage": "Brakuje Ci uprawnień. Będziesz potrzebować dostępu jako czytelnik i właściciel danych obiektów blob magazynu lub współtwórca danych obiektów blob magazynu.",
-    "assignRoleSuccessDesc": "Przypisaliśmy brakujące uprawnienia. Poczekaj, aż spróbujemy sprawdzić, czy zmiany obowiązują.",
     "noMissingRoleDesc": "Nie wykryto brakujących uprawnień, próbujemy sprawdzić, czy przypisane uprawnienia obowiązują.",
     "finishedWithFailureDesc": "Próba nie powiodła się, skontaktuj się z właścicielem zasobu.",
-    "verifyingPermissionsMessage": "Weryfikowanie uprawnień...\nMoże to potrwać kilka minut."
+    "verifyingPermissionsMessage": "Weryfikowanie uprawnień...\nMoże to potrwać kilka minut.",
+    "assignRoleSuccessDes": "Brakujące uprawnienia zostały przypisane. Poczekaj, aż spróbujemy sprawdzić, czy zmiany obowiązują."
   }
 }

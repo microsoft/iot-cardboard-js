@@ -927,9 +927,9 @@
     "resolveIssues": "Lösa problem",
     "resolvingIssues": "Lösa problem ...",
     "missingPermissionsMessage": "Du saknar behörigheter. Du behöver åtkomst som läsare och antingen Storage Blob Data Owner eller Storage Blob Data Contributor.",
-    "assignRoleSuccessDesc": "Vi har tilldelat de behörigheter som saknas. Vänta medan vi försöker verifiera om ändringarna är i kraft.",
     "noMissingRoleDesc": "Inga saknade behörigheter har upptäckts, vi försöker verifiera om tilldelade behörigheter gäller.",
     "finishedWithFailureDesc": "Försöket misslyckades, kontakta resursägaren.",
-    "verifyingPermissionsMessage": "Verifiera behörigheter...\nDet kan ta flera minuter."
+    "verifyingPermissionsMessage": "Verifiera behörigheter...\nDet kan ta flera minuter.",
+    "assignRoleSuccessDes": "Saknade behörigheter har tilldelats. Vänta medan vi försöker verifiera om ändringarna är i kraft."
   }
 }

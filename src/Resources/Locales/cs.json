@@ -927,9 +927,9 @@
     "resolveIssues": "Řešení problémů",
     "resolvingIssues": "Řešení problémů...",
     "missingPermissionsMessage": "Chybí vám oprávnění. Budete potřebovat přístup jako čtenář a buď vlastník dat objektů BLOB úložiště, nebo přispěvatel dat objektů BLOB úložiště.",
-    "assignRoleSuccessDesc": "Přiřadili jsme chybějící oprávnění. Počkejte prosím, než se budeme pokoušet ověřit, zda se změny projeví.",
     "noMissingRoleDesc": "Nebyla zjištěna žádná chybějící oprávnění, pokoušíme se ověřit, zda jsou přiřazená oprávnění v platnosti.",
     "finishedWithFailureDesc": "Pokus se nezdařil, obraťte se na vlastníka prostředku.",
-    "verifyingPermissionsMessage": "Ověření oprávnění...\nTo může trvat několik minut."
+    "verifyingPermissionsMessage": "Ověření oprávnění...\nTo může trvat několik minut.",
+    "assignRoleSuccessDes": "Byla přiřazena chybějící oprávnění. Počkejte prosím, než se budeme pokoušet ověřit, zda se změny projeví."
   }
 }

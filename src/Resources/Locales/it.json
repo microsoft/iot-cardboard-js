@@ -927,9 +927,9 @@
     "resolveIssues": "Risolvere i problemi",
     "resolvingIssues": "Risoluzione dei problemi...",
     "missingPermissionsMessage": "Mancano le autorizzazioni. Sarà necessario accedere come lettore e proprietario dei dati BLOB di archiviazione o collaboratore dei dati BLOB di archiviazione.",
-    "assignRoleSuccessDesc": "Abbiamo assegnato le autorizzazioni mancanti. Attendi mentre stiamo tentando di verificare se le modifiche sono in vigore.",
     "noMissingRoleDesc": "Nessuna autorizzazione mancante rilevata, stiamo tentando di verificare se le autorizzazioni assegnate sono in vigore.",
     "finishedWithFailureDesc": "Tentativo non riuscito, contattare il proprietario della risorsa.",
-    "verifyingPermissionsMessage": "Verifica delle autorizzazioni...\nQuesta operazione potrebbe richiedere alcuni minuti."
+    "verifyingPermissionsMessage": "Verifica delle autorizzazioni...\nQuesta operazione potrebbe richiedere alcuni minuti.",
+    "assignRoleSuccessDes": "Sono state assegnate autorizzazioni mancanti. Attendi mentre stiamo tentando di verificare se le modifiche sono in vigore."
   }
 }
