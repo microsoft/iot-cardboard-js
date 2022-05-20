@@ -199,7 +199,7 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
                         },
                         params: {
                             'api-version': '2021-04-01',
-                            ...(skipToken && { continuationToken: skipToken })
+                            ...(skipToken && { skipToken: skipToken })
                         }
                     }).catch((err) => {
                         adapterMethodSandbox.pushError({
