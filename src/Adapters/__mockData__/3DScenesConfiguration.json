@@ -166,7 +166,7 @@
                         "id": "0c785dde26634341b1f39104e1b35180",
                         "displayName": "Tower 3",
                         "primaryTwinID": "BoxA",
-                        "objectIDs": ["MODULE_TOWER_SMALL_765_LOD1"]
+                        "objectIDs": ["MODULE_FACTORY_LOD1_001"]
                     },
                     {
                         "type": "TwinToObjectMapping",
