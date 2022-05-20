@@ -150,11 +150,12 @@ const ModelViewerModePicker: React.FC<ModelViewerModePickerProps> = ({
     }, []);
 
     useEffect(() => {
+        // defaultViewerMode is only meant to set the initial values of the picker
         if (
             defaultViewerMode &&
-            defaultViewerMode.style !== undefined &&
-            defaultViewerMode.background !== undefined &&
-            defaultViewerMode.objectColor !== undefined &&
+            defaultViewerMode.style &&
+            defaultViewerMode.background &&
+            defaultViewerMode.objectColor &&
             !defaultViewerModeSet.current
         ) {
             defaultViewerModeSet.current = true;

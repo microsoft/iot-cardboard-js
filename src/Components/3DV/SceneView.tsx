@@ -956,6 +956,7 @@ function SceneView(props: ISceneViewProps, ref) {
         }
 
         return () => {
+            // if the modelurl prop is set but has not changed from the current url we don't want to clean up the materials
             if (modelUrl && modelUrl !== modelUrlRef.current) {
                 for (const material of materialCacheRef.current) {
                     sceneRef.current?.removeMaterial(material);
