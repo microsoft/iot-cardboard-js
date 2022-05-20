@@ -16,7 +16,8 @@ export const getScenePageErrorHandlingStyles = memoizeFunction(() => {
             {
                 height: '100%',
                 display: 'flex',
-                flexDirection: 'column'
+                flexDirection: 'column',
+                justifyContent: 'center'
             } as IStyle
         ],
         warningMessage: [
