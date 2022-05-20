@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { ComponentErrorType } from '../../Models/Constants';
-import { MessageBar, MessageBarType, useTheme } from '@fluentui/react';
+import { MessageBar, MessageBarType } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import BaseComponent from '../BaseComponent/BaseComponent';
 import { ScenePageErrorHandlingWrapperProps } from './ScenePageErrorHandlingWrapper.types';
@@ -20,8 +20,7 @@ const ScenePageErrorHandlingWrapper: React.FC<ScenePageErrorHandlingWrapperProps
 }) => {
     const { t } = useTranslation();
 
-    const theme = useTheme();
-    const styles = getScenePageErrorHandlingStyles(theme);
+    const styles = getScenePageErrorHandlingStyles();
     const errorContent = useMemo(() => {
         let content;
         switch (errors?.[0]?.type) {

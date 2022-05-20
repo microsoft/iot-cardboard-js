@@ -147,8 +147,7 @@ const UnauthorizedAccessHandling: React.FC<UnauthorizedAccessHandlingProps> = ({
         return () => clearInterval(reloadPageTimeoutRef.current);
     }, [addMissingRolesToContainerAdapterData?.adapterResult.result]);
 
-    const theme = useTheme();
-    const styles = getScenePageErrorHandlingStyles(theme);
+    const styles = getScenePageErrorHandlingStyles();
     const errorContent = useMemo(
         () => (
             <IllustrationMessage
