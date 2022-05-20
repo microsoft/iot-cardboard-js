@@ -6,7 +6,9 @@ import {
 } from '@fluentui/react';
 
 export interface ILeftPanelBuilderHeaderProps {
+    /** top level text */
     headerText: string;
+    /** text with optional icon under the header */
     subHeaderText: string | undefined;
     iconName: string | undefined;
 

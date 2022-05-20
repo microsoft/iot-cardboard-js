@@ -392,7 +392,7 @@
         "searchBehaviors": "Search Behaviors",
         "noAvailableBehaviors": "No available behaviors",
         "removeBehavior": "Remove behavior from this element",
-        "addElementDetails": "Add element details",
+
         "noBehaviorsOnElement": "No behaviors assigned to this element",
         "noElementsText": "No elements created yet. Select an object in the scene to create an element",
         "noResults": "No results found",
@@ -450,6 +450,7 @@
             "tabDescription": "Define widgets that appear in the element's context"
         },
         "elementForm": {
+            "formSubTitle": "Elements link objects in your 3D model with digital twin data",
             "twinNameTooltip": "This field is case sensitive",
             "twinNameDescription": "Select a digital twin to link this element to. You will use this linked twin's properties for associated behaviors.",
             "meshTabName": "Meshes",

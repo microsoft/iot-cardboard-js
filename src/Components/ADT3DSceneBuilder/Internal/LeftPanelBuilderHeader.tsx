@@ -87,7 +87,7 @@ export const getLeftPanelBuilderHeaderParamsForElements = (
 ) => {
     let headerText = '',
         subHeaderText = '',
-        iconName: '' | CardboardIconNames = 'Ringer';
+        iconName: '' | CardboardIconNames;
 
     if (elementTwinAliasFormInfo) {
         if (
@@ -104,12 +104,12 @@ export const getLeftPanelBuilderHeaderParamsForElements = (
     } else {
         if (builderMode === ADT3DSceneBuilderMode.CreateElement) {
             headerText = i18n.t('3dSceneBuilder.newElement');
-            subHeaderText = i18n.t('3dSceneBuilder.addElementDetails');
+            subHeaderText = i18n.t('3dSceneBuilder.elementForm.formSubTitle');
         } else if (builderMode === ADT3DSceneBuilderMode.EditElement) {
             headerText = i18n.t('3dSceneBuilder.modifyElement');
             subHeaderText = selectedElement?.displayName;
+            iconName = 'Shapes';
         }
-        iconName = 'Shapes';
     }
 
     return {
