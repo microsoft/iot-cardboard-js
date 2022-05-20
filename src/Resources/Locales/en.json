@@ -931,6 +931,6 @@
         "assignRoleSuccessDesc": "We have assigned the missing permissions. Please wait while we are attempting to verify if the changes are in effect.",
         "noMissingRoleDesc": "The missing permissions have been assigned, verifying the changes.",
         "finishedWithFailureDesc": "Attempt failed, please contact to the resource owner.",
-        "verifyingPermissionsMessag": "Verifying permissions...\nThis may take several minutes."
+        "verifyingPermissionsMessage": "Verifying permissions...\nThis may take several minutes."
     }
 }
