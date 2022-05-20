@@ -75,12 +75,14 @@ const ElementTwinAliasForm: React.FC = () => {
                 <Stack horizontal verticalAlign={'center'}>
                     {defaultRender(props)}
                     <TooltipCallout
-                        buttonAriaLabel={t(
-                            '3dSceneBuilder.twinAlias.twinAliasForm.aliasNameTooltipContent'
-                        )}
-                        calloutContent={t(
-                            '3dSceneBuilder.twinAlias.twinAliasForm.aliasNameTooltipContent'
-                        )}
+                        content={{
+                            buttonAriaLabel: t(
+                                '3dSceneBuilder.twinAlias.twinAliasForm.aliasNameTooltipContent'
+                            ),
+                            calloutContent: t(
+                                '3dSceneBuilder.twinAlias.twinAliasForm.aliasNameTooltipContent'
+                            )
+                        }}
                     />
                 </Stack>
             );
