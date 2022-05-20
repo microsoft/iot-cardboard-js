@@ -21,17 +21,22 @@ export const useCommandHistory = (
     initialState?: IUseCommandHistory
 ): ICommandHistory => {
     const [index, setIndex] = useState(0);
-    const [history] = useState(initialState);
+    const [history, setHistory] = useState(initialState);
 
     const execute = (doFn, undoFn) => {
         doFn();
-        history.length = index; // clear history after current index
+        setHistory([...history.slice(0, index), { doFn, undoFn }]);
         setIndex(index + 1);
-        history.push({ doFn, undoFn });
     };
 
-    const canRedo = useMemo(() => history && !!history[index], [index]);
-    const canUndo = useMemo(() => history && !!history[index - 1], [index]);
+    const canRedo = useMemo(() => history && !!history[index], [
+        index,
+        history
+    ]);
+    const canUndo = useMemo(() => history && !!history[index - 1], [
+        index,
+        history
+    ]);
 
     const redo = () => {
         if (canRedo) {
