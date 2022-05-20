@@ -6,9 +6,14 @@ const classNames = {
     container: `${classPrefix}-container`,
     node: `${classPrefix}-node`,
     handle: `${classPrefix}-handle`,
-    componentHandle: `${classPrefix}-component-handle`,
-    relationshipHandle: `${classPrefix}-relationship-handle`,
-    extendHandle: `${classPrefix}-extend-handle`,
+    componentHandleFocus: `${classPrefix}-component-handle-focus`,
+    componentHandleHidden: `${classPrefix}-component-handle-hidden`,
+    relationshipHandleFocus: `${classPrefix}-relationship-handle-focus`,
+    relationshipHandleHidden: `${classPrefix}-relationship-handle-hidden`,
+    extendHandleFocus: `${classPrefix}-extend-handle-focus`,
+    extendHandleHidden: `${classPrefix}-extend-handle-hidden`,
+    untargetRelationshipHandleFocus: `${classPrefix}-untargeted-handle-focus`,
+    untargetRelationshipHandleHidden: `${classPrefix}-untargeted-handle-hidden`,
     edgePath: `${classPrefix}-edge-path`,
     widthPath: `${classPrefix}-width-path`,
     textPath: `${classPrefix}-text-path`,
@@ -47,27 +52,74 @@ export const getGraphViewerStyles = () => {
         handle: [
             classNames.handle,
             {
+                background: 'transparent !Important',
+                border: '0px !Important',
+                left: '60% !Important',
+                top: '50% !Important'
+            } as IStyle
+        ],
+        componentHandleFocus: [
+            classNames.componentHandleFocus,
+            {
+                left: '20% !Important',
                 background: theme.semanticColors.variantBorder
             } as IStyle
         ],
-        componentHandle: [
-            classNames.componentHandle,
+        componentHandleHidden: [
+            classNames.componentHandleHidden,
             {
-                left: '16.5% !Important',
+                left: '60% !Important',
+                top: '50% !Important',
+                background: 'transparent !Important',
+                border: '0px !Important'
+            } as IStyle
+        ],
+        relationshipHandleFocus: [
+            classNames.relationshipHandleFocus,
+            {
+                left: '45% !Important',
                 background: theme.semanticColors.variantBorder
             } as IStyle
         ],
-        relationshipHandle: [
-            classNames.relationshipHandle,
+        relationshipHandleHidden: [
+            classNames.relationshipHandleHidden,
             {
+                left: '60% !Important',
+                top: '50% !Important',
+                background: 'transparent !Important',
+                border: '0px !Important'
+            } as IStyle
+        ],
+        extendHandleFocus: [
+            classNames.extendHandleFocus,
+            {
+                left: '100% !Important',
                 background: theme.semanticColors.variantBorder
             } as IStyle
         ],
-        extendHandle: [
-            classNames.extendHandle,
+        extendHandleHidden: [
+            classNames.extendHandleHidden,
             {
-                left: '83.5% !Important',
+                left: '60% !Important',
+                top: '50% !Important',
+                background: 'transparent !Important',
+                border: '0px !Important'
+            } as IStyle
+        ],
+        untargetRelationshipHandleFocus: [
+            classNames.untargetRelationshipHandleFocus,
+            {
+                left: '70% !Important',
                 background: theme.semanticColors.variantBorder
+            } as IStyle
+        ],
+        untargetRelationshipHandleHidden: [
+            classNames.untargetRelationshipHandleHidden,
+            {
+                left: '60% !Important',
+                top: '50% !Important',
+                background: 'transparent !Important',
+                border: '0px !Important'
             } as IStyle
         ],
         edgePath: [
@@ -81,8 +133,7 @@ export const getGraphViewerStyles = () => {
         widthPath: [
             classNames.widthPath,
             {
-                stroke: theme.semanticColors.bodyBackground,
-                strokeWidth: '5',
+                strokeWidth: '10',
                 fill: 'none'
             } as IStyle
         ],

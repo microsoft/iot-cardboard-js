@@ -38,36 +38,143 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
     );
     const graphViewerStyles = getGraphViewerStyles();
     const theme = useTheme();
+    sourceY = sourceY - 6;
 
     const element = elements.find((x) => x.id === id);
-    if (element) {
-        const sourceNode = elements.find((x) => x.id === element.source);
-        const sourceNodeSize = (sourceX - sourceNode.position.x) * 2;
-        const targetNode = elements.find((x) => x.id === element.target);
-        const targetNodeSize = (targetX - targetNode.position.x) * 2;
+    const sourceNode = elements.find((x) => x.id === element.source);
+    const sourceNodeSizeX = (sourceX - sourceNode.position.x) * 2;
+    const sourceNodeSizeY = (sourceY - sourceNode.position.y) * 2;
+    const targetNode = elements.find((x) => x.id === element.target);
+    const targetNodeSizeX = (targetX - targetNode.position.x) * 2;
+    const targetNodeSizeY = (targetY - targetNode.position.y) * 2;
+    /*if (element) {
         const connection = 3;
         const sources = elements.filter(
-            (x) =>
-                x.source === element.source &&
-                x.sourceHandle === element.sourceHandle
+            (x) => x.source === element.source && x.target === element.target
         );
         if (sources.length > 1) {
-            const separation = sourceNodeSize / connection / sources.length;
+            const separation = sourceNodeSizeX / sources.length;
             const sourceRange = (separation * (sources.length - 1)) / 2;
             sourceX = sourceX - sourceRange;
             const indexX = sources.findIndex((x) => x.id === id);
             sourceX = indexX * separation + sourceX;
             sourceY = sourceY - connection;
         }
-        const targets = elements.filter((x) => x.target === element.target);
+        const targets = elements.filter(
+            (x) => x.source === element.source && x.target === element.target
+        );
         if (targets.length > 1) {
-            const separation = targetNodeSize / targets.length;
+            const separation = targetNodeSizeX / targets.length;
             const targetRange = (separation * (targets.length - 1)) / 2;
             targetX = targetX - targetRange;
             const indexY = targets.findIndex((x) => x.id === id);
             targetX = indexY * separation + targetX;
             targetY = targetY + connection;
         }
+    }*/
+    let heightVector = targetY > sourceY ? 1 : -1;
+    let baseVector = targetX > sourceX ? 1 : -1;
+    const triangleHeight = (targetY - sourceY) * heightVector;
+    const triangleBase = (targetX - sourceX) * baseVector;
+    const triangleHypotenuse = Math.sqrt(
+        triangleHeight * triangleHeight + triangleBase * triangleBase
+    );
+    const sourceHeight = sourceNodeSizeY / 2;
+    const sourceBase = sourceNodeSizeX / 2;
+    const sourceHypotenuse = Math.sqrt(
+        sourceHeight * sourceHeight + sourceBase * sourceBase
+    );
+    const sourceBetaAngle = Math.asin(sourceBase / sourceHypotenuse);
+    const alphaAngle = Math.asin(triangleHeight / triangleHypotenuse);
+    const betaAngle = 1.5708 - alphaAngle;
+    let newHeight = 0;
+    let newBase = 0;
+    let polygonSourceX = 0;
+    let polygonSourceY = 0;
+    let componentPolygon = '';
+    if (betaAngle < sourceBetaAngle) {
+        newHeight = sourceHeight;
+        const newHypotenuse = newHeight / Math.sin(alphaAngle);
+        newBase = Math.sqrt(
+            newHypotenuse * newHypotenuse - newHeight * newHeight
+        );
+        polygonSourceX = sourceX + newBase * baseVector;
+        polygonSourceY = sourceY + newHeight * heightVector;
+        componentPolygon = `${polygonSourceX + 5 * baseVector},${
+            polygonSourceY + 5 * heightVector
+        } ${polygonSourceX},${polygonSourceY + 10 * heightVector} ${
+            polygonSourceX - 5 * baseVector
+        },${
+            polygonSourceY + 5 * heightVector
+        } ${polygonSourceX},${polygonSourceY}`;
+    } else {
+        newBase = sourceBase;
+        const newHypotenuse = newBase / Math.sin(betaAngle);
+        newHeight = Math.sqrt(
+            newHypotenuse * newHypotenuse - newBase * newBase
+        );
+        polygonSourceX = sourceX + newBase * baseVector;
+        polygonSourceY = sourceY + newHeight * heightVector;
+        componentPolygon = `${polygonSourceX + 5 * baseVector},${
+            polygonSourceY - 5 * heightVector
+        } ${polygonSourceX + 10 * baseVector},${polygonSourceY} ${
+            polygonSourceX + 5 * baseVector
+        },${
+            polygonSourceY + 5 * heightVector
+        } ${polygonSourceX},${polygonSourceY}`;
+    }
+    heightVector = targetY < sourceY ? 1 : -1;
+    baseVector = targetX < sourceX ? 1 : -1;
+    const targetHeight = targetNodeSizeY / 2;
+    const targetBase = targetNodeSizeX / 2;
+    const targetHypotenuse = Math.sqrt(
+        targetHeight * targetHeight + targetBase * targetBase
+    );
+    const targetBetaAngle = Math.asin(targetBase / targetHypotenuse);
+    let polygonTargetX = 0;
+    let polygonTargetY = 0;
+    let inheritancePolygon = '';
+    let relationshipPolygon = '';
+    if (betaAngle < targetBetaAngle) {
+        newHeight = targetHeight;
+        const newHypotenuse = newHeight / Math.sin(alphaAngle);
+        newBase = Math.sqrt(
+            newHypotenuse * newHypotenuse - newHeight * newHeight
+        );
+        polygonTargetX = targetX + newBase * baseVector;
+        polygonTargetY = targetY + newHeight * heightVector;
+        inheritancePolygon = `${polygonTargetX + 5 * baseVector},${
+            polygonTargetY + 10 * heightVector
+        } ${polygonTargetX - 5 * baseVector},${
+            polygonTargetY + 10 * heightVector
+        } ${polygonTargetX},${polygonTargetY}`;
+        relationshipPolygon = `${polygonTargetX + 5 * heightVector},${
+            polygonTargetY + 10 * heightVector
+        } ${polygonTargetX},${polygonTargetY} ${
+            polygonTargetX - 5 * heightVector
+        },${
+            polygonTargetY + 10 * heightVector
+        } ${polygonTargetX},${polygonTargetY}`;
+    } else {
+        newBase = targetBase;
+        const newHypotenuse = newBase / Math.sin(betaAngle);
+        newHeight = Math.sqrt(
+            newHypotenuse * newHypotenuse - newBase * newBase
+        );
+        polygonTargetX = targetX + newBase * baseVector;
+        polygonTargetY = targetY + newHeight * heightVector;
+        inheritancePolygon = `${polygonTargetX + 10 * baseVector},${
+            polygonTargetY + 5 * heightVector
+        } ${polygonTargetX + 10 * baseVector},${
+            polygonTargetY - 5 * heightVector
+        } ${polygonTargetX},${polygonTargetY}`;
+        relationshipPolygon = `${polygonTargetX + 10 * baseVector},${
+            polygonTargetY - 5 * heightVector
+        } ${polygonTargetX},${polygonTargetY} ${
+            polygonTargetX + 10 * baseVector
+        },${
+            polygonTargetY + 5 * heightVector
+        } ${polygonTargetX},${polygonTargetY}`;
     }
 
     const onNameChange = (evt) => {
@@ -120,8 +227,8 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
 
     const edgePath =
         sourceX > targetX
-            ? `M${bezierPath[3]} C${bezierPath[2]} ${bezierPath[1]} ${bezierPath[0]}`
-            : `M${bezierPath[0]} C${bezierPath[1]} ${bezierPath[2]} ${bezierPath[3]}`;
+            ? `M${bezierPath[3]} ${bezierPath[0]}`
+            : `M${bezierPath[0]} ${bezierPath[3]}`;
     const [edgeCenterX, edgeCenterY] = getEdgeCenter({
         sourceX,
         sourceY,
@@ -136,7 +243,10 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
             }
         ];
         setElements((els) => removeElements(elementsToRemove, els));
-        setModel(null);
+        dispatch({
+            type: SET_OAT_PROPERTY_EDITOR_MODEL,
+            payload: null
+        });
     };
 
     return (
@@ -243,11 +353,9 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
             )}
             {data.type === OATExtendHandleName && (
                 <polygon
-                    points={`${targetX - 5},${targetY - 10} ${targetX + 5},${
-                        targetY - 10
-                    } ${targetX},${targetY}`}
-                    cx={targetX}
-                    cy={targetY}
+                    points={inheritancePolygon}
+                    cx={polygonTargetX}
+                    cy={polygonTargetY}
                     r={3}
                     strokeWidth={1.5}
                     className={graphViewerStyles.inheritanceShape}
@@ -256,11 +364,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
             {(data.type === OATRelationshipHandleName ||
                 data.type === OATUntargetedRelationshipName) && (
                 <polygon
-                    points={`${targetX - 5},${
-                        targetY - 5
-                    } ${targetX},${targetY} ${targetX + 5},${
-                        targetY - 5
-                    } ${targetX},${targetY}`}
+                    points={relationshipPolygon}
                     cx={targetX}
                     cy={targetY}
                     r={3}
@@ -270,11 +374,9 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
             )}
             {data.type === OATComponentHandleName && (
                 <polygon
-                    points={`${sourceX + 5},${sourceY + 5} ${sourceX},${
-                        sourceY + 10
-                    } ${sourceX - 5},${sourceY + 5} ${sourceX},${sourceY}`}
-                    cx={sourceX}
-                    cy={sourceY}
+                    points={componentPolygon}
+                    cx={polygonSourceX}
+                    cy={polygonSourceY}
                     r={3}
                     strokeWidth={1.5}
                     className={graphViewerStyles.componentShape}
