@@ -392,7 +392,6 @@
     "searchBehaviors": "Chování vyhledávání",
     "noAvailableBehaviors": "Žádné dostupné chování",
     "removeBehavior": "Odebrání chování z tohoto prvku",
-    "addElementDetails": "Přidání podrobností o prvku",
     "noBehaviorsOnElement": "Tomuto prvku nejsou přiřazena žádná chování",
     "noElementsText": "Zatím nebyly vytvořeny žádné prvky",
     "noResults": "Nebyly nalezeny žádné výsledky",
@@ -454,7 +453,8 @@
       "twinNameDescription": "Vyberte digitální dvojče, se kterým chcete tento prvek propojit. Vlastnosti tohoto propojeného dvojčete použijete pro přidružená chování.",
       "meshTabName": "Sítě",
       "behaviorsTabName": "Chování",
-      "twinTabName": "Ostatní dvojčata"
+      "twinTabName": "Ostatní dvojčata",
+      "formSubTitle": ""
     },
     "elementFormMeshTab": {
       "noDataMessage": "Vyberte přidružené mřížky z 3D modelu pro tento prvek."

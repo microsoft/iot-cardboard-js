@@ -392,7 +392,6 @@
     "searchBehaviors": "Zachowania związane z wyszukiwaniem",
     "noAvailableBehaviors": "Brak dostępnych zachowań",
     "removeBehavior": "Usuń zachowanie z tego elementu",
-    "addElementDetails": "Dodawanie szczegółów elementu",
     "noBehaviorsOnElement": "Brak zachowań przypisanych do tego elementu",
     "noElementsText": "Nie utworzono jeszcze żadnych elementów",
     "noResults": "Nie znaleziono wyników",
@@ -454,7 +453,8 @@
       "twinNameDescription": "Wybierz cyfrowego bliźniaka, z którym chcesz połączyć ten element. Właściwości tego połączonego bliźniaka będą używane do skojarzonych zachowań.",
       "meshTabName": "Siatki",
       "behaviorsTabName": "Zachowania",
-      "twinTabName": "Inne bliźnięta"
+      "twinTabName": "Inne bliźnięta",
+      "formSubTitle": ""
     },
     "elementFormMeshTab": {
       "noDataMessage": "Wybierz skojarzone siatki z modelu 3D dla tego elementu."

@@ -392,7 +392,6 @@
     "searchBehaviors": "Zoekgedrag",
     "noAvailableBehaviors": "Geen beschikbaar gedrag",
     "removeBehavior": "Gedrag uit dit element verwijderen",
-    "addElementDetails": "Elementdetails toevoegen",
     "noBehaviorsOnElement": "Geen gedrag toegewezen aan dit element",
     "noElementsText": "Nog geen elementen gemaakt",
     "noResults": "Geen resultaten gevonden",
@@ -454,7 +453,8 @@
       "twinNameDescription": "Selecteer een digitale tweeling waaraan u dit element wilt koppelen. Je gebruikt de eigenschappen van deze gekoppelde tweeling voor geassocieerd gedrag.",
       "meshTabName": "Netten",
       "behaviorsTabName": "Gedrag",
-      "twinTabName": "Andere tweelingen"
+      "twinTabName": "Andere tweelingen",
+      "formSubTitle": ""
     },
     "elementFormMeshTab": {
       "noDataMessage": "Selecteer gekoppelde netten in uw 3D-model voor dit element."

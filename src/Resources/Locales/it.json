@@ -392,7 +392,6 @@
     "searchBehaviors": "Comportamenti di ricerca",
     "noAvailableBehaviors": "Nessun comportamento disponibile",
     "removeBehavior": "Rimuovere il comportamento da questo elemento",
-    "addElementDetails": "Aggiungere i dettagli dell'elemento",
     "noBehaviorsOnElement": "Nessun comportamento assegnato a questo elemento",
     "noElementsText": "Nessun elemento creato ancora",
     "noResults": "Nessun risultato trovato",
@@ -454,7 +453,8 @@
       "twinNameDescription": "Selezionare un gemello digitale a cui collegare questo elemento. Le proprietà di questo gemello collegato verranno utilizzate per i comportamenti associati.",
       "meshTabName": "Maglie",
       "behaviorsTabName": "Comportamenti",
-      "twinTabName": "Altri gemelli"
+      "twinTabName": "Altri gemelli",
+      "formSubTitle": ""
     },
     "elementFormMeshTab": {
       "noDataMessage": "Selezionare le mesh associate dal modello 3D per questo elemento."

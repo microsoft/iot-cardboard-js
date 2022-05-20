@@ -392,7 +392,6 @@
     "searchBehaviors": "Comportements de recherche",
     "noAvailableBehaviors": "Aucun comportement disponible",
     "removeBehavior": "Supprimer le comportement de cet élément",
-    "addElementDetails": "Ajouter des détails d’élément",
     "noBehaviorsOnElement": "Aucun comportement affecté à cet élément",
     "noElementsText": "Aucun élément créé pour l’instant",
     "noResults": "Aucun résultat trouvé",
@@ -454,7 +453,8 @@
       "twinNameDescription": "Sélectionnez un jumeau numérique auquel lier cet élément. Vous utiliserez les propriétés de ce jumeau lié pour les comportements associés.",
       "meshTabName": "Mailles",
       "behaviorsTabName": "Comportements",
-      "twinTabName": "Autres jumeaux"
+      "twinTabName": "Autres jumeaux",
+      "formSubTitle": ""
     },
     "elementFormMeshTab": {
       "noDataMessage": "Sélectionnez les maillages associés à partir de votre modèle 3D pour cet élément."

@@ -392,7 +392,6 @@
     "searchBehaviors": "Arama Davranışları",
     "noAvailableBehaviors": "Kullanılabilir davranış yok",
     "removeBehavior": "Bu öğeden davranışı kaldır",
-    "addElementDetails": "Öğe ayrıntıları ekleme",
     "noBehaviorsOnElement": "Bu öğeye atanmış davranış yok",
     "noElementsText": "Henüz oluşturulmuş bir öğe yok",
     "noResults": "Sonuç bulunamadı",
@@ -454,7 +453,8 @@
       "twinNameDescription": "Bu öğeyi bağlamak için bir dijital ikiz seçin. İlişkili davranışlar için bu bağlantılı ikizin özelliklerini kullanacaksınız.",
       "meshTabName": "Kafes",
       "behaviorsTabName": "Davranış",
-      "twinTabName": "Diğer ikizler"
+      "twinTabName": "Diğer ikizler",
+      "formSubTitle": ""
     },
     "elementFormMeshTab": {
       "noDataMessage": "Bu öğe için 3B modelinizden ilişkili ağları seçin."

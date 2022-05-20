@@ -392,7 +392,6 @@
     "searchBehaviors": "검색 동작",
     "noAvailableBehaviors": "사용 가능한 동작이 없습니다.",
     "removeBehavior": "이 요소에서 동작 제거",
-    "addElementDetails": "요소 세부 정보 추가",
     "noBehaviorsOnElement": "이 요소에 할당된 동작이 없습니다.",
     "noElementsText": "아직 만들어진 요소가 없습니다.",
     "noResults": "결과를 찾을 수 없음",
@@ -454,7 +453,8 @@
       "twinNameDescription": "이 요소를 연결할 디지털 트윈을 선택합니다. 연결된 트윈의 속성을 연관된 동작에 사용합니다.",
       "meshTabName": "메시",
       "behaviorsTabName": "동작",
-      "twinTabName": "다른 쌍둥이"
+      "twinTabName": "다른 쌍둥이",
+      "formSubTitle": ""
     },
     "elementFormMeshTab": {
       "noDataMessage": "이 요소에 대한 3D 모델에서 연관된 메쉬를 선택합니다."

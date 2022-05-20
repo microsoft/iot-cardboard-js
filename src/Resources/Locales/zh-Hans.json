@@ -392,7 +392,6 @@
     "searchBehaviors": "搜索行为",
     "noAvailableBehaviors": "无可用行为",
     "removeBehavior": "从此元素中删除行为",
-    "addElementDetails": "添加元素详细信息",
     "noBehaviorsOnElement": "没有分配给此元素的行为",
     "noElementsText": "尚未创建任何元素",
     "noResults": "未找到结果",
@@ -454,7 +453,8 @@
       "twinNameDescription": "选择要将此元素链接到的数字孪生。你将对此链接孪生的属性用于关联的行为。",
       "meshTabName": "网 格",
       "behaviorsTabName": "行为",
-      "twinTabName": "其他双胞胎"
+      "twinTabName": "其他双胞胎",
+      "formSubTitle": ""
     },
     "elementFormMeshTab": {
       "noDataMessage": "从 3D 模型中为此元素选择关联的网格。"

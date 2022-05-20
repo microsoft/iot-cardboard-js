@@ -392,7 +392,6 @@
     "searchBehaviors": "検索動作",
     "noAvailableBehaviors": "使用可能な動作がありません",
     "removeBehavior": "この要素から動作を削除する",
-    "addElementDetails": "要素の詳細を追加する",
     "noBehaviorsOnElement": "この要素にビヘイビアが割り当てられていません",
     "noElementsText": "要素はまだ作成されていません",
     "noResults": "結果が見つかりません",
@@ -454,7 +453,8 @@
       "twinNameDescription": "この要素をリンクするデジタルツインを選択します。このリンクされたツインのプロパティは、関連する動作に使用します。",
       "meshTabName": "メッシュ",
       "behaviorsTabName": "動作",
-      "twinTabName": "その他の双子"
+      "twinTabName": "その他の双子",
+      "formSubTitle": ""
     },
     "elementFormMeshTab": {
       "noDataMessage": "この要素の 3D モデルから関連メッシュを選択します。"

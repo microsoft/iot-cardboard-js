@@ -392,7 +392,6 @@
     "searchBehaviors": "Comportamentos de pesquisa",
     "noAvailableBehaviors": "Sem comportamentos disponíveis",
     "removeBehavior": "Remover o comportamento deste elemento",
-    "addElementDetails": "Adicionar detalhes do elemento",
     "noBehaviorsOnElement": "Nenhum comportamento atribuído a este elemento",
     "noElementsText": "Nenhum elemento criado ainda",
     "noResults": "Nenhum resultado encontrado",
@@ -454,7 +453,8 @@
       "twinNameDescription": "Selecione um gêmeo digital para vincular esse elemento. Você usará as propriedades deste gêmeo vinculado para comportamentos associados.",
       "meshTabName": "Malhas",
       "behaviorsTabName": "Comportamentos",
-      "twinTabName": "Outros gêmeos"
+      "twinTabName": "Outros gêmeos",
+      "formSubTitle": ""
     },
     "elementFormMeshTab": {
       "noDataMessage": "Selecione as malhas associadas do seu modelo 3D para este elemento."

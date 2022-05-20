@@ -392,7 +392,6 @@
     "searchBehaviors": "Sök beteenden",
     "noAvailableBehaviors": "Inga tillgängliga beteenden",
     "removeBehavior": "Ta bort beteende från det här elementet",
-    "addElementDetails": "Lägga till elementinformation",
     "noBehaviorsOnElement": "Inga beteenden som tilldelats det här elementet",
     "noElementsText": "Inga element skapade ännu",
     "noResults": "Inga resultat hittades",
@@ -454,7 +453,8 @@
       "twinNameDescription": "Välj en digital tvilling att länka det här elementet till. Du kommer att använda den länkade tvillingens egenskaper för associerade beteenden.",
       "meshTabName": "Maskor",
       "behaviorsTabName": "Beteenden",
-      "twinTabName": "Andra tvillingar"
+      "twinTabName": "Andra tvillingar",
+      "formSubTitle": ""
     },
     "elementFormMeshTab": {
       "noDataMessage": "Välj associerade maskor från din 3D-modell för det här elementet."

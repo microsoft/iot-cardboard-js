@@ -392,7 +392,6 @@
     "searchBehaviors": "Comportamientos de búsqueda",
     "noAvailableBehaviors": "No hay comportamientos disponibles",
     "removeBehavior": "Quitar comportamiento de este elemento",
-    "addElementDetails": "Agregar detalles del elemento",
     "noBehaviorsOnElement": "No hay comportamientos asignados a este elemento",
     "noElementsText": "Aún no se han creado elementos",
     "noResults": "No se han encontrado resultados",
@@ -454,7 +453,8 @@
       "twinNameDescription": "Seleccione un gemelo digital al que vincular este elemento. Utilizará las propiedades de este gemelo vinculado para los comportamientos asociados.",
       "meshTabName": "Mallas",
       "behaviorsTabName": "Comportamientos",
-      "twinTabName": "Otros gemelos"
+      "twinTabName": "Otros gemelos",
+      "formSubTitle": ""
     },
     "elementFormMeshTab": {
       "noDataMessage": "Seleccione las mallas asociadas de su modelo 3D para este elemento."

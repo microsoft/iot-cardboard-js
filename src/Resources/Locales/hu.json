@@ -392,7 +392,6 @@
     "searchBehaviors": "Keresési viselkedés",
     "noAvailableBehaviors": "Nincs elérhető viselkedés",
     "removeBehavior": "Viselkedés eltávolítása ebből az elemből",
-    "addElementDetails": "Elem részleteinek hozzáadása",
     "noBehaviorsOnElement": "Nincs viselkedés hozzárendelve ehhez az elemhez",
     "noElementsText": "Még nem hoztak létre elemeket",
     "noResults": "Nem található eredmény",
@@ -454,7 +453,8 @@
       "twinNameDescription": "Jelöljön ki egy digitális ikerpárt, amelyhez csatolni szeretné ezt az elemet. A csatolt iker tulajdonságait a kapcsolódó viselkedésekhez fogja használni.",
       "meshTabName": "Rácsvonalak",
       "behaviorsTabName": "Viselkedésmódok",
-      "twinTabName": "Egyéb ikrek"
+      "twinTabName": "Egyéb ikrek",
+      "formSubTitle": ""
     },
     "elementFormMeshTab": {
       "noDataMessage": "Válassza ki a kapcsolódó hálószemeket az elemhez tartozó 3D modellből."
