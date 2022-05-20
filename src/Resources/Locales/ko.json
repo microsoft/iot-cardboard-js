@@ -930,6 +930,6 @@
     "assignRoleSuccessDesc": "누락된 사용 권한을 할당했습니다. 변경 사항이 적용되는지 확인하려고 시도하는 동안 잠시 기다려 주십시오.",
     "noMissingRoleDesc": "누락된 권한이 감지되지 않았으므로 할당된 사용 권한이 적용되는지 확인하려고 합니다.",
     "finishedWithFailureDesc": "시도가 실패했습니다. 리소스 소유자에게 문의하십시오.",
-    "verifyingPermissionsMessage": "사용 권한 확인 중...\n변경 내용이 전파되는 데 몇 분 정도 걸릴 수 있습니다."
+    "verifyingPermissionsMessag": "사용 권한 확인 중...\n이 작업은 몇 분 정도 걸릴 수 있습니다."
   }
 }

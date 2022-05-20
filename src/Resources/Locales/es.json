@@ -930,6 +930,6 @@
     "assignRoleSuccessDesc": "Hemos asignado los permisos que faltan. Espere mientras intentamos verificar si los cambios están en vigor.",
     "noMissingRoleDesc": "No se han detectado permisos faltantes, estamos intentando verificar si los permisos asignados están en vigor.",
     "finishedWithFailureDesc": "Intento fallido, póngase en contacto con el propietario del recurso.",
-    "verifyingPermissionsMessage": "Verificando permisos...\nLos cambios pueden tardar varios minutos en propagarse."
+    "verifyingPermissionsMessag": "Verificando permisos...\nEsto puede tardar varios minutos."
   }
 }
