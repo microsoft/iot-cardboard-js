@@ -1,10 +1,11 @@
-import { IIconNames, PRIMARY_TWIN_NAME } from '../../Models/Constants';
+import { PRIMARY_TWIN_NAME } from '../../Models/Constants';
 import { IModelledPropertyBuilderAdapter } from '../../Models/Constants/Interfaces';
 import {
     I3DScenesConfig,
     IBehavior,
     ITwinToObjectMapping
 } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
+import { ITooltipCalloutContent } from '../TooltipCallout/TooltipCallout.types';
 
 export enum ModelledPropertyBuilderMode {
     PROPERTY_SELECT = 'PROPERTY_SELECTION',
@@ -61,11 +62,7 @@ export interface ModelledPropertyBuilderProps {
     customLabel?: string;
 
     /** Custom tooltip next to the label for the control */
-    customLabelTooltip?: {
-        text: string;
-        /** will default to info */
-        iconName?: IIconNames;
-    };
+    customLabelTooltip?: ITooltipCalloutContent;
 
     /** Visual indication that this field is required.  Defaults to false */
     required?: boolean;

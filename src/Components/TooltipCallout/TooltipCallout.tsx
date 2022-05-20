@@ -12,8 +12,10 @@ import {
     styled,
     Callout,
     DirectionalHint,
-    IconButton
+    IconButton,
+    Link
 } from '@fluentui/react';
+import { useTranslation } from 'react-i18next';
 
 const getClassNames = classNamesFunction<
     ITooltipCalloutStyleProps,
@@ -21,19 +23,14 @@ const getClassNames = classNamesFunction<
 >();
 
 const TooltipCallout: React.FC<ITooltipCalloutProps> = (props) => {
-    const {
-        buttonAriaLabel,
-        calloutContent,
-        calloutProps,
-        dataTestId,
-        iconName,
-        styles
-    } = props;
+    const { content, calloutProps, dataTestId, styles } = props;
+    const { buttonAriaLabel, calloutContent, iconName, link } = content;
     // state
     const [flyoutVisible, { toggle: toggleFlyout }] = useBoolean(false);
 
     // hooks
     const id = useId();
+    const { t } = useTranslation();
 
     // styles
     const classNames = getClassNames(styles, {
@@ -62,6 +59,12 @@ const TooltipCallout: React.FC<ITooltipCalloutProps> = (props) => {
                     styles={classNames.subComponentStyles.callout}
                 >
                     {calloutContent}
+                    {link && ' '}
+                    {link && (
+                        <Link target="_blank" href={link.url}>
+                            {link.text || t('learnMore')}
+                        </Link>
+                    )}
                 </Callout>
             )}
         </div>

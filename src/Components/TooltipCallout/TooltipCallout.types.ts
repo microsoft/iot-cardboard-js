@@ -8,12 +8,22 @@ import {
 } from '@fluentui/react';
 import { IIconNames } from '../../Models/Constants';
 
-export interface ITooltipCalloutProps {
+export interface ITooltipCalloutLink {
+    text?: string;
+    url: string;
+}
+export interface ITooltipCalloutContent {
     buttonAriaLabel: string;
+    calloutContent: JSX.Element | string;
+
+    iconName?: IIconNames;
+    link?: ITooltipCalloutLink;
+}
+
+export interface ITooltipCalloutProps {
+    content: ITooltipCalloutContent;
     calloutProps?: Omit<ICalloutProps, 'target' | 'onDismiss' | 'styles'>;
     dataTestId?: string;
-    iconName?: IIconNames;
-    calloutContent: JSX.Element | string;
     /**
      * Call to provide customized styling that will layer on top of the variant rules.
      */

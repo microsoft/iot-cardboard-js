@@ -269,7 +269,10 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                                         )}
                                         label={t('3dSceneBuilder.primaryTwin')}
                                         labelTooltip={{
-                                            content: t(
+                                            buttonAriaLabel: t(
+                                                '3dSceneBuilder.elementForm.twinNameTooltip'
+                                            ),
+                                            calloutContent: t(
                                                 '3dSceneBuilder.elementForm.twinNameTooltip'
                                             )
                                         }}

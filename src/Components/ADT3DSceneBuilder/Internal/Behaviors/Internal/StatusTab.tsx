@@ -26,6 +26,7 @@ import {
     numericPropertyValueTypes,
     PropertyExpression
 } from '../../../../ModelledPropertyBuilder/ModelledPropertyBuilder.types';
+import { DOCUMENTATION_LINKS } from '../../../../../Models/Constants';
 
 const getStatusFromBehavior = (behavior: IBehavior) =>
     behavior.visuals.filter(ViewerConfigUtility.isStatusColorVisual)[0] || null;
@@ -153,9 +154,15 @@ const StatusTab: React.FC<IStatusTabProps> = ({ onValidityChange }) => {
                 <ModelledPropertyBuilder
                     adapter={adapter}
                     customLabelTooltip={{
-                        text: t(
+                        buttonAriaLabel: t(
                             '3dSceneBuilder.behaviorStatusForm.propertyExpressionTooltipContent'
-                        )
+                        ),
+                        calloutContent: t(
+                            '3dSceneBuilder.behaviorStatusForm.propertyExpressionTooltipContent'
+                        ),
+                        link: {
+                            url: DOCUMENTATION_LINKS.howToExpressions
+                        }
                     }}
                     twinIdParams={{
                         behavior: behaviorToEdit,

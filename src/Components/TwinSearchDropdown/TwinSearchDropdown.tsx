@@ -4,22 +4,17 @@ import { Icon, Label, Stack, Text } from '@fluentui/react';
 import { components, MenuListProps } from 'react-select';
 import CreatableSelect from 'react-select/creatable';
 import useAdapter from '../../Models/Hooks/useAdapter';
-import {
-    AdapterMethodParamsForSearchADTTwins,
-    IIconNames
-} from '../../Models/Constants/Types';
+import { AdapterMethodParamsForSearchADTTwins } from '../../Models/Constants/Types';
 import { getMarkedHtmlBySearch } from '../../Models/Services/Utils';
 import './TwinSearchDropdown.scss';
 import { ADTAdapter, MockAdapter } from '../../Adapters';
 import TooltipCallout from '../TooltipCallout/TooltipCallout';
+import { ITooltipCalloutContent } from '../TooltipCallout/TooltipCallout.types';
 interface IADTTwinSearchProps {
     adapter: ADTAdapter | MockAdapter;
     label?: string;
     labelIconName?: string;
-    labelTooltip?: {
-        content: string;
-        icon?: IIconNames;
-    };
+    labelTooltip?: ITooltipCalloutContent;
     isLabelHidden?: boolean;
     descriptionText?: string;
     selectedTwinId?: string;
@@ -185,11 +180,7 @@ const TwinSearchDropdown: React.FC<IADTTwinSearchProps> = ({
                             {label ?? t('twinId')}
                         </Label>
                         {labelTooltip && (
-                            <TooltipCallout
-                                buttonAriaLabel={labelTooltip.content}
-                                calloutContent={labelTooltip.content}
-                                iconName={labelTooltip.icon}
-                            />
+                            <TooltipCallout content={labelTooltip} />
                         )}
                     </Stack>
                 )}

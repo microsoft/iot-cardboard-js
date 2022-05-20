@@ -215,7 +215,12 @@ const AlertsTab: React.FC = () => {
                             onChange={onNoteChange}
                             customLabel={t(LOC_KEYS.notificationLabel)}
                             customLabelTooltip={{
-                                text: t(LOC_KEYS.notificationLabelTooltip)
+                                buttonAriaLabel: t(
+                                    LOC_KEYS.notificationLabelTooltip
+                                ),
+                                calloutContent: t(
+                                    LOC_KEYS.notificationLabelTooltip
+                                )
                             }}
                             intellisensePlaceholder={t(
                                 LOC_KEYS.notificationPlaceholder

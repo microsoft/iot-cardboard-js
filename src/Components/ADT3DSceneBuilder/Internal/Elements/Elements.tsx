@@ -260,10 +260,9 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
     const theme = useTheme();
     const commonPanelStyles = getLeftPanelStyles(theme);
     return (
-        <Stack tokens={{ childrenGap: 8 }}>
+        <div className="cb-scene-builder-pivot-contents">
             {isEditBehavior && (
                 <Text className={commonPanelStyles.text}>
-                    {/* <div className="cb-scene-builder-elements-title"> */}
                     {t('3dSceneBuilder.elementsListInstructions')}
                 </Text>
             )}
@@ -341,7 +340,7 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
                 }}
                 onConfirmDeletion={handleDeleteElement}
             />
-        </Stack>
+        </div>
     );
 };
 

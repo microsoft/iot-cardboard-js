@@ -120,7 +120,7 @@ const Behaviors = () => {
                     components={{
                         DocLink: (
                             <Link
-                                href={DOCUMENTATION_LINKS.behaviorsHowTo}
+                                href={DOCUMENTATION_LINKS.howToBehaviors}
                                 target="_blank"
                             ></Link>
                         )
@@ -160,7 +160,7 @@ const Twins = () => {
                     components={{
                         DocLink: (
                             <Link
-                                href={DOCUMENTATION_LINKS.twinsHowTo}
+                                href={DOCUMENTATION_LINKS.howToTwins}
                                 target="_blank"
                             ></Link>
                         )
@@ -218,7 +218,7 @@ const Widgets = () => {
                     components={{
                         DocLink: (
                             <Link
-                                href={DOCUMENTATION_LINKS.widgetsHowTo}
+                                href={DOCUMENTATION_LINKS.howToWidgets}
                                 target="_blank"
                             ></Link>
                         )
@@ -248,7 +248,7 @@ const SceneLayers = () => {
                     components={{
                         DocLink: (
                             <Link
-                                href={DOCUMENTATION_LINKS.layersHowTo}
+                                href={DOCUMENTATION_LINKS.howToLayers}
                                 target="_blank"
                             ></Link>
                         )

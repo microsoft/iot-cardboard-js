@@ -241,9 +241,10 @@ const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = ({
                     </Label>
                     {customLabelTooltip && (
                         <TooltipCallout
-                            buttonAriaLabel={customLabelTooltip.text}
-                            calloutContent={customLabelTooltip.text}
-                            iconName={customLabelTooltip.iconName || 'Info'}
+                            content={{
+                                ...customLabelTooltip,
+                                iconName: customLabelTooltip.iconName || 'Info'
+                            }}
                         />
                     )}
                 </Stack>

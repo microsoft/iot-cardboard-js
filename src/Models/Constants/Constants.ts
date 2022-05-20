@@ -39,11 +39,12 @@ export const DOCUMENTATION_LINKS = {
     overviewDocSetupSection: `${OVERVIEW_3D_SCENES}#set-up`,
     viewOnGithub: GITHUB_REPO,
     viewTheQuickstart: QUICK_START_DOC,
+    howToBehaviors: `${HOW_TO_DOC}#behaviors`,
     howToElements: `${HOW_TO_DOC}#add-elements`,
-    behaviorsHowTo: `${HOW_TO_DOC}#behaviors`,
-    twinsHowTo: `${HOW_TO_DOC}#twins`,
-    widgetsHowTo: `${HOW_TO_DOC}#widgets`,
-    layersHowTo: `${HOW_TO_DOC}#manage-layers`
+    howToExpressions: `${HOW_TO_DOC}#use-custom-advanced-expressions`,
+    howToLayers: `${HOW_TO_DOC}#manage-layers`,
+    howToTwins: `${HOW_TO_DOC}#twins`,
+    howToWidgets: `${HOW_TO_DOC}#widgets`
 };
 
 export const dtdlPrimitiveTypesList = [
