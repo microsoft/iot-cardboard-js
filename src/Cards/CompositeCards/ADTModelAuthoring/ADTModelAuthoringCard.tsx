@@ -27,6 +27,7 @@ import {
     FormMode,
     ModelAuthoringModes,
     ModelAuthoringSteps,
+    StepperWizardType,
     UploadPhase
 } from '../../../Models/Constants/Enums';
 import ModelCreate from '../../../Components/ModelCreate/ModelCreate';
@@ -174,6 +175,7 @@ const ADTModelAuthoringCard: React.FC<ADTModelAuthoringCardProps> = ({
                 >
                     <div className="cb-model-authoring-card-wizard">
                         <StepperWizard
+                            type={StepperWizardType.Vertical}
                             steps={steps}
                             currentStepIndex={authoringStep}
                             isNavigationDisabled={true}
