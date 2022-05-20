@@ -930,7 +930,7 @@
         "missingPermissionsMessage": "You have missing permissions. You will need access as a Reader and either Storage Blob Data Owner or Storage Blob Data Contributor.",
         "assignRoleSuccessDesc": "We have assigned the missing permissions. Please wait while we are attempting to verify if the changes are in effect.",
         "noMissingRoleDesc": "The missing permissions have been assigned, verifying the changes.",
-        "finishedWithFailureDesc": "Attempt failed, you cannot assign yourself permissions to this resource, or this resource does not exist. Please contact the resource owner to assign you the required permissions.",
+        "finishedWithFailureDes": "Attempt failed, unable to assign the necessary permissions to this resource, or this resource does not exist. Please contact the resource owner to assign you the required permissions.",
         "verifyingPermissionsMessage": "Verifying permissions...\nThis may take several minutes."
     }
 }
