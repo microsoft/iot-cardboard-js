@@ -361,7 +361,6 @@
     "noBehaviorsOnLayer": "V této vrstvě nejsou žádná chování",
     "deleteConfirmationTitle": "Odstranit tuto vrstvu?",
     "deleteConfirmationMessage": "Tím se trvale odstraní vrstva a všechna související chování ze všech prostředí digitálních dvojčat.",
-    "infoCalloutButtonTitle": "Více",
     "infoCalloutContent": "Vrstvy jsou seskupení založená na úlohách, která umožňují uživatelům filtrovat chování podle. Vrstvy existují napříč scénami."
   },
   "3dSceneBuilder": {

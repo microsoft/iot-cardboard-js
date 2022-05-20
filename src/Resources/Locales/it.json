@@ -361,7 +361,6 @@
     "noBehaviorsOnLayer": "Non ci sono comportamenti su questo livello",
     "deleteConfirmationTitle": "Eliminare questo livello?",
     "deleteConfirmationMessage": "In questo modo il livello e tutti i comportamenti associati vengono rimossi in modo permanente da tutti gli ambienti gemelli digitali.",
-    "infoCalloutButtonTitle": "Per saperne di più",
     "infoCalloutContent": "I layer sono raggruppamenti basati su attività che consentono ai consumatori di filtrare i comportamenti in base a. I livelli esistono tra le scene."
   },
   "3dSceneBuilder": {

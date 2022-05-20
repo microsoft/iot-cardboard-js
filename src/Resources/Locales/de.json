@@ -361,7 +361,6 @@
     "noBehaviorsOnLayer": "Es gibt keine Verhaltensweisen auf dieser Ebene",
     "deleteConfirmationTitle": "Diese Ebene löschen?",
     "deleteConfirmationMessage": "Dadurch werden die Ebene und alle damit verbundenen Verhaltensweisen dauerhaft aus allen Digital Twins-Umgebungen entfernt.",
-    "infoCalloutButtonTitle": "Mehr Info",
     "infoCalloutContent": "Ebenen sind aufgabenbasierte Gruppierungen, mit denen Verbraucher Verhaltensweisen filtern können. Ebenen sind in allen Szenen vorhanden."
   },
   "3dSceneBuilder": {
