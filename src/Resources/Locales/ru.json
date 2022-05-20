@@ -361,7 +361,6 @@
     "noBehaviorsOnLayer": "На этом уровне нет вариантов поведения",
     "deleteConfirmationTitle": "Удалить этот слой?",
     "deleteConfirmationMessage": "Это навсегда удаляет слой и любое связанное с ним поведение из всех сред Digital Twins.",
-    "infoCalloutButtonTitle": "Больше информации",
     "infoCalloutContent": "Слои — это группы на основе задач, которые позволяют потребителям фильтровать поведение по. Слои существуют в разных сценах."
   },
   "3dSceneBuilder": {
