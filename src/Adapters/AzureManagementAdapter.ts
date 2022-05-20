@@ -189,17 +189,18 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
         return await adapterMethodSandbox.safelyFetchData(async (token) => {
             let resourceGroups: IAzureResourceGroup[] = [];
             try {
-                const appendResourceGroups = async (skipToken?: string) => {
+                const appendResourceGroups = async (nextLink?: string) => {
                     const result = await axios({
                         method: 'get',
-                        url: `https://management.azure.com/subscriptions/${subscriptionId}/resourcegroups`,
+                        url:
+                            nextLink ??
+                            `https://management.azure.com/subscriptions/${subscriptionId}/resourcegroups`,
                         headers: {
                             'Content-Type': 'application/json',
                             authorization: 'Bearer ' + token
                         },
                         params: {
-                            'api-version': '2021-04-01',
-                            ...(skipToken && { $skipToken: skipToken })
+                            'api-version': '2021-04-01'
                         }
                     }).catch((err) => {
                         adapterMethodSandbox.pushError({
@@ -219,17 +220,7 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
 
                     // If next link present, fetch next chunk
                     if (result.data?.nextLink) {
-                        try {
-                            const url = new URL(result.data?.nextLink);
-                            const skipToken = queryString.parse(url.search)
-                                .$skipToken as string;
-                            await appendResourceGroups(skipToken);
-                        } catch (e) {
-                            console.log(
-                                'Continuation token for resource groups call unsuccessfully parsed',
-                                e
-                            );
-                        }
+                        await appendResourceGroups(nextLink);
                     }
                 };
 
