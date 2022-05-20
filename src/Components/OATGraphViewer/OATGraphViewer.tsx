@@ -107,7 +107,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
         const node = elements.find(
             (element) => element.id === currentNodeIdRef.current
         );
-        if (node) {
+        if (node && model) {
             const newId = model['@id'];
             elements.forEach((x) => {
                 if (x.source && x.source === currentNodeIdRef.current) {
