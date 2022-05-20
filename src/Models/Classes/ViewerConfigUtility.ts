@@ -30,7 +30,7 @@ abstract class ViewerConfigUtility {
         config: I3DScenesConfig,
         sceneId: string
     ): IScene | undefined {
-        return config.configuration.scenes.find((s) => s.id === sceneId);
+        return config?.configuration.scenes.find((s) => s.id === sceneId);
     }
 
     /** Add new scene to config file */
