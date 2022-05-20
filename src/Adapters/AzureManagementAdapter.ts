@@ -199,7 +199,7 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
                         },
                         params: {
                             'api-version': '2021-04-01',
-                            ...(skipToken && { skipToken: skipToken })
+                            ...(skipToken && { $skipToken: skipToken })
                         }
                     }).catch((err) => {
                         adapterMethodSandbox.pushError({
@@ -222,7 +222,7 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
                         try {
                             const url = new URL(result.data?.nextLink);
                             const skipToken = queryString.parse(url.search)
-                                .skipToken as string;
+                                .$skipToken as string;
                             await appendResourceGroups(skipToken);
                         } catch (e) {
                             console.log(
