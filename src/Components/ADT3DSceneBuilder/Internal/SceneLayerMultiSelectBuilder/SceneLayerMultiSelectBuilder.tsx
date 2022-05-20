@@ -46,8 +46,10 @@ const SceneLayerMultiSelectBuilder: React.FC<ISceneLayerMultiSelectBuilder> = ({
             <Stack horizontal verticalAlign={'center'}>
                 <Label>{renderProps.props.label}</Label>
                 <TooltipCallout
-                    buttonAriaLabel={t('sceneLayers.infoCalloutButtonTitle')}
-                    calloutContent={t('sceneLayers.infoCalloutContent')}
+                    content={{
+                        buttonAriaLabel: t('sceneLayers.infoCalloutContent'),
+                        calloutContent: t('sceneLayers.infoCalloutContent')
+                    }}
                 />
             </Stack>
         );
