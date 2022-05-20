@@ -30,13 +30,9 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
     );
     const [idEditor, setIdEditor] = useState(false);
     const [idText, setIdText] = useState(data.id);
-    const {
-        elements,
-        setElements,
-        setCurrentNode,
-        dispatch,
-        setNewModelId
-    } = useContext(ElementsContext);
+    const { elements, setElements, setCurrentNode, dispatch } = useContext(
+        ElementsContext
+    );
     const graphViewerStyles = getGraphViewerStyles();
     const iconStyles = getGraphViewerIconStyles();
     const actionButtonStyles = getGraphViewerActionButtonStyles();
