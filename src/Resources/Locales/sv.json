@@ -930,6 +930,6 @@
     "noMissingRoleDesc": "Inga saknade behörigheter har upptäckts, vi försöker verifiera om tilldelade behörigheter gäller.",
     "finishedWithFailureDesc": "Försöket misslyckades, kontakta resursägaren.",
     "verifyingPermissionsMessage": "Verifiera behörigheter...\nDet kan ta flera minuter.",
-    "assignRoleSuccessDes": "Saknade behörigheter har tilldelats. Vänta medan vi försöker verifiera om ändringarna är i kraft."
+    "assignRoleSuccessDesc": "Saknade behörigheter har tilldelats. Vänta medan vi försöker verifiera om ändringarna är i kraft."
   }
 }

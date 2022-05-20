@@ -930,6 +930,6 @@
     "noMissingRoleDesc": "Sem permissões perdidas detectadas, estamos tentando verificar se as permissões atribuídas estão em vigor.",
     "finishedWithFailureDesc": "Tentativa falhada, entre em contato com o proprietário do recurso.",
     "verifyingPermissionsMessage": "Verificando permissões...\nIsso pode levar vários minutos.",
-    "assignRoleSuccessDes": "Permissões perdidas foram atribuídas. Por favor, aguarde enquanto tentamos verificar se as alterações estão em vigor."
+    "assignRoleSuccessDesc": "Permissões perdidas foram atribuídas. Por favor, aguarde enquanto tentamos verificar se as alterações estão em vigor."
   }
 }

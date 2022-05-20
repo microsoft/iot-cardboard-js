@@ -930,6 +930,6 @@
     "noMissingRoleDesc": "Eksik izin algılanmadı, atanan izinlerin geçerli olup olmadığını doğrulamaya çalışıyoruz.",
     "finishedWithFailureDesc": "Deneme başarısız oldu, lütfen kaynak sahibine başvurun.",
     "verifyingPermissionsMessage": "İzinler doğrulanıyor...\nBu işlem birkaç dakika sürebilir.",
-    "assignRoleSuccessDes": "Eksik izinler atandı. Değişikliklerin geçerli olup olmadığını doğrulamaya çalışırken lütfen bekleyin."
+    "assignRoleSuccessDesc": "Eksik izinler atandı. Değişikliklerin geçerli olup olmadığını doğrulamaya çalışırken lütfen bekleyin."
   }
 }
