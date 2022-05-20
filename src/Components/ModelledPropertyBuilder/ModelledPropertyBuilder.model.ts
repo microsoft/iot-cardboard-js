@@ -67,6 +67,8 @@ export const buildModelledProperties = async ({
             aliasedTwinMap
         );
 
+        // eslint-disable-next-line no-debugger
+        debugger;
         // Expand each model ID into DTDL property array
         modelledProperties.nestedFormat = expandModelIds(
             modelDict,
@@ -84,28 +86,34 @@ export const buildModelledProperties = async ({
             modelledProperties.nestedFormat
         );
 
-        /** Add $dtId manually to all twins' modelled properties in all the possible formats */
-        Object.keys(modelledProperties.flattenedFormat).forEach(
-            (key: string) => {
-                const uniquedtIdModel = deepCopy(dtIdModel);
-                uniquedtIdModel.fullPath = key + uniquedtIdModel.fullPath;
-                uniquedtIdModel.key = key + uniquedtIdModel.key;
-                modelledProperties.flattenedFormat[key].push(uniquedtIdModel);
-            }
-        );
-        Object.keys(modelledProperties.intellisenseFormat).forEach(
-            (key: string) => {
-                modelledProperties.intellisenseFormat[key]['$dtId'] = {};
-            }
-        );
-        Object.keys(modelledProperties.nestedFormat).forEach((key: string) => {
-            const uniquedtIdModel = deepCopy(dtIdModel);
-            uniquedtIdModel.fullPath = key + uniquedtIdModel.fullPath;
-            uniquedtIdModel.key = key + uniquedtIdModel.key;
-            modelledProperties.nestedFormat[key]['properties'][
-                '$dtId'
-            ] = uniquedtIdModel;
-        });
+        if (allowedPropertyValueTypes.includes('string')) {
+            /** Add $dtId manually to all twins' modelled properties in all the possible formats */
+            Object.keys(modelledProperties.flattenedFormat).forEach(
+                (key: string) => {
+                    const uniquedtIdModel = deepCopy(dtIdModel);
+                    uniquedtIdModel.fullPath = key + uniquedtIdModel.fullPath;
+                    uniquedtIdModel.key = key + uniquedtIdModel.key;
+                    modelledProperties.flattenedFormat[key].push(
+                        uniquedtIdModel
+                    );
+                }
+            );
+            Object.keys(modelledProperties.intellisenseFormat).forEach(
+                (key: string) => {
+                    modelledProperties.intellisenseFormat[key]['$dtId'] = {};
+                }
+            );
+            Object.keys(modelledProperties.nestedFormat).forEach(
+                (key: string) => {
+                    const uniquedtIdModel = deepCopy(dtIdModel);
+                    uniquedtIdModel.fullPath = key + uniquedtIdModel.fullPath;
+                    uniquedtIdModel.key = key + uniquedtIdModel.key;
+                    modelledProperties.nestedFormat[key]['properties'][
+                        '$dtId'
+                    ] = uniquedtIdModel;
+                }
+            );
+        }
     } catch (err) {
         console.error(err);
     }
