@@ -414,7 +414,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
 
     const onConnectStop = (evt) => {
         // Retrieves information and creates a desired relationship between nodes
-        const params: IOATRelationshipElementS = {
+        const params: IOATRelationshipElement = {
             source: currentNodeIdRef.current,
             sourceHandle: currentHandleIdRef.current,
             label: '',

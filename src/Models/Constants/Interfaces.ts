@@ -836,7 +836,7 @@ export interface IOATNodePosition {
     y: number;
 }
 
-export interface IOATRelationShipElement {
+export interface IOATRelationshipElement {
     id?: string;
     label?: string;
     markerEnd?: string;
