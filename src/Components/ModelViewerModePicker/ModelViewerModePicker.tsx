@@ -13,7 +13,7 @@ import {
 } from '@fluentui/react';
 import { useBoolean } from '@fluentui/react-hooks';
 import produce from 'immer';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { IADTBackgroundColor, ViewerModeStyles } from '../../Models/Constants';
 import DefaultStyle from '../../Resources/Static/default.svg';
@@ -48,6 +48,7 @@ const ModelViewerModePicker: React.FC<ModelViewerModePickerProps> = ({
     const [selectedObjectColor, setSelectedObjectColor] = useState<string>(
         objectColors[0].color
     );
+    const defaultViewerModeSet = useRef(false);
     const calloutAnchor = 'cb-theme-callout-anchor';
     const { t } = useTranslation();
     const theme = useTheme();
@@ -149,7 +150,15 @@ const ModelViewerModePicker: React.FC<ModelViewerModePickerProps> = ({
     }, []);
 
     useEffect(() => {
-        if (defaultViewerMode) {
+        // defaultViewerMode is only meant to set the initial values of the picker
+        if (
+            defaultViewerMode &&
+            defaultViewerMode.style &&
+            defaultViewerMode.background &&
+            defaultViewerMode.objectColor &&
+            !defaultViewerModeSet.current
+        ) {
+            defaultViewerModeSet.current = true;
             setViewerMode({
                 objectColor:
                     defaultViewerMode?.style !== ViewerModeStyles.Default
