@@ -193,14 +193,14 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
                     const result = await axios({
                         method: 'get',
                         url:
-                            nextLink ??
+                            nextLink ||
                             `https://management.azure.com/subscriptions/${subscriptionId}/resourcegroups`,
                         headers: {
                             'Content-Type': 'application/json',
                             authorization: 'Bearer ' + token
                         },
                         params: {
-                            'api-version': '2021-04-01'
+                            ...(!nextLink && { 'api-version': '2021-04-01' })
                         }
                     }).catch((err) => {
                         adapterMethodSandbox.pushError({
