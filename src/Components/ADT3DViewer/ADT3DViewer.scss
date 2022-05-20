@@ -45,13 +45,13 @@
 .cb-viewer-breadcrumb-container {
     height: 36px;
     margin-bottom: 4px;
+    position: absolute;
     width: 100%;
+    top: 12px;
+    z-index: 1;
 }
 
 .cb-viewer-breadcrumb {
-    left: 0;
-    position: relative;
-    top: 10px;
     transform: scale(1);
     transform-origin: left;
     transition: transform 0.15s ease;

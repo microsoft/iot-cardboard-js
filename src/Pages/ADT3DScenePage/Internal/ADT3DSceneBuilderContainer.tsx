@@ -26,7 +26,7 @@ export const ADT3DSceneBuilderContainer: React.FC<IADT3DSceneBuilderProps> = ({
             // Shift SceneView over a bit to maintain camera position
             const root = document.getRootNode() as Element;
             const sceneViewWrapper = root.getElementsByClassName(
-                'cb-sceneview-wrapper'
+                'cb-sceneview-viewer-wrapper'
             )?.[0] as HTMLDivElement;
             if (sceneViewWrapper) {
                 sceneViewWrapper.className = 'cb-sceneview-wrapper-wide';
