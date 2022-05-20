@@ -427,7 +427,7 @@ export default class BlobAdapter implements IBlobAdapter {
             StorageServiceProperties: {
                 Cors: {
                     CorsRule: {
-                        AllowedOrigins: BlobStorageServiceCorsAllowedOrigins.join(),
+                        AllowedOrigins: window.location.origin,
                         AllowedMethods: BlobStorageServiceCorsAllowedMethods.join(),
                         AllowedHeaders: BlobStorageServiceCorsAllowedHeaders.join(),
                         ExposedHeaders: '',

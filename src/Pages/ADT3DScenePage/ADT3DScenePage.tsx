@@ -185,6 +185,11 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
                     containerUrls
                 );
             }
+            dispatch({
+                type: SET_ERRORS,
+                payload: []
+            });
+            errorCallbackSetRef.current = false;
         },
         [environmentPickerOptions?.storage, setBlobContainerUrl]
     );
@@ -344,6 +349,7 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
                 type: SET_ERRORS,
                 payload: []
             });
+            errorCallbackSetRef.current = false;
             scenesConfig.callAdapter();
         }
     }, [getCorsPropertiesAdapterData?.adapterResult]);

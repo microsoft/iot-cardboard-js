@@ -22,7 +22,6 @@ import {
     IAzureUserSubscriptions
 } from '../Models/Constants';
 import { createGUID } from '../Models/Services/Utils';
-import queryString from 'query-string';
 
 export default class AzureManagementAdapter implements IAzureManagementAdapter {
     public authService: IAuthService;
@@ -56,7 +55,15 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
                 params: {
                     'api-version': '2020-01-01'
                 }
+            }).catch((err) => {
+                adapterMethodSandbox.pushError({
+                    type: ComponentErrorType.DataFetchFailed,
+                    isCatastrophic: false,
+                    rawError: err
+                });
+                return null;
             });
+
             if (UserSubscriptions.data) {
                 subscriptions = UserSubscriptions.data;
             }
@@ -254,112 +261,121 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
         }
 
         return await adapterMethodSandbox.safelyFetchData(async (token) => {
-            const subscriptions = await this.getSubscriptions();
-            const userSubscriptions = subscriptions.getData() as IAzureUserSubscriptions;
+            try {
+                const subscriptions = await this.getSubscriptions();
+                const userSubscriptions = subscriptions.getData() as IAzureUserSubscriptions;
 
-            const subscriptionIdsByTenantId = userSubscriptions.value
-                .filter((s) => s.tenantId === this.tenantId)
-                .map((s) => s.subscriptionId);
+                const subscriptionIdsByTenantId = userSubscriptions.value
+                    .filter((s) => s.tenantId === this.tenantId)
+                    .map((s) => s.subscriptionId);
 
-            const resourcesBySubscriptionsResponse = await Promise.all(
-                subscriptionIdsByTenantId.map(async (subscriptionId) => {
-                    if (resourceType === AzureResourceTypes.Container) {
-                        // if it is container type we need to pull all the resource groups in every subscription
-                        const resourceGroupsInSubscription = await this.getResourceGroupsInSubscription(
-                            subscriptionId
+                const resourcesBySubscriptionsResponse = await Promise.all(
+                    subscriptionIdsByTenantId.map(async (subscriptionId) => {
+                        if (resourceType === AzureResourceTypes.Container) {
+                            // if it is container type we need to pull all the resource groups in every subscription
+                            const resourceGroupsInSubscription = await this.getResourceGroupsInSubscription(
+                                subscriptionId
+                            );
+                            const resourceGroups: Array<IAzureResourceGroup> = resourceGroupsInSubscription.getData();
+                            return Promise.all(
+                                resourceGroups?.map((resourceGroup) =>
+                                    axios({
+                                        method: 'get',
+                                        url: `https://management.azure.com/subscriptions/${subscriptionId}/resourceGroups/${resourceGroup.name}/providers/${providerEndpoint}`,
+                                        headers: {
+                                            'Content-Type': 'application/json',
+                                            authorization: 'Bearer ' + token
+                                        },
+                                        params: {
+                                            'api-version': '2021-09-01'
+                                        }
+                                    }).catch((err) => {
+                                        adapterMethodSandbox.pushError({
+                                            type:
+                                                ComponentErrorType.DataFetchFailed,
+                                            isCatastrophic: false,
+                                            rawError: err
+                                        });
+                                        return null;
+                                    })
+                                )
+                            ).catch((err) => {
+                                adapterMethodSandbox.pushError({
+                                    type: ComponentErrorType.DataFetchFailed,
+                                    isCatastrophic: false,
+                                    rawError: err
+                                });
+                                return null;
+                            });
+                        } else {
+                            return axios({
+                                method: 'get',
+                                url: `https://management.azure.com/subscriptions/${subscriptionId}/providers/${providerEndpoint}`,
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    authorization: 'Bearer ' + token
+                                },
+                                params: {
+                                    'api-version': '2020-12-01'
+                                }
+                            }).catch((err) => {
+                                adapterMethodSandbox.pushError({
+                                    type: ComponentErrorType.DataFetchFailed,
+                                    isCatastrophic: false,
+                                    rawError: err
+                                });
+                                return null;
+                            });
+                        }
+                    })
+                ).catch((err) => {
+                    adapterMethodSandbox.pushError({
+                        type: ComponentErrorType.DataFetchFailed,
+                        isCatastrophic: false,
+                        rawError: err
+                    });
+                    return null;
+                });
+
+                //filter out nulls, i.e. errors
+                let successfulResourcesResponse;
+                if (resourceType === AzureResourceTypes.Container) {
+                    successfulResourcesResponse = resourcesBySubscriptionsResponse.reduce(
+                        (acc, resourcesInResourceGroup) =>
+                            acc.concat(
+                                resourcesInResourceGroup.filter(
+                                    (result) => result !== null
+                                )
+                            ),
+                        []
+                    );
+                } else {
+                    successfulResourcesResponse = resourcesBySubscriptionsResponse.filter(
+                        (result) => {
+                            return result !== null;
+                        }
+                    );
+                }
+
+                const resourceInstancesArray: Array<IAzureResource> = [];
+                successfulResourcesResponse.forEach((result) => {
+                    const resourcesInSubscription = result.data;
+                    if (resourcesInSubscription?.value?.length > 0) {
+                        resourceInstancesArray.push(
+                            ...resourcesInSubscription.value
                         );
-                        const resourceGroups: Array<IAzureResourceGroup> = resourceGroupsInSubscription.getData();
-                        return Promise.all(
-                            resourceGroups?.map((resourceGroup) =>
-                                axios({
-                                    method: 'get',
-                                    url: `https://management.azure.com/subscriptions/${subscriptionId}/resourceGroups/${resourceGroup.name}/providers/${providerEndpoint}`,
-                                    headers: {
-                                        'Content-Type': 'application/json',
-                                        authorization: 'Bearer ' + token
-                                    },
-                                    params: {
-                                        'api-version': '2021-09-01'
-                                    }
-                                }).catch((err) => {
-                                    adapterMethodSandbox.pushError({
-                                        type:
-                                            ComponentErrorType.DataFetchFailed,
-                                        isCatastrophic: false,
-                                        rawError: err
-                                    });
-                                    return null;
-                                })
-                            )
-                        ).catch((err) => {
-                            adapterMethodSandbox.pushError({
-                                type: ComponentErrorType.DataFetchFailed,
-                                isCatastrophic: false,
-                                rawError: err
-                            });
-                            return null;
-                        });
-                    } else {
-                        return axios({
-                            method: 'get',
-                            url: `https://management.azure.com/subscriptions/${subscriptionId}/providers/${providerEndpoint}`,
-                            headers: {
-                                'Content-Type': 'application/json',
-                                authorization: 'Bearer ' + token
-                            },
-                            params: {
-                                'api-version': '2020-12-01'
-                            }
-                        }).catch((err) => {
-                            adapterMethodSandbox.pushError({
-                                type: ComponentErrorType.DataFetchFailed,
-                                isCatastrophic: false,
-                                rawError: err
-                            });
-                            return null;
-                        });
                     }
-                })
-            ).catch((err) => {
+                });
+
+                return new AzureResourcesData(resourceInstancesArray);
+            } catch (error) {
                 adapterMethodSandbox.pushError({
                     type: ComponentErrorType.DataFetchFailed,
                     isCatastrophic: false,
-                    rawError: err
+                    rawError: error
                 });
                 return null;
-            });
-
-            //filter out nulls, i.e. errors
-            let successfulResourcesResponse;
-            if (resourceType === AzureResourceTypes.Container) {
-                successfulResourcesResponse = resourcesBySubscriptionsResponse.reduce(
-                    (acc, resourcesInResourceGroup) =>
-                        acc.concat(
-                            resourcesInResourceGroup.filter(
-                                (result) => result !== null
-                            )
-                        ),
-                    []
-                );
-            } else {
-                successfulResourcesResponse = resourcesBySubscriptionsResponse.filter(
-                    (result) => {
-                        return result !== null;
-                    }
-                );
             }
-
-            const resourceInstancesArray: Array<IAzureResource> = [];
-            successfulResourcesResponse.forEach((result) => {
-                const resourcesInSubscription = result.data;
-                if (resourcesInSubscription?.value?.length > 0) {
-                    resourceInstancesArray.push(
-                        ...resourcesInSubscription.value
-                    );
-                }
-            });
-
-            return new AzureResourcesData(resourceInstancesArray);
         }, 'azureManagement');
     }
 

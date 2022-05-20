@@ -148,7 +148,7 @@ export default class ADT3DSceneAdapter {
                 AzureResourceTypes.ADT,
                 AzureResourceProviderEndpoints.ADT
             );
-            const adtInstanceResources: Array<IAzureResource> = adtInstanceResourcesResult.getData();
+            const adtInstanceResources: Array<IAzureResource> = adtInstanceResourcesResult?.getData();
             const digitalTwinsInstances: Array<IADTInstance> = [];
 
             if (adtInstanceResources) {
@@ -211,8 +211,8 @@ export default class ADT3DSceneAdapter {
                     storageEndPoint
                 );
 
-                const storageResources: Array<IAzureResource> = storageResourcesInUsersSubscriptionsResult.getData();
-                const storageResource = storageResources.find(
+                const storageResources: Array<IAzureResource> = storageResourcesInUsersSubscriptionsResult?.getData();
+                const storageResource = storageResources?.find(
                     (sR) => sR.name === containerName
                 );
                 if (storageResource) {
