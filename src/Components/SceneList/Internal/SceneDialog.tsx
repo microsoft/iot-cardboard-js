@@ -44,8 +44,17 @@ const fileUploadLabelTooltipStyles: ITooltipHostStyles = {
     }
 };
 
+const DEFAULT_HEIGHT_UPLOAD = 432;
+const DEFAULT_HEIGHT_WITH_CONTAINER = 652;
 const getDialogStyles = memoizeFunction(
     (selected3DFilePivotItem: SelectionModeOf3DFile): Partial<IModalStyles> => {
+        const isContainerTab =
+            selected3DFilePivotItem === SelectionModeOf3DFile.FromContainer;
+        const isUploadTab =
+            selected3DFilePivotItem === SelectionModeOf3DFile.FromComputer;
+        const modalHeight = isContainerTab
+            ? DEFAULT_HEIGHT_UPLOAD
+            : DEFAULT_HEIGHT_WITH_CONTAINER;
         return {
             scrollableContent: {
                 selectors: {
@@ -55,18 +64,13 @@ const getDialogStyles = memoizeFunction(
                         height: '100%'
                     },
                     '.ms-Dialog-inner': {
-                        ...(selected3DFilePivotItem ===
-                            SelectionModeOf3DFile.FromComputer && {
+                        ...(isUploadTab && {
                             animation: 'show-scroll-y 1s'
                         }),
                         display: 'flex',
                         flexDirection: 'column',
                         flexGrow: 1,
-                        height:
-                            selected3DFilePivotItem ===
-                            SelectionModeOf3DFile.FromContainer
-                                ? '438px'
-                                : '588px',
+                        height: modalHeight,
                         justifyContent: 'space-between',
                         overflowX: 'hidden',
                         transition: 'height .6s ease'
