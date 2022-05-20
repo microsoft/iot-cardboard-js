@@ -400,7 +400,7 @@ function getListItems(
                 return [];
         }
     };
-    return filteredElements.map((item) => {
+    const listItems = filteredElements.map((item) => {
         const metadata = ViewerConfigUtility.getBehaviorMetaData(
             config,
             sceneId,
@@ -437,6 +437,10 @@ function getListItems(
 
         return viewModel;
     });
+
+    return listItems.sort((a, b) =>
+        a.textPrimary?.toLowerCase() > b.textPrimary?.toLowerCase() ? 1 : -1
+    );
 }
 
 export default SceneBehaviors;
