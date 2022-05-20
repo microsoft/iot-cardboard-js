@@ -3,14 +3,20 @@
     src: local('segmdl2'), url('./segmdl2.ttf');
 }
 
-.cb-sceneview-wrapper {
+.cb-sceneview-builder-wrapper {
+    height: 100%;
+    overflow: hidden;
+    width: 100%;
+}
+
+.cb-sceneview-viewer-wrapper {
     height: 100%;
     overflow: hidden;
     width: 100%;
 }
 
 .cb-sceneview-wrapper-wide {
-    height: calc(100% - 40px);
+    height: 100%;
     overflow: hidden;
     width: calc(100% + 360px);
 }

@@ -44,6 +44,7 @@ import {
     ISceneViewWrapperStyleProps,
     ISceneViewWrapperStyles
 } from './SceneViewWrapper.types';
+import { WrapperMode } from './SceneView.types';
 
 const getClassNames = classNamesFunction<
     ISceneViewWrapperStyleProps,
@@ -224,6 +225,11 @@ const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = (props) => {
         right: 0
     } as const;
 
+    const wrapperClassName =
+        wrapperMode === WrapperMode.Builder
+            ? 'cb-sceneview-builder-wrapper'
+            : 'cb-sceneview-viewer-wrapper';
+
     return (
         <div
             style={
@@ -233,7 +239,7 @@ const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = (props) => {
                       }
                     : {}
             }
-            className={css('cb-sceneview-wrapper ', classNames.root)}
+            className={css(wrapperClassName, classNames.root)}
         >
             <SceneView
                 ref={sceneViewComponent}
