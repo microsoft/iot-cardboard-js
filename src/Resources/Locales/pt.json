@@ -927,9 +927,9 @@
     "resolveIssues": "Resolver problemas",
     "resolvingIssues": "Resolvendo problemas...",
     "missingPermissionsMessage": "Você tem permissões perdidas. Você precisará de acesso como leitor e proprietário de dados do Storage Blob ou colaborador de dados do Blob de armazenamento.",
-    "assignRoleSuccessDesc": "Nós atribuímos as permissões perdidas. Por favor, aguarde enquanto tentamos verificar se as alterações estão em vigor.",
     "noMissingRoleDesc": "Sem permissões perdidas detectadas, estamos tentando verificar se as permissões atribuídas estão em vigor.",
     "finishedWithFailureDesc": "Tentativa falhada, entre em contato com o proprietário do recurso.",
-    "verifyingPermissionsMessage": "Verificando permissões...\nIsso pode levar vários minutos."
+    "verifyingPermissionsMessage": "Verificando permissões...\nIsso pode levar vários minutos.",
+    "assignRoleSuccessDes": "Permissões perdidas foram atribuídas. Por favor, aguarde enquanto tentamos verificar se as alterações estão em vigor."
   }
 }

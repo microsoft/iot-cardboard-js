@@ -927,9 +927,9 @@
     "resolveIssues": "Sorunları çözme",
     "resolvingIssues": "Sorunları çözmek...",
     "missingPermissionsMessage": "Eksik izinleriniz var. Okuyucu ve Depolama Blobu Veri Sahibi veya Depolama Blobu Veri Katılımcısı olarak erişime ihtiyacınız olacaktır.",
-    "assignRoleSuccessDesc": "Eksik izinleri atadık. Değişikliklerin geçerli olup olmadığını doğrulamaya çalışırken lütfen bekleyin.",
     "noMissingRoleDesc": "Eksik izin algılanmadı, atanan izinlerin geçerli olup olmadığını doğrulamaya çalışıyoruz.",
     "finishedWithFailureDesc": "Deneme başarısız oldu, lütfen kaynak sahibine başvurun.",
-    "verifyingPermissionsMessage": "İzinler doğrulanıyor...\nBu işlem birkaç dakika sürebilir."
+    "verifyingPermissionsMessage": "İzinler doğrulanıyor...\nBu işlem birkaç dakika sürebilir.",
+    "assignRoleSuccessDes": "Eksik izinler atandı. Değişikliklerin geçerli olup olmadığını doğrulamaya çalışırken lütfen bekleyin."
   }
 }

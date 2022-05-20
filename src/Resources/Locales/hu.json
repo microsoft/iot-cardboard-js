@@ -927,9 +927,9 @@
     "resolveIssues": "Problémák megoldása",
     "resolvingIssues": "Problémák megoldása...",
     "missingPermissionsMessage": "Hiányoznak az engedélyei. Hozzá kell férnie olvasóként és tárolóblob adattulajdonosként vagy tárolóblob adatszolgáltatóként.",
-    "assignRoleSuccessDesc": "Kiosztottuk a hiányzó engedélyeket. Kérjük, várjon, amíg megpróbáljuk ellenőrizni, hogy a módosítások érvényben vannak-e.",
     "noMissingRoleDesc": "Nem észleltek hiányzó engedélyeket, megpróbáljuk ellenőrizni, hogy a hozzárendelt engedélyek érvényben vannak-e.",
     "finishedWithFailureDesc": "A kísérlet sikertelen volt, lépjen kapcsolatba az erőforrás tulajdonosával.",
-    "verifyingPermissionsMessage": "Engedélyek ellenőrzése...\nEz eltarthat néhány percig."
+    "verifyingPermissionsMessage": "Engedélyek ellenőrzése...\nEz eltarthat néhány percig.",
+    "assignRoleSuccessDes": "Hiányzó engedélyek vannak hozzárendelve. Kérjük, várjon, amíg megpróbáljuk ellenőrizni, hogy a módosítások érvényben vannak-e."
   }
 }

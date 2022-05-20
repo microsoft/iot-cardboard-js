@@ -927,9 +927,9 @@
     "resolveIssues": "解决问题",
     "resolvingIssues": "正在解决问题...",
     "missingPermissionsMessage": "您缺少权限。需要以读取者身份和存储 Blob 数据所有者或存储 Blob 数据参与者进行访问。",
-    "assignRoleSuccessDesc": "我们已分配缺少的权限。在我们尝试验证更改是否生效时，请稍候。",
     "noMissingRoleDesc": "未检测到缺少的权限，我们正在尝试验证分配的权限是否有效。",
     "finishedWithFailureDesc": "尝试失败，请与资源所有者联系。",
-    "verifyingPermissionsMessage": "正在验证权限...\n这可能需要几分钟时间。"
+    "verifyingPermissionsMessage": "正在验证权限...\n这可能需要几分钟时间。",
+    "assignRoleSuccessDes": "已分配缺少的权限。在我们尝试验证更改是否生效时，请稍候。"
   }
 }

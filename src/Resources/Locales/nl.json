@@ -927,9 +927,9 @@
     "resolveIssues": "Problemen oplossen",
     "resolvingIssues": "Problemen oplossen...",
     "missingPermissionsMessage": "Er ontbreken machtigingen. U hebt toegang nodig als reader en eigenaar van opslagblobdesktgegevens of opslag blobgegevensbijdrager.",
-    "assignRoleSuccessDesc": "We hebben de ontbrekende machtigingen toegewezen. Wacht even terwijl we proberen te controleren of de wijzigingen van kracht zijn.",
     "noMissingRoleDesc": "Er worden geen ontbrekende machtigingen gedetecteerd, we proberen te controleren of toegewezen machtigingen van kracht zijn.",
     "finishedWithFailureDesc": "Poging mislukt, neem contact op met de eigenaar van de bron.",
-    "verifyingPermissionsMessage": "Machtigingen verifiëren...\nDit kan enkele minuten duren."
+    "verifyingPermissionsMessage": "Machtigingen verifiëren...\nDit kan enkele minuten duren.",
+    "assignRoleSuccessDes": "Er zijn ontbrekende machtigingen toegewezen. Wacht even terwijl we proberen te controleren of de wijzigingen van kracht zijn."
   }
 }
