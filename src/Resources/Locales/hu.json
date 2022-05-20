@@ -337,11 +337,11 @@
   },
   "layersDropdown": {
     "placeholder": "Nincsenek kijelölt rétegek",
-    "unlayeredBehaviors": "Fedetlen viselkedés",
-    "unlayered": "Fedetlen",
     "title": "Rétegek kijelölése",
     "selectAll": "Az összes kijelölése",
-    "selectNone": "Az összes kijelölésének megszüntetése"
+    "selectNone": "Az összes kijelölésének megszüntetése",
+    "unlayeredItemListItemDisplayName": "Alapértelmezett réteg",
+    "unlayeredItemCollapsedDisplayName": "Alapértelmezett"
   },
   "sceneLayers": {
     "noBehaviors": "Nincs viselkedés",

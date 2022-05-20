@@ -337,11 +337,11 @@
   },
   "layersDropdown": {
     "placeholder": "선택한 레이어가 없습니다.",
-    "unlayeredBehaviors": "계층화되지 않은 동작",
-    "unlayered": "계층화되지 않은",
     "title": "레이어 선택",
     "selectAll": "모두 선택",
-    "selectNone": "모두 선택 취소"
+    "selectNone": "모두 선택 취소",
+    "unlayeredItemListItemDisplayName": "기본 레이어",
+    "unlayeredItemCollapsedDisplayName": "기본값"
   },
   "sceneLayers": {
     "noBehaviors": "동작 없음",

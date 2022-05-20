@@ -337,11 +337,11 @@
   },
   "layersDropdown": {
     "placeholder": "Nejsou vybrány žádné vrstvy",
-    "unlayeredBehaviors": "Chování bez vrstev",
-    "unlayered": "Bez vrstev",
     "title": "Výběr vrstev",
     "selectAll": "Vybrat vše",
-    "selectNone": "Zrušit výběr všech"
+    "selectNone": "Zrušit výběr všech",
+    "unlayeredItemListItemDisplayName": "Výchozí vrstva",
+    "unlayeredItemCollapsedDisplayName": "Výchozí"
   },
   "sceneLayers": {
     "noBehaviors": "Žádné chování",

@@ -337,11 +337,11 @@
   },
   "layersDropdown": {
     "placeholder": "Keine Ebenen ausgewählt",
-    "unlayeredBehaviors": "Unschichtiges Verhalten",
-    "unlayered": "Ungeschichtet",
     "title": "Ebenen auswählen",
     "selectAll": "Alle auswählen",
-    "selectNone": "Alle abwählen"
+    "selectNone": "Alle abwählen",
+    "unlayeredItemListItemDisplayName": "Standardebene",
+    "unlayeredItemCollapsedDisplayName": "Vorgabe"
   },
   "sceneLayers": {
     "noBehaviors": "Keine Verhaltensweisen",

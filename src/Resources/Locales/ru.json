@@ -337,11 +337,11 @@
   },
   "layersDropdown": {
     "placeholder": "Слои не выделены",
-    "unlayeredBehaviors": "Бесслойное поведение",
-    "unlayered": "Бесслойный",
     "title": "Выделение слоев",
     "selectAll": "Выбрать все",
-    "selectNone": "Отмена выбора всех"
+    "selectNone": "Отмена выбора всех",
+    "unlayeredItemListItemDisplayName": "Слой по умолчанию",
+    "unlayeredItemCollapsedDisplayName": "По умолчанию"
   },
   "sceneLayers": {
     "noBehaviors": "Нет поведения",

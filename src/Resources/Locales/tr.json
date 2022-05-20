@@ -337,11 +337,11 @@
   },
   "layersDropdown": {
     "placeholder": "Katman seçilmedi",
-    "unlayeredBehaviors": "Katmansız davranışlar",
-    "unlayered": "Katmansız",
     "title": "Katmanları seçme",
     "selectAll": "Tümünü seç",
-    "selectNone": "Tümünün seçimini kaldır"
+    "selectNone": "Tümünün seçimini kaldır",
+    "unlayeredItemListItemDisplayName": "Varsayılan katman",
+    "unlayeredItemCollapsedDisplayName": "Temerrüt"
   },
   "sceneLayers": {
     "noBehaviors": "Davranış yok",
