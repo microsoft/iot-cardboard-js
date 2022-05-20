@@ -6,7 +6,6 @@ import React, {
     useCallback
 } from 'react';
 import { useTheme, PrimaryButton, Label } from '@fluentui/react';
-import { createParser, ModelParsingOption } from 'azure-iot-dtdl-parser';
 import ReactFlow, {
     ReactFlowProvider,
     addEdge,
@@ -39,8 +38,7 @@ import {
 import {
     IAction,
     IOATNodeElement,
-    IOATRelationShipElement,
-    IOATTwinModelNodes
+    IOATRelationshipElement
 } from '../../Models/Constants/Interfaces';
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 import { ElementNode } from './Internal/Classes/ElementNode';
@@ -364,7 +362,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
         if (targetIndex >= 0) {
             const id = node.id;
             if (node.data.type === elements[targetIndex].data.type) {
-                const params: IOATRelationShipElement = {
+                const params: IOATRelationshipElement = {
                     source: node.id,
                     sourceHandle: OATExtendHandleName,
                     target: targetId,
@@ -386,7 +384,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                 } else {
                     sourceId = node.id;
                 }
-                const params: IOATRelationShipElement = {
+                const params: IOATRelationshipElement = {
                     source: sourceId,
                     sourceHandle: OATComponentHandleName,
                     target: targetId,
@@ -416,7 +414,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
 
     const onConnectStop = (evt) => {
         // Retrieves information and creates a desired relationship between nodes
-        const params: IOATRelationShipElement = {
+        const params: IOATRelationshipElementS = {
             source: currentNodeIdRef.current,
             sourceHandle: currentHandleIdRef.current,
             label: '',
