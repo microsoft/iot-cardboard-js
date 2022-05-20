@@ -907,5 +907,29 @@
       "title": "Sahne katmanı nedir?",
       "mainContent": "Davranışlarınızı düzenlemenize yardımcı olması için sahnenizde katmanlar oluşturabilirsiniz. Katmanlar, davranışlar üzerindeki etiketler gibi davranarak hangi davranışların birlikte görülmesi gerektiğini tanımlamanıza olanak tanır, böylece farklı roller veya görevler için sahnenizin özel görünümlerini oluşturur.\n\nBir sahnede katman yoksa, tüm davranışlar sahne görüntüleyicisinde görünür. Bir katmanla etiketlenmemiş tüm davranışlar, bir katmanla etiketlenene kadar Varsayılan katmanda görünür.\n\nKatmanlar oluşturmanın bir yolu, bir sahne için Yapı görünümündeki Sahne katmanları düğmesini kullanmaktır. Alternatif olarak, bir davranış oluştururken veya değiştirirken katmanlar oluşturabilirsiniz."
     }
+  },
+  "diagnose": "Tanılamak",
+  "resolve": "Çözmek",
+  "verify": "Doğrulamak",
+  "success": "Başarı!",
+  "scenePageErrorHandling": {
+    "resetConfigFile": "Yapılandırma Dosyasını Sıfırla",
+    "unauthorizedAccessErrorTitle": "Erişim Kısıtlı",
+    "unauthorizedAccessErrorMessage": "Bu depolama kapsayıcısına erişiminiz yok. Erişiminizi tanılayın veya farklı bir kapsayıcı deneyin.",
+    "blobNotFoundErrorTitle": "Blob Bulunamadı",
+    "blobNotFoundErrorMessage": "Blob yok.",
+    "unknownErrorTitle": "Bilinmeyen hata",
+    "corsErrorTitle": "CORS hatası",
+    "corsErrorMessage": "Depolama hesabınızın blob hizmeti, CORS'un sahnelerinizde 3B varlıkları kullanabilmesini sağlamak için bazı belirli özelliklere sahip olmalıdır.",
+    "internalServerErrorMessage": "Dahili sunucu hatası, lütfen sunucu günlüklerini kontrol edin.",
+    "diagnoseAccessPermissions": "Erişim izinlerini tanılama",
+    "checkingPermissions": "İzinler kontrol ediliyor...",
+    "resolveIssues": "Sorunları çözme",
+    "resolvingIssues": "Sorunları çözmek...",
+    "missingPermissionsMessage": "Eksik izinleriniz var. Okuyucu ve Depolama Blobu Veri Sahibi veya Depolama Blobu Veri Katılımcısı olarak erişime ihtiyacınız olacaktır.",
+    "assignRoleSuccessDesc": "Eksik izinleri atadık. Değişikliklerin geçerli olup olmadığını doğrulamaya çalışırken lütfen bekleyin.",
+    "noMissingRoleDesc": "Eksik izin algılanmadı, atanan izinlerin geçerli olup olmadığını doğrulamaya çalışıyoruz.",
+    "finishedWithFailureDesc": "Deneme başarısız oldu, lütfen kaynak sahibine başvurun.",
+    "verifyingPermissionsMessage": "İzinler doğrulanıyor...\nDeğişikliklerin yayılması birkaç dakika sürebilir."
   }
 }
