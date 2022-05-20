@@ -25,7 +25,10 @@ const Template: TooltipCalloutStory = (args) => {
 
 export const Base = Template.bind({}) as TooltipCalloutStory;
 Base.args = {
-    calloutContent: 'My message here',
+    content: {
+        calloutContent: 'My message here',
+        buttonAriaLabel: 'Label'
+    },
     dataTestId: 'Callout-Id'
 } as ITooltipCalloutProps;
 Base.play = async ({ canvasElement }) => {
@@ -38,16 +41,22 @@ Base.play = async ({ canvasElement }) => {
 
 export const Overrides = Template.bind({}) as TooltipCalloutStory;
 Overrides.args = {
-    calloutContent: (
-        <div>
-            <Icon iconName="Info" /> My text
-        </div>
-    ),
+    content: {
+        calloutContent: (
+            <div>
+                <Icon iconName="Info" /> My text
+            </div>
+        ),
+        iconName: 'Color',
+        link: {
+            text: 'My link here',
+            url: 'https://www.bing.com'
+        }
+    },
     calloutProps: {
         directionalHint: DirectionalHint.bottomCenter
     },
-    dataTestId: 'Callout-Id',
-    iconName: 'Color'
+    dataTestId: 'Callout-Id'
 } as ITooltipCalloutProps;
 Overrides.play = async ({ canvasElement }) => {
     const canvas = within(canvasElement);
