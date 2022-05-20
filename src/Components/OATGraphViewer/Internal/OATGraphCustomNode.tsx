@@ -141,7 +141,6 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
             }
         ];
 
-        setNewModelId(elements.length - 1); // Update model counter
         setElements((els) => removeElements(elementsToRemove, els));
         dispatch({ type: SET_OAT_PROPERTY_EDITOR_MODEL, payload: null });
     };
