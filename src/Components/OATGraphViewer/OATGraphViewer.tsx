@@ -303,6 +303,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
             setElements,
             setCurrentNode,
             dispatch,
+            setNewModelId,
             showRelationships,
             showInheritances,
             showComponents
@@ -312,6 +313,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
             setElements,
             setCurrentNode,
             dispatch,
+            setNewModelId,
             showRelationships,
             showInheritances,
             showComponents
