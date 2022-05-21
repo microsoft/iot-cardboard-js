@@ -907,5 +907,9 @@
       "title": "Vad är ett scenlager?",
       "mainContent": "Du kan skapa lager i din scen för att organisera dina beteenden. Lager fungerar som taggar på beteendena, så att du kan definiera vilka beteenden som behöver ses tillsammans, vilket skapar anpassade vyer av din scen för olika roller eller uppgifter.\n\nOm det inte finns några lager i en scen visas alla beteenden i scenvisaren. Alla beteenden som inte har taggats med ett lager visas i standardlagret tills de har taggats med ett lager.\n\nEtt sätt att skapa lager är att använda knappen Scenlager i vyn Skapa för en scen. Du kan också skapa lager när du skapar eller ändrar ett beteende."
     }
-  }
+  },
+  "noContainerUrlErrorTitle": "Behållaren är inte inställd",
+  "noContainerUrlErrorMessage": "Container-URL:en har inte angetts. Klicka nedan för att ställa in den.",
+  "noADTInstanceUrlTitle": "ADT-instansen har inte angetts",
+  "noADTInstanceUrlMessage": "ADT-instansens URL har inte angetts. Klicka nedan för att ställa in den."
 }

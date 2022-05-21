@@ -907,5 +907,9 @@
       "title": "Qu'est-ce qu'une couche de scène ?",
       "mainContent": "Vous pouvez créer des calques dans votre scène pour vous aider à organiser vos comportements. Les calques agissent comme des balises sur les comportements, ce qui vous permet de définir quels comportements doivent être vus ensemble, créant ainsi des vues personnalisées de votre scène pour différents rôles ou tâches.\n\nS’il n’y a pas de calques dans une scène, tous les comportements apparaîtront dans la visionneuse de scène. Tous les comportements non balisés avec un calque apparaîtront dans le calque par défaut jusqu'à ce qu'ils soient balisés avec un calque.\n\nUne façon de créer des calques consiste à utiliser le bouton Calques de scène dans la vue Générer d’une scène. Vous pouvez également créer des calques lors de la création ou de la modification d’un comportement."
     }
-  }
+  },
+  "noContainerUrlErrorTitle": "Conteneur non défini",
+  "noContainerUrlErrorMessage": "L’URL de votre conteneur n’est pas définie. Cliquez ci-dessous pour le définir.",
+  "noADTInstanceUrlTitle": "Instance ADT non définie",
+  "noADTInstanceUrlMessage": "L’URL de votre instance ADT n’est pas définie. Cliquez ci-dessous pour le définir."
 }

@@ -907,5 +907,9 @@
       "title": "Sahne katmanı nedir?",
       "mainContent": "Davranışlarınızı düzenlemenize yardımcı olması için sahnenizde katmanlar oluşturabilirsiniz. Katmanlar, davranışlar üzerindeki etiketler gibi davranarak hangi davranışların birlikte görülmesi gerektiğini tanımlamanıza olanak tanır, böylece farklı roller veya görevler için sahnenizin özel görünümlerini oluşturur.\n\nBir sahnede katman yoksa, tüm davranışlar sahne görüntüleyicisinde görünür. Bir katmanla etiketlenmemiş tüm davranışlar, bir katmanla etiketlenene kadar Varsayılan katmanda görünür.\n\nKatmanlar oluşturmanın bir yolu, bir sahne için Yapı görünümündeki Sahne katmanları düğmesini kullanmaktır. Alternatif olarak, bir davranış oluştururken veya değiştirirken katmanlar oluşturabilirsiniz."
     }
-  }
+  },
+  "noContainerUrlErrorTitle": "Kapsayıcı ayarlanmadı",
+  "noContainerUrlErrorMessage": "Kapsayıcı URL'niz ayarlanmamış. Ayarlamak için aşağıya tıklayın.",
+  "noADTInstanceUrlTitle": "ADT örneği ayarlanmadı",
+  "noADTInstanceUrlMessage": "ADT bulut sunucusu URL'niz ayarlanmamış. Ayarlamak için aşağıya tıklayın."
 }

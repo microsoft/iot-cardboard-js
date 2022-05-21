@@ -907,5 +907,9 @@
       "title": "O que é uma camada de cena?",
       "mainContent": "Você pode criar camadas em sua cena para ajudar a organizar seus comportamentos. As camadas agem como tags nos comportamentos, permitindo que você defina quais comportamentos precisam ser vistos juntos, criando assim visões personalizadas de sua cena para diferentes funções ou tarefas.\n\nSe não houver camadas em uma cena, todos os comportamentos aparecerão no espectador da cena. Quaisquer comportamentos não marcados com uma camada aparecerão na camada Padrão até que sejam marcados com uma camada.\n\nUma maneira de criar camadas é usar o botão Camadas de cena na exibição 'Compilar', para uma cena. Alternativamente, você pode criar camadas ao criar ou modificar um comportamento."
     }
-  }
+  },
+  "noContainerUrlErrorTitle": "Recipiente não definido",
+  "noContainerUrlErrorMessage": "Sua url de contêiner não está definida. Clique abaixo para configurá-lo.",
+  "noADTInstanceUrlTitle": "Instância ADT não definida",
+  "noADTInstanceUrlMessage": "Sua url de instância ADT não está definida. Clique abaixo para configurá-lo."
 }

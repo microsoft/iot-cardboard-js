@@ -907,5 +907,9 @@
       "title": "¿Qué es una capa de escena?",
       "mainContent": "Puede crear capas en su escena para ayudar a organizar sus comportamientos. Las capas actúan como etiquetas en los comportamientos, lo que le permite definir qué comportamientos deben verse juntos, creando así vistas personalizadas de su escena para diferentes roles o tareas.\n\nSi no hay capas en una escena, todos los comportamientos aparecerán en el visor de escenas. Cualquier comportamiento que no esté etiquetado con una capa aparecerá en la capa predeterminada hasta que se etiquete con una capa.\n\nUna forma de crear capas es usar el botón Capas de escena en la vista Generar para una escena. Como alternativa, puede crear capas mientras crea o modifica un comportamiento."
     }
-  }
+  },
+  "noContainerUrlErrorTitle": "Contenedor no configurado",
+  "noContainerUrlErrorMessage": "La dirección URL del contenedor no está establecida. Haga clic a continuación para configurarlo.",
+  "noADTInstanceUrlTitle": "La instancia de ADT no está establecida",
+  "noADTInstanceUrlMessage": "La dirección URL de la instancia de ADT no está establecida. Haga clic a continuación para configurarlo."
 }
