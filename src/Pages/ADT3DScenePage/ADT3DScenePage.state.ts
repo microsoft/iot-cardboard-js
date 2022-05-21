@@ -5,7 +5,8 @@ import {
     SET_CURRENT_STEP,
     SET_SELECTED_SCENE,
     SET_ERRORS,
-    SET_ERROR_CALLBACK
+    SET_ERROR_CALLBACK,
+    SET_ENVIRONMENT_DIALOG_HIDDEN
 } from '../../Models/Constants/ActionTypes';
 import { ADT3DScenePageState } from './ADT3DScenePage.types';
 import { ADT3DScenePageSteps } from '../../Models/Constants/Enums';
@@ -16,7 +17,8 @@ export const defaultADT3DScenePageState: ADT3DScenePageState = {
     selectedScene: null,
     currentStep: ADT3DScenePageSteps.SceneList,
     errors: [],
-    errorCallback: null
+    errorCallback: null,
+    isDialogHidden: true
 };
 
 export const ADT3DScenePageReducer: (
@@ -41,6 +43,9 @@ export const ADT3DScenePageReducer: (
                 break;
             case SET_ERROR_CALLBACK:
                 draft.errorCallback = payload;
+                break;
+            case SET_ENVIRONMENT_DIALOG_HIDDEN:
+                draft.isDialogHidden = payload;
                 break;
             default:
                 break;

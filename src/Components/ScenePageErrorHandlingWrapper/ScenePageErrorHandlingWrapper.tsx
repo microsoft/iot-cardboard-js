@@ -89,6 +89,42 @@ const ScenePageErrorHandlingWrapper: React.FC<ScenePageErrorHandlingWrapperProps
                 />
             );
             break;
+        case ComponentErrorType.NoContainerUrl:
+            componentContent = (
+                <IllustrationMessage
+                    headerText={t('noContainerUrlErrorTitle')}
+                    descriptionText={t('noContainerUrlErrorMessage')}
+                    type={'error'}
+                    width={'wide'}
+                    imageProps={{
+                        src: BlobError,
+                        height: 200
+                    }}
+                    buttonProps={{
+                        onClick: primaryClickAction.onClick,
+                        text: primaryClickAction.buttonText
+                    }}
+                />
+            );
+            break;
+        case ComponentErrorType.NoADTInstanceUrl:
+            componentContent = (
+                <IllustrationMessage
+                    headerText={t('noADTInstanceUrlTitle')}
+                    descriptionText={t('noADTInstanceUrlMessage')}
+                    type={'error'}
+                    width={'wide'}
+                    imageProps={{
+                        src: BlobError,
+                        height: 200
+                    }}
+                    buttonProps={{
+                        onClick: primaryClickAction.onClick,
+                        text: primaryClickAction.buttonText
+                    }}
+                />
+            );
+            break;
         default:
             componentContent = children;
     }

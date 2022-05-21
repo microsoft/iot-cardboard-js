@@ -16,8 +16,9 @@ export const getStyles = memoizeFunction(() => {
                 display: 'flex',
                 flexDirection: 'column',
                 height: '100%',
-                padding: SCENE_PAGE_OUTER_OFFSET
-            }
+                padding: SCENE_PAGE_OUTER_OFFSET,
+                overflowX: 'auto'
+            } as IStyle
         ],
         header: [
             classNames.header,

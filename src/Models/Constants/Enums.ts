@@ -53,7 +53,9 @@ export enum ComponentErrorType {
     UnauthorizedAccess = 'UnauthorizedAccess',
     ReaderAccessOnly = 'ReaderAccessOnly',
     JsonSchemaError = 'JsonSchemaError',
-    ModelsRetrievalFailed = 'ModelsRetrievalFailed'
+    ModelsRetrievalFailed = 'ModelsRetrievalFailed',
+    NoContainerUrl = 'NoContainerUrl',
+    NoADTInstanceUrl = 'NoADTInstanceUrl'
 }
 
 export enum ErrorImages {

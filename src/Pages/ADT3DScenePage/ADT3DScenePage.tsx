@@ -25,7 +25,8 @@ import {
     SET_ADT_SCENE_CONFIG,
     SET_CURRENT_STEP,
     SET_ERRORS,
-    SET_ERROR_CALLBACK
+    SET_ERROR_CALLBACK,
+    SET_ENVIRONMENT_DIALOG_HIDDEN
 } from '../../Models/Constants/ActionTypes';
 import {
     IADTInstance,
@@ -198,6 +199,13 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
         [deeplinkDispatch, environmentPickerOptions?.environment]
     );
 
+    const setEnvironmentDialogHidden = useCallback((isHidden: boolean) => {
+        dispatch({
+            type: SET_ENVIRONMENT_DIALOG_HIDDEN,
+            payload: isHidden
+        });
+    }, []);
+
     // update the adapter if the ADT instance changes
     useEffect(() => {
         adapter.setAdtHostUrl(deeplinkState.adtUrl);
@@ -251,12 +259,46 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
                 payload: errors
             });
         } else {
-            dispatch({
-                type: SET_ERRORS,
-                payload: []
-            });
+            if (
+                scenesConfig.adapterResult &&
+                (!deeplinkState.storageUrl || deeplinkState.storageUrl === '')
+            ) {
+                // Set container missing error
+                const nullContainerError: IComponentError[] = [
+                    {
+                        type: ComponentErrorType.NoContainerUrl
+                    }
+                ];
+                dispatch({
+                    type: SET_ERRORS,
+                    payload: nullContainerError
+                });
+            } else if (
+                scenesConfig.adapterResult &&
+                (!deeplinkState.adtUrl || deeplinkState.adtUrl === '')
+            ) {
+                // Set container missing error
+                const nullAdtInstanceError: IComponentError[] = [
+                    {
+                        type: ComponentErrorType.NoADTInstanceUrl
+                    }
+                ];
+                dispatch({
+                    type: SET_ERRORS,
+                    payload: nullAdtInstanceError
+                });
+            } else {
+                dispatch({
+                    type: SET_ERRORS,
+                    payload: []
+                });
+            }
         }
-    }, [scenesConfig?.adapterResult]);
+    }, [
+        deeplinkState.adtUrl,
+        deeplinkState.storageUrl,
+        scenesConfig.adapterResult
+    ]);
 
     // show error screens if needed
     useEffect(() => {
@@ -298,6 +340,34 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
                     }
                 }
             });
+        } else if (
+            state?.errors?.[0]?.type === ComponentErrorType.NoContainerUrl &&
+            !errorCallbackSetRef.current
+        ) {
+            dispatch({
+                type: SET_ERROR_CALLBACK,
+                payload: {
+                    buttonText: 'Configure environment',
+                    buttonAction: () => {
+                        setEnvironmentDialogHidden(false);
+                        errorCallbackSetRef.current = false;
+                    }
+                }
+            });
+        } else if (
+            state?.errors?.[0]?.type === ComponentErrorType.NoADTInstanceUrl &&
+            !errorCallbackSetRef.current
+        ) {
+            dispatch({
+                type: SET_ERROR_CALLBACK,
+                payload: {
+                    buttonText: 'Configure environment',
+                    buttonAction: () => {
+                        setEnvironmentDialogHidden(false);
+                        errorCallbackSetRef.current = false;
+                    }
+                }
+            });
         }
     }, [resetConfig, scenesConfig, state?.errors, t]);
 
@@ -309,6 +379,7 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
                 handleOnHomeClick,
                 handleOnSceneClick,
                 handleOnSceneSwap,
+                setEnvironmentDialogHidden,
                 isTwinPropertyInspectorPatchModeEnabled: enableTwinPropertyInspectorPatchMode
             }}
         >

@@ -66,6 +66,7 @@ export interface ADT3DScenePageState {
     scene?: IScene;
     errors?: Array<IComponentError>;
     errorCallback: IErrorButtonAction;
+    isDialogHidden: boolean;
 }
 
 export interface IADT3DScenePageContext {
@@ -74,5 +75,6 @@ export interface IADT3DScenePageContext {
     handleOnHomeClick: () => void;
     handleOnSceneClick: (scene: IScene) => void;
     handleOnSceneSwap: (sceneId: string) => void;
+    setEnvironmentDialogHidden: (isHidden: boolean) => void;
     isTwinPropertyInspectorPatchModeEnabled: boolean;
 }
