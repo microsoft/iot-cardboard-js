@@ -453,8 +453,6 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
                         label={t('scenes.showOnGlobe')}
                         onText="On"
                         offText="Off"
-                        onFocus={() => console.log('onFocus called')}
-                        onBlur={() => console.log('onBlur called')}
                         onChange={handleGlobeToggle}
                     />
                 </StackItem>
