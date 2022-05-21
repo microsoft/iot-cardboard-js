@@ -226,7 +226,7 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
                     }
 
                     // If next link present, fetch next chunk
-                    if (result.data?.nextLink && result.data?.value.length) {
+                    if (result.data?.nextLink && result.data?.value?.length) {
                         await appendResourceGroups(nextLink);
                     }
                 };
