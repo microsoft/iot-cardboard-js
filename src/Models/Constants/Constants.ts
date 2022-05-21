@@ -275,9 +275,7 @@ export const DTDLPropertyIconographyMap = {
     }
 };
 
-export const BlobStorageServiceCorsAllowedOrigins = [
-    'https://explorer.digitaltwins.azure.net'
-];
+export const BlobStorageServiceCorsAllowedOrigins = [window.location.origin];
 
 export const BlobStorageServiceCorsAllowedMethods = [
     'GET',
