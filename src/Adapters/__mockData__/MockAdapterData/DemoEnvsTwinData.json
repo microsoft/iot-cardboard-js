@@ -469,7 +469,7 @@
   {
     "$dtId": "MainPanel5",
     "$etag": "W/\"f30dedf4-033f-43e5-a532-47ae137f1035\"",
-    "Wattage": 355,
+    "Wattage": 365,
     "$metadata": {
       "$model": "dtmi:scenesdemo:ISSSolarPanel;1",
       "Wattage": {
@@ -528,6 +528,198 @@
     "$metadata": {
       "$model": "dtmi:scenesdemo:ISSSolarPanel;1",
       "Wattage": {
+        "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
+      }
+    }
+  },
+  {
+    "$dtId": "Exchanger1",
+    "$etag": "W/\"f30dedf4-033f-43e5-a532-47ae137f1035\"",
+    "WaterConductivity": 390,
+    "SteelCorrosion": 68,
+    "CopperCorrosion": 92,
+    "BatchID": "Batch129",
+    "ProcessStep": "Gelling",
+    "TimeRemaining": 150,
+    "$metadata": {
+      "$model": "dtmi:scenesdemo:Exchanger;1",
+      "WaterConductivity": {
+        "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
+      },
+      "SteelCorrosion": {
+        "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
+      },
+      "CopperCorrosion": {
+        "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
+      },
+      "BatchID": {
+        "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
+      },
+      "ProcessStep": {
+        "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
+      },
+      "TimeRemaining": {
+        "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
+      }
+    }
+  },
+  {
+    "$dtId": "Exchanger2",
+    "$etag": "W/\"f30dedf4-033f-43e5-a532-47ae137f1035\"",
+    "WaterConductivity": 390,
+    "SteelCorrosion": 68,
+    "CopperCorrosion": 77,
+    "BatchID": "Batch129",
+    "ProcessStep": "Gelling",
+    "TimeRemaining": 150,
+    "$metadata": {
+      "$model": "dtmi:scenesdemo:Exchanger;1",
+      "WaterConductivity": {
+        "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
+      },
+      "SteelCorrosion": {
+        "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
+      },
+      "CopperCorrosion": {
+        "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
+      },
+      "BatchID": {
+        "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
+      },
+      "ProcessStep": {
+        "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
+      },
+      "TimeRemaining": {
+        "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
+      }
+    }
+  },
+  {
+    "$dtId": "Exchanger3",
+    "$etag": "W/\"f30dedf4-033f-43e5-a532-47ae137f1035\"",
+    "WaterConductivity": 390,
+    "SteelCorrosion": 68,
+    "CopperCorrosion": 92,
+    "BatchID": "Batch129",
+    "ProcessStep": "Gelling",
+    "TimeRemaining": 150,
+    "$metadata": {
+      "$model": "dtmi:scenesdemo:Exchanger;1",
+      "WaterConductivity": {
+        "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
+      },
+      "SteelCorrosion": {
+        "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
+      },
+      "CopperCorrosion": {
+        "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
+      },
+      "BatchID": {
+        "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
+      },
+      "ProcessStep": {
+        "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
+      },
+      "TimeRemaining": {
+        "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
+      }
+    }
+  },
+  {
+    "$dtId": "Exchanger4",
+    "$etag": "W/\"f30dedf4-033f-43e5-a532-47ae137f1035\"",
+    "WaterConductivity": 390,
+    "SteelCorrosion": 68,
+    "CopperCorrosion": 92,
+    "BatchID": "Batch129",
+    "ProcessStep": "Gelling",
+    "TimeRemaining": 150,
+    "$metadata": {
+      "$model": "dtmi:scenesdemo:Exchanger;1",
+      "WaterConductivity": {
+        "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
+      },
+      "SteelCorrosion": {
+        "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
+      },
+      "CopperCorrosion": {
+        "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
+      },
+      "BatchID": {
+        "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
+      },
+      "ProcessStep": {
+        "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
+      },
+      "TimeRemaining": {
+        "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
+      }
+    }
+  },
+  {
+    "$dtId": "StorageTanks1",
+    "$etag": "W/\"f30dedf4-033f-43e5-a532-47ae137f1035\"",
+    "TankLevel": 40,
+    "BatchID": "Batch129",
+    "ProcessStep": "Filling",
+    "$metadata": {
+      "$model": "dtmi:scenesdemo:StorageTanks;1",
+      "TankLevel": {
+        "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
+      },
+      "BatchID": {
+        "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
+      },
+      "ProcessStep": {
+        "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
+      }
+    }
+  },
+  {
+    "$dtId": "StorageTanks2",
+    "$etag": "W/\"f30dedf4-033f-43e5-a532-47ae137f1035\"",
+    "TankLevel": 92,
+    "BatchID": "Batch129",
+    "ProcessStep": "Filling",
+    "$metadata": {
+      "$model": "dtmi:scenesdemo:StorageTanks;1",
+      "TankLevel": {
+        "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
+      },
+      "BatchID": {
+        "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
+      },
+      "ProcessStep": {
+        "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
+      }
+    }
+  },
+  {
+    "$dtId": "StorageTanks3",
+    "$etag": "W/\"f30dedf4-033f-43e5-a532-47ae137f1035\"",
+    "TankLevel": 76,
+    "BatchID": "Batch129",
+    "ProcessStep": "Filling",
+    "$metadata": {
+      "$model": "dtmi:scenesdemo:StorageTanks;1",
+      "TankLevel": {
+        "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
+      },
+      "BatchID": {
+        "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
+      },
+      "ProcessStep": {
+        "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
+      }
+    }
+  },
+  {
+    "$dtId": "TransferPipe",
+    "$etag": "W/\"f30dedf4-033f-43e5-a532-47ae137f1035\"",
+    "FlowRate": 80,
+    "$metadata": {
+      "$model": "dtmi:scenesdemo:TransferPipe;1",
+      "FlowRate": {
         "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
       }
     }

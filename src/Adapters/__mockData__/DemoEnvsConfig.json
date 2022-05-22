@@ -126,8 +126,90 @@
             "url": "https://cardboardresources.blob.core.windows.net/public/Ecolab.glb"
           }
         ],
-        "elements": [],
-        "behaviorIDs": [],
+        "elements": [
+          {
+            "type": "TwinToObjectMapping",
+            "id": "29783b955e651f339598e4b603cee651",
+            "displayName": "Exchanger1",
+            "primaryTwinID": "Exchanger1",
+            "objectIDs": [
+              "AnionEx1_1c35124d-9df8-482a-8a44-8dc5db5f1d3a"
+            ]
+          },
+          {
+            "type": "TwinToObjectMapping",
+            "id": "d1fe933ae5c5b07553a049516c8dc72a",
+            "displayName": "Exchanger2",
+            "primaryTwinID": "Exchanger2",
+            "objectIDs": [
+              "AnionEx2_8ae3ad3d-b80f-4cfe-b06e-62083355a731"
+            ]
+          },
+          {
+            "type": "TwinToObjectMapping",
+            "id": "903ab45381d8e3fff0a0d79f52227891",
+            "displayName": "Exchanger3",
+            "primaryTwinID": "Exchanger3",
+            "objectIDs": [
+              "CationEx1_eb0d3916-b961-49c2-bd00-99dd19886576"
+            ]
+          },
+          {
+            "type": "TwinToObjectMapping",
+            "id": "099cf01bb750c41ecb4204f45779ff5d",
+            "displayName": "Exchanger4",
+            "primaryTwinID": "Exchanger4",
+            "objectIDs": [
+              "polySurface2339"
+            ]
+          },
+          {
+            "type": "TwinToObjectMapping",
+            "id": "36a91edbfef3b5be8e180babd35d0c31",
+            "displayName": "TransferPipe",
+            "primaryTwinID": "TransferPipe",
+            "objectIDs": [
+              "Pipe01",
+              "PipeCCIX"
+            ]
+          },
+          {
+            "type": "TwinToObjectMapping",
+            "id": "72236bcd699e69ff49d591f9cf04404d",
+            "displayName": "StorageTanks1",
+            "primaryTwinID": "StorageTanks1",
+            "objectIDs": [
+              "polySurface1240"
+            ]
+          },
+          {
+            "type": "TwinToObjectMapping",
+            "id": "e8d59d0e9f0eec44dbfcdb6bef4543d4",
+            "displayName": "StorageTanks2",
+            "primaryTwinID": "StorageTanks2",
+            "objectIDs": [
+              "Tank535CCIXStorage2_aeeeb662-9892-4d48-9b46-396ed82c087f",
+              "Tank536LMAS1Storage_e47410db-086a-45af-a7a4-d568d27bddc7",
+              "Tank537CCIXStorage2_5a736ad8-debd-400a-956c-e459ee5ee832",
+              "Tanks538LMAS2Storage_9ee6d550-bde5-4e99-b1df-4ce80e2cf3dd"
+            ]
+          },
+          {
+            "type": "TwinToObjectMapping",
+            "id": "a98e4deb284437171ed102665fe25b43",
+            "displayName": "StorageTanks3",
+            "primaryTwinID": "StorageTanks3",
+            "objectIDs": [
+              "polySurface1914",
+              "polySurface92"
+            ]
+          }
+        ],
+        "behaviorIDs": [
+          "25b5a6bbaeeed2e86a9b7cad242c9b33",
+          "11b51a4a193447d88bb8fe7b1df5be15",
+          "621fc7d3dad1d615098c626f1228a510"
+        ],
         "latitude": 44.9537,
         "longitude": -93.09
       },
@@ -1031,6 +1113,308 @@
             }
           }
         ]
+      },
+      {
+        "id": "25b5a6bbaeeed2e86a9b7cad242c9b33",
+        "displayName": "Water Monitoring",
+        "datasources": [
+          {
+            "type": "ElementTwinToObjectMappingDataSource",
+            "elementIDs": [
+              "29783b955e651f339598e4b603cee651",
+              "d1fe933ae5c5b07553a049516c8dc72a",
+              "903ab45381d8e3fff0a0d79f52227891",
+              "099cf01bb750c41ecb4204f45779ff5d"
+            ]
+          }
+        ],
+        "visuals": [
+          {
+            "type": "ExpressionRangeVisual",
+            "expressionType": "NumericRange",
+            "valueExpression": "PrimaryTwin.CopperCorrosion",
+            "valueRanges": [
+              {
+                "values": [
+                  0,
+                  85
+                ],
+                "visual": {
+                  "color": "#F79824"
+                },
+                "id": "b3948c1c48a09e7d4182ba8441495640"
+              },
+              {
+                "values": [
+                  85,
+                  "Infinity"
+                ],
+                "visual": {
+                  "color": "#26C485"
+                },
+                "id": "2d55d1ebea871597539a57cacb83e4c7"
+              }
+            ],
+            "objectIDs": {
+              "expression": "objectIDs"
+            }
+          },
+          {
+            "type": "ExpressionRangeVisual",
+            "expressionType": "CategoricalValues",
+            "valueExpression": "PrimaryTwin.CopperCorrosion < 85",
+            "valueRanges": [
+              {
+                "id": "5c419bcf354de39ebcf7fef50e8adf6a",
+                "values": [
+                  true
+                ],
+                "visual": {
+                  "color": "#F79824",
+                  "iconName": "Ringer",
+                  "labelExpression": "`Water Quality Warning`"
+                }
+              }
+            ],
+            "objectIDs": {
+              "expression": "objectIDs"
+            }
+          },
+          {
+            "type": "Popover",
+            "title": "",
+            "widgets": [
+              {
+                "id": "4748128eb0c1f7df34e18cc94c8f7374",
+                "type": "Gauge",
+                "valueExpression": "PrimaryTwin.CopperCorrosion",
+                "widgetConfiguration": {
+                  "label": "Copper Corrosion",
+                  "valueRanges": [
+                    {
+                      "values": [
+                        0,
+                        85
+                      ],
+                      "visual": {
+                        "color": "#F79824"
+                      },
+                      "id": "e4ba193e14a7f68e08a266de1a142cba"
+                    },
+                    {
+                      "values": [
+                        85,
+                        "Infinity"
+                      ],
+                      "visual": {
+                        "color": "#26C485"
+                      },
+                      "id": "6f923038881245b442980c7a11dbb3d7"
+                    }
+                  ],
+                  "units": "%"
+                }
+              },
+              {
+                "id": "eb0eebf14c5dc219617fbdd11e3c1e9f",
+                "type": "Gauge",
+                "valueExpression": "PrimaryTwin.SteelCorrosion",
+                "widgetConfiguration": {
+                  "label": "Steel Corrosion",
+                  "valueRanges": [
+                    {
+                      "values": [
+                        0,
+                        85
+                      ],
+                      "visual": {
+                        "color": "#FEE440"
+                      },
+                      "id": "b61c17b98689e5c41755d36b4385598d"
+                    },
+                    {
+                      "values": [
+                        85,
+                        "Infinity"
+                      ],
+                      "visual": {
+                        "color": "#26C485"
+                      },
+                      "id": "0a21b75abc0d8e06fc5e4cf12f0fa75c"
+                    }
+                  ],
+                  "units": "%"
+                }
+              },
+              {
+                "id": "d45ef2155ff571c8671f417e437e70c1",
+                "type": "Value",
+                "widgetConfiguration": {
+                  "displayName": "Process Step",
+                  "valueExpression": "PrimaryTwin.ProcessStep",
+                  "type": "string"
+                }
+              },
+              {
+                "id": "b17f2eaca65dc79867277ffb9751c27a",
+                "type": "Value",
+                "widgetConfiguration": {
+                  "displayName": "Process Time Remaining",
+                  "valueExpression": "PrimaryTwin.TimeRemaining",
+                  "type": "double"
+                }
+              }
+            ],
+            "objectIDs": {
+              "expression": "meshIDs"
+            }
+          }
+        ]
+      },
+      {
+        "id": "11b51a4a193447d88bb8fe7b1df5be15",
+        "displayName": "Tank Levels",
+        "datasources": [
+          {
+            "type": "ElementTwinToObjectMappingDataSource",
+            "elementIDs": [
+              "72236bcd699e69ff49d591f9cf04404d",
+              "e8d59d0e9f0eec44dbfcdb6bef4543d4",
+              "a98e4deb284437171ed102665fe25b43"
+            ]
+          }
+        ],
+        "visuals": [
+          {
+            "type": "ExpressionRangeVisual",
+            "expressionType": "CategoricalValues",
+            "valueExpression": "PrimaryTwin.TankLevel > 90",
+            "valueRanges": [
+              {
+                "id": "9949e94c8a41edd403882258cb34bda6",
+                "values": [
+                  true
+                ],
+                "visual": {
+                  "color": "#C32F27",
+                  "iconName": "SpeedHigh",
+                  "labelExpression": "`Tank dangerously full`"
+                }
+              }
+            ],
+            "objectIDs": {
+              "expression": "objectIDs"
+            }
+          },
+          {
+            "type": "ExpressionRangeVisual",
+            "expressionType": "NumericRange",
+            "valueExpression": "PrimaryTwin.TankLevel",
+            "valueRanges": [
+              {
+                "values": [
+                  70,
+                  90
+                ],
+                "visual": {
+                  "color": "#FEE440"
+                },
+                "id": "8f22d949459194380e892f0f78a2d9e9"
+              },
+              {
+                "values": [
+                  90,
+                  "Infinity"
+                ],
+                "visual": {
+                  "color": "#C32F27"
+                },
+                "id": "6bb35adc585d341938923a14649ad208"
+              }
+            ],
+            "objectIDs": {
+              "expression": "objectIDs"
+            }
+          },
+          {
+            "type": "Popover",
+            "title": "",
+            "widgets": [
+              {
+                "id": "f8a3d751544f4d410e33c7b33e589aa9",
+                "type": "Link",
+                "widgetConfiguration": {
+                  "label": "Empty Tank",
+                  "linkExpression": "`https://contoso.com`"
+                }
+              },
+              {
+                "id": "f2d56f535fc587221aebd3f5b2df669b",
+                "type": "Value",
+                "widgetConfiguration": {
+                  "displayName": "Tank Level",
+                  "valueExpression": "PrimaryTwin.TankLevel",
+                  "type": "double"
+                }
+              },
+              {
+                "id": "3dc83b710fa6ad299392a2305efe6c4d",
+                "type": "Value",
+                "widgetConfiguration": {
+                  "displayName": "Process Step",
+                  "valueExpression": "PrimaryTwin.ProcessStep",
+                  "type": "string"
+                }
+              },
+              {
+                "id": "dc50634fbe5587443123b24e08eb3f5b",
+                "type": "Value",
+                "widgetConfiguration": {
+                  "displayName": "Batch ID",
+                  "valueExpression": "PrimaryTwin.BatchID",
+                  "type": "string"
+                }
+              }
+            ],
+            "objectIDs": {
+              "expression": "meshIDs"
+            }
+          }
+        ]
+      },
+      {
+        "id": "621fc7d3dad1d615098c626f1228a510",
+        "displayName": "Flow Rate",
+        "datasources": [
+          {
+            "type": "ElementTwinToObjectMappingDataSource",
+            "elementIDs": [
+              "36a91edbfef3b5be8e180babd35d0c31"
+            ]
+          }
+        ],
+        "visuals": [
+          {
+            "type": "ExpressionRangeVisual",
+            "expressionType": "NumericRange",
+            "valueExpression": "PrimaryTwin.FlowRate",
+            "valueRanges": [
+              {
+                "values": [
+                  0,
+                  "Infinity"
+                ],
+                "visual": {
+                  "color": "#33A1FD"
+                },
+                "id": "2c0c903fb4ae85c17d007af4f0e53935"
+              }
+            ],
+            "objectIDs": {
+              "expression": "objectIDs"
+            }
+          }
+        ]
       }
     ],
     "layers": [
@@ -1054,6 +1438,20 @@
           "65f63c22166430d2c3417da7f7541d49"
         ],
         "displayName": "Power"
+      },
+      {
+        "id": "9c8cc61c9c0ba9b6e531d083a7f9efe1",
+        "behaviorIDs": [
+          "25b5a6bbaeeed2e86a9b7cad242c9b33"
+        ],
+        "displayName": "Sustainability"
+      },
+      {
+        "id": "19825d4cf57e57c02b5250c73e923090",
+        "behaviorIDs": [
+          "11b51a4a193447d88bb8fe7b1df5be15"
+        ],
+        "displayName": "TankLevels"
       }
     ]
   }

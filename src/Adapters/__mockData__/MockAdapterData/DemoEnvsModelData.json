@@ -93,5 +93,85 @@
         "schema": "string"
       }
     ]
+  },
+  {
+    "@id": "dtmi:scenesdemo:Exchanger;1",
+    "@type": "Interface",
+    "@context": [
+      "dtmi:dtdl:context;2"
+    ],
+    "displayName": "Exchanger",
+    "contents": [
+      {
+        "@type": "Property",
+        "name": "WaterConductivity",
+        "schema": "double"
+      },
+      {
+        "@type": "Property",
+        "name": "SteelCorrosion",
+        "schema": "double"
+      },
+      {
+        "@type": "Property",
+        "name": "CopperCorrosion",
+        "schema": "double"
+      },
+      {
+        "@type": "Property",
+        "name": "BatchID",
+        "schema": "string"
+      },
+      {
+        "@type": "Property",
+        "name": "ProcessStep",
+        "schema": "string"
+      },
+      {
+        "@type": "Property",
+        "name": "TimeRemaining",
+        "schema": "double"
+      }
+    ]
+  },
+  {
+    "@id": "dtmi:scenesdemo:StorageTanks;1",
+    "@type": "Interface",
+    "@context": [
+      "dtmi:dtdl:context;2"
+    ],
+    "displayName": "StorageTanks",
+    "contents": [
+      {
+        "@type": "Property",
+        "name": "TankLevel",
+        "schema": "double"
+      },
+      {
+        "@type": "Property",
+        "name": "BatchID",
+        "schema": "string"
+      },
+      {
+        "@type": "Property",
+        "name": "ProcessStep",
+        "schema": "string"
+      }
+    ]
+  },
+  {
+    "@id": "dtmi:scenesdemo:TransferPipe;1",
+    "@type": "Interface",
+    "@context": [
+      "dtmi:dtdl:context;2"
+    ],
+    "displayName": "TransferPipe",
+    "contents": [
+      {
+        "@type": "Property",
+        "name": "FlowRate",
+        "schema": "double"
+      }
+    ]
   }
 ]
