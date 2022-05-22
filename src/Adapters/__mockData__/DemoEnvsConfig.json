@@ -9,7 +9,7 @@
         "assets": [
           {
             "type": "3DAsset",
-            "url": "https://cardboardresources.blob.core.windows.net/public/CosmoTechWind.glb"
+            "url": "https://iotcardboardjsresources.blob.core.windows.net/public/CosmoTechWind.glb"
           }
         ],
         "elements": [
@@ -123,7 +123,7 @@
         "assets": [
           {
             "type": "3DAsset",
-            "url": "https://cardboardresources.blob.core.windows.net/public/Ecolab.glb"
+            "url": "https://iotcardboardjsresources.blob.core.windows.net/public/Ecolab.glb"
           }
         ],
         "elements": [
@@ -220,7 +220,7 @@
         "assets": [
           {
             "type": "3DAsset",
-            "url": "https://cardboardresources.blob.core.windows.net/public/Refinery.glb"
+            "url": "https://iotcardboardjsresources.blob.core.windows.net/public/Refinery.glb"
           }
         ],
         "elements": [
@@ -301,7 +301,7 @@
         "assets": [
           {
             "type": "3DAsset",
-            "url": "https://cardboardresources.blob.core.windows.net/public/RobotArms.glb"
+            "url": "https://iotcardboardjsresources.blob.core.windows.net/public/RobotArms.glb"
           }
         ],
         "elements": [
@@ -391,7 +391,7 @@
         "assets": [
           {
             "type": "3DAsset",
-            "url": "https://cardboardresources.blob.core.windows.net/public/ISS.glb"
+            "url": "https://iotcardboardjsresources.blob.core.windows.net/public/ISS.glb"
           }
         ],
         "elements": [

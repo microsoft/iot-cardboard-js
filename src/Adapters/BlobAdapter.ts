@@ -125,7 +125,9 @@ export default class BlobAdapter implements IBlobAdapter {
 
                     const scenesBlob = await axios({
                         method: 'GET',
-                        url: `${this.blobProxyServerPath}/${this.containerName}/${ADT3DSceneConfigFileNameInBlobStore}.json`,
+                        url: `${this.blobProxyServerPath}/${
+                            this.containerName
+                        }/${ADT3DSceneConfigFileNameInBlobStore}.json?cachebust=${new Date().valueOf()}`,
                         headers: headers
                     });
                     if (scenesBlob.data) {
@@ -356,11 +358,13 @@ export default class BlobAdapter implements IBlobAdapter {
                 });
 
                 if (
-                    BlobStorageServiceCorsAllowedOrigins.every(
-                        (origin: string) =>
-                            Object.keys(
-                                originToMethodsAndHeadersMapping
-                            ).includes(origin)
+                    [
+                        ...BlobStorageServiceCorsAllowedOrigins,
+                        '*'
+                    ].some((origin: string) =>
+                        Object.keys(originToMethodsAndHeadersMapping).includes(
+                            origin
+                        )
                     ) &&
                     BlobStorageServiceCorsAllowedMethods.every(
                         (method: string) =>
@@ -372,7 +376,7 @@ export default class BlobAdapter implements IBlobAdapter {
                                     true
                                 )
                     ) &&
-                    BlobStorageServiceCorsAllowedHeaders.every(
+                    [...BlobStorageServiceCorsAllowedHeaders, '*'].some(
                         (header: string) =>
                             Object.values(originToMethodsAndHeadersMapping)
                                 .map((mapping) => mapping.allowedHeaders)
