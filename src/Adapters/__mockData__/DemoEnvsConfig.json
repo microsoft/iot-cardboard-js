@@ -223,8 +223,74 @@
             "url": "https://cardboardresources.blob.core.windows.net/public/Refinery.glb"
           }
         ],
-        "elements": [],
-        "behaviorIDs": [],
+        "elements": [
+          {
+            "type": "TwinToObjectMapping",
+            "id": "9cd0254a000cf3ae531828f1bf1bdc7c",
+            "displayName": "Distillation1",
+            "primaryTwinID": "Distillation1",
+            "objectIDs": [
+              "MODULE_FACTORY_LOD1_001"
+            ]
+          },
+          {
+            "type": "TwinToObjectMapping",
+            "id": "6085775e705f33b80a4d3c6841d201e4",
+            "displayName": "Distillation2",
+            "primaryTwinID": "Distillation2",
+            "objectIDs": [
+              "MODULE_TOWER_770_LOD1_001"
+            ]
+          },
+          {
+            "type": "TwinToObjectMapping",
+            "id": "5791116f3466d14ea9280bcc81b8e5b3",
+            "displayName": "Distillation3",
+            "primaryTwinID": "Distillation3",
+            "objectIDs": [
+              "MODULE_TOWER_514_LOD1_001"
+            ]
+          },
+          {
+            "type": "TwinToObjectMapping",
+            "id": "da83113c831ea7dd49f1a69d99b051b8",
+            "displayName": "Tank1",
+            "primaryTwinID": "Tank1",
+            "objectIDs": [
+              "MODULE_SILOS_530_LOD1"
+            ]
+          },
+          {
+            "type": "TwinToObjectMapping",
+            "id": "bb75f4f82d56c1ac7b5450fb02d64d99",
+            "displayName": "Tank2",
+            "primaryTwinID": "Tank2",
+            "objectIDs": [
+              "MODULE_SILOS_354_LOD1"
+            ]
+          },
+          {
+            "type": "TwinToObjectMapping",
+            "id": "06d7aa2bb004d776ec21ad2df948962f",
+            "displayName": "Tank3",
+            "primaryTwinID": "Tank3",
+            "objectIDs": [
+              "MODULE_SILOS_02_LOD1"
+            ]
+          },
+          {
+            "type": "TwinToObjectMapping",
+            "id": "ed79fb94d9559f58feef3738f980cceb",
+            "displayName": "Tank4",
+            "primaryTwinID": "Tank4",
+            "objectIDs": [
+              "MODULE_SILOS_178_LOD1"
+            ]
+          }
+        ],
+        "behaviorIDs": [
+          "83f16294b7959c4e362aa4c1c3264f85"
+        ],
         "latitude": 37.8044,
         "longitude": -122.2712
       },
@@ -1412,6 +1478,145 @@
             ],
             "objectIDs": {
               "expression": "objectIDs"
+            }
+          }
+        ]
+      },
+      {
+        "id": "83f16294b7959c4e362aa4c1c3264f85",
+        "displayName": "High Emissions",
+        "datasources": [
+          {
+            "type": "ElementTwinToObjectMappingDataSource",
+            "elementIDs": [
+              "9cd0254a000cf3ae531828f1bf1bdc7c",
+              "6085775e705f33b80a4d3c6841d201e4",
+              "5791116f3466d14ea9280bcc81b8e5b3",
+              "da83113c831ea7dd49f1a69d99b051b8",
+              "bb75f4f82d56c1ac7b5450fb02d64d99",
+              "06d7aa2bb004d776ec21ad2df948962f",
+              "ed79fb94d9559f58feef3738f980cceb"
+            ]
+          }
+        ],
+        "visuals": [
+          {
+            "type": "ExpressionRangeVisual",
+            "expressionType": "NumericRange",
+            "valueExpression": "PrimaryTwin.SpecificFuelConsumption",
+            "valueRanges": [
+              {
+                "values": [
+                  0,
+                  7000
+                ],
+                "visual": {
+                  "color": "#26C485"
+                },
+                "id": "7c5bd46ca3d98fc4de4aef7d0942bff0"
+              },
+              {
+                "values": [
+                  7000,
+                  7100
+                ],
+                "visual": {
+                  "color": "#F79824"
+                },
+                "id": "acf1678d7d6f06aef279930903ad922f"
+              },
+              {
+                "values": [
+                  7100,
+                  "Infinity"
+                ],
+                "visual": {
+                  "color": "#C32F27"
+                },
+                "id": "c50c37b344449810ab79f53136da6692"
+              }
+            ],
+            "objectIDs": {
+              "expression": "objectIDs"
+            }
+          },
+          {
+            "type": "ExpressionRangeVisual",
+            "expressionType": "CategoricalValues",
+            "valueExpression": "PrimaryTwin.SpecificFuelConsumption > 7100",
+            "valueRanges": [
+              {
+                "id": "0c8d6c37ddce2e3451a279dfea1f992d",
+                "values": [
+                  true
+                ],
+                "visual": {
+                  "color": "#C32F27",
+                  "iconName": "Ringer",
+                  "labelExpression": "`Excess methane production`"
+                }
+              }
+            ],
+            "objectIDs": {
+              "expression": "objectIDs"
+            }
+          },
+          {
+            "type": "Popover",
+            "title": "",
+            "widgets": [
+              {
+                "id": "aff70fc5b36d416024c1317710e1a367",
+                "type": "Gauge",
+                "valueExpression": "PrimaryTwin.SpecificFuelConsumption",
+                "widgetConfiguration": {
+                  "label": "Fuel Consumption",
+                  "valueRanges": [
+                    {
+                      "values": [
+                        0,
+                        7000
+                      ],
+                      "visual": {
+                        "color": "#26C485"
+                      },
+                      "id": "892e7c40460983c42dbd0091f190bbfb"
+                    },
+                    {
+                      "values": [
+                        7000,
+                        7100
+                      ],
+                      "visual": {
+                        "color": "#F79824"
+                      },
+                      "id": "ff88bdbd5a69d45be6bd0fe1623a83f6"
+                    },
+                    {
+                      "values": [
+                        7100,
+                        "Infinity"
+                      ],
+                      "visual": {
+                        "color": "#C32F27"
+                      },
+                      "id": "2948fdb30ae752d74b574397f72c49cc"
+                    }
+                  ],
+                  "units": "gallons"
+                }
+              },
+              {
+                "id": "02fc995792073b87a9154c9fbd0f300a",
+                "type": "Link",
+                "widgetConfiguration": {
+                  "label": "Learn more",
+                  "linkExpression": "`https://www.elementanalytics.com/`"
+                }
+              }
+            ],
+            "objectIDs": {
+              "expression": "meshIDs"
             }
           }
         ]

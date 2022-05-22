@@ -723,5 +723,82 @@
         "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
       }
     }
+  },
+  {
+    "$dtId": "Tank1",
+    "$etag": "W/\"f30dedf4-033f-43e5-a532-47ae137f1035\"",
+    "SpecificFuelConsumption": 6912,
+    "$metadata": {
+      "$model": "dtmi:scenesdemo:RefineryAsset;1",
+      "FlowRate": {
+        "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
+      }
+    }
+  },
+  {
+    "$dtId": "Tank2",
+    "$etag": "W/\"f30dedf4-033f-43e5-a532-47ae137f1035\"",
+    "SpecificFuelConsumption": 7214,
+    "$metadata": {
+      "$model": "dtmi:scenesdemo:RefineryAsset;1",
+      "FlowRate": {
+        "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
+      }
+    }
+  },
+  {
+    "$dtId": "Tank3",
+    "$etag": "W/\"f30dedf4-033f-43e5-a532-47ae137f1035\"",
+    "SpecificFuelConsumption": 6912,
+    "$metadata": {
+      "$model": "dtmi:scenesdemo:RefineryAsset;1",
+      "FlowRate": {
+        "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
+      }
+    }
+  },
+  {
+    "$dtId": "Tank4",
+    "$etag": "W/\"f30dedf4-033f-43e5-a532-47ae137f1035\"",
+    "SpecificFuelConsumption": 6912,
+    "$metadata": {
+      "$model": "dtmi:scenesdemo:RefineryAsset;1",
+      "FlowRate": {
+        "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
+      }
+    }
+  },
+  {
+    "$dtId": "Distillation1",
+    "$etag": "W/\"f30dedf4-033f-43e5-a532-47ae137f1035\"",
+    "SpecificFuelConsumption": 6912,
+    "$metadata": {
+      "$model": "dtmi:scenesdemo:RefineryAsset;1",
+      "FlowRate": {
+        "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
+      }
+    }
+  },
+  {
+    "$dtId": "Distillation2",
+    "$etag": "W/\"f30dedf4-033f-43e5-a532-47ae137f1035\"",
+    "SpecificFuelConsumption": 7042,
+    "$metadata": {
+      "$model": "dtmi:scenesdemo:RefineryAsset;1",
+      "FlowRate": {
+        "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
+      }
+    }
+  },
+  {
+    "$dtId": "Distillation3",
+    "$etag": "W/\"f30dedf4-033f-43e5-a532-47ae137f1035\"",
+    "SpecificFuelConsumption": 6912,
+    "$metadata": {
+      "$model": "dtmi:scenesdemo:RefineryAsset;1",
+      "FlowRate": {
+        "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
+      }
+    }
   }
 ]

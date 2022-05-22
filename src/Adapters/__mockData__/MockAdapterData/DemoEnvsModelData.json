@@ -173,5 +173,20 @@
         "schema": "double"
       }
     ]
+  },
+  {
+    "@id": "dtmi:scenesdemo:RefineryAsset;1",
+    "@type": "Interface",
+    "@context": [
+      "dtmi:dtdl:context;2"
+    ],
+    "displayName": "RefineryAsset",
+    "contents": [
+      {
+        "@type": "Property",
+        "name": "SpecificFuelConsumption",
+        "schema": "double"
+      }
+    ]
   }
 ]
