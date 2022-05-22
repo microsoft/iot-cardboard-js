@@ -435,33 +435,30 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
                                         }}
                                     />
                                 </div>
-                                {!state.errors && ( // show the scene list toggle mode only if there is no error
-                                    <Stack
-                                        horizontal
-                                        tokens={{ childrenGap: 8 }}
-                                    >
-                                        <DeeplinkFlyout
-                                            mode="Simple"
-                                            styles={{
-                                                subComponentStyles: {
-                                                    headerControlGroup: {
-                                                        root: {
-                                                            border: 'none'
-                                                        }
+                                <Stack horizontal tokens={{ childrenGap: 8 }}>
+                                    <DeeplinkFlyout
+                                        mode="Simple"
+                                        styles={{
+                                            subComponentStyles: {
+                                                headerControlGroup: {
+                                                    root: {
+                                                        border: 'none'
                                                     }
                                                 }
-                                            }}
-                                        />
+                                            }
+                                        }}
+                                    />
+                                    {!state?.errors?.length && ( // show the scene list toggle mode only if there is no error
                                         <SceneListModeToggle
                                             selectedMode={state.currentStep}
                                             onListModeChange={onListModeChange}
                                         />
-                                    </Stack>
-                                )}
+                                    )}
+                                </Stack>
                             </div>
                         </>
                     )}
-                    {state.errors.length > 0 ? (
+                    {state?.errors?.length > 0 ? (
                         <ScenePageErrorHandlingWrapper
                             adapter={adapter}
                             errors={state.errors}
