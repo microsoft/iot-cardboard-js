@@ -358,7 +358,7 @@ export default class BlobAdapter implements IBlobAdapter {
                 });
 
                 if (
-                    [
+                    ([
                         ...BlobStorageServiceCorsAllowedOrigins,
                         '*'
                     ].some((origin: string) =>
@@ -366,25 +366,36 @@ export default class BlobAdapter implements IBlobAdapter {
                             origin
                         )
                     ) &&
-                    BlobStorageServiceCorsAllowedMethods.every(
-                        (method: string) =>
-                            Object.values(originToMethodsAndHeadersMapping)
-                                .map((mapping) => mapping.allowedMethods)
-                                .reduce(
-                                    (acc: boolean, methodGroup) =>
-                                        acc && methodGroup[0].includes(method),
-                                    true
-                                )
-                    ) &&
-                    [...BlobStorageServiceCorsAllowedHeaders, '*'].some(
-                        (header: string) =>
-                            Object.values(originToMethodsAndHeadersMapping)
-                                .map((mapping) => mapping.allowedHeaders)
-                                .reduce(
-                                    (acc: boolean, headerGroup) =>
-                                        acc && headerGroup[0].includes(header),
-                                    true
-                                )
+                        BlobStorageServiceCorsAllowedMethods.every(
+                            (method: string) =>
+                                Object.values(originToMethodsAndHeadersMapping)
+                                    .map((mapping) => mapping.allowedMethods)
+                                    .reduce(
+                                        (acc: boolean, methodGroup) =>
+                                            acc &&
+                                            methodGroup[0].includes(method),
+                                        true
+                                    )
+                        ) &&
+                        BlobStorageServiceCorsAllowedHeaders.every(
+                            (header: string) =>
+                                Object.values(originToMethodsAndHeadersMapping)
+                                    .map((mapping) => mapping.allowedHeaders)
+                                    .reduce(
+                                        (acc: boolean, headerGroup) =>
+                                            acc &&
+                                            headerGroup[0].includes(header),
+                                        true
+                                    )
+                        )) ||
+                    ['*'].every((header: string) =>
+                        Object.values(originToMethodsAndHeadersMapping)
+                            .map((mapping) => mapping.allowedHeaders)
+                            .reduce(
+                                (acc: boolean, headerGroup) =>
+                                    acc && headerGroup[0].includes(header),
+                                true
+                            )
                     )
                 ) {
                     return corsRules;
