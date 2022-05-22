@@ -98,11 +98,11 @@ export default class MockAdapter
         IModelledPropertyBuilderAdapter {
     private mockData = null;
     private mockError = null;
-    private mockTwins: IADTTwin[] = null;
-    private mockModels: DtdlInterface[] = null;
+    public mockTwins: IADTTwin[] = null;
+    public mockModels: DtdlInterface[] = null;
     private networkTimeoutMillis;
     private isDataStatic;
-    private scenesConfig: I3DScenesConfig;
+    public scenesConfig: I3DScenesConfig;
     private mockEnvironmentHostName =
         'mockADTInstanceResourceName.api.wcus.digitaltwins.azure.net';
     private mockContainerUrl =
@@ -172,7 +172,7 @@ export default class MockAdapter
     }
 
     async getAllAdtModels() {
-        const rawModels = (mockModelData as any) as DtdlInterface[];
+        const rawModels = (this.mockModels as any) as DtdlInterface[];
         const parsedModels = await parseDTDLModelsAsync(rawModels);
         return new AdapterResult<ADTAllModelsData>({
             result: new ADTAllModelsData({ rawModels, parsedModels }),
@@ -493,6 +493,7 @@ export default class MockAdapter
     }
 
     async putScenesConfig(config: I3DScenesConfig) {
+        console.log(config);
         try {
             await this.mockNetwork();
             this.scenesConfig = config;
