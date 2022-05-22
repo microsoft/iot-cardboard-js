@@ -930,6 +930,8 @@
     "noMissingRoleDesc": "Nie wykryto brakujących uprawnień, próbujemy sprawdzić, czy przypisane uprawnienia obowiązują.",
     "finishedWithFailureDesc": "Próba nie powiodła się, skontaktuj się z właścicielem zasobu.",
     "verifyingPermissionsMessage": "Weryfikowanie uprawnień...\nMoże to potrwać kilka minut.",
-    "assignRoleSuccessDesc": "Brakujące uprawnienia zostały przypisane. Poczekaj, aż spróbujemy sprawdzić, czy zmiany obowiązują."
+    "assignRoleSuccessDesc": "Brakujące uprawnienia zostały przypisane. Poczekaj, aż spróbujemy sprawdzić, czy zmiany obowiązują.",
+    "refreshPage": "Odśwież stronę",
+    "refreshing": "Orzeźwiające"
   }
 }
