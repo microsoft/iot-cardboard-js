@@ -2,7 +2,7 @@ import React from 'react';
 import EnvironmentPicker from './EnvironmentPicker';
 import useAuthParams from '../../../.storybook/useAuthParams';
 import MsalAuthService from '../../Models/Services/MsalAuthService';
-import AzureManagementAdapter from '../../Adapters/AzureManagementAdapter';
+import ADT3DSceneAdapter from '../../Adapters/ADT3DSceneAdapter';
 
 export default {
     title: 'Components/EnvironmentPicker',
@@ -19,10 +19,12 @@ export const ADTEnvironmentPicker = (_args, { globals: { theme, locale } }) => {
                 theme={theme}
                 locale={locale}
                 adapter={
-                    new AzureManagementAdapter(
+                    new ADT3DSceneAdapter(
                         new MsalAuthService(
                             authenticationParameters.adt.aadParameters
                         ),
+                        authenticationParameters.adt.hostUrl,
+                        authenticationParameters.storage.blobContainerUrl,
                         authenticationParameters.adt.aadParameters.tenantId,
                         authenticationParameters.adt.aadParameters.uniqueObjectId
                     )

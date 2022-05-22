@@ -108,6 +108,7 @@ export const availableWidgets: Array<IWidgetLibraryItem> = [
 ];
 export const twinRefreshMaxAge = 9000;
 export const modelRefreshMaxAge = 3600000;
+export const instancesRefreshMaxAge = 3600000;
 
 export const PRIMARY_TWIN_NAME = 'PrimaryTwin';
 export const ValidAdtHostSuffixes = [
@@ -273,3 +274,18 @@ export const DTDLPropertyIconographyMap = {
         icon: 'Clock'
     }
 };
+
+export const BlobStorageServiceCorsAllowedOrigins = [window.location.origin];
+
+export const BlobStorageServiceCorsAllowedMethods = [
+    'GET',
+    'POST',
+    'OPTIONS',
+    'PUT'
+];
+
+export const BlobStorageServiceCorsAllowedHeaders = [
+    'Authorization',
+    'x-ms-version',
+    'x-ms-blob-type'
+];
