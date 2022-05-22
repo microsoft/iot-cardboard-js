@@ -930,6 +930,8 @@
     "noMissingRoleDesc": "Nebyla zjištěna žádná chybějící oprávnění, pokoušíme se ověřit, zda jsou přiřazená oprávnění v platnosti.",
     "finishedWithFailureDesc": "Pokus se nezdařil, obraťte se na vlastníka prostředku.",
     "verifyingPermissionsMessage": "Ověření oprávnění...\nTo může trvat několik minut.",
-    "assignRoleSuccessDesc": "Byla přiřazena chybějící oprávnění. Počkejte prosím, než se budeme pokoušet ověřit, zda se změny projeví."
+    "assignRoleSuccessDesc": "Byla přiřazena chybějící oprávnění. Počkejte prosím, než se budeme pokoušet ověřit, zda se změny projeví.",
+    "refreshPage": "Aktualizovat stránku",
+    "refreshing": "Osvěžující"
   }
 }

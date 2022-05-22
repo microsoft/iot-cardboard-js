@@ -930,6 +930,8 @@
     "noMissingRoleDesc": "Sem permissões em falta detetadas, estamos a tentar verificar se as permissões atribuídas estão em vigor.",
     "finishedWithFailureDesc": "Tentativa falhada, por favor contacte o proprietário do recurso.",
     "verifyingPermissionsMessage": "Verificação de permissões...\nIsto pode levar alguns minutos.",
-    "assignRoleSuccessDesc": "Foram atribuídas permissões em falta. Por favor, aguarde enquanto estamos a tentar verificar se as alterações estão em vigor."
+    "assignRoleSuccessDesc": "Foram atribuídas permissões em falta. Por favor, aguarde enquanto estamos a tentar verificar se as alterações estão em vigor.",
+    "refreshPage": "Página de atualização",
+    "refreshing": "Refrescante"
   }
 }

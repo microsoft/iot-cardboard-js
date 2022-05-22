@@ -396,7 +396,6 @@
         "searchBehaviors": "Search Behaviors",
         "noAvailableBehaviors": "No available behaviors",
         "removeBehavior": "Remove behavior from this element",
-
         "noBehaviorsOnElement": "No behaviors assigned to this element",
         "noElementsText": "No elements created yet. Select an object in the scene to create an element",
         "noResults": "No results found",
@@ -931,6 +930,8 @@
         "assignRoleSuccessDesc": "Missing permissions have been assigned. Please wait while we are attempting to verify if the changes are in effect.",
         "noMissingRoleDesc": "The missing permissions have been assigned, verifying the changes.",
         "finishedWithFailureDesc": "Attempt failed, unable to assign the necessary permissions to this resource, or this resource does not exist. Please contact the resource owner to assign you the required permissions.",
-        "verifyingPermissionsMessage": "Verifying permissions...\nThis may take several minutes."
+        "verifyingPermissionsMessage": "Verifying permissions...\nThis may take several minutes.",
+        "refreshPage": "Refresh page",
+        "refreshing": "Refreshing"
     }
 }

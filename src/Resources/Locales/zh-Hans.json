@@ -930,6 +930,8 @@
     "noMissingRoleDesc": "未检测到缺少的权限，我们正在尝试验证分配的权限是否有效。",
     "finishedWithFailureDesc": "尝试失败，请与资源所有者联系。",
     "verifyingPermissionsMessage": "正在验证权限...\n这可能需要几分钟时间。",
-    "assignRoleSuccessDesc": "已分配缺少的权限。在我们尝试验证更改是否生效时，请稍候。"
+    "assignRoleSuccessDesc": "已分配缺少的权限。在我们尝试验证更改是否生效时，请稍候。",
+    "refreshPage": "刷新页面",
+    "refreshing": "刷新"
   }
 }

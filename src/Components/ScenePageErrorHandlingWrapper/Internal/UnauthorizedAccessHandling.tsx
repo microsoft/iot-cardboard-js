@@ -98,8 +98,12 @@ const UnauthorizedAccessHandling: React.FC<UnauthorizedAccessHandlingProps> = ({
             );
         } else if (mode === ScenePageErrorHandlingMode.FinishedWithSuccess) {
             verifyCallbackAdapterData.isLoading
-                ? setInternalPrimaryButtonText(t('refreshing'))
-                : setInternalPrimaryButtonText(t('refreshPage'));
+                ? setInternalPrimaryButtonText(
+                      t('scenePageErrorHandling.refreshing')
+                  )
+                : setInternalPrimaryButtonText(
+                      t('scenePageErrorHandling.refreshPage')
+                  );
         } else if (mode === ScenePageErrorHandlingMode.FinishedWithFailure) {
             setInternalPrimaryButtonText(t('learnMore'));
         }
