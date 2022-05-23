@@ -23,7 +23,6 @@
   "unauthorizedAccessErrorMessage": "Nincs hozzáférése ehhez a blobhoz. Kérjen hozzáférést az olvasóhoz, vagy próbáljon ki egy másik blobot.",
   "nonExistentBlobErrorTitle": "Blobhiba",
   "nonExistentBlobErrorMessage": "Blob nem létezik.",
-  "readerAccessOnlyErrorMessage": "Van olvasási hozzáférése ehhez a blobhoz. Ez azt jelenti, hogy megtekintheti a modelleket, de nem tud jeleneteket, elemeket vagy viselkedéseket létrehozni vagy konfigurálni.",
   "tryAgain": "Próbáld újra",
   "learnMore": "Tudj meg többet",
   "DataFetchFailed": "Az adatok lekérése nem sikerült",
@@ -907,9 +906,5 @@
       "title": "Mi az a jelenetréteg?",
       "mainContent": "Rétegeket hozhat létre a jelenetben, hogy segítsen megszervezni a viselkedését. A rétegek címkékként működnek a viselkedésen, lehetővé téve annak meghatározását, hogy mely viselkedéseket kell együtt látni, így egyéni nézeteket hoz létre a jelenetről a különböző szerepkörökhöz vagy feladatokhoz.\n\nHa nincsenek rétegek egy jelenetben, az összes viselkedés megjelenik a jelenetmegjelenítőben. A réteggel nem jelölt viselkedések mindaddig megjelennek az Alapértelmezett rétegben, amíg egy réteggel nem vannak címkézve.\n\nA rétegek létrehozásának egyik módja a Jelenet rétegek gomb használata a Jelenet rétegek nézetben egy jelenethez. Másik lehetőségként rétegeket is létrehozhat a viselkedés létrehozása vagy módosítása közben."
     }
-  },
-  "noContainerUrlErrorTitle": "A tároló nincs beállítva",
-  "noContainerUrlErrorMessage": "A tároló URL-címe nincs beállítva. Kattintson az alábbi gombra a beállításhoz.",
-  "noADTInstanceUrlTitle": "Az Active Directory tanúsítvány példány nincs beállítva",
-  "noADTInstanceUrlMessage": "Az ADT-példány URL-címe nincs beállítva. Kattintson az alábbi gombra a beállításhoz."
+  }
 }

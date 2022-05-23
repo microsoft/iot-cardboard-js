@@ -23,7 +23,6 @@
   "unauthorizedAccessErrorMessage": "Je hebt geen toegang tot deze blob. Vraag readertoegang aan of probeer een andere blob.",
   "nonExistentBlobErrorTitle": "Blob-fout",
   "nonExistentBlobErrorMessage": "Blob bestaat niet.",
-  "readerAccessOnlyErrorMessage": "Je hebt leestoegang voor deze blob. Dit betekent dat u de modellen kunt bekijken, maar geen scènes, elementen of gedragingen kunt maken of configureren.",
   "tryAgain": "Probeer het opnieuw",
   "learnMore": "Meer informatie",
   "DataFetchFailed": "Ophalen van gegevens is mislukt",
@@ -907,9 +906,5 @@
       "title": "Wat is een scènelaag?",
       "mainContent": "U kunt lagen in uw scène maken om uw gedrag te ordenen. Lagen fungeren als tags op het gedrag, zodat u kunt definiëren welk gedrag samen moet worden gezien, waardoor aangepaste weergaven van uw scène worden gemaakt voor verschillende rollen of taken.\n\nAls er geen lagen in een scène zijn, worden alle gedragingen weergegeven in de scèneviewer. Gedragingen die niet met een laag zijn gelabeld, worden in de standaardlaag weergegeven totdat ze met een laag zijn gelabeld.\n\nU kunt lagen maken door de knop Scènelagen in de weergave Bouwen voor een scène te gebruiken. U kunt ook lagen maken tijdens het maken of wijzigen van een gedrag."
     }
-  },
-  "noContainerUrlErrorTitle": "Container niet ingesteld",
-  "noContainerUrlErrorMessage": "Uw container-URL is niet ingesteld. Klik hieronder om het in te stellen.",
-  "noADTInstanceUrlTitle": "ADT-instantie niet ingesteld",
-  "noADTInstanceUrlMessage": "Uw URL voor het ADT-exemplaar is niet ingesteld. Klik hieronder om het in te stellen."
+  }
 }

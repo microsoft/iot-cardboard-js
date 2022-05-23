@@ -23,7 +23,6 @@
   "unauthorizedAccessErrorMessage": "Não tem acesso a esta bolha. Solicite o acesso ao Leitor ou experimente uma bolha diferente.",
   "nonExistentBlobErrorTitle": "Erro de bolha",
   "nonExistentBlobErrorMessage": "Blob não existe.",
-  "readerAccessOnlyErrorMessage": "Leu o acesso a esta bolha. Isto significa que poderá ver os modelos, mas não será capaz de criar ou configurar quaisquer cenas, elementos ou comportamentos.",
   "tryAgain": "Tentar novamente",
   "learnMore": "Saiba mais",
   "DataFetchFailed": "A procura de dados falhou",
@@ -907,9 +906,5 @@
       "title": "O que é uma camada de cena?",
       "mainContent": "Pode criar camadas na sua cena para ajudar a organizar os seus comportamentos. As camadas agem como tags sobre os comportamentos, permitindo-lhe definir quais comportamentos precisam ser vistos em conjunto, criando assim vistas personalizadas da sua cena para diferentes papéis ou tarefas.\n\nSe não houver camadas numa cena, todos os comportamentos aparecerão no espectador de cena. Quaisquer comportamentos não marcados com uma camada aparecerão na camada Padrão até que sejam marcados com uma camada.\n\nUma maneira de criar camadas é usar o botão de camadas de cena na vista Build para uma cena. Em alternativa, pode criar camadas enquanto cria ou modifica um comportamento."
     }
-  },
-  "noContainerUrlErrorTitle": "Recipiente não definido",
-  "noContainerUrlErrorMessage": "A url do contentor não está definida. Clique abaixo para defini-lo.",
-  "noADTInstanceUrlTitle": "Instância ADT não definida",
-  "noADTInstanceUrlMessage": "O url de exemplo do ADT não está definido. Clique abaixo para defini-lo."
+  }
 }

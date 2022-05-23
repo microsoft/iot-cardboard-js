@@ -23,7 +23,6 @@
   "unauthorizedAccessErrorMessage": "Non si dispone dell'accesso a questo BLOB. Richiedi l'accesso a Reader o prova un BLOB diverso.",
   "nonExistentBlobErrorTitle": "Errore BLOB",
   "nonExistentBlobErrorMessage": "BLOB non esiste.",
-  "readerAccessOnlyErrorMessage": "Si dispone dell'accesso in lettura per questo BLOB. Ciò significa che sarà possibile visualizzare i modelli, ma non sarà possibile creare o configurare scene, elementi o comportamenti.",
   "tryAgain": "Riprova",
   "learnMore": "Ulteriori informazioni",
   "DataFetchFailed": "Recupero dati non riuscito",
@@ -907,9 +906,5 @@
       "title": "Che cos'è un livello di scena?",
       "mainContent": "È possibile creare livelli nella scena per organizzare i comportamenti. I livelli agiscono come tag sui comportamenti, consentendo di definire quali comportamenti devono essere visti insieme, creando così viste personalizzate della scena per ruoli o attività diversi.\n\nSe non ci sono livelli in una scena, tutti i comportamenti verranno visualizzati nel visualizzatore della scena. Tutti i comportamenti non contrassegnati con un livello verranno visualizzati nel livello predefinito finché non vengono contrassegnati con un livello.\n\nUn modo per creare livelli consiste nell'utilizzare il pulsante Livelli scena nella vista Crea per una scena. In alternativa, potete creare livelli durante la creazione o la modifica di un comportamento."
     }
-  },
-  "noContainerUrlErrorTitle": "Contenitore non impostato",
-  "noContainerUrlErrorMessage": "L'URL del contenitore non è impostato. Clicca qui sotto per impostarlo.",
-  "noADTInstanceUrlTitle": "Istanza ADT non impostata",
-  "noADTInstanceUrlMessage": "L'URL dell'istanza ADT non è impostato. Clicca qui sotto per impostarlo."
+  }
 }

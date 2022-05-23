@@ -23,7 +23,6 @@
   "unauthorizedAccessErrorMessage": "이 Blob에 액세스할 수 없습니다. 판독기 액세스를 요청하거나 다른 Blob을 사용해 보십시오.",
   "nonExistentBlobErrorTitle": "Blob 오류",
   "nonExistentBlobErrorMessage": "Blob이 존재하지 않습니다.",
-  "readerAccessOnlyErrorMessage": "이 Blob에 대한 읽기 액세스 권한이 있습니다. 즉, 모델을 볼 수는 있지만 장면, 요소 또는 동작을 만들거나 구성 할 수는 없습니다.",
   "tryAgain": "다시 한 번 시도해 보세요",
   "learnMore": "더 알아보세요",
   "DataFetchFailed": "데이터 가져오기 실패",
@@ -907,9 +906,5 @@
       "title": "씬 레이어란 무엇인가요?",
       "mainContent": "장면에 레이어를 만들어 동작을 구성할 수 있습니다. 레이어는 비헤이비어에 대한 태그처럼 작동하므로 함께 볼 필요가 있는 동작을 정의할 수 있으므로 다양한 역할이나 작업에 대한 장면의 사용자 지정 뷰를 만들 수 있습니다.\n\n장면에 레이어가 없으면 모든 동작이 장면 뷰어에 표시됩니다. 레이어로 태그가 지정되지 않은 모든 동작은 레이어로 태그가 지정될 때까지 기본 레이어에 표시됩니다.\n\n레이어를 만드는 한 가지 방법은 장면에 대한 빌드 보기의 [장면] 레이어 단추를 사용하는 것입니다. 또는 동작을 만들거나 수정하는 동안 레이어를 만들 수 있습니다."
     }
-  },
-  "noContainerUrlErrorTitle": "컨테이너가 설정되지 않았습니다.",
-  "noContainerUrlErrorMessage": "컨테이너 URL이 설정되지 않았습니다. 아래를 클릭하여 설정하십시오.",
-  "noADTInstanceUrlTitle": "ADT 인스턴스가 설정되지 않았습니다.",
-  "noADTInstanceUrlMessage": "ADT 인스턴스 URL이 설정되지 않았습니다. 아래를 클릭하여 설정하십시오."
+  }
 }

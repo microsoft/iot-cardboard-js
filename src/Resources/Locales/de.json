@@ -23,7 +23,6 @@
   "unauthorizedAccessErrorMessage": "Sie haben keinen Zugriff auf diesen Blob. Fordern Sie Leserzugriff an oder probieren Sie einen anderen Blob aus.",
   "nonExistentBlobErrorTitle": "Blob-Fehler",
   "nonExistentBlobErrorMessage": "Blob existiert nicht.",
-  "readerAccessOnlyErrorMessage": "Sie haben Lesezugriff für diesen Blob. Dies bedeutet, dass Sie die Modelle anzeigen können, aber keine Szenen, Elemente oder Verhaltensweisen erstellen oder konfigurieren können.",
   "tryAgain": "Wiederholen",
   "learnMore": "Weitere Informationen",
   "DataFetchFailed": "Datenabruf fehlgeschlagen",
@@ -907,9 +906,5 @@
       "title": "Was ist eine Szenenebene?",
       "mainContent": "Sie können Ebenen in Ihrer Szene erstellen, um Ihr Verhalten zu organisieren. Ebenen verhalten sich wie Tags für die Verhaltensweisen, sodass Sie definieren können, welche Verhaltensweisen zusammen angezeigt werden müssen, und so benutzerdefinierte Ansichten Ihrer Szene für verschiedene Rollen oder Aufgaben erstellen.\n\nWenn es keine Ebenen in einer Szene gibt, werden alle Verhaltensweisen im Szenenbetrachter angezeigt. Alle Verhaltensweisen, die nicht mit einer Ebene gekennzeichnet sind, werden in der Standardebene angezeigt, bis sie mit einer Ebene gekennzeichnet sind.\n\nEine Möglichkeit, Ebenen zu erstellen, besteht darin, die Schaltfläche \"Szenenebenen\" in der Ansicht \"Erstellen\" für eine Szene zu verwenden. Alternativ können Sie Ebenen erstellen, während Sie ein Verhalten erstellen oder ändern."
     }
-  },
-  "noContainerUrlErrorTitle": "Container nicht festgelegt",
-  "noContainerUrlErrorMessage": "Ihre Container-URL ist nicht festgelegt. Klicken Sie unten, um es einzustellen.",
-  "noADTInstanceUrlTitle": "ADT-Instanz nicht festgelegt",
-  "noADTInstanceUrlMessage": "Ihre ADT-Instanz-URL ist nicht festgelegt. Klicken Sie unten, um es einzustellen."
+  }
 }

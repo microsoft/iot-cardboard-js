@@ -23,7 +23,6 @@
   "unauthorizedAccessErrorMessage": "Nie masz dostępu do tego obiektu blob. Poproś o dostęp do programu Reader lub wypróbuj inny obiekt blob.",
   "nonExistentBlobErrorTitle": "Błąd obiektu blob",
   "nonExistentBlobErrorMessage": "Obiekt blob nie istnieje.",
-  "readerAccessOnlyErrorMessage": "Masz dostęp do odczytu dla tego obiektu blob. Oznacza to, że będzie można wyświetlać modele, ale nie będzie można tworzyć ani konfigurować żadnych scen, elementów ani zachowań.",
   "tryAgain": "Spróbuj ponownie",
   "learnMore": "Dowiedz się więcej",
   "DataFetchFailed": "Pobieranie danych nie powiodło się",
@@ -907,9 +906,5 @@
       "title": "Co to jest warstwa sceny?",
       "mainContent": "Możesz tworzyć warstwy w scenie, aby pomóc w organizowaniu zachowań. Warstwy działają jak znaczniki zachowań, umożliwiając zdefiniowanie, które zachowania muszą być widoczne razem, tworząc w ten sposób niestandardowe widoki sceny dla różnych ról lub zadań.\n\nJeśli w scenie nie ma warstw, wszystkie zachowania będą widoczne w przeglądarce scen. Wszelkie zachowania, które nie zostały oznaczone warstwą, będą wyświetlane na warstwie domyślnej, dopóki nie zostaną oznaczone warstwą.\n\nJednym ze sposobów tworzenia warstw jest użycie przycisku Warstwy sceny w widoku Buduj dla sceny. Alternatywnie można tworzyć warstwy podczas tworzenia lub modyfikowania zachowania."
     }
-  },
-  "noContainerUrlErrorTitle": "Kontener nie jest ustawiony",
-  "noContainerUrlErrorMessage": "Adres URL kontenera nie jest ustawiony. Kliknij poniżej, aby go ustawić.",
-  "noADTInstanceUrlTitle": "Nie ustawiono wystąpienia narzędzia ADT",
-  "noADTInstanceUrlMessage": "Adres URL wystąpienia narzędzia ADT nie jest ustawiony. Kliknij poniżej, aby go ustawić."
+  }
 }

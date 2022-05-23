@@ -23,7 +23,6 @@
   "unauthorizedAccessErrorMessage": "K tomuto objektu BLOB nemáte přístup. Požádejte o přístup ke čtečce nebo vyzkoušejte jiný objekt BLOB.",
   "nonExistentBlobErrorTitle": "Chyba objektu BLOB",
   "nonExistentBlobErrorMessage": "Objekt blob neexistuje.",
-  "readerAccessOnlyErrorMessage": "Pro tento objekt BLOB máte přístup pro čtení. To znamená, že budete moci zobrazit modely, ale nebudete moci vytvářet ani konfigurovat žádné scény, prvky nebo chování.",
   "tryAgain": "Zkuste to znovu",
   "learnMore": "Víc se uč",
   "DataFetchFailed": "Načtení dat se nezdařilo",
@@ -907,9 +906,5 @@
       "title": "Co je vrstva scény?",
       "mainContent": "Ve scéně můžete vytvořit vrstvy, které vám pomohou uspořádat chování. Vrstvy se chovají jako tagy chování, což vám umožňuje definovat, která chování je třeba vidět společně, a tím vytvářet vlastní zobrazení scény pro různé role nebo úkoly.\n\nPokud ve scéně nejsou žádné vrstvy, všechna chování se zobrazí v prohlížeči scény. Všechna chování, která nejsou tagována vrstvou, se budou zobrazovat ve výchozí vrstvě, dokud nebudou tagována vrstvou.\n\nJedním ze způsobů, jak vytvořit vrstvy, je použít tlačítko Vrstvy scény v zobrazení Vytvořit. Alternativně můžete vytvářet vrstvy při vytváření nebo úpravě chování."
     }
-  },
-  "noContainerUrlErrorTitle": "Kontejner není nastaven",
-  "noContainerUrlErrorMessage": "Adresa URL kontejneru není nastavená. Klikněte níže pro nastavení.",
-  "noADTInstanceUrlTitle": "Instance nástroje ADT není nastavena",
-  "noADTInstanceUrlMessage": "Adresa URL instance nástroje ADT není nastavena. Klikněte níže pro nastavení."
+  }
 }
