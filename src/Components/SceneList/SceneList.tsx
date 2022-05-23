@@ -23,7 +23,10 @@ import {
 import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
 import { createGUID } from '../../Models/Services/Utils';
 import ViewerConfigUtility from '../../Models/Classes/ViewerConfigUtility';
-import { IBlobFile, IComponentError } from '../../Models/Constants/Interfaces';
+import {
+    IStorageBlob,
+    IComponentError
+} from '../../Models/Constants/Interfaces';
 import {
     ComponentErrorType,
     Supported3DFileTypes
@@ -282,7 +285,7 @@ const SceneList: React.FC<SceneListProps> = ({
     const renderBlobDropdown = useCallback(
         (
             onChange?: (blobUrl: string) => void,
-            onLoad?: (blobs: Array<IBlobFile>) => void
+            onLoad?: (blobs: Array<IStorageBlob>) => void
         ) => {
             return (
                 <BlobDropdown

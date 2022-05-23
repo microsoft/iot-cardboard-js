@@ -21,12 +21,15 @@ export const ADT3DSceneBuilderContainer: React.FC<IADT3DSceneBuilderProps> = ({
 }) => {
     const { deeplinkState } = useDeeplinkContext();
 
+    // get config on mount to ensure it is always consistent with the server
+    useEffect(refetchConfig, []);
+
     useEffect(() => {
         if (deeplinkState.mode === ADT3DScenePageModes.ViewScene) {
             // Shift SceneView over a bit to maintain camera position
             const root = document.getRootNode() as Element;
             const sceneViewWrapper = root.getElementsByClassName(
-                'cb-sceneview-wrapper'
+                'cb-sceneview-viewer-wrapper'
             )?.[0] as HTMLDivElement;
             if (sceneViewWrapper) {
                 sceneViewWrapper.className = 'cb-sceneview-wrapper-wide';

@@ -541,7 +541,8 @@
         "alphanumericOnly": "孪生别名只能包含字母数字字符",
         "noNumberPrefix": "孪生别名不得以数字开头"
       }
-    }
+    },
+    "actions": "行动"
   },
   "widgets": {
     "trend": {
@@ -907,5 +908,31 @@
       "title": "什么是场景图层？",
       "mainContent": "您可以在场景中创建图层以帮助组织行为。图层的作用类似于行为上的标签，使您能够定义需要一起查看的行为，从而为不同的角色或任务创建场景的自定义视图。\n\n如果场景中没有图层，则所有行为都将显示在场景查看器中。任何未使用图层标记的行为都将显示在默认图层中，直到使用图层标记为止。\n\n创建图层的一种方法是使用场景构建视图中的场景图层按钮。或者，您可以在创建或修改行为时创建图层。"
     }
+  },
+  "diagnose": "诊断",
+  "resolve": "解决",
+  "verify": "验证",
+  "success": "成功！",
+  "scenePageErrorHandling": {
+    "resetConfigFile": "重置配置文件",
+    "unauthorizedAccessErrorTitle": "访问受限",
+    "unauthorizedAccessErrorMessage": "您无权访问此存储容器。诊断您的访问权限或尝试其他容器。",
+    "blobNotFoundErrorTitle": "未找到斑点",
+    "blobNotFoundErrorMessage": "Blob 不存在。",
+    "unknownErrorTitle": "未知错误",
+    "corsErrorTitle": "CORS 错误",
+    "corsErrorMessage": "存储帐户的 Blob 服务应具有一些特定属性，以使 CORS 能够在场景中使用 3D 资产。",
+    "internalServerErrorMessage": "内部服务器错误，请检查服务器日志。",
+    "diagnoseAccessPermissions": "诊断访问权限",
+    "checkingPermissions": "正在检查权限...",
+    "resolveIssues": "解决问题",
+    "resolvingIssues": "正在解决问题...",
+    "missingPermissionsMessage": "您缺少权限。需要以读取者身份和存储 Blob 数据所有者或存储 Blob 数据参与者进行访问。",
+    "noMissingRoleDesc": "未检测到缺少的权限，我们正在尝试验证分配的权限是否有效。",
+    "finishedWithFailureDesc": "尝试失败，请与资源所有者联系。",
+    "verifyingPermissionsMessage": "正在验证权限...\n这可能需要几分钟时间。",
+    "assignRoleSuccessDesc": "已分配缺少的权限。在我们尝试验证更改是否生效时，请稍候。",
+    "refreshPage": "刷新页面",
+    "refreshing": "刷新"
   }
 }

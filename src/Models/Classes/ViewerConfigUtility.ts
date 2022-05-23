@@ -30,7 +30,7 @@ abstract class ViewerConfigUtility {
         config: I3DScenesConfig,
         sceneId: string
     ): IScene | undefined {
-        return config.configuration.scenes.find((s) => s.id === sceneId);
+        return config?.configuration.scenes.find((s) => s.id === sceneId);
     }
 
     /** Add new scene to config file */
@@ -606,7 +606,7 @@ abstract class ViewerConfigUtility {
         }
 
         // Add behavior Ids from selected scene layers to Id dict
-        config.configuration.layers.forEach((layer) => {
+        config?.configuration.layers.forEach((layer) => {
             if (selectedLayerIds.includes(layer.id)) {
                 layer.behaviorIDs.forEach((behaviorId) => {
                     uniqueBehaviorIds.set(behaviorId, '');

@@ -541,7 +541,8 @@
         "alphanumericOnly": "Zwillingsalias darf nur alphanumerische Zeichen enthalten",
         "noNumberPrefix": "Twin Alias darf nicht mit einer Zahl beginnen"
       }
-    }
+    },
+    "actions": "Aktionen"
   },
   "widgets": {
     "trend": {
@@ -907,5 +908,31 @@
       "title": "Was ist eine Szenenebene?",
       "mainContent": "Sie können Ebenen in Ihrer Szene erstellen, um Ihr Verhalten zu organisieren. Ebenen verhalten sich wie Tags für die Verhaltensweisen, sodass Sie definieren können, welche Verhaltensweisen zusammen angezeigt werden müssen, und so benutzerdefinierte Ansichten Ihrer Szene für verschiedene Rollen oder Aufgaben erstellen.\n\nWenn es keine Ebenen in einer Szene gibt, werden alle Verhaltensweisen im Szenenbetrachter angezeigt. Alle Verhaltensweisen, die nicht mit einer Ebene gekennzeichnet sind, werden in der Standardebene angezeigt, bis sie mit einer Ebene gekennzeichnet sind.\n\nEine Möglichkeit, Ebenen zu erstellen, besteht darin, die Schaltfläche \"Szenenebenen\" in der Ansicht \"Erstellen\" für eine Szene zu verwenden. Alternativ können Sie Ebenen erstellen, während Sie ein Verhalten erstellen oder ändern."
     }
+  },
+  "diagnose": "Diagnostizieren",
+  "resolve": "Beschließen",
+  "verify": "Überprüfen",
+  "success": "Erfolg!",
+  "scenePageErrorHandling": {
+    "resetConfigFile": "Konfigurationsdatei zurücksetzen",
+    "unauthorizedAccessErrorTitle": "Zugriff eingeschränkt",
+    "unauthorizedAccessErrorMessage": "Sie haben keinen Zugriff auf diesen Lagerbehälter. Diagnostizieren Sie Ihren Zugriff, oder versuchen Sie es mit einem anderen Container.",
+    "blobNotFoundErrorTitle": "Blob nicht gefunden",
+    "blobNotFoundErrorMessage": "Blob existiert nicht.",
+    "unknownErrorTitle": "Unbekannter Fehler",
+    "corsErrorTitle": "CORS-Fehler",
+    "corsErrorMessage": "Der Blob-Dienst Ihres Speicherkontos sollte über einige bestimmte Eigenschaften verfügen, damit CORS 3D-Assets in Ihren Szenen verwenden kann.",
+    "internalServerErrorMessage": "Interner Serverfehler, bitte überprüfen Sie die Serverprotokolle.",
+    "diagnoseAccessPermissions": "Diagnostizieren von Zugriffsberechtigungen",
+    "checkingPermissions": "Berechtigungen werden überprüft...",
+    "resolveIssues": "Beheben von Problemen",
+    "resolvingIssues": "Probleme lösen...",
+    "missingPermissionsMessage": "Sie haben fehlende Berechtigungen. Sie benötigen Zugriff als Reader und entweder Storage Blob Data Owner oder Storage Blob Data Contributor.",
+    "noMissingRoleDesc": "Keine fehlenden Berechtigungen erkannt, versuchen wir zu überprüfen, ob zugewiesene Berechtigungen wirksam sind.",
+    "finishedWithFailureDesc": "Der Versuch ist fehlgeschlagen, wenden Sie sich an den Ressourcenbesitzer.",
+    "verifyingPermissionsMessage": "Berechtigungen überprüfen...\nDies kann einige Minuten dauern.",
+    "assignRoleSuccessDesc": "Fehlende Berechtigungen wurden vergeben. Bitte warten Sie, während wir versuchen zu überprüfen, ob die Änderungen wirksam sind.",
+    "refreshPage": "Seite aktualisieren",
+    "refreshing": "Auffrischend"
   }
 }

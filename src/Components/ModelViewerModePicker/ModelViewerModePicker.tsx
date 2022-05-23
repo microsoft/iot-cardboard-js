@@ -92,7 +92,7 @@ const ModelViewerModePicker: React.FC<ModelViewerModePickerProps> = (props) => {
         onChangeObjectColor(objectColorOptions[0].color);
         onChangeSceneBackground(backgroundColorOptions[0].color);
         onChangeObjectStyle(ViewerObjectStyle.Default);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+        // // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     useEffect(() => {
@@ -103,21 +103,21 @@ const ModelViewerModePicker: React.FC<ModelViewerModePickerProps> = (props) => {
     }, [onChangeObjectColor, selectedObjectStyle]);
 
     const updateStyle = useCallback(
-        (style: ViewerObjectStyle) => {
-            onChangeObjectStyle(style);
+        (_e: any, option: IChoiceGroupOption) => {
+            onChangeObjectStyle(option.key as ViewerObjectStyle);
         },
         [onChangeObjectStyle]
     );
 
     const updateObjectColor = useCallback(
-        (objectColor: string) => {
+        (_e, _id, objectColor: string) => {
             onChangeObjectColor(objectColor);
         },
         [onChangeObjectColor]
     );
 
     const updateBackgroundColor = useCallback(
-        (backgroundColor: string) => {
+        (_e, backgroundColor: string) => {
             onChangeSceneBackground(backgroundColor);
         },
         [onChangeSceneBackground]
@@ -176,9 +176,7 @@ const ModelViewerModePicker: React.FC<ModelViewerModePickerProps> = (props) => {
                         <ChoiceGroup
                             selectedKey={selectedObjectStyle}
                             options={styleChoiceOptions}
-                            onChange={(e, option) =>
-                                updateStyle(option.key as ViewerObjectStyle)
-                            }
+                            onChange={updateStyle}
                         />
                         <h4 className={styles.subHeading}>
                             {t('modelViewerModePicker.objectColors')}
@@ -195,9 +193,7 @@ const ModelViewerModePicker: React.FC<ModelViewerModePickerProps> = (props) => {
                                 selectedId={selectedObjectColor}
                                 cellShape={'circle'}
                                 colorCells={colors}
-                                onChange={(e, id, color) =>
-                                    updateObjectColor(color)
-                                }
+                                onChange={updateObjectColor}
                                 getColorGridCellStyles={(props) => {
                                     if (props.disabled) {
                                         return {
@@ -221,7 +217,7 @@ const ModelViewerModePicker: React.FC<ModelViewerModePickerProps> = (props) => {
                                 selectedId={selectedSceneBackground}
                                 cellShape={'circle'}
                                 colorCells={backgrounds}
-                                onChange={(e, id) => updateBackgroundColor(id)}
+                                onChange={updateBackgroundColor}
                             />
                         </div>
                     </div>

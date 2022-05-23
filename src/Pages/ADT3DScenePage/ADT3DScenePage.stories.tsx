@@ -2,18 +2,25 @@ import React, { useCallback } from 'react';
 import MockAdapter from '../../Adapters/MockAdapter';
 import ADT3DScenePage from './ADT3DScenePage';
 import mockConfig from '../../Adapters/__mockData__/3DScenesConfiguration.json';
+import demoEnvsConfig from '../../Adapters/__mockData__/DemoEnvsConfig.json';
+import demoEnvsTwins from '../../Adapters/__mockData__/MockAdapterData/DemoEnvsTwinData.json';
+import demoEnvsModels from '../../Adapters/__mockData__/MockAdapterData/DemoEnvsModelData.json';
 import { deepCopy } from '../../Models/Services/Utils';
 import { DeeplinkContextProvider } from '../../Models/Context/DeeplinkContext/DeeplinkContext';
 import { IDeeplinkContextState } from '../../Models/Context/DeeplinkContext/DeeplinkContext.types';
-
-import { ADT3DScenePageModes } from '../../Models/Constants';
-import { SceneThemeContextProvider } from '../../Models/Context';
+import {
+    ADT3DScenePageModes,
+    DtdlInterface,
+    IADTTwin
+} from '../../Models/Constants';
+import { I3DScenesConfig } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import {
     IStackStyles,
     ITextFieldStyles,
     Stack,
     TextField
 } from '@fluentui/react';
+import { SceneThemeContextProvider } from '../../Models/Context';
 import { useSceneThemeContext } from '../../Models/Context/SceneThemeContext/SceneThemeContext';
 import { SceneThemeContextActionType } from '../../Models/Context/SceneThemeContext/SceneThemeContext.types';
 
@@ -237,3 +244,26 @@ export const Mock3DScenePageSchemaErrors = (
 };
 
 Mock3DScenePageSchemaErrors.storyName = 'Mock 3D scene page (invalid config)';
+
+export const Mock3DScenePageDemoEnvs = (
+    _args,
+    { globals: { theme, locale } }
+) => {
+    const adapter = new MockAdapter();
+    adapter.scenesConfig = demoEnvsConfig as I3DScenesConfig;
+    adapter.mockTwins = demoEnvsTwins as IADTTwin[];
+    adapter.mockModels = demoEnvsModels as DtdlInterface[];
+
+    return (
+        <div style={cardStyle}>
+            <ADT3DScenePage
+                title={'3D Scene Page'}
+                theme={theme}
+                locale={locale}
+                adapter={adapter}
+            />
+        </div>
+    );
+};
+
+Mock3DScenePageDemoEnvs.storyName = 'Mock 3D scene page (Demo Environments)';

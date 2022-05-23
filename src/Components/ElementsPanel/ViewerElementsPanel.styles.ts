@@ -139,6 +139,7 @@ export const getElementsPanelAlertStyles = memoizeFunction(
                     height: 20,
                     borderRadius: 30,
                     backgroundColor: alertColor,
+                    flexShrink: 0,
                     margin: `0 8px 0 10px`,
                     display: 'flex',
                     alignItems: 'center',

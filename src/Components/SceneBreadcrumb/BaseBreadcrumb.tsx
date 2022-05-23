@@ -34,7 +34,10 @@ export const BaseBreadcrumb: React.FC<IBaseBreadcrumbProps> = ({
                     iconProps={{ iconName: 'Home' }}
                     onClick={props.onClick}
                     styles={{
-                        root: { color: `${theme.palette.black} !important` }
+                        root: {
+                            color: `${theme.palette.black} !important`,
+                            background: theme.palette.white
+                        }
                     }}
                 />
             );
@@ -87,7 +90,7 @@ export const BaseBreadcrumb: React.FC<IBaseBreadcrumbProps> = ({
                 }`}
                 items={breadCrumbItems}
                 overflowIndex={1}
-                styles={breadcrumbStyles}
+                styles={breadcrumbStyles(theme)}
                 onRenderItem={onRenderItem}
             />
         </div>

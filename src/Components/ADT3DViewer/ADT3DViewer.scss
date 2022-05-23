@@ -44,14 +44,15 @@
 
 .cb-viewer-breadcrumb-container {
     height: 36px;
+    left: 4px;
     margin-bottom: 4px;
+    position: absolute;
+    top: 12px;
     width: 100%;
+    z-index: 1;
 }
 
 .cb-viewer-breadcrumb {
-    left: 0;
-    position: relative;
-    top: 10px;
     transform: scale(1);
     transform-origin: left;
     transition: transform 0.15s ease;

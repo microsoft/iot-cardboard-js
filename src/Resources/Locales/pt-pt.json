@@ -541,7 +541,8 @@
         "alphanumericOnly": "O pseudónimo gémeo só deve conter caracteres alfanuméricos",
         "noNumberPrefix": "Pseudónimo gémeo não deve começar com um número"
       }
-    }
+    },
+    "actions": "Ações"
   },
   "widgets": {
     "trend": {
@@ -907,5 +908,31 @@
       "title": "O que é uma camada de cena?",
       "mainContent": "Pode criar camadas na sua cena para ajudar a organizar os seus comportamentos. As camadas agem como tags sobre os comportamentos, permitindo-lhe definir quais comportamentos precisam ser vistos em conjunto, criando assim vistas personalizadas da sua cena para diferentes papéis ou tarefas.\n\nSe não houver camadas numa cena, todos os comportamentos aparecerão no espectador de cena. Quaisquer comportamentos não marcados com uma camada aparecerão na camada Padrão até que sejam marcados com uma camada.\n\nUma maneira de criar camadas é usar o botão de camadas de cena na vista Build para uma cena. Em alternativa, pode criar camadas enquanto cria ou modifica um comportamento."
     }
+  },
+  "diagnose": "Diagnóstico",
+  "resolve": "Resolver",
+  "verify": "Verificar",
+  "success": "Que sucesso!",
+  "scenePageErrorHandling": {
+    "resetConfigFile": "Ficheiro de configuração de reset",
+    "unauthorizedAccessErrorTitle": "Acesso Restrito",
+    "unauthorizedAccessErrorMessage": "Não tem acesso a este recipiente de armazenamento. Diagnostice o seu acesso ou experimente um recipiente diferente.",
+    "blobNotFoundErrorTitle": "Blob não encontrado",
+    "blobNotFoundErrorMessage": "Blob não existe.",
+    "unknownErrorTitle": "Erro desconhecido",
+    "corsErrorTitle": "Erro do CORS",
+    "corsErrorMessage": "O serviço de blob da sua conta de armazenamento deve ter algumas propriedades certas para permitir que o CORS possa usar ativos 3D nas suas cenas.",
+    "internalServerErrorMessage": "Erro interno do servidor, verifique os registos do servidor.",
+    "diagnoseAccessPermissions": "Diagnosticar permissões de acesso",
+    "checkingPermissions": "A verificar permissões...",
+    "resolveIssues": "Resolver problemas",
+    "resolvingIssues": "Resolver problemas...",
+    "missingPermissionsMessage": "Tem permissões que faltam. Você precisará de acesso como Leitor e ou Proprietário de Dados Blob de Armazenamento ou Colaborador de Dados blob de armazenamento.",
+    "noMissingRoleDesc": "Sem permissões em falta detetadas, estamos a tentar verificar se as permissões atribuídas estão em vigor.",
+    "finishedWithFailureDesc": "Tentativa falhada, por favor contacte o proprietário do recurso.",
+    "verifyingPermissionsMessage": "Verificação de permissões...\nIsto pode levar alguns minutos.",
+    "assignRoleSuccessDesc": "Foram atribuídas permissões em falta. Por favor, aguarde enquanto estamos a tentar verificar se as alterações estão em vigor.",
+    "refreshPage": "Página de atualização",
+    "refreshing": "Refrescante"
   }
 }

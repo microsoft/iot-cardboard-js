@@ -409,17 +409,14 @@ const BuilderLeftPanel: React.FC = () => {
     ]);
 
     // Callback for breadcrumb depending if builder is in behavior or element mode
-    let onSceneClick: VoidFunction;
-    if (ElementModes.includes(state.builderMode)) {
-        onSceneClick = useCallback(() => {
+    const onSceneClick = useCallback(() => {
+        if (ElementModes.includes(state.builderMode)) {
             onBackClick(ADT3DSceneBuilderMode.ElementsIdle);
             setSelectedElements([]);
-        }, [onBackClick, setSelectedElements]);
-    } else {
-        onSceneClick = useCallback(() => {
+        } else {
             onBackClick(ADT3DSceneBuilderMode.BehaviorIdle);
-        }, [onBackClick]);
-    }
+        }
+    }, [onBackClick, setSelectedElements, state.builderMode]);
     const sceneName = ViewerConfigUtility.getSceneById(config, sceneId)
         ?.displayName;
 

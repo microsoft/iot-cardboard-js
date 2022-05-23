@@ -4,7 +4,9 @@ import {
     DTwinRelationship,
     IADTAdapter,
     IKeyValuePairAdapter,
-    ITsiClientChartDataAdapter
+    IAzureResourceGroup,
+    ITsiClientChartDataAdapter,
+    AzureAccessPermissionRoles
 } from '.';
 import AdapterResult from '../Classes/AdapterResult';
 import {
@@ -31,7 +33,7 @@ export type AxiosParams = {
     method: 'get' | 'post' | 'put' | 'delete' | 'patch';
     headers?: AxiosObjParam;
     params?: AxiosObjParam;
-    data?: AxiosObjParam;
+    data?: AxiosObjParam | string;
 };
 
 export type AxiosObjParam = {
@@ -168,3 +170,13 @@ export type CardboardIconNames =
     | 'Shapes'
     | 'SpeedHigh'
     | 'View';
+
+export type AzureResourceGroupsApiData = {
+    value: IAzureResourceGroup[];
+    nextLink: string;
+};
+
+export type MissingAzureRoleDefinitionAssignments = {
+    enforced?: Array<AzureAccessPermissionRoles>;
+    alternated?: Array<AzureAccessPermissionRoles>;
+};

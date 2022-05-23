@@ -10,7 +10,6 @@ import {
     DefaultButton,
     IContextualMenuItem,
     PrimaryButton,
-    Stack,
     Text,
     useTheme
 } from '@fluentui/react';

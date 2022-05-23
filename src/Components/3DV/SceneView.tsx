@@ -327,6 +327,7 @@ function SceneView(props: ISceneViewProps, ref) {
                     // First time in after loading - create the camera
                     if (!cameraRef.current) {
                         initialCameraRadiusRef.current = radius;
+
                         const camera = new BABYLON.ArcRotateCamera(
                             'camera',
                             0,
@@ -951,11 +952,14 @@ function SceneView(props: ISceneViewProps, ref) {
         }
 
         return () => {
-            for (const material of materialCacheRef.current) {
-                sceneRef.current?.removeMaterial(material);
-                material.dispose(true, true);
+            // if the modelurl prop is set but has not changed from the current url we don't want to clean up the materials
+            if (modelUrl && modelUrl !== modelUrlRef.current) {
+                for (const material of materialCacheRef.current) {
+                    sceneRef.current?.removeMaterial(material);
+                    material.dispose(true, true);
+                }
+                materialCacheRef.current = [];
             }
-            materialCacheRef.current = [];
         };
     }, [modelUrl, init]);
 
@@ -1539,6 +1543,7 @@ function SceneView(props: ISceneViewProps, ref) {
                         clone.material = cloneMaterial;
                         clone.alphaIndex = 2;
                         clone.isPickable = false;
+                        clone.setParent(currentMesh);
                         clonedHighlightMeshes.current.push(clone);
                         utilLayer.current.utilityLayerScene.meshes.push(clone);
                         meshToOutline = clone;
