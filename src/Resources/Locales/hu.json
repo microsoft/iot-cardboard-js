@@ -361,7 +361,7 @@
     "noBehaviorsOnLayer": "Ezen a rétegen nincsenek viselkedések.",
     "deleteConfirmationTitle": "Törli ezt a réteget?",
     "deleteConfirmationMessage": "Ez véglegesen eltávolítja a réteget és a kapcsolódó viselkedéseket az összes Digital Twins környezetből.",
-    "infoCalloutContent": "A rétegek feladatalapú csoportosítások, amelyek lehetővé teszik a fogyasztók számára, hogy szűrjék a viselkedéseket. A rétegek a jelenetek között léteznek."
+    "infoCalloutContent111": "A rétegek feladatalapú csoportosítások, amelyek lehetővé teszik a fogyasztók számára a viselkedések szűrését. A rétegek a jelenetek között léteznek."
   },
   "3dSceneBuilder": {
     "elements": "Elemek",

@@ -361,7 +361,7 @@
     "noBehaviorsOnLayer": "Det finns inga beteenden på det här lagret",
     "deleteConfirmationTitle": "Ta bort det här lagret?",
     "deleteConfirmationMessage": "Detta tar permanent bort lagret och eventuella associerade beteenden från alla Digital Twins miljöer.",
-    "infoCalloutContent": "Lager är uppgiftsbaserade grupperingar som gör att konsumenter kan filtrera beteenden efter. Lager finns över scener."
+    "infoCalloutContent111": "Lager är uppgiftsbaserade grupperingar som gör att konsumenter kan filtrera beteenden. Lager finns över scener."
   },
   "3dSceneBuilder": {
     "elements": "Element",

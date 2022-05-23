@@ -361,7 +361,7 @@
     "noBehaviorsOnLayer": "Bu katmanda hiçbir davranış yoktur",
     "deleteConfirmationTitle": "Bu katmanı silin mi?",
     "deleteConfirmationMessage": "Bu, katmanı ve ilişkili davranışları tüm Digital Twins ortamlarından kalıcı olarak kaldırır.",
-    "infoCalloutContent": "Katmanlar, tüketicilerin davranışları filtreleme ölçütü yapmasına olanak tanıyan görev tabanlı gruplandırmalardır. Sahneler arasında katmanlar vardır."
+    "infoCalloutContent111": "Katmanlar, tüketicilerin davranışları filtrelemesine olanak tanıyan görev tabanlı gruplandırmalardır. Sahneler arasında katmanlar vardır."
   },
   "3dSceneBuilder": {
     "elements": "Öğe",

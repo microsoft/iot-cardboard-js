@@ -361,7 +361,7 @@
     "noBehaviorsOnLayer": "Er zijn geen gedragingen op deze laag",
     "deleteConfirmationTitle": "Deze laag verwijderen?",
     "deleteConfirmationMessage": "Dit verwijdert permanent de laag en alle bijbehorende gedragingen uit alle Digital Twins-omgevingen.",
-    "infoCalloutContent": "Lagen zijn taakgebaseerde groeperingen waarmee consumenten gedrag kunnen filteren. Er bestaan lagen over scènes heen."
+    "infoCalloutContent111": "Lagen zijn taakgebaseerde groeperingen waarmee consumenten gedrag kunnen filteren. Er bestaan lagen over scènes heen."
   },
   "3dSceneBuilder": {
     "elements": "Elementen",

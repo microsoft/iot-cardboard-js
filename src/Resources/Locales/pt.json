@@ -361,7 +361,7 @@
     "noBehaviorsOnLayer": "Não há comportamentos nesta camada",
     "deleteConfirmationTitle": "Apagar essa camada?",
     "deleteConfirmationMessage": "Isso remove permanentemente a camada e quaisquer comportamentos associados de todos os ambientes de Gêmeos Digitais.",
-    "infoCalloutContent": "As camadas são agrupamentos baseados em tarefas que permitem aos consumidores filtrar comportamentos. Camadas existem entre as cenas."
+    "infoCalloutContent111": "As camadas são agrupamentos baseados em tarefas que permitem aos consumidores filtrar comportamentos. Camadas existem entre as cenas."
   },
   "3dSceneBuilder": {
     "elements": "Elementos",

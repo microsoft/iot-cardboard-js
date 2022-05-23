@@ -361,7 +361,7 @@
     "noBehaviorsOnLayer": "Il n’y a aucun comportement sur cette couche",
     "deleteConfirmationTitle": "Supprimer ce calque ?",
     "deleteConfirmationMessage": "Cela supprime définitivement la couche et tous les comportements associés de tous les environnements Digital Twins.",
-    "infoCalloutContent": "Les couches sont des regroupements basés sur des tâches qui permettent aux consommateurs de filtrer les comportements. Les calques existent sur plusieurs scènes."
+    "infoCalloutContent111": "Les couches sont des regroupements basés sur des tâches qui permettent aux consommateurs de filtrer les comportements. Les calques existent sur plusieurs scènes."
   },
   "3dSceneBuilder": {
     "elements": "Éléments",

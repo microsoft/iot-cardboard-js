@@ -361,7 +361,7 @@
     "noBehaviorsOnLayer": "No hay comportamientos en esta capa",
     "deleteConfirmationTitle": "¿Eliminar esta capa?",
     "deleteConfirmationMessage": "Esto elimina permanentemente la capa y cualquier comportamiento asociado de todos los entornos de Digital Twins.",
-    "infoCalloutContent": "Las capas son agrupaciones basadas en tareas que permiten a los consumidores filtrar los comportamientos por. Existen capas en todas las escenas."
+    "infoCalloutContent111": "Las capas son agrupaciones basadas en tareas que permiten a los consumidores filtrar comportamientos. Existen capas en todas las escenas."
   },
   "3dSceneBuilder": {
     "elements": "Elementos",
