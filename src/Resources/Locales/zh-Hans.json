@@ -337,11 +337,11 @@
   },
   "layersDropdown": {
     "placeholder": "未选择图层",
-    "unlayeredBehaviors": "未分层行为",
-    "unlayered": "无分层",
     "title": "选择图层",
     "selectAll": "全选",
-    "selectNone": "取消全选"
+    "selectNone": "取消全选",
+    "unlayeredItemListItemDisplayName": "默认图层",
+    "unlayeredItemCollapsedDisplayName": "违约"
   },
   "sceneLayers": {
     "noBehaviors": "无行为",
@@ -361,7 +361,7 @@
     "noBehaviorsOnLayer": "此图层上没有行为",
     "deleteConfirmationTitle": "删除此图层？",
     "deleteConfirmationMessage": "这将从所有数字孪生环境中永久删除该层和任何关联的行为。",
-    "infoCalloutContent": "层是基于任务的分组，允许使用者筛选行为。图层存在于场景中。"
+    "infoCalloutContent": "图层是基于任务的分组，允许使用者过滤行为。图层存在于场景中。"
   },
   "3dSceneBuilder": {
     "elements": "元素",
@@ -435,8 +435,8 @@
       "notificationLabel": "场景描述",
       "notificationLabelTooltip": "此文本将在此锁屏提醒处于活动状态时提供使用者上下文。",
       "notificationLabelDescriptionPart1": "孪生属性需要用模板字符串语法括起来。",
-      "notificationLabelDescriptionPart2": "例如，$PrimaryTwin.DisplayName} 需要维护",
-      "notificationPlaceholder": "输入说明"
+      "notificationPlaceholder": "输入说明",
+      "notificationLabelDescriptionPart2": "例如，${PrimaryTwin.DisplayName} 需要维护"
     },
     "behaviorStatusForm": {
       "tabDescription": "选择一个属性，然后设置将颜色应用于特定条件的范围，例如，红色表示高温，绿色表示最佳速度。",

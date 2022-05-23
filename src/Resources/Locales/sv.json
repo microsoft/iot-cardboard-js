@@ -337,11 +337,11 @@
   },
   "layersDropdown": {
     "placeholder": "Inga lager valda",
-    "unlayeredBehaviors": "Beteenden utan ilager",
-    "unlayered": "Ej ilager",
     "title": "Välj lager",
     "selectAll": "Markera alla",
-    "selectNone": "Avmarkera alla"
+    "selectNone": "Avmarkera alla",
+    "unlayeredItemListItemDisplayName": "Standardlager",
+    "unlayeredItemCollapsedDisplayName": "Standard"
   },
   "sceneLayers": {
     "noBehaviors": "Inga beteenden",
@@ -361,7 +361,7 @@
     "noBehaviorsOnLayer": "Det finns inga beteenden på det här lagret",
     "deleteConfirmationTitle": "Ta bort det här lagret?",
     "deleteConfirmationMessage": "Detta tar permanent bort lagret och eventuella associerade beteenden från alla Digital Twins miljöer.",
-    "infoCalloutContent": "Lager är uppgiftsbaserade grupperingar som gör att konsumenter kan filtrera beteenden efter. Lager finns över scener."
+    "infoCalloutContent": "Lager är uppgiftsbaserade grupperingar som gör att konsumenter kan filtrera beteenden. Lager finns över scener."
   },
   "3dSceneBuilder": {
     "elements": "Element",
@@ -435,8 +435,8 @@
       "notificationLabel": "Beskrivning av scenario",
       "notificationLabelTooltip": "Den här texten ger en konsumentkontext när det här märket är aktivt.",
       "notificationLabelDescriptionPart1": "Tvillingegenskaper måste omges av mallsträngssyntax.",
-      "notificationLabelDescriptionPart2": "T.ex. $PrimaryTwin.DisplayName} kräver underhåll",
-      "notificationPlaceholder": "Ange en beskrivning"
+      "notificationPlaceholder": "Ange en beskrivning",
+      "notificationLabelDescriptionPart2": "T.ex. ${PrimaryTwin.DisplayName} kräver underhåll"
     },
     "behaviorStatusForm": {
       "tabDescription": "Välj en egenskap och ställ sedan in intervall för att tillämpa färg på vissa förhållanden, till exempel rött för att indikera höga temperaturer eller grönt för optimal hastighet.",

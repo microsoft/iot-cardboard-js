@@ -21,7 +21,7 @@ export const defaultLayerButtonStyles: Partial<IButtonStyles> = {
 };
 
 export const getDropdownStyles = memoizeFunction(
-    (theme: ITheme): Partial<IDropdownStyles> => ({
+    (theme: ITheme, isDisabled: boolean): Partial<IDropdownStyles> => ({
         root: { width: 240 },
         title: {
             alignItems: 'center',
@@ -38,7 +38,7 @@ export const getDropdownStyles = memoizeFunction(
         dropdown: {
             height: HEADER_BUTTON_HEIGHT,
             // fluent has a jank style on their side so we get a jank one on ours too
-            ':hover .ms-Dropdown-title': {
+            ':hover .ms-Dropdown-title': isDisabled && {
                 borderColor: theme.palette.neutralSecondary
             }
         }
