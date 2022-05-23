@@ -1,4 +1,6 @@
 {
+  "languageName": "Dutch",
+  "languageCode": "nl",
   "preview": "Voorbeeld",
   "loading": "Laden...",
   "label": "Etiket",
@@ -772,7 +774,10 @@
     "type": "Type",
     "emptyGraph": "Geen modellen beschikbaar",
     "project": "Project",
-    "description": "Beschrijving"
+    "description": "Beschrijving",
+    "relationships": "Relaties",
+    "inheritances": "Erfenissen",
+    "components": "Onderdelen"
   },
   "OATPropertyEditor": {
     "displayName": "Weergegeven naam",
@@ -837,6 +842,11 @@
     "collapse": "Instorting",
     "info": "Info",
     "more": "Meer",
-    "copy": "kopiëren"
+    "copy": "kopiëren",
+    "cancel": "Annuleren",
+    "delete": "Verwijderen",
+    "multiLanguage": "meertalig",
+    "region": "Regio",
+    "singleLanguage": "Eén taal"
   }
 }

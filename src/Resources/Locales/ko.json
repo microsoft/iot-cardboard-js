@@ -1,4 +1,6 @@
 {
+  "languageName": "Korean",
+  "languageCode": "ko",
   "preview": "미리 보기",
   "loading": "로드...",
   "label": "레이블",
@@ -772,7 +774,10 @@
     "type": "형",
     "emptyGraph": "사용 가능한 모델 없음",
     "project": "프로젝트",
-    "description": "묘사"
+    "description": "묘사",
+    "relationships": "관계",
+    "inheritances": "상속",
+    "components": "구성 요소"
   },
   "OATPropertyEditor": {
     "displayName": "표시 이름",
@@ -837,6 +842,11 @@
     "collapse": "무너지다",
     "info": "정보",
     "more": "더",
-    "copy": "복사"
+    "copy": "복사",
+    "cancel": "취소",
+    "delete": "삭제하다",
+    "multiLanguage": "다국어",
+    "region": "부위",
+    "singleLanguage": "단일 언어"
   }
 }

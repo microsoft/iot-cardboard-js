@@ -11,6 +11,7 @@ import {
 } from './OATEditorPage.state';
 import { SET_OAT_IS_JSON_UPLOADER_OPEN } from '../../Models/Constants/ActionTypes';
 import { OATFilesStorageKey } from '../../Models/Constants/Constants';
+import i18n from '../../i18n';
 
 const OATEditorPage = ({ theme }) => {
     const [state, dispatch] = useReducer(
@@ -18,6 +19,13 @@ const OATEditorPage = ({ theme }) => {
         defaultOATEditorState
     );
     const EditorPageStyles = getEditorPageStyles();
+
+    const languages = Object.keys(i18n.options.resources).map((language) => {
+        return {
+            key: i18n.options.resources[language].translation.languageCode,
+            text: i18n.options.resources[language].translation.languageName
+        };
+    });
 
     const handleImportClick = () => {
         dispatch({
@@ -62,6 +70,7 @@ const OATEditorPage = ({ theme }) => {
                     theme={theme}
                     state={state}
                     dispatch={dispatch}
+                    languages={languages}
                 />
             </div>
         </div>

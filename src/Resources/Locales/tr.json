@@ -1,4 +1,6 @@
 {
+  "languageName": "Turkish",
+  "languageCode": "tr",
   "preview": "Önizleme",
   "loading": "Yükleme...",
   "label": "Etiket",
@@ -772,7 +774,10 @@
     "type": "Tür",
     "emptyGraph": "Model yok",
     "project": "Proje",
-    "description": "Tarif"
+    "description": "Tarif",
+    "relationships": "Ilişki",
+    "inheritances": "Miras",
+    "components": "Bileşen"
   },
   "OATPropertyEditor": {
     "displayName": "Görünen Ad",
@@ -837,6 +842,11 @@
     "collapse": "Çökmek",
     "info": "Bilgi",
     "more": "Daha",
-    "copy": "kopya etmek"
+    "copy": "kopya etmek",
+    "cancel": "İptal",
+    "delete": "Silmek",
+    "multiLanguage": "çoklu dil",
+    "region": "Bölge",
+    "singleLanguage": "Tek dil"
   }
 }

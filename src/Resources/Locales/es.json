@@ -1,4 +1,6 @@
 {
+  "languageName": "Spanish",
+  "languageCode": "es",
   "preview": "Vista previa",
   "loading": "Carga...",
   "label": "Etiqueta",
@@ -772,7 +774,10 @@
     "type": "Tipo",
     "emptyGraph": "No hay modelos disponibles",
     "project": "Proyecto",
-    "description": "Descripción"
+    "description": "Descripción",
+    "relationships": "Relaciones",
+    "inheritances": "Herencias",
+    "components": "Componentes"
   },
   "OATPropertyEditor": {
     "displayName": "Nombre para mostrar",
@@ -837,6 +842,11 @@
     "collapse": "Colapso",
     "info": "Información",
     "more": "Más",
-    "copy": "copiar"
+    "copy": "copiar",
+    "cancel": "Cancelar",
+    "delete": "Borrar",
+    "multiLanguage": "multi-idioma",
+    "region": "Región",
+    "singleLanguage": "Idioma único"
   }
 }

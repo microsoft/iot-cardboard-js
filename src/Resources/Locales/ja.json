@@ -1,4 +1,6 @@
 {
+  "languageName": "Japanese",
+  "languageCode": "ja",
   "preview": "プレビュー",
   "loading": "積載。。。",
   "label": "ラベル",
@@ -772,7 +774,10 @@
     "type": "種類",
     "emptyGraph": "利用可能なモデルはありません",
     "project": "プロジェクト",
-    "description": "形容"
+    "description": "形容",
+    "relationships": "関係",
+    "inheritances": "遺産",
+    "components": "コンポーネント"
   },
   "OATPropertyEditor": {
     "displayName": "表示名",
@@ -837,6 +842,11 @@
     "collapse": "倒れる",
     "info": "情報",
     "more": "もっとその",
-    "copy": "写し"
+    "copy": "写し",
+    "cancel": "キャンセル",
+    "delete": "削除",
+    "multiLanguage": "多言語",
+    "region": "地域",
+    "singleLanguage": "単一言語"
   }
 }

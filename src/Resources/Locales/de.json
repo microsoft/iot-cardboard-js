@@ -1,4 +1,6 @@
 {
+  "languageName": "German",
+  "languageCode": "de",
   "preview": "Vorschau",
   "loading": "Laden...",
   "label": "Etikett",
@@ -772,7 +774,10 @@
     "type": "Art",
     "emptyGraph": "Keine Modelle verfügbar",
     "project": "Projekt",
-    "description": "Beschreibung"
+    "description": "Beschreibung",
+    "relationships": "Beziehungen",
+    "inheritances": "Erbteile",
+    "components": "Komponenten"
   },
   "OATPropertyEditor": {
     "displayName": "Anzeigename",
@@ -837,6 +842,11 @@
     "collapse": "Zusammenbruch",
     "info": "Info",
     "more": "Mehr",
-    "copy": "kopieren"
+    "copy": "kopieren",
+    "cancel": "Abbrechen",
+    "delete": "Löschen",
+    "multiLanguage": "mehrsprachig",
+    "region": "Region",
+    "singleLanguage": "Einheitliche Sprache"
   }
 }

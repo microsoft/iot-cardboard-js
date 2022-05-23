@@ -1,5 +1,5 @@
-import React, { useState, useRef } from 'react';
-import { Theme } from '../../Models/Constants/Enums';
+import React, { useState, useRef, useMemo } from 'react';
+import { ModelTypes, Theme } from '../../Models/Constants/Enums';
 import {
     FontIcon,
     Stack,
@@ -16,10 +16,9 @@ import PropertyList from './PropertyList';
 import JSONEditor from './JSONEditor';
 import TemplateColumn from './TemplateColumn';
 import PropertiesModelSummary from './PropertiesModelSummary';
-import PropertySelector from './PropertySelector';
-import AddPropertyBar from './AddPropertyBar';
 import { SET_OAT_TEMPLATES_ACTIVE } from '../../Models/Constants/ActionTypes';
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
+import { getModelPropertyCollectionName } from './Utils';
 interface IEditor {
     currentPropertyIndex?: number;
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
@@ -50,13 +49,29 @@ const Editor = ({
     const [draggingProperty, setDraggingProperty] = useState(false);
     const enteredTemplateRef = useRef(null);
     const enteredPropertyRef = useRef(null);
+    const [propertyOnHover, setPropertyOnHover] = useState(false);
     const { model, templatesActive } = state;
-    const [hover, setHover] = useState(false);
-    const [propertySelectorVisible, setPropertySelectorVisible] = useState(
-        false
+
+    const propertiesKeyName = getModelPropertyCollectionName(
+        model ? model['@type'] : ModelTypes.interface
     );
 
-    const PROPERTY_LIST_HEADER = 'PROPERTY_LIST_HEADER';
+    const propertyList = useMemo(() => {
+        // Get contents excluding relationship items
+        let propertyItems = [];
+        if (
+            model &&
+            model[propertiesKeyName] &&
+            model[propertiesKeyName].length > 0
+        ) {
+            propertyItems = model[propertiesKeyName].filter(
+                (property) => property['@type'] !== ModelTypes.relationship
+            );
+            return propertyItems;
+        }
+        return propertyItems;
+    }, [model]);
+
     return (
         <div className={propertyInspectorStyles.container}>
             <Pivot className={propertyInspectorStyles.pivot}>
@@ -64,28 +79,23 @@ const Editor = ({
                     headerText={t('OATPropertyEditor.properties')}
                     className={propertyInspectorStyles.pivotItem}
                 >
-                    <PropertiesModelSummary dispatch={dispatch} state={state} />
+                    <PropertiesModelSummary
+                        dispatch={dispatch}
+                        state={state}
+                        setModalBody={setModalBody}
+                        setModalOpen={setModalOpen}
+                    />
                     <div
-                        id={PROPERTY_LIST_HEADER}
                         className={
                             propertyInspectorStyles.propertyListHeaderWrap
                         }
-                        onMouseOver={() => {
-                            setHover(true);
-                        }}
-                        onMouseLeave={() => {
-                            setHover(false);
-                            setPropertySelectorVisible(false);
-                        }}
                     >
                         <Stack
                             className={propertyInspectorStyles.rowSpaceBetween}
                         >
                             <Label>{`${t('OATPropertyEditor.properties')} ${
-                                model &&
-                                model.contents &&
-                                model.contents.length > 0
-                                    ? `(${model.contents.length})`
+                                propertyList.length > 0
+                                    ? `(${propertyList.length})`
                                     : ''
                             }`}</Label>
                             <ActionButton
@@ -110,30 +120,6 @@ const Editor = ({
                                 </Text>
                             </ActionButton>
                         </Stack>
-                        {propertySelectorVisible && (
-                            <PropertySelector
-                                setPropertySelectorVisible={
-                                    setPropertySelectorVisible
-                                }
-                                lastPropertyFocused={null}
-                                targetId={PROPERTY_LIST_HEADER}
-                                dispatch={dispatch}
-                                state={state}
-                                className={
-                                    propertyInspectorStyles.propertySelectorPropertyListHeader
-                                }
-                            />
-                        )}
-                        {hover &&
-                            model &&
-                            model.contents &&
-                            model.contents.length > 0 && (
-                                <AddPropertyBar
-                                    onMouseOver={() => {
-                                        setPropertySelectorVisible(true);
-                                    }}
-                                />
-                            )}
                     </div>
 
                     <PropertyList
@@ -151,6 +137,9 @@ const Editor = ({
                             setCurrentNestedPropertyIndex
                         }
                         setModalBody={setModalBody}
+                        setPropertyOnHover={setPropertyOnHover}
+                        propertyOnHover={propertyOnHover}
+                        propertyList={propertyList}
                     />
                 </PivotItem>
                 <PivotItem
