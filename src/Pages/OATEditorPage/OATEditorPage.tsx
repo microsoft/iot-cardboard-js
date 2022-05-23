@@ -10,6 +10,7 @@ import {
     defaultOATEditorState
 } from './OATEditorPage.state';
 import { SET_OAT_IS_JSON_UPLOADER_OPEN } from '../../Models/Constants/ActionTypes';
+import OATErrorHandlingWrapper from './Internal/OATErrorHandlingWrapper';
 import i18n from '../../i18n';
 
 const OATEditorPage = ({ theme }) => {
@@ -62,6 +63,7 @@ const OATEditorPage = ({ theme }) => {
                     languages={languages}
                 />
             </div>
+            <OATErrorHandlingWrapper state={state} dispatch={dispatch} />
         </div>
     );
 };
