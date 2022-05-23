@@ -118,7 +118,7 @@
       },
       {
         "id": "744d634cc9fef4ca9dfed38a614c5814",
-        "displayName": "Ecolab Facility",
+        "displayName": "Ecolab Water Plant",
         "description": "",
         "assets": [
           {
@@ -819,7 +819,7 @@
                 "id": "42164b3792c6b0ca7c217ab31aebc27f",
                 "type": "Value",
                 "widgetConfiguration": {
-                  "displayName": "OEE",
+                  "displayName": "Overall Eqpt Effectiveness",
                   "valueExpression": "PrimaryTwin.OEE",
                   "type": "double"
                 }
