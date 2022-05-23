@@ -357,37 +357,35 @@ export default class BlobAdapter implements IBlobAdapter {
                     };
                 });
 
-                if (
-                    ([
-                        ...BlobStorageServiceCorsAllowedOrigins,
-                        '*'
-                    ].some((origin: string) =>
-                        Object.keys(originToMethodsAndHeadersMapping).includes(
-                            origin
-                        )
-                    ) &&
-                        BlobStorageServiceCorsAllowedMethods.every(
-                            (method: string) =>
-                                Object.values(originToMethodsAndHeadersMapping)
-                                    .map((mapping) => mapping.allowedMethods)
-                                    .reduce(
-                                        (acc: boolean, methodGroup) =>
-                                            acc &&
-                                            methodGroup[0].includes(method),
-                                        true
-                                    )
-                        ) &&
-                        BlobStorageServiceCorsAllowedHeaders.every(
-                            (header: string) =>
-                                Object.values(originToMethodsAndHeadersMapping)
-                                    .map((mapping) => mapping.allowedHeaders)
-                                    .reduce(
-                                        (acc: boolean, headerGroup) =>
-                                            acc &&
-                                            headerGroup[0].includes(header),
-                                        true
-                                    )
-                        )) ||
+                const hasProperOrigins = [
+                    ...BlobStorageServiceCorsAllowedOrigins,
+                    '*'
+                ].some((origin: string) =>
+                    Object.keys(originToMethodsAndHeadersMapping).includes(
+                        origin
+                    )
+                );
+                const hasProperMethods = BlobStorageServiceCorsAllowedMethods.every(
+                    (method: string) =>
+                        Object.values(originToMethodsAndHeadersMapping)
+                            .map((mapping) => mapping.allowedMethods)
+                            .reduce(
+                                (acc: boolean, methodGroup) =>
+                                    acc && methodGroup[0].includes(method),
+                                true
+                            )
+                );
+                const hasProperHeaders =
+                    BlobStorageServiceCorsAllowedHeaders.every(
+                        (header: string) =>
+                            Object.values(originToMethodsAndHeadersMapping)
+                                .map((mapping) => mapping.allowedHeaders)
+                                .reduce(
+                                    (acc: boolean, headerGroup) =>
+                                        acc && headerGroup[0].includes(header),
+                                    true
+                                )
+                    ) ||
                     ['*'].every((header: string) =>
                         Object.values(originToMethodsAndHeadersMapping)
                             .map((mapping) => mapping.allowedHeaders)
@@ -396,8 +394,8 @@ export default class BlobAdapter implements IBlobAdapter {
                                     acc && headerGroup[0].includes(header),
                                 true
                             )
-                    )
-                ) {
+                    );
+                if (hasProperOrigins && hasProperMethods && hasProperHeaders) {
                     return corsRules;
                 } else {
                     adapterMethodSandbox.pushError({
