@@ -22,7 +22,7 @@ import i18n from '../../i18n';
 import { useTranslation } from 'react-i18next';
 import { ILayer } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 
-export const unlayeredBehaviorKey = 'scene-layer-dropdown-unlayered-behaviors';
+export const DEFAULT_LAYER_ID = 'scene-layer-dropdown-unlayered-behaviors';
 export const showHideAllKey = 'show-hide-all';
 
 const LayerDropdown: React.FC<LayerDropdownProps> = ({
@@ -66,7 +66,7 @@ const LayerDropdown: React.FC<LayerDropdownProps> = ({
                         {defaultRender(
                             options.map((o) => ({
                                 ...o,
-                                ...(o.key === unlayeredBehaviorKey
+                                ...(o.key === DEFAULT_LAYER_ID
                                     ? {
                                           text: t(
                                               'layersDropdown.unlayeredItemCollapsedDisplayName'
@@ -98,7 +98,7 @@ const LayerDropdown: React.FC<LayerDropdownProps> = ({
         (isSelectAllMode: boolean) => {
             if (isSelectAllMode) {
                 setSelectedLayerIds([
-                    unlayeredBehaviorKey,
+                    DEFAULT_LAYER_ID,
                     ...layers.map((l) => l.id)
                 ]);
             } else {
@@ -174,7 +174,7 @@ const getLayerOptionsData = (
         ...(showUnlayeredOption
             ? [
                   {
-                      key: unlayeredBehaviorKey,
+                      key: DEFAULT_LAYER_ID,
                       text: i18n.t(
                           'layersDropdown.unlayeredItemListItemDisplayName'
                       )

@@ -30,7 +30,7 @@ import { deepCopy, getDebugLogger } from '../../Models/Services/Utils';
 import AlertModal from '../AlertModal/AlertModal';
 import ViewerConfigUtility from '../../Models/Classes/ViewerConfigUtility';
 import LayerDropdown, {
-    unlayeredBehaviorKey
+    DEFAULT_LAYER_ID
 } from '../LayerDropdown/LayerDropdown';
 import { WrapperMode } from '../3DV/SceneView.types';
 import {
@@ -60,7 +60,7 @@ const getClassNames = classNamesFunction<
     IADT3DViewerStyles
 >();
 
-const debugLogging = false;
+const debugLogging = true;
 const logDebugConsole = getDebugLogger('ADT3DViewer', debugLogging);
 
 const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
@@ -144,10 +144,14 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
 
     // --- Data fetches ---
 
-    const layersInScene = useMemo(
-        () => ViewerConfigUtility.getLayersInScene(scenesConfig, sceneId),
-        [scenesConfig, sceneId]
-    );
+    const layersInScene = useMemo(() => {
+        logDebugConsole(
+            'debug',
+            'scene layers updated',
+            scenesConfig?.configuration?.layers
+        );
+        return ViewerConfigUtility.getLayersInScene(scenesConfig, sceneId);
+    }, [scenesConfig, sceneId]);
 
     const unlayeredBehaviorsPresent = useMemo(
         () =>
@@ -210,22 +214,27 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
         // if we don't have any layer id from the context, set initial values
         if (!deeplinkState?.selectedLayerIds?.length) {
             const layers = [
-                ...(unlayeredBehaviorsPresent ? [unlayeredBehaviorKey] : []),
+                ...(unlayeredBehaviorsPresent ? [DEFAULT_LAYER_ID] : []),
                 ...layersInScene.map((lis) => lis.id)
             ];
             logDebugConsole(
                 'debug',
                 'No layers found in state. Setting default layers',
-                layers
+                layers,
+                layersInScene
             );
             setSelectedLayerIds(
                 // Add unlayered behavior option if unlayered behaviors present
                 layers
             );
         }
-        // run only on first mount
-        // // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [
+        deeplinkState?.selectedLayerIds,
+        deeplinkState?.selectedLayerIds?.length,
+        layersInScene,
+        setSelectedLayerIds,
+        unlayeredBehaviorsPresent
+    ]);
 
     const setSelectedElementId = useCallback(
         (elementId: string) => {
@@ -266,10 +275,10 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
     // Zoom to elements if it's on the context, but only on first mount/when data is present
     useEffect(() => {
         if (
-            deeplinkState.selectedElementId &&
+            !isDeeplinkContextLoaded.current &&
             scenesConfig &&
-            panelItems?.length &&
-            !isDeeplinkContextLoaded.current
+            deeplinkState.selectedElementId &&
+            panelItems?.length
         ) {
             isDeeplinkContextLoaded.current = true;
             const panelItem = panelItems.find(
@@ -523,6 +532,7 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
     const svp = sceneViewProps || {};
     const sceneName = ViewerConfigUtility.getSceneById(scenesConfig, sceneId)
         ?.displayName;
+    logDebugConsole('debug', 'Rendering 3D Viewer');
     return (
         <BaseComponent
             isLoading={isLoading && !sceneVisuals}
