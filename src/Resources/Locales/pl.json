@@ -933,6 +933,11 @@
     "verifyingPermissionsMessage": "Weryfikowanie uprawnień...\nMoże to potrwać kilka minut.",
     "assignRoleSuccessDesc": "Brakujące uprawnienia zostały przypisane. Poczekaj, aż spróbujemy sprawdzić, czy zmiany obowiązują.",
     "refreshPage": "Odśwież stronę",
-    "refreshing": "Orzeźwiające"
+    "refreshing": "Orzeźwiające",
+    "noContainerUrlErrorTitle": "Kontener nie jest ustawiony",
+    "noContainerUrlErrorMessage": "Adres URL kontenera nie jest ustawiony. Kliknij poniżej, aby go ustawić.",
+    "noADTInstanceUrlTitle": "Nie ustawiono wystąpienia narzędzia ADT",
+    "noADTInstanceUrlMessage": "Adres URL wystąpienia narzędzia ADT nie jest ustawiony. Kliknij poniżej, aby go ustawić.",
+    "configureEnvironment": "Konfigurowanie środowiska"
   }
 }

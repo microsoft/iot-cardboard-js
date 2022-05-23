@@ -933,6 +933,11 @@
     "verifyingPermissionsMessage": "Berechtigungen überprüfen...\nDies kann einige Minuten dauern.",
     "assignRoleSuccessDesc": "Fehlende Berechtigungen wurden vergeben. Bitte warten Sie, während wir versuchen zu überprüfen, ob die Änderungen wirksam sind.",
     "refreshPage": "Seite aktualisieren",
-    "refreshing": "Auffrischend"
+    "refreshing": "Auffrischend",
+    "noContainerUrlErrorTitle": "Container nicht festgelegt",
+    "noContainerUrlErrorMessage": "Ihre Container-URL ist nicht festgelegt. Klicken Sie unten, um es einzustellen.",
+    "noADTInstanceUrlTitle": "ADT-Instanz nicht festgelegt",
+    "noADTInstanceUrlMessage": "Ihre ADT-Instanz-URL ist nicht festgelegt. Klicken Sie unten, um es einzustellen.",
+    "configureEnvironment": "Umgebung konfigurieren"
   }
 }

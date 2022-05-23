@@ -933,6 +933,11 @@
     "verifyingPermissionsMessage": "Vérification des autorisations...\nCela peut prendre plusieurs minutes.",
     "assignRoleSuccessDesc": "Des autorisations manquantes ont été attribuées. Veuillez patienter pendant que nous tentons de vérifier si les modifications sont en vigueur.",
     "refreshPage": "Actualiser la page",
-    "refreshing": "Rafraîchissant"
+    "refreshing": "Rafraîchissant",
+    "noContainerUrlErrorTitle": "Conteneur non défini",
+    "noContainerUrlErrorMessage": "L’URL de votre conteneur n’est pas définie. Cliquez ci-dessous pour le définir.",
+    "noADTInstanceUrlTitle": "Instance ADT non définie",
+    "noADTInstanceUrlMessage": "L’URL de votre instance ADT n’est pas définie. Cliquez ci-dessous pour le définir.",
+    "configureEnvironment": "Configurer l’environnement"
   }
 }

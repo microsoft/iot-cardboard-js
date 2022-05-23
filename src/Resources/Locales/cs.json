@@ -933,6 +933,11 @@
     "verifyingPermissionsMessage": "Ověření oprávnění...\nTo může trvat několik minut.",
     "assignRoleSuccessDesc": "Byla přiřazena chybějící oprávnění. Počkejte prosím, než se budeme pokoušet ověřit, zda se změny projeví.",
     "refreshPage": "Aktualizovat stránku",
-    "refreshing": "Osvěžující"
+    "refreshing": "Osvěžující",
+    "noContainerUrlErrorTitle": "Kontejner není nastaven",
+    "noContainerUrlErrorMessage": "Adresa URL kontejneru není nastavená. Klikněte níže pro nastavení.",
+    "noADTInstanceUrlTitle": "Instance nástroje ADT není nastavena",
+    "noADTInstanceUrlMessage": "Adresa URL instance nástroje ADT není nastavena. Klikněte níže pro nastavení.",
+    "configureEnvironment": "Konfigurace prostředí"
   }
 }

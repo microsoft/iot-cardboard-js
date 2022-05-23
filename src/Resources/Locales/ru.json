@@ -933,6 +933,11 @@
     "verifyingPermissionsMessage": "Проверка разрешений...\nЭто может занять несколько минут.",
     "assignRoleSuccessDesc": "Назначены отсутствующие разрешения. Пожалуйста, подождите, пока мы попытаемся проверить, вступают ли изменения в силу.",
     "refreshPage": "Обновить страницу",
-    "refreshing": "Освежающий"
+    "refreshing": "Освежающий",
+    "noContainerUrlErrorTitle": "Контейнер не установлен",
+    "noContainerUrlErrorMessage": "URL-адрес контейнера не задан. Нажмите ниже, чтобы установить его.",
+    "noADTInstanceUrlTitle": "Экземпляр ADT не задан",
+    "noADTInstanceUrlMessage": "URL-адрес экземпляра ADT не задан. Нажмите ниже, чтобы установить его.",
+    "configureEnvironment": "Настройка среды"
   }
 }
