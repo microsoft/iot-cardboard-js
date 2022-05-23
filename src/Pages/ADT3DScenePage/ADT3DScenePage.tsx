@@ -55,6 +55,20 @@ import { Stack } from '@fluentui/react';
 import DeeplinkFlyout from '../../Components/DeeplinkFlyout/DeeplinkFlyout';
 import ViewerConfigUtility from '../../Models/Classes/ViewerConfigUtility';
 import { DOCUMENTATION_LINKS } from '../../Models/Constants/Constants';
+import EnvironmentPickerDialog from '../../Components/EnvironmentPicker/EnvironmentPickerDialog';
+
+// Set container missing error
+const nullContainerError: IComponentError[] = [
+    {
+        type: ComponentErrorType.NoContainerUrl
+    }
+];
+// Set container missing error
+const nullAdtInstanceError: IComponentError[] = [
+    {
+        type: ComponentErrorType.NoADTInstanceUrl
+    }
+];
 
 export const ADT3DScenePageContext = createContext<IADT3DScenePageContext>(
     null
@@ -280,12 +294,6 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
                 scenesConfig.adapterResult &&
                 (!deeplinkState.storageUrl || deeplinkState.storageUrl === '')
             ) {
-                // Set container missing error
-                const nullContainerError: IComponentError[] = [
-                    {
-                        type: ComponentErrorType.NoContainerUrl
-                    }
-                ];
                 dispatch({
                     type: SET_ERRORS,
                     payload: nullContainerError
@@ -294,12 +302,6 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
                 scenesConfig.adapterResult &&
                 (!deeplinkState.adtUrl || deeplinkState.adtUrl === '')
             ) {
-                // Set container missing error
-                const nullAdtInstanceError: IComponentError[] = [
-                    {
-                        type: ComponentErrorType.NoADTInstanceUrl
-                    }
-                ];
                 dispatch({
                     type: SET_ERRORS,
                     payload: nullAdtInstanceError
@@ -361,10 +363,14 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
                     ComponentErrorType.NoContainerUrl &&
                 !errorCallbackSetRef.current
             ) {
+                // mark that we already set the callback so we don't get an infinite loop of setting
+                errorCallbackSetRef.current = true;
                 dispatch({
                     type: SET_ERROR_CALLBACK,
                     payload: {
-                        buttonText: 'Configure environment',
+                        buttonText: t(
+                            'scenePageErrorHandling.configureEnvironment'
+                        ),
                         buttonAction: () => {
                             setEnvironmentDialogHidden(false);
                             errorCallbackSetRef.current = false;
@@ -376,10 +382,14 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
                     ComponentErrorType.NoADTInstanceUrl &&
                 !errorCallbackSetRef.current
             ) {
+                // mark that we already set the callback so we don't get an infinite loop of setting
+                errorCallbackSetRef.current = true;
                 dispatch({
                     type: SET_ERROR_CALLBACK,
                     payload: {
-                        buttonText: 'Configure environment',
+                        buttonText: t(
+                            'scenePageErrorHandling.configureEnvironment'
+                        ),
                         buttonAction: () => {
                             setEnvironmentDialogHidden(false);
                             errorCallbackSetRef.current = false;
@@ -403,18 +413,32 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
                 });
             }
         }
-    }, [resetConfig, scenesConfig, state?.errors, t]);
+    }, [
+        resetConfig,
+        scenesConfig,
+        setCorsPropertiesAdapterData,
+        setEnvironmentDialogHidden,
+        state?.errors,
+        t
+    ]);
 
     // if the result of get cors request has error which we send manually if the storage's blob service
     // does not have required CORS rules in its properties, then set the errors to render ScenePageErrorHandlingWrapper component,
     // otherwise if there is no issues, clear the errors and with CORS fetch scenes config
     useEffect(() => {
         if (getCorsPropertiesAdapterData?.adapterResult.getErrors()) {
-            const errors: Array<IComponentError> = getCorsPropertiesAdapterData?.adapterResult.getErrors();
-            dispatch({
-                type: SET_ERRORS,
-                payload: errors
-            });
+            if (!deeplinkState.storageUrl || deeplinkState.storageUrl === '') {
+                dispatch({
+                    type: SET_ERRORS,
+                    payload: nullContainerError
+                });
+            } else {
+                const errors: Array<IComponentError> = getCorsPropertiesAdapterData?.adapterResult.getErrors();
+                dispatch({
+                    type: SET_ERRORS,
+                    payload: errors
+                });
+            }
         } else if (getCorsPropertiesAdapterData?.adapterResult.getData()) {
             dispatch({
                 type: SET_ERRORS,
@@ -423,7 +447,7 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
             errorCallbackSetRef.current = false;
             scenesConfig.callAdapter();
         }
-    }, [getCorsPropertiesAdapterData?.adapterResult]);
+    }, [deeplinkState.storageUrl, getCorsPropertiesAdapterData?.adapterResult]);
 
     // if setting CORS rules is successful fetch scenes config
     useEffect(() => {
@@ -596,6 +620,42 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
                             </>
                         )
                     )}
+                    <EnvironmentPickerDialog
+                        adapter={adapter}
+                        shouldPullFromSubscription={
+                            environmentPickerOptions?.environment
+                                ?.shouldPullFromSubscription
+                        }
+                        // temp hack until we clean up environmentPicker to output the value with https prefix
+                        // if we have a url with the prefix, use it, otherwise append the prefix
+                        // without this if you pass a value without the prefix it will crash the picker
+                        environmentUrl={addHttpsPrefix(deeplinkState.adtUrl)}
+                        onEnvironmentUrlChange={handleEnvironmentUrlChange}
+                        {...(environmentPickerOptions?.environment
+                            ?.isLocalStorageEnabled && {
+                            isLocalStorageEnabled: true,
+                            localStorageKey:
+                                environmentPickerOptions?.storage
+                                    ?.localStorageKey,
+                            selectedItemLocalStorageKey:
+                                environmentPickerOptions?.storage
+                                    ?.selectedItemLocalStorageKey
+                        })}
+                        storage={{
+                            containerUrl: deeplinkState.storageUrl,
+                            onContainerUrlChange: handleContainerUrlChange,
+                            ...(environmentPickerOptions?.storage
+                                ?.isLocalStorageEnabled && {
+                                isLocalStorageEnabled: true,
+                                localStorageKey:
+                                    environmentPickerOptions?.storage
+                                        ?.localStorageKey,
+                                selectedItemLocalStorageKey:
+                                    environmentPickerOptions?.storage
+                                        ?.selectedItemLocalStorageKey
+                            })
+                        }}
+                    />
                 </BaseComponent>
             </div>
         </ADT3DScenePageContext.Provider>
