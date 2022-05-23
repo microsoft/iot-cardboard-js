@@ -541,7 +541,8 @@
         "alphanumericOnly": "孪生别名只能包含字母数字字符",
         "noNumberPrefix": "孪生别名不得以数字开头"
       }
-    }
+    },
+    "actions": "行动"
   },
   "widgets": {
     "trend": {

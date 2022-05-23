@@ -541,7 +541,8 @@
         "alphanumericOnly": "O pseudônimo gêmeo só deve conter caracteres alfanuméricos",
         "noNumberPrefix": "O pseudônimo de gêmeos não deve começar com um número"
       }
-    }
+    },
+    "actions": "Ações"
   },
   "widgets": {
     "trend": {

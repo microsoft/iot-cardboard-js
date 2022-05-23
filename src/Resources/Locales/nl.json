@@ -541,7 +541,8 @@
         "alphanumericOnly": "Dubbele alias mag alleen alfanumerieke tekens bevatten",
         "noNumberPrefix": "Dubbele alias mag niet beginnen met een getal"
       }
-    }
+    },
+    "actions": "Acties"
   },
   "widgets": {
     "trend": {

@@ -541,7 +541,8 @@
         "alphanumericOnly": "트윈 별칭은 영숫자만 포함해야 합니다.",
         "noNumberPrefix": "트윈 별칭은 숫자로 시작하면 안 됩니다."
       }
-    }
+    },
+    "actions": "작업"
   },
   "widgets": {
     "trend": {

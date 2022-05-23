@@ -21,6 +21,9 @@ export const ADT3DSceneBuilderContainer: React.FC<IADT3DSceneBuilderProps> = ({
 }) => {
     const { deeplinkState } = useDeeplinkContext();
 
+    // get config on mount to ensure it is always consistent with the server
+    useEffect(refetchConfig, []);
+
     useEffect(() => {
         if (deeplinkState.mode === ADT3DScenePageModes.ViewScene) {
             // Shift SceneView over a bit to maintain camera position

@@ -94,8 +94,7 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
         refetchDependencies: [
             adapter,
             deeplinkState.storageUrl,
-            state.selectedScene,
-            state.currentStep
+            state.selectedScene
         ]
     });
     const resetConfig = useAdapter({

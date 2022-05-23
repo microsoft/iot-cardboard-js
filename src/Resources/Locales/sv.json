@@ -541,7 +541,8 @@
         "alphanumericOnly": "Tvillingalias får endast innehålla alfanumeriska tecken",
         "noNumberPrefix": "Tvillingalias får inte börja med ett tal"
       }
-    }
+    },
+    "actions": "Åtgärder"
   },
   "widgets": {
     "trend": {

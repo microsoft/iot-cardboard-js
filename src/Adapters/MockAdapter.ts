@@ -493,7 +493,6 @@ export default class MockAdapter
     }
 
     async putScenesConfig(config: I3DScenesConfig) {
-        console.log(config);
         try {
             await this.mockNetwork();
             this.scenesConfig = config;

@@ -427,6 +427,7 @@
         "meshes": "Meshes",
         "behaviorElementsDropdownLabel": "Target element",
         "behaviorElementsDropdownPlaceholder": "Select an element",
+        "actions": "Actions",
         "behaviorForm": {
             "formSubTitle": "Behaviors are visual cues that occur under specific conditions."
         },
