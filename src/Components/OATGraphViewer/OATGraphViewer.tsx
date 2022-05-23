@@ -89,7 +89,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
 
     useEffect(() => {
         // Identifies which is the next model Id on creating new nodes and updates the Local Storage
-        let nextModelId = newModelId;
+        let nextModelId = 0;
         let index = 0;
         while (index !== -1) {
             index = elements.findIndex(
