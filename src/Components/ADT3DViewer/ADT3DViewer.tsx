@@ -104,6 +104,8 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
     const selectedMesh = useRef(null);
     const sceneRef = useRef(null);
     const isDeeplinkContextLoaded = useRef(false);
+    const prevLayerCount = useRef<number>(-1); // track the count of layers so we know to refresh the selections if the count changes
+    const hasUserChangedLayers = useRef<boolean>(false); // need to know once a user makes a selection so we stop auto selecting items
 
     // styles
     const fluentTheme = useTheme();
@@ -147,7 +149,7 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
     const layersInScene = useMemo(() => {
         logDebugConsole(
             'debug',
-            'scene layers updated',
+            'Getting layers from config',
             scenesConfig?.configuration?.layers
         );
         return ViewerConfigUtility.getLayersInScene(scenesConfig, sceneId);
@@ -198,7 +200,16 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
     }, [deeplinkDispatch, sceneId]);
 
     const setSelectedLayerIds = useCallback(
-        (ids: string[]) => {
+        (ids: string[], isUserUpdate: boolean) => {
+            logDebugConsole(
+                'debug',
+                'Selected layer ids changed (ids, isUserUpdate)',
+                ids,
+                isUserUpdate
+            );
+            if (isUserUpdate) {
+                hasUserChangedLayers.current = true; // track when the user does it so we know when to stop allowing auto updates to the selections
+            }
             deeplinkDispatch?.({
                 type: DeeplinkContextActionType.SET_LAYER_IDS,
                 payload: {
@@ -208,24 +219,46 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
         },
         [deeplinkDispatch]
     );
+    const userSetSelectedLayerIds = useCallback(
+        (ids: string[]) => {
+            setSelectedLayerIds(ids, true);
+        },
+        [setSelectedLayerIds]
+    );
 
     // initialize the layers list
     useEffect(() => {
         // if we don't have any layer id from the context, set initial values
-        if (!deeplinkState?.selectedLayerIds?.length) {
+        // we have to refresh the list if the adapter call finishes and updates the number of layers
+        // we have to not set the layers if the change came from a user
+        const layerCountChanged =
+            prevLayerCount.current !== layersInScene.length;
+        const noUserUpdate = !hasUserChangedLayers.current;
+        const noSelectedLayers = !deeplinkState?.selectedLayerIds?.length;
+        if (noUserUpdate && (noSelectedLayers || layerCountChanged)) {
+            prevLayerCount.current = layersInScene.length;
             const layers = [
                 ...(unlayeredBehaviorsPresent ? [DEFAULT_LAYER_ID] : []),
                 ...layersInScene.map((lis) => lis.id)
             ];
             logDebugConsole(
                 'debug',
-                'No layers found in state. Setting default layers',
+                'No layers found in state. Setting default layers (layers, layersInScene)',
                 layers,
                 layersInScene
             );
             setSelectedLayerIds(
                 // Add unlayered behavior option if unlayered behaviors present
-                layers
+                layers,
+                false
+            );
+        } else {
+            logDebugConsole(
+                'debug',
+                'Not auto selecting layers. (didLayerCountChange, noUserUpdateYet, noSelectedLayers)',
+                layerCountChanged,
+                noUserUpdate,
+                noSelectedLayers
             );
         }
     }, [
@@ -385,6 +418,7 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
     );
 
     useEffect(() => {
+        logDebugConsole('debug', 'Refetch config');
         refetchConfig && refetchConfig();
         // only run on first mount
         // // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -534,7 +568,7 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
     const svp = sceneViewProps || {};
     const sceneName = ViewerConfigUtility.getSceneById(scenesConfig, sceneId)
         ?.displayName;
-    logDebugConsole('debug', 'Rendering 3D Viewer');
+    logDebugConsole('debug', 'Render');
     return (
         <BaseComponent
             isLoading={isLoading && !sceneVisuals}
@@ -599,7 +633,7 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
                         <LayerDropdown
                             layers={layersInScene}
                             selectedLayerIds={deeplinkState.selectedLayerIds}
-                            setSelectedLayerIds={setSelectedLayerIds}
+                            setSelectedLayerIds={userSetSelectedLayerIds}
                             showUnlayeredOption={unlayeredBehaviorsPresent}
                         />
                     </div>
