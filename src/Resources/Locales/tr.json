@@ -436,7 +436,7 @@
       "notificationLabelTooltip": "Bu metin, bu rozet etkinken tüketiciye bir bağlam sağlayacaktır.",
       "notificationLabelDescriptionPart1": "İkiz özelliklerin şablon dizesi sözdizimi ile çevrelenmesi gerekir.",
       "notificationPlaceholder": "Bir açıklama girin",
-      "notificationLabelDescriptionPart2dddd": "Örneğin, ${PrimaryTwin.DisplayName} bakım gerektirir"
+      "notificationLabelDescriptionPart2": "Örneğin, ${PrimaryTwin.DisplayName} bakım gerektirir"
     },
     "behaviorStatusForm": {
       "tabDescription": "Bir özellik seçin, sonra belirli koşullara renk uygulamak için aralıkları ayarlayın (örneğin, yüksek sıcaklıkları belirtmek için kırmızı veya optimum hız için yeşil).",

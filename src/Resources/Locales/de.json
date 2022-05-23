@@ -436,7 +436,7 @@
       "notificationLabelTooltip": "Dieser Text gibt einen Verbraucherkontext an, wenn dieses Badge aktiv ist.",
       "notificationLabelDescriptionPart1": "Twin-Eigenschaften müssen mit Vorlagenzeichenfolgensyntax umgeben sein.",
       "notificationPlaceholder": "Geben Sie eine Beschreibung ein",
-      "notificationLabelDescriptionPart2dddd": "Z.B. ${PrimaryTwin.DisplayName} erfordert Wartung"
+      "notificationLabelDescriptionPart2": "Z.B. ${PrimaryTwin.DisplayName} erfordert Wartung"
     },
     "behaviorStatusForm": {
       "tabDescription": "Wählen Sie eine Eigenschaft aus, und legen Sie dann Bereiche für die Anwendung von Farben auf bestimmte Bedingungen fest, z. B. Rot, um hohe Temperaturen anzuzeigen, oder Grün für optimale Geschwindigkeit.",

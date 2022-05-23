@@ -436,7 +436,7 @@
       "notificationLabelTooltip": "Deze tekst geeft een consument context wanneer deze badge actief is.",
       "notificationLabelDescriptionPart1": "Dubbele eigenschappen moeten worden omgeven door syntaxis van sjabloonreeksen.",
       "notificationPlaceholder": "Voer een beschrijving in",
-      "notificationLabelDescriptionPart2dddd": "Bijvoorbeeld ${PrimaryTwin.DisplayName} vereist onderhoud"
+      "notificationLabelDescriptionPart2": "Bijvoorbeeld ${PrimaryTwin.DisplayName} vereist onderhoud"
     },
     "behaviorStatusForm": {
       "tabDescription": "Selecteer een eigenschap en stel vervolgens bereiken in voor het toepassen van kleur op bepaalde omstandigheden, bijvoorbeeld rood om hoge temperaturen aan te geven of groen voor optimale snelheid.",

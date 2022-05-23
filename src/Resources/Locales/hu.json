@@ -436,7 +436,7 @@
       "notificationLabelTooltip": "Ez a szöveg fogyasztói környezetet ad, amikor ez a jelvény aktív.",
       "notificationLabelDescriptionPart1": "Az ikertulajdonságokat sablon karakterlánc szintaxissal kell körülvenni.",
       "notificationPlaceholder": "Leírás megadása",
-      "notificationLabelDescriptionPart2dddd": "Pl. ${PrimaryTwin.DisplayName} karbantartást igényel"
+      "notificationLabelDescriptionPart2": "Pl. ${PrimaryTwin.DisplayName} karbantartást igényel"
     },
     "behaviorStatusForm": {
       "tabDescription": "Jelöljön ki egy tulajdonságot, majd állítsa be a szín bizonyos feltételekre való alkalmazásához szükséges tartományokat – például pirosat a magas hőmérséklet jelzéséhez, vagy zöldet az optimális sebességhez.",
