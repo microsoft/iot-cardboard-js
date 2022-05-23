@@ -60,7 +60,7 @@ const getClassNames = classNamesFunction<
     IADT3DViewerStyles
 >();
 
-const debugLogging = true;
+const debugLogging = false;
 const logDebugConsole = getDebugLogger('ADT3DViewer', debugLogging);
 
 const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
