@@ -10,18 +10,17 @@ interface IProps {
     locale: Locale;
     value: boolean | Date | number | string;
     type: IDTDLPropertyType;
-    isValid: boolean;
 }
 
 const invalidPlaceholder = '--';
 
-const FormattedValue: React.FC<IProps> = ({ locale, value, type, isValid }) => {
+const FormattedValue: React.FC<IProps> = ({ locale, value, type }) => {
     const theme = useTheme();
     const { t } = useTranslation();
     const styles = getStyles(theme);
 
-    // Show '--' if value is invalid (unset on twin for example)
-    if (!isValid) {
+    // Show '--' if value is null (unset on twin)
+    if (value === null || value === undefined) {
         return (
             <span
                 className={styles.expressionValueInvalidPlaceholder}

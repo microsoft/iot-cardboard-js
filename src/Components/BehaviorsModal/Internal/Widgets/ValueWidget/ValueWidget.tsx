@@ -40,21 +40,18 @@ export const ValueWidget: React.FC<IProp> = ({ widget, placeholderValues }) => {
     const { twins, mode } = useContext(BehaviorsModalContext);
     const { displayName, valueExpression, type } = widget.widgetConfiguration;
 
-    const parseResult: { value: any; isValid: boolean } = useMemo(() => {
+    const parsedValue = useMemo(() => {
         const parsedValue = parseLinkedTwinExpression(valueExpression, twins);
         if (parsedValue === '') {
             if (mode === BehaviorModalMode.viewer) {
-                return { value: null, isValid: false };
+                return null;
             } else {
-                return {
-                    value:
-                        placeholderValues?.[type] ??
-                        getValuePlaceholders(t)[type],
-                    isValid: true
-                };
+                return (
+                    placeholderValues?.[type] ?? getValuePlaceholders(t)[type]
+                );
             }
         } else {
-            return { value: parsedValue, isValid: true };
+            return parsedValue;
         }
     }, [valueExpression, twins, mode, placeholderValues, type, t]);
 
@@ -64,8 +61,7 @@ export const ValueWidget: React.FC<IProp> = ({ widget, placeholderValues }) => {
             <div className={styles.expressionValueContainer}>
                 <FormattedValue
                     locale={i18n.language as Locale}
-                    value={parseResult.value}
-                    isValid={parseResult.isValid}
+                    value={parsedValue}
                     type={type}
                 />
             </div>
