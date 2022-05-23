@@ -126,7 +126,8 @@ export const DefaultViewerModeObjectColor: IADTObjectColor = {
     coloredMeshHoverColor: '#4AA7EEFF',
     outlinedMeshHoverColor: '#23FFFFFF',
     outlinedMeshSelectedColor: '#3595DEFF',
-    outlinedMeshHoverSelectedColor: '#12C7E6FF'
+    outlinedMeshHoverSelectedColor: '#12C7E6FF',
+    reflectionTexture: 'https://assets.babylonjs.com/environments/studio.env' //Other environment maps can be found here: (https://github.com/BabylonJS/Assets/tree/master/environments)
 };
 export const ViewerModeObjectColors: IADTObjectColor[] = [
     //Blue

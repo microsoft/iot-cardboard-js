@@ -186,7 +186,7 @@ function SceneView(props: ISceneViewProps, ref) {
     const shaderMaterial = useRef<any>();
     const originalMaterials = useRef<any>();
     const meshesAreOriginal = useRef(true);
-    const reflectionTexture = useRef<BABYLON.Texture>(null);
+    const reflectionTexture = useRef<BABYLON.BaseTexture>(null);
     const outlinedMeshes = useRef<BABYLON.AbstractMesh[]>([]);
     const clonedHighlightMeshes = useRef<BABYLON.AbstractMesh[]>([]);
     const highlightLayer = useRef<HighlightLayer>(null);
@@ -618,12 +618,26 @@ function SceneView(props: ISceneViewProps, ref) {
             //Reset the reflection Texture
             reflectionTexture.current = null;
             if (currentObjectColor.reflectionTexture) {
-                reflectionTexture.current = BABYLON.Texture.CreateFromBase64String(
-                    currentObjectColor.reflectionTexture,
-                    currentObjectColorId + '_reflectionTexture',
-                    sceneRef.current
-                );
-                reflectionTexture.current.coordinatesMode = 1;
+                //If the reflectionTexture property is a URL, then let's create the environment cubemap from that.
+                //This is assuming the file is a .env file (see https://doc.babylonjs.com/divingDeeper/materials/using/HDREnvironment#what-is-a-env-tech-deep-dive)
+                if (
+                    currentObjectColor.reflectionTexture.startsWith('https://')
+                ) {
+                    reflectionTexture.current = BABYLON.CubeTexture.CreateFromPrefilteredData(
+                        currentObjectColor.reflectionTexture,
+                        sceneRef.current
+                    );
+                    reflectionTexture.current.coordinatesMode = 3;
+                }
+                //Otherwise, we assume the texture is a base64 encoded image and create and setup the texture from that.
+                else {
+                    reflectionTexture.current = BABYLON.Texture.CreateFromBase64String(
+                        currentObjectColor.reflectionTexture,
+                        currentObjectColorId + '_reflectionTexture',
+                        sceneRef.current
+                    );
+                    reflectionTexture.current.coordinatesMode = 1;
+                }
             }
 
             //Use the matching cached hover material or create a new one, cache it, and use it
@@ -894,6 +908,16 @@ function SceneView(props: ISceneViewProps, ref) {
                 light.diffuse = new BABYLON.Color3(0.8, 0.8, 0.8);
                 light.specular = new BABYLON.Color3(1, 1, 1);
                 light.groundColor = new BABYLON.Color3(0.2, 0.2, 0.2);
+
+                //If the default mode has a reflection texture URL, turn on the environment reflections
+                if (DefaultViewerModeObjectColor.reflectionTexture) {
+                    reflectionTexture.current = BABYLON.CubeTexture.CreateFromPrefilteredData(
+                        DefaultViewerModeObjectColor.reflectionTexture,
+                        sceneRef.current
+                    );
+                    sceneRef.current.environmentTexture =
+                        reflectionTexture.current;
+                }
 
                 setScene(sceneRef.current);
                 setIsLoading(false);
