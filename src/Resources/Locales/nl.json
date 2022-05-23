@@ -835,5 +835,11 @@
     "multiLanguage": "meertalig",
     "region": "Regio",
     "singleLanguage": "Eén taal"
+  },
+  "OATErrorBoundary": {
+    "modalHeader": "Er ging iets mis...",
+    "messageHeader": "Bericht",
+    "stackHeader": "Stapel",
+    "tryAgain": "Probeer het opnieuw"
   }
 }

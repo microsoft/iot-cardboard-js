@@ -835,5 +835,11 @@
     "multiLanguage": "vícejazyčné",
     "region": "Oblast",
     "singleLanguage": "Jeden jazyk"
+  },
+  "OATErrorBoundary": {
+    "modalHeader": "Něco se pokazilo...",
+    "messageHeader": "Zpráva",
+    "stackHeader": "Zásobník",
+    "tryAgain": "Zkuste to znovu"
   }
 }

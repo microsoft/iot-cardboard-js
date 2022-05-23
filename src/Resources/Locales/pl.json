@@ -835,5 +835,11 @@
     "multiLanguage": "wielojęzyczny",
     "region": "Region",
     "singleLanguage": "Pojedynczy język"
+  },
+  "OATErrorBoundary": {
+    "modalHeader": "Coś poszło nie tak...",
+    "messageHeader": "Komunikat",
+    "stackHeader": "Stos",
+    "tryAgain": "Spróbuj ponownie"
   }
 }

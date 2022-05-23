@@ -835,5 +835,11 @@
     "multiLanguage": "mehrsprachig",
     "region": "Region",
     "singleLanguage": "Einheitliche Sprache"
+  },
+  "OATErrorBoundary": {
+    "modalHeader": "Etwas ist schief gelaufen...",
+    "messageHeader": "Nachricht",
+    "stackHeader": "Stapel",
+    "tryAgain": "Wiederholen"
   }
 }
