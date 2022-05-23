@@ -540,7 +540,8 @@
         "alphanumericOnly": "Az iker alias csak alfanumerikus karaktereket tartalmazhat",
         "noNumberPrefix": "Az iker alias nem kezdődhet számmal"
       }
-    }
+    },
+    "actions": "Műveletek"
   },
   "widgets": {
     "trend": {
@@ -906,5 +907,31 @@
       "title": "Mi az a jelenetréteg?",
       "mainContent": "Rétegeket hozhat létre a jelenetben, hogy segítsen megszervezni a viselkedését. A rétegek címkékként működnek a viselkedésen, lehetővé téve annak meghatározását, hogy mely viselkedéseket kell együtt látni, így egyéni nézeteket hoz létre a jelenetről a különböző szerepkörökhöz vagy feladatokhoz.\n\nHa nincsenek rétegek egy jelenetben, az összes viselkedés megjelenik a jelenetmegjelenítőben. A réteggel nem jelölt viselkedések mindaddig megjelennek az Alapértelmezett rétegben, amíg egy réteggel nem vannak címkézve.\n\nA rétegek létrehozásának egyik módja a Jelenet rétegek gomb használata a Jelenet rétegek nézetben egy jelenethez. Másik lehetőségként rétegeket is létrehozhat a viselkedés létrehozása vagy módosítása közben."
     }
+  },
+  "diagnose": "Diagnosztizál",
+  "resolve": "Megfejt",
+  "verify": "Igazol",
+  "success": "Siker!",
+  "scenePageErrorHandling": {
+    "resetConfigFile": "Konfigurációs fájl alaphelyzetbe állítása",
+    "unauthorizedAccessErrorTitle": "Hozzáférés korlátozott",
+    "unauthorizedAccessErrorMessage": "Nincs hozzáférése ehhez a tárolótárolóhoz. Diagnosztizálja a hozzáférést, vagy próbáljon ki egy másik tárolót.",
+    "blobNotFoundErrorTitle": "Blob nem található",
+    "blobNotFoundErrorMessage": "Blob nem létezik.",
+    "unknownErrorTitle": "Ismeretlen hiba",
+    "corsErrorTitle": "CORS hiba",
+    "corsErrorMessage": "A tárfiók blob szolgáltatásának rendelkeznie kell néhány bizonyos tulajdonsággal, hogy a CORS képes legyen 3D-s eszközöket használni a jelenetekben.",
+    "internalServerErrorMessage": "Belső kiszolgálóhiba, ellenőrizze a kiszolgáló naplóit.",
+    "diagnoseAccessPermissions": "Hozzáférési engedélyek diagnosztizálása",
+    "checkingPermissions": "Engedélyek ellenőrzése...",
+    "resolveIssues": "Problémák megoldása",
+    "resolvingIssues": "Problémák megoldása...",
+    "missingPermissionsMessage": "Hiányoznak az engedélyei. Hozzá kell férnie olvasóként és tárolóblob adattulajdonosként vagy tárolóblob adatszolgáltatóként.",
+    "noMissingRoleDesc": "Nem észleltek hiányzó engedélyeket, megpróbáljuk ellenőrizni, hogy a hozzárendelt engedélyek érvényben vannak-e.",
+    "finishedWithFailureDesc": "A kísérlet sikertelen volt, lépjen kapcsolatba az erőforrás tulajdonosával.",
+    "verifyingPermissionsMessage": "Engedélyek ellenőrzése...\nEz eltarthat néhány percig.",
+    "assignRoleSuccessDesc": "Hiányzó engedélyek vannak hozzárendelve. Kérjük, várjon, amíg megpróbáljuk ellenőrizni, hogy a módosítások érvényben vannak-e.",
+    "refreshPage": "Frissítési lap",
+    "refreshing": "Frissítő"
   }
 }

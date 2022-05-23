@@ -540,7 +540,8 @@
         "alphanumericOnly": "El alias gemelo solo debe contener caracteres alfanuméricos",
         "noNumberPrefix": "El alias gemelo no debe comenzar con un número"
       }
-    }
+    },
+    "actions": "Acciones"
   },
   "widgets": {
     "trend": {
@@ -906,5 +907,31 @@
       "title": "¿Qué es una capa de escena?",
       "mainContent": "Puede crear capas en su escena para ayudar a organizar sus comportamientos. Las capas actúan como etiquetas en los comportamientos, lo que le permite definir qué comportamientos deben verse juntos, creando así vistas personalizadas de su escena para diferentes roles o tareas.\n\nSi no hay capas en una escena, todos los comportamientos aparecerán en el visor de escenas. Cualquier comportamiento que no esté etiquetado con una capa aparecerá en la capa predeterminada hasta que se etiquete con una capa.\n\nUna forma de crear capas es usar el botón Capas de escena en la vista Generar para una escena. Como alternativa, puede crear capas mientras crea o modifica un comportamiento."
     }
+  },
+  "diagnose": "Diagnosticar",
+  "resolve": "Resolver",
+  "verify": "Verificar",
+  "success": "¡Éxito!",
+  "scenePageErrorHandling": {
+    "resetConfigFile": "Restablecer archivo de configuración",
+    "unauthorizedAccessErrorTitle": "Acceso restringido",
+    "unauthorizedAccessErrorMessage": "No tiene acceso a este contenedor de almacenamiento. Diagnostique su acceso o pruebe con un contenedor diferente.",
+    "blobNotFoundErrorTitle": "Blob no encontrado",
+    "blobNotFoundErrorMessage": "Blob no existe.",
+    "unknownErrorTitle": "Error desconocido",
+    "corsErrorTitle": "Error de CORS",
+    "corsErrorMessage": "El servicio de blobs de su cuenta de almacenamiento debe tener algunas propiedades determinadas para permitir que CORS pueda usar activos 3D en sus escenas.",
+    "internalServerErrorMessage": "Error interno del servidor, verifique los registros del servidor.",
+    "diagnoseAccessPermissions": "Diagnosticar permisos de acceso",
+    "checkingPermissions": "Comprobando permisos...",
+    "resolveIssues": "Resolver problemas",
+    "resolvingIssues": "Resolviendo problemas...",
+    "missingPermissionsMessage": "Faltan permisos. Necesitará acceso como lector y como propietario de datos de blobs de almacenamiento o colaborador de datos de blobs de almacenamiento.",
+    "noMissingRoleDesc": "No se han detectado permisos faltantes, estamos intentando verificar si los permisos asignados están en vigor.",
+    "finishedWithFailureDesc": "Intento fallido, póngase en contacto con el propietario del recurso.",
+    "verifyingPermissionsMessage": "Verificando permisos...\nEsto puede tardar varios minutos.",
+    "assignRoleSuccessDesc": "Se han asignado permisos que faltan. Espere mientras intentamos verificar si los cambios están en vigor.",
+    "refreshPage": "Actualizar página",
+    "refreshing": "Refrescante"
   }
 }

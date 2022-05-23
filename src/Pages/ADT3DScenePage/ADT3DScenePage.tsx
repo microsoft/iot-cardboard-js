@@ -54,6 +54,7 @@ import { getStyles } from './ADT3DScenePage.styles';
 import { Stack } from '@fluentui/react';
 import DeeplinkFlyout from '../../Components/DeeplinkFlyout/DeeplinkFlyout';
 import ViewerConfigUtility from '../../Models/Classes/ViewerConfigUtility';
+import { DOCUMENTATION_LINKS } from '../../Models/Constants/Constants';
 
 export const ADT3DScenePageContext = createContext<IADT3DScenePageContext>(
     null
@@ -77,13 +78,24 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
         defaultADT3DScenePageState
     );
 
+    const getCorsPropertiesAdapterData = useAdapter({
+        adapterMethod: () => adapter.getBlobServiceCorsProperties(),
+        refetchDependencies: [adapter, deeplinkState.storageUrl]
+    });
+
+    const setCorsPropertiesAdapterData = useAdapter({
+        adapterMethod: () => adapter.setBlobServiceCorsProperties(),
+        isAdapterCalledOnMount: false,
+        refetchDependencies: [adapter, deeplinkState.storageUrl]
+    });
+
     const scenesConfig = useAdapter({
         adapterMethod: () => adapter.getScenesConfig(),
+        isAdapterCalledOnMount: false, // don't fetch scenes config until making sure cors is all good with getCorsPropertiesAdapterData call
         refetchDependencies: [
             adapter,
             deeplinkState.storageUrl,
-            state.selectedScene,
-            state.currentStep
+            state.selectedScene
         ]
     });
     const resetConfig = useAdapter({
@@ -173,6 +185,11 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
                     containerUrls
                 );
             }
+            dispatch({
+                type: SET_ERRORS,
+                payload: []
+            });
+            errorCallbackSetRef.current = false;
         },
         [environmentPickerOptions?.storage, setBlobContainerUrl]
     );
@@ -300,76 +317,123 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
         scenesConfig.adapterResult
     ]);
 
-    // show error screens if needed
+    // set the error callbacks for button actions of the ScenePageErrorHandlingWrapper component
+    // ScenePageErrorHandlingWrapper is intended to have single action with learn more button and illustration by default if not specified otherwise
+    // but for a certain type of error - ComponentErrorType.UnauthorizedAccess - we handle it internally with a stepper wizard since multiple steps required
     useEffect(() => {
-        if (
-            (state?.errors?.[0]?.type ===
-                ComponentErrorType.UnauthorizedAccess ||
+        if (state?.errors.length > 0) {
+            if (
+                state?.errors?.[0]?.type === ComponentErrorType.CORSError &&
+                !errorCallbackSetRef.current
+            ) {
+                // mark that we already set the callback so we don't get an infinite loop of setting
+                errorCallbackSetRef.current = true;
+                dispatch({
+                    type: SET_ERROR_CALLBACK,
+                    payload: {
+                        buttonText: t('scenePageErrorHandling.resolveIssues'),
+                        buttonAction: async () => {
+                            setCorsPropertiesAdapterData.callAdapter();
+                            errorCallbackSetRef.current = false;
+                        }
+                    }
+                });
+            } else if (
                 state?.errors?.[0]?.type ===
-                    ComponentErrorType.NonExistentBlob) &&
-            !errorCallbackSetRef.current
-        ) {
-            // mark that we already set the callback so we don't get an infinite loop of setting
-            errorCallbackSetRef.current = true;
-            dispatch({
-                type: SET_ERROR_CALLBACK,
-                payload: {
-                    buttonText: t('learnMore'),
-                    buttonAction: () => {
-                        window.open(
-                            'https://docs.microsoft.com/azure/digital-twins/'
-                        );
-                        errorCallbackSetRef.current = false;
+                    ComponentErrorType.JsonSchemaError &&
+                !errorCallbackSetRef.current
+            ) {
+                // mark that we already set the callback so we don't get an infinite loop of setting
+                errorCallbackSetRef.current = true;
+                dispatch({
+                    type: SET_ERROR_CALLBACK,
+                    payload: {
+                        buttonText: t('scenePageErrorHandling.resetConfigFile'),
+                        buttonAction: async () => {
+                            await resetConfig.callAdapter();
+                            await scenesConfig.callAdapter();
+                            errorCallbackSetRef.current = false;
+                        }
                     }
-                }
-            });
-        } else if (
-            state?.errors?.[0]?.type === ComponentErrorType.JsonSchemaError &&
-            !errorCallbackSetRef.current
-        ) {
-            // mark that we already set the callback so we don't get an infinite loop of setting
-            errorCallbackSetRef.current = true;
-            dispatch({
-                type: SET_ERROR_CALLBACK,
-                payload: {
-                    buttonText: 'Reset Configuration File',
-                    buttonAction: async () => {
-                        await resetConfig.callAdapter();
-                        await scenesConfig.callAdapter();
-                        errorCallbackSetRef.current = false;
+                });
+            } else if (
+                state?.errors?.[0]?.type ===
+                    ComponentErrorType.NoContainerUrl &&
+                !errorCallbackSetRef.current
+            ) {
+                dispatch({
+                    type: SET_ERROR_CALLBACK,
+                    payload: {
+                        buttonText: 'Configure environment',
+                        buttonAction: () => {
+                            setEnvironmentDialogHidden(false);
+                            errorCallbackSetRef.current = false;
+                        }
                     }
-                }
-            });
-        } else if (
-            state?.errors?.[0]?.type === ComponentErrorType.NoContainerUrl &&
-            !errorCallbackSetRef.current
-        ) {
-            dispatch({
-                type: SET_ERROR_CALLBACK,
-                payload: {
-                    buttonText: 'Configure environment',
-                    buttonAction: () => {
-                        setEnvironmentDialogHidden(false);
-                        errorCallbackSetRef.current = false;
+                });
+            } else if (
+                state?.errors?.[0]?.type ===
+                    ComponentErrorType.NoADTInstanceUrl &&
+                !errorCallbackSetRef.current
+            ) {
+                dispatch({
+                    type: SET_ERROR_CALLBACK,
+                    payload: {
+                        buttonText: 'Configure environment',
+                        buttonAction: () => {
+                            setEnvironmentDialogHidden(false);
+                            errorCallbackSetRef.current = false;
+                        }
                     }
-                }
-            });
-        } else if (
-            state?.errors?.[0]?.type === ComponentErrorType.NoADTInstanceUrl &&
-            !errorCallbackSetRef.current
-        ) {
-            dispatch({
-                type: SET_ERROR_CALLBACK,
-                payload: {
-                    buttonText: 'Configure environment',
-                    buttonAction: () => {
-                        setEnvironmentDialogHidden(false);
-                        errorCallbackSetRef.current = false;
+                });
+            } else if (!errorCallbackSetRef.current) {
+                // mark that we already set the callback so we don't get an infinite loop of setting
+                errorCallbackSetRef.current = true;
+                dispatch({
+                    type: SET_ERROR_CALLBACK,
+                    payload: {
+                        buttonText: t('learnMore'),
+                        buttonAction: () => {
+                            window.open(
+                                DOCUMENTATION_LINKS.overviewDocSetupSection
+                            );
+                            errorCallbackSetRef.current = false;
+                        }
                     }
-                }
-            });
+                });
+            }
         }
     }, [resetConfig, scenesConfig, state?.errors, t]);
+
+    // if the result of get cors request has error which we send manually if the storage's blob service
+    // does not have required CORS rules in its properties, then set the errors to render ScenePageErrorHandlingWrapper component,
+    // otherwise if there is no issues, clear the errors and with CORS fetch scenes config
+    useEffect(() => {
+        if (getCorsPropertiesAdapterData?.adapterResult.getErrors()) {
+            const errors: Array<IComponentError> = getCorsPropertiesAdapterData?.adapterResult.getErrors();
+            dispatch({
+                type: SET_ERRORS,
+                payload: errors
+            });
+        } else if (getCorsPropertiesAdapterData?.adapterResult.getData()) {
+            dispatch({
+                type: SET_ERRORS,
+                payload: []
+            });
+            errorCallbackSetRef.current = false;
+            scenesConfig.callAdapter();
+        }
+    }, [getCorsPropertiesAdapterData?.adapterResult]);
+
+    // if setting CORS rules is successful fetch scenes config
+    useEffect(() => {
+        if (
+            setCorsPropertiesAdapterData?.adapterResult.result !== null &&
+            !setCorsPropertiesAdapterData?.adapterResult.getErrors()
+        ) {
+            scenesConfig.callAdapter();
+        }
+    }, [setCorsPropertiesAdapterData?.adapterResult]);
 
     return (
         <ADT3DScenePageContext.Provider
@@ -390,7 +454,6 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
                     localeStrings={localeStrings}
                     containerClassName={customStyles.container}
                 >
-                    {' '}
                     {(state.currentStep === ADT3DScenePageSteps.SceneList ||
                         state.currentStep === ADT3DScenePageSteps.Globe) && (
                         <>
@@ -457,68 +520,82 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
                                             }
                                         }}
                                     />
-                                    <SceneListModeToggle
-                                        selectedMode={state.currentStep}
-                                        onListModeChange={onListModeChange}
-                                    />
+                                    {!state?.errors?.length && ( // show the scene list toggle mode only if there is no error
+                                        <SceneListModeToggle
+                                            selectedMode={state.currentStep}
+                                            onListModeChange={onListModeChange}
+                                        />
+                                    )}
                                 </Stack>
                             </div>
                         </>
                     )}
-                    <ScenePageErrorHandlingWrapper
-                        errors={state.errors}
-                        primaryClickAction={{
-                            buttonText: state?.errorCallback?.buttonText,
-                            onClick: state?.errorCallback?.buttonAction
-                        }}
-                    >
-                        {state.currentStep ===
-                            ADT3DScenePageSteps.SceneList && (
-                            <div className="cb-scene-page-scene-list-container">
-                                {deeplinkState.storageUrl && (
-                                    <SceneList
-                                        key={deeplinkState.storageUrl}
-                                        title={'All scenes'}
-                                        theme={theme}
-                                        locale={locale}
-                                        adapter={adapter}
-                                        onSceneClick={(scene) => {
-                                            handleOnSceneClick(scene);
-                                        }}
-                                    />
-                                )}
-                            </div>
-                        )}
-                        {state.currentStep === ADT3DScenePageSteps.Globe && (
-                            <div className="cb-scene-page-scene-globe-container">
-                                <ADT3DGlobe
-                                    theme={theme}
-                                    adapter={adapter as IBlobAdapter}
-                                    onSceneClick={(scene) => {
-                                        handleOnSceneClick(scene);
-                                    }}
-                                />
-                            </div>
-                        )}
-                        {state.currentStep === ADT3DScenePageSteps.Scene && (
+                    {state?.errors?.length > 0 ? (
+                        <ScenePageErrorHandlingWrapper
+                            adapter={adapter}
+                            errors={state.errors}
+                            primaryClickAction={{
+                                buttonText: state?.errorCallback?.buttonText,
+                                onClick: state?.errorCallback?.buttonAction
+                            }}
+                            verifyCallbackAdapterData={scenesConfig}
+                        />
+                    ) : (
+                        state.scenesConfig && (
                             <>
-                                <div className="cb-scene-builder-and-viewer-container">
-                                    <ADT3DSceneBuilderContainer
-                                        mode={deeplinkState.mode}
-                                        scenesConfig={state.scenesConfig}
-                                        sceneId={deeplinkState.sceneId}
-                                        adapter={adapter}
-                                        theme={theme}
-                                        locale={locale}
-                                        localeStrings={localeStrings}
-                                        refetchConfig={() =>
-                                            scenesConfig.callAdapter()
-                                        }
-                                    />
-                                </div>
+                                {state.currentStep ===
+                                    ADT3DScenePageSteps.SceneList && (
+                                    <div className="cb-scene-page-scene-list-container">
+                                        {deeplinkState.storageUrl && (
+                                            <SceneList
+                                                key={deeplinkState.storageUrl}
+                                                title={'All scenes'}
+                                                theme={theme}
+                                                locale={locale}
+                                                adapter={adapter}
+                                                onSceneClick={(scene) => {
+                                                    handleOnSceneClick(scene);
+                                                }}
+                                            />
+                                        )}
+                                    </div>
+                                )}
+                                {state.currentStep ===
+                                    ADT3DScenePageSteps.Globe && (
+                                    <div className="cb-scene-page-scene-globe-container">
+                                        <ADT3DGlobe
+                                            theme={theme}
+                                            adapter={adapter as IBlobAdapter}
+                                            onSceneClick={(scene) => {
+                                                handleOnSceneClick(scene);
+                                            }}
+                                        />
+                                    </div>
+                                )}
+                                {state.currentStep ===
+                                    ADT3DScenePageSteps.Scene && (
+                                    <>
+                                        <div className="cb-scene-builder-and-viewer-container">
+                                            <ADT3DSceneBuilderContainer
+                                                mode={deeplinkState.mode}
+                                                scenesConfig={
+                                                    state.scenesConfig
+                                                }
+                                                sceneId={deeplinkState.sceneId}
+                                                adapter={adapter}
+                                                theme={theme}
+                                                locale={locale}
+                                                localeStrings={localeStrings}
+                                                refetchConfig={() =>
+                                                    scenesConfig.callAdapter()
+                                                }
+                                            />
+                                        </div>
+                                    </>
+                                )}
                             </>
-                        )}
-                    </ScenePageErrorHandlingWrapper>
+                        )
+                    )}
                 </BaseComponent>
             </div>
         </ADT3DScenePageContext.Provider>

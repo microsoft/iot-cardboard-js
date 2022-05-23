@@ -1542,6 +1542,7 @@ function SceneView(props: ISceneViewProps, ref) {
                         clone.material = cloneMaterial;
                         clone.alphaIndex = 2;
                         clone.isPickable = false;
+                        clone.setParent(currentMesh);
                         clonedHighlightMeshes.current.push(clone);
                         utilLayer.current.utilityLayerScene.meshes.push(clone);
                         meshToOutline = clone;

@@ -540,7 +540,8 @@
         "alphanumericOnly": "L’alias jumeau ne doit contenir que des caractères alphanumériques",
         "noNumberPrefix": "L’alias jumeau ne doit pas commencer par un nombre"
       }
-    }
+    },
+    "actions": "Actions"
   },
   "widgets": {
     "trend": {
@@ -906,5 +907,31 @@
       "title": "Qu'est-ce qu'une couche de scène ?",
       "mainContent": "Vous pouvez créer des calques dans votre scène pour vous aider à organiser vos comportements. Les calques agissent comme des balises sur les comportements, ce qui vous permet de définir quels comportements doivent être vus ensemble, créant ainsi des vues personnalisées de votre scène pour différents rôles ou tâches.\n\nS’il n’y a pas de calques dans une scène, tous les comportements apparaîtront dans la visionneuse de scène. Tous les comportements non balisés avec un calque apparaîtront dans le calque par défaut jusqu'à ce qu'ils soient balisés avec un calque.\n\nUne façon de créer des calques consiste à utiliser le bouton Calques de scène dans la vue Générer d’une scène. Vous pouvez également créer des calques lors de la création ou de la modification d’un comportement."
     }
+  },
+  "diagnose": "Diagnostiquer",
+  "resolve": "Résoudre",
+  "verify": "Vérifier",
+  "success": "Succès!",
+  "scenePageErrorHandling": {
+    "resetConfigFile": "Réinitialiser le fichier de configuration",
+    "unauthorizedAccessErrorTitle": "Accès restreint",
+    "unauthorizedAccessErrorMessage": "Vous n’avez pas accès à ce conteneur de stockage. Diagnostiquez votre accès ou essayez un autre conteneur.",
+    "blobNotFoundErrorTitle": "Objet blob introuvable",
+    "blobNotFoundErrorMessage": "Blob n’existe pas.",
+    "unknownErrorTitle": "Erreur inconnue",
+    "corsErrorTitle": "Erreur CORS",
+    "corsErrorMessage": "Le service d'objets blob de votre compte de stockage doit avoir certaines propriétés pour permettre à CORS de pouvoir utiliser des ressources 3D dans vos scènes.",
+    "internalServerErrorMessage": "Erreur interne du serveur, veuillez vérifier les journaux du serveur.",
+    "diagnoseAccessPermissions": "Diagnostiquer les autorisations d’accès",
+    "checkingPermissions": "Vérification des autorisations...",
+    "resolveIssues": "Résoudre les problèmes",
+    "resolvingIssues": "Résolution des problèmes...",
+    "missingPermissionsMessage": "Vous avez des autorisations manquantes. Vous aurez besoin d’un accès en tant que lecteur et propriétaire des données d’objets blob de stockage ou contributeur de données d’objets blob de stockage.",
+    "noMissingRoleDesc": "Aucune autorisation manquante détectée, nous essayons de vérifier si les autorisations attribuées sont en vigueur.",
+    "finishedWithFailureDesc": "Échec de la tentative, veuillez contacter le propriétaire de la ressource.",
+    "verifyingPermissionsMessage": "Vérification des autorisations...\nCela peut prendre plusieurs minutes.",
+    "assignRoleSuccessDesc": "Des autorisations manquantes ont été attribuées. Veuillez patienter pendant que nous tentons de vérifier si les modifications sont en vigueur.",
+    "refreshPage": "Actualiser la page",
+    "refreshing": "Rafraîchissant"
   }
 }

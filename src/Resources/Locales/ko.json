@@ -540,7 +540,8 @@
         "alphanumericOnly": "트윈 별칭은 영숫자만 포함해야 합니다.",
         "noNumberPrefix": "트윈 별칭은 숫자로 시작하면 안 됩니다."
       }
-    }
+    },
+    "actions": "작업"
   },
   "widgets": {
     "trend": {
@@ -906,5 +907,31 @@
       "title": "씬 레이어란 무엇인가요?",
       "mainContent": "장면에 레이어를 만들어 동작을 구성할 수 있습니다. 레이어는 비헤이비어에 대한 태그처럼 작동하므로 함께 볼 필요가 있는 동작을 정의할 수 있으므로 다양한 역할이나 작업에 대한 장면의 사용자 지정 뷰를 만들 수 있습니다.\n\n장면에 레이어가 없으면 모든 동작이 장면 뷰어에 표시됩니다. 레이어로 태그가 지정되지 않은 모든 동작은 레이어로 태그가 지정될 때까지 기본 레이어에 표시됩니다.\n\n레이어를 만드는 한 가지 방법은 장면에 대한 빌드 보기의 [장면] 레이어 단추를 사용하는 것입니다. 또는 동작을 만들거나 수정하는 동안 레이어를 만들 수 있습니다."
     }
+  },
+  "diagnose": "진단하다",
+  "resolve": "해결하다",
+  "verify": "확인",
+  "success": "성공!",
+  "scenePageErrorHandling": {
+    "resetConfigFile": "구성 파일 재설정",
+    "unauthorizedAccessErrorTitle": "액세스 제한",
+    "unauthorizedAccessErrorMessage": "이 저장소 컨테이너에 액세스할 수 없습니다. 액세스를 진단하거나 다른 컨테이너를 사용해 보십시오.",
+    "blobNotFoundErrorTitle": "Blob을 찾을 수 없음",
+    "blobNotFoundErrorMessage": "Blob이 존재하지 않습니다.",
+    "unknownErrorTitle": "알 수 없는 오류",
+    "corsErrorTitle": "CORS 오류",
+    "corsErrorMessage": "저장소 계정의 Blob 서비스에는 CORS가 장면에서 3D 자산을 사용할 수 있도록 하는 몇 가지 특정 속성이 있어야 합니다.",
+    "internalServerErrorMessage": "내부 서버 오류, 서버 로그를 확인하십시오.",
+    "diagnoseAccessPermissions": "액세스 권한 진단",
+    "checkingPermissions": "사용 권한 확인 중...",
+    "resolveIssues": "문제 해결",
+    "resolvingIssues": "문제 해결...",
+    "missingPermissionsMessage": "사용 권한이 누락되었습니다. 판독기 및 저장소 Blob 데이터 소유자 또는 저장소 Blob 데이터 기여자로 액세스해야 합니다.",
+    "noMissingRoleDesc": "누락된 권한이 감지되지 않았으므로 할당된 사용 권한이 적용되는지 확인하려고 합니다.",
+    "finishedWithFailureDesc": "시도가 실패했습니다. 리소스 소유자에게 문의하십시오.",
+    "verifyingPermissionsMessage": "사용 권한 확인 중...\n이 작업은 몇 분 정도 걸릴 수 있습니다.",
+    "assignRoleSuccessDesc": "누락된 사용 권한이 할당되었습니다. 변경 사항이 적용되는지 확인하려고 시도하는 동안 잠시 기다려 주십시오.",
+    "refreshPage": "페이지 새로 고침",
+    "refreshing": "상쾌한"
   }
 }

@@ -417,7 +417,6 @@ const BuilderLeftPanel: React.FC = () => {
             onBackClick(ADT3DSceneBuilderMode.BehaviorIdle);
         }
     }, [onBackClick, setSelectedElements, state.builderMode]);
-
     const sceneName = ViewerConfigUtility.getSceneById(config, sceneId)
         ?.displayName;
 
