@@ -252,11 +252,14 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
         onBehaviorBackClick();
         setSelectedElements([]);
     }, [
+        onBehaviorSave,
         config,
         behaviorToEdit,
         builderMode,
+        selectedLayerIds,
+        selectedElements,
+        removedElements,
         onBehaviorBackClick,
-        onBehaviorSave,
         setSelectedElements
     ]);
 
@@ -284,10 +287,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
         if (state.unsavedChangesDialogDiscardAction) {
             state.unsavedChangesDialogDiscardAction();
         }
-    }, [
-        state.unsavedChangesDialogDiscardAction,
-        setUnsavedBehaviorChangesDialog
-    ]);
+    }, [setUnsavedBehaviorChangesDialog, state]);
 
     const { headerText, subHeaderText, iconName } = useMemo(
         () =>
