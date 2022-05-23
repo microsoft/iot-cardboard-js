@@ -60,7 +60,7 @@ const getClassNames = classNamesFunction<
     IADT3DViewerStyles
 >();
 
-const debugLogging = false;
+const debugLogging = true;
 const logDebugConsole = getDebugLogger('ADT3DViewer', debugLogging);
 
 const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
@@ -114,6 +114,11 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
         prevLayerCount.current = -1;
         prevSceneId.current = sceneId;
     }
+
+    const behaviorIds = useMemo(
+        () => ViewerConfigUtility.getBehaviorIdsInScene(scenesConfig, sceneId),
+        []
+    );
 
     // styles
     const fluentTheme = useTheme();
@@ -236,6 +241,8 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
 
     // initialize the layers list
     useEffect(() => {
+        if (behaviorIds.length === 0) return;
+
         // if we don't have any layer id from the context, set initial values
         // we have to refresh the list if the adapter call finishes and updates the number of layers
         // we have to not set the layers if the change came from a user
@@ -245,21 +252,18 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
         const noSelectedLayers = !deeplinkState?.selectedLayerIds?.length;
         if (noUserUpdate && (noSelectedLayers || layerCountChanged)) {
             prevLayerCount.current = layersInScene.length;
+            // Add unlayered behavior option if unlayered behaviors present
             const layers = [
                 ...(unlayeredBehaviorsPresent ? [DEFAULT_LAYER_ID] : []),
                 ...layersInScene.map((lis) => lis.id)
             ];
             logDebugConsole(
                 'debug',
-                'No layers found in state. Setting default layers (layers, layersInScene)',
+                'No layers found in state. Setting default layers (new layers, layersInScene)',
                 layers,
                 layersInScene
             );
-            setSelectedLayerIds(
-                // Add unlayered behavior option if unlayered behaviors present
-                layers,
-                false
-            );
+            setSelectedLayerIds(layers, false);
         } else {
             logDebugConsole(
                 'debug',
