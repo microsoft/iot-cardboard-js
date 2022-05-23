@@ -468,7 +468,9 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
             if (
                 sceneVisual &&
                 []
-                    .concat(...sceneVisual?.behaviors.map((b) => b.visuals))
+                    .concat(
+                        deepCopy(sceneVisual?.behaviors.map((b) => b.visuals))
+                    )
                     .find((visual) => visual.type === VisualType.Popover)
             ) {
                 document.body.style.cursor = 'pointer';
