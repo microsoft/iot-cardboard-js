@@ -361,7 +361,9 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
                 dispatch({
                     type: SET_ERROR_CALLBACK,
                     payload: {
-                        buttonText: 'Configure environment',
+                        buttonText: t(
+                            'scenePageErrorHandling.configureEnvironment'
+                        ),
                         buttonAction: () => {
                             setIsDialogHidden(false);
                             errorCallbackSetRef.current = false;
@@ -378,7 +380,9 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
                 dispatch({
                     type: SET_ERROR_CALLBACK,
                     payload: {
-                        buttonText: 'Configure environment',
+                        buttonText: t(
+                            'scenePageErrorHandling.configureEnvironment'
+                        ),
                         buttonAction: () => {
                             setIsDialogHidden(false);
                             errorCallbackSetRef.current = false;
