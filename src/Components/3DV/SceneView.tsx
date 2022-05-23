@@ -152,7 +152,6 @@ function SceneView(props: ISceneViewProps, ref) {
         onBadgeGroupHover,
         showMeshesOnHover,
         objectColor,
-        objectColorOptions,
         zoomToMeshIds,
         unzoomedMeshOpacity,
         onSceneLoaded,
