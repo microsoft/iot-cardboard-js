@@ -608,6 +608,10 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                 JSON.stringify(oatEditorData)
             );
         }
+        dispatch({
+            type: SET_OAT_ELEMENTS,
+            payload: { digitalTwinsModels: translatedOutput }
+        });
     }, [translatedOutput]);
 
     const onElementClick = (evt, node) => {
