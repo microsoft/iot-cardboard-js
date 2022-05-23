@@ -133,6 +133,46 @@ const ScenePageErrorHandlingWrapper: React.FC<ScenePageErrorHandlingWrapperProps
                     />
                 );
                 break;
+            case ComponentErrorType.NoContainerUrl:
+                content = (
+                    <IllustrationMessage
+                        headerText={'Container not set'}
+                        descriptionText={
+                            'Your container url is not set. Click below to set it.'
+                        }
+                        type={'error'}
+                        width={'wide'}
+                        imageProps={{
+                            src: BlobErrorImg,
+                            height: 200
+                        }}
+                        buttonProps={{
+                            onClick: primaryClickAction.onClick,
+                            text: primaryClickAction.buttonText
+                        }}
+                    />
+                );
+                break;
+            case ComponentErrorType.NoADTInstanceUrl:
+                content = (
+                    <IllustrationMessage
+                        headerText={'ADT instance not set'}
+                        descriptionText={
+                            'Your ADT instance url is not set. Click below to set it.'
+                        }
+                        type={'error'}
+                        width={'wide'}
+                        imageProps={{
+                            src: BlobErrorImg,
+                            height: 200
+                        }}
+                        buttonProps={{
+                            onClick: primaryClickAction.onClick,
+                            text: primaryClickAction.buttonText
+                        }}
+                    />
+                );
+                break;
             default:
                 content = (
                     <IllustrationMessage

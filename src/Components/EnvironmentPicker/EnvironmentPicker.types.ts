@@ -24,6 +24,7 @@ type StorageContainer = {
 
 export type EnvironmentPickerProps = BaseComponentProps & {
     adapter: ADT3DSceneAdapter | MockAdapter;
+    isDialogHidden?: boolean;
     shouldPullFromSubscription?: boolean; // to have this worked with the set value 'true' make sure you pass tenantId and uniqueObjectId to your adapter
     environmentUrl?: string;
     onEnvironmentUrlChange?: (

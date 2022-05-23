@@ -16,7 +16,7 @@ import {
     Spinner,
     SpinnerSize
 } from '@fluentui/react';
-import { useBoolean } from '@fluentui/react-hooks';
+import { useBoolean, usePrevious } from '@fluentui/react-hooks';
 import React, {
     memo,
     useCallback,
@@ -60,7 +60,9 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
         string | IADTInstance
     >('');
     const [containerUrlToEdit, setContainerUrlToEdit] = useState('');
-    const [isDialogHidden, { toggle: toggleIsDialogHidden }] = useBoolean(true);
+    const [isDialogHidden, { toggle: toggleIsDialogHidden }] = useBoolean(
+        Boolean(props.isDialogHidden)
+    );
     const dialogResettingValuesTimeoutRef = useRef(null);
     const hasPulledEnvironmentsFromSubscription = useRef(false);
 
@@ -105,6 +107,30 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
         refetchDependencies: [],
         isAdapterCalledOnMount: false
     });
+
+    const previousIsDialogHidden = usePrevious(props.isDialogHidden);
+    // Figure out if dialog needs to be open from props
+    useEffect(() => {
+        // Have undefined checked onMount to avoid an extra render
+        if (
+            previousIsDialogHidden !== undefined &&
+            previousIsDialogHidden !== props.isDialogHidden
+        ) {
+            toggleIsDialogHidden();
+        }
+    }, [props.isDialogHidden]);
+
+    // Load data for Dialog on first open only
+    useEffect(() => {
+        if (
+            props.shouldPullFromSubscription &&
+            !hasPulledEnvironmentsFromSubscription.current &&
+            !environmentsState.isLoading &&
+            !isDialogHidden
+        ) {
+            environmentsState.callAdapter();
+        }
+    }, [environmentsState, props.shouldPullFromSubscription, isDialogHidden]);
 
     // set initial values based on props and local storage
     useEffect(() => {
@@ -358,19 +384,8 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
     };
 
     const handleOnEditClick = useCallback(() => {
-        if (
-            props.shouldPullFromSubscription &&
-            !hasPulledEnvironmentsFromSubscription.current &&
-            !environmentsState.isLoading
-        ) {
-            environmentsState.callAdapter();
-        }
         toggleIsDialogHidden();
-    }, [
-        environmentsState,
-        props.shouldPullFromSubscription,
-        toggleIsDialogHidden
-    ]);
+    }, []);
 
     const handleOnEnvironmentUrlChange = useCallback(
         (option, value) => {
