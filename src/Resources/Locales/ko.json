@@ -835,5 +835,10 @@
     "multiLanguage": "다국어",
     "region": "부위",
     "singleLanguage": "단일 언어"
+  },
+  "ErrorHandlingWrapper": {
+    "errorMessage": "오류 메시지",
+    "errorTitle": "오류 제목",
+    "ok": "그래"
   }
 }

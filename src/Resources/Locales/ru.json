@@ -835,5 +835,10 @@
     "multiLanguage": "многоязычность",
     "region": "Область",
     "singleLanguage": "Один язык"
+  },
+  "ErrorHandlingWrapper": {
+    "errorMessage": "Сообщение об ошибке",
+    "errorTitle": "Заголовок ошибки",
+    "ok": "Хорошо"
   }
 }

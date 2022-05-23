@@ -835,5 +835,10 @@
     "multiLanguage": "vícejazyčné",
     "region": "Oblast",
     "singleLanguage": "Jeden jazyk"
+  },
+  "ErrorHandlingWrapper": {
+    "errorMessage": "Zpráva o chybě",
+    "errorTitle": "Název chyby",
+    "ok": "Ok"
   }
 }

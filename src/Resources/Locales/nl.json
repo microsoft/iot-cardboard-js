@@ -835,5 +835,10 @@
     "multiLanguage": "meertalig",
     "region": "Regio",
     "singleLanguage": "Eén taal"
+  },
+  "ErrorHandlingWrapper": {
+    "errorMessage": "Foutmelding",
+    "errorTitle": "Titel van de fout",
+    "ok": "OK"
   }
 }

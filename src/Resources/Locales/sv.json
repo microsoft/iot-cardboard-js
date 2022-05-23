@@ -835,5 +835,10 @@
     "multiLanguage": "flera språk",
     "region": "Region",
     "singleLanguage": "Ett enda språk"
+  },
+  "ErrorHandlingWrapper": {
+    "errorMessage": "Felmeddelande",
+    "errorTitle": "Fel titel",
+    "ok": "Okej"
   }
 }
