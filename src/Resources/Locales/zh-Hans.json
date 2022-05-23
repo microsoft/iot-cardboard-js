@@ -435,8 +435,8 @@
       "notificationLabel": "场景描述",
       "notificationLabelTooltip": "此文本将在此锁屏提醒处于活动状态时提供使用者上下文。",
       "notificationLabelDescriptionPart1": "孪生属性需要用模板字符串语法括起来。",
-      "notificationLabelDescriptionPart2": "例如，$PrimaryTwin.DisplayName} 需要维护",
-      "notificationPlaceholder": "输入说明"
+      "notificationPlaceholder": "输入说明",
+      "notificationLabelDescriptionPart2dddd": "例如，${PrimaryTwin.DisplayName} 需要维护"
     },
     "behaviorStatusForm": {
       "tabDescription": "选择一个属性，然后设置将颜色应用于特定条件的范围，例如，红色表示高温，绿色表示最佳速度。",

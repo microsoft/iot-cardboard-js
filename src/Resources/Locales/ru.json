@@ -435,8 +435,8 @@
       "notificationLabel": "Описание сценария",
       "notificationLabelTooltip": "Этот текст дает потребительский контекст, когда этот индикатор событий активен.",
       "notificationLabelDescriptionPart1": "Двойные свойства должны быть окружены синтаксисом строки шаблона.",
-      "notificationLabelDescriptionPart2": "Например, $PrimaryTwin.DisplayName} требует обслуживания",
-      "notificationPlaceholder": "Введите описание"
+      "notificationPlaceholder": "Введите описание",
+      "notificationLabelDescriptionPart2dddd": "Например, ${PrimaryTwin.DisplayName} требует обслуживания"
     },
     "behaviorStatusForm": {
       "tabDescription": "Выберите свойство, затем задайте диапазоны для применения цвета к определенным условиям, например, красный для обозначения высоких температур или зеленый для оптимальной скорости.",

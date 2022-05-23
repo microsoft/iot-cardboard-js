@@ -435,8 +435,8 @@
       "notificationLabel": "Descrizione dello scenario",
       "notificationLabelTooltip": "Questo testo fornirà un contesto di consumo quando questo badge è attivo.",
       "notificationLabelDescriptionPart1": "Le proprietà gemelle devono essere circondate dalla sintassi della stringa del modello.",
-      "notificationLabelDescriptionPart2": "Ad esempio, $PrimaryTwin.DisplayName} richiede manutenzione",
-      "notificationPlaceholder": "Inserisci una descrizione"
+      "notificationPlaceholder": "Inserisci una descrizione",
+      "notificationLabelDescriptionPart2dddd": "Ad esempio, ${PrimaryTwin.DisplayName} richiede manutenzione"
     },
     "behaviorStatusForm": {
       "tabDescription": "Seleziona una proprietà, quindi imposta gli intervalli per l'applicazione del colore a determinate condizioni, ad esempio il rosso per indicare le alte temperature o il verde per la velocità ottimale.",

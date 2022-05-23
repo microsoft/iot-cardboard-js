@@ -435,8 +435,8 @@
       "notificationLabel": "Descripción del escenario",
       "notificationLabelTooltip": "Este texto proporcionará un contexto de consumidor cuando esta insignia esté activa.",
       "notificationLabelDescriptionPart1": "Las propiedades gemelas deben estar rodeadas de sintaxis de cadena de plantilla.",
-      "notificationLabelDescriptionPart2": "Por ejemplo, $PrimaryTwin.DisplayName} requiere mantenimiento",
-      "notificationPlaceholder": "Introduzca una descripción"
+      "notificationPlaceholder": "Introduzca una descripción",
+      "notificationLabelDescriptionPart2dddd": "Por ejemplo, ${PrimaryTwin.DisplayName} requiere mantenimiento"
     },
     "behaviorStatusForm": {
       "tabDescription": "Seleccione una propiedad y, a continuación, establezca rangos para aplicar color a ciertas condiciones, por ejemplo, rojo para indicar altas temperaturas o verde para una velocidad óptima.",

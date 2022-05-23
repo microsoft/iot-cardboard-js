@@ -435,8 +435,8 @@
       "notificationLabel": "シナリオの説明",
       "notificationLabelTooltip": "このテキストは、このバッジがアクティブなときにコンシューマーのコンテキストを提供します。",
       "notificationLabelDescriptionPart1": "ツインプロパティは、テンプレート文字列構文で囲む必要があります。",
-      "notificationLabelDescriptionPart2": "たとえば、$PrimaryTwin.DisplayName} にはメンテナンスが必要です",
-      "notificationPlaceholder": "説明を入力する"
+      "notificationPlaceholder": "説明を入力する",
+      "notificationLabelDescriptionPart2dddd": "たとえば、${PrimaryTwin.DisplayName} にはメンテナンスが必要です。"
     },
     "behaviorStatusForm": {
       "tabDescription": "プロパティを選択し、特定の条件に色を適用する範囲を設定します。たとえば、高温を示す赤、最適な速度を示す緑などです。",

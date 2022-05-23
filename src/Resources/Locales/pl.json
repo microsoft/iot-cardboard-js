@@ -435,8 +435,8 @@
       "notificationLabel": "Opis scenariusza",
       "notificationLabelTooltip": "Ten tekst poda kontekst konsumenta, gdy ta plakietka jest aktywna.",
       "notificationLabelDescriptionPart1": "Właściwości bliźniacze muszą być otoczone składnią ciągu szablonu.",
-      "notificationLabelDescriptionPart2": "Np. $PrimaryTwin.DisplayName} wymaga konserwacji",
-      "notificationPlaceholder": "Wprowadź opis"
+      "notificationPlaceholder": "Wprowadź opis",
+      "notificationLabelDescriptionPart2dddd": "Np. ${PrimaryTwin.DisplayName} wymaga konserwacji"
     },
     "behaviorStatusForm": {
       "tabDescription": "Wybierz właściwość, a następnie ustaw zakresy stosowania koloru do określonych warunków — na przykład czerwony, aby wskazać wysokie temperatury, lub zielony, aby uzyskać optymalną prędkość.",

@@ -435,8 +435,8 @@
       "notificationLabel": "Description du scénario",
       "notificationLabelTooltip": "Ce texte donnera un contexte au consommateur lorsque ce badge est actif.",
       "notificationLabelDescriptionPart1": "Les propriétés jumelles doivent être entourées d’une syntaxe de chaîne de modèle.",
-      "notificationLabelDescriptionPart2": "Par exemple, $PrimaryTwin.DisplayName} nécessite une maintenance",
-      "notificationPlaceholder": "Entrez une description"
+      "notificationPlaceholder": "Entrez une description",
+      "notificationLabelDescriptionPart2dddd": "Par exemple, ${PrimaryTwin.DisplayName} nécessite une maintenance"
     },
     "behaviorStatusForm": {
       "tabDescription": "Sélectionnez une propriété, puis définissez des plages pour appliquer la couleur à certaines conditions, par exemple, rouge pour indiquer des températures élevées ou vert pour une vitesse optimale.",
