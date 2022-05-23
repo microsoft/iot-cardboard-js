@@ -337,11 +337,11 @@
   },
   "layersDropdown": {
     "placeholder": "선택한 레이어가 없습니다.",
-    "unlayeredBehaviors": "계층화되지 않은 동작",
-    "unlayered": "계층화되지 않은",
     "title": "레이어 선택",
     "selectAll": "모두 선택",
-    "selectNone": "모두 선택 취소"
+    "selectNone": "모두 선택 취소",
+    "unlayeredItemListItemDisplayName": "기본 레이어",
+    "unlayeredItemCollapsedDisplayName": "기본값"
   },
   "sceneLayers": {
     "noBehaviors": "동작 없음",
@@ -361,7 +361,7 @@
     "noBehaviorsOnLayer": "이 계층에는 동작이 없습니다.",
     "deleteConfirmationTitle": "이 레이어를 삭제하시겠습니까?",
     "deleteConfirmationMessage": "이렇게 하면 모든 Digital Twins 환경에서 레이어 및 관련 동작이 영구적으로 제거됩니다.",
-    "infoCalloutContent": "계층은 소비자가 동작을 필터링할 수 있도록 하는 작업 기반 그룹입니다. 레이어는 장면 전체에 걸쳐 존재합니다."
+    "infoCalloutContent": "계층은 소비자가 동작을 필터링할 수 있도록 하는 작업 기반 그룹화입니다. 레이어는 장면 전체에 걸쳐 존재합니다."
   },
   "3dSceneBuilder": {
     "elements": "요소",
@@ -435,8 +435,8 @@
       "notificationLabel": "시나리오 설명",
       "notificationLabelTooltip": "이 텍스트는 이 배지가 활성 상태일 때 소비자 컨텍스트를 제공합니다.",
       "notificationLabelDescriptionPart1": "트윈 속성은 템플릿 문자열 구문으로 둘러싸여야합니다.",
-      "notificationLabelDescriptionPart2": "예 : $PrimaryTwin.DisplayName}은 유지 보수가 필요합니다.",
-      "notificationPlaceholder": "설명 입력"
+      "notificationPlaceholder": "설명 입력",
+      "notificationLabelDescriptionPart2": "예를 들어 ${PrimaryTwin.DisplayName}에는 유지 관리가 필요합니다."
     },
     "behaviorStatusForm": {
       "tabDescription": "속성을 선택한 다음 특정 조건에 색상을 적용하기 위한 범위(예: 고온을 나타내려면 빨간색, 최적의 속도를 위해 녹색)를 설정합니다.",

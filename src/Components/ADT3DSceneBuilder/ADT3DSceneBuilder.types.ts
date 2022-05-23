@@ -230,7 +230,7 @@ export type OnBehaviorSave = (
     selectedLayerIds?: string[],
     selectedElements?: Array<ITwinToObjectMapping>,
     removedElements?: Array<ITwinToObjectMapping>
-) => void;
+) => Promise<void>;
 
 export interface IADT3DSceneBuilderBehaviorFormProps {
     builderMode: ADT3DSceneBuilderMode;

@@ -337,11 +337,11 @@
   },
   "layersDropdown": {
     "placeholder": "Sem camadas selecionadas",
-    "unlayeredBehaviors": "Comportamentos semcamadas",
-    "unlayered": "Semcamadas",
     "title": "Selecione camadas",
     "selectAll": "Selecione todos",
-    "selectNone": "Desmarque todos"
+    "selectNone": "Desmarque todos",
+    "unlayeredItemListItemDisplayName": "Camada padrão",
+    "unlayeredItemCollapsedDisplayName": "Inadimplência"
   },
   "sceneLayers": {
     "noBehaviors": "Sem comportamentos",
@@ -435,8 +435,8 @@
       "notificationLabel": "Descrição do cenário",
       "notificationLabelTooltip": "Este texto dará um contexto ao consumidor quando esse crachá estiver ativo.",
       "notificationLabelDescriptionPart1": "As propriedades gêmeas precisam ser cercadas com sintaxe de string de modelo.",
-      "notificationLabelDescriptionPart2": "Por exemplo, $PrimaryTwin.DisplayName} requer manutenção",
-      "notificationPlaceholder": "Digite uma descrição"
+      "notificationPlaceholder": "Digite uma descrição",
+      "notificationLabelDescriptionPart2": "Por exemplo, ${PrimaryTwin.DisplayName} requer manutenção"
     },
     "behaviorStatusForm": {
       "tabDescription": "Selecione uma propriedade e, em seguida, defina faixas para aplicar cores a determinadas condições — por exemplo, vermelho para indicar altas temperaturas ou verde para uma velocidade ideal.",

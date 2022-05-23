@@ -337,11 +337,11 @@
   },
   "layersDropdown": {
     "placeholder": "Слои не выделены",
-    "unlayeredBehaviors": "Бесслойное поведение",
-    "unlayered": "Бесслойный",
     "title": "Выделение слоев",
     "selectAll": "Выбрать все",
-    "selectNone": "Отмена выбора всех"
+    "selectNone": "Отмена выбора всех",
+    "unlayeredItemListItemDisplayName": "Слой по умолчанию",
+    "unlayeredItemCollapsedDisplayName": "По умолчанию"
   },
   "sceneLayers": {
     "noBehaviors": "Нет поведения",
@@ -361,7 +361,7 @@
     "noBehaviorsOnLayer": "На этом уровне нет вариантов поведения",
     "deleteConfirmationTitle": "Удалить этот слой?",
     "deleteConfirmationMessage": "Это навсегда удаляет слой и любое связанное с ним поведение из всех сред Digital Twins.",
-    "infoCalloutContent": "Слои — это группы на основе задач, которые позволяют потребителям фильтровать поведение по. Слои существуют в разных сценах."
+    "infoCalloutContent": "Слои — это группировки на основе задач, которые позволяют потребителям фильтровать поведение. Слои существуют в разных сценах."
   },
   "3dSceneBuilder": {
     "elements": "Азы",
@@ -435,8 +435,8 @@
       "notificationLabel": "Описание сценария",
       "notificationLabelTooltip": "Этот текст дает потребительский контекст, когда этот индикатор событий активен.",
       "notificationLabelDescriptionPart1": "Двойные свойства должны быть окружены синтаксисом строки шаблона.",
-      "notificationLabelDescriptionPart2": "Например, $PrimaryTwin.DisplayName} требует обслуживания",
-      "notificationPlaceholder": "Введите описание"
+      "notificationPlaceholder": "Введите описание",
+      "notificationLabelDescriptionPart2": "Например, ${PrimaryTwin.DisplayName} требует обслуживания"
     },
     "behaviorStatusForm": {
       "tabDescription": "Выберите свойство, затем задайте диапазоны для применения цвета к определенным условиям, например, красный для обозначения высоких температур или зеленый для оптимальной скорости.",

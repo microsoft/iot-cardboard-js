@@ -337,11 +337,11 @@
   },
   "layersDropdown": {
     "placeholder": "Nejsou vybrány žádné vrstvy",
-    "unlayeredBehaviors": "Chování bez vrstev",
-    "unlayered": "Bez vrstev",
     "title": "Výběr vrstev",
     "selectAll": "Vybrat vše",
-    "selectNone": "Zrušit výběr všech"
+    "selectNone": "Zrušit výběr všech",
+    "unlayeredItemListItemDisplayName": "Výchozí vrstva",
+    "unlayeredItemCollapsedDisplayName": "Výchozí"
   },
   "sceneLayers": {
     "noBehaviors": "Žádné chování",
@@ -361,7 +361,7 @@
     "noBehaviorsOnLayer": "V této vrstvě nejsou žádná chování",
     "deleteConfirmationTitle": "Odstranit tuto vrstvu?",
     "deleteConfirmationMessage": "Tím se trvale odstraní vrstva a všechna související chování ze všech prostředí digitálních dvojčat.",
-    "infoCalloutContent": "Vrstvy jsou seskupení založená na úlohách, která umožňují uživatelům filtrovat chování podle. Vrstvy existují napříč scénami."
+    "infoCalloutContent": "Vrstvy jsou seskupení založená na úlohách, která umožňují uživatelům filtrovat chování. Vrstvy existují napříč scénami."
   },
   "3dSceneBuilder": {
     "elements": "Elementy",
@@ -435,8 +435,8 @@
       "notificationLabel": "Popis scénáře",
       "notificationLabelTooltip": "Tento text poskytne spotřebiteli kontext, když je tento odznak aktivní.",
       "notificationLabelDescriptionPart1": "Vlastnosti dvojčat musí být obklopeny syntaxí řetězce šablony.",
-      "notificationLabelDescriptionPart2": "Např. $PrimaryTwin.DisplayName} vyžaduje údržbu",
-      "notificationPlaceholder": "Zadejte popis"
+      "notificationPlaceholder": "Zadejte popis",
+      "notificationLabelDescriptionPart2": "Např. ${PrimaryTwin.DisplayName} vyžaduje údržbu"
     },
     "behaviorStatusForm": {
       "tabDescription": "Vyberte vlastnost a pak nastavte rozsahy pro použití barvy na určité podmínky – například červená pro označení vysokých teplot nebo zelená pro optimální rychlost.",

@@ -389,6 +389,21 @@ export function addHttpsPrefix(url: string) {
     }
 }
 
+/**
+ * Sort function to order items alphabetically. Case insensitive sort
+ * NOTE: only works when property is one layer down
+ * @param propertyName name of the property to sort on
+ * @example listItems.sort(sortAlphabetically('textPrimary'))
+ * @returns Sort function to pass to `.sort()`
+ */
+export function sortAlphabetically<T>(propertyName: keyof T) {
+    return (a: T, b: T) => {
+        const aVal = (a[propertyName] as unknown) as string;
+        const bVal = (b[propertyName] as unknown) as string;
+        return aVal?.toLowerCase() > bVal?.toLowerCase() ? 1 : -1;
+    };
+}
+
 export function getDebugLogger(context: string, enabled: boolean) {
     if (!enabled) return () => undefined;
     return (
