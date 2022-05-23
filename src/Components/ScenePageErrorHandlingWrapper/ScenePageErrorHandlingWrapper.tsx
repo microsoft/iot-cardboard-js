@@ -136,8 +136,12 @@ const ScenePageErrorHandlingWrapper: React.FC<ScenePageErrorHandlingWrapperProps
             case ComponentErrorType.NoContainerUrl:
                 content = (
                     <IllustrationMessage
-                        headerText={t('noContainerUrlErrorTitle')}
-                        descriptionText={t('noContainerUrlErrorMessage')}
+                        headerText={t(
+                            'scenePageErrorHandling.noContainerUrlErrorTitle'
+                        )}
+                        descriptionText={t(
+                            'scenePageErrorHandling.noContainerUrlErrorMessage'
+                        )}
                         type={'error'}
                         width={'wide'}
                         imageProps={{
@@ -154,8 +158,12 @@ const ScenePageErrorHandlingWrapper: React.FC<ScenePageErrorHandlingWrapperProps
             case ComponentErrorType.NoADTInstanceUrl:
                 content = (
                     <IllustrationMessage
-                        headerText={t('noADTInstanceUrlTitle')}
-                        descriptionText={t('noADTInstanceUrlMessage')}
+                        headerText={t(
+                            'scenePageErrorHandling.noADTInstanceUrlTitle'
+                        )}
+                        descriptionText={t(
+                            'scenePageErrorHandling.noADTInstanceUrlMessage'
+                        )}
                         type={'error'}
                         width={'wide'}
                         imageProps={{
