@@ -361,7 +361,7 @@
     "noBehaviorsOnLayer": "此图层上没有行为",
     "deleteConfirmationTitle": "删除此图层？",
     "deleteConfirmationMessage": "这将从所有数字孪生环境中永久删除该层和任何关联的行为。",
-    "infoCalloutContent111": "图层是基于任务的分组，允许使用者过滤行为。图层存在于场景中。"
+    "infoCalloutContent": "图层是基于任务的分组，允许使用者过滤行为。图层存在于场景中。"
   },
   "3dSceneBuilder": {
     "elements": "元素",
