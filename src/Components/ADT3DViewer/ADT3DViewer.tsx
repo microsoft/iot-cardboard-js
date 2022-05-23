@@ -106,6 +106,14 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
     const isDeeplinkContextLoaded = useRef(false);
     const prevLayerCount = useRef<number>(-1); // track the count of layers so we know to refresh the selections if the count changes
     const hasUserChangedLayers = useRef<boolean>(false); // need to know once a user makes a selection so we stop auto selecting items
+    const prevSceneId = useRef<string>(sceneId); // need to know if user swaps scenes (using scene dropdown) since we won't get remounted
+
+    // reset the refs when the scene changes
+    if (prevSceneId.current !== sceneId) {
+        hasUserChangedLayers.current = false;
+        prevLayerCount.current = -1;
+        prevSceneId.current = sceneId;
+    }
 
     // styles
     const fluentTheme = useTheme();
@@ -255,9 +263,9 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
         } else {
             logDebugConsole(
                 'debug',
-                'Not auto selecting layers. (didLayerCountChange, noUserUpdateYet, noSelectedLayers)',
-                layerCountChanged,
+                'Not auto selecting layers. (noUserUpdateYet, didLayerCountChange, noSelectedLayers)',
                 noUserUpdate,
+                layerCountChanged,
                 noSelectedLayers
             );
         }
