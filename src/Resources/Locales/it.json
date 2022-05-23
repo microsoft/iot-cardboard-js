@@ -541,7 +541,8 @@
         "alphanumericOnly": "L'alias gemello deve contenere solo caratteri alfanumerici",
         "noNumberPrefix": "L'alias gemello non deve iniziare con un numero"
       }
-    }
+    },
+    "actions": "Azioni"
   },
   "widgets": {
     "trend": {
@@ -907,5 +908,31 @@
       "title": "Che cos'è un livello di scena?",
       "mainContent": "È possibile creare livelli nella scena per organizzare i comportamenti. I livelli agiscono come tag sui comportamenti, consentendo di definire quali comportamenti devono essere visti insieme, creando così viste personalizzate della scena per ruoli o attività diversi.\n\nSe non ci sono livelli in una scena, tutti i comportamenti verranno visualizzati nel visualizzatore della scena. Tutti i comportamenti non contrassegnati con un livello verranno visualizzati nel livello predefinito finché non vengono contrassegnati con un livello.\n\nUn modo per creare livelli consiste nell'utilizzare il pulsante Livelli scena nella vista Crea per una scena. In alternativa, potete creare livelli durante la creazione o la modifica di un comportamento."
     }
+  },
+  "diagnose": "Diagnosticare",
+  "resolve": "Risolvere",
+  "verify": "Verificare",
+  "success": "Successo!",
+  "scenePageErrorHandling": {
+    "resetConfigFile": "Ripristina file di configurazione",
+    "unauthorizedAccessErrorTitle": "Accesso limitato",
+    "unauthorizedAccessErrorMessage": "Non si ha accesso a questo contenitore di archiviazione. Diagnosticare l'accesso o provare un contenitore diverso.",
+    "blobNotFoundErrorTitle": "BLOB non trovato",
+    "blobNotFoundErrorMessage": "BLOB non esiste.",
+    "unknownErrorTitle": "Errore sconosciuto",
+    "corsErrorTitle": "Errore CORS",
+    "corsErrorMessage": "Il servizio BLOB dell'account di archiviazione deve disporre di alcune proprietà specifiche per consentire a CORS di utilizzare le risorse 3D nelle scene.",
+    "internalServerErrorMessage": "Errore interno del server, controllare i registri del server.",
+    "diagnoseAccessPermissions": "Diagnosticare le autorizzazioni di accesso",
+    "checkingPermissions": "Controllo delle autorizzazioni...",
+    "resolveIssues": "Risolvere i problemi",
+    "resolvingIssues": "Risoluzione dei problemi...",
+    "missingPermissionsMessage": "Mancano le autorizzazioni. Sarà necessario accedere come lettore e proprietario dei dati BLOB di archiviazione o collaboratore dei dati BLOB di archiviazione.",
+    "noMissingRoleDesc": "Nessuna autorizzazione mancante rilevata, stiamo tentando di verificare se le autorizzazioni assegnate sono in vigore.",
+    "finishedWithFailureDesc": "Tentativo non riuscito, contattare il proprietario della risorsa.",
+    "verifyingPermissionsMessage": "Verifica delle autorizzazioni...\nQuesta operazione potrebbe richiedere alcuni minuti.",
+    "assignRoleSuccessDesc": "Sono state assegnate autorizzazioni mancanti. Attendi mentre stiamo tentando di verificare se le modifiche sono in vigore.",
+    "refreshPage": "Aggiorna pagina",
+    "refreshing": "Rinfrescante"
   }
 }

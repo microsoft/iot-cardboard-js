@@ -541,7 +541,8 @@
         "alphanumericOnly": "Bliźniaczy alias może zawierać tylko znaki alfanumeryczne",
         "noNumberPrefix": "Podwójny alias nie może zaczynać się od cyfry"
       }
-    }
+    },
+    "actions": "Akcje"
   },
   "widgets": {
     "trend": {
@@ -907,5 +908,31 @@
       "title": "Co to jest warstwa sceny?",
       "mainContent": "Możesz tworzyć warstwy w scenie, aby pomóc w organizowaniu zachowań. Warstwy działają jak znaczniki zachowań, umożliwiając zdefiniowanie, które zachowania muszą być widoczne razem, tworząc w ten sposób niestandardowe widoki sceny dla różnych ról lub zadań.\n\nJeśli w scenie nie ma warstw, wszystkie zachowania będą widoczne w przeglądarce scen. Wszelkie zachowania, które nie zostały oznaczone warstwą, będą wyświetlane na warstwie domyślnej, dopóki nie zostaną oznaczone warstwą.\n\nJednym ze sposobów tworzenia warstw jest użycie przycisku Warstwy sceny w widoku Buduj dla sceny. Alternatywnie można tworzyć warstwy podczas tworzenia lub modyfikowania zachowania."
     }
+  },
+  "diagnose": "Diagnozować",
+  "resolve": "Rozwiązać",
+  "verify": "Zweryfikować",
+  "success": "Sukces!",
+  "scenePageErrorHandling": {
+    "resetConfigFile": "Resetowanie pliku konfiguracyjnego",
+    "unauthorizedAccessErrorTitle": "Dostęp ograniczony",
+    "unauthorizedAccessErrorMessage": "Nie masz dostępu do tego kontenera magazynu. Zdiagnozuj dostęp lub wypróbuj inny kontener.",
+    "blobNotFoundErrorTitle": "Nie znaleziono obiektu blob",
+    "blobNotFoundErrorMessage": "Obiekt blob nie istnieje.",
+    "unknownErrorTitle": "Nieznany błąd",
+    "corsErrorTitle": "Błąd CORS",
+    "corsErrorMessage": "Usługa obiektów blob konta magazynu powinna mieć pewne właściwości umożliwiające CORS używanie zasobów 3D w scenach.",
+    "internalServerErrorMessage": "Wewnętrzny błąd serwera, sprawdź logi serwera.",
+    "diagnoseAccessPermissions": "Diagnozowanie uprawnień dostępu",
+    "checkingPermissions": "Sprawdzanie uprawnień...",
+    "resolveIssues": "Rozwiązywanie problemów",
+    "resolvingIssues": "Rozwiązywanie problemów...",
+    "missingPermissionsMessage": "Brakuje Ci uprawnień. Będziesz potrzebować dostępu jako czytelnik i właściciel danych obiektów blob magazynu lub współtwórca danych obiektów blob magazynu.",
+    "noMissingRoleDesc": "Nie wykryto brakujących uprawnień, próbujemy sprawdzić, czy przypisane uprawnienia obowiązują.",
+    "finishedWithFailureDesc": "Próba nie powiodła się, skontaktuj się z właścicielem zasobu.",
+    "verifyingPermissionsMessage": "Weryfikowanie uprawnień...\nMoże to potrwać kilka minut.",
+    "assignRoleSuccessDesc": "Brakujące uprawnienia zostały przypisane. Poczekaj, aż spróbujemy sprawdzić, czy zmiany obowiązują.",
+    "refreshPage": "Odśwież stronę",
+    "refreshing": "Orzeźwiające"
   }
 }

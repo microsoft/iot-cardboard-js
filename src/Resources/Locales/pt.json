@@ -541,7 +541,8 @@
         "alphanumericOnly": "O pseudônimo gêmeo só deve conter caracteres alfanuméricos",
         "noNumberPrefix": "O pseudônimo de gêmeos não deve começar com um número"
       }
-    }
+    },
+    "actions": "Ações"
   },
   "widgets": {
     "trend": {
@@ -907,5 +908,31 @@
       "title": "O que é uma camada de cena?",
       "mainContent": "Você pode criar camadas em sua cena para ajudar a organizar seus comportamentos. As camadas agem como tags nos comportamentos, permitindo que você defina quais comportamentos precisam ser vistos juntos, criando assim visões personalizadas de sua cena para diferentes funções ou tarefas.\n\nSe não houver camadas em uma cena, todos os comportamentos aparecerão no espectador da cena. Quaisquer comportamentos não marcados com uma camada aparecerão na camada Padrão até que sejam marcados com uma camada.\n\nUma maneira de criar camadas é usar o botão Camadas de cena na exibição 'Compilar', para uma cena. Alternativamente, você pode criar camadas ao criar ou modificar um comportamento."
     }
+  },
+  "diagnose": "Diagnosticar",
+  "resolve": "Resolver",
+  "verify": "Verificar",
+  "success": "Êxito!",
+  "scenePageErrorHandling": {
+    "resetConfigFile": "Arquivo de configuração de redefinição",
+    "unauthorizedAccessErrorTitle": "Acesso restrito",
+    "unauthorizedAccessErrorMessage": "Você não tem acesso a este contêiner de armazenamento. Diagnostice seu acesso ou tente um recipiente diferente.",
+    "blobNotFoundErrorTitle": "Blob não encontrado",
+    "blobNotFoundErrorMessage": "Blob não existe.",
+    "unknownErrorTitle": "Erro desconhecido",
+    "corsErrorTitle": "Erro cors",
+    "corsErrorMessage": "O serviço de bolhas da sua conta de armazenamento deve ter algumas propriedades certas para permitir que o CORS possa usar ativos 3D em suas cenas.",
+    "internalServerErrorMessage": "Erro interno do servidor, verifique os registros do servidor.",
+    "diagnoseAccessPermissions": "Diagnosticar permissões de acesso",
+    "checkingPermissions": "Verificando permissões...",
+    "resolveIssues": "Resolver problemas",
+    "resolvingIssues": "Resolvendo problemas...",
+    "missingPermissionsMessage": "Você tem permissões perdidas. Você precisará de acesso como leitor e proprietário de dados do Storage Blob ou colaborador de dados do Blob de armazenamento.",
+    "noMissingRoleDesc": "Sem permissões perdidas detectadas, estamos tentando verificar se as permissões atribuídas estão em vigor.",
+    "finishedWithFailureDesc": "Tentativa falhada, entre em contato com o proprietário do recurso.",
+    "verifyingPermissionsMessage": "Verificando permissões...\nIsso pode levar vários minutos.",
+    "assignRoleSuccessDesc": "Permissões perdidas foram atribuídas. Por favor, aguarde enquanto tentamos verificar se as alterações estão em vigor.",
+    "refreshPage": "Página de atualização",
+    "refreshing": "Refrescante"
   }
 }

@@ -541,7 +541,8 @@
         "alphanumericOnly": "Alias dvojčete musí obsahovat pouze alfanumerické znaky",
         "noNumberPrefix": "Alias dvojčete nesmí začínat číslem"
       }
-    }
+    },
+    "actions": "Akce"
   },
   "widgets": {
     "trend": {
@@ -907,5 +908,31 @@
       "title": "Co je vrstva scény?",
       "mainContent": "Ve scéně můžete vytvořit vrstvy, které vám pomohou uspořádat chování. Vrstvy se chovají jako tagy chování, což vám umožňuje definovat, která chování je třeba vidět společně, a tím vytvářet vlastní zobrazení scény pro různé role nebo úkoly.\n\nPokud ve scéně nejsou žádné vrstvy, všechna chování se zobrazí v prohlížeči scény. Všechna chování, která nejsou tagována vrstvou, se budou zobrazovat ve výchozí vrstvě, dokud nebudou tagována vrstvou.\n\nJedním ze způsobů, jak vytvořit vrstvy, je použít tlačítko Vrstvy scény v zobrazení Vytvořit. Alternativně můžete vytvářet vrstvy při vytváření nebo úpravě chování."
     }
+  },
+  "diagnose": "Diagnostikovat",
+  "resolve": "Vyřešit",
+  "verify": "Ověřit",
+  "success": "Úspěch!",
+  "scenePageErrorHandling": {
+    "resetConfigFile": "Obnovit konfigurační soubor",
+    "unauthorizedAccessErrorTitle": "Přístup omezen",
+    "unauthorizedAccessErrorMessage": "K tomuto kontejneru úložiště nemáte přístup. Diagnostikujte přístup nebo vyzkoušejte jiný kontejner.",
+    "blobNotFoundErrorTitle": "Objekt blob nebyl nalezen",
+    "blobNotFoundErrorMessage": "Objekt blob neexistuje.",
+    "unknownErrorTitle": "Neznámá chyba",
+    "corsErrorTitle": "Chyba CORS",
+    "corsErrorMessage": "Služba blob vašeho účtu úložiště by měla mít některé určité vlastnosti, aby CORS mohl ve vašich scénách používat 3D prostředky.",
+    "internalServerErrorMessage": "Vnitřní chyba serveru, zkontrolujte protokoly serveru.",
+    "diagnoseAccessPermissions": "Diagnostika přístupových oprávnění",
+    "checkingPermissions": "Kontrola oprávnění...",
+    "resolveIssues": "Řešení problémů",
+    "resolvingIssues": "Řešení problémů...",
+    "missingPermissionsMessage": "Chybí vám oprávnění. Budete potřebovat přístup jako čtenář a buď vlastník dat objektů BLOB úložiště, nebo přispěvatel dat objektů BLOB úložiště.",
+    "noMissingRoleDesc": "Nebyla zjištěna žádná chybějící oprávnění, pokoušíme se ověřit, zda jsou přiřazená oprávnění v platnosti.",
+    "finishedWithFailureDesc": "Pokus se nezdařil, obraťte se na vlastníka prostředku.",
+    "verifyingPermissionsMessage": "Ověření oprávnění...\nTo může trvat několik minut.",
+    "assignRoleSuccessDesc": "Byla přiřazena chybějící oprávnění. Počkejte prosím, než se budeme pokoušet ověřit, zda se změny projeví.",
+    "refreshPage": "Aktualizovat stránku",
+    "refreshing": "Osvěžující"
   }
 }
