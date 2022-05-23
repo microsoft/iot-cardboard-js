@@ -230,6 +230,10 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
         [deeplinkDispatch, environmentPickerOptions?.environment]
     );
 
+    const onDismissDialog = useCallback(() => {
+        setIsDialogHidden(true);
+    }, []);
+
     // update the adapter if the ADT instance changes
     useEffect(() => {
         adapter.setAdtHostUrl(deeplinkState.adtUrl);
@@ -521,6 +525,7 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
                                             })
                                         }}
                                         isDialogHidden={isDialogHidden}
+                                        onDismiss={onDismissDialog}
                                     />
                                 </div>
                                 <Stack horizontal tokens={{ childrenGap: 8 }}>

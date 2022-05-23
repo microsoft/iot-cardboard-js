@@ -112,8 +112,10 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
     // Figure out if dialog needs to be open from props
     useEffect(() => {
         // Have undefined checked onMount to avoid an extra render
+        // Have is previous check from true to false, to just change dialogHidden on open
         if (
             previousIsDialogHidden !== undefined &&
+            previousIsDialogHidden === true &&
             previousIsDialogHidden !== props.isDialogHidden
         ) {
             toggleIsDialogHidden();
@@ -507,6 +509,9 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
     ]);
 
     const handleOnDismiss = useCallback(() => {
+        if (props.onDismiss) {
+            props.onDismiss();
+        }
         toggleIsDialogHidden();
         dialogResettingValuesTimeoutRef.current = setTimeout(() => {
             // wait for dialog dismiss fade-out animation to reset the values
