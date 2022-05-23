@@ -115,9 +115,9 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
         prevSceneId.current = sceneId;
     }
 
-    const behaviorIds = useMemo(
+    const behaviorIdsInScene = useMemo(
         () => ViewerConfigUtility.getBehaviorIdsInScene(scenesConfig, sceneId),
-        []
+        [scenesConfig, sceneId]
     );
 
     // styles
@@ -241,7 +241,11 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
 
     // initialize the layers list
     useEffect(() => {
-        if (behaviorIds.length === 0) return;
+        prevLayerCount.current = layersInScene.length;
+        if (behaviorIdsInScene.length === 0) {
+            logDebugConsole('debug', 'No behaviors, not setting layers');
+            return;
+        }
 
         // if we don't have any layer id from the context, set initial values
         // we have to refresh the list if the adapter call finishes and updates the number of layers
@@ -251,7 +255,6 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
         const noUserUpdate = !hasUserChangedLayers.current;
         const noSelectedLayers = !deeplinkState?.selectedLayerIds?.length;
         if (noUserUpdate && (noSelectedLayers || layerCountChanged)) {
-            prevLayerCount.current = layersInScene.length;
             // Add unlayered behavior option if unlayered behaviors present
             const layers = [
                 ...(unlayeredBehaviorsPresent ? [DEFAULT_LAYER_ID] : []),
@@ -270,10 +273,12 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
                 'Not auto selecting layers. (noUserUpdateYet, didLayerCountChange, noSelectedLayers)',
                 noUserUpdate,
                 layerCountChanged,
-                noSelectedLayers
+                noSelectedLayers,
+                behaviorIdsInScene
             );
         }
     }, [
+        behaviorIdsInScene,
         deeplinkState?.selectedLayerIds,
         deeplinkState?.selectedLayerIds?.length,
         layersInScene,
