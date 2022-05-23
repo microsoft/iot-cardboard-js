@@ -241,7 +241,6 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
 
     // initialize the layers list
     useEffect(() => {
-        prevLayerCount.current = layersInScene.length;
         if (behaviorIdsInScene.length === 0) {
             logDebugConsole('debug', 'No behaviors, not setting layers');
             return;
@@ -254,6 +253,7 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
             prevLayerCount.current !== layersInScene.length;
         const noUserUpdate = !hasUserChangedLayers.current;
         const noSelectedLayers = !deeplinkState?.selectedLayerIds?.length;
+        prevLayerCount.current = layersInScene.length;
         if (noUserUpdate && (noSelectedLayers || layerCountChanged)) {
             // Add unlayered behavior option if unlayered behaviors present
             const layers = [
