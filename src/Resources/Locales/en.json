@@ -436,7 +436,7 @@
             "notificationLabel": "Scenario description",
             "notificationLabelTooltip": "This text will give a consumer context when this badge is active.",
             "notificationLabelDescriptionPart1": "Twin properties need to be surrounded with template string syntax.",
-            "notificationLabelDescriptionPart2": "E.g. ${PrimaryTwin.DisplayName} requires maintenance",
+            "notificationLabelDescriptionPart2dddd": "E.g. ${PrimaryTwin.DisplayName} requires maintenance",
             "notificationPlaceholder": "Enter a description"
         },
         "behaviorStatusForm": {
