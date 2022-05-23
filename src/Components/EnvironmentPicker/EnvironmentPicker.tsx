@@ -16,10 +16,10 @@ import {
     Spinner,
     SpinnerSize
 } from '@fluentui/react';
+import { useBoolean } from '@fluentui/react-hooks';
 import React, {
     memo,
     useCallback,
-    useContext,
     useEffect,
     useMemo,
     useRef,
@@ -45,7 +45,6 @@ import {
 } from '../../Models/Constants/Constants';
 import { IADTInstance } from '../../Models/Constants/Interfaces';
 import { addHttpsPrefix } from '../../Models/Services/Utils';
-import { ADT3DScenePageContext } from '../../Pages/ADT3DScenePage/ADT3DScenePage';
 
 const EnvironmentPicker = (props: EnvironmentPickerProps) => {
     const { t } = useTranslation();
@@ -61,11 +60,9 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
         string | IADTInstance
     >('');
     const [containerUrlToEdit, setContainerUrlToEdit] = useState('');
+    const [isDialogHidden, { toggle: toggleIsDialogHidden }] = useBoolean(true);
     const dialogResettingValuesTimeoutRef = useRef(null);
     const hasPulledEnvironmentsFromSubscription = useRef(false);
-    const { state, setEnvironmentDialogHidden } = useContext(
-        ADT3DScenePageContext
-    );
 
     const dialogContentProps: IDialogContentProps = {
         type: DialogType.normal,
@@ -108,23 +105,6 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
         refetchDependencies: [],
         isAdapterCalledOnMount: false
     });
-
-    // If Dialog gets opened check if it need to fetch environment data
-    useEffect(() => {
-        if (
-            !state.isDialogHidden &&
-            props.shouldPullFromSubscription &&
-            !hasPulledEnvironmentsFromSubscription.current &&
-            !environmentsState.isLoading
-        ) {
-            environmentsState.callAdapter();
-        }
-    }, [
-        state.isDialogHidden,
-        environmentsState,
-        props.shouldPullFromSubscription,
-        state.isDialogHidden
-    ]);
 
     // set initial values based on props and local storage
     useEffect(() => {
@@ -377,9 +357,20 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
         );
     };
 
-    const handleOpenDialog = useCallback(() => {
-        setEnvironmentDialogHidden(false);
-    }, []);
+    const handleOnEditClick = useCallback(() => {
+        if (
+            props.shouldPullFromSubscription &&
+            !hasPulledEnvironmentsFromSubscription.current &&
+            !environmentsState.isLoading
+        ) {
+            environmentsState.callAdapter();
+        }
+        toggleIsDialogHidden();
+    }, [
+        environmentsState,
+        props.shouldPullFromSubscription,
+        toggleIsDialogHidden
+    ]);
 
     const handleOnEnvironmentUrlChange = useCallback(
         (option, value) => {
@@ -490,17 +481,18 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                 containerUrlToEdit
             );
         }
-        setEnvironmentDialogHidden(true);
+        toggleIsDialogHidden();
     }, [
         environmentToEdit,
         containerUrlToEdit,
         props,
+        toggleIsDialogHidden,
         environments,
         containers
     ]);
 
     const handleOnDismiss = useCallback(() => {
-        setEnvironmentDialogHidden(true);
+        toggleIsDialogHidden();
         dialogResettingValuesTimeoutRef.current = setTimeout(() => {
             // wait for dialog dismiss fade-out animation to reset the values
             if (selectedEnvironment) {
@@ -522,7 +514,13 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
             }
             setContainerUrlToEdit(selectedContainerUrl);
         }, 500);
-    }, [environments, selectedEnvironment, selectedContainerUrl, containers]);
+    }, [
+        toggleIsDialogHidden,
+        environments,
+        selectedEnvironment,
+        selectedContainerUrl,
+        containers
+    ]);
 
     const displayNameForEnvironment = useCallback(
         (env: string | IADTInstance) => {
@@ -564,7 +562,7 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                     iconProps={{ iconName: 'Edit' }}
                     title={t('edit')}
                     ariaLabel={t('edit')}
-                    onClick={handleOpenDialog}
+                    onClick={handleOnEditClick}
                     className={'cb-environment-picker-edit-button'}
                 />
             </div>
@@ -578,7 +576,7 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
             )}
 
             <Dialog
-                hidden={state.isDialogHidden}
+                hidden={isDialogHidden}
                 onDismiss={handleOnDismiss}
                 dialogContentProps={dialogContentProps}
                 modalProps={modalProps}
