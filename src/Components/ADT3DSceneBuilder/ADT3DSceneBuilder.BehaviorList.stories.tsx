@@ -228,7 +228,7 @@ MoreMenuShow.play = async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     // type in the search box
     const moreMenu = await canvas.findByTestId(
-        'context-menu-behaviors-in-scene-0-moreMenu'
+        'context-menu-behaviors-in-scene-1-moreMenu'
     );
     await userEvent.click(moreMenu);
     await sleep(1);
