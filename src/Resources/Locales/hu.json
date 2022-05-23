@@ -541,7 +541,8 @@
         "alphanumericOnly": "Az iker alias csak alfanumerikus karaktereket tartalmazhat",
         "noNumberPrefix": "Az iker alias nem kezdődhet számmal"
       }
-    }
+    },
+    "actions": "Műveletek"
   },
   "widgets": {
     "trend": {

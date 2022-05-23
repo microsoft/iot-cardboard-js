@@ -541,7 +541,8 @@
         "alphanumericOnly": "L'alias gemello deve contenere solo caratteri alfanumerici",
         "noNumberPrefix": "L'alias gemello non deve iniziare con un numero"
       }
-    }
+    },
+    "actions": "Azioni"
   },
   "widgets": {
     "trend": {

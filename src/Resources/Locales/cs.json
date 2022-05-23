@@ -541,7 +541,8 @@
         "alphanumericOnly": "Alias dvojčete musí obsahovat pouze alfanumerické znaky",
         "noNumberPrefix": "Alias dvojčete nesmí začínat číslem"
       }
-    }
+    },
+    "actions": "Akce"
   },
   "widgets": {
     "trend": {

@@ -541,7 +541,8 @@
         "alphanumericOnly": "Zwillingsalias darf nur alphanumerische Zeichen enthalten",
         "noNumberPrefix": "Twin Alias darf nicht mit einer Zahl beginnen"
       }
-    }
+    },
+    "actions": "Aktionen"
   },
   "widgets": {
     "trend": {

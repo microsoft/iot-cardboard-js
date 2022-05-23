@@ -541,7 +541,8 @@
         "alphanumericOnly": "ツイン エイリアスには英数字のみを含める必要があります。",
         "noNumberPrefix": "ツイン エイリアスは数字で始まってはなりません。"
       }
-    }
+    },
+    "actions": "アクション"
   },
   "widgets": {
     "trend": {

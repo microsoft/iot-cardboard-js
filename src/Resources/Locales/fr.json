@@ -541,7 +541,8 @@
         "alphanumericOnly": "L’alias jumeau ne doit contenir que des caractères alphanumériques",
         "noNumberPrefix": "L’alias jumeau ne doit pas commencer par un nombre"
       }
-    }
+    },
+    "actions": "Actions"
   },
   "widgets": {
     "trend": {

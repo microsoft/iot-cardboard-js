@@ -541,7 +541,8 @@
         "alphanumericOnly": "İkiz diğer ad yalnızca alfasayısal karakterler içermelidir",
         "noNumberPrefix": "İkiz takma ad bir sayı ile başlamamalıdır"
       }
-    }
+    },
+    "actions": "Eylemler"
   },
   "widgets": {
     "trend": {

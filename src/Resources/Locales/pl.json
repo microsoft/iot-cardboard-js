@@ -541,7 +541,8 @@
         "alphanumericOnly": "Bliźniaczy alias może zawierać tylko znaki alfanumeryczne",
         "noNumberPrefix": "Podwójny alias nie może zaczynać się od cyfry"
       }
-    }
+    },
+    "actions": "Akcje"
   },
   "widgets": {
     "trend": {
