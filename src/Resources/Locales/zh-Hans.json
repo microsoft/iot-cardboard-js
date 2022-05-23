@@ -1,4 +1,6 @@
 {
+  "languageName": "Chinese Simplified",
+  "languageCode": "zh-Hans",
   "preview": "预览",
   "loading": "装载。。。",
   "label": "标签",
@@ -759,7 +761,10 @@
     "type": "类型",
     "emptyGraph": "沒有可用的型號",
     "project": "项目",
-    "description": "描述"
+    "description": "描述",
+    "relationships": "关系",
+    "inheritances": "遗产",
+    "components": "组件"
   },
   "OATPropertyEditor": {
     "displayName": "显示名称",
@@ -824,6 +829,11 @@
     "collapse": "崩溃",
     "info": "信息",
     "more": "更多",
-    "copy": "复制"
+    "copy": "复制",
+    "cancel": "取消",
+    "delete": "删除",
+    "multiLanguage": "多国语言",
+    "region": "地区",
+    "singleLanguage": "单一语言"
   }
 }

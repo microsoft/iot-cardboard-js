@@ -16,6 +16,8 @@ import {
     OATUntargetedRelationshipName
 } from '../../../Models/Constants/Constants';
 import { SET_OAT_PROPERTY_EDITOR_MODEL } from '../../../Models/Constants/ActionTypes';
+import { DTDLModel } from '../../../Models/Classes/DTDL';
+import { getPropertyDisplayName } from '../../OATPropertyEditor/Utils';
 
 const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
     data,
@@ -23,7 +25,9 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
 }) => {
     const { t } = useTranslation();
     const [nameEditor, setNameEditor] = useState(false);
-    const [nameText, setNameText] = useState(data.name);
+    const [nameText, setNameText] = useState(
+        data.name === 'string' ? data.name : Object.values(data.name)[0]
+    );
     const [idEditor, setIdEditor] = useState(false);
     const [idText, setIdText] = useState(data.id);
     const { elements, setElements, setCurrentNode, dispatch } = useContext(
@@ -38,29 +42,54 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
     };
 
     const onNameClick = () => {
-        setNameText(data.name);
+        setNameText(getPropertyDisplayName(data));
         setNameEditor(true);
     };
 
     const onNameBlur = () => {
         setNameEditor(false);
-        if (data.name !== nameText) {
+        if (typeof data.name === 'string' && data.name !== nameText) {
             elements.find(
                 (element) => element.id === data.id
             ).data.name = nameText;
             setElements([...elements]);
-            const modelUpdated = {
-                '@id': data.id,
-                '@type': data.type,
-                '@context': data.context,
-                displayName: nameText,
-                contents: data.content
-            };
+            const updatedModel = new DTDLModel(
+                data.id,
+                nameText,
+                data.description,
+                data.comment,
+                data.content,
+                data.relationships,
+                data.components
+            );
             dispatch({
                 type: SET_OAT_PROPERTY_EDITOR_MODEL,
-                payload: modelUpdated
+                payload: updatedModel
             });
+            return;
         }
+        elements.find((element) => element.id === data.id).data.name[
+            Object.keys(data.name)[0]
+        ] = nameText;
+        const displayName = {
+            ...data.name,
+            [Object.keys(data.name)[0]]: Object.values(data.name)[0]
+        };
+        setElements([...elements]);
+        const updatedModel = new DTDLModel(
+            data.id,
+            displayName,
+            data.description,
+            data.comment,
+            data.content,
+            data.relationships,
+            data.components
+        );
+
+        dispatch({
+            type: SET_OAT_PROPERTY_EDITOR_MODEL,
+            payload: updatedModel
+        });
     };
 
     const onIdChange = (evt) => {
@@ -84,13 +113,15 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
             elements.find((element) => element.id === prevId).data.id = idText;
             elements.find((element) => element.id === prevId).id = idText;
             setElements([...elements]);
-            const updatedModel = {
-                '@id': idText,
-                '@type': data.type,
-                '@context': data.context,
-                displayName: data.name,
-                contents: data.content
-            };
+            const updatedModel = new DTDLModel(
+                data.id,
+                data.name,
+                data.description,
+                data.comment,
+                data.content,
+                data.relationships,
+                data.components
+            );
             setCurrentNode(idText);
             dispatch({
                 type: SET_OAT_PROPERTY_EDITOR_MODEL,
@@ -126,7 +157,9 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
                         <div className={graphViewerStyles.nodeContainer}>
                             <label>{t('OATGraphViewer.name')}:</label>
                             {!nameEditor && (
-                                <Label onClick={onNameClick}>{data.name}</Label>
+                                <Label onClick={onNameClick}>
+                                    {getPropertyDisplayName(data)}
+                                </Label>
                             )}
                             {nameEditor && (
                                 <TextField

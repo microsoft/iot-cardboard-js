@@ -11,6 +11,7 @@ import { SET_OAT_PROPERTY_EDITOR_MODEL } from '../../Models/Constants/ActionType
 import { IAction } from '../../Models/Constants/Interfaces';
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 import { deepCopy } from '../../Models/Services/Utils';
+import { getModelPropertyCollectionName } from './Utils';
 
 type IEnumItem = {
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
@@ -32,9 +33,13 @@ export const PropertyListMapItemNested = ({
     const textStyles = getListMapItemTextStyles();
     const { model } = state;
 
+    const propertiesKeyName = getModelPropertyCollectionName(
+        model ? model['@type'] : null
+    );
+
     const updateMapKeyName = (value) => {
         const modelCopy = deepCopy(model);
-        modelCopy.contents[index].schema.mapKey.name = value;
+        modelCopy[propertiesKeyName][index].schema.mapKey.name = value;
         dispatch({
             type: SET_OAT_PROPERTY_EDITOR_MODEL,
             payload: modelCopy
@@ -43,7 +48,7 @@ export const PropertyListMapItemNested = ({
 
     const updateMapValueName = (value) => {
         const modelCopy = deepCopy(model);
-        modelCopy.contents[index].schema.mapValue.name = value;
+        modelCopy[propertiesKeyName][index].schema.mapValue.name = value;
         dispatch({
             type: SET_OAT_PROPERTY_EDITOR_MODEL,
             payload: modelCopy

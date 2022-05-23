@@ -798,6 +798,8 @@ export interface IOATElementsChangeEventArgs {
 }
 
 export interface IOATTwinModelNodes {
+    description?: string;
+    comment?: string;
     '@id': string;
     '@type': string;
     displayName: string;

@@ -16,8 +16,13 @@ import {
     OATExtendHandleName
 } from '../../../Models/Constants/Constants';
 import { SET_OAT_PROPERTY_EDITOR_MODEL } from '../../../Models/Constants/ActionTypes';
+import { ModelTypes } from '../../../Models/Constants/Enums';
+import { DTDLRelationship } from '../../../Models/Classes/DTDL';
+import { getPropertyDisplayName } from '../../OATPropertyEditor/Utils';
 
 const foreignObjectSize = 180;
+const offsetSmall = 5;
+const offsetMedium = 10;
 
 const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
     id,
@@ -32,10 +37,16 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
     markerEnd
 }) => {
     const [nameEditor, setNameEditor] = useState(false);
-    const [nameText, setNameText] = useState(data.name);
-    const { elements, setElements, dispatch, setCurrentNode } = useContext(
-        ElementsContext
-    );
+    const [nameText, setNameText] = useState(getPropertyDisplayName(data));
+    const {
+        elements,
+        setElements,
+        dispatch,
+        setCurrentNode,
+        showRelationships,
+        showInheritances,
+        showComponents
+    } = useContext(ElementsContext);
     const graphViewerStyles = getGraphViewerStyles();
     const theme = useTheme();
 
@@ -72,28 +83,78 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
 
     const onNameChange = (evt) => {
         setNameText(evt.target.value);
+
+        const displayName =
+            typeof element.data.name === 'string'
+                ? evt.target.value
+                : {
+                      ...element.data.name,
+                      [Object.keys(data.name)[0]]: evt.target.value
+                  };
+
+        const relationship = new DTDLRelationship(
+            element.data.id,
+            element.data.name,
+            displayName,
+            element.data.description,
+            element.data.comment,
+            element.data.writable,
+            element.data.content ? element.data.content : [],
+            element.data.target,
+            element.data.maxMultiplicity
+        );
+
+        dispatch({
+            type: SET_OAT_PROPERTY_EDITOR_MODEL,
+            payload: relationship
+        });
     };
 
     const onNameClick = () => {
         setNameEditor(true);
-        const clickedRelationship = {
-            '@id': element.data.id,
-            id,
-            '@type': element.data.type,
-            '@context': element.data.context,
-            displayName: element.data.name,
-            contents: element.data.content ? element.data.content : []
-        };
+        if (
+            element.data.type !== ModelTypes.relationship &&
+            element.data.type !== ModelTypes.untargeted
+        ) {
+            setCurrentNode(null);
+            dispatch({
+                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                payload: null
+            });
+            return;
+        }
+
+        const displayName =
+            typeof element.data.name === 'string'
+                ? element.data.name
+                : {
+                      ...element.data.name,
+                      [Object.keys(element.data.name)[0]]: Object.values(
+                          element.data.name
+                      )[0]
+                  };
+        const relationship = new DTDLRelationship(
+            element.data.id,
+            element.data.name,
+            displayName,
+            element.data.description,
+            element.data.comment,
+            element.data.writable,
+            element.data.content ? element.data.content : [],
+            element.data.target,
+            element.data.maxMultiplicity
+        );
+
         setCurrentNode(element.id);
         dispatch({
             type: SET_OAT_PROPERTY_EDITOR_MODEL,
-            payload: clickedRelationship
+            payload: relationship
         });
     };
 
     const onNameBlur = () => {
         setNameEditor(false);
-        if (data.name !== nameText) {
+        if (typeof data.name === 'string' && data.name !== nameText) {
             elements.find(
                 (element) => element.data.id === data.id
             ).data.name = nameText;
@@ -136,7 +197,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
             }
         ];
         setElements((els) => removeElements(elementsToRemove, els));
-        setModel(null);
+        dispatch({ type: SET_OAT_PROPERTY_EDITOR_MODEL, payload: null });
     };
 
     return (
@@ -147,7 +208,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                 d={edgePath}
                 onClick={onNameClick}
             />
-            {data.type === OATExtendHandleName && (
+            {data.type === OATExtendHandleName && showInheritances && (
                 <path
                     id={id}
                     className={graphViewerStyles.inheritancePath}
@@ -157,16 +218,17 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                 />
             )}
             {(data.type === OATRelationshipHandleName ||
-                data.type === OATUntargetedRelationshipName) && (
-                <path
-                    id={id}
-                    className={graphViewerStyles.edgePath}
-                    d={edgePath}
-                    onClick={onNameClick}
-                    markerEnd={markerEnd}
-                />
-            )}
-            {data.type === OATComponentHandleName && (
+                data.type === OATUntargetedRelationshipName) &&
+                showRelationships && (
+                    <path
+                        id={id}
+                        className={graphViewerStyles.edgePath}
+                        d={edgePath}
+                        onClick={onNameClick}
+                        markerEnd={markerEnd}
+                    />
+                )}
+            {data.type === OATComponentHandleName && showComponents && (
                 <path
                     id={id}
                     className={graphViewerStyles.componentPath}
@@ -189,6 +251,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                             name="text"
                             className={graphViewerStyles.textEdit}
                             onChange={onNameChange}
+                            onClick={onNameClick}
                             value={nameText}
                             onKeyDown={onKeyDown}
                             autoFocus
@@ -228,23 +291,30 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                     </body>
                 </foreignObject>
             )}
-            {!nameEditor && (
-                <text>
-                    <textPath
-                        href={`#${id}`}
-                        className={graphViewerStyles.textPath}
-                        startOffset="50%"
-                        textAnchor="middle"
-                        onClick={onNameClick}
-                    >
-                        {data.name}
-                    </textPath>
-                </text>
-            )}
-            {data.type === OATExtendHandleName && (
+            {!nameEditor &&
+                ((data.type === OATExtendHandleName && showInheritances) ||
+                    (data.type === OATComponentHandleName && showComponents) ||
+                    ((data.type === OATRelationshipHandleName ||
+                        data.type === OATUntargetedRelationshipName) &&
+                        showRelationships)) && (
+                    <text>
+                        <textPath
+                            href={`#${id}`}
+                            className={graphViewerStyles.textPath}
+                            startOffset="50%"
+                            textAnchor="middle"
+                            onClick={onNameClick}
+                        >
+                            {getPropertyDisplayName(data)}
+                        </textPath>
+                    </text>
+                )}
+            {data.type === OATExtendHandleName && showInheritances && (
                 <polygon
-                    points={`${targetX - 5},${targetY - 10} ${targetX + 5},${
-                        targetY - 10
+                    points={`${targetX - offsetSmall},${
+                        targetY - offsetSmall
+                    } ${targetX + offsetSmall},${
+                        targetY - offsetMedium
                     } ${targetX},${targetY}`}
                     cx={targetX}
                     cy={targetY}
@@ -254,25 +324,28 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                 />
             )}
             {(data.type === OATRelationshipHandleName ||
-                data.type === OATUntargetedRelationshipName) && (
+                data.type === OATUntargetedRelationshipName) &&
+                showRelationships && (
+                    <polygon
+                        points={`${targetX - offsetSmall},${
+                            targetY - offsetSmall
+                        } ${targetX},${targetY} ${targetX + offsetSmall},${
+                            targetY - offsetSmall
+                        } ${targetX},${targetY}`}
+                        cx={targetX}
+                        cy={targetY}
+                        r={3}
+                        strokeWidth={1.5}
+                        className={graphViewerStyles.edgePath}
+                    />
+                )}
+            {data.type === OATComponentHandleName && showComponents && (
                 <polygon
-                    points={`${targetX - 5},${
-                        targetY - 5
-                    } ${targetX},${targetY} ${targetX + 5},${
-                        targetY - 5
-                    } ${targetX},${targetY}`}
-                    cx={targetX}
-                    cy={targetY}
-                    r={3}
-                    strokeWidth={1.5}
-                    className={graphViewerStyles.edgePath}
-                />
-            )}
-            {data.type === OATComponentHandleName && (
-                <polygon
-                    points={`${sourceX + 5},${sourceY + 5} ${sourceX},${
-                        sourceY + 10
-                    } ${sourceX - 5},${sourceY + 5} ${sourceX},${sourceY}`}
+                    points={`${sourceX + offsetSmall},${
+                        sourceY + offsetSmall
+                    } ${sourceX},${sourceY + offsetMedium} ${
+                        sourceX - offsetSmall
+                    },${sourceY + offsetSmall} ${sourceX},${sourceY}`}
                     cx={sourceX}
                     cy={sourceY}
                     r={3}

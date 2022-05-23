@@ -108,7 +108,11 @@ const OATModelList = ({ elements, dispatch }: OATModelListProps) => {
                     <div onClick={() => onNameClick(item['displayName'])}>
                         {(!nameEditor ||
                             currentNodeId.current !== item['@id']) && (
-                            <strong>{item['displayName']}</strong>
+                            <strong>
+                                {typeof item['displayName'] === 'string'
+                                    ? item['displayName']
+                                    : Object.values(item['displayName'])[0]}
+                            </strong>
                         )}
                         {nameEditor &&
                             currentNodeId.current === item['@id'] && (

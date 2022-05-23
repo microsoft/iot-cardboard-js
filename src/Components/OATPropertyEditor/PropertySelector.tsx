@@ -34,13 +34,15 @@ import {
 import { deepCopy } from '../../Models/Services/Utils';
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 
+import { getModelPropertyCollectionName } from './Utils';
+
 const ASCII_VALUE_BEFORE_LOWERCASE_ALPHABET = 96;
 const versionClassBase = '1';
 interface IPropertySelectorProps {
+    onTagClickCallback?: () => void;
     className?: string;
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
     lastPropertyFocused?: IOATLastPropertyFocused;
-    targetId?: string;
     setPropertySelectorVisible: React.Dispatch<React.SetStateAction<boolean>>;
     state?: IOATEditorState;
 }
@@ -50,12 +52,18 @@ const PropertySelector = ({
     setPropertySelectorVisible,
     lastPropertyFocused,
     dispatch,
+    onTagClickCallback,
     state
 }: IPropertySelectorProps) => {
     const { t } = useTranslation();
     const propertyInspectorStyles = getPropertyInspectorStyles();
     const propertySelectorSeparatorStyles = getPropertySelectorSeparatorStyles();
     const { model } = state;
+
+    const propertiesKeyName = getModelPropertyCollectionName(
+        model ? model['@type'] : null
+    );
+
     const data = {
         propertyTags: {
             sectionFirst: [
@@ -177,7 +185,9 @@ const PropertySelector = ({
             schema: tag
         });
 
-        modelCopy.contents[lastPropertyFocused.index].schema = schemaCopy;
+        modelCopy[propertiesKeyName][
+            lastPropertyFocused.index
+        ].schema = schemaCopy;
         dispatch({
             type: SET_OAT_PROPERTY_EDITOR_MODEL,
             payload: modelCopy
@@ -186,6 +196,10 @@ const PropertySelector = ({
     };
 
     const handleTagClick = (tag) => {
+        if (onTagClickCallback) {
+            onTagClickCallback();
+        }
+
         if (
             lastPropertyFocused &&
             typeof lastPropertyFocused.item.schema === 'object'
@@ -195,15 +209,15 @@ const PropertySelector = ({
         }
 
         const modelCopy = deepCopy(model);
-        modelCopy.contents = [
-            ...modelCopy.contents,
+        modelCopy[propertiesKeyName] = [
+            ...modelCopy[propertiesKeyName],
             ...[
                 {
                     '@id': `dtmi:com:adt:model1:New_Property_${
-                        model.contents.length + 1
+                        model[propertiesKeyName].length + 1
                     };${versionClassBase}`,
-                    '@type': ['Property'],
-                    name: `New_Property_${model.contents.length + 1}`,
+                    '@type': ['property'],
+                    name: `New_Property_${model[propertiesKeyName].length + 1}`,
                     schema: getSchema(tag)
                 }
             ]

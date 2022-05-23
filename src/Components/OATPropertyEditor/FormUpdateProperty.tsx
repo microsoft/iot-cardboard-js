@@ -1,22 +1,39 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     TextField,
     Text,
     Toggle,
     ActionButton,
     FontIcon,
-    Label
+    Label,
+    ChoiceGroup,
+    IconButton,
+    Dropdown,
+    IChoiceGroupOption
 } from '@fluentui/react';
 import { PrimaryButton } from '@fluentui/react/lib/Button';
 import { useTranslation } from 'react-i18next';
 import {
     getPropertyInspectorStyles,
-    getModalLabelStyles
+    getModalLabelStyles,
+    getRadioGroupRowStyles
 } from './OATPropertyEditor.styles';
 import { SET_OAT_PROPERTY_EDITOR_MODEL } from '../../Models/Constants/ActionTypes';
 import { IAction } from '../../Models/Constants/Interfaces';
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 import { deepCopy } from '../../Models/Services/Utils';
+import { MultiLanguageSelectionType } from '../../Models/Constants/Enums';
+import {
+    getModelPropertyCollectionName,
+    handleMultiLanguageSelectionRemoval,
+    handleMultiLanguageSelectionsDescriptionKeyChange,
+    handleMultiLanguageSelectionsDescriptionValueChange,
+    handleMultiLanguageSelectionsDisplayNameKeyChange,
+    handleMultiLanguageSelectionsDisplayNameValueChange
+} from './Utils';
+
+const multiLanguageOptionValue = 'multiLanguage';
+const singleLanguageOptionValue = 'singleLanguage';
 
 interface IModal {
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
@@ -28,6 +45,7 @@ interface IModal {
     setModalBody?: React.Dispatch<React.SetStateAction<string>>;
     setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
     state?: IOATEditorState;
+    languages: IChoiceGroupOption[];
 }
 
 export const FormUpdateProperty = ({
@@ -37,10 +55,12 @@ export const FormUpdateProperty = ({
     currentNestedPropertyIndex,
     setCurrentNestedPropertyIndex,
     setModalBody,
-    state
+    state,
+    languages
 }: IModal) => {
     const { t } = useTranslation();
     const propertyInspectorStyles = getPropertyInspectorStyles();
+    const radioGroupRowStyle = getRadioGroupRowStyles();
     const columnLeftTextStyles = getModalLabelStyles();
     const [comment, setComment] = useState(null);
     const [description, setDescription] = useState(null);
@@ -50,20 +70,78 @@ export const FormUpdateProperty = ({
     const [unit, setUnit] = useState(null);
     const [id, setId] = useState(null);
     const [error, setError] = useState(null);
+    const [languageSelection, setLanguageSelection] = useState(
+        singleLanguageOptionValue
+    );
+    const [
+        multiLanguageSelectionsDisplayName,
+        setMultiLanguageSelectionsDisplayName
+    ] = useState({});
+    const [
+        multiLanguageSelectionsDisplayNames,
+        setMultiLanguageSelectionsDisplayNames
+    ] = useState([]);
+    const [
+        isAMultiLanguageDisplayNameEmpty,
+        setIsAMultiLanguageDisplayNameEmpty
+    ] = useState(true);
+    const [
+        multiLanguageSelectionsDescription,
+        setMultiLanguageSelectionsDescription
+    ] = useState({});
+    const [
+        multiLanguageSelectionsDescriptions,
+        setMultiLanguageSelectionsDescriptions
+    ] = useState([]);
+    const [
+        isAMultiLanguageDescriptionEmpty,
+        setIsAMultiLanguageDescriptionEmpty
+    ] = useState(true);
     const { model } = state;
+
+    const propertiesKeyName = getModelPropertyCollectionName(
+        model ? model['@type'] : null
+    );
+
+    const options: IChoiceGroupOption[] = [
+        {
+            key: singleLanguageOptionValue,
+            text: t('OATPropertyEditor.singleLanguage'),
+            disabled: multiLanguageSelectionsDisplayNames.length > 0
+        },
+        {
+            key: multiLanguageOptionValue,
+            text: t('OATPropertyEditor.multiLanguage')
+        }
+    ];
+
+    const onLanguageSelect = (
+        ev: React.FormEvent<HTMLInputElement>,
+        option: IChoiceGroupOption
+    ): void => {
+        setLanguageSelection(option.key);
+    };
 
     const handleUpdatedNestedProperty = () => {
         const activeNestedProperty =
-            model.contents[currentPropertyIndex].schema.fields[
+            model[propertiesKeyName][currentPropertyIndex].schema.fields[
                 currentNestedPropertyIndex
             ];
 
         const prop = {
             comment: comment ? comment : activeNestedProperty.comment,
-            description: description
-                ? description
-                : activeNestedProperty.description,
-            name: displayName ? displayName : activeNestedProperty.name,
+            description:
+                languageSelection === singleLanguageOptionValue
+                    ? description
+                        ? description
+                        : activeNestedProperty.description
+                    : multiLanguageSelectionsDescription,
+            name:
+                languageSelection === singleLanguageOptionValue
+                    ? displayName
+                        ? displayName
+                        : activeNestedProperty.name
+                    : multiLanguageSelectionsDisplayName,
             writable,
             unit: unit ? unit : activeNestedProperty.unit,
             '@id': id ? id : activeNestedProperty['@id'],
@@ -71,7 +149,7 @@ export const FormUpdateProperty = ({
         };
 
         const modelCopy = deepCopy(model);
-        modelCopy.contents[currentPropertyIndex].schema.fields[
+        modelCopy[propertiesKeyName][currentPropertyIndex].schema.fields[
             currentNestedPropertyIndex
         ] = prop;
 
@@ -89,11 +167,21 @@ export const FormUpdateProperty = ({
             handleUpdatedNestedProperty();
             return;
         }
-        const activeProperty = model.contents[currentPropertyIndex];
+        const activeProperty = model[propertiesKeyName][currentPropertyIndex];
         const prop = {
             comment: comment ? comment : activeProperty.comment,
-            description: description ? description : activeProperty.description,
-            name: displayName ? displayName : activeProperty.name,
+            description:
+                languageSelection === singleLanguageOptionValue
+                    ? description
+                        ? description
+                        : activeProperty.description
+                    : multiLanguageSelectionsDescription,
+            name:
+                languageSelection === singleLanguageOptionValue
+                    ? displayName
+                        ? displayName
+                        : activeProperty.name
+                    : multiLanguageSelectionsDisplayName,
             writable,
             '@type': semanticType
                 ? [...activeProperty['@type'], ...[semanticType]]
@@ -104,7 +192,7 @@ export const FormUpdateProperty = ({
         };
 
         const modelCopy = deepCopy(model);
-        modelCopy.contents[currentPropertyIndex] = prop;
+        modelCopy[propertiesKeyName][currentPropertyIndex] = prop;
         dispatch({
             type: SET_OAT_PROPERTY_EDITOR_MODEL,
             payload: modelCopy
@@ -114,7 +202,9 @@ export const FormUpdateProperty = ({
     };
 
     const getErrorMessage = (value) => {
-        const find = model.contents.find((item) => item.name === value);
+        const find = model[propertiesKeyName].find(
+            (item) => item.name === value
+        );
 
         if (!find && value !== '') {
             setDisplayName(value);
@@ -127,12 +217,61 @@ export const FormUpdateProperty = ({
             : '';
     };
 
+    useEffect(() => {
+        // Create an array of the keys and values
+        const newMultiLanguageSelectionsDisplayNames = Object.keys(
+            multiLanguageSelectionsDisplayName
+        ).map((key) => {
+            return {
+                key,
+                value: multiLanguageSelectionsDisplayName[key]
+            };
+        });
+
+        setMultiLanguageSelectionsDisplayNames(
+            newMultiLanguageSelectionsDisplayNames
+        );
+
+        // Check if array of object includes empty values
+        const hasEmptyValues = newMultiLanguageSelectionsDisplayNames.some(
+            (item) => item.value === ''
+        );
+        setIsAMultiLanguageDisplayNameEmpty(hasEmptyValues);
+    }, [multiLanguageSelectionsDisplayName]);
+
+    // Update multiLanguageSelectionsDescriptions on every new language change
+    useEffect(() => {
+        // Create an array of the keys and values
+        const newMultiLanguageSelectionsDescriptions = Object.keys(
+            multiLanguageSelectionsDescription
+        ).map((key) => {
+            return {
+                key,
+                value: multiLanguageSelectionsDescription[key]
+            };
+        });
+
+        setMultiLanguageSelectionsDescriptions(
+            newMultiLanguageSelectionsDescriptions
+        );
+
+        // Check if array of object includes empty values
+        const hasEmptyValues = newMultiLanguageSelectionsDescriptions.some(
+            (item) => item.value === ''
+        );
+        setIsAMultiLanguageDescriptionEmpty(hasEmptyValues);
+    }, [multiLanguageSelectionsDescription]);
+
     return (
         <>
             <div className={propertyInspectorStyles.modalRowSpaceBetween}>
                 <Label>
-                    {model.contents[currentPropertyIndex]
-                        ? model.contents[currentPropertyIndex].name
+                    {model[propertiesKeyName][currentPropertyIndex]
+                        ? typeof model[propertiesKeyName][currentPropertyIndex]
+                              .name === 'string'
+                            ? model[propertiesKeyName][currentPropertyIndex]
+                                  .name
+                            : Object.values(model.displayName)[0]
                         : t('OATPropertyEditor.property')}
                 </Label>
                 <ActionButton onClick={() => setModalOpen(false)}>
@@ -145,7 +284,249 @@ export const FormUpdateProperty = ({
                 </ActionButton>
             </div>
 
-            <div className={propertyInspectorStyles.modalRowSpaceBetween}>
+            <div className={propertyInspectorStyles.modalRow}>
+                <Text styles={columnLeftTextStyles}>
+                    {t('OATPropertyEditor.displayName')}
+                </Text>
+                <ChoiceGroup
+                    defaultSelectedKey={singleLanguageOptionValue}
+                    options={options}
+                    onChange={onLanguageSelect}
+                    required={true}
+                    styles={radioGroupRowStyle}
+                />
+            </div>
+
+            {languageSelection === singleLanguageOptionValue && (
+                <div className={propertyInspectorStyles.modalRow}>
+                    <Text styles={columnLeftTextStyles}>
+                        {t('OATPropertyEditor.displayName')}
+                    </Text>
+                    <TextField
+                        placeholder={t(
+                            'OATPropertyEditor.modalTextInputPlaceHolder'
+                        )}
+                        validateOnFocusOut
+                        onGetErrorMessage={getErrorMessage}
+                    />
+                </div>
+            )}
+
+            {languageSelection === multiLanguageOptionValue &&
+                multiLanguageSelectionsDisplayNames.length > 0 &&
+                multiLanguageSelectionsDisplayNames.map((language, index) => (
+                    <div
+                        key={index}
+                        className={
+                            propertyInspectorStyles.modalRowLanguageSelection
+                        }
+                    >
+                        <IconButton
+                            iconProps={{ iconName: 'Cancel' }}
+                            title={t('OATPropertyEditor.delete')}
+                            ariaLabel={t('OATPropertyEditor.delete')}
+                            onClick={() =>
+                                handleMultiLanguageSelectionRemoval(
+                                    index,
+                                    MultiLanguageSelectionType.displayName,
+                                    multiLanguageSelectionsDisplayName,
+                                    multiLanguageSelectionsDisplayNames,
+                                    multiLanguageSelectionsDescription,
+                                    multiLanguageSelectionsDescriptions,
+                                    setMultiLanguageSelectionsDisplayName,
+                                    setMultiLanguageSelectionsDisplayNames,
+                                    setMultiLanguageSelectionsDescription,
+                                    setMultiLanguageSelectionsDescriptions
+                                )
+                            }
+                        />
+                        <Dropdown
+                            placeholder={t('OATPropertyEditor.region')}
+                            options={languages}
+                            onChange={(_ev, option) =>
+                                handleMultiLanguageSelectionsDisplayNameKeyChange(
+                                    option.key,
+                                    index,
+                                    multiLanguageSelectionsDisplayName,
+                                    setMultiLanguageSelectionsDisplayName
+                                )
+                            }
+                            value={language.key}
+                        />
+                        <TextField
+                            placeholder={t('OATPropertyEditor.displayName')}
+                            value={language.value}
+                            onChange={(_ev, value) =>
+                                handleMultiLanguageSelectionsDisplayNameValueChange(
+                                    value,
+                                    index,
+                                    multiLanguageSelectionsDisplayNames,
+                                    multiLanguageSelectionsDisplayName,
+                                    setMultiLanguageSelectionsDisplayName
+                                )
+                            }
+                            disabled={
+                                !multiLanguageSelectionsDisplayNames[index].key
+                            }
+                        />
+                    </div>
+                ))}
+
+            {languageSelection === multiLanguageOptionValue && (
+                <div className={propertyInspectorStyles.modalRow}>
+                    <ActionButton
+                        disabled={
+                            isAMultiLanguageDisplayNameEmpty &&
+                            multiLanguageSelectionsDisplayNames.length !== 0
+                        }
+                        onClick={() => {
+                            const newMultiLanguageSelectionsDisplayNames = [
+                                ...multiLanguageSelectionsDisplayNames,
+                                {
+                                    key: '',
+                                    value: ''
+                                }
+                            ];
+
+                            setMultiLanguageSelectionsDisplayNames(
+                                newMultiLanguageSelectionsDisplayNames
+                            );
+                            if (
+                                newMultiLanguageSelectionsDisplayNames.length >
+                                0
+                            ) {
+                                setIsAMultiLanguageDisplayNameEmpty(true);
+                            }
+                        }}
+                    >
+                        <FontIcon
+                            iconName={'Add'}
+                            className={propertyInspectorStyles.iconAddProperty}
+                        />
+                        <Text>{t('OATPropertyEditor.region')}</Text>
+                    </ActionButton>
+                </div>
+            )}
+
+            {languageSelection === singleLanguageOptionValue && (
+                <div className={propertyInspectorStyles.modalRow}>
+                    <Text styles={columnLeftTextStyles}>
+                        {t('OATPropertyEditor.description')}
+                    </Text>
+                    <TextField
+                        placeholder={t(
+                            'OATPropertyEditor.modalTextInputPlaceHolderDescription'
+                        )}
+                        onChange={(_ev, value) => setDescription(value)}
+                    />
+                </div>
+            )}
+
+            {languageSelection === multiLanguageOptionValue && (
+                <div className={propertyInspectorStyles.modalRow}>
+                    <Text styles={columnLeftTextStyles}>
+                        {t('OATPropertyEditor.description')}
+                    </Text>
+                </div>
+            )}
+
+            {languageSelection === multiLanguageOptionValue &&
+                multiLanguageSelectionsDescriptions.length > 0 &&
+                multiLanguageSelectionsDescriptions.map((language, index) => (
+                    <div
+                        key={index}
+                        className={
+                            propertyInspectorStyles.modalRowLanguageSelection
+                        }
+                    >
+                        <IconButton
+                            iconProps={{ iconName: 'Cancel' }}
+                            title={t('OATPropertyEditor.delete')}
+                            ariaLabel={t('OATPropertyEditor.delete')}
+                            onClick={() =>
+                                handleMultiLanguageSelectionRemoval(
+                                    index,
+                                    MultiLanguageSelectionType.description,
+                                    multiLanguageSelectionsDisplayName,
+                                    multiLanguageSelectionsDisplayNames,
+                                    multiLanguageSelectionsDescription,
+                                    multiLanguageSelectionsDescriptions,
+                                    setMultiLanguageSelectionsDisplayName,
+                                    setMultiLanguageSelectionsDisplayNames,
+                                    setMultiLanguageSelectionsDescription,
+                                    setMultiLanguageSelectionsDescriptions
+                                )
+                            }
+                        />
+                        <Dropdown
+                            placeholder={t('OATPropertyEditor.region')}
+                            options={languages}
+                            onChange={(_ev, option) =>
+                                handleMultiLanguageSelectionsDescriptionKeyChange(
+                                    option.key,
+                                    index,
+                                    multiLanguageSelectionsDescription,
+                                    setMultiLanguageSelectionsDescription
+                                )
+                            }
+                            value={language.key}
+                        />
+                        <TextField
+                            placeholder={t('OATPropertyEditor.description')}
+                            value={language.value}
+                            onChange={(_ev, value) =>
+                                handleMultiLanguageSelectionsDescriptionValueChange(
+                                    value,
+                                    index,
+                                    multiLanguageSelectionsDescription,
+                                    multiLanguageSelectionsDescriptions,
+                                    setMultiLanguageSelectionsDescription
+                                )
+                            }
+                            disabled={
+                                !multiLanguageSelectionsDescriptions[index].key
+                            }
+                        />
+                    </div>
+                ))}
+
+            {languageSelection === multiLanguageOptionValue && (
+                <div className={propertyInspectorStyles.modalRow}>
+                    <ActionButton
+                        disabled={
+                            isAMultiLanguageDescriptionEmpty &&
+                            multiLanguageSelectionsDescriptions.length !== 0
+                        }
+                        onClick={() => {
+                            const newMultiLanguageSelectionsDescriptions = [
+                                ...multiLanguageSelectionsDescriptions,
+                                {
+                                    key: '',
+                                    value: ''
+                                }
+                            ];
+
+                            setMultiLanguageSelectionsDescriptions(
+                                newMultiLanguageSelectionsDescriptions
+                            );
+                            if (
+                                newMultiLanguageSelectionsDescriptions.length >
+                                0
+                            ) {
+                                setIsAMultiLanguageDescriptionEmpty(true);
+                            }
+                        }}
+                    >
+                        <FontIcon
+                            iconName={'Add'}
+                            className={propertyInspectorStyles.iconAddProperty}
+                        />
+                        <Text>{t('OATPropertyEditor.region')}</Text>
+                    </ActionButton>
+                </div>
+            )}
+
+            <div className={propertyInspectorStyles.modalRow}>
                 <Text styles={columnLeftTextStyles}>
                     {t('OATPropertyEditor.comment')}
                 </Text>
@@ -154,32 +535,6 @@ export const FormUpdateProperty = ({
                         'OATPropertyEditor.modalTextInputPlaceHolder'
                     )}
                     onChange={(_ev, value) => setComment(value)}
-                />
-            </div>
-
-            <div className={propertyInspectorStyles.modalRowSpaceBetween}>
-                <Text styles={columnLeftTextStyles}>
-                    {t('OATPropertyEditor.description')}
-                </Text>
-                <TextField
-                    placeholder={t(
-                        'OATPropertyEditor.modalTextInputPlaceHolderDescription'
-                    )}
-                    onChange={(_ev, value) => setDescription(value)}
-                />
-            </div>
-
-            <div className={propertyInspectorStyles.modalRowSpaceBetween}>
-                <Text styles={columnLeftTextStyles}>
-                    {t('OATPropertyEditor.displayName')}
-                </Text>
-                <TextField
-                    className={propertyInspectorStyles.modalTexField}
-                    placeholder={t(
-                        'OATPropertyEditor.modalTextInputPlaceHolder'
-                    )}
-                    validateOnFocusOut
-                    onGetErrorMessage={getErrorMessage}
                 />
             </div>
 
@@ -194,7 +549,7 @@ export const FormUpdateProperty = ({
                 <Text>{t('OATPropertyEditor.writable')}</Text>
             </div>
 
-            <div className={propertyInspectorStyles.modalRowSpaceBetween}>
+            <div className={propertyInspectorStyles.modalRow}>
                 <Text styles={columnLeftTextStyles}>
                     {t('OATPropertyEditor.semanticType')}
                 </Text>
@@ -206,7 +561,7 @@ export const FormUpdateProperty = ({
                 />
             </div>
 
-            <div className={propertyInspectorStyles.modalRowSpaceBetween}>
+            <div className={propertyInspectorStyles.modalRow}>
                 <Text styles={columnLeftTextStyles}>
                     {t('OATPropertyEditor.unit')}
                 </Text>
@@ -219,7 +574,7 @@ export const FormUpdateProperty = ({
                 />
             </div>
 
-            <div className={propertyInspectorStyles.modalRowSpaceBetween}>
+            <div className={propertyInspectorStyles.modalRow}>
                 <Text styles={columnLeftTextStyles}>
                     {t('OATPropertyEditor.id')}
                 </Text>
