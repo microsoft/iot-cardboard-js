@@ -469,7 +469,7 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
                 sceneVisual &&
                 []
                     .concat(
-                        deepCopy(sceneVisual?.behaviors.map((b) => b.visuals))
+                        ...(sceneVisual?.behaviors.map((b) => b.visuals) || [])
                     )
                     .find((visual) => visual.type === VisualType.Popover)
             ) {
