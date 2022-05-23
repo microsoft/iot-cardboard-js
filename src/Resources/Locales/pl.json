@@ -361,7 +361,7 @@
     "noBehaviorsOnLayer": "Na tej warstwie nie ma żadnych zachowań",
     "deleteConfirmationTitle": "Usunąć tę warstwę?",
     "deleteConfirmationMessage": "Spowoduje to trwałe usunięcie warstwy i wszelkich powiązanych zachowań ze wszystkich środowisk Digital Twins.",
-    "infoCalloutContent111": "Warstwy to grupy oparte na zadaniach, które umożliwiają konsumentom filtrowanie zachowań. Warstwy istnieją w różnych scenach."
+    "infoCalloutContent": "Warstwy to grupy oparte na zadaniach, które umożliwiają konsumentom filtrowanie zachowań. Warstwy istnieją w różnych scenach."
   },
   "3dSceneBuilder": {
     "elements": "Pierwiastki",
