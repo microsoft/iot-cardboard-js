@@ -34,7 +34,7 @@ import {
     MsalAuthService,
     KeyValuePairCard,
     //...
-} from 'iot-cardboard-js';
+} from '@microsoft/iot-cardboard-js';
 ```
 
 This is the easiest method of importing components and, in most cases, will allow unused code to be tree shaken from our library.
