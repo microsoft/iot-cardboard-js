@@ -107,30 +107,34 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
 
     useEffect(() => {
         // Detect changes outside of the component on the selected model
-        const node = elements.find(
-            (element) => element.id === currentNodeIdRef.current
-        );
-        if (node) {
-            const newId = model['@id'];
-            elements.forEach((x) => {
-                if (x.source && x.source === currentNodeIdRef.current) {
-                    x.source = newId;
-                }
-                if (x.target && x.target === currentNodeIdRef.current) {
-                    x.target = newId;
-                }
-            });
-            const propertyItems = model.contents.filter(
-                (property) =>
-                    typeof property['@type'] === 'object' &&
-                    property['@type'][0] === 'property'
+        if (!model) {
+            currentNodeIdRef.current = '';
+        } else {
+            const node = elements.find(
+                (element) => element.id === currentNodeIdRef.current
             );
-            node.id = newId;
-            node.data.id = newId;
-            node.data.name = model['displayName'];
-            node.data.content = propertyItems;
-            setElements([...elements]);
-            currentNodeIdRef.current = newId;
+            if (node) {
+                const newId = model['@id'];
+                elements.forEach((x) => {
+                    if (x.source && x.source === currentNodeIdRef.current) {
+                        x.source = newId;
+                    }
+                    if (x.target && x.target === currentNodeIdRef.current) {
+                        x.target = newId;
+                    }
+                });
+                const propertyItems = model.contents.filter(
+                    (property) =>
+                        typeof property['@type'] === 'object' &&
+                        property['@type'][0] === 'property'
+                );
+                node.id = newId;
+                node.data.id = newId;
+                node.data.name = model['displayName'];
+                node.data.content = propertyItems;
+                setElements([...elements]);
+                currentNodeIdRef.current = newId;
+            }
         }
     }, [model]);
 
