@@ -38,7 +38,7 @@ import {
 import {
     IAction,
     IOATNodeElement,
-    IOATRelationShipElement
+    IOATRelationshipElement
 } from '../../Models/Constants/Interfaces';
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 import { ElementNode } from './Internal/Classes/ElementNode';
@@ -48,7 +48,7 @@ import { ElementEdge } from './Internal/Classes/ElementEdge';
 import { ElementEdgeData } from './Internal/Classes/ElementEdgeData';
 
 const idClassBase = 'dtmi:com:example:';
-const contextClassBase = 'dtmi:adt:context;2';
+const contextClassBase = 'dtmi:dtdl:context;2';
 const versionClassBase = '1';
 type OATGraphProps = {
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
@@ -107,25 +107,34 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
 
     useEffect(() => {
         // Detect changes outside of the component on the selected model
-        const node = elements.find(
-            (element) => element.id === currentNodeIdRef.current
-        );
-        if (node) {
-            const newId = model['@id'];
-            elements.forEach((x) => {
-                if (x.source && x.source === currentNodeIdRef.current) {
-                    x.source = newId;
-                }
-                if (x.target && x.target === currentNodeIdRef.current) {
-                    x.target = newId;
-                }
-            });
-            node.id = newId;
-            node.data.id = newId;
-            node.data.name = model['displayName'];
-            node.data.content = model['contents'];
-            setElements([...elements]);
-            currentNodeIdRef.current = newId;
+        if (!model) {
+            currentNodeIdRef.current = '';
+        } else {
+            const node = elements.find(
+                (element) => element.id === currentNodeIdRef.current
+            );
+            if (node) {
+                const newId = model['@id'];
+                elements.forEach((x) => {
+                    if (x.source && x.source === currentNodeIdRef.current) {
+                        x.source = newId;
+                    }
+                    if (x.target && x.target === currentNodeIdRef.current) {
+                        x.target = newId;
+                    }
+                });
+                const propertyItems = model.contents.filter(
+                    (property) =>
+                        typeof property['@type'] === 'object' &&
+                        property['@type'][0] === 'property'
+                );
+                node.id = newId;
+                node.data.id = newId;
+                node.data.name = model['displayName'];
+                node.data.content = propertyItems;
+                setElements([...elements]);
+                currentNodeIdRef.current = newId;
+            }
         }
     }, [model]);
 
@@ -322,9 +331,11 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
 
     const edgeTypes = useMemo(() => ({ Relationship: OATGraphCustomEdge }), []);
 
-    const onElementsRemove = (elementsToRemove: IOATNodeElement) =>
+    const onElementsRemove = (elementsToRemove: IOATNodeElement) => {
         // Remove an specific node and all related edges
+        dispatch({ type: SET_OAT_PROPERTY_EDITOR_MODEL, payload: null });
         setElements((els) => removeElements(elementsToRemove, els));
+    };
 
     const onLoad = useCallback(
         (_reactFlowInstance) => _reactFlowInstance.fitView(),
@@ -374,7 +385,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
         if (targetIndex >= 0) {
             const id = node.id;
             if (node.data.type === elements[targetIndex].data.type) {
-                const params: IOATRelationShipElement = {
+                const params: IOATRelationshipElement = {
                     source: node.id,
                     sourceHandle: OATExtendHandleName,
                     target: targetId,
@@ -396,7 +407,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                 } else {
                     sourceId = node.id;
                 }
-                const params: IOATRelationShipElement = {
+                const params: IOATRelationshipElement = {
                     source: sourceId,
                     sourceHandle: OATComponentHandleName,
                     target: targetId,
@@ -419,13 +430,14 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     };
 
     const onConnectStart = (evt, params) => {
+        // Stores values before connection is created
         currentNodeIdRef.current = params.handleId ? params.nodeId : null;
         currentHandleIdRef.current = params.handleId ? params.handleId : null;
     };
 
     const onConnectStop = (evt) => {
         // Retrieves information and creates a desired relationship between nodes
-        const params: IOATRelationShipElement = {
+        const params: IOATRelationshipElement = {
             source: currentNodeIdRef.current,
             sourceHandle: currentHandleIdRef.current,
             label: '',
@@ -522,6 +534,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                 const node = {
                     '@id': currentNode.id,
                     '@type': OATInterfaceType,
+                    '@context': currentNode.data.context,
                     displayName: currentNode.data.name,
                     contents: [...currentNode.data.content]
                 };
@@ -535,7 +548,6 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
 
                 const relationship = {
                     '@type': currentNode.data.type,
-                    '@id': relationshipId,
                     name: currentNode.data.name,
                     displayName: currentNode.data.displayName,
                     target: currentNode.target
@@ -585,7 +597,6 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
             }
             return currentNodes;
         }, []);
-
         return nodes;
     }, [elements]);
 
