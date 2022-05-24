@@ -23,7 +23,7 @@ export const getEditorPageStyles = () => {
         errorContainer: [
             classNames.errorContainer,
             {
-                minHeight: '100%',
+                minHeight: '100vh',
                 minWidth: '500px',
                 backgroundColor: theme.semanticColors.bodyBackground,
                 padding: '20px'
