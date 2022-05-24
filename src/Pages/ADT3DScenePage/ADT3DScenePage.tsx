@@ -430,6 +430,7 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
                 });
             } else {
                 const errors: Array<IComponentError> = getCorsPropertiesAdapterData?.adapterResult.getErrors();
+                errorCallbackSetRef.current = false;
                 dispatch({
                     type: SET_ERRORS,
                     payload: errors
