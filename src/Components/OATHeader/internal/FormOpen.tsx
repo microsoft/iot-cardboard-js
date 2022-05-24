@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
     Text,
     ActionButton,
@@ -9,16 +9,10 @@ import {
 } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { IAction } from '../../../Models/Constants/Interfaces';
-import {
-    OATDataStorageKey,
-    OATFilesStorageKey
-} from '../../../Models/Constants';
-import {
-    SET_OAT_PROJECT_NAME,
-    SET_OAT_PROPERTY_EDITOR_MODEL,
-    SET_OAT_RELOAD_PROJECT
-} from '../../../Models/Constants/ActionTypes';
+import { OATDataStorageKey } from '../../../Models/Constants';
+import { SET_OAT_PROJECT_NAME_AND_PROPERTY_EDITOR_MODEL } from '../../../Models/Constants/ActionTypes';
 import { getHeaderStyles } from '../OATHeader.styles';
+import { loadFiles } from './Utils';
 
 interface IModal {
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
@@ -29,23 +23,15 @@ interface IModal {
 export const FormOpen = ({ dispatch, setModalOpen, setModalBody }: IModal) => {
     const { t } = useTranslation();
     const headerStyles = getHeaderStyles();
-    const [files, setFiles] = useState([]);
     const [selectedFile, setSelectedFile] = useState(null);
 
     const handleOpen = () => {
         dispatch({
-            type: SET_OAT_PROPERTY_EDITOR_MODEL,
-            payload: null
-        });
-
-        dispatch({
-            type: SET_OAT_PROJECT_NAME,
-            payload: selectedFile.text
-        });
-
-        dispatch({
-            type: SET_OAT_RELOAD_PROJECT,
-            payload: true
+            type: SET_OAT_PROJECT_NAME_AND_PROPERTY_EDITOR_MODEL,
+            payload: {
+                projectName: selectedFile.text,
+                model: null
+            }
         });
 
         localStorage.setItem(
@@ -57,10 +43,8 @@ export const FormOpen = ({ dispatch, setModalOpen, setModalBody }: IModal) => {
         setModalOpen(false);
     };
 
-    const formatFilesToDropDownOptions = () => {
-        const storedFiles = JSON.parse(
-            localStorage.getItem(OATFilesStorageKey)
-        );
+    const getFormatFilesToDropDownOptions = () => {
+        const storedFiles = loadFiles();
         if (storedFiles.length > 0) {
             const formattedFiles = storedFiles.map((file) => {
                 return {
@@ -69,13 +53,9 @@ export const FormOpen = ({ dispatch, setModalOpen, setModalBody }: IModal) => {
                 };
             });
 
-            setFiles(formattedFiles);
+            return formattedFiles;
         }
     };
-
-    useEffect(() => {
-        formatFilesToDropDownOptions();
-    }, []);
 
     return (
         <Stack>
@@ -89,7 +69,7 @@ export const FormOpen = ({ dispatch, setModalOpen, setModalBody }: IModal) => {
                 <Text>Select file:</Text>
                 <Dropdown
                     placeholder="Files"
-                    options={files}
+                    options={getFormatFilesToDropDownOptions()}
                     onChange={(_ev, option) => setSelectedFile(option)}
                 />
             </div>

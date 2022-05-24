@@ -7,12 +7,10 @@ import {
     Stack
 } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
-import {
-    OATDataStorageKey,
-    OATFilesStorageKey
-} from '../../../Models/Constants';
+import { OATDataStorageKey } from '../../../Models/Constants';
 import { getHeaderStyles, getPromptTextStyles } from '../OATHeader.styles';
 import { IOATEditorState } from '../../../Pages/OATEditorPage/OATEditorPage.types';
+import { saveFiles } from './Utils';
 
 interface IModal {
     resetProject?: () => void;
@@ -33,7 +31,7 @@ export const ModalSaveCurrentProjectAndClear = ({
     const { projectName } = state;
 
     const handleOnSave = () => {
-        const files = JSON.parse(localStorage.getItem(OATFilesStorageKey));
+        const files = loadFiles();
 
         //  Overwrite existing file
         const foundIndex = files.findIndex((file) => file.name === projectName);
@@ -42,7 +40,7 @@ export const ModalSaveCurrentProjectAndClear = ({
                 localStorage.getItem(OATDataStorageKey)
             );
             files[foundIndex].data = editorData;
-            localStorage.setItem(OATFilesStorageKey, JSON.stringify(files));
+            saveFiles(files);
             setModalOpen(false);
             setModalBody('');
             resetProject();

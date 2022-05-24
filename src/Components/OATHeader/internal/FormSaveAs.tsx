@@ -9,12 +9,10 @@ import {
 } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { IAction } from '../../../Models/Constants/Interfaces';
-import {
-    OATDataStorageKey,
-    OATFilesStorageKey
-} from '../../../Models/Constants';
+import { OATDataStorageKey } from '../../../Models/Constants';
 import { SET_OAT_PROJECT_NAME } from '../../../Models/Constants/ActionTypes';
 import { getHeaderStyles } from '../OATHeader.styles';
+import { loadFiles, saveFiles } from './Utils';
 
 interface IModal {
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
@@ -38,7 +36,7 @@ export const FormSaveAs = ({
 
     const handleOnSave = () => {
         const editorData = JSON.parse(localStorage.getItem(OATDataStorageKey));
-        const files = JSON.parse(localStorage.getItem(OATFilesStorageKey));
+        const files = loadFiles();
 
         if (error) {
             //  Overwrite existing file
@@ -47,7 +45,7 @@ export const FormSaveAs = ({
             );
             if (foundIndex > -1) {
                 files[foundIndex].data = editorData;
-                localStorage.setItem(OATFilesStorageKey, JSON.stringify(files));
+                saveFiles(files);
             }
             setModalOpen(false);
             setModalBody('');
@@ -69,7 +67,7 @@ export const FormSaveAs = ({
         });
         editorData.projectName = projectName;
         localStorage.setItem(OATDataStorageKey, JSON.stringify(editorData));
-        localStorage.setItem(OATFilesStorageKey, JSON.stringify(files));
+        saveFiles(files);
 
         setModalOpen(false);
         setModalBody('');
@@ -80,7 +78,7 @@ export const FormSaveAs = ({
     };
 
     const handleProjectNameChange = (value) => {
-        const files = JSON.parse(localStorage.getItem(OATFilesStorageKey));
+        const files = loadFiles();
         setProjectName(value);
 
         // Find if project name already exists
@@ -111,7 +109,9 @@ export const FormSaveAs = ({
                     onChange={(e, v) => handleProjectNameChange(v)}
                     errorMessage={
                         error
-                            ? 'Project with same name already exists, would you like to override'
+                            ? t(
+                                  'OATHeader.projectWithSameNameAlreadyExistsMessage'
+                              )
                             : null
                     }
                 />
@@ -119,7 +119,9 @@ export const FormSaveAs = ({
 
             <div className={headerStyles.modalRowFlexEnd}>
                 <PrimaryButton
-                    text={error ? 'Overwrite' : t('OATHeader.save')}
+                    text={
+                        error ? t('OATHeader.overwrite') : t('OATHeader.save')
+                    }
                     onClick={handleOnSave}
                     disabled={!projectName}
                 />

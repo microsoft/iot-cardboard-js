@@ -33,8 +33,7 @@ import {
 import { ElementsContext } from './Internal/OATContext';
 import {
     SET_OAT_PROPERTY_EDITOR_MODEL,
-    SET_OAT_ELEMENTS,
-    SET_OAT_RELOAD_PROJECT
+    SET_OAT_ELEMENTS
 } from '../../Models/Constants/ActionTypes';
 import {
     IAction,
@@ -83,7 +82,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
         selectedModelId,
         editedModelName,
         editedModelId,
-        reloadProject
+        projectName
     } = state;
     const [showRelationships, setShowRelationships] = useState(true);
     const [showInheritances, setShowInheritances] = useState(true);
@@ -133,15 +132,8 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
 
     useEffect(() => {
         // Reload elements on project change
-        if (reloadProject) {
-            setElements(getStoredElements());
-
-            dispatch({
-                type: SET_OAT_RELOAD_PROJECT,
-                payload: false
-            });
-        }
-    }, [reloadProject]);
+        setElements(getStoredElements());
+    }, [projectName]);
 
     useEffect(() => {
         // Detects when a Model is deleted outside of the component and Updates the elements state

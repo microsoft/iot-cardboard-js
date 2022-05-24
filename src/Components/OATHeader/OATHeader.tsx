@@ -11,11 +11,7 @@ import {
 import FileSubMenu from './internal/FileSubMenu';
 import Modal from './internal/Modal';
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
-import {
-    SET_OAT_PROJECT_NAME,
-    SET_OAT_PROPERTY_EDITOR_MODEL,
-    SET_OAT_RELOAD_PROJECT
-} from '../../Models/Constants/ActionTypes';
+import { SET_OAT_PROJECT_NAME_AND_PROPERTY_EDITOR_MODEL } from '../../Models/Constants/ActionTypes';
 import { ProjectData } from './internal/Classes';
 
 const ID_FILE = 'file';
@@ -37,7 +33,7 @@ const OATHeader = ({
     const headerStyles = getHeaderStyles();
     const [subMenuActive, setSubMenuActive] = useState(false);
     const [modalOpen, setModalOpen] = useState(false);
-    const [modalBody, setModalBody] = useState('save');
+    const [modalBody, setModalBody] = useState(null);
 
     const downloadModelExportBlob = (blob) => {
         const blobURL = window.URL.createObjectURL(blob);
@@ -96,18 +92,11 @@ const OATHeader = ({
         localStorage.setItem(OATDataStorageKey, JSON.stringify(clearProject));
 
         dispatch({
-            type: SET_OAT_PROPERTY_EDITOR_MODEL,
-            payload: clearProject
-        });
-
-        dispatch({
-            type: SET_OAT_PROJECT_NAME,
-            payload: t('OATHeader.untitledProject')
-        });
-
-        dispatch({
-            type: SET_OAT_RELOAD_PROJECT,
-            payload: true
+            type: SET_OAT_PROJECT_NAME_AND_PROPERTY_EDITOR_MODEL,
+            payload: {
+                projectName: t('OATHeader.untitledProject'),
+                model: clearProject
+            }
         });
     };
 

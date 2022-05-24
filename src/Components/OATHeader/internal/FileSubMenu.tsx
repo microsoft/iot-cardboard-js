@@ -2,13 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { ActionButton, Text, Callout } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { getSubMenuItemStyles, getSubMenuStyles } from '../OATHeader.styles';
-import {
-    OATDataStorageKey,
-    OATFilesStorageKey
-} from '../../../Models/Constants/Constants';
+import { OATDataStorageKey } from '../../../Models/Constants/Constants';
 import { IAction } from '../../../Models/Constants';
 import { IOATEditorState } from '../../../Pages/OATEditorPage/OATEditorPage.types';
 import { SET_OAT_PROJECT_NAME } from '../../../Models/Constants/ActionTypes';
+import { FromBody } from './Enums';
+import { loadFiles, saveFiles } from './Utils';
 
 type IFileSubMenu = {
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
@@ -34,9 +33,7 @@ export const FileSubMenu = ({
     const { t } = useTranslation();
     const subMenuItemStyles = getSubMenuItemStyles();
     const subMenuStyles = getSubMenuStyles();
-    const [files] = useState(
-        JSON.parse(localStorage.getItem(OATFilesStorageKey))
-    );
+    const [files] = useState(loadFiles());
     const [isFileStored, setIsFileStored] = useState(false);
     const [fileIndex, setFileIndex] = useState(-1);
     const { projectName } = state;
@@ -50,10 +47,10 @@ export const FileSubMenu = ({
                 localStorage.getItem(OATDataStorageKey)
             );
             files[fileIndex].data = editorData;
-            localStorage.setItem(OATFilesStorageKey, JSON.stringify(files));
+            saveFiles(files);
         } else {
             // Create new file
-            setModalBody('save');
+            setModalBody(FromBody.save);
             setModalOpen(true);
         }
     };
@@ -69,7 +66,7 @@ export const FileSubMenu = ({
                 JSON.stringify(files[fileIndex].data)
             ) {
                 // Prompt the if user would like to save current progress
-                setModalBody('saveCurrentProjectAndClear');
+                setModalBody(FromBody.saveCurrentProjectAndClear);
                 setModalOpen(true);
                 return;
             }
@@ -85,12 +82,13 @@ export const FileSubMenu = ({
                 type: SET_OAT_PROJECT_NAME,
                 payload: t('OATHeader.untitledProject')
             });
-            setModalBody('saveCurrentProjectAndClear');
+            setModalBody(FromBody.saveCurrentProjectAndClear);
             setModalOpen(true);
         }
     };
 
     useEffect(() => {
+        // Check if current file is stored
         let foundIndex = -1;
         if (files.length > 0 && projectName) {
             foundIndex = files.findIndex((file) => file.name === projectName);
@@ -125,7 +123,7 @@ export const FileSubMenu = ({
                             styles={subMenuItemStyles}
                             onClick={() => {
                                 setSubMenuActive(false);
-                                setModalBody('open');
+                                setModalBody(FromBody.open);
                                 setModalOpen(true);
                             }}
                         >
@@ -137,7 +135,7 @@ export const FileSubMenu = ({
                         styles={subMenuItemStyles}
                         onClick={() => {
                             setSubMenuActive(false);
-                            setModalBody('save');
+                            setModalBody(FromBody.save);
                             setModalOpen(true);
                         }}
                     >
@@ -156,7 +154,7 @@ export const FileSubMenu = ({
                             styles={subMenuItemStyles}
                             onClick={() => {
                                 setSubMenuActive(false);
-                                setModalBody('delete');
+                                setModalBody(FromBody.delete);
                                 setModalOpen(true);
                             }}
                         >

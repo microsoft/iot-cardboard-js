@@ -10,8 +10,11 @@ import {
     defaultOATEditorState
 } from './OATEditorPage.state';
 import { SET_OAT_IS_JSON_UPLOADER_OPEN } from '../../Models/Constants/ActionTypes';
-import { OATFilesStorageKey } from '../../Models/Constants/Constants';
 import i18n from '../../i18n';
+import {
+    loadFiles,
+    saveFiles
+} from '../../Components/OATHeader/internal/Utils';
 
 const OATEditorPage = ({ theme }) => {
     const [state, dispatch] = useReducer(
@@ -36,9 +39,9 @@ const OATEditorPage = ({ theme }) => {
 
     useEffect(() => {
         //  Set the OATFilesStorageKey to the localStorage
-        const files = JSON.parse(localStorage.getItem(OATFilesStorageKey));
+        const files = loadFiles();
         if (!files) {
-            localStorage.setItem(OATFilesStorageKey, JSON.stringify([]));
+            saveFiles([]);
         }
     }, []);
 

@@ -7,14 +7,8 @@ import FormSaveAs from './FormSaveAs';
 import FromOpen from './FormOpen';
 import ModalSaveCurrentProjectAndClear from './ModalSaveCurrentProjectAndClear';
 import ModalDelete from './ModalDelete';
+import { FromBody } from './Enums';
 
-export enum FromBody {
-    delete = 'delete',
-    open = 'open',
-    save = 'save',
-    saveCurrentProjectAndClear = 'saveCurrentProjectAndClear',
-    saveNewProjectAndClear = 'saveNewProjectAndClear'
-}
 interface IModal {
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
     modalBody?: string;
