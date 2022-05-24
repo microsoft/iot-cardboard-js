@@ -758,7 +758,9 @@
     "description": "Leírás",
     "dontSave": "Ne mentsen",
     "doYouWantToSaveChangesYouMadeTo": "Menti a módosításokat, amelyeket",
-    "doYouWantToDelete": "Törölni szeretné?"
+    "doYouWantToDelete": "Törölni szeretné?",
+    "projectWithSameNameAlreadyExistsMessage?": "Az azonos nevű projekt már létezik, felül szeretné bírálni?",
+    "overwrite": "Felülírja"
   },
   "cameraControls": {
     "mouseControls": "Egérvezérlők",

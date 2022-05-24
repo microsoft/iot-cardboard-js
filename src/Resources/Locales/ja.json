@@ -758,7 +758,9 @@
     "description": "形容",
     "dontSave": "保存しない",
     "doYouWantToSaveChangesYouMadeTo": "行った変更を保存しますか",
-    "doYouWantToDelete": "削除しますか"
+    "doYouWantToDelete": "削除しますか",
+    "projectWithSameNameAlreadyExistsMessage?": "同じ名前のプロジェクトが既に存在しますが、上書きしますか?",
+    "overwrite": "上書き"
   },
   "cameraControls": {
     "mouseControls": "マウスコントロール",

@@ -758,7 +758,9 @@
     "description": "Beschrijving",
     "dontSave": "Niet opslaan",
     "doYouWantToSaveChangesYouMadeTo": "Wilt u de wijzigingen opslaan die u hebt aangebracht in",
-    "doYouWantToDelete": "Wilt u verwijderen"
+    "doYouWantToDelete": "Wilt u verwijderen",
+    "projectWithSameNameAlreadyExistsMessage?": "Project met dezelfde naam bestaat al, wil je het overschrijven?",
+    "overwrite": "overschrijven"
   },
   "cameraControls": {
     "mouseControls": "Muisbediening",
