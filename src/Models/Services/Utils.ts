@@ -7,7 +7,8 @@ import {
     ADTModel_ImgSrc_PropertyName,
     ADTModel_InBIM_RelationshipName,
     ComponentErrorType,
-    DTwin
+    DTwin,
+    IOATTwinModelNodes
 } from '../Constants';
 import { DtdlProperty } from '../Constants/dtdlInterfaces';
 import { CharacterWidths } from '../Constants/Constants';
@@ -21,6 +22,7 @@ import {
 } from '../Types/Generated/3DScenesConfiguration-v1.0.0';
 import ViewerConfigUtility from '../Classes/ViewerConfigUtility';
 import { IDropdownOption } from '@fluentui/react';
+import { createParser, ModelParsingOption } from 'azure-iot-dtdl-parser';
 let ajv: Ajv = null;
 
 /** Validates input data with JSON schema */
@@ -358,4 +360,20 @@ function componentToHex(c) {
 
 export function rgbToHex(r, g, b) {
     return '#' + componentToHex(r) + componentToHex(g) + componentToHex(b);
+}
+
+export async function parseModels(models: IOATTwinModelNodes[]) {
+    const modelParser = createParser(
+        ModelParsingOption.PermitAnyTopLevelElement
+    );
+    for (const model of models) {
+        const modelJson = JSON.stringify(model);
+        try {
+            await modelParser.parse([modelJson]);
+        } catch (err) {
+            for (const parsingError of err._parsingErrors) {
+                alert(`${parsingError.action} ${parsingError.cause}`);
+            }
+        }
+    }
 }

@@ -13,13 +13,18 @@ const classNames = {
 export const getEditorPageStyles = () => {
     const theme = useTheme();
     return mergeStyleSets({
-        container: [classNames.container, {} as IStyle],
+        container: [
+            classNames.container,
+            {
+                height: '100vh'
+            } as IStyle
+        ],
         component: [
             classNames.component,
             {
                 display: 'grid',
                 gridTemplateColumns: '20% 55% 25%',
-                height: '100%',
+                height: '95%', // 100% - header height
                 backgroundColor: theme.semanticColors.bodyBackground
             } as IStyle
         ],
