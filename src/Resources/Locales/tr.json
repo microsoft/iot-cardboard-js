@@ -758,7 +758,9 @@
     "description": "Tarif",
     "dontSave": "Kaydetme",
     "doYouWantToSaveChangesYouMadeTo": "Yaptığınız değişiklikleri kaydetmek istiyor musunuz?",
-    "doYouWantToDelete": "Silmek istiyor musunuz?"
+    "doYouWantToDelete": "Silmek istiyor musunuz?",
+    "projectWithSameNameAlreadyExistsMessage?": "Aynı ada sahip proje zaten var, geçersiz kılmak ister misiniz?",
+    "overwrite": "Üzerine"
   },
   "cameraControls": {
     "mouseControls": "Fare Kontrolleri",

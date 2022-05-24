@@ -758,7 +758,9 @@
     "description": "Описание",
     "dontSave": "Не экономьте",
     "doYouWantToSaveChangesYouMadeTo": "Вы хотите сохранить изменения, внесенные в",
-    "doYouWantToDelete": "Вы хотите удалить"
+    "doYouWantToDelete": "Вы хотите удалить",
+    "projectWithSameNameAlreadyExistsMessage?": "Проект с таким названием уже существует, хотите его переопределить?",
+    "overwrite": "перезаписать"
   },
   "cameraControls": {
     "mouseControls": "Элементы управления мышью",

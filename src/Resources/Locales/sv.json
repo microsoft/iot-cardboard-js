@@ -758,7 +758,9 @@
     "description": "Beskrivning",
     "dontSave": "Spara inte",
     "doYouWantToSaveChangesYouMadeTo": "Vill du spara de ändringar du gjort i",
-    "doYouWantToDelete": "Vill du ta bort"
+    "doYouWantToDelete": "Vill du ta bort",
+    "projectWithSameNameAlreadyExistsMessage?": "Projekt med samma namn finns redan, vill du åsidosätta det?",
+    "overwrite": "skriva över"
   },
   "cameraControls": {
     "mouseControls": "Muskontroller",

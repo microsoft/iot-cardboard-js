@@ -758,7 +758,9 @@
     "description": "Descrizione",
     "dontSave": "Non salvare",
     "doYouWantToSaveChangesYouMadeTo": "Si desidera salvare le modifiche apportate in",
-    "doYouWantToDelete": "Vuoi eliminare"
+    "doYouWantToDelete": "Vuoi eliminare",
+    "projectWithSameNameAlreadyExistsMessage?": "Il progetto con lo stesso nome esiste già, vorresti sovrascriverlo?",
+    "overwrite": "sovrascrivere"
   },
   "cameraControls": {
     "mouseControls": "Controlli del mouse",

@@ -758,7 +758,9 @@
     "description": "Popis",
     "dontSave": "Neukládejte",
     "doYouWantToSaveChangesYouMadeTo": "Chcete uložit změny, které jste provedli",
-    "doYouWantToDelete": "Chcete odstranit"
+    "doYouWantToDelete": "Chcete odstranit",
+    "projectWithSameNameAlreadyExistsMessage?": "Projekt se stejným názvem již existuje, chcete jej přepsat?",
+    "overwrite": "přepsat"
   },
   "cameraControls": {
     "mouseControls": "Ovládání myší",

@@ -758,7 +758,9 @@
     "description": "Beschreibung",
     "dontSave": "Nicht speichern",
     "doYouWantToSaveChangesYouMadeTo": "Möchten Sie die Änderungen, die Sie an",
-    "doYouWantToDelete": "Möchten Sie löschen"
+    "doYouWantToDelete": "Möchten Sie löschen",
+    "projectWithSameNameAlreadyExistsMessage?": "Das gleichnamige Projekt existiert bereits, möchten Sie es überschreiben?",
+    "overwrite": "überschreiben"
   },
   "cameraControls": {
     "mouseControls": "Maus-Steuerelemente",
