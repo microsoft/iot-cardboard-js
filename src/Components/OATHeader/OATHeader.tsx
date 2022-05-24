@@ -96,6 +96,8 @@ const OATHeader = ({ elements, dispatch }: OATHeaderProps) => {
         acceptedFiles.forEach((sF) => {
             if (sF.type === 'application/json') {
                 newFiles.push(sF);
+            } else {
+                alert(`${sF.name} format not Supported`);
             }
         });
         handleFileListChanged(newFiles);
@@ -114,12 +116,11 @@ const OATHeader = ({ elements, dispatch }: OATHeaderProps) => {
                     const content = await current.text();
                     newItem.content = JSON.parse(content);
                 } catch (error) {
-                    console.log(Error(error));
-                    alert(Error(error));
+                    console.log(error);
+                    alert(error);
                 }
                 items.push(newItem.content);
             }
-            dispatch;
             dispatch({
                 type: SET_OAT_IMPORT_MODELS,
                 payload: items

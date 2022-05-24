@@ -138,22 +138,10 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                     (element) => element.id === input['@id']
                 );
                 if (node) {
-                    importModelsList = importModelsList.reduce(
-                        (collection, element) => {
-                            if (
-                                !element.source &&
-                                element.id !== input['@id']
-                            ) {
-                                collection.push(element);
-                            } else if (
-                                element.source &&
-                                element.source !== input['@id']
-                            ) {
-                                collection.push(element);
-                            }
-                            return collection;
-                        },
-                        []
+                    importModelsList = importModelsList.filter(
+                        (element) =>
+                            (!element.source && element.id !== input['@id']) ||
+                            (element.source && element.source !== input['@id'])
                     );
                 }
                 let relationships = [];
