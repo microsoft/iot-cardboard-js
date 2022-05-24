@@ -32,7 +32,7 @@ export const getGraphViewerStyles = () => {
             classNames.container,
             {
                 background: theme.semanticColors.bodyBackground,
-                height: '80vh'
+                height: 'auto'
             } as IStyle
         ],
         node: [
