@@ -1,4 +1,6 @@
 {
+  "languageName": "French",
+  "languageCode": "fr",
   "preview": "Aperçu",
   "loading": "Chargement...",
   "label": "Étiquette",
@@ -759,7 +761,10 @@
     "type": "Type",
     "emptyGraph": "Aucun modèle disponible",
     "project": "Projet",
-    "description": "Description"
+    "description": "Description",
+    "relationships": "Relations",
+    "inheritances": "Héritages",
+    "components": "Composants"
   },
   "OATPropertyEditor": {
     "displayName": "Nom d’affichage",
@@ -824,6 +829,11 @@
     "collapse": "Effondrement",
     "info": "Info",
     "more": "Plus",
-    "copy": "copier"
+    "copy": "copier",
+    "cancel": "Annuler",
+    "delete": "Supprimer",
+    "multiLanguage": "multilingue",
+    "region": "Région",
+    "singleLanguage": "Langue unique"
   }
 }

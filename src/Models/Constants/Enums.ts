@@ -219,3 +219,14 @@ export enum GlobeTheme {
     Grey = 'Grey',
     Yellow = 'Yellow'
 }
+
+export enum ModelTypes {
+    relationship = 'Relationship',
+    untargeted = 'Untargeted',
+    interface = 'Interface'
+}
+
+export enum MultiLanguageSelectionType {
+    displayName = 'displayName',
+    description = 'description'
+}

@@ -5,9 +5,14 @@ import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
 type IAddPropertyBar = {
     onMouseOver?: () => void;
     onClick?: () => void;
+    classNameIcon?: string;
 };
 
-export const AddPropertyBar = ({ onClick, onMouseOver }: IAddPropertyBar) => {
+export const AddPropertyBar = ({
+    onClick,
+    onMouseOver,
+    classNameIcon
+}: IAddPropertyBar) => {
     const propertyInspectorStyles = getPropertyInspectorStyles();
 
     return (
@@ -18,7 +23,11 @@ export const AddPropertyBar = ({ onClick, onMouseOver }: IAddPropertyBar) => {
             >
                 <FontIcon
                     iconName={'CirclePlus'}
-                    className={propertyInspectorStyles.addPropertyBarIcon}
+                    className={
+                        classNameIcon
+                            ? classNameIcon
+                            : propertyInspectorStyles.addPropertyBarIcon
+                    }
                 />
             </ActionButton>
         </div>

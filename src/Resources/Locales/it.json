@@ -1,4 +1,6 @@
 {
+  "languageName": "Italian",
+  "languageCode": "it",
   "preview": "Anteprima",
   "loading": "Caricamento...",
   "label": "Etichetta",
@@ -759,7 +761,10 @@
     "type": "Digitare",
     "emptyGraph": "Nessun modello disponibile",
     "project": "Progetto",
-    "description": "Descrizione"
+    "description": "Descrizione",
+    "relationships": "Relazioni",
+    "inheritances": "Eredità",
+    "components": "Componenti"
   },
   "OATPropertyEditor": {
     "displayName": "Nome visualizzato",
@@ -824,6 +829,11 @@
     "collapse": "Collasso",
     "info": "Informazioni",
     "more": "Più",
-    "copy": "copiare"
+    "copy": "copiare",
+    "cancel": "Annulla",
+    "delete": "Cancellare",
+    "multiLanguage": "multi-lingua",
+    "region": "Regione",
+    "singleLanguage": "Lingua unica"
   }
 }

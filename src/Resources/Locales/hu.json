@@ -1,4 +1,6 @@
 {
+  "languageName": "Hungarian",
+  "languageCode": "hu",
   "preview": "Előnézet",
   "loading": "Berakás...",
   "label": "Címke",
@@ -759,7 +761,10 @@
     "type": "Típus",
     "emptyGraph": "Nincsenek elérhető modellek",
     "project": "Projekt",
-    "description": "Leírás"
+    "description": "Leírás",
+    "relationships": "Kapcsolatok",
+    "inheritances": "Öröklések",
+    "components": "Összetevők"
   },
   "OATPropertyEditor": {
     "displayName": "Megjelenítendő név",
@@ -824,6 +829,11 @@
     "collapse": "Összeomlás",
     "info": "Infó",
     "more": "Több",
-    "copy": "másolat"
+    "copy": "másolat",
+    "cancel": "Érvénytelenít",
+    "delete": "Töröl",
+    "multiLanguage": "többnyelvű",
+    "region": "Régió",
+    "singleLanguage": "Egynyelvű"
   }
 }

@@ -1,4 +1,6 @@
 {
+  "languageName": "Swedish",
+  "languageCode": "sv",
   "preview": "Förhandsvisning",
   "loading": "Lastning...",
   "label": "Etikett",
@@ -759,7 +761,10 @@
     "type": "Typ",
     "emptyGraph": "Inga modeller tillgängliga",
     "project": "Projekt",
-    "description": "Beskrivning"
+    "description": "Beskrivning",
+    "relationships": "Relationer",
+    "inheritances": "Arv",
+    "components": "Komponenter"
   },
   "OATPropertyEditor": {
     "displayName": "Visningsnamn",
@@ -824,6 +829,11 @@
     "collapse": "Kollaps",
     "info": "Information",
     "more": "Mer",
-    "copy": "kopia"
+    "copy": "kopia",
+    "cancel": "Annullera",
+    "delete": "Ta bort",
+    "multiLanguage": "flera språk",
+    "region": "Region",
+    "singleLanguage": "Ett enda språk"
   }
 }

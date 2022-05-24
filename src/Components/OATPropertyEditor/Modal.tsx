@@ -1,14 +1,16 @@
 import React from 'react';
-import { Modal as FluentModal } from '@fluentui/react';
+import { IDropdownOption, Modal as FluentModal } from '@fluentui/react';
 import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
 import FormUpdateProperty from './FormUpdateProperty';
 import FormAddEnumItem from './FormAddEnumItem';
 import { IAction } from '../../Models/Constants/Interfaces';
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
+import FormRootModelDetails from './FormRootModelDetails';
 
 export enum FromBody {
     property = 'Property',
-    enum = 'Enum'
+    enum = 'Enum',
+    rootModel = 'FormRootModel'
 }
 interface IModal {
     currentNestedPropertyIndex?: number;
@@ -22,6 +24,7 @@ interface IModal {
     setModalBody?: React.Dispatch<React.SetStateAction<string>>;
     setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
     state?: IOATEditorState;
+    languages: IDropdownOption[];
 }
 
 export const Modal = ({
@@ -33,7 +36,8 @@ export const Modal = ({
     setCurrentNestedPropertyIndex,
     setModalBody,
     modalBody,
-    state
+    state,
+    languages
 }: IModal) => {
     const propertyInspectorStyles = getPropertyInspectorStyles();
 
@@ -52,6 +56,7 @@ export const Modal = ({
                         }
                         setModalBody={setModalBody}
                         state={state}
+                        languages={languages}
                     />
                 );
             case FromBody.enum:
@@ -66,6 +71,17 @@ export const Modal = ({
                         }
                         setModalBody={setModalBody}
                         state={state}
+                        languages={languages}
+                    />
+                );
+            case FromBody.rootModel:
+                return (
+                    <FormRootModelDetails
+                        setModalOpen={setModalOpen}
+                        dispatch={dispatch}
+                        setModalBody={setModalBody}
+                        state={state}
+                        languages={languages}
                     />
                 );
         }

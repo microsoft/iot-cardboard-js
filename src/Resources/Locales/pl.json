@@ -1,4 +1,6 @@
 {
+  "languageName": "Polish",
+  "languageCode": "pl",
   "preview": "Prapremiera",
   "loading": "Ładowania...",
   "label": "Etykieta",
@@ -759,7 +761,10 @@
     "type": "Typ",
     "emptyGraph": "Brak dostępnych modeli",
     "project": "Projekt",
-    "description": "Opis"
+    "description": "Opis",
+    "relationships": "Relacje",
+    "inheritances": "Spadki",
+    "components": "Składniki"
   },
   "OATPropertyEditor": {
     "displayName": "Nazwa wyświetlana",
@@ -824,6 +829,11 @@
     "collapse": "Zapaść",
     "info": "Informacji",
     "more": "Więcej",
-    "copy": "kopiować"
+    "copy": "kopiować",
+    "cancel": "Anuluj",
+    "delete": "Usunąć",
+    "multiLanguage": "wielojęzyczny",
+    "region": "Region",
+    "singleLanguage": "Pojedynczy język"
   }
 }

@@ -798,6 +798,8 @@ export interface IOATElementsChangeEventArgs {
 }
 
 export interface IOATTwinModelNodes {
+    description?: string;
+    comment?: string;
     '@id': string;
     '@type': string;
     displayName: string;
@@ -836,7 +838,7 @@ export interface IOATNodePosition {
     y: number;
 }
 
-export interface IOATRelationShipElement {
+export interface IOATRelationshipElement {
     id?: string;
     label?: string;
     markerEnd?: string;
