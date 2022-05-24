@@ -268,40 +268,44 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
 
     // store the scene config when the fetch resolves
     useEffect(() => {
-        if (!scenesConfig.adapterResult.hasNoData()) {
-            const config: I3DScenesConfig = scenesConfig.adapterResult.getData();
-            dispatch({
-                type: SET_ADT_SCENE_CONFIG,
-                payload: config
-            });
-        } else {
-            dispatch({
-                type: SET_ADT_SCENE_CONFIG,
-                payload: null
-            });
-        }
-        if (scenesConfig?.adapterResult.getErrors()) {
-            const errors: Array<IComponentError> = scenesConfig?.adapterResult.getErrors();
-            dispatch({
-                type: SET_ERRORS,
-                payload: errors
-            });
-        } else {
-            if (
-                scenesConfig.adapterResult &&
-                (!deeplinkState.storageUrl || deeplinkState.storageUrl === '')
-            ) {
+        const storageContainerNotSet =
+            !deeplinkState.storageUrl || deeplinkState.storageUrl === '';
+        const adtUrlNotSet =
+            !deeplinkState.adtUrl || deeplinkState.adtUrl === '';
+        if (
+            scenesConfig.adapterResult &&
+            (storageContainerNotSet || adtUrlNotSet)
+        ) {
+            if (storageContainerNotSet) {
                 dispatch({
                     type: SET_ERRORS,
                     payload: nullContainerError
                 });
-            } else if (
-                scenesConfig.adapterResult &&
-                (!deeplinkState.adtUrl || deeplinkState.adtUrl === '')
-            ) {
+            }
+            if (adtUrlNotSet) {
                 dispatch({
                     type: SET_ERRORS,
                     payload: nullAdtInstanceError
+                });
+            }
+        } else {
+            if (!scenesConfig.adapterResult.hasNoData()) {
+                const config: I3DScenesConfig = scenesConfig.adapterResult.getData();
+                dispatch({
+                    type: SET_ADT_SCENE_CONFIG,
+                    payload: config
+                });
+            } else {
+                dispatch({
+                    type: SET_ADT_SCENE_CONFIG,
+                    payload: null
+                });
+            }
+            if (scenesConfig?.adapterResult.getErrors()) {
+                const errors: Array<IComponentError> = scenesConfig?.adapterResult.getErrors();
+                dispatch({
+                    type: SET_ERRORS,
+                    payload: errors
                 });
             } else {
                 dispatch({
