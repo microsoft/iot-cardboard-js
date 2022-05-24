@@ -618,18 +618,28 @@ function SceneView(props: ISceneViewProps, ref) {
             //Reset the reflection Texture
             reflectionTexture.current = null;
             if (currentObjectColor.reflectionTexture) {
-                //If the reflectionTexture property is a URL, then let's create the environment cubemap from that.
+                //If the current theme is the default mode, load the reflection as a .env file
                 //This is assuming the file is a .env file (see https://doc.babylonjs.com/divingDeeper/materials/using/HDREnvironment#what-is-a-env-tech-deep-dive)
-                if (
-                    currentObjectColor.reflectionTexture.startsWith('https://')
-                ) {
-                    reflectionTexture.current = BABYLON.CubeTexture.CreateFromPrefilteredData(
-                        currentObjectColor.reflectionTexture,
-                        sceneRef.current
+                if (currentObjectColor === DefaultViewerModeObjectColor) {
+                    const cubeTexture = new BABYLON.CubeTexture(
+                        DefaultViewerModeObjectColor.reflectionTexture,
+                        sceneRef.current,
+                        undefined,
+                        undefined,
+                        undefined,
+                        undefined,
+                        undefined,
+                        undefined,
+                        undefined,
+                        '.env'
                     );
+
+                    reflectionTexture.current = cubeTexture;
                     reflectionTexture.current.coordinatesMode = 3;
                 }
-                //Otherwise, we assume the texture is a base64 encoded image and create and setup the texture from that.
+                //Otherwise, we assume the texture is a png.
+                //TODO: Convert all reflection maps to .env files as a base or else
+                //handle the reflection texture file extension as a property so we don't have to handle this manually
                 else {
                     reflectionTexture.current = BABYLON.Texture.CreateFromBase64String(
                         currentObjectColor.reflectionTexture,
@@ -911,10 +921,20 @@ function SceneView(props: ISceneViewProps, ref) {
 
                 //If the default mode has a reflection texture URL, turn on the environment reflections
                 if (DefaultViewerModeObjectColor.reflectionTexture) {
-                    reflectionTexture.current = BABYLON.CubeTexture.CreateFromPrefilteredData(
+                    const cubeTexture = new BABYLON.CubeTexture(
                         DefaultViewerModeObjectColor.reflectionTexture,
-                        sceneRef.current
+                        sceneRef.current,
+                        undefined,
+                        undefined,
+                        undefined,
+                        undefined,
+                        undefined,
+                        undefined,
+                        undefined,
+                        '.env'
                     );
+
+                    reflectionTexture.current = cubeTexture;
                     sceneRef.current.environmentTexture =
                         reflectionTexture.current;
                 }
