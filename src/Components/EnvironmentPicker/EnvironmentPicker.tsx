@@ -454,6 +454,9 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
     );
 
     const handleOnSave = useCallback(() => {
+        if (props.onDismiss) {
+            props.onDismiss();
+        }
         setSelectedEnvironment(environmentToEdit);
         setSelectedContainerUrl(containerUrlToEdit);
 
