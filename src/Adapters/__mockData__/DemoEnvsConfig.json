@@ -118,7 +118,7 @@
       },
       {
         "id": "744d634cc9fef4ca9dfed38a614c5814",
-        "displayName": "Ecolab Facility",
+        "displayName": "Ecolab Water Plant",
         "description": "",
         "assets": [
           {
@@ -215,7 +215,7 @@
       },
       {
         "id": "14001b74c90b1a4b73975cd891ae5415",
-        "displayName": "Element Analytics Refinery",
+        "displayName": "Element Refinery",
         "description": "",
         "assets": [
           {
@@ -773,7 +773,7 @@
                 "visual": {
                   "color": "#33A1FD",
                   "iconName": "Asterisk",
-                  "labelExpression": "`Optimal maintenaince time: 8 days`"
+                  "labelExpression": "`Optimal maintenance time: 8 days`"
                 }
               }
             ],
@@ -819,7 +819,7 @@
                 "id": "42164b3792c6b0ca7c217ab31aebc27f",
                 "type": "Value",
                 "widgetConfiguration": {
-                  "displayName": "OEE",
+                  "displayName": "Overall Eqpt Effectiveness",
                   "valueExpression": "PrimaryTwin.OEE",
                   "type": "double"
                 }
