@@ -37,6 +37,7 @@ import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 import { getModelPropertyCollectionName } from './Utils';
 
 const ASCII_VALUE_BEFORE_LOWERCASE_ALPHABET = 96;
+const versionClassBase = '1';
 interface IPropertySelectorProps {
     onTagClickCallback?: () => void;
     className?: string;
@@ -214,7 +215,7 @@ const PropertySelector = ({
                 {
                     '@id': `dtmi:com:adt:model1:New_Property_${
                         model[propertiesKeyName].length + 1
-                    }`,
+                    };${versionClassBase}`,
                     '@type': ['property'],
                     name: `New_Property_${model[propertiesKeyName].length + 1}`,
                     schema: getSchema(tag)

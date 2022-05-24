@@ -10,7 +10,8 @@ import {
     SET_OAT_DELETED_MODEL_ID,
     SET_OAT_SELECTED_MODEL_ID,
     SET_OAT_EDITED_MODEL_NAME,
-    SET_OAT_EDITED_MODEL_ID
+    SET_OAT_EDITED_MODEL_ID,
+    SET_OAT_PROPERTY_EDITOR_MODEL
 } from '../../Models/Constants/ActionTypes';
 
 type OATModelListProps = {
@@ -87,63 +88,73 @@ const OATModelList = ({ elements, dispatch }: OATModelListProps) => {
         setItems([...items]);
     };
 
+    const onModelDelete = (id) => {
+        dispatch({
+            type: SET_OAT_PROPERTY_EDITOR_MODEL,
+            payload: null
+        });
+        dispatch({
+            type: SET_OAT_DELETED_MODEL_ID,
+            payload: id
+        });
+        event.stopPropagation();
+    };
+
     const onRenderCell = (item) => {
         return (
-            <ActionButton
-                styles={actionButtonStyles}
-                onClick={() => onSelectedClick(item['@id'])}
-            >
-                <div className={modelsStyles.modelList}>
-                    <ActionButton
-                        className={modelsStyles.nodeCancel}
-                        onClick={() => {
-                            dispatch({
-                                type: SET_OAT_DELETED_MODEL_ID,
-                                payload: item['@id']
-                            });
-                        }}
-                    >
-                        <Icon iconName="Cancel" styles={iconStyles} />
-                    </ActionButton>
-                    <div onClick={() => onNameClick(item['displayName'])}>
-                        {(!nameEditor ||
-                            currentNodeId.current !== item['@id']) && (
-                            <strong>
-                                {typeof item['displayName'] === 'string'
-                                    ? item['displayName']
-                                    : Object.values(item['displayName'])[0]}
-                            </strong>
-                        )}
-                        {nameEditor &&
-                            currentNodeId.current === item['@id'] && (
-                                <TextField
-                                    id="text"
-                                    name="text"
-                                    onChange={onNameChange}
-                                    value={nameText}
-                                    onBlur={onNameBlur}
-                                    autoFocus
-                                />
+            <>
+                <ActionButton
+                    className={modelsStyles.nodeCancel}
+                    onClick={() => onModelDelete(item['@id'])}
+                >
+                    <Icon iconName="Cancel" styles={iconStyles} />
+                </ActionButton>
+                <ActionButton
+                    styles={actionButtonStyles}
+                    onClick={() => onSelectedClick(item['@id'])}
+                >
+                    <div className={modelsStyles.modelList}>
+                        <div onClick={() => onNameClick(item['displayName'])}>
+                            {(!nameEditor ||
+                                currentNodeId.current !== item['@id']) && (
+                                <strong>
+                                    {typeof item['displayName'] === 'string'
+                                        ? item['displayName']
+                                        : Object.values(item['displayName'])[0]}
+                                </strong>
                             )}
+                            {nameEditor &&
+                                currentNodeId.current === item['@id'] && (
+                                    <TextField
+                                        id="text"
+                                        name="text"
+                                        onChange={onNameChange}
+                                        value={nameText}
+                                        onBlur={onNameBlur}
+                                        autoFocus
+                                    />
+                                )}
+                        </div>
+                        <div onClick={() => onIdClick(item['@id'])}>
+                            {(!idEditor ||
+                                currentNodeId.current !== item['@id']) && (
+                                <>{item['@id']}</>
+                            )}
+                            {idEditor &&
+                                currentNodeId.current === item['@id'] && (
+                                    <TextField
+                                        id="text"
+                                        name="text"
+                                        onChange={onIdChange}
+                                        value={idText}
+                                        onBlur={onIdBlur}
+                                        autoFocus
+                                    />
+                                )}
+                        </div>
                     </div>
-                    <div onClick={() => onIdClick(item['@id'])}>
-                        {(!idEditor ||
-                            currentNodeId.current !== item['@id']) && (
-                            <>{item['@id']}</>
-                        )}
-                        {idEditor && currentNodeId.current === item['@id'] && (
-                            <TextField
-                                id="text"
-                                name="text"
-                                onChange={onIdChange}
-                                value={idText}
-                                onBlur={onIdBlur}
-                                autoFocus
-                            />
-                        )}
-                    </div>
-                </div>
-            </ActionButton>
+                </ActionButton>
+            </>
         );
     };
 
