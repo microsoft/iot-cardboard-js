@@ -8,6 +8,7 @@ import { IOATEditorState } from '../../../Pages/OATEditorPage/OATEditorPage.type
 import { SET_OAT_PROJECT_NAME } from '../../../Models/Constants/ActionTypes';
 import { FromBody } from './Enums';
 import { loadFiles, saveFiles } from './Utils';
+import { deepCopy } from '../../../Models/Services/Utils';
 
 type IFileSubMenu = {
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
@@ -33,7 +34,7 @@ export const FileSubMenu = ({
     const { t } = useTranslation();
     const subMenuItemStyles = getSubMenuItemStyles();
     const subMenuStyles = getSubMenuStyles();
-    const [files] = useState(loadFiles());
+    const [files, setFiles] = useState(loadFiles());
     const [isFileStored, setIsFileStored] = useState(false);
     const [fileIndex, setFileIndex] = useState(-1);
     const { projectName } = state;
@@ -46,8 +47,10 @@ export const FileSubMenu = ({
             const editorData = JSON.parse(
                 localStorage.getItem(OATDataStorageKey)
             );
-            files[fileIndex].data = editorData;
-            saveFiles(files);
+            const filesCopy = deepCopy(files);
+            filesCopy[fileIndex].data = editorData;
+            setFiles(filesCopy);
+            saveFiles(filesCopy);
         } else {
             // Create new file
             setModalBody(FromBody.save);
