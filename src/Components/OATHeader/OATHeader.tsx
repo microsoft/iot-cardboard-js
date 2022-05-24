@@ -1,19 +1,29 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { CommandBar, ICommandBarItemProps } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { getHeaderStyles } from './OATHeader.styles';
 import JSZip from 'jszip';
 import { IOATTwinModelNodes, OATDataStorageKey } from '../../Models/Constants';
 import { downloadText } from '../../Models/Services/Utils';
+import { IAction } from '../../Models/Constants/Interfaces';
+import { useDropzone } from 'react-dropzone';
+import { SET_OAT_IMPORT_MODELS } from '../../Models/Constants/ActionTypes';
+import prettyBytes from 'pretty-bytes';
+import {
+    FileUploadStatus,
+    IJSONUploaderFileItem as IFileItem
+} from '../../Models/Constants';
 
 type OATHeaderProps = {
     elements: IOATTwinModelNodes[];
-    onImportClick: () => any;
+    dispatch: React.Dispatch<React.SetStateAction<IAction>>;
 };
 
-const OATHeader = ({ elements, onImportClick }: OATHeaderProps) => {
+const OATHeader = ({ elements, dispatch }: OATHeaderProps) => {
     const { t } = useTranslation();
     const headerStyles = getHeaderStyles();
+    const { acceptedFiles, getRootProps, getInputProps } = useDropzone();
+    const inputFileRef = useRef();
 
     const downloadModelExportBlob = (blob) => {
         const blobURL = window.URL.createObjectURL(blob);
@@ -44,6 +54,10 @@ const OATHeader = ({ elements, onImportClick }: OATHeaderProps) => {
         if (editorData) {
             downloadText(editorData, 'project.config');
         }
+    };
+
+    const onImportClick = () => {
+        inputFileRef.current.click();
     };
 
     const items: ICommandBarItemProps[] = [
@@ -77,6 +91,43 @@ const OATHeader = ({ elements, onImportClick }: OATHeaderProps) => {
         }
     ];
 
+    useEffect(() => {
+        const newFiles = [];
+        acceptedFiles.forEach((sF) => {
+            if (sF.type === 'application/json') {
+                newFiles.push(sF);
+            } else {
+                alert(`${sF.name} format not Supported`);
+            }
+        });
+        handleFileListChanged(newFiles);
+    }, [acceptedFiles]);
+
+    const handleFileListChanged = async (files: Array<File>) => {
+        const items = [];
+        if (files.length > 0) {
+            for (const current of files) {
+                const newItem = {
+                    name: current.name,
+                    size: prettyBytes(current.size),
+                    status: FileUploadStatus.Uploading
+                } as IFileItem;
+                try {
+                    const content = await current.text();
+                    newItem.content = JSON.parse(content);
+                } catch (error) {
+                    console.log(error);
+                    alert(error);
+                }
+                items.push(newItem.content);
+            }
+            dispatch({
+                type: SET_OAT_IMPORT_MODELS,
+                payload: items
+            });
+        }
+    };
+
     return (
         <div className={headerStyles.container}>
             <div className={headerStyles.menuComponent}>
@@ -85,6 +136,9 @@ const OATHeader = ({ elements, onImportClick }: OATHeaderProps) => {
                     <CommandBar items={items} />
                 </div>
                 <div className="cb-oat-header-versioning"></div>
+            </div>
+            <div {...getRootProps()}>
+                <input {...getInputProps()} ref={inputFileRef} />
             </div>
         </div>
     );

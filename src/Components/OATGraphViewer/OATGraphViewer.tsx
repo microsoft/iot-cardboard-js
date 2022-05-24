@@ -140,85 +140,88 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
 
     useEffect(() => {
         // Detects when a Model is deleted outside of the component and Updates the elements state
-        const importModelsList = [];
+        let importModelsList = [...elements];
         if (importModels.length > 0) {
             importModels.forEach((input) => {
                 const node = elements.find(
                     (element) => element.id === input['@id']
                 );
-                if (!node) {
-                    let relationships = [];
-                    let contents = [];
-                    input['contents'].forEach((content) => {
-                        if (content['@type'] === OATComponentHandleName) {
-                            const componentRelationship = new ElementEdge(
-                                `${input['@id']}${OATComponentHandleName}${content['schema']}`,
-                                OATRelationshipHandleName,
-                                input['@id'],
-                                OATComponentHandleName,
-                                content['schema'],
-                                new ElementEdgeData(
-                                    `${input['@id']}${OATComponentHandleName}${content['schema']}`,
-                                    content['name'],
-                                    content['name'],
-                                    OATComponentHandleName
-                                )
-                            );
-                            relationships = [
-                                ...relationships,
-                                componentRelationship
-                            ];
-                        } else if (
-                            content['@type'] === OATRelationshipHandleName
-                        ) {
-                            const relationship = new ElementEdge(
-                                content['@id'],
-                                OATRelationshipHandleName,
-                                input['@id'],
-                                OATRelationshipHandleName,
-                                content['target'],
-                                new ElementEdgeData(
-                                    content['@id'],
-                                    content['name'],
-                                    content['displayName'],
-                                    OATRelationshipHandleName
-                                )
-                            );
-                            relationships = [...relationships, relationship];
-                        } else {
-                            contents = [...contents, content];
-                        }
-                    });
-                    if (input['extends']) {
-                        const extendRelationship = new ElementEdge(
-                            `${input['@id']}${OATExtendHandleName}${input['extends']}`,
+                if (node) {
+                    importModelsList = importModelsList.filter(
+                        (element) =>
+                            (!element.source && element.id !== input['@id']) ||
+                            (element.source && element.source !== input['@id'])
+                    );
+                }
+                let relationships = [];
+                let contents = [];
+                input['contents'].forEach((content) => {
+                    if (content['@type'] === OATComponentHandleName) {
+                        const componentRelationship = new ElementEdge(
+                            `${input['@id']}${OATComponentHandleName}${content['schema']}`,
                             OATRelationshipHandleName,
                             input['@id'],
-                            OATExtendHandleName,
-                            input['extends'],
+                            OATComponentHandleName,
+                            content['schema'],
                             new ElementEdgeData(
-                                `${input['@id']}${OATExtendHandleName}${input['extends']}`,
-                                '',
-                                '',
-                                OATExtendHandleName
+                                `${input['@id']}${OATComponentHandleName}${content['schema']}`,
+                                content['name'],
+                                content['name'],
+                                OATComponentHandleName
                             )
                         );
-                        relationships = [...relationships, extendRelationship];
-                    }
-                    const newNode = new ElementNode(
-                        input['@id'],
-                        input['@type'],
-                        new ElementPosition(defaultPosition, defaultPosition),
-                        new ElementData(
+                        relationships = [
+                            ...relationships,
+                            componentRelationship
+                        ];
+                    } else if (content['@type'] === OATRelationshipHandleName) {
+                        const relationship = new ElementEdge(
+                            content['@id'],
+                            OATRelationshipHandleName,
                             input['@id'],
-                            input['displayName'],
-                            input['@type'],
-                            contents,
-                            contextClassBase
+                            OATRelationshipHandleName,
+                            content['target'],
+                            new ElementEdgeData(
+                                content['@id'],
+                                content['name'],
+                                content['displayName'],
+                                OATRelationshipHandleName
+                            )
+                        );
+                        relationships = [...relationships, relationship];
+                    } else {
+                        contents = [...contents, content];
+                    }
+                });
+                if (input['extends']) {
+                    const extendRelationship = new ElementEdge(
+                        `${input['@id']}${OATExtendHandleName}${input['extends']}`,
+                        OATRelationshipHandleName,
+                        input['@id'],
+                        OATExtendHandleName,
+                        input['extends'],
+                        new ElementEdgeData(
+                            `${input['@id']}${OATExtendHandleName}${input['extends']}`,
+                            '',
+                            '',
+                            OATExtendHandleName
                         )
                     );
-                    importModelsList.push(newNode, ...relationships);
+                    relationships = [...relationships, extendRelationship];
                 }
+                const newNode = new ElementNode(
+                    input['@id'],
+                    input['@type'],
+                    new ElementPosition(defaultPosition, defaultPosition),
+                    new ElementData(
+                        input['@id'],
+                        input['displayName'],
+                        input['@type'],
+                        contents,
+                        contextClassBase
+                    )
+                );
+                importModelsList.push(newNode, ...relationships);
             });
             setElements([...importModelsList]);
         }
