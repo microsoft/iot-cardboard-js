@@ -5,7 +5,6 @@ import {
 
 export interface IOATError {
     callback?: () => void;
-    callbackMessage?: string;
     message?: string;
     title?: string;
     type?: string;

@@ -6,27 +6,27 @@ import { getEditorPageStyles } from '../OATEditorPage.Styles';
 import { IOATEditorState } from '../OATEditorPage.types';
 import { IAction } from '../../../Models/Constants/Interfaces';
 
-interface IOATErrorHandlingWrapper {
-    dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
-    state?: IOATEditorState;
+interface IOATErrorHandlingWrapperProps {
+    dispatch: React.Dispatch<React.SetStateAction<IAction>>;
+    state: IOATEditorState;
 }
 
 const OATErrorHandlingWrapper = ({
     state,
     dispatch
-}: IOATErrorHandlingWrapper) => {
+}: IOATErrorHandlingWrapperProps) => {
     const { t } = useTranslation();
-    const EditorPageStyles = getEditorPageStyles();
+    const editorPageStyles = getEditorPageStyles();
     const { error } = state;
 
     const getComponentContent = () => {
         switch (error?.type ? error.type : '') {
             default:
                 return (
-                    <div className={EditorPageStyles.errorHandlingWrapper}>
+                    <div className={editorPageStyles.errorHandlingWrapper}>
                         <span
                             className={
-                                EditorPageStyles.errorHandlingWrapperErrorTitle
+                                editorPageStyles.errorHandlingWrapperErrorTitle
                             }
                         >
                             {error && error.title
@@ -35,7 +35,7 @@ const OATErrorHandlingWrapper = ({
                         </span>
                         <span
                             className={
-                                EditorPageStyles.errorHandlingWrapperErrorMessage
+                                editorPageStyles.errorHandlingWrapperErrorMessage
                             }
                         >
                             {error && error.message
@@ -55,9 +55,7 @@ const OATErrorHandlingWrapper = ({
                                 });
                             }}
                         >
-                            {error && error.callbackMessage
-                                ? error.callbackMessage
-                                : t('ErrorHandlingWrapper.ok')}
+                            {error && t('ErrorHandlingWrapper.ok')}
                         </PrimaryButton>
                     </div>
                 );
