@@ -4,7 +4,7 @@ export function makeMaterial(
     name: string,
     scene: any,
     baseColor: BABYLON.Color4,
-    reflectionTexture?: BABYLON.Texture,
+    reflectionTexture?: BABYLON.BaseTexture,
     lightingStyle?: number,
     bgLuminanceRatio?: number
 ) {
@@ -74,7 +74,7 @@ export function makePBRMaterial(
     name: string,
     scene: any,
     baseColor: BABYLON.Color4,
-    reflectionTexture?: BABYLON.Texture,
+    reflectionTexture?: BABYLON.BaseTexture,
     lightingStyle?: number
 ) {
     const material = new BABYLON.PBRMetallicRoughnessMaterial(name, scene);
