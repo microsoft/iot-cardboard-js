@@ -835,5 +835,10 @@
     "multiLanguage": "multi-lingua",
     "region": "Regione",
     "singleLanguage": "Lingua unica"
+  },
+  "ErrorHandlingWrapper": {
+    "errorMessage": "Messaggio di errore",
+    "errorTitle": "Titolo dell'errore",
+    "ok": "Ok"
   }
 }

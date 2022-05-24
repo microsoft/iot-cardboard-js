@@ -835,5 +835,10 @@
     "multiLanguage": "çoklu dil",
     "region": "Bölge",
     "singleLanguage": "Tek dil"
+  },
+  "ErrorHandlingWrapper": {
+    "errorMessage": "Hata mesajı",
+    "errorTitle": "Hata başlığı",
+    "ok": "Tamam"
   }
 }
