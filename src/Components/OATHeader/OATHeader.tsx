@@ -11,8 +11,8 @@ import {
 import FileSubMenu from './internal/FileSubMenu';
 import Modal from './internal/Modal';
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
-import { SET_OAT_PROJECT_NAME_AND_PROPERTY_EDITOR_MODEL } from '../../Models/Constants/ActionTypes';
-import { ProjectData } from './internal/Classes';
+import { SET_OAT_PROJECT } from '../../Models/Constants/ActionTypes';
+import { ProjectData } from '../../Pages/OATEditorPage/Internal/Classes';
 
 const ID_FILE = 'file';
 
@@ -92,9 +92,8 @@ const OATHeader = ({
         localStorage.setItem(OATDataStorageKey, JSON.stringify(clearProject));
 
         dispatch({
-            type: SET_OAT_PROJECT_NAME_AND_PROPERTY_EDITOR_MODEL,
+            type: SET_OAT_PROJECT,
             payload: {
-                projectName: t('OATHeader.untitledProject'),
                 model: clearProject
             }
         });

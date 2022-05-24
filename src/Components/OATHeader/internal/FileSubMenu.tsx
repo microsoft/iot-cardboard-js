@@ -5,10 +5,11 @@ import { getSubMenuItemStyles, getSubMenuStyles } from '../OATHeader.styles';
 import { OATDataStorageKey } from '../../../Models/Constants/Constants';
 import { IAction } from '../../../Models/Constants';
 import { IOATEditorState } from '../../../Pages/OATEditorPage/OATEditorPage.types';
-import { SET_OAT_PROJECT_NAME } from '../../../Models/Constants/ActionTypes';
+import { SET_OAT_PROJECT } from '../../../Models/Constants/ActionTypes';
 import { FromBody } from './Enums';
 import { loadFiles, saveFiles } from './Utils';
 import { deepCopy } from '../../../Models/Services/Utils';
+import { ProjectData } from '../../../Pages/OATEditorPage/Internal/Classes';
 
 type IFileSubMenu = {
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
@@ -37,7 +38,7 @@ export const FileSubMenu = ({
     const [files, setFiles] = useState(loadFiles());
     const [isFileStored, setIsFileStored] = useState(false);
     const [fileIndex, setFileIndex] = useState(-1);
-    const { projectName } = state;
+    const { project } = state;
 
     const handleSave = () => {
         setSubMenuActive(false);
@@ -82,8 +83,13 @@ export const FileSubMenu = ({
             editorData.models.length > 0
         ) {
             dispatch({
-                type: SET_OAT_PROJECT_NAME,
-                payload: t('OATHeader.untitledProject')
+                type: SET_OAT_PROJECT,
+                payload: new ProjectData(
+                    [],
+                    [],
+                    '',
+                    t('OATHeader.untitledProject')
+                )
             });
             setModalBody(FromBody.saveCurrentProjectAndClear);
             setModalOpen(true);
@@ -93,8 +99,10 @@ export const FileSubMenu = ({
     useEffect(() => {
         // Check if current file is stored
         let foundIndex = -1;
-        if (files.length > 0 && projectName) {
-            foundIndex = files.findIndex((file) => file.name === projectName);
+        if (files.length > 0 && project && project.projectName) {
+            foundIndex = files.findIndex(
+                (file) => file.name === project.projectName
+            );
             setFileIndex(foundIndex);
             if (foundIndex > -1) {
                 setIsFileStored(true);

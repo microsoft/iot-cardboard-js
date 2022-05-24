@@ -10,10 +10,10 @@ import {
 import { useTranslation } from 'react-i18next';
 import { IAction } from '../../../Models/Constants/Interfaces';
 import { OATDataStorageKey } from '../../../Models/Constants';
-import { SET_OAT_PROJECT_NAME_AND_PROPERTY_EDITOR_MODEL } from '../../../Models/Constants/ActionTypes';
+import { SET_OAT_PROJECT } from '../../../Models/Constants/ActionTypes';
 import { getHeaderStyles } from '../OATHeader.styles';
 import { loadFiles } from './Utils';
-
+import { ProjectData } from '../../../Pages/OATEditorPage/Internal/Classes';
 interface IModal {
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
     setModalBody?: React.Dispatch<React.SetStateAction<string>>;
@@ -26,12 +26,10 @@ export const FormOpen = ({ dispatch, setModalOpen, setModalBody }: IModal) => {
     const [selectedFile, setSelectedFile] = useState(null);
 
     const handleOpen = () => {
+        const projectToOpen = new ProjectData([], [], '', selectedFile.text);
         dispatch({
-            type: SET_OAT_PROJECT_NAME_AND_PROPERTY_EDITOR_MODEL,
-            payload: {
-                projectName: selectedFile.text,
-                model: null
-            }
+            type: SET_OAT_PROJECT,
+            payload: projectToOpen
         });
 
         localStorage.setItem(

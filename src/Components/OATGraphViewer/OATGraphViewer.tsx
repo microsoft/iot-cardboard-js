@@ -82,7 +82,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
         selectedModelId,
         editedModelName,
         editedModelId,
-        projectName
+        project
     } = state;
     const [showRelationships, setShowRelationships] = useState(true);
     const [showInheritances, setShowInheritances] = useState(true);
@@ -133,7 +133,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     useEffect(() => {
         // Reload elements on project change
         setElements(getStoredElements());
-    }, [projectName]);
+    }, [project]);
 
     useEffect(() => {
         // Detects when a Model is deleted outside of the component and Updates the elements state
