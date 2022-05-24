@@ -933,6 +933,11 @@
     "verifyingPermissionsMessage": "Verificando permissões...\nIsso pode levar vários minutos.",
     "assignRoleSuccessDesc": "Permissões perdidas foram atribuídas. Por favor, aguarde enquanto tentamos verificar se as alterações estão em vigor.",
     "refreshPage": "Página de atualização",
-    "refreshing": "Refrescante"
+    "refreshing": "Refrescante",
+    "noContainerUrlErrorTitle": "Recipiente não definido",
+    "noContainerUrlErrorMessage": "Sua url de contêiner não está definida. Clique abaixo para configurá-lo.",
+    "noADTInstanceUrlTitle": "Instância ADT não definida",
+    "noADTInstanceUrlMessage": "Sua url de instância ADT não está definida. Clique abaixo para configurá-lo.",
+    "configureEnvironment": "Configurar ambiente"
   }
 }

@@ -933,6 +933,11 @@
     "verifyingPermissionsMessage": "Verificando permisos...\nEsto puede tardar varios minutos.",
     "assignRoleSuccessDesc": "Se han asignado permisos que faltan. Espere mientras intentamos verificar si los cambios están en vigor.",
     "refreshPage": "Actualizar página",
-    "refreshing": "Refrescante"
+    "refreshing": "Refrescante",
+    "noContainerUrlErrorTitle": "Contenedor no configurado",
+    "noContainerUrlErrorMessage": "La dirección URL del contenedor no está establecida. Haga clic a continuación para configurarlo.",
+    "noADTInstanceUrlTitle": "La instancia de ADT no está establecida",
+    "noADTInstanceUrlMessage": "La dirección URL de la instancia de ADT no está establecida. Haga clic a continuación para configurarlo.",
+    "configureEnvironment": "Configurar el entorno"
   }
 }

@@ -933,6 +933,11 @@
     "verifyingPermissionsMessage": "アクセス許可を確認しています...\nこれには数分かかる場合があります。",
     "assignRoleSuccessDesc": "不足しているアクセス許可が割り当てられています。変更が有効かどうかを確認しようとしている間、しばらくお待ちください。",
     "refreshPage": "ページの更新",
-    "refreshing": "爽やか"
+    "refreshing": "爽やか",
+    "noContainerUrlErrorTitle": "コンテナが設定されていません",
+    "noContainerUrlErrorMessage": "コンテナーの URL が設定されていません。以下をクリックして設定してください。",
+    "noADTInstanceUrlTitle": "ADT インスタンスが設定されていません",
+    "noADTInstanceUrlMessage": "ADT インスタンスの URL が設定されていません。以下をクリックして設定してください。",
+    "configureEnvironment": "環境の構成"
   }
 }

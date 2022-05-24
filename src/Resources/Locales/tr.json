@@ -933,6 +933,11 @@
     "verifyingPermissionsMessage": "İzinler doğrulanıyor...\nBu işlem birkaç dakika sürebilir.",
     "assignRoleSuccessDesc": "Eksik izinler atandı. Değişikliklerin geçerli olup olmadığını doğrulamaya çalışırken lütfen bekleyin.",
     "refreshPage": "Sayfayı yenile",
-    "refreshing": "Canlandırıcı"
+    "refreshing": "Canlandırıcı",
+    "noContainerUrlErrorTitle": "Kapsayıcı ayarlanmadı",
+    "noContainerUrlErrorMessage": "Kapsayıcı URL'niz ayarlanmamış. Ayarlamak için aşağıya tıklayın.",
+    "noADTInstanceUrlTitle": "ADT örneği ayarlanmadı",
+    "noADTInstanceUrlMessage": "ADT bulut sunucusu URL'niz ayarlanmamış. Ayarlamak için aşağıya tıklayın.",
+    "configureEnvironment": "Ortamı yapılandırma"
   }
 }

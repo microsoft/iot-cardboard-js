@@ -3,7 +3,8 @@ import React, {
     useCallback,
     useEffect,
     useReducer,
-    useRef
+    useRef,
+    useState
 } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
@@ -59,6 +60,19 @@ export const ADT3DScenePageContext = createContext<IADT3DScenePageContext>(
     null
 );
 
+// Set container missing error
+const nullContainerError: IComponentError[] = [
+    {
+        type: ComponentErrorType.NoContainerUrl
+    }
+];
+// Set container missing error
+const nullAdtInstanceError: IComponentError[] = [
+    {
+        type: ComponentErrorType.NoADTInstanceUrl
+    }
+];
+
 const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
     adapter,
     theme,
@@ -70,6 +84,7 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
     const { t } = useTranslation();
     const customStyles = getStyles();
     const errorCallbackSetRef = useRef<boolean>(false);
+    const [isDialogHidden, setIsDialogHidden] = useState<boolean>(true);
     const { deeplinkDispatch, deeplinkState } = useDeeplinkContext();
 
     const [state, dispatch] = useReducer(
@@ -215,6 +230,10 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
         [deeplinkDispatch, environmentPickerOptions?.environment]
     );
 
+    const onDismissDialog = useCallback(() => {
+        setIsDialogHidden(true);
+    }, []);
+
     // update the adapter if the ADT instance changes
     useEffect(() => {
         adapter.setAdtHostUrl(deeplinkState.adtUrl);
@@ -249,31 +268,57 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
 
     // store the scene config when the fetch resolves
     useEffect(() => {
-        if (!scenesConfig.adapterResult.hasNoData()) {
-            const config: I3DScenesConfig = scenesConfig.adapterResult.getData();
-            dispatch({
-                type: SET_ADT_SCENE_CONFIG,
-                payload: config
-            });
+        const storageContainerNotSet =
+            !deeplinkState.storageUrl || deeplinkState.storageUrl === '';
+        const adtUrlNotSet =
+            !deeplinkState.adtUrl || deeplinkState.adtUrl === '';
+        if (
+            scenesConfig.adapterResult &&
+            (storageContainerNotSet || adtUrlNotSet)
+        ) {
+            if (storageContainerNotSet) {
+                dispatch({
+                    type: SET_ERRORS,
+                    payload: nullContainerError
+                });
+            }
+            if (adtUrlNotSet) {
+                dispatch({
+                    type: SET_ERRORS,
+                    payload: nullAdtInstanceError
+                });
+            }
         } else {
-            dispatch({
-                type: SET_ADT_SCENE_CONFIG,
-                payload: null
-            });
+            if (!scenesConfig.adapterResult.hasNoData()) {
+                const config: I3DScenesConfig = scenesConfig.adapterResult.getData();
+                dispatch({
+                    type: SET_ADT_SCENE_CONFIG,
+                    payload: config
+                });
+            } else {
+                dispatch({
+                    type: SET_ADT_SCENE_CONFIG,
+                    payload: null
+                });
+            }
+            if (scenesConfig?.adapterResult.getErrors()) {
+                const errors: Array<IComponentError> = scenesConfig?.adapterResult.getErrors();
+                dispatch({
+                    type: SET_ERRORS,
+                    payload: errors
+                });
+            } else {
+                dispatch({
+                    type: SET_ERRORS,
+                    payload: []
+                });
+            }
         }
-        if (scenesConfig?.adapterResult.getErrors()) {
-            const errors: Array<IComponentError> = scenesConfig?.adapterResult.getErrors();
-            dispatch({
-                type: SET_ERRORS,
-                payload: errors
-            });
-        } else {
-            dispatch({
-                type: SET_ERRORS,
-                payload: []
-            });
-        }
-    }, [scenesConfig?.adapterResult]);
+    }, [
+        deeplinkState.adtUrl,
+        deeplinkState.storageUrl,
+        scenesConfig.adapterResult
+    ]);
 
     // set the error callbacks for button actions of the ScenePageErrorHandlingWrapper component
     // ScenePageErrorHandlingWrapper is intended to have single action with learn more button and illustration by default if not specified otherwise
@@ -314,6 +359,44 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
                         }
                     }
                 });
+            } else if (
+                state?.errors?.[0]?.type ===
+                    ComponentErrorType.NoContainerUrl &&
+                !errorCallbackSetRef.current
+            ) {
+                // mark that we already set the callback so we don't get an infinite loop of setting
+                errorCallbackSetRef.current = true;
+                dispatch({
+                    type: SET_ERROR_CALLBACK,
+                    payload: {
+                        buttonText: t(
+                            'scenePageErrorHandling.configureEnvironment'
+                        ),
+                        buttonAction: () => {
+                            setIsDialogHidden(false);
+                            errorCallbackSetRef.current = false;
+                        }
+                    }
+                });
+            } else if (
+                state?.errors?.[0]?.type ===
+                    ComponentErrorType.NoADTInstanceUrl &&
+                !errorCallbackSetRef.current
+            ) {
+                // mark that we already set the callback so we don't get an infinite loop of setting
+                errorCallbackSetRef.current = true;
+                dispatch({
+                    type: SET_ERROR_CALLBACK,
+                    payload: {
+                        buttonText: t(
+                            'scenePageErrorHandling.configureEnvironment'
+                        ),
+                        buttonAction: () => {
+                            setIsDialogHidden(false);
+                            errorCallbackSetRef.current = false;
+                        }
+                    }
+                });
             } else if (!errorCallbackSetRef.current) {
                 // mark that we already set the callback so we don't get an infinite loop of setting
                 errorCallbackSetRef.current = true;
@@ -331,18 +414,32 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
                 });
             }
         }
-    }, [resetConfig, scenesConfig, state?.errors, t]);
+    }, [
+        resetConfig,
+        scenesConfig,
+        setCorsPropertiesAdapterData,
+        state?.errors,
+        t
+    ]);
 
     // if the result of get cors request has error which we send manually if the storage's blob service
     // does not have required CORS rules in its properties, then set the errors to render ScenePageErrorHandlingWrapper component,
     // otherwise if there is no issues, clear the errors and with CORS fetch scenes config
     useEffect(() => {
         if (getCorsPropertiesAdapterData?.adapterResult.getErrors()) {
-            const errors: Array<IComponentError> = getCorsPropertiesAdapterData?.adapterResult.getErrors();
-            dispatch({
-                type: SET_ERRORS,
-                payload: errors
-            });
+            if (!deeplinkState.storageUrl || deeplinkState.storageUrl === '') {
+                dispatch({
+                    type: SET_ERRORS,
+                    payload: nullContainerError
+                });
+            } else {
+                const errors: Array<IComponentError> = getCorsPropertiesAdapterData?.adapterResult.getErrors();
+                errorCallbackSetRef.current = false;
+                dispatch({
+                    type: SET_ERRORS,
+                    payload: errors
+                });
+            }
         } else if (getCorsPropertiesAdapterData?.adapterResult.getData()) {
             dispatch({
                 type: SET_ERRORS,
@@ -351,7 +448,7 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
             errorCallbackSetRef.current = false;
             scenesConfig.callAdapter();
         }
-    }, [getCorsPropertiesAdapterData?.adapterResult]);
+    }, [deeplinkState.storageUrl, getCorsPropertiesAdapterData?.adapterResult]);
 
     // if setting CORS rules is successful fetch scenes config
     useEffect(() => {
@@ -432,6 +529,8 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
                                                         ?.selectedItemLocalStorageKey
                                             })
                                         }}
+                                        isDialogHidden={isDialogHidden}
+                                        onDismiss={onDismissDialog}
                                     />
                                 </div>
                                 <Stack horizontal tokens={{ childrenGap: 8 }}>

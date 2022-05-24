@@ -933,6 +933,11 @@
     "verifyingPermissionsMessage": "Verifiera behörigheter...\nDet kan ta flera minuter.",
     "assignRoleSuccessDesc": "Saknade behörigheter har tilldelats. Vänta medan vi försöker verifiera om ändringarna är i kraft.",
     "refreshPage": "Uppdatera sida",
-    "refreshing": "Uppfriskande"
+    "refreshing": "Uppfriskande",
+    "noContainerUrlErrorTitle": "Behållaren är inte inställd",
+    "noContainerUrlErrorMessage": "Container-URL:en har inte angetts. Klicka nedan för att ställa in den.",
+    "noADTInstanceUrlTitle": "ADT-instansen har inte angetts",
+    "noADTInstanceUrlMessage": "ADT-instansens URL har inte angetts. Klicka nedan för att ställa in den.",
+    "configureEnvironment": "Konfigurera miljö"
   }
 }

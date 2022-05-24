@@ -933,6 +933,11 @@
         "finishedWithFailureDesc": "Attempt failed, unable to assign the necessary permissions to this resource, or this resource does not exist. Please contact the resource owner to assign you the required permissions.",
         "verifyingPermissionsMessage": "Verifying permissions...\nThis may take several minutes.",
         "refreshPage": "Refresh page",
-        "refreshing": "Refreshing"
+        "refreshing": "Refreshing",
+        "noContainerUrlErrorTitle": "Container not set",
+        "noContainerUrlErrorMessage": "Your container url is not set. Click below to set it.",
+        "noADTInstanceUrlTitle": "ADT instance not set",
+        "noADTInstanceUrlMessage": "Your ADT instance url is not set. Click below to set it.",
+        "configureEnvironment": "Configure environment"
     }
 }

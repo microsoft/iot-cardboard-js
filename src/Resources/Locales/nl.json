@@ -933,6 +933,11 @@
     "verifyingPermissionsMessage": "Machtigingen verifiëren...\nDit kan enkele minuten duren.",
     "assignRoleSuccessDesc": "Er zijn ontbrekende machtigingen toegewezen. Wacht even terwijl we proberen te controleren of de wijzigingen van kracht zijn.",
     "refreshPage": "Pagina vernieuwen",
-    "refreshing": "Verfrissend"
+    "refreshing": "Verfrissend",
+    "noContainerUrlErrorTitle": "Container niet ingesteld",
+    "noContainerUrlErrorMessage": "Uw container-URL is niet ingesteld. Klik hieronder om het in te stellen.",
+    "noADTInstanceUrlTitle": "ADT-instantie niet ingesteld",
+    "noADTInstanceUrlMessage": "Uw URL voor het ADT-exemplaar is niet ingesteld. Klik hieronder om het in te stellen.",
+    "configureEnvironment": "Omgeving configureren"
   }
 }

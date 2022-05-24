@@ -933,6 +933,11 @@
     "verifyingPermissionsMessage": "사용 권한 확인 중...\n이 작업은 몇 분 정도 걸릴 수 있습니다.",
     "assignRoleSuccessDesc": "누락된 사용 권한이 할당되었습니다. 변경 사항이 적용되는지 확인하려고 시도하는 동안 잠시 기다려 주십시오.",
     "refreshPage": "페이지 새로 고침",
-    "refreshing": "상쾌한"
+    "refreshing": "상쾌한",
+    "noContainerUrlErrorTitle": "컨테이너가 설정되지 않았습니다.",
+    "noContainerUrlErrorMessage": "컨테이너 URL이 설정되지 않았습니다. 아래를 클릭하여 설정하십시오.",
+    "noADTInstanceUrlTitle": "ADT 인스턴스가 설정되지 않았습니다.",
+    "noADTInstanceUrlMessage": "ADT 인스턴스 URL이 설정되지 않았습니다. 아래를 클릭하여 설정하십시오.",
+    "configureEnvironment": "환경 구성"
   }
 }

@@ -933,6 +933,11 @@
     "verifyingPermissionsMessage": "Engedélyek ellenőrzése...\nEz eltarthat néhány percig.",
     "assignRoleSuccessDesc": "Hiányzó engedélyek vannak hozzárendelve. Kérjük, várjon, amíg megpróbáljuk ellenőrizni, hogy a módosítások érvényben vannak-e.",
     "refreshPage": "Frissítési lap",
-    "refreshing": "Frissítő"
+    "refreshing": "Frissítő",
+    "noContainerUrlErrorTitle": "A tároló nincs beállítva",
+    "noContainerUrlErrorMessage": "A tároló URL-címe nincs beállítva. Kattintson az alábbi gombra a beállításhoz.",
+    "noADTInstanceUrlTitle": "Az Active Directory tanúsítvány példány nincs beállítva",
+    "noADTInstanceUrlMessage": "Az ADT-példány URL-címe nincs beállítva. Kattintson az alábbi gombra a beállításhoz.",
+    "configureEnvironment": "Környezet konfigurálása"
   }
 }
