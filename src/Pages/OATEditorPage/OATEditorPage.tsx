@@ -19,7 +19,7 @@ const OATEditorPage = ({ theme }) => {
         OATEditorPageReducer,
         defaultOATEditorState
     );
-    const EditorPageStyles = getEditorPageStyles();
+    const editorPageStyles = getEditorPageStyles();
 
     const handleImportClick = () => {
         dispatch({
@@ -37,7 +37,7 @@ const OATEditorPage = ({ theme }) => {
 
     return (
         <ErrorBoundary FallbackComponent={OATErrorPage}>
-            <div className={EditorPageStyles.container}>
+            <div className={editorPageStyles.container}>
                 <OATHeader
                     elements={state.elements.digitalTwinsModels}
                     onImportClick={handleImportClick}
@@ -49,8 +49,8 @@ const OATEditorPage = ({ theme }) => {
                 <div
                     className={
                         state.templatesActive
-                            ? EditorPageStyles.componentTemplate
-                            : EditorPageStyles.component
+                            ? editorPageStyles.componentTemplate
+                            : editorPageStyles.component
                     }
                 >
                     <OATModelList

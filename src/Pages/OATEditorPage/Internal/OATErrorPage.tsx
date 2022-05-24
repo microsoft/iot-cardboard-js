@@ -4,14 +4,14 @@ import { getEditorPageStyles } from '../OATEditorPage.Styles';
 
 const OATErrorPage = ({ error }) => {
     const { t } = useTranslation();
-    const EditorPageStyles = getEditorPageStyles();
+    const editorPageStyles = getEditorPageStyles();
 
     return (
-        <div className={EditorPageStyles.errorContainer}>
-            <h2 className={EditorPageStyles.errorPageHeader}>
+        <div className={editorPageStyles.errorContainer}>
+            <h2 className={editorPageStyles.errorPageHeader}>
                 {t('OATErrorBoundary.modalHeader')}
             </h2>
-            <h3 className={EditorPageStyles.errorPageMessageHeader}>
+            <h3 className={editorPageStyles.errorPageMessageHeader}>
                 {t('OATErrorBoundary.messageHeader')}
             </h3>
             <div>
@@ -19,7 +19,7 @@ const OATErrorPage = ({ error }) => {
                     {error.name} | {error.message}
                 </pre>
             </div>
-            <h3 className={EditorPageStyles.errorPageStackHeader}>
+            <h3 className={editorPageStyles.errorPageStackHeader}>
                 {t('OATErrorBoundary.stackHeader')}
             </h3>
             <div>
