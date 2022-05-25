@@ -445,6 +445,13 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
                         type: SET_ERRORS,
                         payload: errors
                     });
+                } else {
+                    dispatch({
+                        type: SET_ERRORS,
+                        payload: []
+                    });
+                    errorCallbackSetRef.current = false;
+                    scenesConfig.callAdapter();
                 }
             }
         } else if (getCorsPropertiesAdapterData?.adapterResult.getData()) {
