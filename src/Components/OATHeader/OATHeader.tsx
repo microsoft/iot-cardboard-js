@@ -19,6 +19,7 @@ type OATHeaderProps = {
     dispatch: React.Dispatch<React.SetStateAction<IAction>>;
     disabled: boolean;
 };
+import { parseModels } from '../../Models/Services/Utils';
 
 const OATHeader = ({ elements, dispatch, disabled }: OATHeaderProps) => {
     const { t } = useTranslation();
@@ -120,7 +121,10 @@ const OATHeader = ({ elements, dispatch, disabled }: OATHeaderProps) => {
                     console.log(error);
                     alert(error);
                 }
-                items.push(newItem.content);
+                const validJson = await parseModels([newItem.content]);
+                if (validJson) {
+                    items.push(newItem.content);
+                }
             }
             dispatch({
                 type: SET_OAT_IMPORT_MODELS,
