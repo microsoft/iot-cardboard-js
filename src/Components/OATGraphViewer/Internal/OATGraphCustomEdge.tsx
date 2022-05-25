@@ -23,6 +23,7 @@ const foreignObjectSize = 180;
 const offsetSmall = 5;
 const offsetMedium = 10;
 const sourceDefaultHeight = 6;
+const rightAngleValue = 1.5708;
 
 const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
     id,
@@ -50,6 +51,94 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
     const graphViewerStyles = getGraphViewerStyles();
     const theme = useTheme();
 
+    const getComponentPolygon = (
+        polygonSourceX,
+        polygonSourceY,
+        baseVector,
+        heightVector,
+        verticalPolygon
+    ) => {
+        let componentPolygon = '';
+        if (verticalPolygon) {
+            componentPolygon = `${polygonSourceX + offsetSmall * baseVector},${
+                polygonSourceY + offsetSmall * heightVector
+            } ${polygonSourceX},${
+                polygonSourceY + offsetMedium * heightVector
+            } ${polygonSourceX - offsetSmall * baseVector},${
+                polygonSourceY + offsetSmall * heightVector
+            } ${polygonSourceX},${polygonSourceY}`;
+        } else {
+            componentPolygon = `${polygonSourceX + offsetSmall * baseVector},${
+                polygonSourceY - offsetSmall * heightVector
+            } ${polygonSourceX + offsetMedium * baseVector},${polygonSourceY} ${
+                polygonSourceX + offsetSmall * baseVector
+            },${
+                polygonSourceY + offsetSmall * heightVector
+            } ${polygonSourceX},${polygonSourceY}`;
+        }
+        return componentPolygon;
+    };
+
+    const getInheritancePolygon = (
+        polygonTargetX,
+        polygonTargetY,
+        baseVector,
+        heightVector,
+        verticalPolygon
+    ) => {
+        let inheritancePolygon = '';
+        if (verticalPolygon) {
+            inheritancePolygon = `${
+                polygonTargetX + offsetSmall * baseVector
+            },${polygonTargetY + offsetMedium * heightVector} ${
+                polygonTargetX - offsetSmall * baseVector
+            },${
+                polygonTargetY + offsetMedium * heightVector
+            } ${polygonTargetX},${polygonTargetY}`;
+        } else {
+            inheritancePolygon = `${
+                polygonTargetX + offsetMedium * baseVector
+            },${polygonTargetY + offsetSmall * heightVector} ${
+                polygonTargetX + offsetMedium * baseVector
+            },${
+                polygonTargetY - offsetSmall * heightVector
+            } ${polygonTargetX},${polygonTargetY}`;
+        }
+        return inheritancePolygon;
+    };
+
+    const getRelationshipPolygon = (
+        polygonTargetX,
+        polygonTargetY,
+        baseVector,
+        heightVector,
+        verticalPolygon
+    ) => {
+        let relationshipPolygon = '';
+        if (verticalPolygon) {
+            relationshipPolygon = `${
+                polygonTargetX + offsetSmall * heightVector
+            },${
+                polygonTargetY + offsetMedium * heightVector
+            } ${polygonTargetX},${polygonTargetY} ${
+                polygonTargetX - offsetSmall * heightVector
+            },${
+                polygonTargetY + offsetMedium * heightVector
+            } ${polygonTargetX},${polygonTargetY}`;
+        } else {
+            relationshipPolygon = `${
+                polygonTargetX + offsetMedium * baseVector
+            },${
+                polygonTargetY - offsetSmall * heightVector
+            } ${polygonTargetX},${polygonTargetY} ${
+                polygonTargetX + offsetMedium * baseVector
+            },${
+                polygonTargetY + offsetSmall * heightVector
+            } ${polygonTargetX},${polygonTargetY}`;
+        }
+        return relationshipPolygon;
+    };
+
     const getSourceComponents = (
         betaAngle,
         sourceBase,
@@ -74,13 +163,13 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
             );
             polygonSourceX = sourceX + newBase * baseVector;
             polygonSourceY = adjustedSourceY + newHeight * heightVector;
-            componentPolygon = `${polygonSourceX + offsetSmall * baseVector},${
-                polygonSourceY + offsetSmall * heightVector
-            } ${polygonSourceX},${
-                polygonSourceY + offsetMedium * heightVector
-            } ${polygonSourceX - offsetSmall * baseVector},${
-                polygonSourceY + offsetSmall * heightVector
-            } ${polygonSourceX},${polygonSourceY}`;
+            componentPolygon = getComponentPolygon(
+                polygonSourceX,
+                polygonSourceY,
+                baseVector,
+                heightVector,
+                true
+            );
         } else {
             newBase = sourceBase;
             const newHypotenuse = newBase / Math.sin(betaAngle);
@@ -89,13 +178,13 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
             );
             polygonSourceX = sourceX + newBase * baseVector;
             polygonSourceY = sourceY + newHeight * heightVector;
-            componentPolygon = `${polygonSourceX + offsetSmall * baseVector},${
-                polygonSourceY - offsetSmall * heightVector
-            } ${polygonSourceX + offsetMedium * baseVector},${polygonSourceY} ${
-                polygonSourceX + offsetSmall * baseVector
-            },${
-                polygonSourceY + offsetSmall * heightVector
-            } ${polygonSourceX},${polygonSourceY}`;
+            componentPolygon = getComponentPolygon(
+                polygonSourceX,
+                polygonSourceY,
+                baseVector,
+                heightVector,
+                false
+            );
         }
         return {
             componentPolygon: componentPolygon,
@@ -128,22 +217,20 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
             );
             polygonTargetX = targetX + newBase * baseVector;
             polygonTargetY = targetY + newHeight * heightVector;
-            inheritancePolygon = `${
-                polygonTargetX + offsetSmall * baseVector
-            },${polygonTargetY + offsetMedium * heightVector} ${
-                polygonTargetX - offsetSmall * baseVector
-            },${
-                polygonTargetY + offsetMedium * heightVector
-            } ${polygonTargetX},${polygonTargetY}`;
-            relationshipPolygon = `${
-                polygonTargetX + offsetSmall * heightVector
-            },${
-                polygonTargetY + offsetMedium * heightVector
-            } ${polygonTargetX},${polygonTargetY} ${
-                polygonTargetX - offsetSmall * heightVector
-            },${
-                polygonTargetY + offsetMedium * heightVector
-            } ${polygonTargetX},${polygonTargetY}`;
+            inheritancePolygon = getInheritancePolygon(
+                polygonTargetX,
+                polygonTargetY,
+                baseVector,
+                heightVector,
+                true
+            );
+            relationshipPolygon = getInheritancePolygon(
+                polygonTargetX,
+                polygonTargetY,
+                baseVector,
+                heightVector,
+                true
+            );
         } else {
             newBase = targetBase;
             const newHypotenuse = newBase / Math.sin(betaAngle);
@@ -152,22 +239,20 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
             );
             polygonTargetX = targetX + newBase * baseVector;
             polygonTargetY = targetY + newHeight * heightVector;
-            inheritancePolygon = `${
-                polygonTargetX + offsetMedium * baseVector
-            },${polygonTargetY + offsetSmall * heightVector} ${
-                polygonTargetX + offsetMedium * baseVector
-            },${
-                polygonTargetY - offsetSmall * heightVector
-            } ${polygonTargetX},${polygonTargetY}`;
-            relationshipPolygon = `${
-                polygonTargetX + offsetMedium * baseVector
-            },${
-                polygonTargetY - offsetSmall * heightVector
-            } ${polygonTargetX},${polygonTargetY} ${
-                polygonTargetX + offsetMedium * baseVector
-            },${
-                polygonTargetY + offsetSmall * heightVector
-            } ${polygonTargetX},${polygonTargetY}`;
+            inheritancePolygon = getRelationshipPolygon(
+                polygonTargetX,
+                polygonTargetY,
+                baseVector,
+                heightVector,
+                false
+            );
+            relationshipPolygon = getRelationshipPolygon(
+                polygonTargetX,
+                polygonTargetY,
+                baseVector,
+                heightVector,
+                false
+            );
         }
         return {
             inheritancePolygon: inheritancePolygon,
@@ -215,7 +300,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
             );
             const sourceBetaAngle = Math.asin(sourceBase / sourceHypotenuse);
             const alphaAngle = Math.asin(triangleHeight / triangleHypotenuse);
-            const betaAngle = 1.5708 - alphaAngle;
+            const betaAngle = rightAngleValue - alphaAngle;
             const sourceComponents = getSourceComponents(
                 betaAngle,
                 sourceBase,
