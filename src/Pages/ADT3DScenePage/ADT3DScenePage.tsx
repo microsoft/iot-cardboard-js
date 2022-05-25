@@ -434,10 +434,11 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
                 });
             } else {
                 const errors: Array<IComponentError> = getCorsPropertiesAdapterData?.adapterResult.getErrors();
-                // Only set errors if it is a CORSError (2xx, with invalid CORS configuration)
-                // This means we will swallow non 2xx responses when we check CORS
+                // Only set errors if it is a genuine CORSError (2xx, with invalid CORS configuration)
+                // This means we will swallow non-2xx errors when we check CORS
                 // We want to swallow all non-2xx errors on checking CORS because users could have valid access to the content of a container
                 // But may not have read access to CORS properties (which results in 403)
+                // This means that users who cannot read CORS configuration may not be able to load 3D models if CORS is misconfigured
                 if (errors?.[0]?.type === ComponentErrorType.CORSError) {
                     errorCallbackSetRef.current = false;
                     dispatch({
