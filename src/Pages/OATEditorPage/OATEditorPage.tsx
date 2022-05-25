@@ -28,15 +28,8 @@ const OATEditorPage = ({ theme }) => {
         <div className={EditorPageStyles.container}>
             <OATHeader
                 elements={state.elements.digitalTwinsModels}
-<<<<<<< HEAD
-                onImportClick={handleImportClick}
-                disabled={state.disabled}
-            />
-            <OATImport
-                isJsonUploaderOpen={state.isJsonUploaderOpen}
-=======
->>>>>>> origin/zarmada/oat-development-staging
                 dispatch={dispatch}
+                disabled={state.disabled}
             />
             <div
                 className={
