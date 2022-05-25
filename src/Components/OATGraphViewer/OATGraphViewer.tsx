@@ -134,7 +134,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
 
     useEffect(() => {
         // Detects when a Model is deleted outside of the component and Updates the elements state
-        const importModelsList = [];
+        const importModelsList = [...elements];
         if (importModels.length > 0) {
             importModels.forEach((input) => {
                 const node = elements.find(
@@ -199,6 +199,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                         );
                         relationships = [...relationships, extendRelationship];
                     }
+                    positionLookUp();
                     const newNode = new ElementNode(
                         input['@id'],
                         input['@type'],
@@ -211,6 +212,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                             contextClassBase
                         )
                     );
+                    positionLookUp(newNode);
                     importModelsList.push(newNode, ...relationships);
                 }
             });
@@ -644,15 +646,16 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
         }
     };
 
-    const positionLookUp = () => {
+    const positionLookUp = (node = null) => {
         const areaDistanceX = 250;
         const areaDistanceY = 80;
         const maxWidth = 800;
         const defaultPosition = 100;
         const minWidth = 300;
         const minHeight = 100;
+        const lookUpElements = node ? [...elements, node] : [...elements];
 
-        let nodes = elements.find(
+        let nodes = lookUpElements.find(
             (element) =>
                 !element.source &&
                 defaultPositionX - areaDistanceX < element.position.x &&
@@ -667,7 +670,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
             } else {
                 defaultPositionX = defaultPositionX + minWidth;
             }
-            nodes = elements.find(
+            nodes = lookUpElements.find(
                 (element) =>
                     !element.source &&
                     defaultPositionX - areaDistanceX < element.position.x &&
