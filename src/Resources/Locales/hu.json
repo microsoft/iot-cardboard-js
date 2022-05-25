@@ -835,5 +835,11 @@
     "multiLanguage": "többnyelvű",
     "region": "Régió",
     "singleLanguage": "Egynyelvű"
+  },
+  "OATErrorBoundary": {
+    "modalHeader": "Valami elromlott...",
+    "messageHeader": "Üzenet",
+    "stackHeader": "Boglya",
+    "tryAgain": "Próbáld újra"
   }
 }

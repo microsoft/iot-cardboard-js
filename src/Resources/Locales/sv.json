@@ -835,5 +835,11 @@
     "multiLanguage": "flera språk",
     "region": "Region",
     "singleLanguage": "Ett enda språk"
+  },
+  "OATErrorBoundary": {
+    "modalHeader": "Något gick fel...",
+    "messageHeader": "Meddelande",
+    "stackHeader": "Stack",
+    "tryAgain": "Försök igen"
   }
 }

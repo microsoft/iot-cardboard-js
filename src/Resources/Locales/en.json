@@ -829,6 +829,12 @@
         "viewTemplates": "View Templates",
         "writable": "Writable"
     },
+    "OATErrorBoundary": {
+        "modalHeader": "Something went wrong...",
+        "messageHeader": "Message",
+        "stackHeader": "Stack",
+        "tryAgain": "Try again"
+    },
     "cameraControls": {
         "mouseControls": "Mouse Controls",
         "select": "Select",

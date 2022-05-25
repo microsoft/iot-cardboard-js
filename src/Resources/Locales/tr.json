@@ -835,5 +835,11 @@
     "multiLanguage": "çoklu dil",
     "region": "Bölge",
     "singleLanguage": "Tek dil"
+  },
+  "OATErrorBoundary": {
+    "modalHeader": "Bir şeyler ters gitti...",
+    "messageHeader": "İleti",
+    "stackHeader": "Yığın",
+    "tryAgain": "Yeniden Deneyin"
   }
 }

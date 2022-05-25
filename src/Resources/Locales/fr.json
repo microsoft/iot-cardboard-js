@@ -835,5 +835,11 @@
     "multiLanguage": "multilingue",
     "region": "Région",
     "singleLanguage": "Langue unique"
+  },
+  "OATErrorBoundary": {
+    "modalHeader": "Quelque chose a mal tourné...",
+    "messageHeader": "Message",
+    "stackHeader": "Pile",
+    "tryAgain": "Réessayez"
   }
 }

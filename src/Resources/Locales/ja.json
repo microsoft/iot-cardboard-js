@@ -835,5 +835,11 @@
     "multiLanguage": "多言語",
     "region": "地域",
     "singleLanguage": "単一言語"
+  },
+  "OATErrorBoundary": {
+    "modalHeader": "何かがおかしくなった...",
+    "messageHeader": "メッセージ",
+    "stackHeader": "スタック",
+    "tryAgain": "もう一度やり直してください"
   }
 }

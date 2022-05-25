@@ -835,5 +835,11 @@
     "multiLanguage": "다국어",
     "region": "부위",
     "singleLanguage": "단일 언어"
+  },
+  "OATErrorBoundary": {
+    "modalHeader": "뭔가 잘못되었습니다 ...",
+    "messageHeader": "메시지",
+    "stackHeader": "스택",
+    "tryAgain": "다시 한 번 시도해 보세요"
   }
 }

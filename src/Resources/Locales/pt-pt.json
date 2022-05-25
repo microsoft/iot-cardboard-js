@@ -835,5 +835,11 @@
     "multiLanguage": "multi-língua",
     "region": "Região",
     "singleLanguage": "Língua única"
+  },
+  "OATErrorBoundary": {
+    "modalHeader": "Alguma coisa correu mal...",
+    "messageHeader": "Mensagem",
+    "stackHeader": "Pilha",
+    "tryAgain": "Tentar novamente"
   }
 }
