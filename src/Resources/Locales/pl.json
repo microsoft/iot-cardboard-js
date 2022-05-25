@@ -840,5 +840,11 @@
     "errorMessage": "Komunikat o błędzie",
     "errorTitle": "Tytuł błędu",
     "ok": "Ok"
+  },
+  "OATErrorBoundary": {
+    "modalHeader": "Coś poszło nie tak...",
+    "messageHeader": "Komunikat",
+    "stackHeader": "Stos",
+    "tryAgain": "Spróbuj ponownie"
   }
 }

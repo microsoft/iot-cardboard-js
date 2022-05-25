@@ -840,5 +840,11 @@
     "errorMessage": "エラーメッセージ",
     "errorTitle": "エラータイトル",
     "ok": "わかりました"
+  },
+  "OATErrorBoundary": {
+    "modalHeader": "何かがおかしくなった...",
+    "messageHeader": "メッセージ",
+    "stackHeader": "スタック",
+    "tryAgain": "もう一度やり直してください"
   }
 }

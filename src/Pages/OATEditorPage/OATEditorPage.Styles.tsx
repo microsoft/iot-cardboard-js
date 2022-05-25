@@ -4,11 +4,15 @@ import { CardboardClassNamePrefix } from '../../Models/Constants';
 const classPrefix = `${CardboardClassNamePrefix}-oat-body`;
 const classNames = {
     container: `${classPrefix}-container`,
+    errorContainer: `${classPrefix}-error-container`,
     component: `${classPrefix}-component`,
     componentTemplate: `${classPrefix}-component-template`,
     errorHandlingWrapper: `${classPrefix}-error-handling-wrapper`,
     errorHandlingWrapperErrorTitle: `${classPrefix}-error-handling-wrapper-error-title`,
-    errorHandlingWrapperErrorMessage: `${classPrefix}-error-handling-wrapper-error-message`
+    errorHandlingWrapperErrorMessage: `${classPrefix}-error-handling-wrapper-error-message`,
+    errorPageHeader: `${classPrefix}-error-page-header`,
+    errorPageMessageHeader: `${classPrefix}-error-page-message-header`,
+    errorPageStackHeader: `${classPrefix}-error-page-stack-header`
 };
 export const getEditorPageStyles = () => {
     const theme = useTheme();
@@ -18,6 +22,15 @@ export const getEditorPageStyles = () => {
             {
                 height: '100vh'
             } as IStyle
+        ],
+        errorContainer: [
+            classNames.errorContainer,
+            {
+                minHeight: '100vh',
+                minWidth: '500px',
+                backgroundColor: theme.semanticColors.bodyBackground,
+                padding: '20px'
+            }
         ],
         component: [
             classNames.component,
@@ -64,6 +77,25 @@ export const getEditorPageStyles = () => {
                 fontSize: '14px',
                 marginBottom: '20px'
             } as IStyle
+        ],
+        errorPageHeader: [
+            classNames.errorPageHeader,
+            {
+                marginTop: '0px',
+                marginBottom: '32px'
+            }
+        ],
+        errorPageMessageHeader: [
+            classNames.errorPageMessageHeader,
+            {
+                marginBottom: '8px'
+            }
+        ],
+        errorPageStackHeader: [
+            classNames.errorPageStackHeader,
+            {
+                marginBottom: '8px'
+            }
         ]
     });
 };

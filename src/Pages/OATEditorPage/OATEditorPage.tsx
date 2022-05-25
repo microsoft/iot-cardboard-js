@@ -4,12 +4,14 @@ import OATModelList from '../../Components/OATModelList/OATModelList';
 import OATGraphViewer from '../../Components/OATGraphViewer/OATGraphViewer';
 import OATPropertyEditor from '../../Components/OATPropertyEditor/OATPropertyEditor';
 import { getEditorPageStyles } from './OATEditorPage.Styles';
+import { ErrorBoundary } from 'react-error-boundary';
 import {
     OATEditorPageReducer,
     defaultOATEditorState
 } from './OATEditorPage.state';
 import OATErrorHandlingWrapper from './Internal/OATErrorHandlingWrapper';
 import i18n from '../../i18n';
+import OATErrorPage from './Internal/OATErrorPage';
 
 const OATEditorPage = ({ theme }) => {
     const [state, dispatch] = useReducer(
@@ -26,32 +28,34 @@ const OATEditorPage = ({ theme }) => {
     });
 
     return (
-        <div className={editorPageStyles.container}>
-            <OATHeader
-                elements={state.elements.digitalTwinsModels}
-                dispatch={dispatch}
-            />
-            <div
-                className={
-                    state.templatesActive
-                        ? editorPageStyles.componentTemplate
-                        : editorPageStyles.component
-                }
-            >
-                <OATModelList
+        <ErrorBoundary FallbackComponent={OATErrorPage}>
+            <div className={editorPageStyles.container}>
+                <OATHeader
                     elements={state.elements.digitalTwinsModels}
                     dispatch={dispatch}
                 />
-                <OATGraphViewer state={state} dispatch={dispatch} />
-                <OATPropertyEditor
-                    theme={theme}
-                    state={state}
-                    dispatch={dispatch}
-                    languages={languages}
-                />
+                <div
+                    className={
+                        state.templatesActive
+                            ? editorPageStyles.componentTemplate
+                            : editorPageStyles.component
+                    }
+                >
+                    <OATModelList
+                        elements={state.elements.digitalTwinsModels}
+                        dispatch={dispatch}
+                    />
+                    <OATGraphViewer state={state} dispatch={dispatch} />
+                    <OATPropertyEditor
+                        theme={theme}
+                        state={state}
+                        dispatch={dispatch}
+                        languages={languages}
+                    />
+                </div>
             </div>
             <OATErrorHandlingWrapper state={state} dispatch={dispatch} />
-        </div>
+        </ErrorBoundary>
     );
 };
 

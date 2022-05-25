@@ -840,5 +840,11 @@
     "errorMessage": "Felmeddelande",
     "errorTitle": "Fel titel",
     "ok": "Okej"
+  },
+  "OATErrorBoundary": {
+    "modalHeader": "Något gick fel...",
+    "messageHeader": "Meddelande",
+    "stackHeader": "Stack",
+    "tryAgain": "Försök igen"
   }
 }

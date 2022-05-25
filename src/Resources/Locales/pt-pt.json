@@ -840,5 +840,11 @@
     "errorMessage": "Mensagem de erro",
     "errorTitle": "Título de erro",
     "ok": "Ok"
+  },
+  "OATErrorBoundary": {
+    "modalHeader": "Alguma coisa correu mal...",
+    "messageHeader": "Mensagem",
+    "stackHeader": "Pilha",
+    "tryAgain": "Tentar novamente"
   }
 }

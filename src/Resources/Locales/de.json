@@ -840,5 +840,11 @@
     "errorMessage": "Fehlermeldung",
     "errorTitle": "Fehlertitel",
     "ok": "Okay"
+  },
+  "OATErrorBoundary": {
+    "modalHeader": "Etwas ist schief gelaufen...",
+    "messageHeader": "Nachricht",
+    "stackHeader": "Stapel",
+    "tryAgain": "Wiederholen"
   }
 }

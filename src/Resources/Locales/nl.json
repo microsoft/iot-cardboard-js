@@ -840,5 +840,11 @@
     "errorMessage": "Foutmelding",
     "errorTitle": "Titel van de fout",
     "ok": "OK"
+  },
+  "OATErrorBoundary": {
+    "modalHeader": "Er ging iets mis...",
+    "messageHeader": "Bericht",
+    "stackHeader": "Stapel",
+    "tryAgain": "Probeer het opnieuw"
   }
 }
