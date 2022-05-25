@@ -7,19 +7,19 @@ import { SET_OAT_PROPERTY_EDITOR_MODEL } from '../../Models/Constants/ActionType
 import { IAction } from '../../Models/Constants/Interfaces';
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 
-type OATPropertyEditorProps = {
+type JSONEditorProps = {
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
     theme?: Theme;
     state?: IOATEditorState;
 };
 
-const JSONEditor = ({ dispatch, theme, state }: OATPropertyEditorProps) => {
+const JSONEditor = ({ dispatch, theme, state }: JSONEditorProps) => {
     const { t } = useTranslation();
     const libTheme = useLibTheme();
     const themeToUse = (libTheme || theme) ?? Theme.Light;
     const editorRef = useRef(null);
     const { model } = state;
-    const [content, setContent] = useState(JSON.stringify(model, null, 2));
+    const [content, setContent] = useState(null);
 
     useEffect(() => {
         setContent(JSON.stringify(model, null, 2));
@@ -55,7 +55,6 @@ const JSONEditor = ({ dispatch, theme, state }: OATPropertyEditorProps) => {
                 });
             }
         }
-        setContent(value);
     };
 
     function setEditorThemes(monaco: any) {
