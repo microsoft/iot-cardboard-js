@@ -274,14 +274,9 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
         const adjustedSourceY = sourceY - sourceDefaultHeight;
 
         const element = elements.find((x) => x.id === id);
-        let inheritancePolygon = '';
-        let relationshipPolygon = '';
-        let componentPolygon = '';
-        let polygonTargetX = 0;
-        let polygonTargetY = 0;
-        let polygonSourceX = 0;
-        let polygonSourceY = 0;
+        let polygons = {};
         if (element) {
+            polygons = { element: element };
             // If a valid element we get size based in positioning
             const sourceNode = elements.find((x) => x.id === element.source);
             const sourceNodeSizeX = (sourceX - sourceNode.position.x) * 2;
@@ -318,9 +313,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                 baseVector,
                 heightVector
             );
-            componentPolygon = sourceComponents.componentPolygon;
-            polygonSourceX = sourceComponents.polygonSourceX;
-            polygonSourceY = sourceComponents.polygonSourceY;
+            polygons = { polygons, ...sourceComponents };
             // Getting vectors to adjust angle from target to source
             heightVector = targetY < adjustedSourceY ? 1 : -1;
             baseVector = targetX < sourceX ? 1 : -1;
@@ -340,21 +333,9 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                 heightVector,
                 targetBase
             );
-            inheritancePolygon = targetComponents.inheritancePolygon;
-            relationshipPolygon = targetComponents.relationshipPolygon;
-            polygonTargetX = targetComponents.polygonTargetX;
-            polygonTargetY = targetComponents.polygonTargetY;
+            polygons = { polygons, ...targetComponents };
         }
-        return {
-            element: element,
-            componentPolygon: componentPolygon,
-            inheritancePolygon: inheritancePolygon,
-            relationshipPolygon: relationshipPolygon,
-            polygonSourceX: polygonSourceX,
-            polygonSourceY: polygonSourceY,
-            polygonTargetX: polygonTargetX,
-            polygonTargetY: polygonTargetY
-        };
+        return polygons;
     }, [id, elements, sourceX, sourceY, targetX, targetY]);
 
     const onNameChange = (evt) => {
