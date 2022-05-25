@@ -50,6 +50,133 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
     const graphViewerStyles = getGraphViewerStyles();
     const theme = useTheme();
 
+    const getSourceComponents = (
+        betaAngle,
+        sourceBase,
+        sourceBetaAngle,
+        sourceHeight,
+        alphaAngle,
+        adjustedSourceY,
+        baseVector,
+        heightVector
+    ) => {
+        // Using triangulated conection position to create componentPolygon and angles to define orientation
+        let newHeight = 0;
+        let newBase = 0;
+        let componentPolygon = '';
+        let polygonSourceX = 0;
+        let polygonSourceY = 0;
+        if (betaAngle < sourceBetaAngle) {
+            newHeight = sourceHeight;
+            const newHypotenuse = newHeight / Math.sin(alphaAngle);
+            newBase = Math.sqrt(
+                newHypotenuse * newHypotenuse - newHeight * newHeight
+            );
+            polygonSourceX = sourceX + newBase * baseVector;
+            polygonSourceY = adjustedSourceY + newHeight * heightVector;
+            componentPolygon = `${polygonSourceX + offsetSmall * baseVector},${
+                polygonSourceY + offsetSmall * heightVector
+            } ${polygonSourceX},${
+                polygonSourceY + offsetMedium * heightVector
+            } ${polygonSourceX - offsetSmall * baseVector},${
+                polygonSourceY + offsetSmall * heightVector
+            } ${polygonSourceX},${polygonSourceY}`;
+        } else {
+            newBase = sourceBase;
+            const newHypotenuse = newBase / Math.sin(betaAngle);
+            newHeight = Math.sqrt(
+                newHypotenuse * newHypotenuse - newBase * newBase
+            );
+            polygonSourceX = sourceX + newBase * baseVector;
+            polygonSourceY = sourceY + newHeight * heightVector;
+            componentPolygon = `${polygonSourceX + offsetSmall * baseVector},${
+                polygonSourceY - offsetSmall * heightVector
+            } ${polygonSourceX + offsetMedium * baseVector},${polygonSourceY} ${
+                polygonSourceX + offsetSmall * baseVector
+            },${
+                polygonSourceY + offsetSmall * heightVector
+            } ${polygonSourceX},${polygonSourceY}`;
+        }
+        return {
+            componentPolygon: componentPolygon,
+            polygonSourceX: polygonSourceX,
+            polygonSourceY: polygonSourceY
+        };
+    };
+
+    const getTargetComponents = (
+        betaAngle,
+        targetBetaAngle,
+        targetHeight,
+        alphaAngle,
+        baseVector,
+        heightVector,
+        targetBase
+    ) => {
+        let newHeight = 0;
+        let newBase = 0;
+        let polygonTargetX = 0;
+        let polygonTargetY = 0;
+        let inheritancePolygon = '';
+        let relationshipPolygon = '';
+        // Using triangulated conection position to create inheritance and relationship polygons and angles to define orientation
+        if (betaAngle < targetBetaAngle) {
+            newHeight = targetHeight;
+            const newHypotenuse = newHeight / Math.sin(alphaAngle);
+            newBase = Math.sqrt(
+                newHypotenuse * newHypotenuse - newHeight * newHeight
+            );
+            polygonTargetX = targetX + newBase * baseVector;
+            polygonTargetY = targetY + newHeight * heightVector;
+            inheritancePolygon = `${
+                polygonTargetX + offsetSmall * baseVector
+            },${polygonTargetY + offsetMedium * heightVector} ${
+                polygonTargetX - offsetSmall * baseVector
+            },${
+                polygonTargetY + offsetMedium * heightVector
+            } ${polygonTargetX},${polygonTargetY}`;
+            relationshipPolygon = `${
+                polygonTargetX + offsetSmall * heightVector
+            },${
+                polygonTargetY + offsetMedium * heightVector
+            } ${polygonTargetX},${polygonTargetY} ${
+                polygonTargetX - offsetSmall * heightVector
+            },${
+                polygonTargetY + offsetMedium * heightVector
+            } ${polygonTargetX},${polygonTargetY}`;
+        } else {
+            newBase = targetBase;
+            const newHypotenuse = newBase / Math.sin(betaAngle);
+            newHeight = Math.sqrt(
+                newHypotenuse * newHypotenuse - newBase * newBase
+            );
+            polygonTargetX = targetX + newBase * baseVector;
+            polygonTargetY = targetY + newHeight * heightVector;
+            inheritancePolygon = `${
+                polygonTargetX + offsetMedium * baseVector
+            },${polygonTargetY + offsetSmall * heightVector} ${
+                polygonTargetX + offsetMedium * baseVector
+            },${
+                polygonTargetY - offsetSmall * heightVector
+            } ${polygonTargetX},${polygonTargetY}`;
+            relationshipPolygon = `${
+                polygonTargetX + offsetMedium * baseVector
+            },${
+                polygonTargetY - offsetSmall * heightVector
+            } ${polygonTargetX},${polygonTargetY} ${
+                polygonTargetX + offsetMedium * baseVector
+            },${
+                polygonTargetY + offsetSmall * heightVector
+            } ${polygonTargetX},${polygonTargetY}`;
+        }
+        return {
+            inheritancePolygon: inheritancePolygon,
+            relationshipPolygon: relationshipPolygon,
+            polygonTargetX: polygonTargetX,
+            polygonTargetY: polygonTargetY
+        };
+    };
+
     const polygons = useMemo(() => {
         // With this Memo function the values for Polygons Points are calculated
         const adjustedSourceY = sourceY - sourceDefaultHeight;
@@ -89,44 +216,19 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
             const sourceBetaAngle = Math.asin(sourceBase / sourceHypotenuse);
             const alphaAngle = Math.asin(triangleHeight / triangleHypotenuse);
             const betaAngle = 1.5708 - alphaAngle;
-            let newHeight = 0;
-            let newBase = 0;
-            // Using triangulated conection position to create componentPolygon and angles to define orientation
-            if (betaAngle < sourceBetaAngle) {
-                newHeight = sourceHeight;
-                const newHypotenuse = newHeight / Math.sin(alphaAngle);
-                newBase = Math.sqrt(
-                    newHypotenuse * newHypotenuse - newHeight * newHeight
-                );
-                polygonSourceX = sourceX + newBase * baseVector;
-                polygonSourceY = adjustedSourceY + newHeight * heightVector;
-                componentPolygon = `${
-                    polygonSourceX + offsetSmall * baseVector
-                },${
-                    polygonSourceY + offsetSmall * heightVector
-                } ${polygonSourceX},${
-                    polygonSourceY + offsetMedium * heightVector
-                } ${polygonSourceX - offsetSmall * baseVector},${
-                    polygonSourceY + offsetSmall * heightVector
-                } ${polygonSourceX},${polygonSourceY}`;
-            } else {
-                newBase = sourceBase;
-                const newHypotenuse = newBase / Math.sin(betaAngle);
-                newHeight = Math.sqrt(
-                    newHypotenuse * newHypotenuse - newBase * newBase
-                );
-                polygonSourceX = sourceX + newBase * baseVector;
-                polygonSourceY = sourceY + newHeight * heightVector;
-                componentPolygon = `${
-                    polygonSourceX + offsetSmall * baseVector
-                },${polygonSourceY - offsetSmall * heightVector} ${
-                    polygonSourceX + offsetMedium * baseVector
-                },${polygonSourceY} ${
-                    polygonSourceX + offsetSmall * baseVector
-                },${
-                    polygonSourceY + offsetSmall * heightVector
-                } ${polygonSourceX},${polygonSourceY}`;
-            }
+            const sourceComponents = getSourceComponents(
+                betaAngle,
+                sourceBase,
+                sourceBetaAngle,
+                sourceHeight,
+                alphaAngle,
+                adjustedSourceY,
+                baseVector,
+                heightVector
+            );
+            componentPolygon = sourceComponents.componentPolygon;
+            polygonSourceX = sourceComponents.polygonSourceX;
+            polygonSourceY = sourceComponents.polygonSourceY;
             // Getting vectors to adjust angle from target to source
             heightVector = targetY < adjustedSourceY ? 1 : -1;
             baseVector = targetX < sourceX ? 1 : -1;
@@ -137,56 +239,19 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                 targetHeight * targetHeight + targetBase * targetBase
             );
             const targetBetaAngle = Math.asin(targetBase / targetHypotenuse);
-            // Using triangulated conection position to create inheritance and relationship polygons and angles to define orientation
-            if (betaAngle < targetBetaAngle) {
-                newHeight = targetHeight;
-                const newHypotenuse = newHeight / Math.sin(alphaAngle);
-                newBase = Math.sqrt(
-                    newHypotenuse * newHypotenuse - newHeight * newHeight
-                );
-                polygonTargetX = targetX + newBase * baseVector;
-                polygonTargetY = targetY + newHeight * heightVector;
-                inheritancePolygon = `${
-                    polygonTargetX + offsetSmall * baseVector
-                },${polygonTargetY + offsetMedium * heightVector} ${
-                    polygonTargetX - offsetSmall * baseVector
-                },${
-                    polygonTargetY + offsetMedium * heightVector
-                } ${polygonTargetX},${polygonTargetY}`;
-                relationshipPolygon = `${
-                    polygonTargetX + offsetSmall * heightVector
-                },${
-                    polygonTargetY + offsetMedium * heightVector
-                } ${polygonTargetX},${polygonTargetY} ${
-                    polygonTargetX - offsetSmall * heightVector
-                },${
-                    polygonTargetY + offsetMedium * heightVector
-                } ${polygonTargetX},${polygonTargetY}`;
-            } else {
-                newBase = targetBase;
-                const newHypotenuse = newBase / Math.sin(betaAngle);
-                newHeight = Math.sqrt(
-                    newHypotenuse * newHypotenuse - newBase * newBase
-                );
-                polygonTargetX = targetX + newBase * baseVector;
-                polygonTargetY = targetY + newHeight * heightVector;
-                inheritancePolygon = `${
-                    polygonTargetX + offsetMedium * baseVector
-                },${polygonTargetY + offsetSmall * heightVector} ${
-                    polygonTargetX + offsetMedium * baseVector
-                },${
-                    polygonTargetY - offsetSmall * heightVector
-                } ${polygonTargetX},${polygonTargetY}`;
-                relationshipPolygon = `${
-                    polygonTargetX + offsetMedium * baseVector
-                },${
-                    polygonTargetY - offsetSmall * heightVector
-                } ${polygonTargetX},${polygonTargetY} ${
-                    polygonTargetX + offsetMedium * baseVector
-                },${
-                    polygonTargetY + offsetSmall * heightVector
-                } ${polygonTargetX},${polygonTargetY}`;
-            }
+            const targetComponents = getTargetComponents(
+                betaAngle,
+                targetBetaAngle,
+                targetHeight,
+                alphaAngle,
+                baseVector,
+                heightVector,
+                targetBase
+            );
+            inheritancePolygon = targetComponents.inheritancePolygon;
+            relationshipPolygon = targetComponents.relationshipPolygon;
+            polygonTargetX = targetComponents.polygonTargetX;
+            polygonTargetY = targetComponents.polygonTargetY;
         }
         return {
             element: element,
@@ -198,7 +263,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
             polygonTargetX: polygonTargetX,
             polygonTargetY: polygonTargetY
         };
-    }, [elements]);
+    }, [id, elements, sourceX, sourceY, targetX, targetY]);
 
     const onNameChange = (evt) => {
         setNameText(evt.target.value);
