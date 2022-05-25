@@ -51,6 +51,9 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
     const graphViewerStyles = getGraphViewerStyles();
     const theme = useTheme();
 
+    const getPolygon = (vertexes) =>
+        vertexes.map((v) => `${v.x},${v.y}`).join(' ');
+
     const getComponentPolygon = (
         polygonSourceX,
         polygonSourceY,
@@ -58,25 +61,32 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
         heightVector,
         verticalPolygon
     ) => {
-        let componentPolygon = '';
-        if (verticalPolygon) {
-            componentPolygon = `${polygonSourceX + offsetSmall * baseVector},${
-                polygonSourceY + offsetSmall * heightVector
-            } ${polygonSourceX},${
-                polygonSourceY + offsetMedium * heightVector
-            } ${polygonSourceX - offsetSmall * baseVector},${
-                polygonSourceY + offsetSmall * heightVector
-            } ${polygonSourceX},${polygonSourceY}`;
-        } else {
-            componentPolygon = `${polygonSourceX + offsetSmall * baseVector},${
-                polygonSourceY - offsetSmall * heightVector
-            } ${polygonSourceX + offsetMedium * baseVector},${polygonSourceY} ${
-                polygonSourceX + offsetSmall * baseVector
-            },${
-                polygonSourceY + offsetSmall * heightVector
-            } ${polygonSourceX},${polygonSourceY}`;
-        }
-        return componentPolygon;
+        const vertexAX = verticalPolygon
+            ? polygonSourceX + offsetSmall * baseVector
+            : polygonSourceX + offsetSmall * baseVector;
+        const vertexAY = verticalPolygon
+            ? polygonSourceY + offsetSmall * heightVector
+            : polygonSourceY - offsetSmall * heightVector;
+        const vertexBX = verticalPolygon
+            ? polygonSourceX
+            : polygonSourceX + offsetMedium * baseVector;
+        const vertexBY = verticalPolygon
+            ? polygonSourceY + offsetMedium * heightVector
+            : polygonSourceY;
+        const vertexCX = verticalPolygon
+            ? polygonSourceX - offsetSmall * baseVector
+            : polygonSourceX + offsetSmall * baseVector;
+        const vertexCY = verticalPolygon
+            ? polygonSourceY + offsetSmall * heightVector
+            : polygonSourceY + offsetSmall * heightVector;
+        const vertexDX = polygonSourceX;
+        const vertexDY = polygonSourceY;
+        return getPolygon([
+            { x: vertexAX, y: vertexAY },
+            { x: vertexBX, y: vertexBY },
+            { x: vertexCX, y: vertexCY },
+            { x: vertexDX, y: vertexDY }
+        ]);
     };
 
     const getInheritancePolygon = (
@@ -86,25 +96,25 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
         heightVector,
         verticalPolygon
     ) => {
-        let inheritancePolygon = '';
-        if (verticalPolygon) {
-            inheritancePolygon = `${
-                polygonTargetX + offsetSmall * baseVector
-            },${polygonTargetY + offsetMedium * heightVector} ${
-                polygonTargetX - offsetSmall * baseVector
-            },${
-                polygonTargetY + offsetMedium * heightVector
-            } ${polygonTargetX},${polygonTargetY}`;
-        } else {
-            inheritancePolygon = `${
-                polygonTargetX + offsetMedium * baseVector
-            },${polygonTargetY + offsetSmall * heightVector} ${
-                polygonTargetX + offsetMedium * baseVector
-            },${
-                polygonTargetY - offsetSmall * heightVector
-            } ${polygonTargetX},${polygonTargetY}`;
-        }
-        return inheritancePolygon;
+        const vertexAX = verticalPolygon
+            ? polygonTargetX + offsetSmall * baseVector
+            : polygonTargetX + offsetMedium * baseVector;
+        const vertexAY = verticalPolygon
+            ? polygonTargetY + offsetMedium * heightVector
+            : polygonTargetY + offsetSmall * heightVector;
+        const vertexBX = verticalPolygon
+            ? polygonTargetX - offsetSmall * baseVector
+            : polygonTargetX + offsetMedium * baseVector;
+        const vertexBY = verticalPolygon
+            ? polygonTargetY + offsetMedium * heightVector
+            : polygonTargetY - offsetSmall * heightVector;
+        const vertexCX = polygonTargetX;
+        const vertexCY = polygonTargetY;
+        return getPolygon([
+            { x: vertexAX, y: vertexAY },
+            { x: vertexBX, y: vertexBY },
+            { x: vertexCX, y: vertexCY }
+        ]);
     };
 
     const getRelationshipPolygon = (
@@ -114,29 +124,26 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
         heightVector,
         verticalPolygon
     ) => {
-        let relationshipPolygon = '';
-        if (verticalPolygon) {
-            relationshipPolygon = `${
-                polygonTargetX + offsetSmall * heightVector
-            },${
-                polygonTargetY + offsetMedium * heightVector
-            } ${polygonTargetX},${polygonTargetY} ${
-                polygonTargetX - offsetSmall * heightVector
-            },${
-                polygonTargetY + offsetMedium * heightVector
-            } ${polygonTargetX},${polygonTargetY}`;
-        } else {
-            relationshipPolygon = `${
-                polygonTargetX + offsetMedium * baseVector
-            },${
-                polygonTargetY - offsetSmall * heightVector
-            } ${polygonTargetX},${polygonTargetY} ${
-                polygonTargetX + offsetMedium * baseVector
-            },${
-                polygonTargetY + offsetSmall * heightVector
-            } ${polygonTargetX},${polygonTargetY}`;
-        }
-        return relationshipPolygon;
+        const vertexAX = verticalPolygon
+            ? polygonTargetX + offsetSmall * heightVector
+            : polygonTargetX + offsetMedium * baseVector;
+        const vertexAY = verticalPolygon
+            ? polygonTargetY + offsetMedium * heightVector
+            : polygonTargetY - offsetSmall * heightVector;
+        const vertexBX = polygonTargetX;
+        const vertexBY = polygonTargetY;
+        const vertexCX = verticalPolygon
+            ? polygonTargetX - offsetSmall * heightVector
+            : polygonTargetX + offsetMedium * baseVector;
+        const vertexCY = verticalPolygon
+            ? polygonTargetY + offsetMedium * heightVector
+            : polygonTargetY + offsetSmall * heightVector;
+        return getPolygon([
+            { x: vertexAX, y: vertexAY },
+            { x: vertexBX, y: vertexBY },
+            { x: vertexCX, y: vertexCY },
+            { x: vertexBX, y: vertexBY }
+        ]);
     };
 
     const getSourceComponents = (
