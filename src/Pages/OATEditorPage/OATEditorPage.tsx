@@ -38,6 +38,7 @@ const OATEditorPage = ({ theme }) => {
             <OATHeader
                 elements={state.elements.digitalTwinsModels}
                 onImportClick={handleImportClick}
+                disabled={state.disabled}
             />
             <OATImport
                 isJsonUploaderOpen={state.isJsonUploaderOpen}

@@ -9,9 +9,10 @@ import { downloadText } from '../../Models/Services/Utils';
 type OATHeaderProps = {
     elements: IOATTwinModelNodes[];
     onImportClick: () => any;
+    disabled: boolean;
 };
 
-const OATHeader = ({ elements, onImportClick }: OATHeaderProps) => {
+const OATHeader = ({ elements, onImportClick, disabled }: OATHeaderProps) => {
     const { t } = useTranslation();
     const headerStyles = getHeaderStyles();
 
@@ -78,14 +79,17 @@ const OATHeader = ({ elements, onImportClick }: OATHeaderProps) => {
     ];
 
     return (
-        <div className={headerStyles.container}>
-            <div className={headerStyles.menuComponent}>
-                <div className="cb-oat-header-model"></div>
-                <div className="cb-oat-header-menu">
-                    <CommandBar items={items} />
+        <div>
+            <div className={headerStyles.container}>
+                <div className={headerStyles.menuComponent}>
+                    <div className="cb-oat-header-model"></div>
+                    <div className="cb-oat-header-menu">
+                        <CommandBar items={items} />
+                    </div>
+                    <div className="cb-oat-header-versioning"></div>
                 </div>
-                <div className="cb-oat-header-versioning"></div>
             </div>
+            {disabled && <div className={headerStyles.disable}></div>}
         </div>
     );
 };

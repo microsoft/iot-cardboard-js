@@ -1,7 +1,7 @@
 import { IStyle, mergeStyleSets, useTheme, FontSizes } from '@fluentui/react';
 import { CardboardClassNamePrefix } from '../../Models/Constants';
 
-const classPrefix = `${CardboardClassNamePrefix}-oat-header`;
+const classPrefix = `${CardboardClassNamePrefix}-oat-model`;
 const classNames = {
     container: `${classPrefix}-container`,
     modelList: `${classPrefix}-model-list`,

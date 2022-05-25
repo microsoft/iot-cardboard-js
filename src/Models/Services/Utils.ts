@@ -373,7 +373,9 @@ export async function parseModels(models: IOATTwinModelNodes[]) {
         } catch (err) {
             for (const parsingError of err._parsingErrors) {
                 alert(`${parsingError.action} ${parsingError.cause}`);
+                return false;
             }
         }
     }
+    return true;
 }

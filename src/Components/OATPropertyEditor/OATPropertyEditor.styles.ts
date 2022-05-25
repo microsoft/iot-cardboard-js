@@ -89,13 +89,14 @@ export const getPropertyInspectorStyles = () => {
                 backgroundColor: theme.semanticColors.listBackground,
                 '& [role="tabpanel"]': {
                     height: '80%'
-                }
+                },
+                zIndex: '201'
             } as IStyle
         ],
         pivotItem: [
             classNames.pivotItem,
             {
-                height: 'auto',
+                height: '100%',
                 backgroundColor: theme.semanticColors.listBackground
             } as IStyle
         ],
@@ -845,4 +846,20 @@ export const getModalTextFieldStyles = () => {
             minWidth: '100%'
         }
     };
+};
+
+export const getCancelButtonStyles = () => {
+    return {
+        root: {
+            zIndex: '202'
+        }
+    } as Partial<IStyle>;
+};
+export const getSaveButtonStyles = () => {
+    return {
+        root: {
+            zIndex: '202',
+            marginLeft: '8px'
+        }
+    } as Partial<IStyle>;
 };
