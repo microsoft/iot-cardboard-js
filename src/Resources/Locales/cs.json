@@ -836,6 +836,11 @@
     "region": "Oblast",
     "singleLanguage": "Jeden jazyk"
   },
+  "ErrorHandlingWrapper": {
+    "errorMessage": "Zpráva o chybě",
+    "errorTitle": "Název chyby",
+    "ok": "Ok"
+  },
   "OATErrorBoundary": {
     "modalHeader": "Něco se pokazilo...",
     "messageHeader": "Zpráva",

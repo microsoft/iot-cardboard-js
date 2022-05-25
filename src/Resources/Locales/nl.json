@@ -836,6 +836,11 @@
     "region": "Regio",
     "singleLanguage": "Eén taal"
   },
+  "ErrorHandlingWrapper": {
+    "errorMessage": "Foutmelding",
+    "errorTitle": "Titel van de fout",
+    "ok": "OK"
+  },
   "OATErrorBoundary": {
     "modalHeader": "Er ging iets mis...",
     "messageHeader": "Bericht",

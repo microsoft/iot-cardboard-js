@@ -7,6 +7,9 @@ const classNames = {
     errorContainer: `${classPrefix}-error-container`,
     component: `${classPrefix}-component`,
     componentTemplate: `${classPrefix}-component-template`,
+    errorHandlingWrapper: `${classPrefix}-error-handling-wrapper`,
+    errorHandlingWrapperErrorTitle: `${classPrefix}-error-handling-wrapper-error-title`,
+    errorHandlingWrapperErrorMessage: `${classPrefix}-error-handling-wrapper-error-message`,
     errorPageHeader: `${classPrefix}-error-page-header`,
     errorPageMessageHeader: `${classPrefix}-error-page-message-header`,
     errorPageStackHeader: `${classPrefix}-error-page-stack-header`
@@ -47,6 +50,34 @@ export const getEditorPageStyles = () => {
                 gridTemplateColumns: '20% 30% 50%'
             } as IStyle
         ],
+        errorHandlingWrapper: [
+            classNames.errorHandlingWrapper,
+            {
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center',
+                width: '100%',
+                height: '100%',
+                padding: '20px',
+                backgroundColor: theme.semanticColors.bodyBackground
+            } as IStyle
+        ],
+        errorHandlingWrapperErrorTitle: [
+            classNames.errorHandlingWrapperErrorTitle,
+            {
+                fontSize: '14px',
+                marginBottom: '20px',
+                color: theme.semanticColors.errorText
+            } as IStyle
+        ],
+        errorHandlingWrapperErrorMessage: [
+            classNames.errorHandlingWrapperErrorMessage,
+            {
+                fontSize: '14px',
+                marginBottom: '20px'
+            } as IStyle
+        ],
         errorPageHeader: [
             classNames.errorPageHeader,
             {
@@ -68,4 +99,3 @@ export const getEditorPageStyles = () => {
         ]
     });
 };
-2;

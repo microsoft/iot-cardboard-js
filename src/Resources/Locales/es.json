@@ -836,6 +836,11 @@
     "region": "Región",
     "singleLanguage": "Idioma único"
   },
+  "ErrorHandlingWrapper": {
+    "errorMessage": "Mensaje de error",
+    "errorTitle": "Título del error",
+    "ok": "De acuerdo"
+  },
   "OATErrorBoundary": {
     "modalHeader": "Algo salió mal...",
     "messageHeader": "Mensaje",

@@ -829,6 +829,11 @@
         "viewTemplates": "View Templates",
         "writable": "Writable"
     },
+    "ErrorHandlingWrapper": {
+        "errorMessage": "Error message",
+        "errorTitle": "Error title",
+        "ok": "Ok"
+    },
     "OATErrorBoundary": {
         "modalHeader": "Something went wrong...",
         "messageHeader": "Message",

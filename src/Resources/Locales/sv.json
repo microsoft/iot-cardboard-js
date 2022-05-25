@@ -836,6 +836,11 @@
     "region": "Region",
     "singleLanguage": "Ett enda språk"
   },
+  "ErrorHandlingWrapper": {
+    "errorMessage": "Felmeddelande",
+    "errorTitle": "Fel titel",
+    "ok": "Okej"
+  },
   "OATErrorBoundary": {
     "modalHeader": "Något gick fel...",
     "messageHeader": "Meddelande",

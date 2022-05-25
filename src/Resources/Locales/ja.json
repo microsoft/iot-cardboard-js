@@ -836,6 +836,11 @@
     "region": "地域",
     "singleLanguage": "単一言語"
   },
+  "ErrorHandlingWrapper": {
+    "errorMessage": "エラーメッセージ",
+    "errorTitle": "エラータイトル",
+    "ok": "わかりました"
+  },
   "OATErrorBoundary": {
     "modalHeader": "何かがおかしくなった...",
     "messageHeader": "メッセージ",

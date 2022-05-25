@@ -3,6 +3,13 @@ import {
     IOATTwinModelNodes
 } from '../../Models/Constants/Interfaces';
 
+export interface IOATError {
+    callback?: () => void;
+    message?: string;
+    title?: string;
+    type?: string;
+}
+
 export interface IOATEditorState {
     model?: IOATTwinModelNodes;
     elements?: any[];
@@ -14,4 +21,5 @@ export interface IOATEditorState {
     importModels?: [];
     isJsonUploaderOpen?: boolean;
     templates?: DTDLProperty[];
+    error?: IOATError;
 }

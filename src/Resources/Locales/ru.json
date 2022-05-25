@@ -836,6 +836,11 @@
     "region": "Область",
     "singleLanguage": "Один язык"
   },
+  "ErrorHandlingWrapper": {
+    "errorMessage": "Сообщение об ошибке",
+    "errorTitle": "Заголовок ошибки",
+    "ok": "Хорошо"
+  },
   "OATErrorBoundary": {
     "modalHeader": "Что-то пошло не так...",
     "messageHeader": "Сообщение",

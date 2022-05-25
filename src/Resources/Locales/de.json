@@ -836,6 +836,11 @@
     "region": "Region",
     "singleLanguage": "Einheitliche Sprache"
   },
+  "ErrorHandlingWrapper": {
+    "errorMessage": "Fehlermeldung",
+    "errorTitle": "Fehlertitel",
+    "ok": "Okay"
+  },
   "OATErrorBoundary": {
     "modalHeader": "Etwas ist schief gelaufen...",
     "messageHeader": "Nachricht",

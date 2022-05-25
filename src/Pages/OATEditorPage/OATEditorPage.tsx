@@ -9,6 +9,7 @@ import {
     OATEditorPageReducer,
     defaultOATEditorState
 } from './OATEditorPage.state';
+import OATErrorHandlingWrapper from './Internal/OATErrorHandlingWrapper';
 import i18n from '../../i18n';
 import OATErrorPage from './Internal/OATErrorPage';
 
@@ -53,6 +54,7 @@ const OATEditorPage = ({ theme }) => {
                     />
                 </div>
             </div>
+            <OATErrorHandlingWrapper state={state} dispatch={dispatch} />
         </ErrorBoundary>
     );
 };

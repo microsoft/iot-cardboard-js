@@ -836,6 +836,11 @@
     "region": "부위",
     "singleLanguage": "단일 언어"
   },
+  "ErrorHandlingWrapper": {
+    "errorMessage": "오류 메시지",
+    "errorTitle": "오류 제목",
+    "ok": "그래"
+  },
   "OATErrorBoundary": {
     "modalHeader": "뭔가 잘못되었습니다 ...",
     "messageHeader": "메시지",
