@@ -95,7 +95,7 @@ export const getPropertyInspectorStyles = () => {
         pivotItem: [
             classNames.pivotItem,
             {
-                height: 'auto',
+                height: '100%',
                 backgroundColor: theme.semanticColors.listBackground
             } as IStyle
         ],
