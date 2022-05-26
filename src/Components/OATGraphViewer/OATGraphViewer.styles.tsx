@@ -276,3 +276,10 @@ export const getGraphViewerWarningStyles = () => {
         }
     } as Partial<IStyle>;
 };
+
+export const getGraphViewerMinimapStyles = () => {
+    const theme = useTheme();
+    return {
+        background: theme.semanticColors.bodyBackground
+    } as Partial<IStyle>;
+};
