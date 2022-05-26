@@ -231,7 +231,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                 heightVector,
                 true
             );
-            relationshipPolygon = getInheritancePolygon(
+            relationshipPolygon = getRelationshipPolygon(
                 polygonTargetX,
                 polygonTargetY,
                 baseVector,
@@ -246,7 +246,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
             );
             polygonTargetX = targetX + newBase * baseVector;
             polygonTargetY = targetY + newHeight * heightVector;
-            inheritancePolygon = getRelationshipPolygon(
+            inheritancePolygon = getInheritancePolygon(
                 polygonTargetX,
                 polygonTargetY,
                 baseVector,
@@ -313,7 +313,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                 baseVector,
                 heightVector
             );
-            polygons = { polygons, ...sourceComponents };
+            polygons = { ...polygons, ...sourceComponents };
             // Getting vectors to adjust angle from target to source
             heightVector = targetY < adjustedSourceY ? 1 : -1;
             baseVector = targetX < sourceX ? 1 : -1;
@@ -333,7 +333,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                 heightVector,
                 targetBase
             );
-            polygons = { polygons, ...targetComponents };
+            polygons = { ...polygons, ...targetComponents };
         }
         return polygons;
     }, [id, elements, sourceX, sourceY, targetX, targetY]);
