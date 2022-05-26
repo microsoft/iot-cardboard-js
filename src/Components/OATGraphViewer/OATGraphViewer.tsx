@@ -503,7 +503,8 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
             }
             if (
                 currentHandleIdRef.current === OATComponentHandleName ||
-                currentHandleIdRef.current === OATExtendHandleName
+                currentHandleIdRef.current === OATExtendHandleName ||
+                currentHandleIdRef.current === OATRelationshipHandleName
             ) {
                 const name = `Model${newModelId}`;
                 const id = `${idClassBase}model${newModelId};${versionClassBase}`;

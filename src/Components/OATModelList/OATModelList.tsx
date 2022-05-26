@@ -114,7 +114,11 @@ const OATModelList = ({ elements, dispatch }: OATModelListProps) => {
                     onClick={() => onSelectedClick(item['@id'])}
                 >
                     <div className={modelsStyles.modelList}>
-                        <div onClick={() => onNameClick(item['displayName'])}>
+                        <div
+                            onDoubleClick={() =>
+                                onNameClick(item['displayName'])
+                            }
+                        >
                             {(!nameEditor ||
                                 currentNodeId.current !== item['@id']) && (
                                 <strong>
@@ -135,7 +139,7 @@ const OATModelList = ({ elements, dispatch }: OATModelListProps) => {
                                     />
                                 )}
                         </div>
-                        <div onClick={() => onIdClick(item['@id'])}>
+                        <div onDoubleClick={() => onIdClick(item['@id'])}>
                             {(!idEditor ||
                                 currentNodeId.current !== item['@id']) && (
                                 <>{item['@id']}</>
