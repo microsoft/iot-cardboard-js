@@ -655,7 +655,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
         }
     };
 
-    const positionLookUp = (node = null) => {
+    const positionLookUp = (newNodes = null) => {
         let defaultPositionX = 100;
         let defaultPositionY = 100;
         const areaDistanceX = 250;
@@ -664,7 +664,9 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
         const defaultPosition = 100;
         const minWidth = 300;
         const minHeight = 100;
-        const lookUpElements = node ? [...elements, ...node] : [...elements];
+        const lookUpElements = newNodes
+            ? [...elements, ...newNodes]
+            : [...elements];
 
         let nodes = lookUpElements.find(
             (element) =>
