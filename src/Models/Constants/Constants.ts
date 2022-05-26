@@ -187,6 +187,7 @@ export const EnvironmentsLocalStorageKey = 'cb-environments';
 export const ContainersLocalStorageKey = 'cb-containers';
 export const SelectedEnvironmentLocalStorageKey = 'cb-selected-environment';
 export const SelectedContainerLocalStorageKey = 'cb-selected-container';
+export const OATFilesStorageKey = 'oat-files';
 export const OATDataStorageKey = 'oat-data';
 export const OATUntargetedRelationshipName = 'Untargeted';
 export const OATRelationshipHandleName = 'Relationship';

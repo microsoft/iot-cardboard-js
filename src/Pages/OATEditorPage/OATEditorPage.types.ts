@@ -2,6 +2,7 @@ import {
     DTDLProperty,
     IOATTwinModelNodes
 } from '../../Models/Constants/Interfaces';
+import { ProjectData } from './Internal/Classes';
 
 export interface IOATError {
     callback?: () => void;
@@ -21,5 +22,6 @@ export interface IOATEditorState {
     importModels?: [];
     isJsonUploaderOpen?: boolean;
     templates?: DTDLProperty[];
+    project?: ProjectData;
     error?: IOATError;
 }

@@ -1,4 +1,10 @@
-import { IStyle, mergeStyleSets, useTheme, FontSizes } from '@fluentui/react';
+import {
+    IStyle,
+    mergeStyleSets,
+    useTheme,
+    FontSizes,
+    IButtonStyles
+} from '@fluentui/react';
 import { CardboardClassNamePrefix } from '../../Models/Constants';
 
 const classPrefix = `${CardboardClassNamePrefix}-oat-header`;
@@ -9,7 +15,12 @@ const classNames = {
     search: `${classPrefix}-search`,
     options: `${classPrefix}-options`,
     menuComponent: `${classPrefix}-menu-component`,
-    optionIcon: `${classPrefix}-option-icon`
+    optionIcon: `${classPrefix}-option-icon`,
+    listSubMenu: `${classPrefix}-list-sub-menu`,
+    listSubMenuItem: `${classPrefix}-list-sub-menu-item`,
+    modal: `${classPrefix}-modal`,
+    modalRow: `${classPrefix}-modal-row`,
+    modalRowFlexEnd: `${classPrefix}-modal-row-flex-end`
 };
 
 export const getHeaderStyles = () => {
@@ -71,6 +82,97 @@ export const getHeaderStyles = () => {
                 paddingLeft: '50%',
                 color: theme.semanticColors.actionLink
             } as IStyle
+        ],
+        modal: [
+            classNames.modal,
+            {
+                border: `1px solid ${theme.semanticColors.variantBorder}`,
+                borderRadius: '2px',
+                padding: '15px 25px',
+                minWidth: '600px'
+            } as IStyle
+        ],
+        modalRow: [
+            classNames.modalRow,
+            {
+                display: 'grid',
+                width: '100%',
+                gridTemplateColumns: '35% 65%',
+                alignItems: 'center',
+                marginBottom: '15px',
+                '& div:not(:last-of-type)': {
+                    marginRight: '10px'
+                }
+            } as IStyle
+        ],
+        modalRowFlexEnd: [
+            classNames.modalRowFlexEnd,
+            {
+                display: 'flex',
+                justifyContent: 'flex-end',
+                alignItems: 'center',
+                marginBottom: '15px',
+                width: '100%',
+                '& button:not(:last-of-type)': {
+                    marginRight: '10px'
+                }
+            } as IStyle
+        ],
+        modalRowCenterItem: [
+            classNames.modalRowFlexEnd,
+            {
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                marginBottom: '25px',
+                width: '100%',
+                '& button:not(:last-of-type)': {
+                    marginRight: '10px'
+                }
+            } as IStyle
         ]
     });
+};
+
+export const getSubMenuItemStyles = () => {
+    const theme = useTheme();
+    return {
+        root: {
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+            minWidth: 'max-content',
+            width: '100%',
+            padding: '8px',
+            ':hover': {
+                backgroundColor: theme.semanticColors.primaryButtonTextDisabled
+            }
+        }
+    } as Partial<IButtonStyles>;
+};
+
+export const getSubMenuStyles = () => {
+    const theme = useTheme();
+    return {
+        root: {
+            position: 'absolute',
+            backgroundColor: theme.semanticColors.listBackground,
+            boxShadow: '0px 5px 10px 1px rgba(0,0,0,0.2)',
+            zIndex: 1,
+            right: '0px',
+            top: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            borderRadius: '4px',
+            width: '400px'
+        }
+    } as Partial<IButtonStyles>;
+};
+
+export const getPromptTextStyles = () => {
+    return {
+        root: {
+            fontSize: '16px'
+        }
+    };
 };
