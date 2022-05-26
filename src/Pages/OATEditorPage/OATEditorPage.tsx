@@ -1,4 +1,4 @@
-import React, { useReducer } from 'react';
+import React, { useReducer, useEffect } from 'react';
 import OATHeader from '../../Components/OATHeader/OATHeader';
 import OATModelList from '../../Components/OATModelList/OATModelList';
 import OATGraphViewer from '../../Components/OATGraphViewer/OATGraphViewer';
@@ -11,6 +11,10 @@ import {
 } from './OATEditorPage.state';
 import OATErrorHandlingWrapper from './Internal/OATErrorHandlingWrapper';
 import i18n from '../../i18n';
+import {
+    loadFiles,
+    saveFiles
+} from '../../Components/OATHeader/internal/Utils';
 import OATErrorPage from './Internal/OATErrorPage';
 
 const OATEditorPage = ({ theme }) => {
@@ -18,7 +22,7 @@ const OATEditorPage = ({ theme }) => {
         OATEditorPageReducer,
         defaultOATEditorState
     );
-    const editorPageStyles = getEditorPageStyles();
+    const EditorPageStyles = getEditorPageStyles();
 
     const languages = Object.keys(i18n.options.resources).map((language) => {
         return {
@@ -27,12 +31,29 @@ const OATEditorPage = ({ theme }) => {
         };
     });
 
+    const handleImportClick = () => {
+        dispatch({
+            type: SET_OAT_IS_JSON_UPLOADER_OPEN,
+            payload: !state.isJsonUploaderOpen
+        });
+    };
+    const editorPageStyles = getEditorPageStyles();
+
+    useEffect(() => {
+        //  Set the OATFilesStorageKey to the localStorage
+        const files = loadFiles();
+        if (!files) {
+            saveFiles([]);
+        }
+    }, []);
+
     return (
         <ErrorBoundary FallbackComponent={OATErrorPage}>
             <div className={editorPageStyles.container}>
                 <OATHeader
                     elements={state.elements.digitalTwinsModels}
                     dispatch={dispatch}
+                    state={state}
                 />
                 <div
                     className={

@@ -745,7 +745,22 @@
     "publish": "Publicar",
     "sync": "Sincronizar",
     "import": "Importación",
-    "export": "Exportar"
+    "export": "Exportar",
+    "file": "Archivo",
+    "new": "Nuevo",
+    "open": "Abrir",
+    "saveAs": "Guardar como",
+    "delete": "Borrar",
+    "enterAName": "Introduzca un nombre",
+    "cancel": "Cancelar",
+    "project": "Proyecto",
+    "untitledProject": "Proyecto sin título",
+    "description": "Descripción",
+    "dontSave": "No ahorres",
+    "doYouWantToSaveChangesYouMadeTo": "¿Desea guardar los cambios realizados en",
+    "doYouWantToDelete": "¿Desea eliminar",
+    "projectWithSameNameAlreadyExistsMessage?": "El proyecto con el mismo nombre ya existe, ¿te gustaría anularlo?",
+    "overwrite": "sobrescribir"
   },
   "cameraControls": {
     "mouseControls": "Controles del ratón",

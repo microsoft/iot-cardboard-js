@@ -12,6 +12,7 @@ import {
     SET_OAT_IMPORT_MODELS,
     SET_OAT_IS_JSON_UPLOADER_OPEN,
     SET_OAT_TEMPLATES,
+    SET_OAT_PROJECT,
     SET_OAT_ERROR
 } from '../../Models/Constants/ActionTypes';
 
@@ -26,6 +27,7 @@ export const defaultOATEditorState: IOATEditorState = {
     importModels: [],
     isJsonUploaderOpen: false,
     templates: null,
+    project: null,
     error: null
 };
 
@@ -63,6 +65,9 @@ export const OATEditorPageReducer = produce(
                 return;
             case SET_OAT_TEMPLATES:
                 state.templates = payload;
+                return;
+            case SET_OAT_PROJECT:
+                state.project = payload;
                 return;
             case SET_OAT_ERROR:
                 state.error = payload;

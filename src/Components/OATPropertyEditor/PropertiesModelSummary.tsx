@@ -56,7 +56,7 @@ export const PropertiesModelSummary = ({
                     borderless
                     disabled={!model}
                     value={
-                        model
+                        model && model.displayName
                             ? typeof model.displayName === 'string'
                                 ? model.displayName
                                 : Object.values(model.displayName)[0]

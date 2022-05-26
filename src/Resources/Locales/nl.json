@@ -745,7 +745,22 @@
     "publish": "Uitgeven",
     "sync": "Sync",
     "import": "Importeren",
-    "export": "Exporteren"
+    "export": "Exporteren",
+    "file": "Bestand",
+    "new": "Nieuw",
+    "open": "Openen",
+    "saveAs": "Opslaan als",
+    "delete": "Verwijderen",
+    "enterAName": "Voer een naam in",
+    "cancel": "Annuleren",
+    "project": "Project",
+    "untitledProject": "Naamloos project",
+    "description": "Beschrijving",
+    "dontSave": "Niet opslaan",
+    "doYouWantToSaveChangesYouMadeTo": "Wilt u de wijzigingen opslaan die u hebt aangebracht in",
+    "doYouWantToDelete": "Wilt u verwijderen",
+    "projectWithSameNameAlreadyExistsMessage?": "Project met dezelfde naam bestaat al, wil je het overschrijven?",
+    "overwrite": "overschrijven"
   },
   "cameraControls": {
     "mouseControls": "Muisbediening",

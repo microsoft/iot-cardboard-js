@@ -82,7 +82,8 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
         deletedModelId,
         selectedModelId,
         editedModelName,
-        editedModelId
+        editedModelId,
+        project
     } = state;
     const [showRelationships, setShowRelationships] = useState(true);
     const [showInheritances, setShowInheritances] = useState(true);
@@ -138,6 +139,11 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
             }
         }
     }, [model]);
+
+    useEffect(() => {
+        // Reload elements on project change
+        setElements(getStoredElements());
+    }, [project]);
 
     useEffect(() => {
         // Detects when a Model is deleted outside of the component and Updates the elements state
@@ -535,7 +541,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     };
 
     const storeElements = () => {
-        // Save the desire session data into the local storage
+        // Save the session data into the local storage
         const nodePositions = elements.reduce((collection, element) => {
             if (!element.source) {
                 collection.push({
