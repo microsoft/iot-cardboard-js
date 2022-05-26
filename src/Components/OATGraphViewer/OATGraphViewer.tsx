@@ -28,7 +28,8 @@ import {
 import {
     getGraphViewerStyles,
     getGraphViewerButtonStyles,
-    getGraphViewerWarningStyles
+    getGraphViewerWarningStyles,
+    getGraphViewerMinimapStyles
 } from './OATGraphViewer.styles';
 import { ElementsContext } from './Internal/OATContext';
 import {
@@ -68,11 +69,11 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     const [elements, setElements] = useState(
         !storedElements ? [] : storedElements
     );
-    const defaultPosition = 100;
     const [newModelId, setNewModelId] = useState(0);
     const graphViewerStyles = getGraphViewerStyles();
     const buttonStyles = getGraphViewerButtonStyles();
     const warningStyles = getGraphViewerWarningStyles();
+    const graphViewerMinimapStyles = getGraphViewerMinimapStyles();
     const currentNodeIdRef = useRef('');
     const currentHandleIdRef = useRef('');
     const {
@@ -113,7 +114,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
             const node = elements.find(
                 (element) => element.id === currentNodeIdRef.current
             );
-            if (node) {
+            if (node && !node.source) {
                 const newId = model['@id'];
                 elements.forEach((x) => {
                     if (x.source && x.source === currentNodeIdRef.current) {
@@ -212,7 +213,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                 const newNode = new ElementNode(
                     input['@id'],
                     input['@type'],
-                    new ElementPosition(defaultPosition, defaultPosition),
+                    positionLookUp(importModelsList),
                     new ElementData(
                         input['@id'],
                         input['displayName'],
@@ -342,10 +343,11 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
         setElements((els) => removeElements(elementsToRemove, els));
     };
 
-    const onLoad = useCallback(
-        (_reactFlowInstance) => _reactFlowInstance.fitView(),
-        []
-    );
+    const onLoad = useCallback((_reactFlowInstance) => {
+        _reactFlowInstance.fitView();
+        _reactFlowInstance.zoomOut();
+        _reactFlowInstance.zoomOut();
+    }, []);
 
     const onNewModelClick = () => {
         // Create a new floating node
@@ -354,7 +356,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
         const newNode = {
             id: id,
             type: OATInterfaceType,
-            position: { x: defaultPosition, y: defaultPosition },
+            position: positionLookUp(),
             data: {
                 name: name,
                 type: OATInterfaceType,
@@ -685,6 +687,46 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
         }
     };
 
+    const positionLookUp = (newNodes = null) => {
+        let defaultPositionX = 100;
+        let defaultPositionY = 100;
+        const areaDistanceX = 250;
+        const areaDistanceY = 80;
+        const maxWidth = 800;
+        const defaultPosition = 100;
+        const minWidth = 300;
+        const minHeight = 100;
+        const lookUpElements = newNodes
+            ? [...elements, ...newNodes]
+            : [...elements];
+
+        let nodes = lookUpElements.find(
+            (element) =>
+                !element.source &&
+                defaultPositionX - areaDistanceX < element.position.x &&
+                element.position.x < defaultPositionX + areaDistanceX &&
+                defaultPositionY - areaDistanceY < element.position.y &&
+                element.position.y < defaultPositionY + areaDistanceY
+        );
+        while (nodes) {
+            if (defaultPositionX > maxWidth) {
+                defaultPositionY = defaultPositionY + minHeight;
+                defaultPositionX = defaultPosition;
+            } else {
+                defaultPositionX = defaultPositionX + minWidth;
+            }
+            nodes = lookUpElements.find(
+                (element) =>
+                    !element.source &&
+                    defaultPositionX - areaDistanceX < element.position.x &&
+                    element.position.x < defaultPositionX + areaDistanceX &&
+                    defaultPositionY - areaDistanceY < element.position.y &&
+                    element.position.y < defaultPositionY + areaDistanceY
+            );
+        }
+        return { x: defaultPositionX, y: defaultPositionY };
+    };
+
     return (
         <ReactFlowProvider>
             <div
@@ -806,7 +848,10 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                             </div>
                         </Stack>
 
-                        <MiniMap />
+                        <MiniMap
+                            nodeColor={theme.semanticColors.inputBackground}
+                            style={graphViewerMinimapStyles}
+                        />
                         <Controls
                             className={graphViewerStyles.graphViewerControls}
                         />
