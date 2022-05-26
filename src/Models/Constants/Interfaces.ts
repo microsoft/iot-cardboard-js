@@ -756,6 +756,7 @@ export interface IADT3DViewerProps extends BaseComponentProps {
      * Call to provide customized styling that will layer on top of the variant rules.
      */
     styles?: IStyleFunctionOrObject<IADT3DViewerStyleProps, IADT3DViewerStyles>;
+    selectedLayers?: string[];
 }
 
 export interface IADT3DViewerMode {

@@ -83,7 +83,8 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
     hideElementsPanel,
     hideViewModePickerUI,
     showModeToggle = false,
-    styles
+    styles,
+    selectedLayers
 }) => {
     // hooks
     const { deeplinkState, deeplinkDispatch } = useDeeplinkContext();
@@ -285,6 +286,12 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
         setSelectedLayerIds,
         unlayeredBehaviorsPresent
     ]);
+
+    useEffect(() => {
+        if (selectedLayers) {
+            setSelectedLayerIds(selectedLayers, true);
+        }
+    }, [selectedLayers]);
 
     const setSelectedElementId = useCallback(
         (elementId: string) => {
