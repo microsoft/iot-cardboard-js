@@ -850,5 +850,16 @@
     "multiLanguage": "多国语言",
     "region": "地区",
     "singleLanguage": "单一语言"
+  },
+  "ErrorHandlingWrapper": {
+    "errorMessage": "错误信息",
+    "errorTitle": "错误标题",
+    "ok": "还行"
+  },
+  "OATErrorBoundary": {
+    "modalHeader": "出了点问题...",
+    "messageHeader": "消息",
+    "stackHeader": "叠",
+    "tryAgain": "再试一次"
   }
 }

@@ -30,9 +30,13 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
     );
     const [idEditor, setIdEditor] = useState(false);
     const [idText, setIdText] = useState(data.id);
-    const { elements, setElements, setCurrentNode, dispatch } = useContext(
-        ElementsContext
-    );
+    const {
+        elements,
+        setElements,
+        setCurrentNode,
+        dispatch,
+        currentNodeIdRef
+    } = useContext(ElementsContext);
     const graphViewerStyles = getGraphViewerStyles();
     const iconStyles = getGraphViewerIconStyles();
     const actionButtonStyles = getGraphViewerActionButtonStyles();
@@ -158,7 +162,7 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
                         <div className={graphViewerStyles.nodeContainer}>
                             <label>{t('OATGraphViewer.name')}:</label>
                             {!nameEditor && (
-                                <Label onClick={onNameClick}>
+                                <Label onDoubleClick={onNameClick}>
                                     {getPropertyDisplayName(data)}
                                 </Label>
                             )}
@@ -176,7 +180,9 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
                         <div className={graphViewerStyles.nodeContainer}>
                             {t('OATGraphViewer.id')}:
                             {!idEditor && (
-                                <Label onClick={onIdClick}>{data.id}</Label>
+                                <Label onDoubleClick={onIdClick}>
+                                    {data.id}
+                                </Label>
                             )}
                             {idEditor && (
                                 <TextField
@@ -205,21 +211,44 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
                         type="source"
                         position="bottom"
                         id={OATComponentHandleName}
-                        className={graphViewerStyles.componentHandle}
+                        className={
+                            currentNodeIdRef.current === data.id
+                                ? graphViewerStyles.componentHandleFocus
+                                : graphViewerStyles.componentHandleHidden
+                        }
                         isConnectable={isConnectable}
                     />
                     <Handle
                         type="source"
                         position="bottom"
                         id={OATRelationshipHandleName}
-                        className={graphViewerStyles.relationshipHandle}
+                        className={
+                            currentNodeIdRef.current === data.id
+                                ? graphViewerStyles.relationshipHandleFocus
+                                : graphViewerStyles.relationshipHandleHidden
+                        }
+                        isConnectable={isConnectable}
+                    />
+                    <Handle
+                        type="source"
+                        position="bottom"
+                        id={OATUntargetedRelationshipName}
+                        className={
+                            currentNodeIdRef.current === data.id
+                                ? graphViewerStyles.untargetRelationshipHandleFocus
+                                : graphViewerStyles.untargetRelationshipHandleHidden
+                        }
                         isConnectable={isConnectable}
                     />
                     <Handle
                         type="source"
                         position="bottom"
                         id={OATExtendHandleName}
-                        className={graphViewerStyles.extendHandle}
+                        className={
+                            currentNodeIdRef.current === data.id
+                                ? graphViewerStyles.extendHandleFocus
+                                : graphViewerStyles.extendHandleHidden
+                        }
                         isConnectable={isConnectable}
                     />
                 </>

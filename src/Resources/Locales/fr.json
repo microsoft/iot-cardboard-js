@@ -850,5 +850,16 @@
     "multiLanguage": "multilingue",
     "region": "Région",
     "singleLanguage": "Langue unique"
+  },
+  "ErrorHandlingWrapper": {
+    "errorMessage": "Message d'erreur",
+    "errorTitle": "Titre de l’erreur",
+    "ok": "D’accord"
+  },
+  "OATErrorBoundary": {
+    "modalHeader": "Quelque chose a mal tourné...",
+    "messageHeader": "Message",
+    "stackHeader": "Pile",
+    "tryAgain": "Réessayez"
   }
 }

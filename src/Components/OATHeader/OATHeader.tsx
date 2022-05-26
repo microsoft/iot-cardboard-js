@@ -1,36 +1,38 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { CommandBar, ICommandBarItemProps } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { getHeaderStyles } from './OATHeader.styles';
 import JSZip from 'jszip';
-import {
-    IAction,
-    IOATTwinModelNodes,
-    OATDataStorageKey
-} from '../../Models/Constants';
+
 import FileSubMenu from './internal/FileSubMenu';
 import Modal from './internal/Modal';
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 import { SET_OAT_PROJECT } from '../../Models/Constants/ActionTypes';
 import { ProjectData } from '../../Pages/OATEditorPage/Internal/Classes';
 
+import { IOATTwinModelNodes, OATDataStorageKey } from '../../Models/Constants';
+import { IAction } from '../../Models/Constants/Interfaces';
+import { useDropzone } from 'react-dropzone';
+import { SET_OAT_IMPORT_MODELS } from '../../Models/Constants/ActionTypes';
+import prettyBytes from 'pretty-bytes';
+import {
+    FileUploadStatus,
+    IJSONUploaderFileItem as IFileItem
+} from '../../Models/Constants';
+
 const ID_FILE = 'file';
 
 type OATHeaderProps = {
     elements: IOATTwinModelNodes[];
-    onImportClick: () => any;
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
     state?: IOATEditorState;
 };
 
-const OATHeader = ({
-    elements,
-    onImportClick,
-    dispatch,
-    state
-}: OATHeaderProps) => {
+const OATHeader = ({ elements, dispatch, state }: OATHeaderProps) => {
     const { t } = useTranslation();
     const headerStyles = getHeaderStyles();
+    const { acceptedFiles, getRootProps, getInputProps } = useDropzone();
+    const inputFileRef = useRef();
     const [subMenuActive, setSubMenuActive] = useState(false);
     const [modalOpen, setModalOpen] = useState(false);
     const [modalBody, setModalBody] = useState(null);
@@ -57,6 +59,10 @@ const OATHeader = ({
         zip.generateAsync({ type: 'blob' }).then((content) => {
             downloadModelExportBlob(content);
         });
+    };
+
+    const onImportClick = () => {
+        inputFileRef.current.click();
     };
 
     const items: ICommandBarItemProps[] = [
@@ -98,6 +104,42 @@ const OATHeader = ({
             }
         });
     };
+    useEffect(() => {
+        const newFiles = [];
+        acceptedFiles.forEach((sF) => {
+            if (sF.type === 'application/json') {
+                newFiles.push(sF);
+            } else {
+                alert(`${sF.name} format not Supported`);
+            }
+        });
+        handleFileListChanged(newFiles);
+    }, [acceptedFiles]);
+
+    const handleFileListChanged = async (files: Array<File>) => {
+        const items = [];
+        if (files.length > 0) {
+            for (const current of files) {
+                const newItem = {
+                    name: current.name,
+                    size: prettyBytes(current.size),
+                    status: FileUploadStatus.Uploading
+                } as IFileItem;
+                try {
+                    const content = await current.text();
+                    newItem.content = JSON.parse(content);
+                } catch (error) {
+                    console.log(error);
+                    alert(error);
+                }
+                items.push(newItem.content);
+            }
+            dispatch({
+                type: SET_OAT_IMPORT_MODELS,
+                payload: items
+            });
+        }
+    };
 
     return (
         <div className={headerStyles.container}>
@@ -128,6 +170,9 @@ const OATHeader = ({
                     />
                 </div>
                 <div className="cb-oat-header-versioning"></div>
+            </div>
+            <div {...getRootProps()}>
+                <input {...getInputProps()} ref={inputFileRef} />
             </div>
         </div>
     );

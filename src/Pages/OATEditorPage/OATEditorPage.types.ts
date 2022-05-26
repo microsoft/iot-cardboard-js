@@ -4,6 +4,13 @@ import {
 } from '../../Models/Constants/Interfaces';
 import { ProjectData } from './Internal/Classes';
 
+export interface IOATError {
+    callback?: () => void;
+    message?: string;
+    title?: string;
+    type?: string;
+}
+
 export interface IOATEditorState {
     model?: IOATTwinModelNodes;
     elements?: any[];
@@ -16,4 +23,5 @@ export interface IOATEditorState {
     isJsonUploaderOpen?: boolean;
     templates?: DTDLProperty[];
     project?: ProjectData;
+    error?: IOATError;
 }

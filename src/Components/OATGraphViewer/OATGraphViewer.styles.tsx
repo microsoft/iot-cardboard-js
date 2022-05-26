@@ -6,9 +6,14 @@ const classNames = {
     container: `${classPrefix}-container`,
     node: `${classPrefix}-node`,
     handle: `${classPrefix}-handle`,
-    componentHandle: `${classPrefix}-component-handle`,
-    relationshipHandle: `${classPrefix}-relationship-handle`,
-    extendHandle: `${classPrefix}-extend-handle`,
+    componentHandleFocus: `${classPrefix}-component-handle-focus`,
+    componentHandleHidden: `${classPrefix}-component-handle-hidden`,
+    relationshipHandleFocus: `${classPrefix}-relationship-handle-focus`,
+    relationshipHandleHidden: `${classPrefix}-relationship-handle-hidden`,
+    extendHandleFocus: `${classPrefix}-extend-handle-focus`,
+    extendHandleHidden: `${classPrefix}-extend-handle-hidden`,
+    untargetRelationshipHandleFocus: `${classPrefix}-untargeted-handle-focus`,
+    untargetRelationshipHandleHidden: `${classPrefix}-untargeted-handle-hidden`,
     edgePath: `${classPrefix}-edge-path`,
     widthPath: `${classPrefix}-width-path`,
     textPath: `${classPrefix}-text-path`,
@@ -32,7 +37,53 @@ export const getGraphViewerStyles = () => {
             classNames.container,
             {
                 background: theme.semanticColors.bodyBackground,
-                height: '80vh'
+                height: 'auto',
+                [`& .${classNames.handle}`]: {
+                    background: 'transparent',
+                    border: '0px',
+                    left: '60%',
+                    top: '50%'
+                },
+                [`& .${classNames.componentHandleFocus}`]: {
+                    left: '20%',
+                    background: theme.semanticColors.variantBorder
+                },
+                [`& .${classNames.componentHandleHidden}`]: {
+                    left: '60%',
+                    top: '50%',
+                    background: 'transparent',
+                    border: '0px'
+                },
+                [`& .${classNames.relationshipHandleFocus}`]: {
+                    left: '45%',
+                    background: theme.semanticColors.variantBorder
+                },
+                [`& .${classNames.relationshipHandleHidden}`]: {
+                    left: '60%',
+                    top: '50%',
+                    background: 'transparent',
+                    border: '0px'
+                },
+                [`& .${classNames.extendHandleFocus}`]: {
+                    left: '100%',
+                    background: theme.semanticColors.variantBorder
+                },
+                [`& .${classNames.extendHandleHidden}`]: {
+                    left: '60%',
+                    top: '50%',
+                    background: 'transparent',
+                    border: '0px'
+                },
+                [`& .${classNames.untargetRelationshipHandleFocus}`]: {
+                    left: '70%',
+                    background: theme.semanticColors.variantBorder
+                },
+                [`& .${classNames.untargetRelationshipHandleHidden}`]: {
+                    left: '60%',
+                    top: '50%',
+                    background: 'transparent',
+                    border: '0px'
+                }
             } as IStyle
         ],
         node: [
@@ -46,31 +97,18 @@ export const getGraphViewerStyles = () => {
                 width: '120%'
             } as IStyle
         ],
-        handle: [
-            classNames.handle,
-            {
-                background: theme.semanticColors.variantBorder
-            } as IStyle
+        handle: [classNames.handle],
+        componentHandleFocus: [classNames.componentHandleFocus],
+        componentHandleHidden: [classNames.componentHandleHidden],
+        relationshipHandleFocus: [classNames.relationshipHandleFocus],
+        relationshipHandleHidden: [classNames.relationshipHandleHidden],
+        extendHandleFocus: [classNames.extendHandleFocus],
+        extendHandleHidden: [classNames.extendHandleHidden],
+        untargetRelationshipHandleFocus: [
+            classNames.untargetRelationshipHandleFocus
         ],
-        componentHandle: [
-            classNames.componentHandle,
-            {
-                left: '16.5% !Important',
-                background: theme.semanticColors.variantBorder
-            } as IStyle
-        ],
-        relationshipHandle: [
-            classNames.relationshipHandle,
-            {
-                background: theme.semanticColors.variantBorder
-            } as IStyle
-        ],
-        extendHandle: [
-            classNames.extendHandle,
-            {
-                left: '83.5% !Important',
-                background: theme.semanticColors.variantBorder
-            } as IStyle
+        untargetRelationshipHandleHidden: [
+            classNames.untargetRelationshipHandleHidden
         ],
         edgePath: [
             classNames.edgePath,
@@ -83,8 +121,7 @@ export const getGraphViewerStyles = () => {
         widthPath: [
             classNames.widthPath,
             {
-                stroke: theme.semanticColors.bodyBackground,
-                strokeWidth: '5',
+                strokeWidth: '10',
                 fill: 'none'
             } as IStyle
         ],
@@ -237,5 +274,12 @@ export const getGraphViewerWarningStyles = () => {
             fontSize: FontSizes.size10,
             color: theme.semanticColors.severeWarningIcon
         }
+    } as Partial<IStyle>;
+};
+
+export const getGraphViewerMinimapStyles = () => {
+    const theme = useTheme();
+    return {
+        background: theme.semanticColors.bodyBackground
     } as Partial<IStyle>;
 };

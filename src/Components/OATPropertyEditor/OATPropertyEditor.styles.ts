@@ -171,7 +171,7 @@ export const getPropertyInspectorStyles = () => {
             {
                 position: 'relative',
                 paddingBottom: '30px',
-                height: '100%',
+                height: '80%',
                 minHeight: '100px'
             } as IStyle
         ],

@@ -850,5 +850,16 @@
     "multiLanguage": "multi-língua",
     "region": "Região",
     "singleLanguage": "Língua única"
+  },
+  "ErrorHandlingWrapper": {
+    "errorMessage": "Mensagem de erro",
+    "errorTitle": "Título de erro",
+    "ok": "Ok"
+  },
+  "OATErrorBoundary": {
+    "modalHeader": "Alguma coisa correu mal...",
+    "messageHeader": "Mensagem",
+    "stackHeader": "Pilha",
+    "tryAgain": "Tentar novamente"
   }
 }

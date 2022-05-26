@@ -850,5 +850,16 @@
     "multiLanguage": "többnyelvű",
     "region": "Régió",
     "singleLanguage": "Egynyelvű"
+  },
+  "ErrorHandlingWrapper": {
+    "errorMessage": "Hibaüzenet",
+    "errorTitle": "Hiba címe",
+    "ok": "Oké"
+  },
+  "OATErrorBoundary": {
+    "modalHeader": "Valami elromlott...",
+    "messageHeader": "Üzenet",
+    "stackHeader": "Boglya",
+    "tryAgain": "Próbáld újra"
   }
 }

@@ -22,14 +22,18 @@ export const getModelsStyles = () => {
         modelList: [
             classNames.modelList,
             {
-                width: '100%'
+                width: '100%',
+                float: 'left'
             } as IStyle
         ],
         nodeCancel: [
             classNames.nodeCancel,
             {
                 height: FontSizes.size12,
-                float: 'right'
+                position: 'absolute',
+                marginTop: '5px',
+                marginLeft: '18%',
+                zIndex: '101'
             } as IStyle
         ]
     });
