@@ -5,7 +5,10 @@ import { ADT3DScenePageContext } from '../../../Pages/ADT3DScenePage/ADT3DSceneP
 import { dropdownStyles } from './SceneDropdown.styles';
 import { SceneDropdownProps } from './SceneDropdown.types';
 
-const SceneDropdown: React.FC<SceneDropdownProps> = ({ sceneId }) => {
+const SceneDropdown: React.FC<SceneDropdownProps> = ({
+    sceneId,
+    onCloseBehaviorsModal
+}) => {
     const scenePageContext = useContext(ADT3DScenePageContext);
     if (!scenePageContext) {
         return null;
@@ -21,6 +24,9 @@ const SceneDropdown: React.FC<SceneDropdownProps> = ({ sceneId }) => {
         : [];
     const onChange = useCallback(
         (_e, option: IDropdownOption) => {
+            if (onCloseBehaviorsModal) {
+                onCloseBehaviorsModal();
+            }
             scenePageContext.handleOnSceneSwap(String(option.key));
         },
         [scenePageContext]
