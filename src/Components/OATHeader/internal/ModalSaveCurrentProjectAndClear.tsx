@@ -44,7 +44,7 @@ export const ModalSaveCurrentProjectAndClear = ({
             files[foundIndex].data = editorData;
             saveFiles(files);
             setModalOpen(false);
-            setModalBody('');
+            setModalBody(null);
             resetProject();
         }
         setModalBody('saveNewProjectAndClear');
@@ -52,7 +52,7 @@ export const ModalSaveCurrentProjectAndClear = ({
 
     const handleDoNotSave = () => {
         setModalOpen(false);
-        setModalBody('');
+        setModalBody(null);
         resetProject();
     };
 

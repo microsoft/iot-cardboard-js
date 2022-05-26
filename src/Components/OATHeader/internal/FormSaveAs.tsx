@@ -49,7 +49,7 @@ export const FormSaveAs = ({
                 saveFiles(files);
             }
             setModalOpen(false);
-            setModalBody('');
+            setModalBody(null);
             if (resetProjectOnSave) {
                 resetProject();
             }
@@ -71,7 +71,7 @@ export const FormSaveAs = ({
         saveFiles(files);
 
         setModalOpen(false);
-        setModalBody('');
+        setModalBody(null);
         if (resetProjectOnSave) {
             resetProject();
         }

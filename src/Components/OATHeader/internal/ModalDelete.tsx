@@ -41,7 +41,7 @@ export const ModalDelete = ({
             files.splice(foundIndex, 1);
             saveFiles(files);
             setModalOpen(false);
-            setModalBody('');
+            setModalBody(null);
             resetProject();
         }
         setModalBody('saveNewProjectAndClear');

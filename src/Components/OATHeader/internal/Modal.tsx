@@ -33,7 +33,6 @@ export const Modal = ({
     const getModalBody = () => {
         switch (modalBody) {
             case FromBody.delete:
-            default:
                 return (
                     <ModalDelete
                         setModalOpen={setModalOpen}
@@ -78,6 +77,8 @@ export const Modal = ({
                         resetProject={resetProject}
                     />
                 );
+            default:
+                return <></>;
         }
     };
 

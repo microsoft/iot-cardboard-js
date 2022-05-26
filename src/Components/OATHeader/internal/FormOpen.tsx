@@ -37,8 +37,8 @@ export const FormOpen = ({ dispatch, setModalOpen, setModalBody }: IModal) => {
             JSON.stringify(selectedFile.key)
         );
 
-        setModalBody('');
         setModalOpen(false);
+        setModalBody(null);
     };
 
     const getFormatFilesToDropDownOptions = () => {
