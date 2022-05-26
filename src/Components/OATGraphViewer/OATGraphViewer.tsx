@@ -315,6 +315,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
             setElements,
             setCurrentNode,
             dispatch,
+            currentNodeIdRef,
             showRelationships,
             showInheritances,
             showComponents
@@ -324,6 +325,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
             setElements,
             setCurrentNode,
             dispatch,
+            currentNodeIdRef,
             showRelationships,
             showInheritances,
             showComponents
@@ -457,17 +459,19 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
             (element) => element.dataset && element.dataset.id
         );
         if (target) {
-            params.target = target.dataset.id;
-            params.id = `${currentNodeIdRef.current}${currentHandleIdRef.current}${target.dataset.id}`;
-            params.data.id = `${currentNodeIdRef.current}${currentHandleIdRef.current}${target.dataset.id}`;
-            setElements((els) => addEdge(params, els));
+            if (currentHandleIdRef.current !== OATUntargetedRelationshipName) {
+                params.target = target.dataset.id;
+                params.id = `${currentNodeIdRef.current}${currentHandleIdRef.current}${target.dataset.id}`;
+                params.data.id = `${currentNodeIdRef.current}${currentHandleIdRef.current}${target.dataset.id}`;
+                setElements((els) => addEdge(params, els));
+            }
         } else {
             const node = elements.find(
                 (element) => element.id === currentNodeIdRef.current
             );
             const componentRelativePosition = 120;
 
-            if (currentHandleIdRef.current === OATRelationshipHandleName) {
+            if (currentHandleIdRef.current === OATUntargetedRelationshipName) {
                 const name = `${node.data.name}:${OATUntargetedRelationshipName}`;
                 const id = `${node.id}:${OATUntargetedRelationshipName}`;
                 const untargetedRelationship = {
@@ -480,7 +484,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                     id: id,
                     type: OATInterfaceType,
                     position: {
-                        x: node.position.x - componentRelativePosition,
+                        x: node.position.x + componentRelativePosition,
                         y: node.position.y + componentRelativePosition
                     },
                     data: {
@@ -495,6 +499,33 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                 params.id = `${currentNodeIdRef.current}${currentHandleIdRef.current}${id}`;
                 params.data.id = `${currentNodeIdRef.current}${currentHandleIdRef.current}${id}`;
                 params.data.type = `${OATUntargetedRelationshipName}`;
+                setElements((es) => [...addEdge(params, es), newNode]);
+            }
+            if (
+                currentHandleIdRef.current === OATComponentHandleName ||
+                currentHandleIdRef.current === OATExtendHandleName
+            ) {
+                const name = `Model${newModelId}`;
+                const id = `${idClassBase}model${newModelId};${versionClassBase}`;
+                const newNode = {
+                    id: id,
+                    type: OATInterfaceType,
+                    position: {
+                        x: node.position.x - componentRelativePosition,
+                        y: node.position.y + componentRelativePosition
+                    },
+                    data: {
+                        name: name,
+                        type: OATInterfaceType,
+                        id: id,
+                        content: [],
+                        context: contextClassBase
+                    }
+                };
+                params.target = id;
+                params.id = `${currentNodeIdRef.current}${currentHandleIdRef.current}${id}`;
+                params.data.id = `${currentNodeIdRef.current}${currentHandleIdRef.current}${id}`;
+                params.data.type = currentHandleIdRef.current;
                 setElements((es) => [...addEdge(params, es), newNode]);
             }
         }
