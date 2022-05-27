@@ -705,27 +705,13 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
         const areaDistanceY = 80;
         let defaultPositionX = 0 - position[0] + areaDistanceX;
         let defaultPositionY = 0 - position[1] + areaDistanceY * 2;
-        let maxWidth = 800;
-        let defaultPosition = 100;
+        const maxWidth = 800;
+        const defaultPosition = defaultPositionX;
         const minWidth = 300;
         const minHeight = 100;
         const lookUpElements = newNodes
             ? [...elements, ...newNodes]
             : [...elements];
-        lookUpElements.map((element) => {
-            if (element.position) {
-                defaultPositionX =
-                    defaultPositionX < element.position.x
-                        ? defaultPositionX
-                        : element.position.x;
-                defaultPositionY =
-                    defaultPositionY < element.position.y
-                        ? defaultPositionY
-                        : element.position.y;
-                defaultPosition = defaultPositionX;
-                maxWidth = defaultPositionX + maxWidth;
-            }
-        });
 
         let nodes = lookUpElements.find(
             (element) =>
