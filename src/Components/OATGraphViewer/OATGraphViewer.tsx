@@ -183,13 +183,17 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                         ];
                     } else if (content['@type'] === OATRelationshipHandleName) {
                         const relationship = new ElementEdge(
-                            content['@id'],
+                            content['@id']
+                                ? content['@id']
+                                : `${input['@id']}${OATRelationshipHandleName};${versionClassBase}`,
                             OATRelationshipHandleName,
                             input['@id'],
                             OATRelationshipHandleName,
                             content['target'],
                             new ElementEdgeData(
-                                content['@id'],
+                                content['@id']
+                                    ? content['@id']
+                                    : `${input['@id']}${OATComponentHandleName};${versionClassBase}`,
                                 content['name'],
                                 content['displayName'],
                                 OATRelationshipHandleName
