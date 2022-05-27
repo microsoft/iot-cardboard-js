@@ -362,12 +362,12 @@ export const MockWithSelection = (_args, { globals: { theme, locale } }) => {
 
 export const LayerSelect = (_args, { globals: { theme, locale } }) => {
     const scenesConfig = mockVConfig as I3DScenesConfig;
-    const [selectedLayers, setSelectedLayers] = useState<string[]>([]);
+    const [selectedLayerIds, setSelectedLayerIds] = useState<string[]>([]);
 
     return (
         <div style={{ width: '100%', height: '600px' }}>
             <Dropdown
-                onChange={(_event, option) => setSelectedLayers(option.data)}
+                onChange={(_event, option) => setSelectedLayerIds(option.data)}
                 style={{ width: '200px' }}
                 placeholder="Select layer..."
                 options={[
@@ -400,7 +400,7 @@ export const LayerSelect = (_args, { globals: { theme, locale } }) => {
                 title="3D Viewer (Mock Data)"
                 theme={theme}
                 locale={locale}
-                selectedLayers={selectedLayers}
+                selectedLayerIds={selectedLayerIds}
                 adapter={new MockAdapter()}
                 scenesConfig={scenesConfig}
                 pollingInterval={10000}

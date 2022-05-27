@@ -82,9 +82,9 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
     unzoomedMeshOpacity,
     hideElementsPanel,
     hideViewModePickerUI,
+    selectedLayerIds,
     showModeToggle = false,
-    styles,
-    selectedLayers
+    styles
 }) => {
     // hooks
     const { deeplinkState, deeplinkDispatch } = useDeeplinkContext();
@@ -288,10 +288,10 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
     ]);
 
     useEffect(() => {
-        if (selectedLayers) {
-            setSelectedLayerIds(selectedLayers, true);
+        if (selectedLayerIds) {
+            setSelectedLayerIds(selectedLayerIds, true);
         }
-    }, [selectedLayers]);
+    }, [selectedLayerIds]);
 
     const setSelectedElementId = useCallback(
         (elementId: string) => {
