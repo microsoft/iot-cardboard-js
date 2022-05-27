@@ -88,6 +88,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     const [showRelationships, setShowRelationships] = useState(true);
     const [showInheritances, setShowInheritances] = useState(true);
     const [showComponents, setShowComponents] = useState(true);
+    const [rfInstance, setRfInstance] = useState(null);
 
     useEffect(() => {
         // Identifies which is the next model Id on creating new nodes and updates the Local Storage
@@ -357,6 +358,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
         _reactFlowInstance.fitView();
         _reactFlowInstance.zoomOut();
         _reactFlowInstance.zoomOut();
+        setRfInstance(_reactFlowInstance);
     }, []);
 
     const onNewModelClick = () => {
@@ -698,17 +700,32 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     };
 
     const positionLookUp = (newNodes = null) => {
-        let defaultPositionX = 100;
-        let defaultPositionY = 100;
+        const { position } = rfInstance.toObject();
         const areaDistanceX = 250;
         const areaDistanceY = 80;
-        const maxWidth = 800;
-        const defaultPosition = 100;
+        let defaultPositionX = 0 - position[0] + areaDistanceX;
+        let defaultPositionY = 0 - position[1] + areaDistanceY * 2;
+        let maxWidth = 800;
+        let defaultPosition = 100;
         const minWidth = 300;
         const minHeight = 100;
         const lookUpElements = newNodes
             ? [...elements, ...newNodes]
             : [...elements];
+        lookUpElements.map((element) => {
+            if (element.position) {
+                defaultPositionX =
+                    defaultPositionX < element.position.x
+                        ? defaultPositionX
+                        : element.position.x;
+                defaultPositionY =
+                    defaultPositionY < element.position.y
+                        ? defaultPositionY
+                        : element.position.y;
+                defaultPosition = defaultPositionX;
+                maxWidth = defaultPositionX + maxWidth;
+            }
+        });
 
         let nodes = lookUpElements.find(
             (element) =>
