@@ -10,6 +10,7 @@ export const getStyles = (props: IIconPickerStyleProps): IIconPickerStyles => {
                         color: `${theme.semanticColors.bodyText} !important`,
                         border: `1px solid ${theme.semanticColors.inputBorder}`,
                         borderRadius: '50%',
+                        // :after selector required to make border round on focus state.
                         ':after': {
                             borderRadius: '50%'
                         }
