@@ -13,15 +13,14 @@ import {
     FileUploadStatus,
     IJSONUploaderFileItem as IFileItem
 } from '../../Models/Constants';
+import { parseModel } from '../../Models/Services/Utils';
 
 type OATHeaderProps = {
     elements: IOATTwinModelNodes[];
     dispatch: React.Dispatch<React.SetStateAction<IAction>>;
-    disabled: boolean;
 };
-import { parseModels } from '../../Models/Services/Utils';
 
-const OATHeader = ({ elements, dispatch, disabled }: OATHeaderProps) => {
+const OATHeader = ({ elements, dispatch }: OATHeaderProps) => {
     const { t } = useTranslation();
     const headerStyles = getHeaderStyles();
     const { acceptedFiles, getRootProps, getInputProps } = useDropzone();
@@ -117,13 +116,13 @@ const OATHeader = ({ elements, dispatch, disabled }: OATHeaderProps) => {
                 try {
                     const content = await current.text();
                     newItem.content = JSON.parse(content);
+                    const validJson = await parseModel(content);
+                    if (!validJson) {
+                        items.push(newItem.content);
+                    }
                 } catch (error) {
                     console.log(error);
                     alert(error);
-                }
-                const validJson = await parseModels([newItem.content]);
-                if (validJson) {
-                    items.push(newItem.content);
                 }
             }
             dispatch({
@@ -144,7 +143,6 @@ const OATHeader = ({ elements, dispatch, disabled }: OATHeaderProps) => {
                     <div className="cb-oat-header-versioning"></div>
                 </div>
             </div>
-            {disabled && <div className={headerStyles.disable}></div>}
             <div {...getRootProps()}>
                 <input {...getInputProps()} ref={inputFileRef} />
             </div>

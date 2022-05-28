@@ -9,8 +9,7 @@ const classNames = {
     search: `${classPrefix}-search`,
     options: `${classPrefix}-options`,
     menuComponent: `${classPrefix}-menu-component`,
-    optionIcon: `${classPrefix}-option-icon`,
-    disable: `${classPrefix}-disable`
+    optionIcon: `${classPrefix}-option-icon`
 };
 
 export const getHeaderStyles = () => {
@@ -71,18 +70,6 @@ export const getHeaderStyles = () => {
                 fontSize: FontSizes.size20,
                 paddingLeft: '50%',
                 color: theme.semanticColors.actionLink
-            } as IStyle
-        ],
-        disable: [
-            classNames.disable,
-            {
-                height: '100%',
-                width: '100%',
-                position: 'fixed',
-                zIndex: '200',
-                top: 0,
-                left: 0,
-                backgroundColor: 'rgb(0,0,0,0.5)'
             } as IStyle
         ]
     });

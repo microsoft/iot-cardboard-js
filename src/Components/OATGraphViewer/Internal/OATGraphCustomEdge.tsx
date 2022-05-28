@@ -45,7 +45,8 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
         setCurrentNode,
         showRelationships,
         showInheritances,
-        showComponents
+        showComponents,
+        state
     } = useContext(ElementsContext);
     const graphViewerStyles = getGraphViewerStyles();
     const theme = useTheme();
@@ -111,45 +112,47 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
     };
 
     const onNameClick = () => {
-        setNameEditor(true);
-        if (
-            element.data.type !== ModelTypes.relationship &&
-            element.data.type !== ModelTypes.untargeted
-        ) {
-            setCurrentNode(null);
+        if (!state.modified) {
+            setNameEditor(true);
+            if (
+                element.data.type !== ModelTypes.relationship &&
+                element.data.type !== ModelTypes.untargeted
+            ) {
+                setCurrentNode(null);
+                dispatch({
+                    type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                    payload: null
+                });
+                return;
+            }
+
+            const displayName =
+                typeof element.data.name === 'string'
+                    ? element.data.name
+                    : {
+                          ...element.data.name,
+                          [Object.keys(element.data.name)[0]]: Object.values(
+                              element.data.name
+                          )[0]
+                      };
+            const relationship = new DTDLRelationship(
+                element.data.id,
+                element.data.name,
+                displayName,
+                element.data.description,
+                element.data.comment,
+                element.data.writable,
+                element.data.content ? element.data.content : [],
+                element.data.target,
+                element.data.maxMultiplicity
+            );
+
+            setCurrentNode(element.id);
             dispatch({
                 type: SET_OAT_PROPERTY_EDITOR_MODEL,
-                payload: null
+                payload: relationship
             });
-            return;
         }
-
-        const displayName =
-            typeof element.data.name === 'string'
-                ? element.data.name
-                : {
-                      ...element.data.name,
-                      [Object.keys(element.data.name)[0]]: Object.values(
-                          element.data.name
-                      )[0]
-                  };
-        const relationship = new DTDLRelationship(
-            element.data.id,
-            element.data.name,
-            displayName,
-            element.data.description,
-            element.data.comment,
-            element.data.writable,
-            element.data.content ? element.data.content : [],
-            element.data.target,
-            element.data.maxMultiplicity
-        );
-
-        setCurrentNode(element.id);
-        dispatch({
-            type: SET_OAT_PROPERTY_EDITOR_MODEL,
-            payload: relationship
-        });
     };
 
     const onNameBlur = () => {
@@ -191,13 +194,15 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
     });
 
     const onDelete = () => {
-        const elementsToRemove = [
-            {
-                id: data.id
-            }
-        ];
-        setElements((els) => removeElements(elementsToRemove, els));
-        dispatch({ type: SET_OAT_PROPERTY_EDITOR_MODEL, payload: null });
+        if (!state.modified) {
+            const elementsToRemove = [
+                {
+                    id: data.id
+                }
+            ];
+            setElements((els) => removeElements(elementsToRemove, els));
+            dispatch({ type: SET_OAT_PROPERTY_EDITOR_MODEL, payload: null });
+        }
     };
 
     return (

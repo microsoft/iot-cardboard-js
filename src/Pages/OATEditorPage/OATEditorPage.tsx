@@ -29,7 +29,6 @@ const OATEditorPage = ({ theme }) => {
             <OATHeader
                 elements={state.elements.digitalTwinsModels}
                 dispatch={dispatch}
-                disabled={state.disabled}
             />
             <div
                 className={
@@ -41,6 +40,7 @@ const OATEditorPage = ({ theme }) => {
                 <OATModelList
                     elements={state.elements.digitalTwinsModels}
                     dispatch={dispatch}
+                    disabled={state.modified}
                 />
                 <OATGraphViewer state={state} dispatch={dispatch} />
                 <OATPropertyEditor

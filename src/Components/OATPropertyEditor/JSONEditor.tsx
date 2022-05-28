@@ -5,16 +5,16 @@ import { useLibTheme } from '../../Theming/ThemeProvider';
 import { useTranslation } from 'react-i18next';
 import {
     SET_OAT_PROPERTY_EDITOR_MODEL,
-    SET_OAT_DISABLED
+    SET_OAT_MODIFIED
 } from '../../Models/Constants/ActionTypes';
 import { IAction } from '../../Models/Constants/Interfaces';
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
-import { PrimaryButton } from '@fluentui/react';
+import { PrimaryButton, DefaultButton } from '@fluentui/react';
 import {
     getCancelButtonStyles,
     getSaveButtonStyles
 } from './OATPropertyEditor.styles';
-import { parseModels } from '../../Models/Services/Utils';
+import { parseModel } from '../../Models/Services/Utils';
 
 type JSONEditorProps = {
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
@@ -29,13 +29,11 @@ const JSONEditor = ({ dispatch, theme, state }: JSONEditorProps) => {
     const editorRef = useRef(null);
     const { model } = state;
     const [content, setContent] = useState(null);
-    const unSavedContent = useRef(null);
     const cancelButtonStyles = getCancelButtonStyles();
     const saveButtonStyles = getSaveButtonStyles();
 
     useEffect(() => {
         setContent(JSON.stringify(model, null, 2));
-        unSavedContent.current = JSON.stringify(model, null, 2);
     }, [model]);
 
     const onHandleEditorDidMount = (editor) => {
@@ -51,9 +49,9 @@ const JSONEditor = ({ dispatch, theme, state }: JSONEditorProps) => {
     };
 
     const onHandleEditorChange = (value) => {
-        if (value.replaceAll('\r\n', '\n') !== content) {
+        if (value.replaceAll('\r\n', '\n') !== JSON.stringify(model, null, 2)) {
             setContent(value);
-            dispatch({ type: SET_OAT_DISABLED, payload: true });
+            dispatch({ type: SET_OAT_MODIFIED, payload: true });
         }
     };
 
@@ -76,32 +74,31 @@ const JSONEditor = ({ dispatch, theme, state }: JSONEditorProps) => {
     }
 
     const onCancelClick = () => {
-        setContent(unSavedContent.current);
-        dispatch({ type: SET_OAT_DISABLED, payload: false });
+        setContent(JSON.stringify(model, null, 2));
+        dispatch({ type: SET_OAT_MODIFIED, payload: false });
     };
 
     const onSaveClick = async () => {
         const newModel = isJsonStringValid(content);
-        const validJson = await parseModels([newModel]);
-        if (validJson) {
+        const validJson = await parseModel(content);
+        if (!validJson) {
             dispatch({
                 type: SET_OAT_PROPERTY_EDITOR_MODEL,
                 payload: newModel
             });
-            unSavedContent.current = content;
-            dispatch({ type: SET_OAT_DISABLED, payload: false });
+            dispatch({ type: SET_OAT_MODIFIED, payload: false });
         }
     };
 
     return (
         <>
-            {state.disabled && (
+            {state.modified && (
                 <>
-                    <PrimaryButton
+                    <DefaultButton
                         styles={cancelButtonStyles}
                         onClick={onCancelClick}
                         text={t('cancel')}
-                    ></PrimaryButton>
+                    ></DefaultButton>
                     <PrimaryButton
                         styles={saveButtonStyles}
                         onClick={onSaveClick}

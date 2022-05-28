@@ -363,19 +363,23 @@ export function rgbToHex(r, g, b) {
 }
 
 export async function parseModels(models: IOATTwinModelNodes[]) {
+    for (const model of models) {
+        const modelJson = JSON.stringify(model);
+        return parseModel(modelJson);
+    }
+    return true;
+}
+
+export async function parseModel(modelJson: string) {
     const modelParser = createParser(
         ModelParsingOption.PermitAnyTopLevelElement
     );
-    for (const model of models) {
-        const modelJson = JSON.stringify(model);
-        try {
-            await modelParser.parse([modelJson]);
-        } catch (err) {
-            for (const parsingError of err._parsingErrors) {
-                alert(`${parsingError.action} ${parsingError.cause}`);
-                return false;
-            }
+    try {
+        await modelParser.parse([modelJson]);
+    } catch (err) {
+        for (const parsingError of err._parsingErrors) {
+            alert(`${parsingError.action} ${parsingError.cause}`);
+            return `${parsingError.action} ${parsingError.cause}`;
         }
     }
-    return true;
 }

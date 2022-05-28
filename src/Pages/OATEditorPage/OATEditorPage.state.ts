@@ -12,7 +12,7 @@ import {
     SET_OAT_IMPORT_MODELS,
     SET_OAT_IS_JSON_UPLOADER_OPEN,
     SET_OAT_TEMPLATES,
-    SET_OAT_DISABLED
+    SET_OAT_MODIFIED
 } from '../../Models/Constants/ActionTypes';
 
 export const defaultOATEditorState: IOATEditorState = {
@@ -26,7 +26,7 @@ export const defaultOATEditorState: IOATEditorState = {
     importModels: [],
     isJsonUploaderOpen: false,
     templates: null,
-    disabled: false
+    modified: false
 };
 
 export const OATEditorPageReducer = produce(
@@ -64,8 +64,8 @@ export const OATEditorPageReducer = produce(
             case SET_OAT_TEMPLATES:
                 state.templates = payload;
                 return;
-            case SET_OAT_DISABLED:
-                state.disabled = payload;
+            case SET_OAT_MODIFIED:
+                state.modified = payload;
                 return;
         }
     }
