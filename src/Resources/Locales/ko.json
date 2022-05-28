@@ -745,7 +745,22 @@
     "publish": "출판하다",
     "sync": "동기화",
     "import": "수입",
-    "export": "수출"
+    "export": "수출",
+    "file": "파일",
+    "new": "새로운",
+    "open": "열다",
+    "saveAs": "다른 이름으로 저장",
+    "delete": "삭제하다",
+    "enterAName": "이름 입력",
+    "cancel": "취소",
+    "project": "프로젝트",
+    "untitledProject": "제목 없는 프로젝트",
+    "description": "묘사",
+    "dontSave": "저장하지 않음",
+    "doYouWantToSaveChangesYouMadeTo": "변경 사항을 저장하시겠습니까?",
+    "doYouWantToDelete": "삭제하시겠습니까?",
+    "projectWithSameNameAlreadyExistsMessage?": "같은 이름의 프로젝트가 이미 존재하는데, 무시하시겠습니까?",
+    "overwrite": "덮어쓸"
   },
   "cameraControls": {
     "mouseControls": "마우스 컨트롤",
@@ -835,5 +850,16 @@
     "multiLanguage": "다국어",
     "region": "부위",
     "singleLanguage": "단일 언어"
+  },
+  "ErrorHandlingWrapper": {
+    "errorMessage": "오류 메시지",
+    "errorTitle": "오류 제목",
+    "ok": "그래"
+  },
+  "OATErrorBoundary": {
+    "modalHeader": "뭔가 잘못되었습니다 ...",
+    "messageHeader": "메시지",
+    "stackHeader": "스택",
+    "tryAgain": "다시 한 번 시도해 보세요"
   }
 }

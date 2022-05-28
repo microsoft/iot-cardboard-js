@@ -28,7 +28,8 @@ import {
 import {
     getGraphViewerStyles,
     getGraphViewerButtonStyles,
-    getGraphViewerWarningStyles
+    getGraphViewerWarningStyles,
+    getGraphViewerMinimapStyles
 } from './OATGraphViewer.styles';
 import { ElementsContext } from './Internal/OATContext';
 import {
@@ -68,11 +69,11 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     const [elements, setElements] = useState(
         !storedElements ? [] : storedElements
     );
-    const defaultPosition = 100;
     const [newModelId, setNewModelId] = useState(0);
     const graphViewerStyles = getGraphViewerStyles();
     const buttonStyles = getGraphViewerButtonStyles();
     const warningStyles = getGraphViewerWarningStyles();
+    const graphViewerMinimapStyles = getGraphViewerMinimapStyles();
     const currentNodeIdRef = useRef('');
     const currentHandleIdRef = useRef('');
     const {
@@ -81,11 +82,13 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
         deletedModelId,
         selectedModelId,
         editedModelName,
-        editedModelId
+        editedModelId,
+        project
     } = state;
     const [showRelationships, setShowRelationships] = useState(true);
     const [showInheritances, setShowInheritances] = useState(true);
     const [showComponents, setShowComponents] = useState(true);
+    const [rfInstance, setRfInstance] = useState(null);
 
     useEffect(() => {
         // Identifies which is the next model Id on creating new nodes and updates the Local Storage
@@ -113,7 +116,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
             const node = elements.find(
                 (element) => element.id === currentNodeIdRef.current
             );
-            if (node) {
+            if (node && !node.source) {
                 const newId = model['@id'];
                 elements.forEach((x) => {
                     if (x.source && x.source === currentNodeIdRef.current) {
@@ -137,6 +140,11 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
             }
         }
     }, [model]);
+
+    useEffect(() => {
+        // Reload elements on project change
+        setElements(getStoredElements());
+    }, [project]);
 
     useEffect(() => {
         // Detects when a Model is deleted outside of the component and Updates the elements state
@@ -176,13 +184,17 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                         ];
                     } else if (content['@type'] === OATRelationshipHandleName) {
                         const relationship = new ElementEdge(
-                            content['@id'],
+                            content['@id']
+                                ? content['@id']
+                                : `${input['@id']}${OATRelationshipHandleName};${versionClassBase}`,
                             OATRelationshipHandleName,
                             input['@id'],
                             OATRelationshipHandleName,
                             content['target'],
                             new ElementEdgeData(
-                                content['@id'],
+                                content['@id']
+                                    ? content['@id']
+                                    : `${input['@id']}${OATComponentHandleName};${versionClassBase}`,
                                 content['name'],
                                 content['displayName'],
                                 OATRelationshipHandleName
@@ -212,7 +224,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                 const newNode = new ElementNode(
                     input['@id'],
                     input['@type'],
-                    new ElementPosition(defaultPosition, defaultPosition),
+                    positionLookUp(importModelsList),
                     new ElementData(
                         input['@id'],
                         input['displayName'],
@@ -315,6 +327,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
             setElements,
             setCurrentNode,
             dispatch,
+            currentNodeIdRef,
             showRelationships,
             showInheritances,
             showComponents,
@@ -325,6 +338,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
             setElements,
             setCurrentNode,
             dispatch,
+            currentNodeIdRef,
             showRelationships,
             showInheritances,
             showComponents,
@@ -344,10 +358,12 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
         }
     };
 
-    const onLoad = useCallback(
-        (_reactFlowInstance) => _reactFlowInstance.fitView(),
-        []
-    );
+    const onLoad = useCallback((_reactFlowInstance) => {
+        _reactFlowInstance.fitView();
+        _reactFlowInstance.zoomOut();
+        _reactFlowInstance.zoomOut();
+        setRfInstance(_reactFlowInstance);
+    }, []);
 
     const onNewModelClick = () => {
         if (!state.modified) {
@@ -357,7 +373,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
             const newNode = {
                 id: id,
                 type: OATInterfaceType,
-                position: { x: defaultPosition, y: defaultPosition },
+                position: positionLookUp(),
                 data: {
                     name: name,
                     type: OATInterfaceType,
@@ -463,17 +479,19 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
             (element) => element.dataset && element.dataset.id
         );
         if (target) {
-            params.target = target.dataset.id;
-            params.id = `${currentNodeIdRef.current}${currentHandleIdRef.current}${target.dataset.id}`;
-            params.data.id = `${currentNodeIdRef.current}${currentHandleIdRef.current}${target.dataset.id}`;
-            setElements((els) => addEdge(params, els));
+            if (currentHandleIdRef.current !== OATUntargetedRelationshipName) {
+                params.target = target.dataset.id;
+                params.id = `${currentNodeIdRef.current}${currentHandleIdRef.current}${target.dataset.id}`;
+                params.data.id = `${currentNodeIdRef.current}${currentHandleIdRef.current}${target.dataset.id}`;
+                setElements((els) => addEdge(params, els));
+            }
         } else {
             const node = elements.find(
                 (element) => element.id === currentNodeIdRef.current
             );
             const componentRelativePosition = 120;
 
-            if (currentHandleIdRef.current === OATRelationshipHandleName) {
+            if (currentHandleIdRef.current === OATUntargetedRelationshipName) {
                 const name = `${node.data.name}:${OATUntargetedRelationshipName}`;
                 const id = `${node.id}:${OATUntargetedRelationshipName}`;
                 const untargetedRelationship = {
@@ -486,7 +504,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                     id: id,
                     type: OATInterfaceType,
                     position: {
-                        x: node.position.x - componentRelativePosition,
+                        x: node.position.x + componentRelativePosition,
                         y: node.position.y + componentRelativePosition
                     },
                     data: {
@@ -503,11 +521,39 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                 params.data.type = `${OATUntargetedRelationshipName}`;
                 setElements((es) => [...addEdge(params, es), newNode]);
             }
+            if (
+                currentHandleIdRef.current === OATComponentHandleName ||
+                currentHandleIdRef.current === OATExtendHandleName ||
+                currentHandleIdRef.current === OATRelationshipHandleName
+            ) {
+                const name = `Model${newModelId}`;
+                const id = `${idClassBase}model${newModelId};${versionClassBase}`;
+                const newNode = {
+                    id: id,
+                    type: OATInterfaceType,
+                    position: {
+                        x: node.position.x - componentRelativePosition,
+                        y: node.position.y + componentRelativePosition
+                    },
+                    data: {
+                        name: name,
+                        type: OATInterfaceType,
+                        id: id,
+                        content: [],
+                        context: contextClassBase
+                    }
+                };
+                params.target = id;
+                params.id = `${currentNodeIdRef.current}${currentHandleIdRef.current}${id}`;
+                params.data.id = `${currentNodeIdRef.current}${currentHandleIdRef.current}${id}`;
+                params.data.type = currentHandleIdRef.current;
+                setElements((es) => [...addEdge(params, es), newNode]);
+            }
         }
     };
 
     const storeElements = () => {
-        // Save the desire session data into the local storage
+        // Save the session data into the local storage
         const nodePositions = elements.reduce((collection, element) => {
             if (!element.source) {
                 collection.push({
@@ -661,6 +707,47 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
         }
     };
 
+    const positionLookUp = (newNodes = null) => {
+        const { position } = rfInstance.toObject();
+        const areaDistanceX = 250;
+        const areaDistanceY = 80;
+        let defaultPositionX = 0 - position[0] + areaDistanceX;
+        let defaultPositionY = 0 - position[1] + areaDistanceY * 2;
+        const maxWidth = 800;
+        const defaultPosition = defaultPositionX;
+        const minWidth = 300;
+        const minHeight = 100;
+        const lookUpElements = newNodes
+            ? [...elements, ...newNodes]
+            : [...elements];
+
+        let nodes = lookUpElements.find(
+            (element) =>
+                !element.source &&
+                defaultPositionX - areaDistanceX < element.position.x &&
+                element.position.x < defaultPositionX + areaDistanceX &&
+                defaultPositionY - areaDistanceY < element.position.y &&
+                element.position.y < defaultPositionY + areaDistanceY
+        );
+        while (nodes) {
+            if (defaultPositionX > maxWidth) {
+                defaultPositionY = defaultPositionY + minHeight;
+                defaultPositionX = defaultPosition;
+            } else {
+                defaultPositionX = defaultPositionX + minWidth;
+            }
+            nodes = lookUpElements.find(
+                (element) =>
+                    !element.source &&
+                    defaultPositionX - areaDistanceX < element.position.x &&
+                    element.position.x < defaultPositionX + areaDistanceX &&
+                    defaultPositionY - areaDistanceY < element.position.y &&
+                    element.position.y < defaultPositionY + areaDistanceY
+            );
+        }
+        return { x: defaultPositionX, y: defaultPositionY };
+    };
+
     return (
         <ReactFlowProvider>
             <div
@@ -782,7 +869,10 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                             </div>
                         </Stack>
 
-                        <MiniMap />
+                        <MiniMap
+                            nodeColor={theme.semanticColors.inputBackground}
+                            style={graphViewerMinimapStyles}
+                        />
                         <Controls
                             className={graphViewerStyles.graphViewerControls}
                         />

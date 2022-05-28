@@ -17,10 +17,10 @@ import {
 type OATModelListProps = {
     elements: IOATTwinModelNodes[];
     dispatch: React.Dispatch<React.SetStateAction<IAction>>;
-    disabled: boolean;
+    modified: boolean;
 };
 
-const OATModelList = ({ elements, dispatch, disabled }: OATModelListProps) => {
+const OATModelList = ({ elements, dispatch, modified }: OATModelListProps) => {
     const theme = useTheme();
     const modelsStyles = getModelsStyles();
     const [nameEditor, setNameEditor] = useState(false);
@@ -41,7 +41,7 @@ const OATModelList = ({ elements, dispatch, disabled }: OATModelListProps) => {
     }, [theme]);
 
     const onSelectedClick = (id) => {
-        if (!disabled) {
+        if (!modified) {
             dispatch({
                 type: SET_OAT_SELECTED_MODEL_ID,
                 payload: id
@@ -56,7 +56,7 @@ const OATModelList = ({ elements, dispatch, disabled }: OATModelListProps) => {
     };
 
     const onNameClick = (name) => {
-        if (!disabled) {
+        if (!modified) {
             setNameText(name);
             setNameEditor(true);
             setItems([...items]);
@@ -78,7 +78,7 @@ const OATModelList = ({ elements, dispatch, disabled }: OATModelListProps) => {
     };
 
     const onIdClick = (id) => {
-        if (!disabled) {
+        if (!modified) {
             setIdText(id);
             setIdEditor(true);
             setItems([...items]);
@@ -96,7 +96,7 @@ const OATModelList = ({ elements, dispatch, disabled }: OATModelListProps) => {
     };
 
     const onModelDelete = (id) => {
-        if (!disabled) {
+        if (!modified) {
             dispatch({
                 type: SET_OAT_PROPERTY_EDITOR_MODEL,
                 payload: null
@@ -122,7 +122,11 @@ const OATModelList = ({ elements, dispatch, disabled }: OATModelListProps) => {
                     onClick={() => onSelectedClick(item['@id'])}
                 >
                     <div className={modelsStyles.modelList}>
-                        <div onClick={() => onNameClick(item['displayName'])}>
+                        <div
+                            onDoubleClick={() =>
+                                onNameClick(item['displayName'])
+                            }
+                        >
                             {(!nameEditor ||
                                 currentNodeId.current !== item['@id']) && (
                                 <strong>
@@ -143,7 +147,7 @@ const OATModelList = ({ elements, dispatch, disabled }: OATModelListProps) => {
                                     />
                                 )}
                         </div>
-                        <div onClick={() => onIdClick(item['@id'])}>
+                        <div onDoubleClick={() => onIdClick(item['@id'])}>
                             {(!idEditor ||
                                 currentNodeId.current !== item['@id']) && (
                                 <>{item['@id']}</>

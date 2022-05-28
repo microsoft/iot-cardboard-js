@@ -745,7 +745,22 @@
     "publish": "Publicera",
     "sync": "synkronisering",
     "import": "Import",
-    "export": "Export"
+    "export": "Export",
+    "file": "Fil",
+    "new": "Ny",
+    "open": "Öppna",
+    "saveAs": "Spara som",
+    "delete": "Ta bort",
+    "enterAName": "Ange ett namn",
+    "cancel": "Annullera",
+    "project": "Projekt",
+    "untitledProject": "Namnlöst projekt",
+    "description": "Beskrivning",
+    "dontSave": "Spara inte",
+    "doYouWantToSaveChangesYouMadeTo": "Vill du spara de ändringar du gjort i",
+    "doYouWantToDelete": "Vill du ta bort",
+    "projectWithSameNameAlreadyExistsMessage?": "Projekt med samma namn finns redan, vill du åsidosätta det?",
+    "overwrite": "skriva över"
   },
   "cameraControls": {
     "mouseControls": "Muskontroller",
@@ -835,5 +850,16 @@
     "multiLanguage": "flera språk",
     "region": "Region",
     "singleLanguage": "Ett enda språk"
+  },
+  "ErrorHandlingWrapper": {
+    "errorMessage": "Felmeddelande",
+    "errorTitle": "Fel titel",
+    "ok": "Okej"
+  },
+  "OATErrorBoundary": {
+    "modalHeader": "Något gick fel...",
+    "messageHeader": "Meddelande",
+    "stackHeader": "Stack",
+    "tryAgain": "Försök igen"
   }
 }

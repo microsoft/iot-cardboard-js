@@ -745,7 +745,22 @@
     "publish": "Veröffentlichen",
     "sync": "synchronisieren",
     "import": "Importieren",
-    "export": "Exportieren"
+    "export": "Exportieren",
+    "file": "Datei",
+    "new": "Neu",
+    "open": "Offen",
+    "saveAs": "Speichern unter",
+    "delete": "Löschen",
+    "enterAName": "Geben Sie einen Namen ein",
+    "cancel": "Abbrechen",
+    "project": "Projekt",
+    "untitledProject": "Projekt ohne Titel",
+    "description": "Beschreibung",
+    "dontSave": "Nicht speichern",
+    "doYouWantToSaveChangesYouMadeTo": "Möchten Sie die Änderungen, die Sie an",
+    "doYouWantToDelete": "Möchten Sie löschen",
+    "projectWithSameNameAlreadyExistsMessage?": "Das gleichnamige Projekt existiert bereits, möchten Sie es überschreiben?",
+    "overwrite": "überschreiben"
   },
   "cameraControls": {
     "mouseControls": "Maus-Steuerelemente",
@@ -835,5 +850,16 @@
     "multiLanguage": "mehrsprachig",
     "region": "Region",
     "singleLanguage": "Einheitliche Sprache"
+  },
+  "ErrorHandlingWrapper": {
+    "errorMessage": "Fehlermeldung",
+    "errorTitle": "Fehlertitel",
+    "ok": "Okay"
+  },
+  "OATErrorBoundary": {
+    "modalHeader": "Etwas ist schief gelaufen...",
+    "messageHeader": "Nachricht",
+    "stackHeader": "Stapel",
+    "tryAgain": "Wiederholen"
   }
 }

@@ -1,10 +1,16 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { CommandBar, ICommandBarItemProps } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { getHeaderStyles } from './OATHeader.styles';
 import JSZip from 'jszip';
+
+import FileSubMenu from './internal/FileSubMenu';
+import Modal from './internal/Modal';
+import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
+import { SET_OAT_PROJECT } from '../../Models/Constants/ActionTypes';
+import { ProjectData } from '../../Pages/OATEditorPage/Internal/Classes';
+
 import { IOATTwinModelNodes, OATDataStorageKey } from '../../Models/Constants';
-import { downloadText } from '../../Models/Services/Utils';
 import { IAction } from '../../Models/Constants/Interfaces';
 import { useDropzone } from 'react-dropzone';
 import { SET_OAT_IMPORT_MODELS } from '../../Models/Constants/ActionTypes';
@@ -15,16 +21,22 @@ import {
 } from '../../Models/Constants';
 import { parseModel } from '../../Models/Services/Utils';
 
+const ID_FILE = 'file';
+
 type OATHeaderProps = {
     elements: IOATTwinModelNodes[];
-    dispatch: React.Dispatch<React.SetStateAction<IAction>>;
+    dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
+    state?: IOATEditorState;
 };
 
-const OATHeader = ({ elements, dispatch }: OATHeaderProps) => {
+const OATHeader = ({ elements, dispatch, state }: OATHeaderProps) => {
     const { t } = useTranslation();
     const headerStyles = getHeaderStyles();
     const { acceptedFiles, getRootProps, getInputProps } = useDropzone();
     const inputFileRef = useRef();
+    const [subMenuActive, setSubMenuActive] = useState(false);
+    const [modalOpen, setModalOpen] = useState(false);
+    const [modalBody, setModalBody] = useState(null);
 
     const downloadModelExportBlob = (blob) => {
         const blobURL = window.URL.createObjectURL(blob);
@@ -50,13 +62,6 @@ const OATHeader = ({ elements, dispatch }: OATHeaderProps) => {
         });
     };
 
-    const handleSaveClick = () => {
-        const editorData = localStorage.getItem(OATDataStorageKey);
-        if (editorData) {
-            downloadText(editorData, 'project.config');
-        }
-    };
-
     const onImportClick = () => {
         inputFileRef.current.click();
     };
@@ -64,19 +69,10 @@ const OATHeader = ({ elements, dispatch }: OATHeaderProps) => {
     const items: ICommandBarItemProps[] = [
         {
             key: 'Save',
-            text: t('OATHeader.save'),
+            text: t('OATHeader.file'),
             iconProps: { iconName: 'Save' },
-            onClick: () => handleSaveClick()
-        },
-        {
-            key: 'Upload',
-            text: t('OATHeader.publish'),
-            iconProps: { iconName: 'Upload' }
-        },
-        {
-            key: 'Sync',
-            text: t('OATHeader.sync'),
-            iconProps: { iconName: 'Sync' }
+            onClick: () => setSubMenuActive(!subMenuActive),
+            id: ID_FILE
         },
         {
             key: 'Import',
@@ -92,6 +88,23 @@ const OATHeader = ({ elements, dispatch }: OATHeaderProps) => {
         }
     ];
 
+    const resetProject = () => {
+        const clearProject = new ProjectData(
+            [],
+            [],
+            t('OATHeader.description'),
+            t('OATHeader.untitledProject')
+        );
+
+        localStorage.setItem(OATDataStorageKey, JSON.stringify(clearProject));
+
+        dispatch({
+            type: SET_OAT_PROJECT,
+            payload: {
+                model: clearProject
+            }
+        });
+    };
     useEffect(() => {
         const newFiles = [];
         acceptedFiles.forEach((sF) => {
@@ -133,14 +146,32 @@ const OATHeader = ({ elements, dispatch }: OATHeaderProps) => {
     };
 
     return (
-        <div>
-            <div className={headerStyles.container}>
-                <div className={headerStyles.menuComponent}>
-                    <div className="cb-oat-header-model"></div>
-                    <div className="cb-oat-header-menu">
-                        <CommandBar items={items} />
-                    </div>
-                    <div className="cb-oat-header-versioning"></div>
+        <div className={headerStyles.container}>
+            <div className={headerStyles.menuComponent}>
+                <div className="cb-oat-header-model"></div>
+                <div className="cb-oat-header-menu">
+                    <CommandBar items={items} />
+                    {subMenuActive && (
+                        <FileSubMenu
+                            subMenuActive={subMenuActive}
+                            targetId={ID_FILE}
+                            setSubMenuActive={setSubMenuActive}
+                            setModalOpen={setModalOpen}
+                            setModalBody={setModalBody}
+                            dispatch={dispatch}
+                            state={state}
+                            resetProject={resetProject}
+                        />
+                    )}
+                    <Modal
+                        modalOpen={modalOpen}
+                        setModalOpen={setModalOpen}
+                        setModalBody={setModalBody}
+                        modalBody={modalBody}
+                        dispatch={dispatch}
+                        state={state}
+                        resetProject={resetProject}
+                    />
                 </div>
             </div>
             <div {...getRootProps()}>

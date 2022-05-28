@@ -176,7 +176,7 @@ export const FormUpdateProperty = ({
         <>
             <div className={propertyInspectorStyles.modalRowSpaceBetween}>
                 <Label>
-                    {model
+                    {model && model.displayName
                         ? typeof model.displayName === 'string'
                             ? model.displayName
                             : Object.values(model.displayName)[0]

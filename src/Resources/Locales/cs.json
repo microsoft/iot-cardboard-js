@@ -745,7 +745,22 @@
     "publish": "Publikovat",
     "sync": "synchronizovat",
     "import": "Dovoz",
-    "export": "Vývoz"
+    "export": "Vývoz",
+    "file": "Soubor",
+    "new": "Nový",
+    "open": "Otevřený",
+    "saveAs": "Uložit jako",
+    "delete": "Vymazat",
+    "enterAName": "Zadejte název",
+    "cancel": "Zrušit",
+    "project": "Projekt",
+    "untitledProject": "Projekt bez názvu",
+    "description": "Popis",
+    "dontSave": "Neukládejte",
+    "doYouWantToSaveChangesYouMadeTo": "Chcete uložit změny, které jste provedli",
+    "doYouWantToDelete": "Chcete odstranit",
+    "projectWithSameNameAlreadyExistsMessage?": "Projekt se stejným názvem již existuje, chcete jej přepsat?",
+    "overwrite": "přepsat"
   },
   "cameraControls": {
     "mouseControls": "Ovládání myší",
@@ -835,5 +850,16 @@
     "multiLanguage": "vícejazyčné",
     "region": "Oblast",
     "singleLanguage": "Jeden jazyk"
+  },
+  "ErrorHandlingWrapper": {
+    "errorMessage": "Zpráva o chybě",
+    "errorTitle": "Název chyby",
+    "ok": "Ok"
+  },
+  "OATErrorBoundary": {
+    "modalHeader": "Něco se pokazilo...",
+    "messageHeader": "Zpráva",
+    "stackHeader": "Zásobník",
+    "tryAgain": "Zkuste to znovu"
   }
 }

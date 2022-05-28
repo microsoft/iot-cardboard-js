@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useMemo } from 'react';
+import React, { useState, useRef, useMemo } from 'react';
 import { ModelTypes, Theme } from '../../Models/Constants/Enums';
 import {
     FontIcon,
@@ -53,13 +53,17 @@ const Editor = ({
     const { model, templatesActive } = state;
 
     const propertiesKeyName = getModelPropertyCollectionName(
-        model ? model['@type'] : null
+        model ? model['@type'] : ModelTypes.interface
     );
 
     const propertyList = useMemo(() => {
         // Get contents excluding relationship items
         let propertyItems = [];
-        if (model && model[propertiesKeyName].length > 0) {
+        if (
+            model &&
+            model[propertiesKeyName] &&
+            model[propertiesKeyName].length > 0
+        ) {
             propertyItems = model[propertiesKeyName].filter(
                 (property) => property['@type'] !== ModelTypes.relationship
             );

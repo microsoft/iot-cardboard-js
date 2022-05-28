@@ -745,7 +745,22 @@
     "publish": "发布",
     "sync": "同步",
     "import": "进口",
-    "export": "出口"
+    "export": "出口",
+    "file": "文件",
+    "new": "新增功能",
+    "open": "打开",
+    "saveAs": "另存为",
+    "delete": "删除",
+    "enterAName": "输入名称",
+    "cancel": "取消",
+    "project": "项目",
+    "untitledProject": "无题项目",
+    "description": "描述",
+    "dontSave": "不保存",
+    "doYouWantToSaveChangesYouMadeTo": "是否要保存所做的更改",
+    "doYouWantToDelete": "是否要删除",
+    "projectWithSameNameAlreadyExistsMessage?": "具有相同名称的项目已经存在，您是否要覆盖它？",
+    "overwrite": "改写"
   },
   "cameraControls": {
     "mouseControls": "鼠标控制",
@@ -835,5 +850,16 @@
     "multiLanguage": "多国语言",
     "region": "地区",
     "singleLanguage": "单一语言"
+  },
+  "ErrorHandlingWrapper": {
+    "errorMessage": "错误信息",
+    "errorTitle": "错误标题",
+    "ok": "还行"
+  },
+  "OATErrorBoundary": {
+    "modalHeader": "出了点问题...",
+    "messageHeader": "消息",
+    "stackHeader": "叠",
+    "tryAgain": "再试一次"
   }
 }
