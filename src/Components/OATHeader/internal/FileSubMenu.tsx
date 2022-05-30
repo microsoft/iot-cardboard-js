@@ -2,10 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { ActionButton, Text, Callout } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { getSubMenuItemStyles, getSubMenuStyles } from '../OATHeader.styles';
-import { OATDataStorageKey } from '../../../Models/Constants/Constants';
 import { IAction } from '../../../Models/Constants';
 import { IOATEditorState } from '../../../Pages/OATEditorPage/OATEditorPage.types';
-import { SET_OAT_PROJECT } from '../../../Models/Constants/ActionTypes';
+import { SET_OAT_PROJECT_NAME } from '../../../Models/Constants/ActionTypes';
 import { FromBody } from './Enums';
 import { loadFiles, saveFiles } from './Utils';
 import { deepCopy } from '../../../Models/Services/Utils';
@@ -38,18 +37,24 @@ export const FileSubMenu = ({
     const [files, setFiles] = useState(loadFiles());
     const [isFileStored, setIsFileStored] = useState(false);
     const [fileIndex, setFileIndex] = useState(-1);
-    const { project } = state;
+    const { modelPositions, models, projectName, templates } = state;
 
     const handleSave = () => {
         setSubMenuActive(false);
 
         if (isFileStored) {
             // Update file
-            const editorData = JSON.parse(
-                localStorage.getItem(OATDataStorageKey)
-            );
             const filesCopy = deepCopy(files);
-            filesCopy[fileIndex].data = editorData;
+
+            const project = new ProjectData(
+                modelPositions,
+                models,
+                '',
+                projectName,
+                templates
+            );
+
+            filesCopy[fileIndex].data = project;
             setFiles(filesCopy);
             saveFiles(filesCopy);
         } else {
@@ -61,13 +66,15 @@ export const FileSubMenu = ({
 
     const handleNew = () => {
         setSubMenuActive(false);
-        const editorData = JSON.parse(localStorage.getItem(OATDataStorageKey));
 
         if (isFileStored) {
             // Check if current project has been modified
+            console.log('file is stored');
+            console.log('models', models);
+            console.log('files[fileIndex].data', files[fileIndex].data);
             if (
-                JSON.stringify(editorData) !==
-                JSON.stringify(files[fileIndex].data)
+                JSON.stringify(models) !==
+                JSON.stringify(files[fileIndex].data.models)
             ) {
                 // Prompt the if user would like to save current progress
                 setModalBody(FromBody.saveCurrentProjectAndClear);
@@ -78,18 +85,13 @@ export const FileSubMenu = ({
             resetProject();
         } else if (
             // Check if current file has any progress
-            editorData &&
-            editorData.models &&
-            editorData.models.length > 0
+            models &&
+            models.length > 0
         ) {
+            console.log('file is NOT stored');
             dispatch({
-                type: SET_OAT_PROJECT,
-                payload: new ProjectData(
-                    [],
-                    [],
-                    '',
-                    t('OATHeader.untitledProject')
-                )
+                type: SET_OAT_PROJECT_NAME,
+                payload: t('OATHeader.untitledProject')
             });
             setModalBody(FromBody.saveCurrentProjectAndClear);
             setModalOpen(true);
@@ -99,10 +101,8 @@ export const FileSubMenu = ({
     useEffect(() => {
         // Check if current file is stored
         let foundIndex = -1;
-        if (files.length > 0 && project && project.projectName) {
-            foundIndex = files.findIndex(
-                (file) => file.name === project.projectName
-            );
+        if (files.length > 0 && projectName) {
+            foundIndex = files.findIndex((file) => file.name === projectName);
             setFileIndex(foundIndex);
             if (foundIndex > -1) {
                 setIsFileStored(true);

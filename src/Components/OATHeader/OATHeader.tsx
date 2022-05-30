@@ -10,7 +10,7 @@ import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 import { SET_OAT_PROJECT } from '../../Models/Constants/ActionTypes';
 import { ProjectData } from '../../Pages/OATEditorPage/Internal/Classes';
 
-import { IOATTwinModelNodes, OATDataStorageKey } from '../../Models/Constants';
+import { IOATTwinModelNodes } from '../../Models/Constants';
 import { IAction } from '../../Models/Constants/Interfaces';
 import { useDropzone } from 'react-dropzone';
 import { SET_OAT_IMPORT_MODELS } from '../../Models/Constants/ActionTypes';
@@ -92,16 +92,13 @@ const OATHeader = ({ elements, dispatch, state }: OATHeaderProps) => {
             [],
             [],
             t('OATHeader.description'),
-            t('OATHeader.untitledProject')
+            t('OATHeader.untitledProject'),
+            []
         );
-
-        localStorage.setItem(OATDataStorageKey, JSON.stringify(clearProject));
 
         dispatch({
             type: SET_OAT_PROJECT,
-            payload: {
-                model: clearProject
-            }
+            payload: clearProject
         });
     };
     useEffect(() => {

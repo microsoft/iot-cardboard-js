@@ -7,10 +7,10 @@ import {
     Stack
 } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
-import { OATDataStorageKey } from '../../../Models/Constants';
 import { getHeaderStyles, getPromptTextStyles } from '../OATHeader.styles';
 import { IOATEditorState } from '../../../Pages/OATEditorPage/OATEditorPage.types';
 import { loadFiles, saveFiles } from './Utils';
+import { ProjectData } from '../../../Pages/OATEditorPage/Internal/Classes';
 
 interface IModal {
     resetProject?: () => void;
@@ -28,20 +28,23 @@ export const ModalSaveCurrentProjectAndClear = ({
     const { t } = useTranslation();
     const headerStyles = getHeaderStyles();
     const promptTextStyles = getPromptTextStyles();
-    const { project } = state;
+    const { projectName, models, modelPositions, templates } = state;
 
     const handleOnSave = () => {
         const files = loadFiles();
 
         //  Overwrite existing file
-        const foundIndex = files.findIndex(
-            (file) => file.name === project.projectName
-        );
+        const foundIndex = files.findIndex((file) => file.name === projectName);
         if (foundIndex > -1) {
-            const editorData = JSON.parse(
-                localStorage.getItem(OATDataStorageKey)
+            const project = new ProjectData(
+                modelPositions,
+                models,
+                '',
+                projectName,
+                templates
             );
-            files[foundIndex].data = editorData;
+
+            files[foundIndex].data = project;
             saveFiles(files);
             setModalOpen(false);
             setModalBody(null);
@@ -66,9 +69,9 @@ export const ModalSaveCurrentProjectAndClear = ({
 
             <div className={headerStyles.modalRowCenterItem}>
                 <Text styles={promptTextStyles}>
-                    {`${t('OATHeader.doYouWantToSaveChangesYouMadeTo')} ${
-                        project.projectName
-                    }?`}
+                    {`${t(
+                        'OATHeader.doYouWantToSaveChangesYouMadeTo'
+                    )} ${projectName}?`}
                 </Text>
             </div>
 

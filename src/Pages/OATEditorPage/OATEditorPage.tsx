@@ -16,13 +16,14 @@ import {
     saveFiles
 } from '../../Components/OATHeader/internal/Utils';
 import OATErrorPage from './Internal/OATErrorPage';
+import { OATDataStorageKey } from '../../Models/Constants';
 
 const OATEditorPage = ({ theme }) => {
     const [state, dispatch] = useReducer(
         OATEditorPageReducer,
         defaultOATEditorState
     );
-    const EditorPageStyles = getEditorPageStyles();
+    const { models, projectName, templates, modelPositions } = state;
 
     const languages = Object.keys(i18n.options.resources).map((language) => {
         return {
@@ -31,12 +32,6 @@ const OATEditorPage = ({ theme }) => {
         };
     });
 
-    const handleImportClick = () => {
-        dispatch({
-            type: SET_OAT_IS_JSON_UPLOADER_OPEN,
-            payload: !state.isJsonUploaderOpen
-        });
-    };
     const editorPageStyles = getEditorPageStyles();
 
     useEffect(() => {
@@ -47,11 +42,27 @@ const OATEditorPage = ({ theme }) => {
         }
     }, []);
 
+    // Handle models persistence
+    useEffect(() => {
+        // Update oat-data storage
+        const editorData = JSON.parse(localStorage.getItem(OATDataStorageKey));
+        const oatEditorData = {
+            ...editorData,
+            models,
+            modelPositions: modelPositions,
+            projectName,
+            projectDescription: '',
+            templates: templates
+        };
+
+        localStorage.setItem(OATDataStorageKey, JSON.stringify(oatEditorData));
+    }, [models, projectName, templates, modelPositions]);
+
     return (
         <ErrorBoundary FallbackComponent={OATErrorPage}>
             <div className={editorPageStyles.container}>
                 <OATHeader
-                    elements={state.elements.digitalTwinsModels}
+                    elements={state.models}
                     dispatch={dispatch}
                     state={state}
                 />
@@ -62,11 +73,13 @@ const OATEditorPage = ({ theme }) => {
                             : editorPageStyles.component
                     }
                 >
-                    <OATModelList
-                        elements={state.elements.digitalTwinsModels}
+                    <OATModelList elements={state.models} dispatch={dispatch} />
+                    <OATGraphViewer
+                        state={state}
                         dispatch={dispatch}
+                        storedModels={state.models}
+                        storedModelPositions={state.modelPositions}
                     />
-                    <OATGraphViewer state={state} dispatch={dispatch} />
                     <OATPropertyEditor
                         theme={theme}
                         state={state}

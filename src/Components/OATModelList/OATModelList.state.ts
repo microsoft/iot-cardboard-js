@@ -3,7 +3,7 @@ import { IAction } from '../../Models/Constants/Interfaces';
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 import {
     SET_OAT_PROPERTY_EDITOR_MODEL,
-    SET_OAT_ELEMENTS,
+    SET_OAT_MODELS,
     SET_OAT_SELECTED_MODEL_ID,
     SET_OAT_DELETED_MODEL_ID,
     SET_OAT_EDITED_MODEL_NAME,
@@ -16,7 +16,7 @@ import {
 
 export const defaultOATEditorState: IOATEditorState = {
     model: null,
-    elements: [],
+    models: [],
     deletedModelId: '',
     selectedModelId: '',
     editedModelName: '',
@@ -35,8 +35,8 @@ export const OATGraphViewerReducer = produce(
             case SET_OAT_PROPERTY_EDITOR_MODEL:
                 state.model = payload;
                 return;
-            case SET_OAT_ELEMENTS:
-                state.elements = payload;
+            case SET_OAT_MODELS:
+                state.models = payload;
                 return;
             case SET_OAT_DELETED_MODEL_ID:
                 state.deletedModelId = payload;
