@@ -162,6 +162,8 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
         let componentPolygon = '';
         let polygonSourceX = 0;
         let polygonSourceY = 0;
+        let edgePathSourceX = 0;
+        let edgePathSourceY = 0;
         if (betaAngle < sourceBetaAngle) {
             newHeight = sourceHeight;
             const newHypotenuse = newHeight / Math.sin(alphaAngle);
@@ -177,6 +179,12 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                 heightVector,
                 true
             );
+            edgePathSourceX = polygonSourceX;
+            edgePathSourceY =
+                data.type === OATComponentHandleName
+                    ? polygonSourceY +
+                      offsetMedium * (sourceY > targetY ? -1 : 1)
+                    : polygonSourceY;
         } else {
             newBase = sourceBase;
             const newHypotenuse = newBase / Math.sin(betaAngle);
@@ -192,11 +200,19 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                 heightVector,
                 false
             );
+            edgePathSourceX =
+                data.type === OATComponentHandleName
+                    ? polygonSourceX +
+                      offsetMedium * (sourceX > targetX ? -1 : 1)
+                    : polygonSourceX;
+            edgePathSourceY = polygonSourceY;
         }
         return {
             componentPolygon: componentPolygon,
             polygonSourceX: polygonSourceX,
-            polygonSourceY: polygonSourceY
+            polygonSourceY: polygonSourceY,
+            edgePathSourceX: edgePathSourceX,
+            edgePathSourceY: edgePathSourceY
         };
     };
 
@@ -215,6 +231,8 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
         let polygonTargetY = 0;
         let inheritancePolygon = '';
         let relationshipPolygon = '';
+        let edgePathTargetX = 0;
+        let edgePathTargetY = 0;
         // Using triangulated conection position to create inheritance and relationship polygons and angles to define orientation
         if (betaAngle < targetBetaAngle) {
             newHeight = targetHeight;
@@ -238,6 +256,14 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                 heightVector,
                 true
             );
+            edgePathTargetX = polygonTargetX;
+            edgePathTargetY =
+                data.type === OATExtendHandleName ||
+                data.type === OATRelationshipHandleName ||
+                data.type === OATUntargetedRelationshipName
+                    ? polygonTargetY +
+                      offsetMedium * (sourceY < targetY ? -1 : 1)
+                    : polygonTargetY;
         } else {
             newBase = targetBase;
             const newHypotenuse = newBase / Math.sin(betaAngle);
@@ -260,12 +286,23 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                 heightVector,
                 false
             );
+
+            edgePathTargetX =
+                data.type === OATExtendHandleName ||
+                data.type === OATRelationshipHandleName ||
+                data.type === OATUntargetedRelationshipName
+                    ? polygonTargetX +
+                      offsetMedium * (sourceX < targetX ? -1 : 1)
+                    : polygonTargetX;
+            edgePathTargetY = polygonTargetY;
         }
         return {
             inheritancePolygon: inheritancePolygon,
             relationshipPolygon: relationshipPolygon,
             polygonTargetX: polygonTargetX,
-            polygonTargetY: polygonTargetY
+            polygonTargetY: polygonTargetY,
+            edgePathTargetX: edgePathTargetX,
+            edgePathTargetY: edgePathTargetY
         };
     };
 
@@ -424,6 +461,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
             onNameBlur();
         }
     };
+
     const bezierPath = getBezierPath({
         targetX,
         targetY,
@@ -436,10 +474,12 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
         .replace('C', '')
         .split(' ');
 
-    const edgePath =
-        sourceX > targetX
-            ? `M${bezierPath[3]} ${bezierPath[0]}`
-            : `M${bezierPath[0]} ${bezierPath[3]}`;
+    const edgePath = useMemo(() => {
+        return sourceX > targetX
+            ? `M${polygons.edgePathSourceX},${polygons.edgePathSourceY} ${polygons.edgePathTargetX},${polygons.edgePathTargetY}`
+            : `M${polygons.edgePathTargetX},${polygons.edgePathTargetY} ${polygons.edgePathSourceX},${polygons.edgePathSourceY}`;
+    }, [polygons]);
+
     const [edgeCenterX, edgeCenterY] = getEdgeCenter({
         sourceX,
         sourceY,
