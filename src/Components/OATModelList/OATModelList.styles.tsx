@@ -16,7 +16,8 @@ export const getModelsStyles = () => {
             {
                 backgroundColor: theme.semanticColors.bodyBackground,
                 width: '100%',
-                height: '100%'
+                height: '100%',
+                overflowY: 'auto'
             } as IStyle
         ],
         modelList: [
@@ -32,7 +33,7 @@ export const getModelsStyles = () => {
                 height: FontSizes.size12,
                 position: 'absolute',
                 marginTop: '5px',
-                marginLeft: '18%',
+                marginLeft: '17%',
                 zIndex: '101'
             } as IStyle
         ]

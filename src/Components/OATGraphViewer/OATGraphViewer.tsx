@@ -12,9 +12,11 @@ import ReactFlow, {
     MiniMap,
     Controls,
     Background,
-    removeElements
+    removeElements,
+    isNode
 } from 'react-flow-renderer';
 import { useTranslation } from 'react-i18next';
+import dagre from 'dagre';
 import OATGraphCustomNode from './Internal/OATGraphCustomNode';
 import OATGraphCustomEdge from './Internal/OATGraphCustomEdge';
 import {
@@ -43,7 +45,6 @@ import {
 } from '../../Models/Constants/Interfaces';
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 import { ElementNode } from './Internal/Classes/ElementNode';
-import { ElementPosition } from './Internal/Classes/ElementPosition';
 import { ElementData } from './Internal/Classes/ElementData';
 import { ElementEdge } from './Internal/Classes/ElementEdge';
 import { ElementEdgeData } from './Internal/Classes/ElementEdgeData';
@@ -60,6 +61,8 @@ const getStoredElements = () => {
     const editorData = JSON.parse(localStorage.getItem(OATDataStorageKey));
     return editorData && editorData.models ? editorData.models : null;
 };
+const nodeWidth = 300;
+const nodeHeight = 100;
 
 const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     const { t } = useTranslation();
@@ -89,6 +92,45 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     const [showInheritances, setShowInheritances] = useState(true);
     const [showComponents, setShowComponents] = useState(true);
     const [rfInstance, setRfInstance] = useState(null);
+
+    const dagreGraph = new dagre.graphlib.Graph();
+    dagreGraph.setDefaultEdgeLabel(() => ({}));
+
+    const getLayoutedElements = (elements, direction = 'TB') => {
+        const isHorizontal = direction === 'LR';
+        dagreGraph.setGraph({ rankdir: direction });
+
+        elements.forEach((el) => {
+            if (isNode(el)) {
+                dagreGraph.setNode(el.id, {
+                    width: nodeWidth,
+                    height: nodeHeight
+                });
+            } else {
+                dagreGraph.setEdge(el.source, el.target);
+            }
+        });
+
+        dagre.layout(dagreGraph);
+
+        return elements.map((el) => {
+            if (isNode(el)) {
+                const nodeWithPosition = dagreGraph.node(el.id);
+                el.targetPosition = isHorizontal ? 'left' : 'top';
+                el.sourcePosition = isHorizontal ? 'right' : 'bottom';
+
+                el.position = {
+                    x:
+                        nodeWithPosition.x -
+                        nodeWidth / 2 +
+                        Math.random() / 1000,
+                    y: nodeWithPosition.y - nodeHeight / 2
+                };
+            }
+
+            return el;
+        });
+    };
 
     useEffect(() => {
         // Identifies which is the next model Id on creating new nodes and updates the Local Storage
@@ -235,7 +277,8 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                 );
                 importModelsList.push(newNode, ...relationships);
             });
-            setElements([...importModelsList]);
+            const layoutedElements = getLayoutedElements([...importModelsList]);
+            setElements(layoutedElements);
         }
     }, [importModels]);
 
@@ -377,7 +420,8 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                 context: contextClassBase
             }
         };
-        setElements((es) => es.concat(newNode));
+        const layoutedElements = getLayoutedElements([...elements, newNode]);
+        setElements(layoutedElements);
     };
 
     const onNodeDragStop = (evt, node) => {

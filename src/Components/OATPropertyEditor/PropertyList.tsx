@@ -236,76 +236,83 @@ export const PropertyList = ({
                         </ActionButton>
                     </div>
                 )}
-
-                {model &&
-                    model[propertiesKeyName] &&
-                    model[propertiesKeyName].length > 0 &&
-                    model[propertiesKeyName].map((item, i) => {
-                        if (typeof item.schema === 'object') {
-                            return (
-                                <PropertyListItemNest
-                                    key={i}
-                                    index={i}
-                                    draggingProperty={draggingProperty}
-                                    getItemClassName={getNestItemClassName}
-                                    getNestedItemClassName={
-                                        getNestedItemClassName
-                                    }
-                                    getErrorMessage={generateErrorMessage}
-                                    handleDragEnter={handleDragEnter}
-                                    handleDragEnterExternalItem={
-                                        handleDragEnterExternalItem
-                                    }
-                                    handleDragStart={handleDragStart}
-                                    setCurrentPropertyIndex={
-                                        setCurrentPropertyIndex
-                                    }
-                                    item={item}
-                                    lastPropertyFocused={lastPropertyFocused}
-                                    setLastPropertyFocused={
-                                        setLastPropertyFocused
-                                    }
-                                    setCurrentNestedPropertyIndex={
-                                        setCurrentNestedPropertyIndex
-                                    }
-                                    setModalOpen={setModalOpen}
-                                    setModalBody={setModalBody}
-                                    dispatch={dispatch}
-                                    state={state}
-                                    deleteItem={deleteItem}
-                                    setPropertyOnHover={setPropertyOnHover}
-                                />
-                            );
-                        } else if (typeof item['@type'] === 'object') {
-                            return (
-                                <PropertyListItem
-                                    key={i}
-                                    index={i}
-                                    draggingProperty={draggingProperty}
-                                    getItemClassName={getItemClassName}
-                                    getErrorMessage={generateErrorMessage}
-                                    handleDragEnter={handleDragEnter}
-                                    handleDragEnterExternalItem={
-                                        handleDragEnterExternalItem
-                                    }
-                                    handleDragStart={handleDragStart}
-                                    setCurrentPropertyIndex={
-                                        setCurrentPropertyIndex
-                                    }
-                                    setModalOpen={setModalOpen}
-                                    item={item}
-                                    setLastPropertyFocused={
-                                        setLastPropertyFocused
-                                    }
-                                    setModalBody={setModalBody}
-                                    deleteItem={deleteItem}
-                                    dispatch={dispatch}
-                                    state={state}
-                                    setPropertyOnHover={setPropertyOnHover}
-                                />
-                            );
-                        }
-                    })}
+                <div
+                    className={
+                        propertyInspectorStyles.propertyListRelativeWrapContainer
+                    }
+                >
+                    {model &&
+                        model[propertiesKeyName] &&
+                        model[propertiesKeyName].length > 0 &&
+                        model[propertiesKeyName].map((item, i) => {
+                            if (typeof item.schema === 'object') {
+                                return (
+                                    <PropertyListItemNest
+                                        key={i}
+                                        index={i}
+                                        draggingProperty={draggingProperty}
+                                        getItemClassName={getNestItemClassName}
+                                        getNestedItemClassName={
+                                            getNestedItemClassName
+                                        }
+                                        getErrorMessage={generateErrorMessage}
+                                        handleDragEnter={handleDragEnter}
+                                        handleDragEnterExternalItem={
+                                            handleDragEnterExternalItem
+                                        }
+                                        handleDragStart={handleDragStart}
+                                        setCurrentPropertyIndex={
+                                            setCurrentPropertyIndex
+                                        }
+                                        item={item}
+                                        lastPropertyFocused={
+                                            lastPropertyFocused
+                                        }
+                                        setLastPropertyFocused={
+                                            setLastPropertyFocused
+                                        }
+                                        setCurrentNestedPropertyIndex={
+                                            setCurrentNestedPropertyIndex
+                                        }
+                                        setModalOpen={setModalOpen}
+                                        setModalBody={setModalBody}
+                                        dispatch={dispatch}
+                                        state={state}
+                                        deleteItem={deleteItem}
+                                        setPropertyOnHover={setPropertyOnHover}
+                                    />
+                                );
+                            } else if (typeof item['@type'] === 'object') {
+                                return (
+                                    <PropertyListItem
+                                        key={i}
+                                        index={i}
+                                        draggingProperty={draggingProperty}
+                                        getItemClassName={getItemClassName}
+                                        getErrorMessage={generateErrorMessage}
+                                        handleDragEnter={handleDragEnter}
+                                        handleDragEnterExternalItem={
+                                            handleDragEnterExternalItem
+                                        }
+                                        handleDragStart={handleDragStart}
+                                        setCurrentPropertyIndex={
+                                            setCurrentPropertyIndex
+                                        }
+                                        setModalOpen={setModalOpen}
+                                        item={item}
+                                        setLastPropertyFocused={
+                                            setLastPropertyFocused
+                                        }
+                                        setModalBody={setModalBody}
+                                        deleteItem={deleteItem}
+                                        dispatch={dispatch}
+                                        state={state}
+                                        setPropertyOnHover={setPropertyOnHover}
+                                    />
+                                );
+                            }
+                        })}
+                </div>
                 <div
                     className={
                         propertyInspectorStyles.addPropertyBarPropertyListWrap

@@ -24,6 +24,7 @@ const offsetSmall = 5;
 const offsetMedium = 10;
 const sourceDefaultHeight = 6;
 const rightAngleValue = 1.5708;
+const separation = 10;
 
 const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
     id,
@@ -153,8 +154,11 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
         sourceHeight,
         alphaAngle,
         adjustedSourceY,
+        adjustedSourceX,
         baseVector,
-        heightVector
+        heightVector,
+        adjustmentSourceX,
+        adjustmentSourceY
     ) => {
         // Using triangulated conection position to create componentPolygon and angles to define orientation
         let newHeight = 0;
@@ -165,12 +169,12 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
         let edgePathSourceX = 0;
         let edgePathSourceY = 0;
         if (betaAngle < sourceBetaAngle) {
-            newHeight = sourceHeight;
+            newHeight = sourceHeight + adjustmentSourceY * heightVector;
             const newHypotenuse = newHeight / Math.sin(alphaAngle);
             newBase = Math.sqrt(
                 newHypotenuse * newHypotenuse - newHeight * newHeight
             );
-            polygonSourceX = sourceX + newBase * baseVector;
+            polygonSourceX = adjustedSourceX + newBase * baseVector;
             polygonSourceY = adjustedSourceY + newHeight * heightVector;
             componentPolygon = getComponentPolygon(
                 polygonSourceX,
@@ -186,12 +190,12 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                       offsetMedium * (sourceY > targetY ? -1 : 1)
                     : polygonSourceY;
         } else {
-            newBase = sourceBase;
+            newBase = sourceBase + adjustmentSourceX * baseVector;
             const newHypotenuse = newBase / Math.sin(betaAngle);
             newHeight = Math.sqrt(
                 newHypotenuse * newHypotenuse - newBase * newBase
             );
-            polygonSourceX = sourceX + newBase * baseVector;
+            polygonSourceX = adjustedSourceX + newBase * baseVector;
             polygonSourceY = sourceY + newHeight * heightVector;
             componentPolygon = getComponentPolygon(
                 polygonSourceX,
@@ -203,7 +207,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
             edgePathSourceX =
                 data.type === OATComponentHandleName
                     ? polygonSourceX +
-                      offsetMedium * (sourceX > targetX ? -1 : 1)
+                      offsetMedium * (adjustedSourceX > targetX ? -1 : 1)
                     : polygonSourceX;
             edgePathSourceY = polygonSourceY;
         }
@@ -218,12 +222,16 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
 
     const getTargetComponents = (
         betaAngle,
+        targetBase,
         targetBetaAngle,
         targetHeight,
         alphaAngle,
+        adjustedTargetX,
+        adjustedTargetY,
         baseVector,
         heightVector,
-        targetBase
+        adjustmentTargetX,
+        adjustmentTargetY
     ) => {
         let newHeight = 0;
         let newBase = 0;
@@ -235,13 +243,13 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
         let edgePathTargetY = 0;
         // Using triangulated conection position to create inheritance and relationship polygons and angles to define orientation
         if (betaAngle < targetBetaAngle) {
-            newHeight = targetHeight;
+            newHeight = targetHeight + adjustmentTargetY * heightVector;
             const newHypotenuse = newHeight / Math.sin(alphaAngle);
             newBase = Math.sqrt(
                 newHypotenuse * newHypotenuse - newHeight * newHeight
             );
-            polygonTargetX = targetX + newBase * baseVector;
-            polygonTargetY = targetY + newHeight * heightVector;
+            polygonTargetX = adjustedTargetX + newBase * baseVector;
+            polygonTargetY = adjustedTargetY + newHeight * heightVector;
             inheritancePolygon = getInheritancePolygon(
                 polygonTargetX,
                 polygonTargetY,
@@ -265,13 +273,13 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                       offsetMedium * (sourceY < targetY ? -1 : 1)
                     : polygonTargetY;
         } else {
-            newBase = targetBase;
+            newBase = targetBase + adjustmentTargetX * baseVector;
             const newHypotenuse = newBase / Math.sin(betaAngle);
             newHeight = Math.sqrt(
                 newHypotenuse * newHypotenuse - newBase * newBase
             );
-            polygonTargetX = targetX + newBase * baseVector;
-            polygonTargetY = targetY + newHeight * heightVector;
+            polygonTargetX = adjustedTargetX + newBase * baseVector;
+            polygonTargetY = adjustedTargetY + newHeight * heightVector;
             inheritancePolygon = getInheritancePolygon(
                 polygonTargetX,
                 polygonTargetY,
@@ -308,7 +316,14 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
 
     const polygons = useMemo(() => {
         // With this Memo function the values for Polygons Points are calculated
-        const adjustedSourceY = sourceY - sourceDefaultHeight;
+        let adjustedSourceY = sourceY - sourceDefaultHeight;
+        let adjustedSourceX = sourceX;
+        let adjustmentSourceX = 0;
+        let adjustmentSourceY = 0;
+        let adjustedTargetY = targetY;
+        let adjustedTargetX = targetX;
+        let adjustmentTargetX = 0;
+        let adjustmentTargetY = 0;
 
         const element = elements.find((x) => x.id === id);
         let polygons = {};
@@ -316,18 +331,35 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
             polygons = { element: element };
             // If a valid element we get size based in positioning
             const sourceNode = elements.find((x) => x.id === element.source);
-            const sourceNodeSizeX = (sourceX - sourceNode.position.x) * 2;
+            const sourceNodeSizeX =
+                (adjustedSourceX - sourceNode.position.x) * 2;
             const sourceNodeSizeY =
                 (adjustedSourceY - sourceNode.position.y) * 2;
             const targetNode = elements.find((x) => x.id === element.target);
             const targetNodeSizeX = (targetX - targetNode.position.x) * 2;
             const targetNodeSizeY = (targetY - targetNode.position.y) * 2;
             // Getting vectors to adjust angle from source to target
-            let heightVector = targetY > adjustedSourceY ? 1 : -1;
+            let heightVector = targetY > sourceY ? 1 : -1;
             let baseVector = targetX > sourceX ? 1 : -1;
+            const paralels = elements.filter(
+                (x) =>
+                    x.source === element.source && x.target === element.target
+            );
+            if (paralels.length > 1) {
+                const sourceRange = (separation * (paralels.length - 1)) / 2;
+                adjustedSourceX = adjustedSourceX - sourceRange;
+                adjustedSourceY = adjustedSourceY + sourceRange * baseVector;
+                const indexX = paralels.findIndex((x) => x.id === id);
+                adjustedSourceX = indexX * separation + adjustedSourceX;
+                adjustedSourceY =
+                    adjustedSourceY - indexX * separation * baseVector;
+                adjustmentSourceX = sourceX - adjustedSourceX;
+                adjustmentSourceY =
+                    sourceY - adjustedSourceY - sourceDefaultHeight;
+            }
             // Using source and target points to triangulate and get angles
             const triangleHeight = (targetY - adjustedSourceY) * heightVector;
-            const triangleBase = (targetX - sourceX) * baseVector;
+            const triangleBase = (targetX - adjustedSourceX) * baseVector;
             const triangleHypotenuse = Math.sqrt(
                 triangleHeight * triangleHeight + triangleBase * triangleBase
             );
@@ -347,13 +379,26 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                 sourceHeight,
                 alphaAngle,
                 adjustedSourceY,
+                adjustedSourceX,
                 baseVector,
-                heightVector
+                heightVector,
+                adjustmentSourceX,
+                adjustmentSourceY
             );
             polygons = { ...polygons, ...sourceComponents };
             // Getting vectors to adjust angle from target to source
-            heightVector = targetY < adjustedSourceY ? 1 : -1;
+            heightVector = targetY < sourceY ? 1 : -1;
             baseVector = targetX < sourceX ? 1 : -1;
+            if (paralels.length > 1) {
+                const targetRange = (separation * (paralels.length - 1)) / 2;
+                adjustedTargetX = adjustedTargetX - targetRange;
+                adjustedTargetY = adjustedTargetY - targetRange;
+                const indexX = paralels.findIndex((x) => x.id === id);
+                adjustedTargetX = indexX * separation + adjustedTargetX;
+                adjustedTargetY = indexX * separation + adjustedTargetY;
+                adjustmentTargetX = targetX - adjustedTargetX;
+                adjustmentTargetY = targetY - adjustedTargetY;
+            }
             // Using source size to triangulate connection with target edge
             const targetHeight = targetNodeSizeY / 2;
             const targetBase = targetNodeSizeX / 2;
@@ -363,12 +408,16 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
             const targetBetaAngle = Math.asin(targetBase / targetHypotenuse);
             const targetComponents = getTargetComponents(
                 betaAngle,
+                targetBase,
                 targetBetaAngle,
                 targetHeight,
                 alphaAngle,
+                adjustedTargetX,
+                adjustedTargetY,
                 baseVector,
                 heightVector,
-                targetBase
+                adjustmentTargetX,
+                adjustmentTargetY
             );
             polygons = { ...polygons, ...targetComponents };
         }
