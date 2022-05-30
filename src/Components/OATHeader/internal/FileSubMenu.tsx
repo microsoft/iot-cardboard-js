@@ -69,9 +69,6 @@ export const FileSubMenu = ({
 
         if (isFileStored) {
             // Check if current project has been modified
-            console.log('file is stored');
-            console.log('models', models);
-            console.log('files[fileIndex].data', files[fileIndex].data);
             if (
                 JSON.stringify(models) !==
                 JSON.stringify(files[fileIndex].data.models)
@@ -88,7 +85,6 @@ export const FileSubMenu = ({
             models &&
             models.length > 0
         ) {
-            console.log('file is NOT stored');
             dispatch({
                 type: SET_OAT_PROJECT_NAME,
                 payload: t('OATHeader.untitledProject')
