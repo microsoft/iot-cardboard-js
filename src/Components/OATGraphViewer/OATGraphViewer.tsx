@@ -46,6 +46,7 @@ import { ElementNode } from './Internal/Classes/ElementNode';
 import { ElementData } from './Internal/Classes/ElementData';
 import { ElementEdge } from './Internal/Classes/ElementEdge';
 import { ElementEdgeData } from './Internal/Classes/ElementEdgeData';
+import { deepCopy } from '../../Models/Services/Utils';
 
 const idClassBase = 'dtmi:com:example:';
 const contextClassBase = 'dtmi:dtdl:context;2';
@@ -64,29 +65,92 @@ const getGraphViewerElementsFromModels = (models, modelPositions) => {
         return [];
     }
 
-    const graphViewerElements = models.map((item, index) => ({
-        data: {
-            name: item.displayName,
-            type: item['@type'],
-            id: item['@id'],
-            content: item.contents,
-            context: item['@context']
-        },
-        id: item['@id'],
-        position: {
-            x:
-                modelPositions.length > 0
-                    ? modelPositions[index].position.x
-                    : defaultNodePosition,
-            y:
-                modelPositions.length > 0
-                    ? modelPositions[index].position.y
-                    : defaultNodePosition
-        },
-        type: item['@type']
-    }));
+    // Format models
+    const modelsCopy = deepCopy(models);
+    const testRelationships = [];
+    modelsCopy.forEach((input, index) => {
+        let relationships = [];
+        let contents = [];
+        input['contents'].forEach((content) => {
+            if (content['@type'] === OATComponentHandleName) {
+                const componentRelationship = new ElementEdge(
+                    `${input['@id']}${OATComponentHandleName}${content['schema']}`,
+                    OATRelationshipHandleName,
+                    input['@id'],
+                    OATComponentHandleName,
+                    content['schema'],
+                    new ElementEdgeData(
+                        `${input['@id']}${OATComponentHandleName}${content['schema']}`,
+                        content['name'],
+                        content['name'],
+                        OATComponentHandleName
+                    )
+                );
+                relationships = [...relationships, componentRelationship];
+            } else if (content['@type'] === OATRelationshipHandleName) {
+                const relationship = new ElementEdge(
+                    content['@id']
+                        ? content['@id']
+                        : `${input['@id']}${OATRelationshipHandleName};${versionClassBase}`,
+                    OATRelationshipHandleName,
+                    input['@id'],
+                    OATRelationshipHandleName,
+                    content['target'],
+                    new ElementEdgeData(
+                        content['@id']
+                            ? content['@id']
+                            : `${input['@id']}${OATComponentHandleName};${versionClassBase}`,
+                        content['name'],
+                        content['displayName'],
+                        OATRelationshipHandleName
+                    )
+                );
+                relationships = [...relationships, relationship];
+            } else {
+                contents = [...contents, content];
+            }
+        });
+        if (input['extends']) {
+            const extendRelationship = new ElementEdge(
+                `${input['@id']}${OATExtendHandleName}${input['extends']}`,
+                OATRelationshipHandleName,
+                input['@id'],
+                OATExtendHandleName,
+                input['extends'],
+                new ElementEdgeData(
+                    `${input['@id']}${OATExtendHandleName}${input['extends']}`,
+                    '',
+                    '',
+                    OATExtendHandleName
+                )
+            );
+            relationships = [...relationships, extendRelationship];
+        }
+        const newNode = new ElementNode(
+            input['@id'],
+            input['@type'],
+            {
+                x:
+                    modelPositions.length > 0
+                        ? modelPositions[index].position.x
+                        : defaultNodePosition,
+                y:
+                    modelPositions.length > 0
+                        ? modelPositions[index].position.y
+                        : defaultNodePosition
+            },
+            new ElementData(
+                input['@id'],
+                input['displayName'],
+                input['@type'],
+                contents,
+                contextClassBase
+            )
+        );
+        testRelationships.push(newNode, ...relationships);
+    });
 
-    return graphViewerElements;
+    return testRelationships;
 };
 
 const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
@@ -143,7 +207,6 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
             modelPositions
         );
 
-        // If the models have changed, update the elements
         if (JSON.stringify(potentialElements) !== JSON.stringify(elements)) {
             setElements(potentialElements);
         }
@@ -617,9 +680,6 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                 const sourceNode = currentNodes.find(
                     (element) => element['@id'] === currentNode.source
                 );
-                const targetModelName = /[^:]*$/.exec(currentNode.target)[0]; // Get substring after last ':' character
-                const relationshipId = `${currentNode.data.id}_${targetModelName}`; // Unique relationship id
-
                 const relationship = {
                     '@type': currentNode.data.type,
                     name: currentNode.data.name,
@@ -627,9 +687,10 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                     target: currentNode.target
                 };
                 const found = sourceNode.contents.find(
-                    (element) => element['@id'] === relationshipId
+                    (element) => element.target === currentNode.target
                 );
 
+                // Prevent duplicated relationships
                 if (!found) {
                     sourceNode.contents = [
                         ...sourceNode.contents,
