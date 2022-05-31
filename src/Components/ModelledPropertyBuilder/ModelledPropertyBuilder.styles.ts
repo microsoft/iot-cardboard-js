@@ -104,16 +104,16 @@ export const propertyExpressionLabelStyles: Partial<ILabelStyles> = {
 };
 
 export const getActionButtonStyles = memoizeFunction(
-    (theme: Theme): Partial<IButtonStyles> => ({
+    (theme: Theme): Partial<ILabelStyles> => ({
         root: {
             color: theme.palette.themePrimary,
-            height: 32,
-            paddingLeft: 0
-            // fontWeight: FontWeights.semibold
+            fontWeight: FontWeights.semibold,
+            fontStyle: 'italic',
+            textDecoration: 'underline',
+            fontSize: FontSizes.size14,
+            paddingBottom: 0,
+            paddingTop: 5,
+            height: 'auto'
         }
-        // flexContainer: { height: 32 },
-        // label: {
-        //     margin: 0
-        // }
     })
 );

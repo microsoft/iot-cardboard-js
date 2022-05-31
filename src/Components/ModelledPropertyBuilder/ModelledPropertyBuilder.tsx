@@ -262,17 +262,14 @@ const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = ({
                         />
                     )}
                     {isClearEnabled && (
-                        // <ActionButton
-                        //     styles={propertyExpressionLabelStyles}
-                        //     onClick={onClickClearButton}
-                        // >
-                        //     {customLabel ?? t('Clear')}
-                        // </ActionButton>
                         <ActionButton
                             styles={actionButtonStyles}
-                            // className={styles.dropdownTitleText}
-                            text={'Clear'}
-                            // data-testid={'widgetForm-addWidget'}
+                            text={t(
+                                '3dSceneBuilder.ModelledPropertyBuilder.clearButtonText'
+                            )}
+                            data-testid={
+                                'modelled-property-builder-clear-button'
+                            }
                             onClick={onClickClearButton}
                         />
                     )}
