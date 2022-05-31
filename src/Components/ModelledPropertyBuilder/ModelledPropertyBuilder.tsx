@@ -28,6 +28,7 @@ import {
     IChoiceGroupOption,
     SpinnerSize,
     Text,
+    ActionButton,
     FontSizes
 } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
@@ -59,6 +60,7 @@ const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = ({
     intellisensePlaceholder,
     customLabel,
     customLabelTooltip,
+    clearButton,
     onInternalModeChanged
 }) => {
     const { t } = useTranslation();
@@ -140,6 +142,12 @@ const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = ({
         },
         [onChange]
     );
+
+    const onClickClearButton = useCallback(() => {
+        onChange({
+            expression: ''
+        });
+    }, [onChange]);
 
     const getIntellisenseProperty: GetPropertyNamesFunc = useCallback(
         (_twinId, { leafToken, tokens }) => {
@@ -246,6 +254,14 @@ const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = ({
                                 iconName: customLabelTooltip.iconName || 'Info'
                             }}
                         />
+                    )}
+                    {clearButton && (
+                        <ActionButton
+                            styles={propertyExpressionLabelStyles}
+                            onClick={onClickClearButton}
+                        >
+                            {customLabel ?? t('Clear')}
+                        </ActionButton>
                     )}
                 </Stack>
                 {(mode === ModelledPropertyBuilderMode.INTELLISENSE ||
