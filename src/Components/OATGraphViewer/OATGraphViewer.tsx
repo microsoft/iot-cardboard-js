@@ -123,6 +123,8 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                     x:
                         nodeWithPosition.x -
                         nodeWidth / 2 +
+                        // unfortunately we need this little hack to pass a slightly different position
+                        // to notify react flow about the change. Its required for V9 only and migth be removed later.
                         Math.random() / 1000,
                     y: nodeWithPosition.y - nodeHeight / 2
                 };
