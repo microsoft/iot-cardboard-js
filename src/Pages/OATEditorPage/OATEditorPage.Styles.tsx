@@ -20,7 +20,8 @@ export const getEditorPageStyles = () => {
         container: [
             classNames.container,
             {
-                height: '100vh'
+                height: '100vh',
+                overflowY: 'hidden'
             } as IStyle
         ],
         errorContainer: [
