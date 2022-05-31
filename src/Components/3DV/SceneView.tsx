@@ -620,7 +620,7 @@ function SceneView(props: ISceneViewProps, ref) {
             if (currentObjectColor.reflectionTexture) {
                 //If the current object theme has a reflection and the property is 'default', use the default reflection.
                 //Otherwise, this assumes the property contains a .env file that is base64 encoded as an octet-stream.
-                //see the Babylon documentation on how to generate a .env from an HDRi file:
+                //see the Babylon documentation on how to generate a .env from an HDRi or DDS environment file:
                 //(https://doc.babylonjs.com/divingDeeper/materials/using/HDREnvironment)
                 const reflectionAsString = currentObjectColor.reflectionTexture.startsWith(
                     'default'
