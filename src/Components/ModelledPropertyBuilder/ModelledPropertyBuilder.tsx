@@ -16,7 +16,8 @@ import {
     choiceGroupOptionStyles,
     choiceGroupStyles,
     getStyles,
-    propertyExpressionLabelStyles
+    propertyExpressionLabelStyles,
+    getActionButtonStyles
 } from './ModelledPropertyBuilder.styles';
 import {
     DropdownMenuItemType,
@@ -29,7 +30,8 @@ import {
     SpinnerSize,
     Text,
     ActionButton,
-    FontSizes
+    FontSizes,
+    useTheme
 } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { useModelledProperties } from './useModelledProperties';
@@ -60,7 +62,7 @@ const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = ({
     intellisensePlaceholder,
     customLabel,
     customLabelTooltip,
-    clearButton,
+    isClearEnabled,
     onInternalModeChanged
 }) => {
     const { t } = useTranslation();
@@ -147,7 +149,8 @@ const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = ({
         onChange({
             expression: ''
         });
-    }, [onChange]);
+        setInternalMode(ModelledPropertyBuilderMode.PROPERTY_SELECT);
+    }, [onChange, propertyExpression]);
 
     const getIntellisenseProperty: GetPropertyNamesFunc = useCallback(
         (_twinId, { leafToken, tokens }) => {
@@ -234,6 +237,9 @@ const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = ({
         [modelledProperties?.nestedFormat]
     );
 
+    const theme = useTheme();
+    const actionButtonStyles = getActionButtonStyles(theme);
+
     return (
         <Stack tokens={{ childrenGap: 4 }} className={styles.root}>
             <div className={styles.labelContainer}>
@@ -255,13 +261,20 @@ const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = ({
                             }}
                         />
                     )}
-                    {clearButton && (
+                    {isClearEnabled && (
+                        // <ActionButton
+                        //     styles={propertyExpressionLabelStyles}
+                        //     onClick={onClickClearButton}
+                        // >
+                        //     {customLabel ?? t('Clear')}
+                        // </ActionButton>
                         <ActionButton
-                            styles={propertyExpressionLabelStyles}
+                            styles={actionButtonStyles}
+                            // className={styles.dropdownTitleText}
+                            text={'Clear'}
+                            // data-testid={'widgetForm-addWidget'}
                             onClick={onClickClearButton}
-                        >
-                            {customLabel ?? t('Clear')}
-                        </ActionButton>
+                        />
                     )}
                 </Stack>
                 {(mode === ModelledPropertyBuilderMode.INTELLISENSE ||

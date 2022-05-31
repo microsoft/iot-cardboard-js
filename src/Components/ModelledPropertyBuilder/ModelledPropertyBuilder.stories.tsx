@@ -120,7 +120,7 @@ export const ToggleModeWithClearButton = Template.bind(
 
 ToggleModeWithClearButton.args = {
     mode: ModelledPropertyBuilderMode.TOGGLE,
-    clearButton: 'Clear'
+    isClearEnabled: true
 };
 
 export const ToggleModeInitialValue = Template.bind(

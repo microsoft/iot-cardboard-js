@@ -65,7 +65,7 @@ export interface ModelledPropertyBuilderProps {
     customLabelTooltip?: ITooltipCalloutContent;
 
     /** Clears all value ranges and sets properties to 'None' */
-    clearButton?: string;
+    isClearEnabled?: boolean;
 
     /** Visual indication that this field is required.  Defaults to false */
     required?: boolean;

@@ -8,7 +8,9 @@ import {
     IChoiceGroupOptionStyles,
     FontWeights,
     FontSizes,
-    ILabelStyles
+    ILabelStyles,
+    IButtonStyles,
+    Theme
 } from '@fluentui/react';
 
 export const modelledPropertyBuilderClassPrefix = 'cb-modelledpropertybuilder';
@@ -100,3 +102,18 @@ export const propertyExpressionLabelStyles: Partial<ILabelStyles> = {
         paddingTop: 5
     }
 };
+
+export const getActionButtonStyles = memoizeFunction(
+    (theme: Theme): Partial<IButtonStyles> => ({
+        root: {
+            color: theme.palette.themePrimary,
+            height: 32,
+            paddingLeft: 0
+            // fontWeight: FontWeights.semibold
+        }
+        // flexContainer: { height: 32 },
+        // label: {
+        //     margin: 0
+        // }
+    })
+);

@@ -171,6 +171,7 @@ const StatusTab: React.FC<IStatusTabProps> = ({ onValidityChange }) => {
                         selectedElements
                     }}
                     mode={ModelledPropertyBuilderMode.TOGGLE}
+                    isClearEnabled={true}
                     propertyExpression={{
                         expression:
                             getStatusFromBehavior(behaviorToEdit)
