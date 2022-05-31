@@ -82,6 +82,7 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
     unzoomedMeshOpacity,
     hideElementsPanel,
     hideViewModePickerUI,
+    selectedLayerIds,
     showModeToggle = false,
     styles
 }) => {
@@ -285,6 +286,12 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
         setSelectedLayerIds,
         unlayeredBehaviorsPresent
     ]);
+
+    useEffect(() => {
+        if (selectedLayerIds) {
+            setSelectedLayerIds(selectedLayerIds, true);
+        }
+    }, [selectedLayerIds]);
 
     const setSelectedElementId = useCallback(
         (elementId: string) => {
