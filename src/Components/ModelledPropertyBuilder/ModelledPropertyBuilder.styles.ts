@@ -104,7 +104,7 @@ export const propertyExpressionLabelStyles: Partial<ILabelStyles> = {
 };
 
 export const getActionButtonStyles = memoizeFunction(
-    (theme: Theme): Partial<ILabelStyles> => ({
+    (theme: Theme): Partial<IButtonStyles> => ({
         root: {
             color: theme.palette.themePrimary,
             fontWeight: FontWeights.semibold,
