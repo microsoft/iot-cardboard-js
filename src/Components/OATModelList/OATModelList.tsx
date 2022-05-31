@@ -44,7 +44,7 @@ const OATModelList = ({ elements, dispatch }: OATModelListProps) => {
         setItems(
             elements.filter(
                 (element) =>
-                    filter === '' ||
+                    !filter ||
                     element['@id'].includes(filter) ||
                     element.displayName.includes(filter)
             )

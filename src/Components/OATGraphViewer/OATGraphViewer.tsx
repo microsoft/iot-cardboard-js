@@ -96,7 +96,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     const dagreGraph = new dagre.graphlib.Graph();
     dagreGraph.setDefaultEdgeLabel(() => ({}));
 
-    const getLayoutedElements = (elements, direction = 'TB') => {
+    const applyLayoutToElements = (elements, direction = 'TB') => {
         const isHorizontal = direction === 'LR';
         dagreGraph.setGraph({ rankdir: direction });
 
@@ -277,8 +277,10 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                 );
                 importModelsList.push(newNode, ...relationships);
             });
-            const layoutedElements = getLayoutedElements([...importModelsList]);
-            setElements(layoutedElements);
+            const positionedElements = applyLayoutToElements([
+                ...importModelsList
+            ]);
+            setElements(positionedElements);
         }
     }, [importModels]);
 
@@ -420,8 +422,11 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                 context: contextClassBase
             }
         };
-        const layoutedElements = getLayoutedElements([...elements, newNode]);
-        setElements(layoutedElements);
+        const positionedElements = applyLayoutToElements([
+            ...elements,
+            newNode
+        ]);
+        setElements(positionedElements);
     };
 
     const onNodeDragStop = (evt, node) => {
