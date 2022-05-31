@@ -641,7 +641,6 @@ function SceneView(props: ISceneViewProps, ref) {
                 );
 
                 reflectionTexture.current = cubeTexture;
-                reflectionTexture.current.coordinatesMode = 3;
             }
 
             //Use the matching cached hover material or create a new one, cache it, and use it
