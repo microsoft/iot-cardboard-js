@@ -16,7 +16,7 @@ import {
 interface IBuildModelledPropertiesParams {
     adapter: IModelledPropertyBuilderAdapter;
     primaryTwinIds: string[];
-    aliasedTwinMap?: Record<string, string>;
+    aliasedTwinIds?: string[];
     allowedPropertyValueTypes: Array<PropertyValueType>;
 }
 
@@ -45,7 +45,7 @@ const dtIdModel = {
 export const buildModelledProperties = async ({
     adapter,
     primaryTwinIds,
-    aliasedTwinMap,
+    aliasedTwinIds,
     allowedPropertyValueTypes
 }: IBuildModelledPropertiesParams): Promise<IModelledProperties> => {
     const modelledProperties = {
@@ -64,7 +64,7 @@ export const buildModelledProperties = async ({
         const tagModelMap = await mergeTagsAndMapTwinIdsToModelIds(
             adapter,
             primaryTwinIds,
-            aliasedTwinMap
+            aliasedTwinIds
         );
 
         // Expand each model ID into DTDL property array
@@ -316,7 +316,7 @@ const addEntity = (
  * in the lifetime of the adapter interface
  * @param adapter network interface capable of resolving twins
  * @param primaryTwinIds list of primary twin Ids
- * @param aliasedTwinMap additional optional tag:twinId mapping
+ * @param aliasedTwinIds additional optional tag:twinId mapping
  * @returns tags mapped to model Ids where the primary tags (PrimaryTwin) is a list
  * @example
  * ```
@@ -330,7 +330,7 @@ const addEntity = (
 export const mergeTagsAndMapTwinIdsToModelIds = async (
     adapter: IModelledPropertyBuilderAdapter,
     primaryTwinIds: string[],
-    aliasedTwinMap?: Record<string, string>
+    aliasedTwinIds?: string[]
 ): Promise<ITagModelMap> => {
     const tagModelMap: ITagModelMap = {
         PrimaryTwin: []
@@ -353,15 +353,14 @@ export const mergeTagsAndMapTwinIdsToModelIds = async (
         ); // ensure uniqueness (drop duplicate model Ids)
     }
 
-    if (aliasedTwinMap) {
+    if (aliasedTwinIds?.length) {
         tagModelMap.aliasTags = {};
         const twinModelIdMap = new Map<string, string>();
 
         // Get models for each aliasTwinId
-        const aliasTwinIds = Object.values(aliasedTwinMap);
         (
             await Promise.all(
-                aliasTwinIds.map((aliasTwinId) =>
+                aliasedTwinIds.map((aliasTwinId) =>
                     adapter.getModelIdFromTwinId(aliasTwinId)
                 )
             )
@@ -372,7 +371,7 @@ export const mergeTagsAndMapTwinIdsToModelIds = async (
                 twinModelIdMap.set(twinId, modelId);
             });
 
-        for (const [aliasTag, aliasTwinId] of Object.entries(aliasedTwinMap)) {
+        for (const [aliasTag, aliasTwinId] of Object.entries(aliasedTwinIds)) {
             if (twinModelIdMap.has(aliasTwinId)) {
                 const modelId = twinModelIdMap.get(aliasTwinId);
                 tagModelMap.aliasTags[aliasTag] = modelId;

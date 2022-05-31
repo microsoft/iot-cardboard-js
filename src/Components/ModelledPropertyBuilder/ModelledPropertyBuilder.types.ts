@@ -35,7 +35,7 @@ export interface ResolvedTwinIdParams {
     primaryTwinIds: string[];
 
     /** Optional map of alias to twinIds mappings. */
-    aliasedTwinMap?: Record<string, string>;
+    aliasedTwinIds?: string[];
 }
 
 export interface ModelledPropertyBuilderProps {

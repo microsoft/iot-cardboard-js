@@ -345,12 +345,12 @@ abstract class ViewerConfigUtility {
         behavior: IBehavior,
         config: I3DScenesConfig,
         sceneId: string
-    ): { primaryTwinIds: string[]; aliasedTwinMap: Record<string, string> } {
+    ): { primaryTwinIds: string[]; aliasedTwinIds: string[] } {
         const scene = config.configuration.scenes.find(
             (scene) => scene.id === sceneId
         );
-        const primaryTwinIds = new Map();
-        let aliasedTwinMap: Record<string, string> = {};
+        const primaryTwinIds = new Set<string>();
+        const aliasedTwinIds = new Set<string>();
 
         // Get all element Ids associated with the behavior
         const elementIds = ViewerConfigUtility.getMappingIdsForBehavior(
@@ -364,34 +364,25 @@ abstract class ViewerConfigUtility {
                 // Check if objects Ids on element intersect with elementIds on behavior
                 if (elementIds.includes(elementInScene.id)) {
                     // Add elements primary twin
-                    primaryTwinIds.set(elementInScene.primaryTwinID, '');
+                    primaryTwinIds.add(elementInScene.primaryTwinID);
 
                     // Only add element alias if behavior contains alias
                     if (behavior.twinAliases && elementInScene.twinAliases) {
-                        const twinAliasesOnBehavior = {};
-
                         for (const [
                             elementAlias,
                             aliasedTwinId
                         ] of Object.entries(elementInScene.twinAliases)) {
                             if (behavior.twinAliases.includes(elementAlias)) {
-                                twinAliasesOnBehavior[
-                                    elementAlias
-                                ] = aliasedTwinId;
+                                // Add elements twin aliases
+                                aliasedTwinIds.add(aliasedTwinId);
                             }
                         }
-
-                        // Add elements twin aliases
-                        aliasedTwinMap = {
-                            ...aliasedTwinMap,
-                            ...twinAliasesOnBehavior
-                        };
                     }
                 }
             });
 
         return {
-            aliasedTwinMap,
+            aliasedTwinIds: Array.from(aliasedTwinIds.keys()),
             primaryTwinIds: Array.from(primaryTwinIds.keys())
         };
     }
@@ -692,6 +683,16 @@ abstract class ViewerConfigUtility {
     static getBehaviorIdsInScene(config: I3DScenesConfig, sceneId: string) {
         const scene = ViewerConfigUtility.getSceneById(config, sceneId);
         return scene?.behaviorIDs || [];
+    }
+
+    static getBehaviorById(
+        config: I3DScenesConfig,
+        behaviorId: string
+    ): IBehavior | undefined {
+        if (!config || !behaviorId) return undefined;
+        return config?.configuration?.behaviors.find(
+            (x) => x.id === behaviorId
+        );
     }
 
     static getBehaviorsOnElement(

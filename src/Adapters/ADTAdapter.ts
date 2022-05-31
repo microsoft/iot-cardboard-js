@@ -50,6 +50,7 @@ import ADTTwinLookupData from '../Models/Classes/AdapterDataClasses/ADTTwinLooku
 import axios, { AxiosError, AxiosInstance } from 'axios';
 import { DtdlInterface } from '../Models/Constants/dtdlInterfaces';
 import {
+    getDebugLogger,
     getModelContentType,
     parseDTDLModelsAsync
 } from '../Models/Services/Utils';
@@ -73,6 +74,9 @@ import { ModelDict } from 'azure-iot-dtdl-parser/dist/parser/modelDict';
 import AdapterEntityCache from '../Models/Classes/AdapterEntityCache';
 import ADTInstancesData from '../Models/Classes/AdapterDataClasses/ADTInstancesData';
 import queryString from 'query-string';
+
+const debugLogging = false;
+const logDebugConsole = getDebugLogger('ADTAdapter', debugLogging);
 
 export default class ADTAdapter implements IADTAdapter {
     public tenantId: string;
@@ -952,48 +956,64 @@ export default class ADTAdapter implements IADTAdapter {
         }
 
         return await adapterMethodSandbox.safelyFetchData(async () => {
+            logDebugConsole(
+                'debug',
+                `Fetching scene data for ${sceneId}`,
+                config
+            );
             // get scene based on id
             const scene = config.configuration?.scenes?.find(
                 (scene) => scene.id === sceneId
             );
             let modelUrl = null;
             const sceneVisuals: SceneVisual[] = [];
-            const twinIdToResolvedTwinMap = new Map<string, boolean>();
+            const twinIdToResolvedTwinMap = new Set<string>();
 
             if (scene) {
                 // get modelUrl
                 modelUrl = scene.assets?.find((asset) => asset.url)?.url;
 
                 if (scene.behaviorIDs) {
+                    logDebugConsole('debug', 'Behavior Ids', scene.behaviorIDs);
                     // get all twins for all behaviors in the scene
                     for (const sceneBehaviorId of scene.behaviorIDs) {
-                        for (const behavior of config.configuration.behaviors) {
-                            if (sceneBehaviorId === behavior.id) {
-                                const {
-                                    primaryTwinIds,
-                                    aliasedTwinMap
-                                } = ViewerConfigUtility.getTwinIdsForBehaviorInScene(
-                                    behavior,
-                                    config,
-                                    sceneId
-                                );
-                                primaryTwinIds.forEach(
-                                    (tid) =>
-                                        (twinIdToResolvedTwinMap[tid] = true)
-                                );
-                                Object.entries(aliasedTwinMap).forEach(
-                                    (atm) =>
-                                        (twinIdToResolvedTwinMap[atm[1]] = true)
-                                );
-                            }
+                        const behavior = ViewerConfigUtility.getBehaviorById(
+                            config,
+                            sceneBehaviorId
+                        );
+                        if (behavior) {
+                            const {
+                                primaryTwinIds,
+                                aliasedTwinIds
+                            } = ViewerConfigUtility.getTwinIdsForBehaviorInScene(
+                                behavior,
+                                config,
+                                sceneId
+                            );
+                            primaryTwinIds.forEach((tid) =>
+                                twinIdToResolvedTwinMap.add(tid)
+                            );
+                            Object.entries(aliasedTwinIds).forEach((atm) =>
+                                twinIdToResolvedTwinMap.add(atm[1])
+                            );
                         }
                     }
-                    const twinIdsArray = Object.keys(twinIdToResolvedTwinMap);
+                    const twinIdsArray = Array.from(
+                        twinIdToResolvedTwinMap.keys()
+                    );
+                    logDebugConsole(
+                        'debug',
+                        'Fetching data for twin ids',
+                        twinIdsArray
+                    );
+                    // fetch the data for all of the twins in parallel
                     const twinResults = await Promise.all(
                         twinIdsArray.map((twinId) =>
                             this.getADTTwin(twinId, true)
                         )
                     );
+
+                    logDebugConsole('debug', 'Twins data', twinResults);
                     twinResults.forEach((adapterResult, idx) => {
                         pushErrors(adapterResult.getErrors());
                         twinIdToResolvedTwinMap[twinIdsArray[idx]] =

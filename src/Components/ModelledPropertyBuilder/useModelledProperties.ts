@@ -43,7 +43,7 @@ export const useModelledProperties = ({
         if (isResolvedTwinIdMode(twinIdParams)) {
             return {
                 primaryTwinIds: twinIdParams.primaryTwinIds,
-                aliasedTwinMap: twinIdParams.aliasedTwinMap ?? {}
+                aliasedTwinIds: twinIdParams.aliasedTwinIds ?? []
             };
         } else {
             // Create a snapshot of the edited config by commiting the alias & behavior changes
@@ -67,7 +67,7 @@ export const useModelledProperties = ({
     }, [twinIdParams]);
 
     const disableAliasedTwins =
-        (isResolvedTwinIdMode(twinIdParams) && !twinIdParams.aliasedTwinMap) ||
+        (isResolvedTwinIdMode(twinIdParams) && !twinIdParams.aliasedTwinIds) ||
         (!isResolvedTwinIdMode(twinIdParams) &&
             twinIdParams.disableAliasedTwins);
 
@@ -82,7 +82,7 @@ export const useModelledProperties = ({
                 adapter,
                 primaryTwinIds: twinIds.primaryTwinIds,
                 ...(!disableAliasedTwins && {
-                    aliasedTwinMap: twinIds.aliasedTwinMap
+                    aliasedTwinIds: twinIds.aliasedTwinIds
                 }),
                 allowedPropertyValueTypes
             });
@@ -97,7 +97,7 @@ export const useModelledProperties = ({
         return () => {
             isMounted = false;
         };
-    }, [twinIds.primaryTwinIds, twinIds.aliasedTwinMap]);
+    }, [twinIds.primaryTwinIds, twinIds.aliasedTwinIds]);
 
     return { isLoading, modelledProperties };
 };
