@@ -1,5 +1,6 @@
 import { DEFAULT_LAYER_ID } from '../../Components/LayerDropdown/LayerDropdown';
-import { IAliasedTwinProperty } from '../Constants/Interfaces';
+import { PRIMARY_TWIN_NAME } from '../Constants';
+import { DTwin, IAliasedTwinProperty } from '../Constants/Interfaces';
 import { deepCopy } from '../Services/Utils';
 import {
     I3DScenesConfig,
@@ -23,6 +24,7 @@ import {
     IElementTwinAliasItem,
     VisualType
 } from './3DVConfig';
+import { SceneVisual } from './SceneView.types';
 
 /** Static utilty methods for operations on the configuration file. */
 abstract class ViewerConfigUtility {
@@ -146,6 +148,18 @@ abstract class ViewerConfigUtility {
                 layer.behaviorIDs.push(behaviorId);
             }
         }
+    }
+
+    /** Gets a given behavior from the confi */
+    static getBehaviorById(
+        config: I3DScenesConfig,
+        behaviorId: string
+    ): IBehavior | undefined {
+        if (!config || !behaviorId) return undefined;
+
+        return config?.configuration?.behaviors?.find(
+            (x) => x.id === behaviorId
+        );
     }
 
     /** Add behavior to target scene */
@@ -353,7 +367,7 @@ abstract class ViewerConfigUtility {
         let aliasedTwinMap: Record<string, string> = {};
 
         // Get all element Ids associated with the behavior
-        const elementIds = ViewerConfigUtility.getMappingIdsForBehavior(
+        const elementIds = ViewerConfigUtility.getElementIdsForBehavior(
             behavior
         );
 
@@ -964,7 +978,7 @@ abstract class ViewerConfigUtility {
         };
     }
 
-    static getMappingIdsForBehavior(behavior: IBehavior) {
+    static getElementIdsForBehavior(behavior: IBehavior) {
         const mappingIds: string[] = [];
         // cycle through the datasources of behavior
         for (const dataSource of behavior.datasources) {
@@ -1333,6 +1347,76 @@ abstract class ViewerConfigUtility {
             console.log(error);
             return error;
         }
+    }
+
+    static getSceneVisualsInScene(
+        config: I3DScenesConfig,
+        sceneId: string,
+        twinData: Map<string, DTwin>
+    ): SceneVisual[] {
+        if (!sceneId || !config) {
+            return [];
+        }
+        const scene = ViewerConfigUtility.getSceneById(config, sceneId);
+        if (!scene) {
+            return [];
+        }
+
+        const sceneVisuals: SceneVisual[] = [];
+        // map resolved twins to SceneVisuals
+        for (const sceneBehaviorId of scene.behaviorIDs) {
+            // cycle through all behaviors
+            // check if behavior is relevant for the current scene
+            const behavior = ViewerConfigUtility.getBehaviorById(
+                config,
+                sceneBehaviorId
+            );
+            if (!behavior) {
+                // skip if we don't find the behavior
+                continue;
+            }
+
+            const elementIds = ViewerConfigUtility.getElementIdsForBehavior(
+                behavior
+            );
+
+            // cycle through element ids to get twins for behavior and scene
+            for (const currentElementId of elementIds) {
+                const twins: Record<string, DTwin> = {};
+                const element = scene.elements.find(
+                    (element) =>
+                        element.type === ElementType.TwinToObjectMapping &&
+                        element.id === currentElementId
+                ) as ITwinToObjectMapping;
+                if (!element) {
+                    // skip if we don't find the element
+                    continue;
+                }
+                twins[PRIMARY_TWIN_NAME] = twinData[element.primaryTwinID];
+
+                // check for twin aliases and add to twins object
+                if (element.twinAliases) {
+                    for (const alias of Object.keys(element.twinAliases)) {
+                        twins[alias] = twinData[element.twinAliases[alias]];
+                    }
+                }
+
+                const existingSceneVisual = sceneVisuals.find(
+                    (sV) => sV.element.id === currentElementId
+                );
+                if (!existingSceneVisual) {
+                    const sceneVisual = new SceneVisual(
+                        element,
+                        [behavior],
+                        twins
+                    );
+                    sceneVisuals.push(sceneVisual);
+                } else {
+                    existingSceneVisual.behaviors.push(behavior);
+                }
+            }
+        }
+        return sceneVisuals;
     }
 }
 

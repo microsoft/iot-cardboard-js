@@ -957,38 +957,39 @@ export default class ADTAdapter implements IADTAdapter {
                 (scene) => scene.id === sceneId
             );
             let modelUrl = null;
-            const sceneVisuals: SceneVisual[] = [];
-            const twinIdToResolvedTwinMap = new Map<string, boolean>();
+            let sceneVisuals: SceneVisual[] = [];
 
             if (scene) {
+                const twinIds = new Set<string>();
+                const twinIdToDataMap = new Map<string, DTwin>();
                 // get modelUrl
                 modelUrl = scene.assets?.find((asset) => asset.url)?.url;
 
                 if (scene.behaviorIDs) {
                     // get all twins for all behaviors in the scene
                     for (const sceneBehaviorId of scene.behaviorIDs) {
-                        for (const behavior of config.configuration.behaviors) {
-                            if (sceneBehaviorId === behavior.id) {
-                                const {
-                                    primaryTwinIds,
-                                    aliasedTwinMap
-                                } = ViewerConfigUtility.getTwinIdsForBehaviorInScene(
-                                    behavior,
-                                    config,
-                                    sceneId
-                                );
-                                primaryTwinIds.forEach(
-                                    (tid) =>
-                                        (twinIdToResolvedTwinMap[tid] = true)
-                                );
-                                Object.entries(aliasedTwinMap).forEach(
-                                    (atm) =>
-                                        (twinIdToResolvedTwinMap[atm[1]] = true)
-                                );
-                            }
+                        const behavior = ViewerConfigUtility.getBehaviorById(
+                            config,
+                            sceneBehaviorId
+                        );
+                        if (!behavior) {
+                            // skip if we don't find the behavior
+                            continue;
                         }
+                        const {
+                            primaryTwinIds,
+                            aliasedTwinMap
+                        } = ViewerConfigUtility.getTwinIdsForBehaviorInScene(
+                            behavior,
+                            config,
+                            sceneId
+                        );
+                        primaryTwinIds.forEach((tid) => twinIds.add(tid));
+                        Object.values(aliasedTwinMap).forEach((aliasedTwinId) =>
+                            twinIds.add(aliasedTwinId)
+                        );
                     }
-                    const twinIdsArray = Object.keys(twinIdToResolvedTwinMap);
+                    const twinIdsArray = Object.keys(twinIds);
                     const twinResults = await Promise.all(
                         twinIdsArray.map((twinId) =>
                             this.getADTTwin(twinId, true)
@@ -996,69 +997,19 @@ export default class ADTAdapter implements IADTAdapter {
                     );
                     twinResults.forEach((adapterResult, idx) => {
                         pushErrors(adapterResult.getErrors());
-                        twinIdToResolvedTwinMap[twinIdsArray[idx]] =
-                            adapterResult.result?.data;
+                        twinIdToDataMap.set(
+                            twinIdsArray[idx],
+                            adapterResult.result?.data
+                        );
                     });
                     // end: get all twins for all behaviors in the scene
 
-                    // map resolved twins to SceneVisuals
-                    for (const sceneBehaviorId of scene.behaviorIDs) {
-                        // cycle through all behaviors
-                        // check if behavior is relevant for the current scene
-                        for (const behavior of config.configuration.behaviors)
-                            if (sceneBehaviorId === behavior.id) {
-                                const mappingIds = ViewerConfigUtility.getMappingIdsForBehavior(
-                                    behavior
-                                );
-
-                                // cycle through mapping ids to get twins for behavior and scene
-                                for (const id of mappingIds) {
-                                    const twins = {};
-                                    const element = scene.elements.find(
-                                        (element) =>
-                                            element.type ===
-                                                ElementType.TwinToObjectMapping &&
-                                            element.id === id
-                                    ) as ITwinToObjectMapping;
-                                    if (element) {
-                                        twins[PRIMARY_TWIN_NAME] =
-                                            twinIdToResolvedTwinMap[
-                                                element.primaryTwinID
-                                            ];
-
-                                        // check for twin aliases and add to twins object
-                                        if (element.twinAliases) {
-                                            for (const alias of Object.keys(
-                                                element.twinAliases
-                                            )) {
-                                                twins[alias] =
-                                                    twinIdToResolvedTwinMap[
-                                                        element.twinAliases[
-                                                            alias
-                                                        ]
-                                                    ];
-                                            }
-                                        }
-
-                                        const existingSceneVisual = sceneVisuals.find(
-                                            (sV) => sV.element.id === id
-                                        );
-                                        if (!existingSceneVisual) {
-                                            const sceneVisual = new SceneVisual(
-                                                element,
-                                                [behavior],
-                                                twins
-                                            );
-                                            sceneVisuals.push(sceneVisual);
-                                        } else {
-                                            existingSceneVisual.behaviors.push(
-                                                behavior
-                                            );
-                                        }
-                                    }
-                                }
-                            }
-                    }
+                    sceneVisuals = ViewerConfigUtility.getSceneVisualsInScene(
+                        config,
+                        sceneId,
+                        twinIdToDataMap
+                    );
+                    console.log('***Adapter Scene visuals', sceneVisuals);
                 }
             }
             return new ADT3DViewerData(modelUrl, sceneVisuals);
