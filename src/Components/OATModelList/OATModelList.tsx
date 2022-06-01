@@ -28,6 +28,7 @@ const OATModelList = ({ elements, dispatch, modified }: OATModelListProps) => {
     const [items, setItems] = useState([]);
     const [idEditor, setIdEditor] = useState(false);
     const [idText, setIdText] = useState('');
+    const [filter, setFilter] = useState('');
     const currentNodeId = useRef('');
     const iconStyles = getModelsIconStyles();
     const actionButtonStyles = getModelsActionButtonStyles();
@@ -39,6 +40,17 @@ const OATModelList = ({ elements, dispatch, modified }: OATModelListProps) => {
     useEffect(() => {
         setItems([...elements]);
     }, [theme]);
+
+    useEffect(() => {
+        setItems(
+            elements.filter(
+                (element) =>
+                    !filter ||
+                    element['@id'].includes(filter) ||
+                    element.displayName.includes(filter)
+            )
+        );
+    }, [filter]);
 
     const onSelectedClick = (id) => {
         if (!modified) {
@@ -108,20 +120,18 @@ const OATModelList = ({ elements, dispatch, modified }: OATModelListProps) => {
         }
     };
 
+    const onFilterChange = (evt) => {
+        setFilter(evt.target.value);
+    };
+
     const onRenderCell = (item) => {
         return (
-            <>
-                <ActionButton
-                    className={modelsStyles.nodeCancel}
-                    onClick={() => onModelDelete(item['@id'])}
-                >
-                    <Icon iconName="Cancel" styles={iconStyles} />
-                </ActionButton>
+            <div className={modelsStyles.modelNode}>
                 <ActionButton
                     styles={actionButtonStyles}
                     onClick={() => onSelectedClick(item['@id'])}
                 >
-                    <div className={modelsStyles.modelList}>
+                    <div>
                         <div
                             onDoubleClick={() =>
                                 onNameClick(item['displayName'])
@@ -129,7 +139,7 @@ const OATModelList = ({ elements, dispatch, modified }: OATModelListProps) => {
                         >
                             {(!nameEditor ||
                                 currentNodeId.current !== item['@id']) && (
-                                <strong>
+                                <strong className={modelsStyles.strongText}>
                                     {typeof item['displayName'] === 'string'
                                         ? item['displayName']
                                         : Object.values(item['displayName'])[0]}
@@ -166,12 +176,19 @@ const OATModelList = ({ elements, dispatch, modified }: OATModelListProps) => {
                         </div>
                     </div>
                 </ActionButton>
-            </>
+                <ActionButton
+                    className={modelsStyles.nodeCancel}
+                    onClick={() => onModelDelete(item['@id'])}
+                >
+                    <Icon iconName="Cancel" styles={iconStyles} />
+                </ActionButton>
+            </div>
         );
     };
 
     return (
         <div className={modelsStyles.container}>
+            <TextField onChange={onFilterChange} value={filter} />
             <List items={items} onRenderCell={onRenderCell} />
         </div>
     );

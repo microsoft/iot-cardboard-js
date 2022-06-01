@@ -54,6 +54,7 @@ const classNames = {
     propertyItemIconMoreSubMenu: `${classPrefix}-property-item-icon-more-sub-menu`,
     propertyItemIcon: `${classPrefix}-property-item-icon`,
     propertyListRelativeWrap: `${classPrefix}-property-list-relative-wrap`,
+    propertyListRelativeWrapContainer: `${classPrefix}-property-list-relative-wrap-container`,
     propertyNestedItemRelativeWrap: `${classPrefix}-property-nested-item-relative-wrap`,
     propertySubMenuItemIcon: `${classPrefix}-property-sub-item-icon`,
     propertySubMenuItemIconRemove: `${classPrefix}-property-sub-item-icon-remove`,
@@ -180,7 +181,6 @@ export const getPropertyInspectorStyles = () => {
         propertiesWrapScroll: [
             classNames.propertiesWrapScroll,
             {
-                paddingBottom: '120px',
                 maxHeight: '500px',
                 position: 'relative'
             } as IStyle
@@ -401,6 +401,13 @@ export const getPropertyInspectorStyles = () => {
                 flexDirection: 'column',
                 position: 'relative',
                 margin: '0, 4px'
+            } as IStyle
+        ],
+        propertyListRelativeWrapContainer: [
+            classNames.propertyListRelativeWrapContainer,
+            {
+                overflowY: 'auto',
+                maxHeight: 'calc(100vh - 310px)'
             } as IStyle
         ],
         propertyNestedItemRelativeWrap: [

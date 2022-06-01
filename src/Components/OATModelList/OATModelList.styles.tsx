@@ -4,8 +4,9 @@ import { CardboardClassNamePrefix } from '../../Models/Constants';
 const classPrefix = `${CardboardClassNamePrefix}-oat-model`;
 const classNames = {
     container: `${classPrefix}-container`,
-    modelList: `${classPrefix}-model-list`,
-    nodeCancel: `${classPrefix}-nodeCancel`
+    modelNode: `${classPrefix}-model-node`,
+    nodeCancel: `${classPrefix}-nodeCancel`,
+    strongText: `${classPrefix}-strong-text`
 };
 
 export const getModelsStyles = () => {
@@ -16,24 +17,34 @@ export const getModelsStyles = () => {
             {
                 backgroundColor: theme.semanticColors.bodyBackground,
                 width: '100%',
-                height: '100%'
+                height: '100%',
+                overflowY: 'auto'
             } as IStyle
         ],
-        modelList: [
-            classNames.modelList,
+        modelNode: [
+            classNames.modelNode,
             {
                 width: '100%',
-                float: 'left'
+                height: '60px',
+                display: 'grid',
+                gridTemplateColumns: '90% 5%'
             } as IStyle
         ],
         nodeCancel: [
             classNames.nodeCancel,
             {
                 height: FontSizes.size12,
-                position: 'absolute',
+                position: 'relative',
                 marginTop: '5px',
-                marginLeft: '18%',
-                zIndex: '101'
+                marginLeft: '17%',
+                zIndex: '101',
+                float: 'right'
+            } as IStyle
+        ],
+        strongText: [
+            classNames.strongText,
+            {
+                float: 'left'
             } as IStyle
         ]
     });
@@ -58,8 +69,9 @@ export const getModelsActionButtonStyles = () => {
             borderStyle: 'solid',
             padding: '5px',
             margin: '5px',
-            width: '95%',
-            height: '50px'
+            width: '105%',
+            height: '50px',
+            position: 'relative'
         }
     } as Partial<IStyle>;
 };
