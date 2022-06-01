@@ -1560,16 +1560,8 @@ function SceneView(props: ISceneViewProps, ref) {
                         const clone = currentMesh.clone('', null, true, false);
                         // Move the clone to a utility layer so we can draw it on top of other opaque scene elements
                         clone._scene = utilLayer.current.utilityLayerScene;
-
-                        // For some reason when rendering the duplicated outline mesh at 1:1 scale in wireframe mode,
-                        // we get outline artifacts on the wireframe itself.  We scale the mesh up slightly to alleviate this.
-                        if (currentMesh.material.wireframe === true)
-                            clone.scaling = new BABYLON.Vector3(
-                                1.01,
-                                1.01,
-                                1.01
-                            );
-
+                        //Parent the clone to the mesh so that the highlight transform animates properly
+                        clone.setParent(currentMesh);
                         const cloneMaterial = new BABYLON.StandardMaterial(
                             'standard',
                             utilLayer.current.utilityLayerScene
@@ -1579,7 +1571,6 @@ function SceneView(props: ISceneViewProps, ref) {
                         clone.material = cloneMaterial;
                         clone.alphaIndex = 2;
                         clone.isPickable = false;
-                        clone.setParent(currentMesh);
                         clonedHighlightMeshes.current.push(clone);
                         utilLayer.current.utilityLayerScene.meshes.push(clone);
                         meshToOutline = clone;
