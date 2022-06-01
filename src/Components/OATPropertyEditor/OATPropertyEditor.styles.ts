@@ -67,7 +67,8 @@ const classNames = {
     modalRowFlexEnd: `${classPrefix}-modal-row-flex-end`,
     modalRowSpaceBetween: `${classPrefix}-modal-row-space-between`,
     modalTexField: `${classPrefix}-modal-tex-field`,
-    booleanIcon: `${classPrefix}-boolean-icon`
+    booleanIcon: `${classPrefix}-boolean-icon`,
+    button: `${classPrefix}-button`
 };
 
 export const getPropertyInspectorStyles = () => {
@@ -646,6 +647,12 @@ export const getPropertyInspectorStyles = () => {
             {
                 maxWidth: '156px'
             } as IStyle
+        ],
+        button: [
+            classNames.button,
+            {
+                float: 'rigth'
+            } as IStyle
         ]
     });
 };
@@ -851,7 +858,9 @@ export const getModalTextFieldStyles = () => {
 export const getCancelButtonStyles = () => {
     return {
         root: {
-            zIndex: '202'
+            zIndex: '202',
+            marginRight: '8px',
+            float: 'right'
         }
     } as Partial<IStyle>;
 };
@@ -859,7 +868,7 @@ export const getSaveButtonStyles = () => {
     return {
         root: {
             zIndex: '202',
-            marginLeft: '8px'
+            float: 'right'
         }
     } as Partial<IStyle>;
 };

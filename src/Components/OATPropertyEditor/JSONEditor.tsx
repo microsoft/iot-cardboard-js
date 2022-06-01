@@ -92,20 +92,6 @@ const JSONEditor = ({ dispatch, theme, state }: JSONEditorProps) => {
 
     return (
         <>
-            {state.modified && (
-                <>
-                    <DefaultButton
-                        styles={cancelButtonStyles}
-                        onClick={onCancelClick}
-                        text={t('cancel')}
-                    ></DefaultButton>
-                    <PrimaryButton
-                        styles={saveButtonStyles}
-                        onClick={onSaveClick}
-                        text={t('save')}
-                    ></PrimaryButton>
-                </>
-            )}
             <Editor
                 defaultLanguage="json"
                 value={content}
@@ -119,6 +105,20 @@ const JSONEditor = ({ dispatch, theme, state }: JSONEditorProps) => {
                 beforeMount={setEditorThemes}
                 height={'95%'}
             />
+            {state.modified && (
+                <>
+                    <PrimaryButton
+                        styles={saveButtonStyles}
+                        onClick={onSaveClick}
+                        text={t('save')}
+                    ></PrimaryButton>
+                    <DefaultButton
+                        styles={cancelButtonStyles}
+                        onClick={onCancelClick}
+                        text={t('cancel')}
+                    ></DefaultButton>
+                </>
+            )}
         </>
     );
 };
