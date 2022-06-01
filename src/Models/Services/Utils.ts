@@ -11,7 +11,7 @@ import {
     IOATTwinModelNodes
 } from '../Constants';
 import { DtdlProperty } from '../Constants/dtdlInterfaces';
-import { CharacterWidths } from '../Constants/Constants';
+import { CharacterWidths, OATDataStorageKey } from '../Constants/Constants';
 import { Parser } from 'expr-eval';
 import Ajv from 'ajv/dist/2020';
 import schema from '../../../schemas/3DScenesConfiguration/v1.0.0/3DScenesConfiguration.schema.json';
@@ -23,6 +23,7 @@ import {
 import ViewerConfigUtility from '../Classes/ViewerConfigUtility';
 import { IDropdownOption } from '@fluentui/react';
 import { createParser, ModelParsingOption } from 'azure-iot-dtdl-parser';
+import { ProjectData } from '../../Pages/OATEditorPage/Internal/Classes';
 let ajv: Ajv = null;
 
 /** Validates input data with JSON schema */
@@ -363,17 +364,51 @@ export function rgbToHex(r, g, b) {
 }
 
 export async function parseModels(models: IOATTwinModelNodes[]) {
+    for (const model of models) {
+        const modelJson = JSON.stringify(model);
+        return parseModel(modelJson);
+    }
+    return true;
+}
+
+export async function parseModel(modelJson: string) {
     const modelParser = createParser(
         ModelParsingOption.PermitAnyTopLevelElement
     );
-    for (const model of models) {
-        const modelJson = JSON.stringify(model);
-        try {
-            await modelParser.parse([modelJson]);
-        } catch (err) {
-            for (const parsingError of err._parsingErrors) {
-                alert(`${parsingError.action} ${parsingError.cause}`);
-            }
+    try {
+        await modelParser.parse([modelJson]);
+    } catch (err) {
+        for (const parsingError of err._parsingErrors) {
+            alert(`${parsingError.action} ${parsingError.cause}`);
+            return `${parsingError.action} ${parsingError.cause}`;
         }
     }
 }
+
+// Store OAT-data
+export const storeEditorData = (oatEditorData: ProjectData) => {
+    localStorage.setItem(OATDataStorageKey, JSON.stringify(oatEditorData));
+};
+
+// Get stored OAT-data
+export const getStoredEditorData = () => {
+    return JSON.parse(localStorage.getItem(OATDataStorageKey));
+};
+
+// Get stored template OAT-data
+export const getStoredEditorTemplateData = () => {
+    const oatData = getStoredEditorData();
+    return oatData && oatData.templates ? oatData.templates : [];
+};
+
+// Get stored models OAT-data
+export const getStoredEditorModelsData = () => {
+    const oatData = getStoredEditorData();
+    return oatData && oatData.models ? oatData.models : [];
+};
+
+// Get stored models' positions OAT-data
+export const getStoredEditorModelPositionsData = () => {
+    const oatData = getStoredEditorData();
+    return oatData && oatData.modelPositions ? oatData.modelPositions : [];
+};

@@ -10,7 +10,7 @@ import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 import { SET_OAT_PROJECT } from '../../Models/Constants/ActionTypes';
 import { ProjectData } from '../../Pages/OATEditorPage/Internal/Classes';
 
-import { IOATTwinModelNodes, OATDataStorageKey } from '../../Models/Constants';
+import { IOATTwinModelNodes } from '../../Models/Constants';
 import { IAction } from '../../Models/Constants/Interfaces';
 import { useDropzone } from 'react-dropzone';
 import { SET_OAT_IMPORT_MODELS } from '../../Models/Constants/ActionTypes';
@@ -19,6 +19,7 @@ import {
     FileUploadStatus,
     IJSONUploaderFileItem as IFileItem
 } from '../../Models/Constants';
+import { parseModel } from '../../Models/Services/Utils';
 
 const ID_FILE = 'file';
 
@@ -92,16 +93,13 @@ const OATHeader = ({ elements, dispatch, state }: OATHeaderProps) => {
             [],
             [],
             t('OATHeader.description'),
-            t('OATHeader.untitledProject')
+            t('OATHeader.untitledProject'),
+            []
         );
-
-        localStorage.setItem(OATDataStorageKey, JSON.stringify(clearProject));
 
         dispatch({
             type: SET_OAT_PROJECT,
-            payload: {
-                model: clearProject
-            }
+            payload: clearProject
         });
     };
     useEffect(() => {
@@ -128,11 +126,14 @@ const OATHeader = ({ elements, dispatch, state }: OATHeaderProps) => {
                 try {
                     const content = await current.text();
                     newItem.content = JSON.parse(content);
+                    const validJson = await parseModel(content);
+                    if (!validJson) {
+                        items.push(newItem.content);
+                    }
                 } catch (error) {
                     console.log(error);
                     alert(error);
                 }
-                items.push(newItem.content);
             }
             dispatch({
                 type: SET_OAT_IMPORT_MODELS,
@@ -169,7 +170,6 @@ const OATHeader = ({ elements, dispatch, state }: OATHeaderProps) => {
                         resetProject={resetProject}
                     />
                 </div>
-                <div className="cb-oat-header-versioning"></div>
             </div>
             <div {...getRootProps()}>
                 <input {...getInputProps()} ref={inputFileRef} />

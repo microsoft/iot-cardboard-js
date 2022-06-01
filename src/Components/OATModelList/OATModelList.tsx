@@ -17,9 +17,10 @@ import {
 type OATModelListProps = {
     elements: IOATTwinModelNodes[];
     dispatch: React.Dispatch<React.SetStateAction<IAction>>;
+    modified: boolean;
 };
 
-const OATModelList = ({ elements, dispatch }: OATModelListProps) => {
+const OATModelList = ({ elements, dispatch, modified }: OATModelListProps) => {
     const theme = useTheme();
     const modelsStyles = getModelsStyles();
     const [nameEditor, setNameEditor] = useState(false);
@@ -52,11 +53,13 @@ const OATModelList = ({ elements, dispatch }: OATModelListProps) => {
     }, [filter]);
 
     const onSelectedClick = (id) => {
-        dispatch({
-            type: SET_OAT_SELECTED_MODEL_ID,
-            payload: id
-        });
-        currentNodeId.current = id;
+        if (!modified) {
+            dispatch({
+                type: SET_OAT_SELECTED_MODEL_ID,
+                payload: id
+            });
+            currentNodeId.current = id;
+        }
     };
 
     const onNameChange = (evt) => {
@@ -65,9 +68,11 @@ const OATModelList = ({ elements, dispatch }: OATModelListProps) => {
     };
 
     const onNameClick = (name) => {
-        setNameText(name);
-        setNameEditor(true);
-        setItems([...items]);
+        if (!modified) {
+            setNameText(name);
+            setNameEditor(true);
+            setItems([...items]);
+        }
     };
 
     const onNameBlur = () => {
@@ -85,9 +90,11 @@ const OATModelList = ({ elements, dispatch }: OATModelListProps) => {
     };
 
     const onIdClick = (id) => {
-        setIdText(id);
-        setIdEditor(true);
-        setItems([...items]);
+        if (!modified) {
+            setIdText(id);
+            setIdEditor(true);
+            setItems([...items]);
+        }
     };
 
     const onIdBlur = () => {
@@ -101,15 +108,16 @@ const OATModelList = ({ elements, dispatch }: OATModelListProps) => {
     };
 
     const onModelDelete = (id) => {
-        dispatch({
-            type: SET_OAT_PROPERTY_EDITOR_MODEL,
-            payload: null
-        });
-        dispatch({
-            type: SET_OAT_DELETED_MODEL_ID,
-            payload: id
-        });
-        event.stopPropagation();
+        if (!modified) {
+            dispatch({
+                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                payload: null
+            });
+            dispatch({
+                type: SET_OAT_DELETED_MODEL_ID,
+                payload: id
+            });
+        }
     };
 
     const onFilterChange = (evt) => {

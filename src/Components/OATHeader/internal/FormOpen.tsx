@@ -9,7 +9,6 @@ import {
 } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { IAction } from '../../../Models/Constants/Interfaces';
-import { OATDataStorageKey } from '../../../Models/Constants';
 import { SET_OAT_PROJECT } from '../../../Models/Constants/ActionTypes';
 import { getHeaderStyles } from '../OATHeader.styles';
 import { loadFiles } from './Utils';
@@ -26,16 +25,17 @@ export const FormOpen = ({ dispatch, setModalOpen, setModalBody }: IModal) => {
     const [selectedFile, setSelectedFile] = useState(null);
 
     const handleOpen = () => {
-        const projectToOpen = new ProjectData([], [], '', selectedFile.text);
+        const projectToOpen = new ProjectData(
+            selectedFile.key.modelPositions,
+            selectedFile.key.models,
+            '',
+            selectedFile.key.projectName,
+            selectedFile.key.templates
+        );
         dispatch({
             type: SET_OAT_PROJECT,
             payload: projectToOpen
         });
-
-        localStorage.setItem(
-            OATDataStorageKey,
-            JSON.stringify(selectedFile.key)
-        );
 
         setModalOpen(false);
         setModalBody(null);

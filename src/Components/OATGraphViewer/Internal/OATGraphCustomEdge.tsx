@@ -47,7 +47,8 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
         setCurrentNode,
         showRelationships,
         showInheritances,
-        showComponents
+        showComponents,
+        state
     } = useContext(ElementsContext);
     const graphViewerStyles = getGraphViewerStyles();
     const theme = useTheme();
@@ -454,45 +455,48 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
     };
 
     const onNameClick = () => {
-        setNameEditor(true);
-        if (
-            polygons.element.data.type !== ModelTypes.relationship &&
-            polygons.element.data.type !== ModelTypes.untargeted
-        ) {
-            setCurrentNode(null);
+        if (!state.modified) {
+            setNameEditor(true);
+            if (
+                polygons.element.data.type !== ModelTypes.relationship &&
+                polygons.element.data.type !== ModelTypes.untargeted
+            ) {
+                setCurrentNode(null);
+                dispatch({
+                    type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                    payload: relationship
+                });
+            }
+
+            const displayName =
+                typeof polygons.element.data.name === 'string'
+                    ? polygons.element.data.name
+                    : {
+                          ...polygons.element.data.name,
+                          [Object.keys(
+                              polygons.element.data.name
+                          )[0]]: Object.values(polygons.element.data.name)[0]
+                      };
+            const relationship = new DTDLRelationship(
+                polygons.element.data.id,
+                polygons.element.data.name,
+                displayName,
+                polygons.element.data.description,
+                polygons.element.data.comment,
+                polygons.element.data.writable,
+                polygons.element.data.content
+                    ? polygons.element.data.content
+                    : [],
+                polygons.element.data.target,
+                polygons.element.data.maxMultiplicity
+            );
+
+            setCurrentNode(polygons.element.id);
             dispatch({
                 type: SET_OAT_PROPERTY_EDITOR_MODEL,
-                payload: null
+                payload: relationship
             });
-            return;
         }
-
-        const displayName =
-            typeof polygons.element.data.name === 'string'
-                ? polygons.element.data.name
-                : {
-                      ...polygons.element.data.name,
-                      [Object.keys(
-                          polygons.element.data.name
-                      )[0]]: Object.values(polygons.element.data.name)[0]
-                  };
-        const relationship = new DTDLRelationship(
-            polygons.element.data.id,
-            polygons.element.data.name,
-            displayName,
-            polygons.element.data.description,
-            polygons.element.data.comment,
-            polygons.element.data.writable,
-            polygons.element.data.content ? polygons.element.data.content : [],
-            polygons.element.data.target,
-            polygons.element.data.maxMultiplicity
-        );
-
-        setCurrentNode(polygons.element.id);
-        dispatch({
-            type: SET_OAT_PROPERTY_EDITOR_MODEL,
-            payload: relationship
-        });
     };
 
     const onNameBlur = () => {
@@ -537,16 +541,15 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
     });
 
     const onDelete = () => {
-        const elementsToRemove = [
-            {
-                id: data.id
-            }
-        ];
-        setElements((els) => removeElements(elementsToRemove, els));
-        dispatch({
-            type: SET_OAT_PROPERTY_EDITOR_MODEL,
-            payload: null
-        });
+        if (!state.modified) {
+            const elementsToRemove = [
+                {
+                    id: data.id
+                }
+            ];
+            setElements((els) => removeElements(elementsToRemove, els));
+            dispatch({ type: SET_OAT_PROPERTY_EDITOR_MODEL, payload: null });
+        }
     };
 
     return (
