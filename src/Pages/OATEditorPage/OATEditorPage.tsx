@@ -17,6 +17,7 @@ import {
 } from '../../Components/OATHeader/internal/Utils';
 import OATErrorPage from './Internal/OATErrorPage';
 import { OATDataStorageKey } from '../../Models/Constants';
+import { getStoredEditorData } from '../../Models/Services/Utils';
 
 const OATEditorPage = ({ theme }) => {
     const [state, dispatch] = useReducer(
@@ -45,7 +46,7 @@ const OATEditorPage = ({ theme }) => {
     // Handle models persistence
     useEffect(() => {
         // Update oat-data storage
-        const editorData = JSON.parse(localStorage.getItem(OATDataStorageKey));
+        const editorData = getStoredEditorData();
         const oatEditorData = {
             ...editorData,
             models,

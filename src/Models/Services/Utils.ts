@@ -11,7 +11,7 @@ import {
     IOATTwinModelNodes
 } from '../Constants';
 import { DtdlProperty } from '../Constants/dtdlInterfaces';
-import { CharacterWidths } from '../Constants/Constants';
+import { CharacterWidths, OATDataStorageKey } from '../Constants/Constants';
 import { Parser } from 'expr-eval';
 import Ajv from 'ajv/dist/2020';
 import schema from '../../../schemas/3DScenesConfiguration/v1.0.0/3DScenesConfiguration.schema.json';
@@ -377,3 +377,26 @@ export async function parseModels(models: IOATTwinModelNodes[]) {
         }
     }
 }
+
+// Get stored OAT-data
+export const getStoredEditorData = () => {
+    return JSON.parse(localStorage.getItem(OATDataStorageKey));
+};
+
+// Get stored template OAT-data
+export const getStoredEditorTemplateData = () => {
+    const oatData = getStoredEditorData();
+    return oatData && oatData.templates ? oatData.templates : [];
+};
+
+// Get stored models OAT-data
+export const getStoredEditorModelsData = () => {
+    const oatData = getStoredEditorData();
+    return oatData && oatData.models ? oatData.models : [];
+};
+
+// Get stored models' positions OAT-data
+export const getStoredEditorModelPositionsData = () => {
+    const oatData = getStoredEditorData();
+    return oatData && oatData.modelPositions ? oatData.modelPositions : [];
+};

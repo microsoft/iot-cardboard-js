@@ -69,9 +69,9 @@ export const ModalSaveCurrentProjectAndClear = ({
 
             <div className={headerStyles.modalRowCenterItem}>
                 <Text styles={promptTextStyles}>
-                    {`${t(
-                        'OATHeader.doYouWantToSaveChangesYouMadeTo'
-                    )} ${projectName}?`}
+                    {t('OATHeader.doYouWantToSaveChangesYouMadeTo', {
+                        projectName: projectName
+                    })}
                 </Text>
             </div>
 

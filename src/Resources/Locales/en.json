@@ -757,7 +757,7 @@
         "untitledProject": "Untitled project",
         "description": "Description",
         "dontSave": "Don't save",
-        "doYouWantToSaveChangesYouMadeTo": "Do you want to save the changes you made to",
+        "doYouWantToSaveChangesYouMadeTo": "Do you want to save the changes you made to {{projectName}}?",
         "doYouWantToDelete": "Do you want to delete",
         "projectWithSameNameAlreadyExistsMessage?": "Project with same name already exists, would you like to override it?",
         "overwrite": "Overwrite"

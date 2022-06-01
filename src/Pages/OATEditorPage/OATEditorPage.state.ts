@@ -21,7 +21,7 @@ import {
     getStoredEditorModelPositionsData,
     getStoredEditorModelsData,
     getStoredEditorTemplateData
-} from './Internal/Utils';
+} from '../../Models/Services/Utils';
 
 export const defaultOATEditorState: IOATEditorState = {
     model: null,

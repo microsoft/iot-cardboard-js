@@ -46,12 +46,13 @@ export const FormSaveAs = ({
                 (file) => file.name === projectName
             );
             if (foundIndex > -1) {
-                files[foundIndex].data = {
-                    modelPositions: modelPositions,
-                    models: models,
-                    projectName: projectName,
-                    templates: templates
-                };
+                files[foundIndex].data = new ProjectData(
+                    modelPositions,
+                    models,
+                    '',
+                    projectName,
+                    templates
+                );
 
                 saveFiles(files);
             }
@@ -78,13 +79,7 @@ export const FormSaveAs = ({
 
         files.push({
             name: projectName,
-            data: {
-                modelPositions: newProject.modelPositions,
-                models: newProject.models,
-                projectName: newProject.projectName,
-                projectDescription: newProject.projectDescription,
-                templates: newProject.templates
-            }
+            data: newProject
         });
         saveFiles(files);
 
