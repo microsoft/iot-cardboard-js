@@ -604,6 +604,7 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
                 <SceneBreadcrumbFactory
                     sceneId={sceneId}
                     sceneName={sceneName}
+                    onSceneChange={onCloseBehaviorsModal}
                 />
                 {/* Left panel */}
                 <ViewerElementsPanelRenderer
