@@ -65,6 +65,7 @@ const OATEditorPage = ({ theme }) => {
                     <OATModelList
                         elements={state.elements.digitalTwinsModels}
                         dispatch={dispatch}
+                        modified={state.modified}
                     />
                     <OATGraphViewer state={state} dispatch={dispatch} />
                     <OATPropertyEditor

@@ -19,6 +19,7 @@ import {
     FileUploadStatus,
     IJSONUploaderFileItem as IFileItem
 } from '../../Models/Constants';
+import { parseModel } from '../../Models/Services/Utils';
 
 const ID_FILE = 'file';
 
@@ -128,11 +129,14 @@ const OATHeader = ({ elements, dispatch, state }: OATHeaderProps) => {
                 try {
                     const content = await current.text();
                     newItem.content = JSON.parse(content);
+                    const validJson = await parseModel(content);
+                    if (!validJson) {
+                        items.push(newItem.content);
+                    }
                 } catch (error) {
                     console.log(error);
                     alert(error);
                 }
-                items.push(newItem.content);
             }
             dispatch({
                 type: SET_OAT_IMPORT_MODELS,
@@ -169,7 +173,6 @@ const OATHeader = ({ elements, dispatch, state }: OATHeaderProps) => {
                         resetProject={resetProject}
                     />
                 </div>
-                <div className="cb-oat-header-versioning"></div>
             </div>
             <div {...getRootProps()}>
                 <input {...getInputProps()} ref={inputFileRef} />

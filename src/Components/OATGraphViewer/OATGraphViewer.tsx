@@ -330,7 +330,8 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
             currentNodeIdRef,
             showRelationships,
             showInheritances,
-            showComponents
+            showComponents,
+            state
         }),
         [
             elements,
@@ -340,7 +341,8 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
             currentNodeIdRef,
             showRelationships,
             showInheritances,
-            showComponents
+            showComponents,
+            state
         ]
     );
 
@@ -349,9 +351,11 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     const edgeTypes = useMemo(() => ({ Relationship: OATGraphCustomEdge }), []);
 
     const onElementsRemove = (elementsToRemove: IOATNodeElement) => {
-        // Remove an specific node and all related edges
-        dispatch({ type: SET_OAT_PROPERTY_EDITOR_MODEL, payload: null });
-        setElements((els) => removeElements(elementsToRemove, els));
+        if (!state.modified) {
+            // Remove an specific node and all related edges
+            dispatch({ type: SET_OAT_PROPERTY_EDITOR_MODEL, payload: null });
+            setElements((els) => removeElements(elementsToRemove, els));
+        }
     };
 
     const onLoad = useCallback((_reactFlowInstance) => {
@@ -362,22 +366,24 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     }, []);
 
     const onNewModelClick = () => {
-        // Create a new floating node
-        const name = `Model${newModelId}`;
-        const id = `${idClassBase}model${newModelId};${versionClassBase}`;
-        const newNode = {
-            id: id,
-            type: OATInterfaceType,
-            position: positionLookUp(),
-            data: {
-                name: name,
-                type: OATInterfaceType,
+        if (!state.modified) {
+            // Create a new floating node
+            const name = `Model${newModelId}`;
+            const id = `${idClassBase}model${newModelId};${versionClassBase}`;
+            const newNode = {
                 id: id,
-                content: [],
-                context: contextClassBase
-            }
-        };
-        setElements((es) => es.concat(newNode));
+                type: OATInterfaceType,
+                position: positionLookUp(),
+                data: {
+                    name: name,
+                    type: OATInterfaceType,
+                    id: id,
+                    content: [],
+                    context: contextClassBase
+                }
+            };
+            setElements((es) => es.concat(newNode));
+        }
     };
 
     const onNodeDragStop = (evt, node) => {
@@ -668,34 +674,36 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     }, [translatedOutput]);
 
     const onElementClick = (evt, node) => {
-        // Checks if a node is selected to display it in the property editor
-        if (node.data.type === OATInterfaceType && translatedOutput) {
-            currentNodeIdRef.current = node.id;
+        if (!state.modified) {
+            // Checks if a node is selected to display it in the property editor
+            if (node.data.type === OATInterfaceType && translatedOutput) {
+                currentNodeIdRef.current = node.id;
 
-            const currentModel = translatedOutput.find(
-                (model) => model['@id'] === node.id
-            );
+                const currentModel = translatedOutput.find(
+                    (model) => model['@id'] === node.id
+                );
 
-            const extendsItems = elements
-                .filter(
-                    (element) =>
-                        element.type === OATExtendHandleName &&
-                        element?.source === node.id
-                )
-                .map((element) => element.target);
+                const extendsItems = elements
+                    .filter(
+                        (element) =>
+                            element.type === OATExtendHandleName &&
+                            element?.source === node.id
+                    )
+                    .map((element) => element.target);
 
-            const selectedModel = {
-                '@id': node.id,
-                '@type': node.data.type,
-                '@context': node.data.context,
-                displayName: node.data.name,
-                contents: currentModel.contents,
-                extends: extendsItems ? extendsItems : null
-            };
-            dispatch({
-                type: SET_OAT_PROPERTY_EDITOR_MODEL,
-                payload: selectedModel
-            });
+                const selectedModel = {
+                    '@id': node.id,
+                    '@type': node.data.type,
+                    '@context': node.data.context,
+                    displayName: node.data.name,
+                    contents: currentModel.contents,
+                    extends: extendsItems ? extendsItems : null
+                };
+                dispatch({
+                    type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                    payload: selectedModel
+                });
+            }
         }
     };
 

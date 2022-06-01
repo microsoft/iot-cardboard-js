@@ -76,6 +76,9 @@ const Editor = ({
         <div className={propertyInspectorStyles.container}>
             <Pivot className={propertyInspectorStyles.pivot}>
                 <PivotItem
+                    headerButtonProps={{
+                        disabled: state.disabled
+                    }}
                     headerText={t('OATPropertyEditor.properties')}
                     className={propertyInspectorStyles.pivotItem}
                 >

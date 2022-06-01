@@ -22,6 +22,7 @@ export interface IOATEditorState {
     importModels?: [];
     isJsonUploaderOpen?: boolean;
     templates?: DTDLProperty[];
+    modified?: boolean;
     project?: ProjectData;
     error?: IOATError;
 }

@@ -35,6 +35,7 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
         setElements,
         setCurrentNode,
         dispatch,
+        state,
         currentNodeIdRef
     } = useContext(ElementsContext);
     const graphViewerStyles = getGraphViewerStyles();
@@ -46,8 +47,10 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
     };
 
     const onNameClick = () => {
-        setNameText(getPropertyDisplayName(data));
-        setNameEditor(true);
+        if (!state.modified) {
+            setNameText(getPropertyDisplayName(data));
+            setNameEditor(true);
+        }
     };
 
     const onNameBlur = () => {
@@ -101,7 +104,9 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
     };
 
     const onIdClick = () => {
-        setIdEditor(true);
+        if (!state.modified) {
+            setIdEditor(true);
+        }
     };
 
     const onIdBlur = () => {
@@ -135,14 +140,16 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
     };
 
     const onDelete = () => {
-        const elementsToRemove = [
-            {
-                id: data.id
-            }
-        ];
+        if (!state.modified) {
+            const elementsToRemove = [
+                {
+                    id: data.id
+                }
+            ];
 
-        setElements((els) => removeElements(elementsToRemove, els));
-        dispatch({ type: SET_OAT_PROPERTY_EDITOR_MODEL, payload: null });
+            setElements((els) => removeElements(elementsToRemove, els));
+            dispatch({ type: SET_OAT_PROPERTY_EDITOR_MODEL, payload: null });
+        }
     };
 
     return (
