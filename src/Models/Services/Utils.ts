@@ -23,6 +23,7 @@ import {
 import ViewerConfigUtility from '../Classes/ViewerConfigUtility';
 import { IDropdownOption } from '@fluentui/react';
 import { createParser, ModelParsingOption } from 'azure-iot-dtdl-parser';
+import { ProjectData } from '../../Pages/OATEditorPage/Internal/Classes';
 let ajv: Ajv = null;
 
 /** Validates input data with JSON schema */
@@ -377,6 +378,11 @@ export async function parseModels(models: IOATTwinModelNodes[]) {
         }
     }
 }
+
+// Store OAT-data
+export const storeEditorData = (oatEditorData: ProjectData) => {
+    localStorage.setItem(OATDataStorageKey, JSON.stringify(oatEditorData));
+};
 
 // Get stored OAT-data
 export const getStoredEditorData = () => {

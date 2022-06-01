@@ -16,8 +16,10 @@ import {
     saveFiles
 } from '../../Components/OATHeader/internal/Utils';
 import OATErrorPage from './Internal/OATErrorPage';
-import { OATDataStorageKey } from '../../Models/Constants';
-import { getStoredEditorData } from '../../Models/Services/Utils';
+import {
+    getStoredEditorData,
+    storeEditorData
+} from '../../Models/Services/Utils';
 
 const OATEditorPage = ({ theme }) => {
     const [state, dispatch] = useReducer(
@@ -56,7 +58,7 @@ const OATEditorPage = ({ theme }) => {
             templates: templates
         };
 
-        localStorage.setItem(OATDataStorageKey, JSON.stringify(oatEditorData));
+        storeEditorData(oatEditorData);
     }, [models, projectName, templates, modelPositions]);
 
     return (
