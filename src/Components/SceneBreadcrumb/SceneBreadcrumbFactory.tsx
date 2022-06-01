@@ -35,7 +35,7 @@ const SceneBreadcrumbFactory: React.FC<ISceneBreadcrumbFactoryProps> = ({
     sceneName,
     builderMode,
     onSceneClick,
-    onCloseBehaviorsModal
+    onSceneChange
 }) => {
     const { t } = useTranslation();
 
@@ -215,7 +215,7 @@ const SceneBreadcrumbFactory: React.FC<ISceneBreadcrumbFactoryProps> = ({
                 isAtSceneRoot={true}
                 sceneName={sceneName}
                 sceneId={sceneId}
-                onCloseBehaviorsModal={onCloseBehaviorsModal}
+                onSceneChange={onSceneChange}
                 classNames={{
                     root: 'cb-viewer-breadcrumb-container',
                     breadcrumb: 'cb-viewer-breadcrumb',

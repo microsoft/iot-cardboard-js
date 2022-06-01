@@ -7,7 +7,7 @@ import { SceneDropdownProps } from './SceneDropdown.types';
 
 const SceneDropdown: React.FC<SceneDropdownProps> = ({
     sceneId,
-    onCloseBehaviorsModal
+    onSceneChange
 }) => {
     const scenePageContext = useContext(ADT3DScenePageContext);
     if (!scenePageContext) {
@@ -24,8 +24,8 @@ const SceneDropdown: React.FC<SceneDropdownProps> = ({
         : [];
     const onChange = useCallback(
         (_e, option: IDropdownOption) => {
-            if (onCloseBehaviorsModal) {
-                onCloseBehaviorsModal();
+            if (onSceneChange) {
+                onSceneChange();
             }
             scenePageContext.handleOnSceneSwap(String(option.key));
         },

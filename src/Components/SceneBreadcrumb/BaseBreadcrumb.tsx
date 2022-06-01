@@ -20,7 +20,7 @@ export const BaseBreadcrumb: React.FC<IBaseBreadcrumbProps> = ({
     classNames,
     onSceneClick,
     onCancelForm,
-    onCloseBehaviorsModal
+    onSceneChange
 }) => {
     const theme = useTheme();
     const { t } = useTranslation();
@@ -46,7 +46,7 @@ export const BaseBreadcrumb: React.FC<IBaseBreadcrumbProps> = ({
             return (
                 <SceneDropdown
                     sceneId={sceneId}
-                    onCloseBehaviorsModal={onCloseBehaviorsModal}
+                    onSceneChange={onSceneChange}
                 />
             );
         } else return defaultRender(props);
