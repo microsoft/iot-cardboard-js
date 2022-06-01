@@ -489,7 +489,8 @@
       "customExpression": "Personnalisé (avancé)",
       "dropdownPlaceholder": "Sélectionner une propriété",
       "toggleLabel": "Mode d’expression",
-      "none": "Aucun"
+      "none": "Aucun",
+      "clearButtonText": "Clair"
     },
     "numericExpressionPlaceholder": "Entrez une expression qui s’évalue à un nombre",
     "behaviorId": "ID de comportement",

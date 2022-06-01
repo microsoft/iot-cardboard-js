@@ -489,7 +489,8 @@
       "customExpression": "Anpassad (avancerad)",
       "dropdownPlaceholder": "Välj en egenskap",
       "toggleLabel": "Uttrycksläge",
-      "none": "Ingen"
+      "none": "Ingen",
+      "clearButtonText": "Klar"
     },
     "numericExpressionPlaceholder": "Ange ett uttryck som utvärderas till ett tal",
     "behaviorId": "Beteende ID",
