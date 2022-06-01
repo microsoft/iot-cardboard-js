@@ -489,7 +489,8 @@
       "customExpression": "カスタム (詳細)",
       "dropdownPlaceholder": "プロパティの選択",
       "toggleLabel": "式モード",
-      "none": "何一つ"
+      "none": "何一つ",
+      "clearButtonText": "クリア"
     },
     "numericExpressionPlaceholder": "数値に評価される式を入力します。",
     "behaviorId": "動作 ID",

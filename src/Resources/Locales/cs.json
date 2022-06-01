@@ -489,7 +489,8 @@
       "customExpression": "Vlastní (pokročilé)",
       "dropdownPlaceholder": "Vyberte nemovitost",
       "toggleLabel": "Režim výrazu",
-      "none": "Žádný"
+      "none": "Žádný",
+      "clearButtonText": "Jasný"
     },
     "numericExpressionPlaceholder": "Zadejte výraz, který se vyhodnotí jako číslo",
     "behaviorId": "ID chování",

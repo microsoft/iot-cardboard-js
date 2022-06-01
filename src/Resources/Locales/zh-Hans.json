@@ -489,7 +489,8 @@
       "customExpression": "自定义（高级）",
       "dropdownPlaceholder": "选择房产",
       "toggleLabel": "表达方式",
-      "none": "没有"
+      "none": "没有",
+      "clearButtonText": "清楚"
     },
     "numericExpressionPlaceholder": "输入计算结果为数字的表达式",
     "behaviorId": "行为 ID",
