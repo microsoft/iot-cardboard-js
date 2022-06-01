@@ -977,13 +977,20 @@ export default class ADTAdapter implements IADTAdapter {
                                     config,
                                     sceneId
                                 );
+                                // Add primary twin Ids
                                 primaryTwinIds.forEach(
                                     (tid) =>
                                         (twinIdToResolvedTwinMap[tid] = true)
                                 );
-                                Object.entries(aliasedTwinMap).forEach(
-                                    (atm) =>
-                                        (twinIdToResolvedTwinMap[atm[1]] = true)
+
+                                // Add alias twin Ids
+                                Object.values(
+                                    aliasedTwinMap
+                                ).forEach((aliasIds) =>
+                                    aliasIds.forEach(
+                                        (id) =>
+                                            (twinIdToResolvedTwinMap[id] = true)
+                                    )
                                 );
                             }
                         }
