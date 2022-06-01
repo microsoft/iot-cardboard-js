@@ -76,7 +76,11 @@ const OATEditorPage = ({ theme }) => {
                             : editorPageStyles.component
                     }
                 >
-                    <OATModelList elements={state.models} dispatch={dispatch} />
+                    <OATModelList
+                        elements={state.models}
+                        dispatch={dispatch}
+                        modified={state.modified}
+                    />
                     <OATGraphViewer
                         state={state}
                         dispatch={dispatch}

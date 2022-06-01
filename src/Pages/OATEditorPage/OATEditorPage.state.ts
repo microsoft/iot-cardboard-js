@@ -12,6 +12,7 @@ import {
     SET_OAT_IMPORT_MODELS,
     SET_OAT_IS_JSON_UPLOADER_OPEN,
     SET_OAT_TEMPLATES,
+    SET_OAT_MODIFIED,
     SET_OAT_PROJECT,
     SET_OAT_PROJECT_NAME,
     SET_OAT_ERROR,
@@ -36,6 +37,7 @@ export const defaultOATEditorState: IOATEditorState = {
     templates: getStoredEditorTemplateData(),
     modelPositions: getStoredEditorModelPositionsData(),
     projectName: null,
+    modified: false,
     error: null
 };
 
@@ -73,6 +75,9 @@ export const OATEditorPageReducer = produce(
                 return;
             case SET_OAT_TEMPLATES:
                 state.templates = payload;
+                return;
+            case SET_OAT_MODIFIED:
+                state.modified = payload;
                 return;
             case SET_OAT_PROJECT:
                 state.projectName = payload.projectName;
