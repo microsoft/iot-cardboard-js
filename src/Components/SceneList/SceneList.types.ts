@@ -39,7 +39,7 @@ export interface SceneDialogState {
     sceneBlobUrl: string;
     isSelectedFileExistInBlob: boolean;
     isOverwriteFile: boolean;
-    blobsInContainer: IBlobFile[];
+    blobsInContainer: IStorageBlob[];
     selectedFile: File;
     selected3DFilePivotItem: SelectionModeOf3DFile;
 }
