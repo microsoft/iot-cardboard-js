@@ -1,15 +1,19 @@
 import React, { useState } from 'react';
 import {
-    IDialogContentProps,
-    DialogType,
-    IModalProps,
-    Dialog,
+    css,
     DefaultButton,
+    Dialog,
     DialogFooter,
+    DialogType,
     FontIcon,
+    FontSizes,
+    IDialogContentProps,
+    IModalProps,
     Label,
     List,
-    PrimaryButton
+    PrimaryButton,
+    Stack,
+    Text
 } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { IWidgetLibraryItem } from '../../../../../../Models/Classes/3DVConfig';
@@ -31,7 +35,8 @@ const WidgetLibraryDialog: React.FC<{
 
     const dialogContentProps: IDialogContentProps = {
         type: DialogType.close,
-        title: t('3dSceneBuilder.widgetLibrary'),
+        title: t('3dSceneBuilder.widgetLibrary.dialogTitle'),
+        subText: t('3dSceneBuilder.widgetLibrary.dialogSubTitle'),
         styles: {
             content: styles.content
         }
@@ -53,20 +58,18 @@ const WidgetLibraryDialog: React.FC<{
             hidden={false}
             onDismiss={() => setIsLibraryDialogOpen(false)}
         >
-            <Label className="cb-widget-panel-item-label">
-                {t('3dSceneBuilder.exploreWidgets')}
-            </Label>
             <div className="cb-widget-library-dialog-list-container">
                 <List
                     items={filteredAvailableWidgets}
                     onRenderCell={(widget, index) => (
-                        <div
+                        <DefaultButton
                             key={index}
-                            className={`cb-widget-dialog-list-item ${
+                            className={css(
+                                'cb-widget-dialog-list-item',
                                 index === selectedWidget
                                     ? 'cb-widget-dialog-list-item-selected'
                                     : ''
-                            }`}
+                            )}
                             onClick={() => {
                                 setSelectedWidget(index);
                                 setFilteredAvailableWidgets([
@@ -74,22 +77,42 @@ const WidgetLibraryDialog: React.FC<{
                                 ]);
                             }}
                             data-testid={`widget-library-${widget.data.type}`}
+                            styles={{
+                                flexContainer: { justifyContent: 'start' }
+                            }}
+                            selected={index === selectedWidget}
                         >
-                            <div className="cb-widget-dialog-list-item-content">
-                                <div className="cb-widget-dialog-icon-background">
+                            <Stack horizontal>
+                                <Stack
+                                    className="cb-widget-dialog-icon-container"
+                                    aria-hidden={true}
+                                >
                                     <FontIcon
                                         className="cb-widget-dialog-icon"
                                         iconName={widget.iconName}
                                     />
-                                </div>
-                                <div>
+                                </Stack>
+                                <Stack
+                                    styles={{
+                                        root: {
+                                            alignItems: 'start',
+                                            textAlign: 'left'
+                                        }
+                                    }}
+                                >
                                     <Label>{widget.data.type}</Label>
-                                    <Label className="cb-widget-panel-item-label">
+                                    <Text
+                                        styles={{
+                                            root: {
+                                                fontSize: FontSizes.small
+                                            }
+                                        }}
+                                    >
                                         {widget.description}
-                                    </Label>
-                                </div>
-                            </div>
-                        </div>
+                                    </Text>
+                                </Stack>
+                            </Stack>
+                        </DefaultButton>
                     )}
                 ></List>
                 <div className="cb-widget-panel-clear-float" />

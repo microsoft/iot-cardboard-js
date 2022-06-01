@@ -23,7 +23,10 @@ import {
 import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
 import { createGUID } from '../../Models/Services/Utils';
 import ViewerConfigUtility from '../../Models/Classes/ViewerConfigUtility';
-import { IBlobFile, IComponentError } from '../../Models/Constants/Interfaces';
+import {
+    IStorageBlob,
+    IComponentError
+} from '../../Models/Constants/Interfaces';
 import {
     ComponentErrorType,
     Supported3DFileTypes
@@ -36,6 +39,8 @@ import {
     IAsset,
     IScene
 } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
+import IllustrationMessage from '../IllustrationMessage/IllustrationMessage';
+import NoResults from '../../Resources/Static/noResults.svg';
 
 const SceneList: React.FC<SceneListProps> = ({
     adapter,
@@ -252,7 +257,7 @@ const SceneList: React.FC<SceneListProps> = ({
         },
         {
             key: 'scene-action',
-            name: t('action'),
+            name: t('actions'),
             fieldName: 'action',
             minWidth: 100
         }
@@ -282,7 +287,7 @@ const SceneList: React.FC<SceneListProps> = ({
     const renderBlobDropdown = useCallback(
         (
             onChange?: (blobUrl: string) => void,
-            onLoad?: (blobs: Array<IBlobFile>) => void
+            onLoad?: (blobs: Array<IStorageBlob>) => void
         ) => {
             return (
                 <BlobDropdown
@@ -388,14 +393,26 @@ const SceneList: React.FC<SceneListProps> = ({
                 </>
             ) : (
                 <div className="cb-scene-list-empty">
-                    <p>{t('scenes.noScenes')}</p>
-                    <PrimaryButton
-                        className="cb-scene-list-empty-button"
-                        onClick={() => {
-                            setIsSceneDialogOpen(true);
+                    <IllustrationMessage
+                        headerText={t('scenes.noScenes')}
+                        type={'error'}
+                        width={'wide'}
+                        buttonProps={{
+                            text: t('scenes.addScene'),
+                            onClick: () => {
+                                setIsSceneDialogOpen(true);
+                            },
+                            disabled: errors[0]?.type ? true : false
                         }}
-                        disabled={errors[0]?.type ? true : false}
-                        text={t('scenes.addScene')}
+                        imageProps={{
+                            src: NoResults,
+                            height: 200
+                        }}
+                        styles={{
+                            container: {
+                                padding: 0
+                            }
+                        }}
                     />
                 </div>
             )}

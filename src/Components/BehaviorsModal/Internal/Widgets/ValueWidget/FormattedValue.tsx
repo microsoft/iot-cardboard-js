@@ -5,14 +5,31 @@ import { Locale } from '../../../../../Models/Constants/Enums';
 import { IDTDLPropertyType } from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { getStyles } from './ValueWidget.styles';
 import { useTranslation } from 'react-i18next';
+
 interface IProps {
     locale: Locale;
     value: boolean | Date | number | string;
     type: IDTDLPropertyType;
 }
+
+const invalidPlaceholder = '--';
+
 const FormattedValue: React.FC<IProps> = ({ locale, value, type }) => {
     const theme = useTheme();
     const { t } = useTranslation();
+    const styles = getStyles(theme);
+
+    // Show '--' if value is null (unset on twin)
+    if (value === null || value === undefined) {
+        return (
+            <span
+                className={styles.expressionValueInvalidPlaceholder}
+                title={t('invalidValue')}
+            >
+                {invalidPlaceholder}
+            </span>
+        );
+    }
 
     let stringValueToDisplay = '';
     const typedValue = ViewerConfigUtility.getTypedDTDLPropertyValue(
@@ -20,7 +37,6 @@ const FormattedValue: React.FC<IProps> = ({ locale, value, type }) => {
         type
     ); // get the typed value in case it is not in the data format it is set
 
-    const styles = getStyles(theme);
     if (typedValue instanceof Error) {
         return (
             <code className={styles.invalidExpressionValue}>

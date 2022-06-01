@@ -41,7 +41,10 @@ import {
     WidgetFormInfo,
     ElementTwinAliasFormInfo,
     IADT3DSceneBuilderStyleProps,
-    IADT3DSceneBuilderStyles
+    IADT3DSceneBuilderStyles,
+    SET_ORIGINAL_BEHAVIOR_TO_EDIT,
+    SET_UNSAVED_BEHAVIOR_CHANGES_DIALOG_OPEN,
+    SET_UNSAVED_BEHAVIOR_CHANGES_DIALOG_DISCARD_ACTION
 } from './ADT3DSceneBuilder.types';
 import './ADT3DSceneBuilder.scss';
 import BaseComponent from '../../Components/BaseComponent/BaseComponent';
@@ -235,6 +238,27 @@ const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
             });
         }
     }, [state.builderMode]);
+
+    const setOriginalBehaviorToEdit = useCallback((behavior: IBehavior) => {
+        dispatch({
+            type: SET_ORIGINAL_BEHAVIOR_TO_EDIT,
+            payload: behavior
+        });
+    }, []);
+
+    const setUnsavedChangesDialogDiscardAction = useCallback((action: any) => {
+        dispatch({
+            type: SET_UNSAVED_BEHAVIOR_CHANGES_DIALOG_DISCARD_ACTION,
+            payload: action
+        });
+    }, []);
+
+    const setUnsavedBehaviorChangesDialog = useCallback((isOpen: boolean) => {
+        dispatch({
+            type: SET_UNSAVED_BEHAVIOR_CHANGES_DIALOG_OPEN,
+            payload: isOpen
+        });
+    }, []);
 
     const setColoredMeshItems = useCallback(
         (coloredMeshItems: Array<CustomMeshItem>) => {
@@ -713,8 +737,20 @@ const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
         });
     }, []);
 
-    // header callbacks
-    const handleScenePageModeChange = useCallback(
+    const checkIfBehaviorHasBeenEdited = useCallback(() => {
+        if (
+            JSON.stringify(behaviorToEdit) !=
+                JSON.stringify(state.originalBehaviorToEdit) &&
+            (state.builderMode === ADT3DSceneBuilderMode.EditBehavior ||
+                state.builderMode === ADT3DSceneBuilderMode.CreateBehavior)
+        ) {
+            return true;
+        } else {
+            return false;
+        }
+    }, [behaviorToEdit, state.originalBehaviorToEdit, state.builderMode]);
+
+    const scenePageModeChange = useCallback(
         (newScenePageMode: ADT3DScenePageModes) => {
             deeplinkDispatch({
                 type: DeeplinkContextActionType.SET_MODE,
@@ -724,6 +760,26 @@ const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
             });
         },
         [deeplinkDispatch]
+    );
+
+    // header callbacks
+    const handleScenePageModeChange = useCallback(
+        (newScenePageMode: ADT3DScenePageModes) => {
+            if (!checkIfBehaviorHasBeenEdited()) {
+                scenePageModeChange(newScenePageMode);
+            } else {
+                setUnsavedBehaviorChangesDialog(true);
+                setUnsavedChangesDialogDiscardAction(() =>
+                    scenePageModeChange(newScenePageMode)
+                );
+            }
+        },
+        [
+            checkIfBehaviorHasBeenEdited,
+            setUnsavedBehaviorChangesDialog,
+            setUnsavedChangesDialogDiscardAction,
+            scenePageModeChange
+        ]
     );
 
     const commonPanelStyles = getLeftPanelStyles(fluentTheme);
@@ -753,7 +809,11 @@ const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
                 objectColor: state.objectColor,
                 behaviorToEdit,
                 setBehaviorToEdit,
-                setIsLayerBuilderDialogOpen
+                setOriginalBehaviorToEdit,
+                setIsLayerBuilderDialogOpen,
+                checkIfBehaviorHasBeenEdited,
+                setUnsavedBehaviorChangesDialog,
+                setUnsavedChangesDialogDiscardAction
             }}
         >
             <BaseComponent

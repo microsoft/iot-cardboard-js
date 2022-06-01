@@ -5,15 +5,18 @@ import {
     DialogFooter,
     DialogType,
     FontIcon,
+    FontSizes,
     IComboBoxOption,
     IComboBoxStyles,
     Icon,
     IconButton,
+    IDialogContentProps,
+    Link,
     PrimaryButton,
     Spinner,
     SpinnerSize
 } from '@fluentui/react';
-import { useBoolean } from '@fluentui/react-hooks';
+import { useBoolean, usePrevious } from '@fluentui/react-hooks';
 import React, {
     memo,
     useCallback,
@@ -34,6 +37,7 @@ import './EnvironmentPicker.scss';
 import {
     ContainersLocalStorageKey,
     EnvironmentsLocalStorageKey,
+    DOCUMENTATION_LINKS,
     SelectedContainerLocalStorageKey,
     SelectedEnvironmentLocalStorageKey,
     ValidAdtHostSuffixes,
@@ -56,11 +60,13 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
         string | IADTInstance
     >('');
     const [containerUrlToEdit, setContainerUrlToEdit] = useState('');
-    const [isDialogHidden, { toggle: toggleIsDialogHidden }] = useBoolean(true);
+    const [isDialogHidden, { toggle: toggleIsDialogHidden }] = useBoolean(
+        Boolean(props.isDialogHidden)
+    );
     const dialogResettingValuesTimeoutRef = useRef(null);
     const hasPulledEnvironmentsFromSubscription = useRef(false);
 
-    const dialogContentProps = {
+    const dialogContentProps: IDialogContentProps = {
         type: DialogType.normal,
         title: t('environmentPicker.editEnvironment'),
         closeButtonAriaLabel: t('close'),
@@ -101,6 +107,32 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
         refetchDependencies: [],
         isAdapterCalledOnMount: false
     });
+
+    const previousIsDialogHidden = usePrevious(props.isDialogHidden);
+    // Figure out if dialog needs to be open from props
+    useEffect(() => {
+        // Have undefined checked onMount to avoid an extra render
+        // Have is previous check from true to false, to just change dialogHidden on open
+        if (
+            previousIsDialogHidden !== undefined &&
+            previousIsDialogHidden === true &&
+            previousIsDialogHidden !== props.isDialogHidden
+        ) {
+            toggleIsDialogHidden();
+        }
+    }, [props.isDialogHidden]);
+
+    // Load data for Dialog on first open only
+    useEffect(() => {
+        if (
+            props.shouldPullFromSubscription &&
+            !hasPulledEnvironmentsFromSubscription.current &&
+            !environmentsState.isLoading &&
+            !isDialogHidden
+        ) {
+            environmentsState.callAdapter();
+        }
+    }, [environmentsState, props.shouldPullFromSubscription, isDialogHidden]);
 
     // set initial values based on props and local storage
     useEffect(() => {
@@ -354,19 +386,8 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
     };
 
     const handleOnEditClick = useCallback(() => {
-        if (
-            props.shouldPullFromSubscription &&
-            !hasPulledEnvironmentsFromSubscription.current &&
-            !environmentsState.isLoading
-        ) {
-            environmentsState.callAdapter();
-        }
         toggleIsDialogHidden();
-    }, [
-        environmentsState,
-        props.shouldPullFromSubscription,
-        toggleIsDialogHidden
-    ]);
+    }, []);
 
     const handleOnEnvironmentUrlChange = useCallback(
         (option, value) => {
@@ -433,6 +454,9 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
     );
 
     const handleOnSave = useCallback(() => {
+        if (props.onDismiss) {
+            props.onDismiss();
+        }
         setSelectedEnvironment(environmentToEdit);
         setSelectedContainerUrl(containerUrlToEdit);
 
@@ -488,6 +512,9 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
     ]);
 
     const handleOnDismiss = useCallback(() => {
+        if (props.onDismiss) {
+            props.onDismiss();
+        }
         toggleIsDialogHidden();
         dialogResettingValuesTimeoutRef.current = setTimeout(() => {
             // wait for dialog dismiss fade-out animation to reset the values
@@ -635,6 +662,18 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                     )}
                 </div>
                 <DialogFooter>
+                    <Link
+                        styles={{
+                            root: {
+                                float: 'left',
+                                fontSize: FontSizes.size14
+                            }
+                        }}
+                        href={DOCUMENTATION_LINKS.overviewDocSetupSection}
+                        target={'_blank'}
+                    >
+                        {t('learnMore')}
+                    </Link>
                     <PrimaryButton
                         onClick={handleOnSave}
                         text={t('save')}

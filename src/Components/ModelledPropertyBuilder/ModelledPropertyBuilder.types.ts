@@ -1,10 +1,11 @@
-import { primaryTwinName } from '../../Models/Constants';
+import { PRIMARY_TWIN_NAME } from '../../Models/Constants';
 import { IModelledPropertyBuilderAdapter } from '../../Models/Constants/Interfaces';
 import {
     I3DScenesConfig,
     IBehavior,
     ITwinToObjectMapping
 } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
+import { ITooltipCalloutContent } from '../TooltipCallout/TooltipCallout.types';
 
 export enum ModelledPropertyBuilderMode {
     PROPERTY_SELECT = 'PROPERTY_SELECTION',
@@ -41,6 +42,9 @@ export interface ModelledPropertyBuilderProps {
     /** Adapter with necessary methods for accessing DTDL models & resolving twins */
     adapter: IModelledPropertyBuilderAdapter;
 
+    /** description of the field to show below the input */
+    description?: string;
+
     /** Params for deriving primary & aliased twin Ids */
     twinIdParams: BehaviorTwinIdParams | ResolvedTwinIdParams;
 
@@ -56,6 +60,9 @@ export interface ModelledPropertyBuilderProps {
 
     /** Custom label for control */
     customLabel?: string;
+
+    /** Custom tooltip next to the label for the control */
+    customLabelTooltip?: ITooltipCalloutContent;
 
     /** Visual indication that this field is required.  Defaults to false */
     required?: boolean;
@@ -116,7 +123,7 @@ export interface IModelledProperties {
 }
 
 export interface ITagModelMap {
-    [primaryTwinName]: string[];
+    [PRIMARY_TWIN_NAME]: string[];
     aliasTags?: Record<string, string>;
 }
 

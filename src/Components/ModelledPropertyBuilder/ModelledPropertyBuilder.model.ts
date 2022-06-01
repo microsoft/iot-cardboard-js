@@ -4,8 +4,9 @@ import {
     EntityKinds,
     ObjectInfo
 } from 'azure-iot-dtdl-parser';
-import { primaryTwinName } from '../../Models/Constants/Constants';
+import { PRIMARY_TWIN_NAME } from '../../Models/Constants/Constants';
 import { IModelledPropertyBuilderAdapter } from '../../Models/Constants/Interfaces';
+import { deepCopy } from '../../Models/Services/Utils';
 import {
     PropertyValueType,
     ITagModelMap,
@@ -18,6 +19,17 @@ interface IBuildModelledPropertiesParams {
     aliasedTwinMap?: Record<string, string>;
     allowedPropertyValueTypes: Array<PropertyValueType>;
 }
+
+// $dtId Model
+const dtIdModel = {
+    fullPath: '.$dtId',
+    key: '.$dtId',
+    localPath: '$dtId',
+    name: '$dtId',
+    propertyType: 'string',
+    schema: null,
+    entity: null
+};
 
 /**
  * Builds internal data representation for modelled properties
@@ -71,6 +83,35 @@ export const buildModelledProperties = async ({
         modelledProperties.intellisenseFormat = generatePropertySkeleton(
             modelledProperties.nestedFormat
         );
+
+        if (allowedPropertyValueTypes.includes('string')) {
+            /** Add $dtId manually to all twins' modelled properties in all the possible formats */
+            Object.keys(modelledProperties.flattenedFormat).forEach(
+                (key: string) => {
+                    const uniquedtIdModel = deepCopy(dtIdModel);
+                    uniquedtIdModel.fullPath = key + uniquedtIdModel.fullPath;
+                    uniquedtIdModel.key = key + uniquedtIdModel.key;
+                    modelledProperties.flattenedFormat[key].push(
+                        uniquedtIdModel
+                    );
+                }
+            );
+            Object.keys(modelledProperties.intellisenseFormat).forEach(
+                (key: string) => {
+                    modelledProperties.intellisenseFormat[key]['$dtId'] = {};
+                }
+            );
+            Object.keys(modelledProperties.nestedFormat).forEach(
+                (key: string) => {
+                    const uniquedtIdModel = deepCopy(dtIdModel);
+                    uniquedtIdModel.fullPath = key + uniquedtIdModel.fullPath;
+                    uniquedtIdModel.key = key + uniquedtIdModel.key;
+                    modelledProperties.nestedFormat[key]['properties'][
+                        '$dtId'
+                    ] = uniquedtIdModel;
+                }
+            );
+        }
     } catch (err) {
         console.error(err);
     }
@@ -142,14 +183,14 @@ const expandModelIds = (
     // Add primary twin's modelled properties
     for (const modelId of tagModelMap.PrimaryTwin) {
         if (modelDict[modelId]?.entityKind === 'interface') {
-            if (!(primaryTwinName in modelledProperties)) {
+            if (!(PRIMARY_TWIN_NAME in modelledProperties)) {
                 // Add primary tag to root object
-                modelledProperties[primaryTwinName] = {};
+                modelledProperties[PRIMARY_TWIN_NAME] = {};
             }
             addInterface(
-                modelledProperties[primaryTwinName],
+                modelledProperties[PRIMARY_TWIN_NAME],
                 modelDict[modelId] as InterfaceInfo,
-                primaryTwinName,
+                PRIMARY_TWIN_NAME,
                 allowedPropertyValueTypes
             );
         }
@@ -307,7 +348,7 @@ export const mergeTagsAndMapTwinIdsToModelIds = async (
         .map((result) => result.getData().modelId);
 
     if (primaryTwinModels?.length > 0) {
-        tagModelMap[primaryTwinName] = Array.from(
+        tagModelMap[PRIMARY_TWIN_NAME] = Array.from(
             new Set([...primaryTwinModels]).keys()
         ); // ensure uniqueness (drop duplicate model Ids)
     }

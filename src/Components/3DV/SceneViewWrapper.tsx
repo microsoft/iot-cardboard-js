@@ -7,7 +7,7 @@ This class intercepts calls to the SceneViewer and enables AddIns to hook into e
 import React, { useEffect, useRef, useState } from 'react';
 import * as BABYLON from '@babylonjs/core/Legacy/legacy';
 import { ICameraPosition } from '../../Models/Classes/SceneView.types';
-import SceneView from './SceneView';
+import SceneView, { showFpsCounter } from './SceneView';
 import {
     ADT3DAddInEventTypes,
     CameraInteraction,
@@ -44,6 +44,7 @@ import {
     ISceneViewWrapperStyleProps,
     ISceneViewWrapperStyles
 } from './SceneViewWrapper.types';
+import { WrapperMode } from './SceneView.types';
 
 const getClassNames = classNamesFunction<
     ISceneViewWrapperStyleProps,
@@ -217,6 +218,18 @@ const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = (props) => {
         );
     };
 
+    const FPSCounterStyle = {
+        position: 'absolute',
+        display: 'flex',
+        bottom: 0,
+        right: 0
+    } as const;
+
+    const wrapperClassName =
+        wrapperMode === WrapperMode.Builder
+            ? 'cb-sceneview-builder-wrapper'
+            : 'cb-sceneview-viewer-wrapper';
+
     return (
         <div
             style={
@@ -226,7 +239,7 @@ const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = (props) => {
                       }
                     : {}
             }
-            className={css('cb-sceneview-wrapper ', classNames.root)}
+            className={css(wrapperClassName, classNames.root)}
         >
             <SceneView
                 ref={sceneViewComponent}
@@ -240,6 +253,11 @@ const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = (props) => {
                 onSceneLoaded={sceneLoaded}
                 cameraInteractionType={cameraInteractionType}
             />
+            {showFpsCounter && (
+                <label id="FPS" style={FPSCounterStyle}>
+                    FPS:
+                </label>
+            )}
             <Stack
                 horizontal
                 styles={classNames.subComponentStyles.cameraControlsStack}

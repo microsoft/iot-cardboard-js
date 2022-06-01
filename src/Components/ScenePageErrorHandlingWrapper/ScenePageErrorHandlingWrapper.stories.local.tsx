@@ -1,7 +1,9 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import useAuthParams from '../../../.storybook/useAuthParams';
+import ADT3DSceneAdapter from '../../Adapters/ADT3DSceneAdapter';
 import { ComponentErrorType } from '../../Models/Constants';
+import MsalAuthService from '../../Models/Services/MsalAuthService';
 import { getDefaultStoryDecorator } from '../../Models/Services/StoryUtilities';
 import ScenePageErrorHandlingWrapper from './ScenePageErrorHandlingWrapper';
 
@@ -16,16 +18,27 @@ export default {
     decorators: [getDefaultStoryDecorator<any>(cardStyle)]
 };
 
-export const NonExistentBlob = () => {
+export const BlobNotFoundError = () => {
     const { t } = useTranslation();
     const authenticationParameters = useAuthParams();
     return !authenticationParameters ? (
         <div></div>
     ) : (
         <ScenePageErrorHandlingWrapper
+            adapter={
+                new ADT3DSceneAdapter(
+                    new MsalAuthService(
+                        authenticationParameters.adt.aadParameters
+                    ),
+                    authenticationParameters.adt.hostUrl,
+                    authenticationParameters.storage.blobContainerUrl,
+                    authenticationParameters.adt.aadParameters.tenantId,
+                    authenticationParameters.adt.aadParameters.uniqueObjectId
+                )
+            }
             errors={[
                 {
-                    type: ComponentErrorType.NonExistentBlob,
+                    type: ComponentErrorType.BlobNotFound,
                     isCatastrophic: true
                 }
             ]}
@@ -47,6 +60,17 @@ export const UnauthorizedAccessError = () => {
     ) : (
         <div>
             <ScenePageErrorHandlingWrapper
+                adapter={
+                    new ADT3DSceneAdapter(
+                        new MsalAuthService(
+                            authenticationParameters.adt.aadParameters
+                        ),
+                        authenticationParameters.adt.hostUrl,
+                        authenticationParameters.storage.blobContainerUrl,
+                        authenticationParameters.adt.aadParameters.tenantId,
+                        authenticationParameters.adt.aadParameters.uniqueObjectId
+                    )
+                }
                 primaryClickAction={{
                     buttonText: t('learnMore'),
                     onClick: () => {
@@ -64,16 +88,27 @@ export const UnauthorizedAccessError = () => {
     );
 };
 
-export const ReaderAccessOnly = () => {
+export const InternalServerError = () => {
     const authenticationParameters = useAuthParams();
     return !authenticationParameters ? (
         <div></div>
     ) : (
         <div>
             <ScenePageErrorHandlingWrapper
+                adapter={
+                    new ADT3DSceneAdapter(
+                        new MsalAuthService(
+                            authenticationParameters.adt.aadParameters
+                        ),
+                        authenticationParameters.adt.hostUrl,
+                        authenticationParameters.storage.blobContainerUrl,
+                        authenticationParameters.adt.aadParameters.tenantId,
+                        authenticationParameters.adt.aadParameters.uniqueObjectId
+                    )
+                }
                 errors={[
                     {
-                        type: ComponentErrorType.ReaderAccessOnly,
+                        type: ComponentErrorType.InternalServerError,
                         isCatastrophic: true
                     }
                 ]}

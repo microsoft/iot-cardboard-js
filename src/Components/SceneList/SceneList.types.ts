@@ -2,7 +2,7 @@ import { IButtonProps } from '@fluentui/react';
 import MockAdapter from '../../Adapters/MockAdapter';
 import {
     IBlobAdapter,
-    IBlobFile,
+    IStorageBlob,
     IStandaloneConsumeCardProps
 } from '../../Models/Constants/Interfaces';
 import { IScene } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
@@ -22,7 +22,7 @@ export interface ISceneDialogProps {
     onEditScene: (updatedScene: IScene) => void;
     renderBlobDropdown: (
         onChange?: (blobUrl: string) => void,
-        onLoad?: (blobs: Array<IBlobFile>) => void
+        onLoad?: (blobs: Array<IStorageBlob>) => void
     ) => JSX.Element;
 }
 

@@ -8,7 +8,8 @@ import {
 import { CardboardClassNamePrefix } from '../../Models/Constants';
 import {
     ELEMENTS_PANEL_BUTTON_BOTTOM_OFFSET,
-    ELEMENTS_PANEL_BUTTON_HEIGHT
+    ELEMENTS_PANEL_BUTTON_HEIGHT,
+    INITIAL_ELEMENTS_PANEL_LEFT_OFFSET
 } from '../../Models/Constants/StyleConstants';
 
 const classPrefix = `${CardboardClassNamePrefix}-elements-panel`;
@@ -26,7 +27,6 @@ const classNames = {
 };
 
 const INITIAL_ELEMENTS_PANEL_TOP_OFFSET = 64;
-const INITIAL_ELEMENTS_PANEL_LEFT_OFFSET = 20;
 const PANEL_BOTTOM_OFFSET =
     ELEMENTS_PANEL_BUTTON_HEIGHT + ELEMENTS_PANEL_BUTTON_BOTTOM_OFFSET + 8;
 
@@ -139,6 +139,7 @@ export const getElementsPanelAlertStyles = memoizeFunction(
                     height: 20,
                     borderRadius: 30,
                     backgroundColor: alertColor,
+                    flexShrink: 0,
                     margin: `0 8px 0 10px`,
                     display: 'flex',
                     alignItems: 'center',

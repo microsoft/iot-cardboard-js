@@ -5,7 +5,13 @@ import React, {
     useMemo,
     useState
 } from 'react';
-import { ActionButton, IContextualMenuItem, useTheme } from '@fluentui/react';
+import {
+    ActionButton,
+    IContextualMenuItem,
+    Stack,
+    Text,
+    useTheme
+} from '@fluentui/react';
 import produce from 'immer';
 import { TFunction, useTranslation } from 'react-i18next';
 import WidgetLibraryDialog from '../Widgets/WidgetLibraryDialog/WidgetLibraryDialog';
@@ -33,6 +39,13 @@ import { createGUID } from '../../../../../Models/Services/Utils';
 
 const getPopoverFromBehavior = (behavior: IBehavior) =>
     behavior.visuals.filter(ViewerConfigUtility.isPopoverVisual)[0] || null;
+
+const ROOT_LOC = '3dSceneBuilder.behaviorWidgetsForm';
+const LOC_KEYS = {
+    addButtonText: `${ROOT_LOC}.addWidgetButtonText`,
+    noData: `${ROOT_LOC}.noData`,
+    tabDescription: `${ROOT_LOC}.tabDescription`
+};
 
 const WidgetsTab: React.FC = () => {
     const { t } = useTranslation();
@@ -71,7 +84,7 @@ const WidgetsTab: React.FC = () => {
                 });
             }
         },
-        [setWidgetFormInfo]
+        [setWidgetFormInfo, widgets]
     );
 
     const onRemoveWidget = useCallback(
@@ -94,7 +107,7 @@ const WidgetsTab: React.FC = () => {
                 })
             );
         },
-        [setBehaviorToEdit, getPopoverFromBehavior]
+        [setBehaviorToEdit]
     );
 
     const onWidgetAdd = useCallback(
@@ -116,12 +129,7 @@ const WidgetsTab: React.FC = () => {
                 );
             }
         },
-        [
-            setWidgetFormInfo,
-            setBehaviorToEdit,
-            behaviorToEdit,
-            getPopoverFromBehavior
-        ]
+        [setWidgetFormInfo, setBehaviorToEdit, behaviorToEdit]
     );
 
     // generate the list of items to show
@@ -133,33 +141,38 @@ const WidgetsTab: React.FC = () => {
             t
         );
         setListItems(listItems);
-    }, [widgets, onEditWidgetStart, onRemoveWidget]);
+    }, [widgets, onEditWidgetStart, onRemoveWidget, t]);
 
     const theme = useTheme();
     const commonPanelStyles = getLeftPanelStyles(theme);
     const actionButtonStyles = getActionButtonStyles(theme);
     return (
         <>
-            <div className={commonPanelStyles.formTabContents}>
-                {!widgets?.length ? (
-                    <div className={commonPanelStyles.noDataText}>
-                        {t('3dSceneBuilder.noWidgetsConfigured')}
-                    </div>
-                ) : (
-                    <CardboardList<IWidget>
-                        items={listItems}
-                        listKey={'widgets-in-behavior'}
+            <Stack tokens={{ childrenGap: 8 }}>
+                <Text className={commonPanelStyles.text}>
+                    {t(LOC_KEYS.tabDescription)}
+                </Text>
+                <div className={commonPanelStyles.formTabContents}>
+                    {!widgets?.length ? (
+                        <div className={commonPanelStyles.noDataText}>
+                            {t(LOC_KEYS.noData)}
+                        </div>
+                    ) : (
+                        <CardboardList<IWidget>
+                            items={listItems}
+                            listKey={'widgets-in-behavior'}
+                        />
+                    )}
+                    <ActionButton
+                        styles={actionButtonStyles}
+                        text={t(LOC_KEYS.addButtonText)}
+                        data-testid={'widgetForm-addWidget'}
+                        onClick={() => {
+                            setIsLibraryDialogOpen(true);
+                        }}
                     />
-                )}
-                <ActionButton
-                    styles={actionButtonStyles}
-                    text={t('3dSceneBuilder.addWidget')}
-                    data-testid={'widgetForm-addWidget'}
-                    onClick={() => {
-                        setIsLibraryDialogOpen(true);
-                    }}
-                />
-            </div>
+                </div>
+            </Stack>
             {isLibraryDialogOpen && (
                 <WidgetLibraryDialog
                     setIsLibraryDialogOpen={setIsLibraryDialogOpen}

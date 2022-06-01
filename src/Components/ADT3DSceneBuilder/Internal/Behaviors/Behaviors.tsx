@@ -14,7 +14,10 @@ import {
 import React, { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { TFunction, useTranslation } from 'react-i18next';
 import ViewerConfigUtility from '../../../../Models/Classes/ViewerConfigUtility';
-import { deepCopy } from '../../../../Models/Services/Utils';
+import {
+    deepCopy,
+    sortAlphabetically
+} from '../../../../Models/Services/Utils';
 
 import {
     I3DScenesConfig,
@@ -28,8 +31,6 @@ import ConfirmDeleteDialog from '../ConfirmDeleteDialog/ConfirmDeleteDialog';
 import { getLeftPanelStyles } from '../Shared/LeftPanel.styles';
 import PanelFooter from '../Shared/PanelFooter';
 import SearchHeader from '../Shared/SearchHeader';
-import noResults from '../../../../Resources/Static/noResults.svg';
-import noLayers from '../../../../Resources/Static/noLayers.svg';
 
 interface Props {
     behaviors: Array<IBehavior>;
@@ -126,9 +127,6 @@ const SceneBehaviors: React.FC<Props> = ({
         }
     }, [searchText, behaviorsInScene, behaviorsNotInScene]);
 
-    const itemsInSceneVisible = filteredItemsInScene?.length > 0;
-    const itemsNotInSceneVisible = filteredItemsNotInScene?.length > 0;
-
     // generate the list of items to show - In Scene
     useEffect(() => {
         const listItems = getListItems(
@@ -178,91 +176,72 @@ const SceneBehaviors: React.FC<Props> = ({
         setIsDeleteDialogOpen
     ]);
 
+    const itemsInSceneVisible = filteredItemsInScene?.length > 0;
+    const itemsNotInSceneVisible = filteredItemsNotInScene?.length > 0;
+
     const theme = useTheme();
     const commonPanelStyles = getLeftPanelStyles(theme);
     const customStyles = getStyles(theme);
     return (
         <div className="cb-scene-builder-pivot-contents">
+            <SearchHeader
+                onSearchTextChange={setSearchText}
+                placeholder={t('3dSceneBuilder.searchBehaviorsPlaceholder')}
+                searchText={searchText}
+            />
             <div className={commonPanelStyles.content}>
                 {behaviors.length === 0 ? (
                     <IllustrationMessage
                         headerText={t('3dSceneBuilder.noBehaviorsText')}
                         type={'info'}
                         width={'compact'}
-                        imageProps={{
-                            src: noLayers,
-                            height: 100
-                        }}
+                    />
+                ) : !itemsInSceneVisible && !itemsNotInSceneVisible ? (
+                    <IllustrationMessage
+                        headerText={t('3dSceneBuilder.noResults')}
+                        type={'info'}
+                        width={'compact'}
                     />
                 ) : (
                     <>
-                        <SearchHeader
-                            onSearchTextChange={setSearchText}
-                            placeholder={t(
-                                '3dSceneBuilder.searchBehaviorsPlaceholder'
-                            )}
-                            searchText={searchText}
-                        />
-                        {!itemsInSceneVisible && !itemsNotInSceneVisible && (
-                            <IllustrationMessage
-                                headerText={t('3dSceneBuilder.noResults')}
-                                type={'info'}
-                                width={'compact'}
-                                imageProps={{
-                                    src: noResults,
-                                    height: 100
-                                }}
-                            />
+                        {/* List of behaviors in the scene */}
+                        {itemsInSceneVisible && (
+                            <>
+                                <div className={customStyles.listSectionLabel}>
+                                    {t('3dSceneBuilder.behaviorsInSceneTitle', {
+                                        count: behaviorsInScene?.length
+                                    })}
+                                </div>
+                                <CardboardList<IBehavior>
+                                    items={listItemsInScene}
+                                    listKey={'behaviors-in-scene'}
+                                    textToHighlight={searchText}
+                                />
+                            </>
                         )}
-                        <div className={customStyles.content}>
-                            {/* List of behaviors in the scene */}
-                            {itemsInSceneVisible && (
-                                <>
-                                    <div
-                                        className={
-                                            customStyles.listSectionLabel
-                                        }
-                                    >
-                                        {t(
-                                            '3dSceneBuilder.behaviorsInSceneTitle',
-                                            {
-                                                count: behaviorsInScene?.length
-                                            }
-                                        )}
-                                    </div>
+                        {/* Separator between lists */}
+                        {itemsInSceneVisible && itemsNotInSceneVisible && (
+                            <Separator />
+                        )}
+                        {/* Items not in the scene */}
+                        {itemsNotInSceneVisible && (
+                            <>
+                                <ExpandSectionLabel
+                                    isBehaviorLibraryExpanded={
+                                        isBehaviorLibraryExpanded
+                                    }
+                                    listItemCount={behaviorsNotInScene?.length}
+                                    onClick={setIsBehaviorLibraryExpanded}
+                                />
+                                {isBehaviorLibraryExpanded && (
                                     <CardboardList<IBehavior>
-                                        items={listItemsInScene}
-                                        listKey={'behaviors-in-scene'}
+                                        items={listItemsNotInScene}
+                                        listKey={'behaviors-not-in-scene'}
                                         textToHighlight={searchText}
                                     />
-                                </>
-                            )}
-                            {/* Separator between lists */}
-                            {itemsInSceneVisible && itemsNotInSceneVisible && (
-                                <Separator />
-                            )}
-                            {/* Items not in the scene */}
-                            {itemsNotInSceneVisible && (
-                                <>
-                                    <ExpandSectionLabel
-                                        isBehaviorLibraryExpanded={
-                                            isBehaviorLibraryExpanded
-                                        }
-                                        listItemCount={
-                                            behaviorsNotInScene?.length
-                                        }
-                                        onClick={setIsBehaviorLibraryExpanded}
-                                    />
-                                    {isBehaviorLibraryExpanded && (
-                                        <CardboardList<IBehavior>
-                                            items={listItemsNotInScene}
-                                            listKey={'behaviors-not-in-scene'}
-                                            textToHighlight={searchText}
-                                        />
-                                    )}
-                                </>
-                            )}
-                        </div>
+                                )}
+                            </>
+                        )}
                     </>
                 )}
             </div>
@@ -424,7 +403,7 @@ function getListItems(
                 return [];
         }
     };
-    return filteredElements.map((item) => {
+    const listItems = filteredElements.map((item) => {
         const metadata = ViewerConfigUtility.getBehaviorMetaData(
             config,
             sceneId,
@@ -461,6 +440,8 @@ function getListItems(
 
         return viewModel;
     });
+
+    return listItems.sort(sortAlphabetically('textPrimary'));
 }
 
 export default SceneBehaviors;
@@ -472,10 +453,6 @@ const getStyles = memoizeFunction((_theme: Theme) => {
             fontWeight: FontWeights.semibold,
             marginBottom: 4,
             paddingLeft: 8
-        } as IStyle,
-        content: {
-            height: 'calc(100% - 60px)',
-            overflow: 'auto'
         } as IStyle
     });
 });

@@ -2,7 +2,10 @@ import { useTheme } from '@fluentui/react';
 import { memoizeFunction } from '@fluentui/react';
 import React, { useContext, useMemo } from 'react';
 import { TFunction, useTranslation } from 'react-i18next';
-import { Locale } from '../../../../../Models/Constants/Enums';
+import {
+    BehaviorModalMode,
+    Locale
+} from '../../../../../Models/Constants/Enums';
 import { parseLinkedTwinExpression } from '../../../../../Models/Services/Utils';
 import {
     IDTDLPropertyType,
@@ -34,14 +37,23 @@ export const ValueWidget: React.FC<IProp> = ({ widget, placeholderValues }) => {
     const theme = useTheme();
     const { t, i18n } = useTranslation();
 
-    const { twins } = useContext(BehaviorsModalContext);
+    const { twins, mode } = useContext(BehaviorsModalContext);
     const { displayName, valueExpression, type } = widget.widgetConfiguration;
 
-    const parsedValue = useMemo(
-        () => parseLinkedTwinExpression(valueExpression, twins),
-
-        [valueExpression, twins]
-    );
+    const parsedValue = useMemo(() => {
+        const parsedValue = parseLinkedTwinExpression(valueExpression, twins);
+        if (parsedValue === '') {
+            if (mode === BehaviorModalMode.viewer) {
+                return null;
+            } else {
+                return (
+                    placeholderValues?.[type] ?? getValuePlaceholders(t)[type]
+                );
+            }
+        } else {
+            return parsedValue;
+        }
+    }, [valueExpression, twins, mode, placeholderValues, type, t]);
 
     const styles = getStyles(theme);
     return (
@@ -49,11 +61,7 @@ export const ValueWidget: React.FC<IProp> = ({ widget, placeholderValues }) => {
             <div className={styles.expressionValueContainer}>
                 <FormattedValue
                     locale={i18n.language as Locale}
-                    value={
-                        parsedValue ||
-                        (placeholderValues?.[type] ??
-                            getValuePlaceholders(t)[type])
-                    }
+                    value={parsedValue}
                     type={type}
                 />
             </div>

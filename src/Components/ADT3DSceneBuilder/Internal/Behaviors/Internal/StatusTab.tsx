@@ -26,6 +26,7 @@ import {
     numericPropertyValueTypes,
     PropertyExpression
 } from '../../../../ModelledPropertyBuilder/ModelledPropertyBuilder.types';
+import { DOCUMENTATION_LINKS } from '../../../../../Models/Constants';
 
 const getStatusFromBehavior = (behavior: IBehavior) =>
     behavior.visuals.filter(ViewerConfigUtility.isStatusColorVisual)[0] || null;
@@ -33,7 +34,7 @@ const getStatusFromBehavior = (behavior: IBehavior) =>
 const ROOT_LOC = '3dSceneBuilder.behaviorStatusForm';
 const LOC_KEYS = {
     stateItemLabel: `${ROOT_LOC}.stateItemLabel`,
-    notice: `${ROOT_LOC}.notice`,
+    tabDescription: `${ROOT_LOC}.tabDescription`,
     noElementsSelected: `${ROOT_LOC}.noElementsSelected`
 };
 
@@ -111,8 +112,6 @@ const StatusTab: React.FC<IStatusTabProps> = ({ onValidityChange }) => {
         },
         [
             setBehaviorToEdit,
-            getStatusFromBehavior,
-            deepCopy,
             valueRangeBuilderState,
             resetInitialValueRanges,
             validateForm
@@ -131,12 +130,12 @@ const StatusTab: React.FC<IStatusTabProps> = ({ onValidityChange }) => {
                 }
             })
         );
-    }, [valueRangeBuilderState.valueRanges]);
+    }, [setBehaviorToEdit, valueRangeBuilderState.valueRanges]);
 
     // update validity when range validity changes
     useEffect(() => {
         validateForm(getStatusFromBehavior(behaviorToEdit));
-    }, [valueRangeBuilderState.areRangesValid]);
+    }, [behaviorToEdit, validateForm, valueRangeBuilderState.areRangesValid]);
 
     const onPropertyChange = useCallback(
         (newPropertyExpression: PropertyExpression) =>
@@ -148,10 +147,23 @@ const StatusTab: React.FC<IStatusTabProps> = ({ onValidityChange }) => {
     const showRangeBuilder = !!statusVisualToEdit.valueExpression;
     return (
         <Stack tokens={sectionStackTokens}>
-            <Text className={commonPanelStyles.text}>{t(LOC_KEYS.notice)}</Text>
+            <Text className={commonPanelStyles.text}>
+                {t(LOC_KEYS.tabDescription)}
+            </Text>
             <div>
                 <ModelledPropertyBuilder
                     adapter={adapter}
+                    customLabelTooltip={{
+                        buttonAriaLabel: t(
+                            '3dSceneBuilder.behaviorStatusForm.propertyExpressionTooltipContent'
+                        ),
+                        calloutContent: t(
+                            '3dSceneBuilder.behaviorStatusForm.propertyExpressionTooltipContent'
+                        ),
+                        link: {
+                            url: DOCUMENTATION_LINKS.howToExpressions
+                        }
+                    }}
                     twinIdParams={{
                         behavior: behaviorToEdit,
                         config,

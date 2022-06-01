@@ -45,6 +45,7 @@ export const getLeftPanelStyles = memoizeFunction((theme: Theme) => {
                 display: 'flex',
                 flexDirection: 'column',
                 flexGrow: 1,
+                minHeight: 60,
                 overflowY: 'auto',
                 overflowX: 'hidden'
             } as IStyle
@@ -64,6 +65,7 @@ export const getLeftPanelStyles = memoizeFunction((theme: Theme) => {
         text: [
             classNames.text,
             {
+                color: theme.palette.neutralSecondary,
                 padding: '4px 0',
                 display: 'block'
             } as IStyle

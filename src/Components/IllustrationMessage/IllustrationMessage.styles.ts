@@ -17,8 +17,7 @@ export const getIllustrationMessageStyles = (
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'center',
-                paddingTop: 20,
-                fontFamily: 'Segoe UI'
+                paddingTop: 20
             }
         ],
         descriptionContainer: [

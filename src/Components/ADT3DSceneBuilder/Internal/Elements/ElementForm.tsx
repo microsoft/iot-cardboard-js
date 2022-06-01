@@ -13,6 +13,7 @@ import {
     PivotItem,
     PrimaryButton,
     Separator,
+    Stack,
     TextField,
     useTheme
 } from '@fluentui/react';
@@ -175,7 +176,7 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
         onCreateBehaviorWithElements(
             elementToEdit // new element
         );
-    }, [selectedElement, elementToEdit, handleSaveElement]);
+    }, [handleSaveElement, onCreateBehaviorWithElements, elementToEdit]);
 
     useEffect(() => {
         if (saveElementAdapterData.adapterResult.result) {
@@ -260,28 +261,39 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                     <>
                         <div className={commonFormStyles.content}>
                             <div className={commonFormStyles.header}>
-                                <TwinSearchDropdown
-                                    adapter={adapter}
-                                    label={t('3dSceneBuilder.primaryTwin')}
-                                    selectedTwinId={
-                                        selectedElement?.primaryTwinID
-                                    }
-                                    onTwinIdSelect={handleSelectTwinId}
-                                    descriptionText={t(
-                                        '3dSceneBuilder.primaryTwinInputInfo'
-                                    )}
-                                />
-                                <TextField
-                                    label={t('name')}
-                                    value={elementToEdit?.displayName}
-                                    required
-                                    onChange={(e) => {
-                                        setElementToEdit({
-                                            ...elementToEdit,
-                                            displayName: e.currentTarget.value
-                                        });
-                                    }}
-                                />
+                                <Stack tokens={{ childrenGap: 8 }}>
+                                    <TwinSearchDropdown
+                                        adapter={adapter}
+                                        descriptionText={t(
+                                            '3dSceneBuilder.elementForm.twinNameDescription'
+                                        )}
+                                        label={t('3dSceneBuilder.primaryTwin')}
+                                        labelTooltip={{
+                                            buttonAriaLabel: t(
+                                                '3dSceneBuilder.elementForm.twinNameTooltip'
+                                            ),
+                                            calloutContent: t(
+                                                '3dSceneBuilder.elementForm.twinNameTooltip'
+                                            )
+                                        }}
+                                        selectedTwinId={
+                                            selectedElement?.primaryTwinID
+                                        }
+                                        onTwinIdSelect={handleSelectTwinId}
+                                    />
+                                    <TextField
+                                        label={t('name')}
+                                        value={elementToEdit?.displayName}
+                                        required
+                                        onChange={(e) => {
+                                            setElementToEdit({
+                                                ...elementToEdit,
+                                                displayName:
+                                                    e.currentTarget.value
+                                            });
+                                        }}
+                                    />
+                                </Stack>
                             </div>
                             <Separator />
                             <Pivot
@@ -290,7 +302,9 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                                 styles={panelFormPivotStyles}
                             >
                                 <PivotItem
-                                    headerText={t('3dSceneBuilder.meshes')}
+                                    headerText={t(
+                                        '3dSceneBuilder.elementForm.meshTabName'
+                                    )}
                                     className={
                                         commonPanelStyles.formTabContents
                                     }
@@ -298,7 +312,9 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                                     <MeshTab elementToEdit={elementToEdit} />
                                 </PivotItem>
                                 <PivotItem
-                                    headerText={t('3dSceneBuilder.behaviors')}
+                                    headerText={t(
+                                        '3dSceneBuilder.elementForm.behaviorsTabName'
+                                    )}
                                     className={
                                         commonPanelStyles.formTabContents
                                     }
@@ -326,7 +342,7 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                                 </PivotItem>
                                 <PivotItem
                                     headerText={t(
-                                        '3dSceneBuilder.twinAlias.aliasedTwins'
+                                        '3dSceneBuilder.elementForm.twinTabName'
                                     )}
                                     className={
                                         commonPanelStyles.formTabContents

@@ -54,7 +54,12 @@ export const SET_ADT_SCENE_BUILDER_SELECTED_BEHAVIOR =
 export const SET_ADT_SCENE_ELEMENT_SELECTED_OBJECT_IDS =
     'SET_ADT_SCENE_ELEMENT_SELECTED_OBJECT_IDS';
 export const SET_ADT_SCENE_BUILDER_COLORED_MESH_ITEMS =
-    'SET_ADT_SCENE_BUILDER_COLORED_MESH_ITEMST';
+    'SET_ADT_SCENE_BUILDER_COLORED_MESH_ITEMS';
+export const SET_ORIGINAL_BEHAVIOR_TO_EDIT = 'SET_ORIGINAL_BEHAVIOR_TO_EDIT';
+export const SET_UNSAVED_BEHAVIOR_CHANGES_DIALOG_OPEN =
+    'SET_ADT_UNSAVED_BEHAVIOR_CHANGES_DIALOG_OPEN';
+export const SET_UNSAVED_BEHAVIOR_CHANGES_DIALOG_DISCARD_ACTION =
+    'SET_UNSAVED_BEHAVIOR_CHANGES_DIALOG_DISCARD_ACTION';
 export const SET_ADT_SCENE_BUILDER_MODE = 'SET_ADT_SCENE_BUILDER_MODE';
 export const SET_WIDGET_FORM_INFO = 'SET_WIDGET_FORM_INFO';
 export const SET_BEHAVIOR_TWIN_ALIAS_FORM_INFO =
@@ -127,6 +132,10 @@ export interface I3DSceneBuilderContext {
     objectColor: IADTObjectColor;
     behaviorToEdit: IBehavior;
     setBehaviorToEdit: React.Dispatch<React.SetStateAction<IBehavior>>;
+    setOriginalBehaviorToEdit: (behavior: IBehavior) => void;
+    checkIfBehaviorHasBeenEdited: () => boolean;
+    setUnsavedBehaviorChangesDialog: (isOpen: boolean) => void;
+    setUnsavedChangesDialogDiscardAction: (action: any) => void;
     setIsLayerBuilderDialogOpen: (
         isOpen: boolean,
         behaviorId?: string,
@@ -221,7 +230,7 @@ export type OnBehaviorSave = (
     selectedLayerIds?: string[],
     selectedElements?: Array<ITwinToObjectMapping>,
     removedElements?: Array<ITwinToObjectMapping>
-) => void;
+) => Promise<void>;
 
 export interface IADT3DSceneBuilderBehaviorFormProps {
     builderMode: ADT3DSceneBuilderMode;
@@ -275,6 +284,9 @@ export interface ADT3DSceneBuilderState {
     enableHoverOnModel: boolean;
     objectColor: IADTObjectColor;
     isLayerBuilderDialogOpen: boolean;
+    originalBehaviorToEdit: IBehavior;
+    unsavedBehaviorDialogOpen: boolean;
+    unsavedChangesDialogDiscardAction: any;
     layerBuilderDialogData: {
         behaviorId: string;
         onFocusDismiss?: (layerId: string) => void;

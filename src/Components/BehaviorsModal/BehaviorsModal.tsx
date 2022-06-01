@@ -14,7 +14,7 @@ import {
     BehaviorModalMode,
     DTwin,
     IPropertyInspectorAdapter,
-    primaryTwinName
+    PRIMARY_TWIN_NAME
 } from '../../Models/Constants';
 import { IBehavior } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { ADT3DScenePageContext } from '../../Pages/ADT3DScenePage/ADT3DScenePage';
@@ -184,7 +184,7 @@ const BehaviorsModal: React.FC<IBehaviorsModalProps> = ({
                                 adapter && (
                                     <PropertyInspector
                                         adapter={adapter}
-                                        twinId={twins[primaryTwinName]?.$dtId}
+                                        twinId={twins[PRIMARY_TWIN_NAME]?.$dtId}
                                         parentHandlesScroll={true}
                                         onPatch={(patchData) =>
                                             onPropertyInspectorPatch &&

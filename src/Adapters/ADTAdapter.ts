@@ -30,10 +30,11 @@ import {
     KeyValuePairData,
     DTwinUpdateEvent,
     IComponentError,
-    primaryTwinName,
+    PRIMARY_TWIN_NAME,
     IADTModel,
     modelRefreshMaxAge,
-    twinRefreshMaxAge
+    twinRefreshMaxAge,
+    instancesRefreshMaxAge
 } from '../Models/Constants';
 import ADTTwinData from '../Models/Classes/AdapterDataClasses/ADTTwinData';
 import ADTModelData, {
@@ -70,6 +71,7 @@ import {
 import { ElementType } from '../Models/Classes/3DVConfig';
 import { ModelDict } from 'azure-iot-dtdl-parser/dist/parser/modelDict';
 import AdapterEntityCache from '../Models/Classes/AdapterEntityCache';
+import ADTInstancesData from '../Models/Classes/AdapterDataClasses/ADTInstancesData';
 import queryString from 'query-string';
 
 export default class ADTAdapter implements IADTAdapter {
@@ -86,6 +88,7 @@ export default class ADTAdapter implements IADTAdapter {
     protected adtTwinCache: AdapterEntityCache<ADTTwinData>;
     protected adtModelsCache: AdapterEntityCache<ADTAllModelsData>;
     protected adtTwinToModelMappingCache: AdapterEntityCache<ADTTwinToModelMappingData>;
+    protected adtInstancesCache: AdapterEntityCache<ADTInstancesData>;
 
     constructor(
         adtHostUrl: string,
@@ -108,6 +111,9 @@ export default class ADTAdapter implements IADTAdapter {
         );
         this.adtTwinToModelMappingCache = new AdapterEntityCache<ADTTwinToModelMappingData>(
             modelRefreshMaxAge
+        );
+        this.adtInstancesCache = new AdapterEntityCache<ADTInstancesData>(
+            instancesRefreshMaxAge
         );
 
         this.authService.login();
@@ -1015,7 +1021,7 @@ export default class ADTAdapter implements IADTAdapter {
                                             element.id === id
                                     ) as ITwinToObjectMapping;
                                     if (element) {
-                                        twins[primaryTwinName] =
+                                        twins[PRIMARY_TWIN_NAME] =
                                             twinIdToResolvedTwinMap[
                                                 element.primaryTwinID
                                             ];

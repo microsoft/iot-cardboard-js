@@ -17,7 +17,10 @@ import {
     SET_IS_LAYER_BUILDER_DIALOG_OPEN,
     SET_BEHAVIOR_TWIN_ALIAS_FORM_INFO,
     SET_ELEMENT_TWIN_ALIAS_FORM_INFO,
-    SET_ADT_SCENE_BUILDER_REMOVED_ELEMENTS
+    SET_ADT_SCENE_BUILDER_REMOVED_ELEMENTS,
+    SET_ORIGINAL_BEHAVIOR_TO_EDIT,
+    SET_UNSAVED_BEHAVIOR_CHANGES_DIALOG_OPEN,
+    SET_UNSAVED_BEHAVIOR_CHANGES_DIALOG_DISCARD_ACTION
 } from './ADT3DSceneBuilder.types';
 import {
     ADT3DSceneBuilderMode,
@@ -45,7 +48,10 @@ export const defaultADT3DSceneBuilderState: ADT3DSceneBuilderState = {
     enableHoverOnModel: false,
     objectColor: DefaultViewerModeObjectColor,
     isLayerBuilderDialogOpen: false,
-    layerBuilderDialogData: null
+    layerBuilderDialogData: null,
+    originalBehaviorToEdit: null,
+    unsavedBehaviorDialogOpen: false,
+    unsavedChangesDialogDiscardAction: null
 };
 
 export const ADT3DSceneBuilderReducer: (
@@ -91,6 +97,15 @@ export const ADT3DSceneBuilderReducer: (
                 break;
             case SET_ADT_SCENE_BUILDER_SELECTED_BEHAVIOR:
                 draft.selectedBehavior = payload;
+                break;
+            case SET_ORIGINAL_BEHAVIOR_TO_EDIT:
+                draft.originalBehaviorToEdit = payload;
+                break;
+            case SET_UNSAVED_BEHAVIOR_CHANGES_DIALOG_DISCARD_ACTION:
+                draft.unsavedChangesDialogDiscardAction = payload;
+                break;
+            case SET_UNSAVED_BEHAVIOR_CHANGES_DIALOG_OPEN:
+                draft.unsavedBehaviorDialogOpen = payload;
                 break;
             case SET_REVERT_TO_HOVER_COLOR:
                 draft.showHoverOnSelected = payload;

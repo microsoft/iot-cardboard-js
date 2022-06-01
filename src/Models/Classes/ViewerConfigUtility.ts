@@ -1,4 +1,4 @@
-import { unlayeredBehaviorKey } from '../../Components/LayerDropdown/LayerDropdown';
+import { DEFAULT_LAYER_ID } from '../../Components/LayerDropdown/LayerDropdown';
 import { IAliasedTwinProperty } from '../Constants/Interfaces';
 import { deepCopy } from '../Services/Utils';
 import {
@@ -30,7 +30,7 @@ abstract class ViewerConfigUtility {
         config: I3DScenesConfig,
         sceneId: string
     ): IScene | undefined {
-        return config.configuration.scenes.find((s) => s.id === sceneId);
+        return config?.configuration.scenes.find((s) => s.id === sceneId);
     }
 
     /** Add new scene to config file */
@@ -584,13 +584,13 @@ abstract class ViewerConfigUtility {
 
         // Check if unlayered behavior mode selected
         const isUnlayeredBehaviorActive = selectedLayerIds.includes(
-            unlayeredBehaviorKey
+            DEFAULT_LAYER_ID
         );
 
         if (isUnlayeredBehaviorActive) {
             // Remove unlayered behavior key from id array
             selectedLayerIds.splice(
-                selectedLayerIds.indexOf(unlayeredBehaviorKey),
+                selectedLayerIds.indexOf(DEFAULT_LAYER_ID),
                 1
             );
 
@@ -605,7 +605,7 @@ abstract class ViewerConfigUtility {
         }
 
         // Add behavior Ids from selected scene layers to Id dict
-        config.configuration.layers.forEach((layer) => {
+        config?.configuration.layers.forEach((layer) => {
             if (selectedLayerIds.includes(layer.id)) {
                 layer.behaviorIDs.forEach((behaviorId) => {
                     uniqueBehaviorIds.set(behaviorId, '');
