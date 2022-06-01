@@ -30,7 +30,6 @@ import {
     KeyValuePairData,
     DTwinUpdateEvent,
     IComponentError,
-    PRIMARY_TWIN_NAME,
     IADTModel,
     modelRefreshMaxAge,
     twinRefreshMaxAge,
@@ -50,6 +49,7 @@ import ADTTwinLookupData from '../Models/Classes/AdapterDataClasses/ADTTwinLooku
 import axios, { AxiosError, AxiosInstance } from 'axios';
 import { DtdlInterface } from '../Models/Constants/dtdlInterfaces';
 import {
+    getDebugLogger,
     getModelContentType,
     parseDTDLModelsAsync
 } from '../Models/Services/Utils';
@@ -64,15 +64,14 @@ import { SimulationAdapterData } from '../Models/Classes/AdapterDataClasses/Simu
 import ADT3DViewerData from '../Models/Classes/AdapterDataClasses/ADT3DViewerData';
 import { SceneVisual } from '../Models/Classes/SceneView.types';
 import ViewerConfigUtility from '../Models/Classes/ViewerConfigUtility';
-import {
-    I3DScenesConfig,
-    ITwinToObjectMapping
-} from '../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
-import { ElementType } from '../Models/Classes/3DVConfig';
+import { I3DScenesConfig } from '../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { ModelDict } from 'azure-iot-dtdl-parser/dist/parser/modelDict';
 import AdapterEntityCache from '../Models/Classes/AdapterEntityCache';
 import ADTInstancesData from '../Models/Classes/AdapterDataClasses/ADTInstancesData';
 import queryString from 'query-string';
+
+const debugLogging = true;
+const logDebugConsole = getDebugLogger('ADTAdapter', debugLogging);
 
 export default class ADTAdapter implements IADTAdapter {
     public tenantId: string;
@@ -937,10 +936,21 @@ export default class ADTAdapter implements IADTAdapter {
     }
 
     async getSceneData(sceneId: string, config: I3DScenesConfig) {
+        logDebugConsole(
+            'info',
+            '[START] Fetching scene data {sceneId, config}',
+            sceneId,
+            config
+        );
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
 
         function pushErrors(errors: IComponentError[]) {
             if (errors) {
+                logDebugConsole(
+                    'error',
+                    'Error(s) thrown fetching scene data. {errors}',
+                    errors
+                );
                 for (const error of errors) {
                     adapterMethodSandbox.pushError({
                         type: error.type,
@@ -989,11 +999,22 @@ export default class ADTAdapter implements IADTAdapter {
                             twinIds.add(aliasedTwinId)
                         );
                     }
-                    const twinIdsArray = Object.keys(twinIds);
+                    const twinIdsArray = Array.from(twinIds.values());
+                    logDebugConsole(
+                        'debug',
+                        '[START] Fetching twin data. {twinIds}',
+                        twinIdsArray,
+                        twinIds
+                    );
                     const twinResults = await Promise.all(
                         twinIdsArray.map((twinId) =>
                             this.getADTTwin(twinId, true)
                         )
+                    );
+                    logDebugConsole(
+                        'debug',
+                        '[END] Fetching twin data. {twinData}',
+                        twinResults
                     );
                     twinResults.forEach((adapterResult, idx) => {
                         pushErrors(adapterResult.getErrors());
@@ -1004,15 +1025,30 @@ export default class ADTAdapter implements IADTAdapter {
                     });
                     // end: get all twins for all behaviors in the scene
 
+                    logDebugConsole(
+                        'debug',
+                        '[START] Build scene visuals {twinData}',
+                        twinIdToDataMap
+                    );
                     sceneVisuals = ViewerConfigUtility.getSceneVisualsInScene(
                         config,
                         sceneId,
                         twinIdToDataMap
                     );
-                    console.log('***Adapter Scene visuals', sceneVisuals);
+                    logDebugConsole(
+                        'debug',
+                        '[END] Build scene visuals {visuals}',
+                        sceneVisuals
+                    );
                 }
             }
-            return new ADT3DViewerData(modelUrl, sceneVisuals);
+            const result = new ADT3DViewerData(modelUrl, sceneVisuals);
+            logDebugConsole(
+                'info',
+                '[END] Fetching scene data {result}',
+                result
+            );
+            return result;
         });
     }
 }

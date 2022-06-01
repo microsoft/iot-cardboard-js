@@ -48,10 +48,6 @@ export const useRuntimeSceneData = (
      *  */
     useEffect(() => {
         if (sceneData?.adapterResult?.result?.data) {
-            console.log(
-                '****Run time data',
-                sceneData?.adapterResult?.result?.data
-            );
             let sceneVisuals = deepCopy(
                 sceneData.adapterResult.result.data.sceneVisuals
             );
