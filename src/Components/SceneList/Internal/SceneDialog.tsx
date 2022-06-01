@@ -356,21 +356,12 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
     const handleFileChange = useCallback(
         (file: File) => {
             if (file) {
-                if (
-                    state.blobsInContainer
+                dispatch({
+                    type: SET_IS_SELECTED_FILE_EXIST_IN_BLOB,
+                    payload: state.blobsInContainer
                         .map((e) => e.Name)
                         .includes(file.name)
-                ) {
-                    dispatch({
-                        type: SET_IS_SELECTED_FILE_EXIST_IN_BLOB,
-                        payload: true
-                    });
-                } else {
-                    dispatch({
-                        type: SET_IS_SELECTED_FILE_EXIST_IN_BLOB,
-                        payload: false
-                    });
-                }
+                });
             } else {
                 dispatch({
                     type: RESET_OVERWRITE_FILE_AND_EXIST_IN_BLOB,
