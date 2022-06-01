@@ -1430,7 +1430,7 @@ abstract class ViewerConfigUtility {
     ): SceneVisual[] {
         logDebugConsole(
             'debug',
-            '[getSceneVisualsInScene] [START] building scene visuals {sceneId, config}',
+            '[getSceneVisualsInScene] [START] building scene visuals. {sceneId, config}',
             sceneId,
             config
         );
@@ -1438,7 +1438,7 @@ abstract class ViewerConfigUtility {
         if (!sceneId || !config || twinData?.size === 0) {
             logDebugConsole(
                 'warn',
-                '[getSceneVisualsInScene] [ABORT], critical argument missing {sceneId, config, twinData}',
+                '[getSceneVisualsInScene] [ABORT], critical argument missing. {sceneId, config, twinData}',
                 sceneId,
                 config,
                 twinData
@@ -1449,7 +1449,7 @@ abstract class ViewerConfigUtility {
         if (!scene) {
             logDebugConsole(
                 'warn',
-                '[getSceneVisualsInScene] [ABORT], scene not found {sceneId, config}',
+                '[getSceneVisualsInScene] [ABORT], scene not found. {sceneId, config}',
                 sceneId,
                 config
             );
@@ -1465,14 +1465,16 @@ abstract class ViewerConfigUtility {
         // cycle through elements to get twins for behavior and scene
         for (const element of elements) {
             const twins: Record<string, DTwin> = {};
-            twins[PRIMARY_TWIN_NAME] = twinData[element.primaryTwinID];
+            twins[PRIMARY_TWIN_NAME] = twinData.get(element.primaryTwinID);
 
             // check for twin aliases and add to twins object
-            // if (element.twinAliases) {
-            //     for (const alias of Object.keys(element.twinAliases)) {
-            //         twins[alias] = twinData[element.twinAliases[alias]];
-            //     }
-            // }
+            if (element.twinAliases) {
+                for (const alias of Object.entries(element.twinAliases)) {
+                    const aliasName = alias[0];
+                    const twinId = alias[1];
+                    twins[aliasName] = twinData.get(twinId);
+                }
+            }
 
             // get all the behaviors the element is part of
             const behaviors =
@@ -1487,7 +1489,7 @@ abstract class ViewerConfigUtility {
 
         logDebugConsole(
             'debug',
-            '[getSceneVisualsInScene] [END] building scene visuals {visuals}',
+            '[getSceneVisualsInScene] [END] building scene visuals. {visuals}',
             sceneVisuals
         );
         return sceneVisuals;

@@ -1027,7 +1027,7 @@ export default class ADTAdapter implements IADTAdapter {
 
                     logDebugConsole(
                         'debug',
-                        '[START] Build scene visuals {twinData}',
+                        '[START] Build scene visuals. {twinData}',
                         twinIdToDataMap
                     );
                     sceneVisuals = ViewerConfigUtility.getSceneVisualsInScene(
@@ -1037,7 +1037,7 @@ export default class ADTAdapter implements IADTAdapter {
                     );
                     logDebugConsole(
                         'debug',
-                        '[END] Build scene visuals {visuals}',
+                        '[END] Build scene visuals. {visuals}',
                         sceneVisuals
                     );
                 }
@@ -1045,7 +1045,7 @@ export default class ADTAdapter implements IADTAdapter {
             const result = new ADT3DViewerData(modelUrl, sceneVisuals);
             logDebugConsole(
                 'info',
-                '[END] Fetching scene data {result}',
+                '[END] Fetching scene data. {result}',
                 result
             );
             return result;
