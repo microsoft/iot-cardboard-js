@@ -9,11 +9,11 @@ import {
 } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { IAction } from '../../../Models/Constants/Interfaces';
-import { OATDataStorageKey } from '../../../Models/Constants';
 import { SET_OAT_PROJECT } from '../../../Models/Constants/ActionTypes';
 import { getHeaderStyles } from '../OATHeader.styles';
 import { loadFiles, saveFiles } from './Utils';
 import { ProjectData } from '../../../Pages/OATEditorPage/Internal/Classes';
+import { IOATEditorState } from '../../../Pages/OATEditorPage/OATEditorPage.types';
 
 interface IModal {
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
@@ -21,6 +21,7 @@ interface IModal {
     setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
     resetProject?: () => void;
     resetProjectOnSave?: boolean;
+    state?: IOATEditorState;
 }
 
 export const FormSaveAs = ({
@@ -28,24 +29,31 @@ export const FormSaveAs = ({
     setModalOpen,
     setModalBody,
     resetProject,
-    resetProjectOnSave
+    resetProjectOnSave,
+    state
 }: IModal) => {
     const { t } = useTranslation();
     const [projectName, setProjectName] = useState('');
     const [error, setError] = useState(false);
     const headerStyles = getHeaderStyles();
+    const { modelPositions, models, templates } = state;
 
     const handleOnSave = () => {
-        const editorData = JSON.parse(localStorage.getItem(OATDataStorageKey));
         const files = loadFiles();
-
         if (error) {
             //  Overwrite existing file
             const foundIndex = files.findIndex(
                 (file) => file.name === projectName
             );
             if (foundIndex > -1) {
-                files[foundIndex].data = editorData;
+                files[foundIndex].data = new ProjectData(
+                    modelPositions,
+                    models,
+                    '',
+                    projectName,
+                    templates
+                );
+
                 saveFiles(files);
             }
             setModalOpen(false);
@@ -57,17 +65,22 @@ export const FormSaveAs = ({
         }
 
         // Create new file
+        const newProject = new ProjectData(
+            modelPositions,
+            models,
+            '',
+            projectName,
+            templates
+        );
         dispatch({
             type: SET_OAT_PROJECT,
-            payload: new ProjectData([], [], '', projectName)
+            payload: newProject
         });
 
         files.push({
             name: projectName,
-            data: editorData
+            data: newProject
         });
-        editorData.projectName = projectName;
-        localStorage.setItem(OATDataStorageKey, JSON.stringify(editorData));
         saveFiles(files);
 
         setModalOpen(false);

@@ -793,10 +793,6 @@ export interface IAliasedTwinProperty {
     property: string;
 }
 
-export interface IOATElementsChangeEventArgs {
-    digitalTwinsModels: IOATTwinModelNodes;
-}
-
 export interface IOATTwinModelNodes {
     description?: string;
     comment?: string;

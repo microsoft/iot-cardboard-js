@@ -27,15 +27,13 @@ export const ModalDelete = ({
     const { t } = useTranslation();
     const headerStyles = getHeaderStyles();
     const promptTextStyles = getPromptTextStyles();
-    const { project } = state;
+    const { projectName } = state;
 
     const handleOnDelete = () => {
         const files = loadFiles();
 
         //  Overwrite existing file
-        const foundIndex = files.findIndex(
-            (file) => file.name === project.projectName
-        );
+        const foundIndex = files.findIndex((file) => file.name === projectName);
         if (foundIndex > -1) {
             // Remove file
             files.splice(foundIndex, 1);
@@ -56,9 +54,9 @@ export const ModalDelete = ({
             </div>
 
             <div className={headerStyles.modalRowCenterItem}>
-                <Text styles={promptTextStyles}>{`${t('OATHeader.delete')} ${
-                    project.projectName
-                }`}</Text>
+                <Text styles={promptTextStyles}>{`${t(
+                    'OATHeader.delete'
+                )} ${projectName}`}</Text>
             </div>
 
             <div className={headerStyles.modalRowCenterItem}>

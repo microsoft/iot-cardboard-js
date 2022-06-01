@@ -18,7 +18,6 @@ import { useTranslation } from 'react-i18next';
 import OATGraphCustomNode from './Internal/OATGraphCustomNode';
 import OATGraphCustomEdge from './Internal/OATGraphCustomEdge';
 import {
-    OATDataStorageKey,
     OATUntargetedRelationshipName,
     OATRelationshipHandleName,
     OATExtendHandleName,
@@ -34,7 +33,8 @@ import {
 import { ElementsContext } from './Internal/OATContext';
 import {
     SET_OAT_PROPERTY_EDITOR_MODEL,
-    SET_OAT_ELEMENTS
+    SET_OAT_MODELS,
+    SET_OAT_MODELS_POSITIONS
 } from '../../Models/Constants/ActionTypes';
 import {
     IAction,
@@ -43,31 +43,132 @@ import {
 } from '../../Models/Constants/Interfaces';
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 import { ElementNode } from './Internal/Classes/ElementNode';
-import { ElementPosition } from './Internal/Classes/ElementPosition';
 import { ElementData } from './Internal/Classes/ElementData';
 import { ElementEdge } from './Internal/Classes/ElementEdge';
 import { ElementEdgeData } from './Internal/Classes/ElementEdgeData';
+import { deepCopy } from '../../Models/Services/Utils';
 
 const idClassBase = 'dtmi:com:example:';
 const contextClassBase = 'dtmi:dtdl:context;2';
 const versionClassBase = '1';
+const defaultNodePosition = 25;
 type OATGraphProps = {
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
     state?: IOATEditorState;
+    storedModels?: any;
+    storedModelPositions?: any;
 };
 
-const getStoredElements = () => {
-    const editorData = JSON.parse(localStorage.getItem(OATDataStorageKey));
-    return editorData && editorData.models ? editorData.models : null;
+//  Converts the stored models to a graph nodes
+const getGraphViewerElementsFromModels = (models, modelPositions) => {
+    if (!models || !modelPositions) {
+        return [];
+    }
+
+    // Format models
+    const modelsCopy = deepCopy(models);
+    const testRelationships = [];
+    modelsCopy.forEach((input, index) => {
+        let relationships = [];
+        let contents = [];
+        input['contents'].forEach((content) => {
+            if (content['@type'] === OATComponentHandleName) {
+                const componentRelationship = new ElementEdge(
+                    `${input['@id']}${OATComponentHandleName}${content['schema']}`,
+                    OATRelationshipHandleName,
+                    input['@id'],
+                    OATComponentHandleName,
+                    content['schema'],
+                    new ElementEdgeData(
+                        `${input['@id']}${OATComponentHandleName}${content['schema']}`,
+                        content['name'],
+                        content['name'],
+                        OATComponentHandleName
+                    )
+                );
+                relationships = [...relationships, componentRelationship];
+            } else if (content['@type'] === OATRelationshipHandleName) {
+                const relationship = new ElementEdge(
+                    content['@id']
+                        ? content['@id']
+                        : `${input['@id']}${OATRelationshipHandleName};${versionClassBase}`,
+                    OATRelationshipHandleName,
+                    input['@id'],
+                    OATRelationshipHandleName,
+                    content['target'],
+                    new ElementEdgeData(
+                        content['@id']
+                            ? content['@id']
+                            : `${input['@id']}${OATComponentHandleName};${versionClassBase}`,
+                        content['name'],
+                        content['displayName'],
+                        OATRelationshipHandleName
+                    )
+                );
+                relationships = [...relationships, relationship];
+            } else {
+                contents = [...contents, content];
+            }
+        });
+        if (input['extends']) {
+            const extendRelationship = new ElementEdge(
+                `${input['@id']}${OATExtendHandleName}${input['extends']}`,
+                OATRelationshipHandleName,
+                input['@id'],
+                OATExtendHandleName,
+                input['extends'],
+                new ElementEdgeData(
+                    `${input['@id']}${OATExtendHandleName}${input['extends']}`,
+                    '',
+                    '',
+                    OATExtendHandleName
+                )
+            );
+            relationships = [...relationships, extendRelationship];
+        }
+        const newNode = new ElementNode(
+            input['@id'],
+            input['@type'],
+            {
+                x:
+                    modelPositions.length > 0
+                        ? modelPositions[index].position.x
+                        : defaultNodePosition,
+                y:
+                    modelPositions.length > 0
+                        ? modelPositions[index].position.y
+                        : defaultNodePosition
+            },
+            new ElementData(
+                input['@id'],
+                input['displayName'],
+                input['@type'],
+                contents,
+                contextClassBase
+            )
+        );
+        testRelationships.push(newNode, ...relationships);
+    });
+
+    return testRelationships;
 };
 
 const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
+    const {
+        model,
+        models,
+        importModels,
+        deletedModelId,
+        selectedModelId,
+        editedModelName,
+        editedModelId,
+        modelPositions
+    } = state;
     const { t } = useTranslation();
     const theme = useTheme();
     const reactFlowWrapperRef = useRef(null);
-    const storedElements = getStoredElements();
     const [elements, setElements] = useState(
-        !storedElements ? [] : storedElements
+        getGraphViewerElementsFromModels(models, modelPositions)
     );
     const [newModelId, setNewModelId] = useState(0);
     const graphViewerStyles = getGraphViewerStyles();
@@ -76,15 +177,6 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     const graphViewerMinimapStyles = getGraphViewerMinimapStyles();
     const currentNodeIdRef = useRef('');
     const currentHandleIdRef = useRef('');
-    const {
-        model,
-        importModels,
-        deletedModelId,
-        selectedModelId,
-        editedModelName,
-        editedModelId,
-        project
-    } = state;
     const [showRelationships, setShowRelationships] = useState(true);
     const [showInheritances, setShowInheritances] = useState(true);
     const [showComponents, setShowComponents] = useState(true);
@@ -107,6 +199,18 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
         }
         storeElements();
     }, [elements]);
+
+    // Update graph nodes and edges when the models are updated
+    useEffect(() => {
+        const potentialElements = getGraphViewerElementsFromModels(
+            models,
+            modelPositions
+        );
+
+        if (JSON.stringify(potentialElements) !== JSON.stringify(elements)) {
+            setElements(potentialElements);
+        }
+    }, [models]);
 
     useEffect(() => {
         // Detect changes outside of the component on the selected model
@@ -140,11 +244,6 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
             }
         }
     }, [model]);
-
-    useEffect(() => {
-        // Reload elements on project change
-        setElements(getStoredElements());
-    }, [project]);
 
     useEffect(() => {
         // Detects when a Model is deleted outside of the component and Updates the elements state
@@ -563,22 +662,11 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
             }
             return collection;
         }, []);
-        const editorData = JSON.parse(localStorage.getItem(OATDataStorageKey));
-        const oatEditorData = {
-            ...editorData,
-            models: elements,
-            modelPositions: nodePositions,
-            projectName:
-                editorData && editorData.projectName
-                    ? editorData.projectName
-                    : t('OATGraphViewer.project'),
-            projectDescription:
-                editorData && editorData.description
-                    ? editorData && editorData.description
-                    : t('OATGraphViewer.description')
-        };
 
-        localStorage.setItem(OATDataStorageKey, JSON.stringify(oatEditorData));
+        dispatch({
+            type: SET_OAT_MODELS_POSITIONS,
+            payload: nodePositions
+        });
     };
 
     const translatedOutput = useMemo(() => {
@@ -598,9 +686,6 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                 const sourceNode = currentNodes.find(
                     (element) => element['@id'] === currentNode.source
                 );
-                const targetModelName = /[^:]*$/.exec(currentNode.target)[0]; // Get substring after last ':' character
-                const relationshipId = `${currentNode.data.id}_${targetModelName}`; // Unique relationship id
-
                 const relationship = {
                     '@type': currentNode.data.type,
                     name: currentNode.data.name,
@@ -608,9 +693,10 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                     target: currentNode.target
                 };
                 const found = sourceNode.contents.find(
-                    (element) => element['@id'] === relationshipId
+                    (element) => element.target === currentNode.target
                 );
 
+                // Prevent duplicated relationships
                 if (!found) {
                     sourceNode.contents = [
                         ...sourceNode.contents,
@@ -656,20 +742,9 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     }, [elements]);
 
     useEffect(() => {
-        // Sends information to the page with the DTDL json
-        const oatEditorData = JSON.parse(
-            localStorage.getItem(OATDataStorageKey)
-        );
-        if (oatEditorData) {
-            oatEditorData.modelTwins = translatedOutput;
-            localStorage.setItem(
-                OATDataStorageKey,
-                JSON.stringify(oatEditorData)
-            );
-        }
         dispatch({
-            type: SET_OAT_ELEMENTS,
-            payload: { digitalTwinsModels: translatedOutput }
+            type: SET_OAT_MODELS,
+            payload: translatedOutput
         });
     }, [translatedOutput]);
 

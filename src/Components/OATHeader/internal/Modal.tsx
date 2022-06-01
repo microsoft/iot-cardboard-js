@@ -56,6 +56,7 @@ export const Modal = ({
                         setModalOpen={setModalOpen}
                         setModalBody={setModalBody}
                         resetProject={resetProject}
+                        state={state}
                     />
                 );
             case FromBody.saveCurrentProjectAndClear:
@@ -75,6 +76,7 @@ export const Modal = ({
                         setModalBody={setModalBody}
                         resetProjectOnSave
                         resetProject={resetProject}
+                        state={state}
                     />
                 );
             default:
