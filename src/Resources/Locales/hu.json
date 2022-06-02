@@ -489,7 +489,8 @@
       "customExpression": "Egyéni (speciális)",
       "dropdownPlaceholder": "Tulajdonság kijelölése",
       "toggleLabel": "Kifejezésmód",
-      "none": "Egyik sem"
+      "none": "Egyik sem",
+      "clearButtonText": "Világos"
     },
     "numericExpressionPlaceholder": "Számmá kiértékelt kifejezés megadása",
     "behaviorId": "Viselkedésazonosító",

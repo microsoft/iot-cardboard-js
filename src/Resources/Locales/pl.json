@@ -489,7 +489,8 @@
       "customExpression": "Niestandardowy (zaawansowany)",
       "dropdownPlaceholder": "Wybierz właściwość",
       "toggleLabel": "Tryb ekspresji",
-      "none": "Żaden"
+      "none": "Żaden",
+      "clearButtonText": "Jasny"
     },
     "numericExpressionPlaceholder": "Wprowadzanie wyrażenia, którego wynikiem jest liczba",
     "behaviorId": "Identyfikator zachowania",
