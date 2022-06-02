@@ -112,10 +112,6 @@ export const getClearButtonStyles = memoizeFunction(
             fontWeight: FontWeights.semibold,
             textDecoration: 'underline',
             fontSize: FontSizes.size14,
-            paddingBottom: 0,
-            paddingLeft: 0,
-            paddingRight: 0,
-
             border: 'none',
             height: 'auto'
         },
