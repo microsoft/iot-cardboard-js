@@ -150,7 +150,7 @@ const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = ({
             expression: ''
         });
         setInternalMode(ModelledPropertyBuilderMode.PROPERTY_SELECT);
-    }, [onChange, propertyExpression]);
+    }, [onChange]);
 
     const getIntellisenseProperty: GetPropertyNamesFunc = useCallback(
         (_twinId, { leafToken, tokens }) => {
