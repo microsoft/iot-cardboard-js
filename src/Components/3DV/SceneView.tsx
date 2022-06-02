@@ -226,18 +226,23 @@ function SceneView(props: ISceneViewProps, ref) {
     const url = modelUrl === 'Globe' ? globeUrl : modelUrl;
 
     const preProcessMeshesOnLoad = () => {
-        //Initial loop to check for issues and cleanup.
+        //Initial loop to check for issues and cleanup meshes.
         for (const mesh of sceneRef.current.meshes) {
             //Let's make sure that all mesh ids are unique
             const matchingId = sceneRef.current.meshes.filter(
                 (x) => x.id == mesh.id
             );
-            if (matchingId.length > 1)
+            if (matchingId.length > 1) {
+                //Throw an error here
                 debugLog(
                     'error',
                     'Loaded model contains nodes or meshes with similar names. 3D Scenes Studio only supports 3d models with unique mesh names.'
                 );
-
+                //Append unique numbers to the ids and move on
+                for (let i = 0; i < matchingId.length; i++) {
+                    matchingId[i].id += i;
+                }
+            }
             //If the mesh is an InstancedMesh, break the mesh instancing to handle it as an independent object
             if (mesh.isAnInstance) {
                 debugLog('debug', 'Breaking mesh instance: ', mesh.name);
@@ -252,6 +257,7 @@ function SceneView(props: ISceneViewProps, ref) {
                 instancedMesh.dispose();
             }
         }
+
         //Loop again with the cleaned up mesh list
         for (const mesh of sceneRef.current.meshes) {
             //Store the original materials for color highlights
