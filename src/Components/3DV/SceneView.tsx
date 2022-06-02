@@ -65,8 +65,8 @@ import { MarkersPlaceholder } from './Internal/MarkersPlaceholder';
 import { Markers } from './Internal/Markers';
 
 export const showFpsCounter = false;
-const debugBabylon = true;
-const debugLogging = true;
+const debugBabylon = false;
+const debugLogging = false;
 const debugLog = getDebugLogger('SceneView', debugLogging);
 
 function debounce(func: any, timeout = 300) {
