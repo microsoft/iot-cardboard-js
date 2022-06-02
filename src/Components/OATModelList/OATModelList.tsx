@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useTheme, List, ActionButton, Icon, TextField } from '@fluentui/react';
+import { useTranslation } from 'react-i18next';
 import {
     getModelsStyles,
     getModelsIconStyles,
@@ -22,6 +23,7 @@ type OATModelListProps = {
 
 const OATModelList = ({ elements, dispatch, modified }: OATModelListProps) => {
     const theme = useTheme();
+    const { t } = useTranslation();
     const modelsStyles = getModelsStyles();
     const [nameEditor, setNameEditor] = useState(false);
     const [nameText, setNameText] = useState('');
@@ -188,7 +190,12 @@ const OATModelList = ({ elements, dispatch, modified }: OATModelListProps) => {
 
     return (
         <div className={modelsStyles.container}>
-            <TextField onChange={onFilterChange} value={filter} />
+            <TextField
+                className={modelsStyles.searchText}
+                onChange={onFilterChange}
+                value={filter}
+                placeholder={t('search')}
+            />
             <List items={items} onRenderCell={onRenderCell} />
         </div>
     );

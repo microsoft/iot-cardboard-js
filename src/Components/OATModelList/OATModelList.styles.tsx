@@ -6,7 +6,8 @@ const classNames = {
     container: `${classPrefix}-container`,
     modelNode: `${classPrefix}-model-node`,
     nodeCancel: `${classPrefix}-nodeCancel`,
-    strongText: `${classPrefix}-strong-text`
+    strongText: `${classPrefix}-strong-text`,
+    searchText: `${classPrefix}-searchText`
 };
 
 export const getModelsStyles = () => {
@@ -45,6 +46,12 @@ export const getModelsStyles = () => {
             classNames.strongText,
             {
                 float: 'left'
+            } as IStyle
+        ],
+        searchText: [
+            classNames.searchText,
+            {
+                marginRight: '2%'
             } as IStyle
         ]
     });
