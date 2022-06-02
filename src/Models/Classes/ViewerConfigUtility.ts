@@ -549,12 +549,12 @@ abstract class ViewerConfigUtility {
     ): Array<ITwinToObjectMapping> {
         if (!config) return [];
 
-        const scene = config.configuration.scenes?.find(
-            (s) => s.id === sceneId
-        );
+        const scene = ViewerConfigUtility.getSceneById(config, sceneId);
 
-        return scene?.elements?.filter(
-            ViewerConfigUtility.isTwinToObjectMappingElement
+        return (
+            scene?.elements?.filter(
+                ViewerConfigUtility.isTwinToObjectMappingElement
+            ) || []
         );
     }
 
@@ -1445,16 +1445,6 @@ abstract class ViewerConfigUtility {
                 sceneId,
                 config,
                 twinData
-            );
-            return [];
-        }
-        const scene = ViewerConfigUtility.getSceneById(config, sceneId);
-        if (!scene) {
-            logDebugConsole(
-                'warn',
-                '[getSceneVisualsInScene] [ABORT], scene not found. {sceneId, config}',
-                sceneId,
-                config
             );
             return [];
         }
