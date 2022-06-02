@@ -675,14 +675,15 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
             </div>
             {showPopUp && (
                 <BehaviorsModal
-                    onClose={onCloseBehaviorsModal}
-                    twins={behaviorModalSceneVisual?.twins || {}}
-                    behaviors={behaviorModalSceneVisual?.behaviors || []}
-                    title={behaviorModalSceneVisual?.element?.displayName}
                     adapter={
                         hasPropertyInspectorAdapter(adapter) ? adapter : null
                     }
+                    behaviors={behaviorModalSceneVisual?.behaviors || []}
+                    element={behaviorModalSceneVisual?.element}
+                    onClose={onCloseBehaviorsModal}
                     onPropertyInspectorPatch={onPropertyInspectorPatch}
+                    title={behaviorModalSceneVisual?.element?.displayName}
+                    twins={behaviorModalSceneVisual?.twins || {}}
                 />
             )}
             {isAlertPopoverVisible && (
