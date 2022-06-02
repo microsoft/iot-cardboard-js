@@ -34,7 +34,8 @@ export interface IBehaviorsModalProps {
     activeWidgetId?: string;
     adapter?: IPropertyInspectorAdapter;
     behaviors: IBehavior[];
-    element: ITwinToObjectMapping;
+    /** will be undefined for preview */
+    element: ITwinToObjectMapping | undefined;
     mode?: BehaviorModalMode;
     onClose?: () => any;
     onPropertyInspectorPatch?: (patchData: OnCommitPatchParams) => any;

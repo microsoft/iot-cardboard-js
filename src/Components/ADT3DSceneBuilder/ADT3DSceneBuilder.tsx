@@ -891,6 +891,7 @@ const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
                             />
                         </div>
                     )}
+                    {/* Preview modal */}
                     {(state.builderMode ===
                         ADT3DSceneBuilderMode.CreateBehavior ||
                         state.builderMode ===
@@ -900,6 +901,7 @@ const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
                             <div className={commonPanelStyles.previewContainer}>
                                 <BehaviorsModal
                                     behaviors={[behaviorToEdit]}
+                                    element={undefined}
                                     twins={null}
                                     mode={BehaviorModalMode.preview}
                                     activeWidgetId={
