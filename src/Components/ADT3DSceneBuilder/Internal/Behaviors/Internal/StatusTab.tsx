@@ -87,6 +87,7 @@ const StatusTab: React.FC<IStatusTabProps> = ({ onValidityChange }) => {
                 produce((draft) => {
                     // Assuming only 1 alert visual per behavior
                     let statusVisual = getStatusFromBehavior(draft);
+
                     // Edit flow
                     if (statusVisual) {
                         // selected the none option, clear the data
@@ -95,7 +96,8 @@ const StatusTab: React.FC<IStatusTabProps> = ({ onValidityChange }) => {
                             draft.visuals.splice(index, 1);
                         }
                         statusVisual[propertyName as any] = value as any;
-                    } else {
+                    } else if (value !== '') {
+                        // Create status visual if, not present & value is not 'none' aka ''
                         statusVisual = deepCopy(defaultStatusColorVisual);
                         statusVisual[propertyName as any] = value as any;
                         statusVisual.valueRanges =
