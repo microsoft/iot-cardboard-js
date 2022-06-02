@@ -20,6 +20,7 @@ const classNames = {
     dropdownTitleText: `${modelledPropertyBuilderClassPrefix}-dropdown-title-text`,
     loadingSpinnerContainer: `${modelledPropertyBuilderClassPrefix}-loading-spinner-container`,
     labelContainer: `${modelledPropertyBuilderClassPrefix}-label-container`,
+    clearButton: `${modelledPropertyBuilderClassPrefix}-clear-button`,
     root: `${modelledPropertyBuilderClassPrefix}-root`
 };
 
@@ -58,6 +59,7 @@ export const getStyles = memoizeFunction(() => {
                 alignItems: 'center'
             } as IStyle
         ],
+        clearButton: [classNames.clearButton],
         root: [
             classNames.root,
             {
