@@ -17,9 +17,10 @@ export const getModelsStyles = () => {
             classNames.container,
             {
                 backgroundColor: theme.semanticColors.bodyBackground,
-                width: '100%',
+                width: '107%',
                 height: '100%',
-                overflowY: 'auto'
+                overflowY: 'scroll',
+                right: '-7%'
             } as IStyle
         ],
         modelNode: [

@@ -406,8 +406,10 @@ export const getPropertyInspectorStyles = () => {
         propertyListRelativeWrapContainer: [
             classNames.propertyListRelativeWrapContainer,
             {
-                overflowY: 'auto',
-                maxHeight: 'calc(100vh - 310px)'
+                overflowY: 'scroll',
+                maxHeight: 'calc(100vh - 310px)',
+                width: '107%',
+                right: '-7%'
             } as IStyle
         ],
         propertyNestedItemRelativeWrap: [
