@@ -54,11 +54,10 @@ const idClassBase = 'dtmi:com:example:';
 const contextClassBase = 'dtmi:dtdl:context;2';
 const versionClassBase = '1';
 const defaultNodePosition = 25;
+
 type OATGraphProps = {
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
     state?: IOATEditorState;
-    storedModels?: any;
-    storedModelPositions?: any;
 };
 
 //  Converts the stored models to a graph nodes
@@ -154,6 +153,7 @@ const getGraphViewerElementsFromModels = (models, modelPositions) => {
 
     return testRelationships;
 };
+
 const nodeWidth = 300;
 const nodeHeight = 100;
 
@@ -1012,10 +1012,6 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
             </div>
         </ReactFlowProvider>
     );
-};
-
-OATGraphViewer.defaultProps = {
-    importModels: []
 };
 
 export default OATGraphViewer;
