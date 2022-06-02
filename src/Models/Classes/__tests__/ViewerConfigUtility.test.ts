@@ -104,7 +104,7 @@ describe('ViewerConfigUtility', () => {
         test('returns [] when empty sceneId', () => {
             // ARRANGE
             const config = getMockConfig();
-            const sceneId = MOCK_SCENE_ID;
+            const sceneId = undefined;
             const twinData = getMockTwinData();
 
             // ACT
@@ -177,21 +177,18 @@ describe('ViewerConfigUtility', () => {
                 visual1.behaviors.find((x) => x.id === MOCK_BEHAVIOR_2.id)
             ).toBeTruthy();
             expect(visual1.coloredMeshItems).toBeUndefined(); // not populated by the helper
-            expect(visual1.twins).not.toBeDefined();
-            expect(visual1.twins[PRIMARY_TWIN_NAME]).not.toBeUndefined();
+            expect(visual1.twins).not.toBeUndefined();
             expect(Object.keys(visual1.twins).length).toEqual(1);
+            expect(visual1.twins[PRIMARY_TWIN_NAME]).not.toBeUndefined();
 
             // validate Visual 2
             const visual2 = result[1];
-            expect(visual2.behaviors.length).toEqual(2); // second element has 2 other behaviors
+            expect(visual2.behaviors.length).toEqual(1); // second element has 2 other behaviors
             expect(
                 visual2.behaviors.find((x) => x.id === MOCK_BEHAVIOR_2.id)
             ).toBeTruthy();
-            expect(
-                visual2.behaviors.find((x) => x.id === MOCK_BEHAVIOR_3.id)
-            ).toBeTruthy();
             expect(visual2.coloredMeshItems).toBeUndefined(); // not populated by the helper
-            expect(visual2.twins).not.toBeDefined();
+            expect(visual2.twins).not.toBeUndefined();
             expect(Object.keys(visual2.twins).length).toEqual(3);
             expect(visual2.twins[PRIMARY_TWIN_NAME]).not.toBeUndefined();
             expect(visual2.twins['TestAlias1']).not.toBeUndefined(); // should resolve the aliases

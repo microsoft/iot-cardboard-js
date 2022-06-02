@@ -495,7 +495,7 @@ const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
         // get behaviors that contain any of the elements
         for (const element of elements) {
             const behavior = ViewerConfigUtility.getBehaviorsOnElement(
-                element,
+                element?.id,
                 state.config?.configuration?.behaviors
             );
             if (behavior) {

@@ -518,7 +518,7 @@ abstract class ViewerConfigUtility {
         config: I3DScenesConfig
     ) {
         const numBehaviors = this.getBehaviorsOnElement(
-            element,
+            element?.id,
             config?.configuration?.behaviors
         )?.length;
         return numBehaviors;
@@ -777,23 +777,23 @@ abstract class ViewerConfigUtility {
             );
             return [];
         }
-        const element = ViewerConfigUtility.getElementById(config, elementId);
         const behaviors = config.configuration?.behaviors || [];
-        return ViewerConfigUtility.getBehaviorsOnElement(element, behaviors);
+        return ViewerConfigUtility.getBehaviorsOnElement(elementId, behaviors);
     }
 
     /** get a list of behaviors that are associated with a given element */
     static getBehaviorsOnElement(
-        element: ITwinToObjectMapping,
+        elementId: string,
         behaviors: Array<IBehavior>
     ): IBehavior[] {
+        if (!elementId || !behaviors?.length) return [];
         return (
             behaviors?.filter((behavior) => {
                 const dataSources = ViewerConfigUtility.getElementTwinToObjectMappingDataSourcesFromBehavior(
                     behavior
                 );
                 return dataSources?.[0]?.elementIDs?.find(
-                    (id) => id === element?.id
+                    (id) => id === elementId
                 );
             }) || []
         );
