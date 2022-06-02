@@ -145,7 +145,7 @@ const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = ({
         [onChange]
     );
 
-    const onClickClearButton = useCallback(() => {
+    const onClearButtonClick = useCallback(() => {
         onChange({
             expression: ''
         });
@@ -238,7 +238,7 @@ const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = ({
     );
 
     const theme = useTheme();
-    const clearButtonStyles = getClearButtonStyles(theme);
+    const clearButtonStyles = getClearButtonStyles(theme, !!customLabelTooltip);
 
     return (
         <Stack tokens={{ childrenGap: 4 }} className={styles.root}>
@@ -261,6 +261,8 @@ const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = ({
                             }}
                         />
                     )}
+                </Stack>
+                <Stack horizontal>
                     {isClearEnabled && (
                         <ActionButton
                             styles={clearButtonStyles}
@@ -270,7 +272,7 @@ const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = ({
                             data-testid={
                                 'modelled-property-builder-clear-button'
                             }
-                            onClick={onClickClearButton}
+                            onClick={onClearButtonClick}
                         />
                     )}
                 </Stack>
