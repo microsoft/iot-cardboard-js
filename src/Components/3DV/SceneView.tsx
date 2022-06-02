@@ -65,7 +65,8 @@ import { MarkersPlaceholder } from './Internal/MarkersPlaceholder';
 import { Markers } from './Internal/Markers';
 
 export const showFpsCounter = false;
-const debugLogging = false;
+const debugBabylon = true;
+const debugLogging = true;
 const debugLog = getDebugLogger('SceneView', debugLogging);
 
 function debounce(func: any, timeout = 300) {
@@ -224,8 +225,45 @@ function SceneView(props: ISceneViewProps, ref) {
     debugLog('debug', 'debug', 'SceneView Render');
     const url = modelUrl === 'Globe' ? globeUrl : modelUrl;
 
-    const sortMeshesOnLoad = () => {
+    const preProcessMeshesOnLoad = () => {
+        //Initial loop to check for issues and cleanup.
         for (const mesh of sceneRef.current.meshes) {
+            //Let's make sure that all mesh ids are unique
+            const matchingId = sceneRef.current.meshes.filter(
+                (x) => x.id == mesh.id
+            );
+            if (matchingId.length > 1)
+                debugLog(
+                    'error',
+                    'Loaded model contains nodes or meshes with similar names. 3D Scenes Studio only supports 3d models with unique mesh names.'
+                );
+
+            //If the mesh is an InstancedMesh, break the mesh instancing to handle it as an independent object
+            if (mesh.isAnInstance) {
+                debugLog('debug', 'Breaking mesh instance: ', mesh.name);
+                const instancedMesh = mesh as BABYLON.InstancedMesh;
+                const deInstancedMesh = instancedMesh.sourceMesh.clone(
+                    instancedMesh.name,
+                    instancedMesh.parent
+                );
+                sceneRef.current.addMesh(deInstancedMesh);
+                console.log(deInstancedMesh.id);
+                sceneRef.current.removeMesh(deInstancedMesh);
+                instancedMesh.dispose();
+            }
+        }
+        //Loop again with the cleaned up mesh list
+        for (const mesh of sceneRef.current.meshes) {
+            //Store the original materials for color highlights
+            if (!originalMaterials.current) {
+                originalMaterials.current = {};
+                for (const mesh of sceneRef.current.meshes) {
+                    if (mesh.material) {
+                        originalMaterials.current[mesh.id] = mesh.material;
+                    }
+                }
+            }
+
             //Set the alpha index for the meshes for alpha sorting later
             mesh.alphaIndex = 1;
         }
@@ -850,9 +888,9 @@ function SceneView(props: ISceneViewProps, ref) {
 
             if (success) {
                 sceneRef.current = sc;
-                createOrZoomCamera();
 
-                sortMeshesOnLoad();
+                preProcessMeshesOnLoad();
+                createOrZoomCamera();
 
                 sceneRef.current.clearColor = new BABYLON.Color4(
                     0,
@@ -941,6 +979,15 @@ function SceneView(props: ISceneViewProps, ref) {
 
                 setScene(sceneRef.current);
                 setIsLoading(false);
+
+                //This will show the babylon inspector on the right side of the screen to view all babylon scene objects and their properties
+                if (debugBabylon) {
+                    sceneRef.current.debugLayer.show({
+                        showInspector: true,
+                        embedMode: true
+                    });
+                }
+
                 engineRef.current.resize();
                 if (onSceneLoaded) {
                     onSceneLoaded(sceneRef.current);
