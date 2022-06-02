@@ -65,6 +65,7 @@ import { MarkersPlaceholder } from './Internal/MarkersPlaceholder';
 import { Markers } from './Internal/Markers';
 
 export const showFpsCounter = false;
+const debugBabylon = true;
 const debugLogging = false;
 const debugLog = getDebugLogger('SceneView', debugLogging);
 
@@ -224,11 +225,45 @@ function SceneView(props: ISceneViewProps, ref) {
     debugLog('debug', 'debug', 'SceneView Render');
     const url = modelUrl === 'Globe' ? globeUrl : modelUrl;
 
-    const sortMeshesOnLoad = () => {
+    const preProcessMeshesOnLoad = () => {
+        let meshInstanceCount = 0;
+        console.log(sceneRef.current.meshes.length);
+
         for (const mesh of sceneRef.current.meshes) {
+            //If the mesh is an InstancedMesh, break the mesh instancing to handle it as an independent object
+            if (mesh.isAnInstance) {
+                debugLog('debug', 'Breaking mesh instance: ', mesh.name);
+                const instancedMesh = mesh as BABYLON.InstancedMesh;
+                const deInstancedMesh = instancedMesh.sourceMesh.clone(
+                    instancedMesh.name,
+                    instancedMesh.parent
+                );
+                //Add an incrementing number to the ID to separate the mesh.
+                deInstancedMesh.id += meshInstanceCount;
+                sceneRef.current.addMesh(deInstancedMesh);
+                console.log(deInstancedMesh.id);
+                sceneRef.current.removeMesh(deInstancedMesh);
+                instancedMesh.dispose();
+                meshInstanceCount++;
+            }
+        }
+        //Loop again with the cleaned up mesh list
+        for (const mesh of sceneRef.current.meshes) {
+            //Store the original materials for color highlights
+            if (!originalMaterials.current) {
+                originalMaterials.current = {};
+                for (const mesh of sceneRef.current.meshes) {
+                    if (mesh.material) {
+                        originalMaterials.current[mesh.id] = mesh.material;
+                    }
+                }
+            }
+
             //Set the alpha index for the meshes for alpha sorting later
             mesh.alphaIndex = 1;
         }
+
+        console.log(sceneRef.current.meshes.length);
     };
 
     useEffect(() => {
@@ -248,6 +283,7 @@ function SceneView(props: ISceneViewProps, ref) {
 
     const createOrZoomCamera = useCallback(
         (meshIds?: string[]) => {
+            if (meshIds) console.log('MeshIds');
             const zoomMeshIds = meshIds || zoomToMeshIds;
             const zoomTo = (zoomMeshIds || []).join(',');
             // Only zoom if the Ids actually changed, not just a re-render or mesh ids have been passed to this function
@@ -381,14 +417,14 @@ function SceneView(props: ISceneViewProps, ref) {
         }
     }, [zoomToMeshIds, unzoomedMeshOpacity, isLoading, createOrZoomCamera]);
 
-    if (!originalMaterials.current && sceneRef.current?.meshes?.length) {
-        originalMaterials.current = {};
-        for (const mesh of sceneRef.current.meshes) {
-            if (mesh.material) {
-                originalMaterials.current[mesh.id] = mesh.material;
-            }
-        }
-    }
+    // if (!originalMaterials.current && sceneRef.current?.meshes?.length) {
+    //     originalMaterials.current = {};
+    //     for (const mesh of sceneRef.current.meshes) {
+    //         if (mesh.material) {
+    //             originalMaterials.current[mesh.id] = mesh.material;
+    //         }
+    //     }
+    // }
 
     const shouldIgnore = (mesh: BABYLON.AbstractMesh) => {
         let ignore = false;
@@ -611,6 +647,7 @@ function SceneView(props: ISceneViewProps, ref) {
 
     // Update render mode
     useEffect(() => {
+        if (isLoading) return;
         debugLog('debug', 'Render Mode Effect');
         if (sceneRef.current?.meshes?.length) {
             const currentObjectColorId = currentColorId();
@@ -737,6 +774,8 @@ function SceneView(props: ISceneViewProps, ref) {
 
     // Handle isWireframe changes
     useEffect(() => {
+        if (isLoading) return;
+
         debugLog('debug', 'isWireframe Effect');
         if (sceneRef.current?.meshes?.length) {
             for (const mesh of sceneRef.current.meshes) {
@@ -843,9 +882,8 @@ function SceneView(props: ISceneViewProps, ref) {
 
             if (success) {
                 sceneRef.current = sc;
+                preProcessMeshesOnLoad();
                 createOrZoomCamera();
-
-                sortMeshesOnLoad();
 
                 sceneRef.current.clearColor = new BABYLON.Color4(
                     0,
@@ -934,6 +972,11 @@ function SceneView(props: ISceneViewProps, ref) {
 
                 setScene(sceneRef.current);
                 setIsLoading(false);
+                if (debugBabylon)
+                    sceneRef.current.debugLayer.show({
+                        showInspector: true,
+                        embedMode: true
+                    });
                 engineRef.current.resize();
                 if (onSceneLoaded) {
                     onSceneLoaded(sceneRef.current);
@@ -1274,6 +1317,7 @@ function SceneView(props: ISceneViewProps, ref) {
                         debugLog('debug', 'pointer move');
                         try {
                             onMeshHoverRef.current(mesh, scene, e);
+                            console.log('Mouse hover: ' + mesh.name);
                         } catch {
                             console.log('Error calling hover event on scene');
                         }
