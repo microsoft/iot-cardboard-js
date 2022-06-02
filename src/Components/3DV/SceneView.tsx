@@ -226,6 +226,7 @@ function SceneView(props: ISceneViewProps, ref) {
     const url = modelUrl === 'Globe' ? globeUrl : modelUrl;
 
     const preProcessMeshesOnLoad = () => {
+        let uniqueNumber = 0;
         //Initial loop to check for issues and cleanup meshes.
         for (const mesh of sceneRef.current.meshes) {
             //Let's make sure that all mesh ids are unique
@@ -234,23 +235,24 @@ function SceneView(props: ISceneViewProps, ref) {
             );
             if (matchingId.length > 1) {
                 //Throw an error here
-                debugLog(
-                    'error',
-                    'Loaded model contains nodes or meshes with similar names. 3D Scenes Studio only supports 3d models with unique mesh names.'
+                console.warn(
+                    'Loaded model contains objects with matching names. 3D Scenes Studio only supports 3d models with unique object names. Attempting to recover by forcing unique names...'
                 );
                 //Append unique numbers to the ids and move on
                 for (let i = 0; i < matchingId.length; i++) {
                     matchingId[i].id += i;
                 }
             }
+
             //If the mesh is an InstancedMesh, break the mesh instancing to handle it as an independent object
             if (mesh.isAnInstance) {
                 debugLog('debug', 'Breaking mesh instance: ', mesh.name);
                 const instancedMesh = mesh as BABYLON.InstancedMesh;
                 const deInstancedMesh = instancedMesh.sourceMesh.clone(
-                    instancedMesh.name,
+                    instancedMesh.name + uniqueNumber,
                     instancedMesh.parent
                 );
+                uniqueNumber++;
                 sceneRef.current.addMesh(deInstancedMesh);
                 console.log(deInstancedMesh.id);
                 sceneRef.current.removeMesh(deInstancedMesh);
