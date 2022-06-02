@@ -1,4 +1,4 @@
-import { DTDLModel, DTDLRelationship } from '../../../../Models/Classes/DTDL';
+import { DTDLModel } from '../../../../Models/Classes/DTDL';
 import { ModelPosition } from '../Types';
 
 export class ProjectData {

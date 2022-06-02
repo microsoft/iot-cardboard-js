@@ -81,12 +81,7 @@ const OATEditorPage = ({ theme }) => {
                         dispatch={dispatch}
                         modified={state.modified}
                     />
-                    <OATGraphViewer
-                        state={state}
-                        dispatch={dispatch}
-                        storedModels={state.models}
-                        storedModelPositions={state.modelPositions}
-                    />
+                    <OATGraphViewer state={state} dispatch={dispatch} />
                     <OATPropertyEditor
                         theme={theme}
                         state={state}

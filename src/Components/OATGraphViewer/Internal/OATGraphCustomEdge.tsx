@@ -1,9 +1,9 @@
 import React, { useContext, useMemo, useState } from 'react';
 import { useTheme, Icon, FontSizes, ActionButton } from '@fluentui/react';
 import {
-    getBezierPath,
     getEdgeCenter,
-    removeElements
+    removeElements,
+    useStoreState
 } from 'react-flow-renderer';
 import { getGraphViewerStyles } from '../OATGraphViewer.styles';
 import { ElementsContext } from './OATContext';
@@ -18,6 +18,7 @@ import { SET_OAT_PROPERTY_EDITOR_MODEL } from '../../../Models/Constants/ActionT
 import { ModelTypes } from '../../../Models/Constants/Enums';
 import { DTDLRelationship } from '../../../Models/Classes/DTDL';
 import { getPropertyDisplayName } from '../../OATPropertyEditor/Utils';
+import { IOATGraphCustomEdgeProps } from '../../../Models/Constants';
 
 const foreignObjectSize = 180;
 const offsetSmall = 5;
@@ -32,9 +33,6 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
     sourceY,
     targetX,
     targetY,
-    sourcePosition,
-    targetPosition,
-    style = {},
     data,
     markerEnd
 }) => {
@@ -52,6 +50,8 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
     } = useContext(ElementsContext);
     const graphViewerStyles = getGraphViewerStyles();
     const theme = useTheme();
+    const nodes = useStoreState((state) => state.nodes);
+    const edges = useStoreState((state) => state.edges);
 
     const getPolygon = (vertexes) =>
         vertexes.map((v) => `${v.x},${v.y}`).join(' ');
@@ -161,7 +161,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
         adjustmentSourceX,
         adjustmentSourceY
     ) => {
-        // Using triangulated conection position to create componentPolygon and angles to define orientation
+        // Using triangulated connection position to create componentPolygon and angles to define orientation
         let newHeight = 0;
         let newBase = 0;
         let componentPolygon = '';
@@ -326,31 +326,30 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
         let adjustmentTargetX = 0;
         let adjustmentTargetY = 0;
 
-        const element = elements.find((x) => x.id === id);
+        const edge = edges.find((x) => x.id === id);
         let polygons = {};
-        if (element) {
-            polygons = { element: element };
+        if (edge) {
+            polygons = { element: edge };
             // If a valid element we get size based in positioning
-            const sourceNode = elements.find((x) => x.id === element.source);
+            const sourceNode = nodes.find((x) => x.id === edge.source);
             const sourceNodeSizeX =
-                (adjustedSourceX - sourceNode.position.x) * 2;
+                (adjustedSourceX - sourceNode.__rf.position.x) * 2;
             const sourceNodeSizeY =
-                (adjustedSourceY - sourceNode.position.y) * 2;
-            const targetNode = elements.find((x) => x.id === element.target);
-            const targetNodeSizeX = (targetX - targetNode.position.x) * 2;
-            const targetNodeSizeY = (targetY - targetNode.position.y) * 2;
+                (adjustedSourceY - sourceNode.__rf.position.y) * 2;
+            const targetNode = nodes.find((x) => x.id === edge.target);
+            const targetNodeSizeX = (targetX - targetNode.__rf.position.x) * 2;
+            const targetNodeSizeY = (targetY - targetNode.__rf.position.y) * 2;
             // Getting vectors to adjust angle from source to target
             let heightVector = targetY > sourceY ? 1 : -1;
             let baseVector = targetX > sourceX ? 1 : -1;
-            const paralels = elements.filter(
-                (x) =>
-                    x.source === element.source && x.target === element.target
+            const parallels = edges.filter(
+                (x) => x.source === edge.source && x.target === edge.target
             );
-            if (paralels.length > 1) {
-                const sourceRange = (separation * (paralels.length - 1)) / 2;
+            if (parallels.length > 1) {
+                const sourceRange = (separation * (parallels.length - 1)) / 2;
                 adjustedSourceX = adjustedSourceX - sourceRange;
                 adjustedSourceY = adjustedSourceY + sourceRange * baseVector;
-                const indexX = paralels.findIndex((x) => x.id === id);
+                const indexX = parallels.findIndex((x) => x.id === id);
                 adjustedSourceX = indexX * separation + adjustedSourceX;
                 adjustedSourceY =
                     adjustedSourceY - indexX * separation * baseVector;
@@ -390,11 +389,11 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
             // Getting vectors to adjust angle from target to source
             heightVector = targetY < sourceY ? 1 : -1;
             baseVector = targetX < sourceX ? 1 : -1;
-            if (paralels.length > 1) {
-                const targetRange = (separation * (paralels.length - 1)) / 2;
+            if (parallels.length > 1) {
+                const targetRange = (separation * (parallels.length - 1)) / 2;
                 adjustedTargetX = adjustedTargetX - targetRange;
                 adjustedTargetY = adjustedTargetY - targetRange;
-                const indexX = paralels.findIndex((x) => x.id === id);
+                const indexX = parallels.findIndex((x) => x.id === id);
                 adjustedTargetX = indexX * separation + adjustedTargetX;
                 adjustedTargetY = indexX * separation + adjustedTargetY;
                 adjustmentTargetX = targetX - adjustedTargetX;
@@ -423,7 +422,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
             polygons = { ...polygons, ...targetComponents };
         }
         return polygons;
-    }, [id, elements, sourceX, sourceY, targetX, targetY]);
+    }, [id, edges, nodes, sourceX, sourceY, targetX, targetY]);
 
     const onNameChange = (evt) => {
         setNameText(evt.target.value);
@@ -514,18 +513,6 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
             onNameBlur();
         }
     };
-
-    const bezierPath = getBezierPath({
-        targetX,
-        targetY,
-        targetPosition,
-        sourceX,
-        sourceY,
-        sourcePosition
-    })
-        .replace('M', '')
-        .replace('C', '')
-        .split(' ');
 
     const edgePath = useMemo(() => {
         return sourceX > targetX
