@@ -938,6 +938,9 @@
         "noContainerUrlErrorMessage": "Your container url is not set. Click below to set it.",
         "noADTInstanceUrlTitle": "ADT instance not set",
         "noADTInstanceUrlMessage": "Your ADT instance url is not set. Click below to set it.",
-        "configureEnvironment": "Configure environment"
+        "configureEnvironment": "Configure environment",
+        "3dAssetLoadingNetworkErrorTitle": "Error loading model",
+        "3dAssetLoadingNetworkErrorMessage": "This could be a CORS issue or a dropped internet connection. Please contact to the owner of the container where this asset file is stored or try again later.",
+        "3dAssetLoadingCommonErrorMessage": "Error loading model. Try Ctrl-F5."
     }
 }

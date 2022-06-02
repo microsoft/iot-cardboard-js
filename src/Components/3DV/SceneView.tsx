@@ -63,6 +63,10 @@ import { sleep } from '../AutoComplete/AutoComplete';
 import { ModelGroupLabel } from '../ModelGroupLabel/ModelGroupLabel';
 import { MarkersPlaceholder } from './Internal/MarkersPlaceholder';
 import { Markers } from './Internal/Markers';
+import axios from 'axios';
+import IllustrationMessage from '../IllustrationMessage/IllustrationMessage';
+import CorsErrorImg from '../../Resources/Static/corsError.svg';
+import { useTranslation } from 'react-i18next';
 
 export const showFpsCounter = false;
 const debugLogging = false;
@@ -80,35 +84,32 @@ function debounce(func: any, timeout = 300) {
 
 let dummyProgress = 0; // Progress doesn't work for GLBs so fake it
 
-const getModifiedTime = (url): Promise<string> => {
-    const promise = new Promise<string>((resolve) => {
-        const headers = new Headers();
-        headers.append('Range', 'bytes=1-2');
-        headers.append('x-ms-version', '2017-11-09');
-        if (Tools.CustomRequestHeaders.Authorization) {
-            headers.append(
-                'Authorization',
-                Tools.CustomRequestHeaders.Authorization
-            );
-        }
+const getModifiedTime = async (url): Promise<string> => {
+    const headers = new Headers();
+    headers.append('Range', 'bytes=1-2');
+    headers.append('x-ms-version', '2017-11-09');
+    if (Tools.CustomRequestHeaders.Authorization) {
+        headers.append(
+            'Authorization',
+            Tools.CustomRequestHeaders.Authorization
+        );
+    }
 
-        // HEAD can give a CORS error
-        fetch(url, { method: 'GET', headers: headers })
-            .then((response) => {
-                const dt = new Date(response.headers.get('Last-Modified'));
-                if (
-                    dt.toString() === 'Invalid Date' ||
-                    dt.toISOString() === '1970-01-01T00:00:00.000Z'
-                ) {
-                    resolve('');
-                }
-                resolve(dt.toISOString());
-            })
-            .catch(() => {
-                resolve('');
-            });
-    });
-    return promise;
+    // HEAD can give a CORS error
+    return axios(url, { method: 'GET', headers: headers })
+        .then((response) => {
+            const dt = new Date(response.headers.get('Last-Modified'));
+            if (
+                dt.toString() === 'Invalid Date' ||
+                dt.toISOString() === '1970-01-01T00:00:00.000Z'
+            ) {
+                return '';
+            }
+            return dt.toISOString();
+        })
+        .catch((error) => {
+            throw error;
+        });
 };
 
 async function loadPromise(
@@ -210,6 +211,8 @@ function SceneView(props: ISceneViewProps, ref) {
     const [markersAndPositions, setMarkersAndPositions] = useState<
         { marker: Marker; left: number; top: number }[]
     >([]);
+
+    const { t } = useTranslation();
 
     // These next two lines are important! The handlers change very frequently (every parent render)
     // So copy their values into refs so as not to disturb our state/re-render (we only need the latest value when we want to fire)
@@ -842,9 +845,20 @@ function SceneView(props: ISceneViewProps, ref) {
                 engineRef.current,
                 (e: any) => onProgress(e),
                 (s: any, m: any, e: any) => {
-                    console.error('Error loading model. Try Ctrl-F5', s, e);
-                    success = false;
-                    setIsLoading(undefined);
+                    if (e.isAxiosError && typeof e.response === 'undefined') {
+                        // Network error, this could be a CORS issue or a dropped internet connection. It is not possible for us to know.
+                        console.error(
+                            'Error loading model. This could be a CORS issue or a dropped internet connection.',
+                            s,
+                            e
+                        );
+                        success = false;
+                        setIsLoading(null);
+                    } else {
+                        console.error('Error loading model. Try Ctrl-F5', s, e);
+                        success = false;
+                        setIsLoading(undefined);
+                    }
                 }
             );
 
@@ -1664,8 +1678,29 @@ function SceneView(props: ISceneViewProps, ref) {
                 />
             )}
             {isLoading === undefined && (
-                <div className={customStyles.errorMessage}>
-                    Error loading model. Try Ctrl-F5
+                <div className={customStyles.commonErrorMessage}>
+                    {t(
+                        'scenePageErrorHandling.3dAssetLoadingCommonErrorMessage'
+                    )}
+                </div>
+            )}
+            {isLoading === null && (
+                <div className={customStyles.networkErrorMessage}>
+                    <IllustrationMessage
+                        headerText={t(
+                            'scenePageErrorHandling.3dAssetLoadingNetworkErrorTitle'
+                        )}
+                        descriptionText={t(
+                            'scenePageErrorHandling.3dAssetLoadingNetworkErrorMessage'
+                        )}
+                        type={'error'}
+                        width={'wide'}
+                        imageProps={{
+                            src: CorsErrorImg,
+                            height: 200
+                        }}
+                        styles={{ container: { height: 'auto', flexGrow: 1 } }}
+                    />
                 </div>
             )}
             <MarkersPlaceholder markers={markers} />
