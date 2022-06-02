@@ -337,11 +337,11 @@
   },
   "layersDropdown": {
     "placeholder": "Aucun calque sélectionné",
-    "unlayeredBehaviors": "Comportements non superposés",
-    "unlayered": "Non superposé",
     "title": "Sélectionner des calques",
     "selectAll": "Sélectionner tout",
-    "selectNone": "Désélectionner tout"
+    "selectNone": "Désélectionner tout",
+    "unlayeredItemListItemDisplayName": "Calque par défaut",
+    "unlayeredItemCollapsedDisplayName": "Faire défaut"
   },
   "sceneLayers": {
     "noBehaviors": "Aucun comportement",
@@ -435,8 +435,8 @@
       "notificationLabel": "Description du scénario",
       "notificationLabelTooltip": "Ce texte donnera un contexte au consommateur lorsque ce badge est actif.",
       "notificationLabelDescriptionPart1": "Les propriétés jumelles doivent être entourées d’une syntaxe de chaîne de modèle.",
-      "notificationLabelDescriptionPart2": "Par exemple, $PrimaryTwin.DisplayName} nécessite une maintenance",
-      "notificationPlaceholder": "Entrez une description"
+      "notificationPlaceholder": "Entrez une description",
+      "notificationLabelDescriptionPart2": "Par exemple, ${PrimaryTwin.DisplayName} nécessite une maintenance"
     },
     "behaviorStatusForm": {
       "tabDescription": "Sélectionnez une propriété, puis définissez des plages pour appliquer la couleur à certaines conditions, par exemple, rouge pour indiquer des températures élevées ou vert pour une vitesse optimale.",
@@ -933,6 +933,11 @@
     "verifyingPermissionsMessage": "Vérification des autorisations...\nCela peut prendre plusieurs minutes.",
     "assignRoleSuccessDesc": "Des autorisations manquantes ont été attribuées. Veuillez patienter pendant que nous tentons de vérifier si les modifications sont en vigueur.",
     "refreshPage": "Actualiser la page",
-    "refreshing": "Rafraîchissant"
+    "refreshing": "Rafraîchissant",
+    "noContainerUrlErrorTitle": "Conteneur non défini",
+    "noContainerUrlErrorMessage": "L’URL de votre conteneur n’est pas définie. Cliquez ci-dessous pour le définir.",
+    "noADTInstanceUrlTitle": "Instance ADT non définie",
+    "noADTInstanceUrlMessage": "L’URL de votre instance ADT n’est pas définie. Cliquez ci-dessous pour le définir.",
+    "configureEnvironment": "Configurer l’environnement"
   }
 }

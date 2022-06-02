@@ -1,4 +1,4 @@
-import { unlayeredBehaviorKey } from '../../Components/LayerDropdown/LayerDropdown';
+import { DEFAULT_LAYER_ID } from '../../Components/LayerDropdown/LayerDropdown';
 import { IAliasedTwinProperty } from '../Constants/Interfaces';
 import { deepCopy } from '../Services/Utils';
 import {
@@ -345,12 +345,12 @@ abstract class ViewerConfigUtility {
         behavior: IBehavior,
         config: I3DScenesConfig,
         sceneId: string
-    ): { primaryTwinIds: string[]; aliasedTwinMap: Record<string, string> } {
+    ): { primaryTwinIds: string[]; aliasedTwinMap: Record<string, string[]> } {
         const scene = config.configuration.scenes.find(
             (scene) => scene.id === sceneId
         );
-        const primaryTwinIds = new Map();
-        let aliasedTwinMap: Record<string, string> = {};
+        const primaryTwinIds = new Set<string>();
+        const internalAliasedTwinUniqueMap: Record<string, Set<string>> = {};
 
         // Get all element Ids associated with the behavior
         const elementIds = ViewerConfigUtility.getMappingIdsForBehavior(
@@ -364,35 +364,44 @@ abstract class ViewerConfigUtility {
                 // Check if objects Ids on element intersect with elementIds on behavior
                 if (elementIds.includes(elementInScene.id)) {
                     // Add elements primary twin
-                    primaryTwinIds.set(elementInScene.primaryTwinID, '');
+                    primaryTwinIds.add(elementInScene.primaryTwinID);
 
                     // Only add element alias if behavior contains alias
                     if (behavior.twinAliases && elementInScene.twinAliases) {
-                        const twinAliasesOnBehavior = {};
-
                         for (const [
                             elementAlias,
                             aliasedTwinId
                         ] of Object.entries(elementInScene.twinAliases)) {
                             if (behavior.twinAliases.includes(elementAlias)) {
-                                twinAliasesOnBehavior[
-                                    elementAlias
-                                ] = aliasedTwinId;
+                                if (
+                                    elementAlias in internalAliasedTwinUniqueMap
+                                ) {
+                                    internalAliasedTwinUniqueMap[
+                                        elementAlias
+                                    ].add(aliasedTwinId);
+                                } else {
+                                    internalAliasedTwinUniqueMap[
+                                        elementAlias
+                                    ] = new Set([aliasedTwinId]);
+                                }
                             }
                         }
-
-                        // Add elements twin aliases
-                        aliasedTwinMap = {
-                            ...aliasedTwinMap,
-                            ...twinAliasesOnBehavior
-                        };
                     }
                 }
             });
 
+        const aliasedTwinMap: Record<string, string[]> = {};
+
+        // Transform unique set of alias Ids into string array
+        for (const key of Object.keys(internalAliasedTwinUniqueMap)) {
+            aliasedTwinMap[key] = Array.from(
+                internalAliasedTwinUniqueMap[key].values()
+            );
+        }
+
         return {
             aliasedTwinMap,
-            primaryTwinIds: Array.from(primaryTwinIds.keys())
+            primaryTwinIds: Array.from(primaryTwinIds.values())
         };
     }
 
@@ -585,13 +594,13 @@ abstract class ViewerConfigUtility {
 
         // Check if unlayered behavior mode selected
         const isUnlayeredBehaviorActive = selectedLayerIds.includes(
-            unlayeredBehaviorKey
+            DEFAULT_LAYER_ID
         );
 
         if (isUnlayeredBehaviorActive) {
             // Remove unlayered behavior key from id array
             selectedLayerIds.splice(
-                selectedLayerIds.indexOf(unlayeredBehaviorKey),
+                selectedLayerIds.indexOf(DEFAULT_LAYER_ID),
                 1
             );
 

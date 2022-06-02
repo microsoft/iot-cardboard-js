@@ -337,11 +337,11 @@
   },
   "layersDropdown": {
     "placeholder": "Keine Ebenen ausgewählt",
-    "unlayeredBehaviors": "Unschichtiges Verhalten",
-    "unlayered": "Ungeschichtet",
     "title": "Ebenen auswählen",
     "selectAll": "Alle auswählen",
-    "selectNone": "Alle abwählen"
+    "selectNone": "Alle abwählen",
+    "unlayeredItemListItemDisplayName": "Standardebene",
+    "unlayeredItemCollapsedDisplayName": "Vorgabe"
   },
   "sceneLayers": {
     "noBehaviors": "Keine Verhaltensweisen",
@@ -361,7 +361,7 @@
     "noBehaviorsOnLayer": "Es gibt keine Verhaltensweisen auf dieser Ebene",
     "deleteConfirmationTitle": "Diese Ebene löschen?",
     "deleteConfirmationMessage": "Dadurch werden die Ebene und alle damit verbundenen Verhaltensweisen dauerhaft aus allen Digital Twins-Umgebungen entfernt.",
-    "infoCalloutContent": "Ebenen sind aufgabenbasierte Gruppierungen, mit denen Verbraucher Verhaltensweisen filtern können. Ebenen sind in allen Szenen vorhanden."
+    "infoCalloutContent": "Ebenen sind aufgabenbasierte Gruppierungen, mit denen Verbraucher Verhalten filtern können. Ebenen sind in allen Szenen vorhanden."
   },
   "3dSceneBuilder": {
     "elements": "Elemente",
@@ -435,8 +435,8 @@
       "notificationLabel": "Szenariobeschreibung",
       "notificationLabelTooltip": "Dieser Text gibt einen Verbraucherkontext an, wenn dieses Badge aktiv ist.",
       "notificationLabelDescriptionPart1": "Twin-Eigenschaften müssen mit Vorlagenzeichenfolgensyntax umgeben sein.",
-      "notificationLabelDescriptionPart2": "Z.B. $PrimaryTwin.DisplayName} wartungsbedürftig",
-      "notificationPlaceholder": "Geben Sie eine Beschreibung ein"
+      "notificationPlaceholder": "Geben Sie eine Beschreibung ein",
+      "notificationLabelDescriptionPart2": "Z.B. ${PrimaryTwin.DisplayName} erfordert Wartung"
     },
     "behaviorStatusForm": {
       "tabDescription": "Wählen Sie eine Eigenschaft aus, und legen Sie dann Bereiche für die Anwendung von Farben auf bestimmte Bedingungen fest, z. B. Rot, um hohe Temperaturen anzuzeigen, oder Grün für optimale Geschwindigkeit.",
@@ -933,6 +933,11 @@
     "verifyingPermissionsMessage": "Berechtigungen überprüfen...\nDies kann einige Minuten dauern.",
     "assignRoleSuccessDesc": "Fehlende Berechtigungen wurden vergeben. Bitte warten Sie, während wir versuchen zu überprüfen, ob die Änderungen wirksam sind.",
     "refreshPage": "Seite aktualisieren",
-    "refreshing": "Auffrischend"
+    "refreshing": "Auffrischend",
+    "noContainerUrlErrorTitle": "Container nicht festgelegt",
+    "noContainerUrlErrorMessage": "Ihre Container-URL ist nicht festgelegt. Klicken Sie unten, um es einzustellen.",
+    "noADTInstanceUrlTitle": "ADT-Instanz nicht festgelegt",
+    "noADTInstanceUrlMessage": "Ihre ADT-Instanz-URL ist nicht festgelegt. Klicken Sie unten, um es einzustellen.",
+    "configureEnvironment": "Umgebung konfigurieren"
   }
 }

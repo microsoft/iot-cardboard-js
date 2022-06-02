@@ -337,11 +337,11 @@
   },
   "layersDropdown": {
     "placeholder": "No hay capas seleccionadas",
-    "unlayeredBehaviors": "Comportamientos sin capas",
-    "unlayered": "Sin capas",
     "title": "Seleccionar capas",
     "selectAll": "Seleccionar todo",
-    "selectNone": "Anule la selección de todo"
+    "selectNone": "Anule la selección de todo",
+    "unlayeredItemListItemDisplayName": "Capa predeterminada",
+    "unlayeredItemCollapsedDisplayName": "Predeterminado"
   },
   "sceneLayers": {
     "noBehaviors": "Sin comportamientos",
@@ -361,7 +361,7 @@
     "noBehaviorsOnLayer": "No hay comportamientos en esta capa",
     "deleteConfirmationTitle": "¿Eliminar esta capa?",
     "deleteConfirmationMessage": "Esto elimina permanentemente la capa y cualquier comportamiento asociado de todos los entornos de Digital Twins.",
-    "infoCalloutContent": "Las capas son agrupaciones basadas en tareas que permiten a los consumidores filtrar los comportamientos por. Existen capas en todas las escenas."
+    "infoCalloutContent": "Las capas son agrupaciones basadas en tareas que permiten a los consumidores filtrar comportamientos. Existen capas en todas las escenas."
   },
   "3dSceneBuilder": {
     "elements": "Elementos",
@@ -435,8 +435,8 @@
       "notificationLabel": "Descripción del escenario",
       "notificationLabelTooltip": "Este texto proporcionará un contexto de consumidor cuando esta insignia esté activa.",
       "notificationLabelDescriptionPart1": "Las propiedades gemelas deben estar rodeadas de sintaxis de cadena de plantilla.",
-      "notificationLabelDescriptionPart2": "Por ejemplo, $PrimaryTwin.DisplayName} requiere mantenimiento",
-      "notificationPlaceholder": "Introduzca una descripción"
+      "notificationPlaceholder": "Introduzca una descripción",
+      "notificationLabelDescriptionPart2": "Por ejemplo, ${PrimaryTwin.DisplayName} requiere mantenimiento"
     },
     "behaviorStatusForm": {
       "tabDescription": "Seleccione una propiedad y, a continuación, establezca rangos para aplicar color a ciertas condiciones, por ejemplo, rojo para indicar altas temperaturas o verde para una velocidad óptima.",
@@ -933,6 +933,11 @@
     "verifyingPermissionsMessage": "Verificando permisos...\nEsto puede tardar varios minutos.",
     "assignRoleSuccessDesc": "Se han asignado permisos que faltan. Espere mientras intentamos verificar si los cambios están en vigor.",
     "refreshPage": "Actualizar página",
-    "refreshing": "Refrescante"
+    "refreshing": "Refrescante",
+    "noContainerUrlErrorTitle": "Contenedor no configurado",
+    "noContainerUrlErrorMessage": "La dirección URL del contenedor no está establecida. Haga clic a continuación para configurarlo.",
+    "noADTInstanceUrlTitle": "La instancia de ADT no está establecida",
+    "noADTInstanceUrlMessage": "La dirección URL de la instancia de ADT no está establecida. Haga clic a continuación para configurarlo.",
+    "configureEnvironment": "Configurar el entorno"
   }
 }

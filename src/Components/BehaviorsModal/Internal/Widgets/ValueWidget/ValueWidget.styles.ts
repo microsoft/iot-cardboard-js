@@ -15,6 +15,7 @@ const classNames = {
     expressionValuePrimary: `${behaviorsModalClassPrefix}-property-widget-expression-value-primary`,
     expressionValueSecondary: `${behaviorsModalClassPrefix}-property-widget-expression-value-secondary`,
     expressionValueListItem: `${behaviorsModalClassPrefix}-property-widget-expression-value-list-item`,
+    expressionValueInvalidPlaceholder: `${behaviorsModalClassPrefix}-property-widget-expression-value-invalid-placeholder`,
     invalidExpressionValue: `${behaviorsModalClassPrefix}-property-widget-expression-value-invalid`
 };
 
@@ -62,6 +63,18 @@ export const getStyles = memoizeFunction((theme: Theme) =>
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'center',
+                ...overflowStyles
+            } as IStyle
+        ],
+        expressionValueInvalidPlaceholder: [
+            classNames.expressionValueInvalidPlaceholder,
+            {
+                width: '100%',
+                color: theme.palette.themePrimary,
+                textAlign: 'center',
+                fontSize: FontSizes.size32,
+                whiteSpace: 'pre-wrap',
+                overflowWrap: 'break-word',
                 ...overflowStyles
             } as IStyle
         ],

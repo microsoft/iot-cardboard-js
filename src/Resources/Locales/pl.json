@@ -337,11 +337,11 @@
   },
   "layersDropdown": {
     "placeholder": "Brak zaznaczonych warstw",
-    "unlayeredBehaviors": "Zachowania niewarstwowe",
-    "unlayered": "Bez warstw",
     "title": "Zaznaczanie warstw",
     "selectAll": "Zaznacz wszystko",
-    "selectNone": "Usuń zaznaczenie wszystkich"
+    "selectNone": "Usuń zaznaczenie wszystkich",
+    "unlayeredItemListItemDisplayName": "Warstwa domyślna",
+    "unlayeredItemCollapsedDisplayName": "Domyślny"
   },
   "sceneLayers": {
     "noBehaviors": "Brak zachowań",
@@ -435,8 +435,8 @@
       "notificationLabel": "Opis scenariusza",
       "notificationLabelTooltip": "Ten tekst poda kontekst konsumenta, gdy ta plakietka jest aktywna.",
       "notificationLabelDescriptionPart1": "Właściwości bliźniacze muszą być otoczone składnią ciągu szablonu.",
-      "notificationLabelDescriptionPart2": "Np. $PrimaryTwin.DisplayName} wymaga konserwacji",
-      "notificationPlaceholder": "Wprowadź opis"
+      "notificationPlaceholder": "Wprowadź opis",
+      "notificationLabelDescriptionPart2": "Np. ${PrimaryTwin.DisplayName} wymaga konserwacji"
     },
     "behaviorStatusForm": {
       "tabDescription": "Wybierz właściwość, a następnie ustaw zakresy stosowania koloru do określonych warunków — na przykład czerwony, aby wskazać wysokie temperatury, lub zielony, aby uzyskać optymalną prędkość.",
@@ -933,6 +933,11 @@
     "verifyingPermissionsMessage": "Weryfikowanie uprawnień...\nMoże to potrwać kilka minut.",
     "assignRoleSuccessDesc": "Brakujące uprawnienia zostały przypisane. Poczekaj, aż spróbujemy sprawdzić, czy zmiany obowiązują.",
     "refreshPage": "Odśwież stronę",
-    "refreshing": "Orzeźwiające"
+    "refreshing": "Orzeźwiające",
+    "noContainerUrlErrorTitle": "Kontener nie jest ustawiony",
+    "noContainerUrlErrorMessage": "Adres URL kontenera nie jest ustawiony. Kliknij poniżej, aby go ustawić.",
+    "noADTInstanceUrlTitle": "Nie ustawiono wystąpienia narzędzia ADT",
+    "noADTInstanceUrlMessage": "Adres URL wystąpienia narzędzia ADT nie jest ustawiony. Kliknij poniżej, aby go ustawić.",
+    "configureEnvironment": "Konfigurowanie środowiska"
   }
 }

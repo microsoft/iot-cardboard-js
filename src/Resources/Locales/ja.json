@@ -337,11 +337,11 @@
   },
   "layersDropdown": {
     "placeholder": "レイヤーが選択されていません",
-    "unlayeredBehaviors": "階層化されていない動作",
-    "unlayered": "非レイヤー化",
     "title": "レイヤーの選択",
     "selectAll": "すべて選択",
-    "selectNone": "すべて選択解除"
+    "selectNone": "すべて選択解除",
+    "unlayeredItemListItemDisplayName": "デフォルトレイヤー",
+    "unlayeredItemCollapsedDisplayName": "デフォルト"
   },
   "sceneLayers": {
     "noBehaviors": "動作なし",
@@ -435,8 +435,8 @@
       "notificationLabel": "シナリオの説明",
       "notificationLabelTooltip": "このテキストは、このバッジがアクティブなときにコンシューマーのコンテキストを提供します。",
       "notificationLabelDescriptionPart1": "ツインプロパティは、テンプレート文字列構文で囲む必要があります。",
-      "notificationLabelDescriptionPart2": "たとえば、$PrimaryTwin.DisplayName} にはメンテナンスが必要です",
-      "notificationPlaceholder": "説明を入力する"
+      "notificationPlaceholder": "説明を入力する",
+      "notificationLabelDescriptionPart2": "たとえば、${PrimaryTwin.DisplayName} にはメンテナンスが必要です。"
     },
     "behaviorStatusForm": {
       "tabDescription": "プロパティを選択し、特定の条件に色を適用する範囲を設定します。たとえば、高温を示す赤、最適な速度を示す緑などです。",
@@ -933,6 +933,11 @@
     "verifyingPermissionsMessage": "アクセス許可を確認しています...\nこれには数分かかる場合があります。",
     "assignRoleSuccessDesc": "不足しているアクセス許可が割り当てられています。変更が有効かどうかを確認しようとしている間、しばらくお待ちください。",
     "refreshPage": "ページの更新",
-    "refreshing": "爽やか"
+    "refreshing": "爽やか",
+    "noContainerUrlErrorTitle": "コンテナが設定されていません",
+    "noContainerUrlErrorMessage": "コンテナーの URL が設定されていません。以下をクリックして設定してください。",
+    "noADTInstanceUrlTitle": "ADT インスタンスが設定されていません",
+    "noADTInstanceUrlMessage": "ADT インスタンスの URL が設定されていません。以下をクリックして設定してください。",
+    "configureEnvironment": "環境の構成"
   }
 }

@@ -133,6 +133,50 @@ const ScenePageErrorHandlingWrapper: React.FC<ScenePageErrorHandlingWrapperProps
                     />
                 );
                 break;
+            case ComponentErrorType.NoContainerUrl:
+                content = (
+                    <IllustrationMessage
+                        headerText={t(
+                            'scenePageErrorHandling.noContainerUrlErrorTitle'
+                        )}
+                        descriptionText={t(
+                            'scenePageErrorHandling.noContainerUrlErrorMessage'
+                        )}
+                        type={'error'}
+                        width={'wide'}
+                        imageProps={{
+                            src: BlobErrorImg,
+                            height: 200
+                        }}
+                        buttonProps={{
+                            onClick: primaryClickAction.onClick,
+                            text: primaryClickAction.buttonText
+                        }}
+                    />
+                );
+                break;
+            case ComponentErrorType.NoADTInstanceUrl:
+                content = (
+                    <IllustrationMessage
+                        headerText={t(
+                            'scenePageErrorHandling.noADTInstanceUrlTitle'
+                        )}
+                        descriptionText={t(
+                            'scenePageErrorHandling.noADTInstanceUrlMessage'
+                        )}
+                        type={'error'}
+                        width={'wide'}
+                        imageProps={{
+                            src: BlobErrorImg,
+                            height: 200
+                        }}
+                        buttonProps={{
+                            onClick: primaryClickAction.onClick,
+                            text: primaryClickAction.buttonText
+                        }}
+                    />
+                );
+                break;
             default:
                 content = (
                     <IllustrationMessage

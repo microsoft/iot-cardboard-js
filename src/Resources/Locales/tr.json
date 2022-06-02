@@ -337,11 +337,11 @@
   },
   "layersDropdown": {
     "placeholder": "Katman seçilmedi",
-    "unlayeredBehaviors": "Katmansız davranışlar",
-    "unlayered": "Katmansız",
     "title": "Katmanları seçme",
     "selectAll": "Tümünü seç",
-    "selectNone": "Tümünün seçimini kaldır"
+    "selectNone": "Tümünün seçimini kaldır",
+    "unlayeredItemListItemDisplayName": "Varsayılan katman",
+    "unlayeredItemCollapsedDisplayName": "Temerrüt"
   },
   "sceneLayers": {
     "noBehaviors": "Davranış yok",
@@ -361,7 +361,7 @@
     "noBehaviorsOnLayer": "Bu katmanda hiçbir davranış yoktur",
     "deleteConfirmationTitle": "Bu katmanı silin mi?",
     "deleteConfirmationMessage": "Bu, katmanı ve ilişkili davranışları tüm Digital Twins ortamlarından kalıcı olarak kaldırır.",
-    "infoCalloutContent": "Katmanlar, tüketicilerin davranışları filtreleme ölçütü yapmasına olanak tanıyan görev tabanlı gruplandırmalardır. Sahneler arasında katmanlar vardır."
+    "infoCalloutContent": "Katmanlar, tüketicilerin davranışları filtrelemesine olanak tanıyan görev tabanlı gruplandırmalardır. Sahneler arasında katmanlar vardır."
   },
   "3dSceneBuilder": {
     "elements": "Öğe",
@@ -435,8 +435,8 @@
       "notificationLabel": "Senaryo açıklaması",
       "notificationLabelTooltip": "Bu metin, bu rozet etkinken tüketiciye bir bağlam sağlayacaktır.",
       "notificationLabelDescriptionPart1": "İkiz özelliklerin şablon dizesi sözdizimi ile çevrelenmesi gerekir.",
-      "notificationLabelDescriptionPart2": "Örneğin, $PrimaryTwin.DisplayName} bakım gerektirir",
-      "notificationPlaceholder": "Bir açıklama girin"
+      "notificationPlaceholder": "Bir açıklama girin",
+      "notificationLabelDescriptionPart2": "Örneğin, ${PrimaryTwin.DisplayName} bakım gerektirir"
     },
     "behaviorStatusForm": {
       "tabDescription": "Bir özellik seçin, sonra belirli koşullara renk uygulamak için aralıkları ayarlayın (örneğin, yüksek sıcaklıkları belirtmek için kırmızı veya optimum hız için yeşil).",
@@ -933,6 +933,11 @@
     "verifyingPermissionsMessage": "İzinler doğrulanıyor...\nBu işlem birkaç dakika sürebilir.",
     "assignRoleSuccessDesc": "Eksik izinler atandı. Değişikliklerin geçerli olup olmadığını doğrulamaya çalışırken lütfen bekleyin.",
     "refreshPage": "Sayfayı yenile",
-    "refreshing": "Canlandırıcı"
+    "refreshing": "Canlandırıcı",
+    "noContainerUrlErrorTitle": "Kapsayıcı ayarlanmadı",
+    "noContainerUrlErrorMessage": "Kapsayıcı URL'niz ayarlanmamış. Ayarlamak için aşağıya tıklayın.",
+    "noADTInstanceUrlTitle": "ADT örneği ayarlanmadı",
+    "noADTInstanceUrlMessage": "ADT bulut sunucusu URL'niz ayarlanmamış. Ayarlamak için aşağıya tıklayın.",
+    "configureEnvironment": "Ortamı yapılandırma"
   }
 }

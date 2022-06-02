@@ -337,11 +337,11 @@
   },
   "layersDropdown": {
     "placeholder": "Nincsenek kijelölt rétegek",
-    "unlayeredBehaviors": "Fedetlen viselkedés",
-    "unlayered": "Fedetlen",
     "title": "Rétegek kijelölése",
     "selectAll": "Az összes kijelölése",
-    "selectNone": "Az összes kijelölésének megszüntetése"
+    "selectNone": "Az összes kijelölésének megszüntetése",
+    "unlayeredItemListItemDisplayName": "Alapértelmezett réteg",
+    "unlayeredItemCollapsedDisplayName": "Alapértelmezett"
   },
   "sceneLayers": {
     "noBehaviors": "Nincs viselkedés",
@@ -361,7 +361,7 @@
     "noBehaviorsOnLayer": "Ezen a rétegen nincsenek viselkedések.",
     "deleteConfirmationTitle": "Törli ezt a réteget?",
     "deleteConfirmationMessage": "Ez véglegesen eltávolítja a réteget és a kapcsolódó viselkedéseket az összes Digital Twins környezetből.",
-    "infoCalloutContent": "A rétegek feladatalapú csoportosítások, amelyek lehetővé teszik a fogyasztók számára, hogy szűrjék a viselkedéseket. A rétegek a jelenetek között léteznek."
+    "infoCalloutContent": "A rétegek feladatalapú csoportosítások, amelyek lehetővé teszik a fogyasztók számára a viselkedések szűrését. A rétegek a jelenetek között léteznek."
   },
   "3dSceneBuilder": {
     "elements": "Elemek",
@@ -435,8 +435,8 @@
       "notificationLabel": "Forgatókönyv leírása",
       "notificationLabelTooltip": "Ez a szöveg fogyasztói környezetet ad, amikor ez a jelvény aktív.",
       "notificationLabelDescriptionPart1": "Az ikertulajdonságokat sablon karakterlánc szintaxissal kell körülvenni.",
-      "notificationLabelDescriptionPart2": "Például a $PrimaryTwin.DisplayName} karbantartást igényel",
-      "notificationPlaceholder": "Leírás megadása"
+      "notificationPlaceholder": "Leírás megadása",
+      "notificationLabelDescriptionPart2": "Pl. ${PrimaryTwin.DisplayName} karbantartást igényel"
     },
     "behaviorStatusForm": {
       "tabDescription": "Jelöljön ki egy tulajdonságot, majd állítsa be a szín bizonyos feltételekre való alkalmazásához szükséges tartományokat – például pirosat a magas hőmérséklet jelzéséhez, vagy zöldet az optimális sebességhez.",
@@ -933,6 +933,11 @@
     "verifyingPermissionsMessage": "Engedélyek ellenőrzése...\nEz eltarthat néhány percig.",
     "assignRoleSuccessDesc": "Hiányzó engedélyek vannak hozzárendelve. Kérjük, várjon, amíg megpróbáljuk ellenőrizni, hogy a módosítások érvényben vannak-e.",
     "refreshPage": "Frissítési lap",
-    "refreshing": "Frissítő"
+    "refreshing": "Frissítő",
+    "noContainerUrlErrorTitle": "A tároló nincs beállítva",
+    "noContainerUrlErrorMessage": "A tároló URL-címe nincs beállítva. Kattintson az alábbi gombra a beállításhoz.",
+    "noADTInstanceUrlTitle": "Az Active Directory tanúsítvány példány nincs beállítva",
+    "noADTInstanceUrlMessage": "Az ADT-példány URL-címe nincs beállítva. Kattintson az alábbi gombra a beállításhoz.",
+    "configureEnvironment": "Környezet konfigurálása"
   }
 }

@@ -337,11 +337,11 @@
   },
   "layersDropdown": {
     "placeholder": "Geen lagen geselecteerd",
-    "unlayeredBehaviors": "Ongelaagd gedrag",
-    "unlayered": "Ongelaagd",
     "title": "Lagen selecteren",
     "selectAll": "Alles selecteren",
-    "selectNone": "Alles deselecteren"
+    "selectNone": "Alles deselecteren",
+    "unlayeredItemListItemDisplayName": "Standaardlaag",
+    "unlayeredItemCollapsedDisplayName": "Verstek"
   },
   "sceneLayers": {
     "noBehaviors": "Geen gedrag",
@@ -435,8 +435,8 @@
       "notificationLabel": "Beschrijving van het scenario",
       "notificationLabelTooltip": "Deze tekst geeft een consument context wanneer deze badge actief is.",
       "notificationLabelDescriptionPart1": "Dubbele eigenschappen moeten worden omgeven door syntaxis van sjabloonreeksen.",
-      "notificationLabelDescriptionPart2": "Bijv. $PrimaryTwin.DisplayName} onderhoud vereist",
-      "notificationPlaceholder": "Voer een beschrijving in"
+      "notificationPlaceholder": "Voer een beschrijving in",
+      "notificationLabelDescriptionPart2": "Bijvoorbeeld ${PrimaryTwin.DisplayName} vereist onderhoud"
     },
     "behaviorStatusForm": {
       "tabDescription": "Selecteer een eigenschap en stel vervolgens bereiken in voor het toepassen van kleur op bepaalde omstandigheden, bijvoorbeeld rood om hoge temperaturen aan te geven of groen voor optimale snelheid.",
@@ -933,6 +933,11 @@
     "verifyingPermissionsMessage": "Machtigingen verifiëren...\nDit kan enkele minuten duren.",
     "assignRoleSuccessDesc": "Er zijn ontbrekende machtigingen toegewezen. Wacht even terwijl we proberen te controleren of de wijzigingen van kracht zijn.",
     "refreshPage": "Pagina vernieuwen",
-    "refreshing": "Verfrissend"
+    "refreshing": "Verfrissend",
+    "noContainerUrlErrorTitle": "Container niet ingesteld",
+    "noContainerUrlErrorMessage": "Uw container-URL is niet ingesteld. Klik hieronder om het in te stellen.",
+    "noADTInstanceUrlTitle": "ADT-instantie niet ingesteld",
+    "noADTInstanceUrlMessage": "Uw URL voor het ADT-exemplaar is niet ingesteld. Klik hieronder om het in te stellen.",
+    "configureEnvironment": "Omgeving configureren"
   }
 }

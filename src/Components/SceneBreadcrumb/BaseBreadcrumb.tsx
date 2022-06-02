@@ -19,7 +19,8 @@ export const BaseBreadcrumb: React.FC<IBaseBreadcrumbProps> = ({
     sceneId,
     classNames,
     onSceneClick,
-    onCancelForm
+    onCancelForm,
+    onSceneChange
 }) => {
     const theme = useTheme();
     const { t } = useTranslation();
@@ -42,7 +43,12 @@ export const BaseBreadcrumb: React.FC<IBaseBreadcrumbProps> = ({
                 />
             );
         } else if (isAtSceneRoot && scenePageContext) {
-            return <SceneDropdown sceneId={sceneId} />;
+            return (
+                <SceneDropdown
+                    sceneId={sceneId}
+                    onSceneChange={onSceneChange}
+                />
+            );
         } else return defaultRender(props);
     };
 

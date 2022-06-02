@@ -16,7 +16,7 @@ import {
 interface IBuildModelledPropertiesParams {
     adapter: IModelledPropertyBuilderAdapter;
     primaryTwinIds: string[];
-    aliasedTwinMap?: Record<string, string>;
+    aliasedTwinMap?: Record<string, string[]>;
     allowedPropertyValueTypes: Array<PropertyValueType>;
 }
 
@@ -180,38 +180,32 @@ const expandModelIds = (
 ): Record<string, any> => {
     const modelledProperties = {};
 
-    // Add primary twin's modelled properties
-    for (const modelId of tagModelMap.PrimaryTwin) {
-        if (modelDict[modelId]?.entityKind === 'interface') {
-            if (!(PRIMARY_TWIN_NAME in modelledProperties)) {
-                // Add primary tag to root object
-                modelledProperties[PRIMARY_TWIN_NAME] = {};
-            }
-            addInterface(
-                modelledProperties[PRIMARY_TWIN_NAME],
-                modelDict[modelId] as InterfaceInfo,
-                PRIMARY_TWIN_NAME,
-                allowedPropertyValueTypes
-            );
-        }
-    }
-
-    // Add aliased twin modelled properties
-    if (tagModelMap.aliasTags) {
-        for (const [aliasTag, aliasModelId] of Object.entries(
-            tagModelMap.aliasTags
-        )) {
-            if (modelDict[aliasModelId]?.entityKind === 'interface') {
-                // Add alias tag to root object
-                modelledProperties[aliasTag] = {};
-
+    const addModels = (alias: string, modelIds: string[]) => {
+        for (const modelId of modelIds) {
+            if (modelDict[modelId]?.entityKind === 'interface') {
+                if (!(alias in modelledProperties)) {
+                    // Add alias tag to root object
+                    modelledProperties[alias] = {};
+                }
                 addInterface(
-                    modelledProperties[aliasTag],
-                    modelDict[aliasModelId] as InterfaceInfo,
-                    aliasTag,
+                    modelledProperties[alias],
+                    modelDict[modelId] as InterfaceInfo,
+                    alias,
                     allowedPropertyValueTypes
                 );
             }
+        }
+    };
+
+    // Add primary twin's modelled properties
+    addModels(PRIMARY_TWIN_NAME, tagModelMap.PrimaryTwin);
+
+    // Add aliased twin modelled properties
+    if (tagModelMap.aliasTags) {
+        for (const [aliasTag, aliasModelIds] of Object.entries(
+            tagModelMap.aliasTags
+        )) {
+            addModels(aliasTag, aliasModelIds);
         }
     }
 
@@ -330,53 +324,46 @@ const addEntity = (
 export const mergeTagsAndMapTwinIdsToModelIds = async (
     adapter: IModelledPropertyBuilderAdapter,
     primaryTwinIds: string[],
-    aliasedTwinMap?: Record<string, string>
+    aliasedTwinMap?: Record<string, string[]>
 ): Promise<ITagModelMap> => {
     const tagModelMap: ITagModelMap = {
         PrimaryTwin: []
     };
 
-    // Get model Ids for each primary twin
-    const primaryTwinModels = (
-        await Promise.all(
-            primaryTwinIds.map((primaryTwinId) =>
-                adapter.getModelIdFromTwinId(primaryTwinId)
-            )
-        )
-    )
-        .filter((twinResult) => !twinResult.hasNoData())
-        .map((result) => result.getData().modelId);
-
-    if (primaryTwinModels?.length > 0) {
-        tagModelMap[PRIMARY_TWIN_NAME] = Array.from(
-            new Set([...primaryTwinModels]).keys()
-        ); // ensure uniqueness (drop duplicate model Ids)
-    }
-
-    if (aliasedTwinMap) {
-        tagModelMap.aliasTags = {};
-        const twinModelIdMap = new Map<string, string>();
-
-        // Get models for each aliasTwinId
-        const aliasTwinIds = Object.values(aliasedTwinMap);
-        (
+    const addLinkedTwinIdsIntoModelIds = async (
+        root: ITagModelMap | Record<string, string[]>,
+        alias: string,
+        twinIds: string[]
+    ) => {
+        const modelIds = (
             await Promise.all(
-                aliasTwinIds.map((aliasTwinId) =>
-                    adapter.getModelIdFromTwinId(aliasTwinId)
-                )
+                twinIds.map((twinId) => adapter.getModelIdFromTwinId(twinId))
             )
         )
             .filter((twinResult) => !twinResult.hasNoData())
-            .map((result) => result.getData())
-            .forEach(({ twinId, modelId }) => {
-                twinModelIdMap.set(twinId, modelId);
-            });
+            .map((result) => result.getData().modelId);
 
-        for (const [aliasTag, aliasTwinId] of Object.entries(aliasedTwinMap)) {
-            if (twinModelIdMap.has(aliasTwinId)) {
-                const modelId = twinModelIdMap.get(aliasTwinId);
-                tagModelMap.aliasTags[aliasTag] = modelId;
-            }
+        if (modelIds?.length > 0) {
+            root[alias] = Array.from(new Set([...modelIds]).keys()); // ensure uniqueness (drop duplicate model Ids)
+        }
+    };
+
+    // Add primary twin model Ids
+    await addLinkedTwinIdsIntoModelIds(
+        tagModelMap,
+        PRIMARY_TWIN_NAME,
+        primaryTwinIds
+    );
+
+    // Add aliased twin model Ids
+    if (aliasedTwinMap) {
+        tagModelMap.aliasTags = {};
+        for (const [aliasTag, aliasTwinIds] of Object.entries(aliasedTwinMap)) {
+            await addLinkedTwinIdsIntoModelIds(
+                tagModelMap.aliasTags,
+                aliasTag,
+                aliasTwinIds
+            );
         }
     }
 

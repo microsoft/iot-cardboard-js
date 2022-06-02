@@ -39,6 +39,8 @@ import {
     IAsset,
     IScene
 } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
+import IllustrationMessage from '../IllustrationMessage/IllustrationMessage';
+import NoResults from '../../Resources/Static/noResults.svg';
 
 const SceneList: React.FC<SceneListProps> = ({
     adapter,
@@ -391,14 +393,26 @@ const SceneList: React.FC<SceneListProps> = ({
                 </>
             ) : (
                 <div className="cb-scene-list-empty">
-                    <p>{t('scenes.noScenes')}</p>
-                    <PrimaryButton
-                        className="cb-scene-list-empty-button"
-                        onClick={() => {
-                            setIsSceneDialogOpen(true);
+                    <IllustrationMessage
+                        headerText={t('scenes.noScenes')}
+                        type={'error'}
+                        width={'wide'}
+                        buttonProps={{
+                            text: t('scenes.addScene'),
+                            onClick: () => {
+                                setIsSceneDialogOpen(true);
+                            },
+                            disabled: errors[0]?.type ? true : false
                         }}
-                        disabled={errors[0]?.type ? true : false}
-                        text={t('scenes.addScene')}
+                        imageProps={{
+                            src: NoResults,
+                            height: 200
+                        }}
+                        styles={{
+                            container: {
+                                padding: 0
+                            }
+                        }}
                     />
                 </div>
             )}

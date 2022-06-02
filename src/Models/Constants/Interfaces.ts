@@ -752,6 +752,7 @@ export interface IADT3DViewerProps extends BaseComponentProps {
     /** show the toggle to switch between builder & viewer modes */
     showModeToggle?: boolean;
     sceneViewProps?: ISceneViewProps;
+    selectedLayerIds?: string[];
     /**
      * Call to provide customized styling that will layer on top of the variant rules.
      */

@@ -54,7 +54,9 @@ export enum ComponentErrorType {
     JsonSchemaError = 'JsonSchemaError',
     ModelsRetrievalFailed = 'ModelsRetrievalFailed',
     InternalServerError = 'InternalServerError',
-    CORSError = 'CORSError'
+    CORSError = 'CORSError',
+    NoContainerUrl = 'NoContainerUrl',
+    NoADTInstanceUrl = 'NoADTInstanceUrl'
 }
 
 export enum ErrorImages {
