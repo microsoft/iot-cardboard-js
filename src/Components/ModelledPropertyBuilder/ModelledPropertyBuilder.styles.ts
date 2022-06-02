@@ -104,7 +104,7 @@ export const propertyExpressionLabelStyles: Partial<ILabelStyles> = {
 };
 
 export const getClearButtonStyles = memoizeFunction(
-    (theme: Theme, isTooltipVisible: boolean): Partial<IButtonStyles> => ({
+    (isTooltipVisible: boolean, theme: Theme): Partial<IButtonStyles> => ({
         root: {
             color: theme.palette.themePrimary,
             fontWeight: FontWeights.semibold,
@@ -113,12 +113,16 @@ export const getClearButtonStyles = memoizeFunction(
             paddingBottom: 0,
             paddingLeft: 0,
             paddingRight: 0,
-            paddingTop: isTooltipVisible ? 0 : 5,
+
             border: 'none',
             height: 'auto'
         },
         label: {
-            margin: 0
+            marginTop: 2,
+            marginBottom: 2,
+            marginLeft: 0,
+            marginRight: 0,
+            paddingTop: isTooltipVisible ? 0 : 5
         }
     })
 );

@@ -238,7 +238,7 @@ const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = ({
     );
 
     const theme = useTheme();
-    const clearButtonStyles = getClearButtonStyles(theme, !!customLabelTooltip);
+    const clearButtonStyles = getClearButtonStyles(!!customLabelTooltip, theme);
 
     return (
         <Stack tokens={{ childrenGap: 4 }} className={styles.root}>
