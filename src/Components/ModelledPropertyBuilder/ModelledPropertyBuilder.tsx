@@ -17,7 +17,7 @@ import {
     choiceGroupStyles,
     getStyles,
     propertyExpressionLabelStyles,
-    getActionButtonStyles
+    getClearButtonStyles
 } from './ModelledPropertyBuilder.styles';
 import {
     DropdownMenuItemType,
@@ -238,7 +238,7 @@ const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = ({
     );
 
     const theme = useTheme();
-    const actionButtonStyles = getActionButtonStyles(theme);
+    const clearButtonStyles = getClearButtonStyles(theme);
 
     return (
         <Stack tokens={{ childrenGap: 4 }} className={styles.root}>
@@ -263,7 +263,7 @@ const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = ({
                     )}
                     {isClearEnabled && (
                         <ActionButton
-                            styles={actionButtonStyles}
+                            styles={clearButtonStyles}
                             text={t(
                                 '3dSceneBuilder.ModelledPropertyBuilder.clearButtonText'
                             )}
