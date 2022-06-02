@@ -30,17 +30,26 @@ import {
 } from './BehaviorsModal.styles';
 import BehaviorSection from './Internal/BehaviorSection/BehaviorSection';
 
-export interface IBehaviorsModalProps {
+export type IBehaviorsModalProps = IBehaviorsModalBaseProps &
+    (ViewerModeProps | PreviewModeProps);
+interface IBehaviorsModalBaseProps {
     activeWidgetId?: string;
     adapter?: IPropertyInspectorAdapter;
     behaviors: IBehavior[];
-    /** will be undefined for preview */
-    element: ITwinToObjectMapping | undefined;
-    mode?: BehaviorModalMode;
     onClose?: () => any;
     onPropertyInspectorPatch?: (patchData: OnCommitPatchParams) => any;
     title?: string;
     twins: Record<string, DTwin>;
+}
+
+interface ViewerModeProps {
+    mode: BehaviorModalMode.viewer;
+    element: ITwinToObjectMapping;
+}
+
+interface PreviewModeProps {
+    mode: BehaviorModalMode.preview;
+    element?: undefined;
 }
 
 const cancelIcon: IIconProps = { iconName: 'Cancel' };

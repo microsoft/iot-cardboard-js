@@ -50,7 +50,7 @@ import {
     IADT3DViewerStyleProps,
     IADT3DViewerStyles
 } from './ADT3DViewer.types';
-import { ADT3DScenePageModes } from '../../Models/Constants';
+import { ADT3DScenePageModes, BehaviorModalMode } from '../../Models/Constants';
 import FloatingScenePageModeToggle from '../../Pages/ADT3DScenePage/Internal/FloatingScenePageModeToggle';
 import DeeplinkFlyout from '../DeeplinkFlyout/DeeplinkFlyout';
 import SceneBreadcrumbFactory from '../SceneBreadcrumb/SceneBreadcrumbFactory';
@@ -680,6 +680,7 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
                     }
                     behaviors={behaviorModalSceneVisual?.behaviors || []}
                     element={behaviorModalSceneVisual?.element}
+                    mode={BehaviorModalMode.viewer}
                     onClose={onCloseBehaviorsModal}
                     onPropertyInspectorPatch={onPropertyInspectorPatch}
                     title={behaviorModalSceneVisual?.element?.displayName}
