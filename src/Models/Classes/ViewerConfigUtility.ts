@@ -27,7 +27,7 @@ import {
 import { SceneVisual } from './SceneView.types';
 
 const debugLogging = false;
-const logDebugConsole = getDebugLogger('ViewerConfigUtility', debugLogging);
+const DEBUG_CONTEXT = 'ViewerConfigUtility';
 
 /** Static utilty methods for operations on the configuration file. */
 abstract class ViewerConfigUtility {
@@ -738,6 +738,7 @@ abstract class ViewerConfigUtility {
         config: I3DScenesConfig,
         sceneId: string
     ): IBehavior[] {
+        const logDebugConsole = getDebugLogger(DEBUG_CONTEXT, debugLogging);
         if (!config || !sceneId) {
             logDebugConsole(
                 'warn',
@@ -766,6 +767,7 @@ abstract class ViewerConfigUtility {
         config: I3DScenesConfig,
         elementId: string
     ): IBehavior[] | undefined {
+        const logDebugConsole = getDebugLogger(DEBUG_CONTEXT, debugLogging);
         if (!config || !elementId) {
             logDebugConsole(
                 'warn',
@@ -1428,6 +1430,7 @@ abstract class ViewerConfigUtility {
         sceneId: string,
         twinData: Map<string, DTwin>
     ): SceneVisual[] {
+        const logDebugConsole = getDebugLogger(DEBUG_CONTEXT, debugLogging);
         logDebugConsole(
             'debug',
             '[getSceneVisualsInScene] [START] building scene visuals. {sceneId, config}',
