@@ -16,30 +16,31 @@ import {
 export const modelledPropertyBuilderClassPrefix = 'cb-modelledpropertybuilder';
 
 const classNames = {
-    toggleContainer: `${modelledPropertyBuilderClassPrefix}-toggle-container`,
-    dropdownTitleText: `${modelledPropertyBuilderClassPrefix}-dropdown-title-text`,
-    loadingSpinnerContainer: `${modelledPropertyBuilderClassPrefix}-loading-spinner-container`,
-    labelContainer: `${modelledPropertyBuilderClassPrefix}-label-container`,
     clearButton: `${modelledPropertyBuilderClassPrefix}-clear-button`,
-    root: `${modelledPropertyBuilderClassPrefix}-root`
+    dropdownTitleText: `${modelledPropertyBuilderClassPrefix}-dropdown-title-text`,
+    labelContainer: `${modelledPropertyBuilderClassPrefix}-label-container`,
+    loadingSpinnerContainer: `${modelledPropertyBuilderClassPrefix}-loading-spinner-container`,
+    root: `${modelledPropertyBuilderClassPrefix}-root`,
+    toggleContainer: `${modelledPropertyBuilderClassPrefix}-toggle-container`
 };
 
 export const getStyles = memoizeFunction(() => {
     return mergeStyleSets({
-        toggleContainer: [
-            classNames.toggleContainer,
-            {
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center'
-            } as IStyle
-        ],
+        clearButton: [classNames.clearButton],
         dropdownTitleText: [
             classNames.dropdownTitleText,
             {
                 overflow: 'hidden',
                 whiteSpace: 'nowrap',
                 textOverflow: 'ellipsis'
+            } as IStyle
+        ],
+        labelContainer: [
+            classNames.labelContainer,
+            {
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center'
             } as IStyle
         ],
         loadingSpinnerContainer: [
@@ -51,19 +52,18 @@ export const getStyles = memoizeFunction(() => {
                 alignItems: 'center'
             } as IStyle
         ],
-        labelContainer: [
-            classNames.labelContainer,
-            {
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center'
-            } as IStyle
-        ],
-        clearButton: [classNames.clearButton],
         root: [
             classNames.root,
             {
                 paddingTop: 4
+            } as IStyle
+        ],
+        toggleContainer: [
+            classNames.toggleContainer,
+            {
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center'
             } as IStyle
         ]
     });
