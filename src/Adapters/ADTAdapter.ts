@@ -70,7 +70,7 @@ import AdapterEntityCache from '../Models/Classes/AdapterEntityCache';
 import ADTInstancesData from '../Models/Classes/AdapterDataClasses/ADTInstancesData';
 import queryString from 'query-string';
 
-const debugLogging = true;
+const debugLogging = false;
 const logDebugConsole = getDebugLogger('ADTAdapter', debugLogging);
 
 export default class ADTAdapter implements IADTAdapter {

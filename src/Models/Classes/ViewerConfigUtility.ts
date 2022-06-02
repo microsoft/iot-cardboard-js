@@ -26,7 +26,7 @@ import {
 } from './3DVConfig';
 import { SceneVisual } from './SceneView.types';
 
-const debugLogging = true;
+const debugLogging = false;
 const logDebugConsole = getDebugLogger('ViewerConfigUtility', debugLogging);
 
 /** Static utilty methods for operations on the configuration file. */
