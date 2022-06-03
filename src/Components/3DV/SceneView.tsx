@@ -65,6 +65,7 @@ import { MarkersPlaceholder } from './Internal/MarkersPlaceholder';
 import { Markers } from './Internal/Markers';
 
 export const showFpsCounter = false;
+const debugBabylon = false;
 const debugLogging = false;
 const debugLog = getDebugLogger('SceneView', debugLogging);
 
@@ -224,8 +225,42 @@ function SceneView(props: ISceneViewProps, ref) {
     debugLog('debug', 'debug', 'SceneView Render');
     const url = modelUrl === 'Globe' ? globeUrl : modelUrl;
 
-    const sortMeshesOnLoad = () => {
+    const preProcessMeshesOnLoad = () => {
+        let uniqueNumber = 0;
+        //Initial loop to check for issues and cleanup meshes.
         for (const mesh of sceneRef.current.meshes) {
+            //Let's make sure that all mesh ids are unique
+            const matchingId = sceneRef.current.meshes.filter(
+                (x) => x.id == mesh.id
+            );
+            if (matchingId.length > 1) {
+                //Throw an error here
+                console.warn(
+                    'Loaded model contains objects with duplicate names. 3D Scenes Studio only supports 3d models with unique object names. Attempting to recover by forcing unique names...'
+                );
+                console.warn(
+                    matchingId.length + ' objects with name: ' + mesh.id
+                );
+                //Append unique numbers to the ids and move on
+                for (let i = 0; i < matchingId.length; i++) {
+                    matchingId[i].id += i;
+                }
+            }
+
+            //If the mesh is an InstancedMesh, break the mesh instancing to handle it as an independent object
+            if (mesh.isAnInstance) {
+                debugLog('debug', 'Breaking mesh instance: ', mesh.name);
+                const instancedMesh = mesh as BABYLON.InstancedMesh;
+                instancedMesh.sourceMesh.clone(
+                    instancedMesh.name + uniqueNumber,
+                    instancedMesh.parent
+                );
+                uniqueNumber++;
+                sceneRef.current.removeMesh(mesh);
+                mesh.dispose();
+                continue;
+            }
+
             //Set the alpha index for the meshes for alpha sorting later
             mesh.alphaIndex = 1;
         }
@@ -843,9 +878,9 @@ function SceneView(props: ISceneViewProps, ref) {
 
             if (success) {
                 sceneRef.current = sc;
-                createOrZoomCamera();
 
-                sortMeshesOnLoad();
+                preProcessMeshesOnLoad();
+                createOrZoomCamera();
 
                 sceneRef.current.clearColor = new BABYLON.Color4(
                     0,
@@ -934,6 +969,15 @@ function SceneView(props: ISceneViewProps, ref) {
 
                 setScene(sceneRef.current);
                 setIsLoading(false);
+
+                //This will show the babylon inspector on the right side of the screen to view all babylon scene objects and their properties
+                if (debugBabylon) {
+                    sceneRef.current.debugLayer.show({
+                        showInspector: true,
+                        embedMode: true
+                    });
+                }
+
                 engineRef.current.resize();
                 if (onSceneLoaded) {
                     onSceneLoaded(sceneRef.current);
