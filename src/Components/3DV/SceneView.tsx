@@ -236,7 +236,7 @@ function SceneView(props: ISceneViewProps, ref) {
             if (matchingId.length > 1) {
                 //Throw an error here
                 console.warn(
-                    'Loaded model contains objects with matching names. 3D Scenes Studio only supports 3d models with unique object names. Attempting to recover by forcing unique names...'
+                    'Loaded model contains objects with duplicate names. 3D Scenes Studio only supports 3d models with unique object names. Attempting to recover by forcing unique names...'
                 );
                 //Append unique numbers to the ids and move on
                 for (let i = 0; i < matchingId.length; i++) {
@@ -248,28 +248,14 @@ function SceneView(props: ISceneViewProps, ref) {
             if (mesh.isAnInstance) {
                 debugLog('debug', 'Breaking mesh instance: ', mesh.name);
                 const instancedMesh = mesh as BABYLON.InstancedMesh;
-                const deInstancedMesh = instancedMesh.sourceMesh.clone(
+                instancedMesh.sourceMesh.clone(
                     instancedMesh.name + uniqueNumber,
                     instancedMesh.parent
                 );
                 uniqueNumber++;
-                sceneRef.current.addMesh(deInstancedMesh);
-                console.log(deInstancedMesh.id);
-                sceneRef.current.removeMesh(deInstancedMesh);
-                instancedMesh.dispose();
-            }
-        }
-
-        //Loop again with the cleaned up mesh list
-        for (const mesh of sceneRef.current.meshes) {
-            //Store the original materials for color highlights
-            if (!originalMaterials.current) {
-                originalMaterials.current = {};
-                for (const mesh of sceneRef.current.meshes) {
-                    if (mesh.material) {
-                        originalMaterials.current[mesh.id] = mesh.material;
-                    }
-                }
+                sceneRef.current.removeMesh(mesh);
+                mesh.dispose();
+                continue;
             }
 
             //Set the alpha index for the meshes for alpha sorting later
