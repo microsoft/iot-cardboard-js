@@ -938,6 +938,9 @@
     "noContainerUrlErrorMessage": "Kapsayıcı URL'niz ayarlanmamış. Ayarlamak için aşağıya tıklayın.",
     "noADTInstanceUrlTitle": "ADT örneği ayarlanmadı",
     "noADTInstanceUrlMessage": "ADT bulut sunucusu URL'niz ayarlanmamış. Ayarlamak için aşağıya tıklayın.",
-    "configureEnvironment": "Ortamı yapılandırma"
+    "configureEnvironment": "Ortamı yapılandırma",
+    "3dAssetLoadingNetworkErrorTitle": "Model yüklenirken hata oluştu",
+    "3dAssetLoadingNetworkErrorMessage": "Bu bir CORS sorunu, geçersiz blob URL'si veya bir ağ hatası olabilir. Lütfen bu öğe dosyasının depolandığı kapsayıcının sahibiyle iletişime geçin veya daha sonra yeniden deneyin.",
+    "3dAssetLoadingCommonErrorMessage": "Model yüklenirken hata oluştu. Ctrl-F5'i deneyin."
   }
 }

@@ -938,6 +938,9 @@
     "noContainerUrlErrorMessage": "A tároló URL-címe nincs beállítva. Kattintson az alábbi gombra a beállításhoz.",
     "noADTInstanceUrlTitle": "Az Active Directory tanúsítvány példány nincs beállítva",
     "noADTInstanceUrlMessage": "Az ADT-példány URL-címe nincs beállítva. Kattintson az alábbi gombra a beállításhoz.",
-    "configureEnvironment": "Környezet konfigurálása"
+    "configureEnvironment": "Környezet konfigurálása",
+    "3dAssetLoadingNetworkErrorTitle": "Hiba a modell betöltésekor",
+    "3dAssetLoadingNetworkErrorMessage": "Ez lehet CORS-probléma, érvénytelen blob URL-cím vagy hálózati hiba. Lépjen kapcsolatba annak a tárolónak a tulajdonosával, ahol az eszközfájlt tárolják, vagy próbálkozzon újra később.",
+    "3dAssetLoadingCommonErrorMessage": "Hiba a modell betöltésekor. Próbálja ki a Ctrl-F5 billentyűkombinációt."
   }
 }

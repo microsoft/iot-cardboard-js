@@ -938,6 +938,9 @@
     "noContainerUrlErrorMessage": "Container-URL:en har inte angetts. Klicka nedan för att ställa in den.",
     "noADTInstanceUrlTitle": "ADT-instansen har inte angetts",
     "noADTInstanceUrlMessage": "ADT-instansens URL har inte angetts. Klicka nedan för att ställa in den.",
-    "configureEnvironment": "Konfigurera miljö"
+    "configureEnvironment": "Konfigurera miljö",
+    "3dAssetLoadingNetworkErrorTitle": "Fel vid laddning av modell",
+    "3dAssetLoadingNetworkErrorMessage": "Det kan vara ett CORS-problem, ogiltig blob-URL eller ett nätverksfel. Kontakta ägaren till containern där tillgångsfilen lagras eller försök igen senare.",
+    "3dAssetLoadingCommonErrorMessage": "Fel vid laddning av modell. Prova Ctrl-F5."
   }
 }
