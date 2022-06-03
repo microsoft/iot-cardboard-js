@@ -940,9 +940,9 @@
     "noADTInstanceUrlMessage": "Ihre ADT-Instanz-URL ist nicht festgelegt. Klicken Sie unten, um es einzustellen.",
     "configureEnvironment": "Umgebung konfigurieren",
     "sceneView": {
-      "3dAssetLoadingNetworkErrorTitle": "Fehler beim Laden des Modells",
       "3dAssetLoadingNetworkErrorMessage": "Dies kann ein CORS-Problem, eine ungültige Blob-URL oder ein Netzwerkfehler sein. Bitte wenden Sie sich an den Eigentümer des Containers, in dem diese Asset-Datei gespeichert ist, oder versuchen Sie es später erneut.",
-      "3dAssetLoadingCommonErrorMessage": "Fehler beim Laden des Modells. Versuchen Sie, den Cache zu leeren, und versuchen Sie es erneut."
+      "3dAssetLoadingErrorTitle": "Fehler beim Laden des Modells",
+      "3dAssetLoadingGenericErrorMessage": "Fehler beim Laden des Modells. Versuchen Sie, den Cache zu leeren, und versuchen Sie es erneut."
     }
   }
 }
