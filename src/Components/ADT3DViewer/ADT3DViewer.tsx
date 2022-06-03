@@ -108,12 +108,16 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
     const prevLayerCount = useRef<number>(-1); // track the count of layers so we know to refresh the selections if the count changes
     const hasUserChangedLayers = useRef<boolean>(false); // need to know once a user makes a selection so we stop auto selecting items
     const prevSceneId = useRef<string>(sceneId); // need to know if user swaps scenes (using scene dropdown) since we won't get remounted
+    const initialDeeplinkLayers = useRef<string[]>(
+        deeplinkState.selectedLayerIds
+    ); // grab the initial layers on mount
 
     // reset the refs when the scene changes
     if (prevSceneId.current !== sceneId) {
         hasUserChangedLayers.current = false;
         prevLayerCount.current = -1;
         prevSceneId.current = sceneId;
+        initialDeeplinkLayers.current = deeplinkState.selectedLayerIds;
     }
 
     const behaviorIdsInScene = useMemo(
@@ -255,7 +259,12 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
         const noUserUpdate = !hasUserChangedLayers.current;
         const noSelectedLayers = !deeplinkState?.selectedLayerIds?.length;
         prevLayerCount.current = layersInScene.length;
-        if (noUserUpdate && (noSelectedLayers || layerCountChanged)) {
+        const layersSetOnDeeplink = initialDeeplinkLayers.current.length;
+        const shouldAutoSetLayers =
+            noUserUpdate &&
+            !layersSetOnDeeplink &&
+            (noSelectedLayers || layerCountChanged);
+        if (shouldAutoSetLayers) {
             // Add unlayered behavior option if unlayered behaviors present
             const layers = [
                 ...(unlayeredBehaviorsPresent ? [DEFAULT_LAYER_ID] : []),
@@ -263,7 +272,7 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
             ];
             logDebugConsole(
                 'debug',
-                'No layers found in state. Setting default layers (new layers, layersInScene)',
+                'No layers found in state. Setting default layers {new layers, layersInScene}',
                 layers,
                 layersInScene
             );
@@ -271,8 +280,9 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
         } else {
             logDebugConsole(
                 'debug',
-                'Not auto selecting layers. (noUserUpdateYet, didLayerCountChange, noSelectedLayers)',
+                'Not auto selecting layers. {noUserUpdate, layersSetOnDeeplink, didLayerCountChange, noSelectedLayers, behaviorIdsInScene}',
                 noUserUpdate,
+                layersSetOnDeeplink,
                 layerCountChanged,
                 noSelectedLayers,
                 behaviorIdsInScene
