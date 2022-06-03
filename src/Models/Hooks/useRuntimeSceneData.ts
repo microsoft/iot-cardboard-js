@@ -14,7 +14,11 @@ import {
     getSceneElementStatusColor,
     parseLinkedTwinExpression
 } from '../Services/Utils';
-import { I3DScenesConfig } from '../Types/Generated/3DScenesConfiguration-v1.0.0';
+import {
+    I3DScenesConfig,
+    IBehavior,
+    IExpressionRangeVisual
+} from '../Types/Generated/3DScenesConfiguration-v1.0.0';
 import useAdapter from './useAdapter';
 
 export const useRuntimeSceneData = (
@@ -71,71 +75,56 @@ export const useRuntimeSceneData = (
             // for each scene visual retrieve the colored mesh ids and update it in the scene visual
             // if they are triggered by the element's behaviors and currently active
             sceneVisuals.forEach((sceneVisual) => {
-                const coloredMeshItems: Array<CustomMeshItem> = [];
+                sceneVisual.coloredMeshItems = [];
+
+                // const coloredMeshItems: Array<CustomMeshItem> = [];
                 sceneVisual.behaviors?.forEach((behavior) => {
                     behavior.visuals?.forEach((visual) => {
-                        switch (visual.type) {
-                            case VisualType.ExpressionRangeVisual: {
-                                // Status visual
-                                if (visual.expressionType === 'NumericRange') {
-                                    const color = getSceneElementStatusColor(
-                                        visual.valueExpression,
-                                        visual.valueRanges,
-                                        sceneVisual.twins
-                                    );
-                                    if (color) {
-                                        sceneVisual.element.objectIDs?.forEach(
-                                            (meshId) => {
-                                                const coloredMesh: CustomMeshItem = {
-                                                    meshId: meshId,
-                                                    color: color
-                                                };
-                                                coloredMeshItems.push(
-                                                    coloredMesh
-                                                );
-                                            }
+                        if (visual.type !== VisualType.ExpressionRangeVisual) {
+                            return;
+                        }
+
+                        // Status visual
+                        if (visual.expressionType === 'NumericRange') {
+                            const color = getSceneElementStatusColor(
+                                visual.valueExpression,
+                                visual.valueRanges,
+                                sceneVisual.twins
+                            );
+                            if (color) {
+                                sceneVisual.element.objectIDs?.forEach(
+                                    (meshId) => {
+                                        const coloredMesh: CustomMeshItem = {
+                                            meshId: meshId,
+                                            color: color
+                                        };
+                                        // coloredMeshItems.push(coloredMesh);
+                                        sceneVisual.coloredMeshItems.push(
+                                            coloredMesh
                                         );
                                     }
-                                } // Alert visual
-                                else if (
-                                    visual.expressionType ===
-                                    'CategoricalValues'
-                                ) {
-                                    if (
-                                        parseLinkedTwinExpression(
-                                            visual.valueExpression,
-                                            sceneVisual.twins
-                                        )
-                                    ) {
-                                        const color =
-                                            visual.valueRanges[0].visual.color;
-                                        const meshId =
-                                            sceneVisual.element.objectIDs?.[0];
-                                        const iconName =
-                                            visual.valueRanges[0].visual
-                                                .iconName;
-                                        const icon = BadgeIcons?.[iconName]
-                                            ? BadgeIcons[iconName]
-                                            : BadgeIcons.default;
-
-                                        alerts.push({
-                                            sceneVisual: sceneVisual,
-                                            sceneViewBadge: {
-                                                id: behavior.id,
-                                                meshId: meshId,
-                                                color: color,
-                                                icon: icon
-                                            }
-                                        });
-                                    }
-                                }
-                                break;
+                                );
+                            }
+                        } else if (
+                            // Alert visual
+                            visual.expressionType === 'CategoricalValues'
+                        ) {
+                            if (
+                                parseLinkedTwinExpression(
+                                    visual.valueExpression,
+                                    sceneVisual.twins
+                                )
+                            ) {
+                                const alert = buildAlert(
+                                    visual,
+                                    sceneVisual,
+                                    behavior
+                                );
+                                alerts.push(alert);
                             }
                         }
                     });
                 });
-
-                sceneVisual.coloredMeshItems = coloredMeshItems;
             });
 
             const groupedAlerts: SceneViewBadgeGroup[] = [];
@@ -197,3 +186,26 @@ export const useRuntimeSceneData = (
         triggerRuntimeRefetch: sceneData.callAdapter
     };
 };
+function buildAlert(
+    visual: IExpressionRangeVisual,
+    sceneVisual: SceneVisual,
+    behavior: IBehavior
+) {
+    const color = visual.valueRanges[0].visual.color;
+    const meshId = sceneVisual.element.objectIDs?.[0];
+    const iconName = visual.valueRanges[0].visual.iconName;
+    const icon = BadgeIcons?.[iconName]
+        ? BadgeIcons[iconName]
+        : BadgeIcons.default;
+
+    const alert = {
+        sceneVisual: sceneVisual,
+        sceneViewBadge: {
+            id: behavior.id,
+            meshId: meshId,
+            color: color,
+            icon: icon
+        }
+    };
+    return alert;
+}

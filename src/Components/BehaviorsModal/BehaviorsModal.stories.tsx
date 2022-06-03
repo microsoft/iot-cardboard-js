@@ -7,6 +7,7 @@ import MockAdapter from '../../Adapters/MockAdapter';
 import { getDefaultStoryDecorator } from '../../Models/Services/StoryUtilities';
 import { useRuntimeSceneData } from '../../Models/Hooks/useRuntimeSceneData';
 import { BehaviorModalMode } from '../../Models/Constants';
+import { within, userEvent } from '@storybook/testing-library';
 
 const wrapperStyle = { width: '100%', height: '600px' };
 
@@ -36,7 +37,6 @@ const Template: BehaviorsModalStory = (args) => {
     return (
         <div style={wrapperStyle}>
             <BehaviorsModal
-                {...args}
                 behaviors={
                     args.mode === BehaviorModalMode.preview
                         ? [behaviors[1]]
@@ -45,6 +45,7 @@ const Template: BehaviorsModalStory = (args) => {
                 title={element.displayName}
                 twins={twins}
                 adapter={new MockAdapter()}
+                {...args}
             />
         </div>
     );
@@ -54,7 +55,21 @@ export const ViewerModeMultipleBehaviors = Template.bind(
     {}
 ) as BehaviorsModalStory;
 ViewerModeMultipleBehaviors.args = {
+    mode: BehaviorModalMode.viewer,
     onClose: () => null
+};
+
+export const ViewerModePropertyTab = Template.bind({}) as BehaviorsModalStory;
+ViewerModePropertyTab.args = {
+    mode: BehaviorModalMode.viewer,
+    onClose: () => null
+};
+ViewerModePropertyTab.play = async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    // Finds the tabs and clicks the second one
+    const pivotTabs = await canvas.findAllByRole('tab');
+    userEvent.click(pivotTabs[1]);
 };
 
 export const PreviewMode = Template.bind({}) as BehaviorsModalStory;

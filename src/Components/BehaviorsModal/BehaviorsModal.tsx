@@ -13,10 +13,12 @@ import { useTranslation } from 'react-i18next';
 import {
     BehaviorModalMode,
     DTwin,
-    IPropertyInspectorAdapter,
-    PRIMARY_TWIN_NAME
+    IPropertyInspectorAdapter
 } from '../../Models/Constants';
-import { IBehavior } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
+import {
+    IBehavior,
+    ITwinToObjectMapping
+} from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { ADT3DScenePageContext } from '../../Pages/ADT3DScenePage/ADT3DScenePage';
 import PropertyInspector from '../PropertyInspector/PropertyInspector';
 import { OnCommitPatchParams } from '../PropertyInspector/StandalonePropertyInspector.types';
@@ -28,15 +30,26 @@ import {
 } from './BehaviorsModal.styles';
 import BehaviorSection from './Internal/BehaviorSection/BehaviorSection';
 
-export interface IBehaviorsModalProps {
-    onClose?: () => any;
-    title?: string;
-    behaviors: IBehavior[];
-    twins: Record<string, DTwin>;
-    mode?: BehaviorModalMode;
+export type IBehaviorsModalProps = IBehaviorsModalBaseProps &
+    (ViewerModeProps | PreviewModeProps);
+interface IBehaviorsModalBaseProps {
     activeWidgetId?: string;
     adapter?: IPropertyInspectorAdapter;
+    behaviors: IBehavior[];
+    onClose?: () => any;
     onPropertyInspectorPatch?: (patchData: OnCommitPatchParams) => any;
+    title?: string;
+    twins: Record<string, DTwin>;
+}
+
+interface ViewerModeProps {
+    mode: BehaviorModalMode.viewer;
+    element: ITwinToObjectMapping;
+}
+
+interface PreviewModeProps {
+    mode: BehaviorModalMode.preview;
+    element?: undefined;
 }
 
 const cancelIcon: IIconProps = { iconName: 'Cancel' };
@@ -52,16 +65,19 @@ enum BehaviorModalPivotKey {
     Properties = 'properties'
 }
 
-const BehaviorsModal: React.FC<IBehaviorsModalProps> = ({
-    onClose,
-    behaviors = [],
-    title,
-    twins,
-    mode = BehaviorModalMode.viewer,
-    activeWidgetId,
-    adapter,
-    onPropertyInspectorPatch
-}) => {
+const BehaviorsModal: React.FC<IBehaviorsModalProps> = (props) => {
+    const {
+        activeWidgetId,
+        adapter,
+        behaviors = [],
+        element,
+        mode = BehaviorModalMode.viewer,
+        onClose,
+        onPropertyInspectorPatch,
+        title,
+        twins
+    } = props;
+    console.log(twins);
     const { t } = useTranslation();
     const boundaryRef = useRef<HTMLDivElement>(null);
     const titleId = useId('title');
@@ -184,7 +200,7 @@ const BehaviorsModal: React.FC<IBehaviorsModalProps> = ({
                                 adapter && (
                                     <PropertyInspector
                                         adapter={adapter}
-                                        twinId={twins[PRIMARY_TWIN_NAME]?.$dtId}
+                                        twinId={element?.primaryTwinID || ''}
                                         parentHandlesScroll={true}
                                         onPatch={(patchData) =>
                                             onPropertyInspectorPatch &&
