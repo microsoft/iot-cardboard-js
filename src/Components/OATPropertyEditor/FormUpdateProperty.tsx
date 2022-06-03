@@ -286,6 +286,16 @@ export const FormUpdateProperty = ({
 
             <div className={propertyInspectorStyles.modalRow}>
                 <Text styles={columnLeftTextStyles}>
+                    {t('OATPropertyEditor.id')}
+                </Text>
+                <TextField
+                    placeholder={t('OATPropertyEditor.id')}
+                    onChange={(_ev, value) => setId(value)}
+                />
+            </div>
+
+            <div className={propertyInspectorStyles.modalRow}>
+                <Text styles={columnLeftTextStyles}>
                     {t('OATPropertyEditor.displayName')}
                 </Text>
                 <ChoiceGroup
@@ -547,41 +557,6 @@ export const FormUpdateProperty = ({
                     }}
                 />
                 <Text>{t('OATPropertyEditor.writable')}</Text>
-            </div>
-
-            <div className={propertyInspectorStyles.modalRow}>
-                <Text styles={columnLeftTextStyles}>
-                    {t('OATPropertyEditor.semanticType')}
-                </Text>
-                <TextField
-                    placeholder={t(
-                        'OATPropertyEditor.modalTextInputPlaceHolderSemanticType'
-                    )}
-                    onChange={(_ev, value) => setSemanticType(value)}
-                />
-            </div>
-
-            <div className={propertyInspectorStyles.modalRow}>
-                <Text styles={columnLeftTextStyles}>
-                    {t('OATPropertyEditor.unit')}
-                </Text>
-                <TextField
-                    placeholder={t(
-                        'OATPropertyEditor.modalTextInputPlaceHolderUnit'
-                    )}
-                    onChange={(_ev, value) => setUnit(value)}
-                    disabled={semanticType === null || semanticType === ''}
-                />
-            </div>
-
-            <div className={propertyInspectorStyles.modalRow}>
-                <Text styles={columnLeftTextStyles}>
-                    {t('OATPropertyEditor.id')}
-                </Text>
-                <TextField
-                    placeholder={t('OATPropertyEditor.id')}
-                    onChange={(_ev, value) => setId(value)}
-                />
             </div>
 
             <PrimaryButton

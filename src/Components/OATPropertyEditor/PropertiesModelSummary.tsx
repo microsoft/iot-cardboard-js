@@ -50,6 +50,56 @@ export const PropertiesModelSummary = ({
                 )}
             </div>
             <div className={propertyInspectorStyles.gridRow}>
+                <Text>{t('type')}</Text>
+                <Text className={propertyInspectorStyles.typeTextField}>
+                    {model ? model['@type'] : ''}
+                </Text>
+            </div>
+            <div className={propertyInspectorStyles.gridRow}>
+                <Text>{t('id')}</Text>
+                <TextField
+                    styles={textFieldStyes}
+                    borderless
+                    disabled={!model}
+                    value={model ? model['@id'] : ''}
+                    placeholder={t('id')}
+                    onChange={(_ev, value) => {
+                        const modelCopy = deepCopy(model);
+                        modelCopy['@id'] = value;
+                        dispatch({
+                            type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                            payload: modelCopy
+                        });
+                    }}
+                />
+            </div>
+            {model && model.name && (
+                <div className={propertyInspectorStyles.gridRow}>
+                    <Text>{t('name')}</Text>
+                    <TextField
+                        styles={textFieldStyes}
+                        borderless
+                        disabled={!model}
+                        value={
+                            model && model.name
+                                ? typeof model.name === 'string'
+                                    ? model.name
+                                    : Object.values(model.name)[0]
+                                : ''
+                        }
+                        placeholder={t('name')}
+                        onChange={(_ev, value) => {
+                            const modelCopy = deepCopy(model);
+                            modelCopy.name = value;
+                            dispatch({
+                                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                                payload: modelCopy
+                            });
+                        }}
+                    />
+                </div>
+            )}
+            <div className={propertyInspectorStyles.gridRow}>
                 <Text>{t('OATPropertyEditor.displayName')}</Text>
                 <TextField
                     styles={textFieldStyes}
@@ -66,24 +116,6 @@ export const PropertiesModelSummary = ({
                     onChange={(_ev, value) => {
                         const modelCopy = deepCopy(model);
                         modelCopy.displayName = value;
-                        dispatch({
-                            type: SET_OAT_PROPERTY_EDITOR_MODEL,
-                            payload: modelCopy
-                        });
-                    }}
-                />
-            </div>
-            <div className={propertyInspectorStyles.gridRow}>
-                <Text>{t('OATPropertyEditor.assetId')}</Text>
-                <TextField
-                    styles={textFieldStyes}
-                    borderless
-                    disabled={!model}
-                    value={model ? model['@id'] : ''}
-                    placeholder={t('OATPropertyEditor.assetId')}
-                    onChange={(_ev, value) => {
-                        const modelCopy = deepCopy(model);
-                        modelCopy['@id'] = value;
                         dispatch({
                             type: SET_OAT_PROPERTY_EDITOR_MODEL,
                             payload: modelCopy

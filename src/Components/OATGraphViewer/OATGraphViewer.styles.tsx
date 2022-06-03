@@ -27,7 +27,8 @@ const classNames = {
     nodeContainer: `${classPrefix}-node-container`,
     graphViewerControls: `${classPrefix}-graph-viewer-controls`,
     graphViewerFiltersWrap: `${classPrefix}-graph-viewer-filters-wrap`,
-    graphViewerFiltersKey: `${classPrefix}-graph-viewer-filters-key`
+    graphViewerFiltersKey: `${classPrefix}-graph-viewer-filters-key`,
+    extendCancel: `${classPrefix}-extend-cancel`
 };
 
 export const getGraphViewerStyles = () => {
@@ -234,6 +235,12 @@ export const getGraphViewerStyles = () => {
                 '& div.ms-Toggle': {
                     marginBottom: '0'
                 }
+            } as IStyle
+        ],
+        extendCancel: [
+            classNames.extendCancel,
+            {
+                height: FontSizes.size12
             } as IStyle
         ]
     });

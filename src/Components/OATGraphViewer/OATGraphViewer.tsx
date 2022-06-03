@@ -84,16 +84,20 @@ const getGraphViewerElementsFromModels = (models, modelPositions) => {
                     new ElementEdgeData(
                         `${input['@id']}${OATComponentHandleName}${content['schema']}`,
                         content['name'],
-                        content['name'],
+                        '',
                         OATComponentHandleName
                     )
                 );
                 relationships = [...relationships, componentRelationship];
             } else if (content['@type'] === OATRelationshipHandleName) {
+                const relationshipAmount = relationships.filter(
+                    (element) =>
+                        element.source && element.source === input['@id']
+                ).length;
                 const relationship = new ElementEdge(
                     content['@id']
                         ? content['@id']
-                        : `${input['@id']}${OATRelationshipHandleName};${versionClassBase}`,
+                        : `${input['@id']}${OATRelationshipHandleName};${relationshipAmount}`,
                     OATRelationshipHandleName,
                     input['@id'],
                     OATRelationshipHandleName,
@@ -101,7 +105,7 @@ const getGraphViewerElementsFromModels = (models, modelPositions) => {
                     new ElementEdgeData(
                         content['@id']
                             ? content['@id']
-                            : `${input['@id']}${OATComponentHandleName};${versionClassBase}`,
+                            : `${input['@id']}${OATRelationshipHandleName};${relationshipAmount}`,
                         content['name'],
                         content['displayName'],
                         OATRelationshipHandleName
@@ -283,6 +287,25 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                 node.id = newId;
                 node.data.id = newId;
                 node.data.name = model['displayName'];
+                node.data.content = propertyItems;
+                setElements([...elements]);
+                currentNodeIdRef.current = newId;
+            } else if (node && node.source) {
+                if (node.sourceHandle === OATComponentHandleName) {
+                    elements.find(
+                        (element) => element.id === node.target
+                    ).data.name = model['name'];
+                }
+                const newId = model['@id'];
+                const propertyItems = model.properties.filter(
+                    (property) =>
+                        typeof property['@type'] === 'object' &&
+                        property['@type'][0] === 'property'
+                );
+                node.id = newId;
+                node.data.id = newId;
+                node.data.name = model['name'];
+                node.data.displayName = model['displayName'];
                 node.data.content = propertyItems;
                 setElements([...elements]);
                 currentNodeIdRef.current = newId;
@@ -631,9 +654,19 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
         );
         if (target) {
             if (currentHandleIdRef.current !== OATUntargetedRelationshipName) {
+                const relationshipAmount = elements.filter(
+                    (element) =>
+                        element.source &&
+                        element.source === currentNodeIdRef.current
+                ).length;
                 params.target = target.dataset.id;
-                params.id = `${currentNodeIdRef.current}${currentHandleIdRef.current}${target.dataset.id}`;
-                params.data.id = `${currentNodeIdRef.current}${currentHandleIdRef.current}${target.dataset.id}`;
+                params.id = `${currentNodeIdRef.current}${currentHandleIdRef.current}${target.dataset.id}${relationshipAmount}`;
+                params.data.id = `${currentNodeIdRef.current}${currentHandleIdRef.current}${target.dataset.id}${relationshipAmount}`;
+                params.data.name = OATRelationshipHandleName
+                    ? `${t(
+                          'OATGraphViewer.relationships'
+                      )}_${relationshipAmount}`
+                    : '';
                 setElements((els) => addEdge(params, els));
             }
         } else {
