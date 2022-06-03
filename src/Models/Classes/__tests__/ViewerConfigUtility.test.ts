@@ -117,22 +117,6 @@ describe('ViewerConfigUtility', () => {
             // ASSERT
             expect(result).toEqual([]);
         });
-        test('returns [] when empty twinData', () => {
-            // ARRANGE
-            const config = getMockConfig();
-            const sceneId = MOCK_SCENE_ID;
-            const twinData = new Map<string, DTwin>();
-
-            // ACT
-            const result = ViewerConfigUtility.getSceneVisualsInScene(
-                config,
-                sceneId,
-                twinData
-            );
-
-            // ASSERT
-            expect(result).toEqual([]);
-        });
         test('returns [] when scene not found', () => {
             // ARRANGE
             const config = getMockConfig();
