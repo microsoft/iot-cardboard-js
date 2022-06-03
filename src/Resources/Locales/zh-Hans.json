@@ -938,6 +938,9 @@
     "noContainerUrlErrorMessage": "未设置容器 URL。单击下面进行设置。",
     "noADTInstanceUrlTitle": "未设置 ADT 实例",
     "noADTInstanceUrlMessage": "未设置 ADT 实例 URL。单击下面进行设置。",
-    "configureEnvironment": "配置环境"
+    "configureEnvironment": "配置环境",
+    "3dAssetLoadingNetworkErrorTitle": "加载模型时出错",
+    "3dAssetLoadingNetworkErrorMessage": "这可能是 CORS 问题、无效的 Blob URL 或网络错误。请与存储此资产文件的容器的所有者联系，或稍后重试。",
+    "3dAssetLoadingCommonErrorMessage": "加载模型时出错。尝试按 Ctrl-F5。"
   }
 }

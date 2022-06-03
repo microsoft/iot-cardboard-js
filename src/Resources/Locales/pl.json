@@ -938,6 +938,9 @@
     "noContainerUrlErrorMessage": "Adres URL kontenera nie jest ustawiony. Kliknij poniżej, aby go ustawić.",
     "noADTInstanceUrlTitle": "Nie ustawiono wystąpienia narzędzia ADT",
     "noADTInstanceUrlMessage": "Adres URL wystąpienia narzędzia ADT nie jest ustawiony. Kliknij poniżej, aby go ustawić.",
-    "configureEnvironment": "Konfigurowanie środowiska"
+    "configureEnvironment": "Konfigurowanie środowiska",
+    "3dAssetLoadingNetworkErrorTitle": "Błąd ładowania modelu",
+    "3dAssetLoadingNetworkErrorMessage": "Może to być problem CORS, nieprawidłowy adres URL obiektu blob lub błąd sieciowy. Skontaktuj się z właścicielem kontenera, w którym jest przechowywany ten plik zasobu, lub spróbuj ponownie później.",
+    "3dAssetLoadingCommonErrorMessage": "Błąd ładowania modelu. Spróbuj ctrl-F5."
   }
 }
