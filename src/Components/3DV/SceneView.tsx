@@ -85,20 +85,18 @@ function debounce(func: any, timeout = 300) {
 let dummyProgress = 0; // Progress doesn't work for GLBs so fake it
 
 const getModifiedTime = async (url): Promise<string> => {
-    const headers = new Headers();
-    headers.append('Range', 'bytes=1-2');
-    headers.append('x-ms-version', '2017-11-09');
-    if (Tools.CustomRequestHeaders.Authorization) {
-        headers.append(
-            'Authorization',
-            Tools.CustomRequestHeaders.Authorization
-        );
-    }
-
-    // HEAD can give a CORS error
-    return axios(url, { method: 'GET', headers: headers })
+    return axios(url, {
+        method: 'GET',
+        headers: {
+            Range: 'bytes=1-2',
+            'x-ms-version': '2017-11-09',
+            ...(Tools.CustomRequestHeaders.Authorization && {
+                Authorization: Tools.CustomRequestHeaders.Authorization
+            })
+        }
+    })
         .then((response) => {
-            const dt = new Date(response.headers.get('Last-Modified'));
+            const dt = new Date(response.headers['last-modified']);
             if (
                 dt.toString() === 'Invalid Date' ||
                 dt.toISOString() === '1970-01-01T00:00:00.000Z'
@@ -168,6 +166,9 @@ function SceneView(props: ISceneViewProps, ref) {
     } = props;
     const [isLoading, setIsLoading] = useState(true);
     const [loadProgress, setLoadProgress] = useState(0);
+    const [loadingError, setLoadingError] = useState<
+        null | 'common' | 'network'
+    >(null);
     const [canvasId] = useState(createGUID());
     const [scene, setScene] = useState<BABYLON.Scene>(undefined);
     const onMeshClickRef = useRef<SceneViewCallbackHandler>(null);
@@ -546,7 +547,7 @@ function SceneView(props: ISceneViewProps, ref) {
         resetCamera: (meshIds: string[]) => {
             if (meshIds?.length) {
                 createOrZoomCamera(meshIds);
-            } else {
+            } else if (sceneRef.current?.meshes) {
                 zoomCamera(
                     initialCameraRadiusRef.current,
                     sceneRef.current.meshes,
@@ -814,7 +815,6 @@ function SceneView(props: ISceneViewProps, ref) {
     const init = useCallback(() => {
         debugLog('debug', '**************init');
 
-        //TODO: load this private blob by getting token and using proxy for blob service REST API
         async function load(
             getToken: () => Promise<string>,
             root: string,
@@ -848,16 +848,18 @@ function SceneView(props: ISceneViewProps, ref) {
                     if (e.isAxiosError && typeof e.response === 'undefined') {
                         // Network error, this could be a CORS issue or a dropped internet connection. It is not possible for us to know.
                         console.error(
-                            'Error loading model. This could be a CORS issue or a dropped internet connection.',
+                            'Error loading model. This could be a CORS issue, invalid blob url or network error.',
                             s,
                             e
                         );
                         success = false;
-                        setIsLoading(null);
+                        setIsLoading(false);
+                        setLoadingError('network');
                     } else {
                         console.error('Error loading model. Try Ctrl-F5', s, e);
                         success = false;
-                        setIsLoading(undefined);
+                        setIsLoading(false);
+                        setLoadingError('common');
                     }
                 }
             );
@@ -955,6 +957,7 @@ function SceneView(props: ISceneViewProps, ref) {
 
                 setScene(sceneRef.current);
                 setIsLoading(false);
+                setLoadingError(null);
                 engineRef.current.resize();
                 if (onSceneLoaded) {
                     onSceneLoaded(sceneRef.current);
@@ -1005,6 +1008,7 @@ function SceneView(props: ISceneViewProps, ref) {
             // Reload if modelUrl changes
             modelUrlRef.current = modelUrl;
             setIsLoading(true);
+            setLoadingError(null);
             init();
         }
 
@@ -1677,14 +1681,14 @@ function SceneView(props: ISceneViewProps, ref) {
                     barHeight={10}
                 />
             )}
-            {isLoading === undefined && (
+            {loadingError === 'common' && (
                 <div className={customStyles.commonErrorMessage}>
                     {t(
                         'scenePageErrorHandling.3dAssetLoadingCommonErrorMessage'
                     )}
                 </div>
             )}
-            {isLoading === null && (
+            {loadingError === 'network' && (
                 <div className={customStyles.networkErrorMessage}>
                     <IllustrationMessage
                         headerText={t(
