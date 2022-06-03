@@ -64,10 +64,7 @@ import { ModelGroupLabel } from '../ModelGroupLabel/ModelGroupLabel';
 import { MarkersPlaceholder } from './Internal/MarkersPlaceholder';
 import { Markers } from './Internal/Markers';
 import axios from 'axios';
-import IllustrationMessage from '../IllustrationMessage/IllustrationMessage';
-import CorsErrorImg from '../../Resources/Static/corsError.svg';
-import GenericErrorImg from '../../Resources/Static/noResults.svg';
-import { useTranslation } from 'react-i18next';
+import { LoadingErrorMessage } from './Internal/LoadingErrorMessage';
 
 export const showFpsCounter = false;
 const debugLogging = false;
@@ -213,8 +210,6 @@ function SceneView(props: ISceneViewProps, ref) {
     const [markersAndPositions, setMarkersAndPositions] = useState<
         { marker: Marker; left: number; top: number }[]
     >([]);
-
-    const { t } = useTranslation();
 
     // These next two lines are important! The handlers change very frequently (every parent render)
     // So copy their values into refs so as not to disturb our state/re-render (we only need the latest value when we want to fire)
@@ -1685,42 +1680,9 @@ function SceneView(props: ISceneViewProps, ref) {
                     barHeight={10}
                 />
             )}
-            {loadingError === 'generic' && (
+            {loadingError && (
                 <div className={customStyles.errorMessage}>
-                    <IllustrationMessage
-                        headerText={t(
-                            'scenePageErrorHandling.sceneView.3dAssetLoadingNetworkErrorTitle'
-                        )}
-                        descriptionText={t(
-                            'scenePageErrorHandling.sceneView.3dAssetLoadingCommonErrorMessage'
-                        )}
-                        type={'error'}
-                        width={'wide'}
-                        imageProps={{
-                            src: GenericErrorImg,
-                            height: 200
-                        }}
-                        styles={{ container: { height: 'auto', flexGrow: 1 } }}
-                    />
-                </div>
-            )}
-            {loadingError === 'network' && (
-                <div className={customStyles.errorMessage}>
-                    <IllustrationMessage
-                        headerText={t(
-                            'scenePageErrorHandling.sceneView.3dAssetLoadingNetworkErrorTitle'
-                        )}
-                        descriptionText={t(
-                            'scenePageErrorHandling.sceneView.3dAssetLoadingNetworkErrorMessage'
-                        )}
-                        type={'error'}
-                        width={'wide'}
-                        imageProps={{
-                            src: CorsErrorImg,
-                            height: 200
-                        }}
-                        styles={{ container: { height: 'auto', flexGrow: 1 } }}
-                    />
+                    <LoadingErrorMessage errorType={loadingError} />
                 </div>
             )}
             <MarkersPlaceholder markers={markers} />
