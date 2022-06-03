@@ -66,6 +66,7 @@ import { Markers } from './Internal/Markers';
 import axios from 'axios';
 import IllustrationMessage from '../IllustrationMessage/IllustrationMessage';
 import CorsErrorImg from '../../Resources/Static/corsError.svg';
+import GenericErrorImg from '../../Resources/Static/noResults.svg';
 import { useTranslation } from 'react-i18next';
 
 export const showFpsCounter = false;
@@ -167,7 +168,7 @@ function SceneView(props: ISceneViewProps, ref) {
     const [isLoading, setIsLoading] = useState(true);
     const [loadProgress, setLoadProgress] = useState(0);
     const [loadingError, setLoadingError] = useState<
-        null | 'common' | 'network'
+        null | 'generic' | 'network'
     >(null);
     const [canvasId] = useState(createGUID());
     const [scene, setScene] = useState<BABYLON.Scene>(undefined);
@@ -547,10 +548,10 @@ function SceneView(props: ISceneViewProps, ref) {
         resetCamera: (meshIds: string[]) => {
             if (meshIds?.length) {
                 createOrZoomCamera(meshIds);
-            } else if (sceneRef.current?.meshes) {
+            } else {
                 zoomCamera(
                     initialCameraRadiusRef.current,
-                    sceneRef.current.meshes,
+                    sceneRef.current?.meshes,
                     30
                 );
             }
@@ -563,6 +564,9 @@ function SceneView(props: ISceneViewProps, ref) {
         frames: number,
         zoomOnly?: boolean
     ) => {
+        if (!meshes) {
+            return;
+        }
         const positionFrom = cameraRef.current.position;
         const targetFrom = cameraRef.current.target;
         const radiusFrom = cameraRef.current.radius;
@@ -846,21 +850,21 @@ function SceneView(props: ISceneViewProps, ref) {
                 (e: any) => onProgress(e),
                 (s: any, m: any, e: any) => {
                     if (e.isAxiosError && typeof e.response === 'undefined') {
-                        // Network error, this could be a CORS issue or a dropped internet connection. It is not possible for us to know.
+                        // Network error, this could be a CORS issue, invalid blob url or a dropped internet connection. It is not possible for us to know.
                         console.error(
-                            'Error loading model. This could be a CORS issue, invalid blob url or network error.',
+                            'Error loading model. This could be a CORS issue, invalid blob url or network error.'
+                        );
+                        setLoadingError('network');
+                    } else {
+                        console.error(
+                            'Error loading model. Try clearing your cache and try again.',
                             s,
                             e
                         );
-                        success = false;
-                        setIsLoading(false);
-                        setLoadingError('network');
-                    } else {
-                        console.error('Error loading model. Try Ctrl-F5', s, e);
-                        success = false;
-                        setIsLoading(false);
-                        setLoadingError('common');
+                        setLoadingError('generic');
                     }
+                    success = false;
+                    setIsLoading(false);
                 }
             );
 
@@ -1681,21 +1685,33 @@ function SceneView(props: ISceneViewProps, ref) {
                     barHeight={10}
                 />
             )}
-            {loadingError === 'common' && (
-                <div className={customStyles.commonErrorMessage}>
-                    {t(
-                        'scenePageErrorHandling.3dAssetLoadingCommonErrorMessage'
-                    )}
+            {loadingError === 'generic' && (
+                <div className={customStyles.errorMessage}>
+                    <IllustrationMessage
+                        headerText={t(
+                            'scenePageErrorHandling.sceneView.3dAssetLoadingNetworkErrorTitle'
+                        )}
+                        descriptionText={t(
+                            'scenePageErrorHandling.sceneView.3dAssetLoadingCommonErrorMessage'
+                        )}
+                        type={'error'}
+                        width={'wide'}
+                        imageProps={{
+                            src: GenericErrorImg,
+                            height: 200
+                        }}
+                        styles={{ container: { height: 'auto', flexGrow: 1 } }}
+                    />
                 </div>
             )}
             {loadingError === 'network' && (
-                <div className={customStyles.networkErrorMessage}>
+                <div className={customStyles.errorMessage}>
                     <IllustrationMessage
                         headerText={t(
-                            'scenePageErrorHandling.3dAssetLoadingNetworkErrorTitle'
+                            'scenePageErrorHandling.sceneView.3dAssetLoadingNetworkErrorTitle'
                         )}
                         descriptionText={t(
-                            'scenePageErrorHandling.3dAssetLoadingNetworkErrorMessage'
+                            'scenePageErrorHandling.sceneView.3dAssetLoadingNetworkErrorMessage'
                         )}
                         type={'error'}
                         width={'wide'}

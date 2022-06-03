@@ -11,8 +11,7 @@ const classPrefix = 'scene-view';
 const classNames = {
     canvas: `${classPrefix}-canvas`,
     canvasVisible: `${classPrefix}-canvas-visible`,
-    commonErrorMessage: `${classPrefix}-common-error-message`,
-    networkErrorMessage: `${classPrefix}-network-error-message`,
+    errorMessage: `${classPrefix}-error-message`,
     globeTooltip: `${classPrefix}-globe-tooltip`,
     root: `${classPrefix}-root`
 };
@@ -44,20 +43,8 @@ export const getSceneViewStyles = memoizeFunction((theme: Theme) =>
                 transition: '2s'
             } as IStyle
         ],
-        commonErrorMessage: [
-            classNames.commonErrorMessage,
-            {
-                color: theme.semanticColors.bodyText,
-                fontSize: FontSizes.size24,
-                left: '50%',
-                position: 'absolute',
-                textShadow: getTextShadow(theme),
-                top: '50%',
-                transform: 'translate(-50%, 0%)'
-            } as IStyle
-        ],
-        networkErrorMessage: [
-            classNames.networkErrorMessage,
+        errorMessage: [
+            classNames.errorMessage,
             {
                 left: '50%',
                 position: 'absolute',
