@@ -939,8 +939,10 @@
     "noADTInstanceUrlTitle": "Экземпляр ADT не задан",
     "noADTInstanceUrlMessage": "URL-адрес экземпляра ADT не задан. Нажмите ниже, чтобы установить его.",
     "configureEnvironment": "Настройка среды",
-    "3dAssetLoadingNetworkErrorTitle": "Модель загрузки ошибок",
-    "3dAssetLoadingNetworkErrorMessage": "Это может быть проблема CORS, недопустимый URL-адрес большого двоичного объекта или сетевая ошибка. Обратитесь к владельцу контейнера, в котором хранится этот файл ресурса, или повторите попытку позже.",
-    "3dAssetLoadingCommonErrorMessage": "Ошибка загрузки модели. Попробуйте ctrl+F5."
+    "sceneView": {
+      "3dAssetLoadingNetworkErrorTitle": "Модель загрузки ошибок",
+      "3dAssetLoadingNetworkErrorMessage": "Это может быть проблема CORS, недопустимый URL-адрес большого двоичного объекта или сетевая ошибка. Обратитесь к владельцу контейнера, в котором хранится этот файл ресурса, или повторите попытку позже.",
+      "3dAssetLoadingCommonErrorMessage": "Ошибка загрузки модели. Попробуйте очистить кэш и повторите попытку."
+    }
   }
 }

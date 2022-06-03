@@ -939,8 +939,10 @@
     "noADTInstanceUrlTitle": "Instância ADT não definida",
     "noADTInstanceUrlMessage": "Sua url de instância ADT não está definida. Clique abaixo para configurá-lo.",
     "configureEnvironment": "Configurar ambiente",
-    "3dAssetLoadingNetworkErrorTitle": "Modelo de carregamento de erros",
-    "3dAssetLoadingNetworkErrorMessage": "Isso pode ser um problema cors, url de bolha inválido ou um erro de rede. Entre em contato com o proprietário do contêiner onde este arquivo de ativos é armazenado ou tente novamente mais tarde.",
-    "3dAssetLoadingCommonErrorMessage": "Modelo de carregamento de erros. Tente Ctrl-F5."
+    "sceneView": {
+      "3dAssetLoadingNetworkErrorTitle": "Modelo de carregamento de erros",
+      "3dAssetLoadingNetworkErrorMessage": "Isso pode ser um problema cors, url de bolha inválido ou um erro de rede. Entre em contato com o proprietário do contêiner onde este arquivo de ativos é armazenado ou tente novamente mais tarde.",
+      "3dAssetLoadingCommonErrorMessage": "Modelo de carregamento de erros. Tente limpar seu cache e tente novamente."
+    }
   }
 }

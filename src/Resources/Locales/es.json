@@ -939,8 +939,10 @@
     "noADTInstanceUrlTitle": "La instancia de ADT no está establecida",
     "noADTInstanceUrlMessage": "La dirección URL de la instancia de ADT no está establecida. Haga clic a continuación para configurarlo.",
     "configureEnvironment": "Configurar el entorno",
-    "3dAssetLoadingNetworkErrorTitle": "Error al cargar el modelo",
-    "3dAssetLoadingNetworkErrorMessage": "Esto podría ser un problema de CORS, una dirección URL de blob no válida o un error de red. Póngase en contacto con el propietario del contenedor donde se almacena este archivo de activos o inténtelo de nuevo más tarde.",
-    "3dAssetLoadingCommonErrorMessage": "Error al cargar el modelo. Pruebe Ctrl-F5."
+    "sceneView": {
+      "3dAssetLoadingNetworkErrorTitle": "Error al cargar el modelo",
+      "3dAssetLoadingNetworkErrorMessage": "Esto podría ser un problema de CORS, una dirección URL de blob no válida o un error de red. Póngase en contacto con el propietario del contenedor donde se almacena este archivo de activos o inténtelo de nuevo más tarde.",
+      "3dAssetLoadingCommonErrorMessage": "Error al cargar el modelo. Intenta borrar la memoria caché e inténtalo de nuevo."
+    }
   }
 }
