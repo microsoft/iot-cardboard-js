@@ -28,6 +28,9 @@ const logDebugConsole = getDebugLogger('SceneThemeContext', debugLogging);
 const SceneThemeContextInstance = React.createContext<ISceneThemeContext>(null);
 export const useSceneThemeContext = () => useContext(SceneThemeContextInstance);
 
+let shouldPersistTheme = true;
+const DEFAULT_OBJECT_COLOR_INDEX = 2;
+
 export const SceneThemeContextReducer: (
     draft: ISceneThemeContextState,
     action: SceneThemeContextAction
@@ -55,7 +58,17 @@ export const SceneThemeContextReducer: (
                 draft.objectStyle =
                     action.payload.style || ViewerObjectStyle.Default;
                 if (draft.objectStyle === ViewerObjectStyle.Default) {
-                    draft.objectColor = draft.objectColorOptions[0].color;
+                    draft.objectColor =
+                        draft.objectColorOptions[
+                            DEFAULT_OBJECT_COLOR_INDEX
+                        ].color; // white
+                } else if (
+                    draft.objectStyle === ViewerObjectStyle.Transparent &&
+                    draft.objectColor ===
+                        draft.objectColorOptions[DEFAULT_OBJECT_COLOR_INDEX]
+                            .color // if it's white, change it cause white doesn't work so we want the default to be nice
+                ) {
+                    draft.objectColor = draft.objectColorOptions[0].color; // blue
                 }
                 setPersistedTheme(buildPersistedTheme(draft));
                 break;
@@ -91,8 +104,9 @@ export const SceneThemeContextProvider: React.FC<ISceneThemeContextProviderProps
         return <>{children}</>;
     }
 
-    const { initialState } = props;
+    const { initialState, usePersistedTheme = true } = props;
     const { t } = useTranslation();
+    shouldPersistTheme = usePersistedTheme; // store the selection globally
 
     // set the initial state for the Color reducer
     const persistedTheme = getPersistedTheme();
@@ -100,23 +114,33 @@ export const SceneThemeContextProvider: React.FC<ISceneThemeContextProviderProps
         initialState?.objectColorOptions || ViewerModeObjectColors;
     const backgroundOptions =
         initialState?.sceneBackgroundOptions || ViewerModeBackgroundColors;
+    const styleOptions =
+        initialState?.objectStyleOptions || buildDefaultStyleChoices(t);
     const defaultState: ISceneThemeContextState = {
         sceneBackground:
             initialState?.sceneBackground ||
             persistedTheme?.background?.color ||
-            initialState?.objectColorOptions?.[0]?.color ||
+            backgroundOptions?.[0]?.color ||
             '',
         sceneBackgroundOptions: backgroundOptions,
         objectColor:
             initialState?.objectColor ||
             persistedTheme?.objectColor?.color ||
-            objectColorOptions?.[0].color ||
+            objectColorOptions?.[DEFAULT_OBJECT_COLOR_INDEX].color ||
             '',
         objectColorOptions: objectColorOptions,
-        objectStyle: initialState?.objectStyle || ViewerObjectStyle.Default,
-        objectStyleOptions:
-            initialState?.objectStyleOptions || buildDefaultStyleChoices(t)
+        objectStyle:
+            initialState?.objectStyle ||
+            persistedTheme?.style ||
+            ViewerObjectStyle.Default,
+        objectStyleOptions: styleOptions
     };
+    logDebugConsole(
+        'info',
+        'Setting initial theme state. {state, stateOverrides}',
+        defaultState,
+        initialState
+    );
 
     const [sceneThemeState, sceneThemeDispatch] = useReducer(
         SceneThemeContextReducer,
@@ -150,14 +174,24 @@ const buildPersistedTheme = (
 };
 const getPersistedTheme = (): IADT3DViewerMode | undefined => {
     const theme = localStorage.getItem(ViewerThemeStorageKey);
-    if (theme) {
+    if (theme && shouldPersistTheme) {
+        logDebugConsole(
+            'debug',
+            `Reading persisted theme from storage ${ViewerThemeStorageKey}`,
+            JSON.parse(theme)
+        );
         return JSON.parse(theme);
     }
     return undefined;
 };
 
 const setPersistedTheme = (theme: IADT3DViewerMode): void => {
-    if (theme) {
+    if (theme && shouldPersistTheme) {
+        logDebugConsole(
+            'debug',
+            `Persisting theme to storage key ${ViewerThemeStorageKey}`,
+            theme
+        );
         localStorage.setItem(ViewerThemeStorageKey, JSON.stringify(theme));
     }
 };

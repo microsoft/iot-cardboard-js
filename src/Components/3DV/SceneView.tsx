@@ -711,7 +711,7 @@ function SceneView(props: ISceneViewProps, ref) {
                     baseColor,
                     reflectionTexture.current,
                     currentObjectColor.lightingStyle,
-                    backgroundColorRef.current.objectLuminanceRatio || 1
+                    backgroundColorRef.current?.objectLuminanceRatio || 1
                 );
 
                 shaderMaterial.current = material;

@@ -89,18 +89,8 @@ const ModelViewerModePicker: React.FC<ModelViewerModePickerProps> = (props) => {
         });
 
         setBackgrounds(backgrounds);
-        onChangeObjectColor(objectColorOptions[0].color);
-        onChangeSceneBackground(backgroundColorOptions[0].color);
-        onChangeObjectStyle(ViewerObjectStyle.Default);
         // // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-
-    useEffect(() => {
-        if (selectedObjectStyle === ViewerObjectStyle.Default) {
-            // clear out the color options if you select default as this is not applicable
-            onChangeObjectColor(null);
-        }
-    }, [onChangeObjectColor, selectedObjectStyle]);
 
     const updateStyle = useCallback(
         (_e: any, option: IChoiceGroupOption) => {
