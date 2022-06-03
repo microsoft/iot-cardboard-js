@@ -47,7 +47,9 @@ i18nInstance
     .init({
         resources,
         fallbackLng: 'en',
-        debug: process.env.NODE_ENV !== 'production',
+        debug:
+            process.env.NODE_ENV !== 'production' &&
+            process.env.isTestMode !== 'true',
 
         interpolation: {
             escapeValue: false // not needed for react!!

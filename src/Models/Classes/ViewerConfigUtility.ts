@@ -1,6 +1,7 @@
 import { DEFAULT_LAYER_ID } from '../../Components/LayerDropdown/LayerDropdown';
-import { IAliasedTwinProperty } from '../Constants/Interfaces';
-import { deepCopy } from '../Services/Utils';
+import { PRIMARY_TWIN_NAME } from '../Constants';
+import { DTwin, IAliasedTwinProperty } from '../Constants/Interfaces';
+import { deepCopy, getDebugLogger } from '../Services/Utils';
 import {
     I3DScenesConfig,
     IBehavior,
@@ -23,6 +24,10 @@ import {
     IElementTwinAliasItem,
     VisualType
 } from './3DVConfig';
+import { SceneVisual } from './SceneView.types';
+
+const debugLogging = false;
+const DEBUG_CONTEXT = 'ViewerConfigUtility';
 
 /** Static utilty methods for operations on the configuration file. */
 abstract class ViewerConfigUtility {
@@ -146,6 +151,40 @@ abstract class ViewerConfigUtility {
                 layer.behaviorIDs.push(behaviorId);
             }
         }
+    }
+
+    /** Gets a given behavior from the config */
+    static getBehaviorById(
+        config: I3DScenesConfig,
+        behaviorId: string
+    ): IBehavior | undefined {
+        if (!config || !behaviorId) return undefined;
+
+        return config?.configuration?.behaviors?.find(
+            (x) => x.id === behaviorId
+        );
+    }
+
+    /** Gets a given element from the config */
+    static getElementById(
+        config: I3DScenesConfig,
+        elementId: string
+    ): ITwinToObjectMapping | undefined {
+        if (!config || !elementId) return undefined;
+        let element: ITwinToObjectMapping = undefined;
+
+        config?.configuration?.scenes?.forEach((scene) => {
+            element = scene.elements
+                .filter(this.isTwinToObjectMappingElement)
+                .find((element) => element.id === elementId);
+
+            // return as soon as we find one
+            if (element) {
+                return element;
+            }
+        });
+
+        return element;
     }
 
     /** Add behavior to target scene */
@@ -345,15 +384,15 @@ abstract class ViewerConfigUtility {
         behavior: IBehavior,
         config: I3DScenesConfig,
         sceneId: string
-    ): { primaryTwinIds: string[]; aliasedTwinMap: Record<string, string> } {
+    ): { primaryTwinIds: string[]; aliasedTwinMap: Record<string, string[]> } {
         const scene = config.configuration.scenes.find(
             (scene) => scene.id === sceneId
         );
-        const primaryTwinIds = new Map();
-        let aliasedTwinMap: Record<string, string> = {};
+        const primaryTwinIds = new Set<string>();
+        const internalAliasedTwinUniqueMap: Record<string, Set<string>> = {};
 
         // Get all element Ids associated with the behavior
-        const elementIds = ViewerConfigUtility.getMappingIdsForBehavior(
+        const elementIds = ViewerConfigUtility.getElementIdsForBehavior(
             behavior
         );
 
@@ -364,35 +403,44 @@ abstract class ViewerConfigUtility {
                 // Check if objects Ids on element intersect with elementIds on behavior
                 if (elementIds.includes(elementInScene.id)) {
                     // Add elements primary twin
-                    primaryTwinIds.set(elementInScene.primaryTwinID, '');
+                    primaryTwinIds.add(elementInScene.primaryTwinID);
 
                     // Only add element alias if behavior contains alias
                     if (behavior.twinAliases && elementInScene.twinAliases) {
-                        const twinAliasesOnBehavior = {};
-
                         for (const [
                             elementAlias,
                             aliasedTwinId
                         ] of Object.entries(elementInScene.twinAliases)) {
                             if (behavior.twinAliases.includes(elementAlias)) {
-                                twinAliasesOnBehavior[
-                                    elementAlias
-                                ] = aliasedTwinId;
+                                if (
+                                    elementAlias in internalAliasedTwinUniqueMap
+                                ) {
+                                    internalAliasedTwinUniqueMap[
+                                        elementAlias
+                                    ].add(aliasedTwinId);
+                                } else {
+                                    internalAliasedTwinUniqueMap[
+                                        elementAlias
+                                    ] = new Set([aliasedTwinId]);
+                                }
                             }
                         }
-
-                        // Add elements twin aliases
-                        aliasedTwinMap = {
-                            ...aliasedTwinMap,
-                            ...twinAliasesOnBehavior
-                        };
                     }
                 }
             });
 
+        const aliasedTwinMap: Record<string, string[]> = {};
+
+        // Transform unique set of alias Ids into string array
+        for (const key of Object.keys(internalAliasedTwinUniqueMap)) {
+            aliasedTwinMap[key] = Array.from(
+                internalAliasedTwinUniqueMap[key].values()
+            );
+        }
+
         return {
             aliasedTwinMap,
-            primaryTwinIds: Array.from(primaryTwinIds.keys())
+            primaryTwinIds: Array.from(primaryTwinIds.values())
         };
     }
 
@@ -479,7 +527,7 @@ abstract class ViewerConfigUtility {
         config: I3DScenesConfig
     ) {
         const numBehaviors = this.getBehaviorsOnElement(
-            element,
+            element?.id,
             config?.configuration?.behaviors
         )?.length;
         return numBehaviors;
@@ -510,12 +558,12 @@ abstract class ViewerConfigUtility {
     ): Array<ITwinToObjectMapping> {
         if (!config) return [];
 
-        const scene = config.configuration.scenes?.find(
-            (s) => s.id === sceneId
-        );
+        const scene = ViewerConfigUtility.getSceneById(config, sceneId);
 
-        return scene?.elements?.filter(
-            ViewerConfigUtility.isTwinToObjectMappingElement
+        return (
+            scene?.elements?.filter(
+                ViewerConfigUtility.isTwinToObjectMappingElement
+            ) || []
         );
     }
 
@@ -694,22 +742,73 @@ abstract class ViewerConfigUtility {
         return scene?.behaviorIDs || [];
     }
 
+    /** gets all the behaviors in a given scene or empty array if none found */
+    static getBehaviorsInScene(
+        config: I3DScenesConfig,
+        sceneId: string
+    ): IBehavior[] {
+        const logDebugConsole = getDebugLogger(DEBUG_CONTEXT, debugLogging);
+        if (!config || !sceneId) {
+            logDebugConsole(
+                'warn',
+                '[getBehaviorsInScene] [ABORT], critical argument missing {config, sceneId}',
+                config,
+                sceneId
+            );
+            return [];
+        }
+        const behaviorIds = ViewerConfigUtility.getBehaviorIdsInScene(
+            config,
+            sceneId
+        );
+        const behaviorsInAllScenes = config.configuration?.behaviors;
+        if (!behaviorIds?.length || !behaviorsInAllScenes?.length) {
+            return [];
+        }
+
+        const behaviors = behaviorsInAllScenes.filter((x) =>
+            behaviorIds.includes(x.id)
+        );
+        return behaviors || [];
+    }
+
+    static getBehaviorsForElementId(
+        config: I3DScenesConfig,
+        elementId: string
+    ): IBehavior[] | undefined {
+        const logDebugConsole = getDebugLogger(DEBUG_CONTEXT, debugLogging);
+        if (!config || !elementId) {
+            logDebugConsole(
+                'warn',
+                '[getBehaviorsForElementId] [ABORT], critical argument missing {config, elementId}',
+                config,
+                elementId
+            );
+            return [];
+        }
+        const behaviors = config.configuration?.behaviors || [];
+        return ViewerConfigUtility.getBehaviorsOnElement(elementId, behaviors);
+    }
+
+    /** get a list of behaviors that are associated with a given element */
     static getBehaviorsOnElement(
-        element: ITwinToObjectMapping,
+        elementId: string,
         behaviors: Array<IBehavior>
-    ) {
+    ): IBehavior[] {
+        if (!elementId || !behaviors?.length) return [];
         return (
             behaviors?.filter((behavior) => {
                 const dataSources = ViewerConfigUtility.getElementTwinToObjectMappingDataSourcesFromBehavior(
                     behavior
                 );
                 return dataSources?.[0]?.elementIDs?.find(
-                    (id) => id === element?.id
+                    (id) => id === elementId
                 );
             }) || []
         );
     }
 
+    /** get a list of behaviors where this element is not a part of */
     static getAvailableBehaviorsForElement(
         element: ITwinToObjectMapping,
         behaviors: Array<IBehavior>
@@ -964,7 +1063,7 @@ abstract class ViewerConfigUtility {
         };
     }
 
-    static getMappingIdsForBehavior(behavior: IBehavior) {
+    static getElementIdsForBehavior(behavior: IBehavior) {
         const mappingIds: string[] = [];
         // cycle through the datasources of behavior
         for (const dataSource of behavior.datasources) {
@@ -1333,6 +1432,68 @@ abstract class ViewerConfigUtility {
             console.log(error);
             return error;
         }
+    }
+
+    static getSceneVisualsInScene(
+        config: I3DScenesConfig,
+        sceneId: string,
+        twinData: Map<string, DTwin>
+    ): SceneVisual[] {
+        const logDebugConsole = getDebugLogger(DEBUG_CONTEXT, debugLogging);
+        logDebugConsole(
+            'debug',
+            '[getSceneVisualsInScene] [START] building scene visuals. {sceneId, config}',
+            sceneId,
+            config
+        );
+
+        if (!sceneId || !config) {
+            logDebugConsole(
+                'warn',
+                '[getSceneVisualsInScene] [ABORT], critical argument missing. {sceneId, config}',
+                sceneId,
+                config
+            );
+            return [];
+        }
+
+        const sceneVisuals: SceneVisual[] = [];
+        const elements = ViewerConfigUtility.getElementsInScene(
+            config,
+            sceneId
+        );
+
+        // cycle through elements to get twins for behavior and scene
+        for (const element of elements) {
+            const twins: Record<string, DTwin> = {};
+            twins[PRIMARY_TWIN_NAME] = twinData.get(element.primaryTwinID);
+
+            // check for twin aliases and add to twins object
+            if (element.twinAliases) {
+                for (const alias of Object.entries(element.twinAliases)) {
+                    const aliasName = alias[0];
+                    const twinId = alias[1];
+                    twins[aliasName] = twinData.get(twinId);
+                }
+            }
+
+            // get all the behaviors the element is part of
+            const behaviors =
+                ViewerConfigUtility.getBehaviorsForElementId(
+                    config,
+                    element.id
+                ) || [];
+
+            const sceneVisual = new SceneVisual(element, behaviors, twins);
+            sceneVisuals.push(sceneVisual);
+        }
+
+        logDebugConsole(
+            'debug',
+            '[getSceneVisualsInScene] [END] building scene visuals. {visuals}',
+            sceneVisuals
+        );
+        return sceneVisuals;
     }
 }
 
