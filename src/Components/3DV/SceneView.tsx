@@ -618,36 +618,29 @@ function SceneView(props: ISceneViewProps, ref) {
             //Reset the reflection Texture
             reflectionTexture.current = null;
             if (currentObjectColor.reflectionTexture) {
-                //If the current theme is the default mode, load the reflection as a .env file
-                //This is assuming the file is a .env file (see https://doc.babylonjs.com/divingDeeper/materials/using/HDREnvironment#what-is-a-env-tech-deep-dive)
-                if (currentObjectColor === DefaultViewerModeObjectColor) {
-                    const cubeTexture = new BABYLON.CubeTexture(
-                        DefaultViewerModeObjectColor.reflectionTexture,
-                        sceneRef.current,
-                        undefined,
-                        undefined,
-                        undefined,
-                        undefined,
-                        undefined,
-                        undefined,
-                        undefined,
-                        '.env'
-                    );
+                //If the current object theme has a reflection and the property is 'default', use the default reflection.
+                //Otherwise, this assumes the property contains a .env file that is base64 encoded as an octet-stream.
+                //see the Babylon documentation on how to generate a .env from an HDRi or DDS environment file:
+                //(https://doc.babylonjs.com/divingDeeper/materials/using/HDREnvironment)
+                const reflectionAsString = currentObjectColor.reflectionTexture.startsWith(
+                    'default'
+                )
+                    ? DefaultViewerModeObjectColor.reflectionTexture
+                    : currentObjectColor.reflectionTexture;
+                const cubeTexture = new BABYLON.CubeTexture(
+                    reflectionAsString,
+                    sceneRef.current,
+                    undefined,
+                    undefined,
+                    undefined,
+                    undefined,
+                    undefined,
+                    undefined,
+                    undefined,
+                    '.env'
+                );
 
-                    reflectionTexture.current = cubeTexture;
-                    reflectionTexture.current.coordinatesMode = 3;
-                }
-                //Otherwise, we assume the texture is a png.
-                //TODO: Convert all reflection maps to .env files as a base or else
-                //handle the reflection texture file extension as a property so we don't have to handle this manually
-                else {
-                    reflectionTexture.current = BABYLON.Texture.CreateFromBase64String(
-                        currentObjectColor.reflectionTexture,
-                        currentObjectColorId + '_reflectionTexture',
-                        sceneRef.current
-                    );
-                    reflectionTexture.current.coordinatesMode = 1;
-                }
+                reflectionTexture.current = cubeTexture;
             }
 
             //Use the matching cached hover material or create a new one, cache it, and use it
@@ -1567,16 +1560,8 @@ function SceneView(props: ISceneViewProps, ref) {
                         const clone = currentMesh.clone('', null, true, false);
                         // Move the clone to a utility layer so we can draw it on top of other opaque scene elements
                         clone._scene = utilLayer.current.utilityLayerScene;
-
-                        // For some reason when rendering the duplicated outline mesh at 1:1 scale in wireframe mode,
-                        // we get outline artifacts on the wireframe itself.  We scale the mesh up slightly to alleviate this.
-                        if (currentMesh.material.wireframe === true)
-                            clone.scaling = new BABYLON.Vector3(
-                                1.01,
-                                1.01,
-                                1.01
-                            );
-
+                        //Parent the clone to the mesh so that the highlight transform animates properly
+                        clone.setParent(currentMesh);
                         const cloneMaterial = new BABYLON.StandardMaterial(
                             'standard',
                             utilLayer.current.utilityLayerScene
@@ -1586,7 +1571,6 @@ function SceneView(props: ISceneViewProps, ref) {
                         clone.material = cloneMaterial;
                         clone.alphaIndex = 2;
                         clone.isPickable = false;
-                        clone.setParent(currentMesh);
                         clonedHighlightMeshes.current.push(clone);
                         utilLayer.current.utilityLayerScene.meshes.push(clone);
                         meshToOutline = clone;
