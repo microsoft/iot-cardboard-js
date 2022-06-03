@@ -1447,13 +1447,12 @@ abstract class ViewerConfigUtility {
             config
         );
 
-        if (!sceneId || !config || twinData?.size === 0) {
+        if (!sceneId || !config) {
             logDebugConsole(
                 'warn',
-                '[getSceneVisualsInScene] [ABORT], critical argument missing. {sceneId, config, twinData}',
+                '[getSceneVisualsInScene] [ABORT], critical argument missing. {sceneId, config}',
                 sceneId,
-                config,
-                twinData
+                config
             );
             return [];
         }

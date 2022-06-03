@@ -194,5 +194,31 @@ describe('ViewerConfigUtility', () => {
             expect(visual2.twins['TestAlias1']).not.toBeUndefined(); // should resolve the aliases
             expect(visual2.twins['TestAlias2']).not.toBeUndefined(); // should resolve the aliases
         });
+        test('returns visuals even when no elements are part of behaviors (ie. no twin data)', () => {
+            // ARRANGE
+            const config = getMockConfig();
+            const sceneId = MOCK_SCENE_ID;
+            const twinData = new Map<string, DTwin>();
+
+            // remove all elements from behaviors just to simulate the real thing (shouldn't actually matter)
+            const behaviorIds = config.configuration.scenes.find(
+                (x) => x.id === sceneId
+            ).behaviorIDs;
+            config.configuration.behaviors
+                .filter((x) => behaviorIds.includes(x.id))
+                .forEach((x) => (x.datasources = []));
+
+            // ACT
+            const result = ViewerConfigUtility.getSceneVisualsInScene(
+                config,
+                sceneId,
+                twinData
+            );
+
+            // ASSERT
+            expect(result).not.toBeFalsy();
+            expect(result.length).toEqual(2); // cause 2 real elements, skips the custom
+            expect(result).toMatchSnapshot(); // validate the full output
+        });
     });
 });

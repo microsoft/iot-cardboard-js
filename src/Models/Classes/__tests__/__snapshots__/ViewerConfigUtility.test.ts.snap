@@ -1,5 +1,50 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`ViewerConfigUtility Scene Visuals returns visuals even when no elements are part of behaviors (ie. no twin data) 1`] = `
+Array [
+  SceneVisual {
+    "behaviors": Array [],
+    "coloredMeshItems": undefined,
+    "element": Object {
+      "displayName": "MockElement1",
+      "id": "MockElementId1",
+      "objectIDs": Array [
+        "elementObject1",
+        "elementObject2",
+      ],
+      "primaryTwinID": "mockElementTwinId1",
+      "type": "TwinToObjectMapping",
+    },
+    "twins": Object {
+      "PrimaryTwin": undefined,
+    },
+  },
+  SceneVisual {
+    "behaviors": Array [],
+    "coloredMeshItems": undefined,
+    "element": Object {
+      "displayName": "MockElement3",
+      "id": "MockElementId3",
+      "objectIDs": Array [
+        "elementObject2",
+        "elementObject3",
+      ],
+      "primaryTwinID": "mockElementTwinId3",
+      "twinAliases": Object {
+        "TestAlias1": "aliasedTwinId1",
+        "TestAlias2": "aliasedTwinId2",
+      },
+      "type": "TwinToObjectMapping",
+    },
+    "twins": Object {
+      "PrimaryTwin": undefined,
+      "TestAlias1": undefined,
+      "TestAlias2": undefined,
+    },
+  },
+]
+`;
+
 exports[`ViewerConfigUtility Scene Visuals returns visuals when valid inputs 1`] = `
 Array [
   SceneVisual {
