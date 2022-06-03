@@ -238,6 +238,9 @@ function SceneView(props: ISceneViewProps, ref) {
                 console.warn(
                     'Loaded model contains objects with duplicate names. 3D Scenes Studio only supports 3d models with unique object names. Attempting to recover by forcing unique names...'
                 );
+                console.warn(
+                    matchingId.length + ' objects with name: ' + mesh.id
+                );
                 //Append unique numbers to the ids and move on
                 for (let i = 0; i < matchingId.length; i++) {
                     matchingId[i].id += i;
