@@ -105,25 +105,6 @@ export function makePBRMaterial(
     return material;
 }
 
-export function outlineMaterial(scene: any) {
-    const mat = new BABYLON.StandardMaterial('cloneMat', scene);
-    mat.alpha = 0.0;
-    mat.alphaMode = 5;
-
-    mat.disableLighting = true;
-    mat.diffuseColor = BABYLON.Color3.Black();
-    mat.freeze();
-
-    return mat;
-}
-
-export function selectAlphaMode(alpha: number) {
-    if (alpha >= 1) return 0;
-    if (alpha >= 0.9) return BABYLON.Engine.ALPHA_MAXIMIZED;
-    if (alpha > 0) return BABYLON.Engine.ALPHA_ADD;
-    return 0;
-}
-
 export function ToColor3(input: BABYLON.Color4) {
     return new BABYLON.Color3(input.r, input.g, input.b);
 }
