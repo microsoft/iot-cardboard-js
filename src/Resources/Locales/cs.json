@@ -940,9 +940,9 @@
     "noADTInstanceUrlMessage": "Adresa URL instance nástroje ADT není nastavena. Klikněte níže pro nastavení.",
     "configureEnvironment": "Konfigurace prostředí",
     "sceneView": {
-      "3dAssetLoadingNetworkErrorTitle": "Model při načítání chyb",
       "3dAssetLoadingNetworkErrorMessage": "Může se jednat o problém CORS, neplatnou adresu URL objektu BLOB nebo chybu sítě. Obraťte se na vlastníka kontejneru, ve kterém je tento soubor datového zdroje uložený, nebo to zkuste znovu později.",
-      "3dAssetLoadingCommonErrorMessage": "Chyba při načítání modelu. Zkuste vymazat mezipaměť a zkuste to znovu."
+      "3dAssetLoadingErrorTitle": "Model při načítání chyb",
+      "3dAssetLoadingGenericErrorMessage": "Chyba při načítání modelu. Zkuste vymazat mezipaměť a zkuste to znovu."
     }
   }
 }
