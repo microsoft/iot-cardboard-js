@@ -110,7 +110,6 @@ export const getClearButtonStyles = memoizeFunction(
         root: {
             color: theme.palette.themePrimary,
             fontWeight: FontWeights.semibold,
-            textDecoration: 'underline',
             fontSize: FontSizes.size14,
             border: 'none',
             height: 'auto'
@@ -121,6 +120,9 @@ export const getClearButtonStyles = memoizeFunction(
             marginLeft: 0,
             marginRight: 0,
             paddingTop: isTooltipVisible ? 0 : 5
+        },
+        labelHovered: {
+            textDecoration: 'underline'
         }
     })
 );
