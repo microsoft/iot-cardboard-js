@@ -939,8 +939,10 @@
     "noADTInstanceUrlTitle": "Instância ADT não definida",
     "noADTInstanceUrlMessage": "O url de exemplo do ADT não está definido. Clique abaixo para defini-lo.",
     "configureEnvironment": "Ambiente de configuração",
-    "3dAssetLoadingNetworkErrorTitle": "Modelo de carregamento de erros",
-    "3dAssetLoadingNetworkErrorMessage": "Isto pode ser um problema DE CORS, url de blob inválido ou um erro de rede. Entre em contato com o proprietário do recipiente onde este ficheiro de ativos é armazenado ou tente novamente mais tarde.",
-    "3dAssetLoadingCommonErrorMessage": "Modelo de carregamento de erros. Tente Ctrl-F5."
+    "sceneView": {
+      "3dAssetLoadingNetworkErrorTitle": "Modelo de carregamento de erros",
+      "3dAssetLoadingNetworkErrorMessage": "Isto pode ser um problema DE CORS, url de blob inválido ou um erro de rede. Entre em contato com o proprietário do recipiente onde este ficheiro de ativos está armazenado ou tente novamente mais tarde.",
+      "3dAssetLoadingCommonErrorMessage": "Modelo de carregamento de erros. Tente limpar o cache e tente de novo."
+    }
   }
 }
