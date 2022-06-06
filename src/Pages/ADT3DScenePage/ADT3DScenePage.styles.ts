@@ -7,7 +7,7 @@ const classNames = {
     header: `${scenePageClassPrefix}-header`
 };
 
-export const getStyles = memoizeFunction(() => {
+export const getStyles = memoizeFunction((isBuildMode: boolean) => {
     return mergeStyleSets({
         container: [
             classNames.container,
@@ -16,7 +16,9 @@ export const getStyles = memoizeFunction(() => {
                 display: 'flex',
                 flexDirection: 'column',
                 height: '100%',
-                padding: SCENE_PAGE_OUTER_OFFSET,
+                padding: isBuildMode
+                    ? `0px ${SCENE_PAGE_OUTER_OFFSET}px`
+                    : SCENE_PAGE_OUTER_OFFSET,
                 overflowX: 'auto'
             }
         ],

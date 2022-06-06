@@ -82,10 +82,12 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
     enableTwinPropertyInspectorPatchMode = false
 }) => {
     const { t } = useTranslation();
-    const customStyles = getStyles();
     const errorCallbackSetRef = useRef<boolean>(false);
     const [isDialogHidden, setIsDialogHidden] = useState<boolean>(true);
     const { deeplinkDispatch, deeplinkState } = useDeeplinkContext();
+    const customStyles = getStyles(
+        deeplinkState.mode === ADT3DScenePageModes.BuildScene
+    );
 
     const [state, dispatch] = useReducer(
         ADT3DScenePageReducer,
