@@ -65,6 +65,7 @@ import { MarkersPlaceholder } from './Internal/MarkersPlaceholder';
 import { Markers } from './Internal/Markers';
 
 export const showFpsCounter = false;
+const debugBabylon = false;
 const debugLogging = false;
 const debugLog = getDebugLogger('SceneView', debugLogging);
 
@@ -224,8 +225,42 @@ function SceneView(props: ISceneViewProps, ref) {
     debugLog('debug', 'debug', 'SceneView Render');
     const url = modelUrl === 'Globe' ? globeUrl : modelUrl;
 
-    const sortMeshesOnLoad = () => {
+    const preProcessMeshesOnLoad = () => {
+        let uniqueNumber = 0;
+        //Initial loop to check for issues and cleanup meshes.
         for (const mesh of sceneRef.current.meshes) {
+            //Let's make sure that all mesh ids are unique
+            const matchingId = sceneRef.current.meshes.filter(
+                (x) => x.id == mesh.id
+            );
+            if (matchingId.length > 1) {
+                //Throw an error here
+                console.warn(
+                    'Loaded model contains objects with duplicate names. 3D Scenes Studio only supports 3d models with unique object names. Attempting to recover by forcing unique names...'
+                );
+                console.warn(
+                    matchingId.length + ' objects with name: ' + mesh.id
+                );
+                //Append unique numbers to the ids and move on
+                for (let i = 0; i < matchingId.length; i++) {
+                    matchingId[i].id += i;
+                }
+            }
+
+            //If the mesh is an InstancedMesh, break the mesh instancing to handle it as an independent object
+            if (mesh.isAnInstance) {
+                debugLog('debug', 'Breaking mesh instance: ', mesh.name);
+                const instancedMesh = mesh as BABYLON.InstancedMesh;
+                instancedMesh.sourceMesh.clone(
+                    instancedMesh.name + uniqueNumber,
+                    instancedMesh.parent
+                );
+                uniqueNumber++;
+                sceneRef.current.removeMesh(mesh);
+                mesh.dispose();
+                continue;
+            }
+
             //Set the alpha index for the meshes for alpha sorting later
             mesh.alphaIndex = 1;
         }
@@ -618,36 +653,29 @@ function SceneView(props: ISceneViewProps, ref) {
             //Reset the reflection Texture
             reflectionTexture.current = null;
             if (currentObjectColor.reflectionTexture) {
-                //If the current theme is the default mode, load the reflection as a .env file
-                //This is assuming the file is a .env file (see https://doc.babylonjs.com/divingDeeper/materials/using/HDREnvironment#what-is-a-env-tech-deep-dive)
-                if (currentObjectColor === DefaultViewerModeObjectColor) {
-                    const cubeTexture = new BABYLON.CubeTexture(
-                        DefaultViewerModeObjectColor.reflectionTexture,
-                        sceneRef.current,
-                        undefined,
-                        undefined,
-                        undefined,
-                        undefined,
-                        undefined,
-                        undefined,
-                        undefined,
-                        '.env'
-                    );
+                //If the current object theme has a reflection and the property is 'default', use the default reflection.
+                //Otherwise, this assumes the property contains a .env file that is base64 encoded as an octet-stream.
+                //see the Babylon documentation on how to generate a .env from an HDRi or DDS environment file:
+                //(https://doc.babylonjs.com/divingDeeper/materials/using/HDREnvironment)
+                const reflectionAsString = currentObjectColor.reflectionTexture.startsWith(
+                    'default'
+                )
+                    ? DefaultViewerModeObjectColor.reflectionTexture
+                    : currentObjectColor.reflectionTexture;
+                const cubeTexture = new BABYLON.CubeTexture(
+                    reflectionAsString,
+                    sceneRef.current,
+                    undefined,
+                    undefined,
+                    undefined,
+                    undefined,
+                    undefined,
+                    undefined,
+                    undefined,
+                    '.env'
+                );
 
-                    reflectionTexture.current = cubeTexture;
-                    reflectionTexture.current.coordinatesMode = 3;
-                }
-                //Otherwise, we assume the texture is a png.
-                //TODO: Convert all reflection maps to .env files as a base or else
-                //handle the reflection texture file extension as a property so we don't have to handle this manually
-                else {
-                    reflectionTexture.current = BABYLON.Texture.CreateFromBase64String(
-                        currentObjectColor.reflectionTexture,
-                        currentObjectColorId + '_reflectionTexture',
-                        sceneRef.current
-                    );
-                    reflectionTexture.current.coordinatesMode = 1;
-                }
+                reflectionTexture.current = cubeTexture;
             }
 
             //Use the matching cached hover material or create a new one, cache it, and use it
@@ -850,9 +878,9 @@ function SceneView(props: ISceneViewProps, ref) {
 
             if (success) {
                 sceneRef.current = sc;
-                createOrZoomCamera();
 
-                sortMeshesOnLoad();
+                preProcessMeshesOnLoad();
+                createOrZoomCamera();
 
                 sceneRef.current.clearColor = new BABYLON.Color4(
                     0,
@@ -941,6 +969,15 @@ function SceneView(props: ISceneViewProps, ref) {
 
                 setScene(sceneRef.current);
                 setIsLoading(false);
+
+                //This will show the babylon inspector on the right side of the screen to view all babylon scene objects and their properties
+                if (debugBabylon) {
+                    sceneRef.current.debugLayer.show({
+                        showInspector: true,
+                        embedMode: true
+                    });
+                }
+
                 engineRef.current.resize();
                 if (onSceneLoaded) {
                     onSceneLoaded(sceneRef.current);
@@ -1567,16 +1604,8 @@ function SceneView(props: ISceneViewProps, ref) {
                         const clone = currentMesh.clone('', null, true, false);
                         // Move the clone to a utility layer so we can draw it on top of other opaque scene elements
                         clone._scene = utilLayer.current.utilityLayerScene;
-
-                        // For some reason when rendering the duplicated outline mesh at 1:1 scale in wireframe mode,
-                        // we get outline artifacts on the wireframe itself.  We scale the mesh up slightly to alleviate this.
-                        if (currentMesh.material.wireframe === true)
-                            clone.scaling = new BABYLON.Vector3(
-                                1.01,
-                                1.01,
-                                1.01
-                            );
-
+                        //Parent the clone to the mesh so that the highlight transform animates properly
+                        clone.setParent(currentMesh);
                         const cloneMaterial = new BABYLON.StandardMaterial(
                             'standard',
                             utilLayer.current.utilityLayerScene
@@ -1586,7 +1615,6 @@ function SceneView(props: ISceneViewProps, ref) {
                         clone.material = cloneMaterial;
                         clone.alphaIndex = 2;
                         clone.isPickable = false;
-                        clone.setParent(currentMesh);
                         clonedHighlightMeshes.current.push(clone);
                         utilLayer.current.utilityLayerScene.meshes.push(clone);
                         meshToOutline = clone;
