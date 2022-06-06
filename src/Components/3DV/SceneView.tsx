@@ -873,7 +873,7 @@ function SceneView(props: ISceneViewProps, ref) {
                 (e: any) => onProgress(e),
                 (s: any, m: any, e: any) => {
                     if (e.isAxiosError && typeof e.response === 'undefined') {
-                        // Network error, this could be a CORS issue, invalid blob url or a dropped internet connection. It is not possible for us to know.
+                        // When response is undefined axios call returns as 'Network error', this could be a CORS issue, invalid blob url or a dropped internet connection. It is not possible for us to know.
                         console.error(
                             'Error loading model. This could be a CORS issue, invalid blob url or network error.'
                         );
