@@ -93,13 +93,13 @@ const getGraphViewerElementsFromModels = (models, modelPositions) => {
                 let relationshipAmount = 0;
                 if (!content['@id']) {
                     while (
-                        relationships.filter(
+                        relationships.some(
                             (element) =>
                                 element.source &&
                                 element.source === input['@id'] &&
                                 element.id ===
                                     `${input['@id']}${OATRelationshipHandleName}${relationshipAmount};${versionClassBase}`
-                        ).length > 0
+                        )
                     ) {
                         relationshipAmount++;
                     }
@@ -195,7 +195,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     const graphViewerMinimapStyles = getGraphViewerMinimapStyles();
     const currentNodeIdRef = useRef('');
     const currentHandleIdRef = useRef('');
-    const currentHoveredRef = useRef('');
+    const [currentHovered, setCurrentHovered] = useState(null);
     const [showRelationships, setShowRelationships] = useState(true);
     const [showInheritances, setShowInheritances] = useState(true);
     const [showComponents, setShowComponents] = useState(true);
@@ -509,7 +509,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
             setCurrentNode,
             dispatch,
             currentNodeIdRef,
-            currentHoveredRef,
+            currentHovered,
             showRelationships,
             showInheritances,
             showComponents,
@@ -521,7 +521,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
             setCurrentNode,
             dispatch,
             currentNodeIdRef,
-            currentHoveredRef,
+            currentHovered,
             showRelationships,
             showInheritances,
             showComponents,
@@ -669,13 +669,13 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
             if (currentHandleIdRef.current !== OATUntargetedRelationshipName) {
                 let relationshipAmount = 0;
                 while (
-                    elements.filter(
+                    elements.some(
                         (element) =>
                             element.source &&
                             element.source === currentNodeIdRef.current &&
                             element.id ===
                                 `${currentNodeIdRef.current}${currentHandleIdRef.current}${target.dataset.id}${relationshipAmount};${versionClassBase}`
-                    ).length > 0
+                    )
                 ) {
                     relationshipAmount++;
                 }
@@ -931,13 +931,11 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     };
 
     const onNodeMouseEnter = (evt, node) => {
-        currentHoveredRef.current = node.id;
-        setElements([...elements]);
+        setCurrentHovered(node);
     };
 
     const onNodeMouseLeave = (evt) => {
-        currentHoveredRef.current = '';
-        setElements([...elements]);
+        setCurrentHovered(null);
     };
 
     return (

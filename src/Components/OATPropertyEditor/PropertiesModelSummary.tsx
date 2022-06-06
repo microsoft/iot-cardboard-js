@@ -9,7 +9,7 @@ import {
 } from './OATPropertyEditor.styles';
 import { SET_OAT_PROPERTY_EDITOR_MODEL } from '../../Models/Constants/ActionTypes';
 import { IAction } from '../../Models/Constants/Interfaces';
-import { deepCopy } from '../../Models/Services/Utils';
+import { deepCopy, getStringFromObject } from '../../Models/Services/Utils';
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 import { ModelTypes } from '../../Models/Constants/Enums';
 
@@ -82,9 +82,7 @@ export const PropertiesModelSummary = ({
                         disabled={!model}
                         value={
                             model && model.name
-                                ? typeof model.name === 'string'
-                                    ? model.name
-                                    : Object.values(model.name)[0]
+                                ? getStringFromObject(model.name)
                                 : ''
                         }
                         placeholder={t('name')}
@@ -107,9 +105,7 @@ export const PropertiesModelSummary = ({
                     disabled={!model}
                     value={
                         model && model.displayName
-                            ? typeof model.displayName === 'string'
-                                ? model.displayName
-                                : Object.values(model.displayName)[0]
+                            ? getStringFromObject(model.displayName)
                             : ''
                     }
                     placeholder={t('OATPropertyEditor.displayName')}
