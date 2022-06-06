@@ -12,8 +12,10 @@ export const getModelPropertyCollectionName = (type: string) => {
 export const getModelPropertyListItemName = (name) => {
     if (name && typeof name === 'string') {
         return name;
+    } else if (name) {
+        return Object.values(name)[0];
     }
-    return Object.values(name)[0];
+    return '';
 };
 
 /* Returns property's display name, depending on whether it is a string or a object of localized displayNames */

@@ -182,6 +182,13 @@ const PropertySelector = ({
                     schemaCopy.fields.length +
                     1
             )}`,
+            displayName: `${t(
+                'OATPropertyEditor.property'
+            )}_${String.fromCharCode(
+                ASCII_VALUE_BEFORE_LOWERCASE_ALPHABET +
+                    schemaCopy.fields.length +
+                    1
+            )}`,
             schema: tag
         });
 
@@ -218,6 +225,9 @@ const PropertySelector = ({
                     };${versionClassBase}`,
                     '@type': ['property'],
                     name: `New_Property_${model[propertiesKeyName].length + 1}`,
+                    displayName: `New_Property_${
+                        model[propertiesKeyName].length + 1
+                    }`,
                     schema: getSchema(tag)
                 }
             ]

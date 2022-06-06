@@ -149,12 +149,14 @@ export const PropertyList = ({
         enteredPropertyRef.current = i;
     };
 
-    const handlePropertyNameChange = (value, index) => {
+    const handlePropertyDisplayNameChange = (value, index) => {
         const newModel = deepCopy(model);
         if (index === undefined) {
-            newModel[propertiesKeyName][currentPropertyIndex].name = value;
+            newModel[propertiesKeyName][
+                currentPropertyIndex
+            ].displayName = value;
         } else {
-            newModel[propertiesKeyName][index].name = value;
+            newModel[propertiesKeyName][index].displayName = value;
         }
         dispatch({ type: SET_OAT_PROPERTY_EDITOR_MODEL, payload: newModel });
     };
@@ -166,7 +168,7 @@ export const PropertyList = ({
             );
 
             if (!find && value !== '') {
-                handlePropertyNameChange(value, index);
+                handlePropertyDisplayNameChange(value, index);
             }
 
             return find
@@ -256,6 +258,9 @@ export const PropertyList = ({
                                             getNestedItemClassName
                                         }
                                         getErrorMessage={generateErrorMessage}
+                                        handlePropertyDisplayNameChange={
+                                            handlePropertyDisplayNameChange
+                                        }
                                         handleDragEnter={handleDragEnter}
                                         handleDragEnterExternalItem={
                                             handleDragEnterExternalItem
@@ -290,6 +295,9 @@ export const PropertyList = ({
                                         draggingProperty={draggingProperty}
                                         getItemClassName={getItemClassName}
                                         getErrorMessage={generateErrorMessage}
+                                        handlePropertyDisplayNameChange={
+                                            handlePropertyDisplayNameChange
+                                        }
                                         handleDragEnter={handleDragEnter}
                                         handleDragEnterExternalItem={
                                             handleDragEnterExternalItem

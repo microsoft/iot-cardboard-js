@@ -27,6 +27,7 @@ type IPropertyListItem = {
     draggingProperty?: boolean;
     getItemClassName?: (index: number) => any;
     getErrorMessage?: (value: string, index?: number) => string;
+    handlePropertyDisplayNameChange?: (value: string, index?: number) => void;
     handleDragEnter?: (event: any, item: any) => any;
     handleDragEnterExternalItem?: (index: number) => any;
     handleDragStart?: (event: any, item: any) => any;
@@ -45,10 +46,10 @@ export const PropertyListItem = ({
     dispatch,
     draggingProperty,
     getItemClassName,
-    getErrorMessage,
     handleDragEnter,
     handleDragEnterExternalItem,
     handleDragStart,
+    handlePropertyDisplayNameChange,
     setCurrentPropertyIndex,
     setModalOpen,
     item,
@@ -127,11 +128,13 @@ export const PropertyListItem = ({
             >
                 <TextField
                     borderless
-                    value={getModelPropertyListItemName(item.name)}
+                    value={getModelPropertyListItemName(
+                        item.displayName ? item.displayName : item.name
+                    )}
                     validateOnFocusOut
                     onChange={(evt, value) => {
                         setCurrentPropertyIndex(index);
-                        getErrorMessage(value, index);
+                        handlePropertyDisplayNameChange(value, index);
                     }}
                     styles={textFieldStyles}
                 />
