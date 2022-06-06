@@ -1,4 +1,4 @@
-import { AbstractMesh, Scene } from '@babylonjs/core';
+import { AbstractMesh, int, Scene } from '@babylonjs/core';
 import {
     ADTModelData,
     ADTRelationshipsData,
@@ -756,7 +756,99 @@ export interface IBlobFile {
     Properties: Record<string, any>;
 }
 
+export interface IOATGraphCustomNodeProps {
+    data: IOATGraphCustomNodeData;
+    isConnectable: boolean;
+}
+
+export interface IOATGraphCustomNodeData {
+    id: string;
+    name: string;
+    type: string;
+    context: string;
+    content: IOATTwinNodeContents[];
+}
+
+export interface IOATGraphCustomEdgeProps {
+    id: string;
+    sourceX: string;
+    sourceY: string;
+    targetX: string;
+    targetY: string;
+    sourcePosition: number;
+    targetPosition: number;
+    style: React.CSSProperties;
+    data: IOATGraphCustomEdgeData;
+    markerEnd: string;
+}
+
+export interface IOATGraphCustomEdgeData {
+    id: string;
+    name: string;
+    displayName: string;
+    type: string;
+}
 export interface IAliasedTwinProperty {
     alias: 'LinkedTwin' | string;
     property: string;
+}
+
+export interface IOATElementsChangeEventArgs {
+    digitalTwinsModels: IOATTwinModelNodes;
+}
+
+export interface IOATTwinModelNodes {
+    '@id': string;
+    '@type': string;
+    displayName: string;
+    contents: IOATTwinNodeContents[];
+    extends?: string;
+}
+
+export interface IOATTwinNodeContents {
+    '@id': string;
+    '@type': string;
+    name?: string;
+    displayName?: string;
+    target?: string;
+}
+export interface DTDLProperty {
+    readonly ['@type']: string;
+    ['@id']?: string;
+    name: string;
+    schema: string | Record<string, any>;
+    comment?: string;
+    description?: string;
+    displayName?: string;
+    unit?: string;
+    writable?: boolean;
+}
+
+export interface IOATNodeElement {
+    id: string;
+    data?: IOATGraphCustomNodeData;
+    position?: IOATNodePosition;
+    type?: string;
+}
+
+export interface IOATNodePosition {
+    x: number;
+    y: number;
+}
+
+export interface IOATRelationShipElement {
+    id?: string;
+    label?: string;
+    markerEnd?: string;
+    source?: string;
+    sourceHandle?: string;
+    target?: string;
+    targetHandle?: string;
+    type?: string;
+    data?: IOATGraphCustomEdgeData;
+}
+
+export interface IOATLastPropertyFocused {
+    item: DTDLProperty;
+    index: number;
 }

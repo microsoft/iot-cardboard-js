@@ -1,0 +1,227 @@
+import React, { useContext, useState } from 'react';
+import { getBezierPath, getEdgeCenter } from 'react-flow-renderer';
+import { IOATGraphCustomEdgeProps } from '../../../Models/Constants/Interfaces';
+import { getGraphViewerStyles } from '../OATGraphViewer.styles';
+import { ElementsContext } from './OATContext';
+import { TextField } from '@fluentui/react';
+import {
+    OATUntargetedRelationshipName,
+    OATRelationshipHandleName,
+    OATComponentHandleName,
+    OATExtendHandleName
+} from '../../../Models/Constants/Constants';
+import { SET_OAT_PROPERTY_EDITOR_MODEL } from '../../../Models/Constants/ActionTypes';
+
+const foreignObjectSize = 180;
+
+const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
+    id,
+    sourceX,
+    sourceY,
+    targetX,
+    targetY,
+    sourcePosition,
+    targetPosition,
+    style = {},
+    data,
+    markerEnd
+}) => {
+    const [nameEditor, setNameEditor] = useState(false);
+    const [nameText, setNameText] = useState(data.name);
+    const { elements, setElements, dispatch, setCurrentNode } = useContext(
+        ElementsContext
+    );
+    const graphViewerStyles = getGraphViewerStyles();
+
+    const element = elements.find((x) => x.id === id);
+    if (element) {
+        const sourceNode = elements.find((x) => x.id === element.source);
+        const sourceNodeSize = (sourceX - sourceNode.position.x) * 2;
+        const targetNode = elements.find((x) => x.id === element.target);
+        const targetNodeSize = (targetX - targetNode.position.x) * 2;
+        const connection = 3;
+        const sources = elements.filter(
+            (x) =>
+                x.source === element.source &&
+                x.sourceHandle === element.sourceHandle
+        );
+        if (sources.length > 1) {
+            const separation = sourceNodeSize / connection / sources.length;
+            const sourceRange = (separation * (sources.length - 1)) / 2;
+            sourceX = sourceX - sourceRange;
+            const indexX = sources.findIndex((x) => x.id === id);
+            sourceX = indexX * separation + sourceX;
+            sourceY = sourceY - connection;
+        }
+        const targets = elements.filter((x) => x.target === element.target);
+        if (targets.length > 1) {
+            const separation = targetNodeSize / targets.length;
+            const targetRange = (separation * (targets.length - 1)) / 2;
+            targetX = targetX - targetRange;
+            const indexY = targets.findIndex((x) => x.id === id);
+            targetX = indexY * separation + targetX;
+            targetY = targetY + connection;
+        }
+    }
+
+    const onNameChange = (evt) => {
+        setNameText(evt.target.value);
+    };
+
+    const onNameClick = () => {
+        setNameEditor(true);
+        const clickedRelationship = {
+            '@id': element.data.id,
+            id,
+            '@type': element.data.type,
+            '@context': element.data.context,
+            displayName: element.data.name,
+            contents: element.data.content ? element.data.content : []
+        };
+        setCurrentNode(element.id);
+        dispatch({
+            type: SET_OAT_PROPERTY_EDITOR_MODEL,
+            payload: clickedRelationship
+        });
+    };
+
+    const onNameBlur = () => {
+        setNameEditor(false);
+        if (data.name !== nameText) {
+            elements.find(
+                (element) => element.data.id === data.id
+            ).data.name = nameText;
+            setElements([...elements]);
+        }
+    };
+
+    const onKeyDown = (evt) => {
+        if (evt.key === 'Escape') {
+            onNameBlur();
+        }
+    };
+
+    const edgePath = getBezierPath({
+        sourceX,
+        sourceY,
+        sourcePosition,
+        targetX,
+        targetY,
+        targetPosition
+    });
+    const [edgeCenterX, edgeCenterY] = getEdgeCenter({
+        sourceX,
+        sourceY,
+        targetX,
+        targetY
+    });
+
+    return (
+        <>
+            {data.type === OATExtendHandleName && (
+                <path
+                    id={id}
+                    className={graphViewerStyles.inheritancePath}
+                    d={edgePath}
+                    onClick={onNameClick}
+                    markerEnd={markerEnd}
+                />
+            )}
+            {(data.type === OATRelationshipHandleName ||
+                data.type === OATUntargetedRelationshipName) && (
+                <path
+                    id={id}
+                    className={graphViewerStyles.edgePath}
+                    d={edgePath}
+                    onClick={onNameClick}
+                    markerEnd={markerEnd}
+                />
+            )}
+            {data.type === OATComponentHandleName && (
+                <path
+                    id={id}
+                    className={graphViewerStyles.componentPath}
+                    d={edgePath}
+                    onClick={onNameClick}
+                    markerEnd={markerEnd}
+                />
+            )}
+            {nameEditor && (
+                <foreignObject
+                    width={foreignObjectSize}
+                    height={foreignObjectSize}
+                    x={edgeCenterX - foreignObjectSize / 2}
+                    y={edgeCenterY}
+                    requiredExtensions="http://www.w3.org/1999/xhtml"
+                >
+                    <body>
+                        <TextField
+                            id="text"
+                            name="text"
+                            className={graphViewerStyles.textEdit}
+                            onChange={onNameChange}
+                            value={nameText}
+                            onBlur={onNameBlur}
+                            onKeyDown={onKeyDown}
+                            autoFocus
+                        />
+                    </body>
+                </foreignObject>
+            )}
+            {!nameEditor && (
+                <text>
+                    <textPath
+                        href={`#${id}`}
+                        className={graphViewerStyles.textPath}
+                        startOffset="50%"
+                        textAnchor="middle"
+                        onClick={onNameClick}
+                    >
+                        {data.name}
+                    </textPath>
+                </text>
+            )}
+            {data.type === OATExtendHandleName && (
+                <polygon
+                    points={`${targetX - 5},${targetY - 10} ${targetX + 5},${
+                        targetY - 10
+                    } ${targetX},${targetY}`}
+                    cx={targetX}
+                    cy={targetY}
+                    r={3}
+                    strokeWidth={1.5}
+                    className={graphViewerStyles.inheritanceShape}
+                />
+            )}
+            {(data.type === OATRelationshipHandleName ||
+                data.type === OATUntargetedRelationshipName) && (
+                <polygon
+                    points={`${targetX - 5},${
+                        targetY - 5
+                    } ${targetX},${targetY} ${targetX + 5},${
+                        targetY - 5
+                    } ${targetX},${targetY}`}
+                    cx={targetX}
+                    cy={targetY}
+                    r={3}
+                    strokeWidth={1.5}
+                    className={graphViewerStyles.edgePath}
+                />
+            )}
+            {data.type === OATComponentHandleName && (
+                <polygon
+                    points={`${sourceX + 5},${sourceY + 5} ${sourceX},${
+                        sourceY + 10
+                    } ${sourceX - 5},${sourceY + 5} ${sourceX},${sourceY}`}
+                    cx={sourceX}
+                    cy={sourceY}
+                    r={3}
+                    strokeWidth={1.5}
+                    className={graphViewerStyles.componentShape}
+                />
+            )}
+        </>
+    );
+};
+
+export default OATGraphCustomEdge;
