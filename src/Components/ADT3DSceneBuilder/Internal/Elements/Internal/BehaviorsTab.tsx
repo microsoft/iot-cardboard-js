@@ -47,7 +47,7 @@ const BehaviorsTab: React.FC<IADT3DSceneBuilderElementBehaviorProps> = ({
         setBehaviorState(
             produce((draft) => {
                 draft.behaviorsOnElement = ViewerConfigUtility.getBehaviorsOnElement(
-                    elementToEdit,
+                    elementToEdit?.id,
                     deepCopy(behaviors)
                 );
 

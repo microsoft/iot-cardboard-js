@@ -359,3 +359,54 @@ export const MockWithSelection = (_args, { globals: { theme, locale } }) => {
         </div>
     );
 };
+
+export const LayerSelect = (_args, { globals: { theme, locale } }) => {
+    const scenesConfig = mockVConfig as I3DScenesConfig;
+    const [selectedLayerIds, setSelectedLayerIds] = useState<string[]>([]);
+
+    return (
+        <div style={{ width: '100%', height: '600px' }}>
+            <Dropdown
+                onChange={(_event, option) => setSelectedLayerIds(option.data)}
+                style={{ width: '200px' }}
+                placeholder="Select layer..."
+                options={[
+                    {
+                        data: [
+                            '8904b620aa83c649888dadc7c8fdf492',
+                            '9624b620aa83c649888dadc7c8fdf541'
+                        ],
+                        text: 'All',
+                        key: 'all'
+                    },
+                    {
+                        data: [],
+                        text: 'None',
+                        key: 'none'
+                    },
+                    {
+                        data: ['8904b620aa83c649888dadc7c8fdf492'],
+                        text: 'Flow',
+                        key: 'flow'
+                    },
+                    {
+                        data: ['9624b620aa83c649888dadc7c8fdf541'],
+                        text: 'Temperature',
+                        key: 'temperature'
+                    }
+                ]}
+            />
+            <ADT3DViewer
+                title="3D Viewer (Mock Data)"
+                theme={theme}
+                locale={locale}
+                selectedLayerIds={selectedLayerIds}
+                adapter={new MockAdapter()}
+                scenesConfig={scenesConfig}
+                pollingInterval={10000}
+                sceneId={mockSceneId}
+                connectionLineColor="#000"
+            />
+        </div>
+    );
+};

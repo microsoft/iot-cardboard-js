@@ -15,6 +15,7 @@ export interface IBaseBreadcrumbProps {
     classNames: BreadcrumbClassNames;
     onSceneClick?: () => void;
     onCancelForm?: () => void;
+    onSceneChange?: () => void;
     onRenderSceneItem?: (props?: IBreadcrumbItem) => JSX.Element;
 }
 
@@ -23,4 +24,5 @@ export interface ISceneBreadcrumbFactoryProps {
     sceneName: string;
     builderMode?: ADT3DSceneBuilderMode;
     onSceneClick?: () => void;
+    onSceneChange?: () => void;
 }

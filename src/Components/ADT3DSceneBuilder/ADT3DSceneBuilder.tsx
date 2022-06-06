@@ -495,7 +495,7 @@ const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
         // get behaviors that contain any of the elements
         for (const element of elements) {
             const behavior = ViewerConfigUtility.getBehaviorsOnElement(
-                element,
+                element?.id,
                 state.config?.configuration?.behaviors
             );
             if (behavior) {
@@ -891,6 +891,7 @@ const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
                             />
                         </div>
                     )}
+                    {/* Preview modal */}
                     {(state.builderMode ===
                         ADT3DSceneBuilderMode.CreateBehavior ||
                         state.builderMode ===
@@ -900,6 +901,7 @@ const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
                             <div className={commonPanelStyles.previewContainer}>
                                 <BehaviorsModal
                                     behaviors={[behaviorToEdit]}
+                                    element={undefined}
                                     twins={null}
                                     mode={BehaviorModalMode.preview}
                                     activeWidgetId={

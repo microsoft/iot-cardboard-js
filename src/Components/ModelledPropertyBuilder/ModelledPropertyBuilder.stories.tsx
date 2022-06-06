@@ -64,7 +64,7 @@ const elementsInScene = ViewerConfigUtility.getElementsInScene(
 
 const behavior = mockConfig.configuration.behaviors[0];
 
-const elementIdsOnBehavior = ViewerConfigUtility.getMappingIdsForBehavior(
+const elementIdsOnBehavior = ViewerConfigUtility.getElementIdsForBehavior(
     behavior
 );
 
