@@ -90,14 +90,24 @@ const getGraphViewerElementsFromModels = (models, modelPositions) => {
                 );
                 relationships = [...relationships, componentRelationship];
             } else if (content['@type'] === OATRelationshipHandleName) {
-                const relationshipAmount = relationships.filter(
-                    (element) =>
-                        element.source && element.source === input['@id']
-                ).length;
+                let relationshipAmount = 0;
+                if (!content['@id']) {
+                    while (
+                        relationships.filter(
+                            (element) =>
+                                element.source &&
+                                element.source === input['@id'] &&
+                                element.id ===
+                                    `${input['@id']}${OATRelationshipHandleName}${relationshipAmount};${versionClassBase}`
+                        ).length > 0
+                    ) {
+                        relationshipAmount++;
+                    }
+                }
                 const relationship = new ElementEdge(
                     content['@id']
                         ? content['@id']
-                        : `${input['@id']}${OATRelationshipHandleName};${relationshipAmount}`,
+                        : `${input['@id']}${OATRelationshipHandleName}${relationshipAmount};${versionClassBase}`,
                     OATRelationshipHandleName,
                     input['@id'],
                     OATRelationshipHandleName,
@@ -105,7 +115,7 @@ const getGraphViewerElementsFromModels = (models, modelPositions) => {
                     new ElementEdgeData(
                         content['@id']
                             ? content['@id']
-                            : `${input['@id']}${OATRelationshipHandleName};${relationshipAmount}`,
+                            : `${input['@id']}${OATRelationshipHandleName}${relationshipAmount};${versionClassBase}`,
                         content['name'],
                         content['displayName'],
                         OATRelationshipHandleName
@@ -185,6 +195,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     const graphViewerMinimapStyles = getGraphViewerMinimapStyles();
     const currentNodeIdRef = useRef('');
     const currentHandleIdRef = useRef('');
+    const currentHoveredRef = useRef('');
     const [showRelationships, setShowRelationships] = useState(true);
     const [showInheritances, setShowInheritances] = useState(true);
     const [showComponents, setShowComponents] = useState(true);
@@ -498,6 +509,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
             setCurrentNode,
             dispatch,
             currentNodeIdRef,
+            currentHoveredRef,
             showRelationships,
             showInheritances,
             showComponents,
@@ -509,6 +521,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
             setCurrentNode,
             dispatch,
             currentNodeIdRef,
+            currentHoveredRef,
             showRelationships,
             showInheritances,
             showComponents,
@@ -654,14 +667,21 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
         );
         if (target) {
             if (currentHandleIdRef.current !== OATUntargetedRelationshipName) {
-                const relationshipAmount = elements.filter(
-                    (element) =>
-                        element.source &&
-                        element.source === currentNodeIdRef.current
-                ).length;
+                let relationshipAmount = 0;
+                while (
+                    elements.filter(
+                        (element) =>
+                            element.source &&
+                            element.source === currentNodeIdRef.current &&
+                            element.id ===
+                                `${currentNodeIdRef.current}${currentHandleIdRef.current}${target.dataset.id}${relationshipAmount};${versionClassBase}`
+                    ).length > 0
+                ) {
+                    relationshipAmount++;
+                }
                 params.target = target.dataset.id;
-                params.id = `${currentNodeIdRef.current}${currentHandleIdRef.current}${target.dataset.id}${relationshipAmount}`;
-                params.data.id = `${currentNodeIdRef.current}${currentHandleIdRef.current}${target.dataset.id}${relationshipAmount}`;
+                params.id = `${currentNodeIdRef.current}${currentHandleIdRef.current}${target.dataset.id}${relationshipAmount};${versionClassBase}`;
+                params.data.id = `${currentNodeIdRef.current}${currentHandleIdRef.current}${target.dataset.id}${relationshipAmount};${versionClassBase}`;
                 params.data.name = OATRelationshipHandleName
                     ? `${t(
                           'OATGraphViewer.relationships'
@@ -712,13 +732,15 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
             ) {
                 const name = `Model${newModelId}`;
                 const id = `${idClassBase}model${newModelId};${versionClassBase}`;
+                const reactFlowBounds = reactFlowWrapperRef.current.getBoundingClientRect();
+                const position = rfInstance.project({
+                    x: evt.clientX - reactFlowBounds.left,
+                    y: evt.clientY - reactFlowBounds.top
+                });
                 const newNode = {
                     id: id,
                     type: OATInterfaceType,
-                    position: {
-                        x: node.position.x - componentRelativePosition,
-                        y: node.position.y + componentRelativePosition
-                    },
+                    position: position,
                     data: {
                         name: name,
                         type: OATInterfaceType,
@@ -908,6 +930,16 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
         return { x: defaultPositionX, y: defaultPositionY };
     };
 
+    const onNodeMouseEnter = (evt, node) => {
+        currentHoveredRef.current = node.id;
+        setElements([...elements]);
+    };
+
+    const onNodeMouseLeave = (evt) => {
+        currentHoveredRef.current = '';
+        setElements([...elements]);
+    };
+
     return (
         <ReactFlowProvider>
             <div
@@ -927,6 +959,8 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                         nodeTypes={nodeTypes}
                         edgeTypes={edgeTypes}
                         onNodeDragStop={onNodeDragStop}
+                        onNodeMouseEnter={onNodeMouseEnter}
+                        onNodeMouseLeave={onNodeMouseLeave}
                     >
                         <PrimaryButton
                             styles={buttonStyles}

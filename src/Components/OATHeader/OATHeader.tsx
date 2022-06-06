@@ -136,6 +136,7 @@ const OATHeader = ({ elements, dispatch, state }: OATHeaderProps) => {
                 } catch (error) {
                     console.log(error);
                     alert(error);
+                    allValidFiles = false;
                 }
             }
             if (allValidFiles) {

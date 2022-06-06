@@ -1,4 +1,10 @@
-import { IStyle, mergeStyleSets, useTheme, FontSizes } from '@fluentui/react';
+import {
+    IStyle,
+    mergeStyleSets,
+    useTheme,
+    FontSizes,
+    IRawStyle
+} from '@fluentui/react';
 import { CardboardClassNamePrefix } from '../../Models/Constants';
 
 const classPrefix = `${CardboardClassNamePrefix}-oat-graph-viewer`;
@@ -46,7 +52,7 @@ export const getGraphViewerStyles = () => {
                     top: '50%'
                 },
                 [`& .${classNames.componentHandleFocus}`]: {
-                    left: '20%',
+                    left: '100%',
                     background: theme.semanticColors.variantBorder
                 },
                 [`& .${classNames.componentHandleHidden}`]: {
@@ -56,7 +62,7 @@ export const getGraphViewerStyles = () => {
                     border: '0px'
                 },
                 [`& .${classNames.relationshipHandleFocus}`]: {
-                    left: '45%',
+                    left: '20%',
                     background: theme.semanticColors.variantBorder
                 },
                 [`& .${classNames.relationshipHandleHidden}`]: {
@@ -66,7 +72,7 @@ export const getGraphViewerStyles = () => {
                     border: '0px'
                 },
                 [`& .${classNames.extendHandleFocus}`]: {
-                    left: '100%',
+                    left: '70%',
                     background: theme.semanticColors.variantBorder
                 },
                 [`& .${classNames.extendHandleHidden}`]: {
@@ -76,7 +82,7 @@ export const getGraphViewerStyles = () => {
                     border: '0px'
                 },
                 [`& .${classNames.untargetRelationshipHandleFocus}`]: {
-                    left: '70%',
+                    left: '45%',
                     background: theme.semanticColors.variantBorder
                 },
                 [`& .${classNames.untargetRelationshipHandleHidden}`]: {
