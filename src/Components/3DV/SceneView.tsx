@@ -371,13 +371,15 @@ function SceneView(props: ISceneViewProps, ref) {
                             sceneRef.current
                         );
 
-                        camera.maxZ = Math.max(width, height, depth) * 2;
-
                         camera.attachControl(canvas, false);
-                        camera.lowerRadiusLimit = 0;
                         cameraRef.current = camera;
                         cameraRef.current.zoomOn(meshes, true);
                         cameraRef.current.radius = radius;
+                        cameraRef.current.lowerRadiusLimit = 0;
+                        cameraRef.current.upperRadiusLimit =
+                            Math.max(width, height, depth) * 3;
+                        cameraRef.current.maxZ =
+                            Math.max(width, height, depth) * 5;
                         cameraRef.current.wheelPrecision =
                             (3 * 40) / bbox.boundingSphere.radius;
 
