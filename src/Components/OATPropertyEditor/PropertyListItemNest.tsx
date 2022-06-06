@@ -25,8 +25,14 @@ import {
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 import {
     getModelPropertyCollectionName,
-    getModelPropertyListItemName
+    getModelPropertyListItemName,
+    shouldClosePropertySelectorOnMouseLeave
 } from './Utils';
+
+type IPropertySelectorTriggerElementsBoundingBox = {
+    top: number;
+    left: number;
+};
 
 type IPropertyListItemNest = {
     deleteItem?: (index: number) => any;
@@ -50,8 +56,8 @@ type IPropertyListItemNest = {
     setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
     state?: IOATEditorState;
     setPropertySelectorVisible?: React.Dispatch<React.SetStateAction<boolean>>;
-    handleSelectorPosition?: any;
-    getIsMouseLeaveNotNorth?: (event: MouseEvent) => any;
+    handleSelectorPosition?: (event: MouseEvent) => void;
+    propertySelectorTriggerElementsBoundingBox: IPropertySelectorTriggerElementsBoundingBox;
 };
 
 export const PropertyListItemNest = ({
@@ -75,7 +81,7 @@ export const PropertyListItemNest = ({
     state,
     setPropertySelectorVisible,
     handleSelectorPosition,
-    getIsMouseLeaveNotNorth
+    propertySelectorTriggerElementsBoundingBox
 }: IPropertyListItemNest) => {
     const { t } = useTranslation();
     const propertyInspectorStyles = getPropertyInspectorStyles();
@@ -166,7 +172,12 @@ export const PropertyListItemNest = ({
             }}
             onMouseLeave={(e) => {
                 setHover(false);
-                if (getIsMouseLeaveNotNorth(e)) {
+                if (
+                    shouldClosePropertySelectorOnMouseLeave(
+                        e,
+                        propertySelectorTriggerElementsBoundingBox
+                    )
+                ) {
                     setPropertySelectorVisible(false);
                 }
             }}

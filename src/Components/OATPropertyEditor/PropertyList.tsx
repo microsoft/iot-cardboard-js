@@ -13,7 +13,10 @@ import {
 } from '../../Models/Constants/ActionTypes';
 import { DTDLProperty, IAction } from '../../Models/Constants/Interfaces';
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
-import { getModelPropertyCollectionName } from './Utils';
+import {
+    getModelPropertyCollectionName,
+    shouldClosePropertySelectorOnMouseLeave
+} from './Utils';
 
 type IPropertyList = {
     currentPropertyIndex: number;
@@ -191,16 +194,27 @@ export const PropertyList = ({
         setPropertySelectorTriggerElementsBoundingBox(boundingRect);
     };
 
-    const getIsMouseLeaveNotNorth = (e) => {
+    const handleMouseLeave = (e) => {
         if (
-            e.clientY >= propertySelectorTriggerElementsBoundingBox.bottom ||
-            e.clientX < propertySelectorTriggerElementsBoundingBox.left ||
-            e.clientX > propertySelectorTriggerElementsBoundingBox.right
+            shouldClosePropertySelectorOnMouseLeave(
+                e,
+                propertySelectorTriggerElementsBoundingBox
+            )
         ) {
-            return true;
+            setPropertySelectorVisible(false);
         }
+    };
 
-        return false;
+    const handlePropertyBarMouseOver = (e) => {
+        setPropertySelectorVisible(true);
+        setLastPropertyFocused(null);
+        handleSelectorPosition(e);
+    };
+
+    const handlePropertyWrapScrollMouseOver = (e) => {
+        setPropertySelectorVisible(true);
+        setLastPropertyFocused(null);
+        handleSelectorPosition(e);
     };
 
     return (
@@ -212,15 +226,10 @@ export const PropertyList = ({
                             propertyInspectorStyles.addPropertyMessageWrap
                         }
                         onMouseOver={(e) => {
-                            setPropertySelectorVisible(true);
-
-                            setLastPropertyFocused(null);
-                            handleSelectorPosition(e);
+                            handlePropertyWrapScrollMouseOver(e);
                         }}
                         onMouseLeave={(e) => {
-                            if (getIsMouseLeaveNotNorth(e)) {
-                                setPropertySelectorVisible(false);
-                            }
+                            handleMouseLeave(e);
                         }}
                     >
                         <ActionButton
@@ -287,8 +296,8 @@ export const PropertyList = ({
                                         setPropertySelectorVisible={
                                             setPropertySelectorVisible
                                         }
-                                        getIsMouseLeaveNotNorth={
-                                            getIsMouseLeaveNotNorth
+                                        propertySelectorTriggerElementsBoundingBox={
+                                            propertySelectorTriggerElementsBoundingBox
                                         }
                                         handleSelectorPosition={
                                             handleSelectorPosition
@@ -331,17 +340,13 @@ export const PropertyList = ({
                             propertyInspectorStyles.addPropertyBarPropertyListWrap
                         }
                         onMouseLeave={(e) => {
-                            if (getIsMouseLeaveNotNorth(e)) {
-                                setPropertySelectorVisible(false);
-                            }
+                            handleMouseLeave(e);
                         }}
                     >
-                        {true && (
+                        {model && model[propertiesKeyName].length > 0 && (
                             <AddPropertyBar
                                 onMouseOver={(e) => {
-                                    setPropertySelectorVisible(true);
-                                    setLastPropertyFocused(null);
-                                    handleSelectorPosition(e);
+                                    handlePropertyBarMouseOver(e);
                                 }}
                             />
                         )}
