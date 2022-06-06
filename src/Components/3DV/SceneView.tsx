@@ -376,10 +376,11 @@ function SceneView(props: ISceneViewProps, ref) {
                         cameraRef.current.zoomOn(meshes, true);
                         cameraRef.current.radius = radius;
                         cameraRef.current.lowerRadiusLimit = 0;
-                        cameraRef.current.upperRadiusLimit =
-                            Math.max(width, height, depth) * 3;
+                        // set upperRadiusLimit to be greater than the starting radius to allow the user to zoom out if they wish
+                        cameraRef.current.upperRadiusLimit = radius * 2;
+                        // set the maxZ of the camera to be higher than the upperRadiusLimit to ensure it will not clip when zoomed out
                         cameraRef.current.maxZ =
-                            Math.max(width, height, depth) * 5;
+                            cameraRef.current.upperRadiusLimit * 2;
                         cameraRef.current.wheelPrecision =
                             (3 * 40) / bbox.boundingSphere.radius;
 
