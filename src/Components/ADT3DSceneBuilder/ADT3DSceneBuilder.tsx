@@ -54,7 +54,7 @@ import {
     defaultADT3DSceneBuilderState
 } from './ADT3DSceneBuilder.state';
 import { IADTAdapter } from '../../Models/Constants/Interfaces';
-import BuilderLeftPanel from './Internal/BuilderLeftPanel';
+import BuilderLeftPanel from './Internal/BuilderLeftPanel/BuilderLeftPanel';
 import { useTranslation } from 'react-i18next';
 import { AbstractMesh } from '@babylonjs/core';
 import { CustomMeshItem } from '../../Models/Classes/SceneView.types';
