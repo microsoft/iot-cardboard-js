@@ -362,7 +362,9 @@ export const MockWithSelection = (_args, { globals: { theme, locale } }) => {
 
 export const LayerSelect = (_args, { globals: { theme, locale } }) => {
     const scenesConfig = mockVConfig as I3DScenesConfig;
-    const [selectedLayerIds, setSelectedLayerIds] = useState<string[]>([]);
+    const [selectedLayerIds, setSelectedLayerIds] = useState<string[]>(
+        undefined
+    );
 
     return (
         <div style={{ width: '100%', height: '600px' }}>
@@ -372,10 +374,7 @@ export const LayerSelect = (_args, { globals: { theme, locale } }) => {
                 placeholder="Select layer..."
                 options={[
                     {
-                        data: [
-                            '8904b620aa83c649888dadc7c8fdf492',
-                            '9624b620aa83c649888dadc7c8fdf541'
-                        ],
+                        data: undefined,
                         text: 'All',
                         key: 'all'
                     },
@@ -393,6 +392,14 @@ export const LayerSelect = (_args, { globals: { theme, locale } }) => {
                         data: ['9624b620aa83c649888dadc7c8fdf541'],
                         text: 'Temperature',
                         key: 'temperature'
+                    },
+                    {
+                        data: [
+                            '9624b620aa83c649888dadc7c8fdf541',
+                            '8904b620aa83c649888dadc7c8fdf492'
+                        ],
+                        text: 'Temperature & Flow',
+                        key: 'temperatureFlow'
                     }
                 ]}
             />

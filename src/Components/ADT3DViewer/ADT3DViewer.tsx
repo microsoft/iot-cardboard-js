@@ -300,6 +300,14 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
     useEffect(() => {
         if (selectedLayerIds) {
             setSelectedLayerIds(selectedLayerIds, true);
+        } else {
+            // if layers are undefined or null set all layers as selected
+            const layers = [
+                ...(unlayeredBehaviorsPresent ? [DEFAULT_LAYER_ID] : []),
+                ...layersInScene.map((lis) => lis.id)
+            ];
+
+            setSelectedLayerIds(layers, true);
         }
     }, [selectedLayerIds]);
 
