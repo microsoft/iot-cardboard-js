@@ -36,7 +36,6 @@ import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 
 import { getModelPropertyCollectionName } from './Utils';
 
-const ASCII_VALUE_BEFORE_LOWERCASE_ALPHABET = 96;
 const versionClassBase = '1';
 interface IPropertySelectorProps {
     onTagClickCallback?: () => void;
@@ -177,18 +176,12 @@ const PropertySelector = ({
         const modelCopy = deepCopy(model);
         const schemaCopy = deepCopy(lastPropertyFocused.item.schema);
         schemaCopy.fields.push({
-            name: `${t('OATPropertyEditor.property')}_${String.fromCharCode(
-                ASCII_VALUE_BEFORE_LOWERCASE_ALPHABET +
-                    schemaCopy.fields.length +
-                    1
-            )}`,
-            displayName: `${t(
-                'OATPropertyEditor.property'
-            )}_${String.fromCharCode(
-                ASCII_VALUE_BEFORE_LOWERCASE_ALPHABET +
-                    schemaCopy.fields.length +
-                    1
-            )}`,
+            name: `${t('OATPropertyEditor.property')}_${
+                schemaCopy.fields.length + 1
+            }`,
+            displayName: `${t('OATPropertyEditor.property')}_${
+                schemaCopy.fields.length + 1
+            }`,
             schema: tag
         });
 
