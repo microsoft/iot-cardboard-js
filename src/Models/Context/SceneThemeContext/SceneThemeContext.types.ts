@@ -10,7 +10,7 @@ export interface ViewerMode {
 export interface ISceneThemeContextProviderProps {
     initialState?: Partial<ISceneThemeContextState>;
     /** whether to read the theme from storage */
-    usePersistedTheme?: boolean;
+    shouldPersistTheme?: boolean;
 }
 
 /**

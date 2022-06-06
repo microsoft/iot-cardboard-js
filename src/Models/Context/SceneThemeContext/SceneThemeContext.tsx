@@ -28,7 +28,7 @@ const logDebugConsole = getDebugLogger('SceneThemeContext', debugLogging);
 const SceneThemeContextInstance = React.createContext<ISceneThemeContext>(null);
 export const useSceneThemeContext = () => useContext(SceneThemeContextInstance);
 
-let shouldPersistTheme = true;
+let isThemePersistenceEnabled = true;
 const DEFAULT_OBJECT_COLOR_INDEX = 2;
 
 export const SceneThemeContextReducer: (
@@ -104,9 +104,9 @@ export const SceneThemeContextProvider: React.FC<ISceneThemeContextProviderProps
         return <>{children}</>;
     }
 
-    const { initialState, usePersistedTheme = true } = props;
+    const { initialState, shouldPersistTheme = true } = props;
     const { t } = useTranslation();
-    shouldPersistTheme = usePersistedTheme; // store the selection globally
+    isThemePersistenceEnabled = shouldPersistTheme; // store the selection globally
 
     // set the initial state for the Color reducer
     const persistedTheme = getPersistedTheme();
@@ -174,7 +174,7 @@ const buildPersistedTheme = (
 };
 const getPersistedTheme = (): IADT3DViewerMode | undefined => {
     const theme = localStorage.getItem(ViewerThemeStorageKey);
-    if (theme && shouldPersistTheme) {
+    if (theme && isThemePersistenceEnabled) {
         logDebugConsole(
             'debug',
             `Reading persisted theme from storage ${ViewerThemeStorageKey}`,
@@ -186,7 +186,7 @@ const getPersistedTheme = (): IADT3DViewerMode | undefined => {
 };
 
 const setPersistedTheme = (theme: IADT3DViewerMode): void => {
-    if (theme && shouldPersistTheme) {
+    if (theme && isThemePersistenceEnabled) {
         logDebugConsole(
             'debug',
             `Persisting theme to storage key ${ViewerThemeStorageKey}`,
