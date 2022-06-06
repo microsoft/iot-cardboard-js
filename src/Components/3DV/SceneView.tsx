@@ -371,6 +371,8 @@ function SceneView(props: ISceneViewProps, ref) {
                             sceneRef.current
                         );
 
+                        camera.maxZ = Math.max(width, height, depth) * 2;
+
                         camera.attachControl(canvas, false);
                         camera.lowerRadiusLimit = 0;
                         cameraRef.current = camera;
