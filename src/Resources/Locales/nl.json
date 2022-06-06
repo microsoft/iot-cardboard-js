@@ -942,7 +942,7 @@
     "sceneView": {
       "3dAssetLoadingErrorTitle": "Model voor fout bij laden",
       "3dAssetLoadingGenericErrorMessage": "Fout bij het laden van model. Probeer de cache te wissen en probeer het opnieuw.",
-      "3dAssetLoadingNetworkErrorMessag": "Dit kan een CORS-probleem, ongeldige blob-url of een netwerkfout zijn. Neem contact op met de eigenaar van de container waar dit activabestand is opgeslagen of probeer het later opnieuw."
+      "3dAssetLoadingNetworkErrorMessage": "Dit kan een CORS-probleem, ongeldige blob-url of een netwerkfout zijn. Neem contact op met de eigenaar van de container waar dit activabestand is opgeslagen of probeer het later opnieuw."
     }
   }
 }

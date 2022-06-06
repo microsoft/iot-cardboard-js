@@ -942,7 +942,7 @@
     "sceneView": {
       "3dAssetLoadingErrorTitle": "Error al cargar el modelo",
       "3dAssetLoadingGenericErrorMessage": "Error al cargar el modelo. Intenta borrar la memoria caché e inténtalo de nuevo.",
-      "3dAssetLoadingNetworkErrorMessag": "Esto podría ser un problema de CORS, una dirección URL de blob no válida o un error de red. Póngase en contacto con el propietario del contenedor donde se almacena este archivo de activos o inténtelo de nuevo más tarde."
+      "3dAssetLoadingNetworkErrorMessage": "Esto podría ser un problema de CORS, una dirección URL de blob no válida o un error de red. Póngase en contacto con el propietario del contenedor donde se almacena este archivo de activos o inténtelo de nuevo más tarde."
     }
   }
 }
