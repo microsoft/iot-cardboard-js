@@ -19,6 +19,6 @@ export const PanelFooterStyles = mergeStyleSets({
 export const PanelFooterStackStyles: IStackStyles = {
     root: {
         display: 'flex',
-        padding: `12px 4px ${BUILDER_FOOTER_BOTTOM_OFFSET}px 4px` // separator has weird built in padding on top
+        padding: `12px 16px ${BUILDER_FOOTER_BOTTOM_OFFSET}px 16px` // separator has weird built in padding on top,
     }
 };

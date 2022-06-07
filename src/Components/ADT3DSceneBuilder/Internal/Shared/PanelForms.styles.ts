@@ -5,6 +5,7 @@ import {
     mergeStyleSets,
     Theme
 } from '@fluentui/react';
+import { leftPanelBuilderBlock } from '../../../../Resources/Styles/BaseStyles';
 import { leftPanelPivotStyles } from '../Shared/LeftPanel.styles';
 
 const classPrefix = 'form';
@@ -41,7 +42,7 @@ export const getPanelFormStyles = memoizeFunction(
             header: [
                 classNames.header,
                 {
-                    padding: '0 0 4px'
+                    padding: '0 16px 4px'
                 } as IStyle
             ],
             pivot: [
@@ -58,6 +59,7 @@ export const panelFormPivotStyles: Partial<IPivotStyles> = {
         display: 'flex',
         flexDirection: 'column',
         height: `calc(100% - ${pivotTabsHeight}px)`,
-        overflow: 'auto'
+        overflow: 'auto',
+        ...leftPanelBuilderBlock
     }
 };

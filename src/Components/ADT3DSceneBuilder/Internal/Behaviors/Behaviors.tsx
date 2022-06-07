@@ -183,7 +183,7 @@ const SceneBehaviors: React.FC<Props> = ({
     const commonPanelStyles = getLeftPanelStyles(theme);
     const customStyles = getStyles(theme);
     return (
-        <div className="cb-scene-builder-pivot-contents">
+        <div className="cb-scene-builder-pivot-contents cb-scene-builder-root-pivot-contents">
             <SearchHeader
                 onSearchTextChange={setSearchText}
                 placeholder={t('3dSceneBuilder.searchBehaviorsPlaceholder')}

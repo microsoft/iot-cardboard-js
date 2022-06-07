@@ -462,7 +462,7 @@ const BuilderLeftPanel: React.FC<IBuilderLeftPanelProps> = ({ styles }) => {
                     selectedKey={state.selectedPivotTab}
                     onLinkClick={setPivotItem}
                     className="cb-scene-builder-left-panel-pivot"
-                    styles={{ root: { marginBottom: 16 } }}
+                    styles={{ root: { marginBottom: 16, padding: '0px 16px' } }}
                 >
                     <PivotItem
                         headerText={t('3dSceneBuilder.elements')}

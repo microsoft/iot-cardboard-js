@@ -1,4 +1,9 @@
-import { IStyle, IStyleFunctionOrObject, ITheme } from '@fluentui/react';
+import {
+    IPivotStyles,
+    IStyle,
+    IStyleFunctionOrObject,
+    ITheme
+} from '@fluentui/react';
 
 export interface IBuilderLeftPanelProps {
     /**
@@ -23,5 +28,6 @@ export interface IBuilderLeftPanelStyles {
     subComponentStyles?: IBuilderLeftPanelSubComponentStyles;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface IBuilderLeftPanelSubComponentStyles {}
+export interface IBuilderLeftPanelSubComponentStyles {
+    pivot: Partial<IPivotStyles>;
+}

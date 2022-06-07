@@ -17,6 +17,10 @@
     justify-content: space-between;
 }
 
+.cb-scene-builder-root-pivot-contents {
+    @include cb-scene-builder-left-panel-block;
+}
+
 .cb-scene-builder-cancel-button {
     margin-left: 8px;
 }
@@ -98,6 +102,7 @@
 }
 
 .cb-left-panel-builder-breadcrumb-container {
+    @include cb-scene-builder-left-panel-block;
     height: 36px;
     margin-bottom: 4px;
     width: 100%;

@@ -1,5 +1,6 @@
 import { IStyle } from '@fluentui/react';
 import { SCENE_PAGE_OUTER_OFFSET } from '../../../../Models/Constants/StyleConstants';
+import { leftPanelBuilderBlock } from '../../../../Resources/Styles/BaseStyles';
 import {
     IBuilderLeftPanelStyleProps,
     IBuilderLeftPanelStyles
@@ -25,9 +26,11 @@ export const getStyles = (
                 overflow: 'hidden',
                 padding: `${SCENE_PAGE_OUTER_OFFSET}px 0px ${SCENE_PAGE_OUTER_OFFSET}px 0px`,
                 position: 'relative',
-                width: '360px'
+                width: '392px'
             } as IStyle
         ],
-        subComponentStyles: {}
+        subComponentStyles: {
+            pivot: { root: { marginBottom: 16, ...leftPanelBuilderBlock } }
+        }
     };
 };
