@@ -130,8 +130,6 @@ export interface I3DSceneBuilderContext {
     dispatch: React.Dispatch<{ type: string; payload: any }>;
     state: ADT3DSceneBuilderState;
     objectColor: IADTObjectColor;
-    behaviorToEdit: IBehavior;
-    setBehaviorToEdit: React.Dispatch<React.SetStateAction<IBehavior>>;
     setOriginalBehaviorToEdit: (behavior: IBehavior) => void;
     checkIfBehaviorHasBeenEdited: () => boolean;
     setUnsavedBehaviorChangesDialog: (isOpen: boolean) => void;
