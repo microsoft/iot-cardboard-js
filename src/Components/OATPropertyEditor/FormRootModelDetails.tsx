@@ -30,6 +30,12 @@ import {
     handleMultiLanguageSelectionsDisplayNameKeyChange,
     handleMultiLanguageSelectionsDisplayNameValueChange
 } from './Utils';
+import {
+    commentLengthLimit,
+    descriptionLengthLimit,
+    displayNameLengthLimit,
+    idLengthLimit
+} from './Constants';
 
 const multiLanguageOptionValue = 'multiLanguage';
 const singleLanguageOptionValue = 'singleLanguage';
@@ -85,6 +91,10 @@ export const FormUpdateProperty = ({
         setIsAMultiLanguageDescriptionEmpty
     ] = useState(true);
     const { model } = state;
+    const [commentError, setCommentError] = useState(null);
+    const [descriptionError, setDescriptionError] = useState(null);
+    const [displayNameError, setDisplayNameError] = useState(null);
+    const [idError, setIdError] = useState(null);
 
     const options: IChoiceGroupOption[] = [
         {
@@ -124,6 +134,42 @@ export const FormUpdateProperty = ({
         });
         setModalOpen(false);
         setModalBody(null);
+    };
+
+    const handleDisplayNameChange = (value) => {
+        if (value.length <= displayNameLengthLimit) {
+            setDisplayName(value);
+            setDisplayNameError(null);
+        } else {
+            setDisplayNameError(true);
+        }
+    };
+
+    const handleDescriptionChange = (value) => {
+        if (value.length <= descriptionLengthLimit) {
+            setDescription(value);
+            setDescriptionError(null);
+        } else {
+            setDescriptionError(true);
+        }
+    };
+
+    const handleCommentChange = (value) => {
+        if (value.length <= commentLengthLimit) {
+            setComment(value);
+            setCommentError(null);
+        } else {
+            setCommentError(true);
+        }
+    };
+
+    const handleIdChange = (value) => {
+        if (value.length <= idLengthLimit) {
+            setId(value);
+            setIdError(null);
+        } else {
+            setIdError(true);
+        }
     };
 
     // Update multiLanguageSelectionsDisplayNames on every new language change
@@ -198,7 +244,8 @@ export const FormUpdateProperty = ({
                 </Text>
                 <TextField
                     placeholder={t('OATPropertyEditor.id')}
-                    onChange={(_ev, value) => setId(value)}
+                    onChange={(_ev, value) => handleIdChange(value)}
+                    errorMessage={idError ? t('OATPropertyEditor.errorId') : ''}
                 />
             </div>
 
@@ -220,7 +267,12 @@ export const FormUpdateProperty = ({
                     <div></div> {/* Needed for gridTemplateColumns style  */}
                     <TextField
                         placeholder={t('OATPropertyEditor.displayName')}
-                        onChange={(_ev, value) => setDisplayName(value)}
+                        onChange={(e, v) => handleDisplayNameChange(v)}
+                        errorMessage={
+                            displayNameError
+                                ? t('OATPropertyEditor.errorDisplayName')
+                                : ''
+                        }
                         value={displayName}
                     />
                 </div>
@@ -276,11 +328,17 @@ export const FormUpdateProperty = ({
                                     index,
                                     multiLanguageSelectionsDisplayNames,
                                     multiLanguageSelectionsDisplayName,
-                                    setMultiLanguageSelectionsDisplayName
+                                    setMultiLanguageSelectionsDisplayName,
+                                    setDisplayNameError
                                 )
                             }
                             disabled={
                                 !multiLanguageSelectionsDisplayNames[index].key
+                            }
+                            errorMessage={
+                                displayNameError
+                                    ? t('OATPropertyEditor.errorDisplayName')
+                                    : ''
                             }
                         />
                     </div>
@@ -333,8 +391,15 @@ export const FormUpdateProperty = ({
                         placeholder={t(
                             'OATPropertyEditor.modalTextInputPlaceHolderDescription'
                         )}
-                        onChange={(_ev, value) => setDescription(value)}
                         value={description}
+                        onChange={(_ev, value) =>
+                            handleDescriptionChange(value)
+                        }
+                        errorMessage={
+                            descriptionError
+                                ? t('OATPropertyEditor.errorDescription')
+                                : ''
+                        }
                     />
                 </div>
             )}
@@ -397,11 +462,17 @@ export const FormUpdateProperty = ({
                                     index,
                                     multiLanguageSelectionsDescription,
                                     multiLanguageSelectionsDescriptions,
-                                    setMultiLanguageSelectionsDescription
+                                    setMultiLanguageSelectionsDescription,
+                                    setDescriptionError
                                 )
                             }
                             disabled={
                                 !multiLanguageSelectionsDescriptions[index].key
+                            }
+                            errorMessage={
+                                descriptionError
+                                    ? t('OATPropertyEditor.errorDescription')
+                                    : ''
                             }
                         />
                     </div>
@@ -451,7 +522,10 @@ export const FormUpdateProperty = ({
                     placeholder={t(
                         'OATPropertyEditor.modalTextInputPlaceHolder'
                     )}
-                    onChange={(_ev, value) => setComment(value)}
+                    onChange={(_ev, value) => handleCommentChange(value)}
+                    errorMessage={
+                        commentError ? t('OATPropertyEditor.errorComment') : ''
+                    }
                 />
             </div>
 
@@ -460,6 +534,12 @@ export const FormUpdateProperty = ({
                     text={t('OATPropertyEditor.update')}
                     allowDisabledFocus
                     onClick={handleFormSubmit}
+                    disabled={
+                        displayNameError ||
+                        commentError ||
+                        descriptionError ||
+                        idError
+                    }
                 />
 
                 <PrimaryButton

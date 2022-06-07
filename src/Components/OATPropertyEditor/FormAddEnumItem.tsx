@@ -32,6 +32,12 @@ import {
     handleMultiLanguageSelectionsDisplayNameKeyChange,
     handleMultiLanguageSelectionsDisplayNameValueChange
 } from './Utils';
+import {
+    commentLengthLimit,
+    descriptionLengthLimit,
+    displayNameLengthLimit,
+    idLengthLimit
+} from './Constants';
 
 const multiLanguageOptionValue = 'multiLanguage';
 const singleLanguageOptionValue = 'singleLanguage';
@@ -96,6 +102,11 @@ export const FormAddEnumItem = ({
         isAMultiLanguageDescriptionEmpty,
         setIsAMultiLanguageDescriptionEmpty
     ] = useState(true);
+    const [commentError, setCommentError] = useState(null);
+    const [descriptionError, setDescriptionError] = useState(null);
+    const [displayNameError, setDisplayNameError] = useState(null);
+    const [idError, setIdError] = useState(null);
+    const [nameError, setNameError] = useState(null);
     const { model } = state;
 
     const propertiesKeyName = getModelPropertyCollectionName(
@@ -166,6 +177,57 @@ export const FormAddEnumItem = ({
         setError(!!find);
 
         return find ? `${t('OATPropertyEditor.errorRepeatedEnumValue')}` : '';
+    };
+
+    const handleDisplayNameChange = (value) => {
+        if (value.length <= displayNameLengthLimit) {
+            setDisplayName(value);
+            setDisplayNameError(null);
+        } else {
+            setDisplayNameError(true);
+        }
+    };
+
+    const handleDescriptionChange = (value) => {
+        if (value.length <= descriptionLengthLimit) {
+            setDescription(value);
+            setDescriptionError(null);
+        } else {
+            setDescriptionError(true);
+        }
+    };
+
+    const handleCommentChange = (value) => {
+        if (value.length <= commentLengthLimit) {
+            setComment(value);
+            setCommentError(null);
+        } else {
+            setCommentError(true);
+        }
+    };
+
+    const handleIdChange = (value) => {
+        if (value.length <= idLengthLimit) {
+            setId(value);
+            setIdError(null);
+        } else {
+            setIdError(true);
+        }
+    };
+
+    const handleNameChange = (value) => {
+        // ^[a-zA-Z](?:[a-zA-Z0-9_]*[a-zA-Z0-9])?$
+        const regularExpression = new RegExp(
+            '^[a-zA-Z](?:[a-zA-Z0-9_]*[a-zA-Z0-9])?$'
+        );
+        const isValid = regularExpression.exec(value);
+
+        if (isValid) {
+            setName(value);
+            setNameError(null);
+        } else {
+            setNameError(true);
+        }
     };
 
     useEffect(() => {
@@ -249,9 +311,14 @@ export const FormAddEnumItem = ({
                         placeholder={t(
                             'OATPropertyEditor.modalTextInputPlaceHolder'
                         )}
-                        onChange={(_ev, value) => setDisplayName(value)}
                         value={displayName}
                         styles={textFieldStyles}
+                        onChange={(e, v) => handleDisplayNameChange(v)}
+                        errorMessage={
+                            displayNameError
+                                ? t('OATPropertyEditor.errorDisplayName')
+                                : ''
+                        }
                     />
                 </div>
             )}
@@ -306,13 +373,19 @@ export const FormAddEnumItem = ({
                                     index,
                                     multiLanguageSelectionsDisplayNames,
                                     multiLanguageSelectionsDisplayName,
-                                    setMultiLanguageSelectionsDisplayName
+                                    setMultiLanguageSelectionsDisplayName,
+                                    setDisplayNameError
                                 )
                             }
                             disabled={
                                 !multiLanguageSelectionsDisplayNames[index].key
                             }
                             styles={textFieldStyles}
+                            errorMessage={
+                                displayNameError
+                                    ? t('OATPropertyEditor.errorDisplayName')
+                                    : ''
+                            }
                         />
                     </div>
                 ))}
@@ -362,9 +435,16 @@ export const FormAddEnumItem = ({
                         placeholder={t(
                             'OATPropertyEditor.modalTextInputPlaceHolderDescription'
                         )}
-                        onChange={(_ev, value) => setDescription(value)}
                         value={description}
                         styles={textFieldStyles}
+                        onChange={(_ev, value) =>
+                            handleDescriptionChange(value)
+                        }
+                        errorMessage={
+                            descriptionError
+                                ? t('OATPropertyEditor.errorDescription')
+                                : ''
+                        }
                     />
                 </div>
             )}
@@ -427,13 +507,19 @@ export const FormAddEnumItem = ({
                                     index,
                                     multiLanguageSelectionsDescription,
                                     multiLanguageSelectionsDescriptions,
-                                    setMultiLanguageSelectionsDescription
+                                    setMultiLanguageSelectionsDescription,
+                                    setDescriptionError
                                 )
                             }
                             disabled={
                                 !multiLanguageSelectionsDescriptions[index].key
                             }
                             styles={textFieldStyles}
+                            errorMessage={
+                                descriptionError
+                                    ? t('OATPropertyEditor.errorDescription')
+                                    : ''
+                            }
                         />
                     </div>
                 ))}
@@ -482,8 +568,11 @@ export const FormAddEnumItem = ({
                     placeholder={t(
                         'OATPropertyEditor.modalTextInputPlaceHolder'
                     )}
-                    onChange={(_ev, value) => setComment(value)}
                     styles={textFieldStyles}
+                    onChange={(_ev, value) => handleCommentChange(value)}
+                    errorMessage={
+                        commentError ? t('OATPropertyEditor.errorComment') : ''
+                    }
                 />
             </div>
 
@@ -495,8 +584,11 @@ export const FormAddEnumItem = ({
                     placeholder={t(
                         'OATPropertyEditor.modalTextInputPlaceHolder'
                     )}
-                    onChange={(_ev, value) => setName(value)}
+                    onChange={(_ev, value) => handleNameChange(value)}
                     styles={textFieldStyles}
+                    errorMessage={
+                        nameError ? t('OATPropertyEditor.errorName') : ''
+                    }
                 />
             </div>
 
@@ -522,8 +614,9 @@ export const FormAddEnumItem = ({
                 </Text>
                 <TextField
                     placeholder={t('OATPropertyEditor.id')}
-                    onChange={(_ev, value) => setId(value)}
                     styles={textFieldStyles}
+                    onChange={(_ev, value) => handleIdChange(value)}
+                    errorMessage={idError ? t('OATPropertyEditor.errorId') : ''}
                 />
             </div>
 
@@ -531,7 +624,15 @@ export const FormAddEnumItem = ({
                 text={t('OATPropertyEditor.update')}
                 allowDisabledFocus
                 onClick={handleAddEnumValue}
-                disabled={error || !enumValue || !name}
+                disabled={
+                    error ||
+                    !enumValue ||
+                    !name ||
+                    nameError ||
+                    commentError ||
+                    descriptionError ||
+                    idError
+                }
             />
         </>
     );

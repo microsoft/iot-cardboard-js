@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { TextField, Stack, Label, Text, IconButton } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import {
@@ -12,6 +12,7 @@ import { IAction } from '../../Models/Constants/Interfaces';
 import { deepCopy } from '../../Models/Services/Utils';
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 import { ModelTypes } from '../../Models/Constants/Enums';
+import { displayNameLengthLimit, idLengthLimit } from './Constants';
 
 type IPropertiesModelSummary = {
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
@@ -31,7 +32,38 @@ export const PropertiesModelSummary = ({
     const iconWrapStyles = geIconWrapFitContentStyles();
     const generalPropertiesWrapStyles = getGeneralPropertiesWrapStyles();
     const textFieldStyes = getPropertyEditorTextFieldStyles();
+    const [displayNameError, setDisplayNameError] = useState(null);
+    const [idError, setIdError] = useState(null);
     const { model } = state;
+
+    const handleDisplayNameChange = (value) => {
+        if (value.length <= displayNameLengthLimit) {
+            const modelCopy = deepCopy(model);
+            modelCopy.displayName = value;
+            dispatch({
+                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                payload: modelCopy
+            });
+
+            setDisplayNameError(null);
+        } else {
+            setDisplayNameError(true);
+        }
+    };
+
+    const handleIdChange = (value) => {
+        if (value.length <= idLengthLimit) {
+            const modelCopy = deepCopy(model);
+            modelCopy['@id'] = value;
+            dispatch({
+                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                payload: modelCopy
+            });
+            setIdError(null);
+        } else {
+            setIdError(true);
+        }
+    };
 
     return (
         <Stack styles={generalPropertiesWrapStyles}>
@@ -64,13 +96,13 @@ export const PropertiesModelSummary = ({
                     }
                     placeholder={t('OATPropertyEditor.displayName')}
                     onChange={(_ev, value) => {
-                        const modelCopy = deepCopy(model);
-                        modelCopy.displayName = value;
-                        dispatch({
-                            type: SET_OAT_PROPERTY_EDITOR_MODEL,
-                            payload: modelCopy
-                        });
+                        handleDisplayNameChange(value);
                     }}
+                    errorMessage={
+                        displayNameError
+                            ? t('OATPropertyEditor.errorDisplayName')
+                            : ''
+                    }
                 />
             </div>
             <div className={propertyInspectorStyles.gridRow}>
@@ -82,13 +114,9 @@ export const PropertiesModelSummary = ({
                     value={model ? model['@id'] : ''}
                     placeholder={t('OATPropertyEditor.assetId')}
                     onChange={(_ev, value) => {
-                        const modelCopy = deepCopy(model);
-                        modelCopy['@id'] = value;
-                        dispatch({
-                            type: SET_OAT_PROPERTY_EDITOR_MODEL,
-                            payload: modelCopy
-                        });
+                        handleIdChange(value);
                     }}
+                    errorMessage={idError ? t('OATPropertyEditor.errorId') : ''}
                 />
             </div>
         </Stack>

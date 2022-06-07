@@ -1,5 +1,6 @@
 import { DTDLProperty } from '../../Models/Classes/DTDL';
 import { ModelTypes, MultiLanguageSelectionType } from '../../Models/Constants';
+import { descriptionLengthLimit, displayNameLengthLimit } from './Constants';
 
 /* Returns property collection attribute name depending on model type */
 export const getModelPropertyCollectionName = (type: string) => {
@@ -60,16 +61,23 @@ export const handleMultiLanguageSelectionsDisplayNameValueChange = (
     multiLanguageSelectionsDisplayName: any,
     setMultiLanguageSelectionsDisplayName: React.Dispatch<
         React.SetStateAction<any>
-    >
+    >,
+    setDisplayNameError: React.Dispatch<React.SetStateAction<any>>
 ) => {
-    const newMultiLanguageSelectionsDisplayName = {
-        ...multiLanguageSelectionsDisplayName,
-        [multiLanguageSelectionsDisplayNames[index].key]: value
-    };
+    // Check limit to 512 chars
+    if (value.length <= displayNameLengthLimit) {
+        const newMultiLanguageSelectionsDisplayName = {
+            ...multiLanguageSelectionsDisplayName,
+            [multiLanguageSelectionsDisplayNames[index].key]: value
+        };
 
-    setMultiLanguageSelectionsDisplayName(
-        newMultiLanguageSelectionsDisplayName
-    );
+        setMultiLanguageSelectionsDisplayName(
+            newMultiLanguageSelectionsDisplayName
+        );
+        setDisplayNameError(null);
+    } else {
+        setDisplayNameError(true);
+    }
 };
 
 /*  Handles language selection change on forms (Description - Key - Dropdown) */
@@ -107,16 +115,22 @@ export const handleMultiLanguageSelectionsDescriptionValueChange = (
     multiLanguageSelectionsDescriptions: any[],
     setMultiLanguageSelectionsDescription: React.Dispatch<
         React.SetStateAction<any>
-    >
+    >,
+    setDescriptionError: React.Dispatch<React.SetStateAction<any>>
 ) => {
-    const newMultiLanguageSelectionsDescription = {
-        ...multiLanguageSelectionsDescription,
-        [multiLanguageSelectionsDescriptions[index].key]: value
-    };
+    if (value.length <= descriptionLengthLimit) {
+        const newMultiLanguageSelectionsDescription = {
+            ...multiLanguageSelectionsDescription,
+            [multiLanguageSelectionsDescriptions[index].key]: value
+        };
 
-    setMultiLanguageSelectionsDescription(
-        newMultiLanguageSelectionsDescription
-    );
+        setMultiLanguageSelectionsDescription(
+            newMultiLanguageSelectionsDescription
+        );
+        setDescriptionError(null);
+    } else {
+        setDescriptionError(true);
+    }
 };
 
 /*  Handles language selection removal on forms */
