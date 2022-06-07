@@ -156,6 +156,8 @@ const getGraphViewerElementsFromModels = (models, modelPositions) => {
 
 const nodeWidth = 300;
 const nodeHeight = 100;
+const zoomOnNewNodeCreation = 1.2;
+const defaultHorizontalDistanceBetweenNodes = 70;
 
 const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     const {
@@ -534,6 +536,24 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                 newNode
             ]);
             setElements(positionedElements);
+
+            // Center pane focus on the new node
+            const positionedX =
+                positionedElements[positionedElements.length - 1].position.x;
+            const positionY =
+                positionedElements[positionedElements.length - 1].position.y;
+
+            const wrapperBoundingBox = reactFlowWrapperRef.current.getBoundingClientRect();
+
+            rfInstance.setTransform({
+                x:
+                    -positionedX +
+                    wrapperBoundingBox.width / 2 +
+                    positionedElements.length *
+                        -defaultHorizontalDistanceBetweenNodes,
+                y: positionY - nodeHeight + wrapperBoundingBox.height / 2,
+                zoom: zoomOnNewNodeCreation
+            });
         }
     };
 
