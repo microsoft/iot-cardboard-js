@@ -3,8 +3,11 @@
  */
 import produce from 'immer';
 import React, { useContext, useReducer } from 'react';
-import { getDebugLogger } from '../../../../../../Models/Services/Utils';
-import { IBehavior } from '../../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
+import ViewerConfigUtility from '../../../../../../Models/Classes/ViewerConfigUtility';
+import {
+    deepCopy,
+    getDebugLogger
+} from '../../../../../../Models/Services/Utils';
 import {
     IBehaviorFormContext,
     IBehaviorFormContextState,
@@ -29,11 +32,83 @@ export const BehaviorFormContextReducer: (
         logDebugConsole(
             'info',
             `Updating BehaviorForm context ${action.type} with payload: `,
-            action.payload
+            (action as any).payload // ignore that payload doesn't always come since this is just a log
         );
         switch (action.type) {
-            case BehaviorFormContextActionType.SET_ADT_URL: {
-                // draft.adtUrl = action.payload.url || '';
+            case BehaviorFormContextActionType.FORM_BEHAVIOR_WIDGET_ADD_UPDATE: {
+                // we assume there is only one popover
+                const draftPopoverVisual = draft.behaviorToEdit.visuals.filter(
+                    ViewerConfigUtility.isPopoverVisual
+                )[0];
+                if (!draftPopoverVisual) {
+                    logDebugConsole(
+                        'warn',
+                        'Unable to add widget to behavior. Popover visual not found. {visuals}',
+                        draft.behaviorToEdit?.visuals
+                    );
+                    break;
+                }
+
+                const widgetToAdd = deepCopy(action.payload.widget);
+                // if we already have widgets add it to the list, otherwise, create the lsit
+                if (draftPopoverVisual.widgets?.length) {
+                    const draftExistingWidgetIndex = draftPopoverVisual.widgets.findIndex(
+                        (x) => x.id === widgetToAdd.id
+                    );
+                    // update
+                    if (draftExistingWidgetIndex > 0) {
+                        draftPopoverVisual.widgets[
+                            draftExistingWidgetIndex
+                        ] = widgetToAdd;
+                    } else {
+                        // add
+                        draftPopoverVisual.widgets.push(widgetToAdd);
+                    }
+                } else {
+                    draftPopoverVisual.widgets = [widgetToAdd];
+                }
+                break;
+            }
+            case BehaviorFormContextActionType.FORM_BEHAVIOR_WIDGET_REMOVE: {
+                // we assume there is only one popover
+                const popoverVisual = draft.behaviorToEdit.visuals.filter(
+                    ViewerConfigUtility.isPopoverVisual
+                )[0];
+                if (!popoverVisual) {
+                    logDebugConsole(
+                        'warn',
+                        'Unable to remove widget from behavior. Popover visual not found. {visuals}',
+                        draft.behaviorToEdit?.visuals
+                    );
+                    break;
+                }
+                if (!popoverVisual?.widgets?.length) {
+                    logDebugConsole(
+                        'warn',
+                        'Unable to remove widget from behavior. No widgets found. {behaviorToEdit}',
+                        draft.behaviorToEdit
+                    );
+                    break;
+                }
+
+                const widgetIdToRemove = action.payload.widgetId;
+                const widgetIndexToRemove = popoverVisual.widgets.findIndex(
+                    (x) => x.id === widgetIdToRemove
+                );
+                if (widgetIndexToRemove > 0) {
+                    popoverVisual.widgets.splice(widgetIndexToRemove, 1);
+                    logDebugConsole(
+                        'debug',
+                        `Removed widget (${widgetIdToRemove}) from the popover visual. {visuals}`,
+                        popoverVisual
+                    );
+                } else {
+                    logDebugConsole(
+                        'warn',
+                        `Unable to remove widget from behavior. Widget not found with id ${widgetIdToRemove}. {popoverVisual.widgets}`,
+                        popoverVisual.widgets
+                    );
+                }
                 break;
             }
         }

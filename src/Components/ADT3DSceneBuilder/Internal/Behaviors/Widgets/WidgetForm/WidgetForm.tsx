@@ -1,12 +1,10 @@
 import { DefaultButton, PrimaryButton, useTheme } from '@fluentui/react';
-import produce from 'immer';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
     WidgetType,
     defaultGaugeWidget,
     defaultLinkWidget,
-    VisualType,
     defaultValueWidget
 } from '../../../../../../Models/Classes/3DVConfig';
 import { WidgetFormMode } from '../../../../../../Models/Constants/Enums';
@@ -14,7 +12,6 @@ import {
     IBehavior,
     IGaugeWidget,
     ILinkWidget,
-    IPopoverVisual,
     IValueWidget,
     IWidget
 } from '../../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
@@ -27,27 +24,8 @@ import LinkWidgetBuilder from '../WidgetBuilders/LinkWidgetBuilder';
 import { WidgetFormInfo } from '../../../../ADT3DSceneBuilder.types';
 import ViewerConfigUtility from '../../../../../../Models/Classes/ViewerConfigUtility';
 import ValueWidgetBuilder from '../WidgetBuilders/ValueWidgetBuilder';
-
-const createWidget = (
-    draft: IBehavior,
-    widgetFormInfo: WidgetFormInfo,
-    id: string
-) => {
-    const popOver = draft.visuals?.find(
-        (visual) => visual.type === VisualType.Popover
-    ) as IPopoverVisual;
-
-    if (popOver) {
-        let widgets = popOver?.widgets;
-
-        const newWidget = {
-            ...getDefaultFormData(widgetFormInfo),
-            id
-        };
-
-        widgets ? widgets.push(newWidget) : (widgets = [newWidget]);
-    }
-};
+import { useBehaviorFormContext } from '../../Internal/BehaviorFormContext/BehaviorFormContext';
+import { BehaviorFormContextActionType } from '../../Internal/BehaviorFormContext/BehaviorFormContext.types';
 
 const getDefaultFormData = (widgetFormInfo: WidgetFormInfo) => {
     switch (widgetFormInfo.widget.data.type) {
@@ -69,12 +47,13 @@ const getActiveWidget = (activeWidgetId: string, behavior: IBehavior) =>
     getWidgets(behavior).find((w) => w.id === activeWidgetId);
 
 const WidgetForm: React.FC = () => {
+    const { widgetFormInfo, setWidgetFormInfo } = useContext(
+        SceneBuilderContext
+    );
     const {
-        widgetFormInfo,
-        setWidgetFormInfo,
-        behaviorToEdit,
-        setBehaviorToEdit
-    } = useContext(SceneBuilderContext);
+        behaviorFormState,
+        behaviorFormDispatch
+    } = useBehaviorFormContext();
 
     const [isWidgetConfigValid, setIsWidgetConfigValid] = useState(true);
 
@@ -86,11 +65,16 @@ const WidgetForm: React.FC = () => {
     useEffect(() => {
         if (widgetFormInfo.mode === WidgetFormMode.CreateWidget) {
             const newWidgetId = widgetFormInfo.widgetId;
-            setBehaviorToEdit(
-                produce((draft) => {
-                    createWidget(draft, widgetFormInfo, newWidgetId);
-                })
-            );
+            behaviorFormDispatch({
+                type:
+                    BehaviorFormContextActionType.FORM_BEHAVIOR_WIDGET_ADD_UPDATE,
+                payload: {
+                    widget: {
+                        ...getDefaultFormData(widgetFormInfo),
+                        id: newWidgetId
+                    }
+                }
+            });
             setActiveWidgetId(newWidgetId);
         } else if (widgetFormInfo.mode === WidgetFormMode.EditWidget) {
             setActiveWidgetId(widgetFormInfo.widgetId);
@@ -100,22 +84,32 @@ const WidgetForm: React.FC = () => {
     const updateWidgetData = useCallback(
         (widgetData: IWidget) => {
             if (activeWidgetId) {
-                setBehaviorToEdit(
-                    produce((draft) => {
-                        const widgets = getWidgets(draft);
-                        const widgetToUpdateIdx = widgets.findIndex(
-                            (w) => w.id === activeWidgetId
-                        );
-                        widgets[widgetToUpdateIdx] = widgetData;
-                    })
-                );
+                behaviorFormDispatch({
+                    type:
+                        BehaviorFormContextActionType.FORM_BEHAVIOR_WIDGET_ADD_UPDATE,
+                    payload: {
+                        widget: widgetData
+                    }
+                });
+                // setBehaviorToEdit(
+                //     produce((draft) => {
+                //         const widgets = getWidgets(draft);
+                //         const widgetToUpdateIdx = widgets.findIndex(
+                //             (w) => w.id === activeWidgetId
+                //         );
+                //         widgets[widgetToUpdateIdx] = widgetData;
+                //     })
+                // );
             }
         },
-        [setBehaviorToEdit, activeWidgetId]
+        [activeWidgetId, behaviorFormDispatch]
     );
 
     const getWidgetBuilder = () => {
-        const widgetData = getActiveWidget(activeWidgetId, behaviorToEdit);
+        const widgetData = getActiveWidget(
+            activeWidgetId,
+            behaviorFormState.behaviorToEdit
+        );
 
         switch (widgetFormInfo.widget.data.type) {
             case WidgetType.Gauge:
@@ -155,7 +149,8 @@ const WidgetForm: React.FC = () => {
     const customStyles = getWidgetFormStyles(theme);
     const commonFormStyles = getPanelFormStyles(theme, 0);
 
-    if (!getActiveWidget(activeWidgetId, behaviorToEdit)) return null;
+    if (!getActiveWidget(activeWidgetId, behaviorFormState.behaviorToEdit))
+        return null;
     return (
         <>
             <div className={commonFormStyles.content}>
