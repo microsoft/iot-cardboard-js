@@ -101,7 +101,7 @@ const AlertsTab: React.FC = () => {
 
             behaviorFormDispatch({
                 type:
-                    BehaviorFormContextActionType.FORM_BEHAVIOR_EXPRESSION_RANGE_VISUAL_ADD_UPDATE,
+                    BehaviorFormContextActionType.FORM_BEHAVIOR_EXPRESSION_RANGE_VISUAL_ADD_OR_UPDATE,
                 payload: {
                     visual: alertVisual
                 }
@@ -127,7 +127,7 @@ const AlertsTab: React.FC = () => {
             alertVisual.valueExpression = newPropertyExpression.expression;
             behaviorFormDispatch({
                 type:
-                    BehaviorFormContextActionType.FORM_BEHAVIOR_EXPRESSION_RANGE_VISUAL_ADD_UPDATE,
+                    BehaviorFormContextActionType.FORM_BEHAVIOR_EXPRESSION_RANGE_VISUAL_ADD_OR_UPDATE,
                 payload: {
                     visual: alertVisual
                 }

@@ -67,7 +67,7 @@ const WidgetForm: React.FC = () => {
             const newWidgetId = widgetFormInfo.widgetId;
             behaviorFormDispatch({
                 type:
-                    BehaviorFormContextActionType.FORM_BEHAVIOR_WIDGET_ADD_UPDATE,
+                    BehaviorFormContextActionType.FORM_BEHAVIOR_WIDGET_ADD_OR_UPDATE,
                 payload: {
                     widget: {
                         ...getDefaultFormData(widgetFormInfo),
@@ -86,7 +86,7 @@ const WidgetForm: React.FC = () => {
             if (activeWidgetId) {
                 behaviorFormDispatch({
                     type:
-                        BehaviorFormContextActionType.FORM_BEHAVIOR_WIDGET_ADD_UPDATE,
+                        BehaviorFormContextActionType.FORM_BEHAVIOR_WIDGET_ADD_OR_UPDATE,
                     payload: {
                         widget: widgetData
                     }

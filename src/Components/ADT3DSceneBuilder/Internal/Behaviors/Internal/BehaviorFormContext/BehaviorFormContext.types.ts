@@ -33,19 +33,19 @@ export enum BehaviorFormContextActionType {
     FORM_BEHAVIOR_ID_SET = 'FORM_BEHAVIOR_ID_SET',
     FORM_BEHAVIOR_DISPLAY_NAME_SET = 'FORM_BEHAVIOR_DISPLAY_NAME_SET',
 
-    FORM_BEHAVIOR_DATA_SOURCE_ADD = 'FORM_BEHAVIOR_DATA_SOURCE_ADD',
+    FORM_BEHAVIOR_DATA_SOURCE_ADD_OR_UPDATE = 'FORM_BEHAVIOR_DATA_SOURCE_ADD_OR_UPDATE',
     FORM_BEHAVIOR_DATA_SOURCE_REMOVE = 'FORM_BEHAVIOR_DATA_SOURCE_REMOVE',
 
-    FORM_BEHAVIOR_ALIAS_ADD = 'FORM_BEHAVIOR_ALIAS_ADD',
+    FORM_BEHAVIOR_ALIAS_ADD_OR_UPDATE = 'FORM_BEHAVIOR_ALIAS_ADD_OR_UPDATE',
     FORM_BEHAVIOR_ALIAS_REMOVE = 'FORM_BEHAVIOR_ALIAS_REMOVE',
 
-    FORM_BEHAVIOR_POPOVER_VISUAL_ADD_UPDATE = 'FORM_BEHAVIOR_POPOVER_VISUAL_ADD_UPDATE',
+    FORM_BEHAVIOR_POPOVER_VISUAL_ADD_OR_UPDATE = 'FORM_BEHAVIOR_POPOVER_VISUAL_ADD_OR_UPDATE',
     FORM_BEHAVIOR_POPOVER_VISUAL_REMOVE = 'FORM_BEHAVIOR_POPOVER_VISUAL_REMOVE',
 
-    FORM_BEHAVIOR_WIDGET_ADD_UPDATE = 'FORM_BEHAVIOR_WIDGET_ADD_UPDATE',
+    FORM_BEHAVIOR_WIDGET_ADD_OR_UPDATE = 'FORM_BEHAVIOR_WIDGET_ADD_OR_UPDATE',
     FORM_BEHAVIOR_WIDGET_REMOVE = 'FORM_BEHAVIOR_WIDGET_REMOVE',
 
-    FORM_BEHAVIOR_EXPRESSION_RANGE_VISUAL_ADD_UPDATE = 'FORM_BEHAVIOR_EXPRESSION_RANGE_VISUAL_ADD_UPDATE',
+    FORM_BEHAVIOR_EXPRESSION_RANGE_VISUAL_ADD_OR_UPDATE = 'FORM_BEHAVIOR_EXPRESSION_RANGE_VISUAL_ADD_OR_UPDATE',
     FORM_BEHAVIOR_EXPRESSION_RANGE_VISUAL_REMOVE = 'FORM_BEHAVIOR_EXPRESSION_RANGE_VISUAL_REMOVE'
 }
 
@@ -60,7 +60,7 @@ export type BehaviorFormContextAction =
           payload: { name: string };
       }
     | {
-          type: BehaviorFormContextActionType.FORM_BEHAVIOR_DATA_SOURCE_ADD;
+          type: BehaviorFormContextActionType.FORM_BEHAVIOR_DATA_SOURCE_ADD_OR_UPDATE;
           payload: { source: string };
       }
     | {
@@ -68,7 +68,7 @@ export type BehaviorFormContextAction =
           payload: { source: string };
       }
     | {
-          type: BehaviorFormContextActionType.FORM_BEHAVIOR_ALIAS_ADD;
+          type: BehaviorFormContextActionType.FORM_BEHAVIOR_ALIAS_ADD_OR_UPDATE;
           payload: { alias: string };
       }
     | {
@@ -76,24 +76,24 @@ export type BehaviorFormContextAction =
           payload: { alias: string };
       }
     | {
-          type: BehaviorFormContextActionType.FORM_BEHAVIOR_POPOVER_VISUAL_ADD_UPDATE;
+          type: BehaviorFormContextActionType.FORM_BEHAVIOR_POPOVER_VISUAL_ADD_OR_UPDATE;
           payload: { visual: IPopoverVisual };
       }
     | {
           type: BehaviorFormContextActionType.FORM_BEHAVIOR_POPOVER_VISUAL_REMOVE;
       }
     | {
-          type: BehaviorFormContextActionType.FORM_BEHAVIOR_WIDGET_ADD_UPDATE;
+          type: BehaviorFormContextActionType.FORM_BEHAVIOR_EXPRESSION_RANGE_VISUAL_ADD_OR_UPDATE;
+          payload: { visual: IExpressionRangeVisual };
+      }
+    | {
+          type: BehaviorFormContextActionType.FORM_BEHAVIOR_EXPRESSION_RANGE_VISUAL_REMOVE;
+      }
+    | {
+          type: BehaviorFormContextActionType.FORM_BEHAVIOR_WIDGET_ADD_OR_UPDATE;
           payload: { widget: IWidget };
       }
     | {
           type: BehaviorFormContextActionType.FORM_BEHAVIOR_WIDGET_REMOVE;
           payload: { widgetId: string };
-      }
-    | {
-          type: BehaviorFormContextActionType.FORM_BEHAVIOR_EXPRESSION_RANGE_VISUAL_ADD_UPDATE;
-          payload: { visual: IExpressionRangeVisual };
-      }
-    | {
-          type: BehaviorFormContextActionType.FORM_BEHAVIOR_EXPRESSION_RANGE_VISUAL_REMOVE;
       };

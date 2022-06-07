@@ -35,7 +35,7 @@ export const BehaviorFormContextReducer: (
             (action as any).payload // ignore that payload doesn't always come since this is just a log
         );
         switch (action.type) {
-            case BehaviorFormContextActionType.FORM_BEHAVIOR_WIDGET_ADD_UPDATE: {
+            case BehaviorFormContextActionType.FORM_BEHAVIOR_WIDGET_ADD_OR_UPDATE: {
                 // we assume there is only one popover
                 const draftPopoverVisual = draft.behaviorToEdit.visuals.filter(
                     ViewerConfigUtility.isPopoverVisual
