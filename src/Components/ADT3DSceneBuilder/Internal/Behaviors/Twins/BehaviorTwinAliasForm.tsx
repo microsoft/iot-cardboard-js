@@ -209,7 +209,7 @@ const BehaviorTwinAliasForm: React.FC<{
     ]);
 
     const theme = useTheme();
-    const commonFormStyles = getPanelFormStyles(theme, 0);
+    const commonFormStyles = getPanelFormStyles(theme, 0, true);
     const commonPanelStyles = getLeftPanelStyles(theme);
 
     return (
