@@ -344,7 +344,7 @@ function SceneView(props: ISceneViewProps, ref) {
                     const es = someMeshFromTheArrayOfMeshes.getBoundingInfo()
                         .boundingBox.extendSize;
                     const es_scaled = es.scale(
-                        zoomMeshIds && zoomMeshIds.length < 10 ? 5 : 3
+                        zoomMeshIds && zoomMeshIds.length > 10 ? 5 : 3
                     );
                     const width = es_scaled.x;
                     const height = es_scaled.y;
