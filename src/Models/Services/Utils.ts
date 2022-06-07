@@ -412,8 +412,3 @@ export const getStoredEditorModelPositionsData = () => {
     const oatData = getStoredEditorData();
     return oatData && oatData.modelPositions ? oatData.modelPositions : [];
 };
-
-// Returns the string value of a key if the object is not a string already
-export const getStringFromObject = (value) => {
-    return typeof value === 'string' ? value : Object.values(value)[0];
-};
