@@ -23,7 +23,7 @@ export const getStyles = (
                 flexDirection: 'column',
                 height: '100%',
                 overflow: 'hidden',
-                padding: `${SCENE_PAGE_OUTER_OFFSET}px 16px ${SCENE_PAGE_OUTER_OFFSET}px 0px`,
+                padding: `${SCENE_PAGE_OUTER_OFFSET}px 0px ${SCENE_PAGE_OUTER_OFFSET}px 0px`,
                 position: 'relative',
                 width: '360px'
             } as IStyle

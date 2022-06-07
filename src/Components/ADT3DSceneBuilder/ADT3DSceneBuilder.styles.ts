@@ -26,7 +26,8 @@ export const getStyles = (
             classNames.wrapper,
             {
                 flexGrow: 1,
-                position: 'relative'
+                position: 'relative',
+                padding: '16px 0px'
             }
         ],
         subComponentStyles: {

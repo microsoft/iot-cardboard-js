@@ -17,7 +17,7 @@ export const getStyles = memoizeFunction((isBuildMode: boolean) => {
                 flexDirection: 'column',
                 height: '100%',
                 padding: isBuildMode
-                    ? `0px ${SCENE_PAGE_OUTER_OFFSET}px`
+                    ? `0px ${SCENE_PAGE_OUTER_OFFSET}px 0px 0px`
                     : SCENE_PAGE_OUTER_OFFSET,
                 overflowX: 'auto'
             }
