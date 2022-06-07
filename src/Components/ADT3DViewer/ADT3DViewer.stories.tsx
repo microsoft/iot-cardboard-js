@@ -362,9 +362,7 @@ export const MockWithSelection = (_args, { globals: { theme, locale } }) => {
 
 export const LayerSelect = (_args, { globals: { theme, locale } }) => {
     const scenesConfig = mockVConfig as I3DScenesConfig;
-    const [selectedLayerIds, setSelectedLayerIds] = useState<string[]>(
-        undefined
-    );
+    const [selectedLayerIds, setSelectedLayerIds] = useState<string[]>(null);
 
     return (
         <div style={{ width: '100%', height: '600px' }}>
@@ -374,7 +372,7 @@ export const LayerSelect = (_args, { globals: { theme, locale } }) => {
                 placeholder="Select layer..."
                 options={[
                     {
-                        data: undefined,
+                        data: null,
                         text: 'All',
                         key: 'all'
                     },
