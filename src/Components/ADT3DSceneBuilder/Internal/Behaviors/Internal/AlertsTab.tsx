@@ -1,9 +1,9 @@
-import produce from 'immer';
 import React, { useCallback, useContext, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
     IBehavior,
-    IExpressionRangeVisual
+    IExpressionRangeVisual,
+    IValueRangeVisual
 } from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { FontSizes, Stack, Text, useTheme } from '@fluentui/react';
 import ViewerConfigUtility from '../../../../../Models/Classes/ViewerConfigUtility';
@@ -27,9 +27,15 @@ import {
     ModelledPropertyBuilderMode,
     PropertyExpression
 } from '../../../../ModelledPropertyBuilder/ModelledPropertyBuilder.types';
+import { useBehaviorFormContext } from './BehaviorFormContext/BehaviorFormContext';
+import { BehaviorFormContextActionType } from './BehaviorFormContext/BehaviorFormContext.types';
 
+// NOTE: the copy is created to avoid accidental updates to the object held by the reducer
 const getAlertFromBehavior = (behavior: IBehavior) =>
-    behavior.visuals.filter(ViewerConfigUtility.isAlertVisual)[0] || null;
+    deepCopy(behavior.visuals.filter(ViewerConfigUtility.isAlertVisual)[0]) ||
+    null;
+const getValueRangeVisualFromAlert = (visual: IExpressionRangeVisual) =>
+    deepCopy(visual?.valueRanges?.[0]?.visual) || null;
 
 const ROOT_LOC = '3dSceneBuilder.behaviorAlertForm';
 const LOC_KEYS = {
@@ -48,16 +54,19 @@ const LOC_KEYS = {
 const AlertsTab: React.FC = () => {
     const { t } = useTranslation();
     const {
-        behaviorToEdit,
-        setBehaviorToEdit,
         adapter,
         config,
         sceneId,
         state: { selectedElements }
     } = useContext(SceneBuilderContext);
+    const {
+        behaviorFormDispatch,
+        behaviorFormState
+    } = useBehaviorFormContext();
 
     const alertVisualStateRef = useRef<IExpressionRangeVisual>(
-        getAlertFromBehavior(behaviorToEdit) || getUIDDefaultAlertVisual()
+        getAlertFromBehavior(behaviorFormState.behaviorToEdit) ||
+            getUIDDefaultAlertVisual()
     );
 
     const getAndCreateIfNotExistsAlertVisual = (draft: IBehavior) => {
@@ -73,81 +82,87 @@ const AlertsTab: React.FC = () => {
         }
     };
 
+    const setValueRangeProperty = useCallback(
+        (propertyName: keyof IValueRangeVisual, value: string) => {
+            const alertVisual = getAndCreateIfNotExistsAlertVisual(
+                behaviorFormState.behaviorToEdit
+            );
+            // Edit flow
+            if (!alertVisual) {
+                return;
+            }
+            const valueRangeVisual = alertVisual.valueRanges[0].visual;
+            if (!valueRangeVisual) {
+                return;
+            }
+
+            // set the value
+            valueRangeVisual[propertyName] = value as any;
+
+            behaviorFormDispatch({
+                type:
+                    BehaviorFormContextActionType.FORM_BEHAVIOR_EXPRESSION_RANGE_VISUAL_ADD_UPDATE,
+                payload: {
+                    visual: alertVisual
+                }
+            });
+            // check form validity
+            // validateForm(alertVisual);
+        },
+        [behaviorFormDispatch, behaviorFormState.behaviorToEdit]
+    );
+
     const onExpressionChange = useCallback(
-        (newPropertyExpression: PropertyExpression) =>
-            setBehaviorToEdit(
-                produce((draft) => {
-                    const alertVisual = getAndCreateIfNotExistsAlertVisual(
-                        draft
-                    );
+        (newPropertyExpression: PropertyExpression) => {
+            const alertVisual = getAndCreateIfNotExistsAlertVisual(
+                behaviorFormState.behaviorToEdit
+            );
 
-                    // If clearing out expression
-                    if (newPropertyExpression.expression === '') {
-                        // Remove visual from behavior
-                        if (alertVisual) {
-                            const avIdx = draft.visuals.indexOf(alertVisual);
-                            draft.visuals.splice(avIdx, 1);
+            // If clearing out expression
+            if (newPropertyExpression.expression === '' && alertVisual) {
+                // Backup current state of alert visual form
+                alertVisualStateRef.current = deepCopy(alertVisual);
+            }
 
-                            // Backup current state of alert visual form
-                            alertVisualStateRef.current = deepCopy(alertVisual);
-                            alertVisual.valueExpression = '';
-                        }
-                    } else {
-                        alertVisual.valueExpression =
-                            newPropertyExpression.expression;
-                    }
-                })
-            ),
-        [setBehaviorToEdit]
+            alertVisual.valueExpression = newPropertyExpression.expression;
+            behaviorFormDispatch({
+                type:
+                    BehaviorFormContextActionType.FORM_BEHAVIOR_EXPRESSION_RANGE_VISUAL_ADD_UPDATE,
+                payload: {
+                    visual: alertVisual
+                }
+            });
+        },
+        [behaviorFormDispatch, behaviorFormState.behaviorToEdit]
     );
 
     const onColorChange = useCallback(
         (newValue: IPickerOption) =>
-            setBehaviorToEdit(
-                produce((draft) => {
-                    const alertVisual = getAndCreateIfNotExistsAlertVisual(
-                        draft
-                    );
-                    alertVisual.valueRanges[0].visual.color = newValue.item;
-                })
-            ),
-        [setBehaviorToEdit]
+            setValueRangeProperty('color', newValue.item),
+        [setValueRangeProperty]
     );
 
     const onIconChange = useCallback(
         (newValue: IPickerOption) =>
-            setBehaviorToEdit(
-                produce((draft) => {
-                    const alertVisual = getAndCreateIfNotExistsAlertVisual(
-                        draft
-                    );
-                    alertVisual.valueRanges[0].visual.iconName = newValue.item;
-                })
-            ),
-        [setBehaviorToEdit]
+            setValueRangeProperty('iconName', newValue.item),
+        [setValueRangeProperty]
     );
 
     const onNoteChange = useCallback(
         (newPropertyExpression: PropertyExpression) =>
-            setBehaviorToEdit(
-                produce((draft) => {
-                    const alertVisual = getAndCreateIfNotExistsAlertVisual(
-                        draft
-                    );
-                    alertVisual.valueRanges[0].visual.labelExpression = wrapTextInTemplateString(
-                        newPropertyExpression.expression
-                    );
-                })
+            setValueRangeProperty(
+                'labelExpression',
+                wrapTextInTemplateString(newPropertyExpression.expression)
             ),
-        [setBehaviorToEdit]
+        [setValueRangeProperty]
     );
 
     // we only grab the first alert in the collection
-    const alertVisual = getAlertFromBehavior(behaviorToEdit);
-    const color = alertVisual?.valueRanges?.[0]?.visual?.color;
-    const icon = alertVisual?.valueRanges?.[0]?.visual?.iconName;
-    const notificationExpression =
-        alertVisual?.valueRanges?.[0]?.visual?.labelExpression;
+    const alertVisual = getAlertFromBehavior(behaviorFormState.behaviorToEdit);
+    const color = getValueRangeVisualFromAlert(alertVisual)?.color;
+    const icon = getValueRangeVisualFromAlert(alertVisual)?.iconName;
+    const notificationExpression = getValueRangeVisualFromAlert(alertVisual)
+        ?.labelExpression;
     const expression = alertVisual?.valueExpression;
     const theme = useTheme();
     const commonPanelStyles = getLeftPanelStyles(theme);
@@ -160,7 +175,7 @@ const AlertsTab: React.FC = () => {
             <ModelledPropertyBuilder
                 adapter={adapter}
                 twinIdParams={{
-                    behavior: behaviorToEdit,
+                    behavior: behaviorFormState.behaviorToEdit,
                     config,
                     sceneId,
                     selectedElements
@@ -200,7 +215,7 @@ const AlertsTab: React.FC = () => {
                         <ModelledPropertyBuilder
                             adapter={adapter}
                             twinIdParams={{
-                                behavior: behaviorToEdit,
+                                behavior: behaviorFormState.behaviorToEdit,
                                 config,
                                 sceneId,
                                 selectedElements
