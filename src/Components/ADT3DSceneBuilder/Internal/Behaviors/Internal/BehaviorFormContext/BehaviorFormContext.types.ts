@@ -48,6 +48,9 @@ export enum BehaviorFormContextActionType {
     /** set the behavior id */
     FORM_BEHAVIOR_ID_SET = 'FORM_BEHAVIOR_ID_SET',
 
+    /** initializes the behavior to a "new behavior" state */
+    FORM_BEHAVIOR_INITIALIZE = 'FORM_BEHAVIOR_INITIALIZE',
+
     // /** add or update a popover visual */
     // FORM_BEHAVIOR_POPOVER_VISUAL_ADD_OR_UPDATE = 'FORM_BEHAVIOR_POPOVER_VISUAL_ADD_OR_UPDATE',
     // /** remove a popover visual */
@@ -100,6 +103,9 @@ export type BehaviorFormContextAction =
     | {
           type: BehaviorFormContextActionType.FORM_BEHAVIOR_ID_SET;
           payload: { id: string };
+      }
+    | {
+          type: BehaviorFormContextActionType.FORM_BEHAVIOR_INITIALIZE;
       }
     // POPOVER
     // | {

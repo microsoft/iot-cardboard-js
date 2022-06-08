@@ -1,13 +1,12 @@
+import { defaultBehavior } from '../../../../../../Models/Classes/3DVConfig';
 import ViewerConfigUtility from '../../../../../../Models/Classes/ViewerConfigUtility';
 import { IConsoleLogFunction } from '../../../../../../Models/Constants/Types';
-import { deepCopy } from '../../../../../../Models/Services/Utils';
-import {
-    IBehavior,
-    IExpressionRangeVisual,
-    IPopoverVisual,
-    IVisual,
-    IWidget
-} from '../../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
+import { createGUID, deepCopy } from '../../../../../../Models/Services/Utils';
+import { IBehavior } from '../../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
+
+export function CreateNewBehavior(): IBehavior {
+    return { ...defaultBehavior, id: createGUID() };
+}
 
 /**
  * Removes a widget with the given id from a behavior.

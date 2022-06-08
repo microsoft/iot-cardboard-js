@@ -1,5 +1,5 @@
 /**
- * This context is for transferring state from one session to another. These properties are managed by the various parts of the app and can be read onMount to restore the state
+ * This context is for managing the state of creating and editing a behavior object
  */
 import produce from 'immer';
 import React, { useContext, useReducer } from 'react';
@@ -14,6 +14,7 @@ import {
 } from './BehaviorFormContext.types';
 import {
     AddOrUpdateListItemByFilter,
+    CreateNewBehavior,
     RemoveItemsFromListByFilter,
     RemoveWidgetFromBehaviorById
 } from './BehaviorFormContextUtility';
@@ -64,6 +65,10 @@ export const BehaviorFormContextReducer: (
                 const set = new Set<string>(draft.behaviorToEdit.twinAliases);
                 set.delete(action.payload.alias);
                 draft.behaviorToEdit.twinAliases = Array.from(set);
+                break;
+            }
+            case BehaviorFormContextActionType.FORM_BEHAVIOR_INITIALIZE: {
+                draft.behaviorToEdit = CreateNewBehavior();
                 break;
             }
             case BehaviorFormContextActionType.FORM_BEHAVIOR_STATUS_VISUAL_ADD_OR_UPDATE: {
