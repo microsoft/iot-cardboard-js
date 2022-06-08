@@ -79,6 +79,10 @@ export const FormAddEnumItem = ({
         singleLanguageOptionValue
     );
     const [
+        languageSelectionDescription,
+        setLanguageSelectionDescription
+    ] = useState(singleLanguageOptionValue);
+    const [
         multiLanguageSelectionsDisplayName,
         setMultiLanguageSelectionsDisplayName
     ] = useState({});
@@ -125,6 +129,25 @@ export const FormAddEnumItem = ({
         }
     ];
 
+    const optionsDescription: IChoiceGroupOption[] = [
+        {
+            key: singleLanguageOptionValue,
+            text: t('OATPropertyEditor.singleLanguage'),
+            disabled: multiLanguageSelectionsDescriptions.length > 0
+        },
+        {
+            key: multiLanguageOptionValue,
+            text: t('OATPropertyEditor.multiLanguage')
+        }
+    ];
+
+    const onLanguageSelectDescription = (
+        ev: React.FormEvent<HTMLInputElement>,
+        option: IChoiceGroupOption
+    ): void => {
+        setLanguageSelectionDescription(option.key);
+    };
+
     const onLanguageSelect = (
         ev: React.FormEvent<HTMLInputElement>,
         option: IChoiceGroupOption
@@ -139,7 +162,7 @@ export const FormAddEnumItem = ({
             '@id': id ? `dtmi:com:adt:${id};` : 'dtmi:com:adt:enum;',
             name: name ? name : activeItem.name,
             description:
-                languageSelection === singleLanguageOptionValue
+                languageSelectionDescription === singleLanguageOptionValue
                     ? description
                         ? description
                         : activeItem.description
@@ -304,9 +327,7 @@ export const FormAddEnumItem = ({
 
             {languageSelection === singleLanguageOptionValue && (
                 <div className={propertyInspectorStyles.modalRow}>
-                    <Text styles={columnLeftTextStyles}>
-                        {t('OATPropertyEditor.displayName')}
-                    </Text>
+                    <div></div> {/* Needed for gridTemplateColumns style  */}
                     <TextField
                         placeholder={t(
                             'OATPropertyEditor.modalTextInputPlaceHolder'
@@ -426,11 +447,22 @@ export const FormAddEnumItem = ({
                 </div>
             )}
 
-            {languageSelection === singleLanguageOptionValue && (
+            <div className={propertyInspectorStyles.modalRow}>
+                <Text styles={columnLeftTextStyles}>
+                    {t('OATPropertyEditor.description')}
+                </Text>
+                <ChoiceGroup
+                    defaultSelectedKey={singleLanguageOptionValue}
+                    options={optionsDescription}
+                    onChange={onLanguageSelectDescription}
+                    required={true}
+                    styles={radioGroupRowStyle}
+                />
+            </div>
+
+            {languageSelectionDescription === singleLanguageOptionValue && (
                 <div className={propertyInspectorStyles.modalRow}>
-                    <Text styles={columnLeftTextStyles}>
-                        {t('OATPropertyEditor.description')}
-                    </Text>
+                    <div></div> {/* Needed for gridTemplateColumns style  */}
                     <TextField
                         placeholder={t(
                             'OATPropertyEditor.modalTextInputPlaceHolderDescription'
@@ -449,15 +481,7 @@ export const FormAddEnumItem = ({
                 </div>
             )}
 
-            {languageSelection === multiLanguageOptionValue && (
-                <div className={propertyInspectorStyles.modalRow}>
-                    <Text styles={columnLeftTextStyles}>
-                        {t('OATPropertyEditor.description')}
-                    </Text>
-                </div>
-            )}
-
-            {languageSelection === multiLanguageOptionValue &&
+            {languageSelectionDescription === multiLanguageOptionValue &&
                 multiLanguageSelectionsDescriptions.length > 0 &&
                 multiLanguageSelectionsDescriptions.map((language, index) => (
                     <div
@@ -524,7 +548,7 @@ export const FormAddEnumItem = ({
                     </div>
                 ))}
 
-            {languageSelection === multiLanguageOptionValue && (
+            {languageSelectionDescription === multiLanguageOptionValue && (
                 <div className={propertyInspectorStyles.modalRow}>
                     <ActionButton
                         disabled={

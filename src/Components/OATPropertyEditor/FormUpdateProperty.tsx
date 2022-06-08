@@ -106,6 +106,10 @@ export const FormUpdateProperty = ({
         singleLanguageOptionValue
     );
     const [
+        languageSelectionDescription,
+        setLanguageSelectionDescription
+    ] = useState(singleLanguageOptionValue);
+    const [
         multiLanguageSelectionsDisplayName,
         setMultiLanguageSelectionsDisplayName
     ] = useState({});
@@ -146,11 +150,30 @@ export const FormUpdateProperty = ({
         }
     ];
 
+    const optionsDescription: IChoiceGroupOption[] = [
+        {
+            key: singleLanguageOptionValue,
+            text: t('OATPropertyEditor.singleLanguage'),
+            disabled: multiLanguageSelectionsDescriptions.length > 0
+        },
+        {
+            key: multiLanguageOptionValue,
+            text: t('OATPropertyEditor.multiLanguage')
+        }
+    ];
+
     const onLanguageSelect = (
         ev: React.FormEvent<HTMLInputElement>,
         option: IChoiceGroupOption
     ): void => {
         setLanguageSelection(option.key);
+    };
+
+    const onLanguageSelectDescription = (
+        ev: React.FormEvent<HTMLInputElement>,
+        option: IChoiceGroupOption
+    ): void => {
+        setLanguageSelectionDescription(option.key);
     };
 
     const handleUpdatedNestedProperty = () => {
@@ -161,7 +184,7 @@ export const FormUpdateProperty = ({
         const prop = {
             comment: comment ? comment : activeNestedProperty.comment,
             description:
-                languageSelection === singleLanguageOptionValue
+                languageSelectionDescription === singleLanguageOptionValue
                     ? description
                         ? description
                         : activeNestedProperty.description
@@ -202,17 +225,21 @@ export const FormUpdateProperty = ({
         const prop = {
             comment: comment ? comment : activeProperty.comment,
             description:
-                languageSelection === singleLanguageOptionValue
+                languageSelectionDescription === singleLanguageOptionValue
                     ? description
                         ? description
                         : activeProperty.description
-                    : multiLanguageSelectionsDescription,
+                    : multiLanguageSelectionsDescription
+                    ? multiLanguageSelectionsDescription
+                    : activeProperty.description,
             displayName:
                 languageSelection === singleLanguageOptionValue
                     ? displayName
                         ? displayName
                         : activeProperty.name
-                    : multiLanguageSelectionsDisplayName,
+                    : multiLanguageSelectionsDisplayName
+                    ? multiLanguageSelectionsDisplayName
+                    : activeProperty.name,
             writable,
             '@type': semanticType
                 ? [...activeProperty['@type'], ...[semanticType]]
@@ -338,6 +365,16 @@ export const FormUpdateProperty = ({
 
             <div className={propertyInspectorStyles.modalRow}>
                 <Text styles={columnLeftTextStyles}>
+                    {t('OATPropertyEditor.id')}
+                </Text>
+                <TextField
+                    placeholder={t('OATPropertyEditor.id')}
+                    onChange={(_ev, value) => setId(value)}
+                />
+            </div>
+
+            <div className={propertyInspectorStyles.modalRow}>
+                <Text styles={columnLeftTextStyles}>
                     {t('OATPropertyEditor.displayName')}
                 </Text>
                 <ChoiceGroup
@@ -351,9 +388,7 @@ export const FormUpdateProperty = ({
 
             {languageSelection === singleLanguageOptionValue && (
                 <div className={propertyInspectorStyles.modalRow}>
-                    <Text styles={columnLeftTextStyles}>
-                        {t('OATPropertyEditor.displayName')}
-                    </Text>
+                    <div></div> {/* Needed for gridTemplateColumns style  */}
                     <TextField
                         placeholder={t(
                             'OATPropertyEditor.modalTextInputPlaceHolder'
@@ -467,16 +502,27 @@ export const FormUpdateProperty = ({
                             iconName={'Add'}
                             className={propertyInspectorStyles.iconAddProperty}
                         />
-                        <Text>{t('OATPropertyEditor.region')}</Text>
+                        <Text>{t('OATPropertyEditor.region')}1</Text>
                     </ActionButton>
                 </div>
             )}
 
-            {languageSelection === singleLanguageOptionValue && (
+            <div className={propertyInspectorStyles.modalRow}>
+                <Text styles={columnLeftTextStyles}>
+                    {t('OATPropertyEditor.description')}
+                </Text>
+                <ChoiceGroup
+                    defaultSelectedKey={singleLanguageOptionValue}
+                    options={optionsDescription}
+                    onChange={onLanguageSelectDescription}
+                    required={true}
+                    styles={radioGroupRowStyle}
+                />
+            </div>
+
+            {languageSelectionDescription === singleLanguageOptionValue && (
                 <div className={propertyInspectorStyles.modalRow}>
-                    <Text styles={columnLeftTextStyles}>
-                        {t('OATPropertyEditor.description')}
-                    </Text>
+                    <div></div> {/* Needed for gridTemplateColumns style  */}
                     <TextField
                         placeholder={t(
                             'OATPropertyEditor.modalTextInputPlaceHolderDescription'
@@ -493,15 +539,7 @@ export const FormUpdateProperty = ({
                 </div>
             )}
 
-            {languageSelection === multiLanguageOptionValue && (
-                <div className={propertyInspectorStyles.modalRow}>
-                    <Text styles={columnLeftTextStyles}>
-                        {t('OATPropertyEditor.description')}
-                    </Text>
-                </div>
-            )}
-
-            {languageSelection === multiLanguageOptionValue &&
+            {languageSelectionDescription === multiLanguageOptionValue &&
                 multiLanguageSelectionsDescriptions.length > 0 &&
                 multiLanguageSelectionsDescriptions.map((language, index) => (
                     <div
@@ -567,7 +605,7 @@ export const FormUpdateProperty = ({
                     </div>
                 ))}
 
-            {languageSelection === multiLanguageOptionValue && (
+            {languageSelectionDescription === multiLanguageOptionValue && (
                 <div className={propertyInspectorStyles.modalRow}>
                     <ActionButton
                         disabled={

@@ -190,3 +190,12 @@ export const handleMultiLanguageSelectionRemoval = (
         );
     }
 };
+
+/* Detect if mouse direction is any other than north.
+    North direction: towards property selector, other directions should close property selector.
+    Applied to property selector trigger element.
+*/
+export const shouldClosePropertySelectorOnMouseLeave = (e, boundingBox) =>
+    e.clientY >= boundingBox.bottom ||
+    e.clientX < boundingBox.left ||
+    e.clientX > boundingBox.right;

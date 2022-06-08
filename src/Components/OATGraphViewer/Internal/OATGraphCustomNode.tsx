@@ -36,7 +36,7 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
         setCurrentNode,
         dispatch,
         state,
-        currentNodeIdRef
+        currentHovered
     } = useContext(ElementsContext);
     const graphViewerStyles = getGraphViewerStyles();
     const iconStyles = getGraphViewerIconStyles();
@@ -219,7 +219,7 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
                         position="bottom"
                         id={OATComponentHandleName}
                         className={
-                            currentNodeIdRef.current === data.id
+                            currentHovered && currentHovered.id === data.id
                                 ? graphViewerStyles.componentHandleFocus
                                 : graphViewerStyles.componentHandleHidden
                         }
@@ -230,7 +230,7 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
                         position="bottom"
                         id={OATRelationshipHandleName}
                         className={
-                            currentNodeIdRef.current === data.id
+                            currentHovered && currentHovered.id === data.id
                                 ? graphViewerStyles.relationshipHandleFocus
                                 : graphViewerStyles.relationshipHandleHidden
                         }
@@ -241,7 +241,7 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
                         position="bottom"
                         id={OATUntargetedRelationshipName}
                         className={
-                            currentNodeIdRef.current === data.id
+                            currentHovered && currentHovered.id === data.id
                                 ? graphViewerStyles.untargetRelationshipHandleFocus
                                 : graphViewerStyles.untargetRelationshipHandleHidden
                         }
@@ -252,7 +252,7 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
                         position="bottom"
                         id={OATExtendHandleName}
                         className={
-                            currentNodeIdRef.current === data.id
+                            currentHovered && currentHovered.id === data.id
                                 ? graphViewerStyles.extendHandleFocus
                                 : graphViewerStyles.extendHandleHidden
                         }
