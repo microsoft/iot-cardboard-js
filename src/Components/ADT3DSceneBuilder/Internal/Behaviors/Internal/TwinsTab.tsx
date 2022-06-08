@@ -232,7 +232,7 @@ const TwinsTab: React.FC<ITwinsTabProps> = ({
     const commonPanelStyles = getLeftPanelStyles(theme);
     const actionButtonStyles = getActionButtonStyles(theme);
     return (
-        <div className={commonPanelStyles.paddedPivotTabContents}>
+        <div className={commonPanelStyles.paddedLeftPanelBlock}>
             <Stack tokens={{ childrenGap: 12 }}>
                 <Text className={commonPanelStyles.text}>
                     {t('3dSceneBuilder.twinAlias.tabDescriptionPart1')}

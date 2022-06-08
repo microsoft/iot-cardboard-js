@@ -153,7 +153,7 @@ const AlertsTab: React.FC = () => {
     const commonPanelStyles = getLeftPanelStyles(theme);
 
     return (
-        <div className={commonPanelStyles.paddedPivotTabContents}>
+        <div className={commonPanelStyles.paddedLeftPanelBlock}>
             <Stack tokens={{ childrenGap: 8 }}>
                 <Text className={commonPanelStyles.text}>
                     {t(LOC_KEYS.tabDescription)}

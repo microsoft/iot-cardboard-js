@@ -65,7 +65,7 @@ const AliasedTwinsTab: React.FC = () => {
 
     const commonPanelStyles = getLeftPanelStyles(useTheme());
     return (
-        <div className={commonPanelStyles.paddedPivotTabContents}>
+        <div className={commonPanelStyles.paddedLeftPanelBlock}>
             <Stack tokens={sectionStackTokens}>
                 <div>
                     {twinAliasList.length === 0 ? (

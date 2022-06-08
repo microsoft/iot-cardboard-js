@@ -395,7 +395,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                             >
                                 <div
                                     className={
-                                        commonPanelStyles.paddedPivotTabContents
+                                        commonPanelStyles.paddedLeftPanelBlock
                                     }
                                 >
                                     <SceneElements

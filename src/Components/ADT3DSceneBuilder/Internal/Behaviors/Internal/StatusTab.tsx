@@ -146,7 +146,7 @@ const StatusTab: React.FC<IStatusTabProps> = ({ onValidityChange }) => {
     const commonPanelStyles = getLeftPanelStyles(useTheme());
     const showRangeBuilder = !!statusVisualToEdit.valueExpression;
     return (
-        <div className={commonPanelStyles.paddedPivotTabContents}>
+        <div className={commonPanelStyles.paddedLeftPanelBlock}>
             <Stack tokens={sectionStackTokens}>
                 <Text className={commonPanelStyles.text}>
                     {t(LOC_KEYS.tabDescription)}
