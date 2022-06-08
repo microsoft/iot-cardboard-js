@@ -412,3 +412,9 @@ export const getStoredEditorModelPositionsData = () => {
     const oatData = getStoredEditorData();
     return oatData && oatData.modelPositions ? oatData.modelPositions : [];
 };
+
+// Get stored models' namespace OAT-data
+export const getStoredEditorNamespaceData = () => {
+    const oatData = getStoredEditorData();
+    return oatData && oatData.namespace ? oatData.namespace : null;
+};

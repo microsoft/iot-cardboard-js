@@ -50,7 +50,6 @@ import { ElementEdge } from './Internal/Classes/ElementEdge';
 import { ElementEdgeData } from './Internal/Classes/ElementEdgeData';
 import { deepCopy } from '../../Models/Services/Utils';
 
-const idClassBase = 'dtmi:com:example:';
 const contextClassBase = 'dtmi:dtdl:context;2';
 const versionClassBase = '1';
 const defaultNodePosition = 25;
@@ -180,7 +179,8 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
         selectedModelId,
         editedModelName,
         editedModelId,
-        modelPositions
+        modelPositions,
+        namespace
     } = state;
     const { t } = useTranslation();
     const theme = useTheme();
@@ -203,6 +203,10 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
 
     const dagreGraph = new dagre.graphlib.Graph();
     dagreGraph.setDefaultEdgeLabel(() => ({}));
+
+    const idClassBase = `dtmi:com:${
+        namespace ? namespace : t('OATGraphViewer.example')
+    }:`;
 
     const applyLayoutToElements = (elements, direction = 'TB') => {
         const isHorizontal = direction === 'LR';

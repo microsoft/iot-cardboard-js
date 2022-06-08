@@ -7,6 +7,7 @@ import FormSaveAs from './FormSaveAs';
 import FromOpen from './FormOpen';
 import ModalSaveCurrentProjectAndClear from './ModalSaveCurrentProjectAndClear';
 import ModalDelete from './ModalDelete';
+import FormSettings from './FormSettings';
 import { FromBody } from './Enums';
 
 interface IModal {
@@ -77,6 +78,14 @@ export const Modal = ({
                         resetProjectOnSave
                         resetProject={resetProject}
                         state={state}
+                    />
+                );
+            case FromBody.settings:
+                return (
+                    <FormSettings
+                        dispatch={dispatch}
+                        setModalOpen={setModalOpen}
+                        setModalBody={setModalBody}
                     />
                 );
             default:

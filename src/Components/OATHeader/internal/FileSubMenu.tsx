@@ -37,7 +37,7 @@ export const FileSubMenu = ({
     const [files, setFiles] = useState(loadFiles());
     const [isFileStored, setIsFileStored] = useState(false);
     const [fileIndex, setFileIndex] = useState(-1);
-    const { modelPositions, models, projectName, templates } = state;
+    const { modelPositions, models, projectName, templates, namespace } = state;
 
     const handleSave = () => {
         setSubMenuActive(false);
@@ -51,7 +51,8 @@ export const FileSubMenu = ({
                 models,
                 '',
                 projectName,
-                templates
+                templates,
+                namespace
             );
 
             filesCopy[fileIndex].data = project;
@@ -62,6 +63,11 @@ export const FileSubMenu = ({
             setModalBody(FromBody.save);
             setModalOpen(true);
         }
+    };
+
+    const handleSettings = () => {
+        setModalOpen(true);
+        setModalBody(FromBody.settings);
     };
 
     const handleNew = () => {
@@ -80,6 +86,8 @@ export const FileSubMenu = ({
             }
             //  Reset project data and project name
             resetProject();
+            setModalBody(FromBody.settings);
+            setModalOpen(true);
         } else if (
             // Check if current file has any progress
             models &&
@@ -168,6 +176,13 @@ export const FileSubMenu = ({
                             <Text>{t('OATHeader.delete')}</Text>
                         </ActionButton>
                     )}
+
+                    <ActionButton
+                        styles={subMenuItemStyles}
+                        onClick={handleSettings}
+                    >
+                        <Text>{t('OATHeader.settings')}</Text>
+                    </ActionButton>
                 </Callout>
             )}
         </>
