@@ -36,6 +36,7 @@ import {
     handleMultiLanguageSelectionsDisplayNameKeyChange,
     handleMultiLanguageSelectionsDisplayNameValueChange
 } from './Utils';
+import { DTDLNameRegex } from '../../Models/Constants/Constants';
 
 const multiLanguageOptionValue = 'multiLanguage';
 const singleLanguageOptionValue = 'singleLanguage';
@@ -72,7 +73,7 @@ export const FormAddEnumItem = ({
     const [id, setId] = useState(null);
     const [comment, setComment] = useState(null);
     const [description, setDescription] = useState(null);
-    const [error, setError] = useState(null);
+    const [errorRepeatedEnumValue, setErrorRepeatedEnumValue] = useState(null);
     const [languageSelection, setLanguageSelection] = useState(
         singleLanguageOptionValue
     );
@@ -195,16 +196,14 @@ export const FormAddEnumItem = ({
             setEnumValue(value);
         }
 
-        setError(!!find);
+        setErrorRepeatedEnumValue(!!find);
 
         return find ? `${t('OATPropertyEditor.errorRepeatedEnumValue')}` : '';
     };
 
     const handleNameChange = (value) => {
-        const regularExpression = new RegExp(
-            '^[a-zA-Z](?:[a-zA-Z0-9_]*[a-zA-Z0-9])?$'
-        );
-        const isValid = regularExpression.exec(value);
+        // Name may only contain the characters a-z, A-Z, 0-9, and underscore.
+        const isValid = DTDLNameRegex.exec(value);
 
         if (isValid) {
             setName(value);
@@ -624,7 +623,7 @@ export const FormAddEnumItem = ({
                 allowDisabledFocus
                 onClick={handleAddEnumValue}
                 disabled={
-                    error ||
+                    errorRepeatedEnumValue ||
                     !enumValue ||
                     !name ||
                     nameError ||

@@ -51,13 +51,11 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
 
     const onNameChange = (evt) => {
         if (evt.target.value.length <= OATDisplayNameLengthLimit) {
-            setNameText(evt.target.value.length);
+            setNameText(evt.target.value);
             setDisplayNameError(null);
         } else {
             setDisplayNameError(true);
         }
-
-        setNameText(evt.target.value);
     };
 
     const onNameClick = () => {
@@ -120,8 +118,6 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
         } else {
             setIdError(true);
         }
-
-        setNameText(evt.target.value);
     };
 
     const onIdClick = () => {
