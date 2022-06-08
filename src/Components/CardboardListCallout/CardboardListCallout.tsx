@@ -127,7 +127,14 @@ const CardboardListCallout = <T extends unknown>({
                     <PrimaryButton
                         data-testid={dataButtonTestId}
                         styles={cardboardListCalloutPrimaryButtonStyles}
-                        onClick={primaryActionProps.onPrimaryActionClick}
+                        onClick={
+                            primaryActionProps.exposeSearchTermWithPrimaryActionClick
+                                ? () =>
+                                      primaryActionProps.onPrimaryActionClick(
+                                          searchText
+                                      )
+                                : primaryActionProps.onPrimaryActionClick
+                        }
                         disabled={primaryActionProps.disabled}
                     >
                         {primaryActionProps.primaryActionLabel}

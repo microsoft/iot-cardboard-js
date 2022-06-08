@@ -208,7 +208,7 @@ export interface IADT3DSceneBuilderAddTwinAliasCalloutProps {
     availableTwinAliases: Array<IBehaviorTwinAliasItem>;
     calloutTarget: string;
     onAddTwinAlias: (twinAlias: IBehaviorTwinAliasItem) => void;
-    onCreateTwinAlias: () => void;
+    onCreateTwinAlias: (preSearchedAlias?: string) => void;
     hideCallout: () => void;
 }
 

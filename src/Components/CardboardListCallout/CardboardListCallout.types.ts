@@ -52,6 +52,7 @@ export interface ICardboardListCalloutProps<T = void> {
 
 type PrimaryActionProps = {
     primaryActionLabel: string;
-    onPrimaryActionClick: () => void;
+    onPrimaryActionClick: (searchTerm?: string) => void;
     disabled?: boolean;
+    exposeSearchTermWithPrimaryActionClick?: boolean;
 };
