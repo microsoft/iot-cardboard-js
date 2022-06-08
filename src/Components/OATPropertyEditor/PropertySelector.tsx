@@ -36,8 +36,16 @@ import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 
 import { getModelPropertyCollectionName } from './Utils';
 
-const ASCII_VALUE_BEFORE_LOWERCASE_ALPHABET = 96;
+const asciiValueBeforeLowercaseAlphabet = 96;
 const versionClassBase = '1';
+const leftOffset = 170; // Place selector's most used options above trigger element
+const topOffset = 60; // Selector height
+
+export interface IOATPropertySelectorPosition {
+    top: number;
+    left: number;
+}
+
 interface IPropertySelectorProps {
     onTagClickCallback?: () => void;
     className?: string;
@@ -45,6 +53,7 @@ interface IPropertySelectorProps {
     lastPropertyFocused?: IOATLastPropertyFocused;
     setPropertySelectorVisible: React.Dispatch<React.SetStateAction<boolean>>;
     state?: IOATEditorState;
+    propertySelectorPosition?: IOATPropertySelectorPosition;
 }
 
 const PropertySelector = ({
@@ -53,7 +62,8 @@ const PropertySelector = ({
     lastPropertyFocused,
     dispatch,
     onTagClickCallback,
-    state
+    state,
+    propertySelectorPosition
 }: IPropertySelectorProps) => {
     const { t } = useTranslation();
     const propertyInspectorStyles = getPropertyInspectorStyles();
@@ -178,9 +188,7 @@ const PropertySelector = ({
         const schemaCopy = deepCopy(lastPropertyFocused.item.schema);
         schemaCopy.fields.push({
             name: `${t('OATPropertyEditor.property')}_${String.fromCharCode(
-                ASCII_VALUE_BEFORE_LOWERCASE_ALPHABET +
-                    schemaCopy.fields.length +
-                    1
+                asciiValueBeforeLowercaseAlphabet + schemaCopy.fields.length + 1
             )}`,
             schema: tag
         });
@@ -266,10 +274,18 @@ const PropertySelector = ({
                 className ? className : propertyInspectorStyles.propertySelector
             }
             onMouseLeave={() => setPropertySelectorVisible(false)}
+            style={{
+                top: propertySelectorPosition
+                    ? propertySelectorPosition.top - topOffset
+                    : 0,
+                left: propertySelectorPosition
+                    ? propertySelectorPosition.left - leftOffset
+                    : 0
+            }}
         >
             <Stack horizontal>
-                <div className={propertyInspectorStyles.propertyTagsWrapFirst}>
-                    {data.propertyTags.sectionFirst.map((tag, i) => {
+                <div className={propertyInspectorStyles.propertyTagsWrapSecond}>
+                    {data.propertyTags.sectionSecond.map((tag, i) => {
                         if (
                             lastPropertyFocused &&
                             typeof lastPropertyFocused.item.schema ===
@@ -296,8 +312,8 @@ const PropertySelector = ({
                     })}
                 </div>
                 <Separator styles={propertySelectorSeparatorStyles} vertical />
-                <div className={propertyInspectorStyles.propertyTagsWrapSecond}>
-                    {data.propertyTags.sectionSecond.map((tag, i) => {
+                <div className={propertyInspectorStyles.propertyTagsWrapFirst}>
+                    {data.propertyTags.sectionFirst.map((tag, i) => {
                         if (
                             lastPropertyFocused &&
                             typeof lastPropertyFocused.item.schema ===

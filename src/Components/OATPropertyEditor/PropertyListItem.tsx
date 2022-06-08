@@ -35,7 +35,6 @@ type IPropertyListItem = {
     setLastPropertyFocused?: React.Dispatch<React.SetStateAction<any>>;
     setModalBody?: React.Dispatch<React.SetStateAction<string>>;
     setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
-    setPropertyOnHover?: React.Dispatch<React.SetStateAction<boolean>>;
     state?: IOATEditorState;
 };
 
@@ -54,7 +53,6 @@ export const PropertyListItem = ({
     item,
     setLastPropertyFocused,
     setModalBody,
-    setPropertyOnHover,
     state
 }: IPropertyListItem) => {
     const { t } = useTranslation();
@@ -100,9 +98,6 @@ export const PropertyListItem = ({
                     item: item,
                     index: index
                 });
-            }}
-            onMouseLeave={() => {
-                setPropertyOnHover(false);
             }}
         >
             <div
