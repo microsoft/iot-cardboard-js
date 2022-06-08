@@ -779,7 +779,9 @@
     "description": "Descripción",
     "relationships": "Relaciones",
     "inheritances": "Herencias",
-    "components": "Componentes"
+    "components": "Componentes",
+    "errorDisplayName": "El nombre para mostrar no puede exceder los 64 caracteres",
+    "errorId": "Id no puede exceder los 2048 caracteres"
   },
   "OATPropertyEditor": {
     "displayName": "Nombre para mostrar",
@@ -849,7 +851,12 @@
     "delete": "Borrar",
     "multiLanguage": "multi-idioma",
     "region": "Región",
-    "singleLanguage": "Idioma único"
+    "singleLanguage": "Idioma único",
+    "errorComment": "El comentario no puede exceder los 512 caracteres",
+    "errorDisplayName": "El nombre para mostrar no puede exceder los 64 caracteres",
+    "errorDescription": "Descripción no puede exceder de 512 caracteres",
+    "errorId": "Id no puede exceder los 2048 caracteres",
+    "errorName": "El nombre solo puede contener los caracteres a-z, A-Z, 0-9 y guión bajo"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Mensaje de error",

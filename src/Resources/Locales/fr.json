@@ -779,7 +779,9 @@
     "description": "Description",
     "relationships": "Relations",
     "inheritances": "Héritages",
-    "components": "Composants"
+    "components": "Composants",
+    "errorDisplayName": "Le nom d’affichage ne doit pas dépasser 64 caractères",
+    "errorId": "Id ne peut pas dépasser 2048 caractères"
   },
   "OATPropertyEditor": {
     "displayName": "Nom d’affichage",
@@ -849,7 +851,12 @@
     "delete": "Supprimer",
     "multiLanguage": "multilingue",
     "region": "Région",
-    "singleLanguage": "Langue unique"
+    "singleLanguage": "Langue unique",
+    "errorComment": "Le commentaire ne peut pas dépasser 512 caractères",
+    "errorDisplayName": "Le nom d’affichage ne doit pas dépasser 64 caractères",
+    "errorDescription": "La description ne peut dépasser 512 caractères",
+    "errorId": "Id ne peut pas dépasser 2048 caractères",
+    "errorName": "Le nom ne peut contenir que les caractères a-z, A-Z, 0-9 et le trait de soulignement"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Message d'erreur",
