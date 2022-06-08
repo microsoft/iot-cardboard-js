@@ -147,14 +147,14 @@ const OATHeader = ({ elements, dispatch, state }: OATHeaderProps) => {
                             type: SET_OAT_ERROR,
                             payload: {
                                 title: t('OATHeader.errorInvalidJSON'),
-                                message: `${validJson}`
+                                message: validJson
                             }
                         });
                     }
                 } catch (error) {
                     console.log(error);
                     allValidFiles = false;
-                    throw new Error(`${error}`);
+                    throw error;
                 }
             }
             if (allValidFiles) {
