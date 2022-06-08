@@ -760,7 +760,10 @@
     "doYouWantToSaveChangesYouMadeTo": "Möchten Sie die Änderungen, die Sie an",
     "doYouWantToDelete": "Möchten Sie löschen",
     "projectWithSameNameAlreadyExistsMessage?": "Das gleichnamige Projekt existiert bereits, möchten Sie es überschreiben?",
-    "overwrite": "überschreiben"
+    "overwrite": "überschreiben",
+    "errorInvalidJSON": "Ungültiges JSON",
+    "errorFileFormatNotSupported": "{{file}}-Format wird nicht unterstützt",
+    "errorFormatNoSupported": "Dateiformat nicht unterstützt"
   },
   "cameraControls": {
     "mouseControls": "Maus-Steuerelemente",
