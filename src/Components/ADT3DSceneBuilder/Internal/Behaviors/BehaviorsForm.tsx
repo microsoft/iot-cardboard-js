@@ -393,23 +393,23 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                                     )
                                 }
                             >
-                                <div
+                                {/* <div
                                     className={
                                         commonPanelStyles.paddedLeftPanelBlock
                                     }
-                                >
-                                    <SceneElements
-                                        elements={elements}
-                                        selectedElements={selectedElements}
-                                        updateSelectedElements={
-                                            localUpdateSelectedElements
-                                        }
-                                        isEditBehavior={true}
-                                        hideSearch={false}
-                                        onElementClick={onElementClick}
-                                        onRemoveElement={onRemoveElement}
-                                    />
-                                </div>
+                                > */}
+                                <SceneElements
+                                    elements={elements}
+                                    selectedElements={selectedElements}
+                                    updateSelectedElements={
+                                        localUpdateSelectedElements
+                                    }
+                                    isEditBehavior={true}
+                                    hideSearch={false}
+                                    onElementClick={onElementClick}
+                                    onRemoveElement={onRemoveElement}
+                                />
+                                {/* </div> */}
                             </PivotItem>
                             <PivotItem
                                 className={commonPanelStyles.formTabContents}

@@ -260,13 +260,7 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
     const commonPanelStyles = getLeftPanelStyles(theme);
     return (
         <div className="cb-scene-builder-pivot-contents">
-            <div
-                className={
-                    !isEditBehavior
-                        ? 'cb-scene-builder-root-pivot-contents'
-                        : ''
-                }
-            >
+            <div className={commonPanelStyles.paddedLeftPanelBlock}>
                 {isEditBehavior && (
                     <Text className={commonPanelStyles.text}>
                         {t('3dSceneBuilder.elementsListInstructions')}
@@ -285,7 +279,9 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
                         searchText={searchText}
                     />
                 )}
-                <div className={commonPanelStyles.content}>
+            </div>
+            <div className={commonPanelStyles.content}>
+                <div className={commonPanelStyles.paddedLeftPanelBlock}>
                     {elements.length === 0 ? (
                         <IllustrationMessage
                             headerText={t('3dSceneBuilder.noElementsText')}
