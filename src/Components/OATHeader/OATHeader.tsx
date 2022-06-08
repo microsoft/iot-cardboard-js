@@ -7,7 +7,10 @@ import JSZip from 'jszip';
 import FileSubMenu from './internal/FileSubMenu';
 import Modal from './internal/Modal';
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
-import { SET_OAT_PROJECT } from '../../Models/Constants/ActionTypes';
+import {
+    SET_OAT_ERROR,
+    SET_OAT_PROJECT
+} from '../../Models/Constants/ActionTypes';
 import { ProjectData } from '../../Pages/OATEditorPage/Internal/Classes';
 
 import { IOATTwinModelNodes } from '../../Models/Constants';
@@ -108,7 +111,15 @@ const OATHeader = ({ elements, dispatch, state }: OATHeaderProps) => {
             if (sF.type === 'application/json') {
                 newFiles.push(sF);
             } else {
-                alert(`${sF.name} format not Supported`);
+                dispatch({
+                    type: SET_OAT_ERROR,
+                    payload: {
+                        title: t('OATHeader.errorFormatNoSupported'),
+                        message: t('OATHeader.errorFileFormatNotSupported', {
+                            file: sF.name
+                        })
+                    }
+                });
             }
         });
         handleFileListChanged(newFiles);
@@ -132,11 +143,18 @@ const OATHeader = ({ elements, dispatch, state }: OATHeaderProps) => {
                         items.push(newItem.content);
                     } else {
                         allValidFiles = false;
+                        dispatch({
+                            type: SET_OAT_ERROR,
+                            payload: {
+                                title: t('OATHeader.errorInvalidJSON'),
+                                message: `${validJson}`
+                            }
+                        });
                     }
                 } catch (error) {
                     console.log(error);
-                    alert(error);
                     allValidFiles = false;
+                    throw new Error(`${error}`);
                 }
             }
             if (allValidFiles) {

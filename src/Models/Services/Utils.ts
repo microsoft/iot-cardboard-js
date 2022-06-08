@@ -379,7 +379,6 @@ export async function parseModel(modelJson: string) {
         await modelParser.parse([modelJson]);
     } catch (err) {
         for (const parsingError of err._parsingErrors) {
-            alert(`${parsingError.action} ${parsingError.cause}`);
             return `${parsingError.action} ${parsingError.cause}`;
         }
     }
