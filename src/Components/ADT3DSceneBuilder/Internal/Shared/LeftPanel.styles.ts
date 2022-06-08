@@ -91,7 +91,8 @@ export const leftPanelPivotStyles: Partial<IPivotStyles> = {
     root: {
         marginLeft: -8,
         marginBottom: 8,
-        ...leftPanelBuilderBlock
+        paddingLeft: 16,
+        paddingRight: 8
     }
 };
 export const getActionButtonStyles = memoizeFunction(
