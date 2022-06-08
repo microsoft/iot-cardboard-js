@@ -393,11 +393,6 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                                     )
                                 }
                             >
-                                {/* <div
-                                    className={
-                                        commonPanelStyles.paddedLeftPanelBlock
-                                    }
-                                > */}
                                 <SceneElements
                                     elements={elements}
                                     selectedElements={selectedElements}
@@ -409,7 +404,6 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                                     onElementClick={onElementClick}
                                     onRemoveElement={onRemoveElement}
                                 />
-                                {/* </div> */}
                             </PivotItem>
                             <PivotItem
                                 className={commonPanelStyles.formTabContents}

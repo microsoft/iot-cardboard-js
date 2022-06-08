@@ -260,7 +260,6 @@ const TwinsTab: React.FC<ITwinsTabProps> = ({
                     data-testid={'twinsTab-addTwinAlias'}
                     onClick={toggleIsAddTwinAliasCalloutVisible}
                 />
-                {/* </div> */}
                 {isPrimaryTwinPropertiesCalloutVisible && (
                     <CardboardListCallout
                         listType="Complex"
