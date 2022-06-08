@@ -760,7 +760,12 @@
     "doYouWantToSaveChangesYouMadeTo": "行った変更を保存しますか",
     "doYouWantToDelete": "削除しますか",
     "projectWithSameNameAlreadyExistsMessage?": "同じ名前のプロジェクトが既に存在しますが、上書きしますか?",
-    "overwrite": "上書き"
+    "overwrite": "上書き",
+    "namespace": "名前空間",
+    "enterANamespace": "名前空間を入力する",
+    "namespaceError": "名前に使用できるのは、文字 a から z、A から Z、0 から 9、およびアンダースコアのみです。",
+    "example": "例",
+    "settings": "設定"
   },
   "cameraControls": {
     "mouseControls": "マウスコントロール",
@@ -779,7 +784,8 @@
     "description": "形容",
     "relationships": "関係",
     "inheritances": "遺産",
-    "components": "コンポーネント"
+    "components": "コンポーネント",
+    "example": "例"
   },
   "OATPropertyEditor": {
     "displayName": "表示名",

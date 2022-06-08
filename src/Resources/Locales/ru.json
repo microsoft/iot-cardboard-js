@@ -760,7 +760,12 @@
     "doYouWantToSaveChangesYouMadeTo": "Вы хотите сохранить изменения, внесенные в",
     "doYouWantToDelete": "Вы хотите удалить",
     "projectWithSameNameAlreadyExistsMessage?": "Проект с таким названием уже существует, хотите его переопределить?",
-    "overwrite": "перезаписать"
+    "overwrite": "перезаписать",
+    "namespace": "Пространство имен",
+    "enterANamespace": "Ввод пространства имен",
+    "namespaceError": "Имя может содержать только символы a-z, A-Z, 0-9 и подчеркивание.",
+    "example": "пример",
+    "settings": "Параметры"
   },
   "cameraControls": {
     "mouseControls": "Элементы управления мышью",
@@ -779,7 +784,8 @@
     "description": "Описание",
     "relationships": "Отношения",
     "inheritances": "Наследства",
-    "components": "Компоненты"
+    "components": "Компоненты",
+    "example": "пример"
   },
   "OATPropertyEditor": {
     "displayName": "Отображаемое имя",

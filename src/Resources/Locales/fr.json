@@ -760,7 +760,12 @@
     "doYouWantToSaveChangesYouMadeTo": "Voulez-vous enregistrer les modifications que vous avez apportées à",
     "doYouWantToDelete": "Voulez-vous supprimer",
     "projectWithSameNameAlreadyExistsMessage?": "Le projet portant le même nom existe déjà, souhaitez-vous le remplacer ?",
-    "overwrite": "écraser"
+    "overwrite": "écraser",
+    "namespace": "Espace de noms",
+    "enterANamespace": "Entrer un espace de noms",
+    "namespaceError": "Le nom ne peut contenir que les caractères a-z, A-Z, 0-9 et le trait de soulignement.",
+    "example": "exemple",
+    "settings": "Paramètres"
   },
   "cameraControls": {
     "mouseControls": "Contrôles de la souris",
@@ -779,7 +784,8 @@
     "description": "Description",
     "relationships": "Relations",
     "inheritances": "Héritages",
-    "components": "Composants"
+    "components": "Composants",
+    "example": "exemple"
   },
   "OATPropertyEditor": {
     "displayName": "Nom d’affichage",

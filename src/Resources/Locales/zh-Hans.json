@@ -760,7 +760,12 @@
     "doYouWantToSaveChangesYouMadeTo": "是否要保存所做的更改",
     "doYouWantToDelete": "是否要删除",
     "projectWithSameNameAlreadyExistsMessage?": "具有相同名称的项目已经存在，您是否要覆盖它？",
-    "overwrite": "改写"
+    "overwrite": "改写",
+    "namespace": "Namespace",
+    "enterANamespace": "输入命名空间",
+    "namespaceError": "名称只能包含字符 a-z、A-Z、0-9 和下划线。",
+    "example": "例",
+    "settings": "设置"
   },
   "cameraControls": {
     "mouseControls": "鼠标控制",
@@ -779,7 +784,8 @@
     "description": "描述",
     "relationships": "关系",
     "inheritances": "遗产",
-    "components": "组件"
+    "components": "组件",
+    "example": "例"
   },
   "OATPropertyEditor": {
     "displayName": "显示名称",

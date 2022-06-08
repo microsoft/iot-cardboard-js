@@ -760,7 +760,12 @@
     "doYouWantToSaveChangesYouMadeTo": "Yaptığınız değişiklikleri kaydetmek istiyor musunuz?",
     "doYouWantToDelete": "Silmek istiyor musunuz?",
     "projectWithSameNameAlreadyExistsMessage?": "Aynı ada sahip proje zaten var, geçersiz kılmak ister misiniz?",
-    "overwrite": "Üzerine"
+    "overwrite": "Üzerine",
+    "namespace": "Namespace",
+    "enterANamespace": "Ad alanı girme",
+    "namespaceError": "Ad yalnızca a-z, A-Z, 0-9 ve alt çizgi karakterlerini içerebilir.",
+    "example": "örnek",
+    "settings": "Ayarlar"
   },
   "cameraControls": {
     "mouseControls": "Fare Kontrolleri",
@@ -779,7 +784,8 @@
     "description": "Tarif",
     "relationships": "Ilişki",
     "inheritances": "Miras",
-    "components": "Bileşen"
+    "components": "Bileşen",
+    "example": "örnek"
   },
   "OATPropertyEditor": {
     "displayName": "Görünen Ad",

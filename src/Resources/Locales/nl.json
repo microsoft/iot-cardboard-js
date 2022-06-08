@@ -760,7 +760,12 @@
     "doYouWantToSaveChangesYouMadeTo": "Wilt u de wijzigingen opslaan die u hebt aangebracht in",
     "doYouWantToDelete": "Wilt u verwijderen",
     "projectWithSameNameAlreadyExistsMessage?": "Project met dezelfde naam bestaat al, wil je het overschrijven?",
-    "overwrite": "overschrijven"
+    "overwrite": "overschrijven",
+    "namespace": "Namespace",
+    "enterANamespace": "Een naamruimte invoeren",
+    "namespaceError": "De naam mag alleen de tekens a-z, A-Z, 0-9 en onderstrepingsteken bevatten.",
+    "example": "voorbeeld",
+    "settings": "Instellingen"
   },
   "cameraControls": {
     "mouseControls": "Muisbediening",
@@ -779,7 +784,8 @@
     "description": "Beschrijving",
     "relationships": "Relaties",
     "inheritances": "Erfenissen",
-    "components": "Onderdelen"
+    "components": "Onderdelen",
+    "example": "voorbeeld"
   },
   "OATPropertyEditor": {
     "displayName": "Weergegeven naam",

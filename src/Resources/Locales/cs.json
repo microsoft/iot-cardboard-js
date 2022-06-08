@@ -760,7 +760,12 @@
     "doYouWantToSaveChangesYouMadeTo": "Chcete uložit změny, které jste provedli",
     "doYouWantToDelete": "Chcete odstranit",
     "projectWithSameNameAlreadyExistsMessage?": "Projekt se stejným názvem již existuje, chcete jej přepsat?",
-    "overwrite": "přepsat"
+    "overwrite": "přepsat",
+    "namespace": "Namespace",
+    "enterANamespace": "Zadání oboru názvů",
+    "namespaceError": "Název může obsahovat pouze znaky a-z, A-Z, 0-9 a podtržítko.",
+    "example": "příklad",
+    "settings": "Nastavení"
   },
   "cameraControls": {
     "mouseControls": "Ovládání myší",
@@ -779,7 +784,8 @@
     "description": "Popis",
     "relationships": "Vztahy",
     "inheritances": "Dědictví",
-    "components": "Součásti"
+    "components": "Součásti",
+    "example": "příklad"
   },
   "OATPropertyEditor": {
     "displayName": "Zobrazovaný název",

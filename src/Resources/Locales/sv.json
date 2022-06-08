@@ -760,7 +760,12 @@
     "doYouWantToSaveChangesYouMadeTo": "Vill du spara de ändringar du gjort i",
     "doYouWantToDelete": "Vill du ta bort",
     "projectWithSameNameAlreadyExistsMessage?": "Projekt med samma namn finns redan, vill du åsidosätta det?",
-    "overwrite": "skriva över"
+    "overwrite": "skriva över",
+    "namespace": "Namespace",
+    "enterANamespace": "Ange ett namnområde",
+    "namespaceError": "Namnet får bara innehålla tecknen a-z, A-Z, 0-9 och understreck.",
+    "example": "exempel",
+    "settings": "Inställningar"
   },
   "cameraControls": {
     "mouseControls": "Muskontroller",
@@ -779,7 +784,8 @@
     "description": "Beskrivning",
     "relationships": "Relationer",
     "inheritances": "Arv",
-    "components": "Komponenter"
+    "components": "Komponenter",
+    "example": "exempel"
   },
   "OATPropertyEditor": {
     "displayName": "Visningsnamn",

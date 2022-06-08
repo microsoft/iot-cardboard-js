@@ -760,7 +760,12 @@
     "doYouWantToSaveChangesYouMadeTo": "Deseja guardar as alterações a que fez",
     "doYouWantToDelete": "Deseja eliminar",
     "projectWithSameNameAlreadyExistsMessage?": "Projeto com o mesmo nome já existe, gostaria de anuê-lo?",
-    "overwrite": "sobrepor"
+    "overwrite": "sobrepor",
+    "namespace": "Espaço de nome",
+    "enterANamespace": "Insira um espaço de nome",
+    "namespaceError": "O nome só pode conter os caracteres a-z, A-Z, 0-9, e sublinhar.",
+    "example": "exemplo",
+    "settings": "Configurações"
   },
   "cameraControls": {
     "mouseControls": "Controlos do rato",
@@ -779,7 +784,8 @@
     "description": "Descrição",
     "relationships": "Relacionamentos",
     "inheritances": "Heranças",
-    "components": "Componentes"
+    "components": "Componentes",
+    "example": "exemplo"
   },
   "OATPropertyEditor": {
     "displayName": "Nome do visor",

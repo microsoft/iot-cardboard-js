@@ -760,7 +760,12 @@
     "doYouWantToSaveChangesYouMadeTo": "Você quer salvar as mudanças que você fez para",
     "doYouWantToDelete": "Você quer excluir",
     "projectWithSameNameAlreadyExistsMessage?": "Projeto com mesmo nome já existe, você gostaria de substituí-lo?",
-    "overwrite": "sobrescrever"
+    "overwrite": "sobrescrever",
+    "namespace": "Namespace",
+    "enterANamespace": "Digite um namespace",
+    "namespaceError": "O nome só pode conter os caracteres a-z, A-Z, 0-9 e sublinhar.",
+    "example": "exemplo",
+    "settings": "Configurações"
   },
   "cameraControls": {
     "mouseControls": "Controles do mouse",
@@ -779,7 +784,8 @@
     "description": "Descrição",
     "relationships": "Relações",
     "inheritances": "Heranças",
-    "components": "Componentes"
+    "components": "Componentes",
+    "example": "exemplo"
   },
   "OATPropertyEditor": {
     "displayName": "Nome de exibição",

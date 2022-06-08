@@ -760,7 +760,12 @@
     "doYouWantToSaveChangesYouMadeTo": "Menti a módosításokat, amelyeket",
     "doYouWantToDelete": "Törölni szeretné?",
     "projectWithSameNameAlreadyExistsMessage?": "Az azonos nevű projekt már létezik, felül szeretné bírálni?",
-    "overwrite": "Felülírja"
+    "overwrite": "Felülírja",
+    "namespace": "Namespace",
+    "enterANamespace": "Névtér megadása",
+    "namespaceError": "A név csak az a-z, A-Z, 0-9 és aláhúzásjeleket tartalmazhatja.",
+    "example": "példa",
+    "settings": "Beállítások"
   },
   "cameraControls": {
     "mouseControls": "Egérvezérlők",
@@ -779,7 +784,8 @@
     "description": "Leírás",
     "relationships": "Kapcsolatok",
     "inheritances": "Öröklések",
-    "components": "Összetevők"
+    "components": "Összetevők",
+    "example": "példa"
   },
   "OATPropertyEditor": {
     "displayName": "Megjelenítendő név",
