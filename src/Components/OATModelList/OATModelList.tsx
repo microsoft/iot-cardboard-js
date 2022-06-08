@@ -189,14 +189,16 @@ const OATModelList = ({ elements, dispatch, modified }: OATModelListProps) => {
     };
 
     return (
-        <div className={modelsStyles.container}>
+        <div>
             <TextField
                 className={modelsStyles.searchText}
                 onChange={onFilterChange}
                 value={filter}
                 placeholder={t('search')}
             />
-            <List items={items} onRenderCell={onRenderCell} />
+            <div className={modelsStyles.container}>
+                <List items={items} onRenderCell={onRenderCell} />
+            </div>
         </div>
     );
 };

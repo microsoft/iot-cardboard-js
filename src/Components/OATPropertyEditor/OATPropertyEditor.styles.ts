@@ -69,7 +69,8 @@ const classNames = {
     modalRowSpaceBetween: `${classPrefix}-modal-row-space-between`,
     modalTexField: `${classPrefix}-modal-tex-field`,
     booleanIcon: `${classPrefix}-boolean-icon`,
-    button: `${classPrefix}-button`
+    button: `${classPrefix}-button`,
+    typeTextField: `${classPrefix}-type-text-field`
 };
 
 export const getPropertyInspectorStyles = () => {
@@ -189,7 +190,8 @@ export const getPropertyInspectorStyles = () => {
             classNames.addPropertyMessageWrap,
             {
                 position: 'relative',
-                width: 'fit-content'
+                width: 'fit-content',
+                height: 'fit-content'
             }
         ],
         propertySelector: [
@@ -202,9 +204,10 @@ export const getPropertyInspectorStyles = () => {
                 borderBottom: `1px solid ${theme.semanticColors.variantBorder}`,
                 zIndex: 100,
                 boxShadow: '0px 5px 10px 1px rgba(0,0,0,0.05)',
-                position: 'absolute',
+                position: 'fixed',
                 left: '-50%',
-                bottom: '42%'
+                bottom: '42%',
+                height: 'fit-content'
             }
         ],
         propertySelectorNestItem: [
@@ -262,7 +265,8 @@ export const getPropertyInspectorStyles = () => {
                 gridTemplateColumns: '20% 20% 20% 20% 20%',
                 justifyContent: 'center',
                 flexWrap: 'wrap',
-                padding: '0px 8px'
+                padding: '0px 8px',
+                backgroundColor: theme.semanticColors.buttonBackgroundDisabled
             } as IStyle
         ],
         propertyTagsWrapSecond: [
@@ -272,8 +276,7 @@ export const getPropertyInspectorStyles = () => {
                 gridTemplateColumns: '50% 50%',
                 justifyContent: 'center',
                 flexWrap: 'wrap',
-                padding: '0px 8px',
-                backgroundColor: theme.semanticColors.buttonBackgroundDisabled
+                padding: '0px 8px'
             } as IStyle
         ],
         propertyTagsWrapThird: [
@@ -408,7 +411,7 @@ export const getPropertyInspectorStyles = () => {
             {
                 overflowY: 'scroll',
                 maxHeight: 'calc(100vh - 310px)',
-                width: '107%',
+                width: '104%',
                 right: '-7%'
             } as IStyle
         ],
@@ -554,6 +557,10 @@ export const getPropertyInspectorStyles = () => {
                 top: '90%',
                 ':hover': {
                     backgroundColor: theme.semanticColors.menuIcon
+                },
+                '& button': {
+                    height: 'fit-content',
+                    position: 'absolute'
                 }
             } as IStyle
         ],
@@ -561,7 +568,11 @@ export const getPropertyInspectorStyles = () => {
             classNames.addPropertyBarPropertyListWrap,
             {
                 position: 'relative',
-                paddingTop: '20px'
+                height: 'fit-content',
+                display: 'flex',
+                alignItems: 'center',
+                background: 'rgba(255, 255, 255, 0.2)',
+                marginTop: '20px'
             } as IStyle
         ],
         addPropertyBarIcon: [
@@ -584,7 +595,7 @@ export const getPropertyInspectorStyles = () => {
             {
                 position: 'absolute',
                 top: '-7px',
-                left: '20px',
+                left: '46px',
                 zIndex: 1,
                 backgroundColor: theme.semanticColors.listBackground,
                 color: theme.semanticColors.primaryButtonTextDisabled,
@@ -661,6 +672,14 @@ export const getPropertyInspectorStyles = () => {
             classNames.button,
             {
                 float: 'rigth'
+            } as IStyle
+        ],
+        typeTextField: [
+            classNames.typeTextField,
+            {
+                marginLeft: '10px',
+                height: '38px',
+                paddingTop: '12px'
             } as IStyle
         ]
     });
