@@ -153,95 +153,94 @@ const AlertsTab: React.FC = () => {
     const commonPanelStyles = getLeftPanelStyles(theme);
 
     return (
-        <div className={commonPanelStyles.paddedLeftPanelBlock}>
-            <Stack tokens={{ childrenGap: 8 }}>
-                <Text className={commonPanelStyles.text}>
-                    {t(LOC_KEYS.tabDescription)}
-                </Text>
-                <ModelledPropertyBuilder
-                    adapter={adapter}
-                    twinIdParams={{
-                        behavior: behaviorToEdit,
-                        config,
-                        sceneId,
-                        selectedElements
-                    }}
-                    mode={ModelledPropertyBuilderMode.INTELLISENSE}
-                    propertyExpression={{
-                        expression: expression || ''
-                    }}
-                    onChange={onExpressionChange}
-                    customLabel={t(LOC_KEYS.expressionLabel)}
-                    intellisensePlaceholder={t(LOC_KEYS.expressionPlaceholder)}
-                />
-                {alertVisual && (
-                    <>
-                        <Stack tokens={{ childrenGap: 12 }} horizontal>
-                            <IconPicker
-                                selectedItem={icon}
-                                items={defaultSwatchIcons}
-                                label={t(LOC_KEYS.iconPickerLabel)}
-                                onChangeItem={onIconChange}
-                            />
-                            <ColorPicker
-                                selectedItem={color}
-                                items={defaultSwatchColors}
-                                label={t(LOC_KEYS.colorPickerLabel)}
-                                onChangeItem={onColorChange}
-                                styles={{
-                                    // match the icon picker
-                                    button: {
-                                        height: 32,
-                                        width: 32
-                                    }
-                                }}
-                            />
-                        </Stack>
-                        <Stack tokens={{ childrenGap: 4 }}>
-                            <ModelledPropertyBuilder
-                                adapter={adapter}
-                                twinIdParams={{
-                                    behavior: behaviorToEdit,
-                                    config,
-                                    sceneId,
-                                    selectedElements
-                                }}
-                                mode={ModelledPropertyBuilderMode.INTELLISENSE}
-                                propertyExpression={{
-                                    expression:
-                                        stripTemplateStringsFromText(
-                                            notificationExpression
-                                        ) || ''
-                                }}
-                                onChange={onNoteChange}
-                                customLabel={t(LOC_KEYS.notificationLabel)}
-                                customLabelTooltip={{
-                                    buttonAriaLabel: t(
-                                        LOC_KEYS.notificationLabelTooltip
-                                    ),
-                                    calloutContent: t(
-                                        LOC_KEYS.notificationLabelTooltip
-                                    )
-                                }}
-                                intellisensePlaceholder={t(
-                                    LOC_KEYS.notificationPlaceholder
+        <Stack
+            tokens={{ childrenGap: 8 }}
+            className={commonPanelStyles.paddedLeftPanelBlock}
+        >
+            <Text className={commonPanelStyles.text}>
+                {t(LOC_KEYS.tabDescription)}
+            </Text>
+            <ModelledPropertyBuilder
+                adapter={adapter}
+                twinIdParams={{
+                    behavior: behaviorToEdit,
+                    config,
+                    sceneId,
+                    selectedElements
+                }}
+                mode={ModelledPropertyBuilderMode.INTELLISENSE}
+                propertyExpression={{
+                    expression: expression || ''
+                }}
+                onChange={onExpressionChange}
+                customLabel={t(LOC_KEYS.expressionLabel)}
+                intellisensePlaceholder={t(LOC_KEYS.expressionPlaceholder)}
+            />
+            {alertVisual && (
+                <>
+                    <Stack tokens={{ childrenGap: 12 }} horizontal>
+                        <IconPicker
+                            selectedItem={icon}
+                            items={defaultSwatchIcons}
+                            label={t(LOC_KEYS.iconPickerLabel)}
+                            onChangeItem={onIconChange}
+                        />
+                        <ColorPicker
+                            selectedItem={color}
+                            items={defaultSwatchColors}
+                            label={t(LOC_KEYS.colorPickerLabel)}
+                            onChangeItem={onColorChange}
+                            styles={{
+                                // match the icon picker
+                                button: {
+                                    height: 32,
+                                    width: 32
+                                }
+                            }}
+                        />
+                    </Stack>
+                    <Stack tokens={{ childrenGap: 4 }}>
+                        <ModelledPropertyBuilder
+                            adapter={adapter}
+                            twinIdParams={{
+                                behavior: behaviorToEdit,
+                                config,
+                                sceneId,
+                                selectedElements
+                            }}
+                            mode={ModelledPropertyBuilderMode.INTELLISENSE}
+                            propertyExpression={{
+                                expression:
+                                    stripTemplateStringsFromText(
+                                        notificationExpression
+                                    ) || ''
+                            }}
+                            onChange={onNoteChange}
+                            customLabel={t(LOC_KEYS.notificationLabel)}
+                            customLabelTooltip={{
+                                buttonAriaLabel: t(
+                                    LOC_KEYS.notificationLabelTooltip
+                                ),
+                                calloutContent: t(
+                                    LOC_KEYS.notificationLabelTooltip
+                                )
+                            }}
+                            intellisensePlaceholder={t(
+                                LOC_KEYS.notificationPlaceholder
+                            )}
+                        />
+                        <Text styles={{ root: { fontSize: FontSizes.small } }}>
+                            {t(LOC_KEYS.notificationLabelDescription)}{' '}
+                            <i>
+                                {t(
+                                    LOC_KEYS.notificationLabelDescriptionExample
                                 )}
-                            />
-                            <Text
-                                styles={{ root: { fontSize: FontSizes.small } }}
-                            >
-                                {t(LOC_KEYS.notificationLabelDescription)}{' '}
-                                <i>
-                                    {t(
-                                        LOC_KEYS.notificationLabelDescriptionExample
-                                    )}
-                                </i>
-                            </Text>
-                        </Stack>
-                    </>
-                )}
-            </Stack>
-        </div>
+                            </i>
+                        </Text>
+                    </Stack>
+                </>
+            )}
+        </Stack>
     );
 };
 

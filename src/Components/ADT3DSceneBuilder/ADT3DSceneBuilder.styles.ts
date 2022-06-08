@@ -1,4 +1,7 @@
-import { BUILDER_HEADER_TOP_OFFSET } from '../../Models/Constants/StyleConstants';
+import {
+    BUILDER_HEADER_TOP_OFFSET,
+    SCENE_PAGE_OUTER_OFFSET
+} from '../../Models/Constants/StyleConstants';
 import {
     IADT3DSceneBuilderStyleProps,
     IADT3DSceneBuilderStyles
@@ -27,7 +30,7 @@ export const getStyles = (
             {
                 flexGrow: 1,
                 position: 'relative',
-                padding: '16px 0px'
+                padding: `${SCENE_PAGE_OUTER_OFFSET}px 0px`
             }
         ],
         subComponentStyles: {
