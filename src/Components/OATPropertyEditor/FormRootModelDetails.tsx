@@ -49,14 +49,15 @@ export const FormUpdateProperty = ({
     state,
     languages
 }: IModal) => {
+    const { model } = state;
     const { t } = useTranslation();
     const propertyInspectorStyles = getPropertyInspectorStyles();
     const columnLeftTextStyles = getModalLabelStyles();
     const radioGroupRowStyle = getRadioGroupRowStyles();
-    const [comment, setComment] = useState(null);
-    const [displayName, setDisplayName] = useState(null);
-    const [description, setDescription] = useState(null);
-    const [id, setId] = useState(null);
+    const [comment, setComment] = useState(model.comment);
+    const [displayName, setDisplayName] = useState(model.displayName);
+    const [description, setDescription] = useState(model.description);
+    const [id, setId] = useState(model['@id']);
     const [languageSelection, setLanguageSelection] = useState(
         singleLanguageOptionValue
     );
@@ -88,7 +89,6 @@ export const FormUpdateProperty = ({
         isAMultiLanguageDescriptionEmpty,
         setIsAMultiLanguageDescriptionEmpty
     ] = useState(true);
-    const { model } = state;
 
     const options: IChoiceGroupOption[] = [
         {
@@ -230,6 +230,7 @@ export const FormUpdateProperty = ({
                 <TextField
                     placeholder={t('OATPropertyEditor.id')}
                     onChange={(_ev, value) => setId(value)}
+                    value={id}
                 />
             </div>
 
@@ -486,6 +487,7 @@ export const FormUpdateProperty = ({
                         'OATPropertyEditor.modalTextInputPlaceHolder'
                     )}
                     onChange={(_ev, value) => setComment(value)}
+                    value={comment}
                 />
             </div>
 
