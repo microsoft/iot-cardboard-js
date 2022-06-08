@@ -69,7 +69,6 @@ export const handleMultiLanguageSelectionsDisplayNameValueChange = (
     >,
     setDisplayNameError: React.Dispatch<React.SetStateAction<any>>
 ) => {
-    // Check limit to 512 chars
     if (value.length <= OATDisplayNameLengthLimit) {
         const newMultiLanguageSelectionsDisplayName = {
             ...multiLanguageSelectionsDisplayName,
