@@ -201,7 +201,6 @@ export const FormAddEnumItem = ({
     };
 
     const handleNameChange = (value) => {
-        // ^[a-zA-Z](?:[a-zA-Z0-9_]*[a-zA-Z0-9])?$
         const regularExpression = new RegExp(
             '^[a-zA-Z](?:[a-zA-Z0-9_]*[a-zA-Z0-9])?$'
         );
