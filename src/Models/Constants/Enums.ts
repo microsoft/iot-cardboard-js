@@ -6,7 +6,7 @@ export enum Theme {
     Kraken = 'kraken'
 }
 
-export enum ViewerModeStyles {
+export enum ViewerObjectStyle {
     Default = 'default',
     Transparent = 'transparent',
     Wireframe = 'wireframe'

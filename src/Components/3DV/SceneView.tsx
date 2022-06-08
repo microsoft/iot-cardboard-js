@@ -152,7 +152,7 @@ function SceneView(props: ISceneViewProps, ref) {
         onCameraMove,
         onBadgeGroupHover,
         showMeshesOnHover,
-        objectColors,
+        objectColor,
         zoomToMeshIds,
         unzoomedMeshOpacity,
         onSceneLoaded,
@@ -445,10 +445,10 @@ function SceneView(props: ISceneViewProps, ref) {
     };
 
     useEffect(() => {
-        if (objectColors) {
-            setCurrentObjectColor(objectColors);
+        if (objectColor) {
+            setCurrentObjectColor(objectColor);
         }
-    }, [objectColors]);
+    }, [objectColor]);
 
     const restoreMeshMaterials = () => {
         if (sceneRef.current?.meshes?.length && !isLoading) {
@@ -744,7 +744,7 @@ function SceneView(props: ISceneViewProps, ref) {
                     baseColor,
                     reflectionTexture.current,
                     currentObjectColor.lightingStyle,
-                    backgroundColorRef.current.objectLuminanceRatio || 1
+                    backgroundColorRef.current?.objectLuminanceRatio || 1
                 );
 
                 shaderMaterial.current = material;
@@ -788,7 +788,7 @@ function SceneView(props: ISceneViewProps, ref) {
             SetWireframe(hovMaterial.current, !!isWireframe);
             SetWireframe(coloredHovMaterial.current, !!isWireframe);
         }
-    }, [isWireframe, objectColors]);
+    }, [isWireframe, objectColor]);
 
     // This is really our componentDidMount/componentWillUnmount stuff
     useEffect(() => {

@@ -210,7 +210,7 @@ export const SelectedEnvironmentLocalStorageKey = 'cb-selected-environment';
 export const SelectedContainerLocalStorageKey = 'cb-selected-container';
 
 export const SelectedCameraInteractionKey = 'cb-camera-interaction';
-export const ViewerThemeKey = 'cb-viewer-theme';
+export const ViewerThemeStorageKey = 'cb-viewer-theme';
 
 export const defaultValueRangeColor = '#FF0000';
 
