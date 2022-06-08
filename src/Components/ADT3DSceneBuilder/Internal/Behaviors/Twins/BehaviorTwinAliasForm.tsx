@@ -32,6 +32,8 @@ import { SceneBuilderContext } from '../../../ADT3DSceneBuilder';
 import { getLeftPanelStyles } from '../../Shared/LeftPanel.styles';
 import PanelFooter from '../../Shared/PanelFooter';
 import { getPanelFormStyles } from '../../Shared/PanelForms.styles';
+import { useBehaviorFormContext } from '../Internal/BehaviorFormContext/BehaviorFormContext';
+import { BehaviorFormContextActionType } from '../Internal/BehaviorFormContext/BehaviorFormContext.types';
 
 const BehaviorTwinAliasForm: React.FC<{
     selectedElements: Array<ITwinToObjectMapping>;
@@ -43,9 +45,9 @@ const BehaviorTwinAliasForm: React.FC<{
         config,
         sceneId,
         behaviorTwinAliasFormInfo,
-        setBehaviorTwinAliasFormInfo,
-        setBehaviorToEdit
+        setBehaviorTwinAliasFormInfo
     } = useContext(SceneBuilderContext);
+    const { behaviorFormDispatch } = useBehaviorFormContext();
 
     const [formData, setFormData] = useState<IBehaviorTwinAliasItem>(
         behaviorTwinAliasFormInfo.mode === TwinAliasFormMode.CreateTwinAlias
@@ -81,27 +83,14 @@ const BehaviorTwinAliasForm: React.FC<{
 
     const onSaveTwinAliasForm = useCallback(() => {
         if (
-            behaviorTwinAliasFormInfo.mode === TwinAliasFormMode.EditTwinAlias
-        ) {
-            setBehaviorToEdit(
-                produce((draft) => {
-                    draft.twinAliases[behaviorTwinAliasFormInfo.twinAliasIdx] =
-                        formData.alias;
-                })
-            );
-        }
-        if (
             behaviorTwinAliasFormInfo.mode === TwinAliasFormMode.CreateTwinAlias
         ) {
-            setBehaviorToEdit(
-                produce((draft) => {
-                    if (!draft.twinAliases) {
-                        draft.twinAliases = [formData.alias];
-                    } else if (!draft.twinAliases.includes(formData.alias)) {
-                        draft.twinAliases.push(formData.alias);
-                    }
-                })
-            );
+            behaviorFormDispatch({
+                type: BehaviorFormContextActionType.FORM_BEHAVIOR_ALIAS_ADD,
+                payload: {
+                    alias: formData.alias
+                }
+            });
         }
 
         // update the twinAliases in selected elements
@@ -120,12 +109,11 @@ const BehaviorTwinAliasForm: React.FC<{
         setBehaviorTwinAliasFormInfo(null);
         setFormData(null);
     }, [
+        behaviorFormDispatch,
         behaviorTwinAliasFormInfo.mode,
-        behaviorTwinAliasFormInfo.twinAliasIdx,
         formData.alias,
         formData.elementToTwinMappings,
         selectedElements,
-        setBehaviorToEdit,
         setBehaviorTwinAliasFormInfo,
         setSelectedElements
     ]);

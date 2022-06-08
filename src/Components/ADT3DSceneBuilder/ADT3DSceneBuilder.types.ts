@@ -149,7 +149,6 @@ export type WidgetFormInfo = {
 export type BehaviorTwinAliasFormInfo = null | {
     twinAlias: IBehaviorTwinAliasItem;
     mode: TwinAliasFormMode;
-    twinAliasIdx?: number;
 };
 
 export type ElementTwinAliasFormInfo = null | {

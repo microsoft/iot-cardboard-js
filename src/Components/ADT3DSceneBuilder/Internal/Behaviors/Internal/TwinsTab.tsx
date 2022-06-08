@@ -105,11 +105,10 @@ const TwinsTab: React.FC<ITwinsTabProps> = ({
 
     // ----- callbacks -----
     const onTwinAliasClick = useCallback(
-        (twinAliasItem: IBehaviorTwinAliasItem, idx: number) => {
+        (twinAliasItem: IBehaviorTwinAliasItem) => {
             setBehaviorTwinAliasFormInfo({
                 twinAlias: twinAliasItem,
-                mode: TwinAliasFormMode.EditTwinAlias,
-                twinAliasIdx: idx
+                mode: TwinAliasFormMode.EditTwinAlias
             });
         },
         [setBehaviorTwinAliasFormInfo]
