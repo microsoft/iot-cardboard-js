@@ -60,7 +60,6 @@ export const panelFormPivotStyles: Partial<IPivotStyles> = {
         display: 'flex',
         flexDirection: 'column',
         height: `calc(100% - ${pivotTabsHeight}px)`,
-        overflow: 'auto',
-        ...leftPanelBuilderBlock
+        overflow: 'auto'
     }
 };

@@ -65,27 +65,31 @@ const AliasedTwinsTab: React.FC = () => {
 
     const commonPanelStyles = getLeftPanelStyles(useTheme());
     return (
-        <Stack tokens={sectionStackTokens}>
-            <div>
-                {twinAliasList.length === 0 ? (
-                    <div className={commonPanelStyles.noDataText}>
-                        {t('3dSceneBuilder.elementFormTwinTab.noDataMessage')}
-                    </div>
-                ) : (
-                    <>
-                        <Text className={commonPanelStyles.text}>
+        <div className={commonPanelStyles.paddedPivotTabContents}>
+            <Stack tokens={sectionStackTokens}>
+                <div>
+                    {twinAliasList.length === 0 ? (
+                        <div className={commonPanelStyles.noDataText}>
                             {t(
-                                '3dSceneBuilder.elementFormTwinTab.tabDescription'
+                                '3dSceneBuilder.elementFormTwinTab.noDataMessage'
                             )}
-                        </Text>
-                        <CardboardList<IElementTwinAliasItem>
-                            items={twinAliasList}
-                            listKey={`element-aliased-twin-list`}
-                        />
-                    </>
-                )}
-            </div>
-        </Stack>
+                        </div>
+                    ) : (
+                        <>
+                            <Text className={commonPanelStyles.text}>
+                                {t(
+                                    '3dSceneBuilder.elementFormTwinTab.tabDescription'
+                                )}
+                            </Text>
+                            <CardboardList<IElementTwinAliasItem>
+                                items={twinAliasList}
+                                listKey={`element-aliased-twin-list`}
+                            />
+                        </>
+                    )}
+                </div>
+            </Stack>
+        </div>
     );
 };
 

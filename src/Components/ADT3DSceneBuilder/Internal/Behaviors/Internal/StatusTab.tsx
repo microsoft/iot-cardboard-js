@@ -146,48 +146,50 @@ const StatusTab: React.FC<IStatusTabProps> = ({ onValidityChange }) => {
     const commonPanelStyles = getLeftPanelStyles(useTheme());
     const showRangeBuilder = !!statusVisualToEdit.valueExpression;
     return (
-        <Stack tokens={sectionStackTokens}>
-            <Text className={commonPanelStyles.text}>
-                {t(LOC_KEYS.tabDescription)}
-            </Text>
-            <div>
-                <ModelledPropertyBuilder
-                    adapter={adapter}
-                    customLabelTooltip={{
-                        buttonAriaLabel: t(
-                            '3dSceneBuilder.behaviorStatusForm.propertyExpressionTooltipContent'
-                        ),
-                        calloutContent: t(
-                            '3dSceneBuilder.behaviorStatusForm.propertyExpressionTooltipContent'
-                        ),
-                        link: {
-                            url: DOCUMENTATION_LINKS.howToExpressions
-                        }
-                    }}
-                    twinIdParams={{
-                        behavior: behaviorToEdit,
-                        config,
-                        sceneId,
-                        selectedElements
-                    }}
-                    mode={ModelledPropertyBuilderMode.TOGGLE}
-                    propertyExpression={{
-                        expression:
-                            getStatusFromBehavior(behaviorToEdit)
-                                ?.valueExpression || ''
-                    }}
-                    onChange={onPropertyChange}
-                    allowedPropertyValueTypes={numericPropertyValueTypes}
-                    enableNoneDropdownOption
-                />
-                {showRangeBuilder && <Separator />}
-            </div>
-            {showRangeBuilder && (
-                <ValueRangeBuilder
-                    valueRangeBuilderReducer={valueRangeBuilderReducer}
-                />
-            )}
-        </Stack>
+        <div className={commonPanelStyles.paddedPivotTabContents}>
+            <Stack tokens={sectionStackTokens}>
+                <Text className={commonPanelStyles.text}>
+                    {t(LOC_KEYS.tabDescription)}
+                </Text>
+                <div>
+                    <ModelledPropertyBuilder
+                        adapter={adapter}
+                        customLabelTooltip={{
+                            buttonAriaLabel: t(
+                                '3dSceneBuilder.behaviorStatusForm.propertyExpressionTooltipContent'
+                            ),
+                            calloutContent: t(
+                                '3dSceneBuilder.behaviorStatusForm.propertyExpressionTooltipContent'
+                            ),
+                            link: {
+                                url: DOCUMENTATION_LINKS.howToExpressions
+                            }
+                        }}
+                        twinIdParams={{
+                            behavior: behaviorToEdit,
+                            config,
+                            sceneId,
+                            selectedElements
+                        }}
+                        mode={ModelledPropertyBuilderMode.TOGGLE}
+                        propertyExpression={{
+                            expression:
+                                getStatusFromBehavior(behaviorToEdit)
+                                    ?.valueExpression || ''
+                        }}
+                        onChange={onPropertyChange}
+                        allowedPropertyValueTypes={numericPropertyValueTypes}
+                        enableNoneDropdownOption
+                    />
+                    {showRangeBuilder && <Separator />}
+                </div>
+                {showRangeBuilder && (
+                    <ValueRangeBuilder
+                        valueRangeBuilderReducer={valueRangeBuilderReducer}
+                    />
+                )}
+            </Stack>
+        </div>
     );
 };
 const sectionStackTokens: IStackTokens = { childrenGap: 4 };

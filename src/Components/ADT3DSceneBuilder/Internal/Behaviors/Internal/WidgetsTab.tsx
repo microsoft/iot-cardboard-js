@@ -147,12 +147,13 @@ const WidgetsTab: React.FC = () => {
     const commonPanelStyles = getLeftPanelStyles(theme);
     const actionButtonStyles = getActionButtonStyles(theme);
     return (
-        <>
-            <Stack tokens={{ childrenGap: 8 }}>
-                <Text className={commonPanelStyles.text}>
-                    {t(LOC_KEYS.tabDescription)}
-                </Text>
-                <div className={commonPanelStyles.formTabContents}>
+        <div className={commonPanelStyles.formTabContents}>
+            <div className={commonPanelStyles.paddedPivotTabContents}>
+                <Stack tokens={{ childrenGap: 8 }}>
+                    <Text className={commonPanelStyles.text}>
+                        {t(LOC_KEYS.tabDescription)}
+                    </Text>
+
                     {!widgets?.length ? (
                         <div className={commonPanelStyles.noDataText}>
                             {t(LOC_KEYS.noData)}
@@ -171,8 +172,8 @@ const WidgetsTab: React.FC = () => {
                             setIsLibraryDialogOpen(true);
                         }}
                     />
-                </div>
-            </Stack>
+                </Stack>
+            </div>
             {isLibraryDialogOpen && (
                 <WidgetLibraryDialog
                     setIsLibraryDialogOpen={setIsLibraryDialogOpen}
@@ -181,7 +182,7 @@ const WidgetsTab: React.FC = () => {
                     }
                 />
             )}
-        </>
+        </div>
     );
 };
 function getListItems(

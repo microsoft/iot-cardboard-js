@@ -19,10 +19,15 @@ const classNames = {
     actionButton: `${classPrefix}-action-button`,
     text: `${classPrefix}-text`,
     section: `${classPrefix}-section`,
-    previewContainer: `${classPrefix}-preview-container`
+    previewContainer: `${classPrefix}-preview-container`,
+    paddedPivotTabContents: `${classPrefix}-padded-pivot-tab-contents`
 };
 export const getLeftPanelStyles = memoizeFunction((theme: Theme) => {
     return mergeStyleSets({
+        paddedPivotTabContents: [
+            classNames.paddedPivotTabContents,
+            leftPanelBuilderBlock
+        ],
         noDataText: [
             classNames.noDataText,
             {

@@ -393,17 +393,23 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                                     )
                                 }
                             >
-                                <SceneElements
-                                    elements={elements}
-                                    selectedElements={selectedElements}
-                                    updateSelectedElements={
-                                        localUpdateSelectedElements
+                                <div
+                                    className={
+                                        commonPanelStyles.paddedPivotTabContents
                                     }
-                                    isEditBehavior={true}
-                                    hideSearch={false}
-                                    onElementClick={onElementClick}
-                                    onRemoveElement={onRemoveElement}
-                                />
+                                >
+                                    <SceneElements
+                                        elements={elements}
+                                        selectedElements={selectedElements}
+                                        updateSelectedElements={
+                                            localUpdateSelectedElements
+                                        }
+                                        isEditBehavior={true}
+                                        hideSearch={false}
+                                        onElementClick={onElementClick}
+                                        onRemoveElement={onRemoveElement}
+                                    />
+                                </div>
                             </PivotItem>
                             <PivotItem
                                 className={commonPanelStyles.formTabContents}
