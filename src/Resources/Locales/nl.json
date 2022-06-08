@@ -489,7 +489,8 @@
       "customExpression": "Aangepast (geavanceerd)",
       "dropdownPlaceholder": "Selecteer een woning",
       "toggleLabel": "Expressiemodus",
-      "none": "Geen"
+      "none": "Geen",
+      "clearButtonText": "Duidelijk"
     },
     "numericExpressionPlaceholder": "Een expressie invoeren die evalueert tot een getal",
     "behaviorId": "Gedrag Id",

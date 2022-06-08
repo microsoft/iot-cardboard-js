@@ -16,7 +16,8 @@ import {
     choiceGroupOptionStyles,
     choiceGroupStyles,
     getStyles,
-    propertyExpressionLabelStyles
+    propertyExpressionLabelStyles,
+    getClearButtonStyles
 } from './ModelledPropertyBuilder.styles';
 import {
     DropdownMenuItemType,
@@ -28,7 +29,9 @@ import {
     IChoiceGroupOption,
     SpinnerSize,
     Text,
-    FontSizes
+    ActionButton,
+    FontSizes,
+    useTheme
 } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { useModelledProperties } from './useModelledProperties';
@@ -59,6 +62,7 @@ const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = ({
     intellisensePlaceholder,
     customLabel,
     customLabelTooltip,
+    isClearEnabled,
     onInternalModeChanged
 }) => {
     const { t } = useTranslation();
@@ -140,6 +144,13 @@ const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = ({
         },
         [onChange]
     );
+
+    const onClearButtonClick = useCallback(() => {
+        onChange({
+            expression: ''
+        });
+        setInternalMode(ModelledPropertyBuilderMode.PROPERTY_SELECT);
+    }, [onChange]);
 
     const getIntellisenseProperty: GetPropertyNamesFunc = useCallback(
         (_twinId, { leafToken, tokens }) => {
@@ -226,6 +237,9 @@ const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = ({
         [modelledProperties?.nestedFormat]
     );
 
+    const theme = useTheme();
+    const clearButtonStyles = getClearButtonStyles(!!customLabelTooltip, theme);
+
     return (
         <Stack tokens={{ childrenGap: 4 }} className={styles.root}>
             <div className={styles.labelContainer}>
@@ -245,6 +259,20 @@ const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = ({
                                 ...customLabelTooltip,
                                 iconName: customLabelTooltip.iconName || 'Info'
                             }}
+                        />
+                    )}
+                </Stack>
+                <Stack horizontal>
+                    {isClearEnabled && (
+                        <ActionButton
+                            styles={clearButtonStyles}
+                            text={t(
+                                '3dSceneBuilder.ModelledPropertyBuilder.clearButtonText'
+                            )}
+                            data-testid={
+                                'modelled-property-builder-clear-button'
+                            }
+                            onClick={onClearButtonClick}
                         />
                     )}
                 </Stack>
