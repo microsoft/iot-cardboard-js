@@ -489,7 +489,8 @@
       "customExpression": "Benutzerdefiniert (erweitert)",
       "dropdownPlaceholder": "Wählen Sie eine Immobilie aus",
       "toggleLabel": "Ausdrucksmodus",
-      "none": "Nichts"
+      "none": "Nichts",
+      "clearButtonText": "Klar"
     },
     "numericExpressionPlaceholder": "Geben Sie einen Ausdruck ein, der zu einer Zahl ausgewertet wird.",
     "behaviorId": "Verhaltens-ID",

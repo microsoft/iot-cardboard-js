@@ -91,15 +91,6 @@ const WidgetForm: React.FC = () => {
                         widget: widgetData
                     }
                 });
-                // setBehaviorToEdit(
-                //     produce((draft) => {
-                //         const widgets = getWidgets(draft);
-                //         const widgetToUpdateIdx = widgets.findIndex(
-                //             (w) => w.id === activeWidgetId
-                //         );
-                //         widgets[widgetToUpdateIdx] = widgetData;
-                //     })
-                // );
             }
         },
         [activeWidgetId, behaviorFormDispatch]

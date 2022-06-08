@@ -57,11 +57,11 @@ const BehaviorsTab: React.FC<IADT3DSceneBuilderElementBehaviorProps> = ({
                 );
             })
         );
-    }, [behaviors]);
+    }, [behaviors, elementToEdit]);
 
     useEffect(() => {
         updateBehaviorsToEdit(behaviorState.behaviorsToEdit);
-    }, [behaviorState.behaviorsToEdit]);
+    }, [behaviorState.behaviorsToEdit, updateBehaviorsToEdit]);
 
     const removeBehavior = useCallback(() => {
         setBehaviorState(
@@ -128,7 +128,8 @@ const BehaviorsTab: React.FC<IADT3DSceneBuilderElementBehaviorProps> = ({
         behaviorState.behaviorsOnElement,
         setBehaviorToEdit,
         onBehaviorClick,
-        removeBehavior
+        removeBehavior,
+        t
     ]);
 
     const commonPanelStyles = getLeftPanelStyles(useTheme());

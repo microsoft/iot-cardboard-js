@@ -494,7 +494,8 @@
             "customExpression": "Custom (advanced)",
             "dropdownPlaceholder": "Select a property",
             "toggleLabel": "Expression mode",
-            "none": "None"
+            "none": "None",
+            "clearButtonText": "Clear"
         },
         "numericExpressionPlaceholder": "Enter an expression which evaluates to a number",
         "behaviorId": "Behavior Id",
