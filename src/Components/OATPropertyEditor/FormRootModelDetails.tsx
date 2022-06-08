@@ -24,18 +24,16 @@ import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 import { deepCopy } from '../../Models/Services/Utils';
 import { MultiLanguageSelectionType } from '../../Models/Constants/Enums';
 import {
+    handleCommentChange,
+    handleDescriptionChange,
+    handleDisplayNameChange,
+    handleIdChange,
     handleMultiLanguageSelectionRemoval,
     handleMultiLanguageSelectionsDescriptionKeyChange,
     handleMultiLanguageSelectionsDescriptionValueChange,
     handleMultiLanguageSelectionsDisplayNameKeyChange,
     handleMultiLanguageSelectionsDisplayNameValueChange
 } from './Utils';
-import {
-    commentLengthLimit,
-    descriptionLengthLimit,
-    displayNameLengthLimit,
-    idLengthLimit
-} from './Constants';
 
 const multiLanguageOptionValue = 'multiLanguage';
 const singleLanguageOptionValue = 'singleLanguage';
@@ -167,42 +165,6 @@ export const FormUpdateProperty = ({
         setModalBody(null);
     };
 
-    const handleDisplayNameChange = (value) => {
-        if (value.length <= displayNameLengthLimit) {
-            setDisplayName(value);
-            setDisplayNameError(null);
-        } else {
-            setDisplayNameError(true);
-        }
-    };
-
-    const handleDescriptionChange = (value) => {
-        if (value.length <= descriptionLengthLimit) {
-            setDescription(value);
-            setDescriptionError(null);
-        } else {
-            setDescriptionError(true);
-        }
-    };
-
-    const handleCommentChange = (value) => {
-        if (value.length <= commentLengthLimit) {
-            setComment(value);
-            setCommentError(null);
-        } else {
-            setCommentError(true);
-        }
-    };
-
-    const handleIdChange = (value) => {
-        if (value.length <= idLengthLimit) {
-            setId(value);
-            setIdError(null);
-        } else {
-            setIdError(true);
-        }
-    };
-
     // Update multiLanguageSelectionsDisplayNames on every new language change
     useEffect(() => {
         // Create an array of the keys and values
@@ -275,7 +237,9 @@ export const FormUpdateProperty = ({
                 </Text>
                 <TextField
                     placeholder={t('OATPropertyEditor.id')}
-                    onChange={(_ev, value) => handleIdChange(value)}
+                    onChange={(_ev, value) =>
+                        handleIdChange(value, setId, setIdError)
+                    }
                     errorMessage={idError ? t('OATPropertyEditor.errorId') : ''}
                 />
             </div>
@@ -298,7 +262,13 @@ export const FormUpdateProperty = ({
                     <div></div> {/* Needed for gridTemplateColumns style  */}
                     <TextField
                         placeholder={t('OATPropertyEditor.displayName')}
-                        onChange={(e, v) => handleDisplayNameChange(v)}
+                        onChange={(e, v) =>
+                            handleDisplayNameChange(
+                                v,
+                                setDisplayName,
+                                setDisplayNameError
+                            )
+                        }
                         errorMessage={
                             displayNameError
                                 ? t('OATPropertyEditor.errorDisplayName')
@@ -435,7 +405,11 @@ export const FormUpdateProperty = ({
                         )}
                         value={description}
                         onChange={(_ev, value) =>
-                            handleDescriptionChange(value)
+                            handleDescriptionChange(
+                                value,
+                                setDescription,
+                                setDescriptionError
+                            )
                         }
                         errorMessage={
                             descriptionError
@@ -556,7 +530,9 @@ export const FormUpdateProperty = ({
                     placeholder={t(
                         'OATPropertyEditor.modalTextInputPlaceHolder'
                     )}
-                    onChange={(_ev, value) => handleCommentChange(value)}
+                    onChange={(_ev, value) =>
+                        handleCommentChange(value, setComment, setCommentError)
+                    }
                     errorMessage={
                         commentError ? t('OATPropertyEditor.errorComment') : ''
                     }

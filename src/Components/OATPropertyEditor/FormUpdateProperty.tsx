@@ -26,19 +26,16 @@ import { MultiLanguageSelectionType } from '../../Models/Constants/Enums';
 import {
     getModelPropertyCollectionName,
     getModelPropertyListItemName,
+    handleCommentChange,
+    handleDescriptionChange,
+    handleDisplayNameChange,
+    handleIdChange,
     handleMultiLanguageSelectionRemoval,
     handleMultiLanguageSelectionsDescriptionKeyChange,
     handleMultiLanguageSelectionsDescriptionValueChange,
     handleMultiLanguageSelectionsDisplayNameKeyChange,
     handleMultiLanguageSelectionsDisplayNameValueChange
 } from './Utils';
-import {
-    commentLengthLimit,
-    descriptionLengthLimit,
-    displayNameLengthLimit,
-    idLengthLimit
-} from './Constants';
-
 const multiLanguageOptionValue = 'multiLanguage';
 const singleLanguageOptionValue = 'singleLanguage';
 
@@ -99,8 +96,6 @@ export const FormUpdateProperty = ({
         )
     );
     const [writable, setWritable] = useState(true);
-    const [semanticType, setSemanticType] = useState(null);
-    const [unit, setUnit] = useState(null);
     const [id, setId] = useState(null);
     const [languageSelection, setLanguageSelection] = useState(
         singleLanguageOptionValue
@@ -196,7 +191,7 @@ export const FormUpdateProperty = ({
                         : activeNestedProperty.name
                     : multiLanguageSelectionsDisplayName,
             writable,
-            unit: unit ? unit : activeNestedProperty.unit,
+            unit: activeNestedProperty.unit,
             '@id': id ? id : activeNestedProperty['@id'],
             schema: activeNestedProperty.schema,
             name: activeNestedProperty.name
@@ -241,10 +236,8 @@ export const FormUpdateProperty = ({
                     ? multiLanguageSelectionsDisplayName
                     : activeProperty.name,
             writable,
-            '@type': semanticType
-                ? [...activeProperty['@type'], ...[semanticType]]
-                : activeProperty['@type'],
-            unit: unit ? unit : activeProperty.unit,
+            '@type': activeProperty['@type'],
+            unit: activeProperty.unit,
             '@id': id ? id : activeProperty['@id'],
             schema: activeProperty.schema,
             name: activeProperty.name
@@ -258,42 +251,6 @@ export const FormUpdateProperty = ({
         });
         setModalOpen(false);
         setModalBody(null);
-    };
-
-    const handleDisplayNameChange = (value) => {
-        if (value.length <= displayNameLengthLimit) {
-            setDisplayName(value);
-            setDisplayNameError(null);
-        } else {
-            setDisplayNameError(true);
-        }
-    };
-
-    const handleDescriptionChange = (value) => {
-        if (value.length <= descriptionLengthLimit) {
-            setDescription(value);
-            setDescriptionError(null);
-        } else {
-            setDescriptionError(true);
-        }
-    };
-
-    const handleCommentChange = (value) => {
-        if (value.length <= commentLengthLimit) {
-            setComment(value);
-            setCommentError(null);
-        } else {
-            setCommentError(true);
-        }
-    };
-
-    const handleIdChange = (value) => {
-        if (value.length <= idLengthLimit) {
-            setId(value);
-            setIdError(null);
-        } else {
-            setIdError(true);
-        }
     };
 
     useEffect(() => {
@@ -369,7 +326,10 @@ export const FormUpdateProperty = ({
                 </Text>
                 <TextField
                     placeholder={t('OATPropertyEditor.id')}
-                    onChange={(_ev, value) => setId(value)}
+                    onChange={(_ev, value) =>
+                        handleIdChange(value, setId, setIdError)
+                    }
+                    errorMessage={idError ? t('OATPropertyEditor.errorId') : ''}
                 />
             </div>
 
@@ -395,7 +355,13 @@ export const FormUpdateProperty = ({
                         )}
                         value={displayName}
                         validateOnFocusOut
-                        onChange={(e, v) => handleDisplayNameChange(v)}
+                        onChange={(e, v) =>
+                            handleDisplayNameChange(
+                                v,
+                                setDisplayName,
+                                setDisplayNameError
+                            )
+                        }
                         errorMessage={
                             displayNameError
                                 ? t('OATPropertyEditor.errorDisplayName')
@@ -528,7 +494,11 @@ export const FormUpdateProperty = ({
                             'OATPropertyEditor.modalTextInputPlaceHolderDescription'
                         )}
                         onChange={(_ev, value) =>
-                            handleDescriptionChange(value)
+                            handleDescriptionChange(
+                                value,
+                                setDescription,
+                                setDescriptionError
+                            )
                         }
                         errorMessage={
                             descriptionError
@@ -649,7 +619,9 @@ export const FormUpdateProperty = ({
                     placeholder={t(
                         'OATPropertyEditor.modalTextInputPlaceHolder'
                     )}
-                    onChange={(_ev, value) => handleCommentChange(value)}
+                    onChange={(_ev, value) =>
+                        handleCommentChange(value, setComment, setCommentError)
+                    }
                     errorMessage={
                         commentError ? t('OATPropertyEditor.errorComment') : ''
                     }
@@ -665,42 +637,6 @@ export const FormUpdateProperty = ({
                     }}
                 />
                 <Text>{t('OATPropertyEditor.writable')}</Text>
-            </div>
-
-            <div className={propertyInspectorStyles.modalRow}>
-                <Text styles={columnLeftTextStyles}>
-                    {t('OATPropertyEditor.semanticType')}
-                </Text>
-                <TextField
-                    placeholder={t(
-                        'OATPropertyEditor.modalTextInputPlaceHolderSemanticType'
-                    )}
-                    onChange={(_ev, value) => setSemanticType(value)}
-                />
-            </div>
-
-            <div className={propertyInspectorStyles.modalRow}>
-                <Text styles={columnLeftTextStyles}>
-                    {t('OATPropertyEditor.unit')}
-                </Text>
-                <TextField
-                    placeholder={t(
-                        'OATPropertyEditor.modalTextInputPlaceHolderUnit'
-                    )}
-                    onChange={(_ev, value) => setUnit(value)}
-                    disabled={semanticType === null || semanticType === ''}
-                />
-            </div>
-
-            <div className={propertyInspectorStyles.modalRow}>
-                <Text styles={columnLeftTextStyles}>
-                    {t('OATPropertyEditor.id')}
-                </Text>
-                <TextField
-                    placeholder={t('OATPropertyEditor.id')}
-                    onChange={(_ev, value) => handleIdChange(value)}
-                    errorMessage={idError ? t('OATPropertyEditor.errorId') : ''}
-                />
             </div>
 
             <PrimaryButton

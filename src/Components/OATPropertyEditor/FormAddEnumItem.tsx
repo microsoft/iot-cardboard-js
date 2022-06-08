@@ -26,18 +26,16 @@ import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 import { MultiLanguageSelectionType } from '../../Models/Constants/Enums';
 import {
     getModelPropertyCollectionName,
+    handleCommentChange,
+    handleDescriptionChange,
+    handleDisplayNameChange,
+    handleIdChange,
     handleMultiLanguageSelectionRemoval,
     handleMultiLanguageSelectionsDescriptionKeyChange,
     handleMultiLanguageSelectionsDescriptionValueChange,
     handleMultiLanguageSelectionsDisplayNameKeyChange,
     handleMultiLanguageSelectionsDisplayNameValueChange
 } from './Utils';
-import {
-    commentLengthLimit,
-    descriptionLengthLimit,
-    displayNameLengthLimit,
-    idLengthLimit
-} from './Constants';
 
 const multiLanguageOptionValue = 'multiLanguage';
 const singleLanguageOptionValue = 'singleLanguage';
@@ -202,42 +200,6 @@ export const FormAddEnumItem = ({
         return find ? `${t('OATPropertyEditor.errorRepeatedEnumValue')}` : '';
     };
 
-    const handleDisplayNameChange = (value) => {
-        if (value.length <= displayNameLengthLimit) {
-            setDisplayName(value);
-            setDisplayNameError(null);
-        } else {
-            setDisplayNameError(true);
-        }
-    };
-
-    const handleDescriptionChange = (value) => {
-        if (value.length <= descriptionLengthLimit) {
-            setDescription(value);
-            setDescriptionError(null);
-        } else {
-            setDescriptionError(true);
-        }
-    };
-
-    const handleCommentChange = (value) => {
-        if (value.length <= commentLengthLimit) {
-            setComment(value);
-            setCommentError(null);
-        } else {
-            setCommentError(true);
-        }
-    };
-
-    const handleIdChange = (value) => {
-        if (value.length <= idLengthLimit) {
-            setId(value);
-            setIdError(null);
-        } else {
-            setIdError(true);
-        }
-    };
-
     const handleNameChange = (value) => {
         // ^[a-zA-Z](?:[a-zA-Z0-9_]*[a-zA-Z0-9])?$
         const regularExpression = new RegExp(
@@ -334,7 +296,13 @@ export const FormAddEnumItem = ({
                         )}
                         value={displayName}
                         styles={textFieldStyles}
-                        onChange={(e, v) => handleDisplayNameChange(v)}
+                        onChange={(e, v) =>
+                            handleDisplayNameChange(
+                                v,
+                                setDisplayName,
+                                setDisplayNameError
+                            )
+                        }
                         errorMessage={
                             displayNameError
                                 ? t('OATPropertyEditor.errorDisplayName')
@@ -470,7 +438,11 @@ export const FormAddEnumItem = ({
                         value={description}
                         styles={textFieldStyles}
                         onChange={(_ev, value) =>
-                            handleDescriptionChange(value)
+                            handleDescriptionChange(
+                                value,
+                                setDescription,
+                                setDescriptionError
+                            )
                         }
                         errorMessage={
                             descriptionError
@@ -593,7 +565,9 @@ export const FormAddEnumItem = ({
                         'OATPropertyEditor.modalTextInputPlaceHolder'
                     )}
                     styles={textFieldStyles}
-                    onChange={(_ev, value) => handleCommentChange(value)}
+                    onChange={(_ev, value) =>
+                        handleCommentChange(value, setComment, setCommentError)
+                    }
                     errorMessage={
                         commentError ? t('OATPropertyEditor.errorComment') : ''
                     }
@@ -639,7 +613,9 @@ export const FormAddEnumItem = ({
                 <TextField
                     placeholder={t('OATPropertyEditor.id')}
                     styles={textFieldStyles}
-                    onChange={(_ev, value) => handleIdChange(value)}
+                    onChange={(_ev, value) =>
+                        handleIdChange(value, setId, setIdError)
+                    }
                     errorMessage={idError ? t('OATPropertyEditor.errorId') : ''}
                 />
             </div>

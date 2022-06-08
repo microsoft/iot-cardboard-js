@@ -13,7 +13,10 @@ import { deepCopy } from '../../Models/Services/Utils';
 import { getModelPropertyListItemName } from './Utils';
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 import { ModelTypes } from '../../Models/Constants/Enums';
-import { displayNameLengthLimit, idLengthLimit } from './Constants';
+import {
+    OATDisplayNameLengthLimit,
+    OATIdLengthLimit
+} from '../../Models/Constants/Constants';
 
 type IPropertiesModelSummary = {
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
@@ -38,7 +41,7 @@ export const PropertiesModelSummary = ({
     const { model } = state;
 
     const handleDisplayNameChange = (value) => {
-        if (value.length <= displayNameLengthLimit) {
+        if (value.length <= OATDisplayNameLengthLimit) {
             const modelCopy = deepCopy(model);
             modelCopy.displayName = value;
             dispatch({
@@ -53,7 +56,7 @@ export const PropertiesModelSummary = ({
     };
 
     const handleIdChange = (value) => {
-        if (value.length <= idLengthLimit) {
+        if (value.length <= OATIdLengthLimit) {
             const modelCopy = deepCopy(model);
             modelCopy['@id'] = value;
             dispatch({
@@ -97,13 +100,9 @@ export const PropertiesModelSummary = ({
                     value={model ? model['@id'] : ''}
                     placeholder={t('id')}
                     onChange={(_ev, value) => {
-                        handleDisplayNameChange(value);
+                        handleIdChange(value);
                     }}
-                    errorMessage={
-                        displayNameError
-                            ? t('OATPropertyEditor.errorDisplayName')
-                            : ''
-                    }
+                    errorMessage={idError ? t('OATPropertyEditor.errorId') : ''}
                 />
             </div>
             {model && model.name && (
@@ -143,9 +142,13 @@ export const PropertiesModelSummary = ({
                     }
                     placeholder={t('OATPropertyEditor.displayName')}
                     onChange={(_ev, value) => {
-                        handleIdChange(value);
+                        handleDisplayNameChange(value);
                     }}
-                    errorMessage={idError ? t('OATPropertyEditor.errorId') : ''}
+                    errorMessage={
+                        displayNameError
+                            ? t('OATPropertyEditor.errorDisplayName')
+                            : ''
+                    }
                 />
             </div>
         </Stack>
