@@ -12,20 +12,23 @@ import { IAction } from '../../../Models/Constants/Interfaces';
 import { SET_OAT_NAMESPACE } from '../../../Models/Constants/ActionTypes';
 import { getHeaderStyles } from '../OATHeader.styles';
 import { DTDLNameRegex } from '../../../Models/Constants/Constants';
+import { IOATEditorState } from '../../../Pages/OATEditorPage/OATEditorPage.types';
 
 interface IModal {
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
     setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
     setModalBody?: React.Dispatch<React.SetStateAction<string>>;
+    state?: IOATEditorState;
 }
 
 export const FormSettings = ({
     setModalOpen,
     dispatch,
-    setModalBody
+    setModalBody,
+    state
 }: IModal) => {
     const { t } = useTranslation();
-    const [namespace, setNamespace] = useState('');
+    const [namespace, setNamespace] = useState(state.namespace);
     const [error, setError] = useState(false);
     const headerStyles = getHeaderStyles();
 

@@ -86,6 +86,7 @@ export const Modal = ({
                         dispatch={dispatch}
                         setModalOpen={setModalOpen}
                         setModalBody={setModalBody}
+                        state={state}
                     />
                 );
             default:
