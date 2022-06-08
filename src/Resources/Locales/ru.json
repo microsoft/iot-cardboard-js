@@ -779,7 +779,9 @@
     "description": "Описание",
     "relationships": "Отношения",
     "inheritances": "Наследства",
-    "components": "Компоненты"
+    "components": "Компоненты",
+    "errorDisplayName": "Отображаемое имя не должно превышать 64 символов",
+    "errorId": "Id не может превышать 2048 символов"
   },
   "OATPropertyEditor": {
     "displayName": "Отображаемое имя",
@@ -849,7 +851,12 @@
     "delete": "Удалить",
     "multiLanguage": "многоязычность",
     "region": "Область",
-    "singleLanguage": "Один язык"
+    "singleLanguage": "Один язык",
+    "errorComment": "Комментарий не может превышать 512 символов",
+    "errorDisplayName": "Отображаемое имя не должно превышать 64 символов",
+    "errorDescription": "Описание не может превышать 512 символов",
+    "errorId": "Id не может превышать 2048 символов",
+    "errorName": "Имя может содержать только символы a-z, A-Z, 0-9 и подчеркивание"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Сообщение об ошибке",
