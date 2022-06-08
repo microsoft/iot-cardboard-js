@@ -8,7 +8,6 @@ import {
     useTheme
 } from '@fluentui/react';
 import ViewerConfigUtility from '../../../../../Models/Classes/ViewerConfigUtility';
-import produce from 'immer';
 import {
     IBehavior,
     IExpressionRangeVisual
@@ -27,6 +26,8 @@ import {
     PropertyExpression
 } from '../../../../ModelledPropertyBuilder/ModelledPropertyBuilder.types';
 import { DOCUMENTATION_LINKS } from '../../../../../Models/Constants';
+import { useBehaviorFormContext } from './BehaviorFormContext/BehaviorFormContext';
+import { BehaviorFormContextActionType } from './BehaviorFormContext/BehaviorFormContext.types';
 
 const getStatusFromBehavior = (behavior: IBehavior) =>
     behavior.visuals.filter(ViewerConfigUtility.isStatusColorVisual)[0] || null;
@@ -44,16 +45,19 @@ interface IStatusTabProps {
 const StatusTab: React.FC<IStatusTabProps> = ({ onValidityChange }) => {
     const { t } = useTranslation();
     const {
-        behaviorToEdit,
-        setBehaviorToEdit,
         adapter,
         config,
         sceneId,
         state: { selectedElements }
     } = useContext(SceneBuilderContext);
+    const {
+        behaviorFormDispatch,
+        behaviorFormState
+    } = useBehaviorFormContext();
 
     const statusVisualToEdit =
-        getStatusFromBehavior(behaviorToEdit) || defaultStatusColorVisual;
+        getStatusFromBehavior(behaviorFormState.behaviorToEdit) ||
+        defaultStatusColorVisual;
 
     const {
         valueRangeBuilderState,
@@ -83,59 +87,84 @@ const StatusTab: React.FC<IStatusTabProps> = ({ onValidityChange }) => {
 
     const setProperty = useCallback(
         (propertyName: keyof IExpressionRangeVisual, value: string) => {
-            setBehaviorToEdit(
-                produce((draft) => {
-                    // Assuming only 1 alert visual per behavior
-                    let statusVisual = getStatusFromBehavior(draft);
-                    // Edit flow
-                    if (statusVisual) {
-                        // selected the none option, clear the data
-                        if (!value) {
-                            const index = draft.visuals.indexOf(statusVisual);
-                            draft.visuals.splice(index, 1);
-                        }
-                        statusVisual[propertyName as any] = value as any;
-                    } else {
-                        statusVisual = deepCopy(defaultStatusColorVisual);
-                        statusVisual[propertyName as any] = value as any;
-                        statusVisual.valueRanges =
-                            valueRangeBuilderState.valueRanges;
-                        resetInitialValueRanges(
-                            valueRangeBuilderState.valueRanges
-                        );
-                        draft.visuals.push(statusVisual);
-                    }
-                    // check form validity
-                    validateForm(statusVisual);
-                })
+            // Assuming only 1 alert visual per behavior
+            let statusVisual = getStatusFromBehavior(
+                behaviorFormState.behaviorToEdit
             );
+            // Edit flow
+            if (statusVisual) {
+                // selected the none option, clear the visual
+                if (!value) {
+                    behaviorFormDispatch({
+                        type:
+                            BehaviorFormContextActionType.FORM_BEHAVIOR_EXPRESSION_RANGE_VISUAL_REMOVE,
+                        payload: {
+                            visualType: 'NumericRange'
+                        }
+                    });
+                } else {
+                    // update the value
+                    statusVisual[propertyName as any] = value as any;
+
+                    behaviorFormDispatch({
+                        type:
+                            BehaviorFormContextActionType.FORM_BEHAVIOR_EXPRESSION_RANGE_VISUAL_ADD_OR_UPDATE,
+                        payload: { visual: statusVisual }
+                    });
+                }
+            } else {
+                // create flow
+                statusVisual = deepCopy(defaultStatusColorVisual);
+                statusVisual[propertyName as any] = value as any;
+                statusVisual.valueRanges = valueRangeBuilderState.valueRanges;
+                resetInitialValueRanges(valueRangeBuilderState.valueRanges);
+
+                behaviorFormDispatch({
+                    type:
+                        BehaviorFormContextActionType.FORM_BEHAVIOR_EXPRESSION_RANGE_VISUAL_ADD_OR_UPDATE,
+                    payload: { visual: statusVisual }
+                });
+            }
+            // check form validity
+            validateForm(statusVisual);
         },
         [
-            setBehaviorToEdit,
-            valueRangeBuilderState,
-            resetInitialValueRanges,
-            validateForm
+            behaviorFormState.behaviorToEdit,
+            validateForm,
+            behaviorFormDispatch,
+            valueRangeBuilderState.valueRanges,
+            resetInitialValueRanges
         ]
     );
 
     // Mirror value ranges in behavior to edit
     useEffect(() => {
-        setBehaviorToEdit(
-            produce((draft) => {
-                // Assuming only 1 status visual per behavior
-                const stateVisual = getStatusFromBehavior(draft);
-                if (stateVisual) {
-                    stateVisual.valueRanges =
-                        valueRangeBuilderState.valueRanges;
-                }
-            })
+        // Assuming only 1 status visual per behavior
+        const statusVisual = getStatusFromBehavior(
+            behaviorFormState.behaviorToEdit
         );
-    }, [setBehaviorToEdit, valueRangeBuilderState.valueRanges]);
+        if (statusVisual) {
+            statusVisual.valueRanges = valueRangeBuilderState.valueRanges;
+        }
+        behaviorFormDispatch({
+            type:
+                BehaviorFormContextActionType.FORM_BEHAVIOR_EXPRESSION_RANGE_VISUAL_ADD_OR_UPDATE,
+            payload: { visual: statusVisual }
+        });
+    }, [
+        behaviorFormDispatch,
+        behaviorFormState.behaviorToEdit,
+        valueRangeBuilderState.valueRanges
+    ]);
 
     // update validity when range validity changes
     useEffect(() => {
-        validateForm(getStatusFromBehavior(behaviorToEdit));
-    }, [behaviorToEdit, validateForm, valueRangeBuilderState.areRangesValid]);
+        validateForm(getStatusFromBehavior(behaviorFormState.behaviorToEdit));
+    }, [
+        behaviorFormState.behaviorToEdit,
+        validateForm,
+        valueRangeBuilderState.areRangesValid
+    ]);
 
     const onPropertyChange = useCallback(
         (newPropertyExpression: PropertyExpression) =>
@@ -165,7 +194,7 @@ const StatusTab: React.FC<IStatusTabProps> = ({ onValidityChange }) => {
                         }
                     }}
                     twinIdParams={{
-                        behavior: behaviorToEdit,
+                        behavior: behaviorFormState.behaviorToEdit,
                         config,
                         sceneId,
                         selectedElements
@@ -173,8 +202,9 @@ const StatusTab: React.FC<IStatusTabProps> = ({ onValidityChange }) => {
                     mode={ModelledPropertyBuilderMode.TOGGLE}
                     propertyExpression={{
                         expression:
-                            getStatusFromBehavior(behaviorToEdit)
-                                ?.valueExpression || ''
+                            getStatusFromBehavior(
+                                behaviorFormState.behaviorToEdit
+                            )?.valueExpression || ''
                     }}
                     onChange={onPropertyChange}
                     allowedPropertyValueTypes={numericPropertyValueTypes}

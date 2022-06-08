@@ -1,5 +1,6 @@
 import {
     IBehavior,
+    IExpressionRangeType,
     IExpressionRangeVisual,
     IPopoverVisual,
     IVisual,
@@ -88,6 +89,7 @@ export type BehaviorFormContextAction =
       }
     | {
           type: BehaviorFormContextActionType.FORM_BEHAVIOR_EXPRESSION_RANGE_VISUAL_REMOVE;
+          payload: { visualType: IExpressionRangeType };
       }
     | {
           type: BehaviorFormContextActionType.FORM_BEHAVIOR_WIDGET_ADD_OR_UPDATE;

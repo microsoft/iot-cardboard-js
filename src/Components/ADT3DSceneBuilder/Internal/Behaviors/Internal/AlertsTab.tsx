@@ -122,16 +122,23 @@ const AlertsTab: React.FC = () => {
             if (newPropertyExpression.expression === '' && alertVisual) {
                 // Backup current state of alert visual form
                 alertVisualStateRef.current = deepCopy(alertVisual);
+                behaviorFormDispatch({
+                    type:
+                        BehaviorFormContextActionType.FORM_BEHAVIOR_EXPRESSION_RANGE_VISUAL_REMOVE,
+                    payload: {
+                        visualType: 'CategoricalValues'
+                    }
+                });
+            } else {
+                alertVisual.valueExpression = newPropertyExpression.expression;
+                behaviorFormDispatch({
+                    type:
+                        BehaviorFormContextActionType.FORM_BEHAVIOR_EXPRESSION_RANGE_VISUAL_ADD_OR_UPDATE,
+                    payload: {
+                        visual: alertVisual
+                    }
+                });
             }
-
-            alertVisual.valueExpression = newPropertyExpression.expression;
-            behaviorFormDispatch({
-                type:
-                    BehaviorFormContextActionType.FORM_BEHAVIOR_EXPRESSION_RANGE_VISUAL_ADD_OR_UPDATE,
-                payload: {
-                    visual: alertVisual
-                }
-            });
         },
         [behaviorFormDispatch, behaviorFormState.behaviorToEdit]
     );
