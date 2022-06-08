@@ -97,10 +97,7 @@ const StatusTab: React.FC<IStatusTabProps> = ({ onValidityChange }) => {
                 if (!value) {
                     behaviorFormDispatch({
                         type:
-                            BehaviorFormContextActionType.FORM_BEHAVIOR_EXPRESSION_RANGE_VISUAL_REMOVE,
-                        payload: {
-                            visualType: 'NumericRange'
-                        }
+                            BehaviorFormContextActionType.FORM_BEHAVIOR_STATUS_VISUAL_REMOVE
                     });
                 } else {
                     // update the value
@@ -108,7 +105,7 @@ const StatusTab: React.FC<IStatusTabProps> = ({ onValidityChange }) => {
 
                     behaviorFormDispatch({
                         type:
-                            BehaviorFormContextActionType.FORM_BEHAVIOR_EXPRESSION_RANGE_VISUAL_ADD_OR_UPDATE,
+                            BehaviorFormContextActionType.FORM_BEHAVIOR_STATUS_VISUAL_ADD_OR_UPDATE,
                         payload: { visual: statusVisual }
                     });
                 }
@@ -121,7 +118,7 @@ const StatusTab: React.FC<IStatusTabProps> = ({ onValidityChange }) => {
 
                 behaviorFormDispatch({
                     type:
-                        BehaviorFormContextActionType.FORM_BEHAVIOR_EXPRESSION_RANGE_VISUAL_ADD_OR_UPDATE,
+                        BehaviorFormContextActionType.FORM_BEHAVIOR_STATUS_VISUAL_ADD_OR_UPDATE,
                     payload: { visual: statusVisual }
                 });
             }
@@ -148,7 +145,7 @@ const StatusTab: React.FC<IStatusTabProps> = ({ onValidityChange }) => {
         }
         behaviorFormDispatch({
             type:
-                BehaviorFormContextActionType.FORM_BEHAVIOR_EXPRESSION_RANGE_VISUAL_ADD_OR_UPDATE,
+                BehaviorFormContextActionType.FORM_BEHAVIOR_STATUS_VISUAL_ADD_OR_UPDATE,
             payload: { visual: statusVisual }
         });
     }, [

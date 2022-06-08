@@ -171,6 +171,12 @@ export type CardboardIconNames =
     | 'SpeedHigh'
     | 'View';
 
+export type IConsoleLogFunction = (
+    level: 'debug' | 'info' | 'warn' | 'error',
+    message: string,
+    ...args: unknown[]
+) => void;
+
 export type AzureResourceGroupsApiData = {
     value: IAzureResourceGroup[];
     nextLink: string;

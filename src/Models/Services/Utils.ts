@@ -7,7 +7,8 @@ import {
     ADTModel_ImgSrc_PropertyName,
     ADTModel_InBIM_RelationshipName,
     ComponentErrorType,
-    DTwin
+    DTwin,
+    IConsoleLogFunction
 } from '../Constants';
 import { DtdlInterface, DtdlProperty } from '../Constants/dtdlInterfaces';
 import { CharacterWidths } from '../Constants/Constants';
@@ -404,7 +405,10 @@ export function sortAlphabetically<T>(propertyName: keyof T) {
     };
 }
 
-export function getDebugLogger(context: string, enabled: boolean) {
+export function getDebugLogger(
+    context: string,
+    enabled: boolean
+): IConsoleLogFunction {
     if (!enabled) return () => undefined;
     return (
         level: 'debug' | 'info' | 'warn' | 'error',

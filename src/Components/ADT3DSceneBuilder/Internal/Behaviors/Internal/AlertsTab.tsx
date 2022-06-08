@@ -91,7 +91,7 @@ const AlertsTab: React.FC = () => {
             if (!alertVisual) {
                 return;
             }
-            const valueRangeVisual = alertVisual.valueRanges[0].visual;
+            const valueRangeVisual = getValueRangeVisualFromAlert(alertVisual);
             if (!valueRangeVisual) {
                 return;
             }
@@ -101,7 +101,7 @@ const AlertsTab: React.FC = () => {
 
             behaviorFormDispatch({
                 type:
-                    BehaviorFormContextActionType.FORM_BEHAVIOR_EXPRESSION_RANGE_VISUAL_ADD_OR_UPDATE,
+                    BehaviorFormContextActionType.FORM_BEHAVIOR_ALERT_VISUAL_ADD_OR_UPDATE,
                 payload: {
                     visual: alertVisual
                 }
@@ -124,16 +124,13 @@ const AlertsTab: React.FC = () => {
                 alertVisualStateRef.current = deepCopy(alertVisual);
                 behaviorFormDispatch({
                     type:
-                        BehaviorFormContextActionType.FORM_BEHAVIOR_EXPRESSION_RANGE_VISUAL_REMOVE,
-                    payload: {
-                        visualType: 'CategoricalValues'
-                    }
+                        BehaviorFormContextActionType.FORM_BEHAVIOR_ALERT_VISUAL_REMOVE
                 });
             } else {
                 alertVisual.valueExpression = newPropertyExpression.expression;
                 behaviorFormDispatch({
                     type:
-                        BehaviorFormContextActionType.FORM_BEHAVIOR_EXPRESSION_RANGE_VISUAL_ADD_OR_UPDATE,
+                        BehaviorFormContextActionType.FORM_BEHAVIOR_ALERT_VISUAL_ADD_OR_UPDATE,
                     payload: {
                         visual: alertVisual
                     }
