@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { FontIcon, ActionButton, Text } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
@@ -13,7 +13,10 @@ import {
 } from '../../Models/Constants/ActionTypes';
 import { DTDLProperty, IAction } from '../../Models/Constants/Interfaces';
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
-import { getModelPropertyCollectionName } from './Utils';
+import {
+    getModelPropertyCollectionName,
+    shouldClosePropertySelectorOnMouseLeave
+} from './Utils';
 
 type IPropertyList = {
     currentPropertyIndex: number;
@@ -22,14 +25,12 @@ type IPropertyList = {
     enteredPropertyRef: any;
     enteredTemplateRef: any;
     propertyList?: DTDLProperty[];
-    propertyOnHover: boolean;
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
     setCurrentNestedPropertyIndex: React.Dispatch<React.SetStateAction<number>>;
     setCurrentPropertyIndex?: React.Dispatch<React.SetStateAction<number>>;
     setDraggingProperty: React.Dispatch<React.SetStateAction<boolean>>;
     setModalBody?: React.Dispatch<React.SetStateAction<string>>;
     setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
-    setPropertyOnHover?: React.Dispatch<React.SetStateAction<boolean>>;
     state?: IOATEditorState;
 };
 
@@ -46,9 +47,7 @@ export const PropertyList = ({
     currentPropertyIndex,
     dispatch,
     state,
-    propertyList,
-    propertyOnHover,
-    setPropertyOnHover
+    propertyList
 }: IPropertyList) => {
     const { t } = useTranslation();
     const propertyInspectorStyles = getPropertyInspectorStyles();
@@ -57,14 +56,17 @@ export const PropertyList = ({
     const [lastPropertyFocused, setLastPropertyFocused] = useState(null);
     const dragItem = useRef(null);
     const dragNode = useRef(null);
-    const [hover, setHover] = useState(false);
     const [propertySelectorVisible, setPropertySelectorVisible] = useState(
         false
     );
+    const [propertySelectorPosition, setPropertySelectorPosition] = useState({
+        left: 0,
+        top: 0
+    });
     const [
-        actionButtonPropertySelectorVisible,
-        setActionButtonPropertySelectorVisible
-    ] = useState(false);
+        propertySelectorTriggerElementsBoundingBox,
+        setPropertySelectorTriggerElementsBoundingBox
+    ] = useState(null);
     const { model, templates } = state;
 
     const propertiesKeyName = getModelPropertyCollectionName(
@@ -182,49 +184,61 @@ export const PropertyList = ({
         dispatch({ type: SET_OAT_PROPERTY_EDITOR_MODEL, payload: newModel });
     };
 
+    const handleSelectorPosition = (e) => {
+        const boundingRect = e.target.getBoundingClientRect();
+        setPropertySelectorPosition({
+            ...propertySelectorPosition,
+            top: boundingRect.top,
+            left: boundingRect.left
+        });
+        setPropertySelectorTriggerElementsBoundingBox(boundingRect);
+    };
+
+    const handleMouseLeave = (e) => {
+        if (
+            shouldClosePropertySelectorOnMouseLeave(
+                e,
+                propertySelectorTriggerElementsBoundingBox
+            )
+        ) {
+            setPropertySelectorVisible(false);
+        }
+    };
+
+    const handlePropertyBarMouseOver = (e) => {
+        setPropertySelectorVisible(true);
+        setLastPropertyFocused(null);
+        handleSelectorPosition(e);
+    };
+
+    const handlePropertyWrapScrollMouseOver = (e) => {
+        setPropertySelectorVisible(true);
+        setLastPropertyFocused(null);
+        handleSelectorPosition(e);
+    };
+
     return (
-        <div
-            className={propertyInspectorStyles.propertiesWrap}
-            onMouseOver={() => {
-                setHover(true);
-            }}
-            onMouseLeave={() => {
-                setHover(false);
-            }}
-        >
+        <div className={propertyInspectorStyles.propertiesWrap}>
             <div className={propertyInspectorStyles.propertiesWrapScroll}>
                 {model && propertyList && propertyList.length === 0 && (
                     <div
                         className={
                             propertyInspectorStyles.addPropertyMessageWrap
                         }
-                        onMouseOver={() => {
-                            setActionButtonPropertySelectorVisible(true);
-                            setLastPropertyFocused(null);
+                        onMouseOver={(e) => {
+                            handlePropertyWrapScrollMouseOver(e);
                         }}
-                        onMouseLeave={() =>
-                            setActionButtonPropertySelectorVisible(false)
-                        }
+                        onMouseLeave={(e) => {
+                            handleMouseLeave(e);
+                        }}
                     >
-                        {actionButtonPropertySelectorVisible && (
-                            <PropertySelector
-                                setPropertySelectorVisible={
-                                    setActionButtonPropertySelectorVisible
-                                }
-                                lastPropertyFocused={lastPropertyFocused}
-                                dispatch={dispatch}
-                                state={state}
-                                onTagClickCallback={() => {
-                                    setHover(false);
-                                    setPropertyOnHover(false);
-                                }}
-                                className={
-                                    propertyInspectorStyles.propertySelectorAddMore
-                                }
-                            />
-                        )}
                         <ActionButton
-                            styles={{ root: { paddingLeft: '10px' } }}
+                            styles={{
+                                root: {
+                                    paddingLeft: '10px',
+                                    height: 'fit-content'
+                                }
+                            }}
                         >
                             <FontIcon
                                 iconName={'CirclePlus'}
@@ -279,7 +293,15 @@ export const PropertyList = ({
                                         dispatch={dispatch}
                                         state={state}
                                         deleteItem={deleteItem}
-                                        setPropertyOnHover={setPropertyOnHover}
+                                        setPropertySelectorVisible={
+                                            setPropertySelectorVisible
+                                        }
+                                        propertySelectorTriggerElementsBoundingBox={
+                                            propertySelectorTriggerElementsBoundingBox
+                                        }
+                                        handleSelectorPosition={
+                                            handleSelectorPosition
+                                        }
                                     />
                                 );
                             } else if (typeof item['@type'] === 'object') {
@@ -307,41 +329,39 @@ export const PropertyList = ({
                                         deleteItem={deleteItem}
                                         dispatch={dispatch}
                                         state={state}
-                                        setPropertyOnHover={setPropertyOnHover}
                                     />
                                 );
                             }
                         })}
                 </div>
-                <div
-                    className={
-                        propertyInspectorStyles.addPropertyBarPropertyListWrap
-                    }
-                    onMouseLeave={() => setPropertySelectorVisible(false)}
-                >
-                    {hover &&
-                        model &&
-                        model[propertiesKeyName].length > 0 &&
-                        !propertyOnHover && (
+                {propertyList && propertyList.length > 0 && (
+                    <div
+                        className={
+                            propertyInspectorStyles.addPropertyBarPropertyListWrap
+                        }
+                        onMouseLeave={(e) => {
+                            handleMouseLeave(e);
+                        }}
+                    >
+                        {model && model[propertiesKeyName].length > 0 && (
                             <AddPropertyBar
-                                onMouseOver={() => {
-                                    setPropertySelectorVisible(true);
-                                    setLastPropertyFocused(null);
+                                onMouseOver={(e) => {
+                                    handlePropertyBarMouseOver(e);
                                 }}
                             />
                         )}
-                    {propertySelectorVisible && (
-                        <PropertySelector
-                            setPropertySelectorVisible={
-                                setPropertySelectorVisible
-                            }
-                            lastPropertyFocused={lastPropertyFocused}
-                            dispatch={dispatch}
-                            state={state}
-                        />
-                    )}
-                </div>
+                    </div>
+                )}
             </div>
+            {propertySelectorVisible && (
+                <PropertySelector
+                    setPropertySelectorVisible={setPropertySelectorVisible}
+                    lastPropertyFocused={lastPropertyFocused}
+                    dispatch={dispatch}
+                    state={state}
+                    propertySelectorPosition={propertySelectorPosition}
+                />
+            )}
         </div>
     );
 };

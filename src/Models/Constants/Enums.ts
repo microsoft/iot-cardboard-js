@@ -223,7 +223,8 @@ export enum GlobeTheme {
 export enum ModelTypes {
     relationship = 'Relationship',
     untargeted = 'Untargeted',
-    interface = 'Interface'
+    interface = 'Interface',
+    component = 'Component'
 }
 
 export enum MultiLanguageSelectionType {

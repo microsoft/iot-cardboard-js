@@ -10,6 +10,7 @@ import {
 import { SET_OAT_PROPERTY_EDITOR_MODEL } from '../../Models/Constants/ActionTypes';
 import { IAction } from '../../Models/Constants/Interfaces';
 import { deepCopy } from '../../Models/Services/Utils';
+import { getModelPropertyListItemName } from './Utils';
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 import { ModelTypes } from '../../Models/Constants/Enums';
 
@@ -50,22 +51,22 @@ export const PropertiesModelSummary = ({
                 )}
             </div>
             <div className={propertyInspectorStyles.gridRow}>
-                <Text>{t('OATPropertyEditor.displayName')}</Text>
+                <Text>{t('type')}</Text>
+                <Text className={propertyInspectorStyles.typeTextField}>
+                    {model ? model['@type'] : ''}
+                </Text>
+            </div>
+            <div className={propertyInspectorStyles.gridRow}>
+                <Text>{t('id')}</Text>
                 <TextField
                     styles={textFieldStyes}
                     borderless
                     disabled={!model}
-                    value={
-                        model && model.displayName
-                            ? typeof model.displayName === 'string'
-                                ? model.displayName
-                                : Object.values(model.displayName)[0]
-                            : ''
-                    }
-                    placeholder={t('OATPropertyEditor.displayName')}
+                    value={model ? model['@id'] : ''}
+                    placeholder={t('id')}
                     onChange={(_ev, value) => {
                         const modelCopy = deepCopy(model);
-                        modelCopy.displayName = value;
+                        modelCopy['@id'] = value;
                         dispatch({
                             type: SET_OAT_PROPERTY_EDITOR_MODEL,
                             payload: modelCopy
@@ -73,17 +74,45 @@ export const PropertiesModelSummary = ({
                     }}
                 />
             </div>
+            {model && model.name && (
+                <div className={propertyInspectorStyles.gridRow}>
+                    <Text>{t('name')}</Text>
+                    <TextField
+                        styles={textFieldStyes}
+                        borderless
+                        disabled={!model}
+                        value={
+                            model && model.name
+                                ? getModelPropertyListItemName(model.name)
+                                : ''
+                        }
+                        placeholder={t('name')}
+                        onChange={(_ev, value) => {
+                            const modelCopy = deepCopy(model);
+                            modelCopy.name = value;
+                            dispatch({
+                                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                                payload: modelCopy
+                            });
+                        }}
+                    />
+                </div>
+            )}
             <div className={propertyInspectorStyles.gridRow}>
-                <Text>{t('OATPropertyEditor.assetId')}</Text>
+                <Text>{t('OATPropertyEditor.displayName')}</Text>
                 <TextField
                     styles={textFieldStyes}
                     borderless
                     disabled={!model}
-                    value={model ? model['@id'] : ''}
-                    placeholder={t('OATPropertyEditor.assetId')}
+                    value={
+                        model && model.displayName
+                            ? getModelPropertyListItemName(model.displayName)
+                            : ''
+                    }
+                    placeholder={t('OATPropertyEditor.displayName')}
                     onChange={(_ev, value) => {
                         const modelCopy = deepCopy(model);
-                        modelCopy['@id'] = value;
+                        modelCopy.displayName = value;
                         dispatch({
                             type: SET_OAT_PROPERTY_EDITOR_MODEL,
                             payload: modelCopy

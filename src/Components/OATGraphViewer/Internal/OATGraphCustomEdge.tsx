@@ -1,4 +1,4 @@
-import React, { useContext, useMemo, useState } from 'react';
+import React, { useContext, useMemo, useState, useEffect } from 'react';
 import { useTheme, Icon, FontSizes, ActionButton } from '@fluentui/react';
 import {
     getEdgeCenter,
@@ -52,6 +52,10 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
     const theme = useTheme();
     const nodes = useStoreState((state) => state.nodes);
     const edges = useStoreState((state) => state.edges);
+
+    useEffect(() => {
+        setNameText(getPropertyDisplayName(data));
+    }, [data]);
 
     const getPolygon = (vertexes) =>
         vertexes.map((v) => `${v.x},${v.y}`).join(' ');
@@ -427,18 +431,10 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
     const onNameChange = (evt) => {
         setNameText(evt.target.value);
 
-        const displayName =
-            typeof polygons.element.data.name === 'string'
-                ? evt.target.value
-                : {
-                      ...polygons.element.data.name,
-                      [Object.keys(data.name)[0]]: evt.target.value
-                  };
-
         const relationship = new DTDLRelationship(
             polygons.element.data.id,
             polygons.element.data.name,
-            displayName,
+            polygons.element.data.displayName,
             polygons.element.data.description,
             polygons.element.data.comment,
             polygons.element.data.writable,
@@ -458,43 +454,35 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
             setNameEditor(true);
             if (
                 polygons.element.data.type !== ModelTypes.relationship &&
-                polygons.element.data.type !== ModelTypes.untargeted
+                polygons.element.data.type !== ModelTypes.untargeted &&
+                polygons.element.data.type !== ModelTypes.component
             ) {
                 setCurrentNode(null);
+                dispatch({
+                    type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                    payload: null
+                });
+            } else {
+                const relationship = new DTDLRelationship(
+                    polygons.element.data.id,
+                    polygons.element.data.name,
+                    polygons.element.data.displayName,
+                    polygons.element.data.description,
+                    polygons.element.data.comment,
+                    polygons.element.data.writable,
+                    polygons.element.data.content
+                        ? polygons.element.data.content
+                        : [],
+                    polygons.element.data.target,
+                    polygons.element.data.maxMultiplicity
+                );
+
+                setCurrentNode(polygons.element.id);
                 dispatch({
                     type: SET_OAT_PROPERTY_EDITOR_MODEL,
                     payload: relationship
                 });
             }
-
-            const displayName =
-                typeof polygons.element.data.name === 'string'
-                    ? polygons.element.data.name
-                    : {
-                          ...polygons.element.data.name,
-                          [Object.keys(
-                              polygons.element.data.name
-                          )[0]]: Object.values(polygons.element.data.name)[0]
-                      };
-            const relationship = new DTDLRelationship(
-                polygons.element.data.id,
-                polygons.element.data.name,
-                displayName,
-                polygons.element.data.description,
-                polygons.element.data.comment,
-                polygons.element.data.writable,
-                polygons.element.data.content
-                    ? polygons.element.data.content
-                    : [],
-                polygons.element.data.target,
-                polygons.element.data.maxMultiplicity
-            );
-
-            setCurrentNode(polygons.element.id);
-            dispatch({
-                type: SET_OAT_PROPERTY_EDITOR_MODEL,
-                payload: relationship
-            });
         }
     };
 
@@ -515,7 +503,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
     };
 
     const edgePath = useMemo(() => {
-        return sourceX > targetX
+        return sourceX < targetX
             ? `M${polygons.edgePathSourceX},${polygons.edgePathSourceY} ${polygons.edgePathTargetX},${polygons.edgePathTargetY}`
             : `M${polygons.edgePathTargetX},${polygons.edgePathTargetY} ${polygons.edgePathSourceX},${polygons.edgePathSourceY}`;
     }, [polygons]);
@@ -585,18 +573,24 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                     requiredExtensions="http://www.w3.org/1999/xhtml"
                 >
                     <body>
-                        <TextField
-                            id="text"
-                            name="text"
-                            className={graphViewerStyles.textEdit}
-                            onChange={onNameChange}
-                            onClick={onNameClick}
-                            value={nameText}
-                            onKeyDown={onKeyDown}
-                            autoFocus
-                        />
+                        {data.type !== OATExtendHandleName && (
+                            <TextField
+                                id="text"
+                                name="text"
+                                className={graphViewerStyles.textEdit}
+                                onChange={onNameChange}
+                                onClick={onNameClick}
+                                value={nameText}
+                                onKeyDown={onKeyDown}
+                                autoFocus
+                            />
+                        )}
                         <ActionButton
-                            className={graphViewerStyles.edgeCancel}
+                            className={
+                                data.type !== OATExtendHandleName
+                                    ? graphViewerStyles.edgeCancel
+                                    : graphViewerStyles.extendCancel
+                            }
                             onClick={onDelete}
                         >
                             <Icon
@@ -612,7 +606,11 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                             />
                         </ActionButton>
                         <ActionButton
-                            className={graphViewerStyles.edgeCancel}
+                            className={
+                                data.type !== OATExtendHandleName
+                                    ? graphViewerStyles.edgeCancel
+                                    : graphViewerStyles.extendCancel
+                            }
                             onClick={onNameBlur}
                         >
                             <Icon

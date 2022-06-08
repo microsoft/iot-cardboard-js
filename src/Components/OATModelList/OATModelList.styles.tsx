@@ -18,7 +18,7 @@ export const getModelsStyles = () => {
             {
                 backgroundColor: theme.semanticColors.bodyBackground,
                 width: '107%',
-                height: '100%',
+                maxHeight: 'calc(100vh - 100px)',
                 overflowY: 'scroll',
                 right: '-7%'
             } as IStyle
@@ -52,7 +52,8 @@ export const getModelsStyles = () => {
         searchText: [
             classNames.searchText,
             {
-                marginRight: '2%'
+                marginLeft: '2%',
+                marginRight: '3%'
             } as IStyle
         ]
     });

@@ -798,6 +798,7 @@ export interface IOATTwinModelNodes {
     comment?: string;
     '@id': string;
     '@type': string;
+    name: string;
     displayName: string;
     contents: IOATTwinNodeContents[];
     extends?: string;
