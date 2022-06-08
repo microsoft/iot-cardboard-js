@@ -683,9 +683,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                 params.id = `${currentNodeIdRef.current}${currentHandleIdRef.current}${target.dataset.id}${relationshipAmount};${versionClassBase}`;
                 params.data.id = `${currentNodeIdRef.current}${currentHandleIdRef.current}${target.dataset.id}${relationshipAmount};${versionClassBase}`;
                 params.data.name = OATRelationshipHandleName
-                    ? `${t(
-                          'OATGraphViewer.relationships'
-                      )}_${relationshipAmount}`
+                    ? `${OATRelationshipHandleName}_${relationshipAmount}`
                     : '';
                 setElements((els) => addEdge(params, els));
             }
