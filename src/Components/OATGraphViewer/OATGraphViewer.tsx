@@ -691,7 +691,6 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
             const node = elements.find(
                 (element) => element.id === currentNodeIdRef.current
             );
-            const componentRelativePosition = 120;
 
             if (currentHandleIdRef.current === OATUntargetedRelationshipName) {
                 const name = `${node.data.name}:${OATUntargetedRelationshipName}`;
@@ -702,13 +701,15 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                     name: '',
                     displayName: ''
                 };
+                const reactFlowBounds = reactFlowWrapperRef.current.getBoundingClientRect();
+                const position = rfInstance.project({
+                    x: evt.clientX - reactFlowBounds.left,
+                    y: evt.clientY - reactFlowBounds.top
+                });
                 const newNode = {
                     id: id,
                     type: OATInterfaceType,
-                    position: {
-                        x: node.position.x + componentRelativePosition,
-                        y: node.position.y + componentRelativePosition
-                    },
+                    position: position,
                     data: {
                         name: name,
                         type: OATUntargetedRelationshipName,
