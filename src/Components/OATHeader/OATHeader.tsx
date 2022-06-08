@@ -116,6 +116,7 @@ const OATHeader = ({ elements, dispatch, state }: OATHeaderProps) => {
 
     const handleFileListChanged = async (files: Array<File>) => {
         const items = [];
+        let allValidFiles = true;
         if (files.length > 0) {
             for (const current of files) {
                 const newItem = {
@@ -129,16 +130,21 @@ const OATHeader = ({ elements, dispatch, state }: OATHeaderProps) => {
                     const validJson = await parseModel(content);
                     if (!validJson) {
                         items.push(newItem.content);
+                    } else {
+                        allValidFiles = false;
                     }
                 } catch (error) {
                     console.log(error);
                     alert(error);
+                    allValidFiles = false;
                 }
             }
-            dispatch({
-                type: SET_OAT_IMPORT_MODELS,
-                payload: items
-            });
+            if (allValidFiles) {
+                dispatch({
+                    type: SET_OAT_IMPORT_MODELS,
+                    payload: items
+                });
+            }
         }
     };
 

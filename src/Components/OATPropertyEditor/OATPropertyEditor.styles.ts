@@ -69,7 +69,8 @@ const classNames = {
     modalRowSpaceBetween: `${classPrefix}-modal-row-space-between`,
     modalTexField: `${classPrefix}-modal-tex-field`,
     booleanIcon: `${classPrefix}-boolean-icon`,
-    button: `${classPrefix}-button`
+    button: `${classPrefix}-button`,
+    typeTextField: `${classPrefix}-type-text-field`
 };
 
 export const getPropertyInspectorStyles = () => {
@@ -671,6 +672,14 @@ export const getPropertyInspectorStyles = () => {
             classNames.button,
             {
                 float: 'rigth'
+            } as IStyle
+        ],
+        typeTextField: [
+            classNames.typeTextField,
+            {
+                marginLeft: '10px',
+                height: '38px',
+                paddingTop: '12px'
             } as IStyle
         ]
     });
