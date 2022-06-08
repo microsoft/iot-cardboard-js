@@ -206,7 +206,6 @@ function SceneView(props: ISceneViewProps, ref) {
     const lastCameraPositionOnMouseMoveRef = useRef('');
     const initialCameraRadiusRef = useRef(0);
     const initialCameraTargetRef = useRef(new BABYLON.Vector3(0, 0, 0));
-    const zoomedCameraRadiusRef = useRef(0);
     const zoomedMeshesRef = useRef([]);
     const lastCameraPositionRef = useRef('');
 
@@ -351,7 +350,7 @@ function SceneView(props: ISceneViewProps, ref) {
                     const width = es_scaled.x;
                     const height = es_scaled.y;
                     const depth = es_scaled.z;
-                    let radius = Math.max(width, height, depth);
+                    const radius = Math.max(width, height, depth);
 
                     const center = someMeshFromTheArrayOfMeshes.getBoundingInfo()
                         .boundingBox.centerWorld;
@@ -403,15 +402,12 @@ function SceneView(props: ISceneViewProps, ref) {
                             }
                         });
                     } else {
-                        let reset = false;
-                        // ensure if zoom to mesh ids are set we return to the original radius
-                        if (!zoomMeshIds?.length) {
-                            radius = initialCameraRadiusRef.current;
-                            reset = true;
+                        // ensure if zoom to mesh ids are set we zoom to the meshes else reset
+                        if (zoomMeshIds?.length) {
+                            zoomCamera(radius, meshes, 30);
+                        } else {
+                            resetCamera();
                         }
-                        zoomedCameraRadiusRef.current = radius;
-                        // Here if the caller changed zoomToMeshIds - zoom the existing camera
-                        zoomCamera(radius, meshes, 30, reset);
                     }
                 }
             }
@@ -574,7 +570,6 @@ function SceneView(props: ISceneViewProps, ref) {
                         cameraRef.current.radius - CameraZoomMultiplier,
                         zoomedMeshesRef.current,
                         5,
-                        false,
                         true
                     );
                 } else {
@@ -582,7 +577,6 @@ function SceneView(props: ISceneViewProps, ref) {
                         cameraRef.current.radius + CameraZoomMultiplier,
                         zoomedMeshesRef.current,
                         5,
-                        false,
                         true
                     );
                 }
@@ -592,12 +586,7 @@ function SceneView(props: ISceneViewProps, ref) {
             if (meshIds?.length) {
                 createOrZoomCamera(meshIds);
             } else {
-                zoomCamera(
-                    initialCameraRadiusRef.current,
-                    sceneRef.current.meshes,
-                    30,
-                    true
-                );
+                resetCamera();
             }
         }
     }));
@@ -606,16 +595,13 @@ function SceneView(props: ISceneViewProps, ref) {
         radius: number,
         meshes: AbstractMesh[],
         frames: number,
-        reset?: boolean,
         zoomOnly?: boolean
     ) => {
         const targetFrom = cameraRef.current.target;
         const radiusFrom = cameraRef.current.radius;
         // Now move it immediately to where we want it and save the new position
         cameraRef.current.zoomOn(meshes, true);
-        const targetTo = reset
-            ? initialCameraTargetRef.current
-            : cameraRef.current.target;
+        const targetTo = cameraRef.current.target;
         const radiusTo = radius;
         // Reset camera back to original position
         cameraRef.current.target = targetFrom;
@@ -640,6 +626,39 @@ function SceneView(props: ISceneViewProps, ref) {
             'radius',
             30,
             frames,
+            radiusFrom,
+            radiusTo,
+            BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT,
+            ease
+        );
+    };
+
+    const resetCamera = () => {
+        const targetFrom = cameraRef.current.target;
+        const radiusFrom = cameraRef.current.radius;
+        const targetTo = initialCameraTargetRef.current;
+        const radiusTo = initialCameraRadiusRef.current;
+
+        const ease = new BABYLON.CubicEase();
+        ease.setEasingMode(BABYLON.EasingFunction.EASINGMODE_EASEINOUT);
+        BABYLON.Animation.CreateAndStartAnimation(
+            'an2',
+            cameraRef.current,
+            'target',
+            30,
+            30,
+            targetFrom,
+            targetTo,
+            BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT,
+            ease
+        );
+
+        BABYLON.Animation.CreateAndStartAnimation(
+            'an3',
+            cameraRef.current,
+            'radius',
+            30,
+            30,
             radiusFrom,
             radiusTo,
             BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT,
