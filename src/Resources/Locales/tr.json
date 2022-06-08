@@ -760,7 +760,10 @@
     "doYouWantToSaveChangesYouMadeTo": "Yaptığınız değişiklikleri kaydetmek istiyor musunuz?",
     "doYouWantToDelete": "Silmek istiyor musunuz?",
     "projectWithSameNameAlreadyExistsMessage?": "Aynı ada sahip proje zaten var, geçersiz kılmak ister misiniz?",
-    "overwrite": "Üzerine"
+    "overwrite": "Üzerine",
+    "errorInvalidJSON": "Geçersiz JSON",
+    "errorFileFormatNotSupported": "{{dosya}} biçimi desteklenmiyor",
+    "errorFormatNoSupported": "Dosya biçimi Desteklenmiyor"
   },
   "cameraControls": {
     "mouseControls": "Fare Kontrolleri",

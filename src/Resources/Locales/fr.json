@@ -760,7 +760,10 @@
     "doYouWantToSaveChangesYouMadeTo": "Voulez-vous enregistrer les modifications que vous avez apportées à",
     "doYouWantToDelete": "Voulez-vous supprimer",
     "projectWithSameNameAlreadyExistsMessage?": "Le projet portant le même nom existe déjà, souhaitez-vous le remplacer ?",
-    "overwrite": "écraser"
+    "overwrite": "écraser",
+    "errorInvalidJSON": "JSON non valide",
+    "errorFileFormatNotSupported": "Le format {{file}} n’est pas pris en charge",
+    "errorFormatNoSupported": "Format de fichier non pris en charge"
   },
   "cameraControls": {
     "mouseControls": "Contrôles de la souris",
