@@ -3,6 +3,7 @@
  */
 import produce from 'immer';
 import React, { useContext, useReducer } from 'react';
+import { defaultOnClickPopover } from '../../../../../../Models/Classes/3DVConfig';
 import ViewerConfigUtility from '../../../../../../Models/Classes/ViewerConfigUtility';
 import { getDebugLogger } from '../../../../../../Models/Services/Utils';
 import {
@@ -90,20 +91,26 @@ export const BehaviorFormContextReducer: (
             }
             case BehaviorFormContextActionType.FORM_BEHAVIOR_WIDGET_ADD_OR_UPDATE: {
                 // we assume there is only one popover
-                const draftVisual = draft.behaviorToEdit.visuals.filter(
+                const draftPopover = draft.behaviorToEdit.visuals.filter(
                     ViewerConfigUtility.isPopoverVisual
                 )[0];
-                if (!draftVisual) {
+                // add a popover visual if it doesn't exist
+                if (!draftPopover) {
                     logDebugConsole(
-                        'warn',
-                        'Unable to add widget to behavior. Popover visual not found. {visuals}',
+                        'debug',
+                        'Popover visual not found. Adding {visuals}',
                         draft.behaviorToEdit?.visuals
                     );
-                    break;
+                    AddOrUpdateListItemByFilter(
+                        draft.behaviorToEdit.visuals,
+                        defaultOnClickPopover,
+                        () => false,
+                        logDebugConsole
+                    );
                 }
 
                 AddOrUpdateListItemByFilter(
-                    draftVisual.widgets,
+                    draftPopover.widgets,
                     action.payload.widget,
                     (x) => x.id === action.payload.widget.id,
                     logDebugConsole
@@ -115,6 +122,14 @@ export const BehaviorFormContextReducer: (
                 RemoveWidgetFromBehaviorById(
                     draft.behaviorToEdit,
                     action.payload.widgetId,
+                    logDebugConsole
+                );
+                // remove any popoover that doesn't have any widgets
+                RemoveItemsFromListByFilter(
+                    draft.behaviorToEdit.visuals,
+                    (visual) =>
+                        ViewerConfigUtility.isPopoverVisual(visual) &&
+                        !visual.widgets?.length,
                     logDebugConsole
                 );
                 break;
