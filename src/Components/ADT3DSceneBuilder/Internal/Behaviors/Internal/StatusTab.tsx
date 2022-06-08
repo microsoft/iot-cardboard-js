@@ -43,7 +43,7 @@ interface IStatusTabProps {
     onValidityChange: (tabName: TabNames, state: IValidityState) => void;
 }
 const StatusTab: React.FC<IStatusTabProps> = ({ onValidityChange }) => {
-    const { t } = useTranslation();
+    // contexts
     const {
         adapter,
         config,
@@ -54,6 +54,9 @@ const StatusTab: React.FC<IStatusTabProps> = ({ onValidityChange }) => {
         behaviorFormDispatch,
         behaviorFormState
     } = useBehaviorFormContext();
+
+    // hooks
+    const { t } = useTranslation();
 
     const statusVisualToEdit =
         getStatusFromBehavior(behaviorFormState.behaviorToEdit) ||

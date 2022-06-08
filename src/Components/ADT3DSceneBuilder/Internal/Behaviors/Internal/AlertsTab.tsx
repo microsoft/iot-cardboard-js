@@ -52,7 +52,7 @@ const LOC_KEYS = {
 };
 
 const AlertsTab: React.FC = () => {
-    const { t } = useTranslation();
+    // contexts
     const {
         adapter,
         config,
@@ -63,6 +63,9 @@ const AlertsTab: React.FC = () => {
         behaviorFormDispatch,
         behaviorFormState
     } = useBehaviorFormContext();
+
+    // hooks
+    const { t } = useTranslation();
 
     const alertVisualStateRef = useRef<IExpressionRangeVisual>(
         getAlertFromBehavior(behaviorFormState.behaviorToEdit) ||

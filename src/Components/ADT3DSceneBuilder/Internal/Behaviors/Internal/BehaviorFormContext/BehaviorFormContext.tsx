@@ -41,37 +41,6 @@ export const BehaviorFormContextReducer: (
             (action as any).payload // ignore that payload doesn't always come since this is just a log
         );
         switch (action.type) {
-            case BehaviorFormContextActionType.FORM_BEHAVIOR_WIDGET_ADD_OR_UPDATE: {
-                // we assume there is only one popover
-                const draftVisual = draft.behaviorToEdit.visuals.filter(
-                    ViewerConfigUtility.isPopoverVisual
-                )[0];
-                if (!draftVisual) {
-                    logDebugConsole(
-                        'warn',
-                        'Unable to add widget to behavior. Popover visual not found. {visuals}',
-                        draft.behaviorToEdit?.visuals
-                    );
-                    break;
-                }
-
-                AddOrUpdateWidgetByFilter(
-                    draftVisual,
-                    action.payload.widget,
-                    (x) => x.id === action.payload.widget.id,
-                    logDebugConsole
-                );
-
-                break;
-            }
-            case BehaviorFormContextActionType.FORM_BEHAVIOR_WIDGET_REMOVE: {
-                RemoveWidgetFromBehaviorById(
-                    draft.behaviorToEdit,
-                    action.payload.widgetId,
-                    logDebugConsole
-                );
-                break;
-            }
             case BehaviorFormContextActionType.FORM_BEHAVIOR_ALERT_VISUAL_ADD_OR_UPDATE: {
                 AddOrUpdateVisualByFilter(
                     draft.behaviorToEdit,
@@ -102,6 +71,37 @@ export const BehaviorFormContextReducer: (
                 RemoveAllExpressionRangeVisualsByFilter(
                     draft.behaviorToEdit,
                     ViewerConfigUtility.isStatusColorVisual,
+                    logDebugConsole
+                );
+                break;
+            }
+            case BehaviorFormContextActionType.FORM_BEHAVIOR_WIDGET_ADD_OR_UPDATE: {
+                // we assume there is only one popover
+                const draftVisual = draft.behaviorToEdit.visuals.filter(
+                    ViewerConfigUtility.isPopoverVisual
+                )[0];
+                if (!draftVisual) {
+                    logDebugConsole(
+                        'warn',
+                        'Unable to add widget to behavior. Popover visual not found. {visuals}',
+                        draft.behaviorToEdit?.visuals
+                    );
+                    break;
+                }
+
+                AddOrUpdateWidgetByFilter(
+                    draftVisual,
+                    action.payload.widget,
+                    (x) => x.id === action.payload.widget.id,
+                    logDebugConsole
+                );
+
+                break;
+            }
+            case BehaviorFormContextActionType.FORM_BEHAVIOR_WIDGET_REMOVE: {
+                RemoveWidgetFromBehaviorById(
+                    draft.behaviorToEdit,
+                    action.payload.widgetId,
                     logDebugConsole
                 );
                 break;

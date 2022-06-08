@@ -1,9 +1,6 @@
 import {
     IBehavior,
-    IExpressionRangeType,
     IExpressionRangeVisual,
-    IPopoverVisual,
-    IVisual,
     IWidget
 } from '../../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 
@@ -31,54 +28,51 @@ export interface IBehaviorFormContextState {
  * The actions to update the state
  */
 export enum BehaviorFormContextActionType {
-    /** reverts all changes to the behavior back to it's initial state */
-    FORM_BEHAVIOR_RESET = 'FORM_BEHAVIOR_RESET',
-
-    FORM_BEHAVIOR_ID_SET = 'FORM_BEHAVIOR_ID_SET',
-    FORM_BEHAVIOR_DISPLAY_NAME_SET = 'FORM_BEHAVIOR_DISPLAY_NAME_SET',
-
-    FORM_BEHAVIOR_DATA_SOURCE_ADD_OR_UPDATE = 'FORM_BEHAVIOR_DATA_SOURCE_ADD_OR_UPDATE',
-    FORM_BEHAVIOR_DATA_SOURCE_REMOVE = 'FORM_BEHAVIOR_DATA_SOURCE_REMOVE',
-
-    FORM_BEHAVIOR_ALIAS_ADD_OR_UPDATE = 'FORM_BEHAVIOR_ALIAS_ADD_OR_UPDATE',
-    FORM_BEHAVIOR_ALIAS_REMOVE = 'FORM_BEHAVIOR_ALIAS_REMOVE',
-
-    FORM_BEHAVIOR_POPOVER_VISUAL_ADD_OR_UPDATE = 'FORM_BEHAVIOR_POPOVER_VISUAL_ADD_OR_UPDATE',
-    FORM_BEHAVIOR_POPOVER_VISUAL_REMOVE = 'FORM_BEHAVIOR_POPOVER_VISUAL_REMOVE',
-
-    FORM_BEHAVIOR_WIDGET_ADD_OR_UPDATE = 'FORM_BEHAVIOR_WIDGET_ADD_OR_UPDATE',
-    FORM_BEHAVIOR_WIDGET_REMOVE = 'FORM_BEHAVIOR_WIDGET_REMOVE',
-
+    /** add or update an alert visual */
     FORM_BEHAVIOR_ALERT_VISUAL_ADD_OR_UPDATE = 'FORM_BEHAVIOR_ALERT_VISUAL_ADD_OR_UPDATE',
+    /** remove the alert visual */
     FORM_BEHAVIOR_ALERT_VISUAL_REMOVE = 'FORM_BEHAVIOR_ALERT_VISUAL_REMOVE',
 
+    /** add or update a twin alias */
+    FORM_BEHAVIOR_ALIAS_ADD_OR_UPDATE = 'FORM_BEHAVIOR_ALIAS_ADD_OR_UPDATE',
+    /** remove a twin alias */
+    FORM_BEHAVIOR_ALIAS_REMOVE = 'FORM_BEHAVIOR_ALIAS_REMOVE',
+
+    /** add or update a data source */
+    FORM_BEHAVIOR_DATA_SOURCE_ADD_OR_UPDATE = 'FORM_BEHAVIOR_DATA_SOURCE_ADD_OR_UPDATE',
+    /** remove a data source */
+    FORM_BEHAVIOR_DATA_SOURCE_REMOVE = 'FORM_BEHAVIOR_DATA_SOURCE_REMOVE',
+
+    /** set the behavior name */
+    FORM_BEHAVIOR_DISPLAY_NAME_SET = 'FORM_BEHAVIOR_DISPLAY_NAME_SET',
+    /** set the behavior id */
+    FORM_BEHAVIOR_ID_SET = 'FORM_BEHAVIOR_ID_SET',
+
+    // /** add or update a popover visual */
+    // FORM_BEHAVIOR_POPOVER_VISUAL_ADD_OR_UPDATE = 'FORM_BEHAVIOR_POPOVER_VISUAL_ADD_OR_UPDATE',
+    // /** remove a popover visual */
+    // FORM_BEHAVIOR_POPOVER_VISUAL_REMOVE = 'FORM_BEHAVIOR_POPOVER_VISUAL_REMOVE',
+    /** reverts all changes to the behavior back to it's initial state */
+    FORM_BEHAVIOR_RESET = 'FORM_BEHAVIOR_RESET',
+    /** Add or update a status visual */
     FORM_BEHAVIOR_STATUS_VISUAL_ADD_OR_UPDATE = 'FORM_BEHAVIOR_STATUS_VISUAL_ADD_OR_UPDATE',
-    FORM_BEHAVIOR_STATUS_VISUAL_REMOVE = 'FORM_BEHAVIOR_STATUS_VISUAL_REMOVE'
+    /** remove a status visual */
+    FORM_BEHAVIOR_STATUS_VISUAL_REMOVE = 'FORM_BEHAVIOR_STATUS_VISUAL_REMOVE',
+    /** add or update a widget */
+    FORM_BEHAVIOR_WIDGET_ADD_OR_UPDATE = 'FORM_BEHAVIOR_WIDGET_ADD_OR_UPDATE',
+    /** remove a widget */
+    FORM_BEHAVIOR_WIDGET_REMOVE = 'FORM_BEHAVIOR_WIDGET_REMOVE'
 }
 
 /** The actions to update the state */
 export type BehaviorFormContextAction =
-    // OPERATIONS
+    // ALERTS
     | {
-          type: BehaviorFormContextActionType.FORM_BEHAVIOR_RESET;
-      }
-    // BEHAVIOR PROPERTIES
-    | {
-          type: BehaviorFormContextActionType.FORM_BEHAVIOR_ID_SET;
-          payload: { id: string };
+          type: BehaviorFormContextActionType.FORM_BEHAVIOR_ALERT_VISUAL_ADD_OR_UPDATE;
+          payload: { visual: IExpressionRangeVisual };
       }
     | {
-          type: BehaviorFormContextActionType.FORM_BEHAVIOR_DISPLAY_NAME_SET;
-          payload: { name: string };
-      }
-    // DATA SOURCES
-    | {
-          type: BehaviorFormContextActionType.FORM_BEHAVIOR_DATA_SOURCE_ADD_OR_UPDATE;
-          payload: { source: string };
-      }
-    | {
-          type: BehaviorFormContextActionType.FORM_BEHAVIOR_DATA_SOURCE_REMOVE;
-          payload: { source: string };
+          type: BehaviorFormContextActionType.FORM_BEHAVIOR_ALERT_VISUAL_REMOVE;
       }
     // ALIASES
     | {
@@ -89,21 +83,35 @@ export type BehaviorFormContextAction =
           type: BehaviorFormContextActionType.FORM_BEHAVIOR_ALIAS_REMOVE;
           payload: { alias: string };
       }
+    // DATA SOURCES
+    | {
+          type: BehaviorFormContextActionType.FORM_BEHAVIOR_DATA_SOURCE_ADD_OR_UPDATE;
+          payload: { source: string };
+      }
+    | {
+          type: BehaviorFormContextActionType.FORM_BEHAVIOR_DATA_SOURCE_REMOVE;
+          payload: { source: string };
+      }
+    // BEHAVIOR PROPERTIES
+    | {
+          type: BehaviorFormContextActionType.FORM_BEHAVIOR_DISPLAY_NAME_SET;
+          payload: { name: string };
+      }
+    | {
+          type: BehaviorFormContextActionType.FORM_BEHAVIOR_ID_SET;
+          payload: { id: string };
+      }
     // POPOVER
+    // | {
+    //       type: BehaviorFormContextActionType.FORM_BEHAVIOR_POPOVER_VISUAL_ADD_OR_UPDATE;
+    //       payload: { visual: IPopoverVisual };
+    //   }
+    // | {
+    //       type: BehaviorFormContextActionType.FORM_BEHAVIOR_POPOVER_VISUAL_REMOVE;
+    //   }
+    // BEHAVIOR OPERATIONS
     | {
-          type: BehaviorFormContextActionType.FORM_BEHAVIOR_POPOVER_VISUAL_ADD_OR_UPDATE;
-          payload: { visual: IPopoverVisual };
-      }
-    | {
-          type: BehaviorFormContextActionType.FORM_BEHAVIOR_POPOVER_VISUAL_REMOVE;
-      }
-    // ALERTS
-    | {
-          type: BehaviorFormContextActionType.FORM_BEHAVIOR_ALERT_VISUAL_ADD_OR_UPDATE;
-          payload: { visual: IExpressionRangeVisual };
-      }
-    | {
-          type: BehaviorFormContextActionType.FORM_BEHAVIOR_ALERT_VISUAL_REMOVE;
+          type: BehaviorFormContextActionType.FORM_BEHAVIOR_RESET;
       }
     // STATUS
     | {
