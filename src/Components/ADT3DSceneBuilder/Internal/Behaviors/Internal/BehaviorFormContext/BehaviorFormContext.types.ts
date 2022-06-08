@@ -34,7 +34,7 @@ export enum BehaviorFormContextActionType {
     FORM_BEHAVIOR_ALERT_VISUAL_REMOVE = 'FORM_BEHAVIOR_ALERT_VISUAL_REMOVE',
 
     /** add or update a twin alias */
-    FORM_BEHAVIOR_ALIAS_ADD_OR_UPDATE = 'FORM_BEHAVIOR_ALIAS_ADD_OR_UPDATE',
+    FORM_BEHAVIOR_ALIAS_ADD = 'FORM_BEHAVIOR_ALIAS_ADD',
     /** remove a twin alias */
     FORM_BEHAVIOR_ALIAS_REMOVE = 'FORM_BEHAVIOR_ALIAS_REMOVE',
 
@@ -76,7 +76,7 @@ export type BehaviorFormContextAction =
       }
     // ALIASES
     | {
-          type: BehaviorFormContextActionType.FORM_BEHAVIOR_ALIAS_ADD_OR_UPDATE;
+          type: BehaviorFormContextActionType.FORM_BEHAVIOR_ALIAS_ADD;
           payload: { alias: string };
       }
     | {

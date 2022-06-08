@@ -4,10 +4,7 @@
 import produce from 'immer';
 import React, { useContext, useReducer } from 'react';
 import ViewerConfigUtility from '../../../../../../Models/Classes/ViewerConfigUtility';
-import {
-    deepCopy,
-    getDebugLogger
-} from '../../../../../../Models/Services/Utils';
+import { getDebugLogger } from '../../../../../../Models/Services/Utils';
 import {
     IBehaviorFormContext,
     IBehaviorFormContextState,
@@ -16,9 +13,8 @@ import {
     IBehaviorFormContextProviderProps
 } from './BehaviorFormContext.types';
 import {
-    AddOrUpdateVisualByFilter,
-    AddOrUpdateWidgetByFilter,
-    RemoveAllExpressionRangeVisualsByFilter,
+    AddOrUpdateListItemByFilter,
+    RemoveItemsFromListByFilter,
     RemoveWidgetFromBehaviorById
 } from './BehaviorFormContextUtility';
 
@@ -42,8 +38,8 @@ export const BehaviorFormContextReducer: (
         );
         switch (action.type) {
             case BehaviorFormContextActionType.FORM_BEHAVIOR_ALERT_VISUAL_ADD_OR_UPDATE: {
-                AddOrUpdateVisualByFilter(
-                    draft.behaviorToEdit,
+                AddOrUpdateListItemByFilter(
+                    draft.behaviorToEdit.visuals,
                     action.payload.visual,
                     ViewerConfigUtility.isAlertVisual,
                     logDebugConsole
@@ -51,16 +47,28 @@ export const BehaviorFormContextReducer: (
                 break;
             }
             case BehaviorFormContextActionType.FORM_BEHAVIOR_ALERT_VISUAL_REMOVE: {
-                RemoveAllExpressionRangeVisualsByFilter(
-                    draft.behaviorToEdit,
+                RemoveItemsFromListByFilter(
+                    draft.behaviorToEdit.visuals,
                     ViewerConfigUtility.isAlertVisual,
                     logDebugConsole
                 );
                 break;
             }
+            case BehaviorFormContextActionType.FORM_BEHAVIOR_ALIAS_ADD: {
+                const set = new Set<string>(draft.behaviorToEdit.twinAliases);
+                set.add(action.payload.alias);
+                draft.behaviorToEdit.twinAliases = Array.from(set);
+                break;
+            }
+            case BehaviorFormContextActionType.FORM_BEHAVIOR_ALIAS_REMOVE: {
+                const set = new Set<string>(draft.behaviorToEdit.twinAliases);
+                set.delete(action.payload.alias);
+                draft.behaviorToEdit.twinAliases = Array.from(set);
+                break;
+            }
             case BehaviorFormContextActionType.FORM_BEHAVIOR_STATUS_VISUAL_ADD_OR_UPDATE: {
-                AddOrUpdateVisualByFilter(
-                    draft.behaviorToEdit,
+                AddOrUpdateListItemByFilter(
+                    draft.behaviorToEdit.visuals,
                     action.payload.visual,
                     ViewerConfigUtility.isStatusColorVisual,
                     logDebugConsole
@@ -68,8 +76,8 @@ export const BehaviorFormContextReducer: (
                 break;
             }
             case BehaviorFormContextActionType.FORM_BEHAVIOR_STATUS_VISUAL_REMOVE: {
-                RemoveAllExpressionRangeVisualsByFilter(
-                    draft.behaviorToEdit,
+                RemoveItemsFromListByFilter(
+                    draft.behaviorToEdit.visuals,
                     ViewerConfigUtility.isStatusColorVisual,
                     logDebugConsole
                 );
@@ -89,8 +97,8 @@ export const BehaviorFormContextReducer: (
                     break;
                 }
 
-                AddOrUpdateWidgetByFilter(
-                    draftVisual,
+                AddOrUpdateListItemByFilter(
+                    draftVisual.widgets,
                     action.payload.widget,
                     (x) => x.id === action.payload.widget.id,
                     logDebugConsole
