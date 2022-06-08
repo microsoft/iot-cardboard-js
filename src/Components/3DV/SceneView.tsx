@@ -345,9 +345,9 @@ function SceneView(props: ISceneViewProps, ref) {
 
                     const es = someMeshFromTheArrayOfMeshes.getBoundingInfo()
                         .boundingBox.extendSize;
-                    const es_scaled = es.scale(
-                        zoomMeshIds && zoomMeshIds.length > 10 ? 5 : 3
-                    );
+                    // if zooming to an element set scale a little further out than if its the whole model
+                    const scaleFactor = zoomMeshIds?.length ? 5 : 3;
+                    const es_scaled = es.scale(scaleFactor);
                     const width = es_scaled.x;
                     const height = es_scaled.y;
                     const depth = es_scaled.z;
@@ -381,6 +381,9 @@ function SceneView(props: ISceneViewProps, ref) {
                         cameraRef.current.wheelPrecision =
                             (3 * 40) / bbox.boundingSphere.radius;
 
+                        // zoomOn zooms on a mesh to be at the min distance where we could see it fully in the current viewport.
+                        // This means is won't necessarily center the model,
+                        // so storing the camera target so then when we reset it will be the same as when we first render
                         initialCameraTargetRef.current = deepCopy(
                             cameraRef.current.target
                         );
