@@ -489,7 +489,8 @@
       "customExpression": "Özel (gelişmiş)",
       "dropdownPlaceholder": "Bir mülk seçin",
       "toggleLabel": "İfade modu",
-      "none": "Hiç kimse"
+      "none": "Hiç kimse",
+      "clearButtonText": "Berrak"
     },
     "numericExpressionPlaceholder": "Bir sayıyı değerlendiren bir ifade girin",
     "behaviorId": "Davranış Kimliği",

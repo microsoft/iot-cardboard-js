@@ -489,7 +489,8 @@
       "customExpression": "Пользовательский (расширенный)",
       "dropdownPlaceholder": "Выберите недвижимость",
       "toggleLabel": "Режим выражения",
-      "none": "Никакой"
+      "none": "Никакой",
+      "clearButtonText": "Ясный"
     },
     "numericExpressionPlaceholder": "Введите выражение, вычисляющее число",
     "behaviorId": "Идентификатор поведения",
