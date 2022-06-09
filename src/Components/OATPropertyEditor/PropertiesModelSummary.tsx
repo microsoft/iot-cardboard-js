@@ -19,6 +19,7 @@ import {
     OATNameLengthLimit,
     OATIdLengthLimit
 } from '../../Models/Constants/Constants';
+import { FormBody } from './Constants';
 
 type IPropertiesModelSummary = {
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
@@ -104,7 +105,7 @@ export const PropertiesModelSummary = ({
                         iconProps={{ iconName: 'info' }}
                         title={t('OATPropertyEditor.info')}
                         onClick={() => {
-                            setModalBody('FormRootModel');
+                            setModalBody(FormBody.rootModel);
                             setModalOpen(true);
                         }}
                     />

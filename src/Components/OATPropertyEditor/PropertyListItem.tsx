@@ -19,6 +19,7 @@ import {
     getModelPropertyCollectionName,
     getModelPropertyListItemName
 } from './Utils';
+import { FormBody } from './Constants';
 
 type IPropertyListItem = {
     index?: number;
@@ -141,7 +142,7 @@ export const PropertyListItem = ({
                     onClick={() => {
                         setCurrentPropertyIndex(index);
                         setModalOpen(true);
-                        setModalBody('formProperty');
+                        setModalBody(FormBody.property);
                     }}
                 />
                 <IconButton

@@ -440,6 +440,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
         if (evt.target.value.length <= OATNameLengthLimit) {
             setNameLengthError(null);
             if (DTDLNameRegex.test(evt.target.value)) {
+                setNameValidCharactersError(null);
                 setNameText(evt.target.value);
                 const relationship = new DTDLRelationship(
                     polygons.element.data.id,
