@@ -761,7 +761,6 @@ export interface IADT3DViewerProps extends BaseComponentProps {
 
 export interface IADT3DViewerMode {
     objectColor: IADTObjectColor;
-    isWireframe: boolean;
     style: ViewerObjectStyle;
     background: IADTBackgroundColor;
 }

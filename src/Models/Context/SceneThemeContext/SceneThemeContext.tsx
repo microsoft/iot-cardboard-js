@@ -172,7 +172,6 @@ const buildPersistedTheme = (
     );
     return {
         background: background,
-        isWireframe: state.objectStyle === ViewerObjectStyle.Wireframe,
         objectColor: objectColor,
         style: state.objectStyle
     };
