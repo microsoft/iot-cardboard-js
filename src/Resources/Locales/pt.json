@@ -760,7 +760,11 @@
     "doYouWantToSaveChangesYouMadeTo": "Você quer salvar as mudanças que você fez para",
     "doYouWantToDelete": "Você quer excluir",
     "projectWithSameNameAlreadyExistsMessage?": "Projeto com mesmo nome já existe, você gostaria de substituí-lo?",
-    "overwrite": "sobrescrever"
+    "overwrite": "sobrescrever",
+    "errorInvalidJSON": "JSON inválido",
+    "errorFileFormatNotSupported": "{{file}} formato não suportado",
+    "errorFormatNoSupported": "Formato de arquivo não suportado",
+    "errorIssueWithFile": "Problema com {{fileName}}: {{error}}"
   },
   "cameraControls": {
     "mouseControls": "Controles do mouse",

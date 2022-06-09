@@ -76,7 +76,8 @@ export const getEditorPageStyles = () => {
             classNames.errorHandlingWrapperErrorMessage,
             {
                 fontSize: '14px',
-                marginBottom: '20px'
+                marginBottom: '20px',
+                whiteSpace: 'pre-line'
             } as IStyle
         ],
         errorPageHeader: [

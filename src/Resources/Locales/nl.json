@@ -760,7 +760,11 @@
     "doYouWantToSaveChangesYouMadeTo": "Wilt u de wijzigingen opslaan die u hebt aangebracht in",
     "doYouWantToDelete": "Wilt u verwijderen",
     "projectWithSameNameAlreadyExistsMessage?": "Project met dezelfde naam bestaat al, wil je het overschrijven?",
-    "overwrite": "overschrijven"
+    "overwrite": "overschrijven",
+    "errorInvalidJSON": "Ongeldige JSON",
+    "errorFileFormatNotSupported": "{{file}} indeling niet ondersteund",
+    "errorFormatNoSupported": "Bestandsindeling niet ondersteund",
+    "errorIssueWithFile": "Probleem met {{bestandsnaam}}: {{error}}"
   },
   "cameraControls": {
     "mouseControls": "Muisbediening",

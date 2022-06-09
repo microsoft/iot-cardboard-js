@@ -760,7 +760,11 @@
     "doYouWantToSaveChangesYouMadeTo": "Вы хотите сохранить изменения, внесенные в",
     "doYouWantToDelete": "Вы хотите удалить",
     "projectWithSameNameAlreadyExistsMessage?": "Проект с таким названием уже существует, хотите его переопределить?",
-    "overwrite": "перезаписать"
+    "overwrite": "перезаписать",
+    "errorInvalidJSON": "Недопустимый JSON",
+    "errorFileFormatNotSupported": "Формат {{file}} не поддерживается",
+    "errorFormatNoSupported": "Формат файла не поддерживается",
+    "errorIssueWithFile": "Проблема с {{имя_файла}}: {{ошибка}}"
   },
   "cameraControls": {
     "mouseControls": "Элементы управления мышью",

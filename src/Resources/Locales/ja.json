@@ -760,7 +760,11 @@
     "doYouWantToSaveChangesYouMadeTo": "行った変更を保存しますか",
     "doYouWantToDelete": "削除しますか",
     "projectWithSameNameAlreadyExistsMessage?": "同じ名前のプロジェクトが既に存在しますが、上書きしますか?",
-    "overwrite": "上書き"
+    "overwrite": "上書き",
+    "errorInvalidJSON": "無効な JSON",
+    "errorFileFormatNotSupported": "{{ファイル}}形式はサポートされていません",
+    "errorFormatNoSupported": "サポートされていないファイル形式",
+    "errorIssueWithFile": "{{ファイル名}}に関する問題: {{エラー}}"
   },
   "cameraControls": {
     "mouseControls": "マウスコントロール",
