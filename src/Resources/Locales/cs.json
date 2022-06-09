@@ -860,7 +860,8 @@
     "errorDisplayName": "Zobrazovaný název nesmí překročit 64 znaků",
     "errorDescription": "Popis nesmí překročit 512 znaků",
     "errorId": "Id nesmí překročit 2048 znaků",
-    "errorName": "Název může obsahovat pouze znaky a-z, A-Z, 0-9 a podtržítko"
+    "errorName": "Název může obsahovat pouze znaky a-z, A-Z, 0-9 a podtržítko",
+    "errorNameLength": "Název nesmí překročit 64 znaků"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Zpráva o chybě",

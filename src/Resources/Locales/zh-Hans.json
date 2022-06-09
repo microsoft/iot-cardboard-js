@@ -860,7 +860,8 @@
     "errorDisplayName": "显示名称不得超过 64 个字符",
     "errorDescription": "描述不得超过 512 个字符",
     "errorId": "Id 不得超过 2048 个字符",
-    "errorName": "名称只能包含字符 a-z、A-Z、0-9 和下划线"
+    "errorName": "名称只能包含字符 a-z、A-Z、0-9 和下划线",
+    "errorNameLength": "名称不得超过 64 个字符"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "错误信息",
