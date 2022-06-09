@@ -88,18 +88,17 @@ const CardboardListCallout = <T extends unknown>({
                 {description && (
                     <Text className={styles.description}>{description}</Text>
                 )}
-                {listItems.length > 0 && (
-                    <SearchBox
-                        {...(searchBoxDataTestId && {
-                            'data-testid': searchBoxDataTestId
-                        })}
-                        placeholder={filterPlaceholder ?? t('search')}
-                        onChange={(_event, value) => {
-                            setSearchText(value);
-                            filterListItems(value);
-                        }}
-                    />
-                )}
+
+                <SearchBox
+                    {...(searchBoxDataTestId && {
+                        'data-testid': searchBoxDataTestId
+                    })}
+                    placeholder={filterPlaceholder ?? t('search')}
+                    onChange={(_event, value) => {
+                        setSearchText(value);
+                        filterListItems(value);
+                    }}
+                />
 
                 {isListLoading ? (
                     <Spinner size={SpinnerSize.xSmall} />
