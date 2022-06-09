@@ -779,7 +779,9 @@
     "description": "묘사",
     "relationships": "관계",
     "inheritances": "상속",
-    "components": "구성 요소"
+    "components": "구성 요소",
+    "errorDisplayName": "표시 이름은 64자를 초과할 수 없습니다.",
+    "errorId": "ID는 2048자를 초과할 수 없습니다."
   },
   "OATPropertyEditor": {
     "displayName": "표시 이름",
@@ -849,7 +851,12 @@
     "delete": "삭제하다",
     "multiLanguage": "다국어",
     "region": "부위",
-    "singleLanguage": "단일 언어"
+    "singleLanguage": "단일 언어",
+    "errorComment": "댓글은 512자를 초과할 수 없습니다.",
+    "errorDisplayName": "표시 이름은 64자를 초과할 수 없습니다.",
+    "errorDescription": "설명은 512자를 초과할 수 없습니다.",
+    "errorId": "ID는 2048자를 초과할 수 없습니다.",
+    "errorName": "이름에는 a-z, A-Z, 0-9 및 밑줄 문자만 포함될 수 있습니다."
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "오류 메시지",

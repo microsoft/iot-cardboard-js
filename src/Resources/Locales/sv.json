@@ -779,7 +779,9 @@
     "description": "Beskrivning",
     "relationships": "Relationer",
     "inheritances": "Arv",
-    "components": "Komponenter"
+    "components": "Komponenter",
+    "errorDisplayName": "Visningsnamn får inte överstiga 64 tecken",
+    "errorId": "Id får inte överstiga 2048 rödingar"
   },
   "OATPropertyEditor": {
     "displayName": "Visningsnamn",
@@ -849,7 +851,12 @@
     "delete": "Ta bort",
     "multiLanguage": "flera språk",
     "region": "Region",
-    "singleLanguage": "Ett enda språk"
+    "singleLanguage": "Ett enda språk",
+    "errorComment": "Kommentar får inte överstiga 512 rödingar",
+    "errorDisplayName": "Visningsnamn får inte överstiga 64 tecken",
+    "errorDescription": "Beskrivning får inte överstiga 512 rödingar",
+    "errorId": "Id får inte överstiga 2048 rödingar",
+    "errorName": "Namnet får bara innehålla tecknen a-z, A-Z, 0-9 och understreck"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Felmeddelande",

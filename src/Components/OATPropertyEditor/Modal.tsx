@@ -44,7 +44,6 @@ export const Modal = ({
     const getModalBody = () => {
         switch (modalBody) {
             case FromBody.property:
-            default:
                 return (
                     <FormUpdateProperty
                         setModalOpen={setModalOpen}
@@ -84,6 +83,8 @@ export const Modal = ({
                         languages={languages}
                     />
                 );
+            default:
+                <></>;
         }
     };
 
