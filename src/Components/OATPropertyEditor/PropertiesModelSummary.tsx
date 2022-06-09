@@ -14,7 +14,9 @@ import { getModelPropertyListItemName } from './Utils';
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 import { ModelTypes } from '../../Models/Constants/Enums';
 import {
+    DTDLNameRegex,
     OATDisplayNameLengthLimit,
+    OATNameLengthLimit,
     OATIdLengthLimit
 } from '../../Models/Constants/Constants';
 
@@ -36,6 +38,10 @@ export const PropertiesModelSummary = ({
     const iconWrapStyles = geIconWrapFitContentStyles();
     const generalPropertiesWrapStyles = getGeneralPropertiesWrapStyles();
     const textFieldStyes = getPropertyEditorTextFieldStyles();
+    const [nameLengthError, setNameLengthError] = useState(false);
+    const [nameValidCharactersError, setNameValidCharactersError] = useState(
+        false
+    );
     const [displayNameError, setDisplayNameError] = useState(null);
     const [idError, setIdError] = useState(null);
     const { model } = state;
@@ -52,6 +58,25 @@ export const PropertiesModelSummary = ({
             setDisplayNameError(null);
         } else {
             setDisplayNameError(true);
+        }
+    };
+
+    const handleNameChange = (value) => {
+        if (value.length <= OATNameLengthLimit) {
+            setNameLengthError(null);
+            if (DTDLNameRegex.test(value)) {
+                setNameValidCharactersError(null);
+                const modelCopy = deepCopy(model);
+                modelCopy.name = value;
+                dispatch({
+                    type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                    payload: modelCopy
+                });
+            } else {
+                setNameValidCharactersError(true);
+            }
+        } else {
+            setNameLengthError(true);
         }
     };
 
@@ -119,13 +144,15 @@ export const PropertiesModelSummary = ({
                         }
                         placeholder={t('name')}
                         onChange={(_ev, value) => {
-                            const modelCopy = deepCopy(model);
-                            modelCopy.name = value;
-                            dispatch({
-                                type: SET_OAT_PROPERTY_EDITOR_MODEL,
-                                payload: modelCopy
-                            });
+                            handleNameChange(value);
                         }}
+                        errorMessage={
+                            nameLengthError
+                                ? t('OATPropertyEditor.errorNameLength')
+                                : nameValidCharactersError
+                                ? t('OATPropertyEditor.errorName')
+                                : ''
+                        }
                     />
                 </div>
             )}

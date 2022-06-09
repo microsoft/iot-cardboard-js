@@ -197,6 +197,7 @@ export const OATInterfaceType = 'Interface';
 export const OATCommentLengthLimit = 512;
 export const OATDescriptionLengthLimit = 512;
 export const OATDisplayNameLengthLimit = 64;
+export const OATNameLengthLimit = 64;
 export const OATIdLengthLimit = 2048;
 
 export const SelectedCameraInteractionKey = 'cb-camera-interaction';

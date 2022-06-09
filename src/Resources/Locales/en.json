@@ -808,6 +808,7 @@
         "errorDescription": "Description may no exceed 512 chars",
         "errorId": "Id may no exceed 2048 chars",
         "errorName": "Name may only contain the characters a-z, A-Z, 0-9, and underscore",
+        "errorNameLength": "Name may no exceed 64 chars",
         "errorRepeatedEnumValue": "An enum-value with the same value already exists",
         "errorRepeatedPropertyName": "A property with the same name already exists",
         "float": "float",
