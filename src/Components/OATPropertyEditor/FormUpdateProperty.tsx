@@ -80,7 +80,11 @@ export const FormUpdateProperty = ({
             : null;
 
     const [comment, setComment] = useState(null);
-    const [description, setDescription] = useState(null);
+    const [description, setDescription] = useState(
+        activeNestedProperty
+            ? activeNestedProperty.description
+            : activeProperty.description
+    );
     const [displayName, setDisplayName] = useState(
         getModelPropertyListItemName(
             activeNestedProperty
@@ -95,7 +99,11 @@ export const FormUpdateProperty = ({
     const [writable, setWritable] = useState(true);
     const [semanticType, setSemanticType] = useState(null);
     const [unit, setUnit] = useState(null);
-    const [id, setId] = useState(null);
+    const [id, setId] = useState(
+        activeNestedProperty
+            ? activeNestedProperty['@id']
+            : activeProperty['@id']
+    );
     const [languageSelection, setLanguageSelection] = useState(
         singleLanguageOptionValue
     );
@@ -324,6 +332,7 @@ export const FormUpdateProperty = ({
                 <TextField
                     placeholder={t('OATPropertyEditor.id')}
                     onChange={(_ev, value) => setId(value)}
+                    value={id}
                 />
             </div>
 
@@ -471,6 +480,7 @@ export const FormUpdateProperty = ({
                             'OATPropertyEditor.modalTextInputPlaceHolderDescription'
                         )}
                         onChange={(_ev, value) => setDescription(value)}
+                        value={description}
                     />
                 </div>
             )}
@@ -580,6 +590,7 @@ export const FormUpdateProperty = ({
                         'OATPropertyEditor.modalTextInputPlaceHolder'
                     )}
                     onChange={(_ev, value) => setComment(value)}
+                    value={comment}
                 />
             </div>
 
