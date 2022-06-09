@@ -724,14 +724,14 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                             element.source &&
                             element.source === currentNodeIdRef.current &&
                             element.id ===
-                                `${currentNodeIdRef.current}${currentHandleIdRef.current}${target.dataset.id}${relationshipAmount};${versionClassBase}`
+                                `${currentNodeIdRef.current}${currentHandleIdRef.current}${relationshipAmount};${versionClassBase}`
                     )
                 ) {
                     relationshipAmount++;
                 }
                 params.target = target.dataset.id;
-                params.id = `${currentNodeIdRef.current}${currentHandleIdRef.current}${target.dataset.id}${relationshipAmount};${versionClassBase}`;
-                params.data.id = `${currentNodeIdRef.current}${currentHandleIdRef.current}${target.dataset.id}${relationshipAmount};${versionClassBase}`;
+                params.id = `${currentNodeIdRef.current}${currentHandleIdRef.current}${relationshipAmount};${versionClassBase}`;
+                params.data.id = `${currentNodeIdRef.current}${currentHandleIdRef.current}${relationshipAmount};${versionClassBase}`;
                 params.data.name = OATRelationshipHandleName
                     ? `${OATRelationshipHandleName}_${relationshipAmount}`
                     : '';
@@ -799,9 +799,24 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                     }
                 };
                 params.target = id;
-                params.id = `${currentNodeIdRef.current}${currentHandleIdRef.current}${id}`;
-                params.data.id = `${currentNodeIdRef.current}${currentHandleIdRef.current}${id}`;
+                let relationshipAmount = 0;
+                while (
+                    elements.some(
+                        (element) =>
+                            element.source &&
+                            element.source === currentNodeIdRef.current &&
+                            element.id ===
+                                `${currentNodeIdRef.current}${currentHandleIdRef.current}${relationshipAmount};${versionClassBase}`
+                    )
+                ) {
+                    relationshipAmount++;
+                }
+                params.id = `${currentNodeIdRef.current}${currentHandleIdRef.current}${relationshipAmount};${versionClassBase}`;
+                params.data.id = `${currentNodeIdRef.current}${currentHandleIdRef.current}${relationshipAmount};${versionClassBase}`;
                 params.data.type = currentHandleIdRef.current;
+                params.data.name = OATRelationshipHandleName
+                    ? `${OATRelationshipHandleName}_${relationshipAmount}`
+                    : '';
                 setElements((es) => [...addEdge(params, es), newNode]);
             }
         }
