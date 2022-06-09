@@ -135,6 +135,7 @@ const OATHeader = ({ elements, dispatch, state }: OATHeaderProps) => {
         const items = [];
         let allValidFiles = true;
         if (files.length > 0) {
+            const filesErrors = [];
             for (const current of files) {
                 const newItem = {
                     name: current.name,
@@ -152,19 +153,25 @@ const OATHeader = ({ elements, dispatch, state }: OATHeaderProps) => {
                         items.push(newItem.content);
                     } else {
                         allValidFiles = false;
-                        dispatch({
-                            type: SET_OAT_ERROR,
-                            payload: {
-                                title: t('OATHeader.errorInvalidJSON'),
-                                message: validJson
-                            }
-                        });
+                        filesErrors.push(validJson);
                     }
                 } catch (error) {
-                    console.log(error);
                     allValidFiles = false;
-                    throw error;
                 }
+            }
+            if (filesErrors.length > 0) {
+                let accumulatedError = '';
+                for (const error of filesErrors) {
+                    accumulatedError += `${error} \n `;
+                }
+
+                dispatch({
+                    type: SET_OAT_ERROR,
+                    payload: {
+                        title: t('OATHeader.errorInvalidJSON'),
+                        message: accumulatedError
+                    }
+                });
             }
             if (allValidFiles) {
                 dispatch({
