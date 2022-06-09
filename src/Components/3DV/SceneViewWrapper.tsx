@@ -212,16 +212,16 @@ const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = (props) => {
         >
             <SceneView
                 ref={sceneViewComponent}
+                backgroundColor={sceneObjectBackgroundColor}
                 objectColor={sceneObjectColor}
                 objectColorOptions={sceneThemeState.objectColorOptions}
                 objectStyle={sceneThemeState.objectStyle}
-                backgroundColor={sceneObjectBackgroundColor}
                 onCameraMove={addInProps?.onCameraMove ? cameraMove : undefined}
                 {...svp}
-                onMeshHover={meshHover}
-                onMeshClick={meshClick}
-                onSceneLoaded={sceneLoaded}
                 cameraInteractionType={cameraInteractionType}
+                onMeshClick={meshClick}
+                onMeshHover={meshHover}
+                onSceneLoaded={sceneLoaded}
             />
             {showFpsCounter && (
                 <label id="FPS" style={FPSCounterStyle}>
