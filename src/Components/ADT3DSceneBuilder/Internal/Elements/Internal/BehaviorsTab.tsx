@@ -18,7 +18,7 @@ export interface IADT3DSceneBuilderElementBehaviorProps {
     behaviors: Array<IBehavior>;
     elementToEdit: ITwinToObjectMapping;
     onBehaviorClick: (behavior: IBehavior) => void;
-    onCreateBehaviorWithElements: () => void;
+    onCreateBehaviorWithElements: (preSearchedBehaviorName: string) => void;
     updateBehaviorsToEdit: (behaviorsToEdit: Array<IBehavior>) => void;
     isCreateBehaviorDisabled?: boolean;
 }

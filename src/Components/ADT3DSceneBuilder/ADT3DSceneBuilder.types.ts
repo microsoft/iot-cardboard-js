@@ -193,14 +193,17 @@ export interface IADT3DSceneBuilderElementFormProps {
     onElementSave: (newElements: Array<ITwinToObjectMapping>) => void;
     onElementBackClick: () => void;
     onBehaviorClick: (behavior: IBehavior) => void;
-    onCreateBehaviorWithElements: (newElement?: ITwinToObjectMapping) => void;
+    onCreateBehaviorWithElements: (
+        preSearchedBehaviorName: string,
+        newElement?: ITwinToObjectMapping
+    ) => void;
 }
 
 export interface IADT3DSceneBuilderAddBehaviorCalloutProps {
     availableBehaviors: Array<IBehavior>;
     calloutTarget: string;
     onAddBehavior: (behavior: IBehavior) => void;
-    onCreateBehaviorWithElements: () => void;
+    onCreateBehaviorWithElements: (preSearchedBehaviorName?: string) => void;
     hideCallout: () => void;
     isCreateBehaviorDisabled?: boolean;
 }
