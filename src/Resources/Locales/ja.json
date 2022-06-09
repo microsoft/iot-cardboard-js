@@ -511,7 +511,6 @@
     "twinAlias": {
       "title": "ツインエイリアス",
       "calloutDescription": "選択した要素の双子のプロパティの和集合",
-      "aliasedTwin": "別名ツイン",
       "add": "ツインを追加する",
       "new": "新しい双子",
       "edit": "双子の編集",

@@ -511,7 +511,6 @@
     "twinAlias": {
       "title": "Podwójny alias",
       "calloutDescription": "Połączenie bliźniaczych właściwości wybranych elementów",
-      "aliasedTwin": "Aliasowany bliźniak",
       "add": "Dodaj bliźniaka",
       "new": "Nowy bliźniak",
       "edit": "Edytuj bliźniaczy",

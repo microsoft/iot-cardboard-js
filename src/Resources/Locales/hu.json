@@ -511,7 +511,6 @@
     "twinAlias": {
       "title": "Iker alias",
       "calloutDescription": "A kiválasztott elemek ikertulajdonságok uniója",
-      "aliasedTwin": "Aliasozott ikerpár",
       "add": "Iker hozzáadása",
       "new": "Új ikerpár",
       "edit": "Iker szerkesztése",

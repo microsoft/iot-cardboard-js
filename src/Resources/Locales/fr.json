@@ -511,7 +511,6 @@
     "twinAlias": {
       "title": "Alias jumeau",
       "calloutDescription": "L’union des propriétés jumelles d’éléments sélectionnés",
-      "aliasedTwin": "Jumeau aliasé",
       "add": "Ajouter un jumeau",
       "new": "Nouveau jumeau",
       "edit": "Modifier le jumeau",

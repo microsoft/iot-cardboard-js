@@ -511,7 +511,6 @@
     "twinAlias": {
       "title": "İkiz takma ad",
       "calloutDescription": "Seçilen elemanların ikiz özelliklerinin birliği",
-      "aliasedTwin": "Takma adlı ikiz",
       "add": "İkiz ekle",
       "new": "Yeni iki yataklı",
       "edit": "İkizi düzenle",

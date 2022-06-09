@@ -511,7 +511,6 @@
     "twinAlias": {
       "title": "Tvillingalias",
       "calloutDescription": "Föreningen av tvillingegenskaper hos utvalda element",
-      "aliasedTwin": "Aliased tvilling",
       "add": "Lägg till tvilling",
       "new": "Ny tvilling",
       "edit": "Redigera tvilling",

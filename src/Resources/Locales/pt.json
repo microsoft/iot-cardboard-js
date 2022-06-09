@@ -511,7 +511,6 @@
     "twinAlias": {
       "title": "Alias gêmeos",
       "calloutDescription": "A união de propriedades gêmeas de elementos selecionados",
-      "aliasedTwin": "Gêmeo aliased",
       "add": "Adicionar gêmeos",
       "new": "Novo gêmeo",
       "edit": "Editar gêmeo",
