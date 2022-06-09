@@ -544,7 +544,7 @@
             "errors": {
                 "twinAliasAlreadyExists": "Twin with the same name already exists, consider adding it instead.",
                 "alphanumericOnly": "Twin name must only contain alphanumeric characters",
-                "noNumberPrefix_": "Twin name must not start with a number"
+                "noNumberPrefix": "Twin name must not start with a number"
             }
         }
     },
