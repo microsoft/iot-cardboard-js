@@ -148,32 +148,33 @@ const WidgetsTab: React.FC = () => {
     const actionButtonStyles = getActionButtonStyles(theme);
     return (
         <div className={commonPanelStyles.formTabContents}>
-            <div className={commonPanelStyles.paddedLeftPanelBlock}>
-                <Stack tokens={{ childrenGap: 8 }}>
-                    <Text className={commonPanelStyles.text}>
-                        {t(LOC_KEYS.tabDescription)}
-                    </Text>
+            <Stack
+                tokens={{ childrenGap: 8 }}
+                className={commonPanelStyles.paddedLeftPanelBlock}
+            >
+                <Text className={commonPanelStyles.text}>
+                    {t(LOC_KEYS.tabDescription)}
+                </Text>
 
-                    {!widgets?.length ? (
-                        <div className={commonPanelStyles.noDataText}>
-                            {t(LOC_KEYS.noData)}
-                        </div>
-                    ) : (
-                        <CardboardList<IWidget>
-                            items={listItems}
-                            listKey={'widgets-in-behavior'}
-                        />
-                    )}
-                    <ActionButton
-                        styles={actionButtonStyles}
-                        text={t(LOC_KEYS.addButtonText)}
-                        data-testid={'widgetForm-addWidget'}
-                        onClick={() => {
-                            setIsLibraryDialogOpen(true);
-                        }}
+                {!widgets?.length ? (
+                    <div className={commonPanelStyles.noDataText}>
+                        {t(LOC_KEYS.noData)}
+                    </div>
+                ) : (
+                    <CardboardList<IWidget>
+                        items={listItems}
+                        listKey={'widgets-in-behavior'}
                     />
-                </Stack>
-            </div>
+                )}
+                <ActionButton
+                    styles={actionButtonStyles}
+                    text={t(LOC_KEYS.addButtonText)}
+                    data-testid={'widgetForm-addWidget'}
+                    onClick={() => {
+                        setIsLibraryDialogOpen(true);
+                    }}
+                />
+            </Stack>
             {isLibraryDialogOpen && (
                 <WidgetLibraryDialog
                     setIsLibraryDialogOpen={setIsLibraryDialogOpen}

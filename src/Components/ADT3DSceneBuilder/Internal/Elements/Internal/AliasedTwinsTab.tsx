@@ -65,31 +65,30 @@ const AliasedTwinsTab: React.FC = () => {
 
     const commonPanelStyles = getLeftPanelStyles(useTheme());
     return (
-        <div className={commonPanelStyles.paddedLeftPanelBlock}>
-            <Stack tokens={sectionStackTokens}>
-                <div>
-                    {twinAliasList.length === 0 ? (
-                        <div className={commonPanelStyles.noDataText}>
+        <Stack
+            tokens={sectionStackTokens}
+            className={commonPanelStyles.paddedLeftPanelBlock}
+        >
+            <div>
+                {twinAliasList.length === 0 ? (
+                    <div className={commonPanelStyles.noDataText}>
+                        {t('3dSceneBuilder.elementFormTwinTab.noDataMessage')}
+                    </div>
+                ) : (
+                    <>
+                        <Text className={commonPanelStyles.text}>
                             {t(
-                                '3dSceneBuilder.elementFormTwinTab.noDataMessage'
+                                '3dSceneBuilder.elementFormTwinTab.tabDescription'
                             )}
-                        </div>
-                    ) : (
-                        <>
-                            <Text className={commonPanelStyles.text}>
-                                {t(
-                                    '3dSceneBuilder.elementFormTwinTab.tabDescription'
-                                )}
-                            </Text>
-                            <CardboardList<IElementTwinAliasItem>
-                                items={twinAliasList}
-                                listKey={`element-aliased-twin-list`}
-                            />
-                        </>
-                    )}
-                </div>
-            </Stack>
-        </div>
+                        </Text>
+                        <CardboardList<IElementTwinAliasItem>
+                            items={twinAliasList}
+                            listKey={`element-aliased-twin-list`}
+                        />
+                    </>
+                )}
+            </div>
+        </Stack>
     );
 };
 

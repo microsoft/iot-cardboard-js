@@ -232,74 +232,73 @@ const TwinsTab: React.FC<ITwinsTabProps> = ({
     const commonPanelStyles = getLeftPanelStyles(theme);
     const actionButtonStyles = getActionButtonStyles(theme);
     return (
-        <div className={commonPanelStyles.paddedLeftPanelBlock}>
-            <Stack tokens={{ childrenGap: 12 }}>
-                <Text className={commonPanelStyles.text}>
-                    {t('3dSceneBuilder.twinAlias.tabDescriptionPart1')}
-                </Text>
-                <Text className={commonPanelStyles.text}>
-                    {t('3dSceneBuilder.twinAlias.tabDescriptionPart2')}
-                </Text>
-                <div>
-                    <Label>
-                        {t('3dSceneBuilder.twinAlias.linkedTwinListHeader', {
-                            count: twinList?.length || 0
-                        })}
-                    </Label>
-                    {twinList.length > 0 && (
-                        <CardboardList<string>
-                            items={twinList}
-                            listKey={`behavior-primary-twin-list`}
-                        />
+        <Stack
+            tokens={{ childrenGap: 12 }}
+            className={commonPanelStyles.paddedLeftPanelBlock}
+        >
+            <Text className={commonPanelStyles.text}>
+                {t('3dSceneBuilder.twinAlias.tabDescriptionPart1')}
+            </Text>
+            <Text className={commonPanelStyles.text}>
+                {t('3dSceneBuilder.twinAlias.tabDescriptionPart2')}
+            </Text>
+            <div>
+                <Label>
+                    {t('3dSceneBuilder.twinAlias.linkedTwinListHeader', {
+                        count: twinList?.length || 0
+                    })}
+                </Label>
+                {twinList.length > 0 && (
+                    <CardboardList<string>
+                        items={twinList}
+                        listKey={`behavior-primary-twin-list`}
+                    />
+                )}
+            </div>
+            <ActionButton
+                id={addAliasCalloutTargetId}
+                styles={actionButtonStyles}
+                text={t('3dSceneBuilder.twinAlias.add')}
+                data-testid={'twinsTab-addTwinAlias'}
+                onClick={toggleIsAddTwinAliasCalloutVisible}
+            />
+            {isPrimaryTwinPropertiesCalloutVisible && (
+                <CardboardListCallout
+                    listType="Complex"
+                    calloutTarget={primaryTwinPropertiesTargetId}
+                    title={t('3dSceneBuilder.twinAlias.commonProperties')}
+                    description={t(
+                        '3dSceneBuilder.twinAlias.calloutDescription'
                     )}
-                </div>
-                <ActionButton
-                    id={addAliasCalloutTargetId}
-                    styles={actionButtonStyles}
-                    text={t('3dSceneBuilder.twinAlias.add')}
-                    data-testid={'twinsTab-addTwinAlias'}
-                    onClick={toggleIsAddTwinAliasCalloutVisible}
+                    listKey={'common-properties-callout-list'}
+                    listItems={primaryTwinProperties}
+                    isListLoading={isCommonPrimaryTwinPropertiesLoading}
+                    onDismiss={toggleIsPrimaryTwinPropertiesCalloutVisible}
+                    filterPlaceholder={t(
+                        '3dSceneBuilder.twinAlias.searchProperties'
+                    )}
+                    filterPredicate={(
+                        property: IModelledProperty,
+                        searchTerm
+                    ) =>
+                        property.localPath
+                            .toLowerCase()
+                            .includes(searchTerm.toLowerCase())
+                    }
+                    noResultText={t('3dSceneBuilder.noPrimaryTwinProperties')}
+                    searchBoxDataTestId="primary-twin-callout-search"
                 />
-                {isPrimaryTwinPropertiesCalloutVisible && (
-                    <CardboardListCallout
-                        listType="Complex"
-                        calloutTarget={primaryTwinPropertiesTargetId}
-                        title={t('3dSceneBuilder.twinAlias.commonProperties')}
-                        description={t(
-                            '3dSceneBuilder.twinAlias.calloutDescription'
-                        )}
-                        listKey={'common-properties-callout-list'}
-                        listItems={primaryTwinProperties}
-                        isListLoading={isCommonPrimaryTwinPropertiesLoading}
-                        onDismiss={toggleIsPrimaryTwinPropertiesCalloutVisible}
-                        filterPlaceholder={t(
-                            '3dSceneBuilder.twinAlias.searchProperties'
-                        )}
-                        filterPredicate={(
-                            property: IModelledProperty,
-                            searchTerm
-                        ) =>
-                            property.localPath
-                                .toLowerCase()
-                                .includes(searchTerm.toLowerCase())
-                        }
-                        noResultText={t(
-                            '3dSceneBuilder.noPrimaryTwinProperties'
-                        )}
-                        searchBoxDataTestId="primary-twin-callout-search"
-                    />
-                )}
-                {isAddTwinAliasCalloutVisible && (
-                    <AddTwinAliasCallout
-                        calloutTarget={addAliasCalloutTargetId}
-                        availableTwinAliases={availableTwinAliases}
-                        hideCallout={toggleIsAddTwinAliasCalloutVisible}
-                        onAddTwinAlias={onAddTwinAlias}
-                        onCreateTwinAlias={onCreateTwinAlias}
-                    />
-                )}
-            </Stack>
-        </div>
+            )}
+            {isAddTwinAliasCalloutVisible && (
+                <AddTwinAliasCallout
+                    calloutTarget={addAliasCalloutTargetId}
+                    availableTwinAliases={availableTwinAliases}
+                    hideCallout={toggleIsAddTwinAliasCalloutVisible}
+                    onAddTwinAlias={onAddTwinAlias}
+                    onCreateTwinAlias={onCreateTwinAlias}
+                />
+            )}
+        </Stack>
     );
 };
 
