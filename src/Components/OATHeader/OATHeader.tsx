@@ -112,19 +112,21 @@ const OATHeader = ({ elements, dispatch, state }: OATHeaderProps) => {
     useEffect(() => {
         const newFiles = [];
         const newFilesErrors = [];
+        let allValidFiles = true;
         acceptedFiles.forEach((sF) => {
             if (sF.type === 'application/json') {
                 newFiles.push(sF);
             } else {
+                allValidFiles = false;
                 newFilesErrors.push(
-                    t('OATHeader.errorFileFormatNotSupported', {
+                    `${sF.name}: ${t('OATHeader.errorFileFormatNotSupported', {
                         file: sF.name
-                    })
+                    })}`
                 );
             }
             sF = new File([], '');
         });
-        if (newFilesErrors.length > 0) {
+        if (!allValidFiles) {
             let accumulatedError = '';
             for (const error of newFilesErrors) {
                 accumulatedError += `${error} \n `;
@@ -164,16 +166,21 @@ const OATHeader = ({ elements, dispatch, state }: OATHeaderProps) => {
                         items.push(newItem.content);
                     } else {
                         allValidFiles = false;
-                        filesErrors.push(validJson);
+                        filesErrors.push(`${current.name}: ${validJson}`);
                     }
                 } catch (error) {
                     allValidFiles = false;
                 }
             }
-            if (filesErrors.length > 0) {
+            if (allValidFiles) {
+                dispatch({
+                    type: SET_OAT_IMPORT_MODELS,
+                    payload: items
+                });
+            } else {
                 let accumulatedError = '';
                 for (const error of filesErrors) {
-                    accumulatedError += `${error} \n `;
+                    accumulatedError += `${error}\n`;
                 }
 
                 dispatch({
@@ -182,12 +189,6 @@ const OATHeader = ({ elements, dispatch, state }: OATHeaderProps) => {
                         title: t('OATHeader.errorInvalidJSON'),
                         message: accumulatedError
                     }
-                });
-            }
-            if (allValidFiles) {
-                dispatch({
-                    type: SET_OAT_IMPORT_MODELS,
-                    payload: items
                 });
             }
         }
