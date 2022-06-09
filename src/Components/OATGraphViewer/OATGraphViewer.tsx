@@ -30,7 +30,8 @@ import {
     getGraphViewerStyles,
     getGraphViewerButtonStyles,
     getGraphViewerWarningStyles,
-    getGraphViewerMinimapStyles
+    getGraphViewerMinimapStyles,
+    getGraphViewerFiltersStyles
 } from './OATGraphViewer.styles';
 import { ElementsContext } from './Internal/OATContext';
 import {
@@ -193,6 +194,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     const buttonStyles = getGraphViewerButtonStyles();
     const warningStyles = getGraphViewerWarningStyles();
     const graphViewerMinimapStyles = getGraphViewerMinimapStyles();
+    const graphViewerFiltersStyles = getGraphViewerFiltersStyles();
     const currentNodeIdRef = useRef('');
     const currentHandleIdRef = useRef('');
     const [currentHovered, setCurrentHovered] = useState(null);
@@ -969,7 +971,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                                 {t('OATGraphViewer.emptyGraph')}
                             </Label>
                         )}
-                        <Stack>
+                        <Stack styles={graphViewerFiltersStyles}>
                             <div
                                 className={
                                     graphViewerStyles.graphViewerFiltersWrap
