@@ -171,7 +171,7 @@ const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = (props) => {
         [sceneThemeState.objectStyle]
     );
     const sceneObjectColor = useMemo(() => {
-        // keep the material styles in default theme
+        // keep the material styles in default style
         if (sceneThemeState.objectStyle === ViewerObjectStyle.Default) {
             return DefaultViewerModeObjectColor;
         } else {
