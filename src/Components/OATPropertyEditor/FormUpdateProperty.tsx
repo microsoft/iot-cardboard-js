@@ -594,11 +594,13 @@ export const FormUpdateProperty = ({
                 <Text>{t('OATPropertyEditor.writable')}</Text>
             </div>
 
-            <PrimaryButton
-                text={t('OATPropertyEditor.update')}
-                allowDisabledFocus
-                onClick={handleUpdateProperty}
-            />
+            <div className={propertyInspectorStyles.modalRowFlexEnd}>
+                <PrimaryButton
+                    text={t('OATPropertyEditor.update')}
+                    allowDisabledFocus
+                    onClick={handleUpdateProperty}
+                />
+            </div>
         </>
     );
 };
