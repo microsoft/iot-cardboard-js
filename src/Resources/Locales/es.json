@@ -785,7 +785,9 @@
     "inheritances": "Herencias",
     "components": "Componentes",
     "errorDisplayName": "El nombre para mostrar no puede exceder los 64 caracteres",
-    "errorId": "Id no puede exceder los 2048 caracteres"
+    "errorId": "Id no puede exceder los 2048 caracteres",
+    "errorName": "El nombre solo puede contener los caracteres a-z, A-Z, 0-9 y guión bajo",
+    "errorNameLength": "El nombre no puede exceder los 64 caracteres"
   },
   "OATPropertyEditor": {
     "displayName": "Nombre para mostrar",

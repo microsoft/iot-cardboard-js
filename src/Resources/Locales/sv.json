@@ -785,7 +785,9 @@
     "inheritances": "Arv",
     "components": "Komponenter",
     "errorDisplayName": "Visningsnamn får inte överstiga 64 tecken",
-    "errorId": "Id får inte överstiga 2048 rödingar"
+    "errorId": "Id får inte överstiga 2048 rödingar",
+    "errorName": "Namnet får bara innehålla tecknen a-z, A-Z, 0-9 och understreck",
+    "errorNameLength": "Namnet får inte överstiga 64 rödingar"
   },
   "OATPropertyEditor": {
     "displayName": "Visningsnamn",
