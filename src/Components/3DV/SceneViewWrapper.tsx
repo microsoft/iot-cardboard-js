@@ -175,8 +175,10 @@ const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = (props) => {
         if (sceneThemeState.objectStyle === ViewerObjectStyle.Default) {
             return DefaultViewerModeObjectColor;
         } else {
-            return sceneThemeState.objectColorOptions.find(
-                (x) => x.color === sceneThemeState.objectColor
+            return (
+                sceneThemeState.objectColorOptions.find(
+                    (x) => x.color === sceneThemeState.objectColor
+                ) || DefaultViewerModeObjectColor
             );
         }
     }, [sceneThemeState.objectColor, sceneThemeState.objectColorOptions]);
