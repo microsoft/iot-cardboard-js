@@ -785,7 +785,9 @@
     "inheritances": "Héritages",
     "components": "Composants",
     "errorDisplayName": "Le nom d’affichage ne doit pas dépasser 64 caractères",
-    "errorId": "Id ne peut pas dépasser 2048 caractères"
+    "errorId": "Id ne peut pas dépasser 2048 caractères",
+    "errorName": "Le nom ne peut contenir que les caractères a-z, A-Z, 0-9 et le trait de soulignement",
+    "errorNameLength": "Le nom ne doit pas dépasser 64 caractères"
   },
   "OATPropertyEditor": {
     "displayName": "Nom d’affichage",

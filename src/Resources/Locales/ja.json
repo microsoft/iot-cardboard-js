@@ -785,7 +785,9 @@
     "inheritances": "遺産",
     "components": "コンポーネント",
     "errorDisplayName": "表示名は 64 文字を超えてはなりません。",
-    "errorId": "IDは2048文字を超えてはなりません"
+    "errorId": "IDは2048文字を超えてはなりません",
+    "errorName": "名前に使用できるのは、文字 a から z、A から Z、0 から 9、および下線のみです。",
+    "errorNameLength": "名前は 64 文字を超えてはなりません。"
   },
   "OATPropertyEditor": {
     "displayName": "表示名",

@@ -785,7 +785,9 @@
     "inheritances": "Miras",
     "components": "Bileşen",
     "errorDisplayName": "Görünen Ad 64 karakteri aşamaz",
-    "errorId": "Kimlik 2048 karakteri geçemez"
+    "errorId": "Kimlik 2048 karakteri geçemez",
+    "errorName": "Ad yalnızca a-z, A-Z, 0-9 ve alt çizgi karakterlerini içerebilir",
+    "errorNameLength": "İsim 64 karakteri geçemez"
   },
   "OATPropertyEditor": {
     "displayName": "Görünen Ad",

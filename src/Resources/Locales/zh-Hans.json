@@ -785,7 +785,9 @@
     "inheritances": "遗产",
     "components": "组件",
     "errorDisplayName": "显示名称不得超过 64 个字符",
-    "errorId": "Id 不得超过 2048 个字符"
+    "errorId": "Id 不得超过 2048 个字符",
+    "errorName": "名称只能包含字符 a-z、A-Z、0-9 和下划线",
+    "errorNameLength": "姓名不得超过 64 个字符"
   },
   "OATPropertyEditor": {
     "displayName": "显示名称",

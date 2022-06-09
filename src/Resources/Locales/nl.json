@@ -785,7 +785,9 @@
     "inheritances": "Erfenissen",
     "components": "Onderdelen",
     "errorDisplayName": "Weergavenaam mag niet meer dan 64 tekens bevatten",
-    "errorId": "Id mag niet meer dan 2048 tekens bevatten"
+    "errorId": "Id mag niet meer dan 2048 tekens bevatten",
+    "errorName": "Naam mag alleen de tekens a-z, A-Z, 0-9 en onderstrepingsteken bevatten",
+    "errorNameLength": "Naam mag niet meer dan 64 tekens bevatten"
   },
   "OATPropertyEditor": {
     "displayName": "Weergegeven naam",

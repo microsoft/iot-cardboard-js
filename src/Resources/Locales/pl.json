@@ -785,7 +785,9 @@
     "inheritances": "Spadki",
     "components": "Składniki",
     "errorDisplayName": "Nazwa wyświetlana nie może przekraczać 64 znaków",
-    "errorId": "Id nie może przekraczać 2048 znaków"
+    "errorId": "Id nie może przekraczać 2048 znaków",
+    "errorName": "Nazwa może zawierać tylko znaki a-z, A-Z, 0-9 i podkreślenie",
+    "errorNameLength": "Nazwa nie może przekraczać 64 znaków"
   },
   "OATPropertyEditor": {
     "displayName": "Nazwa wyświetlana",
