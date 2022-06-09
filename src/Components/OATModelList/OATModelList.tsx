@@ -31,12 +31,21 @@ const OATModelList = ({ elements, dispatch, modified }: OATModelListProps) => {
     const [idEditor, setIdEditor] = useState(false);
     const [idText, setIdText] = useState('');
     const [filter, setFilter] = useState('');
+    const [elementCount, setElementCount] = useState(elements.length);
     const currentNodeId = useRef('');
+    const containerRef = useRef(null);
     const iconStyles = getModelsIconStyles();
     const actionButtonStyles = getModelsActionButtonStyles();
 
     useEffect(() => {
         setItems(elements);
+        if (elements.length > elementCount) {
+            containerRef.current?.scrollTo({
+                top: containerRef.current?.scrollHeight,
+                behavior: 'smooth'
+            });
+        }
+        setElementCount(elements.length);
     }, [elements]);
 
     useEffect(() => {
@@ -196,7 +205,7 @@ const OATModelList = ({ elements, dispatch, modified }: OATModelListProps) => {
                 value={filter}
                 placeholder={t('search')}
             />
-            <div className={modelsStyles.container}>
+            <div className={modelsStyles.container} ref={containerRef}>
                 <List items={items} onRenderCell={onRenderCell} />
             </div>
         </div>
