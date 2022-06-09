@@ -764,7 +764,6 @@
     "namespace": "Пространство имен",
     "enterANamespace": "Ввод пространства имен",
     "namespaceError": "Имя может содержать только символы a-z, A-Z, 0-9 и подчеркивание.",
-    "example": "пример",
     "settings": "Параметры",
     "errorInvalidJSON": "Недопустимый JSON",
     "errorFileFormatNotSupported": "Формат {{file}} не поддерживается",
@@ -789,7 +788,6 @@
     "relationships": "Отношения",
     "inheritances": "Наследства",
     "components": "Компоненты",
-    "example": "пример",
     "errorDisplayName": "Отображаемое имя не должно превышать 64 символов",
     "errorId": "Id не может превышать 2048 символов"
   },

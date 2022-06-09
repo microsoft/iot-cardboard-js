@@ -764,7 +764,6 @@
     "namespace": "Namespace",
     "enterANamespace": "Zadání oboru názvů",
     "namespaceError": "Název může obsahovat pouze znaky a-z, A-Z, 0-9 a podtržítko.",
-    "example": "příklad",
     "settings": "Nastavení",
     "errorInvalidJSON": "Neplatný JSON",
     "errorFileFormatNotSupported": "Formát {{file}} není podporován",
@@ -789,7 +788,6 @@
     "relationships": "Vztahy",
     "inheritances": "Dědictví",
     "components": "Součásti",
-    "example": "příklad",
     "errorDisplayName": "Zobrazovaný název nesmí překročit 64 znaků",
     "errorId": "Id nesmí překročit 2048 znaků"
   },

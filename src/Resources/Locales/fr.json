@@ -764,7 +764,6 @@
     "namespace": "Espace de noms",
     "enterANamespace": "Entrer un espace de noms",
     "namespaceError": "Le nom ne peut contenir que les caractères a-z, A-Z, 0-9 et le trait de soulignement.",
-    "example": "exemple",
     "settings": "Paramètres",
     "errorInvalidJSON": "JSON non valide",
     "errorFileFormatNotSupported": "Le format {{file}} n’est pas pris en charge",
@@ -789,7 +788,6 @@
     "relationships": "Relations",
     "inheritances": "Héritages",
     "components": "Composants",
-    "example": "exemple",
     "errorDisplayName": "Le nom d’affichage ne doit pas dépasser 64 caractères",
     "errorId": "Id ne peut pas dépasser 2048 caractères"
   },

@@ -764,7 +764,6 @@
     "namespace": "Namespace",
     "enterANamespace": "Névtér megadása",
     "namespaceError": "A név csak az a-z, A-Z, 0-9 és aláhúzásjeleket tartalmazhatja.",
-    "example": "példa",
     "settings": "Beállítások",
     "errorInvalidJSON": "Érvénytelen JSON",
     "errorFileFormatNotSupported": "{{file}} formátum nem támogatott",
@@ -789,7 +788,6 @@
     "relationships": "Kapcsolatok",
     "inheritances": "Öröklések",
     "components": "Összetevők",
-    "example": "példa",
     "errorDisplayName": "A megjelenítendő név nem haladhatja meg a 64 karakter értéket",
     "errorId": "Az azonosító nem haladhatja meg a 2048 karakter"
   },

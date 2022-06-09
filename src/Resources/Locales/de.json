@@ -764,7 +764,6 @@
     "namespace": "Namespace",
     "enterANamespace": "Eingeben eines Namespaces",
     "namespaceError": "Der Name darf nur die Zeichen a-z, A-Z, 0-9 und Unterstrich enthalten.",
-    "example": "Beispiel",
     "settings": "Einstellungen",
     "errorInvalidJSON": "Ungültiges JSON",
     "errorFileFormatNotSupported": "{{file}}-Format wird nicht unterstützt",
@@ -789,7 +788,6 @@
     "relationships": "Beziehungen",
     "inheritances": "Erbteile",
     "components": "Komponenten",
-    "example": "Beispiel",
     "errorDisplayName": "Anzeigename darf 64 Zeichen nicht überschreiten",
     "errorId": "ID darf 2048 Zeichen nicht überschreiten"
   },

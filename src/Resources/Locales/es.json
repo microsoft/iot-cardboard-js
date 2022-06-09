@@ -764,7 +764,6 @@
     "namespace": "Namespace",
     "enterANamespace": "Introducir un espacio de nombres",
     "namespaceError": "El nombre solo puede contener los caracteres a-z, A-Z, 0-9 y guión bajo.",
-    "example": "ejemplo",
     "settings": "Configuración",
     "errorInvalidJSON": "JSON no válido",
     "errorFileFormatNotSupported": "Formato {{archivo}} no compatible",
@@ -789,7 +788,6 @@
     "relationships": "Relaciones",
     "inheritances": "Herencias",
     "components": "Componentes",
-    "example": "ejemplo",
     "errorDisplayName": "El nombre para mostrar no puede exceder los 64 caracteres",
     "errorId": "Id no puede exceder los 2048 caracteres"
   },
