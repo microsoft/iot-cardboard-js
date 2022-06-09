@@ -371,7 +371,7 @@ export async function parseModels(models: IOATTwinModelNodes[]) {
     return true;
 }
 
-export async function parseModel(modelJson: string) {
+export async function parseModel(modelJson: string, headerError?: string) {
     const modelParser = createParser(
         ModelParsingOption.PermitAnyTopLevelElement
     );
@@ -379,8 +379,10 @@ export async function parseModel(modelJson: string) {
         await modelParser.parse([modelJson]);
     } catch (err) {
         for (const parsingError of err._parsingErrors) {
-            alert(`${parsingError.action} ${parsingError.cause}`);
-            return `${parsingError.action} ${parsingError.cause}`;
+            alert(
+                `${headerError} ${parsingError.action} ${parsingError.cause}`
+            );
+            return `${headerError} ${parsingError.action} ${parsingError.cause}`;
         }
     }
 }

@@ -83,7 +83,11 @@ export const FormUpdateProperty = ({
             : null;
 
     const [comment, setComment] = useState(null);
-    const [description, setDescription] = useState(null);
+    const [description, setDescription] = useState(
+        activeNestedProperty
+            ? activeNestedProperty.description
+            : activeProperty.description
+    );
     const [displayName, setDisplayName] = useState(
         getModelPropertyListItemName(
             activeNestedProperty
@@ -96,7 +100,11 @@ export const FormUpdateProperty = ({
         )
     );
     const [writable, setWritable] = useState(true);
-    const [id, setId] = useState(null);
+    const [id, setId] = useState(
+        activeNestedProperty
+            ? activeNestedProperty['@id']
+            : activeProperty['@id']
+    );
     const [languageSelection, setLanguageSelection] = useState(
         singleLanguageOptionValue
     );
@@ -330,6 +338,7 @@ export const FormUpdateProperty = ({
                         handleIdChange(value, setId, setIdError)
                     }
                     errorMessage={idError ? t('OATPropertyEditor.errorId') : ''}
+                    value={id}
                 />
             </div>
 
@@ -505,6 +514,7 @@ export const FormUpdateProperty = ({
                                 ? t('OATPropertyEditor.errorDescription')
                                 : ''
                         }
+                        value={description}
                     />
                 </div>
             )}
@@ -625,6 +635,7 @@ export const FormUpdateProperty = ({
                     errorMessage={
                         commentError ? t('OATPropertyEditor.errorComment') : ''
                     }
+                    value={comment}
                 />
             </div>
 
@@ -639,17 +650,19 @@ export const FormUpdateProperty = ({
                 <Text>{t('OATPropertyEditor.writable')}</Text>
             </div>
 
-            <PrimaryButton
-                text={t('OATPropertyEditor.update')}
-                allowDisabledFocus
-                onClick={handleUpdateProperty}
-                disabled={
-                    displayNameError ||
-                    commentError ||
-                    descriptionError ||
-                    idError
-                }
-            />
+            <div className={propertyInspectorStyles.modalRowFlexEnd}>
+                <PrimaryButton
+                    text={t('OATPropertyEditor.update')}
+                    allowDisabledFocus
+                    onClick={handleUpdateProperty}
+                    disabled={
+                        displayNameError ||
+                        commentError ||
+                        descriptionError ||
+                        idError
+                    }
+                />
+            </div>
         </>
     );
 };

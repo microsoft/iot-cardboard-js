@@ -53,14 +53,15 @@ export const FormUpdateProperty = ({
     state,
     languages
 }: IModal) => {
+    const { model } = state;
     const { t } = useTranslation();
     const propertyInspectorStyles = getPropertyInspectorStyles();
     const columnLeftTextStyles = getModalLabelStyles();
     const radioGroupRowStyle = getRadioGroupRowStyles();
-    const [comment, setComment] = useState(null);
-    const [displayName, setDisplayName] = useState(null);
-    const [description, setDescription] = useState(null);
-    const [id, setId] = useState(null);
+    const [comment, setComment] = useState(model.comment);
+    const [displayName, setDisplayName] = useState(model.displayName);
+    const [description, setDescription] = useState(model.description);
+    const [id, setId] = useState(model['@id']);
     const [languageSelection, setLanguageSelection] = useState(
         singleLanguageOptionValue
     );
@@ -92,7 +93,6 @@ export const FormUpdateProperty = ({
         isAMultiLanguageDescriptionEmpty,
         setIsAMultiLanguageDescriptionEmpty
     ] = useState(true);
-    const { model } = state;
     const [commentError, setCommentError] = useState(null);
     const [descriptionError, setDescriptionError] = useState(null);
     const [displayNameError, setDisplayNameError] = useState(null);
@@ -161,8 +161,8 @@ export const FormUpdateProperty = ({
             type: SET_OAT_PROPERTY_EDITOR_MODEL,
             payload: modelCopy
         });
-        setModalOpen(false);
         setModalBody(null);
+        setModalOpen(false);
     };
 
     // Update multiLanguageSelectionsDisplayNames on every new language change
@@ -241,6 +241,7 @@ export const FormUpdateProperty = ({
                         handleIdChange(value, setId, setIdError)
                     }
                     errorMessage={idError ? t('OATPropertyEditor.errorId') : ''}
+                    value={id}
                 />
             </div>
 
@@ -536,6 +537,7 @@ export const FormUpdateProperty = ({
                     errorMessage={
                         commentError ? t('OATPropertyEditor.errorComment') : ''
                     }
+                    value={comment}
                 />
             </div>
 
