@@ -112,12 +112,10 @@ const OATHeader = ({ elements, dispatch, state }: OATHeaderProps) => {
     useEffect(() => {
         const newFiles = [];
         const newFilesErrors = [];
-        let allValidFiles = true;
         acceptedFiles.forEach((sF) => {
             if (sF.type === 'application/json') {
                 newFiles.push(sF);
             } else {
-                allValidFiles = false;
                 newFilesErrors.push(
                     `${sF.name}: ${t('OATHeader.errorFileFormatNotSupported', {
                         file: sF.name
@@ -126,7 +124,7 @@ const OATHeader = ({ elements, dispatch, state }: OATHeaderProps) => {
             }
             sF = new File([], '');
         });
-        if (!allValidFiles) {
+        if (newFilesErrors.length > 0) {
             let accumulatedError = '';
             for (const error of newFilesErrors) {
                 accumulatedError += `${error} \n `;
@@ -146,7 +144,6 @@ const OATHeader = ({ elements, dispatch, state }: OATHeaderProps) => {
 
     const handleFileListChanged = async (files: Array<File>) => {
         const items = [];
-        let allValidFiles = true;
         if (files.length > 0) {
             const filesErrors = [];
             for (const current of files) {
@@ -155,24 +152,20 @@ const OATHeader = ({ elements, dispatch, state }: OATHeaderProps) => {
                     size: prettyBytes(current.size),
                     status: FileUploadStatus.Uploading
                 } as IFileItem;
-                try {
-                    const content = await current.text();
-                    newItem.content = JSON.parse(content);
-                    const validJson = await parseModel(
-                        content,
-                        `Issue on file ${current.name} \r`
-                    );
-                    if (!validJson) {
-                        items.push(newItem.content);
-                    } else {
-                        allValidFiles = false;
-                        filesErrors.push(`${current.name}: ${validJson}`);
-                    }
-                } catch (error) {
-                    allValidFiles = false;
+
+                const content = await current.text();
+                newItem.content = JSON.parse(content);
+                const validJson = await parseModel(
+                    content,
+                    `Issue on file ${current.name} \r`
+                );
+                if (!validJson) {
+                    items.push(newItem.content);
+                } else {
+                    filesErrors.push(`${current.name}: ${validJson}`);
                 }
             }
-            if (allValidFiles) {
+            if (filesErrors.length === 0) {
                 dispatch({
                     type: SET_OAT_IMPORT_MODELS,
                     payload: items
