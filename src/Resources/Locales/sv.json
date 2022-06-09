@@ -539,7 +539,7 @@
       "errors": {
         "twinAliasAlreadyExists": "Tvillingalias med samma namn finns redan, överväg att lägga till det i stället.",
         "alphanumericOnly": "Tvillingalias får endast innehålla alfanumeriska tecken",
-        "noNumberPrefix": "Tvillingalias får inte börja med ett tal"
+        "noNumberPrefix_": "Tvillingnamnet får inte börja med ett nummer"
       }
     },
     "actions": "Åtgärder"
