@@ -15,7 +15,7 @@ import {
     IADTBackgroundColor,
     IADTObjectColor
 } from '../../Models/Constants/Interfaces';
-import { CameraInteraction } from '../Constants';
+import { CameraInteraction, ViewerObjectStyle } from '../Constants';
 
 export class SceneVisual {
     element: ITwinToObjectMapping;
@@ -112,7 +112,6 @@ export interface ISceneViewProps {
         top: number
     ) => void;
     onCameraMove?: (position: ICameraPosition) => void;
-    isWireframe?: boolean;
     showMeshesOnHover?: boolean;
     getToken?: () => Promise<string>;
     coloredMeshItems?: CustomMeshItem[];
@@ -122,6 +121,7 @@ export interface ISceneViewProps {
     showHoverOnSelected?: boolean;
     objectColor?: IADTObjectColor;
     objectColorOptions?: IADTObjectColor[];
+    objectStyle?: ViewerObjectStyle;
     badgeGroups?: SceneViewBadgeGroup[];
     backgroundColor?: IADTBackgroundColor;
     cameraInteractionType?: CameraInteraction;
