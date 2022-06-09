@@ -153,8 +153,8 @@ export const FormUpdateProperty = ({
             type: SET_OAT_PROPERTY_EDITOR_MODEL,
             payload: modelCopy
         });
-        setModalOpen(false);
         setModalBody(null);
+        setModalOpen(false);
     };
 
     // Update multiLanguageSelectionsDisplayNames on every new language change
