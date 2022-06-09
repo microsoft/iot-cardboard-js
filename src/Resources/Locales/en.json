@@ -762,8 +762,9 @@
         "projectWithSameNameAlreadyExistsMessage?": "Project with same name already exists, would you like to override it?",
         "overwrite": "Overwrite",
         "errorInvalidJSON": "Invalid JSON",
-        "errorFileFormatNotSupported": "{{file}} format not supported",
-        "errorFormatNoSupported": "File format not Supported"
+        "errorFileFormatNotSupported": "Issue with {{fileName}}: Format not supported",
+        "errorFormatNoSupported": "File format not Supported",
+        "errorIssueWithFile": "Issue with {{fileName}}: {{error}}"
     },
     "OATGraphViewer": {
         "newModel": "New Model",

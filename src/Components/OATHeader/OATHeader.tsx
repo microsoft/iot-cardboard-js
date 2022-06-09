@@ -117,9 +117,9 @@ const OATHeader = ({ elements, dispatch, state }: OATHeaderProps) => {
                 newFiles.push(sF);
             } else {
                 newFilesErrors.push(
-                    `${sF.name}: ${t('OATHeader.errorFileFormatNotSupported', {
-                        file: sF.name
-                    })}`
+                    t('OATHeader.errorFileFormatNotSupported', {
+                        fileName: sF.name
+                    })
                 );
             }
             sF = new File([], '');
@@ -155,14 +155,16 @@ const OATHeader = ({ elements, dispatch, state }: OATHeaderProps) => {
 
                 const content = await current.text();
                 newItem.content = JSON.parse(content);
-                const validJson = await parseModel(
-                    content,
-                    `Issue on file ${current.name} \r`
-                );
+                const validJson = await parseModel(content);
                 if (!validJson) {
                     items.push(newItem.content);
                 } else {
-                    filesErrors.push(`${current.name}: ${validJson}`);
+                    filesErrors.push(
+                        t('OATHeader.errorIssueWithFile', {
+                            fileName: current.name,
+                            error: validJson
+                        })
+                    );
                 }
             }
             if (filesErrors.length === 0) {
