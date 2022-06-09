@@ -1,5 +1,8 @@
 import { IStyle } from '@fluentui/react';
-import { SCENE_PAGE_OUTER_OFFSET } from '../../../../Models/Constants/StyleConstants';
+import {
+    BUILDER_CONTROLS_TOP_OFFSET,
+    SCENE_PAGE_OUTER_OFFSET
+} from '../../../../Models/Constants/StyleConstants';
 import { leftPanelBuilderBlock } from '../../../../Resources/Styles/BaseStyles';
 import {
     IBuilderLeftPanelStyleProps,
@@ -24,7 +27,7 @@ export const getStyles = (
                 flexDirection: 'column',
                 height: '100%',
                 overflow: 'hidden',
-                padding: `${SCENE_PAGE_OUTER_OFFSET}px 0px ${SCENE_PAGE_OUTER_OFFSET}px 0px`,
+                padding: `${BUILDER_CONTROLS_TOP_OFFSET}px 0px ${SCENE_PAGE_OUTER_OFFSET}px 0px`,
                 position: 'relative',
                 width: '392px'
             } as IStyle

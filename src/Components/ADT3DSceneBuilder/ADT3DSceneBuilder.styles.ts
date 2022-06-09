@@ -1,5 +1,5 @@
 import {
-    BUILDER_HEADER_TOP_OFFSET,
+    BUILDER_CONTROLS_TOP_OFFSET,
     SCENE_PAGE_OUTER_OFFSET
 } from '../../Models/Constants/StyleConstants';
 import {
@@ -39,7 +39,7 @@ export const getStyles = (
                     alignItems: 'center',
                     position: 'absolute',
                     right: 0,
-                    top: BUILDER_HEADER_TOP_OFFSET,
+                    top: BUILDER_CONTROLS_TOP_OFFSET,
                     zIndex: 999
                 }
             }

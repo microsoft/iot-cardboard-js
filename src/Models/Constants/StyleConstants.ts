@@ -3,7 +3,8 @@ export const behaviorsModalPreviewContainerLeftOffset =
     builderLeftPanelWidth + 36;
 
 export const VIEWER_HEADER_TOP_OFFSET = 10;
-export const BUILDER_HEADER_TOP_OFFSET = 26;
+export const BUILDER_HEADER_TOP_OFFSET = 10;
+export const BUILDER_CONTROLS_TOP_OFFSET = 26;
 
 export const HEADER_BUTTON_HEIGHT = 42;
 
