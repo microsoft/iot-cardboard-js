@@ -28,6 +28,7 @@ import {
     getModelPropertyListItemName,
     shouldClosePropertySelectorOnMouseLeave
 } from './Utils';
+import { FormBody } from './Constants';
 
 type IPropertySelectorTriggerElementsBoundingBox = {
     top: number;
@@ -109,7 +110,7 @@ export const PropertyListItemNest = ({
                 setPropertySelectorVisible(true);
                 return;
             case DTDLSchemaType.Enum:
-                setModalBody(DTDLSchemaType.Enum);
+                setModalBody(FormBody.enum);
                 setModalOpen(true);
                 return;
             default:

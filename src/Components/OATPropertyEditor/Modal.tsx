@@ -6,12 +6,8 @@ import FormAddEnumItem from './FormAddEnumItem';
 import { IAction } from '../../Models/Constants/Interfaces';
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 import FormRootModelDetails from './FormRootModelDetails';
+import { FormBody } from './Constants';
 
-export enum FromBody {
-    property = 'Property',
-    enum = 'Enum',
-    rootModel = 'FormRootModel'
-}
 interface IModal {
     currentNestedPropertyIndex?: number;
     currentPropertyIndex?: number;
@@ -42,8 +38,9 @@ export const Modal = ({
     const propertyInspectorStyles = getPropertyInspectorStyles();
 
     const getModalBody = () => {
+        console.log('modalBody', modalBody);
         switch (modalBody) {
-            case FromBody.property:
+            case FormBody.property:
                 return (
                     <FormUpdateProperty
                         setModalOpen={setModalOpen}
@@ -58,7 +55,7 @@ export const Modal = ({
                         languages={languages}
                     />
                 );
-            case FromBody.enum:
+            case FormBody.enum:
                 return (
                     <FormAddEnumItem
                         setModalOpen={setModalOpen}
@@ -73,7 +70,7 @@ export const Modal = ({
                         languages={languages}
                     />
                 );
-            case FromBody.rootModel:
+            case FormBody.rootModel:
                 return (
                     <FormRootModelDetails
                         setModalOpen={setModalOpen}
