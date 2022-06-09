@@ -765,7 +765,11 @@
     "enterANamespace": "Digite um namespace",
     "namespaceError": "O nome só pode conter os caracteres a-z, A-Z, 0-9 e sublinhar.",
     "example": "exemplo",
-    "settings": "Configurações"
+    "settings": "Configurações",
+    "errorInvalidJSON": "JSON inválido",
+    "errorFileFormatNotSupported": "{{file}} formato não suportado",
+    "errorFormatNoSupported": "Formato de arquivo não suportado",
+    "errorIssueWithFile": "Problema com {{fileName}}: {{error}}"
   },
   "cameraControls": {
     "mouseControls": "Controles do mouse",
@@ -785,7 +789,9 @@
     "relationships": "Relações",
     "inheritances": "Heranças",
     "components": "Componentes",
-    "example": "exemplo"
+    "example": "exemplo",
+    "errorDisplayName": "O nome do display não pode exceder 64 chars",
+    "errorId": "Id não pode exceder 2048 chars"
   },
   "OATPropertyEditor": {
     "displayName": "Nome de exibição",
@@ -855,7 +861,12 @@
     "delete": "Excluir",
     "multiLanguage": "multi-linguagem",
     "region": "Região",
-    "singleLanguage": "Língua única"
+    "singleLanguage": "Língua única",
+    "errorComment": "Comentários não podem exceder 512 chars",
+    "errorDisplayName": "O nome do display não pode exceder 64 chars",
+    "errorDescription": "Descrição não pode exceder 512 chars",
+    "errorId": "Id não pode exceder 2048 chars",
+    "errorName": "O nome só pode conter os caracteres a-z, A-Z, 0-9 e sublinhar"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Mensagem de erro",

@@ -765,7 +765,11 @@
     "enterANamespace": "名前空間を入力する",
     "namespaceError": "名前に使用できるのは、文字 a から z、A から Z、0 から 9、およびアンダースコアのみです。",
     "example": "例",
-    "settings": "設定"
+    "settings": "設定",
+    "errorInvalidJSON": "無効な JSON",
+    "errorFileFormatNotSupported": "{{ファイル}}形式はサポートされていません",
+    "errorFormatNoSupported": "サポートされていないファイル形式",
+    "errorIssueWithFile": "{{ファイル名}}に関する問題: {{エラー}}"
   },
   "cameraControls": {
     "mouseControls": "マウスコントロール",
@@ -785,7 +789,9 @@
     "relationships": "関係",
     "inheritances": "遺産",
     "components": "コンポーネント",
-    "example": "例"
+    "example": "例",
+    "errorDisplayName": "表示名は 64 文字を超えてはなりません。",
+    "errorId": "IDは2048文字を超えてはなりません"
   },
   "OATPropertyEditor": {
     "displayName": "表示名",
@@ -855,7 +861,12 @@
     "delete": "削除",
     "multiLanguage": "多言語",
     "region": "地域",
-    "singleLanguage": "単一言語"
+    "singleLanguage": "単一言語",
+    "errorComment": "コメントは512文字を超えてはなりません",
+    "errorDisplayName": "表示名は 64 文字を超えてはなりません。",
+    "errorDescription": "説明は512文字を超えてはなりません",
+    "errorId": "IDは2048文字を超えてはなりません",
+    "errorName": "名前に使用できるのは、文字 a から z、A から Z、0 から 9、および下線のみです。"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "エラーメッセージ",

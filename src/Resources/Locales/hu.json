@@ -765,7 +765,11 @@
     "enterANamespace": "Névtér megadása",
     "namespaceError": "A név csak az a-z, A-Z, 0-9 és aláhúzásjeleket tartalmazhatja.",
     "example": "példa",
-    "settings": "Beállítások"
+    "settings": "Beállítások",
+    "errorInvalidJSON": "Érvénytelen JSON",
+    "errorFileFormatNotSupported": "{{file}} formátum nem támogatott",
+    "errorFormatNoSupported": "A fájlformátum nem támogatott",
+    "errorIssueWithFile": "Probléma a következővel: {{fileName}}: {{error}}"
   },
   "cameraControls": {
     "mouseControls": "Egérvezérlők",
@@ -785,7 +789,9 @@
     "relationships": "Kapcsolatok",
     "inheritances": "Öröklések",
     "components": "Összetevők",
-    "example": "példa"
+    "example": "példa",
+    "errorDisplayName": "A megjelenítendő név nem haladhatja meg a 64 karakter értéket",
+    "errorId": "Az azonosító nem haladhatja meg a 2048 karakter"
   },
   "OATPropertyEditor": {
     "displayName": "Megjelenítendő név",
@@ -855,7 +861,12 @@
     "delete": "Töröl",
     "multiLanguage": "többnyelvű",
     "region": "Régió",
-    "singleLanguage": "Egynyelvű"
+    "singleLanguage": "Egynyelvű",
+    "errorComment": "Megjegyzés nem haladhatja meg az 512 karakter",
+    "errorDisplayName": "A megjelenítendő név nem haladhatja meg a 64 karakter értéket",
+    "errorDescription": "A leírás nem haladhatja meg az 512 karaktert",
+    "errorId": "Az azonosító nem haladhatja meg a 2048 karakter",
+    "errorName": "A név csak az a-z, A-Z, 0-9 és aláhúzásjeleket tartalmazhatja."
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Hibaüzenet",

@@ -19,6 +19,11 @@ import { SET_OAT_PROPERTY_EDITOR_MODEL } from '../../../Models/Constants/ActionT
 import { DTDLModel } from '../../../Models/Classes/DTDL';
 import { getPropertyDisplayName } from '../../OATPropertyEditor/Utils';
 
+import {
+    OATDisplayNameLengthLimit,
+    OATIdLengthLimit
+} from '../../../Models/Constants/Constants';
+
 const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
     data,
     isConnectable
@@ -30,6 +35,8 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
     );
     const [idEditor, setIdEditor] = useState(false);
     const [idText, setIdText] = useState(data.id);
+    const [displayNameError, setDisplayNameError] = useState(false);
+    const [idError, setIdError] = useState(false);
     const {
         elements,
         setElements,
@@ -43,7 +50,12 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
     const actionButtonStyles = getGraphViewerActionButtonStyles();
 
     const onNameChange = (evt) => {
-        setNameText(evt.target.value);
+        if (evt.target.value.length <= OATDisplayNameLengthLimit) {
+            setNameText(evt.target.value);
+            setDisplayNameError(null);
+        } else {
+            setDisplayNameError(true);
+        }
     };
 
     const onNameClick = () => {
@@ -100,7 +112,12 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
     };
 
     const onIdChange = (evt) => {
-        setIdText(evt.target.value);
+        if (evt.target.value.length <= OATIdLengthLimit) {
+            setIdText(evt.target.value);
+            setIdError(null);
+        } else {
+            setIdError(true);
+        }
     };
 
     const onIdClick = () => {
@@ -181,6 +198,13 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
                                     value={nameText}
                                     onBlur={onNameBlur}
                                     autoFocus
+                                    errorMessage={
+                                        displayNameError
+                                            ? t(
+                                                  'OATGraphViewer.errorDisplayName'
+                                              )
+                                            : ''
+                                    }
                                 />
                             )}
                         </div>
@@ -199,6 +223,11 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
                                     value={idText}
                                     onBlur={onIdBlur}
                                     autoFocus
+                                    errorMessage={
+                                        idError
+                                            ? t('OATGraphViewer.errorId')
+                                            : ''
+                                    }
                                 />
                             )}
                         </div>

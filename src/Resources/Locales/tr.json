@@ -765,7 +765,11 @@
     "enterANamespace": "Ad alanı girme",
     "namespaceError": "Ad yalnızca a-z, A-Z, 0-9 ve alt çizgi karakterlerini içerebilir.",
     "example": "örnek",
-    "settings": "Ayarlar"
+    "settings": "Ayarlar",
+    "errorInvalidJSON": "Geçersiz JSON",
+    "errorFileFormatNotSupported": "{{dosya}} biçimi desteklenmiyor",
+    "errorFormatNoSupported": "Dosya biçimi Desteklenmiyor",
+    "errorIssueWithFile": "{{fileName}} ile ilgili sorun: {{error}}"
   },
   "cameraControls": {
     "mouseControls": "Fare Kontrolleri",
@@ -785,7 +789,9 @@
     "relationships": "Ilişki",
     "inheritances": "Miras",
     "components": "Bileşen",
-    "example": "örnek"
+    "example": "örnek",
+    "errorDisplayName": "Görünen Ad 64 karakteri aşamaz",
+    "errorId": "Kimlik 2048 karakteri geçemez"
   },
   "OATPropertyEditor": {
     "displayName": "Görünen Ad",
@@ -855,7 +861,12 @@
     "delete": "Silmek",
     "multiLanguage": "çoklu dil",
     "region": "Bölge",
-    "singleLanguage": "Tek dil"
+    "singleLanguage": "Tek dil",
+    "errorComment": "Yorum 512 karakteri geçemez",
+    "errorDisplayName": "Görünen Ad 64 karakteri aşamaz",
+    "errorDescription": "Açıklama 512 karakteri geçemez",
+    "errorId": "Kimlik 2048 karakteri geçemez",
+    "errorName": "Ad yalnızca a-z, A-Z, 0-9 ve alt çizgi karakterlerini içerebilir"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Hata mesajı",

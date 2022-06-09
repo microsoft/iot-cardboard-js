@@ -24,13 +24,15 @@ import {
     OATRelationshipHandleName,
     OATExtendHandleName,
     OATInterfaceType,
-    OATComponentHandleName
+    OATComponentHandleName,
+    OATNamespaceDefaultValue
 } from '../../Models/Constants/Constants';
 import {
     getGraphViewerStyles,
     getGraphViewerButtonStyles,
     getGraphViewerWarningStyles,
-    getGraphViewerMinimapStyles
+    getGraphViewerMinimapStyles,
+    getGraphViewerFiltersStyles
 } from './OATGraphViewer.styles';
 import { ElementsContext } from './Internal/OATContext';
 import {
@@ -120,6 +122,54 @@ const getGraphViewerElementsFromModels = (models, modelPositions) => {
                     )
                 );
                 relationships = [...relationships, relationship];
+            } else if (content['@type'] === OATUntargetedRelationshipName) {
+                const name = `${input['displayName']}:${OATUntargetedRelationshipName}`;
+                const id = `${input['@id']}:${OATUntargetedRelationshipName}`;
+                const untargetedRelationship = {
+                    '@type': OATRelationshipHandleName,
+                    '@id': id,
+                    name: '',
+                    displayName: ''
+                };
+                const newNode = new ElementNode(
+                    id,
+                    input['@type'],
+                    {
+                        x:
+                            modelPositions.length > 0
+                                ? modelPositions[index].position.x
+                                : defaultNodePosition,
+                        y:
+                            modelPositions.length > 0
+                                ? modelPositions[index].position.y + 100
+                                : defaultNodePosition
+                    },
+                    new ElementData(
+                        id,
+                        name,
+                        OATUntargetedRelationshipName,
+                        [untargetedRelationship],
+                        contextClassBase
+                    )
+                );
+                const relationship = new ElementEdge(
+                    content['@id']
+                        ? content['@id']
+                        : `${input['@id']}${OATUntargetedRelationshipName}${id}`,
+                    OATRelationshipHandleName,
+                    input['@id'],
+                    OATUntargetedRelationshipName,
+                    id,
+                    new ElementEdgeData(
+                        content['@id']
+                            ? content['@id']
+                            : `${input['@id']}${OATUntargetedRelationshipName}${id}`,
+                        content['name'],
+                        content['displayName'],
+                        OATUntargetedRelationshipName
+                    )
+                );
+                relationships = [...relationships, newNode, relationship];
             } else {
                 contents = [...contents, content];
             }
@@ -193,6 +243,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     const buttonStyles = getGraphViewerButtonStyles();
     const warningStyles = getGraphViewerWarningStyles();
     const graphViewerMinimapStyles = getGraphViewerMinimapStyles();
+    const graphViewerFiltersStyles = getGraphViewerFiltersStyles();
     const currentNodeIdRef = useRef('');
     const currentHandleIdRef = useRef('');
     const [currentHovered, setCurrentHovered] = useState(null);
@@ -205,7 +256,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     dagreGraph.setDefaultEdgeLabel(() => ({}));
 
     const idClassBase = `dtmi:com:${
-        namespace ? namespace : t('OATGraphViewer.example')
+        namespace ? namespace : OATNamespaceDefaultValue
     }:`;
 
     const applyLayoutToElements = (elements, direction = 'TB') => {
@@ -687,9 +738,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                 params.id = `${currentNodeIdRef.current}${currentHandleIdRef.current}${target.dataset.id}${relationshipAmount};${versionClassBase}`;
                 params.data.id = `${currentNodeIdRef.current}${currentHandleIdRef.current}${target.dataset.id}${relationshipAmount};${versionClassBase}`;
                 params.data.name = OATRelationshipHandleName
-                    ? `${t(
-                          'OATGraphViewer.relationships'
-                      )}_${relationshipAmount}`
+                    ? `${OATRelationshipHandleName}_${relationshipAmount}`
                     : '';
                 setElements((els) => addEdge(params, els));
             }
@@ -697,7 +746,6 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
             const node = elements.find(
                 (element) => element.id === currentNodeIdRef.current
             );
-            const componentRelativePosition = 120;
 
             if (currentHandleIdRef.current === OATUntargetedRelationshipName) {
                 const name = `${node.data.name}:${OATUntargetedRelationshipName}`;
@@ -708,13 +756,15 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                     name: '',
                     displayName: ''
                 };
+                const reactFlowBounds = reactFlowWrapperRef.current.getBoundingClientRect();
+                const position = rfInstance.project({
+                    x: evt.clientX - reactFlowBounds.left,
+                    y: evt.clientY - reactFlowBounds.top
+                });
                 const newNode = {
                     id: id,
                     type: OATInterfaceType,
-                    position: {
-                        x: node.position.x + componentRelativePosition,
-                        y: node.position.y + componentRelativePosition
-                    },
+                    position: position,
                     data: {
                         name: name,
                         type: OATUntargetedRelationshipName,
@@ -974,7 +1024,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                                 {t('OATGraphViewer.emptyGraph')}
                             </Label>
                         )}
-                        <Stack>
+                        <Stack styles={graphViewerFiltersStyles}>
                             <div
                                 className={
                                     graphViewerStyles.graphViewerFiltersWrap
