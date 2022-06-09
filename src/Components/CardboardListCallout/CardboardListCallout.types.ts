@@ -52,7 +52,6 @@ export interface ICardboardListCalloutProps<T = void> {
 
 type PrimaryActionProps = {
     primaryActionLabel: string;
-    onPrimaryActionClick: (searchTerm?: string) => void;
+    onPrimaryActionClick: (searchTerm: string) => void;
     disabled?: boolean;
-    isSearchTermExposedWithPrimaryActionClick?: boolean; // set this if you want to expose the search text with primary action click when there is no search results
 };
