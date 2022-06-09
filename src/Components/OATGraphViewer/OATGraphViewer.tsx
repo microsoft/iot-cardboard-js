@@ -61,6 +61,22 @@ type OATGraphProps = {
     state?: IOATEditorState;
 };
 
+const getNextRelationshipAmount = (relationshipArray, source) => {
+    let relationshipAmount = 0;
+    while (
+        relationshipArray.some(
+            (element) =>
+                element.source &&
+                element.source === source &&
+                element.id ===
+                    `${source}${OATRelationshipHandleName}${relationshipAmount};${versionClassBase}`
+        )
+    ) {
+        relationshipAmount++;
+    }
+    return relationshipAmount;
+};
+
 //  Converts the stored models to a graph nodes
 const getGraphViewerElementsFromModels = (models, modelPositions) => {
     if (!models || !modelPositions) {
@@ -90,24 +106,15 @@ const getGraphViewerElementsFromModels = (models, modelPositions) => {
                 );
                 relationships = [...relationships, componentRelationship];
             } else if (content['@type'] === OATRelationshipHandleName) {
-                let relationshipAmount = 0;
-                if (!content['@id']) {
-                    while (
-                        relationships.some(
-                            (element) =>
-                                element.source &&
-                                element.source === input['@id'] &&
-                                element.id ===
-                                    `${input['@id']}${OATRelationshipHandleName}${relationshipAmount};${versionClassBase}`
-                        )
-                    ) {
-                        relationshipAmount++;
-                    }
-                }
                 const relationship = new ElementEdge(
                     content['@id']
                         ? content['@id']
-                        : `${input['@id']}${OATRelationshipHandleName}${relationshipAmount};${versionClassBase}`,
+                        : `${
+                              input['@id']
+                          }${OATRelationshipHandleName}${getNextRelationshipAmount(
+                              relationships,
+                              input['@id']
+                          )};${versionClassBase}`,
                     OATRelationshipHandleName,
                     input['@id'],
                     OATRelationshipHandleName,
@@ -115,7 +122,12 @@ const getGraphViewerElementsFromModels = (models, modelPositions) => {
                     new ElementEdgeData(
                         content['@id']
                             ? content['@id']
-                            : `${input['@id']}${OATRelationshipHandleName}${relationshipAmount};${versionClassBase}`,
+                            : `${
+                                  input['@id']
+                              }${OATRelationshipHandleName}${getNextRelationshipAmount(
+                                  relationships,
+                                  input['@id']
+                              )};${versionClassBase}`,
                         content['name'],
                         content['displayName'],
                         OATRelationshipHandleName
@@ -291,6 +303,8 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
             return el;
         });
     };
+
+    const getNextRelationship;
 
     useEffect(() => {
         // Identifies which is the next model Id on creating new nodes and updates the Local Storage
@@ -717,23 +731,24 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
         );
         if (target) {
             if (currentHandleIdRef.current !== OATUntargetedRelationshipName) {
-                let relationshipAmount = 0;
-                while (
-                    elements.some(
-                        (element) =>
-                            element.source &&
-                            element.source === currentNodeIdRef.current &&
-                            element.id ===
-                                `${currentNodeIdRef.current}${currentHandleIdRef.current}${target.dataset.id}${relationshipAmount};${versionClassBase}`
-                    )
-                ) {
-                    relationshipAmount++;
-                }
                 params.target = target.dataset.id;
-                params.id = `${currentNodeIdRef.current}${currentHandleIdRef.current}${target.dataset.id}${relationshipAmount};${versionClassBase}`;
-                params.data.id = `${currentNodeIdRef.current}${currentHandleIdRef.current}${target.dataset.id}${relationshipAmount};${versionClassBase}`;
+                params.id = `${currentNodeIdRef.current}${
+                    currentHandleIdRef.current
+                }${getNextRelationshipAmount(
+                    elements,
+                    currentNodeIdRef.current
+                )};${versionClassBase}`;
+                params.data.id = `${currentNodeIdRef.current}${
+                    currentHandleIdRef.current
+                }${getNextRelationshipAmount(
+                    elements,
+                    currentNodeIdRef.current
+                )};${versionClassBase}`;
                 params.data.name = OATRelationshipHandleName
-                    ? `${OATRelationshipHandleName}_${relationshipAmount}`
+                    ? `${OATRelationshipHandleName}_${getNextRelationshipAmount(
+                          elements,
+                          currentNodeIdRef.current
+                      )}`
                     : '';
                 setElements((els) => addEdge(params, els));
             }
@@ -799,9 +814,25 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                     }
                 };
                 params.target = id;
-                params.id = `${currentNodeIdRef.current}${currentHandleIdRef.current}${id}`;
-                params.data.id = `${currentNodeIdRef.current}${currentHandleIdRef.current}${id}`;
+                params.id = `${currentNodeIdRef.current}${
+                    currentHandleIdRef.current
+                }${getNextRelationshipAmount(
+                    elements,
+                    currentNodeIdRef.current
+                )};${versionClassBase}`;
+                params.data.id = `${currentNodeIdRef.current}${
+                    currentHandleIdRef.current
+                }${getNextRelationshipAmount(
+                    elements,
+                    currentNodeIdRef.current
+                )};${versionClassBase}`;
                 params.data.type = currentHandleIdRef.current;
+                params.data.name = OATRelationshipHandleName
+                    ? `${OATRelationshipHandleName}_${getNextRelationshipAmount(
+                          elements,
+                          currentNodeIdRef.current
+                      )}`
+                    : '';
                 setElements((es) => [...addEdge(params, es), newNode]);
             }
         }
