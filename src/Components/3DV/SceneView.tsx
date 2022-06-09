@@ -55,8 +55,7 @@ import {
     globeUrl,
     IADTBackgroundColor,
     TransparentTexture,
-    ViewerModeObjectColors,
-    ViewerObjectStyle
+    ViewerModeObjectColors
 } from '../../Models/Constants';
 import { getProgressStyles, getSceneViewStyles } from './SceneView.styles';
 import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
@@ -162,7 +161,7 @@ function SceneView(props: ISceneViewProps, ref) {
         coloredMeshItems,
         showHoverOnSelected,
         outlinedMeshitems,
-        objectStyle,
+        isWireframe,
         badgeGroups,
         backgroundColor,
         cameraInteractionType
@@ -212,8 +211,6 @@ function SceneView(props: ISceneViewProps, ref) {
     const [markersAndPositions, setMarkersAndPositions] = useState<
         { marker: Marker; left: number; top: number }[]
     >([]);
-
-    const isWireframe = objectStyle === ViewerObjectStyle.Wireframe;
 
     // These next two lines are important! The handlers change very frequently (every parent render)
     // So copy their values into refs so as not to disturb our state/re-render (we only need the latest value when we want to fire)
