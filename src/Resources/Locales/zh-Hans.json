@@ -760,7 +760,11 @@
     "doYouWantToSaveChangesYouMadeTo": "是否要保存所做的更改",
     "doYouWantToDelete": "是否要删除",
     "projectWithSameNameAlreadyExistsMessage?": "具有相同名称的项目已经存在，您是否要覆盖它？",
-    "overwrite": "改写"
+    "overwrite": "改写",
+    "errorInvalidJSON": "无效的 JSON",
+    "errorFileFormatNotSupported": "{{文件}} 格式不受支持",
+    "errorFormatNoSupported": "不支持的文件格式",
+    "errorIssueWithFile": "{{文件名}} 的问题：{{错误}}"
   },
   "cameraControls": {
     "mouseControls": "鼠标控制",

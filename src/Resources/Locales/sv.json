@@ -760,7 +760,11 @@
     "doYouWantToSaveChangesYouMadeTo": "Vill du spara de ändringar du gjort i",
     "doYouWantToDelete": "Vill du ta bort",
     "projectWithSameNameAlreadyExistsMessage?": "Projekt med samma namn finns redan, vill du åsidosätta det?",
-    "overwrite": "skriva över"
+    "overwrite": "skriva över",
+    "errorInvalidJSON": "Ogiltig JSON",
+    "errorFileFormatNotSupported": "{{file}}-format stöds inte",
+    "errorFormatNoSupported": "Filformat stöds inte",
+    "errorIssueWithFile": "Problem med {{fileName}}: {{error}}"
   },
   "cameraControls": {
     "mouseControls": "Muskontroller",

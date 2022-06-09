@@ -760,7 +760,11 @@
     "doYouWantToSaveChangesYouMadeTo": "Chcete uložit změny, které jste provedli",
     "doYouWantToDelete": "Chcete odstranit",
     "projectWithSameNameAlreadyExistsMessage?": "Projekt se stejným názvem již existuje, chcete jej přepsat?",
-    "overwrite": "přepsat"
+    "overwrite": "přepsat",
+    "errorInvalidJSON": "Neplatný JSON",
+    "errorFileFormatNotSupported": "Formát {{file}} není podporován",
+    "errorFormatNoSupported": "Formát souboru není podporován",
+    "errorIssueWithFile": "Problém s {{fileName}}: {{error}}"
   },
   "cameraControls": {
     "mouseControls": "Ovládání myší",

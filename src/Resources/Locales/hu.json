@@ -760,7 +760,11 @@
     "doYouWantToSaveChangesYouMadeTo": "Menti a módosításokat, amelyeket",
     "doYouWantToDelete": "Törölni szeretné?",
     "projectWithSameNameAlreadyExistsMessage?": "Az azonos nevű projekt már létezik, felül szeretné bírálni?",
-    "overwrite": "Felülírja"
+    "overwrite": "Felülírja",
+    "errorInvalidJSON": "Érvénytelen JSON",
+    "errorFileFormatNotSupported": "{{file}} formátum nem támogatott",
+    "errorFormatNoSupported": "A fájlformátum nem támogatott",
+    "errorIssueWithFile": "Probléma a következővel: {{fileName}}: {{error}}"
   },
   "cameraControls": {
     "mouseControls": "Egérvezérlők",
