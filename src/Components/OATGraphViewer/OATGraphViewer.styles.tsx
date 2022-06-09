@@ -296,3 +296,13 @@ export const getGraphViewerMinimapStyles = () => {
         background: theme.semanticColors.bodyBackground
     } as Partial<IStyle>;
 };
+
+export const getGraphViewerFiltersStyles = () => {
+    return {
+        root: {
+            position: 'absolute',
+            top: '10px',
+            right: '10px'
+        }
+    } as Partial<IStyle>;
+};
