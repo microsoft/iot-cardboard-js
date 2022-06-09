@@ -30,7 +30,8 @@ import {
     getGraphViewerStyles,
     getGraphViewerButtonStyles,
     getGraphViewerWarningStyles,
-    getGraphViewerMinimapStyles
+    getGraphViewerMinimapStyles,
+    getGraphViewerFiltersStyles
 } from './OATGraphViewer.styles';
 import { ElementsContext } from './Internal/OATContext';
 import {
@@ -193,6 +194,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     const buttonStyles = getGraphViewerButtonStyles();
     const warningStyles = getGraphViewerWarningStyles();
     const graphViewerMinimapStyles = getGraphViewerMinimapStyles();
+    const graphViewerFiltersStyles = getGraphViewerFiltersStyles();
     const currentNodeIdRef = useRef('');
     const currentHandleIdRef = useRef('');
     const [currentHovered, setCurrentHovered] = useState(null);
@@ -683,9 +685,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                 params.id = `${currentNodeIdRef.current}${currentHandleIdRef.current}${target.dataset.id}${relationshipAmount};${versionClassBase}`;
                 params.data.id = `${currentNodeIdRef.current}${currentHandleIdRef.current}${target.dataset.id}${relationshipAmount};${versionClassBase}`;
                 params.data.name = OATRelationshipHandleName
-                    ? `${t(
-                          'OATGraphViewer.relationships'
-                      )}_${relationshipAmount}`
+                    ? `${OATRelationshipHandleName}_${relationshipAmount}`
                     : '';
                 setElements((els) => addEdge(params, els));
             }
@@ -693,7 +693,6 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
             const node = elements.find(
                 (element) => element.id === currentNodeIdRef.current
             );
-            const componentRelativePosition = 120;
 
             if (currentHandleIdRef.current === OATUntargetedRelationshipName) {
                 const name = `${node.data.name}:${OATUntargetedRelationshipName}`;
@@ -704,13 +703,15 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                     name: '',
                     displayName: ''
                 };
+                const reactFlowBounds = reactFlowWrapperRef.current.getBoundingClientRect();
+                const position = rfInstance.project({
+                    x: evt.clientX - reactFlowBounds.left,
+                    y: evt.clientY - reactFlowBounds.top
+                });
                 const newNode = {
                     id: id,
                     type: OATInterfaceType,
-                    position: {
-                        x: node.position.x + componentRelativePosition,
-                        y: node.position.y + componentRelativePosition
-                    },
+                    position: position,
                     data: {
                         name: name,
                         type: OATUntargetedRelationshipName,
@@ -970,7 +971,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                                 {t('OATGraphViewer.emptyGraph')}
                             </Label>
                         )}
-                        <Stack>
+                        <Stack styles={graphViewerFiltersStyles}>
                             <div
                                 className={
                                     graphViewerStyles.graphViewerFiltersWrap

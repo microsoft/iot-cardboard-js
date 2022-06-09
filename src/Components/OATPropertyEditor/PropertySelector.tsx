@@ -36,7 +36,6 @@ import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 
 import { getModelPropertyCollectionName } from './Utils';
 
-const asciiValueBeforeLowercaseAlphabet = 96;
 const versionClassBase = '1';
 const leftOffset = 170; // Place selector's most used options above trigger element
 const topOffset = 60; // Selector height
@@ -187,9 +186,12 @@ const PropertySelector = ({
         const modelCopy = deepCopy(model);
         const schemaCopy = deepCopy(lastPropertyFocused.item.schema);
         schemaCopy.fields.push({
-            name: `${t('OATPropertyEditor.property')}_${String.fromCharCode(
-                asciiValueBeforeLowercaseAlphabet + schemaCopy.fields.length + 1
-            )}`,
+            name: `${t('OATPropertyEditor.property')}_${
+                schemaCopy.fields.length + 1
+            }`,
+            displayName: `${t('OATPropertyEditor.property')}_${
+                schemaCopy.fields.length + 1
+            }`,
             schema: tag
         });
 
@@ -226,6 +228,9 @@ const PropertySelector = ({
                     };${versionClassBase}`,
                     '@type': ['property'],
                     name: `New_Property_${model[propertiesKeyName].length + 1}`,
+                    displayName: `New_Property_${
+                        model[propertiesKeyName].length + 1
+                    }`,
                     schema: getSchema(tag)
                 }
             ]

@@ -35,8 +35,12 @@ type OATHeaderProps = {
 const OATHeader = ({ elements, dispatch, state }: OATHeaderProps) => {
     const { t } = useTranslation();
     const headerStyles = getHeaderStyles();
-    const { acceptedFiles, getRootProps, getInputProps } = useDropzone();
-    const inputFileRef = useRef();
+    const {
+        acceptedFiles,
+        getRootProps,
+        getInputProps,
+        inputRef
+    } = useDropzone();
     const [subMenuActive, setSubMenuActive] = useState(false);
     const [modalOpen, setModalOpen] = useState(false);
     const [modalBody, setModalBody] = useState(null);
@@ -66,7 +70,7 @@ const OATHeader = ({ elements, dispatch, state }: OATHeaderProps) => {
     };
 
     const onImportClick = () => {
-        inputFileRef.current.click();
+        inputRef.current.click();
     };
 
     const items: ICommandBarItemProps[] = [
@@ -121,8 +125,10 @@ const OATHeader = ({ elements, dispatch, state }: OATHeaderProps) => {
                     }
                 });
             }
+            sF = new File([], '');
         });
         handleFileListChanged(newFiles);
+        inputRef.current.value = '';
     }, [acceptedFiles]);
 
     const handleFileListChanged = async (files: Array<File>) => {
@@ -138,7 +144,10 @@ const OATHeader = ({ elements, dispatch, state }: OATHeaderProps) => {
                 try {
                     const content = await current.text();
                     newItem.content = JSON.parse(content);
-                    const validJson = await parseModel(content);
+                    const validJson = await parseModel(
+                        content,
+                        `Issue on file ${current.name} \r`
+                    );
                     if (!validJson) {
                         items.push(newItem.content);
                     } else {
@@ -196,7 +205,7 @@ const OATHeader = ({ elements, dispatch, state }: OATHeaderProps) => {
                 </div>
             </div>
             <div {...getRootProps()}>
-                <input {...getInputProps()} ref={inputFileRef} />
+                <input {...getInputProps()} />
             </div>
         </div>
     );

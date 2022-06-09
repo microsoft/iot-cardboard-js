@@ -551,12 +551,14 @@ export const FormAddEnumItem = ({
                 />
             </div>
 
-            <PrimaryButton
-                text={t('OATPropertyEditor.update')}
-                allowDisabledFocus
-                onClick={handleAddEnumValue}
-                disabled={error || !enumValue || !name}
-            />
+            <div className={propertyInspectorStyles.modalRowFlexEnd}>
+                <PrimaryButton
+                    text={t('OATPropertyEditor.update')}
+                    allowDisabledFocus
+                    onClick={handleAddEnumValue}
+                    disabled={error || !enumValue || !name}
+                />
+            </div>
         </>
     );
 };
