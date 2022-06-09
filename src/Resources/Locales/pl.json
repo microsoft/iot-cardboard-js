@@ -779,7 +779,9 @@
     "description": "Opis",
     "relationships": "Relacje",
     "inheritances": "Spadki",
-    "components": "Składniki"
+    "components": "Składniki",
+    "errorDisplayName": "Nazwa wyświetlana nie może przekraczać 64 znaków",
+    "errorId": "Id nie może przekraczać 2048 znaków"
   },
   "OATPropertyEditor": {
     "displayName": "Nazwa wyświetlana",
@@ -849,7 +851,12 @@
     "delete": "Usunąć",
     "multiLanguage": "wielojęzyczny",
     "region": "Region",
-    "singleLanguage": "Pojedynczy język"
+    "singleLanguage": "Pojedynczy język",
+    "errorComment": "Komentarz nie może przekroczyć 512 znaków",
+    "errorDisplayName": "Nazwa wyświetlana nie może przekraczać 64 znaków",
+    "errorDescription": "Opis nie może przekraczać 512 znaków",
+    "errorId": "Id nie może przekraczać 2048 znaków",
+    "errorName": "Nazwa może zawierać tylko znaki a-z, A-Z, 0-9 i podkreślenie"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Komunikat o błędzie",

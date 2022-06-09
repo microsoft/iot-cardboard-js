@@ -1,5 +1,11 @@
 import { DTDLProperty } from '../../Models/Classes/DTDL';
 import { ModelTypes, MultiLanguageSelectionType } from '../../Models/Constants';
+import {
+    OATCommentLengthLimit,
+    OATDescriptionLengthLimit,
+    OATDisplayNameLengthLimit,
+    OATIdLengthLimit
+} from '../../Models/Constants/Constants';
 
 /* Returns property collection attribute name depending on model type */
 export const getModelPropertyCollectionName = (type: string) => {
@@ -60,16 +66,22 @@ export const handleMultiLanguageSelectionsDisplayNameValueChange = (
     multiLanguageSelectionsDisplayName: any,
     setMultiLanguageSelectionsDisplayName: React.Dispatch<
         React.SetStateAction<any>
-    >
+    >,
+    setDisplayNameError: React.Dispatch<React.SetStateAction<any>>
 ) => {
-    const newMultiLanguageSelectionsDisplayName = {
-        ...multiLanguageSelectionsDisplayName,
-        [multiLanguageSelectionsDisplayNames[index].key]: value
-    };
+    if (value.length <= OATDisplayNameLengthLimit) {
+        const newMultiLanguageSelectionsDisplayName = {
+            ...multiLanguageSelectionsDisplayName,
+            [multiLanguageSelectionsDisplayNames[index].key]: value
+        };
 
-    setMultiLanguageSelectionsDisplayName(
-        newMultiLanguageSelectionsDisplayName
-    );
+        setMultiLanguageSelectionsDisplayName(
+            newMultiLanguageSelectionsDisplayName
+        );
+        setDisplayNameError(null);
+    } else {
+        setDisplayNameError(true);
+    }
 };
 
 /*  Handles language selection change on forms (Description - Key - Dropdown) */
@@ -107,16 +119,22 @@ export const handleMultiLanguageSelectionsDescriptionValueChange = (
     multiLanguageSelectionsDescriptions: any[],
     setMultiLanguageSelectionsDescription: React.Dispatch<
         React.SetStateAction<any>
-    >
+    >,
+    setDescriptionError: React.Dispatch<React.SetStateAction<any>>
 ) => {
-    const newMultiLanguageSelectionsDescription = {
-        ...multiLanguageSelectionsDescription,
-        [multiLanguageSelectionsDescriptions[index].key]: value
-    };
+    if (value.length <= OATDescriptionLengthLimit) {
+        const newMultiLanguageSelectionsDescription = {
+            ...multiLanguageSelectionsDescription,
+            [multiLanguageSelectionsDescriptions[index].key]: value
+        };
 
-    setMultiLanguageSelectionsDescription(
-        newMultiLanguageSelectionsDescription
-    );
+        setMultiLanguageSelectionsDescription(
+            newMultiLanguageSelectionsDescription
+        );
+        setDescriptionError(null);
+    } else {
+        setDescriptionError(true);
+    }
 };
 
 /*  Handles language selection removal on forms */
@@ -185,3 +203,51 @@ export const shouldClosePropertySelectorOnMouseLeave = (e, boundingBox) =>
     e.clientY >= boundingBox.bottom ||
     e.clientX < boundingBox.left ||
     e.clientX > boundingBox.right;
+
+/* Handle display name change on forms */
+export const handleDisplayNameChange = (
+    value,
+    setDisplayName,
+    setDisplayNameError
+) => {
+    if (value.length <= OATDisplayNameLengthLimit) {
+        setDisplayName(value);
+        setDisplayNameError(null);
+    } else {
+        setDisplayNameError(true);
+    }
+};
+
+/* Handle description change on forms */
+export const handleDescriptionChange = (
+    value,
+    setDescription,
+    setDescriptionError
+) => {
+    if (value.length <= OATDescriptionLengthLimit) {
+        setDescription(value);
+        setDescriptionError(null);
+    } else {
+        setDescriptionError(true);
+    }
+};
+
+/* Handle comment change on forms */
+export const handleCommentChange = (value, setComment, setCommentError) => {
+    if (value.length <= OATCommentLengthLimit) {
+        setComment(value);
+        setCommentError(null);
+    } else {
+        setCommentError(true);
+    }
+};
+
+/* Handle id change on forms */
+export const handleIdChange = (value, setId, setIdError) => {
+    if (value.length <= OATIdLengthLimit) {
+        setId(value);
+        setIdError(null);
+    } else {
+        setIdError(true);
+    }
+};
