@@ -539,7 +539,7 @@
       "errors": {
         "twinAliasAlreadyExists": "Bliźniaczy alias o tej samej nazwie już istnieje, rozważ dodanie go zamiast tego.",
         "alphanumericOnly": "Bliźniaczy alias może zawierać tylko znaki alfanumeryczne",
-        "noNumberPrefix_": "Podwójna nazwa nie może zaczynać się od cyfry"
+        "noNumberPrefix": "Podwójna nazwa nie może zaczynać się od cyfry"
       }
     },
     "actions": "Akcje"

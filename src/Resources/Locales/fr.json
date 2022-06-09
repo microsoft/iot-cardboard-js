@@ -539,7 +539,7 @@
       "errors": {
         "twinAliasAlreadyExists": "Un alias jumeau portant le même nom existe déjà, envisagez de l’ajouter à la place.",
         "alphanumericOnly": "L’alias jumeau ne doit contenir que des caractères alphanumériques",
-        "noNumberPrefix_": "Le nom jumeau ne doit pas commencer par un nombre"
+        "noNumberPrefix": "Le nom jumeau ne doit pas commencer par un nombre"
       }
     },
     "actions": "Actions"

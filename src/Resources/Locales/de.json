@@ -539,7 +539,7 @@
       "errors": {
         "twinAliasAlreadyExists": "Twin Alias mit dem gleichen Namen existiert bereits, erwägen Sie stattdessen, es hinzuzufügen.",
         "alphanumericOnly": "Zwillingsalias darf nur alphanumerische Zeichen enthalten",
-        "noNumberPrefix_": "Zwillingsname darf nicht mit einer Zahl beginnen"
+        "noNumberPrefix": "Zwillingsname darf nicht mit einer Zahl beginnen"
       }
     },
     "actions": "Aktionen"

@@ -539,7 +539,7 @@
       "errors": {
         "twinAliasAlreadyExists": "Dubbele alias met dezelfde naam bestaat al, overweeg deze in plaats daarvan toe te voegen.",
         "alphanumericOnly": "Dubbele alias mag alleen alfanumerieke tekens bevatten",
-        "noNumberPrefix_": "Tweelingnaam mag niet beginnen met een getal"
+        "noNumberPrefix": "Tweelingnaam mag niet beginnen met een getal"
       }
     },
     "actions": "Acties"

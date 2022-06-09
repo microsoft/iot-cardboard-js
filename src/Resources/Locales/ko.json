@@ -539,7 +539,7 @@
       "errors": {
         "twinAliasAlreadyExists": "같은 이름의 트윈 별칭이 이미 있으므로 대신 추가하는 것이 좋습니다.",
         "alphanumericOnly": "트윈 별칭은 영숫자만 포함해야 합니다.",
-        "noNumberPrefix_": "트윈 이름은 숫자로 시작하면 안 됩니다."
+        "noNumberPrefix": "트윈 이름은 숫자로 시작하면 안 됩니다."
       }
     },
     "actions": "작업"

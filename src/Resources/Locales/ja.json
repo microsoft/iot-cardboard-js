@@ -539,7 +539,7 @@
       "errors": {
         "twinAliasAlreadyExists": "同じ名前のツインエイリアスが既に存在するため、代わりに追加することを検討してください。",
         "alphanumericOnly": "ツイン エイリアスには英数字のみを含める必要があります。",
-        "noNumberPrefix_": "ツイン名は数字で始まってはなりません"
+        "noNumberPrefix": "ツイン名は数字で始まってはなりません"
       }
     },
     "actions": "アクション"
