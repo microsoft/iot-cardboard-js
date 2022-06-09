@@ -18,6 +18,7 @@ import {
 import { SET_OAT_PROPERTY_EDITOR_MODEL } from '../../../Models/Constants/ActionTypes';
 import { DTDLModel } from '../../../Models/Classes/DTDL';
 import { getPropertyDisplayName } from '../../OATPropertyEditor/Utils';
+import { ModelTypes } from '../../../Models/Constants/Enums';
 
 const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
     data,
@@ -30,6 +31,11 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
     );
     const [idEditor, setIdEditor] = useState(false);
     const [idText, setIdText] = useState(data.id);
+    const [
+        errorDisplayNameAlreadyUsed,
+        setErrorDisplayNameAlreadyUsed
+    ] = useState(null);
+    const [errorIdAlreadyUsed, setErrorIdAlreadyUsed] = useState(null);
     const {
         elements,
         setElements,
@@ -41,9 +47,22 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
     const graphViewerStyles = getGraphViewerStyles();
     const iconStyles = getGraphViewerIconStyles();
     const actionButtonStyles = getGraphViewerActionButtonStyles();
+    const { models } = state;
 
     const onNameChange = (evt) => {
-        setNameText(evt.target.value);
+        // Check current value is not used by another model as displayName within models
+        const currentValue = evt.target.value;
+        const repeatedDisplayNameModel = models.find(
+            (model) =>
+                model.displayName === currentValue &&
+                model['@type'] === ModelTypes.interface
+        );
+        if (repeatedDisplayNameModel) {
+            setErrorDisplayNameAlreadyUsed(true);
+        } else {
+            setErrorDisplayNameAlreadyUsed(null);
+            setNameText(currentValue);
+        }
     };
 
     const onNameClick = () => {
@@ -100,7 +119,19 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
     };
 
     const onIdChange = (evt) => {
-        setIdText(evt.target.value);
+        // Check current value is not used by another model as @id within models
+        const currentValue = evt.target.value;
+        const repeatedIdModel = models.find(
+            (model) =>
+                model['@id'] === currentValue &&
+                model['@type'] === ModelTypes.interface
+        );
+        if (repeatedIdModel) {
+            setErrorIdAlreadyUsed(true);
+        } else {
+            setErrorIdAlreadyUsed(null);
+            setIdText(currentValue);
+        }
     };
 
     const onIdClick = () => {
@@ -181,6 +212,13 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
                                     value={nameText}
                                     onBlur={onNameBlur}
                                     autoFocus
+                                    errorMessage={
+                                        errorDisplayNameAlreadyUsed
+                                            ? t(
+                                                  'OATGraphViewer.errorRepeatedDisplayName'
+                                              )
+                                            : ''
+                                    }
                                 />
                             )}
                         </div>
@@ -199,6 +237,13 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
                                     value={idText}
                                     onBlur={onIdBlur}
                                     autoFocus
+                                    errorMessage={
+                                        errorIdAlreadyUsed
+                                            ? t(
+                                                  'OATGraphViewer.errorRepeatedId'
+                                              )
+                                            : ''
+                                    }
                                 />
                             )}
                         </div>

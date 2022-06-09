@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { TextField, Stack, Label, Text, IconButton } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import {
@@ -32,7 +32,69 @@ export const PropertiesModelSummary = ({
     const iconWrapStyles = geIconWrapFitContentStyles();
     const generalPropertiesWrapStyles = getGeneralPropertiesWrapStyles();
     const textFieldStyes = getPropertyEditorTextFieldStyles();
-    const { model } = state;
+    const [
+        errorDisplayNameAlreadyUsed,
+        setErrorDisplayNameAlreadyUsed
+    ] = useState(null);
+    const [errorIdAlreadyUsed, setErrorIdAlreadyUsed] = useState(null);
+    const [errorNameAlreadyUsed, setErrorNameAlreadyUsed] = useState(null);
+    const { model, models } = state;
+
+    const handleDisplayNameChange = (value) => {
+        // Check current value is not used by another model as displayName within models
+        const repeatedDisplayNameModel = models.find(
+            (model) => model.displayName === value
+        );
+        if (repeatedDisplayNameModel) {
+            setErrorDisplayNameAlreadyUsed(true);
+        } else {
+            setErrorDisplayNameAlreadyUsed(null);
+            // Update model
+            const modelCopy = deepCopy(model);
+            modelCopy.displayName = value;
+            dispatch({
+                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                payload: modelCopy
+            });
+        }
+    };
+
+    const handleNameChange = (value) => {
+        // Check current value is not used by another model as name within models - checks interfaces
+        const repeatedDisplayNameModel = models.find(
+            (model) => model.name === value
+        );
+        if (repeatedDisplayNameModel) {
+            setErrorNameAlreadyUsed(true);
+        } else {
+            setErrorNameAlreadyUsed(null);
+            // Update model
+
+            // Check repeated name on Relationships
+            const modelCopy = deepCopy(model);
+            modelCopy.name = value;
+            dispatch({
+                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                payload: modelCopy
+            });
+        }
+    };
+
+    const handleIdChange = (value) => {
+        // Check current value is not used by another model as @id within models
+        const repeatedIdModel = models.find((model) => model['@id'] === value);
+        if (repeatedIdModel) {
+            setErrorIdAlreadyUsed(true);
+        } else {
+            setErrorIdAlreadyUsed(null);
+            const modelCopy = deepCopy(model);
+            modelCopy['@id'] = value;
+            dispatch({
+                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                payload: modelCopy
+            });
+        }
+    };
 
     return (
         <Stack styles={generalPropertiesWrapStyles}>
@@ -65,13 +127,13 @@ export const PropertiesModelSummary = ({
                     value={model ? model['@id'] : ''}
                     placeholder={t('id')}
                     onChange={(_ev, value) => {
-                        const modelCopy = deepCopy(model);
-                        modelCopy['@id'] = value;
-                        dispatch({
-                            type: SET_OAT_PROPERTY_EDITOR_MODEL,
-                            payload: modelCopy
-                        });
+                        handleIdChange(value);
                     }}
+                    errorMessage={
+                        errorIdAlreadyUsed
+                            ? t('OATPropertyEditor.errorRepeatedId')
+                            : ''
+                    }
                 />
             </div>
             {model && model.name && (
@@ -88,13 +150,13 @@ export const PropertiesModelSummary = ({
                         }
                         placeholder={t('name')}
                         onChange={(_ev, value) => {
-                            const modelCopy = deepCopy(model);
-                            modelCopy.name = value;
-                            dispatch({
-                                type: SET_OAT_PROPERTY_EDITOR_MODEL,
-                                payload: modelCopy
-                            });
+                            handleNameChange(value);
                         }}
+                        errorMessage={
+                            errorNameAlreadyUsed
+                                ? t('OATPropertyEditor.errorRepeatedName')
+                                : ''
+                        }
                     />
                 </div>
             )}
@@ -111,13 +173,13 @@ export const PropertiesModelSummary = ({
                     }
                     placeholder={t('OATPropertyEditor.displayName')}
                     onChange={(_ev, value) => {
-                        const modelCopy = deepCopy(model);
-                        modelCopy.displayName = value;
-                        dispatch({
-                            type: SET_OAT_PROPERTY_EDITOR_MODEL,
-                            payload: modelCopy
-                        });
+                        handleDisplayNameChange(value);
                     }}
+                    errorMessage={
+                        errorDisplayNameAlreadyUsed
+                            ? t('OATPropertyEditor.errorRepeatedDisplayName')
+                            : ''
+                    }
                 />
             </div>
         </Stack>

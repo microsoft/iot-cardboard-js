@@ -772,7 +772,9 @@
         "description": "Description",
         "relationships": "Relationships",
         "inheritances": "Inheritances",
-        "components": "Components"
+        "components": "Components",
+        "errorRepeatedDisplayName": "A model with the same display name already exists",
+        "errorRepeatedId": "A model with the same id already exists"
     },
     "OATPropertyEditor": {
         "addEnumValue": "Add Enum Value",
@@ -797,6 +799,9 @@
         "duration": "duration",
         "enum": "enum",
         "enumValue": "Enum Value",
+        "errorRepeatedDisplayName": "A model with the same display name already exists",
+        "errorRepeatedId": "A model with the same id already exists",
+        "errorRepeatedName": "A model with the same name already exists",
         "errorRepeatedEnumValue": "An enum-value with the same value already exists",
         "errorRepeatedPropertyName": "A property with the same name already exists",
         "float": "float",

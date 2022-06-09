@@ -50,6 +50,7 @@ import { ElementData } from './Internal/Classes/ElementData';
 import { ElementEdge } from './Internal/Classes/ElementEdge';
 import { ElementEdgeData } from './Internal/Classes/ElementEdgeData';
 import { deepCopy } from '../../Models/Services/Utils';
+import { ModelTypes } from '../../Models/Constants';
 
 const idClassBase = 'dtmi:com:example:';
 const contextClassBase = 'dtmi:dtdl:context;2';
@@ -670,17 +671,15 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
         if (target) {
             if (currentHandleIdRef.current !== OATUntargetedRelationshipName) {
                 let relationshipAmount = 0;
-                while (
-                    elements.some(
-                        (element) =>
-                            element.source &&
-                            element.source === currentNodeIdRef.current &&
-                            element.id ===
-                                `${currentNodeIdRef.current}${currentHandleIdRef.current}${target.dataset.id}${relationshipAmount};${versionClassBase}`
-                    )
-                ) {
-                    relationshipAmount++;
-                }
+                // Increment relationship amount for every item with the same type of relationship
+                elements.forEach((element) => {
+                    if (
+                        element.type === ModelTypes.relationship &&
+                        element.sourceHandle === OATRelationshipHandleName
+                    ) {
+                        relationshipAmount++;
+                    }
+                });
                 params.target = target.dataset.id;
                 params.id = `${currentNodeIdRef.current}${currentHandleIdRef.current}${target.dataset.id}${relationshipAmount};${versionClassBase}`;
                 params.data.id = `${currentNodeIdRef.current}${currentHandleIdRef.current}${target.dataset.id}${relationshipAmount};${versionClassBase}`;
