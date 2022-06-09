@@ -166,6 +166,10 @@ const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = (props) => {
         );
     };
 
+    const sceneIsWireframe = useMemo(
+        () => sceneThemeState.objectStyle === ViewerObjectStyle.Wireframe,
+        [sceneThemeState.objectStyle]
+    );
     const sceneObjectColor = useMemo(() => {
         // keep the material styles in default theme
         if (sceneThemeState.objectStyle === ViewerObjectStyle.Default) {
@@ -212,9 +216,9 @@ const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = (props) => {
         >
             <SceneView
                 ref={sceneViewComponent}
+                isWireframe={sceneIsWireframe}
                 objectColor={sceneObjectColor}
                 objectColorOptions={sceneThemeState.objectColorOptions}
-                objectStyle={sceneThemeState.objectStyle}
                 backgroundColor={sceneObjectBackgroundColor}
                 onCameraMove={addInProps?.onCameraMove ? cameraMove : undefined}
                 {...svp}
