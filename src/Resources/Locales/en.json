@@ -778,7 +778,9 @@
         "inheritances": "Inheritances",
         "components": "Components",
         "errorDisplayName": "Display Name may not exceed 64 chars",
-        "errorId": "Id may not exceed 2048 chars"
+        "errorId": "Id may not exceed 2048 chars",
+        "errorName": "Name may only contain the characters a-z, A-Z, 0-9, and underscore",
+        "errorNameLength": "Name may not exceed 64 chars"
     },
     "OATPropertyEditor": {
         "addEnumValue": "Add Enum Value",
