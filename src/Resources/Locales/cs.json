@@ -782,7 +782,9 @@
     "description": "Popis",
     "relationships": "Vztahy",
     "inheritances": "Dědictví",
-    "components": "Součásti"
+    "components": "Součásti",
+    "errorDisplayName": "Zobrazovaný název nesmí překročit 64 znaků",
+    "errorId": "Id nesmí překročit 2048 znaků"
   },
   "OATPropertyEditor": {
     "displayName": "Zobrazovaný název",
@@ -852,7 +854,12 @@
     "delete": "Vymazat",
     "multiLanguage": "vícejazyčné",
     "region": "Oblast",
-    "singleLanguage": "Jeden jazyk"
+    "singleLanguage": "Jeden jazyk",
+    "errorComment": "Komentář nesmí překročit 512 znaků",
+    "errorDisplayName": "Zobrazovaný název nesmí překročit 64 znaků",
+    "errorDescription": "Popis nesmí překročit 512 znaků",
+    "errorId": "Id nesmí překročit 2048 znaků",
+    "errorName": "Název může obsahovat pouze znaky a-z, A-Z, 0-9 a podtržítko"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Zpráva o chybě",

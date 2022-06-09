@@ -782,7 +782,9 @@
     "description": "形容",
     "relationships": "関係",
     "inheritances": "遺産",
-    "components": "コンポーネント"
+    "components": "コンポーネント",
+    "errorDisplayName": "表示名は 64 文字を超えてはなりません。",
+    "errorId": "IDは2048文字を超えてはなりません"
   },
   "OATPropertyEditor": {
     "displayName": "表示名",
@@ -852,7 +854,12 @@
     "delete": "削除",
     "multiLanguage": "多言語",
     "region": "地域",
-    "singleLanguage": "単一言語"
+    "singleLanguage": "単一言語",
+    "errorComment": "コメントは512文字を超えてはなりません",
+    "errorDisplayName": "表示名は 64 文字を超えてはなりません。",
+    "errorDescription": "説明は512文字を超えてはなりません",
+    "errorId": "IDは2048文字を超えてはなりません",
+    "errorName": "名前に使用できるのは、文字 a から z、A から Z、0 から 9、および下線のみです。"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "エラーメッセージ",

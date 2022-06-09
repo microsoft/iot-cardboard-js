@@ -782,7 +782,9 @@
     "description": "Descrição",
     "relationships": "Relacionamentos",
     "inheritances": "Heranças",
-    "components": "Componentes"
+    "components": "Componentes",
+    "errorDisplayName": "Display Name não pode exceder 64 chars",
+    "errorId": "Id não pode exceder 2048 chars"
   },
   "OATPropertyEditor": {
     "displayName": "Nome do visor",
@@ -852,7 +854,12 @@
     "delete": "Excluir",
     "multiLanguage": "multi-língua",
     "region": "Região",
-    "singleLanguage": "Língua única"
+    "singleLanguage": "Língua única",
+    "errorComment": "Comentário não pode exceder 512 chars",
+    "errorDisplayName": "Display Name não pode exceder 64 chars",
+    "errorDescription": "A descrição não pode exceder 512 chars",
+    "errorId": "Id não pode exceder 2048 chars",
+    "errorName": "O nome só pode conter os caracteres a-z, A-Z, 0-9, e sublinhar"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Mensagem de erro",
