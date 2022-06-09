@@ -860,7 +860,8 @@
     "errorDisplayName": "El nombre para mostrar no puede exceder los 64 caracteres",
     "errorDescription": "Descripción no puede exceder de 512 caracteres",
     "errorId": "Id no puede exceder los 2048 caracteres",
-    "errorName": "El nombre solo puede contener los caracteres a-z, A-Z, 0-9 y guión bajo"
+    "errorName": "El nombre solo puede contener los caracteres a-z, A-Z, 0-9 y guión bajo",
+    "errorNameLength": "El nombre no puede exceder de 64 caracteres"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Mensaje de error",

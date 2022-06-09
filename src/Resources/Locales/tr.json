@@ -860,7 +860,8 @@
     "errorDisplayName": "Görünen Ad 64 karakteri aşamaz",
     "errorDescription": "Açıklama 512 karakteri geçemez",
     "errorId": "Kimlik 2048 karakteri geçemez",
-    "errorName": "Ad yalnızca a-z, A-Z, 0-9 ve alt çizgi karakterlerini içerebilir"
+    "errorName": "Ad yalnızca a-z, A-Z, 0-9 ve alt çizgi karakterlerini içerebilir",
+    "errorNameLength": "İsim 64 karakteri geçemez"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Hata mesajı",

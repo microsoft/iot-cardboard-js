@@ -860,7 +860,8 @@
     "errorDisplayName": "A megjelenítendő név nem haladhatja meg a 64 karakter értéket",
     "errorDescription": "A leírás nem haladhatja meg az 512 karaktert",
     "errorId": "Az azonosító nem haladhatja meg a 2048 karakter",
-    "errorName": "A név csak az a-z, A-Z, 0-9 és aláhúzásjeleket tartalmazhatja."
+    "errorName": "A név csak az a-z, A-Z, 0-9 és aláhúzásjeleket tartalmazhatja.",
+    "errorNameLength": "A név nem haladhatja meg a 64 karaktert"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Hibaüzenet",
