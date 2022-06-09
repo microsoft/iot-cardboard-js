@@ -511,7 +511,6 @@
     "twinAlias": {
       "title": "Pseudónimo gémeo",
       "calloutDescription": "A união de propriedades gémeas de elementos selecionados",
-      "aliasedTwin": "Gémeo pseudónimo",
       "add": "Adicionar gémeo",
       "new": "Novo gémeo",
       "edit": "Editar gémeo",

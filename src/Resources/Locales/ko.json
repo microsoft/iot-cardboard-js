@@ -511,7 +511,6 @@
     "twinAlias": {
       "title": "트윈 별칭",
       "calloutDescription": "선택한 요소의 쌍 속성의 결합",
-      "aliasedTwin": "앨리어싱된 트윈",
       "add": "트윈 추가",
       "new": "뉴 트윈",
       "edit": "트윈 편집",

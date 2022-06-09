@@ -511,7 +511,6 @@
     "twinAlias": {
       "title": "孪生别名",
       "calloutDescription": "所选元素的孪生属性并集",
-      "aliasedTwin": "混叠双胞胎",
       "add": "添加双胞胎",
       "new": "新双胞胎",
       "edit": "编辑孪生",
