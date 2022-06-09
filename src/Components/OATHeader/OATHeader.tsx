@@ -111,22 +111,33 @@ const OATHeader = ({ elements, dispatch, state }: OATHeaderProps) => {
     };
     useEffect(() => {
         const newFiles = [];
+        const newFilesErrors = [];
         acceptedFiles.forEach((sF) => {
             if (sF.type === 'application/json') {
                 newFiles.push(sF);
             } else {
-                dispatch({
-                    type: SET_OAT_ERROR,
-                    payload: {
-                        title: t('OATHeader.errorFormatNoSupported'),
-                        message: t('OATHeader.errorFileFormatNotSupported', {
-                            file: sF.name
-                        })
-                    }
-                });
+                newFilesErrors.push(
+                    t('OATHeader.errorFileFormatNotSupported', {
+                        file: sF.name
+                    })
+                );
             }
             sF = new File([], '');
         });
+        if (newFilesErrors.length > 0) {
+            let accumulatedError = '';
+            for (const error of newFilesErrors) {
+                accumulatedError += `${error} \n `;
+            }
+
+            dispatch({
+                type: SET_OAT_ERROR,
+                payload: {
+                    title: t('OATHeader.errorFormatNoSupported'),
+                    message: accumulatedError
+                }
+            });
+        }
         handleFileListChanged(newFiles);
         inputRef.current.value = '';
     }, [acceptedFiles]);
