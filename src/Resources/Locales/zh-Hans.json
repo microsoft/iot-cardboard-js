@@ -539,7 +539,7 @@
       "errors": {
         "twinAliasAlreadyExists": "具有相同名称的孪生别名已存在，请考虑改为添加它。",
         "alphanumericOnly": "孪生别名只能包含字母数字字符",
-        "noNumberPrefix": "孪生别名不得以数字开头"
+        "noNumberPrefix_": "孪生名称不得以数字开头"
       }
     },
     "actions": "行动"

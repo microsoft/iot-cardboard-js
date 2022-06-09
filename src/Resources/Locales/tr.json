@@ -539,7 +539,7 @@
       "errors": {
         "twinAliasAlreadyExists": "Aynı ada sahip ikiz takma ad zaten var, bunun yerine eklemeyi düşünün.",
         "alphanumericOnly": "İkiz diğer ad yalnızca alfasayısal karakterler içermelidir",
-        "noNumberPrefix": "İkiz takma ad bir sayı ile başlamamalıdır"
+        "noNumberPrefix_": "İkiz ad bir sayı ile başlamamalıdır"
       }
     },
     "actions": "Eylemler"
