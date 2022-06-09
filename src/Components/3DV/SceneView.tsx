@@ -146,26 +146,26 @@ async function loadPromise(
 
 function SceneView(props: ISceneViewProps, ref) {
     const {
-        modelUrl,
-        markers,
-        onMeshClick,
-        onMeshHover,
-        onCameraMove,
-        onBadgeGroupHover,
-        showMeshesOnHover,
-        objectColor,
-        zoomToMeshIds,
-        unzoomedMeshOpacity,
-        onSceneLoaded,
-        getToken,
+        backgroundColor,
+        badgeGroups,
+        cameraInteractionType,
         cameraPosition,
         coloredMeshItems,
-        showHoverOnSelected,
-        outlinedMeshitems,
+        getToken,
+        markers,
+        modelUrl,
+        objectColor,
         objectStyle,
-        badgeGroups,
-        backgroundColor,
-        cameraInteractionType
+        onBadgeGroupHover,
+        onCameraMove,
+        onMeshClick,
+        onMeshHover,
+        onSceneLoaded,
+        outlinedMeshitems,
+        showHoverOnSelected,
+        showMeshesOnHover,
+        unzoomedMeshOpacity,
+        zoomToMeshIds
     } = props;
     const [isLoading, setIsLoading] = useState(true);
     const [loadProgress, setLoadProgress] = useState(0);

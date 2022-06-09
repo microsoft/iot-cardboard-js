@@ -63,10 +63,8 @@ export const SceneThemeContextReducer: (
                             DEFAULT_OBJECT_COLOR_INDEX
                         ].color; // white
                 } else if (
-                    draft.objectStyle === ViewerObjectStyle.Transparent &&
                     draft.objectColor ===
-                        draft.objectColorOptions[DEFAULT_OBJECT_COLOR_INDEX]
-                            .color // if it's white, change it cause white doesn't work so we want the default to be nice
+                    draft.objectColorOptions[DEFAULT_OBJECT_COLOR_INDEX].color // if it's white, change it cause white doesn't work so we want the default to be nice
                 ) {
                     draft.objectColor = draft.objectColorOptions[0].color; // blue
                 }
@@ -110,29 +108,36 @@ export const SceneThemeContextProvider: React.FC<ISceneThemeContextProviderProps
 
     // set the initial state for the Color reducer
     const persistedTheme = getPersistedTheme();
-    const objectColorOptions =
-        initialState?.objectColorOptions || ViewerModeObjectColors;
+
     const backgroundOptions =
         initialState?.sceneBackgroundOptions || ViewerModeBackgroundColors;
+    const sceneBackground =
+        initialState?.sceneBackground ||
+        persistedTheme?.background?.color ||
+        backgroundOptions?.[0]?.color ||
+        '';
+
     const styleOptions =
         initialState?.objectStyleOptions || buildDefaultStyleChoices(t);
+    const objectStyle =
+        initialState?.objectStyle ||
+        persistedTheme?.style ||
+        ViewerObjectStyle.Default;
+
+    const objectColorOptions =
+        initialState?.objectColorOptions || ViewerModeObjectColors;
+    const objectColor =
+        initialState?.objectColor ||
+        persistedTheme?.objectColor?.color ||
+        objectColorOptions?.[DEFAULT_OBJECT_COLOR_INDEX].color ||
+        '';
+
     const defaultState: ISceneThemeContextState = {
-        sceneBackground:
-            initialState?.sceneBackground ||
-            persistedTheme?.background?.color ||
-            backgroundOptions?.[0]?.color ||
-            '',
+        sceneBackground: sceneBackground,
         sceneBackgroundOptions: backgroundOptions,
-        objectColor:
-            initialState?.objectColor ||
-            persistedTheme?.objectColor?.color ||
-            objectColorOptions?.[DEFAULT_OBJECT_COLOR_INDEX].color ||
-            '',
+        objectColor: objectColor,
         objectColorOptions: objectColorOptions,
-        objectStyle:
-            initialState?.objectStyle ||
-            persistedTheme?.style ||
-            ViewerObjectStyle.Default,
+        objectStyle: objectStyle,
         objectStyleOptions: styleOptions
     };
     logDebugConsole(
