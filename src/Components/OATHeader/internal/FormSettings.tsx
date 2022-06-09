@@ -29,17 +29,10 @@ export const FormSettings = ({
 }: IModal) => {
     const { t } = useTranslation();
     const [namespace, setNamespace] = useState(state.namespace);
-    const [error, setError] = useState(false);
     const headerStyles = getHeaderStyles();
 
     const handleProjectNamespaceChange = (value) => {
-        //  The name may only contain the characters a-z, A-Z, 0-9, and underscore.
-        if (DTDLNameRegex.test(value)) {
-            setNamespace(value);
-            setError(null);
-        } else {
-            setError(true);
-        }
+        setNamespace(value);
     };
 
     const handleOnSave = () => {
@@ -65,15 +58,12 @@ export const FormSettings = ({
                     placeholder={t('OATHeader.enterANamespace')}
                     value={namespace}
                     onChange={(e, v) => handleProjectNamespaceChange(v)}
-                    errorMessage={error ? t('OATHeader.namespaceError') : null}
                 />
             </div>
 
             <div className={headerStyles.modalRowFlexEnd}>
                 <PrimaryButton
-                    text={
-                        error ? t('OATHeader.overwrite') : t('OATHeader.save')
-                    }
+                    text={t('OATHeader.save')}
                     onClick={handleOnSave}
                     disabled={!namespace}
                 />

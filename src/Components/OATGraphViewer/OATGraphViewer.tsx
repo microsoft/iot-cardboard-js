@@ -255,7 +255,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     const dagreGraph = new dagre.graphlib.Graph();
     dagreGraph.setDefaultEdgeLabel(() => ({}));
 
-    const idClassBase = `dtmi:com:${
+    const idClassBase = `dtmi:${
         namespace ? namespace : OATNamespaceDefaultValue
     }:`;
 
