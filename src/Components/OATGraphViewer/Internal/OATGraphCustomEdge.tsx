@@ -568,7 +568,11 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                 <foreignObject
                     width={foreignObjectSize}
                     height={foreignObjectSize}
-                    x={edgeCenterX - foreignObjectSize / 2}
+                    x={
+                        data.type !== OATExtendHandleName
+                            ? edgeCenterX - foreignObjectSize / 2
+                            : edgeCenterX
+                    }
                     y={edgeCenterY}
                     requiredExtensions="http://www.w3.org/1999/xhtml"
                 >
@@ -605,26 +609,25 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                                 }}
                             />
                         </ActionButton>
-                        <ActionButton
-                            className={
-                                data.type !== OATExtendHandleName
-                                    ? graphViewerStyles.edgeCancel
-                                    : graphViewerStyles.extendCancel
-                            }
-                            onClick={onNameBlur}
-                        >
-                            <Icon
-                                iconName="Save"
-                                styles={{
-                                    root: {
-                                        fontSize: FontSizes.size10,
-                                        color: theme.semanticColors.actionLink,
-                                        marginTop: '-35px',
-                                        marginRight: '-10px'
-                                    }
-                                }}
-                            />
-                        </ActionButton>
+                        {data.type !== OATExtendHandleName && (
+                            <ActionButton
+                                className={graphViewerStyles.edgeCancel}
+                                onClick={onNameBlur}
+                            >
+                                <Icon
+                                    iconName="Save"
+                                    styles={{
+                                        root: {
+                                            fontSize: FontSizes.size10,
+                                            color:
+                                                theme.semanticColors.actionLink,
+                                            marginTop: '-35px',
+                                            marginRight: '-10px'
+                                        }
+                                    }}
+                                />
+                            </ActionButton>
+                        )}
                     </body>
                 </foreignObject>
             )}
