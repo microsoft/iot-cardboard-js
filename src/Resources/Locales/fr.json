@@ -763,7 +763,8 @@
     "overwrite": "écraser",
     "errorInvalidJSON": "JSON non valide",
     "errorFileFormatNotSupported": "Le format {{file}} n’est pas pris en charge",
-    "errorFormatNoSupported": "Format de fichier non pris en charge"
+    "errorFormatNoSupported": "Format de fichier non pris en charge",
+    "errorIssueWithFile": "Problème avec {{fileName}} : {{error}}"
   },
   "cameraControls": {
     "mouseControls": "Contrôles de la souris",

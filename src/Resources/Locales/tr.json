@@ -763,7 +763,8 @@
     "overwrite": "Üzerine",
     "errorInvalidJSON": "Geçersiz JSON",
     "errorFileFormatNotSupported": "{{dosya}} biçimi desteklenmiyor",
-    "errorFormatNoSupported": "Dosya biçimi Desteklenmiyor"
+    "errorFormatNoSupported": "Dosya biçimi Desteklenmiyor",
+    "errorIssueWithFile": "{{fileName}} ile ilgili sorun: {{error}}"
   },
   "cameraControls": {
     "mouseControls": "Fare Kontrolleri",

@@ -763,7 +763,8 @@
     "overwrite": "overschrijven",
     "errorInvalidJSON": "Ongeldige JSON",
     "errorFileFormatNotSupported": "{{file}} indeling niet ondersteund",
-    "errorFormatNoSupported": "Bestandsindeling niet ondersteund"
+    "errorFormatNoSupported": "Bestandsindeling niet ondersteund",
+    "errorIssueWithFile": "Probleem met {{bestandsnaam}}: {{error}}"
   },
   "cameraControls": {
     "mouseControls": "Muisbediening",

@@ -763,7 +763,8 @@
     "overwrite": "перезаписать",
     "errorInvalidJSON": "Недопустимый JSON",
     "errorFileFormatNotSupported": "Формат {{file}} не поддерживается",
-    "errorFormatNoSupported": "Формат файла не поддерживается"
+    "errorFormatNoSupported": "Формат файла не поддерживается",
+    "errorIssueWithFile": "Проблема с {{имя_файла}}: {{ошибка}}"
   },
   "cameraControls": {
     "mouseControls": "Элементы управления мышью",

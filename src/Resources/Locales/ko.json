@@ -763,7 +763,8 @@
     "overwrite": "덮어쓸",
     "errorInvalidJSON": "잘못된 JSON",
     "errorFileFormatNotSupported": "{{file}} 형식이 지원되지 않음",
-    "errorFormatNoSupported": "지원되지 않는 파일 형식"
+    "errorFormatNoSupported": "지원되지 않는 파일 형식",
+    "errorIssueWithFile": "{{fileName}}의 문제: {{error}}"
   },
   "cameraControls": {
     "mouseControls": "마우스 컨트롤",

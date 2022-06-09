@@ -763,7 +763,8 @@
     "overwrite": "改写",
     "errorInvalidJSON": "无效的 JSON",
     "errorFileFormatNotSupported": "{{文件}} 格式不受支持",
-    "errorFormatNoSupported": "不支持的文件格式"
+    "errorFormatNoSupported": "不支持的文件格式",
+    "errorIssueWithFile": "{{文件名}} 的问题：{{错误}}"
   },
   "cameraControls": {
     "mouseControls": "鼠标控制",

@@ -763,7 +763,8 @@
     "overwrite": "上書き",
     "errorInvalidJSON": "無効な JSON",
     "errorFileFormatNotSupported": "{{ファイル}}形式はサポートされていません",
-    "errorFormatNoSupported": "サポートされていないファイル形式"
+    "errorFormatNoSupported": "サポートされていないファイル形式",
+    "errorIssueWithFile": "{{ファイル名}}に関する問題: {{エラー}}"
   },
   "cameraControls": {
     "mouseControls": "マウスコントロール",

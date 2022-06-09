@@ -763,7 +763,8 @@
     "overwrite": "überschreiben",
     "errorInvalidJSON": "Ungültiges JSON",
     "errorFileFormatNotSupported": "{{file}}-Format wird nicht unterstützt",
-    "errorFormatNoSupported": "Dateiformat nicht unterstützt"
+    "errorFormatNoSupported": "Dateiformat nicht unterstützt",
+    "errorIssueWithFile": "Problem mit {{fileName}}: {{error}}"
   },
   "cameraControls": {
     "mouseControls": "Maus-Steuerelemente",

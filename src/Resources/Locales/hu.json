@@ -763,7 +763,8 @@
     "overwrite": "Felülírja",
     "errorInvalidJSON": "Érvénytelen JSON",
     "errorFileFormatNotSupported": "{{file}} formátum nem támogatott",
-    "errorFormatNoSupported": "A fájlformátum nem támogatott"
+    "errorFormatNoSupported": "A fájlformátum nem támogatott",
+    "errorIssueWithFile": "Probléma a következővel: {{fileName}}: {{error}}"
   },
   "cameraControls": {
     "mouseControls": "Egérvezérlők",

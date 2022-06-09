@@ -763,7 +763,8 @@
     "overwrite": "skriva över",
     "errorInvalidJSON": "Ogiltig JSON",
     "errorFileFormatNotSupported": "{{file}}-format stöds inte",
-    "errorFormatNoSupported": "Filformat stöds inte"
+    "errorFormatNoSupported": "Filformat stöds inte",
+    "errorIssueWithFile": "Problem med {{fileName}}: {{error}}"
   },
   "cameraControls": {
     "mouseControls": "Muskontroller",

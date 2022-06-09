@@ -763,7 +763,8 @@
     "overwrite": "přepsat",
     "errorInvalidJSON": "Neplatný JSON",
     "errorFileFormatNotSupported": "Formát {{file}} není podporován",
-    "errorFormatNoSupported": "Formát souboru není podporován"
+    "errorFormatNoSupported": "Formát souboru není podporován",
+    "errorIssueWithFile": "Problém s {{fileName}}: {{error}}"
   },
   "cameraControls": {
     "mouseControls": "Ovládání myší",
