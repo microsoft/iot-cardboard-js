@@ -35,7 +35,7 @@ const AddTwinAliasCallout: React.FC<IADT3DSceneBuilderAddTwinAliasCalloutProps> 
             primaryActionProps={{
                 onPrimaryActionClick: onCreateTwinAlias,
                 primaryActionLabel: t('3dSceneBuilder.twinAlias.create'),
-                exposeSearchTermWithPrimaryActionClick: true
+                isSearchTermExposedWithPrimaryActionClick: true
             }}
             searchBoxDataTestId="twin-alias-callout-search"
         />

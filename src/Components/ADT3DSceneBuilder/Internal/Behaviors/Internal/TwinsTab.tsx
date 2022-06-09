@@ -146,8 +146,9 @@ const TwinsTab: React.FC<ITwinsTabProps> = ({
     const onCreateTwinAlias = useCallback(
         (searchText: string) => {
             setBehaviorTwinAliasFormInfo({
-                twinAlias: { alias: searchText },
-                mode: TwinAliasFormMode.CreateTwinAlias
+                twinAlias: null,
+                mode: TwinAliasFormMode.CreateTwinAlias,
+                ...(searchText && { aliasToAutoPopulate: searchText })
             });
         },
         [setBehaviorTwinAliasFormInfo]

@@ -47,17 +47,17 @@ const BehaviorTwinAliasForm: React.FC<{
         setBehaviorToEdit
     } = useContext(SceneBuilderContext);
 
-    const getDefaultBehaviorTwinAlias = (prefilledAlias?: string) => {
-        const emptyBehaviorTwinAlias = defaultBehaviorTwinAlias;
-        if (prefilledAlias) {
-            emptyBehaviorTwinAlias.alias = prefilledAlias;
+    const getDefaultBehaviorTwinAlias = (aliasToAutoPopulate?: string) => {
+        const newBehaviorTwinAlias = deepCopy(defaultBehaviorTwinAlias);
+        if (aliasToAutoPopulate) {
+            newBehaviorTwinAlias.alias = aliasToAutoPopulate;
         }
-        return emptyBehaviorTwinAlias;
+        return newBehaviorTwinAlias;
     };
     const [formData, setFormData] = useState<IBehaviorTwinAliasItem>(
         behaviorTwinAliasFormInfo.mode === TwinAliasFormMode.CreateTwinAlias
             ? getDefaultBehaviorTwinAlias(
-                  behaviorTwinAliasFormInfo.twinAlias.alias // this might come from search text to be prefilled when creating a new twin alias
+                  behaviorTwinAliasFormInfo.aliasToAutoPopulate // this is set as search text when there is no results in AddTwinAliasCallout to prefill in creating a new twin alias
               )
             : behaviorTwinAliasFormInfo.twinAlias
     );

@@ -153,6 +153,7 @@ export type BehaviorTwinAliasFormInfo = null | {
     twinAlias: IBehaviorTwinAliasItem;
     mode: TwinAliasFormMode;
     twinAliasIdx?: number;
+    aliasToAutoPopulate?: string; // this is needed to prefill the value of the alias (by search text when there is no results) when creating a new one
 };
 
 export type ElementTwinAliasFormInfo = null | {

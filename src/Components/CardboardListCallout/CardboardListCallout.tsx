@@ -127,14 +127,16 @@ const CardboardListCallout = <T extends unknown>({
                     <PrimaryButton
                         data-testid={dataButtonTestId}
                         styles={cardboardListCalloutPrimaryButtonStyles}
-                        onClick={
-                            primaryActionProps.exposeSearchTermWithPrimaryActionClick
-                                ? () =>
-                                      primaryActionProps.onPrimaryActionClick(
-                                          searchText
-                                      )
-                                : primaryActionProps.onPrimaryActionClick
-                        }
+                        onClick={(_event) => {
+                            // when where is no search results and if expose search term with primary action is set,
+                            // dispatch the search text within onPrimaryClick action to be consumed for a purpose by the handler
+                            primaryActionProps.isSearchTermExposedWithPrimaryActionClick &&
+                            filteredListItems.length === 0
+                                ? primaryActionProps.onPrimaryActionClick(
+                                      searchText
+                                  )
+                                : primaryActionProps.onPrimaryActionClick();
+                        }}
                         disabled={primaryActionProps.disabled}
                     >
                         {primaryActionProps.primaryActionLabel}
