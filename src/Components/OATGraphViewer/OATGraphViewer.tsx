@@ -121,6 +121,54 @@ const getGraphViewerElementsFromModels = (models, modelPositions) => {
                     )
                 );
                 relationships = [...relationships, relationship];
+            } else if (content['@type'] === OATUntargetedRelationshipName) {
+                const name = `${input['displayName']}:${OATUntargetedRelationshipName}`;
+                const id = `${input['@id']}:${OATUntargetedRelationshipName}`;
+                const untargetedRelationship = {
+                    '@type': OATRelationshipHandleName,
+                    '@id': id,
+                    name: '',
+                    displayName: ''
+                };
+                const newNode = new ElementNode(
+                    id,
+                    input['@type'],
+                    {
+                        x:
+                            modelPositions.length > 0
+                                ? modelPositions[index].position.x
+                                : defaultNodePosition,
+                        y:
+                            modelPositions.length > 0
+                                ? modelPositions[index].position.y + 100
+                                : defaultNodePosition
+                    },
+                    new ElementData(
+                        id,
+                        name,
+                        OATUntargetedRelationshipName,
+                        [untargetedRelationship],
+                        contextClassBase
+                    )
+                );
+                const relationship = new ElementEdge(
+                    content['@id']
+                        ? content['@id']
+                        : `${input['@id']}${OATUntargetedRelationshipName}${id}`,
+                    OATRelationshipHandleName,
+                    input['@id'],
+                    OATUntargetedRelationshipName,
+                    id,
+                    new ElementEdgeData(
+                        content['@id']
+                            ? content['@id']
+                            : `${input['@id']}${OATUntargetedRelationshipName}${id}`,
+                        content['name'],
+                        content['displayName'],
+                        OATUntargetedRelationshipName
+                    )
+                );
+                relationships = [...relationships, newNode, relationship];
             } else {
                 contents = [...contents, content];
             }
