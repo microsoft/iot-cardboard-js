@@ -2,7 +2,8 @@ import produce from 'immer';
 
 import React, { useContext, useMemo, useReducer } from 'react';
 import {
-    IADT3DViewerMode,
+    DefaultViewerModeObjectColor,
+    ISceneViewerThemeCache,
     ViewerModeBackgroundColors,
     ViewerModeObjectColors,
     ViewerObjectStyle,
@@ -43,10 +44,9 @@ export const SceneThemeContextReducer: (
         );
         switch (action.type) {
             case SceneThemeContextActionType.SET_OBJECT_COLOR: {
-                draft.objectColor =
-                    action.payload.color ||
-                    draft.objectColorOptions?.[0]?.color ||
-                    '';
+                draft.objectColor = draft.objectColorOptions.find(
+                    (x) => x.color === action.payload.color
+                );
                 setPersistedTheme(buildPersistedTheme(draft));
                 break;
             }
@@ -57,16 +57,20 @@ export const SceneThemeContextReducer: (
             case SceneThemeContextActionType.SET_OBJECT_STYLE: {
                 draft.objectStyle =
                     action.payload.style || ViewerObjectStyle.Default;
+                // adjust the object color based on the style
                 if (draft.objectStyle === ViewerObjectStyle.Default) {
-                    draft.objectColor =
-                        draft.objectColorOptions[
-                            DEFAULT_OBJECT_COLOR_INDEX
-                        ].color; // white
+                    draft.objectColor = DefaultViewerModeObjectColor;
                 } else if (
-                    draft.objectColor ===
-                    draft.objectColorOptions[DEFAULT_OBJECT_COLOR_INDEX].color // if it's white, change it cause white doesn't work so we want the default to be nice
+                    // if NOT default style && current object color is the default, set a different option so you can see the transparency
+                    draft.objectColor.color ===
+                        DefaultViewerModeObjectColor.color &&
+                    draft.objectColor.baseColor ===
+                        DefaultViewerModeObjectColor.baseColor
                 ) {
-                    draft.objectColor = draft.objectColorOptions[0].color; // blue
+                    // changing to wireframe or transparent from default, select a color so we see the transparency
+                    draft.objectColor = draft.objectColorOptions.find(
+                        (x) => x.color === draft.objectColorOptions[0].color
+                    ); // blue
                 }
                 setPersistedTheme(buildPersistedTheme(draft));
                 break;
@@ -76,10 +80,9 @@ export const SceneThemeContextReducer: (
                 break;
             }
             case SceneThemeContextActionType.SET_SCENE_BACKGROUND: {
-                draft.sceneBackground =
-                    action.payload.color ||
-                    draft.sceneBackgroundOptions?.[0]?.color ||
-                    '';
+                draft.sceneBackground = draft.sceneBackgroundOptions.find(
+                    (x) => x.color === action.payload.color
+                );
                 setPersistedTheme(buildPersistedTheme(draft));
                 break;
             }
@@ -111,26 +114,29 @@ export const SceneThemeContextProvider: React.FC<ISceneThemeContextProviderProps
 
     const backgroundOptions =
         initialState?.sceneBackgroundOptions || ViewerModeBackgroundColors;
+    const sceneBackgroundKey = persistedTheme?.backgroundKey || '';
     const sceneBackground =
         initialState?.sceneBackground ||
-        persistedTheme?.background?.color ||
-        backgroundOptions?.[0]?.color ||
-        '';
+        backgroundOptions.find((x) => x.color === sceneBackgroundKey) ||
+        backgroundOptions[0];
 
     const styleOptions =
         initialState?.objectStyleOptions || buildDefaultStyleChoices(t);
     const objectStyle =
         initialState?.objectStyle ||
-        persistedTheme?.style ||
+        persistedTheme?.objectStyle ||
         ViewerObjectStyle.Default;
 
     const objectColorOptions =
         initialState?.objectColorOptions || ViewerModeObjectColors;
+    const objectColorKey =
+        persistedTheme?.objectColorKey ||
+        objectColorOptions?.[DEFAULT_OBJECT_COLOR_INDEX]?.color ||
+        '';
     const objectColor =
         initialState?.objectColor ||
-        persistedTheme?.objectColor?.color ||
-        objectColorOptions?.[DEFAULT_OBJECT_COLOR_INDEX].color ||
-        '';
+        objectColorOptions?.find((x) => x.color === objectColorKey) ||
+        DefaultViewerModeObjectColor;
 
     const defaultState: ISceneThemeContextState = {
         sceneBackground: sceneBackground,
@@ -163,20 +169,14 @@ export const SceneThemeContextProvider: React.FC<ISceneThemeContextProviderProps
 
 const buildPersistedTheme = (
     state: ISceneThemeContextState
-): IADT3DViewerMode => {
-    const background = state?.sceneBackgroundOptions.find(
-        (bc) => state?.sceneBackground === bc?.color
-    );
-    const objectColor = state?.objectColorOptions.find(
-        (oc) => state?.objectColor === oc?.color
-    );
+): ISceneViewerThemeCache => {
     return {
-        background: background,
-        objectColor: objectColor,
-        style: state.objectStyle
+        backgroundKey: state.sceneBackground.color,
+        objectColorKey: state.objectColor?.color,
+        objectStyle: state.objectStyle
     };
 };
-const getPersistedTheme = (): IADT3DViewerMode | undefined => {
+const getPersistedTheme = (): ISceneViewerThemeCache | undefined => {
     const theme = localStorage.getItem(ViewerThemeStorageKey);
     if (theme && isThemePersistenceEnabled) {
         logDebugConsole(
@@ -189,7 +189,7 @@ const getPersistedTheme = (): IADT3DViewerMode | undefined => {
     return undefined;
 };
 
-const setPersistedTheme = (theme: IADT3DViewerMode): void => {
+const setPersistedTheme = (theme: ISceneViewerThemeCache): void => {
     if (theme && isThemePersistenceEnabled) {
         logDebugConsole(
             'debug',

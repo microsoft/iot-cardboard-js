@@ -4,24 +4,20 @@ This class intercepts calls to the SceneViewer and enables AddIns to hook into e
 
 */
 
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import * as BABYLON from '@babylonjs/core/Legacy/legacy';
 import { ICameraPosition } from '../../Models/Classes/SceneView.types';
 import SceneView, { showFpsCounter } from './SceneView';
 import {
     ADT3DAddInEventTypes,
-    CameraInteraction,
-    ViewerObjectStyle
+    CameraInteraction
 } from '../../Models/Constants/Enums';
 import {
     ADT3DAddInEventData,
     ISceneViewWrapperProps
 } from '../../Models/Constants/Interfaces';
 import './SceneView.scss';
-import {
-    DefaultViewerModeObjectColor,
-    SelectedCameraInteractionKey
-} from '../../Models/Constants';
+import { SelectedCameraInteractionKey } from '../../Models/Constants';
 import { CameraControls } from './Internal/CameraControls/CameraControls';
 import {
     classNamesFunction,
@@ -81,16 +77,9 @@ const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = (props) => {
     // notify consumer of the change
     useEffect(() => {
         if (objectColorUpdated) {
-            const objectColor = sceneThemeState.objectColorOptions.find(
-                (x) => x.color === sceneThemeState.objectColor
-            );
-            objectColorUpdated(objectColor);
+            objectColorUpdated(sceneThemeState.objectColor);
         }
-    }, [
-        objectColorUpdated,
-        sceneThemeState.objectColor,
-        sceneThemeState.objectColorOptions
-    ]);
+    }, [objectColorUpdated, sceneThemeState.objectColor]);
 
     useEffect(() => {
         const cameraInteraction = localStorage.getItem(
@@ -166,27 +155,6 @@ const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = (props) => {
         );
     };
 
-    const sceneObjectColor = useMemo(() => {
-        // keep the material styles in default theme
-        if (sceneThemeState.objectStyle === ViewerObjectStyle.Default) {
-            return DefaultViewerModeObjectColor;
-        } else {
-            return sceneThemeState.objectColorOptions.find(
-                (x) => x.color === sceneThemeState.objectColor
-            );
-        }
-    }, [sceneThemeState.objectColor, sceneThemeState.objectColorOptions]);
-    const sceneObjectBackgroundColor = useMemo(
-        () =>
-            sceneThemeState.sceneBackgroundOptions.find(
-                (x) => x.color === sceneThemeState.sceneBackground
-            ),
-        [
-            sceneThemeState.sceneBackground,
-            sceneThemeState.sceneBackgroundOptions
-        ]
-    );
-
     const FPSCounterStyle = {
         position: 'absolute',
         display: 'flex',
@@ -198,13 +166,13 @@ const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = (props) => {
         wrapperMode === WrapperMode.Builder
             ? 'cb-sceneview-builder-wrapper'
             : 'cb-sceneview-viewer-wrapper';
-
+    console.log('****Wrapper', sceneThemeState);
     return (
         <div
             style={
                 sceneThemeState.sceneBackground
                     ? {
-                          background: sceneThemeState.sceneBackground
+                          background: sceneThemeState.sceneBackground.color
                       }
                     : {}
             }
@@ -212,8 +180,8 @@ const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = (props) => {
         >
             <SceneView
                 ref={sceneViewComponent}
-                backgroundColor={sceneObjectBackgroundColor}
-                objectColor={sceneObjectColor}
+                backgroundColor={sceneThemeState.sceneBackground}
+                objectColor={sceneThemeState.objectColor}
                 objectColorOptions={sceneThemeState.objectColorOptions}
                 objectStyle={sceneThemeState.objectStyle}
                 onCameraMove={addInProps?.onCameraMove ? cameraMove : undefined}
