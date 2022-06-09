@@ -63,7 +63,10 @@ import TwinsTab from './Internal/TwinsTab';
 import SceneLayerMultiSelectBuilder from '../SceneLayerMultiSelectBuilder/SceneLayerMultiSelectBuilder';
 import BehaviorTwinAliasForm from './Twins/BehaviorTwinAliasForm';
 import UnsavedChangesDialog from '../UnsavedChangesDialog/UnsavedChangesDialog';
-import { deepCopy } from '../../../../Models/Services/Utils';
+import {
+    BehaviorFormContextProvider,
+    useBehaviorFormContext
+} from './Internal/BehaviorFormContext/BehaviorFormContext';
 
 const getElementsFromBehavior = (behavior: IBehavior) =>
     behavior.datasources.filter(
@@ -98,13 +101,14 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
         widgetFormInfo,
         behaviorTwinAliasFormInfo,
         checkIfBehaviorHasBeenEdited,
-        setBehaviorToEdit,
-        setOriginalBehaviorToEdit,
         setUnsavedBehaviorChangesDialog,
         setUnsavedChangesDialogDiscardAction,
-        state,
-        behaviorToEdit
+        state
     } = useContext(SceneBuilderContext);
+    const {
+        behaviorFormDispatch,
+        behaviorFormState
+    } = useBehaviorFormContext();
 
     const [behaviorState, dispatch] = useReducer(
         BehaviorFormReducer,
@@ -121,14 +125,14 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
     const [selectedLayerIds, setSelectedLayerIds] = useState(
         ViewerConfigUtility.getActiveLayersForBehavior(
             config,
-            behaviorToEdit.id
+            behaviorFormState.behaviorToEdit.id
         )
     );
 
     useEffect(() => {
         const selectedElements = [];
 
-        behaviorToEdit.datasources
+        behaviorFormState.behaviorToEdit.datasources
             .filter(ViewerConfigUtility.isElementTwinToObjectMappingDataSource)
             .forEach((ds) => {
                 ds.elementIDs.forEach((elementId) => {
@@ -140,9 +144,6 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
         if (selectedElements?.length > 0) {
             setSelectedElements(selectedElements);
         }
-
-        // store original behavior so we can determine if it has changed
-        setOriginalBehaviorToEdit(deepCopy(behaviorToEdit));
     }, []);
 
     // Prior to entering widget form -- freeze copy of draft behavior
@@ -153,7 +154,8 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                 widgetFormInfo.mode === WidgetFormMode.EditWidget) &&
             !behaviorDraftWidgetBackup.current
         ) {
-            behaviorDraftWidgetBackup.current = behaviorToEdit;
+            behaviorDraftWidgetBackup.current =
+                behaviorFormState.behaviorToEdit;
         }
         // If widget form is cancelled, restore backup
         else if (
@@ -531,4 +533,36 @@ function checkValidityMap(validityMap: Map<string, IValidityState>): boolean {
     return isValid;
 }
 
-export default SceneBehaviorsForm;
+const BehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
+    behaviors,
+    elements,
+    builderMode,
+    selectedElements,
+    removedElements,
+    onBehaviorBackClick,
+    onBehaviorSave,
+    setSelectedElements,
+    updateSelectedElements,
+    onElementClick,
+    onRemoveElement
+}) => {
+    const { state } = useContext(SceneBuilderContext);
+    return (
+        <BehaviorFormContextProvider behaviorToEdit={state.selectedBehavior}>
+            <SceneBehaviorsForm
+                behaviors={behaviors}
+                elements={elements}
+                builderMode={builderMode}
+                selectedElements={selectedElements}
+                removedElements={removedElements}
+                onBehaviorBackClick={onBehaviorBackClick}
+                onBehaviorSave={onBehaviorSave}
+                setSelectedElements={setSelectedElements}
+                updateSelectedElements={updateSelectedElements}
+                onElementClick={onElementClick}
+                onRemoveElement={onRemoveElement}
+            />
+        </BehaviorFormContextProvider>
+    );
+};
+export default BehaviorsForm;

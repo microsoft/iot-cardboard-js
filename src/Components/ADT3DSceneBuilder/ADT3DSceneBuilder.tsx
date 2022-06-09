@@ -817,108 +817,102 @@ const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
                 setUnsavedChangesDialogDiscardAction
             }}
         >
-            <BehaviorFormContextProvider behaviorToEdit={behaviorToEdit}>
-                <BaseComponent
-                    isLoading={!state.config && getScenesConfig.isLoading}
-                    theme={theme}
-                    locale={locale}
-                    localeStrings={localeStrings}
-                    containerClassName={css(
-                        classNames.root,
-                        'cb-scene-builder-card-wrapper'
+            <BaseComponent
+                isLoading={!state.config && getScenesConfig.isLoading}
+                theme={theme}
+                locale={locale}
+                localeStrings={localeStrings}
+                containerClassName={css(
+                    classNames.root,
+                    'cb-scene-builder-card-wrapper'
+                )}
+            >
+                {state.config && <BuilderLeftPanel />}
+                <div className={classNames.wrapper}>
+                    {state.config && (
+                        <ADT3DBuilder
+                            objectColorUpdated={objectColorUpdated}
+                            adapter={adapter as IADTAdapter}
+                            modelUrl={
+                                state.config.configuration?.scenes.find(
+                                    (x) => x.id === sceneId
+                                )?.assets[0].url
+                            }
+                            onMeshClicked={onMeshClicked}
+                            onMeshHovered={onMeshHovered}
+                            sceneViewProps={sceneViewProps}
+                            outlinedMeshItems={state.outlinedMeshItems}
+                            showHoverOnSelected={state.showHoverOnSelected}
+                            coloredMeshItems={state.coloredMeshItems}
+                            showMeshesOnHover={state.enableHoverOnModel}
+                        />
                     )}
-                >
-                    {state.config && <BuilderLeftPanel />}
-                    <div className={classNames.wrapper}>
-                        {state.config && (
-                            <ADT3DBuilder
-                                objectColorUpdated={objectColorUpdated}
-                                adapter={adapter as IADTAdapter}
-                                modelUrl={
-                                    state.config.configuration?.scenes.find(
-                                        (x) => x.id === sceneId
-                                    )?.assets[0].url
+                    {/* Mode & layers */}
+                    <Stack
+                        horizontal
+                        styles={classNames.subComponentStyles.headerStack}
+                        tokens={{ childrenGap: 8 }}
+                    >
+                        {/* TODO: MOVE THEME PICKER HERE */}
+                        <SceneLayers />
+                        {showModeToggle && (
+                            <FloatingScenePageModeToggle
+                                sceneId={sceneId}
+                                handleScenePageModeChange={
+                                    handleScenePageModeChange
                                 }
-                                onMeshClicked={onMeshClicked}
-                                onMeshHovered={onMeshHovered}
-                                sceneViewProps={sceneViewProps}
-                                outlinedMeshItems={state.outlinedMeshItems}
-                                showHoverOnSelected={state.showHoverOnSelected}
-                                coloredMeshItems={state.coloredMeshItems}
-                                showMeshesOnHover={state.enableHoverOnModel}
+                                selectedMode={deeplinkState.mode}
                             />
                         )}
-                        {/* Mode & layers */}
-                        <Stack
-                            horizontal
-                            styles={classNames.subComponentStyles.headerStack}
-                            tokens={{ childrenGap: 8 }}
-                        >
-                            {/* TODO: MOVE THEME PICKER HERE */}
-                            <SceneLayers />
-                            {showModeToggle && (
-                                <FloatingScenePageModeToggle
-                                    sceneId={sceneId}
-                                    handleScenePageModeChange={
-                                        handleScenePageModeChange
-                                    }
-                                    selectedMode={deeplinkState.mode}
-                                />
-                            )}
-                        </Stack>
-                        {contextualMenuProps.isVisible && (
-                            <div>
-                                <div
-                                    id="cb-3d-builder-contextual-menu"
-                                    style={{
-                                        left: contextualMenuProps.x,
-                                        top: contextualMenuProps.y,
-                                        position: 'absolute',
-                                        width: '1px',
-                                        height: '1px'
-                                    }}
-                                />
-                                <ContextualMenu
-                                    items={contextualMenuProps.items}
-                                    hidden={!contextualMenuProps.isVisible}
-                                    target="#cb-3d-builder-contextual-menu"
-                                    onDismiss={() =>
-                                        setContextualMenuProps({
-                                            isVisible: false,
-                                            x: 0,
-                                            y: 0,
-                                            items: []
-                                        })
+                    </Stack>
+                    {contextualMenuProps.isVisible && (
+                        <div>
+                            <div
+                                id="cb-3d-builder-contextual-menu"
+                                style={{
+                                    left: contextualMenuProps.x,
+                                    top: contextualMenuProps.y,
+                                    position: 'absolute',
+                                    width: '1px',
+                                    height: '1px'
+                                }}
+                            />
+                            <ContextualMenu
+                                items={contextualMenuProps.items}
+                                hidden={!contextualMenuProps.isVisible}
+                                target="#cb-3d-builder-contextual-menu"
+                                onDismiss={() =>
+                                    setContextualMenuProps({
+                                        isVisible: false,
+                                        x: 0,
+                                        y: 0,
+                                        items: []
+                                    })
+                                }
+                            />
+                        </div>
+                    )}
+                    {/* Preview modal */}
+                    {(state.builderMode ===
+                        ADT3DSceneBuilderMode.CreateBehavior ||
+                        state.builderMode ===
+                            ADT3DSceneBuilderMode.EditBehavior) &&
+                        behaviorToEdit &&
+                        !state.isLayerBuilderDialogOpen && (
+                            <div className={commonPanelStyles.previewContainer}>
+                                <BehaviorsModal
+                                    behaviors={[behaviorToEdit]}
+                                    element={undefined}
+                                    twins={null}
+                                    mode={BehaviorModalMode.preview}
+                                    activeWidgetId={
+                                        state.widgetFormInfo.widgetId
                                     }
                                 />
                             </div>
                         )}
-                        {/* Preview modal */}
-                        {(state.builderMode ===
-                            ADT3DSceneBuilderMode.CreateBehavior ||
-                            state.builderMode ===
-                                ADT3DSceneBuilderMode.EditBehavior) &&
-                            behaviorToEdit &&
-                            !state.isLayerBuilderDialogOpen && (
-                                <div
-                                    className={
-                                        commonPanelStyles.previewContainer
-                                    }
-                                >
-                                    <BehaviorsModal
-                                        behaviors={[behaviorToEdit]}
-                                        element={undefined}
-                                        twins={null}
-                                        mode={BehaviorModalMode.preview}
-                                        activeWidgetId={
-                                            state.widgetFormInfo.widgetId
-                                        }
-                                    />
-                                </div>
-                            )}
-                    </div>
-                </BaseComponent>
-            </BehaviorFormContextProvider>
+                </div>
+            </BaseComponent>
         </SceneBuilderContext.Provider>
     );
 };
