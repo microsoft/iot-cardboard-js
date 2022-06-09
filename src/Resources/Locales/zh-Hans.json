@@ -764,7 +764,6 @@
     "namespace": "Namespace",
     "enterANamespace": "输入命名空间",
     "namespaceError": "名称只能包含字符 a-z、A-Z、0-9 和下划线。",
-    "example": "例",
     "settings": "设置",
     "errorInvalidJSON": "无效的 JSON",
     "errorFileFormatNotSupported": "{{文件}} 格式不受支持",
@@ -789,7 +788,6 @@
     "relationships": "关系",
     "inheritances": "遗产",
     "components": "组件",
-    "example": "例",
     "errorDisplayName": "显示名称不得超过 64 个字符",
     "errorId": "Id 不得超过 2048 个字符"
   },

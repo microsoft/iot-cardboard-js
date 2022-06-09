@@ -764,7 +764,6 @@
     "namespace": "Namespace",
     "enterANamespace": "Wprowadzanie przestrzeni nazw",
     "namespaceError": "Nazwa może zawierać tylko znaki a-z, A-Z, 0-9 i podkreślenie.",
-    "example": "przykład",
     "settings": "Ustawienia",
     "errorInvalidJSON": "Nieprawidłowy kod JSON",
     "errorFileFormatNotSupported": "Format {{file}} nie jest obsługiwany",
@@ -789,7 +788,6 @@
     "relationships": "Relacje",
     "inheritances": "Spadki",
     "components": "Składniki",
-    "example": "przykład",
     "errorDisplayName": "Nazwa wyświetlana nie może przekraczać 64 znaków",
     "errorId": "Id nie może przekraczać 2048 znaków"
   },

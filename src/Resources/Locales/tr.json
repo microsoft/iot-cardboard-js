@@ -764,7 +764,6 @@
     "namespace": "Namespace",
     "enterANamespace": "Ad alanı girme",
     "namespaceError": "Ad yalnızca a-z, A-Z, 0-9 ve alt çizgi karakterlerini içerebilir.",
-    "example": "örnek",
     "settings": "Ayarlar",
     "errorInvalidJSON": "Geçersiz JSON",
     "errorFileFormatNotSupported": "{{dosya}} biçimi desteklenmiyor",
@@ -789,7 +788,6 @@
     "relationships": "Ilişki",
     "inheritances": "Miras",
     "components": "Bileşen",
-    "example": "örnek",
     "errorDisplayName": "Görünen Ad 64 karakteri aşamaz",
     "errorId": "Kimlik 2048 karakteri geçemez"
   },

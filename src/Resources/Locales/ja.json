@@ -764,7 +764,6 @@
     "namespace": "名前空間",
     "enterANamespace": "名前空間を入力する",
     "namespaceError": "名前に使用できるのは、文字 a から z、A から Z、0 から 9、およびアンダースコアのみです。",
-    "example": "例",
     "settings": "設定",
     "errorInvalidJSON": "無効な JSON",
     "errorFileFormatNotSupported": "{{ファイル}}形式はサポートされていません",
@@ -789,7 +788,6 @@
     "relationships": "関係",
     "inheritances": "遺産",
     "components": "コンポーネント",
-    "example": "例",
     "errorDisplayName": "表示名は 64 文字を超えてはなりません。",
     "errorId": "IDは2048文字を超えてはなりません"
   },
