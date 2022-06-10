@@ -11,6 +11,7 @@ import { getHeaderStyles, getPromptTextStyles } from '../OATHeader.styles';
 import { IOATEditorState } from '../../../Pages/OATEditorPage/OATEditorPage.types';
 import { loadFiles, saveFiles } from './Utils';
 import { ProjectData } from '../../../Pages/OATEditorPage/Internal/Classes';
+import { FromBody } from './Enums';
 
 interface IModal {
     resetProject?: () => void;
@@ -28,7 +29,7 @@ export const ModalSaveCurrentProjectAndClear = ({
     const { t } = useTranslation();
     const headerStyles = getHeaderStyles();
     const promptTextStyles = getPromptTextStyles();
-    const { projectName, models, modelPositions, templates } = state;
+    const { projectName, models, modelPositions, templates, namespace } = state;
 
     const handleOnSave = () => {
         const files = loadFiles();
@@ -41,22 +42,21 @@ export const ModalSaveCurrentProjectAndClear = ({
                 models,
                 '',
                 projectName,
-                templates
+                templates,
+                namespace
             );
 
             files[foundIndex].data = project;
             saveFiles(files);
-            setModalOpen(false);
-            setModalBody(null);
             resetProject();
+            setModalBody(FromBody.settings);
         }
         setModalBody('saveNewProjectAndClear');
     };
 
     const handleDoNotSave = () => {
-        setModalOpen(false);
-        setModalBody(null);
         resetProject();
+        setModalBody(FromBody.settings);
     };
 
     return (

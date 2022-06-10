@@ -3,5 +3,6 @@ export enum FromBody {
     open = 'open',
     save = 'save',
     saveCurrentProjectAndClear = 'saveCurrentProjectAndClear',
-    saveNewProjectAndClear = 'saveNewProjectAndClear'
+    saveNewProjectAndClear = 'saveNewProjectAndClear',
+    settings = 'settings'
 }

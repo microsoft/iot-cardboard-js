@@ -760,7 +760,15 @@
     "doYouWantToSaveChangesYouMadeTo": "Deseja guardar as alterações a que fez",
     "doYouWantToDelete": "Deseja eliminar",
     "projectWithSameNameAlreadyExistsMessage?": "Projeto com o mesmo nome já existe, gostaria de anuê-lo?",
-    "overwrite": "sobrepor"
+    "overwrite": "sobrepor",
+    "namespace": "Espaço de nome",
+    "enterANamespace": "Insira um espaço de nome",
+    "namespaceError": "O nome só pode conter os caracteres a-z, A-Z, 0-9, e sublinhar.",
+    "settings": "Configurações",
+    "errorInvalidJSON": "JSON inválido",
+    "errorFileFormatNotSupported": "{{file}} formato não suportado",
+    "errorFormatNoSupported": "Formato de ficheiro não suportado",
+    "errorIssueWithFile": "Problema com {{fileName}} {{error}}"
   },
   "cameraControls": {
     "mouseControls": "Controlos do rato",
@@ -779,7 +787,9 @@
     "description": "Descrição",
     "relationships": "Relacionamentos",
     "inheritances": "Heranças",
-    "components": "Componentes"
+    "components": "Componentes",
+    "errorDisplayName": "Display Name não pode exceder 64 chars",
+    "errorId": "Id não pode exceder 2048 chars"
   },
   "OATPropertyEditor": {
     "displayName": "Nome do visor",
@@ -849,7 +859,12 @@
     "delete": "Excluir",
     "multiLanguage": "multi-língua",
     "region": "Região",
-    "singleLanguage": "Língua única"
+    "singleLanguage": "Língua única",
+    "errorComment": "Comentário não pode exceder 512 chars",
+    "errorDisplayName": "Display Name não pode exceder 64 chars",
+    "errorDescription": "A descrição não pode exceder 512 chars",
+    "errorId": "Id não pode exceder 2048 chars",
+    "errorName": "O nome só pode conter os caracteres a-z, A-Z, 0-9, e sublinhar"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Mensagem de erro",

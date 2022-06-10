@@ -20,6 +20,11 @@ import { DTDLModel } from '../../../Models/Classes/DTDL';
 import { getPropertyDisplayName } from '../../OATPropertyEditor/Utils';
 import { ModelTypes } from '../../../Models/Constants/Enums';
 
+import {
+    OATDisplayNameLengthLimit,
+    OATIdLengthLimit
+} from '../../../Models/Constants/Constants';
+
 const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
     data,
     isConnectable

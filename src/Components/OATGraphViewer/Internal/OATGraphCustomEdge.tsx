@@ -433,7 +433,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
 
         const relationship = new DTDLRelationship(
             polygons.element.data.id,
-            polygons.element.data.name,
+            evt.target.value,
             polygons.element.data.displayName,
             polygons.element.data.description,
             polygons.element.data.comment,

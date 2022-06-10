@@ -760,7 +760,15 @@
         "doYouWantToSaveChangesYouMadeTo": "Do you want to save the changes you made to {{projectName}}?",
         "doYouWantToDelete": "Do you want to delete",
         "projectWithSameNameAlreadyExistsMessage?": "Project with same name already exists, would you like to override it?",
-        "overwrite": "Overwrite"
+        "overwrite": "Overwrite",
+        "namespace": "Namespace",
+        "enterANamespace": "Enter a namespace",
+        "namespaceError": "The name may only contain the characters a-z, A-Z, 0-9, and underscore.",
+        "settings": "Settings",
+        "errorInvalidJSON": "Invalid JSON",
+        "errorFileFormatNotSupported": "Issue with {{fileName}}: Format not supported",
+        "errorFormatNoSupported": "File format not supported",
+        "errorIssueWithFile": "Issue with {{fileName}}: {{error}}"
     },
     "OATGraphViewer": {
         "newModel": "New Model",
@@ -774,7 +782,9 @@
         "inheritances": "Inheritances",
         "components": "Components",
         "errorRepeatedDisplayName": "A model with the same display name already exists",
-        "errorRepeatedId": "A model with the same id already exists"
+        "errorRepeatedId": "A model with the same id already exists",
+        "errorDisplayName": "Display Name may no exceed 64 chars",
+        "errorId": "Id may no exceed 2048 chars"
     },
     "OATPropertyEditor": {
         "addEnumValue": "Add Enum Value",
@@ -799,10 +809,15 @@
         "duration": "duration",
         "enum": "enum",
         "enumValue": "Enum Value",
+        "errorComment": "Comment may no exceed 512 chars",
+        "errorDisplayName": "Display Name may no exceed 64 chars",
+        "errorDescription": "Description may no exceed 512 chars",
+        "errorId": "Id may no exceed 2048 chars",
+        "errorName": "Name may only contain the characters a-z, A-Z, 0-9, and underscore",
         "errorRepeatedDisplayName": "A model with the same display name already exists",
+        "errorRepeatedEnumValue": "An enum-value with the same value already exists",
         "errorRepeatedId": "A model with the same id already exists",
         "errorRepeatedName": "A model with the same name already exists",
-        "errorRepeatedEnumValue": "An enum-value with the same value already exists",
         "errorRepeatedPropertyName": "A property with the same name already exists",
         "float": "float",
         "general": "General",

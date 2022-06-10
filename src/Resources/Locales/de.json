@@ -760,7 +760,15 @@
     "doYouWantToSaveChangesYouMadeTo": "Möchten Sie die Änderungen, die Sie an",
     "doYouWantToDelete": "Möchten Sie löschen",
     "projectWithSameNameAlreadyExistsMessage?": "Das gleichnamige Projekt existiert bereits, möchten Sie es überschreiben?",
-    "overwrite": "überschreiben"
+    "overwrite": "überschreiben",
+    "namespace": "Namespace",
+    "enterANamespace": "Eingeben eines Namespaces",
+    "namespaceError": "Der Name darf nur die Zeichen a-z, A-Z, 0-9 und Unterstrich enthalten.",
+    "settings": "Einstellungen",
+    "errorInvalidJSON": "Ungültiges JSON",
+    "errorFileFormatNotSupported": "{{file}}-Format wird nicht unterstützt",
+    "errorFormatNoSupported": "Dateiformat nicht unterstützt",
+    "errorIssueWithFile": "Problem mit {{fileName}}: {{error}}"
   },
   "cameraControls": {
     "mouseControls": "Maus-Steuerelemente",
@@ -779,7 +787,9 @@
     "description": "Beschreibung",
     "relationships": "Beziehungen",
     "inheritances": "Erbteile",
-    "components": "Komponenten"
+    "components": "Komponenten",
+    "errorDisplayName": "Anzeigename darf 64 Zeichen nicht überschreiten",
+    "errorId": "ID darf 2048 Zeichen nicht überschreiten"
   },
   "OATPropertyEditor": {
     "displayName": "Anzeigename",
@@ -849,7 +859,12 @@
     "delete": "Löschen",
     "multiLanguage": "mehrsprachig",
     "region": "Region",
-    "singleLanguage": "Einheitliche Sprache"
+    "singleLanguage": "Einheitliche Sprache",
+    "errorComment": "Kommentar darf 512 Zeichen nicht überschreiten",
+    "errorDisplayName": "Anzeigename darf 64 Zeichen nicht überschreiten",
+    "errorDescription": "Beschreibung darf 512 Zeichen nicht überschreiten",
+    "errorId": "ID darf 2048 Zeichen nicht überschreiten",
+    "errorName": "Der Name darf nur die Zeichen a-z, A-Z, 0-9 und Unterstrich enthalten"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Fehlermeldung",
