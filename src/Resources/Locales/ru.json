@@ -788,11 +788,14 @@
     "relationships": "Отношения",
     "inheritances": "Наследства",
     "components": "Компоненты",
-    "errorDisplayName": "Отображаемое имя не должно превышать 64 символов",
     "errorName": "Имя может содержать только символы a-z, A-Z, 0-9 и подчеркивание",
     "errorNameLength": "Имя не должно превышать 64 символов",
     "errorIdLength": "Id не может превышать 2048 символов",
-    "errorIdValidDTMI": "Идентификатор должен быть допустимым DTMI"
+    "errorIdValidDTMI": "Идентификатор должен быть допустимым DTMI",
+    "errorRepeatedDisplayName": "Модель с таким же отображаемым именем уже существует",
+    "errorRepeatedId": "Модель с таким же идентификатором уже существует",
+    "errorDisplayNameLength": "Отображаемое имя не должно превышать 64 символов",
+    "errorId": "Id не может превышать 2048 символов"
   },
   "OATPropertyEditor": {
     "displayName": "Отображаемое имя",
@@ -869,7 +872,12 @@
     "errorName": "Имя может содержать только символы a-z, A-Z, 0-9 и подчеркивание",
     "errorNameLength": "Имя не должно превышать 64 символов",
     "errorIdLength": "Id не может превышать 2048 символов",
-    "errorIdValidDTMI": "Идентификатор должен быть допустимым DTMI"
+    "errorIdValidDTMI": "Идентификатор должен быть допустимым DTMI",
+    "errorDisplayNameLength": "Отображаемое имя не должно превышать 64 символов",
+    "errorId": "Id не может превышать 2048 символов",
+    "errorRepeatedDisplayName": "Модель с таким же отображаемым именем уже существует",
+    "errorRepeatedId": "Модель с таким же идентификатором уже существует",
+    "errorRepeatedName": "Модель с таким именем уже существует"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Сообщение об ошибке",

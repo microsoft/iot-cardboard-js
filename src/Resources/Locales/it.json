@@ -788,11 +788,14 @@
     "relationships": "Relazioni",
     "inheritances": "Eredità",
     "components": "Componenti",
-    "errorDisplayName": "Il nome visualizzato non può superare i 64 caratteri",
     "errorName": "Il nome può contenere solo i caratteri a-z, A-Z, 0-9 e carattere di sottolineatura",
     "errorNameLength": "Il nome non può superare i 64 caratteri",
     "errorIdLength": "L'ID non può superare i 2048 caratteri",
-    "errorIdValidDTMI": "L'ID deve essere un DTMI valido"
+    "errorIdValidDTMI": "L'ID deve essere un DTMI valido",
+    "errorRepeatedDisplayName": "Esiste già un modello con lo stesso nome visualizzato",
+    "errorRepeatedId": "Esiste già un modello con lo stesso ID",
+    "errorDisplayNameLength": "Il nome visualizzato non può superare i 64 caratteri",
+    "errorId": "Id non può superare 2048 caratteri"
   },
   "OATPropertyEditor": {
     "displayName": "Nome visualizzato",
@@ -869,7 +872,12 @@
     "errorName": "Il nome può contenere solo i caratteri a-z, A-Z, 0-9 e carattere di sottolineatura",
     "errorNameLength": "Il nome non può superare i 64 caratteri",
     "errorIdLength": "L'ID non può superare i 2048 caratteri",
-    "errorIdValidDTMI": "L'ID deve essere un DTMI valido"
+    "errorIdValidDTMI": "L'ID deve essere un DTMI valido",
+    "errorDisplayNameLength": "Il nome visualizzato non può superare i 64 caratteri",
+    "errorId": "Id non può superare 2048 caratteri",
+    "errorRepeatedDisplayName": "Esiste già un modello con lo stesso nome visualizzato",
+    "errorRepeatedId": "Esiste già un modello con lo stesso ID",
+    "errorRepeatedName": "Esiste già un modello con lo stesso nome"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Messaggio di errore",

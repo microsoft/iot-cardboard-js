@@ -788,11 +788,14 @@
     "relationships": "Vztahy",
     "inheritances": "Dědictví",
     "components": "Součásti",
-    "errorDisplayName": "Zobrazovaný název nesmí překročit 64 znaků",
     "errorName": "Název může obsahovat pouze znaky a-z, A-Z, 0-9 a podtržítko",
     "errorNameLength": "Název nesmí přesáhnout 64 znaků",
     "errorIdLength": "Id nesmí překročit 2048 znaků",
-    "errorIdValidDTMI": "ID musí být platné DTMI"
+    "errorIdValidDTMI": "ID musí být platné DTMI",
+    "errorRepeatedDisplayName": "Model se stejným zobrazovaným názvem již existuje",
+    "errorRepeatedId": "Model se stejným ID již existuje",
+    "errorDisplayNameLength": "Zobrazovaný název nesmí překročit 64 znaků",
+    "errorId": "Id nesmí překročit 2048 znaků"
   },
   "OATPropertyEditor": {
     "displayName": "Zobrazovaný název",
@@ -869,7 +872,12 @@
     "errorName": "Název může obsahovat pouze znaky a-z, A-Z, 0-9 a podtržítko",
     "errorNameLength": "Název nesmí překročit 64 znaků",
     "errorIdLength": "Id nesmí překročit 2048 znaků",
-    "errorIdValidDTMI": "ID musí být platné DTMI"
+    "errorIdValidDTMI": "ID musí být platné DTMI",
+    "errorDisplayNameLength": "Zobrazovaný název nesmí překročit 64 znaků",
+    "errorId": "Id nesmí překročit 2048 znaků",
+    "errorRepeatedDisplayName": "Model se stejným zobrazovaným názvem již existuje",
+    "errorRepeatedId": "Model se stejným ID již existuje",
+    "errorRepeatedName": "Model se stejným názvem již existuje"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Zpráva o chybě",
