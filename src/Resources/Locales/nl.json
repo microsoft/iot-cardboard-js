@@ -760,7 +760,15 @@
     "doYouWantToSaveChangesYouMadeTo": "Wilt u de wijzigingen opslaan die u hebt aangebracht in",
     "doYouWantToDelete": "Wilt u verwijderen",
     "projectWithSameNameAlreadyExistsMessage?": "Project met dezelfde naam bestaat al, wil je het overschrijven?",
-    "overwrite": "overschrijven"
+    "overwrite": "overschrijven",
+    "namespace": "Namespace",
+    "enterANamespace": "Een naamruimte invoeren",
+    "namespaceError": "De naam mag alleen de tekens a-z, A-Z, 0-9 en onderstrepingsteken bevatten.",
+    "settings": "Instellingen",
+    "errorInvalidJSON": "Ongeldige JSON",
+    "errorFileFormatNotSupported": "{{file}} indeling niet ondersteund",
+    "errorFormatNoSupported": "Bestandsindeling niet ondersteund",
+    "errorIssueWithFile": "Probleem met {{bestandsnaam}}: {{error}}"
   },
   "cameraControls": {
     "mouseControls": "Muisbediening",
@@ -779,7 +787,12 @@
     "description": "Beschrijving",
     "relationships": "Relaties",
     "inheritances": "Erfenissen",
-    "components": "Onderdelen"
+    "components": "Onderdelen",
+    "errorDisplayName": "Weergavenaam mag niet meer dan 64 tekens bevatten",
+    "errorName": "Naam mag alleen de tekens a-z, A-Z, 0-9 en onderstrepingsteken bevatten",
+    "errorNameLength": "Naam mag niet meer dan 64 tekens bevatten",
+    "errorIdLength": "Id mag niet groter zijn dan 2048 tekens",
+    "errorIdValidDTMI": "Id moet een geldige DTMI zijn"
   },
   "OATPropertyEditor": {
     "displayName": "Weergegeven naam",
@@ -849,7 +862,14 @@
     "delete": "Verwijderen",
     "multiLanguage": "meertalig",
     "region": "Regio",
-    "singleLanguage": "Eén taal"
+    "singleLanguage": "Eén taal",
+    "errorComment": "Commentaar mag niet meer dan 512 tekens bevatten",
+    "errorDisplayName": "Weergavenaam mag niet meer dan 64 tekens bevatten",
+    "errorDescription": "Beschrijving mag niet meer dan 512 tekens bevatten",
+    "errorName": "Naam mag alleen de tekens a-z, A-Z, 0-9 en onderstrepingsteken bevatten",
+    "errorNameLength": "Naam mag niet meer dan 64 tekens bevatten",
+    "errorIdLength": "Id mag niet groter zijn dan 2048 tekens",
+    "errorIdValidDTMI": "Id moet een geldige DTMI zijn"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Foutmelding",

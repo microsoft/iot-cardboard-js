@@ -16,11 +16,13 @@ import {
     SET_OAT_PROJECT,
     SET_OAT_PROJECT_NAME,
     SET_OAT_ERROR,
-    SET_OAT_MODELS_POSITIONS
+    SET_OAT_MODELS_POSITIONS,
+    SET_OAT_NAMESPACE
 } from '../../Models/Constants/ActionTypes';
 import {
     getStoredEditorModelPositionsData,
     getStoredEditorModelsData,
+    getStoredEditorNamespaceData,
     getStoredEditorTemplateData
 } from '../../Models/Services/Utils';
 
@@ -38,7 +40,8 @@ export const defaultOATEditorState: IOATEditorState = {
     modelPositions: getStoredEditorModelPositionsData(),
     projectName: null,
     modified: false,
-    error: null
+    error: null,
+    namespace: getStoredEditorNamespaceData()
 };
 
 export const OATEditorPageReducer = produce(
@@ -84,6 +87,7 @@ export const OATEditorPageReducer = produce(
                 state.models = payload.models;
                 state.modelPositions = payload.modelPositions;
                 state.templates = payload.templates;
+                state.namespace = payload.namespace;
                 return;
             case SET_OAT_PROJECT_NAME:
                 state.projectName = payload;
@@ -93,6 +97,9 @@ export const OATEditorPageReducer = produce(
                 return;
             case SET_OAT_MODELS_POSITIONS:
                 state.modelPositions = payload;
+                return;
+            case SET_OAT_NAMESPACE:
+                state.namespace = payload;
                 return;
         }
     }

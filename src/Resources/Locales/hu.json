@@ -760,7 +760,15 @@
     "doYouWantToSaveChangesYouMadeTo": "Menti a módosításokat, amelyeket",
     "doYouWantToDelete": "Törölni szeretné?",
     "projectWithSameNameAlreadyExistsMessage?": "Az azonos nevű projekt már létezik, felül szeretné bírálni?",
-    "overwrite": "Felülírja"
+    "overwrite": "Felülírja",
+    "namespace": "Namespace",
+    "enterANamespace": "Névtér megadása",
+    "namespaceError": "A név csak az a-z, A-Z, 0-9 és aláhúzásjeleket tartalmazhatja.",
+    "settings": "Beállítások",
+    "errorInvalidJSON": "Érvénytelen JSON",
+    "errorFileFormatNotSupported": "{{file}} formátum nem támogatott",
+    "errorFormatNoSupported": "A fájlformátum nem támogatott",
+    "errorIssueWithFile": "Probléma a következővel: {{fileName}}: {{error}}"
   },
   "cameraControls": {
     "mouseControls": "Egérvezérlők",
@@ -779,7 +787,12 @@
     "description": "Leírás",
     "relationships": "Kapcsolatok",
     "inheritances": "Öröklések",
-    "components": "Összetevők"
+    "components": "Összetevők",
+    "errorDisplayName": "A megjelenítendő név nem haladhatja meg a 64 karakter értéket",
+    "errorName": "A név csak az a-z, A-Z, 0-9 és aláhúzásjeleket tartalmazhatja.",
+    "errorNameLength": "A név nem haladhatja meg a 64 karakter",
+    "errorIdLength": "Az azonosító nem haladhatja meg a 2048 karaktert",
+    "errorIdValidDTMI": "Az azonosítónak érvényes DTMI-nek kell lennie"
   },
   "OATPropertyEditor": {
     "displayName": "Megjelenítendő név",
@@ -849,7 +862,14 @@
     "delete": "Töröl",
     "multiLanguage": "többnyelvű",
     "region": "Régió",
-    "singleLanguage": "Egynyelvű"
+    "singleLanguage": "Egynyelvű",
+    "errorComment": "Megjegyzés nem haladhatja meg az 512 karakter",
+    "errorDisplayName": "A megjelenítendő név nem haladhatja meg a 64 karakter értéket",
+    "errorDescription": "A leírás nem haladhatja meg az 512 karaktert",
+    "errorName": "A név csak az a-z, A-Z, 0-9 és aláhúzásjeleket tartalmazhatja.",
+    "errorNameLength": "A név nem haladhatja meg a 64 karaktert",
+    "errorIdLength": "Az azonosító nem haladhatja meg a 2048 karaktert",
+    "errorIdValidDTMI": "Az azonosítónak érvényes DTMI-nek kell lennie"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Hibaüzenet",

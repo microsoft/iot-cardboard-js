@@ -28,6 +28,7 @@ import {
     getModelPropertyListItemName,
     shouldClosePropertySelectorOnMouseLeave
 } from './Utils';
+import { FormBody } from './Constants';
 
 type IPropertySelectorTriggerElementsBoundingBox = {
     top: number;
@@ -41,6 +42,7 @@ type IPropertyListItemNest = {
     getItemClassName?: (index: number) => any;
     getNestedItemClassName?: () => any;
     getErrorMessage?: (value: any, index?: any) => string;
+    handlePropertyDisplayNameChange?: (value: any, index?: any) => void;
     handleDragEnter?: (event: any, item: any) => any;
     handleDragEnterExternalItem?: (index: number) => any;
     handleDragStart?: (event: any, item: any) => any;
@@ -71,6 +73,7 @@ export const PropertyListItemNest = ({
     handleDragEnter,
     handleDragEnterExternalItem,
     handleDragStart,
+    handlePropertyDisplayNameChange,
     setCurrentPropertyIndex,
     item,
     lastPropertyFocused,
@@ -107,7 +110,7 @@ export const PropertyListItemNest = ({
                 setPropertySelectorVisible(true);
                 return;
             case DTDLSchemaType.Enum:
-                setModalBody(DTDLSchemaType.Enum);
+                setModalBody(FormBody.enum);
                 setModalOpen(true);
                 return;
             default:
@@ -227,8 +230,9 @@ export const PropertyListItemNest = ({
                         borderless
                         placeholder={getModelPropertyListItemName(item.name)}
                         validateOnFocusOut
-                        onChange={() => {
+                        onChange={(evt, value) => {
                             setCurrentPropertyIndex(index);
+                            handlePropertyDisplayNameChange(value, index);
                         }}
                         onGetErrorMessage={getErrorMessage}
                     />

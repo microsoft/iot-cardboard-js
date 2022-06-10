@@ -760,7 +760,15 @@
     "doYouWantToSaveChangesYouMadeTo": "是否要保存所做的更改",
     "doYouWantToDelete": "是否要删除",
     "projectWithSameNameAlreadyExistsMessage?": "具有相同名称的项目已经存在，您是否要覆盖它？",
-    "overwrite": "改写"
+    "overwrite": "改写",
+    "namespace": "Namespace",
+    "enterANamespace": "输入命名空间",
+    "namespaceError": "名称只能包含字符 a-z、A-Z、0-9 和下划线。",
+    "settings": "设置",
+    "errorInvalidJSON": "无效的 JSON",
+    "errorFileFormatNotSupported": "{{文件}} 格式不受支持",
+    "errorFormatNoSupported": "不支持的文件格式",
+    "errorIssueWithFile": "{{文件名}} 的问题：{{错误}}"
   },
   "cameraControls": {
     "mouseControls": "鼠标控制",
@@ -779,7 +787,12 @@
     "description": "描述",
     "relationships": "关系",
     "inheritances": "遗产",
-    "components": "组件"
+    "components": "组件",
+    "errorDisplayName": "显示名称不得超过 64 个字符",
+    "errorName": "名称只能包含字符 a-z、A-Z、0-9 和下划线",
+    "errorNameLength": "姓名不得超过 64 个字符",
+    "errorIdLength": "Id 不得超过 2048 个字符",
+    "errorIdValidDTMI": "ID 必须是有效的 DTMI"
   },
   "OATPropertyEditor": {
     "displayName": "显示名称",
@@ -849,7 +862,14 @@
     "delete": "删除",
     "multiLanguage": "多国语言",
     "region": "地区",
-    "singleLanguage": "单一语言"
+    "singleLanguage": "单一语言",
+    "errorComment": "评论不得超过512个字符",
+    "errorDisplayName": "显示名称不得超过 64 个字符",
+    "errorDescription": "描述不得超过 512 个字符",
+    "errorName": "名称只能包含字符 a-z、A-Z、0-9 和下划线",
+    "errorNameLength": "名称不得超过 64 个字符",
+    "errorIdLength": "Id 不得超过 2048 个字符",
+    "errorIdValidDTMI": "ID 必须是有效的 DTMI"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "错误信息",

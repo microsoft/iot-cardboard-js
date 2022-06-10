@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { TextField, Stack, Label, Text, IconButton } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import {
@@ -13,6 +13,14 @@ import { deepCopy } from '../../Models/Services/Utils';
 import { getModelPropertyListItemName } from './Utils';
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 import { ModelTypes } from '../../Models/Constants/Enums';
+import {
+    DTDLNameRegex,
+    OATDisplayNameLengthLimit,
+    OATNameLengthLimit,
+    OATIdLengthLimit,
+    DTMIRegex
+} from '../../Models/Constants/Constants';
+import { FormBody } from './Constants';
 
 type IPropertiesModelSummary = {
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
@@ -32,7 +40,67 @@ export const PropertiesModelSummary = ({
     const iconWrapStyles = geIconWrapFitContentStyles();
     const generalPropertiesWrapStyles = getGeneralPropertiesWrapStyles();
     const textFieldStyes = getPropertyEditorTextFieldStyles();
+    const [nameLengthError, setNameLengthError] = useState(false);
+    const [nameValidCharactersError, setNameValidCharactersError] = useState(
+        false
+    );
+    const [displayNameError, setDisplayNameError] = useState(null);
+    const [idLengthError, setIdLengthError] = useState(null);
+    const [idValidDTMIError, setIdValidDTMIError] = useState(null);
     const { model } = state;
+
+    const handleDisplayNameChange = (value) => {
+        if (value.length <= OATDisplayNameLengthLimit) {
+            const modelCopy = deepCopy(model);
+            modelCopy.displayName = value;
+            dispatch({
+                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                payload: modelCopy
+            });
+
+            setDisplayNameError(null);
+        } else {
+            setDisplayNameError(true);
+        }
+    };
+
+    const handleNameChange = (value) => {
+        if (value.length <= OATNameLengthLimit) {
+            setNameLengthError(null);
+            if (DTDLNameRegex.test(value)) {
+                setNameValidCharactersError(null);
+                const modelCopy = deepCopy(model);
+                modelCopy.name = value;
+                dispatch({
+                    type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                    payload: modelCopy
+                });
+            } else {
+                setNameValidCharactersError(true);
+            }
+        } else {
+            setNameLengthError(true);
+        }
+    };
+
+    const handleIdChange = (value) => {
+        if (value.length <= OATIdLengthLimit) {
+            setIdLengthError(null);
+            if (DTMIRegex.test(value)) {
+                setIdValidDTMIError(null);
+                const modelCopy = deepCopy(model);
+                modelCopy['@id'] = value;
+                dispatch({
+                    type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                    payload: modelCopy
+                });
+            } else {
+                setIdValidDTMIError(true);
+            }
+        } else {
+            setIdLengthError(true);
+        }
+    };
 
     return (
         <Stack styles={generalPropertiesWrapStyles}>
@@ -44,7 +112,7 @@ export const PropertiesModelSummary = ({
                         iconProps={{ iconName: 'info' }}
                         title={t('OATPropertyEditor.info')}
                         onClick={() => {
-                            setModalBody('FormRootModel');
+                            setModalBody(FormBody.rootModel);
                             setModalOpen(true);
                         }}
                     />
@@ -65,13 +133,15 @@ export const PropertiesModelSummary = ({
                     value={model ? model['@id'] : ''}
                     placeholder={t('id')}
                     onChange={(_ev, value) => {
-                        const modelCopy = deepCopy(model);
-                        modelCopy['@id'] = value;
-                        dispatch({
-                            type: SET_OAT_PROPERTY_EDITOR_MODEL,
-                            payload: modelCopy
-                        });
+                        handleIdChange(value);
                     }}
+                    errorMessage={
+                        idLengthError
+                            ? t('OATPropertyEditor.errorIdLength')
+                            : idValidDTMIError
+                            ? t('OATPropertyEditor.errorIdValidDTMI')
+                            : ''
+                    }
                 />
             </div>
             {model && model.name && (
@@ -88,13 +158,15 @@ export const PropertiesModelSummary = ({
                         }
                         placeholder={t('name')}
                         onChange={(_ev, value) => {
-                            const modelCopy = deepCopy(model);
-                            modelCopy.name = value;
-                            dispatch({
-                                type: SET_OAT_PROPERTY_EDITOR_MODEL,
-                                payload: modelCopy
-                            });
+                            handleNameChange(value);
                         }}
+                        errorMessage={
+                            nameLengthError
+                                ? t('OATPropertyEditor.errorNameLength')
+                                : nameValidCharactersError
+                                ? t('OATPropertyEditor.errorName')
+                                : ''
+                        }
                     />
                 </div>
             )}
@@ -111,13 +183,13 @@ export const PropertiesModelSummary = ({
                     }
                     placeholder={t('OATPropertyEditor.displayName')}
                     onChange={(_ev, value) => {
-                        const modelCopy = deepCopy(model);
-                        modelCopy.displayName = value;
-                        dispatch({
-                            type: SET_OAT_PROPERTY_EDITOR_MODEL,
-                            payload: modelCopy
-                        });
+                        handleDisplayNameChange(value);
                     }}
+                    errorMessage={
+                        displayNameError
+                            ? t('OATPropertyEditor.errorDisplayName')
+                            : ''
+                    }
                 />
             </div>
         </Stack>

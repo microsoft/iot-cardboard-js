@@ -760,7 +760,15 @@
     "doYouWantToSaveChangesYouMadeTo": "Si desidera salvare le modifiche apportate in",
     "doYouWantToDelete": "Vuoi eliminare",
     "projectWithSameNameAlreadyExistsMessage?": "Il progetto con lo stesso nome esiste già, vorresti sovrascriverlo?",
-    "overwrite": "sovrascrivere"
+    "overwrite": "sovrascrivere",
+    "namespace": "Namespace",
+    "enterANamespace": "Immettere uno spazio dei nomi",
+    "namespaceError": "Il nome può contenere solo i caratteri a-z, A-Z, 0-9 e underscore.",
+    "settings": "Impostazioni",
+    "errorInvalidJSON": "JSON non valido",
+    "errorFileFormatNotSupported": "Formato {{file}} non supportato",
+    "errorFormatNoSupported": "Formato di file non supportato",
+    "errorIssueWithFile": "Problema con {{nomefile}}: {{errore}}"
   },
   "cameraControls": {
     "mouseControls": "Controlli del mouse",
@@ -779,7 +787,12 @@
     "description": "Descrizione",
     "relationships": "Relazioni",
     "inheritances": "Eredità",
-    "components": "Componenti"
+    "components": "Componenti",
+    "errorDisplayName": "Il nome visualizzato non può superare i 64 caratteri",
+    "errorName": "Il nome può contenere solo i caratteri a-z, A-Z, 0-9 e carattere di sottolineatura",
+    "errorNameLength": "Il nome non può superare i 64 caratteri",
+    "errorIdLength": "L'ID non può superare i 2048 caratteri",
+    "errorIdValidDTMI": "L'ID deve essere un DTMI valido"
   },
   "OATPropertyEditor": {
     "displayName": "Nome visualizzato",
@@ -849,7 +862,14 @@
     "delete": "Cancellare",
     "multiLanguage": "multi-lingua",
     "region": "Regione",
-    "singleLanguage": "Lingua unica"
+    "singleLanguage": "Lingua unica",
+    "errorComment": "Il commento non può superare i 512 caratteri",
+    "errorDisplayName": "Il nome visualizzato non può superare i 64 caratteri",
+    "errorDescription": "La descrizione non può superare i 512 caratteri",
+    "errorName": "Il nome può contenere solo i caratteri a-z, A-Z, 0-9 e carattere di sottolineatura",
+    "errorNameLength": "Il nome non può superare i 64 caratteri",
+    "errorIdLength": "L'ID non può superare i 2048 caratteri",
+    "errorIdValidDTMI": "L'ID deve essere un DTMI valido"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Messaggio di errore",

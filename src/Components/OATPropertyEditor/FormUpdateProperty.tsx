@@ -25,13 +25,17 @@ import { deepCopy } from '../../Models/Services/Utils';
 import { MultiLanguageSelectionType } from '../../Models/Constants/Enums';
 import {
     getModelPropertyCollectionName,
+    getModelPropertyListItemName,
+    handleCommentChange,
+    handleDescriptionChange,
+    handleDisplayNameChange,
+    handleIdChange,
     handleMultiLanguageSelectionRemoval,
     handleMultiLanguageSelectionsDescriptionKeyChange,
     handleMultiLanguageSelectionsDescriptionValueChange,
     handleMultiLanguageSelectionsDisplayNameKeyChange,
     handleMultiLanguageSelectionsDisplayNameValueChange
 } from './Utils';
-
 const multiLanguageOptionValue = 'multiLanguage';
 const singleLanguageOptionValue = 'singleLanguage';
 
@@ -62,14 +66,45 @@ export const FormUpdateProperty = ({
     const propertyInspectorStyles = getPropertyInspectorStyles();
     const radioGroupRowStyle = getRadioGroupRowStyles();
     const columnLeftTextStyles = getModalLabelStyles();
+
+    const { model } = state;
+
+    const propertiesKeyName = getModelPropertyCollectionName(
+        model ? model['@type'] : null
+    );
+
+    const activeProperty = model[propertiesKeyName][currentPropertyIndex];
+
+    const activeNestedProperty =
+        currentNestedPropertyIndex && currentNestedPropertyIndex >= 0
+            ? model[propertiesKeyName][currentPropertyIndex].schema.fields[
+                  currentNestedPropertyIndex
+              ]
+            : null;
+
     const [comment, setComment] = useState(null);
-    const [description, setDescription] = useState(null);
-    const [displayName, setDisplayName] = useState(null);
+    const [description, setDescription] = useState(
+        activeNestedProperty
+            ? activeNestedProperty.description
+            : activeProperty.description
+    );
+    const [displayName, setDisplayName] = useState(
+        getModelPropertyListItemName(
+            activeNestedProperty
+                ? activeNestedProperty.displayName
+                    ? activeNestedProperty.displayName
+                    : activeNestedProperty.name
+                : activeProperty.displayName
+                ? activeProperty.displayName
+                : activeProperty.name
+        )
+    );
     const [writable, setWritable] = useState(true);
-    const [semanticType, setSemanticType] = useState(null);
-    const [unit, setUnit] = useState(null);
-    const [id, setId] = useState(null);
-    const [error, setError] = useState(null);
+    const [id, setId] = useState(
+        activeNestedProperty
+            ? activeNestedProperty['@id']
+            : activeProperty['@id']
+    );
     const [languageSelection, setLanguageSelection] = useState(
         singleLanguageOptionValue
     );
@@ -101,11 +136,11 @@ export const FormUpdateProperty = ({
         isAMultiLanguageDescriptionEmpty,
         setIsAMultiLanguageDescriptionEmpty
     ] = useState(true);
-    const { model } = state;
-
-    const propertiesKeyName = getModelPropertyCollectionName(
-        model ? model['@type'] : null
-    );
+    const [commentError, setCommentError] = useState(null);
+    const [descriptionError, setDescriptionError] = useState(null);
+    const [displayNameError, setDisplayNameError] = useState(null);
+    const [idLengthError, setIdLengthError] = useState(null);
+    const [idValidDTMIError, setIdValidDTMIError] = useState(null);
 
     const options: IChoiceGroupOption[] = [
         {
@@ -150,7 +185,6 @@ export const FormUpdateProperty = ({
             model[propertiesKeyName][currentPropertyIndex].schema.fields[
                 currentNestedPropertyIndex
             ];
-
         const prop = {
             comment: comment ? comment : activeNestedProperty.comment,
             description:
@@ -159,16 +193,17 @@ export const FormUpdateProperty = ({
                         ? description
                         : activeNestedProperty.description
                     : multiLanguageSelectionsDescription,
-            name:
+            displayName:
                 languageSelection === singleLanguageOptionValue
                     ? displayName
                         ? displayName
                         : activeNestedProperty.name
                     : multiLanguageSelectionsDisplayName,
             writable,
-            unit: unit ? unit : activeNestedProperty.unit,
+            unit: activeNestedProperty.unit,
             '@id': id ? id : activeNestedProperty['@id'],
-            schema: activeNestedProperty.schema
+            schema: activeNestedProperty.schema,
+            name: activeNestedProperty.name
         };
 
         const modelCopy = deepCopy(model);
@@ -190,7 +225,7 @@ export const FormUpdateProperty = ({
             handleUpdatedNestedProperty();
             return;
         }
-        const activeProperty = model[propertiesKeyName][currentPropertyIndex];
+
         const prop = {
             comment: comment ? comment : activeProperty.comment,
             description:
@@ -201,7 +236,7 @@ export const FormUpdateProperty = ({
                     : multiLanguageSelectionsDescription
                     ? multiLanguageSelectionsDescription
                     : activeProperty.description,
-            name:
+            displayName:
                 languageSelection === singleLanguageOptionValue
                     ? displayName
                         ? displayName
@@ -210,12 +245,11 @@ export const FormUpdateProperty = ({
                     ? multiLanguageSelectionsDisplayName
                     : activeProperty.name,
             writable,
-            '@type': semanticType
-                ? [...activeProperty['@type'], ...[semanticType]]
-                : activeProperty['@type'],
-            unit: unit ? unit : activeProperty.unit,
+            '@type': activeProperty['@type'],
+            unit: activeProperty.unit,
             '@id': id ? id : activeProperty['@id'],
-            schema: activeProperty.schema
+            schema: activeProperty.schema,
+            name: activeProperty.name
         };
 
         const modelCopy = deepCopy(model);
@@ -226,22 +260,6 @@ export const FormUpdateProperty = ({
         });
         setModalOpen(false);
         setModalBody(null);
-    };
-
-    const getErrorMessage = (value) => {
-        const find = model[propertiesKeyName].find(
-            (item) => item.name === value
-        );
-
-        if (!find && value !== '') {
-            setDisplayName(value);
-        }
-
-        setError(!!find);
-
-        return find
-            ? `${t('OATPropertyEditor.errorRepeatedPropertyName')}`
-            : '';
     };
 
     useEffect(() => {
@@ -295,9 +313,9 @@ export const FormUpdateProperty = ({
                 <Label>
                     {model[propertiesKeyName][currentPropertyIndex]
                         ? typeof model[propertiesKeyName][currentPropertyIndex]
-                              .name === 'string'
+                              .displayName === 'string'
                             ? model[propertiesKeyName][currentPropertyIndex]
-                                  .name
+                                  .displayName
                             : Object.values(model.displayName)[0]
                         : t('OATPropertyEditor.property')}
                 </Label>
@@ -317,7 +335,22 @@ export const FormUpdateProperty = ({
                 </Text>
                 <TextField
                     placeholder={t('OATPropertyEditor.id')}
-                    onChange={(_ev, value) => setId(value)}
+                    onChange={(_ev, value) =>
+                        handleIdChange(
+                            value,
+                            setId,
+                            setIdLengthError,
+                            setIdValidDTMIError
+                        )
+                    }
+                    errorMessage={
+                        idLengthError
+                            ? t('OATPropertyEditor.errorIdLength')
+                            : idValidDTMIError
+                            ? t('OATPropertyEditor.errorIdValidDTMI')
+                            : ''
+                    }
+                    value={id}
                 />
             </div>
 
@@ -341,8 +374,20 @@ export const FormUpdateProperty = ({
                         placeholder={t(
                             'OATPropertyEditor.modalTextInputPlaceHolder'
                         )}
+                        value={displayName}
                         validateOnFocusOut
-                        onGetErrorMessage={getErrorMessage}
+                        onChange={(e, v) =>
+                            handleDisplayNameChange(
+                                v,
+                                setDisplayName,
+                                setDisplayNameError
+                            )
+                        }
+                        errorMessage={
+                            displayNameError
+                                ? t('OATPropertyEditor.errorDisplayName')
+                                : ''
+                        }
                     />
                 </div>
             )}
@@ -397,11 +442,17 @@ export const FormUpdateProperty = ({
                                     index,
                                     multiLanguageSelectionsDisplayNames,
                                     multiLanguageSelectionsDisplayName,
-                                    setMultiLanguageSelectionsDisplayName
+                                    setMultiLanguageSelectionsDisplayName,
+                                    setDisplayNameError
                                 )
                             }
                             disabled={
                                 !multiLanguageSelectionsDisplayNames[index].key
+                            }
+                            errorMessage={
+                                displayNameError
+                                    ? t('OATPropertyEditor.errorDisplayName')
+                                    : ''
                             }
                         />
                     </div>
@@ -463,7 +514,19 @@ export const FormUpdateProperty = ({
                         placeholder={t(
                             'OATPropertyEditor.modalTextInputPlaceHolderDescription'
                         )}
-                        onChange={(_ev, value) => setDescription(value)}
+                        onChange={(_ev, value) =>
+                            handleDescriptionChange(
+                                value,
+                                setDescription,
+                                setDescriptionError
+                            )
+                        }
+                        errorMessage={
+                            descriptionError
+                                ? t('OATPropertyEditor.errorDescription')
+                                : ''
+                        }
+                        value={description}
                     />
                 </div>
             )}
@@ -518,11 +581,17 @@ export const FormUpdateProperty = ({
                                     index,
                                     multiLanguageSelectionsDescription,
                                     multiLanguageSelectionsDescriptions,
-                                    setMultiLanguageSelectionsDescription
+                                    setMultiLanguageSelectionsDescription,
+                                    setDescriptionError
                                 )
                             }
                             disabled={
                                 !multiLanguageSelectionsDescriptions[index].key
+                            }
+                            errorMessage={
+                                descriptionError
+                                    ? t('OATPropertyEditor.errorDescription')
+                                    : ''
                             }
                         />
                     </div>
@@ -572,7 +641,13 @@ export const FormUpdateProperty = ({
                     placeholder={t(
                         'OATPropertyEditor.modalTextInputPlaceHolder'
                     )}
-                    onChange={(_ev, value) => setComment(value)}
+                    onChange={(_ev, value) =>
+                        handleCommentChange(value, setComment, setCommentError)
+                    }
+                    errorMessage={
+                        commentError ? t('OATPropertyEditor.errorComment') : ''
+                    }
+                    value={comment}
                 />
             </div>
 
@@ -587,12 +662,20 @@ export const FormUpdateProperty = ({
                 <Text>{t('OATPropertyEditor.writable')}</Text>
             </div>
 
-            <PrimaryButton
-                text={t('OATPropertyEditor.update')}
-                allowDisabledFocus
-                onClick={handleUpdateProperty}
-                disabled={error}
-            />
+            <div className={propertyInspectorStyles.modalRowFlexEnd}>
+                <PrimaryButton
+                    text={t('OATPropertyEditor.update')}
+                    allowDisabledFocus
+                    onClick={handleUpdateProperty}
+                    disabled={
+                        displayNameError ||
+                        commentError ||
+                        descriptionError ||
+                        idLengthError ||
+                        idValidDTMIError
+                    }
+                />
+            </div>
         </>
     );
 };

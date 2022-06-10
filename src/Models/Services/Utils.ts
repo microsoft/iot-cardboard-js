@@ -379,7 +379,6 @@ export async function parseModel(modelJson: string) {
         await modelParser.parse([modelJson]);
     } catch (err) {
         for (const parsingError of err._parsingErrors) {
-            alert(`${parsingError.action} ${parsingError.cause}`);
             return `${parsingError.action} ${parsingError.cause}`;
         }
     }
@@ -411,4 +410,10 @@ export const getStoredEditorModelsData = () => {
 export const getStoredEditorModelPositionsData = () => {
     const oatData = getStoredEditorData();
     return oatData && oatData.modelPositions ? oatData.modelPositions : [];
+};
+
+// Get stored models' namespace OAT-data
+export const getStoredEditorNamespaceData = () => {
+    const oatData = getStoredEditorData();
+    return oatData && oatData.namespace ? oatData.namespace : null;
 };

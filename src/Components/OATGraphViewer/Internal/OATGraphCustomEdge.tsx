@@ -12,13 +12,16 @@ import {
     OATUntargetedRelationshipName,
     OATRelationshipHandleName,
     OATComponentHandleName,
-    OATExtendHandleName
+    OATExtendHandleName,
+    OATNameLengthLimit,
+    DTDLNameRegex
 } from '../../../Models/Constants/Constants';
 import { SET_OAT_PROPERTY_EDITOR_MODEL } from '../../../Models/Constants/ActionTypes';
 import { ModelTypes } from '../../../Models/Constants/Enums';
 import { DTDLRelationship } from '../../../Models/Classes/DTDL';
 import { getPropertyDisplayName } from '../../OATPropertyEditor/Utils';
 import { IOATGraphCustomEdgeProps } from '../../../Models/Constants';
+import { useTranslation } from 'react-i18next';
 
 const foreignObjectSize = 180;
 const offsetSmall = 5;
@@ -36,8 +39,13 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
     data,
     markerEnd
 }) => {
+    const { t } = useTranslation();
     const [nameEditor, setNameEditor] = useState(false);
     const [nameText, setNameText] = useState(getPropertyDisplayName(data));
+    const [nameLengthError, setNameLengthError] = useState(false);
+    const [nameValidCharactersError, setNameValidCharactersError] = useState(
+        false
+    );
     const {
         elements,
         setElements,
@@ -429,24 +437,34 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
     }, [id, edges, nodes, sourceX, sourceY, targetX, targetY]);
 
     const onNameChange = (evt) => {
-        setNameText(evt.target.value);
-
-        const relationship = new DTDLRelationship(
-            polygons.element.data.id,
-            polygons.element.data.name,
-            polygons.element.data.displayName,
-            polygons.element.data.description,
-            polygons.element.data.comment,
-            polygons.element.data.writable,
-            polygons.element.data.content ? polygons.element.data.content : [],
-            polygons.element.data.target,
-            polygons.element.data.maxMultiplicity
-        );
-
-        dispatch({
-            type: SET_OAT_PROPERTY_EDITOR_MODEL,
-            payload: relationship
-        });
+        if (evt.target.value.length <= OATNameLengthLimit) {
+            setNameLengthError(null);
+            if (DTDLNameRegex.test(evt.target.value)) {
+                setNameValidCharactersError(null);
+                setNameText(evt.target.value);
+                const relationship = new DTDLRelationship(
+                    polygons.element.data.id,
+                    evt.target.value,
+                    polygons.element.data.displayName,
+                    polygons.element.data.description,
+                    polygons.element.data.comment,
+                    polygons.element.data.writable,
+                    polygons.element.data.content
+                        ? polygons.element.data.content
+                        : [],
+                    polygons.element.data.target,
+                    polygons.element.data.maxMultiplicity
+                );
+                dispatch({
+                    type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                    payload: relationship
+                });
+            } else {
+                setNameValidCharactersError(true);
+            }
+        } else {
+            setNameLengthError(true);
+        }
     };
 
     const onNameClick = () => {
@@ -568,7 +586,11 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                 <foreignObject
                     width={foreignObjectSize}
                     height={foreignObjectSize}
-                    x={edgeCenterX - foreignObjectSize / 2}
+                    x={
+                        data.type !== OATExtendHandleName
+                            ? edgeCenterX - foreignObjectSize / 2
+                            : edgeCenterX
+                    }
                     y={edgeCenterY}
                     requiredExtensions="http://www.w3.org/1999/xhtml"
                 >
@@ -583,6 +605,13 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                                 value={nameText}
                                 onKeyDown={onKeyDown}
                                 autoFocus
+                                errorMessage={
+                                    nameLengthError
+                                        ? t('OATGraphViewer.errorNameLength')
+                                        : nameValidCharactersError
+                                        ? t('OATGraphViewer.errorName')
+                                        : ''
+                                }
                             />
                         )}
                         <ActionButton
@@ -605,26 +634,25 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                                 }}
                             />
                         </ActionButton>
-                        <ActionButton
-                            className={
-                                data.type !== OATExtendHandleName
-                                    ? graphViewerStyles.edgeCancel
-                                    : graphViewerStyles.extendCancel
-                            }
-                            onClick={onNameBlur}
-                        >
-                            <Icon
-                                iconName="Save"
-                                styles={{
-                                    root: {
-                                        fontSize: FontSizes.size10,
-                                        color: theme.semanticColors.actionLink,
-                                        marginTop: '-35px',
-                                        marginRight: '-10px'
-                                    }
-                                }}
-                            />
-                        </ActionButton>
+                        {data.type !== OATExtendHandleName && (
+                            <ActionButton
+                                className={graphViewerStyles.edgeCancel}
+                                onClick={onNameBlur}
+                            >
+                                <Icon
+                                    iconName="Save"
+                                    styles={{
+                                        root: {
+                                            fontSize: FontSizes.size10,
+                                            color:
+                                                theme.semanticColors.actionLink,
+                                            marginTop: '-35px',
+                                            marginRight: '-10px'
+                                        }
+                                    }}
+                                />
+                            </ActionButton>
+                        )}
                     </body>
                 </foreignObject>
             )}

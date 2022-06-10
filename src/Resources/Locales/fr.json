@@ -760,7 +760,15 @@
     "doYouWantToSaveChangesYouMadeTo": "Voulez-vous enregistrer les modifications que vous avez apportées à",
     "doYouWantToDelete": "Voulez-vous supprimer",
     "projectWithSameNameAlreadyExistsMessage?": "Le projet portant le même nom existe déjà, souhaitez-vous le remplacer ?",
-    "overwrite": "écraser"
+    "overwrite": "écraser",
+    "namespace": "Espace de noms",
+    "enterANamespace": "Entrer un espace de noms",
+    "namespaceError": "Le nom ne peut contenir que les caractères a-z, A-Z, 0-9 et le trait de soulignement.",
+    "settings": "Paramètres",
+    "errorInvalidJSON": "JSON non valide",
+    "errorFileFormatNotSupported": "Le format {{file}} n’est pas pris en charge",
+    "errorFormatNoSupported": "Format de fichier non pris en charge",
+    "errorIssueWithFile": "Problème avec {{fileName}} : {{error}}"
   },
   "cameraControls": {
     "mouseControls": "Contrôles de la souris",
@@ -779,7 +787,12 @@
     "description": "Description",
     "relationships": "Relations",
     "inheritances": "Héritages",
-    "components": "Composants"
+    "components": "Composants",
+    "errorDisplayName": "Le nom d’affichage ne doit pas dépasser 64 caractères",
+    "errorName": "Le nom ne peut contenir que les caractères a-z, A-Z, 0-9 et le trait de soulignement",
+    "errorNameLength": "Le nom ne doit pas dépasser 64 caractères",
+    "errorIdLength": "Id ne doit pas dépasser 2048 caractères",
+    "errorIdValidDTMI": "Id doit être un DTMI valide"
   },
   "OATPropertyEditor": {
     "displayName": "Nom d’affichage",
@@ -849,7 +862,14 @@
     "delete": "Supprimer",
     "multiLanguage": "multilingue",
     "region": "Région",
-    "singleLanguage": "Langue unique"
+    "singleLanguage": "Langue unique",
+    "errorComment": "Le commentaire ne peut pas dépasser 512 caractères",
+    "errorDisplayName": "Le nom d’affichage ne doit pas dépasser 64 caractères",
+    "errorDescription": "La description ne peut dépasser 512 caractères",
+    "errorName": "Le nom ne peut contenir que les caractères a-z, A-Z, 0-9 et le trait de soulignement",
+    "errorNameLength": "Le nom ne doit pas dépasser 64 caractères",
+    "errorIdLength": "Id ne doit pas dépasser 2048 caractères",
+    "errorIdValidDTMI": "Id doit être un DTMI valide"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Message d'erreur",

@@ -760,7 +760,15 @@
     "doYouWantToSaveChangesYouMadeTo": "Вы хотите сохранить изменения, внесенные в",
     "doYouWantToDelete": "Вы хотите удалить",
     "projectWithSameNameAlreadyExistsMessage?": "Проект с таким названием уже существует, хотите его переопределить?",
-    "overwrite": "перезаписать"
+    "overwrite": "перезаписать",
+    "namespace": "Пространство имен",
+    "enterANamespace": "Ввод пространства имен",
+    "namespaceError": "Имя может содержать только символы a-z, A-Z, 0-9 и подчеркивание.",
+    "settings": "Параметры",
+    "errorInvalidJSON": "Недопустимый JSON",
+    "errorFileFormatNotSupported": "Формат {{file}} не поддерживается",
+    "errorFormatNoSupported": "Формат файла не поддерживается",
+    "errorIssueWithFile": "Проблема с {{имя_файла}}: {{ошибка}}"
   },
   "cameraControls": {
     "mouseControls": "Элементы управления мышью",
@@ -779,7 +787,12 @@
     "description": "Описание",
     "relationships": "Отношения",
     "inheritances": "Наследства",
-    "components": "Компоненты"
+    "components": "Компоненты",
+    "errorDisplayName": "Отображаемое имя не должно превышать 64 символов",
+    "errorName": "Имя может содержать только символы a-z, A-Z, 0-9 и подчеркивание",
+    "errorNameLength": "Имя не должно превышать 64 символов",
+    "errorIdLength": "Id не может превышать 2048 символов",
+    "errorIdValidDTMI": "Идентификатор должен быть допустимым DTMI"
   },
   "OATPropertyEditor": {
     "displayName": "Отображаемое имя",
@@ -849,7 +862,14 @@
     "delete": "Удалить",
     "multiLanguage": "многоязычность",
     "region": "Область",
-    "singleLanguage": "Один язык"
+    "singleLanguage": "Один язык",
+    "errorComment": "Комментарий не может превышать 512 символов",
+    "errorDisplayName": "Отображаемое имя не должно превышать 64 символов",
+    "errorDescription": "Описание не может превышать 512 символов",
+    "errorName": "Имя может содержать только символы a-z, A-Z, 0-9 и подчеркивание",
+    "errorNameLength": "Имя не должно превышать 64 символов",
+    "errorIdLength": "Id не может превышать 2048 символов",
+    "errorIdValidDTMI": "Идентификатор должен быть допустимым DTMI"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Сообщение об ошибке",
