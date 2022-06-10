@@ -57,6 +57,15 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
         setNameText(getPropertyDisplayName(data));
     }, [data]);
 
+    useEffect(() => {
+        if (!state.model) {
+            onNameBlur();
+        }
+        if (state.model && state.model['@id'] !== data.id) {
+            onNameBlur();
+        }
+    }, [state]);
+
     const getPolygon = (vertexes) =>
         vertexes.map((v) => `${v.x},${v.y}`).join(' ');
 
@@ -609,25 +618,6 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                                 }}
                             />
                         </ActionButton>
-                        {data.type !== OATExtendHandleName && (
-                            <ActionButton
-                                className={graphViewerStyles.edgeCancel}
-                                onClick={onNameBlur}
-                            >
-                                <Icon
-                                    iconName="Save"
-                                    styles={{
-                                        root: {
-                                            fontSize: FontSizes.size10,
-                                            color:
-                                                theme.semanticColors.actionLink,
-                                            marginTop: '-35px',
-                                            marginRight: '-10px'
-                                        }
-                                    }}
-                                />
-                            </ActionButton>
-                        )}
                     </div>
                 </foreignObject>
             )}

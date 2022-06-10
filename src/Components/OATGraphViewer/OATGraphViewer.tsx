@@ -1023,6 +1023,10 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
         setCurrentHovered(null);
     };
 
+    const onBackgroundClick = (evt) => {
+        dispatch({ type: SET_OAT_PROPERTY_EDITOR_MODEL, payload: null });
+    };
+
     return (
         <ReactFlowProvider>
             <div
@@ -1044,6 +1048,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                         onNodeDragStop={onNodeDragStop}
                         onNodeMouseEnter={onNodeMouseEnter}
                         onNodeMouseLeave={onNodeMouseLeave}
+                        onPaneClick={onBackgroundClick}
                     >
                         <PrimaryButton
                             styles={buttonStyles}
@@ -1156,6 +1161,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                         <Background
                             color={theme.semanticColors.bodyBackground}
                             gap={16}
+                            onClick={onBackgroundClick}
                         />
                     </ReactFlow>
                 </ElementsContext.Provider>
