@@ -876,7 +876,8 @@
     "errorDisplayNameLength": "Le nom d’affichage ne doit pas dépasser 64 caractères",
     "errorRepeatedDisplayName": "Un modèle avec le même nom d’affichage existe déjà",
     "errorRepeatedId": "Un modèle avec le même ID existe déjà",
-    "errorRepeatedName": "Un modèle portant le même nom existe déjà"
+    "errorRepeatedName": "Un modèle portant le même nom existe déjà",
+    "errorRepeatedEdgeName": "Une relation portant le même nom existe déjà"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Message d'erreur",

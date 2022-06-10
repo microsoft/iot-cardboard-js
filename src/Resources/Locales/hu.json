@@ -876,7 +876,8 @@
     "errorDisplayNameLength": "A megjelenítendő név nem haladhatja meg a 64 karaktert",
     "errorRepeatedDisplayName": "Már létezik egy azonos megjelenítendő nevű modell",
     "errorRepeatedId": "Már létezik egy azonos azonosítóval rendelkező modell",
-    "errorRepeatedName": "Az azonos nevű modell már létezik"
+    "errorRepeatedName": "Az azonos nevű modell már létezik",
+    "errorRepeatedEdgeName": "Az azonos nevű kapcsolat már létezik"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Hibaüzenet",

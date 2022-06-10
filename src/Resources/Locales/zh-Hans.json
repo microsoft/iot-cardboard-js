@@ -876,7 +876,8 @@
     "errorDisplayNameLength": "显示名称不得超过 64 个字符",
     "errorRepeatedDisplayName": "具有相同显示名称的模型已存在",
     "errorRepeatedId": "具有相同 ID 的模型已存在",
-    "errorRepeatedName": "具有相同名称的模型已存在"
+    "errorRepeatedName": "具有相同名称的模型已存在",
+    "errorRepeatedEdgeName": "具有相同名称的关系已存在"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "错误信息",

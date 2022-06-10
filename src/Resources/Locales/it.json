@@ -876,7 +876,8 @@
     "errorDisplayNameLength": "Il nome visualizzato non può superare i 64 caratteri",
     "errorRepeatedDisplayName": "Esiste già un modello con lo stesso nome visualizzato",
     "errorRepeatedId": "Esiste già un modello con lo stesso ID",
-    "errorRepeatedName": "Esiste già un modello con lo stesso nome"
+    "errorRepeatedName": "Esiste già un modello con lo stesso nome",
+    "errorRepeatedEdgeName": "Esiste già una relazione con lo stesso nome"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Messaggio di errore",
