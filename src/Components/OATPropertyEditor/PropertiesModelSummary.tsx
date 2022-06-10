@@ -48,8 +48,12 @@ export const PropertiesModelSummary = ({
         setErrorDisplayNameAlreadyUsed
     ] = useState(null);
     const [errorIdAlreadyUsed, setErrorIdAlreadyUsed] = useState(null);
+    const [
+        errorRepeatedRelationshipName,
+        setErrorRepeatedRelationshipName
+    ] = useState(null);
     const [errorNameAlreadyUsed, setErrorNameAlreadyUsed] = useState(null);
-    const [nameLengthError, setNameLengthError] = useState(false);
+    const [nameLengthError, setNameLengthError] = useState(null);
     const [nameValidCharactersError, setNameValidCharactersError] = useState(
         false
     );
@@ -76,21 +80,43 @@ export const PropertiesModelSummary = ({
             // Check format/syntax
             if (DTDLNameRegex.test(value)) {
                 setNameValidCharactersError(null);
-                // Check current value is not used by another model as name within models - checks interfaces
-                const repeatedDisplayNameModel = models.find(
-                    (model) => model.name === value
-                );
-                if (repeatedDisplayNameModel) {
-                    setErrorNameAlreadyUsed(true);
+                if (model['@type'] === ModelTypes.relationship) {
+                    // Loop over every model's content attribute in the models array, to find a repeated name
+                    const repeatedNameOnRelationship = models.find(
+                        (model) =>
+                            model.contents &&
+                            model.contents.find(
+                                (content) => content.name === value
+                            )
+                    );
+                    if (!repeatedNameOnRelationship) {
+                        setErrorIdAlreadyUsed(null);
+                        const modelCopy = deepCopy(model);
+                        modelCopy.name = value;
+                        dispatch({
+                            type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                            payload: modelCopy
+                        });
+                    } else {
+                        setErrorRepeatedRelationshipName(true);
+                    }
                 } else {
-                    setErrorNameAlreadyUsed(null);
-                    // Check repeated name on Relationships
-                    const modelCopy = deepCopy(model);
-                    modelCopy.name = value;
-                    dispatch({
-                        type: SET_OAT_PROPERTY_EDITOR_MODEL,
-                        payload: modelCopy
-                    });
+                    // Check current value is not used by another model as name within models - checks interfaces
+                    const repeatedDisplayNameModel = models.find(
+                        (model) => model.name === value
+                    );
+                    if (repeatedDisplayNameModel) {
+                        setErrorNameAlreadyUsed(true);
+                    } else {
+                        setErrorNameAlreadyUsed(null);
+                        // Check repeated name on Relationships
+                        const modelCopy = deepCopy(model);
+                        modelCopy.name = value;
+                        dispatch({
+                            type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                            payload: modelCopy
+                        });
+                    }
                 }
             } else {
                 setNameValidCharactersError(true);
@@ -220,6 +246,8 @@ export const PropertiesModelSummary = ({
                                 ? t('OATPropertyEditor.errorName')
                                 : errorNameAlreadyUsed
                                 ? t('OATPropertyEditor.errorRepeatedName')
+                                : errorRepeatedRelationshipName
+                                ? t('OATPropertyEditor.errorRepeatedEdgeName')
                                 : ''
                         }
                     />
