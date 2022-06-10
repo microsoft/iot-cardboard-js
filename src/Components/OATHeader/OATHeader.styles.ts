@@ -134,7 +134,7 @@ export const getHeaderStyles = () => {
     });
 };
 
-export const getSubMenuItemStyles = () => {
+export const getSubMenuItemStyles: IStyle = () => {
     const theme = useTheme();
     return {
         root: {
@@ -151,7 +151,7 @@ export const getSubMenuItemStyles = () => {
     } as Partial<IButtonStyles>;
 };
 
-export const getSubMenuStyles = () => {
+export const getSubMenuStyles: IStyle = () => {
     const theme = useTheme();
     return {
         root: {
@@ -169,7 +169,7 @@ export const getSubMenuStyles = () => {
     } as Partial<IButtonStyles>;
 };
 
-export const getPromptTextStyles = () => {
+export const getPromptTextStyles: IStyle = () => {
     return {
         root: {
             fontSize: '16px'

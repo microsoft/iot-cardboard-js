@@ -8,7 +8,7 @@ import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 import FormRootModelDetails from './FormRootModelDetails';
 
 export enum FromBody {
-    property = 'Property',
+    property = 'formProperty',
     enum = 'Enum',
     rootModel = 'FormRootModel'
 }

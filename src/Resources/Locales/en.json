@@ -781,7 +781,7 @@
         "errorId": "Id may no exceed 2048 chars"
     },
     "OATPropertyEditor": {
-        "addEnumValue": "Add Enum Value",
+        "addEnumValue": "Add enum value",
         "addProperty": "Add property",
         "addToTemplate": "Add to template",
         "array": "array",

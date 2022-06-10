@@ -3,7 +3,8 @@ import {
     mergeStyleSets,
     useTheme,
     FontSizes,
-    IRawStyle
+    IRawStyle,
+    mergeStyles
 } from '@fluentui/react';
 import { CardboardClassNamePrefix } from '../../Models/Constants';
 
@@ -252,7 +253,7 @@ export const getGraphViewerStyles = () => {
     });
 };
 
-export const getGraphViewerButtonStyles = () => {
+export const getGraphViewerButtonStyles: IStyle = () => {
     return {
         root: {
             zIndex: '100',
@@ -261,7 +262,7 @@ export const getGraphViewerButtonStyles = () => {
     } as Partial<IStyle>;
 };
 
-export const getGraphViewerIconStyles = () => {
+export const getGraphViewerIconStyles: IStyle = () => {
     const theme = useTheme();
     return {
         root: {
@@ -271,7 +272,7 @@ export const getGraphViewerIconStyles = () => {
     } as Partial<IStyle>;
 };
 
-export const getGraphViewerActionButtonStyles = () => {
+export const getGraphViewerActionButtonStyles: IStyle = () => {
     return {
         root: {
             height: FontSizes.size12,
@@ -280,7 +281,7 @@ export const getGraphViewerActionButtonStyles = () => {
     } as Partial<IStyle>;
 };
 
-export const getGraphViewerWarningStyles = () => {
+export const getGraphViewerWarningStyles: IStyle = () => {
     const theme = useTheme();
     return {
         root: {
@@ -290,14 +291,14 @@ export const getGraphViewerWarningStyles = () => {
     } as Partial<IStyle>;
 };
 
-export const getGraphViewerMinimapStyles = () => {
+export const getGraphViewerMinimapStyles: IStyle = () => {
     const theme = useTheme();
     return {
         background: theme.semanticColors.bodyBackground
     } as Partial<IStyle>;
 };
 
-export const getGraphViewerFiltersStyles = () => {
+export const getGraphViewerFiltersStyles: IStyle = () => {
     return {
         root: {
             position: 'absolute',

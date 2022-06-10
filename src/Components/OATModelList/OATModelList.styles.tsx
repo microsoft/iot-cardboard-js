@@ -59,7 +59,7 @@ export const getModelsStyles = () => {
     });
 };
 
-export const getModelsIconStyles = () => {
+export const getModelsIconStyles: IStyle = () => {
     const theme = useTheme();
     return {
         root: {
@@ -69,7 +69,7 @@ export const getModelsIconStyles = () => {
     } as Partial<IStyle>;
 };
 
-export const getModelsActionButtonStyles = () => {
+export const getModelsActionButtonStyles: IStyle = () => {
     const theme = useTheme();
     return {
         root: {
