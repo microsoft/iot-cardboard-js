@@ -788,11 +788,14 @@
     "relationships": "Ilişki",
     "inheritances": "Miras",
     "components": "Bileşen",
-    "errorDisplayName": "Görünen Ad 64 karakteri aşamaz",
     "errorName": "Ad yalnızca a-z, A-Z, 0-9 ve alt çizgi karakterlerini içerebilir",
     "errorNameLength": "İsim 64 karakteri geçemez",
     "errorIdLength": "Kimlik 2048 karakteri geçemez",
-    "errorIdValidDTMI": "Kimlik geçerli bir DTMI olmalıdır"
+    "errorIdValidDTMI": "Kimlik geçerli bir DTMI olmalıdır",
+    "errorRepeatedDisplayName": "Aynı görünen ada sahip bir model zaten var",
+    "errorRepeatedId": "Aynı kimliğe sahip bir model zaten var",
+    "errorDisplayNameLength": "Görünen Ad 64 karakteri aşamaz",
+    "errorId": "Kimlik 2048 karakteri geçemez"
   },
   "OATPropertyEditor": {
     "displayName": "Görünen Ad",
@@ -869,7 +872,12 @@
     "errorName": "Ad yalnızca a-z, A-Z, 0-9 ve alt çizgi karakterlerini içerebilir",
     "errorNameLength": "İsim 64 karakteri geçemez",
     "errorIdLength": "Kimlik 2048 karakteri geçemez",
-    "errorIdValidDTMI": "Kimlik geçerli bir DTMI olmalıdır"
+    "errorIdValidDTMI": "Kimlik geçerli bir DTMI olmalıdır",
+    "errorDisplayNameLength": "Görünen Ad 64 karakteri aşamaz",
+    "errorId": "Kimlik 2048 karakteri geçemez",
+    "errorRepeatedDisplayName": "Aynı görünen ada sahip bir model zaten var",
+    "errorRepeatedId": "Aynı kimliğe sahip bir model zaten var",
+    "errorRepeatedName": "Aynı ada sahip bir model zaten var"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Hata mesajı",

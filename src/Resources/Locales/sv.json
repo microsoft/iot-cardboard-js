@@ -788,11 +788,14 @@
     "relationships": "Relationer",
     "inheritances": "Arv",
     "components": "Komponenter",
-    "errorDisplayName": "Visningsnamn får inte överstiga 64 tecken",
     "errorName": "Namnet får bara innehålla tecknen a-z, A-Z, 0-9 och understreck",
     "errorNameLength": "Namnet får inte överstiga 64 rödingar",
     "errorIdLength": "Id får inte överstiga 2048 rödingar",
-    "errorIdValidDTMI": "ID måste vara ett giltigt DTMI"
+    "errorIdValidDTMI": "ID måste vara ett giltigt DTMI",
+    "errorRepeatedDisplayName": "Det finns redan en modell med samma visningsnamn",
+    "errorRepeatedId": "En modell med samma id finns redan",
+    "errorDisplayNameLength": "Visningsnamn får inte överstiga 64 tecken",
+    "errorId": "Id får inte överstiga 2048 rödingar"
   },
   "OATPropertyEditor": {
     "displayName": "Visningsnamn",
@@ -869,7 +872,12 @@
     "errorName": "Namnet får bara innehålla tecknen a-z, A-Z, 0-9 och understreck",
     "errorNameLength": "Namnet får inte överstiga 64 rödingar",
     "errorIdLength": "Id får inte överstiga 2048 rödingar",
-    "errorIdValidDTMI": "ID måste vara ett giltigt DTMI"
+    "errorIdValidDTMI": "ID måste vara ett giltigt DTMI",
+    "errorDisplayNameLength": "Visningsnamn får inte överstiga 64 tecken",
+    "errorId": "Id får inte överstiga 2048 rödingar",
+    "errorRepeatedDisplayName": "Det finns redan en modell med samma visningsnamn",
+    "errorRepeatedId": "En modell med samma id finns redan",
+    "errorRepeatedName": "En modell med samma namn finns redan"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Felmeddelande",
