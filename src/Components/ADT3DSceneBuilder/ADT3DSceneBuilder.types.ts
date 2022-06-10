@@ -55,7 +55,6 @@ export const SET_ADT_SCENE_ELEMENT_SELECTED_OBJECT_IDS =
     'SET_ADT_SCENE_ELEMENT_SELECTED_OBJECT_IDS';
 export const SET_ADT_SCENE_BUILDER_COLORED_MESH_ITEMS =
     'SET_ADT_SCENE_BUILDER_COLORED_MESH_ITEMS';
-export const SET_ORIGINAL_BEHAVIOR_TO_EDIT = 'SET_ORIGINAL_BEHAVIOR_TO_EDIT';
 export const SET_UNSAVED_BEHAVIOR_CHANGES_DIALOG_OPEN =
     'SET_ADT_UNSAVED_BEHAVIOR_CHANGES_DIALOG_OPEN';
 export const SET_UNSAVED_BEHAVIOR_CHANGES_DIALOG_DISCARD_ACTION =
@@ -155,11 +154,6 @@ export type ElementTwinAliasFormInfo = null | {
     twinAlias: IElementTwinAliasItem;
     mode: TwinAliasFormMode;
 };
-
-export interface IBehaviorFormContext {
-    behaviorToEdit: IBehavior;
-    setBehaviorToEdit: React.Dispatch<React.SetStateAction<IBehavior>>;
-}
 
 export interface IElementFormContext {
     elementToEdit: ITwinToObjectMapping;

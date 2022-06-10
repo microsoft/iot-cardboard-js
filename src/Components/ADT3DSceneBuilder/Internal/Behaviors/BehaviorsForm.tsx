@@ -67,6 +67,7 @@ import {
     BehaviorFormContextProvider,
     useBehaviorFormContext
 } from './Internal/BehaviorFormContext/BehaviorFormContext';
+import { BehaviorFormContextActionType } from './Internal/BehaviorFormContext/BehaviorFormContext.types';
 
 const getElementsFromBehavior = (behavior: IBehavior) =>
     behavior.datasources.filter(
@@ -162,7 +163,10 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
             widgetFormInfo.mode === WidgetFormMode.Cancelled &&
             behaviorDraftWidgetBackup.current
         ) {
-            setBehaviorToEdit(behaviorDraftWidgetBackup.current);
+            behaviorFormDispatch({
+                type: BehaviorFormContextActionType.FORM_BEHAVIOR_RESET,
+                payload: { behavior: behaviorDraftWidgetBackup.current }
+            });
             behaviorDraftWidgetBackup.current = null;
         }
         // If changes committed, clear backup
@@ -177,27 +181,20 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
             elementIds.push(element.id);
         });
 
-        setBehaviorToEdit(
-            produce((draft) => {
-                if (
-                    draft.datasources &&
-                    draft.datasources[0] &&
-                    draft.datasources[0].elementIDs
-                ) {
-                    draft.datasources[0].elementIDs = elementIds;
-                } else {
-                    draft.datasources[0] = {
-                        type:
-                            DatasourceType.ElementTwinToObjectMappingDataSource,
-                        elementIDs: elementIds
-                    };
+        behaviorFormDispatch({
+            type:
+                BehaviorFormContextActionType.FORM_BEHAVIOR_DATA_SOURCE_ADD_OR_UPDATE,
+            payload: {
+                source: {
+                    type: DatasourceType.ElementTwinToObjectMappingDataSource,
+                    elementIDs: elementIds
                 }
-            })
-        );
+            }
+        });
 
         onTabValidityChange('Twins', {
             isValid: ViewerConfigUtility.areTwinAliasesValidInBehavior(
-                behaviorToEdit,
+                behaviorFormState.behaviorToEdit,
                 selectedElements
             )
         });
@@ -219,15 +216,20 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
     // need a local copy to intercept and update form validity
     const localUpdateSelectedElements = useCallback(
         (element: ITwinToObjectMapping, isSelected: boolean) => {
-            let count = getElementsFromBehavior(behaviorToEdit)?.elementIDs
-                .length;
+            let count = getElementsFromBehavior(
+                behaviorFormState.behaviorToEdit
+            )?.elementIDs.length;
             // if selecting, then add 1, else remove 1 from existing counts
             count = isSelected ? count + 1 : count - 1;
             const isValid = count > 0;
             updateSelectedElements(element, isSelected);
             onTabValidityChange('Elements', { isValid: isValid });
         },
-        [behaviorToEdit, updateSelectedElements, onTabValidityChange]
+        [
+            behaviorFormState.behaviorToEdit,
+            updateSelectedElements,
+            onTabValidityChange
+        ]
     );
 
     const onPivotItemClick = useCallback(
@@ -245,7 +247,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
     const onSaveClick = useCallback(async () => {
         await onBehaviorSave(
             config,
-            behaviorToEdit,
+            behaviorFormState.behaviorToEdit,
             builderMode as BehaviorSaveMode,
             selectedLayerIds,
             selectedElements,
@@ -256,7 +258,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
     }, [
         onBehaviorSave,
         config,
-        behaviorToEdit,
+        behaviorFormState.behaviorToEdit,
         builderMode,
         selectedLayerIds,
         selectedElements,
@@ -303,15 +305,18 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
 
     // report out initial state
     useEffect(() => {
-        onTabValidityChange('Root', { isValid: !!behaviorToEdit.displayName });
-        const existingElementIds = getElementsFromBehavior(behaviorToEdit)
-            ?.elementIDs;
+        onTabValidityChange('Root', {
+            isValid: !!behaviorFormState.behaviorToEdit.displayName
+        });
+        const existingElementIds = getElementsFromBehavior(
+            behaviorFormState.behaviorToEdit
+        )?.elementIDs;
         onTabValidityChange('Elements', {
             isValid: existingElementIds?.length > 0
         });
         onTabValidityChange('Twins', {
             isValid: ViewerConfigUtility.areTwinAliasesValidInBehavior(
-                behaviorToEdit,
+                behaviorFormState.behaviorToEdit,
                 selectedElements
             )
         });
@@ -353,21 +358,28 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                             <Stack tokens={{ childrenGap: 12 }}>
                                 <TextField
                                     label={t('displayName')}
-                                    value={behaviorToEdit.displayName}
+                                    value={
+                                        behaviorFormState.behaviorToEdit
+                                            .displayName
+                                    }
                                     required
                                     onChange={(_e, newValue) => {
                                         onTabValidityChange('Root', {
                                             isValid: !!newValue
                                         });
-                                        setBehaviorToEdit(
-                                            produce((draft: IBehavior) => {
-                                                draft.displayName = newValue;
-                                            })
-                                        );
+                                        behaviorFormDispatch({
+                                            type:
+                                                BehaviorFormContextActionType.FORM_BEHAVIOR_DISPLAY_NAME_SET,
+                                            payload: {
+                                                name: newValue
+                                            }
+                                        });
                                     }}
                                 />
                                 <SceneLayerMultiSelectBuilder
-                                    behaviorId={behaviorToEdit.id}
+                                    behaviorId={
+                                        behaviorFormState.behaviorToEdit.id
+                                    }
                                     selectedLayerIds={selectedLayerIds}
                                     setSelectedLayerIds={setSelectedLayerIds}
                                 />

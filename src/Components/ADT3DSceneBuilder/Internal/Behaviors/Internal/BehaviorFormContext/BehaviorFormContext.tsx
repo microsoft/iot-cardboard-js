@@ -5,7 +5,11 @@ import produce from 'immer';
 import React, { useContext, useReducer } from 'react';
 import { defaultOnClickPopover } from '../../../../../../Models/Classes/3DVConfig';
 import ViewerConfigUtility from '../../../../../../Models/Classes/ViewerConfigUtility';
-import { getDebugLogger } from '../../../../../../Models/Services/Utils';
+import {
+    deepCopy,
+    getDebugLogger
+} from '../../../../../../Models/Services/Utils';
+import { IBehavior } from '../../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import {
     IBehaviorFormContext,
     IBehaviorFormContextState,
@@ -68,8 +72,35 @@ export const BehaviorFormContextReducer: (
                 draft.behaviorToEdit.twinAliases = Array.from(set);
                 break;
             }
+            case BehaviorFormContextActionType.FORM_BEHAVIOR_DATA_SOURCE_ADD_OR_UPDATE: {
+                AddOrUpdateListItemByFilter(
+                    draft.behaviorToEdit.datasources,
+                    action.payload.source,
+                    ViewerConfigUtility.isElementTwinToObjectMappingDataSource,
+                    logDebugConsole
+                );
+
+                break;
+            }
+            case BehaviorFormContextActionType.FORM_BEHAVIOR_DATA_SOURCE_REMOVE: {
+                RemoveItemsFromListByFilter(
+                    draft.behaviorToEdit.datasources,
+                    ViewerConfigUtility.isElementTwinToObjectMappingDataSource,
+                    logDebugConsole
+                );
+                break;
+            }
             case BehaviorFormContextActionType.FORM_BEHAVIOR_INITIALIZE: {
                 draft.behaviorToEdit = CreateNewBehavior();
+                break;
+            }
+            case BehaviorFormContextActionType.FORM_BEHAVIOR_RESET: {
+                // if given a behavior to use, use it. Otherwise fall back to the initial value given to the provider
+                if (action.payload.behavior) {
+                    draft.behaviorToEdit = deepCopy(action.payload.behavior);
+                } else {
+                    draft.behaviorToEdit = deepCopy(initialBehavior);
+                }
                 break;
             }
             case BehaviorFormContextActionType.FORM_BEHAVIOR_STATUS_VISUAL_ADD_OR_UPDATE: {
@@ -138,6 +169,7 @@ export const BehaviorFormContextReducer: (
     }
 );
 
+let initialBehavior: IBehavior;
 export const BehaviorFormContextProvider: React.FC<IBehaviorFormContextProviderProps> = (
     props
 ) => {
@@ -150,6 +182,7 @@ export const BehaviorFormContextProvider: React.FC<IBehaviorFormContextProviderP
     }
 
     const { behaviorToEdit } = props;
+    initialBehavior = behaviorToEdit;
     const defaultState: IBehaviorFormContextState = {
         behaviorToEdit: behaviorToEdit,
         isDirty: false

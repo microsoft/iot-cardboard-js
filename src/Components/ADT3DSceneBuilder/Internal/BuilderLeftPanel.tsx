@@ -52,8 +52,7 @@ const BuilderLeftPanel: React.FC = () => {
         adapter,
         state,
         dispatch,
-        objectColor,
-        setBehaviorToEdit
+        objectColor
     } = useContext(SceneBuilderContext);
 
     const addBehaviorToSceneAdapterData = useAdapter({
@@ -274,13 +273,23 @@ const BuilderLeftPanel: React.FC = () => {
     // END of scene element related callbacks
 
     // START of behavior related callbacks
+    const setSelectedBehavior = useCallback(
+        (behavior: IBehavior) => {
+            dispatch({
+                type: SET_ADT_SCENE_BUILDER_SELECTED_BEHAVIOR,
+                payload: behavior
+            });
+        },
+        [dispatch]
+    );
+
     const onCreateBehaviorClick = () => {
         dispatch({
             type: SET_ADT_SCENE_BUILDER_MODE,
             payload: ADT3DSceneBuilderMode.CreateBehavior
         });
         setColoredMeshItems([]);
-        setBehaviorToEdit({ ...defaultBehavior, id: createGUID() });
+        setSelectedBehavior({ ...defaultBehavior, id: createGUID() });
     };
 
     const onCreateBehaviorWithElements = (
@@ -308,7 +317,7 @@ const BuilderLeftPanel: React.FC = () => {
             elementIDs: mappingIds
         };
 
-        setBehaviorToEdit(behavior);
+        setSelectedBehavior(behavior);
 
         dispatch({
             type: SET_ADT_SCENE_BUILDER_MODE,
@@ -345,7 +354,7 @@ const BuilderLeftPanel: React.FC = () => {
             type: SET_ADT_SCENE_BUILDER_MODE,
             payload: ADT3DSceneBuilderMode.EditBehavior
         });
-        setBehaviorToEdit(behavior);
+        setSelectedBehavior(behavior);
     };
 
     const onRemoveBehaviorFromScene = async (

@@ -86,7 +86,6 @@ import {
 import { DeeplinkContextActionType } from '../../Models/Context/DeeplinkContext/DeeplinkContext.types';
 import { getStyles } from './ADT3DSceneBuilder.styles';
 import SceneLayers from './Internal/SceneLayers/SceneLayers';
-import { BehaviorFormContextProvider } from './Internal/Behaviors/Internal/BehaviorFormContext/BehaviorFormContext';
 import { SceneThemeContextProvider } from '../../Models/Context';
 
 const contextMenuStyles = mergeStyleSets({
@@ -242,13 +241,6 @@ const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
         }
     }, [state.builderMode]);
 
-    const setOriginalBehaviorToEdit = useCallback((behavior: IBehavior) => {
-        dispatch({
-            type: SET_ORIGINAL_BEHAVIOR_TO_EDIT,
-            payload: behavior
-        });
-    }, []);
-
     const setUnsavedChangesDialogDiscardAction = useCallback((action: any) => {
         dispatch({
             type: SET_UNSAVED_BEHAVIOR_CHANGES_DIALOG_DISCARD_ACTION,
@@ -377,7 +369,7 @@ const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
                 }
             }
         },
-        [state]
+        [setColoredMeshItems, setOutlinedMeshItems, state.builderMode]
     );
 
     const onMeshHovered = (mesh: AbstractMesh) => {
@@ -810,7 +802,6 @@ const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
                 dispatch,
                 state,
                 objectColor: state.objectColor,
-                setOriginalBehaviorToEdit,
                 setIsLayerBuilderDialogOpen,
                 checkIfBehaviorHasBeenEdited,
                 setUnsavedBehaviorChangesDialog,

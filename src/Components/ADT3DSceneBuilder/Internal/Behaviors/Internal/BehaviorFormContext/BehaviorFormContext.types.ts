@@ -1,5 +1,6 @@
 import {
     IBehavior,
+    IElementTwinToObjectMappingDataSource,
     IExpressionRangeVisual,
     IWidget
 } from '../../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
@@ -89,11 +90,10 @@ export type BehaviorFormContextAction =
     // DATA SOURCES
     | {
           type: BehaviorFormContextActionType.FORM_BEHAVIOR_DATA_SOURCE_ADD_OR_UPDATE;
-          payload: { source: string };
+          payload: { source: IElementTwinToObjectMappingDataSource };
       }
     | {
           type: BehaviorFormContextActionType.FORM_BEHAVIOR_DATA_SOURCE_REMOVE;
-          payload: { source: string };
       }
     // BEHAVIOR PROPERTIES
     | {
@@ -118,6 +118,9 @@ export type BehaviorFormContextAction =
     // BEHAVIOR OPERATIONS
     | {
           type: BehaviorFormContextActionType.FORM_BEHAVIOR_RESET;
+          payload: {
+              behavior?: IBehavior;
+          };
       }
     // STATUS
     | {
