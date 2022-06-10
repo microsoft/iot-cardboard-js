@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { TextField, Stack, Label, Text, IconButton } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import {
@@ -16,7 +16,9 @@ import { ModelTypes } from '../../Models/Constants/Enums';
 import {
     DTDLNameRegex,
     OATDisplayNameLengthLimit,
-    OATIdLengthLimit
+    OATNameLengthLimit,
+    OATIdLengthLimit,
+    DTMIRegex
 } from '../../Models/Constants/Constants';
 import { FormBody } from './Constants';
 
@@ -47,43 +49,84 @@ export const PropertiesModelSummary = ({
     ] = useState(null);
     const [errorIdAlreadyUsed, setErrorIdAlreadyUsed] = useState(null);
     const [errorNameAlreadyUsed, setErrorNameAlreadyUsed] = useState(null);
+    const [nameLengthError, setNameLengthError] = useState(false);
+    const [nameValidCharactersError, setNameValidCharactersError] = useState(
+        false
+    );
+    const [idValidDTMIError, setIdValidDTMIError] = useState(null);
+    const [displayName, setDisplayName] = useState(
+        model && model.displayName ? model.displayName : ''
+    );
+    const [name, setName] = useState(model && model.name ? model.name : '');
+    const [id, setId] = useState(model && model['@id'] ? model['@id'] : '');
+
+    console.log('model', model);
+
+    useEffect(() => {
+        if (model) {
+            setDisplayName(model.displayName);
+            setName(model.name);
+            setId(model['@id']);
+        }
+    }, [model]);
 
     const handleNameChange = (value) => {
-        // Check current value is not used by another model as name within models - checks interfaces
-        const repeatedDisplayNameModel = models.find(
-            (model) => model.name === value
-        );
-        if (repeatedDisplayNameModel) {
-            setErrorNameAlreadyUsed(true);
+        // Check length
+        if (value.length <= OATNameLengthLimit) {
+            setNameLengthError(null);
+            setName(value);
+            // Check format/syntax
+            if (DTDLNameRegex.test(value)) {
+                setNameValidCharactersError(null);
+                // Check current value is not used by another model as name within models - checks interfaces
+                const repeatedDisplayNameModel = models.find(
+                    (model) => model.name === value
+                );
+                if (repeatedDisplayNameModel) {
+                    setErrorNameAlreadyUsed(true);
+                } else {
+                    setErrorNameAlreadyUsed(null);
+                    // Check repeated name on Relationships
+                    const modelCopy = deepCopy(model);
+                    modelCopy.name = value;
+                    dispatch({
+                        type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                        payload: modelCopy
+                    });
+                }
+            } else {
+                setNameValidCharactersError(true);
+            }
         } else {
-            setErrorNameAlreadyUsed(null);
-            // Check repeated name on Relationships
-            const modelCopy = deepCopy(model);
-            modelCopy.name = value;
-            dispatch({
-                type: SET_OAT_PROPERTY_EDITOR_MODEL,
-                payload: modelCopy
-            });
+            setNameLengthError(true);
         }
     };
 
     const handleIdChange = (value) => {
+        // Check length
         if (value.length <= OATIdLengthLimit) {
             setIdLengthError(null);
-            // Check current value is not used by another model as @id within models
-            const repeatedIdModel = models.find(
-                (model) => model['@id'] === value
-            );
-            if (repeatedIdModel) {
-                setErrorIdAlreadyUsed(true);
+            setId(value);
+            // Check format/syntax
+            if (DTMIRegex.test(value)) {
+                setIdValidDTMIError(null);
+                // // Check current value is not used by another model as @id within models
+                const repeatedIdModel = models.find(
+                    (model) => model['@id'] === value
+                );
+                if (repeatedIdModel) {
+                    setErrorIdAlreadyUsed(true);
+                } else {
+                    setErrorIdAlreadyUsed(null);
+                    const modelCopy = deepCopy(model);
+                    modelCopy['@id'] = value;
+                    dispatch({
+                        type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                        payload: modelCopy
+                    });
+                }
             } else {
-                setErrorIdAlreadyUsed(null);
-                const modelCopy = deepCopy(model);
-                modelCopy['@id'] = value;
-                dispatch({
-                    type: SET_OAT_PROPERTY_EDITOR_MODEL,
-                    payload: modelCopy
-                });
+                setIdValidDTMIError(true);
             }
         } else {
             setIdLengthError(true);
@@ -91,8 +134,10 @@ export const PropertiesModelSummary = ({
     };
 
     const handleDisplayNameChange = (value) => {
+        //Check length
         if (value.length <= OATDisplayNameLengthLimit) {
             setDisplayNameLengthError(null);
+            setDisplayName(value);
             // Check current value is not used by another model as displayName within models
             const repeatedDisplayNameModel = models.find(
                 (model) => model.displayName === value
@@ -142,13 +187,17 @@ export const PropertiesModelSummary = ({
                     styles={textFieldStyes}
                     borderless
                     disabled={!model}
-                    value={model ? model['@id'] : ''}
+                    value={id}
                     placeholder={t('id')}
                     onChange={(_ev, value) => {
                         handleIdChange(value);
                     }}
                     errorMessage={
-                        errorIdAlreadyUsed
+                        idLengthError
+                            ? t('OATPropertyEditor.errorIdLength')
+                            : idValidDTMIError
+                            ? t('OATPropertyEditor.errorIdValidDTMI')
+                            : errorIdAlreadyUsed
                             ? t('OATPropertyEditor.errorRepeatedId')
                             : ''
                     }
@@ -161,18 +210,16 @@ export const PropertiesModelSummary = ({
                         styles={textFieldStyes}
                         borderless
                         disabled={!model}
-                        value={
-                            model && model.name
-                                ? getModelPropertyListItemName(model.name)
-                                : ''
-                        }
+                        value={name}
                         placeholder={t('name')}
                         onChange={(_ev, value) => {
                             handleNameChange(value);
                         }}
                         errorMessage={
-                            idLengthError
-                                ? t('OATPropertyEditor.errorIdLength')
+                            nameLengthError
+                                ? t('OATPropertyEditor.errorNameLength')
+                                : nameValidCharactersError
+                                ? t('OATPropertyEditor.errorName')
                                 : errorNameAlreadyUsed
                                 ? t('OATPropertyEditor.errorRepeatedName')
                                 : ''
@@ -186,11 +233,7 @@ export const PropertiesModelSummary = ({
                     styles={textFieldStyes}
                     borderless
                     disabled={!model}
-                    value={
-                        model && model.displayName
-                            ? getModelPropertyListItemName(model.displayName)
-                            : ''
-                    }
+                    value={getModelPropertyListItemName(displayName)}
                     placeholder={t('OATPropertyEditor.displayName')}
                     onChange={(_ev, value) => {
                         handleDisplayNameChange(value);

@@ -789,7 +789,10 @@
     "inheritances": "Arv",
     "components": "Komponenter",
     "errorDisplayName": "Visningsnamn får inte överstiga 64 tecken",
-    "errorId": "Id får inte överstiga 2048 rödingar"
+    "errorName": "Namnet får bara innehålla tecknen a-z, A-Z, 0-9 och understreck",
+    "errorNameLength": "Namnet får inte överstiga 64 rödingar",
+    "errorIdLength": "Id får inte överstiga 2048 rödingar",
+    "errorIdValidDTMI": "ID måste vara ett giltigt DTMI"
   },
   "OATPropertyEditor": {
     "displayName": "Visningsnamn",
@@ -863,8 +866,10 @@
     "errorComment": "Kommentar får inte överstiga 512 rödingar",
     "errorDisplayName": "Visningsnamn får inte överstiga 64 tecken",
     "errorDescription": "Beskrivning får inte överstiga 512 rödingar",
-    "errorId": "Id får inte överstiga 2048 rödingar",
-    "errorName": "Namnet får bara innehålla tecknen a-z, A-Z, 0-9 och understreck"
+    "errorName": "Namnet får bara innehålla tecknen a-z, A-Z, 0-9 och understreck",
+    "errorNameLength": "Namnet får inte överstiga 64 rödingar",
+    "errorIdLength": "Id får inte överstiga 2048 rödingar",
+    "errorIdValidDTMI": "ID måste vara ett giltigt DTMI"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Felmeddelande",

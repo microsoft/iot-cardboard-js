@@ -789,7 +789,10 @@
     "inheritances": "Heranças",
     "components": "Componentes",
     "errorDisplayName": "O nome do display não pode exceder 64 chars",
-    "errorId": "Id não pode exceder 2048 chars"
+    "errorName": "O nome só pode conter os caracteres a-z, A-Z, 0-9 e sublinhar",
+    "errorNameLength": "O nome não pode exceder 64 chars",
+    "errorIdLength": "Id não pode exceder 2048 chars",
+    "errorIdValidDTMI": "O ID deve ser um DTMI válido"
   },
   "OATPropertyEditor": {
     "displayName": "Nome de exibição",
@@ -863,8 +866,10 @@
     "errorComment": "Comentários não podem exceder 512 chars",
     "errorDisplayName": "O nome do display não pode exceder 64 chars",
     "errorDescription": "Descrição não pode exceder 512 chars",
-    "errorId": "Id não pode exceder 2048 chars",
-    "errorName": "O nome só pode conter os caracteres a-z, A-Z, 0-9 e sublinhar"
+    "errorName": "O nome só pode conter os caracteres a-z, A-Z, 0-9 e sublinhar",
+    "errorNameLength": "O nome não pode exceder 64 chars",
+    "errorIdLength": "Id não pode exceder 2048 chars",
+    "errorIdValidDTMI": "O ID deve ser um DTMI válido"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Mensagem de erro",

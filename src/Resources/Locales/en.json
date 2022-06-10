@@ -783,8 +783,12 @@
         "components": "Components",
         "errorRepeatedDisplayName": "A model with the same display name already exists",
         "errorRepeatedId": "A model with the same id already exists",
-        "errorDisplayName": "Display Name may no exceed 64 chars",
-        "errorId": "Id may no exceed 2048 chars"
+        "errorDisplayNameLength": "Display Name may no exceed 64 chars",
+        "errorId": "Id may no exceed 2048 chars",
+        "errorIdLength": "Id may not exceed 2048 chars",
+        "errorIdValidDTMI": "Id must be a valid DTMI",
+        "errorName": "Name may only contain the characters a-z, A-Z, 0-9, and underscore",
+        "errorNameLength": "Name may not exceed 64 chars"
     },
     "OATPropertyEditor": {
         "addEnumValue": "Add Enum Value",
@@ -813,8 +817,12 @@
         "errorDisplayNameLength": "Display Name may not exceed 64 chars",
         "errorDescription": "Description may no exceed 512 chars",
         "errorId": "Id may no exceed 2048 chars",
-        "errorName": "Name may only contain the characters a-z, A-Z, 0-9, and underscore",
         "errorRepeatedDisplayName": "A model with the same display name already exists",
+        "errorDisplayName": "Display Name may not exceed 64 chars",
+        "errorIdLength": "Id may not exceed 2048 chars",
+        "errorIdValidDTMI": "Id must be a valid DTMI",
+        "errorName": "Name may only contain the characters a-z, A-Z, 0-9, and underscore",
+        "errorNameLength": "Name may not exceed 64 chars",
         "errorRepeatedEnumValue": "An enum-value with the same value already exists",
         "errorRepeatedId": "A model with the same id already exists",
         "errorRepeatedName": "A model with the same name already exists",

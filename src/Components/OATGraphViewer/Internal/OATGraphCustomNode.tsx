@@ -13,7 +13,8 @@ import {
     OATRelationshipHandleName,
     OATComponentHandleName,
     OATExtendHandleName,
-    OATUntargetedRelationshipName
+    OATUntargetedRelationshipName,
+    DTMIRegex
 } from '../../../Models/Constants/Constants';
 import { SET_OAT_PROPERTY_EDITOR_MODEL } from '../../../Models/Constants/ActionTypes';
 import { DTDLModel } from '../../../Models/Classes/DTDL';
@@ -40,7 +41,10 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
         errorDisplayNameAlreadyUsed,
         setErrorDisplayNameAlreadyUsed
     ] = useState(null);
+    const [errorDisplayNameLength, setErrorDisplayNameLength] = useState(null);
     const [errorIdAlreadyUsed, setErrorIdAlreadyUsed] = useState(null);
+    const [idLengthError, setIdLengthError] = useState(false);
+    const [idValidDTMIError, setIdValidDTMIError] = useState(null);
     const {
         elements,
         setElements,
@@ -55,18 +59,24 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
     const { models } = state;
 
     const onNameChange = (evt) => {
-        // Check current value is not used by another model as displayName within models
         const currentValue = evt.target.value;
-        const repeatedDisplayNameModel = models.find(
-            (model) =>
-                model.displayName === currentValue &&
-                model['@type'] === ModelTypes.interface
-        );
-        if (repeatedDisplayNameModel) {
-            setErrorDisplayNameAlreadyUsed(true);
-        } else {
-            setErrorDisplayNameAlreadyUsed(null);
+        // Check length of display name
+        if (currentValue.length <= OATDisplayNameLengthLimit) {
+            setErrorDisplayNameLength(null);
             setNameText(currentValue);
+            // Check current value is not used by another model as displayName within models
+            const repeatedDisplayNameModel = models.find(
+                (model) =>
+                    model.displayName === currentValue &&
+                    model['@type'] === ModelTypes.interface
+            );
+            if (repeatedDisplayNameModel) {
+                setErrorDisplayNameAlreadyUsed(true);
+            } else {
+                setErrorDisplayNameAlreadyUsed(null);
+            }
+        } else {
+            setErrorDisplayNameLength(true);
         }
     };
 
@@ -79,7 +89,12 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
 
     const onNameBlur = () => {
         setNameEditor(false);
-        if (typeof data.name === 'string' && data.name !== nameText) {
+        if (
+            typeof data.name === 'string' &&
+            data.name !== nameText &&
+            !errorDisplayNameAlreadyUsed &&
+            !errorDisplayNameLength
+        ) {
             elements.find(
                 (element) => element.id === data.id
             ).data.name = nameText;
@@ -97,6 +112,7 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
                 type: SET_OAT_PROPERTY_EDITOR_MODEL,
                 payload: updatedModel
             });
+            console.log('dispatched');
             return;
         }
         elements.find((element) => element.id === data.id).data.name[
@@ -124,18 +140,30 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
     };
 
     const onIdChange = (evt) => {
-        // Check current value is not used by another model as @id within models
         const currentValue = evt.target.value;
-        const repeatedIdModel = models.find(
-            (model) =>
-                model['@id'] === currentValue &&
-                model['@type'] === ModelTypes.interface
-        );
-        if (repeatedIdModel) {
-            setErrorIdAlreadyUsed(true);
-        } else {
-            setErrorIdAlreadyUsed(null);
+        // Check id length
+        if (currentValue.length <= OATIdLengthLimit) {
+            setIdLengthError(null);
             setIdText(currentValue);
+            // Check id is valid DTMI
+            if (DTMIRegex.test(currentValue)) {
+                setIdValidDTMIError(null);
+                // Check current value is not used by another model as @id within models
+                const repeatedIdModel = models.find(
+                    (model) =>
+                        model['@id'] === currentValue &&
+                        model['@type'] === ModelTypes.interface
+                );
+                if (repeatedIdModel) {
+                    setErrorIdAlreadyUsed(true);
+                } else {
+                    setErrorIdAlreadyUsed(false);
+                }
+            } else {
+                setIdValidDTMIError(true);
+            }
+        } else {
+            setIdLengthError(true);
         }
     };
 
@@ -148,7 +176,13 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
     const onIdBlur = () => {
         setIdEditor(false);
         const prevId = data.id;
-        if (data.id !== idText) {
+        // Only apply change if value is error free
+        if (
+            data.id !== idText &&
+            !idLengthError &&
+            !idValidDTMIError &&
+            !errorIdAlreadyUsed
+        ) {
             elements
                 .filter((x) => x.source === data.id)
                 .forEach((x) => (x.source = idText));
@@ -172,6 +206,8 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
                 type: SET_OAT_PROPERTY_EDITOR_MODEL,
                 payload: updatedModel
             });
+        } else {
+            setIdText(data.id);
         }
     };
 
@@ -218,7 +254,11 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
                                     onBlur={onNameBlur}
                                     autoFocus
                                     errorMessage={
-                                        errorDisplayNameAlreadyUsed
+                                        errorDisplayNameLength
+                                            ? t(
+                                                  'OATGraphViewer.errorDisplayNameLength'
+                                              )
+                                            : errorDisplayNameAlreadyUsed
                                             ? t(
                                                   'OATGraphViewer.errorRepeatedDisplayName'
                                               )
@@ -243,7 +283,13 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
                                     onBlur={onIdBlur}
                                     autoFocus
                                     errorMessage={
-                                        errorIdAlreadyUsed
+                                        idLengthError
+                                            ? t('OATGraphViewer.errorIdLength')
+                                            : idValidDTMIError
+                                            ? t(
+                                                  'OATGraphViewer.errorIdValidDTMI'
+                                              )
+                                            : errorIdAlreadyUsed
                                             ? t(
                                                   'OATGraphViewer.errorRepeatedId'
                                               )
