@@ -37,10 +37,6 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
     );
     const [idEditor, setIdEditor] = useState(false);
     const [idText, setIdText] = useState(data.id);
-    const [
-        errorDisplayNameAlreadyUsed,
-        setErrorDisplayNameAlreadyUsed
-    ] = useState(null);
     const [errorDisplayNameLength, setErrorDisplayNameLength] = useState(null);
     const [errorIdAlreadyUsed, setErrorIdAlreadyUsed] = useState(null);
     const [idLengthError, setIdLengthError] = useState(false);
@@ -64,17 +60,6 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
         if (currentValue.length <= OATDisplayNameLengthLimit) {
             setErrorDisplayNameLength(null);
             setNameText(currentValue);
-            // Check current value is not used by another model as displayName within models
-            const repeatedDisplayNameModel = models.find(
-                (model) =>
-                    model.displayName === currentValue &&
-                    model['@type'] === ModelTypes.interface
-            );
-            if (repeatedDisplayNameModel) {
-                setErrorDisplayNameAlreadyUsed(true);
-            } else {
-                setErrorDisplayNameAlreadyUsed(null);
-            }
         } else {
             setErrorDisplayNameLength(true);
         }
@@ -92,7 +77,6 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
         if (
             typeof data.name === 'string' &&
             data.name !== nameText &&
-            !errorDisplayNameAlreadyUsed &&
             !errorDisplayNameLength
         ) {
             elements.find(
@@ -112,7 +96,6 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
                 type: SET_OAT_PROPERTY_EDITOR_MODEL,
                 payload: updatedModel
             });
-            console.log('dispatched');
             return;
         }
         elements.find((element) => element.id === data.id).data.name[
@@ -257,10 +240,6 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
                                         errorDisplayNameLength
                                             ? t(
                                                   'OATGraphViewer.errorDisplayNameLength'
-                                              )
-                                            : errorDisplayNameAlreadyUsed
-                                            ? t(
-                                                  'OATGraphViewer.errorRepeatedDisplayName'
                                               )
                                             : ''
                                     }

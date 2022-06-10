@@ -46,6 +46,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
     const [nameValidCharactersError, setNameValidCharactersError] = useState(
         false
     );
+    const [nameDuplicateError, setNameDuplicateError] = useState(false);
     const {
         elements,
         setElements,
@@ -437,28 +438,42 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
     }, [id, edges, nodes, sourceX, sourceY, targetX, targetY]);
 
     const onNameChange = (evt) => {
+        const nameVale = evt.target.value;
+        // Check length
         if (evt.target.value.length <= OATNameLengthLimit) {
             setNameLengthError(null);
-            if (DTDLNameRegex.test(evt.target.value)) {
+            setNameText(nameVale);
+            // Check format
+            if (DTDLNameRegex.test(nameVale)) {
                 setNameValidCharactersError(null);
-                setNameText(evt.target.value);
-                const relationship = new DTDLRelationship(
-                    polygons.element.data.id,
-                    evt.target.value,
-                    polygons.element.data.displayName,
-                    polygons.element.data.description,
-                    polygons.element.data.comment,
-                    polygons.element.data.writable,
-                    polygons.element.data.content
-                        ? polygons.element.data.content
-                        : [],
-                    polygons.element.data.target,
-                    polygons.element.data.maxMultiplicity
+                // Ensure unique name before dispatch
+
+                const existingEdgeWithSameName = edges.find(
+                    (edge) => edge.data.name === nameVale && edge.id !== id
                 );
-                dispatch({
-                    type: SET_OAT_PROPERTY_EDITOR_MODEL,
-                    payload: relationship
-                });
+
+                if (!existingEdgeWithSameName) {
+                    setNameDuplicateError(false);
+                    const relationship = new DTDLRelationship(
+                        polygons.element.data.id,
+                        nameVale,
+                        polygons.element.data.displayName,
+                        polygons.element.data.description,
+                        polygons.element.data.comment,
+                        polygons.element.data.writable,
+                        polygons.element.data.content
+                            ? polygons.element.data.content
+                            : [],
+                        polygons.element.data.target,
+                        polygons.element.data.maxMultiplicity
+                    );
+                    dispatch({
+                        type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                        payload: relationship
+                    });
+                } else {
+                    setNameDuplicateError(true);
+                }
             } else {
                 setNameValidCharactersError(true);
             }
@@ -610,6 +625,10 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                                         ? t('OATGraphViewer.errorNameLength')
                                         : nameValidCharactersError
                                         ? t('OATGraphViewer.errorName')
+                                        : nameDuplicateError
+                                        ? t(
+                                              'OATGraphViewer.errorRepeatedEdgeName'
+                                          )
                                         : ''
                                 }
                             />
