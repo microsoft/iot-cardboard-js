@@ -795,7 +795,7 @@
     "errorRepeatedDisplayName": "Um modelo com o mesmo nome de exibição já existe",
     "errorRepeatedId": "Um modelo com o mesmo id já existe",
     "errorDisplayNameLength": "Display Name não pode exceder 64 chars",
-    "errorId": "Id não pode exceder 2048 chars"
+    "errorRepeatedEdgeName": "Uma relação com o mesmo nome já existe"
   },
   "OATPropertyEditor": {
     "displayName": "Nome do visor",
@@ -874,7 +874,6 @@
     "errorIdLength": "ID não pode exceder 2048 chars",
     "errorIdValidDTMI": "Id deve ser um DTMI válido",
     "errorDisplayNameLength": "Nome do visor não pode exceder 64 chars",
-    "errorId": "Id não pode exceder 2048 chars",
     "errorRepeatedDisplayName": "Um modelo com o mesmo nome de exibição já existe",
     "errorRepeatedId": "Um modelo com o mesmo id já existe",
     "errorRepeatedName": "Um modelo com o mesmo nome já existe"

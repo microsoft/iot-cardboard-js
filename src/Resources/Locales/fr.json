@@ -795,7 +795,7 @@
     "errorRepeatedDisplayName": "Un modèle avec le même nom d’affichage existe déjà",
     "errorRepeatedId": "Un modèle avec le même ID existe déjà",
     "errorDisplayNameLength": "Le nom d’affichage ne doit pas dépasser 64 caractères",
-    "errorId": "Id ne peut pas dépasser 2048 caractères"
+    "errorRepeatedEdgeName": "Une relation portant le même nom existe déjà"
   },
   "OATPropertyEditor": {
     "displayName": "Nom d’affichage",
@@ -874,7 +874,6 @@
     "errorIdLength": "Id ne doit pas dépasser 2048 caractères",
     "errorIdValidDTMI": "Id doit être un DTMI valide",
     "errorDisplayNameLength": "Le nom d’affichage ne doit pas dépasser 64 caractères",
-    "errorId": "Id ne peut pas dépasser 2048 caractères",
     "errorRepeatedDisplayName": "Un modèle avec le même nom d’affichage existe déjà",
     "errorRepeatedId": "Un modèle avec le même ID existe déjà",
     "errorRepeatedName": "Un modèle portant le même nom existe déjà"

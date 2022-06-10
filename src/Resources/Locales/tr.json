@@ -795,7 +795,7 @@
     "errorRepeatedDisplayName": "Aynı görünen ada sahip bir model zaten var",
     "errorRepeatedId": "Aynı kimliğe sahip bir model zaten var",
     "errorDisplayNameLength": "Görünen Ad 64 karakteri aşamaz",
-    "errorId": "Kimlik 2048 karakteri geçemez"
+    "errorRepeatedEdgeName": "Aynı ada sahip bir ilişki zaten var"
   },
   "OATPropertyEditor": {
     "displayName": "Görünen Ad",
@@ -874,7 +874,6 @@
     "errorIdLength": "Kimlik 2048 karakteri geçemez",
     "errorIdValidDTMI": "Kimlik geçerli bir DTMI olmalıdır",
     "errorDisplayNameLength": "Görünen Ad 64 karakteri aşamaz",
-    "errorId": "Kimlik 2048 karakteri geçemez",
     "errorRepeatedDisplayName": "Aynı görünen ada sahip bir model zaten var",
     "errorRepeatedId": "Aynı kimliğe sahip bir model zaten var",
     "errorRepeatedName": "Aynı ada sahip bir model zaten var"

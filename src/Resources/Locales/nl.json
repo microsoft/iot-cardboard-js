@@ -795,7 +795,7 @@
     "errorRepeatedDisplayName": "Er bestaat al een model met dezelfde weergavenaam",
     "errorRepeatedId": "Er bestaat al een model met dezelfde id",
     "errorDisplayNameLength": "Weergavenaam mag niet meer dan 64 tekens bevatten",
-    "errorId": "Id mag niet meer dan 2048 tekens bevatten"
+    "errorRepeatedEdgeName": "Er bestaat al een relatie met dezelfde naam"
   },
   "OATPropertyEditor": {
     "displayName": "Weergegeven naam",
@@ -874,7 +874,6 @@
     "errorIdLength": "Id mag niet groter zijn dan 2048 tekens",
     "errorIdValidDTMI": "Id moet een geldige DTMI zijn",
     "errorDisplayNameLength": "Weergavenaam mag niet groter zijn dan 64 tekens",
-    "errorId": "Id mag niet meer dan 2048 tekens bevatten",
     "errorRepeatedDisplayName": "Er bestaat al een model met dezelfde weergavenaam",
     "errorRepeatedId": "Er bestaat al een model met dezelfde id",
     "errorRepeatedName": "Een model met dezelfde naam bestaat al"

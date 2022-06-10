@@ -795,7 +795,7 @@
     "errorRepeatedDisplayName": "Már létezik egy azonos megjelenítendő nevű modell",
     "errorRepeatedId": "Már létezik egy azonos azonosítóval rendelkező modell",
     "errorDisplayNameLength": "A megjelenítendő név nem haladhatja meg a 64 karaktert",
-    "errorId": "Az azonosító nem haladhatja meg a 2048 karaktert"
+    "errorRepeatedEdgeName": "Az azonos nevű kapcsolat már létezik"
   },
   "OATPropertyEditor": {
     "displayName": "Megjelenítendő név",
@@ -874,7 +874,6 @@
     "errorIdLength": "Az azonosító nem haladhatja meg a 2048 karaktert",
     "errorIdValidDTMI": "Az azonosítónak érvényes DTMI-nek kell lennie",
     "errorDisplayNameLength": "A megjelenítendő név nem haladhatja meg a 64 karaktert",
-    "errorId": "Az azonosító nem haladhatja meg a 2048 karaktert",
     "errorRepeatedDisplayName": "Már létezik egy azonos megjelenítendő nevű modell",
     "errorRepeatedId": "Már létezik egy azonos azonosítóval rendelkező modell",
     "errorRepeatedName": "Az azonos nevű modell már létezik"

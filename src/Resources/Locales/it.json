@@ -795,7 +795,7 @@
     "errorRepeatedDisplayName": "Esiste già un modello con lo stesso nome visualizzato",
     "errorRepeatedId": "Esiste già un modello con lo stesso ID",
     "errorDisplayNameLength": "Il nome visualizzato non può superare i 64 caratteri",
-    "errorId": "Id non può superare 2048 caratteri"
+    "errorRepeatedEdgeName": "Esiste già una relazione con lo stesso nome"
   },
   "OATPropertyEditor": {
     "displayName": "Nome visualizzato",
@@ -874,7 +874,6 @@
     "errorIdLength": "L'ID non può superare i 2048 caratteri",
     "errorIdValidDTMI": "L'ID deve essere un DTMI valido",
     "errorDisplayNameLength": "Il nome visualizzato non può superare i 64 caratteri",
-    "errorId": "Id non può superare 2048 caratteri",
     "errorRepeatedDisplayName": "Esiste già un modello con lo stesso nome visualizzato",
     "errorRepeatedId": "Esiste già un modello con lo stesso ID",
     "errorRepeatedName": "Esiste già un modello con lo stesso nome"
