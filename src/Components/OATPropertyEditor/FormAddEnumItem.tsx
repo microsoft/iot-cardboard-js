@@ -111,7 +111,8 @@ export const FormAddEnumItem = ({
     const [commentError, setCommentError] = useState(null);
     const [descriptionError, setDescriptionError] = useState(null);
     const [displayNameError, setDisplayNameError] = useState(null);
-    const [idError, setIdError] = useState(null);
+    const [idLengthError, setIdLengthError] = useState(null);
+    const [idValidDTMIError, setIdValidDTMIError] = useState(null);
     const [nameLengthError, setNameLengthError] = useState(false);
     const [nameValidCharactersError, setNameValidCharactersError] = useState(
         false
@@ -625,9 +626,20 @@ export const FormAddEnumItem = ({
                     placeholder={t('OATPropertyEditor.id')}
                     styles={textFieldStyles}
                     onChange={(_ev, value) =>
-                        handleIdChange(value, setId, setIdError)
+                        handleIdChange(
+                            value,
+                            setId,
+                            setIdLengthError,
+                            setIdValidDTMIError
+                        )
                     }
-                    errorMessage={idError ? t('OATPropertyEditor.errorId') : ''}
+                    errorMessage={
+                        idLengthError
+                            ? t('OATPropertyEditor.errorIdLength')
+                            : idValidDTMIError
+                            ? t('OATPropertyEditor.errorIdValidDTMI')
+                            : ''
+                    }
                 />
             </div>
 
@@ -640,10 +652,12 @@ export const FormAddEnumItem = ({
                         errorRepeatedEnumValue ||
                         !enumValue ||
                         !name ||
-                        nameError ||
+                        nameLengthError ||
+                        nameValidCharactersError ||
                         commentError ||
                         descriptionError ||
-                        idError
+                        idLengthError ||
+                        idValidDTMIError
                     }
                 />
             </div>

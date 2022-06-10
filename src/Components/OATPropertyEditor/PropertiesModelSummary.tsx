@@ -17,7 +17,8 @@ import {
     DTDLNameRegex,
     OATDisplayNameLengthLimit,
     OATNameLengthLimit,
-    OATIdLengthLimit
+    OATIdLengthLimit,
+    DTMIRegex
 } from '../../Models/Constants/Constants';
 import { FormBody } from './Constants';
 
@@ -44,7 +45,8 @@ export const PropertiesModelSummary = ({
         false
     );
     const [displayNameError, setDisplayNameError] = useState(null);
-    const [idError, setIdError] = useState(null);
+    const [idLengthError, setIdLengthError] = useState(null);
+    const [idValidDTMIError, setIdValidDTMIError] = useState(null);
     const { model } = state;
 
     const handleDisplayNameChange = (value) => {
@@ -83,15 +85,20 @@ export const PropertiesModelSummary = ({
 
     const handleIdChange = (value) => {
         if (value.length <= OATIdLengthLimit) {
-            const modelCopy = deepCopy(model);
-            modelCopy['@id'] = value;
-            dispatch({
-                type: SET_OAT_PROPERTY_EDITOR_MODEL,
-                payload: modelCopy
-            });
-            setIdError(null);
+            setIdLengthError(null);
+            if (DTMIRegex.test(value)) {
+                setIdValidDTMIError(null);
+                const modelCopy = deepCopy(model);
+                modelCopy['@id'] = value;
+                dispatch({
+                    type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                    payload: modelCopy
+                });
+            } else {
+                setIdValidDTMIError(true);
+            }
         } else {
-            setIdError(true);
+            setIdLengthError(true);
         }
     };
 
@@ -128,7 +135,13 @@ export const PropertiesModelSummary = ({
                     onChange={(_ev, value) => {
                         handleIdChange(value);
                     }}
-                    errorMessage={idError ? t('OATPropertyEditor.errorId') : ''}
+                    errorMessage={
+                        idLengthError
+                            ? t('OATPropertyEditor.errorIdLength')
+                            : idValidDTMIError
+                            ? t('OATPropertyEditor.errorIdValidDTMI')
+                            : ''
+                    }
                 />
             </div>
             {model && model.name && (
