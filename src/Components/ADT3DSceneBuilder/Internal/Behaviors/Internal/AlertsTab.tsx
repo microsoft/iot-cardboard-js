@@ -15,7 +15,8 @@ import { getUIDDefaultAlertVisual } from '../../../../../Models/Classes/3DVConfi
 import {
     wrapTextInTemplateString,
     deepCopy,
-    stripTemplateStringsFromText
+    stripTemplateStringsFromText,
+    getDebugLogger
 } from '../../../../../Models/Services/Utils';
 import ColorPicker from '../../../../Pickers/ColorSelectButton/ColorPicker';
 import { IPickerOption } from '../../../../Pickers/Internal/Picker.base.types';
@@ -30,12 +31,26 @@ import {
 import { useBehaviorFormContext } from './BehaviorFormContext/BehaviorFormContext';
 import { BehaviorFormContextActionType } from './BehaviorFormContext/BehaviorFormContext.types';
 
+const debugLogging = true;
+const logDebugConsole = getDebugLogger('AlertsTab', debugLogging);
+
 // NOTE: the copy is created to avoid accidental updates to the object held by the reducer
-const getAlertFromBehavior = (behavior: IBehavior) =>
-    deepCopy(behavior.visuals.filter(ViewerConfigUtility.isAlertVisual)[0]) ||
-    null;
-const getValueRangeVisualFromAlert = (visual: IExpressionRangeVisual) =>
-    deepCopy(visual?.valueRanges?.[0]?.visual) || null;
+const getAlertFromBehavior = (behavior: IBehavior) => {
+    const alert = behavior.visuals.filter(ViewerConfigUtility.isAlertVisual)[0];
+    if (alert) {
+        return deepCopy(alert);
+    } else {
+        return null;
+    }
+};
+const getValueRangeVisualFromAlert = (visual: IExpressionRangeVisual) => {
+    const innerVisual = visual?.valueRanges?.[0]?.visual;
+    if (innerVisual) {
+        return deepCopy(innerVisual);
+    } else {
+        return null;
+    }
+};
 
 const ROOT_LOC = '3dSceneBuilder.behaviorAlertForm';
 const LOC_KEYS = {
@@ -87,15 +102,30 @@ const AlertsTab: React.FC = () => {
 
     const setValueRangeProperty = useCallback(
         (propertyName: keyof IValueRangeVisual, value: string) => {
+            logDebugConsole(
+                'info',
+                `[START] Update value range property ${propertyName} to value `,
+                value
+            );
             const alertVisual = getAndCreateIfNotExistsAlertVisual(
                 behaviorFormState.behaviorToEdit
             );
             // Edit flow
             if (!alertVisual) {
+                logDebugConsole(
+                    'warn',
+                    `Could not set property (${propertyName}) on Value Range. No alert found. {behavior}`,
+                    behaviorFormState.behaviorToEdit
+                );
                 return;
             }
-            const valueRangeVisual = getValueRangeVisualFromAlert(alertVisual);
+            const valueRangeVisual = alertVisual?.valueRanges?.[0]?.visual;
             if (!valueRangeVisual) {
+                logDebugConsole(
+                    'warn',
+                    `Could not set property (${propertyName}) on Value Range. No visual found. {alertVisual}`,
+                    alertVisual
+                );
                 return;
             }
 
@@ -109,6 +139,11 @@ const AlertsTab: React.FC = () => {
                     visual: alertVisual
                 }
             });
+            logDebugConsole(
+                'info',
+                `[END] Update value range property ${propertyName}. {visual}`,
+                alertVisual
+            );
             // check form validity
             // validateForm(alertVisual);
         },

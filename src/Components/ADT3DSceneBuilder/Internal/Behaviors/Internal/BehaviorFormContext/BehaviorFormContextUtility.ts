@@ -1,3 +1,4 @@
+import { current } from 'immer';
 import { defaultBehavior } from '../../../../../../Models/Classes/3DVConfig';
 import ViewerConfigUtility from '../../../../../../Models/Classes/ViewerConfigUtility';
 import { IConsoleLogFunction } from '../../../../../../Models/Constants/Types';
@@ -99,26 +100,22 @@ export function AddOrUpdateListItemByFilter<T>(
     logger(
         'debug',
         '[START] Add/Update item in list. {listItems, item}',
-        listItems,
+        current(listItems),
         itemToAddUpdate
     );
     if (!listItems?.length) {
         listItems = [];
     }
 
-    const draftExistingVisualIndex = listItems.findIndex(predicate)[0];
+    const draftExistingVisualIndex = listItems.findIndex(predicate);
 
     // update
     if (draftExistingVisualIndex > 0) {
-        logger(
-            'debug',
-            `Updating item at index ${draftExistingVisualIndex}. {item}`,
-            itemToAddUpdate
-        );
+        logger('debug', `Updating item at index ${draftExistingVisualIndex}.`);
         listItems[draftExistingVisualIndex] = deepCopy(itemToAddUpdate);
         result = true;
     } else {
-        logger('debug', `Adding item. {item}`, itemToAddUpdate);
+        logger('debug', `Adding new item.`);
         // add
         listItems.push(deepCopy(itemToAddUpdate));
         result = true;
@@ -126,9 +123,8 @@ export function AddOrUpdateListItemByFilter<T>(
 
     logger(
         'debug',
-        '[END] Add/Update item in list. {listItems, item}',
-        listItems,
-        itemToAddUpdate
+        '[END] Add/Update item in list. {listItems}',
+        current(listItems)
     );
     return result;
 }
