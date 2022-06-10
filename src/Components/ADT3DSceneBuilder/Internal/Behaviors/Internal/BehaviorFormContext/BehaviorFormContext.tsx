@@ -24,7 +24,7 @@ import {
     RemoveWidgetFromBehaviorById
 } from './BehaviorFormContextUtility';
 
-const debugLogging = false;
+const debugLogging = true;
 const logDebugConsole = getDebugLogger('BehaviorFormContext', debugLogging);
 
 export const BehaviorFormContext = React.createContext<IBehaviorFormContext>(
@@ -88,6 +88,10 @@ export const BehaviorFormContextReducer: (
                     ViewerConfigUtility.isElementTwinToObjectMappingDataSource,
                     logDebugConsole
                 );
+                break;
+            }
+            case BehaviorFormContextActionType.FORM_BEHAVIOR_DISPLAY_NAME_SET: {
+                draft.behaviorToEdit.displayName = action.payload.name;
                 break;
             }
             case BehaviorFormContextActionType.FORM_BEHAVIOR_INITIALIZE: {

@@ -323,15 +323,6 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
     }, []);
     const isFormValid = checkValidityMap(behaviorState.validityMap);
 
-    // console.log(
-    //     `***Rendering, isValid: ${isFormValid}, Elements: ${
-    //         state.validityMap?.get('Elements')?.isValid
-    //     }, Twins: ${state.validityMap?.get('Twins')?.isValid}, Status: ${
-    //         state.validityMap?.get('Status')?.isValid
-    //     }, Alerts: ${state.validityMap?.get('Alerts')?.isValid}, Widgets: ${
-    //         state.validityMap?.get('Widgets')?.isValid
-    //     }`
-    // );
     const theme = useTheme();
     const commonPanelStyles = getLeftPanelStyles(theme);
     const commonFormStyles = getPanelFormStyles(theme, 168);
