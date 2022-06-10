@@ -810,7 +810,7 @@
         "enum": "enum",
         "enumValue": "Enum Value",
         "errorComment": "Comment may no exceed 512 chars",
-        "errorDisplayName": "Display Name may no exceed 64 chars",
+        "errorDisplayNameLength": "Display Name may not exceed 64 chars",
         "errorDescription": "Description may no exceed 512 chars",
         "errorId": "Id may no exceed 2048 chars",
         "errorName": "Name may only contain the characters a-z, A-Z, 0-9, and underscore",
