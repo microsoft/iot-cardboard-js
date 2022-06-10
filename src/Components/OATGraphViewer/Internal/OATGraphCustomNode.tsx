@@ -13,7 +13,8 @@ import {
     OATRelationshipHandleName,
     OATComponentHandleName,
     OATExtendHandleName,
-    OATUntargetedRelationshipName
+    OATUntargetedRelationshipName,
+    DTMIRegex
 } from '../../../Models/Constants/Constants';
 import { SET_OAT_PROPERTY_EDITOR_MODEL } from '../../../Models/Constants/ActionTypes';
 import { DTDLModel } from '../../../Models/Classes/DTDL';
@@ -36,7 +37,8 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
     const [idEditor, setIdEditor] = useState(false);
     const [idText, setIdText] = useState(data.id);
     const [displayNameError, setDisplayNameError] = useState(false);
-    const [idError, setIdError] = useState(false);
+    const [idLengthError, setIdLengthError] = useState(false);
+    const [idValidDTMIError, setIdValidDTMIError] = useState(null);
     const {
         elements,
         setElements,
@@ -113,10 +115,15 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
 
     const onIdChange = (evt) => {
         if (evt.target.value.length <= OATIdLengthLimit) {
-            setIdText(evt.target.value);
-            setIdError(null);
+            setIdLengthError(null);
+            if (DTMIRegex.test(evt.target.value)) {
+                setIdValidDTMIError(null);
+                setIdText(evt.target.value);
+            } else {
+                setIdValidDTMIError(true);
+            }
         } else {
-            setIdError(true);
+            setIdLengthError(true);
         }
     };
 
@@ -224,8 +231,12 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
                                     onBlur={onIdBlur}
                                     autoFocus
                                     errorMessage={
-                                        idError
-                                            ? t('OATGraphViewer.errorId')
+                                        idLengthError
+                                            ? t('OATGraphViewer.errorIdLength')
+                                            : idValidDTMIError
+                                            ? t(
+                                                  'OATGraphViewer.errorIdValidDTMI'
+                                              )
                                             : ''
                                     }
                                 />
