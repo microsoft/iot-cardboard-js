@@ -261,7 +261,7 @@ export interface IADT3DSceneBuilderElementsProps {
         isSelected: boolean
     ) => void;
     clearSelectedElements?: () => void;
-    onCreateBehaviorClick?: () => void;
+    onCreateBehaviorClick?: (searchTerm: string) => void;
     onCreateElementClick?: () => void;
     onRemoveElement?: (newElements: Array<ITwinToObjectMapping>) => void;
     onElementClick?: (element: ITwinToObjectMapping) => void;
