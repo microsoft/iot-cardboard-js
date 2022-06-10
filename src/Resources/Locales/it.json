@@ -789,9 +789,10 @@
     "inheritances": "Eredità",
     "components": "Componenti",
     "errorDisplayName": "Il nome visualizzato non può superare i 64 caratteri",
-    "errorId": "Id non può superare 2048 caratteri",
     "errorName": "Il nome può contenere solo i caratteri a-z, A-Z, 0-9 e carattere di sottolineatura",
-    "errorNameLength": "Il nome non può superare i 64 caratteri"
+    "errorNameLength": "Il nome non può superare i 64 caratteri",
+    "errorIdLength": "L'ID non può superare i 2048 caratteri",
+    "errorIdValidDTMI": "L'ID deve essere un DTMI valido"
   },
   "OATPropertyEditor": {
     "displayName": "Nome visualizzato",
@@ -865,9 +866,10 @@
     "errorComment": "Il commento non può superare i 512 caratteri",
     "errorDisplayName": "Il nome visualizzato non può superare i 64 caratteri",
     "errorDescription": "La descrizione non può superare i 512 caratteri",
-    "errorId": "Id non può superare 2048 caratteri",
     "errorName": "Il nome può contenere solo i caratteri a-z, A-Z, 0-9 e carattere di sottolineatura",
-    "errorNameLength": "Il nome non può superare i 64 caratteri"
+    "errorNameLength": "Il nome non può superare i 64 caratteri",
+    "errorIdLength": "L'ID non può superare i 2048 caratteri",
+    "errorIdValidDTMI": "L'ID deve essere un DTMI valido"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Messaggio di errore",

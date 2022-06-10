@@ -789,9 +789,10 @@
     "inheritances": "Spadki",
     "components": "Składniki",
     "errorDisplayName": "Nazwa wyświetlana nie może przekraczać 64 znaków",
-    "errorId": "Id nie może przekraczać 2048 znaków",
     "errorName": "Nazwa może zawierać tylko znaki a-z, A-Z, 0-9 i podkreślenie",
-    "errorNameLength": "Nazwa nie może przekraczać 64 znaków"
+    "errorNameLength": "Nazwa nie może przekraczać 64 znaków",
+    "errorIdLength": "Id nie może przekraczać 2048 znaków",
+    "errorIdValidDTMI": "Identyfikator musi być prawidłowym kodem DTMI"
   },
   "OATPropertyEditor": {
     "displayName": "Nazwa wyświetlana",
@@ -865,9 +866,10 @@
     "errorComment": "Komentarz nie może przekroczyć 512 znaków",
     "errorDisplayName": "Nazwa wyświetlana nie może przekraczać 64 znaków",
     "errorDescription": "Opis nie może przekraczać 512 znaków",
-    "errorId": "Id nie może przekraczać 2048 znaków",
     "errorName": "Nazwa może zawierać tylko znaki a-z, A-Z, 0-9 i podkreślenie",
-    "errorNameLength": "Nazwa nie może przekraczać 64 znaków"
+    "errorNameLength": "Nazwa nie może przekraczać 64 znaków",
+    "errorIdLength": "Id nie może przekraczać 2048 znaków",
+    "errorIdValidDTMI": "Identyfikator musi być prawidłowym kodem DTMI"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Komunikat o błędzie",

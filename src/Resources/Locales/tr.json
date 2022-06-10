@@ -789,9 +789,10 @@
     "inheritances": "Miras",
     "components": "Bileşen",
     "errorDisplayName": "Görünen Ad 64 karakteri aşamaz",
-    "errorId": "Kimlik 2048 karakteri geçemez",
     "errorName": "Ad yalnızca a-z, A-Z, 0-9 ve alt çizgi karakterlerini içerebilir",
-    "errorNameLength": "İsim 64 karakteri geçemez"
+    "errorNameLength": "İsim 64 karakteri geçemez",
+    "errorIdLength": "Kimlik 2048 karakteri geçemez",
+    "errorIdValidDTMI": "Kimlik geçerli bir DTMI olmalıdır"
   },
   "OATPropertyEditor": {
     "displayName": "Görünen Ad",
@@ -865,9 +866,10 @@
     "errorComment": "Yorum 512 karakteri geçemez",
     "errorDisplayName": "Görünen Ad 64 karakteri aşamaz",
     "errorDescription": "Açıklama 512 karakteri geçemez",
-    "errorId": "Kimlik 2048 karakteri geçemez",
     "errorName": "Ad yalnızca a-z, A-Z, 0-9 ve alt çizgi karakterlerini içerebilir",
-    "errorNameLength": "İsim 64 karakteri geçemez"
+    "errorNameLength": "İsim 64 karakteri geçemez",
+    "errorIdLength": "Kimlik 2048 karakteri geçemez",
+    "errorIdValidDTMI": "Kimlik geçerli bir DTMI olmalıdır"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Hata mesajı",

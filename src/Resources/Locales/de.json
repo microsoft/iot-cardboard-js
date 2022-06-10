@@ -789,9 +789,10 @@
     "inheritances": "Erbteile",
     "components": "Komponenten",
     "errorDisplayName": "Anzeigename darf 64 Zeichen nicht überschreiten",
-    "errorId": "ID darf 2048 Zeichen nicht überschreiten",
     "errorName": "Der Name darf nur die Zeichen a-z, A-Z, 0-9 und Unterstrich enthalten",
-    "errorNameLength": "Name darf 64 Zeichen nicht überschreiten"
+    "errorNameLength": "Name darf 64 Zeichen nicht überschreiten",
+    "errorIdLength": "ID darf 2048 Zeichen nicht überschreiten",
+    "errorIdValidDTMI": "ID muss ein gültiges DTMI sein"
   },
   "OATPropertyEditor": {
     "displayName": "Anzeigename",
@@ -865,9 +866,10 @@
     "errorComment": "Kommentar darf 512 Zeichen nicht überschreiten",
     "errorDisplayName": "Anzeigename darf 64 Zeichen nicht überschreiten",
     "errorDescription": "Beschreibung darf 512 Zeichen nicht überschreiten",
-    "errorId": "ID darf 2048 Zeichen nicht überschreiten",
     "errorName": "Der Name darf nur die Zeichen a-z, A-Z, 0-9 und Unterstrich enthalten",
-    "errorNameLength": "Name darf 64 Zeichen nicht überschreiten"
+    "errorNameLength": "Name darf 64 Zeichen nicht überschreiten",
+    "errorIdLength": "ID darf 2048 Zeichen nicht überschreiten",
+    "errorIdValidDTMI": "ID muss ein gültiges DTMI sein"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Fehlermeldung",

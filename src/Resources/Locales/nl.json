@@ -789,9 +789,10 @@
     "inheritances": "Erfenissen",
     "components": "Onderdelen",
     "errorDisplayName": "Weergavenaam mag niet meer dan 64 tekens bevatten",
-    "errorId": "Id mag niet meer dan 2048 tekens bevatten",
     "errorName": "Naam mag alleen de tekens a-z, A-Z, 0-9 en onderstrepingsteken bevatten",
-    "errorNameLength": "Naam mag niet meer dan 64 tekens bevatten"
+    "errorNameLength": "Naam mag niet meer dan 64 tekens bevatten",
+    "errorIdLength": "Id mag niet groter zijn dan 2048 tekens",
+    "errorIdValidDTMI": "Id moet een geldige DTMI zijn"
   },
   "OATPropertyEditor": {
     "displayName": "Weergegeven naam",
@@ -865,9 +866,10 @@
     "errorComment": "Commentaar mag niet meer dan 512 tekens bevatten",
     "errorDisplayName": "Weergavenaam mag niet meer dan 64 tekens bevatten",
     "errorDescription": "Beschrijving mag niet meer dan 512 tekens bevatten",
-    "errorId": "Id mag niet meer dan 2048 tekens bevatten",
     "errorName": "Naam mag alleen de tekens a-z, A-Z, 0-9 en onderstrepingsteken bevatten",
-    "errorNameLength": "Naam mag niet meer dan 64 tekens bevatten"
+    "errorNameLength": "Naam mag niet meer dan 64 tekens bevatten",
+    "errorIdLength": "Id mag niet groter zijn dan 2048 tekens",
+    "errorIdValidDTMI": "Id moet een geldige DTMI zijn"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Foutmelding",
