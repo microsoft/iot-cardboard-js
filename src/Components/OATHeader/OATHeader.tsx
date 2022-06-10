@@ -13,7 +13,10 @@ import {
 } from '../../Models/Constants/ActionTypes';
 import { ProjectData } from '../../Pages/OATEditorPage/Internal/Classes';
 
-import { IOATTwinModelNodes } from '../../Models/Constants';
+import {
+    IOATTwinModelNodes,
+    OATNamespaceDefaultValue
+} from '../../Models/Constants';
 import { IAction } from '../../Models/Constants/Interfaces';
 import { useDropzone } from 'react-dropzone';
 import { SET_OAT_IMPORT_MODELS } from '../../Models/Constants/ActionTypes';
@@ -101,7 +104,8 @@ const OATHeader = ({ elements, dispatch, state }: OATHeaderProps) => {
             [],
             t('OATHeader.description'),
             t('OATHeader.untitledProject'),
-            []
+            [],
+            OATNamespaceDefaultValue
         );
 
         dispatch({
