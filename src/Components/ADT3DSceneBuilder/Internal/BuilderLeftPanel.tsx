@@ -125,15 +125,22 @@ const BuilderLeftPanel: React.FC = () => {
     });
 
     // START of scene element related callbacks
+    const setSceneMode = useCallback(
+        (mode: ADT3DSceneBuilderMode) => {
+            dispatch({
+                type: SET_ADT_SCENE_BUILDER_MODE,
+                payload: mode
+            });
+        },
+        [dispatch]
+    );
+
     const onCreateElementClick = () => {
         dispatch({
             type: SET_ADT_SCENE_BUILDER_SELECTED_ELEMENT,
             payload: null
         });
-        dispatch({
-            type: SET_ADT_SCENE_BUILDER_MODE,
-            payload: ADT3DSceneBuilderMode.CreateElement
-        });
+        setSceneMode(ADT3DSceneBuilderMode.CreateElement);
         setColoredMeshItems([]);
     };
 
@@ -151,10 +158,7 @@ const BuilderLeftPanel: React.FC = () => {
             type: SET_ADT_SCENE_BUILDER_SELECTED_ELEMENT,
             payload: element
         });
-        dispatch({
-            type: SET_ADT_SCENE_BUILDER_MODE,
-            payload: ADT3DSceneBuilderMode.EditElement
-        });
+        setSceneMode(ADT3DSceneBuilderMode.EditElement);
 
         setColoredMeshItems(createCustomMeshItems(element.objectIDs, null));
     };
@@ -250,13 +254,10 @@ const BuilderLeftPanel: React.FC = () => {
         (
             idleMode: ADT3DSceneBuilderMode = ADT3DSceneBuilderMode.ElementsIdle
         ) => {
-            dispatch({
-                type: SET_ADT_SCENE_BUILDER_MODE,
-                payload: idleMode
-            });
+            setSceneMode(idleMode);
             setColoredMeshItems([]);
         },
-        [dispatch, setColoredMeshItems]
+        [setColoredMeshItems, setSceneMode]
     );
 
     const onElementSave = async (newElements: Array<ITwinToObjectMapping>) => {
@@ -264,10 +265,7 @@ const BuilderLeftPanel: React.FC = () => {
             type: SET_ADT_SCENE_BUILDER_ELEMENTS,
             payload: newElements
         });
-        dispatch({
-            type: SET_ADT_SCENE_BUILDER_MODE,
-            payload: ADT3DSceneBuilderMode.ElementsIdle
-        });
+        setSceneMode(ADT3DSceneBuilderMode.ElementsIdle);
         setColoredMeshItems([]);
     };
     // END of scene element related callbacks
@@ -284,10 +282,7 @@ const BuilderLeftPanel: React.FC = () => {
     );
 
     const onCreateBehaviorClick = () => {
-        dispatch({
-            type: SET_ADT_SCENE_BUILDER_MODE,
-            payload: ADT3DSceneBuilderMode.CreateBehavior
-        });
+        setSceneMode(ADT3DSceneBuilderMode.CreateBehavior);
         setColoredMeshItems([]);
         setSelectedBehavior({ ...defaultBehavior, id: createGUID() });
     };
@@ -318,11 +313,7 @@ const BuilderLeftPanel: React.FC = () => {
         };
 
         setSelectedBehavior(behavior);
-
-        dispatch({
-            type: SET_ADT_SCENE_BUILDER_MODE,
-            payload: ADT3DSceneBuilderMode.CreateBehavior
-        });
+        setSceneMode(ADT3DSceneBuilderMode.CreateBehavior);
         setColoredMeshItems([]);
     };
 
@@ -350,10 +341,7 @@ const BuilderLeftPanel: React.FC = () => {
             type: SET_ADT_SCENE_BUILDER_SELECTED_BEHAVIOR,
             payload: behavior
         });
-        dispatch({
-            type: SET_ADT_SCENE_BUILDER_MODE,
-            payload: ADT3DSceneBuilderMode.EditBehavior
-        });
+        setSceneMode(ADT3DSceneBuilderMode.EditBehavior);
         setSelectedBehavior(behavior);
     };
 
@@ -375,7 +363,7 @@ const BuilderLeftPanel: React.FC = () => {
         getConfig();
     };
 
-    const setPivotItem = (item) => {
+    const setPivotItem = (item: PivotItem) => {
         let activePivot = ADT3DSceneBuilderMode.ElementsIdle;
         switch (item.props.itemKey) {
             case ADT3DSceneTwinBindingsMode.Elements:
@@ -387,10 +375,7 @@ const BuilderLeftPanel: React.FC = () => {
             default:
                 break;
         }
-        dispatch({
-            type: SET_ADT_SCENE_BUILDER_MODE,
-            payload: activePivot
-        });
+        setSceneMode(activePivot);
     };
 
     // END of behavior related callbacks
