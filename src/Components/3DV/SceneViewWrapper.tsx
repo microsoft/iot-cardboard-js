@@ -18,7 +18,10 @@ import {
     ISceneViewWrapperProps
 } from '../../Models/Constants/Interfaces';
 import './SceneView.scss';
-import { SelectedCameraInteractionKey } from '../../Models/Constants';
+import {
+    DefaultViewerModeObjectColor,
+    SelectedCameraInteractionKey
+} from '../../Models/Constants';
 import { CameraControls } from './Internal/CameraControls/CameraControls';
 import {
     classNamesFunction,
@@ -167,13 +170,18 @@ const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = (props) => {
         () => sceneThemeState.objectStyle === ViewerObjectStyle.Wireframe,
         [sceneThemeState.objectStyle]
     );
-    const sceneObjectColor = useMemo(
-        () =>
-            sceneThemeState.objectColorOptions.find(
-                (x) => x.color === sceneThemeState.objectColor
-            ),
-        [sceneThemeState.objectColor, sceneThemeState.objectColorOptions]
-    );
+    const sceneObjectColor = useMemo(() => {
+        // keep the material styles in default style
+        if (sceneThemeState.objectStyle === ViewerObjectStyle.Default) {
+            return DefaultViewerModeObjectColor;
+        } else {
+            return (
+                sceneThemeState.objectColorOptions.find(
+                    (x) => x.color === sceneThemeState.objectColor
+                ) || DefaultViewerModeObjectColor
+            );
+        }
+    }, [sceneThemeState.objectColor, sceneThemeState.objectColorOptions]);
     const sceneObjectBackgroundColor = useMemo(
         () =>
             sceneThemeState.sceneBackgroundOptions.find(
