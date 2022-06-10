@@ -1,6 +1,6 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Icon, ActionButton, TextField, Label } from '@fluentui/react';
-import { Handle, removeElements } from 'react-flow-renderer';
+import { Handle, removeElements, useStoreState } from 'react-flow-renderer';
 import { useTranslation } from 'react-i18next';
 import { IOATGraphCustomNodeProps } from '../../../Models/Constants/Interfaces';
 import {
@@ -85,30 +85,30 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
                 type: SET_OAT_PROPERTY_EDITOR_MODEL,
                 payload: updatedModel
             });
-            return;
         }
-        elements.find((element) => element.id === data.id).data.name[
-            Object.keys(data.name)[0]
-        ] = nameText;
-        const displayName = {
-            ...data.name,
-            [Object.keys(data.name)[0]]: Object.values(data.name)[0]
-        };
-        setElements([...elements]);
-        const updatedModel = new DTDLModel(
-            data.id,
-            displayName,
-            data.description,
-            data.comment,
-            data.content,
-            data.relationships,
-            data.components
-        );
-
-        dispatch({
-            type: SET_OAT_PROPERTY_EDITOR_MODEL,
-            payload: updatedModel
-        });
+        if (typeof data.name === 'object' && data.name !== nameText) {
+            elements.find((element) => element.id === data.id).data.name[
+                Object.keys(data.name)[0]
+            ] = nameText;
+            const updatedName = {
+                ...data.name,
+                [Object.keys(data.name)[0]]: Object.values(data.name)[0]
+            };
+            setElements([...elements]);
+            const updatedModel = new DTDLModel(
+                data.id,
+                updatedName,
+                data.description,
+                data.comment,
+                data.content,
+                data.relationships,
+                data.components
+            );
+            dispatch({
+                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                payload: updatedModel
+            });
+        }
     };
 
     const onIdChange = (evt) => {
@@ -171,12 +171,14 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
 
     return (
         <>
-            <Handle
-                type="target"
-                position="top"
-                className={graphViewerStyles.handle}
-                isConnectable={isConnectable}
-            />
+            {data.type === OATUntargetedRelationshipName && (
+                <Handle
+                    type="target"
+                    position="top"
+                    className={graphViewerStyles.handle}
+                    isConnectable={isConnectable}
+                />
+            )}
             <div className={graphViewerStyles.node}>
                 <ActionButton styles={actionButtonStyles} onClick={onDelete}>
                     <Icon iconName="Cancel" styles={iconStyles} />
@@ -184,7 +186,7 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
                 {data.type !== OATUntargetedRelationshipName && (
                     <>
                         <div className={graphViewerStyles.nodeContainer}>
-                            <label>{t('OATGraphViewer.name')}:</label>
+                            <span>{t('OATGraphViewer.name')}:</span>
                             {!nameEditor && (
                                 <Label onDoubleClick={onNameClick}>
                                     {getPropertyDisplayName(data)}
@@ -209,7 +211,7 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
                             )}
                         </div>
                         <div className={graphViewerStyles.nodeContainer}>
-                            {t('OATGraphViewer.id')}:
+                            <span>{t('OATGraphViewer.id')}:</span>
                             {!idEditor && (
                                 <Label onDoubleClick={onIdClick}>
                                     {data.id}
@@ -235,7 +237,11 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
                 )}
                 {data.type === OATUntargetedRelationshipName && (
                     <>
-                        <div>
+                        <div
+                            className={
+                                graphViewerStyles.untargetedNodeContainer
+                            }
+                        >
                             <Label>{data.type}</Label>
                         </div>
                     </>
