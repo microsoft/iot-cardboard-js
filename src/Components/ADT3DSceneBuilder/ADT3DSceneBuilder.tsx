@@ -43,7 +43,6 @@ import {
     ElementTwinAliasFormInfo,
     IADT3DSceneBuilderStyleProps,
     IADT3DSceneBuilderStyles,
-    SET_ORIGINAL_BEHAVIOR_TO_EDIT,
     SET_UNSAVED_BEHAVIOR_CHANGES_DIALOG_OPEN,
     SET_UNSAVED_BEHAVIOR_CHANGES_DIALOG_DISCARD_ACTION
 } from './ADT3DSceneBuilder.types';
