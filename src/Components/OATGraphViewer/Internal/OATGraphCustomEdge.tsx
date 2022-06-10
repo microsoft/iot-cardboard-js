@@ -576,7 +576,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                     y={edgeCenterY}
                     requiredExtensions="http://www.w3.org/1999/xhtml"
                 >
-                    <body>
+                    <div>
                         {data.type !== OATExtendHandleName && (
                             <TextField
                                 id="text"
@@ -604,7 +604,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                                         fontSize: FontSizes.size10,
                                         color: theme.semanticColors.actionLink,
                                         marginTop: '-35px',
-                                        marginRight: '-10px'
+                                        marginleft: '10px'
                                     }
                                 }}
                             />
@@ -628,7 +628,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                                 />
                             </ActionButton>
                         )}
-                    </body>
+                    </div>
                 </foreignObject>
             )}
             {!nameEditor &&
