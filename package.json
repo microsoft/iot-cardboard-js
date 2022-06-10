@@ -113,7 +113,7 @@
         "rollup-plugin-typescript2": "^0.31.1",
         "sass-loader": "^10.1.0",
         "seedrandom": "^3.0.5",
-        "semantic-release": "^17.3.7",
+        "semantic-release": "^19.0.3",
         "shx": "^0.3.3",
         "strip-comments": "^2.0.1",
         "stylelint": "^13.8.0",
