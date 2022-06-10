@@ -166,7 +166,6 @@ const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = (props) => {
         wrapperMode === WrapperMode.Builder
             ? 'cb-sceneview-builder-wrapper'
             : 'cb-sceneview-viewer-wrapper';
-    console.log('****Wrapper', sceneThemeState);
     return (
         <div
             style={
