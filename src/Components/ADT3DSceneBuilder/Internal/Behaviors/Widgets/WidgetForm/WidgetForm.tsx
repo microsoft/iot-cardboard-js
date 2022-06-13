@@ -41,7 +41,8 @@ const getDefaultFormData = (widgetFormInfo: WidgetFormInfo) => {
 };
 
 const getWidgets = (behavior: IBehavior) =>
-    behavior.visuals.filter(ViewerConfigUtility.isPopoverVisual)[0].widgets;
+    behavior.visuals.filter(ViewerConfigUtility.isPopoverVisual)[0]?.widgets ||
+    [];
 
 const getActiveWidget = (activeWidgetId: string, behavior: IBehavior) =>
     getWidgets(behavior).find((w) => w.id === activeWidgetId);

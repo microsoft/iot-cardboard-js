@@ -100,7 +100,7 @@ export function AddOrUpdateListItemByFilter<T>(
     logger(
         'debug',
         '[START] Add/Update item in list. {listItems, item}',
-        current(listItems),
+        listItems,
         itemToAddUpdate
     );
     if (!listItems?.length) {
@@ -120,10 +120,6 @@ export function AddOrUpdateListItemByFilter<T>(
         result = true;
     }
 
-    logger(
-        'debug',
-        '[END] Add/Update item in list. {listItems}',
-        current(listItems)
-    );
+    logger('debug', '[END] Add/Update item in list. {listItems}', listItems);
     return result;
 }

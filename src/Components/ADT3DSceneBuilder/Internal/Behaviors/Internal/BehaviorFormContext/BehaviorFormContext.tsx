@@ -142,7 +142,7 @@ export const BehaviorFormContextReducer: (
             }
             case BehaviorFormContextActionType.FORM_BEHAVIOR_WIDGET_ADD_OR_UPDATE: {
                 // we assume there is only one popover
-                const draftPopover = draft.behaviorToEdit.visuals.filter(
+                let draftPopover = draft.behaviorToEdit.visuals.filter(
                     ViewerConfigUtility.isPopoverVisual
                 )[0];
                 // add a popover visual if it doesn't exist
@@ -158,6 +158,9 @@ export const BehaviorFormContextReducer: (
                         () => false,
                         logDebugConsole
                     );
+                    draftPopover = draft.behaviorToEdit.visuals.filter(
+                        ViewerConfigUtility.isPopoverVisual
+                    )[0];
                 }
 
                 AddOrUpdateListItemByFilter(
