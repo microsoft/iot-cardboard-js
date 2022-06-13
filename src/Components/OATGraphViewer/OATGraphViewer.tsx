@@ -51,6 +51,13 @@ import { ElementData } from './Internal/Classes/ElementData';
 import { ElementEdge } from './Internal/Classes/ElementEdge';
 import { ElementEdgeData } from './Internal/Classes/ElementEdgeData';
 import { deepCopy } from '../../Models/Services/Utils';
+import {
+    forceSimulation,
+    forceLink,
+    forceX,
+    forceY,
+    forceCenter
+} from 'd3-force';
 
 const contextClassBase = 'dtmi:dtdl:context;2';
 const versionClassBase = '1';
@@ -287,6 +294,50 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
         });
 
         dagre.layout(dagreGraph);
+
+        const nodesData = elements.reduce((collection, element) => {
+            if (!element.source) {
+                collection.push({
+                    id: element.id,
+                    position: element.position
+                });
+            }
+            return collection;
+        }, []);
+
+        const linksData = elements.reduce((collection, element) => {
+            if (element.source) {
+                collection.push({
+                    source: element.source,
+                    target: element.target
+                });
+            }
+            return collection;
+        }, []);
+
+        const links = linksData.map((d) => Object.assign({}, d));
+        const nodes = nodesData.map((d) => Object.assign({}, d));
+
+        const simulation = forceSimulation(nodes)
+            .force(
+                'link',
+                forceLink(links)
+                    .id(function (d, i) {
+                        return d.id;
+                    })
+                    .distance(200)
+                    .strength(150)
+            )
+            .force('x', forceX())
+            .force('y', forceY())
+            .force('center', forceCenter())
+            .on('end', function () {
+                alert('ended');
+                alert(simulation);
+            })
+            .on('tick', function () {
+                alert(simulation);
+            });
 
         return elements.map((el) => {
             if (isNode(el)) {
