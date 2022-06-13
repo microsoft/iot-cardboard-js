@@ -1,13 +1,10 @@
-import React, {
-    useEffect,
-    useCallback,
-    useState,
-    useMemo,
-    useRef,
-    useReducer
-} from 'react';
+import React, { useEffect, useCallback, useMemo, useReducer } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ISceneDialogProps, SelectionModeOf3DFile } from '../SceneList.types';
+import {
+    ISceneDialogProps,
+    SelectionModeOf3DFile,
+    SceneDialogActionType
+} from '../SceneList.types';
 import {
     DefaultButton,
     Dialog,
@@ -34,28 +31,10 @@ import File3DUploader from './3DFileUploader';
 import { Supported3DFileTypes } from '../../../Models/Constants/Enums';
 import { IStorageBlob } from '../../../Models/Constants/Interfaces';
 import useAdapter from '../../../Models/Hooks/useAdapter';
-import { IScene } from '../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
-import { deepCopy } from '../../../Models/Services/Utils';
 import {
-    defaultSceneDialogState,
+    getDefaultSceneDialogState,
     SceneDialogReducer
 } from './SceneDialog.state';
-import {
-    RESET_FILE,
-    RESET_SCENE,
-    RESET_OVERWRITE_FILE_AND_EXIST_IN_BLOB,
-    SET_BLOBS_IN_CONTAINER,
-    SET_IS_OVER_WRITE_FILE,
-    SET_IS_SELECTED_FILE_EXIST_IN_BLOB,
-    SET_LATITUDE_VALUE,
-    SET_LONGITUDE_VALUE,
-    SET_SCENE_BLOB_URL,
-    SET_SCENE_DESCRIPTION,
-    SET_SCENE_NAME,
-    SET_SELECTED_3D_FILE_PIVOT_ITEM,
-    SET_SELECTED_FILE
-} from '../../../Models/Constants/ActionTypes';
-
 const fileUploadLabelTooltipStyles: ITooltipHostStyles = {
     root: {
         display: 'inline-block',
@@ -125,14 +104,7 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
 }) => {
     const [state, dispatch] = useReducer(
         SceneDialogReducer,
-        defaultSceneDialogState
-    );
-    const [scene, setScene] = useState<IScene>({ ...sceneToEdit });
-    const sceneRef = useRef(scene);
-    const [isShowOnGlobeEnabled, setIsShowOnGlobeEnabled] = useState(
-        Boolean(
-            !(isNaN(sceneToEdit?.latitude) || isNaN(sceneToEdit?.longitude))
-        )
+        getDefaultSceneDialogState(sceneToEdit)
     );
     const { t } = useTranslation();
 
@@ -147,19 +119,19 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
         if (!put3DFileBlob.adapterResult.hasNoData()) {
             const newlyAdded3DFile: IStorageBlob =
                 put3DFileBlob.adapterResult.result.data[0];
+            const sceneObjectForAddOrEdit = {
+                ...sceneToEdit,
+                assets: [
+                    {
+                        type: '3DAsset',
+                        url: newlyAdded3DFile.Path
+                    }
+                ]
+            };
             if (sceneToEdit) {
-                onEditScene({
-                    ...scene,
-                    assets: [
-                        {
-                            type: '3DAsset',
-                            url: newlyAdded3DFile.Path
-                        }
-                    ]
-                });
+                onEditScene(sceneObjectForAddOrEdit);
             } else {
-                const newScene = getNewScene(newlyAdded3DFile.Path);
-                onAddScene(newScene);
+                onAddScene(sceneObjectForAddOrEdit);
             }
         }
     }, [put3DFileBlob.adapterResult.result]);
@@ -184,14 +156,6 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
     );
 
     useEffect(() => {
-        setScene(sceneToEdit);
-    }, [sceneToEdit]);
-
-    useEffect(() => {
-        sceneRef.current = scene;
-    }, [scene]);
-
-    useEffect(() => {
         if (!isOpen) {
             resetState();
         }
@@ -209,122 +173,55 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
         ) {
             put3DFileBlob.cancelAdapter();
             dispatch({
-                type: RESET_FILE,
-                payload: {
-                    isSelectedFileExistInBlob: false,
-                    isOverwriteFile: false,
-                    selectedFile: null
-                }
+                type: SceneDialogActionType.RESET_FILE
             });
         }
     }, [state.selected3DFilePivotItem]);
 
-    const handleNameChange = useCallback(
-        (e, newValue?: string) => {
-            if (sceneToEdit) {
-                const selectedSceneCopy: IScene = deepCopy(sceneRef.current);
-                selectedSceneCopy.displayName = e.currentTarget.value;
-                setScene(selectedSceneCopy);
-            } else {
-                dispatch({
-                    type: SET_SCENE_NAME,
-                    payload: newValue
-                });
-            }
-        },
-        [sceneToEdit, scene]
-    );
-
-    const handleSceneDescriptionChange = useCallback(
-        (e, newValue?: string) => {
-            if (sceneToEdit) {
-                const selectedSceneCopy: IScene = deepCopy(sceneRef.current);
-                selectedSceneCopy.description = e.currentTarget.value;
-                setScene(selectedSceneCopy);
-            } else {
-                dispatch({
-                    type: SET_SCENE_DESCRIPTION,
-                    payload: newValue
-                });
-            }
-        },
-        [sceneToEdit, scene]
-    );
-
-    const handleLatitudeValueChange = useCallback(
-        (e) => {
-            const newValue = e.currentTarget.value;
-            const lat = newValue?.length ? Number(newValue) : undefined;
-            if (sceneToEdit) {
-                const selectedSceneCopy: IScene = deepCopy(sceneRef.current);
-                selectedSceneCopy.latitude = lat;
-                setScene(selectedSceneCopy);
-            } else {
-                dispatch({
-                    type: SET_LATITUDE_VALUE,
-                    payload: lat
-                });
-            }
-        },
-        [sceneToEdit, scene]
-    );
-    const handleLongitudeValueChange = useCallback(
-        (e) => {
-            const newValue = e.currentTarget.value;
-            const long = newValue?.length ? Number(newValue) : undefined;
-            if (sceneToEdit) {
-                const selectedSceneCopy: IScene = deepCopy(sceneRef.current);
-                selectedSceneCopy.longitude = long;
-                setScene(selectedSceneCopy);
-            } else {
-                dispatch({
-                    type: SET_LONGITUDE_VALUE,
-                    payload: long
-                });
-            }
-        },
-        [sceneToEdit, scene]
-    );
-    const handleBlobUrlChange = useCallback(
-        (blobUrl: string) => {
-            if (sceneToEdit) {
-                const selectedSceneCopy = deepCopy(sceneRef.current);
-                selectedSceneCopy.assets[0].url = blobUrl;
-                setScene(selectedSceneCopy);
-            } else {
-                dispatch({
-                    type: SET_SCENE_BLOB_URL,
-                    payload: blobUrl
-                });
-            }
-        },
-        [sceneToEdit, scene]
-    );
-
-    const handleFileOverwriteChange = useCallback((_e, checked: boolean) => {
+    const handleNameChange = useCallback((e, newValue?: string) => {
         dispatch({
-            type: SET_IS_OVER_WRITE_FILE,
-            payload: checked
+            type: SceneDialogActionType.SET_SCENE_NAME,
+            payload: { displayName: newValue }
         });
     }, []);
 
-    const getNewScene = (assetUrl: string) => {
-        return {
-            id: undefined,
-            displayName: state.sceneName,
-            description: state.sceneDescription,
-            latitude: state.latitudeValue,
-            longitude: state.longitudeValue,
-            assets: [
-                {
-                    type: '3DAsset',
-                    url: assetUrl
-                }
-            ],
-            elements: [],
-            behaviorIDs: []
-        };
-    };
+    const handleSceneDescriptionChange = useCallback((e, newValue?: string) => {
+        dispatch({
+            type: SceneDialogActionType.SET_SCENE_DESCRIPTION,
+            payload: { description: newValue }
+        });
+    }, []);
+
+    const handleLatitudeValueChange = useCallback((e) => {
+        const newValue = e.currentTarget.value;
+        const lat = newValue?.length ? Number(newValue) : undefined;
+        dispatch({
+            type: SceneDialogActionType.SET_LATITUDE_VALUE,
+            payload: { latitude: lat }
+        });
+    }, []);
+    const handleLongitudeValueChange = useCallback((e) => {
+        const newValue = e.currentTarget.value;
+        const long = newValue?.length ? Number(newValue) : undefined;
+
+        dispatch({
+            type: SceneDialogActionType.SET_LONGITUDE_VALUE,
+            payload: { longitude: long }
+        });
+    }, []);
+    const handleBlobUrlChange = useCallback((blobUrl: string) => {
+        dispatch({
+            type: SceneDialogActionType.SET_SCENE_BLOB_URL,
+            payload: { sceneBlobUrl: blobUrl }
+        });
+    }, []);
+
+    const handleFileOverwriteChange = useCallback((_e, checked: boolean) => {
+        dispatch({
+            type: SceneDialogActionType.SET_IS_OVER_WRITE_FILE,
+            payload: { isOverwriteFile: checked }
+        });
+    }, []);
 
     const handleSubmit = () => {
         if (
@@ -337,10 +234,9 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
             });
         } else {
             if (sceneToEdit) {
-                onEditScene(scene);
+                onEditScene(state.scene);
             } else {
-                const newScene = getNewScene(state.sceneBlobUrl);
-                onAddScene(newScene);
+                onAddScene(state.scene);
             }
         }
     };
@@ -357,14 +253,18 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
         (file: File) => {
             if (file) {
                 dispatch({
-                    type: SET_IS_SELECTED_FILE_EXIST_IN_BLOB,
-                    payload: state.blobsInContainer
-                        .map((e) => e.Name)
-                        .includes(file.name)
+                    type:
+                        SceneDialogActionType.SET_IS_SELECTED_FILE_EXIST_IN_BLOB,
+                    payload: {
+                        isSelectedFileExistInBlob: state.blobsInContainer
+                            .map((e) => e.Name)
+                            .includes(file.name)
+                    }
                 });
             } else {
                 dispatch({
-                    type: RESET_OVERWRITE_FILE_AND_EXIST_IN_BLOB,
+                    type:
+                        SceneDialogActionType.RESET_OVERWRITE_FILE_AND_EXIST_IN_BLOB,
                     payload: {
                         isSelectedFileExistInBlob: false,
                         isOverwriteFile: false
@@ -372,8 +272,8 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
                 });
             }
             dispatch({
-                type: SET_SELECTED_FILE,
-                payload: file
+                type: SceneDialogActionType.SET_SELECTED_FILE,
+                payload: { selectedFile: file }
             });
         },
         [state.blobsInContainer]
@@ -381,42 +281,38 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
 
     const handleOnBlobsLoaded = (blobs: Array<IStorageBlob>) => {
         dispatch({
-            type: SET_BLOBS_IN_CONTAINER,
-            payload: blobs
+            type: SceneDialogActionType.SET_BLOBS_IN_CONTAINER,
+            payload: { blobsInContainer: blobs }
         });
     };
 
     const handleOnPivotClick = useCallback(
         (item) =>
             dispatch({
-                type: SET_SELECTED_3D_FILE_PIVOT_ITEM,
-                payload: item.props.itemKey as SelectionModeOf3DFile
+                type: SceneDialogActionType.SET_SELECTED_3D_FILE_PIVOT_ITEM,
+                payload: {
+                    selected3DFilePivotItem: item.props
+                        .itemKey as SelectionModeOf3DFile
+                }
             }),
         []
     );
 
     const resetState = useCallback(() => {
         dispatch({
-            type: RESET_SCENE
+            type: SceneDialogActionType.RESET_SCENE
         });
-        setIsShowOnGlobeEnabled(isShowOnGlobeEnabled);
     }, []);
 
     const isSubmitButtonDisabled = useMemo(() => {
         return (
-            !(sceneToEdit ? scene?.displayName : state.sceneName) ||
-            (isShowOnGlobeEnabled &&
-                ((sceneToEdit
-                    ? isNaN(scene?.latitude)
-                    : isNaN(state.latitudeValue)) ||
-                    (sceneToEdit
-                        ? isNaN(scene?.longitude)
-                        : isNaN(state.longitudeValue)))) ||
+            !state.scene.displayName ||
+            (state.isShowOnGlobeEnabled &&
+                (isNaN(state.scene.latitude) ||
+                    isNaN(state.scene.longitude))) ||
             (state.selected3DFilePivotItem ===
                 SelectionModeOf3DFile.FromContainer &&
-                !(sceneToEdit
-                    ? scene?.assets?.[0]?.url
-                    : state.sceneBlobUrl)) ||
+                !state.sceneBlobUrl) ||
             (state.selected3DFilePivotItem ===
                 SelectionModeOf3DFile.FromComputer &&
                 (!state.selectedFile ||
@@ -425,9 +321,7 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
             put3DFileBlob.isLoading
         );
     }, [
-        sceneToEdit,
-        scene,
-        state.sceneName,
+        state.scene.displayName,
         state.sceneBlobUrl,
         state.selected3DFilePivotItem,
         state.selectedFile,
@@ -445,15 +339,10 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
         ev: React.MouseEvent<HTMLElement>,
         checked?: boolean
     ) => {
-        setIsShowOnGlobeEnabled(checked);
-        if (!checked) {
-            if (!isNaN(sceneRef.current?.latitude)) {
-                delete sceneRef.current.latitude;
-            }
-            if (!isNaN(sceneRef.current?.longitude)) {
-                delete sceneRef.current.longitude;
-            }
-        }
+        dispatch({
+            type: SceneDialogActionType.SET_IS_SHOW_ON_GLOBE_ENABLED,
+            payload: { isShowOnGlobeEnabled: checked }
+        });
     };
 
     const getLatitudeErrorMessage = (value: string): string => {
@@ -480,37 +369,37 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
                 label={t('name')}
                 placeholder={t('scenes.sceneNamePlaceholder')}
                 required
-                title={state.sceneName}
-                value={sceneToEdit ? scene?.displayName : state.sceneName}
+                title={state.scene.displayName}
+                value={state.scene.displayName}
                 onChange={handleNameChange}
             />
             <TextField
                 className="cb-scene-list-form-dialog-description-field"
                 label={t('scenes.description')}
-                title={state.sceneDescription}
-                value={
-                    sceneToEdit ? scene?.description : state.sceneDescription
-                }
+                title={state.scene.description}
+                value={state.scene.description}
                 placeholder={t('scenes.sceneDescriptionPlaceholder')}
                 onChange={handleSceneDescriptionChange}
             />
             <Stack horizontal styles={styleStack} tokens={{ childrenGap: 20 }}>
                 <StackItem>
                     <Toggle
-                        defaultChecked={isShowOnGlobeEnabled}
+                        defaultChecked={state.isShowOnGlobeEnabled}
                         label={t('scenes.showOnGlobe')}
                         onText="On"
                         offText="Off"
                         onChange={handleGlobeToggle}
                     />
                 </StackItem>
-                {isShowOnGlobeEnabled && (
+                {state.isShowOnGlobeEnabled && (
                     <>
                         <StackItem>
                             <TextField
                                 styles={{ root: { width: 200 } }}
                                 label={t('scenes.latitude')}
-                                defaultValue={String(scene?.latitude ?? '')}
+                                defaultValue={String(
+                                    state.scene?.latitude ?? ''
+                                )}
                                 onGetErrorMessage={getLatitudeErrorMessage}
                                 placeholder={t('scenes.sampleLatitude')}
                                 required
@@ -522,7 +411,9 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
                             <TextField
                                 styles={{ root: { width: 200 } }}
                                 label={t('scenes.longitude')}
-                                defaultValue={String(scene?.longitude ?? '')}
+                                defaultValue={String(
+                                    state.scene?.longitude ?? ''
+                                )}
                                 placeholder={t('scenes.sampleLongitude')}
                                 onGetErrorMessage={getLongitudeErrorMessage}
                                 required

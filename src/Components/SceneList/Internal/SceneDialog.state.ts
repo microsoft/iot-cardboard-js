@@ -1,85 +1,104 @@
-import { IAction } from '../../../Models/Constants/Interfaces';
 import produce from 'immer';
 import {
-    SET_SCENE_NAME,
-    SET_SCENE_DESCRIPTION,
-    SET_LATITUDE_VALUE,
-    SET_LONGITUDE_VALUE,
-    SET_SCENE_BLOB_URL,
-    SET_IS_SELECTED_FILE_EXIST_IN_BLOB,
-    SET_IS_OVER_WRITE_FILE,
-    SET_BLOBS_IN_CONTAINER,
-    SET_SELECTED_FILE,
-    SET_SELECTED_3D_FILE_PIVOT_ITEM,
-    RESET_FILE,
-    RESET_SCENE,
-    RESET_OVERWRITE_FILE_AND_EXIST_IN_BLOB
-} from '../../../Models/Constants/ActionTypes';
-import { SceneDialogState, SelectionModeOf3DFile } from '../SceneList.types';
+    SceneDialogAction,
+    SceneDialogState,
+    SelectionModeOf3DFile,
+    SceneDialogActionType
+} from '../SceneList.types';
+import { IScene } from '../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 
-export const defaultSceneDialogState: SceneDialogState = {
-    sceneName: '',
-    sceneDescription: '',
-    latitudeValue: undefined,
-    longitudeValue: undefined,
-    sceneBlobUrl: '',
+export const getDefaultSceneDialogState = (
+    scene: IScene | undefined
+): SceneDialogState => ({
+    scene: scene || {
+        id: '',
+        displayName: '',
+        description: '',
+        latitude: undefined,
+        longitude: undefined,
+        elements: [],
+        behaviorIDs: [],
+        assets: []
+    },
+    sceneBlobUrl: scene ? scene?.assets?.[0]?.url || '' : '',
+    isShowOnGlobeEnabled: Boolean(
+        !(isNaN(scene?.latitude) || isNaN(scene?.longitude))
+    ),
     isSelectedFileExistInBlob: false,
     isOverwriteFile: false,
     blobsInContainer: [],
     selectedFile: null,
     selected3DFilePivotItem: SelectionModeOf3DFile.FromContainer
-};
+});
 
 export const SceneDialogReducer: (
     draft: SceneDialogState,
-    action: IAction
-) => SceneDialogState = produce((draft: SceneDialogState, action: IAction) => {
-    const payload = action.payload;
+    action: SceneDialogAction
+) => SceneDialogState = produce(
+    (draft: SceneDialogState, action: SceneDialogAction) => {
+        const defaultState = getDefaultSceneDialogState(undefined);
 
-    switch (action.type) {
-        case SET_SCENE_NAME:
-            draft.sceneName = payload;
-            break;
-        case SET_SCENE_DESCRIPTION:
-            draft.sceneDescription = payload;
-            break;
-        case SET_LATITUDE_VALUE:
-            draft.latitudeValue = payload;
-            break;
-        case SET_LONGITUDE_VALUE:
-            draft.longitudeValue = payload;
-            break;
-        case SET_SCENE_BLOB_URL:
-            draft.sceneBlobUrl = payload;
-            break;
-        case SET_IS_SELECTED_FILE_EXIST_IN_BLOB:
-            draft.isSelectedFileExistInBlob = payload;
-            break;
-        case SET_IS_OVER_WRITE_FILE:
-            draft.isOverwriteFile = payload;
-            break;
-        case SET_BLOBS_IN_CONTAINER:
-            draft.blobsInContainer = payload;
-            break;
-        case SET_SELECTED_FILE:
-            draft.selectedFile = payload;
-            break;
-        case SET_SELECTED_3D_FILE_PIVOT_ITEM:
-            draft.selected3DFilePivotItem = payload;
-            break;
-        case RESET_FILE:
-            draft.isSelectedFileExistInBlob = payload.isSelectedFileExistInBlob;
-            draft.isOverwriteFile = payload.isOverwriteFile;
-            draft.selectedFile = payload.selectedFile;
-            break;
-        case RESET_SCENE:
-            draft = defaultSceneDialogState;
-            break;
-        case RESET_OVERWRITE_FILE_AND_EXIST_IN_BLOB:
-            draft.isSelectedFileExistInBlob = payload.isSelectedFileExistInBlob;
-            draft.isOverwriteFile = payload.isOverwriteFile;
-            break;
-        default:
-            break;
+        switch (action.type) {
+            case SceneDialogActionType.SET_SCENE_NAME:
+                draft.scene.displayName = action.payload.displayName;
+                break;
+            case SceneDialogActionType.SET_SCENE_DESCRIPTION:
+                draft.scene.description = action.payload.description;
+                break;
+            case SceneDialogActionType.SET_LATITUDE_VALUE:
+                draft.scene.latitude = action.payload.latitude;
+                break;
+            case SceneDialogActionType.SET_LONGITUDE_VALUE:
+                draft.scene.longitude = action.payload.longitude;
+                break;
+            case SceneDialogActionType.SET_SCENE_BLOB_URL:
+                draft.sceneBlobUrl = action.payload.sceneBlobUrl;
+                break;
+            case SceneDialogActionType.SET_IS_SELECTED_FILE_EXIST_IN_BLOB:
+                draft.isSelectedFileExistInBlob =
+                    action.payload.isSelectedFileExistInBlob;
+                break;
+            case SceneDialogActionType.SET_IS_OVER_WRITE_FILE:
+                draft.isOverwriteFile = action.payload.isOverwriteFile;
+                break;
+            case SceneDialogActionType.SET_BLOBS_IN_CONTAINER:
+                draft.blobsInContainer = action.payload.blobsInContainer;
+                break;
+            case SceneDialogActionType.SET_SELECTED_FILE:
+                draft.selectedFile = action.payload.selectedFile;
+                break;
+            case SceneDialogActionType.SET_SELECTED_3D_FILE_PIVOT_ITEM:
+                draft.selected3DFilePivotItem =
+                    action.payload.selected3DFilePivotItem;
+                break;
+            case SceneDialogActionType.RESET_FILE:
+                draft.isSelectedFileExistInBlob =
+                    defaultState.isSelectedFileExistInBlob;
+                draft.isOverwriteFile = defaultState.isOverwriteFile;
+                draft.selectedFile = defaultState.selectedFile;
+                break;
+            case SceneDialogActionType.RESET_SCENE:
+                draft = getDefaultSceneDialogState(undefined);
+                break;
+            case SceneDialogActionType.RESET_OVERWRITE_FILE_AND_EXIST_IN_BLOB:
+                draft.isSelectedFileExistInBlob =
+                    action.payload.isSelectedFileExistInBlob;
+                draft.isOverwriteFile = action.payload.isOverwriteFile;
+                break;
+            case SceneDialogActionType.SET_IS_SHOW_ON_GLOBE_ENABLED:
+                draft.isShowOnGlobeEnabled =
+                    action.payload.isShowOnGlobeEnabled;
+                if (!draft.isShowOnGlobeEnabled) {
+                    if (!isNaN(draft.scene.latitude)) {
+                        delete draft.scene.latitude;
+                    }
+                    if (!isNaN(draft.scene.longitude)) {
+                        delete draft.scene.longitude;
+                    }
+                }
+                break;
+            default:
+                break;
+        }
     }
-});
+);
