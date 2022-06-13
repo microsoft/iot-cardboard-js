@@ -309,8 +309,6 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
         });
     };
 
-    const getNextRelationship;
-
     useEffect(() => {
         // Identifies which is the next model Id on creating new nodes and updates the Local Storage
         let nextModelId = 0;
@@ -1019,7 +1017,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
         setCurrentHovered(node);
     };
 
-    const onNodeMouseLeave = (evt) => {
+    const onNodeMouseLeave = () => {
         setCurrentHovered(null);
     };
 
