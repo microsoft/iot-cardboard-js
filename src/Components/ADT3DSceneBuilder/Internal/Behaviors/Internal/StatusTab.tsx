@@ -15,7 +15,7 @@ import {
 import ValueRangeBuilder from '../../../../ValueRangeBuilder/ValueRangeBuilder';
 import { defaultStatusColorVisual } from '../../../../../Models/Classes/3DVConfig';
 import { IValidityState, TabNames } from '../BehaviorForm.types';
-import { deepCopy } from '../../../../../Models/Services/Utils';
+import { deepCopy, getDebugLogger } from '../../../../../Models/Services/Utils';
 import { getLeftPanelStyles } from '../../Shared/LeftPanel.styles';
 import useValueRangeBuilder from '../../../../../Models/Hooks/useValueRangeBuilder';
 import { SceneBuilderContext } from '../../../ADT3DSceneBuilder';
@@ -28,6 +28,9 @@ import {
 import { DOCUMENTATION_LINKS } from '../../../../../Models/Constants';
 import { useBehaviorFormContext } from './BehaviorFormContext/BehaviorFormContext';
 import { BehaviorFormContextActionType } from './BehaviorFormContext/BehaviorFormContext.types';
+
+const debugLogging = true;
+const logDebugConsole = getDebugLogger('StatusTab', debugLogging);
 
 const getStatusFromBehavior = (behavior: IBehavior) =>
     behavior.visuals.filter(ViewerConfigUtility.isStatusColorVisual)[0] || null;
@@ -90,6 +93,11 @@ const StatusTab: React.FC<IStatusTabProps> = ({ onValidityChange }) => {
 
     const setProperty = useCallback(
         (propertyName: keyof IExpressionRangeVisual, value: string) => {
+            logDebugConsole(
+                'info',
+                `[START] Update status visual property ${propertyName} to value `,
+                value
+            );
             // Assuming only 1 alert visual per behavior
             let statusVisual = getStatusFromBehavior(
                 behaviorFormState.behaviorToEdit
@@ -98,11 +106,13 @@ const StatusTab: React.FC<IStatusTabProps> = ({ onValidityChange }) => {
             if (statusVisual) {
                 // selected the none option, clear the visual
                 if (!value) {
+                    logDebugConsole('debug', 'Removing visual');
                     behaviorFormDispatch({
                         type:
                             BehaviorFormContextActionType.FORM_BEHAVIOR_STATUS_VISUAL_REMOVE
                     });
                 } else {
+                    logDebugConsole('debug', 'Updating existing visual');
                     // update the value
                     statusVisual[propertyName as any] = value as any;
 
@@ -113,6 +123,10 @@ const StatusTab: React.FC<IStatusTabProps> = ({ onValidityChange }) => {
                     });
                 }
             } else {
+                logDebugConsole(
+                    'debug',
+                    'Creating new visual and setting property'
+                );
                 // create flow
                 statusVisual = deepCopy(defaultStatusColorVisual);
                 statusVisual[propertyName as any] = value as any;
@@ -127,6 +141,11 @@ const StatusTab: React.FC<IStatusTabProps> = ({ onValidityChange }) => {
             }
             // check form validity
             validateForm(statusVisual);
+            logDebugConsole(
+                'info',
+                `[END] Update status visual property ${propertyName}. {visual}`,
+                statusVisual
+            );
         },
         [
             behaviorFormState.behaviorToEdit,
@@ -161,6 +180,7 @@ const StatusTab: React.FC<IStatusTabProps> = ({ onValidityChange }) => {
         [setProperty]
     );
 
+    logDebugConsole('debug', 'Render');
     const commonPanelStyles = getLeftPanelStyles(useTheme());
     const showRangeBuilder = !!statusVisualToEdit.valueExpression;
     return (

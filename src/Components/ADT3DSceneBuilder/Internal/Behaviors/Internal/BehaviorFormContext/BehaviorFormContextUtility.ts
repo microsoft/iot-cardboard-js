@@ -58,7 +58,11 @@ export function RemoveItemsFromListByFilter<T>(
     logger: IConsoleLogFunction
 ): boolean {
     let result = false;
-    logger('debug', '[START] Removing item from list. {items}', items);
+    logger(
+        'debug',
+        '[START] Removing item from list. {items.length}',
+        items.length
+    );
     // get all items that match
     const matchedItems = items.filter(predicate);
 
@@ -73,13 +77,17 @@ export function RemoveItemsFromListByFilter<T>(
     // remove each from the array
     matchedItems.forEach((item) => {
         const index = items.indexOf(item);
-        if (index > 0) {
+        if (index >= 0) {
             result = true;
             items.splice(index, 1);
         }
     });
 
-    logger('debug', '[END] Removing item from list. {items}', items);
+    logger(
+        'debug',
+        '[END] Removing item from list. {items.length}',
+        items.length
+    );
     return result;
 }
 
@@ -99,8 +107,8 @@ export function AddOrUpdateListItemByFilter<T>(
     let result = false;
     logger(
         'debug',
-        '[START] Add/Update item in list. {listItems, item}',
-        listItems,
+        '[START] Add/Update item in list. {listItems.length, item}',
+        listItems?.length,
         itemToAddUpdate
     );
     if (!listItems) {
@@ -120,6 +128,10 @@ export function AddOrUpdateListItemByFilter<T>(
         result = true;
     }
 
-    logger('debug', '[END] Add/Update item in list. {listItems}', listItems);
+    logger(
+        'debug',
+        '[END] Add/Update item in list. {listItems.length}',
+        listItems?.length
+    );
     return result;
 }

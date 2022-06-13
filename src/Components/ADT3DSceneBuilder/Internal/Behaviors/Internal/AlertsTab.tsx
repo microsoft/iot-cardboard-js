@@ -209,6 +209,7 @@ const AlertsTab: React.FC = () => {
     const theme = useTheme();
     const commonPanelStyles = getLeftPanelStyles(theme);
 
+    logDebugConsole('debug', 'Render');
     return (
         <Stack tokens={{ childrenGap: 8 }}>
             <Text className={commonPanelStyles.text}>
