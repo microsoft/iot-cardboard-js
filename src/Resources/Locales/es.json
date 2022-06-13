@@ -761,6 +761,10 @@
     "doYouWantToDelete": "¿Desea eliminar",
     "projectWithSameNameAlreadyExistsMessage?": "El proyecto con el mismo nombre ya existe, ¿te gustaría anularlo?",
     "overwrite": "sobrescribir",
+    "namespace": "Namespace",
+    "enterANamespace": "Introducir un espacio de nombres",
+    "namespaceError": "El nombre solo puede contener los caracteres a-z, A-Z, 0-9 y guión bajo.",
+    "settings": "Configuración",
     "errorInvalidJSON": "JSON no válido",
     "errorFileFormatNotSupported": "Formato {{archivo}} no compatible",
     "errorFormatNoSupported": "Formato de archivo no compatible",
@@ -785,7 +789,10 @@
     "inheritances": "Herencias",
     "components": "Componentes",
     "errorDisplayName": "El nombre para mostrar no puede exceder los 64 caracteres",
-    "errorId": "Id no puede exceder los 2048 caracteres"
+    "errorName": "El nombre solo puede contener los caracteres a-z, A-Z, 0-9 y guión bajo",
+    "errorNameLength": "El nombre no puede exceder los 64 caracteres",
+    "errorIdLength": "Id no puede exceder los 2048 caracteres",
+    "errorIdValidDTMI": "Id debe ser un DTMI válido"
   },
   "OATPropertyEditor": {
     "displayName": "Nombre para mostrar",
@@ -859,8 +866,10 @@
     "errorComment": "El comentario no puede exceder los 512 caracteres",
     "errorDisplayName": "El nombre para mostrar no puede exceder los 64 caracteres",
     "errorDescription": "Descripción no puede exceder de 512 caracteres",
-    "errorId": "Id no puede exceder los 2048 caracteres",
-    "errorName": "El nombre solo puede contener los caracteres a-z, A-Z, 0-9 y guión bajo"
+    "errorName": "El nombre solo puede contener los caracteres a-z, A-Z, 0-9 y guión bajo",
+    "errorNameLength": "El nombre no puede exceder de 64 caracteres",
+    "errorIdLength": "Id no puede exceder los 2048 caracteres",
+    "errorIdValidDTMI": "Id debe ser un DTMI válido"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Mensaje de error",

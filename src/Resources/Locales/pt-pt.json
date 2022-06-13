@@ -761,6 +761,10 @@
     "doYouWantToDelete": "Deseja eliminar",
     "projectWithSameNameAlreadyExistsMessage?": "Projeto com o mesmo nome já existe, gostaria de anuê-lo?",
     "overwrite": "sobrepor",
+    "namespace": "Espaço de nome",
+    "enterANamespace": "Insira um espaço de nome",
+    "namespaceError": "O nome só pode conter os caracteres a-z, A-Z, 0-9, e sublinhar.",
+    "settings": "Configurações",
     "errorInvalidJSON": "JSON inválido",
     "errorFileFormatNotSupported": "{{file}} formato não suportado",
     "errorFormatNoSupported": "Formato de ficheiro não suportado",
@@ -785,7 +789,10 @@
     "inheritances": "Heranças",
     "components": "Componentes",
     "errorDisplayName": "Display Name não pode exceder 64 chars",
-    "errorId": "Id não pode exceder 2048 chars"
+    "errorName": "O nome só pode conter os caracteres a-z, A-Z, 0-9, e sublinhar",
+    "errorNameLength": "Nome não pode exceder 64 chars",
+    "errorIdLength": "ID não pode exceder 2048 chars",
+    "errorIdValidDTMI": "Id deve ser um DTMI válido"
   },
   "OATPropertyEditor": {
     "displayName": "Nome do visor",
@@ -859,8 +866,10 @@
     "errorComment": "Comentário não pode exceder 512 chars",
     "errorDisplayName": "Display Name não pode exceder 64 chars",
     "errorDescription": "A descrição não pode exceder 512 chars",
-    "errorId": "Id não pode exceder 2048 chars",
-    "errorName": "O nome só pode conter os caracteres a-z, A-Z, 0-9, e sublinhar"
+    "errorName": "O nome só pode conter os caracteres a-z, A-Z, 0-9, e sublinhar",
+    "errorNameLength": "Nome não pode exceder 64 chars",
+    "errorIdLength": "ID não pode exceder 2048 chars",
+    "errorIdValidDTMI": "Id deve ser um DTMI válido"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Mensagem de erro",
