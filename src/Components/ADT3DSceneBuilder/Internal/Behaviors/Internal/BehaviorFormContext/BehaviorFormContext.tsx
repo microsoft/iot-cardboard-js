@@ -1,7 +1,7 @@
 /**
  * This context is for managing the state of creating and editing a behavior object
  */
-import produce from 'immer';
+import produce, { current } from 'immer';
 import React, { useContext, useReducer } from 'react';
 import { defaultOnClickPopover } from '../../../../../../Models/Classes/3DVConfig';
 import ViewerConfigUtility from '../../../../../../Models/Classes/ViewerConfigUtility';
@@ -39,8 +39,9 @@ export const BehaviorFormContextReducer: (
     (draft: IBehaviorFormContextState, action: BehaviorFormContextAction) => {
         logDebugConsole(
             'info',
-            `Updating BehaviorForm context ${action.type} with payload: `,
-            (action as any).payload // ignore that payload doesn't always come since this is just a log
+            `Updating BehaviorForm context ${action.type} with payload: {behavior}`,
+            (action as any).payload, // ignore that payload doesn't always come since this is just a log
+            current(draft.behaviorToEdit)
         );
         switch (action.type) {
             case BehaviorFormContextActionType.FORM_BEHAVIOR_ALERT_VISUAL_ADD_OR_UPDATE: {
