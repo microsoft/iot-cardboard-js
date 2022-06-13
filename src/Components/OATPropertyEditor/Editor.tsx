@@ -1,4 +1,4 @@
-import React, { useState, useRef, useMemo } from 'react';
+import React, { useState, useRef, useMemo, useEffect } from 'react';
 import { ModelTypes, Theme } from '../../Models/Constants/Enums';
 import {
     FontIcon,
@@ -49,11 +49,33 @@ const Editor = ({
     const [draggingProperty, setDraggingProperty] = useState(false);
     const enteredTemplateRef = useRef(null);
     const enteredPropertyRef = useRef(null);
+    const editorColumnRef = useRef();
     const { model, templatesActive } = state;
+    const [editorColumnBoundingRect, setEditorColumnBoundingRect] = useState(
+        null
+    );
 
     const propertiesKeyName = getModelPropertyCollectionName(
         model ? model['@type'] : ModelTypes.interface
     );
+
+    useEffect(() => {
+        if (editorColumnRef.current) {
+            setEditorColumnBoundingRect(
+                editorColumnRef.current.getBoundingClientRect()
+            );
+            window.addEventListener('resize', () => {
+                setEditorColumnBoundingRect(
+                    editorColumnRef.current.getBoundingClientRect()
+                );
+            });
+            return window.removeEventListener('resize', () => {
+                setEditorColumnBoundingRect(
+                    editorColumnRef.current.getBoundingClientRect()
+                );
+            });
+        }
+    }, [editorColumnRef]);
 
     const propertyList = useMemo(() => {
         // Get contents excluding relationship items
@@ -72,7 +94,10 @@ const Editor = ({
     }, [model]);
 
     return (
-        <div className={propertyInspectorStyles.container}>
+        <div
+            className={propertyInspectorStyles.container}
+            ref={editorColumnRef}
+        >
             <Pivot className={propertyInspectorStyles.pivot}>
                 <PivotItem
                     headerButtonProps={{
@@ -140,6 +165,11 @@ const Editor = ({
                         }
                         setModalBody={setModalBody}
                         propertyList={propertyList}
+                        editorColumnBoundingRectHeight={
+                            editorColumnBoundingRect
+                                ? editorColumnBoundingRect.height
+                                : 0
+                        }
                     />
                 </PivotItem>
                 <PivotItem

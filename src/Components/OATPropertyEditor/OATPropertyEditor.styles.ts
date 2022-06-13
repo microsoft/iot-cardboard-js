@@ -26,7 +26,6 @@ const classNames = {
     paddingWrap: `${classPrefix}-padding-wrap`,
     rowSpaceBetween: `${classPrefix}-row-space-between`,
     propertiesWrap: `${classPrefix}-properties-wrap`,
-    propertiesWrapScroll: `${classPrefix}-properties-wrap-scroll`,
     propertySelector: `${classPrefix}-row-property-selector`,
     propertySelectorAddMore: `${classPrefix}-row-property-selector-add-more`,
     propertySelectorNestItem: `${classPrefix}-row-property-selector-nest-item`,
@@ -54,7 +53,6 @@ const classNames = {
     propertyItemIconMoreSubMenu: `${classPrefix}-property-item-icon-more-sub-menu`,
     propertyItemIcon: `${classPrefix}-property-item-icon`,
     propertyListRelativeWrap: `${classPrefix}-property-list-relative-wrap`,
-    propertyListRelativeWrapContainer: `${classPrefix}-property-list-relative-wrap-container`,
     propertyNestedItemRelativeWrap: `${classPrefix}-property-nested-item-relative-wrap`,
     propertySubMenuItemIcon: `${classPrefix}-property-sub-item-icon`,
     propertySubMenuItemIconRemove: `${classPrefix}-property-sub-item-icon-remove`,
@@ -80,6 +78,7 @@ export const getPropertyInspectorStyles = () => {
             classNames.container,
             {
                 height: '100%',
+                maxHeight: '100vh',
                 display: 'flex',
                 flexDirection: 'row',
                 minWidth: '300px'
@@ -91,7 +90,7 @@ export const getPropertyInspectorStyles = () => {
                 width: '100%',
                 backgroundColor: theme.semanticColors.listBackground,
                 '& [role="tabpanel"]': {
-                    height: '80%'
+                    height: '100%'
                 },
                 zIndex: '201'
             } as IStyle
@@ -175,15 +174,8 @@ export const getPropertyInspectorStyles = () => {
             {
                 position: 'relative',
                 paddingBottom: '30px',
-                height: '80%',
-                minHeight: '100px'
-            } as IStyle
-        ],
-        propertiesWrapScroll: [
-            classNames.propertiesWrapScroll,
-            {
-                maxHeight: '500px',
-                position: 'relative'
+                minHeight: '100px',
+                overflowY: 'auto'
             } as IStyle
         ],
         addPropertyMessageWrap: [
@@ -404,15 +396,6 @@ export const getPropertyInspectorStyles = () => {
                 flexDirection: 'column',
                 position: 'relative',
                 margin: '0, 4px'
-            } as IStyle
-        ],
-        propertyListRelativeWrapContainer: [
-            classNames.propertyListRelativeWrapContainer,
-            {
-                overflowY: 'scroll',
-                maxHeight: 'calc(100vh - 310px)',
-                width: '104%',
-                right: '-7%'
             } as IStyle
         ],
         propertyNestedItemRelativeWrap: [
