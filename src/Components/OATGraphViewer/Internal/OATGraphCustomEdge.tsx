@@ -52,19 +52,17 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
     const theme = useTheme();
     const nodes = useStoreState((state) => state.nodes);
     const edges = useStoreState((state) => state.edges);
+    const { model } = state;
 
     useEffect(() => {
         setNameText(getPropertyDisplayName(data));
     }, [data]);
 
     useEffect(() => {
-        if (!state.model) {
+        if (!model || (model && model['@id'] !== data.id)) {
             onNameBlur();
         }
-        if (state.model && state.model['@id'] !== data.id) {
-            onNameBlur();
-        }
-    }, [state]);
+    }, [model]);
 
     const getPolygon = (vertexes) =>
         vertexes.map((v) => `${v.x},${v.y}`).join(' ');
