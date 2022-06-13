@@ -107,11 +107,11 @@ export function AddOrUpdateListItemByFilter<T>(
         listItems = [];
     }
 
-    const draftExistingVisualIndex = listItems.findIndex(predicate);
+    const index = listItems.findIndex(predicate);
     // update
-    if (draftExistingVisualIndex >= 0) {
-        logger('debug', `Updating item at index ${draftExistingVisualIndex}.`);
-        listItems[draftExistingVisualIndex] = deepCopy(itemToAddUpdate);
+    if (index >= 0) {
+        logger('debug', `Updating item at index ${index}.`);
+        listItems[index] = deepCopy(itemToAddUpdate);
         result = true;
     } else {
         logger('debug', `Adding new item.`);
