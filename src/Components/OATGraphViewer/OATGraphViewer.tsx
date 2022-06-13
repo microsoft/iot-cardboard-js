@@ -737,16 +737,6 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
         );
         if (target) {
             if (currentHandleIdRef.current !== OATUntargetedRelationshipName) {
-                let relationshipAmount = 0;
-                // Increment relationship amount for every item with the same type of relationship
-                elements.forEach((element) => {
-                    if (
-                        element.type === ModelTypes.relationship &&
-                        element.sourceHandle === OATRelationshipHandleName
-                    ) {
-                        relationshipAmount++;
-                    }
-                });
                 params.target = target.dataset.id;
                 params.id = `${currentNodeIdRef.current}${
                     currentHandleIdRef.current

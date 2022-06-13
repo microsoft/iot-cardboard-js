@@ -560,6 +560,16 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
         }
     };
 
+    const getNameErrorMessage = () => {
+        return nameLengthError
+            ? t('OATGraphViewer.errorNameLength')
+            : nameValidCharactersError
+            ? t('OATGraphViewer.errorName')
+            : nameDuplicateError
+            ? t('OATGraphViewer.errorRepeatedEdgeName')
+            : '';
+    };
+
     return (
         <>
             <path
@@ -620,17 +630,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                                 value={nameText}
                                 onKeyDown={onKeyDown}
                                 autoFocus
-                                errorMessage={
-                                    nameLengthError
-                                        ? t('OATGraphViewer.errorNameLength')
-                                        : nameValidCharactersError
-                                        ? t('OATGraphViewer.errorName')
-                                        : nameDuplicateError
-                                        ? t(
-                                              'OATGraphViewer.errorRepeatedEdgeName'
-                                          )
-                                        : ''
-                                }
+                                errorMessage={getNameErrorMessage()}
                             />
                         )}
                         <ActionButton

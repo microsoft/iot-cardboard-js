@@ -166,6 +166,14 @@ export const FormUpdateProperty = ({
         setModalOpen(false);
     };
 
+    const getIdErrorMessage = () => {
+        return idLengthError
+            ? t('OATPropertyEditor.errorIdLength')
+            : idValidDTMIError
+            ? t('OATPropertyEditor.errorIdValidDTMI')
+            : '';
+    };
+
     // Update multiLanguageSelectionsDisplayNames on every new language change
     useEffect(() => {
         // Create an array of the keys and values
@@ -246,13 +254,7 @@ export const FormUpdateProperty = ({
                             setIdValidDTMIError
                         )
                     }
-                    errorMessage={
-                        idLengthError
-                            ? t('OATPropertyEditor.errorIdLength')
-                            : idValidDTMIError
-                            ? t('OATPropertyEditor.errorIdValidDTMI')
-                            : ''
-                    }
+                    errorMessage={getIdErrorMessage()}
                     value={id}
                 />
             </div>

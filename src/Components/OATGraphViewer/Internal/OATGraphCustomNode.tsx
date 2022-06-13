@@ -207,6 +207,16 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
         }
     };
 
+    const getIdErrorMessage = () => {
+        idLengthError
+            ? t('OATGraphViewer.errorIdLength')
+            : idValidDTMIError
+            ? t('OATGraphViewer.errorIdValidDTMI')
+            : errorIdAlreadyUsed
+            ? t('OATGraphViewer.errorRepeatedId')
+            : '';
+    };
+
     return (
         <>
             <Handle
@@ -261,19 +271,7 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
                                     value={idText}
                                     onBlur={onIdBlur}
                                     autoFocus
-                                    errorMessage={
-                                        idLengthError
-                                            ? t('OATGraphViewer.errorIdLength')
-                                            : idValidDTMIError
-                                            ? t(
-                                                  'OATGraphViewer.errorIdValidDTMI'
-                                              )
-                                            : errorIdAlreadyUsed
-                                            ? t(
-                                                  'OATGraphViewer.errorRepeatedId'
-                                              )
-                                            : ''
-                                    }
+                                    errorMessage={getIdErrorMessage()}
                                 />
                             )}
                         </div>

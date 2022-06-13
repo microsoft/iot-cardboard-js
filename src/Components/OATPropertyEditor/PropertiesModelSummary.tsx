@@ -10,7 +10,7 @@ import {
 import { SET_OAT_PROPERTY_EDITOR_MODEL } from '../../Models/Constants/ActionTypes';
 import { IAction } from '../../Models/Constants/Interfaces';
 import { deepCopy } from '../../Models/Services/Utils';
-import { getModelPropertyListItemName } from './Utils';
+import { getModelPropertyListItemName, getPropertyDisplayName } from './Utils';
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 import { ModelTypes } from '../../Models/Constants/Enums';
 import {
@@ -43,10 +43,6 @@ export const PropertiesModelSummary = ({
     const [displayNameLengthError, setDisplayNameLengthError] = useState(null);
     const [idLengthError, setIdLengthError] = useState(null);
     const { model, models } = state;
-    const [
-        errorDisplayNameAlreadyUsed,
-        setErrorDisplayNameAlreadyUsed
-    ] = useState(null);
     const [errorIdAlreadyUsed, setErrorIdAlreadyUsed] = useState(null);
     const [
         errorRepeatedRelationshipName,
@@ -66,7 +62,7 @@ export const PropertiesModelSummary = ({
 
     useEffect(() => {
         if (model) {
-            setDisplayName(model.displayName);
+            setDisplayName(getPropertyDisplayName(model.displayName));
             setName(model.name);
             setId(model['@id']);
         }
@@ -158,31 +154,43 @@ export const PropertiesModelSummary = ({
     };
 
     const handleDisplayNameChange = (value) => {
-        //Check length
+        // Check length
         if (value.length <= OATDisplayNameLengthLimit) {
             setDisplayNameLengthError(null);
             setDisplayName(value);
-            // Check current value is not used by another model as displayName within models
-            const repeatedDisplayNameModel = models.find(
-                (model) => model.displayName === value
-            );
-            if (repeatedDisplayNameModel) {
-                setErrorDisplayNameAlreadyUsed(true);
-            } else {
-                setErrorDisplayNameAlreadyUsed(null);
-                // Update model
-                const modelCopy = deepCopy(model);
-                modelCopy.displayName = value;
-                dispatch({
-                    type: SET_OAT_PROPERTY_EDITOR_MODEL,
-                    payload: modelCopy
-                });
-            }
+            // Update model
+            const modelCopy = deepCopy(model);
+            modelCopy.displayName = value;
+            dispatch({
+                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                payload: modelCopy
+            });
         } else {
             setDisplayNameLengthError(true);
         }
     };
 
+    const getNameError = () => {
+        return nameLengthError
+            ? t('OATPropertyEditor.errorNameLength')
+            : nameValidCharactersError
+            ? t('OATPropertyEditor.errorName')
+            : errorNameAlreadyUsed
+            ? t('OATPropertyEditor.errorRepeatedName')
+            : errorRepeatedRelationshipName
+            ? t('OATPropertyEditor.errorRepeatedEdgeName')
+            : '';
+    };
+
+    const getIdError = () => {
+        return idLengthError
+            ? t('OATPropertyEditor.errorIdLength')
+            : idValidDTMIError
+            ? t('OATPropertyEditor.errorIdValidDTMI')
+            : errorIdAlreadyUsed
+            ? t('OATPropertyEditor.errorRepeatedId')
+            : '';
+    };
     return (
         <Stack styles={generalPropertiesWrapStyles}>
             <div className={propertyInspectorStyles.rowSpaceBetween}>
@@ -216,15 +224,7 @@ export const PropertiesModelSummary = ({
                     onChange={(_ev, value) => {
                         handleIdChange(value);
                     }}
-                    errorMessage={
-                        idLengthError
-                            ? t('OATPropertyEditor.errorIdLength')
-                            : idValidDTMIError
-                            ? t('OATPropertyEditor.errorIdValidDTMI')
-                            : errorIdAlreadyUsed
-                            ? t('OATPropertyEditor.errorRepeatedId')
-                            : ''
-                    }
+                    errorMessage={getIdError()}
                 />
             </div>
             {model && model.name && (
@@ -239,17 +239,7 @@ export const PropertiesModelSummary = ({
                         onChange={(_ev, value) => {
                             handleNameChange(value);
                         }}
-                        errorMessage={
-                            nameLengthError
-                                ? t('OATPropertyEditor.errorNameLength')
-                                : nameValidCharactersError
-                                ? t('OATPropertyEditor.errorName')
-                                : errorNameAlreadyUsed
-                                ? t('OATPropertyEditor.errorRepeatedName')
-                                : errorRepeatedRelationshipName
-                                ? t('OATPropertyEditor.errorRepeatedEdgeName')
-                                : ''
-                        }
+                        errorMessage={getNameError()}
                     />
                 </div>
             )}
@@ -267,8 +257,6 @@ export const PropertiesModelSummary = ({
                     errorMessage={
                         displayNameLengthError
                             ? t('OATPropertyEditor.errorDisplayNameLength')
-                            : errorDisplayNameAlreadyUsed
-                            ? t('OATPropertyEditor.errorRepeatedDisplayName')
                             : ''
                     }
                 />
