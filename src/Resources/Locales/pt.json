@@ -511,7 +511,6 @@
     "twinAlias": {
       "title": "Alias gêmeos",
       "calloutDescription": "A união de propriedades gêmeas de elementos selecionados",
-      "aliasedTwin": "Gêmeo aliased",
       "add": "Adicionar gêmeos",
       "new": "Novo gêmeo",
       "edit": "Editar gêmeo",
@@ -540,7 +539,7 @@
       "errors": {
         "twinAliasAlreadyExists": "O pseudônimo de gêmeos com o mesmo nome já existe, considere adicioná-lo em seu lugar.",
         "alphanumericOnly": "O pseudônimo gêmeo só deve conter caracteres alfanuméricos",
-        "noNumberPrefix": "O pseudônimo de gêmeos não deve começar com um número"
+        "noNumberPrefix": "O nome duplo não deve começar com um número"
       }
     },
     "actions": "Ações"
