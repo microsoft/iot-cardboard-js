@@ -55,7 +55,6 @@ const Editor = ({
     const [draggingProperty, setDraggingProperty] = useState(false);
     const enteredTemplateRef = useRef(null);
     const enteredPropertyRef = useRef(null);
-    const editorColumnRef = useRef();
     const { model, templatesActive } = state;
 
     const propertiesKeyName = getModelPropertyCollectionName(
@@ -79,10 +78,7 @@ const Editor = ({
     }, [model]);
 
     return (
-        <div
-            className={propertyInspectorStyles.container}
-            ref={editorColumnRef}
-        >
+        <div className={propertyInspectorStyles.container}>
             <Pivot className={propertyInspectorStyles.pivot}>
                 <PivotItem
                     headerButtonProps={{

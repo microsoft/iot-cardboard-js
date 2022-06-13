@@ -68,9 +68,7 @@ export const PropertyList = ({
         propertySelectorTriggerElementsBoundingBox,
         setPropertySelectorTriggerElementsBoundingBox
     ] = useState(null);
-    const [wrapperHeight, setWrapperHeight] = useState(0);
     const { model, templates } = state;
-    const previousElementsOnEditorColumnHeight = 250;
 
     const propertiesKeyName = getModelPropertyCollectionName(
         model ? model['@type'] : null
