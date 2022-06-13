@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState } from 'react';
 import { FontIcon, ActionButton, Text } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
@@ -32,7 +32,6 @@ type IPropertyList = {
     setModalBody?: React.Dispatch<React.SetStateAction<string>>;
     setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
     state?: IOATEditorState;
-    editorColumnBoundingRectHeight?: number;
 };
 
 export const PropertyList = ({
@@ -223,26 +222,8 @@ export const PropertyList = ({
         handleSelectorPosition(e);
     };
 
-    useEffect(() => {
-        if (editorColumnBoundingRectHeight) {
-            setWrapperHeight(
-                `${
-                    editorColumnBoundingRectHeight -
-                    previousElementsOnEditorColumnHeight
-                }px`
-            );
-        } else {
-            setWrapperHeight('100%');
-        }
-    }, [editorColumnBoundingRectHeight]);
-
     return (
-        <div
-            className={propertyInspectorStyles.propertiesWrap}
-            style={{
-                maxHeight: wrapperHeight
-            }}
-        >
+        <div className={propertyInspectorStyles.propertiesWrap}>
             {model && propertyList && propertyList.length === 0 && (
                 <div
                     className={propertyInspectorStyles.addPropertyMessageWrap}

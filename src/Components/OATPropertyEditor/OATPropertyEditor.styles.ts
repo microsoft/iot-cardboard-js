@@ -71,6 +71,9 @@ const classNames = {
     typeTextField: `${classPrefix}-type-text-field`
 };
 
+const OATHeaderHeight = 44;
+const OATEditorPivotHeaderHeight = 36;
+
 export const getPropertyInspectorStyles = () => {
     const theme = useTheme();
     return mergeStyleSets({
@@ -90,7 +93,9 @@ export const getPropertyInspectorStyles = () => {
                 width: '100%',
                 backgroundColor: theme.semanticColors.listBackground,
                 '& [role="tabpanel"]': {
-                    height: '100%'
+                    height: `calc(100% - ${
+                        OATHeaderHeight + OATEditorPivotHeaderHeight
+                    }px)`
                 },
                 zIndex: '201'
             } as IStyle
@@ -174,8 +179,7 @@ export const getPropertyInspectorStyles = () => {
             {
                 position: 'relative',
                 paddingBottom: '30px',
-                minHeight: '100px',
-                overflowY: 'auto'
+                height: '100%'
             } as IStyle
         ],
         addPropertyMessageWrap: [
@@ -746,12 +750,18 @@ export const getPropertySelectorSeparatorStyles = () => {
 
 /* Property List */
 
-export const getPropertyListRelativeWrapStyles = () => {
+export const getPropertyListPivotColumnContent = () => {
     return {
         root: {
-            display: 'flex',
-            flexDirection: 'column',
-            position: 'relative'
+            height: '100%'
+        }
+    } as Partial<IButtonStyles>;
+};
+
+export const getPropertyListStackItem = () => {
+    return {
+        root: {
+            overflowY: 'auto'
         }
     } as Partial<IButtonStyles>;
 };
