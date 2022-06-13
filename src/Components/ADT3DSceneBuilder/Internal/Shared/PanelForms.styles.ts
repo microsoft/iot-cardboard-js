@@ -16,7 +16,7 @@ const classNames = {
     pivot: `${classPrefix}-pivot`
 };
 export const getPanelFormStyles = memoizeFunction(
-    (_theme: Theme, formHeaderHeight: number, padContent = false) => {
+    (_theme: Theme, formHeaderHeight: number, shouldPadContent = false) => {
         const breadcrumbHeight = '40px';
         return mergeStyleSets({
             root: [
@@ -31,7 +31,7 @@ export const getPanelFormStyles = memoizeFunction(
             ],
             content: [
                 classNames.content,
-                ...(padContent ? [leftPanelBuilderBlock] : []),
+                ...(shouldPadContent ? [leftPanelBuilderBlock] : []),
                 {
                     display: 'flex',
                     flex: 1,

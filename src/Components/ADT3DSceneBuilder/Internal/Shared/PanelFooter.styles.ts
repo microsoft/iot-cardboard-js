@@ -18,6 +18,6 @@ export const PanelFooterStyles = mergeStyleSets({
 export const PanelFooterStackStyles: IStackStyles = {
     root: {
         display: 'flex',
-        padding: `4px 16px 0px 16px`
+        padding: '4px 16px 0px 16px'
     }
 };
