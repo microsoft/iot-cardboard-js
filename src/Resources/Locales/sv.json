@@ -876,7 +876,8 @@
     "errorDisplayNameLength": "Visningsnamn får inte överstiga 64 tecken",
     "errorRepeatedDisplayName": "Det finns redan en modell med samma visningsnamn",
     "errorRepeatedId": "En modell med samma id finns redan",
-    "errorRepeatedName": "En modell med samma namn finns redan"
+    "errorRepeatedName": "En modell med samma namn finns redan",
+    "errorRepeatedEdgeName": "En relation med samma namn finns redan"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Felmeddelande",

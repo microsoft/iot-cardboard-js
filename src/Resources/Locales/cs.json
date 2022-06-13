@@ -876,7 +876,8 @@
     "errorDisplayNameLength": "Zobrazovaný název nesmí překročit 64 znaků",
     "errorRepeatedDisplayName": "Model se stejným zobrazovaným názvem již existuje",
     "errorRepeatedId": "Model se stejným ID již existuje",
-    "errorRepeatedName": "Model se stejným názvem již existuje"
+    "errorRepeatedName": "Model se stejným názvem již existuje",
+    "errorRepeatedEdgeName": "Vztah se stejným názvem již existuje"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Zpráva o chybě",
