@@ -28,11 +28,11 @@ const InnerContents: React.FC = () => {
                 </div>
                 <div>
                     <span>Object color: </span>
-                    <span>{sceneThemeState?.objectColor}</span>
+                    <span>{sceneThemeState?.objectColor?.color}</span>
                 </div>
                 <div>
                     <span>Background: </span>
-                    <span>{sceneThemeState?.sceneBackground}</span>
+                    <span>{sceneThemeState?.sceneBackground?.color}</span>
                 </div>
             </div>
             <SceneThemePicker />
