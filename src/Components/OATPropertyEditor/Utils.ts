@@ -1,6 +1,7 @@
 import { DTDLProperty } from '../../Models/Classes/DTDL';
 import { ModelTypes, MultiLanguageSelectionType } from '../../Models/Constants';
 import {
+    DTMIRegex,
     OATCommentLengthLimit,
     OATDescriptionLengthLimit,
     OATDisplayNameLengthLimit,
@@ -243,11 +244,21 @@ export const handleCommentChange = (value, setComment, setCommentError) => {
 };
 
 /* Handle id change on forms */
-export const handleIdChange = (value, setId, setIdError) => {
+export const handleIdChange = (
+    value,
+    setId,
+    setIdErrorLength,
+    setIdValidDTMIError
+) => {
     if (value.length <= OATIdLengthLimit) {
-        setId(value);
-        setIdError(null);
+        setIdErrorLength(null);
+        if (DTMIRegex.test(value)) {
+            setIdValidDTMIError(null);
+            setId(value);
+        } else {
+            setIdValidDTMIError(true);
+        }
     } else {
-        setIdError(true);
+        setIdErrorLength(true);
     }
 };

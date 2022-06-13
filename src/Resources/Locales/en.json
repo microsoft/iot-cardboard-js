@@ -760,7 +760,15 @@
         "doYouWantToSaveChangesYouMadeTo": "Do you want to save the changes you made to {{projectName}}?",
         "doYouWantToDelete": "Do you want to delete",
         "projectWithSameNameAlreadyExistsMessage?": "Project with same name already exists, would you like to override it?",
-        "overwrite": "Overwrite"
+        "overwrite": "Overwrite",
+        "namespace": "Namespace",
+        "enterANamespace": "Enter a namespace",
+        "namespaceError": "The name may only contain the characters a-z, A-Z, 0-9, and underscore.",
+        "settings": "Settings",
+        "errorInvalidJSON": "Invalid JSON",
+        "errorFileFormatNotSupported": "Issue with {{fileName}}: Format not supported",
+        "errorFormatNoSupported": "File format not supported",
+        "errorIssueWithFile": "Issue with {{fileName}}: {{error}}"
     },
     "OATGraphViewer": {
         "newModel": "New Model",
@@ -773,8 +781,11 @@
         "relationships": "Relationships",
         "inheritances": "Inheritances",
         "components": "Components",
-        "errorDisplayName": "Display Name may no exceed 64 chars",
-        "errorId": "Id may no exceed 2048 chars"
+        "errorDisplayName": "Display Name may not exceed 64 chars",
+        "errorIdLength": "Id may not exceed 2048 chars",
+        "errorIdValidDTMI": "Id must be a valid DTMI",
+        "errorName": "Name may only contain the characters a-z, A-Z, 0-9, and underscore",
+        "errorNameLength": "Name may not exceed 64 chars"
     },
     "OATPropertyEditor": {
         "addEnumValue": "Add Enum Value",
@@ -799,11 +810,13 @@
         "duration": "duration",
         "enum": "enum",
         "enumValue": "Enum Value",
-        "errorComment": "Comment may no exceed 512 chars",
-        "errorDisplayName": "Display Name may no exceed 64 chars",
-        "errorDescription": "Description may no exceed 512 chars",
-        "errorId": "Id may no exceed 2048 chars",
+        "errorComment": "Comment may not exceed 512 chars",
+        "errorDisplayName": "Display Name may not exceed 64 chars",
+        "errorDescription": "Description may not exceed 512 chars",
+        "errorIdLength": "Id may not exceed 2048 chars",
+        "errorIdValidDTMI": "Id must be a valid DTMI",
         "errorName": "Name may only contain the characters a-z, A-Z, 0-9, and underscore",
+        "errorNameLength": "Name may not exceed 64 chars",
         "errorRepeatedEnumValue": "An enum-value with the same value already exists",
         "errorRepeatedPropertyName": "A property with the same name already exists",
         "float": "float",

@@ -760,7 +760,15 @@
     "doYouWantToSaveChangesYouMadeTo": "行った変更を保存しますか",
     "doYouWantToDelete": "削除しますか",
     "projectWithSameNameAlreadyExistsMessage?": "同じ名前のプロジェクトが既に存在しますが、上書きしますか?",
-    "overwrite": "上書き"
+    "overwrite": "上書き",
+    "namespace": "名前空間",
+    "enterANamespace": "名前空間を入力する",
+    "namespaceError": "名前に使用できるのは、文字 a から z、A から Z、0 から 9、およびアンダースコアのみです。",
+    "settings": "設定",
+    "errorInvalidJSON": "無効な JSON",
+    "errorFileFormatNotSupported": "{{ファイル}}形式はサポートされていません",
+    "errorFormatNoSupported": "サポートされていないファイル形式",
+    "errorIssueWithFile": "{{ファイル名}}に関する問題: {{エラー}}"
   },
   "cameraControls": {
     "mouseControls": "マウスコントロール",
@@ -781,7 +789,10 @@
     "inheritances": "遺産",
     "components": "コンポーネント",
     "errorDisplayName": "表示名は 64 文字を超えてはなりません。",
-    "errorId": "IDは2048文字を超えてはなりません"
+    "errorName": "名前に使用できるのは、文字 a から z、A から Z、0 から 9、および下線のみです。",
+    "errorNameLength": "名前は 64 文字を超えてはなりません。",
+    "errorIdLength": "ID は 2048 文字を超えてはなりません",
+    "errorIdValidDTMI": "ID は有効な DTMI である必要があります。"
   },
   "OATPropertyEditor": {
     "displayName": "表示名",
@@ -855,8 +866,10 @@
     "errorComment": "コメントは512文字を超えてはなりません",
     "errorDisplayName": "表示名は 64 文字を超えてはなりません。",
     "errorDescription": "説明は512文字を超えてはなりません",
-    "errorId": "IDは2048文字を超えてはなりません",
-    "errorName": "名前に使用できるのは、文字 a から z、A から Z、0 から 9、および下線のみです。"
+    "errorName": "名前に使用できるのは、文字 a から z、A から Z、0 から 9、および下線のみです。",
+    "errorNameLength": "名前は 64 文字を超えてはなりません。",
+    "errorIdLength": "ID は 2048 文字を超えてはなりません",
+    "errorIdValidDTMI": "ID は有効な DTMI である必要があります。"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "エラーメッセージ",
