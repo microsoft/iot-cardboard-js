@@ -264,6 +264,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     const [showInheritances, setShowInheritances] = useState(true);
     const [showComponents, setShowComponents] = useState(true);
     const [rfInstance, setRfInstance] = useState(null);
+    const [currentLocation, setCurrentLocation] = useState(null);
 
     const dagreGraph = new dagre.graphlib.Graph();
     dagreGraph.setDefaultEdgeLabel(() => ({}));
@@ -618,6 +619,10 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
         setRfInstance(_reactFlowInstance);
     }, []);
 
+    const onMove = useCallback((flowTransform) => {
+        setCurrentLocation(flowTransform);
+    }, []);
+
     const onNewModelClick = () => {
         if (!state.modified) {
             // Create a new floating node
@@ -644,19 +649,20 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
             // Center pane focus on the new node
             const positionedX =
                 positionedElements[positionedElements.length - 1].position.x;
-            const positionY =
+            const positionedY =
                 positionedElements[positionedElements.length - 1].position.y;
 
             const wrapperBoundingBox = reactFlowWrapperRef.current.getBoundingClientRect();
 
             rfInstance.setTransform({
                 x:
-                    -positionedX +
-                    wrapperBoundingBox.width / 2 +
-                    positionedElements.length *
-                        -defaultHorizontalDistanceBetweenNodes,
-                y: positionY - nodeHeight + wrapperBoundingBox.height / 2,
-                zoom: rfInstance.toObject().zoom
+                    -positionedX * currentLocation.zoom +
+                    wrapperBoundingBox.width / 2 -
+                    nodeWidth / 2,
+                y:
+                    -positionedY * currentLocation.zoom +
+                    wrapperBoundingBox.height / 2,
+                zoom: currentLocation.zoom
             });
         }
     };
@@ -1063,6 +1069,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                         onNodeDragStop={onNodeDragStop}
                         onNodeMouseEnter={onNodeMouseEnter}
                         onNodeMouseLeave={onNodeMouseLeave}
+                        onMove={onMove}
                     >
                         <PrimaryButton
                             styles={buttonStyles}
