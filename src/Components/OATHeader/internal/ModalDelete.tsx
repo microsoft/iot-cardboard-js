@@ -10,6 +10,7 @@ import { useTranslation } from 'react-i18next';
 import { getHeaderStyles, getPromptTextStyles } from '../OATHeader.styles';
 import { IOATEditorState } from '../../../Pages/OATEditorPage/OATEditorPage.types';
 import { loadFiles, saveFiles } from './Utils';
+import { FromBody } from './Enums';
 
 interface IModal {
     resetProject?: () => void;
@@ -38,9 +39,8 @@ export const ModalDelete = ({
             // Remove file
             files.splice(foundIndex, 1);
             saveFiles(files);
-            setModalOpen(false);
-            setModalBody(null);
             resetProject();
+            setModalBody(FromBody.settings);
         }
         setModalBody('saveNewProjectAndClear');
     };

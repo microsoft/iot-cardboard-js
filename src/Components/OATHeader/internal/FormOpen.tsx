@@ -30,7 +30,8 @@ export const FormOpen = ({ dispatch, setModalOpen, setModalBody }: IModal) => {
             selectedFile.key.models,
             '',
             selectedFile.key.projectName,
-            selectedFile.key.templates
+            selectedFile.key.templates,
+            selectedFile.key.namespace
         );
         dispatch({
             type: SET_OAT_PROJECT,

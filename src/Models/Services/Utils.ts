@@ -371,7 +371,7 @@ export async function parseModels(models: IOATTwinModelNodes[]) {
     return true;
 }
 
-export async function parseModel(modelJson: string, headerError?: string) {
+export async function parseModel(modelJson: string) {
     const modelParser = createParser(
         ModelParsingOption.PermitAnyTopLevelElement
     );
@@ -379,10 +379,7 @@ export async function parseModel(modelJson: string, headerError?: string) {
         await modelParser.parse([modelJson]);
     } catch (err) {
         for (const parsingError of err._parsingErrors) {
-            alert(
-                `${headerError} ${parsingError.action} ${parsingError.cause}`
-            );
-            return `${headerError} ${parsingError.action} ${parsingError.cause}`;
+            return `${parsingError.action} ${parsingError.cause}`;
         }
     }
 }
@@ -413,4 +410,10 @@ export const getStoredEditorModelsData = () => {
 export const getStoredEditorModelPositionsData = () => {
     const oatData = getStoredEditorData();
     return oatData && oatData.modelPositions ? oatData.modelPositions : [];
+};
+
+// Get stored models' namespace OAT-data
+export const getStoredEditorNamespaceData = () => {
+    const oatData = getStoredEditorData();
+    return oatData && oatData.namespace ? oatData.namespace : null;
 };

@@ -25,4 +25,5 @@ export interface IOATEditorState {
     modified?: boolean;
     error?: IOATError;
     modelPositions: any;
+    namespace?: string;
 }

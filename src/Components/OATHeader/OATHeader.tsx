@@ -7,10 +7,16 @@ import JSZip from 'jszip';
 import FileSubMenu from './internal/FileSubMenu';
 import Modal from './internal/Modal';
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
-import { SET_OAT_PROJECT } from '../../Models/Constants/ActionTypes';
+import {
+    SET_OAT_ERROR,
+    SET_OAT_PROJECT
+} from '../../Models/Constants/ActionTypes';
 import { ProjectData } from '../../Pages/OATEditorPage/Internal/Classes';
 
-import { IOATTwinModelNodes } from '../../Models/Constants';
+import {
+    IOATTwinModelNodes,
+    OATNamespaceDefaultValue
+} from '../../Models/Constants';
 import { IAction } from '../../Models/Constants/Interfaces';
 import { useDropzone } from 'react-dropzone';
 import { SET_OAT_IMPORT_MODELS } from '../../Models/Constants/ActionTypes';
@@ -98,7 +104,8 @@ const OATHeader = ({ elements, dispatch, state }: OATHeaderProps) => {
             [],
             t('OATHeader.description'),
             t('OATHeader.untitledProject'),
-            []
+            [],
+            OATNamespaceDefaultValue
         );
 
         dispatch({
@@ -108,50 +115,79 @@ const OATHeader = ({ elements, dispatch, state }: OATHeaderProps) => {
     };
     useEffect(() => {
         const newFiles = [];
+        const newFilesErrors = [];
         acceptedFiles.forEach((sF) => {
             if (sF.type === 'application/json') {
                 newFiles.push(sF);
             } else {
-                alert(`${sF.name} format not Supported`);
+                newFilesErrors.push(
+                    t('OATHeader.errorFileFormatNotSupported', {
+                        fileName: sF.name
+                    })
+                );
             }
             sF = new File([], '');
         });
+        if (newFilesErrors.length > 0) {
+            let accumulatedError = '';
+            for (const error of newFilesErrors) {
+                accumulatedError += `${error} \n `;
+            }
+
+            dispatch({
+                type: SET_OAT_ERROR,
+                payload: {
+                    title: t('OATHeader.errorFormatNoSupported'),
+                    message: accumulatedError
+                }
+            });
+        }
         handleFileListChanged(newFiles);
         inputRef.current.value = '';
     }, [acceptedFiles]);
 
     const handleFileListChanged = async (files: Array<File>) => {
         const items = [];
-        let allValidFiles = true;
         if (files.length > 0) {
+            const filesErrors = [];
             for (const current of files) {
                 const newItem = {
                     name: current.name,
                     size: prettyBytes(current.size),
                     status: FileUploadStatus.Uploading
                 } as IFileItem;
-                try {
-                    const content = await current.text();
-                    newItem.content = JSON.parse(content);
-                    const validJson = await parseModel(
-                        content,
-                        `Issue on file ${current.name} \r`
+
+                const content = await current.text();
+                newItem.content = JSON.parse(content);
+                const validJson = await parseModel(content);
+                if (!validJson) {
+                    items.push(newItem.content);
+                } else {
+                    filesErrors.push(
+                        t('OATHeader.errorIssueWithFile', {
+                            fileName: current.name,
+                            error: validJson
+                        })
                     );
-                    if (!validJson) {
-                        items.push(newItem.content);
-                    } else {
-                        allValidFiles = false;
-                    }
-                } catch (error) {
-                    console.log(error);
-                    alert(`Issue on file ${current.name} \r ${error}`);
-                    allValidFiles = false;
                 }
             }
-            if (allValidFiles) {
+            if (filesErrors.length === 0) {
                 dispatch({
                     type: SET_OAT_IMPORT_MODELS,
                     payload: items
+                });
+            } else {
+                let accumulatedError = '';
+                for (const error of filesErrors) {
+                    accumulatedError += `${error}\n`;
+                }
+
+                dispatch({
+                    type: SET_OAT_ERROR,
+                    payload: {
+                        title: t('OATHeader.errorInvalidJSON'),
+                        message: accumulatedError
+                    }
                 });
             }
         }

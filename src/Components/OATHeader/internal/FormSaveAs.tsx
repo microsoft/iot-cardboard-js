@@ -14,6 +14,7 @@ import { getHeaderStyles } from '../OATHeader.styles';
 import { loadFiles, saveFiles } from './Utils';
 import { ProjectData } from '../../../Pages/OATEditorPage/Internal/Classes';
 import { IOATEditorState } from '../../../Pages/OATEditorPage/OATEditorPage.types';
+import { FromBody } from './Enums';
 
 interface IModal {
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
@@ -36,7 +37,7 @@ export const FormSaveAs = ({
     const [projectName, setProjectName] = useState('');
     const [error, setError] = useState(false);
     const headerStyles = getHeaderStyles();
-    const { modelPositions, models, templates } = state;
+    const { modelPositions, models, templates, namespace } = state;
 
     const handleOnSave = () => {
         const files = loadFiles();
@@ -51,15 +52,15 @@ export const FormSaveAs = ({
                     models,
                     '',
                     projectName,
-                    templates
+                    templates,
+                    namespace
                 );
 
                 saveFiles(files);
             }
-            setModalOpen(false);
-            setModalBody(null);
             if (resetProjectOnSave) {
                 resetProject();
+                setModalBody(FromBody.settings);
             }
             return;
         }
@@ -70,7 +71,8 @@ export const FormSaveAs = ({
             models,
             '',
             projectName,
-            templates
+            templates,
+            namespace
         );
         dispatch({
             type: SET_OAT_PROJECT,
@@ -87,6 +89,7 @@ export const FormSaveAs = ({
         setModalBody(null);
         if (resetProjectOnSave) {
             resetProject();
+            setModalBody(FromBody.settings);
         }
         return;
     };
