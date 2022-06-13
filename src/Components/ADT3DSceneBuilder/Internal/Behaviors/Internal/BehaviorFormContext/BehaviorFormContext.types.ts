@@ -2,6 +2,7 @@ import {
     IBehavior,
     IElementTwinToObjectMappingDataSource,
     IExpressionRangeVisual,
+    IValueRange,
     IWidget
 } from '../../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 
@@ -60,6 +61,8 @@ export enum BehaviorFormContextActionType {
     FORM_BEHAVIOR_RESET = 'FORM_BEHAVIOR_RESET',
     /** Add or update a status visual */
     FORM_BEHAVIOR_STATUS_VISUAL_ADD_OR_UPDATE = 'FORM_BEHAVIOR_STATUS_VISUAL_ADD_OR_UPDATE',
+    /** Update the value ranges for the status visual */
+    FORM_BEHAVIOR_STATUS_VISUAL_ADD_OR_UPDATE_RANGES = 'FORM_BEHAVIOR_STATUS_VISUAL_ADD_OR_UPDATE_RANGES',
     /** remove a status visual */
     FORM_BEHAVIOR_STATUS_VISUAL_REMOVE = 'FORM_BEHAVIOR_STATUS_VISUAL_REMOVE',
     /** add or update a widget */
@@ -126,6 +129,12 @@ export type BehaviorFormContextAction =
     | {
           type: BehaviorFormContextActionType.FORM_BEHAVIOR_STATUS_VISUAL_ADD_OR_UPDATE;
           payload: { visual: IExpressionRangeVisual };
+      }
+    | {
+          type: BehaviorFormContextActionType.FORM_BEHAVIOR_STATUS_VISUAL_ADD_OR_UPDATE_RANGES;
+          payload: {
+              ranges: IValueRange[];
+          };
       }
     | {
           type: BehaviorFormContextActionType.FORM_BEHAVIOR_STATUS_VISUAL_REMOVE;

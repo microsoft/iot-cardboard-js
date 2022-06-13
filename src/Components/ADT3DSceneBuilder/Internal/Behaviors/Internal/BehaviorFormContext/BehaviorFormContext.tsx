@@ -117,6 +117,21 @@ export const BehaviorFormContextReducer: (
                 );
                 break;
             }
+            case BehaviorFormContextActionType.FORM_BEHAVIOR_STATUS_VISUAL_ADD_OR_UPDATE_RANGES: {
+                const statusVisual = draft.behaviorToEdit.visuals?.find(
+                    ViewerConfigUtility.isStatusColorVisual
+                );
+                if (!statusVisual) {
+                    logDebugConsole(
+                        'warn',
+                        'Unable to update value ranges. Status visual not found on behavior. {visuals}',
+                        current(draft.behaviorToEdit?.visuals)
+                    );
+                    break;
+                }
+                statusVisual.valueRanges = action.payload.ranges;
+                break;
+            }
             case BehaviorFormContextActionType.FORM_BEHAVIOR_STATUS_VISUAL_REMOVE: {
                 RemoveItemsFromListByFilter(
                     draft.behaviorToEdit.visuals,

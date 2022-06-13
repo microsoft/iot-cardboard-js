@@ -139,23 +139,12 @@ const StatusTab: React.FC<IStatusTabProps> = ({ onValidityChange }) => {
 
     // Mirror value ranges in behavior to edit
     useEffect(() => {
-        // Assuming only 1 status visual per behavior
-        const statusVisual = getStatusFromBehavior(
-            behaviorFormState.behaviorToEdit
-        );
-        if (statusVisual) {
-            statusVisual.valueRanges = valueRangeBuilderState.valueRanges;
-        }
         behaviorFormDispatch({
             type:
-                BehaviorFormContextActionType.FORM_BEHAVIOR_STATUS_VISUAL_ADD_OR_UPDATE,
-            payload: { visual: statusVisual }
+                BehaviorFormContextActionType.FORM_BEHAVIOR_STATUS_VISUAL_ADD_OR_UPDATE_RANGES,
+            payload: { ranges: valueRangeBuilderState.valueRanges }
         });
-    }, [
-        behaviorFormDispatch,
-        behaviorFormState.behaviorToEdit,
-        valueRangeBuilderState.valueRanges
-    ]);
+    }, [behaviorFormDispatch, valueRangeBuilderState.valueRanges]);
 
     // update validity when range validity changes
     useEffect(() => {
