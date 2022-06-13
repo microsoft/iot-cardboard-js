@@ -96,7 +96,7 @@ const ElementTwinAliasForm: React.FC = () => {
     }, [formData]);
 
     const theme = useTheme();
-    const commonFormStyles = getPanelFormStyles(theme, 0);
+    const commonFormStyles = getPanelFormStyles(theme, 0, true);
     return (
         <>
             <div className={commonFormStyles.content}>

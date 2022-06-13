@@ -260,42 +260,48 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
     const commonPanelStyles = getLeftPanelStyles(theme);
     return (
         <div className="cb-scene-builder-pivot-contents">
-            {isEditBehavior && (
-                <Text className={commonPanelStyles.text}>
-                    {t('3dSceneBuilder.elementsListInstructions')}
-                </Text>
-            )}
-            {!hideSearch && (
-                <SearchHeader
-                    isSelectionEnabled={isSelectionEnabled}
-                    onMultiSelectClicked={
-                        !isEditBehavior && onMultiSelectChanged
-                    }
-                    onSearchTextChange={setSearchText}
-                    placeholder={t('3dSceneBuilder.searchElementsPlaceholder')}
-                    searchText={searchText}
-                />
-            )}
-            <div className={commonPanelStyles.content}>
-                {elements.length === 0 ? (
-                    <IllustrationMessage
-                        headerText={t('3dSceneBuilder.noElementsText')}
-                        type={'info'}
-                        width={'compact'}
-                    />
-                ) : filteredElements.length === 0 ? (
-                    <IllustrationMessage
-                        headerText={t('3dSceneBuilder.noResults')}
-                        type={'info'}
-                        width={'compact'}
-                    />
-                ) : (
-                    <CardboardList<ITwinToObjectMapping>
-                        items={listItems}
-                        listKey={`elements-in-scene`}
-                        textToHighlight={searchText}
+            <div className={commonPanelStyles.paddedLeftPanelBlock}>
+                {isEditBehavior && (
+                    <Text className={commonPanelStyles.text}>
+                        {t('3dSceneBuilder.elementsListInstructions')}
+                    </Text>
+                )}
+                {!hideSearch && (
+                    <SearchHeader
+                        isSelectionEnabled={isSelectionEnabled}
+                        onMultiSelectClicked={
+                            !isEditBehavior && onMultiSelectChanged
+                        }
+                        onSearchTextChange={setSearchText}
+                        placeholder={t(
+                            '3dSceneBuilder.searchElementsPlaceholder'
+                        )}
+                        searchText={searchText}
                     />
                 )}
+            </div>
+            <div className={commonPanelStyles.content}>
+                <div className={commonPanelStyles.paddedLeftPanelBlock}>
+                    {elements.length === 0 ? (
+                        <IllustrationMessage
+                            headerText={t('3dSceneBuilder.noElementsText')}
+                            type={'info'}
+                            width={'compact'}
+                        />
+                    ) : filteredElements.length === 0 ? (
+                        <IllustrationMessage
+                            headerText={t('3dSceneBuilder.noResults')}
+                            type={'info'}
+                            width={'compact'}
+                        />
+                    ) : (
+                        <CardboardList<ITwinToObjectMapping>
+                            items={listItems}
+                            listKey={`elements-in-scene`}
+                            textToHighlight={searchText}
+                        />
+                    )}
+                </div>
             </div>
             {!isEditBehavior && (
                 <PanelFooter>
