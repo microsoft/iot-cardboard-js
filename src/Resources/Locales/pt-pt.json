@@ -511,7 +511,6 @@
     "twinAlias": {
       "title": "Pseudónimo gémeo",
       "calloutDescription": "A união de propriedades gémeas de elementos selecionados",
-      "aliasedTwin": "Gémeo pseudónimo",
       "add": "Adicionar gémeo",
       "new": "Novo gémeo",
       "edit": "Editar gémeo",
@@ -540,7 +539,7 @@
       "errors": {
         "twinAliasAlreadyExists": "O pseudónimo gémeo com o mesmo nome já existe, considere adicioná-lo em vez disso.",
         "alphanumericOnly": "O pseudónimo gémeo só deve conter caracteres alfanuméricos",
-        "noNumberPrefix": "Pseudónimo gémeo não deve começar com um número"
+        "noNumberPrefix": "Nome gémeo não deve começar com um número"
       }
     },
     "actions": "Ações"

@@ -311,7 +311,9 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
                                 className="cb-scene-builder-create-button"
                                 data-testid={'elements-list-new-button'}
                                 text={t('3dSceneBuilder.createBehavior')}
-                                onClick={onCreateBehaviorClick}
+                                onClick={() => {
+                                    onCreateBehaviorClick('');
+                                }}
                                 disabled={
                                     selectedElements &&
                                     selectedElements.length > 0

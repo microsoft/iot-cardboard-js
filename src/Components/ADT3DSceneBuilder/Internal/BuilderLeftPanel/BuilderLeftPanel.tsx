@@ -305,9 +305,16 @@ const BuilderLeftPanel: React.FC<IBuilderLeftPanelProps> = ({ styles }) => {
     };
 
     const onCreateBehaviorWithElements = (
+        preSearchedBehaviorName: string,
         newElement?: ITwinToObjectMapping
     ) => {
-        const behavior = { ...defaultBehavior, id: createGUID() };
+        const behavior = {
+            ...defaultBehavior,
+            id: createGUID(),
+            ...(preSearchedBehaviorName && {
+                displayName: preSearchedBehaviorName
+            })
+        };
         const mappingIds = [];
 
         // Update selected elements with new element
