@@ -1,4 +1,4 @@
-import React, { useState, useRef, useMemo, useEffect } from 'react';
+import React, { useState, useRef, useMemo } from 'react';
 import { ModelTypes, Theme } from '../../Models/Constants/Enums';
 import {
     FontIcon,
