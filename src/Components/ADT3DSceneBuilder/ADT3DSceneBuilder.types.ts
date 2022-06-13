@@ -148,6 +148,7 @@ export type WidgetFormInfo = {
 export type BehaviorTwinAliasFormInfo = null | {
     twinAlias: IBehaviorTwinAliasItem;
     mode: TwinAliasFormMode;
+    aliasToAutoPopulate?: string; // this is needed to prefill the value of the alias (by search text when there is no results) when creating a new one
 };
 
 export type ElementTwinAliasFormInfo = null | {
@@ -182,14 +183,17 @@ export interface IADT3DSceneBuilderElementFormProps {
     onElementSave: (newElements: Array<ITwinToObjectMapping>) => void;
     onElementBackClick: () => void;
     onBehaviorClick: (behavior: IBehavior) => void;
-    onCreateBehaviorWithElements: (newElement?: ITwinToObjectMapping) => void;
+    onCreateBehaviorWithElements: (
+        preSearchedBehaviorName: string,
+        newElement?: ITwinToObjectMapping
+    ) => void;
 }
 
 export interface IADT3DSceneBuilderAddBehaviorCalloutProps {
     availableBehaviors: Array<IBehavior>;
     calloutTarget: string;
     onAddBehavior: (behavior: IBehavior) => void;
-    onCreateBehaviorWithElements: () => void;
+    onCreateBehaviorWithElements: (preSearchedBehaviorName?: string) => void;
     hideCallout: () => void;
     isCreateBehaviorDisabled?: boolean;
 }
@@ -198,7 +202,7 @@ export interface IADT3DSceneBuilderAddTwinAliasCalloutProps {
     availableTwinAliases: Array<IBehaviorTwinAliasItem>;
     calloutTarget: string;
     onAddTwinAlias: (twinAlias: IBehaviorTwinAliasItem) => void;
-    onCreateTwinAlias: () => void;
+    onCreateTwinAlias: (preSearchedAlias?: string) => void;
     hideCallout: () => void;
 }
 
@@ -247,7 +251,7 @@ export interface IADT3DSceneBuilderElementsProps {
         isSelected: boolean
     ) => void;
     clearSelectedElements?: () => void;
-    onCreateBehaviorClick?: () => void;
+    onCreateBehaviorClick?: (initialBehaviorName: string) => void;
     onCreateElementClick?: () => void;
     onRemoveElement?: (newElements: Array<ITwinToObjectMapping>) => void;
     onElementClick?: (element: ITwinToObjectMapping) => void;

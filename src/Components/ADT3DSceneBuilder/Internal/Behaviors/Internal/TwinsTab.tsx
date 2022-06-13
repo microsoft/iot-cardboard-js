@@ -140,12 +140,16 @@ const TwinsTab: React.FC<ITwinsTabProps> = ({
         [behaviorFormDispatch]
     );
 
-    const onCreateTwinAlias = useCallback(() => {
-        setBehaviorTwinAliasFormInfo({
-            twinAlias: null,
-            mode: TwinAliasFormMode.CreateTwinAlias
-        });
-    }, [setBehaviorTwinAliasFormInfo]);
+    const onCreateTwinAlias = useCallback(
+        (searchText: string) => {
+            setBehaviorTwinAliasFormInfo({
+                twinAlias: null,
+                mode: TwinAliasFormMode.CreateTwinAlias,
+                ...(searchText && { aliasToAutoPopulate: searchText })
+            });
+        },
+        [setBehaviorTwinAliasFormInfo]
+    );
 
     // when behavior to edit or selected elements (to keep track of element to twin id mappings) changes in Elements tab, update the twin alias list
     useEffect(() => {
@@ -262,7 +266,6 @@ const TwinsTab: React.FC<ITwinsTabProps> = ({
                 data-testid={'twinsTab-addTwinAlias'}
                 onClick={toggleIsAddTwinAliasCalloutVisible}
             />
-            {/* </div> */}
             {isPrimaryTwinPropertiesCalloutVisible && (
                 <CardboardListCallout
                     listType="Complex"
