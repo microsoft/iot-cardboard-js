@@ -26,6 +26,10 @@ import ViewerConfigUtility from '../../../../../../Models/Classes/ViewerConfigUt
 import ValueWidgetBuilder from '../WidgetBuilders/ValueWidgetBuilder';
 import { useBehaviorFormContext } from '../../Internal/BehaviorFormContext/BehaviorFormContext';
 import { BehaviorFormContextActionType } from '../../Internal/BehaviorFormContext/BehaviorFormContext.types';
+import { getDebugLogger } from '../../../../../../Models/Services/Utils';
+
+const debugLogging = true;
+const logDebugConsole = getDebugLogger('WidgetForm', debugLogging);
 
 const getDefaultFormData = (widgetFormInfo: WidgetFormInfo) => {
     switch (widgetFormInfo.widget.data.type) {
@@ -64,6 +68,12 @@ const WidgetForm: React.FC = () => {
 
     // On initial render - create or locate widget
     useEffect(() => {
+        logDebugConsole(
+            'debug',
+            'Setting initial widget state. {mode, widgetId}',
+            widgetFormInfo.mode,
+            widgetFormInfo.widgetId
+        );
         if (widgetFormInfo.mode === WidgetFormMode.CreateWidget) {
             const newWidgetId = widgetFormInfo.widgetId;
             behaviorFormDispatch({
@@ -141,8 +151,16 @@ const WidgetForm: React.FC = () => {
     const customStyles = getWidgetFormStyles(theme);
     const commonFormStyles = getPanelFormStyles(theme, 0);
 
-    if (!getActiveWidget(activeWidgetId, behaviorFormState.behaviorToEdit))
+    logDebugConsole('debug', 'Render.');
+    if (!getActiveWidget(activeWidgetId, behaviorFormState.behaviorToEdit)) {
+        logDebugConsole(
+            'warn',
+            'No active widget found. Rendering nothing. {widgetId, behavior}',
+            activeWidgetId,
+            behaviorFormState.behaviorToEdit
+        );
         return null;
+    }
     return (
         <>
             <div className={commonFormStyles.content}>

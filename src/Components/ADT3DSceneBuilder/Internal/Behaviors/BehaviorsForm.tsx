@@ -17,7 +17,6 @@ import {
     BehaviorSaveMode,
     IADT3DSceneBuilderBehaviorFormProps
 } from '../../ADT3DSceneBuilder.types';
-import produce from 'immer';
 import {
     DefaultButton,
     IPivotItemProps,

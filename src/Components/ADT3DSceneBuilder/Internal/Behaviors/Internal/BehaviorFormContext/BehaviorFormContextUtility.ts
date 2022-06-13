@@ -84,10 +84,10 @@ export function RemoveItemsFromListByFilter<T>(
 }
 
 /**
- * Adds or updates the provided widget to the given popover visual
- * @param popoverVisual Visual to update
- * @param itemToAddUpdate Widget to add or replace
- * @param predicate filter for finding the right widget to replace
+ * Adds or updates the provided item to the given list of items
+ * @param listItems List of items to search over
+ * @param itemToAddUpdate item to add or replace
+ * @param predicate filter for finding the right item to replace
  * @param logger console logger to debugging
  */
 export function AddOrUpdateListItemByFilter<T>(
@@ -103,20 +103,20 @@ export function AddOrUpdateListItemByFilter<T>(
         listItems,
         itemToAddUpdate
     );
-    if (!listItems?.length) {
+    if (!listItems) {
         listItems = [];
     }
 
     const index = listItems.findIndex(predicate);
-    // update
-    if (index >= 0) {
-        logger('debug', `Updating item at index ${index}.`);
-        listItems[index] = deepCopy(itemToAddUpdate);
-        result = true;
-    } else {
+    if (index < 0) {
         logger('debug', `Adding new item.`);
         // add
         listItems.push(deepCopy(itemToAddUpdate));
+        result = true;
+    } else {
+        // update
+        logger('debug', `Updating item at index ${index}.`);
+        listItems[index] = deepCopy(itemToAddUpdate);
         result = true;
     }
 
