@@ -792,7 +792,6 @@
     "errorNameLength": "Il nome non può superare i 64 caratteri",
     "errorIdLength": "L'ID non può superare i 2048 caratteri",
     "errorIdValidDTMI": "L'ID deve essere un DTMI valido",
-    "errorRepeatedDisplayName": "Esiste già un modello con lo stesso nome visualizzato",
     "errorRepeatedId": "Esiste già un modello con lo stesso ID",
     "errorDisplayNameLength": "Il nome visualizzato non può superare i 64 caratteri",
     "errorRepeatedEdgeName": "Esiste già una relazione con lo stesso nome"
@@ -874,7 +873,6 @@
     "errorIdLength": "L'ID non può superare i 2048 caratteri",
     "errorIdValidDTMI": "L'ID deve essere un DTMI valido",
     "errorDisplayNameLength": "Il nome visualizzato non può superare i 64 caratteri",
-    "errorRepeatedDisplayName": "Esiste già un modello con lo stesso nome visualizzato",
     "errorRepeatedId": "Esiste già un modello con lo stesso ID",
     "errorRepeatedName": "Esiste già un modello con lo stesso nome",
     "errorRepeatedEdgeName": "Esiste già una relazione con lo stesso nome"

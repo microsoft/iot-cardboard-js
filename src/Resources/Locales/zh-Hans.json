@@ -792,7 +792,6 @@
     "errorNameLength": "姓名不得超过 64 个字符",
     "errorIdLength": "Id 不得超过 2048 个字符",
     "errorIdValidDTMI": "ID 必须是有效的 DTMI",
-    "errorRepeatedDisplayName": "具有相同显示名称的模型已存在",
     "errorRepeatedId": "具有相同 ID 的模型已存在",
     "errorDisplayNameLength": "显示名称不得超过 64 个字符",
     "errorRepeatedEdgeName": "具有相同名称的关系已存在"
@@ -874,7 +873,6 @@
     "errorIdLength": "Id 不得超过 2048 个字符",
     "errorIdValidDTMI": "ID 必须是有效的 DTMI",
     "errorDisplayNameLength": "显示名称不得超过 64 个字符",
-    "errorRepeatedDisplayName": "具有相同显示名称的模型已存在",
     "errorRepeatedId": "具有相同 ID 的模型已存在",
     "errorRepeatedName": "具有相同名称的模型已存在",
     "errorRepeatedEdgeName": "具有相同名称的关系已存在"

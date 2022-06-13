@@ -792,7 +792,6 @@
     "errorNameLength": "名前は 64 文字を超えてはなりません。",
     "errorIdLength": "ID は 2048 文字を超えてはなりません",
     "errorIdValidDTMI": "ID は有効な DTMI である必要があります。",
-    "errorRepeatedDisplayName": "同じ表示名のモデルが既に存在します",
     "errorRepeatedId": "同じ ID のモデルが既に存在します",
     "errorDisplayNameLength": "表示名は 64 文字を超えてはなりません。",
     "errorRepeatedEdgeName": "同じ名前の関係が既に存在します"
@@ -874,7 +873,6 @@
     "errorIdLength": "ID は 2048 文字を超えてはなりません",
     "errorIdValidDTMI": "ID は有効な DTMI である必要があります。",
     "errorDisplayNameLength": "表示名は 64 文字を超えてはなりません。",
-    "errorRepeatedDisplayName": "同じ表示名のモデルが既に存在します",
     "errorRepeatedId": "同じ ID のモデルが既に存在します",
     "errorRepeatedName": "同じ名前のモデルが既に存在します",
     "errorRepeatedEdgeName": "同じ名前の関係が既に存在します"

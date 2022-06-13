@@ -792,7 +792,6 @@
     "errorNameLength": "El nombre no puede exceder los 64 caracteres",
     "errorIdLength": "Id no puede exceder los 2048 caracteres",
     "errorIdValidDTMI": "Id debe ser un DTMI válido",
-    "errorRepeatedDisplayName": "Ya existe un modelo con el mismo nombre para mostrar",
     "errorRepeatedId": "Ya existe un modelo con el mismo identificador",
     "errorDisplayNameLength": "El nombre para mostrar no puede exceder los 64 caracteres",
     "errorRepeatedEdgeName": "Ya existe una relación con el mismo nombre"
@@ -874,7 +873,6 @@
     "errorIdLength": "Id no puede exceder los 2048 caracteres",
     "errorIdValidDTMI": "Id debe ser un DTMI válido",
     "errorDisplayNameLength": "El nombre para mostrar no puede exceder los 64 caracteres",
-    "errorRepeatedDisplayName": "Ya existe un modelo con el mismo nombre para mostrar",
     "errorRepeatedId": "Ya existe un modelo con el mismo identificador",
     "errorRepeatedName": "Ya existe un modelo con el mismo nombre",
     "errorRepeatedEdgeName": "Ya existe una relación con el mismo nombre"

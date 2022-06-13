@@ -792,7 +792,6 @@
     "errorNameLength": "Nazwa nie może przekraczać 64 znaków",
     "errorIdLength": "Id nie może przekraczać 2048 znaków",
     "errorIdValidDTMI": "Identyfikator musi być prawidłowym kodem DTMI",
-    "errorRepeatedDisplayName": "Model o tej samej nazwie wyświetlanej już istnieje",
     "errorRepeatedId": "Model o tym samym identyfikatorze już istnieje",
     "errorDisplayNameLength": "Nazwa wyświetlana nie może przekraczać 64 znaków",
     "errorRepeatedEdgeName": "Relacja o tej samej nazwie już istnieje"
@@ -874,7 +873,6 @@
     "errorIdLength": "Id nie może przekraczać 2048 znaków",
     "errorIdValidDTMI": "Identyfikator musi być prawidłowym kodem DTMI",
     "errorDisplayNameLength": "Nazwa wyświetlana nie może przekraczać 64 znaków",
-    "errorRepeatedDisplayName": "Model o tej samej nazwie wyświetlanej już istnieje",
     "errorRepeatedId": "Model o tym samym identyfikatorze już istnieje",
     "errorRepeatedName": "Model o tej samej nazwie już istnieje",
     "errorRepeatedEdgeName": "Relacja o tej samej nazwie już istnieje"
