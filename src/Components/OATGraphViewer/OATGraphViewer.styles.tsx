@@ -32,6 +32,7 @@ const classNames = {
     inheritancePath: `${classPrefix}-inheritance-path`,
     inheritanceShape: `${classPrefix}-inheritance-shape`,
     nodeContainer: `${classPrefix}-node-container`,
+    untargetedNodeContainer: `${classPrefix}-untargeted-node-container`,
     graphViewerControls: `${classPrefix}-graph-viewer-controls`,
     graphViewerFiltersWrap: `${classPrefix}-graph-viewer-filters-wrap`,
     graphViewerFiltersKey: `${classPrefix}-graph-viewer-filters-key`,
@@ -49,15 +50,15 @@ export const getGraphViewerStyles = () => {
                 [`& .${classNames.handle}`]: {
                     background: 'transparent',
                     border: '0px',
-                    left: '60%',
+                    left: '50%',
                     top: '50%'
                 },
                 [`& .${classNames.componentHandleFocus}`]: {
-                    left: '100%',
+                    left: '80%',
                     background: theme.semanticColors.variantBorder
                 },
                 [`& .${classNames.componentHandleHidden}`]: {
-                    left: '60%',
+                    left: '80%',
                     top: '50%',
                     background: 'transparent',
                     border: '0px'
@@ -73,7 +74,7 @@ export const getGraphViewerStyles = () => {
                     border: '0px'
                 },
                 [`& .${classNames.extendHandleFocus}`]: {
-                    left: '70%',
+                    left: '60%',
                     background: theme.semanticColors.variantBorder
                 },
                 [`& .${classNames.extendHandleHidden}`]: {
@@ -83,11 +84,11 @@ export const getGraphViewerStyles = () => {
                     border: '0px'
                 },
                 [`& .${classNames.untargetRelationshipHandleFocus}`]: {
-                    left: '45%',
+                    left: '40%',
                     background: theme.semanticColors.variantBorder
                 },
                 [`& .${classNames.untargetRelationshipHandleHidden}`]: {
-                    left: '60%',
+                    left: '40%',
                     top: '50%',
                     background: 'transparent',
                     border: '0px'
@@ -100,9 +101,7 @@ export const getGraphViewerStyles = () => {
                 background: theme.palette.neutralLight,
                 border: `1px solid ${theme.semanticColors.inputBorder}`,
                 borderRadius: '5px',
-                fontSize: FontSizes.size12,
-                textAlign: 'center',
-                width: '120%'
+                fontSize: FontSizes.size12
             } as IStyle
         ],
         handle: [classNames.handle],
@@ -189,7 +188,24 @@ export const getGraphViewerStyles = () => {
         ],
         nodeContainer: [
             classNames.nodeContainer,
-            { display: 'grid', gridTemplateColumns: '10% 90%' } as IStyle
+            {
+                display: 'grid',
+                gridTemplateColumns: '50px auto',
+                label: {
+                    textAlign: 'center'
+                },
+                span: {
+                    padding: '5px 0px'
+                }
+            } as IStyle
+        ],
+        untargetedNodeContainer: [
+            classNames.untargetedNodeContainer,
+            {
+                label: {
+                    overflowWrap: 'normal'
+                }
+            }
         ],
         graphViewerControls: [
             classNames.graphViewerControls,
