@@ -307,6 +307,14 @@ export const FormUpdateProperty = ({
         setIsAMultiLanguageDescriptionEmpty(hasEmptyValues);
     }, [multiLanguageSelectionsDescription]);
 
+    const getIdErrorMessage = () => {
+        return idLengthError
+            ? t('OATPropertyEditor.errorIdLength')
+            : idValidDTMIError
+            ? t('OATPropertyEditor.errorIdValidDTMI')
+            : '';
+    };
+
     return (
         <>
             <div className={propertyInspectorStyles.modalRowSpaceBetween}>
@@ -343,13 +351,7 @@ export const FormUpdateProperty = ({
                             setIdValidDTMIError
                         )
                     }
-                    errorMessage={
-                        idLengthError
-                            ? t('OATPropertyEditor.errorIdLength')
-                            : idValidDTMIError
-                            ? t('OATPropertyEditor.errorIdValidDTMI')
-                            : ''
-                    }
+                    errorMessage={getIdErrorMessage()}
                     value={id}
                 />
             </div>

@@ -3,7 +3,8 @@ import {
     mergeStyleSets,
     useTheme,
     FontSizes,
-    IRawStyle
+    IRawStyle,
+    mergeStyles
 } from '@fluentui/react';
 import { CardboardClassNamePrefix } from '../../Models/Constants';
 
@@ -31,6 +32,7 @@ const classNames = {
     inheritancePath: `${classPrefix}-inheritance-path`,
     inheritanceShape: `${classPrefix}-inheritance-shape`,
     nodeContainer: `${classPrefix}-node-container`,
+    untargetedNodeContainer: `${classPrefix}-untargeted-node-container`,
     graphViewerControls: `${classPrefix}-graph-viewer-controls`,
     graphViewerFiltersWrap: `${classPrefix}-graph-viewer-filters-wrap`,
     graphViewerFiltersKey: `${classPrefix}-graph-viewer-filters-key`,
@@ -50,15 +52,15 @@ export const getGraphViewerStyles = () => {
                 [`& .${classNames.handle}`]: {
                     background: 'transparent',
                     border: '0px',
-                    left: '60%',
+                    left: '50%',
                     top: '50%'
                 },
                 [`& .${classNames.componentHandleFocus}`]: {
-                    left: '100%',
+                    left: '80%',
                     background: theme.semanticColors.variantBorder
                 },
                 [`& .${classNames.componentHandleHidden}`]: {
-                    left: '60%',
+                    left: '80%',
                     top: '50%',
                     background: 'transparent',
                     border: '0px'
@@ -74,7 +76,7 @@ export const getGraphViewerStyles = () => {
                     border: '0px'
                 },
                 [`& .${classNames.extendHandleFocus}`]: {
-                    left: '70%',
+                    left: '60%',
                     background: theme.semanticColors.variantBorder
                 },
                 [`& .${classNames.extendHandleHidden}`]: {
@@ -84,11 +86,11 @@ export const getGraphViewerStyles = () => {
                     border: '0px'
                 },
                 [`& .${classNames.untargetRelationshipHandleFocus}`]: {
-                    left: '45%',
+                    left: '40%',
                     background: theme.semanticColors.variantBorder
                 },
                 [`& .${classNames.untargetRelationshipHandleHidden}`]: {
-                    left: '60%',
+                    left: '40%',
                     top: '50%',
                     background: 'transparent',
                     border: '0px'
@@ -102,8 +104,6 @@ export const getGraphViewerStyles = () => {
                 border: `1px solid ${theme.semanticColors.inputBorder}`,
                 borderRadius: '5px',
                 fontSize: FontSizes.size12,
-                textAlign: 'center',
-                width: '120%',
                 position: 'relative',
                 paddingRight: '20px' // Allow the close icon to have space
             } as IStyle
@@ -194,11 +194,13 @@ export const getGraphViewerStyles = () => {
         nodeContainer: [
             classNames.nodeContainer,
             {
-                display: 'grid',
-                gridTemplateColumns: '20% 80%',
                 alignItems: 'center',
-                padding: '0 5px',
-                textAlign: 'left'
+                display: 'grid',
+                gridTemplateColumns: '50px auto',
+                span: {
+                    padding: '5px 0px'
+                },
+                padding: '0 5px'
             } as IStyle
         ],
         relationshipCTASection: [
@@ -211,7 +213,15 @@ export const getGraphViewerStyles = () => {
         ],
         relationshipNameEditorBody: [
             classNames.relationshipNameEditorBody,
-            { position: 'relative' }
+            { position: 'relative' } as IStyle
+        ],
+        untargetedNodeContainer: [
+            classNames.untargetedNodeContainer,
+            {
+                label: {
+                    overflowWrap: 'normal'
+                }
+            } as IStyle
         ],
         graphViewerControls: [
             classNames.graphViewerControls,
@@ -276,7 +286,7 @@ export const getGraphViewerStyles = () => {
     });
 };
 
-export const getGraphViewerButtonStyles = () => {
+export const getGraphViewerButtonStyles: IStyle = () => {
     return {
         root: {
             zIndex: '100',
@@ -285,7 +295,7 @@ export const getGraphViewerButtonStyles = () => {
     } as Partial<IStyle>;
 };
 
-export const getGraphViewerIconStyles = () => {
+export const getGraphViewerIconStyles: IStyle = () => {
     const theme = useTheme();
     return {
         root: {
@@ -295,7 +305,7 @@ export const getGraphViewerIconStyles = () => {
     } as Partial<IStyle>;
 };
 
-export const getGraphViewerActionButtonStyles = () => {
+export const getGraphViewerActionButtonStyles: IStyle = () => {
     return {
         root: {
             height: FontSizes.size12,
@@ -307,7 +317,7 @@ export const getGraphViewerActionButtonStyles = () => {
     } as Partial<IStyle>;
 };
 
-export const getGraphViewerWarningStyles = () => {
+export const getGraphViewerWarningStyles: IStyle = () => {
     const theme = useTheme();
     return {
         root: {
@@ -317,14 +327,14 @@ export const getGraphViewerWarningStyles = () => {
     } as Partial<IStyle>;
 };
 
-export const getGraphViewerMinimapStyles = () => {
+export const getGraphViewerMinimapStyles: IStyle = () => {
     const theme = useTheme();
     return {
         background: theme.semanticColors.bodyBackground
     } as Partial<IStyle>;
 };
 
-export const getGraphViewerFiltersStyles = () => {
+export const getGraphViewerFiltersStyles: IStyle = () => {
     return {
         root: {
             position: 'absolute',
