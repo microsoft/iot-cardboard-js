@@ -134,10 +134,10 @@ export const SceneThemeContextProvider: React.FC<ISceneThemeContextProviderProps
         objectColorOptions?.[DEFAULT_OBJECT_COLOR_INDEX]?.color ||
         '';
     const objectColor =
-        initialState?.objectColor ||
-        objectColorOptions?.find((x) => x.color === objectColorKey) ||
-        DefaultViewerModeObjectColor;
-
+        initialState?.objectColor || objectStyle === ViewerObjectStyle.Default // use default mode for default style so we get model's built in styles
+            ? DefaultViewerModeObjectColor
+            : objectColorOptions?.find((x) => x.color === objectColorKey) ||
+              DefaultViewerModeObjectColor;
     const defaultState: ISceneThemeContextState = {
         sceneBackground: sceneBackground,
         sceneBackgroundOptions: backgroundOptions,
