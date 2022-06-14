@@ -8,6 +8,7 @@ import {
 
 export interface IBehaviorFormContextProviderProps {
     behaviorToEdit: IBehavior;
+    behaviorSelectedLayerIds: string[];
 }
 
 /**
@@ -23,6 +24,7 @@ export interface IBehaviorFormContext {
  */
 export interface IBehaviorFormContextState {
     behaviorToEdit: IBehavior | null;
+    behaviorSelectedLayerIds: string[];
     isDirty: boolean;
 }
 
@@ -53,10 +55,10 @@ export enum BehaviorFormContextActionType {
     /** initializes the behavior to a "new behavior" state */
     FORM_BEHAVIOR_INITIALIZE = 'FORM_BEHAVIOR_INITIALIZE',
 
-    // /** add or update a popover visual */
-    // FORM_BEHAVIOR_POPOVER_VISUAL_ADD_OR_UPDATE = 'FORM_BEHAVIOR_POPOVER_VISUAL_ADD_OR_UPDATE',
-    // /** remove a popover visual */
-    // FORM_BEHAVIOR_POPOVER_VISUAL_REMOVE = 'FORM_BEHAVIOR_POPOVER_VISUAL_REMOVE',
+    /** sets the selected layer ids that the behavior should be included in */
+    FORM_BEHAVIOR_LAYERS_ADD = 'FORM_BEHAVIOR_LAYERS_ADD',
+    FORM_BEHAVIOR_LAYERS_REMOVE = 'FORM_BEHAVIOR_LAYERS_REMOVE',
+
     /** reverts all changes to the behavior back to it's initial state */
     FORM_BEHAVIOR_RESET = 'FORM_BEHAVIOR_RESET',
     /** Add or update a status visual */
@@ -103,21 +105,22 @@ export type BehaviorFormContextAction =
           type: BehaviorFormContextActionType.FORM_BEHAVIOR_DISPLAY_NAME_SET;
           payload: { name: string };
       }
-    // | {
-    //       type: BehaviorFormContextActionType.FORM_BEHAVIOR_ID_SET;
-    //       payload: { id: string };
-    //   }
     | {
           type: BehaviorFormContextActionType.FORM_BEHAVIOR_INITIALIZE;
       }
-    // POPOVER
-    // | {
-    //       type: BehaviorFormContextActionType.FORM_BEHAVIOR_POPOVER_VISUAL_ADD_OR_UPDATE;
-    //       payload: { visual: IPopoverVisual };
-    //   }
-    // | {
-    //       type: BehaviorFormContextActionType.FORM_BEHAVIOR_POPOVER_VISUAL_REMOVE;
-    //   }
+    // BEHAVIOR LAYERS
+    | {
+          type: BehaviorFormContextActionType.FORM_BEHAVIOR_LAYERS_ADD;
+          payload: {
+              layerId: string;
+          };
+      }
+    | {
+          type: BehaviorFormContextActionType.FORM_BEHAVIOR_LAYERS_REMOVE;
+          payload: {
+              layerId: string;
+          };
+      }
     // BEHAVIOR OPERATIONS
     | {
           type: BehaviorFormContextActionType.FORM_BEHAVIOR_RESET;

@@ -122,13 +122,6 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
         setSelectedBehaviorPivotKey
     ] = useState<BehaviorPivot>(BehaviorPivot.elements);
 
-    const [selectedLayerIds, setSelectedLayerIds] = useState(
-        ViewerConfigUtility.getActiveLayersForBehavior(
-            config,
-            behaviorFormState.behaviorToEdit.id
-        )
-    );
-
     useEffect(() => {
         const selectedElements = [];
 
@@ -242,27 +235,49 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
         },
         [setSelectedBehaviorPivotKey, selectedBehaviorPivotKey]
     );
+    const onLayerSelected = useCallback(
+        (layerId: string) => {
+            behaviorFormDispatch({
+                type: BehaviorFormContextActionType.FORM_BEHAVIOR_LAYERS_ADD,
+                payload: {
+                    layerId: layerId
+                }
+            });
+        },
+        [behaviorFormDispatch]
+    );
+    const onLayerUnselected = useCallback(
+        (layerId: string) => {
+            behaviorFormDispatch({
+                type: BehaviorFormContextActionType.FORM_BEHAVIOR_LAYERS_REMOVE,
+                payload: {
+                    layerId: layerId
+                }
+            });
+        },
+        [behaviorFormDispatch]
+    );
 
     const onSaveClick = useCallback(async () => {
         await onBehaviorSave(
             config,
             behaviorFormState.behaviorToEdit,
             builderMode as BehaviorSaveMode,
-            selectedLayerIds,
+            behaviorFormState.behaviorSelectedLayerIds,
             selectedElements,
             removedElements
         );
         onBehaviorBackClick();
         setSelectedElements([]);
     }, [
-        onBehaviorSave,
-        config,
+        behaviorFormState.behaviorSelectedLayerIds,
         behaviorFormState.behaviorToEdit,
         builderMode,
-        selectedLayerIds,
-        selectedElements,
-        removedElements,
+        config,
         onBehaviorBackClick,
+        onBehaviorSave,
+        removedElements,
+        selectedElements,
         setSelectedElements
     ]);
 
@@ -370,8 +385,11 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                                     behaviorId={
                                         behaviorFormState.behaviorToEdit.id
                                     }
-                                    selectedLayerIds={selectedLayerIds}
-                                    setSelectedLayerIds={setSelectedLayerIds}
+                                    selectedLayerIds={
+                                        behaviorFormState.behaviorSelectedLayerIds
+                                    }
+                                    onLayerSelected={onLayerSelected}
+                                    onLayerUnselected={onLayerUnselected}
                                 />
                             </Stack>
                         </div>
@@ -548,9 +566,17 @@ const BehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
     onElementClick,
     onRemoveElement
 }) => {
-    const { state } = useContext(SceneBuilderContext);
+    const { config, state } = useContext(SceneBuilderContext);
+
+    const selectedLayerIds = ViewerConfigUtility.getActiveLayersForBehavior(
+        config,
+        state.selectedBehavior.id
+    );
     return (
-        <BehaviorFormContextProvider behaviorToEdit={state.selectedBehavior}>
+        <BehaviorFormContextProvider
+            behaviorToEdit={state.selectedBehavior}
+            behaviorSelectedLayerIds={selectedLayerIds}
+        >
             <SceneBehaviorsForm
                 behaviors={behaviors}
                 elements={elements}

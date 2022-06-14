@@ -39,7 +39,7 @@ export const BehaviorFormContextReducer: (
     (draft: IBehaviorFormContextState, action: BehaviorFormContextAction) => {
         logDebugConsole(
             'info',
-            `Updating BehaviorForm context ${action.type} with payload: {behavior}`,
+            `Updating BehaviorForm context ${action.type} with: {payload, behavior}`,
             (action as any).payload, // ignore that payload doesn't always come since this is just a log
             current(draft.behaviorToEdit)
         );
@@ -97,6 +97,23 @@ export const BehaviorFormContextReducer: (
             }
             case BehaviorFormContextActionType.FORM_BEHAVIOR_INITIALIZE: {
                 draft.behaviorToEdit = CreateNewBehavior();
+                break;
+            }
+            case BehaviorFormContextActionType.FORM_BEHAVIOR_LAYERS_ADD: {
+                AddOrUpdateListItemByFilter(
+                    draft.behaviorSelectedLayerIds,
+                    action.payload.layerId,
+                    () => false,
+                    logDebugConsole
+                );
+                break;
+            }
+            case BehaviorFormContextActionType.FORM_BEHAVIOR_LAYERS_REMOVE: {
+                RemoveItemsFromListByFilter(
+                    draft.behaviorSelectedLayerIds,
+                    (x) => x === action.payload.layerId,
+                    logDebugConsole
+                );
                 break;
             }
             case BehaviorFormContextActionType.FORM_BEHAVIOR_RESET: {
@@ -204,10 +221,11 @@ export const BehaviorFormContextProvider: React.FC<IBehaviorFormContextProviderP
         return <>{children}</>;
     }
 
-    const { behaviorToEdit } = props;
+    const { behaviorToEdit, behaviorSelectedLayerIds } = props;
     initialBehavior = behaviorToEdit;
     const defaultState: IBehaviorFormContextState = {
         behaviorToEdit: behaviorToEdit,
+        behaviorSelectedLayerIds: behaviorSelectedLayerIds,
         isDirty: false
     };
 
