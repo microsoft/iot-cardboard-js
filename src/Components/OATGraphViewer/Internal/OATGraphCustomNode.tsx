@@ -116,7 +116,6 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
     };
 
     const onIdChange = (evt) => {
-        console.log('evt.keyCode', evt.keyCode);
         if (evt.target.value.length <= OATIdLengthLimit) {
             setIdLengthError(null);
             if (DTMIRegex.test(evt.target.value)) {
