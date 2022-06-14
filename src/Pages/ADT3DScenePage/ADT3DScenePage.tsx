@@ -54,6 +54,7 @@ import { getStyles } from './ADT3DScenePage.styles';
 import { Stack } from '@fluentui/react';
 import DeeplinkFlyout from '../../Components/DeeplinkFlyout/DeeplinkFlyout';
 import ViewerConfigUtility from '../../Models/Classes/ViewerConfigUtility';
+import { SceneThemeContextProvider } from '../../Models/Context';
 import { DOCUMENTATION_LINKS } from '../../Models/Constants/Constants';
 
 export const ADT3DScenePageContext = createContext<IADT3DScenePageContext>(
@@ -82,7 +83,6 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
     enableTwinPropertyInspectorPatchMode = false
 }) => {
     const { t } = useTranslation();
-    const customStyles = getStyles();
     const errorCallbackSetRef = useRef<boolean>(false);
     const [isDialogHidden, setIsDialogHidden] = useState<boolean>(true);
     const { deeplinkDispatch, deeplinkState } = useDeeplinkContext();
@@ -90,6 +90,11 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
     const [state, dispatch] = useReducer(
         ADT3DScenePageReducer,
         defaultADT3DScenePageState
+    );
+
+    const customStyles = getStyles(
+        deeplinkState.mode === ADT3DScenePageModes.BuildScene &&
+            state.currentStep === ADT3DScenePageSteps.Scene
     );
 
     const getCorsPropertiesAdapterData = useAdapter({
@@ -651,7 +656,9 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = (props) => {
                 storageUrl: adapter.getBlobContainerURL()
             }}
         >
-            <ADT3DScenePageBase {...props} />
+            <SceneThemeContextProvider>
+                <ADT3DScenePageBase {...props} />
+            </SceneThemeContextProvider>
         </DeeplinkContextProvider>
     );
 };

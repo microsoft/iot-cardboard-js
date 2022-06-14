@@ -7,3 +7,6 @@ export {
 
 export { ConsumerDeeplinkContext } from './ConsumerDeeplinkContext/ConsumerDeeplinkContext';
 export { IConsumerDeeplinkContextProviderProps } from './ConsumerDeeplinkContext/ConsumerDeeplinkContext.types';
+
+export { SceneThemeContextProvider } from './SceneThemeContext/SceneThemeContext';
+export { ISceneThemeContextProviderProps } from './SceneThemeContext/SceneThemeContext.types';

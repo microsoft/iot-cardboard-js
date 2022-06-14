@@ -152,7 +152,7 @@ function SceneView(props: ISceneViewProps, ref) {
         onCameraMove,
         onBadgeGroupHover,
         showMeshesOnHover,
-        objectColors,
+        objectColor,
         zoomToMeshIds,
         unzoomedMeshOpacity,
         onSceneLoaded,
@@ -372,10 +372,15 @@ function SceneView(props: ISceneViewProps, ref) {
                         );
 
                         camera.attachControl(canvas, false);
-                        camera.lowerRadiusLimit = 0;
                         cameraRef.current = camera;
                         cameraRef.current.zoomOn(meshes, true);
                         cameraRef.current.radius = radius;
+                        cameraRef.current.lowerRadiusLimit = 0;
+                        // set upperRadiusLimit to be greater than the starting radius to allow the user to zoom out if they wish
+                        cameraRef.current.upperRadiusLimit = radius * 2;
+                        // set the maxZ of the camera to be higher than the upperRadiusLimit to ensure it will not clip when zoomed out
+                        cameraRef.current.maxZ =
+                            cameraRef.current.upperRadiusLimit * 2;
                         cameraRef.current.wheelPrecision =
                             (3 * 40) / bbox.boundingSphere.radius;
 
@@ -440,10 +445,10 @@ function SceneView(props: ISceneViewProps, ref) {
     };
 
     useEffect(() => {
-        if (objectColors) {
-            setCurrentObjectColor(objectColors);
+        if (objectColor) {
+            setCurrentObjectColor(objectColor);
         }
-    }, [objectColors]);
+    }, [objectColor]);
 
     const restoreMeshMaterials = () => {
         if (sceneRef.current?.meshes?.length && !isLoading) {
@@ -739,7 +744,7 @@ function SceneView(props: ISceneViewProps, ref) {
                     baseColor,
                     reflectionTexture.current,
                     currentObjectColor.lightingStyle,
-                    backgroundColorRef.current.objectLuminanceRatio || 1
+                    backgroundColorRef.current?.objectLuminanceRatio || 1
                 );
 
                 shaderMaterial.current = material;
@@ -783,7 +788,7 @@ function SceneView(props: ISceneViewProps, ref) {
             SetWireframe(hovMaterial.current, !!isWireframe);
             SetWireframe(coloredHovMaterial.current, !!isWireframe);
         }
-    }, [isWireframe, objectColors]);
+    }, [isWireframe, objectColor]);
 
     // This is really our componentDidMount/componentWillUnmount stuff
     useEffect(() => {

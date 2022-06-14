@@ -53,6 +53,7 @@ import {
 import { ADT3DScenePageModes, BehaviorModalMode } from '../../Models/Constants';
 import FloatingScenePageModeToggle from '../../Pages/ADT3DScenePage/Internal/FloatingScenePageModeToggle';
 import DeeplinkFlyout from '../DeeplinkFlyout/DeeplinkFlyout';
+import { SceneThemeContextProvider } from '../../Models/Context';
 import SceneBreadcrumbFactory from '../SceneBreadcrumb/SceneBreadcrumbFactory';
 
 const getClassNames = classNamesFunction<
@@ -297,11 +298,23 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
         unlayeredBehaviorsPresent
     ]);
 
+    // this needs to run when sceneId is changed to ensure the correct layers are displayed
     useEffect(() => {
-        if (selectedLayerIds) {
-            setSelectedLayerIds(selectedLayerIds, true);
+        // only set layers if selectedLayerIds has been passed as a prop
+        if (selectedLayerIds !== undefined) {
+            if (selectedLayerIds) {
+                setSelectedLayerIds(selectedLayerIds, true);
+            } else {
+                // if layers are null set all layers as selected
+                const layers = [
+                    ...(unlayeredBehaviorsPresent ? [DEFAULT_LAYER_ID] : []),
+                    ...layersInScene.map((lis) => lis.id)
+                ];
+
+                setSelectedLayerIds(layers, true);
+            }
         }
-    }, [selectedLayerIds]);
+    }, [selectedLayerIds, sceneId]);
 
     const setSelectedElementId = useCallback(
         (elementId: string) => {
@@ -724,7 +737,9 @@ const hasPropertyInspectorAdapter = (
 const ADT3DViewer: React.FC<IADT3DViewerProps> = (props) => {
     return (
         <DeeplinkContextProvider>
-            <ADT3DViewerBase {...props} />
+            <SceneThemeContextProvider>
+                <ADT3DViewerBase {...props} />
+            </SceneThemeContextProvider>
         </DeeplinkContextProvider>
     );
 };
