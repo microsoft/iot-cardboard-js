@@ -26,7 +26,6 @@ const CardboardListCallout = <T extends unknown>({
     calloutProps,
     calloutTarget,
     className,
-    dataButtonTestId,
     description,
     directionalHint,
     filterPlaceholder,
@@ -40,8 +39,10 @@ const CardboardListCallout = <T extends unknown>({
     noResultText,
     onDismiss,
     primaryActionProps,
+    title,
+    dataButtonTestId,
     searchBoxDataTestId,
-    title
+    focusTrapTestId
 }: ICardboardListCalloutProps<T>) => {
     const { t } = useTranslation();
     const [searchText, setSearchText] = useState('');
@@ -71,6 +72,9 @@ const CardboardListCallout = <T extends unknown>({
     const calloutStyles = getCardboardListCalloutStyles(theme);
     return (
         <FocusTrapCallout
+            {...(focusTrapTestId && {
+                'data-testid': focusTrapTestId
+            })}
             className={className}
             {...calloutProps}
             focusTrapProps={{
@@ -124,12 +128,14 @@ const CardboardListCallout = <T extends unknown>({
 
                 {primaryActionProps && (
                     <PrimaryButton
-                        data-testid={dataButtonTestId}
+                        {...(dataButtonTestId && {
+                            'data-testid': dataButtonTestId
+                        })}
                         styles={cardboardListCalloutPrimaryButtonStyles}
                         onClick={() =>
                             primaryActionProps.onPrimaryActionClick(searchText)
                         }
-                        disabled={primaryActionProps.disabled}
+                        disabled={primaryActionProps.disabled ? true : false}
                     >
                         {primaryActionProps.primaryActionLabel}
                     </PrimaryButton>
