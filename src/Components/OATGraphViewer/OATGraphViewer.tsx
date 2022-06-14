@@ -298,8 +298,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
         const nodesData = elements.reduce((collection, element) => {
             if (!element.source) {
                 collection.push({
-                    id: element.id,
-                    position: element.position
+                    id: element.id
                 });
             }
             return collection;
@@ -325,18 +324,23 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                     .id(function (d, i) {
                         return d.id;
                     })
-                    .distance(200)
-                    .strength(150)
+                    .distance(500)
+                    .strength(1)
             )
             .force('x', forceX())
             .force('y', forceY())
             .force('center', forceCenter())
             .on('end', function () {
                 alert('ended');
-                alert(simulation);
-            })
-            .on('tick', function () {
-                alert(simulation);
+                elements.map((element) => {
+                    const node = nodes.find(
+                        (node) => !element.source && node.id === element.id
+                    );
+                    if (node) {
+                        element.position.x = node.x;
+                        element.position.y = node.y;
+                    }
+                });
             });
 
         return elements.map((el) => {
