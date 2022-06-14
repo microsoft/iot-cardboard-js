@@ -51,7 +51,6 @@ import { ElementData } from './Internal/Classes/ElementData';
 import { ElementEdge } from './Internal/Classes/ElementEdge';
 import { ElementEdgeData } from './Internal/Classes/ElementEdgeData';
 import { deepCopy } from '../../Models/Services/Utils';
-import { ModelTypes } from '../../Models/Constants';
 
 const contextClassBase = 'dtmi:dtdl:context;2';
 const versionClassBase = '1';
@@ -1038,7 +1037,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
         setCurrentHovered(null);
     };
 
-    const onBackgroundClick = (evt) => {
+    const onBackgroundClick = () => {
         dispatch({ type: SET_OAT_PROPERTY_EDITOR_MODEL, payload: null });
     };
 

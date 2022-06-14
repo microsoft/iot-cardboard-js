@@ -47,8 +47,7 @@ export const PropertyList = ({
     currentPropertyIndex,
     dispatch,
     state,
-    propertyList,
-    editorColumnBoundingRectHeight
+    propertyList
 }: IPropertyList) => {
     const { t } = useTranslation();
     const propertyInspectorStyles = getPropertyInspectorStyles();
