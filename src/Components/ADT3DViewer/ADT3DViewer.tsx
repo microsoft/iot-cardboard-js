@@ -298,6 +298,7 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
         unlayeredBehaviorsPresent
     ]);
 
+    // this needs to run when sceneId is changed to ensure the correct layers are displayed
     useEffect(() => {
         // only set layers if selectedLayerIds has been passed as a prop
         if (selectedLayerIds !== undefined) {
@@ -313,7 +314,7 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
                 setSelectedLayerIds(layers, true);
             }
         }
-    }, [selectedLayerIds]);
+    }, [selectedLayerIds, sceneId]);
 
     const setSelectedElementId = useCallback(
         (elementId: string) => {

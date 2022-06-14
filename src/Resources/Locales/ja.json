@@ -511,7 +511,6 @@
     "twinAlias": {
       "title": "ツインエイリアス",
       "calloutDescription": "選択した要素の双子のプロパティの和集合",
-      "aliasedTwin": "別名ツイン",
       "add": "ツインを追加する",
       "new": "新しい双子",
       "edit": "双子の編集",
@@ -540,7 +539,7 @@
       "errors": {
         "twinAliasAlreadyExists": "同じ名前のツインエイリアスが既に存在するため、代わりに追加することを検討してください。",
         "alphanumericOnly": "ツイン エイリアスには英数字のみを含める必要があります。",
-        "noNumberPrefix": "ツイン エイリアスは数字で始まってはなりません。"
+        "noNumberPrefix": "ツイン名は数字で始まってはなりません"
       }
     },
     "actions": "アクション"

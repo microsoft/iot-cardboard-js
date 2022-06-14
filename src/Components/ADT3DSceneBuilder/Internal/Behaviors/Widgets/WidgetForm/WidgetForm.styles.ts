@@ -5,6 +5,7 @@ import {
     IStyle,
     Theme
 } from '@fluentui/react';
+import { leftPanelBuilderBlock } from '../../../../../../Resources/Styles/BaseStyles';
 
 const classPrefix = 'widget-form';
 const classNames = {
@@ -23,6 +24,7 @@ export const getWidgetFormStyles = memoizeFunction((theme: Theme) => {
         ],
         widgetFormContents: [
             classNames.widgetFormContents,
+            leftPanelBuilderBlock,
             {
                 overflowY: 'auto',
                 overflowX: 'hidden',

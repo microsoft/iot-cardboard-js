@@ -1,4 +1,5 @@
 import { FontSizes } from '@fluentui/react';
+import { leftPanelBuilderBlock } from '../../../Resources/Styles/BaseStyles';
 import {
     ILeftPanelBuilderHeaderStyleProps,
     ILeftPanelBuilderHeaderStyles
@@ -17,7 +18,7 @@ export const getStyles = (
 ): ILeftPanelBuilderHeaderStyles => {
     const { theme } = props;
     return {
-        root: [classNames.root],
+        root: [classNames.root, leftPanelBuilderBlock],
         header: [
             classNames.header,
             {

@@ -511,7 +511,6 @@
     "twinAlias": {
       "title": "Tvillingalias",
       "calloutDescription": "Föreningen av tvillingegenskaper hos utvalda element",
-      "aliasedTwin": "Aliased tvilling",
       "add": "Lägg till tvilling",
       "new": "Ny tvilling",
       "edit": "Redigera tvilling",
@@ -540,7 +539,7 @@
       "errors": {
         "twinAliasAlreadyExists": "Tvillingalias med samma namn finns redan, överväg att lägga till det i stället.",
         "alphanumericOnly": "Tvillingalias får endast innehålla alfanumeriska tecken",
-        "noNumberPrefix": "Tvillingalias får inte börja med ett tal"
+        "noNumberPrefix": "Tvillingnamnet får inte börja med ett nummer"
       }
     },
     "actions": "Åtgärder"

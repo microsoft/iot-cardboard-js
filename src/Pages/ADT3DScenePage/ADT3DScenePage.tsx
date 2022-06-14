@@ -83,7 +83,6 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
     enableTwinPropertyInspectorPatchMode = false
 }) => {
     const { t } = useTranslation();
-    const customStyles = getStyles();
     const errorCallbackSetRef = useRef<boolean>(false);
     const [isDialogHidden, setIsDialogHidden] = useState<boolean>(true);
     const { deeplinkDispatch, deeplinkState } = useDeeplinkContext();
@@ -91,6 +90,11 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
     const [state, dispatch] = useReducer(
         ADT3DScenePageReducer,
         defaultADT3DScenePageState
+    );
+
+    const customStyles = getStyles(
+        deeplinkState.mode === ADT3DScenePageModes.BuildScene &&
+            state.currentStep === ADT3DScenePageSteps.Scene
     );
 
     const getCorsPropertiesAdapterData = useAdapter({

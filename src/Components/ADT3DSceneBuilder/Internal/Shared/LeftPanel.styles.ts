@@ -9,6 +9,7 @@ import {
     IButtonStyles
 } from '@fluentui/react';
 import { CardboardClassNamePrefix } from '../../../../Models/Constants';
+import { leftPanelBuilderBlock } from '../../../../Resources/Styles/BaseStyles';
 
 const classPrefix = CardboardClassNamePrefix + '-left-panel';
 const classNames = {
@@ -18,10 +19,15 @@ const classNames = {
     actionButton: `${classPrefix}-action-button`,
     text: `${classPrefix}-text`,
     section: `${classPrefix}-section`,
-    previewContainer: `${classPrefix}-preview-container`
+    previewContainer: `${classPrefix}-preview-container`,
+    paddedLeftPanelBlock: `${classPrefix}-padded-pivot-tab-contents`
 };
 export const getLeftPanelStyles = memoizeFunction((theme: Theme) => {
     return mergeStyleSets({
+        paddedLeftPanelBlock: [
+            classNames.paddedLeftPanelBlock,
+            leftPanelBuilderBlock
+        ],
         noDataText: [
             classNames.noDataText,
             {
@@ -84,7 +90,9 @@ export const getSeparatorStyles = memoizeFunction(
 export const leftPanelPivotStyles: Partial<IPivotStyles> = {
     root: {
         marginLeft: -8,
-        marginBottom: 8
+        marginBottom: 8,
+        paddingLeft: 16,
+        paddingRight: 8
     }
 };
 export const getActionButtonStyles = memoizeFunction(

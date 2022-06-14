@@ -511,7 +511,6 @@
     "twinAlias": {
       "title": "Iker alias",
       "calloutDescription": "A kiválasztott elemek ikertulajdonságok uniója",
-      "aliasedTwin": "Aliasozott ikerpár",
       "add": "Iker hozzáadása",
       "new": "Új ikerpár",
       "edit": "Iker szerkesztése",
@@ -540,7 +539,7 @@
       "errors": {
         "twinAliasAlreadyExists": "Az azonos nevű ikeralias már létezik, fontolja meg a hozzáadását.",
         "alphanumericOnly": "Az iker alias csak alfanumerikus karaktereket tartalmazhat",
-        "noNumberPrefix": "Az iker alias nem kezdődhet számmal"
+        "noNumberPrefix": "Az ikernév nem kezdődhet számmal"
       }
     },
     "actions": "Műveletek"

@@ -143,12 +143,16 @@ const TwinsTab: React.FC<ITwinsTabProps> = ({
         [setBehaviorToEdit]
     );
 
-    const onCreateTwinAlias = useCallback(() => {
-        setBehaviorTwinAliasFormInfo({
-            twinAlias: null,
-            mode: TwinAliasFormMode.CreateTwinAlias
-        });
-    }, [setBehaviorTwinAliasFormInfo]);
+    const onCreateTwinAlias = useCallback(
+        (searchText: string) => {
+            setBehaviorTwinAliasFormInfo({
+                twinAlias: null,
+                mode: TwinAliasFormMode.CreateTwinAlias,
+                ...(searchText && { aliasToAutoPopulate: searchText })
+            });
+        },
+        [setBehaviorTwinAliasFormInfo]
+    );
 
     // when behavior to edit or selected elements (to keep track of element to twin id mappings) changes in Elements tab, update the twin alias list
     useEffect(() => {
@@ -232,7 +236,10 @@ const TwinsTab: React.FC<ITwinsTabProps> = ({
     const commonPanelStyles = getLeftPanelStyles(theme);
     const actionButtonStyles = getActionButtonStyles(theme);
     return (
-        <Stack tokens={{ childrenGap: 12 }}>
+        <Stack
+            tokens={{ childrenGap: 12 }}
+            className={commonPanelStyles.paddedLeftPanelBlock}
+        >
             <Text className={commonPanelStyles.text}>
                 {t('3dSceneBuilder.twinAlias.tabDescriptionPart1')}
             </Text>
@@ -259,7 +266,6 @@ const TwinsTab: React.FC<ITwinsTabProps> = ({
                 data-testid={'twinsTab-addTwinAlias'}
                 onClick={toggleIsAddTwinAliasCalloutVisible}
             />
-            {/* </div> */}
             {isPrimaryTwinPropertiesCalloutVisible && (
                 <CardboardListCallout
                     listType="Complex"
