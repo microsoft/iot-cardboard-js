@@ -313,7 +313,7 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
                 setSelectedLayerIds(layers, true);
             }
         }
-    }, [selectedLayerIds]);
+    }, [selectedLayerIds, sceneId]);
 
     const setSelectedElementId = useCallback(
         (elementId: string) => {
