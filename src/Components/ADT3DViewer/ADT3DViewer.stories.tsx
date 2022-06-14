@@ -363,18 +363,21 @@ export const MockWithSelection = (_args, { globals: { theme, locale } }) => {
 export const LayerSelect = (_args, { globals: { theme, locale } }) => {
     const scenesConfig = mockVConfig as I3DScenesConfig;
     const [selectedLayerIds, setSelectedLayerIds] = useState<string[]>(null);
+    const [sceneId, setSceneId] = useState<string>(
+        'f7053e7537048e03be4d1e6f8f93aa8a'
+    );
 
     return (
         <div style={{ width: '100%', height: '600px' }}>
             <Dropdown
                 onChange={(_event, option) => setSelectedLayerIds(option.data)}
                 style={{ width: '200px' }}
-                placeholder="Select layer..."
                 options={[
                     {
                         data: null,
                         text: 'All',
-                        key: 'all'
+                        key: 'all',
+                        selected: true
                     },
                     {
                         data: [],
@@ -401,6 +404,23 @@ export const LayerSelect = (_args, { globals: { theme, locale } }) => {
                     }
                 ]}
             />
+            <Dropdown
+                onChange={(_event, option) => setSceneId(option.data)}
+                style={{ width: '200px' }}
+                options={[
+                    {
+                        data: 'f7053e7537048e03be4d1e6f8f93aa8a',
+                        text: 'Scene 1',
+                        key: 'f7053e7537048e03be4d1e6f8f93aa8a',
+                        selected: true
+                    },
+                    {
+                        data: 'f7053e7537048e03be4d1e6f8f93aa8b',
+                        text: 'Scene 2',
+                        key: 'f7053e7537048e03be4d1e6f8f93aa8b'
+                    }
+                ]}
+            />
             <ADT3DViewer
                 title="3D Viewer (Mock Data)"
                 theme={theme}
@@ -409,7 +429,7 @@ export const LayerSelect = (_args, { globals: { theme, locale } }) => {
                 adapter={new MockAdapter()}
                 scenesConfig={scenesConfig}
                 pollingInterval={10000}
-                sceneId={mockSceneId}
+                sceneId={sceneId}
                 connectionLineColor="#000"
             />
         </div>
