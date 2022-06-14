@@ -56,7 +56,8 @@ import {
     forceLink,
     forceX,
     forceY,
-    forceCenter
+    forceCenter,
+    forceCollide
 } from 'd3-force';
 
 const contextClassBase = 'dtmi:dtdl:context;2';
@@ -279,32 +280,34 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     }:`;
 
     const applyLayoutToElements = (elements, direction = 'TB') => {
-        const isHorizontal = direction === 'LR';
-        dagreGraph.setGraph({ rankdir: direction });
+        // const isHorizontal = direction === 'LR';
+        // dagreGraph.setGraph({ rankdir: direction });
 
-        elements.forEach((el) => {
-            if (isNode(el)) {
-                dagreGraph.setNode(el.id, {
-                    width: nodeWidth,
-                    height: nodeHeight
-                });
-            } else {
-                dagreGraph.setEdge(el.source, el.target);
-            }
-        });
+        // elements.forEach((el) => {
+        //     if (isNode(el)) {
+        //         dagreGraph.setNode(el.id, {
+        //             width: nodeWidth,
+        //             height: nodeHeight
+        //         });
+        //     } else {
+        //         dagreGraph.setEdge(el.source, el.target);
+        //     }
+        // });
 
-        dagre.layout(dagreGraph);
+        // dagre.layout(dagreGraph);
 
-        const nodesData = elements.reduce((collection, element) => {
+        const nodes = elements.reduce((collection, element) => {
             if (!element.source) {
                 collection.push({
-                    id: element.id
+                    id: element.id,
+                    x: element.position.x + nodeWidth / 2,
+                    y: element.position.y + nodeHeight / 2
                 });
             }
             return collection;
         }, []);
 
-        const linksData = elements.reduce((collection, element) => {
+        const links = elements.reduce((collection, element) => {
             if (element.source) {
                 collection.push({
                     source: element.source,
@@ -314,54 +317,62 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
             return collection;
         }, []);
 
-        const links = linksData.map((d) => Object.assign({}, d));
-        const nodes = nodesData.map((d) => Object.assign({}, d));
-
-        const simulation = forceSimulation(nodes)
+        forceSimulation(nodes)
             .force(
                 'link',
                 forceLink(links)
-                    .id(function (d, i) {
-                        return d.id;
-                    })
-                    .distance(500)
+                    .id((d) => d.id)
+                    .distance(nodeWidth)
+                    .strength(1)
+            )
+            .force(
+                'collide',
+                forceCollide()
+                    .radius(nodeWidth / 2)
                     .strength(1)
             )
             .force('x', forceX())
             .force('y', forceY())
             .force('center', forceCenter())
-            .on('end', function () {
-                alert('ended');
-                elements.map((element) => {
+            .on('end', () => {
+                const newElements = elements.map((element) => {
                     const node = nodes.find(
                         (node) => !element.source && node.id === element.id
                     );
+
+                    const newElement = { ...element };
                     if (node) {
-                        element.position.x = node.x;
-                        element.position.y = node.y;
+                        newElement.position = {
+                            x: node.x - nodeWidth / 2 + Math.random() / 1000,
+                            y: node.y - nodeHeight / 2
+                        };
                     }
+
+                    return newElement;
                 });
+
+                setElements(newElements);
             });
 
-        return elements.map((el) => {
-            if (isNode(el)) {
-                const nodeWithPosition = dagreGraph.node(el.id);
-                el.targetPosition = isHorizontal ? 'left' : 'top';
-                el.sourcePosition = isHorizontal ? 'right' : 'bottom';
+        // return elements.map((el) => {
+        //     if (isNode(el)) {
+        //         const nodeWithPosition = dagreGraph.node(el.id);
+        //         el.targetPosition = isHorizontal ? 'left' : 'top';
+        //         el.sourcePosition = isHorizontal ? 'right' : 'bottom';
 
-                el.position = {
-                    x:
-                        nodeWithPosition.x -
-                        nodeWidth / 2 +
-                        // unfortunately we need this little hack to pass a slightly different position
-                        // to notify react flow about the change. Its required for V9 only and migth be removed later.
-                        Math.random() / 1000,
-                    y: nodeWithPosition.y - nodeHeight / 2
-                };
-            }
+        //         el.position = {
+        //             x:
+        //                 nodeWithPosition.x -
+        //                 nodeWidth / 2 +
+        //                 // unfortunately we need this little hack to pass a slightly different position
+        //                 // to notify react flow about the change. Its required for V9 only and migth be removed later.
+        //                 Math.random() / 1000,
+        //             y: nodeWithPosition.y - nodeHeight / 2
+        //         };
+        //     }
 
-            return el;
-        });
+        //     return el;
+        // });
     };
 
     const getNextRelationship;
@@ -540,7 +551,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
             const positionedElements = applyLayoutToElements([
                 ...importModelsList
             ]);
-            setElements(positionedElements);
+            // setElements(positionedElements);
         }
     }, [importModels]);
 
@@ -693,7 +704,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                 ...elements,
                 newNode
             ]);
-            setElements(positionedElements);
+            // setElements(positionedElements);
         }
     };
 
