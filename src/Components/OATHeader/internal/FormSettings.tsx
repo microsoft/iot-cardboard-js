@@ -11,7 +11,6 @@ import { useTranslation } from 'react-i18next';
 import { IAction } from '../../../Models/Constants/Interfaces';
 import { SET_OAT_NAMESPACE } from '../../../Models/Constants/ActionTypes';
 import { getHeaderStyles } from '../OATHeader.styles';
-import { DTDLNameRegex } from '../../../Models/Constants/Constants';
 import { IOATEditorState } from '../../../Pages/OATEditorPage/OATEditorPage.types';
 
 interface IModal {

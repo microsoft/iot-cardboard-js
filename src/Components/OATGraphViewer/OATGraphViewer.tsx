@@ -1034,7 +1034,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
         setCurrentHovered(node);
     };
 
-    const onNodeMouseLeave = (evt) => {
+    const onNodeMouseLeave = () => {
         setCurrentHovered(null);
     };
 

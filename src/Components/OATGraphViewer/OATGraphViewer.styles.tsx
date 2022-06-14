@@ -1,11 +1,4 @@
-import {
-    IStyle,
-    mergeStyleSets,
-    useTheme,
-    FontSizes,
-    IRawStyle,
-    mergeStyles
-} from '@fluentui/react';
+import { IStyle, mergeStyleSets, useTheme, FontSizes } from '@fluentui/react';
 import { CardboardClassNamePrefix } from '../../Models/Constants';
 
 const classPrefix = `${CardboardClassNamePrefix}-oat-graph-viewer`;
