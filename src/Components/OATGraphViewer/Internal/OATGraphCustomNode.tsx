@@ -26,6 +26,8 @@ import {
     OATIdLengthLimit
 } from '../../../Models/Constants/Constants';
 
+const enterKeyCode = 13;
+
 const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
     data,
     isConnectable
@@ -207,7 +209,7 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
         }
     };
 
-    const getIdErrorMessage = () => {
+    const getIdErrorMessage = () =>
         idLengthError
             ? t('OATGraphViewer.errorIdLength')
             : idValidDTMIError
@@ -215,6 +217,16 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
             : errorIdAlreadyUsed
             ? t('OATGraphViewer.errorRepeatedId')
             : '';
+
+    const handleOnKeyDownID = (keyCode) => {
+        if (keyCode === enterKeyCode) {
+            onIdBlur();
+        }
+    };
+    const handleOnKeyDownDisplayName = (keyCode) => {
+        if (keyCode === enterKeyCode) {
+            onNameBlur();
+        }
     };
 
     return (
@@ -234,31 +246,6 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
                 {data.type !== OATUntargetedRelationshipName && (
                     <>
                         <div className={graphViewerStyles.nodeContainer}>
-                            <span>{t('OATGraphViewer.name')}:</span>
-                            {!nameEditor && (
-                                <Label onDoubleClick={onNameClick}>
-                                    {getPropertyDisplayName(data)}
-                                </Label>
-                            )}
-                            {nameEditor && (
-                                <TextField
-                                    id="text"
-                                    name="text"
-                                    onChange={onNameChange}
-                                    value={nameText}
-                                    onBlur={onNameBlur}
-                                    autoFocus
-                                    errorMessage={
-                                        errorDisplayNameLength
-                                            ? t(
-                                                  'OATGraphViewer.errorDisplayNameLength'
-                                              )
-                                            : ''
-                                    }
-                                />
-                            )}
-                        </div>
-                        <div className={graphViewerStyles.nodeContainer}>
                             <span>{t('OATGraphViewer.id')}:</span>
                             {!idEditor && (
                                 <Label onDoubleClick={onIdClick}>
@@ -273,7 +260,38 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
                                     value={idText}
                                     onBlur={onIdBlur}
                                     autoFocus
+                                    onKeyDown={(evt) => {
+                                        handleOnKeyDownID(evt.keyCode);
+                                    }}
                                     errorMessage={getIdErrorMessage()}
+                                />
+                            )}
+                        </div>
+                        <div className={graphViewerStyles.nodeContainer}>
+                            <span>{t('OATGraphViewer.name')}:</span>
+                            {!nameEditor && (
+                                <Label onDoubleClick={onNameClick}>
+                                    {getPropertyDisplayName(data)}
+                                </Label>
+                            )}
+                            {nameEditor && (
+                                <TextField
+                                    id="text"
+                                    name="text"
+                                    onChange={onNameChange}
+                                    value={nameText}
+                                    onBlur={onNameBlur}
+                                    autoFocus
+                                    onKeyDown={(evt) => {
+                                        handleOnKeyDownDisplayName(evt.keyCode);
+                                    }}
+                                    errorMessage={
+                                        errorDisplayNameLength
+                                            ? t(
+                                                  'OATGraphViewer.errorDisplayNameLength'
+                                              )
+                                            : ''
+                                    }
                                 />
                             )}
                         </div>

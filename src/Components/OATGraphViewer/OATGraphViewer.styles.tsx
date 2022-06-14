@@ -36,7 +36,9 @@ const classNames = {
     graphViewerControls: `${classPrefix}-graph-viewer-controls`,
     graphViewerFiltersWrap: `${classPrefix}-graph-viewer-filters-wrap`,
     graphViewerFiltersKey: `${classPrefix}-graph-viewer-filters-key`,
-    extendCancel: `${classPrefix}-extend-cancel`
+    extendCancel: `${classPrefix}-extend-cancel`,
+    relationshipCTASection: `${classPrefix}-node-container-cta-section`,
+    relationshipNameEditorBody: `${classPrefix}-relationship-name-editor-body`
 };
 
 export const getGraphViewerStyles = () => {
@@ -101,7 +103,9 @@ export const getGraphViewerStyles = () => {
                 background: theme.palette.neutralLight,
                 border: `1px solid ${theme.semanticColors.inputBorder}`,
                 borderRadius: '5px',
-                fontSize: FontSizes.size12
+                fontSize: FontSizes.size12,
+                position: 'relative',
+                paddingRight: '20px' // Allow the close icon to have space
             } as IStyle
         ],
         handle: [classNames.handle],
@@ -151,7 +155,8 @@ export const getGraphViewerStyles = () => {
             classNames.edgeCancel,
             {
                 height: FontSizes.size12,
-                float: 'right'
+                float: 'right',
+                padding: 0
             } as IStyle
         ],
         componentPath: [
@@ -189,15 +194,26 @@ export const getGraphViewerStyles = () => {
         nodeContainer: [
             classNames.nodeContainer,
             {
+                alignItems: 'center',
                 display: 'grid',
                 gridTemplateColumns: '50px auto',
-                label: {
-                    textAlign: 'center'
-                },
                 span: {
                     padding: '5px 0px'
-                }
+                },
+                padding: '0 5px'
             } as IStyle
+        ],
+        relationshipCTASection: [
+            classNames.relationshipCTASection,
+            {
+                position: 'absolute',
+                top: '2px',
+                right: '2px'
+            } as IStyle
+        ],
+        relationshipNameEditorBody: [
+            classNames.relationshipNameEditorBody,
+            { position: 'relative' } as IStyle
         ],
         untargetedNodeContainer: [
             classNames.untargetedNodeContainer,
@@ -205,7 +221,7 @@ export const getGraphViewerStyles = () => {
                 label: {
                     overflowWrap: 'normal'
                 }
-            }
+            } as IStyle
         ],
         graphViewerControls: [
             classNames.graphViewerControls,
@@ -263,7 +279,8 @@ export const getGraphViewerStyles = () => {
         extendCancel: [
             classNames.extendCancel,
             {
-                height: FontSizes.size12
+                height: FontSizes.size12,
+                padding: 0
             } as IStyle
         ]
     });
@@ -292,7 +309,10 @@ export const getGraphViewerActionButtonStyles: IStyle = () => {
     return {
         root: {
             height: FontSizes.size12,
-            float: 'right'
+            float: 'right',
+            position: 'absolute',
+            top: '8px',
+            right: '0'
         }
     } as Partial<IStyle>;
 };

@@ -643,7 +643,9 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                     y={edgeCenterY}
                     requiredExtensions="http://www.w3.org/1999/xhtml"
                 >
-                    <body>
+                    <body
+                        className={graphViewerStyles.relationshipNameEditorBody}
+                    >
                         {data.type !== OATExtendHandleName && (
                             <TextField
                                 id="text"
@@ -657,45 +659,47 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                                 errorMessage={getNameErrorMessage()}
                             />
                         )}
-                        <ActionButton
-                            className={
-                                data.type !== OATExtendHandleName
-                                    ? graphViewerStyles.edgeCancel
-                                    : graphViewerStyles.extendCancel
-                            }
-                            onClick={onDelete}
+                        <div
+                            className={graphViewerStyles.relationshipCTASection}
                         >
-                            <Icon
-                                iconName="Cancel"
-                                styles={{
-                                    root: {
-                                        fontSize: FontSizes.size10,
-                                        color: theme.semanticColors.actionLink,
-                                        marginTop: '-35px',
-                                        marginRight: '-10px'
-                                    }
-                                }}
-                            />
-                        </ActionButton>
-                        {data.type !== OATExtendHandleName && (
                             <ActionButton
-                                className={graphViewerStyles.edgeCancel}
-                                onClick={onNameBlur}
+                                className={
+                                    data.type !== OATExtendHandleName
+                                        ? graphViewerStyles.edgeCancel
+                                        : graphViewerStyles.extendCancel
+                                }
+                                onClick={onDelete}
                             >
                                 <Icon
-                                    iconName="Save"
+                                    iconName="Cancel"
                                     styles={{
                                         root: {
                                             fontSize: FontSizes.size10,
                                             color:
-                                                theme.semanticColors.actionLink,
-                                            marginTop: '-35px',
-                                            marginRight: '-10px'
+                                                theme.semanticColors.actionLink
                                         }
                                     }}
                                 />
                             </ActionButton>
-                        )}
+                            {data.type !== OATExtendHandleName && (
+                                <ActionButton
+                                    className={graphViewerStyles.edgeCancel}
+                                    onClick={onNameBlur}
+                                >
+                                    <Icon
+                                        iconName="Save"
+                                        styles={{
+                                            root: {
+                                                fontSize: FontSizes.size10,
+                                                color:
+                                                    theme.semanticColors
+                                                        .actionLink
+                                            }
+                                        }}
+                                    />
+                                </ActionButton>
+                            )}
+                        </div>
                     </body>
                 </foreignObject>
             )}
