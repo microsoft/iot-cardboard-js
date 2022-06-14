@@ -85,8 +85,7 @@ const getGraphViewerElementsFromModels = (models, modelPositions) => {
 
     // Format models
     const modelsCopy = deepCopy(models);
-    const testRelationships = [];
-    modelsCopy.forEach((input, index) => {
+    return modelsCopy.reduce((elements, input) => {
         let relationships = [];
         let contents = [];
         input['contents'].forEach((content) => {
@@ -143,18 +142,13 @@ const getGraphViewerElementsFromModels = (models, modelPositions) => {
                     name: '',
                     displayName: ''
                 };
+                const rp = modelPositions.find((x) => x.id === id);
                 const newNode = new ElementNode(
                     id,
                     input['@type'],
                     {
-                        x:
-                            modelPositions.length > 0
-                                ? modelPositions[index].position.x
-                                : defaultNodePosition,
-                        y:
-                            modelPositions.length > 0
-                                ? modelPositions[index].position.y + 100
-                                : defaultNodePosition
+                        x: rp ? rp.position.x : defaultNodePosition,
+                        y: rp ? rp.position.y : defaultNodePosition
                     },
                     new ElementData(
                         id,
@@ -202,18 +196,14 @@ const getGraphViewerElementsFromModels = (models, modelPositions) => {
             );
             relationships = [...relationships, extendRelationship];
         }
+
+        const mp = modelPositions.find((x) => x.id === input['@id']);
         const newNode = new ElementNode(
             input['@id'],
             input['@type'],
             {
-                x:
-                    modelPositions.length > 0
-                        ? modelPositions[index].position.x
-                        : defaultNodePosition,
-                y:
-                    modelPositions.length > 0
-                        ? modelPositions[index].position.y
-                        : defaultNodePosition
+                x: mp ? mp.position.x : defaultNodePosition,
+                y: mp ? mp.position.y : defaultNodePosition
             },
             new ElementData(
                 input['@id'],
@@ -223,10 +213,9 @@ const getGraphViewerElementsFromModels = (models, modelPositions) => {
                 contextClassBase
             )
         );
-        testRelationships.push(newNode, ...relationships);
-    });
-
-    return testRelationships;
+        elements.push(newNode, ...relationships);
+        return elements;
+    }, []);
 };
 
 const nodeWidth = 300;
@@ -263,6 +252,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     const [showInheritances, setShowInheritances] = useState(true);
     const [showComponents, setShowComponents] = useState(true);
     const [rfInstance, setRfInstance] = useState(null);
+    const [currentLocation, setCurrentLocation] = useState(null);
 
     const dagreGraph = new dagre.graphlib.Graph();
     dagreGraph.setDefaultEdgeLabel(() => ({}));
@@ -308,8 +298,6 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
             return el;
         });
     };
-
-    const getNextRelationship;
 
     useEffect(() => {
         // Identifies which is the next model Id on creating new nodes and updates the Local Storage
@@ -617,6 +605,10 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
         setRfInstance(_reactFlowInstance);
     }, []);
 
+    const onMove = useCallback((flowTransform) => {
+        setCurrentLocation(flowTransform);
+    }, []);
+
     const onNewModelClick = () => {
         if (!state.modified) {
             // Create a new floating node
@@ -639,11 +631,31 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                 newNode
             ]);
             setElements(positionedElements);
+
+            // Center pane focus on the new node
+            const positionedX =
+                positionedElements[positionedElements.length - 1].position.x;
+            const positionedY =
+                positionedElements[positionedElements.length - 1].position.y;
+
+            const wrapperBoundingBox = reactFlowWrapperRef.current.getBoundingClientRect();
+
+            rfInstance.setTransform({
+                x:
+                    -positionedX * currentLocation.zoom +
+                    wrapperBoundingBox.width / 2 -
+                    nodeWidth / 2,
+                y:
+                    -positionedY * currentLocation.zoom +
+                    wrapperBoundingBox.height / 2 -
+                    nodeHeight / 2,
+                zoom: currentLocation.zoom
+            });
         }
     };
 
     const onNodeDragStop = (evt, node) => {
-        // Checks if a node is being draged into another node to create a relationship between them
+        // Checks if a node is being dragged into another node to create a relationship between them
         let targetId = '';
         const areaDistanceX = 60;
         const areaDistanceY = 30;
@@ -662,7 +674,6 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
         const targetIndex = elements.findIndex(
             (element) => element.id === targetId
         );
-        const index = elements.findIndex((element) => element.id === node.id);
         if (targetIndex >= 0) {
             const id = node.id;
             if (node.data.type === elements[targetIndex].data.type) {
@@ -705,7 +716,10 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
             }
             node.id = id;
         } else {
-            elements[index].position = node.position;
+            const index = elements.findIndex(
+                (element) => element.id === node.id
+            );
+            elements[index].position = { ...node.position };
             setElements([...elements]);
         }
     };
@@ -789,8 +803,8 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                     }
                 };
                 params.target = id;
-                params.id = `${currentNodeIdRef.current}${currentHandleIdRef.current}${id}`;
-                params.data.id = `${currentNodeIdRef.current}${currentHandleIdRef.current}${id}`;
+                params.id = id;
+                params.data.id = id;
                 params.data.type = `${OATUntargetedRelationshipName}`;
                 setElements((es) => [...addEdge(params, es), newNode]);
             }
@@ -1019,8 +1033,12 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
         setCurrentHovered(node);
     };
 
-    const onNodeMouseLeave = (evt) => {
+    const onNodeMouseLeave = () => {
         setCurrentHovered(null);
+    };
+
+    const onBackgroundClick = () => {
+        dispatch({ type: SET_OAT_PROPERTY_EDITOR_MODEL, payload: null });
     };
 
     return (
@@ -1044,6 +1062,8 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                         onNodeDragStop={onNodeDragStop}
                         onNodeMouseEnter={onNodeMouseEnter}
                         onNodeMouseLeave={onNodeMouseLeave}
+                        onPaneClick={onBackgroundClick}
+                        onMove={onMove}
                     >
                         <PrimaryButton
                             styles={buttonStyles}
@@ -1156,6 +1176,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                         <Background
                             color={theme.semanticColors.bodyBackground}
                             gap={16}
+                            onClick={onBackgroundClick}
                         />
                     </ReactFlow>
                 </ElementsContext.Provider>

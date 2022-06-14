@@ -143,35 +143,12 @@ const OATModelList = ({ elements, dispatch, modified }: OATModelListProps) => {
                     onClick={() => onSelectedClick(item['@id'])}
                 >
                     <div>
-                        <div
-                            onDoubleClick={() =>
-                                onNameClick(item['displayName'])
-                            }
-                        >
-                            {(!nameEditor ||
-                                currentNodeId.current !== item['@id']) && (
-                                <strong className={modelsStyles.strongText}>
-                                    {typeof item['displayName'] === 'string'
-                                        ? item['displayName']
-                                        : Object.values(item['displayName'])[0]}
-                                </strong>
-                            )}
-                            {nameEditor &&
-                                currentNodeId.current === item['@id'] && (
-                                    <TextField
-                                        id="text"
-                                        name="text"
-                                        onChange={onNameChange}
-                                        value={nameText}
-                                        onBlur={onNameBlur}
-                                        autoFocus
-                                    />
-                                )}
-                        </div>
                         <div onDoubleClick={() => onIdClick(item['@id'])}>
                             {(!idEditor ||
                                 currentNodeId.current !== item['@id']) && (
-                                <>{item['@id']}</>
+                                <strong className={modelsStyles.strongText}>
+                                    {item['@id']}
+                                </strong>
                             )}
                             {idEditor &&
                                 currentNodeId.current === item['@id'] && (
@@ -181,6 +158,31 @@ const OATModelList = ({ elements, dispatch, modified }: OATModelListProps) => {
                                         onChange={onIdChange}
                                         value={idText}
                                         onBlur={onIdBlur}
+                                        autoFocus
+                                    />
+                                )}
+                        </div>
+                        <div
+                            onDoubleClick={() =>
+                                onNameClick(item['displayName'])
+                            }
+                        >
+                            {(!nameEditor ||
+                                currentNodeId.current !== item['@id']) && (
+                                <span className={modelsStyles.regularText}>
+                                    {typeof item['displayName'] === 'string'
+                                        ? item['displayName']
+                                        : Object.values(item['displayName'])[0]}
+                                </span>
+                            )}
+                            {nameEditor &&
+                                currentNodeId.current === item['@id'] && (
+                                    <TextField
+                                        id="text"
+                                        name="text"
+                                        onChange={onNameChange}
+                                        value={nameText}
+                                        onBlur={onNameBlur}
                                         autoFocus
                                     />
                                 )}
