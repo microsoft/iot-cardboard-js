@@ -176,10 +176,17 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
             })
     );
     const edges = useStoreState((state) => state.edges);
+    const { model } = state;
 
     useEffect(() => {
         setNameText(getPropertyDisplayName(data));
     }, [data]);
+
+    useEffect(() => {
+        if (!model || (model && model['@id'] !== data.id)) {
+            onNameBlur();
+        }
+    }, [model]);
 
     const edge = useMemo(() => edges.find((x) => x.id === id), [edges, id]);
     const [source, sourceX, sourceY] = useMemo(() => {
@@ -643,7 +650,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                     y={edgeCenterY}
                     requiredExtensions="http://www.w3.org/1999/xhtml"
                 >
-                    <body
+                    <div
                         className={graphViewerStyles.relationshipNameEditorBody}
                     >
                         {data.type !== OATExtendHandleName && (
@@ -681,26 +688,8 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                                     }}
                                 />
                             </ActionButton>
-                            {data.type !== OATExtendHandleName && (
-                                <ActionButton
-                                    className={graphViewerStyles.edgeCancel}
-                                    onClick={onNameBlur}
-                                >
-                                    <Icon
-                                        iconName="Save"
-                                        styles={{
-                                            root: {
-                                                fontSize: FontSizes.size10,
-                                                color:
-                                                    theme.semanticColors
-                                                        .actionLink
-                                            }
-                                        }}
-                                    />
-                                </ActionButton>
-                            )}
                         </div>
-                    </body>
+                    </div>
                 </foreignObject>
             )}
             {!nameEditor &&
