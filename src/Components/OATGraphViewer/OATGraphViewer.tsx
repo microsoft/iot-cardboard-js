@@ -51,6 +51,7 @@ import { ElementData } from './Internal/Classes/ElementData';
 import { ElementEdge } from './Internal/Classes/ElementEdge';
 import { ElementEdgeData } from './Internal/Classes/ElementEdgeData';
 import { deepCopy } from '../../Models/Services/Utils';
+import { ModelTypes } from '../../Models/Constants';
 
 const contextClassBase = 'dtmi:dtdl:context;2';
 const versionClassBase = '1';

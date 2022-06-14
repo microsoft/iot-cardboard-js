@@ -19,6 +19,7 @@ import {
 import { SET_OAT_PROPERTY_EDITOR_MODEL } from '../../../Models/Constants/ActionTypes';
 import { DTDLModel } from '../../../Models/Classes/DTDL';
 import { getPropertyDisplayName } from '../../OATPropertyEditor/Utils';
+import { ModelTypes } from '../../../Models/Constants/Enums';
 
 import {
     OATDisplayNameLengthLimit,
@@ -36,7 +37,8 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
     );
     const [idEditor, setIdEditor] = useState(false);
     const [idText, setIdText] = useState(data.id);
-    const [displayNameError, setDisplayNameError] = useState(false);
+    const [errorDisplayNameLength, setErrorDisplayNameLength] = useState(null);
+    const [errorIdAlreadyUsed, setErrorIdAlreadyUsed] = useState(null);
     const [idLengthError, setIdLengthError] = useState(false);
     const [idValidDTMIError, setIdValidDTMIError] = useState(null);
     const {
@@ -50,13 +52,16 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
     const graphViewerStyles = getGraphViewerStyles();
     const iconStyles = getGraphViewerIconStyles();
     const actionButtonStyles = getGraphViewerActionButtonStyles();
+    const { models } = state;
 
     const onNameChange = (evt) => {
-        if (evt.target.value.length <= OATDisplayNameLengthLimit) {
-            setNameText(evt.target.value);
-            setDisplayNameError(null);
+        const currentValue = evt.target.value;
+        // Check length of display name
+        if (currentValue.length <= OATDisplayNameLengthLimit) {
+            setErrorDisplayNameLength(null);
+            setNameText(currentValue);
         } else {
-            setDisplayNameError(true);
+            setErrorDisplayNameLength(true);
         }
     };
 
@@ -69,7 +74,11 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
 
     const onNameBlur = () => {
         setNameEditor(false);
-        if (typeof data.name === 'string' && data.name !== nameText) {
+        if (
+            typeof data.name === 'string' &&
+            data.name !== nameText &&
+            !errorDisplayNameLength
+        ) {
             elements.find(
                 (element) => element.id === data.id
             ).data.name = nameText;
@@ -114,11 +123,25 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
     };
 
     const onIdChange = (evt) => {
-        if (evt.target.value.length <= OATIdLengthLimit) {
+        const currentValue = evt.target.value;
+        // Check id length
+        if (currentValue.length <= OATIdLengthLimit) {
             setIdLengthError(null);
-            if (DTMIRegex.test(evt.target.value)) {
+            setIdText(currentValue);
+            // Check id is valid DTMI
+            if (DTMIRegex.test(currentValue)) {
                 setIdValidDTMIError(null);
-                setIdText(evt.target.value);
+                // Check current value is not used by another model as @id within models
+                const repeatedIdModel = models.find(
+                    (model) =>
+                        model['@id'] === currentValue &&
+                        model['@type'] === ModelTypes.interface
+                );
+                if (repeatedIdModel) {
+                    setErrorIdAlreadyUsed(true);
+                } else {
+                    setErrorIdAlreadyUsed(false);
+                }
             } else {
                 setIdValidDTMIError(true);
             }
@@ -136,7 +159,13 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
     const onIdBlur = () => {
         setIdEditor(false);
         const prevId = data.id;
-        if (data.id !== idText) {
+        // Only apply change if value is error free
+        if (
+            data.id !== idText &&
+            !idLengthError &&
+            !idValidDTMIError &&
+            !errorIdAlreadyUsed
+        ) {
             elements
                 .filter((x) => x.source === data.id)
                 .forEach((x) => (x.source = idText));
@@ -160,6 +189,8 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
                 type: SET_OAT_PROPERTY_EDITOR_MODEL,
                 payload: updatedModel
             });
+        } else {
+            setIdText(data.id);
         }
     };
 
@@ -174,6 +205,16 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
             setElements((els) => removeElements(elementsToRemove, els));
             dispatch({ type: SET_OAT_PROPERTY_EDITOR_MODEL, payload: null });
         }
+    };
+
+    const getIdErrorMessage = () => {
+        idLengthError
+            ? t('OATGraphViewer.errorIdLength')
+            : idValidDTMIError
+            ? t('OATGraphViewer.errorIdValidDTMI')
+            : errorIdAlreadyUsed
+            ? t('OATGraphViewer.errorRepeatedId')
+            : '';
     };
 
     return (
@@ -208,9 +249,9 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
                                     onBlur={onNameBlur}
                                     autoFocus
                                     errorMessage={
-                                        displayNameError
+                                        errorDisplayNameLength
                                             ? t(
-                                                  'OATGraphViewer.errorDisplayName'
+                                                  'OATGraphViewer.errorDisplayNameLength'
                                               )
                                             : ''
                                     }
@@ -232,15 +273,7 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
                                     value={idText}
                                     onBlur={onIdBlur}
                                     autoFocus
-                                    errorMessage={
-                                        idLengthError
-                                            ? t('OATGraphViewer.errorIdLength')
-                                            : idValidDTMIError
-                                            ? t(
-                                                  'OATGraphViewer.errorIdValidDTMI'
-                                              )
-                                            : ''
-                                    }
+                                    errorMessage={getIdErrorMessage()}
                                 />
                             )}
                         </div>
