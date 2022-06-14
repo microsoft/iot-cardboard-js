@@ -463,25 +463,24 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
     }, [id, source, sourceX, sourceY, targetX, targetY]);
 
     const onNameChange = (evt) => {
-        const nameVale = evt.target.value;
+        const nameValue = evt.target.value;
         // Check length
         if (evt.target.value.length <= OATNameLengthLimit) {
             setNameLengthError(null);
-            setNameText(nameVale);
+            setNameText(nameValue);
             // Check format
-            if (DTDLNameRegex.test(nameVale)) {
+            if (DTDLNameRegex.test(nameValue)) {
                 setNameValidCharactersError(null);
                 // Ensure unique name before dispatch
-
                 const existingEdgeWithSameName = edges.find(
-                    (edge) => edge.data.name === nameVale && edge.id !== id
+                    (edge) => edge.data.name === nameValue && edge.id !== id
                 );
 
                 if (!existingEdgeWithSameName) {
                     setNameDuplicateError(false);
                     const relationship = new DTDLRelationship(
                         polygons.element.data.id,
-                        nameVale,
+                        nameValue,
                         polygons.element.data.displayName,
                         polygons.element.data.description,
                         polygons.element.data.comment,
