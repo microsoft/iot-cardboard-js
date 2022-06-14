@@ -10,7 +10,7 @@ import {
 import { SET_OAT_PROPERTY_EDITOR_MODEL } from '../../Models/Constants/ActionTypes';
 import { IAction } from '../../Models/Constants/Interfaces';
 import { deepCopy } from '../../Models/Services/Utils';
-import { getModelPropertyListItemName, getPropertyDisplayName } from './Utils';
+import { getModelPropertyListItemName } from './Utils';
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 import { ModelTypes } from '../../Models/Constants/Enums';
 import {
@@ -61,11 +61,11 @@ export const PropertiesModelSummary = ({
     const [id, setId] = useState(model && model['@id'] ? model['@id'] : '');
 
     useEffect(() => {
-        if (model) {
-            setDisplayName(getPropertyDisplayName(model.displayName));
-            setName(model.name);
-            setId(model['@id']);
-        }
+        setDisplayName(
+            model ? getModelPropertyListItemName(model.displayName) : ''
+        );
+        setName(model ? model.name : '');
+        setId(model ? model['@id'] : '');
     }, [model]);
 
     const handleNameChange = (value) => {
@@ -220,7 +220,7 @@ export const PropertiesModelSummary = ({
                     borderless
                     disabled={!model}
                     value={id}
-                    placeholder={t('id')}
+                    placeholder={model ? t('id') : ''}
                     onChange={(_ev, value) => {
                         handleIdChange(value);
                     }}
@@ -235,7 +235,7 @@ export const PropertiesModelSummary = ({
                         borderless
                         disabled={!model}
                         value={name}
-                        placeholder={t('name')}
+                        placeholder={model ? t('name') : ''}
                         onChange={(_ev, value) => {
                             handleNameChange(value);
                         }}
@@ -250,7 +250,9 @@ export const PropertiesModelSummary = ({
                     borderless
                     disabled={!model}
                     value={getModelPropertyListItemName(displayName)}
-                    placeholder={t('OATPropertyEditor.displayName')}
+                    placeholder={
+                        model ? t('OATPropertyEditor.displayName') : ''
+                    }
                     onChange={(_ev, value) => {
                         handleDisplayNameChange(value);
                     }}
