@@ -36,16 +36,25 @@ export const getModelsStyles = () => {
             classNames.nodeCancel,
             {
                 height: FontSizes.size12,
+                width: 'fit-content',
                 position: 'relative',
                 marginTop: '5px',
-                marginLeft: '17%',
+                marginRight: '5px',
                 zIndex: '101',
                 float: 'right'
+            } as IStyle
+        ],
+        regularText: [
+            classNames.strongText,
+            {
+                textAlign: 'left',
+                float: 'left'
             } as IStyle
         ],
         strongText: [
             classNames.strongText,
             {
+                textAlign: 'left',
                 float: 'left'
             } as IStyle
         ],
@@ -59,17 +68,19 @@ export const getModelsStyles = () => {
     });
 };
 
-export const getModelsIconStyles = () => {
+export const getModelsIconStyles: IStyle = () => {
     const theme = useTheme();
     return {
         root: {
             fontSize: FontSizes.size10,
-            color: theme.semanticColors.actionLink
+            color: theme.semanticColors.actionLink,
+            marginRight: '5px',
+            marginTop: '5px'
         }
     } as Partial<IStyle>;
 };
 
-export const getModelsActionButtonStyles = () => {
+export const getModelsActionButtonStyles: IStyle = () => {
     const theme = useTheme();
     return {
         root: {

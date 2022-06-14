@@ -223,6 +223,13 @@ export const FormAddEnumItem = ({
         }
     };
 
+    const getNameErrorMessage = () => {
+        return nameLengthError
+            ? t('OATPropertyEditor.errorNameLength')
+            : nameValidCharactersError
+            ? t('OATPropertyEditor.errorName')
+            : '';
+    };
     useEffect(() => {
         // Create an array of the keys and values
         const newMultiLanguageSelectionsDisplayNames = Object.keys(
@@ -592,13 +599,7 @@ export const FormAddEnumItem = ({
                     )}
                     onChange={(_ev, value) => handleNameChange(value)}
                     styles={textFieldStyles}
-                    errorMessage={
-                        nameLengthError
-                            ? t('OATPropertyEditor.errorNameLength')
-                            : nameValidCharactersError
-                            ? t('OATPropertyEditor.errorName')
-                            : ''
-                    }
+                    errorMessage={getNameErrorMessage()}
                 />
             </div>
 

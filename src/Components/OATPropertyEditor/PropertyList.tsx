@@ -188,13 +188,15 @@ export const PropertyList = ({
     };
 
     const handleSelectorPosition = (e) => {
-        const boundingRect = e.target.getBoundingClientRect();
-        setPropertySelectorPosition({
-            ...propertySelectorPosition,
-            top: boundingRect.top,
-            left: boundingRect.left
-        });
-        setPropertySelectorTriggerElementsBoundingBox(boundingRect);
+        if (e) {
+            const boundingRect = e.target.getBoundingClientRect();
+            setPropertySelectorPosition({
+                ...propertySelectorPosition,
+                top: boundingRect.top,
+                left: boundingRect.left
+            });
+            setPropertySelectorTriggerElementsBoundingBox(boundingRect);
+        }
     };
 
     const handleMouseLeave = (e) => {
@@ -238,6 +240,9 @@ export const PropertyList = ({
                                 paddingLeft: '10px',
                                 height: 'fit-content'
                             }
+                        }}
+                        onClick={(e) => {
+                            handlePropertyWrapScrollMouseOver(e);
                         }}
                     >
                         <FontIcon
@@ -336,6 +341,9 @@ export const PropertyList = ({
                     {model && model[propertiesKeyName].length > 0 && (
                         <AddPropertyBar
                             onMouseOver={(e) => {
+                                handlePropertyBarMouseOver(e);
+                            }}
+                            onClick={(e) => {
                                 handlePropertyBarMouseOver(e);
                             }}
                         />
