@@ -788,8 +788,13 @@
     "relationships": "Relaciones",
     "inheritances": "Herencias",
     "components": "Componentes",
-    "errorDisplayName": "El nombre para mostrar no puede exceder los 64 caracteres",
-    "errorId": "Id no puede exceder los 2048 caracteres"
+    "errorName": "El nombre solo puede contener los caracteres a-z, A-Z, 0-9 y guión bajo",
+    "errorNameLength": "El nombre no puede exceder los 64 caracteres",
+    "errorIdLength": "Id no puede exceder los 2048 caracteres",
+    "errorIdValidDTMI": "Id debe ser un DTMI válido",
+    "errorRepeatedId": "Ya existe un modelo con el mismo identificador",
+    "errorDisplayNameLength": "El nombre para mostrar no puede exceder los 64 caracteres",
+    "errorRepeatedEdgeName": "Ya existe una relación con el mismo nombre"
   },
   "OATPropertyEditor": {
     "displayName": "Nombre para mostrar",
@@ -863,8 +868,14 @@
     "errorComment": "El comentario no puede exceder los 512 caracteres",
     "errorDisplayName": "El nombre para mostrar no puede exceder los 64 caracteres",
     "errorDescription": "Descripción no puede exceder de 512 caracteres",
-    "errorId": "Id no puede exceder los 2048 caracteres",
-    "errorName": "El nombre solo puede contener los caracteres a-z, A-Z, 0-9 y guión bajo"
+    "errorName": "El nombre solo puede contener los caracteres a-z, A-Z, 0-9 y guión bajo",
+    "errorNameLength": "El nombre no puede exceder de 64 caracteres",
+    "errorIdLength": "Id no puede exceder los 2048 caracteres",
+    "errorIdValidDTMI": "Id debe ser un DTMI válido",
+    "errorDisplayNameLength": "El nombre para mostrar no puede exceder los 64 caracteres",
+    "errorRepeatedId": "Ya existe un modelo con el mismo identificador",
+    "errorRepeatedName": "Ya existe un modelo con el mismo nombre",
+    "errorRepeatedEdgeName": "Ya existe una relación con el mismo nombre"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Mensaje de error",

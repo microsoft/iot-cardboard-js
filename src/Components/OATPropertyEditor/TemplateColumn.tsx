@@ -72,7 +72,7 @@ export const TemplateColumn = ({
                     placeholder={t(
                         'OATPropertyEditor.templateSearchPlaceholder'
                     )}
-                ></TextField>
+                />
             </Stack>
             <Stack className={propertyInspectorStyles.gridRowPropertyHeading}>
                 <div className={propertyInspectorStyles.row}>

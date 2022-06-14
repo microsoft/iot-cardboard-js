@@ -139,7 +139,8 @@ export const FormUpdateProperty = ({
     const [commentError, setCommentError] = useState(null);
     const [descriptionError, setDescriptionError] = useState(null);
     const [displayNameError, setDisplayNameError] = useState(null);
-    const [idError, setIdError] = useState(null);
+    const [idLengthError, setIdLengthError] = useState(null);
+    const [idValidDTMIError, setIdValidDTMIError] = useState(null);
 
     const options: IChoiceGroupOption[] = [
         {
@@ -306,6 +307,14 @@ export const FormUpdateProperty = ({
         setIsAMultiLanguageDescriptionEmpty(hasEmptyValues);
     }, [multiLanguageSelectionsDescription]);
 
+    const getIdErrorMessage = () => {
+        return idLengthError
+            ? t('OATPropertyEditor.errorIdLength')
+            : idValidDTMIError
+            ? t('OATPropertyEditor.errorIdValidDTMI')
+            : '';
+    };
+
     return (
         <>
             <div className={propertyInspectorStyles.modalRowSpaceBetween}>
@@ -335,9 +344,14 @@ export const FormUpdateProperty = ({
                 <TextField
                     placeholder={t('OATPropertyEditor.id')}
                     onChange={(_ev, value) =>
-                        handleIdChange(value, setId, setIdError)
+                        handleIdChange(
+                            value,
+                            setId,
+                            setIdLengthError,
+                            setIdValidDTMIError
+                        )
                     }
-                    errorMessage={idError ? t('OATPropertyEditor.errorId') : ''}
+                    errorMessage={getIdErrorMessage()}
                     value={id}
                 />
             </div>
@@ -659,7 +673,8 @@ export const FormUpdateProperty = ({
                         displayNameError ||
                         commentError ||
                         descriptionError ||
-                        idError
+                        idLengthError ||
+                        idValidDTMIError
                     }
                 />
             </div>

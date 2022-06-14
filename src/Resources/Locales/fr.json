@@ -788,8 +788,13 @@
     "relationships": "Relations",
     "inheritances": "Héritages",
     "components": "Composants",
-    "errorDisplayName": "Le nom d’affichage ne doit pas dépasser 64 caractères",
-    "errorId": "Id ne peut pas dépasser 2048 caractères"
+    "errorName": "Le nom ne peut contenir que les caractères a-z, A-Z, 0-9 et le trait de soulignement",
+    "errorNameLength": "Le nom ne doit pas dépasser 64 caractères",
+    "errorIdLength": "Id ne doit pas dépasser 2048 caractères",
+    "errorIdValidDTMI": "Id doit être un DTMI valide",
+    "errorRepeatedId": "Un modèle avec le même ID existe déjà",
+    "errorDisplayNameLength": "Le nom d’affichage ne doit pas dépasser 64 caractères",
+    "errorRepeatedEdgeName": "Une relation portant le même nom existe déjà"
   },
   "OATPropertyEditor": {
     "displayName": "Nom d’affichage",
@@ -863,8 +868,14 @@
     "errorComment": "Le commentaire ne peut pas dépasser 512 caractères",
     "errorDisplayName": "Le nom d’affichage ne doit pas dépasser 64 caractères",
     "errorDescription": "La description ne peut dépasser 512 caractères",
-    "errorId": "Id ne peut pas dépasser 2048 caractères",
-    "errorName": "Le nom ne peut contenir que les caractères a-z, A-Z, 0-9 et le trait de soulignement"
+    "errorName": "Le nom ne peut contenir que les caractères a-z, A-Z, 0-9 et le trait de soulignement",
+    "errorNameLength": "Le nom ne doit pas dépasser 64 caractères",
+    "errorIdLength": "Id ne doit pas dépasser 2048 caractères",
+    "errorIdValidDTMI": "Id doit être un DTMI valide",
+    "errorDisplayNameLength": "Le nom d’affichage ne doit pas dépasser 64 caractères",
+    "errorRepeatedId": "Un modèle avec le même ID existe déjà",
+    "errorRepeatedName": "Un modèle portant le même nom existe déjà",
+    "errorRepeatedEdgeName": "Une relation portant le même nom existe déjà"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Message d'erreur",

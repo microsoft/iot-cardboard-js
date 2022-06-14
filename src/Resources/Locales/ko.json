@@ -788,8 +788,13 @@
     "relationships": "관계",
     "inheritances": "상속",
     "components": "구성 요소",
-    "errorDisplayName": "표시 이름은 64자를 초과할 수 없습니다.",
-    "errorId": "ID는 2048자를 초과할 수 없습니다."
+    "errorName": "이름에는 a-z, A-Z, 0-9 및 밑줄 문자만 포함될 수 있습니다.",
+    "errorNameLength": "이름은 64자를 초과할 수 없습니다.",
+    "errorIdLength": "ID는 2048자를 초과할 수 없습니다.",
+    "errorIdValidDTMI": "ID는 유효한 DTMI여야 합니다.",
+    "errorRepeatedId": "동일한 ID를 가진 모델이 이미 존재합니다.",
+    "errorDisplayNameLength": "표시 이름은 64자를 초과할 수 없습니다.",
+    "errorRepeatedEdgeName": "같은 이름의 관계가 이미 존재합니다."
   },
   "OATPropertyEditor": {
     "displayName": "표시 이름",
@@ -863,8 +868,14 @@
     "errorComment": "댓글은 512자를 초과할 수 없습니다.",
     "errorDisplayName": "표시 이름은 64자를 초과할 수 없습니다.",
     "errorDescription": "설명은 512자를 초과할 수 없습니다.",
-    "errorId": "ID는 2048자를 초과할 수 없습니다.",
-    "errorName": "이름에는 a-z, A-Z, 0-9 및 밑줄 문자만 포함될 수 있습니다."
+    "errorName": "이름에는 a-z, A-Z, 0-9 및 밑줄 문자만 포함될 수 있습니다.",
+    "errorNameLength": "이름은 64자를 초과할 수 없습니다.",
+    "errorIdLength": "ID는 2048자를 초과할 수 없습니다.",
+    "errorIdValidDTMI": "ID는 유효한 DTMI여야 합니다.",
+    "errorDisplayNameLength": "표시 이름은 64자를 초과할 수 없습니다.",
+    "errorRepeatedId": "동일한 ID를 가진 모델이 이미 존재합니다.",
+    "errorRepeatedName": "이름이 같은 모델이 이미 있습니다.",
+    "errorRepeatedEdgeName": "같은 이름의 관계가 이미 존재합니다."
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "오류 메시지",

@@ -788,8 +788,13 @@
     "relationships": "Relaties",
     "inheritances": "Erfenissen",
     "components": "Onderdelen",
-    "errorDisplayName": "Weergavenaam mag niet meer dan 64 tekens bevatten",
-    "errorId": "Id mag niet meer dan 2048 tekens bevatten"
+    "errorName": "Naam mag alleen de tekens a-z, A-Z, 0-9 en onderstrepingsteken bevatten",
+    "errorNameLength": "Naam mag niet meer dan 64 tekens bevatten",
+    "errorIdLength": "Id mag niet groter zijn dan 2048 tekens",
+    "errorIdValidDTMI": "Id moet een geldige DTMI zijn",
+    "errorRepeatedId": "Er bestaat al een model met dezelfde id",
+    "errorDisplayNameLength": "Weergavenaam mag niet meer dan 64 tekens bevatten",
+    "errorRepeatedEdgeName": "Er bestaat al een relatie met dezelfde naam"
   },
   "OATPropertyEditor": {
     "displayName": "Weergegeven naam",
@@ -863,8 +868,14 @@
     "errorComment": "Commentaar mag niet meer dan 512 tekens bevatten",
     "errorDisplayName": "Weergavenaam mag niet meer dan 64 tekens bevatten",
     "errorDescription": "Beschrijving mag niet meer dan 512 tekens bevatten",
-    "errorId": "Id mag niet meer dan 2048 tekens bevatten",
-    "errorName": "Naam mag alleen de tekens a-z, A-Z, 0-9 en onderstrepingsteken bevatten"
+    "errorName": "Naam mag alleen de tekens a-z, A-Z, 0-9 en onderstrepingsteken bevatten",
+    "errorNameLength": "Naam mag niet meer dan 64 tekens bevatten",
+    "errorIdLength": "Id mag niet groter zijn dan 2048 tekens",
+    "errorIdValidDTMI": "Id moet een geldige DTMI zijn",
+    "errorDisplayNameLength": "Weergavenaam mag niet groter zijn dan 64 tekens",
+    "errorRepeatedId": "Er bestaat al een model met dezelfde id",
+    "errorRepeatedName": "Een model met dezelfde naam bestaat al",
+    "errorRepeatedEdgeName": "Er bestaat al een relatie met dezelfde naam"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Foutmelding",

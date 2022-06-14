@@ -788,8 +788,13 @@
     "relationships": "Kapcsolatok",
     "inheritances": "Öröklések",
     "components": "Összetevők",
-    "errorDisplayName": "A megjelenítendő név nem haladhatja meg a 64 karakter értéket",
-    "errorId": "Az azonosító nem haladhatja meg a 2048 karakter"
+    "errorName": "A név csak az a-z, A-Z, 0-9 és aláhúzásjeleket tartalmazhatja.",
+    "errorNameLength": "A név nem haladhatja meg a 64 karakter",
+    "errorIdLength": "Az azonosító nem haladhatja meg a 2048 karaktert",
+    "errorIdValidDTMI": "Az azonosítónak érvényes DTMI-nek kell lennie",
+    "errorRepeatedId": "Már létezik egy azonos azonosítóval rendelkező modell",
+    "errorDisplayNameLength": "A megjelenítendő név nem haladhatja meg a 64 karaktert",
+    "errorRepeatedEdgeName": "Az azonos nevű kapcsolat már létezik"
   },
   "OATPropertyEditor": {
     "displayName": "Megjelenítendő név",
@@ -863,8 +868,14 @@
     "errorComment": "Megjegyzés nem haladhatja meg az 512 karakter",
     "errorDisplayName": "A megjelenítendő név nem haladhatja meg a 64 karakter értéket",
     "errorDescription": "A leírás nem haladhatja meg az 512 karaktert",
-    "errorId": "Az azonosító nem haladhatja meg a 2048 karakter",
-    "errorName": "A név csak az a-z, A-Z, 0-9 és aláhúzásjeleket tartalmazhatja."
+    "errorName": "A név csak az a-z, A-Z, 0-9 és aláhúzásjeleket tartalmazhatja.",
+    "errorNameLength": "A név nem haladhatja meg a 64 karaktert",
+    "errorIdLength": "Az azonosító nem haladhatja meg a 2048 karaktert",
+    "errorIdValidDTMI": "Az azonosítónak érvényes DTMI-nek kell lennie",
+    "errorDisplayNameLength": "A megjelenítendő név nem haladhatja meg a 64 karaktert",
+    "errorRepeatedId": "Már létezik egy azonos azonosítóval rendelkező modell",
+    "errorRepeatedName": "Az azonos nevű modell már létezik",
+    "errorRepeatedEdgeName": "Az azonos nevű kapcsolat már létezik"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Hibaüzenet",

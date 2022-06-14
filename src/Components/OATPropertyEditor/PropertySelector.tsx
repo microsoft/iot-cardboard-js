@@ -6,6 +6,14 @@ import {
 } from './OATPropertyEditor.styles';
 import { DTDLSchemaType } from '../../Models/Classes/DTDL';
 import Svg from 'react-inlinesvg';
+import { useTranslation } from 'react-i18next';
+import { SET_OAT_PROPERTY_EDITOR_MODEL } from '../../Models/Constants/ActionTypes';
+import {
+    IAction,
+    IOATLastPropertyFocused
+} from '../../Models/Constants/Interfaces';
+import { deepCopy } from '../../Models/Services/Utils';
+import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 import IconBoolean from '../../Resources/Static/Boolean.svg';
 import IconData from '../../Resources/Static/Data.svg';
 import IconDatetime from '../../Resources/Static/Datetime.svg';
@@ -25,14 +33,6 @@ import IconPoint from '../../Resources/Static/point.svg';
 import IconPolygon from '../../Resources/Static/polygon.svg';
 import IconString from '../../Resources/Static/string.svg';
 import IconTime from '../../Resources/Static/time.svg';
-import { useTranslation } from 'react-i18next';
-import { SET_OAT_PROPERTY_EDITOR_MODEL } from '../../Models/Constants/ActionTypes';
-import {
-    IAction,
-    IOATLastPropertyFocused
-} from '../../Models/Constants/Interfaces';
-import { deepCopy } from '../../Models/Services/Utils';
-import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 
 import { getModelPropertyCollectionName } from './Utils';
 
@@ -182,9 +182,10 @@ const PropertySelector = ({
         }
     };
 
-    const addNestedProperty = (tag) => {
+    const addNestedProperty = (tag: string) => {
         const modelCopy = deepCopy(model);
         const schemaCopy = deepCopy(lastPropertyFocused.item.schema);
+        // We select the last property focused to add nested propertyes to that specific property
         schemaCopy.fields.push({
             name: `${t('OATPropertyEditor.property')}_${
                 schemaCopy.fields.length + 1
@@ -205,7 +206,7 @@ const PropertySelector = ({
         setPropertySelectorVisible(false);
     };
 
-    const handleTagClick = (tag) => {
+    const handleTagClick = (tag: string) => {
         if (onTagClickCallback) {
             onTagClickCallback();
         }
@@ -242,7 +243,7 @@ const PropertySelector = ({
         setPropertySelectorVisible(false);
     };
 
-    const getSchema = (tag) => {
+    const getSchema = (tag: string) => {
         switch (tag) {
             case DTDLSchemaType.Object:
                 return {
@@ -309,6 +310,9 @@ const PropertySelector = ({
                                     onClick={() => {
                                         handleTagClick(tag.name);
                                     }}
+                                    onKeyPress={() => {
+                                        handleTagClick(tag.name);
+                                    }}
                                     src={tag.icon}
                                     title={tag.title}
                                 ></Svg>
@@ -337,6 +341,9 @@ const PropertySelector = ({
                                     onClick={() => {
                                         handleTagClick(tag.name);
                                     }}
+                                    onKeyPress={() => {
+                                        handleTagClick(tag.name);
+                                    }}
                                     src={tag.icon}
                                     title={tag.title}
                                 ></Svg>
@@ -352,6 +359,9 @@ const PropertySelector = ({
                             key={i}
                             className={propertyInspectorStyles.propertyTag}
                             onClick={() => {
+                                handleTagClick(tag.name);
+                            }}
+                            onKeyPress={() => {
                                 handleTagClick(tag.name);
                             }}
                             src={tag.icon}

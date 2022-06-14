@@ -788,8 +788,13 @@
     "relationships": "関係",
     "inheritances": "遺産",
     "components": "コンポーネント",
-    "errorDisplayName": "表示名は 64 文字を超えてはなりません。",
-    "errorId": "IDは2048文字を超えてはなりません"
+    "errorName": "名前に使用できるのは、文字 a から z、A から Z、0 から 9、および下線のみです。",
+    "errorNameLength": "名前は 64 文字を超えてはなりません。",
+    "errorIdLength": "ID は 2048 文字を超えてはなりません",
+    "errorIdValidDTMI": "ID は有効な DTMI である必要があります。",
+    "errorRepeatedId": "同じ ID のモデルが既に存在します",
+    "errorDisplayNameLength": "表示名は 64 文字を超えてはなりません。",
+    "errorRepeatedEdgeName": "同じ名前の関係が既に存在します"
   },
   "OATPropertyEditor": {
     "displayName": "表示名",
@@ -863,8 +868,14 @@
     "errorComment": "コメントは512文字を超えてはなりません",
     "errorDisplayName": "表示名は 64 文字を超えてはなりません。",
     "errorDescription": "説明は512文字を超えてはなりません",
-    "errorId": "IDは2048文字を超えてはなりません",
-    "errorName": "名前に使用できるのは、文字 a から z、A から Z、0 から 9、および下線のみです。"
+    "errorName": "名前に使用できるのは、文字 a から z、A から Z、0 から 9、および下線のみです。",
+    "errorNameLength": "名前は 64 文字を超えてはなりません。",
+    "errorIdLength": "ID は 2048 文字を超えてはなりません",
+    "errorIdValidDTMI": "ID は有効な DTMI である必要があります。",
+    "errorDisplayNameLength": "表示名は 64 文字を超えてはなりません。",
+    "errorRepeatedId": "同じ ID のモデルが既に存在します",
+    "errorRepeatedName": "同じ名前のモデルが既に存在します",
+    "errorRepeatedEdgeName": "同じ名前の関係が既に存在します"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "エラーメッセージ",

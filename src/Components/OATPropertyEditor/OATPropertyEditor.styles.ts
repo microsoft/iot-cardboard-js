@@ -427,7 +427,8 @@ export const getPropertyInspectorStyles = () => {
             classNames.propertyItem,
             {
                 display: 'grid',
-                gridTemplateColumns: '55% 25% 10% 10%',
+                gridTemplateColumns: '50% 25% 5% 5%',
+                columnGap: '5%',
                 width: '100%',
                 backgroundColor: theme.semanticColors.listBackground,
                 alignItems: 'center',
@@ -687,7 +688,7 @@ export const getPropertyInspectorStyles = () => {
 
 /* Property Editor */
 
-export const getPropertyEditorTextFieldStyles = () => {
+export const getPropertyEditorTextFieldStyles: IStyle = () => {
     const theme = useTheme();
     return {
         root: {
@@ -706,7 +707,7 @@ export const getPropertyEditorTextFieldStyles = () => {
 
 /* Properties Model Summary */
 
-export const getGeneralPropertiesWrapStyles = () => {
+export const getGeneralPropertiesWrapStyles: IStyle = () => {
     const theme = useTheme();
     return {
         root: {
@@ -716,7 +717,7 @@ export const getGeneralPropertiesWrapStyles = () => {
     } as Partial<IStackStyles>;
 };
 
-export const geIconWrapFitContentStyles = () => {
+export const geIconWrapFitContentStyles: IStyle = () => {
     const theme = useTheme();
     return {
         root: {
@@ -728,7 +729,7 @@ export const geIconWrapFitContentStyles = () => {
 
 /* Property Selector */
 
-export const getPropertySelectorStyles = () => {
+export const getPropertySelectorStyles: IStyle = () => {
     const theme = useTheme();
     return {
         root: {
@@ -746,7 +747,7 @@ export const getPropertySelectorStyles = () => {
     };
 };
 
-export const getPropertySelectorSeparatorStyles = () => {
+export const getPropertySelectorSeparatorStyles: IStyle = () => {
     const theme = useTheme();
     return {
         root: {
@@ -763,7 +764,7 @@ export const getPropertySelectorSeparatorStyles = () => {
 
 /* Property List */
 
-export const getPropertyListRelativeWrapStyles = () => {
+export const getPropertyListRelativeWrapStyles: IStyle = () => {
     return {
         root: {
             display: 'flex',
@@ -775,7 +776,7 @@ export const getPropertyListRelativeWrapStyles = () => {
 
 /* Property List Item */
 
-export const getPropertyListItemIconWrapStyles = () => {
+export const getPropertyListItemIconWrapStyles: IStyle = () => {
     const theme = useTheme();
     return {
         root: {
@@ -785,7 +786,7 @@ export const getPropertyListItemIconWrapStyles = () => {
     } as Partial<IButtonStyles>;
 };
 
-export const getPropertyListItemIconWrapMoreStyles = () => {
+export const getPropertyListItemIconWrapMoreStyles: IStyle = () => {
     const theme = useTheme();
     return {
         root: {
@@ -796,7 +797,7 @@ export const getPropertyListItemIconWrapMoreStyles = () => {
     } as Partial<IButtonStyles>;
 };
 
-export const getMapItemStyles = () => {
+export const getMapItemStyles: IStyle = () => {
     const theme = useTheme();
     return {
         root: {
@@ -807,7 +808,7 @@ export const getMapItemStyles = () => {
     } as Partial<IStackStyles>;
 };
 
-export const getIconMoreSubMenuItemStyles = () => {
+export const getIconMoreSubMenuItemStyles: IStyle = () => {
     const theme = useTheme();
     return {
         root: {
@@ -824,7 +825,7 @@ export const getIconMoreSubMenuItemStyles = () => {
     } as Partial<IButtonStyles>;
 };
 
-export const getListMapItemTextStyles = () => {
+export const getListMapItemTextStyles: IStyle = () => {
     return {
         root: { padding: '0px 8px' }
     } as Partial<IButtonStyles>;
@@ -832,7 +833,7 @@ export const getListMapItemTextStyles = () => {
 
 /* Template Column */
 
-export const getTemplateColumnStyles = () => {
+export const getTemplateColumnStyles: IStyle = () => {
     const theme = useTheme();
     return {
         root: {
@@ -842,7 +843,7 @@ export const getTemplateColumnStyles = () => {
         }
     } as Partial<IButtonStyles>;
 };
-export const getTemplateColumnPaddingStyles = () => {
+export const getTemplateColumnPaddingStyles: IStyle = () => {
     return {
         root: {
             padding: '8px'
@@ -852,7 +853,7 @@ export const getTemplateColumnPaddingStyles = () => {
 
 /* Property Editor Modal */
 
-export const getModalLabelStyles = () => {
+export const getModalLabelStyles: IStyle = () => {
     return {
         root: {
             marginRight: '20px'
@@ -860,7 +861,7 @@ export const getModalLabelStyles = () => {
     };
 };
 
-export const getRadioGroupRowStyles = () => {
+export const getRadioGroupRowStyles: IStyle = () => {
     return {
         root: {
             '& .ms-ChoiceFieldGroup-flexContainer': {
@@ -874,7 +875,7 @@ export const getRadioGroupRowStyles = () => {
     };
 };
 
-export const getModalTextFieldStyles = () => {
+export const getModalTextFieldStyles: IStyle = () => {
     return {
         root: {
             width: '100%',
@@ -883,7 +884,7 @@ export const getModalTextFieldStyles = () => {
     };
 };
 
-export const getCancelButtonStyles = () => {
+export const getCancelButtonStyles: IStyle = () => {
     return {
         root: {
             zIndex: '202',
@@ -892,7 +893,7 @@ export const getCancelButtonStyles = () => {
         }
     } as Partial<IStyle>;
 };
-export const getSaveButtonStyles = () => {
+export const getSaveButtonStyles: IStyle = () => {
     return {
         root: {
             zIndex: '202',
