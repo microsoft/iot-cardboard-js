@@ -231,7 +231,6 @@ const getGraphViewerElementsFromModels = (models, modelPositions) => {
 
 const nodeWidth = 300;
 const nodeHeight = 100;
-const defaultHorizontalDistanceBetweenNodes = 80;
 
 const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     const {
@@ -661,7 +660,8 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                     nodeWidth / 2,
                 y:
                     -positionedY * currentLocation.zoom +
-                    wrapperBoundingBox.height / 2,
+                    wrapperBoundingBox.height / 2 -
+                    nodeHeight / 2,
                 zoom: currentLocation.zoom
             });
         }
