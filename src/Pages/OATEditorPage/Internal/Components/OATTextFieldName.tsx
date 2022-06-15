@@ -81,7 +81,6 @@ const OATTextFieldName = ({
                                     content.name !== originalValue // Prevent checking for duplicate name to itself
                             )
                     );
-                    // Prevent duplicate name on self
                     if (!repeatedNameOnRelationship) {
                         setNameDuplicateRelationshipError(false);
                     } else {

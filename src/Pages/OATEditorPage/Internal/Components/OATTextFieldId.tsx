@@ -72,7 +72,6 @@ const OATTextFieldId = ({
                                     content['@id'] !== originalValue // Prevent checking for duplicate name to itself
                             )
                     );
-                    // Prevent duplicate name on self
                     if (!repeatedIdOnRelationship) {
                         setIdAlreadyUsedRelationshipError(false);
                     } else {
