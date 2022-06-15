@@ -875,7 +875,8 @@
     "errorDisplayNameLength": "Nome do visor não pode exceder 64 chars",
     "errorRepeatedId": "Um modelo com o mesmo id já existe",
     "errorRepeatedName": "Um modelo com o mesmo nome já existe",
-    "errorRepeatedEdgeName": "Uma relação com o mesmo nome já existe"
+    "errorRepeatedEdgeName": "Uma relação com o mesmo nome já existe",
+    "errorInvalidJSON": "JSON inválido"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Mensagem de erro",

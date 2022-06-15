@@ -875,7 +875,8 @@
     "errorDisplayNameLength": "Anzeigename darf 64 Zeichen nicht überschreiten",
     "errorRepeatedId": "Ein Modell mit derselben ID ist bereits vorhanden",
     "errorRepeatedName": "Ein Modell mit demselben Namen existiert bereits",
-    "errorRepeatedEdgeName": "Eine Beziehung mit demselben Namen existiert bereits"
+    "errorRepeatedEdgeName": "Eine Beziehung mit demselben Namen existiert bereits",
+    "errorInvalidJSON": "Ungültiges JSON"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Fehlermeldung",

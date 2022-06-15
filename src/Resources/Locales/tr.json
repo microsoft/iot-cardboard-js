@@ -875,7 +875,8 @@
     "errorDisplayNameLength": "Görünen Ad 64 karakteri aşamaz",
     "errorRepeatedId": "Aynı kimliğe sahip bir model zaten var",
     "errorRepeatedName": "Aynı ada sahip bir model zaten var",
-    "errorRepeatedEdgeName": "Aynı ada sahip bir ilişki zaten var"
+    "errorRepeatedEdgeName": "Aynı ada sahip bir ilişki zaten var",
+    "errorInvalidJSON": "Geçersiz JSON"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Hata mesajı",
