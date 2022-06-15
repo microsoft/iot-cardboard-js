@@ -44,9 +44,10 @@ export const SceneThemeContextReducer: (
         );
         switch (action.type) {
             case SceneThemeContextActionType.SET_OBJECT_COLOR: {
-                draft.objectColor = draft.objectColorOptions.find(
-                    (x) => x.color === action.payload.color
-                );
+                draft.objectColor =
+                    draft.objectColorOptions.find(
+                        (x) => x.color === action.payload.color
+                    ) || DefaultViewerModeObjectColor; // fallback value in case we don't find a match
                 setPersistedTheme(buildPersistedTheme(draft));
                 break;
             }
@@ -80,9 +81,10 @@ export const SceneThemeContextReducer: (
                 break;
             }
             case SceneThemeContextActionType.SET_SCENE_BACKGROUND: {
-                draft.sceneBackground = draft.sceneBackgroundOptions.find(
-                    (x) => x.color === action.payload.color
-                );
+                draft.sceneBackground =
+                    draft.sceneBackgroundOptions.find(
+                        (x) => x.color === action.payload.color
+                    ) || draft.sceneBackgroundOptions[0]; // fallback value in case we don't find a match;
                 setPersistedTheme(buildPersistedTheme(draft));
                 break;
             }
