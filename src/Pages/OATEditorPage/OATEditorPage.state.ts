@@ -41,7 +41,8 @@ export const defaultOATEditorState: IOATEditorState = {
     projectName: null,
     modified: false,
     error: null,
-    namespace: getStoredEditorNamespaceData()
+    namespace: getStoredEditorNamespaceData(),
+    edge: null
 };
 
 export const OATEditorPageReducer = produce(

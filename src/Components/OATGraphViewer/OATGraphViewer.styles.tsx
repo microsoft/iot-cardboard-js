@@ -136,14 +136,6 @@ export const getGraphViewerStyles = () => {
                 fill: theme.semanticColors.bodyText
             } as IStyle
         ],
-        textEdit: [
-            classNames.textEdit,
-            {
-                fontSize: FontSizes.size12,
-                color: theme.semanticColors.bodyText,
-                background: theme.semanticColors.bodyBackground
-            } as IStyle
-        ],
         edgeCancel: [
             classNames.edgeCancel,
             {
@@ -333,6 +325,17 @@ export const getGraphViewerFiltersStyles: IStyle = () => {
             position: 'absolute',
             top: '10px',
             right: '10px'
+        }
+    } as Partial<IStyle>;
+};
+
+export const getRelationshipTextFieldStyles: IStyle = () => {
+    const theme = useTheme();
+    return {
+        root: {
+            fontSize: FontSizes.size12,
+            color: theme.semanticColors.bodyText,
+            background: theme.semanticColors.bodyBackground
         }
     } as Partial<IStyle>;
 };
