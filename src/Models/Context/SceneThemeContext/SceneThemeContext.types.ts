@@ -25,11 +25,11 @@ export interface ISceneThemeContext {
  * The state of the context
  */
 export interface ISceneThemeContextState {
-    objectColor: string;
+    objectColor: IADTObjectColor;
     objectColorOptions: IADTObjectColor[];
     objectStyle: ViewerObjectStyle;
     objectStyleOptions: IObjectStyleOption[];
-    sceneBackground: string;
+    sceneBackground: IADTBackgroundColor;
     sceneBackgroundOptions: IADTBackgroundColor[];
 }
 

@@ -6,8 +6,14 @@ import {
     useTheme
 } from '@fluentui/react';
 import { ComponentStory } from '@storybook/react';
+import { userEvent, within } from '@storybook/testing-library';
 import React, { useState } from 'react';
-import { ViewerObjectStyle } from '../../Constants';
+import { sleep } from '../../../Components/AutoComplete/AutoComplete';
+import {
+    IADTBackgroundColor,
+    IADTObjectColor,
+    ViewerObjectStyle
+} from '../../Constants';
 
 import {
     getDefaultStoryDecorator,
@@ -32,8 +38,16 @@ export default {
     decorators: [getDefaultStoryDecorator(wrapperStyle)]
 };
 
-const OBJECT_COLOR_OPTIONS: string[] = ['red', 'green', 'blue'];
-const SCENE_BACKGROUND_OPTIONS: string[] = ['pruple', 'something', 'another'];
+const OBJECT_COLOR_OPTIONS: IADTObjectColor[] = [
+    { color: 'red' } as IADTObjectColor,
+    { color: 'green' } as IADTObjectColor,
+    { color: 'blue' } as IADTObjectColor
+];
+const SCENE_BACKGROUND_OPTIONS: IADTBackgroundColor[] = [
+    { color: 'purple' } as IADTBackgroundColor,
+    { color: 'something' } as IADTBackgroundColor,
+    { color: 'another' } as IADTBackgroundColor
+];
 const STYLE_OPTIONS: ViewerObjectStyle[] = [
     ViewerObjectStyle.Default,
     ViewerObjectStyle.Transparent,
@@ -68,13 +82,13 @@ const ContextRenderer: React.FC = () => {
             <h4 style={headerStyles}>Context</h4>
             <Stack tokens={{ childrenGap: 8 }} styles={containerStyle}>
                 <Stack horizontal styles={itemStackStyles}>
-                    Object color: {sceneThemeState.objectColor}
+                    Object color: {sceneThemeState.objectColor?.color}
                 </Stack>
                 <Stack horizontal styles={itemStackStyles}>
                     Object style: {sceneThemeState.objectStyle}
                 </Stack>
                 <Stack horizontal styles={itemStackStyles}>
-                    Scene background: {sceneThemeState.sceneBackground}
+                    Scene background: {sceneThemeState.sceneBackground?.color}
                 </Stack>
             </Stack>
         </Stack>
@@ -88,37 +102,39 @@ const ContextUpdater: React.FC = () => {
     const [sceneBackgroundIndex, setSceneBackgroundIndex] = useState<number>(0);
 
     const onObjectColorClick = () => {
-        const index = objectColorIndex;
+        const index = objectColorIndex + 1;
         sceneThemeDispatch({
             type: SceneThemeContextActionType.SET_OBJECT_COLOR,
             payload: {
-                color: OBJECT_COLOR_OPTIONS[index % OBJECT_COLOR_OPTIONS.length]
+                color:
+                    OBJECT_COLOR_OPTIONS[index % OBJECT_COLOR_OPTIONS.length]
+                        .color
             }
         });
-        setObjectColorIndex(index + 1);
+        setObjectColorIndex(index);
     };
     const onStyleClick = () => {
-        const index = objectStyleIndex;
+        const index = objectStyleIndex + 1;
         sceneThemeDispatch({
             type: SceneThemeContextActionType.SET_OBJECT_STYLE,
             payload: {
                 style: STYLE_OPTIONS[index % STYLE_OPTIONS.length]
             }
         });
-        setObjectStyleIndex(index + 1);
+        setObjectStyleIndex(index);
     };
     const onBackgroundClick = () => {
-        const index = sceneBackgroundIndex;
+        const index = sceneBackgroundIndex + 1;
         sceneThemeDispatch({
             type: SceneThemeContextActionType.SET_SCENE_BACKGROUND,
             payload: {
                 color:
                     SCENE_BACKGROUND_OPTIONS[
                         index % SCENE_BACKGROUND_OPTIONS.length
-                    ]
+                    ].color
             }
         });
-        setSceneBackgroundIndex(index + 1);
+        setSceneBackgroundIndex(index);
     };
     return (
         <Stack>
@@ -128,15 +144,23 @@ const ContextUpdater: React.FC = () => {
                 tokens={{ childrenGap: 8 }}
                 styles={getContainerStyles(useTheme())}
             >
-                <DefaultButton onClick={onObjectColorClick}>
+                <DefaultButton
+                    data-testid={'scene-theme-context-change-color-button'}
+                    onClick={onObjectColorClick}
+                >
                     Change object color
                 </DefaultButton>
-                <DefaultButton onClick={onStyleClick}>
+                <DefaultButton
+                    data-testid={'scene-theme-context-change-style-button'}
+                    onClick={onStyleClick}
+                >
                     Change object style
                 </DefaultButton>
-                <DefaultButton onClick={onBackgroundClick}>
-                    Change background color
-                </DefaultButton>
+                <DefaultButton
+                    data-testid={'scene-theme-context-change-background-button'}
+                    onClick={onBackgroundClick}
+                    text={'Change background color'}
+                />
             </Stack>
         </Stack>
     );
@@ -148,7 +172,13 @@ const Template: SceneBuilderStory = (
     _context: IStoryContext<ISceneThemeContextProviderProps>
 ) => {
     return (
-        <SceneThemeContextProvider>
+        <SceneThemeContextProvider
+            initialState={{
+                objectColorOptions: OBJECT_COLOR_OPTIONS,
+                sceneBackgroundOptions: SCENE_BACKGROUND_OPTIONS
+            }}
+            shouldPersistTheme={false}
+        >
             <ContextRenderer />
             <ContextUpdater />
         </SceneThemeContextProvider>
@@ -156,7 +186,36 @@ const Template: SceneBuilderStory = (
 };
 
 export const Base = Template.bind({});
-Base.args = {
-    primary: 'true',
-    label: 'Button'
+
+export const UpdateObjectColor = Template.bind({});
+UpdateObjectColor.play = async ({ canvasElement }) => {
+    await sleep(1);
+    const canvas = within(canvasElement);
+    // Finds the button and clicks it
+    const behaviorsTabButton = await canvas.findByTestId(
+        'scene-theme-context-change-color-button'
+    );
+    userEvent.click(behaviorsTabButton);
+};
+
+export const UpdateObjectStyle = Template.bind({});
+UpdateObjectStyle.play = async ({ canvasElement }) => {
+    await sleep(1);
+    const canvas = within(canvasElement);
+    // Finds the button and clicks it
+    const behaviorsTabButton = await canvas.findByTestId(
+        'scene-theme-context-change-style-button'
+    );
+    userEvent.click(behaviorsTabButton);
+};
+
+export const UpdateBackgroundColor = Template.bind({});
+UpdateBackgroundColor.play = async ({ canvasElement }) => {
+    await sleep(1);
+    const canvas = within(canvasElement);
+    // Finds the button and clicks it
+    const behaviorsTabButton = await canvas.findByTestId(
+        'scene-theme-context-change-background-button'
+    );
+    userEvent.click(behaviorsTabButton);
 };
