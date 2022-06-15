@@ -36,6 +36,7 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
     const graphViewerStyles = getGraphViewerStyles();
     const iconStyles = getGraphViewerIconStyles();
     const actionButtonStyles = getGraphViewerActionButtonStyles();
+    const { model } = state;
 
     const onNameClick = () => {
         if (!state.modified) {
@@ -111,7 +112,7 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
                                     displayName={nameText}
                                     setDisplayName={setNameText}
                                     dispatch={dispatch}
-                                    state={state}
+                                    model={model}
                                     onCommitCallback={() => {
                                         setNameEditor(false);
                                     }}

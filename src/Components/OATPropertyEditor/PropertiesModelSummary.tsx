@@ -109,7 +109,7 @@ export const PropertiesModelSummary = ({
                     displayName={displayName}
                     setDisplayName={setDisplayName}
                     dispatch={dispatch}
-                    state={state}
+                    model={model}
                 />
             </div>
         </Stack>

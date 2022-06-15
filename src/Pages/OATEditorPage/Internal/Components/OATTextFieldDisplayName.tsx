@@ -3,12 +3,12 @@ import { TextField } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import {
     IAction,
+    IOATTwinModelNodes,
     OATDisplayNameLengthLimit
 } from '../../../../Models/Constants';
 import { SET_OAT_PROPERTY_EDITOR_MODEL } from '../../../../Models/Constants/ActionTypes';
 import { getModelPropertyListItemName } from '../../../../Components/OATPropertyEditor/Utils';
 import { deepCopy } from '../../../../Models/Services/Utils';
-import { IOATEditorState } from '../../OATEditorPage.types';
 
 type IOATTexField = {
     autoFocus?: boolean;
@@ -16,11 +16,11 @@ type IOATTexField = {
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
     disabled?: boolean;
     displayName: string;
-    onCommitCallback?: () => void;
-    onChangeCallback?: () => void;
+    onCommit?: () => void;
+    onChange?: () => void;
     placeholder?: string;
     setDisplayName: (value: string) => void;
-    state?: IOATEditorState;
+    model?: IOATTwinModelNodes;
     setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
     styles?: React.CSSProperties;
 };
@@ -31,23 +31,22 @@ const OATTextFieldDisplayName = ({
     dispatch,
     disabled,
     displayName,
-    onChangeCallback,
-    onCommitCallback,
+    onChange,
+    onCommit,
     placeholder,
     setDisplayName,
-    state,
+    model,
     styles
 }: IOATTexField) => {
     const { t } = useTranslation();
     const [displayNameLengthError, setDisplayNameLengthError] = useState(null);
-    const { model } = state;
 
     const handleOnChange = (value) => {
         // Check length
         if (value.length <= OATDisplayNameLengthLimit) {
             setDisplayNameLengthError(null);
             setDisplayName(value);
-            onChangeCallback();
+            onChange();
         } else {
             setDisplayNameLengthError(true);
         }
@@ -66,7 +65,7 @@ const OATTextFieldDisplayName = ({
             setDisplayName(getModelPropertyListItemName(model.displayName));
             setDisplayNameLengthError(false);
         }
-        onCommitCallback();
+        onCommit();
     };
 
     const onKeyDown = (event) => {
@@ -106,10 +105,10 @@ OATTextFieldDisplayName.defaultProps = {
     autoFocus: false,
     borderless: false,
     disabled: false,
-    onChangeCallback: () => {
+    onChange: () => {
         // Do nothing
     },
-    onCommitCallback: () => {
+    onCommit: () => {
         // Do nothing
     },
     placeholder: ''

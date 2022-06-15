@@ -43,6 +43,7 @@ const OATModelList = ({
     const containerRef = useRef(null);
     const iconStyles = getModelsIconStyles();
     const actionButtonStyles = getModelsActionButtonStyles();
+    const { model } = state;
 
     useEffect(() => {
         setItems(elements);
@@ -163,7 +164,7 @@ const OATModelList = ({
                                         displayName={nameText}
                                         setDisplayName={setNameText}
                                         dispatch={dispatch}
-                                        state={state}
+                                        model={model}
                                         onChangeCallback={() => {
                                             setItems([...items]);
                                         }}
