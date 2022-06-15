@@ -13,6 +13,7 @@ import React, {
 import './SceneView.scss';
 import {
     createGUID,
+    deepCopy,
     getDebugLogger,
     hexToColor4
 } from '../../Models/Services/Utils';
@@ -204,7 +205,7 @@ function SceneView(props: ISceneViewProps, ref) {
     const pointerActive = useRef(false);
     const lastCameraPositionOnMouseMoveRef = useRef('');
     const initialCameraRadiusRef = useRef(0);
-    const zoomedCameraRadiusRef = useRef(0);
+    const initialCameraTargetRef = useRef(new BABYLON.Vector3(0, 0, 0));
     const zoomedMeshesRef = useRef([]);
     const lastCameraPositionRef = useRef('');
 
@@ -343,13 +344,13 @@ function SceneView(props: ISceneViewProps, ref) {
 
                     const es = someMeshFromTheArrayOfMeshes.getBoundingInfo()
                         .boundingBox.extendSize;
-                    const es_scaled = es.scale(
-                        zoomMeshIds && zoomMeshIds.length < 10 ? 5 : 3
-                    );
+                    // if zooming to an element set scale a little further out than if its the whole model
+                    const scaleFactor = zoomMeshIds?.length ? 5 : 3;
+                    const es_scaled = es.scale(scaleFactor);
                     const width = es_scaled.x;
                     const height = es_scaled.y;
                     const depth = es_scaled.z;
-                    let radius = Math.max(width, height, depth);
+                    const radius = Math.max(width, height, depth);
 
                     const center = someMeshFromTheArrayOfMeshes.getBoundingInfo()
                         .boundingBox.centerWorld;
@@ -384,6 +385,13 @@ function SceneView(props: ISceneViewProps, ref) {
                         cameraRef.current.wheelPrecision =
                             (3 * 40) / bbox.boundingSphere.radius;
 
+                        // zoomOn zooms on a mesh to be at the min distance where we could see it fully in the current viewport.
+                        // This means is won't necessarily center the model,
+                        // so storing the camera target so then when we reset it will be the same as when we first render
+                        initialCameraTargetRef.current = deepCopy(
+                            cameraRef.current.target
+                        );
+
                         // Register a render loop to repeatedly render the scene
                         engineRef.current.runRenderLoop(() => {
                             if (cameraRef.current) {
@@ -399,13 +407,12 @@ function SceneView(props: ISceneViewProps, ref) {
                             }
                         });
                     } else {
-                        // ensure if zoom to mesh ids are set we return to the original radius
-                        if (!zoomMeshIds?.length) {
-                            radius = initialCameraRadiusRef.current;
+                        // ensure if zoom to mesh ids are set we zoom to the meshes else reset
+                        if (zoomMeshIds?.length) {
+                            zoomCamera(radius, meshes, 30);
+                        } else {
+                            resetCamera();
                         }
-                        zoomedCameraRadiusRef.current = radius;
-                        // Here if the caller changed zoomToMeshIds - zoom the existing camera
-                        zoomCamera(radius, meshes, 30);
                     }
                 }
             }
@@ -584,11 +591,7 @@ function SceneView(props: ISceneViewProps, ref) {
             if (meshIds?.length) {
                 createOrZoomCamera(meshIds);
             } else {
-                zoomCamera(
-                    initialCameraRadiusRef.current,
-                    sceneRef.current.meshes,
-                    30
-                );
+                resetCamera();
             }
         }
     }));
@@ -599,31 +602,17 @@ function SceneView(props: ISceneViewProps, ref) {
         frames: number,
         zoomOnly?: boolean
     ) => {
-        const positionFrom = cameraRef.current.position;
         const targetFrom = cameraRef.current.target;
         const radiusFrom = cameraRef.current.radius;
         // Now move it immediately to where we want it and save the new position
         cameraRef.current.zoomOn(meshes, true);
-        const positionTo = cameraRef.current.position;
         const targetTo = cameraRef.current.target;
         const radiusTo = radius;
         // Reset camera back to original position
-        cameraRef.current.position = positionFrom;
         cameraRef.current.target = targetFrom;
         const ease = new BABYLON.CubicEase();
         ease.setEasingMode(BABYLON.EasingFunction.EASINGMODE_EASEINOUT);
         if (!zoomOnly) {
-            BABYLON.Animation.CreateAndStartAnimation(
-                'an1',
-                cameraRef.current,
-                'position',
-                30,
-                frames,
-                positionFrom,
-                positionTo,
-                BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT,
-                ease
-            );
             BABYLON.Animation.CreateAndStartAnimation(
                 'an2',
                 cameraRef.current,
@@ -642,6 +631,39 @@ function SceneView(props: ISceneViewProps, ref) {
             'radius',
             30,
             frames,
+            radiusFrom,
+            radiusTo,
+            BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT,
+            ease
+        );
+    };
+
+    const resetCamera = () => {
+        const targetFrom = cameraRef.current.target;
+        const radiusFrom = cameraRef.current.radius;
+        const targetTo = initialCameraTargetRef.current;
+        const radiusTo = initialCameraRadiusRef.current;
+
+        const ease = new BABYLON.CubicEase();
+        ease.setEasingMode(BABYLON.EasingFunction.EASINGMODE_EASEINOUT);
+        BABYLON.Animation.CreateAndStartAnimation(
+            'an2',
+            cameraRef.current,
+            'target',
+            30,
+            30,
+            targetFrom,
+            targetTo,
+            BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT,
+            ease
+        );
+
+        BABYLON.Animation.CreateAndStartAnimation(
+            'an3',
+            cameraRef.current,
+            'radius',
+            30,
+            30,
             radiusFrom,
             radiusTo,
             BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT,
