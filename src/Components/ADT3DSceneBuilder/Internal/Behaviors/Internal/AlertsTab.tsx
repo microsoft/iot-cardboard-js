@@ -211,7 +211,10 @@ const AlertsTab: React.FC = () => {
 
     logDebugConsole('debug', 'Render');
     return (
-        <Stack tokens={{ childrenGap: 8 }}>
+        <Stack
+            tokens={{ childrenGap: 8 }}
+            className={commonPanelStyles.paddedLeftPanelBlock}
+        >
             <Text className={commonPanelStyles.text}>
                 {t(LOC_KEYS.tabDescription)}
             </Text>

@@ -1,10 +1,16 @@
-import { Pivot, PivotItem } from '@fluentui/react';
+import {
+    classNamesFunction,
+    Pivot,
+    PivotItem,
+    styled,
+    useTheme
+} from '@fluentui/react';
 import React, { useCallback, useContext, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
     ADT3DSceneBuilderMode,
     ADT3DSceneTwinBindingsMode
-} from '../../../Models/Constants/Enums';
+} from '../../../../Models/Constants/Enums';
 import {
     OnBehaviorSave,
     SET_ADT_SCENE_BUILDER_ELEMENTS,
@@ -13,32 +19,47 @@ import {
     SET_ADT_SCENE_BUILDER_SELECTED_BEHAVIOR,
     SET_ADT_SCENE_BUILDER_SELECTED_ELEMENT,
     SET_ADT_SCENE_BUILDER_SELECTED_ELEMENTS
-} from '../ADT3DSceneBuilder.types';
-import '../ADT3DSceneBuilder.scss';
-import BaseComponent from '../../../Components/BaseComponent/BaseComponent';
-import useAdapter from '../../../Models/Hooks/useAdapter';
+} from '../../ADT3DSceneBuilder.types';
+import '../../ADT3DSceneBuilder.scss';
+import BaseComponent from '../../../BaseComponent/BaseComponent';
+import useAdapter from '../../../../Models/Hooks/useAdapter';
 import {
     DatasourceType,
     defaultBehavior
-} from '../../../Models/Classes/3DVConfig';
-import ViewerConfigUtility from '../../../Models/Classes/ViewerConfigUtility';
-import SceneBehaviors from '../Internal/Behaviors/Behaviors';
-import SceneBehaviorsForm from '../Internal/Behaviors/BehaviorsForm';
-import SceneElementForm from '../Internal/Elements/ElementForm';
-import SceneElements from '../Internal/Elements/Elements';
-import SceneBreadcrumbFactory from '../../SceneBreadcrumb/SceneBreadcrumbFactory';
-import { SceneBuilderContext } from '../ADT3DSceneBuilder';
-import { createCustomMeshItems } from '../../3DV/SceneView.Utils';
+} from '../../../../Models/Classes/3DVConfig';
+import ViewerConfigUtility from '../../../../Models/Classes/ViewerConfigUtility';
+import SceneBehaviors from '../Behaviors/Behaviors';
+import SceneBehaviorsForm from '../Behaviors/BehaviorsForm';
+import SceneElementForm from '../Elements/ElementForm';
+import SceneElements from '../Elements/Elements';
+import SceneBreadcrumbFactory from '../../../SceneBreadcrumb/SceneBreadcrumbFactory';
+import { SceneBuilderContext } from '../../ADT3DSceneBuilder';
+import { createCustomMeshItems } from '../../../3DV/SceneView.Utils';
 import {
     I3DScenesConfig,
     IBehavior,
     ITwinToObjectMapping
-} from '../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
-import { createGUID, deepCopy } from '../../../Models/Services/Utils';
-import { ElementModes } from '../../../Models/Constants/Breadcrumb';
+} from '../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
+import { createGUID, deepCopy } from '../../../../Models/Services/Utils';
+import { ElementModes } from '../../../../Models/Constants/Breadcrumb';
+import {
+    IBuilderLeftPanelProps,
+    IBuilderLeftPanelStyleProps,
+    IBuilderLeftPanelStyles
+} from './BuilderLeftPanel.types';
+import { getStyles } from './BuilderLeftPanel.styles';
 
-const BuilderLeftPanel: React.FC = () => {
+const getClassNames = classNamesFunction<
+    IBuilderLeftPanelStyleProps,
+    IBuilderLeftPanelStyles
+>();
+
+const BuilderLeftPanel: React.FC<IBuilderLeftPanelProps> = ({ styles }) => {
     const { t } = useTranslation();
+
+    const classNames = getClassNames(styles, {
+        theme: useTheme()
+    });
 
     const {
         config,
@@ -426,7 +447,8 @@ const BuilderLeftPanel: React.FC = () => {
             theme={theme}
             locale={locale}
             localeStrings={localeStrings}
-            containerClassName="cb-scene-builder-left-panel"
+            containerClassName={classNames.root}
+            disableDefaultStyles
         >
             <SceneBreadcrumbFactory
                 sceneName={sceneName}
@@ -441,7 +463,7 @@ const BuilderLeftPanel: React.FC = () => {
                     selectedKey={state.selectedPivotTab}
                     onLinkClick={setPivotItem}
                     className="cb-scene-builder-left-panel-pivot"
-                    styles={{ root: { marginBottom: 16 } }}
+                    styles={{ root: { marginBottom: 16, padding: '0px 16px' } }}
                 >
                     <PivotItem
                         headerText={t('3dSceneBuilder.elements')}
@@ -513,4 +535,8 @@ const BuilderLeftPanel: React.FC = () => {
     );
 };
 
-export default BuilderLeftPanel;
+export default styled<
+    IBuilderLeftPanelProps,
+    IBuilderLeftPanelStyleProps,
+    IBuilderLeftPanelStyles
+>(BuilderLeftPanel, getStyles);

@@ -44,9 +44,9 @@ const SceneThemePicker: React.FC<SceneThemePickerProps> = () => {
     );
     return (
         <ModelViewerModePicker
-            selectedObjectColor={sceneThemeState.objectColor}
+            selectedObjectColor={sceneThemeState.objectColor.color}
             selectedObjectStyle={sceneThemeState.objectStyle}
-            selectedSceneBackground={sceneThemeState.sceneBackground}
+            selectedSceneBackground={sceneThemeState.sceneBackground.color}
             objectColorOptions={sceneThemeState.objectColorOptions}
             backgroundColorOptions={sceneThemeState.sceneBackgroundOptions}
             objectStyleOptions={sceneThemeState.objectStyleOptions}

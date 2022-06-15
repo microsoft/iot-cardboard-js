@@ -68,9 +68,7 @@ const styles = mergeStyleSets({
         classNames.root,
         {
             display: 'flex',
-            marginBottom: 12,
-            marginLeft: 4,
-            marginRight: 4
+            marginBottom: 12
         } as IStyle
     ]
 });

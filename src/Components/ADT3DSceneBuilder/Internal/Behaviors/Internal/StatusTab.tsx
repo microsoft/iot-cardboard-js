@@ -184,7 +184,10 @@ const StatusTab: React.FC<IStatusTabProps> = ({ onValidityChange }) => {
     const commonPanelStyles = getLeftPanelStyles(useTheme());
     const showRangeBuilder = !!statusVisualToEdit.valueExpression;
     return (
-        <Stack tokens={sectionStackTokens}>
+        <Stack
+            tokens={sectionStackTokens}
+            className={commonPanelStyles.paddedLeftPanelBlock}
+        >
             <Text className={commonPanelStyles.text}>
                 {t(LOC_KEYS.tabDescription)}
             </Text>
@@ -208,8 +211,8 @@ const StatusTab: React.FC<IStatusTabProps> = ({ onValidityChange }) => {
                         sceneId,
                         selectedElements
                     }}
-                    mode={ModelledPropertyBuilderMode.TOGGLE}
                     isClearEnabled={true}
+                    mode={ModelledPropertyBuilderMode.TOGGLE}
                     propertyExpression={{
                         expression:
                             getStatusFromBehavior(

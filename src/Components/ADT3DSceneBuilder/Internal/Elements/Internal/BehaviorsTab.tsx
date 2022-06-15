@@ -134,7 +134,7 @@ const BehaviorsTab: React.FC<IADT3DSceneBuilderElementBehaviorProps> = ({
 
     const commonPanelStyles = getLeftPanelStyles(useTheme());
     return (
-        <>
+        <div className={commonPanelStyles.paddedLeftPanelBlock}>
             {behaviorState.behaviorsOnElement?.length === 0 && (
                 <div className={commonPanelStyles.noDataText}>
                     {t('3dSceneBuilder.elementBehaviorMeshTab.noDataMessage')}
@@ -172,7 +172,7 @@ const BehaviorsTab: React.FC<IADT3DSceneBuilderElementBehaviorProps> = ({
                     isCreateBehaviorDisabled={isCreateBehaviorDisabled}
                 />
             )}
-        </>
+        </div>
     );
 };
 function getListItems(

@@ -7,6 +7,12 @@ The components in Cardboard are also used for building the experiences in [Azure
 
 The 3D visualization components in this library leverage the fantastic [BabylonJS](https://www.babylonjs.com/) library under the hood.  If you haven't used it yet, we can't say enough great things about the library, definitely check it out!
 
+Viewer Mode
+![image](https://user-images.githubusercontent.com/57726991/173465604-844492d1-89c8-4378-8bd7-131ef966002a.png)
+
+Builder mode
+![image](https://user-images.githubusercontent.com/57726991/173465578-93eb1b54-e1b5-40a6-944c-9185c5fb14ca.png)
+
 ## Storybook 📖
 This project is developed using Storybook - an open source tool for building UI components in isolation.  Our [hosted storybook](https://main--601c6b2fcd385c002100f14c.chromatic.com) showcases the current library of **iot-cardboard-js** components.  [Learn more about Storybook](https://storybook.js.org/).
 > Note: stories which require authentication or API interaction can be found in the local development storybook. 
