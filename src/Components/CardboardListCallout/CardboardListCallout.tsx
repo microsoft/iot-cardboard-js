@@ -135,7 +135,7 @@ const CardboardListCallout = <T extends unknown>({
                         onClick={() =>
                             primaryActionProps.onPrimaryActionClick(searchText)
                         }
-                        disabled={primaryActionProps.disabled ? true : false}
+                        disabled={!!primaryActionProps.disabled}
                     >
                         {primaryActionProps.primaryActionLabel}
                     </PrimaryButton>
