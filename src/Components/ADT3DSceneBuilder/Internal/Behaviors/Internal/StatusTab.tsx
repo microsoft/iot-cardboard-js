@@ -29,7 +29,7 @@ import { DOCUMENTATION_LINKS } from '../../../../../Models/Constants';
 import { useBehaviorFormContext } from './BehaviorFormContext/BehaviorFormContext';
 import { BehaviorFormContextActionType } from './BehaviorFormContext/BehaviorFormContext.types';
 
-const debugLogging = true;
+const debugLogging = false;
 const logDebugConsole = getDebugLogger('StatusTab', debugLogging);
 
 const getStatusFromBehavior = (behavior: IBehavior) =>

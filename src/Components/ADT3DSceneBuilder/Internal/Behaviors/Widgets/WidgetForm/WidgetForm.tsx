@@ -28,7 +28,7 @@ import { useBehaviorFormContext } from '../../Internal/BehaviorFormContext/Behav
 import { BehaviorFormContextActionType } from '../../Internal/BehaviorFormContext/BehaviorFormContext.types';
 import { getDebugLogger } from '../../../../../../Models/Services/Utils';
 
-const debugLogging = true;
+const debugLogging = false;
 const logDebugConsole = getDebugLogger('WidgetForm', debugLogging);
 
 const getDefaultFormData = (widgetFormInfo: WidgetFormInfo) => {

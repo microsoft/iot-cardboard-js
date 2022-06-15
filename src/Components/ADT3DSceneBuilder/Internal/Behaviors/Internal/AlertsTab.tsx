@@ -31,7 +31,7 @@ import {
 import { useBehaviorFormContext } from './BehaviorFormContext/BehaviorFormContext';
 import { BehaviorFormContextActionType } from './BehaviorFormContext/BehaviorFormContext.types';
 
-const debugLogging = true;
+const debugLogging = false;
 const logDebugConsole = getDebugLogger('AlertsTab', debugLogging);
 
 // NOTE: the copy is created to avoid accidental updates to the object held by the reducer
