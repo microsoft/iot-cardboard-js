@@ -184,66 +184,79 @@ const SceneBehaviors: React.FC<Props> = ({
     const customStyles = getStyles(theme);
     return (
         <div className="cb-scene-builder-pivot-contents">
-            <SearchHeader
-                onSearchTextChange={setSearchText}
-                placeholder={t('3dSceneBuilder.searchBehaviorsPlaceholder')}
-                searchText={searchText}
-            />
+            <div className={commonPanelStyles.paddedLeftPanelBlock}>
+                <SearchHeader
+                    onSearchTextChange={setSearchText}
+                    placeholder={t('3dSceneBuilder.searchBehaviorsPlaceholder')}
+                    searchText={searchText}
+                />
+            </div>
             <div className={commonPanelStyles.content}>
-                {behaviors.length === 0 ? (
-                    <IllustrationMessage
-                        headerText={t('3dSceneBuilder.noBehaviorsText')}
-                        type={'info'}
-                        width={'compact'}
-                    />
-                ) : !itemsInSceneVisible && !itemsNotInSceneVisible ? (
-                    <IllustrationMessage
-                        headerText={t('3dSceneBuilder.noResults')}
-                        type={'info'}
-                        width={'compact'}
-                    />
-                ) : (
-                    <>
-                        {/* List of behaviors in the scene */}
-                        {itemsInSceneVisible && (
-                            <>
-                                <div className={customStyles.listSectionLabel}>
-                                    {t('3dSceneBuilder.behaviorsInSceneTitle', {
-                                        count: behaviorsInScene?.length
-                                    })}
-                                </div>
-                                <CardboardList<IBehavior>
-                                    items={listItemsInScene}
-                                    listKey={'behaviors-in-scene'}
-                                    textToHighlight={searchText}
-                                />
-                            </>
-                        )}
-                        {/* Separator between lists */}
-                        {itemsInSceneVisible && itemsNotInSceneVisible && (
-                            <Separator />
-                        )}
-                        {/* Items not in the scene */}
-                        {itemsNotInSceneVisible && (
-                            <>
-                                <ExpandSectionLabel
-                                    isBehaviorLibraryExpanded={
-                                        isBehaviorLibraryExpanded
-                                    }
-                                    listItemCount={behaviorsNotInScene?.length}
-                                    onClick={setIsBehaviorLibraryExpanded}
-                                />
-                                {isBehaviorLibraryExpanded && (
+                <div className={commonPanelStyles.paddedLeftPanelBlock}>
+                    {behaviors.length === 0 ? (
+                        <IllustrationMessage
+                            headerText={t('3dSceneBuilder.noBehaviorsText')}
+                            type={'info'}
+                            width={'compact'}
+                        />
+                    ) : !itemsInSceneVisible && !itemsNotInSceneVisible ? (
+                        <IllustrationMessage
+                            headerText={t('3dSceneBuilder.noResults')}
+                            type={'info'}
+                            width={'compact'}
+                        />
+                    ) : (
+                        <>
+                            {/* List of behaviors in the scene */}
+                            {itemsInSceneVisible && (
+                                <>
+                                    <div
+                                        className={
+                                            customStyles.listSectionLabel
+                                        }
+                                    >
+                                        {t(
+                                            '3dSceneBuilder.behaviorsInSceneTitle',
+                                            {
+                                                count: behaviorsInScene?.length
+                                            }
+                                        )}
+                                    </div>
                                     <CardboardList<IBehavior>
-                                        items={listItemsNotInScene}
-                                        listKey={'behaviors-not-in-scene'}
+                                        items={listItemsInScene}
+                                        listKey={'behaviors-in-scene'}
                                         textToHighlight={searchText}
                                     />
-                                )}
-                            </>
-                        )}
-                    </>
-                )}
+                                </>
+                            )}
+                            {/* Separator between lists */}
+                            {itemsInSceneVisible && itemsNotInSceneVisible && (
+                                <Separator />
+                            )}
+                            {/* Items not in the scene */}
+                            {itemsNotInSceneVisible && (
+                                <>
+                                    <ExpandSectionLabel
+                                        isBehaviorLibraryExpanded={
+                                            isBehaviorLibraryExpanded
+                                        }
+                                        listItemCount={
+                                            behaviorsNotInScene?.length
+                                        }
+                                        onClick={setIsBehaviorLibraryExpanded}
+                                    />
+                                    {isBehaviorLibraryExpanded && (
+                                        <CardboardList<IBehavior>
+                                            items={listItemsNotInScene}
+                                            listKey={'behaviors-not-in-scene'}
+                                            textToHighlight={searchText}
+                                        />
+                                    )}
+                                </>
+                            )}
+                        </>
+                    )}
+                </div>
             </div>
             <PanelFooter>
                 <PrimaryButton

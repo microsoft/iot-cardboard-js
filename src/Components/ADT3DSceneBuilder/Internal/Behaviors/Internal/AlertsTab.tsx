@@ -153,7 +153,10 @@ const AlertsTab: React.FC = () => {
     const commonPanelStyles = getLeftPanelStyles(theme);
 
     return (
-        <Stack tokens={{ childrenGap: 8 }}>
+        <Stack
+            tokens={{ childrenGap: 8 }}
+            className={commonPanelStyles.paddedLeftPanelBlock}
+        >
             <Text className={commonPanelStyles.text}>
                 {t(LOC_KEYS.tabDescription)}
             </Text>

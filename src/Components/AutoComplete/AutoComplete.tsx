@@ -13,7 +13,7 @@ import {
 } from '@fluentui/react';
 import { useGuid } from '../../Models/Hooks';
 import React, { useRef, useState } from 'react';
-import CaretCoordinates from './CaretCoordinates';
+import { CaretCoordinates } from './CaretCoordinates';
 
 export interface IAutoCompleteProps {
     className?: string;

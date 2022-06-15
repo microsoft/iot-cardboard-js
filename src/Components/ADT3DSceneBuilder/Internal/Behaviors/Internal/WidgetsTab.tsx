@@ -147,31 +147,33 @@ const WidgetsTab: React.FC = () => {
     const commonPanelStyles = getLeftPanelStyles(theme);
     const actionButtonStyles = getActionButtonStyles(theme);
     return (
-        <>
-            <Stack tokens={{ childrenGap: 8 }}>
+        <div className={commonPanelStyles.formTabContents}>
+            <Stack
+                tokens={{ childrenGap: 8 }}
+                className={commonPanelStyles.paddedLeftPanelBlock}
+            >
                 <Text className={commonPanelStyles.text}>
                     {t(LOC_KEYS.tabDescription)}
                 </Text>
-                <div className={commonPanelStyles.formTabContents}>
-                    {!widgets?.length ? (
-                        <div className={commonPanelStyles.noDataText}>
-                            {t(LOC_KEYS.noData)}
-                        </div>
-                    ) : (
-                        <CardboardList<IWidget>
-                            items={listItems}
-                            listKey={'widgets-in-behavior'}
-                        />
-                    )}
-                    <ActionButton
-                        styles={actionButtonStyles}
-                        text={t(LOC_KEYS.addButtonText)}
-                        data-testid={'widgetForm-addWidget'}
-                        onClick={() => {
-                            setIsLibraryDialogOpen(true);
-                        }}
+
+                {!widgets?.length ? (
+                    <div className={commonPanelStyles.noDataText}>
+                        {t(LOC_KEYS.noData)}
+                    </div>
+                ) : (
+                    <CardboardList<IWidget>
+                        items={listItems}
+                        listKey={'widgets-in-behavior'}
                     />
-                </div>
+                )}
+                <ActionButton
+                    styles={actionButtonStyles}
+                    text={t(LOC_KEYS.addButtonText)}
+                    data-testid={'widgetForm-addWidget'}
+                    onClick={() => {
+                        setIsLibraryDialogOpen(true);
+                    }}
+                />
             </Stack>
             {isLibraryDialogOpen && (
                 <WidgetLibraryDialog
@@ -181,7 +183,7 @@ const WidgetsTab: React.FC = () => {
                     }
                 />
             )}
-        </>
+        </div>
     );
 };
 function getListItems(

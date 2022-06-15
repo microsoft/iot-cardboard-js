@@ -120,7 +120,8 @@ export interface ISceneViewProps {
     zoomToMeshIds?: string[];
     unzoomedMeshOpacity?: number;
     showHoverOnSelected?: boolean;
-    objectColors?: IADTObjectColor;
+    objectColor?: IADTObjectColor;
+    objectColorOptions?: IADTObjectColor[];
     badgeGroups?: SceneViewBadgeGroup[];
     backgroundColor?: IADTBackgroundColor;
     cameraInteractionType?: CameraInteraction;

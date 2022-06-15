@@ -4,32 +4,23 @@ This class intercepts calls to the SceneViewer and enables AddIns to hook into e
 
 */
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import * as BABYLON from '@babylonjs/core/Legacy/legacy';
 import { ICameraPosition } from '../../Models/Classes/SceneView.types';
 import SceneView, { showFpsCounter } from './SceneView';
 import {
     ADT3DAddInEventTypes,
     CameraInteraction,
-    ViewerModeStyles
+    ViewerObjectStyle
 } from '../../Models/Constants/Enums';
 import {
     ADT3DAddInEventData,
     ISceneViewWrapperProps
 } from '../../Models/Constants/Interfaces';
-import ModelViewerModePicker, {
-    ViewerMode
-} from '../ModelViewerModePicker/ModelViewerModePicker';
 import './SceneView.scss';
 import {
     DefaultViewerModeObjectColor,
-    IADT3DViewerMode,
-    IADTBackgroundColor,
-    IADTObjectColor,
-    SelectedCameraInteractionKey,
-    ViewerModeBackgroundColors,
-    ViewerModeObjectColors,
-    ViewerThemeKey
+    SelectedCameraInteractionKey
 } from '../../Models/Constants';
 import { CameraControls } from './Internal/CameraControls/CameraControls';
 import {
@@ -44,6 +35,8 @@ import {
     ISceneViewWrapperStyleProps,
     ISceneViewWrapperStyles
 } from './SceneViewWrapper.types';
+import SceneThemePicker from '../ModelViewerModePicker/SceneThemePicker';
+import { useSceneThemeContext } from '../../Models/Context/SceneThemeContext/SceneThemeContext';
 import { WrapperMode } from './SceneView.types';
 
 const getClassNames = classNamesFunction<
@@ -72,10 +65,6 @@ const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = (props) => {
     data.config = config;
     data.sceneId = sceneId;
     data.sceneVisuals = sceneVisuals;
-    const [
-        selectedViewerMode,
-        setSelectedViewerMode
-    ] = useState<IADT3DViewerMode>(null);
 
     const [
         cameraInteractionType,
@@ -87,6 +76,22 @@ const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = (props) => {
     const theme = useTheme();
     const classNames = getClassNames(styles, { theme, mode: wrapperMode });
 
+    const { sceneThemeState } = useSceneThemeContext();
+
+    // notify consumer of the change
+    useEffect(() => {
+        if (objectColorUpdated) {
+            const objectColor = sceneThemeState.objectColorOptions.find(
+                (x) => x.color === sceneThemeState.objectColor
+            );
+            objectColorUpdated(objectColor);
+        }
+    }, [
+        objectColorUpdated,
+        sceneThemeState.objectColor,
+        sceneThemeState.objectColorOptions
+    ]);
+
     useEffect(() => {
         const cameraInteraction = localStorage.getItem(
             SelectedCameraInteractionKey
@@ -96,28 +101,7 @@ const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = (props) => {
         } else {
             setCameraInteractionType(CameraInteraction.Rotate);
         }
-
-        const viewerMode = localStorage.getItem(ViewerThemeKey);
-        if (viewerMode) {
-            setSelectedViewerMode(JSON.parse(viewerMode));
-        } else {
-            setSelectedViewerMode({
-                objectColor: null,
-                style: ViewerModeStyles.Default,
-                isWireframe: false,
-                background: ViewerModeBackgroundColors[0]
-            });
-        }
     }, []);
-
-    useEffect(() => {
-        if (selectedViewerMode) {
-            localStorage.setItem(
-                ViewerThemeKey,
-                JSON.stringify(selectedViewerMode)
-            );
-        }
-    }, [selectedViewerMode]);
 
     const sceneLoaded = (scene: BABYLON.Scene) => {
         data.eventType = ADT3DAddInEventTypes.SceneLoaded;
@@ -174,42 +158,6 @@ const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = (props) => {
         }
     };
 
-    const onViewerModeUpdated = (viewerMode: ViewerMode) => {
-        if (viewerMode) {
-            let objectColor: IADTObjectColor = null;
-            if (viewerMode.objectColor) {
-                objectColor = ViewerModeObjectColors.find(
-                    (oc) => viewerMode?.objectColor === oc.color
-                );
-            }
-
-            if (!objectColor) {
-                objectColor = DefaultViewerModeObjectColor;
-            }
-
-            let backgroundColor: IADTBackgroundColor = null;
-            if (viewerMode.background) {
-                backgroundColor = ViewerModeBackgroundColors.find(
-                    (bc) => viewerMode?.background === bc.color
-                );
-            }
-
-            const isWireframe =
-                viewerMode.style === ViewerModeStyles.Wireframe ? true : false;
-
-            setSelectedViewerMode({
-                objectColor: objectColor,
-                background: backgroundColor,
-                style: viewerMode.style,
-                isWireframe: isWireframe
-            });
-
-            if (objectColorUpdated) {
-                objectColorUpdated(objectColor);
-            }
-        }
-    };
-
     const onCameraInteractionChanged = (type) => {
         setCameraInteractionType(type);
         localStorage.setItem(
@@ -217,6 +165,33 @@ const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = (props) => {
             JSON.stringify(type)
         );
     };
+
+    const sceneIsWireframe = useMemo(
+        () => sceneThemeState.objectStyle === ViewerObjectStyle.Wireframe,
+        [sceneThemeState.objectStyle]
+    );
+    const sceneObjectColor = useMemo(() => {
+        // keep the material styles in default style
+        if (sceneThemeState.objectStyle === ViewerObjectStyle.Default) {
+            return DefaultViewerModeObjectColor;
+        } else {
+            return (
+                sceneThemeState.objectColorOptions.find(
+                    (x) => x.color === sceneThemeState.objectColor
+                ) || DefaultViewerModeObjectColor
+            );
+        }
+    }, [sceneThemeState.objectColor, sceneThemeState.objectColorOptions]);
+    const sceneObjectBackgroundColor = useMemo(
+        () =>
+            sceneThemeState.sceneBackgroundOptions.find(
+                (x) => x.color === sceneThemeState.sceneBackground
+            ),
+        [
+            sceneThemeState.sceneBackground,
+            sceneThemeState.sceneBackgroundOptions
+        ]
+    );
 
     const FPSCounterStyle = {
         position: 'absolute',
@@ -233,9 +208,9 @@ const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = (props) => {
     return (
         <div
             style={
-                selectedViewerMode?.background?.color
+                sceneThemeState.sceneBackground
                     ? {
-                          background: selectedViewerMode.background.color
+                          background: sceneThemeState.sceneBackground
                       }
                     : {}
             }
@@ -243,9 +218,10 @@ const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = (props) => {
         >
             <SceneView
                 ref={sceneViewComponent}
-                isWireframe={selectedViewerMode?.isWireframe}
-                objectColors={selectedViewerMode?.objectColor}
-                backgroundColor={selectedViewerMode?.background}
+                isWireframe={sceneIsWireframe}
+                objectColor={sceneObjectColor}
+                objectColorOptions={sceneThemeState.objectColorOptions}
+                backgroundColor={sceneObjectBackgroundColor}
                 onCameraMove={addInProps?.onCameraMove ? cameraMove : undefined}
                 {...svp}
                 onMeshHover={meshHover}
@@ -279,18 +255,7 @@ const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = (props) => {
                 horizontal
                 styles={classNames.subComponentStyles.rightHeaderControlsStack}
             >
-                {!hideViewModePickerUI && (
-                    <ModelViewerModePicker
-                        defaultViewerMode={{
-                            objectColor: selectedViewerMode?.objectColor?.color,
-                            style: selectedViewerMode?.style,
-                            background: selectedViewerMode?.background?.color
-                        }}
-                        viewerModeUpdated={onViewerModeUpdated}
-                        objectColors={ViewerModeObjectColors}
-                        backgroundColors={ViewerModeBackgroundColors}
-                    />
-                )}
+                {!hideViewModePickerUI && <SceneThemePicker />}
             </Stack>
         </div>
     );

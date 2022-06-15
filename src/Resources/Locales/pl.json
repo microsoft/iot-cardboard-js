@@ -489,7 +489,8 @@
       "customExpression": "Niestandardowy (zaawansowany)",
       "dropdownPlaceholder": "Wybierz właściwość",
       "toggleLabel": "Tryb ekspresji",
-      "none": "Żaden"
+      "none": "Żaden",
+      "clearButtonText": "Jasny"
     },
     "numericExpressionPlaceholder": "Wprowadzanie wyrażenia, którego wynikiem jest liczba",
     "behaviorId": "Identyfikator zachowania",
@@ -510,7 +511,6 @@
     "twinAlias": {
       "title": "Podwójny alias",
       "calloutDescription": "Połączenie bliźniaczych właściwości wybranych elementów",
-      "aliasedTwin": "Aliasowany bliźniak",
       "add": "Dodaj bliźniaka",
       "new": "Nowy bliźniak",
       "edit": "Edytuj bliźniaczy",
@@ -539,7 +539,7 @@
       "errors": {
         "twinAliasAlreadyExists": "Bliźniaczy alias o tej samej nazwie już istnieje, rozważ dodanie go zamiast tego.",
         "alphanumericOnly": "Bliźniaczy alias może zawierać tylko znaki alfanumeryczne",
-        "noNumberPrefix": "Podwójny alias nie może zaczynać się od cyfry"
+        "noNumberPrefix": "Podwójna nazwa nie może zaczynać się od cyfry"
       }
     },
     "actions": "Akcje"

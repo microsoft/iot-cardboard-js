@@ -6,7 +6,7 @@
 // Note that some browsers, such as Firefox,
 // do not concatenate properties, i.e. padding-top, bottom etc. -> padding,
 // so we have to do every single property specifically.
-var properties = [
+const properties = [
     'direction', // RTL support
     'boxSizing',
     'width', // on Chrome and IE, exclude the scrollbar, so the mirror div wraps exactly as the textarea does
@@ -43,7 +43,7 @@ var properties = [
     'wordSpacing'
 ];
 
-function CaretCoordinates(element) {
+export function CaretCoordinates(element) {
     this.element = element;
 
     // mirrored div
@@ -51,7 +51,7 @@ function CaretCoordinates(element) {
     // this.div.id = 'input-textarea-caret-position-mirror-div';
     element.parentNode.insertBefore(this.div, element);
 
-    var style = this.div.style;
+    const style = this.div.style;
     this.computed = window.getComputedStyle
         ? getComputedStyle(element)
         : element.currentStyle; // currentStyle for IE < 9
@@ -101,7 +101,7 @@ CaretCoordinates.prototype.get = function (positionLeft) {
     // for inputs, just '.' would be enough, but why bother?
     // this.spanText.nodeValue = this.element.value.substring(positionLeft) || '.';  // || because a completely empty faux span doesn't render at all
 
-    var left =
+    const left =
         this.span.offsetLeft + parseInt(this.computed['borderLeftWidth'], 10);
 
     // *** CALCULATING RIGHT OFFSET MESSES UP TOP CALCULATION FOR SCROLLED TEXT AREAS ***
@@ -125,7 +125,7 @@ CaretCoordinates.prototype.get = function (positionLeft) {
     //   right = this.div.offsetWidth + parseInt(this.computed['borderLeftWidth'], 10);
     // }
 
-    var coordinates = {
+    const coordinates = {
         top:
             this.span.offsetTop + parseInt(this.computed['borderTopWidth'], 10),
         left: left
@@ -138,5 +138,3 @@ CaretCoordinates.prototype.get = function (positionLeft) {
 
     return coordinates;
 };
-
-module.exports = CaretCoordinates;

@@ -489,7 +489,8 @@
       "customExpression": "Özel (gelişmiş)",
       "dropdownPlaceholder": "Bir mülk seçin",
       "toggleLabel": "İfade modu",
-      "none": "Hiç kimse"
+      "none": "Hiç kimse",
+      "clearButtonText": "Berrak"
     },
     "numericExpressionPlaceholder": "Bir sayıyı değerlendiren bir ifade girin",
     "behaviorId": "Davranış Kimliği",
@@ -510,7 +511,6 @@
     "twinAlias": {
       "title": "İkiz takma ad",
       "calloutDescription": "Seçilen elemanların ikiz özelliklerinin birliği",
-      "aliasedTwin": "Takma adlı ikiz",
       "add": "İkiz ekle",
       "new": "Yeni iki yataklı",
       "edit": "İkizi düzenle",
@@ -539,7 +539,7 @@
       "errors": {
         "twinAliasAlreadyExists": "Aynı ada sahip ikiz takma ad zaten var, bunun yerine eklemeyi düşünün.",
         "alphanumericOnly": "İkiz diğer ad yalnızca alfasayısal karakterler içermelidir",
-        "noNumberPrefix": "İkiz takma ad bir sayı ile başlamamalıdır"
+        "noNumberPrefix": "İkiz ad bir sayı ile başlamamalıdır"
       }
     },
     "actions": "Eylemler"

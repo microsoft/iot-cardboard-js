@@ -54,7 +54,7 @@ import {
     defaultADT3DSceneBuilderState
 } from './ADT3DSceneBuilder.state';
 import { IADTAdapter } from '../../Models/Constants/Interfaces';
-import BuilderLeftPanel from './Internal/BuilderLeftPanel';
+import BuilderLeftPanel from './Internal/BuilderLeftPanel/BuilderLeftPanel';
 import { useTranslation } from 'react-i18next';
 import { AbstractMesh } from '@babylonjs/core';
 import { CustomMeshItem } from '../../Models/Classes/SceneView.types';
@@ -85,6 +85,7 @@ import {
 import { DeeplinkContextActionType } from '../../Models/Context/DeeplinkContext/DeeplinkContext.types';
 import { getStyles } from './ADT3DSceneBuilder.styles';
 import SceneLayers from './Internal/SceneLayers/SceneLayers';
+import { SceneThemeContextProvider } from '../../Models/Context';
 
 const contextMenuStyles = mergeStyleSets({
     header: {
@@ -919,7 +920,9 @@ const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
 const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = (props) => {
     return (
         <DeeplinkContextProvider>
-            <ADT3DSceneBuilderBase {...props} />
+            <SceneThemeContextProvider>
+                <ADT3DSceneBuilderBase {...props} />
+            </SceneThemeContextProvider>
         </DeeplinkContextProvider>
     );
 };
