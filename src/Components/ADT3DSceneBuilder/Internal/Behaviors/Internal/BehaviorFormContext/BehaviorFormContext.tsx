@@ -20,11 +20,12 @@ import {
 import {
     AddOrUpdateListItemByFilter,
     CreateNewBehavior,
+    isStateDirty,
     RemoveItemsFromListByFilter,
     RemoveWidgetFromBehaviorById
 } from './BehaviorFormContextUtility';
 
-const debugLogging = true;
+const debugLogging = false;
 const logDebugConsole = getDebugLogger('BehaviorFormContext', debugLogging);
 
 export const BehaviorFormContext = React.createContext<IBehaviorFormContext>(
@@ -213,6 +214,13 @@ export const BehaviorFormContextReducer: (
                 break;
             }
         }
+
+        draft.isDirty = isStateDirty(
+            draft,
+            initialBehavior,
+            initialLayers,
+            logDebugConsole
+        );
     }
 );
 

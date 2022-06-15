@@ -1,9 +1,39 @@
-import { current } from 'immer';
 import { defaultBehavior } from '../../../../../../Models/Classes/3DVConfig';
 import ViewerConfigUtility from '../../../../../../Models/Classes/ViewerConfigUtility';
 import { IConsoleLogFunction } from '../../../../../../Models/Constants/Types';
 import { createGUID, deepCopy } from '../../../../../../Models/Services/Utils';
 import { IBehavior } from '../../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
+import { IBehaviorFormContextState } from './BehaviorFormContext.types';
+
+/**
+ * Looks at the state and determines whether anything has been changed
+ * @param state the current state of the form
+ * @param originalBehavior the behavior that the form was initialized with
+ * @param originalLayers the list of layers that the form was initialized with
+ * @returns boolean indicating whether anything has been changed
+ */
+export function isStateDirty(
+    state: IBehaviorFormContextState,
+    originalBehavior: IBehavior,
+    originalLayers: string[],
+    logger: IConsoleLogFunction
+): boolean {
+    const newBehavior = state.behaviorToEdit;
+    const newLayers = state.behaviorSelectedLayerIds;
+
+    const hasBehaviorChanged =
+        JSON.stringify(newBehavior) !== JSON.stringify(originalBehavior);
+    const hasLayersChanged =
+        JSON.stringify(newLayers) !== JSON.stringify(originalLayers);
+
+    const isDirty = hasBehaviorChanged || hasLayersChanged;
+    logger(
+        'debug',
+        `IsFormDirty: ${isDirty}. BehaviorDirty: ${hasBehaviorChanged}, LayersDirty: ${hasLayersChanged}`
+    );
+
+    return isDirty;
+}
 
 export function CreateNewBehavior(): IBehavior {
     return { ...defaultBehavior, id: createGUID() };
