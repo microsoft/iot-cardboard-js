@@ -875,7 +875,8 @@
     "errorDisplayNameLength": "Visningsnamn får inte överstiga 64 tecken",
     "errorRepeatedId": "En modell med samma id finns redan",
     "errorRepeatedName": "En modell med samma namn finns redan",
-    "errorRepeatedEdgeName": "En relation med samma namn finns redan"
+    "errorRepeatedEdgeName": "En relation med samma namn finns redan",
+    "errorInvalidJSON": "Ogiltig JSON"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Felmeddelande",

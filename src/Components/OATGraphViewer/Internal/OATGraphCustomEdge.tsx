@@ -1,27 +1,27 @@
-import React, { useContext, useMemo, useState, useEffect } from 'react';
+import React, { useContext, useMemo, useState } from 'react';
 import { useTheme, Icon, FontSizes, ActionButton } from '@fluentui/react';
 import {
     getEdgeCenter,
     removeElements,
     useStoreState
 } from 'react-flow-renderer';
-import { getGraphViewerStyles } from '../OATGraphViewer.styles';
+import {
+    getGraphViewerStyles,
+    getRelationshipTextFieldStyles
+} from '../OATGraphViewer.styles';
 import { ElementsContext } from './OATContext';
-import { TextField } from '@fluentui/react';
 import {
     OATUntargetedRelationshipName,
     OATRelationshipHandleName,
     OATComponentHandleName,
-    OATExtendHandleName,
-    OATNameLengthLimit,
-    DTDLNameRegex
+    OATExtendHandleName
 } from '../../../Models/Constants/Constants';
 import { SET_OAT_PROPERTY_EDITOR_MODEL } from '../../../Models/Constants/ActionTypes';
 import { ModelTypes } from '../../../Models/Constants/Enums';
 import { DTDLRelationship } from '../../../Models/Classes/DTDL';
 import { getPropertyDisplayName } from '../../OATPropertyEditor/Utils';
 import { IOATGraphCustomEdgeProps } from '../../../Models/Constants';
-import { useTranslation } from 'react-i18next';
+import OATTextFieldName from '../../../Pages/OATEditorPage/Internal/Components/OATTextFieldName';
 
 const foreignObjectSize = 180;
 const offsetSmall = 5;
@@ -140,16 +140,9 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
     data,
     markerEnd
 }) => {
-    const { t } = useTranslation();
     const [nameEditor, setNameEditor] = useState(false);
     const [nameText, setNameText] = useState(getPropertyDisplayName(data));
-    const [nameLengthError, setNameLengthError] = useState(false);
-    const [nameValidCharactersError, setNameValidCharactersError] = useState(
-        false
-    );
-    const [nameDuplicateError, setNameDuplicateError] = useState(false);
     const {
-        elements,
         setElements,
         dispatch,
         setCurrentNode,
@@ -159,6 +152,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
         state
     } = useContext(ElementsContext);
     const graphViewerStyles = getGraphViewerStyles();
+    const relationshipTextFieldStyles = getRelationshipTextFieldStyles();
     const theme = useTheme();
     const nodes = useStoreState(
         (state) => state.nodes,
@@ -176,17 +170,6 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
             })
     );
     const edges = useStoreState((state) => state.edges);
-    const { model } = state;
-
-    useEffect(() => {
-        setNameText(getPropertyDisplayName(data));
-    }, [data]);
-
-    useEffect(() => {
-        if (!model || (model && model['@id'] !== data.id)) {
-            onNameBlur();
-        }
-    }, [model]);
 
     const edge = useMemo(() => edges.find((x) => x.id === id), [edges, id]);
     const [source, sourceX, sourceY] = useMemo(() => {
@@ -197,7 +180,6 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
         const target = nodes.find((x) => x.id === edge.target);
         return [target, ...getMidPointForNode(target)];
     }, [edge, nodes]);
-
     const getSourceComponents = (
         betaAngle,
         sourceBase,
@@ -469,100 +451,38 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
         return polygons;
     }, [id, source, sourceX, sourceY, targetX, targetY]);
 
-    const onNameChange = (evt) => {
-        const nameValue = evt.target.value;
-        // Check length
-        if (evt.target.value.length <= OATNameLengthLimit) {
-            setNameLengthError(null);
-            setNameText(nameValue);
-            // Check format
-            if (DTDLNameRegex.test(nameValue)) {
-                setNameValidCharactersError(null);
-                // Ensure unique name before dispatch
-                const existingEdgeWithSameName = edges.find(
-                    (edge) => edge.data.name === nameValue && edge.id !== id
-                );
-
-                if (!existingEdgeWithSameName) {
-                    setNameDuplicateError(false);
-                    const relationship = new DTDLRelationship(
-                        polygons.element.data.id,
-                        nameValue,
-                        polygons.element.data.displayName,
-                        polygons.element.data.description,
-                        polygons.element.data.comment,
-                        polygons.element.data.writable,
-                        polygons.element.data.content
-                            ? polygons.element.data.content
-                            : [],
-                        polygons.element.data.target,
-                        polygons.element.data.maxMultiplicity
-                    );
-                    dispatch({
-                        type: SET_OAT_PROPERTY_EDITOR_MODEL,
-                        payload: relationship
-                    });
-                } else {
-                    setNameDuplicateError(true);
-                }
-            } else {
-                setNameValidCharactersError(true);
-            }
-        } else {
-            setNameLengthError(true);
-        }
-    };
-
     const onNameClick = () => {
-        if (!state.modified) {
-            setNameEditor(true);
-            if (
-                polygons.element.data.type !== ModelTypes.relationship &&
-                polygons.element.data.type !== ModelTypes.untargeted &&
-                polygons.element.data.type !== ModelTypes.component
-            ) {
-                setCurrentNode(null);
-                dispatch({
-                    type: SET_OAT_PROPERTY_EDITOR_MODEL,
-                    payload: null
-                });
-            } else {
-                const relationship = new DTDLRelationship(
-                    polygons.element.data.id,
-                    polygons.element.data.name,
-                    polygons.element.data.displayName,
-                    polygons.element.data.description,
-                    polygons.element.data.comment,
-                    polygons.element.data.writable,
-                    polygons.element.data.content
-                        ? polygons.element.data.content
-                        : [],
-                    polygons.element.data.target,
-                    polygons.element.data.maxMultiplicity
-                );
+        setNameEditor(true);
+        if (
+            polygons.element.data.type !== ModelTypes.relationship &&
+            polygons.element.data.type !== ModelTypes.untargeted &&
+            polygons.element.data.type !== ModelTypes.component
+        ) {
+            setCurrentNode(null);
+            dispatch({
+                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                payload: null
+            });
+        } else {
+            const relationship = new DTDLRelationship(
+                polygons.element.data.id,
+                nameText,
+                polygons.element.data.displayName,
+                polygons.element.data.description,
+                polygons.element.data.comment,
+                polygons.element.data.writable,
+                polygons.element.data.content
+                    ? polygons.element.data.content
+                    : [],
+                polygons.element.data.target,
+                polygons.element.data.maxMultiplicity
+            );
 
-                setCurrentNode(polygons.element.id);
-                dispatch({
-                    type: SET_OAT_PROPERTY_EDITOR_MODEL,
-                    payload: relationship
-                });
-            }
-        }
-    };
-
-    const onNameBlur = () => {
-        setNameEditor(false);
-        if (typeof data.name === 'string' && data.name !== nameText) {
-            elements.find(
-                (element) => element.data.id === data.id
-            ).data.name = nameText;
-            setElements([...elements]);
-        }
-    };
-
-    const onKeyDown = (evt) => {
-        if (evt.key === 'Escape') {
-            onNameBlur();
+            setCurrentNode(polygons.element.id);
+            dispatch({
+                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                payload: relationship
+            });
         }
     };
 
@@ -589,16 +509,6 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
             setElements((els) => removeElements(elementsToRemove, els));
             dispatch({ type: SET_OAT_PROPERTY_EDITOR_MODEL, payload: null });
         }
-    };
-
-    const getNameErrorMessage = () => {
-        return nameLengthError
-            ? t('OATGraphViewer.errorNameLength')
-            : nameValidCharactersError
-            ? t('OATGraphViewer.errorName')
-            : nameDuplicateError
-            ? t('OATGraphViewer.errorRepeatedEdgeName')
-            : '';
     };
 
     return (
@@ -654,16 +564,16 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                         className={graphViewerStyles.relationshipNameEditorBody}
                     >
                         {data.type !== OATExtendHandleName && (
-                            <TextField
-                                id="text"
-                                name="text"
-                                className={graphViewerStyles.textEdit}
-                                onChange={onNameChange}
-                                onClick={onNameClick}
-                                value={nameText}
-                                onKeyDown={onKeyDown}
+                            <OATTextFieldName
+                                styles={relationshipTextFieldStyles}
+                                name={nameText}
+                                setName={setNameText}
+                                dispatch={dispatch}
+                                state={state}
+                                onCommitCallback={() => {
+                                    setNameEditor(false);
+                                }}
                                 autoFocus
-                                errorMessage={getNameErrorMessage()}
                             />
                         )}
                         <div
