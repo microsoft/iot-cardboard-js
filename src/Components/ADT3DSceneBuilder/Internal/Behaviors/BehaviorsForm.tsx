@@ -116,6 +116,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
     );
 
     const behaviorDraftWidgetBackup = useRef<IBehavior>(null);
+    const behaviorLayersDraftWidgetBackup = useRef<string[]>(null);
 
     const [
         selectedBehaviorPivotKey,
@@ -142,30 +143,48 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
     // Prior to entering widget form -- freeze copy of draft behavior
     useEffect(() => {
         // Backup draft if opening widget form
-        if (
-            (widgetFormInfo.mode === WidgetFormMode.CreateWidget ||
-                widgetFormInfo.mode === WidgetFormMode.EditWidget) &&
-            !behaviorDraftWidgetBackup.current
-        ) {
-            behaviorDraftWidgetBackup.current =
-                behaviorFormState.behaviorToEdit;
+        switch (widgetFormInfo.mode) {
+            case WidgetFormMode.CreateWidget:
+            case WidgetFormMode.EditWidget:
+                // capture the state when going into the form
+                if (!behaviorDraftWidgetBackup.current) {
+                    behaviorDraftWidgetBackup.current =
+                        behaviorFormState.behaviorToEdit;
+                }
+                if (!behaviorLayersDraftWidgetBackup.current) {
+                    behaviorLayersDraftWidgetBackup.current =
+                        behaviorFormState.behaviorSelectedLayerIds;
+                }
+                break;
+            case WidgetFormMode.Cancelled:
+                // If widget form is cancelled, restore backup
+                if (
+                    behaviorDraftWidgetBackup.current ||
+                    behaviorLayersDraftWidgetBackup.current
+                ) {
+                    behaviorFormDispatch({
+                        type: BehaviorFormContextActionType.FORM_BEHAVIOR_RESET,
+                        payload: {
+                            behavior: behaviorDraftWidgetBackup.current,
+                            layerIds: behaviorLayersDraftWidgetBackup.current
+                        }
+                    });
+                    behaviorDraftWidgetBackup.current = null;
+                    behaviorLayersDraftWidgetBackup.current = null;
+                }
+                break;
+            case WidgetFormMode.Committed:
+                // If changes committed, clear backup
+                behaviorDraftWidgetBackup.current = null;
+                behaviorLayersDraftWidgetBackup.current = null;
+                break;
         }
-        // If widget form is cancelled, restore backup
-        else if (
-            widgetFormInfo.mode === WidgetFormMode.Cancelled &&
-            behaviorDraftWidgetBackup.current
-        ) {
-            behaviorFormDispatch({
-                type: BehaviorFormContextActionType.FORM_BEHAVIOR_RESET,
-                payload: { behavior: behaviorDraftWidgetBackup.current }
-            });
-            behaviorDraftWidgetBackup.current = null;
-        }
-        // If changes committed, clear backup
-        else if (widgetFormInfo.mode === WidgetFormMode.Committed) {
-            behaviorDraftWidgetBackup.current = null;
-        }
-    }, [widgetFormInfo]);
+    }, [
+        behaviorFormDispatch,
+        behaviorFormState.behaviorSelectedLayerIds,
+        behaviorFormState.behaviorToEdit,
+        widgetFormInfo
+    ]);
 
     useEffect(() => {
         const elementIds = [];

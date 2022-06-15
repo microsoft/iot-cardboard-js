@@ -123,6 +123,13 @@ export const BehaviorFormContextReducer: (
                 } else {
                     draft.behaviorToEdit = deepCopy(initialBehavior);
                 }
+                if (action.payload.layerIds) {
+                    draft.behaviorSelectedLayerIds = deepCopy(
+                        action.payload.layerIds
+                    );
+                } else {
+                    draft.behaviorSelectedLayerIds = deepCopy(initialLayers);
+                }
                 break;
             }
             case BehaviorFormContextActionType.FORM_BEHAVIOR_STATUS_VISUAL_ADD_OR_UPDATE: {
@@ -210,6 +217,7 @@ export const BehaviorFormContextReducer: (
 );
 
 let initialBehavior: IBehavior;
+let initialLayers: string[];
 export const BehaviorFormContextProvider: React.FC<IBehaviorFormContextProviderProps> = (
     props
 ) => {
@@ -222,7 +230,9 @@ export const BehaviorFormContextProvider: React.FC<IBehaviorFormContextProviderP
     }
 
     const { behaviorToEdit, behaviorSelectedLayerIds } = props;
-    initialBehavior = behaviorToEdit;
+    initialBehavior = deepCopy(behaviorToEdit);
+    initialLayers = deepCopy(behaviorSelectedLayerIds);
+
     const defaultState: IBehaviorFormContextState = {
         behaviorToEdit: behaviorToEdit,
         behaviorSelectedLayerIds: behaviorSelectedLayerIds,
