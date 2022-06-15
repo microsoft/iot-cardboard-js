@@ -875,7 +875,8 @@
     "errorDisplayNameLength": "Weergavenaam mag niet groter zijn dan 64 tekens",
     "errorRepeatedId": "Er bestaat al een model met dezelfde id",
     "errorRepeatedName": "Een model met dezelfde naam bestaat al",
-    "errorRepeatedEdgeName": "Er bestaat al een relatie met dezelfde naam"
+    "errorRepeatedEdgeName": "Er bestaat al een relatie met dezelfde naam",
+    "errorInvalidJSON": "Ongeldige JSON"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Foutmelding",
