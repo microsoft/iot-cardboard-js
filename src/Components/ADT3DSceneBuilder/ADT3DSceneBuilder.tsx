@@ -137,7 +137,7 @@ const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
 
     // state
     const [behaviorToEdit, setBehaviorToEdit] = useState<IBehavior>(null);
-    const [formDirtyState, setFormDirtyState] = useState<
+    const [formDirtyStateMap, setFormDirtyStateMap] = useState<
         Map<BuilderDirtyFormType, boolean>
     >(new Map<BuilderDirtyFormType, boolean>());
 
@@ -245,12 +245,15 @@ const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
         }
     }, [state.builderMode]);
 
-    const setUnsavedChangesDialogDiscardAction = useCallback((action: any) => {
-        dispatch({
-            type: SET_UNSAVED_BEHAVIOR_CHANGES_DIALOG_DISCARD_ACTION,
-            payload: action
-        });
-    }, []);
+    const setUnsavedChangesDialogDiscardAction = useCallback(
+        (action: VoidFunction) => {
+            dispatch({
+                type: SET_UNSAVED_BEHAVIOR_CHANGES_DIALOG_DISCARD_ACTION,
+                payload: action
+            });
+        },
+        []
+    );
 
     const setUnsavedBehaviorChangesDialogOpen = useCallback(
         (isOpen: boolean) => {
@@ -739,19 +742,6 @@ const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
         });
     }, []);
 
-    const checkIfBehaviorHasBeenEdited = useCallback(() => {
-        if (
-            JSON.stringify(behaviorToEdit) !=
-                JSON.stringify(state.originalBehaviorToEdit) &&
-            (state.builderMode === ADT3DSceneBuilderMode.EditBehavior ||
-                state.builderMode === ADT3DSceneBuilderMode.CreateBehavior)
-        ) {
-            return true;
-        } else {
-            return false;
-        }
-    }, [behaviorToEdit, state.originalBehaviorToEdit, state.builderMode]);
-
     const scenePageModeChange = useCallback(
         (newScenePageMode: ADT3DScenePageModes) => {
             deeplinkDispatch({
@@ -764,9 +754,9 @@ const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
         [deeplinkDispatch]
     );
 
-    const onSetFormDirtyState = useCallback(
+    const setFormDirtyState = useCallback(
         (formType: BuilderDirtyFormType, state: boolean) => {
-            setFormDirtyState(
+            setFormDirtyStateMap(
                 produce((draft) => {
                     draft.set(formType, state);
                 })
@@ -774,30 +764,38 @@ const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
         },
         []
     );
-    const onGetFormDirtyState = useCallback(
+    const getFormDirtyState = useCallback(
         (formType: BuilderDirtyFormType) => {
-            return formDirtyState.get(formType) || false;
+            return formDirtyStateMap.get(formType) || false;
         },
-        [formDirtyState]
+        [formDirtyStateMap]
     );
 
     // header callbacks
     const handleScenePageModeChange = useCallback(
         (newScenePageMode: ADT3DScenePageModes) => {
-            if (!checkIfBehaviorHasBeenEdited()) {
-                scenePageModeChange(newScenePageMode);
-            } else {
+            if (getFormDirtyState('behavior') || getFormDirtyState('element')) {
                 setUnsavedBehaviorChangesDialogOpen(true);
-                setUnsavedChangesDialogDiscardAction(() =>
-                    scenePageModeChange(newScenePageMode)
-                );
+                setUnsavedChangesDialogDiscardAction(() => {
+                    scenePageModeChange(newScenePageMode);
+                    dispatch({
+                        type: SET_ADT_SCENE_BUILDER_SELECTED_BEHAVIOR,
+                        payload: null
+                    });
+                    dispatch({
+                        type: SET_ADT_SCENE_BUILDER_SELECTED_ELEMENT,
+                        payload: null
+                    });
+                });
+            } else {
+                scenePageModeChange(newScenePageMode);
             }
         },
         [
-            checkIfBehaviorHasBeenEdited,
+            getFormDirtyState,
+            scenePageModeChange,
             setUnsavedBehaviorChangesDialogOpen,
-            setUnsavedChangesDialogDiscardAction,
-            scenePageModeChange
+            setUnsavedChangesDialogDiscardAction
         ]
     );
 
@@ -814,7 +812,7 @@ const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
                 dispatch,
                 elementTwinAliasFormInfo: state.elementTwinAliasFormInfo,
                 getConfig: getScenesConfig.callAdapter,
-                getFormDirtyState: onGetFormDirtyState,
+                getFormDirtyState: getFormDirtyState,
                 locale,
                 localeStrings,
                 objectColor: state.objectColor,
@@ -822,7 +820,7 @@ const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
                 setBehaviorTwinAliasFormInfo,
                 setColoredMeshItems,
                 setElementTwinAliasFormInfo,
-                setFormDirtyState: onSetFormDirtyState,
+                setFormDirtyState: setFormDirtyState,
                 setIsLayerBuilderDialogOpen,
                 setOutlinedMeshItems,
                 setUnsavedBehaviorChangesDialogOpen,

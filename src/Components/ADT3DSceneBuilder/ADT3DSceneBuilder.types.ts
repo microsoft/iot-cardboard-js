@@ -288,7 +288,7 @@ export interface ADT3DSceneBuilderState {
     isLayerBuilderDialogOpen: boolean;
     originalBehaviorToEdit: IBehavior;
     unsavedBehaviorDialogOpen: boolean;
-    unsavedChangesDialogDiscardAction: any;
+    unsavedChangesDialogDiscardAction: VoidFunction;
     layerBuilderDialogData: {
         behaviorId: string;
         onFocusDismiss?: (layerId: string) => void;
