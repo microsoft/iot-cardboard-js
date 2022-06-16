@@ -44,7 +44,8 @@ import {
     IADT3DSceneBuilderStyleProps,
     IADT3DSceneBuilderStyles,
     SET_UNSAVED_BEHAVIOR_CHANGES_DIALOG_OPEN,
-    SET_UNSAVED_BEHAVIOR_CHANGES_DIALOG_DISCARD_ACTION
+    SET_UNSAVED_BEHAVIOR_CHANGES_DIALOG_DISCARD_ACTION,
+    BuilderDirtyFormType
 } from './ADT3DSceneBuilder.types';
 import './ADT3DSceneBuilder.scss';
 import BaseComponent from '../../Components/BaseComponent/BaseComponent';
@@ -86,6 +87,7 @@ import { DeeplinkContextActionType } from '../../Models/Context/DeeplinkContext/
 import { getStyles } from './ADT3DSceneBuilder.styles';
 import SceneLayers from './Internal/SceneLayers/SceneLayers';
 import { SceneThemeContextProvider } from '../../Models/Context';
+import produce from 'immer';
 
 const contextMenuStyles = mergeStyleSets({
     header: {
@@ -135,6 +137,9 @@ const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
 
     // state
     const [behaviorToEdit, setBehaviorToEdit] = useState<IBehavior>(null);
+    const [formDirtyState, setFormDirtyState] = useState<
+        Map<BuilderDirtyFormType, boolean>
+    >(new Map<BuilderDirtyFormType, boolean>());
 
     const previouslyColoredMeshItems = useRef([]);
     const elementContextualMenuItems = useRef([]);
@@ -759,6 +764,23 @@ const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
         [deeplinkDispatch]
     );
 
+    const onSetFormDirtyState = useCallback(
+        (formType: BuilderDirtyFormType, state: boolean) => {
+            setFormDirtyState(
+                produce((draft) => {
+                    draft.set(formType, state);
+                })
+            );
+        },
+        []
+    );
+    const onGetFormDirtyState = useCallback(
+        (formType: BuilderDirtyFormType) => {
+            return formDirtyState.get(formType) || false;
+        },
+        [formDirtyState]
+    );
+
     // header callbacks
     const handleScenePageModeChange = useCallback(
         (newScenePageMode: ADT3DScenePageModes) => {
@@ -786,27 +808,29 @@ const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
         <SceneBuilderContext.Provider
             value={{
                 adapter,
-                theme,
+                behaviorTwinAliasFormInfo: state.behaviorTwinAliasFormInfo,
+                coloredMeshItems: state.coloredMeshItems,
+                config: state.config,
+                dispatch,
+                elementTwinAliasFormInfo: state.elementTwinAliasFormInfo,
+                getConfig: getScenesConfig.callAdapter,
+                getFormDirtyState: onGetFormDirtyState,
                 locale,
                 localeStrings,
-                coloredMeshItems: state.coloredMeshItems,
-                setColoredMeshItems,
-                setOutlinedMeshItems,
-                config: state.config,
-                getConfig: getScenesConfig.callAdapter,
-                sceneId,
-                widgetFormInfo: state.widgetFormInfo,
-                setWidgetFormInfo,
-                behaviorTwinAliasFormInfo: state.behaviorTwinAliasFormInfo,
-                setBehaviorTwinAliasFormInfo,
-                elementTwinAliasFormInfo: state.elementTwinAliasFormInfo,
-                setElementTwinAliasFormInfo,
-                dispatch,
-                state,
                 objectColor: state.objectColor,
+                sceneId,
+                setBehaviorTwinAliasFormInfo,
+                setColoredMeshItems,
+                setElementTwinAliasFormInfo,
+                setFormDirtyState: onSetFormDirtyState,
                 setIsLayerBuilderDialogOpen,
+                setOutlinedMeshItems,
                 setUnsavedBehaviorChangesDialogOpen,
-                setUnsavedChangesDialogDiscardAction
+                setUnsavedChangesDialogDiscardAction,
+                setWidgetFormInfo,
+                state,
+                theme,
+                widgetFormInfo: state.widgetFormInfo
             }}
         >
             <BaseComponent

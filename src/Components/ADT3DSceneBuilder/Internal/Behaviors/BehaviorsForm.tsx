@@ -92,7 +92,6 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
     setSelectedElements,
     updateSelectedElements,
     onElementClick,
-    onFormDirtyChange,
     onRemoveElement
 }) => {
     const { t } = useTranslation();
@@ -101,6 +100,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
         config,
         widgetFormInfo,
         behaviorTwinAliasFormInfo,
+        setFormDirtyState,
         setUnsavedBehaviorChangesDialogOpen,
         setUnsavedChangesDialogDiscardAction,
         state
@@ -356,8 +356,8 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
     }, []);
 
     useEffect(() => {
-        onFormDirtyChange(behaviorFormState.isDirty);
-    }, [behaviorFormState.isDirty, onFormDirtyChange]);
+        setFormDirtyState('behavior', behaviorFormState.isDirty);
+    }, [behaviorFormState.isDirty, setFormDirtyState]);
 
     const isFormValid = checkValidityMap(behaviorState.validityMap);
     const theme = useTheme();
@@ -583,7 +583,6 @@ const BehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
     onBehaviorBackClick,
     onBehaviorSave,
     onElementClick,
-    onFormDirtyChange,
     onRemoveElement,
     removedElements,
     selectedElements,
@@ -608,7 +607,6 @@ const BehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                 onBehaviorBackClick={onBehaviorBackClick}
                 onBehaviorSave={onBehaviorSave}
                 onElementClick={onElementClick}
-                onFormDirtyChange={onFormDirtyChange}
                 onRemoveElement={onRemoveElement}
                 removedElements={removedElements}
                 selectedElements={selectedElements}

@@ -80,12 +80,23 @@ const BuilderLeftPanel: React.FC<IBuilderLeftPanelProps> = ({ styles }) => {
         adapter,
         state,
         dispatch,
-        objectColor
+        objectColor,
+        setFormDirtyState,
+        getFormDirtyState
     } = useContext(SceneBuilderContext);
 
-    const [isBehaviorFormDirty, setIsBehaviorFormDirty] = useState<boolean>(
-        false
-    );
+    const isIdleMode =
+        state.builderMode === ADT3DSceneBuilderMode.ElementsIdle ||
+        state.builderMode === ADT3DSceneBuilderMode.BehaviorIdle;
+    const isBehaviorFormMode =
+        state.builderMode === ADT3DSceneBuilderMode.CreateBehavior ||
+        state.builderMode === ADT3DSceneBuilderMode.EditBehavior;
+    const isElementFormMode =
+        state.builderMode === ADT3DSceneBuilderMode.CreateElement ||
+        state.builderMode === ADT3DSceneBuilderMode.EditElement;
+
+    const sceneName = ViewerConfigUtility.getSceneById(config, sceneId)
+        ?.displayName;
 
     const addBehaviorToSceneAdapterData = useAdapter({
         adapterMethod: (params: { behavior: IBehavior }) =>
@@ -303,6 +314,7 @@ const BuilderLeftPanel: React.FC<IBuilderLeftPanelProps> = ({ styles }) => {
     // END of scene element related callbacks
 
     // START of behavior related callbacks
+
     const setSelectedBehavior = useCallback(
         (behavior: IBehavior) => {
             dispatch({
@@ -450,18 +462,27 @@ const BuilderLeftPanel: React.FC<IBuilderLeftPanelProps> = ({ styles }) => {
             onBackClick(ADT3DSceneBuilderMode.BehaviorIdle);
         }
     }, [onBackClick, setSelectedElements, state.builderMode]);
-    const sceneName = ViewerConfigUtility.getSceneById(config, sceneId)
-        ?.displayName;
 
-    const isIdleMode =
-        state.builderMode === ADT3DSceneBuilderMode.ElementsIdle ||
-        state.builderMode === ADT3DSceneBuilderMode.BehaviorIdle;
-    const isBehaviorFormMode =
-        state.builderMode === ADT3DSceneBuilderMode.CreateBehavior ||
-        state.builderMode === ADT3DSceneBuilderMode.EditBehavior;
-    const isElementFormMode =
-        state.builderMode === ADT3DSceneBuilderMode.CreateElement ||
-        state.builderMode === ADT3DSceneBuilderMode.EditElement;
+    const onBeforeBreadcrumbNavigation = useCallback(
+        (action: BreadcrumbAction) => {
+            console.log('***Before navigation', action);
+            const actions: BreadcrumbAction[] = ['goToHome', 'goToScene'];
+            if (actions.includes(action)) {
+                if (isBehaviorFormMode) {
+                    console.log(
+                        '****Dirty flag',
+                        getFormDirtyState('behavior')
+                    );
+                    return !getFormDirtyState('behavior');
+                } else {
+                    return false; // TODO: wire up element form flag
+                }
+            } else {
+                return false;
+            }
+        },
+        [getFormDirtyState, isBehaviorFormMode]
+    );
 
     return (
         <BaseComponent
@@ -476,23 +497,7 @@ const BuilderLeftPanel: React.FC<IBuilderLeftPanelProps> = ({ styles }) => {
                 sceneId={sceneId}
                 builderMode={state.builderMode}
                 onSceneClick={onSceneClick}
-                onBeforeNavigate={(level: BreadcrumbAction) => {
-                    console.log('***Before navigation', level);
-                    const levels: BreadcrumbAction[] = [
-                        'goToHome',
-                        'goToScene'
-                    ];
-                    if (levels.includes(level)) {
-                        if (isBehaviorFormMode) {
-                            console.log('****Dirty flag', isBehaviorFormDirty);
-                            return !isBehaviorFormDirty;
-                        } else {
-                            return false; // TODO: wire up element form flag
-                        }
-                    } else {
-                        return false;
-                    }
-                }}
+                onBeforeNavigate={onBeforeBreadcrumbNavigation}
             />
             {isIdleMode && (
                 <Pivot
@@ -559,7 +564,6 @@ const BuilderLeftPanel: React.FC<IBuilderLeftPanelProps> = ({ styles }) => {
                     }
                     onBehaviorSave={onBehaviorSave}
                     onElementClick={onElementClick}
-                    onFormDirtyChange={setIsBehaviorFormDirty}
                     onRemoveElement={onRemoveElement}
                     removedElements={state.removedElements}
                     selectedElements={state.selectedElements}
