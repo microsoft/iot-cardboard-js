@@ -741,6 +741,7 @@ export interface IADT3DViewerProps extends BaseComponentProps {
     showMeshesOnHover?: boolean;
     showHoverOnSelected?: boolean;
     coloredMeshItems?: CustomMeshItem[];
+    transformedMeshItems?: CustomMeshItem[];
     /**
      * Ids of the elements to zoom the camera to focus on
      */

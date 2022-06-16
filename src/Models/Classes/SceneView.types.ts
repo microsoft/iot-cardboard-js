@@ -23,17 +23,21 @@ export class SceneVisual {
     twins: Record<string, DTwin>;
     coloredMeshItems?: CustomMeshItem[];
     alertBadgeGroup?: SceneViewBadgeGroup[];
+    transformedMeshItems?: CustomMeshItem[];
+    // add a transform prop here?
 
     constructor(
         element: ITwinToObjectMapping,
         behaviors: IBehavior[],
         twins: Record<string, DTwin>,
-        coloredMeshItems?: CustomMeshItem[]
+        coloredMeshItems?: CustomMeshItem[],
+        transformedMeshItems?: CustomMeshItem[]
     ) {
         this.element = element;
         this.coloredMeshItems = coloredMeshItems;
         this.behaviors = behaviors;
         this.twins = twins;
+        this.transformedMeshItems = transformedMeshItems;
     }
 }
 
@@ -64,6 +68,7 @@ export type SceneViewCallbackHandler = (
 export interface CustomMeshItem {
     meshId: string;
     color?: string;
+    transform?: string;
 }
 
 export interface SceneViewBadge {
@@ -77,6 +82,11 @@ export interface ColoredMeshGroup {
     meshId: string;
     colors: string[];
     currentColor: number;
+}
+
+export interface TransformedMeshGroup {
+    meshId: string;
+    transform?: unknown;
 }
 
 export interface SceneViewBadgeGroup {
@@ -117,6 +127,7 @@ export interface ISceneViewProps {
     getToken?: () => Promise<string>;
     coloredMeshItems?: CustomMeshItem[];
     outlinedMeshitems?: CustomMeshItem[];
+    transformedMeshItems?: CustomMeshItem[];
     zoomToMeshIds?: string[];
     unzoomedMeshOpacity?: number;
     showHoverOnSelected?: boolean;

@@ -21,7 +21,8 @@ import {
     ISceneViewProps,
     ColoredMeshGroup,
     Marker,
-    SceneViewCallbackHandler
+    SceneViewCallbackHandler,
+    TransformedMeshGroup
 } from '../../Models/Classes/SceneView.types';
 import {
     CameraZoomMultiplier,
@@ -66,7 +67,7 @@ import { Markers } from './Internal/Markers';
 
 export const showFpsCounter = false;
 const debugBabylon = false;
-const debugLogging = false;
+const debugLogging = true;
 const debugLog = getDebugLogger('SceneView', debugLogging);
 
 function debounce(func: any, timeout = 300) {
@@ -159,6 +160,7 @@ function SceneView(props: ISceneViewProps, ref) {
         getToken,
         cameraPosition,
         coloredMeshItems,
+        transformedMeshItems,
         showHoverOnSelected,
         outlinedMeshitems,
         isWireframe,
@@ -1586,6 +1588,220 @@ function SceneView(props: ISceneViewProps, ref) {
         SetWireframe(material, !!isWireframe);
         mesh.material = material;
         coloredMaterials.current[mesh.id] = material;
+    };
+
+    // SETUP LOGIC FOR HANDLING TRANSFORMING MESHES
+    useEffect(() => {
+        debugLog(
+            'debug',
+            'transform meshes based on transformedMeshItems prop' +
+                (scene ? ' with scene' : ' no scene')
+        );
+
+        const transformedMeshesMerged: BABYLON.Mesh[] = []; // this will probably merge every mesh but oh well
+        if (scene && transformedMeshItems && !isLoading) {
+            if (debugLogging) {
+                console.time('transforming meshes');
+                // console.log('tr', transformedMeshItems);
+                transformedMeshItems.forEach((transformedMeshItem) => {
+                    console.log(transformedMeshItem);
+                });
+            }
+            try {
+                // first lets try merging the meshes
+                // then mess with parents
+
+                transformedMeshItems.forEach((transformedMesh) => {
+                    const mesh: BABYLON.Mesh =
+                        meshMap.current?.[transformedMesh.meshId];
+
+                    transformedMeshesMerged.push(mesh);
+                    // console.log(
+                    //     'calling transformMesh on ',
+                    //     transformedMesh.meshId
+                    // );
+                    // transformMesh(
+                    //     mesh,
+                    //     transformedMesh.transform as string // this does nothing!!
+                    // );
+
+                    // OH I finally understand what this is doing ... I think ... is checking if there
+                    // is an existing mesh in the group?? why I was stopping at one mesh...
+
+                    // const transformedMeshGroups: TransformedMeshGroup[] = [];
+                    // group transformed meshes (???????)
+                    // create first group
+                    // console.log(transformedMesh.transform);
+                    // if (transformedMeshGroups.length === 0) {
+                    //     transformedMeshGroups.push({
+                    //         meshId: transformedMesh.meshId,
+                    //         transform: [transformedMesh.transform]
+                    //     });
+                    // } else {
+                    // const group = transformedMeshGroups.find(
+                    //     (g) => g.meshId === transformedMesh.meshId
+                    // );
+                    // add to exsiting group
+                    // if (group) {
+                    //     group.colors.push(transformedMesh.color);
+                    // } else {
+                    //     // create new group
+                    //     transformedMeshGroups.push({
+                    //         meshId: transformedMesh.meshId,
+                    //         colors: [transformedMesh.color],
+                    //         currentColor: 0
+                    //     });
+                    // }
+                    // }
+                });
+                // const mergedMesh = BABYLON.Mesh.MergeMeshes(
+                //     transformedMeshesMerged
+                // );
+                // transformMesh(
+                //     mergedMesh,
+                //     '' // this does nothing!!
+                // );
+                // for (const transformedMeshGroup of transformedMeshGroups) {
+                //     const mesh: BABYLON.AbstractMesh =
+                //         meshMap.current?.[transformedMeshGroup.meshId];
+                //     console.log('calling transformMesh on ', transformedMeshGroup.meshId);
+                //     transformMesh(
+                //         mesh,
+                //         transformedMeshGroup.transform as string // this does nothing!!
+                //     );
+                // }
+                // const nextColor = function (
+                //     currentColor: number,
+                //     totalColors: number
+                // ) {
+                //     return currentColor + 1 >= totalColors
+                //         ? 0
+                //         : currentColor + 1;
+                // };
+                // const transition = 250;
+                // const interval = 2000;
+                // let elapsed = 0;
+                // const transitionNrm = function () {
+                //     return (elapsed - interval) / transition;
+                // };
+                // scene.beforeRender = () => {
+                //     elapsed += sceneRef.current.deltaTime;
+                //     if (elapsed >= interval) {
+                //         if (elapsed <= interval + transition) {
+                //             for (const transformedMeshGroup of transformedMeshGroups) {
+                //                 if (transformedMeshGroup.colors.length > 1) {
+                //                     const mesh: BABYLON.AbstractMesh =
+                //                         meshMap.current?.[
+                //                             transformedMeshGroup.meshId
+                //                         ];
+                //                     const transitionColor = BABYLON.Color3.Lerp(
+                //                         BABYLON.Color3.FromHexString(
+                //                             transformedMeshGroup.colors[
+                //                                 transformedMeshGroup
+                //                                     .currentColor
+                //                             ]
+                //                         ),
+                //                         BABYLON.Color3.FromHexString(
+                //                             transformedMeshGroup.colors[
+                //                                 nextColor(
+                //                                     transformedMeshGroup.currentColor,
+                //                                     transformedMeshGroup.colors
+                //                                         .length
+                //                                 )
+                //                             ]
+                //                         ),
+                //                         transitionNrm()
+                //                     );
+                //                     colorMesh(
+                //                         mesh,
+                //                         transitionColor.toHexString()
+                //                     );
+                //                 }
+                //             }
+                //         } else {
+                //             for (const coloredMeshGroup of transformedMeshGroups) {
+                //                 if (coloredMeshGroup.colors.length > 1) {
+                //                     const mesh: BABYLON.AbstractMesh =
+                //                         meshMap.current?.[
+                //                             coloredMeshGroup.meshId
+                //                         ];
+                //                     elapsed = 0;
+                //                     coloredMeshGroup.currentColor = nextColor(
+                //                         coloredMeshGroup.currentColor,
+                //                         coloredMeshGroup.colors.length
+                //                     );
+                //                     colorMesh(
+                //                         mesh,
+                //                         coloredMeshGroup.colors[
+                //                             coloredMeshGroup.currentColor
+                //                         ]
+                //                     );
+                //                 }
+                //             }
+                //         }
+                //     }
+                // };
+            } catch {
+                console.warn('unable to transform mesh');
+            }
+            if (debugLogging) {
+                console.timeEnd('transforming meshes');
+            }
+        }
+
+        return () => {
+            debugLog('debug', 'Mesh coloring cleanup');
+            restoreMeshMaterials();
+            coloredMaterials.current = [];
+        };
+    }, [
+        transformedMeshItems,
+        isLoading
+        // isWireframe,
+        // currentObjectColor,
+        // backgroundColor
+    ]);
+
+    const transformMesh = (mesh: AbstractMesh, transform: string) => {
+        //some transform object with defined structure?
+        if (!mesh) {
+            return;
+        }
+
+        // maybe transform should have:
+        // transform: { rotation: { x: "", y: "", z: "" }, translation: { x: "", y: "", z: "" }, ... }
+
+        // mesh.rotation.x = mesh.rotation.x + Math.PI / 8;
+        // mesh.rotation.y = mesh.rotation.y + Math.PI / 8;
+        // mesh.rotation.z = mesh.rotation.z + Math.PI / 8;
+        const gizmoManager = new BABYLON.GizmoManager(scene);
+        gizmoManager.boundingBoxGizmoEnabled = true;
+        gizmoManager.usePointerToAttachGizmos = false;
+        gizmoManager.attachToMesh(mesh);
+
+        console.log(transform);
+
+        // Creating materials is VERY expensive, so try and avoid it
+        // const col = color || currentObjectColor?.coloredMeshColor;
+        // const materialId = currentColorId() + col;
+
+        // let material = materialCacheRef.current[materialId];
+        // if (!material) {
+        //     material = makeStandardMaterial(
+        //         'coloredMeshMaterial',
+        //         sceneRef.current,
+        //         hexToColor4(col),
+        //         currentObjectColor.lightingStyle,
+        //         backgroundColorRef.current?.objectLuminanceRatio || 1
+        //     );
+
+        //     materialCacheRef.current[materialId] = material;
+        //     debugLog('debug', 'Creating material for ' + materialId);
+        // }
+
+        // SetWireframe(material, !!isWireframe);
+        // mesh.material = material;
+        // coloredMaterials.current[mesh.id] = material;
     };
 
     // Handle outlinedMeshItems

@@ -78,6 +78,7 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
     showHoverOnSelected,
     coloredMeshItems: coloredMeshItemsProp,
     outlinedMeshItems: outlinedMeshItemsProp,
+    transformedMeshItems: transformedMeshItemsProp,
     zoomToElementId: zoomToElementIdProp,
     unzoomedMeshOpacity,
     hideElementsPanel,
@@ -133,6 +134,9 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
     const [coloredMeshItems, setColoredMeshItems] = useState<CustomMeshItem[]>(
         coloredMeshItemsProp || []
     );
+    const [transformedMeshItems, setTransformedMeshItems] = useState<
+        CustomMeshItem[]
+    >(transformedMeshItemsProp || []);
     const [alertBadges, setAlertBadges] = useState<SceneViewBadgeGroup[]>();
     const [outlinedMeshItems, setOutlinedMeshItems] = useState<
         CustomMeshItem[]
@@ -473,6 +477,23 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
         }
     }, [sceneVisuals, coloredMeshItemsProp, sceneAlerts]);
 
+    useEffect(() => {
+        if (transformedMeshItemsProp) {
+            setTransformedMeshItems(transformedMeshItemsProp);
+        } else {
+            const transformedMeshes = [];
+            sceneVisuals.forEach((sceneVisual) => {
+                sceneVisual.transformedMeshItems.forEach(
+                    (sceneTransformedMeshItem) => {
+                        transformedMeshes.push(sceneTransformedMeshItem);
+                    }
+                );
+            });
+            // setAlertBadges(sceneAlerts);
+            setTransformedMeshItems(transformedMeshes);
+        }
+    }, [sceneVisuals, transformedMeshItemsProp /*sceneAlerts*/]);
+
     // mesh callbakcs
     const meshClick = (mesh: { id: string }, scene: any) => {
         // update the selected element on the context
@@ -638,6 +659,7 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
                     sceneViewProps={{
                         badgeGroups: alertBadges,
                         coloredMeshItems: coloredMeshItems,
+                        transformedMeshItems: transformedMeshItems,
                         modelUrl: modelUrl,
                         onBadgeGroupHover: onBadgeGroupHover,
                         onMeshClick: meshClick,
