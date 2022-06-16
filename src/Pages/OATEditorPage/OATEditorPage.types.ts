@@ -27,4 +27,7 @@ export interface IOATEditorState {
     modelPositions: any;
     namespace?: string;
     edge?: string;
+    confirmDeleteType?: string;
+    confirmDeletePayload?: any;
+    confirmDeleteOpen?: boolean;
 }

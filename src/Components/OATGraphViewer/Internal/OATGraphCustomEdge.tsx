@@ -16,7 +16,13 @@ import {
     OATComponentHandleName,
     OATExtendHandleName
 } from '../../../Models/Constants/Constants';
-import { SET_OAT_PROPERTY_EDITOR_MODEL } from '../../../Models/Constants/ActionTypes';
+import {
+    SET_OAT_PROPERTY_EDITOR_MODEL,
+    SET_OAT_CONFIRM_DELETE_TYPE,
+    SET_OAT_DELETED_MODEL_ID,
+    SET_OAT_CONFIRM_DELETE_PAYLOAD,
+    SET_OAT_CONFIRM_DELETE_OPEN
+} from '../../../Models/Constants/ActionTypes';
 import { ModelTypes } from '../../../Models/Constants/Enums';
 import { DTDLRelationship } from '../../../Models/Classes/DTDL';
 import { getPropertyDisplayName } from '../../OATPropertyEditor/Utils';
@@ -501,12 +507,15 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
 
     const onDelete = () => {
         if (!state.modified) {
-            const elementsToRemove = [
-                {
-                    id: data.id
-                }
-            ];
-            setElements((els) => removeElements(elementsToRemove, els));
+            dispatch({
+                type: SET_OAT_CONFIRM_DELETE_TYPE,
+                payload: SET_OAT_DELETED_MODEL_ID
+            });
+            dispatch({
+                type: SET_OAT_CONFIRM_DELETE_PAYLOAD,
+                payload: data.id
+            });
+            dispatch({ type: SET_OAT_CONFIRM_DELETE_OPEN, payload: true });
             dispatch({ type: SET_OAT_PROPERTY_EDITOR_MODEL, payload: null });
         }
     };

@@ -4,7 +4,10 @@ import { deepCopy } from '../../Models/Services/Utils';
 import TemplateListItem from './TeplateListItem';
 import {
     SET_OAT_PROPERTY_EDITOR_MODEL,
-    SET_OAT_TEMPLATES
+    SET_OAT_TEMPLATES,
+    SET_OAT_CONFIRM_DELETE_TYPE,
+    SET_OAT_CONFIRM_DELETE_PAYLOAD,
+    SET_OAT_CONFIRM_DELETE_OPEN
 } from '../../Models/Constants/ActionTypes';
 import { IAction } from '../../Models/Constants/Interfaces';
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
@@ -132,9 +135,14 @@ export const TemplateList = ({
         newTemplate.splice(index, 1);
 
         dispatch({
-            type: SET_OAT_TEMPLATES,
+            type: SET_OAT_CONFIRM_DELETE_TYPE,
+            payload: SET_OAT_TEMPLATES
+        });
+        dispatch({
+            type: SET_OAT_CONFIRM_DELETE_PAYLOAD,
             payload: newTemplate
         });
+        dispatch({ type: SET_OAT_CONFIRM_DELETE_OPEN, payload: true });
     };
 
     return (

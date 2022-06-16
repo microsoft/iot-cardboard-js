@@ -17,7 +17,10 @@ import {
     SET_OAT_PROJECT_NAME,
     SET_OAT_ERROR,
     SET_OAT_MODELS_POSITIONS,
-    SET_OAT_NAMESPACE
+    SET_OAT_NAMESPACE,
+    SET_OAT_CONFIRM_DELETE_TYPE,
+    SET_OAT_CONFIRM_DELETE_PAYLOAD,
+    SET_OAT_CONFIRM_DELETE_OPEN
 } from '../../Models/Constants/ActionTypes';
 import {
     getStoredEditorModelPositionsData,
@@ -42,7 +45,10 @@ export const defaultOATEditorState: IOATEditorState = {
     modified: false,
     error: null,
     namespace: getStoredEditorNamespaceData(),
-    edge: null
+    edge: null,
+    confirmDeleteType: '',
+    confirmDeletePayload: null,
+    confirmDeleteOpen: false
 };
 
 export const OATEditorPageReducer = produce(
@@ -101,6 +107,15 @@ export const OATEditorPageReducer = produce(
                 return;
             case SET_OAT_NAMESPACE:
                 state.namespace = payload;
+                return;
+            case SET_OAT_CONFIRM_DELETE_TYPE:
+                state.confirmDeleteType = payload;
+                return;
+            case SET_OAT_CONFIRM_DELETE_PAYLOAD:
+                state.confirmDeletePayload = payload;
+                return;
+            case SET_OAT_CONFIRM_DELETE_OPEN:
+                state.confirmDeleteOpen = payload;
                 return;
         }
     }
