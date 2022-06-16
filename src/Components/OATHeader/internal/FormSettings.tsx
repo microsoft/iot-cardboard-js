@@ -33,29 +33,20 @@ export const FormSettings = ({
     const headerStyles = getHeaderStyles();
 
     const handleProjectNamespaceChange = (value) => {
-        // Validate value contains only letters, digits, and underscores. The first character may not be a digit, and the last character may not be an underscore.
-        const regex = /^[a-zA-Z_][a-zA-Z0-9_]*$/;
-        if (
+        // Validate value contains only letters, digits, colons and underscores. The first character may not be a digit, and the last character may not be an underscore.
+        const regex = /^[a-zA-Z_][a-zA-Z0-9_:]*$/;
+        const validValue =
             (value.match(regex) && value.charAt(value.length - 1) !== '_') ||
-            value.length === 0
-        ) {
-            setNamespaceError(false);
-        } else {
-            setNamespaceError(true);
-        }
+            value.length === 0;
+
+        setNamespaceError(!validValue);
         setNamespace(value);
     };
 
     const handleOnSave = () => {
-        // If namespace is not provided revert to default value
-        let commitValue = namespace;
-        if (!namespace) {
-            commitValue = OATNamespaceDefaultValue;
-        }
-
         dispatch({
             type: SET_OAT_NAMESPACE,
-            payload: commitValue
+            payload: namespace
         });
         setModalBody(null);
         setModalOpen(false);

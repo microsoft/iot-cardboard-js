@@ -162,7 +162,6 @@ const OATModelList = ({
                             {nameEditor &&
                                 currentNodeId.current === item['@id'] && (
                                     <>
-                                        <span>SPAN</span>
                                         <OATTextFieldDisplayName
                                             displayName={nameText}
                                             setDisplayName={setNameText}

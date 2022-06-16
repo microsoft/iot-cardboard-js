@@ -54,7 +54,7 @@ export const getModelsStyles = () => {
                 position: 'relative',
                 zIndex: '101',
                 float: 'right',
-                display: 'fex',
+                display: 'flex',
                 justifyContent: 'flex-end'
             } as IStyle
         ],
