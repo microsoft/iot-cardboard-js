@@ -16,7 +16,7 @@ const logLevels: LogLevel[] = ['debug', 'error', 'info', 'warn'];
 export const LoggingTests = () => {
     const [isEnabled, setIsEnabled] = useState(true);
 
-    const logger = useLoggingService({
+    const { loggingService } = useLoggingService({
         context: 'Logging test story',
         enabled: isEnabled
     });
@@ -30,13 +30,9 @@ export const LoggingTests = () => {
                 <DefaultButton
                     key={idx}
                     onClick={() =>
-                        logger.log(
-                            {
-                                level,
-                                message: `Logging ${level} message`
-                            },
-                            { testKey: 'testValue' }
-                        )
+                        loggingService.log(level, `Logging ${level} message`, {
+                            testKey: 'testValue'
+                        })
                     }
                 >
                     Log {level}

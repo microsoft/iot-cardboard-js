@@ -4,8 +4,3 @@ export interface ILoggingServiceParams {
 }
 
 export type LogLevel = 'debug' | 'info' | 'warn' | 'error';
-
-export interface ILogParams {
-    level?: LogLevel;
-    message: string;
-}

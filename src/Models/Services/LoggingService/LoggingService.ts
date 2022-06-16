@@ -1,4 +1,4 @@
-import { ILoggingServiceParams, ILogParams } from './LoggingService.types';
+import { ILoggingServiceParams, LogLevel } from './LoggingService.types';
 
 class LoggingService {
     context: string;
@@ -6,9 +6,10 @@ class LoggingService {
     constructor({ context, enabled }: ILoggingServiceParams) {
         this.context = context;
         this.enabled = enabled;
+        this.log.bind(this);
     }
 
-    log({ message, level = 'info' }: ILogParams, ...args: unknown[]) {
+    log(level: LogLevel = 'info', message: string, ...args: unknown[]) {
         if (!this.enabled) return;
 
         const formattedMessage = [

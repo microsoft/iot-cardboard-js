@@ -6,9 +6,11 @@ import { ILoggingServiceParams } from '../Services/LoggingService/LoggingService
 const useLoggingService = (loggingServiceParams: ILoggingServiceParams) => {
     const loggingContext = useLoggingContext();
 
+    // Auto disable logs out of storybook environment
     const enabled =
         loggingContext?.isStorybookEnv && loggingServiceParams.enabled;
 
+    // Create a logging service instance
     const loggingService = useMemo(
         () =>
             new LoggingService({
@@ -18,7 +20,18 @@ const useLoggingService = (loggingServiceParams: ILoggingServiceParams) => {
         [loggingServiceParams]
     );
 
-    return loggingService;
+    // Return object that wraps info, debug, warn, etc (and log all up)
+    return {
+        loggingService,
+        logInfo: (message: string, ...args: unknown[]) =>
+            loggingService.log('info', message, ...args),
+        logWarning: (message: string, ...args: unknown[]) =>
+            loggingService.log('warn', message, ...args),
+        logError: (message: string, ...args: unknown[]) =>
+            loggingService.log('error', message, ...args),
+        logDebug: (message: string, ...args: unknown[]) =>
+            loggingService.log('debug', message, ...args)
+    };
 };
 
 export default useLoggingService;

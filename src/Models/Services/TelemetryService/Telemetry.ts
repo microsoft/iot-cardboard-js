@@ -12,7 +12,7 @@ export abstract class Telemetry {
     name: string;
     type: TelemetryType;
     customProperties: CustomProperties;
-    timestamp: Date;
+    timestamp: string;
     constructor(
         name: string,
         type: TelemetryType,
@@ -21,7 +21,7 @@ export abstract class Telemetry {
         this.name = name;
         this.type = type;
         this.customProperties = customProperties;
-        this.timestamp = new Date();
+        this.timestamp = new Date().toUTCString();
     }
 }
 
