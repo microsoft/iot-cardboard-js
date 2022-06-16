@@ -17,7 +17,7 @@ type IOATTexField = {
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
     disabled?: boolean;
     name: string;
-    onCommitCallback?: () => void;
+    onCommit?: () => void;
     placeholder?: string;
     setName: (value: string) => void;
     state?: IOATEditorState;
@@ -34,7 +34,7 @@ const OATTextFieldName = ({
     dispatch,
     placeholder,
     state,
-    onCommitCallback,
+    onCommit,
     styles
 }: IOATTexField) => {
     const { t } = useTranslation();
@@ -56,7 +56,7 @@ const OATTextFieldName = ({
     const { model, models } = state;
 
     useEffect(() => {
-        if (model.name) {
+        if (model && model.name) {
             setTemporaryName(model.name);
         }
     }, [model]);
@@ -107,7 +107,7 @@ const OATTextFieldName = ({
     };
 
     const onCommitChange = () => {
-        onCommitCallback();
+        onCommit();
         if (
             !nameLengthError &&
             !nameValidCharactersError &&
@@ -178,7 +178,7 @@ OATTextFieldName.defaultProps = {
     borderless: false,
     disabled: false,
     placeholder: '',
-    onCommitCallback: () => {
+    onCommit: () => {
         // Do nothing
     }
 };

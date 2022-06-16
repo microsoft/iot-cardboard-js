@@ -17,8 +17,8 @@ type IOATTexField = {
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
     disabled?: boolean;
     id: string;
-    onChangeCallback?: () => void;
-    onCommitCallback?: () => void;
+    onChange?: () => void;
+    onCommit?: () => void;
     placeholder?: string;
     setId: (value: string) => void;
     state?: IOATEditorState;
@@ -32,8 +32,8 @@ const OATTextFieldId = ({
     disabled,
     dispatch,
     id,
-    onChangeCallback,
-    onCommitCallback,
+    onChange,
+    onCommit,
     placeholder,
     setId,
     state,
@@ -58,7 +58,7 @@ const OATTextFieldId = ({
         if (value.length <= OATIdLengthLimit) {
             setIdLengthError(null);
             setId(value);
-            onChangeCallback();
+            onChange();
             // Check format
             if (DTMIRegex.test(value)) {
                 setValidDTMIError(null);
@@ -99,7 +99,7 @@ const OATTextFieldId = ({
     };
 
     const onCommitChange = () => {
-        onCommitCallback();
+        onCommit();
         if (
             !idLengthError &&
             !idAlreadyUsedInterfaceError &&
@@ -165,10 +165,10 @@ OATTextFieldId.defaultProps = {
     borderless: false,
     disabled: false,
     placeholder: '',
-    onChangeCallback: () => {
+    onChange: () => {
         // Do nothing
     },
-    onCommitCallback: () => {
+    onCommit: () => {
         // Do nothing
     }
 };
