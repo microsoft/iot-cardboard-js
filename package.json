@@ -11,9 +11,9 @@
     ],
     "dependencies": {
         "@azure/msal-browser": "^2.11.0",
-        "@babylonjs/core": "^5.7.0",
-        "@babylonjs/gui": "^5.7.0",
-        "@babylonjs/loaders": "^5.7.0",
+        "@babylonjs/core": "^5.11.0",
+        "@babylonjs/gui": "^5.11.0",
+        "@babylonjs/loaders": "^5.11.0",
         "@fluentui/react": "^8.67.2",
         "@types/react-transition-group": "^4.4.2",
         "@xeokit/xeokit-sdk": "^1.8.0-alpha.3",

@@ -938,6 +938,11 @@
     "noContainerUrlErrorMessage": "L'URL del contenitore non è impostato. Clicca qui sotto per impostarlo.",
     "noADTInstanceUrlTitle": "Istanza ADT non impostata",
     "noADTInstanceUrlMessage": "L'URL dell'istanza ADT non è impostato. Clicca qui sotto per impostarlo.",
-    "configureEnvironment": "Configurare l'ambiente"
+    "configureEnvironment": "Configurare l'ambiente",
+    "sceneView": {
+      "3dAssetLoadingErrorTitle": "Errore durante il caricamento del modello",
+      "3dAssetLoadingNetworkErrorMessage": "Potrebbe trattarsi di un problema CORS, di un URL BLOB non valido o di un errore di rete. Contattare il proprietario del contenitore in cui è archiviato il file di risorse o riprovare più tardi.",
+      "3dAssetLoadingGenericErrorMessage": "Errore durante il caricamento del modello. Prova a svuotare la cache e riprova o controlla l'accesso per quel file."
+    }
   }
 }
