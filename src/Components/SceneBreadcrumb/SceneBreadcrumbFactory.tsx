@@ -46,7 +46,7 @@ const isCreateOrEditElementMode = (formMode: ADT3DSceneBuilderMode) => {
 
 const SceneBreadcrumbFactory: React.FC<ISceneBreadcrumbFactoryProps> = ({
     builderMode,
-    onBeforeNavigate,
+    onNavigate,
     onSceneChange,
     onSceneClick,
     sceneId,
@@ -100,10 +100,11 @@ const SceneBreadcrumbFactory: React.FC<ISceneBreadcrumbFactoryProps> = ({
                 key: 'behaviorRoot',
                 ...(isClickable && {
                     onClick: () => {
-                        if (onBeforeNavigate('goToForm')) {
+                        const navigate = () => {
                             cancelWidgetForm(widgetFormInfo, setWidgetFormInfo);
                             setBehaviorTwinAliasFormInfo(null);
-                        }
+                        };
+                        onNavigate('goToForm', navigate);
                     }
                 })
             };
@@ -113,18 +114,20 @@ const SceneBreadcrumbFactory: React.FC<ISceneBreadcrumbFactoryProps> = ({
              * Callbacks required to cancel forms, both are only required when behavior is in form mode
              */
             onBehaviorRootClick = () => {
-                if (onBeforeNavigate('goToScene')) {
+                const navigate = () => {
                     onSceneClick();
                     cancelWidgetForm(widgetFormInfo, setWidgetFormInfo);
                     setBehaviorTwinAliasFormInfo(null);
-                }
+                };
+                onNavigate('goToScene', navigate);
             };
 
             onCancelForm = () => {
-                if (onBeforeNavigate('cancelForm')) {
+                const navigate = () => {
                     cancelWidgetForm(widgetFormInfo, setWidgetFormInfo);
                     setBehaviorTwinAliasFormInfo(null);
-                }
+                };
+                onNavigate('cancelForm', navigate);
             };
         }
 
@@ -197,14 +200,20 @@ const SceneBreadcrumbFactory: React.FC<ISceneBreadcrumbFactoryProps> = ({
              * Callbacks required to cancel forms, both are only required when element is in form mode
              */
             onElementRootClick = () => {
-                onSceneClick();
-                setElementTwinAliasFormInfo(null);
+                const navigate = () => {
+                    onSceneClick();
+                    setElementTwinAliasFormInfo(null);
+                };
+                onNavigate('goToScene', navigate);
             };
 
             onCancelForm = () => {
-                cancelWidgetForm(widgetFormInfo, setWidgetFormInfo);
-                setBehaviorTwinAliasFormInfo(null);
-                setElementTwinAliasFormInfo(null);
+                const navigate = () => {
+                    cancelWidgetForm(widgetFormInfo, setWidgetFormInfo);
+                    setBehaviorTwinAliasFormInfo(null);
+                    setElementTwinAliasFormInfo(null);
+                };
+                onNavigate('cancelForm', navigate);
             };
         }
 

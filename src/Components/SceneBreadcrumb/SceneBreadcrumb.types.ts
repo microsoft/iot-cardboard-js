@@ -25,12 +25,7 @@ export interface ISceneBreadcrumbFactoryProps {
     builderMode?: ADT3DSceneBuilderMode;
     onSceneClick?: () => void;
     onSceneChange?: () => void;
-    /**
-     * a callback triggered anytime an action is taken in the breadcrumb.
-     * If true is returned, navigation will continue
-     * If false is returned, navigation will be aborted
-     */
-    onBeforeNavigate?: (level: BreadcrumbAction) => boolean;
+    onNavigate: (action: BreadcrumbAction, navigate: VoidFunction) => void;
 }
 
 export type BreadcrumbAction =

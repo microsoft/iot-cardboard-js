@@ -5,13 +5,7 @@ import {
     styled,
     useTheme
 } from '@fluentui/react';
-import React, {
-    useCallback,
-    useContext,
-    useEffect,
-    useMemo,
-    useState
-} from 'react';
+import React, { useCallback, useContext, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
     ADT3DSceneBuilderMode,
@@ -46,7 +40,11 @@ import {
     IBehavior,
     ITwinToObjectMapping
 } from '../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
-import { createGUID, deepCopy } from '../../../../Models/Services/Utils';
+import {
+    createGUID,
+    deepCopy,
+    getDebugLogger
+} from '../../../../Models/Services/Utils';
 import { ElementModes } from '../../../../Models/Constants/Breadcrumb';
 import {
     IBuilderLeftPanelProps,
@@ -55,6 +53,9 @@ import {
 } from './BuilderLeftPanel.types';
 import { getStyles } from './BuilderLeftPanel.styles';
 import { BreadcrumbAction } from '../../../SceneBreadcrumb/SceneBreadcrumb.types';
+
+const debugLogging = true;
+const logDebugConsole = getDebugLogger('BuilderLeftPanel', debugLogging);
 
 const getClassNames = classNamesFunction<
     IBuilderLeftPanelStyleProps,
@@ -74,6 +75,8 @@ const BuilderLeftPanel: React.FC<IBuilderLeftPanelProps> = ({ styles }) => {
         sceneId,
         setColoredMeshItems,
         setOutlinedMeshItems,
+        setUnsavedBehaviorChangesDialogOpen,
+        setUnsavedChangesDialogDiscardAction,
         theme,
         locale,
         localeStrings,
@@ -81,7 +84,6 @@ const BuilderLeftPanel: React.FC<IBuilderLeftPanelProps> = ({ styles }) => {
         state,
         dispatch,
         objectColor,
-        setFormDirtyState,
         getFormDirtyState
     } = useContext(SceneBuilderContext);
 
@@ -449,9 +451,7 @@ const BuilderLeftPanel: React.FC<IBuilderLeftPanelProps> = ({ styles }) => {
     }, [config, dispatch, sceneId]);
 
     // Get behaviors in active scene
-    const behaviors = useMemo(() => config?.configuration?.behaviors || [], [
-        config
-    ]);
+    const behaviors = config?.configuration?.behaviors || [];
 
     // Callback for breadcrumb depending if builder is in behavior or element mode
     const onSceneClick = useCallback(() => {
@@ -463,27 +463,70 @@ const BuilderLeftPanel: React.FC<IBuilderLeftPanelProps> = ({ styles }) => {
         }
     }, [onBackClick, setSelectedElements, state.builderMode]);
 
-    const onBeforeBreadcrumbNavigation = useCallback(
-        (action: BreadcrumbAction) => {
-            console.log('***Before navigation', action);
+    const onBreadcrumbNavigate = useCallback(
+        (action: BreadcrumbAction, navigate: () => void): boolean => {
+            logDebugConsole(
+                'debug',
+                `[START] pre-breadcrumb navigation of action ${action}`
+            );
+            // check if we should interupt the navigation flow
             const actions: BreadcrumbAction[] = ['goToHome', 'goToScene'];
             if (actions.includes(action)) {
                 if (isBehaviorFormMode) {
-                    console.log(
-                        '****Dirty flag',
-                        getFormDirtyState('behavior')
-                    );
-                    return !getFormDirtyState('behavior');
-                } else {
-                    return false; // TODO: wire up element form flag
+                    const isDirty = getFormDirtyState('behavior');
+                    if (isDirty) {
+                        setUnsavedBehaviorChangesDialogOpen(true);
+                        setUnsavedChangesDialogDiscardAction(() => {
+                            navigate();
+                            dispatch({
+                                type: SET_ADT_SCENE_BUILDER_SELECTED_BEHAVIOR,
+                                payload: null
+                            });
+                        });
+                        logDebugConsole(
+                            'debug',
+                            `[END] pre-breadcrumb navigation of action ${action} on BehaviorForm. {isDirty}`,
+                            isDirty
+                        );
+                        return; // early return so we don't navigate
+                    }
+                } else if (isElementFormMode) {
+                    const isDirty = getFormDirtyState('element');
+                    if (isDirty) {
+                        logDebugConsole(
+                            'debug',
+                            `[END] pre-breadcrumb navigation of action ${action} on ElementForm. {isDirty}`,
+                            isDirty
+                        );
+                        setUnsavedBehaviorChangesDialogOpen(true);
+                        setUnsavedChangesDialogDiscardAction(() => {
+                            navigate();
+                            dispatch({
+                                type: SET_ADT_SCENE_BUILDER_SELECTED_ELEMENT,
+                                payload: null
+                            });
+                        });
+                        return; // early return so we don't navigate
+                    }
                 }
-            } else {
-                return false;
             }
+            logDebugConsole(
+                'debug',
+                `[END] pre-breadcrumb navigation of action ${action}. Navigating.`
+            );
+            navigate();
         },
-        [getFormDirtyState, isBehaviorFormMode]
+        [
+            dispatch,
+            getFormDirtyState,
+            isBehaviorFormMode,
+            isElementFormMode,
+            setUnsavedBehaviorChangesDialogOpen,
+            setUnsavedChangesDialogDiscardAction
+        ]
     );
 
+    // logDebugConsole('debug', 'Render');
     return (
         <BaseComponent
             theme={theme}
@@ -497,7 +540,7 @@ const BuilderLeftPanel: React.FC<IBuilderLeftPanelProps> = ({ styles }) => {
                 sceneId={sceneId}
                 builderMode={state.builderMode}
                 onSceneClick={onSceneClick}
-                onBeforeNavigate={onBeforeBreadcrumbNavigation}
+                onNavigate={onBreadcrumbNavigate}
             />
             {isIdleMode && (
                 <Pivot
