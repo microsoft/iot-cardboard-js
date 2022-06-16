@@ -763,7 +763,6 @@
     "overwrite": "sovrascrivere",
     "namespace": "Namespace",
     "enterANamespace": "Immettere uno spazio dei nomi",
-    "namespaceError": "Il nome può contenere solo i caratteri a-z, A-Z, 0-9 e underscore.",
     "settings": "Impostazioni",
     "errorInvalidJSON": "JSON non valido",
     "errorFileFormatNotSupported": "Formato {{file}} non supportato",

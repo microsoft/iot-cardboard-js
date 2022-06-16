@@ -763,7 +763,6 @@
     "overwrite": "skriva över",
     "namespace": "Namespace",
     "enterANamespace": "Ange ett namnområde",
-    "namespaceError": "Namnet får bara innehålla tecknen a-z, A-Z, 0-9 och understreck.",
     "settings": "Inställningar",
     "errorInvalidJSON": "Ogiltig JSON",
     "errorFileFormatNotSupported": "{{file}}-format stöds inte",

@@ -763,7 +763,6 @@
     "overwrite": "перезаписать",
     "namespace": "Пространство имен",
     "enterANamespace": "Ввод пространства имен",
-    "namespaceError": "Имя может содержать только символы a-z, A-Z, 0-9 и подчеркивание.",
     "settings": "Параметры",
     "errorInvalidJSON": "Недопустимый JSON",
     "errorFileFormatNotSupported": "Формат {{file}} не поддерживается",

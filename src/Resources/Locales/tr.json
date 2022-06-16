@@ -763,7 +763,6 @@
     "overwrite": "Üzerine",
     "namespace": "Namespace",
     "enterANamespace": "Ad alanı girme",
-    "namespaceError": "Ad yalnızca a-z, A-Z, 0-9 ve alt çizgi karakterlerini içerebilir.",
     "settings": "Ayarlar",
     "errorInvalidJSON": "Geçersiz JSON",
     "errorFileFormatNotSupported": "{{dosya}} biçimi desteklenmiyor",

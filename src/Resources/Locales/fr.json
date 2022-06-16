@@ -763,7 +763,6 @@
     "overwrite": "écraser",
     "namespace": "Espace de noms",
     "enterANamespace": "Entrer un espace de noms",
-    "namespaceError": "Le nom ne peut contenir que les caractères a-z, A-Z, 0-9 et le trait de soulignement.",
     "settings": "Paramètres",
     "errorInvalidJSON": "JSON non valide",
     "errorFileFormatNotSupported": "Le format {{file}} n’est pas pris en charge",

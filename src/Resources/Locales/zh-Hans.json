@@ -763,7 +763,6 @@
     "overwrite": "改写",
     "namespace": "Namespace",
     "enterANamespace": "输入命名空间",
-    "namespaceError": "名称只能包含字符 a-z、A-Z、0-9 和下划线。",
     "settings": "设置",
     "errorInvalidJSON": "无效的 JSON",
     "errorFileFormatNotSupported": "{{文件}} 格式不受支持",
