@@ -104,8 +104,8 @@ const getModifiedTime = async (url): Promise<string> => {
             }
             return dt.toISOString();
         })
-        .catch((error) => {
-            throw error;
+        .catch(() => {
+            return null;
         });
 };
 
@@ -872,15 +872,16 @@ function SceneView(props: ISceneViewProps, ref) {
                 engineRef.current,
                 (e: any) => onProgress(e),
                 (s: any, m: any, e: any) => {
-                    if (e.isAxiosError && typeof e.response === 'undefined') {
-                        // When response is undefined axios call returns as 'Network error', this could be a CORS issue, invalid blob url or a dropped internet connection. It is not possible for us to know.
+                    if (e.innerError.request?._xhr.status === 0) {
+                        // When response is undefined or xhr status is 0 axios call returns as 'Network error', this could be a CORS issue, invalid blob url or a dropped internet connection. It is not possible for us to know.
                         console.error(
                             'Error loading model. This could be a CORS issue, invalid blob url or network error.'
                         );
                         setLoadingError('network');
                     } else {
+                        // even if it is not CORS related, it might still due to lack of required permissions, or just corrupted file.
                         console.error(
-                            'Error loading model. Try clearing your cache and try again.',
+                            'Error loading model. Check your access role assignments for that file, or try again.',
                             s,
                             e
                         );

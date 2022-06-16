@@ -942,7 +942,7 @@
         "sceneView": {
             "3dAssetLoadingErrorTitle": "Error loading model",
             "3dAssetLoadingNetworkErrorMessage": "This could be a CORS issue, invalid blob url or a network error. Please contact the owner of the container where this asset file is stored or try again later.",
-            "3dAssetLoadingGenericErrorMessage": "Error loading model. Try clearing your cache and try again."
+            "3dAssetLoadingGenericErrorMessag": "Error loading model. Try clearing your cache and try again or check your access for that file."
         }
     }
 }
