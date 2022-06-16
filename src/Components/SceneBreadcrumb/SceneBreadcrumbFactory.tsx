@@ -23,29 +23,44 @@ const cancelWidgetForm = (
     }
 };
 
-const isCreateOrEditWidget = (formMode: WidgetFormMode) => {
+const isCreateOrEditWidgetMode = (formMode: WidgetFormMode) => {
     return (
         formMode === WidgetFormMode.CreateWidget ||
         formMode === WidgetFormMode.EditWidget
     );
 };
 
+const isCreateOrEditBehaviorMode = (formMode: ADT3DSceneBuilderMode) => {
+    return (
+        formMode === ADT3DSceneBuilderMode.CreateBehavior ||
+        formMode === ADT3DSceneBuilderMode.EditBehavior
+    );
+};
+
+const isCreateOrEditElementMode = (formMode: ADT3DSceneBuilderMode) => {
+    return (
+        formMode === ADT3DSceneBuilderMode.CreateElement ||
+        formMode === ADT3DSceneBuilderMode.EditElement
+    );
+};
+
 const SceneBreadcrumbFactory: React.FC<ISceneBreadcrumbFactoryProps> = ({
-    sceneId,
-    sceneName,
     builderMode,
+    onBeforeNavigate,
+    onSceneChange,
     onSceneClick,
-    onSceneChange
+    sceneId,
+    sceneName
 }) => {
     const { t } = useTranslation();
 
     const extraItems: Array<IBreadcrumbItem> = [];
-    const widgetsRoot: IBreadcrumbItem = {
+    const widgetsFormRootLabel: IBreadcrumbItem = {
         text: t('3dSceneBuilder.widget'),
         key: 'widgetsRoot'
     };
 
-    const twinAliasRoot: IBreadcrumbItem = {
+    const twinAliasFormRootLabel: IBreadcrumbItem = {
         text: t('3dSceneBuilder.twinAlias.title'),
         key: 'twinAliasRoot'
     };
@@ -67,48 +82,59 @@ const SceneBreadcrumbFactory: React.FC<ISceneBreadcrumbFactoryProps> = ({
         /**
          * Add extra breadcrumb item in case behavior is in form mode
          */
-        if (
-            builderMode === ADT3DSceneBuilderMode.CreateBehavior ||
-            builderMode === ADT3DSceneBuilderMode.EditBehavior
-        ) {
-            const behaviorsRoot: IBreadcrumbItem = {
+        if (isCreateOrEditBehaviorMode(builderMode)) {
+            const isWidgetFormMode = isCreateOrEditWidgetMode(
+                widgetFormInfo.mode
+            );
+            const isTwinFormMode = behaviorTwinAliasFormInfo !== null;
+            const isBuilderModeNotInBehaviorForm = !isCreateOrEditBehaviorMode(
+                builderMode
+            );
+            const isClickable =
+                isWidgetFormMode ||
+                isTwinFormMode ||
+                isBuilderModeNotInBehaviorForm;
+
+            const behaviorFormRoot: IBreadcrumbItem = {
                 text: t('3dSceneBuilder.behavior'),
                 key: 'behaviorRoot',
-                ...((isCreateOrEditWidget(widgetFormInfo.mode) ||
-                    behaviorTwinAliasFormInfo !== null ||
-                    (builderMode !== ADT3DSceneBuilderMode.CreateBehavior &&
-                        builderMode !==
-                            ADT3DSceneBuilderMode.EditBehavior)) && {
+                ...(isClickable && {
                     onClick: () => {
-                        cancelWidgetForm(widgetFormInfo, setWidgetFormInfo);
-                        setBehaviorTwinAliasFormInfo(null);
+                        if (onBeforeNavigate('goToForm')) {
+                            cancelWidgetForm(widgetFormInfo, setWidgetFormInfo);
+                            setBehaviorTwinAliasFormInfo(null);
+                        }
                     }
                 })
             };
-            extraItems.push(behaviorsRoot);
+            extraItems.push(behaviorFormRoot);
 
             /**
              * Callbacks required to cancel forms, both are only required when behavior is in form mode
              */
             onBehaviorRootClick = () => {
-                onSceneClick();
-                cancelWidgetForm(widgetFormInfo, setWidgetFormInfo);
-                setBehaviorTwinAliasFormInfo(null);
+                if (onBeforeNavigate('goToScene')) {
+                    onSceneClick();
+                    cancelWidgetForm(widgetFormInfo, setWidgetFormInfo);
+                    setBehaviorTwinAliasFormInfo(null);
+                }
             };
 
             onCancelForm = () => {
-                cancelWidgetForm(widgetFormInfo, setWidgetFormInfo);
-                setBehaviorTwinAliasFormInfo(null);
+                if (onBeforeNavigate('cancelForm')) {
+                    cancelWidgetForm(widgetFormInfo, setWidgetFormInfo);
+                    setBehaviorTwinAliasFormInfo(null);
+                }
             };
         }
 
         /**
          * If widget or twin alias forms are displayed show a 4th breadcrumb item
          */
-        if (isCreateOrEditWidget(widgetFormInfo.mode)) {
-            extraItems.push(widgetsRoot);
+        if (isCreateOrEditWidgetMode(widgetFormInfo.mode)) {
+            extraItems.push(widgetsFormRootLabel);
         } else if (behaviorTwinAliasFormInfo) {
-            extraItems.push(twinAliasRoot);
+            extraItems.push(twinAliasFormRootLabel);
         }
 
         return (
@@ -149,22 +175,23 @@ const SceneBreadcrumbFactory: React.FC<ISceneBreadcrumbFactoryProps> = ({
         /**
          * Add extra breadcrumb item in case element is in form mode
          */
-        if (
-            builderMode === ADT3DSceneBuilderMode.CreateElement ||
-            builderMode === ADT3DSceneBuilderMode.EditElement
-        ) {
-            const elementsRoot: IBreadcrumbItem = {
+        if (isCreateOrEditElementMode(builderMode)) {
+            const isTwinFormMode = elementTwinAliasFormInfo !== null;
+            const isBuilderModeNotInElementForm = !isCreateOrEditElementMode(
+                builderMode
+            );
+            const isClickable = isTwinFormMode || isBuilderModeNotInElementForm;
+
+            const elementFormRoot: IBreadcrumbItem = {
                 text: t('3dSceneBuilder.element'),
                 key: 'elementRoot',
-                ...((elementTwinAliasFormInfo !== null ||
-                    (builderMode !== ADT3DSceneBuilderMode.CreateElement &&
-                        builderMode !== ADT3DSceneBuilderMode.EditElement)) && {
+                ...(isClickable && {
                     onClick: () => {
                         setElementTwinAliasFormInfo(null);
                     }
                 })
             };
-            extraItems.push(elementsRoot);
+            extraItems.push(elementFormRoot);
 
             /**
              * Callbacks required to cancel forms, both are only required when element is in form mode
@@ -185,24 +212,24 @@ const SceneBreadcrumbFactory: React.FC<ISceneBreadcrumbFactoryProps> = ({
          * If twin alias form is displayed show a 4th breadcrumb item
          */
         if (elementTwinAliasFormInfo) {
-            extraItems.push(twinAliasRoot);
+            extraItems.push(twinAliasFormRootLabel);
         }
 
         return (
             <BaseBreadcrumb
-                extraItems={extraItems}
-                isAtSceneRoot={
-                    builderMode === ADT3DSceneBuilderMode.ElementsIdle
-                }
-                onSceneClick={onElementRootClick}
-                sceneName={sceneName}
-                sceneId={sceneId}
-                onCancelForm={onCancelForm}
                 classNames={{
                     root: 'cb-left-panel-builder-breadcrumb-container',
                     breadcrumb: 'cb-left-panel-builder-breadcrumb',
                     sceneRoot: 'cb-left-panel-builder-breadcrumb-scene-root'
                 }}
+                extraItems={extraItems}
+                isAtSceneRoot={
+                    builderMode === ADT3DSceneBuilderMode.ElementsIdle
+                }
+                onCancelForm={onCancelForm}
+                onSceneClick={onElementRootClick}
+                sceneId={sceneId}
+                sceneName={sceneName}
             />
         );
     } else {
@@ -211,16 +238,16 @@ const SceneBreadcrumbFactory: React.FC<ISceneBreadcrumbFactoryProps> = ({
          */
         return (
             <BaseBreadcrumb
-                extraItems={extraItems}
-                isAtSceneRoot={true}
-                sceneName={sceneName}
-                sceneId={sceneId}
-                onSceneChange={onSceneChange}
                 classNames={{
                     root: 'cb-viewer-breadcrumb-container',
                     breadcrumb: 'cb-viewer-breadcrumb',
                     sceneRoot: 'cb-viewer-breadcrumb-scene-root'
                 }}
+                extraItems={extraItems}
+                isAtSceneRoot={true}
+                onSceneChange={onSceneChange}
+                sceneId={sceneId}
+                sceneName={sceneName}
             />
         );
     }

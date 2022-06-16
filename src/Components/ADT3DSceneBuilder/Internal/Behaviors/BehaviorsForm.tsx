@@ -92,6 +92,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
     setSelectedElements,
     updateSelectedElements,
     onElementClick,
+    onFormDirtyChange,
     onRemoveElement
 }) => {
     const { t } = useTranslation();
@@ -100,8 +101,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
         config,
         widgetFormInfo,
         behaviorTwinAliasFormInfo,
-        checkIfBehaviorHasBeenEdited,
-        setUnsavedBehaviorChangesDialog,
+        setUnsavedBehaviorChangesDialogOpen,
         setUnsavedChangesDialogDiscardAction,
         state
     } = useContext(SceneBuilderContext);
@@ -306,25 +306,25 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
     }, [onBehaviorBackClick, setSelectedElements]);
 
     const onCancelClick = useCallback(() => {
-        if (checkIfBehaviorHasBeenEdited()) {
-            setUnsavedBehaviorChangesDialog(true);
+        if (behaviorFormState.isDirty) {
+            setUnsavedBehaviorChangesDialogOpen(true);
             setUnsavedChangesDialogDiscardAction(discardChanges);
         } else {
             discardChanges();
         }
     }, [
-        discardChanges,
-        checkIfBehaviorHasBeenEdited,
+        behaviorFormState.isDirty,
+        setUnsavedBehaviorChangesDialogOpen,
         setUnsavedChangesDialogDiscardAction,
-        setUnsavedBehaviorChangesDialog
+        discardChanges
     ]);
 
     const onDiscardChangesClick = useCallback(() => {
-        setUnsavedBehaviorChangesDialog(false);
+        setUnsavedBehaviorChangesDialogOpen(false);
         if (state.unsavedChangesDialogDiscardAction) {
             state.unsavedChangesDialogDiscardAction();
         }
-    }, [setUnsavedBehaviorChangesDialog, state]);
+    }, [setUnsavedBehaviorChangesDialogOpen, state]);
 
     const { headerText, subHeaderText, iconName } = useMemo(
         () =>
@@ -354,8 +354,12 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
             )
         });
     }, []);
-    const isFormValid = checkValidityMap(behaviorState.validityMap);
 
+    useEffect(() => {
+        onFormDirtyChange(behaviorFormState.isDirty);
+    }, [behaviorFormState.isDirty, onFormDirtyChange]);
+
+    const isFormValid = checkValidityMap(behaviorState.validityMap);
     const theme = useTheme();
     const commonPanelStyles = getLeftPanelStyles(theme);
     const commonFormStyles = getPanelFormStyles(theme, 168);
@@ -539,7 +543,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
             <UnsavedChangesDialog
                 isOpen={state.unsavedBehaviorDialogOpen}
                 onConfirmDiscard={onDiscardChangesClick}
-                onClose={() => setUnsavedBehaviorChangesDialog(false)}
+                onClose={() => setUnsavedBehaviorChangesDialogOpen(false)}
             />
         </div>
     );
@@ -574,16 +578,17 @@ function checkValidityMap(validityMap: Map<string, IValidityState>): boolean {
 
 const BehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
     behaviors,
-    elements,
     builderMode,
-    selectedElements,
-    removedElements,
+    elements,
     onBehaviorBackClick,
     onBehaviorSave,
-    setSelectedElements,
-    updateSelectedElements,
     onElementClick,
-    onRemoveElement
+    onFormDirtyChange,
+    onRemoveElement,
+    removedElements,
+    selectedElements,
+    setSelectedElements,
+    updateSelectedElements
 }) => {
     const { config, state } = useContext(SceneBuilderContext);
 
@@ -598,16 +603,17 @@ const BehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
         >
             <SceneBehaviorsForm
                 behaviors={behaviors}
-                elements={elements}
                 builderMode={builderMode}
-                selectedElements={selectedElements}
-                removedElements={removedElements}
+                elements={elements}
                 onBehaviorBackClick={onBehaviorBackClick}
                 onBehaviorSave={onBehaviorSave}
+                onElementClick={onElementClick}
+                onFormDirtyChange={onFormDirtyChange}
+                onRemoveElement={onRemoveElement}
+                removedElements={removedElements}
+                selectedElements={selectedElements}
                 setSelectedElements={setSelectedElements}
                 updateSelectedElements={updateSelectedElements}
-                onElementClick={onElementClick}
-                onRemoveElement={onRemoveElement}
             />
         </BehaviorFormContextProvider>
     );

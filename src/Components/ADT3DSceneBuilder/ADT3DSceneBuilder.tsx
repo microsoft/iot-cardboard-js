@@ -247,12 +247,15 @@ const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
         });
     }, []);
 
-    const setUnsavedBehaviorChangesDialog = useCallback((isOpen: boolean) => {
-        dispatch({
-            type: SET_UNSAVED_BEHAVIOR_CHANGES_DIALOG_OPEN,
-            payload: isOpen
-        });
-    }, []);
+    const setUnsavedBehaviorChangesDialogOpen = useCallback(
+        (isOpen: boolean) => {
+            dispatch({
+                type: SET_UNSAVED_BEHAVIOR_CHANGES_DIALOG_OPEN,
+                payload: isOpen
+            });
+        },
+        []
+    );
 
     const setColoredMeshItems = useCallback(
         (coloredMeshItems: Array<CustomMeshItem>) => {
@@ -762,7 +765,7 @@ const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
             if (!checkIfBehaviorHasBeenEdited()) {
                 scenePageModeChange(newScenePageMode);
             } else {
-                setUnsavedBehaviorChangesDialog(true);
+                setUnsavedBehaviorChangesDialogOpen(true);
                 setUnsavedChangesDialogDiscardAction(() =>
                     scenePageModeChange(newScenePageMode)
                 );
@@ -770,7 +773,7 @@ const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
         },
         [
             checkIfBehaviorHasBeenEdited,
-            setUnsavedBehaviorChangesDialog,
+            setUnsavedBehaviorChangesDialogOpen,
             setUnsavedChangesDialogDiscardAction,
             scenePageModeChange
         ]
@@ -802,8 +805,7 @@ const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
                 state,
                 objectColor: state.objectColor,
                 setIsLayerBuilderDialogOpen,
-                checkIfBehaviorHasBeenEdited,
-                setUnsavedBehaviorChangesDialog,
+                setUnsavedBehaviorChangesDialogOpen,
                 setUnsavedChangesDialogDiscardAction
             }}
         >

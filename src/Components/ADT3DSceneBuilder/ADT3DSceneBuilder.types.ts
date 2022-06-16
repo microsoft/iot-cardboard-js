@@ -129,8 +129,7 @@ export interface I3DSceneBuilderContext {
     dispatch: React.Dispatch<{ type: string; payload: any }>;
     state: ADT3DSceneBuilderState;
     objectColor: IADTObjectColor;
-    checkIfBehaviorHasBeenEdited: () => boolean;
-    setUnsavedBehaviorChangesDialog: (isOpen: boolean) => void;
+    setUnsavedBehaviorChangesDialogOpen: (isOpen: boolean) => void;
     setUnsavedChangesDialogDiscardAction: (action: any) => void;
     setIsLayerBuilderDialogOpen: (
         isOpen: boolean,
@@ -227,20 +226,21 @@ export type OnBehaviorSave = (
 ) => Promise<void>;
 
 export interface IADT3DSceneBuilderBehaviorFormProps {
-    builderMode: ADT3DSceneBuilderMode;
     behaviors: Array<IBehavior>;
+    builderMode: ADT3DSceneBuilderMode;
     elements: Array<ITwinToObjectMapping>;
-    selectedElements: Array<ITwinToObjectMapping>;
-    removedElements: Array<ITwinToObjectMapping>;
     onBehaviorBackClick: () => void;
     onBehaviorSave: OnBehaviorSave;
+    onElementClick?: (element: ITwinToObjectMapping) => void;
+    onFormDirtyChange: (isDirty: boolean) => void;
+    onRemoveElement?: (newElements: Array<ITwinToObjectMapping>) => void;
+    removedElements: Array<ITwinToObjectMapping>;
+    selectedElements: Array<ITwinToObjectMapping>;
     setSelectedElements: (elements: Array<ITwinToObjectMapping>) => any;
     updateSelectedElements: (
         element: ITwinToObjectMapping,
         isSelected: boolean
     ) => void;
-    onRemoveElement?: (newElements: Array<ITwinToObjectMapping>) => void;
-    onElementClick?: (element: ITwinToObjectMapping) => void;
 }
 
 export interface IADT3DSceneBuilderElementsProps {

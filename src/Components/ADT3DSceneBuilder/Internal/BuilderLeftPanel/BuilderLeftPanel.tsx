@@ -5,7 +5,13 @@ import {
     styled,
     useTheme
 } from '@fluentui/react';
-import React, { useCallback, useContext, useEffect, useMemo } from 'react';
+import React, {
+    useCallback,
+    useContext,
+    useEffect,
+    useMemo,
+    useState
+} from 'react';
 import { useTranslation } from 'react-i18next';
 import {
     ADT3DSceneBuilderMode,
@@ -48,6 +54,7 @@ import {
     IBuilderLeftPanelStyles
 } from './BuilderLeftPanel.types';
 import { getStyles } from './BuilderLeftPanel.styles';
+import { BreadcrumbAction } from '../../../SceneBreadcrumb/SceneBreadcrumb.types';
 
 const getClassNames = classNamesFunction<
     IBuilderLeftPanelStyleProps,
@@ -75,6 +82,10 @@ const BuilderLeftPanel: React.FC<IBuilderLeftPanelProps> = ({ styles }) => {
         dispatch,
         objectColor
     } = useContext(SceneBuilderContext);
+
+    const [isBehaviorFormDirty, setIsBehaviorFormDirty] = useState<boolean>(
+        false
+    );
 
     const addBehaviorToSceneAdapterData = useAdapter({
         adapterMethod: (params: { behavior: IBehavior }) =>
@@ -442,6 +453,16 @@ const BuilderLeftPanel: React.FC<IBuilderLeftPanelProps> = ({ styles }) => {
     const sceneName = ViewerConfigUtility.getSceneById(config, sceneId)
         ?.displayName;
 
+    const isIdleMode =
+        state.builderMode === ADT3DSceneBuilderMode.ElementsIdle ||
+        state.builderMode === ADT3DSceneBuilderMode.BehaviorIdle;
+    const isBehaviorFormMode =
+        state.builderMode === ADT3DSceneBuilderMode.CreateBehavior ||
+        state.builderMode === ADT3DSceneBuilderMode.EditBehavior;
+    const isElementFormMode =
+        state.builderMode === ADT3DSceneBuilderMode.CreateElement ||
+        state.builderMode === ADT3DSceneBuilderMode.EditElement;
+
     return (
         <BaseComponent
             theme={theme}
@@ -455,9 +476,25 @@ const BuilderLeftPanel: React.FC<IBuilderLeftPanelProps> = ({ styles }) => {
                 sceneId={sceneId}
                 builderMode={state.builderMode}
                 onSceneClick={onSceneClick}
+                onBeforeNavigate={(level: BreadcrumbAction) => {
+                    console.log('***Before navigation', level);
+                    const levels: BreadcrumbAction[] = [
+                        'goToHome',
+                        'goToScene'
+                    ];
+                    if (levels.includes(level)) {
+                        if (isBehaviorFormMode) {
+                            console.log('****Dirty flag', isBehaviorFormDirty);
+                            return !isBehaviorFormDirty;
+                        } else {
+                            return false; // TODO: wire up element form flag
+                        }
+                    } else {
+                        return false;
+                    }
+                }}
             />
-            {(state.builderMode === ADT3DSceneBuilderMode.ElementsIdle ||
-                state.builderMode === ADT3DSceneBuilderMode.BehaviorIdle) && (
+            {isIdleMode && (
                 <Pivot
                     aria-label={t('3dScenePage.buildMode')}
                     selectedKey={state.selectedPivotTab}
@@ -499,8 +536,7 @@ const BuilderLeftPanel: React.FC<IBuilderLeftPanelProps> = ({ styles }) => {
                     </PivotItem>
                 </Pivot>
             )}
-            {(state.builderMode === ADT3DSceneBuilderMode.CreateElement ||
-                state.builderMode === ADT3DSceneBuilderMode.EditElement) && (
+            {isElementFormMode && (
                 <SceneElementForm
                     builderMode={state.builderMode}
                     behaviors={behaviors}
@@ -513,22 +549,22 @@ const BuilderLeftPanel: React.FC<IBuilderLeftPanelProps> = ({ styles }) => {
                     onCreateBehaviorWithElements={onCreateBehaviorWithElements}
                 />
             )}
-            {(state.builderMode === ADT3DSceneBuilderMode.CreateBehavior ||
-                state.builderMode === ADT3DSceneBuilderMode.EditBehavior) && (
+            {isBehaviorFormMode && (
                 <SceneBehaviorsForm
                     behaviors={behaviors}
-                    elements={state.elements}
                     builderMode={state.builderMode}
+                    elements={state.elements}
                     onBehaviorBackClick={() =>
                         onBackClick(ADT3DSceneBuilderMode.BehaviorIdle)
                     }
                     onBehaviorSave={onBehaviorSave}
-                    selectedElements={state.selectedElements}
+                    onElementClick={onElementClick}
+                    onFormDirtyChange={setIsBehaviorFormDirty}
+                    onRemoveElement={onRemoveElement}
                     removedElements={state.removedElements}
+                    selectedElements={state.selectedElements}
                     setSelectedElements={setSelectedElements}
                     updateSelectedElements={updateSelectedElements}
-                    onRemoveElement={onRemoveElement}
-                    onElementClick={onElementClick}
                 />
             )}
         </BaseComponent>
