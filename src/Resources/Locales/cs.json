@@ -763,7 +763,6 @@
     "overwrite": "přepsat",
     "namespace": "Namespace",
     "enterANamespace": "Zadání oboru názvů",
-    "namespaceError": "Název může obsahovat pouze znaky a-z, A-Z, 0-9 a podtržítko.",
     "settings": "Nastavení",
     "errorInvalidJSON": "Neplatný JSON",
     "errorFileFormatNotSupported": "Formát {{file}} není podporován",

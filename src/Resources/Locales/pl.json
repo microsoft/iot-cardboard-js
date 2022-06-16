@@ -763,7 +763,6 @@
     "overwrite": "Zastąpić",
     "namespace": "Namespace",
     "enterANamespace": "Wprowadzanie przestrzeni nazw",
-    "namespaceError": "Nazwa może zawierać tylko znaki a-z, A-Z, 0-9 i podkreślenie.",
     "settings": "Ustawienia",
     "errorInvalidJSON": "Nieprawidłowy kod JSON",
     "errorFileFormatNotSupported": "Format {{file}} nie jest obsługiwany",

@@ -763,7 +763,6 @@
     "overwrite": "sobrescrever",
     "namespace": "Namespace",
     "enterANamespace": "Digite um namespace",
-    "namespaceError": "O nome só pode conter os caracteres a-z, A-Z, 0-9 e sublinhar.",
     "settings": "Configurações",
     "errorInvalidJSON": "JSON inválido",
     "errorFileFormatNotSupported": "{{file}} formato não suportado",

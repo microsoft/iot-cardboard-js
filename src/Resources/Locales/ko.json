@@ -763,7 +763,6 @@
     "overwrite": "덮어쓸",
     "namespace": "Namespace",
     "enterANamespace": "네임스페이스 입력",
-    "namespaceError": "이름에는 a-z, A-Z, 0-9 및 밑줄 문자만 포함될 수 있습니다.",
     "settings": "설정",
     "errorInvalidJSON": "잘못된 JSON",
     "errorFileFormatNotSupported": "{{file}} 형식이 지원되지 않음",
