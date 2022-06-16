@@ -941,8 +941,8 @@
     "configureEnvironment": "Umgebung konfigurieren",
     "sceneView": {
       "3dAssetLoadingErrorTitle": "Fehler beim Laden des Modells",
-      "3dAssetLoadingGenericErrorMessage": "Fehler beim Laden des Modells. Versuchen Sie, den Cache zu leeren, und versuchen Sie es erneut.",
-      "3dAssetLoadingNetworkErrorMessage": "Dies kann ein CORS-Problem, eine ungültige Blob-URL oder ein Netzwerkfehler sein. Bitte wenden Sie sich an den Eigentümer des Containers, in dem diese Asset-Datei gespeichert ist, oder versuchen Sie es später erneut."
+      "3dAssetLoadingNetworkErrorMessage": "Dies kann ein CORS-Problem, eine ungültige Blob-URL oder ein Netzwerkfehler sein. Bitte wenden Sie sich an den Eigentümer des Containers, in dem diese Asset-Datei gespeichert ist, oder versuchen Sie es später erneut.",
+      "3dAssetLoadingGenericErrorMessag": "Fehler beim Laden des Modells. Versuchen Sie, den Cache zu leeren, und versuchen Sie es erneut, oder überprüfen Sie Ihren Zugriff auf diese Datei."
     }
   }
 }

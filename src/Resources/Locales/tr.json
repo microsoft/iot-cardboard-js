@@ -941,8 +941,8 @@
     "configureEnvironment": "Ortamı yapılandırma",
     "sceneView": {
       "3dAssetLoadingErrorTitle": "Model yüklenirken hata oluştu",
-      "3dAssetLoadingGenericErrorMessage": "Model yüklenirken hata oluştu. Önbelleğinizi temizlemeyi deneyin ve yeniden deneyin.",
-      "3dAssetLoadingNetworkErrorMessage": "Bu bir CORS sorunu, geçersiz blob URL'si veya bir ağ hatası olabilir. Lütfen bu öğe dosyasının depolandığı kapsayıcının sahibiyle iletişime geçin veya daha sonra yeniden deneyin."
+      "3dAssetLoadingNetworkErrorMessage": "Bu bir CORS sorunu, geçersiz blob URL'si veya bir ağ hatası olabilir. Lütfen bu öğe dosyasının depolandığı kapsayıcının sahibiyle iletişime geçin veya daha sonra yeniden deneyin.",
+      "3dAssetLoadingGenericErrorMessag": "Model yüklenirken hata oluştu. Önbelleğinizi temizlemeyi deneyin ve yeniden deneyin veya bu dosya için erişiminizi denetleyin."
     }
   }
 }

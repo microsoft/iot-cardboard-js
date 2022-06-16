@@ -941,8 +941,8 @@
     "configureEnvironment": "Konfigurera miljö",
     "sceneView": {
       "3dAssetLoadingErrorTitle": "Fel vid laddning av modell",
-      "3dAssetLoadingGenericErrorMessage": "Fel vid laddning av modell. Försök rensa cacheminnet och försök igen.",
-      "3dAssetLoadingNetworkErrorMessage": "Det kan vara ett CORS-problem, ogiltig blob-URL eller ett nätverksfel. Kontakta ägaren till containern där tillgångsfilen lagras eller försök igen senare."
+      "3dAssetLoadingNetworkErrorMessage": "Det kan vara ett CORS-problem, ogiltig blob-URL eller ett nätverksfel. Kontakta ägaren till containern där tillgångsfilen lagras eller försök igen senare.",
+      "3dAssetLoadingGenericErrorMessag": "Fel vid laddning av modell. Försök att rensa cacheminnet och försök igen eller kontrollera din åtkomst för den filen."
     }
   }
 }

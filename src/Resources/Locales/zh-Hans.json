@@ -941,8 +941,8 @@
     "configureEnvironment": "配置环境",
     "sceneView": {
       "3dAssetLoadingErrorTitle": "加载模型时出错",
-      "3dAssetLoadingGenericErrorMessage": "加载模型时出错。请尝试清除缓存，然后重试。",
-      "3dAssetLoadingNetworkErrorMessage": "这可能是 CORS 问题、无效的 Blob URL 或网络错误。请与存储此资产文件的容器的所有者联系，或稍后重试。"
+      "3dAssetLoadingNetworkErrorMessage": "这可能是 CORS 问题、无效的 Blob URL 或网络错误。请与存储此资产文件的容器的所有者联系，或稍后重试。",
+      "3dAssetLoadingGenericErrorMessag": "加载模型时出错。请尝试清除缓存，然后重试或检查您对该文件的访问权限。"
     }
   }
 }
