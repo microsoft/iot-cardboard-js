@@ -768,7 +768,8 @@
     "errorInvalidJSON": "Ongeldige JSON",
     "errorFileFormatNotSupported": "{{file}} indeling niet ondersteund",
     "errorFormatNoSupported": "Bestandsindeling niet ondersteund",
-    "errorIssueWithFile": "Probleem met {{bestandsnaam}}: {{error}}"
+    "errorIssueWithFile": "Probleem met {{bestandsnaam}}: {{error}}",
+    "errorNamespace": "Naamruimte mag alleen letters, cijfers en onderstrepingstekens bevatten."
   },
   "cameraControls": {
     "mouseControls": "Muisbediening",

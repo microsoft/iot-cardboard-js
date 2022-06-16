@@ -768,7 +768,8 @@
     "errorInvalidJSON": "Neplatný JSON",
     "errorFileFormatNotSupported": "Formát {{file}} není podporován",
     "errorFormatNoSupported": "Formát souboru není podporován",
-    "errorIssueWithFile": "Problém s {{fileName}}: {{error}}"
+    "errorIssueWithFile": "Problém s {{fileName}}: {{error}}",
+    "errorNamespace": "Obor názvů může obsahovat pouze písmena, číslice a podtržítka."
   },
   "cameraControls": {
     "mouseControls": "Ovládání myší",

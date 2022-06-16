@@ -768,7 +768,8 @@
     "errorInvalidJSON": "JSON inválido",
     "errorFileFormatNotSupported": "{{file}} formato não suportado",
     "errorFormatNoSupported": "Formato de arquivo não suportado",
-    "errorIssueWithFile": "Problema com {{fileName}}: {{error}}"
+    "errorIssueWithFile": "Problema com {{fileName}}: {{error}}",
+    "errorNamespace": "O namespace só pode conter letras, dígitos e sublinhados."
   },
   "cameraControls": {
     "mouseControls": "Controles do mouse",

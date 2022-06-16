@@ -768,7 +768,8 @@
     "errorInvalidJSON": "Nieprawidłowy kod JSON",
     "errorFileFormatNotSupported": "Format {{file}} nie jest obsługiwany",
     "errorFormatNoSupported": "Format pliku nie jest obsługiwany",
-    "errorIssueWithFile": "Problem z {{fileName}}: {{error}}"
+    "errorIssueWithFile": "Problem z {{fileName}}: {{error}}",
+    "errorNamespace": "Przestrzeń nazw może zawierać tylko litery, cyfry i podkreślenia."
   },
   "cameraControls": {
     "mouseControls": "Sterowanie myszą",

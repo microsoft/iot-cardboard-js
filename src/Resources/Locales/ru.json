@@ -768,7 +768,8 @@
     "errorInvalidJSON": "Недопустимый JSON",
     "errorFileFormatNotSupported": "Формат {{file}} не поддерживается",
     "errorFormatNoSupported": "Формат файла не поддерживается",
-    "errorIssueWithFile": "Проблема с {{имя_файла}}: {{ошибка}}"
+    "errorIssueWithFile": "Проблема с {{имя_файла}}: {{ошибка}}",
+    "errorNamespace": "Пространство имен может содержать только буквы, цифры и подчеркивания."
   },
   "cameraControls": {
     "mouseControls": "Элементы управления мышью",

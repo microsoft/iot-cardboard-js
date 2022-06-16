@@ -768,7 +768,8 @@
     "errorInvalidJSON": "Geçersiz JSON",
     "errorFileFormatNotSupported": "{{dosya}} biçimi desteklenmiyor",
     "errorFormatNoSupported": "Dosya biçimi Desteklenmiyor",
-    "errorIssueWithFile": "{{fileName}} ile ilgili sorun: {{error}}"
+    "errorIssueWithFile": "{{fileName}} ile ilgili sorun: {{error}}",
+    "errorNamespace": "Ad alanı yalnızca harfler, rakamlar ve alt çizgiler içerebilir."
   },
   "cameraControls": {
     "mouseControls": "Fare Kontrolleri",

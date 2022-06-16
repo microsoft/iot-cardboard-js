@@ -768,7 +768,8 @@
     "errorInvalidJSON": "JSON non valido",
     "errorFileFormatNotSupported": "Formato {{file}} non supportato",
     "errorFormatNoSupported": "Formato di file non supportato",
-    "errorIssueWithFile": "Problema con {{nomefile}}: {{errore}}"
+    "errorIssueWithFile": "Problema con {{nomefile}}: {{errore}}",
+    "errorNamespace": "Lo spazio dei nomi può contenere solo lettere, cifre e caratteri di sottolineatura."
   },
   "cameraControls": {
     "mouseControls": "Controlli del mouse",

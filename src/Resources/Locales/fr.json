@@ -768,7 +768,8 @@
     "errorInvalidJSON": "JSON non valide",
     "errorFileFormatNotSupported": "Le format {{file}} n’est pas pris en charge",
     "errorFormatNoSupported": "Format de fichier non pris en charge",
-    "errorIssueWithFile": "Problème avec {{fileName}} : {{error}}"
+    "errorIssueWithFile": "Problème avec {{fileName}} : {{error}}",
+    "errorNamespace": "L’espace de noms ne peut contenir que des lettres, des chiffres et des traits de soulignement."
   },
   "cameraControls": {
     "mouseControls": "Contrôles de la souris",
