@@ -184,7 +184,11 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
     }, [edge, nodes]);
 
     useEffect(() => {
-        if (nameEditor && (!model || model['@id'] !== id)) {
+        if (
+            nameEditor &&
+            (!model || model['@id'] !== id) &&
+            data.type !== OATExtendHandleName
+        ) {
             setNameEditor(false);
         }
     }, [id, model, nameEditor]);
