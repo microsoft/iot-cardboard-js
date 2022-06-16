@@ -76,7 +76,7 @@ export const FormSettings = ({
                     value={namespace}
                     onChange={(e, v) => handleProjectNamespaceChange(v)}
                     errorMessage={
-                        namespaceError ? t('OATHeader.namespaceError') : null
+                        namespaceError ? t('OATHeader.errorNamespace') : null
                     }
                 />
             </div>
