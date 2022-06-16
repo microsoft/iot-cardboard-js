@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { TextField } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import {
@@ -40,32 +40,39 @@ const OATTextFieldDisplayName = ({
 }: IOATTexField) => {
     const { t } = useTranslation();
     const [displayNameLengthError, setDisplayNameLengthError] = useState(null);
+    const [temporaryValue, setTemporaryValue] = useState(displayName);
 
     const handleOnChange = (value) => {
         // Check length
         if (value.length <= OATDisplayNameLengthLimit) {
             setDisplayNameLengthError(null);
-            setDisplayName(value);
+            setTemporaryValue(value);
             onChange();
         } else {
             setDisplayNameLengthError(true);
         }
     };
 
+    useEffect(() => {
+        setTemporaryValue(displayName);
+    }, [displayName]);
+
     const onCommitChange = () => {
+        onCommit();
         if (!displayNameLengthError) {
             // Update model
             const modelCopy = deepCopy(model);
-            modelCopy.displayName = displayName;
+            modelCopy.displayName = temporaryValue;
             dispatch({
                 type: SET_OAT_PROPERTY_EDITOR_MODEL,
                 payload: modelCopy
             });
+            setDisplayName(temporaryValue);
         } else {
+            setTemporaryValue(getModelPropertyListItemName(model.displayName));
             setDisplayName(getModelPropertyListItemName(model.displayName));
             setDisplayNameLengthError(false);
         }
-        onCommit();
     };
 
     const onKeyDown = (event) => {
@@ -86,7 +93,7 @@ const OATTextFieldDisplayName = ({
             borderless={borderless}
             placeholder={placeholder}
             styles={styles}
-            value={getModelPropertyListItemName(displayName)}
+            value={getModelPropertyListItemName(temporaryValue)}
             placeholder={placeholder}
             onChange={(_ev, value) => {
                 handleOnChange(value);

@@ -121,7 +121,7 @@ const OATModelList = ({
                     styles={actionButtonStyles}
                     onClick={() => onSelectedClick(item['@id'])}
                 >
-                    <div>
+                    <div className={modelsStyles.modelNodeButtonContent}>
                         <div onDoubleClick={() => onIdClick(item['@id'])}>
                             {(!idEditor ||
                                 currentNodeId.current !== item['@id']) && (
@@ -140,6 +140,7 @@ const OATModelList = ({
                                     }}
                                     onCommit={() => {
                                         setIdEditor(false);
+                                        setItems([...items]);
                                     }}
                                     autoFocus
                                 />
@@ -160,19 +161,23 @@ const OATModelList = ({
                             )}
                             {nameEditor &&
                                 currentNodeId.current === item['@id'] && (
-                                    <OATTextFieldDisplayName
-                                        displayName={nameText}
-                                        setDisplayName={setNameText}
-                                        dispatch={dispatch}
-                                        model={model}
-                                        onChange={() => {
-                                            setItems([...items]);
-                                        }}
-                                        onCommit={() => {
-                                            setNameEditor(false);
-                                        }}
-                                        autoFocus
-                                    />
+                                    <>
+                                        <span>SPAN</span>
+                                        <OATTextFieldDisplayName
+                                            displayName={nameText}
+                                            setDisplayName={setNameText}
+                                            dispatch={dispatch}
+                                            model={model}
+                                            onChange={() => {
+                                                setItems([...items]);
+                                            }}
+                                            onCommit={() => {
+                                                setNameEditor(false);
+                                                setItems([...items]);
+                                            }}
+                                            autoFocus
+                                        />
+                                    </>
                                 )}
                         </div>
                     </div>
