@@ -53,6 +53,7 @@ import {
 import { ADT3DScenePageModes, BehaviorModalMode } from '../../Models/Constants';
 import FloatingScenePageModeToggle from '../../Pages/ADT3DScenePage/Internal/FloatingScenePageModeToggle';
 import DeeplinkFlyout from '../DeeplinkFlyout/DeeplinkFlyout';
+import { SceneThemeContextProvider } from '../../Models/Context';
 import SceneBreadcrumbFactory from '../SceneBreadcrumb/SceneBreadcrumbFactory';
 
 const getClassNames = classNamesFunction<
@@ -108,12 +109,16 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
     const prevLayerCount = useRef<number>(-1); // track the count of layers so we know to refresh the selections if the count changes
     const hasUserChangedLayers = useRef<boolean>(false); // need to know once a user makes a selection so we stop auto selecting items
     const prevSceneId = useRef<string>(sceneId); // need to know if user swaps scenes (using scene dropdown) since we won't get remounted
+    const initialDeeplinkLayers = useRef<string[]>(
+        deeplinkState.selectedLayerIds
+    ); // grab the initial layers on mount
 
     // reset the refs when the scene changes
     if (prevSceneId.current !== sceneId) {
         hasUserChangedLayers.current = false;
         prevLayerCount.current = -1;
         prevSceneId.current = sceneId;
+        initialDeeplinkLayers.current = deeplinkState.selectedLayerIds;
     }
 
     const behaviorIdsInScene = useMemo(
@@ -255,7 +260,12 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
         const noUserUpdate = !hasUserChangedLayers.current;
         const noSelectedLayers = !deeplinkState?.selectedLayerIds?.length;
         prevLayerCount.current = layersInScene.length;
-        if (noUserUpdate && (noSelectedLayers || layerCountChanged)) {
+        const layersSetOnDeeplink = initialDeeplinkLayers.current.length;
+        const shouldAutoSetLayers =
+            noUserUpdate &&
+            !layersSetOnDeeplink &&
+            (noSelectedLayers || layerCountChanged);
+        if (shouldAutoSetLayers) {
             // Add unlayered behavior option if unlayered behaviors present
             const layers = [
                 ...(unlayeredBehaviorsPresent ? [DEFAULT_LAYER_ID] : []),
@@ -263,7 +273,7 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
             ];
             logDebugConsole(
                 'debug',
-                'No layers found in state. Setting default layers (new layers, layersInScene)',
+                'No layers found in state. Setting default layers {new layers, layersInScene}',
                 layers,
                 layersInScene
             );
@@ -271,8 +281,9 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
         } else {
             logDebugConsole(
                 'debug',
-                'Not auto selecting layers. (noUserUpdateYet, didLayerCountChange, noSelectedLayers)',
+                'Not auto selecting layers. {noUserUpdate, layersSetOnDeeplink, didLayerCountChange, noSelectedLayers, behaviorIdsInScene}',
                 noUserUpdate,
+                layersSetOnDeeplink,
                 layerCountChanged,
                 noSelectedLayers,
                 behaviorIdsInScene
@@ -287,11 +298,23 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
         unlayeredBehaviorsPresent
     ]);
 
+    // this needs to run when sceneId is changed to ensure the correct layers are displayed
     useEffect(() => {
-        if (selectedLayerIds) {
-            setSelectedLayerIds(selectedLayerIds, true);
+        // only set layers if selectedLayerIds has been passed as a prop
+        if (selectedLayerIds !== undefined) {
+            if (selectedLayerIds) {
+                setSelectedLayerIds(selectedLayerIds, true);
+            } else {
+                // if layers are null set all layers as selected
+                const layers = [
+                    ...(unlayeredBehaviorsPresent ? [DEFAULT_LAYER_ID] : []),
+                    ...layersInScene.map((lis) => lis.id)
+                ];
+
+                setSelectedLayerIds(layers, true);
+            }
         }
-    }, [selectedLayerIds]);
+    }, [selectedLayerIds, sceneId]);
 
     const setSelectedElementId = useCallback(
         (elementId: string) => {
@@ -714,7 +737,9 @@ const hasPropertyInspectorAdapter = (
 const ADT3DViewer: React.FC<IADT3DViewerProps> = (props) => {
     return (
         <DeeplinkContextProvider>
-            <ADT3DViewerBase {...props} />
+            <SceneThemeContextProvider>
+                <ADT3DViewerBase {...props} />
+            </SceneThemeContextProvider>
         </DeeplinkContextProvider>
     );
 };

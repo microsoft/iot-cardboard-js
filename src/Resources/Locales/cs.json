@@ -489,7 +489,8 @@
       "customExpression": "Vlastní (pokročilé)",
       "dropdownPlaceholder": "Vyberte nemovitost",
       "toggleLabel": "Režim výrazu",
-      "none": "Žádný"
+      "none": "Žádný",
+      "clearButtonText": "Jasný"
     },
     "numericExpressionPlaceholder": "Zadejte výraz, který se vyhodnotí jako číslo",
     "behaviorId": "ID chování",
@@ -510,7 +511,6 @@
     "twinAlias": {
       "title": "Alias dvojčat",
       "calloutDescription": "Spojení dvojčat vybraných prvků",
-      "aliasedTwin": "Aliasované dvojče",
       "add": "Přidat dvojče",
       "new": "Nové dvojče",
       "edit": "Upravit dvojče",
@@ -539,7 +539,7 @@
       "errors": {
         "twinAliasAlreadyExists": "Alias dvojčete se stejným názvem již existuje, zvažte jeho přidání.",
         "alphanumericOnly": "Alias dvojčete musí obsahovat pouze alfanumerické znaky",
-        "noNumberPrefix": "Alias dvojčete nesmí začínat číslem"
+        "noNumberPrefix": "Dvojče nesmí začínat číslem"
       }
     },
     "actions": "Akce"

@@ -489,7 +489,8 @@
       "customExpression": "Aangepast (geavanceerd)",
       "dropdownPlaceholder": "Selecteer een woning",
       "toggleLabel": "Expressiemodus",
-      "none": "Geen"
+      "none": "Geen",
+      "clearButtonText": "Duidelijk"
     },
     "numericExpressionPlaceholder": "Een expressie invoeren die evalueert tot een getal",
     "behaviorId": "Gedrag Id",
@@ -510,7 +511,6 @@
     "twinAlias": {
       "title": "Dubbele alias",
       "calloutDescription": "De vereniging van dubbele eigenschappen van geselecteerde elementen",
-      "aliasedTwin": "Aliased tweeling",
       "add": "Twee toevoegen",
       "new": "Nieuwe tweeling",
       "edit": "Tweeling bewerken",
@@ -539,7 +539,7 @@
       "errors": {
         "twinAliasAlreadyExists": "Dubbele alias met dezelfde naam bestaat al, overweeg deze in plaats daarvan toe te voegen.",
         "alphanumericOnly": "Dubbele alias mag alleen alfanumerieke tekens bevatten",
-        "noNumberPrefix": "Dubbele alias mag niet beginnen met een getal"
+        "noNumberPrefix": "Tweelingnaam mag niet beginnen met een getal"
       }
     },
     "actions": "Acties"

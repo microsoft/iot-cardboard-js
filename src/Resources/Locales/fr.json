@@ -489,7 +489,8 @@
       "customExpression": "Personnalisé (avancé)",
       "dropdownPlaceholder": "Sélectionner une propriété",
       "toggleLabel": "Mode d’expression",
-      "none": "Aucun"
+      "none": "Aucun",
+      "clearButtonText": "Clair"
     },
     "numericExpressionPlaceholder": "Entrez une expression qui s’évalue à un nombre",
     "behaviorId": "ID de comportement",
@@ -510,7 +511,6 @@
     "twinAlias": {
       "title": "Alias jumeau",
       "calloutDescription": "L’union des propriétés jumelles d’éléments sélectionnés",
-      "aliasedTwin": "Jumeau aliasé",
       "add": "Ajouter un jumeau",
       "new": "Nouveau jumeau",
       "edit": "Modifier le jumeau",
@@ -539,7 +539,7 @@
       "errors": {
         "twinAliasAlreadyExists": "Un alias jumeau portant le même nom existe déjà, envisagez de l’ajouter à la place.",
         "alphanumericOnly": "L’alias jumeau ne doit contenir que des caractères alphanumériques",
-        "noNumberPrefix": "L’alias jumeau ne doit pas commencer par un nombre"
+        "noNumberPrefix": "Le nom jumeau ne doit pas commencer par un nombre"
       }
     },
     "actions": "Actions"

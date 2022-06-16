@@ -169,14 +169,18 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
         await saveElementAdapterData.callAdapter();
     }, [saveElementAdapterData]);
 
-    const handleCreateBehavior = useCallback(async () => {
-        // Save element
-        await handleSaveElement();
+    const handleCreateBehavior = useCallback(
+        async (searchText: string) => {
+            // Save element
+            await handleSaveElement();
 
-        onCreateBehaviorWithElements(
-            elementToEdit // new element
-        );
-    }, [handleSaveElement, onCreateBehaviorWithElements, elementToEdit]);
+            onCreateBehaviorWithElements(
+                searchText,
+                elementToEdit // new element
+            );
+        },
+        [handleSaveElement, onCreateBehaviorWithElements, elementToEdit]
+    );
 
     useEffect(() => {
         if (saveElementAdapterData.adapterResult.result) {

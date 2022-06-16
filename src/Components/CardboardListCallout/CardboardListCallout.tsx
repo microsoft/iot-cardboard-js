@@ -26,7 +26,6 @@ const CardboardListCallout = <T extends unknown>({
     calloutProps,
     calloutTarget,
     className,
-    dataButtonTestId,
     description,
     directionalHint,
     filterPlaceholder,
@@ -40,8 +39,10 @@ const CardboardListCallout = <T extends unknown>({
     noResultText,
     onDismiss,
     primaryActionProps,
+    title,
+    dataButtonTestId,
     searchBoxDataTestId,
-    title
+    focusTrapTestId
 }: ICardboardListCalloutProps<T>) => {
     const { t } = useTranslation();
     const [searchText, setSearchText] = useState('');
@@ -71,6 +72,9 @@ const CardboardListCallout = <T extends unknown>({
     const calloutStyles = getCardboardListCalloutStyles(theme);
     return (
         <FocusTrapCallout
+            {...(focusTrapTestId && {
+                'data-testid': focusTrapTestId
+            })}
             className={className}
             {...calloutProps}
             focusTrapProps={{
@@ -88,18 +92,17 @@ const CardboardListCallout = <T extends unknown>({
                 {description && (
                     <Text className={styles.description}>{description}</Text>
                 )}
-                {listItems.length > 0 && (
-                    <SearchBox
-                        {...(searchBoxDataTestId && {
-                            'data-testid': searchBoxDataTestId
-                        })}
-                        placeholder={filterPlaceholder ?? t('search')}
-                        onChange={(_event, value) => {
-                            setSearchText(value);
-                            filterListItems(value);
-                        }}
-                    />
-                )}
+
+                <SearchBox
+                    {...(searchBoxDataTestId && {
+                        'data-testid': searchBoxDataTestId
+                    })}
+                    placeholder={filterPlaceholder ?? t('search')}
+                    onChange={(_event, value) => {
+                        setSearchText(value);
+                        filterListItems(value);
+                    }}
+                />
 
                 {isListLoading ? (
                     <Spinner size={SpinnerSize.xSmall} />
@@ -125,10 +128,14 @@ const CardboardListCallout = <T extends unknown>({
 
                 {primaryActionProps && (
                     <PrimaryButton
-                        data-testid={dataButtonTestId}
+                        {...(dataButtonTestId && {
+                            'data-testid': dataButtonTestId
+                        })}
                         styles={cardboardListCalloutPrimaryButtonStyles}
-                        onClick={primaryActionProps.onPrimaryActionClick}
-                        disabled={primaryActionProps.disabled}
+                        onClick={() =>
+                            primaryActionProps.onPrimaryActionClick(searchText)
+                        }
+                        disabled={!!primaryActionProps.disabled}
                     >
                         {primaryActionProps.primaryActionLabel}
                     </PrimaryButton>
