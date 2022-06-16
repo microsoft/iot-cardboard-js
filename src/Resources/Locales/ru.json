@@ -875,7 +875,8 @@
     "errorDisplayNameLength": "Отображаемое имя не должно превышать 64 символов",
     "errorRepeatedId": "Модель с таким же идентификатором уже существует",
     "errorRepeatedName": "Модель с таким именем уже существует",
-    "errorRepeatedEdgeName": "Связь с таким же именем уже существует"
+    "errorRepeatedEdgeName": "Связь с таким же именем уже существует",
+    "errorInvalidJSON": "Недопустимый JSON"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Сообщение об ошибке",

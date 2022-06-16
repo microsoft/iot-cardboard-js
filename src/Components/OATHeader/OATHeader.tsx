@@ -20,11 +20,6 @@ import {
 import { IAction } from '../../Models/Constants/Interfaces';
 import { useDropzone } from 'react-dropzone';
 import { SET_OAT_IMPORT_MODELS } from '../../Models/Constants/ActionTypes';
-import prettyBytes from 'pretty-bytes';
-import {
-    FileUploadStatus,
-    IJSONUploaderFileItem as IFileItem
-} from '../../Models/Constants';
 import { parseModel } from '../../Models/Services/Utils';
 
 const ID_FILE = 'file';
@@ -151,22 +146,15 @@ const OATHeader = ({ elements, dispatch, state }: OATHeaderProps) => {
         if (files.length > 0) {
             const filesErrors = [];
             for (const current of files) {
-                const newItem = {
-                    name: current.name,
-                    size: prettyBytes(current.size),
-                    status: FileUploadStatus.Uploading
-                } as IFileItem;
-
                 const content = await current.text();
-                newItem.content = JSON.parse(content);
-                const validJson = await parseModel(content);
-                if (!validJson) {
-                    items.push(newItem.content);
+                const error = await parseModel(content);
+                if (!error) {
+                    items.push(JSON.parse(content));
                 } else {
                     filesErrors.push(
                         t('OATHeader.errorIssueWithFile', {
                             fileName: current.name,
-                            error: validJson
+                            error
                         })
                     );
                 }

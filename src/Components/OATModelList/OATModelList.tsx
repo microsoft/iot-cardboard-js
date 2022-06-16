@@ -10,18 +10,25 @@ import { IAction, IOATTwinModelNodes } from '../../Models/Constants';
 import {
     SET_OAT_DELETED_MODEL_ID,
     SET_OAT_SELECTED_MODEL_ID,
-    SET_OAT_EDITED_MODEL_NAME,
-    SET_OAT_EDITED_MODEL_ID,
     SET_OAT_PROPERTY_EDITOR_MODEL
 } from '../../Models/Constants/ActionTypes';
+import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
+import OATTextFieldDisplayName from '../../Pages/OATEditorPage/Internal/Components/OATTextFieldDisplayName';
+import OATTextFieldId from '../../Pages/OATEditorPage/Internal/Components/OATTextFieldId';
 
 type OATModelListProps = {
     elements: IOATTwinModelNodes[];
     dispatch: React.Dispatch<React.SetStateAction<IAction>>;
     modified: boolean;
+    state?: IOATEditorState;
 };
 
-const OATModelList = ({ elements, dispatch, modified }: OATModelListProps) => {
+const OATModelList = ({
+    elements,
+    dispatch,
+    modified,
+    state
+}: OATModelListProps) => {
     const theme = useTheme();
     const { t } = useTranslation();
     const modelsStyles = getModelsStyles();
@@ -36,6 +43,7 @@ const OATModelList = ({ elements, dispatch, modified }: OATModelListProps) => {
     const containerRef = useRef(null);
     const iconStyles = getModelsIconStyles();
     const actionButtonStyles = getModelsActionButtonStyles();
+    const { model } = state;
 
     useEffect(() => {
         setItems(elements);
@@ -73,11 +81,6 @@ const OATModelList = ({ elements, dispatch, modified }: OATModelListProps) => {
         }
     };
 
-    const onNameChange = (evt) => {
-        setNameText(evt.target.value);
-        setItems([...items]);
-    };
-
     const onNameClick = (name) => {
         if (!modified) {
             setNameText(name);
@@ -86,36 +89,12 @@ const OATModelList = ({ elements, dispatch, modified }: OATModelListProps) => {
         }
     };
 
-    const onNameBlur = () => {
-        setNameEditor(false);
-        dispatch({
-            type: SET_OAT_EDITED_MODEL_NAME,
-            payload: nameText
-        });
-        setItems([...items]);
-    };
-
-    const onIdChange = (evt) => {
-        setIdText(evt.target.value);
-        setItems([...items]);
-    };
-
     const onIdClick = (id) => {
         if (!modified) {
             setIdText(id);
             setIdEditor(true);
             setItems([...items]);
         }
-    };
-
-    const onIdBlur = () => {
-        setIdEditor(false);
-        dispatch({
-            type: SET_OAT_EDITED_MODEL_ID,
-            payload: idText
-        });
-        currentNodeId.current = idText;
-        setItems([...items]);
     };
 
     const onModelDelete = (id) => {
@@ -150,17 +129,21 @@ const OATModelList = ({ elements, dispatch, modified }: OATModelListProps) => {
                                     {item['@id']}
                                 </strong>
                             )}
-                            {idEditor &&
-                                currentNodeId.current === item['@id'] && (
-                                    <TextField
-                                        id="text"
-                                        name="text"
-                                        onChange={onIdChange}
-                                        value={idText}
-                                        onBlur={onIdBlur}
-                                        autoFocus
-                                    />
-                                )}
+                            {idEditor && currentNodeId.current === item['@id'] && (
+                                <OATTextFieldId
+                                    id={idText}
+                                    setId={setIdText}
+                                    dispatch={dispatch}
+                                    state={state}
+                                    onChange={() => {
+                                        setItems([...items]);
+                                    }}
+                                    onCommit={() => {
+                                        setIdEditor(false);
+                                    }}
+                                    autoFocus
+                                />
+                            )}
                         </div>
                         <div
                             onDoubleClick={() =>
@@ -177,12 +160,17 @@ const OATModelList = ({ elements, dispatch, modified }: OATModelListProps) => {
                             )}
                             {nameEditor &&
                                 currentNodeId.current === item['@id'] && (
-                                    <TextField
-                                        id="text"
-                                        name="text"
-                                        onChange={onNameChange}
-                                        value={nameText}
-                                        onBlur={onNameBlur}
+                                    <OATTextFieldDisplayName
+                                        displayName={nameText}
+                                        setDisplayName={setNameText}
+                                        dispatch={dispatch}
+                                        model={model}
+                                        onChange={() => {
+                                            setItems([...items]);
+                                        }}
+                                        onCommit={() => {
+                                            setNameEditor(false);
+                                        }}
                                         autoFocus
                                     />
                                 )}

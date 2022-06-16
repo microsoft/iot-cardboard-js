@@ -819,6 +819,7 @@
         "errorDisplayName": "Display Name may not exceed 64 chars",
         "errorIdLength": "Id may not exceed 2048 chars",
         "errorIdValidDTMI": "Id must be a valid DTMI",
+        "errorInvalidJSON": "Invalid JSON",
         "errorName": "Name may only contain the characters a-z, A-Z, 0-9, and underscore",
         "errorNameLength": "Name may not exceed 64 chars",
         "errorRepeatedEnumValue": "An enum-value with the same value already exists",
