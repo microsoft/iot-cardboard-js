@@ -570,10 +570,9 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                                 setName={setNameText}
                                 dispatch={dispatch}
                                 state={state}
-                                onCommitCallback={() => {
+                                onCommit={() => {
                                     setNameEditor(false);
                                 }}
-                                autoFocus
                             />
                         )}
                         <div

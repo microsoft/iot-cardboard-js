@@ -135,10 +135,10 @@ const OATModelList = ({
                                     setId={setIdText}
                                     dispatch={dispatch}
                                     state={state}
-                                    onChangeCallback={() => {
+                                    onChange={() => {
                                         setItems([...items]);
                                     }}
-                                    onCommitCallback={() => {
+                                    onCommit={() => {
                                         setIdEditor(false);
                                     }}
                                     autoFocus
@@ -165,10 +165,10 @@ const OATModelList = ({
                                         setDisplayName={setNameText}
                                         dispatch={dispatch}
                                         model={model}
-                                        onChangeCallback={() => {
+                                        onChange={() => {
                                             setItems([...items]);
                                         }}
-                                        onCommitCallback={() => {
+                                        onCommit={() => {
                                             setNameEditor(false);
                                         }}
                                         autoFocus

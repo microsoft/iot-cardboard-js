@@ -93,7 +93,7 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
                                     setId={setIdText}
                                     dispatch={dispatch}
                                     state={state}
-                                    onCommitCallback={() => {
+                                    onCommit={() => {
                                         setIdEditor(false);
                                     }}
                                     autoFocus
@@ -113,7 +113,7 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
                                     setDisplayName={setNameText}
                                     dispatch={dispatch}
                                     model={model}
-                                    onCommitCallback={() => {
+                                    onCommit={() => {
                                         setNameEditor(false);
                                     }}
                                     autoFocus
