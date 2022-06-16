@@ -763,12 +763,12 @@
     "overwrite": "上書き",
     "namespace": "名前空間",
     "enterANamespace": "名前空間を入力する",
-    "namespaceError": "名前に使用できるのは、文字 a から z、A から Z、0 から 9、およびアンダースコアのみです。",
     "settings": "設定",
     "errorInvalidJSON": "無効な JSON",
     "errorFileFormatNotSupported": "{{ファイル}}形式はサポートされていません",
     "errorFormatNoSupported": "サポートされていないファイル形式",
-    "errorIssueWithFile": "{{ファイル名}}に関する問題: {{エラー}}"
+    "errorIssueWithFile": "{{ファイル名}}に関する問題: {{エラー}}",
+    "errorNamespace": "名前空間には、文字、数字、およびアンダースコアのみを含めることができます。"
   },
   "cameraControls": {
     "mouseControls": "マウスコントロール",

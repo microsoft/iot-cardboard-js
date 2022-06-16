@@ -5,6 +5,7 @@ const classPrefix = `${CardboardClassNamePrefix}-oat-model`;
 const classNames = {
     container: `${classPrefix}-container`,
     modelNode: `${classPrefix}-model-node`,
+    modelNodeButtonContent: `${classPrefix}-model-node-button-content`,
     nodeCancel: `${classPrefix}-nodeCancel`,
     strongText: `${classPrefix}-strong-text`,
     searchText: `${classPrefix}-searchText`
@@ -26,10 +27,23 @@ export const getModelsStyles = () => {
         modelNode: [
             classNames.modelNode,
             {
-                width: '100%',
-                height: '60px',
+                width: '92%',
+                height: 'fit-content',
                 display: 'grid',
-                gridTemplateColumns: '90% 5%'
+                marginLeft: '2%',
+                marginRight: '3%',
+                gridTemplateColumns: '94% 5%',
+                border: `1px solid ${theme.semanticColors.bodyDivider}`,
+                padding: '5px',
+                marginBottom: '10px'
+            } as IStyle
+        ],
+        modelNodeButtonContent: [
+            classNames.modelNodeButtonContent,
+            {
+                height: 'fit-content',
+                display: 'flex',
+                flexDirection: 'column'
             } as IStyle
         ],
         nodeCancel: [
@@ -38,10 +52,10 @@ export const getModelsStyles = () => {
                 height: FontSizes.size12,
                 width: 'fit-content',
                 position: 'relative',
-                marginTop: '5px',
-                marginRight: '5px',
                 zIndex: '101',
-                float: 'right'
+                float: 'right',
+                display: 'flex',
+                justifyContent: 'flex-end'
             } as IStyle
         ],
         regularText: [
@@ -62,7 +76,8 @@ export const getModelsStyles = () => {
             classNames.searchText,
             {
                 marginLeft: '2%',
-                marginRight: '3%'
+                marginRight: '3%',
+                marginBottom: '10px'
             } as IStyle
         ]
     });
@@ -81,16 +96,10 @@ export const getModelsIconStyles: IStyle = () => {
 };
 
 export const getModelsActionButtonStyles: IStyle = () => {
-    const theme = useTheme();
     return {
         root: {
-            border: '1px',
-            borderColor: theme.semanticColors.bodyDivider,
-            borderStyle: 'solid',
-            padding: '5px',
-            margin: '5px',
-            width: '105%',
-            height: '50px',
+            width: '100%',
+            height: 'fit-content',
             position: 'relative'
         }
     } as Partial<IStyle>;
