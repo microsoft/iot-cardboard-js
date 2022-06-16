@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Separator, Stack } from '@fluentui/react';
 import {
     getPropertyInspectorStyles,
@@ -12,6 +12,7 @@ import {
     IAction,
     IOATLastPropertyFocused
 } from '../../Models/Constants/Interfaces';
+import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 import { deepCopy } from '../../Models/Services/Utils';
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 import IconBoolean from '../../Resources/Static/Boolean.svg';
@@ -65,6 +66,7 @@ const PropertySelector = ({
     propertySelectorPosition
 }: IPropertySelectorProps) => {
     const { t } = useTranslation();
+    const { execute } = useContext(CommandHistoryContext);
     const propertyInspectorStyles = getPropertyInspectorStyles();
     const propertySelectorSeparatorStyles = getPropertySelectorSeparatorStyles();
     const { model } = state;
@@ -182,9 +184,9 @@ const PropertySelector = ({
         }
     };
 
-    const addNestedProperty = (tag: string) => {
+    const addNestedProperty = (tag: string, lastPropertyFocusedCopy) => {
         const modelCopy = deepCopy(model);
-        const schemaCopy = deepCopy(lastPropertyFocused.item.schema);
+        const schemaCopy = deepCopy(lastPropertyFocusedCopy.item.schema);
         // We select the last property focused to add nested propertyes to that specific property
         schemaCopy.fields.push({
             name: `${t('OATPropertyEditor.property')}_${
@@ -206,32 +208,17 @@ const PropertySelector = ({
         setPropertySelectorVisible(false);
     };
 
-    const handleTagClick = (tag: string) => {
-        if (onTagClickCallback) {
-            onTagClickCallback();
-        }
-
-        if (
-            lastPropertyFocused &&
-            typeof lastPropertyFocused.item.schema === 'object'
-        ) {
-            addNestedProperty(tag);
-            return;
-        }
-
+    const addProperty = async (tag) => {
         const modelCopy = deepCopy(model);
         modelCopy[propertiesKeyName] = [
             ...modelCopy[propertiesKeyName],
             ...[
                 {
                     '@id': `dtmi:com:adt:model1:New_Property_${
-                        model[propertiesKeyName].length + 1
-                    };${versionClassBase}`,
-                    '@type': ['property'],
-                    name: `New_Property_${model[propertiesKeyName].length + 1}`,
-                    displayName: `New_Property_${
-                        model[propertiesKeyName].length + 1
+                        model.contents.length + 1
                     }`,
+                    '@type': ['property'],
+                    name: `New_Property_${model.contents.length + 1}`,
                     schema: getSchema(tag)
                 }
             ]
@@ -241,6 +228,27 @@ const PropertySelector = ({
             payload: modelCopy
         });
         setPropertySelectorVisible(false);
+    };
+
+    const handleTagClick = (tag: string) => {
+        if (onTagClickCallback) {
+            onTagClickCallback();
+        }
+
+        const modelCopy = deepCopy(model);
+        const lastPropertyFocusedCopy = deepCopy(lastPropertyFocused);
+        execute(
+            lastPropertyFocused &&
+                typeof lastPropertyFocused.item.schema === 'object'
+                ? () => addNestedProperty(tag, lastPropertyFocusedCopy)
+                : () => addProperty(tag),
+            () => {
+                dispatch({
+                    type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                    payload: modelCopy
+                });
+            }
+        );
     };
 
     const getSchema = (tag: string) => {

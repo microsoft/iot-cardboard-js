@@ -768,7 +768,9 @@
         "errorInvalidJSON": "Invalid JSON",
         "errorFileFormatNotSupported": "Issue with {{fileName}}: Format not supported",
         "errorFormatNoSupported": "File format not supported",
-        "errorIssueWithFile": "Issue with {{fileName}}: {{error}}"
+        "errorIssueWithFile": "Issue with {{fileName}}: {{error}}",
+        "undo": "Undo",
+        "redo": "Redo"
     },
     "OATGraphViewer": {
         "newModel": "New Model",

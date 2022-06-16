@@ -1,4 +1,5 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useContext } from 'react';
+import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
 import { deepCopy } from '../../Models/Services/Utils';
 import TemplateListItem from './TeplateListItem';
@@ -31,6 +32,7 @@ export const TemplateList = ({
     dispatch,
     state
 }: ITemplateList) => {
+    const { execute } = useContext(CommandHistoryContext);
     const propertyInspectorStyles = getPropertyInspectorStyles();
     const dragItem = useRef(null);
     const dragNode = useRef(null);
@@ -128,13 +130,26 @@ export const TemplateList = ({
     };
 
     const deleteItem = (index: number) => {
-        const newTemplate = deepCopy(templates);
-        newTemplate.splice(index, 1);
+        const deletion = (index) => {
+            const newTemplate = deepCopy(templates);
+            newTemplate.splice(index, 1);
 
-        dispatch({
-            type: SET_OAT_TEMPLATES,
-            payload: newTemplate
-        });
+            dispatch({
+                type: SET_OAT_TEMPLATES,
+                payload: newTemplate
+            });
+        };
+
+        execute(
+            () => deletion(index),
+            () => {
+                const templateCopy = deepCopy(templates);
+                dispatch({
+                    type: SET_OAT_TEMPLATES,
+                    payload: templateCopy
+                });
+            }
+        );
     };
 
     return (

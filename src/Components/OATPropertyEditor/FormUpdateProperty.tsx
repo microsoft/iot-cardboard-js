@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 import {
     TextField,
     Text,
@@ -63,6 +64,7 @@ export const FormUpdateProperty = ({
     languages
 }: IModal) => {
     const { t } = useTranslation();
+    const { execute } = useContext(CommandHistoryContext);
     const propertyInspectorStyles = getPropertyInspectorStyles();
     const radioGroupRowStyle = getRadioGroupRowStyles();
     const columnLeftTextStyles = getModalLabelStyles();
@@ -226,38 +228,51 @@ export const FormUpdateProperty = ({
             return;
         }
 
-        const prop = {
-            comment: comment ? comment : activeProperty.comment,
-            description:
-                languageSelectionDescription === singleLanguageOptionValue
-                    ? description
+        const update = () => {
+            const prop = {
+                comment: comment ? comment : activeProperty.comment,
+                description:
+                    languageSelectionDescription === singleLanguageOptionValue
                         ? description
-                        : activeProperty.description
-                    : multiLanguageSelectionsDescription
-                    ? multiLanguageSelectionsDescription
-                    : activeProperty.description,
-            displayName:
-                languageSelection === singleLanguageOptionValue
-                    ? displayName
+                            ? description
+                            : activeProperty.description
+                        : multiLanguageSelectionsDescription
+                        ? multiLanguageSelectionsDescription
+                        : activeProperty.description,
+                displayName:
+                    languageSelection === singleLanguageOptionValue
                         ? displayName
-                        : activeProperty.name
-                    : multiLanguageSelectionsDisplayName
-                    ? multiLanguageSelectionsDisplayName
-                    : activeProperty.name,
-            writable,
-            '@type': activeProperty['@type'],
-            unit: activeProperty.unit,
-            '@id': id ? id : activeProperty['@id'],
-            schema: activeProperty.schema,
-            name: activeProperty.name
+                            ? displayName
+                            : activeProperty.name
+                        : multiLanguageSelectionsDisplayName
+                        ? multiLanguageSelectionsDisplayName
+                        : activeProperty.name,
+                writable,
+                '@type': activeProperty['@type'],
+                unit: activeProperty.unit,
+                '@id': id ? id : activeProperty['@id'],
+                schema: activeProperty.schema,
+                name: activeProperty.name
+            };
+            const modelCopy = deepCopy(model);
+            modelCopy[propertiesKeyName][currentPropertyIndex] = prop;
+            dispatch({
+                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                payload: modelCopy
+            });
         };
 
-        const modelCopy = deepCopy(model);
-        modelCopy[propertiesKeyName][currentPropertyIndex] = prop;
-        dispatch({
-            type: SET_OAT_PROPERTY_EDITOR_MODEL,
-            payload: modelCopy
-        });
+        execute(
+            () => update(),
+            () => {
+                const modelCopy = deepCopy(model);
+                dispatch({
+                    type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                    payload: modelCopy
+                });
+            }
+        );
+
         setModalOpen(false);
         setModalBody(null);
     };

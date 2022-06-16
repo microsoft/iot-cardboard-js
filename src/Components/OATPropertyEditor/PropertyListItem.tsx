@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 import { TextField, Text, IconButton } from '@fluentui/react';
 import {
     getPropertyEditorTextFieldStyles,
@@ -58,6 +59,7 @@ export const PropertyListItem = ({
     state
 }: IPropertyListItem) => {
     const { t } = useTranslation();
+    const { execute } = useContext(CommandHistoryContext);
     const propertyInspectorStyles = getPropertyInspectorStyles();
     const iconWrapStyles = getPropertyListItemIconWrapStyles();
     const iconWrapMoreStyles = getPropertyListItemIconWrapMoreStyles();
@@ -70,26 +72,52 @@ export const PropertyListItem = ({
     );
 
     const handleTemplateAddition = () => {
-        dispatch({
-            type: SET_OAT_TEMPLATES,
-            payload: [...templates, item]
-        });
+        execute(
+            () => {
+                dispatch({
+                    type: SET_OAT_TEMPLATES,
+                    payload: [...templates, item]
+                });
+            },
+            () => {
+                const templatesCopy = deepCopy(templates);
+                dispatch({
+                    type: SET_OAT_TEMPLATES,
+                    payload: templatesCopy
+                });
+            }
+        );
     };
 
     const handleDuplicate = () => {
-        const itemCopy = deepCopy(item);
-        itemCopy.name = `${itemCopy.name}_${t('OATPropertyEditor.copy')}`;
-        itemCopy.displayName = `${itemCopy.displayName}_${t(
-            'OATPropertyEditor.copy'
-        )}`;
-        itemCopy['@id'] = `${itemCopy['@id']}_${t('OATPropertyEditor.copy')}`;
+        const duplication = () => {
+            const itemCopy = deepCopy(item);
+            itemCopy.name = `${itemCopy.name}_${t('OATPropertyEditor.copy')}`;
+            itemCopy.displayName = `${itemCopy.name}_${t(
+                'OATPropertyEditor.copy'
+            )}`;
+            itemCopy['@id'] = `${itemCopy['@id']}_${t(
+                'OATPropertyEditor.copy'
+            )}`;
 
-        const modelCopy = deepCopy(model);
-        modelCopy[propertiesKeyName].push(itemCopy);
-        dispatch({
-            type: SET_OAT_PROPERTY_EDITOR_MODEL,
-            payload: modelCopy
-        });
+            const modelCopy = deepCopy(model);
+            modelCopy[propertiesKeyName].push(itemCopy);
+            dispatch({
+                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                payload: modelCopy
+            });
+        };
+
+        execute(
+            () => duplication(),
+            () => {
+                const modelCopy = deepCopy(model);
+                dispatch({
+                    type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                    payload: modelCopy
+                });
+            }
+        );
     };
 
     return (

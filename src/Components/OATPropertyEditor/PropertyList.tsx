@@ -1,4 +1,5 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useContext } from 'react';
+import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 import { FontIcon, ActionButton, Text } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
@@ -50,6 +51,7 @@ export const PropertyList = ({
     propertyList
 }: IPropertyList) => {
     const { t } = useTranslation();
+    const { execute } = useContext(CommandHistoryContext);
     const propertyInspectorStyles = getPropertyInspectorStyles();
     const draggedPropertyItemRef = useRef(null);
     const [enteredItem, setEnteredItem] = useState(enteredPropertyRef.current);
@@ -180,10 +182,26 @@ export const PropertyList = ({
     };
 
     const deleteItem = (index) => {
-        setLastPropertyFocused(null);
-        const newModel = deepCopy(model);
-        newModel[propertiesKeyName].splice(index, 1);
-        dispatch({ type: SET_OAT_PROPERTY_EDITOR_MODEL, payload: newModel });
+        const deletion = (index) => {
+            setLastPropertyFocused(null);
+            const newModel = deepCopy(model);
+            newModel[propertiesKeyName].splice(index, 1);
+            dispatch({
+                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                payload: newModel
+            });
+        };
+
+        execute(
+            () => deletion(index),
+            () => {
+                const modelCopy = deepCopy(model);
+                dispatch({
+                    type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                    payload: modelCopy
+                });
+            }
+        );
     };
 
     const handleSelectorPosition = (e) => {

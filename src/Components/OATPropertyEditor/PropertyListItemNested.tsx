@@ -18,6 +18,7 @@ import {
     getModelPropertyCollectionName,
     getModelPropertyListItemName
 } from './Utils';
+import { FormBody } from './Constants';
 
 type IPropertyListItemNested = {
     deleteNestedItem?: (parentIndex: number, index: number) => any;
@@ -29,6 +30,7 @@ type IPropertyListItemNested = {
     parentIndex?: number;
     setCurrentNestedPropertyIndex: React.Dispatch<React.SetStateAction<number>>;
     setCurrentPropertyIndex?: React.Dispatch<React.SetStateAction<number>>;
+    setModalBody?: React.Dispatch<React.SetStateAction<string>>;
     setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
     state?: IOATEditorState;
 };
@@ -43,6 +45,7 @@ export const PropertyListItemNested = ({
     parentIndex,
     setCurrentNestedPropertyIndex,
     setCurrentPropertyIndex,
+    setModalBody,
     setModalOpen,
     state
 }: IPropertyListItemNested) => {
@@ -104,6 +107,7 @@ export const PropertyListItemNested = ({
                 onClick={() => {
                     setCurrentNestedPropertyIndex(index);
                     setCurrentPropertyIndex(parentIndex);
+                    setModalBody(FormBody.property);
                     setModalOpen(true);
                 }}
             />

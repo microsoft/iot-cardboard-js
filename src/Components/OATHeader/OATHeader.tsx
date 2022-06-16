@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { CommandBar, ICommandBarItemProps } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { getHeaderStyles } from './OATHeader.styles';
@@ -25,6 +25,7 @@ import {
     FileUploadStatus,
     IJSONUploaderFileItem as IFileItem
 } from '../../Models/Constants';
+import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 import { parseModel } from '../../Models/Services/Utils';
 
 const ID_FILE = 'file';
@@ -37,6 +38,7 @@ type OATHeaderProps = {
 
 const OATHeader = ({ elements, dispatch, state }: OATHeaderProps) => {
     const { t } = useTranslation();
+    const { undo, redo, canUndo, canRedo } = useContext(CommandHistoryContext);
     const headerStyles = getHeaderStyles();
     const {
         acceptedFiles,
@@ -95,6 +97,20 @@ const OATHeader = ({ elements, dispatch, state }: OATHeaderProps) => {
             text: t('OATHeader.export'),
             iconProps: { iconName: 'Export' },
             onClick: handleExportClick
+        },
+        {
+            key: 'Undo',
+            text: t('OATHeader.undo'),
+            iconProps: { iconName: 'Undo' },
+            onClick: undo,
+            disabled: !canUndo
+        },
+        {
+            key: 'Redo',
+            text: t('OATHeader.redo'),
+            iconProps: { iconName: 'Redo' },
+            onClick: redo,
+            disabled: !canRedo
         }
     ];
 
