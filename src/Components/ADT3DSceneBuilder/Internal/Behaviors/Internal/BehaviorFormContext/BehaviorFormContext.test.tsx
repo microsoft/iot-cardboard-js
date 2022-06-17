@@ -1,6 +1,9 @@
 import { cleanup } from '@testing-library/react';
 import ViewerConfigUtility from '../../../../../../Models/Classes/ViewerConfigUtility';
-import { IExpressionRangeVisual } from '../../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
+import {
+    IElementTwinToObjectMappingDataSource,
+    IExpressionRangeVisual
+} from '../../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { BehaviorFormContextReducer } from './BehaviorFormContext';
 import { GET_MOCK_BEHAVIOR_FORM_STATE } from './BehaviorFormContext.mock';
 import {
@@ -24,7 +27,7 @@ describe('BehaviorFormContext', () => {
                 };
             };
 
-            test('adds the alert to the list of visuals when no alert exists', () => {
+            test('[Add/Update] - adds the alert to the list of visuals when no alert exists', () => {
                 // ARRANGE
                 const initialState = GET_MOCK_BEHAVIOR_FORM_STATE();
                 initialState.behaviorToEdit.visuals = []; // no visuals
@@ -49,7 +52,7 @@ describe('BehaviorFormContext', () => {
                 expect(alerts[0].valueExpression).toEqual(alertExpression);
             });
 
-            test('updates the alert in the list of visuals when an alert already exists', () => {
+            test('[Add/Update] - updates the alert in the list of visuals when an alert already exists', () => {
                 // ARRANGE
                 const initialState = GET_MOCK_BEHAVIOR_FORM_STATE();
                 initialState.behaviorToEdit.visuals = [
@@ -76,7 +79,7 @@ describe('BehaviorFormContext', () => {
                 expect(alerts[0].valueExpression).toEqual(alertExpression);
             });
 
-            test('silently passes when trying to remove an alert when there is none on the behavior', () => {
+            test('[Remove] - silently passes when trying to remove an alert when there is none on the behavior', () => {
                 // ARRANGE
                 const initialState = GET_MOCK_BEHAVIOR_FORM_STATE();
                 initialState.behaviorToEdit.visuals = [];
@@ -96,7 +99,7 @@ describe('BehaviorFormContext', () => {
                 expect(alerts.length).toEqual(0);
             });
 
-            test('removes the alert in the list of visuals if an alert already exists', () => {
+            test('[Remove] - removes the alert in the list of visuals if an alert already exists', () => {
                 // ARRANGE
                 const initialState = GET_MOCK_BEHAVIOR_FORM_STATE();
                 initialState.behaviorToEdit.visuals = [
@@ -120,7 +123,7 @@ describe('BehaviorFormContext', () => {
         });
 
         describe('Aliases', () => {
-            test('adds the alias to the list of twins when no alias exists', () => {
+            test('[Add/Update] - adds the alias to the list of twins when no alias exists', () => {
                 // ARRANGE
                 const initialState = GET_MOCK_BEHAVIOR_FORM_STATE();
                 initialState.behaviorToEdit.twinAliases = [];
@@ -145,7 +148,7 @@ describe('BehaviorFormContext', () => {
                 expect(matchingAliases.length).toEqual(1);
             });
 
-            test('adds the alias in the list of twins when an alias already exists with a different name', () => {
+            test('[Add/Update] - adds the alias in the list of twins when an alias already exists with a different name', () => {
                 // ARRANGE
 
                 const initialState = GET_MOCK_BEHAVIOR_FORM_STATE();
@@ -171,7 +174,7 @@ describe('BehaviorFormContext', () => {
                 expect(matchingAliases.length).toEqual(1);
             });
 
-            test('silently passes when an alias already exists with the same name', () => {
+            test('[Add/Update] - silently passes when an alias already exists with the same name', () => {
                 // ARRANGE
                 const aliasName = 'myTwinAlias';
 
@@ -197,7 +200,7 @@ describe('BehaviorFormContext', () => {
                 expect(matchingAliases.length).toEqual(1);
             });
 
-            test('silently passes when trying to remove an alias when there is none on the behavior', () => {
+            test('[Remove] - silently passes when trying to remove an alias when there is none on the behavior', () => {
                 // ARRANGE
                 const initialState = GET_MOCK_BEHAVIOR_FORM_STATE();
                 initialState.behaviorToEdit.twinAliases = [];
@@ -219,7 +222,7 @@ describe('BehaviorFormContext', () => {
                 expect(allAliases.length).toEqual(0);
             });
 
-            test('removes the alias in the list of twins when it exists', () => {
+            test('[Remove] - removes the alias in the list of twins when it exists', () => {
                 // ARRANGE
                 const aliasName = 'myAlias';
                 const initialState = GET_MOCK_BEHAVIOR_FORM_STATE();
@@ -246,6 +249,117 @@ describe('BehaviorFormContext', () => {
                     (x) => x === aliasName
                 );
                 expect(matchingAliases.length).toEqual(0);
+            });
+        });
+
+        describe('Data sources', () => {
+            const getDataSource = (
+                elementIds: string[]
+            ): IElementTwinToObjectMappingDataSource => {
+                return {
+                    elementIDs: elementIds,
+                    type: 'ElementTwinToObjectMappingDataSource'
+                };
+            };
+
+            test('[Add/Update] - adds the dataSource to the list of data sources when no dataSource exists', () => {
+                // ARRANGE
+                const initialState = GET_MOCK_BEHAVIOR_FORM_STATE();
+                initialState.behaviorToEdit.datasources = []; // no items
+
+                const elementIds = ['id1', 'id2'];
+                const action: BehaviorFormContextAction = {
+                    type:
+                        BehaviorFormContextActionType.FORM_BEHAVIOR_DATA_SOURCE_ADD_OR_UPDATE,
+                    payload: {
+                        source: getDataSource(elementIds)
+                    }
+                };
+
+                // ACT
+                const result = BehaviorFormContextReducer(initialState, action);
+
+                // ASSERT
+                const dataSources = result.behaviorToEdit.datasources.filter(
+                    ViewerConfigUtility.isElementTwinToObjectMappingDataSource
+                );
+                expect(dataSources.length).toEqual(1);
+                expect(dataSources[0].elementIDs.length).toEqual(
+                    elementIds.length
+                );
+                expect(dataSources[0].elementIDs[0]).toEqual(elementIds[0]);
+            });
+
+            test('[Add/Update] - updates the dataSource in the list of data sources when a matching dataSource already exists', () => {
+                // ARRANGE
+                const initialState = GET_MOCK_BEHAVIOR_FORM_STATE();
+                initialState.behaviorToEdit.datasources = [
+                    getDataSource(['mine'])
+                ]; // existing data
+
+                const elementIds = ['id1', 'id2'];
+                const action: BehaviorFormContextAction = {
+                    type:
+                        BehaviorFormContextActionType.FORM_BEHAVIOR_DATA_SOURCE_ADD_OR_UPDATE,
+                    payload: {
+                        source: getDataSource(elementIds)
+                    }
+                };
+
+                // ACT
+                const result = BehaviorFormContextReducer(initialState, action);
+
+                // ASSERT
+                const dataSources = result.behaviorToEdit.datasources.filter(
+                    ViewerConfigUtility.isElementTwinToObjectMappingDataSource
+                );
+                expect(dataSources.length).toEqual(1);
+                expect(dataSources[0].elementIDs.length).toEqual(
+                    elementIds.length
+                );
+                expect(dataSources[0].elementIDs[0]).toEqual(elementIds[0]);
+            });
+
+            test('[Remove] - silently passes when trying to remove an dataSource when there is none on the behavior', () => {
+                // ARRANGE
+                const initialState = GET_MOCK_BEHAVIOR_FORM_STATE();
+                initialState.behaviorToEdit.datasources = []; // no data
+
+                const action: BehaviorFormContextAction = {
+                    type:
+                        BehaviorFormContextActionType.FORM_BEHAVIOR_DATA_SOURCE_REMOVE
+                };
+
+                // ACT
+                const result = BehaviorFormContextReducer(initialState, action);
+
+                // ASSERT
+                const dataSources = result.behaviorToEdit.datasources.filter(
+                    ViewerConfigUtility.isElementTwinToObjectMappingDataSource
+                );
+                expect(dataSources.length).toEqual(0);
+            });
+
+            test('[Remove] - removes the dataSource in the list of data sources if a dataSource already exists', () => {
+                // ARRANGE
+                const initialState = GET_MOCK_BEHAVIOR_FORM_STATE();
+                initialState.behaviorToEdit.datasources = [
+                    getDataSource(['my id'])
+                ]; // has data
+
+                const action: BehaviorFormContextAction = {
+                    type:
+                        BehaviorFormContextActionType.FORM_BEHAVIOR_DATA_SOURCE_REMOVE
+                };
+
+                // ACT
+                const result = BehaviorFormContextReducer(initialState, action);
+
+                // ASSERT
+                const dataSources = result.behaviorToEdit.datasources.filter(
+                    ViewerConfigUtility.isElementTwinToObjectMappingDataSource
+                );
+                expect(dataSources.length).toEqual(0);
             });
         });
     });
