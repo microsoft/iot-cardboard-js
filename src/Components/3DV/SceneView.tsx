@@ -919,7 +919,9 @@ function SceneView(props: ISceneViewProps, ref) {
                 }
             );
 
-            if (success) {
+            // TODO: Wrap above promise in an AbortController to cancel in case of changing before the promise resolves
+            // Below line of code works, but it does not cancel the download of the first model, which we already navigated away from
+            if (success && modelUrl === modelUrlRef.current) {
                 sceneRef.current = sc;
 
                 preProcessMeshesOnLoad();
