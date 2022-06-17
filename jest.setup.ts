@@ -12,4 +12,10 @@ jest.mock('react-i18next', () => ({
         };
     }
 }));
+const MOCK_GUID = '00000000-1111-2222-3333-444444444444';
+jest.mock('./src/Models/Services/Utils', () => {
+    const actual = jest.requireActual('./src/Models/Services/Utils');
+    actual.createGuid = () => MOCK_GUID;
+    return actual;
+});
 process.env.isTestMode = 'true'; // set this so we don't log in i18n

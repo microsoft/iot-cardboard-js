@@ -1,4 +1,5 @@
 import { cleanup } from '@testing-library/react';
+import { defaultBehavior } from '../../../../../../Models/Classes/3DVConfig';
 import ViewerConfigUtility from '../../../../../../Models/Classes/ViewerConfigUtility';
 import {
     IElementTwinToObjectMappingDataSource,
@@ -360,6 +361,29 @@ describe('BehaviorFormContext', () => {
                     ViewerConfigUtility.isElementTwinToObjectMappingDataSource
                 );
                 expect(dataSources.length).toEqual(0);
+            });
+        });
+
+        describe('Display name', () => {
+            test('should set display name to provided value', () => {
+                // ARRANGE
+                const initialState = GET_MOCK_BEHAVIOR_FORM_STATE();
+                initialState.behaviorToEdit.displayName = 'some initial value';
+
+                const name = 'new name';
+                const action: BehaviorFormContextAction = {
+                    type:
+                        BehaviorFormContextActionType.FORM_BEHAVIOR_DISPLAY_NAME_SET,
+                    payload: {
+                        name: name
+                    }
+                };
+
+                // ACT
+                const result = BehaviorFormContextReducer(initialState, action);
+
+                // ASSERT
+                expect(result.behaviorToEdit.displayName).toEqual(name);
             });
         });
     });

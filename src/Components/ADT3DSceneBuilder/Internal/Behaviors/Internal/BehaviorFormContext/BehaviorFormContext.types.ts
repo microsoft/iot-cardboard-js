@@ -49,11 +49,6 @@ export enum BehaviorFormContextActionType {
 
     /** set the behavior name */
     FORM_BEHAVIOR_DISPLAY_NAME_SET = 'FORM_BEHAVIOR_DISPLAY_NAME_SET',
-    /** set the behavior id */
-    // FORM_BEHAVIOR_ID_SET = 'FORM_BEHAVIOR_ID_SET',
-
-    /** initializes the behavior to a "new behavior" state */
-    FORM_BEHAVIOR_INITIALIZE = 'FORM_BEHAVIOR_INITIALIZE',
 
     /** sets the selected layer ids that the behavior should be included in */
     FORM_BEHAVIOR_LAYERS_ADD = 'FORM_BEHAVIOR_LAYERS_ADD',
@@ -104,9 +99,6 @@ export type BehaviorFormContextAction =
     | {
           type: BehaviorFormContextActionType.FORM_BEHAVIOR_DISPLAY_NAME_SET;
           payload: { name: string };
-      }
-    | {
-          type: BehaviorFormContextActionType.FORM_BEHAVIOR_INITIALIZE;
       }
     // BEHAVIOR LAYERS
     | {

@@ -19,7 +19,6 @@ import {
 } from './BehaviorFormContext.types';
 import {
     AddOrUpdateListItemByFilter,
-    CreateNewBehavior,
     isStateDirty,
     RemoveItemsFromListByFilter,
     RemoveWidgetFromBehaviorById
@@ -94,10 +93,6 @@ export const BehaviorFormContextReducer: (
             }
             case BehaviorFormContextActionType.FORM_BEHAVIOR_DISPLAY_NAME_SET: {
                 draft.behaviorToEdit.displayName = action.payload.name;
-                break;
-            }
-            case BehaviorFormContextActionType.FORM_BEHAVIOR_INITIALIZE: {
-                draft.behaviorToEdit = CreateNewBehavior();
                 break;
             }
             case BehaviorFormContextActionType.FORM_BEHAVIOR_LAYERS_ADD: {
