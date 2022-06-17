@@ -22,7 +22,7 @@ import {
     BehaviorFormContextActionType,
     IBehaviorFormContextProviderProps
 } from './BehaviorFormContext.types';
-import { GET_MOCK_BEHAVIOR_FORM_STATE } from './BehaviorFormContext.mock';
+import { GET_MOCK_BEHAVIOR_FORM_PROVIDER_PROPS } from './BehaviorFormContext.mock';
 import { userEvent, within } from '@storybook/testing-library';
 
 const itemStackStyles: { root: IStyle } = {
@@ -207,12 +207,12 @@ const Template: SceneBuilderStory = (
 
 export const Base = Template.bind({});
 Base.args = {
-    initialState: GET_MOCK_BEHAVIOR_FORM_STATE()
+    initialState: GET_MOCK_BEHAVIOR_FORM_PROVIDER_PROPS()
 } as StoryProps;
 
 export const UpdateDisplayName = Template.bind({});
 UpdateDisplayName.args = {
-    initialState: GET_MOCK_BEHAVIOR_FORM_STATE()
+    initialState: GET_MOCK_BEHAVIOR_FORM_PROVIDER_PROPS()
 } as StoryProps;
 UpdateDisplayName.play = async ({ canvasElement }) => {
     const canvas = within(canvasElement);
@@ -225,7 +225,7 @@ UpdateDisplayName.play = async ({ canvasElement }) => {
 
 export const AddLayer = Template.bind({});
 AddLayer.args = {
-    initialState: GET_MOCK_BEHAVIOR_FORM_STATE()
+    initialState: GET_MOCK_BEHAVIOR_FORM_PROVIDER_PROPS()
 } as StoryProps;
 AddLayer.play = async ({ canvasElement }) => {
     const canvas = within(canvasElement);
@@ -238,7 +238,7 @@ AddLayer.play = async ({ canvasElement }) => {
 
 export const RemoveLayer = Template.bind({});
 RemoveLayer.args = {
-    initialState: GET_MOCK_BEHAVIOR_FORM_STATE()
+    initialState: GET_MOCK_BEHAVIOR_FORM_PROVIDER_PROPS()
 } as StoryProps;
 RemoveLayer.play = async ({ canvasElement }) => {
     const canvas = within(canvasElement);
@@ -251,7 +251,7 @@ RemoveLayer.play = async ({ canvasElement }) => {
 
 export const ResetAfterChanges = Template.bind({});
 ResetAfterChanges.args = {
-    initialState: GET_MOCK_BEHAVIOR_FORM_STATE()
+    initialState: GET_MOCK_BEHAVIOR_FORM_PROVIDER_PROPS()
 } as StoryProps;
 ResetAfterChanges.play = async ({ canvasElement }) => {
     await UpdateDisplayName.play({ canvasElement });
