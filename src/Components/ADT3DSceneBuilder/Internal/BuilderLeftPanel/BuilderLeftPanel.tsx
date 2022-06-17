@@ -70,21 +70,20 @@ const BuilderLeftPanel: React.FC<IBuilderLeftPanelProps> = ({ styles }) => {
     });
 
     const {
+        adapter,
         config,
+        dispatch,
         getConfig,
+        locale,
+        localeStrings,
+        objectColor,
         sceneId,
         setColoredMeshItems,
         setOutlinedMeshItems,
         setUnsavedBehaviorChangesDialogOpen,
         setUnsavedChangesDialogDiscardAction,
-        theme,
-        locale,
-        localeStrings,
-        adapter,
         state,
-        dispatch,
-        objectColor,
-        getFormDirtyState
+        theme
     } = useContext(SceneBuilderContext);
 
     const isIdleMode =
@@ -473,7 +472,7 @@ const BuilderLeftPanel: React.FC<IBuilderLeftPanelProps> = ({ styles }) => {
             const actions: BreadcrumbAction[] = ['goToHome', 'goToScene'];
             if (actions.includes(action)) {
                 if (isBehaviorFormMode) {
-                    const isDirty = getFormDirtyState('behavior');
+                    const isDirty = state.formDirtyState.get('behavior');
                     if (isDirty) {
                         setUnsavedBehaviorChangesDialogOpen(true);
                         setUnsavedChangesDialogDiscardAction(() => {
@@ -491,7 +490,7 @@ const BuilderLeftPanel: React.FC<IBuilderLeftPanelProps> = ({ styles }) => {
                         return; // early return so we don't navigate
                     }
                 } else if (isElementFormMode) {
-                    const isDirty = getFormDirtyState('element');
+                    const isDirty = state.formDirtyState.get('element');
                     if (isDirty) {
                         logDebugConsole(
                             'debug',
@@ -518,11 +517,11 @@ const BuilderLeftPanel: React.FC<IBuilderLeftPanelProps> = ({ styles }) => {
         },
         [
             dispatch,
-            getFormDirtyState,
             isBehaviorFormMode,
             isElementFormMode,
             setUnsavedBehaviorChangesDialogOpen,
-            setUnsavedChangesDialogDiscardAction
+            setUnsavedChangesDialogDiscardAction,
+            state.formDirtyState
         ]
     );
 

@@ -70,6 +70,8 @@ export const SET_ADT_SCENE_OBJECT_COLOR = 'SET_ADT_SCENE_OBJECT_COLOR';
 export const SET_MESH_IDS_TO_OUTLINE = 'SET_MESH_IDS_TO_OUTLINE';
 export const SET_IS_LAYER_BUILDER_DIALOG_OPEN =
     'SET_IS_LAYER_BUILDER_DIALOG_OPEN';
+export const SET_ADT_SCENE_BUILDER_FORM_DIRTY_MAP_ENTRY =
+    'SET_ADT_SCENE_BUILDER_FORM_DIRTY_MAP_ENTRY';
 // END of Actions
 
 export interface IADT3DSceneBuilderCardProps
@@ -136,13 +138,6 @@ export interface I3DSceneBuilderContext {
         behaviorId?: string,
         onFocusDismiss?: (layerId: string) => void
     ) => void;
-    /** keeps track of whether the given form is in a modified state */
-    setFormDirtyState: (
-        formType: BuilderDirtyFormType,
-        isDirty: boolean
-    ) => void;
-    /** gets the value of the given form */
-    getFormDirtyState: (formType: BuilderDirtyFormType) => boolean;
 }
 
 export type BuilderDirtyFormType = 'behavior' | 'element';
@@ -268,31 +263,32 @@ export interface IADT3DSceneBuilderElementsProps {
 }
 
 export interface ADT3DSceneBuilderState {
-    config: I3DScenesConfig;
-    coloredMeshItems: Array<CustomMeshItem>;
-    outlinedMeshItems: Array<CustomMeshItem>;
-    widgetFormInfo: WidgetFormInfo;
-    behaviorTwinAliasFormInfo: BehaviorTwinAliasFormInfo;
-    elementTwinAliasFormInfo: ElementTwinAliasFormInfo;
-    selectedPivotTab: ADT3DSceneTwinBindingsMode;
-    builderMode: ADT3DSceneBuilderMode;
-    elements: Array<ITwinToObjectMapping>;
     behaviors: Array<IBehavior>;
-    selectedElement: ITwinToObjectMapping;
-    selectedElements: Array<ITwinToObjectMapping>;
-    removedElements: Array<ITwinToObjectMapping>;
-    selectedBehavior: IBehavior;
-    showHoverOnSelected: boolean;
+    behaviorTwinAliasFormInfo: BehaviorTwinAliasFormInfo;
+    builderMode: ADT3DSceneBuilderMode;
+    coloredMeshItems: Array<CustomMeshItem>;
+    config: I3DScenesConfig;
+    elements: Array<ITwinToObjectMapping>;
+    elementTwinAliasFormInfo: ElementTwinAliasFormInfo;
     enableHoverOnModel: boolean;
-    objectColor: IADTObjectColor;
+    formDirtyState: Map<BuilderDirtyFormType, boolean>;
     isLayerBuilderDialogOpen: boolean;
-    originalBehaviorToEdit: IBehavior;
-    unsavedBehaviorDialogOpen: boolean;
-    unsavedChangesDialogDiscardAction: VoidFunction;
     layerBuilderDialogData: {
         behaviorId: string;
         onFocusDismiss?: (layerId: string) => void;
     };
+    objectColor: IADTObjectColor;
+    originalBehaviorToEdit: IBehavior;
+    outlinedMeshItems: Array<CustomMeshItem>;
+    removedElements: Array<ITwinToObjectMapping>;
+    selectedBehavior: IBehavior;
+    selectedElement: ITwinToObjectMapping;
+    selectedElements: Array<ITwinToObjectMapping>;
+    selectedPivotTab: ADT3DSceneTwinBindingsMode;
+    showHoverOnSelected: boolean;
+    unsavedBehaviorDialogOpen: boolean;
+    unsavedChangesDialogDiscardAction: VoidFunction;
+    widgetFormInfo: WidgetFormInfo;
 }
 
 export interface IWidgetBuilderFormDataProps {

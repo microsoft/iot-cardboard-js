@@ -754,28 +754,14 @@ const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
         [deeplinkDispatch]
     );
 
-    const setFormDirtyState = useCallback(
-        (formType: BuilderDirtyFormType, state: boolean) => {
-            setFormDirtyStateMap(
-                produce((draft) => {
-                    draft.set(formType, state);
-                })
-            );
-        },
-        []
-    );
-    const getFormDirtyState = useCallback(
-        (formType: BuilderDirtyFormType) => {
-            return formDirtyStateMap.get(formType) || false;
-        },
-        [formDirtyStateMap]
-    );
-
     // header callbacks
     const handleScenePageModeChange = useCallback(
         (newScenePageMode: ADT3DScenePageModes) => {
             // handle forms with changes before transitioning
-            if (getFormDirtyState('behavior') || getFormDirtyState('element')) {
+            if (
+                state.formDirtyState.get('behavior') ||
+                state.formDirtyState.get('element')
+            ) {
                 setUnsavedBehaviorChangesDialogOpen(true);
                 setUnsavedChangesDialogDiscardAction(() => {
                     scenePageModeChange(newScenePageMode);
@@ -793,10 +779,10 @@ const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
             }
         },
         [
-            getFormDirtyState,
             scenePageModeChange,
             setUnsavedBehaviorChangesDialogOpen,
-            setUnsavedChangesDialogDiscardAction
+            setUnsavedChangesDialogDiscardAction,
+            state.formDirtyState
         ]
     );
 
@@ -813,7 +799,6 @@ const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
                 dispatch,
                 elementTwinAliasFormInfo: state.elementTwinAliasFormInfo,
                 getConfig: getScenesConfig.callAdapter,
-                getFormDirtyState: getFormDirtyState,
                 locale,
                 localeStrings,
                 objectColor: state.objectColor,
@@ -821,7 +806,6 @@ const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
                 setBehaviorTwinAliasFormInfo,
                 setColoredMeshItems,
                 setElementTwinAliasFormInfo,
-                setFormDirtyState: setFormDirtyState,
                 setIsLayerBuilderDialogOpen,
                 setOutlinedMeshItems,
                 setUnsavedBehaviorChangesDialogOpen,

@@ -15,7 +15,8 @@ import {
 } from '../../../../Models/Constants/Enums';
 import {
     BehaviorSaveMode,
-    IADT3DSceneBuilderBehaviorFormProps
+    IADT3DSceneBuilderBehaviorFormProps,
+    SET_ADT_SCENE_BUILDER_FORM_DIRTY_MAP_ENTRY
 } from '../../ADT3DSceneBuilder.types';
 import {
     DefaultButton,
@@ -97,20 +98,20 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
     const { t } = useTranslation();
 
     const {
-        config,
-        widgetFormInfo,
         behaviorTwinAliasFormInfo,
-        setFormDirtyState,
+        config,
+        dispatch,
         setUnsavedBehaviorChangesDialogOpen,
         setUnsavedChangesDialogDiscardAction,
-        state
+        state,
+        widgetFormInfo
     } = useContext(SceneBuilderContext);
     const {
         behaviorFormDispatch,
         behaviorFormState
     } = useBehaviorFormContext();
 
-    const [behaviorState, dispatch] = useReducer(
+    const [behaviorState, behaviorDispatch] = useReducer(
         BehaviorFormReducer,
         defaultBehaviorFormState
     );
@@ -213,7 +214,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
 
     const onTabValidityChange = useCallback(
         (tabName: TabNames, state: IValidityState) => {
-            dispatch({
+            behaviorDispatch({
                 type: BehaviorFormActionType.SET_TAB_STATE,
                 payload: {
                     tabName: tabName,
@@ -356,8 +357,14 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
     }, []);
 
     useEffect(() => {
-        setFormDirtyState('behavior', behaviorFormState.isDirty);
-    }, [behaviorFormState.isDirty, setFormDirtyState]);
+        dispatch({
+            type: SET_ADT_SCENE_BUILDER_FORM_DIRTY_MAP_ENTRY,
+            payload: {
+                formType: 'behavior',
+                value: behaviorFormState.isDirty
+            }
+        });
+    }, [behaviorFormState.isDirty, dispatch]);
 
     const isFormValid = checkValidityMap(behaviorState.validityMap);
     const theme = useTheme();
