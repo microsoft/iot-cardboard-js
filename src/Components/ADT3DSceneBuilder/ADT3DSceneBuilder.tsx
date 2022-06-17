@@ -774,6 +774,7 @@ const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
     // header callbacks
     const handleScenePageModeChange = useCallback(
         (newScenePageMode: ADT3DScenePageModes) => {
+            // handle forms with changes before transitioning
             if (getFormDirtyState('behavior') || getFormDirtyState('element')) {
                 setUnsavedBehaviorChangesDialogOpen(true);
                 setUnsavedChangesDialogDiscardAction(() => {
