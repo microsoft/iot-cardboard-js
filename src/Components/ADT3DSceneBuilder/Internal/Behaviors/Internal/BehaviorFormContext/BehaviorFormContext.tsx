@@ -119,14 +119,14 @@ export const BehaviorFormContextReducer: (
             }
             case BehaviorFormContextActionType.FORM_BEHAVIOR_RESET: {
                 // if given a behavior to use, use it. Otherwise fall back to the initial value given to the provider
-                if (action.payload.behavior) {
-                    draft.behaviorToEdit = deepCopy(action.payload.behavior);
+                if (action.payload?.behavior) {
+                    draft.behaviorToEdit = deepCopy(action.payload?.behavior);
                 } else {
                     draft.behaviorToEdit = deepCopy(initialBehavior);
                 }
-                if (action.payload.layerIds) {
+                if (action.payload?.layerIds) {
                     draft.behaviorSelectedLayerIds = deepCopy(
-                        action.payload.layerIds
+                        action.payload?.layerIds
                     );
                 } else {
                     draft.behaviorSelectedLayerIds = deepCopy(initialLayers);

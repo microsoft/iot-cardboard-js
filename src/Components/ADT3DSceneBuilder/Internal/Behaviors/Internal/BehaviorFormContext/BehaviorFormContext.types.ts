@@ -124,7 +124,7 @@ export type BehaviorFormContextAction =
     // BEHAVIOR OPERATIONS
     | {
           type: BehaviorFormContextActionType.FORM_BEHAVIOR_RESET;
-          payload: {
+          payload?: {
               behavior?: IBehavior;
               layerIds?: string[];
           };

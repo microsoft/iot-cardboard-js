@@ -239,7 +239,11 @@ export function parseExpression(expression: string, twins: any) {
 }
 
 export function deepCopy<T>(object: T): T {
-    return JSON.parse(JSON.stringify(object)) as T;
+    if (object) {
+        return JSON.parse(JSON.stringify(object)) as T;
+    } else {
+        return object;
+    }
 }
 
 export function getSceneElementStatusColor(
