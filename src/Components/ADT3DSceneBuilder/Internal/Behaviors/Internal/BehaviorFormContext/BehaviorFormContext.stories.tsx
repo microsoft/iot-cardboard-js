@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { ComponentStory } from '@storybook/react';
 import {
     DefaultButton,
@@ -19,10 +19,11 @@ import {
     useBehaviorFormContext
 } from './BehaviorFormContext';
 import {
-    IBehaviorFormContextProviderProps,
-    IBehaviorFormContextState
+    BehaviorFormContextActionType,
+    IBehaviorFormContextProviderProps
 } from './BehaviorFormContext.types';
 import { GET_MOCK_BEHAVIOR_FORM_STATE } from './BehaviorFormContext.mock';
+import { userEvent, within } from '@storybook/testing-library';
 
 const itemStackStyles: { root: IStyle } = {
     root: {
@@ -73,18 +74,36 @@ const ProviderContentRenderer: React.FC = () => {
                         {JSON.stringify(behaviorFormState?.behaviorToEdit)}
                     </Text>
                 </Stack>
+                <Stack horizontal styles={itemStackStyles}>
+                    <Label>Layer ids: </Label>
+                    <Text styles={valueStyle}>
+                        {JSON.stringify(
+                            behaviorFormState?.behaviorSelectedLayerIds
+                        )}
+                    </Text>
+                </Stack>
+                <Stack horizontal styles={itemStackStyles}>
+                    <Label>IsDirty: </Label>
+                    <Text styles={valueStyle}>
+                        {JSON.stringify(behaviorFormState?.isDirty)}
+                    </Text>
+                </Stack>
             </Stack>
         </Stack>
     );
 };
 
 const ProviderUpdater: React.FC = () => {
-    // const {
-    //     behaviorFormState,
-    //     behaviorFormDispatch
-    // } = useBehaviorFormContext();
-    const [adtUrlIncrementor, setAdtUrlIncrementor] = useState<number>(0);
+    const {
+        behaviorFormState,
+        behaviorFormDispatch
+    } = useBehaviorFormContext();
     const theme = useTheme();
+
+    const [layerIncrementor, setLayerIdIncrementor] = useState(0);
+    const originalName = useRef<string>(
+        behaviorFormState.behaviorToEdit?.displayName
+    );
     return (
         <Stack>
             <h4 style={headerStyles}>Context Updates</h4>
@@ -94,21 +113,68 @@ const ProviderUpdater: React.FC = () => {
                 tokens={{ childrenGap: 8 }}
             >
                 <DefaultButton
-                    data-testid={'BehaviorFormContext-ChangeAdtUrl'}
-                    iconProps={{ iconName: 'Add' }}
-                    text="Increment ADT url"
+                    data-testid={'BehaviorFormContext-ToggleName'}
+                    iconProps={{ iconName: 'Switch' }}
+                    text="Toggle behavior name"
                     onClick={() => {
-                        const newValue = adtUrlIncrementor + 1;
-                        // behaviorFormDispatch({
-                        //     type: BehaviorFormContextActionType.SET_ADT_URL,
-                        //     payload: {
-                        //         url: behaviorFormState.adtUrl.replace(
-                        //             adtUrlIncrementor.toString(),
-                        //             newValue.toString()
-                        //         )
-                        //     }
-                        // });
-                        setAdtUrlIncrementor(newValue);
+                        const alernateName = 'my other name';
+                        const newValue =
+                            behaviorFormState.behaviorToEdit.displayName ===
+                            alernateName
+                                ? originalName.current
+                                : alernateName;
+                        behaviorFormDispatch({
+                            type:
+                                BehaviorFormContextActionType.FORM_BEHAVIOR_DISPLAY_NAME_SET,
+                            payload: {
+                                name: newValue
+                            }
+                        });
+                    }}
+                />
+                <DefaultButton
+                    data-testid={'BehaviorFormContext-AddLayer'}
+                    iconProps={{ iconName: 'Add' }}
+                    text="Add layer"
+                    onClick={() => {
+                        const layerToAdd = 'layer-' + layerIncrementor;
+                        behaviorFormDispatch({
+                            type:
+                                BehaviorFormContextActionType.FORM_BEHAVIOR_LAYERS_ADD,
+                            payload: {
+                                layerId: layerToAdd
+                            }
+                        });
+                        const newLayerNumber = layerIncrementor + 1;
+                        setLayerIdIncrementor(newLayerNumber);
+                    }}
+                />
+                <DefaultButton
+                    data-testid={'BehaviorFormContext-RemoveLayer'}
+                    iconProps={{ iconName: 'Delete' }}
+                    text="Remove layer"
+                    onClick={() => {
+                        const layerToRemove = 'layer-' + (layerIncrementor - 1);
+                        behaviorFormDispatch({
+                            type:
+                                BehaviorFormContextActionType.FORM_BEHAVIOR_LAYERS_REMOVE,
+                            payload: {
+                                layerId: layerToRemove
+                            }
+                        });
+                        const newLayerNumber = layerIncrementor - 1;
+                        setLayerIdIncrementor(newLayerNumber);
+                    }}
+                />
+                <DefaultButton
+                    data-testid={'BehaviorFormContext-Reset'}
+                    iconProps={{ iconName: 'Refresh' }}
+                    text="Reset"
+                    onClick={() => {
+                        behaviorFormDispatch({
+                            type:
+                                BehaviorFormContextActionType.FORM_BEHAVIOR_RESET
+                        });
                     }}
                 />
             </Stack>
@@ -117,7 +183,7 @@ const ProviderUpdater: React.FC = () => {
 };
 
 type StoryProps = {
-    defaultState: IBehaviorFormContextState;
+    initialState: IBehaviorFormContextProviderProps;
 };
 type SceneBuilderStory = ComponentStory<any>;
 const Template: SceneBuilderStory = (
@@ -125,7 +191,12 @@ const Template: SceneBuilderStory = (
     _context: IStoryContext<IBehaviorFormContextProviderProps>
 ) => {
     return (
-        <BehaviorFormContextProvider initialState={args.defaultState}>
+        <BehaviorFormContextProvider
+            behaviorToEdit={args.initialState?.behaviorToEdit}
+            behaviorSelectedLayerIds={
+                args.initialState.behaviorSelectedLayerIds
+            }
+        >
             <Stack>
                 <ProviderContentRenderer />
                 <ProviderUpdater />
@@ -136,33 +207,67 @@ const Template: SceneBuilderStory = (
 
 export const Base = Template.bind({});
 Base.args = {
-    defaultState: GET_MOCK_BEHAVIOR_FORM_STATE()
+    initialState: GET_MOCK_BEHAVIOR_FORM_STATE()
 } as StoryProps;
 
-// export const Empty = Template.bind({});
-// Empty.args = {
-//     BehaviorFormProps: {
-//         excludeBaseUrl: true
-//     }
-// } as StoryProps;
+export const UpdateDisplayName = Template.bind({});
+UpdateDisplayName.args = {
+    initialState: GET_MOCK_BEHAVIOR_FORM_STATE()
+} as StoryProps;
+UpdateDisplayName.play = async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    // Finds the button and clicks it
+    const behaviorsTabButton = await canvas.findByTestId(
+        'BehaviorFormContext-ToggleName'
+    );
+    userEvent.click(behaviorsTabButton);
+};
 
-// export const UpdateAdtUrl = Template.bind({});
-// UpdateAdtUrl.args = {
-//     defaultState: GET_MOCK_BEHAVIOR_FORM_STATE(),
-//     BehaviorFormProps: defaultBehaviorFormOptions
-// } as StoryProps;
-// UpdateAdtUrl.play = async ({ canvasElement }) => {
-//     const canvas = within(canvasElement);
-//     // Finds the button and clicks it
-//     const behaviorsTabButton = await canvas.findByTestId(
-//         'BehaviorFormContext-ChangeAdtUrl'
-//     );
-//     await userEvent.click(behaviorsTabButton);
-// };
+export const AddLayer = Template.bind({});
+AddLayer.args = {
+    initialState: GET_MOCK_BEHAVIOR_FORM_STATE()
+} as StoryProps;
+AddLayer.play = async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    // Finds the button and clicks it
+    const behaviorsTabButton = await canvas.findByTestId(
+        'BehaviorFormContext-AddLayer'
+    );
+    userEvent.click(behaviorsTabButton);
+};
+
+export const RemoveLayer = Template.bind({});
+RemoveLayer.args = {
+    initialState: GET_MOCK_BEHAVIOR_FORM_STATE()
+} as StoryProps;
+RemoveLayer.play = async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    // Finds the button and clicks it
+    const behaviorsTabButton = await canvas.findByTestId(
+        'BehaviorFormContext-RemoveLayer'
+    );
+    userEvent.click(behaviorsTabButton);
+};
+
+export const ResetAfterChanges = Template.bind({});
+ResetAfterChanges.args = {
+    initialState: GET_MOCK_BEHAVIOR_FORM_STATE()
+} as StoryProps;
+ResetAfterChanges.play = async ({ canvasElement }) => {
+    await UpdateDisplayName.play({ canvasElement });
+    await AddLayer.play({ canvasElement });
+
+    const canvas = within(canvasElement);
+    // Finds the button and clicks it
+    const behaviorsTabButton = await canvas.findByTestId(
+        'BehaviorFormContext-Reset'
+    );
+    userEvent.click(behaviorsTabButton);
+};
 
 // export const UpdateStorageUrl = Template.bind({});
 // UpdateStorageUrl.args = {
-//     defaultState: GET_MOCK_BEHAVIOR_FORM_STATE(),
+//     initialState: GET_MOCK_BEHAVIOR_FORM_STATE(),
 //     BehaviorFormProps: defaultBehaviorFormOptions
 // } as StoryProps;
 // UpdateStorageUrl.play = async ({ canvasElement }) => {
@@ -176,7 +281,7 @@ Base.args = {
 
 // export const UpdateMode = Template.bind({});
 // UpdateMode.args = {
-//     defaultState: GET_MOCK_BEHAVIOR_FORM_STATE(),
+//     initialState: GET_MOCK_BEHAVIOR_FORM_STATE(),
 //     BehaviorFormProps: defaultBehaviorFormOptions
 // } as StoryProps;
 // UpdateMode.play = async ({ canvasElement }) => {
@@ -190,7 +295,7 @@ Base.args = {
 
 // export const UpdateSceneId = Template.bind({});
 // UpdateSceneId.args = {
-//     defaultState: GET_MOCK_BEHAVIOR_FORM_STATE(),
+//     initialState: GET_MOCK_BEHAVIOR_FORM_STATE(),
 //     BehaviorFormProps: defaultBehaviorFormOptions
 // } as StoryProps;
 // UpdateSceneId.play = async ({ canvasElement }) => {
@@ -204,7 +309,7 @@ Base.args = {
 
 // export const UpdateSelectedElement = Template.bind({});
 // UpdateSelectedElement.args = {
-//     defaultState: GET_MOCK_BEHAVIOR_FORM_STATE(),
+//     initialState: GET_MOCK_BEHAVIOR_FORM_STATE(),
 //     BehaviorFormProps: defaultBehaviorFormOptions
 // } as StoryProps;
 // UpdateSelectedElement.play = async ({ canvasElement }) => {
@@ -218,7 +323,7 @@ Base.args = {
 
 // export const AddLayer = Template.bind({});
 // AddLayer.args = {
-//     defaultState: GET_MOCK_BEHAVIOR_FORM_STATE(),
+//     initialState: GET_MOCK_BEHAVIOR_FORM_STATE(),
 //     BehaviorFormProps: defaultBehaviorFormOptions
 // } as StoryProps;
 // AddLayer.play = async ({ canvasElement }) => {
@@ -232,7 +337,7 @@ Base.args = {
 
 // export const RemoveLayer = Template.bind({});
 // RemoveLayer.args = {
-//     defaultState: GET_MOCK_BEHAVIOR_FORM_STATE(),
+//     initialState: GET_MOCK_BEHAVIOR_FORM_STATE(),
 //     BehaviorFormProps: defaultBehaviorFormOptions
 // } as StoryProps;
 // RemoveLayer.play = async ({ canvasElement }) => {
@@ -246,7 +351,7 @@ Base.args = {
 
 // export const ExcludeElementId = Template.bind({});
 // ExcludeElementId.args = {
-//     defaultState: GET_MOCK_BEHAVIOR_FORM_STATE(),
+//     initialState: GET_MOCK_BEHAVIOR_FORM_STATE(),
 //     BehaviorFormProps: defaultBehaviorFormOptions
 // } as StoryProps;
 // ExcludeElementId.play = async ({ canvasElement }) => {
@@ -260,7 +365,7 @@ Base.args = {
 
 // export const ExcludeLayerIds = Template.bind({});
 // ExcludeLayerIds.args = {
-//     defaultState: GET_MOCK_BEHAVIOR_FORM_STATE(),
+//     initialState: GET_MOCK_BEHAVIOR_FORM_STATE(),
 //     BehaviorFormProps: defaultBehaviorFormOptions
 // } as StoryProps;
 // ExcludeLayerIds.play = async ({ canvasElement }) => {

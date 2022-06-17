@@ -215,6 +215,7 @@ export const BehaviorFormContextReducer: (
             }
         }
 
+        // check for changes after every action
         draft.isDirty = isStateDirty(
             draft,
             initialBehavior,
