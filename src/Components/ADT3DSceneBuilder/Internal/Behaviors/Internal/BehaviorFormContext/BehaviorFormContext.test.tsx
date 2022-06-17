@@ -38,12 +38,6 @@ describe('BehaviorFormContext', () => {
                     }
                 };
 
-                expect(
-                    initialState.behaviorToEdit.visuals.filter(
-                        ViewerConfigUtility.isAlertVisual
-                    ).length
-                ).toEqual(0); // mock data should NOT have an alert
-
                 // ACT
                 const result = BehaviorFormContextReducer(initialState, action);
 
@@ -71,12 +65,6 @@ describe('BehaviorFormContext', () => {
                     }
                 };
 
-                expect(
-                    initialState.behaviorToEdit.visuals.filter(
-                        ViewerConfigUtility.isAlertVisual
-                    ).length
-                ).toEqual(1); // mock data should have a visual
-
                 // ACT
                 const result = BehaviorFormContextReducer(initialState, action);
 
@@ -86,6 +74,178 @@ describe('BehaviorFormContext', () => {
                 );
                 expect(alerts.length).toEqual(1);
                 expect(alerts[0].valueExpression).toEqual(alertExpression);
+            });
+
+            test('silently passes when trying to remove an alert when there is none on the behavior', () => {
+                // ARRANGE
+                const initialState = GET_MOCK_BEHAVIOR_FORM_STATE();
+                initialState.behaviorToEdit.visuals = [];
+
+                const action: BehaviorFormContextAction = {
+                    type:
+                        BehaviorFormContextActionType.FORM_BEHAVIOR_ALERT_VISUAL_REMOVE
+                };
+
+                // ACT
+                const result = BehaviorFormContextReducer(initialState, action);
+
+                // ASSERT
+                const alerts = result.behaviorToEdit.visuals.filter(
+                    ViewerConfigUtility.isAlertVisual
+                );
+                expect(alerts.length).toEqual(0);
+            });
+
+            test('removes the alert in the list of visuals if an alert already exists', () => {
+                // ARRANGE
+                const initialState = GET_MOCK_BEHAVIOR_FORM_STATE();
+                initialState.behaviorToEdit.visuals = [
+                    getAlertVisual('some expression')
+                ]; // add an alert to the list
+
+                const action: BehaviorFormContextAction = {
+                    type:
+                        BehaviorFormContextActionType.FORM_BEHAVIOR_ALERT_VISUAL_REMOVE
+                };
+
+                // ACT
+                const result = BehaviorFormContextReducer(initialState, action);
+
+                // ASSERT
+                const alerts = result.behaviorToEdit.visuals.filter(
+                    ViewerConfigUtility.isAlertVisual
+                );
+                expect(alerts.length).toEqual(0);
+            });
+        });
+
+        describe('Aliases', () => {
+            test('adds the alias to the list of twins when no alias exists', () => {
+                // ARRANGE
+                const initialState = GET_MOCK_BEHAVIOR_FORM_STATE();
+                initialState.behaviorToEdit.twinAliases = [];
+
+                const aliasName = 'myTwinAlias';
+                const action: BehaviorFormContextAction = {
+                    type: BehaviorFormContextActionType.FORM_BEHAVIOR_ALIAS_ADD,
+                    payload: {
+                        alias: aliasName
+                    }
+                };
+
+                // ACT
+                const result = BehaviorFormContextReducer(initialState, action);
+
+                // ASSERT
+                const allAliases = result.behaviorToEdit.twinAliases;
+                expect(allAliases.length).toEqual(1);
+                const matchingAliases = allAliases.filter(
+                    (x) => x === aliasName
+                );
+                expect(matchingAliases.length).toEqual(1);
+            });
+
+            test('adds the alias in the list of twins when an alias already exists with a different name', () => {
+                // ARRANGE
+
+                const initialState = GET_MOCK_BEHAVIOR_FORM_STATE();
+                initialState.behaviorToEdit.twinAliases = ['some other alias'];
+
+                const aliasName = 'myTwinAlias';
+                const action: BehaviorFormContextAction = {
+                    type: BehaviorFormContextActionType.FORM_BEHAVIOR_ALIAS_ADD,
+                    payload: {
+                        alias: aliasName
+                    }
+                };
+
+                // ACT
+                const result = BehaviorFormContextReducer(initialState, action);
+
+                // ASSERT
+                const allAliases = result.behaviorToEdit.twinAliases;
+                expect(allAliases.length).toEqual(2);
+                const matchingAliases = allAliases.filter(
+                    (x) => x === aliasName
+                );
+                expect(matchingAliases.length).toEqual(1);
+            });
+
+            test('silently passes when an alias already exists with the same name', () => {
+                // ARRANGE
+                const aliasName = 'myTwinAlias';
+
+                const initialState = GET_MOCK_BEHAVIOR_FORM_STATE();
+                initialState.behaviorToEdit.twinAliases = [aliasName];
+
+                const action: BehaviorFormContextAction = {
+                    type: BehaviorFormContextActionType.FORM_BEHAVIOR_ALIAS_ADD,
+                    payload: {
+                        alias: aliasName
+                    }
+                };
+
+                // ACT
+                const result = BehaviorFormContextReducer(initialState, action);
+
+                // ASSERT
+                const allAliases = result.behaviorToEdit.twinAliases;
+                expect(allAliases.length).toEqual(1);
+                const matchingAliases = allAliases.filter(
+                    (x) => x === aliasName
+                );
+                expect(matchingAliases.length).toEqual(1);
+            });
+
+            test('silently passes when trying to remove an alias when there is none on the behavior', () => {
+                // ARRANGE
+                const initialState = GET_MOCK_BEHAVIOR_FORM_STATE();
+                initialState.behaviorToEdit.twinAliases = [];
+
+                const aliasName = 'myAlias';
+                const action: BehaviorFormContextAction = {
+                    type:
+                        BehaviorFormContextActionType.FORM_BEHAVIOR_ALIAS_REMOVE,
+                    payload: {
+                        alias: aliasName
+                    }
+                };
+
+                // ACT
+                const result = BehaviorFormContextReducer(initialState, action);
+
+                // ASSERT
+                const allAliases = result.behaviorToEdit.twinAliases;
+                expect(allAliases.length).toEqual(0);
+            });
+
+            test('removes the alias in the list of twins when it exists', () => {
+                // ARRANGE
+                const aliasName = 'myAlias';
+                const initialState = GET_MOCK_BEHAVIOR_FORM_STATE();
+                initialState.behaviorToEdit.twinAliases = [
+                    aliasName,
+                    'something else'
+                ];
+
+                const action: BehaviorFormContextAction = {
+                    type:
+                        BehaviorFormContextActionType.FORM_BEHAVIOR_ALIAS_REMOVE,
+                    payload: {
+                        alias: aliasName
+                    }
+                };
+
+                // ACT
+                const result = BehaviorFormContextReducer(initialState, action);
+
+                // ASSERT
+                const allAliases = result.behaviorToEdit.twinAliases;
+                expect(allAliases.length).toEqual(1);
+                const matchingAliases = allAliases.filter(
+                    (x) => x === aliasName
+                );
+                expect(matchingAliases.length).toEqual(0);
             });
         });
     });
