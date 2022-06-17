@@ -938,6 +938,11 @@
     "noContainerUrlErrorMessage": "L’URL de votre conteneur n’est pas définie. Cliquez ci-dessous pour le définir.",
     "noADTInstanceUrlTitle": "Instance ADT non définie",
     "noADTInstanceUrlMessage": "L’URL de votre instance ADT n’est pas définie. Cliquez ci-dessous pour le définir.",
-    "configureEnvironment": "Configurer l’environnement"
+    "configureEnvironment": "Configurer l’environnement",
+    "sceneView": {
+      "3dAssetLoadingErrorTitle": "Erreur de chargement du modèle",
+      "3dAssetLoadingNetworkErrorMessage": "Il peut s’agir d’un problème CORS, d’une URL d’objet blob non valide ou d’une erreur réseau. Veuillez contacter le propriétaire du conteneur dans lequel ce fichier de ressources est stocké ou réessayer ultérieurement.",
+      "3dAssetLoadingGenericErrorMessage": "Erreur de chargement du modèle. Essayez d’effacer votre cache et réessayez ou vérifiez votre accès pour ce fichier."
+    }
   }
 }

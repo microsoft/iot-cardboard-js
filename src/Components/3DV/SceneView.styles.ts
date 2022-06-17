@@ -46,13 +46,10 @@ export const getSceneViewStyles = memoizeFunction((theme: Theme) =>
         errorMessage: [
             classNames.errorMessage,
             {
-                color: theme.semanticColors.bodyText,
-                fontSize: FontSizes.size24,
                 left: '50%',
                 position: 'absolute',
-                textShadow: getTextShadow(theme),
                 top: '50%',
-                transform: 'translate(-50%, 0%)'
+                transform: 'translate(-50%, -50%)'
             } as IStyle
         ],
         globeTooltip: [

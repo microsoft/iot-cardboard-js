@@ -48,6 +48,8 @@ export interface ICardboardListCalloutProps<T = void> {
     noResultText: string;
     /** props for primary action button in the callout */
     primaryActionProps?: PrimaryActionProps;
+    /** data-testid to be set for the upper most focus trap component */
+    focusTrapTestId?: string;
 }
 
 type PrimaryActionProps = {
