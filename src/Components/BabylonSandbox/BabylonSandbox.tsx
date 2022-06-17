@@ -88,6 +88,12 @@ function BabylonSandbox(props: IBabylonSandboxProps) {
         undefined
     );
 
+    //everything in a single useEffect with refs
+    //instead of setEngine --> do engine.current = something -> doesn't handle a rerender
+    //so either do all refs (Babylon) or all ??
+    // put all effects together -> use refs
+    //except do need the first useEffect for canvas --> after that, change all states to refs
+
     // setting up engine based on the canvas
     useEffect(() => {
         const canvas = document.getElementById(canvasId) as HTMLCanvasElement;
@@ -110,7 +116,10 @@ function BabylonSandbox(props: IBabylonSandboxProps) {
             const arcRotate = true;
             const camera = setupCamera(scene, arcRotate);
             const light = setupLight(scene);
-            // setGizmoManager(new BABYLON.GizmoManager(scene));
+            const gizmoManager = new BABYLON.GizmoManager(scene);
+            gizmoManager.usePointerToAttachGizmos = false;
+            gizmoManager.rotationGizmoEnabled = true;
+            gizmoManager.positionGizmoEnabled = true;
             // gizmoManager.gizmos.boundingBoxGizmo.ignoreChildren = true;
 
             BABYLON.SceneLoader.ImportMeshAsync(
@@ -143,17 +152,24 @@ function BabylonSandbox(props: IBabylonSandboxProps) {
                 if (hit.pickedMesh) {
                     setCurrentMesh(hit.pickedMesh);
                     // console.log(hit.pickedMesh);
+                    // setGizmoManager(new BABYLON.GizmoManager(scene));
                     const pickedMesh = hit.pickedMesh;
+                    pickedMesh.rotationQuaternion = null;
+                    gizmoManager.attachToMesh(pickedMesh);
+                    console.log('gizmo?');
+                    // handlePickedMesh(pickedMesh);
                     console.log(
                         'clicked mesh: ',
                         pickedMesh.name,
                         'at position: ',
-                        pickedMesh.absolutePosition
+                        pickedMesh.absolutePosition,
+                        'and local rotation: ',
+                        pickedMesh.rotation
                     );
                 }
             };
 
-            setGizmoManager(new BABYLON.GizmoManager(scene));
+            // setGizmoManager(new BABYLON.GizmoManager(scene));
 
             engine.runRenderLoop(() => {
                 scene.render();
@@ -164,51 +180,32 @@ function BabylonSandbox(props: IBabylonSandboxProps) {
     // scene.onMeshImportedObservable
     // scene.meshUnderPointer
 
+    // function handlePickedMesh(pickedMesh: BABYLON.AbstractMesh) {
+    //     gizmoManager.attachToMesh(pickedMesh);
+    //     console.log('gizmo?');
+    // }
+
+    // have as a handle change
+    // only reason to use state is if React cares --> so just use Babylon
     useEffect(() => {
         if (currentMesh) {
-            gizmoManager.usePointerToAttachGizmos = false;
-            gizmoManager.rotationGizmoEnabled = true;
-            gizmoManager.positionGizmoEnabled = true;
-            gizmoManager.attachToMesh(currentMesh);
-            console.log('gizmo?');
+            // gizmoManager.usePointerToAttachGizmos = false;
+            // gizmoManager.rotationGizmoEnabled = true;
+            // gizmoManager.positionGizmoEnabled = true;
+            // gizmoManager.attachToMesh(currentMesh);
+            // console.log('gizmo?');
+            console.log(currentMesh.position.x);
         }
     }, [currentMesh]);
 
-    const onClickRotate = useCallback(
-        (buttonType: string) => {
-            switch (buttonType) {
-                case 'leftX':
-                    currentMesh.rotation.x =
-                        currentMesh.rotation.x - Math.PI / 8;
-                    break;
-                case 'rightX':
-                    currentMesh.rotation.x =
-                        currentMesh.rotation.x + Math.PI / 8;
-                    break;
-                case 'leftY':
-                    currentMesh.rotation.y =
-                        currentMesh.rotation.y - Math.PI / 8;
-                    break;
-                case 'rightY':
-                    currentMesh.rotation.y =
-                        currentMesh.rotation.y + Math.PI / 8;
-                    break;
-                case 'leftZ':
-                    currentMesh.rotation.z =
-                        currentMesh.rotation.z - Math.PI / 8;
-                    break;
-                case 'rightZ':
-                    currentMesh.rotation.z =
-                        currentMesh.rotation.z + Math.PI / 8;
-                    break;
-            }
-        },
-        [currentMesh]
-    );
+    // let xRotation = 0;
 
-    let xRotation = 0;
-
-    const handleChange = ({ target }) => (xRotation = target);
+    const handleChange = ({ target }) => {
+        currentMesh
+            ? (currentMesh.rotation.x = target.value)
+            : console.log('no current mesh');
+        console.log(currentMesh.rotation.x);
+    };
 
     // if (scene && camera) {
     //     scene.render();
@@ -216,15 +213,16 @@ function BabylonSandbox(props: IBabylonSandboxProps) {
 
     return (
         <div className={classNames.root}>
-            <canvas id={canvasId}></canvas>
+            <canvas id={canvasId} height="120%"></canvas>
             <div>
-                {/* <button onClick={() => onClickRotate('leftX')}>Left X</button>
-                <button onClick={() => onClickRotate('rightX')}>Right X</button>
-                <button onClick={() => onClickRotate('leftY')}>Left Y</button>
-                <button onClick={() => onClickRotate('rightY')}>Right Y</button>
-                <button onClick={() => onClickRotate('leftZ')}>Left Z</button>
-                <button onClick={() => onClickRotate('rightZ')}>Right Z</button> */}
-                <input value={xRotation} onChange={handleChange} />
+                <label htmlFor="xRotation">X: </label>
+                <input
+                    id="xRotation"
+                    value={
+                        currentMesh ? currentMesh.rotation.x : 'no current mesh'
+                    }
+                    onChange={handleChange}
+                />
             </div>
         </div>
     );
@@ -235,3 +233,18 @@ export default styled<
     IBabylonSandboxStyleProps,
     IBabylonSandboxStyles
 >(BabylonSandbox, getStyles);
+
+// do this under onPointerMove for scene???
+// and then the panel re-renders
+// setTransformInfo({
+//     rotation: {
+//         x: currentMesh.rotation.x,
+//         y: currentMesh.rotation.y,
+//         z: currentMesh.rotation.z
+//     },
+//     position: {
+//         x: currentMesh.position.x,
+//         y: currentMesh.position.y,
+//         z: currentMesh.position.z
+//     }
+// })

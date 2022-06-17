@@ -61,7 +61,8 @@ import {
     ICameraPosition,
     ISceneViewProps,
     Marker,
-    SceneVisual
+    SceneVisual,
+    TransformedElementItem
 } from '../Classes/SceneView.types';
 import { ErrorObject } from 'ajv';
 import { StorageBlobsData } from '../Classes/AdapterDataClasses/StorageData';
@@ -741,7 +742,7 @@ export interface IADT3DViewerProps extends BaseComponentProps {
     showMeshesOnHover?: boolean;
     showHoverOnSelected?: boolean;
     coloredMeshItems?: CustomMeshItem[];
-    transformedMeshItems?: CustomMeshItem[];
+    transformedElementItems?: TransformedElementItem[];
     /**
      * Ids of the elements to zoom the camera to focus on
      */

@@ -22,7 +22,8 @@ import {
     ColoredMeshGroup,
     Marker,
     SceneViewCallbackHandler,
-    TransformedMeshGroup
+    TransformedElementItem,
+    CustomMeshItem
 } from '../../Models/Classes/SceneView.types';
 import {
     CameraZoomMultiplier,
@@ -160,7 +161,7 @@ function SceneView(props: ISceneViewProps, ref) {
         getToken,
         cameraPosition,
         coloredMeshItems,
-        transformedMeshItems,
+        transformedElementItems,
         showHoverOnSelected,
         outlinedMeshitems,
         isWireframe,
@@ -209,6 +210,7 @@ function SceneView(props: ISceneViewProps, ref) {
     const zoomedCameraRadiusRef = useRef(0);
     const zoomedMeshesRef = useRef([]);
     const lastCameraPositionRef = useRef('');
+    const previouslyTransformedElements = useRef<CustomMeshItem[]>([]);
 
     const [markersAndPositions, setMarkersAndPositions] = useState<
         { marker: Marker; left: number; top: number }[]
@@ -1598,149 +1600,87 @@ function SceneView(props: ISceneViewProps, ref) {
                 (scene ? ' with scene' : ' no scene')
         );
 
-        const transformedMeshesMerged: BABYLON.Mesh[] = []; // this will probably merge every mesh but oh well
-        if (scene && transformedMeshItems && !isLoading) {
+        if (scene && transformedElementItems && !isLoading) {
             if (debugLogging) {
                 console.time('transforming meshes');
                 // console.log('tr', transformedMeshItems);
-                transformedMeshItems.forEach((transformedMeshItem) => {
-                    console.log(transformedMeshItem);
+                transformedElementItems.forEach((transformedElementItem) => {
+                    console.log(transformedElementItem);
                 });
             }
             try {
-                // first lets try merging the meshes
-                // then mess with parents
+                console.log(
+                    'previously transformed elements',
+                    previouslyTransformedElements
+                );
+                // if there is a parent mesh in previouslyTransformedElements BUT NOT in transformedElementItems
+                // (meaning the element had been previously transformed but the transform is now turned off)
+                // reset the element to its original state (which had been preserved in previouslyTransformedElements)
+                // and remove element from previouslyTransformedElements
 
-                transformedMeshItems.forEach((transformedMesh) => {
-                    const mesh: BABYLON.Mesh =
-                        meshMap.current?.[transformedMesh.meshId];
+                // grab all parentMeshIds from the new transformedElementsItems
+                const tEIParentMeshIds = transformedElementItems.map(
+                    (tEI) => tEI.parentMeshId
+                );
+                // iterate through all previously transformed elements
+                previouslyTransformedElements.current.forEach(
+                    (previouslyTransformedElement) => {
+                        // get mesh id for the previously transformed element
+                        const prevTransParentMeshId =
+                            previouslyTransformedElement.meshId;
+                        // if the parentMeshIds to be transformed DOES NOT include the previouslyTransformedParentMeshId,
+                        // then that means the transformation no longer applies and the element should be reset
+                        if (!tEIParentMeshIds.includes(prevTransParentMeshId)) {
+                            const prevTransParentMesh: BABYLON.Mesh =
+                                meshMap.current?.[prevTransParentMeshId];
+                            // setting rotation back to original
+                            prevTransParentMesh.rotationQuaternion = null;
+                            prevTransParentMesh.rotation.x =
+                                previouslyTransformedElement.transform.rotation.x;
+                            prevTransParentMesh.rotation.y =
+                                previouslyTransformedElement.transform.rotation.y;
+                            prevTransParentMesh.rotation.z =
+                                previouslyTransformedElement.transform.rotation.z;
+                            // setting position back to original
+                            prevTransParentMesh.position.x =
+                                previouslyTransformedElement.transform.position.x;
+                            prevTransParentMesh.position.y =
+                                previouslyTransformedElement.transform.position.y;
+                            prevTransParentMesh.position.z =
+                                previouslyTransformedElement.transform.position.z;
 
-                    transformedMeshesMerged.push(mesh);
-                    // console.log(
-                    //     'calling transformMesh on ',
-                    //     transformedMesh.meshId
-                    // );
-                    // transformMesh(
-                    //     mesh,
-                    //     transformedMesh.transform as string // this does nothing!!
-                    // );
+                            console.log(
+                                'previously transformed parent mesh',
+                                prevTransParentMesh
+                            );
 
-                    // OH I finally understand what this is doing ... I think ... is checking if there
-                    // is an existing mesh in the group?? why I was stopping at one mesh...
+                            // set up to remove from previouslyTransformedElements
+                            previouslyTransformedElement.meshId = null;
+                        }
+                    }
+                );
+                // remove all elements with parent mesh id of null (aka was already reset)
+                previouslyTransformedElements.current = previouslyTransformedElements.current.filter(
+                    (cPTE) => cPTE.meshId != null
+                );
 
-                    // const transformedMeshGroups: TransformedMeshGroup[] = [];
-                    // group transformed meshes (???????)
-                    // create first group
-                    // console.log(transformedMesh.transform);
-                    // if (transformedMeshGroups.length === 0) {
-                    //     transformedMeshGroups.push({
-                    //         meshId: transformedMesh.meshId,
-                    //         transform: [transformedMesh.transform]
-                    //     });
-                    // } else {
-                    // const group = transformedMeshGroups.find(
-                    //     (g) => g.meshId === transformedMesh.meshId
-                    // );
-                    // add to exsiting group
-                    // if (group) {
-                    //     group.colors.push(transformedMesh.color);
-                    // } else {
-                    //     // create new group
-                    //     transformedMeshGroups.push({
-                    //         meshId: transformedMesh.meshId,
-                    //         colors: [transformedMesh.color],
-                    //         currentColor: 0
-                    //     });
-                    // }
-                    // }
+                // concern: how to choose parent? will determine pivot point
+                // could be different than one user chooses on build mode
+                // also: is parent relationship maintained ... ? should it be deleted after somehow??
+                // maybe save pivot point in absolute (i.e. world) coordinates under extensionProperties too?
+                transformedElementItems.forEach((transformedElementItem) => {
+                    const meshIds = transformedElementItem.meshIds;
+                    const parentMeshId = transformedElementItem.parentMeshId;
+                    meshIds.forEach((meshId) => {
+                        if (meshId != parentMeshId) {
+                            // set parent of each mesh (that isn't the designated parent) to parent mesh
+                            meshMap.current?.[meshId].setParent(
+                                meshMap.current?.[parentMeshId]
+                            );
+                        }
+                    });
+                    transformMesh(transformedElementItem); // only call transform on parent mesh
                 });
-                // const mergedMesh = BABYLON.Mesh.MergeMeshes(
-                //     transformedMeshesMerged
-                // );
-                // transformMesh(
-                //     mergedMesh,
-                //     '' // this does nothing!!
-                // );
-                // for (const transformedMeshGroup of transformedMeshGroups) {
-                //     const mesh: BABYLON.AbstractMesh =
-                //         meshMap.current?.[transformedMeshGroup.meshId];
-                //     console.log('calling transformMesh on ', transformedMeshGroup.meshId);
-                //     transformMesh(
-                //         mesh,
-                //         transformedMeshGroup.transform as string // this does nothing!!
-                //     );
-                // }
-                // const nextColor = function (
-                //     currentColor: number,
-                //     totalColors: number
-                // ) {
-                //     return currentColor + 1 >= totalColors
-                //         ? 0
-                //         : currentColor + 1;
-                // };
-                // const transition = 250;
-                // const interval = 2000;
-                // let elapsed = 0;
-                // const transitionNrm = function () {
-                //     return (elapsed - interval) / transition;
-                // };
-                // scene.beforeRender = () => {
-                //     elapsed += sceneRef.current.deltaTime;
-                //     if (elapsed >= interval) {
-                //         if (elapsed <= interval + transition) {
-                //             for (const transformedMeshGroup of transformedMeshGroups) {
-                //                 if (transformedMeshGroup.colors.length > 1) {
-                //                     const mesh: BABYLON.AbstractMesh =
-                //                         meshMap.current?.[
-                //                             transformedMeshGroup.meshId
-                //                         ];
-                //                     const transitionColor = BABYLON.Color3.Lerp(
-                //                         BABYLON.Color3.FromHexString(
-                //                             transformedMeshGroup.colors[
-                //                                 transformedMeshGroup
-                //                                     .currentColor
-                //                             ]
-                //                         ),
-                //                         BABYLON.Color3.FromHexString(
-                //                             transformedMeshGroup.colors[
-                //                                 nextColor(
-                //                                     transformedMeshGroup.currentColor,
-                //                                     transformedMeshGroup.colors
-                //                                         .length
-                //                                 )
-                //                             ]
-                //                         ),
-                //                         transitionNrm()
-                //                     );
-                //                     colorMesh(
-                //                         mesh,
-                //                         transitionColor.toHexString()
-                //                     );
-                //                 }
-                //             }
-                //         } else {
-                //             for (const coloredMeshGroup of transformedMeshGroups) {
-                //                 if (coloredMeshGroup.colors.length > 1) {
-                //                     const mesh: BABYLON.AbstractMesh =
-                //                         meshMap.current?.[
-                //                             coloredMeshGroup.meshId
-                //                         ];
-                //                     elapsed = 0;
-                //                     coloredMeshGroup.currentColor = nextColor(
-                //                         coloredMeshGroup.currentColor,
-                //                         coloredMeshGroup.colors.length
-                //                     );
-                //                     colorMesh(
-                //                         mesh,
-                //                         coloredMeshGroup.colors[
-                //                             coloredMeshGroup.currentColor
-                //                         ]
-                //                     );
-                //                 }
-                //             }
-                //         }
-                //     }
-                // };
             } catch {
                 console.warn('unable to transform mesh');
             }
@@ -1755,53 +1695,59 @@ function SceneView(props: ISceneViewProps, ref) {
             coloredMaterials.current = [];
         };
     }, [
-        transformedMeshItems,
+        transformedElementItems,
         isLoading
         // isWireframe,
         // currentObjectColor,
         // backgroundColor
     ]);
 
-    const transformMesh = (mesh: AbstractMesh, transform: string) => {
-        //some transform object with defined structure?
-        if (!mesh) {
+    const transformMesh = (transformedElementItem: TransformedElementItem) => {
+        const parentMesh: BABYLON.Mesh =
+            meshMap.current?.[transformedElementItem.parentMeshId];
+        if (!parentMesh) {
             return;
         }
 
-        // maybe transform should have:
-        // transform: { rotation: { x: "", y: "", z: "" }, translation: { x: "", y: "", z: "" }, ... }
+        parentMesh.rotationQuaternion = null; // need to do this to change mesh.rotation directly
+        console.log('old rotation', parentMesh.rotation);
 
-        // mesh.rotation.x = mesh.rotation.x + Math.PI / 8;
-        // mesh.rotation.y = mesh.rotation.y + Math.PI / 8;
-        // mesh.rotation.z = mesh.rotation.z + Math.PI / 8;
-        const gizmoManager = new BABYLON.GizmoManager(scene);
-        gizmoManager.boundingBoxGizmoEnabled = true;
-        gizmoManager.usePointerToAttachGizmos = false;
-        gizmoManager.attachToMesh(mesh);
+        const pTParentMeshIds: string[] = previouslyTransformedElements.current.map(
+            (pTE) => pTE.meshId
+        );
 
-        console.log(transform);
+        // only add parentMesh to previouslyTransformedElements ONCE for the ORIGINAL status
+        if (!pTParentMeshIds.includes(transformedElementItem.parentMeshId)) {
+            previouslyTransformedElements.current.push({
+                meshId: transformedElementItem.parentMeshId,
+                transform: {
+                    position: {
+                        x: parentMesh.position.x,
+                        y: parentMesh.position.y,
+                        z: parentMesh.position.z
+                    },
+                    rotation: {
+                        x: parentMesh.rotation.x,
+                        y: parentMesh.rotation.y,
+                        z: parentMesh.rotation.z
+                    }
+                }
+            });
+        }
 
-        // Creating materials is VERY expensive, so try and avoid it
-        // const col = color || currentObjectColor?.coloredMeshColor;
-        // const materialId = currentColorId() + col;
+        const transform = transformedElementItem.transform;
 
-        // let material = materialCacheRef.current[materialId];
-        // if (!material) {
-        //     material = makeStandardMaterial(
-        //         'coloredMeshMaterial',
-        //         sceneRef.current,
-        //         hexToColor4(col),
-        //         currentObjectColor.lightingStyle,
-        //         backgroundColorRef.current?.objectLuminanceRatio || 1
-        //     );
+        parentMesh.rotation.x = transform.rotation.x;
+        parentMesh.rotation.y = transform.rotation.y;
+        parentMesh.rotation.z = transform.rotation.z;
 
-        //     materialCacheRef.current[materialId] = material;
-        //     debugLog('debug', 'Creating material for ' + materialId);
-        // }
+        parentMesh.position.x = transform.position.x;
+        parentMesh.position.y = transform.position.y;
+        parentMesh.position.z = transform.position.z;
 
-        // SetWireframe(material, !!isWireframe);
-        // mesh.material = material;
-        // coloredMaterials.current[mesh.id] = material;
+        console.log('new rotation', parentMesh.rotation);
+
+        console.log(parentMesh.id, transform);
     };
 
     // Handle outlinedMeshItems

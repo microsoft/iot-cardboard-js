@@ -16,7 +16,8 @@ import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
 import {
     CustomMeshItem,
     SceneViewBadgeGroup,
-    SceneVisual
+    SceneVisual,
+    TransformedElementItem
 } from '../../Models/Classes/SceneView.types';
 import { VisualType } from '../../Models/Classes/3DVConfig';
 import BaseComponent from '../../Components/BaseComponent/BaseComponent';
@@ -78,7 +79,7 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
     showHoverOnSelected,
     coloredMeshItems: coloredMeshItemsProp,
     outlinedMeshItems: outlinedMeshItemsProp,
-    transformedMeshItems: transformedMeshItemsProp,
+    transformedElementItems: transformedElementItemsProp,
     zoomToElementId: zoomToElementIdProp,
     unzoomedMeshOpacity,
     hideElementsPanel,
@@ -134,9 +135,9 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
     const [coloredMeshItems, setColoredMeshItems] = useState<CustomMeshItem[]>(
         coloredMeshItemsProp || []
     );
-    const [transformedMeshItems, setTransformedMeshItems] = useState<
-        CustomMeshItem[]
-    >(transformedMeshItemsProp || []);
+    const [transformedElementItems, setTransformedElementItems] = useState<
+        TransformedElementItem[]
+    >(transformedElementItemsProp || []);
     const [alertBadges, setAlertBadges] = useState<SceneViewBadgeGroup[]>();
     const [outlinedMeshItems, setOutlinedMeshItems] = useState<
         CustomMeshItem[]
@@ -478,21 +479,21 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
     }, [sceneVisuals, coloredMeshItemsProp, sceneAlerts]);
 
     useEffect(() => {
-        if (transformedMeshItemsProp) {
-            setTransformedMeshItems(transformedMeshItemsProp);
+        if (transformedElementItemsProp) {
+            setTransformedElementItems(transformedElementItemsProp);
         } else {
-            const transformedMeshes = [];
+            const transformedElements = [];
             sceneVisuals.forEach((sceneVisual) => {
-                sceneVisual.transformedMeshItems.forEach(
-                    (sceneTransformedMeshItem) => {
-                        transformedMeshes.push(sceneTransformedMeshItem);
+                sceneVisual.transformedElementItems.forEach(
+                    (sceneTransformedElement) => {
+                        transformedElements.push(sceneTransformedElement);
                     }
                 );
             });
             // setAlertBadges(sceneAlerts);
-            setTransformedMeshItems(transformedMeshes);
+            setTransformedElementItems(transformedElements);
         }
-    }, [sceneVisuals, transformedMeshItemsProp /*sceneAlerts*/]);
+    }, [sceneVisuals, transformedElementItemsProp /*sceneAlerts*/]);
 
     // mesh callbakcs
     const meshClick = (mesh: { id: string }, scene: any) => {
@@ -659,7 +660,7 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
                     sceneViewProps={{
                         badgeGroups: alertBadges,
                         coloredMeshItems: coloredMeshItems,
-                        transformedMeshItems: transformedMeshItems,
+                        transformedElementItems: transformedElementItems,
                         modelUrl: modelUrl,
                         onBadgeGroupHover: onBadgeGroupHover,
                         onMeshClick: meshClick,

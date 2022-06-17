@@ -24,3 +24,9 @@ export interface IBabylonSandboxStyles {
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface IBabylonSandboxSubComponentStyles {}
+
+// export interface TransformMeshItem {
+//     meshId: string;
+//     color?: string;
+//     transform?: string;
+// }

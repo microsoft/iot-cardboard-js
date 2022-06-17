@@ -23,7 +23,7 @@ export class SceneVisual {
     twins: Record<string, DTwin>;
     coloredMeshItems?: CustomMeshItem[];
     alertBadgeGroup?: SceneViewBadgeGroup[];
-    transformedMeshItems?: CustomMeshItem[];
+    transformedElementItems?: TransformedElementItem[];
     // add a transform prop here?
 
     constructor(
@@ -31,13 +31,13 @@ export class SceneVisual {
         behaviors: IBehavior[],
         twins: Record<string, DTwin>,
         coloredMeshItems?: CustomMeshItem[],
-        transformedMeshItems?: CustomMeshItem[]
+        transformedElementItems?: TransformedElementItem[]
     ) {
         this.element = element;
         this.coloredMeshItems = coloredMeshItems;
         this.behaviors = behaviors;
         this.twins = twins;
-        this.transformedMeshItems = transformedMeshItems;
+        this.transformedElementItems = transformedElementItems;
     }
 }
 
@@ -68,7 +68,26 @@ export type SceneViewCallbackHandler = (
 export interface CustomMeshItem {
     meshId: string;
     color?: string;
-    transform?: string;
+    transform?: TransformInfo;
+}
+
+export interface TransformedElementItem {
+    meshIds: string[];
+    parentMeshId: string;
+    transform: TransformInfo;
+}
+
+export interface TransformInfo {
+    rotation: {
+        x: number;
+        y: number;
+        z: number;
+    };
+    position: {
+        x: number;
+        y: number;
+        z: number;
+    };
 }
 
 export interface SceneViewBadge {
@@ -82,11 +101,6 @@ export interface ColoredMeshGroup {
     meshId: string;
     colors: string[];
     currentColor: number;
-}
-
-export interface TransformedMeshGroup {
-    meshId: string;
-    transform?: unknown;
 }
 
 export interface SceneViewBadgeGroup {
@@ -127,7 +141,7 @@ export interface ISceneViewProps {
     getToken?: () => Promise<string>;
     coloredMeshItems?: CustomMeshItem[];
     outlinedMeshitems?: CustomMeshItem[];
-    transformedMeshItems?: CustomMeshItem[];
+    transformedElementItems?: TransformedElementItem[];
     zoomToMeshIds?: string[];
     unzoomedMeshOpacity?: number;
     showHoverOnSelected?: boolean;
