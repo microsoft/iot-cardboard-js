@@ -96,20 +96,15 @@ export const BehaviorFormContextReducer: (
                 break;
             }
             case BehaviorFormContextActionType.FORM_BEHAVIOR_LAYERS_ADD: {
-                AddOrUpdateListItemByFilter(
-                    draft.behaviorSelectedLayerIds,
-                    action.payload.layerId,
-                    () => false,
-                    logDebugConsole
-                );
+                const set = new Set<string>(draft.behaviorSelectedLayerIds);
+                set.add(action.payload.layerId);
+                draft.behaviorSelectedLayerIds = Array.from(set);
                 break;
             }
             case BehaviorFormContextActionType.FORM_BEHAVIOR_LAYERS_REMOVE: {
-                RemoveItemsFromListByFilter(
-                    draft.behaviorSelectedLayerIds,
-                    (x) => x === action.payload.layerId,
-                    logDebugConsole
-                );
+                const set = new Set<string>(draft.behaviorSelectedLayerIds);
+                set.delete(action.payload.layerId);
+                draft.behaviorSelectedLayerIds = Array.from(set);
                 break;
             }
             case BehaviorFormContextActionType.FORM_BEHAVIOR_RESET: {

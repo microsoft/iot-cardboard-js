@@ -1,5 +1,4 @@
 import { cleanup } from '@testing-library/react';
-import { defaultBehavior } from '../../../../../../Models/Classes/3DVConfig';
 import ViewerConfigUtility from '../../../../../../Models/Classes/ViewerConfigUtility';
 import {
     IElementTwinToObjectMappingDataSource,
@@ -386,21 +385,109 @@ describe('BehaviorFormContext', () => {
                 expect(result.behaviorToEdit.displayName).toEqual(name);
             });
         });
+
+        describe('Layers', () => {
+            test('[Add/Update] - adds the layer to the list of layers when no layer exists', () => {
+                // ARRANGE
+                const initialState = GET_MOCK_BEHAVIOR_FORM_STATE();
+                initialState.behaviorSelectedLayerIds = []; // no items
+
+                const layerId = 'id1';
+                const action: BehaviorFormContextAction = {
+                    type:
+                        BehaviorFormContextActionType.FORM_BEHAVIOR_LAYERS_ADD,
+                    payload: {
+                        layerId: layerId
+                    }
+                };
+
+                // ACT
+                const result = BehaviorFormContextReducer(initialState, action);
+
+                // ASSERT
+                const layers = result.behaviorSelectedLayerIds.filter(
+                    (x) => x === layerId
+                );
+                expect(result.behaviorSelectedLayerIds.length).toEqual(1);
+                expect(layers.length).toEqual(1);
+            });
+
+            test('[Add/Update] - updates the layer in the list of layers when a matching layer already exists', () => {
+                // ARRANGE
+                const initialState = GET_MOCK_BEHAVIOR_FORM_STATE();
+                const layerId = 'id1';
+                initialState.behaviorSelectedLayerIds = [
+                    layerId,
+                    'something else'
+                ]; // existing data
+
+                const action: BehaviorFormContextAction = {
+                    type:
+                        BehaviorFormContextActionType.FORM_BEHAVIOR_LAYERS_ADD,
+                    payload: {
+                        layerId: layerId
+                    }
+                };
+
+                // ACT
+                const result = BehaviorFormContextReducer(initialState, action);
+
+                // ASSERT
+                const layers = result.behaviorSelectedLayerIds.filter(
+                    (x) => x === layerId
+                );
+                expect(result.behaviorSelectedLayerIds.length).toEqual(2);
+                expect(layers.length).toEqual(1);
+            });
+
+            test('[Remove] - silently passes when trying to remove an layer when there is none in the list', () => {
+                // ARRANGE
+                const initialState = GET_MOCK_BEHAVIOR_FORM_STATE();
+                initialState.behaviorSelectedLayerIds = []; // no data
+
+                const layerId = 'id1';
+                const action: BehaviorFormContextAction = {
+                    type:
+                        BehaviorFormContextActionType.FORM_BEHAVIOR_LAYERS_REMOVE,
+                    payload: { layerId }
+                };
+
+                // ACT
+                const result = BehaviorFormContextReducer(initialState, action);
+
+                // ASSERT
+                const layers = result.behaviorSelectedLayerIds.filter(
+                    (x) => x === layerId
+                );
+                expect(result.behaviorSelectedLayerIds.length).toEqual(0);
+                expect(layers.length).toEqual(0);
+            });
+
+            test('[Remove] - removes the layer in the list of layers if a layer already exists', () => {
+                // ARRANGE
+                const initialState = GET_MOCK_BEHAVIOR_FORM_STATE();
+                const layerId = 'id1';
+                initialState.behaviorSelectedLayerIds = [
+                    layerId,
+                    'something else'
+                ]; // has data
+
+                const action: BehaviorFormContextAction = {
+                    type:
+                        BehaviorFormContextActionType.FORM_BEHAVIOR_LAYERS_REMOVE,
+                    payload: { layerId }
+                };
+
+                // ACT
+                const result = BehaviorFormContextReducer(initialState, action);
+
+                // ASSERT
+                const layers = result.behaviorSelectedLayerIds.filter(
+                    (x) => x === layerId
+                );
+                expect(result.behaviorSelectedLayerIds.length).toEqual(1);
+                expect(layers.length).toEqual(0);
+            });
+        });
     });
-    // describe('Alert actions', () => {
-    //     test('returns [] when null config', () => {
-    //         // ARRANGE
-    //         const {} = render(getContextProvider());
-
-    //         // ACT
-    //         const result = ViewerConfigUtility.getSceneVisualsInScene(
-    //             config,
-    //             sceneId,
-    //             twinData
-    //         );
-
-    //         // ASSERT
-    //         expect(result).toEqual([]);
-    //     });
-    // });
 });
