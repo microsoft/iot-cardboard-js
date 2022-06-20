@@ -20,13 +20,15 @@ type IPropertiesModelSummary = {
     setModalBody?: React.Dispatch<React.SetStateAction<string>>;
     setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
     state?: IOATEditorState;
+    validModelType?: boolean;
 };
 
 export const PropertiesModelSummary = ({
     dispatch,
     setModalBody,
     setModalOpen,
-    state
+    state,
+    validModelType
 }: IPropertiesModelSummary) => {
     const { t } = useTranslation();
     const { model } = state;
@@ -39,7 +41,6 @@ export const PropertiesModelSummary = ({
     );
     const [name, setName] = useState(model ? model.name : '');
     const [id, setId] = useState(model && model['@id'] ? model['@id'] : '');
-
     useEffect(() => {
         setDisplayName(model && model.displayName ? model.displayName : '');
         setName(model && model.name ? model.name : '');
@@ -65,7 +66,7 @@ export const PropertiesModelSummary = ({
             <div className={propertyInspectorStyles.gridRow}>
                 <Text>{t('type')}</Text>
                 <Text className={propertyInspectorStyles.typeTextField}>
-                    {model ? model['@type'] : ''}
+                    {validModelType && model ? model['@type'] : ''}
                 </Text>
             </div>
 
@@ -75,7 +76,7 @@ export const PropertiesModelSummary = ({
                     placeholder={t('id')}
                     styles={textFieldStyes}
                     disabled={!model}
-                    id={id}
+                    id={validModelType && id}
                     setId={setId}
                     dispatch={dispatch}
                     state={state}
@@ -89,7 +90,7 @@ export const PropertiesModelSummary = ({
                         placeholder={t('name')}
                         styles={textFieldStyes}
                         disabled={!model}
-                        name={name}
+                        name={validModelType && name}
                         setName={setName}
                         dispatch={dispatch}
                         state={state}
@@ -104,7 +105,7 @@ export const PropertiesModelSummary = ({
                     borderless
                     placeholder={t('OATPropertyEditor.displayName')}
                     disabled={!model}
-                    displayName={displayName}
+                    displayName={validModelType && displayName}
                     setDisplayName={setDisplayName}
                     dispatch={dispatch}
                     model={model}

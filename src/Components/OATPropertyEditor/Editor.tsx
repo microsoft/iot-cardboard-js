@@ -1,4 +1,4 @@
-import React, { useState, useRef, useMemo } from 'react';
+import React, { useState, useRef, useMemo, useEffect } from 'react';
 import { ModelTypes, Theme } from '../../Models/Constants/Enums';
 import {
     FontIcon,
@@ -56,6 +56,11 @@ const Editor = ({
     const enteredTemplateRef = useRef(null);
     const enteredPropertyRef = useRef(null);
     const { model, templatesActive } = state;
+    const [validModelType, setValidModelType] = useState(
+        model &&
+            (model['@type'] === ModelTypes.interface ||
+                model['@type'] === ModelTypes.relationship)
+    );
 
     const propertiesKeyName = getModelPropertyCollectionName(
         model ? model['@type'] : ModelTypes.interface
@@ -77,6 +82,13 @@ const Editor = ({
         return propertyItems;
     }, [model]);
 
+    useEffect(() => {
+        setValidModelType(
+            (model && model['@type'] === ModelTypes.interface) ||
+                (model && model['@type'] === ModelTypes.relationship)
+        );
+    }, [model]);
+
     return (
         <div className={propertyInspectorStyles.container}>
             <Pivot className={propertyInspectorStyles.pivot}>
@@ -94,6 +106,7 @@ const Editor = ({
                                 state={state}
                                 setModalBody={setModalBody}
                                 setModalOpen={setModalOpen}
+                                validModelType={validModelType}
                             />
                         </Stack.Item>
                         <Stack.Item>
@@ -142,25 +155,27 @@ const Editor = ({
                         </Stack.Item>
 
                         <Stack.Item grow styles={propertyListStackItem}>
-                            <PropertyList
-                                dispatch={dispatch}
-                                state={state}
-                                setCurrentPropertyIndex={
-                                    setCurrentPropertyIndex
-                                }
-                                setModalOpen={setModalOpen}
-                                currentPropertyIndex={currentPropertyIndex}
-                                enteredPropertyRef={enteredPropertyRef}
-                                draggingTemplate={draggingTemplate}
-                                enteredTemplateRef={enteredTemplateRef}
-                                draggingProperty={draggingProperty}
-                                setDraggingProperty={setDraggingProperty}
-                                setCurrentNestedPropertyIndex={
-                                    setCurrentNestedPropertyIndex
-                                }
-                                setModalBody={setModalBody}
-                                propertyList={propertyList}
-                            />
+                            {validModelType && (
+                                <PropertyList
+                                    dispatch={dispatch}
+                                    state={state}
+                                    setCurrentPropertyIndex={
+                                        setCurrentPropertyIndex
+                                    }
+                                    setModalOpen={setModalOpen}
+                                    currentPropertyIndex={currentPropertyIndex}
+                                    enteredPropertyRef={enteredPropertyRef}
+                                    draggingTemplate={draggingTemplate}
+                                    enteredTemplateRef={enteredTemplateRef}
+                                    draggingProperty={draggingProperty}
+                                    setDraggingProperty={setDraggingProperty}
+                                    setCurrentNestedPropertyIndex={
+                                        setCurrentNestedPropertyIndex
+                                    }
+                                    setModalBody={setModalBody}
+                                    propertyList={propertyList}
+                                />
+                            )}
                         </Stack.Item>
                     </Stack>
                 </PivotItem>
@@ -168,11 +183,13 @@ const Editor = ({
                     headerText={t('OATPropertyEditor.json')}
                     className={propertyInspectorStyles.pivotItem}
                 >
-                    <JSONEditor
-                        theme={theme}
-                        dispatch={dispatch}
-                        state={state}
-                    />
+                    {validModelType && (
+                        <JSONEditor
+                            theme={theme}
+                            dispatch={dispatch}
+                            state={state}
+                        />
+                    )}
                 </PivotItem>
             </Pivot>
             {templatesActive && (
