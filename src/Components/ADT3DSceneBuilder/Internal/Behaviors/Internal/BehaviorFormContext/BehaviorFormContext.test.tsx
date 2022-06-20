@@ -13,7 +13,6 @@ import {
     IElementTwinToObjectMappingDataSource,
     IExpressionRangeVisual,
     IPopoverVisual,
-    IValueRange,
     IWidget
 } from '../../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import {
@@ -1182,6 +1181,86 @@ describe('BehaviorFormContext', () => {
                 expect(popover.length).toEqual(1);
                 expect(popover[0].widgets.length).toEqual(1);
                 expect(popover[0].widgets[0].id).toEqual('initial id');
+            });
+        });
+
+        describe('isDirty', () => {
+            const INITIAL_BEHAVIOR_NAME = 'initial display name';
+            const INITIAL_LAYER_ID = 'initial layer id';
+            const initialLayerList = [INITIAL_LAYER_ID];
+            const initialBehavior: IBehavior = {
+                ...defaultBehavior,
+                id: 'initialBehaviorId',
+                displayName: INITIAL_BEHAVIOR_NAME
+            };
+
+            beforeEach(() => {
+                // instantiate the provider to capture the initial values
+                render(
+                    <BehaviorFormContextProvider
+                        behaviorSelectedLayerIds={initialLayerList}
+                        behaviorToEdit={initialBehavior}
+                    />
+                );
+            });
+
+            test('triggering an action sets the dirty state to true', () => {
+                // ARRANGE
+                const initialState = GET_MOCK_BEHAVIOR_FORM_STATE();
+                initialState.behaviorToEdit = initialBehavior;
+                initialState.behaviorSelectedLayerIds = initialLayerList;
+                initialState.isDirty = false;
+
+                const action: BehaviorFormContextAction = {
+                    type:
+                        BehaviorFormContextActionType.FORM_BEHAVIOR_LAYERS_ADD,
+                    payload: {
+                        layerId: 'layer id 1'
+                    }
+                };
+
+                // ACT
+                const result = BehaviorFormContextReducer(initialState, action);
+
+                // ASSERT
+                expect(result.isDirty).toBeTruthy();
+            });
+
+            test('reverting a change from an action sets the dirty state to false again', () => {
+                // ARRANGE
+                const initialState = GET_MOCK_BEHAVIOR_FORM_STATE();
+                initialState.behaviorToEdit = initialBehavior;
+                initialState.behaviorSelectedLayerIds = initialLayerList;
+                initialState.isDirty = false;
+
+                const addAction: BehaviorFormContextAction = {
+                    type:
+                        BehaviorFormContextActionType.FORM_BEHAVIOR_LAYERS_ADD,
+                    payload: {
+                        layerId: 'layer id1'
+                    }
+                };
+                const removeAction: BehaviorFormContextAction = {
+                    type:
+                        BehaviorFormContextActionType.FORM_BEHAVIOR_LAYERS_REMOVE,
+                    payload: {
+                        layerId: 'layer id1'
+                    }
+                };
+
+                // ACT
+                const result1 = BehaviorFormContextReducer(
+                    initialState,
+                    addAction
+                );
+                const result2 = BehaviorFormContextReducer(
+                    result1,
+                    removeAction
+                );
+
+                // ASSERT
+                expect(result1.isDirty).toBeTruthy();
+                expect(result2.isDirty).toBeFalsy();
             });
         });
     });
