@@ -49,7 +49,6 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
     const { model } = state;
 
     const onNameClick = () => {
-        console.log('data', data);
         if (!state.modified) {
             setNameText(getPropertyDisplayName(data));
             setNameEditor(true);
