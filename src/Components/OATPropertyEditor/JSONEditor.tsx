@@ -90,11 +90,7 @@ const JSONEditor = ({ dispatch, theme, state }: JSONEditorProps) => {
                             content['@id'] !== model['@id'] // Prevent checking for duplicate name to itself
                     )
             );
-            if (!repeatedIdOnRelationship) {
-                return false;
-            } else {
-                return true;
-            }
+            return !!repeatedIdOnRelationship;
         } else {
             // Check current value is not used by another model as @id within models
             const repeatedIdModel = models.find(
@@ -102,11 +98,7 @@ const JSONEditor = ({ dispatch, theme, state }: JSONEditorProps) => {
                     queryModel['@id'] === modelValue['@id'] &&
                     queryModel['@id'] !== model['@id']
             );
-            if (repeatedIdModel) {
-                return true;
-            } else {
-                return false;
-            }
+            return !!repeatedIdModel;
         }
     };
 
