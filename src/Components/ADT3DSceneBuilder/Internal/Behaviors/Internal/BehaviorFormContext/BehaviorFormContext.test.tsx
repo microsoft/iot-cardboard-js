@@ -1,10 +1,16 @@
-import { cleanup } from '@testing-library/react';
+import React from 'react';
+import { cleanup, render } from '@testing-library/react';
+import { defaultBehavior } from '../../../../../../Models/Classes/3DVConfig';
 import ViewerConfigUtility from '../../../../../../Models/Classes/ViewerConfigUtility';
 import {
+    IBehavior,
     IElementTwinToObjectMappingDataSource,
     IExpressionRangeVisual
 } from '../../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
-import { BehaviorFormContextReducer } from './BehaviorFormContext';
+import {
+    BehaviorFormContextProvider,
+    BehaviorFormContextReducer
+} from './BehaviorFormContext';
 import { GET_MOCK_BEHAVIOR_FORM_STATE } from './BehaviorFormContext.mock';
 import {
     BehaviorFormContextAction,
@@ -487,6 +493,374 @@ describe('BehaviorFormContext', () => {
                 );
                 expect(result.behaviorSelectedLayerIds.length).toEqual(1);
                 expect(layers.length).toEqual(0);
+            });
+        });
+
+        describe('Reset', () => {
+            test('sets the behavior and layers list back to initial value - no overrides provided as params', () => {
+                // ARRANGE
+                const INITIAL_BEHAVIOR_NAME = 'initial display name';
+                const INITIAL_LAYER_ID = 'initial layer id';
+                const UPDATED_BEHAVIOR_NAME = 'new behavior name';
+
+                const initialLayerList = [INITIAL_LAYER_ID];
+                const initialBehavior: IBehavior = {
+                    ...defaultBehavior,
+                    id: 'initialBehaviorId',
+                    displayName: INITIAL_BEHAVIOR_NAME
+                };
+                // pass in the name objects to simulate a real update
+                const initialState = GET_MOCK_BEHAVIOR_FORM_STATE();
+                initialState.behaviorToEdit = initialBehavior;
+                initialState.behaviorSelectedLayerIds = initialLayerList; // no items
+
+                const updateNameAction: BehaviorFormContextAction = {
+                    type:
+                        BehaviorFormContextActionType.FORM_BEHAVIOR_DISPLAY_NAME_SET,
+                    payload: {
+                        name: UPDATED_BEHAVIOR_NAME
+                    }
+                };
+                const updateLayersAction: BehaviorFormContextAction = {
+                    type:
+                        BehaviorFormContextActionType.FORM_BEHAVIOR_LAYERS_REMOVE,
+                    payload: {
+                        layerId: INITIAL_LAYER_ID
+                    }
+                };
+                const resetAction: BehaviorFormContextAction = {
+                    type: BehaviorFormContextActionType.FORM_BEHAVIOR_RESET
+                };
+
+                // ACT
+                // instantiate the provider to capture the initial values
+                render(
+                    <BehaviorFormContextProvider
+                        behaviorSelectedLayerIds={initialLayerList}
+                        behaviorToEdit={initialBehavior}
+                    />
+                );
+                // update the display name
+                const result1 = BehaviorFormContextReducer(
+                    initialState,
+                    updateNameAction
+                );
+                // update the display name
+                const result2 = BehaviorFormContextReducer(
+                    result1,
+                    updateLayersAction
+                );
+                // reset the state
+                const result3 = BehaviorFormContextReducer(
+                    result2, // feed the latest state in
+                    resetAction
+                );
+
+                // ASSERT
+                // updates the name
+                expect(result1.behaviorToEdit.displayName).toEqual(
+                    UPDATED_BEHAVIOR_NAME
+                ); // name set
+                expect(result1.behaviorSelectedLayerIds.length).toEqual(1); // layers unchanged
+                expect(result1.behaviorSelectedLayerIds[0]).toEqual(
+                    INITIAL_LAYER_ID
+                );
+
+                // removes the layer
+                expect(result2.behaviorToEdit.displayName).toEqual(
+                    UPDATED_BEHAVIOR_NAME
+                ); // name unchanged
+                expect(result2.behaviorSelectedLayerIds.length).toEqual(0); // layer removed
+
+                // resets back to the original values
+                expect(result3.behaviorToEdit.displayName).toEqual(
+                    INITIAL_BEHAVIOR_NAME
+                ); // name reverted
+                expect(result3.behaviorSelectedLayerIds.length).toEqual(1); // layers reverted
+                expect(result3.behaviorSelectedLayerIds[0]).toEqual(
+                    INITIAL_LAYER_ID
+                );
+            });
+
+            test('sets the behavior to the provided value and sets layers list back to initial value', () => {
+                // ARRANGE
+                const INITIAL_BEHAVIOR_NAME = 'initial display name';
+                const INITIAL_LAYER_ID = 'initial layer id';
+                const UPDATED_BEHAVIOR_NAME = 'new behavior name';
+                const RESET_BEHAVIOR_NAME = 'display name in reset';
+
+                const initialLayerList = [INITIAL_LAYER_ID];
+                const initialBehavior: IBehavior = {
+                    ...defaultBehavior,
+                    id: 'initialBehaviorId',
+                    displayName: INITIAL_BEHAVIOR_NAME
+                };
+                const resetBehavior: IBehavior = {
+                    ...initialBehavior,
+                    displayName: RESET_BEHAVIOR_NAME
+                };
+                // pass in the name objects to simulate a real update
+                const initialState = GET_MOCK_BEHAVIOR_FORM_STATE();
+                initialState.behaviorToEdit = initialBehavior;
+                initialState.behaviorSelectedLayerIds = initialLayerList; // no items
+
+                const updateNameAction: BehaviorFormContextAction = {
+                    type:
+                        BehaviorFormContextActionType.FORM_BEHAVIOR_DISPLAY_NAME_SET,
+                    payload: {
+                        name: UPDATED_BEHAVIOR_NAME
+                    }
+                };
+                const updateLayersAction: BehaviorFormContextAction = {
+                    type:
+                        BehaviorFormContextActionType.FORM_BEHAVIOR_LAYERS_REMOVE,
+                    payload: {
+                        layerId: INITIAL_LAYER_ID
+                    }
+                };
+                const resetAction: BehaviorFormContextAction = {
+                    type: BehaviorFormContextActionType.FORM_BEHAVIOR_RESET,
+                    payload: {
+                        behavior: resetBehavior
+                    }
+                };
+
+                // ACT
+                // instantiate the provider to capture the initial values
+                render(
+                    <BehaviorFormContextProvider
+                        behaviorSelectedLayerIds={initialLayerList}
+                        behaviorToEdit={initialBehavior}
+                    />
+                );
+                // update the display name
+                const result1 = BehaviorFormContextReducer(
+                    initialState,
+                    updateNameAction
+                );
+                // update the display name
+                const result2 = BehaviorFormContextReducer(
+                    result1,
+                    updateLayersAction
+                );
+                // reset the state
+                const result3 = BehaviorFormContextReducer(
+                    result2, // feed the latest state in
+                    resetAction
+                );
+
+                // ASSERT
+                // updates the name
+                expect(result1.behaviorToEdit.displayName).toEqual(
+                    UPDATED_BEHAVIOR_NAME
+                ); // name set
+                expect(result1.behaviorSelectedLayerIds.length).toEqual(1); // layers unchanged
+                expect(result1.behaviorSelectedLayerIds[0]).toEqual(
+                    INITIAL_LAYER_ID
+                );
+
+                // removes the layer
+                expect(result2.behaviorToEdit.displayName).toEqual(
+                    UPDATED_BEHAVIOR_NAME
+                ); // name unchanged
+                expect(result2.behaviorSelectedLayerIds.length).toEqual(0); // layer removed
+
+                // resets back to the original values
+                expect(result3.behaviorToEdit.displayName).toEqual(
+                    RESET_BEHAVIOR_NAME
+                ); // name set to provided payload
+                expect(result3.behaviorSelectedLayerIds.length).toEqual(1); // layers reverted to initial value
+                expect(result3.behaviorSelectedLayerIds[0]).toEqual(
+                    INITIAL_LAYER_ID
+                );
+            });
+
+            test('sets the layers to the provided value and sets behavior back to initial value', () => {
+                // ARRANGE
+                const INITIAL_BEHAVIOR_NAME = 'initial display name';
+                const INITIAL_LAYER_ID = 'initial layer id';
+                const UPDATED_BEHAVIOR_NAME = 'new behavior name';
+
+                const initialLayerList = [INITIAL_LAYER_ID];
+                const initialBehavior: IBehavior = {
+                    ...defaultBehavior,
+                    id: 'initialBehaviorId',
+                    displayName: INITIAL_BEHAVIOR_NAME
+                };
+                const resetLayers: string[] = ['id1', 'id2'];
+                // pass in the name objects to simulate a real update
+                const initialState = GET_MOCK_BEHAVIOR_FORM_STATE();
+                initialState.behaviorToEdit = initialBehavior;
+                initialState.behaviorSelectedLayerIds = initialLayerList; // no items
+
+                const updateNameAction: BehaviorFormContextAction = {
+                    type:
+                        BehaviorFormContextActionType.FORM_BEHAVIOR_DISPLAY_NAME_SET,
+                    payload: {
+                        name: UPDATED_BEHAVIOR_NAME
+                    }
+                };
+                const updateLayersAction: BehaviorFormContextAction = {
+                    type:
+                        BehaviorFormContextActionType.FORM_BEHAVIOR_LAYERS_REMOVE,
+                    payload: {
+                        layerId: INITIAL_LAYER_ID
+                    }
+                };
+                const resetAction: BehaviorFormContextAction = {
+                    type: BehaviorFormContextActionType.FORM_BEHAVIOR_RESET,
+                    payload: {
+                        layerIds: resetLayers
+                    }
+                };
+
+                // ACT
+                // instantiate the provider to capture the initial values
+                render(
+                    <BehaviorFormContextProvider
+                        behaviorSelectedLayerIds={initialLayerList}
+                        behaviorToEdit={initialBehavior}
+                    />
+                );
+                // update the display name
+                const result1 = BehaviorFormContextReducer(
+                    initialState,
+                    updateNameAction
+                );
+                // update the display name
+                const result2 = BehaviorFormContextReducer(
+                    result1,
+                    updateLayersAction
+                );
+                // reset the state
+                const result3 = BehaviorFormContextReducer(
+                    result2, // feed the latest state in
+                    resetAction
+                );
+
+                // ASSERT
+                // updates the name
+                expect(result1.behaviorToEdit.displayName).toEqual(
+                    UPDATED_BEHAVIOR_NAME
+                ); // name set
+                expect(result1.behaviorSelectedLayerIds.length).toEqual(1); // layers unchanged
+                expect(result1.behaviorSelectedLayerIds[0]).toEqual(
+                    INITIAL_LAYER_ID
+                );
+
+                // removes the layer
+                expect(result2.behaviorToEdit.displayName).toEqual(
+                    UPDATED_BEHAVIOR_NAME
+                ); // name unchanged
+                expect(result2.behaviorSelectedLayerIds.length).toEqual(0); // layer removed
+
+                // resets back to the original or payload values
+                expect(result3.behaviorToEdit.displayName).toEqual(
+                    INITIAL_BEHAVIOR_NAME
+                ); // name set to initial value
+                expect(result3.behaviorSelectedLayerIds.length).toEqual(
+                    resetLayers.length
+                ); // layers set to payload
+                expect(result3.behaviorSelectedLayerIds[0]).toEqual(
+                    resetLayers[0]
+                );
+            });
+
+            test('sets both the behavior & the layers to the provided value in payload', () => {
+                // ARRANGE
+                const INITIAL_BEHAVIOR_NAME = 'initial display name';
+                const INITIAL_LAYER_ID = 'initial layer id';
+                const UPDATED_BEHAVIOR_NAME = 'new behavior name';
+                const RESET_BEHAVIOR_NAME = 'display name in reset';
+
+                const initialLayerList = [INITIAL_LAYER_ID];
+                const initialBehavior: IBehavior = {
+                    ...defaultBehavior,
+                    id: 'initialBehaviorId',
+                    displayName: INITIAL_BEHAVIOR_NAME
+                };
+                const resetBehavior: IBehavior = {
+                    ...initialBehavior,
+                    displayName: RESET_BEHAVIOR_NAME
+                };
+                const resetLayers: string[] = ['id1', 'id2'];
+                // pass in the name objects to simulate a real update
+                const initialState = GET_MOCK_BEHAVIOR_FORM_STATE();
+                initialState.behaviorToEdit = initialBehavior;
+                initialState.behaviorSelectedLayerIds = initialLayerList; // no items
+
+                const updateNameAction: BehaviorFormContextAction = {
+                    type:
+                        BehaviorFormContextActionType.FORM_BEHAVIOR_DISPLAY_NAME_SET,
+                    payload: {
+                        name: UPDATED_BEHAVIOR_NAME
+                    }
+                };
+                const updateLayersAction: BehaviorFormContextAction = {
+                    type:
+                        BehaviorFormContextActionType.FORM_BEHAVIOR_LAYERS_REMOVE,
+                    payload: {
+                        layerId: INITIAL_LAYER_ID
+                    }
+                };
+                const resetAction: BehaviorFormContextAction = {
+                    type: BehaviorFormContextActionType.FORM_BEHAVIOR_RESET,
+                    payload: {
+                        behavior: resetBehavior,
+                        layerIds: resetLayers
+                    }
+                };
+
+                // ACT
+                // instantiate the provider to capture the initial values
+                render(
+                    <BehaviorFormContextProvider
+                        behaviorSelectedLayerIds={initialLayerList}
+                        behaviorToEdit={initialBehavior}
+                    />
+                );
+                // update the display name
+                const result1 = BehaviorFormContextReducer(
+                    initialState,
+                    updateNameAction
+                );
+                // update the display name
+                const result2 = BehaviorFormContextReducer(
+                    result1,
+                    updateLayersAction
+                );
+                // reset the state
+                const result3 = BehaviorFormContextReducer(
+                    result2, // feed the latest state in
+                    resetAction
+                );
+
+                // ASSERT
+                // updates the name
+                expect(result1.behaviorToEdit.displayName).toEqual(
+                    UPDATED_BEHAVIOR_NAME
+                ); // name set
+                expect(result1.behaviorSelectedLayerIds.length).toEqual(1); // layers unchanged
+                expect(result1.behaviorSelectedLayerIds[0]).toEqual(
+                    INITIAL_LAYER_ID
+                );
+
+                // removes the layer
+                expect(result2.behaviorToEdit.displayName).toEqual(
+                    UPDATED_BEHAVIOR_NAME
+                ); // name unchanged
+                expect(result2.behaviorSelectedLayerIds.length).toEqual(0); // layer removed
+
+                // resets back to the payload values
+                expect(result3.behaviorToEdit.displayName).toEqual(
+                    RESET_BEHAVIOR_NAME
+                ); // name set to provided payload
+                expect(result3.behaviorSelectedLayerIds.length).toEqual(
+                    resetLayers.length
+                ); // layers set to payload
+                expect(result3.behaviorSelectedLayerIds[0]).toEqual(
+                    resetLayers[0]
+                );
             });
         });
     });
