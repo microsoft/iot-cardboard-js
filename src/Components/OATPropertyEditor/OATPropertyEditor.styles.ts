@@ -71,7 +71,7 @@ const classNames = {
     typeTextField: `${classPrefix}-type-text-field`
 };
 
-const OATEditorPivotContentHeightAdjustment = 72;
+const OATEditorPivotContentHeightAdjustment = 82;
 
 export const getPropertyInspectorStyles = () => {
     const theme = useTheme();
@@ -92,7 +92,7 @@ export const getPropertyInspectorStyles = () => {
                 width: '100%',
                 backgroundColor: theme.semanticColors.listBackground,
                 '& [role="tabpanel"]': {
-                    height: '100%'
+                    height: `calc(100% - ${OATEditorPivotContentHeightAdjustment}px)`
                 },
                 zIndex: '201'
             } as IStyle
@@ -751,7 +751,7 @@ export const getPropertySelectorSeparatorStyles: IStyle = () => {
 export const getPropertyListPivotColumnContent: IStyle = () => {
     return {
         root: {
-            height: `calc(100% - ${OATEditorPivotContentHeightAdjustment}px)`
+            height: '100%'
         }
     } as Partial<IButtonStyles>;
 };

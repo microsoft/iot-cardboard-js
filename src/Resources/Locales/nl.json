@@ -763,12 +763,12 @@
     "overwrite": "overschrijven",
     "namespace": "Namespace",
     "enterANamespace": "Een naamruimte invoeren",
-    "namespaceError": "De naam mag alleen de tekens a-z, A-Z, 0-9 en onderstrepingsteken bevatten.",
     "settings": "Instellingen",
     "errorInvalidJSON": "Ongeldige JSON",
     "errorFileFormatNotSupported": "{{file}} indeling niet ondersteund",
     "errorFormatNoSupported": "Bestandsindeling niet ondersteund",
-    "errorIssueWithFile": "Probleem met {{bestandsnaam}}: {{error}}"
+    "errorIssueWithFile": "Probleem met {{bestandsnaam}}: {{error}}",
+    "errorNamespace": "Naamruimte mag alleen letters, cijfers en onderstrepingstekens bevatten."
   },
   "cameraControls": {
     "mouseControls": "Muisbediening",
@@ -875,7 +875,8 @@
     "errorDisplayNameLength": "Weergavenaam mag niet groter zijn dan 64 tekens",
     "errorRepeatedId": "Er bestaat al een model met dezelfde id",
     "errorRepeatedName": "Een model met dezelfde naam bestaat al",
-    "errorRepeatedEdgeName": "Er bestaat al een relatie met dezelfde naam"
+    "errorRepeatedEdgeName": "Er bestaat al een relatie met dezelfde naam",
+    "errorInvalidJSON": "Ongeldige JSON"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Foutmelding",

@@ -763,12 +763,12 @@
     "overwrite": "Zastąpić",
     "namespace": "Namespace",
     "enterANamespace": "Wprowadzanie przestrzeni nazw",
-    "namespaceError": "Nazwa może zawierać tylko znaki a-z, A-Z, 0-9 i podkreślenie.",
     "settings": "Ustawienia",
     "errorInvalidJSON": "Nieprawidłowy kod JSON",
     "errorFileFormatNotSupported": "Format {{file}} nie jest obsługiwany",
     "errorFormatNoSupported": "Format pliku nie jest obsługiwany",
-    "errorIssueWithFile": "Problem z {{fileName}}: {{error}}"
+    "errorIssueWithFile": "Problem z {{fileName}}: {{error}}",
+    "errorNamespace": "Przestrzeń nazw może zawierać tylko litery, cyfry i podkreślenia."
   },
   "cameraControls": {
     "mouseControls": "Sterowanie myszą",
@@ -875,7 +875,8 @@
     "errorDisplayNameLength": "Nazwa wyświetlana nie może przekraczać 64 znaków",
     "errorRepeatedId": "Model o tym samym identyfikatorze już istnieje",
     "errorRepeatedName": "Model o tej samej nazwie już istnieje",
-    "errorRepeatedEdgeName": "Relacja o tej samej nazwie już istnieje"
+    "errorRepeatedEdgeName": "Relacja o tej samej nazwie już istnieje",
+    "errorInvalidJSON": "Nieprawidłowy kod JSON"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Komunikat o błędzie",

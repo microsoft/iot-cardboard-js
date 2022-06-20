@@ -763,12 +763,12 @@
     "overwrite": "Felülírja",
     "namespace": "Namespace",
     "enterANamespace": "Névtér megadása",
-    "namespaceError": "A név csak az a-z, A-Z, 0-9 és aláhúzásjeleket tartalmazhatja.",
     "settings": "Beállítások",
     "errorInvalidJSON": "Érvénytelen JSON",
     "errorFileFormatNotSupported": "{{file}} formátum nem támogatott",
     "errorFormatNoSupported": "A fájlformátum nem támogatott",
-    "errorIssueWithFile": "Probléma a következővel: {{fileName}}: {{error}}"
+    "errorIssueWithFile": "Probléma a következővel: {{fileName}}: {{error}}",
+    "errorNamespace": "A névtér csak betűket, számjegyeket és aláhúzásjeleket tartalmazhat."
   },
   "cameraControls": {
     "mouseControls": "Egérvezérlők",
@@ -875,7 +875,8 @@
     "errorDisplayNameLength": "A megjelenítendő név nem haladhatja meg a 64 karaktert",
     "errorRepeatedId": "Már létezik egy azonos azonosítóval rendelkező modell",
     "errorRepeatedName": "Az azonos nevű modell már létezik",
-    "errorRepeatedEdgeName": "Az azonos nevű kapcsolat már létezik"
+    "errorRepeatedEdgeName": "Az azonos nevű kapcsolat már létezik",
+    "errorInvalidJSON": "Érvénytelen JSON"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Hibaüzenet",

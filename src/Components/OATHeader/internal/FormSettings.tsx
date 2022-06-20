@@ -12,6 +12,7 @@ import { IAction } from '../../../Models/Constants/Interfaces';
 import { SET_OAT_NAMESPACE } from '../../../Models/Constants/ActionTypes';
 import { getHeaderStyles } from '../OATHeader.styles';
 import { IOATEditorState } from '../../../Pages/OATEditorPage/OATEditorPage.types';
+import { OATNamespaceDefaultValue } from '../../../Models/Constants/Constants';
 
 interface IModal {
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
@@ -28,9 +29,17 @@ export const FormSettings = ({
 }: IModal) => {
     const { t } = useTranslation();
     const [namespace, setNamespace] = useState(state.namespace);
+    const [namespaceError, setNamespaceError] = useState(false);
     const headerStyles = getHeaderStyles();
 
     const handleProjectNamespaceChange = (value) => {
+        // Validate value contains only letters, digits, colons and underscores. The first character may not be a digit, and the last character may not be an underscore.
+        const regex = /^[a-zA-Z_][a-zA-Z0-9_:]*$/;
+        const validValue =
+            (value.match(regex) && value.charAt(value.length - 1) !== '_') ||
+            value.length === 0;
+
+        setNamespaceError(!validValue);
         setNamespace(value);
     };
 
@@ -57,6 +66,9 @@ export const FormSettings = ({
                     placeholder={t('OATHeader.enterANamespace')}
                     value={namespace}
                     onChange={(e, v) => handleProjectNamespaceChange(v)}
+                    errorMessage={
+                        namespaceError ? t('OATHeader.errorNamespace') : null
+                    }
                 />
             </div>
 
@@ -64,7 +76,7 @@ export const FormSettings = ({
                 <PrimaryButton
                     text={t('OATHeader.save')}
                     onClick={handleOnSave}
-                    disabled={!namespace}
+                    disabled={namespaceError}
                 />
 
                 <PrimaryButton

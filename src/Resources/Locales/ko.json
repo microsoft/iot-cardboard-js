@@ -763,12 +763,12 @@
     "overwrite": "덮어쓸",
     "namespace": "Namespace",
     "enterANamespace": "네임스페이스 입력",
-    "namespaceError": "이름에는 a-z, A-Z, 0-9 및 밑줄 문자만 포함될 수 있습니다.",
     "settings": "설정",
     "errorInvalidJSON": "잘못된 JSON",
     "errorFileFormatNotSupported": "{{file}} 형식이 지원되지 않음",
     "errorFormatNoSupported": "지원되지 않는 파일 형식",
-    "errorIssueWithFile": "{{fileName}}의 문제: {{error}}"
+    "errorIssueWithFile": "{{fileName}}의 문제: {{error}}",
+    "errorNamespace": "네임스페이스에는 문자, 숫자 및 밑줄만 포함될 수 있습니다."
   },
   "cameraControls": {
     "mouseControls": "마우스 컨트롤",
@@ -875,7 +875,8 @@
     "errorDisplayNameLength": "표시 이름은 64자를 초과할 수 없습니다.",
     "errorRepeatedId": "동일한 ID를 가진 모델이 이미 존재합니다.",
     "errorRepeatedName": "이름이 같은 모델이 이미 있습니다.",
-    "errorRepeatedEdgeName": "같은 이름의 관계가 이미 존재합니다."
+    "errorRepeatedEdgeName": "같은 이름의 관계가 이미 존재합니다.",
+    "errorInvalidJSON": "잘못된 JSON"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "오류 메시지",

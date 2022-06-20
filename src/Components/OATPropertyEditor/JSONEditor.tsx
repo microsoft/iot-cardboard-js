@@ -5,7 +5,8 @@ import { useLibTheme } from '../../Theming/ThemeProvider';
 import { useTranslation } from 'react-i18next';
 import {
     SET_OAT_PROPERTY_EDITOR_MODEL,
-    SET_OAT_MODIFIED
+    SET_OAT_MODIFIED,
+    SET_OAT_ERROR
 } from '../../Models/Constants/ActionTypes';
 import { IAction } from '../../Models/Constants/Interfaces';
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
@@ -87,6 +88,14 @@ const JSONEditor = ({ dispatch, theme, state }: JSONEditorProps) => {
                 payload: newModel
             });
             dispatch({ type: SET_OAT_MODIFIED, payload: false });
+        } else {
+            dispatch({
+                type: SET_OAT_ERROR,
+                payload: {
+                    title: t('OATPropertyEditor.errorInvalidJSON'),
+                    message: validJson
+                }
+            });
         }
     };
 

@@ -763,12 +763,12 @@
     "overwrite": "sobrescribir",
     "namespace": "Namespace",
     "enterANamespace": "Introducir un espacio de nombres",
-    "namespaceError": "El nombre solo puede contener los caracteres a-z, A-Z, 0-9 y guión bajo.",
     "settings": "Configuración",
     "errorInvalidJSON": "JSON no válido",
     "errorFileFormatNotSupported": "Formato {{archivo}} no compatible",
     "errorFormatNoSupported": "Formato de archivo no compatible",
-    "errorIssueWithFile": "Problema con {{fileName}}: {{error}}"
+    "errorIssueWithFile": "Problema con {{fileName}}: {{error}}",
+    "errorNamespace": "El espacio de nombres solo puede contener letras, dígitos y guiones bajos."
   },
   "cameraControls": {
     "mouseControls": "Controles del ratón",
@@ -875,7 +875,8 @@
     "errorDisplayNameLength": "El nombre para mostrar no puede exceder los 64 caracteres",
     "errorRepeatedId": "Ya existe un modelo con el mismo identificador",
     "errorRepeatedName": "Ya existe un modelo con el mismo nombre",
-    "errorRepeatedEdgeName": "Ya existe una relación con el mismo nombre"
+    "errorRepeatedEdgeName": "Ya existe una relación con el mismo nombre",
+    "errorInvalidJSON": "JSON no válido"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Mensaje de error",

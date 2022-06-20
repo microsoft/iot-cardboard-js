@@ -763,12 +763,12 @@
     "overwrite": "přepsat",
     "namespace": "Namespace",
     "enterANamespace": "Zadání oboru názvů",
-    "namespaceError": "Název může obsahovat pouze znaky a-z, A-Z, 0-9 a podtržítko.",
     "settings": "Nastavení",
     "errorInvalidJSON": "Neplatný JSON",
     "errorFileFormatNotSupported": "Formát {{file}} není podporován",
     "errorFormatNoSupported": "Formát souboru není podporován",
-    "errorIssueWithFile": "Problém s {{fileName}}: {{error}}"
+    "errorIssueWithFile": "Problém s {{fileName}}: {{error}}",
+    "errorNamespace": "Obor názvů může obsahovat pouze písmena, číslice a podtržítka."
   },
   "cameraControls": {
     "mouseControls": "Ovládání myší",
@@ -875,7 +875,8 @@
     "errorDisplayNameLength": "Zobrazovaný název nesmí překročit 64 znaků",
     "errorRepeatedId": "Model se stejným ID již existuje",
     "errorRepeatedName": "Model se stejným názvem již existuje",
-    "errorRepeatedEdgeName": "Vztah se stejným názvem již existuje"
+    "errorRepeatedEdgeName": "Vztah se stejným názvem již existuje",
+    "errorInvalidJSON": "Neplatný JSON"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Zpráva o chybě",

@@ -763,12 +763,12 @@
     "overwrite": "改写",
     "namespace": "Namespace",
     "enterANamespace": "输入命名空间",
-    "namespaceError": "名称只能包含字符 a-z、A-Z、0-9 和下划线。",
     "settings": "设置",
     "errorInvalidJSON": "无效的 JSON",
     "errorFileFormatNotSupported": "{{文件}} 格式不受支持",
     "errorFormatNoSupported": "不支持的文件格式",
-    "errorIssueWithFile": "{{文件名}} 的问题：{{错误}}"
+    "errorIssueWithFile": "{{文件名}} 的问题：{{错误}}",
+    "errorNamespace": "命名空间只能包含字母、数字和下划线。"
   },
   "cameraControls": {
     "mouseControls": "鼠标控制",
@@ -875,7 +875,8 @@
     "errorDisplayNameLength": "显示名称不得超过 64 个字符",
     "errorRepeatedId": "具有相同 ID 的模型已存在",
     "errorRepeatedName": "具有相同名称的模型已存在",
-    "errorRepeatedEdgeName": "具有相同名称的关系已存在"
+    "errorRepeatedEdgeName": "具有相同名称的关系已存在",
+    "errorInvalidJSON": "无效的 JSON"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "错误信息",

@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { Icon, ActionButton, TextField, Label } from '@fluentui/react';
+import { Icon, ActionButton, Label } from '@fluentui/react';
 import { Handle, removeElements } from 'react-flow-renderer';
 import { useTranslation } from 'react-i18next';
 import { IOATGraphCustomNodeProps } from '../../../Models/Constants/Interfaces';
@@ -13,20 +13,13 @@ import {
     OATRelationshipHandleName,
     OATComponentHandleName,
     OATExtendHandleName,
-    OATUntargetedRelationshipName,
-    DTMIRegex
+    OATUntargetedRelationshipName
 } from '../../../Models/Constants/Constants';
 import { SET_OAT_PROPERTY_EDITOR_MODEL } from '../../../Models/Constants/ActionTypes';
-import { DTDLModel } from '../../../Models/Classes/DTDL';
 import { getPropertyDisplayName } from '../../OATPropertyEditor/Utils';
-import { ModelTypes } from '../../../Models/Constants/Enums';
+import OATTextFieldDisplayName from '../../../Pages/OATEditorPage/Internal/Components/OATTextFieldDisplayName';
 
-import {
-    OATDisplayNameLengthLimit,
-    OATIdLengthLimit
-} from '../../../Models/Constants/Constants';
-
-const enterKeyCode = 13;
+import OATTextFieldId from '../../../Pages/OATEditorPage/Internal/Components/OATTextFieldId';
 
 const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
     data,
@@ -34,38 +27,16 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
 }) => {
     const { t } = useTranslation();
     const [nameEditor, setNameEditor] = useState(false);
-    const [nameText, setNameText] = useState(
-        data.name === 'string' ? data.name : Object.values(data.name)[0]
-    );
+    const [nameText, setNameText] = useState(getPropertyDisplayName(data));
     const [idEditor, setIdEditor] = useState(false);
     const [idText, setIdText] = useState(data.id);
-    const [errorDisplayNameLength, setErrorDisplayNameLength] = useState(null);
-    const [errorIdAlreadyUsed, setErrorIdAlreadyUsed] = useState(null);
-    const [idLengthError, setIdLengthError] = useState(false);
-    const [idValidDTMIError, setIdValidDTMIError] = useState(null);
-    const {
-        elements,
-        setElements,
-        setCurrentNode,
-        dispatch,
-        state,
-        currentHovered
-    } = useContext(ElementsContext);
+    const { setElements, dispatch, state, currentHovered } = useContext(
+        ElementsContext
+    );
     const graphViewerStyles = getGraphViewerStyles();
     const iconStyles = getGraphViewerIconStyles();
     const actionButtonStyles = getGraphViewerActionButtonStyles();
-    const { models } = state;
-
-    const onNameChange = (evt) => {
-        const currentValue = evt.target.value;
-        // Check length of display name
-        if (currentValue.length <= OATDisplayNameLengthLimit) {
-            setErrorDisplayNameLength(null);
-            setNameText(currentValue);
-        } else {
-            setErrorDisplayNameLength(true);
-        }
-    };
+    const { model } = state;
 
     const onNameClick = () => {
         if (!state.modified) {
@@ -74,125 +45,9 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
         }
     };
 
-    const onNameBlur = () => {
-        setNameEditor(false);
-        if (
-            typeof data.name === 'string' &&
-            data.name !== nameText &&
-            !errorDisplayNameLength
-        ) {
-            elements.find(
-                (element) => element.id === data.id
-            ).data.name = nameText;
-            setElements([...elements]);
-            const updatedModel = new DTDLModel(
-                data.id,
-                nameText,
-                data.description,
-                data.comment,
-                data.content,
-                data.relationships,
-                data.components
-            );
-            dispatch({
-                type: SET_OAT_PROPERTY_EDITOR_MODEL,
-                payload: updatedModel
-            });
-        }
-        if (typeof data.name === 'object' && data.name !== nameText) {
-            elements.find((element) => element.id === data.id).data.name[
-                Object.keys(data.name)[0]
-            ] = nameText;
-            const updatedName = {
-                ...data.name,
-                [Object.keys(data.name)[0]]: Object.values(data.name)[0]
-            };
-            setElements([...elements]);
-            const updatedModel = new DTDLModel(
-                data.id,
-                updatedName,
-                data.description,
-                data.comment,
-                data.content,
-                data.relationships,
-                data.components
-            );
-            dispatch({
-                type: SET_OAT_PROPERTY_EDITOR_MODEL,
-                payload: updatedModel
-            });
-        }
-    };
-
-    const onIdChange = (evt) => {
-        const currentValue = evt.target.value;
-        // Check id length
-        if (currentValue.length <= OATIdLengthLimit) {
-            setIdLengthError(null);
-            setIdText(currentValue);
-            // Check id is valid DTMI
-            if (DTMIRegex.test(currentValue)) {
-                setIdValidDTMIError(null);
-                // Check current value is not used by another model as @id within models
-                const repeatedIdModel = models.find(
-                    (model) =>
-                        model['@id'] === currentValue &&
-                        model['@type'] === ModelTypes.interface
-                );
-                if (repeatedIdModel) {
-                    setErrorIdAlreadyUsed(true);
-                } else {
-                    setErrorIdAlreadyUsed(false);
-                }
-            } else {
-                setIdValidDTMIError(true);
-            }
-        } else {
-            setIdLengthError(true);
-        }
-    };
-
     const onIdClick = () => {
         if (!state.modified) {
             setIdEditor(true);
-        }
-    };
-
-    const onIdBlur = () => {
-        setIdEditor(false);
-        const prevId = data.id;
-        // Only apply change if value is error free
-        if (
-            data.id !== idText &&
-            !idLengthError &&
-            !idValidDTMIError &&
-            !errorIdAlreadyUsed
-        ) {
-            elements
-                .filter((x) => x.source === data.id)
-                .forEach((x) => (x.source = idText));
-            elements
-                .filter((x) => x.target === data.id)
-                .forEach((x) => (x.target = idText));
-            elements.find((element) => element.id === prevId).data.id = idText;
-            elements.find((element) => element.id === prevId).id = idText;
-            setElements([...elements]);
-            const updatedModel = new DTDLModel(
-                data.id,
-                data.name,
-                data.description,
-                data.comment,
-                data.content,
-                data.relationships,
-                data.components
-            );
-            setCurrentNode(idText);
-            dispatch({
-                type: SET_OAT_PROPERTY_EDITOR_MODEL,
-                payload: updatedModel
-            });
-        } else {
-            setIdText(data.id);
         }
     };
 
@@ -206,26 +61,6 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
 
             setElements((els) => removeElements(elementsToRemove, els));
             dispatch({ type: SET_OAT_PROPERTY_EDITOR_MODEL, payload: null });
-        }
-    };
-
-    const getIdErrorMessage = () =>
-        idLengthError
-            ? t('OATGraphViewer.errorIdLength')
-            : idValidDTMIError
-            ? t('OATGraphViewer.errorIdValidDTMI')
-            : errorIdAlreadyUsed
-            ? t('OATGraphViewer.errorRepeatedId')
-            : '';
-
-    const handleOnKeyDownID = (keyCode) => {
-        if (keyCode === enterKeyCode) {
-            onIdBlur();
-        }
-    };
-    const handleOnKeyDownDisplayName = (keyCode) => {
-        if (keyCode === enterKeyCode) {
-            onNameBlur();
         }
     };
 
@@ -253,17 +88,15 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
                                 </Label>
                             )}
                             {idEditor && (
-                                <TextField
-                                    id="text"
-                                    name="text"
-                                    onChange={onIdChange}
-                                    value={idText}
-                                    onBlur={onIdBlur}
-                                    autoFocus
-                                    onKeyDown={(evt) => {
-                                        handleOnKeyDownID(evt.keyCode);
+                                <OATTextFieldId
+                                    id={idText}
+                                    setId={setIdText}
+                                    dispatch={dispatch}
+                                    state={state}
+                                    onCommit={() => {
+                                        setIdEditor(false);
                                     }}
-                                    errorMessage={getIdErrorMessage()}
+                                    autoFocus
                                 />
                             )}
                         </div>
@@ -275,23 +108,15 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
                                 </Label>
                             )}
                             {nameEditor && (
-                                <TextField
-                                    id="text"
-                                    name="text"
-                                    onChange={onNameChange}
-                                    value={nameText}
-                                    onBlur={onNameBlur}
-                                    autoFocus
-                                    onKeyDown={(evt) => {
-                                        handleOnKeyDownDisplayName(evt.keyCode);
+                                <OATTextFieldDisplayName
+                                    displayName={nameText}
+                                    setDisplayName={setNameText}
+                                    dispatch={dispatch}
+                                    model={model}
+                                    onCommit={() => {
+                                        setNameEditor(false);
                                     }}
-                                    errorMessage={
-                                        errorDisplayNameLength
-                                            ? t(
-                                                  'OATGraphViewer.errorDisplayNameLength'
-                                              )
-                                            : ''
-                                    }
+                                    autoFocus
                                 />
                             )}
                         </div>
