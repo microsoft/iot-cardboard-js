@@ -20,7 +20,7 @@ type IPropertiesModelSummary = {
     setModalBody?: React.Dispatch<React.SetStateAction<string>>;
     setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
     state?: IOATEditorState;
-    validModelType?: boolean;
+    isSupportedModelType?: boolean;
 };
 
 export const PropertiesModelSummary = ({
@@ -28,7 +28,7 @@ export const PropertiesModelSummary = ({
     setModalBody,
     setModalOpen,
     state,
-    validModelType
+    isSupportedModelType
 }: IPropertiesModelSummary) => {
     const { t } = useTranslation();
     const { model } = state;
@@ -66,7 +66,7 @@ export const PropertiesModelSummary = ({
             <div className={propertyInspectorStyles.gridRow}>
                 <Text>{t('type')}</Text>
                 <Text className={propertyInspectorStyles.typeTextField}>
-                    {validModelType && model ? model['@type'] : ''}
+                    {isSupportedModelType && model ? model['@type'] : ''}
                 </Text>
             </div>
 
@@ -76,7 +76,7 @@ export const PropertiesModelSummary = ({
                     placeholder={t('id')}
                     styles={textFieldStyes}
                     disabled={!model}
-                    id={validModelType && id}
+                    id={isSupportedModelType && id}
                     setId={setId}
                     dispatch={dispatch}
                     state={state}
@@ -90,7 +90,7 @@ export const PropertiesModelSummary = ({
                         placeholder={t('name')}
                         styles={textFieldStyes}
                         disabled={!model}
-                        name={validModelType && name}
+                        name={isSupportedModelType && name}
                         setName={setName}
                         dispatch={dispatch}
                         state={state}
@@ -105,7 +105,7 @@ export const PropertiesModelSummary = ({
                     borderless
                     placeholder={t('OATPropertyEditor.displayName')}
                     disabled={!model}
-                    displayName={validModelType && displayName}
+                    displayName={isSupportedModelType && displayName}
                     setDisplayName={setDisplayName}
                     dispatch={dispatch}
                     model={model}

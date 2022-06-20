@@ -1,4 +1,4 @@
-import React, { useState, useRef, useMemo, useEffect } from 'react';
+import React, { useState, useRef, useMemo } from 'react';
 import { ModelTypes, Theme } from '../../Models/Constants/Enums';
 import {
     FontIcon,
@@ -82,10 +82,10 @@ const Editor = ({
         return propertyItems;
     }, [model]);
 
-    useEffect(() => {
-        setValidModelType(
+    const isSupportedModelType = useMemo(() => {
+        return (
             (model && model['@type'] === ModelTypes.interface) ||
-                (model && model['@type'] === ModelTypes.relationship)
+            (model && model['@type'] === ModelTypes.relationship)
         );
     }, [model]);
 
@@ -106,7 +106,7 @@ const Editor = ({
                                 state={state}
                                 setModalBody={setModalBody}
                                 setModalOpen={setModalOpen}
-                                validModelType={validModelType}
+                                isSupportedModelType={isSupportedModelType}
                             />
                         </Stack.Item>
                         <Stack.Item>
@@ -155,7 +155,7 @@ const Editor = ({
                         </Stack.Item>
 
                         <Stack.Item grow styles={propertyListStackItem}>
-                            {validModelType && (
+                            {isSupportedModelType && (
                                 <PropertyList
                                     dispatch={dispatch}
                                     state={state}
