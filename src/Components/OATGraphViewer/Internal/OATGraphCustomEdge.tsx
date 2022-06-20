@@ -186,7 +186,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
         if (nameEditor && (!model || model['@id'] !== id)) {
             setNameEditor(false);
         }
-    }, [id, model, nameEditor, data]);
+    }, [id, model, nameEditor]);
 
     const getSourceComponents = (
         betaAngle,
