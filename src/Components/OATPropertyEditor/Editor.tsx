@@ -56,11 +56,6 @@ const Editor = ({
     const enteredTemplateRef = useRef(null);
     const enteredPropertyRef = useRef(null);
     const { model, templatesActive } = state;
-    const [validModelType, setValidModelType] = useState(
-        model &&
-            (model['@type'] === ModelTypes.interface ||
-                model['@type'] === ModelTypes.relationship)
-    );
 
     const propertiesKeyName = getModelPropertyCollectionName(
         model ? model['@type'] : ModelTypes.interface
