@@ -17,11 +17,7 @@ const OATConfirmDeleteWrapper = ({
 }: IOATConfirmDeleteWrapperProps) => {
     const { t } = useTranslation();
     const editorPageStyles = getEditorPageStyles();
-    const {
-        confirmDeleteOpen,
-        confirmDeleteType,
-        confirmDeletePayload
-    } = state;
+    const { confirmDeleteOpen } = state;
 
     const getComponentContent = () => {
         return (
@@ -35,7 +31,7 @@ const OATConfirmDeleteWrapper = ({
                         onClick={() => {
                             dispatch({
                                 type: SET_OAT_CONFIRM_DELETE_OPEN,
-                                payload: false
+                                payload: { open: false }
                             });
                         }}
                     >
@@ -44,13 +40,10 @@ const OATConfirmDeleteWrapper = ({
 
                     <PrimaryButton
                         onClick={() => {
-                            dispatch({
-                                type: confirmDeleteType,
-                                payload: confirmDeletePayload
-                            });
+                            confirmDeleteOpen.callback();
                             dispatch({
                                 type: SET_OAT_CONFIRM_DELETE_OPEN,
-                                payload: false
+                                payload: { open: false }
                             });
                         }}
                     >
@@ -61,7 +54,9 @@ const OATConfirmDeleteWrapper = ({
         );
     };
 
-    return <Modal isOpen={confirmDeleteOpen}>{getComponentContent()}</Modal>;
+    return (
+        <Modal isOpen={confirmDeleteOpen.open}>{getComponentContent()}</Modal>
+    );
 };
 
 export default OATConfirmDeleteWrapper;

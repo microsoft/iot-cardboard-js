@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect, useMemo } from 'react';
 import {
     FontIcon,
     ActionButton,
@@ -85,10 +85,6 @@ export const PropertyList = ({
         ICardboardListItem<IOATProperty>[]
     >([]);
     const { model, templates } = state;
-
-    useEffect(() => {
-        getListItems(listItemOnClick);
-    }, [propertyList]);
 
     const propertiesKeyName = getModelPropertyCollectionName(
         model ? model['@type'] : null
@@ -204,12 +200,16 @@ export const PropertyList = ({
         setLastPropertyFocused(null);
         const newModel = deepCopy(model);
         newModel[propertiesKeyName].splice(index, 1);
+        const dispatchDelete = () => {
+            dispatch({
+                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                payload: newModel
+            });
+        };
         dispatch({
-            type: SET_OAT_CONFIRM_DELETE_TYPE,
-            payload: SET_OAT_PROPERTY_EDITOR_MODEL
+            type: SET_OAT_CONFIRM_DELETE_OPEN,
+            payload: { open: true, callback: dispatchDelete }
         });
-        dispatch({ type: SET_OAT_CONFIRM_DELETE_PAYLOAD, payload: newModel });
-        dispatch({ type: SET_OAT_CONFIRM_DELETE_OPEN, payload: true });
     };
 
     const handleSelectorPosition = (e) => {
@@ -247,12 +247,6 @@ export const PropertyList = ({
         handleSelectorPosition(e);
     };
 
-    const listItemOnClick = (item) => {
-        setCurrentPropertyIndex(item.index);
-        setModalOpen(true);
-        setModalBody(FormBody.property);
-    };
-
     const handleTemplateAddition = (item) => {
         dispatch({
             type: SET_OAT_TEMPLATES,
@@ -276,9 +270,12 @@ export const PropertyList = ({
         });
     };
 
-    const getListItems = (
-        listItemOnClick: (property: IOATProperty) => void
-    ) => {
+    const getListItems = useMemo(() => {
+        const listItemOnClick = (item) => {
+            setCurrentPropertyIndex(item.index);
+            setModalOpen(true);
+            setModalBody(FormBody.property);
+        };
         const getMenuItems = (
             item: DTDLProperty,
             index: number
@@ -293,8 +290,8 @@ export const PropertyList = ({
                             propertyInspectorStyles.propertySubMenuItemIcon
                     },
                     onClick: () => handleTemplateAddition(item),
-                    id: `addOverflow`,
-                    'data-testid': `addOverflow`
+                    id: 'addOverflow',
+                    'data-testid': 'addOverflow'
                 },
                 {
                     key: 'manageLayers',
@@ -305,8 +302,8 @@ export const PropertyList = ({
                             propertyInspectorStyles.propertySubMenuItemIcon
                     },
                     onClick: () => handleDuplicate(item),
-                    id: `duplicateOverflow`,
-                    'data-testid': `duplicateOverflow`
+                    id: 'duplicateOverflow',
+                    'data-testid': 'duplicateOverflow'
                 },
                 {
                     key: 'removeFromThisScene',
@@ -317,8 +314,8 @@ export const PropertyList = ({
                             propertyInspectorStyles.propertySubMenuItemIconRemove
                     },
                     onClick: () => deleteItem(index),
-                    id: `removeOverflow`,
-                    'data-testid': `removeOverflow`
+                    id: 'removeOverflow',
+                    'data-testid': 'removeOverflow'
                 }
             ];
         };
@@ -339,7 +336,7 @@ export const PropertyList = ({
             return viewModel;
         });
         setPropertyListItems(properties);
-    };
+    }, [propertyList]);
 
     return (
         <div className={propertyInspectorStyles.propertiesWrap}>

@@ -133,16 +133,16 @@ export const TemplateList = ({
     const deleteItem = (index: number) => {
         const newTemplate = deepCopy(templates);
         newTemplate.splice(index, 1);
-
+        const dispatchDelete = () => {
+            dispatch({
+                type: SET_OAT_TEMPLATES,
+                payload: newTemplate
+            });
+        };
         dispatch({
-            type: SET_OAT_CONFIRM_DELETE_TYPE,
-            payload: SET_OAT_TEMPLATES
+            type: SET_OAT_CONFIRM_DELETE_OPEN,
+            payload: { open: true, callback: dispatchDelete }
         });
-        dispatch({
-            type: SET_OAT_CONFIRM_DELETE_PAYLOAD,
-            payload: newTemplate
-        });
-        dispatch({ type: SET_OAT_CONFIRM_DELETE_OPEN, payload: true });
     };
 
     return (

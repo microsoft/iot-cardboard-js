@@ -59,16 +59,20 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
 
     const onDelete = () => {
         if (!state.modified) {
+            const dispatchDelete = () => {
+                dispatch({
+                    type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                    payload: null
+                });
+                dispatch({
+                    type: SET_OAT_DELETED_MODEL_ID,
+                    payload: data.id
+                });
+            };
             dispatch({
-                type: SET_OAT_CONFIRM_DELETE_TYPE,
-                payload: SET_OAT_DELETED_MODEL_ID
+                type: SET_OAT_CONFIRM_DELETE_OPEN,
+                payload: { open: true, callback: dispatchDelete }
             });
-            dispatch({
-                type: SET_OAT_CONFIRM_DELETE_PAYLOAD,
-                payload: data.id
-            });
-            dispatch({ type: SET_OAT_CONFIRM_DELETE_OPEN, payload: true });
-            dispatch({ type: SET_OAT_PROPERTY_EDITOR_MODEL, payload: null });
         }
     };
 
