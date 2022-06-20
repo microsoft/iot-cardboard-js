@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { Icon, ActionButton, Label } from '@fluentui/react';
+import { Icon, ActionButton, Label, TooltipHost } from '@fluentui/react';
 import { Handle, removeElements } from 'react-flow-renderer';
 import { useTranslation } from 'react-i18next';
 import { IOATGraphCustomNodeProps } from '../../../Models/Constants/Interfaces';
@@ -18,8 +18,12 @@ import {
 import { SET_OAT_PROPERTY_EDITOR_MODEL } from '../../../Models/Constants/ActionTypes';
 import { getPropertyDisplayName } from '../../OATPropertyEditor/Utils';
 import OATTextFieldDisplayName from '../../../Pages/OATEditorPage/Internal/Components/OATTextFieldDisplayName';
-
 import OATTextFieldId from '../../../Pages/OATEditorPage/Internal/Components/OATTextFieldId';
+import IconRelationship from '../../../Resources/Static/relationshipTargeted.svg';
+import IconUntargeted from '../../../Resources/Static/relationshipUntargeted.svg';
+import IconInheritance from '../../../Resources/Static/relationshipInheritance.svg';
+import IconComponent from '../../../Resources/Static/relationshipComponent.svg';
+import Svg from 'react-inlinesvg';
 
 const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
     data,
@@ -36,9 +40,16 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
     const graphViewerStyles = getGraphViewerStyles();
     const iconStyles = getGraphViewerIconStyles();
     const actionButtonStyles = getGraphViewerActionButtonStyles();
+    const [handleHoverRelationship, setHandleHoverRelationship] = useState(
+        false
+    );
+    const [handleHoverComponent, setHandleHoverComponent] = useState(false);
+    const [handleHoverExtend, setHandleHoverExtend] = useState(false);
+    const [handleHoverUntargeted, setHandleHoverUntargeted] = useState(false);
     const { model } = state;
 
     const onNameClick = () => {
+        console.log('data', data);
         if (!state.modified) {
             setNameText(getPropertyDisplayName(data));
             setNameEditor(true);
@@ -136,50 +147,190 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
             </div>
             {data.type === 'Interface' && (
                 <>
-                    <Handle
-                        type="source"
-                        position="bottom"
-                        id={OATComponentHandleName}
-                        className={
-                            currentHovered && currentHovered.id === data.id
-                                ? graphViewerStyles.componentHandleFocus
-                                : graphViewerStyles.componentHandleHidden
-                        }
-                        isConnectable={isConnectable}
-                    />
-                    <Handle
-                        type="source"
-                        position="bottom"
-                        id={OATRelationshipHandleName}
-                        className={
-                            currentHovered && currentHovered.id === data.id
-                                ? graphViewerStyles.relationshipHandleFocus
-                                : graphViewerStyles.relationshipHandleHidden
-                        }
-                        isConnectable={isConnectable}
-                    />
-                    <Handle
-                        type="source"
-                        position="bottom"
-                        id={OATUntargetedRelationshipName}
-                        className={
-                            currentHovered && currentHovered.id === data.id
-                                ? graphViewerStyles.untargetRelationshipHandleFocus
-                                : graphViewerStyles.untargetRelationshipHandleHidden
-                        }
-                        isConnectable={isConnectable}
-                    />
-                    <Handle
-                        type="source"
-                        position="bottom"
-                        id={OATExtendHandleName}
-                        className={
-                            currentHovered && currentHovered.id === data.id
-                                ? graphViewerStyles.extendHandleFocus
-                                : graphViewerStyles.extendHandleHidden
-                        }
-                        isConnectable={isConnectable}
-                    />
+                    <TooltipHost
+                        content={OATComponentHandleName}
+                        id={`${OATComponentHandleName}ToolTip`}
+                        calloutProps={{
+                            gapSpace: 6,
+                            target: `#${data.name}${OATComponentHandleName}`
+                        }}
+                    >
+                        <Handle
+                            type="source"
+                            position="bottom"
+                            id={OATComponentHandleName}
+                            className={
+                                currentHovered && currentHovered.id === data.id
+                                    ? graphViewerStyles.componentHandleFocus
+                                    : graphViewerStyles.componentHandleHidden
+                            }
+                            isConnectable={isConnectable}
+                            onMouseOver={() => {
+                                setHandleHoverComponent(true);
+                            }}
+                            onMouseLeave={() => {
+                                setHandleHoverComponent(false);
+                            }}
+                        >
+                            <div
+                                className={
+                                    !handleHoverComponent &&
+                                    currentHovered &&
+                                    currentHovered.id === data.id
+                                        ? graphViewerStyles.handleContentComponent
+                                        : graphViewerStyles.handleContentHidden
+                                }
+                            />
+
+                            <Svg
+                                src={IconComponent}
+                                id={`${data.name}${OATComponentHandleName}`}
+                                className={
+                                    handleHoverComponent
+                                        ? graphViewerStyles.handleContentIcon
+                                        : graphViewerStyles.handleContentIconHidden
+                                }
+                            />
+                        </Handle>
+                    </TooltipHost>
+                    <TooltipHost
+                        content={OATRelationshipHandleName}
+                        id={`${OATRelationshipHandleName}ToolTip`}
+                        calloutProps={{
+                            gapSpace: 6,
+                            target: `#${data.name}${OATRelationshipHandleName}`
+                        }}
+                    >
+                        <Handle
+                            type="source"
+                            position="bottom"
+                            id={OATRelationshipHandleName}
+                            className={
+                                currentHovered && currentHovered.id === data.id
+                                    ? graphViewerStyles.relationshipHandleFocus
+                                    : graphViewerStyles.relationshipHandleHidden
+                            }
+                            isConnectable={isConnectable}
+                            onMouseOver={() => {
+                                setHandleHoverRelationship(true);
+                            }}
+                            onMouseLeave={() => {
+                                setHandleHoverRelationship(false);
+                            }}
+                        >
+                            <div
+                                className={
+                                    !handleHoverRelationship &&
+                                    currentHovered &&
+                                    currentHovered.id === data.id
+                                        ? graphViewerStyles.handleContentRelationship
+                                        : graphViewerStyles.handleContentHidden
+                                }
+                            />
+
+                            <Svg
+                                src={IconRelationship}
+                                id={`${data.name}${OATRelationshipHandleName}`}
+                                className={
+                                    handleHoverRelationship
+                                        ? graphViewerStyles.handleContentIcon
+                                        : graphViewerStyles.handleContentIconHidden
+                                }
+                            />
+                        </Handle>
+                    </TooltipHost>
+                    <TooltipHost
+                        content={OATUntargetedRelationshipName}
+                        id={`${OATUntargetedRelationshipName}ToolTip`}
+                        calloutProps={{
+                            gapSpace: 6,
+                            target: `#${data.name}${OATUntargetedRelationshipName}`
+                        }}
+                    >
+                        <Handle
+                            type="source"
+                            position="bottom"
+                            id={OATUntargetedRelationshipName}
+                            className={
+                                currentHovered && currentHovered.id === data.id
+                                    ? graphViewerStyles.untargetRelationshipHandleFocus
+                                    : graphViewerStyles.untargetRelationshipHandleHidden
+                            }
+                            isConnectable={isConnectable}
+                            onMouseOver={() => {
+                                setHandleHoverUntargeted(true);
+                            }}
+                            onMouseLeave={() => {
+                                setHandleHoverUntargeted(false);
+                            }}
+                        >
+                            <div
+                                className={
+                                    !handleHoverUntargeted &&
+                                    currentHovered &&
+                                    currentHovered.id === data.id
+                                        ? graphViewerStyles.handleContentRelationship
+                                        : graphViewerStyles.handleContentHidden
+                                }
+                            />
+
+                            <Svg
+                                src={IconUntargeted}
+                                id={`${data.name}${OATUntargetedRelationshipName}`}
+                                className={
+                                    handleHoverUntargeted
+                                        ? graphViewerStyles.handleContentIcon
+                                        : graphViewerStyles.handleContentIconHidden
+                                }
+                            />
+                        </Handle>
+                    </TooltipHost>
+                    <TooltipHost
+                        content={OATExtendHandleName}
+                        id={`${OATExtendHandleName}ToolTip`}
+                        calloutProps={{
+                            gapSpace: 6,
+                            target: `#${data.name}${OATExtendHandleName}`
+                        }}
+                    >
+                        <Handle
+                            type="source"
+                            position="bottom"
+                            id={OATExtendHandleName}
+                            className={
+                                currentHovered && currentHovered.id === data.id
+                                    ? graphViewerStyles.extendHandleFocus
+                                    : graphViewerStyles.extendHandleHidden
+                            }
+                            isConnectable={isConnectable}
+                            onMouseOver={() => {
+                                setHandleHoverExtend(true);
+                            }}
+                            onMouseLeave={() => {
+                                setHandleHoverExtend(false);
+                            }}
+                        >
+                            <div
+                                className={
+                                    !handleHoverExtend &&
+                                    currentHovered &&
+                                    currentHovered.id === data.id
+                                        ? graphViewerStyles.handleContentExtend
+                                        : graphViewerStyles.handleContentHidden
+                                }
+                            />
+
+                            <Svg
+                                src={IconInheritance}
+                                id={`${data.name}${OATExtendHandleName}`}
+                                className={
+                                    handleHoverExtend
+                                        ? graphViewerStyles.handleContentIcon
+                                        : graphViewerStyles.handleContentIconHidden
+                                }
+                            />
+                        </Handle>
+                    </TooltipHost>
                 </>
             )}
         </>
