@@ -763,12 +763,12 @@
     "overwrite": "sobrescribir",
     "namespace": "Namespace",
     "enterANamespace": "Introducir un espacio de nombres",
-    "namespaceError": "El nombre solo puede contener los caracteres a-z, A-Z, 0-9 y guión bajo.",
     "settings": "Configuración",
     "errorInvalidJSON": "JSON no válido",
     "errorFileFormatNotSupported": "Formato {{archivo}} no compatible",
     "errorFormatNoSupported": "Formato de archivo no compatible",
-    "errorIssueWithFile": "Problema con {{fileName}}: {{error}}"
+    "errorIssueWithFile": "Problema con {{fileName}}: {{error}}",
+    "errorNamespace": "El espacio de nombres solo puede contener letras, dígitos y guiones bajos."
   },
   "cameraControls": {
     "mouseControls": "Controles del ratón",

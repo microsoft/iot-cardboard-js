@@ -763,12 +763,12 @@
     "overwrite": "skriva över",
     "namespace": "Namespace",
     "enterANamespace": "Ange ett namnområde",
-    "namespaceError": "Namnet får bara innehålla tecknen a-z, A-Z, 0-9 och understreck.",
     "settings": "Inställningar",
     "errorInvalidJSON": "Ogiltig JSON",
     "errorFileFormatNotSupported": "{{file}}-format stöds inte",
     "errorFormatNoSupported": "Filformat stöds inte",
-    "errorIssueWithFile": "Problem med {{fileName}}: {{error}}"
+    "errorIssueWithFile": "Problem med {{fileName}}: {{error}}",
+    "errorNamespace": "Namnområdet får bara innehålla bokstäver, siffror och understreck."
   },
   "cameraControls": {
     "mouseControls": "Muskontroller",

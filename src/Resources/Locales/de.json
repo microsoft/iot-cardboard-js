@@ -763,12 +763,12 @@
     "overwrite": "überschreiben",
     "namespace": "Namespace",
     "enterANamespace": "Eingeben eines Namespaces",
-    "namespaceError": "Der Name darf nur die Zeichen a-z, A-Z, 0-9 und Unterstrich enthalten.",
     "settings": "Einstellungen",
     "errorInvalidJSON": "Ungültiges JSON",
     "errorFileFormatNotSupported": "{{file}}-Format wird nicht unterstützt",
     "errorFormatNoSupported": "Dateiformat nicht unterstützt",
-    "errorIssueWithFile": "Problem mit {{fileName}}: {{error}}"
+    "errorIssueWithFile": "Problem mit {{fileName}}: {{error}}",
+    "errorNamespace": "Der Namespace darf nur Buchstaben, Ziffern und Unterstriche enthalten."
   },
   "cameraControls": {
     "mouseControls": "Maus-Steuerelemente",

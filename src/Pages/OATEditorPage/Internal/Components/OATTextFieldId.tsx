@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { TextField } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import {
@@ -50,14 +50,19 @@ const OATTextFieldId = ({
         setIdAlreadyUsedRelationshipError
     ] = useState(false);
     const [validDTMIError, setValidDTMIError] = useState(false);
+    const [temporaryValue, setTemporaryValue] = useState(id);
     const { model, models } = state;
     const originalValue = id;
+
+    useEffect(() => {
+        setTemporaryValue(id);
+    }, [id]);
 
     const handleOnChange = (value) => {
         // Check length
         if (value.length <= OATIdLengthLimit) {
             setIdLengthError(null);
-            setId(value);
+            setTemporaryValue(value);
             onChange();
             // Check format
             if (DTMIRegex.test(value)) {
@@ -99,7 +104,6 @@ const OATTextFieldId = ({
     };
 
     const onCommitChange = () => {
-        onCommit();
         if (
             !idLengthError &&
             !idAlreadyUsedInterfaceError &&
@@ -108,18 +112,21 @@ const OATTextFieldId = ({
         ) {
             // Update model
             const modelCopy = deepCopy(model);
-            modelCopy['@id'] = id;
+            modelCopy['@id'] = temporaryValue;
             dispatch({
                 type: SET_OAT_PROPERTY_EDITOR_MODEL,
                 payload: modelCopy
             });
+            setId(temporaryValue);
         } else {
+            setTemporaryValue(model['@id']);
             setId(model['@id']);
             setIdLengthError(false);
             setIdAlreadyUsedRelationshipError(false);
             setIdAlreadyUsedInterfaceError(false);
             setValidDTMIError(false);
         }
+        onCommit();
     };
 
     const onKeyDown = (event) => {
@@ -147,7 +154,7 @@ const OATTextFieldId = ({
             borderless={borderless}
             placeholder={placeholder}
             styles={styles}
-            value={id}
+            value={temporaryValue}
             onChange={(_ev, value) => {
                 handleOnChange(value);
             }}

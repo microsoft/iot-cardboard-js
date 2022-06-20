@@ -1,4 +1,4 @@
-import React, { useContext, useMemo, useState } from 'react';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { useTheme, Icon, FontSizes, ActionButton } from '@fluentui/react';
 import {
     getEdgeCenter,
@@ -24,6 +24,7 @@ import { IOATGraphCustomEdgeProps } from '../../../Models/Constants';
 import OATTextFieldName from '../../../Pages/OATEditorPage/Internal/Components/OATTextFieldName';
 
 const foreignObjectSize = 180;
+const foreignObjectSizeExtendRelation = 80;
 const offsetSmall = 5;
 const offsetMedium = 10;
 const sourceDefaultHeight = 6;
@@ -151,6 +152,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
         showComponents,
         state
     } = useContext(ElementsContext);
+    const { model } = state;
     const graphViewerStyles = getGraphViewerStyles();
     const relationshipTextFieldStyles = getRelationshipTextFieldStyles();
     const theme = useTheme();
@@ -180,6 +182,17 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
         const target = nodes.find((x) => x.id === edge.target);
         return [target, ...getMidPointForNode(target)];
     }, [edge, nodes]);
+
+    useEffect(() => {
+        if (
+            nameEditor &&
+            (!model || model['@id'] !== id) &&
+            data.type !== OATExtendHandleName
+        ) {
+            setNameEditor(false);
+        }
+    }, [id, model, nameEditor]);
+
     const getSourceComponents = (
         betaAngle,
         sourceBase,
@@ -550,7 +563,11 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
             )}
             {nameEditor && (
                 <foreignObject
-                    width={foreignObjectSize}
+                    width={
+                        data.type === OATExtendHandleName
+                            ? foreignObjectSizeExtendRelation
+                            : foreignObjectSize
+                    }
                     height={foreignObjectSize}
                     x={
                         data.type !== OATExtendHandleName
@@ -570,9 +587,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                                 setName={setNameText}
                                 dispatch={dispatch}
                                 state={state}
-                                onCommit={() => {
-                                    setNameEditor(false);
-                                }}
+                                autoFocus
                             />
                         )}
                         <div

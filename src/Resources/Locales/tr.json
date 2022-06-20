@@ -763,12 +763,12 @@
     "overwrite": "Üzerine",
     "namespace": "Namespace",
     "enterANamespace": "Ad alanı girme",
-    "namespaceError": "Ad yalnızca a-z, A-Z, 0-9 ve alt çizgi karakterlerini içerebilir.",
     "settings": "Ayarlar",
     "errorInvalidJSON": "Geçersiz JSON",
     "errorFileFormatNotSupported": "{{dosya}} biçimi desteklenmiyor",
     "errorFormatNoSupported": "Dosya biçimi Desteklenmiyor",
-    "errorIssueWithFile": "{{fileName}} ile ilgili sorun: {{error}}"
+    "errorIssueWithFile": "{{fileName}} ile ilgili sorun: {{error}}",
+    "errorNamespace": "Ad alanı yalnızca harfler, rakamlar ve alt çizgiler içerebilir."
   },
   "cameraControls": {
     "mouseControls": "Fare Kontrolleri",

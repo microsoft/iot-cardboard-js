@@ -284,7 +284,7 @@ export const getGraphViewerIconStyles: IStyle = () => {
     const theme = useTheme();
     return {
         root: {
-            fontSize: FontSizes.size18,
+            fontSize: FontSizes.size10,
             color: theme.semanticColors.actionLink
         }
     } as Partial<IStyle>;

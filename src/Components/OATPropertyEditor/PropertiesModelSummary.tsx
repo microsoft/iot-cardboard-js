@@ -41,11 +41,9 @@ export const PropertiesModelSummary = ({
     const [id, setId] = useState(model && model['@id'] ? model['@id'] : '');
 
     useEffect(() => {
-        if (model) {
-            setDisplayName(model.displayName);
-            setName(model.name);
-            setId(model['@id']);
-        }
+        setDisplayName(model && model.displayName ? model.displayName : '');
+        setName(model && model.name ? model.name : '');
+        setId(model && model['@id'] ? model['@id'] : '');
     }, [model]);
 
     return (

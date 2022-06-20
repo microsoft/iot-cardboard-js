@@ -763,12 +763,12 @@
     "overwrite": "overschrijven",
     "namespace": "Namespace",
     "enterANamespace": "Een naamruimte invoeren",
-    "namespaceError": "De naam mag alleen de tekens a-z, A-Z, 0-9 en onderstrepingsteken bevatten.",
     "settings": "Instellingen",
     "errorInvalidJSON": "Ongeldige JSON",
     "errorFileFormatNotSupported": "{{file}} indeling niet ondersteund",
     "errorFormatNoSupported": "Bestandsindeling niet ondersteund",
-    "errorIssueWithFile": "Probleem met {{bestandsnaam}}: {{error}}"
+    "errorIssueWithFile": "Probleem met {{bestandsnaam}}: {{error}}",
+    "errorNamespace": "Naamruimte mag alleen letters, cijfers en onderstrepingstekens bevatten."
   },
   "cameraControls": {
     "mouseControls": "Muisbediening",
