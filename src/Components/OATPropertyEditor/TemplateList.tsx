@@ -5,8 +5,6 @@ import TemplateListItem from './TeplateListItem';
 import {
     SET_OAT_PROPERTY_EDITOR_MODEL,
     SET_OAT_TEMPLATES,
-    SET_OAT_CONFIRM_DELETE_TYPE,
-    SET_OAT_CONFIRM_DELETE_PAYLOAD,
     SET_OAT_CONFIRM_DELETE_OPEN
 } from '../../Models/Constants/ActionTypes';
 import { IAction } from '../../Models/Constants/Interfaces';

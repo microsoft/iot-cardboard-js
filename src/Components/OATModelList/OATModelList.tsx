@@ -11,8 +11,6 @@ import {
     SET_OAT_DELETED_MODEL_ID,
     SET_OAT_SELECTED_MODEL_ID,
     SET_OAT_PROPERTY_EDITOR_MODEL,
-    SET_OAT_CONFIRM_DELETE_TYPE,
-    SET_OAT_CONFIRM_DELETE_PAYLOAD,
     SET_OAT_CONFIRM_DELETE_OPEN
 } from '../../Models/Constants/ActionTypes';
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
@@ -103,10 +101,6 @@ const OATModelList = ({
     const onModelDelete = (id) => {
         if (!modified) {
             const dispatchDelete = () => {
-                dispatch({
-                    type: SET_OAT_PROPERTY_EDITOR_MODEL,
-                    payload: null
-                });
                 dispatch({
                     type: SET_OAT_DELETED_MODEL_ID,
                     payload: id

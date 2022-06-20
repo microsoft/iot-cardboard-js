@@ -18,9 +18,7 @@ import {
 } from '../../../Models/Constants/Constants';
 import {
     SET_OAT_PROPERTY_EDITOR_MODEL,
-    SET_OAT_CONFIRM_DELETE_TYPE,
     SET_OAT_DELETED_MODEL_ID,
-    SET_OAT_CONFIRM_DELETE_PAYLOAD,
     SET_OAT_CONFIRM_DELETE_OPEN
 } from '../../../Models/Constants/ActionTypes';
 import { ModelTypes } from '../../../Models/Constants/Enums';
@@ -508,10 +506,6 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
     const onDelete = () => {
         if (!state.modified) {
             const dispatchDelete = () => {
-                dispatch({
-                    type: SET_OAT_PROPERTY_EDITOR_MODEL,
-                    payload: null
-                });
                 dispatch({
                     type: SET_OAT_DELETED_MODEL_ID,
                     payload: data.id
