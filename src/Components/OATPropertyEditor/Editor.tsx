@@ -178,7 +178,7 @@ const Editor = ({
                     headerText={t('OATPropertyEditor.json')}
                     className={propertyInspectorStyles.pivotItem}
                 >
-                    {validModelType && (
+                    {isSupportedModelType && (
                         <JSONEditor
                             theme={theme}
                             dispatch={dispatch}
