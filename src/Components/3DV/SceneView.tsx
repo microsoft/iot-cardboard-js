@@ -919,8 +919,10 @@ function SceneView(props: ISceneViewProps, ref) {
                 }
             );
 
-            // TODO: Wrap above promise in an AbortController to cancel in case of changing before the promise resolves
-            // Below line of code works, but it does not cancel the download of the first model, which we already navigated away from
+            // TODO: Wrap above promise in an AbortController to cancel in case of changing scenes before the promise resolves
+            // Checking if url used in loadPromise method above matches url for model being shown in the screen avoids an error
+            // that occurs when trying to control the camera of an unloaded scene, but it does not cancel the download of the
+            // first model which we already navigated away from.
             if (success && modelUrl === modelUrlRef.current) {
                 sceneRef.current = sc;
 
