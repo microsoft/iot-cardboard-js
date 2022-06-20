@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Editor from '@monaco-editor/react';
-import { Theme } from '../../Models/Constants/Enums';
+import { ModelTypes, Theme } from '../../Models/Constants/Enums';
 import { useLibTheme } from '../../Theming/ThemeProvider';
 import { useTranslation } from 'react-i18next';
 import {
@@ -28,7 +28,7 @@ const JSONEditor = ({ dispatch, theme, state }: JSONEditorProps) => {
     const libTheme = useLibTheme();
     const themeToUse = (libTheme || theme) ?? Theme.Light;
     const editorRef = useRef(null);
-    const { model } = state;
+    const { model, models } = state;
     const [content, setContent] = useState(null);
     const cancelButtonStyles = getCancelButtonStyles();
     const saveButtonStyles = getSaveButtonStyles();
@@ -79,15 +79,57 @@ const JSONEditor = ({ dispatch, theme, state }: JSONEditorProps) => {
         dispatch({ type: SET_OAT_MODIFIED, payload: false });
     };
 
+    const checkDuplicateId = (modelValue) => {
+        if (modelValue['@type'] === ModelTypes.relationship) {
+            const repeatedIdOnRelationship = models.find(
+                (queryModel) =>
+                    queryModel.contents &&
+                    queryModel.contents.find(
+                        (content) =>
+                            content['@id'] === modelValue['@id'] &&
+                            content['@id'] !== model['@id'] // Prevent checking for duplicate name to itself
+                    )
+            );
+            if (!repeatedIdOnRelationship) {
+                return false;
+            } else {
+                return true;
+            }
+        } else {
+            // Check current value is not used by another model as @id within models
+            const repeatedIdModel = models.find(
+                (queryModel) =>
+                    queryModel['@id'] === modelValue['@id'] &&
+                    queryModel['@id'] !== model['@id']
+            );
+            if (repeatedIdModel) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    };
+
     const onSaveClick = async () => {
         const newModel = isJsonStringValid(content);
         const validJson = await parseModel(content);
         if (!validJson) {
-            dispatch({
-                type: SET_OAT_PROPERTY_EDITOR_MODEL,
-                payload: newModel
-            });
-            dispatch({ type: SET_OAT_MODIFIED, payload: false });
+            if (checkDuplicateId(newModel)) {
+                // Dispatch error if duplicate id
+                dispatch({
+                    type: SET_OAT_ERROR,
+                    payload: {
+                        title: t('OATPropertyEditor.errorInvalidJSON'),
+                        message: t('OATPropertyEditor.errorRepeatedId')
+                    }
+                });
+            } else {
+                dispatch({
+                    type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                    payload: newModel
+                });
+                dispatch({ type: SET_OAT_MODIFIED, payload: false });
+            }
         } else {
             dispatch({
                 type: SET_OAT_ERROR,
