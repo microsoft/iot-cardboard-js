@@ -1,7 +1,7 @@
 import * as BABYLON from '@babylonjs/core/Legacy/legacy';
 import '@babylonjs/loaders';
-// import * as GUI from '@babylonjs/gui';
-import React, { useState, useCallback, useEffect } from 'react';
+import * as GUI from '@babylonjs/gui';
+import React, { useState, useCallback, useEffect, useRef } from 'react';
 import {
     IBabylonSandboxProps,
     IBabylonSandboxStyleProps,
@@ -12,6 +12,7 @@ import { classNamesFunction, useTheme, styled } from '@fluentui/react';
 import { Engine } from '../ADT3DBuilder/ADT3DBuilder.stories.local';
 import { createGUID } from '../../Models/Services/Utils';
 import ValueRangeBuilder from '../ValueRangeBuilder/ValueRangeBuilder';
+import { UtilityLayerRenderer } from '@babylonjs/core/Legacy/legacy';
 
 const getClassNames = classNamesFunction<
     IBabylonSandboxStyleProps,
@@ -72,6 +73,10 @@ function setupLight(scene: BABYLON.Scene): BABYLON.HemisphericLight {
     return light;
 }
 
+function convertRadiansToDegrees(radians) {
+    return (radians * (360 / (Math.PI * 2))).toFixed(2);
+}
+
 function BabylonSandbox(props: IBabylonSandboxProps) {
     const { styles } = props;
     const classNames = getClassNames(styles, {
@@ -79,14 +84,12 @@ function BabylonSandbox(props: IBabylonSandboxProps) {
     });
 
     const [canvasId] = useState(createGUID());
-    const [currentMesh, setCurrentMesh] = useState<BABYLON.AbstractMesh>(); //maybe currentMesh should be an object with X Y Z rotation, position?
     const [scene, setScene] = useState<BABYLON.Scene>();
-    const [engine, setEngine] = useState<BABYLON.Engine>();
-    // let gizmoManager: BABYLON.GizmoManager = null;
-    // let camera: BABYLON.ArcRotateCamera | BABYLON.FreeCamera = null;
-    const [gizmoManager, setGizmoManager] = useState<BABYLON.GizmoManager>(
-        undefined
-    );
+    // const [engine, setEngine] = useState<BABYLON.Engine>();
+    const engineRef = useRef<BABYLON.Engine>(null);
+    const pickedMeshRef = useRef<BABYLON.AbstractMesh>(null);
+    const gizmoManagerRef = useRef<BABYLON.GizmoManager>(undefined);
+    // const utilLayer = useRef<UtilityLayerRenderer>(null);
 
     //everything in a single useEffect with refs
     //instead of setEngine --> do engine.current = something -> doesn't handle a rerender
@@ -94,21 +97,22 @@ function BabylonSandbox(props: IBabylonSandboxProps) {
     // put all effects together -> use refs
     //except do need the first useEffect for canvas --> after that, change all states to refs
 
-    // setting up engine based on the canvas
+    // setting up engine based on the canvas & scene based on engine
     useEffect(() => {
         const canvas = document.getElementById(canvasId) as HTMLCanvasElement;
         console.log(canvas);
         if (canvas) {
-            setEngine(new BABYLON.Engine(canvas, true));
+            engineRef.current = new BABYLON.Engine(canvas, true);
+            setScene(new BABYLON.Scene(engineRef.current));
         }
     }, [canvasId]);
 
-    // setting up scene based on engine
-    useEffect(() => {
-        if (engine) {
-            setScene(new BABYLON.Scene(engine));
-        }
-    }, [engine]);
+    // // setting up scene based on engine
+    // useEffect(() => {
+    //     if (engine) {
+    //         setScene(new BABYLON.Scene(engine));
+    //     }
+    // }, [engine]);
 
     // setting up camera, light, gizmo manager, etc. based on scene
     useEffect(() => {
@@ -116,7 +120,8 @@ function BabylonSandbox(props: IBabylonSandboxProps) {
             const arcRotate = true;
             const camera = setupCamera(scene, arcRotate);
             const light = setupLight(scene);
-            const gizmoManager = new BABYLON.GizmoManager(scene);
+            gizmoManagerRef.current = new BABYLON.GizmoManager(scene);
+            const gizmoManager = gizmoManagerRef.current;
             gizmoManager.usePointerToAttachGizmos = false;
             gizmoManager.rotationGizmoEnabled = true;
             gizmoManager.positionGizmoEnabled = true;
@@ -125,17 +130,81 @@ function BabylonSandbox(props: IBabylonSandboxProps) {
             BABYLON.SceneLoader.ImportMeshAsync(
                 '',
                 // 'https://assets.babylonjs.com/meshes/',
-                'https://dl.dropbox.com/s/s1p66hldqurou0w/Xwing_rig.glb',
-                // 'https://dl.dropbox.com/s/2cq4fnsg8nqxckg/TruckBoxesEnginesPastmachine.gltf',
+                // 'https://dl.dropbox.com/s/s1p66hldqurou0w/Xwing_rig.glb',
+                'https://dl.dropbox.com/s/2cq4fnsg8nqxckg/TruckBoxesEnginesPastmachine.gltf',
                 // 'https://dl.dropbox.com/s/t1wepbusypqevn4/mercedes.glb',
                 // 'both_houses_scene.babylon'
-                'Xwing_rig.glb'
-                // 'TruckBoxesEnginesPastmachine.gltf'
+                // 'Xwing_rig.glb'
+                'TruckBoxesEnginesPastmachine.gltf'
                 // 'mercedes.glb'
             ).then((result) => {
                 const meshes = result.meshes;
                 console.log(result);
             });
+
+            //////////// GUI STUFF //////////////////////////////////////////
+            const guiCanvas = GUI.AdvancedDynamicTexture.CreateFullscreenUI(
+                'UI'
+            );
+
+            // X Y Z label???
+            const xRotTB = new GUI.TextBlock('', 'xRotation: ');
+            xRotTB.width = '150px';
+            xRotTB.height = '40px';
+            xRotTB.color = 'white';
+            xRotTB.verticalAlignment = GUI.Control.VERTICAL_ALIGNMENT_BOTTOM;
+            xRotTB.horizontalAlignment = GUI.Control.HORIZONTAL_ALIGNMENT_LEFT;
+
+            guiCanvas.addControl(xRotTB);
+
+            const yRotTB = new GUI.TextBlock('', 'yRotation: ');
+            yRotTB.width = '150px';
+            yRotTB.height = '40px';
+            yRotTB.color = 'white';
+            yRotTB.verticalAlignment = GUI.Control.VERTICAL_ALIGNMENT_BOTTOM;
+            yRotTB.horizontalAlignment = GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT;
+
+            guiCanvas.addControl(yRotTB);
+
+            const zRotTB = new GUI.TextBlock('', 'zRotation: ');
+            zRotTB.width = '150px';
+            zRotTB.height = '40px';
+            zRotTB.color = 'white';
+            zRotTB.verticalAlignment = GUI.Control.VERTICAL_ALIGNMENT_TOP;
+            zRotTB.horizontalAlignment = GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT;
+
+            guiCanvas.addControl(zRotTB);
+
+            scene.actionManager = new BABYLON.ActionManager(scene);
+
+            scene.actionManager.registerAction(
+                new BABYLON.ExecuteCodeAction(
+                    {
+                        trigger: BABYLON.ActionManager.OnEveryFrameTrigger
+                    },
+                    function () {
+                        if (pickedMeshRef.current) {
+                            xRotTB.text =
+                                'xRotation: ' +
+                                convertRadiansToDegrees(
+                                    pickedMeshRef.current.rotation.x
+                                );
+                            yRotTB.text =
+                                'yRotation: ' +
+                                convertRadiansToDegrees(
+                                    pickedMeshRef.current.rotation.y
+                                );
+                            zRotTB.text =
+                                'zRotation: ' +
+                                convertRadiansToDegrees(
+                                    pickedMeshRef.current.rotation.z
+                                );
+                        }
+                    }
+                )
+            );
+
+            //////////// GUI STUFF //////////////////////////////////////////
 
             scene.onPointerDown = function castRay() {
                 // scene.onKeyboardObservable.clear();
@@ -150,28 +219,26 @@ function BabylonSandbox(props: IBabylonSandboxProps) {
                 const hit = scene.pickWithRay(ray);
 
                 if (hit.pickedMesh) {
-                    setCurrentMesh(hit.pickedMesh);
+                    pickedMeshRef.current = hit.pickedMesh;
                     // console.log(hit.pickedMesh);
                     // setGizmoManager(new BABYLON.GizmoManager(scene));
-                    const pickedMesh = hit.pickedMesh;
-                    pickedMesh.rotationQuaternion = null;
-                    gizmoManager.attachToMesh(pickedMesh);
+                    pickedMeshRef.current.rotationQuaternion = null;
+                    gizmoManager.attachToMesh(pickedMeshRef.current);
                     console.log('gizmo?');
-                    // handlePickedMesh(pickedMesh);
                     console.log(
                         'clicked mesh: ',
-                        pickedMesh.name,
+                        pickedMeshRef.current.name,
                         'at position: ',
-                        pickedMesh.absolutePosition,
+                        pickedMeshRef.current.absolutePosition,
                         'and local rotation: ',
-                        pickedMesh.rotation
+                        pickedMeshRef.current.rotation
                     );
                 }
             };
 
             // setGizmoManager(new BABYLON.GizmoManager(scene));
 
-            engine.runRenderLoop(() => {
+            engineRef.current.runRenderLoop(() => {
                 scene.render();
             });
         }
@@ -187,25 +254,25 @@ function BabylonSandbox(props: IBabylonSandboxProps) {
 
     // have as a handle change
     // only reason to use state is if React cares --> so just use Babylon
-    useEffect(() => {
-        if (currentMesh) {
-            // gizmoManager.usePointerToAttachGizmos = false;
-            // gizmoManager.rotationGizmoEnabled = true;
-            // gizmoManager.positionGizmoEnabled = true;
-            // gizmoManager.attachToMesh(currentMesh);
-            // console.log('gizmo?');
-            console.log(currentMesh.position.x);
-        }
-    }, [currentMesh]);
+    // useEffect(() => {
+    //     if (currentMesh) {
+    //         // gizmoManager.usePointerToAttachGizmos = false;
+    //         // gizmoManager.rotationGizmoEnabled = true;
+    //         // gizmoManager.positionGizmoEnabled = true;
+    //         // gizmoManager.attachToMesh(currentMesh);
+    //         // console.log('gizmo?');
+    //         console.log(currentMesh.position.x);
+    //     }
+    // }, [currentMesh]);
 
     // let xRotation = 0;
 
-    const handleChange = ({ target }) => {
-        currentMesh
-            ? (currentMesh.rotation.x = target.value)
-            : console.log('no current mesh');
-        console.log(currentMesh.rotation.x);
-    };
+    // const handleChange = ({ target }) => {
+    //     currentMesh
+    //         ? (currentMesh.rotation.x = target.value)
+    //         : console.log('no current mesh');
+    //     console.log(currentMesh.rotation.x);
+    // };
 
     // if (scene && camera) {
     //     scene.render();
@@ -215,14 +282,14 @@ function BabylonSandbox(props: IBabylonSandboxProps) {
         <div className={classNames.root}>
             <canvas id={canvasId} height="120%"></canvas>
             <div>
-                <label htmlFor="xRotation">X: </label>
+                {/* <label htmlFor="xRotation">X: </label>
                 <input
                     id="xRotation"
                     value={
                         currentMesh ? currentMesh.rotation.x : 'no current mesh'
                     }
                     onChange={handleChange}
-                />
+                /> */}
             </div>
         </div>
     );
