@@ -3,6 +3,7 @@ import { cleanup, render } from '@testing-library/react';
 import {
     defaultAlertVisual,
     defaultBehavior,
+    defaultGaugeWidget,
     defaultStatusColorVisual,
     VisualType
 } from '../../../../../../Models/Classes/3DVConfig';
@@ -11,7 +12,9 @@ import {
     IBehavior,
     IElementTwinToObjectMappingDataSource,
     IExpressionRangeVisual,
-    IValueRange
+    IPopoverVisual,
+    IValueRange,
+    IWidget
 } from '../../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import {
     BehaviorFormContextProvider,
@@ -1032,6 +1035,153 @@ describe('BehaviorFormContext', () => {
                     ViewerConfigUtility.isStatusColorVisual
                 );
                 expect(status.length).toEqual(0);
+            });
+        });
+
+        describe('Widgets', () => {
+            const getWidget = (id: string): IWidget => {
+                return {
+                    ...defaultGaugeWidget,
+                    id: id
+                };
+            };
+            const getPopover = (widgets: IWidget[]): IPopoverVisual => {
+                return {
+                    type: VisualType.Popover,
+                    objectIDs: { expression: '' },
+                    title: 'popover tile',
+                    widgets: widgets
+                };
+            };
+
+            test('[Add/Update] - adds the widget to the list of visuals when no popover exists', () => {
+                // ARRANGE
+                const initialState = GET_MOCK_BEHAVIOR_FORM_STATE();
+                initialState.behaviorToEdit.visuals = []; // no visuals
+
+                const WIDGET_ID = 'myProperty > 1';
+                const action: BehaviorFormContextAction = {
+                    type:
+                        BehaviorFormContextActionType.FORM_BEHAVIOR_WIDGET_ADD_OR_UPDATE,
+                    payload: {
+                        widget: getWidget(WIDGET_ID)
+                    }
+                };
+
+                // ACT
+                const result = BehaviorFormContextReducer(initialState, action);
+
+                // ASSERT
+                const popover = result.behaviorToEdit.visuals.filter(
+                    ViewerConfigUtility.isPopoverVisual
+                );
+                expect(popover.length).toEqual(1);
+                expect(popover[0].widgets.length).toEqual(1);
+                expect(popover[0].widgets[0].id).toEqual(WIDGET_ID);
+            });
+
+            test('[Add/Update] - updates the widget in the popover when a popover with widgets already exists', () => {
+                // ARRANGE
+                const initialState = GET_MOCK_BEHAVIOR_FORM_STATE();
+                initialState.behaviorToEdit.visuals = [
+                    getPopover([getWidget('initial id')])
+                ];
+
+                const WIDGET_ID = 'newId';
+                const action: BehaviorFormContextAction = {
+                    type:
+                        BehaviorFormContextActionType.FORM_BEHAVIOR_WIDGET_ADD_OR_UPDATE,
+                    payload: {
+                        widget: getWidget(WIDGET_ID)
+                    }
+                };
+
+                // ACT
+                const result = BehaviorFormContextReducer(initialState, action);
+
+                // ASSERT
+                const popover = result.behaviorToEdit.visuals.filter(
+                    ViewerConfigUtility.isPopoverVisual
+                );
+                expect(popover.length).toEqual(1);
+                expect(popover[0].widgets.length).toEqual(2);
+                expect(popover[0].widgets[1].id).toEqual(WIDGET_ID);
+            });
+
+            test('[Remove] - silently passes when trying to remove an widget when there is no popover on the behavior', () => {
+                // ARRANGE
+                const initialState = GET_MOCK_BEHAVIOR_FORM_STATE();
+                initialState.behaviorToEdit.visuals = [];
+
+                const WIDGET_ID = 'id to delete';
+                const action: BehaviorFormContextAction = {
+                    type:
+                        BehaviorFormContextActionType.FORM_BEHAVIOR_WIDGET_REMOVE,
+                    payload: {
+                        widgetId: WIDGET_ID
+                    }
+                };
+
+                // ACT
+                const result = BehaviorFormContextReducer(initialState, action);
+
+                // ASSERT
+                const popover = result.behaviorToEdit.visuals.filter(
+                    ViewerConfigUtility.isPopoverVisual
+                );
+                expect(popover.length).toEqual(0);
+            });
+
+            test('[Remove] - removes the popover when trying to remove a widget even when widget not found on popover', () => {
+                // ARRANGE
+                const initialState = GET_MOCK_BEHAVIOR_FORM_STATE();
+                initialState.behaviorToEdit.visuals = [getPopover([])];
+
+                const WIDGET_ID = 'id to delete';
+                const action: BehaviorFormContextAction = {
+                    type:
+                        BehaviorFormContextActionType.FORM_BEHAVIOR_WIDGET_REMOVE,
+                    payload: {
+                        widgetId: WIDGET_ID
+                    }
+                };
+
+                // ACT
+                const result = BehaviorFormContextReducer(initialState, action);
+
+                // ASSERT
+                const popover = result.behaviorToEdit.visuals.filter(
+                    ViewerConfigUtility.isPopoverVisual
+                );
+                expect(popover.length).toEqual(0);
+            });
+
+            test('[Remove] - removes the widget from the popover if the widget exists', () => {
+                // ARRANGE
+                const initialState = GET_MOCK_BEHAVIOR_FORM_STATE();
+                const WIDGET_ID = 'id to delete';
+                initialState.behaviorToEdit.visuals = [
+                    getPopover([getWidget('initial id'), getWidget(WIDGET_ID)])
+                ];
+
+                const action: BehaviorFormContextAction = {
+                    type:
+                        BehaviorFormContextActionType.FORM_BEHAVIOR_WIDGET_REMOVE,
+                    payload: {
+                        widgetId: WIDGET_ID
+                    }
+                };
+
+                // ACT
+                const result = BehaviorFormContextReducer(initialState, action);
+
+                // ASSERT
+                const popover = result.behaviorToEdit.visuals.filter(
+                    ViewerConfigUtility.isPopoverVisual
+                );
+                expect(popover.length).toEqual(1);
+                expect(popover[0].widgets.length).toEqual(1);
+                expect(popover[0].widgets[0].id).toEqual('initial id');
             });
         });
     });

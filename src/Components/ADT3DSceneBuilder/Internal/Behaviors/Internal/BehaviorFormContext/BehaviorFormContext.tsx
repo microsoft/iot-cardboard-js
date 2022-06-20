@@ -144,7 +144,7 @@ export const BehaviorFormContextReducer: (
                     );
                     break;
                 }
-                statusVisual.valueRanges = action.payload.ranges;
+                statusVisual.valueRanges = action.payload.ranges || [];
                 break;
             }
             case BehaviorFormContextActionType.FORM_BEHAVIOR_STATUS_VISUAL_REMOVE: {
