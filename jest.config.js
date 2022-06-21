@@ -2,6 +2,7 @@ module.exports = {
     roots: ['./src'],
     setupFilesAfterEnv: ['./jest.setup.ts'],
     moduleFileExtensions: ['ts', 'tsx', 'js'],
+    testEnvironment: 'node',
     testPathIgnorePatterns: ['node_modules/'],
     transformIgnorePatterns: ['node_modules/?!tsiclient'], // Required for tsiclient dependencies to work in jest context
     transform: {
