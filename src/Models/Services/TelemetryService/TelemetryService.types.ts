@@ -29,6 +29,7 @@ export interface IRequestTelemetryParams extends IBaseTelemetryParams {
     url: string;
     success?: boolean;
     responseCode?: number;
+    responseMessage?: string;
     requestMethod?: string;
 }
 
@@ -36,7 +37,7 @@ export interface IExceptionTelemetryParams extends IBaseTelemetryParams {
     /** Identifier of where the exception was thrown in code.
      * Used for exceptions grouping. Typically a combination of exception
      * type and a function from the call stack. */
-    problemId: string;
+    exceptionId: string;
 
     /** Trace severity level */
     severityLevel?: SeverityLevel;

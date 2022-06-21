@@ -33,6 +33,7 @@ export class RequestTelemetry extends Telemetry {
     url: string;
     success: boolean;
     responseCode: number;
+    responseMessage: string;
     requestMethod: string;
     customProperties: CustomProperties;
     constructor({
@@ -40,6 +41,7 @@ export class RequestTelemetry extends Telemetry {
         url,
         requestMethod,
         responseCode,
+        responseMessage,
         success,
         customProperties
     }: IRequestTelemetryParams) {
@@ -47,6 +49,7 @@ export class RequestTelemetry extends Telemetry {
         this.url = url;
         this.success = success;
         this.responseCode = responseCode;
+        this.responseMessage = responseMessage;
         this.requestMethod = requestMethod;
         this.customProperties = customProperties;
     }
@@ -56,7 +59,7 @@ export class RequestTelemetry extends Telemetry {
  * https://docs.microsoft.com/en-us/azure/azure-monitor/app/data-model-exception-telemetry
  */
 export class ExceptionTelemetry extends Telemetry {
-    problemId: string;
+    exceptionId: string;
     severityLevel: SeverityLevel;
     message: string;
     stack: string;
@@ -64,13 +67,13 @@ export class ExceptionTelemetry extends Telemetry {
     constructor({
         name,
         message,
-        problemId,
+        exceptionId,
         stack,
         customProperties,
         severityLevel
     }: IExceptionTelemetryParams) {
         super(name, TelemetryType.exception, customProperties);
-        this.problemId = problemId;
+        this.exceptionId = exceptionId;
         this.severityLevel = severityLevel;
         this.message = message;
         this.stack = stack;
