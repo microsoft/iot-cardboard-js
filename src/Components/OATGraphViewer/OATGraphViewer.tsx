@@ -1026,15 +1026,6 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
         dispatch({ type: SET_OAT_PROPERTY_EDITOR_MODEL, payload: null });
     };
 
-    function angle(cx, cy, ex, ey) {
-        const dy = ey - cy;
-        const dx = ex - cx;
-        let theta = Math.atan2(dy, dx); // range (-PI, PI]
-        theta *= 180 / Math.PI; // rads to degs, range (-180, 180]
-        //if (theta < 0) theta = 360 + theta; // range [0, 360)
-        return theta;
-    }
-
     return (
         <ReactFlowProvider>
             <div
