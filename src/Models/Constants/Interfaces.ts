@@ -851,3 +851,9 @@ export interface IOATLastPropertyFocused {
     item: DTDLProperty;
     index: number;
 }
+
+export interface IOATProperty {
+    id: string;
+    displayName: string;
+    index: number;
+}

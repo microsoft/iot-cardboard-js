@@ -12,7 +12,10 @@ const classNames = {
     errorHandlingWrapperErrorMessage: `${classPrefix}-error-handling-wrapper-error-message`,
     errorPageHeader: `${classPrefix}-error-page-header`,
     errorPageMessageHeader: `${classPrefix}-error-page-message-header`,
-    errorPageStackHeader: `${classPrefix}-error-page-stack-header`
+    errorPageStackHeader: `${classPrefix}-error-page-stack-header`,
+    confirmDeleteWrapper: `${classPrefix}-confirm-delete-wrapper`,
+    confirmDeleteButtonsWrapper: `${classPrefix}-confirm-delete-buttons-wrapper`,
+    confirmDeleteWrapperTitle: `${classPrefix}-confirm-delete-wrapper-title`
 };
 export const getEditorPageStyles = () => {
     const theme = useTheme();
@@ -98,6 +101,35 @@ export const getEditorPageStyles = () => {
             {
                 marginBottom: '8px'
             }
+        ],
+        confirmDeleteWrapper: [
+            classNames.confirmDeleteWrapper,
+            {
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center',
+                width: '100%',
+                height: '100%',
+                padding: '20px',
+                backgroundColor: theme.semanticColors.bodyBackground
+            } as IStyle
+        ],
+        confirmDeleteButtonsWrapper: [
+            classNames.confirmDeleteButtonsWrapper,
+            {
+                display: 'grid',
+                gridTemplateColumns: '40% 40%',
+                width: '100%',
+                columnGap: '20%',
+                marginTop: '30%'
+            } as IStyle
+        ],
+        confirmDeleteWrapperTitle: [
+            classNames.confirmDeleteWrapperTitle,
+            {
+                color: theme.palette.black
+            } as IStyle
         ]
     });
 };
