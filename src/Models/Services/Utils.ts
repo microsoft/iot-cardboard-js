@@ -23,6 +23,7 @@ import ViewerConfigUtility from '../Classes/ViewerConfigUtility';
 import { createParser, ModelParsingOption } from 'azure-iot-dtdl-parser';
 import { IDropdownOption } from '@fluentui/react';
 import { isConstant, toConstant } from 'constantinople';
+import { v4 } from 'uuid';
 
 let ajv: Ajv = null;
 const parser = createParser(ModelParsingOption.PermitAnyTopLevelElement);
@@ -54,6 +55,10 @@ export const validate3DConfigWithSchema = (
 };
 
 export const createGUID = (isWithDashes = false) => {
+    // switch to using a library when we don't need the dashes, but fallback to the original approach when we need it.
+    if (!isWithDashes) {
+        return v4();
+    }
     const s4 = () => {
         return Math.floor((1 + Math.random()) * 0x10000)
             .toString(16)
