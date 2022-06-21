@@ -50,7 +50,7 @@ export function RemoveWidgetFromBehaviorById(
     behavior: IBehavior,
     widgetId: string,
     logger: IConsoleLogFunction
-): void {
+): IBehavior {
     logger(
         'debug',
         `[START] Removing widget (id: ${widgetId}) from behavior. {behaviorToEdit}`,
@@ -66,13 +66,14 @@ export function RemoveWidgetFromBehaviorById(
             '[END] Removing widget id. Unable to remove widget from behavior. Popover visual not found. {visuals}',
             behavior.visuals
         );
-        return;
+        return behavior;
     }
-    RemoveItemsFromListByFilter(
+    draftVisual.widgets = RemoveItemsFromListByFilter(
         draftVisual.widgets,
         (x) => x.id === widgetId,
         logger
     );
+    return behavior;
 }
 
 /**
@@ -86,13 +87,16 @@ export function RemoveItemsFromListByFilter<T>(
     items: T[],
     predicate: (value: T) => boolean,
     logger: IConsoleLogFunction
-): boolean {
-    let result = false;
+): T[] {
     logger(
         'debug',
         '[START] Removing item from list. {items.length}',
         items?.length
     );
+    if (!items) {
+        items = [];
+    }
+
     // get all items that match
     const matchedItems = items?.filter(predicate);
 
@@ -102,13 +106,12 @@ export function RemoveItemsFromListByFilter<T>(
             'Unable to remove item from list. No item found that matches the predicate. {items}',
             items
         );
-        return result;
+        return items;
     }
     // remove each from the array
     matchedItems.forEach((item) => {
         const index = items.indexOf(item);
         if (index >= 0) {
-            result = true;
             items.splice(index, 1);
         }
     });
@@ -118,50 +121,47 @@ export function RemoveItemsFromListByFilter<T>(
         '[END] Removing item from list. {items.length}',
         items.length
     );
-    return result;
+    return items;
 }
 
 /**
  * Adds or updates the provided item to the given list of items
- * @param listItems List of items to search over
+ * @param items List of items to search over
  * @param itemToAddUpdate item to add or replace
  * @param predicate filter for finding the right item to replace
  * @param logger console logger to debugging
  */
 export function AddOrUpdateListItemByFilter<T>(
-    listItems: T[],
+    items: T[],
     itemToAddUpdate: T,
     predicate: (value: T) => boolean,
     logger: IConsoleLogFunction
-): boolean {
-    let result = false;
+): T[] {
     logger(
         'debug',
         '[START] Add/Update item in list. {listItems.length, item}',
-        listItems?.length,
+        items?.length,
         itemToAddUpdate
     );
-    if (!listItems) {
-        listItems = [];
+    if (!items) {
+        items = [];
     }
 
-    const index = listItems.findIndex(predicate);
+    const index = items.findIndex(predicate);
     if (index < 0) {
         logger('debug', `Adding new item.`);
         // add
-        listItems.push(deepCopy(itemToAddUpdate));
-        result = true;
+        items.push(deepCopy(itemToAddUpdate));
     } else {
         // update
         logger('debug', `Updating item at index ${index}.`);
-        listItems[index] = deepCopy(itemToAddUpdate);
-        result = true;
+        items[index] = deepCopy(itemToAddUpdate);
     }
 
     logger(
         'debug',
         '[END] Add/Update item in list. {listItems.length}',
-        listItems?.length
+        items?.length
     );
-    return result;
+    return items;
 }

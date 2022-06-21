@@ -45,7 +45,7 @@ export const BehaviorFormContextReducer: (
         );
         switch (action.type) {
             case BehaviorFormContextActionType.FORM_BEHAVIOR_ALERT_VISUAL_ADD_OR_UPDATE: {
-                AddOrUpdateListItemByFilter(
+                draft.behaviorToEdit.visuals = AddOrUpdateListItemByFilter(
                     draft.behaviorToEdit.visuals,
                     action.payload.visual,
                     ViewerConfigUtility.isAlertVisual,
@@ -54,7 +54,7 @@ export const BehaviorFormContextReducer: (
                 break;
             }
             case BehaviorFormContextActionType.FORM_BEHAVIOR_ALERT_VISUAL_REMOVE: {
-                RemoveItemsFromListByFilter(
+                draft.behaviorToEdit.visuals = RemoveItemsFromListByFilter(
                     draft.behaviorToEdit.visuals,
                     ViewerConfigUtility.isAlertVisual,
                     logDebugConsole
@@ -74,7 +74,7 @@ export const BehaviorFormContextReducer: (
                 break;
             }
             case BehaviorFormContextActionType.FORM_BEHAVIOR_DATA_SOURCE_ADD_OR_UPDATE: {
-                AddOrUpdateListItemByFilter(
+                draft.behaviorToEdit.datasources = AddOrUpdateListItemByFilter(
                     draft.behaviorToEdit.datasources,
                     action.payload.source,
                     ViewerConfigUtility.isElementTwinToObjectMappingDataSource,
@@ -84,7 +84,7 @@ export const BehaviorFormContextReducer: (
                 break;
             }
             case BehaviorFormContextActionType.FORM_BEHAVIOR_DATA_SOURCE_REMOVE: {
-                RemoveItemsFromListByFilter(
+                draft.behaviorToEdit.datasources = RemoveItemsFromListByFilter(
                     draft.behaviorToEdit.datasources,
                     ViewerConfigUtility.isElementTwinToObjectMappingDataSource,
                     logDebugConsole
@@ -124,7 +124,7 @@ export const BehaviorFormContextReducer: (
                 break;
             }
             case BehaviorFormContextActionType.FORM_BEHAVIOR_STATUS_VISUAL_ADD_OR_UPDATE: {
-                AddOrUpdateListItemByFilter(
+                draft.behaviorToEdit.visuals = AddOrUpdateListItemByFilter(
                     draft.behaviorToEdit.visuals,
                     action.payload.visual,
                     ViewerConfigUtility.isStatusColorVisual,
@@ -148,7 +148,7 @@ export const BehaviorFormContextReducer: (
                 break;
             }
             case BehaviorFormContextActionType.FORM_BEHAVIOR_STATUS_VISUAL_REMOVE: {
-                RemoveItemsFromListByFilter(
+                draft.behaviorToEdit.visuals = RemoveItemsFromListByFilter(
                     draft.behaviorToEdit.visuals,
                     ViewerConfigUtility.isStatusColorVisual,
                     logDebugConsole
@@ -167,7 +167,7 @@ export const BehaviorFormContextReducer: (
                         'Popover visual not found. Adding {visuals}',
                         draft.behaviorToEdit?.visuals
                     );
-                    AddOrUpdateListItemByFilter(
+                    draft.behaviorToEdit.visuals = AddOrUpdateListItemByFilter(
                         draft.behaviorToEdit.visuals,
                         defaultOnClickPopover,
                         () => false,
@@ -178,7 +178,7 @@ export const BehaviorFormContextReducer: (
                     )[0];
                 }
 
-                AddOrUpdateListItemByFilter(
+                draftPopover.widgets = AddOrUpdateListItemByFilter(
                     draftPopover.widgets,
                     action.payload.widget,
                     (x) => x.id === action.payload.widget.id,
@@ -194,7 +194,7 @@ export const BehaviorFormContextReducer: (
                     logDebugConsole
                 );
                 // remove any popoover that doesn't have any widgets
-                RemoveItemsFromListByFilter(
+                draft.behaviorToEdit.visuals = RemoveItemsFromListByFilter(
                     draft.behaviorToEdit.visuals,
                     (visual) =>
                         ViewerConfigUtility.isPopoverVisual(visual) &&

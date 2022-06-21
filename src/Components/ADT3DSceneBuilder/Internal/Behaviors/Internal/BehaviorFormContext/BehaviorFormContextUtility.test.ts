@@ -17,10 +17,11 @@ import {
     RemoveItemsFromListByFilter,
     RemoveWidgetFromBehaviorById,
     CreateNewBehavior,
-    isStateDirty
+    isStateDirty,
+    AddOrUpdateListItemByFilter
 } from './BehaviorFormContextUtility';
 
-describe('BehaviorFormContextUtility', function MY_TEST_SUITE() {
+describe('BehaviorFormContextUtility', () => {
     let mockLogger: IConsoleLogFunction;
     const getBehavior = () => deepCopy(defaultBehavior);
     beforeEach(() => {
@@ -272,7 +273,6 @@ describe('BehaviorFormContextUtility', function MY_TEST_SUITE() {
     });
 
     describe('RemoveItemsFromListByFilter', () => {
-        // ARRANGE
         interface ITestListItem {
             id: string;
             value: number;
@@ -290,7 +290,7 @@ describe('BehaviorFormContextUtility', function MY_TEST_SUITE() {
             );
 
             // ASSERT
-            expect(result).toBeFalsy();
+            expect(result).toEqual([]);
         });
         test('no matches, returns false and does not change the list', () => {
             const items: ITestListItem[] = [
@@ -306,8 +306,7 @@ describe('BehaviorFormContextUtility', function MY_TEST_SUITE() {
             );
 
             // ASSERT
-            expect(result).toBeFalsy();
-            expect(items.length).toEqual(2);
+            expect(result.length).toEqual(2);
         });
         test('matched items are removed from the list', () => {
             // ARRANGE
@@ -326,8 +325,66 @@ describe('BehaviorFormContextUtility', function MY_TEST_SUITE() {
             );
 
             // ASSERT
-            expect(result).toBeTruthy();
-            expect(items.length).toEqual(2);
+            expect(result.length).toEqual(2);
+        });
+    });
+
+    describe('AddOrUpdateListItemByFilter', () => {
+        interface ITestListItem {
+            id: string;
+            value: number;
+        }
+        test('null list of items does not throw any error', () => {
+            // ARRANGE
+            const items: ITestListItem[] = null;
+            const item: ITestListItem = { id: 'testItem1', value: 5 };
+
+            // ACT
+            const result = AddOrUpdateListItemByFilter(
+                items,
+                item,
+                (x: ITestListItem) => x.id === item.id,
+                mockLogger
+            );
+            // ASSERT
+            expect(result.length).toEqual(1);
+            expect(result[0].id).toEqual(item.id);
+        });
+        test('no matches, add the item to the list', () => {
+            // ARRANGE
+            const items: ITestListItem[] = [{ id: 'initial', value: 0 }];
+            const item: ITestListItem = { id: 'testItem1', value: 5 };
+
+            // ACT
+            const result = AddOrUpdateListItemByFilter(
+                items,
+                item,
+                (x: ITestListItem) => x.id === item.id,
+                mockLogger
+            );
+            // ASSERT
+            expect(result.length).toEqual(2);
+            expect(result[1].id).toEqual(item.id);
+        });
+        test('match found, replaces the item', () => {
+            // ARRANGE
+            const item: ITestListItem = { id: 'testItem1', value: 5 };
+            const items: ITestListItem[] = [
+                { id: 'initial', value: 0 },
+                deepCopy(item)
+            ];
+            item.value = 10;
+
+            // ACT
+            const result = AddOrUpdateListItemByFilter(
+                items,
+                item,
+                (x: ITestListItem) => x.id === item.id,
+                mockLogger
+            );
+            // ASSERT
+            expect(result.length).toEqual(2);
+            expect(result[1].value).toEqual(10);
         });
     });
 });
