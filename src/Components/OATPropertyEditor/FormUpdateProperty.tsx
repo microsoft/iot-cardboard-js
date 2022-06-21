@@ -183,40 +183,54 @@ export const FormUpdateProperty = ({
     };
 
     const handleUpdatedNestedProperty = () => {
-        const activeNestedProperty =
-            model[propertiesKeyName][currentPropertyIndex].schema.fields[
-                currentNestedPropertyIndex
-            ];
-        const prop = {
-            comment: comment ? comment : activeNestedProperty.comment,
-            description:
-                languageSelectionDescription === singleLanguageOptionValue
-                    ? description
+        const update = () => {
+            const activeNestedProperty =
+                model[propertiesKeyName][currentPropertyIndex].schema.fields[
+                    currentNestedPropertyIndex
+                ];
+            const prop = {
+                comment: comment ? comment : activeNestedProperty.comment,
+                description:
+                    languageSelectionDescription === singleLanguageOptionValue
                         ? description
-                        : activeNestedProperty.description
-                    : multiLanguageSelectionsDescription,
-            displayName:
-                languageSelection === singleLanguageOptionValue
-                    ? displayName
+                            ? description
+                            : activeNestedProperty.description
+                        : multiLanguageSelectionsDescription,
+                displayName:
+                    languageSelection === singleLanguageOptionValue
                         ? displayName
-                        : activeNestedProperty.name
-                    : multiLanguageSelectionsDisplayName,
-            writable,
-            unit: activeNestedProperty.unit,
-            '@id': id ? id : activeNestedProperty['@id'],
-            schema: activeNestedProperty.schema,
-            name: activeNestedProperty.name
+                            ? displayName
+                            : activeNestedProperty.name
+                        : multiLanguageSelectionsDisplayName,
+                writable,
+                unit: activeNestedProperty.unit,
+                '@id': id ? id : activeNestedProperty['@id'],
+                schema: activeNestedProperty.schema,
+                name: activeNestedProperty.name
+            };
+
+            const modelCopy = deepCopy(model);
+            modelCopy[propertiesKeyName][currentPropertyIndex].schema.fields[
+                currentNestedPropertyIndex
+            ] = prop;
+
+            dispatch({
+                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                payload: modelCopy
+            });
         };
 
-        const modelCopy = deepCopy(model);
-        modelCopy[propertiesKeyName][currentPropertyIndex].schema.fields[
-            currentNestedPropertyIndex
-        ] = prop;
+        execute(
+            () => update(),
+            () => {
+                const modelCopy = deepCopy(model);
+                dispatch({
+                    type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                    payload: modelCopy
+                });
+            }
+        );
 
-        dispatch({
-            type: SET_OAT_PROPERTY_EDITOR_MODEL,
-            payload: modelCopy
-        });
         setModalOpen(false);
         setModalBody(null);
         setCurrentNestedPropertyIndex(null);

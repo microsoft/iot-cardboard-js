@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { TextField } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import {
@@ -10,6 +10,7 @@ import {
 import { SET_OAT_PROPERTY_EDITOR_MODEL } from '../../../../Models/Constants/ActionTypes';
 import { deepCopy } from '../../../../Models/Services/Utils';
 import { IOATEditorState } from '../../OATEditorPage.types';
+import { CommandHistoryContext } from '../Context/CommandHistoryContext';
 
 type IOATTexField = {
     autoFocus?: boolean;
@@ -40,6 +41,7 @@ const OATTextFieldId = ({
     styles
 }: IOATTexField) => {
     const { t } = useTranslation();
+    const { execute } = useContext(CommandHistoryContext);
     const [idLengthError, setIdLengthError] = useState(false);
     const [
         idAlreadyUsedInterfaceError,
@@ -104,12 +106,8 @@ const OATTextFieldId = ({
     };
 
     const onCommitChange = () => {
-        if (
-            !idLengthError &&
-            !idAlreadyUsedInterfaceError &&
-            !idAlreadyUsedRelationshipError &&
-            !validDTMIError
-        ) {
+        const commit = () => {
+            onCommit();
             // Update model
             const modelCopy = deepCopy(model);
             modelCopy['@id'] = temporaryValue;
@@ -118,6 +116,24 @@ const OATTextFieldId = ({
                 payload: modelCopy
             });
             setId(temporaryValue);
+        };
+
+        if (
+            !idLengthError &&
+            !idAlreadyUsedInterfaceError &&
+            !idAlreadyUsedRelationshipError &&
+            !validDTMIError
+        ) {
+            execute(
+                () => commit(),
+                () => {
+                    const modelCopy = deepCopy(model);
+                    dispatch({
+                        type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                        payload: modelCopy
+                    });
+                }
+            );
         } else {
             setTemporaryValue(model['@id']);
             setId(model['@id']);
@@ -126,7 +142,7 @@ const OATTextFieldId = ({
             setIdAlreadyUsedInterfaceError(false);
             setValidDTMIError(false);
         }
-        onCommit();
+        document.activeElement.blur();
     };
 
     const onKeyDown = (event) => {

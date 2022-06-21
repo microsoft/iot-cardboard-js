@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import {
     TextField,
     Text,
@@ -34,6 +34,7 @@ import {
     handleMultiLanguageSelectionsDisplayNameKeyChange,
     handleMultiLanguageSelectionsDisplayNameValueChange
 } from './Utils';
+import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 
 const multiLanguageOptionValue = 'multiLanguage';
 const singleLanguageOptionValue = 'singleLanguage';
@@ -53,6 +54,7 @@ export const FormUpdateProperty = ({
     state,
     languages
 }: IModal) => {
+    const { execute } = useContext(CommandHistoryContext);
     const { model } = state;
     const { t } = useTranslation();
     const propertyInspectorStyles = getPropertyInspectorStyles();
@@ -138,30 +140,44 @@ export const FormUpdateProperty = ({
     };
 
     const handleFormSubmit = () => {
-        const modelCopy = deepCopy(model);
-        modelCopy.comment = comment ? comment : model.comment;
-        modelCopy.displayName =
-            languageSelection === singleLanguageOptionValue
-                ? displayName
+        const update = () => {
+            const modelCopy = deepCopy(model);
+            modelCopy.comment = comment ? comment : model.comment;
+            modelCopy.displayName =
+                languageSelection === singleLanguageOptionValue
                     ? displayName
-                    : model.displayName
-                : multiLanguageSelectionsDisplayName
-                ? multiLanguageSelectionsDisplayName
-                : model.displayName;
-        modelCopy.description =
-            languageSelectionDescription === singleLanguageOptionValue
-                ? description
+                        ? displayName
+                        : model.displayName
+                    : multiLanguageSelectionsDisplayName
+                    ? multiLanguageSelectionsDisplayName
+                    : model.displayName;
+            modelCopy.description =
+                languageSelectionDescription === singleLanguageOptionValue
                     ? description
-                    : model.description
-                : multiLanguageSelectionsDescription
-                ? multiLanguageSelectionsDescription
-                : model.description;
-        modelCopy['@id'] = id ? id : model['@id'];
+                        ? description
+                        : model.description
+                    : multiLanguageSelectionsDescription
+                    ? multiLanguageSelectionsDescription
+                    : model.description;
+            modelCopy['@id'] = id ? id : model['@id'];
 
-        dispatch({
-            type: SET_OAT_PROPERTY_EDITOR_MODEL,
-            payload: modelCopy
-        });
+            dispatch({
+                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                payload: modelCopy
+            });
+        };
+
+        execute(
+            () => update(),
+            () => {
+                const modelCopy = deepCopy(model);
+                dispatch({
+                    type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                    payload: modelCopy
+                });
+            }
+        );
+
         setModalBody(null);
         setModalOpen(false);
     };

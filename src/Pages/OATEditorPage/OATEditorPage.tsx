@@ -73,10 +73,8 @@ const OATEditorPage = ({ theme }) => {
                     <OATHeader
                         elements={state.models}
                         dispatch={dispatch}
-                        modified={state.modified}
                         state={state}
                     />
-                    <OATGraphViewer state={state} dispatch={dispatch} />
                     <div
                         className={
                             state.templatesActive
@@ -88,6 +86,7 @@ const OATEditorPage = ({ theme }) => {
                             elements={state.models}
                             dispatch={dispatch}
                             modified={state.modified}
+                            state={state}
                         />
                         <OATGraphViewer state={state} dispatch={dispatch} />
                         <OATPropertyEditor

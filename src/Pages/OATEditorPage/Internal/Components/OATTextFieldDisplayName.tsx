@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { TextField } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import {
@@ -9,6 +9,7 @@ import {
 import { SET_OAT_PROPERTY_EDITOR_MODEL } from '../../../../Models/Constants/ActionTypes';
 import { getModelPropertyListItemName } from '../../../../Components/OATPropertyEditor/Utils';
 import { deepCopy } from '../../../../Models/Services/Utils';
+import { CommandHistoryContext } from '../Context/CommandHistoryContext';
 
 type IOATTexField = {
     autoFocus?: boolean;
@@ -39,6 +40,7 @@ const OATTextFieldDisplayName = ({
     styles
 }: IOATTexField) => {
     const { t } = useTranslation();
+    const { execute } = useContext(CommandHistoryContext);
     const [displayNameLengthError, setDisplayNameLengthError] = useState(null);
     const [temporaryValue, setTemporaryValue] = useState(displayName);
 
@@ -58,8 +60,8 @@ const OATTextFieldDisplayName = ({
     }, [displayName]);
 
     const onCommitChange = () => {
-        onCommit();
-        if (!displayNameLengthError) {
+        const commit = () => {
+            onCommit();
             // Update model
             const modelCopy = deepCopy(model);
             modelCopy.displayName = temporaryValue;
@@ -68,11 +70,25 @@ const OATTextFieldDisplayName = ({
                 payload: modelCopy
             });
             setDisplayName(temporaryValue);
+        };
+
+        if (!displayNameLengthError) {
+            execute(
+                () => commit(),
+                () => {
+                    const modelCopy = deepCopy(model);
+                    dispatch({
+                        type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                        payload: modelCopy
+                    });
+                }
+            );
         } else {
             setTemporaryValue(getModelPropertyListItemName(model.displayName));
             setDisplayName(getModelPropertyListItemName(model.displayName));
             setDisplayNameLengthError(false);
         }
+        document.activeElement.blur();
     };
 
     const onKeyDown = (event) => {

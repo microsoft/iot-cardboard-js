@@ -188,7 +188,7 @@ const PropertySelector = ({
         const modelCopy = deepCopy(model);
         const schemaCopy = deepCopy(lastPropertyFocusedCopy.item.schema);
         // We select the last property focused to add nested propertyes to that specific property
-        schemaCopy.fields.push({
+        const newProperty = {
             name: `${t('OATPropertyEditor.property')}_${
                 schemaCopy.fields.length + 1
             }`,
@@ -196,7 +196,8 @@ const PropertySelector = ({
                 schemaCopy.fields.length + 1
             }`,
             schema: tag
-        });
+        };
+        schemaCopy.fields.push(newProperty);
 
         modelCopy[propertiesKeyName][
             lastPropertyFocused.index

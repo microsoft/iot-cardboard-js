@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import {
     TextField,
     Text,
@@ -40,6 +40,7 @@ import {
     DTDLNameRegex,
     OATNameLengthLimit
 } from '../../Models/Constants/Constants';
+import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 
 const multiLanguageOptionValue = 'multiLanguage';
 const singleLanguageOptionValue = 'singleLanguage';
@@ -66,6 +67,7 @@ export const FormAddEnumItem = ({
     languages
 }: IModal) => {
     const { t } = useTranslation();
+    const { execute } = useContext(CommandHistoryContext);
     const propertyInspectorStyles = getPropertyInspectorStyles();
     const columnLeftTextStyles = getModalLabelStyles();
     const textFieldStyles = getModalTextFieldStyles();
@@ -162,35 +164,51 @@ export const FormAddEnumItem = ({
     };
 
     const handleAddEnumValue = () => {
-        const activeItem =
-            model[propertiesKeyName][currentPropertyIndex].schema.enumValues;
-        const prop = {
-            '@id': id ? `dtmi:com:adt:${id};` : 'dtmi:com:adt:enum;',
-            name: name ? name : activeItem.name,
-            description:
-                languageSelectionDescription === singleLanguageOptionValue
-                    ? description
+        const update = () => {
+            const activeItem =
+                model[propertiesKeyName][currentPropertyIndex].schema
+                    .enumValues;
+            const prop = {
+                '@id': id ? `dtmi:com:adt:${id};` : 'dtmi:com:adt:enum;',
+                name: name ? name : activeItem.name,
+                description:
+                    languageSelectionDescription === singleLanguageOptionValue
                         ? description
-                        : activeItem.description
-                    : multiLanguageSelectionsDescription,
-            displayName:
-                languageSelection === singleLanguageOptionValue
-                    ? displayName
+                            ? description
+                            : activeItem.description
+                        : multiLanguageSelectionsDescription,
+                displayName:
+                    languageSelection === singleLanguageOptionValue
                         ? displayName
-                        : 'enum_item'
-                    : multiLanguageSelectionsDisplayName,
-            enumValue: enumValue ? enumValue : activeItem.enumValue,
-            comment: comment ? comment : activeItem.comment
+                            ? displayName
+                            : 'enum_item'
+                        : multiLanguageSelectionsDisplayName,
+                enumValue: enumValue ? enumValue : activeItem.enumValue,
+                comment: comment ? comment : activeItem.comment
+            };
+
+            const modelCopy = deepCopy(model);
+            modelCopy[propertiesKeyName][
+                currentPropertyIndex
+            ].schema.enumValues.push(prop);
+
+            dispatch({
+                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                payload: modelCopy
+            });
         };
 
-        const modelCopy = deepCopy(model);
-        modelCopy[propertiesKeyName][
-            currentPropertyIndex
-        ].schema.enumValues.push(prop);
-        dispatch({
-            type: SET_OAT_PROPERTY_EDITOR_MODEL,
-            payload: modelCopy
-        });
+        execute(
+            () => update(),
+            () => {
+                const modelCopy = deepCopy(model);
+                dispatch({
+                    type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                    payload: modelCopy
+                });
+            }
+        );
+
         setModalOpen(false);
         setModalBody(null);
     };

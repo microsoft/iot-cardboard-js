@@ -154,15 +154,31 @@ export const PropertyList = ({
     };
 
     const handlePropertyDisplayNameChange = (value, index) => {
-        const newModel = deepCopy(model);
-        if (index === undefined) {
-            newModel[propertiesKeyName][
-                currentPropertyIndex
-            ].displayName = value;
-        } else {
-            newModel[propertiesKeyName][index].displayName = value;
-        }
-        dispatch({ type: SET_OAT_PROPERTY_EDITOR_MODEL, payload: newModel });
+        const update = () => {
+            const newModel = deepCopy(model);
+            if (index === undefined) {
+                newModel[propertiesKeyName][
+                    currentPropertyIndex
+                ].displayName = value;
+            } else {
+                newModel[propertiesKeyName][index].displayName = value;
+            }
+            dispatch({
+                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                payload: newModel
+            });
+        };
+
+        execute(
+            () => update(),
+            () => {
+                const modelCopy = deepCopy(model);
+                dispatch({
+                    type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                    payload: modelCopy
+                });
+            }
+        );
     };
 
     const generateErrorMessage = (value, index) => {

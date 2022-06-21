@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import Editor from '@monaco-editor/react';
 import { Theme } from '../../Models/Constants/Enums';
 import { useLibTheme } from '../../Theming/ThemeProvider';
@@ -15,7 +15,8 @@ import {
     getCancelButtonStyles,
     getSaveButtonStyles
 } from './OATPropertyEditor.styles';
-import { parseModel } from '../../Models/Services/Utils';
+import { deepCopy, parseModel } from '../../Models/Services/Utils';
+import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 
 type JSONEditorProps = {
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
@@ -25,6 +26,7 @@ type JSONEditorProps = {
 
 const JSONEditor = ({ dispatch, theme, state }: JSONEditorProps) => {
     const { t } = useTranslation();
+    const { execute } = useContext(CommandHistoryContext);
     const libTheme = useLibTheme();
     const themeToUse = (libTheme || theme) ?? Theme.Light;
     const editorRef = useRef(null);
@@ -80,14 +82,27 @@ const JSONEditor = ({ dispatch, theme, state }: JSONEditorProps) => {
     };
 
     const onSaveClick = async () => {
-        const newModel = isJsonStringValid(content);
-        const validJson = await parseModel(content);
-        if (!validJson) {
+        const save = () => {
             dispatch({
                 type: SET_OAT_PROPERTY_EDITOR_MODEL,
                 payload: newModel
             });
             dispatch({ type: SET_OAT_MODIFIED, payload: false });
+        };
+
+        const newModel = isJsonStringValid(content);
+        const validJson = await parseModel(content);
+        if (!validJson) {
+            execute(
+                () => save(),
+                () => {
+                    const modelCopy = deepCopy(model);
+                    dispatch({
+                        type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                        payload: modelCopy
+                    });
+                }
+            );
         } else {
             dispatch({
                 type: SET_OAT_ERROR,
