@@ -30,7 +30,9 @@ export const CardboardListItem = <T extends unknown>(
         textPrimary,
         textSecondary,
         textToHighlight,
-        onClick
+        onClick,
+        draggable,
+        onDragStart
     } = props;
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const showCheckbox = isChecked === true || isChecked === false;
@@ -95,6 +97,8 @@ export const CardboardListItem = <T extends unknown>(
                     styles={buttonStyles}
                     onClick={onButtonClick}
                     onKeyPress={onButtonKeyPress}
+                    draggable={draggable}
+                    onDragStart={draggable ? onDragStart : undefined}
                 >
                     {showNotValidIcon && (
                         <span className={classNames.alertDot} />

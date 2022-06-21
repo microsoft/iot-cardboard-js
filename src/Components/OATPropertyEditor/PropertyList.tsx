@@ -132,6 +132,7 @@ export const PropertyList = ({
     };
 
     const handleDragStart = (e, propertyIndex) => {
+        console.log('e', e);
         dragItem.current = propertyIndex;
         dragNode.current = e.target;
         dragNode.current.addEventListener('dragend', handleDragEnd);
@@ -268,6 +269,10 @@ export const PropertyList = ({
         });
     };
 
+    const handleItemDragStart = () => {
+        console.log('dragging');
+    };
+
     const getListItems = useMemo(() => {
         const listItemOnClick = (item) => {
             setCurrentPropertyIndex(item.index);
@@ -325,11 +330,15 @@ export const PropertyList = ({
                     id: item['@id'],
                     displayName: item.displayName,
                     index: index
+                    // draggable: true,
+                    // onDragStart: () => handleItemDragStart()
                 },
                 onClick: listItemOnClick,
                 overflowMenuItems: getMenuItems(item, index),
                 textPrimary: item.displayName,
-                textSecondary: item.schema.toString()
+                textSecondary: item.schema.toString(),
+                draggable: true,
+                onDragStart: (e) => handleDragStart(e, index)
             };
             return viewModel;
         });
@@ -368,9 +377,27 @@ export const PropertyList = ({
                 </div>
             )}
 
+            <div
+                draggable
+                onDragStart={(e) => {
+                    handleItemDragStart();
+                }}
+                style={{ width: '100%', height: '40px', background: 'black' }}
+            >
+                <span>span</span>
+            </div>
+
             <CardboardList<IOATProperty>
                 items={propertyListItems}
                 listKey={'properties'}
+                listProps={
+                    {
+                        // draggable: true,
+                        // onDragStart: (e) => {
+                        //     handleDragStart(e, currentPropertyIndex);
+                        // }
+                    }
+                }
             />
 
             {propertyList && propertyList.length > 0 && (
