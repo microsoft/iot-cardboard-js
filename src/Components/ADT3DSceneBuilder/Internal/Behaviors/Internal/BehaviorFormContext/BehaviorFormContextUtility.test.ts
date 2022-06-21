@@ -4,6 +4,7 @@ import {
     VisualType
 } from '../../../../../../Models/Classes/3DVConfig';
 import ViewerConfigUtility from '../../../../../../Models/Classes/ViewerConfigUtility';
+import { IConsoleLogFunction } from '../../../../../../Models/Constants';
 import { deepCopy } from '../../../../../../Models/Services/Utils';
 import {
     IBehavior,
@@ -12,13 +13,22 @@ import {
 } from '../../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { GET_MOCK_BEHAVIOR_FORM_STATE } from './BehaviorFormContext.mock';
 import { IBehaviorFormContextState } from './BehaviorFormContext.types';
-import { RemoveWidgetFromBehaviorById } from './BehaviorFormContextUtility';
-import { CreateNewBehavior, isStateDirty } from './BehaviorFormContextUtility';
+import {
+    RemoveItemsFromListByFilter,
+    RemoveWidgetFromBehaviorById,
+    CreateNewBehavior,
+    isStateDirty
+} from './BehaviorFormContextUtility';
 
-describe('BehaviorFormContextUtility', () => {
-    afterEach(cleanup);
-    const mockLogger = () => undefined;
+describe('BehaviorFormContextUtility', function MY_TEST_SUITE() {
+    let mockLogger: IConsoleLogFunction;
     const getBehavior = () => deepCopy(defaultBehavior);
+    beforeEach(() => {
+        mockLogger = jest.fn();
+    });
+    afterEach(() => {
+        cleanup();
+    });
     describe('isStateDirty', () => {
         let currentState: IBehaviorFormContextState;
         let initialBehavior: IBehavior;
@@ -258,6 +268,66 @@ describe('BehaviorFormContextUtility', () => {
             );
             expect(popoverVisuals?.length).toEqual(1);
             expect(popoverVisuals[0].widgets.length).toEqual(1);
+        });
+    });
+
+    describe('RemoveItemsFromListByFilter', () => {
+        // ARRANGE
+        interface ITestListItem {
+            id: string;
+            value: number;
+        }
+
+        test('null list does not throw any errors', () => {
+            // ARRANGE
+            const items = null;
+
+            // ACT
+            const result = RemoveItemsFromListByFilter(
+                items,
+                () => true,
+                mockLogger
+            );
+
+            // ASSERT
+            expect(result).toBeFalsy();
+        });
+        test('no matches, returns false and does not change the list', () => {
+            const items: ITestListItem[] = [
+                { id: 'id1', value: 3 },
+                { id: 'id2', value: 5 }
+            ];
+
+            // ACT
+            const result = RemoveItemsFromListByFilter(
+                items,
+                (x: ITestListItem) => x.id === 'something else',
+                mockLogger
+            );
+
+            // ASSERT
+            expect(result).toBeFalsy();
+            expect(items.length).toEqual(2);
+        });
+        test('matched items are removed from the list', () => {
+            // ARRANGE
+            const items: ITestListItem[] = [
+                { id: 'id1', value: 3 },
+                { id: 'id2', value: 8 },
+                { id: 'id3', value: 2 },
+                { id: 'id4', value: 10 }
+            ];
+
+            // ACT
+            const result = RemoveItemsFromListByFilter(
+                items,
+                (x: ITestListItem) => x.value > 4,
+                mockLogger
+            );
+
+            // ASSERT
+            expect(result).toBeTruthy();
+            expect(items.length).toEqual(2);
         });
     });
 });

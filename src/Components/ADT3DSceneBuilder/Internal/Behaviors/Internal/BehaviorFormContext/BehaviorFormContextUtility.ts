@@ -91,10 +91,10 @@ export function RemoveItemsFromListByFilter<T>(
     logger(
         'debug',
         '[START] Removing item from list. {items.length}',
-        items.length
+        items?.length
     );
     // get all items that match
-    const matchedItems = items.filter(predicate);
+    const matchedItems = items?.filter(predicate);
 
     if (!matchedItems?.length) {
         logger(
