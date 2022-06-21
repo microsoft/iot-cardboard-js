@@ -1,14 +1,24 @@
 import { cleanup } from '@testing-library/react';
-import { defaultBehavior } from '../../../../../../Models/Classes/3DVConfig';
+import {
+    defaultBehavior,
+    VisualType
+} from '../../../../../../Models/Classes/3DVConfig';
+import ViewerConfigUtility from '../../../../../../Models/Classes/ViewerConfigUtility';
 import { deepCopy } from '../../../../../../Models/Services/Utils';
-import { IBehavior } from '../../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
+import {
+    IBehavior,
+    IGaugeWidget,
+    IPopoverVisual
+} from '../../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { GET_MOCK_BEHAVIOR_FORM_STATE } from './BehaviorFormContext.mock';
 import { IBehaviorFormContextState } from './BehaviorFormContext.types';
-import { isStateDirty } from './BehaviorFormContextUtility';
+import { RemoveWidgetFromBehaviorById } from './BehaviorFormContextUtility';
+import { CreateNewBehavior, isStateDirty } from './BehaviorFormContextUtility';
 
 describe('BehaviorFormContextUtility', () => {
     afterEach(cleanup);
     const mockLogger = () => undefined;
+    const getBehavior = () => deepCopy(defaultBehavior);
     describe('isStateDirty', () => {
         let currentState: IBehaviorFormContextState;
         let initialBehavior: IBehavior;
@@ -127,6 +137,127 @@ describe('BehaviorFormContextUtility', () => {
 
             // ASSERT
             expect(result).toBeTruthy();
+        });
+    });
+
+    describe('Create New Behavior', () => {
+        test('should have default values', () => {
+            // ARRANGE
+
+            // ACT
+            const result = CreateNewBehavior();
+
+            // ASSERT
+            expect(result.id.length).toBeGreaterThan(0); // check the ID
+            result.id = ''; // clear the id since it'll get a random value
+            expect(JSON.stringify(result)).toEqual(
+                JSON.stringify(defaultBehavior)
+            );
+        });
+    });
+
+    describe('RemoveWidgetFromBehaviorById', () => {
+        const getPopover = (): IPopoverVisual => {
+            return {
+                objectIDs: { expression: '' },
+                title: 'popover title',
+                type: VisualType.Popover,
+                widgets: []
+            };
+        };
+        const getWidget = (id: string): IGaugeWidget => {
+            return {
+                id: id,
+                type: 'Gauge',
+                valueExpression: 'testExpression > 0',
+                widgetConfiguration: {
+                    label: 'widget label',
+                    valueRanges: [
+                        {
+                            id: 'rangeId1',
+                            values: [100, 150],
+                            visual: {
+                                color: 'blue'
+                            }
+                        }
+                    ]
+                }
+            };
+        };
+        test('should silently pass when no popover visual exists on the behavior', () => {
+            // ARRANGE
+            const behavior = getBehavior();
+            behavior.visuals = [];
+            const widgetId = 'test id';
+
+            // ACT
+            RemoveWidgetFromBehaviorById(behavior, widgetId, mockLogger);
+
+            // ASSERT
+            const popoverVisuals = behavior.visuals.filter(
+                ViewerConfigUtility.isPopoverVisual
+            );
+            expect(popoverVisuals.length).toEqual(0);
+        });
+        test('should silently pass when popover visual exists but has no widgets', () => {
+            // ARRANGE
+            const popover = getPopover();
+            popover.widgets = [];
+
+            const behavior = getBehavior();
+            behavior.visuals = [popover];
+
+            const widgetId = 'test id';
+
+            // ACT
+            RemoveWidgetFromBehaviorById(behavior, widgetId, mockLogger);
+
+            // ASSERT
+            const popoverVisuals = behavior.visuals.filter(
+                ViewerConfigUtility.isPopoverVisual
+            );
+            expect(popoverVisuals?.length).toEqual(1);
+            expect(popoverVisuals[0].widgets.length).toEqual(0);
+        });
+        test('should silently pass when popover visual exists with widgets but none that match the id provided', () => {
+            // ARRANGE
+            const popover = getPopover();
+            popover.widgets = [getWidget('test widget 1')];
+
+            const behavior = getBehavior();
+            behavior.visuals = [popover];
+
+            const widgetId = 'test id';
+
+            // ACT
+            RemoveWidgetFromBehaviorById(behavior, widgetId, mockLogger);
+
+            // ASSERT
+            const popoverVisuals = behavior.visuals.filter(
+                ViewerConfigUtility.isPopoverVisual
+            );
+            expect(popoverVisuals?.length).toEqual(1);
+            expect(popoverVisuals[0].widgets.length).toEqual(1);
+        });
+        test('should remove the widget with a matching id', () => {
+            // ARRANGE
+            const widgetId = 'test id';
+
+            const popover = getPopover();
+            popover.widgets = [getWidget('test widget 1'), getWidget(widgetId)];
+
+            const behavior = getBehavior();
+            behavior.visuals = [popover];
+
+            // ACT
+            RemoveWidgetFromBehaviorById(behavior, widgetId, mockLogger);
+
+            // ASSERT
+            const popoverVisuals = behavior.visuals.filter(
+                ViewerConfigUtility.isPopoverVisual
+            );
+            expect(popoverVisuals?.length).toEqual(1);
+            expect(popoverVisuals[0].widgets.length).toEqual(1);
         });
     });
 });
