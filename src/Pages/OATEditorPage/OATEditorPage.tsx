@@ -16,6 +16,7 @@ import {
     saveFiles
 } from '../../Components/OATHeader/internal/Utils';
 import OATErrorPage from './Internal/OATErrorPage';
+import OATConfirmDeleteWrapper from './Internal/OATConfirmDeleteWrapper';
 import {
     getStoredEditorData,
     storeEditorData
@@ -93,6 +94,7 @@ const OATEditorPage = ({ theme }) => {
                 </div>
             </div>
             <OATErrorHandlingWrapper state={state} dispatch={dispatch} />
+            <OATConfirmDeleteWrapper state={state} dispatch={dispatch} />
         </ErrorBoundary>
     );
 };
