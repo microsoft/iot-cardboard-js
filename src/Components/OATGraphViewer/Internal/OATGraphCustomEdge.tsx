@@ -79,18 +79,19 @@ const getInheritancePolygon = (
     heightVector,
     verticalPolygon
 ) => {
+    // The multipliers was removed to prevent auto adjusting the polygon
     const vertexAX = verticalPolygon
-        ? polygonTargetX + offsetSmall * baseVector
-        : polygonTargetX + offsetMedium * baseVector;
+        ? polygonTargetX + offsetSmall
+        : polygonTargetX + offsetMedium;
     const vertexAY = verticalPolygon
-        ? polygonTargetY + offsetMedium * heightVector
-        : polygonTargetY + offsetSmall * heightVector;
+        ? polygonTargetY + offsetMedium
+        : polygonTargetY + offsetSmall;
     const vertexBX = verticalPolygon
-        ? polygonTargetX - offsetSmall * baseVector
-        : polygonTargetX + offsetMedium * baseVector;
+        ? polygonTargetX - offsetSmall
+        : polygonTargetX + offsetMedium;
     const vertexBY = verticalPolygon
-        ? polygonTargetY + offsetMedium * heightVector
-        : polygonTargetY - offsetSmall * heightVector;
+        ? polygonTargetY + offsetMedium
+        : polygonTargetY - offsetSmall;
     const vertexCX = polygonTargetX;
     const vertexCY = polygonTargetY;
     return getPolygon([
@@ -291,7 +292,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
         let relationshipPolygon = '';
         let edgePathTargetX = 0;
         let edgePathTargetY = 0;
-        // Using triangulated conection position to create inheritance and relationship polygons and angles to define orientation
+        // Using triangulated connection position to create inheritance and relationship polygons and angles to define orientation
         if (betaAngle < targetBetaAngle) {
             newHeight = targetHeight + adjustmentTargetY * heightVector;
             const newHypotenuse = newHeight / Math.sin(alphaAngle);
@@ -305,7 +306,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                 polygonTargetY,
                 baseVector,
                 heightVector,
-                true
+                false // Prevent auto adjustment of inheritance polygon
             );
             relationshipPolygon = getRelationshipPolygon(
                 polygonTargetX,
@@ -463,7 +464,36 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                 adjustmentTargetX,
                 adjustmentTargetY
             );
-            polygons = { ...polygons, ...targetComponents };
+
+            const getDegreeAngleFromCoordinates = (cx, cy, ex, ey) => {
+                const dy = ey - cy;
+                const dx = ex - cx;
+                let theta = Math.atan2(dy, dx); // range (-PI, PI]
+                theta *= 180 / Math.PI; // rads to degs, range (-180, 180]
+                //if (theta < 0) theta = 360 + theta; // range [0, 360)
+                return theta;
+            };
+
+            const angleBetweenNodes = getDegreeAngleFromCoordinates(
+                adjustedSourceX,
+                adjustedSourceY,
+                targetComponents.polygonTargetX,
+                targetComponents.polygonTargetY
+            );
+
+            let alphaAngleForPolygon = alphaAngle;
+            if (targetX < sourceX) {
+                alphaAngleForPolygon = alphaAngleForPolygon * 1;
+            } else {
+                alphaAngleForPolygon = alphaAngleForPolygon * -1;
+            }
+
+            polygons = {
+                ...polygons,
+                ...targetComponents,
+                angleBetweenNodes,
+                alphaAngleForPolygon
+            };
         }
         return polygons;
     }, [id, source, sourceX, sourceY, targetX, targetY]);
@@ -649,6 +679,11 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                     r={3}
                     strokeWidth={1.5}
                     className={graphViewerStyles.inheritanceShape}
+                    style={{
+                        transform: `rotate(${polygons.alphaAngleForPolygon}rad)`,
+                        transformBox: 'fill-box',
+                        transformOrigin: 'center'
+                    }}
                 />
             )}
             {(data.type === OATRelationshipHandleName ||
