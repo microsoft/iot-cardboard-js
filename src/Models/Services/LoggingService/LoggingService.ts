@@ -6,11 +6,11 @@ class LoggingService {
     constructor({ context, enabled }: ILoggingServiceParams) {
         this.context = context;
         this.enabled = enabled;
-        this.log.bind(this);
+        this.log = this.log.bind(this);
     }
 
     log(level: LogLevel = 'info', message: string, ...args: unknown[]) {
-        if (!this.enabled) return;
+        if (!this?.enabled) return;
 
         const formattedMessage = [
             `%c${this.context}:`,
