@@ -16,15 +16,18 @@ import {
     OATComponentHandleName,
     OATExtendHandleName
 } from '../../../Models/Constants/Constants';
-import { SET_OAT_PROPERTY_EDITOR_MODEL } from '../../../Models/Constants/ActionTypes';
-import { ModelTypes } from '../../../Models/Constants/Enums';
+import {
+    SET_OAT_PROPERTY_EDITOR_MODEL,
+    SET_OAT_DELETED_MODEL_ID,
+    SET_OAT_CONFIRM_DELETE_OPEN
+} from '../../../Models/Constants/ActionTypes';
 import { DTDLRelationship } from '../../../Models/Classes/DTDL';
 import { getPropertyDisplayName } from '../../OATPropertyEditor/Utils';
 import { IOATGraphCustomEdgeProps } from '../../../Models/Constants';
 import OATTextFieldName from '../../../Pages/OATEditorPage/Internal/Components/OATTextFieldName';
 
 const foreignObjectSize = 180;
-const foreignObjectSizeExtendRelation = 80;
+const foreignObjectSizeExtendRelation = 50;
 const offsetSmall = 5;
 const offsetMedium = 10;
 const sourceDefaultHeight = 6;
@@ -184,11 +187,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
     }, [edge, nodes]);
 
     useEffect(() => {
-        if (
-            nameEditor &&
-            (!model || model['@id'] !== id) &&
-            data.type !== OATExtendHandleName
-        ) {
+        if (nameEditor && (!model || model['@id'] !== id)) {
             setNameEditor(false);
         }
     }, [id, model, nameEditor]);
@@ -466,37 +465,27 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
 
     const onNameClick = () => {
         setNameEditor(true);
-        if (
-            polygons.element.data.type !== ModelTypes.relationship &&
-            polygons.element.data.type !== ModelTypes.untargeted &&
-            polygons.element.data.type !== ModelTypes.component
-        ) {
-            setCurrentNode(null);
-            dispatch({
-                type: SET_OAT_PROPERTY_EDITOR_MODEL,
-                payload: null
-            });
-        } else {
-            const relationship = new DTDLRelationship(
-                polygons.element.data.id,
-                nameText,
-                polygons.element.data.displayName,
-                polygons.element.data.description,
-                polygons.element.data.comment,
-                polygons.element.data.writable,
-                polygons.element.data.content
-                    ? polygons.element.data.content
-                    : [],
-                polygons.element.data.target,
-                polygons.element.data.maxMultiplicity
-            );
 
-            setCurrentNode(polygons.element.id);
-            dispatch({
-                type: SET_OAT_PROPERTY_EDITOR_MODEL,
-                payload: relationship
-            });
+        const relationship = new DTDLRelationship(
+            polygons.element.data.id,
+            nameText,
+            polygons.element.data.displayName,
+            polygons.element.data.description,
+            polygons.element.data.comment,
+            polygons.element.data.writable,
+            polygons.element.data.content ? polygons.element.data.content : [],
+            polygons.element.data.target,
+            polygons.element.data.maxMultiplicity
+        );
+
+        if (polygons.element.data.type === OATExtendHandleName) {
+            relationship['@type'] = OATExtendHandleName;
         }
+        setCurrentNode(polygons.element.id);
+        dispatch({
+            type: SET_OAT_PROPERTY_EDITOR_MODEL,
+            payload: relationship
+        });
     };
 
     const edgePath = useMemo(() => {
@@ -514,13 +503,16 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
 
     const onDelete = () => {
         if (!state.modified) {
-            const elementsToRemove = [
-                {
-                    id: data.id
-                }
-            ];
-            setElements((els) => removeElements(elementsToRemove, els));
-            dispatch({ type: SET_OAT_PROPERTY_EDITOR_MODEL, payload: null });
+            const dispatchDelete = () => {
+                dispatch({
+                    type: SET_OAT_DELETED_MODEL_ID,
+                    payload: data.id
+                });
+            };
+            dispatch({
+                type: SET_OAT_CONFIRM_DELETE_OPEN,
+                payload: { open: true, callback: dispatchDelete }
+            });
         }
     };
 

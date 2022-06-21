@@ -12,7 +12,6 @@ import { IAction } from '../../../Models/Constants/Interfaces';
 import { SET_OAT_NAMESPACE } from '../../../Models/Constants/ActionTypes';
 import { getHeaderStyles } from '../OATHeader.styles';
 import { IOATEditorState } from '../../../Pages/OATEditorPage/OATEditorPage.types';
-import { OATNamespaceDefaultValue } from '../../../Models/Constants/Constants';
 
 interface IModal {
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;

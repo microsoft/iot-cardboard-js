@@ -1,5 +1,10 @@
-import React, { useRef, useState } from 'react';
-import { FontIcon, ActionButton, Text } from '@fluentui/react';
+import React, { useRef, useState, useEffect, useMemo } from 'react';
+import {
+    FontIcon,
+    ActionButton,
+    Text,
+    IContextualMenuItem
+} from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
 import { deepCopy } from '../../Models/Services/Utils';
@@ -9,14 +14,22 @@ import PropertySelector from './PropertySelector';
 import AddPropertyBar from './AddPropertyBar';
 import {
     SET_OAT_PROPERTY_EDITOR_MODEL,
-    SET_OAT_TEMPLATES
+    SET_OAT_TEMPLATES,
+    SET_OAT_CONFIRM_DELETE_OPEN
 } from '../../Models/Constants/ActionTypes';
-import { DTDLProperty, IAction } from '../../Models/Constants/Interfaces';
+import {
+    DTDLProperty,
+    IAction,
+    IOATProperty
+} from '../../Models/Constants/Interfaces';
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 import {
     getModelPropertyCollectionName,
     shouldClosePropertySelectorOnMouseLeave
 } from './Utils';
+import { CardboardList } from '../CardboardList/CardboardList';
+import { ICardboardListItem } from '../CardboardList/CardboardList.types';
+import { FormBody } from './Constants';
 
 type IPropertyList = {
     currentPropertyIndex: number;
@@ -42,7 +55,6 @@ export const PropertyList = ({
     enteredTemplateRef,
     draggingProperty,
     setDraggingProperty,
-    setCurrentNestedPropertyIndex,
     setModalBody,
     currentPropertyIndex,
     dispatch,
@@ -67,6 +79,9 @@ export const PropertyList = ({
         propertySelectorTriggerElementsBoundingBox,
         setPropertySelectorTriggerElementsBoundingBox
     ] = useState(null);
+    const [propertyListItems, setPropertyListItems] = useState<
+        ICardboardListItem<IOATProperty>[]
+    >([]);
     const { model, templates } = state;
 
     const propertiesKeyName = getModelPropertyCollectionName(
@@ -183,7 +198,16 @@ export const PropertyList = ({
         setLastPropertyFocused(null);
         const newModel = deepCopy(model);
         newModel[propertiesKeyName].splice(index, 1);
-        dispatch({ type: SET_OAT_PROPERTY_EDITOR_MODEL, payload: newModel });
+        const dispatchDelete = () => {
+            dispatch({
+                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                payload: newModel
+            });
+        };
+        dispatch({
+            type: SET_OAT_CONFIRM_DELETE_OPEN,
+            payload: { open: true, callback: dispatchDelete }
+        });
     };
 
     const handleSelectorPosition = (e) => {
@@ -221,6 +245,97 @@ export const PropertyList = ({
         handleSelectorPosition(e);
     };
 
+    const handleTemplateAddition = (item) => {
+        dispatch({
+            type: SET_OAT_TEMPLATES,
+            payload: [...templates, item]
+        });
+    };
+
+    const handleDuplicate = (item) => {
+        const itemCopy = deepCopy(item);
+        itemCopy.name = `${itemCopy.name}_${t('OATPropertyEditor.copy')}`;
+        itemCopy.displayName = `${itemCopy.displayName}_${t(
+            'OATPropertyEditor.copy'
+        )}`;
+        itemCopy['@id'] = `${itemCopy['@id']}_${t('OATPropertyEditor.copy')}`;
+
+        const modelCopy = deepCopy(model);
+        modelCopy[propertiesKeyName].push(itemCopy);
+        dispatch({
+            type: SET_OAT_PROPERTY_EDITOR_MODEL,
+            payload: modelCopy
+        });
+    };
+
+    const getListItems = useMemo(() => {
+        const listItemOnClick = (item) => {
+            setCurrentPropertyIndex(item.index);
+            setModalOpen(true);
+            setModalBody(FormBody.property);
+        };
+        const getMenuItems = (
+            item: DTDLProperty,
+            index: number
+        ): IContextualMenuItem[] => {
+            return [
+                {
+                    key: 'edit',
+                    text: t('OATPropertyEditor.addToTemplate'),
+                    iconProps: {
+                        iconName: 'Add',
+                        className:
+                            propertyInspectorStyles.propertySubMenuItemIcon
+                    },
+                    onClick: () => handleTemplateAddition(item),
+                    id: 'addOverflow',
+                    'data-testid': 'addOverflow'
+                },
+                {
+                    key: 'manageLayers',
+                    text: t('OATPropertyEditor.duplicate'),
+                    iconProps: {
+                        iconName: 'Copy',
+                        className:
+                            propertyInspectorStyles.propertySubMenuItemIcon
+                    },
+                    onClick: () => handleDuplicate(item),
+                    id: 'duplicateOverflow',
+                    'data-testid': 'duplicateOverflow'
+                },
+                {
+                    key: 'removeFromThisScene',
+                    text: t('OATPropertyEditor.remove'),
+                    iconProps: {
+                        iconName: 'Delete',
+                        className:
+                            propertyInspectorStyles.propertySubMenuItemIconRemove
+                    },
+                    onClick: () => deleteItem(index),
+                    id: 'removeOverflow',
+                    'data-testid': 'removeOverflow'
+                }
+            ];
+        };
+        const properties = propertyList.map((item, index) => {
+            const viewModel: ICardboardListItem<IOATProperty> = {
+                ariaLabel: t('OATPropertyEditor.info'),
+                iconStart: { name: 'info' },
+                item: {
+                    id: item['@id'],
+                    displayName: item.displayName,
+                    index: index
+                },
+                onClick: listItemOnClick,
+                overflowMenuItems: getMenuItems(item, index),
+                textPrimary: item.displayName,
+                textSecondary: item.schema.toString()
+            };
+            return viewModel;
+        });
+        setPropertyListItems(properties);
+    }, [propertyList]);
+
     return (
         <div className={propertyInspectorStyles.propertiesWrap}>
             {model && propertyList && propertyList.length === 0 && (
@@ -253,80 +368,10 @@ export const PropertyList = ({
                 </div>
             )}
 
-            {model &&
-                model[propertiesKeyName] &&
-                model[propertiesKeyName].length > 0 &&
-                model[propertiesKeyName].map((item, i) => {
-                    if (typeof item.schema === 'object') {
-                        return (
-                            <PropertyListItemNest
-                                key={i}
-                                index={i}
-                                draggingProperty={draggingProperty}
-                                getItemClassName={getNestItemClassName}
-                                getNestedItemClassName={getNestedItemClassName}
-                                getErrorMessage={generateErrorMessage}
-                                handlePropertyDisplayNameChange={
-                                    handlePropertyDisplayNameChange
-                                }
-                                handleDragEnter={handleDragEnter}
-                                handleDragEnterExternalItem={
-                                    handleDragEnterExternalItem
-                                }
-                                handleDragStart={handleDragStart}
-                                setCurrentPropertyIndex={
-                                    setCurrentPropertyIndex
-                                }
-                                item={item}
-                                lastPropertyFocused={lastPropertyFocused}
-                                setLastPropertyFocused={setLastPropertyFocused}
-                                setCurrentNestedPropertyIndex={
-                                    setCurrentNestedPropertyIndex
-                                }
-                                setModalOpen={setModalOpen}
-                                setModalBody={setModalBody}
-                                dispatch={dispatch}
-                                state={state}
-                                deleteItem={deleteItem}
-                                setPropertySelectorVisible={
-                                    setPropertySelectorVisible
-                                }
-                                propertySelectorTriggerElementsBoundingBox={
-                                    propertySelectorTriggerElementsBoundingBox
-                                }
-                                handleSelectorPosition={handleSelectorPosition}
-                            />
-                        );
-                    } else if (typeof item['@type'] === 'object') {
-                        return (
-                            <PropertyListItem
-                                key={i}
-                                index={i}
-                                draggingProperty={draggingProperty}
-                                getItemClassName={getItemClassName}
-                                getErrorMessage={generateErrorMessage}
-                                handlePropertyDisplayNameChange={
-                                    handlePropertyDisplayNameChange
-                                }
-                                handleDragEnter={handleDragEnter}
-                                handleDragEnterExternalItem={
-                                    handleDragEnterExternalItem
-                                }
-                                handleDragStart={handleDragStart}
-                                setCurrentPropertyIndex={
-                                    setCurrentPropertyIndex
-                                }
-                                setModalOpen={setModalOpen}
-                                item={item}
-                                setLastPropertyFocused={setLastPropertyFocused}
-                                setModalBody={setModalBody}
-                                deleteItem={deleteItem}
-                                dispatch={dispatch}
-                                state={state}
-                            />
-                        );
-                    }
-                })}
+            <CardboardList<IOATProperty>
+                items={propertyListItems}
+                listKey={'properties'}
+            />
 
             {propertyList && propertyList.length > 0 && (
                 <div

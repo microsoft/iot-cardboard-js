@@ -15,7 +15,11 @@ import {
     OATExtendHandleName,
     OATUntargetedRelationshipName
 } from '../../../Models/Constants/Constants';
-import { SET_OAT_PROPERTY_EDITOR_MODEL } from '../../../Models/Constants/ActionTypes';
+import {
+    SET_OAT_PROPERTY_EDITOR_MODEL,
+    SET_OAT_DELETED_MODEL_ID,
+    SET_OAT_CONFIRM_DELETE_OPEN
+} from '../../../Models/Constants/ActionTypes';
 import { getPropertyDisplayName } from '../../OATPropertyEditor/Utils';
 import OATTextFieldDisplayName from '../../../Pages/OATEditorPage/Internal/Components/OATTextFieldDisplayName';
 import OATTextFieldId from '../../../Pages/OATEditorPage/Internal/Components/OATTextFieldId';
@@ -63,14 +67,16 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
 
     const onDelete = () => {
         if (!state.modified) {
-            const elementsToRemove = [
-                {
-                    id: data.id
-                }
-            ];
-
-            setElements((els) => removeElements(elementsToRemove, els));
-            dispatch({ type: SET_OAT_PROPERTY_EDITOR_MODEL, payload: null });
+            const dispatchDelete = () => {
+                dispatch({
+                    type: SET_OAT_DELETED_MODEL_ID,
+                    payload: data.id
+                });
+            };
+            dispatch({
+                type: SET_OAT_CONFIRM_DELETE_OPEN,
+                payload: { open: true, callback: dispatchDelete }
+            });
         }
     };
 
