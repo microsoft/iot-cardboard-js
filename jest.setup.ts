@@ -22,15 +22,3 @@ jest.mock('./src/Models/Services/Utils', () => {
     actual.createGuid = () => MOCK_GUID;
     return actual;
 });
-
-// mock the global window object
-globalThis.window = {
-    ...globalThis.window,
-    location: {
-        ...globalThis.window?.location,
-        assign: jest.fn(),
-        href: 'http://testUrl.com',
-        reload: jest.fn(),
-        replace: jest.fn()
-    } as any
-} as Window & typeof globalThis;
