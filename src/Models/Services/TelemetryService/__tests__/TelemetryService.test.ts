@@ -5,7 +5,7 @@ import {
     Telemetry,
     TraceTelemetry
 } from '../Telemetry';
-import { TelemetryService } from '../../../..';
+import TelemetryService from '../../../../Models/Services/TelemetryService/TelemetryService';
 import {
     IBaseTelemetryParams,
     IExceptionTelemetryParams,
