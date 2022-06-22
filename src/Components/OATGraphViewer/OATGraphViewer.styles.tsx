@@ -1,10 +1,4 @@
-import {
-    IStyle,
-    mergeStyleSets,
-    useTheme,
-    FontSizes,
-    IRawStyle
-} from '@fluentui/react';
+import { IStyle, mergeStyleSets, useTheme, FontSizes } from '@fluentui/react';
 import { CardboardClassNamePrefix } from '../../Models/Constants';
 
 const classPrefix = `${CardboardClassNamePrefix}-oat-graph-viewer`;
@@ -31,10 +25,20 @@ const classNames = {
     inheritancePath: `${classPrefix}-inheritance-path`,
     inheritanceShape: `${classPrefix}-inheritance-shape`,
     nodeContainer: `${classPrefix}-node-container`,
+    untargetedNodeContainer: `${classPrefix}-untargeted-node-container`,
     graphViewerControls: `${classPrefix}-graph-viewer-controls`,
     graphViewerFiltersWrap: `${classPrefix}-graph-viewer-filters-wrap`,
     graphViewerFiltersKey: `${classPrefix}-graph-viewer-filters-key`,
-    extendCancel: `${classPrefix}-extend-cancel`
+    extendCancel: `${classPrefix}-extend-cancel`,
+    relationshipCTASection: `${classPrefix}-node-container-cta-section`,
+    relationshipNameEditorBody: `${classPrefix}-relationship-name-editor-body`,
+    handleContentExtend: `${classPrefix}-handle-content-extend`,
+    handleContentRelationship: `${classPrefix}-handle-content-relationship`,
+    handleContentUntargeted: `${classPrefix}-handle-content-untargeted`,
+    handleContentComponent: `${classPrefix}-handle-content-component`,
+    handleContentHidden: `${classPrefix}-handle-content-hidden`,
+    handleContentIcon: `${classPrefix}-handle-content-icon`,
+    handleContentIconHidden: `${classPrefix}-handle-content-icon-hidden`
 };
 
 export const getGraphViewerStyles = () => {
@@ -48,22 +52,44 @@ export const getGraphViewerStyles = () => {
                 [`& .${classNames.handle}`]: {
                     background: 'transparent',
                     border: '0px',
-                    left: '60%',
+                    left: '50%',
                     top: '50%'
                 },
                 [`& .${classNames.componentHandleFocus}`]: {
-                    left: '100%',
-                    background: theme.semanticColors.variantBorder
+                    left: '80%',
+                    background: theme.semanticColors.variantBorder,
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    ':hover': {
+                        minWidth: '14px',
+                        minHeight: '14px',
+                        top: '52px',
+                        '& svg': {
+                            pointerEvents: 'none'
+                        }
+                    }
                 },
                 [`& .${classNames.componentHandleHidden}`]: {
-                    left: '60%',
+                    left: '80%',
                     top: '50%',
                     background: 'transparent',
                     border: '0px'
                 },
                 [`& .${classNames.relationshipHandleFocus}`]: {
                     left: '20%',
-                    background: theme.semanticColors.variantBorder
+                    background: theme.semanticColors.variantBorder,
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    ':hover': {
+                        minWidth: '14px',
+                        minHeight: '14px',
+                        top: '52px',
+                        '& svg': {
+                            pointerEvents: 'none'
+                        }
+                    }
                 },
                 [`& .${classNames.relationshipHandleHidden}`]: {
                     left: '60%',
@@ -72,8 +98,21 @@ export const getGraphViewerStyles = () => {
                     border: '0px'
                 },
                 [`& .${classNames.extendHandleFocus}`]: {
-                    left: '70%',
-                    background: theme.semanticColors.variantBorder
+                    left: '60%',
+                    background: theme.semanticColors.variantBorder,
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    minWidth: '0px',
+                    minHeight: '0px',
+                    ':hover': {
+                        minWidth: '14px',
+                        minHeight: '14px',
+                        top: '52px',
+                        '& svg': {
+                            pointerEvents: 'none'
+                        }
+                    }
                 },
                 [`& .${classNames.extendHandleHidden}`]: {
                     left: '60%',
@@ -82,15 +121,85 @@ export const getGraphViewerStyles = () => {
                     border: '0px'
                 },
                 [`& .${classNames.untargetRelationshipHandleFocus}`]: {
-                    left: '45%',
-                    background: theme.semanticColors.variantBorder
+                    left: '40%',
+                    background: theme.semanticColors.variantBorder,
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    ':hover': {
+                        minWidth: '14px',
+                        minHeight: '14px',
+                        top: '52px',
+                        '& svg': {
+                            pointerEvents: 'none'
+                        }
+                    }
                 },
                 [`& .${classNames.untargetRelationshipHandleHidden}`]: {
-                    left: '60%',
+                    left: '40%',
                     top: '50%',
                     background: 'transparent',
                     border: '0px'
                 }
+            } as IStyle
+        ],
+        handleContentRelationship: [
+            classNames.handleContentRelationship,
+            {
+                background: '#FAAE00',
+                width: '3px',
+                height: '3px',
+                borderRadius: '50%'
+            } as IStyle
+        ],
+        handleContentUntargeted: [
+            classNames.handleContentUntargeted,
+            {
+                background: '#FAAE00',
+                width: '3px',
+                height: '3px',
+                borderRadius: '50%'
+            } as IStyle
+        ],
+        handleContentExtend: [
+            classNames.handleContentExtend,
+            {
+                background: '#1E8741',
+                width: '3px',
+                height: '3px',
+                borderRadius: '50%'
+            } as IStyle
+        ],
+        handleContentComponent: [
+            classNames.handleContentComponent,
+            {
+                background: '#247CD2',
+                width: '3px',
+                height: '3px',
+                borderRadius: '50%'
+            } as IStyle
+        ],
+        handleContentIcon: [
+            classNames.handleContentIcon,
+            {
+                padding: '2px'
+            } as IStyle
+        ],
+        handleContentIconHidden: [
+            classNames.handleContentIconHidden,
+            {
+                width: 0,
+                height: 0,
+                pointerEvents: 'none',
+                opacity: 0,
+                padding: 0
+            } as IStyle
+        ],
+        handleContentHidden: [
+            classNames.handleContentHidden,
+            {
+                background: 'transparent',
+                opacity: 0
             } as IStyle
         ],
         node: [
@@ -100,8 +209,8 @@ export const getGraphViewerStyles = () => {
                 border: `1px solid ${theme.semanticColors.inputBorder}`,
                 borderRadius: '5px',
                 fontSize: FontSizes.size12,
-                textAlign: 'center',
-                width: '120%'
+                position: 'relative',
+                paddingRight: '20px' // Provide space for close icon
             } as IStyle
         ],
         handle: [classNames.handle],
@@ -139,19 +248,12 @@ export const getGraphViewerStyles = () => {
                 fill: theme.semanticColors.bodyText
             } as IStyle
         ],
-        textEdit: [
-            classNames.textEdit,
-            {
-                fontSize: FontSizes.size12,
-                color: theme.semanticColors.bodyText,
-                background: theme.semanticColors.bodyBackground
-            } as IStyle
-        ],
         edgeCancel: [
             classNames.edgeCancel,
             {
                 height: FontSizes.size12,
-                float: 'right'
+                float: 'right',
+                padding: 0
             } as IStyle
         ],
         componentPath: [
@@ -188,7 +290,35 @@ export const getGraphViewerStyles = () => {
         ],
         nodeContainer: [
             classNames.nodeContainer,
-            { display: 'grid', gridTemplateColumns: '10% 90%' } as IStyle
+            {
+                alignItems: 'center',
+                display: 'grid',
+                gridTemplateColumns: '50px auto',
+                span: {
+                    padding: '5px 0px'
+                },
+                padding: '0 5px'
+            } as IStyle
+        ],
+        relationshipCTASection: [
+            classNames.relationshipCTASection,
+            {
+                position: 'absolute',
+                top: '2px',
+                right: '2px'
+            } as IStyle
+        ],
+        relationshipNameEditorBody: [
+            classNames.relationshipNameEditorBody,
+            { position: 'relative' } as IStyle
+        ],
+        untargetedNodeContainer: [
+            classNames.untargetedNodeContainer,
+            {
+                label: {
+                    overflowWrap: 'normal'
+                }
+            } as IStyle
         ],
         graphViewerControls: [
             classNames.graphViewerControls,
@@ -246,13 +376,14 @@ export const getGraphViewerStyles = () => {
         extendCancel: [
             classNames.extendCancel,
             {
-                height: FontSizes.size12
+                height: FontSizes.size12,
+                padding: 0
             } as IStyle
         ]
     });
 };
 
-export const getGraphViewerButtonStyles = () => {
+export const getGraphViewerButtonStyles: IStyle = () => {
     return {
         root: {
             zIndex: '100',
@@ -261,26 +392,29 @@ export const getGraphViewerButtonStyles = () => {
     } as Partial<IStyle>;
 };
 
-export const getGraphViewerIconStyles = () => {
+export const getGraphViewerIconStyles: IStyle = () => {
     const theme = useTheme();
     return {
         root: {
-            fontSize: FontSizes.size18,
+            fontSize: FontSizes.size10,
             color: theme.semanticColors.actionLink
         }
     } as Partial<IStyle>;
 };
 
-export const getGraphViewerActionButtonStyles = () => {
+export const getGraphViewerActionButtonStyles: IStyle = () => {
     return {
         root: {
             height: FontSizes.size12,
-            float: 'right'
+            float: 'right',
+            position: 'absolute',
+            top: '8px',
+            right: '0'
         }
     } as Partial<IStyle>;
 };
 
-export const getGraphViewerWarningStyles = () => {
+export const getGraphViewerWarningStyles: IStyle = () => {
     const theme = useTheme();
     return {
         root: {
@@ -290,19 +424,30 @@ export const getGraphViewerWarningStyles = () => {
     } as Partial<IStyle>;
 };
 
-export const getGraphViewerMinimapStyles = () => {
+export const getGraphViewerMinimapStyles: IStyle = () => {
     const theme = useTheme();
     return {
         background: theme.semanticColors.bodyBackground
     } as Partial<IStyle>;
 };
 
-export const getGraphViewerFiltersStyles = () => {
+export const getGraphViewerFiltersStyles: IStyle = () => {
     return {
         root: {
             position: 'absolute',
             top: '10px',
             right: '10px'
+        }
+    } as Partial<IStyle>;
+};
+
+export const getRelationshipTextFieldStyles: IStyle = () => {
+    const theme = useTheme();
+    return {
+        root: {
+            fontSize: FontSizes.size12,
+            color: theme.semanticColors.bodyText,
+            background: theme.semanticColors.bodyBackground
         }
     } as Partial<IStyle>;
 };

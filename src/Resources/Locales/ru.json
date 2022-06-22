@@ -763,12 +763,12 @@
     "overwrite": "перезаписать",
     "namespace": "Пространство имен",
     "enterANamespace": "Ввод пространства имен",
-    "namespaceError": "Имя может содержать только символы a-z, A-Z, 0-9 и подчеркивание.",
     "settings": "Параметры",
     "errorInvalidJSON": "Недопустимый JSON",
     "errorFileFormatNotSupported": "Формат {{file}} не поддерживается",
     "errorFormatNoSupported": "Формат файла не поддерживается",
-    "errorIssueWithFile": "Проблема с {{имя_файла}}: {{ошибка}}"
+    "errorIssueWithFile": "Проблема с {{имя_файла}}: {{ошибка}}",
+    "errorNamespace": "Пространство имен может содержать только буквы, цифры и подчеркивания."
   },
   "cameraControls": {
     "mouseControls": "Элементы управления мышью",
@@ -788,8 +788,13 @@
     "relationships": "Отношения",
     "inheritances": "Наследства",
     "components": "Компоненты",
-    "errorDisplayName": "Отображаемое имя не должно превышать 64 символов",
-    "errorId": "Id не может превышать 2048 символов"
+    "errorName": "Имя может содержать только символы a-z, A-Z, 0-9 и подчеркивание",
+    "errorNameLength": "Имя не должно превышать 64 символов",
+    "errorIdLength": "Id не может превышать 2048 символов",
+    "errorIdValidDTMI": "Идентификатор должен быть допустимым DTMI",
+    "errorRepeatedId": "Модель с таким же идентификатором уже существует",
+    "errorDisplayNameLength": "Отображаемое имя не должно превышать 64 символов",
+    "errorRepeatedEdgeName": "Связь с таким же именем уже существует"
   },
   "OATPropertyEditor": {
     "displayName": "Отображаемое имя",
@@ -863,8 +868,15 @@
     "errorComment": "Комментарий не может превышать 512 символов",
     "errorDisplayName": "Отображаемое имя не должно превышать 64 символов",
     "errorDescription": "Описание не может превышать 512 символов",
-    "errorId": "Id не может превышать 2048 символов",
-    "errorName": "Имя может содержать только символы a-z, A-Z, 0-9 и подчеркивание"
+    "errorName": "Имя может содержать только символы a-z, A-Z, 0-9 и подчеркивание",
+    "errorNameLength": "Имя не должно превышать 64 символов",
+    "errorIdLength": "Id не может превышать 2048 символов",
+    "errorIdValidDTMI": "Идентификатор должен быть допустимым DTMI",
+    "errorDisplayNameLength": "Отображаемое имя не должно превышать 64 символов",
+    "errorRepeatedId": "Модель с таким же идентификатором уже существует",
+    "errorRepeatedName": "Модель с таким именем уже существует",
+    "errorRepeatedEdgeName": "Связь с таким же именем уже существует",
+    "errorInvalidJSON": "Недопустимый JSON"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Сообщение об ошибке",

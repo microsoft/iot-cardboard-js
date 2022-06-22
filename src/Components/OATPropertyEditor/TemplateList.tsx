@@ -4,7 +4,8 @@ import { deepCopy } from '../../Models/Services/Utils';
 import TemplateListItem from './TeplateListItem';
 import {
     SET_OAT_PROPERTY_EDITOR_MODEL,
-    SET_OAT_TEMPLATES
+    SET_OAT_TEMPLATES,
+    SET_OAT_CONFIRM_DELETE_OPEN
 } from '../../Models/Constants/ActionTypes';
 import { IAction } from '../../Models/Constants/Interfaces';
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
@@ -60,12 +61,12 @@ export const TemplateList = ({
         dispatch({ type: SET_OAT_PROPERTY_EDITOR_MODEL, payload: newModel });
     };
 
-    const handleDragEnd = () => {
+    const onDragEnd = () => {
         if (enteredPropertyRef.current !== null) {
             handleTemplateItemDropOnPropertyList();
         }
 
-        dragNode.current.removeEventListener('dragend', handleDragEnd);
+        dragNode.current.removeEventListener('dragend', onDragEnd);
         dragItem.current = null;
         dragNode.current = null;
         draggedTemplateItemRef.current = null;
@@ -73,10 +74,10 @@ export const TemplateList = ({
         enteredPropertyRef.current = null;
     };
 
-    const handleDragStart = (e, propertyIndex) => {
+    const onDragStart = (e: Event, propertyIndex: number) => {
         dragItem.current = propertyIndex;
         dragNode.current = e.target;
-        dragNode.current.addEventListener('dragend', handleDragEnd);
+        dragNode.current.addEventListener('dragend', onDragEnd);
         draggedTemplateItemRef.current = propertyIndex;
         //  Allows style to change after drag has started
         setTimeout(() => {
@@ -84,7 +85,7 @@ export const TemplateList = ({
         }, 0);
     };
 
-    const handleDragEnter = (e, i) => {
+    const onDragEnter = (e: Event, i: number) => {
         if (e.target !== dragNode.current) {
             //  Entered item is not the same as dragged node
             //  Replace entered item with dragged item
@@ -103,7 +104,7 @@ export const TemplateList = ({
         }
     };
 
-    const getDragItemClassName = (propertyIndex) => {
+    const getDragItemClassName = (propertyIndex: number) => {
         if (propertyIndex === dragItem.current && draggedTemplateItemRef) {
             return propertyInspectorStyles.templateItemDragging;
         }
@@ -114,7 +115,7 @@ export const TemplateList = ({
         return propertyInspectorStyles.templateItem;
     };
 
-    const handleDragEnterExternalItem = (i) => {
+    const onDragEnterExternalItem = (i: number) => {
         setEnteredItem(i);
         enteredTemplateRef.current = i;
     };
@@ -127,13 +128,18 @@ export const TemplateList = ({
         return itemSchema;
     };
 
-    const deleteItem = (index) => {
+    const deleteItem = (index: number) => {
         const newTemplate = deepCopy(templates);
         newTemplate.splice(index, 1);
-
+        const dispatchDelete = () => {
+            dispatch({
+                type: SET_OAT_TEMPLATES,
+                payload: newTemplate
+            });
+        };
         dispatch({
-            type: SET_OAT_TEMPLATES,
-            payload: newTemplate
+            type: SET_OAT_CONFIRM_DELETE_OPEN,
+            payload: { open: true, callback: dispatchDelete }
         });
     };
 
@@ -142,8 +148,8 @@ export const TemplateList = ({
             className={propertyInspectorStyles.propertiesWrap}
             onDragEnter={
                 draggingTemplate
-                    ? (e) => handleDragEnter(e, 0)
-                    : () => handleDragEnterExternalItem(0)
+                    ? (e) => onDragEnter(e, 0)
+                    : () => onDragEnterExternalItem(0)
             }
         >
             {state &&
@@ -157,11 +163,9 @@ export const TemplateList = ({
                         index={i}
                         deleteItem={deleteItem}
                         getDragItemClassName={getDragItemClassName}
-                        handleDragEnter={handleDragEnter}
-                        handleDragEnterExternalItem={
-                            handleDragEnterExternalItem
-                        }
-                        handleDragStart={handleDragStart}
+                        handleDragEnter={onDragEnter}
+                        handleDragEnterExternalItem={onDragEnterExternalItem}
+                        handleDragStart={onDragStart}
                         getSchemaText={getSchemaText}
                     />
                 ))}

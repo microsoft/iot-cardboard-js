@@ -36,7 +36,10 @@ import {
     handleMultiLanguageSelectionsDisplayNameKeyChange,
     handleMultiLanguageSelectionsDisplayNameValueChange
 } from './Utils';
-import { DTDLNameRegex } from '../../Models/Constants/Constants';
+import {
+    DTDLNameRegex,
+    OATNameLengthLimit
+} from '../../Models/Constants/Constants';
 
 const multiLanguageOptionValue = 'multiLanguage';
 const singleLanguageOptionValue = 'singleLanguage';
@@ -108,8 +111,12 @@ export const FormAddEnumItem = ({
     const [commentError, setCommentError] = useState(null);
     const [descriptionError, setDescriptionError] = useState(null);
     const [displayNameError, setDisplayNameError] = useState(null);
-    const [idError, setIdError] = useState(null);
-    const [nameError, setNameError] = useState(null);
+    const [idLengthError, setIdLengthError] = useState(null);
+    const [idValidDTMIError, setIdValidDTMIError] = useState(null);
+    const [nameLengthError, setNameLengthError] = useState(false);
+    const [nameValidCharactersError, setNameValidCharactersError] = useState(
+        false
+    );
     const { model } = state;
 
     const propertiesKeyName = getModelPropertyCollectionName(
@@ -202,17 +209,27 @@ export const FormAddEnumItem = ({
     };
 
     const handleNameChange = (value) => {
-        // Name may only contain the characters a-z, A-Z, 0-9, and underscore.
-        const isValid = DTDLNameRegex.exec(value);
-
-        if (isValid) {
-            setName(value);
-            setNameError(null);
+        if (value.length <= OATNameLengthLimit) {
+            setNameLengthError(null);
+            // Name may only contain the characters a-z, A-Z, 0-9, and underscore.
+            if (DTDLNameRegex.test(value)) {
+                setNameValidCharactersError(null);
+                setName(value);
+            } else {
+                setNameValidCharactersError(true);
+            }
         } else {
-            setNameError(true);
+            setNameLengthError(true);
         }
     };
 
+    const getNameErrorMessage = () => {
+        return nameLengthError
+            ? t('OATPropertyEditor.errorNameLength')
+            : nameValidCharactersError
+            ? t('OATPropertyEditor.errorName')
+            : '';
+    };
     useEffect(() => {
         // Create an array of the keys and values
         const newMultiLanguageSelectionsDisplayNames = Object.keys(
@@ -582,9 +599,7 @@ export const FormAddEnumItem = ({
                     )}
                     onChange={(_ev, value) => handleNameChange(value)}
                     styles={textFieldStyles}
-                    errorMessage={
-                        nameError ? t('OATPropertyEditor.errorName') : ''
-                    }
+                    errorMessage={getNameErrorMessage()}
                 />
             </div>
 
@@ -612,9 +627,20 @@ export const FormAddEnumItem = ({
                     placeholder={t('OATPropertyEditor.id')}
                     styles={textFieldStyles}
                     onChange={(_ev, value) =>
-                        handleIdChange(value, setId, setIdError)
+                        handleIdChange(
+                            value,
+                            setId,
+                            setIdLengthError,
+                            setIdValidDTMIError
+                        )
                     }
-                    errorMessage={idError ? t('OATPropertyEditor.errorId') : ''}
+                    errorMessage={
+                        idLengthError
+                            ? t('OATPropertyEditor.errorIdLength')
+                            : idValidDTMIError
+                            ? t('OATPropertyEditor.errorIdValidDTMI')
+                            : ''
+                    }
                 />
             </div>
 
@@ -627,10 +653,12 @@ export const FormAddEnumItem = ({
                         errorRepeatedEnumValue ||
                         !enumValue ||
                         !name ||
-                        nameError ||
+                        nameLengthError ||
+                        nameValidCharactersError ||
                         commentError ||
                         descriptionError ||
-                        idError
+                        idLengthError ||
+                        idValidDTMIError
                     }
                 />
             </div>

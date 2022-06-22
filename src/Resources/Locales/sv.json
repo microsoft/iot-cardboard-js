@@ -763,12 +763,12 @@
     "overwrite": "skriva över",
     "namespace": "Namespace",
     "enterANamespace": "Ange ett namnområde",
-    "namespaceError": "Namnet får bara innehålla tecknen a-z, A-Z, 0-9 och understreck.",
     "settings": "Inställningar",
     "errorInvalidJSON": "Ogiltig JSON",
     "errorFileFormatNotSupported": "{{file}}-format stöds inte",
     "errorFormatNoSupported": "Filformat stöds inte",
-    "errorIssueWithFile": "Problem med {{fileName}}: {{error}}"
+    "errorIssueWithFile": "Problem med {{fileName}}: {{error}}",
+    "errorNamespace": "Namnområdet får bara innehålla bokstäver, siffror och understreck."
   },
   "cameraControls": {
     "mouseControls": "Muskontroller",
@@ -788,8 +788,13 @@
     "relationships": "Relationer",
     "inheritances": "Arv",
     "components": "Komponenter",
-    "errorDisplayName": "Visningsnamn får inte överstiga 64 tecken",
-    "errorId": "Id får inte överstiga 2048 rödingar"
+    "errorName": "Namnet får bara innehålla tecknen a-z, A-Z, 0-9 och understreck",
+    "errorNameLength": "Namnet får inte överstiga 64 rödingar",
+    "errorIdLength": "Id får inte överstiga 2048 rödingar",
+    "errorIdValidDTMI": "ID måste vara ett giltigt DTMI",
+    "errorRepeatedId": "En modell med samma id finns redan",
+    "errorDisplayNameLength": "Visningsnamn får inte överstiga 64 tecken",
+    "errorRepeatedEdgeName": "En relation med samma namn finns redan"
   },
   "OATPropertyEditor": {
     "displayName": "Visningsnamn",
@@ -863,8 +868,15 @@
     "errorComment": "Kommentar får inte överstiga 512 rödingar",
     "errorDisplayName": "Visningsnamn får inte överstiga 64 tecken",
     "errorDescription": "Beskrivning får inte överstiga 512 rödingar",
-    "errorId": "Id får inte överstiga 2048 rödingar",
-    "errorName": "Namnet får bara innehålla tecknen a-z, A-Z, 0-9 och understreck"
+    "errorName": "Namnet får bara innehålla tecknen a-z, A-Z, 0-9 och understreck",
+    "errorNameLength": "Namnet får inte överstiga 64 rödingar",
+    "errorIdLength": "Id får inte överstiga 2048 rödingar",
+    "errorIdValidDTMI": "ID måste vara ett giltigt DTMI",
+    "errorDisplayNameLength": "Visningsnamn får inte överstiga 64 tecken",
+    "errorRepeatedId": "En modell med samma id finns redan",
+    "errorRepeatedName": "En modell med samma namn finns redan",
+    "errorRepeatedEdgeName": "En relation med samma namn finns redan",
+    "errorInvalidJSON": "Ogiltig JSON"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Felmeddelande",

@@ -1,45 +1,152 @@
-import React, { useContext, useMemo, useState, useEffect } from 'react';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { useTheme, Icon, FontSizes, ActionButton } from '@fluentui/react';
 import {
     getEdgeCenter,
     removeElements,
     useStoreState
 } from 'react-flow-renderer';
-import { getGraphViewerStyles } from '../OATGraphViewer.styles';
+import {
+    getGraphViewerStyles,
+    getRelationshipTextFieldStyles
+} from '../OATGraphViewer.styles';
 import { ElementsContext } from './OATContext';
-import { TextField } from '@fluentui/react';
 import {
     OATUntargetedRelationshipName,
     OATRelationshipHandleName,
     OATComponentHandleName,
     OATExtendHandleName
 } from '../../../Models/Constants/Constants';
-import { SET_OAT_PROPERTY_EDITOR_MODEL } from '../../../Models/Constants/ActionTypes';
-import { ModelTypes } from '../../../Models/Constants/Enums';
+import {
+    SET_OAT_PROPERTY_EDITOR_MODEL,
+    SET_OAT_DELETED_MODEL_ID,
+    SET_OAT_CONFIRM_DELETE_OPEN
+} from '../../../Models/Constants/ActionTypes';
 import { DTDLRelationship } from '../../../Models/Classes/DTDL';
 import { getPropertyDisplayName } from '../../OATPropertyEditor/Utils';
 import { IOATGraphCustomEdgeProps } from '../../../Models/Constants';
+import OATTextFieldName from '../../../Pages/OATEditorPage/Internal/Components/OATTextFieldName';
 
 const foreignObjectSize = 180;
+const foreignObjectSizeExtendRelation = 20;
 const offsetSmall = 5;
 const offsetMedium = 10;
 const sourceDefaultHeight = 6;
 const rightAngleValue = 1.5708;
 const separation = 10;
 
+const getPolygon = (vertexes) => vertexes.map((v) => `${v.x},${v.y}`).join(' ');
+
+const getComponentPolygon = (
+    polygonSourceX,
+    polygonSourceY,
+    baseVector,
+    heightVector,
+    verticalPolygon
+) => {
+    const vertexAX = verticalPolygon
+        ? polygonSourceX + offsetSmall * baseVector
+        : polygonSourceX + offsetSmall * baseVector;
+    const vertexAY = verticalPolygon
+        ? polygonSourceY + offsetSmall * heightVector
+        : polygonSourceY - offsetSmall * heightVector;
+    const vertexBX = verticalPolygon
+        ? polygonSourceX
+        : polygonSourceX + offsetMedium * baseVector;
+    const vertexBY = verticalPolygon
+        ? polygonSourceY + offsetMedium * heightVector
+        : polygonSourceY;
+    const vertexCX = verticalPolygon
+        ? polygonSourceX - offsetSmall * baseVector
+        : polygonSourceX + offsetSmall * baseVector;
+    const vertexCY = verticalPolygon
+        ? polygonSourceY + offsetSmall * heightVector
+        : polygonSourceY + offsetSmall * heightVector;
+    const vertexDX = polygonSourceX;
+    const vertexDY = polygonSourceY;
+    return getPolygon([
+        { x: vertexAX, y: vertexAY },
+        { x: vertexBX, y: vertexBY },
+        { x: vertexCX, y: vertexCY },
+        { x: vertexDX, y: vertexDY }
+    ]);
+};
+
+const getInheritancePolygon = (
+    polygonTargetX,
+    polygonTargetY,
+    baseVector,
+    heightVector,
+    verticalPolygon
+) => {
+    const vertexAX = verticalPolygon
+        ? polygonTargetX + offsetSmall * baseVector
+        : polygonTargetX + offsetMedium * baseVector;
+    const vertexAY = verticalPolygon
+        ? polygonTargetY + offsetMedium * heightVector
+        : polygonTargetY + offsetSmall * heightVector;
+    const vertexBX = verticalPolygon
+        ? polygonTargetX - offsetSmall * baseVector
+        : polygonTargetX + offsetMedium * baseVector;
+    const vertexBY = verticalPolygon
+        ? polygonTargetY + offsetMedium * heightVector
+        : polygonTargetY - offsetSmall * heightVector;
+    const vertexCX = polygonTargetX;
+    const vertexCY = polygonTargetY;
+    return getPolygon([
+        { x: vertexAX, y: vertexAY },
+        { x: vertexBX, y: vertexBY },
+        { x: vertexCX, y: vertexCY }
+    ]);
+};
+
+const getRelationshipPolygon = (
+    polygonTargetX,
+    polygonTargetY,
+    baseVector,
+    heightVector,
+    verticalPolygon
+) => {
+    const vertexAX = verticalPolygon
+        ? polygonTargetX + offsetSmall * heightVector
+        : polygonTargetX + offsetMedium * baseVector;
+    const vertexAY = verticalPolygon
+        ? polygonTargetY + offsetMedium * heightVector
+        : polygonTargetY - offsetSmall * heightVector;
+    const vertexBX = polygonTargetX;
+    const vertexBY = polygonTargetY;
+    const vertexCX = verticalPolygon
+        ? polygonTargetX - offsetSmall * heightVector
+        : polygonTargetX + offsetMedium * baseVector;
+    const vertexCY = verticalPolygon
+        ? polygonTargetY + offsetMedium * heightVector
+        : polygonTargetY + offsetSmall * heightVector;
+    return getPolygon([
+        { x: vertexAX, y: vertexAY },
+        { x: vertexBX, y: vertexBY },
+        { x: vertexCX, y: vertexCY },
+        { x: vertexBX, y: vertexBY }
+    ]);
+};
+
+const getMidPointForNode = (node) => {
+    let x = 0;
+    let y = 0;
+    if (node) {
+        x = node.__rf.position.x + node.__rf.width / 2;
+        y = node.__rf.position.y + node.__rf.height / 2;
+    }
+
+    return [x, y];
+};
+
 const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
     id,
-    sourceX,
-    sourceY,
-    targetX,
-    targetY,
     data,
     markerEnd
 }) => {
     const [nameEditor, setNameEditor] = useState(false);
     const [nameText, setNameText] = useState(getPropertyDisplayName(data));
     const {
-        elements,
         setElements,
         dispatch,
         setCurrentNode,
@@ -48,109 +155,42 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
         showComponents,
         state
     } = useContext(ElementsContext);
+    const { model } = state;
     const graphViewerStyles = getGraphViewerStyles();
+    const relationshipTextFieldStyles = getRelationshipTextFieldStyles();
     const theme = useTheme();
-    const nodes = useStoreState((state) => state.nodes);
+    const nodes = useStoreState(
+        (state) => state.nodes,
+        (l, r) =>
+            l.length === r.length &&
+            l.every((li) => {
+                const rm = r.find((ri) => ri.id === li.id);
+                return (
+                    rm &&
+                    rm.__rf.position.x === li.__rf.position.x &&
+                    rm.__rf.position.y === li.__rf.position.y &&
+                    rm.__rf.width === li.__rf.width &&
+                    rm.__rf.height === li.__rf.height
+                );
+            })
+    );
     const edges = useStoreState((state) => state.edges);
 
+    const edge = useMemo(() => edges.find((x) => x.id === id), [edges, id]);
+    const [source, sourceX, sourceY] = useMemo(() => {
+        const source = nodes.find((x) => x.id === edge.source);
+        return [source, ...getMidPointForNode(source)];
+    }, [edge, nodes]);
+    const [target, targetX, targetY] = useMemo(() => {
+        const target = nodes.find((x) => x.id === edge.target);
+        return [target, ...getMidPointForNode(target)];
+    }, [edge, nodes]);
+
     useEffect(() => {
-        setNameText(getPropertyDisplayName(data));
-    }, [data]);
-
-    const getPolygon = (vertexes) =>
-        vertexes.map((v) => `${v.x},${v.y}`).join(' ');
-
-    const getComponentPolygon = (
-        polygonSourceX,
-        polygonSourceY,
-        baseVector,
-        heightVector,
-        verticalPolygon
-    ) => {
-        const vertexAX = verticalPolygon
-            ? polygonSourceX + offsetSmall * baseVector
-            : polygonSourceX + offsetSmall * baseVector;
-        const vertexAY = verticalPolygon
-            ? polygonSourceY + offsetSmall * heightVector
-            : polygonSourceY - offsetSmall * heightVector;
-        const vertexBX = verticalPolygon
-            ? polygonSourceX
-            : polygonSourceX + offsetMedium * baseVector;
-        const vertexBY = verticalPolygon
-            ? polygonSourceY + offsetMedium * heightVector
-            : polygonSourceY;
-        const vertexCX = verticalPolygon
-            ? polygonSourceX - offsetSmall * baseVector
-            : polygonSourceX + offsetSmall * baseVector;
-        const vertexCY = verticalPolygon
-            ? polygonSourceY + offsetSmall * heightVector
-            : polygonSourceY + offsetSmall * heightVector;
-        const vertexDX = polygonSourceX;
-        const vertexDY = polygonSourceY;
-        return getPolygon([
-            { x: vertexAX, y: vertexAY },
-            { x: vertexBX, y: vertexBY },
-            { x: vertexCX, y: vertexCY },
-            { x: vertexDX, y: vertexDY }
-        ]);
-    };
-
-    const getInheritancePolygon = (
-        polygonTargetX,
-        polygonTargetY,
-        baseVector,
-        heightVector,
-        verticalPolygon
-    ) => {
-        const vertexAX = verticalPolygon
-            ? polygonTargetX + offsetSmall * baseVector
-            : polygonTargetX + offsetMedium * baseVector;
-        const vertexAY = verticalPolygon
-            ? polygonTargetY + offsetMedium * heightVector
-            : polygonTargetY + offsetSmall * heightVector;
-        const vertexBX = verticalPolygon
-            ? polygonTargetX - offsetSmall * baseVector
-            : polygonTargetX + offsetMedium * baseVector;
-        const vertexBY = verticalPolygon
-            ? polygonTargetY + offsetMedium * heightVector
-            : polygonTargetY - offsetSmall * heightVector;
-        const vertexCX = polygonTargetX;
-        const vertexCY = polygonTargetY;
-        return getPolygon([
-            { x: vertexAX, y: vertexAY },
-            { x: vertexBX, y: vertexBY },
-            { x: vertexCX, y: vertexCY }
-        ]);
-    };
-
-    const getRelationshipPolygon = (
-        polygonTargetX,
-        polygonTargetY,
-        baseVector,
-        heightVector,
-        verticalPolygon
-    ) => {
-        const vertexAX = verticalPolygon
-            ? polygonTargetX + offsetSmall * heightVector
-            : polygonTargetX + offsetMedium * baseVector;
-        const vertexAY = verticalPolygon
-            ? polygonTargetY + offsetMedium * heightVector
-            : polygonTargetY - offsetSmall * heightVector;
-        const vertexBX = polygonTargetX;
-        const vertexBY = polygonTargetY;
-        const vertexCX = verticalPolygon
-            ? polygonTargetX - offsetSmall * heightVector
-            : polygonTargetX + offsetMedium * baseVector;
-        const vertexCY = verticalPolygon
-            ? polygonTargetY + offsetMedium * heightVector
-            : polygonTargetY + offsetSmall * heightVector;
-        return getPolygon([
-            { x: vertexAX, y: vertexAY },
-            { x: vertexBX, y: vertexBY },
-            { x: vertexCX, y: vertexCY },
-            { x: vertexBX, y: vertexBY }
-        ]);
-    };
+        if (nameEditor && (!model || model['@id'] !== id)) {
+            setNameEditor(false);
+        }
+    }, [id, model, nameEditor]);
 
     const getSourceComponents = (
         betaAngle,
@@ -330,19 +370,14 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
         let adjustmentTargetX = 0;
         let adjustmentTargetY = 0;
 
-        const edge = edges.find((x) => x.id === id);
         let polygons = {};
         if (edge) {
             polygons = { element: edge };
             // If a valid element we get size based in positioning
-            const sourceNode = nodes.find((x) => x.id === edge.source);
-            const sourceNodeSizeX =
-                (adjustedSourceX - sourceNode.__rf.position.x) * 2;
-            const sourceNodeSizeY =
-                (adjustedSourceY - sourceNode.__rf.position.y) * 2;
-            const targetNode = nodes.find((x) => x.id === edge.target);
-            const targetNodeSizeX = (targetX - targetNode.__rf.position.x) * 2;
-            const targetNodeSizeY = (targetY - targetNode.__rf.position.y) * 2;
+            const sourceNodeSizeX = source.__rf.width;
+            const sourceNodeSizeY = source.__rf.height;
+            const targetNodeSizeX = target.__rf.width;
+            const targetNodeSizeY = target.__rf.height;
             // Getting vectors to adjust angle from source to target
             let heightVector = targetY > sourceY ? 1 : -1;
             let baseVector = targetX > sourceX ? 1 : -1;
@@ -426,14 +461,14 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
             polygons = { ...polygons, ...targetComponents };
         }
         return polygons;
-    }, [id, edges, nodes, sourceX, sourceY, targetX, targetY]);
+    }, [id, source, sourceX, sourceY, targetX, targetY]);
 
-    const onNameChange = (evt) => {
-        setNameText(evt.target.value);
+    const onNameClick = () => {
+        setNameEditor(true);
 
         const relationship = new DTDLRelationship(
             polygons.element.data.id,
-            evt.target.value,
+            nameText,
             polygons.element.data.displayName,
             polygons.element.data.description,
             polygons.element.data.comment,
@@ -443,63 +478,14 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
             polygons.element.data.maxMultiplicity
         );
 
+        if (polygons.element.data.type === OATExtendHandleName) {
+            relationship['@type'] = OATExtendHandleName;
+        }
+        setCurrentNode(polygons.element.id);
         dispatch({
             type: SET_OAT_PROPERTY_EDITOR_MODEL,
             payload: relationship
         });
-    };
-
-    const onNameClick = () => {
-        if (!state.modified) {
-            setNameEditor(true);
-            if (
-                polygons.element.data.type !== ModelTypes.relationship &&
-                polygons.element.data.type !== ModelTypes.untargeted &&
-                polygons.element.data.type !== ModelTypes.component
-            ) {
-                setCurrentNode(null);
-                dispatch({
-                    type: SET_OAT_PROPERTY_EDITOR_MODEL,
-                    payload: null
-                });
-            } else {
-                const relationship = new DTDLRelationship(
-                    polygons.element.data.id,
-                    polygons.element.data.name,
-                    polygons.element.data.displayName,
-                    polygons.element.data.description,
-                    polygons.element.data.comment,
-                    polygons.element.data.writable,
-                    polygons.element.data.content
-                        ? polygons.element.data.content
-                        : [],
-                    polygons.element.data.target,
-                    polygons.element.data.maxMultiplicity
-                );
-
-                setCurrentNode(polygons.element.id);
-                dispatch({
-                    type: SET_OAT_PROPERTY_EDITOR_MODEL,
-                    payload: relationship
-                });
-            }
-        }
-    };
-
-    const onNameBlur = () => {
-        setNameEditor(false);
-        if (typeof data.name === 'string' && data.name !== nameText) {
-            elements.find(
-                (element) => element.data.id === data.id
-            ).data.name = nameText;
-            setElements([...elements]);
-        }
-    };
-
-    const onKeyDown = (evt) => {
-        if (evt.key === 'Escape') {
-            onNameBlur();
-        }
     };
 
     const edgePath = useMemo(() => {
@@ -517,13 +503,16 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
 
     const onDelete = () => {
         if (!state.modified) {
-            const elementsToRemove = [
-                {
-                    id: data.id
-                }
-            ];
-            setElements((els) => removeElements(elementsToRemove, els));
-            dispatch({ type: SET_OAT_PROPERTY_EDITOR_MODEL, payload: null });
+            const dispatchDelete = () => {
+                dispatch({
+                    type: SET_OAT_DELETED_MODEL_ID,
+                    payload: data.id
+                });
+            };
+            dispatch({
+                type: SET_OAT_CONFIRM_DELETE_OPEN,
+                payload: { open: true, callback: dispatchDelete }
+            });
         }
     };
 
@@ -566,7 +555,11 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
             )}
             {nameEditor && (
                 <foreignObject
-                    width={foreignObjectSize}
+                    width={
+                        data.type === OATExtendHandleName
+                            ? foreignObjectSizeExtendRelation
+                            : foreignObjectSize
+                    }
                     height={foreignObjectSize}
                     x={
                         data.type !== OATExtendHandleName
@@ -576,59 +569,43 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                     y={edgeCenterY}
                     requiredExtensions="http://www.w3.org/1999/xhtml"
                 >
-                    <body>
+                    <div
+                        className={graphViewerStyles.relationshipNameEditorBody}
+                    >
                         {data.type !== OATExtendHandleName && (
-                            <TextField
-                                id="text"
-                                name="text"
-                                className={graphViewerStyles.textEdit}
-                                onChange={onNameChange}
-                                onClick={onNameClick}
-                                value={nameText}
-                                onKeyDown={onKeyDown}
+                            <OATTextFieldName
+                                styles={relationshipTextFieldStyles}
+                                name={nameText}
+                                setName={setNameText}
+                                dispatch={dispatch}
+                                state={state}
                                 autoFocus
                             />
                         )}
-                        <ActionButton
-                            className={
-                                data.type !== OATExtendHandleName
-                                    ? graphViewerStyles.edgeCancel
-                                    : graphViewerStyles.extendCancel
-                            }
-                            onClick={onDelete}
+                        <div
+                            className={graphViewerStyles.relationshipCTASection}
                         >
-                            <Icon
-                                iconName="Cancel"
-                                styles={{
-                                    root: {
-                                        fontSize: FontSizes.size10,
-                                        color: theme.semanticColors.actionLink,
-                                        marginTop: '-35px',
-                                        marginRight: '-10px'
-                                    }
-                                }}
-                            />
-                        </ActionButton>
-                        {data.type !== OATExtendHandleName && (
                             <ActionButton
-                                className={graphViewerStyles.edgeCancel}
-                                onClick={onNameBlur}
+                                className={
+                                    data.type !== OATExtendHandleName
+                                        ? graphViewerStyles.edgeCancel
+                                        : graphViewerStyles.extendCancel
+                                }
+                                onClick={onDelete}
                             >
                                 <Icon
-                                    iconName="Save"
+                                    iconName="Cancel"
                                     styles={{
                                         root: {
                                             fontSize: FontSizes.size10,
                                             color:
-                                                theme.semanticColors.actionLink,
-                                            marginTop: '-35px',
-                                            marginRight: '-10px'
+                                                theme.semanticColors.actionLink
                                         }
                                     }}
                                 />
                             </ActionButton>
-                        )}
-                    </body>
+                        </div>
+                    </div>
                 </foreignObject>
             )}
             {!nameEditor &&

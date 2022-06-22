@@ -17,7 +17,8 @@ import {
     SET_OAT_PROJECT_NAME,
     SET_OAT_ERROR,
     SET_OAT_MODELS_POSITIONS,
-    SET_OAT_NAMESPACE
+    SET_OAT_NAMESPACE,
+    SET_OAT_CONFIRM_DELETE_OPEN
 } from '../../Models/Constants/ActionTypes';
 import {
     getStoredEditorModelPositionsData,
@@ -41,7 +42,9 @@ export const defaultOATEditorState: IOATEditorState = {
     projectName: null,
     modified: false,
     error: null,
-    namespace: getStoredEditorNamespaceData()
+    namespace: getStoredEditorNamespaceData(),
+    edge: null,
+    confirmDeleteOpen: { open: false }
 };
 
 export const OATEditorPageReducer = produce(
@@ -57,6 +60,7 @@ export const OATEditorPageReducer = produce(
                 return;
             case SET_OAT_DELETED_MODEL_ID:
                 state.deletedModelId = payload;
+                state.model = null;
                 return;
             case SET_OAT_SELECTED_MODEL_ID:
                 state.selectedModelId = payload;
@@ -100,6 +104,9 @@ export const OATEditorPageReducer = produce(
                 return;
             case SET_OAT_NAMESPACE:
                 state.namespace = payload;
+                return;
+            case SET_OAT_CONFIRM_DELETE_OPEN:
+                state.confirmDeleteOpen = payload;
                 return;
         }
     }

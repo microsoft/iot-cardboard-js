@@ -10,18 +10,25 @@ import { IAction, IOATTwinModelNodes } from '../../Models/Constants';
 import {
     SET_OAT_DELETED_MODEL_ID,
     SET_OAT_SELECTED_MODEL_ID,
-    SET_OAT_EDITED_MODEL_NAME,
-    SET_OAT_EDITED_MODEL_ID,
-    SET_OAT_PROPERTY_EDITOR_MODEL
+    SET_OAT_CONFIRM_DELETE_OPEN
 } from '../../Models/Constants/ActionTypes';
+import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
+import OATTextFieldDisplayName from '../../Pages/OATEditorPage/Internal/Components/OATTextFieldDisplayName';
+import OATTextFieldId from '../../Pages/OATEditorPage/Internal/Components/OATTextFieldId';
 
 type OATModelListProps = {
     elements: IOATTwinModelNodes[];
     dispatch: React.Dispatch<React.SetStateAction<IAction>>;
     modified: boolean;
+    state?: IOATEditorState;
 };
 
-const OATModelList = ({ elements, dispatch, modified }: OATModelListProps) => {
+const OATModelList = ({
+    elements,
+    dispatch,
+    modified,
+    state
+}: OATModelListProps) => {
     const theme = useTheme();
     const { t } = useTranslation();
     const modelsStyles = getModelsStyles();
@@ -36,6 +43,7 @@ const OATModelList = ({ elements, dispatch, modified }: OATModelListProps) => {
     const containerRef = useRef(null);
     const iconStyles = getModelsIconStyles();
     const actionButtonStyles = getModelsActionButtonStyles();
+    const { model } = state;
 
     useEffect(() => {
         setItems(elements);
@@ -73,31 +81,12 @@ const OATModelList = ({ elements, dispatch, modified }: OATModelListProps) => {
         }
     };
 
-    const onNameChange = (evt) => {
-        setNameText(evt.target.value);
-        setItems([...items]);
-    };
-
     const onNameClick = (name) => {
         if (!modified) {
             setNameText(name);
             setNameEditor(true);
             setItems([...items]);
         }
-    };
-
-    const onNameBlur = () => {
-        setNameEditor(false);
-        dispatch({
-            type: SET_OAT_EDITED_MODEL_NAME,
-            payload: nameText
-        });
-        setItems([...items]);
-    };
-
-    const onIdChange = (evt) => {
-        setIdText(evt.target.value);
-        setItems([...items]);
     };
 
     const onIdClick = (id) => {
@@ -108,25 +97,17 @@ const OATModelList = ({ elements, dispatch, modified }: OATModelListProps) => {
         }
     };
 
-    const onIdBlur = () => {
-        setIdEditor(false);
-        dispatch({
-            type: SET_OAT_EDITED_MODEL_ID,
-            payload: idText
-        });
-        currentNodeId.current = idText;
-        setItems([...items]);
-    };
-
     const onModelDelete = (id) => {
         if (!modified) {
+            const dispatchDelete = () => {
+                dispatch({
+                    type: SET_OAT_DELETED_MODEL_ID,
+                    payload: id
+                });
+            };
             dispatch({
-                type: SET_OAT_PROPERTY_EDITOR_MODEL,
-                payload: null
-            });
-            dispatch({
-                type: SET_OAT_DELETED_MODEL_ID,
-                payload: id
+                type: SET_OAT_CONFIRM_DELETE_OPEN,
+                payload: { open: true, callback: dispatchDelete }
             });
         }
     };
@@ -142,7 +123,32 @@ const OATModelList = ({ elements, dispatch, modified }: OATModelListProps) => {
                     styles={actionButtonStyles}
                     onClick={() => onSelectedClick(item['@id'])}
                 >
-                    <div>
+                    <div className={modelsStyles.modelNodeButtonContent}>
+                        <div onDoubleClick={() => onIdClick(item['@id'])}>
+                            {(!idEditor ||
+                                currentNodeId.current !== item['@id']) && (
+                                <strong className={modelsStyles.strongText}>
+                                    {item['@id']}
+                                </strong>
+                            )}
+                            {idEditor && currentNodeId.current === item['@id'] && (
+                                <OATTextFieldId
+                                    id={idText}
+                                    setId={setIdText}
+                                    dispatch={dispatch}
+                                    state={state}
+                                    onChange={() => {
+                                        setItems([...items]);
+                                    }}
+                                    onCommit={() => {
+                                        setIdEditor(false);
+                                        setItems([...items]);
+                                        onSelectedClick(null);
+                                    }}
+                                    autoFocus
+                                />
+                            )}
+                        </div>
                         <div
                             onDoubleClick={() =>
                                 onNameClick(item['displayName'])
@@ -150,39 +156,31 @@ const OATModelList = ({ elements, dispatch, modified }: OATModelListProps) => {
                         >
                             {(!nameEditor ||
                                 currentNodeId.current !== item['@id']) && (
-                                <strong className={modelsStyles.strongText}>
+                                <span className={modelsStyles.regularText}>
                                     {typeof item['displayName'] === 'string'
                                         ? item['displayName']
                                         : Object.values(item['displayName'])[0]}
-                                </strong>
+                                </span>
                             )}
                             {nameEditor &&
                                 currentNodeId.current === item['@id'] && (
-                                    <TextField
-                                        id="text"
-                                        name="text"
-                                        onChange={onNameChange}
-                                        value={nameText}
-                                        onBlur={onNameBlur}
-                                        autoFocus
-                                    />
-                                )}
-                        </div>
-                        <div onDoubleClick={() => onIdClick(item['@id'])}>
-                            {(!idEditor ||
-                                currentNodeId.current !== item['@id']) && (
-                                <>{item['@id']}</>
-                            )}
-                            {idEditor &&
-                                currentNodeId.current === item['@id'] && (
-                                    <TextField
-                                        id="text"
-                                        name="text"
-                                        onChange={onIdChange}
-                                        value={idText}
-                                        onBlur={onIdBlur}
-                                        autoFocus
-                                    />
+                                    <>
+                                        <OATTextFieldDisplayName
+                                            displayName={nameText}
+                                            setDisplayName={setNameText}
+                                            dispatch={dispatch}
+                                            model={model}
+                                            onChange={() => {
+                                                setItems([...items]);
+                                            }}
+                                            onCommit={() => {
+                                                setNameEditor(false);
+                                                setItems([...items]);
+                                                onSelectedClick(null);
+                                            }}
+                                            autoFocus
+                                        />
+                                    </>
                                 )}
                         </div>
                     </div>

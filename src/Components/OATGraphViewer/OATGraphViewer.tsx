@@ -69,174 +69,6 @@ type OATGraphProps = {
     state?: IOATEditorState;
 };
 
-const getNextRelationshipAmount = (relationshipArray, source) => {
-    let relationshipAmount = 0;
-    while (
-        relationshipArray.some(
-            (element) =>
-                element.source &&
-                element.source === source &&
-                element.id ===
-                    `${source}${OATRelationshipHandleName}${relationshipAmount};${versionClassBase}`
-        )
-    ) {
-        relationshipAmount++;
-    }
-    return relationshipAmount;
-};
-
-//  Converts the stored models to a graph nodes
-const getGraphViewerElementsFromModels = (models, modelPositions) => {
-    if (!models || !modelPositions) {
-        return [];
-    }
-
-    // Format models
-    const modelsCopy = deepCopy(models);
-    const testRelationships = [];
-    modelsCopy.forEach((input, index) => {
-        let relationships = [];
-        let contents = [];
-        input['contents'].forEach((content) => {
-            if (content['@type'] === OATComponentHandleName) {
-                const componentRelationship = new ElementEdge(
-                    `${input['@id']}${OATComponentHandleName}${content['schema']}`,
-                    OATRelationshipHandleName,
-                    input['@id'],
-                    OATComponentHandleName,
-                    content['schema'],
-                    new ElementEdgeData(
-                        `${input['@id']}${OATComponentHandleName}${content['schema']}`,
-                        content['name'],
-                        '',
-                        OATComponentHandleName
-                    )
-                );
-                relationships = [...relationships, componentRelationship];
-            } else if (content['@type'] === OATRelationshipHandleName) {
-                const relationship = new ElementEdge(
-                    content['@id']
-                        ? content['@id']
-                        : `${
-                              input['@id']
-                          }${OATRelationshipHandleName}${getNextRelationshipAmount(
-                              relationships,
-                              input['@id']
-                          )};${versionClassBase}`,
-                    OATRelationshipHandleName,
-                    input['@id'],
-                    OATRelationshipHandleName,
-                    content['target'],
-                    new ElementEdgeData(
-                        content['@id']
-                            ? content['@id']
-                            : `${
-                                  input['@id']
-                              }${OATRelationshipHandleName}${getNextRelationshipAmount(
-                                  relationships,
-                                  input['@id']
-                              )};${versionClassBase}`,
-                        content['name'],
-                        content['displayName'],
-                        OATRelationshipHandleName
-                    )
-                );
-                relationships = [...relationships, relationship];
-            } else if (content['@type'] === OATUntargetedRelationshipName) {
-                const name = `${input['displayName']}:${OATUntargetedRelationshipName}`;
-                const id = `${input['@id']}:${OATUntargetedRelationshipName}`;
-                const untargetedRelationship = {
-                    '@type': OATRelationshipHandleName,
-                    '@id': id,
-                    name: '',
-                    displayName: ''
-                };
-                const newNode = new ElementNode(
-                    id,
-                    input['@type'],
-                    {
-                        x:
-                            modelPositions.length > 0
-                                ? modelPositions[index].position.x
-                                : defaultNodePosition,
-                        y:
-                            modelPositions.length > 0
-                                ? modelPositions[index].position.y + 100
-                                : defaultNodePosition
-                    },
-                    new ElementData(
-                        id,
-                        name,
-                        OATUntargetedRelationshipName,
-                        [untargetedRelationship],
-                        contextClassBase
-                    )
-                );
-                const relationship = new ElementEdge(
-                    content['@id']
-                        ? content['@id']
-                        : `${input['@id']}${OATUntargetedRelationshipName}${id}`,
-                    OATRelationshipHandleName,
-                    input['@id'],
-                    OATUntargetedRelationshipName,
-                    id,
-                    new ElementEdgeData(
-                        content['@id']
-                            ? content['@id']
-                            : `${input['@id']}${OATUntargetedRelationshipName}${id}`,
-                        content['name'],
-                        content['displayName'],
-                        OATUntargetedRelationshipName
-                    )
-                );
-                relationships = [...relationships, newNode, relationship];
-            } else {
-                contents = [...contents, content];
-            }
-        });
-        if (input['extends']) {
-            const extendRelationship = new ElementEdge(
-                `${input['@id']}${OATExtendHandleName}${input['extends']}`,
-                OATRelationshipHandleName,
-                input['@id'],
-                OATExtendHandleName,
-                input['extends'],
-                new ElementEdgeData(
-                    `${input['@id']}${OATExtendHandleName}${input['extends']}`,
-                    '',
-                    '',
-                    OATExtendHandleName
-                )
-            );
-            relationships = [...relationships, extendRelationship];
-        }
-        const newNode = new ElementNode(
-            input['@id'],
-            input['@type'],
-            {
-                x:
-                    modelPositions.length > 0
-                        ? modelPositions[index].position.x
-                        : defaultNodePosition,
-                y:
-                    modelPositions.length > 0
-                        ? modelPositions[index].position.y
-                        : defaultNodePosition
-            },
-            new ElementData(
-                input['@id'],
-                input['displayName'],
-                input['@type'],
-                contents,
-                contextClassBase
-            )
-        );
-        testRelationships.push(newNode, ...relationships);
-    });
-
-    return testRelationships;
-};
-
 const nodeWidth = 300;
 const nodeHeight = 100;
 
@@ -252,6 +84,165 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
         modelPositions,
         namespace
     } = state;
+
+    const idClassBase = `dtmi:${
+        namespace ? namespace : OATNamespaceDefaultValue
+    }:`;
+
+    const getNextRelationshipAmount = (relationshipArray) => {
+        let relationshipAmount = 0;
+        while (
+            relationshipArray.some(
+                (element) =>
+                    element.source &&
+                    element.id ===
+                        `${idClassBase}${OATRelationshipHandleName}${relationshipAmount};${versionClassBase}`
+            )
+        ) {
+            relationshipAmount++;
+        }
+        return relationshipAmount;
+    };
+
+    //  Converts the stored models to a graph nodes
+    const getGraphViewerElementsFromModels = (models, modelPositions) => {
+        if (!models || !modelPositions) {
+            return [];
+        }
+
+        // Format models
+        const modelsCopy = deepCopy(models);
+        return modelsCopy.reduce((elements, input) => {
+            let relationships = [];
+            let contents = [];
+            input['contents'].forEach((content) => {
+                if (content['@type'] === OATComponentHandleName) {
+                    const componentRelationship = new ElementEdge(
+                        `${input['@id']}${OATComponentHandleName}${content['schema']}`,
+                        OATRelationshipHandleName,
+                        input['@id'],
+                        OATComponentHandleName,
+                        content['schema'],
+                        new ElementEdgeData(
+                            `${input['@id']}${OATComponentHandleName}${content['schema']}`,
+                            content['name'],
+                            '',
+                            OATComponentHandleName
+                        )
+                    );
+                    relationships = [...relationships, componentRelationship];
+                } else if (content['@type'] === OATRelationshipHandleName) {
+                    const relationship = new ElementEdge(
+                        content['@id']
+                            ? content['@id']
+                            : `${
+                                  input['@id']
+                              }${OATRelationshipHandleName}${getNextRelationshipAmount(
+                                  relationships
+                              )};${versionClassBase}`,
+                        OATRelationshipHandleName,
+                        input['@id'],
+                        OATRelationshipHandleName,
+                        content['target'],
+                        new ElementEdgeData(
+                            content['@id']
+                                ? content['@id']
+                                : `${
+                                      input['@id']
+                                  }${OATRelationshipHandleName}${getNextRelationshipAmount(
+                                      relationships
+                                  )};${versionClassBase}`,
+                            content['name'],
+                            content['displayName'],
+                            OATRelationshipHandleName
+                        )
+                    );
+                    relationships = [...relationships, relationship];
+                } else if (content['@type'] === OATUntargetedRelationshipName) {
+                    const name = `${input['displayName']}:${OATUntargetedRelationshipName}`;
+                    const id = `${input['@id']}:${OATUntargetedRelationshipName}`;
+                    const untargetedRelationship = {
+                        '@type': OATRelationshipHandleName,
+                        '@id': id,
+                        name: '',
+                        displayName: ''
+                    };
+                    const rp = modelPositions.find((x) => x.id === id);
+                    const newNode = new ElementNode(
+                        id,
+                        input['@type'],
+                        {
+                            x: rp ? rp.position.x : defaultNodePosition,
+                            y: rp ? rp.position.y : defaultNodePosition
+                        },
+                        new ElementData(
+                            id,
+                            name,
+                            OATUntargetedRelationshipName,
+                            [untargetedRelationship],
+                            contextClassBase
+                        )
+                    );
+                    const relationship = new ElementEdge(
+                        content['@id']
+                            ? content['@id']
+                            : `${input['@id']}${OATUntargetedRelationshipName}${id}`,
+                        OATRelationshipHandleName,
+                        input['@id'],
+                        OATUntargetedRelationshipName,
+                        id,
+                        new ElementEdgeData(
+                            content['@id']
+                                ? content['@id']
+                                : `${input['@id']}${OATUntargetedRelationshipName}${id}`,
+                            content['name'],
+                            content['displayName'],
+                            OATUntargetedRelationshipName
+                        )
+                    );
+                    relationships = [...relationships, newNode, relationship];
+                } else {
+                    contents = [...contents, content];
+                }
+            });
+            if (input['extends']) {
+                const extendRelationship = new ElementEdge(
+                    `${input['@id']}${OATExtendHandleName}${input['extends']}`,
+                    OATRelationshipHandleName,
+                    input['@id'],
+                    OATExtendHandleName,
+                    input['extends'],
+                    new ElementEdgeData(
+                        `${input['@id']}${OATExtendHandleName}${input['extends']}`,
+                        '',
+                        '',
+                        OATExtendHandleName
+                    )
+                );
+                relationships = [...relationships, extendRelationship];
+            }
+
+            const mp = modelPositions.find((x) => x.id === input['@id']);
+            const newNode = new ElementNode(
+                input['@id'],
+                input['@type'],
+                {
+                    x: mp ? mp.position.x : defaultNodePosition,
+                    y: mp ? mp.position.y : defaultNodePosition
+                },
+                new ElementData(
+                    input['@id'],
+                    input['displayName'],
+                    input['@type'],
+                    contents,
+                    contextClassBase
+                )
+            );
+            elements.push(newNode, ...relationships);
+            return elements;
+        }, []);
+    };
+
     const { t } = useTranslation();
     const theme = useTheme();
     const reactFlowWrapperRef = useRef(null);
@@ -271,31 +262,12 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     const [showInheritances, setShowInheritances] = useState(true);
     const [showComponents, setShowComponents] = useState(true);
     const [rfInstance, setRfInstance] = useState(null);
+    const [currentLocation, setCurrentLocation] = useState(null);
 
     const dagreGraph = new dagre.graphlib.Graph();
     dagreGraph.setDefaultEdgeLabel(() => ({}));
 
-    const idClassBase = `dtmi:${
-        namespace ? namespace : OATNamespaceDefaultValue
-    }:`;
-
-    const applyLayoutToElements = (elements, direction = 'TB') => {
-        // const isHorizontal = direction === 'LR';
-        // dagreGraph.setGraph({ rankdir: direction });
-
-        // elements.forEach((el) => {
-        //     if (isNode(el)) {
-        //         dagreGraph.setNode(el.id, {
-        //             width: nodeWidth,
-        //             height: nodeHeight
-        //         });
-        //     } else {
-        //         dagreGraph.setEdge(el.source, el.target);
-        //     }
-        // });
-
-        // dagre.layout(dagreGraph);
-
+    const applyLayoutToElements = (elements) => {
         const nodes = elements.reduce((collection, element) => {
             if (!element.source) {
                 collection.push({
@@ -353,29 +325,8 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
 
                 setElements(newElements);
             });
-
-        // return elements.map((el) => {
-        //     if (isNode(el)) {
-        //         const nodeWithPosition = dagreGraph.node(el.id);
-        //         el.targetPosition = isHorizontal ? 'left' : 'top';
-        //         el.sourcePosition = isHorizontal ? 'right' : 'bottom';
-
-        //         el.position = {
-        //             x:
-        //                 nodeWithPosition.x -
-        //                 nodeWidth / 2 +
-        //                 // unfortunately we need this little hack to pass a slightly different position
-        //                 // to notify react flow about the change. Its required for V9 only and migth be removed later.
-        //                 Math.random() / 1000,
-        //             y: nodeWithPosition.y - nodeHeight / 2
-        //         };
-        //     }
-
-        //     return el;
-        // });
+        return elements;
     };
-
-    const getNextRelationship;
 
     useEffect(() => {
         // Identifies which is the next model Id on creating new nodes and updates the Local Storage
@@ -683,6 +634,10 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
         setRfInstance(_reactFlowInstance);
     }, []);
 
+    const onMove = useCallback((flowTransform) => {
+        setCurrentLocation(flowTransform);
+    }, []);
+
     const onNewModelClick = () => {
         if (!state.modified) {
             // Create a new floating node
@@ -704,12 +659,32 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                 ...elements,
                 newNode
             ]);
-            // setElements(positionedElements);
+            setElements(positionedElements);
+
+            // Center pane focus on the new node
+            const positionedX =
+                positionedElements[positionedElements.length - 1].position.x;
+            const positionedY =
+                positionedElements[positionedElements.length - 1].position.y;
+
+            const wrapperBoundingBox = reactFlowWrapperRef.current.getBoundingClientRect();
+
+            rfInstance.setTransform({
+                x:
+                    -positionedX * currentLocation.zoom +
+                    wrapperBoundingBox.width / 2 -
+                    nodeWidth / 2,
+                y:
+                    -positionedY * currentLocation.zoom +
+                    wrapperBoundingBox.height / 2 -
+                    nodeHeight / 2,
+                zoom: currentLocation.zoom
+            });
         }
     };
 
     const onNodeDragStop = (evt, node) => {
-        // Checks if a node is being draged into another node to create a relationship between them
+        // Checks if a node is being dragged into another node to create a relationship between them
         let targetId = '';
         const areaDistanceX = 60;
         const areaDistanceY = 30;
@@ -728,7 +703,6 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
         const targetIndex = elements.findIndex(
             (element) => element.id === targetId
         );
-        const index = elements.findIndex((element) => element.id === node.id);
         if (targetIndex >= 0) {
             const id = node.id;
             if (node.data.type === elements[targetIndex].data.type) {
@@ -771,7 +745,10 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
             }
             node.id = id;
         } else {
-            elements[index].position = node.position;
+            const index = elements.findIndex(
+                (element) => element.id === node.id
+            );
+            elements[index].position = { ...node.position };
             setElements([...elements]);
         }
     };
@@ -803,22 +780,15 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
         if (target) {
             if (currentHandleIdRef.current !== OATUntargetedRelationshipName) {
                 params.target = target.dataset.id;
-                params.id = `${currentNodeIdRef.current}${
-                    currentHandleIdRef.current
-                }${getNextRelationshipAmount(
-                    elements,
-                    currentNodeIdRef.current
+                params.id = `${idClassBase}${OATRelationshipHandleName}${getNextRelationshipAmount(
+                    elements
                 )};${versionClassBase}`;
-                params.data.id = `${currentNodeIdRef.current}${
-                    currentHandleIdRef.current
-                }${getNextRelationshipAmount(
-                    elements,
-                    currentNodeIdRef.current
+                params.data.id = `${idClassBase}${OATRelationshipHandleName}${getNextRelationshipAmount(
+                    elements
                 )};${versionClassBase}`;
                 params.data.name = OATRelationshipHandleName
                     ? `${OATRelationshipHandleName}_${getNextRelationshipAmount(
-                          elements,
-                          currentNodeIdRef.current
+                          elements
                       )}`
                     : '';
                 setElements((els) => addEdge(params, els));
@@ -855,8 +825,8 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                     }
                 };
                 params.target = id;
-                params.id = `${currentNodeIdRef.current}${currentHandleIdRef.current}${id}`;
-                params.data.id = `${currentNodeIdRef.current}${currentHandleIdRef.current}${id}`;
+                params.id = id;
+                params.data.id = id;
                 params.data.type = `${OATUntargetedRelationshipName}`;
                 setElements((es) => [...addEdge(params, es), newNode]);
             }
@@ -885,23 +855,16 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                     }
                 };
                 params.target = id;
-                params.id = `${currentNodeIdRef.current}${
-                    currentHandleIdRef.current
-                }${getNextRelationshipAmount(
-                    elements,
-                    currentNodeIdRef.current
+                params.id = `${idClassBase}${OATRelationshipHandleName}${getNextRelationshipAmount(
+                    elements
                 )};${versionClassBase}`;
-                params.data.id = `${currentNodeIdRef.current}${
-                    currentHandleIdRef.current
-                }${getNextRelationshipAmount(
-                    elements,
-                    currentNodeIdRef.current
+                params.data.id = `${idClassBase}${OATRelationshipHandleName}${getNextRelationshipAmount(
+                    elements
                 )};${versionClassBase}`;
                 params.data.type = currentHandleIdRef.current;
                 params.data.name = OATRelationshipHandleName
                     ? `${OATRelationshipHandleName}_${getNextRelationshipAmount(
-                          elements,
-                          currentNodeIdRef.current
+                          elements
                       )}`
                     : '';
                 setElements((es) => [...addEdge(params, es), newNode]);
@@ -948,7 +911,8 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                     '@type': currentNode.data.type,
                     name: currentNode.data.name,
                     displayName: currentNode.data.displayName,
-                    target: currentNode.target
+                    target: currentNode.target,
+                    '@id': currentNode.id
                 };
                 const found = sourceNode.contents.find(
                     (element) => element.target === currentNode.target
@@ -1085,8 +1049,12 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
         setCurrentHovered(node);
     };
 
-    const onNodeMouseLeave = (evt) => {
+    const onNodeMouseLeave = () => {
         setCurrentHovered(null);
+    };
+
+    const onBackgroundClick = () => {
+        dispatch({ type: SET_OAT_PROPERTY_EDITOR_MODEL, payload: null });
     };
 
     return (
@@ -1110,6 +1078,8 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                         onNodeDragStop={onNodeDragStop}
                         onNodeMouseEnter={onNodeMouseEnter}
                         onNodeMouseLeave={onNodeMouseLeave}
+                        onPaneClick={onBackgroundClick}
+                        onMove={onMove}
                     >
                         <PrimaryButton
                             styles={buttonStyles}
@@ -1222,6 +1192,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                         <Background
                             color={theme.semanticColors.bodyBackground}
                             gap={16}
+                            onClick={onBackgroundClick}
                         />
                     </ReactFlow>
                 </ElementsContext.Provider>
