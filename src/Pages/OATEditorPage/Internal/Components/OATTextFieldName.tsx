@@ -61,7 +61,7 @@ const OATTextFieldName = ({
         }
     }, [model]);
 
-    const onChange = (value) => {
+    const onChange = (value: string) => {
         // Check length
         if (value.length <= OATNameLengthLimit) {
             setNameLengthError(null);
@@ -131,7 +131,7 @@ const OATTextFieldName = ({
         }
     };
 
-    const onKeyDown = (event) => {
+    const onKeyDown = (event: Event) => {
         if (event.key === 'Enter') {
             onCommitChange();
         }

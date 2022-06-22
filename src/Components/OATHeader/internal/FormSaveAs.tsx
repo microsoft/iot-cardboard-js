@@ -94,7 +94,7 @@ export const FormSaveAs = ({
         return;
     };
 
-    const onProjectNameChange = (value) => {
+    const onProjectNameChange = (value: string) => {
         const files = loadFiles();
         setProjectName(value);
 

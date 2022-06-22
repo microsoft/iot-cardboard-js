@@ -42,7 +42,7 @@ const OATTextFieldDisplayName = ({
     const [displayNameLengthError, setDisplayNameLengthError] = useState(null);
     const [temporaryValue, setTemporaryValue] = useState(displayName);
 
-    const onChangeClick = (value) => {
+    const onChangeClick = (value: string) => {
         // Check length
         if (value.length <= OATDisplayNameLengthLimit) {
             setDisplayNameLengthError(null);
@@ -75,7 +75,7 @@ const OATTextFieldDisplayName = ({
         }
     };
 
-    const onKeyDown = (event) => {
+    const onKeyDown = (event: Event) => {
         if (event.key === 'Enter') {
             onCommitChange();
         }

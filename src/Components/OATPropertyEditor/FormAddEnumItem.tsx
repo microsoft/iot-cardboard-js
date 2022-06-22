@@ -195,7 +195,7 @@ export const FormAddEnumItem = ({
         setModalBody(null);
     };
 
-    const getErrorMessage = (value) => {
+    const getErrorMessage = (value: string) => {
         const find = model[propertiesKeyName][
             currentPropertyIndex
         ].schema.enumValues.find((item) => item.enumValue === value);
@@ -208,7 +208,7 @@ export const FormAddEnumItem = ({
         return find ? `${t('OATPropertyEditor.errorRepeatedEnumValue')}` : '';
     };
 
-    const onNameChange = (value) => {
+    const onNameChange = (value: string) => {
         if (value.length <= OATNameLengthLimit) {
             setNameLengthError(null);
             // Name may only contain the characters a-z, A-Z, 0-9, and underscore.

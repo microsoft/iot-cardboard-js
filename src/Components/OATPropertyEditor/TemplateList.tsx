@@ -120,7 +120,7 @@ export const TemplateList = ({
         enteredTemplateRef.current = i;
     };
 
-    const getSchemaText = (itemSchema) => {
+    const getSchemaText = (itemSchema: string) => {
         if (typeof itemSchema === 'object') {
             return itemSchema['@type'];
         }

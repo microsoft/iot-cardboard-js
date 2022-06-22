@@ -58,7 +58,7 @@ const OATTextFieldId = ({
         setTemporaryValue(id);
     }, [id]);
 
-    const onChangeClick = (value) => {
+    const onChangeClick = (value: string) => {
         // Check length
         if (value.length <= OATIdLengthLimit) {
             setIdLengthError(null);
@@ -129,7 +129,7 @@ const OATTextFieldId = ({
         onCommit();
     };
 
-    const onKeyDown = (event) => {
+    const onKeyDown = (event: Event) => {
         if (event.key === 'Enter') {
             onCommitChange();
         }

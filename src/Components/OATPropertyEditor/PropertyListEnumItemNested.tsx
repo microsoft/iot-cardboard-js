@@ -41,7 +41,7 @@ export const PropertyListEnumItemNested = ({
         model ? model['@type'] : null
     );
 
-    const updateEnum = (value) => {
+    const updateEnum = (value: string) => {
         const activeItem =
             model[propertiesKeyName][parentIndex].schema.enumValues[index];
         const prop = {
@@ -58,7 +58,7 @@ export const PropertyListEnumItemNested = ({
         });
     };
 
-    const onGetErrorMessage = (value) => {
+    const onGetErrorMessage = (value: string) => {
         const find = model[propertiesKeyName][
             parentIndex
         ].schema.enumValues.find((item) => item.name === value);

@@ -31,7 +31,7 @@ export const FormSettings = ({
     const [namespaceError, setNamespaceError] = useState(false);
     const headerStyles = getHeaderStyles();
 
-    const onProjectNamespaceChange = (value) => {
+    const onProjectNamespaceChange = (value: string) => {
         // Validate value contains only letters, digits, colons and underscores. The first character may not be a digit
         const regex = /^[a-zA-Z_][a-zA-Z0-9_:]*$/;
         const validValue =
