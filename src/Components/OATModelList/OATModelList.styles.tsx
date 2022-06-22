@@ -18,16 +18,16 @@ export const getModelsStyles = () => {
             classNames.container,
             {
                 backgroundColor: theme.semanticColors.bodyBackground,
-                width: '107%',
+                width: '100%',
                 maxHeight: 'calc(100vh - 100px)',
-                overflowY: 'scroll',
-                right: '-7%'
+                height: '100%',
+                overflowX: 'hidden'
             } as IStyle
         ],
         modelNode: [
             classNames.modelNode,
             {
-                width: '92%',
+                width: '95%',
                 height: 'fit-content',
                 display: 'grid',
                 marginLeft: '2%',
@@ -56,7 +56,8 @@ export const getModelsStyles = () => {
                 zIndex: '101',
                 float: 'right',
                 display: 'flex',
-                justifyContent: 'flex-end'
+                justifyContent: 'flex-end',
+                padding: 0
             } as IStyle
         ],
         regularText: [
