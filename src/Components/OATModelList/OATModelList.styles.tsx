@@ -43,7 +43,8 @@ export const getModelsStyles = () => {
             {
                 height: 'fit-content',
                 display: 'flex',
-                flexDirection: 'column'
+                flexDirection: 'column',
+                width: '100%'
             } as IStyle
         ],
         nodeCancel: [
@@ -62,14 +63,22 @@ export const getModelsStyles = () => {
             classNames.strongText,
             {
                 textAlign: 'left',
-                float: 'left'
+                float: 'left',
+                maxWidth: '100%',
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis'
             } as IStyle
         ],
         strongText: [
             classNames.strongText,
             {
                 textAlign: 'left',
-                float: 'left'
+                float: 'left',
+                maxWidth: '100%',
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis'
             } as IStyle
         ],
         searchText: [
