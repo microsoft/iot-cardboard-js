@@ -1,4 +1,4 @@
-import React, { useRef, useState, useMemo, useEffect } from 'react';
+import React, { useRef, useState, useMemo } from 'react';
 import {
     FontIcon,
     ActionButton,
@@ -87,10 +87,8 @@ export const PropertyList = ({
         model ? model['@type'] : null
     );
 
-    const templatesRef = useRef(templates);
-
     const onPropertyItemDropOnTemplateList = () => {
-        const newTemplate = templates ? deepCopy(templatesRef.current) : [];
+        const newTemplate = templates ? deepCopy(templates) : [];
         newTemplate.push(
             model[propertiesKeyName][draggedPropertyItemRef.current]
         );
@@ -104,9 +102,6 @@ export const PropertyList = ({
     const onDragEnd = () => {
         if (enteredTemplateRef.current !== null) {
             onPropertyItemDropOnTemplateList();
-        }
-        if (dragNode.current) {
-            dragNode.current.removeEventListener('dragend', onDragEnd);
         }
         dragItem.current = null;
         dragNode.current = null;
@@ -142,7 +137,6 @@ export const PropertyList = ({
     const onDragStart = (e, propertyIndex) => {
         dragItem.current = propertyIndex;
         dragNode.current = e.target;
-        dragNode.current.addEventListener('dragend', onDragEnd);
         draggedPropertyItemRef.current = propertyIndex;
         //  Allows style to change after drag has started
         setTimeout(() => {
@@ -371,17 +365,12 @@ export const PropertyList = ({
                 draggable: true,
                 onDragStart: (e) => onDragStart(e, index),
                 onDragEnter: (e) => onDragEnter(e, index),
-                onDragEnd: onDragEnd
+                onDragEnd
             };
             return viewModel;
         });
         setPropertyListItems(properties);
     }, [propertyList]);
-
-    // Update templates ref so listeners can access latest value
-    useEffect(() => {
-        templatesRef.current = templates;
-    }, [templates]);
 
     return (
         <div className={propertyInspectorStyles.propertiesWrap}>
