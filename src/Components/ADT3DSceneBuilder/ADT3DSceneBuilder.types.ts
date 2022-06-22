@@ -15,7 +15,8 @@ import {
 } from '../../Models/Classes/3DVConfig';
 import {
     CustomMeshItem,
-    ISceneViewProps
+    ISceneViewProps,
+    TransformedElementItem
 } from '../../Models/Classes/SceneView.types';
 import {
     ADT3DSceneBuilderMode,
@@ -71,6 +72,7 @@ export const SET_ADT_SCENE_OBJECT_COLOR = 'SET_ADT_SCENE_OBJECT_COLOR';
 export const SET_MESH_IDS_TO_OUTLINE = 'SET_MESH_IDS_TO_OUTLINE';
 export const SET_IS_LAYER_BUILDER_DIALOG_OPEN =
     'SET_IS_LAYER_BUILDER_DIALOG_OPEN';
+export const SET_PARENT_MESH_IDS_TO_GIZMO = 'SET_PARENT_MESH_IDS_TO_GIZMO';
 // END of Actions
 
 export interface IADT3DSceneBuilderCardProps
@@ -117,6 +119,7 @@ export interface I3DSceneBuilderContext {
     coloredMeshItems: Array<CustomMeshItem>;
     setColoredMeshItems: (objects: Array<CustomMeshItem>) => void;
     setOutlinedMeshItems: (ids: Array<CustomMeshItem>) => void;
+    setGizmoElementItems: (objects: Array<TransformedElementItem>) => void;
     widgetFormInfo: WidgetFormInfo;
     setWidgetFormInfo: (widgetFormInfo: WidgetFormInfo) => void;
     behaviorTwinAliasFormInfo: BehaviorTwinAliasFormInfo;
@@ -269,6 +272,7 @@ export interface ADT3DSceneBuilderState {
     config: I3DScenesConfig;
     coloredMeshItems: Array<CustomMeshItem>;
     outlinedMeshItems: Array<CustomMeshItem>;
+    gizmoElementItems: Array<TransformedElementItem>;
     widgetFormInfo: WidgetFormInfo;
     behaviorTwinAliasFormInfo: BehaviorTwinAliasFormInfo;
     elementTwinAliasFormInfo: ElementTwinAliasFormInfo;

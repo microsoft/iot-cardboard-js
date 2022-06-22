@@ -104,7 +104,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
         setUnsavedChangesDialogDiscardAction,
         state,
         behaviorToEdit
-    } = useContext(SceneBuilderContext);
+    } = useContext(SceneBuilderContext); // Alerts tab also has access to context
 
     const [behaviorState, dispatch] = useReducer(
         BehaviorFormReducer,
@@ -125,6 +125,8 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
         )
     );
 
+    // sets all elements associated with this behavior
+    // write a useEffect that looks at selectedElements and pivotKey --> selEl[0] --> use for setGizmoElementItems
     useEffect(() => {
         const selectedElements = [];
 

@@ -20,7 +20,8 @@ import {
     SET_ADT_SCENE_BUILDER_REMOVED_ELEMENTS,
     SET_ORIGINAL_BEHAVIOR_TO_EDIT,
     SET_UNSAVED_BEHAVIOR_CHANGES_DIALOG_OPEN,
-    SET_UNSAVED_BEHAVIOR_CHANGES_DIALOG_DISCARD_ACTION
+    SET_UNSAVED_BEHAVIOR_CHANGES_DIALOG_DISCARD_ACTION,
+    SET_PARENT_MESH_IDS_TO_GIZMO as SET_ELEMENT_TO_GIZMO
 } from './ADT3DSceneBuilder.types';
 import {
     ADT3DSceneBuilderMode,
@@ -33,6 +34,7 @@ export const defaultADT3DSceneBuilderState: ADT3DSceneBuilderState = {
     config: null,
     coloredMeshItems: [],
     outlinedMeshItems: [],
+    gizmoElementItems: [],
     widgetFormInfo: { mode: WidgetFormMode.Cancelled },
     behaviorTwinAliasFormInfo: null,
     elementTwinAliasFormInfo: null,
@@ -112,6 +114,9 @@ export const ADT3DSceneBuilderReducer: (
                 break;
             case SET_MESH_IDS_TO_OUTLINE:
                 draft.outlinedMeshItems = payload;
+                break;
+            case SET_ELEMENT_TO_GIZMO:
+                draft.gizmoElementItems = payload;
                 break;
             case SET_IS_LAYER_BUILDER_DIALOG_OPEN:
                 draft.isLayerBuilderDialogOpen = payload.isOpen;

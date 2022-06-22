@@ -162,6 +162,7 @@ function SceneView(props: ISceneViewProps, ref) {
         cameraPosition,
         coloredMeshItems,
         transformedElementItems,
+        gizmoElementItems,
         showHoverOnSelected,
         outlinedMeshitems,
         isWireframe,
@@ -211,6 +212,7 @@ function SceneView(props: ISceneViewProps, ref) {
     const zoomedMeshesRef = useRef([]);
     const lastCameraPositionRef = useRef('');
     const previouslyTransformedElements = useRef<CustomMeshItem[]>([]);
+    const gizmoManagerRef = useRef<BABYLON.GizmoManager>(undefined);
 
     const [markersAndPositions, setMarkersAndPositions] = useState<
         { marker: Marker; left: number; top: number }[]
@@ -1690,9 +1692,7 @@ function SceneView(props: ISceneViewProps, ref) {
         }
 
         return () => {
-            debugLog('debug', 'Mesh coloring cleanup');
-            restoreMeshMaterials();
-            coloredMaterials.current = [];
+            debugLog('debug', 'Mesh transform cleanup'); //??
         };
     }, [
         transformedElementItems,
@@ -1749,6 +1749,77 @@ function SceneView(props: ISceneViewProps, ref) {
 
         console.log(parentMesh.id, transform);
     };
+
+    // Handle gizmoElementItems
+    useEffect(() => {
+        debugLog(
+            'debug',
+            'adding gizmo to parent meshes based on gizmoElementItems prop' +
+                (scene ? ' with scene' : ' no scene')
+        );
+
+        if (scene && gizmoElementItems && !isLoading) {
+            if (debugLogging) {
+                console.time('adding gizmo to meshes');
+                // console.log('tr', transformedMeshItems);
+                gizmoElementItems.forEach((gizmoElementItem) => {
+                    console.log('gizmoElementItem:', gizmoElementItem);
+                });
+            }
+            try {
+                // create a gizmoManager if one does not already exist
+                if (!gizmoManagerRef.current) {
+                    gizmoManagerRef.current = new BABYLON.GizmoManager(
+                        scene,
+                        1,
+                        utilLayer.current
+                    );
+                }
+                const gizmoManager = gizmoManagerRef.current;
+
+                if (gizmoElementItems.length == 0) {
+                    // if gizmoElementItems is empty, attach to null meshes to clear
+                    gizmoManager.attachToMesh(null);
+                } else {
+                    // later add support for multiple gizmoElementItems!!!
+                    const parentMesh: BABYLON.Mesh =
+                        meshMap.current?.[gizmoElementItems[0].parentMeshId];
+
+                    // setting all other meshes to be children of the parent mesh
+                    // so that the gizmo moves all meshes in element simultaneously
+                    const meshIds = gizmoElementItems[0].meshIds;
+                    const parentMeshId = gizmoElementItems[0].parentMeshId;
+                    meshIds.forEach((meshId) => {
+                        if (meshId != parentMeshId) {
+                            // set parent of each mesh (that isn't the designated parent) to parent mesh
+                            meshMap.current?.[meshId].setParent(parentMesh);
+                        }
+                    });
+                    gizmoManager.usePointerToAttachGizmos = false;
+                    gizmoManager.attachToMesh(parentMesh);
+                    gizmoManager.rotationGizmoEnabled = true;
+                    gizmoManager.positionGizmoEnabled = true;
+
+                    // gizmoManager.gizmos.rotationGizmo
+                }
+            } catch {
+                console.warn('unable to add gizmo to mesh');
+            }
+            if (debugLogging) {
+                console.timeEnd('adding gizmo to meshes');
+            }
+        }
+
+        return () => {
+            debugLog('debug', 'Mesh gizmo cleanup'); //?
+        };
+    }, [
+        gizmoElementItems,
+        isLoading
+        // isWireframe,
+        // currentObjectColor,
+        // backgroundColor
+    ]);
 
     // Handle outlinedMeshItems
     useEffect(() => {

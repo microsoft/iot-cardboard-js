@@ -2,7 +2,8 @@ import { AbstractMesh } from '@babylonjs/core';
 import { IStyle, IStyleFunctionOrObject, ITheme } from '@fluentui/react';
 import {
     CustomMeshItem,
-    ISceneViewProps
+    ISceneViewProps,
+    TransformedElementItem
 } from '../../Models/Classes/SceneView.types';
 import { IADTAdapter, IADTObjectColor } from '../../Models/Constants';
 
@@ -16,6 +17,7 @@ export interface IADT3DBuilderProps {
     coloredMeshItems?: CustomMeshItem[];
     showHoverOnSelected?: boolean;
     outlinedMeshItems?: CustomMeshItem[];
+    gizmoElementItems?: TransformedElementItem[];
     objectColorUpdated?: (objectColor: IADTObjectColor) => void;
     hideViewModePickerUI?: boolean;
     sceneViewProps?: ISceneViewProps;

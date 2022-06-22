@@ -95,8 +95,6 @@ export const useRuntimeSceneData = (
 
                         console.log('currentValue', currentValue);
 
-                        const currentValueNotInRangeButHaveTransform = false; // bear with me
-
                         // get extensionProperties, find out if they are behaviors with transforms
                         if (visual.valueRanges[0] !== undefined) {
                             const valueRanges = visual.valueRanges;

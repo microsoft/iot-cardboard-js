@@ -142,6 +142,7 @@ export interface ISceneViewProps {
     coloredMeshItems?: CustomMeshItem[];
     outlinedMeshitems?: CustomMeshItem[];
     transformedElementItems?: TransformedElementItem[];
+    gizmoElementItems?: TransformedElementItem[];
     zoomToMeshIds?: string[];
     unzoomedMeshOpacity?: number;
     showHoverOnSelected?: boolean;
