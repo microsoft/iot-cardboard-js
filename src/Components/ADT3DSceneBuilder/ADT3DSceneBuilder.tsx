@@ -87,7 +87,6 @@ import { DeeplinkContextActionType } from '../../Models/Context/DeeplinkContext/
 import { getStyles } from './ADT3DSceneBuilder.styles';
 import SceneLayers from './Internal/SceneLayers/SceneLayers';
 import { SceneThemeContextProvider } from '../../Models/Context';
-import produce from 'immer';
 
 const contextMenuStyles = mergeStyleSets({
     header: {
@@ -137,9 +136,6 @@ const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
 
     // state
     const [behaviorToEdit, setBehaviorToEdit] = useState<IBehavior>(null);
-    const [formDirtyStateMap, setFormDirtyStateMap] = useState<
-        Map<BuilderDirtyFormType, boolean>
-    >(new Map<BuilderDirtyFormType, boolean>());
 
     const previouslyColoredMeshItems = useRef([]);
     const elementContextualMenuItems = useRef([]);
