@@ -763,12 +763,12 @@
     "overwrite": "sobrescrever",
     "namespace": "Namespace",
     "enterANamespace": "Digite um namespace",
-    "namespaceError": "O nome só pode conter os caracteres a-z, A-Z, 0-9 e sublinhar.",
     "settings": "Configurações",
     "errorInvalidJSON": "JSON inválido",
     "errorFileFormatNotSupported": "{{file}} formato não suportado",
     "errorFormatNoSupported": "Formato de arquivo não suportado",
-    "errorIssueWithFile": "Problema com {{fileName}}: {{error}}"
+    "errorIssueWithFile": "Problema com {{fileName}}: {{error}}",
+    "errorNamespace": "O namespace só pode conter letras, dígitos e sublinhados."
   },
   "cameraControls": {
     "mouseControls": "Controles do mouse",

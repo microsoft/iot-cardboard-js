@@ -77,6 +77,13 @@ const Editor = ({
         return propertyItems;
     }, [model]);
 
+    const isSupportedModelType = useMemo(() => {
+        return (
+            (model && model['@type'] === ModelTypes.interface) ||
+            (model && model['@type'] === ModelTypes.relationship)
+        );
+    }, [model]);
+
     return (
         <div className={propertyInspectorStyles.container}>
             <Pivot className={propertyInspectorStyles.pivot}>
@@ -94,6 +101,7 @@ const Editor = ({
                                 state={state}
                                 setModalBody={setModalBody}
                                 setModalOpen={setModalOpen}
+                                isSupportedModelType={isSupportedModelType}
                             />
                         </Stack.Item>
                         <Stack.Item>
@@ -142,25 +150,27 @@ const Editor = ({
                         </Stack.Item>
 
                         <Stack.Item grow styles={propertyListStackItem}>
-                            <PropertyList
-                                dispatch={dispatch}
-                                state={state}
-                                setCurrentPropertyIndex={
-                                    setCurrentPropertyIndex
-                                }
-                                setModalOpen={setModalOpen}
-                                currentPropertyIndex={currentPropertyIndex}
-                                enteredPropertyRef={enteredPropertyRef}
-                                draggingTemplate={draggingTemplate}
-                                enteredTemplateRef={enteredTemplateRef}
-                                draggingProperty={draggingProperty}
-                                setDraggingProperty={setDraggingProperty}
-                                setCurrentNestedPropertyIndex={
-                                    setCurrentNestedPropertyIndex
-                                }
-                                setModalBody={setModalBody}
-                                propertyList={propertyList}
-                            />
+                            {isSupportedModelType && (
+                                <PropertyList
+                                    dispatch={dispatch}
+                                    state={state}
+                                    setCurrentPropertyIndex={
+                                        setCurrentPropertyIndex
+                                    }
+                                    setModalOpen={setModalOpen}
+                                    currentPropertyIndex={currentPropertyIndex}
+                                    enteredPropertyRef={enteredPropertyRef}
+                                    draggingTemplate={draggingTemplate}
+                                    enteredTemplateRef={enteredTemplateRef}
+                                    draggingProperty={draggingProperty}
+                                    setDraggingProperty={setDraggingProperty}
+                                    setCurrentNestedPropertyIndex={
+                                        setCurrentNestedPropertyIndex
+                                    }
+                                    setModalBody={setModalBody}
+                                    propertyList={propertyList}
+                                />
+                            )}
                         </Stack.Item>
                     </Stack>
                 </PivotItem>
@@ -168,11 +178,13 @@ const Editor = ({
                     headerText={t('OATPropertyEditor.json')}
                     className={propertyInspectorStyles.pivotItem}
                 >
-                    <JSONEditor
-                        theme={theme}
-                        dispatch={dispatch}
-                        state={state}
-                    />
+                    {isSupportedModelType && (
+                        <JSONEditor
+                            theme={theme}
+                            dispatch={dispatch}
+                            state={state}
+                        />
+                    )}
                 </PivotItem>
             </Pivot>
             {templatesActive && (

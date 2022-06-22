@@ -28,9 +28,20 @@ export const FormSettings = ({
 }: IModal) => {
     const { t } = useTranslation();
     const [namespace, setNamespace] = useState(state.namespace);
+    const [namespaceError, setNamespaceError] = useState(false);
     const headerStyles = getHeaderStyles();
 
     const onProjectNamespaceChange = (value) => {
+        // Validate value contains only letters, digits, colons and underscores. The first character may not be a digit
+        const regex = /^[a-zA-Z_][a-zA-Z0-9_:]*$/;
+        const validValue =
+            (value.match(regex) &&
+                value.charAt(value.length - 1) !== '_' && // Last character may not be an underscore
+                value.charAt(value.length - 1) !== ':' && // The last character may not be a colon
+                value.indexOf('::') === -1) || // The value may not contain two consecutive colons
+            value.length === 0;
+
+        setNamespaceError(!validValue);
         setNamespace(value);
     };
 
@@ -57,6 +68,9 @@ export const FormSettings = ({
                     placeholder={t('OATHeader.enterANamespace')}
                     value={namespace}
                     onChange={(e, v) => onProjectNamespaceChange(v)}
+                    errorMessage={
+                        namespaceError ? t('OATHeader.errorNamespace') : null
+                    }
                 />
             </div>
 
@@ -64,7 +78,7 @@ export const FormSettings = ({
                 <PrimaryButton
                     text={t('OATHeader.save')}
                     onClick={onSave}
-                    disabled={!namespace}
+                    disabled={namespaceError}
                 />
 
                 <PrimaryButton

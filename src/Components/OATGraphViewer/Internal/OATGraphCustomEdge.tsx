@@ -1,4 +1,4 @@
-import React, { useContext, useMemo, useState } from 'react';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { useTheme, Icon, FontSizes, ActionButton } from '@fluentui/react';
 import {
     getEdgeCenter,
@@ -21,13 +21,17 @@ import {
     SET_OAT_DELETED_MODEL_ID,
     SET_OAT_CONFIRM_DELETE_OPEN
 } from '../../../Models/Constants/ActionTypes';
+<<<<<<< HEAD
 import { ModelTypes } from '../../../Models/Constants/Enums';
+=======
+>>>>>>> 274b6df0510beb686077b15bed4734564c6de2bd
 import { DTDLRelationship } from '../../../Models/Classes/DTDL';
 import { getPropertyDisplayName } from '../../OATPropertyEditor/Utils';
 import { IOATGraphCustomEdgeProps } from '../../../Models/Constants';
 import OATTextFieldName from '../../../Pages/OATEditorPage/Internal/Components/OATTextFieldName';
 
 const foreignObjectSize = 180;
+const foreignObjectSizeExtendRelation = 20;
 const offsetSmall = 5;
 const offsetMedium = 10;
 const sourceDefaultHeight = 6;
@@ -155,6 +159,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
         showComponents,
         state
     } = useContext(ElementsContext);
+    const { model } = state;
     const graphViewerStyles = getGraphViewerStyles();
     const relationshipTextFieldStyles = getRelationshipTextFieldStyles();
     const theme = useTheme();
@@ -184,6 +189,13 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
         const target = nodes.find((x) => x.id === edge.target);
         return [target, ...getMidPointForNode(target)];
     }, [edge, nodes]);
+
+    useEffect(() => {
+        if (nameEditor && (!model || model['@id'] !== id)) {
+            setNameEditor(false);
+        }
+    }, [id, model, nameEditor]);
+
     const getSourceComponents = (
         betaAngle,
         sourceBase,
@@ -457,37 +469,27 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
 
     const onNameClick = () => {
         setNameEditor(true);
-        if (
-            polygons.element.data.type !== ModelTypes.relationship &&
-            polygons.element.data.type !== ModelTypes.untargeted &&
-            polygons.element.data.type !== ModelTypes.component
-        ) {
-            setCurrentNode(null);
-            dispatch({
-                type: SET_OAT_PROPERTY_EDITOR_MODEL,
-                payload: null
-            });
-        } else {
-            const relationship = new DTDLRelationship(
-                polygons.element.data.id,
-                nameText,
-                polygons.element.data.displayName,
-                polygons.element.data.description,
-                polygons.element.data.comment,
-                polygons.element.data.writable,
-                polygons.element.data.content
-                    ? polygons.element.data.content
-                    : [],
-                polygons.element.data.target,
-                polygons.element.data.maxMultiplicity
-            );
 
-            setCurrentNode(polygons.element.id);
-            dispatch({
-                type: SET_OAT_PROPERTY_EDITOR_MODEL,
-                payload: relationship
-            });
+        const relationship = new DTDLRelationship(
+            polygons.element.data.id,
+            nameText,
+            polygons.element.data.displayName,
+            polygons.element.data.description,
+            polygons.element.data.comment,
+            polygons.element.data.writable,
+            polygons.element.data.content ? polygons.element.data.content : [],
+            polygons.element.data.target,
+            polygons.element.data.maxMultiplicity
+        );
+
+        if (polygons.element.data.type === OATExtendHandleName) {
+            relationship['@type'] = OATExtendHandleName;
         }
+        setCurrentNode(polygons.element.id);
+        dispatch({
+            type: SET_OAT_PROPERTY_EDITOR_MODEL,
+            payload: relationship
+        });
     };
 
     const edgePath = useMemo(() => {
@@ -557,7 +559,11 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
             )}
             {nameEditor && (
                 <foreignObject
-                    width={foreignObjectSize}
+                    width={
+                        data.type === OATExtendHandleName
+                            ? foreignObjectSizeExtendRelation
+                            : foreignObjectSize
+                    }
                     height={foreignObjectSize}
                     x={
                         data.type !== OATExtendHandleName
@@ -577,9 +583,6 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                                 setName={setNameText}
                                 dispatch={dispatch}
                                 state={state}
-                                onCommitCallback={() => {
-                                    setNameEditor(false);
-                                }}
                                 autoFocus
                             />
                         )}

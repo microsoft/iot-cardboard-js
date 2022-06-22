@@ -10,7 +10,6 @@ import { IAction, IOATTwinModelNodes } from '../../Models/Constants';
 import {
     SET_OAT_DELETED_MODEL_ID,
     SET_OAT_SELECTED_MODEL_ID,
-    SET_OAT_PROPERTY_EDITOR_MODEL,
     SET_OAT_CONFIRM_DELETE_OPEN
 } from '../../Models/Constants/ActionTypes';
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
@@ -124,7 +123,7 @@ const OATModelList = ({
                     styles={actionButtonStyles}
                     onClick={() => onSelectedClick(item['@id'])}
                 >
-                    <div>
+                    <div className={modelsStyles.modelNodeButtonContent}>
                         <div onDoubleClick={() => onIdClick(item['@id'])}>
                             {(!idEditor ||
                                 currentNodeId.current !== item['@id']) && (
@@ -138,11 +137,13 @@ const OATModelList = ({
                                     setId={setIdText}
                                     dispatch={dispatch}
                                     state={state}
-                                    onChangeCallback={() => {
+                                    onChange={() => {
                                         setItems([...items]);
                                     }}
-                                    onCommitCallback={() => {
+                                    onCommit={() => {
                                         setIdEditor(false);
+                                        setItems([...items]);
+                                        onSelectedClick(null);
                                     }}
                                     autoFocus
                                 />
@@ -163,19 +164,23 @@ const OATModelList = ({
                             )}
                             {nameEditor &&
                                 currentNodeId.current === item['@id'] && (
-                                    <OATTextFieldDisplayName
-                                        displayName={nameText}
-                                        setDisplayName={setNameText}
-                                        dispatch={dispatch}
-                                        model={model}
-                                        onChangeCallback={() => {
-                                            setItems([...items]);
-                                        }}
-                                        onCommitCallback={() => {
-                                            setNameEditor(false);
-                                        }}
-                                        autoFocus
-                                    />
+                                    <>
+                                        <OATTextFieldDisplayName
+                                            displayName={nameText}
+                                            setDisplayName={setNameText}
+                                            dispatch={dispatch}
+                                            model={model}
+                                            onChange={() => {
+                                                setItems([...items]);
+                                            }}
+                                            onCommit={() => {
+                                                setNameEditor(false);
+                                                setItems([...items]);
+                                                onSelectedClick(null);
+                                            }}
+                                            autoFocus
+                                        />
+                                    </>
                                 )}
                         </div>
                     </div>

@@ -763,12 +763,12 @@
     "overwrite": "перезаписать",
     "namespace": "Пространство имен",
     "enterANamespace": "Ввод пространства имен",
-    "namespaceError": "Имя может содержать только символы a-z, A-Z, 0-9 и подчеркивание.",
     "settings": "Параметры",
     "errorInvalidJSON": "Недопустимый JSON",
     "errorFileFormatNotSupported": "Формат {{file}} не поддерживается",
     "errorFormatNoSupported": "Формат файла не поддерживается",
-    "errorIssueWithFile": "Проблема с {{имя_файла}}: {{ошибка}}"
+    "errorIssueWithFile": "Проблема с {{имя_файла}}: {{ошибка}}",
+    "errorNamespace": "Пространство имен может содержать только буквы, цифры и подчеркивания."
   },
   "cameraControls": {
     "mouseControls": "Элементы управления мышью",
