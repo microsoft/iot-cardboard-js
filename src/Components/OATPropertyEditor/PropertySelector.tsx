@@ -15,6 +15,7 @@ import { deepCopy } from '../../Models/Services/Utils';
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 
 import { getModelPropertyCollectionName } from './Utils';
+import { DTDLSchemaType } from '../../Models/Classes/DTDL';
 import { propertySelectorData } from '../../Models/Constants';
 
 const versionClassBase = '1';
