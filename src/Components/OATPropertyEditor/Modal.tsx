@@ -38,7 +38,6 @@ export const Modal = ({
     const propertyInspectorStyles = getPropertyInspectorStyles();
 
     const getModalBody = () => {
-        console.log('modalBody', modalBody);
         switch (modalBody) {
             case FormBody.property:
                 return (

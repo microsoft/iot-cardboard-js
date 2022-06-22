@@ -30,7 +30,6 @@ const foreignObjectSize = 180;
 const foreignObjectSizeExtendRelation = 20;
 const offsetSmall = 5;
 const offsetMedium = 10;
-const sourceDefaultHeight = 6;
 const rightAngleValue = 1.5708;
 const separation = 10;
 
@@ -361,7 +360,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
 
     const polygons = useMemo(() => {
         // With this Memo function the values for Polygons Points are calculated
-        let adjustedSourceY = sourceY - sourceDefaultHeight;
+        let adjustedSourceY = sourceY;
         let adjustedSourceX = sourceX;
         let adjustmentSourceX = 0;
         let adjustmentSourceY = 0;
@@ -393,8 +392,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                 adjustedSourceY =
                     adjustedSourceY - indexX * separation * baseVector;
                 adjustmentSourceX = sourceX - adjustedSourceX;
-                adjustmentSourceY =
-                    sourceY - adjustedSourceY - sourceDefaultHeight;
+                adjustmentSourceY = sourceY - adjustedSourceY;
             }
             // Using source and target points to triangulate and get angles
             const triangleHeight = (targetY - adjustedSourceY) * heightVector;
