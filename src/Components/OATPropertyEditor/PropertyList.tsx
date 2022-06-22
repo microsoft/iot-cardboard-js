@@ -45,13 +45,14 @@ type IPropertyList = {
     state?: IOATEditorState;
 };
 
+const moveUpKey = 'moveUp';
+const moveDownKey = 'moveDown';
+
 export const PropertyList = ({
     setCurrentPropertyIndex,
     setModalOpen,
     enteredPropertyRef,
-    draggingTemplate,
     enteredTemplateRef,
-    draggingProperty,
     setDraggingProperty,
     setModalBody,
     currentPropertyIndex,
@@ -86,7 +87,7 @@ export const PropertyList = ({
         model ? model['@type'] : null
     );
 
-    const handlePropertyItemDropOnTemplateList = () => {
+    const onPropertyItemDropOnTemplateList = () => {
         const newTemplate = templates ? deepCopy(templates) : [];
         newTemplate.push(
             model[propertiesKeyName][draggedPropertyItemRef.current]
@@ -97,11 +98,11 @@ export const PropertyList = ({
         });
     };
 
-    const handleDragEnd = () => {
+    const onDragEnd = () => {
         if (enteredTemplateRef.current !== null) {
-            handlePropertyItemDropOnTemplateList();
+            onPropertyItemDropOnTemplateList();
         }
-        dragNode.current.removeEventListener('dragend', handleDragEnd);
+        dragNode.current.removeEventListener('dragend', onDragEnd);
         dragItem.current = null;
         dragNode.current = null;
         draggedPropertyItemRef.current = null;
@@ -109,9 +110,9 @@ export const PropertyList = ({
         enteredTemplateRef.current = null;
     };
 
-    const handleDragEnter = (e, i) => {
+    const onDragEnter = (e, i) => {
         if (!dragNode.current) {
-            handleDragEnterExternalItem(i);
+            onDragEnterExternalItem(i);
             return;
         }
         if (e.target !== dragNode.current) {
@@ -133,10 +134,10 @@ export const PropertyList = ({
         }
     };
 
-    const handleDragStart = (e, propertyIndex) => {
+    const onDragStart = (e, propertyIndex) => {
         dragItem.current = propertyIndex;
         dragNode.current = e.target;
-        dragNode.current.addEventListener('dragend', handleDragEnd);
+        dragNode.current.addEventListener('dragend', onDragEnd);
         draggedPropertyItemRef.current = propertyIndex;
         //  Allows style to change after drag has started
         setTimeout(() => {
@@ -144,37 +145,9 @@ export const PropertyList = ({
         }, 0);
     };
 
-    const handleDragEnterExternalItem = (i) => {
+    const onDragEnterExternalItem = (i) => {
         setEnteredItem(i);
         enteredPropertyRef.current = i;
-    };
-
-    const handlePropertyDisplayNameChange = (value, index) => {
-        const newModel = deepCopy(model);
-        if (index === undefined) {
-            newModel[propertiesKeyName][
-                currentPropertyIndex
-            ].displayName = value;
-        } else {
-            newModel[propertiesKeyName][index].displayName = value;
-        }
-        dispatch({ type: SET_OAT_PROPERTY_EDITOR_MODEL, payload: newModel });
-    };
-
-    const generateErrorMessage = (value, index) => {
-        if (value) {
-            const find = model[propertiesKeyName].find(
-                (item) => item.name === value
-            );
-
-            if (!find && value !== '') {
-                handlePropertyDisplayNameChange(value, index);
-            }
-
-            return find
-                ? `${t('OATPropertyEditor.errorRepeatedPropertyName')}`
-                : '';
-        }
     };
 
     const deleteItem = (index) => {
@@ -205,7 +178,7 @@ export const PropertyList = ({
         }
     };
 
-    const handleMouseLeave = (e) => {
+    const onMouseLeave = (e) => {
         if (
             shouldClosePropertySelectorOnMouseLeave(
                 e,
@@ -216,26 +189,28 @@ export const PropertyList = ({
         }
     };
 
-    const handlePropertyBarMouseOver = (e) => {
+    const onPropertyBarMouseOver = (e) => {
         setPropertySelectorVisible(true);
         setLastPropertyFocused(null);
         handleSelectorPosition(e);
     };
 
-    const handlePropertyWrapScrollMouseOver = (e) => {
+    const onPropertyWrapScrollMouseOver = (e) => {
         setPropertySelectorVisible(true);
         setLastPropertyFocused(null);
         handleSelectorPosition(e);
     };
 
-    const handleTemplateAddition = (item) => {
+    const onTemplateAddition = (item) => {
+        const newTemplates = deepCopy(templates);
+        newTemplates.push(item);
         dispatch({
             type: SET_OAT_TEMPLATES,
-            payload: [...templates, item]
+            payload: newTemplates
         });
     };
 
-    const handleDuplicate = (item) => {
+    const onDuplicate = (item) => {
         const itemCopy = deepCopy(item);
         itemCopy.name = `${itemCopy.name}_${t('OATPropertyEditor.copy')}`;
         itemCopy.displayName = `${itemCopy.displayName}_${t(
@@ -251,7 +226,7 @@ export const PropertyList = ({
         });
     };
 
-    const handleMoveUp = (item) => {
+    const onMoveUp = (item) => {
         // Move up the current property
         const newModel = deepCopy(model);
         const currentIndex = newModel[propertiesKeyName].findIndex(
@@ -269,7 +244,7 @@ export const PropertyList = ({
         }
     };
 
-    const handleMoveDown = (item) => {
+    const onMoveDown = (item) => {
         // Move down the current property
         const newModel = deepCopy(model);
         const currentIndex = newModel[propertiesKeyName].findIndex(
@@ -305,33 +280,33 @@ export const PropertyList = ({
                         className:
                             propertyInspectorStyles.propertySubMenuItemIcon
                     },
-                    onClick: () => handleTemplateAddition(item),
+                    onClick: () => onTemplateAddition(item),
                     id: 'addOverflow',
                     'data-testid': 'addOverflow'
                 },
                 {
-                    key: 'moveUp',
+                    key: moveUpKey,
                     text: t('OATPropertyEditor.moveUp'),
                     iconProps: {
                         iconName: 'up',
                         className:
                             propertyInspectorStyles.propertySubMenuItemIcon
                     },
-                    onClick: () => handleMoveUp(item),
-                    id: 'moveUp',
-                    'data-testid': 'moveUp'
+                    onClick: () => onMoveUp(item),
+                    id: moveUpKey,
+                    'data-testid': moveUpKey
                 },
                 {
-                    key: 'moveDown',
+                    key: moveDownKey,
                     text: t('OATPropertyEditor.moveDown'),
                     iconProps: {
                         iconName: 'down',
                         className:
                             propertyInspectorStyles.propertySubMenuItemIcon
                     },
-                    onClick: () => handleMoveDown(item),
-                    id: 'moveDown',
-                    'data-testid': 'moveDown'
+                    onClick: () => onMoveDown(item),
+                    id: moveDownKey,
+                    'data-testid': moveDownKey
                 },
                 {
                     key: 'manageLayers',
@@ -341,7 +316,7 @@ export const PropertyList = ({
                         className:
                             propertyInspectorStyles.propertySubMenuItemIcon
                     },
-                    onClick: () => handleDuplicate(item),
+                    onClick: () => onDuplicate(item),
                     id: 'duplicateOverflow',
                     'data-testid': 'duplicateOverflow'
                 },
@@ -362,14 +337,14 @@ export const PropertyList = ({
             // If item is the first one, remove the move up option
             if (index === 0) {
                 menuItems = menuItems.filter(
-                    (menuItem) => menuItem.key !== 'moveUp'
+                    (menuItem) => menuItem.key !== moveUpKey
                 );
             }
 
             // If item is the last one, remove the move down option
             if (index === model[propertiesKeyName].length - 1) {
                 menuItems = menuItems.filter(
-                    (menuItem) => menuItem.key !== 'moveDown'
+                    (menuItem) => menuItem.key !== moveDownKey
                 );
             }
 
@@ -389,9 +364,9 @@ export const PropertyList = ({
                 textPrimary: item.displayName,
                 textSecondary: item.schema.toString(),
                 draggable: true,
-                onDragStart: (e) => handleDragStart(e, index),
-                onDragEnter: (e) => handleDragEnter(e, index),
-                onDragEnd: () => handleDragEnd()
+                onDragStart: (e) => onDragStart(e, index),
+                onDragEnter: (e) => onDragEnter(e, index),
+                onDragEnd: onDragEnd
             };
             return viewModel;
         });
@@ -404,10 +379,10 @@ export const PropertyList = ({
                 <div
                     className={propertyInspectorStyles.addPropertyMessageWrap}
                     onMouseOver={(e) => {
-                        handlePropertyWrapScrollMouseOver(e);
+                        onPropertyWrapScrollMouseOver(e);
                     }}
                     onMouseLeave={(e) => {
-                        handleMouseLeave(e);
+                        onMouseLeave(e);
                     }}
                 >
                     <ActionButton
@@ -418,7 +393,7 @@ export const PropertyList = ({
                             }
                         }}
                         onClick={(e) => {
-                            handlePropertyWrapScrollMouseOver(e);
+                            onPropertyWrapScrollMouseOver(e);
                         }}
                     >
                         <FontIcon
@@ -441,16 +416,16 @@ export const PropertyList = ({
                         propertyInspectorStyles.addPropertyBarPropertyListWrap
                     }
                     onMouseLeave={(e) => {
-                        handleMouseLeave(e);
+                        onMouseLeave(e);
                     }}
                 >
                     {model && model[propertiesKeyName].length > 0 && (
                         <AddPropertyBar
                             onMouseOver={(e) => {
-                                handlePropertyBarMouseOver(e);
+                                onPropertyBarMouseOver(e);
                             }}
                             onClick={(e) => {
-                                handlePropertyBarMouseOver(e);
+                                onPropertyBarMouseOver(e);
                             }}
                         />
                     )}

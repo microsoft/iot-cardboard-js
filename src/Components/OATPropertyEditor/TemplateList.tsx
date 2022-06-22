@@ -143,7 +143,7 @@ export const TemplateList = ({
         });
     };
 
-    const handlePropertyListAddition = (item) => {
+    const onPropertyListAddition = (item) => {
         if (model) {
             const newModel = deepCopy(model);
             newModel[propertiesKeyName].push(item);
@@ -154,22 +154,12 @@ export const TemplateList = ({
         }
     };
 
-    const moveItemUpOnTemplateList = (index: number) => {
+    const moveItemOnTemplateList = (index: number, moveUp: boolean) => {
+        const direction = moveUp ? -1 : 1;
         const newTemplate = deepCopy(templates);
         const item = newTemplate[index];
         newTemplate.splice(index, 1);
-        newTemplate.splice(index - 1, 0, item);
-        dispatch({
-            type: SET_OAT_TEMPLATES,
-            payload: newTemplate
-        });
-    };
-
-    const moveItempDownOnTemplateList = (index: number) => {
-        const newTemplate = deepCopy(templates);
-        const item = newTemplate[index];
-        newTemplate.splice(index, 1);
-        newTemplate.splice(index + 1, 0, item);
+        newTemplate.splice(index + direction, 0, item);
         dispatch({
             type: SET_OAT_TEMPLATES,
             payload: newTemplate
@@ -196,13 +186,12 @@ export const TemplateList = ({
                         index={i}
                         deleteItem={deleteItem}
                         getDragItemClassName={getDragItemClassName}
-                        handleDragEnter={onDragEnter}
-                        handleDragEnterExternalItem={onDragEnterExternalItem}
-                        handleDragStart={onDragStart}
+                        onDragEnter={onDragEnter}
+                        onDragEnterExternalItem={onDragEnterExternalItem}
+                        onDragStart={onDragStart}
                         getSchemaText={getSchemaText}
-                        handlePropertyListAddition={handlePropertyListAddition}
-                        handleMoveUp={moveItemUpOnTemplateList}
-                        handleMoveDown={moveItempDownOnTemplateList}
+                        onPropertyListAddition={onPropertyListAddition}
+                        onMove={moveItemOnTemplateList}
                         templatesLength={templates.length}
                     />
                 ))}

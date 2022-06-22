@@ -10,12 +10,11 @@ interface ITemplateListItemList {
     index: number;
     deleteItem?: (index: number) => void;
     getDragItemClassName?: (index: number) => void;
-    handleDragEnter?: (event: any, index: number) => void;
-    handleDragEnterExternalItem?: (index: number) => void;
-    handleDragStart?: (event: any, index: number) => void;
-    handlePropertyListAddition?: (item: DTDLProperty) => void;
-    handleMoveUp?: (index: number) => void;
-    handleMoveDown?: (index: number) => void;
+    onDragEnter?: (event: any, index: number) => void;
+    onDragEnterExternalItem?: (index: number) => void;
+    onDragStart?: (event: any, index: number) => void;
+    onPropertyListAddition?: (item: DTDLProperty) => void;
+    onMove?: (index: number, moveUp: boolean) => void;
     getSchemaText?: (schema: any) => string;
     templatesLength?: number;
 }
@@ -26,12 +25,11 @@ export const TemplateListItem = ({
     index,
     deleteItem,
     getDragItemClassName,
-    handleDragEnter,
-    handleDragEnterExternalItem,
-    handleDragStart,
-    handleMoveUp,
-    handleMoveDown,
-    handlePropertyListAddition,
+    onDragEnter,
+    onDragEnterExternalItem,
+    onDragStart,
+    onMove,
+    onPropertyListAddition,
     getSchemaText,
     templatesLength
 }: ITemplateListItemList) => {
@@ -39,8 +37,8 @@ export const TemplateListItem = ({
     const iconWrapMoreStyles = getPropertyListItemIconWrapMoreStyles();
     const [subMenuActive, setSubMenuActive] = useState(false);
 
-    const onPropertyListAddition = () => {
-        handlePropertyListAddition(item);
+    const addTopPropertyList = () => {
+        onPropertyListAddition(item);
         setSubMenuActive(false);
     };
 
@@ -51,12 +49,12 @@ export const TemplateListItem = ({
             key={index}
             draggable
             onDragStart={(e) => {
-                handleDragStart(e, index);
+                onDragStart(e, index);
             }}
             onDragEnter={
                 draggingTemplate
-                    ? (e) => handleDragEnter(e, index)
-                    : () => handleDragEnterExternalItem(index)
+                    ? (e) => onDragEnter(e, index)
+                    : () => onDragEnterExternalItem(index)
             }
         >
             <Text>{item.displayName ? item.displayName : item.name}</Text>
@@ -79,15 +77,15 @@ export const TemplateListItem = ({
                         addItemToTemplates={false}
                         targetId={`${item.name}_template_item`}
                         setSubMenuActive={setSubMenuActive}
-                        handlePropertyListAddition={onPropertyListAddition}
+                        onPropertyListAddition={addTopPropertyList}
                         addItemToPropertyList
-                        handleMoveUp={
+                        onMoveUp={
                             // Use function if item is not the first item in the list
-                            index > 0 ? handleMoveUp : null
+                            index > 0 ? onMove : null
                         }
-                        handleMoveDown={
+                        onMoveDown={
                             // Use function if item is not the last item in the list
-                            index < templatesLength - 1 ? handleMoveDown : null
+                            index < templatesLength - 1 ? onMove : null
                         }
                     />
                 )}

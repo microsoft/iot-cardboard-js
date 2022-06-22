@@ -12,11 +12,11 @@ type IPropertyListItem = {
     deleteItem?: (index: number) => void;
     deleteNestedItem?: (parentIndex: number, index: number) => void;
     parentIndex?: number;
-    handleDuplicate?: () => void;
-    handlePropertyListAddition?: () => void;
-    handleTemplateAddition?: () => void;
-    handleMoveUp?: (index: number) => void;
-    handleMoveDown?: (index: number) => void;
+    onDuplicate?: () => void;
+    onPropertyListAddition?: () => void;
+    onTemplateAddition?: () => void;
+    onMoveUp?: (index: number, moveUp: boolean) => void;
+    onMoveDown?: (index: number, moveUp: boolean) => void;
     removeItem?: boolean;
     duplicateItem?: boolean;
     addItemToPropertyList?: boolean;
@@ -31,11 +31,11 @@ export const PropertyListItemSubMenu = ({
     subMenuActive,
     deleteItem,
     deleteNestedItem,
-    handlePropertyListAddition,
-    handleTemplateAddition,
-    handleDuplicate,
-    handleMoveUp,
-    handleMoveDown,
+    onPropertyListAddition,
+    onTemplateAddition,
+    onDuplicate,
+    onMoveUp,
+    onMoveDown,
     removeItem,
     duplicateItem,
     addItemToPropertyList,
@@ -66,7 +66,7 @@ export const PropertyListItemSubMenu = ({
                             <ActionButton
                                 styles={subMenuItemStyles}
                                 onClick={() => {
-                                    handleTemplateAddition();
+                                    onTemplateAddition();
                                     setSubMenuActive(false);
                                 }}
                             >
@@ -82,12 +82,12 @@ export const PropertyListItemSubMenu = ({
                             </ActionButton>
                         </Stack>
                     )}
-                    {handleMoveUp && (
+                    {onMoveUp && (
                         <Stack>
                             <ActionButton
                                 styles={subMenuItemStyles}
                                 onClick={() => {
-                                    handleMoveUp(index);
+                                    onMoveUp(index, true);
                                     setSubMenuActive(false);
                                 }}
                             >
@@ -101,12 +101,12 @@ export const PropertyListItemSubMenu = ({
                             </ActionButton>
                         </Stack>
                     )}
-                    {handleMoveDown && (
+                    {onMoveDown && (
                         <Stack>
                             <ActionButton
                                 styles={subMenuItemStyles}
                                 onClick={() => {
-                                    handleMoveDown(index);
+                                    onMoveDown(index, false);
                                     setSubMenuActive(false);
                                 }}
                             >
@@ -125,7 +125,7 @@ export const PropertyListItemSubMenu = ({
                             <ActionButton
                                 styles={subMenuItemStyles}
                                 onClick={() => {
-                                    handlePropertyListAddition();
+                                    onPropertyListAddition();
                                     setSubMenuActive(false);
                                 }}
                             >
@@ -146,7 +146,7 @@ export const PropertyListItemSubMenu = ({
                             <ActionButton
                                 styles={subMenuItemStyles}
                                 onClick={() => {
-                                    handleDuplicate();
+                                    onDuplicate();
                                     setSubMenuActive(false);
                                 }}
                             >
