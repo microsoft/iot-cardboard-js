@@ -13,9 +13,13 @@ type IPropertyListItem = {
     deleteNestedItem?: (parentIndex: number, index: number) => void;
     parentIndex?: number;
     handleDuplicate?: () => void;
+    handlePropertyListAddition?: () => void;
     handleTemplateAddition?: () => void;
+    handleMoveUp?: (index: number) => void;
+    handleMoveDown?: (index: number) => void;
     removeItem?: boolean;
     duplicateItem?: boolean;
+    addItemToPropertyList?: boolean;
     addItemToTemplates?: boolean;
     targetId?: string;
     setSubMenuActive: React.Dispatch<React.SetStateAction<boolean>>;
@@ -27,10 +31,14 @@ export const PropertyListItemSubMenu = ({
     subMenuActive,
     deleteItem,
     deleteNestedItem,
+    handlePropertyListAddition,
     handleTemplateAddition,
     handleDuplicate,
+    handleMoveUp,
+    handleMoveDown,
     removeItem,
     duplicateItem,
+    addItemToPropertyList,
     addItemToTemplates,
     targetId,
     setSubMenuActive
@@ -70,6 +78,65 @@ export const PropertyListItemSubMenu = ({
                                 />
                                 <Text>
                                     {t('OATPropertyEditor.addToTemplate')}
+                                </Text>
+                            </ActionButton>
+                        </Stack>
+                    )}
+                    {handleMoveUp && (
+                        <Stack>
+                            <ActionButton
+                                styles={subMenuItemStyles}
+                                onClick={() => {
+                                    handleMoveUp(index);
+                                    setSubMenuActive(false);
+                                }}
+                            >
+                                <FontIcon
+                                    iconName={'Up'}
+                                    className={
+                                        propertyInspectorStyles.propertySubMenuItemIcon
+                                    }
+                                />
+                                <Text>{t('OATPropertyEditor.moveUp')}</Text>
+                            </ActionButton>
+                        </Stack>
+                    )}
+                    {handleMoveDown && (
+                        <Stack>
+                            <ActionButton
+                                styles={subMenuItemStyles}
+                                onClick={() => {
+                                    handleMoveDown(index);
+                                    setSubMenuActive(false);
+                                }}
+                            >
+                                <FontIcon
+                                    iconName={'Down'}
+                                    className={
+                                        propertyInspectorStyles.propertySubMenuItemIcon
+                                    }
+                                />
+                                <Text>{t('OATPropertyEditor.moveDown')}</Text>
+                            </ActionButton>
+                        </Stack>
+                    )}
+                    {addItemToPropertyList && (
+                        <Stack>
+                            <ActionButton
+                                styles={subMenuItemStyles}
+                                onClick={() => {
+                                    handlePropertyListAddition();
+                                    setSubMenuActive(false);
+                                }}
+                            >
+                                <FontIcon
+                                    iconName={'Add'}
+                                    className={
+                                        propertyInspectorStyles.propertySubMenuItemIcon
+                                    }
+                                />
+                                <Text>
+                                    {t('OATPropertyEditor.addToPropertyList')}
                                 </Text>
                             </ActionButton>
                         </Stack>
@@ -126,7 +193,8 @@ export const PropertyListItemSubMenu = ({
 export default PropertyListItemSubMenu;
 
 PropertyListItemSubMenu.defaultProps = {
-    removeItem: true,
+    addItemToPropertyList: false,
+    addItemToTemplates: true,
     duplicateItem: true,
-    addItemToTemplates: true
+    removeItem: true
 };

@@ -49,6 +49,14 @@ type IListItemBaseProps<T> = {
     textPrimary: string;
     /** secondary text to show below the main text */
     textSecondary?: string;
+    /** enable drag */
+    draggable?: boolean;
+    /** On drag start */
+    onDragStart?: React.DragEventHandler<HTMLElement>;
+    /** On drag end */
+    onDragEnd?: React.DragEventHandler<HTMLElement>;
+    /** On drag enter */
+    onDragEnter?: React.DragEventHandler<HTMLElement>;
 };
 // when NOT provided, click handler required
 type WithOnClickMenuUndefined<T> = {

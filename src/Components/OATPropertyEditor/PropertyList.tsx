@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect, useMemo } from 'react';
+import React, { useRef, useState, useMemo } from 'react';
 import {
     FontIcon,
     ActionButton,
@@ -8,8 +8,6 @@ import {
 import { useTranslation } from 'react-i18next';
 import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
 import { deepCopy } from '../../Models/Services/Utils';
-import PropertyListItem from './PropertyListItem';
-import PropertyListItemNest from './PropertyListItemNest';
 import PropertySelector from './PropertySelector';
 import AddPropertyBar from './AddPropertyBar';
 import {
@@ -112,6 +110,10 @@ export const PropertyList = ({
     };
 
     const handleDragEnter = (e, i) => {
+        if (!dragNode.current) {
+            handleDragEnterExternalItem(i);
+            return;
+        }
         if (e.target !== dragNode.current) {
             //  Entered item is not the same as dragged node
 
@@ -132,7 +134,6 @@ export const PropertyList = ({
     };
 
     const handleDragStart = (e, propertyIndex) => {
-        console.log('e', e);
         dragItem.current = propertyIndex;
         dragNode.current = e.target;
         dragNode.current.addEventListener('dragend', handleDragEnd);
@@ -141,25 +142,6 @@ export const PropertyList = ({
         setTimeout(() => {
             setDraggingProperty(true);
         }, 0);
-    };
-
-    const getNestItemClassName = () => {
-        return propertyInspectorStyles.propertyItemNest;
-    };
-
-    const getNestedItemClassName = () => {
-        return propertyInspectorStyles.propertyItemNested;
-    };
-
-    const getItemClassName = (propertyIndex) => {
-        if (propertyIndex === dragItem.current && draggingProperty) {
-            return propertyInspectorStyles.propertyItemDragging;
-        }
-        if (propertyIndex === enteredItem && draggingTemplate) {
-            return propertyInspectorStyles.propertyItemEntered;
-        }
-
-        return propertyInspectorStyles.propertyItem;
     };
 
     const handleDragEnterExternalItem = (i) => {
@@ -269,8 +251,39 @@ export const PropertyList = ({
         });
     };
 
-    const handleItemDragStart = () => {
-        console.log('dragging');
+    const handleMoveUp = (item) => {
+        // Move up the current property
+        const newModel = deepCopy(model);
+        const currentIndex = newModel[propertiesKeyName].findIndex(
+            (property) => property['@id'] === item['@id']
+        );
+        if (currentIndex > 0) {
+            const previousProperty =
+                newModel[propertiesKeyName][currentIndex - 1];
+            newModel[propertiesKeyName][currentIndex - 1] = item;
+            newModel[propertiesKeyName][currentIndex] = previousProperty;
+            dispatch({
+                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                payload: newModel
+            });
+        }
+    };
+
+    const handleMoveDown = (item) => {
+        // Move down the current property
+        const newModel = deepCopy(model);
+        const currentIndex = newModel[propertiesKeyName].findIndex(
+            (property) => property['@id'] === item['@id']
+        );
+        if (currentIndex < newModel[propertiesKeyName].length - 1) {
+            const nextProperty = newModel[propertiesKeyName][currentIndex + 1];
+            newModel[propertiesKeyName][currentIndex + 1] = item;
+            newModel[propertiesKeyName][currentIndex] = nextProperty;
+            dispatch({
+                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                payload: newModel
+            });
+        }
     };
 
     const getListItems = useMemo(() => {
@@ -283,7 +296,7 @@ export const PropertyList = ({
             item: DTDLProperty,
             index: number
         ): IContextualMenuItem[] => {
-            return [
+            let menuItems = [
                 {
                     key: 'edit',
                     text: t('OATPropertyEditor.addToTemplate'),
@@ -295,6 +308,30 @@ export const PropertyList = ({
                     onClick: () => handleTemplateAddition(item),
                     id: 'addOverflow',
                     'data-testid': 'addOverflow'
+                },
+                {
+                    key: 'moveUp',
+                    text: t('OATPropertyEditor.moveUp'),
+                    iconProps: {
+                        iconName: 'up',
+                        className:
+                            propertyInspectorStyles.propertySubMenuItemIcon
+                    },
+                    onClick: () => handleMoveUp(item),
+                    id: 'moveUp',
+                    'data-testid': 'moveUp'
+                },
+                {
+                    key: 'moveDown',
+                    text: t('OATPropertyEditor.moveDown'),
+                    iconProps: {
+                        iconName: 'down',
+                        className:
+                            propertyInspectorStyles.propertySubMenuItemIcon
+                    },
+                    onClick: () => handleMoveDown(item),
+                    id: 'moveDown',
+                    'data-testid': 'moveDown'
                 },
                 {
                     key: 'manageLayers',
@@ -321,6 +358,22 @@ export const PropertyList = ({
                     'data-testid': 'removeOverflow'
                 }
             ];
+
+            // If item is the first one, remove the move up option
+            if (index === 0) {
+                menuItems = menuItems.filter(
+                    (menuItem) => menuItem.key !== 'moveUp'
+                );
+            }
+
+            // If item is the last one, remove the move down option
+            if (index === model[propertiesKeyName].length - 1) {
+                menuItems = menuItems.filter(
+                    (menuItem) => menuItem.key !== 'moveDown'
+                );
+            }
+
+            return menuItems;
         };
         const properties = propertyList.map((item, index) => {
             const viewModel: ICardboardListItem<IOATProperty> = {
@@ -330,15 +383,15 @@ export const PropertyList = ({
                     id: item['@id'],
                     displayName: item.displayName,
                     index: index
-                    // draggable: true,
-                    // onDragStart: () => handleItemDragStart()
                 },
                 onClick: listItemOnClick,
                 overflowMenuItems: getMenuItems(item, index),
                 textPrimary: item.displayName,
                 textSecondary: item.schema.toString(),
                 draggable: true,
-                onDragStart: (e) => handleDragStart(e, index)
+                onDragStart: (e) => handleDragStart(e, index),
+                onDragEnter: (e) => handleDragEnter(e, index),
+                onDragEnd: () => handleDragEnd()
             };
             return viewModel;
         });
@@ -377,27 +430,9 @@ export const PropertyList = ({
                 </div>
             )}
 
-            <div
-                draggable
-                onDragStart={(e) => {
-                    handleItemDragStart();
-                }}
-                style={{ width: '100%', height: '40px', background: 'black' }}
-            >
-                <span>span</span>
-            </div>
-
             <CardboardList<IOATProperty>
                 items={propertyListItems}
                 listKey={'properties'}
-                listProps={
-                    {
-                        // draggable: true,
-                        // onDragStart: (e) => {
-                        //     handleDragStart(e, currentPropertyIndex);
-                        // }
-                    }
-                }
             />
 
             {propertyList && propertyList.length > 0 && (

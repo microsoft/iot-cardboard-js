@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
 import { deepCopy } from '../../Models/Services/Utils';
-import TemplateListItem from './TeplateListItem';
+import TemplateListItem from './TemplateListItem';
 import {
     SET_OAT_PROPERTY_EDITOR_MODEL,
     SET_OAT_TEMPLATES,
@@ -143,6 +143,39 @@ export const TemplateList = ({
         });
     };
 
+    const handlePropertyListAddition = (item) => {
+        if (model) {
+            const newModel = deepCopy(model);
+            newModel[propertiesKeyName].push(item);
+            dispatch({
+                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                payload: newModel
+            });
+        }
+    };
+
+    const moveItemUpOnTemplateList = (index: number) => {
+        const newTemplate = deepCopy(templates);
+        const item = newTemplate[index];
+        newTemplate.splice(index, 1);
+        newTemplate.splice(index - 1, 0, item);
+        dispatch({
+            type: SET_OAT_TEMPLATES,
+            payload: newTemplate
+        });
+    };
+
+    const moveItempDownOnTemplateList = (index: number) => {
+        const newTemplate = deepCopy(templates);
+        const item = newTemplate[index];
+        newTemplate.splice(index, 1);
+        newTemplate.splice(index + 1, 0, item);
+        dispatch({
+            type: SET_OAT_TEMPLATES,
+            payload: newTemplate
+        });
+    };
+
     return (
         <div
             className={propertyInspectorStyles.propertiesWrap}
@@ -167,6 +200,10 @@ export const TemplateList = ({
                         handleDragEnterExternalItem={onDragEnterExternalItem}
                         handleDragStart={onDragStart}
                         getSchemaText={getSchemaText}
+                        handlePropertyListAddition={handlePropertyListAddition}
+                        handleMoveUp={moveItemUpOnTemplateList}
+                        handleMoveDown={moveItempDownOnTemplateList}
+                        templatesLength={templates.length}
                     />
                 ))}
         </div>
