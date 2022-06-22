@@ -54,7 +54,7 @@ import {
 import { getStyles } from './BuilderLeftPanel.styles';
 import { BreadcrumbAction } from '../../../SceneBreadcrumb/SceneBreadcrumb.types';
 
-const debugLogging = true;
+const debugLogging = false;
 const logDebugConsole = getDebugLogger('BuilderLeftPanel', debugLogging);
 
 const getClassNames = classNamesFunction<
@@ -477,10 +477,6 @@ const BuilderLeftPanel: React.FC<IBuilderLeftPanelProps> = ({ styles }) => {
                         setUnsavedBehaviorChangesDialogOpen(true);
                         setUnsavedChangesDialogDiscardAction(() => {
                             navigate();
-                            dispatch({
-                                type: SET_ADT_SCENE_BUILDER_SELECTED_BEHAVIOR,
-                                payload: null
-                            });
                         });
                         logDebugConsole(
                             'debug',
