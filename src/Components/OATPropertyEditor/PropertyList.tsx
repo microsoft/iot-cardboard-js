@@ -1,4 +1,4 @@
-import React, { useRef, useState, useMemo } from 'react';
+import React, { useRef, useState, useMemo, useEffect } from 'react';
 import {
     FontIcon,
     ActionButton,
@@ -87,11 +87,14 @@ export const PropertyList = ({
         model ? model['@type'] : null
     );
 
+    const templatesRef = useRef(templates);
+
     const onPropertyItemDropOnTemplateList = () => {
-        const newTemplate = templates ? deepCopy(templates) : [];
+        const newTemplate = templates ? deepCopy(templatesRef.current) : [];
         newTemplate.push(
             model[propertiesKeyName][draggedPropertyItemRef.current]
         );
+
         dispatch({
             type: SET_OAT_TEMPLATES,
             payload: newTemplate
@@ -102,7 +105,9 @@ export const PropertyList = ({
         if (enteredTemplateRef.current !== null) {
             onPropertyItemDropOnTemplateList();
         }
-        dragNode.current.removeEventListener('dragend', onDragEnd);
+        if (dragNode.current) {
+            dragNode.current.removeEventListener('dragend', onDragEnd);
+        }
         dragItem.current = null;
         dragNode.current = null;
         draggedPropertyItemRef.current = null;
@@ -372,6 +377,11 @@ export const PropertyList = ({
         });
         setPropertyListItems(properties);
     }, [propertyList]);
+
+    // Update templates ref so listeners can access latest value
+    useEffect(() => {
+        templatesRef.current = templates;
+    }, [templates]);
 
     return (
         <div className={propertyInspectorStyles.propertiesWrap}>
