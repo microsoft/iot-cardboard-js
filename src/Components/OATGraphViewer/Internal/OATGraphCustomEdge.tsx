@@ -27,7 +27,7 @@ import { IOATGraphCustomEdgeProps } from '../../../Models/Constants';
 import OATTextFieldName from '../../../Pages/OATEditorPage/Internal/Components/OATTextFieldName';
 
 const foreignObjectSize = 180;
-const foreignObjectSizeExtendRelation = 50;
+const foreignObjectSizeExtendRelation = 20;
 const offsetSmall = 5;
 const offsetMedium = 10;
 const sourceDefaultHeight = 6;
