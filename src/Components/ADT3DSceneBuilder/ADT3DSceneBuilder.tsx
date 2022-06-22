@@ -753,6 +753,17 @@ const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
     // header callbacks
     const handleScenePageModeChange = useCallback(
         (newScenePageMode: ADT3DScenePageModes) => {
+            const switchMode = () => {
+                scenePageModeChange(newScenePageMode);
+                dispatch({
+                    type: SET_ADT_SCENE_BUILDER_SELECTED_BEHAVIOR,
+                    payload: null
+                });
+                dispatch({
+                    type: SET_ADT_SCENE_BUILDER_SELECTED_ELEMENT,
+                    payload: null
+                });
+            };
             // handle forms with changes before transitioning
             if (
                 state.formDirtyState.get('behavior') ||
@@ -760,18 +771,10 @@ const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
             ) {
                 setUnsavedBehaviorChangesDialogOpen(true);
                 setUnsavedChangesDialogDiscardAction(() => {
-                    scenePageModeChange(newScenePageMode);
-                    dispatch({
-                        type: SET_ADT_SCENE_BUILDER_SELECTED_BEHAVIOR,
-                        payload: null
-                    });
-                    dispatch({
-                        type: SET_ADT_SCENE_BUILDER_SELECTED_ELEMENT,
-                        payload: null
-                    });
+                    switchMode();
                 });
             } else {
-                scenePageModeChange(newScenePageMode);
+                switchMode();
             }
         },
         [
