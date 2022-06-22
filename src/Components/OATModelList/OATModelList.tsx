@@ -10,7 +10,6 @@ import { IAction, IOATTwinModelNodes } from '../../Models/Constants';
 import {
     SET_OAT_DELETED_MODEL_ID,
     SET_OAT_SELECTED_MODEL_ID,
-    SET_OAT_PROPERTY_EDITOR_MODEL,
     SET_OAT_CONFIRM_DELETE_OPEN
 } from '../../Models/Constants/ActionTypes';
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
@@ -144,6 +143,7 @@ const OATModelList = ({
                                     onCommit={() => {
                                         setIdEditor(false);
                                         setItems([...items]);
+                                        onSelectedClick(null);
                                     }}
                                     autoFocus
                                 />
@@ -176,6 +176,7 @@ const OATModelList = ({
                                             onCommit={() => {
                                                 setNameEditor(false);
                                                 setItems([...items]);
+                                                onSelectedClick(null);
                                             }}
                                             autoFocus
                                         />
