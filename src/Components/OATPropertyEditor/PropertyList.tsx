@@ -222,7 +222,7 @@ export const PropertyList = ({
         }
     };
 
-    const handleMouseLeave = (e) => {
+    const onMouseLeave = (e) => {
         if (
             shouldClosePropertySelectorOnMouseLeave(
                 e,
@@ -233,13 +233,13 @@ export const PropertyList = ({
         }
     };
 
-    const handlePropertyBarMouseOver = (e) => {
+    const onPropertyBarMouseOver = (e) => {
         setPropertySelectorVisible(true);
         setLastPropertyFocused(null);
         handleSelectorPosition(e);
     };
 
-    const handlePropertyWrapScrollMouseOver = (e) => {
+    const onPropertyWrapScrollMouseOver = (e) => {
         setPropertySelectorVisible(true);
         setLastPropertyFocused(null);
         handleSelectorPosition(e);
@@ -252,7 +252,7 @@ export const PropertyList = ({
         });
     };
 
-    const handleDuplicate = (item) => {
+    const onDuplicate = (item) => {
         const itemCopy = deepCopy(item);
         itemCopy.name = `${itemCopy.name}_${t('OATPropertyEditor.copy')}`;
         itemCopy.displayName = `${itemCopy.displayName}_${t(
@@ -299,7 +299,7 @@ export const PropertyList = ({
                         className:
                             propertyInspectorStyles.propertySubMenuItemIcon
                     },
-                    onClick: () => handleDuplicate(item),
+                    onClick: () => onDuplicate(item),
                     id: 'duplicateOverflow',
                     'data-testid': 'duplicateOverflow'
                 },
@@ -342,10 +342,10 @@ export const PropertyList = ({
                 <div
                     className={propertyInspectorStyles.addPropertyMessageWrap}
                     onMouseOver={(e) => {
-                        handlePropertyWrapScrollMouseOver(e);
+                        onPropertyWrapScrollMouseOver(e);
                     }}
                     onMouseLeave={(e) => {
-                        handleMouseLeave(e);
+                        onMouseLeave(e);
                     }}
                 >
                     <ActionButton
@@ -356,7 +356,7 @@ export const PropertyList = ({
                             }
                         }}
                         onClick={(e) => {
-                            handlePropertyWrapScrollMouseOver(e);
+                            onPropertyWrapScrollMouseOver(e);
                         }}
                     >
                         <FontIcon
@@ -379,16 +379,16 @@ export const PropertyList = ({
                         propertyInspectorStyles.addPropertyBarPropertyListWrap
                     }
                     onMouseLeave={(e) => {
-                        handleMouseLeave(e);
+                        onMouseLeave(e);
                     }}
                 >
                     {model && model[propertiesKeyName].length > 0 && (
                         <AddPropertyBar
                             onMouseOver={(e) => {
-                                handlePropertyBarMouseOver(e);
+                                onPropertyBarMouseOver(e);
                             }}
                             onClick={(e) => {
-                                handlePropertyBarMouseOver(e);
+                                onPropertyBarMouseOver(e);
                             }}
                         />
                     )}

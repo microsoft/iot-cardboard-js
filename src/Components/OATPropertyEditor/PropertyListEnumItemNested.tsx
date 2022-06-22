@@ -58,7 +58,7 @@ export const PropertyListEnumItemNested = ({
         });
     };
 
-    const getErrorMessage = (value) => {
+    const onGetErrorMessage = (value) => {
         const find = model[propertiesKeyName][
             parentIndex
         ].schema.enumValues.find((item) => item.name === value);
@@ -89,7 +89,7 @@ export const PropertyListEnumItemNested = ({
                         : Object.values(item.displayName)[0]
                 }
                 validateOnFocusOut
-                onGetErrorMessage={getErrorMessage}
+                onGetErrorMessage={onGetErrorMessage}
             />
             <Text>{item.enumValue}</Text>
             <IconButton

@@ -53,7 +53,7 @@ const OATTextFieldId = ({
     const { model, models } = state;
     const originalValue = id;
 
-    const handleOnChange = (value) => {
+    const onChange = (value) => {
         // Check length
         if (value.length <= OATIdLengthLimit) {
             setIdLengthError(null);
@@ -149,7 +149,7 @@ const OATTextFieldId = ({
             styles={styles}
             value={id}
             onChange={(_ev, value) => {
-                handleOnChange(value);
+                onChange(value);
             }}
             errorMessage={getErrorMessage()}
             onKeyDown={onKeyDown}

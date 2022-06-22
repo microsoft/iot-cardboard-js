@@ -39,7 +39,7 @@ export const FormSaveAs = ({
     const headerStyles = getHeaderStyles();
     const { modelPositions, models, templates, namespace } = state;
 
-    const handleOnSave = () => {
+    const onSave = () => {
         const files = loadFiles();
         if (error) {
             //  Overwrite existing file
@@ -94,7 +94,7 @@ export const FormSaveAs = ({
         return;
     };
 
-    const handleProjectNameChange = (value) => {
+    const onProjectNameChange = (value) => {
         const files = loadFiles();
         setProjectName(value);
 
@@ -123,7 +123,7 @@ export const FormSaveAs = ({
                 <TextField
                     placeholder={t('OATHeader.enterAName')}
                     value={projectName}
-                    onChange={(e, v) => handleProjectNameChange(v)}
+                    onChange={(e, v) => onProjectNameChange(v)}
                     errorMessage={
                         error
                             ? t(
@@ -139,7 +139,7 @@ export const FormSaveAs = ({
                     text={
                         error ? t('OATHeader.overwrite') : t('OATHeader.save')
                     }
-                    onClick={handleOnSave}
+                    onClick={onSave}
                     disabled={!projectName}
                 />
 

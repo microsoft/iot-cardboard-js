@@ -30,11 +30,11 @@ export const FormSettings = ({
     const [namespace, setNamespace] = useState(state.namespace);
     const headerStyles = getHeaderStyles();
 
-    const handleProjectNamespaceChange = (value) => {
+    const onProjectNamespaceChange = (value) => {
         setNamespace(value);
     };
 
-    const handleOnSave = () => {
+    const onSave = () => {
         dispatch({
             type: SET_OAT_NAMESPACE,
             payload: namespace
@@ -56,14 +56,14 @@ export const FormSettings = ({
                 <TextField
                     placeholder={t('OATHeader.enterANamespace')}
                     value={namespace}
-                    onChange={(e, v) => handleProjectNamespaceChange(v)}
+                    onChange={(e, v) => onProjectNamespaceChange(v)}
                 />
             </div>
 
             <div className={headerStyles.modalRowFlexEnd}>
                 <PrimaryButton
                     text={t('OATHeader.save')}
-                    onClick={handleOnSave}
+                    onClick={onSave}
                     disabled={!namespace}
                 />
 

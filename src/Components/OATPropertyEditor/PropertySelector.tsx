@@ -206,7 +206,7 @@ const PropertySelector = ({
         setPropertySelectorVisible(false);
     };
 
-    const handleTagClick = (tag: string) => {
+    const onTagClick = (tag: string) => {
         if (onTagClickCallback) {
             onTagClickCallback();
         }
@@ -308,10 +308,10 @@ const PropertySelector = ({
                                         propertyInspectorStyles.propertyTag
                                     }
                                     onClick={() => {
-                                        handleTagClick(tag.name);
+                                        onTagClick(tag.name);
                                     }}
                                     onKeyPress={() => {
-                                        handleTagClick(tag.name);
+                                        onTagClick(tag.name);
                                     }}
                                     src={tag.icon}
                                     title={tag.title}
@@ -339,10 +339,10 @@ const PropertySelector = ({
                                         propertyInspectorStyles.propertyTag
                                     }
                                     onClick={() => {
-                                        handleTagClick(tag.name);
+                                        onTagClick(tag.name);
                                     }}
                                     onKeyPress={() => {
-                                        handleTagClick(tag.name);
+                                        onTagClick(tag.name);
                                     }}
                                     src={tag.icon}
                                     title={tag.title}
@@ -359,10 +359,10 @@ const PropertySelector = ({
                             key={i}
                             className={propertyInspectorStyles.propertyTag}
                             onClick={() => {
-                                handleTagClick(tag.name);
+                                onTagClick(tag.name);
                             }}
                             onKeyPress={() => {
-                                handleTagClick(tag.name);
+                                onTagClick(tag.name);
                             }}
                             src={tag.icon}
                             title={tag.title}

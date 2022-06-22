@@ -61,7 +61,7 @@ const OATTextFieldName = ({
         }
     }, [model]);
 
-    const handleOnChange = (value) => {
+    const onChange = (value) => {
         // Check length
         if (value.length <= OATNameLengthLimit) {
             setNameLengthError(null);
@@ -161,7 +161,7 @@ const OATTextFieldName = ({
             styles={styles}
             value={temporaryName}
             onChange={(_ev, value) => {
-                handleOnChange(value);
+                onChange(value);
             }}
             errorMessage={getErrorMessage()}
             onKeyDown={onKeyDown}

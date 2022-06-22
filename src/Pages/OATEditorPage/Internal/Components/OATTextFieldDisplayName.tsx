@@ -41,7 +41,7 @@ const OATTextFieldDisplayName = ({
     const { t } = useTranslation();
     const [displayNameLengthError, setDisplayNameLengthError] = useState(null);
 
-    const handleOnChange = (value) => {
+    const onChangeClick = (value) => {
         // Check length
         if (value.length <= OATDisplayNameLengthLimit) {
             setDisplayNameLengthError(null);
@@ -89,7 +89,7 @@ const OATTextFieldDisplayName = ({
             value={getModelPropertyListItemName(displayName)}
             placeholder={placeholder}
             onChange={(_ev, value) => {
-                handleOnChange(value);
+                onChangeClick(value);
             }}
             errorMessage={getErrorMessage()}
             onKeyDown={onKeyDown}

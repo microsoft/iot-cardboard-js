@@ -137,7 +137,7 @@ export const FormUpdateProperty = ({
         setLanguageSelectionDescription(option.key);
     };
 
-    const handleFormSubmit = () => {
+    const onFormSubmit = () => {
         const modelCopy = deepCopy(model);
         modelCopy.comment = comment ? comment : model.comment;
         modelCopy.displayName =
@@ -559,7 +559,7 @@ export const FormUpdateProperty = ({
                 <PrimaryButton
                     text={t('OATPropertyEditor.update')}
                     allowDisabledFocus
-                    onClick={handleFormSubmit}
+                    onClick={onFormSubmit}
                     disabled={
                         displayNameError ||
                         commentError ||

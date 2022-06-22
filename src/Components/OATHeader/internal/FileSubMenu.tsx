@@ -39,7 +39,7 @@ export const FileSubMenu = ({
     const [fileIndex, setFileIndex] = useState(-1);
     const { modelPositions, models, projectName, templates, namespace } = state;
 
-    const handleSave = () => {
+    const onSave = () => {
         setSubMenuActive(false);
 
         if (isFileStored) {
@@ -65,12 +65,12 @@ export const FileSubMenu = ({
         }
     };
 
-    const handleSettings = () => {
+    const onSettingsClick = () => {
         setModalOpen(true);
         setModalBody(FromBody.settings);
     };
 
-    const handleNew = () => {
+    const onNew = () => {
         setSubMenuActive(false);
 
         if (isFileStored) {
@@ -126,10 +126,7 @@ export const FileSubMenu = ({
                     setInitialFocus
                     onDismiss={() => setSubMenuActive(false)}
                 >
-                    <ActionButton
-                        styles={subMenuItemStyles}
-                        onClick={handleNew}
-                    >
+                    <ActionButton styles={subMenuItemStyles} onClick={onNew}>
                         <Text>{t('OATHeader.new')}</Text>
                     </ActionButton>
 
@@ -157,10 +154,7 @@ export const FileSubMenu = ({
                         <Text>{t('OATHeader.saveAs')}</Text>
                     </ActionButton>
 
-                    <ActionButton
-                        styles={subMenuItemStyles}
-                        onClick={handleSave}
-                    >
+                    <ActionButton styles={subMenuItemStyles} onClick={onSave}>
                         <Text>{t('OATHeader.save')}</Text>
                     </ActionButton>
 
@@ -179,7 +173,7 @@ export const FileSubMenu = ({
 
                     <ActionButton
                         styles={subMenuItemStyles}
-                        onClick={handleSettings}
+                        onClick={onSettingsClick}
                     >
                         <Text>{t('OATHeader.settings')}</Text>
                     </ActionButton>
