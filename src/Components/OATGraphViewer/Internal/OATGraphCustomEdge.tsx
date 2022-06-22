@@ -21,10 +21,6 @@ import {
     SET_OAT_DELETED_MODEL_ID,
     SET_OAT_CONFIRM_DELETE_OPEN
 } from '../../../Models/Constants/ActionTypes';
-<<<<<<< HEAD
-import { ModelTypes } from '../../../Models/Constants/Enums';
-=======
->>>>>>> 274b6df0510beb686077b15bed4734564c6de2bd
 import { DTDLRelationship } from '../../../Models/Classes/DTDL';
 import { getPropertyDisplayName } from '../../OATPropertyEditor/Utils';
 import { IOATGraphCustomEdgeProps } from '../../../Models/Constants';
