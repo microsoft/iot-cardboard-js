@@ -264,9 +264,6 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     const [rfInstance, setRfInstance] = useState(null);
     const [currentLocation, setCurrentLocation] = useState(null);
 
-    const dagreGraph = new dagre.graphlib.Graph();
-    dagreGraph.setDefaultEdgeLabel(() => ({}));
-
     const applyLayoutToElements = (elements) => {
         const nodes = elements.reduce((collection, element) => {
             if (!element.source) {
@@ -499,10 +496,6 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                 );
                 importModelsList.push(newNode, ...relationships);
             });
-            const positionedElements = applyLayoutToElements([
-                ...importModelsList
-            ]);
-            // setElements(positionedElements);
         }
     }, [importModels]);
 
