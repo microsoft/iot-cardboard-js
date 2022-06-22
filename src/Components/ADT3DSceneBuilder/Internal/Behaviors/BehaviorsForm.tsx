@@ -124,6 +124,15 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
         setSelectedBehaviorPivotKey
     ] = useState<BehaviorPivot>(BehaviorPivot.elements);
 
+    // when we unmount, clear the form data
+    useEffect(() => {
+        return () => {
+            behaviorFormDispatch({
+                type: BehaviorFormContextActionType.FORM_BEHAVIOR_RESET
+            });
+        };
+    }, [behaviorFormDispatch]);
+
     useEffect(() => {
         const selectedElements = [];
 
