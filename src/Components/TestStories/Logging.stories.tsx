@@ -1,6 +1,6 @@
 import { DefaultButton, PrimaryButton, Stack } from '@fluentui/react';
 import React, { useState } from 'react';
-import useLoggingService from '../../Models/Hooks/useLoggingService';
+import useLogger from '../../Models/Hooks/useLogger';
 import { LogLevel } from '../../Models/Services/LoggingService/LoggingService.types';
 import { getDefaultStoryDecorator } from '../../Models/Services/StoryUtilities';
 
@@ -16,7 +16,7 @@ const logLevels: LogLevel[] = ['debug', 'error', 'info', 'warn'];
 export const LoggingTests = () => {
     const [isEnabled, setIsEnabled] = useState(true);
 
-    const { loggingService } = useLoggingService({
+    const { loggingService } = useLogger({
         context: 'Logging test story',
         enabled: isEnabled
     });

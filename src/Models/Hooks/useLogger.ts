@@ -3,7 +3,7 @@ import { useLoggingContext } from '../Context/LoggingContextProvider';
 import LoggingService from '../Services/LoggingService/LoggingService';
 import { ILoggingServiceParams } from '../Services/LoggingService/LoggingService.types';
 
-const useLoggingService = (loggingServiceParams: ILoggingServiceParams) => {
+const useLogger = (loggingServiceParams: ILoggingServiceParams) => {
     const loggingContext = useLoggingContext();
 
     // Auto disable logs out of storybook environment
@@ -34,4 +34,4 @@ const useLoggingService = (loggingServiceParams: ILoggingServiceParams) => {
     };
 };
 
-export default useLoggingService;
+export default useLogger;
