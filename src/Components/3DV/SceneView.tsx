@@ -1175,75 +1175,84 @@ function SceneView(props: ISceneViewProps, ref) {
                     const posTop =
                         position?.top -
                         markerToRenderUIElement.clientHeight / 2;
-                    //create first group
-                    if (markersAndPositions.length === 0) {
-                        marker.GroupedUIElement = null;
-                        markersAndPositions.push({
-                            marker: marker,
-                            left: posLeft,
-                            top: posTop
-                        });
-                    } else {
-                        const element = markersAndPositions.find((m) =>
-                            elementsOverlap(m, markerToRenderUIElement, {
-                                left: posLeft,
-                                top: posTop
-                            })
-                        );
-
-                        // add to existing group
-                        if (element) {
-                            const groupItems =
-                                element.marker.GroupedUIElement?.props
-                                    ?.groupItems || [];
-
-                            if (!groupItems.length) {
-                                groupItems.push({
-                                    label: element.marker.name,
-                                    id: element.marker.scene?.id,
-                                    onItemClick:
-                                        element.marker.UIElement?.props
-                                            ?.onLabelClick
-                                });
-                            }
-
-                            if (
-                                !groupItems.find(
-                                    (item) => item.label === marker.name
-                                )
-                            ) {
-                                groupItems.push({
-                                    label: marker.name,
-                                    id: marker?.scene?.id,
-                                    onItemClick:
-                                        marker?.UIElement?.props?.onLabelClick
-                                });
-                            }
-
-                            const groupedUIElement = (
-                                <ModelGroupLabel
-                                    label={groupItems.length}
-                                    groupItems={groupItems}
-                                />
-                            );
-                            if (
-                                !element.marker.UIElement?.props?.groupItems
-                                    ?.length
-                            ) {
-                                element.left = position?.left - 20;
-                                element.top = position?.top - 20;
-                            }
-                            element.marker.GroupedUIElement = groupedUIElement;
-                        } else {
-                            removeGroupedItems(markersAndPositions, marker);
-                            // create new group
+                    if (marker.allowGrouping) {
+                        //create first group
+                        if (markersAndPositions.length === 0) {
                             marker.GroupedUIElement = null;
                             markersAndPositions.push({
                                 marker: marker,
                                 left: posLeft,
                                 top: posTop
                             });
+                        } else {
+                            const element = markersAndPositions.find((m) =>
+                                elementsOverlap(m, markerToRenderUIElement, {
+                                    left: posLeft,
+                                    top: posTop
+                                })
+                            );
+
+                            // add to existing group
+                            if (element) {
+                                const groupItems =
+                                    element.marker.GroupedUIElement?.props
+                                        ?.groupItems || [];
+
+                                if (!groupItems.length) {
+                                    groupItems.push({
+                                        label: element.marker.name,
+                                        id: element.marker.scene?.id,
+                                        onItemClick:
+                                            element.marker.UIElement?.props
+                                                ?.onLabelClick
+                                    });
+                                }
+
+                                if (
+                                    !groupItems.find(
+                                        (item) => item.label === marker.name
+                                    )
+                                ) {
+                                    groupItems.push({
+                                        label: marker.name,
+                                        id: marker?.scene?.id,
+                                        onItemClick:
+                                            marker?.UIElement?.props
+                                                ?.onLabelClick
+                                    });
+                                }
+
+                                const groupedUIElement = (
+                                    <ModelGroupLabel
+                                        label={groupItems.length}
+                                        groupItems={groupItems}
+                                    />
+                                );
+                                if (
+                                    !element.marker.UIElement?.props?.groupItems
+                                        ?.length
+                                ) {
+                                    element.left = position?.left - 20;
+                                    element.top = position?.top - 20;
+                                }
+                                element.marker.GroupedUIElement = groupedUIElement;
+                            } else {
+                                removeGroupedItems(markersAndPositions, marker);
+                                // create new group
+                                marker.GroupedUIElement = null;
+                                markersAndPositions.push({
+                                    marker: marker,
+                                    left: posLeft,
+                                    top: posTop
+                                });
+                            }
                         }
+                    } else {
+                        markersAndPositions.push({
+                            marker: marker,
+                            left: posLeft,
+                            top: posTop
+                        });
                     }
                 } else {
                     removeGroupedItems(markersAndPositions, marker);

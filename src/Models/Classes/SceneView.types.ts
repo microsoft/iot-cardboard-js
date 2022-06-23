@@ -50,6 +50,7 @@ export interface Marker {
     position?: Vector3;
     attachedMeshIds?: string[];
     showIfOccluded?: boolean;
+    allowGrouping?: boolean;
     latitude?: number;
     longitude?: number;
     scene?: IScene;

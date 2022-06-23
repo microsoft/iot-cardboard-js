@@ -15,6 +15,7 @@ import './ADT3DViewer.scss';
 import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
 import {
     CustomMeshItem,
+    Marker,
     SceneViewBadgeGroup,
     SceneVisual
 } from '../../Models/Classes/SceneView.types';
@@ -55,6 +56,7 @@ import FloatingScenePageModeToggle from '../../Pages/ADT3DScenePage/Internal/Flo
 import DeeplinkFlyout from '../DeeplinkFlyout/DeeplinkFlyout';
 import { SceneThemeContextProvider } from '../../Models/Context';
 import SceneBreadcrumbFactory from '../SceneBreadcrumb/SceneBreadcrumbFactory';
+import AlertBadge from '../AlertBadge/AlertBadge';
 
 const getClassNames = classNamesFunction<
     IADT3DViewerStyleProps,
@@ -134,7 +136,7 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
     const [coloredMeshItems, setColoredMeshItems] = useState<CustomMeshItem[]>(
         coloredMeshItemsProp || []
     );
-    const [alertBadges, setAlertBadges] = useState<SceneViewBadgeGroup[]>();
+    const [markers, setMarkers] = useState<Marker[]>([]);
     const [outlinedMeshItems, setOutlinedMeshItems] = useState<
         CustomMeshItem[]
     >(outlinedMeshItemsProp || []);
@@ -471,6 +473,24 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
         // // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
+    const createBadge = (badgeGroup: SceneViewBadgeGroup) => {
+        const id = 'cb-badge-' + badgeGroup.id;
+        const marker: Marker = {
+            id: id,
+            attachedMeshIds: [badgeGroup.meshId],
+            showIfOccluded: true,
+            name: 'badge',
+            UIElement: (
+                <AlertBadge
+                    badgeGroup={badgeGroup}
+                    onBadgeGroupHover={onBadgeGroupHover}
+                />
+            )
+        };
+
+        return marker;
+    };
+
     useEffect(() => {
         if (coloredMeshItemsProp) {
             setColoredMeshItems(coloredMeshItemsProp);
@@ -481,7 +501,16 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
                     coloredMeshes.push(sceneColoredMeshItem);
                 });
             });
-            setAlertBadges(sceneAlerts);
+
+            const markers: Marker[] = [];
+
+            sceneAlerts.forEach((alert) => {
+                const badge = createBadge(alert);
+                markers.push(badge);
+            });
+
+            setMarkers(markers);
+
             setColoredMeshItems(coloredMeshes);
         }
     }, [sceneVisuals, coloredMeshItemsProp, sceneAlerts]);
@@ -649,10 +678,8 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
                     wrapperMode={WrapperMode.Viewer}
                     selectedVisual={selectedVisual}
                     sceneViewProps={{
-                        badgeGroups: alertBadges,
                         coloredMeshItems: coloredMeshItems,
                         modelUrl: modelUrl,
-                        onBadgeGroupHover: onBadgeGroupHover,
                         onMeshClick: meshClick,
                         onMeshHover: meshHover,
                         outlinedMeshitems: outlinedMeshItems,
@@ -660,6 +687,7 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
                         showMeshesOnHover: showMeshesOnHover,
                         unzoomedMeshOpacity: unzoomedMeshOpacity,
                         zoomToMeshIds: zoomToMeshIds,
+                        markers: markers,
                         ...svp,
                         getToken: (adapter as any).authService
                             ? () =>
