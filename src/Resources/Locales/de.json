@@ -939,5 +939,16 @@
     "noADTInstanceUrlTitle": "ADT-Instanz nicht festgelegt",
     "noADTInstanceUrlMessage": "Ihre ADT-Instanz-URL ist nicht festgelegt. Klicken Sie unten, um es einzustellen.",
     "configureEnvironment": "Umgebung konfigurieren"
+  },
+  "resourcesPicker": {
+    "select": "Wählen Sie eine Ressource aus",
+    "loadingResources": "Laden von Ressourcen",
+    "loadingInstances": "Instanzen werden geladen...",
+    "loadingContainers": "Container beladen...",
+    "loadingStorageAccounts": "Speicherkonten werden geladen...",
+    "enterEnvironmentUrl": "z.B. https://example.api.wus2.digitaltwins.azure.net",
+    "enterStorageAccountUrl": "z.B. https://example.blob.core.windows.net/",
+    "enterContainerUrl": "z.B. https://example.blob.core.windows.net/example",
+    "displayFieldNotFound": "'{{displayField}}'-Eigenschaft in der Ressource mit der ID '{{id}}' nicht gefunden!"
   }
 }

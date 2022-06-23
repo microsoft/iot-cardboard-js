@@ -939,5 +939,16 @@
     "noADTInstanceUrlTitle": "ADT インスタンスが設定されていません",
     "noADTInstanceUrlMessage": "ADT インスタンスの URL が設定されていません。以下をクリックして設定してください。",
     "configureEnvironment": "環境の構成"
+  },
+  "resourcesPicker": {
+    "select": "リソースの選択",
+    "loadingResources": "リソースのロード",
+    "loadingInstances": "インスタンスを読み込んでいます...",
+    "loadingContainers": "コンテナをロードしています...",
+    "loadingStorageAccounts": "ストレージ アカウントを読み込んでいます...",
+    "enterEnvironmentUrl": "例:https://example.api.wus2.digitaltwins.azure.net",
+    "enterStorageAccountUrl": "例:https://example.blob.core.windows.net/",
+    "enterContainerUrl": "例:https://example.blob.core.windows.net/example",
+    "displayFieldNotFound": "'{{displayField}}' プロパティが '{{id}}' のリソースに見つかりません!"
   }
 }

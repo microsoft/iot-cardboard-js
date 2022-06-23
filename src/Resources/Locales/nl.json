@@ -939,5 +939,16 @@
     "noADTInstanceUrlTitle": "ADT-instantie niet ingesteld",
     "noADTInstanceUrlMessage": "Uw URL voor het ADT-exemplaar is niet ingesteld. Klik hieronder om het in te stellen.",
     "configureEnvironment": "Omgeving configureren"
+  },
+  "resourcesPicker": {
+    "select": "Selecteer een resource",
+    "loadingResources": "Bronnen laden",
+    "loadingInstances": "Instanties laden...",
+    "loadingContainers": "Containers laden...",
+    "loadingStorageAccounts": "Opslagaccounts laden...",
+    "enterEnvironmentUrl": "bijv. https://example.api.wus2.digitaltwins.azure.net",
+    "enterStorageAccountUrl": "bijv. https://example.blob.core.windows.net/",
+    "enterContainerUrl": "bijv. https://example.blob.core.windows.net/example",
+    "displayFieldNotFound": "'{{displayField}}' eigenschap niet gevonden in de resource met de id '{{id}}'!"
   }
 }

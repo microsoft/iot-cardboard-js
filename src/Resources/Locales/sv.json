@@ -939,5 +939,16 @@
     "noADTInstanceUrlTitle": "ADT-instansen har inte angetts",
     "noADTInstanceUrlMessage": "ADT-instansens URL har inte angetts. Klicka nedan för att ställa in den.",
     "configureEnvironment": "Konfigurera miljö"
+  },
+  "resourcesPicker": {
+    "select": "Välj en resurs",
+    "loadingResources": "Läsa in resurser",
+    "loadingInstances": "Laddar instanser...",
+    "loadingContainers": "Lastning av behållare...",
+    "loadingStorageAccounts": "Läsa in lagringskonton...",
+    "enterEnvironmentUrl": "t.ex. https://example.api.wus2.digitaltwins.azure.net",
+    "enterStorageAccountUrl": "t.ex. https://example.blob.core.windows.net/",
+    "enterContainerUrl": "t.ex. https://example.blob.core.windows.net/example",
+    "displayFieldNotFound": "Egenskapen '{{displayField}}' hittades inte i resursen med id:t {{id}}'!"
   }
 }

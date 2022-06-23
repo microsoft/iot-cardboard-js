@@ -939,5 +939,16 @@
     "noADTInstanceUrlTitle": "Instance nástroje ADT není nastavena",
     "noADTInstanceUrlMessage": "Adresa URL instance nástroje ADT není nastavena. Klikněte níže pro nastavení.",
     "configureEnvironment": "Konfigurace prostředí"
+  },
+  "resourcesPicker": {
+    "select": "Výběr zdroje",
+    "loadingResources": "Načítání zdrojů",
+    "loadingInstances": "Načítání instancí...",
+    "loadingContainers": "Nakládka kontejnerů...",
+    "loadingStorageAccounts": "Načítání účtů úložiště...",
+    "enterEnvironmentUrl": "např. https://example.api.wus2.digitaltwins.azure.net",
+    "enterStorageAccountUrl": "např. https://example.blob.core.windows.net/",
+    "enterContainerUrl": "např. https://example.blob.core.windows.net/example",
+    "displayFieldNotFound": "Vlastnost '{{displayField}}' nebyla nalezena v prostředku s id '{{id}}'!"
   }
 }

@@ -939,5 +939,16 @@
     "noADTInstanceUrlTitle": "La instancia de ADT no está establecida",
     "noADTInstanceUrlMessage": "La dirección URL de la instancia de ADT no está establecida. Haga clic a continuación para configurarlo.",
     "configureEnvironment": "Configurar el entorno"
+  },
+  "resourcesPicker": {
+    "select": "Seleccione un recurso",
+    "loadingResources": "Carga de recursos",
+    "loadingInstances": "Cargando instancias...",
+    "loadingContainers": "Cargando contenedores...",
+    "loadingStorageAccounts": "Cargando cuentas de almacenamiento...",
+    "enterEnvironmentUrl": "por ejemplo, https://example.api.wus2.digitaltwins.azure.net",
+    "enterStorageAccountUrl": "por ejemplo, https://example.blob.core.windows.net/",
+    "enterContainerUrl": "por ejemplo, https://example.blob.core.windows.net/example",
+    "displayFieldNotFound": "'{{displayField}}' propiedad no encontrada en el recurso con el identificador '{{id}}'!"
   }
 }

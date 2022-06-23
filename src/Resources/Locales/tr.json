@@ -939,5 +939,16 @@
     "noADTInstanceUrlTitle": "ADT örneği ayarlanmadı",
     "noADTInstanceUrlMessage": "ADT bulut sunucusu URL'niz ayarlanmamış. Ayarlamak için aşağıya tıklayın.",
     "configureEnvironment": "Ortamı yapılandırma"
+  },
+  "resourcesPicker": {
+    "select": "Kaynak seçme",
+    "loadingResources": "Kaynakları yükleme",
+    "loadingInstances": "Bulut sunucuları yükleniyor...",
+    "loadingContainers": "Konteynerler yükleniyor...",
+    "loadingStorageAccounts": "Depolama hesapları yükleniyor...",
+    "enterEnvironmentUrl": "örneğin https://example.api.wus2.digitaltwins.azure.net",
+    "enterStorageAccountUrl": "örneğin https://example.blob.core.windows.net/",
+    "enterContainerUrl": "örneğin https://example.blob.core.windows.net/example",
+    "displayFieldNotFound": "'{{displayField}}' özelliği, '{{id}}' kimliğine sahip kaynakta bulunamadı!"
   }
 }

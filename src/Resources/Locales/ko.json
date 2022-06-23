@@ -939,5 +939,16 @@
     "noADTInstanceUrlTitle": "ADT 인스턴스가 설정되지 않았습니다.",
     "noADTInstanceUrlMessage": "ADT 인스턴스 URL이 설정되지 않았습니다. 아래를 클릭하여 설정하십시오.",
     "configureEnvironment": "환경 구성"
+  },
+  "resourcesPicker": {
+    "select": "자원 선택",
+    "loadingResources": "리소스 로드",
+    "loadingInstances": "인스턴스 로드 중...",
+    "loadingContainers": "컨테이너 적재 중...",
+    "loadingStorageAccounts": "저장소 계정 로드 중...",
+    "enterEnvironmentUrl": "예: https://example.api.wus2.digitaltwins.azure.net",
+    "enterStorageAccountUrl": "예: https://example.blob.core.windows.net/",
+    "enterContainerUrl": "예: https://example.blob.core.windows.net/example",
+    "displayFieldNotFound": "'{{displayField}}' 속성이 ID가 '{{id}}'인 리소스에서 찾을 수 없습니다!"
   }
 }

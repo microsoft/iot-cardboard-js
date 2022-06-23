@@ -939,5 +939,16 @@
     "noADTInstanceUrlTitle": "Istanza ADT non impostata",
     "noADTInstanceUrlMessage": "L'URL dell'istanza ADT non è impostato. Clicca qui sotto per impostarlo.",
     "configureEnvironment": "Configurare l'ambiente"
+  },
+  "resourcesPicker": {
+    "select": "Seleziona una risorsa",
+    "loadingResources": "Caricamento delle risorse",
+    "loadingInstances": "Caricamento delle istanze...",
+    "loadingContainers": "Carico container...",
+    "loadingStorageAccounts": "Caricamento degli account di archiviazione...",
+    "enterEnvironmentUrl": "ad esempio https://example.api.wus2.digitaltwins.azure.net",
+    "enterStorageAccountUrl": "ad esempio https://example.blob.core.windows.net/",
+    "enterContainerUrl": "ad esempio https://example.blob.core.windows.net/example",
+    "displayFieldNotFound": "La proprietà '{{displayField}}' non si trova nella risorsa con l'id '{{id}}'!"
   }
 }

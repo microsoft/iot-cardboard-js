@@ -939,5 +939,16 @@
     "noADTInstanceUrlTitle": "Az Active Directory tanúsítvány példány nincs beállítva",
     "noADTInstanceUrlMessage": "Az ADT-példány URL-címe nincs beállítva. Kattintson az alábbi gombra a beállításhoz.",
     "configureEnvironment": "Környezet konfigurálása"
+  },
+  "resourcesPicker": {
+    "select": "Erőforrás kiválasztása",
+    "loadingResources": "Erőforrások betöltése",
+    "loadingInstances": "Példányok betöltése...",
+    "loadingContainers": "Konténerek betöltése...",
+    "loadingStorageAccounts": "Tárfiókok betöltése...",
+    "enterEnvironmentUrl": "pl. https://example.api.wus2.digitaltwins.azure.net",
+    "enterStorageAccountUrl": "pl. https://example.blob.core.windows.net/",
+    "enterContainerUrl": "pl. https://example.blob.core.windows.net/example",
+    "displayFieldNotFound": "'{{displayField}}' tulajdonság nem található meg az erőforrásban a '{{id}}' azonosítóval!"
   }
 }

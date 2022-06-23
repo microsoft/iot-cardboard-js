@@ -939,5 +939,16 @@
     "noADTInstanceUrlTitle": "Экземпляр ADT не задан",
     "noADTInstanceUrlMessage": "URL-адрес экземпляра ADT не задан. Нажмите ниже, чтобы установить его.",
     "configureEnvironment": "Настройка среды"
+  },
+  "resourcesPicker": {
+    "select": "Выберите ресурс",
+    "loadingResources": "Загрузка ресурсов",
+    "loadingInstances": "Загрузка экземпляров...",
+    "loadingContainers": "Погрузка контейнеров...",
+    "loadingStorageAccounts": "Загрузка учетных записей хранения...",
+    "enterEnvironmentUrl": "например, https://example.api.wus2.digitaltwins.azure.net",
+    "enterStorageAccountUrl": "например, https://example.blob.core.windows.net/",
+    "enterContainerUrl": "например, https://example.blob.core.windows.net/example",
+    "displayFieldNotFound": "Свойство '{{displayField}}' не найдено в ресурсе с идентификатором '{{id}}'!"
   }
 }

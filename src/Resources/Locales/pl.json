@@ -939,5 +939,16 @@
     "noADTInstanceUrlTitle": "Nie ustawiono wystąpienia narzędzia ADT",
     "noADTInstanceUrlMessage": "Adres URL wystąpienia narzędzia ADT nie jest ustawiony. Kliknij poniżej, aby go ustawić.",
     "configureEnvironment": "Konfigurowanie środowiska"
+  },
+  "resourcesPicker": {
+    "select": "Wybieranie zasobu",
+    "loadingResources": "Ładowanie zasobów",
+    "loadingInstances": "Ładowanie instancji...",
+    "loadingContainers": "Załadunek kontenerów...",
+    "loadingStorageAccounts": "Ładowanie kont magazynu...",
+    "enterEnvironmentUrl": "np. https://example.api.wus2.digitaltwins.azure.net",
+    "enterStorageAccountUrl": "np. https://example.blob.core.windows.net/",
+    "enterContainerUrl": "np. https://example.blob.core.windows.net/example",
+    "displayFieldNotFound": "Nie znaleziono właściwości '{{displayField}}' w zasobie o identyfikatorze '{{id}}'!"
   }
 }
