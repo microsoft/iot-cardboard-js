@@ -14,11 +14,3 @@ jest.mock('react-i18next', () => ({
         };
     }
 }));
-
-// mock out utilities
-const MOCK_GUID = '00000000-1111-2222-3333-444444444444';
-jest.mock('./src/Models/Services/Utils', () => {
-    const actual = jest.requireActual('./src/Models/Services/Utils');
-    actual.createGuid = () => MOCK_GUID;
-    return actual;
-});
