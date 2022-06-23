@@ -147,8 +147,8 @@ export const getGraphViewerStyles = () => {
             classNames.handleContentRelationship,
             {
                 background: '#FAAE00',
-                width: '3px',
-                height: '3px',
+                width: '4px',
+                height: '4px',
                 borderRadius: '50%'
             } as IStyle
         ],
@@ -156,8 +156,8 @@ export const getGraphViewerStyles = () => {
             classNames.handleContentUntargeted,
             {
                 background: '#FAAE00',
-                width: '3px',
-                height: '3px',
+                width: '4px',
+                height: '4px',
                 borderRadius: '50%'
             } as IStyle
         ],
@@ -165,8 +165,8 @@ export const getGraphViewerStyles = () => {
             classNames.handleContentExtend,
             {
                 background: '#1E8741',
-                width: '3px',
-                height: '3px',
+                width: '4px',
+                height: '4px',
                 borderRadius: '50%'
             } as IStyle
         ],
@@ -174,8 +174,8 @@ export const getGraphViewerStyles = () => {
             classNames.handleContentComponent,
             {
                 background: '#247CD2',
-                width: '3px',
-                height: '3px',
+                width: '4px',
+                height: '4px',
                 borderRadius: '50%'
             } as IStyle
         ],
