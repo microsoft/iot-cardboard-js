@@ -168,7 +168,7 @@ export const PropertyList = ({
         });
     };
 
-    const handleSelectorPosition = (e, top = null) => {
+    const definePropertySelectorPosition = (e, top = null) => {
         if (e) {
             const boundingRect = e.target.getBoundingClientRect();
             setPropertySelectorPosition({
@@ -194,7 +194,7 @@ export const PropertyList = ({
     const onPropertyBarMouseOver = (e) => {
         setPropertySelectorVisible(true);
         setLastPropertyFocused(null);
-        handleSelectorPosition(e);
+        definePropertySelectorPosition(e);
     };
 
     const onAddPropertyLabelMouseOver = (e) => {
@@ -203,7 +203,7 @@ export const PropertyList = ({
 
         const buttonTop = addPropertyLabelRef.current.getBoundingClientRect()
             .top;
-        handleSelectorPosition(e, buttonTop);
+        definePropertySelectorPosition(e, buttonTop);
     };
 
     const onTemplateAddition = (item) => {
