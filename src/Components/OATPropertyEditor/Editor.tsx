@@ -150,27 +150,26 @@ const Editor = ({
                         </Stack.Item>
 
                         <Stack.Item grow styles={propertyListStackItem}>
-                            {isSupportedModelType && (
-                                <PropertyList
-                                    dispatch={dispatch}
-                                    state={state}
-                                    setCurrentPropertyIndex={
-                                        setCurrentPropertyIndex
-                                    }
-                                    setModalOpen={setModalOpen}
-                                    currentPropertyIndex={currentPropertyIndex}
-                                    enteredPropertyRef={enteredPropertyRef}
-                                    draggingTemplate={draggingTemplate}
-                                    enteredTemplateRef={enteredTemplateRef}
-                                    draggingProperty={draggingProperty}
-                                    setDraggingProperty={setDraggingProperty}
-                                    setCurrentNestedPropertyIndex={
-                                        setCurrentNestedPropertyIndex
-                                    }
-                                    setModalBody={setModalBody}
-                                    propertyList={propertyList}
-                                />
-                            )}
+                            <PropertyList
+                                dispatch={dispatch}
+                                state={state}
+                                setCurrentPropertyIndex={
+                                    setCurrentPropertyIndex
+                                }
+                                setModalOpen={setModalOpen}
+                                currentPropertyIndex={currentPropertyIndex}
+                                enteredPropertyRef={enteredPropertyRef}
+                                draggingTemplate={draggingTemplate}
+                                enteredTemplateRef={enteredTemplateRef}
+                                draggingProperty={draggingProperty}
+                                setDraggingProperty={setDraggingProperty}
+                                setCurrentNestedPropertyIndex={
+                                    setCurrentNestedPropertyIndex
+                                }
+                                setModalBody={setModalBody}
+                                propertyList={propertyList}
+                                isSupportedModelType={isSupportedModelType}
+                            />
                         </Stack.Item>
                     </Stack>
                 </PivotItem>

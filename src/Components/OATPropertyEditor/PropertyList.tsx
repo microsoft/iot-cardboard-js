@@ -35,6 +35,7 @@ type IPropertyList = {
     draggingTemplate: boolean;
     enteredPropertyRef: any;
     enteredTemplateRef: any;
+    isSupportedModelType: boolean;
     propertyList?: DTDLProperty[];
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
     setCurrentNestedPropertyIndex: React.Dispatch<React.SetStateAction<number>>;
@@ -58,7 +59,8 @@ export const PropertyList = ({
     currentPropertyIndex,
     dispatch,
     state,
-    propertyList
+    propertyList,
+    isSupportedModelType
 }: IPropertyList) => {
     const { t } = useTranslation();
     const propertyInspectorStyles = getPropertyInspectorStyles();
@@ -67,6 +69,7 @@ export const PropertyList = ({
     const [lastPropertyFocused, setLastPropertyFocused] = useState(null);
     const dragItem = useRef(null);
     const dragNode = useRef(null);
+    const addPropertyLabelRef = useRef(null);
     const [propertySelectorVisible, setPropertySelectorVisible] = useState(
         false
     );
@@ -165,12 +168,12 @@ export const PropertyList = ({
         });
     };
 
-    const handleSelectorPosition = (e) => {
+    const handleSelectorPosition = (e, top = null) => {
         if (e) {
             const boundingRect = e.target.getBoundingClientRect();
             setPropertySelectorPosition({
                 ...propertySelectorPosition,
-                top: boundingRect.top,
+                top: top ? top : boundingRect.top,
                 left: boundingRect.left
             });
             setPropertySelectorTriggerElementsBoundingBox(boundingRect);
@@ -194,10 +197,13 @@ export const PropertyList = ({
         handleSelectorPosition(e);
     };
 
-    const onPropertyWrapScrollMouseOver = (e) => {
+    const onAddPropertyLabelMouseOver = (e) => {
         setPropertySelectorVisible(true);
         setLastPropertyFocused(null);
-        handleSelectorPosition(e);
+
+        const buttonTop = addPropertyLabelRef.current.getBoundingClientRect()
+            .top;
+        handleSelectorPosition(e, buttonTop);
     };
 
     const onTemplateAddition = (item) => {
@@ -374,35 +380,33 @@ export const PropertyList = ({
 
     return (
         <div className={propertyInspectorStyles.propertiesWrap}>
-            {model && propertyList && propertyList.length === 0 && (
-                <div
-                    className={propertyInspectorStyles.addPropertyMessageWrap}
-                    onMouseOver={(e) => {
-                        onPropertyWrapScrollMouseOver(e);
-                    }}
-                    onMouseLeave={(e) => {
-                        onMouseLeave(e);
-                    }}
-                >
-                    <ActionButton
-                        styles={{
-                            root: {
-                                paddingLeft: '10px',
-                                height: 'fit-content'
-                            }
+            {isSupportedModelType &&
+                model &&
+                propertyList &&
+                propertyList.length === 0 && (
+                    <div
+                        className={
+                            propertyInspectorStyles.addPropertyMessageWrap
+                        }
+                        onMouseOver={(e) => {
+                            onAddPropertyLabelMouseOver(e);
                         }}
-                        onClick={(e) => {
-                            onPropertyWrapScrollMouseOver(e);
+                        onMouseLeave={(e) => {
+                            onMouseLeave(e);
                         }}
+                        ref={addPropertyLabelRef}
                     >
-                        <FontIcon
-                            iconName={'CirclePlus'}
-                            className={propertyInspectorStyles.iconAddProperty}
-                        />
-                        <Text>{t('OATPropertyEditor.addProperty')}</Text>
-                    </ActionButton>
-                </div>
-            )}
+                        <ActionButton>
+                            <FontIcon
+                                iconName={'CirclePlus'}
+                                className={
+                                    propertyInspectorStyles.iconAddProperty
+                                }
+                            />
+                            <Text>{t('OATPropertyEditor.addProperty')}</Text>
+                        </ActionButton>
+                    </div>
+                )}
 
             <CardboardList<IOATProperty>
                 items={propertyListItems}
@@ -431,15 +435,18 @@ export const PropertyList = ({
                 </div>
             )}
 
-            {propertySelectorVisible && (
-                <PropertySelector
-                    setPropertySelectorVisible={setPropertySelectorVisible}
-                    lastPropertyFocused={lastPropertyFocused}
-                    dispatch={dispatch}
-                    state={state}
-                    propertySelectorPosition={propertySelectorPosition}
-                />
-            )}
+            <PropertySelector
+                setPropertySelectorVisible={setPropertySelectorVisible}
+                lastPropertyFocused={lastPropertyFocused}
+                dispatch={dispatch}
+                state={state}
+                propertySelectorPosition={propertySelectorPosition}
+                className={
+                    propertySelectorVisible
+                        ? ''
+                        : propertyInspectorStyles.propertySelectorHidden
+                }
+            />
         </div>
     );
 };
