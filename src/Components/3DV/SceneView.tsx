@@ -65,6 +65,8 @@ import { sleep } from '../AutoComplete/AutoComplete';
 import { ModelGroupLabel } from '../ModelGroupLabel/ModelGroupLabel';
 import { MarkersPlaceholder } from './Internal/MarkersPlaceholder';
 import { Markers } from './Internal/Markers';
+import axios from 'axios';
+import { LoadingErrorMessage } from './Internal/LoadingErrorMessage';
 
 export const showFpsCounter = false;
 const debugBabylon = false;
@@ -83,35 +85,30 @@ function debounce(func: any, timeout = 300) {
 
 let dummyProgress = 0; // Progress doesn't work for GLBs so fake it
 
-const getModifiedTime = (url): Promise<string> => {
-    const promise = new Promise<string>((resolve) => {
-        const headers = new Headers();
-        headers.append('Range', 'bytes=1-2');
-        headers.append('x-ms-version', '2017-11-09');
-        if (Tools.CustomRequestHeaders.Authorization) {
-            headers.append(
-                'Authorization',
-                Tools.CustomRequestHeaders.Authorization
-            );
-        }
-
-        // HEAD can give a CORS error
-        fetch(url, { method: 'GET', headers: headers })
-            .then((response) => {
-                const dt = new Date(response.headers.get('Last-Modified'));
-                if (
-                    dt.toString() === 'Invalid Date' ||
-                    dt.toISOString() === '1970-01-01T00:00:00.000Z'
-                ) {
-                    resolve('');
-                }
-                resolve(dt.toISOString());
+const getModifiedTime = async (url): Promise<string> => {
+    return axios(url, {
+        method: 'GET',
+        headers: {
+            Range: 'bytes=1-2',
+            'x-ms-version': '2017-11-09',
+            ...(Tools.CustomRequestHeaders.Authorization && {
+                Authorization: Tools.CustomRequestHeaders.Authorization
             })
-            .catch(() => {
-                resolve('');
-            });
-    });
-    return promise;
+        }
+    })
+        .then((response) => {
+            const dt = new Date(response.headers['last-modified']);
+            if (
+                dt.toString() === 'Invalid Date' ||
+                dt.toISOString() === '1970-01-01T00:00:00.000Z'
+            ) {
+                return '';
+            }
+            return dt.toISOString();
+        })
+        .catch(() => {
+            return null;
+        });
 };
 
 async function loadPromise(
@@ -170,6 +167,9 @@ function SceneView(props: ISceneViewProps, ref) {
     } = props;
     const [isLoading, setIsLoading] = useState(true);
     const [loadProgress, setLoadProgress] = useState(0);
+    const [loadingError, setLoadingError] = useState<
+        null | 'generic' | 'network'
+    >(null);
     const [canvasId] = useState(createGUID());
     const [scene, setScene] = useState<BABYLON.Scene>(undefined);
     const onMeshClickRef = useRef<SceneViewCallbackHandler>(null);
@@ -869,7 +869,6 @@ function SceneView(props: ISceneViewProps, ref) {
     const init = useCallback(() => {
         debugLog('debug', '**************init');
 
-        //TODO: load this private blob by getting token and using proxy for blob service REST API
         async function load(
             getToken: () => Promise<string>,
             root: string,
@@ -900,13 +899,31 @@ function SceneView(props: ISceneViewProps, ref) {
                 engineRef.current,
                 (e: any) => onProgress(e),
                 (s: any, m: any, e: any) => {
-                    console.error('Error loading model. Try Ctrl-F5', s, e);
+                    if (e.innerError.request?._xhr.status === 0) {
+                        // When response is undefined or xhr status is 0 axios call returns as 'Network error', this could be a CORS issue, invalid blob url or a dropped internet connection. It is not possible for us to know.
+                        console.error(
+                            'Error loading model. This could be a CORS issue, invalid blob url or network error.'
+                        );
+                        setLoadingError('network');
+                    } else {
+                        // even if it is not CORS related, it might still due to lack of required permissions, or just corrupted file.
+                        console.error(
+                            'Error loading model. Check your access role assignments for that file, or try again.',
+                            s,
+                            e
+                        );
+                        setLoadingError('generic');
+                    }
                     success = false;
-                    setIsLoading(undefined);
+                    setIsLoading(false);
                 }
             );
 
-            if (success) {
+            // TODO: Wrap above promise in an AbortController to cancel in case of changing scenes before the promise resolves
+            // Checking if url used in loadPromise method above matches url for model being shown in the screen avoids an error
+            // that occurs when trying to control the camera of an unloaded scene, but it does not cancel the download of the
+            // first model which we already navigated away from.
+            if (success && modelUrl === modelUrlRef.current) {
                 sceneRef.current = sc;
 
                 preProcessMeshesOnLoad();
@@ -999,6 +1016,7 @@ function SceneView(props: ISceneViewProps, ref) {
 
                 setScene(sceneRef.current);
                 setIsLoading(false);
+                setLoadingError(null);
 
                 //This will show the babylon inspector on the right side of the screen to view all babylon scene objects and their properties
                 if (debugBabylon) {
@@ -1058,6 +1076,7 @@ function SceneView(props: ISceneViewProps, ref) {
             // Reload if modelUrl changes
             modelUrlRef.current = modelUrl;
             setIsLoading(true);
+            setLoadingError(null);
             init();
         }
 
@@ -1721,9 +1740,9 @@ function SceneView(props: ISceneViewProps, ref) {
                     barHeight={10}
                 />
             )}
-            {isLoading === undefined && (
+            {loadingError && (
                 <div className={customStyles.errorMessage}>
-                    Error loading model. Try Ctrl-F5
+                    <LoadingErrorMessage errorType={loadingError} />
                 </div>
             )}
             <MarkersPlaceholder markers={markers} />

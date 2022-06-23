@@ -938,17 +938,11 @@
         "noContainerUrlErrorMessage": "Your container url is not set. Click below to set it.",
         "noADTInstanceUrlTitle": "ADT instance not set",
         "noADTInstanceUrlMessage": "Your ADT instance url is not set. Click below to set it.",
-        "configureEnvironment": "Configure environment"
-    },
-    "resourcesPicker": {
-        "select": "Select a resource",
-        "loadingResources": "Loading resources",
-        "loadingInstances": "Loading instances...",
-        "loadingContainers": "Loading containers...",
-        "loadingStorageAccounts": "Loading storage accounts...",
-        "enterEnvironmentUrl": "e.g. https://example.api.wus2.digitaltwins.azure.net",
-        "enterStorageAccountUrl": "e.g. https://example.blob.core.windows.net/",
-        "enterContainerUrl": "e.g. https://example.blob.core.windows.net/example",
-        "displayFieldNotFound": "'{{displayField}}' property not found in the resource with the id '{{id}}'!"
+        "configureEnvironment": "Configure environment",
+        "sceneView": {
+            "3dAssetLoadingErrorTitle": "Error loading model",
+            "3dAssetLoadingNetworkErrorMessage": "This could be a CORS issue, invalid blob url or a network error. Please contact the owner of the container where this asset file is stored or try again later.",
+            "3dAssetLoadingGenericErrorMessage": "Error loading model. Try clearing your cache and try again or check your access for that file."
+        }
     }
 }
