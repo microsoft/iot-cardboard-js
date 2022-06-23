@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect, useMemo } from 'react';
+import React, { useRef, useState, useMemo } from 'react';
 import {
     FontIcon,
     ActionButton,
@@ -8,8 +8,6 @@ import {
 import { useTranslation } from 'react-i18next';
 import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
 import { deepCopy } from '../../Models/Services/Utils';
-import PropertyListItem from './PropertyListItem';
-import PropertyListItemNest from './PropertyListItemNest';
 import PropertySelector from './PropertySelector';
 import AddPropertyBar from './AddPropertyBar';
 import {
@@ -47,13 +45,14 @@ type IPropertyList = {
     state?: IOATEditorState;
 };
 
+const moveUpKey = 'moveUp';
+const moveDownKey = 'moveDown';
+
 export const PropertyList = ({
     setCurrentPropertyIndex,
     setModalOpen,
     enteredPropertyRef,
-    draggingTemplate,
     enteredTemplateRef,
-    draggingProperty,
     setDraggingProperty,
     setModalBody,
     currentPropertyIndex,
@@ -88,22 +87,22 @@ export const PropertyList = ({
         model ? model['@type'] : null
     );
 
-    const handlePropertyItemDropOnTemplateList = () => {
+    const onPropertyItemDropOnTemplateList = () => {
         const newTemplate = templates ? deepCopy(templates) : [];
         newTemplate.push(
             model[propertiesKeyName][draggedPropertyItemRef.current]
         );
+
         dispatch({
             type: SET_OAT_TEMPLATES,
             payload: newTemplate
         });
     };
 
-    const handleDragEnd = () => {
+    const onDragEnd = () => {
         if (enteredTemplateRef.current !== null) {
-            handlePropertyItemDropOnTemplateList();
+            onPropertyItemDropOnTemplateList();
         }
-        dragNode.current.removeEventListener('dragend', handleDragEnd);
         dragItem.current = null;
         dragNode.current = null;
         draggedPropertyItemRef.current = null;
@@ -111,7 +110,11 @@ export const PropertyList = ({
         enteredTemplateRef.current = null;
     };
 
-    const handleDragEnter = (e, i) => {
+    const onDragEnter = (e, i) => {
+        if (!dragNode.current) {
+            onDragEnterExternalItem(i);
+            return;
+        }
         if (e.target !== dragNode.current) {
             //  Entered item is not the same as dragged node
 
@@ -131,10 +134,9 @@ export const PropertyList = ({
         }
     };
 
-    const handleDragStart = (e, propertyIndex) => {
+    const onDragStart = (e, propertyIndex) => {
         dragItem.current = propertyIndex;
         dragNode.current = e.target;
-        dragNode.current.addEventListener('dragend', handleDragEnd);
         draggedPropertyItemRef.current = propertyIndex;
         //  Allows style to change after drag has started
         setTimeout(() => {
@@ -142,56 +144,9 @@ export const PropertyList = ({
         }, 0);
     };
 
-    const getNestItemClassName = () => {
-        return propertyInspectorStyles.propertyItemNest;
-    };
-
-    const getNestedItemClassName = () => {
-        return propertyInspectorStyles.propertyItemNested;
-    };
-
-    const getItemClassName = (propertyIndex) => {
-        if (propertyIndex === dragItem.current && draggingProperty) {
-            return propertyInspectorStyles.propertyItemDragging;
-        }
-        if (propertyIndex === enteredItem && draggingTemplate) {
-            return propertyInspectorStyles.propertyItemEntered;
-        }
-
-        return propertyInspectorStyles.propertyItem;
-    };
-
-    const handleDragEnterExternalItem = (i) => {
+    const onDragEnterExternalItem = (i) => {
         setEnteredItem(i);
         enteredPropertyRef.current = i;
-    };
-
-    const handlePropertyDisplayNameChange = (value, index) => {
-        const newModel = deepCopy(model);
-        if (index === undefined) {
-            newModel[propertiesKeyName][
-                currentPropertyIndex
-            ].displayName = value;
-        } else {
-            newModel[propertiesKeyName][index].displayName = value;
-        }
-        dispatch({ type: SET_OAT_PROPERTY_EDITOR_MODEL, payload: newModel });
-    };
-
-    const generateErrorMessage = (value, index) => {
-        if (value) {
-            const find = model[propertiesKeyName].find(
-                (item) => item.name === value
-            );
-
-            if (!find && value !== '') {
-                handlePropertyDisplayNameChange(value, index);
-            }
-
-            return find
-                ? `${t('OATPropertyEditor.errorRepeatedPropertyName')}`
-                : '';
-        }
     };
 
     const deleteItem = (index) => {
@@ -222,7 +177,7 @@ export const PropertyList = ({
         }
     };
 
-    const handleMouseLeave = (e) => {
+    const onMouseLeave = (e) => {
         if (
             shouldClosePropertySelectorOnMouseLeave(
                 e,
@@ -233,26 +188,28 @@ export const PropertyList = ({
         }
     };
 
-    const handlePropertyBarMouseOver = (e) => {
+    const onPropertyBarMouseOver = (e) => {
         setPropertySelectorVisible(true);
         setLastPropertyFocused(null);
         handleSelectorPosition(e);
     };
 
-    const handlePropertyWrapScrollMouseOver = (e) => {
+    const onPropertyWrapScrollMouseOver = (e) => {
         setPropertySelectorVisible(true);
         setLastPropertyFocused(null);
         handleSelectorPosition(e);
     };
 
-    const handleTemplateAddition = (item) => {
+    const onTemplateAddition = (item) => {
+        const newTemplates = deepCopy(templates);
+        newTemplates.push(item);
         dispatch({
             type: SET_OAT_TEMPLATES,
-            payload: [...templates, item]
+            payload: newTemplates
         });
     };
 
-    const handleDuplicate = (item) => {
+    const onDuplicate = (item) => {
         const itemCopy = deepCopy(item);
         itemCopy.name = `${itemCopy.name}_${t('OATPropertyEditor.copy')}`;
         itemCopy.displayName = `${itemCopy.displayName}_${t(
@@ -268,6 +225,41 @@ export const PropertyList = ({
         });
     };
 
+    const onMoveUp = (item) => {
+        // Move up the current property
+        const newModel = deepCopy(model);
+        const currentIndex = newModel[propertiesKeyName].findIndex(
+            (property) => property['@id'] === item['@id']
+        );
+        if (currentIndex > 0) {
+            const previousProperty =
+                newModel[propertiesKeyName][currentIndex - 1];
+            newModel[propertiesKeyName][currentIndex - 1] = item;
+            newModel[propertiesKeyName][currentIndex] = previousProperty;
+            dispatch({
+                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                payload: newModel
+            });
+        }
+    };
+
+    const onMoveDown = (item) => {
+        // Move down the current property
+        const newModel = deepCopy(model);
+        const currentIndex = newModel[propertiesKeyName].findIndex(
+            (property) => property['@id'] === item['@id']
+        );
+        if (currentIndex < newModel[propertiesKeyName].length - 1) {
+            const nextProperty = newModel[propertiesKeyName][currentIndex + 1];
+            newModel[propertiesKeyName][currentIndex + 1] = item;
+            newModel[propertiesKeyName][currentIndex] = nextProperty;
+            dispatch({
+                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                payload: newModel
+            });
+        }
+    };
+
     const getListItems = useMemo(() => {
         const listItemOnClick = (item) => {
             setCurrentPropertyIndex(item.index);
@@ -278,7 +270,7 @@ export const PropertyList = ({
             item: DTDLProperty,
             index: number
         ): IContextualMenuItem[] => {
-            return [
+            let menuItems = [
                 {
                     key: 'edit',
                     text: t('OATPropertyEditor.addToTemplate'),
@@ -287,9 +279,33 @@ export const PropertyList = ({
                         className:
                             propertyInspectorStyles.propertySubMenuItemIcon
                     },
-                    onClick: () => handleTemplateAddition(item),
+                    onClick: () => onTemplateAddition(item),
                     id: 'addOverflow',
                     'data-testid': 'addOverflow'
+                },
+                {
+                    key: moveUpKey,
+                    text: t('OATPropertyEditor.moveUp'),
+                    iconProps: {
+                        iconName: 'up',
+                        className:
+                            propertyInspectorStyles.propertySubMenuItemIcon
+                    },
+                    onClick: () => onMoveUp(item),
+                    id: moveUpKey,
+                    'data-testid': moveUpKey
+                },
+                {
+                    key: moveDownKey,
+                    text: t('OATPropertyEditor.moveDown'),
+                    iconProps: {
+                        iconName: 'down',
+                        className:
+                            propertyInspectorStyles.propertySubMenuItemIcon
+                    },
+                    onClick: () => onMoveDown(item),
+                    id: moveDownKey,
+                    'data-testid': moveDownKey
                 },
                 {
                     key: 'manageLayers',
@@ -299,7 +315,7 @@ export const PropertyList = ({
                         className:
                             propertyInspectorStyles.propertySubMenuItemIcon
                     },
-                    onClick: () => handleDuplicate(item),
+                    onClick: () => onDuplicate(item),
                     id: 'duplicateOverflow',
                     'data-testid': 'duplicateOverflow'
                 },
@@ -316,6 +332,22 @@ export const PropertyList = ({
                     'data-testid': 'removeOverflow'
                 }
             ];
+
+            // If item is the first one, remove the move up option
+            if (index === 0) {
+                menuItems = menuItems.filter(
+                    (menuItem) => menuItem.key !== moveUpKey
+                );
+            }
+
+            // If item is the last one, remove the move down option
+            if (index === model[propertiesKeyName].length - 1) {
+                menuItems = menuItems.filter(
+                    (menuItem) => menuItem.key !== moveDownKey
+                );
+            }
+
+            return menuItems;
         };
         const properties = propertyList.map((item, index) => {
             const viewModel: ICardboardListItem<IOATProperty> = {
@@ -329,7 +361,11 @@ export const PropertyList = ({
                 onClick: listItemOnClick,
                 overflowMenuItems: getMenuItems(item, index),
                 textPrimary: item.displayName,
-                textSecondary: item.schema.toString()
+                textSecondary: item.schema.toString(),
+                draggable: true,
+                onDragStart: (e) => onDragStart(e, index),
+                onDragEnter: (e) => onDragEnter(e, index),
+                onDragEnd
             };
             return viewModel;
         });
@@ -342,10 +378,10 @@ export const PropertyList = ({
                 <div
                     className={propertyInspectorStyles.addPropertyMessageWrap}
                     onMouseOver={(e) => {
-                        handlePropertyWrapScrollMouseOver(e);
+                        onPropertyWrapScrollMouseOver(e);
                     }}
                     onMouseLeave={(e) => {
-                        handleMouseLeave(e);
+                        onMouseLeave(e);
                     }}
                 >
                     <ActionButton
@@ -356,7 +392,7 @@ export const PropertyList = ({
                             }
                         }}
                         onClick={(e) => {
-                            handlePropertyWrapScrollMouseOver(e);
+                            onPropertyWrapScrollMouseOver(e);
                         }}
                     >
                         <FontIcon
@@ -379,16 +415,16 @@ export const PropertyList = ({
                         propertyInspectorStyles.addPropertyBarPropertyListWrap
                     }
                     onMouseLeave={(e) => {
-                        handleMouseLeave(e);
+                        onMouseLeave(e);
                     }}
                 >
                     {model && model[propertiesKeyName].length > 0 && (
                         <AddPropertyBar
                             onMouseOver={(e) => {
-                                handlePropertyBarMouseOver(e);
+                                onPropertyBarMouseOver(e);
                             }}
                             onClick={(e) => {
-                                handlePropertyBarMouseOver(e);
+                                onPropertyBarMouseOver(e);
                             }}
                         />
                     )}

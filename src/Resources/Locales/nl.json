@@ -876,7 +876,10 @@
     "errorRepeatedId": "Er bestaat al een model met dezelfde id",
     "errorRepeatedName": "Een model met dezelfde naam bestaat al",
     "errorRepeatedEdgeName": "Er bestaat al een relatie met dezelfde naam",
-    "errorInvalidJSON": "Ongeldige JSON"
+    "errorInvalidJSON": "Ongeldige JSON",
+    "addToPropertyList": "Toevoegen aan lijst met accommodaties",
+    "moveDown": "Naar beneden gaan",
+    "moveUp": "Overgaan"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Foutmelding",

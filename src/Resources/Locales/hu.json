@@ -876,7 +876,10 @@
     "errorRepeatedId": "Már létezik egy azonos azonosítóval rendelkező modell",
     "errorRepeatedName": "Az azonos nevű modell már létezik",
     "errorRepeatedEdgeName": "Az azonos nevű kapcsolat már létezik",
-    "errorInvalidJSON": "Érvénytelen JSON"
+    "errorInvalidJSON": "Érvénytelen JSON",
+    "addToPropertyList": "Hozzáadás a tulajdonlistához",
+    "moveDown": "Lejjebb lépés",
+    "moveUp": "Feljebb lépés"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Hibaüzenet",
