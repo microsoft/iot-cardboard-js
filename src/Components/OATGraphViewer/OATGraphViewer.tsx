@@ -497,6 +497,8 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                 importModelsList.push(newNode, ...relationships);
             });
         }
+        const positionedElements = applyLayoutToElements([...importModelsList]);
+        setElements(positionedElements);
     }, [importModels]);
 
     useEffect(() => {
