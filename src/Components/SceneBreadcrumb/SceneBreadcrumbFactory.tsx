@@ -8,7 +8,10 @@ import {
 } from '../../Models/Constants/Enums';
 import { SceneBuilderContext } from '../ADT3DSceneBuilder/ADT3DSceneBuilder';
 import { WidgetFormInfo } from '../ADT3DSceneBuilder/ADT3DSceneBuilder.types';
-import { ISceneBreadcrumbFactoryProps } from './SceneBreadcrumb.types';
+import {
+    INavigateCallback,
+    ISceneBreadcrumbFactoryProps
+} from './SceneBreadcrumb.types';
 import { BaseBreadcrumb } from './BaseBreadcrumb';
 
 const cancelWidgetForm = (
@@ -78,11 +81,13 @@ const SceneBreadcrumbFactory: React.FC<ISceneBreadcrumbFactoryProps> = ({
 
         let onBehaviorRootClick: VoidFunction | undefined;
         let onCancelForm: VoidFunction | undefined;
+        let onNavigateCallback: INavigateCallback | undefined;
 
         /**
          * Add extra breadcrumb item in case behavior is in form mode
          */
         if (isCreateOrEditBehaviorMode(builderMode)) {
+            onNavigateCallback = onNavigate;
             const isWidgetFormMode = isCreateOrEditWidgetMode(
                 widgetFormInfo.mode
             );
@@ -150,6 +155,7 @@ const SceneBreadcrumbFactory: React.FC<ISceneBreadcrumbFactoryProps> = ({
                 sceneName={sceneName}
                 sceneId={sceneId}
                 onCancelForm={onCancelForm}
+                onNavigate={onNavigateCallback}
                 classNames={{
                     root: 'cb-left-panel-builder-breadcrumb-container',
                     breadcrumb: 'cb-left-panel-builder-breadcrumb',
@@ -174,11 +180,13 @@ const SceneBreadcrumbFactory: React.FC<ISceneBreadcrumbFactoryProps> = ({
 
         let onElementRootClick: VoidFunction | undefined;
         let onCancelForm: VoidFunction | undefined;
+        let onNavigateCallback: INavigateCallback | undefined;
 
         /**
          * Add extra breadcrumb item in case element is in form mode
          */
         if (isCreateOrEditElementMode(builderMode)) {
+            onNavigateCallback = onNavigate;
             const isTwinFormMode = elementTwinAliasFormInfo !== null;
             const isBuilderModeNotInElementForm = !isCreateOrEditElementMode(
                 builderMode
@@ -236,6 +244,7 @@ const SceneBreadcrumbFactory: React.FC<ISceneBreadcrumbFactoryProps> = ({
                     builderMode === ADT3DSceneBuilderMode.ElementsIdle
                 }
                 onCancelForm={onCancelForm}
+                onNavigate={onNavigateCallback}
                 onSceneClick={onElementRootClick}
                 sceneId={sceneId}
                 sceneName={sceneName}
@@ -255,6 +264,7 @@ const SceneBreadcrumbFactory: React.FC<ISceneBreadcrumbFactoryProps> = ({
                 extraItems={extraItems}
                 isAtSceneRoot={true}
                 onSceneChange={onSceneChange}
+                onNavigate={undefined}
                 sceneId={sceneId}
                 sceneName={sceneName}
             />
