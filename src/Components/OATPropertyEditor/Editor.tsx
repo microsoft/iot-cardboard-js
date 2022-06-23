@@ -169,6 +169,7 @@ const Editor = ({
                                     }
                                     setModalBody={setModalBody}
                                     propertyList={propertyList}
+                                    isSupportedModelType={isSupportedModelType}
                                 />
                             )}
                         </Stack.Item>

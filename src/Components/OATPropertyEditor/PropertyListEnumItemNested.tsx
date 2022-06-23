@@ -14,18 +14,22 @@ import { deepCopy } from '../../Models/Services/Utils';
 import { getModelPropertyCollectionName } from './Utils';
 
 type IEnumItem = {
+    collectionLength?: number;
     deleteNestedItem?: (parentIndex: number, index: number) => any;
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
     index?: number;
     item?: any;
+    onMove?: (index: number, moveUp: boolean) => void;
     parentIndex?: number;
     state?: IOATEditorState;
 };
 
 export const PropertyListEnumItemNested = ({
+    collectionLength,
     deleteNestedItem,
     dispatch,
     item,
+    onMove,
     index,
     parentIndex,
     state
@@ -110,6 +114,14 @@ export const PropertyListEnumItemNested = ({
                         addItemToTemplates={false}
                         targetId={`enum_${item.name}`}
                         setSubMenuActive={setSubMenuActive}
+                        onMoveUp={
+                            // Use function if item is not the first item in the list
+                            index > 0 ? onMove : null
+                        }
+                        onMoveDown={
+                            // Use function if item is not the last item in the list
+                            index < collectionLength - 1 ? onMove : null
+                        }
                     />
                 )}
             </IconButton>

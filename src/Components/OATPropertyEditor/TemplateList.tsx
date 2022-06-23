@@ -65,9 +65,6 @@ export const TemplateList = ({
         if (enteredPropertyRef.current !== null) {
             handleTemplateItemDropOnPropertyList();
         }
-        if (dragNode.current) {
-            dragNode.current.removeEventListener('dragend', onDragEnd);
-        }
         dragItem.current = null;
         dragNode.current = null;
         draggedTemplateItemRef.current = null;
