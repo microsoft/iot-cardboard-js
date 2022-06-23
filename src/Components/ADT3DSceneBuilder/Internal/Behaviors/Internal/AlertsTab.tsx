@@ -131,8 +131,6 @@ const AlertsTab: React.FC = () => {
                 `[END] Update value range property ${propertyName}. {visual}`,
                 alertVisual
             );
-            // check form validity
-            // validateForm(alertVisual);
         },
         [behaviorFormDispatch, behaviorFormState.behaviorToEdit]
     );
