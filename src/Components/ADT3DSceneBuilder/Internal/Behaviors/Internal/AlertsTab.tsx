@@ -11,7 +11,7 @@ import {
     defaultSwatchColors,
     defaultSwatchIcons
 } from '../../../../../Theming/Palettes';
-import { getUIDDefaultAlertVisual } from '../../../../../Models/Classes/3DVConfig';
+import { getDefaultAlertVisualWithId } from '../../../../../Models/Classes/3DVConfig';
 import {
     wrapTextInTemplateString,
     deepCopy,
@@ -34,23 +34,10 @@ import { BehaviorFormContextActionType } from './BehaviorFormContext/BehaviorFor
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('AlertsTab', debugLogging);
 
-// NOTE: the copy is created to avoid accidental updates to the object held by the reducer
-const getAlertFromBehavior = (behavior: IBehavior) => {
-    const alert = behavior.visuals.filter(ViewerConfigUtility.isAlertVisual)[0];
-    if (alert) {
-        return deepCopy(alert);
-    } else {
-        return null;
-    }
-};
-const getValueRangeVisualFromAlert = (visual: IExpressionRangeVisual) => {
-    const innerVisual = visual?.valueRanges?.[0]?.visual;
-    if (innerVisual) {
-        return deepCopy(innerVisual);
-    } else {
-        return null;
-    }
-};
+const getAlertFromBehavior = (behavior: IBehavior) =>
+    behavior.visuals.filter(ViewerConfigUtility.isAlertVisual)[0] || null;
+const getValueRangeVisualFromAlert = (visual: IExpressionRangeVisual) =>
+    visual?.valueRanges?.[0]?.visual || null;
 
 const ROOT_LOC = '3dSceneBuilder.behaviorAlertForm';
 const LOC_KEYS = {
@@ -84,7 +71,7 @@ const AlertsTab: React.FC = () => {
 
     const alertVisualStateRef = useRef<IExpressionRangeVisual>(
         getAlertFromBehavior(behaviorFormState.behaviorToEdit) ||
-            getUIDDefaultAlertVisual()
+            getDefaultAlertVisualWithId()
     );
 
     const getAndCreateIfNotExistsAlertVisual = (draft: IBehavior) => {

@@ -44,8 +44,7 @@ import {
     IADT3DSceneBuilderStyleProps,
     IADT3DSceneBuilderStyles,
     SET_UNSAVED_BEHAVIOR_CHANGES_DIALOG_OPEN,
-    SET_UNSAVED_BEHAVIOR_CHANGES_DIALOG_DISCARD_ACTION,
-    BuilderDirtyFormType
+    SET_UNSAVED_BEHAVIOR_CHANGES_DIALOG_DISCARD_ACTION
 } from './ADT3DSceneBuilder.types';
 import './ADT3DSceneBuilder.scss';
 import BaseComponent from '../../Components/BaseComponent/BaseComponent';
