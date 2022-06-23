@@ -4,7 +4,6 @@ import {
     DTwinRelationship,
     IADTAdapter,
     IKeyValuePairAdapter,
-    IAzureResourceGroup,
     ITsiClientChartDataAdapter,
     AzureAccessPermissionRoles
 } from '.';
@@ -170,11 +169,6 @@ export type CardboardIconNames =
     | 'Shapes'
     | 'SpeedHigh'
     | 'View';
-
-export type AzureResourceGroupsApiData = {
-    value: IAzureResourceGroup[];
-    nextLink: string;
-};
 
 export type MissingAzureRoleDefinitionAssignments = {
     enforced?: Array<AzureAccessPermissionRoles>;

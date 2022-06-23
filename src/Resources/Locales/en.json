@@ -939,5 +939,16 @@
         "noADTInstanceUrlTitle": "ADT instance not set",
         "noADTInstanceUrlMessage": "Your ADT instance url is not set. Click below to set it.",
         "configureEnvironment": "Configure environment"
+    },
+    "resourcesPicker": {
+        "select": "Select a resource",
+        "loadingResources": "Loading resources",
+        "loadingInstances": "Loading instances...",
+        "loadingContainers": "Loading containers...",
+        "loadingStorageAccounts": "Loading storage accounts...",
+        "enterEnvironmentUrl": "e.g. https://example.api.wus2.digitaltwins.azure.net",
+        "enterStorageAccountUrl": "e.g. https://example.blob.core.windows.net/",
+        "enterContainerUrl": "e.g. https://example.blob.core.windows.net/example",
+        "displayFieldNotFound": "'{{displayField}}' property not found in the resource with the id '{{id}}'!"
     }
 }
