@@ -81,14 +81,7 @@ export const BaseBreadcrumb: React.FC<IBaseBreadcrumbProps> = ({
                 text: sceneName || `(${t('noName')})`,
                 key: 'Scene',
                 ...(!isAtSceneRoot && {
-                    onClick: () => {
-                        const navigate = onSceneClick;
-                        if (onNavigate) {
-                            onNavigate('goToScene', navigate);
-                        } else {
-                            navigate();
-                        }
-                    }
+                    onClick: onSceneClick
                 })
             }
         ];

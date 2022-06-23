@@ -20,7 +20,7 @@ const cancelWidgetForm = (
 ) => {
     if (
         widgetFormInfo.mode === WidgetFormMode.CreateWidget ||
-        WidgetFormMode.EditWidget
+        widgetFormInfo.mode === WidgetFormMode.EditWidget
     ) {
         setWidgetFormInfo({ mode: WidgetFormMode.Cancelled });
     }
@@ -109,7 +109,7 @@ const SceneBreadcrumbFactory: React.FC<ISceneBreadcrumbFactoryProps> = ({
                             cancelWidgetForm(widgetFormInfo, setWidgetFormInfo);
                             setBehaviorTwinAliasFormInfo(null);
                         };
-                        onNavigate('goToForm', navigate);
+                        onNavigateCallback('goToForm', navigate);
                     }
                 })
             };
@@ -124,7 +124,7 @@ const SceneBreadcrumbFactory: React.FC<ISceneBreadcrumbFactoryProps> = ({
                     cancelWidgetForm(widgetFormInfo, setWidgetFormInfo);
                     setBehaviorTwinAliasFormInfo(null);
                 };
-                onNavigate('goToScene', navigate);
+                onNavigateCallback('goToScene', navigate);
             };
 
             onCancelForm = () => {
@@ -132,7 +132,7 @@ const SceneBreadcrumbFactory: React.FC<ISceneBreadcrumbFactoryProps> = ({
                     cancelWidgetForm(widgetFormInfo, setWidgetFormInfo);
                     setBehaviorTwinAliasFormInfo(null);
                 };
-                onNavigate('cancelForm', navigate);
+                onNavigateCallback('cancelForm', navigate);
             };
         }
 
@@ -212,7 +212,7 @@ const SceneBreadcrumbFactory: React.FC<ISceneBreadcrumbFactoryProps> = ({
                     onSceneClick();
                     setElementTwinAliasFormInfo(null);
                 };
-                onNavigate('goToScene', navigate);
+                onNavigateCallback('goToScene', navigate);
             };
 
             onCancelForm = () => {
@@ -221,7 +221,7 @@ const SceneBreadcrumbFactory: React.FC<ISceneBreadcrumbFactoryProps> = ({
                     setBehaviorTwinAliasFormInfo(null);
                     setElementTwinAliasFormInfo(null);
                 };
-                onNavigate('cancelForm', navigate);
+                onNavigateCallback('cancelForm', navigate);
             };
         }
 

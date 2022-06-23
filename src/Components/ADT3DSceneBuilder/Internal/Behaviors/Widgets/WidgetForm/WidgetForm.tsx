@@ -151,7 +151,6 @@ const WidgetForm: React.FC = () => {
     const customStyles = getWidgetFormStyles(theme);
     const commonFormStyles = getPanelFormStyles(theme, 0);
 
-    logDebugConsole('debug', 'Render.');
     if (!getActiveWidget(activeWidgetId, behaviorFormState.behaviorToEdit)) {
         logDebugConsole(
             'warn',

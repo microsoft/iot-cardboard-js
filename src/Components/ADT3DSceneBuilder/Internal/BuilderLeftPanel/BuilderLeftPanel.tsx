@@ -496,10 +496,6 @@ const BuilderLeftPanel: React.FC<IBuilderLeftPanelProps> = ({ styles }) => {
                         setUnsavedBehaviorChangesDialogOpen(true);
                         setUnsavedChangesDialogDiscardAction(() => {
                             navigate();
-                            dispatch({
-                                type: SET_ADT_SCENE_BUILDER_SELECTED_ELEMENT,
-                                payload: null
-                            });
                         });
                         return; // early return so we don't navigate
                     }
@@ -512,7 +508,6 @@ const BuilderLeftPanel: React.FC<IBuilderLeftPanelProps> = ({ styles }) => {
             navigate();
         },
         [
-            dispatch,
             isBehaviorFormMode,
             isElementFormMode,
             setUnsavedBehaviorChangesDialogOpen,
