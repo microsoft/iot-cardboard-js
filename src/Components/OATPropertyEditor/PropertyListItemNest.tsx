@@ -104,8 +104,6 @@ export const PropertyListItemNest = ({
         model ? model['@type'] : null
     );
 
-    console.log('item', item);
-
     const addPropertyCallback = () => {
         setCurrentPropertyIndex(index);
         if (!lastPropertyFocused) {
