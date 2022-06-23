@@ -144,7 +144,7 @@ const AlertsTab: React.FC = () => {
             );
 
             // If clearing out expression
-            if (newPropertyExpression.expression === '' && alertVisual) {
+            if (newPropertyExpression.expression === '') {
                 // Backup current state of alert visual form
                 alertVisualStateRef.current = deepCopy(alertVisual);
                 behaviorFormDispatch({
