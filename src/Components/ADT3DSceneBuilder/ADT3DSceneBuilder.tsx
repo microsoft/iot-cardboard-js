@@ -45,7 +45,8 @@ import {
     SET_ORIGINAL_BEHAVIOR_TO_EDIT,
     SET_UNSAVED_BEHAVIOR_CHANGES_DIALOG_OPEN,
     SET_UNSAVED_BEHAVIOR_CHANGES_DIALOG_DISCARD_ACTION,
-    SET_PARENT_MESH_IDS_TO_GIZMO
+    SET_ELEMENT_TO_GIZMO,
+    SET_GIZMO_TRANSFORM_ITEM
 } from './ADT3DSceneBuilder.types';
 import './ADT3DSceneBuilder.scss';
 import BaseComponent from '../../Components/BaseComponent/BaseComponent';
@@ -133,11 +134,11 @@ const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
         defaultADT3DSceneBuilderState
     );
 
-    console.log('ADT3DSceneBuilder svp: ', sceneViewProps);
-    console.log(
-        'ADT3DSceneBuilder gizmoElementItems: ',
-        state.gizmoElementItems
-    );
+    // console.log('ADT3DSceneBuilder svp: ', sceneViewProps);
+    // console.log(
+    //     'ADT3DSceneBuilder gizmoElementItems: ',
+    //     state.gizmoElementItems
+    // );
 
     // styles
     const classNames = getClassNames(styles, { theme: fluentTheme });
@@ -293,8 +294,18 @@ const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
     const setGizmoElementItems = useCallback(
         (gizmoElementItems: Array<TransformedElementItem>) => {
             dispatch({
-                type: SET_PARENT_MESH_IDS_TO_GIZMO,
+                type: SET_ELEMENT_TO_GIZMO,
                 payload: gizmoElementItems
+            });
+        },
+        []
+    );
+
+    const setGizmoTransformItem = useCallback(
+        (gizmoTransformItem: TransformedElementItem) => {
+            dispatch({
+                type: SET_GIZMO_TRANSFORM_ITEM,
+                payload: gizmoTransformItem
             });
         },
         []
@@ -864,6 +875,8 @@ const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
                             sceneViewProps={sceneViewProps}
                             outlinedMeshItems={state.outlinedMeshItems}
                             gizmoElementItems={state.gizmoElementItems}
+                            gizmoTransformItem={state.gizmoTransformItem} // pass the setter !!
+                            setGizmoTransformItem={setGizmoTransformItem}
                             showHoverOnSelected={state.showHoverOnSelected}
                             coloredMeshItems={state.coloredMeshItems}
                             showMeshesOnHover={state.enableHoverOnModel}

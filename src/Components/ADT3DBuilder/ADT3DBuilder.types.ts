@@ -18,6 +18,10 @@ export interface IADT3DBuilderProps {
     showHoverOnSelected?: boolean;
     outlinedMeshItems?: CustomMeshItem[];
     gizmoElementItems?: TransformedElementItem[];
+    gizmoTransformItem?: TransformedElementItem;
+    setGizmoTransformItem?: (
+        gizmoTransformItem: TransformedElementItem
+    ) => void;
     objectColorUpdated?: (objectColor: IADTObjectColor) => void;
     hideViewModePickerUI?: boolean;
     sceneViewProps?: ISceneViewProps;

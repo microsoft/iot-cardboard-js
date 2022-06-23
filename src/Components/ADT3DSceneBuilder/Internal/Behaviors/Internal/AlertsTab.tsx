@@ -58,7 +58,7 @@ const AlertsTab: React.FC = () => {
         adapter,
         config,
         sceneId,
-        state: { selectedElements, gizmoElementItems } // do I need access to gizmoElement items or just the setter?
+        state: { selectedElements, gizmoElementItems, gizmoTransformItem } // do I need access to gizmoElement items or just the setter?
     } = useContext(SceneBuilderContext);
 
     const alertVisualStateRef = useRef<IExpressionRangeVisual>(
@@ -77,8 +77,7 @@ const AlertsTab: React.FC = () => {
             // will need to do the actual setting of mesh to parent in SceneView if no access to meshes here
             gizmoElementRef.current = {
                 meshIds: [],
-                parentMeshId: '',
-                transform: null
+                parentMeshId: ''
             };
             // gizmoElementRef.current.meshIds = [];
             const meshIds = gizmoElementRef.current.meshIds;
@@ -99,6 +98,9 @@ const AlertsTab: React.FC = () => {
     }, [selectedElements]);
 
     // a different useEffect for transform item we get back from SceneView
+    useEffect(() => {
+        console.log('gizmoTransformItem: ', gizmoTransformItem);
+    }, [gizmoTransformItem]);
 
     const getAndCreateIfNotExistsAlertVisual = (draft: IBehavior) => {
         // Assuming only 1 alert visual per behavior

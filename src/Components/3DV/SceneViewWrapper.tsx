@@ -67,7 +67,7 @@ const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = (props) => {
     } = props;
     const { onMeshHover, onMeshClick, onSceneLoaded, ...svp } = sceneViewProps;
 
-    console.log('SceneViewWrapper svp: ', svp);
+    // console.log('SceneViewWrapper svp: ', svp);
 
     const data = new ADT3DAddInEventData();
     data.adapter = adapter;

@@ -72,7 +72,8 @@ export const SET_ADT_SCENE_OBJECT_COLOR = 'SET_ADT_SCENE_OBJECT_COLOR';
 export const SET_MESH_IDS_TO_OUTLINE = 'SET_MESH_IDS_TO_OUTLINE';
 export const SET_IS_LAYER_BUILDER_DIALOG_OPEN =
     'SET_IS_LAYER_BUILDER_DIALOG_OPEN';
-export const SET_PARENT_MESH_IDS_TO_GIZMO = 'SET_PARENT_MESH_IDS_TO_GIZMO';
+export const SET_ELEMENT_TO_GIZMO = 'SET_PARENT_MESH_IDS_TO_GIZMO';
+export const SET_GIZMO_TRANSFORM_ITEM = 'SET_GIZMO_TRANSFORM_ITEM';
 // END of Actions
 
 export interface IADT3DSceneBuilderCardProps
@@ -273,6 +274,7 @@ export interface ADT3DSceneBuilderState {
     coloredMeshItems: Array<CustomMeshItem>;
     outlinedMeshItems: Array<CustomMeshItem>;
     gizmoElementItems: Array<TransformedElementItem>;
+    gizmoTransformItem: TransformedElementItem;
     widgetFormInfo: WidgetFormInfo;
     behaviorTwinAliasFormInfo: BehaviorTwinAliasFormInfo;
     elementTwinAliasFormInfo: ElementTwinAliasFormInfo;

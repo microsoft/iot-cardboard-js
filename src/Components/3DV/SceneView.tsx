@@ -13,6 +13,7 @@ import React, {
 import './SceneView.scss';
 import {
     createGUID,
+    deepCopy,
     getDebugLogger,
     hexToColor4
 } from '../../Models/Services/Utils';
@@ -23,7 +24,8 @@ import {
     Marker,
     SceneViewCallbackHandler,
     TransformedElementItem,
-    CustomMeshItem
+    CustomMeshItem,
+    TransformInfo
 } from '../../Models/Classes/SceneView.types';
 import {
     CameraZoomMultiplier,
@@ -163,6 +165,8 @@ function SceneView(props: ISceneViewProps, ref) {
         coloredMeshItems,
         transformedElementItems,
         gizmoElementItems,
+        gizmoTransformItem,
+        setGizmoTransformItem,
         showHoverOnSelected,
         outlinedMeshitems,
         isWireframe,
@@ -213,6 +217,7 @@ function SceneView(props: ISceneViewProps, ref) {
     const lastCameraPositionRef = useRef('');
     const previouslyTransformedElements = useRef<CustomMeshItem[]>([]);
     const gizmoManagerRef = useRef<BABYLON.GizmoManager>(undefined);
+    const gizmoTransformItemRef = useRef<TransformedElementItem>(null);
 
     const [markersAndPositions, setMarkersAndPositions] = useState<
         { marker: Marker; left: number; top: number }[]
@@ -1692,7 +1697,7 @@ function SceneView(props: ISceneViewProps, ref) {
         }
 
         return () => {
-            debugLog('debug', 'Mesh transform cleanup'); //??
+            debugLog('debug', 'Mesh transform cleanup'); // do i need to do anything here?
         };
     }, [
         transformedElementItems,
@@ -1716,6 +1721,8 @@ function SceneView(props: ISceneViewProps, ref) {
             (pTE) => pTE.meshId
         );
 
+        const transform = transformedElementItem.transform;
+
         // only add parentMesh to previouslyTransformedElements ONCE for the ORIGINAL status
         if (!pTParentMeshIds.includes(transformedElementItem.parentMeshId)) {
             previouslyTransformedElements.current.push({
@@ -1733,9 +1740,20 @@ function SceneView(props: ISceneViewProps, ref) {
                     }
                 }
             });
-        }
 
-        const transform = transformedElementItem.transform;
+            // only transform element if not already in previously transformed elements
+            // this allows us to treat the "transform" property as a delta rather than the final position
+            // i.e. adding it to the original element rotation/position rather than setting it to
+            // parentMesh.rotation.x += transform.rotation.x;
+            // parentMesh.rotation.y += transform.rotation.y;
+            // parentMesh.rotation.z += transform.rotation.z;
+
+            // parentMesh.position.x += transform.position.x;
+            // parentMesh.position.y += transform.position.y;
+            // parentMesh.position.z += transform.position.z;
+
+            // not currently working ... what if a transform followed by a diff transform?
+        }
 
         parentMesh.rotation.x = transform.rotation.x;
         parentMesh.rotation.y = transform.rotation.y;
@@ -1761,7 +1779,6 @@ function SceneView(props: ISceneViewProps, ref) {
         if (scene && gizmoElementItems && !isLoading) {
             if (debugLogging) {
                 console.time('adding gizmo to meshes');
-                // console.log('tr', transformedMeshItems);
                 gizmoElementItems.forEach((gizmoElementItem) => {
                     console.log('gizmoElementItem:', gizmoElementItem);
                 });
@@ -1780,6 +1797,23 @@ function SceneView(props: ISceneViewProps, ref) {
                 if (gizmoElementItems.length == 0) {
                     // if gizmoElementItems is empty, attach to null meshes to clear
                     gizmoManager.attachToMesh(null);
+                    // will also be triggered on leaving, so snap parent mesh back to original state
+                    // if (gizmoTransformItem.parentMeshId) {
+                    //     const parentMesh: BABYLON.Mesh =
+                    //         meshMap.current?.[gizmoTransformItem.parentMeshId];
+                    //     const position = gizmoTransformItem.original.position;
+                    //     const rotation = gizmoTransformItem.original.rotation;
+                    //     parentMesh.position = new BABYLON.Vector3(
+                    //         position.x,
+                    //         position.y,
+                    //         position.z
+                    //     );
+                    //     parentMesh.rotation = new BABYLON.Vector3(
+                    //         rotation.x,
+                    //         rotation.y,
+                    //         rotation.z
+                    //     );
+                    // }
                 } else {
                     // later add support for multiple gizmoElementItems!!!
                     const parentMesh: BABYLON.Mesh =
@@ -1795,12 +1829,167 @@ function SceneView(props: ISceneViewProps, ref) {
                             meshMap.current?.[meshId].setParent(parentMesh);
                         }
                     });
+
                     gizmoManager.usePointerToAttachGizmos = false;
                     gizmoManager.attachToMesh(parentMesh);
                     gizmoManager.rotationGizmoEnabled = true;
                     gizmoManager.positionGizmoEnabled = true;
 
-                    // gizmoManager.gizmos.rotationGizmo
+                    // gizmoTransformItemRef.current = deepCopy(
+                    //     gizmoTransformItem
+                    // );
+
+                    console.log(
+                        'gizmo transform item ref: ',
+                        gizmoTransformItemRef.current
+                    );
+
+                    // capture original rotation/position when gizmoManager attaches to mesh, but only once!
+                    // may need change if we want to support multiple gizmos/elements per behavior
+                    gizmoManager.onAttachedToMeshObservable.addOnce(() => {
+                        const attachedMesh =
+                            gizmoManager.gizmos.rotationGizmo.attachedMesh;
+                        console.log('attachedMesh: ', attachedMesh);
+
+                        // set both original and transform to original state of mesh
+                        const originalTransform: TransformInfo = {
+                            position: {
+                                x: attachedMesh.position.x,
+                                y: attachedMesh.position.y,
+                                z: attachedMesh.position.z
+                            },
+                            rotation: {
+                                x: attachedMesh.rotation.x,
+                                y: attachedMesh.rotation.y,
+                                z: attachedMesh.rotation.z
+                            }
+                        };
+                        gizmoTransformItemRef.current = {
+                            meshIds: deepCopy(meshIds),
+                            parentMeshId: parentMeshId,
+                            original: originalTransform,
+                            transform: originalTransform
+                        };
+
+                        console.log('hello??');
+
+                        setGizmoTransformItem(gizmoTransformItemRef.current);
+                        // gizmoTransformItem.meshIds = deepCopy(meshIds);
+                        // gizmoTransformItem.parentMeshId = parentMeshId;
+                        // if (!gizmoTransformItem.original) {
+                        //     console.log('original is null again?');
+                        //     gizmoTransformItem.original = {
+                        //         position: {
+                        //             x: parentMesh.position.x,
+                        //             y: parentMesh.position.y,
+                        //             z: parentMesh.position.z
+                        //         },
+                        //         rotation: {
+                        //             x: parentMesh.rotation.x,
+                        //             y: parentMesh.rotation.y,
+                        //             z: parentMesh.rotation.z
+                        //         }
+                        //     };
+                        // }
+                    });
+
+                    // on drag end for both position and rotation gizmos, record new pos/rot
+                    const positionGizmo = gizmoManager.gizmos.positionGizmo;
+                    positionGizmo.onDragEndObservable.add(() => {
+                        const attachedMesh =
+                            gizmoManager.gizmos.rotationGizmo.attachedMesh;
+                        const original = gizmoTransformItemRef.current.original;
+                        const transform =
+                            gizmoTransformItemRef.current.transform;
+                        gizmoTransformItemRef.current = {
+                            meshIds: deepCopy(meshIds),
+                            parentMeshId: parentMeshId,
+                            original: {
+                                position: {
+                                    x: original.position.x,
+                                    y: original.position.y,
+                                    z: original.position.z
+                                },
+                                rotation: {
+                                    x: original.rotation.x,
+                                    y: original.rotation.y,
+                                    z: original.rotation.z
+                                }
+                            },
+                            transform: {
+                                position: {
+                                    x: attachedMesh.position.x,
+                                    y: attachedMesh.position.y,
+                                    z: attachedMesh.position.z
+                                },
+                                rotation: {
+                                    x: transform.rotation.x,
+                                    y: transform.rotation.y,
+                                    z: transform.rotation.z
+                                }
+                            }
+                            // ...gizmoTransformItemRef.current
+                        };
+                        setGizmoTransformItem(gizmoTransformItemRef.current);
+
+                        // gizmoTransformItem.transform.position = {
+                        //     x: parentMesh.position.x,
+                        //     y: parentMesh.position.y,
+                        //     z: parentMesh.position.z
+                        // };
+                        console.log(
+                            'new position: ',
+                            gizmoTransformItemRef.current.transform.position
+                        );
+                    });
+
+                    const rotationGizmo = gizmoManager.gizmos.rotationGizmo;
+                    rotationGizmo.onDragEndObservable.add(() => {
+                        const attachedMesh =
+                            gizmoManager.gizmos.rotationGizmo.attachedMesh;
+                        const original = gizmoTransformItemRef.current.original;
+                        const transform =
+                            gizmoTransformItemRef.current.transform;
+                        gizmoTransformItemRef.current = {
+                            meshIds: deepCopy(meshIds),
+                            parentMeshId: parentMeshId,
+                            original: {
+                                position: {
+                                    x: original.position.x,
+                                    y: original.position.y,
+                                    z: original.position.z
+                                },
+                                rotation: {
+                                    x: original.rotation.x,
+                                    y: original.rotation.y,
+                                    z: original.rotation.z
+                                }
+                            },
+                            transform: {
+                                position: {
+                                    x: transform.position.x,
+                                    y: transform.position.y,
+                                    z: transform.position.z
+                                },
+                                rotation: {
+                                    x: attachedMesh.rotation.x,
+                                    y: attachedMesh.rotation.y,
+                                    z: attachedMesh.rotation.z
+                                }
+                            }
+                            // ...gizmoTransformItemRef.current
+                        };
+                        setGizmoTransformItem(gizmoTransformItemRef.current);
+                        // gizmoTransformItem.transform.rotation = {
+                        //     x: parentMesh.rotation.x,
+                        //     y: parentMesh.rotation.y,
+                        //     z: parentMesh.rotation.z
+                        // };
+                        console.log(
+                            'new rotation: ',
+                            gizmoTransformItemRef.current.transform.rotation
+                        );
+                    });
                 }
             } catch {
                 console.warn('unable to add gizmo to mesh');
@@ -1811,6 +2000,23 @@ function SceneView(props: ISceneViewProps, ref) {
         }
 
         return () => {
+            // set element back to original position
+            // if (gizmoTransformItem.parentMeshId) {
+            //     const parentMesh: BABYLON.Mesh =
+            //         meshMap.current?.[gizmoTransformItem.parentMeshId];
+            //     const position = gizmoTransformItem.original.position;
+            //     const rotation = gizmoTransformItem.original.rotation;
+            //     parentMesh.position = new BABYLON.Vector3(
+            //         position.x,
+            //         position.y,
+            //         position.z
+            //     );
+            //     parentMesh.rotation = new BABYLON.Vector3(
+            //         rotation.x,
+            //         rotation.y,
+            //         rotation.z
+            //     );
+            // }
             debugLog('debug', 'Mesh gizmo cleanup'); //?
         };
     }, [

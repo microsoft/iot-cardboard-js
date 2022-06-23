@@ -33,13 +33,15 @@ const ADT3DBuilder: React.FC<IADT3DBuilderProps> = (props) => {
         showHoverOnSelected,
         outlinedMeshItems,
         gizmoElementItems,
+        gizmoTransformItem,
+        setGizmoTransformItem,
         objectColorUpdated,
         hideViewModePickerUI,
         styles
     } = props;
 
-    console.log('ADT3DBuilder svp: ', sceneViewProps);
-    console.log('ADT3DBuilder gizmoElementItems: ', gizmoElementItems);
+    // console.log('ADT3DBuilder svp: ', sceneViewProps);
+    // console.log('ADT3DBuilder gizmoElementItems: ', gizmoElementItems);
 
     // styles
     const fluentTheme = useTheme();
@@ -83,6 +85,8 @@ const ADT3DBuilder: React.FC<IADT3DBuilderProps> = (props) => {
                         showHoverOnSelected: showHoverOnSelected,
                         outlinedMeshitems: outlinedMeshItems,
                         gizmoElementItems: gizmoElementItems,
+                        gizmoTransformItem: gizmoTransformItem,
+                        setGizmoTransformItem: setGizmoTransformItem, // does this need a new callback?
                         getToken: (adapter as any).authService
                             ? () =>
                                   (adapter as any).authService.getToken(

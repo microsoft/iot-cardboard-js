@@ -74,7 +74,8 @@ export interface CustomMeshItem {
 export interface TransformedElementItem {
     meshIds: string[];
     parentMeshId: string;
-    transform: TransformInfo;
+    transform?: TransformInfo;
+    original?: TransformInfo;
 }
 
 export interface TransformInfo {
@@ -143,6 +144,10 @@ export interface ISceneViewProps {
     outlinedMeshitems?: CustomMeshItem[];
     transformedElementItems?: TransformedElementItem[];
     gizmoElementItems?: TransformedElementItem[];
+    gizmoTransformItem?: TransformedElementItem;
+    setGizmoTransformItem?: (
+        gizmoTransformItem: TransformedElementItem
+    ) => void;
     zoomToMeshIds?: string[];
     unzoomedMeshOpacity?: number;
     showHoverOnSelected?: boolean;
