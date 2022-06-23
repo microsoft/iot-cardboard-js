@@ -876,7 +876,10 @@
     "errorRepeatedId": "具有相同 ID 的模型已存在",
     "errorRepeatedName": "具有相同名称的模型已存在",
     "errorRepeatedEdgeName": "具有相同名称的关系已存在",
-    "errorInvalidJSON": "无效的 JSON"
+    "errorInvalidJSON": "无效的 JSON",
+    "addToPropertyList": "添加到属性列表",
+    "moveDown": "下移",
+    "moveUp": "上升"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "错误信息",

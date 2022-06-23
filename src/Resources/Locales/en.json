@@ -792,6 +792,7 @@
     "OATPropertyEditor": {
         "addEnumValue": "Add enum value",
         "addProperty": "Add property",
+        "addToPropertyList": "Add to property list",
         "addToTemplate": "Add to template",
         "array": "array",
         "assetId": "Asset ID",
@@ -843,6 +844,8 @@
         "modalTextInputPlaceHolderSemanticType": "current...",
         "modalTextInputPlaceHolderUnit": "unit...",
         "more": "More",
+        "moveDown": "Move down",
+        "moveUp": "Move up",
         "multiLanguage": "multi-language",
         "multiLinestring": "multilinestring",
         "multiPoint": "multipoint",

@@ -876,7 +876,10 @@
     "errorRepeatedId": "同じ ID のモデルが既に存在します",
     "errorRepeatedName": "同じ名前のモデルが既に存在します",
     "errorRepeatedEdgeName": "同じ名前の関係が既に存在します",
-    "errorInvalidJSON": "無効な JSON"
+    "errorInvalidJSON": "無効な JSON",
+    "addToPropertyList": "プロパティリストに追加",
+    "moveDown": "下へ移動",
+    "moveUp": "上へ移動"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "エラーメッセージ",

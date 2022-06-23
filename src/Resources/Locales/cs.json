@@ -876,7 +876,10 @@
     "errorRepeatedId": "Model se stejným ID již existuje",
     "errorRepeatedName": "Model se stejným názvem již existuje",
     "errorRepeatedEdgeName": "Vztah se stejným názvem již existuje",
-    "errorInvalidJSON": "Neplatný JSON"
+    "errorInvalidJSON": "Neplatný JSON",
+    "addToPropertyList": "Přidat do seznamu vlastností",
+    "moveDown": "Posunout dolů",
+    "moveUp": "Povýšit"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Zpráva o chybě",

@@ -876,7 +876,10 @@
     "errorRepeatedId": "동일한 ID를 가진 모델이 이미 존재합니다.",
     "errorRepeatedName": "이름이 같은 모델이 이미 있습니다.",
     "errorRepeatedEdgeName": "같은 이름의 관계가 이미 존재합니다.",
-    "errorInvalidJSON": "잘못된 JSON"
+    "errorInvalidJSON": "잘못된 JSON",
+    "addToPropertyList": "속성 목록에 추가",
+    "moveDown": "아래로 이동",
+    "moveUp": "위로 이동"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "오류 메시지",

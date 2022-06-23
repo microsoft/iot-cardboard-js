@@ -876,7 +876,10 @@
     "errorRepeatedId": "Ein Modell mit derselben ID ist bereits vorhanden",
     "errorRepeatedName": "Ein Modell mit demselben Namen existiert bereits",
     "errorRepeatedEdgeName": "Eine Beziehung mit demselben Namen existiert bereits",
-    "errorInvalidJSON": "Ungültiges JSON"
+    "errorInvalidJSON": "Ungültiges JSON",
+    "addToPropertyList": "Zur Eigenschaftsliste hinzufügen",
+    "moveDown": "Nach unten verschieben",
+    "moveUp": "Aufrücken"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Fehlermeldung",
