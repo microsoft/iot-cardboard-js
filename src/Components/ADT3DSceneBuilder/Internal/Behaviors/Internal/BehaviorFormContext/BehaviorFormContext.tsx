@@ -232,9 +232,10 @@ export const BehaviorFormContextProvider: React.FC<IBehaviorFormContextProviderP
     initialBehavior = deepCopy(behaviorToEdit);
     initialLayers = deepCopy(behaviorSelectedLayerIds);
 
+    // TODO: remove this copy when we turn off auto freeze
     const defaultState: IBehaviorFormContextState = {
-        behaviorToEdit: behaviorToEdit,
-        behaviorSelectedLayerIds: behaviorSelectedLayerIds,
+        behaviorToEdit: deepCopy(behaviorToEdit),
+        behaviorSelectedLayerIds: deepCopy(behaviorSelectedLayerIds),
         isDirty: false
     };
 

@@ -29,7 +29,7 @@ import {
 } from '../../../../Models/Classes/3DVConfig';
 import ViewerConfigUtility from '../../../../Models/Classes/ViewerConfigUtility';
 import SceneBehaviors from '../Behaviors/Behaviors';
-import SceneBehaviorsForm from '../Behaviors/BehaviorsForm';
+import BehaviorsForm from '../Behaviors/BehaviorsForm';
 import SceneElementForm from '../Elements/ElementForm';
 import SceneElements from '../Elements/Elements';
 import SceneBreadcrumbFactory from '../../../SceneBreadcrumb/SceneBreadcrumbFactory';
@@ -462,6 +462,11 @@ const BuilderLeftPanel: React.FC<IBuilderLeftPanelProps> = ({ styles }) => {
         }
     }, [onBackClick, setSelectedElements, state.builderMode]);
 
+    const onBehaviorBackClick = useCallback(
+        () => onBackClick(ADT3DSceneBuilderMode.BehaviorIdle),
+        [onBackClick]
+    );
+
     const onBreadcrumbNavigate = useCallback(
         (action: BreadcrumbAction, navigate: () => void): boolean => {
             logDebugConsole(
@@ -516,7 +521,7 @@ const BuilderLeftPanel: React.FC<IBuilderLeftPanelProps> = ({ styles }) => {
         ]
     );
 
-    // logDebugConsole('debug', 'Render');
+    logDebugConsole('debug', 'Render');
     return (
         <BaseComponent
             theme={theme}
@@ -588,13 +593,11 @@ const BuilderLeftPanel: React.FC<IBuilderLeftPanelProps> = ({ styles }) => {
                 />
             )}
             {isBehaviorFormMode && (
-                <SceneBehaviorsForm
+                <BehaviorsForm
                     behaviors={behaviors}
                     builderMode={state.builderMode}
                     elements={state.elements}
-                    onBehaviorBackClick={() =>
-                        onBackClick(ADT3DSceneBuilderMode.BehaviorIdle)
-                    }
+                    onBehaviorBackClick={onBehaviorBackClick}
                     onBehaviorSave={onBehaviorSave}
                     onElementClick={onElementClick}
                     onRemoveElement={onRemoveElement}
