@@ -894,11 +894,11 @@ const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
                         ADT3DSceneBuilderMode.CreateBehavior ||
                         state.builderMode ===
                             ADT3DSceneBuilderMode.EditBehavior) &&
-                        behaviorToEdit &&
+                        state.draftBehavior &&
                         !state.isLayerBuilderDialogOpen && (
                             <div className={commonPanelStyles.previewContainer}>
                                 <BehaviorsModal
-                                    behaviors={[behaviorToEdit]}
+                                    behaviors={[state.draftBehavior]}
                                     element={undefined}
                                     twins={null}
                                     mode={BehaviorModalMode.preview}

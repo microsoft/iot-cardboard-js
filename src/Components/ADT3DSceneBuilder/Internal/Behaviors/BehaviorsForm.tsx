@@ -16,6 +16,7 @@ import {
 import {
     BehaviorSaveMode,
     IADT3DSceneBuilderBehaviorFormProps,
+    SET_ADT_SCENE_BUILDER_DRAFT_BEHAVIOR,
     SET_ADT_SCENE_BUILDER_FORM_DIRTY_MAP_ENTRY
 } from '../../ADT3DSceneBuilder.types';
 import {
@@ -123,15 +124,6 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
         selectedBehaviorPivotKey,
         setSelectedBehaviorPivotKey
     ] = useState<BehaviorPivot>(BehaviorPivot.elements);
-
-    // when we unmount, clear the form data
-    useEffect(() => {
-        return () => {
-            behaviorFormDispatch({
-                type: BehaviorFormContextActionType.FORM_BEHAVIOR_RESET
-            });
-        };
-    }, [behaviorFormDispatch]);
 
     useEffect(() => {
         const selectedElements = [];
@@ -365,15 +357,51 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
         });
     }, []);
 
+    const notifySceneContextDirtyState = useCallback(
+        (isDirty: boolean) => {
+            dispatch({
+                type: SET_ADT_SCENE_BUILDER_FORM_DIRTY_MAP_ENTRY,
+                payload: {
+                    formType: 'behavior',
+                    value: isDirty
+                }
+            });
+        },
+        [dispatch]
+    );
+    const notifySceneContextDraftBehavior = useCallback(
+        (behavior: IBehavior) => {
+            dispatch({
+                type: SET_ADT_SCENE_BUILDER_DRAFT_BEHAVIOR,
+                payload: behavior
+            });
+        },
+        [dispatch]
+    );
+
+    // mirror the form state up to the scene context (for navigation confirmation)
     useEffect(() => {
-        dispatch({
-            type: SET_ADT_SCENE_BUILDER_FORM_DIRTY_MAP_ENTRY,
-            payload: {
-                formType: 'behavior',
-                value: behaviorFormState.isDirty
-            }
-        });
-    }, [behaviorFormState.isDirty, dispatch]);
+        notifySceneContextDirtyState(behaviorFormState.isDirty);
+    }, [behaviorFormState.isDirty, notifySceneContextDirtyState]);
+    // mirror the form state up to the scene context (for the behavior modal)
+    useEffect(() => {
+        notifySceneContextDraftBehavior(behaviorFormState.behaviorToEdit);
+    }, [behaviorFormState.behaviorToEdit, notifySceneContextDraftBehavior]);
+
+    // when we unmount, clear the form data
+    useEffect(() => {
+        return () => {
+            behaviorFormDispatch({
+                type: BehaviorFormContextActionType.FORM_BEHAVIOR_RESET
+            });
+            notifySceneContextDraftBehavior(null);
+            notifySceneContextDirtyState(false);
+        };
+    }, [
+        behaviorFormDispatch,
+        notifySceneContextDirtyState,
+        notifySceneContextDraftBehavior
+    ]);
 
     const isFormValid = checkValidityMap(behaviorState.validityMap);
     const theme = useTheme();

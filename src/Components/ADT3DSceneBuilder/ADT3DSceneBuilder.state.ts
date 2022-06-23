@@ -21,6 +21,7 @@ import {
     SET_UNSAVED_BEHAVIOR_CHANGES_DIALOG_OPEN,
     SET_UNSAVED_BEHAVIOR_CHANGES_DIALOG_DISCARD_ACTION,
     SET_ADT_SCENE_BUILDER_FORM_DIRTY_MAP_ENTRY,
+    SET_ADT_SCENE_BUILDER_DRAFT_BEHAVIOR,
     BuilderDirtyFormType
 } from './ADT3DSceneBuilder.types';
 import {
@@ -47,6 +48,7 @@ export const defaultADT3DSceneBuilderState: ADT3DSceneBuilderState = {
     outlinedMeshItems: [],
     removedElements: null,
     selectedBehavior: null,
+    draftBehavior: null,
     selectedElement: null,
     selectedElements: null,
     selectedPivotTab: ADT3DSceneTwinBindingsMode.Elements,
@@ -85,12 +87,6 @@ export const ADT3DSceneBuilderReducer: (
             case SET_ADT_SCENE_BUILDER_BEHAVIORS:
                 draft.behaviors = payload;
                 break;
-            case SET_ADT_SCENE_BUILDER_SELECTED_ELEMENT:
-                draft.selectedElement = payload;
-                if (!payload) {
-                    draft.formDirtyState.set('element', false);
-                }
-                break;
             case SET_ADT_SCENE_BUILDER_SELECTED_ELEMENTS:
                 draft.selectedElements = payload;
                 break;
@@ -106,12 +102,24 @@ export const ADT3DSceneBuilderReducer: (
                     action.payload.value
                 );
                 break;
+
+            case SET_ADT_SCENE_BUILDER_SELECTED_ELEMENT:
+                draft.selectedElement = payload;
+                if (!payload) {
+                    draft.formDirtyState.set('element', false);
+                }
+                break;
+
             case SET_ADT_SCENE_BUILDER_SELECTED_BEHAVIOR:
                 draft.selectedBehavior = payload;
                 if (!payload) {
                     draft.formDirtyState.set('behavior', false);
                 }
                 break;
+            case SET_ADT_SCENE_BUILDER_DRAFT_BEHAVIOR:
+                draft.draftBehavior = Object.freeze(payload); // freeze to prevent accidental updates. Changes should be on the form context
+                break;
+
             case SET_UNSAVED_BEHAVIOR_CHANGES_DIALOG_DISCARD_ACTION:
                 draft.unsavedChangesDialogDiscardAction = payload;
                 break;

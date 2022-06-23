@@ -51,6 +51,8 @@ export const SET_ADT_SCENE_BUILDER_SELECTED_ELEMENT =
     'SET_ADT_SCENE_BUILDER_SELECTED_ELEMENT';
 export const SET_ADT_SCENE_BUILDER_SELECTED_BEHAVIOR =
     'SET_ADT_SCENE_BUILDER_SELECTED_BEHAVIOR';
+export const SET_ADT_SCENE_BUILDER_DRAFT_BEHAVIOR =
+    'SET_ADT_SCENE_BUILDER_DRAFT_BEHAVIOR';
 export const SET_ADT_SCENE_ELEMENT_SELECTED_OBJECT_IDS =
     'SET_ADT_SCENE_ELEMENT_SELECTED_OBJECT_IDS';
 export const SET_ADT_SCENE_BUILDER_COLORED_MESH_ITEMS =
@@ -282,6 +284,8 @@ export interface ADT3DSceneBuilderState {
     outlinedMeshItems: Array<CustomMeshItem>;
     removedElements: Array<ITwinToObjectMapping>;
     selectedBehavior: IBehavior;
+    /** copy of the behavior being edited by the form. Reflects changes in realtime but should not be edited */
+    draftBehavior: IBehavior;
     selectedElement: ITwinToObjectMapping;
     selectedElements: Array<ITwinToObjectMapping>;
     selectedPivotTab: ADT3DSceneTwinBindingsMode;
