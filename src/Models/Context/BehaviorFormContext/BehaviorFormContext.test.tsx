@@ -3,18 +3,18 @@ import { cleanup, render } from '@testing-library/react';
 import {
     defaultAlertVisual,
     defaultBehavior,
-    defaultGaugeWidget,
     defaultStatusColorVisual,
+    defaultGaugeWidget,
     VisualType
-} from '../../../../../../Models/Classes/3DVConfig';
-import ViewerConfigUtility from '../../../../../../Models/Classes/ViewerConfigUtility';
+} from '../../Classes/3DVConfig';
+import ViewerConfigUtility from '../../Classes/ViewerConfigUtility';
 import {
-    IBehavior,
-    IElementTwinToObjectMappingDataSource,
     IExpressionRangeVisual,
-    IPopoverVisual,
-    IWidget
-} from '../../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
+    IElementTwinToObjectMappingDataSource,
+    IBehavior,
+    IWidget,
+    IPopoverVisual
+} from '../../Types/Generated/3DScenesConfiguration-v1.0.0';
 import {
     BehaviorFormContextProvider,
     BehaviorFormContextReducer
