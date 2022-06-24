@@ -134,8 +134,6 @@ const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
     const classNames = getClassNames(styles, { theme: fluentTheme });
 
     // state
-    const [behaviorToEdit, setBehaviorToEdit] = useState<IBehavior>(null);
-
     const previouslyColoredMeshItems = useRef([]);
     const elementContextualMenuItems = useRef([]);
     const behaviorContextualMenuItems = useRef<IContextualMenuItem[]>([]);
