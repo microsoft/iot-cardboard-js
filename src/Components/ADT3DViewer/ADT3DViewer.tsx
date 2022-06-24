@@ -628,6 +628,7 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
                     sceneId={sceneId}
                     sceneName={sceneName}
                     onSceneChange={onCloseBehaviorsModal}
+                    onNavigate={(_action, navigate) => navigate()}
                 />
                 {/* Left panel */}
                 <ViewerElementsPanelRenderer

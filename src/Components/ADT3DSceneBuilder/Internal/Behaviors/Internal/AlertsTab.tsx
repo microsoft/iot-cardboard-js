@@ -1,9 +1,9 @@
-import produce from 'immer';
 import React, { useCallback, useContext, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
     IBehavior,
-    IExpressionRangeVisual
+    IExpressionRangeVisual,
+    IValueRangeVisual
 } from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { FontSizes, Stack, Text, useTheme } from '@fluentui/react';
 import ViewerConfigUtility from '../../../../../Models/Classes/ViewerConfigUtility';
@@ -11,11 +11,12 @@ import {
     defaultSwatchColors,
     defaultSwatchIcons
 } from '../../../../../Theming/Palettes';
-import { getUIDDefaultAlertVisual } from '../../../../../Models/Classes/3DVConfig';
+import { getDefaultAlertVisualWithId } from '../../../../../Models/Classes/3DVConfig';
 import {
     wrapTextInTemplateString,
     deepCopy,
-    stripTemplateStringsFromText
+    stripTemplateStringsFromText,
+    getDebugLogger
 } from '../../../../../Models/Services/Utils';
 import ColorPicker from '../../../../Pickers/ColorSelectButton/ColorPicker';
 import { IPickerOption } from '../../../../Pickers/Internal/Picker.base.types';
@@ -27,9 +28,16 @@ import {
     ModelledPropertyBuilderMode,
     PropertyExpression
 } from '../../../../ModelledPropertyBuilder/ModelledPropertyBuilder.types';
+import { useBehaviorFormContext } from './BehaviorFormContext/BehaviorFormContext';
+import { BehaviorFormContextActionType } from './BehaviorFormContext/BehaviorFormContext.types';
+
+const debugLogging = false;
+const logDebugConsole = getDebugLogger('AlertsTab', debugLogging);
 
 const getAlertFromBehavior = (behavior: IBehavior) =>
     behavior.visuals.filter(ViewerConfigUtility.isAlertVisual)[0] || null;
+const getValueRangeVisualFromAlert = (visual: IExpressionRangeVisual) =>
+    visual?.valueRanges?.[0]?.visual || null;
 
 const ROOT_LOC = '3dSceneBuilder.behaviorAlertForm';
 const LOC_KEYS = {
@@ -46,18 +54,24 @@ const LOC_KEYS = {
 };
 
 const AlertsTab: React.FC = () => {
-    const { t } = useTranslation();
+    // contexts
     const {
-        behaviorToEdit,
-        setBehaviorToEdit,
         adapter,
         config,
         sceneId,
         state: { selectedElements }
     } = useContext(SceneBuilderContext);
+    const {
+        behaviorFormDispatch,
+        behaviorFormState
+    } = useBehaviorFormContext();
+
+    // hooks
+    const { t } = useTranslation();
 
     const alertVisualStateRef = useRef<IExpressionRangeVisual>(
-        getAlertFromBehavior(behaviorToEdit) || getUIDDefaultAlertVisual()
+        getAlertFromBehavior(behaviorFormState.behaviorToEdit) ||
+            getDefaultAlertVisualWithId()
     );
 
     const getAndCreateIfNotExistsAlertVisual = (draft: IBehavior) => {
@@ -73,85 +87,114 @@ const AlertsTab: React.FC = () => {
         }
     };
 
+    const setValueRangeProperty = useCallback(
+        (propertyName: keyof IValueRangeVisual, value: string) => {
+            logDebugConsole(
+                'info',
+                `[START] Update value range property ${propertyName} to value `,
+                value
+            );
+            const alertVisual = getAndCreateIfNotExistsAlertVisual(
+                behaviorFormState.behaviorToEdit
+            );
+            // Edit flow
+            if (!alertVisual) {
+                logDebugConsole(
+                    'warn',
+                    `Could not set property (${propertyName}) on Value Range. No alert found. {behavior}`,
+                    behaviorFormState.behaviorToEdit
+                );
+                return;
+            }
+            const valueRangeVisual = alertVisual?.valueRanges?.[0]?.visual;
+            if (!valueRangeVisual) {
+                logDebugConsole(
+                    'warn',
+                    `Could not set property (${propertyName}) on Value Range. No visual found. {alertVisual}`,
+                    alertVisual
+                );
+                return;
+            }
+
+            // set the value
+            valueRangeVisual[propertyName] = value as any;
+
+            behaviorFormDispatch({
+                type:
+                    BehaviorFormContextActionType.FORM_BEHAVIOR_ALERT_VISUAL_ADD_OR_UPDATE,
+                payload: {
+                    visual: alertVisual
+                }
+            });
+            logDebugConsole(
+                'info',
+                `[END] Update value range property ${propertyName}. {visual}`,
+                alertVisual
+            );
+        },
+        [behaviorFormDispatch, behaviorFormState.behaviorToEdit]
+    );
+
     const onExpressionChange = useCallback(
-        (newPropertyExpression: PropertyExpression) =>
-            setBehaviorToEdit(
-                produce((draft) => {
-                    const alertVisual = getAndCreateIfNotExistsAlertVisual(
-                        draft
-                    );
+        (newPropertyExpression: PropertyExpression) => {
+            const alertVisual = getAndCreateIfNotExistsAlertVisual(
+                behaviorFormState.behaviorToEdit
+            );
 
-                    // If clearing out expression
-                    if (newPropertyExpression.expression === '') {
-                        // Remove visual from behavior
-                        if (alertVisual) {
-                            const avIdx = draft.visuals.indexOf(alertVisual);
-                            draft.visuals.splice(avIdx, 1);
-
-                            // Backup current state of alert visual form
-                            alertVisualStateRef.current = deepCopy(alertVisual);
-                            alertVisual.valueExpression = '';
-                        }
-                    } else {
-                        alertVisual.valueExpression =
-                            newPropertyExpression.expression;
+            // If clearing out expression
+            if (newPropertyExpression.expression === '') {
+                // Backup current state of alert visual form
+                alertVisualStateRef.current = deepCopy(alertVisual);
+                behaviorFormDispatch({
+                    type:
+                        BehaviorFormContextActionType.FORM_BEHAVIOR_ALERT_VISUAL_REMOVE
+                });
+            } else {
+                alertVisual.valueExpression = newPropertyExpression.expression;
+                behaviorFormDispatch({
+                    type:
+                        BehaviorFormContextActionType.FORM_BEHAVIOR_ALERT_VISUAL_ADD_OR_UPDATE,
+                    payload: {
+                        visual: alertVisual
                     }
-                })
-            ),
-        [setBehaviorToEdit]
+                });
+            }
+        },
+        [behaviorFormDispatch, behaviorFormState.behaviorToEdit]
     );
 
     const onColorChange = useCallback(
         (newValue: IPickerOption) =>
-            setBehaviorToEdit(
-                produce((draft) => {
-                    const alertVisual = getAndCreateIfNotExistsAlertVisual(
-                        draft
-                    );
-                    alertVisual.valueRanges[0].visual.color = newValue.item;
-                })
-            ),
-        [setBehaviorToEdit]
+            setValueRangeProperty('color', newValue.item),
+        [setValueRangeProperty]
     );
 
     const onIconChange = useCallback(
         (newValue: IPickerOption) =>
-            setBehaviorToEdit(
-                produce((draft) => {
-                    const alertVisual = getAndCreateIfNotExistsAlertVisual(
-                        draft
-                    );
-                    alertVisual.valueRanges[0].visual.iconName = newValue.item;
-                })
-            ),
-        [setBehaviorToEdit]
+            setValueRangeProperty('iconName', newValue.item),
+        [setValueRangeProperty]
     );
 
     const onNoteChange = useCallback(
         (newPropertyExpression: PropertyExpression) =>
-            setBehaviorToEdit(
-                produce((draft) => {
-                    const alertVisual = getAndCreateIfNotExistsAlertVisual(
-                        draft
-                    );
-                    alertVisual.valueRanges[0].visual.labelExpression = wrapTextInTemplateString(
-                        newPropertyExpression.expression
-                    );
-                })
+            setValueRangeProperty(
+                'labelExpression',
+                wrapTextInTemplateString(newPropertyExpression.expression)
             ),
-        [setBehaviorToEdit]
+        [setValueRangeProperty]
     );
 
     // we only grab the first alert in the collection
-    const alertVisual = getAlertFromBehavior(behaviorToEdit);
-    const color = alertVisual?.valueRanges?.[0]?.visual?.color;
-    const icon = alertVisual?.valueRanges?.[0]?.visual?.iconName;
-    const notificationExpression =
-        alertVisual?.valueRanges?.[0]?.visual?.labelExpression;
+    const alertVisual = getAlertFromBehavior(behaviorFormState.behaviorToEdit);
+    const color = getValueRangeVisualFromAlert(alertVisual)?.color;
+    const icon = getValueRangeVisualFromAlert(alertVisual)?.iconName;
+    const notificationExpression = getValueRangeVisualFromAlert(alertVisual)
+        ?.labelExpression;
     const expression = alertVisual?.valueExpression;
     const theme = useTheme();
     const commonPanelStyles = getLeftPanelStyles(theme);
 
+    logDebugConsole('debug', 'Render');
     return (
         <Stack
             tokens={{ childrenGap: 8 }}
@@ -163,7 +206,7 @@ const AlertsTab: React.FC = () => {
             <ModelledPropertyBuilder
                 adapter={adapter}
                 twinIdParams={{
-                    behavior: behaviorToEdit,
+                    behavior: behaviorFormState.behaviorToEdit,
                     config,
                     sceneId,
                     selectedElements
@@ -203,7 +246,7 @@ const AlertsTab: React.FC = () => {
                         <ModelledPropertyBuilder
                             adapter={adapter}
                             twinIdParams={{
-                                behavior: behaviorToEdit,
+                                behavior: behaviorFormState.behaviorToEdit,
                                 config,
                                 sceneId,
                                 selectedElements

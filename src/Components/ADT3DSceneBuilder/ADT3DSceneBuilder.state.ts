@@ -18,9 +18,11 @@ import {
     SET_BEHAVIOR_TWIN_ALIAS_FORM_INFO,
     SET_ELEMENT_TWIN_ALIAS_FORM_INFO,
     SET_ADT_SCENE_BUILDER_REMOVED_ELEMENTS,
-    SET_ORIGINAL_BEHAVIOR_TO_EDIT,
     SET_UNSAVED_BEHAVIOR_CHANGES_DIALOG_OPEN,
-    SET_UNSAVED_BEHAVIOR_CHANGES_DIALOG_DISCARD_ACTION
+    SET_UNSAVED_BEHAVIOR_CHANGES_DIALOG_DISCARD_ACTION,
+    SET_ADT_SCENE_BUILDER_FORM_DIRTY_MAP_ENTRY,
+    SET_ADT_SCENE_BUILDER_DRAFT_BEHAVIOR,
+    BuilderDirtyFormType
 } from './ADT3DSceneBuilder.types';
 import {
     ADT3DSceneBuilderMode,
@@ -30,28 +32,30 @@ import {
 import { DefaultViewerModeObjectColor } from '../../Models/Constants';
 
 export const defaultADT3DSceneBuilderState: ADT3DSceneBuilderState = {
-    config: null,
-    coloredMeshItems: [],
-    outlinedMeshItems: [],
-    widgetFormInfo: { mode: WidgetFormMode.Cancelled },
-    behaviorTwinAliasFormInfo: null,
-    elementTwinAliasFormInfo: null,
-    selectedPivotTab: ADT3DSceneTwinBindingsMode.Elements,
-    builderMode: ADT3DSceneBuilderMode.ElementsIdle,
-    elements: [],
     behaviors: [],
-    selectedElement: null,
-    selectedElements: null,
-    removedElements: null,
-    selectedBehavior: null,
-    showHoverOnSelected: false,
+    behaviorTwinAliasFormInfo: null,
+    builderMode: ADT3DSceneBuilderMode.ElementsIdle,
+    coloredMeshItems: [],
+    config: null,
+    elements: [],
+    elementTwinAliasFormInfo: null,
     enableHoverOnModel: false,
-    objectColor: DefaultViewerModeObjectColor,
+    formDirtyState: new Map<BuilderDirtyFormType, boolean>(),
     isLayerBuilderDialogOpen: false,
     layerBuilderDialogData: null,
+    objectColor: DefaultViewerModeObjectColor,
     originalBehaviorToEdit: null,
+    outlinedMeshItems: [],
+    removedElements: null,
+    selectedBehavior: null,
+    draftBehavior: null,
+    selectedElement: null,
+    selectedElements: null,
+    selectedPivotTab: ADT3DSceneTwinBindingsMode.Elements,
+    showHoverOnSelected: false,
     unsavedBehaviorDialogOpen: false,
-    unsavedChangesDialogDiscardAction: null
+    unsavedChangesDialogDiscardAction: null,
+    widgetFormInfo: { mode: WidgetFormMode.Cancelled }
 };
 
 export const ADT3DSceneBuilderReducer: (
@@ -83,9 +87,6 @@ export const ADT3DSceneBuilderReducer: (
             case SET_ADT_SCENE_BUILDER_BEHAVIORS:
                 draft.behaviors = payload;
                 break;
-            case SET_ADT_SCENE_BUILDER_SELECTED_ELEMENT:
-                draft.selectedElement = payload;
-                break;
             case SET_ADT_SCENE_BUILDER_SELECTED_ELEMENTS:
                 draft.selectedElements = payload;
                 break;
@@ -95,12 +96,30 @@ export const ADT3DSceneBuilderReducer: (
             case SET_ADT_SCENE_OBJECT_COLOR:
                 draft.objectColor = payload;
                 break;
+            case SET_ADT_SCENE_BUILDER_FORM_DIRTY_MAP_ENTRY:
+                draft.formDirtyState.set(
+                    action.payload.formType,
+                    action.payload.value
+                );
+                break;
+
+            case SET_ADT_SCENE_BUILDER_SELECTED_ELEMENT:
+                draft.selectedElement = payload;
+                if (!payload) {
+                    draft.formDirtyState.set('element', false);
+                }
+                break;
+
             case SET_ADT_SCENE_BUILDER_SELECTED_BEHAVIOR:
                 draft.selectedBehavior = payload;
+                if (!payload) {
+                    draft.formDirtyState.set('behavior', false);
+                }
                 break;
-            case SET_ORIGINAL_BEHAVIOR_TO_EDIT:
-                draft.originalBehaviorToEdit = payload;
+            case SET_ADT_SCENE_BUILDER_DRAFT_BEHAVIOR:
+                draft.draftBehavior = Object.freeze(payload); // freeze to prevent accidental updates. Changes should be on the form context
                 break;
+
             case SET_UNSAVED_BEHAVIOR_CHANGES_DIALOG_DISCARD_ACTION:
                 draft.unsavedChangesDialogDiscardAction = payload;
                 break;

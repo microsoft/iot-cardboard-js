@@ -14,6 +14,7 @@ import {
 } from '../../../../../ModelledPropertyBuilder/ModelledPropertyBuilder.types';
 import { SceneBuilderContext } from '../../../../ADT3DSceneBuilder';
 import { ILinkWidgetBuilderProps } from '../../../../ADT3DSceneBuilder.types';
+import { useBehaviorFormContext } from '../../Internal/BehaviorFormContext/BehaviorFormContext';
 import { getWidgetFormStyles } from '../WidgetForm/WidgetForm.styles';
 
 const LinkWidgetBuilder: React.FC<ILinkWidgetBuilderProps> = ({
@@ -24,12 +25,12 @@ const LinkWidgetBuilder: React.FC<ILinkWidgetBuilderProps> = ({
     const { t } = useTranslation();
 
     const {
-        behaviorToEdit,
         adapter,
         config,
         sceneId,
         state: { selectedElements }
     } = useContext(SceneBuilderContext);
+    const { behaviorFormState } = useBehaviorFormContext();
 
     const onExpressionChange = useCallback(
         (newPropertyExpression: PropertyExpression) => {
@@ -77,7 +78,7 @@ const LinkWidgetBuilder: React.FC<ILinkWidgetBuilderProps> = ({
                         '3dSceneBuilder.widgetForm.linkUrlDescription'
                     )}
                     twinIdParams={{
-                        behavior: behaviorToEdit,
+                        behavior: behaviorFormState.behaviorToEdit,
                         config,
                         sceneId,
                         selectedElements

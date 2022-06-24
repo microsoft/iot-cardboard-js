@@ -91,7 +91,8 @@ const ViewerTemplate: TemplateStory = (args: ISceneBreadcrumbFactoryProps) => (
 /** Breadcrumb as dropdown, in viewer */
 const sceneRootBreadcrumbProps: ISceneBreadcrumbFactoryProps = {
     sceneId: '58e02362287440d9a5bf3f8d6d6bfcf9',
-    sceneName: 'TruckAndBoxes1'
+    sceneName: 'TruckAndBoxes1',
+    onNavigate: () => undefined
 };
 
 export const DropdownBreadcrumb = ViewerTemplate.bind({}) as TemplateStory;
@@ -102,6 +103,7 @@ const formBreadcrumbProps: ISceneBreadcrumbFactoryProps = {
     sceneId: '58e02362287440d9a5bf3f8d6d6bfcf9',
     sceneName: 'TruckAndBoxes1',
     builderMode: ADT3DSceneBuilderMode.CreateElement,
+    onNavigate: () => undefined,
     onSceneClick: () => {
         return;
     }
@@ -115,6 +117,7 @@ const noNameBreadcrumbProps: ISceneBreadcrumbFactoryProps = {
     sceneId: '58e02362287440d9a5bf3f8d6d6bfcf9',
     sceneName: undefined,
     builderMode: ADT3DSceneBuilderMode.CreateElement,
+    onNavigate: () => undefined,
     onSceneClick: () => {
         return;
     }

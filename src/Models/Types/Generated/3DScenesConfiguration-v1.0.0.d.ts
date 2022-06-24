@@ -171,16 +171,16 @@ export interface IValueRange {
      * min/max values are parsed as a two element array [min, max].  Boolean values are parsed as a single element array [true].
      */
     values: unknown[];
-    /**
-     * Visual data to apply when values are in range
-     */
-    visual: {
-        color?: string;
-        iconName?: string;
-        labelExpression?: string;
-        extensionProperties?: IExtensionProperties;
-        [k: string]: unknown;
-    };
+    visual: IValueRangeVisual;
+    extensionProperties?: IExtensionProperties;
+}
+/**
+ * Visual data to apply when values are in range
+ */
+export interface IValueRangeVisual {
+    color?: string;
+    iconName?: string;
+    labelExpression?: string;
     extensionProperties?: IExtensionProperties;
 }
 /**
