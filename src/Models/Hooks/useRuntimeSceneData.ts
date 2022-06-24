@@ -149,7 +149,7 @@ export const useRuntimeSceneData = (
                                         transformedElementItem.transform = deepCopy(
                                             transform
                                         );
-                                        console.log(transformedElementItem);
+                                        // console.log(transformedElementItem);
                                         sceneVisual.transformedElementItems.push(
                                             transformedElementItem
                                         );

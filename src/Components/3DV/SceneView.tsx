@@ -1798,22 +1798,25 @@ function SceneView(props: ISceneViewProps, ref) {
                     // if gizmoElementItems is empty, attach to null meshes to clear
                     gizmoManager.attachToMesh(null);
                     // will also be triggered on leaving, so snap parent mesh back to original state
-                    // if (gizmoTransformItem.parentMeshId) {
-                    //     const parentMesh: BABYLON.Mesh =
-                    //         meshMap.current?.[gizmoTransformItem.parentMeshId];
-                    //     const position = gizmoTransformItem.original.position;
-                    //     const rotation = gizmoTransformItem.original.rotation;
-                    //     parentMesh.position = new BABYLON.Vector3(
-                    //         position.x,
-                    //         position.y,
-                    //         position.z
-                    //     );
-                    //     parentMesh.rotation = new BABYLON.Vector3(
-                    //         rotation.x,
-                    //         rotation.y,
-                    //         rotation.z
-                    //     );
-                    // }
+                    if (gizmoTransformItemRef.current.parentMeshId) {
+                        console.log('called?');
+                        const parentMesh: BABYLON.Mesh =
+                            meshMap.current?.[gizmoTransformItem.parentMeshId];
+                        const position =
+                            gizmoTransformItemRef.current.original.position;
+                        const rotation =
+                            gizmoTransformItemRef.current.original.rotation;
+                        parentMesh.position = new BABYLON.Vector3(
+                            position.x,
+                            position.y,
+                            position.z
+                        );
+                        parentMesh.rotation = new BABYLON.Vector3(
+                            rotation.x,
+                            rotation.y,
+                            rotation.z
+                        );
+                    }
                 } else {
                     // later add support for multiple gizmoElementItems!!!
                     const parentMesh: BABYLON.Mesh =
