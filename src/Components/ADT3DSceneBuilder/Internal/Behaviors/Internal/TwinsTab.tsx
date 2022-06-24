@@ -41,8 +41,8 @@ import {
     defaultAllowedPropertyValueTypes,
     IModelledProperty
 } from '../../../../ModelledPropertyBuilder/ModelledPropertyBuilder.types';
-import { useBehaviorFormContext } from './BehaviorFormContext/BehaviorFormContext';
-import { BehaviorFormContextActionType } from './BehaviorFormContext/BehaviorFormContext.types';
+import { useBehaviorFormContext } from '../../../../../Models/Context/BehaviorFormContext/BehaviorFormContext';
+import { BehaviorFormContextActionType } from '../../../../../Models/Context/BehaviorFormContext/BehaviorFormContext.types';
 
 interface ITwinsTabProps {
     selectedElements: Array<ITwinToObjectMapping>;
