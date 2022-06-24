@@ -3,13 +3,10 @@
  */
 import produce, { current } from 'immer';
 import React, { useContext, useReducer } from 'react';
-import { defaultOnClickPopover } from '../../../../../../Models/Classes/3DVConfig';
-import ViewerConfigUtility from '../../../../../../Models/Classes/ViewerConfigUtility';
-import {
-    deepCopy,
-    getDebugLogger
-} from '../../../../../../Models/Services/Utils';
-import { IBehavior } from '../../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
+import { defaultOnClickPopover } from '../../Classes/3DVConfig';
+import ViewerConfigUtility from '../../Classes/ViewerConfigUtility';
+import { deepCopy, getDebugLogger } from '../../Services/Utils';
+import { IBehavior } from '../../Types/Generated/3DScenesConfiguration-v1.0.0';
 import {
     IBehaviorFormContext,
     IBehaviorFormContextState,

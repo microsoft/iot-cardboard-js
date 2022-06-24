@@ -24,9 +24,9 @@ import LinkWidgetBuilder from '../WidgetBuilders/LinkWidgetBuilder';
 import { WidgetFormInfo } from '../../../../ADT3DSceneBuilder.types';
 import ViewerConfigUtility from '../../../../../../Models/Classes/ViewerConfigUtility';
 import ValueWidgetBuilder from '../WidgetBuilders/ValueWidgetBuilder';
-import { useBehaviorFormContext } from '../../Internal/BehaviorFormContext/BehaviorFormContext';
-import { BehaviorFormContextActionType } from '../../Internal/BehaviorFormContext/BehaviorFormContext.types';
 import { getDebugLogger } from '../../../../../../Models/Services/Utils';
+import { useBehaviorFormContext } from '../../../../../../Models/Context/BehaviorFormContext/BehaviorFormContext';
+import { BehaviorFormContextActionType } from '../../../../../../Models/Context/BehaviorFormContext/BehaviorFormContext.types';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('WidgetForm', debugLogging);

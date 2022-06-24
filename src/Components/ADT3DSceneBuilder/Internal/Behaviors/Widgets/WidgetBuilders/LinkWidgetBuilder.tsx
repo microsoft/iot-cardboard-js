@@ -3,6 +3,7 @@ import { Stack, TextField, useTheme } from '@fluentui/react';
 import produce from 'immer';
 import React, { useCallback, useContext, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useBehaviorFormContext } from '../../../../../../Models/Context/BehaviorFormContext/BehaviorFormContext';
 import {
     wrapTextInTemplateString,
     stripTemplateStringsFromText
@@ -14,7 +15,6 @@ import {
 } from '../../../../../ModelledPropertyBuilder/ModelledPropertyBuilder.types';
 import { SceneBuilderContext } from '../../../../ADT3DSceneBuilder';
 import { ILinkWidgetBuilderProps } from '../../../../ADT3DSceneBuilder.types';
-import { useBehaviorFormContext } from '../../Internal/BehaviorFormContext/BehaviorFormContext';
 import { getWidgetFormStyles } from '../WidgetForm/WidgetForm.styles';
 
 const LinkWidgetBuilder: React.FC<ILinkWidgetBuilderProps> = ({

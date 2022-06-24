@@ -11,10 +11,6 @@ import {
     useTheme
 } from '@fluentui/react';
 import {
-    getDefaultStoryDecorator,
-    IStoryContext
-} from '../../../../../../Models/Services/StoryUtilities';
-import {
     BehaviorFormContextProvider,
     useBehaviorFormContext
 } from './BehaviorFormContext';
@@ -24,6 +20,10 @@ import {
 } from './BehaviorFormContext.types';
 import { GET_MOCK_BEHAVIOR_FORM_PROVIDER_PROPS } from './BehaviorFormContext.mock';
 import { userEvent, within } from '@storybook/testing-library';
+import {
+    getDefaultStoryDecorator,
+    IStoryContext
+} from '../../Services/StoryUtilities';
 
 const itemStackStyles: { root: IStyle } = {
     root: {

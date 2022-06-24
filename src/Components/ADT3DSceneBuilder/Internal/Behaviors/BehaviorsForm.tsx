@@ -65,10 +65,10 @@ import SceneLayerMultiSelectBuilder from '../SceneLayerMultiSelectBuilder/SceneL
 import BehaviorTwinAliasForm from './Twins/BehaviorTwinAliasForm';
 import UnsavedChangesDialog from '../UnsavedChangesDialog/UnsavedChangesDialog';
 import {
-    BehaviorFormContextProvider,
-    useBehaviorFormContext
-} from './Internal/BehaviorFormContext/BehaviorFormContext';
-import { BehaviorFormContextActionType } from './Internal/BehaviorFormContext/BehaviorFormContext.types';
+    useBehaviorFormContext,
+    BehaviorFormContextProvider
+} from '../../../../Models/Context/BehaviorFormContext/BehaviorFormContext';
+import { BehaviorFormContextActionType } from '../../../../Models/Context/BehaviorFormContext/BehaviorFormContext.types';
 
 const getElementsFromBehavior = (behavior: IBehavior) =>
     behavior.datasources.filter(
