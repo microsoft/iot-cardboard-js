@@ -526,7 +526,6 @@ const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
                         type: SET_ADT_SCENE_BUILDER_MODE,
                         payload: ADT3DSceneBuilderMode.EditBehavior
                     });
-                    setBehaviorToEdit(behavior);
                 },
                 onMouseOver: () => {
                     // get elements that are contained in the hovered behavior
