@@ -14,7 +14,7 @@ import {
     numericPropertyValueTypes,
     PropertyExpression
 } from '../../../../../ModelledPropertyBuilder/ModelledPropertyBuilder.types';
-import { useBehaviorFormContext } from '../../Internal/BehaviorFormContext/BehaviorFormContext';
+import { useBehaviorFormContext } from '../../../../../../Models/Context/BehaviorFormContext/BehaviorFormContext';
 
 const GaugeWidgetBuilder: React.FC<IGaugeWidgetBuilderProps> = ({
     formData,

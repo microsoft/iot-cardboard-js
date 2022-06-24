@@ -31,10 +31,10 @@ import {
     IWidgetLibraryItem,
     WidgetType
 } from '../../../../../Models/Classes/3DVConfig';
-import { useBehaviorFormContext } from './BehaviorFormContext/BehaviorFormContext';
-import { BehaviorFormContextActionType } from './BehaviorFormContext/BehaviorFormContext.types';
 import ViewerConfigUtility from '../../../../../Models/Classes/ViewerConfigUtility';
 import { createGUID } from '../../../../../Models/Services/Utils';
+import { useBehaviorFormContext } from '../../../../../Models/Context/BehaviorFormContext/BehaviorFormContext';
+import { BehaviorFormContextActionType } from '../../../../../Models/Context/BehaviorFormContext/BehaviorFormContext.types';
 
 const getPopoverFromBehavior = (behavior: IBehavior) =>
     behavior.visuals.filter(ViewerConfigUtility.isPopoverVisual)[0] || null;

@@ -16,6 +16,7 @@ import React, {
 } from 'react';
 import { useTranslation } from 'react-i18next';
 import { DTDLPropertyIconographyMap } from '../../../../../../Models/Constants/Constants';
+import { useBehaviorFormContext } from '../../../../../../Models/Context/BehaviorFormContext/BehaviorFormContext';
 import { IDTDLPropertyType } from '../../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import ModelledPropertyBuilder from '../../../../../ModelledPropertyBuilder/ModelledPropertyBuilder';
 import {
@@ -25,7 +26,6 @@ import {
 import { SceneBuilderContext } from '../../../../ADT3DSceneBuilder';
 
 import { IValueWidgetBuilderProps } from '../../../../ADT3DSceneBuilder.types';
-import { useBehaviorFormContext } from '../../Internal/BehaviorFormContext/BehaviorFormContext';
 import { getWidgetFormStyles } from '../WidgetForm/WidgetForm.styles';
 
 const ValueWidgetBuilder: React.FC<IValueWidgetBuilderProps> = ({
