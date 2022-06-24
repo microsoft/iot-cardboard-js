@@ -511,7 +511,6 @@
     "twinAlias": {
       "title": "Twin-Alias",
       "calloutDescription": "Die Vereinigung von Zwillingseigenschaften ausgewählter Elemente",
-      "aliasedTwin": "Aliased Zwilling",
       "add": "Zweibettzimmer hinzufügen",
       "new": "Neuer Zwilling",
       "edit": "Zwilling bearbeiten",
@@ -540,7 +539,7 @@
       "errors": {
         "twinAliasAlreadyExists": "Twin Alias mit dem gleichen Namen existiert bereits, erwägen Sie stattdessen, es hinzuzufügen.",
         "alphanumericOnly": "Zwillingsalias darf nur alphanumerische Zeichen enthalten",
-        "noNumberPrefix": "Twin Alias darf nicht mit einer Zahl beginnen"
+        "noNumberPrefix": "Zwillingsname darf nicht mit einer Zahl beginnen"
       }
     },
     "actions": "Aktionen"
@@ -939,6 +938,11 @@
     "noContainerUrlErrorMessage": "Ihre Container-URL ist nicht festgelegt. Klicken Sie unten, um es einzustellen.",
     "noADTInstanceUrlTitle": "ADT-Instanz nicht festgelegt",
     "noADTInstanceUrlMessage": "Ihre ADT-Instanz-URL ist nicht festgelegt. Klicken Sie unten, um es einzustellen.",
-    "configureEnvironment": "Umgebung konfigurieren"
+    "configureEnvironment": "Umgebung konfigurieren",
+    "sceneView": {
+      "3dAssetLoadingErrorTitle": "Fehler beim Laden des Modells",
+      "3dAssetLoadingNetworkErrorMessage": "Dies kann ein CORS-Problem, eine ungültige Blob-URL oder ein Netzwerkfehler sein. Bitte wenden Sie sich an den Eigentümer des Containers, in dem diese Asset-Datei gespeichert ist, oder versuchen Sie es später erneut.",
+      "3dAssetLoadingGenericErrorMessage": "Fehler beim Laden des Modells. Versuchen Sie, den Cache zu leeren, und versuchen Sie es erneut, oder überprüfen Sie Ihren Zugriff auf diese Datei."
+    }
   }
 }

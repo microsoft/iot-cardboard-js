@@ -514,9 +514,8 @@
         "notImplemented": "Not implemented",
         "noPrimaryTwinProperties": "No primary twin properties to display",
         "twinAlias": {
-            "title": "Twin alias",
+            "title": "Twin",
             "calloutDescription": "The union of twin properties of selected elements",
-            "aliasedTwin": "Aliased twin",
             "add": "Add twin",
             "new": "New twin",
             "edit": "Edit twin",
@@ -525,9 +524,9 @@
             "modify": "Modify twin",
             "search": "Search twins",
             "searchProperties": "Search properties",
-            "noTwinAliasesToAdd": "No twin aliases to add",
-            "removeFromBehavior": "Remove twin alias from behavior",
-            "removeFromElement": "Remove twin alias from element",
+            "noTwinAliasesToAdd": "No twin to add",
+            "removeFromBehavior": "Remove twin from behavior",
+            "removeFromElement": "Remove twin from element",
             "commonProperties": "Common properties",
             "twinAliasForm": {
                 "aliasNameLabel": "Twin name",
@@ -543,9 +542,9 @@
                 "commonProperties": "The union of primary twin properties of selected elements"
             },
             "errors": {
-                "twinAliasAlreadyExists": "Twin alias with the same name already exists, consider adding it instead.",
-                "alphanumericOnly": "Twin alias must only contain alphanumeric characters",
-                "noNumberPrefix": "Twin alias must not start with a number"
+                "twinAliasAlreadyExists": "Twin with the same name already exists, consider adding it instead.",
+                "alphanumericOnly": "Twin name must only contain alphanumeric characters",
+                "noNumberPrefix": "Twin name must not start with a number"
             }
         }
     },
@@ -939,6 +938,11 @@
         "noContainerUrlErrorMessage": "Your container url is not set. Click below to set it.",
         "noADTInstanceUrlTitle": "ADT instance not set",
         "noADTInstanceUrlMessage": "Your ADT instance url is not set. Click below to set it.",
-        "configureEnvironment": "Configure environment"
+        "configureEnvironment": "Configure environment",
+        "sceneView": {
+            "3dAssetLoadingErrorTitle": "Error loading model",
+            "3dAssetLoadingNetworkErrorMessage": "This could be a CORS issue, invalid blob url or a network error. Please contact the owner of the container where this asset file is stored or try again later.",
+            "3dAssetLoadingGenericErrorMessage": "Error loading model. Try clearing your cache and try again or check your access for that file."
+        }
     }
 }

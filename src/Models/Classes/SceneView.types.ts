@@ -15,7 +15,7 @@ import {
     IADTBackgroundColor,
     IADTObjectColor
 } from '../../Models/Constants/Interfaces';
-import { CameraInteraction } from '../Constants';
+import { CameraInteraction, ViewerObjectStyle } from '../Constants';
 
 export class SceneVisual {
     element: ITwinToObjectMapping;
@@ -126,21 +126,26 @@ export interface ICameraPosition {
 }
 
 export interface ISceneViewProps {
-    modelUrl?: string | 'Globe';
+    backgroundColor?: IADTBackgroundColor;
+    badgeGroups?: SceneViewBadgeGroup[];
+    cameraInteractionType?: CameraInteraction;
+    cameraPosition?: ICameraPosition;
+    coloredMeshItems?: CustomMeshItem[];
+    getToken?: () => Promise<string>;
     markers?: Marker[];
-    onSceneLoaded?: (scene: BABYLON.Scene) => void;
-    onMeshClick?: SceneViewEventHandler;
-    onMeshHover?: SceneViewEventHandler;
+    modelUrl?: string | 'Globe';
+    objectColor?: IADTObjectColor;
+    objectColorOptions?: IADTObjectColor[];
+    objectStyle?: ViewerObjectStyle;
     onBadgeGroupHover?: (
         alert: SceneViewBadgeGroup,
         left: number,
         top: number
     ) => void;
     onCameraMove?: (position: ICameraPosition) => void;
-    isWireframe?: boolean;
-    showMeshesOnHover?: boolean;
-    getToken?: () => Promise<string>;
-    coloredMeshItems?: CustomMeshItem[];
+    onMeshClick?: SceneViewEventHandler;
+    onMeshHover?: SceneViewEventHandler;
+    onSceneLoaded?: (scene: BABYLON.Scene) => void;
     outlinedMeshitems?: CustomMeshItem[];
     transformedElementItems?: TransformedElementItem[];
     gizmoElementItems?: TransformedElementItem[];
@@ -148,12 +153,8 @@ export interface ISceneViewProps {
     setGizmoTransformItem?: (
         gizmoTransformItem: TransformedElementItem
     ) => void;
-    zoomToMeshIds?: string[];
-    unzoomedMeshOpacity?: number;
     showHoverOnSelected?: boolean;
-    objectColors?: IADTObjectColor;
-    badgeGroups?: SceneViewBadgeGroup[];
-    backgroundColor?: IADTBackgroundColor;
-    cameraInteractionType?: CameraInteraction;
-    cameraPosition?: ICameraPosition;
+    showMeshesOnHover?: boolean;
+    unzoomedMeshOpacity?: number;
+    zoomToMeshIds?: string[];
 }

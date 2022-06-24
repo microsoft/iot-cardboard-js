@@ -511,7 +511,6 @@
     "twinAlias": {
       "title": "Tvillingalias",
       "calloutDescription": "Föreningen av tvillingegenskaper hos utvalda element",
-      "aliasedTwin": "Aliased tvilling",
       "add": "Lägg till tvilling",
       "new": "Ny tvilling",
       "edit": "Redigera tvilling",
@@ -540,7 +539,7 @@
       "errors": {
         "twinAliasAlreadyExists": "Tvillingalias med samma namn finns redan, överväg att lägga till det i stället.",
         "alphanumericOnly": "Tvillingalias får endast innehålla alfanumeriska tecken",
-        "noNumberPrefix": "Tvillingalias får inte börja med ett tal"
+        "noNumberPrefix": "Tvillingnamnet får inte börja med ett nummer"
       }
     },
     "actions": "Åtgärder"
@@ -939,6 +938,11 @@
     "noContainerUrlErrorMessage": "Container-URL:en har inte angetts. Klicka nedan för att ställa in den.",
     "noADTInstanceUrlTitle": "ADT-instansen har inte angetts",
     "noADTInstanceUrlMessage": "ADT-instansens URL har inte angetts. Klicka nedan för att ställa in den.",
-    "configureEnvironment": "Konfigurera miljö"
+    "configureEnvironment": "Konfigurera miljö",
+    "sceneView": {
+      "3dAssetLoadingErrorTitle": "Fel vid laddning av modell",
+      "3dAssetLoadingNetworkErrorMessage": "Det kan vara ett CORS-problem, ogiltig blob-URL eller ett nätverksfel. Kontakta ägaren till containern där tillgångsfilen lagras eller försök igen senare.",
+      "3dAssetLoadingGenericErrorMessage": "Fel vid laddning av modell. Försök att rensa cacheminnet och försök igen eller kontrollera din åtkomst för den filen."
+    }
   }
 }

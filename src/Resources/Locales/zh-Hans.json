@@ -511,7 +511,6 @@
     "twinAlias": {
       "title": "孪生别名",
       "calloutDescription": "所选元素的孪生属性并集",
-      "aliasedTwin": "混叠双胞胎",
       "add": "添加双胞胎",
       "new": "新双胞胎",
       "edit": "编辑孪生",
@@ -540,7 +539,7 @@
       "errors": {
         "twinAliasAlreadyExists": "具有相同名称的孪生别名已存在，请考虑改为添加它。",
         "alphanumericOnly": "孪生别名只能包含字母数字字符",
-        "noNumberPrefix": "孪生别名不得以数字开头"
+        "noNumberPrefix": "孪生名称不得以数字开头"
       }
     },
     "actions": "行动"
@@ -939,6 +938,11 @@
     "noContainerUrlErrorMessage": "未设置容器 URL。单击下面进行设置。",
     "noADTInstanceUrlTitle": "未设置 ADT 实例",
     "noADTInstanceUrlMessage": "未设置 ADT 实例 URL。单击下面进行设置。",
-    "configureEnvironment": "配置环境"
+    "configureEnvironment": "配置环境",
+    "sceneView": {
+      "3dAssetLoadingErrorTitle": "加载模型时出错",
+      "3dAssetLoadingNetworkErrorMessage": "这可能是 CORS 问题、无效的 Blob URL 或网络错误。请与存储此资产文件的容器的所有者联系，或稍后重试。",
+      "3dAssetLoadingGenericErrorMessage": "加载模型时出错。请尝试清除缓存，然后重试或检查您对该文件的访问权限。"
+    }
   }
 }

@@ -1,0 +1,383 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CardboardListCallout entered search term passed successfully on primary button click 1`] = `
+<div
+  class="ms-Callout root-130"
+  data-testid="focus-trap"
+  style="opacity: 0; filter: opacity(0); pointer-events: none;"
+  tabindex="-1"
+>
+  <div
+    class="ms-Callout-main calloutMain-133"
+    style="outline: none; max-height: 100%;"
+  >
+    <div>
+      <div
+        aria-hidden="true"
+        data-is-focus-trap-zone-bumper="true"
+        data-is-visible="true"
+        style="pointer-events: none; position: fixed;"
+        tabindex="0"
+      />
+      <div
+        class="ms-Stack css-134"
+      >
+        <h4
+          class="cb-list-callout-title title-121"
+        >
+          Test cardboard list callout
+        </h4>
+        <div
+          class="ms-SearchBox root-135"
+        >
+          <div
+            aria-hidden="true"
+            class="ms-SearchBox-iconContainer iconContainer-136"
+          >
+            <i
+              aria-hidden="true"
+              class="ms-SearchBox-icon icon-142"
+              data-icon-name="Search"
+            >
+              
+            </i>
+          </div>
+          <input
+            class="ms-SearchBox-field field-139"
+            data-testid="search-box"
+            id="SearchBox2"
+            placeholder="Search"
+            role="searchbox"
+            value=""
+          />
+        </div>
+        <div
+          class="ms-FocusZone css-143 cb-list-callout-list list-123"
+          data-focuszone-id="FocusZone3"
+        >
+          <div
+            class="ms-List"
+            data-testid="cardboard-list-testList"
+            role="list"
+          >
+            <div
+              class="ms-List-surface"
+              role="presentation"
+            >
+              <div
+                class="ms-List-page"
+                role="presentation"
+              >
+                <div
+                  class="ms-List-cell"
+                  data-automationid="ListCell"
+                  data-list-index="0"
+                  role="listitem"
+                >
+                  <span
+                    class="cb-list-item-root root-161"
+                  >
+                    <button
+                      class="ms-Button ms-Button--default root-164"
+                      data-is-focusable="true"
+                      data-testid="cardboard-list-item-testList-0"
+                      type="button"
+                    >
+                      <span
+                        class="ms-Button-flexContainer flexContainer-165"
+                        data-automationid="splitbuttonprimary"
+                      >
+                        <i
+                          aria-hidden="true"
+                          class="ms-Icon root-105 css-167 cb-list-item-icon icon-155"
+                          data-icon-name="Shapes"
+                          style="font-family: \\"FabricMDL2Icons-5\\";"
+                        >
+                          
+                        </i>
+                        <div
+                          class="cb-list-item-text-container textContainer-159"
+                        >
+                          <div
+                            class="cb-list-item-primary-text primaryText-160"
+                            title="Item 1"
+                          >
+                            Item 1
+                          </div>
+                          <div
+                            class="cb-list-item-secondary-text secondaryText-162"
+                            title="description for item 1"
+                          >
+                            description for item 1
+                          </div>
+                        </div>
+                        <i
+                          aria-hidden="true"
+                          class="ms-Icon root-105 css-141 cb-list-item-icon icon-155 cb-list-item-end-icon endIcon-154"
+                          data-icon-name="Add"
+                          style="font-family: \\"FabricMDL2Icons\\";"
+                        >
+                          
+                        </i>
+                      </span>
+                    </button>
+                  </span>
+                </div>
+                <div
+                  class="ms-List-cell"
+                  data-automationid="ListCell"
+                  data-list-index="1"
+                  role="listitem"
+                >
+                  <span
+                    class="cb-list-item-root root-161"
+                  >
+                    <button
+                      class="ms-Button ms-Button--default root-164"
+                      data-is-focusable="true"
+                      data-testid="cardboard-list-item-testList-1"
+                      type="button"
+                    >
+                      <span
+                        class="ms-Button-flexContainer flexContainer-165"
+                        data-automationid="splitbuttonprimary"
+                      >
+                        <i
+                          aria-hidden="true"
+                          class="ms-Icon root-105 css-167 cb-list-item-icon icon-155"
+                          data-icon-name="Shapes"
+                          style="font-family: \\"FabricMDL2Icons-5\\";"
+                        >
+                          
+                        </i>
+                        <div
+                          class="cb-list-item-text-container textContainer-159"
+                        >
+                          <div
+                            class="cb-list-item-primary-text primaryText-160"
+                            title="Item 2"
+                          >
+                            Item 2
+                          </div>
+                          <div
+                            class="cb-list-item-secondary-text secondaryText-162"
+                            title="description for item 1"
+                          >
+                            description for item 1
+                          </div>
+                        </div>
+                        <i
+                          aria-hidden="true"
+                          class="ms-Icon root-105 css-141 cb-list-item-icon icon-155 cb-list-item-end-icon endIcon-154"
+                          data-icon-name="Add"
+                          style="font-family: \\"FabricMDL2Icons\\";"
+                        >
+                          
+                        </i>
+                      </span>
+                    </button>
+                  </span>
+                </div>
+                <div
+                  class="ms-List-cell"
+                  data-automationid="ListCell"
+                  data-list-index="2"
+                  role="listitem"
+                >
+                  <span
+                    class="cb-list-item-root root-161"
+                  >
+                    <button
+                      class="ms-Button ms-Button--default root-164"
+                      data-is-focusable="true"
+                      data-testid="cardboard-list-item-testList-2"
+                      type="button"
+                    >
+                      <span
+                        class="ms-Button-flexContainer flexContainer-165"
+                        data-automationid="splitbuttonprimary"
+                      >
+                        <i
+                          aria-hidden="true"
+                          class="ms-Icon root-105 css-167 cb-list-item-icon icon-155"
+                          data-icon-name="Shapes"
+                          style="font-family: \\"FabricMDL2Icons-5\\";"
+                        >
+                          
+                        </i>
+                        <div
+                          class="cb-list-item-text-container textContainer-159"
+                        >
+                          <div
+                            class="cb-list-item-primary-text primaryText-160"
+                            title="Item 3"
+                          >
+                            Item 3
+                          </div>
+                          <div
+                            class="cb-list-item-secondary-text secondaryText-162"
+                            title="description for item 3"
+                          >
+                            description for item 3
+                          </div>
+                        </div>
+                        <i
+                          aria-hidden="true"
+                          class="ms-Icon root-105 css-141 cb-list-item-icon icon-155 cb-list-item-end-icon endIcon-154"
+                          data-icon-name="Add"
+                          style="font-family: \\"FabricMDL2Icons\\";"
+                        >
+                          
+                        </i>
+                      </span>
+                    </button>
+                  </span>
+                </div>
+                <div
+                  class="ms-List-cell"
+                  data-automationid="ListCell"
+                  data-list-index="3"
+                  role="listitem"
+                >
+                  <span
+                    class="cb-list-item-root root-161"
+                  >
+                    <button
+                      class="ms-Button ms-Button--default root-164"
+                      data-is-focusable="true"
+                      data-testid="cardboard-list-item-testList-3"
+                      type="button"
+                    >
+                      <span
+                        class="ms-Button-flexContainer flexContainer-165"
+                        data-automationid="splitbuttonprimary"
+                      >
+                        <i
+                          aria-hidden="true"
+                          class="ms-Icon root-105 css-167 cb-list-item-icon icon-155"
+                          data-icon-name="Shapes"
+                          style="font-family: \\"FabricMDL2Icons-5\\";"
+                        >
+                          
+                        </i>
+                        <div
+                          class="cb-list-item-text-container textContainer-159"
+                        >
+                          <div
+                            class="cb-list-item-primary-text primaryText-160"
+                            title="Item 4"
+                          >
+                            Item 4
+                          </div>
+                          <div
+                            class="cb-list-item-secondary-text secondaryText-162"
+                            title="description for item 4"
+                          >
+                            description for item 4
+                          </div>
+                        </div>
+                        <i
+                          aria-hidden="true"
+                          class="ms-Icon root-105 css-141 cb-list-item-icon icon-155 cb-list-item-end-icon endIcon-154"
+                          data-icon-name="Add"
+                          style="font-family: \\"FabricMDL2Icons\\";"
+                        >
+                          
+                        </i>
+                      </span>
+                    </button>
+                  </span>
+                </div>
+                <div
+                  class="ms-List-cell"
+                  data-automationid="ListCell"
+                  data-list-index="4"
+                  role="listitem"
+                >
+                  <span
+                    class="cb-list-item-root root-161"
+                  >
+                    <button
+                      class="ms-Button ms-Button--default root-164"
+                      data-is-focusable="true"
+                      data-testid="cardboard-list-item-testList-4"
+                      type="button"
+                    >
+                      <span
+                        class="ms-Button-flexContainer flexContainer-165"
+                        data-automationid="splitbuttonprimary"
+                      >
+                        <i
+                          aria-hidden="true"
+                          class="ms-Icon root-105 css-167 cb-list-item-icon icon-155"
+                          data-icon-name="Shapes"
+                          style="font-family: \\"FabricMDL2Icons-5\\";"
+                        >
+                          
+                        </i>
+                        <div
+                          class="cb-list-item-text-container textContainer-159"
+                        >
+                          <div
+                            class="cb-list-item-primary-text primaryText-160"
+                            title="Item 5"
+                          >
+                            Item 5
+                          </div>
+                          <div
+                            class="cb-list-item-secondary-text secondaryText-162"
+                            title="description for item 5"
+                          >
+                            description for item 5
+                          </div>
+                        </div>
+                        <i
+                          aria-hidden="true"
+                          class="ms-Icon root-105 css-141 cb-list-item-icon icon-155 cb-list-item-end-icon endIcon-154"
+                          data-icon-name="Add"
+                          style="font-family: \\"FabricMDL2Icons\\";"
+                        >
+                          
+                        </i>
+                      </span>
+                    </button>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button
+          class="ms-Button ms-Button--primary root-144"
+          data-is-focusable="true"
+          data-testid="create-item-callout-button"
+          type="button"
+        >
+          <span
+            class="ms-Button-flexContainer flexContainer-145"
+            data-automationid="splitbuttonprimary"
+          >
+            <span
+              class="ms-Button-textContainer textContainer-146"
+            >
+              <span
+                class="ms-Button-label label-148"
+                id="id__4"
+              >
+                Create
+              </span>
+            </span>
+          </span>
+        </button>
+      </div>
+      <div
+        aria-hidden="true"
+        data-is-focus-trap-zone-bumper="true"
+        data-is-visible="true"
+        style="pointer-events: none; position: fixed;"
+        tabindex="0"
+      />
+    </div>
+  </div>
+</div>
+`;

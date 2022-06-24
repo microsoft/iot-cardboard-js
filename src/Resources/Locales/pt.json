@@ -511,7 +511,6 @@
     "twinAlias": {
       "title": "Alias gêmeos",
       "calloutDescription": "A união de propriedades gêmeas de elementos selecionados",
-      "aliasedTwin": "Gêmeo aliased",
       "add": "Adicionar gêmeos",
       "new": "Novo gêmeo",
       "edit": "Editar gêmeo",
@@ -540,7 +539,7 @@
       "errors": {
         "twinAliasAlreadyExists": "O pseudônimo de gêmeos com o mesmo nome já existe, considere adicioná-lo em seu lugar.",
         "alphanumericOnly": "O pseudônimo gêmeo só deve conter caracteres alfanuméricos",
-        "noNumberPrefix": "O pseudônimo de gêmeos não deve começar com um número"
+        "noNumberPrefix": "O nome duplo não deve começar com um número"
       }
     },
     "actions": "Ações"
@@ -939,6 +938,11 @@
     "noContainerUrlErrorMessage": "Sua url de contêiner não está definida. Clique abaixo para configurá-lo.",
     "noADTInstanceUrlTitle": "Instância ADT não definida",
     "noADTInstanceUrlMessage": "Sua url de instância ADT não está definida. Clique abaixo para configurá-lo.",
-    "configureEnvironment": "Configurar ambiente"
+    "configureEnvironment": "Configurar ambiente",
+    "sceneView": {
+      "3dAssetLoadingErrorTitle": "Modelo de carregamento de erros",
+      "3dAssetLoadingNetworkErrorMessage": "Isso pode ser um problema cors, url de bolha inválido ou um erro de rede. Entre em contato com o proprietário do contêiner onde este arquivo de ativos é armazenado ou tente novamente mais tarde.",
+      "3dAssetLoadingGenericErrorMessage": "Modelo de carregamento de erros. Tente limpar seu cache e tente novamente ou verifique seu acesso para esse arquivo."
+    }
   }
 }

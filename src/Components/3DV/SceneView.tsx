@@ -59,7 +59,8 @@ import {
     globeUrl,
     IADTBackgroundColor,
     TransparentTexture,
-    ViewerModeObjectColors
+    ViewerModeObjectColors,
+    ViewerObjectStyle
 } from '../../Models/Constants';
 import { getProgressStyles, getSceneViewStyles } from './SceneView.styles';
 import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
@@ -67,6 +68,8 @@ import { sleep } from '../AutoComplete/AutoComplete';
 import { ModelGroupLabel } from '../ModelGroupLabel/ModelGroupLabel';
 import { MarkersPlaceholder } from './Internal/MarkersPlaceholder';
 import { Markers } from './Internal/Markers';
+import axios from 'axios';
+import { LoadingErrorMessage } from './Internal/LoadingErrorMessage';
 
 export const showFpsCounter = false;
 const debugBabylon = false;
@@ -85,35 +88,30 @@ function debounce(func: any, timeout = 300) {
 
 let dummyProgress = 0; // Progress doesn't work for GLBs so fake it
 
-const getModifiedTime = (url): Promise<string> => {
-    const promise = new Promise<string>((resolve) => {
-        const headers = new Headers();
-        headers.append('Range', 'bytes=1-2');
-        headers.append('x-ms-version', '2017-11-09');
-        if (Tools.CustomRequestHeaders.Authorization) {
-            headers.append(
-                'Authorization',
-                Tools.CustomRequestHeaders.Authorization
-            );
-        }
-
-        // HEAD can give a CORS error
-        fetch(url, { method: 'GET', headers: headers })
-            .then((response) => {
-                const dt = new Date(response.headers.get('Last-Modified'));
-                if (
-                    dt.toString() === 'Invalid Date' ||
-                    dt.toISOString() === '1970-01-01T00:00:00.000Z'
-                ) {
-                    resolve('');
-                }
-                resolve(dt.toISOString());
+const getModifiedTime = async (url): Promise<string> => {
+    return axios(url, {
+        method: 'GET',
+        headers: {
+            Range: 'bytes=1-2',
+            'x-ms-version': '2017-11-09',
+            ...(Tools.CustomRequestHeaders.Authorization && {
+                Authorization: Tools.CustomRequestHeaders.Authorization
             })
-            .catch(() => {
-                resolve('');
-            });
-    });
-    return promise;
+        }
+    })
+        .then((response) => {
+            const dt = new Date(response.headers['last-modified']);
+            if (
+                dt.toString() === 'Invalid Date' ||
+                dt.toISOString() === '1970-01-01T00:00:00.000Z'
+            ) {
+                return '';
+            }
+            return dt.toISOString();
+        })
+        .catch(() => {
+            return null;
+        });
 };
 
 async function loadPromise(
@@ -149,33 +147,36 @@ async function loadPromise(
 
 function SceneView(props: ISceneViewProps, ref) {
     const {
-        modelUrl,
-        markers,
-        onMeshClick,
-        onMeshHover,
-        onCameraMove,
-        onBadgeGroupHover,
-        showMeshesOnHover,
-        objectColors,
-        zoomToMeshIds,
-        unzoomedMeshOpacity,
-        onSceneLoaded,
-        getToken,
+        backgroundColor,
+        badgeGroups,
+        cameraInteractionType,
         cameraPosition,
         coloredMeshItems,
         transformedElementItems,
         gizmoElementItems,
         gizmoTransformItem,
         setGizmoTransformItem,
-        showHoverOnSelected,
+        getToken,
+        markers,
+        modelUrl,
+        objectColor,
+        objectStyle,
+        onBadgeGroupHover,
+        onCameraMove,
+        onMeshClick,
+        onMeshHover,
+        onSceneLoaded,
         outlinedMeshitems,
-        isWireframe,
-        badgeGroups,
-        backgroundColor,
-        cameraInteractionType
+        showHoverOnSelected,
+        showMeshesOnHover,
+        unzoomedMeshOpacity,
+        zoomToMeshIds
     } = props;
     const [isLoading, setIsLoading] = useState(true);
     const [loadProgress, setLoadProgress] = useState(0);
+    const [loadingError, setLoadingError] = useState<
+        null | 'generic' | 'network'
+    >(null);
     const [canvasId] = useState(createGUID());
     const [scene, setScene] = useState<BABYLON.Scene>(undefined);
     const onMeshClickRef = useRef<SceneViewCallbackHandler>(null);
@@ -212,7 +213,7 @@ function SceneView(props: ISceneViewProps, ref) {
     const pointerActive = useRef(false);
     const lastCameraPositionOnMouseMoveRef = useRef('');
     const initialCameraRadiusRef = useRef(0);
-    const zoomedCameraRadiusRef = useRef(0);
+    const initialCameraTargetRef = useRef(new BABYLON.Vector3(0, 0, 0));
     const zoomedMeshesRef = useRef([]);
     const lastCameraPositionRef = useRef('');
     const previouslyTransformedElements = useRef<CustomMeshItem[]>([]);
@@ -222,6 +223,8 @@ function SceneView(props: ISceneViewProps, ref) {
     const [markersAndPositions, setMarkersAndPositions] = useState<
         { marker: Marker; left: number; top: number }[]
     >([]);
+
+    const isWireframe = objectStyle === ViewerObjectStyle.Wireframe;
 
     // These next two lines are important! The handlers change very frequently (every parent render)
     // So copy their values into refs so as not to disturb our state/re-render (we only need the latest value when we want to fire)
@@ -354,13 +357,13 @@ function SceneView(props: ISceneViewProps, ref) {
 
                     const es = someMeshFromTheArrayOfMeshes.getBoundingInfo()
                         .boundingBox.extendSize;
-                    const es_scaled = es.scale(
-                        zoomMeshIds && zoomMeshIds.length < 10 ? 5 : 3
-                    );
+                    // if zooming to an element set scale a little further out than if its the whole model
+                    const scaleFactor = zoomMeshIds?.length ? 5 : 3;
+                    const es_scaled = es.scale(scaleFactor);
                     const width = es_scaled.x;
                     const height = es_scaled.y;
                     const depth = es_scaled.z;
-                    let radius = Math.max(width, height, depth);
+                    const radius = Math.max(width, height, depth);
 
                     const center = someMeshFromTheArrayOfMeshes.getBoundingInfo()
                         .boundingBox.centerWorld;
@@ -383,12 +386,24 @@ function SceneView(props: ISceneViewProps, ref) {
                         );
 
                         camera.attachControl(canvas, false);
-                        camera.lowerRadiusLimit = 0;
                         cameraRef.current = camera;
                         cameraRef.current.zoomOn(meshes, true);
                         cameraRef.current.radius = radius;
+                        cameraRef.current.lowerRadiusLimit = 0;
+                        // set upperRadiusLimit to be greater than the starting radius to allow the user to zoom out if they wish
+                        cameraRef.current.upperRadiusLimit = radius * 2;
+                        // set the maxZ of the camera to be higher than the upperRadiusLimit to ensure it will not clip when zoomed out
+                        cameraRef.current.maxZ =
+                            cameraRef.current.upperRadiusLimit * 2;
                         cameraRef.current.wheelPrecision =
                             (3 * 40) / bbox.boundingSphere.radius;
+
+                        // zoomOn zooms on a mesh to be at the min distance where we could see it fully in the current viewport.
+                        // This means is won't necessarily center the model,
+                        // so storing the camera target so then when we reset it will be the same as when we first render
+                        initialCameraTargetRef.current = deepCopy(
+                            cameraRef.current.target
+                        );
 
                         // Register a render loop to repeatedly render the scene
                         engineRef.current.runRenderLoop(() => {
@@ -405,13 +420,12 @@ function SceneView(props: ISceneViewProps, ref) {
                             }
                         });
                     } else {
-                        // ensure if zoom to mesh ids are set we return to the original radius
-                        if (!zoomMeshIds?.length) {
-                            radius = initialCameraRadiusRef.current;
+                        // ensure if zoom to mesh ids are set we zoom to the meshes else reset
+                        if (zoomMeshIds?.length) {
+                            zoomCamera(radius, meshes, 30);
+                        } else {
+                            resetCamera();
                         }
-                        zoomedCameraRadiusRef.current = radius;
-                        // Here if the caller changed zoomToMeshIds - zoom the existing camera
-                        zoomCamera(radius, meshes, 30);
                     }
                 }
             }
@@ -451,10 +465,10 @@ function SceneView(props: ISceneViewProps, ref) {
     };
 
     useEffect(() => {
-        if (objectColors) {
-            setCurrentObjectColor(objectColors);
+        if (objectColor) {
+            setCurrentObjectColor(objectColor);
         }
-    }, [objectColors]);
+    }, [objectColor]);
 
     const restoreMeshMaterials = () => {
         if (sceneRef.current?.meshes?.length && !isLoading) {
@@ -590,11 +604,7 @@ function SceneView(props: ISceneViewProps, ref) {
             if (meshIds?.length) {
                 createOrZoomCamera(meshIds);
             } else {
-                zoomCamera(
-                    initialCameraRadiusRef.current,
-                    sceneRef.current.meshes,
-                    30
-                );
+                resetCamera();
             }
         }
     }));
@@ -605,31 +615,17 @@ function SceneView(props: ISceneViewProps, ref) {
         frames: number,
         zoomOnly?: boolean
     ) => {
-        const positionFrom = cameraRef.current.position;
         const targetFrom = cameraRef.current.target;
         const radiusFrom = cameraRef.current.radius;
         // Now move it immediately to where we want it and save the new position
         cameraRef.current.zoomOn(meshes, true);
-        const positionTo = cameraRef.current.position;
         const targetTo = cameraRef.current.target;
         const radiusTo = radius;
         // Reset camera back to original position
-        cameraRef.current.position = positionFrom;
         cameraRef.current.target = targetFrom;
         const ease = new BABYLON.CubicEase();
         ease.setEasingMode(BABYLON.EasingFunction.EASINGMODE_EASEINOUT);
         if (!zoomOnly) {
-            BABYLON.Animation.CreateAndStartAnimation(
-                'an1',
-                cameraRef.current,
-                'position',
-                30,
-                frames,
-                positionFrom,
-                positionTo,
-                BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT,
-                ease
-            );
             BABYLON.Animation.CreateAndStartAnimation(
                 'an2',
                 cameraRef.current,
@@ -648,6 +644,39 @@ function SceneView(props: ISceneViewProps, ref) {
             'radius',
             30,
             frames,
+            radiusFrom,
+            radiusTo,
+            BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT,
+            ease
+        );
+    };
+
+    const resetCamera = () => {
+        const targetFrom = cameraRef.current.target;
+        const radiusFrom = cameraRef.current.radius;
+        const targetTo = initialCameraTargetRef.current;
+        const radiusTo = initialCameraRadiusRef.current;
+
+        const ease = new BABYLON.CubicEase();
+        ease.setEasingMode(BABYLON.EasingFunction.EASINGMODE_EASEINOUT);
+        BABYLON.Animation.CreateAndStartAnimation(
+            'an2',
+            cameraRef.current,
+            'target',
+            30,
+            30,
+            targetFrom,
+            targetTo,
+            BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT,
+            ease
+        );
+
+        BABYLON.Animation.CreateAndStartAnimation(
+            'an3',
+            cameraRef.current,
+            'radius',
+            30,
+            30,
             radiusFrom,
             radiusTo,
             BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT,
@@ -750,7 +779,7 @@ function SceneView(props: ISceneViewProps, ref) {
                     baseColor,
                     reflectionTexture.current,
                     currentObjectColor.lightingStyle,
-                    backgroundColorRef.current.objectLuminanceRatio || 1
+                    backgroundColorRef.current?.objectLuminanceRatio || 1
                 );
 
                 shaderMaterial.current = material;
@@ -794,7 +823,7 @@ function SceneView(props: ISceneViewProps, ref) {
             SetWireframe(hovMaterial.current, !!isWireframe);
             SetWireframe(coloredHovMaterial.current, !!isWireframe);
         }
-    }, [isWireframe, objectColors]);
+    }, [isWireframe, objectColor]);
 
     // This is really our componentDidMount/componentWillUnmount stuff
     useEffect(() => {
@@ -850,7 +879,6 @@ function SceneView(props: ISceneViewProps, ref) {
     const init = useCallback(() => {
         debugLog('debug', '**************init');
 
-        //TODO: load this private blob by getting token and using proxy for blob service REST API
         async function load(
             getToken: () => Promise<string>,
             root: string,
@@ -881,13 +909,31 @@ function SceneView(props: ISceneViewProps, ref) {
                 engineRef.current,
                 (e: any) => onProgress(e),
                 (s: any, m: any, e: any) => {
-                    console.error('Error loading model. Try Ctrl-F5', s, e);
+                    if (e.innerError.request?._xhr.status === 0) {
+                        // When response is undefined or xhr status is 0 axios call returns as 'Network error', this could be a CORS issue, invalid blob url or a dropped internet connection. It is not possible for us to know.
+                        console.error(
+                            'Error loading model. This could be a CORS issue, invalid blob url or network error.'
+                        );
+                        setLoadingError('network');
+                    } else {
+                        // even if it is not CORS related, it might still due to lack of required permissions, or just corrupted file.
+                        console.error(
+                            'Error loading model. Check your access role assignments for that file, or try again.',
+                            s,
+                            e
+                        );
+                        setLoadingError('generic');
+                    }
                     success = false;
-                    setIsLoading(undefined);
+                    setIsLoading(false);
                 }
             );
 
-            if (success) {
+            // TODO: Wrap above promise in an AbortController to cancel in case of changing scenes before the promise resolves
+            // Checking if url used in loadPromise method above matches url for model being shown in the screen avoids an error
+            // that occurs when trying to control the camera of an unloaded scene, but it does not cancel the download of the
+            // first model which we already navigated away from.
+            if (success && modelUrl === modelUrlRef.current) {
                 sceneRef.current = sc;
 
                 preProcessMeshesOnLoad();
@@ -980,6 +1026,7 @@ function SceneView(props: ISceneViewProps, ref) {
 
                 setScene(sceneRef.current);
                 setIsLoading(false);
+                setLoadingError(null);
 
                 //This will show the babylon inspector on the right side of the screen to view all babylon scene objects and their properties
                 if (debugBabylon) {
@@ -1039,6 +1086,7 @@ function SceneView(props: ISceneViewProps, ref) {
             // Reload if modelUrl changes
             modelUrlRef.current = modelUrl;
             setIsLoading(true);
+            setLoadingError(null);
             init();
         }
 
@@ -2133,9 +2181,9 @@ function SceneView(props: ISceneViewProps, ref) {
                     barHeight={10}
                 />
             )}
-            {isLoading === undefined && (
+            {loadingError && (
                 <div className={customStyles.errorMessage}>
-                    Error loading model. Try Ctrl-F5
+                    <LoadingErrorMessage errorType={loadingError} />
                 </div>
             )}
             <MarkersPlaceholder markers={markers} />

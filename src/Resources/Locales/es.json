@@ -511,7 +511,6 @@
     "twinAlias": {
       "title": "Alias gemelo",
       "calloutDescription": "La unión de propiedades gemelas de elementos seleccionados",
-      "aliasedTwin": "Gemelo con alias",
       "add": "Añadir gemelo",
       "new": "Nuevo gemelo",
       "edit": "Editar gemelo",
@@ -540,7 +539,7 @@
       "errors": {
         "twinAliasAlreadyExists": "El alias gemelo con el mismo nombre ya existe, considere agregarlo en su lugar.",
         "alphanumericOnly": "El alias gemelo solo debe contener caracteres alfanuméricos",
-        "noNumberPrefix": "El alias gemelo no debe comenzar con un número"
+        "noNumberPrefix": "El nombre del gemelo no debe comenzar con un número"
       }
     },
     "actions": "Acciones"
@@ -939,6 +938,11 @@
     "noContainerUrlErrorMessage": "La dirección URL del contenedor no está establecida. Haga clic a continuación para configurarlo.",
     "noADTInstanceUrlTitle": "La instancia de ADT no está establecida",
     "noADTInstanceUrlMessage": "La dirección URL de la instancia de ADT no está establecida. Haga clic a continuación para configurarlo.",
-    "configureEnvironment": "Configurar el entorno"
+    "configureEnvironment": "Configurar el entorno",
+    "sceneView": {
+      "3dAssetLoadingErrorTitle": "Error al cargar el modelo",
+      "3dAssetLoadingNetworkErrorMessage": "Esto podría ser un problema de CORS, una dirección URL de blob no válida o un error de red. Póngase en contacto con el propietario del contenedor donde se almacena este archivo de activos o inténtelo de nuevo más tarde.",
+      "3dAssetLoadingGenericErrorMessage": "Error al cargar el modelo. Intente borrar la memoria caché e inténtelo de nuevo o compruebe su acceso a ese archivo."
+    }
   }
 }

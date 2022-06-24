@@ -511,7 +511,6 @@
     "twinAlias": {
       "title": "Podwójny alias",
       "calloutDescription": "Połączenie bliźniaczych właściwości wybranych elementów",
-      "aliasedTwin": "Aliasowany bliźniak",
       "add": "Dodaj bliźniaka",
       "new": "Nowy bliźniak",
       "edit": "Edytuj bliźniaczy",
@@ -540,7 +539,7 @@
       "errors": {
         "twinAliasAlreadyExists": "Bliźniaczy alias o tej samej nazwie już istnieje, rozważ dodanie go zamiast tego.",
         "alphanumericOnly": "Bliźniaczy alias może zawierać tylko znaki alfanumeryczne",
-        "noNumberPrefix": "Podwójny alias nie może zaczynać się od cyfry"
+        "noNumberPrefix": "Podwójna nazwa nie może zaczynać się od cyfry"
       }
     },
     "actions": "Akcje"
@@ -939,6 +938,11 @@
     "noContainerUrlErrorMessage": "Adres URL kontenera nie jest ustawiony. Kliknij poniżej, aby go ustawić.",
     "noADTInstanceUrlTitle": "Nie ustawiono wystąpienia narzędzia ADT",
     "noADTInstanceUrlMessage": "Adres URL wystąpienia narzędzia ADT nie jest ustawiony. Kliknij poniżej, aby go ustawić.",
-    "configureEnvironment": "Konfigurowanie środowiska"
+    "configureEnvironment": "Konfigurowanie środowiska",
+    "sceneView": {
+      "3dAssetLoadingErrorTitle": "Błąd ładowania modelu",
+      "3dAssetLoadingNetworkErrorMessage": "Może to być problem CORS, nieprawidłowy adres URL obiektu blob lub błąd sieciowy. Skontaktuj się z właścicielem kontenera, w którym jest przechowywany ten plik zasobu, lub spróbuj ponownie później.",
+      "3dAssetLoadingGenericErrorMessage": "Błąd ładowania modelu. Spróbuj wyczyścić pamięć podręczną i spróbuj ponownie lub sprawdź dostęp do tego pliku."
+    }
   }
 }

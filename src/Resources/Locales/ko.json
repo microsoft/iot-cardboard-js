@@ -511,7 +511,6 @@
     "twinAlias": {
       "title": "트윈 별칭",
       "calloutDescription": "선택한 요소의 쌍 속성의 결합",
-      "aliasedTwin": "앨리어싱된 트윈",
       "add": "트윈 추가",
       "new": "뉴 트윈",
       "edit": "트윈 편집",
@@ -540,7 +539,7 @@
       "errors": {
         "twinAliasAlreadyExists": "같은 이름의 트윈 별칭이 이미 있으므로 대신 추가하는 것이 좋습니다.",
         "alphanumericOnly": "트윈 별칭은 영숫자만 포함해야 합니다.",
-        "noNumberPrefix": "트윈 별칭은 숫자로 시작하면 안 됩니다."
+        "noNumberPrefix": "트윈 이름은 숫자로 시작하면 안 됩니다."
       }
     },
     "actions": "작업"
@@ -939,6 +938,11 @@
     "noContainerUrlErrorMessage": "컨테이너 URL이 설정되지 않았습니다. 아래를 클릭하여 설정하십시오.",
     "noADTInstanceUrlTitle": "ADT 인스턴스가 설정되지 않았습니다.",
     "noADTInstanceUrlMessage": "ADT 인스턴스 URL이 설정되지 않았습니다. 아래를 클릭하여 설정하십시오.",
-    "configureEnvironment": "환경 구성"
+    "configureEnvironment": "환경 구성",
+    "sceneView": {
+      "3dAssetLoadingErrorTitle": "모델을 로드하는 중 오류 발생",
+      "3dAssetLoadingNetworkErrorMessage": "CORS 문제, 잘못된 Blob URL 또는 네트워크 오류일 수 있습니다. 이 자산 파일이 저장된 컨테이너의 소유자에게 문의하거나 나중에 다시 시도하십시오.",
+      "3dAssetLoadingGenericErrorMessage": "모델을 로드하는 중 오류가 발생했습니다. 캐시를 지우고 다시 시도하거나 해당 파일에 대한 액세스 권한을 확인하십시오."
+    }
   }
 }

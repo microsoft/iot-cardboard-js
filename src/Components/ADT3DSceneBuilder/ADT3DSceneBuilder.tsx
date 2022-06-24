@@ -3,6 +3,7 @@ import {
     ContextualMenu,
     ContextualMenuItemType,
     css,
+    IContextualMenuItem,
     mergeStyleSets,
     Stack,
     styled,
@@ -42,7 +43,6 @@ import {
     ElementTwinAliasFormInfo,
     IADT3DSceneBuilderStyleProps,
     IADT3DSceneBuilderStyles,
-    SET_ORIGINAL_BEHAVIOR_TO_EDIT,
     SET_UNSAVED_BEHAVIOR_CHANGES_DIALOG_OPEN,
     SET_UNSAVED_BEHAVIOR_CHANGES_DIALOG_DISCARD_ACTION,
     SET_ELEMENT_TO_GIZMO,
@@ -56,7 +56,7 @@ import {
     defaultADT3DSceneBuilderState
 } from './ADT3DSceneBuilder.state';
 import { IADTAdapter } from '../../Models/Constants/Interfaces';
-import BuilderLeftPanel from './Internal/BuilderLeftPanel';
+import BuilderLeftPanel from './Internal/BuilderLeftPanel/BuilderLeftPanel';
 import { useTranslation } from 'react-i18next';
 import { AbstractMesh } from '@babylonjs/core';
 import {
@@ -90,6 +90,7 @@ import {
 import { DeeplinkContextActionType } from '../../Models/Context/DeeplinkContext/DeeplinkContext.types';
 import { getStyles } from './ADT3DSceneBuilder.styles';
 import SceneLayers from './Internal/SceneLayers/SceneLayers';
+import { SceneThemeContextProvider } from '../../Models/Context';
 
 const contextMenuStyles = mergeStyleSets({
     header: {
@@ -148,7 +149,7 @@ const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
 
     const previouslyColoredMeshItems = useRef([]);
     const elementContextualMenuItems = useRef([]);
-    const behaviorContextualMenuItems = useRef([]);
+    const behaviorContextualMenuItems = useRef<IContextualMenuItem[]>([]);
 
     const [
         contextualMenuProps,
@@ -250,26 +251,25 @@ const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
         }
     }, [state.builderMode]);
 
-    const setOriginalBehaviorToEdit = useCallback((behavior: IBehavior) => {
-        dispatch({
-            type: SET_ORIGINAL_BEHAVIOR_TO_EDIT,
-            payload: behavior
-        });
-    }, []);
+    const setUnsavedChangesDialogDiscardAction = useCallback(
+        (action: VoidFunction) => {
+            dispatch({
+                type: SET_UNSAVED_BEHAVIOR_CHANGES_DIALOG_DISCARD_ACTION,
+                payload: action
+            });
+        },
+        []
+    );
 
-    const setUnsavedChangesDialogDiscardAction = useCallback((action: any) => {
-        dispatch({
-            type: SET_UNSAVED_BEHAVIOR_CHANGES_DIALOG_DISCARD_ACTION,
-            payload: action
-        });
-    }, []);
-
-    const setUnsavedBehaviorChangesDialog = useCallback((isOpen: boolean) => {
-        dispatch({
-            type: SET_UNSAVED_BEHAVIOR_CHANGES_DIALOG_OPEN,
-            payload: isOpen
-        });
-    }, []);
+    const setUnsavedBehaviorChangesDialogOpen = useCallback(
+        (isOpen: boolean) => {
+            dispatch({
+                type: SET_UNSAVED_BEHAVIOR_CHANGES_DIALOG_OPEN,
+                payload: isOpen
+            });
+        },
+        []
+    );
 
     const setColoredMeshItems = useCallback(
         (coloredMeshItems: Array<CustomMeshItem>) => {
@@ -405,7 +405,7 @@ const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
                 }
             }
         },
-        [state]
+        [setColoredMeshItems, setOutlinedMeshItems, state.builderMode]
     );
 
     const onMeshHovered = (mesh: AbstractMesh) => {
@@ -536,7 +536,7 @@ const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
 
         // create edit behavior items for the context menu
         for (const behavior of behaviors) {
-            const item = {
+            const item: IContextualMenuItem = {
                 key: behavior.id,
                 text: t('3dSceneBuilder.edit', {
                     elementDisplayName: behavior.displayName
@@ -563,8 +563,8 @@ const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
                 },
                 onMouseOver: () => {
                     // get elements that are contained in the hovered behavior
-                    let ids = [];
-                    const selectedElements = [];
+                    let ids: string[] = [];
+                    const selectedElements: ITwinToObjectMapping[] = [];
                     behavior.datasources
                         .filter(
                             ViewerConfigUtility.isElementTwinToObjectMappingDataSource
@@ -768,19 +768,6 @@ const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
         });
     }, []);
 
-    const checkIfBehaviorHasBeenEdited = useCallback(() => {
-        if (
-            JSON.stringify(behaviorToEdit) !=
-                JSON.stringify(state.originalBehaviorToEdit) &&
-            (state.builderMode === ADT3DSceneBuilderMode.EditBehavior ||
-                state.builderMode === ADT3DSceneBuilderMode.CreateBehavior)
-        ) {
-            return true;
-        } else {
-            return false;
-        }
-    }, [behaviorToEdit, state.originalBehaviorToEdit, state.builderMode]);
-
     const scenePageModeChange = useCallback(
         (newScenePageMode: ADT3DScenePageModes) => {
             deeplinkDispatch({
@@ -796,20 +783,35 @@ const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
     // header callbacks
     const handleScenePageModeChange = useCallback(
         (newScenePageMode: ADT3DScenePageModes) => {
-            if (!checkIfBehaviorHasBeenEdited()) {
+            const switchMode = () => {
                 scenePageModeChange(newScenePageMode);
+                dispatch({
+                    type: SET_ADT_SCENE_BUILDER_SELECTED_BEHAVIOR,
+                    payload: null
+                });
+                dispatch({
+                    type: SET_ADT_SCENE_BUILDER_SELECTED_ELEMENT,
+                    payload: null
+                });
+            };
+            // handle forms with changes before transitioning
+            if (
+                state.formDirtyState.get('behavior') ||
+                state.formDirtyState.get('element')
+            ) {
+                setUnsavedBehaviorChangesDialogOpen(true);
+                setUnsavedChangesDialogDiscardAction(() => {
+                    switchMode();
+                });
             } else {
-                setUnsavedBehaviorChangesDialog(true);
-                setUnsavedChangesDialogDiscardAction(() =>
-                    scenePageModeChange(newScenePageMode)
-                );
+                switchMode();
             }
         },
         [
-            checkIfBehaviorHasBeenEdited,
-            setUnsavedBehaviorChangesDialog,
+            scenePageModeChange,
+            setUnsavedBehaviorChangesDialogOpen,
             setUnsavedChangesDialogDiscardAction,
-            scenePageModeChange
+            state.formDirtyState
         ]
     );
 
@@ -820,33 +822,29 @@ const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
         <SceneBuilderContext.Provider
             value={{
                 adapter,
-                theme,
+                behaviorTwinAliasFormInfo: state.behaviorTwinAliasFormInfo,
+                coloredMeshItems: state.coloredMeshItems,
+                config: state.config,
+                dispatch,
+                elementTwinAliasFormInfo: state.elementTwinAliasFormInfo,
+                getConfig: getScenesConfig.callAdapter,
                 locale,
                 localeStrings,
-                coloredMeshItems: state.coloredMeshItems,
                 setColoredMeshItems,
                 setOutlinedMeshItems,
                 // something about transform should be here so that the left panel form knows about the mesh transform operation in the scene view
                 setGizmoElementItems,
-                config: state.config,
-                getConfig: getScenesConfig.callAdapter,
                 sceneId,
                 widgetFormInfo: state.widgetFormInfo,
                 setWidgetFormInfo,
-                behaviorTwinAliasFormInfo: state.behaviorTwinAliasFormInfo,
                 setBehaviorTwinAliasFormInfo,
-                elementTwinAliasFormInfo: state.elementTwinAliasFormInfo,
                 setElementTwinAliasFormInfo,
-                dispatch,
                 state,
                 objectColor: state.objectColor,
-                behaviorToEdit,
-                setBehaviorToEdit,
-                setOriginalBehaviorToEdit,
                 setIsLayerBuilderDialogOpen,
-                checkIfBehaviorHasBeenEdited,
-                setUnsavedBehaviorChangesDialog,
-                setUnsavedChangesDialogDiscardAction
+                setUnsavedBehaviorChangesDialogOpen,
+                setUnsavedChangesDialogDiscardAction,
+                theme
             }}
         >
             <BaseComponent
@@ -932,11 +930,11 @@ const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
                         ADT3DSceneBuilderMode.CreateBehavior ||
                         state.builderMode ===
                             ADT3DSceneBuilderMode.EditBehavior) &&
-                        behaviorToEdit &&
+                        state.draftBehavior &&
                         !state.isLayerBuilderDialogOpen && (
                             <div className={commonPanelStyles.previewContainer}>
                                 <BehaviorsModal
-                                    behaviors={[behaviorToEdit]}
+                                    behaviors={[state.draftBehavior]}
                                     element={undefined}
                                     twins={null}
                                     mode={BehaviorModalMode.preview}
@@ -955,7 +953,9 @@ const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
 const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = (props) => {
     return (
         <DeeplinkContextProvider>
-            <ADT3DSceneBuilderBase {...props} />
+            <SceneThemeContextProvider>
+                <ADT3DSceneBuilderBase {...props} />
+            </SceneThemeContextProvider>
         </DeeplinkContextProvider>
     );
 };

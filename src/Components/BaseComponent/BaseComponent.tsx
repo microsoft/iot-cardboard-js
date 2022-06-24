@@ -22,15 +22,16 @@ import { Spinner } from '@fluentui/react';
  */
 const BaseComponent: React.FC<BaseComponentProps> = ({
     adapterResults,
-    theme,
-    isLoading = false,
-    isDataEmpty = false,
-    locale,
-    localeStrings,
+    children,
     componentError,
     containerClassName,
     customLoadingMessage,
-    children
+    disableDefaultStyles = false,
+    isDataEmpty = false,
+    isLoading = false,
+    locale,
+    localeStrings,
+    theme
 }) => {
     // Access theme and localization contexts to see if they are already present in component tree
     const localizationContext = useContext(I18nContext);
@@ -53,7 +54,7 @@ const BaseComponent: React.FC<BaseComponentProps> = ({
 
     const BaseContents = (
         <div
-            className={`cb-base-component ${
+            className={`${disableDefaultStyles ? '' : 'cb-base-component '} ${
                 containerClassName ? containerClassName : ''
             }`}
             cardboard-data-theme={(theme || themeContext) ?? undefined}

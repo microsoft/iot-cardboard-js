@@ -32,6 +32,8 @@ import { SceneBuilderContext } from '../../../ADT3DSceneBuilder';
 import { getLeftPanelStyles } from '../../Shared/LeftPanel.styles';
 import PanelFooter from '../../Shared/PanelFooter';
 import { getPanelFormStyles } from '../../Shared/PanelForms.styles';
+import { useBehaviorFormContext } from '../Internal/BehaviorFormContext/BehaviorFormContext';
+import { BehaviorFormContextActionType } from '../Internal/BehaviorFormContext/BehaviorFormContext.types';
 
 const BehaviorTwinAliasForm: React.FC<{
     selectedElements: Array<ITwinToObjectMapping>;
@@ -43,13 +45,22 @@ const BehaviorTwinAliasForm: React.FC<{
         config,
         sceneId,
         behaviorTwinAliasFormInfo,
-        setBehaviorTwinAliasFormInfo,
-        setBehaviorToEdit
+        setBehaviorTwinAliasFormInfo
     } = useContext(SceneBuilderContext);
+    const { behaviorFormDispatch } = useBehaviorFormContext();
 
+    const getDefaultBehaviorTwinAlias = (aliasToAutoPopulate?: string) => {
+        const newBehaviorTwinAlias = deepCopy(defaultBehaviorTwinAlias);
+        if (aliasToAutoPopulate) {
+            newBehaviorTwinAlias.alias = aliasToAutoPopulate;
+        }
+        return newBehaviorTwinAlias;
+    };
     const [formData, setFormData] = useState<IBehaviorTwinAliasItem>(
         behaviorTwinAliasFormInfo.mode === TwinAliasFormMode.CreateTwinAlias
-            ? defaultBehaviorTwinAlias
+            ? getDefaultBehaviorTwinAlias(
+                  behaviorTwinAliasFormInfo.aliasToAutoPopulate // this is set as search text when there is no results in AddTwinAliasCallout to prefill in creating a new twin alias
+              )
             : behaviorTwinAliasFormInfo.twinAlias
     );
     const [isFormValid, setIsFormValid] = useState(false);
@@ -81,27 +92,14 @@ const BehaviorTwinAliasForm: React.FC<{
 
     const onSaveTwinAliasForm = useCallback(() => {
         if (
-            behaviorTwinAliasFormInfo.mode === TwinAliasFormMode.EditTwinAlias
-        ) {
-            setBehaviorToEdit(
-                produce((draft) => {
-                    draft.twinAliases[behaviorTwinAliasFormInfo.twinAliasIdx] =
-                        formData.alias;
-                })
-            );
-        }
-        if (
             behaviorTwinAliasFormInfo.mode === TwinAliasFormMode.CreateTwinAlias
         ) {
-            setBehaviorToEdit(
-                produce((draft) => {
-                    if (!draft.twinAliases) {
-                        draft.twinAliases = [formData.alias];
-                    } else if (!draft.twinAliases.includes(formData.alias)) {
-                        draft.twinAliases.push(formData.alias);
-                    }
-                })
-            );
+            behaviorFormDispatch({
+                type: BehaviorFormContextActionType.FORM_BEHAVIOR_ALIAS_ADD,
+                payload: {
+                    alias: formData.alias
+                }
+            });
         }
 
         // update the twinAliases in selected elements
@@ -120,12 +118,11 @@ const BehaviorTwinAliasForm: React.FC<{
         setBehaviorTwinAliasFormInfo(null);
         setFormData(null);
     }, [
+        behaviorFormDispatch,
         behaviorTwinAliasFormInfo.mode,
-        behaviorTwinAliasFormInfo.twinAliasIdx,
         formData.alias,
         formData.elementToTwinMappings,
         selectedElements,
-        setBehaviorToEdit,
         setBehaviorTwinAliasFormInfo,
         setSelectedElements
     ]);
@@ -209,80 +206,89 @@ const BehaviorTwinAliasForm: React.FC<{
     ]);
 
     const theme = useTheme();
-    const commonFormStyles = getPanelFormStyles(theme, 0);
+    const commonFormStyles = getPanelFormStyles(theme, 0, false);
     const commonPanelStyles = getLeftPanelStyles(theme);
 
     return (
         <>
             <div className={commonFormStyles.content}>
-                <TextField
-                    data-testid={'behavior-alias-twin-name-text-field'}
-                    label={t(
-                        '3dSceneBuilder.twinAlias.twinAliasForm.aliasNameLabel'
-                    )}
-                    value={formData.alias}
-                    required
-                    onChange={(_ev, newVal) =>
-                        setFormData(
-                            produce((draft) => {
-                                draft.alias = newVal;
-                            })
-                        )
-                    }
-                    onRenderLabel={onRenderLabel}
-                    disabled={
-                        behaviorTwinAliasFormInfo.mode ===
-                        TwinAliasFormMode.EditTwinAlias
-                    }
-                    errorMessage={errorMessage}
-                    styles={{
-                        root: {
-                            '.ms-Label::after': {
-                                paddingRight: 4
-                            }
+                <div className={commonPanelStyles.paddedLeftPanelBlock}>
+                    <TextField
+                        data-testid={'behavior-alias-twin-name-text-field'}
+                        label={t(
+                            '3dSceneBuilder.twinAlias.twinAliasForm.aliasNameLabel'
+                        )}
+                        value={formData.alias}
+                        required
+                        onChange={(_ev, newVal) =>
+                            setFormData(
+                                produce((draft) => {
+                                    draft.alias = newVal;
+                                })
+                            )
                         }
-                    }}
-                />
+                        onRenderLabel={onRenderLabel}
+                        disabled={
+                            behaviorTwinAliasFormInfo.mode ===
+                            TwinAliasFormMode.EditTwinAlias
+                        }
+                        errorMessage={errorMessage}
+                        styles={{
+                            root: {
+                                '.ms-Label::after': {
+                                    paddingRight: 4
+                                }
+                            }
+                        }}
+                    />
+                </div>
                 <div className={styles.elementTwinMappingsSection}>
-                    <Label>
-                        {t(
-                            '3dSceneBuilder.twinAlias.twinAliasForm.mappingSectionHeader'
-                        )}
-                    </Label>
-                    <Text className={commonPanelStyles.text}>
-                        {t(
-                            '3dSceneBuilder.twinAlias.twinAliasForm.mappingSectionSubHeader'
-                        )}
-                    </Text>
+                    <div className={commonPanelStyles.paddedLeftPanelBlock}>
+                        <Label>
+                            {t(
+                                '3dSceneBuilder.twinAlias.twinAliasForm.mappingSectionHeader'
+                            )}
+                        </Label>
+                        <Text className={commonPanelStyles.text}>
+                            {t(
+                                '3dSceneBuilder.twinAlias.twinAliasForm.mappingSectionSubHeader'
+                            )}
+                        </Text>
+                    </div>
                     <div className={styles.elementTwinMappingsWrapper}>
-                        {!selectedElements || selectedElements.length === 0 ? (
-                            <Text className={commonPanelStyles.text}>
-                                {t(
-                                    '3dSceneBuilder.twinAlias.twinAliasForm.elementTwinMappingsNotExist'
-                                )}
-                            </Text>
-                        ) : (
-                            selectedElements?.map((element, idx) => (
-                                <TwinSearchDropdown
-                                    key={`aliased-twin-${idx}`}
-                                    styles={{ paddingBottom: 16 }}
-                                    adapter={adapter}
-                                    label={element.displayName}
-                                    labelIconName="Shapes"
-                                    selectedTwinId={
-                                        element.twinAliases?.[formData.alias]
-                                    }
-                                    onTwinIdSelect={(
-                                        selectedTwinId: string
-                                    ) => {
-                                        handleTwinSelect(
-                                            element.id,
-                                            selectedTwinId
-                                        );
-                                    }}
-                                />
-                            ))
-                        )}
+                        <div className={commonPanelStyles.paddedLeftPanelBlock}>
+                            {!selectedElements ||
+                            selectedElements.length === 0 ? (
+                                <Text className={commonPanelStyles.text}>
+                                    {t(
+                                        '3dSceneBuilder.twinAlias.twinAliasForm.elementTwinMappingsNotExist'
+                                    )}
+                                </Text>
+                            ) : (
+                                selectedElements?.map((element, idx) => (
+                                    <TwinSearchDropdown
+                                        key={`aliased-twin-${idx}`}
+                                        styles={{ paddingBottom: 16 }}
+                                        adapter={adapter}
+                                        label={element.displayName}
+                                        labelIconName="Shapes"
+                                        selectedTwinId={
+                                            element.twinAliases?.[
+                                                formData.alias
+                                            ]
+                                        }
+                                        onTwinIdSelect={(
+                                            selectedTwinId: string
+                                        ) => {
+                                            handleTwinSelect(
+                                                element.id,
+                                                selectedTwinId
+                                            );
+                                        }}
+                                    />
+                                ))
+                            )}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -314,14 +320,18 @@ const BehaviorTwinAliasForm: React.FC<{
 const styles = mergeStyleSets({
     elementTwinMappingsSection: {
         paddingTop: 16,
-        overflow: 'auto'
+        overflow: 'auto',
+        display: 'flex',
+        flexDirection: 'column',
+        flexGrow: 1
     },
     elementTwinMappingsWrapper: {
         overflowX: 'hidden',
         overflowY: 'auto',
-        '.cb-search-autocomplete-container': {
-            position: 'unset !important'
-        }
+        flexGrow: 1
+        // '.cb-search-autocomplete-container': {
+        //     position: 'unset !important'
+        // }
     },
     errorMessage: {
         color: 'var(--cb-color-text-danger)',

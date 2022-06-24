@@ -34,7 +34,6 @@ import { TwinAliasFormMode } from '../../../../../Models/Constants';
 import { IBehaviorTwinAliasItem } from '../../../../../Models/Classes/3DVConfig';
 import AddTwinAliasCallout from '../Twins/AddTwinAliasCallout';
 import ViewerConfigUtility from '../../../../../Models/Classes/ViewerConfigUtility';
-import produce from 'immer';
 import { IValidityState, TabNames } from '../BehaviorForm.types';
 import CardboardListCallout from '../../../../CardboardListCallout/CardboardListCallout';
 import { useModelledProperties } from '../../../../ModelledPropertyBuilder/useModelledProperties';
@@ -42,6 +41,8 @@ import {
     defaultAllowedPropertyValueTypes,
     IModelledProperty
 } from '../../../../ModelledPropertyBuilder/ModelledPropertyBuilder.types';
+import { useBehaviorFormContext } from './BehaviorFormContext/BehaviorFormContext';
+import { BehaviorFormContextActionType } from './BehaviorFormContext/BehaviorFormContext.types';
 
 interface ITwinsTabProps {
     selectedElements: Array<ITwinToObjectMapping>;
@@ -54,15 +55,21 @@ const TwinsTab: React.FC<ITwinsTabProps> = ({
     selectedElements,
     behaviors
 }) => {
-    const { t } = useTranslation();
+    // contexts
     const {
         config,
         sceneId,
         setBehaviorTwinAliasFormInfo,
-        behaviorToEdit,
-        setBehaviorToEdit,
         adapter
     } = useContext(SceneBuilderContext);
+    const {
+        behaviorFormDispatch,
+        behaviorFormState
+    } = useBehaviorFormContext();
+
+    // hooks
+    const { t } = useTranslation();
+
     const [twinList, setTwinList] = useState([]);
     const [availableTwinAliases, setAvailableTwinAliases] = useState<
         Array<IBehaviorTwinAliasItem>
@@ -88,7 +95,7 @@ const TwinsTab: React.FC<ITwinsTabProps> = ({
         adapter,
         twinIdParams: {
             selectedElements,
-            behavior: behaviorToEdit,
+            behavior: behaviorFormState.behaviorToEdit,
             config,
             sceneId,
             disableAliasedTwins: true
@@ -98,11 +105,10 @@ const TwinsTab: React.FC<ITwinsTabProps> = ({
 
     // ----- callbacks -----
     const onTwinAliasClick = useCallback(
-        (twinAliasItem: IBehaviorTwinAliasItem, idx: number) => {
+        (twinAliasItem: IBehaviorTwinAliasItem) => {
             setBehaviorTwinAliasFormInfo({
                 twinAlias: twinAliasItem,
-                mode: TwinAliasFormMode.EditTwinAlias,
-                twinAliasIdx: idx
+                mode: TwinAliasFormMode.EditTwinAlias
             });
         },
         [setBehaviorTwinAliasFormInfo]
@@ -111,49 +117,44 @@ const TwinsTab: React.FC<ITwinsTabProps> = ({
     // when removing a twin alias from behavior, just update the twinAliases field in edited behavior to be reflected in config changes
     const onTwinAliasRemoveFromBehavior = useCallback(
         (twinAliasItem: IBehaviorTwinAliasItem) => {
-            setBehaviorToEdit(
-                produce((draft) => {
-                    draft.twinAliases.splice(
-                        draft.twinAliases.findIndex(
-                            (tA) => tA === twinAliasItem.alias
-                        ),
-                        1
-                    );
-                })
-            );
+            behaviorFormDispatch({
+                type: BehaviorFormContextActionType.FORM_BEHAVIOR_ALIAS_REMOVE,
+                payload: {
+                    alias: twinAliasItem.alias
+                }
+            });
         },
-        [setBehaviorToEdit]
+        [behaviorFormDispatch]
     );
 
     // when adding a twin alias from available list, just update the twinAliases field in edited behavior to be reflected in config changes
     const onAddTwinAlias = useCallback(
         (twinAlias: IBehaviorTwinAliasItem) => {
-            setBehaviorToEdit(
-                produce((draft) => {
-                    if (draft.twinAliases) {
-                        draft.twinAliases = draft.twinAliases.concat(
-                            twinAlias.alias
-                        );
-                    } else {
-                        draft.twinAliases = [twinAlias.alias];
-                    }
-                })
-            );
+            behaviorFormDispatch({
+                type: BehaviorFormContextActionType.FORM_BEHAVIOR_ALIAS_ADD,
+                payload: {
+                    alias: twinAlias.alias
+                }
+            });
         },
-        [setBehaviorToEdit]
+        [behaviorFormDispatch]
     );
 
-    const onCreateTwinAlias = useCallback(() => {
-        setBehaviorTwinAliasFormInfo({
-            twinAlias: null,
-            mode: TwinAliasFormMode.CreateTwinAlias
-        });
-    }, [setBehaviorTwinAliasFormInfo]);
+    const onCreateTwinAlias = useCallback(
+        (searchText: string) => {
+            setBehaviorTwinAliasFormInfo({
+                twinAlias: null,
+                mode: TwinAliasFormMode.CreateTwinAlias,
+                ...(searchText && { aliasToAutoPopulate: searchText })
+            });
+        },
+        [setBehaviorTwinAliasFormInfo]
+    );
 
     // when behavior to edit or selected elements (to keep track of element to twin id mappings) changes in Elements tab, update the twin alias list
     useEffect(() => {
         const twinAliases = ViewerConfigUtility.getTwinAliasItemsFromBehaviorAndElements(
-            behaviorToEdit,
+            behaviorFormState.behaviorToEdit,
             selectedElements
         );
 
@@ -172,12 +173,12 @@ const TwinsTab: React.FC<ITwinsTabProps> = ({
         // set Twins Tab in the behavior as not valid to show red alert icon since user needs to set all the element twin ids for an alias
         onValidityChange('Twins', {
             isValid: ViewerConfigUtility.areTwinAliasesValidInBehavior(
-                behaviorToEdit,
+                behaviorFormState.behaviorToEdit,
                 selectedElements
             )
         });
     }, [
-        behaviorToEdit,
+        behaviorFormState.behaviorToEdit,
         onTwinAliasClick,
         onTwinAliasRemoveFromBehavior,
         onValidityChange,
@@ -195,7 +196,7 @@ const TwinsTab: React.FC<ITwinsTabProps> = ({
             selectedElements
         );
         const twinAliasesInBehavior = ViewerConfigUtility.getTwinAliasItemsFromBehaviorAndElements(
-            behaviorToEdit,
+            behaviorFormState.behaviorToEdit,
             selectedElements
         );
 
@@ -209,7 +210,13 @@ const TwinsTab: React.FC<ITwinsTabProps> = ({
                     ) === -1
             )
         );
-    }, [behaviors, config, sceneId, selectedElements, behaviorToEdit]);
+    }, [
+        behaviors,
+        config,
+        sceneId,
+        selectedElements,
+        behaviorFormState.behaviorToEdit
+    ]);
 
     const primaryTwinProperties: Array<
         ICardboardListItem<IModelledProperty>
@@ -232,7 +239,10 @@ const TwinsTab: React.FC<ITwinsTabProps> = ({
     const commonPanelStyles = getLeftPanelStyles(theme);
     const actionButtonStyles = getActionButtonStyles(theme);
     return (
-        <Stack tokens={{ childrenGap: 12 }}>
+        <Stack
+            tokens={{ childrenGap: 12 }}
+            className={commonPanelStyles.paddedLeftPanelBlock}
+        >
             <Text className={commonPanelStyles.text}>
                 {t('3dSceneBuilder.twinAlias.tabDescriptionPart1')}
             </Text>
@@ -259,7 +269,6 @@ const TwinsTab: React.FC<ITwinsTabProps> = ({
                 data-testid={'twinsTab-addTwinAlias'}
                 onClick={toggleIsAddTwinAliasCalloutVisible}
             />
-            {/* </div> */}
             {isPrimaryTwinPropertiesCalloutVisible && (
                 <CardboardListCallout
                     listType="Complex"

@@ -1,10 +1,16 @@
-import { Pivot, PivotItem } from '@fluentui/react';
-import React, { useCallback, useContext, useEffect, useMemo } from 'react';
+import {
+    classNamesFunction,
+    Pivot,
+    PivotItem,
+    styled,
+    useTheme
+} from '@fluentui/react';
+import React, { useCallback, useContext, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
     ADT3DSceneBuilderMode,
     ADT3DSceneTwinBindingsMode
-} from '../../../Models/Constants/Enums';
+} from '../../../../Models/Constants/Enums';
 import {
     OnBehaviorSave,
     SET_ADT_SCENE_BUILDER_ELEMENTS,
@@ -13,48 +19,85 @@ import {
     SET_ADT_SCENE_BUILDER_SELECTED_BEHAVIOR,
     SET_ADT_SCENE_BUILDER_SELECTED_ELEMENT,
     SET_ADT_SCENE_BUILDER_SELECTED_ELEMENTS
-} from '../ADT3DSceneBuilder.types';
-import '../ADT3DSceneBuilder.scss';
-import BaseComponent from '../../../Components/BaseComponent/BaseComponent';
-import useAdapter from '../../../Models/Hooks/useAdapter';
+} from '../../ADT3DSceneBuilder.types';
+import '../../ADT3DSceneBuilder.scss';
+import BaseComponent from '../../../BaseComponent/BaseComponent';
+import useAdapter from '../../../../Models/Hooks/useAdapter';
 import {
     DatasourceType,
     defaultBehavior
-} from '../../../Models/Classes/3DVConfig';
-import ViewerConfigUtility from '../../../Models/Classes/ViewerConfigUtility';
-import SceneBehaviors from '../Internal/Behaviors/Behaviors';
-import SceneBehaviorsForm from '../Internal/Behaviors/BehaviorsForm';
-import SceneElementForm from '../Internal/Elements/ElementForm';
-import SceneElements from '../Internal/Elements/Elements';
-import SceneBreadcrumbFactory from '../../SceneBreadcrumb/SceneBreadcrumbFactory';
-import { SceneBuilderContext } from '../ADT3DSceneBuilder';
-import { createCustomMeshItems } from '../../3DV/SceneView.Utils';
+} from '../../../../Models/Classes/3DVConfig';
+import ViewerConfigUtility from '../../../../Models/Classes/ViewerConfigUtility';
+import SceneBehaviors from '../Behaviors/Behaviors';
+import BehaviorsForm from '../Behaviors/BehaviorsForm';
+import SceneElementForm from '../Elements/ElementForm';
+import SceneElements from '../Elements/Elements';
+import SceneBreadcrumbFactory from '../../../SceneBreadcrumb/SceneBreadcrumbFactory';
+import { SceneBuilderContext } from '../../ADT3DSceneBuilder';
+import { createCustomMeshItems } from '../../../3DV/SceneView.Utils';
 import {
     I3DScenesConfig,
     IBehavior,
     ITwinToObjectMapping
-} from '../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
-import { createGUID, deepCopy } from '../../../Models/Services/Utils';
-import { ElementModes } from '../../../Models/Constants/Breadcrumb';
+} from '../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
+import {
+    createGUID,
+    deepCopy,
+    getDebugLogger
+} from '../../../../Models/Services/Utils';
+import { ElementModes } from '../../../../Models/Constants/Breadcrumb';
+import {
+    IBuilderLeftPanelProps,
+    IBuilderLeftPanelStyleProps,
+    IBuilderLeftPanelStyles
+} from './BuilderLeftPanel.types';
+import { getStyles } from './BuilderLeftPanel.styles';
+import { BreadcrumbAction } from '../../../SceneBreadcrumb/SceneBreadcrumb.types';
 
-const BuilderLeftPanel: React.FC = () => {
+const debugLogging = false;
+const logDebugConsole = getDebugLogger('BuilderLeftPanel', debugLogging);
+
+const getClassNames = classNamesFunction<
+    IBuilderLeftPanelStyleProps,
+    IBuilderLeftPanelStyles
+>();
+
+const BuilderLeftPanel: React.FC<IBuilderLeftPanelProps> = ({ styles }) => {
     const { t } = useTranslation();
 
+    const classNames = getClassNames(styles, {
+        theme: useTheme()
+    });
+
     const {
+        adapter,
         config,
+        dispatch,
         getConfig,
+        locale,
+        localeStrings,
+        objectColor,
         sceneId,
         setColoredMeshItems,
         setOutlinedMeshItems,
-        theme,
-        locale,
-        localeStrings,
-        adapter,
+        setUnsavedBehaviorChangesDialogOpen,
+        setUnsavedChangesDialogDiscardAction,
         state,
-        dispatch,
-        objectColor,
-        setBehaviorToEdit
+        theme
     } = useContext(SceneBuilderContext);
+
+    const isIdleMode =
+        state.builderMode === ADT3DSceneBuilderMode.ElementsIdle ||
+        state.builderMode === ADT3DSceneBuilderMode.BehaviorIdle;
+    const isBehaviorFormMode =
+        state.builderMode === ADT3DSceneBuilderMode.CreateBehavior ||
+        state.builderMode === ADT3DSceneBuilderMode.EditBehavior;
+    const isElementFormMode =
+        state.builderMode === ADT3DSceneBuilderMode.CreateElement ||
+        state.builderMode === ADT3DSceneBuilderMode.EditElement;
+
+    const sceneName = ViewerConfigUtility.getSceneById(config, sceneId)
+        ?.displayName;
 
     const addBehaviorToSceneAdapterData = useAdapter({
         adapterMethod: (params: { behavior: IBehavior }) =>
@@ -126,15 +169,22 @@ const BuilderLeftPanel: React.FC = () => {
     });
 
     // START of scene element related callbacks
+    const setSceneMode = useCallback(
+        (mode: ADT3DSceneBuilderMode) => {
+            dispatch({
+                type: SET_ADT_SCENE_BUILDER_MODE,
+                payload: mode
+            });
+        },
+        [dispatch]
+    );
+
     const onCreateElementClick = () => {
         dispatch({
             type: SET_ADT_SCENE_BUILDER_SELECTED_ELEMENT,
             payload: null
         });
-        dispatch({
-            type: SET_ADT_SCENE_BUILDER_MODE,
-            payload: ADT3DSceneBuilderMode.CreateElement
-        });
+        setSceneMode(ADT3DSceneBuilderMode.CreateElement);
         setColoredMeshItems([]);
     };
 
@@ -152,10 +202,7 @@ const BuilderLeftPanel: React.FC = () => {
             type: SET_ADT_SCENE_BUILDER_SELECTED_ELEMENT,
             payload: element
         });
-        dispatch({
-            type: SET_ADT_SCENE_BUILDER_MODE,
-            payload: ADT3DSceneBuilderMode.EditElement
-        });
+        setSceneMode(ADT3DSceneBuilderMode.EditElement);
 
         setColoredMeshItems(createCustomMeshItems(element.objectIDs, null));
     };
@@ -251,13 +298,10 @@ const BuilderLeftPanel: React.FC = () => {
         (
             idleMode: ADT3DSceneBuilderMode = ADT3DSceneBuilderMode.ElementsIdle
         ) => {
-            dispatch({
-                type: SET_ADT_SCENE_BUILDER_MODE,
-                payload: idleMode
-            });
+            setSceneMode(idleMode);
             setColoredMeshItems([]);
         },
-        [dispatch, setColoredMeshItems]
+        [setColoredMeshItems, setSceneMode]
     );
 
     const onElementSave = async (newElements: Array<ITwinToObjectMapping>) => {
@@ -265,28 +309,40 @@ const BuilderLeftPanel: React.FC = () => {
             type: SET_ADT_SCENE_BUILDER_ELEMENTS,
             payload: newElements
         });
-        dispatch({
-            type: SET_ADT_SCENE_BUILDER_MODE,
-            payload: ADT3DSceneBuilderMode.ElementsIdle
-        });
+        setSceneMode(ADT3DSceneBuilderMode.ElementsIdle);
         setColoredMeshItems([]);
     };
     // END of scene element related callbacks
 
     // START of behavior related callbacks
+
+    const setSelectedBehavior = useCallback(
+        (behavior: IBehavior) => {
+            dispatch({
+                type: SET_ADT_SCENE_BUILDER_SELECTED_BEHAVIOR,
+                payload: behavior
+            });
+        },
+        [dispatch]
+    );
+
     const onCreateBehaviorClick = () => {
-        dispatch({
-            type: SET_ADT_SCENE_BUILDER_MODE,
-            payload: ADT3DSceneBuilderMode.CreateBehavior
-        });
+        setSceneMode(ADT3DSceneBuilderMode.CreateBehavior);
         setColoredMeshItems([]);
-        setBehaviorToEdit({ ...defaultBehavior, id: createGUID() });
+        setSelectedBehavior({ ...defaultBehavior, id: createGUID() });
     };
 
     const onCreateBehaviorWithElements = (
+        preSearchedBehaviorName: string,
         newElement?: ITwinToObjectMapping
     ) => {
-        const behavior = { ...defaultBehavior, id: createGUID() };
+        const behavior = {
+            ...defaultBehavior,
+            id: createGUID(),
+            ...(preSearchedBehaviorName && {
+                displayName: preSearchedBehaviorName
+            })
+        };
         const mappingIds = [];
 
         // Update selected elements with new element
@@ -308,12 +364,8 @@ const BuilderLeftPanel: React.FC = () => {
             elementIDs: mappingIds
         };
 
-        setBehaviorToEdit(behavior);
-
-        dispatch({
-            type: SET_ADT_SCENE_BUILDER_MODE,
-            payload: ADT3DSceneBuilderMode.CreateBehavior
-        });
+        setSelectedBehavior(behavior);
+        setSceneMode(ADT3DSceneBuilderMode.CreateBehavior);
         setColoredMeshItems([]);
     };
 
@@ -341,11 +393,8 @@ const BuilderLeftPanel: React.FC = () => {
             type: SET_ADT_SCENE_BUILDER_SELECTED_BEHAVIOR,
             payload: behavior
         });
-        dispatch({
-            type: SET_ADT_SCENE_BUILDER_MODE,
-            payload: ADT3DSceneBuilderMode.EditBehavior
-        });
-        setBehaviorToEdit(behavior);
+        setSceneMode(ADT3DSceneBuilderMode.EditBehavior);
+        setSelectedBehavior(behavior);
     };
 
     const onRemoveBehaviorFromScene = async (
@@ -366,7 +415,7 @@ const BuilderLeftPanel: React.FC = () => {
         getConfig();
     };
 
-    const setPivotItem = (item) => {
+    const setPivotItem = (item: PivotItem) => {
         let activePivot = ADT3DSceneBuilderMode.ElementsIdle;
         switch (item.props.itemKey) {
             case ADT3DSceneTwinBindingsMode.Elements:
@@ -378,10 +427,7 @@ const BuilderLeftPanel: React.FC = () => {
             default:
                 break;
         }
-        dispatch({
-            type: SET_ADT_SCENE_BUILDER_MODE,
-            payload: activePivot
-        });
+        setSceneMode(activePivot);
     };
 
     // END of behavior related callbacks
@@ -404,9 +450,7 @@ const BuilderLeftPanel: React.FC = () => {
     }, [config, dispatch, sceneId]);
 
     // Get behaviors in active scene
-    const behaviors = useMemo(() => config?.configuration?.behaviors || [], [
-        config
-    ]);
+    const behaviors = config?.configuration?.behaviors || [];
 
     // Callback for breadcrumb depending if builder is in behavior or element mode
     const onSceneClick = useCallback(() => {
@@ -417,30 +461,89 @@ const BuilderLeftPanel: React.FC = () => {
             onBackClick(ADT3DSceneBuilderMode.BehaviorIdle);
         }
     }, [onBackClick, setSelectedElements, state.builderMode]);
-    const sceneName = ViewerConfigUtility.getSceneById(config, sceneId)
-        ?.displayName;
 
+    const onBehaviorBackClick = useCallback(
+        () => onBackClick(ADT3DSceneBuilderMode.BehaviorIdle),
+        [onBackClick]
+    );
+
+    const onBreadcrumbNavigate = useCallback(
+        (action: BreadcrumbAction, navigate: () => void): boolean => {
+            logDebugConsole(
+                'debug',
+                `[START] pre-breadcrumb navigation of action ${action}`
+            );
+            // check if we should interupt the navigation flow
+            const actions: BreadcrumbAction[] = ['goToHome', 'goToScene'];
+            if (actions.includes(action)) {
+                if (isBehaviorFormMode) {
+                    const isDirty = state.formDirtyState.get('behavior');
+                    if (isDirty) {
+                        setUnsavedBehaviorChangesDialogOpen(true);
+                        setUnsavedChangesDialogDiscardAction(() => {
+                            navigate();
+                        });
+                        logDebugConsole(
+                            'debug',
+                            `[END] pre-breadcrumb navigation of action ${action} on BehaviorForm. {isDirty}`,
+                            isDirty
+                        );
+                        return; // early return so we don't navigate
+                    }
+                } else if (isElementFormMode) {
+                    const isDirty = state.formDirtyState.get('element');
+                    if (isDirty) {
+                        logDebugConsole(
+                            'debug',
+                            `[END] pre-breadcrumb navigation of action ${action} on ElementForm. {isDirty}`,
+                            isDirty
+                        );
+                        setUnsavedBehaviorChangesDialogOpen(true);
+                        setUnsavedChangesDialogDiscardAction(() => {
+                            navigate();
+                        });
+                        return; // early return so we don't navigate
+                    }
+                }
+            }
+            logDebugConsole(
+                'debug',
+                `[END] pre-breadcrumb navigation of action ${action}. Navigating.`
+            );
+            navigate();
+        },
+        [
+            isBehaviorFormMode,
+            isElementFormMode,
+            setUnsavedBehaviorChangesDialogOpen,
+            setUnsavedChangesDialogDiscardAction,
+            state.formDirtyState
+        ]
+    );
+
+    logDebugConsole('debug', 'Render');
     return (
         <BaseComponent
             theme={theme}
             locale={locale}
             localeStrings={localeStrings}
-            containerClassName="cb-scene-builder-left-panel"
+            containerClassName={classNames.root}
+            disableDefaultStyles
         >
             <SceneBreadcrumbFactory
                 sceneName={sceneName}
                 sceneId={sceneId}
                 builderMode={state.builderMode}
                 onSceneClick={onSceneClick}
+                onNavigate={onBreadcrumbNavigate}
             />
-            {(state.builderMode === ADT3DSceneBuilderMode.ElementsIdle ||
-                state.builderMode === ADT3DSceneBuilderMode.BehaviorIdle) && (
+            {isIdleMode && (
                 <Pivot
                     aria-label={t('3dScenePage.buildMode')}
                     selectedKey={state.selectedPivotTab}
                     onLinkClick={setPivotItem}
                     className="cb-scene-builder-left-panel-pivot"
-                    styles={{ root: { marginBottom: 16 } }}
+                    styles={{ root: { marginBottom: 16, padding: '0px 16px' } }}
                 >
                     <PivotItem
                         headerText={t('3dSceneBuilder.elements')}
@@ -476,8 +579,7 @@ const BuilderLeftPanel: React.FC = () => {
                     </PivotItem>
                 </Pivot>
             )}
-            {(state.builderMode === ADT3DSceneBuilderMode.CreateElement ||
-                state.builderMode === ADT3DSceneBuilderMode.EditElement) && (
+            {isElementFormMode && (
                 <SceneElementForm
                     builderMode={state.builderMode}
                     behaviors={behaviors}
@@ -490,26 +592,27 @@ const BuilderLeftPanel: React.FC = () => {
                     onCreateBehaviorWithElements={onCreateBehaviorWithElements}
                 />
             )}
-            {(state.builderMode === ADT3DSceneBuilderMode.CreateBehavior ||
-                state.builderMode === ADT3DSceneBuilderMode.EditBehavior) && (
-                <SceneBehaviorsForm
+            {isBehaviorFormMode && (
+                <BehaviorsForm
                     behaviors={behaviors}
-                    elements={state.elements}
                     builderMode={state.builderMode}
-                    onBehaviorBackClick={() =>
-                        onBackClick(ADT3DSceneBuilderMode.BehaviorIdle)
-                    }
+                    elements={state.elements}
+                    onBehaviorBackClick={onBehaviorBackClick}
                     onBehaviorSave={onBehaviorSave}
-                    selectedElements={state.selectedElements}
+                    onElementClick={onElementClick}
+                    onRemoveElement={onRemoveElement}
                     removedElements={state.removedElements}
+                    selectedElements={state.selectedElements}
                     setSelectedElements={setSelectedElements}
                     updateSelectedElements={updateSelectedElements}
-                    onRemoveElement={onRemoveElement}
-                    onElementClick={onElementClick}
                 />
             )}
         </BaseComponent>
     );
 };
 
-export default BuilderLeftPanel;
+export default styled<
+    IBuilderLeftPanelProps,
+    IBuilderLeftPanelStyleProps,
+    IBuilderLeftPanelStyles
+>(BuilderLeftPanel, getStyles);

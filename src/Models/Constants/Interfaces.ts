@@ -29,7 +29,7 @@ import {
     FileUploadStatus,
     ADT3DAddInEventTypes,
     GlobeTheme,
-    ViewerModeStyles,
+    ViewerObjectStyle,
     AzureResourceTypes,
     AzureAccessPermissionRoles
 } from './Enums';
@@ -761,11 +761,10 @@ export interface IADT3DViewerProps extends BaseComponentProps {
     styles?: IStyleFunctionOrObject<IADT3DViewerStyleProps, IADT3DViewerStyles>;
 }
 
-export interface IADT3DViewerMode {
-    objectColor: IADTObjectColor;
-    isWireframe: boolean;
-    style: ViewerModeStyles;
-    background: IADTBackgroundColor;
+export interface ISceneViewerThemeCache {
+    backgroundKey: string;
+    objectColorKey: string;
+    objectStyle: ViewerObjectStyle;
 }
 
 export interface IADTObjectColor {

@@ -25,6 +25,7 @@ import {
 import { SceneBuilderContext } from '../../../../ADT3DSceneBuilder';
 
 import { IValueWidgetBuilderProps } from '../../../../ADT3DSceneBuilder.types';
+import { useBehaviorFormContext } from '../../Internal/BehaviorFormContext/BehaviorFormContext';
 import { getWidgetFormStyles } from '../WidgetForm/WidgetForm.styles';
 
 const ValueWidgetBuilder: React.FC<IValueWidgetBuilderProps> = ({
@@ -34,12 +35,12 @@ const ValueWidgetBuilder: React.FC<IValueWidgetBuilderProps> = ({
 }) => {
     const { t } = useTranslation();
     const {
-        behaviorToEdit,
         config,
         sceneId,
         adapter,
         state: { selectedElements }
     } = useContext(SceneBuilderContext);
+    const { behaviorFormState } = useBehaviorFormContext();
 
     const [isManualTypeDropdownShown, setIsManualTypeDropdownShown] = useState(
         false
@@ -161,7 +162,7 @@ const ValueWidgetBuilder: React.FC<IValueWidgetBuilderProps> = ({
                 <ModelledPropertyBuilder
                     adapter={adapter}
                     twinIdParams={{
-                        behavior: behaviorToEdit,
+                        behavior: behaviorFormState.behaviorToEdit,
                         config,
                         sceneId,
                         selectedElements
