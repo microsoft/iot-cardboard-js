@@ -61,10 +61,13 @@ export const getGraphViewerStyles = () => {
                     display: 'flex',
                     justifyContent: 'center',
                     alignItems: 'center',
+                    minWidth: '14px',
+                    minHeight: '14px',
+                    top: '50px',
                     ':hover': {
-                        minWidth: '14px',
-                        minHeight: '14px',
-                        top: '52px',
+                        minWidth: '18px',
+                        minHeight: '18px',
+                        top: '49px',
                         '& svg': {
                             pointerEvents: 'none'
                         }
@@ -82,10 +85,13 @@ export const getGraphViewerStyles = () => {
                     display: 'flex',
                     justifyContent: 'center',
                     alignItems: 'center',
+                    minWidth: '14px',
+                    minHeight: '14px',
+                    top: '50px',
                     ':hover': {
-                        minWidth: '14px',
-                        minHeight: '14px',
-                        top: '52px',
+                        minWidth: '18px',
+                        minHeight: '18px',
+                        top: '49px',
                         '& svg': {
                             pointerEvents: 'none'
                         }
@@ -103,12 +109,13 @@ export const getGraphViewerStyles = () => {
                     display: 'flex',
                     justifyContent: 'center',
                     alignItems: 'center',
-                    minWidth: '0px',
-                    minHeight: '0px',
+                    minWidth: '14px',
+                    minHeight: '14px',
+                    top: '50px',
                     ':hover': {
-                        minWidth: '14px',
-                        minHeight: '14px',
-                        top: '52px',
+                        minWidth: '18px',
+                        minHeight: '18px',
+                        top: '49px',
                         '& svg': {
                             pointerEvents: 'none'
                         }
@@ -126,10 +133,13 @@ export const getGraphViewerStyles = () => {
                     display: 'flex',
                     justifyContent: 'center',
                     alignItems: 'center',
+                    minWidth: '14px',
+                    minHeight: '14px',
+                    top: '50px',
                     ':hover': {
-                        minWidth: '14px',
-                        minHeight: '14px',
-                        top: '52px',
+                        minWidth: '18px',
+                        minHeight: '18px',
+                        top: '49px',
                         '& svg': {
                             pointerEvents: 'none'
                         }
@@ -147,8 +157,8 @@ export const getGraphViewerStyles = () => {
             classNames.handleContentRelationship,
             {
                 background: '#FAAE00',
-                width: '4px',
-                height: '4px',
+                width: '8px',
+                height: '8px',
                 borderRadius: '50%'
             } as IStyle
         ],
@@ -156,8 +166,8 @@ export const getGraphViewerStyles = () => {
             classNames.handleContentUntargeted,
             {
                 background: '#FAAE00',
-                width: '4px',
-                height: '4px',
+                width: '8px',
+                height: '8px',
                 borderRadius: '50%'
             } as IStyle
         ],
@@ -165,8 +175,8 @@ export const getGraphViewerStyles = () => {
             classNames.handleContentExtend,
             {
                 background: '#1E8741',
-                width: '4px',
-                height: '4px',
+                width: '8px',
+                height: '8px',
                 borderRadius: '50%'
             } as IStyle
         ],
@@ -174,8 +184,8 @@ export const getGraphViewerStyles = () => {
             classNames.handleContentComponent,
             {
                 background: '#247CD2',
-                width: '4px',
-                height: '4px',
+                width: '8px',
+                height: '8px',
                 borderRadius: '50%'
             } as IStyle
         ],
