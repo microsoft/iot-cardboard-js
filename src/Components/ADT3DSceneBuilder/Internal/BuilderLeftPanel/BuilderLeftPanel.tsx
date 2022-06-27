@@ -7,6 +7,7 @@ import {
 } from '@fluentui/react';
 import React, { useCallback, useContext, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { v4 } from 'uuid';
 import {
     ADT3DSceneBuilderMode,
     ADT3DSceneTwinBindingsMode
@@ -25,7 +26,8 @@ import BaseComponent from '../../../BaseComponent/BaseComponent';
 import useAdapter from '../../../../Models/Hooks/useAdapter';
 import {
     DatasourceType,
-    defaultBehavior
+    defaultBehavior,
+    getDefaultElement
 } from '../../../../Models/Classes/3DVConfig';
 import ViewerConfigUtility from '../../../../Models/Classes/ViewerConfigUtility';
 import SceneBehaviors from '../Behaviors/Behaviors';
@@ -168,7 +170,6 @@ const BuilderLeftPanel: React.FC<IBuilderLeftPanelProps> = ({ styles }) => {
         isAdapterCalledOnMount: false
     });
 
-    // START of scene element related callbacks
     const setSceneMode = useCallback(
         (mode: ADT3DSceneBuilderMode) => {
             dispatch({
@@ -179,94 +180,113 @@ const BuilderLeftPanel: React.FC<IBuilderLeftPanelProps> = ({ styles }) => {
         [dispatch]
     );
 
-    const onCreateElementClick = () => {
-        dispatch({
-            type: SET_ADT_SCENE_BUILDER_SELECTED_ELEMENT,
-            payload: null
-        });
+    // START of scene element related callbacks
+    const setSelectedElement = useCallback(
+        (element: ITwinToObjectMapping) => {
+            dispatch({
+                type: SET_ADT_SCENE_BUILDER_SELECTED_ELEMENT,
+                payload: element
+            });
+        },
+        [dispatch]
+    );
+
+    const onCreateElementClick = useCallback(() => {
+        setSelectedElement(getDefaultElement({ id: v4() }));
         setSceneMode(ADT3DSceneBuilderMode.CreateElement);
         setColoredMeshItems([]);
-    };
+    }, [setColoredMeshItems, setSceneMode, setSelectedElement]);
 
-    const onRemoveElement = (newElements: Array<ITwinToObjectMapping>) => {
-        dispatch({
-            type: SET_ADT_SCENE_BUILDER_ELEMENTS,
-            payload: newElements
-        });
-        setColoredMeshItems([]);
-        getConfig();
-    };
+    const onRemoveElement = useCallback(
+        (newElements: Array<ITwinToObjectMapping>) => {
+            dispatch({
+                type: SET_ADT_SCENE_BUILDER_ELEMENTS,
+                payload: newElements
+            });
+            setColoredMeshItems([]);
+            getConfig();
+        },
+        [dispatch, getConfig, setColoredMeshItems]
+    );
 
-    const onElementClick = (element: ITwinToObjectMapping) => {
-        dispatch({
-            type: SET_ADT_SCENE_BUILDER_SELECTED_ELEMENT,
-            payload: element
-        });
-        setSceneMode(ADT3DSceneBuilderMode.EditElement);
+    const onElementClick = useCallback(
+        (element: ITwinToObjectMapping) => {
+            setSelectedElement(element);
+            setSceneMode(ADT3DSceneBuilderMode.EditElement);
 
-        setColoredMeshItems(createCustomMeshItems(element.objectIDs, null));
-    };
+            setColoredMeshItems(createCustomMeshItems(element.objectIDs, null));
+        },
+        [setColoredMeshItems, setSceneMode, setSelectedElement]
+    );
 
-    const updateSelectedElements = (
-        updatedElement: ITwinToObjectMapping,
-        isSelected
-    ) => {
-        let selectedElements = state.selectedElements
-            ? deepCopy(state.selectedElements)
-            : [];
-        let removedElements = state.removedElements
-            ? deepCopy(state.removedElements)
-            : [];
+    const updateSelectedElements = useCallback(
+        (updatedElement: ITwinToObjectMapping, isSelected: boolean) => {
+            let selectedElements = state.selectedElements
+                ? deepCopy(state.selectedElements)
+                : [];
+            let removedElements = state.removedElements
+                ? deepCopy(state.removedElements)
+                : [];
 
-        // add element if selected and not in list
-        if (
-            isSelected &&
-            !selectedElements.find(
-                (element) => element.id === updatedElement.id
-            )
-        ) {
-            selectedElements.push(updatedElement);
-            // Filter out from removed elements if re-selected
-            removedElements = removedElements.filter(
-                (element) => element.id !== updatedElement.id
-            );
-        }
-
-        // remove element if not selected and in list
-        if (
-            !isSelected &&
-            selectedElements.find((element) => element.id === updatedElement.id)
-        ) {
-            removedElements.push(updatedElement);
-            selectedElements = selectedElements.filter(
-                (element) => element.id !== updatedElement.id
-            );
-        }
-
-        dispatch({
-            type: SET_ADT_SCENE_BUILDER_SELECTED_ELEMENTS,
-            payload: selectedElements
-        });
-
-        dispatch({
-            type: SET_ADT_SCENE_BUILDER_REMOVED_ELEMENTS,
-            payload: removedElements
-        });
-
-        const meshIds = [];
-        for (const element of selectedElements) {
-            for (const id of element.objectIDs) {
-                meshIds.push(id);
+            // add element if selected and not in list
+            if (
+                isSelected &&
+                !selectedElements.find(
+                    (element) => element.id === updatedElement.id
+                )
+            ) {
+                selectedElements.push(updatedElement);
+                // Filter out from removed elements if re-selected
+                removedElements = removedElements.filter(
+                    (element) => element.id !== updatedElement.id
+                );
             }
-        }
 
-        setOutlinedMeshItems(
-            createCustomMeshItems(
-                meshIds,
-                objectColor.outlinedMeshSelectedColor
-            )
-        );
-    };
+            // remove element if not selected and in list
+            if (
+                !isSelected &&
+                selectedElements.find(
+                    (element) => element.id === updatedElement.id
+                )
+            ) {
+                removedElements.push(updatedElement);
+                selectedElements = selectedElements.filter(
+                    (element) => element.id !== updatedElement.id
+                );
+            }
+
+            dispatch({
+                type: SET_ADT_SCENE_BUILDER_SELECTED_ELEMENTS,
+                payload: selectedElements
+            });
+
+            dispatch({
+                type: SET_ADT_SCENE_BUILDER_REMOVED_ELEMENTS,
+                payload: removedElements
+            });
+
+            const meshIds = [];
+            for (const element of selectedElements) {
+                for (const id of element.objectIDs) {
+                    meshIds.push(id);
+                }
+            }
+
+            setOutlinedMeshItems(
+                createCustomMeshItems(
+                    meshIds,
+                    objectColor.outlinedMeshSelectedColor
+                )
+            );
+        },
+        [
+            dispatch,
+            objectColor.outlinedMeshSelectedColor,
+            setOutlinedMeshItems,
+            state.removedElements,
+            state.selectedElements
+        ]
+    );
 
     const setSelectedElements = useCallback(
         (elements: Array<ITwinToObjectMapping>) => {
@@ -583,7 +603,6 @@ const BuilderLeftPanel: React.FC<IBuilderLeftPanelProps> = ({ styles }) => {
                 <SceneElementForm
                     builderMode={state.builderMode}
                     behaviors={behaviors}
-                    selectedElement={state.selectedElement}
                     onElementBackClick={() =>
                         onBackClick(ADT3DSceneBuilderMode.ElementsIdle)
                     }

@@ -3,8 +3,7 @@ import React, {
     useContext,
     useEffect,
     useMemo,
-    useRef,
-    useState
+    useRef
 } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
@@ -17,13 +16,10 @@ import {
     TextField,
     useTheme
 } from '@fluentui/react';
-import {
-    IADT3DSceneBuilderElementFormProps,
-    IElementFormContext
-} from '../../ADT3DSceneBuilder.types';
+import { IADT3DSceneBuilderElementFormProps } from '../../ADT3DSceneBuilder.types';
 import { SceneBuilderContext } from '../../ADT3DSceneBuilder';
 import { ADT3DSceneBuilderMode } from '../../../../Models/Constants/Enums';
-import { createGUID, deepCopy } from '../../../../Models/Services/Utils';
+import { deepCopy } from '../../../../Models/Services/Utils';
 import ViewerConfigUtility from '../../../../Models/Classes/ViewerConfigUtility';
 import LeftPanelBuilderHeader, {
     getLeftPanelBuilderHeaderParamsForElements
@@ -38,22 +34,17 @@ import {
     panelFormPivotStyles,
     getPanelFormStyles
 } from '../Shared/PanelForms.styles';
-import {
-    IBehavior,
-    ITwinToObjectMapping
-} from '../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
-import { ElementType } from '../../../../Models/Classes/3DVConfig';
-import { createCustomMeshItems } from '../../../3DV/SceneView.Utils';
 import ElementTwinAliasForm from './Internal/ElementTwinAliasForm';
 import useAdapter from '../../../../Models/Hooks/useAdapter';
-
-export const ElementFormContext = React.createContext<IElementFormContext>(
-    null
-);
+import {
+    ElementFormContextProvider,
+    useElementFormContext
+} from '../../../../Models/Context/ElementsFormContext/ElementFormContext';
+import { ElementFormContextActionType } from '../../../../Models/Context/ElementsFormContext/ElementFormContext.types';
+import { createCustomMeshItems } from '../../../3DV/SceneView.Utils';
 
 const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
     builderMode,
-    selectedElement,
     behaviors,
     onElementSave,
     onElementBackClick,
@@ -63,59 +54,28 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
     const { t } = useTranslation();
     const {
         adapter,
+        coloredMeshItems,
         config,
+        elementTwinAliasFormInfo,
         getConfig,
         sceneId,
-        coloredMeshItems,
         setColoredMeshItems,
-        elementTwinAliasFormInfo
+        state
     } = useContext(SceneBuilderContext);
+    const { elementFormDispatch, elementFormState } = useElementFormContext();
 
-    const existingElementsRef = useRef(null);
+    const existingElementsRef = useRef(
+        ViewerConfigUtility.getSceneById(config, sceneId)?.elements?.filter(
+            ViewerConfigUtility.isTwinToObjectMappingElement
+        ) || []
+    );
     const newElementsRef = useRef(null);
-    const [elementToEdit, setElementToEdit] = useState<ITwinToObjectMapping>(
-        () => {
-            const existingElements = config.configuration?.scenes
-                ?.find((s) => s.id === sceneId)
-                .elements.filter(
-                    ViewerConfigUtility.isTwinToObjectMappingElement
-                );
-            existingElementsRef.current = existingElements;
-            if (builderMode === ADT3DSceneBuilderMode.EditElement) {
-                return selectedElement;
-            } else {
-                // builderMode is ADT3DSceneBuilderMode.CreateElement
-                let newId = createGUID();
-                const existingIds = existingElements?.map((e) => e.id);
-                while (existingIds?.includes(newId)) {
-                    newId = createGUID();
-                }
-                return {
-                    type: ElementType.TwinToObjectMapping,
-                    id: newId,
-                    displayName: '',
-                    primaryTwinID: '',
-                    objectIDs: []
-                };
-            }
-        }
-    );
-
-    const [behaviorsToEdit, setBehaviorsToEdit] = useState<Array<IBehavior>>(
-        []
-    );
 
     const isCreateElementDisabled = !(
-        elementToEdit?.displayName &&
-        elementToEdit?.primaryTwinID &&
-        elementToEdit?.objectIDs?.length > 0
+        elementFormState.elementToEdit?.displayName &&
+        elementFormState.elementToEdit?.primaryTwinID &&
+        elementFormState.elementToEdit?.objectIDs?.length > 0
     );
-
-    useEffect(() => {
-        if (selectedElement) {
-            setElementToEdit(selectedElement);
-        }
-    }, [selectedElement]);
 
     const saveElementAdapterData = useAdapter({
         adapterMethod: () => {
@@ -127,11 +87,13 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                 : [];
 
             if (builderMode === ADT3DSceneBuilderMode.CreateElement) {
-                newElements.push(elementToEdit);
+                newElements.push(elementFormState.elementToEdit);
             } else {
                 newElements[
-                    newElements.findIndex((e) => e.id === selectedElement.id)
-                ] = elementToEdit;
+                    newElements.findIndex(
+                        (e) => e.id === elementFormState.elementToEdit.id
+                    )
+                ] = elementFormState.elementToEdit;
             }
             newElementsRef.current = newElements;
             updatedConfig = ViewerConfigUtility.updateElementsInScene(
@@ -142,21 +104,21 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
             // END of updating elements in scene
 
             // BEGINNING of behaviors update which this element exists in
-            if (behaviorsToEdit) {
-                for (const behavior of behaviorsToEdit) {
-                    updatedConfig = ViewerConfigUtility.editBehavior(
-                        updatedConfig,
-                        behavior
-                    );
+            // if (behaviorsToEdit) {
+            //     for (const behavior of behaviorsToEdit) {
+            //         updatedConfig = ViewerConfigUtility.editBehavior(
+            //             updatedConfig,
+            //             behavior
+            //         );
 
-                    // add the behavior to the current scene if it is not there
-                    updatedConfig = ViewerConfigUtility.addBehaviorToScene(
-                        updatedConfig,
-                        sceneId,
-                        behavior
-                    );
-                }
-            }
+            //         // add the behavior to the current scene if it is not there
+            //         updatedConfig = ViewerConfigUtility.addBehaviorToScene(
+            //             updatedConfig,
+            //             sceneId,
+            //             behavior
+            //         );
+            //     }
+            // }
             // END of behaviors update which this element exists in
 
             return adapter.putScenesConfig(updatedConfig);
@@ -165,94 +127,87 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
         isAdapterCalledOnMount: false
     });
 
-    const handleSaveElement = useCallback(async () => {
-        await saveElementAdapterData.callAdapter();
+    const handleSaveElement = useCallback(() => {
+        saveElementAdapterData.callAdapter();
     }, [saveElementAdapterData]);
 
     const handleCreateBehavior = useCallback(
         async (searchText: string) => {
             // Save element
-            await handleSaveElement();
+            handleSaveElement();
 
             onCreateBehaviorWithElements(
                 searchText,
-                elementToEdit // new element
+                elementFormState.elementToEdit // new element
             );
         },
-        [handleSaveElement, onCreateBehaviorWithElements, elementToEdit]
+        [
+            elementFormState.elementToEdit,
+            handleSaveElement,
+            onCreateBehaviorWithElements
+        ]
     );
+
+    const handleSelectTwinId = (selectedTwinId: string) => {
+        elementFormDispatch({
+            type: ElementFormContextActionType.FORM_ELEMENT_TWIN_ID_SET,
+            payload: {
+                twinId: selectedTwinId
+            }
+        });
+    };
 
     useEffect(() => {
         if (saveElementAdapterData.adapterResult.result) {
             getConfig();
+            // send the updated list of elements to the parent, once the write to config finishes
             if (newElementsRef.current) {
                 onElementSave(newElementsRef.current);
             }
         }
-    }, [saveElementAdapterData?.adapterResult]);
+    }, [getConfig, onElementSave, saveElementAdapterData.adapterResult]);
 
-    useEffect(() => {
-        if (selectedElement) {
-            setColoredMeshItems(
-                createCustomMeshItems(selectedElement.objectIDs, null)
-            );
-        }
-    }, [selectedElement]);
+    // useEffect(() => {
+    //     if (elementFormState.elementToEdit) {
+    //         setColoredMeshItems(
+    //             createCustomMeshItems(
+    //                 elementFormState.elementToEdit.objectIDs,
+    //                 null
+    //             )
+    //         );
+    //     }
+    // }, [elementFormState.elementToEdit, setColoredMeshItems]);
 
+    // mirror the state from scene context onto the form
     useEffect(() => {
+        console.log('****updateing meshes', coloredMeshItems);
         const meshIds = [];
         for (const item of coloredMeshItems) {
             meshIds.push(item.meshId);
         }
-        setElementToEdit({
-            ...elementToEdit,
-            objectIDs: meshIds
+        elementFormDispatch({
+            type: ElementFormContextActionType.FORM_ELEMENT_SET_MESH_IDS,
+            payload: {
+                meshIds: meshIds
+            }
         });
-    }, [coloredMeshItems]);
-
-    const handleSelectTwinId = (selectedTwinId: string) => {
-        if (
-            !elementToEdit.displayName ||
-            elementToEdit.displayName === elementToEdit.primaryTwinID
-        ) {
-            setElementToEdit({
-                ...elementToEdit,
-                primaryTwinID: selectedTwinId,
-                displayName: selectedTwinId
-            });
-        } else {
-            setElementToEdit({
-                ...elementToEdit,
-                primaryTwinID: selectedTwinId
-            });
-        }
-    };
+    }, [coloredMeshItems, elementFormDispatch]);
 
     const { headerText, subHeaderText, iconName } = useMemo(
         () =>
             getLeftPanelBuilderHeaderParamsForElements(
-                selectedElement,
+                elementFormState.elementToEdit,
                 elementTwinAliasFormInfo,
                 builderMode
             ),
-        [
-            selectedElement,
-            elementTwinAliasFormInfo,
-            builderMode,
-            getLeftPanelBuilderHeaderParamsForElements
-        ]
+        [elementFormState.elementToEdit, elementTwinAliasFormInfo, builderMode]
     );
 
     const theme = useTheme();
     const commonPanelStyles = getLeftPanelStyles(theme);
     const commonFormStyles = getPanelFormStyles(theme, 170);
     return (
-        <ElementFormContext.Provider
-            value={{
-                elementToEdit,
-                setElementToEdit
-            }}
-        >
+        <ElementFormContextProvider elementToEdit={state.selectedElement}>
             <div className={commonFormStyles.root}>
                 <LeftPanelBuilderHeader
                     headerText={headerText}
@@ -281,19 +236,25 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                                             )
                                         }}
                                         selectedTwinId={
-                                            selectedElement?.primaryTwinID
+                                            elementFormState.elementToEdit
+                                                ?.primaryTwinID
                                         }
                                         onTwinIdSelect={handleSelectTwinId}
                                     />
                                     <TextField
                                         label={t('name')}
-                                        value={elementToEdit?.displayName}
+                                        value={
+                                            elementFormState.elementToEdit
+                                                ?.displayName
+                                        }
                                         required
-                                        onChange={(e) => {
-                                            setElementToEdit({
-                                                ...elementToEdit,
-                                                displayName:
-                                                    e.currentTarget.value
+                                        onChange={(_e, value) => {
+                                            elementFormDispatch({
+                                                type:
+                                                    ElementFormContextActionType.FORM_ELEMENT_DISPLAY_NAME_SET,
+                                                payload: {
+                                                    name: value
+                                                }
                                             });
                                         }}
                                     />
@@ -313,7 +274,11 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                                         commonPanelStyles.formTabContents
                                     }
                                 >
-                                    <MeshTab elementToEdit={elementToEdit} />
+                                    <MeshTab
+                                        elementToEdit={
+                                            elementFormState.elementToEdit
+                                        }
+                                    />
                                 </PivotItem>
                                 <PivotItem
                                     headerText={t(
@@ -329,10 +294,13 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                                         }
                                     >
                                         <BehaviorsTab
-                                            elementToEdit={elementToEdit}
+                                            elementToEdit={
+                                                elementFormState.elementToEdit
+                                            }
                                             behaviors={behaviors}
                                             updateBehaviorsToEdit={
-                                                setBehaviorsToEdit
+                                                () => undefined
+                                                // setBehaviorsToEdit
                                             }
                                             onBehaviorClick={onBehaviorClick}
                                             onCreateBehaviorWithElements={
@@ -383,8 +351,30 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                     </>
                 )}
             </div>
-        </ElementFormContext.Provider>
+        </ElementFormContextProvider>
     );
 };
 
-export default SceneElementForm;
+const ElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
+    builderMode,
+    behaviors,
+    onElementSave,
+    onElementBackClick,
+    onBehaviorClick,
+    onCreateBehaviorWithElements
+}) => {
+    const { state } = useContext(SceneBuilderContext);
+    return (
+        <ElementFormContextProvider elementToEdit={state.selectedElement}>
+            <SceneElementForm
+                builderMode={builderMode}
+                behaviors={behaviors}
+                onElementBackClick={onElementBackClick}
+                onElementSave={onElementSave}
+                onBehaviorClick={onBehaviorClick}
+                onCreateBehaviorWithElements={onCreateBehaviorWithElements}
+            />
+        </ElementFormContextProvider>
+    );
+};
+export default ElementForm;

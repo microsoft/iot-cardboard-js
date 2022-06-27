@@ -1,4 +1,5 @@
 import produce from 'immer';
+import { v4 } from 'uuid';
 import {
     defaultSwatchColors,
     defaultSwatchIcons
@@ -11,6 +12,7 @@ import {
     ILayer,
     ILinkWidget,
     IPopoverVisual,
+    ITwinToObjectMapping,
     IValueWidget,
     IWidget
 } from '../Types/Generated/3DScenesConfiguration-v1.0.0';
@@ -55,6 +57,17 @@ export interface IElementTwinAliasItem {
 }
 
 // Default objects
+export const getDefaultElement = (
+    partial?: Partial<ITwinToObjectMapping>
+): ITwinToObjectMapping => ({
+    type: ElementType.TwinToObjectMapping,
+    id: '',
+    displayName: '',
+    primaryTwinID: '',
+    objectIDs: [],
+    ...partial
+});
+
 export const defaultBehavior: IBehavior = {
     id: '',
     displayName: '',
