@@ -1,6 +1,6 @@
 /** File for exporting common testing utilities for the context */
 
-import { IBehavior } from '../../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
+import { IBehavior } from '../../Types/Generated/3DScenesConfiguration-v1.0.0';
 import {
     IBehaviorFormContextProviderProps,
     IBehaviorFormContextState

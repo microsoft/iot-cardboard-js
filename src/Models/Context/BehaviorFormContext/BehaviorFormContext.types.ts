@@ -4,7 +4,7 @@ import {
     IExpressionRangeVisual,
     IValueRange,
     IWidget
-} from '../../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
+} from '../../Types/Generated/3DScenesConfiguration-v1.0.0';
 
 export interface IBehaviorFormContextProviderProps {
     behaviorToEdit: IBehavior;

@@ -33,8 +33,8 @@ import {
     TransformedElementItem,
     TransformInfo
 } from '../../../../../Models/Classes/SceneView.types';
-import { useBehaviorFormContext } from './BehaviorFormContext/BehaviorFormContext';
-import { BehaviorFormContextActionType } from './BehaviorFormContext/BehaviorFormContext.types';
+import { useBehaviorFormContext } from '../../../../../Models/Context/BehaviorFormContext/BehaviorFormContext';
+import { BehaviorFormContextActionType } from '../../../../../Models/Context/BehaviorFormContext/BehaviorFormContext.types';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('AlertsTab', debugLogging);

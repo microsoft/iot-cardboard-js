@@ -1,8 +1,8 @@
-import { defaultBehavior } from '../../../../../../Models/Classes/3DVConfig';
-import ViewerConfigUtility from '../../../../../../Models/Classes/ViewerConfigUtility';
-import { IConsoleLogFunction } from '../../../../../../Models/Constants/Types';
-import { createGUID, deepCopy } from '../../../../../../Models/Services/Utils';
-import { IBehavior } from '../../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
+import { defaultBehavior } from '../../Classes/3DVConfig';
+import ViewerConfigUtility from '../../Classes/ViewerConfigUtility';
+import { IConsoleLogFunction } from '../../Constants/Types';
+import { createGUID, deepCopy } from '../../Services/Utils';
+import { IBehavior } from '../../Types/Generated/3DScenesConfiguration-v1.0.0';
 import { IBehaviorFormContextState } from './BehaviorFormContext.types';
 
 /**

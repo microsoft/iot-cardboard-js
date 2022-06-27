@@ -1,16 +1,13 @@
 import { cleanup } from '@testing-library/react';
-import {
-    defaultBehavior,
-    VisualType
-} from '../../../../../../Models/Classes/3DVConfig';
-import ViewerConfigUtility from '../../../../../../Models/Classes/ViewerConfigUtility';
-import { IConsoleLogFunction } from '../../../../../../Models/Constants';
-import { deepCopy } from '../../../../../../Models/Services/Utils';
+import { defaultBehavior, VisualType } from '../../Classes/3DVConfig';
+import ViewerConfigUtility from '../../Classes/ViewerConfigUtility';
+import { IConsoleLogFunction } from '../../Constants';
+import { deepCopy } from '../../Services/Utils';
 import {
     IBehavior,
     IGaugeWidget,
     IPopoverVisual
-} from '../../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
+} from '../../Types/Generated/3DScenesConfiguration-v1.0.0';
 import { GET_MOCK_BEHAVIOR_FORM_STATE } from './BehaviorFormContext.mock';
 import { IBehaviorFormContextState } from './BehaviorFormContext.types';
 import {

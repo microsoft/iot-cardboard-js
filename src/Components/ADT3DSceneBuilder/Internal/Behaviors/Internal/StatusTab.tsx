@@ -26,8 +26,8 @@ import {
     PropertyExpression
 } from '../../../../ModelledPropertyBuilder/ModelledPropertyBuilder.types';
 import { DOCUMENTATION_LINKS } from '../../../../../Models/Constants';
-import { useBehaviorFormContext } from './BehaviorFormContext/BehaviorFormContext';
-import { BehaviorFormContextActionType } from './BehaviorFormContext/BehaviorFormContext.types';
+import { useBehaviorFormContext } from '../../../../../Models/Context/BehaviorFormContext/BehaviorFormContext';
+import { BehaviorFormContextActionType } from '../../../../../Models/Context/BehaviorFormContext/BehaviorFormContext.types';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('StatusTab', debugLogging);
