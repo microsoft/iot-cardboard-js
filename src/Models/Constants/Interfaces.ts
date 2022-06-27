@@ -733,30 +733,34 @@ export interface IADT3DViewerProps extends BaseComponentProps {
     sceneId: string;
     scenesConfig: I3DScenesConfig;
     pollingInterval: number;
-    title?: string;
-    connectionLineColor?: string;
-    enableMeshSelection?: boolean;
+    externalProps?: ADT3DViewerExternalProps;
     addInProps?: IADT3DAddInProps;
     refetchConfig?: () => any;
-    showMeshesOnHover?: boolean;
-    showHoverOnSelected?: boolean;
-    coloredMeshItems?: CustomMeshItem[];
-    /**
-     * Ids of the elements to zoom the camera to focus on
-     */
-    zoomToElementId?: string;
-    unzoomedMeshOpacity?: number;
-    hideViewModePickerUI?: boolean;
-    hideElementsPanel?: boolean;
-    outlinedMeshItems?: CustomMeshItem[];
     /** show the toggle to switch between builder & viewer modes */
     showModeToggle?: boolean;
     sceneViewProps?: ISceneViewProps;
-    selectedLayerIds?: string[];
     /**
      * Call to provide customized styling that will layer on top of the variant rules.
      */
     styles?: IStyleFunctionOrObject<IADT3DViewerStyleProps, IADT3DViewerStyles>;
+}
+
+export interface ADT3DViewerExternalProps {
+    coloredMeshItems?: CustomMeshItem[];
+    connectionLineColor?: string;
+    enableMeshSelection?: boolean;
+    hideElementsPanel?: boolean;
+    hideViewModePickerUI?: boolean;
+    outlinedMeshItems?: CustomMeshItem[];
+    selectedLayerIds?: string[];
+    showHoverOnSelected?: boolean;
+    showMeshesOnHover?: boolean;
+    title?: string;
+    unzoomedMeshOpacity?: number;
+    /**
+     * Ids of the elements to zoom the camera to focus on
+     */
+    zoomToElementId?: string;
 }
 
 export interface ISceneViewerThemeCache {

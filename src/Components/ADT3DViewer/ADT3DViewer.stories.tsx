@@ -3,7 +3,11 @@ import useAuthParams from '../../../.storybook/useAuthParams';
 import ADT3DViewer from './ADT3DViewer';
 import MockAdapter from '../../Adapters/MockAdapter';
 import mockVConfig from '../../Adapters/__mockData__/3DScenesConfiguration.json';
-import { ADT3DAddInEventData, IADT3DAddInProps } from '../../Models/Constants';
+import {
+    ADT3DAddInEventData,
+    ADT3DViewerExternalProps,
+    IADT3DAddInProps
+} from '../../Models/Constants';
 import {
     I3DScenesConfig,
     ITwinToObjectMapping
@@ -21,19 +25,22 @@ const mockSceneId = 'f7053e7537048e03be4d1e6f8f93aa8a';
 export const Engine = (_args, { globals: { theme, locale } }) => {
     const authenticationParameters = useAuthParams();
     const scenesConfig = mockVConfig as I3DScenesConfig;
+    const externalProps: ADT3DViewerExternalProps = {
+        connectionLineColor: '#000',
+        title: '3D Viewer'
+    };
     return !authenticationParameters ? (
         <div></div>
     ) : (
         <div style={{ width: '100%', height: '600px' }}>
             <ADT3DViewer
-                title="3D Viewer"
                 theme={theme}
                 locale={locale}
                 adapter={new MockAdapter()}
                 scenesConfig={scenesConfig}
                 pollingInterval={10000}
                 sceneId={mockSceneId}
-                connectionLineColor="#000"
+                externalProps={externalProps}
             />
         </div>
     );
@@ -42,21 +49,24 @@ export const Engine = (_args, { globals: { theme, locale } }) => {
 export const EngineWithHover = (_args, { globals: { theme, locale } }) => {
     const authenticationParameters = useAuthParams();
     const scenesConfig = mockVConfig as I3DScenesConfig;
+    const externalProps: ADT3DViewerExternalProps = {
+        connectionLineColor: '#000',
+        showMeshesOnHover: true,
+        title: '3D Viewer'
+    };
 
     return !authenticationParameters ? (
         <div></div>
     ) : (
         <div style={{ width: '100%', height: '600px' }}>
             <ADT3DViewer
-                title="3D Viewer"
                 theme={theme}
                 locale={locale}
                 adapter={new MockAdapter()}
                 scenesConfig={scenesConfig}
-                showMeshesOnHover={true}
                 pollingInterval={10000}
                 sceneId={mockSceneId}
-                connectionLineColor="#000"
+                externalProps={externalProps}
             />
         </div>
     );
@@ -132,6 +142,14 @@ export const ZoomAndColor = (_args, { globals: { theme, locale } }) => {
         });
     }
 
+    const externalProps: ADT3DViewerExternalProps = {
+        coloredMeshItems: coloredMeshes,
+        connectionLineColor: '#000',
+        hideElementsPanel: hideElementsPanel,
+        title: '3D Viewer',
+        zoomToElementId: zoomedElementId
+    };
+
     return !authenticationParameters ? (
         <div></div>
     ) : (
@@ -191,17 +209,13 @@ export const ZoomAndColor = (_args, { globals: { theme, locale } }) => {
                 </div>
             </div>
             <ADT3DViewer
-                title="3D Viewer"
                 theme={theme}
                 locale={locale}
                 adapter={new MockAdapter()}
                 scenesConfig={scenesConfig}
                 pollingInterval={10000}
                 sceneId={selectedScene.id}
-                connectionLineColor="#000"
-                coloredMeshItems={coloredMeshes}
-                zoomToElementId={zoomedElementId}
-                hideElementsPanel={hideElementsPanel}
+                externalProps={externalProps}
             />
         </div>
     );
@@ -269,20 +283,24 @@ export const AddIn = (_args, { globals: { theme, locale } }) => {
         onMeshClick
     };
 
+    const externalProps: ADT3DViewerExternalProps = {
+        connectionLineColor: '#000',
+        title: '3D Viewer'
+    };
+
     return !authenticationParameters ? (
         <div></div>
     ) : (
         <div style={{ width: '100%', height: '600px', position: 'relative' }}>
             <ADT3DViewer
-                title="3D Viewer"
                 theme={theme}
                 locale={locale}
                 adapter={new MockAdapter()}
                 scenesConfig={scenesConfig}
                 pollingInterval={10000}
                 sceneId={mockSceneId}
-                connectionLineColor="#000"
                 addInProps={addInProps}
+                externalProps={externalProps}
             />
             {data && (
                 <div style={addInDivStyle}>
@@ -301,18 +319,21 @@ export const AddIn = (_args, { globals: { theme, locale } }) => {
 
 export const Mock = (_args, { globals: { theme, locale } }) => {
     const scenesConfig = mockVConfig as I3DScenesConfig;
+    const externalProps: ADT3DViewerExternalProps = {
+        connectionLineColor: '#000',
+        title: '3D Viewer (Mock Data)'
+    };
 
     return (
         <div style={{ width: '100%', height: '600px' }}>
             <ADT3DViewer
-                title="3D Viewer (Mock Data)"
                 theme={theme}
                 locale={locale}
                 adapter={new MockAdapter()}
                 scenesConfig={scenesConfig}
                 pollingInterval={10000}
                 sceneId={mockSceneId}
-                connectionLineColor="#000"
+                externalProps={externalProps}
             />
         </div>
     );
@@ -320,19 +341,22 @@ export const Mock = (_args, { globals: { theme, locale } }) => {
 
 export const MockWithHover = (_args, { globals: { theme, locale } }) => {
     const scenesConfig = mockVConfig as I3DScenesConfig;
+    const externalProps: ADT3DViewerExternalProps = {
+        connectionLineColor: '#000',
+        showMeshesOnHover: true,
+        title: '3D Viewer (Mock Data)'
+    };
 
     return (
         <div style={{ width: '100%', height: '600px' }}>
             <ADT3DViewer
-                title="3D Viewer (Mock Data)"
                 theme={theme}
                 locale={locale}
                 adapter={new MockAdapter()}
                 scenesConfig={scenesConfig}
                 pollingInterval={10000}
                 sceneId={mockSceneId}
-                showMeshesOnHover={true}
-                connectionLineColor="#000"
+                externalProps={externalProps}
             />
         </div>
     );
@@ -340,21 +364,24 @@ export const MockWithHover = (_args, { globals: { theme, locale } }) => {
 
 export const MockWithSelection = (_args, { globals: { theme, locale } }) => {
     const scenesConfig = mockVConfig as I3DScenesConfig;
+    const externalProps: ADT3DViewerExternalProps = {
+        connectionLineColor: '#000',
+        enableMeshSelection: true,
+        showHoverOnSelected: true,
+        showMeshesOnHover: true,
+        title: '3D Viewer (Mock Data)'
+    };
 
     return (
         <div style={{ width: '100%', height: '600px' }}>
             <ADT3DViewer
-                title="3D Viewer (Mock Data)"
                 theme={theme}
                 locale={locale}
                 adapter={new MockAdapter()}
                 scenesConfig={scenesConfig}
                 pollingInterval={10000}
                 sceneId={mockSceneId}
-                enableMeshSelection={true}
-                showHoverOnSelected={true}
-                showMeshesOnHover={true}
-                connectionLineColor="#000"
+                externalProps={externalProps}
             />
         </div>
     );
@@ -366,6 +393,11 @@ export const LayerSelect = (_args, { globals: { theme, locale } }) => {
     const [sceneId, setSceneId] = useState<string>(
         'f7053e7537048e03be4d1e6f8f93aa8a'
     );
+    const externalProps: ADT3DViewerExternalProps = {
+        connectionLineColor: '#000',
+        selectedLayerIds: selectedLayerIds,
+        title: '3D Viewer (Mock Data)'
+    };
 
     return (
         <div style={{ width: '100%', height: '600px' }}>
@@ -422,15 +454,13 @@ export const LayerSelect = (_args, { globals: { theme, locale } }) => {
                 ]}
             />
             <ADT3DViewer
-                title="3D Viewer (Mock Data)"
                 theme={theme}
                 locale={locale}
-                selectedLayerIds={selectedLayerIds}
                 adapter={new MockAdapter()}
                 scenesConfig={scenesConfig}
                 pollingInterval={10000}
                 sceneId={sceneId}
-                connectionLineColor="#000"
+                externalProps={externalProps}
             />
         </div>
     );

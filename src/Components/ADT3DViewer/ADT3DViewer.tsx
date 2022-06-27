@@ -65,27 +65,18 @@ const debugLogging = false;
 const logDebugConsole = getDebugLogger('ADT3DViewer', debugLogging);
 
 const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
-    theme,
-    locale,
     adapter,
+    addInProps,
+    externalProps,
+    locale,
+    pollingInterval,
+    refetchConfig,
     sceneId,
     scenesConfig,
-    pollingInterval,
-    addInProps,
     sceneViewProps,
-    refetchConfig,
-    showMeshesOnHover,
-    enableMeshSelection,
-    showHoverOnSelected,
-    coloredMeshItems: coloredMeshItemsProp,
-    outlinedMeshItems: outlinedMeshItemsProp,
-    zoomToElementId: zoomToElementIdProp,
-    unzoomedMeshOpacity,
-    hideElementsPanel,
-    hideViewModePickerUI,
-    selectedLayerIds,
     showModeToggle = false,
-    styles
+    styles,
+    theme
 }) => {
     // hooks
     const { deeplinkState, deeplinkDispatch } = useDeeplinkContext();
@@ -132,12 +123,12 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
 
     // --- State setup ---
     const [coloredMeshItems, setColoredMeshItems] = useState<CustomMeshItem[]>(
-        coloredMeshItemsProp || []
+        externalProps?.coloredMeshItems || []
     );
     const [alertBadges, setAlertBadges] = useState<SceneViewBadgeGroup[]>();
     const [outlinedMeshItems, setOutlinedMeshItems] = useState<
         CustomMeshItem[]
-    >(outlinedMeshItemsProp || []);
+    >(externalProps?.outlinedMeshItems || []);
     // need outlined meshes ref to keep track of very recent value independent from render cycle to be used in onhover/onblur of elements in panel
     const outlinedMeshItemsRef = useRef(outlinedMeshItems);
     const [zoomToMeshIds, setZoomToMeshIds] = useState<Array<string>>([]);
@@ -301,9 +292,9 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
     // this needs to run when sceneId is changed to ensure the correct layers are displayed
     useEffect(() => {
         // only set layers if selectedLayerIds has been passed as a prop
-        if (selectedLayerIds !== undefined) {
-            if (selectedLayerIds) {
-                setSelectedLayerIds(selectedLayerIds, true);
+        if (externalProps && externalProps.selectedLayerIds !== undefined) {
+            if (externalProps.selectedLayerIds) {
+                setSelectedLayerIds(externalProps.selectedLayerIds, true);
             } else {
                 // if layers are null set all layers as selected
                 const layers = [
@@ -314,7 +305,7 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
                 setSelectedLayerIds(layers, true);
             }
         }
-    }, [selectedLayerIds, sceneId]);
+    }, [externalProps, sceneId]);
 
     const setSelectedElementId = useCallback(
         (elementId: string) => {
@@ -374,12 +365,12 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
 
     useEffect(() => {
         // if the zoom prop is provided, use that over the deeplink values
-        if (zoomToElementIdProp) {
+        if (externalProps && externalProps.zoomToElementId) {
             // take the first one since we only support a single element id today
-            setZoomMeshesByElement(zoomToElementIdProp);
-            setSelectedElementId(zoomToElementIdProp);
+            setZoomMeshesByElement(externalProps.zoomToElementId);
+            setSelectedElementId(externalProps.zoomToElementId);
         }
-    }, [setSelectedElementId, setZoomMeshesByElement, zoomToElementIdProp]);
+    }, [setSelectedElementId, setZoomMeshesByElement, externalProps]);
 
     const showPopover = useCallback(
         (sceneVisual: Partial<SceneVisual>) => {
@@ -472,8 +463,8 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
     }, []);
 
     useEffect(() => {
-        if (coloredMeshItemsProp) {
-            setColoredMeshItems(coloredMeshItemsProp);
+        if (externalProps && externalProps.coloredMeshItems) {
+            setColoredMeshItems(externalProps.coloredMeshItems);
         } else {
             const coloredMeshes = [];
             sceneVisuals.forEach((sceneVisual) => {
@@ -484,7 +475,7 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
             setAlertBadges(sceneAlerts);
             setColoredMeshItems(coloredMeshes);
         }
-    }, [sceneVisuals, coloredMeshItemsProp, sceneAlerts]);
+    }, [sceneVisuals, externalProps, sceneAlerts]);
 
     // mesh callbakcs
     const meshClick = (mesh: { id: string }, scene: any) => {
@@ -521,7 +512,7 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
             }
         }
 
-        if (enableMeshSelection) {
+        if (externalProps.enableMeshSelection) {
             let coloredMeshes = [...coloredMeshItems];
             if (mesh) {
                 const coloredMesh = coloredMeshItems.find(
@@ -633,7 +624,7 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
                 {/* Left panel */}
                 <ViewerElementsPanelRenderer
                     isLoading={isLoading}
-                    initialPanelOpen={!hideElementsPanel}
+                    initialPanelOpen={!externalProps?.hideElementsPanel}
                     items={panelItems}
                     onItemBlur={onElementPanelItemBlured}
                     onItemClick={onElementPanelItemClicked}
@@ -646,7 +637,7 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
                     sceneId={sceneId}
                     sceneVisuals={sceneVisuals}
                     addInProps={addInProps}
-                    hideViewModePickerUI={hideViewModePickerUI}
+                    hideViewModePickerUI={externalProps?.hideViewModePickerUI}
                     wrapperMode={WrapperMode.Viewer}
                     selectedVisual={selectedVisual}
                     sceneViewProps={{
@@ -657,9 +648,9 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
                         onMeshClick: meshClick,
                         onMeshHover: meshHover,
                         outlinedMeshitems: outlinedMeshItems,
-                        showHoverOnSelected: showHoverOnSelected,
-                        showMeshesOnHover: showMeshesOnHover,
-                        unzoomedMeshOpacity: unzoomedMeshOpacity,
+                        showHoverOnSelected: externalProps?.showHoverOnSelected,
+                        showMeshesOnHover: externalProps?.showMeshesOnHover,
+                        unzoomedMeshOpacity: externalProps?.unzoomedMeshOpacity,
                         zoomToMeshIds: zoomToMeshIds,
                         ...svp,
                         getToken: (adapter as any).authService
