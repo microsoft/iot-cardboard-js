@@ -5,6 +5,7 @@ import { useRuntimeSceneData } from '../../Models/Hooks/useRuntimeSceneData';
 import mockVConfig from '../../Adapters/__mockData__/3DScenesConfiguration.json';
 import AlertBadge from './AlertBadge';
 import { getDefaultStoryDecorator } from '../../Models/Services/StoryUtilities';
+import { ViewerModeBackgroundColors } from '../../Models/Constants';
 
 const wrapperStyle = { width: 'auto', height: '100px' };
 
@@ -29,7 +30,10 @@ export const SingleAlert = () => {
 
     return (
         <div style={wrapperStyle}>
-            <AlertBadge badgeGroup={sceneAlerts[0]} />
+            <AlertBadge
+                badgeGroup={sceneAlerts[0]}
+                backgroundColor={ViewerModeBackgroundColors[0]}
+            />
         </div>
     );
 };
