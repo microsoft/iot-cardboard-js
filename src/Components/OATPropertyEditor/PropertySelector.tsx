@@ -77,39 +77,9 @@ const PropertySelector = ({
         propertyTags: {
             primitive: [
                 {
-                    name: 'boolean',
-                    title: t('OATPropertyEditor.boolean'),
-                    icon: IconBoolean
-                },
-                {
-                    name: 'float',
-                    title: t('OATPropertyEditor.float'),
-                    icon: IconFloat
-                },
-                {
                     name: 'dateTime',
                     title: t('OATPropertyEditor.dateTime'),
                     icon: IconDatetime
-                },
-                {
-                    name: 'double',
-                    title: t('OATPropertyEditor.double'),
-                    icon: IconDouble
-                },
-                {
-                    name: 'data',
-                    title: t('OATPropertyEditor.data'),
-                    icon: IconData
-                },
-                {
-                    name: 'integer',
-                    title: t('OATPropertyEditor.integer'),
-                    icon: IconInteger
-                },
-                {
-                    name: 'long',
-                    title: t('OATPropertyEditor.long'),
-                    icon: IconLong
                 },
                 {
                     name: 'duration',
@@ -117,9 +87,39 @@ const PropertySelector = ({
                     icon: IconDuration
                 },
                 {
+                    name: 'boolean',
+                    title: t('OATPropertyEditor.boolean'),
+                    icon: IconBoolean
+                },
+                {
                     name: 'string',
                     title: t('OATPropertyEditor.string'),
                     icon: IconString
+                },
+                {
+                    name: 'data',
+                    title: t('OATPropertyEditor.data'),
+                    icon: IconData
+                },
+                {
+                    name: 'long',
+                    title: t('OATPropertyEditor.long'),
+                    icon: IconLong
+                },
+                {
+                    name: 'integer',
+                    title: t('OATPropertyEditor.integer'),
+                    icon: IconInteger
+                },
+                {
+                    name: 'double',
+                    title: t('OATPropertyEditor.double'),
+                    icon: IconDouble
+                },
+                {
+                    name: 'float',
+                    title: t('OATPropertyEditor.float'),
+                    icon: IconFloat
                 },
                 {
                     name: 'time',
