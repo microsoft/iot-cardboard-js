@@ -31,6 +31,7 @@ const classNames = {
     propertySelectorNestItem: `${classPrefix}-row-property-selector-nest-item`,
     propertySelectorPropertyListHeader: `${classPrefix}-row-property-selector-property-list-header`,
     propertySelectorHeader: `${classPrefix}-row-property-selector-header`,
+    propertySelectorHidden: `${classPrefix}-selector-hidden`,
     iconClosePropertySelector: `${classPrefix}-icon-close-property-selector`,
     propertyTagsWrapFirst: `${classPrefix}-property-tags-wrap-first`,
     propertyTagsWrapSecond: `${classPrefix}-property-tags-wrap-second`,
@@ -184,7 +185,11 @@ export const getPropertyInspectorStyles = () => {
             {
                 position: 'relative',
                 width: 'fit-content',
-                height: 'fit-content'
+                height: 'fit-content',
+                '& button': {
+                    height: 'fit-content',
+                    paddingLeft: '10px'
+                }
             }
         ],
         propertySelector: [
@@ -201,6 +206,13 @@ export const getPropertyInspectorStyles = () => {
                 left: '-50%',
                 bottom: '42%',
                 height: 'fit-content'
+            }
+        ],
+        propertySelectorHidden: [
+            classNames.propertySelectorHidden,
+            {
+                opacity: 0,
+                pointerEvents: 'none'
             }
         ],
         propertySelectorNestItem: [

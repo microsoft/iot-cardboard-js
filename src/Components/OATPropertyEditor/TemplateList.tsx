@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
 import { deepCopy } from '../../Models/Services/Utils';
-import TemplateListItem from './TeplateListItem';
+import TemplateListItem from './TemplateListItem';
 import {
     SET_OAT_PROPERTY_EDITOR_MODEL,
     SET_OAT_TEMPLATES,
@@ -65,8 +65,9 @@ export const TemplateList = ({
         if (enteredPropertyRef.current !== null) {
             handleTemplateItemDropOnPropertyList();
         }
-
-        dragNode.current.removeEventListener('dragend', onDragEnd);
+        if (dragNode.current) {
+            dragNode.current.removeEventListener('dragend', onDragEnd);
+        }
         dragItem.current = null;
         dragNode.current = null;
         draggedTemplateItemRef.current = null;
@@ -143,6 +144,29 @@ export const TemplateList = ({
         });
     };
 
+    const onPropertyListAddition = (item) => {
+        if (model) {
+            const newModel = deepCopy(model);
+            newModel[propertiesKeyName].push(item);
+            dispatch({
+                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                payload: newModel
+            });
+        }
+    };
+
+    const moveItemOnTemplateList = (index: number, moveUp: boolean) => {
+        const direction = moveUp ? -1 : 1;
+        const newTemplate = deepCopy(templates);
+        const item = newTemplate[index];
+        newTemplate.splice(index, 1);
+        newTemplate.splice(index + direction, 0, item);
+        dispatch({
+            type: SET_OAT_TEMPLATES,
+            payload: newTemplate
+        });
+    };
+
     return (
         <div
             className={propertyInspectorStyles.propertiesWrap}
@@ -163,10 +187,13 @@ export const TemplateList = ({
                         index={i}
                         deleteItem={deleteItem}
                         getDragItemClassName={getDragItemClassName}
-                        handleDragEnter={onDragEnter}
-                        handleDragEnterExternalItem={onDragEnterExternalItem}
-                        handleDragStart={onDragStart}
+                        onDragEnter={onDragEnter}
+                        onDragEnterExternalItem={onDragEnterExternalItem}
+                        onDragStart={onDragStart}
                         getSchemaText={getSchemaText}
+                        onPropertyListAddition={onPropertyListAddition}
+                        onMove={moveItemOnTemplateList}
+                        templatesLength={templates.length}
                     />
                 ))}
         </div>
