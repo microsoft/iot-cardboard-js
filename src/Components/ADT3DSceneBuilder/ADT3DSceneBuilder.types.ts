@@ -176,7 +176,6 @@ export interface IADT3DSceneBuilderElementListProps {
 
 export interface IADT3DSceneBuilderElementFormProps {
     builderMode: ADT3DSceneBuilderMode;
-    behaviors: Array<IBehavior>;
     onElementSave: (newElements: Array<ITwinToObjectMapping>) => void;
     onElementBackClick: () => void;
     onBehaviorClick: (behavior: IBehavior) => void;
@@ -304,11 +303,4 @@ export interface IGaugeWidgetBuilderProps extends IWidgetBuilderFormDataProps {
 export interface IValueWidgetBuilderProps extends IWidgetBuilderFormDataProps {
     formData: IValueWidget;
     updateWidgetData: (widgetData: IValueWidget) => void;
-}
-
-export interface BehaviorState {
-    behaviorToEdit: IBehavior;
-    behaviorsOnElement: Array<IBehavior>;
-    behaviorsToEdit: Array<IBehavior>;
-    availableBehaviors: Array<IBehavior>;
 }

@@ -1,10 +1,8 @@
 import React, { memo, useCallback, useEffect, useState } from 'react';
 import { TFunction, useTranslation } from 'react-i18next';
 import { ActionButton, IContextualMenuItem, useTheme } from '@fluentui/react';
-import { BehaviorState } from '../../../ADT3DSceneBuilder.types';
 import AddBehaviorCallout from './AddBehaviorCallout';
 import ViewerConfigUtility from '../../../../../Models/Classes/ViewerConfigUtility';
-import produce from 'immer';
 import { CardboardList } from '../../../../CardboardList';
 import { getLeftPanelStyles } from '../../Shared/LeftPanel.styles';
 import { ICardboardListItem } from '../../../../CardboardList/CardboardList.types';
@@ -12,10 +10,13 @@ import {
     IBehavior,
     ITwinToObjectMapping
 } from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
-import { deepCopy } from '../../../../../Models/Services/Utils';
+import { deepCopy, getDebugLogger } from '../../../../../Models/Services/Utils';
+
+const debugLogging = true;
+const logDebugConsole = getDebugLogger('BehaviorsTab', debugLogging);
 
 export interface IADT3DSceneBuilderElementBehaviorProps {
-    behaviors: Array<IBehavior>;
+    allBehaviors: Array<IBehavior>;
     elementToEdit: ITwinToObjectMapping;
     onBehaviorClick: (behavior: IBehavior) => void;
     onCreateBehaviorWithElements: (preSearchedBehaviorName: string) => void;
@@ -23,7 +24,7 @@ export interface IADT3DSceneBuilderElementBehaviorProps {
     isCreateBehaviorDisabled?: boolean;
 }
 const BehaviorsTab: React.FC<IADT3DSceneBuilderElementBehaviorProps> = ({
-    behaviors,
+    allBehaviors,
     elementToEdit,
     onBehaviorClick,
     onCreateBehaviorWithElements,
@@ -33,109 +34,110 @@ const BehaviorsTab: React.FC<IADT3DSceneBuilderElementBehaviorProps> = ({
     const { t } = useTranslation();
     const calloutTarget = 'calloutTarget';
     const [showAddBehavior, setShowAddBehavior] = useState(false);
-    const [behaviorState, setBehaviorState] = useState<BehaviorState>({
-        behaviorToEdit: null,
-        behaviorsToEdit: [],
-        behaviorsOnElement: [],
-        availableBehaviors: []
-    });
+    const [behaviorsToEdit, setBehaviorsToEdit] = useState<IBehavior[]>([]);
+    const [behaviorsOnElement, setBehaviorsOnElement] = useState<IBehavior[]>(
+        ViewerConfigUtility.getBehaviorsOnElement(
+            elementToEdit?.id,
+            allBehaviors
+        ) || []
+    );
+    const [availableBehaviors, setAvailableBehaviors] = useState<IBehavior[]>(
+        ViewerConfigUtility.getAvailableBehaviorsForElement(
+            elementToEdit,
+            deepCopy(allBehaviors)
+        ) || []
+    );
     const [listItems, setListItems] = useState<ICardboardListItem<IBehavior>[]>(
         []
     );
 
     useEffect(() => {
-        setBehaviorState(
-            produce((draft) => {
-                draft.behaviorsOnElement = ViewerConfigUtility.getBehaviorsOnElement(
-                    elementToEdit?.id,
-                    deepCopy(behaviors)
-                );
+        updateBehaviorsToEdit(behaviorsToEdit);
+    }, [behaviorsToEdit, updateBehaviorsToEdit]);
 
-                draft.availableBehaviors = ViewerConfigUtility.getAvailableBehaviorsForElement(
-                    elementToEdit,
-                    deepCopy(behaviors)
-                );
-            })
-        );
-    }, [behaviors, elementToEdit]);
-
-    useEffect(() => {
-        updateBehaviorsToEdit(behaviorState.behaviorsToEdit);
-    }, [behaviorState.behaviorsToEdit, updateBehaviorsToEdit]);
-
-    const removeBehavior = useCallback(() => {
-        setBehaviorState(
-            produce((draft) => {
-                draft.behaviorsOnElement = ViewerConfigUtility.removeBehaviorFromList(
-                    draft.behaviorsOnElement,
-                    draft.behaviorToEdit
-                );
-
-                draft.behaviorToEdit = ViewerConfigUtility.removeElementFromBehavior(
-                    elementToEdit,
-                    deepCopy(draft.behaviorToEdit)
-                );
-
-                draft.behaviorsToEdit.push(draft.behaviorToEdit);
-                draft.availableBehaviors.push(draft.behaviorToEdit);
-            })
-        );
-    }, [elementToEdit]);
-
-    const addBehaviorToElement = useCallback(
-        (behavior: IBehavior) => {
-            setBehaviorState(
-                produce((draft) => {
-                    draft.behaviorToEdit = ViewerConfigUtility.addElementToBehavior(
-                        elementToEdit,
-                        deepCopy(behavior)
-                    );
-                    draft.behaviorsOnElement.push(draft.behaviorToEdit);
-                    draft.behaviorsToEdit.push(draft.behaviorToEdit);
-                    draft.availableBehaviors = ViewerConfigUtility.removeBehaviorFromList(
-                        draft.availableBehaviors,
-                        draft.behaviorToEdit
-                    );
-                })
+    const removeBehavior = useCallback(
+        (selectedBehavior: IBehavior) => {
+            logDebugConsole(
+                'debug',
+                'Removing the behavior from the element. {selectedBehavior}',
+                selectedBehavior
             );
+
+            // remove the behavior from the element for rendering the list
+            setBehaviorsOnElement(
+                ViewerConfigUtility.removeBehaviorFromList(
+                    behaviorsOnElement,
+                    selectedBehavior
+                )
+            );
+
+            // notify parent component of the behaviors that have been changed
+            setBehaviorsToEdit((previousState) => [
+                ...previousState,
+                selectedBehavior
+            ]);
+
+            // add the behavior to the list of options
+            setAvailableBehaviors((previousState) => [
+                ...previousState,
+                selectedBehavior
+            ]);
         },
-        [elementToEdit]
+        [behaviorsOnElement]
     );
 
-    const setBehaviorToEdit = useCallback((item: IBehavior) => {
-        setBehaviorState(
-            produce((draft) => {
-                draft.behaviorToEdit = item;
-            })
-        );
-    }, []);
+    const addBehaviorToElement = useCallback(
+        (selectedBehavior: IBehavior) => {
+            logDebugConsole(
+                'debug',
+                'Adding the behavior to the element. {selectedBehavior}',
+                selectedBehavior
+            );
 
-    const showCallout = useCallback(() => {
-        setShowAddBehavior(true);
-    }, []);
+            // add the behavior to the element for rendering the list
+            setBehaviorsOnElement((previousState) => [
+                ...previousState,
+                selectedBehavior
+            ]);
+
+            // notify parent component of the behaviors that have been changed
+            setBehaviorsToEdit((previousState) => [
+                ...previousState,
+                selectedBehavior
+            ]);
+
+            // remove the behavior from the list of options
+            setAvailableBehaviors(
+                ViewerConfigUtility.removeBehaviorFromList(
+                    availableBehaviors,
+                    selectedBehavior
+                )
+            );
+        },
+        [availableBehaviors]
+    );
 
     // generate the list of items to show
     useEffect(() => {
         const listItems = getListItems(
-            behaviorState.behaviorsOnElement,
-            setBehaviorToEdit,
+            behaviorsOnElement,
             onBehaviorClick,
             removeBehavior,
             t
         );
+        logDebugConsole(
+            'debug',
+            'Building list items. {behaviorsOnElement, listItems}',
+            behaviorsOnElement,
+            listItems
+        );
         setListItems(listItems);
-    }, [
-        behaviorState.behaviorsOnElement,
-        setBehaviorToEdit,
-        onBehaviorClick,
-        removeBehavior,
-        t
-    ]);
+    }, [behaviorsOnElement, onBehaviorClick, removeBehavior, t]);
 
     const commonPanelStyles = getLeftPanelStyles(useTheme());
     return (
         <div className={commonPanelStyles.paddedLeftPanelBlock}>
-            {behaviorState.behaviorsOnElement?.length === 0 && (
+            {behaviorsOnElement?.length === 0 && (
                 <div className={commonPanelStyles.noDataText}>
                     {t('3dSceneBuilder.elementBehaviorMeshTab.noDataMessage')}
                 </div>
@@ -158,14 +160,14 @@ const BehaviorsTab: React.FC<IADT3DSceneBuilderElementBehaviorProps> = ({
                         margin: '0px'
                     }
                 }}
-                onClick={showCallout}
+                onClick={() => setShowAddBehavior(true)}
             >
                 {t('3dSceneBuilder.addBehaviorButton')}
             </ActionButton>
             {showAddBehavior && (
                 <AddBehaviorCallout
                     calloutTarget={calloutTarget}
-                    availableBehaviors={behaviorState.availableBehaviors}
+                    availableBehaviors={availableBehaviors}
                     hideCallout={() => setShowAddBehavior(false)}
                     onAddBehavior={addBehaviorToElement}
                     onCreateBehaviorWithElements={onCreateBehaviorWithElements}
@@ -177,9 +179,8 @@ const BehaviorsTab: React.FC<IADT3DSceneBuilderElementBehaviorProps> = ({
 };
 function getListItems(
     filteredElements: IBehavior[],
-    setBehaviorToEdit: (item: IBehavior) => void,
     onBehaviorClick: (item: IBehavior) => void,
-    removeBehavior: () => void,
+    removeBehavior: (item: IBehavior) => void,
     t: TFunction<string>
 ) {
     const getMenuItems = (item: IBehavior): IContextualMenuItem[] => {
@@ -190,7 +191,6 @@ function getListItems(
                 iconProps: { iconName: 'Edit' },
                 text: t('3dSceneBuilder.modifyBehavior'),
                 onClick: () => {
-                    setBehaviorToEdit(item);
                     onBehaviorClick(item);
                 }
             },
@@ -202,8 +202,7 @@ function getListItems(
                 },
                 text: t('3dSceneBuilder.removeBehavior'),
                 onClick: () => {
-                    setBehaviorToEdit(item);
-                    removeBehavior();
+                    removeBehavior(item);
                 }
             }
         ];

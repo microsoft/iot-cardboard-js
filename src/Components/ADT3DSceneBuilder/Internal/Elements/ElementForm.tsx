@@ -3,7 +3,8 @@ import React, {
     useContext,
     useEffect,
     useMemo,
-    useRef
+    useRef,
+    useState
 } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
@@ -42,16 +43,19 @@ import {
 } from '../../../../Models/Context/ElementsFormContext/ElementFormContext';
 import { ElementFormContextActionType } from '../../../../Models/Context/ElementsFormContext/ElementFormContext.types';
 import { createCustomMeshItems } from '../../../3DV/SceneView.Utils';
+import { IBehavior } from '../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 
 const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
     builderMode,
-    behaviors,
     onElementSave,
     onElementBackClick,
     onBehaviorClick,
     onCreateBehaviorWithElements
 }) => {
+    // hooks
     const { t } = useTranslation();
+
+    // contexts
     const {
         adapter,
         coloredMeshItems,
@@ -64,6 +68,11 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
     } = useContext(SceneBuilderContext);
     const { elementFormDispatch, elementFormState } = useElementFormContext();
 
+    // state
+    const [behaviorsToEdit, setBehaviorsToEdit] = useState<Array<IBehavior>>(
+        []
+    );
+
     const existingElementsRef = useRef(
         ViewerConfigUtility.getSceneById(config, sceneId)?.elements?.filter(
             ViewerConfigUtility.isTwinToObjectMappingElement
@@ -71,6 +80,7 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
     );
     const newElementsRef = useRef(null);
 
+    const allBehaviors = config?.configuration?.behaviors || [];
     const isCreateElementDisabled = !(
         elementFormState.elementToEdit?.displayName &&
         elementFormState.elementToEdit?.primaryTwinID &&
@@ -104,21 +114,21 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
             // END of updating elements in scene
 
             // BEGINNING of behaviors update which this element exists in
-            // if (behaviorsToEdit) {
-            //     for (const behavior of behaviorsToEdit) {
-            //         updatedConfig = ViewerConfigUtility.editBehavior(
-            //             updatedConfig,
-            //             behavior
-            //         );
+            if (behaviorsToEdit) {
+                for (const behavior of behaviorsToEdit) {
+                    updatedConfig = ViewerConfigUtility.editBehavior(
+                        updatedConfig,
+                        behavior
+                    );
 
-            //         // add the behavior to the current scene if it is not there
-            //         updatedConfig = ViewerConfigUtility.addBehaviorToScene(
-            //             updatedConfig,
-            //             sceneId,
-            //             behavior
-            //         );
-            //     }
-            // }
+                    // add the behavior to the current scene if it is not there
+                    updatedConfig = ViewerConfigUtility.addBehaviorToScene(
+                        updatedConfig,
+                        sceneId,
+                        behavior
+                    );
+                }
+            }
             // END of behaviors update which this element exists in
 
             return adapter.putScenesConfig(updatedConfig);
@@ -297,10 +307,9 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                                             elementToEdit={
                                                 elementFormState.elementToEdit
                                             }
-                                            behaviors={behaviors}
+                                            allBehaviors={allBehaviors}
                                             updateBehaviorsToEdit={
-                                                () => undefined
-                                                // setBehaviorsToEdit
+                                                setBehaviorsToEdit
                                             }
                                             onBehaviorClick={onBehaviorClick}
                                             onCreateBehaviorWithElements={
@@ -357,7 +366,6 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
 
 const ElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
     builderMode,
-    behaviors,
     onElementSave,
     onElementBackClick,
     onBehaviorClick,
@@ -368,7 +376,6 @@ const ElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
         <ElementFormContextProvider elementToEdit={state.selectedElement}>
             <SceneElementForm
                 builderMode={builderMode}
-                behaviors={behaviors}
                 onElementBackClick={onElementBackClick}
                 onElementSave={onElementSave}
                 onBehaviorClick={onBehaviorClick}

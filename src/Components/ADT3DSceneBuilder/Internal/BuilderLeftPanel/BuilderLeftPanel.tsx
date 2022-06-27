@@ -32,7 +32,7 @@ import {
 import ViewerConfigUtility from '../../../../Models/Classes/ViewerConfigUtility';
 import SceneBehaviors from '../Behaviors/Behaviors';
 import BehaviorsForm from '../Behaviors/BehaviorsForm';
-import SceneElementForm from '../Elements/ElementForm';
+import ElementForm from '../Elements/ElementForm';
 import SceneElements from '../Elements/Elements';
 import SceneBreadcrumbFactory from '../../../SceneBreadcrumb/SceneBreadcrumbFactory';
 import { SceneBuilderContext } from '../../ADT3DSceneBuilder';
@@ -600,9 +600,8 @@ const BuilderLeftPanel: React.FC<IBuilderLeftPanelProps> = ({ styles }) => {
                 </Pivot>
             )}
             {isElementFormMode && (
-                <SceneElementForm
+                <ElementForm
                     builderMode={state.builderMode}
-                    behaviors={behaviors}
                     onElementBackClick={() =>
                         onBackClick(ADT3DSceneBuilderMode.ElementsIdle)
                     }
