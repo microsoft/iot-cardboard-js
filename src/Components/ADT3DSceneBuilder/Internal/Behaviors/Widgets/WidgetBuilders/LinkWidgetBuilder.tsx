@@ -3,6 +3,7 @@ import { Stack, TextField, useTheme } from '@fluentui/react';
 import produce from 'immer';
 import React, { useCallback, useContext, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useBehaviorFormContext } from '../../../../../../Models/Context/BehaviorFormContext/BehaviorFormContext';
 import {
     wrapTextInTemplateString,
     stripTemplateStringsFromText
@@ -24,12 +25,12 @@ const LinkWidgetBuilder: React.FC<ILinkWidgetBuilderProps> = ({
     const { t } = useTranslation();
 
     const {
-        behaviorToEdit,
         adapter,
         config,
         sceneId,
         state: { selectedElements }
     } = useContext(SceneBuilderContext);
+    const { behaviorFormState } = useBehaviorFormContext();
 
     const onExpressionChange = useCallback(
         (newPropertyExpression: PropertyExpression) => {
@@ -77,7 +78,7 @@ const LinkWidgetBuilder: React.FC<ILinkWidgetBuilderProps> = ({
                         '3dSceneBuilder.widgetForm.linkUrlDescription'
                     )}
                     twinIdParams={{
-                        behavior: behaviorToEdit,
+                        behavior: behaviorFormState.behaviorToEdit,
                         config,
                         sceneId,
                         selectedElements

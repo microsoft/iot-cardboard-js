@@ -51,11 +51,12 @@ export const SET_ADT_SCENE_BUILDER_SELECTED_ELEMENT =
     'SET_ADT_SCENE_BUILDER_SELECTED_ELEMENT';
 export const SET_ADT_SCENE_BUILDER_SELECTED_BEHAVIOR =
     'SET_ADT_SCENE_BUILDER_SELECTED_BEHAVIOR';
+export const SET_ADT_SCENE_BUILDER_DRAFT_BEHAVIOR =
+    'SET_ADT_SCENE_BUILDER_DRAFT_BEHAVIOR';
 export const SET_ADT_SCENE_ELEMENT_SELECTED_OBJECT_IDS =
     'SET_ADT_SCENE_ELEMENT_SELECTED_OBJECT_IDS';
 export const SET_ADT_SCENE_BUILDER_COLORED_MESH_ITEMS =
     'SET_ADT_SCENE_BUILDER_COLORED_MESH_ITEMS';
-export const SET_ORIGINAL_BEHAVIOR_TO_EDIT = 'SET_ORIGINAL_BEHAVIOR_TO_EDIT';
 export const SET_UNSAVED_BEHAVIOR_CHANGES_DIALOG_OPEN =
     'SET_ADT_UNSAVED_BEHAVIOR_CHANGES_DIALOG_OPEN';
 export const SET_UNSAVED_BEHAVIOR_CHANGES_DIALOG_DISCARD_ACTION =
@@ -71,6 +72,8 @@ export const SET_ADT_SCENE_OBJECT_COLOR = 'SET_ADT_SCENE_OBJECT_COLOR';
 export const SET_MESH_IDS_TO_OUTLINE = 'SET_MESH_IDS_TO_OUTLINE';
 export const SET_IS_LAYER_BUILDER_DIALOG_OPEN =
     'SET_IS_LAYER_BUILDER_DIALOG_OPEN';
+export const SET_ADT_SCENE_BUILDER_FORM_DIRTY_MAP_ENTRY =
+    'SET_ADT_SCENE_BUILDER_FORM_DIRTY_MAP_ENTRY';
 // END of Actions
 
 export interface IADT3DSceneBuilderCardProps
@@ -130,11 +133,7 @@ export interface I3DSceneBuilderContext {
     dispatch: React.Dispatch<{ type: string; payload: any }>;
     state: ADT3DSceneBuilderState;
     objectColor: IADTObjectColor;
-    behaviorToEdit: IBehavior;
-    setBehaviorToEdit: React.Dispatch<React.SetStateAction<IBehavior>>;
-    setOriginalBehaviorToEdit: (behavior: IBehavior) => void;
-    checkIfBehaviorHasBeenEdited: () => boolean;
-    setUnsavedBehaviorChangesDialog: (isOpen: boolean) => void;
+    setUnsavedBehaviorChangesDialogOpen: (isOpen: boolean) => void;
     setUnsavedChangesDialogDiscardAction: (action: any) => void;
     setIsLayerBuilderDialogOpen: (
         isOpen: boolean,
@@ -142,6 +141,8 @@ export interface I3DSceneBuilderContext {
         onFocusDismiss?: (layerId: string) => void
     ) => void;
 }
+
+export type BuilderDirtyFormType = 'behavior' | 'element';
 
 export type WidgetFormInfo = {
     widget?: IWidgetLibraryItem;
@@ -152,7 +153,6 @@ export type WidgetFormInfo = {
 export type BehaviorTwinAliasFormInfo = null | {
     twinAlias: IBehaviorTwinAliasItem;
     mode: TwinAliasFormMode;
-    twinAliasIdx?: number;
     aliasToAutoPopulate?: string; // this is needed to prefill the value of the alias (by search text when there is no results) when creating a new one
 };
 
@@ -160,11 +160,6 @@ export type ElementTwinAliasFormInfo = null | {
     twinAlias: IElementTwinAliasItem;
     mode: TwinAliasFormMode;
 };
-
-export interface IBehaviorFormContext {
-    behaviorToEdit: IBehavior;
-    setBehaviorToEdit: React.Dispatch<React.SetStateAction<IBehavior>>;
-}
 
 export interface IElementFormContext {
     elementToEdit: ITwinToObjectMapping;
@@ -237,20 +232,20 @@ export type OnBehaviorSave = (
 ) => Promise<void>;
 
 export interface IADT3DSceneBuilderBehaviorFormProps {
-    builderMode: ADT3DSceneBuilderMode;
     behaviors: Array<IBehavior>;
+    builderMode: ADT3DSceneBuilderMode;
     elements: Array<ITwinToObjectMapping>;
-    selectedElements: Array<ITwinToObjectMapping>;
-    removedElements: Array<ITwinToObjectMapping>;
     onBehaviorBackClick: () => void;
     onBehaviorSave: OnBehaviorSave;
+    onElementClick?: (element: ITwinToObjectMapping) => void;
+    onRemoveElement?: (newElements: Array<ITwinToObjectMapping>) => void;
+    removedElements: Array<ITwinToObjectMapping>;
+    selectedElements: Array<ITwinToObjectMapping>;
     setSelectedElements: (elements: Array<ITwinToObjectMapping>) => any;
     updateSelectedElements: (
         element: ITwinToObjectMapping,
         isSelected: boolean
     ) => void;
-    onRemoveElement?: (newElements: Array<ITwinToObjectMapping>) => void;
-    onElementClick?: (element: ITwinToObjectMapping) => void;
 }
 
 export interface IADT3DSceneBuilderElementsProps {
@@ -270,31 +265,34 @@ export interface IADT3DSceneBuilderElementsProps {
 }
 
 export interface ADT3DSceneBuilderState {
-    config: I3DScenesConfig;
-    coloredMeshItems: Array<CustomMeshItem>;
-    outlinedMeshItems: Array<CustomMeshItem>;
-    widgetFormInfo: WidgetFormInfo;
-    behaviorTwinAliasFormInfo: BehaviorTwinAliasFormInfo;
-    elementTwinAliasFormInfo: ElementTwinAliasFormInfo;
-    selectedPivotTab: ADT3DSceneTwinBindingsMode;
-    builderMode: ADT3DSceneBuilderMode;
-    elements: Array<ITwinToObjectMapping>;
     behaviors: Array<IBehavior>;
-    selectedElement: ITwinToObjectMapping;
-    selectedElements: Array<ITwinToObjectMapping>;
-    removedElements: Array<ITwinToObjectMapping>;
-    selectedBehavior: IBehavior;
-    showHoverOnSelected: boolean;
+    behaviorTwinAliasFormInfo: BehaviorTwinAliasFormInfo;
+    builderMode: ADT3DSceneBuilderMode;
+    coloredMeshItems: Array<CustomMeshItem>;
+    config: I3DScenesConfig;
+    elements: Array<ITwinToObjectMapping>;
+    elementTwinAliasFormInfo: ElementTwinAliasFormInfo;
     enableHoverOnModel: boolean;
-    objectColor: IADTObjectColor;
+    formDirtyState: Map<BuilderDirtyFormType, boolean>;
     isLayerBuilderDialogOpen: boolean;
-    originalBehaviorToEdit: IBehavior;
-    unsavedBehaviorDialogOpen: boolean;
-    unsavedChangesDialogDiscardAction: any;
     layerBuilderDialogData: {
         behaviorId: string;
         onFocusDismiss?: (layerId: string) => void;
     };
+    objectColor: IADTObjectColor;
+    originalBehaviorToEdit: IBehavior;
+    outlinedMeshItems: Array<CustomMeshItem>;
+    removedElements: Array<ITwinToObjectMapping>;
+    selectedBehavior: IBehavior;
+    /** copy of the behavior being edited by the form. Reflects changes in realtime but should not be edited */
+    draftBehavior: IBehavior;
+    selectedElement: ITwinToObjectMapping;
+    selectedElements: Array<ITwinToObjectMapping>;
+    selectedPivotTab: ADT3DSceneTwinBindingsMode;
+    showHoverOnSelected: boolean;
+    unsavedBehaviorDialogOpen: boolean;
+    unsavedChangesDialogDiscardAction: VoidFunction;
+    widgetFormInfo: WidgetFormInfo;
 }
 
 export interface IWidgetBuilderFormDataProps {

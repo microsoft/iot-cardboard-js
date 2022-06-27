@@ -77,7 +77,6 @@ const BehaviorsModal: React.FC<IBehaviorsModalProps> = (props) => {
         title,
         twins
     } = props;
-    console.log(twins);
     const { t } = useTranslation();
     const boundaryRef = useRef<HTMLDivElement>(null);
     const titleId = useId('title');

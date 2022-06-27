@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`entered search term passed successfully on primary button click 1`] = `
+exports[`CardboardListCallout entered search term passed successfully on primary button click 1`] = `
 <div
   class="ms-Callout root-130"
   data-testid="focus-trap"

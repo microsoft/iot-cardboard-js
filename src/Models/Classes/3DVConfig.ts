@@ -107,7 +107,7 @@ export const defaultAlertVisual: IExpressionRangeVisual = {
     }
 };
 
-export const getUIDDefaultAlertVisual = () => {
+export const getDefaultAlertVisualWithId = () => {
     const uniqueIdDefaultAlertVisual = produce(defaultAlertVisual, (draft) => {
         draft.valueRanges[0].id = createGUID();
     });

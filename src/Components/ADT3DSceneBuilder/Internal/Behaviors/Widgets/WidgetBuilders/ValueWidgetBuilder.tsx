@@ -16,6 +16,7 @@ import React, {
 } from 'react';
 import { useTranslation } from 'react-i18next';
 import { DTDLPropertyIconographyMap } from '../../../../../../Models/Constants/Constants';
+import { useBehaviorFormContext } from '../../../../../../Models/Context/BehaviorFormContext/BehaviorFormContext';
 import { IDTDLPropertyType } from '../../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import ModelledPropertyBuilder from '../../../../../ModelledPropertyBuilder/ModelledPropertyBuilder';
 import {
@@ -34,12 +35,12 @@ const ValueWidgetBuilder: React.FC<IValueWidgetBuilderProps> = ({
 }) => {
     const { t } = useTranslation();
     const {
-        behaviorToEdit,
         config,
         sceneId,
         adapter,
         state: { selectedElements }
     } = useContext(SceneBuilderContext);
+    const { behaviorFormState } = useBehaviorFormContext();
 
     const [isManualTypeDropdownShown, setIsManualTypeDropdownShown] = useState(
         false
@@ -161,7 +162,7 @@ const ValueWidgetBuilder: React.FC<IValueWidgetBuilderProps> = ({
                 <ModelledPropertyBuilder
                     adapter={adapter}
                     twinIdParams={{
-                        behavior: behaviorToEdit,
+                        behavior: behaviorFormState.behaviorToEdit,
                         config,
                         sceneId,
                         selectedElements
