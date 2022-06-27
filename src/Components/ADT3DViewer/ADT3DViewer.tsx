@@ -57,6 +57,7 @@ import DeeplinkFlyout from '../DeeplinkFlyout/DeeplinkFlyout';
 import { SceneThemeContextProvider } from '../../Models/Context';
 import SceneBreadcrumbFactory from '../SceneBreadcrumb/SceneBreadcrumbFactory';
 import AlertBadge from '../AlertBadge/AlertBadge';
+import { useSceneThemeContext } from '../../Models/Context/SceneThemeContext/SceneThemeContext';
 
 const getClassNames = classNamesFunction<
     IADT3DViewerStyleProps,
@@ -164,6 +165,8 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
     const [selectedVisual, setSelectedVisual] = useState<Partial<SceneVisual>>(
         null
     );
+
+    const { sceneThemeState } = useSceneThemeContext();
 
     // --- Data fetches ---
 
@@ -484,6 +487,7 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
                 <AlertBadge
                     badgeGroup={badgeGroup}
                     onBadgeGroupHover={onBadgeGroupHover}
+                    backgroundColor={sceneThemeState.sceneBackground}
                 />
             )
         };

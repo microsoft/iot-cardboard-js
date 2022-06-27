@@ -1,6 +1,7 @@
-import { ActionButton, Icon, useTheme } from '@fluentui/react';
+import { Icon, useTheme } from '@fluentui/react';
 import React from 'react';
 import { SceneViewBadgeGroup } from '../../Models/Classes/SceneView.types';
+import { IADTBackgroundColor } from '../../Models/Constants';
 import { getStyles } from './Alertbadges.styles';
 
 export interface IAlertBadgeProps {
@@ -10,36 +11,48 @@ export interface IAlertBadgeProps {
         left: number,
         top: number
     ) => void;
+    backgroundColor: IADTBackgroundColor;
 }
 
 const AlertBadge: React.FC<IAlertBadgeProps> = ({
     badgeGroup,
-    onBadgeGroupHover
+    onBadgeGroupHover,
+    backgroundColor
 }) => {
     const theme = useTheme();
-    const styles = getStyles(theme);
+    const styles = getStyles(theme, backgroundColor);
 
     return (
-        <div>
-            {badgeGroup?.badges?.map((badge, index) => (
-                <ActionButton
-                    key={index}
-                    onMouseOver={(element) =>
-                        onBadgeGroupHover(
-                            badgeGroup,
-                            element.clientX,
-                            element.clientY
-                        )
-                    }
-                >
+        <div
+            className={
+                badgeGroup?.badges?.length > 1 && badgeGroup?.badges?.length < 5
+                    ? styles.groupContainer
+                    : styles.singleContainer
+            }
+            onMouseOver={(element) =>
+                onBadgeGroupHover(badgeGroup, element.clientX, element.clientY)
+            }
+        >
+            {badgeGroup?.badges?.length > 4 ? (
+                <div className={styles.countBadge}>
+                    {badgeGroup?.badges?.length}
+                </div>
+            ) : (
+                badgeGroup?.badges?.map((badge, index) => (
                     <div
-                        className={styles.badge}
+                        key={index}
+                        className={
+                            badgeGroup?.badges?.length > 1 &&
+                            badgeGroup?.badges?.length < 5
+                                ? styles.internalBadge
+                                : styles.badge
+                        }
                         style={{ background: badge.color }}
                     >
                         <Icon iconName={badge.icon} />
                     </div>
-                </ActionButton>
-            ))}
+                ))
+            )}
         </div>
     );
 };
