@@ -1845,11 +1845,13 @@ function SceneView(props: ISceneViewProps, ref) {
                 if (gizmoElementItems.length == 0) {
                     // if gizmoElementItems is empty, attach to null meshes to clear
                     gizmoManager.attachToMesh(null);
-                    // will also be triggered on leaving, so snap parent mesh back to original state
+                    // will also be triggered on leaving the tab, so snap parent mesh back to original state
                     if (gizmoTransformItemRef.current.parentMeshId) {
                         console.log('called?');
                         const parentMesh: BABYLON.Mesh =
-                            meshMap.current?.[gizmoTransformItem.parentMeshId];
+                            meshMap.current?.[
+                                gizmoTransformItemRef.current.parentMeshId
+                            ];
                         const position =
                             gizmoTransformItemRef.current.original.position;
                         const rotation =
@@ -1886,24 +1888,25 @@ function SceneView(props: ISceneViewProps, ref) {
                     gizmoManager.rotationGizmoEnabled = true;
                     gizmoManager.positionGizmoEnabled = true;
 
-                    // gizmoTransformItemRef.current = deepCopy(
-                    //     gizmoTransformItem
-                    // );
-
                     console.log(
                         'gizmo transform item ref: ',
                         gizmoTransformItemRef.current
                     );
 
+                    // to be accessed in updateTransform
+                    let originalTransform: TransformInfo = null;
+
                     // capture original rotation/position when gizmoManager attaches to mesh, but only once!
                     // may need change if we want to support multiple gizmos/elements per behavior
-                    gizmoManager.onAttachedToMeshObservable.addOnce(() => {
+                    // using scene.onBeforeRenderObservable instead of gizmoManager.onAttachedToMeshObservable
+                    // because latter was too late -- caused null issues
+                    scene.onBeforeRenderObservable.addOnce(() => {
                         const attachedMesh =
                             gizmoManager.gizmos.rotationGizmo.attachedMesh;
                         console.log('attachedMesh: ', attachedMesh);
 
                         // set both original and transform to original state of mesh
-                        const originalTransform: TransformInfo = {
+                        originalTransform = {
                             position: {
                                 x: attachedMesh.position.x,
                                 y: attachedMesh.position.y,
@@ -1915,16 +1918,31 @@ function SceneView(props: ISceneViewProps, ref) {
                                 z: attachedMesh.rotation.z
                             }
                         };
-                        gizmoTransformItemRef.current = {
-                            meshIds: deepCopy(meshIds),
-                            parentMeshId: parentMeshId,
-                            original: originalTransform,
-                            transform: originalTransform
-                        };
 
-                        console.log('hello??');
+                        // allows transform values to persist clicking to and away from tab
+                        // may need changing if we allow multiple elements in a sceneVisual to be gizmo'd
+                        if (gizmoTransformItemRef.current) {
+                            const transform =
+                                gizmoTransformItemRef.current.transform;
+                            attachedMesh.rotation.x = transform.rotation.x;
+                            attachedMesh.rotation.y = transform.rotation.y;
+                            attachedMesh.rotation.z = transform.rotation.z;
 
-                        setGizmoTransformItem(gizmoTransformItemRef.current);
+                            attachedMesh.position.x = transform.position.x;
+                            attachedMesh.position.y = transform.position.y;
+                            attachedMesh.position.z = transform.position.z;
+                        } else {
+                            gizmoTransformItemRef.current = {
+                                meshIds: deepCopy(meshIds),
+                                parentMeshId: parentMeshId,
+                                original: originalTransform,
+                                transform: originalTransform
+                            };
+                        }
+
+                        setGizmoTransformItem(
+                            gizmoTransformItemRef.current.transform
+                        );
                         // gizmoTransformItem.meshIds = deepCopy(meshIds);
                         // gizmoTransformItem.parentMeshId = parentMeshId;
                         // if (!gizmoTransformItem.original) {
@@ -1944,50 +1962,108 @@ function SceneView(props: ISceneViewProps, ref) {
                         // }
                     });
 
-                    // on drag end for both position and rotation gizmos, record new pos/rot
+                    const updateTransform = () => {
+                        const attachedMesh =
+                            gizmoManager.gizmos.positionGizmo.attachedMesh;
+                        // gizmoTransformItemRef.current = {
+                        //     meshIds,
+                        //     parentMeshId,
+                        //     original: originalTransform,
+                        //     transform: {
+                        //         position: {
+                        //             x: attachedMesh.position.x,
+                        //             y: attachedMesh.position.y,
+                        //             z: attachedMesh.position.z
+                        //         },
+                        //         rotation: {
+                        //             x: attachedMesh.rotation.x,
+                        //             y: attachedMesh.rotation.y,
+                        //             z: attachedMesh.rotation.z
+                        //         }
+                        //     }
+                        // };
+                        // gizmoTransformItemRef.current = Object.assign(
+                        //     {},
+                        //     gizmoTransformItemRef.current
+                        // );
+                        gizmoTransformItemRef.current.transform = {
+                            position: {
+                                x: attachedMesh.position.x,
+                                y: attachedMesh.position.y,
+                                z: attachedMesh.position.z
+                            },
+                            rotation: {
+                                x: attachedMesh.rotation.x,
+                                y: attachedMesh.rotation.y,
+                                z: attachedMesh.rotation.z
+                            }
+                        };
+                        setGizmoTransformItem(
+                            gizmoTransformItemRef.current.transform
+                        );
+
+                        // gizmoTransformItemRef.current.transform = {
+                        //     position: {
+                        //         x: attachedMesh.position.x,
+                        //         y: attachedMesh.position.y,
+                        //         z: attachedMesh.position.z
+                        //     },
+                        //     rotation: {
+                        //         x: attachedMesh.rotation.x,
+                        //         y: attachedMesh.rotation.y,
+                        //         z: attachedMesh.rotation.z
+                        //     }
+                        // };
+                        // setGizmoTransformItem(gizmoTransformItemRef.current);
+                        // console.log(
+                        //     'gizmoTransformItem: ',
+                        //     gizmoTransformItemRef.current
+                        // );
+                    };
+
+                    // const positionGizmo = gizmoManager.gizmos.positionGizmo;
+                    // positionGizmo.xGizmo.dragBehavior.onDragObservable.add(
+                    //     () => {
+                    //         updateTransform();
+                    //     }
+                    // );
+                    // positionGizmo.yGizmo.dragBehavior.onDragObservable.add(
+                    //     () => {
+                    //         updateTransform();
+                    //     }
+                    // );
+                    // positionGizmo.zGizmo.dragBehavior.onDragObservable.add(
+                    //     () => {
+                    //         updateTransform();
+                    //     }
+                    // );
+
+                    // const rotationGizmo = gizmoManager.gizmos.rotationGizmo;
+                    // rotationGizmo.xGizmo.dragBehavior.onDragObservable.add(
+                    //     () => {
+                    //         updateTransform();
+                    //     }
+                    // );
+                    // rotationGizmo.yGizmo.dragBehavior.onDragObservable.add(
+                    //     () => {
+                    //         updateTransform();
+                    //     }
+                    // );
+                    // rotationGizmo.zGizmo.dragBehavior.onDragObservable.add(
+                    //     () => {
+                    //         updateTransform();
+                    //     }
+                    // );
+
+                    // on drag end for both position and rotation gizmos, update transform
+                    // updating on every frame is too much for react to handle
                     const positionGizmo = gizmoManager.gizmos.positionGizmo;
                     positionGizmo.onDragEndObservable.add(() => {
-                        const attachedMesh =
-                            gizmoManager.gizmos.rotationGizmo.attachedMesh;
-                        const original = gizmoTransformItemRef.current.original;
-                        const transform =
-                            gizmoTransformItemRef.current.transform;
-                        gizmoTransformItemRef.current = {
-                            meshIds: deepCopy(meshIds),
-                            parentMeshId: parentMeshId,
-                            original: {
-                                position: {
-                                    x: original.position.x,
-                                    y: original.position.y,
-                                    z: original.position.z
-                                },
-                                rotation: {
-                                    x: original.rotation.x,
-                                    y: original.rotation.y,
-                                    z: original.rotation.z
-                                }
-                            },
-                            transform: {
-                                position: {
-                                    x: attachedMesh.position.x,
-                                    y: attachedMesh.position.y,
-                                    z: attachedMesh.position.z
-                                },
-                                rotation: {
-                                    x: transform.rotation.x,
-                                    y: transform.rotation.y,
-                                    z: transform.rotation.z
-                                }
-                            }
-                            // ...gizmoTransformItemRef.current
-                        };
-                        setGizmoTransformItem(gizmoTransformItemRef.current);
-
-                        // gizmoTransformItem.transform.position = {
-                        //     x: parentMesh.position.x,
-                        //     y: parentMesh.position.y,
-                        //     z: parentMesh.position.z
-                        // };
+                        updateTransform();
+                        console.log(
+                            'gizmoTransformItemRef.current: ',
+                            gizmoTransformItemRef.current
+                        );
                         console.log(
                             'new position: ',
                             gizmoTransformItemRef.current.transform.position
@@ -1996,46 +2072,11 @@ function SceneView(props: ISceneViewProps, ref) {
 
                     const rotationGizmo = gizmoManager.gizmos.rotationGizmo;
                     rotationGizmo.onDragEndObservable.add(() => {
-                        const attachedMesh =
-                            gizmoManager.gizmos.rotationGizmo.attachedMesh;
-                        const original = gizmoTransformItemRef.current.original;
-                        const transform =
-                            gizmoTransformItemRef.current.transform;
-                        gizmoTransformItemRef.current = {
-                            meshIds: deepCopy(meshIds),
-                            parentMeshId: parentMeshId,
-                            original: {
-                                position: {
-                                    x: original.position.x,
-                                    y: original.position.y,
-                                    z: original.position.z
-                                },
-                                rotation: {
-                                    x: original.rotation.x,
-                                    y: original.rotation.y,
-                                    z: original.rotation.z
-                                }
-                            },
-                            transform: {
-                                position: {
-                                    x: transform.position.x,
-                                    y: transform.position.y,
-                                    z: transform.position.z
-                                },
-                                rotation: {
-                                    x: attachedMesh.rotation.x,
-                                    y: attachedMesh.rotation.y,
-                                    z: attachedMesh.rotation.z
-                                }
-                            }
-                            // ...gizmoTransformItemRef.current
-                        };
-                        setGizmoTransformItem(gizmoTransformItemRef.current);
-                        // gizmoTransformItem.transform.rotation = {
-                        //     x: parentMesh.rotation.x,
-                        //     y: parentMesh.rotation.y,
-                        //     z: parentMesh.rotation.z
-                        // };
+                        updateTransform();
+                        console.log(
+                            'gizmoTransformItemRef.current: ',
+                            gizmoTransformItemRef.current
+                        );
                         console.log(
                             'new rotation: ',
                             gizmoTransformItemRef.current.transform.rotation
@@ -2051,23 +2092,6 @@ function SceneView(props: ISceneViewProps, ref) {
         }
 
         return () => {
-            // set element back to original position
-            // if (gizmoTransformItem.parentMeshId) {
-            //     const parentMesh: BABYLON.Mesh =
-            //         meshMap.current?.[gizmoTransformItem.parentMeshId];
-            //     const position = gizmoTransformItem.original.position;
-            //     const rotation = gizmoTransformItem.original.rotation;
-            //     parentMesh.position = new BABYLON.Vector3(
-            //         position.x,
-            //         position.y,
-            //         position.z
-            //     );
-            //     parentMesh.rotation = new BABYLON.Vector3(
-            //         rotation.x,
-            //         rotation.y,
-            //         rotation.z
-            //     );
-            // }
             debugLog('debug', 'Mesh gizmo cleanup'); //?
         };
     }, [
@@ -2077,6 +2101,54 @@ function SceneView(props: ISceneViewProps, ref) {
         // currentObjectColor,
         // backgroundColor
     ]);
+
+    // Handle gizmoTransformItem
+    useEffect(() => {
+        if (scene && gizmoTransformItem && !isLoading) {
+            if (debugLogging) {
+                // console.time('adding gizmo to meshes');
+                // gizmoElementItems.forEach((gizmoElementItem) => {
+                //     console.log('gizmoElementItem:', gizmoElementItem);
+                // });
+            }
+            try {
+                if (gizmoTransformItemRef.current) {
+                    gizmoTransformItemRef.current.transform = deepCopy(
+                        gizmoTransformItem
+                    );
+
+                    const parentMesh: BABYLON.Mesh =
+                        meshMap.current?.[
+                            gizmoTransformItemRef.current.parentMeshId
+                        ];
+
+                    // should update element when user inputs value in field
+                    parentMesh.rotation.x = gizmoTransformItem.rotation.x;
+                    parentMesh.rotation.y = gizmoTransformItem.rotation.y;
+                    parentMesh.rotation.z = gizmoTransformItem.rotation.z;
+
+                    parentMesh.position.x = gizmoTransformItem.position.x;
+                    parentMesh.position.y = gizmoTransformItem.position.y;
+                    parentMesh.position.z = gizmoTransformItem.position.z;
+                }
+                console.log(
+                    'gizmoTransformItem in SceneView: ',
+                    gizmoTransformItem
+                );
+            } catch {
+                console.warn(
+                    'unable to transform element based on change in transform field'
+                );
+            }
+            // if (debugLogging) {
+            //     console.timeEnd('adding gizmo to meshes');
+            // }
+        }
+
+        return () => {
+            // debugLog('debug', 'Mesh gizmo cleanup'); //?
+        };
+    }, [gizmoTransformItem, isLoading]);
 
     // Handle outlinedMeshItems
     useEffect(() => {

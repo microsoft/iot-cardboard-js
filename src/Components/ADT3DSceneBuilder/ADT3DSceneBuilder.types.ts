@@ -16,7 +16,8 @@ import {
 import {
     CustomMeshItem,
     ISceneViewProps,
-    TransformedElementItem
+    TransformedElementItem,
+    TransformInfo
 } from '../../Models/Classes/SceneView.types';
 import {
     ADT3DSceneBuilderMode,
@@ -124,6 +125,7 @@ export interface I3DSceneBuilderContext {
     setColoredMeshItems: (objects: Array<CustomMeshItem>) => void;
     setOutlinedMeshItems: (ids: Array<CustomMeshItem>) => void;
     setGizmoElementItems: (objects: Array<TransformedElementItem>) => void;
+    setGizmoTransformItem: (item: TransformInfo) => void;
     widgetFormInfo: WidgetFormInfo;
     setWidgetFormInfo: (widgetFormInfo: WidgetFormInfo) => void;
     behaviorTwinAliasFormInfo: BehaviorTwinAliasFormInfo;
@@ -272,7 +274,7 @@ export interface ADT3DSceneBuilderState {
     config: I3DScenesConfig;
     coloredMeshItems: Array<CustomMeshItem>;
     gizmoElementItems: Array<TransformedElementItem>;
-    gizmoTransformItem: TransformedElementItem;
+    gizmoTransformItem: TransformInfo;
     behaviorTwinAliasFormInfo: BehaviorTwinAliasFormInfo;
     elementTwinAliasFormInfo: ElementTwinAliasFormInfo;
     builderMode: ADT3DSceneBuilderMode;

@@ -149,10 +149,8 @@ export interface ISceneViewProps {
     outlinedMeshitems?: CustomMeshItem[];
     transformedElementItems?: TransformedElementItem[];
     gizmoElementItems?: TransformedElementItem[];
-    gizmoTransformItem?: TransformedElementItem;
-    setGizmoTransformItem?: (
-        gizmoTransformItem: TransformedElementItem
-    ) => void;
+    gizmoTransformItem?: TransformInfo;
+    setGizmoTransformItem?: (gizmoTransformItem: TransformInfo) => void;
     showHoverOnSelected?: boolean;
     showMeshesOnHover?: boolean;
     unzoomedMeshOpacity?: number;

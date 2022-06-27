@@ -3,7 +3,8 @@ import { IStyle, IStyleFunctionOrObject, ITheme } from '@fluentui/react';
 import {
     CustomMeshItem,
     ISceneViewProps,
-    TransformedElementItem
+    TransformedElementItem,
+    TransformInfo
 } from '../../Models/Classes/SceneView.types';
 import { IADTAdapter, IADTObjectColor } from '../../Models/Constants';
 
@@ -18,10 +19,8 @@ export interface IADT3DBuilderProps {
     showHoverOnSelected?: boolean;
     outlinedMeshItems?: CustomMeshItem[];
     gizmoElementItems?: TransformedElementItem[];
-    gizmoTransformItem?: TransformedElementItem;
-    setGizmoTransformItem?: (
-        gizmoTransformItem: TransformedElementItem
-    ) => void;
+    gizmoTransformItem?: TransformInfo;
+    setGizmoTransformItem?: (gizmoTransformItem: TransformInfo) => void;
     objectColorUpdated?: (objectColor: IADTObjectColor) => void;
     hideViewModePickerUI?: boolean;
     sceneViewProps?: ISceneViewProps;

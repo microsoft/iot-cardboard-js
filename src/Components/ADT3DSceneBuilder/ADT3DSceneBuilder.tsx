@@ -61,7 +61,8 @@ import { useTranslation } from 'react-i18next';
 import { AbstractMesh } from '@babylonjs/core';
 import {
     CustomMeshItem,
-    TransformedElementItem
+    TransformedElementItem,
+    TransformInfo
 } from '../../Models/Classes/SceneView.types';
 import {
     I3DScenesConfig,
@@ -300,7 +301,7 @@ const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
     );
 
     const setGizmoTransformItem = useCallback(
-        (gizmoTransformItem: TransformedElementItem) => {
+        (gizmoTransformItem: TransformInfo) => {
             dispatch({
                 type: SET_GIZMO_TRANSFORM_ITEM,
                 payload: gizmoTransformItem
@@ -831,6 +832,7 @@ const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
                 setOutlinedMeshItems,
                 // something about transform should be here so that the left panel form knows about the mesh transform operation in the scene view
                 setGizmoElementItems,
+                setGizmoTransformItem,
                 sceneId,
                 widgetFormInfo: state.widgetFormInfo,
                 setWidgetFormInfo,

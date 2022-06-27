@@ -58,10 +58,15 @@ const LOC_KEYS = {
     notificationPlaceholder: `${ROOT_LOC}.notificationPlaceholder`
 };
 
+function convertRadiansToDegrees(radians) {
+    return (radians * (360 / (Math.PI * 2))).toFixed(2);
+}
+
 const AlertsTab: React.FC = () => {
     // contexts
     const {
         setGizmoElementItems,
+        setGizmoTransformItem,
         adapter,
         config,
         sceneId,
@@ -246,31 +251,57 @@ const AlertsTab: React.FC = () => {
     //     [setBehaviorToEdit]
     // );
     const onTransformChange = useCallback(
-        (event) =>
-            // setBehaviorToEdit(
-            //     produce((draft) => {
-            //         const alertVisual = getAndCreateIfNotExistsAlertVisual(
-            //             draft
-            //         );
-            //         alertVisual.valueRanges[0].visual.extensionProperties = {
-            //             transform: true,
-            //             // xRot: newValue.rotation.x,
-            //             // yRot: newValue.rotation.y,
-            //             // zRot: newValue.rotation.z,
-            //             // xPos: newValue.position.x,
-            //             // yPos: newValue.position.y,
-            //             // zPos: newValue.position.z
-            //             xRot: event.target.value,
-            //             yRot: 0,
-            //             zRot: 0,
-            //             xPos: 0,
-            //             yPos: 0,
-            //             zPos: 0
-            //         };
-            //     })
-            // ),
-            console.log('whoops'),
-        [setValueRangeProperty]
+        (event) => {
+            const { name, value } = event.target;
+            const newGizmoTransformItem: TransformInfo = deepCopy(
+                gizmoTransformItem
+            );
+            console.log(gizmoTransformItem);
+            switch (name) {
+                case 'xRot':
+                    newGizmoTransformItem.rotation.x = value;
+                    break;
+                case 'yRot':
+                    newGizmoTransformItem.rotation.y = value;
+                    break;
+                case 'zRot':
+                    newGizmoTransformItem.rotation.z = value;
+                    break;
+                case 'xPos':
+                    newGizmoTransformItem.position.x = value;
+                    break;
+                case 'yPos':
+                    newGizmoTransformItem.position.y = value;
+                    break;
+                case 'zPos':
+                    newGizmoTransformItem.position.z = value;
+                    break;
+            }
+            setGizmoTransformItem(newGizmoTransformItem);
+        },
+        // setBehaviorToEdit(
+        //     produce((draft) => {
+        //         const alertVisual = getAndCreateIfNotExistsAlertVisual(
+        //             draft
+        //         );
+        //         alertVisual.valueRanges[0].visual.extensionProperties = {
+        //             transform: true,
+        //             // xRot: newValue.rotation.x,
+        //             // yRot: newValue.rotation.y,
+        //             // zRot: newValue.rotation.z,
+        //             // xPos: newValue.position.x,
+        //             // yPos: newValue.position.y,
+        //             // zPos: newValue.position.z
+        //             xRot: event.target.value,
+        //             yRot: 0,
+        //             zRot: 0,
+        //             xPos: 0,
+        //             yPos: 0,
+        //             zPos: 0
+        //         };
+        //     })
+        // ),
+        [gizmoTransformItem]
     );
 
     const onNoteChange = useCallback(
@@ -344,16 +375,89 @@ const AlertsTab: React.FC = () => {
                         onTransformChange
                         ></> */}
                         <TextField
-                            label="X: "
+                            label="X Position: "
+                            name="xPos"
                             type="number"
-                            onChange={
-                                onTransformChange
-                                // onTransformChange({
-                                //     position: { x: 0, y: 0, z: 0 },
-                                //     rotation: { x: newValue., y: 0, z: 0 }
-                                // })
+                            onChange={onTransformChange}
+                            value={
+                                gizmoTransformItem
+                                    ? '' +
+                                      Number(
+                                          gizmoTransformItem.position.x
+                                      ).toFixed()
+                                    : ''
                             }
                         ></TextField>
+                        <TextField
+                            label="Y Position: "
+                            name="yPos"
+                            type="number"
+                            onChange={onTransformChange}
+                            value={
+                                gizmoTransformItem
+                                    ? '' +
+                                      Number(
+                                          gizmoTransformItem.position.y
+                                      ).toFixed()
+                                    : ''
+                            }
+                        ></TextField>
+                        <TextField
+                            label="Z Position: "
+                            name="zPos"
+                            type="number"
+                            onChange={onTransformChange}
+                            value={
+                                gizmoTransformItem
+                                    ? '' +
+                                      Number(
+                                          gizmoTransformItem.position.z
+                                      ).toFixed()
+                                    : ''
+                            }
+                        ></TextField>
+                        {/* <TextField
+                            label="X Rotation: "
+                            name="xRot"
+                            type="number"
+                            onChange={onTransformChange}
+                            value={
+                                gizmoTransformItem
+                                    ? '' +
+                                      convertRadiansToDegrees(
+                                          gizmoTransformItem.rotation.x
+                                      )
+                                    : ''
+                            }
+                        ></TextField>
+                        <TextField
+                            label="Y Rotation: "
+                            name="yRot"
+                            type="number"
+                            onChange={onTransformChange}
+                            value={
+                                gizmoTransformItem
+                                    ? '' +
+                                      convertRadiansToDegrees(
+                                          gizmoTransformItem.rotation.y
+                                      )
+                                    : ''
+                            }
+                        ></TextField>
+                        <TextField
+                            label="Z Rotation: "
+                            name="zRot"
+                            type="number"
+                            onChange={onTransformChange}
+                            value={
+                                gizmoTransformItem
+                                    ? '' +
+                                      convertRadiansToDegrees(
+                                          gizmoTransformItem.rotation.z
+                                      )
+                                    : ''
+                            }
+                        ></TextField> */}
                         {/* <label htmlFor="xRotation">X: </label>
                         <input
                             id="xRotation"

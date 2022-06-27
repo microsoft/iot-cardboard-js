@@ -38,12 +38,13 @@ export const defaultADT3DSceneBuilderState: ADT3DSceneBuilderState = {
     coloredMeshItems: [],
     outlinedMeshItems: [],
     gizmoElementItems: [],
-    gizmoTransformItem: {
-        meshIds: [],
-        parentMeshId: null,
-        transform: { position: null, rotation: null },
-        original: null
-    },
+    gizmoTransformItem: null,
+    // gizmoTransformItem: {
+    //     meshIds: [],
+    //     parentMeshId: null,
+    //     transform: { position: null, rotation: null },
+    //     original: null
+    // },
     widgetFormInfo: { mode: WidgetFormMode.Cancelled },
     behaviorTwinAliasFormInfo: null,
     elementTwinAliasFormInfo: null,
