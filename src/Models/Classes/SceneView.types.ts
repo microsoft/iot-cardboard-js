@@ -103,7 +103,6 @@ export interface ICameraPosition {
 
 export interface ISceneViewProps {
     backgroundColor?: IADTBackgroundColor;
-    badgeGroups?: SceneViewBadgeGroup[];
     cameraInteractionType?: CameraInteraction;
     cameraPosition?: ICameraPosition;
     coloredMeshItems?: CustomMeshItem[];
@@ -113,11 +112,6 @@ export interface ISceneViewProps {
     objectColor?: IADTObjectColor;
     objectColorOptions?: IADTObjectColor[];
     objectStyle?: ViewerObjectStyle;
-    onBadgeGroupHover?: (
-        alert: SceneViewBadgeGroup,
-        left: number,
-        top: number
-    ) => void;
     onCameraMove?: (position: ICameraPosition) => void;
     onMeshClick?: SceneViewEventHandler;
     onMeshHover?: SceneViewEventHandler;
