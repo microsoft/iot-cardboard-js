@@ -85,7 +85,7 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
         isEditBehavior || false
     );
 
-    const elementsSorted = useRef(false);
+    const allowElementsToBeSorted = useRef(true);
     const lastSearch = useRef('');
 
     const [filteredElements, setFilteredElements] = useState<
@@ -151,6 +151,8 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
     // sort the list items
     useEffect(() => {
         if (elements) {
+            // when elements list is updated allow it to be sorted
+            allowElementsToBeSorted.current = true;
             const elementsCopy: ITwinToObjectMapping[] = deepCopy(elements);
             const sortedElements = sortElements(elementsCopy);
             setFilteredElements(sortedElements);
@@ -162,7 +164,7 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
         if (
             elements &&
             selectedElements?.length > 0 &&
-            !elementsSorted.current
+            allowElementsToBeSorted.current
         ) {
             const selectedElementsCopy: ITwinToObjectMapping[] = deepCopy(
                 selectedElements
@@ -173,8 +175,6 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
                 selectedElementsCopy
             );
             setFilteredElements(sortedElements);
-
-            elementsSorted.current = true;
         }
     }, [selectedElements]);
 
@@ -215,9 +215,14 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
                 (x) => x.id === element.id
             );
             updateSelectedElements(element, shouldCheck);
-            elementsSorted.current = true;
+            // if user has updated the selected elements via the checkbox we shouldn't sort them again
+            allowElementsToBeSorted.current = false;
         },
-        [selectedElements, updateSelectedElements, elementsSorted.current]
+        [
+            selectedElements,
+            updateSelectedElements,
+            allowElementsToBeSorted.current
+        ]
     );
 
     const onMultiSelectChanged = useCallback(() => {
