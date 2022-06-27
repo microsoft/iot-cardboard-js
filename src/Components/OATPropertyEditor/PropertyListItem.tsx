@@ -29,10 +29,12 @@ type IPropertyListItem = {
     draggingProperty?: boolean;
     getItemClassName?: (index: number) => any;
     getErrorMessage?: (value: string, index?: number) => string;
-    handlePropertyDisplayNameChange?: (value: string, index?: number) => void;
-    handleDragEnter?: (event: any, item: any) => any;
-    handleDragEnterExternalItem?: (index: number) => any;
-    handleDragStart?: (event: any, item: any) => any;
+    onMove?: (index: number, moveUp: boolean) => void;
+    propertiesLength?: number;
+    onPropertyDisplayNameChange?: (value: string, index?: number) => void;
+    onDragEnter?: (event: any, item: any) => any;
+    onDragEnterExternalItem?: (index: number) => any;
+    onDragStart?: (event: any, item: any) => any;
     item?: DTDLProperty;
     setCurrentPropertyIndex?: React.Dispatch<React.SetStateAction<number>>;
     setLastPropertyFocused?: React.Dispatch<React.SetStateAction<any>>;
@@ -47,10 +49,12 @@ export const PropertyListItem = ({
     dispatch,
     draggingProperty,
     getItemClassName,
-    handleDragEnter,
-    handleDragEnterExternalItem,
-    handleDragStart,
-    handlePropertyDisplayNameChange,
+    onDragEnter,
+    onDragEnterExternalItem,
+    onDragStart,
+    onPropertyDisplayNameChange,
+    onMove,
+    propertiesLength,
     setCurrentPropertyIndex,
     setModalOpen,
     item,
@@ -71,7 +75,7 @@ export const PropertyListItem = ({
         model ? model['@type'] : null
     );
 
-    const handleTemplateAddition = () => {
+    const onTemplateAddition = () => {
         execute(
             () => {
                 dispatch({
@@ -89,11 +93,11 @@ export const PropertyListItem = ({
         );
     };
 
-    const handleDuplicate = () => {
-        const duplication = () => {
+    const onDuplicate = () => {
+        const duplicate = () => {
             const itemCopy = deepCopy(item);
             itemCopy.name = `${itemCopy.name}_${t('OATPropertyEditor.copy')}`;
-            itemCopy.displayName = `${itemCopy.name}_${t(
+            itemCopy.displayName = `${itemCopy.displayName}_${t(
                 'OATPropertyEditor.copy'
             )}`;
             itemCopy['@id'] = `${itemCopy['@id']}_${t(
@@ -109,7 +113,7 @@ export const PropertyListItem = ({
         };
 
         execute(
-            () => duplication(),
+            () => duplicate(),
             () => {
                 const modelCopy = deepCopy(model);
                 dispatch({
@@ -135,12 +139,12 @@ export const PropertyListItem = ({
                 className={getItemClassName(index)}
                 draggable
                 onDragStart={(e) => {
-                    handleDragStart(e, index);
+                    onDragStart(e, index);
                 }}
                 onDragEnter={
                     draggingProperty
-                        ? (e) => handleDragEnter(e, index)
-                        : () => handleDragEnterExternalItem(index)
+                        ? (e) => onDragEnter(e, index)
+                        : () => onDragEnterExternalItem(index)
                 }
                 onFocus={() =>
                     setLastPropertyFocused({
@@ -158,7 +162,7 @@ export const PropertyListItem = ({
                     validateOnFocusOut
                     onChange={(evt, value) => {
                         setCurrentPropertyIndex(index);
-                        handlePropertyDisplayNameChange(value, index);
+                        onPropertyDisplayNameChange(value, index);
                     }}
                     styles={textFieldStyles}
                 />
@@ -184,10 +188,18 @@ export const PropertyListItem = ({
                             deleteItem={deleteItem}
                             index={index}
                             subMenuActive={subMenuActive}
-                            handleTemplateAddition={handleTemplateAddition}
-                            handleDuplicate={handleDuplicate}
+                            onTemplateAddition={onTemplateAddition}
+                            onDuplicate={onDuplicate}
                             targetId={getModelPropertyListItemName(item.name)}
                             setSubMenuActive={setSubMenuActive}
+                            onMoveUp={
+                                // Use function if item is not the first item in the list
+                                index > 0 ? onMove : null
+                            }
+                            onMoveDown={
+                                // Use function if item is not the last item in the list
+                                index < propertiesLength - 1 ? onMove : null
+                            }
                         />
                     )}
                 </IconButton>

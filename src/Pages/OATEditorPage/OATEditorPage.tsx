@@ -18,6 +18,7 @@ import {
 import OATErrorPage from './Internal/OATErrorPage';
 import { CommandHistoryContext } from './Internal/Context/CommandHistoryContext';
 import useCommandHistory from './Internal/Hooks/useCommandHistory';
+import OATConfirmDeleteWrapper from './Internal/OATConfirmDeleteWrapper';
 import {
     getStoredEditorData,
     storeEditorData
@@ -98,6 +99,7 @@ const OATEditorPage = ({ theme }) => {
                     </div>
                 </div>
                 <OATErrorHandlingWrapper state={state} dispatch={dispatch} />
+                <OATConfirmDeleteWrapper state={state} dispatch={dispatch} />
             </ErrorBoundary>
         </CommandHistoryContext.Provider>
     );

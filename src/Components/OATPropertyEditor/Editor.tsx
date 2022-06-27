@@ -77,6 +77,13 @@ const Editor = ({
         return propertyItems;
     }, [model]);
 
+    const isSupportedModelType = useMemo(() => {
+        return (
+            (model && model['@type'] === ModelTypes.interface) ||
+            (model && model['@type'] === ModelTypes.relationship)
+        );
+    }, [model]);
+
     return (
         <div className={propertyInspectorStyles.container}>
             <Pivot className={propertyInspectorStyles.pivot}>
@@ -94,6 +101,7 @@ const Editor = ({
                                 state={state}
                                 setModalBody={setModalBody}
                                 setModalOpen={setModalOpen}
+                                isSupportedModelType={isSupportedModelType}
                             />
                         </Stack.Item>
                         <Stack.Item>
@@ -160,6 +168,7 @@ const Editor = ({
                                 }
                                 setModalBody={setModalBody}
                                 propertyList={propertyList}
+                                isSupportedModelType={isSupportedModelType}
                             />
                         </Stack.Item>
                     </Stack>
@@ -168,11 +177,13 @@ const Editor = ({
                     headerText={t('OATPropertyEditor.json')}
                     className={propertyInspectorStyles.pivotItem}
                 >
-                    <JSONEditor
-                        theme={theme}
-                        dispatch={dispatch}
-                        state={state}
-                    />
+                    {isSupportedModelType && (
+                        <JSONEditor
+                            theme={theme}
+                            dispatch={dispatch}
+                            state={state}
+                        />
+                    )}
                 </PivotItem>
             </Pivot>
             {templatesActive && (

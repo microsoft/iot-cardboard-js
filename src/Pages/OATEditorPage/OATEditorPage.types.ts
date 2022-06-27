@@ -10,6 +10,11 @@ export interface IOATError {
     type?: string;
 }
 
+export interface IOATConfirmDelete {
+    open: boolean;
+    callback?: () => void;
+}
+
 export interface IOATEditorState {
     model?: IOATTwinModelNodes;
     models?: any[];
@@ -27,4 +32,5 @@ export interface IOATEditorState {
     modelPositions: any;
     namespace?: string;
     edge?: string;
+    confirmDeleteOpen?: IOATConfirmDelete;
 }

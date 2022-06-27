@@ -31,7 +31,14 @@ const classNames = {
     graphViewerFiltersKey: `${classPrefix}-graph-viewer-filters-key`,
     extendCancel: `${classPrefix}-extend-cancel`,
     relationshipCTASection: `${classPrefix}-node-container-cta-section`,
-    relationshipNameEditorBody: `${classPrefix}-relationship-name-editor-body`
+    relationshipNameEditorBody: `${classPrefix}-relationship-name-editor-body`,
+    handleContentExtend: `${classPrefix}-handle-content-extend`,
+    handleContentRelationship: `${classPrefix}-handle-content-relationship`,
+    handleContentUntargeted: `${classPrefix}-handle-content-untargeted`,
+    handleContentComponent: `${classPrefix}-handle-content-component`,
+    handleContentHidden: `${classPrefix}-handle-content-hidden`,
+    handleContentIcon: `${classPrefix}-handle-content-icon`,
+    handleContentIconHidden: `${classPrefix}-handle-content-icon-hidden`
 };
 
 export const getGraphViewerStyles = () => {
@@ -50,7 +57,21 @@ export const getGraphViewerStyles = () => {
                 },
                 [`& .${classNames.componentHandleFocus}`]: {
                     left: '80%',
-                    background: theme.semanticColors.variantBorder
+                    background: theme.semanticColors.variantBorder,
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    minWidth: '14px',
+                    minHeight: '14px',
+                    top: '50px',
+                    ':hover': {
+                        minWidth: '18px',
+                        minHeight: '18px',
+                        top: '49px',
+                        '& svg': {
+                            pointerEvents: 'none'
+                        }
+                    }
                 },
                 [`& .${classNames.componentHandleHidden}`]: {
                     left: '80%',
@@ -60,7 +81,21 @@ export const getGraphViewerStyles = () => {
                 },
                 [`& .${classNames.relationshipHandleFocus}`]: {
                     left: '20%',
-                    background: theme.semanticColors.variantBorder
+                    background: theme.semanticColors.variantBorder,
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    minWidth: '14px',
+                    minHeight: '14px',
+                    top: '50px',
+                    ':hover': {
+                        minWidth: '18px',
+                        minHeight: '18px',
+                        top: '49px',
+                        '& svg': {
+                            pointerEvents: 'none'
+                        }
+                    }
                 },
                 [`& .${classNames.relationshipHandleHidden}`]: {
                     left: '60%',
@@ -70,7 +105,21 @@ export const getGraphViewerStyles = () => {
                 },
                 [`& .${classNames.extendHandleFocus}`]: {
                     left: '60%',
-                    background: theme.semanticColors.variantBorder
+                    background: theme.semanticColors.variantBorder,
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    minWidth: '14px',
+                    minHeight: '14px',
+                    top: '50px',
+                    ':hover': {
+                        minWidth: '18px',
+                        minHeight: '18px',
+                        top: '49px',
+                        '& svg': {
+                            pointerEvents: 'none'
+                        }
+                    }
                 },
                 [`& .${classNames.extendHandleHidden}`]: {
                     left: '60%',
@@ -80,7 +129,21 @@ export const getGraphViewerStyles = () => {
                 },
                 [`& .${classNames.untargetRelationshipHandleFocus}`]: {
                     left: '40%',
-                    background: theme.semanticColors.variantBorder
+                    background: theme.semanticColors.variantBorder,
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    minWidth: '14px',
+                    minHeight: '14px',
+                    top: '50px',
+                    ':hover': {
+                        minWidth: '18px',
+                        minHeight: '18px',
+                        top: '49px',
+                        '& svg': {
+                            pointerEvents: 'none'
+                        }
+                    }
                 },
                 [`& .${classNames.untargetRelationshipHandleHidden}`]: {
                     left: '40%',
@@ -88,6 +151,65 @@ export const getGraphViewerStyles = () => {
                     background: 'transparent',
                     border: '0px'
                 }
+            } as IStyle
+        ],
+        handleContentRelationship: [
+            classNames.handleContentRelationship,
+            {
+                background: '#FAAE00',
+                width: '8px',
+                height: '8px',
+                borderRadius: '50%'
+            } as IStyle
+        ],
+        handleContentUntargeted: [
+            classNames.handleContentUntargeted,
+            {
+                background: '#FAAE00',
+                width: '8px',
+                height: '8px',
+                borderRadius: '50%'
+            } as IStyle
+        ],
+        handleContentExtend: [
+            classNames.handleContentExtend,
+            {
+                background: '#1E8741',
+                width: '8px',
+                height: '8px',
+                borderRadius: '50%'
+            } as IStyle
+        ],
+        handleContentComponent: [
+            classNames.handleContentComponent,
+            {
+                background: '#247CD2',
+                width: '8px',
+                height: '8px',
+                borderRadius: '50%'
+            } as IStyle
+        ],
+        handleContentIcon: [
+            classNames.handleContentIcon,
+            {
+                padding: '2px'
+            } as IStyle
+        ],
+        handleContentIconHidden: [
+            classNames.handleContentIconHidden,
+            {
+                width: 0,
+                height: 0,
+                pointerEvents: 'none',
+                opacity: 0,
+                padding: 0
+            } as IStyle
+        ],
+        handleContentHidden: [
+            classNames.handleContentHidden,
+            {
+                background: 'transparent',
+                opacity: 0
             } as IStyle
         ],
         node: [
@@ -98,7 +220,7 @@ export const getGraphViewerStyles = () => {
                 borderRadius: '5px',
                 fontSize: FontSizes.size12,
                 position: 'relative',
-                paddingRight: '20px' // Allow the close icon to have space
+                paddingRight: '20px' // Provide space for close icon
             } as IStyle
         ],
         handle: [classNames.handle],

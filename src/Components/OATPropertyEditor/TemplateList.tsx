@@ -2,10 +2,11 @@ import React, { useRef, useState, useContext } from 'react';
 import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
 import { deepCopy } from '../../Models/Services/Utils';
-import TemplateListItem from './TeplateListItem';
+import TemplateListItem from './TemplateListItem';
 import {
     SET_OAT_PROPERTY_EDITOR_MODEL,
-    SET_OAT_TEMPLATES
+    SET_OAT_TEMPLATES,
+    SET_OAT_CONFIRM_DELETE_OPEN
 } from '../../Models/Constants/ActionTypes';
 import { IAction } from '../../Models/Constants/Interfaces';
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
@@ -66,8 +67,6 @@ export const TemplateList = ({
         if (enteredPropertyRef.current !== null) {
             handleTemplateItemDropOnPropertyList();
         }
-
-        dragNode.current.removeEventListener('dragend', onDragEnd);
         dragItem.current = null;
         dragNode.current = null;
         draggedTemplateItemRef.current = null;
@@ -133,10 +132,15 @@ export const TemplateList = ({
         const deletion = (index) => {
             const newTemplate = deepCopy(templates);
             newTemplate.splice(index, 1);
-
+            const dispatchDelete = () => {
+                dispatch({
+                    type: SET_OAT_TEMPLATES,
+                    payload: newTemplate
+                });
+            };
             dispatch({
-                type: SET_OAT_TEMPLATES,
-                payload: newTemplate
+                type: SET_OAT_CONFIRM_DELETE_OPEN,
+                payload: { open: true, callback: dispatchDelete }
             });
         };
 
@@ -150,6 +154,29 @@ export const TemplateList = ({
                 });
             }
         );
+    };
+
+    const onPropertyListAddition = (item) => {
+        if (model) {
+            const newModel = deepCopy(model);
+            newModel[propertiesKeyName].push(item);
+            dispatch({
+                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                payload: newModel
+            });
+        }
+    };
+
+    const moveItemOnTemplateList = (index: number, moveUp: boolean) => {
+        const direction = moveUp ? -1 : 1;
+        const newTemplate = deepCopy(templates);
+        const item = newTemplate[index];
+        newTemplate.splice(index, 1);
+        newTemplate.splice(index + direction, 0, item);
+        dispatch({
+            type: SET_OAT_TEMPLATES,
+            payload: newTemplate
+        });
     };
 
     return (
@@ -172,10 +199,13 @@ export const TemplateList = ({
                         index={i}
                         deleteItem={deleteItem}
                         getDragItemClassName={getDragItemClassName}
-                        handleDragEnter={onDragEnter}
-                        handleDragEnterExternalItem={onDragEnterExternalItem}
-                        handleDragStart={onDragStart}
+                        onDragEnter={onDragEnter}
+                        onDragEnterExternalItem={onDragEnterExternalItem}
+                        onDragStart={onDragStart}
                         getSchemaText={getSchemaText}
+                        onPropertyListAddition={onPropertyListAddition}
+                        onMove={moveItemOnTemplateList}
+                        templatesLength={templates.length}
                     />
                 ))}
         </div>

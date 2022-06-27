@@ -15,6 +15,7 @@ import { deepCopy } from '../../Models/Services/Utils';
 import PropertyListItemSubMenu from './PropertyListItemSubMenu';
 import { useTranslation } from 'react-i18next';
 import {
+    SET_OAT_CONFIRM_DELETE_OPEN,
     SET_OAT_PROPERTY_EDITOR_MODEL,
     SET_OAT_TEMPLATES
 } from '../../Models/Constants/ActionTypes';
@@ -43,10 +44,12 @@ type IPropertyListItemNest = {
     getItemClassName?: (index: number) => any;
     getNestedItemClassName?: () => any;
     getErrorMessage?: (value: any, index?: any) => string;
-    handlePropertyDisplayNameChange?: (value: any, index?: any) => void;
-    handleDragEnter?: (event: any, item: any) => any;
-    handleDragEnterExternalItem?: (index: number) => any;
-    handleDragStart?: (event: any, item: any) => any;
+    onPropertyDisplayNameChange?: (value: any, index?: any) => void;
+    onDragEnter?: (event: any, item: any) => any;
+    onDragEnterExternalItem?: (index: number) => any;
+    onDragStart?: (event: any, item: any) => any;
+    onMove?: (index: number, moveUp: boolean) => void;
+    propertiesLength?: number;
     index?: number;
     item?: DTDLProperty;
     lastPropertyFocused?: IOATLastPropertyFocused;
@@ -59,7 +62,7 @@ type IPropertyListItemNest = {
     setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
     state?: IOATEditorState;
     setPropertySelectorVisible?: React.Dispatch<React.SetStateAction<boolean>>;
-    handleSelectorPosition?: (event: MouseEvent) => void;
+    definePropertySelectorPosition?: (event: MouseEvent) => void;
     propertySelectorTriggerElementsBoundingBox: IPropertySelectorTriggerElementsBoundingBox;
 };
 
@@ -71,10 +74,10 @@ export const PropertyListItemNest = ({
     getItemClassName,
     getNestedItemClassName,
     getErrorMessage,
-    handleDragEnter,
-    handleDragEnterExternalItem,
-    handleDragStart,
-    handlePropertyDisplayNameChange,
+    onDragEnter,
+    onDragEnterExternalItem,
+    onDragStart,
+    onPropertyDisplayNameChange,
     setCurrentPropertyIndex,
     item,
     lastPropertyFocused,
@@ -84,8 +87,10 @@ export const PropertyListItemNest = ({
     setModalBody,
     state,
     setPropertySelectorVisible,
-    handleSelectorPosition,
-    propertySelectorTriggerElementsBoundingBox
+    definePropertySelectorPosition,
+    propertySelectorTriggerElementsBoundingBox,
+    onMove,
+    propertiesLength
 }: IPropertyListItemNest) => {
     const { t } = useTranslation();
     const { execute } = useContext(CommandHistoryContext);
@@ -120,7 +125,7 @@ export const PropertyListItemNest = ({
         }
     };
 
-    const handleTemplateAddition = () => {
+    const onTemplateAddition = () => {
         execute(
             () => {
                 dispatch({
@@ -138,8 +143,8 @@ export const PropertyListItemNest = ({
         );
     };
 
-    const handleDuplicate = () => {
-        const duplication = () => {
+    const onDuplicate = () => {
+        const duplicate = () => {
             const itemCopy = deepCopy(item);
             itemCopy.name = `${itemCopy.name}_${t('OATPropertyEditor.copy')}`;
             itemCopy.displayName = `${itemCopy.displayName}_${t(
@@ -158,7 +163,7 @@ export const PropertyListItemNest = ({
         };
 
         execute(
-            () => duplication(),
+            () => duplicate(),
             () => {
                 const modelCopy = deepCopy(model);
                 dispatch({
@@ -188,9 +193,16 @@ export const PropertyListItemNest = ({
                     1
                 );
             }
+
+            const dispatchDelete = () => {
+                dispatch({
+                    type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                    payload: newModel
+                });
+            };
             dispatch({
-                type: SET_OAT_PROPERTY_EDITOR_MODEL,
-                payload: newModel
+                type: SET_OAT_CONFIRM_DELETE_OPEN,
+                payload: { open: true, callback: dispatchDelete }
             });
         };
 
@@ -204,6 +216,34 @@ export const PropertyListItemNest = ({
                 });
             }
         );
+    };
+
+    // Move nested item up or down
+    const moveNestedItem = (nestedIndex, moveUp) => {
+        const parentIndex = index;
+        const direction = moveUp ? -1 : 1;
+        const newModel = deepCopy(model);
+        const collectionAttributeName =
+            newModel[propertiesKeyName][parentIndex].schema['@type'] ===
+            DTDLSchemaType.Enum
+                ? 'enumValues'
+                : 'fields';
+        // Move nested item up or down
+        const temp =
+            newModel[propertiesKeyName][parentIndex].schema[
+                collectionAttributeName
+            ][nestedIndex];
+        newModel[propertiesKeyName][parentIndex].schema[
+            collectionAttributeName
+        ].splice(nestedIndex, 1);
+        newModel[propertiesKeyName][parentIndex].schema[
+            collectionAttributeName
+        ].splice(nestedIndex + direction, 0, temp);
+
+        dispatch({
+            type: SET_OAT_PROPERTY_EDITOR_MODEL,
+            payload: newModel
+        });
     };
 
     return (
@@ -233,12 +273,12 @@ export const PropertyListItemNest = ({
                 className={getItemClassName(index)}
                 draggable
                 onDragStart={(e) => {
-                    handleDragStart(e, index);
+                    onDragStart(e, index);
                 }}
                 onDragEnter={
                     draggingProperty
-                        ? (e) => handleDragEnter(e, index)
-                        : () => handleDragEnterExternalItem(index)
+                        ? (e) => onDragEnter(e, index)
+                        : () => onDragEnterExternalItem(index)
                 }
                 onFocus={() => {
                     setLastPropertyFocused({
@@ -275,7 +315,7 @@ export const PropertyListItemNest = ({
                         validateOnFocusOut
                         onChange={(evt, value) => {
                             setCurrentPropertyIndex(index);
-                            handlePropertyDisplayNameChange(value, index);
+                            onPropertyDisplayNameChange(value, index);
                         }}
                         onGetErrorMessage={getErrorMessage}
                     />
@@ -301,12 +341,24 @@ export const PropertyListItemNest = ({
                                 deleteItem={deleteItem}
                                 index={index}
                                 subMenuActive={subMenuActive}
-                                handleTemplateAddition={handleTemplateAddition}
-                                handleDuplicate={handleDuplicate}
+                                onTemplateAddition={() => {
+                                    onTemplateAddition();
+                                }}
+                                onDuplicate={() => {
+                                    onDuplicate();
+                                }}
                                 setSubMenuActive={setSubMenuActive}
                                 targetId={getModelPropertyListItemName(
                                     item.name
                                 )}
+                                onMoveUp={
+                                    // Use function if item is not the first item in the list
+                                    index > 0 ? onMove : null
+                                }
+                                onMoveDown={
+                                    // Use function if item is not the last item in the list
+                                    index < propertiesLength - 1 ? onMove : null
+                                }
                             />
                         )}
                     </IconButton>
@@ -330,21 +382,26 @@ export const PropertyListItemNest = ({
                             deleteNestedItem={deleteNestedItem}
                             dispatch={dispatch}
                             state={state}
+                            onMove={moveNestedItem}
+                            collectionLength={item.schema.fields.length}
                         />
                     ))}
 
                 {collapsed &&
+                    item &&
                     item.schema['@type'] === DTDLSchemaType.Enum &&
                     item.schema.enumValues.length > 0 &&
-                    item.schema.enumValues.map((item, i) => (
+                    item.schema.enumValues.map((collectionItem, i) => (
                         <PropertyListEnumItemNested
                             key={i}
-                            item={item}
+                            item={collectionItem}
                             dispatch={dispatch}
                             state={state}
                             parentIndex={index}
                             index={i}
                             deleteNestedItem={deleteNestedItem}
+                            onMove={moveNestedItem}
+                            collectionLength={item.schema.enumValues.length}
                         />
                     ))}
 
@@ -366,7 +423,7 @@ export const PropertyListItemNest = ({
                         });
                         setPropertySelectorVisible(true);
                         addPropertyCallback(null);
-                        handleSelectorPosition(e);
+                        definePropertySelectorPosition(e);
                     }}
                     classNameIcon={
                         propertyInspectorStyles.addPropertyBarIconNestItem

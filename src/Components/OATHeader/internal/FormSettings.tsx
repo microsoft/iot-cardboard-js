@@ -12,7 +12,6 @@ import { IAction } from '../../../Models/Constants/Interfaces';
 import { SET_OAT_NAMESPACE } from '../../../Models/Constants/ActionTypes';
 import { getHeaderStyles } from '../OATHeader.styles';
 import { IOATEditorState } from '../../../Pages/OATEditorPage/OATEditorPage.types';
-import { OATNamespaceDefaultValue } from '../../../Models/Constants/Constants';
 
 interface IModal {
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
@@ -33,10 +32,13 @@ export const FormSettings = ({
     const headerStyles = getHeaderStyles();
 
     const handleProjectNamespaceChange = (value) => {
-        // Validate value contains only letters, digits, colons and underscores. The first character may not be a digit, and the last character may not be an underscore.
+        // Validate value contains only letters, digits, colons and underscores. The first character may not be a digit
         const regex = /^[a-zA-Z_][a-zA-Z0-9_:]*$/;
         const validValue =
-            (value.match(regex) && value.charAt(value.length - 1) !== '_') ||
+            (value.match(regex) &&
+                value.charAt(value.length - 1) !== '_' && // Last character may not be an underscore
+                value.charAt(value.length - 1) !== ':' && // The last character may not be a colon
+                value.indexOf('::') === -1) || // The value may not contain two consecutive colons
             value.length === 0;
 
         setNamespaceError(!validValue);
