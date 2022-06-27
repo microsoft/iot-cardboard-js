@@ -80,7 +80,6 @@ export const PropertyList = ({
     );
 
     const onPropertyItemDropOnTemplateList = () => {
-        console.log('Dropped on template list');
         const newTemplate = templates ? deepCopy(templates) : [];
         newTemplate.push(
             model[propertiesKeyName][draggedPropertyItemRef.current]
@@ -92,12 +91,9 @@ export const PropertyList = ({
     };
 
     const onDragEnd = () => {
-        console.log('drag end');
         if (enteredTemplateRef.current !== null) {
             onPropertyItemDropOnTemplateList();
-            console.log('drag end b');
         }
-        console.log('drag end c');
         dragNode.current.removeEventListener('dragend', onDragEnd);
         dragItem.current = null;
         dragNode.current = null;
@@ -161,7 +157,7 @@ export const PropertyList = ({
         enteredPropertyRef.current = i;
     };
 
-    const handlePropertyDisplayNameChange = (value, index) => {
+    const onPropertyDisplayNameChange = (value, index) => {
         const update = () => {
             const newModel = deepCopy(model);
             if (index === undefined) {

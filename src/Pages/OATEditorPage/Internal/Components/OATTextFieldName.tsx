@@ -125,7 +125,8 @@ const OATTextFieldName = ({
             !nameLengthError &&
             !nameValidCharactersError &&
             !nameDuplicateInterfaceError &&
-            !nameDuplicateRelationshipError
+            !nameDuplicateRelationshipError &&
+            temporaryName !== originalValue // Prevent committing if name is not changed
         ) {
             execute(
                 () => commit(),
@@ -149,7 +150,7 @@ const OATTextFieldName = ({
 
     const onKeyDown = (event) => {
         if (event.key === 'Enter') {
-            onCommitChange();
+            document.activeElement.blur();
         }
     };
 

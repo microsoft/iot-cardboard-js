@@ -19,12 +19,15 @@ import {
 import {
     SET_OAT_PROPERTY_EDITOR_MODEL,
     SET_OAT_DELETED_MODEL_ID,
-    SET_OAT_CONFIRM_DELETE_OPEN
+    SET_OAT_CONFIRM_DELETE_OPEN,
+    SET_OAT_SELECTED_MODEL_ID
 } from '../../../Models/Constants/ActionTypes';
 import { DTDLRelationship } from '../../../Models/Classes/DTDL';
 import { getPropertyDisplayName } from '../../OATPropertyEditor/Utils';
 import { IOATGraphCustomEdgeProps } from '../../../Models/Constants';
 import OATTextFieldName from '../../../Pages/OATEditorPage/Internal/Components/OATTextFieldName';
+import { CommandHistoryContext } from '../../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
+import { deepCopy } from '../../../Models/Services/Utils';
 
 const foreignObjectSize = 180;
 const foreignObjectSizeExtendRelation = 20;
@@ -143,6 +146,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
     data,
     markerEnd
 }) => {
+    const { execute } = useContext(CommandHistoryContext);
     const [nameEditor, setNameEditor] = useState(false);
     const [nameText, setNameText] = useState(getPropertyDisplayName(data));
     const {
@@ -152,9 +156,10 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
         showRelationships,
         showInheritances,
         showComponents,
+        currentNodeIdRef,
         state
     } = useContext(ElementsContext);
-    const { model } = state;
+    const { model, selectedModelId } = state;
     const graphViewerStyles = getGraphViewerStyles();
     const relationshipTextFieldStyles = getRelationshipTextFieldStyles();
     const theme = useTheme();
@@ -462,28 +467,47 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
     }, [id, source, sourceX, sourceY, targetX, targetY]);
 
     const onNameClick = () => {
-        setNameEditor(true);
+        const dispatchRelationship = () => {
+            setNameEditor(true);
 
-        const relationship = new DTDLRelationship(
-            polygons.element.data.id,
-            nameText,
-            polygons.element.data.displayName,
-            polygons.element.data.description,
-            polygons.element.data.comment,
-            polygons.element.data.writable,
-            polygons.element.data.content ? polygons.element.data.content : [],
-            polygons.element.data.target,
-            polygons.element.data.maxMultiplicity
+            const relationship = new DTDLRelationship(
+                polygons.element.data.id,
+                nameText,
+                polygons.element.data.displayName,
+                polygons.element.data.description,
+                polygons.element.data.comment,
+                polygons.element.data.writable,
+                polygons.element.data.content
+                    ? polygons.element.data.content
+                    : [],
+                polygons.element.data.target,
+                polygons.element.data.maxMultiplicity
+            );
+
+            if (polygons.element.data.type === OATExtendHandleName) {
+                relationship['@type'] = OATExtendHandleName;
+            }
+            setCurrentNode(polygons.element.id);
+            dispatch({
+                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                payload: relationship
+            });
+        };
+
+        execute(
+            () => dispatchRelationship(),
+            () => {
+                setNameEditor(false);
+                setCurrentNode(currentNodeIdRef.current);
+                const modelCopy = deepCopy(model);
+                const selectedModelIdCopy = deepCopy(selectedModelId);
+
+                dispatch({
+                    type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                    payload: modelCopy
+                });
+            }
         );
-
-        if (polygons.element.data.type === OATExtendHandleName) {
-            relationship['@type'] = OATExtendHandleName;
-        }
-        setCurrentNode(polygons.element.id);
-        dispatch({
-            type: SET_OAT_PROPERTY_EDITOR_MODEL,
-            payload: relationship
-        });
     };
 
     const edgePath = useMemo(() => {

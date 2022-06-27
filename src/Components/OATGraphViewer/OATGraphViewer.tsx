@@ -39,7 +39,9 @@ import { ElementsContext } from './Internal/OATContext';
 import {
     SET_OAT_PROPERTY_EDITOR_MODEL,
     SET_OAT_MODELS,
-    SET_OAT_MODELS_POSITIONS
+    SET_OAT_MODELS_POSITIONS,
+    SET_OAT_SELECTED_MODEL_ID,
+    SET_OAT_DELETED_MODEL_ID
 } from '../../Models/Constants/ActionTypes';
 import {
     IAction,
@@ -338,6 +340,11 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
             const node = elements.find(
                 (element) => element.id === currentNodeIdRef.current
             );
+
+            if (!node && model['@type'] === OATRelationshipHandleName) {
+                currentNodeIdRef.current = model['@id'];
+            }
+
             if (node && !node.source) {
                 const newId = model['@id'];
                 elements.forEach((x) => {
@@ -505,6 +512,11 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                 type: SET_OAT_PROPERTY_EDITOR_MODEL,
                 payload: modelClicked
             });
+        } else if (!node && !model) {
+            dispatch({
+                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                payload: null
+            });
         }
     }, [selectedModelId]);
 
@@ -593,9 +605,31 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
 
     const onElementsRemove = (elementsToRemove: IOATNodeElement) => {
         if (!state.modified) {
-            // Remove an specific node and all related edges
-            dispatch({ type: SET_OAT_PROPERTY_EDITOR_MODEL, payload: null });
-            setElements((els) => removeElements(elementsToRemove, els));
+            const remove = (elementsToRemove) => {
+                // Remove an specific node and all related edges
+                dispatch({
+                    type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                    payload: null
+                });
+                setElements((els) => removeElements(elementsToRemove, els));
+            };
+
+            execute(
+                () => remove(elementsToRemove),
+                () => {
+                    const modelCopy = deepCopy(model);
+                    const elementsCopy = deepCopy(elements);
+                    dispatch({
+                        type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                        payload: modelCopy
+                    });
+                    setElements(elementsCopy);
+                    dispatch({
+                        type: SET_OAT_DELETED_MODEL_ID,
+                        payload: null
+                    });
+                }
+            );
         }
     };
 
@@ -763,19 +797,29 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
         );
         if (target) {
             if (currentHandleIdRef.current !== OATUntargetedRelationshipName) {
-                params.target = target.dataset.id;
-                params.id = `${idClassBase}${OATRelationshipHandleName}${getNextRelationshipAmount(
-                    elements
-                )};${versionClassBase}`;
-                params.data.id = `${idClassBase}${OATRelationshipHandleName}${getNextRelationshipAmount(
-                    elements
-                )};${versionClassBase}`;
-                params.data.name = OATRelationshipHandleName
-                    ? `${OATRelationshipHandleName}_${getNextRelationshipAmount(
-                          elements
-                      )}`
-                    : '';
-                setElements((els) => addEdge(params, els));
+                const addition = () => {
+                    params.target = target.dataset.id;
+                    params.id = `${idClassBase}${OATRelationshipHandleName}${getNextRelationshipAmount(
+                        elements
+                    )};${versionClassBase}`;
+                    params.data.id = `${idClassBase}${OATRelationshipHandleName}${getNextRelationshipAmount(
+                        elements
+                    )};${versionClassBase}`;
+                    params.data.name = OATRelationshipHandleName
+                        ? `${OATRelationshipHandleName}_${getNextRelationshipAmount(
+                              elements
+                          )}`
+                        : '';
+                    setElements((els) => addEdge(params, els));
+                };
+
+                execute(
+                    () => addition(),
+                    () => {
+                        const elementsCopy = deepCopy(elements);
+                        setElements(elementsCopy);
+                    }
+                );
             }
         } else {
             const node = elements.find(
@@ -783,75 +827,95 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
             );
 
             if (currentHandleIdRef.current === OATUntargetedRelationshipName) {
-                const name = `${node.data.name}:${OATUntargetedRelationshipName}`;
-                const id = `${node.id}:${OATUntargetedRelationshipName}`;
-                const untargetedRelationship = {
-                    '@type': OATRelationshipHandleName,
-                    '@id': id,
-                    name: '',
-                    displayName: ''
-                };
-                const reactFlowBounds = reactFlowWrapperRef.current.getBoundingClientRect();
-                const position = rfInstance.project({
-                    x: evt.clientX - reactFlowBounds.left,
-                    y: evt.clientY - reactFlowBounds.top
-                });
-                const newNode = {
-                    id: id,
-                    type: OATInterfaceType,
-                    position: position,
-                    data: {
-                        name: name,
-                        type: OATUntargetedRelationshipName,
+                const addition = () => {
+                    const name = `${node.data.name}:${OATUntargetedRelationshipName}`;
+                    const id = `${node.id}:${OATUntargetedRelationshipName}`;
+                    const untargetedRelationship = {
+                        '@type': OATRelationshipHandleName,
+                        '@id': id,
+                        name: '',
+                        displayName: ''
+                    };
+                    const reactFlowBounds = reactFlowWrapperRef.current.getBoundingClientRect();
+                    const position = rfInstance.project({
+                        x: evt.clientX - reactFlowBounds.left,
+                        y: evt.clientY - reactFlowBounds.top
+                    });
+                    const newNode = {
                         id: id,
-                        source: currentNodeIdRef.current,
-                        content: [untargetedRelationship]
-                    }
+                        type: OATInterfaceType,
+                        position: position,
+                        data: {
+                            name: name,
+                            type: OATUntargetedRelationshipName,
+                            id: id,
+                            source: currentNodeIdRef.current,
+                            content: [untargetedRelationship]
+                        }
+                    };
+                    params.target = id;
+                    params.id = id;
+                    params.data.id = id;
+                    params.data.type = `${OATUntargetedRelationshipName}`;
+                    setElements((es) => [...addEdge(params, es), newNode]);
                 };
-                params.target = id;
-                params.id = id;
-                params.data.id = id;
-                params.data.type = `${OATUntargetedRelationshipName}`;
-                setElements((es) => [...addEdge(params, es), newNode]);
+
+                execute(
+                    () => addition(),
+                    () => {
+                        const elementsCopy = deepCopy(elements);
+                        setElements(elementsCopy);
+                    }
+                );
             }
             if (
                 currentHandleIdRef.current === OATComponentHandleName ||
                 currentHandleIdRef.current === OATExtendHandleName ||
                 currentHandleIdRef.current === OATRelationshipHandleName
             ) {
-                const name = `Model${newModelId}`;
-                const id = `${idClassBase}model${newModelId};${versionClassBase}`;
-                const reactFlowBounds = reactFlowWrapperRef.current.getBoundingClientRect();
-                const position = rfInstance.project({
-                    x: evt.clientX - reactFlowBounds.left,
-                    y: evt.clientY - reactFlowBounds.top
-                });
-                const newNode = {
-                    id: id,
-                    type: OATInterfaceType,
-                    position: position,
-                    data: {
-                        name: name,
-                        type: OATInterfaceType,
+                const addition = () => {
+                    const name = `Model${newModelId}`;
+                    const id = `${idClassBase}model${newModelId};${versionClassBase}`;
+                    const reactFlowBounds = reactFlowWrapperRef.current.getBoundingClientRect();
+                    const position = rfInstance.project({
+                        x: evt.clientX - reactFlowBounds.left,
+                        y: evt.clientY - reactFlowBounds.top
+                    });
+                    const newNode = {
                         id: id,
-                        content: [],
-                        context: contextClassBase
-                    }
+                        type: OATInterfaceType,
+                        position: position,
+                        data: {
+                            name: name,
+                            type: OATInterfaceType,
+                            id: id,
+                            content: [],
+                            context: contextClassBase
+                        }
+                    };
+                    params.target = id;
+                    params.id = `${idClassBase}${OATRelationshipHandleName}${getNextRelationshipAmount(
+                        elements
+                    )};${versionClassBase}`;
+                    params.data.id = `${idClassBase}${OATRelationshipHandleName}${getNextRelationshipAmount(
+                        elements
+                    )};${versionClassBase}`;
+                    params.data.type = currentHandleIdRef.current;
+                    params.data.name = OATRelationshipHandleName
+                        ? `${OATRelationshipHandleName}_${getNextRelationshipAmount(
+                              elements
+                          )}`
+                        : '';
+                    setElements((es) => [...addEdge(params, es), newNode]);
                 };
-                params.target = id;
-                params.id = `${idClassBase}${OATRelationshipHandleName}${getNextRelationshipAmount(
-                    elements
-                )};${versionClassBase}`;
-                params.data.id = `${idClassBase}${OATRelationshipHandleName}${getNextRelationshipAmount(
-                    elements
-                )};${versionClassBase}`;
-                params.data.type = currentHandleIdRef.current;
-                params.data.name = OATRelationshipHandleName
-                    ? `${OATRelationshipHandleName}_${getNextRelationshipAmount(
-                          elements
-                      )}`
-                    : '';
-                setElements((es) => [...addEdge(params, es), newNode]);
+
+                execute(
+                    () => addition(),
+                    () => {
+                        const elementsCopy = deepCopy(elements);
+                        setElements(elementsCopy);
+                    }
+                );
             }
         }
     };
@@ -957,33 +1021,27 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     const onElementClick = (evt, node) => {
         if (!state.modified) {
             // Checks if a node is selected to display it in the property editor
-            if (node.data.type === OATInterfaceType && translatedOutput) {
-                currentNodeIdRef.current = node.id;
-
-                const currentModel = translatedOutput.find(
-                    (model) => model['@id'] === node.id
+            if (
+                node.data.type === OATInterfaceType &&
+                translatedOutput &&
+                node.id !== currentNodeIdRef.current // Prevent re-execute the same node
+            ) {
+                execute(
+                    () => {
+                        currentNodeIdRef.current = node.id;
+                        dispatch({
+                            type: SET_OAT_SELECTED_MODEL_ID,
+                            payload: node.id
+                        });
+                    },
+                    () => {
+                        const modelCopy = deepCopy(model);
+                        dispatch({
+                            type: SET_OAT_SELECTED_MODEL_ID,
+                            payload: modelCopy ? modelCopy['@id'] : -1
+                        });
+                    }
                 );
-
-                const extendsItems = elements
-                    .filter(
-                        (element) =>
-                            element.type === OATExtendHandleName &&
-                            element?.source === node.id
-                    )
-                    .map((element) => element.target);
-
-                const selectedModel = {
-                    '@id': node.id,
-                    '@type': node.data.type,
-                    '@context': node.data.context,
-                    displayName: node.data.name,
-                    contents: currentModel.contents,
-                    extends: extendsItems ? extendsItems : null
-                };
-                dispatch({
-                    type: SET_OAT_PROPERTY_EDITOR_MODEL,
-                    payload: selectedModel
-                });
             }
         }
     };
@@ -1038,7 +1096,31 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     };
 
     const onBackgroundClick = () => {
-        dispatch({ type: SET_OAT_PROPERTY_EDITOR_MODEL, payload: null });
+        const clearModel = () => {
+            dispatch({ type: SET_OAT_PROPERTY_EDITOR_MODEL, payload: null });
+            dispatch({
+                type: SET_OAT_SELECTED_MODEL_ID,
+                payload: -1
+            });
+        };
+
+        if (model) {
+            execute(
+                () => clearModel(),
+                () => {
+                    const modelCopy = deepCopy(model);
+                    const selectedModelIdCopy = deepCopy(selectedModelId);
+                    dispatch({
+                        type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                        payload: modelCopy
+                    });
+                    dispatch({
+                        type: SET_OAT_SELECTED_MODEL_ID,
+                        payload: selectedModelIdCopy
+                    });
+                }
+            );
+        }
     };
 
     return (
