@@ -876,7 +876,10 @@
     "errorRepeatedId": "Aynı kimliğe sahip bir model zaten var",
     "errorRepeatedName": "Aynı ada sahip bir model zaten var",
     "errorRepeatedEdgeName": "Aynı ada sahip bir ilişki zaten var",
-    "errorInvalidJSON": "Geçersiz JSON"
+    "errorInvalidJSON": "Geçersiz JSON",
+    "addToPropertyList": "Özellik listesine ekle",
+    "moveDown": "Aşağı taşı",
+    "moveUp": "Yukarı Taşı"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Hata mesajı",
