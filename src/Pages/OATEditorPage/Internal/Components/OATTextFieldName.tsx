@@ -23,8 +23,6 @@ type IOATTexField = {
     state?: IOATEditorState;
     setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
     styles?: React.CSSProperties;
-    relationship?: boolean;
-    relationshipClose?: (value: boolean) => void;
 };
 
 const OATTextFieldName = ({
@@ -37,9 +35,7 @@ const OATTextFieldName = ({
     placeholder,
     state,
     onCommit,
-    styles,
-    relationship,
-    relationshipClose
+    styles
 }: IOATTexField) => {
     const { t } = useTranslation();
     const [nameLengthError, setNameLengthError] = useState(false);
@@ -126,9 +122,6 @@ const OATTextFieldName = ({
                 payload: modelCopy
             });
             setName(temporaryName);
-            if (relationship) {
-                relationshipClose(false);
-            }
         } else {
             setTemporaryName(name);
             setNameDuplicateInterfaceError(false);
@@ -141,12 +134,11 @@ const OATTextFieldName = ({
     const onKeyDown = (event) => {
         if (event.key === 'Enter') {
             onCommitChange();
-            relationshipClose(false);
         }
         if (event.key === 'Escape' || event.key === 'Tab') {
             setName(originalValue);
             setTemporaryName(originalValue);
-            relationshipClose(false);
+            onCommit();
         }
     };
 

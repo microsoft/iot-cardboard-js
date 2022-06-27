@@ -514,6 +514,10 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
         }
     };
 
+    const onCommit = () => {
+        setNameEditor(false);
+    };
+
     return (
         <>
             <path
@@ -577,8 +581,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                                 setName={setNameText}
                                 dispatch={dispatch}
                                 state={state}
-                                relationship={nameEditor}
-                                relationshipClose={setNameEditor}
+                                onCommit={onCommit}
                                 autoFocus
                             />
                         )}
