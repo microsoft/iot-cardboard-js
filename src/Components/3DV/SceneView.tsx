@@ -1263,6 +1263,12 @@ function SceneView(props: ISceneViewProps, ref) {
         }
     }, [markers]);
 
+    useEffect(() => {
+        if (markers && !isLoading) {
+            createMarkersWithPosition();
+        }
+    }, [markers, isLoading]);
+
     // SETUP LOGIC FOR onMeshHover
     useEffect(() => {
         debugLog(

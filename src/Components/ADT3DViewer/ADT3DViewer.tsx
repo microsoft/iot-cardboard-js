@@ -505,21 +505,23 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
                     coloredMeshes.push(sceneColoredMeshItem);
                 });
             });
+            setColoredMeshItems(coloredMeshes);
+        }
+    }, [sceneVisuals, coloredMeshItemsProp]);
 
+    useEffect(() => {
+        if (sceneAlerts) {
             const markers: Marker[] = [];
-
             sceneAlerts.forEach((alert) => {
                 const badge = createBadge(alert);
                 markers.push(badge);
             });
 
             setMarkers(markers);
-
-            setColoredMeshItems(coloredMeshes);
         }
-    }, [sceneVisuals, coloredMeshItemsProp, sceneAlerts]);
+    }, [sceneAlerts, sceneThemeState.sceneBackground]);
 
-    // mesh callbakcs
+    // mesh callbacks
     const meshClick = (mesh: { id: string }, scene: any) => {
         // update the selected element on the context
         setSelectedElementId(getElementByMeshId(mesh?.id)?.id);
