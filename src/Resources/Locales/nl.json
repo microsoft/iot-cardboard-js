@@ -768,7 +768,9 @@
     "errorFileFormatNotSupported": "{{file}} indeling niet ondersteund",
     "errorFormatNoSupported": "Bestandsindeling niet ondersteund",
     "errorIssueWithFile": "Probleem met {{bestandsnaam}}: {{error}}",
-    "errorNamespace": "Naamruimte mag alleen letters, cijfers en onderstrepingstekens bevatten."
+    "errorNamespace": "Naamruimte mag alleen letters, cijfers en onderstrepingstekens bevatten.",
+    "undo": "Ongedaan maken",
+    "redo": "Opnieuw"
   },
   "cameraControls": {
     "mouseControls": "Muisbediening",

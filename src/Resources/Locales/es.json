@@ -768,7 +768,9 @@
     "errorFileFormatNotSupported": "Formato {{archivo}} no compatible",
     "errorFormatNoSupported": "Formato de archivo no compatible",
     "errorIssueWithFile": "Problema con {{fileName}}: {{error}}",
-    "errorNamespace": "El espacio de nombres solo puede contener letras, dígitos y guiones bajos."
+    "errorNamespace": "El espacio de nombres solo puede contener letras, dígitos y guiones bajos.",
+    "undo": "Deshacer",
+    "redo": "Rehacer"
   },
   "cameraControls": {
     "mouseControls": "Controles del ratón",

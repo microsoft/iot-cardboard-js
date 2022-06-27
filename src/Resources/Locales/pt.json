@@ -768,7 +768,9 @@
     "errorFileFormatNotSupported": "{{file}} formato não suportado",
     "errorFormatNoSupported": "Formato de arquivo não suportado",
     "errorIssueWithFile": "Problema com {{fileName}}: {{error}}",
-    "errorNamespace": "O namespace só pode conter letras, dígitos e sublinhados."
+    "errorNamespace": "O namespace só pode conter letras, dígitos e sublinhados.",
+    "undo": "Desfazer",
+    "redo": "Refazer"
   },
   "cameraControls": {
     "mouseControls": "Controles do mouse",

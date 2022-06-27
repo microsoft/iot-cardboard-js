@@ -768,7 +768,9 @@
     "errorFileFormatNotSupported": "{{file}} formátum nem támogatott",
     "errorFormatNoSupported": "A fájlformátum nem támogatott",
     "errorIssueWithFile": "Probléma a következővel: {{fileName}}: {{error}}",
-    "errorNamespace": "A névtér csak betűket, számjegyeket és aláhúzásjeleket tartalmazhat."
+    "errorNamespace": "A névtér csak betűket, számjegyeket és aláhúzásjeleket tartalmazhat.",
+    "undo": "Kigombol",
+    "redo": "Újra kifest"
   },
   "cameraControls": {
     "mouseControls": "Egérvezérlők",

@@ -768,7 +768,9 @@
     "errorFileFormatNotSupported": "{{ファイル}}形式はサポートされていません",
     "errorFormatNoSupported": "サポートされていないファイル形式",
     "errorIssueWithFile": "{{ファイル名}}に関する問題: {{エラー}}",
-    "errorNamespace": "名前空間には、文字、数字、およびアンダースコアのみを含めることができます。"
+    "errorNamespace": "名前空間には、文字、数字、およびアンダースコアのみを含めることができます。",
+    "undo": "外す",
+    "redo": "やり直す"
   },
   "cameraControls": {
     "mouseControls": "マウスコントロール",

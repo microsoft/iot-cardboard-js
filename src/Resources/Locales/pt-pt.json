@@ -768,7 +768,9 @@
     "errorFileFormatNotSupported": "{{file}} formato não suportado",
     "errorFormatNoSupported": "Formato de ficheiro não suportado",
     "errorIssueWithFile": "Problema com {{fileName}} {{error}}",
-    "errorNamespace": "O espaço de nomes só pode conter letras, dígitos e sublinhados."
+    "errorNamespace": "O espaço de nomes só pode conter letras, dígitos e sublinhados.",
+    "undo": "Desfazer",
+    "redo": "Redo"
   },
   "cameraControls": {
     "mouseControls": "Controlos do rato",
