@@ -768,7 +768,9 @@
     "errorFileFormatNotSupported": "{{文件}} 格式不受支持",
     "errorFormatNoSupported": "不支持的文件格式",
     "errorIssueWithFile": "{{文件名}} 的问题：{{错误}}",
-    "errorNamespace": "命名空间只能包含字母、数字和下划线。"
+    "errorNamespace": "命名空间只能包含字母、数字和下划线。",
+    "undo": "撤消",
+    "redo": "重做"
   },
   "cameraControls": {
     "mouseControls": "鼠标控制",

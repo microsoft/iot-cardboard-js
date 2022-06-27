@@ -768,7 +768,9 @@
     "errorFileFormatNotSupported": "Formato {{file}} non supportato",
     "errorFormatNoSupported": "Formato di file non supportato",
     "errorIssueWithFile": "Problema con {{nomefile}}: {{errore}}",
-    "errorNamespace": "Lo spazio dei nomi può contenere solo lettere, cifre e caratteri di sottolineatura."
+    "errorNamespace": "Lo spazio dei nomi può contenere solo lettere, cifre e caratteri di sottolineatura.",
+    "undo": "Disfare",
+    "redo": "Rifare"
   },
   "cameraControls": {
     "mouseControls": "Controlli del mouse",

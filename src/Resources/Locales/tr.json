@@ -768,7 +768,9 @@
     "errorFileFormatNotSupported": "{{dosya}} biçimi desteklenmiyor",
     "errorFormatNoSupported": "Dosya biçimi Desteklenmiyor",
     "errorIssueWithFile": "{{fileName}} ile ilgili sorun: {{error}}",
-    "errorNamespace": "Ad alanı yalnızca harfler, rakamlar ve alt çizgiler içerebilir."
+    "errorNamespace": "Ad alanı yalnızca harfler, rakamlar ve alt çizgiler içerebilir.",
+    "undo": "Geri almak",
+    "redo": "Yinele"
   },
   "cameraControls": {
     "mouseControls": "Fare Kontrolleri",
