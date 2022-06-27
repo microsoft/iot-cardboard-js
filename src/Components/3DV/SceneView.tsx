@@ -1847,7 +1847,6 @@ function SceneView(props: ISceneViewProps, ref) {
                     gizmoManager.attachToMesh(null);
                     // will also be triggered on leaving the tab, so snap parent mesh back to original state
                     if (gizmoTransformItemRef.current.parentMeshId) {
-                        console.log('called?');
                         const parentMesh: BABYLON.Mesh =
                             meshMap.current?.[
                                 gizmoTransformItemRef.current.parentMeshId
@@ -2094,13 +2093,7 @@ function SceneView(props: ISceneViewProps, ref) {
         return () => {
             debugLog('debug', 'Mesh gizmo cleanup'); //?
         };
-    }, [
-        gizmoElementItems,
-        isLoading
-        // isWireframe,
-        // currentObjectColor,
-        // backgroundColor
-    ]);
+    }, [gizmoElementItems, isLoading]);
 
     // Handle gizmoTransformItem
     useEffect(() => {

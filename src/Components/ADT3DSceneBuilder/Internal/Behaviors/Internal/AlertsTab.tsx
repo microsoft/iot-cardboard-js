@@ -36,7 +36,7 @@ import {
 import { useBehaviorFormContext } from '../../../../../Models/Context/BehaviorFormContext/BehaviorFormContext';
 import { BehaviorFormContextActionType } from '../../../../../Models/Context/BehaviorFormContext/BehaviorFormContext.types';
 
-const debugLogging = false;
+const debugLogging = true;
 const logDebugConsole = getDebugLogger('AlertsTab', debugLogging);
 
 const getAlertFromBehavior = (behavior: IBehavior) =>
@@ -119,7 +119,18 @@ const AlertsTab: React.FC = () => {
 
     // a different useEffect for transform item we get back from SceneView
     useEffect(() => {
-        console.log('gizmoTransformItem: ', gizmoTransformItem);
+        //updates the config on save
+        if (gizmoTransformItem) {
+            setValueRangeProperty('extensionProperties', {
+                transform: true,
+                xRot: gizmoTransformItem.rotation.x,
+                yRot: gizmoTransformItem.rotation.y,
+                zRot: gizmoTransformItem.rotation.z,
+                xPos: gizmoTransformItem.position.x,
+                yPos: gizmoTransformItem.position.y,
+                zPos: gizmoTransformItem.position.z
+            });
+        }
     }, [gizmoTransformItem]);
 
     const getAndCreateIfNotExistsAlertVisual = (draft: IBehavior) => {
@@ -136,7 +147,8 @@ const AlertsTab: React.FC = () => {
     };
 
     const setValueRangeProperty = useCallback(
-        (propertyName: keyof IValueRangeVisual, value: string) => {
+        (propertyName: keyof IValueRangeVisual, value: string | any) => {
+            //er ... sorry for the typing change
             logDebugConsole(
                 'info',
                 `[START] Update value range property ${propertyName} to value `,
@@ -278,30 +290,17 @@ const AlertsTab: React.FC = () => {
                     break;
             }
             setGizmoTransformItem(newGizmoTransformItem);
+            // setValueRangeProperty('extensionProperties', {
+            //     transform: true,
+            //     xRot: newGizmoTransformItem.rotation.x,
+            //     yRot: newGizmoTransformItem.rotation.y,
+            //     zRot: newGizmoTransformItem.rotation.z,
+            //     xPos: newGizmoTransformItem.position.x,
+            //     yPos: newGizmoTransformItem.position.y,
+            //     zPos: newGizmoTransformItem.position.z
+            // });
         },
-        // setBehaviorToEdit(
-        //     produce((draft) => {
-        //         const alertVisual = getAndCreateIfNotExistsAlertVisual(
-        //             draft
-        //         );
-        //         alertVisual.valueRanges[0].visual.extensionProperties = {
-        //             transform: true,
-        //             // xRot: newValue.rotation.x,
-        //             // yRot: newValue.rotation.y,
-        //             // zRot: newValue.rotation.z,
-        //             // xPos: newValue.position.x,
-        //             // yPos: newValue.position.y,
-        //             // zPos: newValue.position.z
-        //             xRot: event.target.value,
-        //             yRot: 0,
-        //             zRot: 0,
-        //             xPos: 0,
-        //             yPos: 0,
-        //             zPos: 0
-        //         };
-        //     })
-        // ),
-        [gizmoTransformItem]
+        [gizmoTransformItem, setValueRangeProperty]
     );
 
     const onNoteChange = useCallback(
