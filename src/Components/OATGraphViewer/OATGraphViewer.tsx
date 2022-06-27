@@ -513,6 +513,13 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                 payload: modelClicked
             });
         } else if (!node && !model) {
+            // Occurs when background is selected
+            dispatch({
+                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                payload: null
+            });
+        } else if (!node && model && model['@type'] === OATInterfaceType) {
+            // Occurs on undo when there wa no original model on previous state
             dispatch({
                 type: SET_OAT_PROPERTY_EDITOR_MODEL,
                 payload: null
@@ -702,73 +709,89 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     };
 
     const onNodeDragStop = (evt, node) => {
-        // Checks if a node is being dragged into another node to create a relationship between them
-        let targetId = '';
-        const areaDistanceX = 60;
-        const areaDistanceY = 30;
-        elements.forEach((element) => {
-            if (
-                element.id !== node.id &&
-                !element.source &&
-                node.position.x - areaDistanceX < element.position.x &&
-                element.position.x < node.position.x + areaDistanceX &&
-                node.position.y - areaDistanceY < element.position.y &&
-                element.position.y < node.position.y + areaDistanceY
-            ) {
-                targetId = element.id;
-            }
-        });
-        const targetIndex = elements.findIndex(
-            (element) => element.id === targetId
-        );
-        if (targetIndex >= 0) {
-            const id = node.id;
-            if (node.data.type === elements[targetIndex].data.type) {
-                const params: IOATRelationshipElement = {
-                    source: node.id,
-                    sourceHandle: OATExtendHandleName,
-                    target: targetId,
-                    label: '',
-                    type: OATRelationshipHandleName,
-                    data: {
-                        name: '',
-                        displayName: '',
-                        id: `${node.id}${OATExtendHandleName}`,
-                        type: OATExtendHandleName
-                    }
-                };
-                setElements((es) => addEdge(params, es));
-            } else {
-                let sourceId = '';
-                if (node.data.type === OATComponentHandleName) {
-                    sourceId = targetId;
-                    targetId = node.id;
-                } else {
-                    sourceId = node.id;
+        const onStop = (node) => {
+            // Checks if a node is being dragged into another node to create a relationship between them
+            let targetId = '';
+            const areaDistanceX = 60;
+            const areaDistanceY = 30;
+            elements.forEach((element) => {
+                if (
+                    element.id !== node.id &&
+                    !element.source &&
+                    node.position.x - areaDistanceX < element.position.x &&
+                    element.position.x < node.position.x + areaDistanceX &&
+                    node.position.y - areaDistanceY < element.position.y &&
+                    element.position.y < node.position.y + areaDistanceY
+                ) {
+                    targetId = element.id;
                 }
-                const params: IOATRelationshipElement = {
-                    source: sourceId,
-                    sourceHandle: OATComponentHandleName,
-                    target: targetId,
-                    label: '',
-                    type: OATRelationshipHandleName,
-                    data: {
-                        name: '',
-                        displayName: '',
-                        id: `${sourceId}${OATComponentHandleName}`,
-                        type: OATComponentHandleName
-                    }
-                };
-                setElements((es) => addEdge(params, es));
-            }
-            node.id = id;
-        } else {
-            const index = elements.findIndex(
-                (element) => element.id === node.id
+            });
+            const targetIndex = elements.findIndex(
+                (element) => element.id === targetId
             );
-            elements[index].position = { ...node.position };
-            setElements([...elements]);
-        }
+            if (targetIndex >= 0) {
+                const id = node.id;
+                if (node.data.type === elements[targetIndex].data.type) {
+                    const params: IOATRelationshipElement = {
+                        source: node.id,
+                        sourceHandle: OATExtendHandleName,
+                        target: targetId,
+                        label: '',
+                        type: OATRelationshipHandleName,
+                        data: {
+                            name: '',
+                            displayName: '',
+                            id: `${node.id}${OATExtendHandleName}`,
+                            type: OATExtendHandleName
+                        }
+                    };
+                    setElements((es) => addEdge(params, es));
+                } else {
+                    let sourceId = '';
+                    if (node.data.type === OATComponentHandleName) {
+                        sourceId = targetId;
+                        targetId = node.id;
+                    } else {
+                        sourceId = node.id;
+                    }
+                    const params: IOATRelationshipElement = {
+                        source: sourceId,
+                        sourceHandle: OATComponentHandleName,
+                        target: targetId,
+                        label: '',
+                        type: OATRelationshipHandleName,
+                        data: {
+                            name: '',
+                            displayName: '',
+                            id: `${sourceId}${OATComponentHandleName}`,
+                            type: OATComponentHandleName
+                        }
+                    };
+                    setElements((es) => addEdge(params, es));
+                }
+                node.id = id;
+            } else {
+                const index = elements.findIndex(
+                    (element) => element.id === node.id
+                );
+                elements[index].position = { ...node.position };
+                setElements([...elements]);
+            }
+        };
+        execute(
+            () => onStop(node),
+            () => {
+                const modelsCopy = deepCopy(models);
+                const modelPositionsCopy = deepCopy(modelPositions);
+
+                const previousPositions = getGraphViewerElementsFromModels(
+                    modelsCopy,
+                    modelPositionsCopy
+                );
+
+                setElements(previousPositions);
+            }
+        );
     };
 
     const onConnectStart = (evt, params) => {
@@ -1100,7 +1123,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
             dispatch({ type: SET_OAT_PROPERTY_EDITOR_MODEL, payload: null });
             dispatch({
                 type: SET_OAT_SELECTED_MODEL_ID,
-                payload: -1
+                payload: null
             });
         };
 
