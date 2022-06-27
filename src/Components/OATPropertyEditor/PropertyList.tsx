@@ -59,6 +59,7 @@ export const PropertyList = ({
     const [lastPropertyFocused, setLastPropertyFocused] = useState(null);
     const dragItem = useRef(null);
     const dragNode = useRef(null);
+    const addPropertyLabelRef = useRef(null);
     const [propertySelectorVisible, setPropertySelectorVisible] = useState(
         false
     );
@@ -202,12 +203,12 @@ export const PropertyList = ({
         });
     };
 
-    const definePropertySelectorPosition = (e) => {
+    const definePropertySelectorPosition = (e, top = null) => {
         if (e) {
             const boundingRect = e.target.getBoundingClientRect();
             setPropertySelectorPosition({
                 ...propertySelectorPosition,
-                top: boundingRect.top,
+                top: top ? top : boundingRect.top,
                 left: boundingRect.left
             });
             setPropertySelectorTriggerElementsBoundingBox(boundingRect);
@@ -234,7 +235,19 @@ export const PropertyList = ({
     const onAddPropertyLabelMouseOver = (e) => {
         setPropertySelectorVisible(true);
         setLastPropertyFocused(null);
-        definePropertySelectorPosition(e);
+
+        const buttonTop = addPropertyLabelRef.current.getBoundingClientRect()
+            .top;
+        definePropertySelectorPosition(e, buttonTop);
+    };
+
+    const onTemplateAddition = (item) => {
+        const newTemplates = deepCopy(templates);
+        newTemplates.push(item);
+        dispatch({
+            type: SET_OAT_TEMPLATES,
+            payload: newTemplates
+        });
     };
 
     const moveItemOnPropertyList = (index: number, moveUp: boolean) => {
@@ -262,15 +275,9 @@ export const PropertyList = ({
                         onMouseLeave={(e) => {
                             onMouseLeave(e);
                         }}
+                        ref={addPropertyLabelRef}
                     >
-                        <ActionButton
-                            styles={{
-                                root: {
-                                    paddingLeft: '10px',
-                                    height: 'fit-content'
-                                }
-                            }}
-                        >
+                        <ActionButton>
                             <FontIcon
                                 iconName={'CirclePlus'}
                                 className={
@@ -389,15 +396,18 @@ export const PropertyList = ({
                 </div>
             )}
 
-            {propertySelectorVisible && (
-                <PropertySelector
-                    setPropertySelectorVisible={setPropertySelectorVisible}
-                    lastPropertyFocused={lastPropertyFocused}
-                    dispatch={dispatch}
-                    state={state}
-                    propertySelectorPosition={propertySelectorPosition}
-                />
-            )}
+            <PropertySelector
+                setPropertySelectorVisible={setPropertySelectorVisible}
+                lastPropertyFocused={lastPropertyFocused}
+                dispatch={dispatch}
+                state={state}
+                propertySelectorPosition={propertySelectorPosition}
+                className={
+                    propertySelectorVisible
+                        ? ''
+                        : propertyInspectorStyles.propertySelectorHidden
+                }
+            />
         </div>
     );
 };

@@ -75,7 +75,7 @@ const PropertySelector = ({
 
     const data = {
         propertyTags: {
-            sectionFirst: [
+            primitive: [
                 {
                     name: 'boolean',
                     title: t('OATPropertyEditor.boolean'),
@@ -90,12 +90,6 @@ const PropertySelector = ({
                     name: 'dateTime',
                     title: t('OATPropertyEditor.dateTime'),
                     icon: IconDatetime
-                },
-                {
-                    name: DTDLSchemaType.Enum,
-                    title: t('OATPropertyEditor.enum'),
-                    icon: IconEnum,
-                    complex: true
                 },
                 {
                     name: 'double',
@@ -118,18 +112,10 @@ const PropertySelector = ({
                     icon: IconLong
                 },
                 {
-                    name: DTDLSchemaType.Map,
-                    title: t('OATPropertyEditor.map'),
-                    icon: IconMap,
-                    complex: true
-                },
-                {
                     name: 'duration',
                     title: t('OATPropertyEditor.duration'),
                     icon: IconDuration
-                }
-            ],
-            sectionSecond: [
+                },
                 {
                     name: 'string',
                     title: t('OATPropertyEditor.string'),
@@ -139,15 +125,29 @@ const PropertySelector = ({
                     name: 'time',
                     title: t('OATPropertyEditor.time'),
                     icon: IconTime
-                },
+                }
+            ],
+            complex: [
                 {
                     name: DTDLSchemaType.Object,
                     title: t('OATPropertyEditor.object'),
                     icon: IconObject,
                     complex: true
+                },
+                {
+                    name: DTDLSchemaType.Map,
+                    title: t('OATPropertyEditor.map'),
+                    icon: IconMap,
+                    complex: true
+                },
+                {
+                    name: DTDLSchemaType.Enum,
+                    title: t('OATPropertyEditor.enum'),
+                    icon: IconEnum,
+                    complex: true
                 }
             ],
-            sectionThird: [
+            geoSpatial: [
                 {
                     name: 'point',
                     title: t('OATPropertyEditor.point'),
@@ -291,7 +291,7 @@ const PropertySelector = ({
         >
             <Stack horizontal>
                 <div className={propertyInspectorStyles.propertyTagsWrapSecond}>
-                    {data.propertyTags.sectionSecond.map((tag, i) => {
+                    {data.propertyTags.complex.map((tag, i) => {
                         if (
                             lastPropertyFocused &&
                             typeof lastPropertyFocused.item.schema ===
@@ -322,7 +322,7 @@ const PropertySelector = ({
                 </div>
                 <Separator styles={propertySelectorSeparatorStyles} vertical />
                 <div className={propertyInspectorStyles.propertyTagsWrapFirst}>
-                    {data.propertyTags.sectionFirst.map((tag, i) => {
+                    {data.propertyTags.primitive.map((tag, i) => {
                         if (
                             lastPropertyFocused &&
                             typeof lastPropertyFocused.item.schema ===
@@ -353,7 +353,7 @@ const PropertySelector = ({
                 </div>
                 <Separator styles={propertySelectorSeparatorStyles} vertical />
                 <div className={propertyInspectorStyles.propertyTagsWrapThird}>
-                    {data.propertyTags.sectionThird.map((tag, i) => (
+                    {data.propertyTags.geoSpatial.map((tag, i) => (
                         <Svg
                             tabIndex={0}
                             key={i}

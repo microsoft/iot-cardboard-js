@@ -1040,7 +1040,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                         onConnectStart={onConnectStart}
                         onConnectStop={onConnectStop}
                         onLoad={onLoad}
-                        snapToGrid={true}
+                        snapToGrid={false}
                         snapGrid={[15, 15]}
                         nodeTypes={nodeTypes}
                         edgeTypes={edgeTypes}
