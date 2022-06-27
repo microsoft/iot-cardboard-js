@@ -71,19 +71,24 @@ const BehaviorsTab: React.FC<IADT3DSceneBuilderElementBehaviorProps> = ({
                 )
             );
 
+            const updatedBehavior = ViewerConfigUtility.removeElementFromBehavior(
+                elementToEdit,
+                deepCopy(selectedBehavior)
+            );
+
             // notify parent component of the behaviors that have been changed
             setBehaviorsToEdit((previousState) => [
                 ...previousState,
-                selectedBehavior
+                updatedBehavior
             ]);
 
             // add the behavior to the list of options
             setAvailableBehaviors((previousState) => [
                 ...previousState,
-                selectedBehavior
+                updatedBehavior
             ]);
         },
-        [behaviorsOnElement]
+        [behaviorsOnElement, elementToEdit]
     );
 
     const addBehaviorToElement = useCallback(
@@ -94,27 +99,32 @@ const BehaviorsTab: React.FC<IADT3DSceneBuilderElementBehaviorProps> = ({
                 selectedBehavior
             );
 
+            const updatedBehavior = ViewerConfigUtility.addElementToBehavior(
+                elementToEdit,
+                deepCopy(selectedBehavior)
+            );
+
             // add the behavior to the element for rendering the list
             setBehaviorsOnElement((previousState) => [
                 ...previousState,
-                selectedBehavior
+                updatedBehavior
             ]);
 
             // notify parent component of the behaviors that have been changed
             setBehaviorsToEdit((previousState) => [
                 ...previousState,
-                selectedBehavior
+                updatedBehavior
             ]);
 
             // remove the behavior from the list of options
             setAvailableBehaviors(
                 ViewerConfigUtility.removeBehaviorFromList(
                     availableBehaviors,
-                    selectedBehavior
+                    updatedBehavior
                 )
             );
         },
-        [availableBehaviors]
+        [availableBehaviors, elementToEdit]
     );
 
     // generate the list of items to show

@@ -20,7 +20,7 @@ import {
 import { IADT3DSceneBuilderElementFormProps } from '../../ADT3DSceneBuilder.types';
 import { SceneBuilderContext } from '../../ADT3DSceneBuilder';
 import { ADT3DSceneBuilderMode } from '../../../../Models/Constants/Enums';
-import { deepCopy } from '../../../../Models/Services/Utils';
+import { deepCopy, getDebugLogger } from '../../../../Models/Services/Utils';
 import ViewerConfigUtility from '../../../../Models/Classes/ViewerConfigUtility';
 import LeftPanelBuilderHeader, {
     getLeftPanelBuilderHeaderParamsForElements
@@ -44,6 +44,9 @@ import {
 import { ElementFormContextActionType } from '../../../../Models/Context/ElementsFormContext/ElementFormContext.types';
 import { createCustomMeshItems } from '../../../3DV/SceneView.Utils';
 import { IBehavior } from '../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
+
+const debugLogging = true;
+const logDebugConsole = getDebugLogger('ElementsForm', debugLogging);
 
 const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
     builderMode,
@@ -130,7 +133,12 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                 }
             }
             // END of behaviors update which this element exists in
-
+            logDebugConsole(
+                'debug',
+                'Saving updated config for element. {elementToEdit, config}',
+                elementFormState.elementToEdit,
+                updatedConfig
+            );
             return adapter.putScenesConfig(updatedConfig);
         },
         refetchDependencies: [adapter],
@@ -190,7 +198,6 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
 
     // mirror the state from scene context onto the form
     useEffect(() => {
-        console.log('****updateing meshes', coloredMeshItems);
         const meshIds = [];
         for (const item of coloredMeshItems) {
             meshIds.push(item.meshId);
