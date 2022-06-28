@@ -204,6 +204,7 @@ function SceneView(props: ISceneViewProps, ref) {
     const initialCameraTargetRef = useRef(new BABYLON.Vector3(0, 0, 0));
     const zoomedMeshesRef = useRef([]);
     const lastCameraPositionRef = useRef('');
+    const markersRef = useRef<Marker[]>(null);
 
     const [markersAndPositions, setMarkersAndPositions] = useState<
         { marker: Marker; left: number; top: number }[]
@@ -1074,8 +1075,8 @@ function SceneView(props: ISceneViewProps, ref) {
             top: number;
             left: number;
         }[] = [];
-        if (markers) {
-            markers.forEach((marker) => {
+        if (markersRef.current) {
+            markersRef.current.forEach((marker) => {
                 const position = getMarkerPosition(
                     marker,
                     meshMap.current,
@@ -1180,10 +1181,12 @@ function SceneView(props: ISceneViewProps, ref) {
 
             setMarkersAndPositions(markersAndPositions);
         }
-    }, [markers]);
+    }, [markers, markersRef.current]);
 
     useEffect(() => {
+        // ensure we have markers and the model is loaded
         if (markers && !isLoading) {
+            markersRef.current = markers;
             createMarkersWithPosition();
         }
     }, [markers, isLoading]);

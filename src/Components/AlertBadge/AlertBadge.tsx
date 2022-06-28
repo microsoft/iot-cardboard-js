@@ -1,40 +1,40 @@
-import { Icon, useTheme } from '@fluentui/react';
+import { Icon, styled, classNamesFunction } from '@fluentui/react';
 import React from 'react';
-import { SceneViewBadgeGroup } from '../../Models/Classes/SceneView.types';
-import { IADTBackgroundColor } from '../../Models/Constants';
+import {
+    IAlertBadgeProps,
+    IAlertBadgeStyleProps,
+    IAlertBadgeStyles
+} from './AlertBadge.types';
 import { getStyles } from './Alertbadges.styles';
 
-export interface IAlertBadgeProps {
-    badgeGroup: SceneViewBadgeGroup;
-    onBadgeGroupHover?: (
-        alert: SceneViewBadgeGroup,
-        left: number,
-        top: number
-    ) => void;
-    backgroundColor: IADTBackgroundColor;
-}
+const getClassNames = classNamesFunction<
+    IAlertBadgeStyleProps,
+    IAlertBadgeStyles
+>();
 
 const AlertBadge: React.FC<IAlertBadgeProps> = ({
     badgeGroup,
     onBadgeGroupHover,
-    backgroundColor
+    backgroundColor,
+    styles
 }) => {
-    const theme = useTheme();
-    const styles = getStyles(theme, backgroundColor);
+    const classNames = getClassNames(styles, {
+        backgroundColor: backgroundColor
+    });
 
     return (
         <div
             className={
                 badgeGroup?.badges?.length > 1 && badgeGroup?.badges?.length < 5
-                    ? styles.groupContainer
-                    : styles.singleContainer
+                    ? classNames.groupContainer
+                    : classNames.singleContainer
             }
             onMouseOver={(element) =>
                 onBadgeGroupHover(badgeGroup, element.clientX, element.clientY)
             }
         >
             {badgeGroup?.badges?.length > 4 ? (
-                <div className={styles.countBadge}>
+                <div className={classNames.countBadge}>
                     {badgeGroup?.badges?.length}
                 </div>
             ) : (
@@ -44,12 +44,15 @@ const AlertBadge: React.FC<IAlertBadgeProps> = ({
                         className={
                             badgeGroup?.badges?.length > 1 &&
                             badgeGroup?.badges?.length < 5
-                                ? styles.internalBadge
-                                : styles.badge
+                                ? classNames.internalBadge
+                                : classNames.badge
                         }
                         style={{ background: badge.color }}
                     >
-                        <Icon iconName={badge.icon} />
+                        <Icon
+                            iconName={badge.icon}
+                            style={{ fontSize: '12px' }}
+                        />
                     </div>
                 ))
             )}
@@ -57,4 +60,8 @@ const AlertBadge: React.FC<IAlertBadgeProps> = ({
     );
 };
 
-export default React.memo(AlertBadge);
+export default styled<
+    IAlertBadgeProps,
+    IAlertBadgeStyleProps,
+    IAlertBadgeStyles
+>(AlertBadge, getStyles);

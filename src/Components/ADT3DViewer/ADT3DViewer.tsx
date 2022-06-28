@@ -51,7 +51,11 @@ import {
     IADT3DViewerStyleProps,
     IADT3DViewerStyles
 } from './ADT3DViewer.types';
-import { ADT3DScenePageModes, BehaviorModalMode } from '../../Models/Constants';
+import {
+    ADT3DScenePageModes,
+    BehaviorModalMode,
+    IADTBackgroundColor
+} from '../../Models/Constants';
 import FloatingScenePageModeToggle from '../../Pages/ADT3DScenePage/Internal/FloatingScenePageModeToggle';
 import DeeplinkFlyout from '../DeeplinkFlyout/DeeplinkFlyout';
 import { SceneThemeContextProvider } from '../../Models/Context';
@@ -476,7 +480,15 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
         // // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    const createBadge = (badgeGroup: SceneViewBadgeGroup) => {
+    const createBadge = (
+        badgeGroup: SceneViewBadgeGroup,
+        backgroundColor: IADTBackgroundColor,
+        onBadgeGroupHover: (
+            alert: SceneViewBadgeGroup,
+            left: number,
+            top: number
+        ) => void
+    ) => {
         const id = 'cb-badge-' + badgeGroup.id;
         const marker: Marker = {
             id: id,
@@ -487,7 +499,7 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
                 <AlertBadge
                     badgeGroup={badgeGroup}
                     onBadgeGroupHover={onBadgeGroupHover}
-                    backgroundColor={sceneThemeState.sceneBackground}
+                    backgroundColor={backgroundColor}
                 />
             )
         };
@@ -513,12 +525,18 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
         if (sceneAlerts) {
             const markers: Marker[] = [];
             sceneAlerts.forEach((alert) => {
-                const badge = createBadge(alert);
+                const badge = createBadge(
+                    alert,
+                    sceneThemeState.sceneBackground,
+                    onBadgeGroupHover
+                );
                 markers.push(badge);
             });
 
             setMarkers(markers);
         }
+        // sceneThemeState.sceneBackground is a dependancy as we need to rerun this useEffect when
+        // the background color changes to ensure we update the badge colors
     }, [sceneAlerts, sceneThemeState.sceneBackground]);
 
     // mesh callbacks
@@ -686,6 +704,7 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
                     selectedVisual={selectedVisual}
                     sceneViewProps={{
                         coloredMeshItems: coloredMeshItems,
+                        markers: markers,
                         modelUrl: modelUrl,
                         onMeshClick: meshClick,
                         onMeshHover: meshHover,
@@ -694,7 +713,6 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
                         showMeshesOnHover: showMeshesOnHover,
                         unzoomedMeshOpacity: unzoomedMeshOpacity,
                         zoomToMeshIds: zoomToMeshIds,
-                        markers: markers,
                         ...svp,
                         getToken: (adapter as any).authService
                             ? () =>

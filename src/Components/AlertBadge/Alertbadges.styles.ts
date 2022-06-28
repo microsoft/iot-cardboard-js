@@ -1,10 +1,5 @@
-import {
-    IStyle,
-    memoizeFunction,
-    mergeStyleSets,
-    Theme
-} from '@fluentui/react';
-import { IADTBackgroundColor } from '../../Models/Constants';
+import { IStyle } from '@fluentui/react';
+import { IAlertBadgeStyleProps, IAlertBadgeStyles } from './AlertBadge.types';
 
 export const alertBadgeClassPrefix = 'cb-alert-badge';
 const classNames = {
@@ -15,76 +10,74 @@ const classNames = {
     countBadge: `${alertBadgeClassPrefix}-count-badge`
 };
 
-export const getStyles = memoizeFunction(
-    (theme: Theme, backgroundColor: IADTBackgroundColor) => {
-        return mergeStyleSets({
-            badge: [
-                classNames.badge,
-                {
-                    color: backgroundColor.defaultBadgeTextColor,
-                    width: '32px',
-                    height: '32px',
-                    borderRadius: '16px',
-                    textAlign: 'center',
-                    lineHeight: '32px'
-                } as IStyle
-            ],
-            internalBadge: [
-                classNames.internalBadge,
-                {
-                    color: backgroundColor.defaultBadgeTextColor,
-                    display: 'inline-block',
-                    width: '32px',
-                    height: '32px',
-                    borderRadius: '16px',
-                    textAlign: 'center',
-                    lineHeight: '32px',
-                    selectors: {
-                        ':nth-child(2),:nth-child(4)': {
-                            marginLeft: '2px'
-                        },
-                        ':nth-child(3),:nth-child(4)': {
-                            marginTop: '2px'
-                        }
+export const getStyles = (props: IAlertBadgeStyleProps): IAlertBadgeStyles => {
+    return {
+        badge: [
+            classNames.badge,
+            {
+                color: props.backgroundColor.defaultBadgeTextColor,
+                width: '22px',
+                height: '22px',
+                borderRadius: '16px',
+                textAlign: 'center',
+                lineHeight: '22px'
+            } as IStyle
+        ],
+        internalBadge: [
+            classNames.internalBadge,
+            {
+                color: props.backgroundColor.defaultBadgeTextColor,
+                display: 'inline-block',
+                width: '22px',
+                height: '22px',
+                borderRadius: '16px',
+                textAlign: 'center',
+                lineHeight: '22px',
+                selectors: {
+                    ':nth-child(2),:nth-child(4)': {
+                        marginLeft: '2px'
+                    },
+                    ':nth-child(3),:nth-child(4)': {
+                        marginTop: '2px'
                     }
-                } as IStyle
-            ],
-            countBadge: [
-                classNames.countBadge,
-                {
-                    color: backgroundColor.aggregateBadgeTextColor,
-                    background: backgroundColor.aggregateBadgeColor,
-                    width: '32px',
-                    height: '32px',
-                    borderRadius: '16px',
-                    textAlign: 'center',
-                    lineHeight: '32px'
-                } as IStyle
-            ],
-            groupContainer: [
-                classNames.groupContainer,
-                {
-                    background: `${backgroundColor.badgeColor}99`,
-                    maxWidth: '70px',
-                    padding: '2px',
-                    borderRadius: '10px',
-                    textAlign: 'center',
-                    lineHeight: '32px'
-                } as IStyle
-            ],
-            singleContainer: [
-                classNames.singleContainer,
-                {
-                    background: `${backgroundColor.badgeColor}99`,
-                    paddingTop: '2px',
-                    paddingLeft: '2px',
-                    borderRadius: '18px',
-                    textAlign: 'center',
-                    lineHeight: '34px',
-                    width: '36px',
-                    height: '36px'
-                } as IStyle
-            ]
-        });
-    }
-);
+                }
+            } as IStyle
+        ],
+        countBadge: [
+            classNames.countBadge,
+            {
+                color: props.backgroundColor.aggregateBadgeTextColor,
+                background: props.backgroundColor.aggregateBadgeColor,
+                width: '22px',
+                height: '22px',
+                borderRadius: '16px',
+                textAlign: 'center',
+                lineHeight: '22px'
+            } as IStyle
+        ],
+        groupContainer: [
+            classNames.groupContainer,
+            {
+                background: `${props.backgroundColor.badgeColor}99`,
+                maxWidth: '50px',
+                padding: '2px',
+                borderRadius: '10px',
+                textAlign: 'center',
+                lineHeight: '22px'
+            } as IStyle
+        ],
+        singleContainer: [
+            classNames.singleContainer,
+            {
+                background: `${props.backgroundColor.badgeColor}99`,
+                paddingTop: '2px',
+                paddingLeft: '2px',
+                borderRadius: '18px',
+                textAlign: 'center',
+                lineHeight: '22px',
+                width: '26px',
+                height: '26px'
+            } as IStyle
+        ]
+    };
+};
