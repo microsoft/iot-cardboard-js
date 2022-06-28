@@ -1,7 +1,7 @@
 import * as BABYLON from '@babylonjs/core/Legacy/legacy';
 import '@babylonjs/loaders';
 import * as GUI from '@babylonjs/gui';
-import React, { useState, useCallback, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
     IBabylonSandboxProps,
     IBabylonSandboxStyleProps,
@@ -9,10 +9,8 @@ import {
 } from './BabylonSandbox.types';
 import { getStyles } from './BabylonSandbox.styles';
 import { classNamesFunction, useTheme, styled } from '@fluentui/react';
-import { Engine } from '../ADT3DBuilder/ADT3DBuilder.stories.local';
 import { createGUID } from '../../Models/Services/Utils';
-import ValueRangeBuilder from '../ValueRangeBuilder/ValueRangeBuilder';
-import { UtilityLayerRenderer } from '@babylonjs/core/Legacy/legacy';
+import { getBoundingBox } from '../3DV/SceneView.Utils';
 
 const getClassNames = classNamesFunction<
     IBabylonSandboxStyleProps,
@@ -24,7 +22,9 @@ const getClassNames = classNamesFunction<
  */
 function setupCamera(
     scene: BABYLON.Scene,
-    arcRotate: boolean
+    arcRotate: boolean,
+    center?: BABYLON.Vector3,
+    radius?: number
 ): BABYLON.ArcRotateCamera | BABYLON.FreeCamera {
     // Creates, angles, distances and targets the camera
     const camera = arcRotate
@@ -32,9 +32,9 @@ function setupCamera(
               'Camera',
               0,
               Math.PI / 2.5,
+              //   radius ? radius : 33,
               33,
-              //   new BABYLON.Vector3(0, 0, 0),
-              BABYLON.Vector3.Zero(),
+              center ? center : BABYLON.Vector3.Zero(),
               scene
           )
         : new BABYLON.FreeCamera(
@@ -85,17 +85,9 @@ function BabylonSandbox(props: IBabylonSandboxProps) {
 
     const [canvasId] = useState(createGUID());
     const [scene, setScene] = useState<BABYLON.Scene>();
-    // const [engine, setEngine] = useState<BABYLON.Engine>();
     const engineRef = useRef<BABYLON.Engine>(null);
     const pickedMeshRef = useRef<BABYLON.AbstractMesh>(null);
     const gizmoManagerRef = useRef<BABYLON.GizmoManager>(undefined);
-    // const utilLayer = useRef<UtilityLayerRenderer>(null);
-
-    //everything in a single useEffect with refs
-    //instead of setEngine --> do engine.current = something -> doesn't handle a rerender
-    //so either do all refs (Babylon) or all ??
-    // put all effects together -> use refs
-    //except do need the first useEffect for canvas --> after that, change all states to refs
 
     // setting up engine based on the canvas & scene based on engine
     useEffect(() => {
@@ -107,19 +99,12 @@ function BabylonSandbox(props: IBabylonSandboxProps) {
         }
     }, [canvasId]);
 
-    // // setting up scene based on engine
-    // useEffect(() => {
-    //     if (engine) {
-    //         setScene(new BABYLON.Scene(engine));
-    //     }
-    // }, [engine]);
-
     // setting up camera, light, gizmo manager, etc. based on scene
     useEffect(() => {
         if (scene) {
             const arcRotate = true;
             const camera = setupCamera(scene, arcRotate);
-            const light = setupLight(scene);
+            setupLight(scene);
             gizmoManagerRef.current = new BABYLON.GizmoManager(scene);
             const gizmoManager = gizmoManagerRef.current;
             gizmoManager.usePointerToAttachGizmos = false;
@@ -139,6 +124,10 @@ function BabylonSandbox(props: IBabylonSandboxProps) {
                 // 'mercedes.glb'
             ).then((result) => {
                 const meshes = result.meshes;
+                const bbox = getBoundingBox(meshes);
+                // const center = bbox.boundingBox.centerWorld;
+                // const radius = bbox.diagonalLength / 2;
+                // camera = setupCamera(scene, arcRotate, center, radius);
                 console.log(result);
             });
 
@@ -148,32 +137,33 @@ function BabylonSandbox(props: IBabylonSandboxProps) {
             );
 
             // X Y Z label???
-            const xRotTB = new GUI.TextBlock('', 'xRotation: ');
-            xRotTB.width = '150px';
-            xRotTB.height = '40px';
-            xRotTB.color = 'white';
-            xRotTB.verticalAlignment = GUI.Control.VERTICAL_ALIGNMENT_BOTTOM;
-            xRotTB.horizontalAlignment = GUI.Control.HORIZONTAL_ALIGNMENT_LEFT;
+            const rotationTB = new GUI.TextBlock(
+                '',
+                'xRotation: \n\nyRotation: \n\nzRotation: '
+            );
+            rotationTB.width = '160px';
+            rotationTB.height = '120px';
+            rotationTB.color = 'white';
+            rotationTB.verticalAlignment =
+                GUI.Control.VERTICAL_ALIGNMENT_BOTTOM;
+            rotationTB.horizontalAlignment =
+                GUI.Control.HORIZONTAL_ALIGNMENT_LEFT;
 
-            guiCanvas.addControl(xRotTB);
+            guiCanvas.addControl(rotationTB);
 
-            const yRotTB = new GUI.TextBlock('', 'yRotation: ');
-            yRotTB.width = '150px';
-            yRotTB.height = '40px';
-            yRotTB.color = 'white';
-            yRotTB.verticalAlignment = GUI.Control.VERTICAL_ALIGNMENT_BOTTOM;
-            yRotTB.horizontalAlignment = GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT;
+            const positionTB = new GUI.TextBlock(
+                '',
+                'xPosition: \n\nyPosition: \n\nzPosition: '
+            );
+            positionTB.width = '200px';
+            positionTB.height = '120px';
+            positionTB.color = 'white';
+            positionTB.verticalAlignment =
+                GUI.Control.VERTICAL_ALIGNMENT_BOTTOM;
+            positionTB.horizontalAlignment =
+                GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT;
 
-            guiCanvas.addControl(yRotTB);
-
-            const zRotTB = new GUI.TextBlock('', 'zRotation: ');
-            zRotTB.width = '150px';
-            zRotTB.height = '40px';
-            zRotTB.color = 'white';
-            zRotTB.verticalAlignment = GUI.Control.VERTICAL_ALIGNMENT_TOP;
-            zRotTB.horizontalAlignment = GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT;
-
-            guiCanvas.addControl(zRotTB);
+            guiCanvas.addControl(positionTB);
 
             scene.actionManager = new BABYLON.ActionManager(scene);
 
@@ -184,21 +174,32 @@ function BabylonSandbox(props: IBabylonSandboxProps) {
                     },
                     function () {
                         if (pickedMeshRef.current) {
-                            xRotTB.text =
+                            let text =
                                 'xRotation: ' +
                                 convertRadiansToDegrees(
                                     pickedMeshRef.current.rotation.x
                                 );
-                            yRotTB.text =
-                                'yRotation: ' +
+                            text +=
+                                '\n\nyRotation: ' +
                                 convertRadiansToDegrees(
                                     pickedMeshRef.current.rotation.y
                                 );
-                            zRotTB.text =
-                                'zRotation: ' +
+                            text +=
+                                '\n\nzRotation: ' +
                                 convertRadiansToDegrees(
                                     pickedMeshRef.current.rotation.z
                                 );
+                            rotationTB.text = text;
+                            text =
+                                'xPosition: ' +
+                                pickedMeshRef.current.position.x.toFixed(2);
+                            text +=
+                                '\n\nyPosition: ' +
+                                pickedMeshRef.current.position.y.toFixed(2);
+                            text +=
+                                '\n\nzPosition: ' +
+                                pickedMeshRef.current.position.z.toFixed(2);
+                            positionTB.text = text;
                         }
                     }
                 )
@@ -244,53 +245,9 @@ function BabylonSandbox(props: IBabylonSandboxProps) {
         }
     }, [scene]);
 
-    // scene.onMeshImportedObservable
-    // scene.meshUnderPointer
-
-    // function handlePickedMesh(pickedMesh: BABYLON.AbstractMesh) {
-    //     gizmoManager.attachToMesh(pickedMesh);
-    //     console.log('gizmo?');
-    // }
-
-    // have as a handle change
-    // only reason to use state is if React cares --> so just use Babylon
-    // useEffect(() => {
-    //     if (currentMesh) {
-    //         // gizmoManager.usePointerToAttachGizmos = false;
-    //         // gizmoManager.rotationGizmoEnabled = true;
-    //         // gizmoManager.positionGizmoEnabled = true;
-    //         // gizmoManager.attachToMesh(currentMesh);
-    //         // console.log('gizmo?');
-    //         console.log(currentMesh.position.x);
-    //     }
-    // }, [currentMesh]);
-
-    // let xRotation = 0;
-
-    // const handleChange = ({ target }) => {
-    //     currentMesh
-    //         ? (currentMesh.rotation.x = target.value)
-    //         : console.log('no current mesh');
-    //     console.log(currentMesh.rotation.x);
-    // };
-
-    // if (scene && camera) {
-    //     scene.render();
-    // }
-
     return (
         <div className={classNames.root}>
-            <canvas id={canvasId} height="120%"></canvas>
-            <div>
-                {/* <label htmlFor="xRotation">X: </label>
-                <input
-                    id="xRotation"
-                    value={
-                        currentMesh ? currentMesh.rotation.x : 'no current mesh'
-                    }
-                    onChange={handleChange}
-                /> */}
-            </div>
+            <canvas id={canvasId} height="190%"></canvas>
         </div>
     );
 }
@@ -300,18 +257,3 @@ export default styled<
     IBabylonSandboxStyleProps,
     IBabylonSandboxStyles
 >(BabylonSandbox, getStyles);
-
-// do this under onPointerMove for scene???
-// and then the panel re-renders
-// setTransformInfo({
-//     rotation: {
-//         x: currentMesh.rotation.x,
-//         y: currentMesh.rotation.y,
-//         z: currentMesh.rotation.z
-//     },
-//     position: {
-//         x: currentMesh.position.x,
-//         y: currentMesh.position.y,
-//         z: currentMesh.position.z
-//     }
-// })

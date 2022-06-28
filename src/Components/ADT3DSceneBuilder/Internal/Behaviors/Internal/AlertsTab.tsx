@@ -154,11 +154,7 @@ const AlertsTab: React.FC = () => {
     };
 
     const setValueRangeProperty = useCallback(
-        (
-            propertyName: keyof IValueRangeVisual,
-            value: string | any,
-            valueRangeNum?: number
-        ) => {
+        (propertyName: keyof IValueRangeVisual, value: string | any) => {
             //er ... sorry for the typing change
             logDebugConsole(
                 'info',
@@ -179,9 +175,7 @@ const AlertsTab: React.FC = () => {
             }
 
             // if specifying which valueRange, do specified value range (mostly applies to transforms)
-            const valueRangeVisual = valueRangeNum
-                ? alertVisual?.valueRanges?.[0]?.visual
-                : alertVisual?.valueRanges?.[valueRangeNum]?.visual;
+            const valueRangeVisual = alertVisual?.valueRanges?.[0]?.visual;
             if (!valueRangeVisual) {
                 logDebugConsole(
                     'warn',
