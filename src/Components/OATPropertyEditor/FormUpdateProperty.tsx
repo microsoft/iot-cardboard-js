@@ -220,7 +220,7 @@ export const FormUpdateProperty = ({
         setCurrentNestedPropertyIndex(null);
     };
 
-    const handleUpdateProperty = () => {
+    const onUpdateProperty = () => {
         if (currentNestedPropertyIndex !== null) {
             handleUpdatedNestedProperty();
             return;
@@ -668,7 +668,7 @@ export const FormUpdateProperty = ({
                 <PrimaryButton
                     text={t('OATPropertyEditor.update')}
                     allowDisabledFocus
-                    onClick={handleUpdateProperty}
+                    onClick={onUpdateProperty}
                     disabled={
                         displayNameError ||
                         commentError ||

@@ -61,7 +61,7 @@ const OATTextFieldName = ({
         }
     }, [model]);
 
-    const handleOnChange = (value) => {
+    const onChange = (value: string) => {
         // Check length
         if (value.length <= OATNameLengthLimit) {
             setNameLengthError(null);
@@ -131,9 +131,14 @@ const OATTextFieldName = ({
         }
     };
 
-    const onKeyDown = (event) => {
+    const onKeyDown = (event: Event) => {
         if (event.key === 'Enter') {
             onCommitChange();
+        }
+        if (event.key === 'Escape' || event.key === 'Tab') {
+            setName(originalValue);
+            setTemporaryName(originalValue);
+            onCommit();
         }
     };
 
@@ -161,7 +166,7 @@ const OATTextFieldName = ({
             styles={styles}
             value={temporaryName}
             onChange={(_ev, value) => {
-                handleOnChange(value);
+                onChange(value);
             }}
             errorMessage={getErrorMessage()}
             onKeyDown={onKeyDown}

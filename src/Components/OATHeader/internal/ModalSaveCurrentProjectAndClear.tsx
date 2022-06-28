@@ -31,7 +31,7 @@ export const ModalSaveCurrentProjectAndClear = ({
     const promptTextStyles = getPromptTextStyles();
     const { projectName, models, modelPositions, templates, namespace } = state;
 
-    const handleOnSave = () => {
+    const onSave = () => {
         const files = loadFiles();
 
         //  Overwrite existing file
@@ -54,7 +54,7 @@ export const ModalSaveCurrentProjectAndClear = ({
         setModalBody('saveNewProjectAndClear');
     };
 
-    const handleDoNotSave = () => {
+    const onDoNotSave = () => {
         resetProject();
         setModalBody(FromBody.settings);
     };
@@ -76,14 +76,11 @@ export const ModalSaveCurrentProjectAndClear = ({
             </div>
 
             <div className={headerStyles.modalRowCenterItem}>
-                <PrimaryButton
-                    text={t('OATHeader.save')}
-                    onClick={handleOnSave}
-                />
+                <PrimaryButton text={t('OATHeader.save')} onClick={onSave} />
 
                 <PrimaryButton
                     text={t('OATHeader.dontSave')}
-                    onClick={handleDoNotSave}
+                    onClick={onDoNotSave}
                 />
 
                 <PrimaryButton
