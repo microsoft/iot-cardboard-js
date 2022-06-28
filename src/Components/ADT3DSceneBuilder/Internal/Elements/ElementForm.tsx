@@ -212,17 +212,6 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
         }
     }, [getConfig, onElementSave, saveElementAdapterData.adapterResult]);
 
-    // useEffect(() => {
-    //     if (elementFormState.elementToEdit) {
-    //         setColoredMeshItems(
-    //             createCustomMeshItems(
-    //                 elementFormState.elementToEdit.objectIDs,
-    //                 null
-    //             )
-    //         );
-    //     }
-    // }, [elementFormState.elementToEdit, setColoredMeshItems]);
-
     // mirror the state from scene context onto the form
     useEffect(() => {
         const meshIds = [];

@@ -71,6 +71,16 @@ export const ElementFormContextReducer: (
                 draft.elementToEdit.primaryTwinID = newTwinId;
                 break;
             }
+            case ElementFormContextActionType.FORM_ELEMENT_TWIN_ALIAS_ADD: {
+                if (!draft.elementToEdit.twinAliases) {
+                    draft.elementToEdit.twinAliases = {};
+                }
+
+                draft.elementToEdit.twinAliases[action.payload.aliasName] =
+                    action.payload.aliasTarget;
+
+                break;
+            }
             case ElementFormContextActionType.FORM_ELEMENT_TWIN_ALIAS_REMOVE: {
                 if (!draft.elementToEdit.twinAliases) {
                     logDebugConsole(

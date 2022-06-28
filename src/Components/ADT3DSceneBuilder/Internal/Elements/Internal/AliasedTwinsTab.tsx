@@ -1,10 +1,4 @@
-import React, {
-    useCallback,
-    useContext,
-    useEffect,
-    useMemo,
-    useState
-} from 'react';
+import React, { useCallback, useContext } from 'react';
 import { TFunction, useTranslation } from 'react-i18next';
 import {
     IContextualMenuItem,
@@ -18,7 +12,6 @@ import { IElementTwinAliasItem } from '../../../../../Models/Classes/3DVConfig';
 import { ICardboardListItem } from '../../../../CardboardList/CardboardList.types';
 import ViewerConfigUtility from '../../../../../Models/Classes/ViewerConfigUtility';
 import { CardboardList } from '../../../../CardboardList/CardboardList';
-import produce from 'immer';
 import { TwinAliasFormMode } from '../../../../../Models/Constants/Enums';
 import { SceneBuilderContext } from '../../../ADT3DSceneBuilder';
 import { useElementFormContext } from '../../../../../Models/Context/ElementsFormContext/ElementFormContext';
