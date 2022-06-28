@@ -34,6 +34,18 @@ export const ElementFormContextReducer: (
             current(draft.elementToEdit)
         );
         switch (action.type) {
+            case ElementFormContextActionType.FORM_ELEMENT_BEHAVIOR_LINK_ADD: {
+                const set = new Set<string>(draft.linkedBehaviorIds);
+                set.add(action.payload.id);
+                draft.linkedBehaviorIds = Array.from(set);
+                break;
+            }
+            case ElementFormContextActionType.FORM_ELEMENT_BEHAVIOR_LINK_REMOVE: {
+                const set = new Set<string>(draft.linkedBehaviorIds);
+                set.delete(action.payload.id);
+                draft.linkedBehaviorIds = Array.from(set);
+                break;
+            }
             case ElementFormContextActionType.FORM_ELEMENT_SET_MESH_IDS: {
                 const set = new Set<string>(action.payload.meshIds);
                 draft.elementToEdit.objectIDs = Array.from(set);
@@ -105,15 +117,17 @@ export const ElementFormContextProvider: React.FC<IElementFormContextProviderPro
         return <>{children}</>;
     }
 
-    const { elementToEdit } = props;
+    const { elementToEdit, linkedBehaviorIds } = props;
     initialElement = deepCopy(elementToEdit);
 
     // TODO: remove this copy when we turn off auto freeze
     const defaultState: IElementFormContextState = {
         elementToEdit: deepCopy(elementToEdit),
+        linkedBehaviorIds: [...linkedBehaviorIds],
         isDirty: false
     };
 
+    logDebugConsole('debug', 'Render form context. {state}', defaultState);
     const [elementFormState, elementFormDispatch] = useReducer(
         ElementFormContextReducer,
         defaultState

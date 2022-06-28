@@ -107,7 +107,8 @@ const BuilderLeftPanel: React.FC<IBuilderLeftPanelProps> = ({ styles }) => {
                 ViewerConfigUtility.addBehaviorToScene(
                     config,
                     sceneId,
-                    params.behavior
+                    params.behavior,
+                    false
                 )
             ),
         refetchDependencies: [adapter],
@@ -141,7 +142,7 @@ const BuilderLeftPanel: React.FC<IBuilderLeftPanelProps> = ({ styles }) => {
             selectedElements: Array<ITwinToObjectMapping>; // update selected elements for behavior (e.g. in case twin aliases are changed)
             removedElements: Array<ITwinToObjectMapping>;
         }) => {
-            let updatedConfigWithBehavior;
+            let updatedConfigWithBehavior: I3DScenesConfig;
             if (params.mode === ADT3DSceneBuilderMode.CreateBehavior) {
                 updatedConfigWithBehavior = ViewerConfigUtility.addBehavior(
                     params.config,

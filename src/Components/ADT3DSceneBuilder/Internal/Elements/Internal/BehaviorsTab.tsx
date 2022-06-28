@@ -1,59 +1,80 @@
-import React, { memo, useCallback, useEffect, useState } from 'react';
+import React, {
+    memo,
+    useCallback,
+    useContext,
+    useEffect,
+    useMemo,
+    useState
+} from 'react';
 import { TFunction, useTranslation } from 'react-i18next';
 import { ActionButton, IContextualMenuItem, useTheme } from '@fluentui/react';
 import AddBehaviorCallout from './AddBehaviorCallout';
-import ViewerConfigUtility from '../../../../../Models/Classes/ViewerConfigUtility';
 import { CardboardList } from '../../../../CardboardList';
 import { getLeftPanelStyles } from '../../Shared/LeftPanel.styles';
 import { ICardboardListItem } from '../../../../CardboardList/CardboardList.types';
+import { IBehavior } from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import {
-    IBehavior,
-    ITwinToObjectMapping
-} from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
-import { deepCopy, getDebugLogger } from '../../../../../Models/Services/Utils';
+    getDebugLogger,
+    sortAlphabetically
+} from '../../../../../Models/Services/Utils';
+import { useElementFormContext } from '../../../../../Models/Context/ElementsFormContext/ElementFormContext';
+import { ElementFormContextActionType } from '../../../../../Models/Context/ElementsFormContext/ElementFormContext.types';
+import { SceneBuilderContext } from '../../../ADT3DSceneBuilder';
+import { useId } from '@fluentui/react-hooks';
 
-const debugLogging = true;
+const debugLogging = false;
 const logDebugConsole = getDebugLogger('BehaviorsTab', debugLogging);
 
 export interface IADT3DSceneBuilderElementBehaviorProps {
-    allBehaviors: Array<IBehavior>;
-    elementToEdit: ITwinToObjectMapping;
     onBehaviorClick: (behavior: IBehavior) => void;
     onCreateBehaviorWithElements: (preSearchedBehaviorName: string) => void;
-    updateBehaviorsToEdit: (behaviorsToEdit: Array<IBehavior>) => void;
     isCreateBehaviorDisabled?: boolean;
 }
 const BehaviorsTab: React.FC<IADT3DSceneBuilderElementBehaviorProps> = ({
-    allBehaviors,
-    elementToEdit,
     onBehaviorClick,
     onCreateBehaviorWithElements,
-    updateBehaviorsToEdit,
     isCreateBehaviorDisabled = false
 }) => {
+    // hooks
     const { t } = useTranslation();
-    const calloutTarget = 'calloutTarget';
-    const [showAddBehavior, setShowAddBehavior] = useState(false);
-    const [behaviorsToEdit, setBehaviorsToEdit] = useState<IBehavior[]>([]);
-    const [behaviorsOnElement, setBehaviorsOnElement] = useState<IBehavior[]>(
-        ViewerConfigUtility.getBehaviorsOnElement(
-            elementToEdit?.id,
-            allBehaviors
-        ) || []
-    );
-    const [availableBehaviors, setAvailableBehaviors] = useState<IBehavior[]>(
-        ViewerConfigUtility.getAvailableBehaviorsForElement(
-            elementToEdit,
-            deepCopy(allBehaviors)
-        ) || []
-    );
+
+    // contexts
+    const { config } = useContext(SceneBuilderContext);
+    const { elementFormDispatch, elementFormState } = useElementFormContext();
+
+    // state
+    const [
+        isAddBehaviorCalloutVisible,
+        setIsAddBehaviorCalloutVisible
+    ] = useState(false);
     const [listItems, setListItems] = useState<ICardboardListItem<IBehavior>[]>(
         []
     );
 
-    useEffect(() => {
-        updateBehaviorsToEdit(behaviorsToEdit);
-    }, [behaviorsToEdit, updateBehaviorsToEdit]);
+    // data
+    const calloutTarget = useId('calloutTarget');
+
+    const behaviorsOnElement = useMemo(
+        () =>
+            config?.configuration?.behaviors
+                .filter((behavior) =>
+                    elementFormState.linkedBehaviorIds.includes(behavior.id)
+                )
+                .sort(sortAlphabetically('displayName')) || [],
+        [config?.configuration?.behaviors, elementFormState.linkedBehaviorIds]
+    );
+
+    const availableBehaviors = useMemo(
+        () =>
+            config?.configuration?.behaviors
+                ?.filter((behavior) => {
+                    return !behaviorsOnElement.some(
+                        (x) => x.id === behavior.id
+                    );
+                })
+                .sort(sortAlphabetically('displayName')) || [],
+        [behaviorsOnElement, config?.configuration?.behaviors]
+    );
 
     const removeBehavior = useCallback(
         (selectedBehavior: IBehavior) => {
@@ -62,33 +83,20 @@ const BehaviorsTab: React.FC<IADT3DSceneBuilderElementBehaviorProps> = ({
                 'Removing the behavior from the element. {selectedBehavior}',
                 selectedBehavior
             );
+            elementFormDispatch({
+                type:
+                    ElementFormContextActionType.FORM_ELEMENT_BEHAVIOR_LINK_REMOVE,
+                payload: {
+                    id: selectedBehavior.id
+                }
+            });
 
-            // remove the behavior from the element for rendering the list
-            setBehaviorsOnElement(
-                ViewerConfigUtility.removeBehaviorFromList(
-                    behaviorsOnElement,
-                    selectedBehavior
-                )
-            );
-
-            const updatedBehavior = ViewerConfigUtility.removeElementFromBehavior(
-                elementToEdit,
-                deepCopy(selectedBehavior)
-            );
-
-            // notify parent component of the behaviors that have been changed
-            setBehaviorsToEdit((previousState) => [
-                ...previousState,
-                updatedBehavior
-            ]);
-
-            // add the behavior to the list of options
-            setAvailableBehaviors((previousState) => [
-                ...previousState,
-                updatedBehavior
-            ]);
+            // const updatedBehavior = ViewerConfigUtility.removeElementFromBehavior(
+            //     elementFormState.elementToEdit,
+            //     deepCopy(selectedBehavior)
+            // );
         },
-        [behaviorsOnElement, elementToEdit]
+        [elementFormDispatch]
     );
 
     const addBehaviorToElement = useCallback(
@@ -98,33 +106,32 @@ const BehaviorsTab: React.FC<IADT3DSceneBuilderElementBehaviorProps> = ({
                 'Adding the behavior to the element. {selectedBehavior}',
                 selectedBehavior
             );
+            elementFormDispatch({
+                type:
+                    ElementFormContextActionType.FORM_ELEMENT_BEHAVIOR_LINK_ADD,
+                payload: {
+                    id: selectedBehavior.id
+                }
+            });
 
-            const updatedBehavior = ViewerConfigUtility.addElementToBehavior(
-                elementToEdit,
-                deepCopy(selectedBehavior)
-            );
+            // const updatedBehavior = ViewerConfigUtility.addElementToBehavior(
+            //     elementFormState.elementToEdit,
+            //     deepCopy(selectedBehavior)
+            // );
 
-            // add the behavior to the element for rendering the list
-            setBehaviorsOnElement((previousState) => [
-                ...previousState,
-                updatedBehavior
-            ]);
+            // // add the behavior to the element for rendering the list
+            // setBehaviorsOnElement((previousState) => [
+            //     ...previousState,
+            //     updatedBehavior
+            // ]);
 
-            // notify parent component of the behaviors that have been changed
-            setBehaviorsToEdit((previousState) => [
-                ...previousState,
-                updatedBehavior
-            ]);
-
-            // remove the behavior from the list of options
-            setAvailableBehaviors(
-                ViewerConfigUtility.removeBehaviorFromList(
-                    availableBehaviors,
-                    updatedBehavior
-                )
-            );
+            // // notify parent component of the behaviors that have been changed
+            // setBehaviorsToEdit((previousState) => [
+            //     ...previousState,
+            //     updatedBehavior
+            // ]);
         },
-        [availableBehaviors, elementToEdit]
+        [elementFormDispatch]
     );
 
     // generate the list of items to show
@@ -170,15 +177,15 @@ const BehaviorsTab: React.FC<IADT3DSceneBuilderElementBehaviorProps> = ({
                         margin: '0px'
                     }
                 }}
-                onClick={() => setShowAddBehavior(true)}
+                onClick={() => setIsAddBehaviorCalloutVisible(true)}
             >
                 {t('3dSceneBuilder.addBehaviorButton')}
             </ActionButton>
-            {showAddBehavior && (
+            {isAddBehaviorCalloutVisible && (
                 <AddBehaviorCallout
                     calloutTarget={calloutTarget}
                     availableBehaviors={availableBehaviors}
-                    hideCallout={() => setShowAddBehavior(false)}
+                    hideCallout={() => setIsAddBehaviorCalloutVisible(false)}
                     onAddBehavior={addBehaviorToElement}
                     onCreateBehaviorWithElements={onCreateBehaviorWithElements}
                     isCreateBehaviorDisabled={isCreateBehaviorDisabled}

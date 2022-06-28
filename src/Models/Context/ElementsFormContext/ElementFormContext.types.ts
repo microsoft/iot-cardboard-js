@@ -2,6 +2,7 @@ import { ITwinToObjectMapping } from '../../Types/Generated/3DScenesConfiguratio
 
 export interface IElementFormContextProviderProps {
     elementToEdit: ITwinToObjectMapping;
+    linkedBehaviorIds: string[];
 }
 
 /**
@@ -17,6 +18,7 @@ export interface IElementFormContext {
  */
 export interface IElementFormContextState {
     elementToEdit: ITwinToObjectMapping | null;
+    linkedBehaviorIds: string[];
     isDirty: boolean;
 }
 
@@ -24,6 +26,10 @@ export interface IElementFormContextState {
  * The actions to update the state
  */
 export enum ElementFormContextActionType {
+    /** adds the element to a behavior */
+    FORM_ELEMENT_BEHAVIOR_LINK_ADD = 'FORM_ELEMENT_BEHAVIOR_LINK_ADD',
+    /** removes the element from a behavior */
+    FORM_ELEMENT_BEHAVIOR_LINK_REMOVE = 'FORM_ELEMENT_BEHAVIOR_LINK_REMOVE',
     /** set the element name */
     FORM_ELEMENT_DISPLAY_NAME_SET = 'FORM_ELEMENT_DISPLAY_NAME_SET',
     /** Sets the primary twin id */
@@ -43,6 +49,15 @@ export enum ElementFormContextActionType {
 
 /** The actions to update the state */
 export type ElementFormContextAction =
+    // BEHAVIORS
+    | {
+          type: ElementFormContextActionType.FORM_ELEMENT_BEHAVIOR_LINK_ADD;
+          payload: { id: string };
+      }
+    | {
+          type: ElementFormContextActionType.FORM_ELEMENT_BEHAVIOR_LINK_REMOVE;
+          payload: { id: string };
+      }
     // ELEMENT PROPERTIES
     | {
           type: ElementFormContextActionType.FORM_ELEMENT_DISPLAY_NAME_SET;
