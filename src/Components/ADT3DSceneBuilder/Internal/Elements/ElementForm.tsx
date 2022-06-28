@@ -142,23 +142,16 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                         true // in-place update
                     );
                 } else {
-                    // remove the element from all other behaviors
-                    const targetElements = ViewerConfigUtility.getElementTwinToObjectMappingDataSourcesFromBehavior(
+                    ViewerConfigUtility.removeElementFromBehavior(
+                        formElementId,
                         behavior
-                    )[0]?.elementIDs;
-                    // only update if the list includes the current element to avoid causing potential bugs
-                    if (targetElements?.includes(formElementId)) {
-                        ViewerConfigUtility.removeElementFromBehavior(
-                            formElementId,
-                            behavior
-                        );
-                        logDebugConsole(
-                            'debug',
-                            `Removing element ${formElementId} from behavior ${behavior.displayName} (${behavior.id}).`
-                        );
+                    );
+                    logDebugConsole(
+                        'debug',
+                        `Removing element ${formElementId} from behavior ${behavior.displayName} (${behavior.id}).`
+                    );
 
-                        // TODO: should we remove the behavior if it no long maps to any elements?
-                    }
+                    // TODO: should we remove the behavior if it no long maps to any elements?
                 }
             });
             // END of behaviors update which this element exists in
