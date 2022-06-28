@@ -2021,6 +2021,7 @@ function SceneView(props: ISceneViewProps, ref) {
                     };
 
                     // const positionGizmo = gizmoManager.gizmos.positionGizmo;
+
                     // positionGizmo.xGizmo.dragBehavior.onDragObservable.add(
                     //     () => {
                     //         updateTransform();

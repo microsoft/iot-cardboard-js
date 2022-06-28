@@ -58,8 +58,12 @@ const LOC_KEYS = {
     notificationPlaceholder: `${ROOT_LOC}.notificationPlaceholder`
 };
 
-function convertRadiansToDegrees(radians) {
-    return (radians * (360 / (Math.PI * 2))).toFixed(2);
+function convertRadiansToDegrees(radians: number) {
+    return radians * (360 / (Math.PI * 2));
+}
+
+function convertDegreesToRadians(degrees: number) {
+    return (degrees * (Math.PI * 2)) / 360;
 }
 
 const AlertsTab: React.FC = () => {
@@ -118,8 +122,9 @@ const AlertsTab: React.FC = () => {
     }, [selectedElements]);
 
     // a different useEffect for transform item we get back from SceneView
+    // will be called both when inputting values in the field and manipulating gizmo
     useEffect(() => {
-        //updates the config on save
+        // updates the config on save
         if (gizmoTransformItem) {
             setValueRangeProperty('extensionProperties', {
                 transform: true,
@@ -268,39 +273,31 @@ const AlertsTab: React.FC = () => {
             const newGizmoTransformItem: TransformInfo = deepCopy(
                 gizmoTransformItem
             );
+            const valueAsNumber = Math.round(Number(value));
             console.log(gizmoTransformItem);
             switch (name) {
-                case 'xRot':
-                    newGizmoTransformItem.rotation.x = value;
-                    break;
-                case 'yRot':
-                    newGizmoTransformItem.rotation.y = value;
-                    break;
-                case 'zRot':
-                    newGizmoTransformItem.rotation.z = value;
-                    break;
                 case 'xPos':
-                    newGizmoTransformItem.position.x = value;
+                    newGizmoTransformItem.position.x = valueAsNumber;
                     break;
                 case 'yPos':
-                    newGizmoTransformItem.position.y = value;
+                    newGizmoTransformItem.position.y = valueAsNumber;
                     break;
                 case 'zPos':
-                    newGizmoTransformItem.position.z = value;
+                    newGizmoTransformItem.position.z = valueAsNumber;
+                    break;
+                case 'xRot':
+                    newGizmoTransformItem.rotation.x = valueAsNumber;
+                    break;
+                case 'yRot':
+                    newGizmoTransformItem.rotation.y = valueAsNumber;
+                    break;
+                case 'zRot':
+                    newGizmoTransformItem.rotation.z = valueAsNumber;
                     break;
             }
             setGizmoTransformItem(newGizmoTransformItem);
-            // setValueRangeProperty('extensionProperties', {
-            //     transform: true,
-            //     xRot: newGizmoTransformItem.rotation.x,
-            //     yRot: newGizmoTransformItem.rotation.y,
-            //     zRot: newGizmoTransformItem.rotation.z,
-            //     xPos: newGizmoTransformItem.position.x,
-            //     yPos: newGizmoTransformItem.position.y,
-            //     zPos: newGizmoTransformItem.position.z
-            // });
         },
-        [gizmoTransformItem, setValueRangeProperty]
+        [setValueRangeProperty]
     );
 
     const onNoteChange = useCallback(
@@ -373,17 +370,17 @@ const AlertsTab: React.FC = () => {
                         {/* <TransformInput
                         onTransformChange
                         ></> */}
+                    </Stack>
+                    <Stack>
                         <TextField
                             label="X Position: "
                             name="xPos"
                             type="number"
                             onChange={onTransformChange}
+                            // validateOnFocusOut
                             value={
                                 gizmoTransformItem
-                                    ? '' +
-                                      Number(
-                                          gizmoTransformItem.position.x
-                                      ).toFixed()
+                                    ? '' + gizmoTransformItem.position.x
                                     : ''
                             }
                         ></TextField>
@@ -394,10 +391,7 @@ const AlertsTab: React.FC = () => {
                             onChange={onTransformChange}
                             value={
                                 gizmoTransformItem
-                                    ? '' +
-                                      Number(
-                                          gizmoTransformItem.position.y
-                                      ).toFixed()
+                                    ? '' + gizmoTransformItem.position.y
                                     : ''
                             }
                         ></TextField>
@@ -408,24 +402,20 @@ const AlertsTab: React.FC = () => {
                             onChange={onTransformChange}
                             value={
                                 gizmoTransformItem
-                                    ? '' +
-                                      Number(
-                                          gizmoTransformItem.position.z
-                                      ).toFixed()
+                                    ? '' + gizmoTransformItem.position.z
                                     : ''
                             }
                         ></TextField>
-                        {/* <TextField
+
+                        <TextField
                             label="X Rotation: "
                             name="xRot"
                             type="number"
                             onChange={onTransformChange}
+                            validateOnFocusOut
                             value={
                                 gizmoTransformItem
-                                    ? '' +
-                                      convertRadiansToDegrees(
-                                          gizmoTransformItem.rotation.x
-                                      )
+                                    ? '' + gizmoTransformItem.rotation.x
                                     : ''
                             }
                         ></TextField>
@@ -436,10 +426,7 @@ const AlertsTab: React.FC = () => {
                             onChange={onTransformChange}
                             value={
                                 gizmoTransformItem
-                                    ? '' +
-                                      convertRadiansToDegrees(
-                                          gizmoTransformItem.rotation.y
-                                      )
+                                    ? '' + gizmoTransformItem.rotation.y
                                     : ''
                             }
                         ></TextField>
@@ -450,22 +437,10 @@ const AlertsTab: React.FC = () => {
                             onChange={onTransformChange}
                             value={
                                 gizmoTransformItem
-                                    ? '' +
-                                      convertRadiansToDegrees(
-                                          gizmoTransformItem.rotation.z
-                                      )
+                                    ? '' + gizmoTransformItem.rotation.z
                                     : ''
                             }
-                        ></TextField> */}
-                        {/* <label htmlFor="xRotation">X: </label>
-                        <input
-                            id="xRotation"
-                            type="number"
-                            // value={
-                            //     currentMesh ? currentMesh.rotation.x : 'no current mesh'
-                            // }
-                            onChange={onTransformChange}
-                        /> */}
+                        ></TextField>
                     </Stack>
                     <Stack tokens={{ childrenGap: 4 }}>
                         <ModelledPropertyBuilder
