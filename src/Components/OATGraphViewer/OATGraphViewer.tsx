@@ -635,6 +635,9 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
 
     const onElementsRemove = (elementsToRemove: IOATNodeElement) => {
         if (!state.modified) {
+            const modelCopy = deepCopy(model);
+            const elementsCopy = deepCopy(elements);
+
             const remove = (elementsToRemove) => {
                 // Remove an specific node and all related edges
                 dispatch({
@@ -647,8 +650,6 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
             execute(
                 () => remove(elementsToRemove),
                 () => {
-                    const modelCopy = deepCopy(model);
-                    const elementsCopy = deepCopy(elements);
                     dispatch({
                         type: SET_OAT_PROPERTY_EDITOR_MODEL,
                         payload: modelCopy
@@ -1081,9 +1082,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                         });
                     },
                     () => {
-                        // const modelCopy = deepCopy(model);
-                        const selectedModelIdCopy = deepCopy(selectedModelId);
-                        console.log('selectedModelIdCopy', selectedModelIdCopy);
+                        const selectedModelIdCopy = selectedModelId;
                         dispatch({
                             type: SET_OAT_SELECTED_MODEL_ID,
                             payload: selectedModelIdCopy
@@ -1157,7 +1156,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                 () => clearModel(),
                 () => {
                     const modelCopy = deepCopy(model);
-                    const selectedModelIdCopy = deepCopy(selectedModelId);
+                    const selectedModelIdCopy = selectedModelId;
                     dispatch({
                         type: SET_OAT_PROPERTY_EDITOR_MODEL,
                         payload: modelCopy

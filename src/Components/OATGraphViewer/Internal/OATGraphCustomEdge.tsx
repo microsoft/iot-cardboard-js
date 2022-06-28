@@ -161,7 +161,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
         currentNodeIdRef,
         state
     } = useContext(ElementsContext);
-    const { model, selectedModelId } = state;
+    const { selectedModelId } = state;
     const graphViewerStyles = getGraphViewerStyles();
     const relationshipTextFieldStyles = getRelationshipTextFieldStyles();
     const theme = useTheme();
@@ -482,8 +482,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
             () => selectRelationship(),
             () => {
                 setCurrentNode(currentNodeIdRef.current);
-                // const modelCopy = deepCopy(model);
-                const selectedModelIdCopy = deepCopy(selectedModelId);
+                const selectedModelIdCopy = selectedModelId;
                 dispatch({
                     type: SET_OAT_SELECTED_MODEL_ID,
                     payload: selectedModelIdCopy

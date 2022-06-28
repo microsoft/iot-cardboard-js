@@ -47,7 +47,7 @@ export const PropertyListItemSubMenu = ({
     const propertyInspectorStyles = getPropertyInspectorStyles();
     const subMenuItemStyles = getIconMoreSubMenuItemStyles();
 
-    const handleDelete = () => {
+    const onDelete = () => {
         if (deleteNestedItem) {
             deleteNestedItem(parentIndex, index);
             setSubMenuActive(false);
@@ -174,7 +174,7 @@ export const PropertyListItemSubMenu = ({
                         <Stack>
                             <ActionButton
                                 styles={subMenuItemStyles}
-                                onClick={handleDelete}
+                                onClick={onDelete}
                             >
                                 <FontIcon
                                     iconName={'Delete'}
