@@ -887,12 +887,14 @@ abstract class ViewerConfigUtility {
         const dataSources = ViewerConfigUtility.getElementTwinToObjectMappingDataSourcesFromBehavior(
             behavior
         );
-        if (
-            dataSources?.[0]?.elementIDs &&
-            !dataSources[0].elementIDs.includes(elementId)
-        ) {
-            dataSources[0].elementIDs.push(elementId);
+        // initialized
+        if (dataSources?.[0]?.elementIDs) {
+            // add it
+            if (!dataSources[0].elementIDs.includes(elementId)) {
+                dataSources[0].elementIDs.push(elementId);
+            }
         } else {
+            // not initialized, create the data source
             dataSources[0] = {
                 type: DatasourceType.ElementTwinToObjectMappingDataSource,
                 elementIDs: [elementId]

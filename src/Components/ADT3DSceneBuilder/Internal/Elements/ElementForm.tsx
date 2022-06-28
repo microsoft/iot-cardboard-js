@@ -42,7 +42,6 @@ import {
     useElementFormContext
 } from '../../../../Models/Context/ElementsFormContext/ElementFormContext';
 import { ElementFormContextActionType } from '../../../../Models/Context/ElementsFormContext/ElementFormContext.types';
-import { createCustomMeshItems } from '../../../3DV/SceneView.Utils';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('ElementsForm', debugLogging);
@@ -64,8 +63,7 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
         config,
         elementTwinAliasFormInfo,
         getConfig,
-        sceneId,
-        setColoredMeshItems
+        sceneId
     } = useContext(SceneBuilderContext);
     const { elementFormDispatch, elementFormState } = useElementFormContext();
 

@@ -111,11 +111,17 @@ export const ElementFormContextReducer: (
         }
 
         // check for changes after every action
-        draft.isDirty = isStateDirty(draft, initialElement, logDebugConsole);
+        draft.isDirty = isStateDirty(
+            draft,
+            initialElement,
+            initialBehaviorIds,
+            logDebugConsole
+        );
     }
 );
 
 let initialElement: ITwinToObjectMapping;
+let initialBehaviorIds: string[];
 export const ElementFormContextProvider: React.FC<IElementFormContextProviderProps> = (
     props
 ) => {
@@ -129,6 +135,7 @@ export const ElementFormContextProvider: React.FC<IElementFormContextProviderPro
 
     const { elementToEdit, linkedBehaviorIds } = props;
     initialElement = deepCopy(elementToEdit);
+    initialBehaviorIds = [...linkedBehaviorIds];
 
     // TODO: remove this copy when we turn off auto freeze
     const defaultState: IElementFormContextState = {
