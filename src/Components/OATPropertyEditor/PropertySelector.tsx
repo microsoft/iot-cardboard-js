@@ -79,39 +79,9 @@ const PropertySelector = ({
         propertyTags: {
             primitive: [
                 {
-                    name: 'boolean',
-                    title: t('OATPropertyEditor.boolean'),
-                    icon: IconBoolean
-                },
-                {
-                    name: 'float',
-                    title: t('OATPropertyEditor.float'),
-                    icon: IconFloat
-                },
-                {
                     name: 'dateTime',
                     title: t('OATPropertyEditor.dateTime'),
                     icon: IconDatetime
-                },
-                {
-                    name: 'double',
-                    title: t('OATPropertyEditor.double'),
-                    icon: IconDouble
-                },
-                {
-                    name: 'data',
-                    title: t('OATPropertyEditor.data'),
-                    icon: IconData
-                },
-                {
-                    name: 'integer',
-                    title: t('OATPropertyEditor.integer'),
-                    icon: IconInteger
-                },
-                {
-                    name: 'long',
-                    title: t('OATPropertyEditor.long'),
-                    icon: IconLong
                 },
                 {
                     name: 'duration',
@@ -119,9 +89,39 @@ const PropertySelector = ({
                     icon: IconDuration
                 },
                 {
+                    name: 'boolean',
+                    title: t('OATPropertyEditor.boolean'),
+                    icon: IconBoolean
+                },
+                {
                     name: 'string',
                     title: t('OATPropertyEditor.string'),
                     icon: IconString
+                },
+                {
+                    name: 'data',
+                    title: t('OATPropertyEditor.data'),
+                    icon: IconData
+                },
+                {
+                    name: 'long',
+                    title: t('OATPropertyEditor.long'),
+                    icon: IconLong
+                },
+                {
+                    name: 'integer',
+                    title: t('OATPropertyEditor.integer'),
+                    icon: IconInteger
+                },
+                {
+                    name: 'double',
+                    title: t('OATPropertyEditor.double'),
+                    icon: IconDouble
+                },
+                {
+                    name: 'float',
+                    title: t('OATPropertyEditor.float'),
+                    icon: IconFloat
                 },
                 {
                     name: 'time',
@@ -216,10 +216,10 @@ const PropertySelector = ({
             ...[
                 {
                     '@id': `dtmi:com:adt:model1:New_Property_${
-                        model.contents.length + 1
+                        model[propertiesKeyName].length + 1
                     }`,
                     '@type': ['property'],
-                    name: `New_Property_${model.contents.length + 1}`,
+                    name: `New_Property_${model[propertiesKeyName].length + 1}`,
                     schema: getSchema(tag)
                 }
             ]
@@ -231,7 +231,7 @@ const PropertySelector = ({
         setPropertySelectorVisible(false);
     };
 
-    const handleTagClick = (tag: string) => {
+    const onTagClick = (tag: string) => {
         if (onTagClickCallback) {
             onTagClickCallback();
         }
@@ -317,10 +317,10 @@ const PropertySelector = ({
                                         propertyInspectorStyles.propertyTag
                                     }
                                     onClick={() => {
-                                        handleTagClick(tag.name);
+                                        onTagClick(tag.name);
                                     }}
                                     onKeyPress={() => {
-                                        handleTagClick(tag.name);
+                                        onTagClick(tag.name);
                                     }}
                                     src={tag.icon}
                                     title={tag.title}
@@ -348,10 +348,10 @@ const PropertySelector = ({
                                         propertyInspectorStyles.propertyTag
                                     }
                                     onClick={() => {
-                                        handleTagClick(tag.name);
+                                        onTagClick(tag.name);
                                     }}
                                     onKeyPress={() => {
-                                        handleTagClick(tag.name);
+                                        onTagClick(tag.name);
                                     }}
                                     src={tag.icon}
                                     title={tag.title}
@@ -368,10 +368,10 @@ const PropertySelector = ({
                             key={i}
                             className={propertyInspectorStyles.propertyTag}
                             onClick={() => {
-                                handleTagClick(tag.name);
+                                onTagClick(tag.name);
                             }}
                             onKeyPress={() => {
-                                handleTagClick(tag.name);
+                                onTagClick(tag.name);
                             }}
                             src={tag.icon}
                             title={tag.title}

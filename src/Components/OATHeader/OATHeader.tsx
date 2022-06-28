@@ -45,7 +45,7 @@ const OATHeader = ({ elements, dispatch, state }: OATHeaderProps) => {
     const [modalOpen, setModalOpen] = useState(false);
     const [modalBody, setModalBody] = useState(null);
 
-    const downloadModelExportBlob = (blob) => {
+    const downloadModelExportBlob = (blob: Blob) => {
         const blobURL = window.URL.createObjectURL(blob);
         const link = document.createElement('a');
         link.setAttribute('href', blobURL);

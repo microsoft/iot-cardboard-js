@@ -80,6 +80,7 @@ export const PropertyList = ({
     );
 
     const onPropertyItemDropOnTemplateList = () => {
+        console.log('Dropped on template list');
         const newTemplate = templates ? deepCopy(templates) : [];
         newTemplate.push(
             model[propertiesKeyName][draggedPropertyItemRef.current]
@@ -269,22 +270,29 @@ export const PropertyList = ({
         definePropertySelectorPosition(e, buttonTop);
     };
 
-    const onTemplateAddition = (item) => {
-        const newTemplates = deepCopy(templates);
-        newTemplates.push(item);
-        dispatch({
-            type: SET_OAT_TEMPLATES,
-            payload: newTemplates
-        });
-    };
-
     const moveItemOnPropertyList = (index: number, moveUp: boolean) => {
-        const direction = moveUp ? -1 : 1;
-        const newModel = deepCopy(model);
-        const item = newModel[propertiesKeyName][index];
-        newModel[propertiesKeyName].splice(index, 1);
-        newModel[propertiesKeyName].splice(index + direction, 0, item);
-        dispatch({ type: SET_OAT_PROPERTY_EDITOR_MODEL, payload: newModel });
+        const onMove = (index, moveUp) => {
+            const direction = moveUp ? -1 : 1;
+            const newModel = deepCopy(model);
+            const item = newModel[propertiesKeyName][index];
+            newModel[propertiesKeyName].splice(index, 1);
+            newModel[propertiesKeyName].splice(index + direction, 0, item);
+            dispatch({
+                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                payload: newModel
+            });
+        };
+
+        execute(
+            () => onMove(index, moveUp),
+            () => {
+                const modelCopy = deepCopy(model);
+                dispatch({
+                    type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                    payload: modelCopy
+                });
+            }
+        );
     };
 
     return (

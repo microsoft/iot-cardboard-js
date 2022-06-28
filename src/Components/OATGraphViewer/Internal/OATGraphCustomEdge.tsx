@@ -28,6 +28,7 @@ import { IOATGraphCustomEdgeProps } from '../../../Models/Constants';
 import OATTextFieldName from '../../../Pages/OATEditorPage/Internal/Components/OATTextFieldName';
 import { CommandHistoryContext } from '../../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 import { deepCopy } from '../../../Models/Services/Utils';
+import { Position } from '../../../Pages/OATEditorPage/Internal/Types';
 
 const foreignObjectSize = 180;
 const foreignObjectSizeExtendRelation = 20;
@@ -36,14 +37,15 @@ const offsetMedium = 10;
 const rightAngleValue = 1.5708;
 const separation = 10;
 
-const getPolygon = (vertexes) => vertexes.map((v) => `${v.x},${v.y}`).join(' ');
+const getPolygon = (vertexes: Position[]) =>
+    vertexes.map((v) => `${v.x},${v.y}`).join(' ');
 
 const getComponentPolygon = (
-    polygonSourceX,
-    polygonSourceY,
-    baseVector,
-    heightVector,
-    verticalPolygon
+    polygonSourceX: number,
+    polygonSourceY: number,
+    baseVector: number,
+    heightVector: number,
+    verticalPolygon: boolean
 ) => {
     const vertexAX = verticalPolygon
         ? polygonSourceX + offsetSmall * baseVector
@@ -74,11 +76,11 @@ const getComponentPolygon = (
 };
 
 const getInheritancePolygon = (
-    polygonTargetX,
-    polygonTargetY,
-    baseVector,
-    heightVector,
-    verticalPolygon
+    polygonTargetX: number,
+    polygonTargetY: number,
+    baseVector: number,
+    heightVector: number,
+    verticalPolygon: boolean
 ) => {
     const vertexAX = verticalPolygon
         ? polygonTargetX + offsetSmall * baseVector
@@ -102,11 +104,11 @@ const getInheritancePolygon = (
 };
 
 const getRelationshipPolygon = (
-    polygonTargetX,
-    polygonTargetY,
-    baseVector,
-    heightVector,
-    verticalPolygon
+    polygonTargetX: number,
+    polygonTargetY: number,
+    baseVector: number,
+    heightVector: number,
+    verticalPolygon: boolean
 ) => {
     const vertexAX = verticalPolygon
         ? polygonTargetX + offsetSmall * heightVector
@@ -130,7 +132,7 @@ const getRelationshipPolygon = (
     ]);
 };
 
-const getMidPointForNode = (node) => {
+const getMidPointForNode = (node: Node) => {
     let x = 0;
     let y = 0;
     if (node) {
@@ -197,17 +199,17 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
     }, [id, model, nameEditor]);
 
     const getSourceComponents = (
-        betaAngle,
-        sourceBase,
-        sourceBetaAngle,
-        sourceHeight,
-        alphaAngle,
-        adjustedSourceY,
-        adjustedSourceX,
-        baseVector,
-        heightVector,
-        adjustmentSourceX,
-        adjustmentSourceY
+        betaAngle: number,
+        sourceBase: number,
+        sourceBetaAngle: number,
+        sourceHeight: number,
+        alphaAngle: number,
+        adjustedSourceY: number,
+        adjustedSourceX: number,
+        baseVector: number,
+        heightVector: number,
+        adjustmentSourceX: number,
+        adjustmentSourceY: number
     ) => {
         // Using triangulated connection position to create componentPolygon and angles to define orientation
         let newHeight = 0;
@@ -270,17 +272,17 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
     };
 
     const getTargetComponents = (
-        betaAngle,
-        targetBase,
-        targetBetaAngle,
-        targetHeight,
-        alphaAngle,
-        adjustedTargetX,
-        adjustedTargetY,
-        baseVector,
-        heightVector,
-        adjustmentTargetX,
-        adjustmentTargetY
+        betaAngle: number,
+        targetBase: number,
+        targetBetaAngle: number,
+        targetHeight: number,
+        alphaAngle: number,
+        adjustedTargetX: number,
+        adjustedTargetY: number,
+        baseVector: number,
+        heightVector: number,
+        adjustmentTargetX: number,
+        adjustmentTargetY: number
     ) => {
         let newHeight = 0;
         let newBase = 0;
@@ -538,6 +540,10 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
         }
     };
 
+    const onCommit = () => {
+        setNameEditor(false);
+    };
+
     return (
         <>
             <path
@@ -601,6 +607,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                                 setName={setNameText}
                                 dispatch={dispatch}
                                 state={state}
+                                onCommit={onCommit}
                                 autoFocus
                             />
                         )}
@@ -613,10 +620,10 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                                         ? graphViewerStyles.edgeCancel
                                         : graphViewerStyles.extendCancel
                                 }
-                                onClick={onDelete}
+                                onMouseDown={onDelete}
                             >
                                 <Icon
-                                    iconName="Cancel"
+                                    iconName="Trash"
                                     styles={{
                                         root: {
                                             fontSize: FontSizes.size10,

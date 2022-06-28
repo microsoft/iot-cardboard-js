@@ -8,7 +8,7 @@ import {
     SET_OAT_MODIFIED,
     SET_OAT_ERROR
 } from '../../Models/Constants/ActionTypes';
-import { IAction } from '../../Models/Constants/Interfaces';
+import { IAction, IOATTwinModelNodes } from '../../Models/Constants/Interfaces';
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 import { PrimaryButton, DefaultButton } from '@fluentui/react';
 import {
@@ -39,11 +39,11 @@ const JSONEditor = ({ dispatch, theme, state }: JSONEditorProps) => {
         setContent(JSON.stringify(model, null, 2));
     }, [model]);
 
-    const onHandleEditorDidMount = (editor) => {
+    const onHandleEditorDidMount = (editor: any) => {
         editorRef.current = editor;
     };
 
-    const isJsonStringValid = (value) => {
+    const isJsonStringValid = (value: string) => {
         try {
             return JSON.parse(value);
         } catch (e) {
@@ -51,7 +51,7 @@ const JSONEditor = ({ dispatch, theme, state }: JSONEditorProps) => {
         }
     };
 
-    const onHandleEditorChange = (value) => {
+    const onHandleEditorChange = (value: string) => {
         if (value.replaceAll('\r\n', '\n') !== JSON.stringify(model, null, 2)) {
             setContent(value);
             dispatch({ type: SET_OAT_MODIFIED, payload: true });
@@ -81,7 +81,7 @@ const JSONEditor = ({ dispatch, theme, state }: JSONEditorProps) => {
         dispatch({ type: SET_OAT_MODIFIED, payload: false });
     };
 
-    const checkDuplicateId = (modelValue) => {
+    const checkDuplicateId = (modelValue: IOATTwinModelNodes) => {
         if (modelValue['@type'] === ModelTypes.relationship) {
             const repeatedIdOnRelationship = models.find(
                 (queryModel) =>

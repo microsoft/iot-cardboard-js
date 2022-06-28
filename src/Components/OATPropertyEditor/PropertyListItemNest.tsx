@@ -219,31 +219,44 @@ export const PropertyListItemNest = ({
     };
 
     // Move nested item up or down
-    const moveNestedItem = (nestedIndex, moveUp) => {
-        const parentIndex = index;
-        const direction = moveUp ? -1 : 1;
-        const newModel = deepCopy(model);
-        const collectionAttributeName =
-            newModel[propertiesKeyName][parentIndex].schema['@type'] ===
-            DTDLSchemaType.Enum
-                ? 'enumValues'
-                : 'fields';
-        // Move nested item up or down
-        const temp =
+    const moveNestedItem = (nestedIndex: number, moveUp: boolean) => {
+        onMove = (nestedIndex, moveUp) => {
+            const parentIndex = index;
+            const direction = moveUp ? -1 : 1;
+            const newModel = deepCopy(model);
+            const collectionAttributeName =
+                newModel[propertiesKeyName][parentIndex].schema['@type'] ===
+                DTDLSchemaType.Enum
+                    ? 'enumValues'
+                    : 'fields';
+            // Move nested item up or down
+            const temp =
+                newModel[propertiesKeyName][parentIndex].schema[
+                    collectionAttributeName
+                ][nestedIndex];
             newModel[propertiesKeyName][parentIndex].schema[
                 collectionAttributeName
-            ][nestedIndex];
-        newModel[propertiesKeyName][parentIndex].schema[
-            collectionAttributeName
-        ].splice(nestedIndex, 1);
-        newModel[propertiesKeyName][parentIndex].schema[
-            collectionAttributeName
-        ].splice(nestedIndex + direction, 0, temp);
+            ].splice(nestedIndex, 1);
+            newModel[propertiesKeyName][parentIndex].schema[
+                collectionAttributeName
+            ].splice(nestedIndex + direction, 0, temp);
 
-        dispatch({
-            type: SET_OAT_PROPERTY_EDITOR_MODEL,
-            payload: newModel
-        });
+            dispatch({
+                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                payload: newModel
+            });
+        };
+
+        execute(
+            () => onMove(nestedIndex, moveUp),
+            () => {
+                const modelCopy = deepCopy(model);
+                dispatch({
+                    type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                    payload: modelCopy
+                });
+            }
+        );
     };
 
     return (
