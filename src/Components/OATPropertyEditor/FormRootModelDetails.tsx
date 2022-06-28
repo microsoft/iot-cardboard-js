@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
     TextField,
     Text,
@@ -55,6 +55,7 @@ export const FormUpdateProperty = ({
 }: IModal) => {
     const { model } = state;
     const { t } = useTranslation();
+    const idInputRef = useRef(null);
     const propertyInspectorStyles = getPropertyInspectorStyles();
     const columnLeftTextStyles = getModalLabelStyles();
     const radioGroupRowStyle = getRadioGroupRowStyles();
@@ -98,6 +99,12 @@ export const FormUpdateProperty = ({
     const [displayNameError, setDisplayNameError] = useState(null);
     const [idLengthError, setIdLengthError] = useState(null);
     const [idValidDTMIError, setIdValidDTMIError] = useState(null);
+    const [fileName, setFileName] = useState(
+        model.fileName ? model.fileName : null
+    );
+    const [directoryPath, setDirectoryPath] = useState(
+        model.directoryPath ? model.directoryPath : null
+    );
 
     const options: IChoiceGroupOption[] = [
         {
@@ -157,6 +164,10 @@ export const FormUpdateProperty = ({
                 ? multiLanguageSelectionsDescription
                 : model.description;
         modelCopy['@id'] = id ? id : model['@id'];
+        modelCopy.fileName = fileName ? fileName : model.fileName;
+        modelCopy.directoryPath = directoryPath
+            ? directoryPath
+            : model.directoryPath;
 
         dispatch({
             type: SET_OAT_PROPERTY_EDITOR_MODEL,
@@ -220,6 +231,51 @@ export const FormUpdateProperty = ({
         setIsAMultiLanguageDescriptionEmpty(hasEmptyValues);
     }, [multiLanguageSelectionsDescription]);
 
+    const onIdInputFocus = () => {
+        if (idInputRef.current) {
+            const selectionStart =
+                idInputRef.current.props.value.lastIndexOf(':') + 1;
+            const selectionEnd = idInputRef.current.props.value.lastIndexOf(
+                ';'
+            );
+            idInputRef.current.setSelectionRange(selectionStart, selectionEnd);
+        }
+    };
+
+    useEffect(() => {
+        if (idInputRef.current.props.value) {
+            const selectionStart =
+                idInputRef.current.props.value.lastIndexOf(':') + 1;
+            const selectionEnd = idInputRef.current.props.value.lastIndexOf(
+                ';'
+            );
+            idInputRef.current.setSelectionRange(selectionStart, selectionEnd);
+        }
+    }, [idInputRef]);
+
+    useEffect(() => {
+        if (id) {
+            // Get id path - Get section between last ":" and ";"
+            const idPath = id.substring(
+                id.lastIndexOf(':') + 1,
+                id.lastIndexOf(';')
+            );
+            const idVersion = id.substring(id.lastIndexOf(';') + 1, id.length);
+
+            let scheme = id.substring(id.indexOf(':') + 1, id.lastIndexOf(':'));
+            // Scheme - replace ":" with "\"
+            scheme = scheme.replace(':', '\\');
+
+            // Set values only if model did not hold a previous value or if there is not set value
+            if (!model.fileName || fileName === '') {
+                setFileName(`${idPath}-${idVersion}`);
+            }
+            if (!model.directoryPath || directoryPath === '') {
+                setDirectoryPath(scheme);
+            }
+        }
+    }, [id]);
+
     return (
         <>
             <div className={propertyInspectorStyles.modalRowSpaceBetween}>
@@ -256,6 +312,8 @@ export const FormUpdateProperty = ({
                     }
                     errorMessage={getIdErrorMessage()}
                     value={id}
+                    componentRef={idInputRef}
+                    onFocus={onIdInputFocus}
                 />
             </div>
 
@@ -555,6 +613,26 @@ export const FormUpdateProperty = ({
                 />
             </div>
 
+            <div className={propertyInspectorStyles.modalRow}>
+                <Text styles={columnLeftTextStyles}>{'File Name'}</Text>
+                <TextField
+                    placeholder={t(
+                        'OATPropertyEditor.modalTextInputPlaceHolder'
+                    )}
+                    onChange={(_ev, value) => setFileName(value)}
+                    value={fileName}
+                />
+            </div>
+            <div className={propertyInspectorStyles.modalRow}>
+                <Text styles={columnLeftTextStyles}>{'File Path'}</Text>
+                <TextField
+                    placeholder={t(
+                        'OATPropertyEditor.modalTextInputPlaceHolder'
+                    )}
+                    onChange={(_ev, value) => setDirectoryPath(value)}
+                    value={directoryPath}
+                />
+            </div>
             <div className={propertyInspectorStyles.modalRowFlexEnd}>
                 <PrimaryButton
                     text={t('OATPropertyEditor.update')}

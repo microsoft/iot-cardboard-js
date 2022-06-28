@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { TextField } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import {
@@ -53,6 +53,7 @@ const OATTextFieldId = ({
     const [temporaryValue, setTemporaryValue] = useState(id);
     const { model, models } = state;
     const originalValue = id;
+    const inputRef = useRef(null);
 
     useEffect(() => {
         setTemporaryValue(id);
@@ -147,6 +148,24 @@ const OATTextFieldId = ({
         }
     };
 
+    const onFocus = () => {
+        if (inputRef.current) {
+            const selectionStart =
+                inputRef.current.props.value.lastIndexOf(':') + 1;
+            const selectionEnd = inputRef.current.props.value.lastIndexOf(';');
+            inputRef.current.setSelectionRange(selectionStart, selectionEnd);
+        }
+    };
+
+    useEffect(() => {
+        if (inputRef.current.props.value) {
+            const selectionStart =
+                inputRef.current.props.value.lastIndexOf(':') + 1;
+            const selectionEnd = inputRef.current.props.value.lastIndexOf(';');
+            inputRef.current.setSelectionRange(selectionStart, selectionEnd);
+        }
+    }, [inputRef]);
+
     return (
         <TextField
             autoFocus={autoFocus}
@@ -161,6 +180,8 @@ const OATTextFieldId = ({
             errorMessage={getErrorMessage()}
             onKeyDown={onKeyDown}
             onBlur={onCommitChange}
+            onFocus={onFocus}
+            componentRef={inputRef}
         />
     );
 };

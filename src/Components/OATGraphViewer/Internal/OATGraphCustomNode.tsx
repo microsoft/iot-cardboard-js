@@ -92,7 +92,7 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
             )}
             <div className={graphViewerStyles.node}>
                 <ActionButton styles={actionButtonStyles} onClick={onDelete}>
-                    <Icon iconName="Cancel" styles={iconStyles} />
+                    <Icon iconName="Delete" styles={iconStyles} />
                 </ActionButton>
                 {data.type !== OATUntargetedRelationshipName && (
                     <>
