@@ -27,13 +27,13 @@ import {
     handleCommentChange,
     handleDescriptionChange,
     handleDisplayNameChange,
-    handleIdChange,
     handleMultiLanguageSelectionRemoval,
     handleMultiLanguageSelectionsDescriptionKeyChange,
     handleMultiLanguageSelectionsDescriptionValueChange,
     handleMultiLanguageSelectionsDisplayNameKeyChange,
     handleMultiLanguageSelectionsDisplayNameValueChange
 } from './Utils';
+import OATTextFieldId from '../../Pages/OATEditorPage/Internal/Components/OATTextFieldId';
 
 const multiLanguageOptionValue = 'multiLanguage';
 const singleLanguageOptionValue = 'singleLanguage';
@@ -177,14 +177,6 @@ export const FormUpdateProperty = ({
         setModalOpen(false);
     };
 
-    const getIdErrorMessage = () => {
-        return idLengthError
-            ? t('OATPropertyEditor.errorIdLength')
-            : idValidDTMIError
-            ? t('OATPropertyEditor.errorIdValidDTMI')
-            : '';
-    };
-
     // Update multiLanguageSelectionsDisplayNames on every new language change
     useEffect(() => {
         // Create an array of the keys and values
@@ -230,28 +222,6 @@ export const FormUpdateProperty = ({
         );
         setIsAMultiLanguageDescriptionEmpty(hasEmptyValues);
     }, [multiLanguageSelectionsDescription]);
-
-    const onIdInputFocus = () => {
-        if (idInputRef.current) {
-            const selectionStart =
-                idInputRef.current.props.value.lastIndexOf(':') + 1;
-            const selectionEnd = idInputRef.current.props.value.lastIndexOf(
-                ';'
-            );
-            idInputRef.current.setSelectionRange(selectionStart, selectionEnd);
-        }
-    };
-
-    useEffect(() => {
-        if (idInputRef.current.props.value) {
-            const selectionStart =
-                idInputRef.current.props.value.lastIndexOf(':') + 1;
-            const selectionEnd = idInputRef.current.props.value.lastIndexOf(
-                ';'
-            );
-            idInputRef.current.setSelectionRange(selectionStart, selectionEnd);
-        }
-    }, [idInputRef]);
 
     useEffect(() => {
         if (id) {
@@ -300,20 +270,12 @@ export const FormUpdateProperty = ({
                 <Text styles={columnLeftTextStyles}>
                     {t('OATPropertyEditor.id')}
                 </Text>
-                <TextField
+                <OATTextFieldId
                     placeholder={t('OATPropertyEditor.id')}
-                    onChange={(_ev, value) =>
-                        handleIdChange(
-                            value,
-                            setId,
-                            setIdLengthError,
-                            setIdValidDTMIError
-                        )
-                    }
-                    errorMessage={getIdErrorMessage()}
-                    value={id}
-                    componentRef={idInputRef}
-                    onFocus={onIdInputFocus}
+                    id={id}
+                    setId={setId}
+                    state={state}
+                    modalFormCommit
                 />
             </div>
 

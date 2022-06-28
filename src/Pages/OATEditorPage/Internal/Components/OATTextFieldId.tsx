@@ -24,6 +24,7 @@ type IOATTexField = {
     state?: IOATEditorState;
     setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
     styles?: React.CSSProperties;
+    modalFormCommit?: boolean;
 };
 
 const OATTextFieldId = ({
@@ -35,6 +36,7 @@ const OATTextFieldId = ({
     onChange,
     onCommit,
     placeholder,
+    modalFormCommit,
     setId,
     state,
     styles
@@ -111,6 +113,10 @@ const OATTextFieldId = ({
             !idAlreadyUsedRelationshipError &&
             !validDTMIError
         ) {
+            if (modalFormCommit) {
+                setId(temporaryValue);
+                return;
+            }
             // Update model
             const modelCopy = deepCopy(model);
             modelCopy['@id'] = temporaryValue;
@@ -148,21 +154,25 @@ const OATTextFieldId = ({
         }
     };
 
+    const selectIdPath = () => {
+        const selectionStart =
+            inputRef.current.props.value.lastIndexOf(':') + 1;
+        const selectionEnd = inputRef.current.props.value.lastIndexOf(';');
+        if (selectionEnd === -1 || selectionStart === 0) {
+            return;
+        }
+        inputRef.current.setSelectionRange(selectionStart, selectionEnd);
+    };
+
     const onFocus = () => {
         if (inputRef.current) {
-            const selectionStart =
-                inputRef.current.props.value.lastIndexOf(':') + 1;
-            const selectionEnd = inputRef.current.props.value.lastIndexOf(';');
-            inputRef.current.setSelectionRange(selectionStart, selectionEnd);
+            selectIdPath();
         }
     };
 
     useEffect(() => {
-        if (inputRef.current.props.value) {
-            const selectionStart =
-                inputRef.current.props.value.lastIndexOf(':') + 1;
-            const selectionEnd = inputRef.current.props.value.lastIndexOf(';');
-            inputRef.current.setSelectionRange(selectionStart, selectionEnd);
+        if (inputRef.current && inputRef.current.props.value) {
+            selectIdPath();
         }
     }, [inputRef]);
 
@@ -192,11 +202,12 @@ OATTextFieldId.defaultProps = {
     autoFocus: false,
     borderless: false,
     disabled: false,
-    placeholder: '',
+    modalFormCommit: false,
     onChange: () => {
         // Do nothing
     },
     onCommit: () => {
         // Do nothing
-    }
+    },
+    placeholder: ''
 };
