@@ -168,15 +168,28 @@ export const TemplateList = ({
     };
 
     const moveItemOnTemplateList = (index: number, moveUp: boolean) => {
-        const direction = moveUp ? -1 : 1;
-        const newTemplate = deepCopy(templates);
-        const item = newTemplate[index];
-        newTemplate.splice(index, 1);
-        newTemplate.splice(index + direction, 0, item);
-        dispatch({
-            type: SET_OAT_TEMPLATES,
-            payload: newTemplate
-        });
+        const onMove = (index, moveUp) => {
+            const direction = moveUp ? -1 : 1;
+            const newTemplate = deepCopy(templates);
+            const item = newTemplate[index];
+            newTemplate.splice(index, 1);
+            newTemplate.splice(index + direction, 0, item);
+            dispatch({
+                type: SET_OAT_TEMPLATES,
+                payload: newTemplate
+            });
+        };
+
+        execute(
+            () => onMove(index, moveUp),
+            () => {
+                const templateCopy = deepCopy(templates);
+                dispatch({
+                    type: SET_OAT_TEMPLATES,
+                    payload: templateCopy
+                });
+            }
+        );
     };
 
     return (

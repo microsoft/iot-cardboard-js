@@ -193,10 +193,10 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
     }, [edge, nodes]);
 
     useEffect(() => {
-        if (nameEditor && (!model || model['@id'] !== id)) {
+        if (nameEditor && selectedModelId !== id) {
             setNameEditor(false);
         }
-    }, [id, model, nameEditor]);
+    }, [id, nameEditor, selectedModelId]);
 
     const getSourceComponents = (
         betaAngle: number,
@@ -469,45 +469,26 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
     }, [id, source, sourceX, sourceY, targetX, targetY]);
 
     const onNameClick = () => {
-        const dispatchRelationship = () => {
-            setNameEditor(true);
-
-            const relationship = new DTDLRelationship(
-                polygons.element.data.id,
-                nameText,
-                polygons.element.data.displayName,
-                polygons.element.data.description,
-                polygons.element.data.comment,
-                polygons.element.data.writable,
-                polygons.element.data.content
-                    ? polygons.element.data.content
-                    : [],
-                polygons.element.data.target,
-                polygons.element.data.maxMultiplicity
-            );
-
-            if (polygons.element.data.type === OATExtendHandleName) {
-                relationship['@type'] = OATExtendHandleName;
-            }
+        const selectRelationship = () => {
             setCurrentNode(polygons.element.id);
             dispatch({
-                type: SET_OAT_PROPERTY_EDITOR_MODEL,
-                payload: relationship
+                type: SET_OAT_SELECTED_MODEL_ID,
+                payload: polygons.element.data.id
             });
+            setNameEditor(true);
         };
 
         execute(
-            () => dispatchRelationship(),
+            () => selectRelationship(),
             () => {
-                setNameEditor(false);
                 setCurrentNode(currentNodeIdRef.current);
-                const modelCopy = deepCopy(model);
+                // const modelCopy = deepCopy(model);
                 const selectedModelIdCopy = deepCopy(selectedModelId);
-
                 dispatch({
-                    type: SET_OAT_PROPERTY_EDITOR_MODEL,
-                    payload: modelCopy
+                    type: SET_OAT_SELECTED_MODEL_ID,
+                    payload: selectedModelIdCopy
                 });
+                setNameEditor(false);
             }
         );
     };
