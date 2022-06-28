@@ -3,8 +3,7 @@ import React, {
     useContext,
     useEffect,
     useMemo,
-    useRef,
-    useState
+    useRef
 } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
@@ -67,7 +66,9 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
         dispatch,
         elementTwinAliasFormInfo,
         getConfig,
-        sceneId
+        sceneId,
+        setUnsavedBehaviorChangesDialogOpen,
+        setUnsavedChangesDialogDiscardAction
     } = useContext(SceneBuilderContext);
     const { elementFormDispatch, elementFormState } = useElementFormContext();
 
@@ -191,6 +192,20 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
         },
         [dispatch]
     );
+
+    const onCancelClick = useCallback(() => {
+        if (elementFormState.isDirty) {
+            setUnsavedBehaviorChangesDialogOpen(true);
+            setUnsavedChangesDialogDiscardAction(onElementBackClick);
+        } else {
+            onElementBackClick();
+        }
+    }, [
+        elementFormState.isDirty,
+        onElementBackClick,
+        setUnsavedBehaviorChangesDialogOpen,
+        setUnsavedChangesDialogDiscardAction
+    ]);
 
     const handleCreateBehavior = useCallback(
         async (searchText: string) => {
@@ -398,9 +413,7 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                         />
                         <DefaultButton
                             text={t('cancel')}
-                            onClick={() => {
-                                onElementBackClick();
-                            }}
+                            onClick={onCancelClick}
                         />
                     </PanelFooter>
                 </>
