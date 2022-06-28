@@ -141,6 +141,7 @@ export const FormUpdateProperty = ({
     const [displayNameError, setDisplayNameError] = useState(null);
     const [idLengthError, setIdLengthError] = useState(null);
     const [idValidDTMIError, setIdValidDTMIError] = useState(null);
+    const [idWarning, setIdWarning] = useState(null);
 
     const options: IChoiceGroupOption[] = [
         {
@@ -308,11 +309,13 @@ export const FormUpdateProperty = ({
     }, [multiLanguageSelectionsDescription]);
 
     const getIdErrorMessage = () => {
-        return idLengthError
+        const idWarn = idWarning ? t('OATPropertyEditor.warningId') : '';
+        const idError = idLengthError
             ? t('OATPropertyEditor.errorIdLength')
             : idValidDTMIError
             ? t('OATPropertyEditor.errorIdValidDTMI')
             : '';
+        return `${idWarn} ${idError}`;
     };
 
     return (
@@ -335,25 +338,6 @@ export const FormUpdateProperty = ({
                         }
                     />
                 </ActionButton>
-            </div>
-
-            <div className={propertyInspectorStyles.modalRow}>
-                <Text styles={columnLeftTextStyles}>
-                    {t('OATPropertyEditor.id')}
-                </Text>
-                <TextField
-                    placeholder={t('OATPropertyEditor.id')}
-                    onChange={(_ev, value) =>
-                        handleIdChange(
-                            value,
-                            setId,
-                            setIdLengthError,
-                            setIdValidDTMIError
-                        )
-                    }
-                    errorMessage={getIdErrorMessage()}
-                    value={id}
-                />
             </div>
 
             <div className={propertyInspectorStyles.modalRow}>
@@ -650,6 +634,26 @@ export const FormUpdateProperty = ({
                         commentError ? t('OATPropertyEditor.errorComment') : ''
                     }
                     value={comment}
+                />
+            </div>
+
+            <div className={propertyInspectorStyles.modalRow}>
+                <Text styles={columnLeftTextStyles}>
+                    {t('OATPropertyEditor.id')}
+                </Text>
+                <TextField
+                    placeholder={t('OATPropertyEditor.id')}
+                    onChange={(_ev, value) =>
+                        handleIdChange(
+                            value,
+                            setId,
+                            setIdLengthError,
+                            setIdValidDTMIError,
+                            setIdWarning
+                        )
+                    }
+                    errorMessage={getIdErrorMessage()}
+                    value={id}
                 />
             </div>
 

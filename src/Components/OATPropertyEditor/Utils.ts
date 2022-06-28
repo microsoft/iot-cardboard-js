@@ -248,7 +248,8 @@ export const handleIdChange = (
     value,
     setId,
     setIdErrorLength,
-    setIdValidDTMIError
+    setIdValidDTMIError,
+    setIdWarning
 ) => {
     if (value.length <= OATIdLengthLimit) {
         setIdErrorLength(null);
@@ -260,5 +261,8 @@ export const handleIdChange = (
         }
     } else {
         setIdErrorLength(true);
+    }
+    if (value.length > 0) {
+        setIdWarning(true);
     }
 };

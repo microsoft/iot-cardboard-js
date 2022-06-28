@@ -224,9 +224,6 @@ const PropertySelector = ({
             ...modelCopy[propertiesKeyName],
             ...[
                 {
-                    '@id': `dtmi:com:adt:model1:New_Property_${
-                        model[propertiesKeyName].length + 1
-                    };${versionClassBase}`,
                     '@type': ['property'],
                     name: `New_Property_${model[propertiesKeyName].length + 1}`,
                     displayName: `New_Property_${
