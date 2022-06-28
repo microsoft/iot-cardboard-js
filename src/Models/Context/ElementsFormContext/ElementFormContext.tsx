@@ -99,15 +99,6 @@ export const ElementFormContextReducer: (
                 }
                 break;
             }
-            case ElementFormContextActionType.FORM_ELEMENT_RESET: {
-                // if given a element to use, use it. Otherwise fall back to the initial value given to the provider
-                if (action.payload?.element) {
-                    draft.elementToEdit = deepCopy(action.payload?.element);
-                } else {
-                    draft.elementToEdit = deepCopy(initialElement);
-                }
-                break;
-            }
         }
 
         // check for changes after every action

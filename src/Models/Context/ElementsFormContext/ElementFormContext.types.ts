@@ -41,10 +41,7 @@ export enum ElementFormContextActionType {
     /** adds a twin alias to the element */
     FORM_ELEMENT_TWIN_ALIAS_ADD = 'FORM_ELEMENT_TWIN_ALIAS_ADD',
     /** removes a twin alias from the element */
-    FORM_ELEMENT_TWIN_ALIAS_REMOVE = 'FORM_ELEMENT_TWIN_ALIAS_REMOVE',
-
-    /** reverts all changes to the element back to it's initial state */
-    FORM_ELEMENT_RESET = 'FORM_ELEMENT_RESET'
+    FORM_ELEMENT_TWIN_ALIAS_REMOVE = 'FORM_ELEMENT_TWIN_ALIAS_REMOVE'
 }
 
 /** The actions to update the state */
@@ -86,13 +83,5 @@ export type ElementFormContextAction =
           type: ElementFormContextActionType.FORM_ELEMENT_TWIN_ALIAS_REMOVE;
           payload: {
               aliasName: string;
-          };
-      }
-    // ELEMENT OPERATIONS
-    | {
-          type: ElementFormContextActionType.FORM_ELEMENT_RESET;
-          payload?: {
-              element?: ITwinToObjectMapping;
-              layerIds?: string[];
           };
       };
