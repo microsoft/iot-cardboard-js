@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     TextField,
     Text,
@@ -55,7 +55,6 @@ export const FormUpdateProperty = ({
 }: IModal) => {
     const { model } = state;
     const { t } = useTranslation();
-    const idInputRef = useRef(null);
     const propertyInspectorStyles = getPropertyInspectorStyles();
     const columnLeftTextStyles = getModalLabelStyles();
     const radioGroupRowStyle = getRadioGroupRowStyles();
@@ -97,8 +96,6 @@ export const FormUpdateProperty = ({
     const [commentError, setCommentError] = useState(null);
     const [descriptionError, setDescriptionError] = useState(null);
     const [displayNameError, setDisplayNameError] = useState(null);
-    const [idLengthError, setIdLengthError] = useState(null);
-    const [idValidDTMIError, setIdValidDTMIError] = useState(null);
     const [fileName, setFileName] = useState(
         model.fileName ? model.fileName : null
     );
@@ -601,11 +598,7 @@ export const FormUpdateProperty = ({
                     allowDisabledFocus
                     onClick={onFormSubmit}
                     disabled={
-                        displayNameError ||
-                        commentError ||
-                        descriptionError ||
-                        idLengthError ||
-                        idValidDTMIError
+                        displayNameError || commentError || descriptionError
                     }
                 />
 
