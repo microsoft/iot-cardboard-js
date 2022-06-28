@@ -84,6 +84,8 @@ const AlertsTab: React.FC = () => {
     // hooks
     const { t } = useTranslation();
 
+    // const [inputValue, setInputValue] = useState()
+
     const alertVisualStateRef = useRef<IExpressionRangeVisual>(
         getAlertFromBehavior(behaviorFormState.behaviorToEdit) ||
             getDefaultAlertVisualWithId()
@@ -152,7 +154,11 @@ const AlertsTab: React.FC = () => {
     };
 
     const setValueRangeProperty = useCallback(
-        (propertyName: keyof IValueRangeVisual, value: string | any) => {
+        (
+            propertyName: keyof IValueRangeVisual,
+            value: string | any,
+            valueRangeNum?: number
+        ) => {
             //er ... sorry for the typing change
             logDebugConsole(
                 'info',
@@ -171,7 +177,11 @@ const AlertsTab: React.FC = () => {
                 );
                 return;
             }
-            const valueRangeVisual = alertVisual?.valueRanges?.[0]?.visual;
+
+            // if specifying which valueRange, do specified value range (mostly applies to transforms)
+            const valueRangeVisual = valueRangeNum
+                ? alertVisual?.valueRanges?.[0]?.visual
+                : alertVisual?.valueRanges?.[valueRangeNum]?.visual;
             if (!valueRangeVisual) {
                 logDebugConsole(
                     'warn',
@@ -273,7 +283,7 @@ const AlertsTab: React.FC = () => {
             const newGizmoTransformItem: TransformInfo = deepCopy(
                 gizmoTransformItem
             );
-            const valueAsNumber = Math.round(Number(value));
+            const valueAsNumber = Number(value);
             console.log(gizmoTransformItem);
             switch (name) {
                 case 'xPos':
@@ -371,12 +381,13 @@ const AlertsTab: React.FC = () => {
                         onTransformChange
                         ></> */}
                     </Stack>
-                    <Stack>
+                    <Stack tokens={{ childrenGap: 12 }} horizontal>
                         <TextField
                             label="X Position: "
                             name="xPos"
                             type="number"
                             onChange={onTransformChange}
+                            // validateOnFocusIn
                             // validateOnFocusOut
                             value={
                                 gizmoTransformItem
@@ -406,7 +417,8 @@ const AlertsTab: React.FC = () => {
                                     : ''
                             }
                         ></TextField>
-
+                    </Stack>
+                    <Stack tokens={{ childrenGap: 12 }} horizontal>
                         <TextField
                             label="X Rotation: "
                             name="xRot"

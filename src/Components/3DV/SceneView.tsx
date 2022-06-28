@@ -1985,20 +1985,33 @@ function SceneView(props: ISceneViewProps, ref) {
                         //     {},
                         //     gizmoTransformItemRef.current
                         // );
+
+                        // this is the main place where transforms get set, so round here
+                        // basically, when manipulating with gizmo, round to whole numbers for position
+                        // and two decimal places for rotation -- in the mesh itself more decimals will
+                        // be kept, but effect should be negligible
                         gizmoTransformItemRef.current.transform = {
                             position: {
-                                x: attachedMesh.position.x,
-                                y: attachedMesh.position.y,
-                                z: attachedMesh.position.z
+                                x: Math.round(attachedMesh.position.x),
+                                y: Math.round(attachedMesh.position.y),
+                                z: Math.round(attachedMesh.position.z)
                             },
                             rotation: {
-                                x: attachedMesh.rotation.x,
-                                y: attachedMesh.rotation.y,
-                                z: attachedMesh.rotation.z
+                                x: Number(attachedMesh.rotation.x.toFixed(2)),
+                                y: Number(attachedMesh.rotation.y.toFixed(2)),
+                                z: Number(attachedMesh.rotation.z.toFixed(2))
                             }
                         };
                         setGizmoTransformItem(
                             gizmoTransformItemRef.current.transform
+                        );
+                        console.log(
+                            'actual mesh position: ',
+                            attachedMesh.position
+                        );
+                        console.log(
+                            'actual mesh rotation: ',
+                            attachedMesh.rotation
                         );
 
                         // gizmoTransformItemRef.current.transform = {
@@ -2117,13 +2130,13 @@ function SceneView(props: ISceneViewProps, ref) {
                         ];
 
                     // should update element when user inputs value in field
-                    parentMesh.rotation.x = gizmoTransformItem.rotation.x;
-                    parentMesh.rotation.y = gizmoTransformItem.rotation.y;
-                    parentMesh.rotation.z = gizmoTransformItem.rotation.z;
-
                     parentMesh.position.x = gizmoTransformItem.position.x;
                     parentMesh.position.y = gizmoTransformItem.position.y;
                     parentMesh.position.z = gizmoTransformItem.position.z;
+
+                    parentMesh.rotation.x = gizmoTransformItem.rotation.x;
+                    parentMesh.rotation.y = gizmoTransformItem.rotation.y;
+                    parentMesh.rotation.z = gizmoTransformItem.rotation.z;
                 }
                 console.log(
                     'gizmoTransformItem in SceneView: ',
