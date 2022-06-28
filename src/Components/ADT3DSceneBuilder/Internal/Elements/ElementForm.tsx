@@ -229,6 +229,11 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
         for (const item of coloredMeshItems) {
             meshIds.push(item.meshId);
         }
+        logDebugConsole(
+            'debug',
+            'Updating selected meshes. {coloredMeshes}',
+            meshIds
+        );
         elementFormDispatch({
             type: ElementFormContextActionType.FORM_ELEMENT_SET_MESH_IDS,
             payload: {
