@@ -9,10 +9,14 @@ import {
 export const GET_MOCK_ELEMENT_FORM_PROVIDER_PROPS = (): IElementFormContextProviderProps => ({
     elementToEdit: {
         displayName: 'My test element',
-        id: 'test element id'
-    } as ITwinToObjectMapping
+        id: 'test element id',
+        primaryTwinID: 'primaryTwinID',
+        objectIDs: []
+    } as ITwinToObjectMapping,
+    linkedBehaviorIds: []
 });
 export const GET_MOCK_ELEMENT_FORM_STATE = (): IElementFormContextState => ({
     elementToEdit: {} as ITwinToObjectMapping,
+    linkedBehaviorIds: [],
     isDirty: false
 });
