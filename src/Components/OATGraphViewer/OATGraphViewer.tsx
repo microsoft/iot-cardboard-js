@@ -519,7 +519,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                 payload: null
             });
         } else if (!node && model && model['@type'] === OATInterfaceType) {
-            // Occurs on undo when there wa no original model on previous state
+            // Occurs on undo when there wa no original interface on previous state
             dispatch({
                 type: SET_OAT_PROPERTY_EDITOR_MODEL,
                 payload: null
