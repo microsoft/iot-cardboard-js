@@ -17,7 +17,10 @@ import {
     TextField,
     useTheme
 } from '@fluentui/react';
-import { IADT3DSceneBuilderElementFormProps } from '../../ADT3DSceneBuilder.types';
+import {
+    IADT3DSceneBuilderElementFormProps,
+    SET_ADT_SCENE_BUILDER_FORM_DIRTY_MAP_ENTRY
+} from '../../ADT3DSceneBuilder.types';
 import { SceneBuilderContext } from '../../ADT3DSceneBuilder';
 import { ADT3DSceneBuilderMode } from '../../../../Models/Constants/Enums';
 import { deepCopy, getDebugLogger } from '../../../../Models/Services/Utils';
@@ -61,6 +64,7 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
         adapter,
         coloredMeshItems,
         config,
+        dispatch,
         elementTwinAliasFormInfo,
         getConfig,
         sceneId
@@ -170,9 +174,23 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
         isAdapterCalledOnMount: false
     });
 
+    // callbacks
     const handleSaveElement = useCallback(() => {
         saveElementAdapterData.callAdapter();
     }, [saveElementAdapterData]);
+
+    const notifySceneContextDirtyState = useCallback(
+        (isDirty: boolean) => {
+            dispatch({
+                type: SET_ADT_SCENE_BUILDER_FORM_DIRTY_MAP_ENTRY,
+                payload: {
+                    formType: 'element',
+                    value: isDirty
+                }
+            });
+        },
+        [dispatch]
+    );
 
     const handleCreateBehavior = useCallback(
         async (searchText: string) => {
@@ -200,15 +218,19 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
         });
     };
 
+    // effects
+
+    // mirror the form state up to the scene context (for navigation confirmation)
     useEffect(() => {
-        if (saveElementAdapterData.adapterResult.result) {
-            getConfig();
-            // send the updated list of elements to the parent, once the write to config finishes
-            if (newElementsRef.current) {
-                onElementSave(newElementsRef.current);
-            }
-        }
-    }, [getConfig, onElementSave, saveElementAdapterData.adapterResult]);
+        notifySceneContextDirtyState(elementFormState.isDirty);
+    }, [elementFormState.isDirty, notifySceneContextDirtyState]);
+
+    // when we unmount, clear the form data
+    useEffect(() => {
+        return () => {
+            notifySceneContextDirtyState(false);
+        };
+    }, [notifySceneContextDirtyState]);
 
     // mirror the state from scene context onto the form
     useEffect(() => {
@@ -229,6 +251,18 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
         });
     }, [coloredMeshItems, elementFormDispatch]);
 
+    // when the network call finishes, notify the parent
+    useEffect(() => {
+        if (saveElementAdapterData.adapterResult.result) {
+            getConfig();
+            // send the updated list of elements to the parent, once the write to config finishes
+            if (newElementsRef.current) {
+                onElementSave(newElementsRef.current);
+            }
+        }
+    }, [getConfig, onElementSave, saveElementAdapterData.adapterResult]);
+
+    // data
     const { headerText, subHeaderText, iconName } = useMemo(
         () =>
             getLeftPanelBuilderHeaderParamsForElements(

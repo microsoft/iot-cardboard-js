@@ -55,6 +55,7 @@ import {
 } from './BuilderLeftPanel.types';
 import { getStyles } from './BuilderLeftPanel.styles';
 import { BreadcrumbAction } from '../../../SceneBreadcrumb/SceneBreadcrumb.types';
+import UnsavedChangesDialog from '../UnsavedChangesDialog/UnsavedChangesDialog';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('BuilderLeftPanel', debugLogging);
@@ -488,50 +489,59 @@ const BuilderLeftPanel: React.FC<IBuilderLeftPanelProps> = ({ styles }) => {
         [onBackClick]
     );
 
+    const onDiscardChangesClick = useCallback(() => {
+        setUnsavedBehaviorChangesDialogOpen(false);
+        if (state.unsavedChangesDialogDiscardAction) {
+            state.unsavedChangesDialogDiscardAction();
+        }
+    }, [setUnsavedBehaviorChangesDialogOpen, state]);
+
     const onBreadcrumbNavigate = useCallback(
-        (action: BreadcrumbAction, navigate: () => void): boolean => {
+        (action: BreadcrumbAction, navigate: () => void) => {
             logDebugConsole(
                 'debug',
                 `[START] pre-breadcrumb navigation of action ${action}`
             );
             // check if we should interupt the navigation flow
+            let shouldNavigate = true;
             const actions: BreadcrumbAction[] = ['goToHome', 'goToScene'];
             if (actions.includes(action)) {
                 if (isBehaviorFormMode) {
                     const isDirty = state.formDirtyState.get('behavior');
                     if (isDirty) {
+                        logDebugConsole(
+                            'debug',
+                            'Behavior form is dirty. Showing confirmation dialog.'
+                        );
                         setUnsavedBehaviorChangesDialogOpen(true);
                         setUnsavedChangesDialogDiscardAction(() => {
                             navigate();
                         });
-                        logDebugConsole(
-                            'debug',
-                            `[END] pre-breadcrumb navigation of action ${action} on BehaviorForm. {isDirty}`,
-                            isDirty
-                        );
-                        return; // early return so we don't navigate
+                        shouldNavigate = false;
                     }
                 } else if (isElementFormMode) {
                     const isDirty = state.formDirtyState.get('element');
                     if (isDirty) {
                         logDebugConsole(
                             'debug',
-                            `[END] pre-breadcrumb navigation of action ${action} on ElementForm. {isDirty}`,
-                            isDirty
+                            'Element form is dirty. Showing confirmation dialog.'
                         );
                         setUnsavedBehaviorChangesDialogOpen(true);
                         setUnsavedChangesDialogDiscardAction(() => {
                             navigate();
                         });
-                        return; // early return so we don't navigate
+                        shouldNavigate = false;
                     }
                 }
             }
             logDebugConsole(
                 'debug',
-                `[END] pre-breadcrumb navigation of action ${action}. Navigating.`
+                `[END] pre-breadcrumb navigation of action ${action}. {ShouldNavigate}.`,
+                shouldNavigate
             );
-            navigate();
+            if (shouldNavigate) {
+                navigate();
+            }
         },
         [
             isBehaviorFormMode,
@@ -541,6 +551,19 @@ const BuilderLeftPanel: React.FC<IBuilderLeftPanelProps> = ({ styles }) => {
             state.formDirtyState
         ]
     );
+
+    // clear the dialog state when switching to the forms
+    useEffect(() => {
+        if (isElementFormMode || isBehaviorFormMode) {
+            setUnsavedBehaviorChangesDialogOpen(false);
+            setUnsavedChangesDialogDiscardAction(undefined);
+        }
+    }, [
+        isElementFormMode,
+        isBehaviorFormMode,
+        setUnsavedBehaviorChangesDialogOpen,
+        setUnsavedChangesDialogDiscardAction
+    ]);
 
     logDebugConsole('debug', 'Render');
     return (
@@ -626,6 +649,11 @@ const BuilderLeftPanel: React.FC<IBuilderLeftPanelProps> = ({ styles }) => {
                     updateSelectedElements={updateSelectedElements}
                 />
             )}
+            <UnsavedChangesDialog
+                isOpen={state.unsavedBehaviorDialogOpen}
+                onConfirmDiscard={onDiscardChangesClick}
+                onClose={() => setUnsavedBehaviorChangesDialogOpen(false)}
+            />
         </BaseComponent>
     );
 };
