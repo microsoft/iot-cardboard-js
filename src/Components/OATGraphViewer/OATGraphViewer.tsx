@@ -676,7 +676,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
 
     const onNewModelClick = () => {
         if (!state.modified) {
-            const handleNewNode = () => {
+            const onNewNode = () => {
                 // Create a new floating node
                 const name = `Model${newModelId}`;
                 const id = `${idClassBase}model${newModelId};${versionClassBase}`;
@@ -722,7 +722,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
             };
 
             execute(
-                () => handleNewNode(),
+                () => onNewNode(),
                 () => {
                     const elementsCopy = deepCopy(elements);
                     setElements(elementsCopy);
