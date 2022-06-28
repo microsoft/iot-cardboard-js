@@ -37,7 +37,7 @@ export const PropertyListMapItemNested = ({
         model ? model['@type'] : null
     );
 
-    const updateMapKeyName = (value) => {
+    const updateMapKeyName = (value: string) => {
         const modelCopy = deepCopy(model);
         modelCopy[propertiesKeyName][index].schema.mapKey.name = value;
         dispatch({
@@ -46,7 +46,7 @@ export const PropertyListMapItemNested = ({
         });
     };
 
-    const updateMapValueName = (value) => {
+    const updateMapValueName = (value: string) => {
         const modelCopy = deepCopy(model);
         modelCopy[propertiesKeyName][index].schema.mapValue.name = value;
         dispatch({

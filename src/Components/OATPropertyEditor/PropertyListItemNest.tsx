@@ -146,7 +146,7 @@ export const PropertyListItemNest = ({
         });
     };
 
-    const deleteNestedItem = (parentIndex, index) => {
+    const deleteNestedItem = (parentIndex: number, index: number) => {
         const newModel = deepCopy(model);
         if (
             newModel[propertiesKeyName][parentIndex].schema['@type'] ===
