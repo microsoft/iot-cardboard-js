@@ -135,6 +135,11 @@ const OATTextFieldName = ({
         if (event.key === 'Enter') {
             onCommitChange();
         }
+        if (event.key === 'Escape' || event.key === 'Tab') {
+            setName(originalValue);
+            setTemporaryName(originalValue);
+            onCommit();
+        }
     };
 
     const getErrorMessage = () => {

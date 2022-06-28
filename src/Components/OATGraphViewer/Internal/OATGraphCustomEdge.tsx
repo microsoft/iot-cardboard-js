@@ -514,6 +514,10 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
         }
     };
 
+    const onCommit = () => {
+        setNameEditor(false);
+    };
+
     return (
         <>
             <path
@@ -577,6 +581,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                                 setName={setNameText}
                                 dispatch={dispatch}
                                 state={state}
+                                onCommit={onCommit}
                                 autoFocus
                             />
                         )}
@@ -589,10 +594,10 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                                         ? graphViewerStyles.edgeCancel
                                         : graphViewerStyles.extendCancel
                                 }
-                                onClick={onDelete}
+                                onMouseDown={onDelete}
                             >
                                 <Icon
-                                    iconName="Cancel"
+                                    iconName="Trash"
                                     styles={{
                                         root: {
                                             fontSize: FontSizes.size10,
