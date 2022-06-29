@@ -322,7 +322,6 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
 
                 setElements(newElements);
             });
-        return elements;
     };
 
     useEffect(() => {
@@ -497,8 +496,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                 importModelsList.push(newNode, ...relationships);
             });
         }
-        const positionedElements = applyLayoutToElements([...importModelsList]);
-        setElements(positionedElements);
+        applyLayoutToElements([...importModelsList]);
     }, [importModels]);
 
     useEffect(() => {
