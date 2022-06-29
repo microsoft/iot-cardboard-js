@@ -46,13 +46,13 @@ export const ElementFormContextReducer: (
                 draft.linkedBehaviorIds = Array.from(set);
                 break;
             }
+            case ElementFormContextActionType.FORM_ELEMENT_DISPLAY_NAME_SET: {
+                draft.elementToEdit.displayName = action.payload.name;
+                break;
+            }
             case ElementFormContextActionType.FORM_ELEMENT_SET_MESH_IDS: {
                 const set = new Set<string>(action.payload.meshIds);
                 draft.elementToEdit.objectIDs = Array.from(set);
-                break;
-            }
-            case ElementFormContextActionType.FORM_ELEMENT_DISPLAY_NAME_SET: {
-                draft.elementToEdit.displayName = action.payload.name;
                 break;
             }
             case ElementFormContextActionType.FORM_ELEMENT_TWIN_ID_SET: {

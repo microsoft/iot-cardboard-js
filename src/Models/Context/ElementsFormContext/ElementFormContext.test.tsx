@@ -1,20 +1,6 @@
 import React from 'react';
 import { cleanup, render } from '@testing-library/react';
-import {
-    defaultAlertVisual,
-    defaultElement,
-    defaultGaugeWidget,
-    defaultStatusColorVisual,
-    VisualType
-} from '../../Classes/3DVConfig';
-import ViewerConfigUtility from '../../Classes/ViewerConfigUtility';
-import {
-    IElement,
-    IElementTwinToObjectMappingDataSource,
-    IExpressionRangeVisual,
-    IPopoverVisual,
-    IWidget
-} from '../../Types/Generated/3DScenesConfiguration-v1.0.0';
+import { ITwinToObjectMapping } from '../../Types/Generated/3DScenesConfiguration-v1.0.0';
 import {
     ElementFormContextProvider,
     ElementFormContextReducer
@@ -24,31 +10,23 @@ import {
     ElementFormContextAction,
     ElementFormContextActionType
 } from './ElementFormContext.types';
+import { getDefaultElement } from '../../Classes/3DVConfig';
 
 describe('ElementFormContext', () => {
     afterEach(cleanup);
     describe('Actions', () => {
-        describe('Alert visuals', () => {
-            const getAlertVisual = (
-                expression: string
-            ): IExpressionRangeVisual => {
-                return {
-                    ...defaultAlertVisual,
-                    valueExpression: expression
-                };
-            };
-
-            test('[Add/Update] - adds the alert to the list of visuals when no alert exists', () => {
+        describe('Behaviors', () => {
+            test('[Add] - adds the behavior to the list when no behavior exists', () => {
                 // ARRANGE
                 const initialState = GET_MOCK_ELEMENT_FORM_STATE();
-                initialState.elementToEdit.visuals = []; // no visuals
+                initialState.linkedBehaviorIds = []; // no items
 
-                const alertExpression = 'myProperty > 1';
+                const behaviorId = 'id1';
                 const action: ElementFormContextAction = {
                     type:
-                        ElementFormContextActionType.FORM_BEHAVIOR_ALERT_VISUAL_ADD_OR_UPDATE,
+                        ElementFormContextActionType.FORM_ELEMENT_BEHAVIOR_LINK_ADD,
                     payload: {
-                        visual: getAlertVisual(alertExpression)
+                        id: behaviorId
                     }
                 };
 
@@ -56,26 +34,24 @@ describe('ElementFormContext', () => {
                 const result = ElementFormContextReducer(initialState, action);
 
                 // ASSERT
-                const alerts = result.elementToEdit.visuals.filter(
-                    ViewerConfigUtility.isAlertVisual
+                const behaviors = result.linkedBehaviorIds.filter(
+                    (x) => x === behaviorId
                 );
-                expect(alerts.length).toEqual(1);
-                expect(alerts[0].valueExpression).toEqual(alertExpression);
+                expect(result.linkedBehaviorIds.length).toEqual(1);
+                expect(behaviors.length).toEqual(1);
             });
 
-            test('[Add/Update] - updates the alert in the list of visuals when an alert already exists', () => {
+            test('[Add] - updates the behaviors list when a matching behavior already exists', () => {
                 // ARRANGE
                 const initialState = GET_MOCK_ELEMENT_FORM_STATE();
-                initialState.elementToEdit.visuals = [
-                    getAlertVisual('some expression')
-                ]; // add an alert to the list
+                const behaviorId = 'id1';
+                initialState.linkedBehaviorIds = [behaviorId, 'something else']; // existing data
 
-                const alertExpression = 'myProperty > 1';
                 const action: ElementFormContextAction = {
                     type:
-                        ElementFormContextActionType.FORM_BEHAVIOR_ALERT_VISUAL_ADD_OR_UPDATE,
+                        ElementFormContextActionType.FORM_ELEMENT_BEHAVIOR_LINK_ADD,
                     payload: {
-                        visual: getAlertVisual(alertExpression)
+                        id: behaviorId
                     }
                 };
 
@@ -83,207 +59,79 @@ describe('ElementFormContext', () => {
                 const result = ElementFormContextReducer(initialState, action);
 
                 // ASSERT
-                const alerts = result.elementToEdit.visuals.filter(
-                    ViewerConfigUtility.isAlertVisual
+                const behaviors = result.linkedBehaviorIds.filter(
+                    (x) => x === behaviorId
                 );
-                expect(alerts.length).toEqual(1);
-                expect(alerts[0].valueExpression).toEqual(alertExpression);
+                expect(result.linkedBehaviorIds.length).toEqual(2);
+                expect(behaviors.length).toEqual(1);
             });
 
-            test('[Remove] - silently passes when trying to remove an alert when there is none on the element', () => {
+            test('[Remove] - silently passes when trying to remove a behavior when there is none in the list', () => {
                 // ARRANGE
                 const initialState = GET_MOCK_ELEMENT_FORM_STATE();
-                initialState.elementToEdit.visuals = [];
+                initialState.linkedBehaviorIds = []; // no data
 
+                const behaviorId = 'id1';
                 const action: ElementFormContextAction = {
                     type:
-                        ElementFormContextActionType.FORM_BEHAVIOR_ALERT_VISUAL_REMOVE
+                        ElementFormContextActionType.FORM_ELEMENT_BEHAVIOR_LINK_REMOVE,
+                    payload: { id: behaviorId }
                 };
 
                 // ACT
                 const result = ElementFormContextReducer(initialState, action);
 
                 // ASSERT
-                const alerts = result.elementToEdit.visuals.filter(
-                    ViewerConfigUtility.isAlertVisual
+                const behaviors = result.linkedBehaviorIds.filter(
+                    (x) => x === behaviorId
                 );
-                expect(alerts.length).toEqual(0);
+                expect(result.linkedBehaviorIds.length).toEqual(0);
+                expect(behaviors.length).toEqual(0);
             });
 
-            test('[Remove] - removes the alert in the list of visuals if an alert already exists', () => {
+            test('[Remove] - removes the behavior fromt the list if a behavior already exists', () => {
                 // ARRANGE
                 const initialState = GET_MOCK_ELEMENT_FORM_STATE();
-                initialState.elementToEdit.visuals = [
-                    getAlertVisual('some expression')
-                ]; // add an alert to the list
+                const behaviorId = 'id1';
+                initialState.linkedBehaviorIds = [behaviorId, 'something else']; // has data
 
                 const action: ElementFormContextAction = {
                     type:
-                        ElementFormContextActionType.FORM_BEHAVIOR_ALERT_VISUAL_REMOVE
+                        ElementFormContextActionType.FORM_ELEMENT_BEHAVIOR_LINK_REMOVE,
+                    payload: { id: behaviorId }
                 };
 
                 // ACT
                 const result = ElementFormContextReducer(initialState, action);
 
                 // ASSERT
-                const alerts = result.elementToEdit.visuals.filter(
-                    ViewerConfigUtility.isAlertVisual
+                const behaviors = result.linkedBehaviorIds.filter(
+                    (x) => x === behaviorId
                 );
-                expect(alerts.length).toEqual(0);
+                expect(result.linkedBehaviorIds.length).toEqual(1);
+                expect(behaviors.length).toEqual(0);
             });
         });
 
-        describe('Aliases', () => {
-            test('[Add/Update] - adds the alias to the list of twins when no alias exists', () => {
-                // ARRANGE
-                const initialState = GET_MOCK_ELEMENT_FORM_STATE();
-                initialState.elementToEdit.twinAliases = [];
-
-                const aliasName = 'myTwinAlias';
-                const action: ElementFormContextAction = {
-                    type: ElementFormContextActionType.FORM_BEHAVIOR_ALIAS_ADD,
-                    payload: {
-                        alias: aliasName
-                    }
-                };
-
-                // ACT
-                const result = ElementFormContextReducer(initialState, action);
-
-                // ASSERT
-                const allAliases = result.elementToEdit.twinAliases;
-                expect(allAliases.length).toEqual(1);
-                const matchingAliases = allAliases.filter(
-                    (x) => x === aliasName
-                );
-                expect(matchingAliases.length).toEqual(1);
-            });
-
-            test('[Add/Update] - adds the alias in the list of twins when an alias already exists with a different name', () => {
-                // ARRANGE
-
-                const initialState = GET_MOCK_ELEMENT_FORM_STATE();
-                initialState.elementToEdit.twinAliases = ['some other alias'];
-
-                const aliasName = 'myTwinAlias';
-                const action: ElementFormContextAction = {
-                    type: ElementFormContextActionType.FORM_BEHAVIOR_ALIAS_ADD,
-                    payload: {
-                        alias: aliasName
-                    }
-                };
-
-                // ACT
-                const result = ElementFormContextReducer(initialState, action);
-
-                // ASSERT
-                const allAliases = result.elementToEdit.twinAliases;
-                expect(allAliases.length).toEqual(2);
-                const matchingAliases = allAliases.filter(
-                    (x) => x === aliasName
-                );
-                expect(matchingAliases.length).toEqual(1);
-            });
-
-            test('[Add/Update] - silently passes when an alias already exists with the same name', () => {
-                // ARRANGE
-                const aliasName = 'myTwinAlias';
-
-                const initialState = GET_MOCK_ELEMENT_FORM_STATE();
-                initialState.elementToEdit.twinAliases = [aliasName];
-
-                const action: ElementFormContextAction = {
-                    type: ElementFormContextActionType.FORM_BEHAVIOR_ALIAS_ADD,
-                    payload: {
-                        alias: aliasName
-                    }
-                };
-
-                // ACT
-                const result = ElementFormContextReducer(initialState, action);
-
-                // ASSERT
-                const allAliases = result.elementToEdit.twinAliases;
-                expect(allAliases.length).toEqual(1);
-                const matchingAliases = allAliases.filter(
-                    (x) => x === aliasName
-                );
-                expect(matchingAliases.length).toEqual(1);
-            });
-
-            test('[Remove] - silently passes when trying to remove an alias when there is none on the element', () => {
-                // ARRANGE
-                const initialState = GET_MOCK_ELEMENT_FORM_STATE();
-                initialState.elementToEdit.twinAliases = [];
-
-                const aliasName = 'myAlias';
-                const action: ElementFormContextAction = {
-                    type:
-                        ElementFormContextActionType.FORM_BEHAVIOR_ALIAS_REMOVE,
-                    payload: {
-                        alias: aliasName
-                    }
-                };
-
-                // ACT
-                const result = ElementFormContextReducer(initialState, action);
-
-                // ASSERT
-                const allAliases = result.elementToEdit.twinAliases;
-                expect(allAliases.length).toEqual(0);
-            });
-
-            test('[Remove] - removes the alias in the list of twins when it exists', () => {
-                // ARRANGE
-                const aliasName = 'myAlias';
-                const initialState = GET_MOCK_ELEMENT_FORM_STATE();
-                initialState.elementToEdit.twinAliases = [
-                    aliasName,
-                    'something else'
-                ];
-
-                const action: ElementFormContextAction = {
-                    type:
-                        ElementFormContextActionType.FORM_BEHAVIOR_ALIAS_REMOVE,
-                    payload: {
-                        alias: aliasName
-                    }
-                };
-
-                // ACT
-                const result = ElementFormContextReducer(initialState, action);
-
-                // ASSERT
-                const allAliases = result.elementToEdit.twinAliases;
-                expect(allAliases.length).toEqual(1);
-                const matchingAliases = allAliases.filter(
-                    (x) => x === aliasName
-                );
-                expect(matchingAliases.length).toEqual(0);
-            });
-        });
-
-        describe('Data sources', () => {
-            const getDataSource = (
-                elementIds: string[]
-            ): IElementTwinToObjectMappingDataSource => {
-                return {
-                    elementIDs: elementIds,
-                    type: 'ElementTwinToObjectMappingDataSource'
-                };
+        describe('Twin aliases', () => {
+            const getTwinAlias = (aliasName: string, target: string) => {
+                const alias = {};
+                alias[aliasName] = target;
+                return alias;
             };
-
-            test('[Add/Update] - adds the dataSource to the list of data sources when no dataSource exists', () => {
+            test('[Add/Update] - adds the twinAlias when no twinAlias exists', () => {
                 // ARRANGE
                 const initialState = GET_MOCK_ELEMENT_FORM_STATE();
-                initialState.elementToEdit.datasources = []; // no items
+                initialState.elementToEdit.twinAliases = {}; // no items
 
-                const elementIds = ['id1', 'id2'];
+                const ALIAS_NAME = 'my alias 1';
+                const ALIAS_TARGET = 'target alias';
                 const action: ElementFormContextAction = {
                     type:
-                        ElementFormContextActionType.FORM_BEHAVIOR_DATA_SOURCE_ADD_OR_UPDATE,
+                        ElementFormContextActionType.FORM_ELEMENT_TWIN_ALIAS_ADD,
                     payload: {
-                        source: getDataSource(elementIds)
+                        aliasName: ALIAS_NAME,
+                        aliasTarget: ALIAS_TARGET
                     }
                 };
 
@@ -291,29 +139,28 @@ describe('ElementFormContext', () => {
                 const result = ElementFormContextReducer(initialState, action);
 
                 // ASSERT
-                const dataSources = result.elementToEdit.datasources.filter(
-                    ViewerConfigUtility.isElementTwinToObjectMappingDataSource
-                );
-                expect(dataSources.length).toEqual(1);
-                expect(dataSources[0].elementIDs.length).toEqual(
-                    elementIds.length
-                );
-                expect(dataSources[0].elementIDs[0]).toEqual(elementIds[0]);
+                const twinAliases = result.elementToEdit.twinAliases;
+                expect(Object.keys(twinAliases).length).toEqual(1);
+                expect(twinAliases[ALIAS_NAME]).toEqual(ALIAS_TARGET);
             });
 
-            test('[Add/Update] - updates the dataSource in the list of data sources when a matching dataSource already exists', () => {
+            test('[Add/Update] - updates the twinAlias in the list of twin aliases when a matching twinAlias already exists', () => {
                 // ARRANGE
                 const initialState = GET_MOCK_ELEMENT_FORM_STATE();
-                initialState.elementToEdit.datasources = [
-                    getDataSource(['mine'])
-                ]; // existing data
+                const ALIAS_NAME = 'my alias 1';
+                const ALIAS_TARGET = 'target alias';
+                initialState.elementToEdit.twinAliases = getTwinAlias(
+                    ALIAS_NAME,
+                    ALIAS_TARGET
+                ); // existing data
 
-                const elementIds = ['id1', 'id2'];
+                const NEW_TARGET = 'new target';
                 const action: ElementFormContextAction = {
                     type:
-                        ElementFormContextActionType.FORM_BEHAVIOR_DATA_SOURCE_ADD_OR_UPDATE,
+                        ElementFormContextActionType.FORM_ELEMENT_TWIN_ALIAS_ADD,
                     payload: {
-                        source: getDataSource(elementIds)
+                        aliasName: ALIAS_NAME,
+                        aliasTarget: NEW_TARGET
                     }
                 };
 
@@ -321,56 +168,58 @@ describe('ElementFormContext', () => {
                 const result = ElementFormContextReducer(initialState, action);
 
                 // ASSERT
-                const dataSources = result.elementToEdit.datasources.filter(
-                    ViewerConfigUtility.isElementTwinToObjectMappingDataSource
-                );
-                expect(dataSources.length).toEqual(1);
-                expect(dataSources[0].elementIDs.length).toEqual(
-                    elementIds.length
-                );
-                expect(dataSources[0].elementIDs[0]).toEqual(elementIds[0]);
+                const twinAliases = result.elementToEdit.twinAliases;
+                expect(Object.keys(twinAliases).length).toEqual(1);
+                expect(twinAliases[ALIAS_NAME]).toEqual(NEW_TARGET);
             });
 
-            test('[Remove] - silently passes when trying to remove an dataSource when there is none on the element', () => {
+            test('[Remove] - silently passes when trying to remove a twinAlias when there is none on the element', () => {
                 // ARRANGE
                 const initialState = GET_MOCK_ELEMENT_FORM_STATE();
-                initialState.elementToEdit.datasources = []; // no data
+                initialState.elementToEdit.twinAliases = {}; // no data
 
+                const ALIAS_NAME = 'my alias 1';
                 const action: ElementFormContextAction = {
                     type:
-                        ElementFormContextActionType.FORM_BEHAVIOR_DATA_SOURCE_REMOVE
+                        ElementFormContextActionType.FORM_ELEMENT_TWIN_ALIAS_REMOVE,
+                    payload: {
+                        aliasName: ALIAS_NAME
+                    }
                 };
 
                 // ACT
                 const result = ElementFormContextReducer(initialState, action);
 
                 // ASSERT
-                const dataSources = result.elementToEdit.datasources.filter(
-                    ViewerConfigUtility.isElementTwinToObjectMappingDataSource
-                );
-                expect(dataSources.length).toEqual(0);
+                const twinAliases = result.elementToEdit.twinAliases;
+                expect(twinAliases).toBeUndefined();
             });
 
-            test('[Remove] - removes the dataSource in the list of data sources if a dataSource already exists', () => {
+            test('[Remove] - removes the twinAlias in the list of twin aliases if a twinAlias already exists', () => {
                 // ARRANGE
                 const initialState = GET_MOCK_ELEMENT_FORM_STATE();
-                initialState.elementToEdit.datasources = [
-                    getDataSource(['my id'])
-                ]; // has data
+                const ALIAS_NAME = 'my alias 1';
+                const ALIAS_TARGET = 'target alias';
+                initialState.elementToEdit.twinAliases = {
+                    ...getTwinAlias(ALIAS_NAME, ALIAS_TARGET),
+                    ...getTwinAlias('alias2', 'target2')
+                }; // existing data
 
                 const action: ElementFormContextAction = {
                     type:
-                        ElementFormContextActionType.FORM_BEHAVIOR_DATA_SOURCE_REMOVE
+                        ElementFormContextActionType.FORM_ELEMENT_TWIN_ALIAS_REMOVE,
+                    payload: {
+                        aliasName: ALIAS_NAME
+                    }
                 };
 
                 // ACT
                 const result = ElementFormContextReducer(initialState, action);
 
                 // ASSERT
-                const dataSources = result.elementToEdit.datasources.filter(
-                    ViewerConfigUtility.isElementTwinToObjectMappingDataSource
-                );
-                expect(dataSources.length).toEqual(0);
+                const twinAliases = result.elementToEdit.twinAliases;
+                expect(Object.keys(twinAliases).length).toEqual(1);
+                expect(twinAliases['alias2']).toEqual('target2');
             });
         });
 
@@ -383,7 +232,7 @@ describe('ElementFormContext', () => {
                 const name = 'new name';
                 const action: ElementFormContextAction = {
                     type:
-                        ElementFormContextActionType.FORM_BEHAVIOR_DISPLAY_NAME_SET,
+                        ElementFormContextActionType.FORM_ELEMENT_DISPLAY_NAME_SET,
                     payload: {
                         name: name
                     }
@@ -397,17 +246,18 @@ describe('ElementFormContext', () => {
             });
         });
 
-        describe('Layers', () => {
-            test('[Add/Update] - adds the layer to the list of layers when no layer exists', () => {
+        describe('Mesh ids', () => {
+            test('should set mesh ids to provided value', () => {
                 // ARRANGE
                 const initialState = GET_MOCK_ELEMENT_FORM_STATE();
-                initialState.elementSelectedLayerIds = []; // no items
+                initialState.elementToEdit.objectIDs = ['some initial value'];
 
-                const layerId = 'id1';
+                const newMeshIds = ['new name', 'another'];
                 const action: ElementFormContextAction = {
-                    type: ElementFormContextActionType.FORM_BEHAVIOR_LAYERS_ADD,
+                    type:
+                        ElementFormContextActionType.FORM_ELEMENT_SET_MESH_IDS,
                     payload: {
-                        meshIds: layerId
+                        meshIds: newMeshIds
                     }
                 };
 
@@ -415,479 +265,26 @@ describe('ElementFormContext', () => {
                 const result = ElementFormContextReducer(initialState, action);
 
                 // ASSERT
-                const layers = result.elementSelectedLayerIds.filter(
-                    (x) => x === layerId
+                expect(result.elementToEdit.objectIDs.length).toEqual(
+                    newMeshIds.length
                 );
-                expect(result.elementSelectedLayerIds.length).toEqual(1);
-                expect(layers.length).toEqual(1);
-            });
-
-            test('[Add/Update] - updates the layer in the list of layers when a matching layer already exists', () => {
-                // ARRANGE
-                const initialState = GET_MOCK_ELEMENT_FORM_STATE();
-                const layerId = 'id1';
-                initialState.elementSelectedLayerIds = [
-                    layerId,
-                    'something else'
-                ]; // existing data
-
-                const action: ElementFormContextAction = {
-                    type: ElementFormContextActionType.FORM_BEHAVIOR_LAYERS_ADD,
-                    payload: {
-                        meshIds: layerId
-                    }
-                };
-
-                // ACT
-                const result = ElementFormContextReducer(initialState, action);
-
-                // ASSERT
-                const layers = result.elementSelectedLayerIds.filter(
-                    (x) => x === layerId
-                );
-                expect(result.elementSelectedLayerIds.length).toEqual(2);
-                expect(layers.length).toEqual(1);
-            });
-
-            test('[Remove] - silently passes when trying to remove an layer when there is none in the list', () => {
-                // ARRANGE
-                const initialState = GET_MOCK_ELEMENT_FORM_STATE();
-                initialState.elementSelectedLayerIds = []; // no data
-
-                const layerId = 'id1';
-                const action: ElementFormContextAction = {
-                    type:
-                        ElementFormContextActionType.FORM_BEHAVIOR_LAYERS_REMOVE,
-                    payload: { meshIds }
-                };
-
-                // ACT
-                const result = ElementFormContextReducer(initialState, action);
-
-                // ASSERT
-                const layers = result.elementSelectedLayerIds.filter(
-                    (x) => x === layerId
-                );
-                expect(result.elementSelectedLayerIds.length).toEqual(0);
-                expect(layers.length).toEqual(0);
-            });
-
-            test('[Remove] - removes the layer in the list of layers if a layer already exists', () => {
-                // ARRANGE
-                const initialState = GET_MOCK_ELEMENT_FORM_STATE();
-                const layerId = 'id1';
-                initialState.elementSelectedLayerIds = [
-                    layerId,
-                    'something else'
-                ]; // has data
-
-                const action: ElementFormContextAction = {
-                    type:
-                        ElementFormContextActionType.FORM_BEHAVIOR_LAYERS_REMOVE,
-                    payload: { meshIds }
-                };
-
-                // ACT
-                const result = ElementFormContextReducer(initialState, action);
-
-                // ASSERT
-                const layers = result.elementSelectedLayerIds.filter(
-                    (x) => x === layerId
-                );
-                expect(result.elementSelectedLayerIds.length).toEqual(1);
-                expect(layers.length).toEqual(0);
-            });
-        });
-
-        describe('Reset', () => {
-            test('[Without payload] sets the element and layers list back to initial value - no overrides provided as params', () => {
-                // ARRANGE
-                const INITIAL_BEHAVIOR_NAME = 'initial display name';
-                const INITIAL_LAYER_ID = 'initial layer id';
-                const UPDATED_BEHAVIOR_NAME = 'new element name';
-
-                const initialLayerList = [INITIAL_LAYER_ID];
-                const initialElement: IElement = {
-                    ...defaultElement,
-                    id: 'initialElementId',
-                    displayName: INITIAL_BEHAVIOR_NAME
-                };
-                // pass in the name objects to simulate a real update
-                const initialState = GET_MOCK_ELEMENT_FORM_STATE();
-                initialState.elementToEdit = initialElement;
-                initialState.elementSelectedLayerIds = initialLayerList; // no items
-
-                const updateNameAction: ElementFormContextAction = {
-                    type:
-                        ElementFormContextActionType.FORM_BEHAVIOR_DISPLAY_NAME_SET,
-                    payload: {
-                        name: UPDATED_BEHAVIOR_NAME
-                    }
-                };
-                const updateLayersAction: ElementFormContextAction = {
-                    type:
-                        ElementFormContextActionType.FORM_BEHAVIOR_LAYERS_REMOVE,
-                    payload: {
-                        meshIds: INITIAL_LAYER_ID
-                    }
-                };
-                const resetAction: ElementFormContextAction = {
-                    type: ElementFormContextActionType.FORM_BEHAVIOR_RESET
-                };
-
-                // ACT
-                // instantiate the provider to capture the initial values
-                render(
-                    <ElementFormContextProvider
-                        elementSelectedLayerIds={initialLayerList}
-                        elementToEdit={initialElement}
-                    />
-                );
-                // update the display name
-                const result1 = ElementFormContextReducer(
-                    initialState,
-                    updateNameAction
-                );
-                // update the display name
-                const result2 = ElementFormContextReducer(
-                    result1,
-                    updateLayersAction
-                );
-                // reset the state
-                const result3 = ElementFormContextReducer(
-                    result2, // feed the latest state in
-                    resetAction
-                );
-
-                // ASSERT
-                // updates the name
-                expect(result1.elementToEdit.displayName).toEqual(
-                    UPDATED_BEHAVIOR_NAME
-                ); // name set
-                expect(result1.elementSelectedLayerIds.length).toEqual(1); // layers unchanged
-                expect(result1.elementSelectedLayerIds[0]).toEqual(
-                    INITIAL_LAYER_ID
-                );
-
-                // removes the layer
-                expect(result2.elementToEdit.displayName).toEqual(
-                    UPDATED_BEHAVIOR_NAME
-                ); // name unchanged
-                expect(result2.elementSelectedLayerIds.length).toEqual(0); // layer removed
-
-                // resets back to the original values
-                expect(result3.elementToEdit.displayName).toEqual(
-                    INITIAL_BEHAVIOR_NAME
-                ); // name reverted
-                expect(result3.elementSelectedLayerIds.length).toEqual(1); // layers reverted
-                expect(result3.elementSelectedLayerIds[0]).toEqual(
-                    INITIAL_LAYER_ID
-                );
-            });
-
-            test('[With partial payload] sets the element to the provided value and sets layers list back to initial value', () => {
-                // ARRANGE
-                const INITIAL_BEHAVIOR_NAME = 'initial display name';
-                const INITIAL_LAYER_ID = 'initial layer id';
-                const UPDATED_BEHAVIOR_NAME = 'new element name';
-                const RESET_BEHAVIOR_NAME = 'display name in reset';
-
-                const initialLayerList = [INITIAL_LAYER_ID];
-                const initialElement: IElement = {
-                    ...defaultElement,
-                    id: 'initialElementId',
-                    displayName: INITIAL_BEHAVIOR_NAME
-                };
-                const resetElement: IElement = {
-                    ...initialElement,
-                    displayName: RESET_BEHAVIOR_NAME
-                };
-                // pass in the name objects to simulate a real update
-                const initialState = GET_MOCK_ELEMENT_FORM_STATE();
-                initialState.elementToEdit = initialElement;
-                initialState.elementSelectedLayerIds = initialLayerList; // no items
-
-                const updateNameAction: ElementFormContextAction = {
-                    type:
-                        ElementFormContextActionType.FORM_BEHAVIOR_DISPLAY_NAME_SET,
-                    payload: {
-                        name: UPDATED_BEHAVIOR_NAME
-                    }
-                };
-                const updateLayersAction: ElementFormContextAction = {
-                    type:
-                        ElementFormContextActionType.FORM_BEHAVIOR_LAYERS_REMOVE,
-                    payload: {
-                        meshIds: INITIAL_LAYER_ID
-                    }
-                };
-                const resetAction: ElementFormContextAction = {
-                    type: ElementFormContextActionType.FORM_BEHAVIOR_RESET,
-                    payload: {
-                        element: resetElement
-                    }
-                };
-
-                // ACT
-                // instantiate the provider to capture the initial values
-                render(
-                    <ElementFormContextProvider
-                        elementSelectedLayerIds={initialLayerList}
-                        elementToEdit={initialElement}
-                    />
-                );
-                // update the display name
-                const result1 = ElementFormContextReducer(
-                    initialState,
-                    updateNameAction
-                );
-                // update the display name
-                const result2 = ElementFormContextReducer(
-                    result1,
-                    updateLayersAction
-                );
-                // reset the state
-                const result3 = ElementFormContextReducer(
-                    result2, // feed the latest state in
-                    resetAction
-                );
-
-                // ASSERT
-                // updates the name
-                expect(result1.elementToEdit.displayName).toEqual(
-                    UPDATED_BEHAVIOR_NAME
-                ); // name set
-                expect(result1.elementSelectedLayerIds.length).toEqual(1); // layers unchanged
-                expect(result1.elementSelectedLayerIds[0]).toEqual(
-                    INITIAL_LAYER_ID
-                );
-
-                // removes the layer
-                expect(result2.elementToEdit.displayName).toEqual(
-                    UPDATED_BEHAVIOR_NAME
-                ); // name unchanged
-                expect(result2.elementSelectedLayerIds.length).toEqual(0); // layer removed
-
-                // resets back to the original values
-                expect(result3.elementToEdit.displayName).toEqual(
-                    RESET_BEHAVIOR_NAME
-                ); // name set to provided payload
-                expect(result3.elementSelectedLayerIds.length).toEqual(1); // layers reverted to initial value
-                expect(result3.elementSelectedLayerIds[0]).toEqual(
-                    INITIAL_LAYER_ID
-                );
-            });
-
-            test('[With partial payload] sets the layers to the provided value and sets element back to initial value', () => {
-                // ARRANGE
-                const INITIAL_BEHAVIOR_NAME = 'initial display name';
-                const INITIAL_LAYER_ID = 'initial layer id';
-                const UPDATED_BEHAVIOR_NAME = 'new element name';
-
-                const initialLayerList = [INITIAL_LAYER_ID];
-                const initialElement: IElement = {
-                    ...defaultElement,
-                    id: 'initialElementId',
-                    displayName: INITIAL_BEHAVIOR_NAME
-                };
-                const resetLayers: string[] = ['id1', 'id2'];
-                // pass in the name objects to simulate a real update
-                const initialState = GET_MOCK_ELEMENT_FORM_STATE();
-                initialState.elementToEdit = initialElement;
-                initialState.elementSelectedLayerIds = initialLayerList; // no items
-
-                const updateNameAction: ElementFormContextAction = {
-                    type:
-                        ElementFormContextActionType.FORM_BEHAVIOR_DISPLAY_NAME_SET,
-                    payload: {
-                        name: UPDATED_BEHAVIOR_NAME
-                    }
-                };
-                const updateLayersAction: ElementFormContextAction = {
-                    type:
-                        ElementFormContextActionType.FORM_BEHAVIOR_LAYERS_REMOVE,
-                    payload: {
-                        meshIds: INITIAL_LAYER_ID
-                    }
-                };
-                const resetAction: ElementFormContextAction = {
-                    type: ElementFormContextActionType.FORM_BEHAVIOR_RESET,
-                    payload: {
-                        layerIds: resetLayers
-                    }
-                };
-
-                // ACT
-                // instantiate the provider to capture the initial values
-                render(
-                    <ElementFormContextProvider
-                        elementSelectedLayerIds={initialLayerList}
-                        elementToEdit={initialElement}
-                    />
-                );
-                // update the display name
-                const result1 = ElementFormContextReducer(
-                    initialState,
-                    updateNameAction
-                );
-                // update the display name
-                const result2 = ElementFormContextReducer(
-                    result1,
-                    updateLayersAction
-                );
-                // reset the state
-                const result3 = ElementFormContextReducer(
-                    result2, // feed the latest state in
-                    resetAction
-                );
-
-                // ASSERT
-                // updates the name
-                expect(result1.elementToEdit.displayName).toEqual(
-                    UPDATED_BEHAVIOR_NAME
-                ); // name set
-                expect(result1.elementSelectedLayerIds.length).toEqual(1); // layers unchanged
-                expect(result1.elementSelectedLayerIds[0]).toEqual(
-                    INITIAL_LAYER_ID
-                );
-
-                // removes the layer
-                expect(result2.elementToEdit.displayName).toEqual(
-                    UPDATED_BEHAVIOR_NAME
-                ); // name unchanged
-                expect(result2.elementSelectedLayerIds.length).toEqual(0); // layer removed
-
-                // resets back to the original or payload values
-                expect(result3.elementToEdit.displayName).toEqual(
-                    INITIAL_BEHAVIOR_NAME
-                ); // name set to initial value
-                expect(result3.elementSelectedLayerIds.length).toEqual(
-                    resetLayers.length
-                ); // layers set to payload
-                expect(result3.elementSelectedLayerIds[0]).toEqual(
-                    resetLayers[0]
-                );
-            });
-
-            test('[With full payload] sets both the element & the layers to the provided value in payload', () => {
-                // ARRANGE
-                const INITIAL_BEHAVIOR_NAME = 'initial display name';
-                const INITIAL_LAYER_ID = 'initial layer id';
-                const UPDATED_BEHAVIOR_NAME = 'new element name';
-                const RESET_BEHAVIOR_NAME = 'display name in reset';
-
-                const initialLayerList = [INITIAL_LAYER_ID];
-                const initialElement: IElement = {
-                    ...defaultElement,
-                    id: 'initialElementId',
-                    displayName: INITIAL_BEHAVIOR_NAME
-                };
-                const resetElement: IElement = {
-                    ...initialElement,
-                    displayName: RESET_BEHAVIOR_NAME
-                };
-                const resetLayers: string[] = ['id1', 'id2'];
-                // pass in the name objects to simulate a real update
-                const initialState = GET_MOCK_ELEMENT_FORM_STATE();
-                initialState.elementToEdit = initialElement;
-                initialState.elementSelectedLayerIds = initialLayerList; // no items
-
-                const updateNameAction: ElementFormContextAction = {
-                    type:
-                        ElementFormContextActionType.FORM_BEHAVIOR_DISPLAY_NAME_SET,
-                    payload: {
-                        name: UPDATED_BEHAVIOR_NAME
-                    }
-                };
-                const updateLayersAction: ElementFormContextAction = {
-                    type:
-                        ElementFormContextActionType.FORM_BEHAVIOR_LAYERS_REMOVE,
-                    payload: {
-                        meshIds: INITIAL_LAYER_ID
-                    }
-                };
-                const resetAction: ElementFormContextAction = {
-                    type: ElementFormContextActionType.FORM_BEHAVIOR_RESET,
-                    payload: {
-                        element: resetElement,
-                        layerIds: resetLayers
-                    }
-                };
-
-                // ACT
-                // instantiate the provider to capture the initial values
-                render(
-                    <ElementFormContextProvider
-                        elementSelectedLayerIds={initialLayerList}
-                        elementToEdit={initialElement}
-                    />
-                );
-                // update the display name
-                const result1 = ElementFormContextReducer(
-                    initialState,
-                    updateNameAction
-                );
-                // update the display name
-                const result2 = ElementFormContextReducer(
-                    result1,
-                    updateLayersAction
-                );
-                // reset the state
-                const result3 = ElementFormContextReducer(
-                    result2, // feed the latest state in
-                    resetAction
-                );
-
-                // ASSERT
-                // updates the name
-                expect(result1.elementToEdit.displayName).toEqual(
-                    UPDATED_BEHAVIOR_NAME
-                ); // name set
-                expect(result1.elementSelectedLayerIds.length).toEqual(1); // layers unchanged
-                expect(result1.elementSelectedLayerIds[0]).toEqual(
-                    INITIAL_LAYER_ID
-                );
-
-                // removes the layer
-                expect(result2.elementToEdit.displayName).toEqual(
-                    UPDATED_BEHAVIOR_NAME
-                ); // name unchanged
-                expect(result2.elementSelectedLayerIds.length).toEqual(0); // layer removed
-
-                // resets back to the payload values
-                expect(result3.elementToEdit.displayName).toEqual(
-                    RESET_BEHAVIOR_NAME
-                ); // name set to provided payload
-                expect(result3.elementSelectedLayerIds.length).toEqual(
-                    resetLayers.length
-                ); // layers set to payload
-                expect(result3.elementSelectedLayerIds[0]).toEqual(
-                    resetLayers[0]
+                expect(result.elementToEdit.objectIDs[0]).toEqual(
+                    newMeshIds[0]
                 );
             });
         });
 
-        describe('Status visuals', () => {
-            const getStatusVisual = (
-                expression: string
-            ): IExpressionRangeVisual => {
-                return {
-                    ...defaultStatusColorVisual,
-                    valueExpression: expression
-                };
-            };
-
-            test('[Add/Update visual] - adds the status to the list of visuals when no status exists', () => {
+        describe('Twin id', () => {
+            test('should set twin id to provided value', () => {
                 // ARRANGE
                 const initialState = GET_MOCK_ELEMENT_FORM_STATE();
-                initialState.elementToEdit.visuals = []; // no visuals
+                initialState.elementToEdit.primaryTwinID = 'some initial value';
 
-                const statusExpression = 'myProperty > 1';
+                const id = 'new id';
                 const action: ElementFormContextAction = {
-                    type:
-                        ElementFormContextActionType.FORM_BEHAVIOR_STATUS_VISUAL_ADD_OR_UPDATE,
+                    type: ElementFormContextActionType.FORM_ELEMENT_TWIN_ID_SET,
                     payload: {
-                        visual: getStatusVisual(statusExpression)
+                        twinId: id
                     }
                 };
 
@@ -895,290 +292,7 @@ describe('ElementFormContext', () => {
                 const result = ElementFormContextReducer(initialState, action);
 
                 // ASSERT
-                const status = result.elementToEdit.visuals.filter(
-                    ViewerConfigUtility.isStatusColorVisual
-                );
-                expect(status.length).toEqual(1);
-                expect(status[0].valueExpression).toEqual(statusExpression);
-            });
-
-            test('[Add/Update visual] - updates the status in the list of visuals when a status already exists', () => {
-                // ARRANGE
-                const initialState = GET_MOCK_ELEMENT_FORM_STATE();
-                initialState.elementToEdit.visuals = [
-                    getStatusVisual('some expression')
-                ]; // add an status to the list
-
-                const statusExpression = 'myProperty > 1';
-                const action: ElementFormContextAction = {
-                    type:
-                        ElementFormContextActionType.FORM_BEHAVIOR_STATUS_VISUAL_ADD_OR_UPDATE,
-                    payload: {
-                        visual: getStatusVisual(statusExpression)
-                    }
-                };
-
-                // ACT
-                const result = ElementFormContextReducer(initialState, action);
-
-                // ASSERT
-                const status = result.elementToEdit.visuals.filter(
-                    ViewerConfigUtility.isStatusColorVisual
-                );
-                expect(status.length).toEqual(1);
-                expect(status[0].valueExpression).toEqual(statusExpression);
-            });
-
-            test('[Add/Update ranges] - silently passes when a status visual does not exist to update', () => {
-                // ARRANGE
-                const initialState = GET_MOCK_ELEMENT_FORM_STATE();
-                initialState.elementToEdit.visuals = []; // no visuals
-
-                const action: ElementFormContextAction = {
-                    type:
-                        ElementFormContextActionType.FORM_BEHAVIOR_STATUS_VISUAL_ADD_OR_UPDATE_RANGES,
-                    payload: {
-                        ranges: [
-                            {
-                                id: 'something',
-                                values: [100, 200],
-                                visual: { color: 'blue' }
-                            }
-                        ]
-                    }
-                };
-
-                // ACT
-                const result = ElementFormContextReducer(initialState, action);
-
-                // ASSERT
-                const status = result.elementToEdit.visuals.filter(
-                    ViewerConfigUtility.isStatusColorVisual
-                );
-                expect(status.length).toEqual(0);
-            });
-
-            test('[Add/Update ranges] - sets the ranges to an existing visual', () => {
-                // ARRANGE
-                const initialState = GET_MOCK_ELEMENT_FORM_STATE();
-                initialState.elementToEdit.visuals = [
-                    getStatusVisual('some expression')
-                ]; // add a status to the list
-
-                const RANGE_ID = 'myRangeId';
-                const action: ElementFormContextAction = {
-                    type:
-                        ElementFormContextActionType.FORM_BEHAVIOR_STATUS_VISUAL_ADD_OR_UPDATE_RANGES,
-                    payload: {
-                        ranges: [
-                            {
-                                id: RANGE_ID,
-                                values: [100, 200],
-                                visual: { color: 'blue' }
-                            }
-                        ]
-                    }
-                };
-
-                // ACT
-                const result = ElementFormContextReducer(initialState, action);
-
-                // ASSERT
-                const status = result.elementToEdit.visuals.filter(
-                    ViewerConfigUtility.isStatusColorVisual
-                );
-                expect(status.length).toEqual(1);
-                expect(status[0].valueRanges.length).toEqual(1);
-                expect(status[0].valueRanges[0].id).toEqual(RANGE_ID);
-            });
-
-            test('[Remove] - silently passes when trying to remove an status when there is none on the element', () => {
-                // ARRANGE
-                const initialState = GET_MOCK_ELEMENT_FORM_STATE();
-                initialState.elementToEdit.visuals = [];
-
-                const action: ElementFormContextAction = {
-                    type:
-                        ElementFormContextActionType.FORM_BEHAVIOR_STATUS_VISUAL_REMOVE
-                };
-
-                // ACT
-                const result = ElementFormContextReducer(initialState, action);
-
-                // ASSERT
-                const status = result.elementToEdit.visuals.filter(
-                    ViewerConfigUtility.isStatusColorVisual
-                );
-                expect(status.length).toEqual(0);
-            });
-
-            test('[Remove] - removes the status in the list of visuals if a status already exists', () => {
-                // ARRANGE
-                const initialState = GET_MOCK_ELEMENT_FORM_STATE();
-                initialState.elementToEdit.visuals = [
-                    getStatusVisual('some expression')
-                ]; // add an status to the list
-
-                const action: ElementFormContextAction = {
-                    type:
-                        ElementFormContextActionType.FORM_BEHAVIOR_STATUS_VISUAL_REMOVE
-                };
-
-                // ACT
-                const result = ElementFormContextReducer(initialState, action);
-
-                // ASSERT
-                const status = result.elementToEdit.visuals.filter(
-                    ViewerConfigUtility.isStatusColorVisual
-                );
-                expect(status.length).toEqual(0);
-            });
-        });
-
-        describe('Widgets', () => {
-            const getWidget = (id: string): IWidget => {
-                return {
-                    ...defaultGaugeWidget,
-                    id: id
-                };
-            };
-            const getPopover = (widgets: IWidget[]): IPopoverVisual => {
-                return {
-                    type: VisualType.Popover,
-                    objectIDs: { expression: '' },
-                    title: 'popover tile',
-                    widgets: widgets
-                };
-            };
-
-            test('[Add/Update] - adds the widget to the list of visuals when no popover exists', () => {
-                // ARRANGE
-                const initialState = GET_MOCK_ELEMENT_FORM_STATE();
-                initialState.elementToEdit.visuals = []; // no visuals
-
-                const WIDGET_ID = 'myProperty > 1';
-                const action: ElementFormContextAction = {
-                    type:
-                        ElementFormContextActionType.FORM_BEHAVIOR_WIDGET_ADD_OR_UPDATE,
-                    payload: {
-                        widget: getWidget(WIDGET_ID)
-                    }
-                };
-
-                // ACT
-                const result = ElementFormContextReducer(initialState, action);
-
-                // ASSERT
-                const popover = result.elementToEdit.visuals.filter(
-                    ViewerConfigUtility.isPopoverVisual
-                );
-                expect(popover.length).toEqual(1);
-                expect(popover[0].widgets.length).toEqual(1);
-                expect(popover[0].widgets[0].id).toEqual(WIDGET_ID);
-            });
-
-            test('[Add/Update] - updates the widget in the popover when a popover with widgets already exists', () => {
-                // ARRANGE
-                const initialState = GET_MOCK_ELEMENT_FORM_STATE();
-                initialState.elementToEdit.visuals = [
-                    getPopover([getWidget('initial id')])
-                ];
-
-                const WIDGET_ID = 'newId';
-                const action: ElementFormContextAction = {
-                    type:
-                        ElementFormContextActionType.FORM_BEHAVIOR_WIDGET_ADD_OR_UPDATE,
-                    payload: {
-                        widget: getWidget(WIDGET_ID)
-                    }
-                };
-
-                // ACT
-                const result = ElementFormContextReducer(initialState, action);
-
-                // ASSERT
-                const popover = result.elementToEdit.visuals.filter(
-                    ViewerConfigUtility.isPopoverVisual
-                );
-                expect(popover.length).toEqual(1);
-                expect(popover[0].widgets.length).toEqual(2);
-                expect(popover[0].widgets[1].id).toEqual(WIDGET_ID);
-            });
-
-            test('[Remove] - silently passes when trying to remove an widget when there is no popover on the element', () => {
-                // ARRANGE
-                const initialState = GET_MOCK_ELEMENT_FORM_STATE();
-                initialState.elementToEdit.visuals = [];
-
-                const WIDGET_ID = 'id to delete';
-                const action: ElementFormContextAction = {
-                    type:
-                        ElementFormContextActionType.FORM_BEHAVIOR_WIDGET_REMOVE,
-                    payload: {
-                        widgetId: WIDGET_ID
-                    }
-                };
-
-                // ACT
-                const result = ElementFormContextReducer(initialState, action);
-
-                // ASSERT
-                const popover = result.elementToEdit.visuals.filter(
-                    ViewerConfigUtility.isPopoverVisual
-                );
-                expect(popover.length).toEqual(0);
-            });
-
-            test('[Remove] - removes the popover when trying to remove a widget even when widget not found on popover', () => {
-                // ARRANGE
-                const initialState = GET_MOCK_ELEMENT_FORM_STATE();
-                initialState.elementToEdit.visuals = [getPopover([])];
-
-                const WIDGET_ID = 'id to delete';
-                const action: ElementFormContextAction = {
-                    type:
-                        ElementFormContextActionType.FORM_BEHAVIOR_WIDGET_REMOVE,
-                    payload: {
-                        widgetId: WIDGET_ID
-                    }
-                };
-
-                // ACT
-                const result = ElementFormContextReducer(initialState, action);
-
-                // ASSERT
-                const popover = result.elementToEdit.visuals.filter(
-                    ViewerConfigUtility.isPopoverVisual
-                );
-                expect(popover.length).toEqual(0);
-            });
-
-            test('[Remove] - removes the widget from the popover if the widget exists', () => {
-                // ARRANGE
-                const initialState = GET_MOCK_ELEMENT_FORM_STATE();
-                const WIDGET_ID = 'id to delete';
-                initialState.elementToEdit.visuals = [
-                    getPopover([getWidget('initial id'), getWidget(WIDGET_ID)])
-                ];
-
-                const action: ElementFormContextAction = {
-                    type:
-                        ElementFormContextActionType.FORM_BEHAVIOR_WIDGET_REMOVE,
-                    payload: {
-                        widgetId: WIDGET_ID
-                    }
-                };
-
-                // ACT
-                const result = ElementFormContextReducer(initialState, action);
-
-                // ASSERT
-                const popover = result.elementToEdit.visuals.filter(
-                    ViewerConfigUtility.isPopoverVisual
-                );
-                expect(popover.length).toEqual(1);
-                expect(popover[0].widgets.length).toEqual(1);
-                expect(popover[0].widgets[0].id).toEqual('initial id');
+                expect(result.elementToEdit.primaryTwinID).toEqual(id);
             });
         });
 
@@ -1186,38 +300,63 @@ describe('ElementFormContext', () => {
             const INITIAL_BEHAVIOR_NAME = 'initial display name';
             const INITIAL_LAYER_ID = 'initial layer id';
             const initialLayerList = [INITIAL_LAYER_ID];
-            const initialElement: IElement = {
-                ...defaultElement,
-                id: 'initialElementId',
-                displayName: INITIAL_BEHAVIOR_NAME
+            const initialElement: ITwinToObjectMapping = {
+                ...getDefaultElement({
+                    id: 'initialElementId',
+                    displayName: INITIAL_BEHAVIOR_NAME
+                })
             };
 
             beforeEach(() => {
                 // instantiate the provider to capture the initial values
                 render(
                     <ElementFormContextProvider
-                        elementSelectedLayerIds={initialLayerList}
                         elementToEdit={initialElement}
+                        linkedBehaviorIds={initialLayerList}
                     />
                 );
             });
 
-            test('triggering an action sets the dirty state to true', () => {
+            test('triggering an action on the element sets the dirty state to true', () => {
                 // ARRANGE
-                const initialState = GET_MOCK_ELEMENT_FORM_STATE();
-                initialState.elementToEdit = initialElement;
-                initialState.elementSelectedLayerIds = initialLayerList;
-                initialState.isDirty = false;
+                const state = GET_MOCK_ELEMENT_FORM_STATE();
+                state.elementToEdit = initialElement;
+                state.linkedBehaviorIds = initialLayerList;
+                state.isDirty = false;
 
                 const action: ElementFormContextAction = {
-                    type: ElementFormContextActionType.FORM_BEHAVIOR_LAYERS_ADD,
+                    type:
+                        ElementFormContextActionType.FORM_ELEMENT_TWIN_ALIAS_ADD,
                     payload: {
-                        meshIds: 'layer id 1'
+                        aliasName: 'my alias',
+                        aliasTarget: 'target'
                     }
                 };
 
                 // ACT
-                const result = ElementFormContextReducer(initialState, action);
+                const result = ElementFormContextReducer(state, action);
+
+                // ASSERT
+                expect(result.isDirty).toBeTruthy();
+            });
+
+            test('triggering an action on the behaviors sets the dirty state to true', () => {
+                // ARRANGE
+                const state = GET_MOCK_ELEMENT_FORM_STATE();
+                state.elementToEdit = initialElement;
+                state.linkedBehaviorIds = initialLayerList;
+                state.isDirty = false;
+
+                const action: ElementFormContextAction = {
+                    type:
+                        ElementFormContextActionType.FORM_ELEMENT_BEHAVIOR_LINK_ADD,
+                    payload: {
+                        id: 'something'
+                    }
+                };
+
+                // ACT
+                const result = ElementFormContextReducer(state, action);
 
                 // ASSERT
                 expect(result.isDirty).toBeTruthy();
@@ -1225,30 +364,29 @@ describe('ElementFormContext', () => {
 
             test('reverting a change from an action sets the dirty state to false again', () => {
                 // ARRANGE
-                const initialState = GET_MOCK_ELEMENT_FORM_STATE();
-                initialState.elementToEdit = initialElement;
-                initialState.elementSelectedLayerIds = initialLayerList;
-                initialState.isDirty = false;
+                const state = GET_MOCK_ELEMENT_FORM_STATE();
+                state.elementToEdit = initialElement;
+                state.linkedBehaviorIds = initialLayerList;
+                state.isDirty = false;
 
                 const addAction: ElementFormContextAction = {
-                    type: ElementFormContextActionType.FORM_BEHAVIOR_LAYERS_ADD,
+                    type:
+                        ElementFormContextActionType.FORM_ELEMENT_TWIN_ALIAS_ADD,
                     payload: {
-                        meshIds: 'layer id1'
+                        aliasName: 'my alias',
+                        aliasTarget: 'target'
                     }
                 };
                 const removeAction: ElementFormContextAction = {
                     type:
-                        ElementFormContextActionType.FORM_BEHAVIOR_LAYERS_REMOVE,
+                        ElementFormContextActionType.FORM_ELEMENT_TWIN_ALIAS_REMOVE,
                     payload: {
-                        meshIds: 'layer id1'
+                        aliasName: 'my alias'
                     }
                 };
 
                 // ACT
-                const result1 = ElementFormContextReducer(
-                    initialState,
-                    addAction
-                );
+                const result1 = ElementFormContextReducer(state, addAction);
                 const result2 = ElementFormContextReducer(
                     result1,
                     removeAction

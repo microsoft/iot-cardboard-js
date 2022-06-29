@@ -12,9 +12,9 @@
         "prettier/@typescript-eslint"
     ],
     "rules": {
-        "no-debugger": "error",
+        "no-debugger": "warn",
         "no-multiple-empty-lines": "error",
-        "react-hooks/exhaustive-deps": "off",
+        "react-hooks/exhaustive-deps": "warn",
         "@typescript-eslint/explicit-module-boundary-types": [
             "off"
         ],
