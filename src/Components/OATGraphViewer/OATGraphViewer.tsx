@@ -364,6 +364,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                 node.data.id = newId;
                 node.data.name = model['displayName'];
                 node.data.content = propertyItems;
+                node.data.fileName = model.fileName;
                 setElements([...elements]);
                 currentNodeIdRef.current = newId;
             } else if (node && node.source) {

@@ -57,9 +57,39 @@ const OATHeader = ({ elements, dispatch, state }: OATHeaderProps) => {
     const handleExportClick = () => {
         const zip = new JSZip();
         for (const element of elements) {
-            let fileName = element['@id'];
-            fileName = fileName.replace(/;/g, '-').replace(/:/g, '_');
-            zip.file(`${fileName}.json`, JSON.stringify(element));
+            const id = element['@id'];
+
+            // Get id path - Get section between last ":" and ";"
+            const idPath = id.substring(
+                id.lastIndexOf(':') + 1,
+                id.lastIndexOf(';')
+            );
+            const idVersion = id.substring(id.lastIndexOf(';') + 1, id.length);
+
+            let scheme = id.substring(id.indexOf(':') + 1, id.lastIndexOf(':'));
+            // Scheme - replace ":" with "\"
+            scheme = scheme.replace(':', '\\');
+
+            const fileName = `${idPath}-${idVersion}`;
+            const directoryPath = scheme;
+
+            // Split every part of the directory path
+            const directoryPathParts = directoryPath.split('\\');
+            // Create a folder for evert directory path part and nest them
+            let currentDirectory = zip;
+            for (const directoryPathPart of directoryPathParts) {
+                currentDirectory = currentDirectory.folder(directoryPathPart);
+                // Store json file on the last directory path part
+                if (
+                    directoryPathPart ===
+                    directoryPathParts[directoryPathParts.length - 1]
+                ) {
+                    currentDirectory.file(
+                        `${fileName}.json`,
+                        JSON.stringify(element)
+                    );
+                }
+            }
         }
 
         zip.generateAsync({ type: 'blob' }).then((content) => {
