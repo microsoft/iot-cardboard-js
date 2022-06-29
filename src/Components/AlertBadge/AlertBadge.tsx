@@ -29,9 +29,15 @@ const AlertBadge: React.FC<IAlertBadgeProps> = ({
                     ? classNames.groupContainer
                     : classNames.singleContainer
             }
-            onMouseOver={(element) =>
-                onBadgeGroupHover(badgeGroup, element.clientX, element.clientY)
-            }
+            onMouseOver={(element) => {
+                if (onBadgeGroupHover) {
+                    onBadgeGroupHover(
+                        badgeGroup,
+                        element.clientX,
+                        element.clientY
+                    );
+                }
+            }}
         >
             {badgeGroup?.badges?.length > 4 ? (
                 <div className={classNames.countBadge}>

@@ -58,6 +58,7 @@ export const getStyles = (props: IAlertBadgeStyleProps): IAlertBadgeStyles => {
         groupContainer: [
             classNames.groupContainer,
             {
+                // the 99 here is parsed in sceneview as opacity
                 background: `${props.backgroundColor.badgeColor}99`,
                 maxWidth: '50px',
                 padding: '2px',
@@ -69,6 +70,7 @@ export const getStyles = (props: IAlertBadgeStyleProps): IAlertBadgeStyles => {
         singleContainer: [
             classNames.singleContainer,
             {
+                // the 99 here is parsed in sceneview as opacity
                 background: `${props.backgroundColor.badgeColor}99`,
                 paddingTop: '2px',
                 paddingLeft: '2px',
