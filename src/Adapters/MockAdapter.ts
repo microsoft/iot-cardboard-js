@@ -45,7 +45,8 @@ import {
     BlobStorageServiceCorsAllowedMethods,
     BlobStorageServiceCorsAllowedHeaders,
     IStorageContainer,
-    IAzureSubscription
+    IAzureSubscription,
+    AzureResourceDisplayFields
 } from '../Models/Constants';
 import seedRandom from 'seedrandom';
 import {
@@ -87,6 +88,7 @@ import { DTDLType } from '../Models/Classes/DTDL';
 import i18n from '../i18n';
 import ADTInstancesData from '../Models/Classes/AdapterDataClasses/ADTInstancesData';
 
+const MAX_RESOURCE_TAKE_LIMIT = 5;
 export default class MockAdapter
     implements
         IKeyValuePairAdapter,
@@ -697,6 +699,8 @@ export default class MockAdapter
     }
 
     setAdtHostUrl(hostName: string) {
+        if (hostName.startsWith('https://'))
+            hostName = hostName.replace('https://', '');
         this.mockEnvironmentHostName = hostName;
     }
 
@@ -718,7 +722,7 @@ export default class MockAdapter
     }
 
     async getResources(resourceType: AzureResourceTypes) {
-        const mockContainerResources: Array<IAzureResource> = [
+        const mockStorageContainerResources: Array<IAzureResource> = [
             {
                 name: 'container123',
                 id:
@@ -726,6 +730,19 @@ export default class MockAdapter
                 type: AzureResourceTypes.StorageBlobContainer,
                 properties: {
                     publicAccess: 'Container'
+                }
+            }
+        ];
+        const mockStorageAccountResources: Array<IAzureResource> = [
+            {
+                name: 'storageAccount123',
+                id:
+                    '/subscriptions/subscription123/resourceGroups/resourceGroup123/providers/Microsoft.Storage/storageAccounts/storageAccount123',
+                type: AzureResourceTypes.StorageAccount,
+                properties: {
+                    primaryEndpoints: {
+                        blob: 'https://storageAccount123.blob.core.windows.net/'
+                    }
                 }
             }
         ];
@@ -738,7 +755,7 @@ export default class MockAdapter
                 location: 'westus2',
                 properties: {
                     hostName:
-                        'https://adtInstance123.api.wus2.ss.azuredigitaltwins-test.net'
+                        'adtInstance123.api.wus2.ss.azuredigitaltwins-test.net'
                 }
             }
         ];
@@ -749,13 +766,67 @@ export default class MockAdapter
             });
         } else if (resourceType === AzureResourceTypes.StorageBlobContainer) {
             return new AdapterResult({
-                result: new AzureResourcesData(mockContainerResources),
+                result: new AzureResourcesData(mockStorageContainerResources),
+                errorInfo: null
+            });
+        } else if (resourceType === AzureResourceTypes.StorageAccount) {
+            return new AdapterResult({
+                result: new AzureResourcesData(mockStorageAccountResources),
                 errorInfo: null
             });
         } else {
             return new AdapterResult({
-                result: null,
+                result: new AzureResourcesData([]),
                 errorInfo: null
+            });
+        }
+    }
+
+    async getResourcesByPermissions(
+        resourceType: AzureResourceTypes,
+        _requiredAccessRoles: {
+            enforcedRoleIds: Array<AzureAccessPermissionRoles>; // roles that have to exist
+            interchangeableRoleIds: Array<AzureAccessPermissionRoles>; // roles that one or the other has to exist
+        },
+        searchParams?: {
+            take?: number;
+            filter?: string;
+            additionalParams?: {
+                storageAccountId?: string;
+                [key: string]: any;
+            };
+        }
+    ) {
+        try {
+            const getResourcesResult = await this.getResources(resourceType);
+            let resources: Array<IAzureResource> = getResourcesResult.getData();
+
+            if (resources?.length) {
+                // apply searchParams to the list of resources returned
+                if (searchParams?.filter) {
+                    resources = resources.filter((resource) =>
+                        Object.keys(AzureResourceDisplayFields).some(
+                            (displayField) =>
+                                !!resource[displayField]?.includes(displayField)
+                        )
+                    );
+                }
+                resources = resources.slice(
+                    0,
+                    searchParams?.take || MAX_RESOURCE_TAKE_LIMIT
+                ); // take the first n number of resources to make sure the browser won't crash with making thousands of requests
+
+                // no need to emulate hasRoleDefinitions
+            }
+
+            return new AdapterResult({
+                result: new AzureResourcesData(resources),
+                errorInfo: null
+            });
+        } catch (err) {
+            return new AdapterResult({
+                result: null,
+                errorInfo: { catastrophicError: err, errors: [err] }
             });
         }
     }

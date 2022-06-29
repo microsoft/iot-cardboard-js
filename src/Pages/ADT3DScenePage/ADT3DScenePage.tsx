@@ -29,7 +29,6 @@ import {
     SET_ERROR_CALLBACK
 } from '../../Models/Constants/ActionTypes';
 import {
-    IADTInstance,
     IBlobAdapter,
     IComponentError
 } from '../../Models/Constants/Interfaces';
@@ -48,7 +47,6 @@ import {
     DeeplinkContextProvider
 } from '../../Models/Context/DeeplinkContext/DeeplinkContext';
 import { DeeplinkContextActionType } from '../../Models/Context/DeeplinkContext/DeeplinkContext.types';
-import { addHttpsPrefix } from '../../Models/Services/Utils';
 import ADT3DGlobe from '../../Components/ADT3DGlobe/ADT3DGlobe';
 import { getStyles } from './ADT3DScenePage.styles';
 import { Stack } from '@fluentui/react';
@@ -214,21 +212,17 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
     );
 
     const handleEnvironmentUrlChange = useCallback(
-        (env: string | IADTInstance, envs: Array<string | IADTInstance>) => {
-            const url =
-                typeof env === 'string'
-                    ? env.replace('https://', '')
-                    : env.hostName;
+        (envUrl: string, envUrls: Array<string>) => {
             deeplinkDispatch({
                 type: DeeplinkContextActionType.SET_ADT_URL,
                 payload: {
-                    url
+                    url: envUrl
                 }
             });
             if (environmentPickerOptions?.environment?.onEnvironmentChange) {
                 environmentPickerOptions.environment.onEnvironmentChange(
-                    env,
-                    envs
+                    envUrl,
+                    envUrls
                 );
             }
         },
@@ -479,6 +473,8 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
         }
     }, [setCorsPropertiesAdapterData?.adapterResult]);
 
+    // eslint-disable-next-line no-debugger
+    debugger;
     return (
         <ADT3DScenePageContext.Provider
             value={{
@@ -504,17 +500,7 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
                                 <div className="cb-scene-page-scene-environment-picker">
                                     <EnvironmentPicker
                                         adapter={adapter}
-                                        shouldPullFromSubscription={
-                                            environmentPickerOptions
-                                                ?.environment
-                                                ?.shouldPullFromSubscription
-                                        }
-                                        // temp hack until we clean up environmentPicker to output the value with https prefix
-                                        // if we have a url with the prefix, use it, otherwise append the prefix
-                                        // without this if you pass a value without the prefix it will crash the picker
-                                        environmentUrl={addHttpsPrefix(
-                                            deeplinkState.adtUrl
-                                        )}
+                                        environmentUrl={deeplinkState.adtUrl}
                                         onEnvironmentUrlChange={
                                             handleEnvironmentUrlChange
                                         }
@@ -652,7 +638,7 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = (props) => {
     return (
         <DeeplinkContextProvider
             initialState={{
-                adtUrl: adapter.getAdtHostUrl(),
+                adtUrl: 'https://' + adapter.getAdtHostUrl(),
                 storageUrl: adapter.getBlobContainerURL()
             }}
         >

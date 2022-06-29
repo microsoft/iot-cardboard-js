@@ -1,3 +1,4 @@
+import { IMessageBarStyles } from '@fluentui/react';
 import {
     IResourcePickerStyleProps,
     IResourcePickerStyles
@@ -12,6 +13,18 @@ export const getStyles = (
 ): IResourcePickerStyles => {
     return {
         root: [classNames.root],
+        comboBoxOptionWrapper: {
+            width: '100%',
+            alignItems: 'center',
+            display: 'flex',
+            justifyContent: 'space-between',
+            maxWidth: 400
+        },
+        comboBoxOptionText: {
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap'
+        },
         labelContainer: {
             display: 'flex',
             flexDirection: 'row',
@@ -29,6 +42,15 @@ export const getStyles = (
                 paddingRight: 12
             }
         },
-        subComponentStyles: {}
+        subComponentStyles: {
+            errorMessageBar: {
+                root: {
+                    maxWidth: '50%',
+                    minHeight: 'unset'
+                },
+                iconContainer: { margin: 0, padding: '1px 2px 0' },
+                text: { margin: 0, paddingLeft: '8px' }
+            } as IMessageBarStyles
+        }
     };
 };

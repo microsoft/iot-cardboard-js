@@ -3,9 +3,7 @@ import { ComponentStory } from '@storybook/react';
 import { getDefaultStoryDecorator } from '../../Models/Services/StoryUtilities';
 import ResourcePicker from './ResourcePicker';
 import { IResourcePickerProps } from './ResourcePicker.types';
-import { AzureManagementAdapter } from '../../Adapters';
-import MsalAuthService from '../../Models/Services/MsalAuthService';
-import useAuthParams from '../../../.storybook/useAuthParams';
+import { MockAdapter } from '../../Adapters';
 import {
     AzureAccessPermissionRoles,
     AzureResourceDisplayFields,
@@ -15,7 +13,7 @@ import {
 const wrapperStyle = { width: '400px', padding: 8 };
 
 export default {
-    title: 'Components/ResourcePicker',
+    title: 'Components/ResourcePicker/Mock',
     component: ResourcePicker,
     decorators: [getDefaultStoryDecorator<IResourcePickerProps>(wrapperStyle)]
 };
@@ -23,29 +21,7 @@ export default {
 type ResourcePickerStory = ComponentStory<typeof ResourcePicker>;
 
 const Template: ResourcePickerStory = (args) => {
-    const authenticationParameters = useAuthParams();
-    return !authenticationParameters ? (
-        <div></div>
-    ) : (
-        <ResourcePicker
-            {...args}
-            adapter={
-                new AzureManagementAdapter(
-                    new MsalAuthService(
-                        authenticationParameters.adt.aadParameters
-                    ),
-                    authenticationParameters.adt.aadParameters.tenantId,
-                    authenticationParameters.adt.aadParameters.uniqueObjectId
-                )
-            }
-            {...(args.resourceType ===
-                AzureResourceTypes.StorageBlobContainer && {
-                additionalResourceSearchParams: {
-                    storageAccountId: authenticationParameters.storage.accountId
-                }
-            })}
-        />
-    );
+    return <ResourcePicker {...args} adapter={new MockAdapter()} />;
 };
 
 export const ADTInstances = Template.bind({}) as ResourcePickerStory;
@@ -63,10 +39,7 @@ ADTInstances.args = {
         'https://example1.api.wcus.digitaltwins.azure.net',
         'https://example2.api.wus.digitaltwins.azure.net'
     ],
-    selectedOption: 'https://example1.api.wcus.digitaltwins.azure.net',
-    onResourceChange: (resource) => {
-        console.log(typeof resource === 'string' ? resource : resource?.id);
-    }
+    selectedOption: 'https://example1.api.wcus.digitaltwins.azure.net'
 };
 
 export const StorageAccounts = Template.bind({}) as ResourcePickerStory;
