@@ -757,7 +757,6 @@
   },
   "environmentPicker": {
     "environmentUrl": "Azure Digital Twins-Instanz-URL",
-    "containerUrl": "URL des Azure-Speichercontainers",
     "enterEnvironmentUrl": "z.B. https://example.api.wus2.digitaltwins.azure.net",
     "enterContainerUrl": "z.B. https://example.blob.core.windows.net/example",
     "editEnvironment": "Konfigurieren der 3D-Szenenumgebung",
@@ -771,7 +770,11 @@
     "errors": {
       "invalidEnvironmentUrl": "Dies ist keine gültige URL (z. B. https://<yourADTInstanceResourceName>.api.wcus.digitaltwins.azure.net)",
       "invalidContainerUrl": "Dies ist keine gültige URL (z. B. https://<yourStorageAccountName>.blob.core.windows.net/<yourContainerName>)"
-    }
+    },
+    "storageAccountName": "Name des Azure Storage-Kontos",
+    "storageAccountUrl": "URL des Azure-Speicherkontos",
+    "storageContainerName": "Name des Azure-Speichercontainers",
+    "storageContainerUrl": "URL des Azure-Speichercontainers"
   },
   "behaviorsModal": {
     "closeModal": "Modal schließen",
@@ -954,6 +957,12 @@
     "enterEnvironmentUrl": "z.B. https://example.api.wus2.digitaltwins.azure.net",
     "enterStorageAccountUrl": "z.B. https://example.blob.core.windows.net/",
     "enterContainerUrl": "z.B. https://example.blob.core.windows.net/example",
-    "displayFieldNotFound": "'{{displayField}}'-Eigenschaft in der Ressource mit der ID '{{id}}' nicht gefunden!"
+    "displayFieldNotFound": "'{{displayField}}'-Eigenschaft in der Ressource mit der ID '{{id}}' nicht gefunden!",
+    "removeFromList": "Aus Liste entfernen",
+    "errors": {
+      "invalidEnvironmentUrl": "Dies ist keine gültige URL (z. B. https://<yourADTInstanceResourceName>.api.wcus.digitaltwins.azure.net)",
+      "invalidContainerUrl": "Dies ist keine gültige URL (z. B. https://<yourStorageAccountName>.blob.core.windows.net/<yourContainerName>)",
+      "invalidStorageAccountUrl": "Dies ist keine gültige URL (z. B. https://<yourStorageAccountName>.blob.core.windows.net)"
+    }
   }
 }

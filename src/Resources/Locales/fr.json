@@ -757,7 +757,6 @@
   },
   "environmentPicker": {
     "environmentUrl": "URL de l’instance Azure Digital Twins",
-    "containerUrl": "URL du conteneur Azure Storage",
     "enterEnvironmentUrl": "p. ex. https://example.api.wus2.digitaltwins.azure.net",
     "enterContainerUrl": "p. ex. https://example.blob.core.windows.net/example",
     "editEnvironment": "Configurer l’environnement 3D Scenes",
@@ -771,7 +770,11 @@
     "errors": {
       "invalidEnvironmentUrl": "Il ne s’agit pas d’une URL valide (par exemple, https://<yourADTInstanceResourceName>.api.wcus.digitaltwins.azure.net)",
       "invalidContainerUrl": "Il ne s’agit pas d’une URL valide (par exemple, https://<yourStorageAccountName>.blob.core.windows.net/<yourContainerName>)"
-    }
+    },
+    "storageAccountName": "Nom du compte azure storage",
+    "storageAccountUrl": "URL du compte de stockage Azure",
+    "storageContainerName": "Nom du conteneur Azure Storage",
+    "storageContainerUrl": "URL du conteneur Azure Storage"
   },
   "behaviorsModal": {
     "closeModal": "Fermer modal",
@@ -954,6 +957,12 @@
     "enterEnvironmentUrl": "p. ex. https://example.api.wus2.digitaltwins.azure.net",
     "enterStorageAccountUrl": "p. ex. https://example.blob.core.windows.net/",
     "enterContainerUrl": "p. ex. https://example.blob.core.windows.net/example",
-    "displayFieldNotFound": "Propriété '{{displayField}}' introuvable dans la ressource avec l'id '{{id}}'!"
+    "displayFieldNotFound": "Propriété '{{displayField}}' introuvable dans la ressource avec l'id '{{id}}'!",
+    "removeFromList": "Supprimer de la liste",
+    "errors": {
+      "invalidEnvironmentUrl": "Il ne s’agit pas d’une URL valide (par exemple, https://<yourADTInstanceResourceName>.api.wcus.digitaltwins.azure.net)",
+      "invalidContainerUrl": "Il ne s’agit pas d’une URL valide (par exemple, https://<yourStorageAccountName>.blob.core.windows.net/<yourContainerName>)",
+      "invalidStorageAccountUrl": "Il ne s’agit pas d’une URL valide (par exemple, https://<yourStorageAccountName>.blob.core.windows.net)"
+    }
   }
 }

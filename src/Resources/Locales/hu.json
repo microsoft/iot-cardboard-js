@@ -757,7 +757,6 @@
   },
   "environmentPicker": {
     "environmentUrl": "Azure Digital Twins példány URL-címe",
-    "containerUrl": "Azure Storage container URL-címe",
     "enterEnvironmentUrl": "pl. https://example.api.wus2.digitaltwins.azure.net",
     "enterContainerUrl": "pl. https://example.blob.core.windows.net/example",
     "editEnvironment": "3D jelenetek környezetének konfigurálása",
@@ -771,7 +770,11 @@
     "errors": {
       "invalidEnvironmentUrl": "Ez nem érvényes URL (pl. https://<adTInstanceResourceName>.api.wcus.digitaltwins.azure.net)",
       "invalidContainerUrl": "Ez nem érvényes URL (pl. https://<yourStorageAccountName>.blob.core.windows.net/<ourContainerName>)"
-    }
+    },
+    "storageAccountName": "Azure Storage-fiók neve",
+    "storageAccountUrl": "Azure Storage-fiók URL-címe",
+    "storageContainerName": "Azure Storage-tároló neve",
+    "storageContainerUrl": "Azure Storage-tároló URL-címe"
   },
   "behaviorsModal": {
     "closeModal": "Modális mód bezárása",
@@ -954,6 +957,12 @@
     "enterEnvironmentUrl": "pl. https://example.api.wus2.digitaltwins.azure.net",
     "enterStorageAccountUrl": "pl. https://example.blob.core.windows.net/",
     "enterContainerUrl": "pl. https://example.blob.core.windows.net/example",
-    "displayFieldNotFound": "'{{displayField}}' tulajdonság nem található meg az erőforrásban a '{{id}}' azonosítóval!"
+    "displayFieldNotFound": "'{{displayField}}' tulajdonság nem található meg az erőforrásban a '{{id}}' azonosítóval!",
+    "removeFromList": "Eltávolítás a listából",
+    "errors": {
+      "invalidEnvironmentUrl": "Ez nem érvényes URL-cím (pl. https://<yourADTInstanceResourceName>.api.wcus.digitaltwins.azure.net)",
+      "invalidContainerUrl": "Ez nem érvényes URL-cím (pl. https://<yourStorageAccountName>.blob.core.windows.net/<yourContainerName>)",
+      "invalidStorageAccountUrl": "Ez nem érvényes URL-cím (pl. https://<yourStorageAccountName>.blob.core.windows.net)"
+    }
   }
 }
