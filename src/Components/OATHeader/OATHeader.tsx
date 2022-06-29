@@ -310,9 +310,7 @@ const OATHeader = ({ elements, dispatch, state }: OATHeaderProps) => {
                     <input
                         type="file"
                         ref={uploadInputRef}
-                        style={{
-                            display: 'none'
-                        }}
+                        className={headerStyles.uploadDirectoryInput}
                         onChange={(e) => {
                             const reader = new FileReader();
                             reader.onload = () => {
