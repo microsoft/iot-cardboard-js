@@ -854,7 +854,6 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                 };
 
                 execute(addition, () => {
-                    //const elementsCopy = deepCopy(elements);
                     setElements(elements);
                 });
             }
