@@ -95,6 +95,7 @@ export const OATEditorPageReducer = produce(
                 state.modelPositions = payload.modelPositions;
                 state.templates = payload.templates;
                 state.namespace = payload.namespace;
+                state.modelsMetadata = payload.modelsMetadata;
                 return;
             case SET_OAT_PROJECT_NAME:
                 state.projectName = payload;

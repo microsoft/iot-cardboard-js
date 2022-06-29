@@ -164,7 +164,8 @@ const OATHeader = ({ elements, dispatch, state }: OATHeaderProps) => {
             t('OATHeader.description'),
             t('OATHeader.untitledProject'),
             [],
-            OATNamespaceDefaultValue
+            OATNamespaceDefaultValue,
+            []
         );
 
         dispatch({

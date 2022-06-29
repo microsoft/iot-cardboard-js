@@ -38,5 +38,5 @@ export interface IOATEditorState {
     namespace?: string;
     edge?: string;
     confirmDeleteOpen?: IOATConfirmDelete;
-    modelsMetadata?: IModelsMetadata;
+    modelsMetadata?: IModelsMetadata[];
 }
