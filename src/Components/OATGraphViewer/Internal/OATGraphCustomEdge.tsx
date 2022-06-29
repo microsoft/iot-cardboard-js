@@ -482,10 +482,9 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
             () => selectRelationship(),
             () => {
                 setCurrentNode(currentNodeIdRef.current);
-                const selectedModelIdCopy = selectedModelId;
                 dispatch({
                     type: SET_OAT_SELECTED_MODEL_ID,
-                    payload: selectedModelIdCopy
+                    payload: selectedModelId
                 });
                 setNameEditor(false);
             }

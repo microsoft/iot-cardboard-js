@@ -134,10 +134,9 @@ export const PropertyListItemNest = ({
                 });
             },
             () => {
-                const templatesCopy = deepCopy(templates);
                 dispatch({
                     type: SET_OAT_TEMPLATES,
-                    payload: templatesCopy
+                    payload: templates
                 });
             }
         );
@@ -162,16 +161,12 @@ export const PropertyListItemNest = ({
             });
         };
 
-        execute(
-            () => duplicate(),
-            () => {
-                const modelCopy = deepCopy(model);
-                dispatch({
-                    type: SET_OAT_PROPERTY_EDITOR_MODEL,
-                    payload: modelCopy
-                });
-            }
-        );
+        execute(duplicate, () => {
+            dispatch({
+                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                payload: model
+            });
+        });
     };
 
     const deleteNestedItem = (parentIndex, index) => {
@@ -209,10 +204,9 @@ export const PropertyListItemNest = ({
         execute(
             () => deletion(parentIndex, index),
             () => {
-                const modelCopy = deepCopy(model);
                 dispatch({
                     type: SET_OAT_PROPERTY_EDITOR_MODEL,
-                    payload: modelCopy
+                    payload: model
                 });
             }
         );
@@ -250,10 +244,9 @@ export const PropertyListItemNest = ({
         execute(
             () => onMove(nestedIndex, moveUp),
             () => {
-                const modelCopy = deepCopy(model);
                 dispatch({
                     type: SET_OAT_PROPERTY_EDITOR_MODEL,
-                    payload: modelCopy
+                    payload: model
                 });
             }
         );

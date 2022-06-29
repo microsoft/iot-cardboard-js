@@ -84,10 +84,9 @@ export const PropertyListItem = ({
                 });
             },
             () => {
-                const templatesCopy = deepCopy(templates);
                 dispatch({
                     type: SET_OAT_TEMPLATES,
-                    payload: templatesCopy
+                    payload: templates
                 });
             }
         );
@@ -115,10 +114,9 @@ export const PropertyListItem = ({
         execute(
             () => duplicate(),
             () => {
-                const modelCopy = deepCopy(model);
                 dispatch({
                     type: SET_OAT_PROPERTY_EDITOR_MODEL,
-                    payload: modelCopy
+                    payload: model
                 });
             }
         );

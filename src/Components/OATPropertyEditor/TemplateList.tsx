@@ -147,10 +147,9 @@ export const TemplateList = ({
         execute(
             () => deletion(index),
             () => {
-                const templateCopy = deepCopy(templates);
                 dispatch({
                     type: SET_OAT_TEMPLATES,
-                    payload: templateCopy
+                    payload: templates
                 });
             }
         );
@@ -183,10 +182,9 @@ export const TemplateList = ({
         execute(
             () => onMove(index, moveUp),
             () => {
-                const templateCopy = deepCopy(templates);
                 dispatch({
                     type: SET_OAT_TEMPLATES,
-                    payload: templateCopy
+                    payload: templates
                 });
             }
         );

@@ -236,7 +236,6 @@ const PropertySelector = ({
             onTagClickCallback();
         }
 
-        const modelCopy = deepCopy(model);
         const lastPropertyFocusedCopy = deepCopy(lastPropertyFocused);
         execute(
             lastPropertyFocused &&
@@ -246,7 +245,7 @@ const PropertySelector = ({
             () => {
                 dispatch({
                     type: SET_OAT_PROPERTY_EDITOR_MODEL,
-                    payload: modelCopy
+                    payload: model
                 });
             }
         );

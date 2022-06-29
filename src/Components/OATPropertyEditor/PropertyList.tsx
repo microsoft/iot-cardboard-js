@@ -174,16 +174,12 @@ export const PropertyList = ({
             });
         };
 
-        execute(
-            () => update(),
-            () => {
-                const modelCopy = deepCopy(model);
-                dispatch({
-                    type: SET_OAT_PROPERTY_EDITOR_MODEL,
-                    payload: modelCopy
-                });
-            }
-        );
+        execute(update, () => {
+            dispatch({
+                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                payload: model
+            });
+        });
     };
 
     const generateErrorMessage = (value, index) => {
@@ -223,10 +219,9 @@ export const PropertyList = ({
         execute(
             () => deletion(index),
             () => {
-                const modelCopy = deepCopy(model);
                 dispatch({
                     type: SET_OAT_PROPERTY_EDITOR_MODEL,
-                    payload: modelCopy
+                    payload: model
                 });
             }
         );
@@ -286,10 +281,9 @@ export const PropertyList = ({
         execute(
             () => onMove(index, moveUp),
             () => {
-                const modelCopy = deepCopy(model);
                 dispatch({
                     type: SET_OAT_PROPERTY_EDITOR_MODEL,
-                    payload: modelCopy
+                    payload: model
                 });
             }
         );

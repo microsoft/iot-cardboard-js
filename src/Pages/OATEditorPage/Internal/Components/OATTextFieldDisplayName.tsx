@@ -76,10 +76,9 @@ const OATTextFieldDisplayName = ({
             execute(
                 () => commit(),
                 () => {
-                    const modelCopy = deepCopy(model);
                     dispatch({
                         type: SET_OAT_PROPERTY_EDITOR_MODEL,
-                        payload: modelCopy
+                        payload: model
                     });
                 }
             );

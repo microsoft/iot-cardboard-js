@@ -635,9 +635,6 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
 
     const onElementsRemove = (elementsToRemove: IOATNodeElement) => {
         if (!state.modified) {
-            const modelCopy = deepCopy(model);
-            const elementsCopy = deepCopy(elements);
-
             const remove = (elementsToRemove) => {
                 // Remove an specific node and all related edges
                 dispatch({
@@ -652,9 +649,9 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                 () => {
                     dispatch({
                         type: SET_OAT_PROPERTY_EDITOR_MODEL,
-                        payload: modelCopy
+                        payload: model
                     });
-                    setElements(elementsCopy);
+                    setElements(elements);
                     dispatch({
                         type: SET_OAT_DELETED_MODEL_ID,
                         payload: null
@@ -725,8 +722,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
             execute(
                 () => onNewNode(),
                 () => {
-                    const elementsCopy = deepCopy(elements);
-                    setElements(elementsCopy);
+                    setElements(elements);
                 }
             );
         }
@@ -737,7 +733,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
         let targetId = '';
         const areaDistanceX = 60;
         const areaDistanceY = 30;
-        const onStop = () => {
+        const onStop = (node) => {
             elements.forEach((element) => {
                 if (
                     element.id !== node.id &&
@@ -805,12 +801,9 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
         execute(
             () => onStop(node),
             () => {
-                const modelsCopy = deepCopy(models);
-                const modelPositionsCopy = deepCopy(modelPositions);
-
                 const previousPositions = getGraphViewerElementsFromModels(
-                    modelsCopy,
-                    modelPositionsCopy
+                    models,
+                    modelPositions
                 );
 
                 setElements(previousPositions);
@@ -860,13 +853,10 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                     setElements((els) => addEdge(params, els));
                 };
 
-                execute(
-                    () => addition(),
-                    () => {
-                        const elementsCopy = deepCopy(elements);
-                        setElements(elementsCopy);
-                    }
-                );
+                execute(addition, () => {
+                    //const elementsCopy = deepCopy(elements);
+                    setElements(elements);
+                });
             }
         } else {
             const node = elements.find(
@@ -907,13 +897,9 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                     setElements((es) => [...addEdge(params, es), newNode]);
                 };
 
-                execute(
-                    () => addition(),
-                    () => {
-                        const elementsCopy = deepCopy(elements);
-                        setElements(elementsCopy);
-                    }
-                );
+                execute(addition, () => {
+                    setElements(elements);
+                });
             }
             if (
                 currentHandleIdRef.current === OATComponentHandleName ||
@@ -956,13 +942,9 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                     setElements((es) => [...addEdge(params, es), newNode]);
                 };
 
-                execute(
-                    () => addition(),
-                    () => {
-                        const elementsCopy = deepCopy(elements);
-                        setElements(elementsCopy);
-                    }
-                );
+                execute(addition, () => {
+                    setElements(elements);
+                });
             }
         }
     };
@@ -1152,21 +1134,16 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
         };
 
         if (model) {
-            execute(
-                () => clearModel(),
-                () => {
-                    const modelCopy = deepCopy(model);
-                    const selectedModelIdCopy = selectedModelId;
-                    dispatch({
-                        type: SET_OAT_PROPERTY_EDITOR_MODEL,
-                        payload: modelCopy
-                    });
-                    dispatch({
-                        type: SET_OAT_SELECTED_MODEL_ID,
-                        payload: selectedModelIdCopy
-                    });
-                }
-            );
+            execute(clearModel, () => {
+                dispatch({
+                    type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                    payload: model
+                });
+                dispatch({
+                    type: SET_OAT_SELECTED_MODEL_ID,
+                    payload: selectedModelId
+                });
+            });
         }
     };
 

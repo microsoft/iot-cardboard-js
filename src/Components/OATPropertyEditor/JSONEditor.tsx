@@ -127,16 +127,12 @@ const JSONEditor = ({ dispatch, theme, state }: JSONEditorProps) => {
                     }
                 });
             } else {
-                execute(
-                    () => save(),
-                    () => {
-                        const modelCopy = deepCopy(model);
-                        dispatch({
-                            type: SET_OAT_PROPERTY_EDITOR_MODEL,
-                            payload: modelCopy
-                        });
-                    }
-                );
+                execute(save, () => {
+                    dispatch({
+                        type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                        payload: model
+                    });
+                });
             }
         } else {
             dispatch({

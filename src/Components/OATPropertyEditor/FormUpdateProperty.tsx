@@ -220,16 +220,12 @@ export const FormUpdateProperty = ({
             });
         };
 
-        execute(
-            () => update(),
-            () => {
-                const modelCopy = deepCopy(model);
-                dispatch({
-                    type: SET_OAT_PROPERTY_EDITOR_MODEL,
-                    payload: modelCopy
-                });
-            }
-        );
+        execute(update, () => {
+            dispatch({
+                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                payload: model
+            });
+        });
 
         setModalOpen(false);
         setModalBody(null);
@@ -276,16 +272,12 @@ export const FormUpdateProperty = ({
             });
         };
 
-        execute(
-            () => update(),
-            () => {
-                const modelCopy = deepCopy(model);
-                dispatch({
-                    type: SET_OAT_PROPERTY_EDITOR_MODEL,
-                    payload: modelCopy
-                });
-            }
-        );
+        execute(update, () => {
+            dispatch({
+                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                payload: model
+            });
+        });
 
         setModalOpen(false);
         setModalBody(null);
