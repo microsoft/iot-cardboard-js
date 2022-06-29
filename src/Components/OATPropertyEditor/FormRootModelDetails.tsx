@@ -18,7 +18,10 @@ import {
     getModalLabelStyles,
     getRadioGroupRowStyles
 } from './OATPropertyEditor.styles';
-import { SET_OAT_PROPERTY_EDITOR_MODEL } from '../../Models/Constants/ActionTypes';
+import {
+    SET_OAT_PROPERTY_EDITOR_MODEL,
+    SET_OAT_MODELS_METADATA
+} from '../../Models/Constants/ActionTypes';
 import { IAction } from '../../Models/Constants/Interfaces';
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 import { deepCopy } from '../../Models/Services/Utils';
@@ -53,7 +56,7 @@ export const FormUpdateProperty = ({
     state,
     languages
 }: IModal) => {
-    const { model } = state;
+    const { model, modelsMetadata } = state;
     const { t } = useTranslation();
     const propertyInspectorStyles = getPropertyInspectorStyles();
     const columnLeftTextStyles = getModalLabelStyles();
@@ -96,12 +99,8 @@ export const FormUpdateProperty = ({
     const [commentError, setCommentError] = useState(null);
     const [descriptionError, setDescriptionError] = useState(null);
     const [displayNameError, setDisplayNameError] = useState(null);
-    const [fileName, setFileName] = useState(
-        model.fileName ? model.fileName : null
-    );
-    const [directoryPath, setDirectoryPath] = useState(
-        model.directoryPath ? model.directoryPath : null
-    );
+    const [fileName, setFileName] = useState(null);
+    const [directoryPath, setDirectoryPath] = useState(null);
 
     const options: IChoiceGroupOption[] = [
         {
@@ -141,6 +140,30 @@ export const FormUpdateProperty = ({
         setLanguageSelectionDescription(option.key);
     };
 
+    const updateMetadata = () => {
+        if (modelsMetadata) {
+            const metadataCopy = deepCopy(modelsMetadata);
+            const newMetadata = {
+                '@id': model['@id'],
+                directoryPath,
+                fileName
+            };
+            // Check modelsMetadata for the existence of the model, if exists, update it, if not, add it
+            const modelIndex = metadataCopy.findIndex(
+                (modelMetadata: any) => modelMetadata['@id'] === model['@id']
+            );
+            if (modelIndex !== -1) {
+                metadataCopy[modelIndex] = newMetadata;
+            } else {
+                metadataCopy.push(newMetadata);
+            }
+            dispatch({
+                type: SET_OAT_MODELS_METADATA,
+                payload: metadataCopy
+            });
+        }
+    };
+
     const onFormSubmit = () => {
         const modelCopy = deepCopy(model);
         modelCopy.comment = comment ? comment : model.comment;
@@ -161,15 +184,14 @@ export const FormUpdateProperty = ({
                 ? multiLanguageSelectionsDescription
                 : model.description;
         modelCopy['@id'] = id ? id : model['@id'];
-        modelCopy.fileName = fileName ? fileName : model.fileName;
-        modelCopy.directoryPath = directoryPath
-            ? directoryPath
-            : model.directoryPath;
 
         dispatch({
             type: SET_OAT_PROPERTY_EDITOR_MODEL,
             payload: modelCopy
         });
+
+        updateMetadata();
+
         setModalBody(null);
         setModalOpen(false);
     };
@@ -220,8 +242,28 @@ export const FormUpdateProperty = ({
         setIsAMultiLanguageDescriptionEmpty(hasEmptyValues);
     }, [multiLanguageSelectionsDescription]);
 
+    const lookUpStoredMetadata = () => {
+        // Check if there is metadata for the model, if so update fileName and directoryPath
+        if (modelsMetadata) {
+            const modelMetadata = modelsMetadata.find(
+                (modelMetadata: any) => modelMetadata['@id'] === model['@id']
+            );
+            if (modelMetadata) {
+                setFileName(modelMetadata.fileName);
+                setDirectoryPath(modelMetadata.directoryPath);
+                return true;
+            }
+            return false;
+        }
+        return false;
+    };
+
     useEffect(() => {
         if (id) {
+            const storedData = lookUpStoredMetadata();
+            if (storedData) {
+                return;
+            }
             // Get id path - Get section between last ":" and ";"
             const idPath = id.substring(
                 id.lastIndexOf(':') + 1,
@@ -233,13 +275,8 @@ export const FormUpdateProperty = ({
             // Scheme - replace ":" with "\"
             scheme = scheme.replace(':', '\\');
 
-            // Set values only if model did not hold a previous value or if there is not set value
-            if (!model.fileName || fileName === '') {
-                setFileName(`${idPath}-${idVersion}`);
-            }
-            if (!model.directoryPath || directoryPath === '') {
-                setDirectoryPath(scheme);
-            }
+            setFileName(`${idPath}-${idVersion}`);
+            setDirectoryPath(scheme);
         }
     }, [id]);
 

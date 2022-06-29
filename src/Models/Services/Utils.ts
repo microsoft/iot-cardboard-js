@@ -413,7 +413,16 @@ export const getStoredEditorModelsData = () => {
 // Get stored models' positions OAT-data
 export const getStoredEditorModelPositionsData = () => {
     const oatData = getStoredEditorData();
-    return oatData && oatData.modelPositions ? oatData.modelPositions : [];
+    return oatData && oatData.modelsData.modelPositions
+        ? oatData.modelsData.modelPositions
+        : [];
+};
+
+export const getStoredEditorModelMetadata = () => {
+    const oatData = getStoredEditorData();
+    return oatData && oatData.modelsData.modelsMetadata
+        ? oatData.modelsData.modelsMetadata
+        : [];
 };
 
 // Get stored models' namespace OAT-data

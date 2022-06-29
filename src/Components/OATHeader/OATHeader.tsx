@@ -42,6 +42,7 @@ const OATHeader = ({ elements, dispatch, state }: OATHeaderProps) => {
     const [subMenuActive, setSubMenuActive] = useState(false);
     const [modalOpen, setModalOpen] = useState(false);
     const [modalBody, setModalBody] = useState(null);
+    const { modelsMetadata } = state;
 
     const downloadModelExportBlob = (blob: Blob) => {
         const blobURL = window.URL.createObjectURL(blob);
@@ -58,20 +59,51 @@ const OATHeader = ({ elements, dispatch, state }: OATHeaderProps) => {
         const zip = new JSZip();
         for (const element of elements) {
             const id = element['@id'];
+            let fileName = null;
+            let directoryPath = null;
 
-            // Get id path - Get section between last ":" and ";"
-            const idPath = id.substring(
-                id.lastIndexOf(':') + 1,
-                id.lastIndexOf(';')
+            // Check if current elements exists within modelsMetadata array, if so, use the metadata
+            // to determine the file name and directory path
+            const modelMetadata = modelsMetadata.find(
+                (model) => model['@id'] === id
             );
-            const idVersion = id.substring(id.lastIndexOf(';') + 1, id.length);
+            if (modelMetadata) {
+                console.log('Found model metadata for model: ' + id);
+                fileName = modelMetadata.fileName
+                    ? modelMetadata.fileName
+                    : null;
+                directoryPath = modelMetadata.directoryPath
+                    ? modelMetadata.directoryPath
+                    : null;
+            }
 
-            let scheme = id.substring(id.indexOf(':') + 1, id.lastIndexOf(':'));
-            // Scheme - replace ":" with "\"
-            scheme = scheme.replace(':', '\\');
+            // If fileName or directoryPath are null, generate values from id
+            if (!fileName || !directoryPath) {
+                // Get id path - Get section between last ":" and ";"
+                const idPath = id.substring(
+                    id.lastIndexOf(':') + 1,
+                    id.lastIndexOf(';')
+                );
+                const idVersion = id.substring(
+                    id.lastIndexOf(';') + 1,
+                    id.length
+                );
 
-            const fileName = `${idPath}-${idVersion}`;
-            const directoryPath = scheme;
+                let scheme = id.substring(
+                    id.indexOf(':') + 1,
+                    id.lastIndexOf(':')
+                );
+                // Scheme - replace ":" with "\"
+                scheme = scheme.replace(':', '\\');
+
+                if (!fileName) {
+                    fileName = `${idPath}-${idVersion}`;
+                }
+
+                if (!directoryPath) {
+                    directoryPath = scheme;
+                }
+            }
 
             // Split every part of the directory path
             const directoryPathParts = directoryPath.split('\\');

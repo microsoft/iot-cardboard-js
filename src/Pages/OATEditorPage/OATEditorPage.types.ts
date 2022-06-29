@@ -14,6 +14,11 @@ export interface IOATConfirmDelete {
     open: boolean;
     callback?: () => void;
 }
+export interface IModelsMetadata {
+    '@id': string;
+    fileName?: string;
+    directoryPath?: string;
+}
 
 export interface IOATEditorState {
     model?: IOATTwinModelNodes;
@@ -33,4 +38,5 @@ export interface IOATEditorState {
     namespace?: string;
     edge?: string;
     confirmDeleteOpen?: IOATConfirmDelete;
+    modelsMetadata?: IModelsMetadata;
 }
