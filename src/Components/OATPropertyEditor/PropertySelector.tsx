@@ -237,18 +237,22 @@ const PropertySelector = ({
         }
 
         const lastPropertyFocusedCopy = deepCopy(lastPropertyFocused);
-        execute(
+
+        const onClick = () => {
             lastPropertyFocused &&
-                typeof lastPropertyFocused.item.schema === 'object'
+            typeof lastPropertyFocused.item.schema === 'object'
                 ? () => addNestedProperty(tag, lastPropertyFocusedCopy)
-                : () => addProperty(tag),
-            () => {
-                dispatch({
-                    type: SET_OAT_PROPERTY_EDITOR_MODEL,
-                    payload: model
-                });
-            }
-        );
+                : () => addProperty(tag);
+        };
+
+        const undoOnClick = () => {
+            dispatch({
+                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                payload: model
+            });
+        };
+
+        execute(onClick, undoOnClick);
     };
 
     const getSchema = (tag: string) => {

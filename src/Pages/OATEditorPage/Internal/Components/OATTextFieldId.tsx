@@ -106,18 +106,6 @@ const OATTextFieldId = ({
     };
 
     const onCommitChange = () => {
-        const commit = () => {
-            onCommit();
-            // Update model
-            const modelCopy = deepCopy(model);
-            modelCopy['@id'] = temporaryValue;
-            dispatch({
-                type: SET_OAT_PROPERTY_EDITOR_MODEL,
-                payload: modelCopy
-            });
-            setId(temporaryValue);
-        };
-
         if (
             !idLengthError &&
             !idAlreadyUsedInterfaceError &&
@@ -125,15 +113,26 @@ const OATTextFieldId = ({
             !validDTMIError &&
             temporaryValue !== originalValue // Prevent committing if value is the same as original
         ) {
-            execute(
-                () => commit(),
-                () => {
-                    dispatch({
-                        type: SET_OAT_PROPERTY_EDITOR_MODEL,
-                        payload: model
-                    });
-                }
-            );
+            const commit = () => {
+                onCommit();
+                // Update model
+                const modelCopy = deepCopy(model);
+                modelCopy['@id'] = temporaryValue;
+                dispatch({
+                    type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                    payload: modelCopy
+                });
+                setId(temporaryValue);
+            };
+
+            const undoCommit = () => {
+                dispatch({
+                    type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                    payload: model
+                });
+            };
+
+            execute(commit, undoCommit);
         } else {
             setTemporaryValue(model['@id']);
             setId(model['@id']);

@@ -116,6 +116,13 @@ const JSONEditor = ({ dispatch, theme, state }: JSONEditorProps) => {
             dispatch({ type: SET_OAT_MODIFIED, payload: false });
         };
 
+        const undoSave = () => {
+            dispatch({
+                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                payload: model
+            });
+        };
+
         if (!validJson) {
             if (checkDuplicateId(newModel)) {
                 // Dispatch error if duplicate id
@@ -127,12 +134,7 @@ const JSONEditor = ({ dispatch, theme, state }: JSONEditorProps) => {
                     }
                 });
             } else {
-                execute(save, () => {
-                    dispatch({
-                        type: SET_OAT_PROPERTY_EDITOR_MODEL,
-                        payload: model
-                    });
-                });
+                execute(save, undoSave);
             }
         } else {
             dispatch({

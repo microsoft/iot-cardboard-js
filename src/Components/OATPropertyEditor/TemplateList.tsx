@@ -144,15 +144,14 @@ export const TemplateList = ({
             });
         };
 
-        execute(
-            () => deletion(index),
-            () => {
-                dispatch({
-                    type: SET_OAT_TEMPLATES,
-                    payload: templates
-                });
-            }
-        );
+        const undoDeletion = () => {
+            dispatch({
+                type: SET_OAT_TEMPLATES,
+                payload: templates
+            });
+        };
+
+        execute(() => deletion(index), undoDeletion);
     };
 
     const onPropertyListAddition = (item) => {
@@ -179,15 +178,14 @@ export const TemplateList = ({
             });
         };
 
-        execute(
-            () => onMove(index, moveUp),
-            () => {
-                dispatch({
-                    type: SET_OAT_TEMPLATES,
-                    payload: templates
-                });
-            }
-        );
+        const undoOnMove = () => {
+            dispatch({
+                type: SET_OAT_TEMPLATES,
+                payload: templates
+            });
+        };
+
+        execute(() => onMove(index, moveUp), undoOnMove);
     };
 
     return (

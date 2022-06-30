@@ -220,12 +220,14 @@ export const FormUpdateProperty = ({
             });
         };
 
-        execute(update, () => {
+        const undoUpdate = () => {
             dispatch({
                 type: SET_OAT_PROPERTY_EDITOR_MODEL,
                 payload: model
             });
-        });
+        };
+
+        execute(update, undoUpdate);
 
         setModalOpen(false);
         setModalBody(null);
@@ -272,12 +274,14 @@ export const FormUpdateProperty = ({
             });
         };
 
-        execute(update, () => {
+        const undoUpdate = () => {
             dispatch({
                 type: SET_OAT_PROPERTY_EDITOR_MODEL,
                 payload: model
             });
-        });
+        };
+
+        execute(update, undoUpdate);
 
         setModalOpen(false);
         setModalBody(null);

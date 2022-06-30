@@ -72,16 +72,15 @@ const OATTextFieldDisplayName = ({
             setDisplayName(temporaryValue);
         };
 
+        const undoCommit = () => {
+            dispatch({
+                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                payload: model
+            });
+        };
+
         if (!displayNameLengthError) {
-            execute(
-                () => commit(),
-                () => {
-                    dispatch({
-                        type: SET_OAT_PROPERTY_EDITOR_MODEL,
-                        payload: model
-                    });
-                }
-            );
+            execute(commit, undoCommit);
         } else {
             setTemporaryValue(getModelPropertyListItemName(model.displayName));
             setDisplayName(getModelPropertyListItemName(model.displayName));

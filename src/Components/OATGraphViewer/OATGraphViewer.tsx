@@ -510,9 +510,9 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     useEffect(() => {
         // Detects when a Model is selected outside of the component
         const node = elements.find((element) => element.id === selectedModelId);
+        let modelClicked = null;
         if (node) {
             currentNodeIdRef.current = node.id;
-            let modelClicked = null;
             if (node.type === OATInterfaceType) {
                 modelClicked = {
                     '@id': node.id,
@@ -538,16 +538,12 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                     modelClicked['@type'] = OATExtendHandleName;
                 }
             }
-            dispatch({
-                type: SET_OAT_PROPERTY_EDITOR_MODEL,
-                payload: modelClicked
-            });
-        } else {
-            dispatch({
-                type: SET_OAT_PROPERTY_EDITOR_MODEL,
-                payload: null
-            });
         }
+
+        dispatch({
+            type: SET_OAT_PROPERTY_EDITOR_MODEL,
+            payload: modelClicked
+        });
     }, [selectedModelId]);
 
     useEffect(() => {
@@ -644,20 +640,19 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                 setElements((els) => removeElements(elementsToRemove, els));
             };
 
-            execute(
-                () => remove(elementsToRemove),
-                () => {
-                    dispatch({
-                        type: SET_OAT_PROPERTY_EDITOR_MODEL,
-                        payload: model
-                    });
-                    setElements(elements);
-                    dispatch({
-                        type: SET_OAT_DELETED_MODEL_ID,
-                        payload: null
-                    });
-                }
-            );
+            const unRemove = () => {
+                dispatch({
+                    type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                    payload: model
+                });
+                setElements(elements);
+                dispatch({
+                    type: SET_OAT_DELETED_MODEL_ID,
+                    payload: null
+                });
+            };
+
+            execute(() => remove(elementsToRemove), unRemove);
         }
     };
 
@@ -719,12 +714,11 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                 });
             };
 
-            execute(
-                () => onNewNode(),
-                () => {
-                    setElements(elements);
-                }
-            );
+            const undoOnNewNode = () => {
+                setElements(elements);
+            };
+
+            execute(onNewNode, undoOnNewNode);
         }
     };
 
@@ -798,17 +792,17 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                 setElements([...elements]);
             }
         };
-        execute(
-            () => onStop(node),
-            () => {
-                const previousPositions = getGraphViewerElementsFromModels(
-                    models,
-                    modelPositions
-                );
 
-                setElements(previousPositions);
-            }
-        );
+        const undoOnStop = () => {
+            const previousPositions = getGraphViewerElementsFromModels(
+                models,
+                modelPositions
+            );
+
+            setElements(previousPositions);
+        };
+
+        execute(() => onStop(node), undoOnStop);
     };
 
     const onConnectStart = (evt: Event, params: ConnectionParams) => {
@@ -853,9 +847,11 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                     setElements((els) => addEdge(params, els));
                 };
 
-                execute(addition, () => {
+                const undoAddition = () => {
                     setElements(elements);
-                });
+                };
+
+                execute(addition, undoAddition);
             }
         } else {
             const node = elements.find(
@@ -896,9 +892,11 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                     setElements((es) => [...addEdge(params, es), newNode]);
                 };
 
-                execute(addition, () => {
+                const undoAddition = () => {
                     setElements(elements);
-                });
+                };
+
+                execute(addition, undoAddition);
             }
             if (
                 currentHandleIdRef.current === OATComponentHandleName ||
@@ -941,9 +939,11 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                     setElements((es) => [...addEdge(params, es), newNode]);
                 };
 
-                execute(addition, () => {
+                const undoAddition = () => {
                     setElements(elements);
-                });
+                };
+
+                execute(addition, undoAddition);
             }
         }
     };
@@ -1054,22 +1054,22 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                 translatedOutput &&
                 node.id !== currentNodeIdRef.current // Prevent re-execute the same node
             ) {
-                execute(
-                    () => {
-                        currentNodeIdRef.current = node.id;
-                        dispatch({
-                            type: SET_OAT_SELECTED_MODEL_ID,
-                            payload: node.id
-                        });
-                    },
-                    () => {
-                        const selectedModelIdCopy = selectedModelId;
-                        dispatch({
-                            type: SET_OAT_SELECTED_MODEL_ID,
-                            payload: selectedModelIdCopy
-                        });
-                    }
-                );
+                const onClick = () => {
+                    currentNodeIdRef.current = node.id;
+                    dispatch({
+                        type: SET_OAT_SELECTED_MODEL_ID,
+                        payload: node.id
+                    });
+                };
+
+                const undoOnClick = () => {
+                    dispatch({
+                        type: SET_OAT_SELECTED_MODEL_ID,
+                        payload: selectedModelId
+                    });
+                };
+
+                execute(onClick, undoOnClick);
             }
         }
     };
@@ -1132,17 +1132,19 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
             });
         };
 
-        if (model) {
-            execute(clearModel, () => {
-                dispatch({
-                    type: SET_OAT_PROPERTY_EDITOR_MODEL,
-                    payload: model
-                });
-                dispatch({
-                    type: SET_OAT_SELECTED_MODEL_ID,
-                    payload: selectedModelId
-                });
+        const undoClearModel = () => {
+            dispatch({
+                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                payload: model
             });
+            dispatch({
+                type: SET_OAT_SELECTED_MODEL_ID,
+                payload: selectedModelId
+            });
+        };
+
+        if (model) {
+            execute(clearModel, undoClearModel);
         }
     };
 

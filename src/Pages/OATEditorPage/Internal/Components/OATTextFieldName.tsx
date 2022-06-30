@@ -109,18 +109,6 @@ const OATTextFieldName = ({
     };
 
     const onCommitChange = () => {
-        const commit = () => {
-            onCommit();
-            // Update model
-            const modelCopy = deepCopy(model);
-            modelCopy.name = temporaryName;
-            dispatch({
-                type: SET_OAT_PROPERTY_EDITOR_MODEL,
-                payload: modelCopy
-            });
-            setName(temporaryName);
-        };
-
         if (
             !nameLengthError &&
             !nameValidCharactersError &&
@@ -128,15 +116,26 @@ const OATTextFieldName = ({
             !nameDuplicateRelationshipError &&
             temporaryName !== originalValue // Prevent committing if name is not changed
         ) {
-            execute(
-                () => commit(),
-                () => {
-                    dispatch({
-                        type: SET_OAT_PROPERTY_EDITOR_MODEL,
-                        payload: model
-                    });
-                }
-            );
+            const commit = () => {
+                onCommit();
+                // Update model
+                const modelCopy = deepCopy(model);
+                modelCopy.name = temporaryName;
+                dispatch({
+                    type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                    payload: modelCopy
+                });
+                setName(temporaryName);
+            };
+
+            const undoCommit = () => {
+                dispatch({
+                    type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                    payload: model
+                });
+            };
+
+            execute(commit, undoCommit);
         } else {
             setTemporaryName(name);
             setNameDuplicateInterfaceError(false);

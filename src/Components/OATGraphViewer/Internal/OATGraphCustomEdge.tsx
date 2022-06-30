@@ -27,7 +27,6 @@ import { getPropertyDisplayName } from '../../OATPropertyEditor/Utils';
 import { IOATGraphCustomEdgeProps } from '../../../Models/Constants';
 import OATTextFieldName from '../../../Pages/OATEditorPage/Internal/Components/OATTextFieldName';
 import { CommandHistoryContext } from '../../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
-import { deepCopy } from '../../../Models/Services/Utils';
 import { Position } from '../../../Pages/OATEditorPage/Internal/Types';
 
 const foreignObjectSize = 180;
@@ -478,17 +477,16 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
             setNameEditor(true);
         };
 
-        execute(
-            () => selectRelationship(),
-            () => {
-                setCurrentNode(currentNodeIdRef.current);
-                dispatch({
-                    type: SET_OAT_SELECTED_MODEL_ID,
-                    payload: selectedModelId
-                });
-                setNameEditor(false);
-            }
-        );
+        const unselectRelationship = () => {
+            setCurrentNode(currentNodeIdRef.current);
+            dispatch({
+                type: SET_OAT_SELECTED_MODEL_ID,
+                payload: selectedModelId
+            });
+            setNameEditor(false);
+        };
+
+        execute(selectRelationship, unselectRelationship);
     };
 
     const edgePath = useMemo(() => {

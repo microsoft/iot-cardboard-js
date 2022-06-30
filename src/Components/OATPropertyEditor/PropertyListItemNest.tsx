@@ -126,20 +126,21 @@ export const PropertyListItemNest = ({
     };
 
     const onTemplateAddition = () => {
-        execute(
-            () => {
-                dispatch({
-                    type: SET_OAT_TEMPLATES,
-                    payload: [...templates, item]
-                });
-            },
-            () => {
-                dispatch({
-                    type: SET_OAT_TEMPLATES,
-                    payload: templates
-                });
-            }
-        );
+        const addition = () => {
+            dispatch({
+                type: SET_OAT_TEMPLATES,
+                payload: [...templates, item]
+            });
+        };
+
+        const undoAddition = () => {
+            dispatch({
+                type: SET_OAT_TEMPLATES,
+                payload: templates
+            });
+        };
+
+        execute(addition, undoAddition);
     };
 
     const onDuplicate = () => {
@@ -161,12 +162,14 @@ export const PropertyListItemNest = ({
             });
         };
 
-        execute(duplicate, () => {
+        const undoDuplicate = () => {
             dispatch({
                 type: SET_OAT_PROPERTY_EDITOR_MODEL,
                 payload: model
             });
-        });
+        };
+
+        execute(duplicate, undoDuplicate);
     };
 
     const deleteNestedItem = (parentIndex, index) => {
@@ -201,15 +204,14 @@ export const PropertyListItemNest = ({
             });
         };
 
-        execute(
-            () => deletion(parentIndex, index),
-            () => {
-                dispatch({
-                    type: SET_OAT_PROPERTY_EDITOR_MODEL,
-                    payload: model
-                });
-            }
-        );
+        const undoDeletion = () => {
+            dispatch({
+                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                payload: model
+            });
+        };
+
+        execute(() => deletion(parentIndex, index), undoDeletion);
     };
 
     // Move nested item up or down
@@ -241,15 +243,14 @@ export const PropertyListItemNest = ({
             });
         };
 
-        execute(
-            () => onMove(nestedIndex, moveUp),
-            () => {
-                dispatch({
-                    type: SET_OAT_PROPERTY_EDITOR_MODEL,
-                    payload: model
-                });
-            }
-        );
+        const undoOnMove = () => {
+            dispatch({
+                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                payload: model
+            });
+        };
+
+        execute(() => onMove(nestedIndex, moveUp), undoOnMove);
     };
 
     return (

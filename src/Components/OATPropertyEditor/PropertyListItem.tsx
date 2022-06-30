@@ -76,20 +76,21 @@ export const PropertyListItem = ({
     );
 
     const onTemplateAddition = () => {
-        execute(
-            () => {
-                dispatch({
-                    type: SET_OAT_TEMPLATES,
-                    payload: [...templates, item]
-                });
-            },
-            () => {
-                dispatch({
-                    type: SET_OAT_TEMPLATES,
-                    payload: templates
-                });
-            }
-        );
+        const addition = () => {
+            dispatch({
+                type: SET_OAT_TEMPLATES,
+                payload: [...templates, item]
+            });
+        };
+
+        const undoAddition = () => {
+            dispatch({
+                type: SET_OAT_TEMPLATES,
+                payload: templates
+            });
+        };
+
+        execute(addition, undoAddition);
     };
 
     const onDuplicate = () => {
@@ -111,15 +112,14 @@ export const PropertyListItem = ({
             });
         };
 
-        execute(
-            () => duplicate(),
-            () => {
-                dispatch({
-                    type: SET_OAT_PROPERTY_EDITOR_MODEL,
-                    payload: model
-                });
-            }
-        );
+        const undoDuplicate = () => {
+            dispatch({
+                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                payload: model
+            });
+        };
+
+        execute(duplicate, undoDuplicate);
     };
 
     return (

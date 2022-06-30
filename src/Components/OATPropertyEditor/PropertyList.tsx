@@ -174,12 +174,14 @@ export const PropertyList = ({
             });
         };
 
-        execute(update, () => {
+        const undoUpdate = () => {
             dispatch({
                 type: SET_OAT_PROPERTY_EDITOR_MODEL,
                 payload: model
             });
-        });
+        };
+
+        execute(update, undoUpdate);
     };
 
     const generateErrorMessage = (value, index) => {
@@ -216,15 +218,14 @@ export const PropertyList = ({
             });
         };
 
-        execute(
-            () => deletion(index),
-            () => {
-                dispatch({
-                    type: SET_OAT_PROPERTY_EDITOR_MODEL,
-                    payload: model
-                });
-            }
-        );
+        const undoDeletion = () => {
+            dispatch({
+                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                payload: model
+            });
+        };
+
+        execute(() => deletion(index), undoDeletion);
     };
 
     const definePropertySelectorPosition = (e, top = null) => {
@@ -278,15 +279,14 @@ export const PropertyList = ({
             });
         };
 
-        execute(
-            () => onMove(index, moveUp),
-            () => {
-                dispatch({
-                    type: SET_OAT_PROPERTY_EDITOR_MODEL,
-                    payload: model
-                });
-            }
-        );
+        const undoOnMove = () => {
+            dispatch({
+                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                payload: model
+            });
+        };
+
+        execute(() => onMove(index, moveUp), undoOnMove);
     };
 
     return (
