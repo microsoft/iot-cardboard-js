@@ -262,14 +262,11 @@ export const validateIdChange = (
     } else {
         setIdErrorLength(true);
     }
-    if (setIdWarning && value.length > 0) {
-        setIdWarning(true);
-    } else {
-        setIdWarning(null);
+    if (setIdWarning) {
+        setIdWarning(value.length > 0);
     }
     if (value.length === 0) {
-        setIdValidDTMIError(null);
-        setIdErrorLength(null);
+        setIdValidDTMIError(false);
+        setIdErrorLength(false);
     }
 };
-5;
