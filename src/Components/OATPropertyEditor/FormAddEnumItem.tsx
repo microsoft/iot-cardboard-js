@@ -161,7 +161,7 @@ export const FormAddEnumItem = ({
         setLanguageSelection(option.key);
     };
 
-    const handleAddEnumValue = () => {
+    const onAddEnumValue = () => {
         const activeItem =
             model[propertiesKeyName][currentPropertyIndex].schema.enumValues;
         const prop = {
@@ -195,7 +195,7 @@ export const FormAddEnumItem = ({
         setModalBody(null);
     };
 
-    const getErrorMessage = (value) => {
+    const getErrorMessage = (value: string) => {
         const find = model[propertiesKeyName][
             currentPropertyIndex
         ].schema.enumValues.find((item) => item.enumValue === value);
@@ -208,7 +208,7 @@ export const FormAddEnumItem = ({
         return find ? `${t('OATPropertyEditor.errorRepeatedEnumValue')}` : '';
     };
 
-    const handleNameChange = (value) => {
+    const onNameChange = (value: string) => {
         if (value.length <= OATNameLengthLimit) {
             setNameLengthError(null);
             // Name may only contain the characters a-z, A-Z, 0-9, and underscore.
@@ -601,7 +601,7 @@ export const FormAddEnumItem = ({
                     placeholder={t(
                         'OATPropertyEditor.modalTextInputPlaceHolder'
                     )}
-                    onChange={(_ev, value) => handleNameChange(value)}
+                    onChange={(_ev, value) => onNameChange(value)}
                     styles={textFieldStyles}
                     errorMessage={getNameErrorMessage()}
                 />
@@ -652,7 +652,7 @@ export const FormAddEnumItem = ({
                 <PrimaryButton
                     text={t('OATPropertyEditor.update')}
                     allowDisabledFocus
-                    onClick={handleAddEnumValue}
+                    onClick={onAddEnumValue}
                     disabled={
                         errorRepeatedEnumValue ||
                         !enumValue ||

@@ -20,12 +20,14 @@ import {
 } from './Utils';
 
 type IPropertyListItemNested = {
+    collectionLength?: number;
     deleteNestedItem?: (parentIndex: number, index: number) => any;
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
     getItemClassName?: (index: number) => any;
     getErrorMessage?: (value: string) => string;
     index?: number;
     item?: DTDLProperty;
+    onMove?: (index: number, moveUp: boolean) => void;
     parentIndex?: number;
     setCurrentNestedPropertyIndex: React.Dispatch<React.SetStateAction<number>>;
     setCurrentPropertyIndex?: React.Dispatch<React.SetStateAction<number>>;
@@ -34,12 +36,14 @@ type IPropertyListItemNested = {
 };
 
 export const PropertyListItemNested = ({
+    collectionLength,
     deleteNestedItem,
     dispatch,
     getErrorMessage,
     getItemClassName,
     index,
     item,
+    onMove,
     parentIndex,
     setCurrentNestedPropertyIndex,
     setCurrentPropertyIndex,
@@ -127,6 +131,14 @@ export const PropertyListItemNested = ({
                         }}
                         targetId={getModelPropertyListItemName(item.name)}
                         setSubMenuActive={setSubMenuActive}
+                        onMoveUp={
+                            // Use function if item is not the first item in the list
+                            index > 0 ? onMove : null
+                        }
+                        onMoveDown={
+                            // Use function if item is not the last item in the list
+                            index < collectionLength - 1 ? onMove : null
+                        }
                     />
                 )}
             </IconButton>
