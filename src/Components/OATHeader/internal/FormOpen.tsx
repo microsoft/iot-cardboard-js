@@ -24,7 +24,7 @@ export const FormOpen = ({ dispatch, setModalOpen, setModalBody }: IModal) => {
     const headerStyles = getHeaderStyles();
     const [selectedFile, setSelectedFile] = useState(null);
 
-    const handleOpen = () => {
+    const onOpen = () => {
         const projectToOpen = new ProjectData(
             selectedFile.key.modelPositions,
             selectedFile.key.models,
@@ -76,7 +76,7 @@ export const FormOpen = ({ dispatch, setModalOpen, setModalBody }: IModal) => {
             <div className={headerStyles.modalRowFlexEnd}>
                 <PrimaryButton
                     text={t('OATHeader.open')}
-                    onClick={handleOpen}
+                    onClick={onOpen}
                     disabled={!selectedFile}
                 />
 

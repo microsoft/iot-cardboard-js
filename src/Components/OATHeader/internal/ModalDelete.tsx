@@ -30,7 +30,7 @@ export const ModalDelete = ({
     const promptTextStyles = getPromptTextStyles();
     const { projectName } = state;
 
-    const handleOnDelete = () => {
+    const onDelete = () => {
         const files = loadFiles();
 
         //  Overwrite existing file
@@ -62,7 +62,7 @@ export const ModalDelete = ({
             <div className={headerStyles.modalRowCenterItem}>
                 <PrimaryButton
                     text={t('OATHeader.delete')}
-                    onClick={handleOnDelete}
+                    onClick={onDelete}
                 />
 
                 <PrimaryButton

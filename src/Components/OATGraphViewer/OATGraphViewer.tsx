@@ -13,7 +13,8 @@ import ReactFlow, {
     Controls,
     Background,
     removeElements,
-    isNode
+    isNode,
+    FlowTransform
 } from 'react-flow-renderer';
 import { useTranslation } from 'react-i18next';
 import dagre from 'dagre';
@@ -59,6 +60,8 @@ import {
     forceCenter,
     forceCollide
 } from 'd3-force';
+import { Position } from '../../Pages/OATEditorPage/Internal/Types';
+import { ConnectionParams } from './Internal/Classes/ConnectionParams';
 
 const contextClassBase = 'dtmi:dtdl:context;2';
 const versionClassBase = '1';
@@ -89,7 +92,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
         namespace ? namespace : OATNamespaceDefaultValue
     }:`;
 
-    const getNextRelationshipAmount = (relationshipArray) => {
+    const getNextRelationshipAmount = (relationshipArray: ElementNode[]) => {
         let relationshipAmount = 0;
         while (
             relationshipArray.some(
@@ -105,7 +108,10 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     };
 
     //  Converts the stored models to a graph nodes
-    const getGraphViewerElementsFromModels = (models, modelPositions) => {
+    const getGraphViewerElementsFromModels = (
+        models: IOATNodeElement[],
+        modelPositions: Position[]
+    ) => {
         if (!models || !modelPositions) {
             return [];
         }
@@ -577,7 +583,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
         }
     }, [editedModelId]);
 
-    const setCurrentNode = (id) => {
+    const setCurrentNode = (id: string) => {
         currentNodeIdRef.current = id;
     };
 
@@ -620,14 +626,14 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
         }
     };
 
-    const onLoad = useCallback((_reactFlowInstance) => {
+    const onLoad = useCallback((_reactFlowInstance: any) => {
         _reactFlowInstance.fitView();
         _reactFlowInstance.zoomOut();
         _reactFlowInstance.zoomOut();
         setRfInstance(_reactFlowInstance);
     }, []);
 
-    const onMove = useCallback((flowTransform) => {
+    const onMove = useCallback((flowTransform: FlowTransform) => {
         setCurrentLocation(flowTransform);
     }, []);
 
@@ -676,7 +682,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
         }
     };
 
-    const onNodeDragStop = (evt, node) => {
+    const onNodeDragStop = (evt: Event, node: IOATNodeElement) => {
         // Checks if a node is being dragged into another node to create a relationship between them
         let targetId = '';
         const areaDistanceX = 60;
@@ -746,13 +752,13 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
         }
     };
 
-    const onConnectStart = (evt, params) => {
+    const onConnectStart = (evt: Event, params: ConnectionParams) => {
         // Stores values before connection is created
         currentNodeIdRef.current = params.handleId ? params.nodeId : null;
         currentHandleIdRef.current = params.handleId ? params.handleId : null;
     };
 
-    const onConnectStop = (evt) => {
+    const onConnectStop = (evt: Event) => {
         // Retrieves information and creates a desired relationship between nodes
         const params: IOATRelationshipElement = {
             source: currentNodeIdRef.current,
@@ -963,7 +969,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
         });
     }, [translatedOutput]);
 
-    const onElementClick = (evt, node) => {
+    const onElementClick = (evt: Event, node: IOATNodeElement) => {
         if (!state.modified) {
             // Checks if a node is selected to display it in the property editor
             if (node.data.type === OATInterfaceType && translatedOutput) {
@@ -997,7 +1003,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
         }
     };
 
-    const positionLookUp = (newNodes = null) => {
+    const positionLookUp = (newNodes: IOATNodeElement[] = null) => {
         const { position } = rfInstance.toObject();
         const areaDistanceX = 250;
         const areaDistanceY = 80;
@@ -1038,7 +1044,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
         return { x: defaultPositionX, y: defaultPositionY };
     };
 
-    const onNodeMouseEnter = (evt, node) => {
+    const onNodeMouseEnter = (evt: Event, node: IOATNodeElement) => {
         setCurrentHovered(node);
     };
 

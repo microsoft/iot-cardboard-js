@@ -31,7 +31,7 @@ export const FormSettings = ({
     const [namespaceError, setNamespaceError] = useState(false);
     const headerStyles = getHeaderStyles();
 
-    const handleProjectNamespaceChange = (value) => {
+    const onProjectNamespaceChange = (value: string) => {
         // Validate value contains only letters, digits, colons and underscores. The first character may not be a digit
         const regex = /^[a-zA-Z_][a-zA-Z0-9_:]*$/;
         const validValue =
@@ -45,7 +45,7 @@ export const FormSettings = ({
         setNamespace(value);
     };
 
-    const handleOnSave = () => {
+    const onSave = () => {
         dispatch({
             type: SET_OAT_NAMESPACE,
             payload: namespace
@@ -67,7 +67,7 @@ export const FormSettings = ({
                 <TextField
                     placeholder={t('OATHeader.enterANamespace')}
                     value={namespace}
-                    onChange={(e, v) => handleProjectNamespaceChange(v)}
+                    onChange={(e, v) => onProjectNamespaceChange(v)}
                     errorMessage={
                         namespaceError ? t('OATHeader.errorNamespace') : null
                     }
@@ -77,7 +77,7 @@ export const FormSettings = ({
             <div className={headerStyles.modalRowFlexEnd}>
                 <PrimaryButton
                     text={t('OATHeader.save')}
-                    onClick={handleOnSave}
+                    onClick={onSave}
                     disabled={namespaceError}
                 />
 

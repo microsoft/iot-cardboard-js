@@ -71,7 +71,7 @@ const OATModelList = ({
         );
     }, [filter]);
 
-    const onSelectedClick = (id) => {
+    const onSelectedClick = (id: string) => {
         if (!modified) {
             dispatch({
                 type: SET_OAT_SELECTED_MODEL_ID,
@@ -81,7 +81,7 @@ const OATModelList = ({
         }
     };
 
-    const onNameClick = (name) => {
+    const onNameClick = (name: string) => {
         if (!modified) {
             setNameText(name);
             setNameEditor(true);
@@ -89,7 +89,7 @@ const OATModelList = ({
         }
     };
 
-    const onIdClick = (id) => {
+    const onIdClick = (id: string) => {
         if (!modified) {
             setIdText(id);
             setIdEditor(true);
@@ -97,7 +97,7 @@ const OATModelList = ({
         }
     };
 
-    const onModelDelete = (id) => {
+    const onModelDelete = (id: string) => {
         if (!modified) {
             const dispatchDelete = () => {
                 dispatch({
@@ -112,11 +112,11 @@ const OATModelList = ({
         }
     };
 
-    const onFilterChange = (evt) => {
+    const onFilterChange = (evt: Event) => {
         setFilter(evt.target.value);
     };
 
-    const onRenderCell = (item) => {
+    const onRenderCell = (item: IOATTwinModelNodes) => {
         return (
             <div className={modelsStyles.modelNode}>
                 <ActionButton
@@ -189,7 +189,7 @@ const OATModelList = ({
                     className={modelsStyles.nodeCancel}
                     onClick={() => onModelDelete(item['@id'])}
                 >
-                    <Icon iconName="Cancel" styles={iconStyles} />
+                    <Icon iconName="Delete" styles={iconStyles} />
                 </ActionButton>
             </div>
         );

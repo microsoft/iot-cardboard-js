@@ -79,7 +79,7 @@ const PropertySelector = ({
         setPropertySelectorVisible(false);
     };
 
-    const handleTagClick = (tag: string) => {
+    const onTagClick = (tag: string) => {
         if (onTagClickCallback) {
             onTagClickCallback();
         }
