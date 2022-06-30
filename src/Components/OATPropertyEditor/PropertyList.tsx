@@ -277,7 +277,15 @@ export const PropertyList = ({
                         }}
                         ref={addPropertyLabelRef}
                     >
-                        <div>
+                        <ActionButton
+                            onClick={(e) => {
+                                if (propertySelectorVisible) {
+                                    setPropertySelectorVisible(false);
+                                } else {
+                                    onAddPropertyLabelMouseOver(e);
+                                }
+                            }}
+                        >
                             <FontIcon
                                 iconName={'CirclePlus'}
                                 className={
@@ -285,7 +293,7 @@ export const PropertyList = ({
                                 }
                             />
                             <Text>{t('OATPropertyEditor.addProperty')}</Text>
-                        </div>
+                        </ActionButton>
                     </div>
                 )}
 
