@@ -265,10 +265,11 @@ export const validateIdChange = (
     if (setIdWarning && value.length > 0) {
         setIdWarning(true);
     } else {
-        setIdWarning(false);
+        setIdWarning(null);
     }
     if (value.length === 0) {
-        setIdValidDTMIError(false);
-        setIdErrorLength(false);
+        setIdValidDTMIError(null);
+        setIdErrorLength(null);
     }
 };
+5;
