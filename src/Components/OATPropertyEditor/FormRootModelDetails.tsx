@@ -27,7 +27,6 @@ import {
     handleCommentChange,
     handleDescriptionChange,
     handleDisplayNameChange,
-    handleIdChange,
     handleMultiLanguageSelectionRemoval,
     handleMultiLanguageSelectionsDescriptionKeyChange,
     handleMultiLanguageSelectionsDescriptionValueChange,
@@ -35,6 +34,7 @@ import {
     handleMultiLanguageSelectionsDisplayNameValueChange
 } from './Utils';
 import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
+import OATTextFieldId from '../../Pages/OATEditorPage/Internal/Components/OATTextFieldId';
 
 const multiLanguageOptionValue = 'multiLanguage';
 const singleLanguageOptionValue = 'singleLanguage';
@@ -98,8 +98,12 @@ export const FormUpdateProperty = ({
     const [commentError, setCommentError] = useState(null);
     const [descriptionError, setDescriptionError] = useState(null);
     const [displayNameError, setDisplayNameError] = useState(null);
-    const [idLengthError, setIdLengthError] = useState(null);
-    const [idValidDTMIError, setIdValidDTMIError] = useState(null);
+    const [fileName, setFileName] = useState(
+        model.fileName ? model.fileName : null
+    );
+    const [directoryPath, setDirectoryPath] = useState(
+        model.directoryPath ? model.directoryPath : null
+    );
 
     const options: IChoiceGroupOption[] = [
         {
@@ -180,14 +184,6 @@ export const FormUpdateProperty = ({
         setModalOpen(false);
     };
 
-    const getIdErrorMessage = () => {
-        return idLengthError
-            ? t('OATPropertyEditor.errorIdLength')
-            : idValidDTMIError
-            ? t('OATPropertyEditor.errorIdValidDTMI')
-            : '';
-    };
-
     // Update multiLanguageSelectionsDisplayNames on every new language change
     useEffect(() => {
         // Create an array of the keys and values
@@ -234,6 +230,29 @@ export const FormUpdateProperty = ({
         setIsAMultiLanguageDescriptionEmpty(hasEmptyValues);
     }, [multiLanguageSelectionsDescription]);
 
+    useEffect(() => {
+        if (id) {
+            // Get id path - Get section between last ":" and ";"
+            const idPath = id.substring(
+                id.lastIndexOf(':') + 1,
+                id.lastIndexOf(';')
+            );
+            const idVersion = id.substring(id.lastIndexOf(';') + 1, id.length);
+
+            let scheme = id.substring(id.indexOf(':') + 1, id.lastIndexOf(':'));
+            // Scheme - replace ":" with "\"
+            scheme = scheme.replace(':', '\\');
+
+            // Set values only if model did not hold a previous value or if there is not set value
+            if (!model.fileName || fileName === '') {
+                setFileName(`${idPath}-${idVersion}`);
+            }
+            if (!model.directoryPath || directoryPath === '') {
+                setDirectoryPath(scheme);
+            }
+        }
+    }, [id]);
+
     return (
         <>
             <div className={propertyInspectorStyles.modalRowSpaceBetween}>
@@ -258,18 +277,12 @@ export const FormUpdateProperty = ({
                 <Text styles={columnLeftTextStyles}>
                     {t('OATPropertyEditor.id')}
                 </Text>
-                <TextField
+                <OATTextFieldId
                     placeholder={t('OATPropertyEditor.id')}
-                    onChange={(_ev, value) =>
-                        handleIdChange(
-                            value,
-                            setId,
-                            setIdLengthError,
-                            setIdValidDTMIError
-                        )
-                    }
-                    errorMessage={getIdErrorMessage()}
-                    value={id}
+                    id={id}
+                    setId={setId}
+                    state={state}
+                    modalFormCommit
                 />
             </div>
 
@@ -569,17 +582,33 @@ export const FormUpdateProperty = ({
                 />
             </div>
 
+            <div className={propertyInspectorStyles.modalRow}>
+                <Text styles={columnLeftTextStyles}>{'File Name'}</Text>
+                <TextField
+                    placeholder={t(
+                        'OATPropertyEditor.modalTextInputPlaceHolder'
+                    )}
+                    onChange={(_ev, value) => setFileName(value)}
+                    value={fileName}
+                />
+            </div>
+            <div className={propertyInspectorStyles.modalRow}>
+                <Text styles={columnLeftTextStyles}>{'File Path'}</Text>
+                <TextField
+                    placeholder={t(
+                        'OATPropertyEditor.modalTextInputPlaceHolder'
+                    )}
+                    onChange={(_ev, value) => setDirectoryPath(value)}
+                    value={directoryPath}
+                />
+            </div>
             <div className={propertyInspectorStyles.modalRowFlexEnd}>
                 <PrimaryButton
                     text={t('OATPropertyEditor.update')}
                     allowDisabledFocus
                     onClick={onFormSubmit}
                     disabled={
-                        displayNameError ||
-                        commentError ||
-                        descriptionError ||
-                        idLengthError ||
-                        idValidDTMIError
+                        displayNameError || commentError || descriptionError
                     }
                 />
 

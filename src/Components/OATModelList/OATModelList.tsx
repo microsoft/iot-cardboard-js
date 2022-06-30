@@ -189,7 +189,7 @@ const OATModelList = ({
                     className={modelsStyles.nodeCancel}
                     onClick={() => onModelDelete(item['@id'])}
                 >
-                    <Icon iconName="Cancel" styles={iconStyles} />
+                    <Icon iconName="Delete" styles={iconStyles} />
                 </ActionButton>
             </div>
         );

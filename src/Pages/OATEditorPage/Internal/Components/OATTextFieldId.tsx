@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useRef } from 'react';
 import { TextField } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import {
@@ -25,6 +25,7 @@ type IOATTexField = {
     state?: IOATEditorState;
     setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
     styles?: React.CSSProperties;
+    modalFormCommit?: boolean;
 };
 
 const OATTextFieldId = ({
@@ -36,6 +37,7 @@ const OATTextFieldId = ({
     onChange,
     onCommit,
     placeholder,
+    modalFormCommit,
     setId,
     state,
     styles
@@ -55,6 +57,7 @@ const OATTextFieldId = ({
     const [temporaryValue, setTemporaryValue] = useState(id);
     const { model, models } = state;
     const originalValue = id;
+    const inputRef = useRef(null);
 
     useEffect(() => {
         setTemporaryValue(id);
@@ -115,6 +118,11 @@ const OATTextFieldId = ({
         ) {
             const commit = () => {
                 onCommit();
+                if (modalFormCommit) {
+                    setId(temporaryValue);
+                    return;
+                }
+
                 // Update model
                 const modelCopy = deepCopy(model);
                 modelCopy['@id'] = temporaryValue;
@@ -162,6 +170,28 @@ const OATTextFieldId = ({
         }
     };
 
+    const selectIdPath = () => {
+        const selectionStart =
+            inputRef.current.props.value.lastIndexOf(':') + 1;
+        const selectionEnd = inputRef.current.props.value.lastIndexOf(';');
+        if (selectionEnd === -1 || selectionStart === 0) {
+            return;
+        }
+        inputRef.current.setSelectionRange(selectionStart, selectionEnd);
+    };
+
+    const onFocus = () => {
+        if (inputRef.current) {
+            selectIdPath();
+        }
+    };
+
+    useEffect(() => {
+        if (inputRef.current && inputRef.current.props.value) {
+            selectIdPath();
+        }
+    }, [inputRef]);
+
     return (
         <TextField
             autoFocus={autoFocus}
@@ -176,6 +206,8 @@ const OATTextFieldId = ({
             errorMessage={getErrorMessage()}
             onKeyDown={onKeyDown}
             onBlur={onCommitChange}
+            onFocus={onFocus}
+            componentRef={inputRef}
         />
     );
 };
@@ -186,11 +218,12 @@ OATTextFieldId.defaultProps = {
     autoFocus: false,
     borderless: false,
     disabled: false,
-    placeholder: '',
+    modalFormCommit: false,
     onChange: () => {
         // Do nothing
     },
     onCommit: () => {
         // Do nothing
-    }
+    },
+    placeholder: ''
 };
