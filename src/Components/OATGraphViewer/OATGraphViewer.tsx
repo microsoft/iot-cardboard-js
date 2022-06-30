@@ -1034,6 +1034,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
 
     const onBackgroundClick = () => {
         dispatch({ type: SET_OAT_PROPERTY_EDITOR_MODEL, payload: null });
+        currentNodeIdRef.current = null;
     };
 
     return (

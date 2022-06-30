@@ -5,6 +5,7 @@ const classPrefix = `${CardboardClassNamePrefix}-oat-graph-viewer`;
 const classNames = {
     container: `${classPrefix}-container`,
     node: `${classPrefix}-node`,
+    selectedNode: `${classPrefix}-selected-node`,
     handle: `${classPrefix}-handle`,
     componentHandleFocus: `${classPrefix}-component-handle-focus`,
     componentHandleHidden: `${classPrefix}-component-handle-hidden`,
@@ -15,14 +16,17 @@ const classNames = {
     untargetRelationshipHandleFocus: `${classPrefix}-untargeted-handle-focus`,
     untargetRelationshipHandleHidden: `${classPrefix}-untargeted-handle-hidden`,
     edgePath: `${classPrefix}-edge-path`,
+    selectedEdgePath: `${classPrefix}-selected-edge-path`,
     widthPath: `${classPrefix}-width-path`,
     textPath: `${classPrefix}-text-path`,
     textEdit: `${classPrefix}-text-edit`,
     nodeCancel: `${classPrefix}-node-cancel`,
     edgeCancel: `${classPrefix}-edge-cancel`,
     componentPath: `${classPrefix}-component-path`,
+    selectedComponentPath: `${classPrefix}-selected-component-path`,
     componentShape: `${classPrefix}-component-shape`,
     inheritancePath: `${classPrefix}-inheritance-path`,
+    selectedInheritancePath: `${classPrefix}-selected-inheritance-path`,
     inheritanceShape: `${classPrefix}-inheritance-shape`,
     nodeContainer: `${classPrefix}-node-container`,
     untargetedNodeContainer: `${classPrefix}-untargeted-node-container`,
@@ -223,6 +227,17 @@ export const getGraphViewerStyles = () => {
                 paddingRight: '20px' // Provide space for close icon
             } as IStyle
         ],
+        selectedNode: [
+            classNames.selectedNode,
+            {
+                background: theme.palette.neutralLight,
+                border: `3px solid ${theme.semanticColors.inputBorder}`,
+                borderRadius: '5px',
+                fontSize: FontSizes.size12,
+                position: 'relative',
+                paddingRight: '20px' // Provide space for close icon
+            } as IStyle
+        ],
         handle: [classNames.handle],
         componentHandleFocus: [classNames.componentHandleFocus],
         componentHandleHidden: [classNames.componentHandleHidden],
@@ -241,6 +256,14 @@ export const getGraphViewerStyles = () => {
             {
                 stroke: theme.palette.yellow,
                 strokeWidth: '1',
+                fill: 'none'
+            } as IStyle
+        ],
+        selectedEdgePath: [
+            classNames.selectedEdgePath,
+            {
+                stroke: theme.palette.yellow,
+                strokeWidth: '3',
                 fill: 'none'
             } as IStyle
         ],
@@ -274,6 +297,14 @@ export const getGraphViewerStyles = () => {
                 fill: 'none'
             } as IStyle
         ],
+        selectedComponentPath: [
+            classNames.selectedComponentPath,
+            {
+                stroke: theme.palette.blue,
+                strokeWidth: '3',
+                fill: 'none'
+            } as IStyle
+        ],
         componentShape: [
             classNames.componentShape,
             {
@@ -295,6 +326,14 @@ export const getGraphViewerStyles = () => {
             {
                 stroke: theme.palette.green,
                 strokeWidth: '1',
+                fill: 'none'
+            } as IStyle
+        ],
+        selectedInheritancePath: [
+            classNames.selectedInheritancePath,
+            {
+                stroke: theme.palette.green,
+                strokeWidth: '3',
                 fill: 'none'
             } as IStyle
         ],

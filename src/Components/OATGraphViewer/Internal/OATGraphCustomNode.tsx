@@ -38,9 +38,13 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
     const [nameText, setNameText] = useState(getPropertyDisplayName(data));
     const [idEditor, setIdEditor] = useState(false);
     const [idText, setIdText] = useState(data.id);
-    const { setElements, dispatch, state, currentHovered } = useContext(
-        ElementsContext
-    );
+    const {
+        setElements,
+        dispatch,
+        state,
+        currentHovered,
+        currentNodeIdRef
+    } = useContext(ElementsContext);
     const graphViewerStyles = getGraphViewerStyles();
     const iconStyles = getGraphViewerIconStyles();
     const actionButtonStyles = getGraphViewerActionButtonStyles();
@@ -90,7 +94,13 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
                     isConnectable={isConnectable}
                 />
             )}
-            <div className={graphViewerStyles.node}>
+            <div
+                className={
+                    currentNodeIdRef && currentNodeIdRef.current === data.id
+                        ? graphViewerStyles.selectedNode
+                        : graphViewerStyles.node
+                }
+            >
                 <ActionButton styles={actionButtonStyles} onClick={onDelete}>
                     <Icon iconName="Delete" styles={iconStyles} />
                 </ActionButton>
