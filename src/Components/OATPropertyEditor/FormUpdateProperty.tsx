@@ -461,7 +461,7 @@ export const FormUpdateProperty = ({
                 ))}
 
             {languageSelection === multiLanguageOptionValue && (
-                <div className={propertyInspectorStyles.modalRow}>
+                <div className={propertyInspectorStyles.regionButton}>
                     <ActionButton
                         disabled={
                             isAMultiLanguageDisplayNameEmpty &&
@@ -600,7 +600,7 @@ export const FormUpdateProperty = ({
                 ))}
 
             {languageSelectionDescription === multiLanguageOptionValue && (
-                <div className={propertyInspectorStyles.modalRow}>
+                <div className={propertyInspectorStyles.regionButton}>
                     <ActionButton
                         disabled={
                             isAMultiLanguageDescriptionEmpty &&
