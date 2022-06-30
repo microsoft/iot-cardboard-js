@@ -277,7 +277,7 @@ export const PropertyList = ({
                         }}
                         ref={addPropertyLabelRef}
                     >
-                        <ActionButton>
+                        <div>
                             <FontIcon
                                 iconName={'CirclePlus'}
                                 className={
@@ -285,7 +285,7 @@ export const PropertyList = ({
                                 }
                             />
                             <Text>{t('OATPropertyEditor.addProperty')}</Text>
-                        </ActionButton>
+                        </div>
                     </div>
                 )}
 

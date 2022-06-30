@@ -186,9 +186,20 @@ export const getPropertyInspectorStyles = () => {
                 position: 'relative',
                 width: 'fit-content',
                 height: 'fit-content',
-                '& button': {
+                '& div': {
                     height: 'fit-content',
-                    paddingLeft: '10px'
+                    marginLeft: '10px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    '& i': {
+                        pointerEvents: 'none'
+                    },
+                    '& span': {
+                        pointerEvents: 'none'
+                    }
+                },
+                ':hover': {
+                    cursor: 'pointer'
                 }
             }
         ],
