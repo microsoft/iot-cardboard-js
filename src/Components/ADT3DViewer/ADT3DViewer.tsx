@@ -68,6 +68,33 @@ const getClassNames = classNamesFunction<
     IADT3DViewerStyles
 >();
 
+const createBadge = (
+    badgeGroup: SceneViewBadgeGroup,
+    backgroundColor: IADTBackgroundColor,
+    onBadgeGroupHover: (
+        alert: SceneViewBadgeGroup,
+        left: number,
+        top: number
+    ) => void
+) => {
+    const id = 'cb-badge-' + badgeGroup.id;
+    const marker: Marker = {
+        id: id,
+        attachedMeshIds: [badgeGroup.meshId],
+        showIfOccluded: true,
+        name: 'badge',
+        UIElement: (
+            <AlertBadge
+                badgeGroup={badgeGroup}
+                onBadgeGroupHover={onBadgeGroupHover}
+                backgroundColor={backgroundColor}
+            />
+        )
+    };
+
+    return marker;
+};
+
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('ADT3DViewer', debugLogging);
 
@@ -479,33 +506,6 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
         // only run on first mount
         // // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-
-    const createBadge = (
-        badgeGroup: SceneViewBadgeGroup,
-        backgroundColor: IADTBackgroundColor,
-        onBadgeGroupHover: (
-            alert: SceneViewBadgeGroup,
-            left: number,
-            top: number
-        ) => void
-    ) => {
-        const id = 'cb-badge-' + badgeGroup.id;
-        const marker: Marker = {
-            id: id,
-            attachedMeshIds: [badgeGroup.meshId],
-            showIfOccluded: true,
-            name: 'badge',
-            UIElement: (
-                <AlertBadge
-                    badgeGroup={badgeGroup}
-                    onBadgeGroupHover={onBadgeGroupHover}
-                    backgroundColor={backgroundColor}
-                />
-            )
-        };
-
-        return marker;
-    };
 
     useEffect(() => {
         if (coloredMeshItemsProp) {
