@@ -26,15 +26,15 @@ import { MultiLanguageSelectionType } from '../../Models/Constants/Enums';
 import {
     getModelPropertyCollectionName,
     getModelPropertyListItemName,
-    handleCommentChange,
-    handleDescriptionChange,
-    handleDisplayNameChange,
-    handleIdChange,
-    handleMultiLanguageSelectionRemoval,
-    handleMultiLanguageSelectionsDescriptionKeyChange,
-    handleMultiLanguageSelectionsDescriptionValueChange,
-    handleMultiLanguageSelectionsDisplayNameKeyChange,
-    handleMultiLanguageSelectionsDisplayNameValueChange
+    validateCommentChange,
+    validateDescriptionChange,
+    validateDisplayNameChange,
+    validateIdChange,
+    setMultiLanguageSelectionRemoval,
+    setMultiLanguageSelectionsDescriptionKey,
+    validateMultiLanguageSelectionsDescriptionValueChange,
+    setMultiLanguageSelectionsDisplayNameKey,
+    setMultiLanguageSelectionsDisplayNameValue
 } from './Utils';
 const multiLanguageOptionValue = 'multiLanguage';
 const singleLanguageOptionValue = 'singleLanguage';
@@ -363,7 +363,7 @@ export const FormUpdateProperty = ({
                         value={displayName}
                         validateOnFocusOut
                         onChange={(e, v) =>
-                            handleDisplayNameChange(
+                            validateDisplayNameChange(
                                 v,
                                 setDisplayName,
                                 setDisplayNameError
@@ -392,7 +392,7 @@ export const FormUpdateProperty = ({
                             title={t('OATPropertyEditor.delete')}
                             ariaLabel={t('OATPropertyEditor.delete')}
                             onClick={() =>
-                                handleMultiLanguageSelectionRemoval(
+                                setMultiLanguageSelectionRemoval(
                                     index,
                                     MultiLanguageSelectionType.displayName,
                                     multiLanguageSelectionsDisplayName,
@@ -410,7 +410,7 @@ export const FormUpdateProperty = ({
                             placeholder={t('OATPropertyEditor.region')}
                             options={languages}
                             onChange={(_ev, option) =>
-                                handleMultiLanguageSelectionsDisplayNameKeyChange(
+                                setMultiLanguageSelectionsDisplayNameKey(
                                     option.key,
                                     index,
                                     multiLanguageSelectionsDisplayName,
@@ -423,7 +423,7 @@ export const FormUpdateProperty = ({
                             placeholder={t('OATPropertyEditor.displayName')}
                             value={language.value}
                             onChange={(_ev, value) =>
-                                handleMultiLanguageSelectionsDisplayNameValueChange(
+                                setMultiLanguageSelectionsDisplayNameValue(
                                     value,
                                     index,
                                     multiLanguageSelectionsDisplayNames,
@@ -501,7 +501,7 @@ export const FormUpdateProperty = ({
                             'OATPropertyEditor.modalTextInputPlaceHolderDescription'
                         )}
                         onChange={(_ev, value) =>
-                            handleDescriptionChange(
+                            validateDescriptionChange(
                                 value,
                                 setDescription,
                                 setDescriptionError
@@ -531,7 +531,7 @@ export const FormUpdateProperty = ({
                             title={t('OATPropertyEditor.delete')}
                             ariaLabel={t('OATPropertyEditor.delete')}
                             onClick={() =>
-                                handleMultiLanguageSelectionRemoval(
+                                setMultiLanguageSelectionRemoval(
                                     index,
                                     MultiLanguageSelectionType.description,
                                     multiLanguageSelectionsDisplayName,
@@ -549,7 +549,7 @@ export const FormUpdateProperty = ({
                             placeholder={t('OATPropertyEditor.region')}
                             options={languages}
                             onChange={(_ev, option) =>
-                                handleMultiLanguageSelectionsDescriptionKeyChange(
+                                setMultiLanguageSelectionsDescriptionKey(
                                     option.key,
                                     index,
                                     multiLanguageSelectionsDescription,
@@ -562,7 +562,7 @@ export const FormUpdateProperty = ({
                             placeholder={t('OATPropertyEditor.description')}
                             value={language.value}
                             onChange={(_ev, value) =>
-                                handleMultiLanguageSelectionsDescriptionValueChange(
+                                validateMultiLanguageSelectionsDescriptionValueChange(
                                     value,
                                     index,
                                     multiLanguageSelectionsDescription,
@@ -628,7 +628,11 @@ export const FormUpdateProperty = ({
                         'OATPropertyEditor.modalTextInputPlaceHolder'
                     )}
                     onChange={(_ev, value) =>
-                        handleCommentChange(value, setComment, setCommentError)
+                        validateCommentChange(
+                            value,
+                            setComment,
+                            setCommentError
+                        )
                     }
                     errorMessage={
                         commentError ? t('OATPropertyEditor.errorComment') : ''
@@ -644,7 +648,7 @@ export const FormUpdateProperty = ({
                 <TextField
                     placeholder={t('OATPropertyEditor.id')}
                     onChange={(_ev, value) =>
-                        handleIdChange(
+                        validateIdChange(
                             value,
                             setId,
                             setIdLengthError,
