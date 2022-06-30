@@ -5,6 +5,26 @@ import {
     IWidgetLibraryItem
 } from '../Classes/3DVConfig';
 import i18n from '../../i18n';
+import { DTDLSchemaType } from '../../Models/Classes/DTDL';
+import IconBoolean from '../../Resources/Static/Boolean.svg';
+import IconData from '../../Resources/Static/Data.svg';
+import IconDatetime from '../../Resources/Static/Datetime.svg';
+import IconDouble from '../../Resources/Static/Double.svg';
+import IconDuration from '../../Resources/Static/duration.svg';
+import IconEnum from '../../Resources/Static/Enum.svg';
+import IconFloat from '../../Resources/Static/Float.svg';
+import IconInteger from '../../Resources/Static/Integer.svg';
+import IconLineString from '../../Resources/Static/linestring.svg';
+import IconLong from '../../Resources/Static/long.svg';
+import IconMap from '../../Resources/Static/map.svg';
+import IconMultiPoint from '../../Resources/Static/multipoint.svg';
+import IconMultiLineString from '../../Resources/Static/multilinestring.svg';
+import IconMultiPolygon from '../../Resources/Static/multipolygon.svg';
+import IconObject from '../../Resources/Static/object.svg';
+import IconPoint from '../../Resources/Static/point.svg';
+import IconPolygon from '../../Resources/Static/polygon.svg';
+import IconString from '../../Resources/Static/string.svg';
+import IconTime from '../../Resources/Static/time.svg';
 import { FontSizes } from '@fluentui/react';
 
 // make sure models in the ADT instance have these definitions and twins have these properties for process graphics card
@@ -219,3 +239,112 @@ export const CardboardClassNamePrefix = 'cb';
 
 export const globeUrl =
     'https://cardboardresources.blob.core.windows.net/cardboard-mock-files/RegionalGlobeScaled.glb';
+
+export const propertySelectorData = {
+    propertyTags: {
+        sectionFirst: [
+            {
+                name: 'boolean',
+                title: 'OATPropertyEditor.boolean',
+                icon: IconBoolean
+            },
+            {
+                name: 'float',
+                title: 'OATPropertyEditor.float',
+                icon: IconFloat
+            },
+            {
+                name: 'dateTime',
+                title: 'OATPropertyEditor.dateTime',
+                icon: IconDatetime
+            },
+            {
+                name: DTDLSchemaType.Enum,
+                title: 'OATPropertyEditor.enum',
+                icon: IconEnum,
+                complex: true
+            },
+            {
+                name: 'double',
+                title: 'OATPropertyEditor.double',
+                icon: IconDouble
+            },
+            {
+                name: 'data',
+                title: 'OATPropertyEditor.data',
+                icon: IconData
+            },
+            {
+                name: 'integer',
+                title: 'OATPropertyEditor.integer',
+                icon: IconInteger
+            },
+            {
+                name: 'long',
+                title: 'OATPropertyEditor.long',
+                icon: IconLong
+            },
+            {
+                name: DTDLSchemaType.Map,
+                title: 'OATPropertyEditor.map',
+                icon: IconMap,
+                complex: true
+            },
+            {
+                name: 'duration',
+                title: 'OATPropertyEditor.duration',
+                icon: IconDuration
+            }
+        ],
+        sectionSecond: [
+            {
+                name: 'string',
+                title: 'OATPropertyEditor.string',
+                icon: IconString
+            },
+            {
+                name: 'time',
+                title: 'OATPropertyEditor.time',
+                icon: IconTime
+            },
+            {
+                name: DTDLSchemaType.Object,
+                title: 'OATPropertyEditor.object',
+                icon: IconObject,
+                complex: true
+            }
+        ],
+        sectionThird: [
+            {
+                name: 'point',
+                title: 'OATPropertyEditor.point',
+                icon: IconPoint
+            },
+            {
+                name: 'linestring',
+                title: 'OATPropertyEditor.linestring',
+                icon: IconLineString
+            },
+            {
+                name: 'polygon',
+                title: 'OATPropertyEditor.polygon',
+                icon: IconPolygon
+            },
+            {
+                name: 'multiPoint',
+                title: 'OATPropertyEditor.multiPoint',
+                icon: IconMultiPoint
+            },
+            {
+                name: 'multiLinestring',
+                title: 'OATPropertyEditor.multiLinestring',
+                icon: IconMultiLineString
+            },
+            {
+                name: 'multiPolygon',
+                title: 'OATPropertyEditor.multiPolygon',
+                icon: IconMultiPolygon
+            }
+        ]
+    }
+};

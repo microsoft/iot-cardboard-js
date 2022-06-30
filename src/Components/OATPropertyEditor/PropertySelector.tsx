@@ -1,10 +1,9 @@
 import React, { useContext } from 'react';
-import { Separator, Stack } from '@fluentui/react';
+import { ActionButton, Separator, Stack } from '@fluentui/react';
 import {
     getPropertyInspectorStyles,
     getPropertySelectorSeparatorStyles
 } from './OATPropertyEditor.styles';
-import { DTDLSchemaType } from '../../Models/Classes/DTDL';
 import Svg from 'react-inlinesvg';
 import { useTranslation } from 'react-i18next';
 import { SET_OAT_PROPERTY_EDITOR_MODEL } from '../../Models/Constants/ActionTypes';
@@ -15,27 +14,10 @@ import {
 import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 import { deepCopy } from '../../Models/Services/Utils';
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
-import IconBoolean from '../../Resources/Static/Boolean.svg';
-import IconData from '../../Resources/Static/Data.svg';
-import IconDatetime from '../../Resources/Static/Datetime.svg';
-import IconDouble from '../../Resources/Static/Double.svg';
-import IconDuration from '../../Resources/Static/duration.svg';
-import IconEnum from '../../Resources/Static/Enum.svg';
-import IconFloat from '../../Resources/Static/Float.svg';
-import IconInteger from '../../Resources/Static/Integer.svg';
-import IconLineString from '../../Resources/Static/linestring.svg';
-import IconLong from '../../Resources/Static/long.svg';
-import IconMap from '../../Resources/Static/map.svg';
-import IconMultiPoint from '../../Resources/Static/multipoint.svg';
-import IconMultiLineString from '../../Resources/Static/multilinestring.svg';
-import IconMultiPolygon from '../../Resources/Static/multipolygon.svg';
-import IconObject from '../../Resources/Static/object.svg';
-import IconPoint from '../../Resources/Static/point.svg';
-import IconPolygon from '../../Resources/Static/polygon.svg';
-import IconString from '../../Resources/Static/string.svg';
-import IconTime from '../../Resources/Static/time.svg';
 
 import { getModelPropertyCollectionName } from './Utils';
+import { DTDLSchemaType } from '../../Models/Classes/DTDL';
+import { propertySelectorData } from '../../Models/Constants';
 
 const versionClassBase = '1';
 const leftOffset = 170; // Place selector's most used options above trigger element
@@ -303,83 +285,100 @@ const PropertySelector = ({
         >
             <Stack horizontal>
                 <div className={propertyInspectorStyles.propertyTagsWrapSecond}>
-                    {data.propertyTags.complex.map((tag, i) => {
-                        if (
-                            lastPropertyFocused &&
-                            typeof lastPropertyFocused.item.schema ===
-                                'object' &&
-                            tag.complex
-                        ) {
-                            return <></>;
-                        } else {
-                            return (
-                                <Svg
-                                    tabIndex={0}
-                                    key={i}
-                                    className={
-                                        propertyInspectorStyles.propertyTag
-                                    }
-                                    onClick={() => {
-                                        onTagClick(tag.name);
-                                    }}
-                                    onKeyPress={() => {
-                                        onTagClick(tag.name);
-                                    }}
-                                    src={tag.icon}
-                                    title={tag.title}
-                                ></Svg>
-                            );
+                    {propertySelectorData.propertyTags.sectionSecond.map(
+                        (tag, i) => {
+                            if (
+                                lastPropertyFocused &&
+                                typeof lastPropertyFocused.item.schema ===
+                                    'object' &&
+                                tag.complex
+                            ) {
+                                return <></>;
+                            } else {
+                                return (
+                                    <ActionButton
+                                        onClick={() => {
+                                            handleTagClick(tag.name);
+                                        }}
+                                        onKeyPress={() => {
+                                            handleTagClick(tag.name);
+                                        }}
+                                    >
+                                        <Svg
+                                            tabIndex={0}
+                                            key={i}
+                                            className={
+                                                propertyInspectorStyles.propertyTag
+                                            }
+                                            src={tag.icon}
+                                            title={t(tag.title)}
+                                        ></Svg>
+                                    </ActionButton>
+                                );
+                            }
                         }
-                    })}
+                    )}
                 </div>
                 <Separator styles={propertySelectorSeparatorStyles} vertical />
                 <div className={propertyInspectorStyles.propertyTagsWrapFirst}>
-                    {data.propertyTags.primitive.map((tag, i) => {
-                        if (
-                            lastPropertyFocused &&
-                            typeof lastPropertyFocused.item.schema ===
-                                'object' &&
-                            tag.complex
-                        ) {
-                            return <></>;
-                        } else {
-                            return (
+                    {propertySelectorData.propertyTags.sectionFirst.map(
+                        (tag, i) => {
+                            if (
+                                lastPropertyFocused &&
+                                typeof lastPropertyFocused.item.schema ===
+                                    'object' &&
+                                tag.complex
+                            ) {
+                                return <></>;
+                            } else {
+                                return (
+                                    <ActionButton
+                                        onClick={() => {
+                                            handleTagClick(tag.name);
+                                        }}
+                                        onKeyPress={() => {
+                                            handleTagClick(tag.name);
+                                        }}
+                                    >
+                                        <Svg
+                                            tabIndex={0}
+                                            key={i}
+                                            className={
+                                                propertyInspectorStyles.propertyTag
+                                            }
+                                            src={tag.icon}
+                                            title={t(tag.title)}
+                                        ></Svg>
+                                    </ActionButton>
+                                );
+                            }
+                        }
+                    )}
+                </div>
+                <Separator styles={propertySelectorSeparatorStyles} vertical />
+                <div className={propertyInspectorStyles.propertyTagsWrapThird}>
+                    {propertySelectorData.propertyTags.sectionThird.map(
+                        (tag, i) => (
+                            <ActionButton
+                                onClick={() => {
+                                    handleTagClick(tag.name);
+                                }}
+                                onKeyPress={() => {
+                                    handleTagClick(tag.name);
+                                }}
+                            >
                                 <Svg
                                     tabIndex={0}
                                     key={i}
                                     className={
                                         propertyInspectorStyles.propertyTag
                                     }
-                                    onClick={() => {
-                                        onTagClick(tag.name);
-                                    }}
-                                    onKeyPress={() => {
-                                        onTagClick(tag.name);
-                                    }}
                                     src={tag.icon}
-                                    title={tag.title}
+                                    title={t(tag.title)}
                                 ></Svg>
-                            );
-                        }
-                    })}
-                </div>
-                <Separator styles={propertySelectorSeparatorStyles} vertical />
-                <div className={propertyInspectorStyles.propertyTagsWrapThird}>
-                    {data.propertyTags.geoSpatial.map((tag, i) => (
-                        <Svg
-                            tabIndex={0}
-                            key={i}
-                            className={propertyInspectorStyles.propertyTag}
-                            onClick={() => {
-                                onTagClick(tag.name);
-                            }}
-                            onKeyPress={() => {
-                                onTagClick(tag.name);
-                            }}
-                            src={tag.icon}
-                            title={tag.title}
-                        ></Svg>
-                    ))}
+                            </ActionButton>
+                        )
+                    )}
                 </div>
             </Stack>
         </div>
