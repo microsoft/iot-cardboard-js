@@ -31,7 +31,6 @@ const ADT3DBuilder: React.FC<IADT3DBuilderProps> = (props) => {
         showMeshesOnHover,
         coloredMeshItems,
         showHoverOnSelected,
-        outlinedMeshItems,
         objectColorUpdated,
         hideViewModePickerUI,
         styles
@@ -77,7 +76,6 @@ const ADT3DBuilder: React.FC<IADT3DBuilderProps> = (props) => {
                         coloredMeshItems: coloredMeshItems,
                         showMeshesOnHover: showMeshesOnHover ?? true,
                         showHoverOnSelected: showHoverOnSelected,
-                        outlinedMeshitems: outlinedMeshItems,
                         getToken: (adapter as any).authService
                             ? () =>
                                   (adapter as any).authService.getToken(

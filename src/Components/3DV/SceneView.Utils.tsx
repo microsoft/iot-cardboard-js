@@ -2,6 +2,7 @@ import * as BABYLON from '@babylonjs/core/Legacy/legacy';
 import { AbstractMesh } from '@babylonjs/core/Legacy/legacy';
 import * as GUI from '@babylonjs/gui';
 import {
+    CustomMeshItem,
     Marker,
     SceneViewBadgeGroup
 } from '../../Models/Classes/SceneView.types';
@@ -167,7 +168,10 @@ export function createBadgeGroup(
     return background;
 }
 
-export function createCustomMeshItems(meshIds: string[], color: string) {
+export function createCustomMeshItems(
+    meshIds: string[],
+    color: string
+): CustomMeshItem[] {
     const items = [];
     for (const id of meshIds) {
         items.push({ meshId: id, color: color });

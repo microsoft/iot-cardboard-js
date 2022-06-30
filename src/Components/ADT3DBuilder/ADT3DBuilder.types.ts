@@ -15,7 +15,6 @@ export interface IADT3DBuilderProps {
     showMeshesOnHover?: boolean;
     coloredMeshItems?: CustomMeshItem[];
     showHoverOnSelected?: boolean;
-    outlinedMeshItems?: CustomMeshItem[];
     objectColorUpdated?: (objectColor: IADTObjectColor) => void;
     hideViewModePickerUI?: boolean;
     sceneViewProps?: ISceneViewProps;

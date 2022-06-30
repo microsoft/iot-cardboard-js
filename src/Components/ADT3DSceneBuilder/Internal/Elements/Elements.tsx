@@ -33,6 +33,8 @@ import PanelFooter from '../Shared/PanelFooter';
 import { IADTObjectColor } from '../../../../Models/Constants';
 import { deepCopy } from '../../../../Models/Services/Utils';
 import IllustrationMessage from '../../../IllustrationMessage/IllustrationMessage';
+import { useSceneViewContext } from '../../../../Models/Context/SceneViewContext/SceneViewContext';
+import { SceneViewContextActionType } from '../../../../Models/Context/SceneViewContext/SceneViewContext.types';
 
 const sortElements = (elements: ITwinToObjectMapping[]) => {
     return elements?.sort((a, b) => (a.displayName > b.displayName ? 1 : -1));
@@ -73,13 +75,10 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
         elementToDelete,
         setElementToDelete
     ] = useState<ITwinToObjectMapping>(undefined);
-    const {
-        adapter,
-        config,
-        sceneId,
-        setOutlinedMeshItems,
-        objectColor
-    } = useContext(SceneBuilderContext);
+    const { adapter, config, sceneId, objectColor } = useContext(
+        SceneBuilderContext
+    );
+    const { sceneViewDispatch } = useSceneViewContext();
 
     const [isSelectionEnabled, setIsSelectionEnabled] = useState(
         isEditBehavior || false
@@ -124,6 +123,16 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
         });
         onRemoveElement(newElements);
     };
+
+    const setOutlinedMeshItems = useCallback(
+        (outlinedMeshItems: CustomMeshItem[]) => {
+            sceneViewDispatch({
+                payload: { outlinedMeshItems: outlinedMeshItems },
+                type: SceneViewContextActionType.SET_OUTLINED_MESH_ITEMS
+            });
+        },
+        []
+    );
 
     useEffect(() => {
         let outlinedMeshes = [];

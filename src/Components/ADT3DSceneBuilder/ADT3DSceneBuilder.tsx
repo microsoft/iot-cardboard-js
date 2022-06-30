@@ -33,7 +33,6 @@ import {
     SET_ADT_SCENE_ELEMENT_SELECTED_OBJECT_IDS,
     SET_ADT_SCENE_OBJECT_COLOR,
     SET_IS_LAYER_BUILDER_DIALOG_OPEN,
-    SET_MESH_IDS_TO_OUTLINE,
     SET_REVERT_TO_HOVER_COLOR,
     SET_BEHAVIOR_TWIN_ALIAS_FORM_INFO,
     SET_ELEMENT_TWIN_ALIAS_FORM_INFO,
@@ -86,6 +85,11 @@ import { DeeplinkContextActionType } from '../../Models/Context/DeeplinkContext/
 import { getStyles } from './ADT3DSceneBuilder.styles';
 import SceneLayers from './Internal/SceneLayers/SceneLayers';
 import { SceneThemeContextProvider } from '../../Models/Context';
+import {
+    SceneViewContextProvider,
+    useSceneViewContext
+} from '../../Models/Context/SceneViewContext/SceneViewContext';
+import { SceneViewContextActionType } from '../../Models/Context/SceneViewContext/SceneViewContext.types';
 
 const contextMenuStyles = mergeStyleSets({
     header: {
@@ -124,6 +128,7 @@ const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
     // hooks
     const { t } = useTranslation();
     const { deeplinkState, deeplinkDispatch } = useDeeplinkContext();
+    const { sceneViewDispatch } = useSceneViewContext();
     const fluentTheme = useTheme();
     const [state, dispatch] = useReducer(
         ADT3DSceneBuilderReducer,
@@ -269,10 +274,10 @@ const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
     );
 
     const setOutlinedMeshItems = useCallback(
-        (outlinedMeshItems: Array<CustomMeshItem>) => {
-            dispatch({
-                type: SET_MESH_IDS_TO_OUTLINE,
-                payload: outlinedMeshItems
+        (outlinedMeshItems: CustomMeshItem[]) => {
+            sceneViewDispatch({
+                payload: { outlinedMeshItems: outlinedMeshItems },
+                type: SceneViewContextActionType.SET_OUTLINED_MESH_ITEMS
             });
         },
         []
@@ -802,7 +807,6 @@ const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
                 setColoredMeshItems,
                 setElementTwinAliasFormInfo,
                 setIsLayerBuilderDialogOpen,
-                setOutlinedMeshItems,
                 setUnsavedBehaviorChangesDialogOpen,
                 setUnsavedChangesDialogDiscardAction,
                 setWidgetFormInfo,
@@ -835,7 +839,6 @@ const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
                             onMeshClicked={onMeshClicked}
                             onMeshHovered={onMeshHovered}
                             sceneViewProps={sceneViewProps}
-                            outlinedMeshItems={state.outlinedMeshItems}
                             showHoverOnSelected={state.showHoverOnSelected}
                             coloredMeshItems={state.coloredMeshItems}
                             showMeshesOnHover={state.enableHoverOnModel}
@@ -915,7 +918,9 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = (props) => {
     return (
         <DeeplinkContextProvider>
             <SceneThemeContextProvider>
-                <ADT3DSceneBuilderBase {...props} />
+                <SceneViewContextProvider outlinedMeshItems={[]}>
+                    <ADT3DSceneBuilderBase {...props} />
+                </SceneViewContextProvider>
             </SceneThemeContextProvider>
         </DeeplinkContextProvider>
     );
