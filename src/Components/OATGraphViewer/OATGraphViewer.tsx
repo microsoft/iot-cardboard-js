@@ -654,11 +654,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                     context: contextClassBase
                 }
             };
-            const positionedElements = applyLayoutToElements([
-                ...elements,
-                newNode
-            ]);
-            setElements(positionedElements);
+            setElements([...elements, newNode]);
 
             // Center pane focus on the new node
             const positionedX =
