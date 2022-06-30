@@ -52,8 +52,15 @@ import { ElementData } from './Internal/Classes/ElementData';
 import { ElementEdge } from './Internal/Classes/ElementEdge';
 import { ElementEdgeData } from './Internal/Classes/ElementEdgeData';
 import { deepCopy } from '../../Models/Services/Utils';
+import {
+    forceSimulation,
+    forceLink,
+    forceX,
+    forceY,
+    forceCenter,
+    forceCollide
+} from 'd3-force';
 import { Position } from '../../Pages/OATEditorPage/Internal/Types';
-import { ReactFlowRefType } from 'react-flow-renderer/dist/container/ReactFlow';
 import { ConnectionParams } from './Internal/Classes/ConnectionParams';
 
 const contextClassBase = 'dtmi:dtdl:context;2';
@@ -263,48 +270,64 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     const [rfInstance, setRfInstance] = useState(null);
     const [currentLocation, setCurrentLocation] = useState(null);
 
-    const dagreGraph = new dagre.graphlib.Graph();
-    dagreGraph.setDefaultEdgeLabel(() => ({}));
-
-    const applyLayoutToElements = (
-        elements: ElementNode[],
-        direction = 'TB'
-    ) => {
-        const isHorizontal = direction === 'LR';
-        dagreGraph.setGraph({ rankdir: direction });
-
-        elements.forEach((el) => {
-            if (isNode(el)) {
-                dagreGraph.setNode(el.id, {
-                    width: nodeWidth,
-                    height: nodeHeight
+    const applyLayoutToElements = (elements) => {
+        const nodes = elements.reduce((collection, element) => {
+            if (!element.source) {
+                collection.push({
+                    id: element.id,
+                    x: element.position.x + nodeWidth / 2,
+                    y: element.position.y + nodeHeight / 2
                 });
-            } else {
-                dagreGraph.setEdge(el.source, el.target);
             }
-        });
+            return collection;
+        }, []);
 
-        dagre.layout(dagreGraph);
-
-        return elements.map((el) => {
-            if (isNode(el)) {
-                const nodeWithPosition = dagreGraph.node(el.id);
-                el.targetPosition = isHorizontal ? 'left' : 'top';
-                el.sourcePosition = isHorizontal ? 'right' : 'bottom';
-
-                el.position = {
-                    x:
-                        nodeWithPosition.x -
-                        nodeWidth / 2 +
-                        // unfortunately we need this little hack to pass a slightly different position
-                        // to notify react flow about the change. Its required for V9 only and migth be removed later.
-                        Math.random() / 1000,
-                    y: nodeWithPosition.y - nodeHeight / 2
-                };
+        const links = elements.reduce((collection, element) => {
+            if (element.source) {
+                collection.push({
+                    source: element.source,
+                    target: element.target
+                });
             }
+            return collection;
+        }, []);
 
-            return el;
-        });
+        forceSimulation(nodes)
+            .force(
+                'link',
+                forceLink(links)
+                    .id((d) => d.id)
+                    .distance(nodeWidth)
+                    .strength(1)
+            )
+            .force(
+                'collide',
+                forceCollide()
+                    .radius(nodeWidth / 2)
+                    .strength(1)
+            )
+            .force('x', forceX())
+            .force('y', forceY())
+            .force('center', forceCenter())
+            .on('end', () => {
+                const newElements = elements.map((element) => {
+                    const node = nodes.find(
+                        (node) => !element.source && node.id === element.id
+                    );
+
+                    const newElement = { ...element };
+                    if (node) {
+                        newElement.position = {
+                            x: node.x - nodeWidth / 2 + Math.random() / 1000,
+                            y: node.y - nodeHeight / 2
+                        };
+                    }
+
+                    return newElement;
+                });
+
+                setElements(newElements);
+            });
     };
 
     useEffect(() => {
@@ -478,11 +501,8 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                 );
                 importModelsList.push(newNode, ...relationships);
             });
-            const positionedElements = applyLayoutToElements([
-                ...importModelsList
-            ]);
-            setElements(positionedElements);
         }
+        applyLayoutToElements([...importModelsList]);
     }, [importModels]);
 
     useEffect(() => {
