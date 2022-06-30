@@ -9,7 +9,9 @@ import {
     ChoiceGroup,
     IconButton,
     Dropdown,
-    IChoiceGroupOption
+    IChoiceGroupOption,
+    MessageBar,
+    MessageBarType
 } from '@fluentui/react';
 import { PrimaryButton } from '@fluentui/react/lib/Button';
 import { useTranslation } from 'react-i18next';
@@ -309,13 +311,12 @@ export const FormUpdateProperty = ({
     }, [multiLanguageSelectionsDescription]);
 
     const getIdErrorMessage = () => {
-        const idWarn = idWarning ? t('OATPropertyEditor.warningId') : '';
         const idError = idLengthError
             ? t('OATPropertyEditor.errorIdLength')
             : idValidDTMIError
             ? t('OATPropertyEditor.errorIdValidDTMI')
             : '';
-        return `${idWarn} ${idError}`;
+        return idError;
     };
 
     return (
@@ -686,6 +687,15 @@ export const FormUpdateProperty = ({
                     }
                 />
             </div>
+
+            {idWarning && (
+                <MessageBar
+                    messageBarType={MessageBarType.warning}
+                    isMultiline={false}
+                >
+                    {t('OATPropertyEditor.warningId')}
+                </MessageBar>
+            )}
         </>
     );
 };

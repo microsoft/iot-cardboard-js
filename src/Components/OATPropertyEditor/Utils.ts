@@ -262,8 +262,13 @@ export const validateIdChange = (
     } else {
         setIdErrorLength(true);
     }
-
     if (setIdWarning && value.length > 0) {
         setIdWarning(true);
+    } else {
+        setIdWarning(false);
+    }
+    if (value.length === 0) {
+        setIdValidDTMIError(false);
+        setIdErrorLength(false);
     }
 };
