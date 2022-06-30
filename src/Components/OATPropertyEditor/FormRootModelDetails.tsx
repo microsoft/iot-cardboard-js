@@ -24,7 +24,11 @@ import {
 } from '../../Models/Constants/ActionTypes';
 import { IAction } from '../../Models/Constants/Interfaces';
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
-import { deepCopy } from '../../Models/Services/Utils';
+import {
+    deepCopy,
+    getDirectoryPathFromDTMI,
+    getFileNameFromDTMI
+} from '../../Models/Services/Utils';
 import { MultiLanguageSelectionType } from '../../Models/Constants/Enums';
 import {
     handleCommentChange,
@@ -253,7 +257,6 @@ export const FormUpdateProperty = ({
                 setDirectoryPath(modelMetadata.directoryPath);
                 return true;
             }
-            return false;
         }
         return false;
     };
@@ -264,19 +267,9 @@ export const FormUpdateProperty = ({
             if (storedData) {
                 return;
             }
-            // Get id path - Get section between last ":" and ";"
-            const idPath = id.substring(
-                id.lastIndexOf(':') + 1,
-                id.lastIndexOf(';')
-            );
-            const idVersion = id.substring(id.lastIndexOf(';') + 1, id.length);
 
-            let scheme = id.substring(id.indexOf(':') + 1, id.lastIndexOf(':'));
-            // Scheme - replace ":" with "\"
-            scheme = scheme.replace(':', '\\');
-
-            setFileName(`${idPath}-${idVersion}`);
-            setDirectoryPath(scheme);
+            setFileName(getFileNameFromDTMI(id));
+            setDirectoryPath(getDirectoryPathFromDTMI(id));
         }
     }, [id]);
 

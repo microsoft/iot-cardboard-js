@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { CommandBar, ICommandBarItemProps } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { getHeaderStyles } from './OATHeader.styles';
@@ -20,7 +20,12 @@ import {
 } from '../../Models/Constants';
 import { IAction } from '../../Models/Constants/Interfaces';
 import { SET_OAT_IMPORT_MODELS } from '../../Models/Constants/ActionTypes';
-import { deepCopy, parseModel } from '../../Models/Services/Utils';
+import {
+    deepCopy,
+    getDirectoryPathFromDTMI,
+    getFileNameFromDTMI,
+    parseModel
+} from '../../Models/Services/Utils';
 
 const ID_FILE = 'file';
 
@@ -73,29 +78,12 @@ const OATHeader = ({ elements, dispatch, state }: OATHeaderProps) => {
 
             // If fileName or directoryPath are null, generate values from id
             if (!fileName || !directoryPath) {
-                // Get id path - Get section between last ":" and ";"
-                const idPath = id.substring(
-                    id.lastIndexOf(':') + 1,
-                    id.lastIndexOf(';')
-                );
-                const idVersion = id.substring(
-                    id.lastIndexOf(';') + 1,
-                    id.length
-                );
-
-                let scheme = id.substring(
-                    id.indexOf(':') + 1,
-                    id.lastIndexOf(':')
-                );
-                // Scheme - replace ":" with "\"
-                scheme = scheme.replace(':', '\\');
-
                 if (!fileName) {
-                    fileName = `${idPath}-${idVersion}`;
+                    fileName = getFileNameFromDTMI(id);
                 }
 
                 if (!directoryPath) {
-                    directoryPath = scheme;
+                    directoryPath = getDirectoryPathFromDTMI(id);
                 }
             }
 
@@ -126,14 +114,6 @@ const OATHeader = ({ elements, dispatch, state }: OATHeaderProps) => {
     const onImportClick = () => {
         uploadInputRef.current.click();
     };
-
-    useEffect(() => {
-        if (uploadInputRef.current) {
-            // Add webkitdirectory and attributes to input element
-            uploadInputRef.current.setAttribute('webkitdirectory', '');
-            uploadInputRef.current.setAttribute('mozdirectory', '');
-        }
-    }, [uploadInputRef]);
 
     const items: ICommandBarItemProps[] = [
         {
@@ -252,6 +232,18 @@ const OATHeader = ({ elements, dispatch, state }: OATHeaderProps) => {
         return metaDataCopy;
     };
 
+    const onFilesChange = (e) => {
+        const reader = new FileReader();
+        reader.onload = () => {
+            const files = [];
+            for (const file of uploadInputRef.current.files) {
+                files.push(file);
+            }
+            onFilesUpload(files);
+        };
+        reader.readAsDataURL(e.target.files[0]);
+    };
+
     const handleFileListChanged = async (files: Array<File>) => {
         const items = [];
         if (files.length > 0) {
@@ -312,18 +304,9 @@ const OATHeader = ({ elements, dispatch, state }: OATHeaderProps) => {
                         type="file"
                         ref={uploadInputRef}
                         className={headerStyles.uploadDirectoryInput}
-                        onChange={(e) => {
-                            const reader = new FileReader();
-                            reader.onload = () => {
-                                const files = [];
-                                for (const file of uploadInputRef.current
-                                    .files) {
-                                    files.push(file);
-                                }
-                                onFilesUpload(files);
-                            };
-                            reader.readAsDataURL(e.target.files[0]);
-                        }}
+                        webkitdirectory={''}
+                        mozdirectory={''}
+                        onChange={onFilesChange}
                     />
                     <CommandBar items={items} />
                     {subMenuActive && (

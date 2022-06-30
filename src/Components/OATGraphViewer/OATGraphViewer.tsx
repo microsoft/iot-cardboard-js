@@ -362,7 +362,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                 );
                 node.id = newId;
                 node.data.id = newId;
-                node.data.name = model['displayName'];
+                node.data.name = model.displayName;
                 node.data.content = propertyItems;
                 node.data.fileName = model.fileName;
                 setElements([...elements]);
