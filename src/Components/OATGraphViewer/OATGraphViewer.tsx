@@ -39,7 +39,8 @@ import { ElementsContext } from './Internal/OATContext';
 import {
     SET_OAT_PROPERTY_EDITOR_MODEL,
     SET_OAT_MODELS,
-    SET_OAT_MODELS_POSITIONS
+    SET_OAT_MODELS_POSITIONS,
+    SET_OAT_ERROR
 } from '../../Models/Constants/ActionTypes';
 import {
     IAction,
@@ -204,21 +205,24 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                     contents = [...contents, content];
                 }
             });
-            if (input['extends']) {
-                const extendRelationship = new ElementEdge(
-                    `${input['@id']}${OATExtendHandleName}${input['extends']}`,
-                    OATRelationshipHandleName,
-                    input['@id'],
-                    OATExtendHandleName,
-                    input['extends'],
-                    new ElementEdgeData(
-                        `${input['@id']}${OATExtendHandleName}${input['extends']}`,
-                        '',
-                        '',
-                        OATExtendHandleName
-                    )
-                );
-                relationships = [...relationships, extendRelationship];
+            if (input.extends) {
+                input.extends.forEach((extend) => {
+                    const relationship = new ElementEdge(
+                        `${input['@id']}${OATExtendHandleName}${extend}`,
+                        OATRelationshipHandleName,
+                        input['@id'],
+                        OATExtendHandleName,
+                        extend,
+                        new ElementEdgeData(
+                            `${input['@id']}${OATExtendHandleName}${extend}`,
+                            '',
+                            '',
+                            OATExtendHandleName
+                        )
+                    );
+                    relationships = [...relationships, relationship];
+                });
+                //
             }
 
             const mp = modelPositions.find((x) => x.id === input['@id']);
@@ -834,6 +838,11 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                     }
                 };
                 params.target = id;
+                // if (currentHandleIdRef.current === OATExtendHandleName) {
+                //     // params.target = params.source;
+                //     // params.source = id;
+                // console.log()
+                // }
                 params.id = `${idClassBase}${OATRelationshipHandleName}${getNextRelationshipAmount(
                     elements
                 )};${versionClassBase}`;
@@ -866,6 +875,16 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
         dispatch({
             type: SET_OAT_MODELS_POSITIONS,
             payload: nodePositions
+        });
+    };
+
+    const triggerInheritanceLimitError = () => {
+        dispatch({
+            type: SET_OAT_ERROR,
+            payload: {
+                title: t('OATGraphViewer.errorReachedInheritanceLimit'),
+                message: t('OATGraphViewer.errorInheritance')
+            }
         });
     };
 
@@ -908,7 +927,16 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                 const sourceNode = currentNodes.find(
                     (element) => element['@id'] === currentNode.source
                 );
-                sourceNode.extends = currentNode.target;
+                if (typeof sourceNode !== 'undefined' && sourceNode.extends) {
+                    if (sourceNode.extends.length < 2) {
+                        sourceNode.extends.push(currentNode.target);
+                    } else {
+                        triggerInheritanceLimitError();
+                    }
+                } else {
+                    sourceNode.extends = [];
+                    sourceNode.extends.push(currentNode.target);
+                }
             } else if (currentNode.data.type === OATComponentHandleName) {
                 const sourceNode = currentNodes.find(
                     (element) => element['@id'] === currentNode.source
