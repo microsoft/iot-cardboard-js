@@ -92,7 +92,7 @@ export const getPropertyInspectorStyles = () => {
             {
                 width: '100%',
                 backgroundColor: theme.semanticColors.listBackground,
-                '& [role="tabpanel"]': {
+                '[role="tabpanel"]': {
                     height: `calc(100% - ${OATEditorPivotContentHeightAdjustment}px)`
                 },
                 zIndex: '201'
@@ -186,9 +186,22 @@ export const getPropertyInspectorStyles = () => {
                 position: 'relative',
                 width: 'fit-content',
                 height: 'fit-content',
-                '& button': {
+                button: {
                     height: 'fit-content',
-                    paddingLeft: '10px'
+                    display: 'flex',
+                    alignItems: 'center',
+                    padding: '0',
+                    span: {
+                        display: 'flex',
+                        alignItems: 'center',
+                        pointerEvents: 'none',
+                        i: {
+                            pointerEvents: 'none'
+                        }
+                    }
+                },
+                ':hover': {
+                    cursor: 'pointer'
                 }
             }
         ],
@@ -309,13 +322,13 @@ export const getPropertyInspectorStyles = () => {
                         theme.semanticColors.buttonBackgroundPressed,
                     cursor: 'pointer'
                 },
-                '& path': {
+                path: {
                     fill: theme.semanticColors.menuItemText
                 },
-                '& circle': {
+                circle: {
                     stroke: theme.semanticColors.menuItemText
                 },
-                '& line': {
+                line: {
                     stroke: theme.semanticColors.menuItemText
                 }
             } as IStyle
@@ -364,7 +377,7 @@ export const getPropertyInspectorStyles = () => {
                 padding: '12px 8px',
                 cursor: 'grab',
                 borderBottom: `1px solid ${theme.semanticColors.menuIcon}`,
-                '& *': {
+                '*': {
                     opacity: 0
                 }
             } as IStyle
@@ -453,7 +466,7 @@ export const getPropertyInspectorStyles = () => {
                 alignItems: 'center',
                 padding: '12px 8px',
                 borderBottom: `1px solid ${theme.semanticColors.menuIcon}`,
-                '& >*': {
+                '>*': {
                     opacity: 0
                 }
             } as IStyle
@@ -554,7 +567,7 @@ export const getPropertyInspectorStyles = () => {
                 ':hover': {
                     backgroundColor: theme.semanticColors.menuIcon
                 },
-                '& button': {
+                button: {
                     height: 'fit-content',
                     position: 'absolute'
                 }
@@ -618,7 +631,7 @@ export const getPropertyInspectorStyles = () => {
                 gridTemplateColumns: '35% 65%',
                 alignItems: 'center',
                 marginBottom: '15px',
-                '& div:not(:last-of-type)': {
+                'div:not(:last-of-type)': {
                     marginRight: '10px'
                 }
             } as IStyle
@@ -630,7 +643,7 @@ export const getPropertyInspectorStyles = () => {
                 gridTemplateColumns: '8% 27% 65%',
                 alignItems: 'center',
                 marginBottom: '15px',
-                '& div:not(:last-of-type)': {
+                'div:not(:last-of-type)': {
                     marginRight: '10px'
                 }
             } as IStyle
@@ -643,7 +656,7 @@ export const getPropertyInspectorStyles = () => {
                 alignItems: 'center',
                 marginBottom: '15px',
                 width: '100%',
-                '& button:not(:last-of-type)': {
+                'button:not(:last-of-type)': {
                     marginRight: '10px'
                 }
             } as IStyle
@@ -865,10 +878,10 @@ export const getModalLabelStyles: IStyle = () => {
 export const getRadioGroupRowStyles: IStyle = () => {
     return {
         root: {
-            '& .ms-ChoiceFieldGroup-flexContainer': {
+            '.ms-ChoiceFieldGroup-flexContainer': {
                 display: 'flex',
                 justifyContent: 'flex-end',
-                '& div:not(:last-of-type)': {
+                'div:not(:last-of-type)': {
                     marginRight: '10px'
                 }
             }

@@ -963,6 +963,26 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     }, [elements]);
 
     useEffect(() => {
+        // If there is a model find it on translatedOutput
+        if (model) {
+            const updatedModel = translatedOutput.find(
+                (element) => element['@id'] === model['@id']
+            );
+
+            // Update if current model is outdated
+            if (
+                updatedModel &&
+                JSON.stringify(model) !== JSON.stringify(updatedModel)
+            ) {
+                dispatch({
+                    type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                    payload: updatedModel
+                });
+            }
+        }
+    }, [translatedOutput]);
+
+    useEffect(() => {
         dispatch({
             type: SET_OAT_MODELS,
             payload: translatedOutput
