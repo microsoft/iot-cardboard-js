@@ -68,6 +68,7 @@ type OATGraphProps = {
 
 const nodeWidth = 300;
 const nodeHeight = 100;
+const maxInheritanceQuantity = 2;
 
 const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     const {
@@ -927,7 +928,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                     (element) => element['@id'] === currentNode.source
                 );
                 if (typeof sourceNode !== 'undefined' && sourceNode.extends) {
-                    if (sourceNode.extends.length < 2) {
+                    if (sourceNode.extends.length < maxInheritanceQuantity) {
                         sourceNode.extends.push(currentNode.target);
                     } else {
                         triggerInheritanceLimitError();
