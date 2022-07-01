@@ -881,7 +881,8 @@
     "errorInvalidJSON": "無効な JSON",
     "addToPropertyList": "プロパティリストに追加",
     "moveDown": "下へ移動",
-    "moveUp": "上へ移動"
+    "moveUp": "上へ移動",
+    "warningId": "ID に値を指定することは、プロパティにはお勧めしません。"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "エラーメッセージ",

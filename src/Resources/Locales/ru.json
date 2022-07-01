@@ -881,7 +881,8 @@
     "errorInvalidJSON": "Недопустимый JSON",
     "addToPropertyList": "Добавить в список свойств",
     "moveDown": "Перемещение вниз",
-    "moveUp": "Придвигаться"
+    "moveUp": "Придвигаться",
+    "warningId": "Наличие значения id не рекомендуется для свойств."
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Сообщение об ошибке",

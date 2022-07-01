@@ -881,7 +881,8 @@
     "errorInvalidJSON": "Érvénytelen JSON",
     "addToPropertyList": "Hozzáadás a tulajdonlistához",
     "moveDown": "Lejjebb lépés",
-    "moveUp": "Feljebb lépés"
+    "moveUp": "Feljebb lépés",
+    "warningId": "Az azonosítóhoz tartozó érték nem ajánlott a tulajdonságokhoz."
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Hibaüzenet",

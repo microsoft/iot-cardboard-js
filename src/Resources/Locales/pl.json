@@ -881,7 +881,8 @@
     "errorInvalidJSON": "Nieprawidłowy kod JSON",
     "addToPropertyList": "Dodaj do listy właściwości",
     "moveDown": "Przechodzenie w dół",
-    "moveUp": "Przenieś się w górę"
+    "moveUp": "Przenieś się w górę",
+    "warningId": "Posiadanie wartości ID nie jest zalecane w przypadku właściwości."
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Komunikat o błędzie",

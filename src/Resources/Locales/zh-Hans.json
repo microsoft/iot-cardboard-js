@@ -881,7 +881,8 @@
     "errorInvalidJSON": "无效的 JSON",
     "addToPropertyList": "添加到属性列表",
     "moveDown": "下移",
-    "moveUp": "上升"
+    "moveUp": "上升",
+    "warningId": "不建议对属性使用 ID 值。"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "错误信息",

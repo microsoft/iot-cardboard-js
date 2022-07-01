@@ -881,7 +881,8 @@
     "errorInvalidJSON": "Geçersiz JSON",
     "addToPropertyList": "Özellik listesine ekle",
     "moveDown": "Aşağı taşı",
-    "moveUp": "Yukarı Taşı"
+    "moveUp": "Yukarı Taşı",
+    "warningId": "Mülkler için ID için bir değere sahip olmanız önerilmez."
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Hata mesajı",

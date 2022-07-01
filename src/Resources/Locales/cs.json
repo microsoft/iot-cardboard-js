@@ -881,7 +881,8 @@
     "errorInvalidJSON": "Neplatný JSON",
     "addToPropertyList": "Přidat do seznamu vlastností",
     "moveDown": "Posunout dolů",
-    "moveUp": "Povýšit"
+    "moveUp": "Povýšit",
+    "warningId": "Mít hodnotu pro ID se nedoporučuje pro vlastnosti."
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Zpráva o chybě",

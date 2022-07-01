@@ -881,7 +881,8 @@
     "errorInvalidJSON": "Ogiltig JSON",
     "addToPropertyList": "Lägg till i egenskapslistan",
     "moveDown": "Flytta ner",
-    "moveUp": "Flytta upp"
+    "moveUp": "Flytta upp",
+    "warningId": "Att ha ett värde för ID rekommenderas inte för egenskaper."
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Felmeddelande",

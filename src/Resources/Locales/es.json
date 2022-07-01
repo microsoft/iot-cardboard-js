@@ -881,7 +881,8 @@
     "errorInvalidJSON": "JSON no válido",
     "addToPropertyList": "Agregar a la lista de propiedades",
     "moveDown": "Desplazar hacia abajo",
-    "moveUp": "Desplazar hacia arriba"
+    "moveUp": "Desplazar hacia arriba",
+    "warningId": "No se recomienda tener un valor para ID para las propiedades."
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Mensaje de error",
