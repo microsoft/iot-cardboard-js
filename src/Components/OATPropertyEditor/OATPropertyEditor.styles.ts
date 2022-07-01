@@ -69,7 +69,8 @@ const classNames = {
     modalTexField: `${classPrefix}-modal-tex-field`,
     booleanIcon: `${classPrefix}-boolean-icon`,
     button: `${classPrefix}-button`,
-    typeTextField: `${classPrefix}-type-text-field`
+    typeTextField: `${classPrefix}-type-text-field`,
+    regionButton: `${classPrefix}-region-button`
 };
 
 const OATEditorPivotContentHeightAdjustment = 82;
@@ -689,6 +690,12 @@ export const getPropertyInspectorStyles = () => {
                 marginLeft: '10px',
                 height: '38px',
                 paddingTop: '12px'
+            } as IStyle
+        ],
+        regionButton: [
+            classNames.regionButton,
+            {
+                marginLeft: '30px'
             } as IStyle
         ]
     });
