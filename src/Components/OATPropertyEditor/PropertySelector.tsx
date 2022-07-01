@@ -197,9 +197,6 @@ const PropertySelector = ({
             ...modelCopy[propertiesKeyName],
             ...[
                 {
-                    '@id': `dtmi:com:adt:model1:New_Property_${
-                        model[propertiesKeyName].length + 1
-                    }`,
                     '@type': ['property'],
                     name: `New_Property_${model[propertiesKeyName].length + 1}`,
                     schema: getSchema(tag)
@@ -298,10 +295,10 @@ const PropertySelector = ({
                                 return (
                                     <ActionButton
                                         onClick={() => {
-                                            handleTagClick(tag.name);
+                                            onTagClick(tag.name);
                                         }}
                                         onKeyPress={() => {
-                                            handleTagClick(tag.name);
+                                            onTagClick(tag.name);
                                         }}
                                     >
                                         <Svg
@@ -334,10 +331,10 @@ const PropertySelector = ({
                                 return (
                                     <ActionButton
                                         onClick={() => {
-                                            handleTagClick(tag.name);
+                                            onTagClick(tag.name);
                                         }}
                                         onKeyPress={() => {
-                                            handleTagClick(tag.name);
+                                            onTagClick(tag.name);
                                         }}
                                     >
                                         <Svg
@@ -361,10 +358,10 @@ const PropertySelector = ({
                         (tag, i) => (
                             <ActionButton
                                 onClick={() => {
-                                    handleTagClick(tag.name);
+                                    onTagClick(tag.name);
                                 }}
                                 onKeyPress={() => {
-                                    handleTagClick(tag.name);
+                                    onTagClick(tag.name);
                                 }}
                             >
                                 <Svg

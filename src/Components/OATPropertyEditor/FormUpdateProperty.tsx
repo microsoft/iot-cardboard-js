@@ -10,7 +10,9 @@ import {
     ChoiceGroup,
     IconButton,
     Dropdown,
-    IChoiceGroupOption
+    IChoiceGroupOption,
+    MessageBar,
+    MessageBarType
 } from '@fluentui/react';
 import { PrimaryButton } from '@fluentui/react/lib/Button';
 import { useTranslation } from 'react-i18next';
@@ -27,15 +29,15 @@ import { MultiLanguageSelectionType } from '../../Models/Constants/Enums';
 import {
     getModelPropertyCollectionName,
     getModelPropertyListItemName,
-    handleCommentChange,
-    handleDescriptionChange,
-    handleDisplayNameChange,
-    handleIdChange,
-    handleMultiLanguageSelectionRemoval,
-    handleMultiLanguageSelectionsDescriptionKeyChange,
-    handleMultiLanguageSelectionsDescriptionValueChange,
-    handleMultiLanguageSelectionsDisplayNameKeyChange,
-    handleMultiLanguageSelectionsDisplayNameValueChange
+    validateCommentChange,
+    validateDescriptionChange,
+    validateDisplayNameChange,
+    validateIdChange,
+    setMultiLanguageSelectionRemoval,
+    setMultiLanguageSelectionsDescriptionKey,
+    validateMultiLanguageSelectionsDescriptionValueChange,
+    setMultiLanguageSelectionsDisplayNameKey,
+    setMultiLanguageSelectionsDisplayNameValue
 } from './Utils';
 const multiLanguageOptionValue = 'multiLanguage';
 const singleLanguageOptionValue = 'singleLanguage';
@@ -143,6 +145,7 @@ export const FormUpdateProperty = ({
     const [displayNameError, setDisplayNameError] = useState(null);
     const [idLengthError, setIdLengthError] = useState(null);
     const [idValidDTMIError, setIdValidDTMIError] = useState(null);
+    const [idWarning, setIdWarning] = useState(null);
 
     const options: IChoiceGroupOption[] = [
         {
@@ -333,11 +336,12 @@ export const FormUpdateProperty = ({
     }, [multiLanguageSelectionsDescription]);
 
     const getIdErrorMessage = () => {
-        return idLengthError
+        const idError = idLengthError
             ? t('OATPropertyEditor.errorIdLength')
             : idValidDTMIError
             ? t('OATPropertyEditor.errorIdValidDTMI')
             : '';
+        return idError;
     };
 
     return (
@@ -364,25 +368,6 @@ export const FormUpdateProperty = ({
 
             <div className={propertyInspectorStyles.modalRow}>
                 <Text styles={columnLeftTextStyles}>
-                    {t('OATPropertyEditor.id')}
-                </Text>
-                <TextField
-                    placeholder={t('OATPropertyEditor.id')}
-                    onChange={(_ev, value) =>
-                        handleIdChange(
-                            value,
-                            setId,
-                            setIdLengthError,
-                            setIdValidDTMIError
-                        )
-                    }
-                    errorMessage={getIdErrorMessage()}
-                    value={id}
-                />
-            </div>
-
-            <div className={propertyInspectorStyles.modalRow}>
-                <Text styles={columnLeftTextStyles}>
                     {t('OATPropertyEditor.displayName')}
                 </Text>
                 <ChoiceGroup
@@ -404,7 +389,7 @@ export const FormUpdateProperty = ({
                         value={displayName}
                         validateOnFocusOut
                         onChange={(e, v) =>
-                            handleDisplayNameChange(
+                            validateDisplayNameChange(
                                 v,
                                 setDisplayName,
                                 setDisplayNameError
@@ -433,7 +418,7 @@ export const FormUpdateProperty = ({
                             title={t('OATPropertyEditor.delete')}
                             ariaLabel={t('OATPropertyEditor.delete')}
                             onClick={() =>
-                                handleMultiLanguageSelectionRemoval(
+                                setMultiLanguageSelectionRemoval(
                                     index,
                                     MultiLanguageSelectionType.displayName,
                                     multiLanguageSelectionsDisplayName,
@@ -451,7 +436,7 @@ export const FormUpdateProperty = ({
                             placeholder={t('OATPropertyEditor.region')}
                             options={languages}
                             onChange={(_ev, option) =>
-                                handleMultiLanguageSelectionsDisplayNameKeyChange(
+                                setMultiLanguageSelectionsDisplayNameKey(
                                     option.key,
                                     index,
                                     multiLanguageSelectionsDisplayName,
@@ -464,7 +449,7 @@ export const FormUpdateProperty = ({
                             placeholder={t('OATPropertyEditor.displayName')}
                             value={language.value}
                             onChange={(_ev, value) =>
-                                handleMultiLanguageSelectionsDisplayNameValueChange(
+                                setMultiLanguageSelectionsDisplayNameValue(
                                     value,
                                     index,
                                     multiLanguageSelectionsDisplayNames,
@@ -486,7 +471,7 @@ export const FormUpdateProperty = ({
                 ))}
 
             {languageSelection === multiLanguageOptionValue && (
-                <div className={propertyInspectorStyles.modalRow}>
+                <div className={propertyInspectorStyles.regionButton}>
                     <ActionButton
                         disabled={
                             isAMultiLanguageDisplayNameEmpty &&
@@ -542,7 +527,7 @@ export const FormUpdateProperty = ({
                             'OATPropertyEditor.modalTextInputPlaceHolderDescription'
                         )}
                         onChange={(_ev, value) =>
-                            handleDescriptionChange(
+                            validateDescriptionChange(
                                 value,
                                 setDescription,
                                 setDescriptionError
@@ -572,7 +557,7 @@ export const FormUpdateProperty = ({
                             title={t('OATPropertyEditor.delete')}
                             ariaLabel={t('OATPropertyEditor.delete')}
                             onClick={() =>
-                                handleMultiLanguageSelectionRemoval(
+                                setMultiLanguageSelectionRemoval(
                                     index,
                                     MultiLanguageSelectionType.description,
                                     multiLanguageSelectionsDisplayName,
@@ -590,7 +575,7 @@ export const FormUpdateProperty = ({
                             placeholder={t('OATPropertyEditor.region')}
                             options={languages}
                             onChange={(_ev, option) =>
-                                handleMultiLanguageSelectionsDescriptionKeyChange(
+                                setMultiLanguageSelectionsDescriptionKey(
                                     option.key,
                                     index,
                                     multiLanguageSelectionsDescription,
@@ -603,7 +588,7 @@ export const FormUpdateProperty = ({
                             placeholder={t('OATPropertyEditor.description')}
                             value={language.value}
                             onChange={(_ev, value) =>
-                                handleMultiLanguageSelectionsDescriptionValueChange(
+                                validateMultiLanguageSelectionsDescriptionValueChange(
                                     value,
                                     index,
                                     multiLanguageSelectionsDescription,
@@ -625,7 +610,7 @@ export const FormUpdateProperty = ({
                 ))}
 
             {languageSelectionDescription === multiLanguageOptionValue && (
-                <div className={propertyInspectorStyles.modalRow}>
+                <div className={propertyInspectorStyles.regionButton}>
                     <ActionButton
                         disabled={
                             isAMultiLanguageDescriptionEmpty &&
@@ -669,12 +654,36 @@ export const FormUpdateProperty = ({
                         'OATPropertyEditor.modalTextInputPlaceHolder'
                     )}
                     onChange={(_ev, value) =>
-                        handleCommentChange(value, setComment, setCommentError)
+                        validateCommentChange(
+                            value,
+                            setComment,
+                            setCommentError
+                        )
                     }
                     errorMessage={
                         commentError ? t('OATPropertyEditor.errorComment') : ''
                     }
                     value={comment}
+                />
+            </div>
+
+            <div className={propertyInspectorStyles.modalRow}>
+                <Text styles={columnLeftTextStyles}>
+                    {t('OATPropertyEditor.id')}
+                </Text>
+                <TextField
+                    placeholder={t('OATPropertyEditor.id')}
+                    onChange={(_ev, value) =>
+                        validateIdChange(
+                            value,
+                            setId,
+                            setIdLengthError,
+                            setIdValidDTMIError,
+                            setIdWarning
+                        )
+                    }
+                    errorMessage={getIdErrorMessage()}
+                    value={id}
                 />
             </div>
 
@@ -703,6 +712,15 @@ export const FormUpdateProperty = ({
                     }
                 />
             </div>
+
+            {idWarning && (
+                <MessageBar
+                    messageBarType={MessageBarType.warning}
+                    isMultiline={false}
+                >
+                    {t('OATPropertyEditor.warningId')}
+                </MessageBar>
+            )}
         </>
     );
 };

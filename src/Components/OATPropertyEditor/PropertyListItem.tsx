@@ -16,6 +16,8 @@ import {
 } from '../../Models/Constants/ActionTypes';
 import { DTDLProperty, IAction } from '../../Models/Constants/Interfaces';
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
+import OATTextFieldId from '../../Pages/OATEditorPage/Internal/Components/OATTextFieldId';
+
 import {
     getModelPropertyCollectionName,
     getModelPropertyListItemName
@@ -69,6 +71,7 @@ export const PropertyListItem = ({
     const iconWrapMoreStyles = getPropertyListItemIconWrapMoreStyles();
     const textFieldStyles = getPropertyEditorTextFieldStyles();
     const [subMenuActive, setSubMenuActive] = useState(false);
+    const [displayNameEditor, setDisplayNameEditor] = useState(false);
     const { model, templates } = state;
 
     const propertiesKeyName = getModelPropertyCollectionName(
@@ -152,18 +155,26 @@ export const PropertyListItem = ({
                 }
                 tabIndex={0}
             >
-                <TextField
-                    borderless
-                    value={getModelPropertyListItemName(
-                        item.displayName ? item.displayName : item.name
-                    )}
-                    validateOnFocusOut
-                    onChange={(evt, value) => {
-                        setCurrentPropertyIndex(index);
-                        onPropertyDisplayNameChange(value, index);
-                    }}
-                    styles={textFieldStyles}
-                />
+                {!displayNameEditor && (
+                    <Text onDoubleClick={() => setDisplayNameEditor(true)}>
+                        {item.displayName}
+                    </Text>
+                )}
+                {displayNameEditor && (
+                    <TextField
+                        borderless
+                        value={getModelPropertyListItemName(
+                            item.displayName ? item.displayName : item.name
+                        )}
+                        validateOnFocusOut
+                        onChange={(evt, value) => {
+                            setCurrentPropertyIndex(index);
+                            onPropertyDisplayNameChange(value, index);
+                        }}
+                        onBlur={() => setDisplayNameEditor(false)}
+                        styles={textFieldStyles}
+                    />
+                )}
                 <Text>{item.schema}</Text>
                 <IconButton
                     styles={iconWrapStyles}

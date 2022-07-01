@@ -33,7 +33,7 @@ export const getPropertyDisplayName = (property: DTDLProperty) => {
 };
 
 /*  Handles language selection change on forms (DisplayName - Key - Dropdown) */
-export const handleMultiLanguageSelectionsDisplayNameKeyChange = (
+export const setMultiLanguageSelectionsDisplayNameKey = (
     value: string,
     index: number = null,
     multiLanguageSelectionsDisplayName: any,
@@ -60,7 +60,7 @@ export const handleMultiLanguageSelectionsDisplayNameKeyChange = (
 };
 
 /*  Handles language selection change on forms (DisplayName - Value - Dropdown) */
-export const handleMultiLanguageSelectionsDisplayNameValueChange = (
+export const setMultiLanguageSelectionsDisplayNameValue = (
     value: string,
     index: number = null,
     multiLanguageSelectionsDisplayNames: any[],
@@ -86,7 +86,7 @@ export const handleMultiLanguageSelectionsDisplayNameValueChange = (
 };
 
 /*  Handles language selection change on forms (Description - Key - Dropdown) */
-export const handleMultiLanguageSelectionsDescriptionKeyChange = (
+export const setMultiLanguageSelectionsDescriptionKey = (
     value: string,
     index: number = null,
     multiLanguageSelectionsDescription: any,
@@ -113,7 +113,7 @@ export const handleMultiLanguageSelectionsDescriptionKeyChange = (
 };
 
 /*  Handles language selection change on forms (Description - Value - TextField) */
-export const handleMultiLanguageSelectionsDescriptionValueChange = (
+export const validateMultiLanguageSelectionsDescriptionValueChange = (
     value: string,
     index: number = null,
     multiLanguageSelectionsDescription: any,
@@ -139,7 +139,7 @@ export const handleMultiLanguageSelectionsDescriptionValueChange = (
 };
 
 /*  Handles language selection removal on forms */
-export const handleMultiLanguageSelectionRemoval = (
+export const setMultiLanguageSelectionRemoval = (
     index: number,
     type: string,
     multiLanguageSelectionsDisplayName: any,
@@ -196,17 +196,12 @@ export const handleMultiLanguageSelectionRemoval = (
     }
 };
 
-/* Detect if mouse direction is any other than north.
-    North direction: towards property selector, other directions should close property selector.
-    Applied to property selector trigger element.
-*/
+/* Detects if mouse is below the trigger element */
 export const shouldClosePropertySelectorOnMouseLeave = (e, boundingBox) =>
-    e.clientY >= boundingBox.bottom ||
-    e.clientX < boundingBox.left ||
-    e.clientX > boundingBox.right;
+    e.clientY >= boundingBox.bottom;
 
 /* Handle display name change on forms */
-export const handleDisplayNameChange = (
+export const validateDisplayNameChange = (
     value,
     setDisplayName,
     setDisplayNameError
@@ -220,7 +215,7 @@ export const handleDisplayNameChange = (
 };
 
 /* Handle description change on forms */
-export const handleDescriptionChange = (
+export const validateDescriptionChange = (
     value,
     setDescription,
     setDescriptionError
@@ -234,7 +229,7 @@ export const handleDescriptionChange = (
 };
 
 /* Handle comment change on forms */
-export const handleCommentChange = (value, setComment, setCommentError) => {
+export const validateCommentChange = (value, setComment, setCommentError) => {
     if (value.length <= OATCommentLengthLimit) {
         setComment(value);
         setCommentError(null);
@@ -244,11 +239,12 @@ export const handleCommentChange = (value, setComment, setCommentError) => {
 };
 
 /* Handle id change on forms */
-export const handleIdChange = (
+export const validateIdChange = (
     value,
     setId,
     setIdErrorLength,
-    setIdValidDTMIError
+    setIdValidDTMIError,
+    setIdWarning?
 ) => {
     if (value.length <= OATIdLengthLimit) {
         setIdErrorLength(null);
@@ -260,5 +256,12 @@ export const handleIdChange = (
         }
     } else {
         setIdErrorLength(true);
+    }
+    if (setIdWarning) {
+        setIdWarning(value.length > 0);
+    }
+    if (value.length === 0) {
+        setIdValidDTMIError(false);
+        setIdErrorLength(false);
     }
 };

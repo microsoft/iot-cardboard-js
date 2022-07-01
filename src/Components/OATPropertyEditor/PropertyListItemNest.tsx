@@ -100,6 +100,7 @@ export const PropertyListItemNest = ({
     const [subMenuActive, setSubMenuActive] = useState(false);
     const [collapsed, setCollapsed] = useState(true);
     const [hover, setHover] = useState(false);
+    const [displayNameEditor, setDisplayNameEditor] = useState(false);
     const { model, templates } = state;
 
     const propertiesKeyName = getModelPropertyCollectionName(
@@ -314,18 +315,27 @@ export const PropertyListItemNest = ({
                     ) : (
                         <div>{/* Needed for gridTemplateColumns style  */}</div>
                     )}
-
-                    <TextField
-                        styles={textFieldStyles}
-                        borderless
-                        placeholder={getModelPropertyListItemName(item.name)}
-                        validateOnFocusOut
-                        onChange={(evt, value) => {
-                            setCurrentPropertyIndex(index);
-                            onPropertyDisplayNameChange(value, index);
-                        }}
-                        onGetErrorMessage={getErrorMessage}
-                    />
+                    {!displayNameEditor && (
+                        <Text onDoubleClick={() => setDisplayNameEditor(true)}>
+                            {item.displayName}
+                        </Text>
+                    )}
+                    {displayNameEditor && (
+                        <TextField
+                            styles={textFieldStyles}
+                            borderless
+                            placeholder={getModelPropertyListItemName(
+                                item.name
+                            )}
+                            validateOnFocusOut
+                            onChange={(evt, value) => {
+                                setCurrentPropertyIndex(index);
+                                onPropertyDisplayNameChange(value, index);
+                            }}
+                            onGetErrorMessage={getErrorMessage}
+                            onBlur={() => setDisplayNameEditor(false)}
+                        />
+                    )}
                     <Text>{item.schema['@type']}</Text>
 
                     <IconButton

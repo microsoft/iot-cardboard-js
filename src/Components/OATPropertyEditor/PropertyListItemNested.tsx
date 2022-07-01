@@ -58,6 +58,7 @@ export const PropertyListItemNested = ({
     const iconWrapStyles = getPropertyListItemIconWrapStyles();
     const iconWrapMoreStyles = getPropertyListItemIconWrapMoreStyles();
     const [subMenuActive, setSubMenuActive] = useState(false);
+    const [displayNameEditor, setDisplayNameEditor] = useState(false);
     const { model, templates } = state;
 
     const propertiesKeyName = getModelPropertyCollectionName(
@@ -93,16 +94,24 @@ export const PropertyListItemNested = ({
             id={getModelPropertyListItemName(item.name)}
         >
             <div></div> {/* Needed for gridTemplateColumns style  */}
-            <TextField
-                styles={textFieldStyles}
-                borderless
-                placeholder={getModelPropertyListItemName(item.name)}
-                validateOnFocusOut
-                onChange={() => {
-                    setCurrentPropertyIndex(parentIndex);
-                }}
-                onGetErrorMessage={getErrorMessage}
-            />
+            {!displayNameEditor && (
+                <Text onDoubleClick={() => setDisplayNameEditor(true)}>
+                    {item.displayName}
+                </Text>
+            )}
+            {displayNameEditor && (
+                <TextField
+                    styles={textFieldStyles}
+                    borderless
+                    placeholder={getModelPropertyListItemName(item.name)}
+                    validateOnFocusOut
+                    onChange={() => {
+                        setCurrentPropertyIndex(parentIndex);
+                    }}
+                    onBlur={() => setDisplayNameEditor(false)}
+                    onGetErrorMessage={getErrorMessage}
+                />
+            )}
             <Text>{item.schema}</Text>
             <IconButton
                 styles={iconWrapStyles}

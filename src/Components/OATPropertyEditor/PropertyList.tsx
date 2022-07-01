@@ -307,7 +307,15 @@ export const PropertyList = ({
                         }}
                         ref={addPropertyLabelRef}
                     >
-                        <ActionButton>
+                        <ActionButton
+                            onClick={(e) => {
+                                if (propertySelectorVisible) {
+                                    setPropertySelectorVisible(false);
+                                } else {
+                                    onAddPropertyLabelMouseOver(e);
+                                }
+                            }}
+                        >
                             <FontIcon
                                 iconName={'CirclePlus'}
                                 className={
