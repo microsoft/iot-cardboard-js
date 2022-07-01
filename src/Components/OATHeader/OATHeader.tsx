@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { CommandBar, ICommandBarItemProps } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { getHeaderStyles } from './OATHeader.styles';
@@ -8,6 +8,7 @@ import FileSubMenu from './internal/FileSubMenu';
 import Modal from './internal/Modal';
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 import {
+    SET_OAT_CONFIRM_DELETE_OPEN,
     SET_OAT_ERROR,
     SET_OAT_MODELS_METADATA,
     SET_OAT_PROJECT
@@ -19,6 +20,7 @@ import {
     OATNamespaceDefaultValue
 } from '../../Models/Constants';
 import { IAction } from '../../Models/Constants/Interfaces';
+import { useDropzone } from 'react-dropzone';
 import { SET_OAT_IMPORT_MODELS } from '../../Models/Constants/ActionTypes';
 import {
     deepCopy,
@@ -26,8 +28,10 @@ import {
     getFileNameFromDTMI,
     parseModel
 } from '../../Models/Services/Utils';
+import ImportSubMenu from './internal/ImportSubMenu';
 
 const ID_FILE = 'file';
+const ID_IMPORT = 'import';
 
 type OATHeaderProps = {
     elements: IOATTwinModelNodes[];
@@ -38,10 +42,17 @@ type OATHeaderProps = {
 const OATHeader = ({ elements, dispatch, state }: OATHeaderProps) => {
     const { t } = useTranslation();
     const headerStyles = getHeaderStyles();
-    const [subMenuActive, setSubMenuActive] = useState(false);
+    const {
+        acceptedFiles,
+        getRootProps,
+        getInputProps,
+        inputRef
+    } = useDropzone();
+    const [fileSubMenuActive, setFileSubMenuActive] = useState(false);
+    const [importSubMenuActive, setImportSubMenuActive] = useState(false);
     const [modalOpen, setModalOpen] = useState(false);
     const [modalBody, setModalBody] = useState(null);
-    const { modelsMetadata } = state;
+    const { modelsMetadata, projectName } = state;
     const uploadInputRef = useRef(null);
 
     const downloadModelExportBlob = (blob: Blob) => {
@@ -111,8 +122,36 @@ const OATHeader = ({ elements, dispatch, state }: OATHeaderProps) => {
         });
     };
 
-    const onImportClick = () => {
+    const onUploadFolderClick = () => {
         uploadInputRef.current.click();
+    };
+
+    const onUploadFileClick = () => {
+        inputRef.current.click();
+    };
+
+    const onDeleteAll = () => {
+        const dispatchDelete = () => {
+            const newProject = new ProjectData(
+                [],
+                [],
+                t('OATHeader.description'),
+                projectName,
+                [],
+                OATNamespaceDefaultValue,
+                []
+            );
+
+            dispatch({
+                type: SET_OAT_PROJECT,
+                payload: newProject
+            });
+        };
+
+        dispatch({
+            type: SET_OAT_CONFIRM_DELETE_OPEN,
+            payload: { open: true, callback: dispatchDelete }
+        });
     };
 
     const items: ICommandBarItemProps[] = [
@@ -120,20 +159,27 @@ const OATHeader = ({ elements, dispatch, state }: OATHeaderProps) => {
             key: 'Save',
             text: t('OATHeader.file'),
             iconProps: { iconName: 'Save' },
-            onClick: () => setSubMenuActive(!subMenuActive),
+            onClick: () => setFileSubMenuActive(!fileSubMenuActive),
             id: ID_FILE
         },
         {
             key: 'Import',
             text: t('OATHeader.import'),
             iconProps: { iconName: 'Import' },
-            onClick: onImportClick
+            onClick: () => setImportSubMenuActive(!importSubMenuActive),
+            id: ID_IMPORT
         },
         {
             key: 'Export',
             text: t('OATHeader.export'),
             iconProps: { iconName: 'Export' },
             onClick: onExportClick
+        },
+        {
+            key: 'DeleteAll',
+            text: t('OATHeader.deleteAll'),
+            iconProps: { iconName: 'Delete' },
+            onClick: onDeleteAll
         }
     ];
 
@@ -153,6 +199,7 @@ const OATHeader = ({ elements, dispatch, state }: OATHeaderProps) => {
             payload: clearProject
         });
     };
+
     const onFilesUpload = (files: Array<File>) => {
         const newFiles = [];
         const newFilesErrors = [];
@@ -185,6 +232,7 @@ const OATHeader = ({ elements, dispatch, state }: OATHeaderProps) => {
         handleFileListChanged(newFiles);
         // Reset value of input element so that it can be reused with the same file
         uploadInputRef.current.value = null;
+        inputRef.current.value = null;
     };
 
     // Populates fileNames and filePaths
@@ -295,6 +343,10 @@ const OATHeader = ({ elements, dispatch, state }: OATHeaderProps) => {
         }
     };
 
+    useEffect(() => {
+        onFilesUpload(acceptedFiles);
+    }, [acceptedFiles]);
+
     return (
         <div className={headerStyles.container}>
             <div className={headerStyles.menuComponent}>
@@ -309,16 +361,25 @@ const OATHeader = ({ elements, dispatch, state }: OATHeaderProps) => {
                         onChange={onFilesChange}
                     />
                     <CommandBar items={items} />
-                    {subMenuActive && (
+                    {fileSubMenuActive && (
                         <FileSubMenu
-                            subMenuActive={subMenuActive}
+                            subMenuActive={fileSubMenuActive}
                             targetId={ID_FILE}
-                            setSubMenuActive={setSubMenuActive}
+                            setSubMenuActive={setFileSubMenuActive}
                             setModalOpen={setModalOpen}
                             setModalBody={setModalBody}
                             dispatch={dispatch}
                             state={state}
                             resetProject={resetProject}
+                        />
+                    )}
+                    {importSubMenuActive && (
+                        <ImportSubMenu
+                            subMenuActive={importSubMenuActive}
+                            targetId={ID_IMPORT}
+                            setSubMenuActive={setImportSubMenuActive}
+                            uploadFolder={onUploadFolderClick}
+                            uploadFile={onUploadFileClick}
                         />
                     )}
                     <Modal
@@ -331,6 +392,9 @@ const OATHeader = ({ elements, dispatch, state }: OATHeaderProps) => {
                         resetProject={resetProject}
                     />
                 </div>
+            </div>
+            <div {...getRootProps()}>
+                <input {...getInputProps()} />
             </div>
         </div>
     );

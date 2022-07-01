@@ -5,7 +5,15 @@ import React, {
     useMemo,
     useCallback
 } from 'react';
-import { useTheme, PrimaryButton, Label, Toggle, Stack } from '@fluentui/react';
+import {
+    useTheme,
+    PrimaryButton,
+    Label,
+    Toggle,
+    Stack,
+    SpinnerSize,
+    Spinner
+} from '@fluentui/react';
 import ReactFlow, {
     ReactFlowProvider,
     addEdge,
@@ -269,6 +277,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     const [showComponents, setShowComponents] = useState(true);
     const [rfInstance, setRfInstance] = useState(null);
     const [currentLocation, setCurrentLocation] = useState(null);
+    const [importLoading, setImportLoading] = useState(false);
 
     const applyLayoutToElements = (elements) => {
         const nodes = elements.reduce((collection, element) => {
@@ -327,6 +336,8 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                 });
 
                 setElements(newElements);
+                setImportLoading(false);
+                rfInstance.fitView();
             });
     };
 
@@ -414,6 +425,9 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     }, [model]);
 
     useEffect(() => {
+        if (importModels && importModels.length > 0) {
+            setImportLoading(true);
+        }
         // Detects when a Model is deleted outside of the component and Updates the elements state
         let importModelsList = [...elements];
         if (importModels.length > 0) {
@@ -1080,6 +1094,12 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                 className={graphViewerStyles.container}
                 ref={reactFlowWrapperRef}
             >
+                {importLoading && (
+                    <div className={graphViewerStyles.loadingOverlay}>
+                        <Spinner size={SpinnerSize.large} />
+                    </div>
+                )}
+
                 <ElementsContext.Provider value={providerVal}>
                     <ReactFlow
                         elements={elements}
