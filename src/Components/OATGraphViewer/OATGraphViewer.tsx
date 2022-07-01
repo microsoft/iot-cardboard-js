@@ -690,48 +690,24 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     const onNewModelClick = () => {
         if (!state.modified) {
             const onNewNode = () => {
-                // Create a new floating node
-                const name = `Model${newModelId}`;
-                const id = `${idClassBase}model${newModelId};${versionClassBase}`;
-                const newNode = {
-                    id: id,
-                    type: OATInterfaceType,
-                    position: positionLookUp(),
-                    data: {
-                        name: name,
-                        type: OATInterfaceType,
+                if (!state.modified) {
+                    // Create a new floating node
+                    const name = `Model${newModelId}`;
+                    const id = `${idClassBase}model${newModelId};${versionClassBase}`;
+                    const newNode = {
                         id: id,
-                        content: [],
-                        context: contextClassBase
-                    }
-                };
-                const positionedElements = applyLayoutToElements([
-                    ...elements,
-                    newNode
-                ]);
-                setElements(positionedElements);
-
-                // Center pane focus on the new node
-                const positionedX =
-                    positionedElements[positionedElements.length - 1].position
-                        .x;
-                const positionedY =
-                    positionedElements[positionedElements.length - 1].position
-                        .y;
-
-                const wrapperBoundingBox = reactFlowWrapperRef.current.getBoundingClientRect();
-
-                rfInstance.setTransform({
-                    x:
-                        -positionedX * currentLocation.zoom +
-                        wrapperBoundingBox.width / 2 -
-                        nodeWidth / 2,
-                    y:
-                        -positionedY * currentLocation.zoom +
-                        wrapperBoundingBox.height / 2 -
-                        nodeHeight / 2,
-                    zoom: currentLocation.zoom
-                });
+                        type: OATInterfaceType,
+                        position: positionLookUp(),
+                        data: {
+                            name: name,
+                            type: OATInterfaceType,
+                            id: id,
+                            content: [],
+                            context: contextClassBase
+                        }
+                    };
+                    setElements([...elements, newNode]);
+                }
             };
 
             const undoOnNewNode = () => {
