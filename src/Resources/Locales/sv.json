@@ -794,7 +794,9 @@
     "errorIdValidDTMI": "ID måste vara ett giltigt DTMI",
     "errorRepeatedId": "En modell med samma id finns redan",
     "errorDisplayNameLength": "Visningsnamn får inte överstiga 64 tecken",
-    "errorRepeatedEdgeName": "En relation med samma namn finns redan"
+    "errorRepeatedEdgeName": "En relation med samma namn finns redan",
+    "errorReachedInheritanceLimit": "Uppnådd arvsgräns",
+    "errorInheritance": "Får inte ärva från fler än två gränssnitt"
   },
   "OATPropertyEditor": {
     "displayName": "Visningsnamn",

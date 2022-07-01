@@ -794,7 +794,9 @@
     "errorIdValidDTMI": "Идентификатор должен быть допустимым DTMI",
     "errorRepeatedId": "Модель с таким же идентификатором уже существует",
     "errorDisplayNameLength": "Отображаемое имя не должно превышать 64 символов",
-    "errorRepeatedEdgeName": "Связь с таким же именем уже существует"
+    "errorRepeatedEdgeName": "Связь с таким же именем уже существует",
+    "errorReachedInheritanceLimit": "Достигнут лимит наследования",
+    "errorInheritance": "Не может наследовать от более чем двух интерфейсов"
   },
   "OATPropertyEditor": {
     "displayName": "Отображаемое имя",

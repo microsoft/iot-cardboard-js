@@ -794,7 +794,9 @@
     "errorIdValidDTMI": "ID musí být platné DTMI",
     "errorRepeatedId": "Model se stejným ID již existuje",
     "errorDisplayNameLength": "Zobrazovaný název nesmí překročit 64 znaků",
-    "errorRepeatedEdgeName": "Vztah se stejným názvem již existuje"
+    "errorRepeatedEdgeName": "Vztah se stejným názvem již existuje",
+    "errorReachedInheritanceLimit": "Dosažený limit dědičnosti",
+    "errorInheritance": "Nesmí dědit z více než dvou rozhraní"
   },
   "OATPropertyEditor": {
     "displayName": "Zobrazovaný název",

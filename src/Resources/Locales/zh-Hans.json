@@ -794,7 +794,9 @@
     "errorIdValidDTMI": "ID 必须是有效的 DTMI",
     "errorRepeatedId": "具有相同 ID 的模型已存在",
     "errorDisplayNameLength": "显示名称不得超过 64 个字符",
-    "errorRepeatedEdgeName": "具有相同名称的关系已存在"
+    "errorRepeatedEdgeName": "具有相同名称的关系已存在",
+    "errorReachedInheritanceLimit": "已达到继承限制",
+    "errorInheritance": "不能从两个以上的接口继承"
   },
   "OATPropertyEditor": {
     "displayName": "显示名称",

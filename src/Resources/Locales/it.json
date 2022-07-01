@@ -794,7 +794,9 @@
     "errorIdValidDTMI": "L'ID deve essere un DTMI valido",
     "errorRepeatedId": "Esiste già un modello con lo stesso ID",
     "errorDisplayNameLength": "Il nome visualizzato non può superare i 64 caratteri",
-    "errorRepeatedEdgeName": "Esiste già una relazione con lo stesso nome"
+    "errorRepeatedEdgeName": "Esiste già una relazione con lo stesso nome",
+    "errorReachedInheritanceLimit": "Limite di ereditarietà raggiunto",
+    "errorInheritance": "Non può ereditare da più di due interfacce"
   },
   "OATPropertyEditor": {
     "displayName": "Nome visualizzato",

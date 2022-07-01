@@ -794,7 +794,9 @@
     "errorIdValidDTMI": "Id moet een geldige DTMI zijn",
     "errorRepeatedId": "Er bestaat al een model met dezelfde id",
     "errorDisplayNameLength": "Weergavenaam mag niet meer dan 64 tekens bevatten",
-    "errorRepeatedEdgeName": "Er bestaat al een relatie met dezelfde naam"
+    "errorRepeatedEdgeName": "Er bestaat al een relatie met dezelfde naam",
+    "errorReachedInheritanceLimit": "Overervingslimiet bereikt",
+    "errorInheritance": "Mag niet van meer dan twee interfaces overnemen"
   },
   "OATPropertyEditor": {
     "displayName": "Weergegeven naam",
