@@ -2,8 +2,9 @@ import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { useTheme, Icon, FontSizes, ActionButton } from '@fluentui/react';
 import {
     getEdgeCenter,
-    removeElements,
-    useStoreState
+    useStoreState,
+    getBezierPath,
+    Position as FlowPosition
 } from 'react-flow-renderer';
 import {
     getGraphViewerStyles,
@@ -214,7 +215,9 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
         let polygonSourceY = 0;
         let edgePathSourceX = 0;
         let edgePathSourceY = 0;
+        let orientation = false;
         if (betaAngle < sourceBetaAngle) {
+            orientation = true;
             newHeight = sourceHeight + adjustmentSourceY * heightVector;
             const newHypotenuse = newHeight / Math.sin(alphaAngle);
             newBase = Math.sqrt(
@@ -227,7 +230,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                 polygonSourceY,
                 baseVector,
                 heightVector,
-                true
+                orientation
             );
             edgePathSourceX = polygonSourceX;
             edgePathSourceY =
@@ -248,7 +251,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                 polygonSourceY,
                 baseVector,
                 heightVector,
-                false
+                orientation
             );
             edgePathSourceX =
                 data.type === OATComponentHandleName
@@ -262,7 +265,8 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
             polygonSourceX: polygonSourceX,
             polygonSourceY: polygonSourceY,
             edgePathSourceX: edgePathSourceX,
-            edgePathSourceY: edgePathSourceY
+            edgePathSourceY: edgePathSourceY,
+            orientation: orientation
         };
     };
 
@@ -489,9 +493,40 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
     };
 
     const edgePath = useMemo(() => {
-        return sourceX < targetX
-            ? `M${polygons.edgePathSourceX},${polygons.edgePathSourceY} ${polygons.edgePathTargetX},${polygons.edgePathTargetY}`
-            : `M${polygons.edgePathTargetX},${polygons.edgePathTargetY} ${polygons.edgePathSourceX},${polygons.edgePathSourceY}`;
+        const {
+            edgePathSourceX,
+            edgePathSourceY,
+            edgePathTargetX,
+            edgePathTargetY,
+            orientation
+        } = polygons;
+        const path =
+            sourceX < targetX
+                ? getBezierPath({
+                      sourceX: edgePathSourceX,
+                      sourceY: edgePathSourceY,
+                      sourcePosition: orientation
+                          ? FlowPosition.Bottom
+                          : FlowPosition.Left,
+                      targetX: edgePathTargetX,
+                      targetY: edgePathTargetY,
+                      targetPosition: orientation
+                          ? FlowPosition.Top
+                          : FlowPosition.Right
+                  })
+                : getBezierPath({
+                      sourceX: edgePathTargetX,
+                      sourceY: edgePathTargetY,
+                      sourcePosition: orientation
+                          ? FlowPosition.Top
+                          : FlowPosition.Right,
+                      targetX: edgePathSourceX,
+                      targetY: edgePathSourceY,
+                      targetPosition: orientation
+                          ? FlowPosition.Bottom
+                          : FlowPosition.Left
+                  });
+        return path;
     }, [polygons]);
 
     const [edgeCenterX, edgeCenterY] = getEdgeCenter({
@@ -526,14 +561,18 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                 id={id}
                 className={graphViewerStyles.widthPath}
                 d={edgePath}
-                onClick={onNameClick}
+                onDoubleClick={onNameClick}
             />
             {data.type === OATExtendHandleName && showInheritances && (
                 <path
                     id={id}
-                    className={graphViewerStyles.inheritancePath}
+                    className={
+                        !nameEditor
+                            ? graphViewerStyles.inheritancePath
+                            : graphViewerStyles.selectedInheritancePath
+                    }
                     d={edgePath}
-                    onClick={onNameClick}
+                    onDoubleClick={onNameClick}
                     markerEnd={markerEnd}
                 />
             )}
@@ -542,18 +581,26 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                 showRelationships && (
                     <path
                         id={id}
-                        className={graphViewerStyles.edgePath}
+                        className={
+                            !nameEditor
+                                ? graphViewerStyles.edgePath
+                                : graphViewerStyles.selectedEdgePath
+                        }
                         d={edgePath}
-                        onClick={onNameClick}
+                        onDoubleClick={onNameClick}
                         markerEnd={markerEnd}
                     />
                 )}
             {data.type === OATComponentHandleName && showComponents && (
                 <path
                     id={id}
-                    className={graphViewerStyles.componentPath}
+                    className={
+                        !nameEditor
+                            ? graphViewerStyles.componentPath
+                            : graphViewerStyles.selectedComponentPath
+                    }
                     d={edgePath}
-                    onClick={onNameClick}
+                    onDoubleClick={onNameClick}
                     markerEnd={markerEnd}
                 />
             )}
@@ -625,7 +672,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                             className={graphViewerStyles.textPath}
                             startOffset="50%"
                             textAnchor="middle"
-                            onClick={onNameClick}
+                            onDoubleClick={onNameClick}
                         >
                             {getPropertyDisplayName(data)}
                         </textPath>
