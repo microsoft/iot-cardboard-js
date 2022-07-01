@@ -222,7 +222,6 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                     );
                     relationships = [...relationships, relationship];
                 });
-                //
             }
 
             const mp = modelPositions.find((x) => x.id === input['@id']);
@@ -838,11 +837,11 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                     }
                 };
                 params.target = id;
-                // if (currentHandleIdRef.current === OATExtendHandleName) {
-                //     // params.target = params.source;
-                //     // params.source = id;
-                // console.log()
-                // }
+                // On untargeted extends, the target is the node
+                if (currentHandleIdRef.current === OATExtendHandleName) {
+                    params.target = params.source;
+                    params.source = id;
+                }
                 params.id = `${idClassBase}${OATRelationshipHandleName}${getNextRelationshipAmount(
                     elements
                 )};${versionClassBase}`;
@@ -855,7 +854,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                           elements
                       )}`
                     : '';
-                setElements((es) => [...addEdge(params, es), newNode]);
+                setElements((es) => [newNode, ...addEdge(params, es)]);
             }
         }
     };
@@ -933,7 +932,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                     } else {
                         triggerInheritanceLimitError();
                     }
-                } else {
+                } else if (sourceNode) {
                     sourceNode.extends = [];
                     sourceNode.extends.push(currentNode.target);
                 }
