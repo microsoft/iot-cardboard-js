@@ -174,10 +174,10 @@ const PropertySelector = ({
                                 return (
                                     <ActionButton
                                         onClick={() => {
-                                            handleTagClick(tag.name);
+                                            onTagClick(tag.name);
                                         }}
                                         onKeyPress={() => {
-                                            handleTagClick(tag.name);
+                                            onTagClick(tag.name);
                                         }}
                                     >
                                         <Svg
@@ -210,10 +210,10 @@ const PropertySelector = ({
                                 return (
                                     <ActionButton
                                         onClick={() => {
-                                            handleTagClick(tag.name);
+                                            onTagClick(tag.name);
                                         }}
                                         onKeyPress={() => {
-                                            handleTagClick(tag.name);
+                                            onTagClick(tag.name);
                                         }}
                                     >
                                         <Svg
@@ -237,10 +237,10 @@ const PropertySelector = ({
                         (tag, i) => (
                             <ActionButton
                                 onClick={() => {
-                                    handleTagClick(tag.name);
+                                    onTagClick(tag.name);
                                 }}
                                 onKeyPress={() => {
-                                    handleTagClick(tag.name);
+                                    onTagClick(tag.name);
                                 }}
                             >
                                 <Svg
