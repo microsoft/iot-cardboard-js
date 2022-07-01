@@ -41,11 +41,20 @@ export const PropertiesModelSummary = ({
     );
     const [name, setName] = useState(model ? model.name : '');
     const [id, setId] = useState(model && model['@id'] ? model['@id'] : '');
+    const [idEditor, setIdEditor] = useState(false);
+    const [nameEditor, setNameEditor] = useState(false);
+    const [displayNameEditor, setDisplayNameEditor] = useState(false);
     useEffect(() => {
         setDisplayName(model && model.displayName ? model.displayName : '');
         setName(model && model.name ? model.name : '');
         setId(model && model['@id'] ? model['@id'] : '');
     }, [model]);
+
+    const onCommit = () => {
+        setIdEditor(false);
+        setNameEditor(false);
+        setDisplayNameEditor(false);
+    };
 
     return (
         <Stack styles={generalPropertiesWrapStyles}>
@@ -72,44 +81,80 @@ export const PropertiesModelSummary = ({
 
             <div className={propertyInspectorStyles.gridRow}>
                 <Text>{t('id')}</Text>
-                <OATTextFieldId
-                    placeholder={t('id')}
-                    styles={textFieldStyes}
-                    disabled={!model}
-                    id={isSupportedModelType && id}
-                    setId={setId}
-                    dispatch={dispatch}
-                    state={state}
-                    borderless
-                />
+                {!idEditor && (
+                    <Text
+                        className={propertyInspectorStyles.typeTextField}
+                        onDoubleClick={() => setIdEditor(true)}
+                    >
+                        {id}
+                    </Text>
+                )}
+                {idEditor && (
+                    <OATTextFieldId
+                        placeholder={t('id')}
+                        styles={textFieldStyes}
+                        disabled={!model}
+                        id={isSupportedModelType && id}
+                        setId={setId}
+                        dispatch={dispatch}
+                        state={state}
+                        onCommit={onCommit}
+                        borderless
+                        autoFocus
+                    />
+                )}
             </div>
             {model && model.name && (
                 <div className={propertyInspectorStyles.gridRow}>
                     <Text>{t('name')}</Text>
-                    <OATTextFieldName
-                        placeholder={t('name')}
-                        styles={textFieldStyes}
-                        disabled={!model}
-                        name={isSupportedModelType && name}
-                        setName={setName}
-                        dispatch={dispatch}
-                        state={state}
-                        borderless
-                    />
+                    {!nameEditor && (
+                        <Text
+                            className={propertyInspectorStyles.typeTextField}
+                            onDoubleClick={() => setNameEditor(true)}
+                        >
+                            {name}
+                        </Text>
+                    )}
+                    {nameEditor && (
+                        <OATTextFieldName
+                            placeholder={t('name')}
+                            styles={textFieldStyes}
+                            disabled={!model}
+                            name={isSupportedModelType && name}
+                            setName={setName}
+                            dispatch={dispatch}
+                            state={state}
+                            onCommit={onCommit}
+                            borderless
+                            autoFocus
+                        />
+                    )}
                 </div>
             )}
             <div className={propertyInspectorStyles.gridRow}>
                 <Text>{t('OATPropertyEditor.displayName')}</Text>
-                <OATTextFieldDisplayName
-                    styles={textFieldStyes}
-                    borderless
-                    placeholder={t('OATPropertyEditor.displayName')}
-                    disabled={!model}
-                    displayName={isSupportedModelType && displayName}
-                    setDisplayName={setDisplayName}
-                    dispatch={dispatch}
-                    model={model}
-                />
+                {!displayNameEditor && (
+                    <Text
+                        className={propertyInspectorStyles.typeTextField}
+                        onDoubleClick={() => setDisplayNameEditor(true)}
+                    >
+                        {displayName}
+                    </Text>
+                )}
+                {displayNameEditor && (
+                    <OATTextFieldDisplayName
+                        styles={textFieldStyes}
+                        borderless
+                        placeholder={t('OATPropertyEditor.displayName')}
+                        disabled={!model}
+                        displayName={isSupportedModelType && displayName}
+                        setDisplayName={setDisplayName}
+                        dispatch={dispatch}
+                        onCommit={onCommit}
+                        model={model}
+                        autoFocus
+                    />
+                )}
             </div>
         </Stack>
     );
