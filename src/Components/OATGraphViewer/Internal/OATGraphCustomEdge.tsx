@@ -192,7 +192,6 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
     useEffect(() => {
         if (nameEditor && (!model || model['@id'] !== id)) {
             setNameEditor(false);
-            setSelected(false);
         }
     }, [id, model, nameEditor]);
 
