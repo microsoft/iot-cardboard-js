@@ -473,8 +473,6 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
         }
     }, [setCorsPropertiesAdapterData?.adapterResult]);
 
-    // eslint-disable-next-line no-debugger
-    debugger;
     return (
         <ADT3DScenePageContext.Provider
             value={{
@@ -635,10 +633,11 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
 
 const ADT3DScenePage: React.FC<IADT3DScenePageProps> = (props) => {
     const { adapter } = props;
+    const adtHostUrl = adapter.getAdtHostUrl();
     return (
         <DeeplinkContextProvider
             initialState={{
-                adtUrl: 'https://' + adapter.getAdtHostUrl(),
+                adtUrl: adtHostUrl ? `https://${adtHostUrl}` : adtHostUrl,
                 storageUrl: adapter.getBlobContainerURL()
             }}
         >

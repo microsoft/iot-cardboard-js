@@ -17,8 +17,7 @@ export const getStyles = (
             width: '100%',
             alignItems: 'center',
             display: 'flex',
-            justifyContent: 'space-between',
-            maxWidth: 400
+            justifyContent: 'space-between'
         },
         comboBoxOptionText: {
             overflow: 'hidden',
@@ -50,7 +49,8 @@ export const getStyles = (
                 },
                 iconContainer: { margin: 0, padding: '1px 2px 0' },
                 text: { margin: 0, paddingLeft: '8px' }
-            } as IMessageBarStyles
+            } as IMessageBarStyles,
+            comboBox: { callout: { width: 400 } }
         }
     };
 };

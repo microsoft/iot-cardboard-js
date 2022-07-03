@@ -1,4 +1,5 @@
 import {
+    IComboBoxStyles,
     IMessageBarStyles,
     IStyle,
     IStyleFunctionOrObject,
@@ -44,6 +45,8 @@ export interface IResourcePickerProps {
     ) => void; // callback function to expose the selected resource and optionally list of resources in dropdown when it is changed in the combobox
     additionalOptions?: Array<string>; // options that are entered by user which doesn't exist in the options list yet
     selectedOption?: string;
+    allowFreeform?: boolean; // whether the ComboBox allows freeform user input, rather than restricting to the options of data fetch
+    disabled?: boolean;
 }
 
 export interface IResourcePickerStyleProps {
@@ -65,4 +68,5 @@ export interface IResourcePickerStyles {
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface IResourcePickerSubComponentStyles {
     errorMessageBar: IMessageBarStyles;
+    comboBox: IComboBoxStyles;
 }

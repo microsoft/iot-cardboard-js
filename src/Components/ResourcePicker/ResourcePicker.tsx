@@ -35,6 +35,13 @@ import {
 import { useTranslation } from 'react-i18next';
 import { deepCopy } from '../../Models/Services/Utils';
 
+const comboBoxOptionStyles = {
+    root: {
+        width: '100%'
+    },
+    flexContainer: { span: { width: '100%' } }
+};
+
 const getClassNames = classNamesFunction<
     IResourcePickerStyleProps,
     IResourcePickerStyles
@@ -53,9 +60,15 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
     onResourcesLoaded,
     onResourceChange,
     additionalOptions,
-    selectedOption: selectedOptionProp
+    selectedOption: selectedOptionProp,
+    allowFreeform = false,
+    disabled = false
 }) => {
     const { t } = useTranslation();
+    const classNames = getClassNames(styles, {
+        theme: useTheme()
+    });
+
     const [options, setOptions] = useState([]);
     const optionsRef = useRef(null);
     const [selectedOption, setSelectedOption] = useState<IComboBoxOption>(
@@ -63,12 +76,7 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
             ? {
                   key: selectedOptionProp,
                   text: selectedOptionProp,
-                  styles: {
-                      root: {
-                          width: '100%'
-                      },
-                      flexContainer: { span: { width: '100%' } }
-                  }
+                  styles: comboBoxOptionStyles
               }
             : null
     );
@@ -82,7 +90,7 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
                 { additionalParams: additionalResourceSearchParams }
             ),
         refetchDependencies: [adapter, additionalResourceSearchParams],
-        isAdapterCalledOnMount: shouldFetchResourcesOnMount
+        isAdapterCalledOnMount: !disabled && shouldFetchResourcesOnMount
     });
 
     const placeholder = useMemo(() => {
@@ -98,9 +106,13 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
                     return 'resourcesPicker.select';
             }
         } else {
-            return t('resourcesPicker.select');
+            if (options.length) {
+                return t('resourcesPicker.select');
+            } else {
+                return t('resourcesPicker.noOption');
+            }
         }
-    }, [resourceType, t]);
+    }, [resourceType, t, options.length]);
 
     const loadingLabelText = useMemo(() => {
         switch (resourceType) {
@@ -114,10 +126,6 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
                 return t('resourcesPicker.loadingResources');
         }
     }, [resourceType, t]);
-
-    const classNames = getClassNames(styles, {
-        theme: useTheme()
-    });
 
     const getDisplayFieldValue = useCallback(
         (resource: IAzureResource) => {
@@ -151,12 +159,7 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
                         ({
                             key: additionalOption,
                             text: additionalOption,
-                            styles: {
-                                root: {
-                                    width: '100%'
-                                },
-                                flexContainer: { span: { width: '100%' } }
-                            }
+                            styles: comboBoxOptionStyles
                         } as IComboBoxOption)
                 ) || [];
             if (
@@ -171,9 +174,6 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
             if (onResourcesLoaded) {
                 onResourcesLoaded(resources);
             }
-
-            // eslint-disable-next-line no-debugger
-            debugger;
 
             newOptions = newOptions.concat(
                 // after fetching resources, first attempt to append those to the dropdown list
@@ -191,12 +191,7 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
                                     id: r.id
                                 }),
                             data: r,
-                            styles: {
-                                root: {
-                                    width: '100%'
-                                },
-                                flexContainer: { span: { width: '100%' } }
-                            }
+                            styles: comboBoxOptionStyles
                         } as IComboBoxOption)
                 )
             );
@@ -217,14 +212,7 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
                                 ({
                                     key: additionalOption,
                                     text: additionalOption,
-                                    styles: {
-                                        root: {
-                                            width: '100%'
-                                        },
-                                        flexContainer: {
-                                            span: { width: '100%' }
-                                        }
-                                    }
+                                    styles: comboBoxOptionStyles
                                 } as IComboBoxOption)
                         )
                 );
@@ -250,12 +238,7 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
                         ({
                             key: additionalOption,
                             text: additionalOption,
-                            styles: {
-                                root: {
-                                    width: '100%'
-                                },
-                                flexContainer: { span: { width: '100%' } }
-                            }
+                            styles: comboBoxOptionStyles
                         } as IComboBoxOption)
                 );
             }
@@ -273,8 +256,6 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
 
     useEffect(() => {
         if (selectedOption) {
-            // eslint-disable-next-line no-debugger
-            debugger;
             const selectedKey = optionsRef.current?.find(
                 (option) =>
                     option.text === parsedOptionText(selectedOption.text)
@@ -284,6 +265,8 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
     }, [selectedOption]);
 
     const parsedOptionText = useCallback((value) => {
+        if (!value) return value;
+
         if (displayField === AzureResourceDisplayFields.url) {
             // let user enter hostname and gracefully append https protocol
             let newVal = value;
@@ -374,18 +357,11 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
             const existingOption = optionsRef.current.find(
                 (option) => option.text === newParsedOptionValue
             );
-            // eslint-disable-next-line no-debugger
-            debugger;
             if (!existingOption) {
                 const newOption = {
                     key: newParsedOptionValue,
                     text: newParsedOptionValue,
-                    styles: {
-                        root: {
-                            width: '100%'
-                        },
-                        flexContainer: { span: { width: '100%' } }
-                    }
+                    styles: comboBoxOptionStyles
                 };
                 setSelectedOption(newOption);
 
@@ -470,14 +446,15 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
     return (
         <div className={classNames.root}>
             <VirtualizedComboBox
-                styles={{ callout: { width: 400 } }}
+                styles={classNames.subComponentStyles.comboBox()}
                 placeholder={placeholder}
                 label={label}
                 options={options}
                 selectedKey={selectedKey}
-                allowFreeform={true}
+                allowFreeform={allowFreeform}
                 autoComplete={'on'}
                 required
+                disabled={disabled}
                 errorMessage={inputError}
                 text={selectedOption?.text} // to show the selectedOption text even there is input error
                 onChange={(_e, option, _idx, value) => {
@@ -518,8 +495,10 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
     );
 };
 
-export default styled<
-    IResourcePickerProps,
-    IResourcePickerStyleProps,
-    IResourcePickerStyles
->(memo(ResourcePicker), getStyles);
+export default memo(
+    styled<
+        IResourcePickerProps,
+        IResourcePickerStyleProps,
+        IResourcePickerStyles
+    >(ResourcePicker, getStyles)
+);

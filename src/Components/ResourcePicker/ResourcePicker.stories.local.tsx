@@ -66,7 +66,8 @@ ADTInstances.args = {
     selectedOption: 'https://example1.api.wcus.digitaltwins.azure.net',
     onResourceChange: (resource) => {
         console.log(typeof resource === 'string' ? resource : resource?.id);
-    }
+    },
+    allowFreeform: true
 };
 
 export const StorageAccounts = Template.bind({}) as ResourcePickerStory;
