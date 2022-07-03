@@ -242,32 +242,26 @@ export const globeUrl =
 
 export const propertySelectorData = {
     propertyTags: {
-        sectionFirst: [
-            {
-                name: 'boolean',
-                title: 'OATPropertyEditor.boolean',
-                icon: IconBoolean
-            },
-            {
-                name: 'float',
-                title: 'OATPropertyEditor.float',
-                icon: IconFloat
-            },
+        primitive: [
             {
                 name: 'dateTime',
                 title: 'OATPropertyEditor.dateTime',
                 icon: IconDatetime
             },
             {
-                name: DTDLSchemaType.Enum,
-                title: 'OATPropertyEditor.enum',
-                icon: IconEnum,
-                complex: true
+                name: 'duration',
+                title: 'OATPropertyEditor.duration',
+                icon: IconDuration
             },
             {
-                name: 'double',
-                title: 'OATPropertyEditor.double',
-                icon: IconDouble
+                name: 'boolean',
+                title: 'OATPropertyEditor.boolean',
+                icon: IconBoolean
+            },
+            {
+                name: 'string',
+                title: 'OATPropertyEditor.string',
+                icon: IconString
             },
             {
                 name: 'data',
@@ -275,14 +269,37 @@ export const propertySelectorData = {
                 icon: IconData
             },
             {
+                name: 'long',
+                title: 'OATPropertyEditor.long',
+                icon: IconLong
+            },
+            {
                 name: 'integer',
                 title: 'OATPropertyEditor.integer',
                 icon: IconInteger
             },
             {
-                name: 'long',
-                title: 'OATPropertyEditor.long',
-                icon: IconLong
+                name: 'double',
+                title: 'OATPropertyEditor.double',
+                icon: IconDouble
+            },
+            {
+                name: 'float',
+                title: 'OATPropertyEditor.float',
+                icon: IconFloat
+            },
+            {
+                name: 'time',
+                title: 'OATPropertyEditor.time',
+                icon: IconTime
+            }
+        ],
+        complex: [
+            {
+                name: 'object',
+                title: 'OATPropertyEditor.object',
+                icon: IconObject,
+                complex: true
             },
             {
                 name: DTDLSchemaType.Map,
@@ -291,30 +308,13 @@ export const propertySelectorData = {
                 complex: true
             },
             {
-                name: 'duration',
-                title: 'OATPropertyEditor.duration',
-                icon: IconDuration
-            }
-        ],
-        sectionSecond: [
-            {
-                name: 'string',
-                title: 'OATPropertyEditor.string',
-                icon: IconString
-            },
-            {
-                name: 'time',
-                title: 'OATPropertyEditor.time',
-                icon: IconTime
-            },
-            {
-                name: DTDLSchemaType.Object,
-                title: 'OATPropertyEditor.object',
-                icon: IconObject,
+                name: DTDLSchemaType.Enum,
+                title: 'OATPropertyEditor.enum',
+                icon: IconEnum,
                 complex: true
             }
         ],
-        sectionThird: [
+        geoSpatial: [
             {
                 name: 'point',
                 title: 'OATPropertyEditor.point',

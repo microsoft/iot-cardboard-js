@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { TextField, Text, IconButton } from '@fluentui/react';
 import {
     getPropertyInspectorStyles,
@@ -112,7 +112,7 @@ export const PropertyListItemNest = ({
         }
 
         switch (lastPropertyFocused.item.schema['@type']) {
-            case DTDLSchemaType.Object:
+            case 'object':
                 setPropertySelectorVisible(true);
                 return;
             case DTDLSchemaType.Enum:
@@ -159,7 +159,7 @@ export const PropertyListItemNest = ({
             );
         } else if (
             newModel[propertiesKeyName][parentIndex].schema['@type'] ===
-            DTDLSchemaType.Object
+            'object'
         ) {
             newModel[propertiesKeyName][parentIndex].schema.fields.splice(
                 index,
@@ -207,6 +207,16 @@ export const PropertyListItemNest = ({
         });
     };
 
+    const showObjectPropertySelector = useMemo(() => {
+        if (item.schema['@type'] === 'object') {
+            if (item.schema.fields.length === 0) {
+                return true;
+            } else if (item.schema.fields.length > 0 && collapsed) {
+                return true;
+            }
+        }
+    }, [collapsed]);
+
     return (
         <div
             className={propertyInspectorStyles.propertyListRelativeWrap}
@@ -252,22 +262,6 @@ export const PropertyListItemNest = ({
                 <div
                     className={propertyInspectorStyles.propertyItemNestMainItem}
                 >
-                    {(item.schema['@type'] === DTDLSchemaType.Object &&
-                        item.schema.fields.length > 0) ||
-                    (item.schema['@type'] === DTDLSchemaType.Enum &&
-                        item.schema.enumValues.length > 0) ? (
-                        <IconButton
-                            iconProps={{
-                                iconName: collapsed
-                                    ? 'ChevronDown'
-                                    : 'ChevronRight'
-                            }}
-                            title={t('OATPropertyEditor.collapse')}
-                            onClick={() => setCollapsed(!collapsed)}
-                        />
-                    ) : (
-                        <div>{/* Needed for gridTemplateColumns style  */}</div>
-                    )}
                     {!displayNameEditor && (
                         <Text onDoubleClick={() => setDisplayNameEditor(true)}>
                             {item.displayName}
@@ -290,11 +284,33 @@ export const PropertyListItemNest = ({
                         />
                     )}
                     <Text>{item.schema['@type']}</Text>
-
+                    {(item.schema['@type'] === 'object' &&
+                        item.schema.fields.length > 0) ||
+                    (item.schema['@type'] === DTDLSchemaType.Enum &&
+                        item.schema.enumValues.length > 0) ? (
+                        <IconButton
+                            iconProps={{
+                                iconName: collapsed
+                                    ? 'ChevronDown'
+                                    : 'ChevronRight'
+                            }}
+                            styles={iconWrapMoreStyles}
+                            title={t('OATPropertyEditor.collapse')}
+                            onClick={() => setCollapsed(!collapsed)}
+                        />
+                    ) : (
+                        <div>{/* Needed for gridTemplateColumns style  */}</div>
+                    )}
                     <IconButton
                         iconProps={{ iconName: 'info' }}
                         styles={iconWrapMoreStyles}
                         title={t('OATPropertyEditor.info')}
+                        onClick={() => {
+                            setCurrentNestedPropertyIndex(null);
+                            setCurrentPropertyIndex(index);
+                            setModalOpen(true);
+                            setModalBody(FormBody.property);
+                        }}
                     />
 
                     <IconButton
@@ -334,7 +350,7 @@ export const PropertyListItemNest = ({
                     </IconButton>
                 </div>
                 {collapsed &&
-                    item.schema['@type'] === DTDLSchemaType.Object &&
+                    item.schema['@type'] === 'object' &&
                     item.schema.fields.length > 0 &&
                     item.schema.fields.map((field, i) => (
                         <PropertyListItemNested
@@ -348,6 +364,7 @@ export const PropertyListItemNest = ({
                             }
                             setCurrentPropertyIndex={setCurrentPropertyIndex}
                             setModalOpen={setModalOpen}
+                            setModalBody={setModalBody}
                             deleteNestedItem={deleteNestedItem}
                             dispatch={dispatch}
                             state={state}
@@ -383,7 +400,7 @@ export const PropertyListItemNest = ({
                     />
                 )}
             </div>
-            {hover && item.schema['@type'] === DTDLSchemaType.Object && (
+            {showObjectPropertySelector && (
                 <AddPropertyBar
                     onMouseOver={(e) => {
                         setLastPropertyFocused({

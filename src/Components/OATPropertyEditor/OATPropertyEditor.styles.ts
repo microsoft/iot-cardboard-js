@@ -178,6 +178,7 @@ export const getPropertyInspectorStyles = () => {
             {
                 position: 'relative',
                 paddingBottom: '30px',
+                overflowX: 'hidden',
                 height: '100%'
             } as IStyle
         ],
@@ -437,7 +438,7 @@ export const getPropertyInspectorStyles = () => {
             classNames.propertyItem,
             {
                 display: 'grid',
-                gridTemplateColumns: '55% 25% 10% 10%',
+                gridTemplateColumns: '45% 35% 10% 10%',
                 width: '100%',
                 backgroundColor: theme.semanticColors.listBackground,
                 alignItems: 'center',
@@ -478,7 +479,6 @@ export const getPropertyInspectorStyles = () => {
                 backgroundColor: 'theme.semanticColors.listBackground',
                 alignItems: 'start',
                 padding: '12px 0px',
-                minHeight: '80px',
                 cursor: 'grab',
                 ':active': {
                     cursor: 'grabbing'
@@ -489,7 +489,7 @@ export const getPropertyInspectorStyles = () => {
             classNames.propertyItemNested,
             {
                 display: 'grid',
-                gridTemplateColumns: '10% 45% 25% 10% 10%',
+                gridTemplateColumns: '10% 35% 35% 10% 10%',
                 width: '100%',
                 backgroundColor: theme.semanticColors.buttonBackgroundDisabled,
                 alignItems: 'center',
@@ -503,7 +503,7 @@ export const getPropertyInspectorStyles = () => {
             classNames.propertyItemNestMainItem,
             {
                 display: 'grid',
-                gridTemplateColumns: '10% 45% 25% 10% 10%',
+                gridTemplateColumns: '45% 25% 10%  10% 10%',
                 width: '100%',
                 alignItems: 'center',
                 paddingBottom: '12px',
@@ -564,7 +564,7 @@ export const getPropertyInspectorStyles = () => {
                 width: '100%',
                 backgroundColor: theme.semanticColors.primaryButtonTextDisabled,
                 position: 'absolute',
-                top: '90%',
+                top: '100%',
                 ':hover': {
                     backgroundColor: theme.semanticColors.menuIcon
                 },

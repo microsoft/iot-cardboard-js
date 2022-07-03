@@ -115,9 +115,9 @@ const PropertySelector = ({
 
     const getSchema = (tag: string) => {
         switch (tag) {
-            case DTDLSchemaType.Object:
+            case 'object':
                 return {
-                    '@type': DTDLSchemaType.Object,
+                    '@type': 'object',
                     fields: []
                 };
             case DTDLSchemaType.Map:
@@ -161,43 +161,41 @@ const PropertySelector = ({
         >
             <Stack horizontal>
                 <div className={propertyInspectorStyles.propertyTagsWrapSecond}>
-                    {propertySelectorData.propertyTags.sectionSecond.map(
-                        (tag, i) => {
-                            if (
-                                lastPropertyFocused &&
-                                typeof lastPropertyFocused.item.schema ===
-                                    'object' &&
-                                tag.complex
-                            ) {
-                                return <></>;
-                            } else {
-                                return (
-                                    <ActionButton
-                                        onClick={() => {
-                                            onTagClick(tag.name);
-                                        }}
-                                        onKeyPress={() => {
-                                            onTagClick(tag.name);
-                                        }}
-                                    >
-                                        <Svg
-                                            tabIndex={0}
-                                            key={i}
-                                            className={
-                                                propertyInspectorStyles.propertyTag
-                                            }
-                                            src={tag.icon}
-                                            title={t(tag.title)}
-                                        ></Svg>
-                                    </ActionButton>
-                                );
-                            }
+                    {propertySelectorData.propertyTags.complex.map((tag, i) => {
+                        if (
+                            lastPropertyFocused &&
+                            typeof lastPropertyFocused.item.schema ===
+                                'object' &&
+                            tag.complex
+                        ) {
+                            return <></>;
+                        } else {
+                            return (
+                                <ActionButton
+                                    onClick={() => {
+                                        onTagClick(tag.name);
+                                    }}
+                                    onKeyPress={() => {
+                                        onTagClick(tag.name);
+                                    }}
+                                >
+                                    <Svg
+                                        tabIndex={0}
+                                        key={i}
+                                        className={
+                                            propertyInspectorStyles.propertyTag
+                                        }
+                                        src={tag.icon}
+                                        title={t(tag.title)}
+                                    ></Svg>
+                                </ActionButton>
+                            );
                         }
-                    )}
+                    })}
                 </div>
                 <Separator styles={propertySelectorSeparatorStyles} vertical />
                 <div className={propertyInspectorStyles.propertyTagsWrapFirst}>
-                    {propertySelectorData.propertyTags.sectionFirst.map(
+                    {propertySelectorData.propertyTags.primitive.map(
                         (tag, i) => {
                             if (
                                 lastPropertyFocused &&
@@ -233,7 +231,7 @@ const PropertySelector = ({
                 </div>
                 <Separator styles={propertySelectorSeparatorStyles} vertical />
                 <div className={propertyInspectorStyles.propertyTagsWrapThird}>
-                    {propertySelectorData.propertyTags.sectionThird.map(
+                    {propertySelectorData.propertyTags.geoSpatial.map(
                         (tag, i) => (
                             <ActionButton
                                 onClick={() => {
