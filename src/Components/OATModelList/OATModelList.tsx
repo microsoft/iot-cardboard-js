@@ -120,7 +120,7 @@ const OATModelList = ({
         return typeof item['displayName'] === 'string'
             ? item['displayName'].length > 0
                 ? item['displayName']
-                : 'Display Name'
+                : t('OATPropertyEditor.displayName')
             : Object.values(item['displayName'])[0].length > 0
             ? Object.values(item['displayName'])[0]
             : t('OATPropertyEditor.displayName');
