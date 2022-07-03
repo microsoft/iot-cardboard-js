@@ -757,7 +757,6 @@
   },
   "environmentPicker": {
     "environmentUrl": "Adres URL wystąpienia usługi Azure Digital Twins",
-    "containerUrl": "Adres URL kontenera usługi Azure Storage",
     "enterEnvironmentUrl": "np. https://example.api.wus2.digitaltwins.azure.net",
     "enterContainerUrl": "np. https://example.blob.core.windows.net/example",
     "editEnvironment": "Konfigurowanie środowiska Sceny 3D",
@@ -771,7 +770,11 @@
     "errors": {
       "invalidEnvironmentUrl": "To nie jest prawidłowy adres URL (np. https://<yourADTInstanceResourceName>.api.wcus.digitaltwins.azure.net)",
       "invalidContainerUrl": "To nie jest prawidłowy adres URL (np. https://<yourStorageAccountName>.blob.core.windows.net/<yourContainerName>)"
-    }
+    },
+    "storageAccountName": "Nazwa konta usługi Azure Storage",
+    "storageAccountUrl": "Adres URL konta usługi Azure Storage",
+    "storageContainerName": "Nazwa kontenera usługi Azure Storage",
+    "storageContainerUrl": "Adres URL kontenera usługi Azure Storage"
   },
   "behaviorsModal": {
     "closeModal": "Zamknij modal",
@@ -954,6 +957,12 @@
     "enterEnvironmentUrl": "np. https://example.api.wus2.digitaltwins.azure.net",
     "enterStorageAccountUrl": "np. https://example.blob.core.windows.net/",
     "enterContainerUrl": "np. https://example.blob.core.windows.net/example",
-    "displayFieldNotFound": "Nie znaleziono właściwości '{{displayField}}' w zasobie o identyfikatorze '{{id}}'!"
+    "displayFieldNotFound": "Nie znaleziono właściwości '{{displayField}}' w zasobie o identyfikatorze '{{id}}'!",
+    "removeFromList": "Usuń z listy",
+    "errors": {
+      "invalidEnvironmentUrl": "To nie jest prawidłowy adres URL (np. https://<yourADTInstanceResourceName>.api.wcus.digitaltwins.azure.net)",
+      "invalidContainerUrl": "To nie jest prawidłowy adres URL (np. https://<yourStorageAccountName>.blob.core.windows.net/<yourContainerName>)",
+      "invalidStorageAccountUrl": "To nie jest prawidłowy adres URL (np. https://<yourStorageAccountName>.blob.core.windows.net)"
+    }
   }
 }

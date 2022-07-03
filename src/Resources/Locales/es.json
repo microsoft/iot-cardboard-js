@@ -757,7 +757,6 @@
   },
   "environmentPicker": {
     "environmentUrl": "Dirección URL de instancia de Azure Digital Twins",
-    "containerUrl": "Dirección URL del contenedor de Almacenamiento de Azure",
     "enterEnvironmentUrl": "por ejemplo, https://example.api.wus2.digitaltwins.azure.net",
     "enterContainerUrl": "por ejemplo, https://example.blob.core.windows.net/example",
     "editEnvironment": "Configurar el entorno de escenas 3D",
@@ -771,7 +770,11 @@
     "errors": {
       "invalidEnvironmentUrl": "Esta no es una URL válida (por ejemplo, https://<suADTInstanceResourceName>.api.wcus.digitaltwins.azure.net)",
       "invalidContainerUrl": "Esta no es una URL válida (por ejemplo, https://<suStorageAccountName>.blob.core.windows.net/<suContainerName>)"
-    }
+    },
+    "storageAccountName": "Nombre de cuenta de Almacenamiento de Azure",
+    "storageAccountUrl": "Dirección URL de la cuenta de Almacenamiento de Azure",
+    "storageContainerName": "Nombre del contenedor de Almacenamiento de Azure",
+    "storageContainerUrl": "Dirección URL del contenedor de Almacenamiento de Azure"
   },
   "behaviorsModal": {
     "closeModal": "Cerrar modal",
@@ -954,6 +957,12 @@
     "enterEnvironmentUrl": "por ejemplo, https://example.api.wus2.digitaltwins.azure.net",
     "enterStorageAccountUrl": "por ejemplo, https://example.blob.core.windows.net/",
     "enterContainerUrl": "por ejemplo, https://example.blob.core.windows.net/example",
-    "displayFieldNotFound": "'{{displayField}}' propiedad no encontrada en el recurso con el identificador '{{id}}'!"
+    "displayFieldNotFound": "'{{displayField}}' propiedad no encontrada en el recurso con el identificador '{{id}}'!",
+    "removeFromList": "Eliminar de la lista",
+    "errors": {
+      "invalidEnvironmentUrl": "Esta no es una URL válida (por ejemplo, https://<suADTInstanceResourceName>.api.wcus.digitaltwins.azure.net)",
+      "invalidContainerUrl": "Esta no es una URL válida (por ejemplo, https://<suStorageAccountName>.blob.core.windows.net/<suContainerName>)",
+      "invalidStorageAccountUrl": "Esta no es una URL válida (por ejemplo, https://<suStorageAccountName>.blob.core.windows.net)"
+    }
   }
 }

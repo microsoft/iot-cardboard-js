@@ -757,7 +757,6 @@
   },
   "environmentPicker": {
     "environmentUrl": "Azure Digital Twins örneği URL'si",
-    "containerUrl": "Azure Depolama kapsayıcı URL'si",
     "enterEnvironmentUrl": "örneğin https://example.api.wus2.digitaltwins.azure.net",
     "enterContainerUrl": "örneğin https://example.blob.core.windows.net/example",
     "editEnvironment": "3B Sahneler ortamını yapılandırma",
@@ -771,7 +770,11 @@
     "errors": {
       "invalidEnvironmentUrl": "Bu geçerli bir URL değil (ör. https://<adınız>.api.wcus.digitaltwins.azure.net)",
       "invalidContainerUrl": "Bu geçerli bir URL değil (ör. https://<DepolamaHesabınız>.blob.core.windows.net/<ContainerAdınız>)"
-    }
+    },
+    "storageAccountName": "Azure Depolama hesabı adı",
+    "storageAccountUrl": "Azure Depolama hesabı URL'si",
+    "storageContainerName": "Azure Depolama kapsayıcı adı",
+    "storageContainerUrl": "Azure Depolama kapsayıcı URL'si"
   },
   "behaviorsModal": {
     "closeModal": "Modal'ı kapat",
@@ -954,6 +957,12 @@
     "enterEnvironmentUrl": "örneğin https://example.api.wus2.digitaltwins.azure.net",
     "enterStorageAccountUrl": "örneğin https://example.blob.core.windows.net/",
     "enterContainerUrl": "örneğin https://example.blob.core.windows.net/example",
-    "displayFieldNotFound": "'{{displayField}}' özelliği, '{{id}}' kimliğine sahip kaynakta bulunamadı!"
+    "displayFieldNotFound": "'{{displayField}}' özelliği, '{{id}}' kimliğine sahip kaynakta bulunamadı!",
+    "removeFromList": "Listeden kaldır",
+    "errors": {
+      "invalidEnvironmentUrl": "Bu geçerli bir URL değil (ör. https://<adınız>.api.wcus.digitaltwins.azure.net)",
+      "invalidContainerUrl": "Bu geçerli bir URL değil (ör. https://<DepolamaHesabınız>.blob.core.windows.net/<ContainerAdınız>)",
+      "invalidStorageAccountUrl": "Bu geçerli bir URL değil (ör. https://<DepolamaHesabıadınız>.blob.core.windows.net)"
+    }
   }
 }

@@ -757,7 +757,6 @@
   },
   "environmentPicker": {
     "environmentUrl": "URL van Azure Digital Twins-instantie",
-    "containerUrl": "Url van Azure Storage-container",
     "enterEnvironmentUrl": "bijv. https://example.api.wus2.digitaltwins.azure.net",
     "enterContainerUrl": "bijv. https://example.blob.core.windows.net/example",
     "editEnvironment": "3D-scèneomgeving configureren",
@@ -771,7 +770,11 @@
     "errors": {
       "invalidEnvironmentUrl": "Dit is geen geldige URL (bijv. https://<yourADTInstanceResourceName>.api.wcus.digitaltwins.azure.net)",
       "invalidContainerUrl": "Dit is geen geldige URL (bijv. https://<yourStorageAccountName>.blob.core.windows.net/<yourContainerName>)"
-    }
+    },
+    "storageAccountName": "Naam azure storage-account",
+    "storageAccountUrl": "URL van Azure Storage-account",
+    "storageContainerName": "Naam van Azure Storage-container",
+    "storageContainerUrl": "Url van Azure Storage-container"
   },
   "behaviorsModal": {
     "closeModal": "Modaal sluiten",
@@ -954,6 +957,12 @@
     "enterEnvironmentUrl": "bijv. https://example.api.wus2.digitaltwins.azure.net",
     "enterStorageAccountUrl": "bijv. https://example.blob.core.windows.net/",
     "enterContainerUrl": "bijv. https://example.blob.core.windows.net/example",
-    "displayFieldNotFound": "'{{displayField}}' eigenschap niet gevonden in de resource met de id '{{id}}'!"
+    "displayFieldNotFound": "'{{displayField}}' eigenschap niet gevonden in de resource met de id '{{id}}'!",
+    "removeFromList": "Verwijderen uit lijst",
+    "errors": {
+      "invalidEnvironmentUrl": "Dit is geen geldige URL (bijv. https://<yourADTInstanceResourceName>.api.wcus.digitaltwins.azure.net)",
+      "invalidContainerUrl": "Dit is geen geldige URL (bijv. https://<yourStorageAccountName>.blob.core.windows.net/<yourContainerName>)",
+      "invalidStorageAccountUrl": "Dit is geen geldige URL (bijv. https://<yourStorageAccountName>.blob.core.windows.net)"
+    }
   }
 }

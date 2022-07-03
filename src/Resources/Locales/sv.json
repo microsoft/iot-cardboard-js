@@ -757,7 +757,6 @@
   },
   "environmentPicker": {
     "environmentUrl": "Azure Digital Twins instans-URL",
-    "containerUrl": "Azure Storage container URL",
     "enterEnvironmentUrl": "t.ex. https://example.api.wus2.digitaltwins.azure.net",
     "enterContainerUrl": "t.ex. https://example.blob.core.windows.net/example",
     "editEnvironment": "Konfigurera 3D-scenmiljö",
@@ -771,7 +770,11 @@
     "errors": {
       "invalidEnvironmentUrl": "Det här är inte en giltig URL (t.ex. https://<dinADTInstanceResourceName>.api.wcus.digitaltwins.azure.net)",
       "invalidContainerUrl": "Detta är en ogiltig URL (t.ex. https://<yourStorageAccountName>.blob.core.windows.net/<yourContainerName>)"
-    }
+    },
+    "storageAccountName": "Azure Storage kontonamn",
+    "storageAccountUrl": "URL för Azure Storage-konto",
+    "storageContainerName": "Azure Storage containernamn",
+    "storageContainerUrl": "Azure Storage container URL"
   },
   "behaviorsModal": {
     "closeModal": "Stäng modal",
@@ -954,6 +957,12 @@
     "enterEnvironmentUrl": "t.ex. https://example.api.wus2.digitaltwins.azure.net",
     "enterStorageAccountUrl": "t.ex. https://example.blob.core.windows.net/",
     "enterContainerUrl": "t.ex. https://example.blob.core.windows.net/example",
-    "displayFieldNotFound": "Egenskapen '{{displayField}}' hittades inte i resursen med id:t {{id}}'!"
+    "displayFieldNotFound": "Egenskapen '{{displayField}}' hittades inte i resursen med id:t {{id}}'!",
+    "removeFromList": "Ta bort från listan",
+    "errors": {
+      "invalidEnvironmentUrl": "Det här är inte en giltig URL (t.ex. https://<dinADTInstanceResourceName>.api.wcus.digitaltwins.azure.net)",
+      "invalidContainerUrl": "Detta är en ogiltig URL (t.ex. https://<yourStorageAccountName>.blob.core.windows.net/<yourContainerName>)",
+      "invalidStorageAccountUrl": "Detta är inte en giltig URL (t.ex. https://<dinStorageAccountName>.blob.core.windows.net)"
+    }
   }
 }
