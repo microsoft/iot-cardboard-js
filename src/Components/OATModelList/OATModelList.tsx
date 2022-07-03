@@ -116,6 +116,16 @@ const OATModelList = ({
         setFilter(evt.target.value);
     };
 
+    const getDisplayNameText = (item) => {
+        return typeof item['displayName'] === 'string'
+            ? item['displayName'].length > 0
+                ? item['displayName']
+                : 'Display Name'
+            : Object.values(item['displayName'])[0].length > 0
+            ? Object.values(item['displayName'])[0]
+            : t('OATPropertyEditor.displayName');
+    };
+
     const onRenderCell = (item: IOATTwinModelNodes) => {
         return (
             <div className={modelsStyles.modelNode}>
@@ -157,9 +167,7 @@ const OATModelList = ({
                             {(!nameEditor ||
                                 currentNodeId.current !== item['@id']) && (
                                 <span className={modelsStyles.regularText}>
-                                    {typeof item['displayName'] === 'string'
-                                        ? item['displayName']
-                                        : Object.values(item['displayName'])[0]}
+                                    {getDisplayNameText(item)}
                                 </span>
                             )}
                             {nameEditor &&
