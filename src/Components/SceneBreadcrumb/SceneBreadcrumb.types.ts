@@ -15,6 +15,7 @@ export interface IBaseBreadcrumbProps {
     classNames: BreadcrumbClassNames;
     onSceneClick?: () => void;
     onCancelForm?: () => void;
+    onNavigate: INavigateCallback;
     onSceneChange?: () => void;
     onRenderSceneItem?: (props?: IBreadcrumbItem) => JSX.Element;
 }
@@ -25,4 +26,16 @@ export interface ISceneBreadcrumbFactoryProps {
     builderMode?: ADT3DSceneBuilderMode;
     onSceneClick?: () => void;
     onSceneChange?: () => void;
+    onNavigate: INavigateCallback;
 }
+
+export type INavigateCallback = (
+    action: BreadcrumbAction,
+    navigate: VoidFunction
+) => void;
+
+export type BreadcrumbAction =
+    | 'goToHome'
+    | 'goToScene'
+    | 'goToForm'
+    | 'cancelForm';

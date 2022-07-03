@@ -14,6 +14,7 @@ import {
     numericPropertyValueTypes,
     PropertyExpression
 } from '../../../../../ModelledPropertyBuilder/ModelledPropertyBuilder.types';
+import { useBehaviorFormContext } from '../../../../../../Models/Context/BehaviorFormContext/BehaviorFormContext';
 
 const GaugeWidgetBuilder: React.FC<IGaugeWidgetBuilderProps> = ({
     formData,
@@ -22,12 +23,12 @@ const GaugeWidgetBuilder: React.FC<IGaugeWidgetBuilderProps> = ({
 }) => {
     const { t } = useTranslation();
     const {
-        behaviorToEdit,
         adapter,
         config,
         sceneId,
         state: { selectedElements }
     } = useContext(SceneBuilderContext);
+    const { behaviorFormState } = useBehaviorFormContext();
 
     const {
         valueRangeBuilderState,
@@ -113,7 +114,7 @@ const GaugeWidgetBuilder: React.FC<IGaugeWidgetBuilderProps> = ({
                 <ModelledPropertyBuilder
                     adapter={adapter}
                     twinIdParams={{
-                        behavior: behaviorToEdit,
+                        behavior: behaviorFormState.behaviorToEdit,
                         config,
                         sceneId,
                         selectedElements

@@ -7,7 +7,8 @@ import {
     ADTModel_ImgSrc_PropertyName,
     ADTModel_InBIM_RelationshipName,
     ComponentErrorType,
-    DTwin
+    DTwin,
+    IConsoleLogFunction
 } from '../Constants';
 import { DtdlInterface, DtdlProperty } from '../Constants/dtdlInterfaces';
 import { CharacterWidths } from '../Constants/Constants';
@@ -238,7 +239,11 @@ export function parseExpression(expression: string, twins: any) {
 }
 
 export function deepCopy<T>(object: T): T {
-    return JSON.parse(JSON.stringify(object)) as T;
+    if (object) {
+        return JSON.parse(JSON.stringify(object)) as T;
+    } else {
+        return object;
+    }
 }
 
 export function getSceneElementStatusColor(
@@ -391,7 +396,10 @@ export function sortAlphabetically<T>(propertyName: keyof T) {
     };
 }
 
-export function getDebugLogger(context: string, enabled: boolean) {
+export function getDebugLogger(
+    context: string,
+    enabled: boolean
+): IConsoleLogFunction {
     if (!enabled) return () => undefined;
     return (
         level: 'debug' | 'info' | 'warn' | 'error',

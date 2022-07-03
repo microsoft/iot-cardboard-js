@@ -37,7 +37,6 @@ import {
 } from '@babylonjs/core';
 import {
     convertLatLonToVector3,
-    createBadgeGroup,
     elementsOverlap,
     getBoundingBox,
     getCameraPosition,
@@ -61,7 +60,6 @@ import {
 } from '../../Models/Constants';
 import { getProgressStyles, getSceneViewStyles } from './SceneView.styles';
 import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
-import { sleep } from '../AutoComplete/AutoComplete';
 import { ModelGroupLabel } from '../ModelGroupLabel/ModelGroupLabel';
 import { MarkersPlaceholder } from './Internal/MarkersPlaceholder';
 import { Markers } from './Internal/Markers';
@@ -145,7 +143,6 @@ async function loadPromise(
 function SceneView(props: ISceneViewProps, ref) {
     const {
         backgroundColor,
-        badgeGroups,
         cameraInteractionType,
         cameraPosition,
         coloredMeshItems,
@@ -154,7 +151,6 @@ function SceneView(props: ISceneViewProps, ref) {
         modelUrl,
         objectColor,
         objectStyle,
-        onBadgeGroupHover,
         onCameraMove,
         onMeshClick,
         onMeshHover,
@@ -194,7 +190,6 @@ function SceneView(props: ISceneViewProps, ref) {
     const clonedHighlightMeshes = useRef<BABYLON.AbstractMesh[]>([]);
     const highlightLayer = useRef<HighlightLayer>(null);
     const utilLayer = useRef<UtilityLayerRenderer>(null);
-    const badgeGroupsRef = useRef<any[]>([]);
     const [currentObjectColor, setCurrentObjectColor] = useState(
         DefaultViewerModeObjectColor
     );
@@ -209,6 +204,7 @@ function SceneView(props: ISceneViewProps, ref) {
     const initialCameraTargetRef = useRef(new BABYLON.Vector3(0, 0, 0));
     const zoomedMeshesRef = useRef([]);
     const lastCameraPositionRef = useRef('');
+    const markersRef = useRef<Marker[]>(null);
 
     const [markersAndPositions, setMarkersAndPositions] = useState<
         { marker: Marker; left: number; top: number }[]
@@ -479,81 +475,6 @@ function SceneView(props: ISceneViewProps, ref) {
             }
         }
     };
-
-    const clearBadgeGroups = useCallback(
-        (force: boolean) => {
-            debugLog('debug', 'clearBadgeGroups');
-            const groupsToRemove = [];
-            badgeGroupsRef?.current.forEach((badgeGroupRef) => {
-                // remove badge if group is no longer in prop
-                if (
-                    !badgeGroups?.find((bg) => bg.id === badgeGroupRef.name) ||
-                    force
-                ) {
-                    debugLog('debug', 'removing badge');
-                    advancedTextureRef.current.removeControl(badgeGroupRef);
-                    groupsToRemove.push(badgeGroupRef);
-                }
-            });
-            groupsToRemove?.forEach((group) => {
-                badgeGroupsRef.current = badgeGroupsRef.current.filter(
-                    (bg) => bg.name !== group.name
-                );
-            });
-        },
-        [badgeGroups]
-    );
-
-    const createBadgeGroups = useCallback(
-        (forceClear: boolean) => {
-            clearBadgeGroups(forceClear);
-            if (badgeGroups && advancedTextureRef.current && sceneRef.current) {
-                debugLog('debug', 'createBadgeGroups');
-                badgeGroups.forEach((bg) => {
-                    const mesh = sceneRef.current.meshes.find(
-                        (m) => m.id === bg.meshId
-                    );
-                    // only add badge group if not already present and mesh exists
-                    if (
-                        !badgeGroupsRef.current.find(
-                            (badgeGroupRef) => badgeGroupRef.name === bg.id
-                        ) &&
-                        mesh
-                    ) {
-                        debugLog('debug', 'adding badge group');
-                        const badgeGroup = createBadgeGroup(
-                            bg,
-                            backgroundColor,
-                            onBadgeGroupHover
-                        );
-                        advancedTextureRef.current.addControl(badgeGroup);
-                        badgeGroup.linkWithMesh(mesh);
-
-                        // badges can only be linked to meshes after being added to the scene
-                        // so adding a delay in making it visible so it doesn't jump
-                        const waitUntilPostioned = async () => {
-                            await sleep(1);
-                            badgeGroup.isVisible = true;
-                        };
-                        waitUntilPostioned();
-                        badgeGroupsRef.current.push(badgeGroup);
-                    }
-                });
-            }
-        },
-        [badgeGroups, backgroundColor]
-    );
-
-    useEffect(() => {
-        createBadgeGroups(false);
-    }, [badgeGroups, isLoading]);
-
-    useEffect(() => {
-        if (backgroundColor !== backgroundColorRef?.current) {
-            backgroundColorRef.current = backgroundColor;
-            createBadgeGroups(true);
-        }
-    }, [backgroundColor, createBadgeGroups]);
 
     useEffect(() => {
         if (cameraInteractionType && cameraRef.current) {
@@ -856,7 +777,6 @@ function SceneView(props: ISceneViewProps, ref) {
             originalMaterials.current = null;
             meshMap.current = null;
             materialCacheRef.current = [];
-            badgeGroupsRef.current = [];
             sceneRef.current = null;
             utilLayer.current = null;
             advancedTextureRef.current = null;
@@ -1155,8 +1075,8 @@ function SceneView(props: ISceneViewProps, ref) {
             top: number;
             left: number;
         }[] = [];
-        if (markers) {
-            markers.forEach((marker) => {
+        if (markersRef.current) {
+            markersRef.current.forEach((marker) => {
                 const position = getMarkerPosition(
                     marker,
                     meshMap.current,
@@ -1175,75 +1095,84 @@ function SceneView(props: ISceneViewProps, ref) {
                     const posTop =
                         position?.top -
                         markerToRenderUIElement.clientHeight / 2;
-                    //create first group
-                    if (markersAndPositions.length === 0) {
-                        marker.GroupedUIElement = null;
-                        markersAndPositions.push({
-                            marker: marker,
-                            left: posLeft,
-                            top: posTop
-                        });
-                    } else {
-                        const element = markersAndPositions.find((m) =>
-                            elementsOverlap(m, markerToRenderUIElement, {
-                                left: posLeft,
-                                top: posTop
-                            })
-                        );
-
-                        // add to existing group
-                        if (element) {
-                            const groupItems =
-                                element.marker.GroupedUIElement?.props
-                                    ?.groupItems || [];
-
-                            if (!groupItems.length) {
-                                groupItems.push({
-                                    label: element.marker.name,
-                                    id: element.marker.scene?.id,
-                                    onItemClick:
-                                        element.marker.UIElement?.props
-                                            ?.onLabelClick
-                                });
-                            }
-
-                            if (
-                                !groupItems.find(
-                                    (item) => item.label === marker.name
-                                )
-                            ) {
-                                groupItems.push({
-                                    label: marker.name,
-                                    id: marker?.scene?.id,
-                                    onItemClick:
-                                        marker?.UIElement?.props?.onLabelClick
-                                });
-                            }
-
-                            const groupedUIElement = (
-                                <ModelGroupLabel
-                                    label={groupItems.length}
-                                    groupItems={groupItems}
-                                />
-                            );
-                            if (
-                                !element.marker.UIElement?.props?.groupItems
-                                    ?.length
-                            ) {
-                                element.left = position?.left - 20;
-                                element.top = position?.top - 20;
-                            }
-                            element.marker.GroupedUIElement = groupedUIElement;
-                        } else {
-                            removeGroupedItems(markersAndPositions, marker);
-                            // create new group
+                    if (marker.allowGrouping) {
+                        //create first group
+                        if (markersAndPositions.length === 0) {
                             marker.GroupedUIElement = null;
                             markersAndPositions.push({
                                 marker: marker,
                                 left: posLeft,
                                 top: posTop
                             });
+                        } else {
+                            const element = markersAndPositions.find((m) =>
+                                elementsOverlap(m, markerToRenderUIElement, {
+                                    left: posLeft,
+                                    top: posTop
+                                })
+                            );
+
+                            // add to existing group
+                            if (element) {
+                                const groupItems =
+                                    element.marker.GroupedUIElement?.props
+                                        ?.groupItems || [];
+
+                                if (!groupItems.length) {
+                                    groupItems.push({
+                                        label: element.marker.name,
+                                        id: element.marker.scene?.id,
+                                        onItemClick:
+                                            element.marker.UIElement?.props
+                                                ?.onLabelClick
+                                    });
+                                }
+
+                                if (
+                                    !groupItems.find(
+                                        (item) => item.label === marker.name
+                                    )
+                                ) {
+                                    groupItems.push({
+                                        label: marker.name,
+                                        id: marker?.scene?.id,
+                                        onItemClick:
+                                            marker?.UIElement?.props
+                                                ?.onLabelClick
+                                    });
+                                }
+
+                                const groupedUIElement = (
+                                    <ModelGroupLabel
+                                        label={groupItems.length}
+                                        groupItems={groupItems}
+                                    />
+                                );
+                                if (
+                                    !element.marker.UIElement?.props?.groupItems
+                                        ?.length
+                                ) {
+                                    element.left = position?.left - 20;
+                                    element.top = position?.top - 20;
+                                }
+                                element.marker.GroupedUIElement = groupedUIElement;
+                            } else {
+                                removeGroupedItems(markersAndPositions, marker);
+                                // create new group
+                                marker.GroupedUIElement = null;
+                                markersAndPositions.push({
+                                    marker: marker,
+                                    left: posLeft,
+                                    top: posTop
+                                });
+                            }
                         }
+                    } else {
+                        markersAndPositions.push({
+                            marker: marker,
+                            left: posLeft,
+                            top: posTop
+                        });
                     }
                 } else {
                     removeGroupedItems(markersAndPositions, marker);
@@ -1252,7 +1181,15 @@ function SceneView(props: ISceneViewProps, ref) {
 
             setMarkersAndPositions(markersAndPositions);
         }
-    }, [markers]);
+    }, [markers, markersRef.current]);
+
+    useEffect(() => {
+        // ensure we have markers and the model is loaded
+        if (markers && !isLoading) {
+            markersRef.current = markers;
+            createMarkersWithPosition();
+        }
+    }, [markers, isLoading]);
 
     // SETUP LOGIC FOR onMeshHover
     useEffect(() => {

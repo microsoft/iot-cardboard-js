@@ -560,28 +560,33 @@
                     "description": "min/max values are parsed as a two element array [min, max].  Boolean values are parsed as a single element array [true]."
                 },
                 "visual": {
-                    "type": "object",
-                    "description": "Visual data to apply when values are in range",
-                    "properties": {
-                        "color": {
-                            "type": "string"
-                        },
-                        "iconName": {
-                            "type": "string"
-                        },
-                        "labelExpression": {
-                            "type": "string"
-                        },
-                        "extensionProperties": {
-                            "$ref": "#/$defs/IExtensionProperties"
-                        }
-                    }
+                    "$ref": "#/$defs/IValueRangeVisual"
                 },
                 "extensionProperties": {
                     "$ref": "#/$defs/IExtensionProperties"
                 }
             },
             "required": ["id", "values", "visual"]
+        },
+        "IValueRangeVisual": {
+            "type": "object",
+            "additionalProperties": false,
+            "description": "Visual data to apply when values are in range",
+            "properties": {
+                "color": {
+                    "type": "string"
+                },
+                "iconName": {
+                    "type": "string"
+                },
+                "labelExpression": {
+                    "type": "string"
+                },
+                "extensionProperties": {
+                    "$ref": "#/$defs/IExtensionProperties"
+                }
+            },
+            "required": []
         }
     }
 }

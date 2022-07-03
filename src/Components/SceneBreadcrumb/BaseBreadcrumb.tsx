@@ -20,6 +20,7 @@ export const BaseBreadcrumb: React.FC<IBaseBreadcrumbProps> = ({
     classNames,
     onSceneClick,
     onCancelForm,
+    onNavigate,
     onSceneChange
 }) => {
     const theme = useTheme();
@@ -60,9 +61,18 @@ export const BaseBreadcrumb: React.FC<IBaseBreadcrumbProps> = ({
                 key: 'Home',
                 ...(scenePageContext && {
                     onClick: () => {
-                        scenePageContext.handleOnHomeClick();
-                        if (onCancelForm) {
-                            onCancelForm();
+                        const navigate = () => {
+                            scenePageContext.handleOnHomeClick();
+                            if (onCancelForm) {
+                                onCancelForm();
+                            }
+                        };
+                        if (onNavigate) {
+                            onNavigate('goToHome', () => {
+                                navigate();
+                            });
+                        } else {
+                            navigate();
                         }
                     }
                 })
@@ -76,12 +86,14 @@ export const BaseBreadcrumb: React.FC<IBaseBreadcrumbProps> = ({
             }
         ];
     }, [
-        isAtSceneRoot,
-        onCancelForm,
-        onSceneClick,
-        sceneName,
+        homeText,
         scenePageContext,
-        homeText
+        sceneName,
+        t,
+        isAtSceneRoot,
+        onSceneClick,
+        onNavigate,
+        onCancelForm
     ]);
 
     if (extraItems) {

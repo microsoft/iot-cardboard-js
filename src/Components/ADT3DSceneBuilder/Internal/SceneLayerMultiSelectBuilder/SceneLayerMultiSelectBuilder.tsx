@@ -7,7 +7,6 @@ import {
     Label,
     Stack
 } from '@fluentui/react';
-import produce from 'immer';
 import React, { useContext, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import TooltipCallout from '../../../TooltipCallout/TooltipCallout';
@@ -16,13 +15,15 @@ import { SceneBuilderContext } from '../../ADT3DSceneBuilder';
 interface ISceneLayerMultiSelectBuilder {
     behaviorId: string;
     selectedLayerIds: string[];
-    setSelectedLayerIds: React.Dispatch<React.SetStateAction<string[]>>;
+    onLayerSelected: (layerId: string) => void;
+    onLayerUnselected: (layerId: string) => void;
 }
 
 const SceneLayerMultiSelectBuilder: React.FC<ISceneLayerMultiSelectBuilder> = ({
     behaviorId,
     selectedLayerIds,
-    setSelectedLayerIds
+    onLayerSelected,
+    onLayerUnselected
 }) => {
     const { t } = useTranslation();
 
@@ -62,11 +63,11 @@ const SceneLayerMultiSelectBuilder: React.FC<ISceneLayerMultiSelectBuilder> = ({
         const selected = option.selected;
 
         if (option) {
-            setSelectedLayerIds((prevSelectedKeys) =>
-                selected
-                    ? [...prevSelectedKeys, option.key as string]
-                    : prevSelectedKeys.filter((k) => k !== option.key)
-            );
+            if (selected) {
+                onLayerSelected(option.key as string);
+            } else {
+                onLayerUnselected(option.key as string);
+            }
         }
     };
 
@@ -91,11 +92,7 @@ const SceneLayerMultiSelectBuilder: React.FC<ISceneLayerMultiSelectBuilder> = ({
                                 behaviorId,
                                 (layerId: string) => {
                                     comboBoxRef.current.focus(true);
-                                    setSelectedLayerIds(
-                                        produce((draft) => {
-                                            draft.push(layerId);
-                                        })
-                                    );
+                                    onLayerSelected(layerId);
                                 }
                             );
                         }}
