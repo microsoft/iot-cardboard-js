@@ -963,6 +963,7 @@
       "invalidEnvironmentUrl": "To nie jest prawidłowy adres URL (np. https://<yourADTInstanceResourceName>.api.wcus.digitaltwins.azure.net)",
       "invalidContainerUrl": "To nie jest prawidłowy adres URL (np. https://<yourStorageAccountName>.blob.core.windows.net/<yourContainerName>)",
       "invalidStorageAccountUrl": "To nie jest prawidłowy adres URL (np. https://<yourStorageAccountName>.blob.core.windows.net)"
-    }
+    },
+    "noOption": "Nie znaleziono zasobów"
   }
 }

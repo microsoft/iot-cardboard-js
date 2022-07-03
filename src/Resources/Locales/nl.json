@@ -963,6 +963,7 @@
       "invalidEnvironmentUrl": "Dit is geen geldige URL (bijv. https://<yourADTInstanceResourceName>.api.wcus.digitaltwins.azure.net)",
       "invalidContainerUrl": "Dit is geen geldige URL (bijv. https://<yourStorageAccountName>.blob.core.windows.net/<yourContainerName>)",
       "invalidStorageAccountUrl": "Dit is geen geldige URL (bijv. https://<yourStorageAccountName>.blob.core.windows.net)"
-    }
+    },
+    "noOption": "Geen bronnen gevonden"
   }
 }

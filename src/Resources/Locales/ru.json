@@ -963,6 +963,7 @@
       "invalidEnvironmentUrl": "Это недопустимый URL-адрес (например, https://<ваш ADTInstanceResourceName>.api.wcus.digitaltwins.azure.net)",
       "invalidContainerUrl": "Это недопустимый URL-адрес (например, https://<yourStorageAccountName>.blob.core.windows.net/<yourContainerName>)",
       "invalidStorageAccountUrl": "Это недопустимый URL-адрес (например, https://<yourStorageAccountName>.blob.core.windows.net)"
-    }
+    },
+    "noOption": "Ресурсы не найдены"
   }
 }

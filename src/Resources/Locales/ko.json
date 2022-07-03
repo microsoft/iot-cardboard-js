@@ -963,6 +963,7 @@
       "invalidEnvironmentUrl": "유효한 URL(예: https://<yourADTInstanceResourceName>.api.wcus.digitaltwins.azure.net)이 아닙니다.",
       "invalidContainerUrl": "유효한 URL(예: https://<yourStorageAccountName>.blob.core.windows.net/<yourContainerName>)이 아닙니다.",
       "invalidStorageAccountUrl": "유효한 URL(예: https://<yourStorageAccountName>.blob.core.windows.net)이 아닙니다."
-    }
+    },
+    "noOption": "리소스를 찾을 수 없음"
   }
 }

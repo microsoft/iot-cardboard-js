@@ -963,6 +963,7 @@
       "invalidEnvironmentUrl": "Det här är inte en giltig URL (t.ex. https://<dinADTInstanceResourceName>.api.wcus.digitaltwins.azure.net)",
       "invalidContainerUrl": "Detta är en ogiltig URL (t.ex. https://<yourStorageAccountName>.blob.core.windows.net/<yourContainerName>)",
       "invalidStorageAccountUrl": "Detta är inte en giltig URL (t.ex. https://<dinStorageAccountName>.blob.core.windows.net)"
-    }
+    },
+    "noOption": "Inga resurser hittades"
   }
 }

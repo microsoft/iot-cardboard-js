@@ -963,6 +963,7 @@
       "invalidEnvironmentUrl": "Esta não é uma URL válida (por exemplo, https://<irseadtInstanceResourceName>.api.wcus.digitaltwins.azure.net)",
       "invalidContainerUrl": "Esta não é uma URL válida (por exemplo, https://<yourStorageAccountName>.blob.core.windows.net/<yourContainerName>)",
       "invalidStorageAccountUrl": "Esta não é uma URL válida (por exemplo, https://<yourStorageAccountName>.blob.core.windows.net)"
-    }
+    },
+    "noOption": "Nenhum recurso encontrado"
   }
 }

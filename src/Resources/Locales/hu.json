@@ -963,6 +963,7 @@
       "invalidEnvironmentUrl": "Ez nem érvényes URL-cím (pl. https://<yourADTInstanceResourceName>.api.wcus.digitaltwins.azure.net)",
       "invalidContainerUrl": "Ez nem érvényes URL-cím (pl. https://<yourStorageAccountName>.blob.core.windows.net/<yourContainerName>)",
       "invalidStorageAccountUrl": "Ez nem érvényes URL-cím (pl. https://<yourStorageAccountName>.blob.core.windows.net)"
-    }
+    },
+    "noOption": "Nem található forrás"
   }
 }

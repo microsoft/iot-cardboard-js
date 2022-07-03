@@ -963,6 +963,7 @@
       "invalidEnvironmentUrl": "Bu geçerli bir URL değil (ör. https://<adınız>.api.wcus.digitaltwins.azure.net)",
       "invalidContainerUrl": "Bu geçerli bir URL değil (ör. https://<DepolamaHesabınız>.blob.core.windows.net/<ContainerAdınız>)",
       "invalidStorageAccountUrl": "Bu geçerli bir URL değil (ör. https://<DepolamaHesabıadınız>.blob.core.windows.net)"
-    }
+    },
+    "noOption": "Kaynak bulunamadı"
   }
 }
