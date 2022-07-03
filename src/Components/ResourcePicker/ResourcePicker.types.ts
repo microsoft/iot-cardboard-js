@@ -68,5 +68,5 @@ export interface IResourcePickerStyles {
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface IResourcePickerSubComponentStyles {
     errorMessageBar: IMessageBarStyles;
-    comboBox: IComboBoxStyles;
+    comboBox: Partial<IComboBoxStyles>;
 }
