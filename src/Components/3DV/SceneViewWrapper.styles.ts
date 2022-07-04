@@ -17,7 +17,8 @@ const classNames = {
     button: `${classPrefix}-button`,
     callout: `${classPrefix}-callout`,
     calloutCheckbox: `${classPrefix}-callout-checkbox`,
-    calloutTitle: `${classPrefix}-callout-title`
+    calloutTitle: `${classPrefix}-callout-title`,
+    errorMessage: `${classPrefix}-error-message`
 };
 
 export const getStyles = (
