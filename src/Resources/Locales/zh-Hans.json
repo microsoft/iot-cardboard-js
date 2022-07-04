@@ -84,9 +84,6 @@
   "info": "信息",
   "ADTInstances": "Azure Digital Twins 实例",
   "ADTInstancesInfo": "用户具有 Azure 数字孪生数据所有者或 Azure 数字孪生数据读取器权限的 ADT 实例的列表",
-  "loadingInstances": "正在加载实例...",
-  "selectInstance": "选择实例",
-  "enterInstanceUrl": "输入实例网址",
   "selectOption": "选择一个选项",
   "globe": "球",
   "list": "列表",
@@ -757,8 +754,6 @@
   },
   "environmentPicker": {
     "environmentUrl": "Azure Digital Twins instance URL",
-    "enterEnvironmentUrl": "例如 https://example.api.wus2.digitaltwins.azure.net",
-    "enterContainerUrl": "例如 https://example.blob.core.windows.net/example",
     "editEnvironment": "配置 3D 场景环境",
     "descriptionForEnvironment": "链接 Azure 数字孪生实例以开始构建 3D 场景。",
     "descriptionForEnvAndCont": "链接 Azure 数字孪生实例和存储容器，开始构建 3D 场景。",
@@ -767,10 +762,6 @@
     "noEnvironment": "未添加环境",
     "noContainer": "未添加容器",
     "removeFromList": "从列表中删除",
-    "errors": {
-      "invalidEnvironmentUrl": "这不是一个有效的URL（例如 https://<yourADTInstanceResourceName>.api.wcus.digitaltwins.azure.net）",
-      "invalidContainerUrl": "这不是一个有效的URL（例如 https://<yourStorageAccountName>.blob.core.windows.net/<yourContainerName>）"
-    },
     "storageAccountName": "Azure 存储帐户名称",
     "storageAccountUrl": "Azure 存储帐户 URL",
     "storageContainerName": "Azure Storage Container Name",
