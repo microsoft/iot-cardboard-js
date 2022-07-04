@@ -274,6 +274,10 @@ export interface IAzureRoleAssignment extends IAzureResource {
     properties: IAzureRoleAssignmentPropertyData;
 }
 
+export interface IADTInstance extends IAzureResource {
+    type: AzureResourceTypes.DigitalTwinInstance;
+}
+
 export interface IAzureStorageAccount extends IAzureResource {
     type: AzureResourceTypes.StorageAccount;
 }
@@ -286,22 +290,6 @@ export interface IAzureRoleAssignmentPropertyData {
     roleDefinitionId: string;
     [additionalProperty: string]: any;
 }
-
-export interface IADTInstance {
-    // derived from IAzureResource
-    id: string;
-    name: string; // e.g. cardboard
-    hostName: string; // e.g. cardboard.api.wcus.digitaltwins.azure.net
-    location: string; // e.g. westcentralus
-}
-
-export interface IStorageContainer {
-    // derived from IAzureResource
-    id: string;
-    name: string;
-    url?: string;
-}
-
 // END of Azure Management plane interfaces
 
 export interface IADTInstanceConnection {

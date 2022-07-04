@@ -10,11 +10,7 @@ import {
     AzureResourceTypes,
     ComponentErrorType
 } from '../Models/Constants/Enums';
-import {
-    IADTInstance,
-    IAuthService,
-    IAzureResource
-} from '../Models/Constants/Interfaces';
+import { IAuthService, IAzureResource } from '../Models/Constants/Interfaces';
 import { applyMixins } from '../Models/Services/Utils';
 import ADTAdapter from './ADTAdapter';
 import ADXAdapter from './ADXAdapter';
@@ -34,7 +30,6 @@ import {
     AzureMissingRoleDefinitionsData,
     AzureResourcesData
 } from '../Models/Classes/AdapterDataClasses/AzureManagementData';
-import { StorageContainersData } from '../Models/Classes/AdapterDataClasses/StorageData';
 
 export const EnforcedStorageContainerAccessRoleIds = [
     AzureAccessPermissionRoles.Reader
@@ -104,9 +99,17 @@ export default class ADT3DSceneAdapter {
 
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
         return await adapterMethodSandbox.safelyFetchData(async (token) => {
-            const digitalTwinInstances = await this.getADTInstances();
+            const digitalTwinInstances = await this.getResourcesByPermissions(
+                AzureResourceTypes.DigitalTwinInstance,
+                {
+                    enforcedRoleIds: EnforcedADTAccessRoleIds,
+                    interchangeableRoleIds: InterchangeableADTAccessRoleIds
+                }
+            );
             const result = digitalTwinInstances.result.data;
-            const instance = result.find((d) => d.hostName === this.adtHostUrl);
+            const instance = result.find(
+                (d) => d.properties.hostName === this.adtHostUrl
+            );
 
             try {
                 // use the below azure management call to get adt-adx connection information including Kusto cluster url, database name and table name to retrieve the data history from
@@ -142,33 +145,6 @@ export default class ADT3DSceneAdapter {
                 kustoTableName: this.tableName
             });
         }, 'azureManagement');
-    };
-
-    //returns all the adt instances that the user has the specified permission/permissions to
-    getADTInstances = async () => {
-        const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
-        return await adapterMethodSandbox.safelyFetchData(async () => {
-            const adtInstanceResourcesResult = await this.getResourcesByPermissions(
-                AzureResourceTypes.DigitalTwinInstance,
-                {
-                    enforcedRoleIds: EnforcedADTAccessRoleIds,
-                    interchangeableRoleIds: InterchangeableADTAccessRoleIds
-                }
-            );
-            const adtInstanceResources: Array<IAzureResource> = adtInstanceResourcesResult?.getData();
-            const digitalTwinsInstances: Array<IADTInstance> = [];
-
-            adtInstanceResources?.forEach((adtInstanceResource) => {
-                digitalTwinsInstances.push({
-                    id: adtInstanceResource.id,
-                    name: adtInstanceResource.name,
-                    hostName: adtInstanceResource.properties['hostName'],
-                    location: adtInstanceResource.location
-                });
-            });
-
-            return new ADTInstancesData(digitalTwinsInstances);
-        });
     };
 
     /** Checking missing role assignments for the container, for this we need the resouce id of the container and we need to make
@@ -322,8 +298,6 @@ export default interface ADT3DSceneAdapter
     getConnectionInformation: () => Promise<
         AdapterResult<ADTInstanceConnectionData>
     >;
-    getADTInstances: () => Promise<AdapterResult<ADTInstancesData>>;
-    getStorageContainers: () => Promise<AdapterResult<StorageContainersData>>;
     getMissingStorageContainerAccessRoles: (
         containerURLString?: string
     ) => Promise<AdapterResult<AzureMissingRoleDefinitionsData>>;

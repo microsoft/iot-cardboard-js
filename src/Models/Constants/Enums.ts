@@ -252,7 +252,7 @@ export enum AzureResourcesAPIVersions {
     'Microsoft.Authorization/roleAssignments' = '2015-07-01'
 }
 
-/** list of Azure Resource properties to be used as display in UI */
+/** list of Azure Resource properties to be used as display in combobox list UI */
 export enum AzureResourceDisplayFields {
     'id',
     'name',

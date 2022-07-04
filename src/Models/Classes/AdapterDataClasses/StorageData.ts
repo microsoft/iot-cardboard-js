@@ -1,8 +1,8 @@
 import {
     IAdapterData,
+    IAzureStorageBlobContainer,
     IBlobServiceCorsRule,
-    IStorageBlob,
-    IStorageContainer
+    IStorageBlob
 } from '../../Constants/Interfaces';
 
 export class StorageBlobsData implements IAdapterData {
@@ -18,9 +18,9 @@ export class StorageBlobsData implements IAdapterData {
 }
 
 export class StorageContainersData implements IAdapterData {
-    data: Array<IStorageContainer>;
+    data: Array<IAzureStorageBlobContainer>;
 
-    constructor(data: Array<IStorageContainer>) {
+    constructor(data: Array<IAzureStorageBlobContainer>) {
         this.data = data;
     }
 

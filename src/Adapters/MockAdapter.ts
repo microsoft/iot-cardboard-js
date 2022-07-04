@@ -36,7 +36,6 @@ import {
     IPropertyInspectorAdapter,
     IAzureResource,
     PRIMARY_TWIN_NAME,
-    IADTInstance,
     AzureResourceTypes,
     AzureAccessPermissionRoles,
     MissingAzureRoleDefinitionAssignments,
@@ -44,7 +43,6 @@ import {
     BlobStorageServiceCorsAllowedOrigins,
     BlobStorageServiceCorsAllowedMethods,
     BlobStorageServiceCorsAllowedHeaders,
-    IStorageContainer,
     IAzureSubscription,
     AzureResourceDisplayFields
 } from '../Models/Constants';
@@ -72,8 +70,7 @@ import {
 } from '../Models/Services/Utils';
 import {
     StorageBlobsData,
-    StorageBlobServiceCorsRulesData,
-    StorageContainersData
+    StorageBlobServiceCorsRulesData
 } from '../Models/Classes/AdapterDataClasses/StorageData';
 import {
     I3DScenesConfig,
@@ -86,7 +83,6 @@ import ExpandedADTModelData from '../Models/Classes/AdapterDataClasses/ExpandedA
 import { applyPatch, Operation } from 'fast-json-patch';
 import { DTDLType } from '../Models/Classes/DTDL';
 import i18n from '../i18n';
-import ADTInstancesData from '../Models/Classes/AdapterDataClasses/ADTInstancesData';
 
 const MAX_RESOURCE_TAKE_LIMIT = 5;
 export default class MockAdapter
@@ -821,61 +817,6 @@ export default class MockAdapter
 
             return new AdapterResult({
                 result: new AzureResourcesData(resources),
-                errorInfo: null
-            });
-        } catch (err) {
-            return new AdapterResult({
-                result: null,
-                errorInfo: { catastrophicError: err, errors: [err] }
-            });
-        }
-    }
-
-    async getADTInstances() {
-        try {
-            const adtInstanceResourcesResult = await this.getResources(
-                AzureResourceTypes.DigitalTwinInstance
-            );
-            const adtInstanceResources: Array<IAzureResource> = adtInstanceResourcesResult.getData();
-            const digitalTwinsInstances: Array<IADTInstance> = adtInstanceResources.map(
-                (adtInstanceResource) =>
-                    ({
-                        id: adtInstanceResource.id,
-                        name: adtInstanceResource.name,
-                        hostName: adtInstanceResource.properties['hostName'],
-                        location: adtInstanceResource.location
-                    } as IADTInstance)
-            );
-
-            return new AdapterResult({
-                result: new ADTInstancesData(digitalTwinsInstances),
-                errorInfo: null
-            });
-        } catch (err) {
-            return new AdapterResult({
-                result: null,
-                errorInfo: { catastrophicError: err, errors: [err] }
-            });
-        }
-    }
-
-    async getStorageContainers() {
-        try {
-            const storageResourcesResult = await this.getResources(
-                AzureResourceTypes.StorageBlobContainer
-            );
-            const storageResources: Array<IAzureResource> = storageResourcesResult.getData();
-            const storageContainers: Array<IStorageContainer> = [];
-            for (let i = 0; i < storageResources.length; i++) {
-                const storageResource = storageResources[i];
-                storageContainers.push({
-                    id: storageResource.id,
-                    name: storageResource.name
-                });
-            }
-
-            return new AdapterResult({
-                result: new StorageContainersData(storageContainers),
                 errorInfo: null
             });
         } catch (err) {
