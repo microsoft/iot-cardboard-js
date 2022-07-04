@@ -84,9 +84,6 @@
   "info": "Informazioni",
   "ADTInstances": "Istanze di Gemelli digitali di Azure",
   "ADTInstancesInfo": "Elenco delle istanze ADT per le quali l'utente dispone dell'autorizzazione Proprietario dei dati di Gemelli digitali di Azure o Lettore di dati di Gemelli digitali di Azure",
-  "loadingInstances": "Caricamento delle istanze...",
-  "selectInstance": "Selezionare un'istanza",
-  "enterInstanceUrl": "Immettere l'URL di un'istanza",
   "selectOption": "Seleziona un'opzione",
   "globe": "Globo",
   "list": "Lista",
@@ -757,8 +754,6 @@
   },
   "environmentPicker": {
     "environmentUrl": "URL dell'istanza di Gemelli digitali di Azure",
-    "enterEnvironmentUrl": "ad esempio https://example.api.wus2.digitaltwins.azure.net",
-    "enterContainerUrl": "ad esempio https://example.blob.core.windows.net/example",
     "editEnvironment": "Configurare l'ambiente delle scene 3D",
     "descriptionForEnvironment": "Collega l'istanza di Gemelli digitali di Azure per iniziare a creare scene 3D.",
     "descriptionForEnvAndCont": "Collega l'istanza di Gemelli digitali di Azure e il contenitore di archiviazione per iniziare a creare scene 3D.",
@@ -767,10 +762,6 @@
     "noEnvironment": "Nessun ambiente aggiunto",
     "noContainer": "Nessun contenitore aggiunto",
     "removeFromList": "Rimuovi dall'elenco",
-    "errors": {
-      "invalidEnvironmentUrl": "Questo non è un URL valido (ad esempio https://<yourADTInstanceResourceName>.api.wcus.digitaltwins.azure.net)",
-      "invalidContainerUrl": "Questo non è un URL valido (ad esempio https://<yourStorageAccountName>.blob.core.windows.net/<yourContainerName>)"
-    },
     "storageAccountName": "Nome account archiviazione di Azure",
     "storageAccountUrl": "URL dell'account di archiviazione di Azure",
     "storageContainerName": "Nome del contenitore di Archiviazione di Azure",

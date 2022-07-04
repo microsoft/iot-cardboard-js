@@ -84,9 +84,6 @@
   "info": "Info",
   "ADTInstances": "Instances Azure Digital Twins",
   "ADTInstancesInfo": "Liste des instances ADT pour lesquelles l’utilisateur dispose de l’autorisation Azure Digital Twins Data Owner ou Azure Digital Twins Data Reader",
-  "loadingInstances": "Chargement d’instances...",
-  "selectInstance": "Sélectionner une instance",
-  "enterInstanceUrl": "Entrez une URL d’instance",
   "selectOption": "Sélectionnez une option",
   "globe": "Globe",
   "list": "Liste",
@@ -757,8 +754,6 @@
   },
   "environmentPicker": {
     "environmentUrl": "URL de l’instance Azure Digital Twins",
-    "enterEnvironmentUrl": "p. ex. https://example.api.wus2.digitaltwins.azure.net",
-    "enterContainerUrl": "p. ex. https://example.blob.core.windows.net/example",
     "editEnvironment": "Configurer l’environnement 3D Scenes",
     "descriptionForEnvironment": "Liez votre instance Azure Digital Twins pour commencer à créer des scènes 3D.",
     "descriptionForEnvAndCont": "Liez votre instance Azure Digital Twins et votre conteneur de stockage pour commencer à créer des scènes 3D.",
@@ -767,10 +762,6 @@
     "noEnvironment": "Aucun environnement ajouté",
     "noContainer": "Aucun conteneur ajouté",
     "removeFromList": "Supprimer de la liste",
-    "errors": {
-      "invalidEnvironmentUrl": "Il ne s’agit pas d’une URL valide (par exemple, https://<yourADTInstanceResourceName>.api.wcus.digitaltwins.azure.net)",
-      "invalidContainerUrl": "Il ne s’agit pas d’une URL valide (par exemple, https://<yourStorageAccountName>.blob.core.windows.net/<yourContainerName>)"
-    },
     "storageAccountName": "Nom du compte azure storage",
     "storageAccountUrl": "URL du compte de stockage Azure",
     "storageContainerName": "Nom du conteneur Azure Storage",

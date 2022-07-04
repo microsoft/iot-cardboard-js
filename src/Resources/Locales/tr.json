@@ -84,9 +84,6 @@
   "info": "Bilgi",
   "ADTInstances": "Azure Digital Twins örnekleri",
   "ADTInstancesInfo": "Kullanıcının Azure Digital Twins Veri Sahibi veya Azure Digital Twins Veri Okuyucusu iznine sahip olduğu ADT örneklerinin listesi",
-  "loadingInstances": "Bulut sunucuları yükleniyor...",
-  "selectInstance": "Bir örnek seçin",
-  "enterInstanceUrl": "Bir örnek URL'si girin",
   "selectOption": "Bir seçenek belirleyin",
   "globe": "Küre",
   "list": "Liste",
@@ -757,8 +754,6 @@
   },
   "environmentPicker": {
     "environmentUrl": "Azure Digital Twins örneği URL'si",
-    "enterEnvironmentUrl": "örneğin https://example.api.wus2.digitaltwins.azure.net",
-    "enterContainerUrl": "örneğin https://example.blob.core.windows.net/example",
     "editEnvironment": "3B Sahneler ortamını yapılandırma",
     "descriptionForEnvironment": "3B sahneler oluşturmaya başlamak için Azure Digital Twins örneğinizi bağlayın.",
     "descriptionForEnvAndCont": "3B sahneler oluşturmaya başlamak için Azure Digital Twins örneğinizi ve depolama kapsayıcınızı bağlayın.",
@@ -767,10 +762,6 @@
     "noEnvironment": "Ortam eklenmedi",
     "noContainer": "Konteyner eklenmedi",
     "removeFromList": "Listeden kaldır",
-    "errors": {
-      "invalidEnvironmentUrl": "Bu geçerli bir URL değil (ör. https://<adınız>.api.wcus.digitaltwins.azure.net)",
-      "invalidContainerUrl": "Bu geçerli bir URL değil (ör. https://<DepolamaHesabınız>.blob.core.windows.net/<ContainerAdınız>)"
-    },
     "storageAccountName": "Azure Depolama hesabı adı",
     "storageAccountUrl": "Azure Depolama hesabı URL'si",
     "storageContainerName": "Azure Depolama kapsayıcı adı",

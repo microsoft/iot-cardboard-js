@@ -84,9 +84,6 @@
   "info": "Информация",
   "ADTInstances": "Экземпляры цифровых двойников Azure",
   "ADTInstancesInfo": "Список экземпляров ADT, для которых у пользователя есть разрешение \"Владелец данных цифровых двойников Azure\" или \"Средство чтения данных цифровых двойников Azure\"",
-  "loadingInstances": "Загрузка экземпляров...",
-  "selectInstance": "Выберите экземпляр",
-  "enterInstanceUrl": "Введите URL-адрес экземпляра",
   "selectOption": "Выберите вариант",
   "globe": "Глобус",
   "list": "Список",
@@ -757,8 +754,6 @@
   },
   "environmentPicker": {
     "environmentUrl": "URL-адрес экземпляра Azure Digital Twins",
-    "enterEnvironmentUrl": "например, https://example.api.wus2.digitaltwins.azure.net",
-    "enterContainerUrl": "например, https://example.blob.core.windows.net/example",
     "editEnvironment": "Настройка среды 3D-сцен",
     "descriptionForEnvironment": "Свяжите экземпляр Azure Digital Twins, чтобы начать создавать 3D-сцены.",
     "descriptionForEnvAndCont": "Свяжите экземпляр Azure Digital Twins и контейнер хранилища, чтобы начать создание 3D-сцен.",
@@ -767,10 +762,6 @@
     "noEnvironment": "Среда не добавлена",
     "noContainer": "Контейнер не добавлен",
     "removeFromList": "Удалить из списка",
-    "errors": {
-      "invalidEnvironmentUrl": "Это недопустимый URL-адрес (например, https://<ваш ADTInstanceResourceName>.api.wcus.digitaltwins.azure.net)",
-      "invalidContainerUrl": "Это недопустимый URL-адрес (например, https://<yourStorageAccountName>.blob.core.windows.net/<yourContainerName>)"
-    },
     "storageAccountName": "Имя учетной записи хранения Azure",
     "storageAccountUrl": "URL-адрес учетной записи хранения Azure",
     "storageContainerName": "Имя контейнера службы хранилища Azure",
