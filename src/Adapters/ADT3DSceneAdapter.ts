@@ -58,7 +58,7 @@ export default class ADT3DSceneAdapter {
         blobProxyServerPath = '/proxy/blob'
     ) {
         this.adtHostUrl = adtHostUrl;
-        this.authService = this.blobAuthService = authService;
+        this.authService = this.blobAuthService = this.adxAuthService = authService;
         this.tenantId = tenantId;
         this.uniqueObjectId = uniqueObjectId;
         this.adtTwinCache = new AdapterEntityCache<ADTTwinData>(9000);
