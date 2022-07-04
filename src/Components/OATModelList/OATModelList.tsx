@@ -10,11 +10,13 @@ import { IAction, IOATTwinModelNodes } from '../../Models/Constants';
 import {
     SET_OAT_DELETED_MODEL_ID,
     SET_OAT_SELECTED_MODEL_ID,
-    SET_OAT_CONFIRM_DELETE_OPEN
+    SET_OAT_CONFIRM_DELETE_OPEN,
+    SET_OAT_PROPERTY_EDITOR_MODEL
 } from '../../Models/Constants/ActionTypes';
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 import OATTextFieldDisplayName from '../../Pages/OATEditorPage/Internal/Components/OATTextFieldDisplayName';
 import OATTextFieldId from '../../Pages/OATEditorPage/Internal/Components/OATTextFieldId';
+import { deepCopy } from '../../Models/Services/Utils';
 
 type OATModelListProps = {
     elements: IOATTwinModelNodes[];
@@ -43,7 +45,7 @@ const OATModelList = ({
     const containerRef = useRef(null);
     const iconStyles = getModelsIconStyles();
     const actionButtonStyles = getModelsActionButtonStyles();
-    const { model } = state;
+    const { model, models } = state;
 
     useEffect(() => {
         setItems(elements);
@@ -133,14 +135,21 @@ const OATModelList = ({
                             )}
                             {idEditor && currentNodeId.current === item['@id'] && (
                                 <OATTextFieldId
-                                    id={idText}
-                                    setId={setIdText}
-                                    dispatch={dispatch}
-                                    state={state}
+                                    value={idText}
+                                    model={model}
+                                    models={models}
                                     onChange={() => {
                                         setItems([...items]);
                                     }}
-                                    onCommit={() => {
+                                    onCommit={(value) => {
+                                        const modelCopy = deepCopy(model);
+                                        modelCopy['@id'] = value;
+                                        dispatch({
+                                            type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                                            payload: modelCopy
+                                        });
+                                        setIdText(value);
+
                                         setIdEditor(false);
                                         setItems([...items]);
                                         onSelectedClick(null);
@@ -166,17 +175,25 @@ const OATModelList = ({
                                 currentNodeId.current === item['@id'] && (
                                     <>
                                         <OATTextFieldDisplayName
-                                            displayName={nameText}
-                                            setDisplayName={setNameText}
-                                            dispatch={dispatch}
+                                            value={nameText}
                                             model={model}
                                             onChange={() => {
                                                 setItems([...items]);
                                             }}
-                                            onCommit={() => {
+                                            onCommit={(value) => {
                                                 setNameEditor(false);
                                                 setItems([...items]);
                                                 onSelectedClick(null);
+
+                                                const modelCopy = deepCopy(
+                                                    model
+                                                );
+                                                modelCopy.displayName = value;
+                                                dispatch({
+                                                    type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                                                    payload: modelCopy
+                                                });
+                                                setNameText(value);
                                             }}
                                             autoFocus
                                         />

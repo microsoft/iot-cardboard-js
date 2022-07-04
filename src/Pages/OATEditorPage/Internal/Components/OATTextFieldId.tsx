@@ -3,43 +3,35 @@ import { TextField } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import {
     DTMIRegex,
-    IAction,
+    IOATTwinModelNodes,
     ModelTypes,
     OATIdLengthLimit
 } from '../../../../Models/Constants';
-import { SET_OAT_PROPERTY_EDITOR_MODEL } from '../../../../Models/Constants/ActionTypes';
-import { deepCopy } from '../../../../Models/Services/Utils';
-import { IOATEditorState } from '../../OATEditorPage.types';
 
 type IOATTexField = {
     autoFocus?: boolean;
     borderless?: boolean;
-    dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
     disabled?: boolean;
-    id: string;
+    value: string;
     onChange?: () => void;
-    onCommit?: () => void;
+    onCommit?: (value: string) => void;
     placeholder?: string;
-    setId: (value: string) => void;
-    state?: IOATEditorState;
-    setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
     styles?: React.CSSProperties;
-    modalFormCommit?: boolean;
+    model: IOATTwinModelNodes;
+    models: IOATTwinModelNodes[];
 };
 
 const OATTextFieldId = ({
     autoFocus,
     borderless,
     disabled,
-    dispatch,
-    id,
+    model,
+    models,
     onChange,
     onCommit,
     placeholder,
-    modalFormCommit,
-    setId,
-    state,
-    styles
+    styles,
+    value
 }: IOATTexField) => {
     const { t } = useTranslation();
     const [idLengthError, setIdLengthError] = useState(false);
@@ -52,14 +44,13 @@ const OATTextFieldId = ({
         setIdAlreadyUsedRelationshipError
     ] = useState(false);
     const [validDTMIError, setValidDTMIError] = useState(false);
-    const [temporaryValue, setTemporaryValue] = useState(id);
-    const { model, models } = state;
-    const originalValue = id;
+    const [temporaryValue, setTemporaryValue] = useState(value);
+    const originalValue = value;
     const inputRef = useRef(null);
 
     useEffect(() => {
-        setTemporaryValue(id);
-    }, [id]);
+        setTemporaryValue(value);
+    }, [value]);
 
     const onChangeClick = (value: string) => {
         // Check length
@@ -113,27 +104,14 @@ const OATTextFieldId = ({
             !idAlreadyUsedRelationshipError &&
             !validDTMIError
         ) {
-            if (modalFormCommit) {
-                setId(temporaryValue);
-                return;
-            }
-            // Update model
-            const modelCopy = deepCopy(model);
-            modelCopy['@id'] = temporaryValue;
-            dispatch({
-                type: SET_OAT_PROPERTY_EDITOR_MODEL,
-                payload: modelCopy
-            });
-            setId(temporaryValue);
+            onCommit(temporaryValue);
         } else {
             setTemporaryValue(model['@id']);
-            setId(model['@id']);
             setIdLengthError(false);
             setIdAlreadyUsedRelationshipError(false);
             setIdAlreadyUsedInterfaceError(false);
             setValidDTMIError(false);
         }
-        onCommit();
     };
 
     const onKeyDown = (event: Event) => {

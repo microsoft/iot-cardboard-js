@@ -28,6 +28,7 @@ import IconUntargeted from '../../../Resources/Static/relationshipUntargeted.svg
 import IconInheritance from '../../../Resources/Static/relationshipInheritance.svg';
 import IconComponent from '../../../Resources/Static/relationshipComponent.svg';
 import Svg from 'react-inlinesvg';
+import { deepCopy } from '../../../Models/Services/Utils';
 
 const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
     data,
@@ -54,7 +55,7 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
     const [handleHoverComponent, setHandleHoverComponent] = useState(false);
     const [handleHoverExtend, setHandleHoverExtend] = useState(false);
     const [handleHoverUntargeted, setHandleHoverUntargeted] = useState(false);
-    const { model } = state;
+    const { model, models } = state;
 
     const onNameClick = () => {
         if (!state.modified) {
@@ -84,6 +85,28 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
         }
     };
 
+    const onDisplayNameCommit = (value: string) => {
+        setNameEditor(false);
+        const modelCopy = deepCopy(model);
+        modelCopy.displayName = value;
+        dispatch({
+            type: SET_OAT_PROPERTY_EDITOR_MODEL,
+            payload: modelCopy
+        });
+        setNameText(value);
+    };
+
+    const onIdCommit = (value: string) => {
+        const modelCopy = deepCopy(model);
+        modelCopy['@id'] = value;
+        dispatch({
+            type: SET_OAT_PROPERTY_EDITOR_MODEL,
+            payload: modelCopy
+        });
+        setIdText(value);
+
+        setIdEditor(false);
+    };
     return (
         <>
             {data.type === OATUntargetedRelationshipName && (
@@ -115,13 +138,10 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
                             )}
                             {idEditor && (
                                 <OATTextFieldId
-                                    id={idText}
-                                    setId={setIdText}
-                                    dispatch={dispatch}
-                                    state={state}
-                                    onCommit={() => {
-                                        setIdEditor(false);
-                                    }}
+                                    value={idText}
+                                    model={model}
+                                    models={models}
+                                    onCommit={onIdCommit}
                                     autoFocus
                                 />
                             )}
@@ -135,13 +155,9 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
                             )}
                             {nameEditor && (
                                 <OATTextFieldDisplayName
-                                    displayName={nameText}
-                                    setDisplayName={setNameText}
-                                    dispatch={dispatch}
+                                    value={nameText}
                                     model={model}
-                                    onCommit={() => {
-                                        setNameEditor(false);
-                                    }}
+                                    onCommit={onDisplayNameCommit}
                                     autoFocus
                                 />
                             )}

@@ -2,45 +2,37 @@ import React, { useState, useEffect } from 'react';
 import { TextField } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import {
-    IAction,
     IOATTwinModelNodes,
     OATDisplayNameLengthLimit
 } from '../../../../Models/Constants';
-import { SET_OAT_PROPERTY_EDITOR_MODEL } from '../../../../Models/Constants/ActionTypes';
 import { getModelPropertyListItemName } from '../../../../Components/OATPropertyEditor/Utils';
-import { deepCopy } from '../../../../Models/Services/Utils';
 
 type IOATTexField = {
     autoFocus?: boolean;
     borderless?: boolean;
-    dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
     disabled?: boolean;
-    displayName: string;
-    onCommit?: () => void;
+    value: string;
+    onCommit?: (value: string) => void;
     onChange?: () => void;
     placeholder?: string;
-    setDisplayName: (value: string) => void;
     model?: IOATTwinModelNodes;
-    setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
     styles?: React.CSSProperties;
 };
 
 const OATTextFieldDisplayName = ({
     autoFocus,
     borderless,
-    dispatch,
     disabled,
-    displayName,
+    value,
     onChange,
     onCommit,
     placeholder,
-    setDisplayName,
     model,
     styles
 }: IOATTexField) => {
     const { t } = useTranslation();
     const [displayNameLengthError, setDisplayNameLengthError] = useState(null);
-    const [temporaryValue, setTemporaryValue] = useState(displayName);
+    const [temporaryValue, setTemporaryValue] = useState(value);
 
     const onChangeClick = (value: string) => {
         // Check length
@@ -54,23 +46,14 @@ const OATTextFieldDisplayName = ({
     };
 
     useEffect(() => {
-        setTemporaryValue(displayName);
-    }, [displayName]);
+        setTemporaryValue(value);
+    }, [value]);
 
     const onCommitChange = () => {
-        onCommit();
         if (!displayNameLengthError) {
-            // Update model
-            const modelCopy = deepCopy(model);
-            modelCopy.displayName = temporaryValue;
-            dispatch({
-                type: SET_OAT_PROPERTY_EDITOR_MODEL,
-                payload: modelCopy
-            });
-            setDisplayName(temporaryValue);
+            onCommit(temporaryValue);
         } else {
             setTemporaryValue(getModelPropertyListItemName(model.displayName));
-            setDisplayName(getModelPropertyListItemName(model.displayName));
             setDisplayNameLengthError(false);
         }
     };

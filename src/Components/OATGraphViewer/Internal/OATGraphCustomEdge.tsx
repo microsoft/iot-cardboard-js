@@ -27,6 +27,7 @@ import { getPropertyDisplayName } from '../../OATPropertyEditor/Utils';
 import { IOATGraphCustomEdgeProps } from '../../../Models/Constants';
 import OATTextFieldName from '../../../Pages/OATEditorPage/Internal/Components/OATTextFieldName';
 import { Position } from '../../../Pages/OATEditorPage/Internal/Types';
+import { deepCopy } from '../../../Models/Services/Utils';
 
 const foreignObjectSize = 180;
 const foreignObjectSizeExtendRelation = 20;
@@ -157,7 +158,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
         showComponents,
         state
     } = useContext(ElementsContext);
-    const { model } = state;
+    const { model, models } = state;
     const graphViewerStyles = getGraphViewerStyles();
     const relationshipTextFieldStyles = getRelationshipTextFieldStyles();
     const theme = useTheme();
@@ -193,6 +194,12 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
             setNameEditor(false);
         }
     }, [id, model, nameEditor]);
+
+    useEffect(() => {
+        if (model && model.name) {
+            setNameText(model.name);
+        }
+    }, [model]);
 
     const getSourceComponents = (
         betaAngle: number,
@@ -551,7 +558,15 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
         }
     };
 
-    const onCommit = () => {
+    const onNameCommit = (value) => {
+        console.log('value', value);
+        const modelCopy = deepCopy(model);
+        modelCopy.name = value;
+        dispatch({
+            type: SET_OAT_PROPERTY_EDITOR_MODEL,
+            payload: modelCopy
+        });
+        setNameText(value);
         setNameEditor(false);
     };
 
@@ -626,11 +641,10 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                         {data.type !== OATExtendHandleName && (
                             <OATTextFieldName
                                 styles={relationshipTextFieldStyles}
-                                name={nameText}
-                                setName={setNameText}
-                                dispatch={dispatch}
-                                state={state}
-                                onCommit={onCommit}
+                                value={nameText}
+                                model={model}
+                                models={models}
+                                onCommit={onNameCommit}
                                 autoFocus
                             />
                         )}
