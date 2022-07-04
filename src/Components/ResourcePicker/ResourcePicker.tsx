@@ -22,7 +22,8 @@ import {
     MessageBar,
     IComboBoxOption,
     VirtualizedComboBox,
-    Icon
+    Icon,
+    SelectableOptionMenuItemType
 } from '@fluentui/react';
 import useAdapter from '../../Models/Hooks/useAdapter';
 import {
@@ -171,36 +172,59 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
         } else if (!resourcesState.adapterResult.hasNoData()) {
             const resources: Array<IAzureResource> =
                 resourcesState.adapterResult.result?.data;
+
             if (onResourcesLoaded) {
                 onResourcesLoaded(resources);
             }
 
-            newOptions = newOptions.concat(
-                // after fetching resources, first attempt to append those to the dropdown list
-                resources.map(
-                    (r) =>
-                        ({
-                            key: r.id,
-                            text:
-                                getDisplayFieldValue(r) ||
-                                t('resourcesPicker.displayFieldNotFound', {
-                                    displayField:
-                                        AzureResourceDisplayFields[
-                                            displayField
-                                        ],
-                                    id: r.id
-                                }),
-                            data: r,
-                            styles: comboBoxOptionStyles
-                        } as IComboBoxOption)
-                )
-            );
+            let lastHeader = '';
+            // after fetching resources, first attempt to append those to the dropdown list
+            resources.forEach((r) => {
+                if (lastHeader !== r.subscriptionName) {
+                    newOptions.push({
+                        key: r.subscriptionName,
+                        text: r.subscriptionName,
+                        itemType: SelectableOptionMenuItemType.Header
+                    });
+                    newOptions.push({
+                        key: r.id,
+                        text:
+                            getDisplayFieldValue(r) ||
+                            t('resourcesPicker.displayFieldNotFound', {
+                                displayField:
+                                    AzureResourceDisplayFields[displayField],
+                                id: r.id
+                            }),
+                        data: r,
+                        styles: comboBoxOptionStyles
+                    } as IComboBoxOption);
+                    lastHeader = r.subscriptionName;
+                } else {
+                    newOptions.push({
+                        key: r.id,
+                        text:
+                            getDisplayFieldValue(r) ||
+                            t('resourcesPicker.displayFieldNotFound', {
+                                displayField:
+                                    AzureResourceDisplayFields[displayField],
+                                id: r.id
+                            }),
+                        data: r,
+                        styles: comboBoxOptionStyles
+                    } as IComboBoxOption);
+                }
+            });
 
             if (additionalOptions) {
                 // do the merging with existing options: add the additional options manually entered by user to the end if it is not in the fetched data
                 const existingOptionTexts = resources.map((resource) =>
                     getDisplayFieldValue(resource)
                 );
+                newOptions.push({
+                    key: 'additional-options',
+                    text: '---',
+                    itemType: SelectableOptionMenuItemType.Header
+                });
                 newOptions = newOptions.concat(
                     additionalOptions
                         .filter(
@@ -222,6 +246,13 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
                     (option) => option.text === selectedOption.text
                 );
                 if (!selectedOptionInNewOptions) {
+                    if (!additionalOptions) {
+                        newOptions.push({
+                            key: 'additional-options',
+                            text: '---',
+                            itemType: SelectableOptionMenuItemType.Header
+                        });
+                    }
                     newOptions = newOptions.concat([selectedOption]);
                 } else {
                     setSelectedKey(
@@ -424,7 +455,8 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
                 <span className={classNames.comboBoxOptionText}>
                     {option.text}
                 </span>
-                {!resourcesState.isLoading &&
+                {option.itemType !== SelectableOptionMenuItemType.Header &&
+                    !resourcesState.isLoading &&
                     resourcesState.adapterResult?.result?.data?.findIndex(
                         (r) => r.id === option.key
                     ) === -1 && (

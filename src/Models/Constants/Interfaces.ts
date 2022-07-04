@@ -260,6 +260,7 @@ export interface IAzureResource {
     type: AzureResourceTypes;
     [additionalProperty: string]: any;
     properties: Record<string, any>;
+    subscriptionName: string; // additional property we add to keep track of the subscription name in resource information to show in the ResourcePicker dropdown
 }
 export interface IAzureSubscription
     extends Omit<IAzureResource, 'type' | 'name' | 'properties'> {

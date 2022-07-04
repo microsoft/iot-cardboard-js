@@ -301,6 +301,9 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
         return await adapterMethodSandbox.safelyFetchData(async () => {
             let resources: Array<IAzureResource> = [];
             try {
+                const subscriptions = await this.getSubscriptions();
+                const userSubscriptions: Array<IAzureSubscription> = subscriptions.getData();
+
                 if (
                     resourceType === AzureResourceTypes.StorageBlobContainer &&
                     searchParams?.additionalParams &&
@@ -313,9 +316,6 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
                         resources = resourcesResponse.getData();
                     }
                 } else {
-                    const subscriptions = await this.getSubscriptions();
-                    const userSubscriptions: Array<IAzureSubscription> = subscriptions.getData();
-
                     const subscriptionIdsByTenantId = userSubscriptions
                         .filter((s) => s.tenantId === this.tenantId)
                         .map((s) => s.subscriptionId);
@@ -405,6 +405,14 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
                         }
                     });
                 }
+
+                resources.forEach((r) => {
+                    const resourceSubscriptionId = r.id.split('/')[2];
+                    const resourceSubscriptionName = userSubscriptions.find(
+                        (s) => s.subscriptionId === resourceSubscriptionId
+                    ).displayName;
+                    r.subscriptionName = resourceSubscriptionName;
+                });
 
                 return new AzureResourcesData(resources);
             } catch (error) {
