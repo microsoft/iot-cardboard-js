@@ -118,6 +118,34 @@ const OATModelList = ({
         setFilter(evt.target.value);
     };
 
+    const onCommitId = (value) => {
+        const modelCopy = deepCopy(model);
+        modelCopy['@id'] = value;
+        dispatch({
+            type: SET_OAT_PROPERTY_EDITOR_MODEL,
+            payload: modelCopy
+        });
+        setIdText(value);
+
+        setIdEditor(false);
+        setItems([...items]);
+        onSelectedClick(null);
+    };
+
+    const onCommitDisplayName = (value) => {
+        setNameEditor(false);
+        setItems([...items]);
+        onSelectedClick(null);
+
+        const modelCopy = deepCopy(model);
+        modelCopy.displayName = value;
+        dispatch({
+            type: SET_OAT_PROPERTY_EDITOR_MODEL,
+            payload: modelCopy
+        });
+        setNameText(value);
+    };
+
     const onRenderCell = (item: IOATTwinModelNodes) => {
         return (
             <div className={modelsStyles.modelNode}>
@@ -141,19 +169,7 @@ const OATModelList = ({
                                     onChange={() => {
                                         setItems([...items]);
                                     }}
-                                    onCommit={(value) => {
-                                        const modelCopy = deepCopy(model);
-                                        modelCopy['@id'] = value;
-                                        dispatch({
-                                            type: SET_OAT_PROPERTY_EDITOR_MODEL,
-                                            payload: modelCopy
-                                        });
-                                        setIdText(value);
-
-                                        setIdEditor(false);
-                                        setItems([...items]);
-                                        onSelectedClick(null);
-                                    }}
+                                    onCommit={onCommitId}
                                     autoFocus
                                 />
                             )}
@@ -180,21 +196,7 @@ const OATModelList = ({
                                             onChange={() => {
                                                 setItems([...items]);
                                             }}
-                                            onCommit={(value) => {
-                                                setNameEditor(false);
-                                                setItems([...items]);
-                                                onSelectedClick(null);
-
-                                                const modelCopy = deepCopy(
-                                                    model
-                                                );
-                                                modelCopy.displayName = value;
-                                                dispatch({
-                                                    type: SET_OAT_PROPERTY_EDITOR_MODEL,
-                                                    payload: modelCopy
-                                                });
-                                                setNameText(value);
-                                            }}
+                                            onCommit={onCommitDisplayName}
                                             autoFocus
                                         />
                                     </>
