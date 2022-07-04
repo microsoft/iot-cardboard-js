@@ -180,7 +180,7 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
             let lastHeader = '';
             // after fetching resources, first attempt to append those to the dropdown list
             resources.forEach((r) => {
-                if (lastHeader !== r.subscriptionName) {
+                if (r.subscriptionName && lastHeader !== r.subscriptionName) {
                     newOptions.push({
                         key: r.subscriptionName,
                         text: r.subscriptionName,
