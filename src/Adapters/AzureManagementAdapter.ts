@@ -303,12 +303,15 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
             try {
                 if (
                     resourceType === AzureResourceTypes.StorageBlobContainer &&
-                    searchParams?.additionalParams?.storageAccountId
+                    searchParams?.additionalParams &&
+                    'storageAccountId' in searchParams?.additionalParams
                 ) {
-                    const resourcesResponse = await this.getContainersInStorageAccount(
-                        searchParams.additionalParams.storageAccountId
-                    );
-                    resources = resourcesResponse.getData();
+                    if (searchParams?.additionalParams?.storageAccountId) {
+                        const resourcesResponse = await this.getContainersInStorageAccount(
+                            searchParams.additionalParams.storageAccountId
+                        );
+                        resources = resourcesResponse.getData();
+                    }
                 } else {
                     const subscriptions = await this.getSubscriptions();
                     const userSubscriptions: Array<IAzureSubscription> = subscriptions.getData();

@@ -47,6 +47,14 @@ export const getStyles = (
                     maxWidth: '50%',
                     minHeight: 'unset'
                 },
+                content: {
+                    alignItems: 'center'
+                },
+                dismissal: {
+                    padding: 0,
+                    width: 10,
+                    height: 10
+                },
                 iconContainer: { margin: 0, padding: '1px 2px 0' },
                 text: { margin: 0, paddingLeft: '8px' }
             } as IMessageBarStyles,
