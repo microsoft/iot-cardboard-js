@@ -788,6 +788,7 @@
         "relationships": "Relacje",
         "inheritances": "Spadki",
         "components": "Składniki",
+        "runLayout": "Uruchom układ",
         "errorName": "Nazwa może zawierać tylko znaki a-z, A-Z, 0-9 i podkreślenie",
         "errorNameLength": "Nazwa nie może przekraczać 64 znaków",
         "errorIdLength": "Id nie może przekraczać 2048 znaków",
