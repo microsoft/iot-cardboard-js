@@ -156,8 +156,8 @@ export const PropertyListItem = ({
                     title={t('OATPropertyEditor.info')}
                     onClick={() => {
                         setCurrentPropertyIndex(index);
-                        setModalOpen(true);
                         setModalBody(FormBody.property);
+                        setModalOpen(true);
                     }}
                 />
                 <IconButton
