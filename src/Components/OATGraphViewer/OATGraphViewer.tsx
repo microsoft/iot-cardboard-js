@@ -253,7 +253,6 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     const { t } = useTranslation();
     const theme = useTheme();
     const reactFlowWrapperRef = useRef(null);
-    const newModelButtonRef = useRef(null);
     const [elements, setElements] = useState(
         getGraphViewerElementsFromModels(models, modelPositions)
     );
@@ -661,19 +660,17 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
         return getNewNodePosition(newCoordinates);
     };
 
-    const onNewModelClick = () => {
+    const onNewModelClick = (event) => {
         if (!state.modified) {
             // Create a new floating node
             const name = `Model${newModelId}`;
             const id = `${idClassBase}model${newModelId};${versionClassBase}`;
-            let startPositionCoordinates = null;
-            if (newModelButtonRef.current) {
-                startPositionCoordinates = newModelButtonRef.current.getBoundingClientRect();
-                startPositionCoordinates = rfInstance.project({
-                    x: newNodeLeft,
-                    y: startPositionCoordinates.y
-                });
-            }
+            let startPositionCoordinates = event.target.getBoundingClientRect();
+            startPositionCoordinates = rfInstance.project({
+                x: newNodeLeft,
+                y: startPositionCoordinates.y
+            });
+
             const newNode = {
                 id: id,
                 type: OATInterfaceType,
@@ -1113,7 +1110,6 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                             styles={buttonStyles}
                             onClick={onNewModelClick}
                             text={t('OATGraphViewer.newModel')}
-                            elementRef={newModelButtonRef}
                         />
                         {!elements[0] && (
                             <Label styles={warningStyles}>
