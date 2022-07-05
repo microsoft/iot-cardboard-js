@@ -32,6 +32,9 @@ const ADT3DBuilder: React.FC<IADT3DBuilderProps> = (props) => {
         coloredMeshItems,
         showHoverOnSelected,
         outlinedMeshItems,
+        gizmoElementItem,
+        gizmoTransformItem,
+        setGizmoTransformItem,
         objectColorUpdated,
         hideViewModePickerUI,
         styles
@@ -78,6 +81,9 @@ const ADT3DBuilder: React.FC<IADT3DBuilderProps> = (props) => {
                         showMeshesOnHover: showMeshesOnHover ?? true,
                         showHoverOnSelected: showHoverOnSelected,
                         outlinedMeshitems: outlinedMeshItems,
+                        gizmoElementItem: gizmoElementItem,
+                        gizmoTransformItem: gizmoTransformItem,
+                        setGizmoTransformItem: setGizmoTransformItem,
                         getToken: (adapter as any).authService
                             ? () =>
                                   (adapter as any).authService.getToken(

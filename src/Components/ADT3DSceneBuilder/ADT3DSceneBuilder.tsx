@@ -44,7 +44,9 @@ import {
     IADT3DSceneBuilderStyleProps,
     IADT3DSceneBuilderStyles,
     SET_UNSAVED_BEHAVIOR_CHANGES_DIALOG_OPEN,
-    SET_UNSAVED_BEHAVIOR_CHANGES_DIALOG_DISCARD_ACTION
+    SET_UNSAVED_BEHAVIOR_CHANGES_DIALOG_DISCARD_ACTION,
+    SET_ELEMENT_TO_GIZMO,
+    SET_GIZMO_TRANSFORM_ITEM
 } from './ADT3DSceneBuilder.types';
 import './ADT3DSceneBuilder.scss';
 import BaseComponent from '../../Components/BaseComponent/BaseComponent';
@@ -57,7 +59,11 @@ import { IADTAdapter } from '../../Models/Constants/Interfaces';
 import BuilderLeftPanel from './Internal/BuilderLeftPanel/BuilderLeftPanel';
 import { useTranslation } from 'react-i18next';
 import { AbstractMesh } from '@babylonjs/core';
-import { CustomMeshItem } from '../../Models/Classes/SceneView.types';
+import {
+    CustomMeshItem,
+    TransformedElementItem,
+    TransformInfo
+} from '../../Models/Classes/SceneView.types';
 import {
     I3DScenesConfig,
     IBehavior,
@@ -273,6 +279,26 @@ const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
             dispatch({
                 type: SET_MESH_IDS_TO_OUTLINE,
                 payload: outlinedMeshItems
+            });
+        },
+        []
+    );
+
+    const setGizmoElementItem = useCallback(
+        (gizmoElementItem: TransformedElementItem) => {
+            dispatch({
+                type: SET_ELEMENT_TO_GIZMO,
+                payload: gizmoElementItem
+            });
+        },
+        []
+    );
+
+    const setGizmoTransformItem = useCallback(
+        (gizmoTransformItem: TransformInfo) => {
+            dispatch({
+                type: SET_GIZMO_TRANSFORM_ITEM,
+                payload: gizmoTransformItem
             });
         },
         []
@@ -801,6 +827,8 @@ const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
                 setBehaviorTwinAliasFormInfo,
                 setColoredMeshItems,
                 setElementTwinAliasFormInfo,
+                setGizmoElementItem,
+                setGizmoTransformItem,
                 setIsLayerBuilderDialogOpen,
                 setOutlinedMeshItems,
                 setUnsavedBehaviorChangesDialogOpen,
@@ -836,6 +864,8 @@ const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
                             onMeshHovered={onMeshHovered}
                             sceneViewProps={sceneViewProps}
                             outlinedMeshItems={state.outlinedMeshItems}
+                            gizmoElementItem={state.gizmoElementItem}
+                            gizmoTransformItem={state.gizmoTransformItem}
                             showHoverOnSelected={state.showHoverOnSelected}
                             coloredMeshItems={state.coloredMeshItems}
                             showMeshesOnHover={state.enableHoverOnModel}
