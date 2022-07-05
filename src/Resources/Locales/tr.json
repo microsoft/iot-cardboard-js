@@ -788,6 +788,7 @@
         "relationships": "Ilişki",
         "inheritances": "Miras",
         "components": "Bileşen",
+        "runLayout": "Düzeni çalıştır",
         "errorName": "Ad yalnızca a-z, A-Z, 0-9 ve alt çizgi karakterlerini içerebilir",
         "errorNameLength": "İsim 64 karakteri geçemez",
         "errorIdLength": "Kimlik 2048 karakteri geçemez",

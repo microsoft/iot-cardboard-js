@@ -788,6 +788,7 @@
         "relationships": "Relationer",
         "inheritances": "Arv",
         "components": "Komponenter",
+        "runLayout": "Kör layout",
         "errorName": "Namnet får bara innehålla tecknen a-z, A-Z, 0-9 och understreck",
         "errorNameLength": "Namnet får inte överstiga 64 rödingar",
         "errorIdLength": "Id får inte överstiga 2048 rödingar",

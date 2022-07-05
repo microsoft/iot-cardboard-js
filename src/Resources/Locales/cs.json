@@ -788,6 +788,7 @@
         "relationships": "Vztahy",
         "inheritances": "Dědictví",
         "components": "Součásti",
+        "runLayout": "Spustit rozložení",
         "errorName": "Název může obsahovat pouze znaky a-z, A-Z, 0-9 a podtržítko",
         "errorNameLength": "Název nesmí přesáhnout 64 znaků",
         "errorIdLength": "Id nesmí překročit 2048 znaků",

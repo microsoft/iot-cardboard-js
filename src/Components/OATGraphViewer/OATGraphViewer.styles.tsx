@@ -32,6 +32,7 @@ const classNames = {
     untargetedNodeContainer: `${classPrefix}-untargeted-node-container`,
     graphViewerControls: `${classPrefix}-graph-viewer-controls`,
     graphViewerFiltersWrap: `${classPrefix}-graph-viewer-filters-wrap`,
+    graphViewerForceLayoutWrap: `${classPrefix}-graph-viewer-force-layout-wrap`,
     graphViewerFiltersKey: `${classPrefix}-graph-viewer-filters-key`,
     extendCancel: `${classPrefix}-extend-cancel`,
     relationshipCTASection: `${classPrefix}-node-container-cta-section`,
@@ -401,6 +402,21 @@ export const getGraphViewerStyles = () => {
                 height: 'fit-content'
             } as IStyle
         ],
+        graphViewerForceLayoutWrap: [
+            classNames.graphViewerForceLayoutWrap,
+            {
+                display: 'flex',
+                flexDirection: 'column',
+                background: theme.palette.neutralLight,
+                border: `1px solid ${theme.semanticColors.inputBorder}`,
+                borderRadius: '5px',
+                fontSize: FontSizes.size12,
+                textAlign: 'center',
+                width: '34px',
+                zIndex: '100',
+                height: 'fit-content'
+            } as IStyle
+        ],
         graphViewerFiltersKey: [
             classNames.graphViewerFiltersKey,
             {
@@ -485,6 +501,16 @@ export const getGraphViewerFiltersStyles: IStyle = () => {
         root: {
             position: 'absolute',
             top: '10px',
+            right: '10px'
+        }
+    } as Partial<IStyle>;
+};
+
+export const getGraphForceLayoutStyles: IStyle = () => {
+    return {
+        root: {
+            position: 'absolute',
+            top: '110px',
             right: '10px'
         }
     } as Partial<IStyle>;

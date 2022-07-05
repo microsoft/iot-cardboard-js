@@ -788,6 +788,7 @@
         "relationships": "Relaties",
         "inheritances": "Erfenissen",
         "components": "Onderdelen",
+        "runLayout": "Lay-out uitvoeren",
         "errorName": "Naam mag alleen de tekens a-z, A-Z, 0-9 en onderstrepingsteken bevatten",
         "errorNameLength": "Naam mag niet meer dan 64 tekens bevatten",
         "errorIdLength": "Id mag niet groter zijn dan 2048 tekens",

@@ -788,6 +788,7 @@
         "relationships": "Relaciones",
         "inheritances": "Herencias",
         "components": "Componentes",
+        "runLayout": "Correr diseño",
         "errorName": "El nombre solo puede contener los caracteres a-z, A-Z, 0-9 y guión bajo",
         "errorNameLength": "El nombre no puede exceder los 64 caracteres",
         "errorIdLength": "Id no puede exceder los 2048 caracteres",

@@ -788,6 +788,7 @@
         "relationships": "Relations",
         "inheritances": "Héritages",
         "components": "Composants",
+        "runLayout": "Exécuter la mise en page",
         "errorName": "Le nom ne peut contenir que les caractères a-z, A-Z, 0-9 et le trait de soulignement",
         "errorNameLength": "Le nom ne doit pas dépasser 64 caractères",
         "errorIdLength": "Id ne doit pas dépasser 2048 caractères",
