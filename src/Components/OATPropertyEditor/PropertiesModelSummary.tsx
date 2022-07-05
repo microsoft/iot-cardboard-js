@@ -110,7 +110,7 @@ export const PropertiesModelSummary = ({
 
             <div className={propertyInspectorStyles.gridRow}>
                 <Text>{t('id')}</Text>
-                {!idEditor && (
+                {!idEditor && model && (
                     <Text
                         className={propertyInspectorStyles.typeTextField}
                         onDoubleClick={() => setIdEditor(true)}
@@ -118,7 +118,7 @@ export const PropertiesModelSummary = ({
                         {id}
                     </Text>
                 )}
-                {idEditor && (
+                {idEditor && model && (
                     <OATTextFieldId
                         placeholder={t('id')}
                         styles={textFieldStyes}
@@ -135,7 +135,7 @@ export const PropertiesModelSummary = ({
             {model && model.name && (
                 <div className={propertyInspectorStyles.gridRow}>
                     <Text>{t('name')}</Text>
-                    {!nameEditor && (
+                    {!nameEditor && model && (
                         <Text
                             className={propertyInspectorStyles.typeTextField}
                             onDoubleClick={() => setNameEditor(true)}
@@ -143,7 +143,7 @@ export const PropertiesModelSummary = ({
                             {name}
                         </Text>
                     )}
-                    {nameEditor && (
+                    {nameEditor && model && (
                         <OATTextFieldName
                             placeholder={t('name')}
                             styles={textFieldStyes}
@@ -160,15 +160,17 @@ export const PropertiesModelSummary = ({
             )}
             <div className={propertyInspectorStyles.gridRow}>
                 <Text>{t('OATPropertyEditor.displayName')}</Text>
-                {!displayNameEditor && (
+                {!displayNameEditor && model && (
                     <Text
                         className={propertyInspectorStyles.typeTextField}
                         onDoubleClick={() => setDisplayNameEditor(true)}
                     >
-                        {displayName}
+                        {displayName.length > 0
+                            ? displayName
+                            : t('OATPropertyEditor.displayName')}
                     </Text>
                 )}
-                {displayNameEditor && (
+                {displayNameEditor && model && (
                     <OATTextFieldDisplayName
                         styles={textFieldStyes}
                         borderless

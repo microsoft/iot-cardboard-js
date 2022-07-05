@@ -788,6 +788,7 @@
         "relationships": "関係",
         "inheritances": "遺産",
         "components": "コンポーネント",
+        "runLayout": "レイアウトを実行",
         "errorName": "名前に使用できるのは、文字 a から z、A から Z、0 から 9、および下線のみです。",
         "errorNameLength": "名前は 64 文字を超えてはなりません。",
         "errorIdLength": "ID は 2048 文字を超えてはなりません",

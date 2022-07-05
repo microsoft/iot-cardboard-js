@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useTheme, List, ActionButton, Icon, TextField } from '@fluentui/react';
+import { useTheme, List, ActionButton, Icon, SearchBox } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import {
     getModelsStyles,
@@ -17,6 +17,7 @@ import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 import OATTextFieldDisplayName from '../../Pages/OATEditorPage/Internal/Components/OATTextFieldDisplayName';
 import OATTextFieldId from '../../Pages/OATEditorPage/Internal/Components/OATTextFieldId';
 import { deepCopy } from '../../Models/Services/Utils';
+import { getModelPropertyListItemName } from '../OATPropertyEditor/Utils';
 
 type OATModelListProps = {
     elements: IOATTwinModelNodes[];
@@ -146,6 +147,13 @@ const OATModelList = ({
         setNameText(value);
     };
 
+    const getDisplayNameText = (item) => {
+        const displayName = getModelPropertyListItemName(item.displayName);
+        return displayName.length > 0
+            ? displayName
+            : t('OATPropertyEditor.displayName');
+    };
+
     const onRenderCell = (item: IOATTwinModelNodes) => {
         return (
             <div className={modelsStyles.modelNode}>
@@ -182,9 +190,7 @@ const OATModelList = ({
                             {(!nameEditor ||
                                 currentNodeId.current !== item['@id']) && (
                                 <span className={modelsStyles.regularText}>
-                                    {typeof item['displayName'] === 'string'
-                                        ? item['displayName']
-                                        : Object.values(item['displayName'])[0]}
+                                    {getDisplayNameText(item)}
                                 </span>
                             )}
                             {nameEditor &&
@@ -216,11 +222,10 @@ const OATModelList = ({
 
     return (
         <div>
-            <TextField
+            <SearchBox
                 className={modelsStyles.searchText}
-                onChange={onFilterChange}
-                value={filter}
                 placeholder={t('search')}
+                onChange={onFilterChange}
             />
             <div className={modelsStyles.container} ref={containerRef}>
                 <List items={items} onRenderCell={onRenderCell} />

@@ -788,6 +788,7 @@
         "relationships": "Kapcsolatok",
         "inheritances": "Öröklések",
         "components": "Összetevők",
+        "runLayout": "Elrendezés futtatása",
         "errorName": "A név csak az a-z, A-Z, 0-9 és aláhúzásjeleket tartalmazhatja.",
         "errorNameLength": "A név nem haladhatja meg a 64 karakter",
         "errorIdLength": "Az azonosító nem haladhatja meg a 2048 karaktert",

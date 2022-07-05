@@ -781,6 +781,7 @@
         "relationships": "Relationships",
         "inheritances": "Inheritances",
         "components": "Components",
+        "runLayout": "Run Layout",
         "errorRepeatedId": "A model with the same ID already exists",
         "errorRepeatedEdgeName": "A relationship with the same name already exists",
         "errorDisplayNameLength": "Display Name may not exceed 64 chars",
