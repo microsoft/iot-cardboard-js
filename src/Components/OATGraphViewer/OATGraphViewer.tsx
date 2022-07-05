@@ -165,7 +165,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                             OATRelationshipHandleName
                         )
                     );
-                    relationships = [...relationships, relationship];
+                    relationships.push(relationship);
                 } else if (content['@type'] === OATUntargetedRelationshipName) {
                     const name = `${input['displayName']}:${OATUntargetedRelationshipName}`;
                     const id = `${input['@id']}:${OATUntargetedRelationshipName}`;
@@ -208,7 +208,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                             OATUntargetedRelationshipName
                         )
                     );
-                    relationships = [...relationships, newNode, relationship];
+                    relationships.push(relationship);
                 } else {
                     contents = [...contents, content];
                 }
@@ -228,7 +228,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                             OATExtendHandleName
                         )
                     );
-                    relationships = [...relationships, relationship];
+                    relationships.push(relationship);
                 });
             }
 
