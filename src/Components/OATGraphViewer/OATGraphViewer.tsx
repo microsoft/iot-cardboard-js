@@ -5,7 +5,14 @@ import React, {
     useMemo,
     useCallback
 } from 'react';
-import { useTheme, PrimaryButton, Label, Toggle, Stack } from '@fluentui/react';
+import {
+    useTheme,
+    PrimaryButton,
+    Label,
+    Toggle,
+    Stack,
+    IconButton
+} from '@fluentui/react';
 import ReactFlow, {
     ReactFlowProvider,
     addEdge,
@@ -33,7 +40,8 @@ import {
     getGraphViewerButtonStyles,
     getGraphViewerWarningStyles,
     getGraphViewerMinimapStyles,
-    getGraphViewerFiltersStyles
+    getGraphViewerFiltersStyles,
+    getGraphForceLayoutStyles
 } from './OATGraphViewer.styles';
 import { ElementsContext } from './Internal/OATContext';
 import {
@@ -265,6 +273,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     const warningStyles = getGraphViewerWarningStyles();
     const graphViewerMinimapStyles = getGraphViewerMinimapStyles();
     const graphViewerFiltersStyles = getGraphViewerFiltersStyles();
+    const graphForceLayoutStyles = getGraphForceLayoutStyles();
     const currentNodeIdRef = useRef('');
     const currentHandleIdRef = useRef('');
     const [currentHovered, setCurrentHovered] = useState(null);
@@ -274,8 +283,8 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     const [rfInstance, setRfInstance] = useState(null);
     const [currentLocation, setCurrentLocation] = useState(null);
 
-    const applyLayoutToElements = (elements) => {
-        const nodes = elements.reduce((collection, element) => {
+    const applyLayoutToElements = (inputElements) => {
+        const nodes = inputElements.reduce((collection, element) => {
             if (!element.source) {
                 collection.push({
                     id: element.id,
@@ -286,7 +295,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
             return collection;
         }, []);
 
-        const links = elements.reduce((collection, element) => {
+        const links = inputElements.reduce((collection, element) => {
             if (element.source) {
                 collection.push({
                     source: element.source,
@@ -314,7 +323,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
             .force('y', forceY())
             .force('center', forceCenter())
             .on('end', () => {
-                const newElements = elements.map((element) => {
+                const newElements = inputElements.map((element) => {
                     const node = nodes.find(
                         (node) => !element.source && node.id === element.id
                     );
@@ -1223,6 +1232,23 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                                         }}
                                     />
                                 </div>
+                            </div>
+                        </Stack>
+
+                        <Stack styles={graphForceLayoutStyles}>
+                            <div
+                                className={
+                                    graphViewerStyles.graphViewerForceLayoutWrap
+                                }
+                            >
+                                <IconButton
+                                    iconProps={{ iconName: 'GridViewMedium' }}
+                                    title={t('OATGraphViewer.runLayout')}
+                                    ariaLabel={t('OATGraphViewer.runLayout')}
+                                    onClick={() =>
+                                        applyLayoutToElements(elements)
+                                    }
+                                />
                             </div>
                         </Stack>
 

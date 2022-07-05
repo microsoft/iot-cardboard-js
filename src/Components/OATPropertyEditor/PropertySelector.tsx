@@ -161,79 +161,37 @@ const PropertySelector = ({
         >
             <Stack horizontal>
                 <div className={propertyInspectorStyles.propertyTagsWrapSecond}>
-                    {propertySelectorData.propertyTags.sectionSecond.map(
-                        (tag, i) => {
-                            if (
-                                lastPropertyFocused &&
-                                typeof lastPropertyFocused.item.schema ===
-                                    'object' &&
-                                tag.complex
-                            ) {
-                                return <></>;
-                            } else {
-                                return (
-                                    <ActionButton
-                                        onClick={() => {
-                                            onTagClick(tag.name);
-                                        }}
-                                        onKeyPress={() => {
-                                            onTagClick(tag.name);
-                                        }}
-                                    >
-                                        <Svg
-                                            tabIndex={0}
-                                            key={i}
-                                            className={
-                                                propertyInspectorStyles.propertyTag
-                                            }
-                                            src={tag.icon}
-                                            title={t(tag.title)}
-                                        ></Svg>
-                                    </ActionButton>
-                                );
-                            }
-                        }
-                    )}
+                    {propertySelectorData.propertyTags.complex
+                        .filter((tag) =>
+                            lastPropertyFocused &&
+                            lastPropertyFocused.item.schema['@type'] ===
+                                'object'
+                                ? tag.type === 'object'
+                                : tag.type !== 'object'
+                        )
+                        .map((tag, index) => (
+                            <ActionButton
+                                onClick={() => {
+                                    onTagClick(tag.name);
+                                }}
+                                onKeyPress={() => {
+                                    onTagClick(tag.name);
+                                }}
+                            >
+                                <Svg
+                                    key={index}
+                                    className={
+                                        propertyInspectorStyles.propertyTag
+                                    }
+                                    src={tag.icon}
+                                    title={t(tag.title)}
+                                ></Svg>
+                            </ActionButton>
+                        ))}
                 </div>
                 <Separator styles={propertySelectorSeparatorStyles} vertical />
                 <div className={propertyInspectorStyles.propertyTagsWrapFirst}>
-                    {propertySelectorData.propertyTags.sectionFirst.map(
-                        (tag, i) => {
-                            if (
-                                lastPropertyFocused &&
-                                typeof lastPropertyFocused.item.schema ===
-                                    'object' &&
-                                tag.complex
-                            ) {
-                                return <></>;
-                            } else {
-                                return (
-                                    <ActionButton
-                                        onClick={() => {
-                                            onTagClick(tag.name);
-                                        }}
-                                        onKeyPress={() => {
-                                            onTagClick(tag.name);
-                                        }}
-                                    >
-                                        <Svg
-                                            tabIndex={0}
-                                            key={i}
-                                            className={
-                                                propertyInspectorStyles.propertyTag
-                                            }
-                                            src={tag.icon}
-                                            title={t(tag.title)}
-                                        ></Svg>
-                                    </ActionButton>
-                                );
-                            }
-                        }
-                    )}
-                </div>
-                <Separator styles={propertySelectorSeparatorStyles} vertical />
-                <div className={propertyInspectorStyles.propertyTagsWrapThird}>
-                    {propertySelectorData.propertyTags.sectionThird.map(
+                    {propertySelectorData.propertyTags.primitive.map(
                         (tag, i) => (
                             <ActionButton
                                 onClick={() => {
@@ -244,7 +202,30 @@ const PropertySelector = ({
                                 }}
                             >
                                 <Svg
-                                    tabIndex={0}
+                                    key={i}
+                                    className={
+                                        propertyInspectorStyles.propertyTag
+                                    }
+                                    src={tag.icon}
+                                    title={t(tag.title)}
+                                ></Svg>
+                            </ActionButton>
+                        )
+                    )}
+                </div>
+                <Separator styles={propertySelectorSeparatorStyles} vertical />
+                <div className={propertyInspectorStyles.propertyTagsWrapThird}>
+                    {propertySelectorData.propertyTags.geospatial.map(
+                        (tag, i) => (
+                            <ActionButton
+                                onClick={() => {
+                                    onTagClick(tag.name);
+                                }}
+                                onKeyPress={() => {
+                                    onTagClick(tag.name);
+                                }}
+                            >
+                                <Svg
                                     key={i}
                                     className={
                                         propertyInspectorStyles.propertyTag
