@@ -45,6 +45,7 @@ const classNames = {
     mapItemInputWrap: `${classPrefix}-map-input-wrap-item`,
     mapItemWrap: `${classPrefix}-map-item-wrap`,
     propertyItem: `${classPrefix}-property-item`,
+    propertyItemTypeText: `${classPrefix}-property-item-type-text`,
     propertyItemNest: `${classPrefix}-property-item-nest`,
     propertyItemNested: `${classPrefix}-property-item-nested`,
     propertyItemNestMainItem: `${classPrefix}-property-item-nest-main-item`,
@@ -448,6 +449,12 @@ export const getPropertyInspectorStyles = () => {
                     cursor: 'grabbing'
                 },
                 position: 'relative'
+            } as IStyle
+        ],
+        propertyItemTypeText: [
+            classNames.propertyItemTypeText,
+            {
+                textTransform: 'lowercase'
             } as IStyle
         ],
         propertyItemEntered: [

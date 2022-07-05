@@ -112,7 +112,7 @@ export const PropertyListItemNest = ({
         }
 
         switch (lastPropertyFocused.item.schema['@type']) {
-            case 'object':
+            case DTDLSchemaType.Object:
                 setPropertySelectorVisible(true);
                 return;
             case DTDLSchemaType.Enum:
@@ -159,7 +159,7 @@ export const PropertyListItemNest = ({
             );
         } else if (
             newModel[propertiesKeyName][parentIndex].schema['@type'] ===
-            'object'
+            DTDLSchemaType.Object
         ) {
             newModel[propertiesKeyName][parentIndex].schema.fields.splice(
                 index,
@@ -208,13 +208,11 @@ export const PropertyListItemNest = ({
     };
 
     const showObjectPropertySelector = useMemo(() => {
-        if (item.schema['@type'] === 'object') {
-            if (item.schema.fields.length === 0) {
-                return true;
-            } else if (item.schema.fields.length > 0 && collapsed) {
-                return true;
-            }
-        }
+        return (
+            item.schema['@type'] === DTDLSchemaType.Object &&
+            (item.schema.fields.length === 0 ||
+                (item.schema.fields.length > 0 && collapsed))
+        );
     }, [collapsed]);
 
     return (
@@ -283,8 +281,12 @@ export const PropertyListItemNest = ({
                             onBlur={() => setDisplayNameEditor(false)}
                         />
                     )}
-                    <Text>{item.schema['@type']}</Text>
-                    {(item.schema['@type'] === 'object' &&
+                    <Text
+                        className={propertyInspectorStyles.propertyItemTypeText}
+                    >
+                        {item.schema['@type']}
+                    </Text>
+                    {(item.schema['@type'] === DTDLSchemaType.Object &&
                         item.schema.fields.length > 0) ||
                     (item.schema['@type'] === DTDLSchemaType.Enum &&
                         item.schema.enumValues.length > 0) ? (
@@ -350,7 +352,7 @@ export const PropertyListItemNest = ({
                     </IconButton>
                 </div>
                 {collapsed &&
-                    item.schema['@type'] === 'object' &&
+                    item.schema['@type'] === DTDLSchemaType.Object &&
                     item.schema.fields.length > 0 &&
                     item.schema.fields.map((field, i) => (
                         <PropertyListItemNested

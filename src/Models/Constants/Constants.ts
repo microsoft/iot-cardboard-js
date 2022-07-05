@@ -296,7 +296,7 @@ export const propertySelectorData = {
         ],
         complex: [
             {
-                name: 'object',
+                name: DTDLSchemaType.Object,
                 title: 'OATPropertyEditor.object',
                 icon: IconObject,
                 complex: true
@@ -314,7 +314,7 @@ export const propertySelectorData = {
                 complex: true
             }
         ],
-        geoSpatial: [
+        geospatial: [
             {
                 name: 'point',
                 title: 'OATPropertyEditor.point',
