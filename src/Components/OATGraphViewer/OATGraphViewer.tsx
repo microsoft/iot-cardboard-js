@@ -74,6 +74,7 @@ type OATGraphProps = {
 
 const nodeWidth = 300;
 const nodeHeight = 100;
+const newNodeLeft = 20;
 
 const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     const {
@@ -252,6 +253,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     const { t } = useTranslation();
     const theme = useTheme();
     const reactFlowWrapperRef = useRef(null);
+    const newModelButtonRef = useRef(null);
     const [elements, setElements] = useState(
         getGraphViewerElementsFromModels(models, modelPositions)
     );
@@ -501,8 +503,8 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                 );
                 importModelsList.push(newNode, ...relationships);
             });
+            applyLayoutToElements([...importModelsList]);
         }
-        applyLayoutToElements([...importModelsList]);
     }, [importModels]);
 
     useEffect(() => {
@@ -637,15 +639,45 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
         setCurrentLocation(flowTransform);
     }, []);
 
+    const getNewNodePosition = (coordinates) => {
+        // Find the amount of nodes at the same position
+        const nodesAtPosition = elements.filter(
+            (element) =>
+                !element.source &&
+                element.position.x === coordinates.x &&
+                element.position.y === coordinates.y
+        );
+
+        // If there is no node at the same position, return the coordinates
+        if (nodesAtPosition.length === 0) {
+            return coordinates;
+        }
+        // Define the new coordinates
+        const newCoordinates = {
+            x: coordinates.x + nodesAtPosition.length * 10,
+            y: coordinates.y + nodesAtPosition.length * 10
+        };
+        // Prevent nodes with the same position
+        return getNewNodePosition(newCoordinates);
+    };
+
     const onNewModelClick = () => {
         if (!state.modified) {
             // Create a new floating node
             const name = `Model${newModelId}`;
             const id = `${idClassBase}model${newModelId};${versionClassBase}`;
+            let startPositionCoordinates = null;
+            if (newModelButtonRef.current) {
+                startPositionCoordinates = newModelButtonRef.current.getBoundingClientRect();
+                startPositionCoordinates = rfInstance.project({
+                    x: newNodeLeft,
+                    y: startPositionCoordinates.y
+                });
+            }
             const newNode = {
                 id: id,
                 type: OATInterfaceType,
-                position: positionLookUp(),
+                position: getNewNodePosition(startPositionCoordinates),
                 data: {
                     name: name,
                     type: OATInterfaceType,
@@ -655,26 +687,6 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                 }
             };
             setElements([...elements, newNode]);
-
-            // Center pane focus on the new node
-            const positionedX =
-                positionedElements[positionedElements.length - 1].position.x;
-            const positionedY =
-                positionedElements[positionedElements.length - 1].position.y;
-
-            const wrapperBoundingBox = reactFlowWrapperRef.current.getBoundingClientRect();
-
-            rfInstance.setTransform({
-                x:
-                    -positionedX * currentLocation.zoom +
-                    wrapperBoundingBox.width / 2 -
-                    nodeWidth / 2,
-                y:
-                    -positionedY * currentLocation.zoom +
-                    wrapperBoundingBox.height / 2 -
-                    nodeHeight / 2,
-                zoom: currentLocation.zoom
-            });
         }
     };
 
@@ -1101,6 +1113,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                             styles={buttonStyles}
                             onClick={onNewModelClick}
                             text={t('OATGraphViewer.newModel')}
+                            elementRef={newModelButtonRef}
                         />
                         {!elements[0] && (
                             <Label styles={warningStyles}>
