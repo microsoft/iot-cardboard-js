@@ -28,7 +28,7 @@ const Template: SceneViewStory = (args) => {
     return <SceneView {...args} />;
 };
 
-export const SceneViewGizmo = Template.bind({}) as SceneViewStory;
+export const Gizmo = Template.bind({}) as SceneViewStory;
 const defaultGizmoElementItems: TransformedElementItem = {
     meshIds: ['tank6_LOD0.003_primitive0', 'tank6_LOD0.003_primitive1'],
     parentMeshId: 'tank6_LOD0.003_primitive0'
@@ -41,7 +41,7 @@ const setGizmoTransformItem = (gizmoTransformItem: TransformInfo) => {
         gizmoTransformItem.rotation
     );
 };
-SceneViewGizmo.args = {
+Gizmo.args = {
     modelUrl:
         'https://cardboardresources.blob.core.windows.net/cardboard-mock-files/OutdoorTanks.gltf',
     gizmoElementItem: defaultGizmoElementItems,
