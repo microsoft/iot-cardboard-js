@@ -1865,11 +1865,6 @@ function SceneView(props: ISceneViewProps, ref) {
                     gizmoManager.rotationGizmoEnabled = true;
                     gizmoManager.positionGizmoEnabled = true;
 
-                    console.log(
-                        'gizmo transform item ref: ',
-                        gizmoTransformItemRef.current
-                    );
-
                     // to be accessed in updateTransform
                     let originalTransform: TransformInfo = null;
 
@@ -1877,7 +1872,6 @@ function SceneView(props: ISceneViewProps, ref) {
                     scene.onBeforeRenderObservable.addOnce(() => {
                         const attachedMesh =
                             gizmoManager.gizmos.rotationGizmo.attachedMesh;
-                        console.log('attachedMesh: ', attachedMesh);
 
                         // set both original and transform to original state of mesh
                         originalTransform = {
