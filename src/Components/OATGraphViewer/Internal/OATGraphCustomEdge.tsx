@@ -149,7 +149,6 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
     const [nameEditor, setNameEditor] = useState(false);
     const [nameText, setNameText] = useState(getPropertyDisplayName(data));
     const {
-        setElements,
         dispatch,
         setCurrentNode,
         showRelationships,
