@@ -1919,6 +1919,7 @@ function SceneView(props: ISceneViewProps, ref) {
                         );
                     });
 
+                    // update the gizmoTransformItem (allows builder panel to display new position/rotation)
                     const updateTransform = () => {
                         const attachedMesh =
                             gizmoManager.gizmos.positionGizmo.attachedMesh;
@@ -1939,14 +1940,6 @@ function SceneView(props: ISceneViewProps, ref) {
                         setGizmoTransformItem(
                             gizmoTransformItemRef.current.transform
                         );
-                        console.log(
-                            'actual mesh position: ',
-                            attachedMesh.position
-                        );
-                        console.log(
-                            'actual mesh rotation: ',
-                            attachedMesh.rotation
-                        );
                     };
 
                     // on drag end for both position and rotation gizmos, update transform
@@ -1954,27 +1947,11 @@ function SceneView(props: ISceneViewProps, ref) {
                     const positionGizmo = gizmoManager.gizmos.positionGizmo;
                     positionGizmo.onDragEndObservable.add(() => {
                         updateTransform();
-                        console.log(
-                            'gizmoTransformItemRef.current: ',
-                            gizmoTransformItemRef.current
-                        );
-                        console.log(
-                            'new position: ',
-                            gizmoTransformItemRef.current.transform.position
-                        );
                     });
 
                     const rotationGizmo = gizmoManager.gizmos.rotationGizmo;
                     rotationGizmo.onDragEndObservable.add(() => {
                         updateTransform();
-                        console.log(
-                            'gizmoTransformItemRef.current: ',
-                            gizmoTransformItemRef.current
-                        );
-                        console.log(
-                            'new rotation: ',
-                            gizmoTransformItemRef.current.transform.rotation
-                        );
                     });
                 }
             } catch {
@@ -1993,9 +1970,6 @@ function SceneView(props: ISceneViewProps, ref) {
     // Handle gizmoTransformItem
     useEffect(() => {
         if (scene && gizmoTransformItem && !isLoading) {
-            if (debugLogging) {
-                console.time('adding gizmo to meshes');
-            }
             try {
                 if (gizmoTransformItemRef.current) {
                     gizmoTransformItemRef.current.transform = deepCopy(
@@ -2025,9 +1999,6 @@ function SceneView(props: ISceneViewProps, ref) {
                     'unable to transform element based on change in transform field'
                 );
             }
-            // if (debugLogging) {
-            //     console.timeEnd('adding gizmo to meshes');
-            // }
         }
 
         return () => {

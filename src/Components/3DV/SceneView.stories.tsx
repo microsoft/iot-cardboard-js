@@ -30,11 +30,16 @@ const Template: SceneViewStory = (args) => {
 
 export const SceneViewGizmo = Template.bind({}) as SceneViewStory;
 const defaultGizmoElementItems: TransformedElementItem = {
-    meshIds: ['tank1_LOD0'],
-    parentMeshId: 'tank1_LOD0'
+    meshIds: ['tank6_LOD0.003_primitive0', 'tank6_LOD0.003_primitive1'],
+    parentMeshId: 'tank6_LOD0.003_primitive0'
 };
 const setGizmoTransformItem = (gizmoTransformItem: TransformInfo) => {
-    console.log(gizmoTransformItem);
+    console.log(
+        'new position: ',
+        gizmoTransformItem.position,
+        '\nnew rotation: ',
+        gizmoTransformItem.rotation
+    );
 };
 SceneViewGizmo.args = {
     modelUrl:
@@ -119,27 +124,6 @@ Globe.args = {
     markers: globeMarkers,
     onMeshClick: (mesh, e) => meshClick(mesh, e)
 } as ISceneViewProps;
-
-// export const Globe = () => {
-
-//     const meshClick = (mesh: any, e: any) => {
-//         if (!mesh && !e) {
-//             console.log('Hello');
-//         }
-//     };
-
-//     return (
-//         <div style={wrapperStyle}>
-//             <div style={{ flex: 1, width: '100%' }}>
-//                 <SceneView
-//                     modelUrl="Globe"
-//                     markers={markers}
-//                     onMeshClick={(mesh, e) => meshClick(mesh, e)}
-//                 />
-//             </div>
-//         </div>
-//     );
-// };
 
 export const MarkersWithSimpleModel = Template.bind({}) as SceneViewStory;
 const simpleModelMarkers: Marker[] = [
