@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useTheme, List, ActionButton, Icon, TextField } from '@fluentui/react';
+import { useTheme, List, ActionButton, Icon, SearchBox } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import {
     getModelsStyles,
@@ -203,11 +203,10 @@ const OATModelList = ({
 
     return (
         <div>
-            <TextField
+            <SearchBox
                 className={modelsStyles.searchText}
-                onChange={onFilterChange}
-                value={filter}
                 placeholder={t('search')}
+                onChange={onFilterChange}
             />
             <div className={modelsStyles.container} ref={containerRef}>
                 <List items={items} onRenderCell={onRenderCell} />
