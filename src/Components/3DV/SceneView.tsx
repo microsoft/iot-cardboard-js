@@ -1747,13 +1747,7 @@ function SceneView(props: ISceneViewProps, ref) {
         return () => {
             debugLog('debug', 'Mesh transform cleanup'); // do i need to do anything here?
         };
-    }, [
-        transformedElementItems,
-        isLoading
-        // isWireframe,
-        // currentObjectColor,
-        // backgroundColor
-    ]);
+    }, [transformedElementItems, isLoading]);
 
     const transformMesh = (transformedElementItem: TransformedElementItem) => {
         const parentMesh: BABYLON.Mesh =
@@ -1788,19 +1782,6 @@ function SceneView(props: ISceneViewProps, ref) {
                     }
                 }
             });
-
-            // only transform element if not already in previously transformed elements
-            // this allows us to treat the "transform" property as a delta rather than the final position
-            // i.e. adding it to the original element rotation/position rather than setting it to
-            // parentMesh.rotation.x += transform.rotation.x;
-            // parentMesh.rotation.y += transform.rotation.y;
-            // parentMesh.rotation.z += transform.rotation.z;
-
-            // parentMesh.position.x += transform.position.x;
-            // parentMesh.position.y += transform.position.y;
-            // parentMesh.position.z += transform.position.z;
-
-            // not currently working ... what if a transform followed by a diff transform?
         }
 
         parentMesh.rotation.x = transform.rotation.x;
@@ -1851,6 +1832,7 @@ function SceneView(props: ISceneViewProps, ref) {
                             meshMap.current?.[
                                 gizmoTransformItemRef.current.parentMeshId
                             ];
+                        parentMesh.rotationQuaternion = null;
                         const position =
                             gizmoTransformItemRef.current.original.position;
                         const rotation =
@@ -1870,14 +1852,13 @@ function SceneView(props: ISceneViewProps, ref) {
                     // later add support for multiple gizmoElementItems!!!
                     const parentMesh: BABYLON.Mesh =
                         meshMap.current?.[gizmoElementItems[0].parentMeshId];
-
+                    parentMesh.rotationQuaternion = null;
                     // setting all other meshes to be children of the parent mesh
                     // so that the gizmo moves all meshes in element simultaneously
                     const meshIds = gizmoElementItems[0].meshIds;
                     const parentMeshId = gizmoElementItems[0].parentMeshId;
                     meshIds.forEach((meshId) => {
                         if (meshId != parentMeshId) {
-                            // set parent of each mesh (that isn't the designated parent) to parent mesh
                             meshMap.current?.[meshId].setParent(parentMesh);
                         }
                     });
@@ -1987,9 +1968,6 @@ function SceneView(props: ISceneViewProps, ref) {
                         // );
 
                         // this is the main place where transforms get set, so round here
-                        // basically, when manipulating with gizmo, round to whole numbers for position
-                        // and two decimal places for rotation -- in the mesh itself more decimals will
-                        // be kept, but effect should be negligible
                         gizmoTransformItemRef.current.transform = {
                             position: {
                                 x: Math.round(attachedMesh.position.x),
