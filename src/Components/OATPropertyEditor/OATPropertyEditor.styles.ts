@@ -140,7 +140,8 @@ export const getPropertyInspectorStyles = () => {
             {
                 display: 'grid',
                 gridTemplateColumns: '50% 50%',
-                alignItems: 'center'
+                alignItems: 'center',
+                minHeight: '38px'
             } as IStyle
         ],
         gridRowPropertyHeading: [

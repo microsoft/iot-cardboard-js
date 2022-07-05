@@ -15,6 +15,7 @@ import {
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 import OATTextFieldDisplayName from '../../Pages/OATEditorPage/Internal/Components/OATTextFieldDisplayName';
 import OATTextFieldId from '../../Pages/OATEditorPage/Internal/Components/OATTextFieldId';
+import { getModelPropertyListItemName } from '../OATPropertyEditor/Utils';
 
 type OATModelListProps = {
     elements: IOATTwinModelNodes[];
@@ -116,6 +117,13 @@ const OATModelList = ({
         setFilter(evt.target.value);
     };
 
+    const getDisplayNameText = (item) => {
+        const displayName = getModelPropertyListItemName(item.displayName);
+        return displayName.length > 0
+            ? displayName
+            : t('OATPropertyEditor.displayName');
+    };
+
     const onRenderCell = (item: IOATTwinModelNodes) => {
         return (
             <div className={modelsStyles.modelNode}>
@@ -157,9 +165,7 @@ const OATModelList = ({
                             {(!nameEditor ||
                                 currentNodeId.current !== item['@id']) && (
                                 <span className={modelsStyles.regularText}>
-                                    {typeof item['displayName'] === 'string'
-                                        ? item['displayName']
-                                        : Object.values(item['displayName'])[0]}
+                                    {getDisplayNameText(item)}
                                 </span>
                             )}
                             {nameEditor &&
