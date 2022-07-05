@@ -943,7 +943,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                 const sourceNode = currentNodes.find(
                     (element) => element['@id'] === currentNode.source
                 );
-                if (typeof sourceNode !== 'undefined' && sourceNode.extends) {
+                if (sourceNode && sourceNode.extends) {
                     if (sourceNode.extends.length < maxInheritanceQuantity) {
                         sourceNode.extends.push(currentNode.target);
                     } else {
