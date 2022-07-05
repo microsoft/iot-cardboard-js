@@ -14,6 +14,8 @@ import { FormBody } from './Constants';
 import OATTextFieldDisplayName from '../../Pages/OATEditorPage/Internal/Components/OATTextFieldDisplayName';
 import OATTextFieldName from '../../Pages/OATEditorPage/Internal/Components/OATTextFieldName';
 import OATTextFieldId from '../../Pages/OATEditorPage/Internal/Components/OATTextFieldId';
+import { deepCopy } from '../../Models/Services/Utils';
+import { SET_OAT_PROPERTY_EDITOR_MODEL } from '../../Models/Constants/ActionTypes';
 
 type IPropertiesModelSummary = {
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
@@ -31,7 +33,7 @@ export const PropertiesModelSummary = ({
     isSupportedModelType
 }: IPropertiesModelSummary) => {
     const { t } = useTranslation();
-    const { model } = state;
+    const { model, models } = state;
     const propertyInspectorStyles = getPropertyInspectorStyles();
     const iconWrapStyles = geIconWrapFitContentStyles();
     const generalPropertiesWrapStyles = getGeneralPropertiesWrapStyles();
@@ -50,10 +52,37 @@ export const PropertiesModelSummary = ({
         setId(model && model['@id'] ? model['@id'] : '');
     }, [model]);
 
-    const onCommit = () => {
+    const onIdCommit = (value) => {
+        const modelCopy = deepCopy(model);
+        modelCopy['@id'] = value;
+        dispatch({
+            type: SET_OAT_PROPERTY_EDITOR_MODEL,
+            payload: modelCopy
+        });
+        setId(value);
         setIdEditor(false);
-        setNameEditor(false);
+    };
+
+    const onDisplayNameCommit = (value) => {
+        const modelCopy = deepCopy(model);
+        modelCopy.displayName = value;
+        dispatch({
+            type: SET_OAT_PROPERTY_EDITOR_MODEL,
+            payload: modelCopy
+        });
+        setDisplayName(value);
         setDisplayNameEditor(false);
+    };
+
+    const onNameCommit = (value) => {
+        const modelCopy = deepCopy(model);
+        modelCopy.name = value;
+        dispatch({
+            type: SET_OAT_PROPERTY_EDITOR_MODEL,
+            payload: modelCopy
+        });
+        setName(value);
+        setNameEditor(false);
     };
 
     return (
@@ -94,11 +123,10 @@ export const PropertiesModelSummary = ({
                         placeholder={t('id')}
                         styles={textFieldStyes}
                         disabled={!model}
-                        id={isSupportedModelType && id}
-                        setId={setId}
-                        dispatch={dispatch}
-                        state={state}
-                        onCommit={onCommit}
+                        value={isSupportedModelType && id}
+                        model={model}
+                        models={models}
+                        onCommit={onIdCommit}
                         borderless
                         autoFocus
                     />
@@ -120,11 +148,10 @@ export const PropertiesModelSummary = ({
                             placeholder={t('name')}
                             styles={textFieldStyes}
                             disabled={!model}
-                            name={isSupportedModelType && name}
-                            setName={setName}
-                            dispatch={dispatch}
-                            state={state}
-                            onCommit={onCommit}
+                            value={isSupportedModelType && name}
+                            model={model}
+                            models={models}
+                            onCommit={onNameCommit}
                             borderless
                             autoFocus
                         />
@@ -149,10 +176,8 @@ export const PropertiesModelSummary = ({
                         borderless
                         placeholder={t('OATPropertyEditor.displayName')}
                         disabled={!model}
-                        displayName={isSupportedModelType && displayName}
-                        setDisplayName={setDisplayName}
-                        dispatch={dispatch}
-                        onCommit={onCommit}
+                        value={isSupportedModelType && displayName}
+                        onCommit={onDisplayNameCommit}
                         model={model}
                         autoFocus
                     />

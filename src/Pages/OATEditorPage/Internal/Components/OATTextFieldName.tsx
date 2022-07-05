@@ -3,39 +3,36 @@ import { TextField } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import {
     DTDLNameRegex,
-    IAction,
+    IOATTwinModelNodes,
     ModelTypes,
     OATNameLengthLimit
 } from '../../../../Models/Constants';
-import { SET_OAT_PROPERTY_EDITOR_MODEL } from '../../../../Models/Constants/ActionTypes';
-import { deepCopy } from '../../../../Models/Services/Utils';
 import { IOATEditorState } from '../../OATEditorPage.types';
 
 type IOATTexField = {
     autoFocus?: boolean;
     borderless?: boolean;
-    dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
     disabled?: boolean;
-    name: string;
-    onCommit?: () => void;
+    value: string;
+    onCommit?: (value: string) => void;
     placeholder?: string;
-    setName: (value: string) => void;
     state?: IOATEditorState;
     setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
     styles?: React.CSSProperties;
+    model: IOATTwinModelNodes;
+    models: IOATTwinModelNodes[];
 };
 
 const OATTextFieldName = ({
     autoFocus,
     borderless,
-    name,
-    setName,
+    value,
     disabled,
-    dispatch,
     placeholder,
-    state,
     onCommit,
-    styles
+    styles,
+    model,
+    models
 }: IOATTexField) => {
     const { t } = useTranslation();
     const [nameLengthError, setNameLengthError] = useState(false);
@@ -50,10 +47,8 @@ const OATTextFieldName = ({
         nameDuplicateRelationshipError,
         setNameDuplicateRelationshipError
     ] = useState(false);
-    const [temporaryName, setTemporaryName] = useState(name);
-    const originalValue = name;
-
-    const { model, models } = state;
+    const [temporaryName, setTemporaryName] = useState(value);
+    const originalValue = value;
 
     useEffect(() => {
         if (model && model.name) {
@@ -107,23 +102,15 @@ const OATTextFieldName = ({
     };
 
     const onCommitChange = () => {
-        onCommit();
         if (
             !nameLengthError &&
             !nameValidCharactersError &&
             !nameDuplicateInterfaceError &&
             !nameDuplicateRelationshipError
         ) {
-            // Update model
-            const modelCopy = deepCopy(model);
-            modelCopy.name = temporaryName;
-            dispatch({
-                type: SET_OAT_PROPERTY_EDITOR_MODEL,
-                payload: modelCopy
-            });
-            setName(temporaryName);
+            onCommit(temporaryName);
         } else {
-            setTemporaryName(name);
+            setTemporaryName(value);
             setNameDuplicateInterfaceError(false);
             setNameDuplicateRelationshipError(false);
             setNameValidCharactersError(false);
@@ -136,9 +123,8 @@ const OATTextFieldName = ({
             onCommitChange();
         }
         if (event.key === 'Escape' || event.key === 'Tab') {
-            setName(originalValue);
             setTemporaryName(originalValue);
-            onCommit();
+            onCommit(temporaryName);
         }
     };
 
