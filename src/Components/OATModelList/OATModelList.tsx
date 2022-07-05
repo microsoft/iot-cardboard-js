@@ -15,6 +15,7 @@ import {
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 import OATTextFieldDisplayName from '../../Pages/OATEditorPage/Internal/Components/OATTextFieldDisplayName';
 import OATTextFieldId from '../../Pages/OATEditorPage/Internal/Components/OATTextFieldId';
+import { getModelPropertyListItemName } from '../OATPropertyEditor/Utils';
 
 type OATModelListProps = {
     elements: IOATTwinModelNodes[];
@@ -117,12 +118,9 @@ const OATModelList = ({
     };
 
     const getDisplayNameText = (item) => {
-        return typeof item['displayName'] === 'string'
-            ? item['displayName'].length > 0
-                ? item['displayName']
-                : t('OATPropertyEditor.displayName')
-            : Object.values(item['displayName'])[0].length > 0
-            ? Object.values(item['displayName'])[0]
+        const displayName = getModelPropertyListItemName(item.displayName);
+        return displayName.length > 0
+            ? displayName
             : t('OATPropertyEditor.displayName');
     };
 
