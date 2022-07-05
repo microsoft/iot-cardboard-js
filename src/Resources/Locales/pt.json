@@ -796,7 +796,8 @@
     "errorDisplayNameLength": "O nome do display não pode exceder 64 chars",
     "errorRepeatedEdgeName": "Uma relação com o mesmo nome já existe",
     "errorReachedInheritanceLimit": "Limite de herança alcançado",
-    "errorInheritance": "Não pode herdar de mais de duas interfaces"
+    "errorInheritance": "Não pode herdar de mais de duas interfaces",
+    "runLayout": "Executar layout"
   },
   "OATPropertyEditor": {
     "displayName": "Nome de exibição",

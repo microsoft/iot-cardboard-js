@@ -796,7 +796,8 @@
     "errorDisplayNameLength": "Weergavenaam mag niet meer dan 64 tekens bevatten",
     "errorRepeatedEdgeName": "Er bestaat al een relatie met dezelfde naam",
     "errorReachedInheritanceLimit": "Overervingslimiet bereikt",
-    "errorInheritance": "Mag niet van meer dan twee interfaces overnemen"
+    "errorInheritance": "Mag niet van meer dan twee interfaces overnemen",
+    "runLayout": "Lay-out uitvoeren"
   },
   "OATPropertyEditor": {
     "displayName": "Weergegeven naam",

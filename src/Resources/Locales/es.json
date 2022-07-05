@@ -796,7 +796,8 @@
     "errorDisplayNameLength": "El nombre para mostrar no puede exceder los 64 caracteres",
     "errorRepeatedEdgeName": "Ya existe una relación con el mismo nombre",
     "errorReachedInheritanceLimit": "Límite de herencia alcanzado",
-    "errorInheritance": "No puede heredar de más de dos interfaces"
+    "errorInheritance": "No puede heredar de más de dos interfaces",
+    "runLayout": "Ejecutar diseño"
   },
   "OATPropertyEditor": {
     "displayName": "Nombre para mostrar",

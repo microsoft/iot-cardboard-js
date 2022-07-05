@@ -796,7 +796,8 @@
     "errorDisplayNameLength": "A megjelenítendő név nem haladhatja meg a 64 karaktert",
     "errorRepeatedEdgeName": "Az azonos nevű kapcsolat már létezik",
     "errorReachedInheritanceLimit": "Elérte az öröklési korlátot",
-    "errorInheritance": "Kettőnél több interfésztől nem örökölhet"
+    "errorInheritance": "Kettőnél több interfésztől nem örökölhet",
+    "runLayout": "Elrendezés futtatása"
   },
   "OATPropertyEditor": {
     "displayName": "Megjelenítendő név",

@@ -796,7 +796,8 @@
     "errorDisplayNameLength": "Visningsnamn får inte överstiga 64 tecken",
     "errorRepeatedEdgeName": "En relation med samma namn finns redan",
     "errorReachedInheritanceLimit": "Uppnådd arvsgräns",
-    "errorInheritance": "Får inte ärva från fler än två gränssnitt"
+    "errorInheritance": "Får inte ärva från fler än två gränssnitt",
+    "runLayout": "Kör layout"
   },
   "OATPropertyEditor": {
     "displayName": "Visningsnamn",
