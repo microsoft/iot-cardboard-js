@@ -796,7 +796,8 @@
     "errorDisplayNameLength": "Görünen Ad 64 karakteri aşamaz",
     "errorRepeatedEdgeName": "Aynı ada sahip bir ilişki zaten var",
     "errorReachedInheritanceLimit": "Ulaşılan devralma sınırı",
-    "errorInheritance": "İkiden fazla arabirimden devralamaz"
+    "errorInheritance": "İkiden fazla arabirimden devralamaz",
+    "runLayout": "Çalıştırma Düzeni"
   },
   "OATPropertyEditor": {
     "displayName": "Görünen Ad",

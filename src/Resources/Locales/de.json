@@ -796,7 +796,8 @@
     "errorDisplayNameLength": "Anzeigename darf 64 Zeichen nicht überschreiten",
     "errorRepeatedEdgeName": "Eine Beziehung mit demselben Namen existiert bereits",
     "errorReachedInheritanceLimit": "Erreichte Erbschaftsgrenze",
-    "errorInheritance": "Kann nicht von mehr als zwei Schnittstellen erben"
+    "errorInheritance": "Kann nicht von mehr als zwei Schnittstellen erben",
+    "runLayout": "Layout ausführen"
   },
   "OATPropertyEditor": {
     "displayName": "Anzeigename",
