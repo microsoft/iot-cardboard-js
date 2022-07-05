@@ -153,7 +153,7 @@ function SceneView(props: ISceneViewProps, ref) {
         cameraPosition,
         coloredMeshItems,
         transformedElementItems,
-        gizmoElementItems,
+        gizmoElementItem,
         gizmoTransformItem,
         setGizmoTransformItem,
         getToken,
@@ -1797,20 +1797,17 @@ function SceneView(props: ISceneViewProps, ref) {
         console.log(parentMesh.id, transform);
     };
 
-    // Handle gizmoElementItems
+    // Handle gizmoElementItem
     useEffect(() => {
         debugLog(
             'debug',
-            'adding gizmo to parent meshes based on gizmoElementItems prop' +
+            'adding gizmo to parent meshes based on gizmoElementItem prop' +
                 (scene ? ' with scene' : ' no scene')
         );
 
-        if (scene && gizmoElementItems && !isLoading) {
+        if (scene && gizmoElementItem && !isLoading) {
             if (debugLogging) {
                 console.time('adding gizmo to meshes');
-                gizmoElementItems.forEach((gizmoElementItem) => {
-                    console.log('gizmoElementItem:', gizmoElementItem);
-                });
             }
             try {
                 // create a gizmoManager if one does not already exist
@@ -1823,8 +1820,8 @@ function SceneView(props: ISceneViewProps, ref) {
                 }
                 const gizmoManager = gizmoManagerRef.current;
 
-                if (gizmoElementItems.length == 0) {
-                    // if gizmoElementItems is empty, attach to null meshes to clear
+                if (!gizmoElementItem) {
+                    // if no gizmoElementItem, attach to null meshes to clear
                     gizmoManager.attachToMesh(null);
                     // will also be triggered on leaving the tab, so snap parent mesh back to original state
                     if (gizmoTransformItemRef.current.parentMeshId) {
@@ -1849,14 +1846,14 @@ function SceneView(props: ISceneViewProps, ref) {
                         );
                     }
                 } else {
-                    // later add support for multiple gizmoElementItems!!!
+                    // later add support for multiple gizmoElementItems?
                     const parentMesh: BABYLON.Mesh =
-                        meshMap.current?.[gizmoElementItems[0].parentMeshId];
+                        meshMap.current?.[gizmoElementItem.parentMeshId];
                     parentMesh.rotationQuaternion = null;
                     // setting all other meshes to be children of the parent mesh
                     // so that the gizmo moves all meshes in element simultaneously
-                    const meshIds = gizmoElementItems[0].meshIds;
-                    const parentMeshId = gizmoElementItems[0].parentMeshId;
+                    const meshIds = gizmoElementItem.meshIds;
+                    const parentMeshId = gizmoElementItem.parentMeshId;
                     meshIds.forEach((meshId) => {
                         if (meshId != parentMeshId) {
                             meshMap.current?.[meshId].setParent(parentMesh);
@@ -1991,16 +1988,13 @@ function SceneView(props: ISceneViewProps, ref) {
         return () => {
             debugLog('debug', 'Mesh gizmo cleanup'); //?
         };
-    }, [gizmoElementItems, isLoading]);
+    }, [gizmoElementItem, isLoading]);
 
     // Handle gizmoTransformItem
     useEffect(() => {
         if (scene && gizmoTransformItem && !isLoading) {
             if (debugLogging) {
-                // console.time('adding gizmo to meshes');
-                // gizmoElementItems.forEach((gizmoElementItem) => {
-                //     console.log('gizmoElementItem:', gizmoElementItem);
-                // });
+                console.time('adding gizmo to meshes');
             }
             try {
                 if (gizmoTransformItemRef.current) {

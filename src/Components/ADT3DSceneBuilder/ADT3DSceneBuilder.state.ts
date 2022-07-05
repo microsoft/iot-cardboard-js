@@ -37,14 +37,8 @@ export const defaultADT3DSceneBuilderState: ADT3DSceneBuilderState = {
     config: null,
     coloredMeshItems: [],
     outlinedMeshItems: [],
-    gizmoElementItems: [],
+    gizmoElementItem: null,
     gizmoTransformItem: null,
-    // gizmoTransformItem: {
-    //     meshIds: [],
-    //     parentMeshId: null,
-    //     transform: { position: null, rotation: null },
-    //     original: null
-    // },
     widgetFormInfo: { mode: WidgetFormMode.Cancelled },
     behaviorTwinAliasFormInfo: null,
     elementTwinAliasFormInfo: null,
@@ -143,7 +137,7 @@ export const ADT3DSceneBuilderReducer: (
                 draft.outlinedMeshItems = payload;
                 break;
             case SET_ELEMENT_TO_GIZMO:
-                draft.gizmoElementItems = payload;
+                draft.gizmoElementItem = payload;
                 break;
             case SET_GIZMO_TRANSFORM_ITEM:
                 draft.gizmoTransformItem = payload;

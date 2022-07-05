@@ -148,7 +148,7 @@ export interface ISceneViewProps {
     onSceneLoaded?: (scene: BABYLON.Scene) => void;
     outlinedMeshitems?: CustomMeshItem[];
     transformedElementItems?: TransformedElementItem[];
-    gizmoElementItems?: TransformedElementItem[];
+    gizmoElementItem?: TransformedElementItem;
     gizmoTransformItem?: TransformInfo;
     setGizmoTransformItem?: (gizmoTransformItem: TransformInfo) => void;
     showHoverOnSelected?: boolean;

@@ -18,7 +18,7 @@ export interface IADT3DBuilderProps {
     coloredMeshItems?: CustomMeshItem[];
     showHoverOnSelected?: boolean;
     outlinedMeshItems?: CustomMeshItem[];
-    gizmoElementItems?: TransformedElementItem[];
+    gizmoElementItem?: TransformedElementItem;
     gizmoTransformItem?: TransformInfo;
     setGizmoTransformItem?: (gizmoTransformItem: TransformInfo) => void;
     objectColorUpdated?: (objectColor: IADTObjectColor) => void;

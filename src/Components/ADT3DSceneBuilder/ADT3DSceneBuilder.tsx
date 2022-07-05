@@ -136,12 +136,6 @@ const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
         defaultADT3DSceneBuilderState
     );
 
-    // console.log('ADT3DSceneBuilder svp: ', sceneViewProps);
-    // console.log(
-    //     'ADT3DSceneBuilder gizmoElementItems: ',
-    //     state.gizmoElementItems
-    // );
-
     // styles
     const classNames = getClassNames(styles, { theme: fluentTheme });
 
@@ -290,11 +284,11 @@ const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
         []
     );
 
-    const setGizmoElementItems = useCallback(
-        (gizmoElementItems: Array<TransformedElementItem>) => {
+    const setGizmoElementItem = useCallback(
+        (gizmoElementItem: TransformedElementItem) => {
             dispatch({
                 type: SET_ELEMENT_TO_GIZMO,
-                payload: gizmoElementItems
+                payload: gizmoElementItem
             });
         },
         []
@@ -831,7 +825,7 @@ const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
                 setColoredMeshItems,
                 setOutlinedMeshItems,
                 // something about transform should be here so that the left panel form knows about the mesh transform operation in the scene view
-                setGizmoElementItems,
+                setGizmoElementItem,
                 setGizmoTransformItem,
                 sceneId,
                 widgetFormInfo: state.widgetFormInfo,
@@ -871,7 +865,7 @@ const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
                             onMeshHovered={onMeshHovered}
                             sceneViewProps={sceneViewProps}
                             outlinedMeshItems={state.outlinedMeshItems}
-                            gizmoElementItems={state.gizmoElementItems}
+                            gizmoElementItem={state.gizmoElementItem}
                             gizmoTransformItem={state.gizmoTransformItem} // pass the setter !!
                             setGizmoTransformItem={setGizmoTransformItem}
                             showHoverOnSelected={state.showHoverOnSelected}

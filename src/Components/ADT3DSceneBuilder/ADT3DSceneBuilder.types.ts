@@ -124,7 +124,7 @@ export interface I3DSceneBuilderContext {
     coloredMeshItems: Array<CustomMeshItem>;
     setColoredMeshItems: (objects: Array<CustomMeshItem>) => void;
     setOutlinedMeshItems: (ids: Array<CustomMeshItem>) => void;
-    setGizmoElementItems: (objects: Array<TransformedElementItem>) => void;
+    setGizmoElementItem: (item: TransformedElementItem) => void;
     setGizmoTransformItem: (item: TransformInfo) => void;
     widgetFormInfo: WidgetFormInfo;
     setWidgetFormInfo: (widgetFormInfo: WidgetFormInfo) => void;
@@ -273,7 +273,7 @@ export interface IADT3DSceneBuilderElementsProps {
 export interface ADT3DSceneBuilderState {
     config: I3DScenesConfig;
     coloredMeshItems: Array<CustomMeshItem>;
-    gizmoElementItems: Array<TransformedElementItem>;
+    gizmoElementItem: TransformedElementItem;
     gizmoTransformItem: TransformInfo;
     behaviorTwinAliasFormInfo: BehaviorTwinAliasFormInfo;
     elementTwinAliasFormInfo: ElementTwinAliasFormInfo;

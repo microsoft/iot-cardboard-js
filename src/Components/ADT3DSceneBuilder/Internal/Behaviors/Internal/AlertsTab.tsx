@@ -1,4 +1,3 @@
-import produce from 'immer';
 import React, { useCallback, useContext, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
@@ -58,23 +57,15 @@ const LOC_KEYS = {
     notificationPlaceholder: `${ROOT_LOC}.notificationPlaceholder`
 };
 
-function convertRadiansToDegrees(radians: number) {
-    return radians * (360 / (Math.PI * 2));
-}
-
-function convertDegreesToRadians(degrees: number) {
-    return (degrees * (Math.PI * 2)) / 360;
-}
-
 const AlertsTab: React.FC = () => {
     // contexts
     const {
-        setGizmoElementItems,
+        setGizmoElementItem: setGizmoElementItems,
         setGizmoTransformItem,
         adapter,
         config,
         sceneId,
-        state: { selectedElements, gizmoElementItems, gizmoTransformItem } // do I need access to gizmoElement items or just the setter?
+        state: { selectedElements, gizmoTransformItem } // do I need access to gizmoElement items or just the setter?
     } = useContext(SceneBuilderContext);
     const {
         behaviorFormDispatch,
@@ -96,7 +87,6 @@ const AlertsTab: React.FC = () => {
     useEffect(() => {
         if (selectedElements.length > 0) {
             console.log('selectedElements: ', selectedElements);
-            // need to handle case for if there are already gizmoElementItems?
             // these should have the transform property populated if already transformed?
             const element = selectedElements[0]; // just grabbing the first element for now -- later need to support selecting diff meshes
             // iterate through all meshes in selectedElement; assign first mesh as parent
@@ -112,14 +102,13 @@ const AlertsTab: React.FC = () => {
                 element.objectIDs.forEach((objectID) => {
                     meshIds.push(objectID);
                 });
-                // gizmoElementItems.push(gizmoElementRef.current);
-                setGizmoElementItems([gizmoElementRef.current]); // just adding one gizmoElement so far ...
+                setGizmoElementItems(gizmoElementRef.current); // just adding one gizmoElement so far ...
                 console.log('gizmo element ref: ', gizmoElementRef.current);
             }
         }
         return () => {
             // clean up gizmo after exiting tab
-            setGizmoElementItems([]);
+            setGizmoElementItems(null);
         };
     }, [selectedElements]);
 

@@ -29,23 +29,17 @@ const Template: SceneViewStory = (args) => {
 };
 
 export const SceneViewGizmo = Template.bind({}) as SceneViewStory;
-const defaultGizmoElementItems: TransformedElementItem[] = [
-    {
-        meshIds: ['tank1_LOD0'],
-        parentMeshId: 'tank1_LOD0'
-    },
-    {
-        meshIds: ['Cube.003'],
-        parentMeshId: 'Cube.003'
-    }
-];
+const defaultGizmoElementItems: TransformedElementItem = {
+    meshIds: ['tank1_LOD0'],
+    parentMeshId: 'tank1_LOD0'
+};
 const setGizmoTransformItem = (gizmoTransformItem: TransformInfo) => {
     console.log(gizmoTransformItem);
 };
 SceneViewGizmo.args = {
     modelUrl:
         'https://cardboardresources.blob.core.windows.net/cardboard-mock-files/OutdoorTanks.gltf',
-    gizmoElementItems: defaultGizmoElementItems,
+    gizmoElementItem: defaultGizmoElementItems,
     setGizmoTransformItem
 } as ISceneViewProps;
 
