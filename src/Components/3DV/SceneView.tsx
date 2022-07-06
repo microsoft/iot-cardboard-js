@@ -1957,12 +1957,9 @@ function SceneView(props: ISceneViewProps, ref) {
         }
 
         return () => {
-            // if (gizmoManagerRef.current) {
-            //     gizmoManagerRef.current.dispose();
-            // }
             debugLog('debug', 'Mesh gizmo cleanup');
         };
-    }, [gizmoElementItem, isLoading]);
+    }, [scene, gizmoElementItem, isLoading]);
 
     // Handle gizmoTransformItem
     useEffect(() => {
@@ -1999,12 +1996,9 @@ function SceneView(props: ISceneViewProps, ref) {
         }
 
         return () => {
-            // if (gizmoTransformItemRef.current) {
-            //     gizmoTransformItemRef.current = null;
-            // }
             debugLog('debug', 'Gizmo transform item cleanup');
         };
-    }, [gizmoTransformItem, isLoading]);
+    }, [scene, gizmoTransformItem, isLoading]);
 
     // Handle outlinedMeshItems
     useEffect(() => {
