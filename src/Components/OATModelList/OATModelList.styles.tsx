@@ -21,7 +21,11 @@ export const getModelsStyles = () => {
                 width: '100%',
                 maxHeight: 'calc(100vh - 100px)',
                 height: '100%',
-                overflowX: 'hidden'
+                overflowX: 'hidden',
+                '::-webkit-scrollbar': {
+                    width: '0px',
+                    opacity: '0'
+                }
             } as IStyle
         ],
         modelNode: [

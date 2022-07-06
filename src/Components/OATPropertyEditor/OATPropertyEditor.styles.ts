@@ -801,7 +801,11 @@ export const getPropertyListPivotColumnContent: IStyle = () => {
 export const getPropertyListStackItem = () => {
     return {
         root: {
-            overflowY: 'auto'
+            overflowY: 'auto',
+            '::-webkit-scrollbar': {
+                width: '0px',
+                opacity: '0'
+            }
         }
     } as Partial<IButtonStyles>;
 };
