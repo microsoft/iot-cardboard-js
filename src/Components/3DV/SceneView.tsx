@@ -1668,7 +1668,7 @@ function SceneView(props: ISceneViewProps, ref) {
                 (scene ? ' with scene' : ' no scene')
         );
 
-        if (scene && gizmoElementItem && !isLoading) {
+        if (scene && !isLoading) {
             if (debugLogging) {
                 console.time('adding gizmo to meshes');
             }
@@ -1822,7 +1822,7 @@ function SceneView(props: ISceneViewProps, ref) {
         return () => {
             debugLog('debug', 'Mesh gizmo cleanup');
         };
-    }, [gizmoElementItem, isLoading]);
+    }, [scene, gizmoElementItem, isLoading]);
 
     // Handle gizmoTransformItem
     useEffect(() => {
@@ -1857,7 +1857,7 @@ function SceneView(props: ISceneViewProps, ref) {
         return () => {
             debugLog('debug', 'Gizmo transform item cleanup');
         };
-    }, [gizmoTransformItem, isLoading]);
+    }, [scene, gizmoTransformItem, isLoading]);
 
     const theme = useTheme();
     const customStyles = getSceneViewStyles(theme);
