@@ -241,15 +241,6 @@ export const PropertyList = ({
         definePropertySelectorPosition(e, buttonTop);
     };
 
-    const onTemplateAddition = (item) => {
-        const newTemplates = deepCopy(templates);
-        newTemplates.push(item);
-        dispatch({
-            type: SET_OAT_TEMPLATES,
-            payload: newTemplates
-        });
-    };
-
     const moveItemOnPropertyList = (index: number, moveUp: boolean) => {
         const direction = moveUp ? -1 : 1;
         const newModel = deepCopy(model);

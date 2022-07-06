@@ -20,11 +20,9 @@ import ReactFlow, {
     Controls,
     Background,
     removeElements,
-    isNode,
     FlowTransform
 } from 'react-flow-renderer';
 import { useTranslation } from 'react-i18next';
-import dagre from 'dagre';
 import OATGraphCustomNode from './Internal/OATGraphCustomNode';
 import OATGraphCustomEdge from './Internal/OATGraphCustomEdge';
 import {

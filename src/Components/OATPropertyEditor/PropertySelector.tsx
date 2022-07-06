@@ -18,7 +18,6 @@ import { getModelPropertyCollectionName } from './Utils';
 import { DTDLSchemaType } from '../../Models/Classes/DTDL';
 import { propertySelectorData } from '../../Models/Constants';
 
-const versionClassBase = '1';
 const leftOffset = 170; // Place selector's most used options above trigger element
 const topOffset = 60; // Selector height
 
