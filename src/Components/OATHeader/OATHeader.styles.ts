@@ -20,7 +20,8 @@ const classNames = {
     listSubMenuItem: `${classPrefix}-list-sub-menu-item`,
     modal: `${classPrefix}-modal`,
     modalRow: `${classPrefix}-modal-row`,
-    modalRowFlexEnd: `${classPrefix}-modal-row-flex-end`
+    modalRowFlexEnd: `${classPrefix}-modal-row-flex-end`,
+    uploadDirectoryInput: `${classPrefix}-upload-directory-input`
 };
 
 export const getHeaderStyles = () => {
@@ -129,6 +130,12 @@ export const getHeaderStyles = () => {
                 '& button:not(:last-of-type)': {
                     marginRight: '10px'
                 }
+            } as IStyle
+        ],
+        uploadDirectoryInput: [
+            classNames.uploadDirectoryInput,
+            {
+                display: 'none'
             } as IStyle
         ]
     });

@@ -15,7 +15,6 @@ import {
 } from '../../Models/Constants/ActionTypes';
 import { DTDLProperty, IAction } from '../../Models/Constants/Interfaces';
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
-import OATTextFieldId from '../../Pages/OATEditorPage/Internal/Components/OATTextFieldId';
 
 import {
     getModelPropertyCollectionName,

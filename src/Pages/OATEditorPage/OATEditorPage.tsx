@@ -27,7 +27,14 @@ const OATEditorPage = ({ theme }) => {
         OATEditorPageReducer,
         defaultOATEditorState
     );
-    const { models, projectName, templates, modelPositions, namespace } = state;
+    const {
+        models,
+        projectName,
+        templates,
+        modelPositions,
+        namespace,
+        modelsMetadata
+    } = state;
 
     const languages = Object.keys(i18n.options.resources).map((language) => {
         return {
@@ -53,7 +60,10 @@ const OATEditorPage = ({ theme }) => {
         const oatEditorData = {
             ...editorData,
             models,
-            modelPositions: modelPositions,
+            modelsData: {
+                modelPositions,
+                modelsMetadata
+            },
             projectName,
             projectDescription: '',
             templates,
@@ -61,7 +71,14 @@ const OATEditorPage = ({ theme }) => {
         };
 
         storeEditorData(oatEditorData);
-    }, [models, projectName, templates, modelPositions, namespace]);
+    }, [
+        models,
+        projectName,
+        templates,
+        modelPositions,
+        namespace,
+        modelsMetadata
+    ]);
 
     return (
         <ErrorBoundary FallbackComponent={OATErrorPage}>

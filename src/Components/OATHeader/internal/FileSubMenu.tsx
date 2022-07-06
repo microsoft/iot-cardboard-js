@@ -37,7 +37,14 @@ export const FileSubMenu = ({
     const [files, setFiles] = useState(loadFiles());
     const [isFileStored, setIsFileStored] = useState(false);
     const [fileIndex, setFileIndex] = useState(-1);
-    const { modelPositions, models, projectName, templates, namespace } = state;
+    const {
+        modelPositions,
+        models,
+        projectName,
+        templates,
+        namespace,
+        modelsMetadata
+    } = state;
 
     const onSave = () => {
         setSubMenuActive(false);
@@ -52,7 +59,8 @@ export const FileSubMenu = ({
                 '',
                 projectName,
                 templates,
-                namespace
+                namespace,
+                modelsMetadata
             );
 
             filesCopy[fileIndex].data = project;
