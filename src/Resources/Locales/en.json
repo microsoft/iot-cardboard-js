@@ -756,6 +756,7 @@
         "project": "Project",
         "untitledProject": "Untitled project",
         "description": "Description",
+        "deleteAll": "Delete All",
         "dontSave": "Don't save",
         "doYouWantToSaveChangesYouMadeTo": "Do you want to save the changes you made to {{projectName}}?",
         "doYouWantToDelete": "Do you want to delete",
@@ -768,7 +769,9 @@
         "errorInvalidJSON": "Invalid JSON",
         "errorFileFormatNotSupported": "Issue with {{fileName}}: Format not supported",
         "errorFormatNoSupported": "File format not supported",
-        "errorIssueWithFile": "Issue with {{fileName}}: {{error}}"
+        "errorIssueWithFile": "Issue with {{fileName}}: {{error}}",
+        "folderUpload": "Folder upload",
+        "fileUpload": "File upload"
     },
     "OATGraphViewer": {
         "newModel": "New Model",

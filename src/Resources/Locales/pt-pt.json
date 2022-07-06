@@ -768,7 +768,10 @@
     "errorFileFormatNotSupported": "{{file}} formato não suportado",
     "errorFormatNoSupported": "Formato de ficheiro não suportado",
     "errorIssueWithFile": "Problema com {{fileName}} {{error}}",
-    "errorNamespace": "O espaço de nomes só pode conter letras, dígitos e sublinhados."
+    "errorNamespace": "O espaço de nomes só pode conter letras, dígitos e sublinhados.",
+    "deleteAll": "Apagar tudo",
+    "folderUpload": "Upload de pasta",
+    "fileUpload": "Upload de arquivo"
   },
   "cameraControls": {
     "mouseControls": "Controlos do rato",

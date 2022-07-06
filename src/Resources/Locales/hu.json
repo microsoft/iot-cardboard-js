@@ -768,7 +768,10 @@
     "errorFileFormatNotSupported": "{{file}} formátum nem támogatott",
     "errorFormatNoSupported": "A fájlformátum nem támogatott",
     "errorIssueWithFile": "Probléma a következővel: {{fileName}}: {{error}}",
-    "errorNamespace": "A névtér csak betűket, számjegyeket és aláhúzásjeleket tartalmazhat."
+    "errorNamespace": "A névtér csak betűket, számjegyeket és aláhúzásjeleket tartalmazhat.",
+    "deleteAll": "Összes törlése",
+    "folderUpload": "Mappa feltöltése",
+    "fileUpload": "Fájlfeltöltés"
   },
   "cameraControls": {
     "mouseControls": "Egérvezérlők",

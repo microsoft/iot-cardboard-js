@@ -4,6 +4,7 @@ import { CardboardClassNamePrefix } from '../../Models/Constants';
 const classPrefix = `${CardboardClassNamePrefix}-oat-graph-viewer`;
 const classNames = {
     container: `${classPrefix}-container`,
+    loadingOverlay: `${classPrefix}-loading-overlay`,
     node: `${classPrefix}-node`,
     selectedNode: `${classPrefix}-selected-node`,
     handle: `${classPrefix}-handle`,
@@ -54,6 +55,7 @@ export const getGraphViewerStyles = () => {
             {
                 background: theme.semanticColors.bodyBackground,
                 height: 'auto',
+                position: 'relative',
                 [`& .${classNames.handle}`]: {
                     background: 'transparent',
                     border: '0px',
@@ -156,6 +158,21 @@ export const getGraphViewerStyles = () => {
                     background: 'transparent',
                     border: '0px'
                 }
+            } as IStyle
+        ],
+        loadingOverlay: [
+            classNames.loadingOverlay,
+            {
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
+                backgroundColor: 'rgba(0, 0, 0, 0.3)',
+                zIndex: 101,
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center'
             } as IStyle
         ],
         handleContentRelationship: [

@@ -768,7 +768,10 @@
     "errorFileFormatNotSupported": "{{file}}-format stöds inte",
     "errorFormatNoSupported": "Filformat stöds inte",
     "errorIssueWithFile": "Problem med {{fileName}}: {{error}}",
-    "errorNamespace": "Namnområdet får bara innehålla bokstäver, siffror och understreck."
+    "errorNamespace": "Namnområdet får bara innehålla bokstäver, siffror och understreck.",
+    "deleteAll": "Ta bort alla",
+    "folderUpload": "Uppladdning av mapp",
+    "fileUpload": "Filuppladdning"
   },
   "cameraControls": {
     "mouseControls": "Muskontroller",

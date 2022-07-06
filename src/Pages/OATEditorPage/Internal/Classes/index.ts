@@ -1,4 +1,5 @@
 import { DTDLModel } from '../../../../Models/Classes/DTDL';
+import { IModelsMetadata } from '../../OATEditorPage.types';
 import { ModelPosition } from '../Types';
 
 export class ProjectData {
@@ -8,6 +9,7 @@ export class ProjectData {
     projectName?: string;
     templates: any[];
     namespace?: string;
+    modelsMetadata?: IModelsMetadata[];
 
     constructor(
         modelPositions: ModelPosition[],
@@ -15,7 +17,8 @@ export class ProjectData {
         projectDescription: string,
         projectName: string,
         templates: any[],
-        namespace: string
+        namespace: string,
+        modelsMetadata: IModelsMetadata[]
     ) {
         this.modelPositions = modelPositions;
         this.models = models;
@@ -23,5 +26,6 @@ export class ProjectData {
         this.projectName = projectName;
         this.templates = templates;
         this.namespace = namespace;
+        this.modelsMetadata = modelsMetadata;
     }
 }

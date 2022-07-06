@@ -768,7 +768,10 @@
     "errorFileFormatNotSupported": "{{file}}-Format wird nicht unterstützt",
     "errorFormatNoSupported": "Dateiformat nicht unterstützt",
     "errorIssueWithFile": "Problem mit {{fileName}}: {{error}}",
-    "errorNamespace": "Der Namespace darf nur Buchstaben, Ziffern und Unterstriche enthalten."
+    "errorNamespace": "Der Namespace darf nur Buchstaben, Ziffern und Unterstriche enthalten.",
+    "deleteAll": "Alle löschen",
+    "folderUpload": "Ordner-Upload",
+    "fileUpload": "Datei-Upload"
   },
   "cameraControls": {
     "mouseControls": "Maus-Steuerelemente",

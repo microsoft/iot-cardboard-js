@@ -37,7 +37,13 @@ export const FormSaveAs = ({
     const [projectName, setProjectName] = useState('');
     const [error, setError] = useState(false);
     const headerStyles = getHeaderStyles();
-    const { modelPositions, models, templates, namespace } = state;
+    const {
+        modelPositions,
+        models,
+        templates,
+        namespace,
+        modelsMetadata
+    } = state;
 
     const onSave = () => {
         const files = loadFiles();
@@ -53,7 +59,8 @@ export const FormSaveAs = ({
                     '',
                     projectName,
                     templates,
-                    namespace
+                    namespace,
+                    modelsMetadata
                 );
 
                 saveFiles(files);
@@ -72,7 +79,8 @@ export const FormSaveAs = ({
             '',
             projectName,
             templates,
-            namespace
+            namespace,
+            modelsMetadata
         );
         dispatch({
             type: SET_OAT_PROJECT,
