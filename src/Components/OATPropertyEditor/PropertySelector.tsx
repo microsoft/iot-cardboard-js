@@ -176,9 +176,9 @@ const PropertySelector = ({
                                 onKeyPress={() => {
                                     onTagClick(tag.name);
                                 }}
+                                key={index}
                             >
                                 <Svg
-                                    key={index}
                                     className={
                                         propertyInspectorStyles.propertyTag
                                     }
@@ -191,7 +191,7 @@ const PropertySelector = ({
                 <Separator styles={propertySelectorSeparatorStyles} vertical />
                 <div className={propertyInspectorStyles.propertyTagsWrapFirst}>
                     {propertySelectorData.propertyTags.primitive.map(
-                        (tag, i) => (
+                        (tag, index) => (
                             <ActionButton
                                 onClick={() => {
                                     onTagClick(tag.name);
@@ -199,9 +199,9 @@ const PropertySelector = ({
                                 onKeyPress={() => {
                                     onTagClick(tag.name);
                                 }}
+                                key={index}
                             >
                                 <Svg
-                                    key={i}
                                     className={
                                         propertyInspectorStyles.propertyTag
                                     }
@@ -215,7 +215,7 @@ const PropertySelector = ({
                 <Separator styles={propertySelectorSeparatorStyles} vertical />
                 <div className={propertyInspectorStyles.propertyTagsWrapThird}>
                     {propertySelectorData.propertyTags.geospatial.map(
-                        (tag, i) => (
+                        (tag, index) => (
                             <ActionButton
                                 onClick={() => {
                                     onTagClick(tag.name);
@@ -223,9 +223,9 @@ const PropertySelector = ({
                                 onKeyPress={() => {
                                     onTagClick(tag.name);
                                 }}
+                                key={index}
                             >
                                 <Svg
-                                    key={i}
                                     className={
                                         propertyInspectorStyles.propertyTag
                                     }

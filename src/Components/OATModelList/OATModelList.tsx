@@ -17,7 +17,10 @@ import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 import OATTextFieldDisplayName from '../../Pages/OATEditorPage/Internal/Components/OATTextFieldDisplayName';
 import OATTextFieldId from '../../Pages/OATEditorPage/Internal/Components/OATTextFieldId';
 import { deepCopy } from '../../Models/Services/Utils';
-import { getModelPropertyListItemName } from '../OATPropertyEditor/Utils';
+import {
+    getModelPropertyListItemName,
+    isDisplayNameDefined
+} from '../OATPropertyEditor/Utils';
 
 type OATModelListProps = {
     elements: IOATTwinModelNodes[];
@@ -189,7 +192,13 @@ const OATModelList = ({
                         >
                             {(!nameEditor ||
                                 currentNodeId.current !== item['@id']) && (
-                                <span className={modelsStyles.regularText}>
+                                <span
+                                    className={
+                                        isDisplayNameDefined(item.displayName)
+                                            ? modelsStyles.regularText
+                                            : modelsStyles.placeholderText
+                                    }
+                                >
                                     {getDisplayNameText(item)}
                                 </span>
                             )}
@@ -204,6 +213,9 @@ const OATModelList = ({
                                             }}
                                             onCommit={onCommitDisplayName}
                                             autoFocus
+                                            placeholder={t(
+                                                'OATPropertyEditor.displayName'
+                                            )}
                                         />
                                     </>
                                 )}

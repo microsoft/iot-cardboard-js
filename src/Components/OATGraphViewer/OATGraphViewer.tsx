@@ -21,8 +21,7 @@ import ReactFlow, {
     MiniMap,
     Controls,
     Background,
-    removeElements,
-    FlowTransform
+    removeElements
 } from 'react-flow-renderer';
 import { useTranslation } from 'react-i18next';
 import OATGraphCustomNode from './Internal/OATGraphCustomNode';
@@ -71,6 +70,7 @@ import {
 } from 'd3-force';
 import { Position } from '../../Pages/OATEditorPage/Internal/Types';
 import { ConnectionParams } from './Internal/Classes/ConnectionParams';
+import { getModelPropertyCollectionName } from '../OATPropertyEditor/Utils';
 
 const contextClassBase = 'dtmi:dtdl:context;2';
 const versionClassBase = '1';
@@ -283,7 +283,6 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     const [showInheritances, setShowInheritances] = useState(true);
     const [showComponents, setShowComponents] = useState(true);
     const [rfInstance, setRfInstance] = useState(null);
-    const [currentLocation, setCurrentLocation] = useState(null);
     const [loading, setLoading] = useState(false);
 
     const applyLayoutToElements = (inputElements) => {
@@ -396,7 +395,11 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                         x.target = newId;
                     }
                 });
-                const propertyItems = model.contents.filter(
+                const propertyItems = model[
+                    getModelPropertyCollectionName(
+                        model ? model['@type'] : null
+                    )
+                ].filter(
                     (property) =>
                         typeof property['@type'] === 'object' &&
                         property['@type'][0] === 'property'
@@ -655,10 +658,6 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
         setRfInstance(_reactFlowInstance);
     }, []);
 
-    const onMove = useCallback((flowTransform: FlowTransform) => {
-        setCurrentLocation(flowTransform);
-    }, []);
-
     const getNewNodePosition = (coordinates) => {
         // Find the amount of nodes at the same position
         const nodesAtPosition = elements.filter(
@@ -825,7 +824,9 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
 
             if (currentHandleIdRef.current === OATUntargetedRelationshipName) {
                 const name = `${node.data.name}:${OATUntargetedRelationshipName}`;
-                const id = `${node.id}:${OATUntargetedRelationshipName}`;
+                const id = `${idClassBase}${OATRelationshipHandleName}${getNextRelationshipAmount(
+                    elements
+                )};${versionClassBase}`;
                 const untargetedRelationship = {
                     '@type': OATRelationshipHandleName,
                     '@id': id,
@@ -897,12 +898,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                           elements
                       )}`
                     : '';
-                if (currentHandleIdRef.current === OATExtendHandleName) {
-                    setElements((es) => [newNode, ...addEdge(params, es)]);
-                    return;
-                }
-
-                setElements((es) => [...addEdge(params, es), newNode]);
+                setElements((es) => [newNode, ...addEdge(params, es)]);
             }
         }
     };
@@ -1160,7 +1156,6 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                         onNodeMouseEnter={onNodeMouseEnter}
                         onNodeMouseLeave={onNodeMouseLeave}
                         onPaneClick={onBackgroundClick}
-                        onMove={onMove}
                     >
                         <PrimaryButton
                             styles={buttonStyles}

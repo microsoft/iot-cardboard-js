@@ -8,7 +8,8 @@ const classNames = {
     modelNodeButtonContent: `${classPrefix}-model-node-button-content`,
     nodeCancel: `${classPrefix}-nodeCancel`,
     strongText: `${classPrefix}-strong-text`,
-    searchText: `${classPrefix}-searchText`
+    searchText: `${classPrefix}-searchText`,
+    placeholderText: `${classPrefix}-placeholder-text`
 };
 
 export const getModelsStyles = () => {
@@ -74,6 +75,20 @@ export const getModelsStyles = () => {
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
                 minHeight: '17px'
+            } as IStyle
+        ],
+        placeholderText: [
+            classNames.placeholderText,
+            {
+                textAlign: 'left',
+                float: 'left',
+                maxWidth: '100%',
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                minHeight: '17px',
+                color: theme.semanticColors.inputPlaceholderText,
+                opacity: '.9'
             } as IStyle
         ],
         strongText: [

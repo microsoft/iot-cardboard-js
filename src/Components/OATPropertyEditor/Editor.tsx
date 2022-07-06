@@ -69,6 +69,7 @@ const Editor = ({
             model[propertiesKeyName] &&
             model[propertiesKeyName].length > 0
         ) {
+            // Exclude relationships from propertyList
             propertyItems = model[propertiesKeyName].filter(
                 (property) => property['@type'] !== ModelTypes.relationship
             );

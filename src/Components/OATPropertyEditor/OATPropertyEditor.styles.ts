@@ -71,6 +71,7 @@ const classNames = {
     booleanIcon: `${classPrefix}-boolean-icon`,
     button: `${classPrefix}-button`,
     typeTextField: `${classPrefix}-type-text-field`,
+    typeTextFieldPlaceholder: `${classPrefix}-type-text-field-placeholder`,
     regionButton: `${classPrefix}-region-button`
 };
 
@@ -706,6 +707,16 @@ export const getPropertyInspectorStyles = () => {
                 marginLeft: '10px',
                 height: '38px',
                 paddingTop: '12px'
+            } as IStyle
+        ],
+        typeTextFieldPlaceholder: [
+            classNames.typeTextFieldPlaceholder,
+            {
+                marginLeft: '10px',
+                height: '38px',
+                paddingTop: '12px',
+                color: theme.semanticColors.inputPlaceholderText,
+                opacity: '.9'
             } as IStyle
         ],
         regionButton: [

@@ -162,7 +162,11 @@ export const PropertiesModelSummary = ({
                 <Text>{t('OATPropertyEditor.displayName')}</Text>
                 {!displayNameEditor && model && (
                     <Text
-                        className={propertyInspectorStyles.typeTextField}
+                        className={
+                            displayName.length > 0
+                                ? propertyInspectorStyles.typeTextField
+                                : propertyInspectorStyles.typeTextFieldPlaceholder
+                        }
                         onDoubleClick={() => setDisplayNameEditor(true)}
                     >
                         {displayName.length > 0

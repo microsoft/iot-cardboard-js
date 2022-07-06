@@ -25,6 +25,15 @@ export const getModelPropertyListItemName = (name) => {
     return '';
 };
 
+export const isDisplayNameDefined = (name) => {
+    if (name && typeof name === 'string' && name.length > 0) {
+        return true;
+    } else if (name && Object.values(name)[0].lenght > 0) {
+        return true;
+    }
+    return false;
+};
+
 /* Returns property's display name, depending on whether it is a string or a object of localized displayNames */
 export const getPropertyDisplayName = (property: DTDLProperty) => {
     return typeof property.name === 'string'
