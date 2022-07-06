@@ -351,6 +351,7 @@ const OATHeader = ({ elements, dispatch, state }: OATHeaderProps) => {
     return (
         <div className={headerStyles.container}>
             <div className={headerStyles.menuComponent}>
+                <CommandBar items={items} styles={commandBarStyles} />
                 <div className="cb-oat-header-menu">
                     <input
                         type="file"

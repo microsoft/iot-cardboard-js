@@ -896,7 +896,12 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                           elements
                       )}`
                     : '';
-                setElements((es) => [newNode, ...addEdge(params, es)]);
+                if (currentHandleIdRef.current === OATExtendHandleName) {
+                    setElements((es) => [newNode, ...addEdge(params, es)]);
+                    return;
+                }
+
+                setElements((es) => [...addEdge(params, es), newNode]);
             }
         }
     };

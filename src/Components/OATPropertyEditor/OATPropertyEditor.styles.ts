@@ -104,10 +104,7 @@ export const getPropertyInspectorStyles = () => {
             classNames.pivotItem,
             {
                 height: '100%',
-                backgroundColor: theme.semanticColors.listBackground,
-                '& div': {
-                    overflowX: 'hidden'
-                }
+                backgroundColor: theme.semanticColors.listBackground
             } as IStyle
         ],
         templateColumn: [
