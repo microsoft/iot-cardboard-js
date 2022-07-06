@@ -291,6 +291,7 @@ export const getPropertyInspectorStyles = () => {
                 justifyContent: 'center',
                 flexWrap: 'wrap',
                 padding: '0px 8px',
+                minWidth: ' fit-content',
                 backgroundColor: theme.semanticColors.buttonBackgroundDisabled
             } as IStyle
         ],
@@ -301,7 +302,8 @@ export const getPropertyInspectorStyles = () => {
                 gridTemplateColumns: '50% 50%',
                 justifyContent: 'center',
                 flexWrap: 'wrap',
-                padding: '0px 8px'
+                padding: '0px 8px',
+                minWidth: ' fit-content'
             } as IStyle
         ],
         propertyTagsWrapThird: [
@@ -311,7 +313,8 @@ export const getPropertyInspectorStyles = () => {
                 gridTemplateColumns: '33% 33% 33%',
                 justifyContent: 'center',
                 flexWrap: 'wrap',
-                padding: '0px 8px'
+                padding: '0px 8px',
+                minWidth: ' fit-content'
             } as IStyle
         ],
         propertyTag: [
@@ -323,6 +326,8 @@ export const getPropertyInspectorStyles = () => {
                 borderRadius: '2px',
                 marginRight: '4px',
                 marginBottom: '1px',
+                minWidth: '30px',
+                minHeight: '30px',
                 width: '30px',
                 ':hover': {
                     backgroundColor:
@@ -593,7 +598,10 @@ export const getPropertyInspectorStyles = () => {
                 display: 'flex',
                 alignItems: 'center',
                 background: 'rgba(255, 255, 255, 0.2)',
-                marginTop: '20px'
+                marginTop: '20px',
+                overflow: 'visible',
+                overflowX: 'visible',
+                minWidth: '100%'
             } as IStyle
         ],
         addPropertyBarIcon: [
@@ -801,7 +809,11 @@ export const getPropertyListPivotColumnContent: IStyle = () => {
 export const getPropertyListStackItem = () => {
     return {
         root: {
-            overflowY: 'auto'
+            overflowY: 'auto',
+            '::-webkit-scrollbar': {
+                width: '0px',
+                opacity: '0'
+            }
         }
     } as Partial<IButtonStyles>;
 };
