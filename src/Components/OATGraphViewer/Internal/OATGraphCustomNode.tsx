@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { Icon, ActionButton, Label, TooltipHost } from '@fluentui/react';
-import { Handle } from 'react-flow-renderer';
+import { Handle, removeElements } from 'react-flow-renderer';
 import { useTranslation } from 'react-i18next';
 import { IOATGraphCustomNodeProps } from '../../../Models/Constants/Interfaces';
 import {
@@ -16,6 +16,7 @@ import {
     OATUntargetedRelationshipName
 } from '../../../Models/Constants/Constants';
 import {
+    SET_OAT_PROPERTY_EDITOR_MODEL,
     SET_OAT_DELETED_MODEL_ID,
     SET_OAT_CONFIRM_DELETE_OPEN
 } from '../../../Models/Constants/ActionTypes';
@@ -38,9 +39,13 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
     const [nameText, setNameText] = useState(getPropertyDisplayName(data));
     const [idEditor, setIdEditor] = useState(false);
     const [idText, setIdText] = useState(data.id);
-    const { dispatch, state, currentHovered, currentNodeIdRef } = useContext(
-        ElementsContext
-    );
+    const {
+        setElements,
+        dispatch,
+        state,
+        currentHovered,
+        currentNodeIdRef
+    } = useContext(ElementsContext);
     const graphViewerStyles = getGraphViewerStyles();
     const iconStyles = getGraphViewerIconStyles();
     const actionButtonStyles = getGraphViewerActionButtonStyles();
