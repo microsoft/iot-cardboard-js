@@ -768,7 +768,10 @@
     "errorFileFormatNotSupported": "Formát {{file}} není podporován",
     "errorFormatNoSupported": "Formát souboru není podporován",
     "errorIssueWithFile": "Problém s {{fileName}}: {{error}}",
-    "errorNamespace": "Obor názvů může obsahovat pouze písmena, číslice a podtržítka."
+    "errorNamespace": "Obor názvů může obsahovat pouze písmena, číslice a podtržítka.",
+    "deleteAll": "Smazat vše",
+    "folderUpload": "Nahrání složky",
+    "fileUpload": "Nahrání souboru"
   },
   "cameraControls": {
     "mouseControls": "Ovládání myší",

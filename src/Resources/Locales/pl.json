@@ -768,7 +768,10 @@
     "errorFileFormatNotSupported": "Format {{file}} nie jest obsługiwany",
     "errorFormatNoSupported": "Format pliku nie jest obsługiwany",
     "errorIssueWithFile": "Problem z {{fileName}}: {{error}}",
-    "errorNamespace": "Przestrzeń nazw może zawierać tylko litery, cyfry i podkreślenia."
+    "errorNamespace": "Przestrzeń nazw może zawierać tylko litery, cyfry i podkreślenia.",
+    "deleteAll": "Usuń wszystko",
+    "folderUpload": "Przesyłanie folderu",
+    "fileUpload": "Przesyłanie plików"
   },
   "cameraControls": {
     "mouseControls": "Sterowanie myszą",
