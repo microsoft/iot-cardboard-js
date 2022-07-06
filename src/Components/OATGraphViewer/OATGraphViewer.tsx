@@ -824,7 +824,8 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
 
             if (currentHandleIdRef.current === OATUntargetedRelationshipName) {
                 const name = `${node.data.name}:${OATUntargetedRelationshipName}`;
-                const id = `${idClassBase}${OATRelationshipHandleName}${getNextRelationshipAmount(
+                const id = `${node.id}:${OATUntargetedRelationshipName}`;
+                const paramId = `${idClassBase}${OATRelationshipHandleName}${getNextRelationshipAmount(
                     elements
                 )};${versionClassBase}`;
                 const untargetedRelationship = {
@@ -851,8 +852,8 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                     }
                 };
                 params.target = id;
-                params.id = id;
-                params.data.id = id;
+                params.id = paramId;
+                params.data.id = paramId;
                 params.data.type = `${OATUntargetedRelationshipName}`;
                 setElements((es) => [...addEdge(params, es), newNode]);
             }
