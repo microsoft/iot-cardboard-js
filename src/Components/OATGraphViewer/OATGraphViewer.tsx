@@ -283,7 +283,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     const [showComponents, setShowComponents] = useState(true);
     const [rfInstance, setRfInstance] = useState(null);
     const [currentLocation, setCurrentLocation] = useState(null);
-    const [importLoading, setImportLoading] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const applyLayoutToElements = (inputElements) => {
         const nodes = inputElements.reduce((collection, element) => {
@@ -342,7 +342,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                 });
 
                 setElements(newElements);
-                setImportLoading(false);
+                setLoading(false);
                 rfInstance.fitView();
             });
     };
@@ -432,7 +432,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
 
     useEffect(() => {
         if (importModels && importModels.length > 0) {
-            setImportLoading(true);
+            setLoading(true);
         }
         // Detects when a Model is deleted outside of the component and Updates the elements state
         let importModelsList = [...elements];
@@ -1132,7 +1132,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                 className={graphViewerStyles.container}
                 ref={reactFlowWrapperRef}
             >
-                {importLoading && (
+                {loading && (
                     <div className={graphViewerStyles.loadingOverlay}>
                         <Spinner size={SpinnerSize.large} />
                     </div>
@@ -1267,9 +1267,10 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                                     iconProps={{ iconName: 'GridViewMedium' }}
                                     title={t('OATGraphViewer.runLayout')}
                                     ariaLabel={t('OATGraphViewer.runLayout')}
-                                    onClick={() =>
-                                        applyLayoutToElements(elements)
-                                    }
+                                    onClick={() => {
+                                        setLoading(true);
+                                        applyLayoutToElements(elements);
+                                    }}
                                 />
                             </div>
                         </Stack>
