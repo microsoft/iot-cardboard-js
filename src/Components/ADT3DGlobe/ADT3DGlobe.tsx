@@ -69,6 +69,7 @@ const ADT3DGlobe: React.FC<IADT3DGlobeProps> = ({
             latitude: scene.latitude || 0,
             longitude: scene.longitude || 0,
             name: scene.displayName || 'Unknown',
+            allowGrouping: true,
             UIElement: (
                 <ModelLabel
                     id={scene.id}
