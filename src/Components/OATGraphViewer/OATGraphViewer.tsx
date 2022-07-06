@@ -217,7 +217,8 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                             OATUntargetedRelationshipName
                         )
                     );
-                    relationships.push(relationship);
+
+                    relationships = [...relationships, newNode, relationship];
                 } else {
                     contents = [...contents, content];
                 }
