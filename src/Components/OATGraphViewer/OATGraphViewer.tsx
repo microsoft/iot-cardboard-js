@@ -12,7 +12,8 @@ import {
     Toggle,
     Stack,
     SpinnerSize,
-    Spinner
+    Spinner,
+    IconButton
 } from '@fluentui/react';
 import ReactFlow, {
     ReactFlowProvider,
@@ -21,11 +22,9 @@ import ReactFlow, {
     Controls,
     Background,
     removeElements,
-    isNode,
     FlowTransform
 } from 'react-flow-renderer';
 import { useTranslation } from 'react-i18next';
-import dagre from 'dagre';
 import OATGraphCustomNode from './Internal/OATGraphCustomNode';
 import OATGraphCustomEdge from './Internal/OATGraphCustomEdge';
 import {
@@ -41,13 +40,15 @@ import {
     getGraphViewerButtonStyles,
     getGraphViewerWarningStyles,
     getGraphViewerMinimapStyles,
-    getGraphViewerFiltersStyles
+    getGraphViewerFiltersStyles,
+    getGraphForceLayoutStyles
 } from './OATGraphViewer.styles';
 import { ElementsContext } from './Internal/OATContext';
 import {
     SET_OAT_PROPERTY_EDITOR_MODEL,
     SET_OAT_MODELS,
-    SET_OAT_MODELS_POSITIONS
+    SET_OAT_MODELS_POSITIONS,
+    SET_OAT_ERROR
 } from '../../Models/Constants/ActionTypes';
 import {
     IAction,
@@ -82,6 +83,8 @@ type OATGraphProps = {
 
 const nodeWidth = 300;
 const nodeHeight = 100;
+const maxInheritanceQuantity = 2;
+const newNodeLeft = 20;
 
 const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     const {
@@ -171,7 +174,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                             OATRelationshipHandleName
                         )
                     );
-                    relationships = [...relationships, relationship];
+                    relationships.push(relationship);
                 } else if (content['@type'] === OATUntargetedRelationshipName) {
                     const name = `${input['displayName']}:${OATUntargetedRelationshipName}`;
                     const id = `${input['@id']}:${OATUntargetedRelationshipName}`;
@@ -214,26 +217,28 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                             OATUntargetedRelationshipName
                         )
                     );
-                    relationships = [...relationships, newNode, relationship];
+                    relationships.push(relationship);
                 } else {
                     contents = [...contents, content];
                 }
             });
-            if (input['extends']) {
-                const extendRelationship = new ElementEdge(
-                    `${input['@id']}${OATExtendHandleName}${input['extends']}`,
-                    OATRelationshipHandleName,
-                    input['@id'],
-                    OATExtendHandleName,
-                    input['extends'],
-                    new ElementEdgeData(
-                        `${input['@id']}${OATExtendHandleName}${input['extends']}`,
-                        '',
-                        '',
-                        OATExtendHandleName
-                    )
-                );
-                relationships = [...relationships, extendRelationship];
+            if (input.extends) {
+                input.extends.forEach((extend) => {
+                    const relationship = new ElementEdge(
+                        `${input['@id']}${OATExtendHandleName}${extend}`,
+                        OATRelationshipHandleName,
+                        input['@id'],
+                        OATExtendHandleName,
+                        extend,
+                        new ElementEdgeData(
+                            `${input['@id']}${OATExtendHandleName}${extend}`,
+                            '',
+                            '',
+                            OATExtendHandleName
+                        )
+                    );
+                    relationships.push(relationship);
+                });
             }
 
             const mp = modelPositions.find((x) => x.id === input['@id']);
@@ -269,6 +274,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     const warningStyles = getGraphViewerWarningStyles();
     const graphViewerMinimapStyles = getGraphViewerMinimapStyles();
     const graphViewerFiltersStyles = getGraphViewerFiltersStyles();
+    const graphForceLayoutStyles = getGraphForceLayoutStyles();
     const currentNodeIdRef = useRef('');
     const currentHandleIdRef = useRef('');
     const [currentHovered, setCurrentHovered] = useState(null);
@@ -279,8 +285,8 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     const [currentLocation, setCurrentLocation] = useState(null);
     const [importLoading, setImportLoading] = useState(false);
 
-    const applyLayoutToElements = (elements) => {
-        const nodes = elements.reduce((collection, element) => {
+    const applyLayoutToElements = (inputElements) => {
+        const nodes = inputElements.reduce((collection, element) => {
             if (!element.source) {
                 collection.push({
                     id: element.id,
@@ -291,7 +297,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
             return collection;
         }, []);
 
-        const links = elements.reduce((collection, element) => {
+        const links = inputElements.reduce((collection, element) => {
             if (element.source) {
                 collection.push({
                     source: element.source,
@@ -319,7 +325,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
             .force('y', forceY())
             .force('center', forceCenter())
             .on('end', () => {
-                const newElements = elements.map((element) => {
+                const newElements = inputElements.map((element) => {
                     const node = nodes.find(
                         (node) => !element.source && node.id === element.id
                     );
@@ -516,8 +522,8 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                 );
                 importModelsList.push(newNode, ...relationships);
             });
+            applyLayoutToElements([...importModelsList]);
         }
-        applyLayoutToElements([...importModelsList]);
     }, [importModels]);
 
     useEffect(() => {
@@ -652,15 +658,43 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
         setCurrentLocation(flowTransform);
     }, []);
 
-    const onNewModelClick = () => {
+    const getNewNodePosition = (coordinates) => {
+        // Find the amount of nodes at the same position
+        const nodesAtPosition = elements.filter(
+            (element) =>
+                !element.source &&
+                element.position.x === coordinates.x &&
+                element.position.y === coordinates.y
+        );
+
+        // If there is no node at the same position, return the coordinates
+        if (nodesAtPosition.length === 0) {
+            return coordinates;
+        }
+        // Define the new coordinates
+        const newCoordinates = {
+            x: coordinates.x + nodesAtPosition.length * 10,
+            y: coordinates.y + nodesAtPosition.length * 10
+        };
+        // Prevent nodes with the same position
+        return getNewNodePosition(newCoordinates);
+    };
+
+    const onNewModelClick = (event) => {
         if (!state.modified) {
             // Create a new floating node
             const name = `Model${newModelId}`;
             const id = `${idClassBase}model${newModelId};${versionClassBase}`;
+            let startPositionCoordinates = event.target.getBoundingClientRect();
+            startPositionCoordinates = rfInstance.project({
+                x: newNodeLeft,
+                y: startPositionCoordinates.y
+            });
+
             const newNode = {
                 id: id,
                 type: OATInterfaceType,
-                position: positionLookUp(),
+                position: getNewNodePosition(startPositionCoordinates),
                 data: {
                     name: name,
                     type: OATInterfaceType,
@@ -670,26 +704,6 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                 }
             };
             setElements([...elements, newNode]);
-
-            // Center pane focus on the new node
-            const positionedX =
-                positionedElements[positionedElements.length - 1].position.x;
-            const positionedY =
-                positionedElements[positionedElements.length - 1].position.y;
-
-            const wrapperBoundingBox = reactFlowWrapperRef.current.getBoundingClientRect();
-
-            rfInstance.setTransform({
-                x:
-                    -positionedX * currentLocation.zoom +
-                    wrapperBoundingBox.width / 2 -
-                    nodeWidth / 2,
-                y:
-                    -positionedY * currentLocation.zoom +
-                    wrapperBoundingBox.height / 2 -
-                    nodeHeight / 2,
-                zoom: currentLocation.zoom
-            });
         }
     };
 
@@ -865,6 +879,11 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                     }
                 };
                 params.target = id;
+                // On untargeted extends, the target is the node
+                if (currentHandleIdRef.current === OATExtendHandleName) {
+                    params.target = params.source;
+                    params.source = id;
+                }
                 params.id = `${idClassBase}${OATRelationshipHandleName}${getNextRelationshipAmount(
                     elements
                 )};${versionClassBase}`;
@@ -877,7 +896,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                           elements
                       )}`
                     : '';
-                setElements((es) => [...addEdge(params, es), newNode]);
+                setElements((es) => [newNode, ...addEdge(params, es)]);
             }
         }
     };
@@ -897,6 +916,16 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
         dispatch({
             type: SET_OAT_MODELS_POSITIONS,
             payload: nodePositions
+        });
+    };
+
+    const triggerInheritanceLimitError = () => {
+        dispatch({
+            type: SET_OAT_ERROR,
+            payload: {
+                title: t('OATGraphViewer.errorReachedInheritanceLimit'),
+                message: t('OATGraphViewer.errorInheritance')
+            }
         });
     };
 
@@ -939,7 +968,16 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                 const sourceNode = currentNodes.find(
                     (element) => element['@id'] === currentNode.source
                 );
-                sourceNode.extends = currentNode.target;
+                if (sourceNode && sourceNode.extends) {
+                    if (sourceNode.extends.length < maxInheritanceQuantity) {
+                        sourceNode.extends.push(currentNode.target);
+                    } else {
+                        triggerInheritanceLimitError();
+                    }
+                } else if (sourceNode) {
+                    sourceNode.extends = [];
+                    sourceNode.extends.push(currentNode.target);
+                }
             } else if (currentNode.data.type === OATComponentHandleName) {
                 const sourceNode = currentNodes.find(
                     (element) => element['@id'] === currentNode.source
@@ -1216,6 +1254,23 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                                         }}
                                     />
                                 </div>
+                            </div>
+                        </Stack>
+
+                        <Stack styles={graphForceLayoutStyles}>
+                            <div
+                                className={
+                                    graphViewerStyles.graphViewerForceLayoutWrap
+                                }
+                            >
+                                <IconButton
+                                    iconProps={{ iconName: 'GridViewMedium' }}
+                                    title={t('OATGraphViewer.runLayout')}
+                                    ariaLabel={t('OATGraphViewer.runLayout')}
+                                    onClick={() =>
+                                        applyLayoutToElements(elements)
+                                    }
+                                />
                             </div>
                         </Stack>
 

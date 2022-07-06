@@ -68,7 +68,8 @@ export const getModelsStyles = () => {
                 maxWidth: '100%',
                 whiteSpace: 'nowrap',
                 overflow: 'hidden',
-                textOverflow: 'ellipsis'
+                textOverflow: 'ellipsis',
+                minHeight: '17px'
             } as IStyle
         ],
         strongText: [

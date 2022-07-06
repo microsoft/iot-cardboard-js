@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { CommandBar, ICommandBarItemProps } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
-import { getHeaderStyles } from './OATHeader.styles';
+import { getHeaderStyles, getCommandBarStyles } from './OATHeader.styles';
 import JSZip from 'jszip';
 
 import FileSubMenu from './internal/FileSubMenu';
@@ -42,6 +42,7 @@ type OATHeaderProps = {
 const OATHeader = ({ elements, dispatch, state }: OATHeaderProps) => {
     const { t } = useTranslation();
     const headerStyles = getHeaderStyles();
+    const commandBarStyles = getCommandBarStyles();
     const {
         acceptedFiles,
         getRootProps,
@@ -350,7 +351,6 @@ const OATHeader = ({ elements, dispatch, state }: OATHeaderProps) => {
     return (
         <div className={headerStyles.container}>
             <div className={headerStyles.menuComponent}>
-                <div className="cb-oat-header-model"></div>
                 <div className="cb-oat-header-menu">
                     <input
                         type="file"
@@ -360,7 +360,6 @@ const OATHeader = ({ elements, dispatch, state }: OATHeaderProps) => {
                         mozdirectory={''}
                         onChange={onFilesChange}
                     />
-                    <CommandBar items={items} />
                     {fileSubMenuActive && (
                         <FileSubMenu
                             subMenuActive={fileSubMenuActive}
@@ -392,6 +391,7 @@ const OATHeader = ({ elements, dispatch, state }: OATHeaderProps) => {
                         resetProject={resetProject}
                     />
                 </div>
+                <div className="cb-oat-header-model"></div>
             </div>
             <div {...getRootProps()}>
                 <input {...getInputProps()} />

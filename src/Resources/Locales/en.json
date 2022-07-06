@@ -784,13 +784,16 @@
         "relationships": "Relationships",
         "inheritances": "Inheritances",
         "components": "Components",
+        "runLayout": "Run Layout",
         "errorRepeatedId": "A model with the same ID already exists",
         "errorRepeatedEdgeName": "A relationship with the same name already exists",
         "errorDisplayNameLength": "Display Name may not exceed 64 chars",
         "errorIdLength": "Id may not exceed 2048 chars",
         "errorIdValidDTMI": "Id must be a valid DTMI",
         "errorName": "Name may only contain the characters a-z, A-Z, 0-9, and underscore",
-        "errorNameLength": "Name may not exceed 64 chars"
+        "errorNameLength": "Name may not exceed 64 chars",
+        "errorReachedInheritanceLimit": "Reached inheritance limit",
+        "errorInheritance": "May not inherit from more than two interfaces"
     },
     "OATPropertyEditor": {
         "addEnumValue": "Add enum value",

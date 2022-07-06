@@ -60,7 +60,7 @@ export const FormUpdateProperty = ({
     state,
     languages
 }: IModal) => {
-    const { model, modelsMetadata } = state;
+    const { model, models, modelsMetadata } = state;
     const { t } = useTranslation();
     const propertyInspectorStyles = getPropertyInspectorStyles();
     const columnLeftTextStyles = getModalLabelStyles();
@@ -303,10 +303,13 @@ export const FormUpdateProperty = ({
                 </Text>
                 <OATTextFieldId
                     placeholder={t('OATPropertyEditor.id')}
-                    id={id}
-                    setId={setId}
-                    state={state}
+                    value={id}
+                    model={model}
+                    models={models}
                     modalFormCommit
+                    onCommit={(value) => {
+                        setId(value);
+                    }}
                 />
             </div>
 

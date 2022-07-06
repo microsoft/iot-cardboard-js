@@ -15,7 +15,6 @@ import {
 } from '../../Models/Constants/ActionTypes';
 import { DTDLProperty, IAction } from '../../Models/Constants/Interfaces';
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
-import OATTextFieldId from '../../Pages/OATEditorPage/Internal/Components/OATTextFieldId';
 
 import {
     getModelPropertyCollectionName,
@@ -156,8 +155,8 @@ export const PropertyListItem = ({
                     title={t('OATPropertyEditor.info')}
                     onClick={() => {
                         setCurrentPropertyIndex(index);
-                        setModalOpen(true);
                         setModalBody(FormBody.property);
+                        setModalOpen(true);
                     }}
                 />
                 <IconButton
