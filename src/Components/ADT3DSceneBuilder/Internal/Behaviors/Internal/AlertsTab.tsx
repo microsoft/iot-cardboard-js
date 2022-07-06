@@ -60,7 +60,7 @@ const LOC_KEYS = {
 const AlertsTab: React.FC = () => {
     // contexts
     const {
-        setGizmoElementItem: setGizmoElementItems,
+        setGizmoElementItem,
         setGizmoTransformItem,
         adapter,
         config,
@@ -102,13 +102,13 @@ const AlertsTab: React.FC = () => {
                 element.objectIDs.forEach((objectID) => {
                     meshIds.push(objectID);
                 });
-                setGizmoElementItems(gizmoElementRef.current); // just adding one gizmoElement so far ...
+                setGizmoElementItem(gizmoElementRef.current); // just adding one gizmoElement so far ...
                 console.log('gizmo element ref: ', gizmoElementRef.current);
             }
         }
         return () => {
             // clean up gizmo after exiting tab
-            setGizmoElementItems(null);
+            setGizmoElementItem(null);
         };
     }, [selectedElements]);
 

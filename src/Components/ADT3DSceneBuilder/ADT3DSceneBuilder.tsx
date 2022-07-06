@@ -824,7 +824,6 @@ const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
                 localeStrings,
                 setColoredMeshItems,
                 setOutlinedMeshItems,
-                // something about transform should be here so that the left panel form knows about the mesh transform operation in the scene view
                 setGizmoElementItem,
                 setGizmoTransformItem,
                 sceneId,

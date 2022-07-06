@@ -1805,7 +1805,7 @@ function SceneView(props: ISceneViewProps, ref) {
                 (scene ? ' with scene' : ' no scene')
         );
 
-        if (scene && gizmoElementItem && !isLoading) {
+        if (scene && !isLoading) {
             if (debugLogging) {
                 console.time('adding gizmo to meshes');
             }
@@ -1957,7 +1957,10 @@ function SceneView(props: ISceneViewProps, ref) {
         }
 
         return () => {
-            debugLog('debug', 'Mesh gizmo cleanup'); //?
+            // if (gizmoManagerRef.current) {
+            //     gizmoManagerRef.current.dispose();
+            // }
+            debugLog('debug', 'Mesh gizmo cleanup');
         };
     }, [gizmoElementItem, isLoading]);
 
@@ -1996,7 +1999,10 @@ function SceneView(props: ISceneViewProps, ref) {
         }
 
         return () => {
-            // debugLog('debug', 'Mesh gizmo cleanup'); //?
+            // if (gizmoTransformItemRef.current) {
+            //     gizmoTransformItemRef.current = null;
+            // }
+            debugLog('debug', 'Gizmo transform item cleanup');
         };
     }, [gizmoTransformItem, isLoading]);
 
