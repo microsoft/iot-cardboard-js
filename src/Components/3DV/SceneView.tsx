@@ -1664,7 +1664,7 @@ function SceneView(props: ISceneViewProps, ref) {
     useEffect(() => {
         debugLog(
             'debug',
-            'adding gizmo to element based on gizmoElementItem prop' +
+            'adding gizmo to parent meshes based on gizmoElementItem prop' +
                 (scene ? ' with scene' : ' no scene')
         );
 
@@ -1686,13 +1686,13 @@ function SceneView(props: ISceneViewProps, ref) {
                 if (!gizmoElementItem) {
                     // if no gizmoElementItem, attach to null meshes to clear
                     gizmoManager.attachToMesh(null);
-                    // will also be triggered on leaving the tab, so snap element back to original state
-                    if (gizmoTransformItemRef.current.parentMeshId) {
+                    // will also be triggered on leaving the tab, so snap parent mesh back to original state
+                    if (gizmoTransformItemRef.current?.parentMeshId) {
                         const parentMesh: BABYLON.Mesh =
                             meshMap.current?.[
                                 gizmoTransformItemRef.current.parentMeshId
                             ];
-                        parentMesh.rotationQuaternion = null; // so rotation field can be set directly
+                        parentMesh.rotationQuaternion = null;
                         const position =
                             gizmoTransformItemRef.current.original.position;
                         const rotation =
@@ -1712,7 +1712,7 @@ function SceneView(props: ISceneViewProps, ref) {
                     // later add support for multiple gizmoElementItems?
                     const parentMesh: BABYLON.Mesh =
                         meshMap.current?.[gizmoElementItem.parentMeshId];
-                    parentMesh.rotationQuaternion = null; // so rotation field can be set directly
+                    parentMesh.rotationQuaternion = null;
                     // setting all other meshes to be children of the parent mesh
                     // so that the gizmo moves all meshes in element simultaneously
                     const meshIds = gizmoElementItem.meshIds;
@@ -1776,39 +1776,40 @@ function SceneView(props: ISceneViewProps, ref) {
                         );
                     });
 
-                    // update the gizmoTransformItem (allows builder panel to display new position/rotation)
-                    const updateTransform = () => {
-                        const attachedMesh =
-                            gizmoManager.gizmos.positionGizmo.attachedMesh;
-
-                        // this is the main place where transforms get set, so round here
-                        gizmoTransformItemRef.current.transform = {
-                            position: {
-                                x: Math.round(attachedMesh.position.x),
-                                y: Math.round(attachedMesh.position.y),
-                                z: Math.round(attachedMesh.position.z)
-                            },
-                            rotation: {
-                                x: Number(attachedMesh.rotation.x.toFixed(2)),
-                                y: Number(attachedMesh.rotation.y.toFixed(2)),
-                                z: Number(attachedMesh.rotation.z.toFixed(2))
-                            }
-                        };
-                        setGizmoTransformItem(
-                            gizmoTransformItemRef.current.transform
-                        );
-                    };
-
                     // on drag end for both position and rotation gizmos, update transform
                     // updating on every frame is too much for react to handle
                     const positionGizmo = gizmoManager.gizmos.positionGizmo;
                     positionGizmo.onDragEndObservable.add(() => {
-                        updateTransform();
+                        // update the gizmoTransformItem (allows builder panel to display new position/rotation)
+                        const attachedMesh =
+                            gizmoManager.gizmos.positionGizmo.attachedMesh;
+
+                        // this is the main place where transforms get set, so round here
+                        gizmoTransformItemRef.current.transform.position = {
+                            x: Math.round(attachedMesh.position.x),
+                            y: Math.round(attachedMesh.position.y),
+                            z: Math.round(attachedMesh.position.z)
+                        };
+                        setGizmoTransformItem(
+                            gizmoTransformItemRef.current.transform
+                        );
                     });
 
                     const rotationGizmo = gizmoManager.gizmos.rotationGizmo;
                     rotationGizmo.onDragEndObservable.add(() => {
-                        updateTransform();
+                        // update the gizmoTransformItem (allows builder panel to display new position/rotation)
+                        const attachedMesh =
+                            gizmoManager.gizmos.positionGizmo.attachedMesh;
+
+                        // this is the main place where transforms get set, so round here
+                        gizmoTransformItemRef.current.transform.rotation = {
+                            x: Number(attachedMesh.rotation.x.toFixed(2)),
+                            y: Number(attachedMesh.rotation.y.toFixed(2)),
+                            z: Number(attachedMesh.rotation.z.toFixed(2))
+                        };
+                        setGizmoTransformItem(
+                            gizmoTransformItemRef.current.transform
+                        );
                     });
                 }
             } catch {
