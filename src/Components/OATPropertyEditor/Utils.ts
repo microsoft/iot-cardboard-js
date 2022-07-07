@@ -26,12 +26,11 @@ export const getModelPropertyListItemName = (name) => {
 };
 
 export const isDisplayNameDefined = (name) => {
-    if (name && typeof name === 'string' && name.length > 0) {
-        return true;
-    } else if (name && Object.values(name)[0].lenght > 0) {
-        return true;
-    }
-    return false;
+    return name && typeof name === 'string' && name.length > 0
+        ? true
+        : name && Object.values(name)[0].length > 0
+        ? true
+        : false;
 };
 
 /* Returns property's display name, depending on whether it is a string or a object of localized displayNames */
