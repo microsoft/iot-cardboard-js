@@ -61,18 +61,18 @@ export const defaultSwatchIcons: IPickerOption[] = [
     {
         id: 'Shield',
         item: 'Shield'
-     },
-    {
-        id: 'statusCircleCheckMark',
-        item: 'statusCircleCheckMark'
     },
     {
-        id: 'statusCircleExclamation',
-        item: 'statusCircleExclamation'
+        id: 'accept',
+        item: 'accept'
     },
-    { 
-        id: 'statusCirleInfo',
-        item: 'statusCircleInfo'
+    {
+        id: 'warning',
+        item: 'warning'
+    },
+    {
+        id: 'lightbulb',
+        item: 'lightbulb'
     }
 ];
 
