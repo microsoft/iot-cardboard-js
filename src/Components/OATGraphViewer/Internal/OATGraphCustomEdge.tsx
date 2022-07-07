@@ -29,6 +29,7 @@ import { IOATGraphCustomEdgeProps } from '../../../Models/Constants';
 import OATTextFieldName from '../../../Pages/OATEditorPage/Internal/Components/OATTextFieldName';
 import { CommandHistoryContext } from '../../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 import { Position } from '../../../Pages/OATEditorPage/Internal/Types';
+import { deepCopy } from '../../../Models/Services/Utils';
 
 const foreignObjectSize = 180;
 const foreignObjectSizeExtendRelation = 20;
@@ -152,7 +153,6 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
     const [nameEditor, setNameEditor] = useState(false);
     const [nameText, setNameText] = useState(getPropertyDisplayName(data));
     const {
-        setElements,
         dispatch,
         setCurrentNode,
         showRelationships,
@@ -161,7 +161,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
         currentNodeIdRef,
         state
     } = useContext(ElementsContext);
-    const { selectedModelId } = state;
+    const { model, models, selectedModelId } = state;
     const graphViewerStyles = getGraphViewerStyles();
     const relationshipTextFieldStyles = getRelationshipTextFieldStyles();
     const theme = useTheme();
@@ -180,6 +180,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                 );
             })
     );
+    const [selected, setSelected] = useState(false);
     const edges = useStoreState((state) => state.edges);
 
     const edge = useMemo(() => edges.find((x) => x.id === id), [edges, id]);
@@ -197,6 +198,16 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
             setNameEditor(false);
         }
     }, [id, nameEditor, selectedModelId]);
+
+    useEffect(() => {
+        if (model && model.name) {
+            setNameText(model.name);
+        }
+
+        if (!model || model['@id'] !== id) {
+            setSelected(false);
+        }
+    }, [model]);
 
     const getSourceComponents = (
         betaAngle: number,
@@ -471,26 +482,58 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
         return polygons;
     }, [id, source, sourceX, sourceY, targetX, targetY]);
 
+    // const onNameClick = () => {
+    //     const selectRelationship = () => {
+    //         setCurrentNode(polygons.element.id);
+    //         dispatch({
+    //             type: SET_OAT_SELECTED_MODEL_ID,
+    //             payload: polygons.element.data.id
+    //         });
+    //         setNameEditor(true);
+    //     };
+
+    //     const unselectRelationship = () => {
+    //         setCurrentNode(currentNodeIdRef.current);
+    //         dispatch({
+    //             type: SET_OAT_SELECTED_MODEL_ID,
+    //             payload: selectedModelId
+    //         });
+    //         setNameEditor(false);
+    //     };
+    // }
+
+    const setSelectedEdge = () => {
+        const relationship = new DTDLRelationship(
+            polygons.element.data.id,
+            nameText,
+            polygons.element.data.displayName,
+            polygons.element.data.description,
+            polygons.element.data.comment,
+            polygons.element.data.writable,
+            polygons.element.data.content ? polygons.element.data.content : [],
+            polygons.element.data.target,
+            polygons.element.data.maxMultiplicity
+        );
+
+        if (polygons.element.data.type === OATExtendHandleName) {
+            relationship['@type'] = OATExtendHandleName;
+        }
+        setCurrentNode(polygons.element.id);
+        dispatch({
+            type: SET_OAT_PROPERTY_EDITOR_MODEL,
+            payload: relationship
+        });
+    };
+
     const onNameClick = () => {
-        const selectRelationship = () => {
-            setCurrentNode(polygons.element.id);
-            dispatch({
-                type: SET_OAT_SELECTED_MODEL_ID,
-                payload: polygons.element.data.id
-            });
-            setNameEditor(true);
-        };
+        setSelected(true);
+        setSelectedEdge();
+    };
 
-        const unselectRelationship = () => {
-            setCurrentNode(currentNodeIdRef.current);
-            dispatch({
-                type: SET_OAT_SELECTED_MODEL_ID,
-                payload: selectedModelId
-            });
-            setNameEditor(false);
-        };
-
-        execute(selectRelationship, unselectRelationship);
+    const onNameDoubleClick = () => {
+        setSelected(true);
+        setNameEditor(true);
+        setSelectedEdge();
     };
 
     const edgePath = useMemo(() => {
@@ -552,8 +595,17 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
         }
     };
 
-    const onCommit = () => {
+    const onNameCommit = (value) => {
+        console.log('value', value);
+        const modelCopy = deepCopy(model);
+        modelCopy.name = value;
+        dispatch({
+            type: SET_OAT_PROPERTY_EDITOR_MODEL,
+            payload: modelCopy
+        });
+        setNameText(value);
         setNameEditor(false);
+        setSelected(false);
     };
 
     return (
@@ -562,18 +614,20 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                 id={id}
                 className={graphViewerStyles.widthPath}
                 d={edgePath}
-                onDoubleClick={onNameClick}
+                onClick={onNameClick}
+                onDoubleClick={onNameDoubleClick}
             />
             {data.type === OATExtendHandleName && showInheritances && (
                 <path
                     id={id}
                     className={
-                        !nameEditor
+                        !selected
                             ? graphViewerStyles.inheritancePath
                             : graphViewerStyles.selectedInheritancePath
                     }
                     d={edgePath}
-                    onDoubleClick={onNameClick}
+                    onClick={onNameClick}
+                    onDoubleClick={onNameDoubleClick}
                     markerEnd={markerEnd}
                 />
             )}
@@ -583,12 +637,13 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                     <path
                         id={id}
                         className={
-                            !nameEditor
+                            !selected
                                 ? graphViewerStyles.edgePath
                                 : graphViewerStyles.selectedEdgePath
                         }
                         d={edgePath}
-                        onDoubleClick={onNameClick}
+                        onClick={onNameClick}
+                        onDoubleClick={onNameDoubleClick}
                         markerEnd={markerEnd}
                     />
                 )}
@@ -596,12 +651,13 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                 <path
                     id={id}
                     className={
-                        !nameEditor
+                        !selected
                             ? graphViewerStyles.componentPath
                             : graphViewerStyles.selectedComponentPath
                     }
                     d={edgePath}
-                    onDoubleClick={onNameClick}
+                    onClick={onNameClick}
+                    onDoubleClick={onNameDoubleClick}
                     markerEnd={markerEnd}
                 />
             )}
@@ -627,11 +683,10 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                         {data.type !== OATExtendHandleName && (
                             <OATTextFieldName
                                 styles={relationshipTextFieldStyles}
-                                name={nameText}
-                                setName={setNameText}
-                                dispatch={dispatch}
-                                state={state}
-                                onCommit={onCommit}
+                                value={nameText}
+                                model={model}
+                                models={models}
+                                onCommit={onNameCommit}
                                 autoFocus
                             />
                         )}
@@ -673,7 +728,8 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                             className={graphViewerStyles.textPath}
                             startOffset="50%"
                             textAnchor="middle"
-                            onDoubleClick={onNameClick}
+                            onClick={onNameClick}
+                            onDoubleClick={onNameDoubleClick}
                         >
                             {getPropertyDisplayName(data)}
                         </textPath>

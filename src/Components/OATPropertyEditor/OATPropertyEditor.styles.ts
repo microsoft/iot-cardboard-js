@@ -45,6 +45,7 @@ const classNames = {
     mapItemInputWrap: `${classPrefix}-map-input-wrap-item`,
     mapItemWrap: `${classPrefix}-map-item-wrap`,
     propertyItem: `${classPrefix}-property-item`,
+    propertyItemTypeText: `${classPrefix}-property-item-type-text`,
     propertyItemNest: `${classPrefix}-property-item-nest`,
     propertyItemNested: `${classPrefix}-property-item-nested`,
     propertyItemNestMainItem: `${classPrefix}-property-item-nest-main-item`,
@@ -139,7 +140,8 @@ export const getPropertyInspectorStyles = () => {
             {
                 display: 'grid',
                 gridTemplateColumns: '50% 50%',
-                alignItems: 'center'
+                alignItems: 'center',
+                minHeight: '38px'
             } as IStyle
         ],
         gridRowPropertyHeading: [
@@ -178,6 +180,7 @@ export const getPropertyInspectorStyles = () => {
             {
                 position: 'relative',
                 paddingBottom: '30px',
+                overflowX: 'hidden',
                 height: '100%'
             } as IStyle
         ],
@@ -285,6 +288,7 @@ export const getPropertyInspectorStyles = () => {
                 justifyContent: 'center',
                 flexWrap: 'wrap',
                 padding: '0px 8px',
+                minWidth: ' fit-content',
                 backgroundColor: theme.semanticColors.buttonBackgroundDisabled
             } as IStyle
         ],
@@ -295,7 +299,8 @@ export const getPropertyInspectorStyles = () => {
                 gridTemplateColumns: '50% 50%',
                 justifyContent: 'center',
                 flexWrap: 'wrap',
-                padding: '0px 8px'
+                padding: '0px 8px',
+                minWidth: ' fit-content'
             } as IStyle
         ],
         propertyTagsWrapThird: [
@@ -305,7 +310,8 @@ export const getPropertyInspectorStyles = () => {
                 gridTemplateColumns: '33% 33% 33%',
                 justifyContent: 'center',
                 flexWrap: 'wrap',
-                padding: '0px 8px'
+                padding: '0px 8px',
+                minWidth: ' fit-content'
             } as IStyle
         ],
         propertyTag: [
@@ -317,6 +323,8 @@ export const getPropertyInspectorStyles = () => {
                 borderRadius: '2px',
                 marginRight: '4px',
                 marginBottom: '1px',
+                minWidth: '30px',
+                minHeight: '30px',
                 width: '30px',
                 ':hover': {
                     backgroundColor:
@@ -437,7 +445,7 @@ export const getPropertyInspectorStyles = () => {
             classNames.propertyItem,
             {
                 display: 'grid',
-                gridTemplateColumns: '55% 25% 10% 10%',
+                gridTemplateColumns: '45% 35% 10% 10%',
                 width: '100%',
                 backgroundColor: theme.semanticColors.listBackground,
                 alignItems: 'center',
@@ -447,6 +455,12 @@ export const getPropertyInspectorStyles = () => {
                     cursor: 'grabbing'
                 },
                 position: 'relative'
+            } as IStyle
+        ],
+        propertyItemTypeText: [
+            classNames.propertyItemTypeText,
+            {
+                textTransform: 'lowercase'
             } as IStyle
         ],
         propertyItemEntered: [
@@ -478,7 +492,6 @@ export const getPropertyInspectorStyles = () => {
                 backgroundColor: 'theme.semanticColors.listBackground',
                 alignItems: 'start',
                 padding: '12px 0px',
-                minHeight: '80px',
                 cursor: 'grab',
                 ':active': {
                     cursor: 'grabbing'
@@ -489,7 +502,7 @@ export const getPropertyInspectorStyles = () => {
             classNames.propertyItemNested,
             {
                 display: 'grid',
-                gridTemplateColumns: '10% 45% 25% 10% 10%',
+                gridTemplateColumns: '10% 35% 35% 10% 10%',
                 width: '100%',
                 backgroundColor: theme.semanticColors.buttonBackgroundDisabled,
                 alignItems: 'center',
@@ -503,7 +516,7 @@ export const getPropertyInspectorStyles = () => {
             classNames.propertyItemNestMainItem,
             {
                 display: 'grid',
-                gridTemplateColumns: '10% 45% 25% 10% 10%',
+                gridTemplateColumns: '45% 25% 10%  10% 10%',
                 width: '100%',
                 alignItems: 'center',
                 paddingBottom: '12px',
@@ -564,7 +577,7 @@ export const getPropertyInspectorStyles = () => {
                 width: '100%',
                 backgroundColor: theme.semanticColors.primaryButtonTextDisabled,
                 position: 'absolute',
-                top: '90%',
+                top: '100%',
                 ':hover': {
                     backgroundColor: theme.semanticColors.menuIcon
                 },
@@ -582,7 +595,10 @@ export const getPropertyInspectorStyles = () => {
                 display: 'flex',
                 alignItems: 'center',
                 background: 'rgba(255, 255, 255, 0.2)',
-                marginTop: '20px'
+                marginTop: '20px',
+                overflow: 'visible',
+                overflowX: 'visible',
+                minWidth: '100%'
             } as IStyle
         ],
         addPropertyBarIcon: [
@@ -790,7 +806,11 @@ export const getPropertyListPivotColumnContent: IStyle = () => {
 export const getPropertyListStackItem = () => {
     return {
         root: {
-            overflowY: 'auto'
+            overflowY: 'auto',
+            '::-webkit-scrollbar': {
+                width: '0px',
+                opacity: '0'
+            }
         }
     } as Partial<IButtonStyles>;
 };

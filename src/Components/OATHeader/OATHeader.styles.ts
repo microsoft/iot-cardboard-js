@@ -20,7 +20,8 @@ const classNames = {
     listSubMenuItem: `${classPrefix}-list-sub-menu-item`,
     modal: `${classPrefix}-modal`,
     modalRow: `${classPrefix}-modal-row`,
-    modalRowFlexEnd: `${classPrefix}-modal-row-flex-end`
+    modalRowFlexEnd: `${classPrefix}-modal-row-flex-end`,
+    uploadDirectoryInput: `${classPrefix}-upload-directory-input`
 };
 
 export const getHeaderStyles = () => {
@@ -31,7 +32,7 @@ export const getHeaderStyles = () => {
             {
                 display: 'grid',
                 gridTemplateColumns: '100%',
-                height: '5%',
+                height: '44px',
                 backgroundColor: theme.semanticColors.bodyBackground
             } as IStyle
         ],
@@ -130,6 +131,12 @@ export const getHeaderStyles = () => {
                     marginRight: '10px'
                 }
             } as IStyle
+        ],
+        uploadDirectoryInput: [
+            classNames.uploadDirectoryInput,
+            {
+                display: 'none'
+            } as IStyle
         ]
     });
 };
@@ -173,6 +180,14 @@ export const getPromptTextStyles: IStyle = () => {
     return {
         root: {
             fontSize: '16px'
+        }
+    };
+};
+
+export const getCommandBarStyles: IStyle = () => {
+    return {
+        root: {
+            padding: '0px'
         }
     };
 };

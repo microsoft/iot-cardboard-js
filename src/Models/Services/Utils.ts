@@ -413,11 +413,48 @@ export const getStoredEditorModelsData = () => {
 // Get stored models' positions OAT-data
 export const getStoredEditorModelPositionsData = () => {
     const oatData = getStoredEditorData();
-    return oatData && oatData.modelPositions ? oatData.modelPositions : [];
+    return oatData && oatData.modelsData.modelPositions
+        ? oatData.modelsData.modelPositions
+        : [];
+};
+
+export const getStoredEditorModelMetadata = () => {
+    const oatData = getStoredEditorData();
+    return oatData && oatData.modelsData.modelsMetadata
+        ? oatData.modelsData.modelsMetadata
+        : [];
 };
 
 // Get stored models' namespace OAT-data
 export const getStoredEditorNamespaceData = () => {
     const oatData = getStoredEditorData();
     return oatData && oatData.namespace ? oatData.namespace : null;
+};
+
+// Get fileName from DTMI
+export const getFileNameFromDTMI = (dtmi: string) => {
+    // Get id path - Get section between last ":" and ";"
+    const initialPosition = dtmi.lastIndexOf(':') + 1;
+    const finalPosition = dtmi.lastIndexOf(';');
+
+    if (initialPosition !== 0 && finalPosition !== -1) {
+        const idPath = dtmi.substring(initialPosition, finalPosition);
+        const idVersion = dtmi.substring(
+            dtmi.lastIndexOf(';') + 1,
+            dtmi.length
+        );
+        return `${idPath}-${idVersion}`;
+    }
+};
+
+// Get directoryPath from DTMI
+export const getDirectoryPathFromDTMI = (dtmi: string) => {
+    const initialPosition = dtmi.indexOf(':') + 1;
+    const finalPosition = dtmi.lastIndexOf(':');
+
+    if (initialPosition !== 0 && finalPosition !== -1) {
+        const directoryPath = dtmi.substring(initialPosition, finalPosition);
+        // Scheme - replace ":" with "\"
+        return directoryPath.replace(':', '\\');
+    }
 };

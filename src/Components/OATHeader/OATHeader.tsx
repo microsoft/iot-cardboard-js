@@ -1,14 +1,16 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState, useContext, useRef } from 'react';
 import { CommandBar, ICommandBarItemProps } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
-import { getHeaderStyles } from './OATHeader.styles';
+import { getHeaderStyles, getCommandBarStyles } from './OATHeader.styles';
 import JSZip from 'jszip';
 
 import FileSubMenu from './internal/FileSubMenu';
 import Modal from './internal/Modal';
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 import {
+    SET_OAT_CONFIRM_DELETE_OPEN,
     SET_OAT_ERROR,
+    SET_OAT_MODELS_METADATA,
     SET_OAT_PROJECT
 } from '../../Models/Constants/ActionTypes';
 import { ProjectData } from '../../Pages/OATEditorPage/Internal/Classes';
@@ -21,9 +23,16 @@ import { IAction } from '../../Models/Constants/Interfaces';
 import { useDropzone } from 'react-dropzone';
 import { SET_OAT_IMPORT_MODELS } from '../../Models/Constants/ActionTypes';
 import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
-import { parseModel } from '../../Models/Services/Utils';
+import {
+    deepCopy,
+    getDirectoryPathFromDTMI,
+    getFileNameFromDTMI,
+    parseModel
+} from '../../Models/Services/Utils';
+import ImportSubMenu from './internal/ImportSubMenu';
 
 const ID_FILE = 'file';
+const ID_IMPORT = 'import';
 
 type OATHeaderProps = {
     elements: IOATTwinModelNodes[];
@@ -35,15 +44,19 @@ const OATHeader = ({ elements, dispatch, state }: OATHeaderProps) => {
     const { t } = useTranslation();
     const { undo, redo, canUndo, canRedo } = useContext(CommandHistoryContext);
     const headerStyles = getHeaderStyles();
+    const commandBarStyles = getCommandBarStyles();
     const {
         acceptedFiles,
         getRootProps,
         getInputProps,
         inputRef
     } = useDropzone();
-    const [subMenuActive, setSubMenuActive] = useState(false);
+    const [fileSubMenuActive, setFileSubMenuActive] = useState(false);
+    const [importSubMenuActive, setImportSubMenuActive] = useState(false);
     const [modalOpen, setModalOpen] = useState(false);
     const [modalBody, setModalBody] = useState(null);
+    const { modelsMetadata, projectName } = state;
+    const uploadInputRef = useRef(null);
 
     const downloadModelExportBlob = (blob: Blob) => {
         const blobURL = window.URL.createObjectURL(blob);
@@ -56,12 +69,55 @@ const OATHeader = ({ elements, dispatch, state }: OATHeaderProps) => {
         link.parentNode.removeChild(link);
     };
 
-    const handleExportClick = () => {
+    const onExportClick = () => {
         const zip = new JSZip();
         for (const element of elements) {
-            let fileName = element['@id'];
-            fileName = fileName.replace(/;/g, '-').replace(/:/g, '_');
-            zip.file(`${fileName}.json`, JSON.stringify(element));
+            const id = element['@id'];
+            let fileName = null;
+            let directoryPath = null;
+
+            // Check if current elements exists within modelsMetadata array, if so, use the metadata
+            // to determine the file name and directory path
+            const modelMetadata = modelsMetadata.find(
+                (model) => model['@id'] === id
+            );
+            if (modelMetadata) {
+                fileName = modelMetadata.fileName
+                    ? modelMetadata.fileName
+                    : null;
+                directoryPath = modelMetadata.directoryPath
+                    ? modelMetadata.directoryPath
+                    : null;
+            }
+
+            // If fileName or directoryPath are null, generate values from id
+            if (!fileName || !directoryPath) {
+                if (!fileName) {
+                    fileName = getFileNameFromDTMI(id);
+                }
+
+                if (!directoryPath) {
+                    directoryPath = getDirectoryPathFromDTMI(id);
+                }
+            }
+
+            // Split every part of the directory path
+            const directoryPathParts = directoryPath.split('\\');
+            // Create a folder for evert directory path part and nest them
+            let currentDirectory = zip;
+            for (const directoryPathPart of directoryPathParts) {
+                currentDirectory = currentDirectory.folder(directoryPathPart);
+                // Store json file on the last directory path part
+                if (
+                    directoryPathPart ===
+                    directoryPathParts[directoryPathParts.length - 1]
+                ) {
+                    currentDirectory.file(
+                        `${fileName}.json`,
+                        JSON.stringify(element)
+                    );
+                }
+            }
         }
 
         zip.generateAsync({ type: 'blob' }).then((content) => {
@@ -69,8 +125,36 @@ const OATHeader = ({ elements, dispatch, state }: OATHeaderProps) => {
         });
     };
 
-    const onImportClick = () => {
+    const onUploadFolderClick = () => {
+        uploadInputRef.current.click();
+    };
+
+    const onUploadFileClick = () => {
         inputRef.current.click();
+    };
+
+    const onDeleteAll = () => {
+        const dispatchDelete = () => {
+            const newProject = new ProjectData(
+                [],
+                [],
+                t('OATHeader.description'),
+                projectName,
+                [],
+                OATNamespaceDefaultValue,
+                []
+            );
+
+            dispatch({
+                type: SET_OAT_PROJECT,
+                payload: newProject
+            });
+        };
+
+        dispatch({
+            type: SET_OAT_CONFIRM_DELETE_OPEN,
+            payload: { open: true, callback: dispatchDelete }
+        });
     };
 
     const items: ICommandBarItemProps[] = [
@@ -78,20 +162,21 @@ const OATHeader = ({ elements, dispatch, state }: OATHeaderProps) => {
             key: 'Save',
             text: t('OATHeader.file'),
             iconProps: { iconName: 'Save' },
-            onClick: () => setSubMenuActive(!subMenuActive),
+            onClick: () => setFileSubMenuActive(!fileSubMenuActive),
             id: ID_FILE
         },
         {
             key: 'Import',
             text: t('OATHeader.import'),
             iconProps: { iconName: 'Import' },
-            onClick: onImportClick
+            onClick: () => setImportSubMenuActive(!importSubMenuActive),
+            id: ID_IMPORT
         },
         {
             key: 'Export',
             text: t('OATHeader.export'),
             iconProps: { iconName: 'Export' },
-            onClick: handleExportClick
+            onClick: onExportClick
         },
         {
             key: 'Undo',
@@ -106,6 +191,12 @@ const OATHeader = ({ elements, dispatch, state }: OATHeaderProps) => {
             iconProps: { iconName: 'Redo' },
             onClick: redo,
             disabled: !canRedo
+        },
+        {
+            key: 'DeleteAll',
+            text: t('OATHeader.deleteAll'),
+            iconProps: { iconName: 'Delete' },
+            onClick: onDeleteAll
         }
     ];
 
@@ -116,7 +207,8 @@ const OATHeader = ({ elements, dispatch, state }: OATHeaderProps) => {
             t('OATHeader.description'),
             t('OATHeader.untitledProject'),
             [],
-            OATNamespaceDefaultValue
+            OATNamespaceDefaultValue,
+            []
         );
 
         dispatch({
@@ -124,10 +216,11 @@ const OATHeader = ({ elements, dispatch, state }: OATHeaderProps) => {
             payload: clearProject
         });
     };
-    useEffect(() => {
+
+    const onFilesUpload = (files: Array<File>) => {
         const newFiles = [];
         const newFilesErrors = [];
-        acceptedFiles.forEach((sF) => {
+        files.forEach((sF) => {
             if (sF.type === 'application/json') {
                 newFiles.push(sF);
             } else {
@@ -154,17 +247,83 @@ const OATHeader = ({ elements, dispatch, state }: OATHeaderProps) => {
             });
         }
         handleFileListChanged(newFiles);
-        inputRef.current.value = '';
-    }, [acceptedFiles]);
+        // Reset value of input element so that it can be reused with the same file
+        uploadInputRef.current.value = null;
+        inputRef.current.value = null;
+    };
+
+    // Populates fileNames and filePaths
+    const populateMetadata = (
+        file: File,
+        fileContent: string,
+        metaDataCopy: any
+    ) => {
+        // Get model metadata
+        // Get file name from file
+        let fileName = file.name;
+        // Get file name without extension
+        fileName = fileName.substring(0, fileName.lastIndexOf('.'));
+        // Get directory path from file
+        let directoryPath = file.webkitRelativePath;
+        // Get directory content within first and last "\"
+        directoryPath = directoryPath.substring(
+            directoryPath.indexOf('/') + 1,
+            directoryPath.lastIndexOf('/')
+        );
+
+        if (!metaDataCopy) {
+            metaDataCopy = deepCopy(modelsMetadata);
+        }
+
+        // Get JSON from content
+        const json = JSON.parse(fileContent);
+        // Check modelsMetadata for the existence of the model, if exists, update it, if not, add it
+        const modelMetadata = metaDataCopy.find(
+            (model) => model['@id'] === json['@id']
+        );
+        if (modelMetadata) {
+            // Update model metadata
+            modelMetadata.fileName = fileName;
+            modelMetadata.directoryPath = directoryPath;
+        } else {
+            // Add model metadata
+            metaDataCopy.push({
+                '@id': json['@id'],
+                fileName: fileName,
+                directoryPath: directoryPath
+            });
+        }
+
+        return metaDataCopy;
+    };
+
+    const onFilesChange = (e) => {
+        const reader = new FileReader();
+        reader.onload = () => {
+            const files = [];
+            for (const file of uploadInputRef.current.files) {
+                files.push(file);
+            }
+            onFilesUpload(files);
+        };
+        reader.readAsDataURL(e.target.files[0]);
+    };
 
     const handleFileListChanged = async (files: Array<File>) => {
         const items = [];
         if (files.length > 0) {
             const filesErrors = [];
+            let modelsMetadataReference = null;
             for (const current of files) {
                 const content = await current.text();
                 const error = await parseModel(content);
                 if (!error) {
+                    modelsMetadataReference = populateMetadata(
+                        current,
+                        content,
+                        modelsMetadataReference
+                    );
+
                     items.push(JSON.parse(content));
                 } else {
                     filesErrors.push(
@@ -179,6 +338,10 @@ const OATHeader = ({ elements, dispatch, state }: OATHeaderProps) => {
                 dispatch({
                     type: SET_OAT_IMPORT_MODELS,
                     payload: items
+                });
+                dispatch({
+                    type: SET_OAT_MODELS_METADATA,
+                    payload: modelsMetadataReference
                 });
             } else {
                 let accumulatedError = '';
@@ -197,22 +360,42 @@ const OATHeader = ({ elements, dispatch, state }: OATHeaderProps) => {
         }
     };
 
+    useEffect(() => {
+        onFilesUpload(acceptedFiles);
+    }, [acceptedFiles]);
+
     return (
         <div className={headerStyles.container}>
             <div className={headerStyles.menuComponent}>
-                <div className="cb-oat-header-model"></div>
+                <CommandBar items={items} styles={commandBarStyles} />
                 <div className="cb-oat-header-menu">
-                    <CommandBar items={items} />
-                    {subMenuActive && (
+                    <input
+                        type="file"
+                        ref={uploadInputRef}
+                        className={headerStyles.uploadDirectoryInput}
+                        webkitdirectory={''}
+                        mozdirectory={''}
+                        onChange={onFilesChange}
+                    />
+                    {fileSubMenuActive && (
                         <FileSubMenu
-                            subMenuActive={subMenuActive}
+                            subMenuActive={fileSubMenuActive}
                             targetId={ID_FILE}
-                            setSubMenuActive={setSubMenuActive}
+                            setSubMenuActive={setFileSubMenuActive}
                             setModalOpen={setModalOpen}
                             setModalBody={setModalBody}
                             dispatch={dispatch}
                             state={state}
                             resetProject={resetProject}
+                        />
+                    )}
+                    {importSubMenuActive && (
+                        <ImportSubMenu
+                            subMenuActive={importSubMenuActive}
+                            targetId={ID_IMPORT}
+                            setSubMenuActive={setImportSubMenuActive}
+                            uploadFolder={onUploadFolderClick}
+                            uploadFile={onUploadFileClick}
                         />
                     )}
                     <Modal
@@ -225,6 +408,7 @@ const OATHeader = ({ elements, dispatch, state }: OATHeaderProps) => {
                         resetProject={resetProject}
                     />
                 </div>
+                <div className="cb-oat-header-model"></div>
             </div>
             <div {...getRootProps()}>
                 <input {...getInputProps()} />

@@ -21,7 +21,11 @@ export const getModelsStyles = () => {
                 width: '100%',
                 maxHeight: 'calc(100vh - 100px)',
                 height: '100%',
-                overflowX: 'hidden'
+                overflowX: 'hidden',
+                '::-webkit-scrollbar': {
+                    width: '0px',
+                    opacity: '0'
+                }
             } as IStyle
         ],
         modelNode: [
@@ -68,7 +72,8 @@ export const getModelsStyles = () => {
                 maxWidth: '100%',
                 whiteSpace: 'nowrap',
                 overflow: 'hidden',
-                textOverflow: 'ellipsis'
+                textOverflow: 'ellipsis',
+                minHeight: '17px'
             } as IStyle
         ],
         strongText: [

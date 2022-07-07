@@ -29,7 +29,14 @@ export const ModalSaveCurrentProjectAndClear = ({
     const { t } = useTranslation();
     const headerStyles = getHeaderStyles();
     const promptTextStyles = getPromptTextStyles();
-    const { projectName, models, modelPositions, templates, namespace } = state;
+    const {
+        projectName,
+        models,
+        modelPositions,
+        templates,
+        namespace,
+        modelsMetadata
+    } = state;
 
     const onSave = () => {
         const files = loadFiles();
@@ -43,7 +50,8 @@ export const ModalSaveCurrentProjectAndClear = ({
                 '',
                 projectName,
                 templates,
-                namespace
+                namespace,
+                modelsMetadata
             );
 
             files[foundIndex].data = project;

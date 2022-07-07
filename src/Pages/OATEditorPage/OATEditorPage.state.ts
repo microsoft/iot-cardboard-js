@@ -17,10 +17,12 @@ import {
     SET_OAT_PROJECT_NAME,
     SET_OAT_ERROR,
     SET_OAT_MODELS_POSITIONS,
+    SET_OAT_MODELS_METADATA,
     SET_OAT_NAMESPACE,
     SET_OAT_CONFIRM_DELETE_OPEN
 } from '../../Models/Constants/ActionTypes';
 import {
+    getStoredEditorModelMetadata,
     getStoredEditorModelPositionsData,
     getStoredEditorModelsData,
     getStoredEditorNamespaceData,
@@ -44,7 +46,8 @@ export const defaultOATEditorState: IOATEditorState = {
     error: null,
     namespace: getStoredEditorNamespaceData(),
     edge: null,
-    confirmDeleteOpen: { open: false }
+    confirmDeleteOpen: { open: false },
+    modelsMetadata: getStoredEditorModelMetadata()
 };
 
 export const OATEditorPageReducer = produce(
@@ -92,6 +95,7 @@ export const OATEditorPageReducer = produce(
                 state.modelPositions = payload.modelPositions;
                 state.templates = payload.templates;
                 state.namespace = payload.namespace;
+                state.modelsMetadata = payload.modelsMetadata;
                 return;
             case SET_OAT_PROJECT_NAME:
                 state.projectName = payload;
@@ -107,6 +111,9 @@ export const OATEditorPageReducer = produce(
                 return;
             case SET_OAT_CONFIRM_DELETE_OPEN:
                 state.confirmDeleteOpen = payload;
+                return;
+            case SET_OAT_MODELS_METADATA:
+                state.modelsMetadata = payload;
                 return;
         }
     }

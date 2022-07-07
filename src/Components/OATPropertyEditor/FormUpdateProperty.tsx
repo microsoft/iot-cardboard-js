@@ -80,13 +80,16 @@ export const FormUpdateProperty = ({
     const activeProperty = model[propertiesKeyName][currentPropertyIndex];
 
     const activeNestedProperty =
-        currentNestedPropertyIndex && currentNestedPropertyIndex >= 0
-            ? model[propertiesKeyName][currentPropertyIndex].schema.fields[
-                  currentNestedPropertyIndex
-              ]
-            : null;
+        model[propertiesKeyName][currentPropertyIndex].schema.fields &&
+        model[propertiesKeyName][currentPropertyIndex].schema.fields[
+            currentNestedPropertyIndex
+        ];
 
-    const [comment, setComment] = useState(null);
+    const [comment, setComment] = useState(
+        activeNestedProperty
+            ? activeNestedProperty.comment
+            : activeProperty.comment
+    );
     const [description, setDescription] = useState(
         activeNestedProperty
             ? activeNestedProperty.description
@@ -501,7 +504,7 @@ export const FormUpdateProperty = ({
                             iconName={'Add'}
                             className={propertyInspectorStyles.iconAddProperty}
                         />
-                        <Text>{t('OATPropertyEditor.region')}1</Text>
+                        <Text>{t('OATPropertyEditor.region')}</Text>
                     </ActionButton>
                 </div>
             )}

@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useMemo } from 'react';
 import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 import { TextField, Text, IconButton } from '@fluentui/react';
 import {
@@ -254,6 +254,14 @@ export const PropertyListItemNest = ({
         execute(() => onMove(nestedIndex, moveUp), undoOnMove);
     };
 
+    const showObjectPropertySelector = useMemo(() => {
+        return (
+            item.schema['@type'] === DTDLSchemaType.Object &&
+            (item.schema.fields.length === 0 ||
+                (item.schema.fields.length > 0 && collapsed))
+        );
+    }, [collapsed]);
+
     return (
         <div
             className={propertyInspectorStyles.propertyListRelativeWrap}
@@ -299,22 +307,6 @@ export const PropertyListItemNest = ({
                 <div
                     className={propertyInspectorStyles.propertyItemNestMainItem}
                 >
-                    {(item.schema['@type'] === DTDLSchemaType.Object &&
-                        item.schema.fields.length > 0) ||
-                    (item.schema['@type'] === DTDLSchemaType.Enum &&
-                        item.schema.enumValues.length > 0) ? (
-                        <IconButton
-                            iconProps={{
-                                iconName: collapsed
-                                    ? 'ChevronDown'
-                                    : 'ChevronRight'
-                            }}
-                            title={t('OATPropertyEditor.collapse')}
-                            onClick={() => setCollapsed(!collapsed)}
-                        />
-                    ) : (
-                        <div>{/* Needed for gridTemplateColumns style  */}</div>
-                    )}
                     {!displayNameEditor && (
                         <Text onDoubleClick={() => setDisplayNameEditor(true)}>
                             {item.displayName}
@@ -336,12 +328,38 @@ export const PropertyListItemNest = ({
                             onBlur={() => setDisplayNameEditor(false)}
                         />
                     )}
-                    <Text>{item.schema['@type']}</Text>
-
+                    <Text
+                        className={propertyInspectorStyles.propertyItemTypeText}
+                    >
+                        {item.schema['@type']}
+                    </Text>
+                    {(item.schema['@type'] === DTDLSchemaType.Object &&
+                        item.schema.fields.length > 0) ||
+                    (item.schema['@type'] === DTDLSchemaType.Enum &&
+                        item.schema.enumValues.length > 0) ? (
+                        <IconButton
+                            iconProps={{
+                                iconName: collapsed
+                                    ? 'ChevronDown'
+                                    : 'ChevronRight'
+                            }}
+                            styles={iconWrapMoreStyles}
+                            title={t('OATPropertyEditor.collapse')}
+                            onClick={() => setCollapsed(!collapsed)}
+                        />
+                    ) : (
+                        <div>{/* Needed for gridTemplateColumns style  */}</div>
+                    )}
                     <IconButton
                         iconProps={{ iconName: 'info' }}
                         styles={iconWrapMoreStyles}
                         title={t('OATPropertyEditor.info')}
+                        onClick={() => {
+                            setCurrentNestedPropertyIndex(null);
+                            setCurrentPropertyIndex(index);
+                            setModalOpen(true);
+                            setModalBody(FormBody.property);
+                        }}
                     />
 
                     <IconButton
@@ -431,7 +449,7 @@ export const PropertyListItemNest = ({
                     />
                 )}
             </div>
-            {hover && item.schema['@type'] === DTDLSchemaType.Object && (
+            {showObjectPropertySelector && (
                 <AddPropertyBar
                     onMouseOver={(e) => {
                         setLastPropertyFocused({
