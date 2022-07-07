@@ -770,7 +770,10 @@
     "errorIssueWithFile": "Probléma a következővel: {{fileName}}: {{error}}",
     "errorNamespace": "A névtér csak betűket, számjegyeket és aláhúzásjeleket tartalmazhat.",
     "undo": "Kigombol",
-    "redo": "Újra kifest"
+    "redo": "Újra kifest",
+    "deleteAll": "Összes törlése",
+    "folderUpload": "Mappa feltöltése",
+    "fileUpload": "Fájlfeltöltés"
   },
   "cameraControls": {
     "mouseControls": "Egérvezérlők",
@@ -796,7 +799,10 @@
     "errorIdValidDTMI": "Az azonosítónak érvényes DTMI-nek kell lennie",
     "errorRepeatedId": "Már létezik egy azonos azonosítóval rendelkező modell",
     "errorDisplayNameLength": "A megjelenítendő név nem haladhatja meg a 64 karaktert",
-    "errorRepeatedEdgeName": "Az azonos nevű kapcsolat már létezik"
+    "errorRepeatedEdgeName": "Az azonos nevű kapcsolat már létezik",
+    "runLayout": "Elrendezés futtatása",
+    "errorReachedInheritanceLimit": "Elérte az öröklési korlátot",
+    "errorInheritance": "Kettőnél több interfésztől nem örökölhet"
   },
   "OATPropertyEditor": {
     "displayName": "Megjelenítendő név",

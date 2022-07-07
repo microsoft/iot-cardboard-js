@@ -770,7 +770,10 @@
     "errorIssueWithFile": "Problem med {{fileName}}: {{error}}",
     "errorNamespace": "Namnområdet får bara innehålla bokstäver, siffror och understreck.",
     "undo": "Ångra",
-    "redo": "Göra om"
+    "redo": "Göra om",
+    "deleteAll": "Ta bort alla",
+    "folderUpload": "Uppladdning av mapp",
+    "fileUpload": "Filuppladdning"
   },
   "cameraControls": {
     "mouseControls": "Muskontroller",
@@ -796,7 +799,10 @@
     "errorIdValidDTMI": "ID måste vara ett giltigt DTMI",
     "errorRepeatedId": "En modell med samma id finns redan",
     "errorDisplayNameLength": "Visningsnamn får inte överstiga 64 tecken",
-    "errorRepeatedEdgeName": "En relation med samma namn finns redan"
+    "errorRepeatedEdgeName": "En relation med samma namn finns redan",
+    "runLayout": "Kör layout",
+    "errorReachedInheritanceLimit": "Uppnådd arvsgräns",
+    "errorInheritance": "Får inte ärva från fler än två gränssnitt"
   },
   "OATPropertyEditor": {
     "displayName": "Visningsnamn",

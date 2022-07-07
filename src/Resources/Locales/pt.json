@@ -770,7 +770,10 @@
     "errorIssueWithFile": "Problema com {{fileName}}: {{error}}",
     "errorNamespace": "O namespace só pode conter letras, dígitos e sublinhados.",
     "undo": "Desfazer",
-    "redo": "Refazer"
+    "redo": "Refazer",
+    "deleteAll": "Excluir tudo",
+    "folderUpload": "Upload de pasta",
+    "fileUpload": "Upload de arquivo"
   },
   "cameraControls": {
     "mouseControls": "Controles do mouse",
@@ -796,7 +799,10 @@
     "errorIdValidDTMI": "O ID deve ser um DTMI válido",
     "errorRepeatedId": "Um modelo com a mesma id já existe",
     "errorDisplayNameLength": "O nome do display não pode exceder 64 chars",
-    "errorRepeatedEdgeName": "Uma relação com o mesmo nome já existe"
+    "errorRepeatedEdgeName": "Uma relação com o mesmo nome já existe",
+    "runLayout": "Executar layout",
+    "errorReachedInheritanceLimit": "Limite de herança alcançado",
+    "errorInheritance": "Não pode herdar de mais de duas interfaces"
   },
   "OATPropertyEditor": {
     "displayName": "Nome de exibição",

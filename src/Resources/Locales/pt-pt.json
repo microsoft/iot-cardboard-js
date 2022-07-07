@@ -770,7 +770,10 @@
     "errorIssueWithFile": "Problema com {{fileName}} {{error}}",
     "errorNamespace": "O espaço de nomes só pode conter letras, dígitos e sublinhados.",
     "undo": "Desfazer",
-    "redo": "Redo"
+    "redo": "Redo",
+    "deleteAll": "Apagar tudo",
+    "folderUpload": "Upload de pasta",
+    "fileUpload": "Upload de arquivo"
   },
   "cameraControls": {
     "mouseControls": "Controlos do rato",
@@ -796,7 +799,10 @@
     "errorIdValidDTMI": "Id deve ser um DTMI válido",
     "errorRepeatedId": "Um modelo com o mesmo id já existe",
     "errorDisplayNameLength": "Display Name não pode exceder 64 chars",
-    "errorRepeatedEdgeName": "Uma relação com o mesmo nome já existe"
+    "errorRepeatedEdgeName": "Uma relação com o mesmo nome já existe",
+    "runLayout": "Layout de execução",
+    "errorReachedInheritanceLimit": "Limite de herança atingido",
+    "errorInheritance": "Não pode herdar de mais de duas interfaces"
   },
   "OATPropertyEditor": {
     "displayName": "Nome do visor",

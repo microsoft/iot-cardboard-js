@@ -770,7 +770,10 @@
     "errorIssueWithFile": "Problema con {{nomefile}}: {{errore}}",
     "errorNamespace": "Lo spazio dei nomi può contenere solo lettere, cifre e caratteri di sottolineatura.",
     "undo": "Disfare",
-    "redo": "Rifare"
+    "redo": "Rifare",
+    "deleteAll": "Elimina tutto",
+    "folderUpload": "Caricamento cartella",
+    "fileUpload": "Caricamento file"
   },
   "cameraControls": {
     "mouseControls": "Controlli del mouse",
@@ -796,7 +799,10 @@
     "errorIdValidDTMI": "L'ID deve essere un DTMI valido",
     "errorRepeatedId": "Esiste già un modello con lo stesso ID",
     "errorDisplayNameLength": "Il nome visualizzato non può superare i 64 caratteri",
-    "errorRepeatedEdgeName": "Esiste già una relazione con lo stesso nome"
+    "errorRepeatedEdgeName": "Esiste già una relazione con lo stesso nome",
+    "runLayout": "Esegui layout",
+    "errorReachedInheritanceLimit": "Limite di ereditarietà raggiunto",
+    "errorInheritance": "Non può ereditare da più di due interfacce"
   },
   "OATPropertyEditor": {
     "displayName": "Nome visualizzato",

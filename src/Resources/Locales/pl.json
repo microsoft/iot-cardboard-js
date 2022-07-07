@@ -770,7 +770,10 @@
     "errorIssueWithFile": "Problem z {{fileName}}: {{error}}",
     "errorNamespace": "Przestrzeń nazw może zawierać tylko litery, cyfry i podkreślenia.",
     "undo": "Cofnąć",
-    "redo": "Ponowić"
+    "redo": "Ponowić",
+    "deleteAll": "Usuń wszystko",
+    "folderUpload": "Przesyłanie folderu",
+    "fileUpload": "Przesyłanie plików"
   },
   "cameraControls": {
     "mouseControls": "Sterowanie myszą",
@@ -796,7 +799,10 @@
     "errorIdValidDTMI": "Identyfikator musi być prawidłowym kodem DTMI",
     "errorRepeatedId": "Model o tym samym identyfikatorze już istnieje",
     "errorDisplayNameLength": "Nazwa wyświetlana nie może przekraczać 64 znaków",
-    "errorRepeatedEdgeName": "Relacja o tej samej nazwie już istnieje"
+    "errorRepeatedEdgeName": "Relacja o tej samej nazwie już istnieje",
+    "runLayout": "Uruchom układ",
+    "errorReachedInheritanceLimit": "Osiągnięty limit dziedziczenia",
+    "errorInheritance": "Nie może dziedziczyć z więcej niż dwóch interfejsów"
   },
   "OATPropertyEditor": {
     "displayName": "Nazwa wyświetlana",

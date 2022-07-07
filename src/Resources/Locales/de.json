@@ -770,7 +770,10 @@
     "errorIssueWithFile": "Problem mit {{fileName}}: {{error}}",
     "errorNamespace": "Der Namespace darf nur Buchstaben, Ziffern und Unterstriche enthalten.",
     "undo": "Aufmachen",
-    "redo": "Noch einmal machen"
+    "redo": "Noch einmal machen",
+    "deleteAll": "Alle löschen",
+    "folderUpload": "Ordner-Upload",
+    "fileUpload": "Datei-Upload"
   },
   "cameraControls": {
     "mouseControls": "Maus-Steuerelemente",
@@ -796,7 +799,10 @@
     "errorIdValidDTMI": "ID muss ein gültiges DTMI sein",
     "errorRepeatedId": "Ein Modell mit derselben ID ist bereits vorhanden",
     "errorDisplayNameLength": "Anzeigename darf 64 Zeichen nicht überschreiten",
-    "errorRepeatedEdgeName": "Eine Beziehung mit demselben Namen existiert bereits"
+    "errorRepeatedEdgeName": "Eine Beziehung mit demselben Namen existiert bereits",
+    "runLayout": "Layout ausführen",
+    "errorReachedInheritanceLimit": "Erreichte Erbschaftsgrenze",
+    "errorInheritance": "Kann nicht von mehr als zwei Schnittstellen erben"
   },
   "OATPropertyEditor": {
     "displayName": "Anzeigename",

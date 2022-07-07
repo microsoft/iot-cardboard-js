@@ -770,7 +770,10 @@
     "errorIssueWithFile": "{{ファイル名}}に関する問題: {{エラー}}",
     "errorNamespace": "名前空間には、文字、数字、およびアンダースコアのみを含めることができます。",
     "undo": "外す",
-    "redo": "やり直す"
+    "redo": "やり直す",
+    "deleteAll": "すべて削除",
+    "folderUpload": "フォルダのアップロード",
+    "fileUpload": "ファイルのアップロード"
   },
   "cameraControls": {
     "mouseControls": "マウスコントロール",
@@ -796,7 +799,10 @@
     "errorIdValidDTMI": "ID は有効な DTMI である必要があります。",
     "errorRepeatedId": "同じ ID のモデルが既に存在します",
     "errorDisplayNameLength": "表示名は 64 文字を超えてはなりません。",
-    "errorRepeatedEdgeName": "同じ名前の関係が既に存在します"
+    "errorRepeatedEdgeName": "同じ名前の関係が既に存在します",
+    "runLayout": "実行レイアウト",
+    "errorReachedInheritanceLimit": "継承制限に達しました",
+    "errorInheritance": "3 つ以上のインターフェイスから継承することはできません。"
   },
   "OATPropertyEditor": {
     "displayName": "表示名",

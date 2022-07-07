@@ -770,7 +770,10 @@
     "errorIssueWithFile": "{{fileName}} ile ilgili sorun: {{error}}",
     "errorNamespace": "Ad alanı yalnızca harfler, rakamlar ve alt çizgiler içerebilir.",
     "undo": "Geri almak",
-    "redo": "Yinele"
+    "redo": "Yinele",
+    "deleteAll": "Tümünü Sil",
+    "folderUpload": "Klasör yükleme",
+    "fileUpload": "Dosya yükleme"
   },
   "cameraControls": {
     "mouseControls": "Fare Kontrolleri",
@@ -796,7 +799,10 @@
     "errorIdValidDTMI": "Kimlik geçerli bir DTMI olmalıdır",
     "errorRepeatedId": "Aynı kimliğe sahip bir model zaten var",
     "errorDisplayNameLength": "Görünen Ad 64 karakteri aşamaz",
-    "errorRepeatedEdgeName": "Aynı ada sahip bir ilişki zaten var"
+    "errorRepeatedEdgeName": "Aynı ada sahip bir ilişki zaten var",
+    "runLayout": "Çalıştırma Düzeni",
+    "errorReachedInheritanceLimit": "Ulaşılan devralma sınırı",
+    "errorInheritance": "İkiden fazla arabirimden devralamaz"
   },
   "OATPropertyEditor": {
     "displayName": "Görünen Ad",

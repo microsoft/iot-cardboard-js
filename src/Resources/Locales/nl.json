@@ -770,7 +770,10 @@
     "errorIssueWithFile": "Probleem met {{bestandsnaam}}: {{error}}",
     "errorNamespace": "Naamruimte mag alleen letters, cijfers en onderstrepingstekens bevatten.",
     "undo": "Ongedaan maken",
-    "redo": "Opnieuw"
+    "redo": "Opnieuw",
+    "deleteAll": "Alles verwijderen",
+    "folderUpload": "Map uploaden",
+    "fileUpload": "Bestand uploaden"
   },
   "cameraControls": {
     "mouseControls": "Muisbediening",
@@ -796,7 +799,10 @@
     "errorIdValidDTMI": "Id moet een geldige DTMI zijn",
     "errorRepeatedId": "Er bestaat al een model met dezelfde id",
     "errorDisplayNameLength": "Weergavenaam mag niet meer dan 64 tekens bevatten",
-    "errorRepeatedEdgeName": "Er bestaat al een relatie met dezelfde naam"
+    "errorRepeatedEdgeName": "Er bestaat al een relatie met dezelfde naam",
+    "runLayout": "Lay-out uitvoeren",
+    "errorReachedInheritanceLimit": "Overervingslimiet bereikt",
+    "errorInheritance": "Mag niet van meer dan twee interfaces overnemen"
   },
   "OATPropertyEditor": {
     "displayName": "Weergegeven naam",

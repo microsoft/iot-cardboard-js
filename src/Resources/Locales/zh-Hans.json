@@ -770,7 +770,10 @@
     "errorIssueWithFile": "{{文件名}} 的问题：{{错误}}",
     "errorNamespace": "命名空间只能包含字母、数字和下划线。",
     "undo": "撤消",
-    "redo": "重做"
+    "redo": "重做",
+    "deleteAll": "全部删除",
+    "folderUpload": "文件夹上传",
+    "fileUpload": "文件上传"
   },
   "cameraControls": {
     "mouseControls": "鼠标控制",
@@ -796,7 +799,10 @@
     "errorIdValidDTMI": "ID 必须是有效的 DTMI",
     "errorRepeatedId": "具有相同 ID 的模型已存在",
     "errorDisplayNameLength": "显示名称不得超过 64 个字符",
-    "errorRepeatedEdgeName": "具有相同名称的关系已存在"
+    "errorRepeatedEdgeName": "具有相同名称的关系已存在",
+    "runLayout": "运行布局",
+    "errorReachedInheritanceLimit": "已达到继承限制",
+    "errorInheritance": "不能从两个以上的接口继承"
   },
   "OATPropertyEditor": {
     "displayName": "显示名称",
