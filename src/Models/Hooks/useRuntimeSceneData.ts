@@ -93,8 +93,6 @@ export const useRuntimeSceneData = (
                             sceneVisual.twins
                         );
 
-                        console.log('currentValue', currentValue);
-
                         // get extensionProperties, find out if they are behaviors with transforms
                         if (visual.valueRanges[0] !== undefined) {
                             const valueRanges = visual.valueRanges;

@@ -1824,7 +1824,7 @@ function SceneView(props: ISceneViewProps, ref) {
                     // if no gizmoElementItem, attach to null meshes to clear
                     gizmoManager.attachToMesh(null);
                     // will also be triggered on leaving the tab, so snap parent mesh back to original state
-                    if (gizmoTransformItemRef.current.parentMeshId) {
+                    if (gizmoTransformItemRef.current?.parentMeshId) {
                         const parentMesh: BABYLON.Mesh =
                             meshMap.current?.[
                                 gizmoTransformItemRef.current.parentMeshId
@@ -1913,39 +1913,40 @@ function SceneView(props: ISceneViewProps, ref) {
                         );
                     });
 
-                    // update the gizmoTransformItem (allows builder panel to display new position/rotation)
-                    const updateTransform = () => {
-                        const attachedMesh =
-                            gizmoManager.gizmos.positionGizmo.attachedMesh;
-
-                        // this is the main place where transforms get set, so round here
-                        gizmoTransformItemRef.current.transform = {
-                            position: {
-                                x: Math.round(attachedMesh.position.x),
-                                y: Math.round(attachedMesh.position.y),
-                                z: Math.round(attachedMesh.position.z)
-                            },
-                            rotation: {
-                                x: Number(attachedMesh.rotation.x.toFixed(2)),
-                                y: Number(attachedMesh.rotation.y.toFixed(2)),
-                                z: Number(attachedMesh.rotation.z.toFixed(2))
-                            }
-                        };
-                        setGizmoTransformItem(
-                            gizmoTransformItemRef.current.transform
-                        );
-                    };
-
                     // on drag end for both position and rotation gizmos, update transform
                     // updating on every frame is too much for react to handle
                     const positionGizmo = gizmoManager.gizmos.positionGizmo;
                     positionGizmo.onDragEndObservable.add(() => {
-                        updateTransform();
+                        // update the gizmoTransformItem (allows builder panel to display new position/rotation)
+                        const attachedMesh =
+                            gizmoManager.gizmos.positionGizmo.attachedMesh;
+
+                        // this is the main place where transforms get set, so round here
+                        gizmoTransformItemRef.current.transform.position = {
+                            x: Math.round(attachedMesh.position.x),
+                            y: Math.round(attachedMesh.position.y),
+                            z: Math.round(attachedMesh.position.z)
+                        };
+                        setGizmoTransformItem(
+                            gizmoTransformItemRef.current.transform
+                        );
                     });
 
                     const rotationGizmo = gizmoManager.gizmos.rotationGizmo;
                     rotationGizmo.onDragEndObservable.add(() => {
-                        updateTransform();
+                        // update the gizmoTransformItem (allows builder panel to display new position/rotation)
+                        const attachedMesh =
+                            gizmoManager.gizmos.positionGizmo.attachedMesh;
+
+                        // this is the main place where transforms get set, so round here
+                        gizmoTransformItemRef.current.transform.rotation = {
+                            x: Number(attachedMesh.rotation.x.toFixed(2)),
+                            y: Number(attachedMesh.rotation.y.toFixed(2)),
+                            z: Number(attachedMesh.rotation.z.toFixed(2))
+                        };
+                        setGizmoTransformItem(
+                            gizmoTransformItemRef.current.transform
+                        );
                     });
                 }
             } catch {
