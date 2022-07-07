@@ -47,7 +47,8 @@ import {
     SET_OAT_PROPERTY_EDITOR_MODEL,
     SET_OAT_MODELS,
     SET_OAT_MODELS_POSITIONS,
-    SET_OAT_ERROR
+    SET_OAT_ERROR,
+    SET_OAT_DELETED_MODEL_ID
 } from '../../Models/Constants/ActionTypes';
 import {
     IAction,
@@ -585,6 +586,11 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
             // Remove an specific node and all related edges
             dispatch({ type: SET_OAT_PROPERTY_EDITOR_MODEL, payload: null });
             setElements((els) => removeElements(elementsToRemove, els));
+            // Reset deletedModelId so it can be used again
+            dispatch({
+                type: SET_OAT_DELETED_MODEL_ID,
+                payload: null
+            });
         }
     };
 
