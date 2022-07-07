@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import { TextField } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import {
@@ -8,7 +8,6 @@ import {
     OATNameLengthLimit
 } from '../../../../Models/Constants';
 import { IOATEditorState } from '../../OATEditorPage.types';
-import { CommandHistoryContext } from '../Context/CommandHistoryContext';
 
 type IOATTexField = {
     autoFocus?: boolean;

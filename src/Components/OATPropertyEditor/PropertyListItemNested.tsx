@@ -34,7 +34,6 @@ type IPropertyListItemNested = {
     setCurrentPropertyIndex?: React.Dispatch<React.SetStateAction<number>>;
     setModalBody?: React.Dispatch<React.SetStateAction<string>>;
     setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
-    setModalBody?: React.Dispatch<React.SetStateAction<string>>;
     state?: IOATEditorState;
 };
 
@@ -52,7 +51,6 @@ export const PropertyListItemNested = ({
     setCurrentPropertyIndex,
     setModalBody,
     setModalOpen,
-    setModalBody,
     state
 }: IPropertyListItemNested) => {
     const { t } = useTranslation();

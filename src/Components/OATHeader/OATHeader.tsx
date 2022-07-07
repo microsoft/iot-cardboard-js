@@ -42,7 +42,9 @@ type OATHeaderProps = {
 
 const OATHeader = ({ elements, dispatch, state }: OATHeaderProps) => {
     const { t } = useTranslation();
-    const { undo, redo, canUndo, canRedo } = useContext(CommandHistoryContext);
+    const { execute, undo, redo, canUndo, canRedo } = useContext(
+        CommandHistoryContext
+    );
     const headerStyles = getHeaderStyles();
     const commandBarStyles = getCommandBarStyles();
     const {
@@ -55,7 +57,14 @@ const OATHeader = ({ elements, dispatch, state }: OATHeaderProps) => {
     const [importSubMenuActive, setImportSubMenuActive] = useState(false);
     const [modalOpen, setModalOpen] = useState(false);
     const [modalBody, setModalBody] = useState(null);
-    const { modelsMetadata, projectName } = state;
+    const {
+        modelsMetadata,
+        projectName,
+        modelPositions,
+        models,
+        templates,
+        namespace
+    } = state;
     const uploadInputRef = useRef(null);
 
     const downloadModelExportBlob = (blob: Blob) => {
@@ -134,27 +143,48 @@ const OATHeader = ({ elements, dispatch, state }: OATHeaderProps) => {
     };
 
     const onDeleteAll = () => {
-        const dispatchDelete = () => {
-            const newProject = new ProjectData(
-                [],
-                [],
+        const deletion = () => {
+            const dispatchDelete = () => {
+                const newProject = new ProjectData(
+                    [],
+                    [],
+                    t('OATHeader.description'),
+                    projectName,
+                    [],
+                    OATNamespaceDefaultValue,
+                    []
+                );
+
+                dispatch({
+                    type: SET_OAT_PROJECT,
+                    payload: newProject
+                });
+            };
+
+            dispatch({
+                type: SET_OAT_CONFIRM_DELETE_OPEN,
+                payload: { open: true, callback: dispatchDelete }
+            });
+        };
+
+        const undoDeletion = () => {
+            const project = new ProjectData(
+                modelPositions,
+                models,
                 t('OATHeader.description'),
                 projectName,
-                [],
-                OATNamespaceDefaultValue,
-                []
+                templates,
+                namespace,
+                modelsMetadata
             );
 
             dispatch({
                 type: SET_OAT_PROJECT,
-                payload: newProject
+                payload: project
             });
         };
 
-        dispatch({
-            type: SET_OAT_CONFIRM_DELETE_OPEN,
-            payload: { open: true, callback: dispatchDelete }
-        });
+        execute(deletion, undoDeletion);
     };
 
     const items: ICommandBarItemProps[] = [

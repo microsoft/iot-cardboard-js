@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useContext } from 'react';
 import { useTheme, List, ActionButton, Icon, SearchBox } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import {
@@ -18,6 +18,7 @@ import OATTextFieldDisplayName from '../../Pages/OATEditorPage/Internal/Componen
 import OATTextFieldId from '../../Pages/OATEditorPage/Internal/Components/OATTextFieldId';
 import { deepCopy } from '../../Models/Services/Utils';
 import { getModelPropertyListItemName } from '../OATPropertyEditor/Utils';
+import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 
 type OATModelListProps = {
     elements: IOATTwinModelNodes[];
@@ -33,6 +34,7 @@ const OATModelList = ({
     state
 }: OATModelListProps) => {
     const theme = useTheme();
+    const { execute } = useContext(CommandHistoryContext);
     const { t } = useTranslation();
     const modelsStyles = getModelsStyles();
     const [nameEditor, setNameEditor] = useState(false);
@@ -46,7 +48,7 @@ const OATModelList = ({
     const containerRef = useRef(null);
     const iconStyles = getModelsIconStyles();
     const actionButtonStyles = getModelsActionButtonStyles();
-    const { model, models } = state;
+    const { model, models, deletedModelId, selectedModelId } = state;
 
     useEffect(() => {
         setItems(elements);
@@ -75,12 +77,24 @@ const OATModelList = ({
     }, [filter]);
 
     const onSelectedClick = (id: string) => {
-        if (!modified) {
+        const select = () => {
             dispatch({
                 type: SET_OAT_SELECTED_MODEL_ID,
                 payload: id
             });
             currentNodeId.current = id;
+        };
+
+        const unSelect = () => {
+            dispatch({
+                type: SET_OAT_SELECTED_MODEL_ID,
+                payload: selectedModelId
+            });
+            currentNodeId.current = selectedModelId;
+        };
+
+        if (!modified && id !== selectedModelId) {
+            execute(select, unSelect);
         }
     };
 
@@ -101,7 +115,7 @@ const OATModelList = ({
     };
 
     const onModelDelete = (id: string) => {
-        if (!modified) {
+        const deletion = () => {
             const dispatchDelete = () => {
                 dispatch({
                     type: SET_OAT_DELETED_MODEL_ID,
@@ -112,6 +126,17 @@ const OATModelList = ({
                 type: SET_OAT_CONFIRM_DELETE_OPEN,
                 payload: { open: true, callback: dispatchDelete }
             });
+        };
+
+        const undoDeletion = () => {
+            dispatch({
+                type: SET_OAT_DELETED_MODEL_ID,
+                payload: deletedModelId
+            });
+        };
+
+        if (!modified) {
+            execute(deletion, undoDeletion);
         }
     };
 
@@ -120,31 +145,53 @@ const OATModelList = ({
     };
 
     const onCommitId = (value) => {
-        const modelCopy = deepCopy(model);
-        modelCopy['@id'] = value;
-        dispatch({
-            type: SET_OAT_PROPERTY_EDITOR_MODEL,
-            payload: modelCopy
-        });
-        setIdText(value);
+        const commit = () => {
+            const modelCopy = deepCopy(model);
+            modelCopy['@id'] = value;
+            dispatch({
+                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                payload: modelCopy
+            });
 
-        setIdEditor(false);
-        setItems([...items]);
-        onSelectedClick(null);
+            setIdText(value);
+            setIdEditor(false);
+            setItems([...items]);
+        };
+
+        const undoCommit = () => {
+            dispatch({
+                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                payload: model
+            });
+        };
+
+        if (value) {
+            execute(commit, undoCommit);
+        }
     };
 
     const onCommitDisplayName = (value) => {
-        setNameEditor(false);
-        setItems([...items]);
-        onSelectedClick(null);
+        const commit = () => {
+            setNameEditor(false);
+            setItems([...items]);
 
-        const modelCopy = deepCopy(model);
-        modelCopy.displayName = value;
-        dispatch({
-            type: SET_OAT_PROPERTY_EDITOR_MODEL,
-            payload: modelCopy
-        });
-        setNameText(value);
+            const modelCopy = deepCopy(model);
+            modelCopy.displayName = value;
+            dispatch({
+                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                payload: modelCopy
+            });
+            setNameText(value);
+        };
+
+        const undoCommit = () => {
+            dispatch({
+                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                payload: model
+            });
+        };
+
+        execute(commit, undoCommit);
     };
 
     const getDisplayNameText = (item) => {

@@ -156,7 +156,7 @@ export const PropertyListItem = ({
             >
                 {!displayNameEditor && (
                     <Text onDoubleClick={() => setDisplayNameEditor(true)}>
-                        {item.displayName}
+                        {item.displayName ? item.displayName : item.name}
                     </Text>
                 )}
                 {displayNameEditor && (

@@ -15,7 +15,7 @@ import {
     getCancelButtonStyles,
     getSaveButtonStyles
 } from './OATPropertyEditor.styles';
-import { deepCopy, parseModel } from '../../Models/Services/Utils';
+import { parseModel } from '../../Models/Services/Utils';
 import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 
 type JSONEditorProps = {

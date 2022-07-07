@@ -348,8 +348,16 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                     return newElement;
                 });
 
-                setElements(newElements);
-                setLoading(false);
+                const application = () => {
+                    setElements(newElements);
+                    setLoading(false);
+                };
+
+                const undoApplication = () => {
+                    setElements(inputElements);
+                };
+
+                execute(application, undoApplication);
                 rfInstance.fitView();
             });
     };
@@ -732,34 +740,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     };
 
     const onNewModelClick = (event) => {
-        if (!state.modified) {
-            // const onNewNode = () => {
-            //     if (!state.modified) {
-            //         // Create a new floating node
-            //         const name = `Model${newModelId}`;
-            //         const id = `${idClassBase}model${newModelId};${versionClassBase}`;
-            //         const newNode = {
-            //             id: id,
-            //             type: OATInterfaceType,
-            //             position: positionLookUp(),
-            //             data: {
-            //                 name: name,
-            //                 type: OATInterfaceType,
-            //                 id: id,
-            //                 content: [],
-            //                 context: contextClassBase
-            //             }
-            //         };
-            //         setElements([...elements, newNode]);
-            //     }
-            // };
-
-            // const undoOnNewNode = () => {
-            //     setElements(elements);
-            // };
-
-            // execute(onNewNode, undoOnNewNode);
-
+        const onNewNode = () => {
             // Create a new floating node
             const name = `Model${newModelId}`;
             const id = `${idClassBase}model${newModelId};${versionClassBase}`;
@@ -782,6 +763,14 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                 }
             };
             setElements([...elements, newNode]);
+        };
+
+        const undoOnNewNode = () => {
+            setElements(elements);
+        };
+
+        if (!state.modified) {
+            execute(onNewNode, undoOnNewNode);
         }
     };
 
@@ -987,6 +976,11 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                         }
                     };
                     params.target = id;
+                    // On untargeted extends, the target is the node
+                    if (currentHandleIdRef.current === OATExtendHandleName) {
+                        params.target = params.source;
+                        params.source = id;
+                    }
                     params.id = `${idClassBase}${OATRelationshipHandleName}${getNextRelationshipAmount(
                         elements
                     )};${versionClassBase}`;
@@ -999,39 +993,14 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                               elements
                           )}`
                         : '';
-                    setElements((es) => [...addEdge(params, es), newNode]);
-                };
-                params.target = id;
-
-                // const undoAddition = () => {
-                //     setElements(elements);
-                // };
-
-                // execute(addition, undoAddition);
-
-                // On untargeted extends, the target is the node
-                if (currentHandleIdRef.current === OATExtendHandleName) {
-                    params.target = params.source;
-                    params.source = id;
-                }
-                params.id = `${idClassBase}${OATRelationshipHandleName}${getNextRelationshipAmount(
-                    elements
-                )};${versionClassBase}`;
-                params.data.id = `${idClassBase}${OATRelationshipHandleName}${getNextRelationshipAmount(
-                    elements
-                )};${versionClassBase}`;
-                params.data.type = currentHandleIdRef.current;
-                params.data.name = OATRelationshipHandleName
-                    ? `${OATRelationshipHandleName}_${getNextRelationshipAmount(
-                          elements
-                      )}`
-                    : '';
-                if (currentHandleIdRef.current === OATExtendHandleName) {
                     setElements((es) => [newNode, ...addEdge(params, es)]);
-                    return;
-                }
+                };
 
-                setElements((es) => [...addEdge(params, es), newNode]);
+                const undoAddition = () => {
+                    setElements(elements);
+                };
+
+                execute(addition, undoAddition);
             }
         }
     };
@@ -1252,7 +1221,6 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
 
     const onBackgroundClick = () => {
         const clearModel = () => {
-            dispatch({ type: SET_OAT_PROPERTY_EDITOR_MODEL, payload: null });
             dispatch({
                 type: SET_OAT_SELECTED_MODEL_ID,
                 payload: null
@@ -1260,10 +1228,6 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
         };
 
         const undoClearModel = () => {
-            dispatch({
-                type: SET_OAT_PROPERTY_EDITOR_MODEL,
-                payload: model
-            });
             dispatch({
                 type: SET_OAT_SELECTED_MODEL_ID,
                 payload: selectedModelId

@@ -23,7 +23,6 @@ import {
     SET_OAT_CONFIRM_DELETE_OPEN,
     SET_OAT_SELECTED_MODEL_ID
 } from '../../../Models/Constants/ActionTypes';
-import { DTDLRelationship } from '../../../Models/Classes/DTDL';
 import { getPropertyDisplayName } from '../../OATPropertyEditor/Utils';
 import { IOATGraphCustomEdgeProps } from '../../../Models/Constants';
 import OATTextFieldName from '../../../Pages/OATEditorPage/Internal/Components/OATTextFieldName';
@@ -161,7 +160,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
         currentNodeIdRef,
         state
     } = useContext(ElementsContext);
-    const { model, models, selectedModelId } = state;
+    const { model, models, selectedModelId, deletedModelId } = state;
     const graphViewerStyles = getGraphViewerStyles();
     const relationshipTextFieldStyles = getRelationshipTextFieldStyles();
     const theme = useTheme();
@@ -202,6 +201,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
     useEffect(() => {
         if (model && model.name) {
             setNameText(model.name);
+            setSelected(true);
         }
 
         if (!model || model['@id'] !== id) {
@@ -482,56 +482,34 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
         return polygons;
     }, [id, source, sourceX, sourceY, targetX, targetY]);
 
-    // const onNameClick = () => {
-    //     const selectRelationship = () => {
-    //         setCurrentNode(polygons.element.id);
-    //         dispatch({
-    //             type: SET_OAT_SELECTED_MODEL_ID,
-    //             payload: polygons.element.data.id
-    //         });
-    //         setNameEditor(true);
-    //     };
-
-    //     const unselectRelationship = () => {
-    //         setCurrentNode(currentNodeIdRef.current);
-    //         dispatch({
-    //             type: SET_OAT_SELECTED_MODEL_ID,
-    //             payload: selectedModelId
-    //         });
-    //         setNameEditor(false);
-    //     };
-    // }
-
     const setSelectedEdge = () => {
-        const relationship = new DTDLRelationship(
-            polygons.element.data.id,
-            nameText,
-            polygons.element.data.displayName,
-            polygons.element.data.description,
-            polygons.element.data.comment,
-            polygons.element.data.writable,
-            polygons.element.data.content ? polygons.element.data.content : [],
-            polygons.element.data.target,
-            polygons.element.data.maxMultiplicity
-        );
+        const selectRelationship = () => {
+            setCurrentNode(polygons.element.id);
+            dispatch({
+                type: SET_OAT_SELECTED_MODEL_ID,
+                payload: polygons.element.data.id
+            });
+        };
 
-        if (polygons.element.data.type === OATExtendHandleName) {
-            relationship['@type'] = OATExtendHandleName;
+        const unselectRelationship = () => {
+            console.log('execute unselectRelationship');
+            setCurrentNode(currentNodeIdRef.current);
+            dispatch({
+                type: SET_OAT_SELECTED_MODEL_ID,
+                payload: selectedModelId
+            });
+        };
+
+        if (selectedModelId !== id) {
+            execute(selectRelationship, unselectRelationship);
         }
-        setCurrentNode(polygons.element.id);
-        dispatch({
-            type: SET_OAT_PROPERTY_EDITOR_MODEL,
-            payload: relationship
-        });
     };
 
     const onNameClick = () => {
-        setSelected(true);
         setSelectedEdge();
     };
 
     const onNameDoubleClick = () => {
-        setSelected(true);
         setNameEditor(true);
         setSelectedEdge();
     };
@@ -581,7 +559,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
     });
 
     const onDelete = () => {
-        if (!state.modified) {
+        const deletion = () => {
             const dispatchDelete = () => {
                 dispatch({
                     type: SET_OAT_DELETED_MODEL_ID,
@@ -592,20 +570,41 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                 type: SET_OAT_CONFIRM_DELETE_OPEN,
                 payload: { open: true, callback: dispatchDelete }
             });
+        };
+
+        const undoDeletion = () => {
+            dispatch({
+                type: SET_OAT_DELETED_MODEL_ID,
+                payload: deletedModelId
+            });
+        };
+
+        if (!state.modified) {
+            execute(deletion, undoDeletion);
         }
     };
 
     const onNameCommit = (value) => {
-        console.log('value', value);
-        const modelCopy = deepCopy(model);
-        modelCopy.name = value;
-        dispatch({
-            type: SET_OAT_PROPERTY_EDITOR_MODEL,
-            payload: modelCopy
-        });
-        setNameText(value);
-        setNameEditor(false);
-        setSelected(false);
+        const commit = () => {
+            const modelCopy = deepCopy(model);
+            modelCopy.name = value;
+            dispatch({
+                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                payload: modelCopy
+            });
+            setNameText(value);
+            setNameEditor(false);
+            setSelected(false);
+        };
+
+        const undoCommit = () => {
+            dispatch({
+                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                payload: model
+            });
+        };
+
+        execute(commit, undoCommit);
     };
 
     return (

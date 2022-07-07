@@ -56,6 +56,7 @@ const PropertySelector = ({
         model ? model['@type'] : null
     );
     const addNestedProperty = (tag: string, lastPropertyFocusedCopy) => {
+        console.log('add nested property');
         const modelCopy = deepCopy(model);
         const schemaCopy = deepCopy(lastPropertyFocusedCopy.item.schema);
         // We select the last property focused to add nested propertyes to that specific property
@@ -81,6 +82,7 @@ const PropertySelector = ({
     };
 
     const addProperty = async (tag) => {
+        console.log('addProperty', tag);
         const modelCopy = deepCopy(model);
         modelCopy[propertiesKeyName] = [
             ...modelCopy[propertiesKeyName],
@@ -100,6 +102,7 @@ const PropertySelector = ({
     };
 
     const onTagClick = (tag: string) => {
+        console.log('onTagClick', tag);
         if (onTagClickCallback) {
             onTagClickCallback();
         }
@@ -107,10 +110,11 @@ const PropertySelector = ({
         const lastPropertyFocusedCopy = deepCopy(lastPropertyFocused);
 
         const onClick = () => {
+            console.log('lastPropertyFocusedCopy', lastPropertyFocusedCopy);
             lastPropertyFocused &&
             typeof lastPropertyFocused.item.schema === 'object'
-                ? () => addNestedProperty(tag, lastPropertyFocusedCopy)
-                : () => addProperty(tag);
+                ? addNestedProperty(tag, lastPropertyFocusedCopy)
+                : addProperty(tag);
         };
 
         const undoOnClick = () => {
