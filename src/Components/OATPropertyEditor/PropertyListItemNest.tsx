@@ -1,4 +1,5 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useContext, useMemo } from 'react';
+import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 import { TextField, Text, IconButton } from '@fluentui/react';
 import {
     getPropertyInspectorStyles,
@@ -92,6 +93,7 @@ export const PropertyListItemNest = ({
     propertiesLength
 }: IPropertyListItemNest) => {
     const { t } = useTranslation();
+    const { execute } = useContext(CommandHistoryContext);
     const propertyInspectorStyles = getPropertyInspectorStyles();
     const iconWrapMoreStyles = getPropertyListItemIconWrapMoreStyles();
     const textFieldStyles = getPropertyEditorTextFieldStyles();
@@ -125,86 +127,131 @@ export const PropertyListItemNest = ({
     };
 
     const onTemplateAddition = () => {
-        dispatch({
-            type: SET_OAT_TEMPLATES,
-            payload: [...templates.item]
-        });
+        const addition = () => {
+            dispatch({
+                type: SET_OAT_TEMPLATES,
+                payload: [...templates, item]
+            });
+        };
+
+        const undoAddition = () => {
+            dispatch({
+                type: SET_OAT_TEMPLATES,
+                payload: templates
+            });
+        };
+
+        execute(addition, undoAddition);
     };
 
     const onDuplicate = () => {
-        const itemCopy = deepCopy(item);
-        itemCopy.name = `${itemCopy.name}_${t('OATPropertyEditor.copy')}`;
-        itemCopy.displayName = `${itemCopy.displayName}_${t(
-            'OATPropertyEditor.copy'
-        )}`;
-        itemCopy['@id'] = `${itemCopy['@id']}_${t('OATPropertyEditor.copy')}`;
+        const duplicate = () => {
+            const itemCopy = deepCopy(item);
+            itemCopy.name = `${itemCopy.name}_${t('OATPropertyEditor.copy')}`;
+            itemCopy.displayName = `${itemCopy.displayName}_${t(
+                'OATPropertyEditor.copy'
+            )}`;
+            itemCopy['@id'] = `${itemCopy['@id']}_${t(
+                'OATPropertyEditor.copy'
+            )}`;
 
-        const modelCopy = deepCopy(model);
-        modelCopy[propertiesKeyName].push(itemCopy);
-        dispatch({
-            type: SET_OAT_PROPERTY_EDITOR_MODEL,
-            payload: modelCopy
-        });
+            const modelCopy = deepCopy(model);
+            modelCopy[propertiesKeyName].push(itemCopy);
+            dispatch({
+                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                payload: modelCopy
+            });
+        };
+
+        const undoDuplicate = () => {
+            dispatch({
+                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                payload: model
+            });
+        };
+
+        execute(duplicate, undoDuplicate);
     };
 
-    const deleteNestedItem = (parentIndex: number, index: number) => {
-        const newModel = deepCopy(model);
-        if (
-            newModel[propertiesKeyName][parentIndex].schema['@type'] ===
-            DTDLSchemaType.Enum
-        ) {
-            newModel[propertiesKeyName][parentIndex].schema.enumValues.splice(
-                index,
-                1
-            );
-        } else if (
-            newModel[propertiesKeyName][parentIndex].schema['@type'] ===
-            DTDLSchemaType.Object
-        ) {
-            newModel[propertiesKeyName][parentIndex].schema.fields.splice(
-                index,
-                1
-            );
-        }
+    const deleteNestedItem = (parentIndex, index) => {
+        const deletion = (parentIndex, index) => {
+            const newModel = deepCopy(model);
+            if (
+                newModel[propertiesKeyName][parentIndex].schema['@type'] ===
+                DTDLSchemaType.Enum
+            ) {
+                newModel[propertiesKeyName][
+                    parentIndex
+                ].schema.enumValues.splice(index, 1);
+            } else if (
+                newModel[propertiesKeyName][parentIndex].schema['@type'] ===
+                DTDLSchemaType.Object
+            ) {
+                newModel[propertiesKeyName][parentIndex].schema.fields.splice(
+                    index,
+                    1
+                );
+            }
 
-        const dispatchDelete = () => {
+            const dispatchDelete = () => {
+                dispatch({
+                    type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                    payload: newModel
+                });
+            };
+            dispatch({
+                type: SET_OAT_CONFIRM_DELETE_OPEN,
+                payload: { open: true, callback: dispatchDelete }
+            });
+        };
+
+        const undoDeletion = () => {
+            dispatch({
+                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                payload: model
+            });
+        };
+
+        execute(() => deletion(parentIndex, index), undoDeletion);
+    };
+
+    // Move nested item up or down
+    const moveNestedItem = (nestedIndex: number, moveUp: boolean) => {
+        onMove = (nestedIndex, moveUp) => {
+            const parentIndex = index;
+            const direction = moveUp ? -1 : 1;
+            const newModel = deepCopy(model);
+            const collectionAttributeName =
+                newModel[propertiesKeyName][parentIndex].schema['@type'] ===
+                DTDLSchemaType.Enum
+                    ? 'enumValues'
+                    : 'fields';
+            // Move nested item up or down
+            const temp =
+                newModel[propertiesKeyName][parentIndex].schema[
+                    collectionAttributeName
+                ][nestedIndex];
+            newModel[propertiesKeyName][parentIndex].schema[
+                collectionAttributeName
+            ].splice(nestedIndex, 1);
+            newModel[propertiesKeyName][parentIndex].schema[
+                collectionAttributeName
+            ].splice(nestedIndex + direction, 0, temp);
+
             dispatch({
                 type: SET_OAT_PROPERTY_EDITOR_MODEL,
                 payload: newModel
             });
         };
-        dispatch({
-            type: SET_OAT_CONFIRM_DELETE_OPEN,
-            payload: { open: true, callback: dispatchDelete }
-        });
-    };
 
-    // Move nested item up or down
-    const moveNestedItem = (nestedIndex, moveUp) => {
-        const parentIndex = index;
-        const direction = moveUp ? -1 : 1;
-        const newModel = deepCopy(model);
-        const collectionAttributeName =
-            newModel[propertiesKeyName][parentIndex].schema['@type'] ===
-            DTDLSchemaType.Enum
-                ? 'enumValues'
-                : 'fields';
-        // Move nested item up or down
-        const temp =
-            newModel[propertiesKeyName][parentIndex].schema[
-                collectionAttributeName
-            ][nestedIndex];
-        newModel[propertiesKeyName][parentIndex].schema[
-            collectionAttributeName
-        ].splice(nestedIndex, 1);
-        newModel[propertiesKeyName][parentIndex].schema[
-            collectionAttributeName
-        ].splice(nestedIndex + direction, 0, temp);
+        const undoOnMove = () => {
+            dispatch({
+                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                payload: model
+            });
+        };
 
-        dispatch({
-            type: SET_OAT_PROPERTY_EDITOR_MODEL,
-            payload: newModel
-        });
+        execute(() => onMove(nestedIndex, moveUp), undoOnMove);
     };
 
     const showObjectPropertySelector = useMemo(() => {

@@ -16,6 +16,8 @@ import {
     saveFiles
 } from '../../Components/OATHeader/internal/Utils';
 import OATErrorPage from './Internal/OATErrorPage';
+import { CommandHistoryContext } from './Internal/Context/CommandHistoryContext';
+import useCommandHistory from './Internal/Hooks/useCommandHistory';
 import OATConfirmDeleteWrapper from './Internal/OATConfirmDeleteWrapper';
 import {
     getStoredEditorData,
@@ -35,6 +37,8 @@ const OATEditorPage = ({ theme }) => {
         namespace,
         modelsMetadata
     } = state;
+
+    const providerValue = useCommandHistory([]);
 
     const languages = Object.keys(i18n.options.resources).map((language) => {
         return {
@@ -81,38 +85,40 @@ const OATEditorPage = ({ theme }) => {
     ]);
 
     return (
-        <ErrorBoundary FallbackComponent={OATErrorPage}>
-            <div className={editorPageStyles.container}>
-                <OATHeader
-                    elements={state.models}
-                    dispatch={dispatch}
-                    state={state}
-                />
-                <div
-                    className={
-                        state.templatesActive
-                            ? editorPageStyles.componentTemplate
-                            : editorPageStyles.component
-                    }
-                >
-                    <OATModelList
+        <CommandHistoryContext.Provider value={providerValue}>
+            <ErrorBoundary FallbackComponent={OATErrorPage}>
+                <div className={editorPageStyles.container}>
+                    <OATHeader
                         elements={state.models}
                         dispatch={dispatch}
-                        modified={state.modified}
                         state={state}
                     />
-                    <OATGraphViewer state={state} dispatch={dispatch} />
-                    <OATPropertyEditor
-                        theme={theme}
-                        state={state}
-                        dispatch={dispatch}
-                        languages={languages}
-                    />
+                    <div
+                        className={
+                            state.templatesActive
+                                ? editorPageStyles.componentTemplate
+                                : editorPageStyles.component
+                        }
+                    >
+                        <OATModelList
+                            elements={state.models}
+                            dispatch={dispatch}
+                            modified={state.modified}
+                            state={state}
+                        />
+                        <OATGraphViewer state={state} dispatch={dispatch} />
+                        <OATPropertyEditor
+                            theme={theme}
+                            state={state}
+                            dispatch={dispatch}
+                            languages={languages}
+                        />
+                    </div>
                 </div>
-            </div>
-            <OATErrorHandlingWrapper state={state} dispatch={dispatch} />
-            <OATConfirmDeleteWrapper state={state} dispatch={dispatch} />
-        </ErrorBoundary>
+                <OATErrorHandlingWrapper state={state} dispatch={dispatch} />
+                <OATConfirmDeleteWrapper state={state} dispatch={dispatch} />
+            </ErrorBoundary>
+        </CommandHistoryContext.Provider>
     );
 };
 

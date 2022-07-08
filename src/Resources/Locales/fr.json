@@ -769,6 +769,8 @@
     "errorFormatNoSupported": "Format de fichier non pris en charge",
     "errorIssueWithFile": "Problème avec {{fileName}} : {{error}}",
     "errorNamespace": "L’espace de noms ne peut contenir que des lettres, des chiffres et des traits de soulignement.",
+    "undo": "Défaire",
+    "redo": "Refaire",
     "deleteAll": "Supprimer tout",
     "folderUpload": "Téléchargement de dossiers",
     "fileUpload": "Téléchargement de fichiers"
@@ -798,9 +800,9 @@
     "errorRepeatedId": "Un modèle avec le même ID existe déjà",
     "errorDisplayNameLength": "Le nom d’affichage ne doit pas dépasser 64 caractères",
     "errorRepeatedEdgeName": "Une relation portant le même nom existe déjà",
+    "runLayout": "Exécuter la mise en page",
     "errorReachedInheritanceLimit": "Limite d’héritage atteinte",
-    "errorInheritance": "Ne peut pas hériter de plus de deux interfaces",
-    "runLayout": "Exécuter la mise en page"
+    "errorInheritance": "Ne peut pas hériter de plus de deux interfaces"
   },
   "OATPropertyEditor": {
     "displayName": "Nom d’affichage",
