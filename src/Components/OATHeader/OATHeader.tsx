@@ -66,6 +66,9 @@ const OATHeader = ({ elements, dispatch, state }: OATHeaderProps) => {
         namespace
     } = state;
     const uploadInputRef = useRef(null);
+    const keyDown = useRef(false);
+    const redoButtonRef = useRef(null);
+    const undoButtonRef = useRef(null);
 
     const downloadModelExportBlob = (blob: Blob) => {
         const blobURL = window.URL.createObjectURL(blob);
@@ -213,14 +216,16 @@ const OATHeader = ({ elements, dispatch, state }: OATHeaderProps) => {
             text: t('OATHeader.undo'),
             iconProps: { iconName: 'Undo' },
             onClick: undo,
-            disabled: !canUndo
+            disabled: !canUndo,
+            componentRef: undoButtonRef
         },
         {
             key: 'Redo',
             text: t('OATHeader.redo'),
             iconProps: { iconName: 'Redo' },
             onClick: redo,
-            disabled: !canRedo
+            disabled: !canRedo,
+            componentRef: redoButtonRef
         },
         {
             key: 'DeleteAll',
@@ -393,6 +398,48 @@ const OATHeader = ({ elements, dispatch, state }: OATHeaderProps) => {
     useEffect(() => {
         onFilesUpload(acceptedFiles);
     }, [acceptedFiles]);
+
+    const onKeyDown = (e) => {
+        if (keyDown.current) {
+            // Prevent keydown from being triggered twice
+            return;
+        }
+        if ((e.key === 'z' && e.ctrlKey) || (e.key === 'z' && e.metaKey)) {
+            if (e.shiftKey) {
+                keyDown.current = true;
+                redoButtonRef.current['_onClick']();
+            } else {
+                keyDown.current = true;
+                undoButtonRef.current['_onClick']();
+            }
+        }
+
+        if ((e.key === 'y' && e.ctrlKey) || (e.key === 'y' && e.metaKey)) {
+            keyDown.current = true;
+            redoButtonRef.current['_onClick']();
+        }
+    };
+
+    useEffect(() => {
+        // Set listener to undo/redo buttons on key press
+        document.addEventListener('keydown', (e) => onKeyDown(e));
+        return () => {
+            document.removeEventListener('keydown', (e) => onKeyDown(e));
+        };
+    }, [onKeyDown]);
+
+    useEffect(() => {
+        // On key release, set keyDown to false
+        const onKeyUp = () => {
+            if (keyDown.current) {
+                keyDown.current = false;
+            }
+        };
+        document.addEventListener('keyup', onKeyUp);
+        return () => {
+            document.removeEventListener('keyup', onKeyUp);
+        };
+    }, []);
 
     return (
         <div className={headerStyles.container}>
