@@ -633,6 +633,10 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                     type: SET_OAT_DELETED_MODEL_ID,
                     payload: null
                 });
+                dispatch({
+                    type: SET_OAT_SELECTED_MODEL_ID,
+                    payload: null
+                });
             };
 
             const unRemove = () => {
@@ -1091,12 +1095,16 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     const onElementClick = (evt: Event, node: IOATNodeElement) => {
         if (!state.modified) {
             // Checks if a node is selected to display it in the property editor
+            console.log('currentNodeIdRef.current', currentNodeIdRef.current);
+            console.log('node.id ', node.id);
             if (
                 node.data.type === OATInterfaceType &&
                 translatedOutput &&
                 node.id !== currentNodeIdRef.current // Prevent re-execute the same node
             ) {
                 const onClick = () => {
+                    console.log('click');
+                    console.log('selectedModelId', selectedModelId);
                     currentNodeIdRef.current = node.id;
                     dispatch({
                         type: SET_OAT_SELECTED_MODEL_ID,
@@ -1114,47 +1122,6 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                 execute(onClick, undoOnClick);
             }
         }
-    };
-
-    const positionLookUp = (newNodes: IOATNodeElement[] = null) => {
-        const { position } = rfInstance.toObject();
-        const areaDistanceX = 250;
-        const areaDistanceY = 80;
-        let defaultPositionX = 0 - position[0] + areaDistanceX;
-        let defaultPositionY = 0 - position[1] + areaDistanceY * 2;
-        const maxWidth = 800;
-        const defaultPosition = defaultPositionX;
-        const minWidth = 300;
-        const minHeight = 100;
-        const lookUpElements = newNodes
-            ? [...elements, ...newNodes]
-            : [...elements];
-
-        let nodes = lookUpElements.find(
-            (element) =>
-                !element.source &&
-                defaultPositionX - areaDistanceX < element.position.x &&
-                element.position.x < defaultPositionX + areaDistanceX &&
-                defaultPositionY - areaDistanceY < element.position.y &&
-                element.position.y < defaultPositionY + areaDistanceY
-        );
-        while (nodes) {
-            if (defaultPositionX > maxWidth) {
-                defaultPositionY = defaultPositionY + minHeight;
-                defaultPositionX = defaultPosition;
-            } else {
-                defaultPositionX = defaultPositionX + minWidth;
-            }
-            nodes = lookUpElements.find(
-                (element) =>
-                    !element.source &&
-                    defaultPositionX - areaDistanceX < element.position.x &&
-                    element.position.x < defaultPositionX + areaDistanceX &&
-                    defaultPositionY - areaDistanceY < element.position.y &&
-                    element.position.y < defaultPositionY + areaDistanceY
-            );
-        }
-        return { x: defaultPositionX, y: defaultPositionY };
     };
 
     const onNodeMouseEnter = (evt: Event, node: IOATNodeElement) => {
