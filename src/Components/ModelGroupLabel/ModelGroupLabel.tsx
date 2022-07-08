@@ -30,10 +30,11 @@ export const ModelGroupLabel: React.FC<ModelGroupLabelProps> = ({
 
     const [showContextMenu, setShowContextMenu] = useState(false);
     const [contextItems, setContextItems] = useState<IContextualMenuItem[]>([]);
-    const id = 'ID' + createGUID();
+    const [groupId, setGroupId] = useState('id');
 
     useEffect(() => {
         const items: IContextualMenuItem[] = [];
+        let labels = '';
         groupItems?.forEach((item) => {
             items.push({
                 key: item.label,
@@ -41,15 +42,17 @@ export const ModelGroupLabel: React.FC<ModelGroupLabelProps> = ({
                 onClick: () =>
                     item.onItemClick ? item.onItemClick(item.id) : null
             });
+            labels += item.label;
         });
 
         setContextItems(items);
+        setGroupId('id-' + labels);
     }, [groupItems, groupItems.length]);
 
     return (
         <div>
             <ActionButton
-                id={id}
+                id={groupId}
                 onClick={() => setShowContextMenu(!showContextMenu)}
                 className={styles.groupBadge}
             >
@@ -59,7 +62,7 @@ export const ModelGroupLabel: React.FC<ModelGroupLabelProps> = ({
                 isBeakVisible={true}
                 items={contextItems}
                 hidden={!showContextMenu}
-                target={`#${id}`}
+                target={`#${groupId}`}
                 onItemClick={() => setShowContextMenu(false)}
                 onDismiss={() => setShowContextMenu(false)}
             />
