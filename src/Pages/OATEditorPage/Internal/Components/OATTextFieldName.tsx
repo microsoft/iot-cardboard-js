@@ -106,7 +106,8 @@ const OATTextFieldName = ({
             !nameLengthError &&
             !nameValidCharactersError &&
             !nameDuplicateInterfaceError &&
-            !nameDuplicateRelationshipError
+            !nameDuplicateRelationshipError &&
+            temporaryName !== originalValue // Prevent committing if name is not changed
         ) {
             onCommit(temporaryName);
         } else {
@@ -116,11 +117,12 @@ const OATTextFieldName = ({
             setNameValidCharactersError(false);
             setNameLengthError(false);
         }
+        document.activeElement.blur();
     };
 
     const onKeyDown = (event: Event) => {
         if (event.key === 'Enter') {
-            onCommitChange();
+            document.activeElement.blur();
         }
         if (event.key === 'Escape' || event.key === 'Tab') {
             setTemporaryName(originalValue);

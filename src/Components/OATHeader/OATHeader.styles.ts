@@ -73,7 +73,7 @@ export const getHeaderStyles = () => {
             classNames.menuComponent,
             {
                 display: 'grid',
-                gridTemplateColumns: '20% 60% 20%'
+                gridTemplateColumns: '40% 40% 20%'
             } as IStyle
         ],
         optionIcon: [

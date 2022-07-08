@@ -1,4 +1,5 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useContext } from 'react';
+import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 import { FontIcon, ActionButton, Text } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
@@ -53,6 +54,7 @@ export const PropertyList = ({
     isSupportedModelType
 }: IPropertyList) => {
     const { t } = useTranslation();
+    const { execute } = useContext(CommandHistoryContext);
     const propertyInspectorStyles = getPropertyInspectorStyles();
     const draggedPropertyItemRef = useRef(null);
     const [enteredItem, setEnteredItem] = useState(enteredPropertyRef.current);
@@ -90,12 +92,9 @@ export const PropertyList = ({
     };
 
     const onDragEnd = () => {
-        console.log('drag end');
         if (enteredTemplateRef.current !== null) {
             onPropertyItemDropOnTemplateList();
-            console.log('drag end b');
         }
-        console.log('drag end c');
         dragNode.current.removeEventListener('dragend', onDragEnd);
         dragItem.current = null;
         dragNode.current = null;
@@ -160,15 +159,29 @@ export const PropertyList = ({
     };
 
     const onPropertyDisplayNameChange = (value, index) => {
-        const newModel = deepCopy(model);
-        if (index === undefined) {
-            newModel[propertiesKeyName][
-                currentPropertyIndex
-            ].displayName = value;
-        } else {
-            newModel[propertiesKeyName][index].displayName = value;
-        }
-        dispatch({ type: SET_OAT_PROPERTY_EDITOR_MODEL, payload: newModel });
+        const update = () => {
+            const newModel = deepCopy(model);
+            if (index === undefined) {
+                newModel[propertiesKeyName][
+                    currentPropertyIndex
+                ].displayName = value;
+            } else {
+                newModel[propertiesKeyName][index].displayName = value;
+            }
+            dispatch({
+                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                payload: newModel
+            });
+        };
+
+        const undoUpdate = () => {
+            dispatch({
+                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                payload: model
+            });
+        };
+
+        execute(update, undoUpdate);
     };
 
     const generateErrorMessage = (value, index) => {
@@ -189,18 +202,30 @@ export const PropertyList = ({
 
     const deleteItem = (index) => {
         setLastPropertyFocused(null);
-        const newModel = deepCopy(model);
-        newModel[propertiesKeyName].splice(index, 1);
-        const dispatchDelete = () => {
+
+        const deletion = (index) => {
+            const newModel = deepCopy(model);
+            newModel[propertiesKeyName].splice(index, 1);
+            const dispatchDelete = () => {
+                dispatch({
+                    type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                    payload: newModel
+                });
+            };
             dispatch({
-                type: SET_OAT_PROPERTY_EDITOR_MODEL,
-                payload: newModel
+                type: SET_OAT_CONFIRM_DELETE_OPEN,
+                payload: { open: true, callback: dispatchDelete }
             });
         };
-        dispatch({
-            type: SET_OAT_CONFIRM_DELETE_OPEN,
-            payload: { open: true, callback: dispatchDelete }
-        });
+
+        const undoDeletion = () => {
+            dispatch({
+                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                payload: model
+            });
+        };
+
+        execute(() => deletion(index), undoDeletion);
     };
 
     const definePropertySelectorPosition = (e, top = null) => {
@@ -242,12 +267,26 @@ export const PropertyList = ({
     };
 
     const moveItemOnPropertyList = (index: number, moveUp: boolean) => {
-        const direction = moveUp ? -1 : 1;
-        const newModel = deepCopy(model);
-        const item = newModel[propertiesKeyName][index];
-        newModel[propertiesKeyName].splice(index, 1);
-        newModel[propertiesKeyName].splice(index + direction, 0, item);
-        dispatch({ type: SET_OAT_PROPERTY_EDITOR_MODEL, payload: newModel });
+        const onMove = (index, moveUp) => {
+            const direction = moveUp ? -1 : 1;
+            const newModel = deepCopy(model);
+            const item = newModel[propertiesKeyName][index];
+            newModel[propertiesKeyName].splice(index, 1);
+            newModel[propertiesKeyName].splice(index + direction, 0, item);
+            dispatch({
+                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                payload: newModel
+            });
+        };
+
+        const undoOnMove = () => {
+            dispatch({
+                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                payload: model
+            });
+        };
+
+        execute(() => onMove(index, moveUp), undoOnMove);
     };
 
     return (

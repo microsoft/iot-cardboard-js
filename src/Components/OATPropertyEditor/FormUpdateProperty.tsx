@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 import {
     TextField,
     Text,
@@ -65,6 +66,7 @@ export const FormUpdateProperty = ({
     languages
 }: IModal) => {
     const { t } = useTranslation();
+    const { execute } = useContext(CommandHistoryContext);
     const propertyInspectorStyles = getPropertyInspectorStyles();
     const radioGroupRowStyle = getRadioGroupRowStyles();
     const columnLeftTextStyles = getModalLabelStyles();
@@ -187,40 +189,52 @@ export const FormUpdateProperty = ({
     };
 
     const handleUpdatedNestedProperty = () => {
-        const activeNestedProperty =
-            model[propertiesKeyName][currentPropertyIndex].schema.fields[
-                currentNestedPropertyIndex
-            ];
-        const prop = {
-            comment: comment ? comment : activeNestedProperty.comment,
-            description:
-                languageSelectionDescription === singleLanguageOptionValue
-                    ? description
+        const update = () => {
+            const activeNestedProperty =
+                model[propertiesKeyName][currentPropertyIndex].schema.fields[
+                    currentNestedPropertyIndex
+                ];
+            const prop = {
+                comment: comment ? comment : activeNestedProperty.comment,
+                description:
+                    languageSelectionDescription === singleLanguageOptionValue
                         ? description
-                        : activeNestedProperty.description
-                    : multiLanguageSelectionsDescription,
-            displayName:
-                languageSelection === singleLanguageOptionValue
-                    ? displayName
+                            ? description
+                            : activeNestedProperty.description
+                        : multiLanguageSelectionsDescription,
+                displayName:
+                    languageSelection === singleLanguageOptionValue
                         ? displayName
-                        : activeNestedProperty.name
-                    : multiLanguageSelectionsDisplayName,
-            writable,
-            unit: activeNestedProperty.unit,
-            '@id': id ? id : activeNestedProperty['@id'],
-            schema: activeNestedProperty.schema,
-            name: activeNestedProperty.name
+                            ? displayName
+                            : activeNestedProperty.name
+                        : multiLanguageSelectionsDisplayName,
+                writable,
+                unit: activeNestedProperty.unit,
+                '@id': id ? id : activeNestedProperty['@id'],
+                schema: activeNestedProperty.schema,
+                name: activeNestedProperty.name
+            };
+
+            const modelCopy = deepCopy(model);
+            modelCopy[propertiesKeyName][currentPropertyIndex].schema.fields[
+                currentNestedPropertyIndex
+            ] = prop;
+
+            dispatch({
+                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                payload: modelCopy
+            });
         };
 
-        const modelCopy = deepCopy(model);
-        modelCopy[propertiesKeyName][currentPropertyIndex].schema.fields[
-            currentNestedPropertyIndex
-        ] = prop;
+        const undoUpdate = () => {
+            dispatch({
+                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                payload: model
+            });
+        };
 
-        dispatch({
-            type: SET_OAT_PROPERTY_EDITOR_MODEL,
-            payload: modelCopy
-        });
+        execute(update, undoUpdate);
+
         setModalOpen(false);
         setModalBody(null);
         setCurrentNestedPropertyIndex(null);
@@ -232,38 +246,49 @@ export const FormUpdateProperty = ({
             return;
         }
 
-        const prop = {
-            comment: comment ? comment : activeProperty.comment,
-            description:
-                languageSelectionDescription === singleLanguageOptionValue
-                    ? description
+        const update = () => {
+            const prop = {
+                comment: comment ? comment : activeProperty.comment,
+                description:
+                    languageSelectionDescription === singleLanguageOptionValue
                         ? description
-                        : activeProperty.description
-                    : multiLanguageSelectionsDescription
-                    ? multiLanguageSelectionsDescription
-                    : activeProperty.description,
-            displayName:
-                languageSelection === singleLanguageOptionValue
-                    ? displayName
+                            ? description
+                            : activeProperty.description
+                        : multiLanguageSelectionsDescription
+                        ? multiLanguageSelectionsDescription
+                        : activeProperty.description,
+                displayName:
+                    languageSelection === singleLanguageOptionValue
                         ? displayName
-                        : activeProperty.name
-                    : multiLanguageSelectionsDisplayName
-                    ? multiLanguageSelectionsDisplayName
-                    : activeProperty.name,
-            writable,
-            '@type': activeProperty['@type'],
-            unit: activeProperty.unit,
-            '@id': id ? id : activeProperty['@id'],
-            schema: activeProperty.schema,
-            name: activeProperty.name
+                            ? displayName
+                            : activeProperty.name
+                        : multiLanguageSelectionsDisplayName
+                        ? multiLanguageSelectionsDisplayName
+                        : activeProperty.name,
+                writable,
+                '@type': activeProperty['@type'],
+                unit: activeProperty.unit,
+                '@id': id ? id : activeProperty['@id'],
+                schema: activeProperty.schema,
+                name: activeProperty.name
+            };
+            const modelCopy = deepCopy(model);
+            modelCopy[propertiesKeyName][currentPropertyIndex] = prop;
+            dispatch({
+                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                payload: modelCopy
+            });
         };
 
-        const modelCopy = deepCopy(model);
-        modelCopy[propertiesKeyName][currentPropertyIndex] = prop;
-        dispatch({
-            type: SET_OAT_PROPERTY_EDITOR_MODEL,
-            payload: modelCopy
-        });
+        const undoUpdate = () => {
+            dispatch({
+                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                payload: model
+            });
+        };
+
+        execute(update, undoUpdate);
+
         setModalOpen(false);
         setModalBody(null);
     };

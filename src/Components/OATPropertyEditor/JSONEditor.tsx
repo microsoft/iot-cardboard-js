@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import Editor from '@monaco-editor/react';
 import { ModelTypes, Theme } from '../../Models/Constants/Enums';
 import { useLibTheme } from '../../Theming/ThemeProvider';
@@ -16,6 +16,7 @@ import {
     getSaveButtonStyles
 } from './OATPropertyEditor.styles';
 import { parseModel } from '../../Models/Services/Utils';
+import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 
 type JSONEditorProps = {
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
@@ -25,6 +26,7 @@ type JSONEditorProps = {
 
 const JSONEditor = ({ dispatch, theme, state }: JSONEditorProps) => {
     const { t } = useTranslation();
+    const { execute } = useContext(CommandHistoryContext);
     const libTheme = useLibTheme();
     const themeToUse = (libTheme || theme) ?? Theme.Light;
     const editorRef = useRef(null);
@@ -105,6 +107,22 @@ const JSONEditor = ({ dispatch, theme, state }: JSONEditorProps) => {
     const onSaveClick = async () => {
         const newModel = isJsonStringValid(content);
         const validJson = await parseModel(content);
+
+        const save = () => {
+            dispatch({
+                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                payload: newModel
+            });
+            dispatch({ type: SET_OAT_MODIFIED, payload: false });
+        };
+
+        const undoSave = () => {
+            dispatch({
+                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                payload: model
+            });
+        };
+
         if (!validJson) {
             if (checkDuplicateId(newModel)) {
                 // Dispatch error if duplicate id
@@ -116,11 +134,7 @@ const JSONEditor = ({ dispatch, theme, state }: JSONEditorProps) => {
                     }
                 });
             } else {
-                dispatch({
-                    type: SET_OAT_PROPERTY_EDITOR_MODEL,
-                    payload: newModel
-                });
-                dispatch({ type: SET_OAT_MODIFIED, payload: false });
+                execute(save, undoSave);
             }
         } else {
             dispatch({

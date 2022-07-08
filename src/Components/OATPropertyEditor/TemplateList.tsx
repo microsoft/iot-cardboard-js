@@ -1,4 +1,5 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useContext } from 'react';
+import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
 import { deepCopy } from '../../Models/Services/Utils';
 import TemplateListItem from './TemplateListItem';
@@ -32,6 +33,7 @@ export const TemplateList = ({
     dispatch,
     state
 }: ITemplateList) => {
+    const { execute } = useContext(CommandHistoryContext);
     const propertyInspectorStyles = getPropertyInspectorStyles();
     const dragItem = useRef(null);
     const dragNode = useRef(null);
@@ -127,18 +129,29 @@ export const TemplateList = ({
     };
 
     const deleteItem = (index: number) => {
-        const newTemplate = deepCopy(templates);
-        newTemplate.splice(index, 1);
-        const dispatchDelete = () => {
+        const deletion = (index) => {
+            const newTemplate = deepCopy(templates);
+            newTemplate.splice(index, 1);
+            const dispatchDelete = () => {
+                dispatch({
+                    type: SET_OAT_TEMPLATES,
+                    payload: newTemplate
+                });
+            };
             dispatch({
-                type: SET_OAT_TEMPLATES,
-                payload: newTemplate
+                type: SET_OAT_CONFIRM_DELETE_OPEN,
+                payload: { open: true, callback: dispatchDelete }
             });
         };
-        dispatch({
-            type: SET_OAT_CONFIRM_DELETE_OPEN,
-            payload: { open: true, callback: dispatchDelete }
-        });
+
+        const undoDeletion = () => {
+            dispatch({
+                type: SET_OAT_TEMPLATES,
+                payload: templates
+            });
+        };
+
+        execute(() => deletion(index), undoDeletion);
     };
 
     const onPropertyListAddition = (item) => {
@@ -153,15 +166,26 @@ export const TemplateList = ({
     };
 
     const moveItemOnTemplateList = (index: number, moveUp: boolean) => {
-        const direction = moveUp ? -1 : 1;
-        const newTemplate = deepCopy(templates);
-        const item = newTemplate[index];
-        newTemplate.splice(index, 1);
-        newTemplate.splice(index + direction, 0, item);
-        dispatch({
-            type: SET_OAT_TEMPLATES,
-            payload: newTemplate
-        });
+        const onMove = (index, moveUp) => {
+            const direction = moveUp ? -1 : 1;
+            const newTemplate = deepCopy(templates);
+            const item = newTemplate[index];
+            newTemplate.splice(index, 1);
+            newTemplate.splice(index + direction, 0, item);
+            dispatch({
+                type: SET_OAT_TEMPLATES,
+                payload: newTemplate
+            });
+        };
+
+        const undoOnMove = () => {
+            dispatch({
+                type: SET_OAT_TEMPLATES,
+                payload: templates
+            });
+        };
+
+        execute(() => onMove(index, moveUp), undoOnMove);
     };
 
     return (

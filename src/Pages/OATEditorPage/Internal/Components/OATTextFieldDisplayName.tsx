@@ -56,6 +56,7 @@ const OATTextFieldDisplayName = ({
             setTemporaryValue(getModelPropertyListItemName(model.displayName));
             setDisplayNameLengthError(false);
         }
+        document.activeElement.blur();
     };
 
     const onKeyDown = (event: Event) => {

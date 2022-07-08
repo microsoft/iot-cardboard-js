@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { Stack, Label, Text, IconButton } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import {
@@ -16,6 +16,7 @@ import OATTextFieldName from '../../Pages/OATEditorPage/Internal/Components/OATT
 import OATTextFieldId from '../../Pages/OATEditorPage/Internal/Components/OATTextFieldId';
 import { deepCopy } from '../../Models/Services/Utils';
 import { SET_OAT_PROPERTY_EDITOR_MODEL } from '../../Models/Constants/ActionTypes';
+import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 
 type IPropertiesModelSummary = {
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
@@ -33,6 +34,7 @@ export const PropertiesModelSummary = ({
     isSupportedModelType
 }: IPropertiesModelSummary) => {
     const { t } = useTranslation();
+    const { execute } = useContext(CommandHistoryContext);
     const { model, models } = state;
     const propertyInspectorStyles = getPropertyInspectorStyles();
     const iconWrapStyles = geIconWrapFitContentStyles();
@@ -53,36 +55,69 @@ export const PropertiesModelSummary = ({
     }, [model]);
 
     const onIdCommit = (value) => {
-        const modelCopy = deepCopy(model);
-        modelCopy['@id'] = value;
-        dispatch({
-            type: SET_OAT_PROPERTY_EDITOR_MODEL,
-            payload: modelCopy
-        });
-        setId(value);
-        setIdEditor(false);
+        const commit = () => {
+            const modelCopy = deepCopy(model);
+            modelCopy['@id'] = value;
+            dispatch({
+                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                payload: modelCopy
+            });
+            setId(value);
+            setIdEditor(false);
+        };
+
+        const undoCommit = () => {
+            dispatch({
+                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                payload: model
+            });
+        };
+
+        execute(commit, undoCommit);
     };
 
     const onDisplayNameCommit = (value) => {
-        const modelCopy = deepCopy(model);
-        modelCopy.displayName = value;
-        dispatch({
-            type: SET_OAT_PROPERTY_EDITOR_MODEL,
-            payload: modelCopy
-        });
-        setDisplayName(value);
-        setDisplayNameEditor(false);
+        const commit = () => {
+            const modelCopy = deepCopy(model);
+            modelCopy.displayName = value;
+            dispatch({
+                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                payload: modelCopy
+            });
+            setDisplayName(value);
+            setDisplayNameEditor(false);
+        };
+
+        const undoCommit = () => {
+            dispatch({
+                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                payload: model
+            });
+        };
+
+        execute(commit, undoCommit);
     };
 
     const onNameCommit = (value) => {
-        const modelCopy = deepCopy(model);
-        modelCopy.name = value;
-        dispatch({
-            type: SET_OAT_PROPERTY_EDITOR_MODEL,
-            payload: modelCopy
-        });
-        setName(value);
-        setNameEditor(false);
+        const commit = () => {
+            const modelCopy = deepCopy(model);
+            modelCopy.name = value;
+            dispatch({
+                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                payload: modelCopy
+            });
+            setName(value);
+            setNameEditor(false);
+        };
+
+        const undoCommit = () => {
+            dispatch({
+                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                payload: model
+            });
+        };
+
+        execute(commit, undoCommit);
     };
 
     return (

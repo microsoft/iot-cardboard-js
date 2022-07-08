@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useEffect, useState, useContext, useRef } from 'react';
 import { CommandBar, ICommandBarItemProps } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { getHeaderStyles, getCommandBarStyles } from './OATHeader.styles';
@@ -22,6 +22,7 @@ import {
 import { IAction } from '../../Models/Constants/Interfaces';
 import { useDropzone } from 'react-dropzone';
 import { SET_OAT_IMPORT_MODELS } from '../../Models/Constants/ActionTypes';
+import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 import {
     deepCopy,
     getDirectoryPathFromDTMI,
@@ -41,6 +42,9 @@ type OATHeaderProps = {
 
 const OATHeader = ({ elements, dispatch, state }: OATHeaderProps) => {
     const { t } = useTranslation();
+    const { execute, undo, redo, canUndo, canRedo } = useContext(
+        CommandHistoryContext
+    );
     const headerStyles = getHeaderStyles();
     const commandBarStyles = getCommandBarStyles();
     const {
@@ -53,7 +57,14 @@ const OATHeader = ({ elements, dispatch, state }: OATHeaderProps) => {
     const [importSubMenuActive, setImportSubMenuActive] = useState(false);
     const [modalOpen, setModalOpen] = useState(false);
     const [modalBody, setModalBody] = useState(null);
-    const { modelsMetadata, projectName } = state;
+    const {
+        modelsMetadata,
+        projectName,
+        modelPositions,
+        models,
+        templates,
+        namespace
+    } = state;
     const uploadInputRef = useRef(null);
 
     const downloadModelExportBlob = (blob: Blob) => {
@@ -132,27 +143,48 @@ const OATHeader = ({ elements, dispatch, state }: OATHeaderProps) => {
     };
 
     const onDeleteAll = () => {
-        const dispatchDelete = () => {
-            const newProject = new ProjectData(
-                [],
-                [],
+        const deletion = () => {
+            const dispatchDelete = () => {
+                const newProject = new ProjectData(
+                    [],
+                    [],
+                    t('OATHeader.description'),
+                    projectName,
+                    [],
+                    OATNamespaceDefaultValue,
+                    []
+                );
+
+                dispatch({
+                    type: SET_OAT_PROJECT,
+                    payload: newProject
+                });
+            };
+
+            dispatch({
+                type: SET_OAT_CONFIRM_DELETE_OPEN,
+                payload: { open: true, callback: dispatchDelete }
+            });
+        };
+
+        const undoDeletion = () => {
+            const project = new ProjectData(
+                modelPositions,
+                models,
                 t('OATHeader.description'),
                 projectName,
-                [],
-                OATNamespaceDefaultValue,
-                []
+                templates,
+                namespace,
+                modelsMetadata
             );
 
             dispatch({
                 type: SET_OAT_PROJECT,
-                payload: newProject
+                payload: project
             });
         };
 
-        dispatch({
-            type: SET_OAT_CONFIRM_DELETE_OPEN,
-            payload: { open: true, callback: dispatchDelete }
-        });
+        execute(deletion, undoDeletion);
     };
 
     const items: ICommandBarItemProps[] = [
@@ -175,6 +207,20 @@ const OATHeader = ({ elements, dispatch, state }: OATHeaderProps) => {
             text: t('OATHeader.export'),
             iconProps: { iconName: 'Export' },
             onClick: onExportClick
+        },
+        {
+            key: 'Undo',
+            text: t('OATHeader.undo'),
+            iconProps: { iconName: 'Undo' },
+            onClick: undo,
+            disabled: !canUndo
+        },
+        {
+            key: 'Redo',
+            text: t('OATHeader.redo'),
+            iconProps: { iconName: 'Redo' },
+            onClick: redo,
+            disabled: !canRedo
         },
         {
             key: 'DeleteAll',

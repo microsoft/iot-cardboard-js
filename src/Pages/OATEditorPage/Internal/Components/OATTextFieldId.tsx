@@ -102,7 +102,8 @@ const OATTextFieldId = ({
             !idLengthError &&
             !idAlreadyUsedInterfaceError &&
             !idAlreadyUsedRelationshipError &&
-            !validDTMIError
+            !validDTMIError &&
+            temporaryValue !== originalValue // Prevent committing if value is the same as original
         ) {
             onCommit(temporaryValue);
         } else {
@@ -112,11 +113,12 @@ const OATTextFieldId = ({
             setIdAlreadyUsedInterfaceError(false);
             setValidDTMIError(false);
         }
+        document.activeElement.blur();
     };
 
     const onKeyDown = (event: Event) => {
         if (event.key === 'Enter') {
-            onCommitChange();
+            document.activeElement.blur();
         }
     };
 
