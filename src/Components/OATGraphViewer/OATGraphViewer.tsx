@@ -1095,16 +1095,12 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     const onElementClick = (evt: Event, node: IOATNodeElement) => {
         if (!state.modified) {
             // Checks if a node is selected to display it in the property editor
-            console.log('currentNodeIdRef.current', currentNodeIdRef.current);
-            console.log('node.id ', node.id);
             if (
                 node.data.type === OATInterfaceType &&
                 translatedOutput &&
                 node.id !== currentNodeIdRef.current // Prevent re-execute the same node
             ) {
                 const onClick = () => {
-                    console.log('click');
-                    console.log('selectedModelId', selectedModelId);
                     currentNodeIdRef.current = node.id;
                     dispatch({
                         type: SET_OAT_SELECTED_MODEL_ID,
