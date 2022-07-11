@@ -1,4 +1,10 @@
-import React, { useCallback, useEffect, useReducer, useRef } from 'react';
+import React, {
+    useCallback,
+    useEffect,
+    useReducer,
+    useRef,
+    useState
+} from 'react';
 import SceneView from './SceneView';
 import {
     Marker,
@@ -12,8 +18,11 @@ import {
     ADT3DSceneBuilderReducer,
     defaultADT3DSceneBuilderState
 } from '../ADT3DSceneBuilder/ADT3DSceneBuilder.state';
-import { SET_GIZMO_TRANSFORM_ITEM } from '../ADT3DSceneBuilder/ADT3DSceneBuilder.types';
-import { Stack, TextField } from '@fluentui/react';
+import {
+    SET_ELEMENT_TO_GIZMO,
+    SET_GIZMO_TRANSFORM_ITEM
+} from '../ADT3DSceneBuilder/ADT3DSceneBuilder.types';
+import { Checkbox, Stack, TextField } from '@fluentui/react';
 
 const wrapperStyle = { width: 'auto', height: 'auto' };
 
@@ -36,6 +45,7 @@ export const SceneViewGizmo = () => {
         ADT3DSceneBuilderReducer,
         defaultADT3DSceneBuilderState
     );
+    const [isGizmo, setIsGizmo] = useState<boolean>(true);
 
     const setGizmoTransformItem = useCallback(
         (gizmoTransformItem: TransformInfo) => {
@@ -53,22 +63,50 @@ export const SceneViewGizmo = () => {
         []
     );
 
+    const setGizmoElementItem = useCallback(
+        (gizmoElementItem: TransformedElementItem) => {
+            dispatch({
+                type: SET_ELEMENT_TO_GIZMO,
+                payload: gizmoElementItem
+            });
+        },
+        []
+    );
+
+    const onGizmoChange = useCallback((event, checked?: boolean) => {
+        if (!checked) {
+            setGizmoElementItem({ parentMeshId: null, meshIds: null });
+        } else {
+            setGizmoElementItem(defaultGizmoElementItems);
+        }
+        setIsGizmo(!!checked);
+    }, []);
+
     return (
         <div>
-            <FakePanel
-                gizmoTransformItem={state.gizmoTransformItem}
-                setGizmoTransformItem={setGizmoTransformItem}
-            ></FakePanel>
+            <Checkbox
+                label="Show Gizmo"
+                checked={isGizmo}
+                onChange={onGizmoChange}
+            />
             <div style={wrapperStyle}>
                 <div style={{ flex: 1, width: '100%' }}>
                     <SceneView
                         modelUrl="https://cardboardresources.blob.core.windows.net/cardboard-mock-files/OutdoorTanks.gltf"
-                        gizmoElementItem={defaultGizmoElementItems}
+                        gizmoElementItem={
+                            state.gizmoElementItem ?? defaultGizmoElementItems
+                        }
                         setGizmoTransformItem={setGizmoTransformItem}
                         gizmoTransformItem={state.gizmoTransformItem}
                     />
                 </div>
             </div>
+            {isGizmo && (
+                <FakePanel
+                    gizmoTransformItem={state.gizmoTransformItem}
+                    setGizmoTransformItem={setGizmoTransformItem}
+                ></FakePanel>
+            )}
         </div>
     );
 };
@@ -138,7 +176,7 @@ const FakePanel = (props: IFakePanelProps) => {
     }, [gizmoTransformItem]);
 
     return (
-        <div>
+        <div style={{ padding: '20px' }}>
             <Stack tokens={{ childrenGap: 12 }} horizontal>
                 <TextField
                     label="X Position: "
