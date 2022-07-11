@@ -1,5 +1,6 @@
 import { IPivotItemProps } from '@fluentui/react';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { customPivotItemStyles } from '../Behaviors/BehaviorsForm.styles';
 
 export function setPivotToRequired(
@@ -7,15 +8,18 @@ export function setPivotToRequired(
     link?: IPivotItemProps,
     defaultRenderer?: (link?: IPivotItemProps) => JSX.Element | null
 ): JSX.Element | null {
+    const { t } = useTranslation();
     if (!link || !defaultRenderer) {
         return null;
     }
     return (
         <span className={customPivotItemStyles.root}>
             {defaultRenderer({ ...link, itemIcon: undefined })}
-            {/* TODO: Add an aria label of some kind here for screen readers to see this error state */}
             {isValid === false && (
-                <span className={customPivotItemStyles.alert} />
+                <span
+                    aria-label={t('meshIsRequired')}
+                    className={customPivotItemStyles.alert}
+                />
             )}
         </span>
     );

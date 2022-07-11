@@ -459,7 +459,8 @@
             "twinNameDescription": "Select a digital twin to link this element to. You will use this linked twin's properties for associated behaviors.",
             "meshTabName": "Meshes",
             "behaviorsTabName": "Behaviors",
-            "twinTabName": "Other twins"
+            "twinTabName": "Other twins",
+            "meshRequired": "At least one mesh is required"
         },
         "elementFormMeshTab": {
             "noDataMessage": "Select associated meshes from your 3D model for this element."
