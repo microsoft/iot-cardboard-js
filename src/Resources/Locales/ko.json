@@ -454,7 +454,8 @@
       "meshTabName": "메시",
       "behaviorsTabName": "동작",
       "twinTabName": "다른 쌍둥이",
-      "formSubTitle": ""
+      "formSubTitle": "",
+      "meshRequired": "적어도 하나의 메쉬가 필요합니다."
     },
     "elementFormMeshTab": {
       "noDataMessage": "이 요소에 대한 3D 모델에서 연관된 메쉬를 선택합니다."

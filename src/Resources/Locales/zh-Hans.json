@@ -454,7 +454,8 @@
       "meshTabName": "网 格",
       "behaviorsTabName": "行为",
       "twinTabName": "其他双胞胎",
-      "formSubTitle": ""
+      "formSubTitle": "",
+      "meshRequired": "至少需要一个网格"
     },
     "elementFormMeshTab": {
       "noDataMessage": "从 3D 模型中为此元素选择关联的网格。"

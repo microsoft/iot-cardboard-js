@@ -454,7 +454,8 @@
       "meshTabName": "メッシュ",
       "behaviorsTabName": "動作",
       "twinTabName": "その他の双子",
-      "formSubTitle": ""
+      "formSubTitle": "",
+      "meshRequired": "少なくとも 1 つのメッシュが必要です。"
     },
     "elementFormMeshTab": {
       "noDataMessage": "この要素の 3D モデルから関連メッシュを選択します。"

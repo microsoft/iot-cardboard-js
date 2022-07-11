@@ -454,7 +454,8 @@
       "meshTabName": "Mailles",
       "behaviorsTabName": "Comportements",
       "twinTabName": "Autres jumeaux",
-      "formSubTitle": ""
+      "formSubTitle": "",
+      "meshRequired": "Au moins un maillage est requis"
     },
     "elementFormMeshTab": {
       "noDataMessage": "Sélectionnez les maillages associés à partir de votre modèle 3D pour cet élément."

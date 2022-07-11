@@ -454,7 +454,8 @@
       "meshTabName": "Maglie",
       "behaviorsTabName": "Comportamenti",
       "twinTabName": "Altri gemelli",
-      "formSubTitle": ""
+      "formSubTitle": "",
+      "meshRequired": "È necessaria almeno una mesh"
     },
     "elementFormMeshTab": {
       "noDataMessage": "Selezionare le mesh associate dal modello 3D per questo elemento."

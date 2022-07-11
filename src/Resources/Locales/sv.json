@@ -454,7 +454,8 @@
       "meshTabName": "Maskor",
       "behaviorsTabName": "Beteenden",
       "twinTabName": "Andra tvillingar",
-      "formSubTitle": ""
+      "formSubTitle": "",
+      "meshRequired": "Minst ett nät krävs"
     },
     "elementFormMeshTab": {
       "noDataMessage": "Välj associerade maskor från din 3D-modell för det här elementet."

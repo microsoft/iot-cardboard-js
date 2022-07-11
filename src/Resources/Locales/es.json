@@ -454,7 +454,8 @@
       "meshTabName": "Mallas",
       "behaviorsTabName": "Comportamientos",
       "twinTabName": "Otros gemelos",
-      "formSubTitle": ""
+      "formSubTitle": "",
+      "meshRequired": "Se requiere al menos una malla"
     },
     "elementFormMeshTab": {
       "noDataMessage": "Seleccione las mallas asociadas de su modelo 3D para este elemento."

@@ -454,7 +454,8 @@
       "meshTabName": "Maschen",
       "behaviorsTabName": "Verhaltensweisen",
       "twinTabName": "Andere Zwillinge",
-      "formSubTitle": ""
+      "formSubTitle": "",
+      "meshRequired": "Mindestens ein Netz ist erforderlich"
     },
     "elementFormMeshTab": {
       "noDataMessage": "Wählen Sie die zugehörigen Netze aus dem 3D-Modell für dieses Element aus."

@@ -454,7 +454,8 @@
       "meshTabName": "Siatki",
       "behaviorsTabName": "Zachowania",
       "twinTabName": "Inne bliźnięta",
-      "formSubTitle": ""
+      "formSubTitle": "",
+      "meshRequired": "Wymagana jest co najmniej jedna siatka"
     },
     "elementFormMeshTab": {
       "noDataMessage": "Wybierz skojarzone siatki z modelu 3D dla tego elementu."

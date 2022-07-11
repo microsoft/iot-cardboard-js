@@ -454,7 +454,8 @@
       "meshTabName": "Sítě",
       "behaviorsTabName": "Chování",
       "twinTabName": "Ostatní dvojčata",
-      "formSubTitle": ""
+      "formSubTitle": "",
+      "meshRequired": "Je vyžadována alespoň jedna síť"
     },
     "elementFormMeshTab": {
       "noDataMessage": "Vyberte přidružené mřížky z 3D modelu pro tento prvek."

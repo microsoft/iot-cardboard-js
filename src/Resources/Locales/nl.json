@@ -454,7 +454,8 @@
       "meshTabName": "Netten",
       "behaviorsTabName": "Gedrag",
       "twinTabName": "Andere tweelingen",
-      "formSubTitle": ""
+      "formSubTitle": "",
+      "meshRequired": "Ten minste één gaas is vereist"
     },
     "elementFormMeshTab": {
       "noDataMessage": "Selecteer gekoppelde netten in uw 3D-model voor dit element."

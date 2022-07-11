@@ -454,7 +454,8 @@
       "meshTabName": "Сети",
       "behaviorsTabName": "Поведения",
       "twinTabName": "Другие близнецы",
-      "formSubTitle": ""
+      "formSubTitle": "",
+      "meshRequired": "Требуется хотя бы одна сетка"
     },
     "elementFormMeshTab": {
       "noDataMessage": "Выберите связанные сетки из 3D-модели для этого элемента."

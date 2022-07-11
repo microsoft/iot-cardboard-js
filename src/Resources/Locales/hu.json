@@ -454,7 +454,8 @@
       "meshTabName": "Rácsvonalak",
       "behaviorsTabName": "Viselkedésmódok",
       "twinTabName": "Egyéb ikrek",
-      "formSubTitle": ""
+      "formSubTitle": "",
+      "meshRequired": "Legalább egy hálószem szükséges"
     },
     "elementFormMeshTab": {
       "noDataMessage": "Válassza ki a kapcsolódó hálószemeket az elemhez tartozó 3D modellből."
