@@ -56,7 +56,6 @@ const PropertySelector = ({
         model ? model['@type'] : null
     );
     const addNestedProperty = (tag: string, lastPropertyFocusedCopy) => {
-        console.log('add nested property');
         const modelCopy = deepCopy(model);
         const schemaCopy = deepCopy(lastPropertyFocusedCopy.item.schema);
         // We select the last property focused to add nested propertyes to that specific property
@@ -82,7 +81,6 @@ const PropertySelector = ({
     };
 
     const addProperty = async (tag) => {
-        console.log('addProperty', tag);
         const modelCopy = deepCopy(model);
         modelCopy[propertiesKeyName] = [
             ...modelCopy[propertiesKeyName],
@@ -102,7 +100,6 @@ const PropertySelector = ({
     };
 
     const onTagClick = (tag: string) => {
-        console.log('onTagClick', tag);
         if (onTagClickCallback) {
             onTagClickCallback();
         }
@@ -110,7 +107,6 @@ const PropertySelector = ({
         const lastPropertyFocusedCopy = deepCopy(lastPropertyFocused);
 
         const onClick = () => {
-            console.log('lastPropertyFocusedCopy', lastPropertyFocusedCopy);
             lastPropertyFocused &&
             typeof lastPropertyFocused.item.schema === 'object'
                 ? addNestedProperty(tag, lastPropertyFocusedCopy)
@@ -183,8 +179,9 @@ const PropertySelector = ({
                                 ? tag.type === 'object'
                                 : tag.type !== 'object'
                         )
-                        .map((tag, index) => (
+                        .map((tag) => (
                             <ActionButton
+                                key={tag.name}
                                 onClick={() => {
                                     onTagClick(tag.name);
                                 }}
@@ -193,7 +190,6 @@ const PropertySelector = ({
                                 }}
                             >
                                 <Svg
-                                    key={index}
                                     className={
                                         propertyInspectorStyles.propertyTag
                                     }
@@ -205,51 +201,43 @@ const PropertySelector = ({
                 </div>
                 <Separator styles={propertySelectorSeparatorStyles} vertical />
                 <div className={propertyInspectorStyles.propertyTagsWrapFirst}>
-                    {propertySelectorData.propertyTags.primitive.map(
-                        (tag, i) => (
-                            <ActionButton
-                                onClick={() => {
-                                    onTagClick(tag.name);
-                                }}
-                                onKeyPress={() => {
-                                    onTagClick(tag.name);
-                                }}
-                            >
-                                <Svg
-                                    key={i}
-                                    className={
-                                        propertyInspectorStyles.propertyTag
-                                    }
-                                    src={tag.icon}
-                                    title={t(tag.title)}
-                                ></Svg>
-                            </ActionButton>
-                        )
-                    )}
+                    {propertySelectorData.propertyTags.primitive.map((tag) => (
+                        <ActionButton
+                            key={tag.name}
+                            onClick={() => {
+                                onTagClick(tag.name);
+                            }}
+                            onKeyPress={() => {
+                                onTagClick(tag.name);
+                            }}
+                        >
+                            <Svg
+                                className={propertyInspectorStyles.propertyTag}
+                                src={tag.icon}
+                                title={t(tag.title)}
+                            ></Svg>
+                        </ActionButton>
+                    ))}
                 </div>
                 <Separator styles={propertySelectorSeparatorStyles} vertical />
                 <div className={propertyInspectorStyles.propertyTagsWrapThird}>
-                    {propertySelectorData.propertyTags.geospatial.map(
-                        (tag, i) => (
-                            <ActionButton
-                                onClick={() => {
-                                    onTagClick(tag.name);
-                                }}
-                                onKeyPress={() => {
-                                    onTagClick(tag.name);
-                                }}
-                            >
-                                <Svg
-                                    key={i}
-                                    className={
-                                        propertyInspectorStyles.propertyTag
-                                    }
-                                    src={tag.icon}
-                                    title={t(tag.title)}
-                                ></Svg>
-                            </ActionButton>
-                        )
-                    )}
+                    {propertySelectorData.propertyTags.geospatial.map((tag) => (
+                        <ActionButton
+                            key={tag.name}
+                            onClick={() => {
+                                onTagClick(tag.name);
+                            }}
+                            onKeyPress={() => {
+                                onTagClick(tag.name);
+                            }}
+                        >
+                            <Svg
+                                className={propertyInspectorStyles.propertyTag}
+                                src={tag.icon}
+                                title={t(tag.title)}
+                            ></Svg>
+                        </ActionButton>
+                    ))}
                 </div>
             </Stack>
         </div>

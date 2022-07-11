@@ -66,6 +66,8 @@ const OATHeader = ({ elements, dispatch, state }: OATHeaderProps) => {
         namespace
     } = state;
     const uploadInputRef = useRef(null);
+    const redoButtonRef = useRef(null);
+    const undoButtonRef = useRef(null);
 
     const downloadModelExportBlob = (blob: Blob) => {
         const blobURL = window.URL.createObjectURL(blob);
@@ -213,14 +215,16 @@ const OATHeader = ({ elements, dispatch, state }: OATHeaderProps) => {
             text: t('OATHeader.undo'),
             iconProps: { iconName: 'Undo' },
             onClick: undo,
-            disabled: !canUndo
+            disabled: !canUndo,
+            componentRef: undoButtonRef
         },
         {
             key: 'Redo',
             text: t('OATHeader.redo'),
             iconProps: { iconName: 'Redo' },
             onClick: redo,
-            disabled: !canRedo
+            disabled: !canRedo,
+            componentRef: redoButtonRef
         },
         {
             key: 'DeleteAll',
@@ -393,6 +397,33 @@ const OATHeader = ({ elements, dispatch, state }: OATHeaderProps) => {
     useEffect(() => {
         onFilesUpload(acceptedFiles);
     }, [acceptedFiles]);
+
+    const onKeyDown = (e) => {
+        //Prevent event automatically repeating due to key being held down
+        if (e.repeat) {
+            return;
+        }
+
+        if ((e.key === 'z' && e.ctrlKey) || (e.key === 'z' && e.metaKey)) {
+            if (e.shiftKey) {
+                redoButtonRef.current['_onClick']();
+            } else {
+                undoButtonRef.current['_onClick']();
+            }
+        }
+
+        if ((e.key === 'y' && e.ctrlKey) || (e.key === 'y' && e.metaKey)) {
+            redoButtonRef.current['_onClick']();
+        }
+    };
+
+    useEffect(() => {
+        // Set listener to undo/redo buttons on key press
+        document.addEventListener('keydown', onKeyDown);
+        return () => {
+            document.removeEventListener('keydown', onKeyDown);
+        };
+    }, [onKeyDown]);
 
     return (
         <div className={headerStyles.container}>

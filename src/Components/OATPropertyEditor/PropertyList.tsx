@@ -61,6 +61,7 @@ export const PropertyList = ({
     const [lastPropertyFocused, setLastPropertyFocused] = useState(null);
     const dragItem = useRef(null);
     const dragNode = useRef(null);
+    const dragEnteredItem = useRef(null);
     const addPropertyLabelRef = useRef(null);
     const [propertySelectorVisible, setPropertySelectorVisible] = useState(
         false
@@ -80,7 +81,6 @@ export const PropertyList = ({
     );
 
     const onPropertyItemDropOnTemplateList = () => {
-        console.log('Dropped on template list');
         const newTemplate = templates ? deepCopy(templates) : [];
         newTemplate.push(
             model[propertiesKeyName][draggedPropertyItemRef.current]
@@ -95,6 +95,20 @@ export const PropertyList = ({
         if (enteredTemplateRef.current !== null) {
             onPropertyItemDropOnTemplateList();
         }
+
+        const newModel = deepCopy(model);
+        //  Replace entered item with dragged item
+        // --> Remove dragged item from model and then place it on entered item's position
+        newModel[propertiesKeyName].splice(
+            dragEnteredItem.current,
+            0,
+            newModel[propertiesKeyName].splice(dragItem.current, 1)[0]
+        );
+        dispatch({
+            type: SET_OAT_PROPERTY_EDITOR_MODEL,
+            payload: newModel
+        });
+
         dragNode.current.removeEventListener('dragend', onDragEnd);
         dragItem.current = null;
         dragNode.current = null;
@@ -106,20 +120,7 @@ export const PropertyList = ({
     const onDragEnter = (e, i) => {
         if (e.target !== dragNode.current) {
             //  Entered item is not the same as dragged node
-
-            const newModel = deepCopy(model);
-            //  Replace entered item with dragged item
-            // --> Remove dragged item from model and then place it on entered item's position
-            newModel[propertiesKeyName].splice(
-                i,
-                0,
-                newModel[propertiesKeyName].splice(dragItem.current, 1)[0]
-            );
-            dragItem.current = i;
-            dispatch({
-                type: SET_OAT_PROPERTY_EDITOR_MODEL,
-                payload: newModel
-            });
+            dragEnteredItem.current = i;
         }
     };
 

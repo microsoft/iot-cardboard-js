@@ -44,7 +44,8 @@ const classNames = {
     handleContentComponent: `${classPrefix}-handle-content-component`,
     handleContentHidden: `${classPrefix}-handle-content-hidden`,
     handleContentIcon: `${classPrefix}-handle-content-icon`,
-    handleContentIconHidden: `${classPrefix}-handle-content-icon-hidden`
+    handleContentIconHidden: `${classPrefix}-handle-content-icon-hidden`,
+    placeholderText: `${classPrefix}-placeholder-text`
 };
 
 export const getGraphViewerStyles = () => {
@@ -158,6 +159,13 @@ export const getGraphViewerStyles = () => {
                     background: 'transparent',
                     border: '0px'
                 }
+            } as IStyle
+        ],
+        placeholderText: [
+            classNames.placeholderText,
+            {
+                color: theme.semanticColors.inputPlaceholderText,
+                opacity: '.9'
             } as IStyle
         ],
         loadingOverlay: [
