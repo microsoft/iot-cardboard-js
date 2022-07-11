@@ -401,7 +401,6 @@ const OATHeader = ({ elements, dispatch, state }: OATHeaderProps) => {
     const onKeyDown = (e) => {
         //Prevent event automatically repeating due to key being held down
         if (e.repeat) {
-            console.log('repeat return');
             return;
         }
 
