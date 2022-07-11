@@ -295,6 +295,14 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
         }
     }, [selectedOption]);
 
+    useEffect(() => {
+        console.log('mounted');
+
+        return () => {
+            console.log('unmounted');
+        };
+    }, []);
+
     const parsedOptionText = useCallback((value) => {
         if (!value) return value;
 

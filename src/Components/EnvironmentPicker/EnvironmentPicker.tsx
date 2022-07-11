@@ -52,6 +52,7 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
     const [isDialogHidden, { toggle: toggleIsDialogHidden }] = useBoolean(
         Boolean(props.isDialogHidden)
     );
+    const [firstTimeVisible, setFirstTimeVisible] = useState(false);
     const dialogResettingValuesTimeoutRef = useRef(null);
     const hasFetchedResources = useRef({
         adtInstances: false,
@@ -98,6 +99,12 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
             toggleIsDialogHidden();
         }
     }, [props.isDialogHidden]);
+
+    useEffect(() => {
+        if (!isDialogHidden) {
+            setFirstTimeVisible(true);
+        }
+    }, [isDialogHidden]);
 
     // set initial values based on props and local storage
     useEffect(() => {
@@ -405,130 +412,149 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
             )}
 
             <Dialog
-                hidden={isDialogHidden}
+                hidden={false}
+                styles={{
+                    root: { display: !isDialogHidden ? 'flex' : 'none' }
+                }}
                 onDismiss={handleOnDismiss}
                 dialogContentProps={dialogContentProps}
                 modalProps={modalProps}
             >
-                <div className="cb-environment-picker-dialog-form">
-                    <ResourcePicker
-                        styles={comboBoxSubComponentStyles}
-                        adapter={props.adapter}
-                        resourceType={AzureResourceTypes.DigitalTwinInstance}
-                        requiredAccessRoles={{
-                            enforcedRoleIds: [],
-                            interchangeableRoleIds: [
-                                AzureAccessPermissionRoles[
-                                    'Azure Digital Twins Data Owner'
-                                ],
-                                AzureAccessPermissionRoles[
-                                    'Azure Digital Twins Data Reader'
-                                ]
-                            ]
-                        }}
-                        shouldFetchResourcesOnMount={
-                            !hasFetchedResources.current.adtInstances
-                        }
-                        label={t('environmentPicker.environmentUrl')}
-                        displayField={AzureResourceDisplayFields.url}
-                        additionalOptions={environmentUrls}
-                        selectedOption={environmentUrlToEdit}
-                        onResourceChange={handleOnEnvironmentResourceChange}
-                        onResourcesLoaded={(_resources) => {
-                            hasFetchedResources.current.adtInstances = true;
-                        }}
-                    />
-                    {props.storage && (
-                        <>
-                            <ResourcePicker
-                                styles={comboBoxSubComponentStyles}
-                                adapter={props.adapter}
-                                resourceType={AzureResourceTypes.StorageAccount}
-                                requiredAccessRoles={{
-                                    enforcedRoleIds: [],
-                                    interchangeableRoleIds: [
-                                        AzureAccessPermissionRoles[
-                                            'Contributor'
-                                        ],
-                                        AzureAccessPermissionRoles['Owner']
-                                    ]
-                                }}
-                                shouldFetchResourcesOnMount={
-                                    !hasFetchedResources.current.storageAccounts
-                                }
-                                label={t('environmentPicker.storageAccountUrl')}
-                                displayField={AzureResourceDisplayFields.url}
-                                selectedOption={
-                                    storageAccountToEdit?.text ??
-                                    selectedStorageAccountUrlRef.current
-                                }
-                                onResourceChange={
-                                    handleOnStorageAccountResourceChange
-                                }
-                                onResourcesLoaded={(resources) => {
-                                    hasFetchedResources.current.storageAccounts = true;
-                                    setStorageAccountToEdit(
-                                        resources.find(
-                                            (r) =>
-                                                r.properties?.primaryEndpoints
-                                                    ?.blob ===
-                                                selectedStorageAccountUrlRef?.current
-                                        )
-                                    );
-                                }}
-                            />
-
-                            <ResourcePicker
-                                key={storageAccountToEdit?.id}
-                                styles={comboBoxSubComponentStyles}
-                                disabled={
-                                    !hasFetchedResources.current.storageAccounts
-                                }
-                                adapter={props.adapter}
-                                resourceType={
-                                    AzureResourceTypes.StorageBlobContainer
-                                }
-                                requiredAccessRoles={{
-                                    enforcedRoleIds: [
-                                        AzureAccessPermissionRoles['Reader']
+                {firstTimeVisible && (
+                    <div className="cb-environment-picker-dialog-form">
+                        <ResourcePicker
+                            styles={comboBoxSubComponentStyles}
+                            adapter={props.adapter}
+                            resourceType={
+                                AzureResourceTypes.DigitalTwinInstance
+                            }
+                            requiredAccessRoles={{
+                                enforcedRoleIds: [],
+                                interchangeableRoleIds: [
+                                    AzureAccessPermissionRoles[
+                                        'Azure Digital Twins Data Owner'
                                     ],
-                                    interchangeableRoleIds: [
-                                        AzureAccessPermissionRoles[
-                                            'Storage Blob Data Owner'
-                                        ],
-                                        AzureAccessPermissionRoles[
-                                            'Storage Blob Data Contributor'
-                                        ]
+                                    AzureAccessPermissionRoles[
+                                        'Azure Digital Twins Data Reader'
                                     ]
-                                }}
-                                additionalResourceSearchParams={{
-                                    storageAccountId: storageAccountToEdit?.id
-                                }}
-                                shouldFetchResourcesOnMount={
-                                    !hasFetchedResources.current
-                                        .storageBlobContainers
-                                }
-                                label={t(
-                                    'environmentPicker.storageContainerName'
-                                )}
-                                displayField={AzureResourceDisplayFields.name}
-                                selectedOption={
-                                    containerUrlToEdit
-                                        ? new URL(
-                                              containerUrlToEdit
-                                          ).pathname.split('/')[1]
-                                        : undefined
-                                }
-                                onResourceChange={
-                                    handleOnStorageContainerResourceChange
-                                }
-                                onResourcesLoaded={(_resources) => {
-                                    hasFetchedResources.current.storageBlobContainers = true;
-                                }}
-                            />
-                        </>
-                    )}
-                </div>
+                                ]
+                            }}
+                            shouldFetchResourcesOnMount={
+                                !hasFetchedResources.current.adtInstances
+                            }
+                            label={t('environmentPicker.environmentUrl')}
+                            displayField={AzureResourceDisplayFields.url}
+                            additionalOptions={environmentUrls}
+                            selectedOption={environmentUrlToEdit}
+                            onResourceChange={handleOnEnvironmentResourceChange}
+                            onResourcesLoaded={(_resources) => {
+                                hasFetchedResources.current.adtInstances = true;
+                            }}
+                        />
+                        {props.storage && (
+                            <>
+                                <ResourcePicker
+                                    styles={comboBoxSubComponentStyles}
+                                    adapter={props.adapter}
+                                    resourceType={
+                                        AzureResourceTypes.StorageAccount
+                                    }
+                                    requiredAccessRoles={{
+                                        enforcedRoleIds: [],
+                                        interchangeableRoleIds: [
+                                            AzureAccessPermissionRoles[
+                                                'Contributor'
+                                            ],
+                                            AzureAccessPermissionRoles['Owner']
+                                        ]
+                                    }}
+                                    shouldFetchResourcesOnMount={
+                                        !hasFetchedResources.current
+                                            .storageAccounts
+                                    }
+                                    label={t(
+                                        'environmentPicker.storageAccountUrl'
+                                    )}
+                                    displayField={
+                                        AzureResourceDisplayFields.url
+                                    }
+                                    selectedOption={
+                                        storageAccountToEdit?.text ??
+                                        selectedStorageAccountUrlRef.current
+                                    }
+                                    onResourceChange={
+                                        handleOnStorageAccountResourceChange
+                                    }
+                                    onResourcesLoaded={(resources) => {
+                                        hasFetchedResources.current.storageAccounts = true;
+                                        setStorageAccountToEdit(
+                                            resources.find(
+                                                (r) =>
+                                                    r.properties
+                                                        ?.primaryEndpoints
+                                                        ?.blob ===
+                                                    selectedStorageAccountUrlRef?.current
+                                            )
+                                        );
+                                    }}
+                                />
+
+                                <ResourcePicker
+                                    key={storageAccountToEdit?.id}
+                                    styles={comboBoxSubComponentStyles}
+                                    disabled={
+                                        !hasFetchedResources.current
+                                            .storageAccounts
+                                    }
+                                    adapter={props.adapter}
+                                    resourceType={
+                                        AzureResourceTypes.StorageBlobContainer
+                                    }
+                                    requiredAccessRoles={{
+                                        enforcedRoleIds: [
+                                            AzureAccessPermissionRoles['Reader']
+                                        ],
+                                        interchangeableRoleIds: [
+                                            AzureAccessPermissionRoles[
+                                                'Storage Blob Data Owner'
+                                            ],
+                                            AzureAccessPermissionRoles[
+                                                'Storage Blob Data Contributor'
+                                            ]
+                                        ]
+                                    }}
+                                    additionalResourceSearchParams={{
+                                        storageAccountId:
+                                            storageAccountToEdit?.id
+                                    }}
+                                    shouldFetchResourcesOnMount={
+                                        !hasFetchedResources.current
+                                            .storageBlobContainers
+                                    }
+                                    label={t(
+                                        'environmentPicker.storageContainerName'
+                                    )}
+                                    displayField={
+                                        AzureResourceDisplayFields.name
+                                    }
+                                    selectedOption={
+                                        containerUrlToEdit
+                                            ? new URL(
+                                                  containerUrlToEdit
+                                              ).pathname.split('/')[1]
+                                            : undefined
+                                    }
+                                    onResourceChange={
+                                        handleOnStorageContainerResourceChange
+                                    }
+                                    onResourcesLoaded={(_resources) => {
+                                        hasFetchedResources.current.storageBlobContainers = true;
+                                    }}
+                                />
+                            </>
+                        )}
+                    </div>
+                )}
                 <DialogFooter>
                     <Link
                         styles={{
