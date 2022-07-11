@@ -459,9 +459,6 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
                     userData
                 );
                 let resources: Array<IAzureResource> = getResourcesResult.getData();
-                console.log(
-                    'Number of all resources before take: ' + resources.length
-                );
 
                 const resourcesWithPermissions: Array<IAzureResource> = [];
                 if (resources?.length) {
@@ -507,11 +504,6 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
                         }
                     });
                 }
-
-                console.log(
-                    'Number of resources with permission: ' +
-                        resourcesWithPermissions.length
-                );
 
                 return new AzureResourcesData(resourcesWithPermissions);
             } catch (error) {
