@@ -211,7 +211,7 @@ function SceneView(props: ISceneViewProps, ref) {
     const lastCameraPositionRef = useRef('');
     const markersRef = useRef<Marker[]>(null);
     const gizmoManagerRef = useRef<BABYLON.GizmoManager>(undefined);
-    const gizmoTransformItemRef = useRef<TransformedElementItem>(null);
+    const gizmoTransformItemDraftRef = useRef<TransformedElementItem>(null);
 
     const [markersAndPositions, setMarkersAndPositions] = useState<
         { marker: Marker; left: number; top: number }[]
@@ -1668,7 +1668,7 @@ function SceneView(props: ISceneViewProps, ref) {
                 (scene ? ' with scene' : ' no scene')
         );
 
-        if (scene && !isLoading) {
+        if (scene && gizmoElementItem && !isLoading) {
             if (debugLogging) {
                 console.time('adding gizmo to meshes');
             }
@@ -1678,25 +1678,29 @@ function SceneView(props: ISceneViewProps, ref) {
                     gizmoManagerRef.current = new BABYLON.GizmoManager(
                         scene,
                         1,
-                        utilLayer.current
+                        new BABYLON.UtilityLayerRenderer(scene)
                     );
                 }
                 const gizmoManager = gizmoManagerRef.current;
 
-                if (!gizmoElementItem) {
-                    // if no gizmoElementItem, attach to null meshes to clear
+                // should be triggered upon leaving transforms tab
+                if (!gizmoElementItem?.parentMeshId) {
+                    // attach to null meshes to clear
                     gizmoManager.attachToMesh(null);
-                    // will also be triggered on leaving the tab, so snap parent mesh back to original state
-                    if (gizmoTransformItemRef.current?.parentMeshId) {
+                    // snap parent mesh back to original state if a gizmoTransformItemDraftRef exists
+                    // probably temporary -- ideally, would want to save transform data with mesh/under behavior
+                    if (gizmoTransformItemDraftRef.current?.parentMeshId) {
                         const parentMesh: BABYLON.Mesh =
                             meshMap.current?.[
-                                gizmoTransformItemRef.current.parentMeshId
+                                gizmoTransformItemDraftRef.current.parentMeshId
                             ];
                         parentMesh.rotationQuaternion = null;
                         const position =
-                            gizmoTransformItemRef.current.original.position;
+                            gizmoTransformItemDraftRef.current.original
+                                .position;
                         const rotation =
-                            gizmoTransformItemRef.current.original.rotation;
+                            gizmoTransformItemDraftRef.current.original
+                                .rotation;
                         parentMesh.position = new BABYLON.Vector3(
                             position.x,
                             position.y,
@@ -1732,7 +1736,7 @@ function SceneView(props: ISceneViewProps, ref) {
                     let originalTransform: TransformInfo = null;
 
                     // capture original rotation/position when gizmoManager attaches to mesh
-                    scene.onBeforeRenderObservable.addOnce(() => {
+                    scene.onAfterRenderObservable.addOnce(() => {
                         const attachedMesh =
                             gizmoManager.gizmos.rotationGizmo.attachedMesh;
 
@@ -1752,9 +1756,9 @@ function SceneView(props: ISceneViewProps, ref) {
 
                         // allows transform values to persist clicking to and away from tab
                         // may need changing if we allow multiple elements in a sceneVisual to be gizmo'd
-                        if (gizmoTransformItemRef.current) {
+                        if (gizmoTransformItemDraftRef.current) {
                             const transform =
-                                gizmoTransformItemRef.current.transform;
+                                gizmoTransformItemDraftRef.current.transform;
                             attachedMesh.rotation.x = transform.rotation.x;
                             attachedMesh.rotation.y = transform.rotation.y;
                             attachedMesh.rotation.z = transform.rotation.z;
@@ -1763,7 +1767,7 @@ function SceneView(props: ISceneViewProps, ref) {
                             attachedMesh.position.y = transform.position.y;
                             attachedMesh.position.z = transform.position.z;
                         } else {
-                            gizmoTransformItemRef.current = {
+                            gizmoTransformItemDraftRef.current = {
                                 meshIds: deepCopy(meshIds),
                                 parentMeshId: parentMeshId,
                                 original: originalTransform,
@@ -1772,7 +1776,7 @@ function SceneView(props: ISceneViewProps, ref) {
                         }
 
                         setGizmoTransformItem(
-                            gizmoTransformItemRef.current.transform
+                            gizmoTransformItemDraftRef.current.transform
                         );
                     });
 
@@ -1785,13 +1789,13 @@ function SceneView(props: ISceneViewProps, ref) {
                             gizmoManager.gizmos.positionGizmo.attachedMesh;
 
                         // this is the main place where transforms get set, so round here
-                        gizmoTransformItemRef.current.transform.position = {
+                        gizmoTransformItemDraftRef.current.transform.position = {
                             x: Math.round(attachedMesh.position.x),
                             y: Math.round(attachedMesh.position.y),
                             z: Math.round(attachedMesh.position.z)
                         };
                         setGizmoTransformItem(
-                            gizmoTransformItemRef.current.transform
+                            gizmoTransformItemDraftRef.current.transform
                         );
                     });
 
@@ -1802,13 +1806,13 @@ function SceneView(props: ISceneViewProps, ref) {
                             gizmoManager.gizmos.positionGizmo.attachedMesh;
 
                         // this is the main place where transforms get set, so round here
-                        gizmoTransformItemRef.current.transform.rotation = {
+                        gizmoTransformItemDraftRef.current.transform.rotation = {
                             x: Number(attachedMesh.rotation.x.toFixed(2)),
                             y: Number(attachedMesh.rotation.y.toFixed(2)),
                             z: Number(attachedMesh.rotation.z.toFixed(2))
                         };
                         setGizmoTransformItem(
-                            gizmoTransformItemRef.current.transform
+                            gizmoTransformItemDraftRef.current.transform
                         );
                     });
                 }
@@ -1821,6 +1825,12 @@ function SceneView(props: ISceneViewProps, ref) {
         }
 
         return () => {
+            gizmoManagerRef.current?.dispose();
+            gizmoManagerRef.current = null;
+            // only cleanup if exiting edit behavior, not when switching tabs
+            if (!gizmoElementItem) {
+                gizmoTransformItemDraftRef.current = null;
+            }
             debugLog('debug', 'Mesh gizmo cleanup');
         };
     }, [scene, gizmoElementItem, isLoading]);
@@ -1829,14 +1839,14 @@ function SceneView(props: ISceneViewProps, ref) {
     useEffect(() => {
         if (scene && gizmoTransformItem && !isLoading) {
             try {
-                if (gizmoTransformItemRef.current) {
-                    gizmoTransformItemRef.current.transform = deepCopy(
+                if (gizmoTransformItemDraftRef.current) {
+                    gizmoTransformItemDraftRef.current.transform = deepCopy(
                         gizmoTransformItem
                     );
 
                     const parentMesh: BABYLON.Mesh =
                         meshMap.current?.[
-                            gizmoTransformItemRef.current.parentMeshId
+                            gizmoTransformItemDraftRef.current.parentMeshId
                         ];
 
                     // should update element when user inputs value in field
@@ -1854,10 +1864,6 @@ function SceneView(props: ISceneViewProps, ref) {
                 );
             }
         }
-
-        return () => {
-            debugLog('debug', 'Gizmo transform item cleanup');
-        };
     }, [scene, gizmoTransformItem, isLoading]);
 
     const theme = useTheme();
