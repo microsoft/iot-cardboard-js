@@ -108,8 +108,8 @@ const AlertsTab: React.FC = () => {
         }
         return () => {
             // clean up gizmo after exiting tab
-            // setGizmoElementItem({ parentMeshId: null, meshIds: null });
-            setGizmoElementItem(null);
+            setGizmoElementItem({ parentMeshId: null, meshIds: null });
+            // setGizmoElementItem(null);
         };
     }, [selectedElements]);
 
