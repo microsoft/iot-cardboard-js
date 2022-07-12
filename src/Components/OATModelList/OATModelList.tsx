@@ -82,11 +82,10 @@ const OATModelList = ({
     useEffect(() => {
         if (model) {
             currentNodeId.current = model['@id'];
-            setItems([...elements]);
         } else {
             currentNodeId.current = null;
-            setItems([...elements]);
         }
+        setItems([...elements]);
     }, [model]);
 
     const onSelectedClick = (id: string) => {
