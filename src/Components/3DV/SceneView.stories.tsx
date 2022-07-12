@@ -35,6 +35,21 @@ export default {
     }
 };
 
+export const SceneViewTransform = () => {
+    return (
+        <div>
+            <div style={wrapperStyle}>
+                <div style={{ flex: 1, width: '100%' }}>
+                    <SceneView
+                        modelUrl="https://cardboardresources.blob.core.windows.net/cardboard-mock-files/OutdoorTanks.gltf"
+                        transformedElementItems={[]}
+                    />
+                </div>
+            </div>
+        </div>
+    );
+};
+
 const defaultGizmoElementItems: TransformedElementItem = {
     meshIds: ['tank6_LOD0.003_primitive0', 'tank6_LOD0.003_primitive1'],
     parentMeshId: 'tank6_LOD0.003_primitive0'

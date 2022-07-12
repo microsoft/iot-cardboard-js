@@ -24,6 +24,7 @@ import {
     Marker,
     SceneViewCallbackHandler,
     TransformedElementItem,
+    CustomMeshItem,
     TransformInfo
 } from '../../Models/Classes/SceneView.types';
 import {
@@ -163,6 +164,7 @@ function SceneView(props: ISceneViewProps, ref) {
         setGizmoTransformItem,
         showHoverOnSelected,
         showMeshesOnHover,
+        transformedElementItems,
         unzoomedMeshOpacity,
         zoomToMeshIds
     } = props;
@@ -210,6 +212,7 @@ function SceneView(props: ISceneViewProps, ref) {
     const zoomedMeshesRef = useRef([]);
     const lastCameraPositionRef = useRef('');
     const markersRef = useRef<Marker[]>(null);
+    const previouslyTransformedElements = useRef<CustomMeshItem[]>([]);
     const gizmoManagerRef = useRef<BABYLON.GizmoManager>(undefined);
     const gizmoTransformItemDraftRef = useRef<TransformedElementItem>(null);
 
@@ -1659,6 +1662,156 @@ function SceneView(props: ISceneViewProps, ref) {
             }
         };
     }, [outlinedMeshitems, meshMap.current]);
+
+    // SETUP LOGIC FOR HANDLING TRANSFORMING MESHES
+    useEffect(() => {
+        debugLog(
+            'debug',
+            'transform meshes based on transformedMeshItems prop' +
+                (scene ? ' with scene' : ' no scene')
+        );
+
+        if (scene && transformedElementItems && !isLoading) {
+            if (debugLogging) {
+                console.time('transforming meshes');
+                // console.log('tr', transformedMeshItems);
+                transformedElementItems.forEach((transformedElementItem) => {
+                    console.log(transformedElementItem);
+                });
+            }
+            try {
+                console.log(
+                    'previously transformed elements',
+                    previouslyTransformedElements
+                );
+                // if there is a parent mesh in previouslyTransformedElements BUT NOT in transformedElementItems
+                // (meaning the element had been previously transformed but the transform is now turned off)
+                // reset the element to its original state (which had been preserved in previouslyTransformedElements)
+                // and remove element from previouslyTransformedElements
+
+                // grab all parentMeshIds from the new transformedElementsItems
+                const tEIParentMeshIds = transformedElementItems.map(
+                    (tEI) => tEI.parentMeshId
+                );
+                // iterate through all previously transformed elements
+                previouslyTransformedElements.current.forEach(
+                    (previouslyTransformedElement) => {
+                        // get mesh id for the previously transformed element
+                        const prevTransParentMeshId =
+                            previouslyTransformedElement.meshId;
+                        // if the parentMeshIds to be transformed DOES NOT include the previouslyTransformedParentMeshId,
+                        // then that means the transformation no longer applies and the element should be reset
+                        if (!tEIParentMeshIds.includes(prevTransParentMeshId)) {
+                            const prevTransParentMesh: BABYLON.Mesh =
+                                meshMap.current?.[prevTransParentMeshId];
+                            // setting rotation back to original
+                            prevTransParentMesh.rotationQuaternion = null;
+                            prevTransParentMesh.rotation.x =
+                                previouslyTransformedElement.transform.rotation.x;
+                            prevTransParentMesh.rotation.y =
+                                previouslyTransformedElement.transform.rotation.y;
+                            prevTransParentMesh.rotation.z =
+                                previouslyTransformedElement.transform.rotation.z;
+                            // setting position back to original
+                            prevTransParentMesh.position.x =
+                                previouslyTransformedElement.transform.position.x;
+                            prevTransParentMesh.position.y =
+                                previouslyTransformedElement.transform.position.y;
+                            prevTransParentMesh.position.z =
+                                previouslyTransformedElement.transform.position.z;
+
+                            console.log(
+                                'previously transformed parent mesh',
+                                prevTransParentMesh
+                            );
+
+                            // set up to remove from previouslyTransformedElements
+                            previouslyTransformedElement.meshId = null;
+                        }
+                    }
+                );
+                // remove all elements with parent mesh id of null (aka was already reset)
+                previouslyTransformedElements.current = previouslyTransformedElements.current.filter(
+                    (cPTE) => cPTE.meshId != null
+                );
+
+                // concern: how to choose parent? will determine pivot point
+                // could be different than one user chooses on build mode
+                // also: is parent relationship maintained ... ? should it be deleted after somehow??
+                // maybe save pivot point in absolute (i.e. world) coordinates under extensionProperties too?
+                transformedElementItems.forEach((transformedElementItem) => {
+                    const meshIds = transformedElementItem.meshIds;
+                    const parentMeshId = transformedElementItem.parentMeshId;
+                    meshIds.forEach((meshId) => {
+                        if (meshId != parentMeshId) {
+                            // set parent of each mesh (that isn't the designated parent) to parent mesh
+                            meshMap.current?.[meshId].setParent(
+                                meshMap.current?.[parentMeshId]
+                            );
+                        }
+                    });
+                    transformMesh(transformedElementItem); // only call transform on parent mesh
+                });
+            } catch {
+                console.warn('unable to transform mesh');
+            }
+            if (debugLogging) {
+                console.timeEnd('transforming meshes');
+            }
+        }
+
+        return () => {
+            debugLog('debug', 'Mesh transform cleanup'); // do i need to do anything here?
+        };
+    }, [transformedElementItems, isLoading]);
+
+    const transformMesh = (transformedElementItem: TransformedElementItem) => {
+        const parentMesh: BABYLON.Mesh =
+            meshMap.current?.[transformedElementItem.parentMeshId];
+        if (!parentMesh) {
+            return;
+        }
+
+        parentMesh.rotationQuaternion = null; // need to do this to change mesh.rotation directly
+        console.log('old rotation', parentMesh.rotation);
+
+        const pTParentMeshIds: string[] = previouslyTransformedElements.current.map(
+            (pTE) => pTE.meshId
+        );
+
+        const transform = transformedElementItem.transform;
+
+        // only add parentMesh to previouslyTransformedElements ONCE for the ORIGINAL status
+        if (!pTParentMeshIds.includes(transformedElementItem.parentMeshId)) {
+            previouslyTransformedElements.current.push({
+                meshId: transformedElementItem.parentMeshId,
+                transform: {
+                    position: {
+                        x: parentMesh.position.x,
+                        y: parentMesh.position.y,
+                        z: parentMesh.position.z
+                    },
+                    rotation: {
+                        x: parentMesh.rotation.x,
+                        y: parentMesh.rotation.y,
+                        z: parentMesh.rotation.z
+                    }
+                }
+            });
+        }
+
+        parentMesh.rotation.x = transform.rotation.x;
+        parentMesh.rotation.y = transform.rotation.y;
+        parentMesh.rotation.z = transform.rotation.z;
+
+        parentMesh.position.x = transform.position.x;
+        parentMesh.position.y = transform.position.y;
+        parentMesh.position.z = transform.position.z;
+
+        console.log('new rotation', parentMesh.rotation);
+
+        console.log(parentMesh.id, transform);
+    };
 
     // Handle gizmoElementItem
     useEffect(() => {
