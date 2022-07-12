@@ -34,32 +34,32 @@ import {
 import { DefaultViewerModeObjectColor } from '../../Models/Constants';
 
 export const defaultADT3DSceneBuilderState: ADT3DSceneBuilderState = {
-    config: null,
-    coloredMeshItems: [],
-    outlinedMeshItems: [],
-    gizmoElementItem: null,
-    gizmoTransformItem: null,
-    widgetFormInfo: { mode: WidgetFormMode.Cancelled },
-    behaviorTwinAliasFormInfo: null,
-    elementTwinAliasFormInfo: null,
-    selectedPivotTab: ADT3DSceneTwinBindingsMode.Elements,
-    builderMode: ADT3DSceneBuilderMode.ElementsIdle,
-    elements: [],
     behaviors: [],
+    behaviorTwinAliasFormInfo: null,
+    builderMode: ADT3DSceneBuilderMode.ElementsIdle,
+    coloredMeshItems: [],
+    config: null,
+    draftBehavior: null,
+    elements: [],
+    elementTwinAliasFormInfo: null,
     enableHoverOnModel: false,
     formDirtyState: new Map<BuilderDirtyFormType, boolean>(),
+    gizmoElementItem: null,
+    gizmoTransformItem: null,
     isLayerBuilderDialogOpen: false,
     layerBuilderDialogData: null,
     objectColor: DefaultViewerModeObjectColor,
     originalBehaviorToEdit: null,
+    outlinedMeshItems: [],
     removedElements: null,
     selectedBehavior: null,
-    draftBehavior: null,
     selectedElement: null,
     selectedElements: null,
+    selectedPivotTab: ADT3DSceneTwinBindingsMode.Elements,
     showHoverOnSelected: false,
     unsavedBehaviorDialogOpen: false,
-    unsavedChangesDialogDiscardAction: null
+    unsavedChangesDialogDiscardAction: null,
+    widgetFormInfo: { mode: WidgetFormMode.Cancelled }
 };
 
 export const ADT3DSceneBuilderReducer: (

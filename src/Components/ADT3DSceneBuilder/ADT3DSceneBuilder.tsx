@@ -822,21 +822,21 @@ const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
                 getConfig: getScenesConfig.callAdapter,
                 locale,
                 localeStrings,
+                objectColor: state.objectColor,
+                sceneId,
+                setBehaviorTwinAliasFormInfo,
                 setColoredMeshItems,
-                setOutlinedMeshItems,
+                setElementTwinAliasFormInfo,
                 setGizmoElementItem,
                 setGizmoTransformItem,
-                sceneId,
-                widgetFormInfo: state.widgetFormInfo,
-                setWidgetFormInfo,
-                setBehaviorTwinAliasFormInfo,
-                setElementTwinAliasFormInfo,
-                state,
-                objectColor: state.objectColor,
                 setIsLayerBuilderDialogOpen,
+                setOutlinedMeshItems,
                 setUnsavedBehaviorChangesDialogOpen,
                 setUnsavedChangesDialogDiscardAction,
-                theme
+                setWidgetFormInfo,
+                state,
+                theme,
+                widgetFormInfo: state.widgetFormInfo
             }}
         >
             <BaseComponent

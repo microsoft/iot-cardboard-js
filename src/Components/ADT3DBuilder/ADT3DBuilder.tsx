@@ -83,7 +83,7 @@ const ADT3DBuilder: React.FC<IADT3DBuilderProps> = (props) => {
                         outlinedMeshitems: outlinedMeshItems,
                         gizmoElementItem: gizmoElementItem,
                         gizmoTransformItem: gizmoTransformItem,
-                        setGizmoTransformItem: setGizmoTransformItem, // does this need a new callback?
+                        setGizmoTransformItem: setGizmoTransformItem,
                         getToken: (adapter as any).authService
                             ? () =>
                                   (adapter as any).authService.getToken(

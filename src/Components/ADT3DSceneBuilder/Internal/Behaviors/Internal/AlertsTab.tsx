@@ -65,7 +65,7 @@ const AlertsTab: React.FC = () => {
         adapter,
         config,
         sceneId,
-        state: { selectedElements, gizmoTransformItem } // do I need access to gizmoElement items or just the setter?
+        state: { selectedElements, gizmoTransformItem }
     } = useContext(SceneBuilderContext);
     const {
         behaviorFormDispatch,

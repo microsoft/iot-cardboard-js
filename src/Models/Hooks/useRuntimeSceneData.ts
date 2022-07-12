@@ -5,7 +5,7 @@ import {
     SceneViewBadge,
     SceneViewBadgeGroup,
     SceneVisual,
-    TransformedElementItem, // maybe something here to denote transformations? twin data with config -> view model --- transforms in this hooks, push to a SceneVisual
+    TransformedElementItem,
     TransformInfo
 } from '../Classes/SceneView.types';
 import ViewerConfigUtility from '../Classes/ViewerConfigUtility';

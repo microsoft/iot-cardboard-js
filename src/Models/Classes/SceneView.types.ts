@@ -24,7 +24,6 @@ export class SceneVisual {
     coloredMeshItems?: CustomMeshItem[];
     alertBadgeGroup?: SceneViewBadgeGroup[];
     transformedElementItems?: TransformedElementItem[];
-    // add a transform prop here?
 
     constructor(
         element: ITwinToObjectMapping,

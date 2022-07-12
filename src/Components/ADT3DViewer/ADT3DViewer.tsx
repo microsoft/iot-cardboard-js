@@ -503,10 +503,9 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
                     }
                 );
             });
-            // setAlertBadges(sceneAlerts);
             setTransformedElementItems(transformedElements);
         }
-    }, [sceneVisuals, transformedElementItemsProp /*sceneAlerts*/]);
+    }, [sceneVisuals, transformedElementItemsProp]);
 
     // mesh callbakcs
     const meshClick = (mesh: { id: string }, scene: any) => {
