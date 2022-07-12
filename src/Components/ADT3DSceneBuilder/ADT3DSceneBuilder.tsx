@@ -89,7 +89,6 @@ import {
     SceneViewContextProvider,
     useSceneViewContext
 } from '../../Models/Context/SceneViewContext/SceneViewContext';
-import { SceneViewContextActionType } from '../../Models/Context/SceneViewContext/SceneViewContext.types';
 
 const contextMenuStyles = mergeStyleSets({
     header: {
@@ -128,7 +127,7 @@ const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
     // hooks
     const { t } = useTranslation();
     const { deeplinkState, deeplinkDispatch } = useDeeplinkContext();
-    const { sceneViewDispatch } = useSceneViewContext();
+    const { setSceneViewAttributes } = useSceneViewContext();
     const fluentTheme = useTheme();
     const [state, dispatch] = useReducer(
         ADT3DSceneBuilderReducer,
@@ -273,16 +272,6 @@ const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
         []
     );
 
-    const setOutlinedMeshItems = useCallback(
-        (outlinedMeshItems: CustomMeshItem[]) => {
-            sceneViewDispatch({
-                payload: { outlinedMeshItems: outlinedMeshItems },
-                type: SceneViewContextActionType.SET_OUTLINED_MESH_ITEMS
-            });
-        },
-        []
-    );
-
     const setWidgetFormInfo = useCallback((widgetFormInfo: WidgetFormInfo) => {
         dispatch({
             type: SET_WIDGET_FORM_INFO,
@@ -373,11 +362,11 @@ const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
                     state.builderMode === ADT3DSceneBuilderMode.BehaviorIdle
                 ) {
                     setColoredMeshItems([]);
-                    setOutlinedMeshItems([]);
+                    setSceneViewAttributes({ outlinedMeshItems: [] });
                 }
             }
         },
-        [setColoredMeshItems, setOutlinedMeshItems, state.builderMode]
+        [setColoredMeshItems, setSceneViewAttributes, state.builderMode]
     );
 
     const onMeshHovered = (mesh: AbstractMesh) => {
@@ -404,14 +393,14 @@ const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
                         }
                     }
                 }
-                setOutlinedMeshItems(
-                    createCustomMeshItems(
+                setSceneViewAttributes({
+                    outlinedMeshItems: createCustomMeshItems(
                         meshIds,
                         state.objectColor.outlinedMeshHoverColor
                     )
-                );
+                });
             } else {
-                setOutlinedMeshItems([]);
+                setSceneViewAttributes({ outlinedMeshItems: [] });
             }
         }
     };
@@ -458,12 +447,12 @@ const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
             coloredMeshes = previouslyColoredMeshItems.current;
         }
 
-        setOutlinedMeshItems(
-            createCustomMeshItems(
+        setSceneViewAttributes({
+            outlinedMeshItems: createCustomMeshItems(
                 meshIds,
                 state.objectColor.outlinedMeshHoverColor
             )
-        );
+        });
         setColoredMeshItems(coloredMeshes);
     };
 
@@ -488,10 +477,10 @@ const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
         }
 
         if (outlinedElements.length > 0) {
-            setOutlinedMeshItems(outlinedElements);
+            setSceneViewAttributes({ outlinedMeshItems: outlinedElements });
             previouslyColoredMeshItems.current = outlinedElements;
         } else {
-            setOutlinedMeshItems([]);
+            setSceneViewAttributes({ outlinedMeshItems: [] });
         }
 
         let behaviors: IBehavior[] = [];
@@ -554,16 +543,18 @@ const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
                     }
 
                     // colored meshes that are in the elements contained in the hovered behavior
-                    setOutlinedMeshItems(
-                        createCustomMeshItems(
+                    setSceneViewAttributes({
+                        outlinedMeshItems: createCustomMeshItems(
                             ids,
                             state.objectColor.outlinedMeshHoverColor
                         )
-                    );
+                    });
                 },
                 onMouseOut: () => {
                     // rest highlight and mesh colorings
-                    setOutlinedMeshItems(previouslyColoredMeshItems.current);
+                    setSceneViewAttributes({
+                        outlinedMeshItems: previouslyColoredMeshItems.current
+                    });
                 }
             };
 
@@ -591,7 +582,7 @@ const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
                 onClick: () => {
                     behaviorContextualMenuItems.current[1].sectionProps.items = [];
                     behaviorContextualMenuItems.current[2].sectionProps.items = [];
-                    setOutlinedMeshItems([]);
+                    setSceneViewAttributes({ outlinedMeshItems: [] });
                     // create new behavior and set data scource to the selected element (need to clone if not the defualt behavior in
                     // memory is updated which causes bugs when creating new behaviors)
                     const newBehavior: IBehavior = {
@@ -614,15 +605,17 @@ const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
                 },
                 onMouseOver: () => {
                     // highlight the hovered element
-                    setOutlinedMeshItems(
-                        createCustomMeshItems(
+                    setSceneViewAttributes({
+                        outlinedMeshItems: createCustomMeshItems(
                             element.objectIDs,
                             state.objectColor.outlinedMeshHoverColor
                         )
-                    );
+                    });
                 },
                 onMouseOut: () => {
-                    setOutlinedMeshItems(previouslyColoredMeshItems.current);
+                    setSceneViewAttributes({
+                        outlinedMeshItems: previouslyColoredMeshItems.current
+                    });
                 }
             };
 
@@ -675,15 +668,15 @@ const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
                     },
                     onMouseOver: () => {
                         // highlight the hovered element
-                        setOutlinedMeshItems(
-                            createCustomMeshItems(
+                        setSceneViewAttributes({
+                            outlinedMeshItems: createCustomMeshItems(
                                 element.objectIDs,
                                 state.objectColor.outlinedMeshHoverColor
                             )
-                        );
+                        });
                     },
                     onMouseOut: () => {
-                        setOutlinedMeshItems([]);
+                        setSceneViewAttributes({ outlinedMeshItems: [] });
                         setColoredMeshItems(previouslyColoredMeshItems.current);
                     }
                 };
@@ -699,7 +692,7 @@ const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
         // colored the selected mesh
         const coloredMesh: CustomMeshItem = { meshId: mesh.id, color: null };
         setColoredMeshItems([coloredMesh]);
-        setOutlinedMeshItems([]);
+        setSceneViewAttributes({ outlinedMeshItems: [] });
         previouslyColoredMeshItems.current = [coloredMesh];
 
         setContextualMenuProps({

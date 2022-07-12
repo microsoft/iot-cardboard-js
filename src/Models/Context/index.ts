@@ -10,3 +10,6 @@ export { IConsumerDeeplinkContextProviderProps } from './ConsumerDeeplinkContext
 
 export { SceneThemeContextProvider } from './SceneThemeContext/SceneThemeContext';
 export { ISceneThemeContextProviderProps } from './SceneThemeContext/SceneThemeContext.types';
+
+export { SceneViewContextProvider } from './SceneViewContext/SceneViewContext';
+export { ISceneViewContextProviderProps } from './SceneViewContext/SceneViewContext.types';

@@ -54,8 +54,6 @@ import {
 import { getStyles } from './BuilderLeftPanel.styles';
 import { BreadcrumbAction } from '../../../SceneBreadcrumb/SceneBreadcrumb.types';
 import { useSceneViewContext } from '../../../../Models/Context/SceneViewContext/SceneViewContext';
-import { CustomMeshItem } from '../../../../Models/Classes/SceneView.types';
-import { SceneViewContextActionType } from '../../../../Models/Context/SceneViewContext/SceneViewContext.types';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('BuilderLeftPanel', debugLogging);
@@ -87,7 +85,7 @@ const BuilderLeftPanel: React.FC<IBuilderLeftPanelProps> = ({ styles }) => {
         state,
         theme
     } = useContext(SceneBuilderContext);
-    const { sceneViewDispatch } = useSceneViewContext();
+    const { setSceneViewAttributes } = useSceneViewContext();
 
     const isIdleMode =
         state.builderMode === ADT3DSceneBuilderMode.ElementsIdle ||
@@ -170,17 +168,6 @@ const BuilderLeftPanel: React.FC<IBuilderLeftPanelProps> = ({ styles }) => {
         refetchDependencies: [adapter],
         isAdapterCalledOnMount: false
     });
-
-    // START of scene element related callbacks
-    const setOutlinedMeshItems = useCallback(
-        (outlinedMeshItems: CustomMeshItem[]) => {
-            sceneViewDispatch({
-                payload: { outlinedMeshItems: outlinedMeshItems },
-                type: SceneViewContextActionType.SET_OUTLINED_MESH_ITEMS
-            });
-        },
-        []
-    );
 
     const setSceneMode = useCallback(
         (mode: ADT3DSceneBuilderMode) => {
@@ -273,12 +260,12 @@ const BuilderLeftPanel: React.FC<IBuilderLeftPanelProps> = ({ styles }) => {
             }
         }
 
-        setOutlinedMeshItems(
-            createCustomMeshItems(
+        setSceneViewAttributes({
+            outlinedMeshItems: createCustomMeshItems(
                 meshIds,
                 objectColor.outlinedMeshSelectedColor
             )
-        );
+        });
     };
 
     const setSelectedElements = useCallback(
@@ -304,7 +291,7 @@ const BuilderLeftPanel: React.FC<IBuilderLeftPanelProps> = ({ styles }) => {
             payload: null
         });
 
-        setOutlinedMeshItems([]);
+        setSceneViewAttributes({ outlinedMeshItems: [] });
     };
 
     const onBackClick = useCallback(
@@ -314,12 +301,12 @@ const BuilderLeftPanel: React.FC<IBuilderLeftPanelProps> = ({ styles }) => {
             setSceneMode(idleMode);
             setColoredMeshItems([]);
             setSelectedElements([]);
-            setOutlinedMeshItems([]);
+            setSceneViewAttributes({ outlinedMeshItems: [] });
         },
         [
             setColoredMeshItems,
             setSelectedElements,
-            setOutlinedMeshItems,
+            setSceneViewAttributes,
             setSceneMode
         ]
     );
@@ -501,7 +488,7 @@ const BuilderLeftPanel: React.FC<IBuilderLeftPanelProps> = ({ styles }) => {
                     if (isDirty) {
                         setUnsavedBehaviorChangesDialogOpen(true);
                         setUnsavedChangesDialogDiscardAction(() => {
-                            setOutlinedMeshItems([]);
+                            setSceneViewAttributes({ outlinedMeshItems: [] });
                             setSelectedElements([]);
                             navigate();
                         });
@@ -532,7 +519,7 @@ const BuilderLeftPanel: React.FC<IBuilderLeftPanelProps> = ({ styles }) => {
                 'debug',
                 `[END] pre-breadcrumb navigation of action ${action}. Navigating.`
             );
-            setOutlinedMeshItems([]);
+            setSceneViewAttributes({ outlinedMeshItems: [] });
             setSelectedElements([]);
             navigate();
         },

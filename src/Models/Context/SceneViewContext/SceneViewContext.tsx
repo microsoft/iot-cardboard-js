@@ -3,7 +3,7 @@
  */
 
 import produce from 'immer';
-import React, { useReducer } from 'react';
+import React, { useCallback, useReducer } from 'react';
 import { useContext } from 'react';
 import { CustomMeshItem } from '../../Classes/SceneView.types';
 import { deepCopy, getDebugLogger } from '../../Services/Utils';
@@ -32,9 +32,11 @@ export const SceneViewContextReducer: (
             action.payload
         );
         switch (action.type) {
-            case SceneViewContextActionType.SET_OUTLINED_MESH_ITEMS: {
-                draft.outlinedMeshItems =
-                    action.payload.outlinedMeshItems || [];
+            // Global setting action, overwrites only the values included in the payload
+            case SceneViewContextActionType.SET_SCENE_VIEW_ATTRIBUTES: {
+                Object.keys(action.payload).forEach((key) => {
+                    draft[key] = action.payload[key];
+                });
                 break;
             }
         }
@@ -64,11 +66,23 @@ export const SceneViewContextProvider: React.FC<ISceneViewContextProviderProps> 
         SceneViewContextReducer,
         defaultState
     );
+
+    const setSceneViewAttributes = useCallback(
+        (newState: ISceneViewContextState) => {
+            sceneViewDispatch({
+                type: SceneViewContextActionType.SET_SCENE_VIEW_ATTRIBUTES,
+                payload: newState
+            });
+        },
+        []
+    );
+
     return (
         <SceneViewContext.Provider
             value={{
                 sceneViewDispatch,
-                sceneViewState
+                sceneViewState,
+                setSceneViewAttributes: setSceneViewAttributes
             }}
         >
             {children}
