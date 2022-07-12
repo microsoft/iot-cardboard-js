@@ -79,6 +79,15 @@ const OATModelList = ({
         );
     }, [filter]);
 
+    useEffect(() => {
+        if (model) {
+            currentNodeId.current = model['@id'];
+        } else {
+            currentNodeId.current = null;
+        }
+        setItems([...elements]);
+    }, [model]);
+
     const onSelectedClick = (id: string) => {
         const select = () => {
             dispatch({
@@ -206,7 +215,13 @@ const OATModelList = ({
 
     const onRenderCell = (item: IOATTwinModelNodes) => {
         return (
-            <div className={modelsStyles.modelNode}>
+            <div
+                className={`${modelsStyles.modelNode} ${
+                    currentNodeId.current === item['@id']
+                        ? modelsStyles.modelNodeSelected
+                        : ''
+                } `}
+            >
                 <ActionButton
                     styles={actionButtonStyles}
                     onClick={() => onSelectedClick(item['@id'])}

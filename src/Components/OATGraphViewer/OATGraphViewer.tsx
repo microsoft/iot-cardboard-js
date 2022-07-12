@@ -885,6 +885,9 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                             content: [untargetedRelationship]
                         }
                     };
+                    params.data.name = `${OATRelationshipHandleName}_${getNextRelationshipAmount(
+                        elements
+                    )}`;
                     params.target = id;
                     params.id = paramId;
                     params.data.id = paramId;
