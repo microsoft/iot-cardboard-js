@@ -124,7 +124,7 @@ export const Gizmo = () => {
                 onChange={onGizmoChange}
             />
             <div style={wrapperStyle}>
-                <div style={{ flex: 1, width: '100%' }}>
+                <div style={{ flex: 1, width: '100%', height: '650px' }}>
                     <SceneView
                         modelUrl="https://cardboardresources.blob.core.windows.net/cardboard-mock-files/OutdoorTanks.gltf"
                         gizmoElementItem={
