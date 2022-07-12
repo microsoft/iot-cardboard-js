@@ -5,6 +5,7 @@ const classPrefix = `${CardboardClassNamePrefix}-oat-model`;
 const classNames = {
     container: `${classPrefix}-container`,
     modelNode: `${classPrefix}-model-node`,
+    modelNodeSelected: `${classPrefix}-model-node-selected`,
     modelNodeButtonContent: `${classPrefix}-model-node-button-content`,
     nodeCancel: `${classPrefix}-nodeCancel`,
     strongText: `${classPrefix}-strong-text`,
@@ -41,6 +42,13 @@ export const getModelsStyles = () => {
                 border: `1px solid ${theme.semanticColors.bodyDivider}`,
                 padding: '5px',
                 marginBottom: '10px'
+            } as IStyle
+        ],
+        modelNodeSelected: [
+            classNames.modelNodeSelected,
+            {
+                border: `2px solid ${theme.semanticColors.focusBorder}`,
+                borderRadius: '2px'
             } as IStyle
         ],
         modelNodeButtonContent: [

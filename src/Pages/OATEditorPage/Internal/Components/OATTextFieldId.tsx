@@ -102,8 +102,7 @@ const OATTextFieldId = ({
             !idLengthError &&
             !idAlreadyUsedInterfaceError &&
             !idAlreadyUsedRelationshipError &&
-            !validDTMIError &&
-            temporaryValue !== originalValue // Prevent committing if value is the same as original
+            !validDTMIError
         ) {
             onCommit(temporaryValue);
         } else {

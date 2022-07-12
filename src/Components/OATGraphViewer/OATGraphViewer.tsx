@@ -865,7 +865,9 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                     const untargetedRelationship = {
                         '@type': OATRelationshipHandleName,
                         '@id': id,
-                        name: '',
+                        name: `${OATRelationshipHandleName}_${getNextRelationshipAmount(
+                            elements
+                        )}`,
                         displayName: ''
                     };
                     const reactFlowBounds = reactFlowWrapperRef.current.getBoundingClientRect();
@@ -885,6 +887,9 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                             content: [untargetedRelationship]
                         }
                     };
+                    params.data.name = `${OATRelationshipHandleName}_${getNextRelationshipAmount(
+                        elements
+                    )}`;
                     params.target = id;
                     params.id = paramId;
                     params.data.id = paramId;
