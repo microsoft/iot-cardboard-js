@@ -35,14 +35,33 @@ export default {
     }
 };
 
-export const SceneViewTransform = () => {
+const defaultTransformedElementItems: TransformedElementItem[] = [
+    {
+        meshIds: ['tank6_LOD0.003_primitive0', 'tank6_LOD0.003_primitive1'],
+        parentMeshId: 'tank6_LOD0.003_primitive0',
+        transform: {
+            position: {
+                x: -3000,
+                y: 0,
+                z: 0
+            },
+            rotation: {
+                x: 0,
+                y: 0,
+                z: 0
+            }
+        }
+    }
+];
+
+export const Transform = () => {
     return (
         <div>
             <div style={wrapperStyle}>
                 <div style={{ flex: 1, width: '100%' }}>
                     <SceneView
                         modelUrl="https://cardboardresources.blob.core.windows.net/cardboard-mock-files/OutdoorTanks.gltf"
-                        transformedElementItems={[]}
+                        transformedElementItems={defaultTransformedElementItems}
                     />
                 </div>
             </div>
