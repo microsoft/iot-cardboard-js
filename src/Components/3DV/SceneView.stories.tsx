@@ -22,7 +22,13 @@ import {
     SET_ELEMENT_TO_GIZMO,
     SET_GIZMO_TRANSFORM_ITEM
 } from '../ADT3DSceneBuilder/ADT3DSceneBuilder.types';
-import { Checkbox, Stack, TextField } from '@fluentui/react';
+import {
+    Checkbox,
+    Dropdown,
+    IDropdownOption,
+    Stack,
+    TextField
+} from '@fluentui/react';
 
 const wrapperStyle = { width: 'auto', height: 'auto' };
 
@@ -54,14 +60,68 @@ const defaultTransformedElementItems: TransformedElementItem[] = [
     }
 ];
 
+const defaultMeshOptions = [
+    { key: 'Cube.003', text: 'Cube.003' },
+    { key: 'tank6_LOD0.016_primitive1', text: 'tank6_LOD0.016_primitive1' },
+    { key: 'tank1_LOD0', text: 'tank1_LOD0' },
+    { key: 'tank3_LOD0.004_primitive0', text: 'tank3_LOD0.004_primitive0' },
+    { key: 'tank4_LOD0.007_primitive0', text: 'tank4_LOD0.007_primitive0' },
+    { key: 'tank6_LOD0.003_primitive0', text: 'tank6_LOD0.003_primitive0' }
+];
+
 export const Transform = () => {
+    const [selectedMeshes, setSelectedMeshes] = useState<string[]>([]);
+    const [transformedElementItems, setTransformedElementItems] = useState<
+        TransformedElementItem[]
+    >([]);
+
+    const onChange = (
+        event: React.FormEvent<HTMLDivElement>,
+        item: IDropdownOption
+    ): void => {
+        if (item) {
+            setSelectedMeshes(
+                item.selected
+                    ? [...selectedMeshes, item.key as string]
+                    : selectedMeshes.filter((key) => key !== item.key)
+            );
+        }
+    };
+
+    useEffect(() => {
+        if (selectedMeshes.length == 0) {
+            setTransformedElementItems([]);
+        } else {
+            setTransformedElementItems([
+                {
+                    meshIds: deepCopy(selectedMeshes),
+                    parentMeshId: selectedMeshes[0],
+                    transform: defaultTransformedElementItems[0].transform
+                }
+            ]);
+        }
+    }, [selectedMeshes]);
+
     return (
         <div>
+            <Dropdown
+                placeholder="Select meshes"
+                label="Create element"
+                selectedKeys={selectedMeshes}
+                onChange={onChange}
+                multiSelect
+                options={defaultMeshOptions}
+                style={{ width: '30%' }}
+            />
             <div style={wrapperStyle}>
-                <div style={{ flex: 1, width: '100%' }}>
+                <div style={{ flex: 1, width: '100%', height: '650px' }}>
                     <SceneView
                         modelUrl="https://cardboardresources.blob.core.windows.net/cardboard-mock-files/OutdoorTanks.gltf"
-                        transformedElementItems={defaultTransformedElementItems}
+                        transformedElementItems={
+                            transformedElementItems.length == 0
+                                ? defaultTransformedElementItems
+                                : transformedElementItems
+                        }
                     />
                 </div>
             </div>
