@@ -271,17 +271,17 @@ export interface IADT3DSceneBuilderElementsProps {
 }
 
 export interface ADT3DSceneBuilderState {
-    config: I3DScenesConfig;
-    coloredMeshItems: Array<CustomMeshItem>;
-    gizmoElementItem: TransformedElementItem;
-    gizmoTransformItem: TransformInfo;
-    behaviorTwinAliasFormInfo: BehaviorTwinAliasFormInfo;
-    elementTwinAliasFormInfo: ElementTwinAliasFormInfo;
-    builderMode: ADT3DSceneBuilderMode;
-    elements: Array<ITwinToObjectMapping>;
     behaviors: Array<IBehavior>;
+    behaviorTwinAliasFormInfo: BehaviorTwinAliasFormInfo;
+    builderMode: ADT3DSceneBuilderMode;
+    coloredMeshItems: Array<CustomMeshItem>;
+    config: I3DScenesConfig;
+    elements: Array<ITwinToObjectMapping>;
+    elementTwinAliasFormInfo: ElementTwinAliasFormInfo;
     enableHoverOnModel: boolean;
     formDirtyState: Map<BuilderDirtyFormType, boolean>;
+    gizmoElementItem: TransformedElementItem;
+    gizmoTransformItem: TransformInfo;
     isLayerBuilderDialogOpen: boolean;
     layerBuilderDialogData: {
         behaviorId: string;
