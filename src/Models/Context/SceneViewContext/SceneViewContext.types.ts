@@ -16,7 +16,6 @@ export interface ISceneViewContextState {
 
 export enum SceneViewContextActionType {
     /** set array of outlined mesh items */
-    SET_OUTLINED_MESH_ITEMS = 'SET_OUTLINED_MESH_ITEMS',
     SET_SCENE_VIEW_ATTRIBUTES = 'SET_SCENE_VIEW_ATTRIBUTES'
 }
 

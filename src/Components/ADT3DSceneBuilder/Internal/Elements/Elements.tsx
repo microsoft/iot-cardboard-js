@@ -34,6 +34,7 @@ import { IADTObjectColor } from '../../../../Models/Constants';
 import { deepCopy } from '../../../../Models/Services/Utils';
 import IllustrationMessage from '../../../IllustrationMessage/IllustrationMessage';
 import { useSceneViewContext } from '../../../../Models/Context/SceneViewContext/SceneViewContext';
+import { ISceneViewContextState } from '../../../../Models/Context/SceneViewContext/SceneViewContext.types';
 
 const sortElements = (elements: ITwinToObjectMapping[]) => {
     return elements?.sort((a, b) => (a.displayName > b.displayName ? 1 : -1));

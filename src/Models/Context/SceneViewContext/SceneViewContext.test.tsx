@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { cleanup } from '@testing-library/react';
 import { CustomMeshItem } from '../../Classes/SceneView.types';
 import { SceneViewContextReducer } from './SceneViewContext';
@@ -25,18 +26,18 @@ describe('SceneViewContext', () => {
                 payload: {
                     outlinedMeshItems: meshItems
                 },
-                type: SceneViewContextActionType.SET_OUTLINED_MESH_ITEMS
+                type: SceneViewContextActionType.SET_SCENE_VIEW_ATTRIBUTES
             };
 
             // Act
             const result = SceneViewContextReducer(initialState, action);
 
             // Assert
-            expect(result.outlinedMeshItems.length).toEqual(1);
-            expect(result.outlinedMeshItems[0].meshId).toEqual(
+            expect(result.outlinedMeshItems!.length).toEqual(1);
+            expect(result.outlinedMeshItems![0].meshId).toEqual(
                 meshItems[0].meshId
             );
-            expect(result.outlinedMeshItems[0].color).toEqual(
+            expect(result.outlinedMeshItems![0].color).toEqual(
                 meshItems[0].color
             );
         });
