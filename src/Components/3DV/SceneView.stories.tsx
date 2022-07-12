@@ -40,7 +40,7 @@ const defaultGizmoElementItems: TransformedElementItem = {
     parentMeshId: 'tank6_LOD0.003_primitive0'
 };
 
-export const SceneViewGizmo = () => {
+export const Gizmo = () => {
     const [state, dispatch] = useReducer(
         ADT3DSceneBuilderReducer,
         defaultADT3DSceneBuilderState
