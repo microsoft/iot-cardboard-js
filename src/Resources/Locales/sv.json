@@ -454,8 +454,7 @@
       "meshTabName": "Maskor",
       "behaviorsTabName": "Beteenden",
       "twinTabName": "Andra tvillingar",
-      "formSubTitle": "",
-      "meshRequired": "Minst ett nät krävs"
+      "formSubTitle": ""
     },
     "elementFormMeshTab": {
       "noDataMessage": "Välj associerade maskor från din 3D-modell för det här elementet."
@@ -945,5 +944,6 @@
       "3dAssetLoadingNetworkErrorMessage": "Det kan vara ett CORS-problem, ogiltig blob-URL eller ett nätverksfel. Kontakta ägaren till containern där tillgångsfilen lagras eller försök igen senare.",
       "3dAssetLoadingGenericErrorMessage": "Fel vid laddning av modell. Försök att rensa cacheminnet och försök igen eller kontrollera din åtkomst för den filen."
     }
-  }
+  },
+  "fieldRequired": "Det här fältet är obligatoriskt"
 }

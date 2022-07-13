@@ -454,8 +454,7 @@
       "meshTabName": "Maschen",
       "behaviorsTabName": "Verhaltensweisen",
       "twinTabName": "Andere Zwillinge",
-      "formSubTitle": "",
-      "meshRequired": "Mindestens ein Netz ist erforderlich"
+      "formSubTitle": ""
     },
     "elementFormMeshTab": {
       "noDataMessage": "Wählen Sie die zugehörigen Netze aus dem 3D-Modell für dieses Element aus."
@@ -945,5 +944,6 @@
       "3dAssetLoadingNetworkErrorMessage": "Dies kann ein CORS-Problem, eine ungültige Blob-URL oder ein Netzwerkfehler sein. Bitte wenden Sie sich an den Eigentümer des Containers, in dem diese Asset-Datei gespeichert ist, oder versuchen Sie es später erneut.",
       "3dAssetLoadingGenericErrorMessage": "Fehler beim Laden des Modells. Versuchen Sie, den Cache zu leeren, und versuchen Sie es erneut, oder überprüfen Sie Ihren Zugriff auf diese Datei."
     }
-  }
+  },
+  "fieldRequired": "Dieses Feld ist ein Pflichtfeld"
 }

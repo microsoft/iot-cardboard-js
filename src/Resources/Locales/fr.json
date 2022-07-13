@@ -454,8 +454,7 @@
       "meshTabName": "Mailles",
       "behaviorsTabName": "Comportements",
       "twinTabName": "Autres jumeaux",
-      "formSubTitle": "",
-      "meshRequired": "Au moins un maillage est requis"
+      "formSubTitle": ""
     },
     "elementFormMeshTab": {
       "noDataMessage": "Sélectionnez les maillages associés à partir de votre modèle 3D pour cet élément."
@@ -945,5 +944,6 @@
       "3dAssetLoadingNetworkErrorMessage": "Il peut s’agir d’un problème CORS, d’une URL d’objet blob non valide ou d’une erreur réseau. Veuillez contacter le propriétaire du conteneur dans lequel ce fichier de ressources est stocké ou réessayer ultérieurement.",
       "3dAssetLoadingGenericErrorMessage": "Erreur de chargement du modèle. Essayez d’effacer votre cache et réessayez ou vérifiez votre accès pour ce fichier."
     }
-  }
+  },
+  "fieldRequired": "Ce champ est obligatoire"
 }

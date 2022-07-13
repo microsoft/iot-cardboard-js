@@ -454,8 +454,7 @@
       "meshTabName": "Kafes",
       "behaviorsTabName": "Davranış",
       "twinTabName": "Diğer ikizler",
-      "formSubTitle": "",
-      "meshRequired": "En az bir ağ gereklidir"
+      "formSubTitle": ""
     },
     "elementFormMeshTab": {
       "noDataMessage": "Bu öğe için 3B modelinizden ilişkili ağları seçin."
@@ -945,5 +944,6 @@
       "3dAssetLoadingNetworkErrorMessage": "Bu bir CORS sorunu, geçersiz blob URL'si veya bir ağ hatası olabilir. Lütfen bu öğe dosyasının depolandığı kapsayıcının sahibiyle iletişime geçin veya daha sonra yeniden deneyin.",
       "3dAssetLoadingGenericErrorMessage": "Model yüklenirken hata oluştu. Önbelleğinizi temizlemeyi deneyin ve yeniden deneyin veya bu dosya için erişiminizi denetleyin."
     }
-  }
+  },
+  "fieldRequired": "Bu alan zorunludur"
 }

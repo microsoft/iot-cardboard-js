@@ -454,8 +454,7 @@
       "meshTabName": "メッシュ",
       "behaviorsTabName": "動作",
       "twinTabName": "その他の双子",
-      "formSubTitle": "",
-      "meshRequired": "少なくとも 1 つのメッシュが必要です。"
+      "formSubTitle": ""
     },
     "elementFormMeshTab": {
       "noDataMessage": "この要素の 3D モデルから関連メッシュを選択します。"
@@ -945,5 +944,6 @@
       "3dAssetLoadingNetworkErrorMessage": "これは、CORS の問題、無効な BLOB URL、またはネットワーク エラーである可能性があります。このアセットファイルが保存されているコンテナの所有者に連絡するか、後でもう一度やり直してください。",
       "3dAssetLoadingGenericErrorMessage": "モデルの読み込み中にエラーが発生しました。キャッシュをクリアしてもう一度やり直すか、そのファイルへのアクセスを確認してください。"
     }
-  }
+  },
+  "fieldRequired": "このフィールドは必須です"
 }

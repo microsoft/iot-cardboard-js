@@ -454,8 +454,7 @@
       "meshTabName": "Siatki",
       "behaviorsTabName": "Zachowania",
       "twinTabName": "Inne bliźnięta",
-      "formSubTitle": "",
-      "meshRequired": "Wymagana jest co najmniej jedna siatka"
+      "formSubTitle": ""
     },
     "elementFormMeshTab": {
       "noDataMessage": "Wybierz skojarzone siatki z modelu 3D dla tego elementu."
@@ -945,5 +944,6 @@
       "3dAssetLoadingNetworkErrorMessage": "Może to być problem CORS, nieprawidłowy adres URL obiektu blob lub błąd sieciowy. Skontaktuj się z właścicielem kontenera, w którym jest przechowywany ten plik zasobu, lub spróbuj ponownie później.",
       "3dAssetLoadingGenericErrorMessage": "Błąd ładowania modelu. Spróbuj wyczyścić pamięć podręczną i spróbuj ponownie lub sprawdź dostęp do tego pliku."
     }
-  }
+  },
+  "fieldRequired": "To pole jest wymagane"
 }

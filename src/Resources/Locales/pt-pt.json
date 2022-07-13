@@ -454,8 +454,7 @@
       "meshTabName": "Malhas",
       "behaviorsTabName": "Comportamentos",
       "twinTabName": "Outros gémeos",
-      "formSubTitle": "",
-      "meshRequired": "Pelo menos uma malha é necessária"
+      "formSubTitle": ""
     },
     "elementFormMeshTab": {
       "noDataMessage": "Selecione malhas associadas do seu modelo 3D para este elemento."
@@ -945,5 +944,6 @@
       "3dAssetLoadingNetworkErrorMessage": "Isto pode ser um problema DE CORS, url de blob inválido ou um erro de rede. Entre em contato com o proprietário do recipiente onde este ficheiro de ativos está armazenado ou tente novamente mais tarde.",
       "3dAssetLoadingGenericErrorMessage": "Modelo de carregamento de erros. Tente limpar o cache e tente novamente ou verifique o seu acesso a esse ficheiro."
     }
-  }
+  },
+  "fieldRequired": "Este campo é necessário"
 }

@@ -454,8 +454,7 @@
       "meshTabName": "Rácsvonalak",
       "behaviorsTabName": "Viselkedésmódok",
       "twinTabName": "Egyéb ikrek",
-      "formSubTitle": "",
-      "meshRequired": "Legalább egy hálószem szükséges"
+      "formSubTitle": ""
     },
     "elementFormMeshTab": {
       "noDataMessage": "Válassza ki a kapcsolódó hálószemeket az elemhez tartozó 3D modellből."
@@ -945,5 +944,6 @@
       "3dAssetLoadingNetworkErrorMessage": "Ez lehet CORS-probléma, érvénytelen blob URL-cím vagy hálózati hiba. Lépjen kapcsolatba annak a tárolónak a tulajdonosával, ahol az eszközfájlt tárolják, vagy próbálkozzon újra később.",
       "3dAssetLoadingGenericErrorMessage": "Hiba történt a modell betöltésekor. Próbálja meg törölni a gyorsítótárat, és próbálkozzon újra, vagy ellenőrizze a fájlhoz való hozzáférést."
     }
-  }
+  },
+  "fieldRequired": "A mező kitöltése kötelező"
 }

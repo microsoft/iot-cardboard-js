@@ -454,8 +454,7 @@
       "meshTabName": "Sítě",
       "behaviorsTabName": "Chování",
       "twinTabName": "Ostatní dvojčata",
-      "formSubTitle": "",
-      "meshRequired": "Je vyžadována alespoň jedna síť"
+      "formSubTitle": ""
     },
     "elementFormMeshTab": {
       "noDataMessage": "Vyberte přidružené mřížky z 3D modelu pro tento prvek."
@@ -945,5 +944,6 @@
       "3dAssetLoadingNetworkErrorMessage": "Může se jednat o problém CORS, neplatnou adresu URL objektu BLOB nebo chybu sítě. Obraťte se na vlastníka kontejneru, ve kterém je tento soubor datového zdroje uložený, nebo to zkuste znovu později.",
       "3dAssetLoadingGenericErrorMessage": "Chyba při načítání modelu. Zkuste vymazat mezipaměť a zkuste to znovu nebo zkontrolujte přístup k tomuto souboru."
     }
-  }
+  },
+  "fieldRequired": "Toto pole je povinné"
 }

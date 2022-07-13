@@ -454,8 +454,7 @@
       "meshTabName": "Maglie",
       "behaviorsTabName": "Comportamenti",
       "twinTabName": "Altri gemelli",
-      "formSubTitle": "",
-      "meshRequired": "È necessaria almeno una mesh"
+      "formSubTitle": ""
     },
     "elementFormMeshTab": {
       "noDataMessage": "Selezionare le mesh associate dal modello 3D per questo elemento."
@@ -945,5 +944,6 @@
       "3dAssetLoadingNetworkErrorMessage": "Potrebbe trattarsi di un problema CORS, di un URL BLOB non valido o di un errore di rete. Contattare il proprietario del contenitore in cui è archiviato il file di risorse o riprovare più tardi.",
       "3dAssetLoadingGenericErrorMessage": "Errore durante il caricamento del modello. Prova a svuotare la cache e riprova o controlla l'accesso per quel file."
     }
-  }
+  },
+  "fieldRequired": "Questo campo è obbligatorio"
 }

@@ -454,8 +454,7 @@
       "meshTabName": "网 格",
       "behaviorsTabName": "行为",
       "twinTabName": "其他双胞胎",
-      "formSubTitle": "",
-      "meshRequired": "至少需要一个网格"
+      "formSubTitle": ""
     },
     "elementFormMeshTab": {
       "noDataMessage": "从 3D 模型中为此元素选择关联的网格。"
@@ -945,5 +944,6 @@
       "3dAssetLoadingNetworkErrorMessage": "这可能是 CORS 问题、无效的 Blob URL 或网络错误。请与存储此资产文件的容器的所有者联系，或稍后重试。",
       "3dAssetLoadingGenericErrorMessage": "加载模型时出错。请尝试清除缓存，然后重试或检查您对该文件的访问权限。"
     }
-  }
+  },
+  "fieldRequired": "此字段为必填项"
 }

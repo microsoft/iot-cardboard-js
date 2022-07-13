@@ -454,8 +454,7 @@
       "meshTabName": "Mallas",
       "behaviorsTabName": "Comportamientos",
       "twinTabName": "Otros gemelos",
-      "formSubTitle": "",
-      "meshRequired": "Se requiere al menos una malla"
+      "formSubTitle": ""
     },
     "elementFormMeshTab": {
       "noDataMessage": "Seleccione las mallas asociadas de su modelo 3D para este elemento."
@@ -945,5 +944,6 @@
       "3dAssetLoadingNetworkErrorMessage": "Esto podría ser un problema de CORS, una dirección URL de blob no válida o un error de red. Póngase en contacto con el propietario del contenedor donde se almacena este archivo de activos o inténtelo de nuevo más tarde.",
       "3dAssetLoadingGenericErrorMessage": "Error al cargar el modelo. Intente borrar la memoria caché e inténtelo de nuevo o compruebe su acceso a ese archivo."
     }
-  }
+  },
+  "fieldRequired": "Este campo es obligatorio"
 }
