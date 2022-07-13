@@ -53,6 +53,7 @@ export interface Marker {
     position?: Vector3;
     attachedMeshIds?: string[];
     showIfOccluded?: boolean;
+    allowGrouping?: boolean;
     latitude?: number;
     longitude?: number;
     scene?: IScene;
@@ -126,29 +127,23 @@ export interface ICameraPosition {
 
 export interface ISceneViewProps {
     backgroundColor?: IADTBackgroundColor;
-    badgeGroups?: SceneViewBadgeGroup[];
     cameraInteractionType?: CameraInteraction;
     cameraPosition?: ICameraPosition;
     coloredMeshItems?: CustomMeshItem[];
     getToken?: () => Promise<string>;
+    gizmoElementItem?: TransformedElementItem;
+    gizmoTransformItem?: TransformInfo;
     markers?: Marker[];
     modelUrl?: string | 'Globe';
     objectColor?: IADTObjectColor;
     objectColorOptions?: IADTObjectColor[];
     objectStyle?: ViewerObjectStyle;
-    onBadgeGroupHover?: (
-        alert: SceneViewBadgeGroup,
-        left: number,
-        top: number
-    ) => void;
     onCameraMove?: (position: ICameraPosition) => void;
     onMeshClick?: SceneViewEventHandler;
     onMeshHover?: SceneViewEventHandler;
     onSceneLoaded?: (scene: BABYLON.Scene) => void;
     outlinedMeshitems?: CustomMeshItem[];
     transformedElementItems?: TransformedElementItem[];
-    gizmoElementItem?: TransformedElementItem;
-    gizmoTransformItem?: TransformInfo;
     setGizmoTransformItem?: (gizmoTransformItem: TransformInfo) => void;
     showHoverOnSelected?: boolean;
     showMeshesOnHover?: boolean;

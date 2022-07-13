@@ -15,6 +15,7 @@ import './ADT3DViewer.scss';
 import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
 import {
     CustomMeshItem,
+    Marker,
     SceneViewBadgeGroup,
     SceneVisual,
     TransformedElementItem
@@ -51,16 +52,49 @@ import {
     IADT3DViewerStyleProps,
     IADT3DViewerStyles
 } from './ADT3DViewer.types';
-import { ADT3DScenePageModes, BehaviorModalMode } from '../../Models/Constants';
+import {
+    ADT3DScenePageModes,
+    BehaviorModalMode,
+    IADTBackgroundColor
+} from '../../Models/Constants';
 import FloatingScenePageModeToggle from '../../Pages/ADT3DScenePage/Internal/FloatingScenePageModeToggle';
 import DeeplinkFlyout from '../DeeplinkFlyout/DeeplinkFlyout';
 import { SceneThemeContextProvider } from '../../Models/Context';
 import SceneBreadcrumbFactory from '../SceneBreadcrumb/SceneBreadcrumbFactory';
+import AlertBadge from '../AlertBadge/AlertBadge';
+import { useSceneThemeContext } from '../../Models/Context/SceneThemeContext/SceneThemeContext';
 
 const getClassNames = classNamesFunction<
     IADT3DViewerStyleProps,
     IADT3DViewerStyles
 >();
+
+const createBadge = (
+    badgeGroup: SceneViewBadgeGroup,
+    backgroundColor: IADTBackgroundColor,
+    onBadgeGroupHover: (
+        alert: SceneViewBadgeGroup,
+        left: number,
+        top: number
+    ) => void
+) => {
+    const id = 'cb-badge-' + badgeGroup.id;
+    const marker: Marker = {
+        id: id,
+        attachedMeshIds: [badgeGroup.meshId],
+        showIfOccluded: true,
+        name: 'badge',
+        UIElement: (
+            <AlertBadge
+                badgeGroup={badgeGroup}
+                onBadgeGroupHover={onBadgeGroupHover}
+                backgroundColor={backgroundColor}
+            />
+        )
+    };
+
+    return marker;
+};
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('ADT3DViewer', debugLogging);
@@ -167,6 +201,8 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
     const [selectedVisual, setSelectedVisual] = useState<Partial<SceneVisual>>(
         null
     );
+
+    const { sceneThemeState } = useSceneThemeContext();
 
     // --- Data fetches ---
 
@@ -486,10 +522,9 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
                     coloredMeshes.push(sceneColoredMeshItem);
                 });
             });
-            setAlertBadges(sceneAlerts);
             setColoredMeshItems(coloredMeshes);
         }
-    }, [sceneVisuals, coloredMeshItemsProp, sceneAlerts]);
+    }, [sceneVisuals, coloredMeshItemsProp]);
 
     useEffect(() => {
         if (transformedElementItemsProp) {
@@ -671,11 +706,9 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
                     wrapperMode={WrapperMode.Viewer}
                     selectedVisual={selectedVisual}
                     sceneViewProps={{
-                        badgeGroups: alertBadges,
                         coloredMeshItems: coloredMeshItems,
                         transformedElementItems: transformedElementItems,
                         modelUrl: modelUrl,
-                        onBadgeGroupHover: onBadgeGroupHover,
                         onMeshClick: meshClick,
                         onMeshHover: meshHover,
                         outlinedMeshitems: outlinedMeshItems,

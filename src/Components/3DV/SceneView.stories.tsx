@@ -40,7 +40,7 @@ const defaultGizmoElementItems: TransformedElementItem = {
     parentMeshId: 'tank6_LOD0.003_primitive0'
 };
 
-export const SceneViewGizmo = () => {
+export const Gizmo = () => {
     const [state, dispatch] = useReducer(
         ADT3DSceneBuilderReducer,
         defaultADT3DSceneBuilderState
@@ -83,30 +83,32 @@ export const SceneViewGizmo = () => {
     }, []);
 
     return (
-        <div>
-            <Checkbox
-                label="Show Gizmo and Transform"
-                checked={isGizmo}
-                onChange={onGizmoChange}
-            />
-            <div style={wrapperStyle}>
-                <div style={{ flex: 1, width: '100%' }}>
-                    <SceneView
-                        modelUrl="https://cardboardresources.blob.core.windows.net/cardboard-mock-files/OutdoorTanks.gltf"
-                        gizmoElementItem={
-                            state.gizmoElementItem ?? defaultGizmoElementItems
-                        }
-                        setGizmoTransformItem={setGizmoTransformItem}
-                        gizmoTransformItem={state.gizmoTransformItem}
-                    />
-                </div>
+        <div style={{ position: 'relative' }}>
+            <div>
+                <Checkbox
+                    label="Show Gizmo and Transform"
+                    checked={isGizmo}
+                    onChange={onGizmoChange}
+                />
             </div>
-            {isGizmo && (
-                <FakePanel
-                    gizmoTransformItem={state.gizmoTransformItem}
+            <div>
+                <SceneView
+                    modelUrl="https://cardboardresources.blob.core.windows.net/cardboard-mock-files/OutdoorTanks.gltf"
+                    gizmoElementItem={
+                        state.gizmoElementItem ?? defaultGizmoElementItems
+                    }
                     setGizmoTransformItem={setGizmoTransformItem}
-                ></FakePanel>
-            )}
+                    gizmoTransformItem={state.gizmoTransformItem}
+                />
+            </div>
+            <div style={{ position: 'absolute', bottom: 0 }}>
+                {isGizmo && (
+                    <FakePanel
+                        gizmoTransformItem={state.gizmoTransformItem}
+                        setGizmoTransformItem={setGizmoTransformItem}
+                    ></FakePanel>
+                )}
+            </div>
         </div>
     );
 };
@@ -265,63 +267,72 @@ export const Globe = () => {
             name: 'Ibhayi',
             UIElement: <ModelLabel label="Ibhayi" />,
             latitude: -33.872,
-            longitude: 25.571
+            longitude: 25.571,
+            allowGrouping: true
         },
         {
             id: 'ID' + createGUID(),
             name: 'Ponta Grossa',
             UIElement: <ModelLabel label="Ponta Grossa" />,
             latitude: -25.0994,
-            longitude: -50.1583
+            longitude: -50.1583,
+            allowGrouping: true
         },
         {
             id: 'ID' + createGUID(),
             name: 'Putian',
             UIElement: <ModelLabel label="Putian" />,
             latitude: 25.433,
-            longitude: 119.0167
+            longitude: 119.0167,
+            allowGrouping: true
         },
         {
             id: 'ID' + createGUID(),
             name: 'Magor',
             UIElement: <ModelLabel label="Magor" />,
             latitude: 51.5804,
-            longitude: -2.833
+            longitude: -2.833,
+            allowGrouping: true
         },
         {
             id: 'ID' + createGUID(),
             name: 'Ningbo',
             UIElement: <ModelLabel label="Ningbo" />,
             latitude: 29.8667,
-            longitude: 121.55
+            longitude: 121.55,
+            allowGrouping: true
         },
         {
             id: 'ID' + createGUID(),
             name: 'Passa Fundo',
             UIElement: <ModelLabel label="Passa Fundo" />,
             latitude: -28.2624,
-            longitude: -52.409
+            longitude: -52.409,
+            allowGrouping: true
         },
         {
             id: 'ID' + createGUID(),
             name: 'Tocancipa',
             UIElement: <ModelLabel label="Tocancipa" />,
             latitude: 4.9667,
-            longitude: -73.9167
+            longitude: -73.9167,
+            allowGrouping: true
         },
         {
             id: 'ID' + createGUID(),
             name: 'Leuven',
             UIElement: <ModelLabel label="Leuven" />,
             latitude: 50.8795,
-            longitude: 4.7005
+            longitude: 4.7005,
+            allowGrouping: true
         },
         {
             id: 'ID' + createGUID(),
             name: 'Uberlandia',
             UIElement: <ModelLabel label="Uberlandia" />,
             latitude: -18.9231,
-            longitude: -48.2886
+            longitude: -48.2886,
+            allowGrouping: true
         }
     ];
 
@@ -345,6 +356,128 @@ export const Globe = () => {
 };
 
 export const MarkersWithSimpleModel = () => {
+    const markers: Marker[] = [
+        {
+            name: 'Marker 1',
+            id: 'id' + createGUID(),
+            attachedMeshIds: ['Cube.003'],
+            UIElement: <ModelLabel label={'Marker 1'} />,
+            showIfOccluded: true,
+            allowGrouping: true
+        },
+
+        {
+            name: 'Marker 2',
+            id: 'id' + createGUID(),
+            attachedMeshIds: ['tank6_LOD0.016_primitive1'],
+            showIfOccluded: true,
+            UIElement: <ModelLabel label={'Marker 2'} />,
+            allowGrouping: true
+        },
+
+        {
+            name: 'Marker 3',
+            id: 'id' + createGUID(),
+            attachedMeshIds: ['tank1_LOD0'],
+            showIfOccluded: true,
+            UIElement: <ModelLabel label={'Marker 3'} />,
+            allowGrouping: true
+        },
+        {
+            name: 'Marker 4',
+            id: 'id' + createGUID(),
+            attachedMeshIds: ['tank3_LOD0.004_primitive0'],
+            showIfOccluded: true,
+            UIElement: <ModelLabel label={'Marker 5'} />,
+            allowGrouping: true
+        },
+        {
+            name: 'Marker 5',
+            id: 'id' + createGUID(),
+            attachedMeshIds: ['tank4_LOD0.007_primitive0'],
+            showIfOccluded: true,
+            UIElement: <ModelLabel label={'Marker 7'} />,
+            allowGrouping: true
+        },
+        {
+            name: 'Marker 6',
+            id: 'id' + createGUID(),
+            attachedMeshIds: ['tank6_LOD0.003_primitive0'],
+            showIfOccluded: true,
+            UIElement: <ModelLabel label={'Marker 8'} />,
+            allowGrouping: true
+        }
+    ];
+
+    return (
+        <div style={wrapperStyle}>
+            <div style={{ flex: 1, width: '100%' }}>
+                <SceneView
+                    modelUrl="https://cardboardresources.blob.core.windows.net/cardboard-mock-files/OutdoorTanks.gltf"
+                    markers={markers}
+                />
+            </div>
+        </div>
+    );
+};
+
+export const MarkersWithComplexModel = () => {
+    const markers: Marker[] = [
+        {
+            name: 'Marker 1',
+            id: 'id' + createGUID(),
+            attachedMeshIds: ['MODULE_SILOS_530_LOD1'],
+            UIElement: <ModelLabel label={'Marker 1'} />,
+            showIfOccluded: true,
+            allowGrouping: true
+        },
+        {
+            name: 'Marker 2',
+            id: 'id' + createGUID(),
+            attachedMeshIds: ['MODULE_SILOS_178_LOD1'],
+            showIfOccluded: true,
+            UIElement: <ModelLabel label={'Marker 2'} />,
+            allowGrouping: true
+        },
+        {
+            name: 'Marker 3',
+            id: 'id' + createGUID(),
+            attachedMeshIds: ['WAREHOUSE_001_LOD1_002'],
+            showIfOccluded: true,
+            UIElement: <ModelLabel label={'Marker 4'} />,
+            allowGrouping: true
+        },
+        {
+            name: 'Marker 4',
+            id: 'id' + createGUID(),
+            attachedMeshIds: ['Pipes_Foundation_20_LOD1_001'],
+            showIfOccluded: true,
+            UIElement: <ModelLabel label={'Marker 6'} />,
+            allowGrouping: true
+        },
+        {
+            name: 'Marker 5',
+            id: 'id' + createGUID(),
+            attachedMeshIds: ['pCube1_LOD1'],
+            showIfOccluded: true,
+            UIElement: <ModelLabel label={'Marker 7'} />,
+            allowGrouping: true
+        }
+    ];
+
+    return (
+        <div style={wrapperStyle}>
+            <div style={{ flex: 1, width: '100%' }}>
+                <SceneView
+                    modelUrl="https://cardboardresources.blob.core.windows.net/cardboard-mock-files/refinery_scene_textured_1m.glb"
+                    markers={markers}
+                />
+            </div>
+        </div>
+    );
+};
+
+export const MarkersWithGroupingDisabled = () => {
     const markers: Marker[] = [
         {
             name: 'Marker 1',
@@ -397,57 +530,6 @@ export const MarkersWithSimpleModel = () => {
             <div style={{ flex: 1, width: '100%' }}>
                 <SceneView
                     modelUrl="https://cardboardresources.blob.core.windows.net/cardboard-mock-files/OutdoorTanks.gltf"
-                    markers={markers}
-                />
-            </div>
-        </div>
-    );
-};
-
-export const MarkersWithComplexModel = () => {
-    const markers: Marker[] = [
-        {
-            name: 'Marker 1',
-            id: 'id' + createGUID(),
-            attachedMeshIds: ['MODULE_SILOS_530_LOD1'],
-            UIElement: <ModelLabel label={'Marker 1'} />,
-            showIfOccluded: true
-        },
-        {
-            name: 'Marker 2',
-            id: 'id' + createGUID(),
-            attachedMeshIds: ['MODULE_SILOS_178_LOD1'],
-            showIfOccluded: true,
-            UIElement: <ModelLabel label={'Marker 2'} />
-        },
-        {
-            name: 'Marker 3',
-            id: 'id' + createGUID(),
-            attachedMeshIds: ['WAREHOUSE_001_LOD1_002'],
-            showIfOccluded: true,
-            UIElement: <ModelLabel label={'Marker 4'} />
-        },
-        {
-            name: 'Marker 4',
-            id: 'id' + createGUID(),
-            attachedMeshIds: ['Pipes_Foundation_20_LOD1_001'],
-            showIfOccluded: true,
-            UIElement: <ModelLabel label={'Marker 6'} />
-        },
-        {
-            name: 'Marker 5',
-            id: 'id' + createGUID(),
-            attachedMeshIds: ['pCube1_LOD1'],
-            showIfOccluded: true,
-            UIElement: <ModelLabel label={'Marker 7'} />
-        }
-    ];
-
-    return (
-        <div style={wrapperStyle}>
-            <div style={{ flex: 1, width: '100%' }}>
-                <SceneView
-                    modelUrl="https://cardboardresources.blob.core.windows.net/cardboard-mock-files/refinery_scene_textured_1m.glb"
                     markers={markers}
                 />
             </div>
