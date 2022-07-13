@@ -84,7 +84,7 @@ export const Gizmo = () => {
 
     return (
         <div style={{ position: 'relative' }}>
-            <div style={{ position: 'absolute', top: 0 }}>
+            <div>
                 <Checkbox
                     label="Show Gizmo and Transform"
                     checked={isGizmo}
