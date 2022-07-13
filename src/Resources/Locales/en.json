@@ -69,6 +69,7 @@
     "discardChangesDesc": "Are you sure? You can't undo this action.",
     "action": "Action",
     "actions": "Actions",
+    "fieldRequired": "This field is required",
     "name": "Name",
     "title": "Title",
     "enterTitle": "Enter title",
@@ -459,8 +460,7 @@
             "twinNameDescription": "Select a digital twin to link this element to. You will use this linked twin's properties for associated behaviors.",
             "meshTabName": "Meshes",
             "behaviorsTabName": "Behaviors",
-            "twinTabName": "Other twins",
-            "meshRequired": "At least one mesh is required"
+            "twinTabName": "Other twins"
         },
         "elementFormMeshTab": {
             "noDataMessage": "Select associated meshes from your 3D model for this element."

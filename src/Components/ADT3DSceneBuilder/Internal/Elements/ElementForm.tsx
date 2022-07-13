@@ -46,7 +46,7 @@ import { ElementType } from '../../../../Models/Classes/3DVConfig';
 import { createCustomMeshItems } from '../../../3DV/SceneView.Utils';
 import ElementTwinAliasForm from './Internal/ElementTwinAliasForm';
 import useAdapter from '../../../../Models/Hooks/useAdapter';
-import { setPivotToRequired } from '../Shared/MakePivotRequired';
+import { setPivotToRequired } from '../../../../Theming/FluentComponentStyles/Pivot.styles';
 
 export const ElementFormContext = React.createContext<IElementFormContext>(
     null

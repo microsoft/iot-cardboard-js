@@ -7,7 +7,7 @@ import React, {
     useRef,
     useState
 } from 'react';
-import { setPivotToRequired } from '../Shared/MakePivotRequired';
+import { setPivotToRequired } from '../../../../Theming/FluentComponentStyles/Pivot.styles';
 import { useTranslation } from 'react-i18next';
 import { DatasourceType } from '../../../../Models/Classes/3DVConfig';
 import {
