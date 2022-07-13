@@ -83,30 +83,32 @@ export const Gizmo = () => {
     }, []);
 
     return (
-        <div>
-            <Checkbox
-                label="Show Gizmo and Transform"
-                checked={isGizmo}
-                onChange={onGizmoChange}
-            />
-            <div style={wrapperStyle}>
-                <div style={{ flex: 1, width: '100%', height: '650px' }}>
-                    <SceneView
-                        modelUrl="https://cardboardresources.blob.core.windows.net/cardboard-mock-files/OutdoorTanks.gltf"
-                        gizmoElementItem={
-                            state.gizmoElementItem ?? defaultGizmoElementItems
-                        }
-                        setGizmoTransformItem={setGizmoTransformItem}
-                        gizmoTransformItem={state.gizmoTransformItem}
-                    />
-                </div>
+        <div style={{ position: 'relative' }}>
+            <div>
+                <Checkbox
+                    label="Show Gizmo and Transform"
+                    checked={isGizmo}
+                    onChange={onGizmoChange}
+                />
             </div>
-            {isGizmo && (
-                <FakePanel
-                    gizmoTransformItem={state.gizmoTransformItem}
+            <div>
+                <SceneView
+                    modelUrl="https://cardboardresources.blob.core.windows.net/cardboard-mock-files/OutdoorTanks.gltf"
+                    gizmoElementItem={
+                        state.gizmoElementItem ?? defaultGizmoElementItems
+                    }
                     setGizmoTransformItem={setGizmoTransformItem}
-                ></FakePanel>
-            )}
+                    gizmoTransformItem={state.gizmoTransformItem}
+                />
+            </div>
+            <div style={{ position: 'absolute', bottom: 0 }}>
+                {isGizmo && (
+                    <FakePanel
+                        gizmoTransformItem={state.gizmoTransformItem}
+                        setGizmoTransformItem={setGizmoTransformItem}
+                    ></FakePanel>
+                )}
+            </div>
         </div>
     );
 };
