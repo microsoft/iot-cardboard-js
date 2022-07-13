@@ -1647,6 +1647,85 @@ function SceneView(props: ISceneViewProps, ref) {
         coloredMaterials.current[mesh.id] = material;
     };
 
+    // Handle outlinedMeshItems
+    useEffect(() => {
+        debugLog('debug', 'Outline Mesh effect');
+        if (outlinedMeshitems) {
+            for (const item of outlinedMeshitems) {
+                const currentMesh: BABYLON.Mesh =
+                    meshMap.current?.[item.meshId];
+                if (currentMesh) {
+                    let meshToOutline = currentMesh;
+                    try {
+                        // To fix issues with the outline rendering behind the object when it is occluded,
+                        // we will duplicate the mesh, and use the duplicate to render the outline set to a higher
+                        // alphaIndex.
+                        const clone = currentMesh.clone('', null, true, false);
+                        // Move the clone to a utility layer so we can draw it on top of other opaque scene elements
+                        clone._scene = utilLayer.current.utilityLayerScene;
+                        //Parent the clone to the mesh so that the highlight transform animates properly
+                        clone.setParent(currentMesh);
+                        const cloneMaterial = new BABYLON.StandardMaterial(
+                            'standard',
+                            utilLayer.current.utilityLayerScene
+                        );
+                        cloneMaterial.alpha = 0.0;
+                        cloneMaterial.backFaceCulling = false;
+                        clone.material = cloneMaterial;
+                        clone.alphaIndex = 2;
+                        clone.isPickable = false;
+                        clonedHighlightMeshes.current.push(clone);
+                        utilLayer.current.utilityLayerScene.meshes.push(clone);
+                        meshToOutline = clone;
+                        highlightLayer.current.addExcludedMesh(currentMesh);
+                        highlightLayer.current.addMesh(
+                            meshToOutline,
+                            ToColor3(
+                                hexToColor4(
+                                    item.color
+                                        ? item.color
+                                        : currentObjectColor.outlinedMeshSelectedColor
+                                )
+                            )
+                        );
+                        outlinedMeshes.current.push(meshToOutline);
+                    } catch {
+                        console.error('Unable to highlight mesh');
+                    }
+                }
+            }
+        }
+
+        return () => {
+            debugLog('debug', 'Outline Mesh cleanup');
+            if (outlinedMeshes.current) {
+                for (const mesh of outlinedMeshes.current) {
+                    highlightLayer.current?.removeMesh(mesh as BABYLON.Mesh);
+                }
+                outlinedMeshes.current = [];
+            }
+            //If we have cloned meshes for highlight, delete them
+            if (clonedHighlightMeshes.current) {
+                for (const mesh of clonedHighlightMeshes.current) {
+                    mesh?.dispose();
+                    //Assume that all new meshes are highlight clones and decrement the scene mesh array after disposal to prevent overflow
+                    if (sceneRef.current?.meshes)
+                        sceneRef.current.meshes.length--;
+                }
+                clonedHighlightMeshes.current = [];
+            }
+            if (outlinedMeshitems) {
+                for (const mesh of outlinedMeshitems) {
+                    if (meshMap.current?.[mesh.meshId]) {
+                        highlightLayer.current.removeExcludedMesh(
+                            meshMap.current?.[mesh.meshId]
+                        );
+                    }
+                }
+            }
+        };
+    }, [outlinedMeshitems, meshMap.current]);
+
     // SETUP LOGIC FOR HANDLING TRANSFORMING MESHES
     useEffect(() => {
         debugLog(
@@ -2004,85 +2083,6 @@ function SceneView(props: ISceneViewProps, ref) {
             }
         }
     }, [scene, gizmoTransformItem, isLoading]);
-
-    // Handle outlinedMeshItems
-    useEffect(() => {
-        debugLog('debug', 'Outline Mesh effect');
-        if (outlinedMeshitems) {
-            for (const item of outlinedMeshitems) {
-                const currentMesh: BABYLON.Mesh =
-                    meshMap.current?.[item.meshId];
-                if (currentMesh) {
-                    let meshToOutline = currentMesh;
-                    try {
-                        // To fix issues with the outline rendering behind the object when it is occluded,
-                        // we will duplicate the mesh, and use the duplicate to render the outline set to a higher
-                        // alphaIndex.
-                        const clone = currentMesh.clone('', null, true, false);
-                        // Move the clone to a utility layer so we can draw it on top of other opaque scene elements
-                        clone._scene = utilLayer.current.utilityLayerScene;
-                        //Parent the clone to the mesh so that the highlight transform animates properly
-                        clone.setParent(currentMesh);
-                        const cloneMaterial = new BABYLON.StandardMaterial(
-                            'standard',
-                            utilLayer.current.utilityLayerScene
-                        );
-                        cloneMaterial.alpha = 0.0;
-                        cloneMaterial.backFaceCulling = false;
-                        clone.material = cloneMaterial;
-                        clone.alphaIndex = 2;
-                        clone.isPickable = false;
-                        clonedHighlightMeshes.current.push(clone);
-                        utilLayer.current.utilityLayerScene.meshes.push(clone);
-                        meshToOutline = clone;
-                        highlightLayer.current.addExcludedMesh(currentMesh);
-                        highlightLayer.current.addMesh(
-                            meshToOutline,
-                            ToColor3(
-                                hexToColor4(
-                                    item.color
-                                        ? item.color
-                                        : currentObjectColor.outlinedMeshSelectedColor
-                                )
-                            )
-                        );
-                        outlinedMeshes.current.push(meshToOutline);
-                    } catch {
-                        console.error('Unable to highlight mesh');
-                    }
-                }
-            }
-        }
-
-        return () => {
-            debugLog('debug', 'Outline Mesh cleanup');
-            if (outlinedMeshes.current) {
-                for (const mesh of outlinedMeshes.current) {
-                    highlightLayer.current?.removeMesh(mesh as BABYLON.Mesh);
-                }
-                outlinedMeshes.current = [];
-            }
-            //If we have cloned meshes for highlight, delete them
-            if (clonedHighlightMeshes.current) {
-                for (const mesh of clonedHighlightMeshes.current) {
-                    mesh?.dispose();
-                    //Assume that all new meshes are highlight clones and decrement the scene mesh array after disposal to prevent overflow
-                    if (sceneRef.current?.meshes)
-                        sceneRef.current.meshes.length--;
-                }
-                clonedHighlightMeshes.current = [];
-            }
-            if (outlinedMeshitems) {
-                for (const mesh of outlinedMeshitems) {
-                    if (meshMap.current?.[mesh.meshId]) {
-                        highlightLayer.current.removeExcludedMesh(
-                            meshMap.current?.[mesh.meshId]
-                        );
-                    }
-                }
-            }
-        };
-    }, [outlinedMeshitems, meshMap.current]);
 
     const theme = useTheme();
     const customStyles = getSceneViewStyles(theme);
