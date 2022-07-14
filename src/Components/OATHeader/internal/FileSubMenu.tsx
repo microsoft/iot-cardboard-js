@@ -7,7 +7,7 @@ import {
     getSubMenuHiddenStyles,
     getHeaderStyles
 } from '../OATHeader.styles';
-import { IAction, OATNamespaceDefaultValue } from '../../../Models/Constants';
+import { OATNamespaceDefaultValue } from '../../../Models/Constants';
 import {
     SET_OAT_PROJECT,
     SET_OAT_PROJECT_NAME
@@ -21,15 +21,7 @@ import ModalSaveCurrentProjectAndClear from './ModalSaveCurrentProjectAndClear';
 import FormSettings from './FormSettings';
 import FromOpen from './FormOpen';
 import OATModal from '../../../Pages/OATEditorPage/Internal/Components/OATModal';
-import { IOATEditorState } from '../../../Pages/OATEditorPage/OATEditorPage.types';
-
-interface IFileSubMenu {
-    dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
-    onFileSubMenuClose: () => void;
-    isActive?: boolean;
-    state?: IOATEditorState;
-    targetId?: string;
-}
+import { FileSubMenuProps } from './FileSubMenu.types';
 
 export const FileSubMenu = ({
     dispatch,
@@ -37,7 +29,7 @@ export const FileSubMenu = ({
     isActive,
     state,
     targetId
-}: IFileSubMenu) => {
+}: FileSubMenuProps) => {
     const { t } = useTranslation();
     const subMenuItemStyles = getSubMenuItemStyles();
     const subMenuStyles = getSubMenuStyles();
@@ -136,12 +128,16 @@ export const FileSubMenu = ({
         });
     };
 
+    const onModalClose = () => {
+        setModalOpen(false);
+    };
+
     const getModalBody = () => {
         switch (modalBody) {
             case FromBody.delete:
                 return (
                     <ModalDelete
-                        setModalOpen={setModalOpen}
+                        onClose={onModalClose}
                         setModalBody={setModalBody}
                         state={state}
                         resetProject={resetProject}
@@ -151,15 +147,15 @@ export const FileSubMenu = ({
                 return (
                     <FromOpen
                         dispatch={dispatch}
-                        setModalOpen={setModalOpen}
                         setModalBody={setModalBody}
+                        onClose={onModalClose}
                     />
                 );
             case FromBody.save:
                 return (
                     <FormSaveAs
                         dispatch={dispatch}
-                        setModalOpen={setModalOpen}
+                        onClose={onModalClose}
                         setModalBody={setModalBody}
                         resetProject={resetProject}
                         state={state}
@@ -168,7 +164,7 @@ export const FileSubMenu = ({
             case FromBody.saveCurrentProjectAndClear:
                 return (
                     <ModalSaveCurrentProjectAndClear
-                        setModalOpen={setModalOpen}
+                        onClose={onModalClose}
                         setModalBody={setModalBody}
                         state={state}
                         resetProject={resetProject}
@@ -177,8 +173,8 @@ export const FileSubMenu = ({
             case FromBody.saveNewProjectAndClear:
                 return (
                     <FormSaveAs
+                        onClose={onModalClose}
                         dispatch={dispatch}
-                        setModalOpen={setModalOpen}
                         setModalBody={setModalBody}
                         resetProjectOnSave
                         resetProject={resetProject}
@@ -188,8 +184,8 @@ export const FileSubMenu = ({
             case FromBody.settings:
                 return (
                     <FormSettings
+                        onClose={onModalClose}
                         dispatch={dispatch}
-                        setModalOpen={setModalOpen}
                         setModalBody={setModalBody}
                         state={state}
                     />

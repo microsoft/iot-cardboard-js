@@ -6,14 +6,13 @@ import {
     getModelsIconStyles,
     getModelsActionButtonStyles
 } from './OATModelList.styles';
-import { IAction, IOATTwinModelNodes } from '../../Models/Constants';
+import { IOATTwinModelNodes } from '../../Models/Constants';
 import {
     SET_OAT_DELETED_MODEL_ID,
     SET_OAT_SELECTED_MODEL_ID,
     SET_OAT_CONFIRM_DELETE_OPEN,
     SET_OAT_SELECTED_MODEL
 } from '../../Models/Constants/ActionTypes';
-import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 import OATTextFieldDisplayName from '../../Pages/OATEditorPage/Internal/Components/OATTextFieldDisplayName';
 import OATTextFieldId from '../../Pages/OATEditorPage/Internal/Components/OATTextFieldId';
 import { deepCopy } from '../../Models/Services/Utils';
@@ -22,11 +21,7 @@ import {
     isDisplayNameDefined
 } from '../OATPropertyEditor/Utils';
 import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
-
-type OATModelListProps = {
-    dispatch: React.Dispatch<React.SetStateAction<IAction>>;
-    state?: IOATEditorState;
-};
+import { OATModelListProps } from './OATModelList.types';
 
 const OATModelList = ({ dispatch, state }: OATModelListProps) => {
     const theme = useTheme();
@@ -242,7 +237,11 @@ const OATModelList = ({ dispatch, state }: OATModelListProps) => {
                         </div>
                         <div
                             onDoubleClick={() =>
-                                onNameClick(item['displayName'])
+                                onNameClick(
+                                    getModelPropertyListItemName(
+                                        item['displayName']
+                                    )
+                                )
                             }
                         >
                             {(!nameEditor ||

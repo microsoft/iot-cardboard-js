@@ -5,7 +5,6 @@ import { getHeaderStyles, getCommandBarStyles } from './OATHeader.styles';
 import JSZip from 'jszip';
 
 import FileSubMenu from './internal/FileSubMenu';
-import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 import {
     SET_OAT_CONFIRM_DELETE_OPEN,
     SET_OAT_ERROR,
@@ -15,7 +14,6 @@ import {
 import { ProjectData } from '../../Pages/OATEditorPage/Internal/Classes';
 
 import { OATNamespaceDefaultValue } from '../../Models/Constants';
-import { IAction } from '../../Models/Constants/Interfaces';
 import { useDropzone } from 'react-dropzone';
 import { SET_OAT_IMPORT_MODELS } from '../../Models/Constants/ActionTypes';
 import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
@@ -26,14 +24,10 @@ import {
     parseModel
 } from '../../Models/Services/Utils';
 import ImportSubMenu from './internal/ImportSubMenu';
+import { OATHeaderProps } from './OATHeader.types';
 
 const ID_FILE = 'file';
 const ID_IMPORT = 'import';
-
-type OATHeaderProps = {
-    dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
-    state?: IOATEditorState;
-};
 
 const OATHeader = ({ dispatch, state }: OATHeaderProps) => {
     const { t } = useTranslation();

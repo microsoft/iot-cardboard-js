@@ -16,10 +16,10 @@ import { loadFiles } from '../../../Models/Services/Utils';
 interface IModal {
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
     setModalBody?: React.Dispatch<React.SetStateAction<string>>;
-    setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
+    onClose?: () => void;
 }
 
-export const FormOpen = ({ dispatch, setModalOpen, setModalBody }: IModal) => {
+export const FormOpen = ({ dispatch, setModalBody, onClose }: IModal) => {
     const { t } = useTranslation();
     const headerStyles = getHeaderStyles();
     const [selectedFile, setSelectedFile] = useState(null);
@@ -38,7 +38,7 @@ export const FormOpen = ({ dispatch, setModalOpen, setModalBody }: IModal) => {
             payload: projectToOpen
         });
 
-        setModalOpen(false);
+        onClose();
         setModalBody(null);
     };
 
@@ -59,7 +59,7 @@ export const FormOpen = ({ dispatch, setModalOpen, setModalBody }: IModal) => {
     return (
         <Stack>
             <div className={headerStyles.modalRowFlexEnd}>
-                <ActionButton onClick={() => setModalOpen(false)}>
+                <ActionButton onClick={onClose}>
                     <FontIcon iconName={'ChromeClose'} />
                 </ActionButton>
             </div>
@@ -80,10 +80,7 @@ export const FormOpen = ({ dispatch, setModalOpen, setModalBody }: IModal) => {
                     disabled={!selectedFile}
                 />
 
-                <PrimaryButton
-                    text={t('OATHeader.cancel')}
-                    onClick={() => setModalOpen(false)}
-                />
+                <PrimaryButton text={t('OATHeader.cancel')} onClick={onClose} />
             </div>
         </Stack>
     );

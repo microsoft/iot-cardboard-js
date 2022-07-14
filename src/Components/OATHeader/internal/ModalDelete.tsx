@@ -8,23 +8,17 @@ import {
 } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { getHeaderStyles, getPromptTextStyles } from '../OATHeader.styles';
-import { IOATEditorState } from '../../../Pages/OATEditorPage/OATEditorPage.types';
 import { FromBody } from './Enums';
 import { loadFiles, saveFiles } from '../../../Models/Services/Utils';
-
-interface IModal {
-    resetProject?: () => void;
-    setModalBody?: React.Dispatch<React.SetStateAction<string>>;
-    setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
-    state?: IOATEditorState;
-}
+import { ModalDeleteProps } from './ModalDelete.types';
 
 export const ModalDelete = ({
     resetProject,
-    setModalOpen,
+    onClose,
     setModalBody,
+
     state
-}: IModal) => {
+}: ModalDeleteProps) => {
     const { t } = useTranslation();
     const headerStyles = getHeaderStyles();
     const promptTextStyles = getPromptTextStyles();
@@ -48,7 +42,7 @@ export const ModalDelete = ({
     return (
         <Stack>
             <div className={headerStyles.modalRowFlexEnd}>
-                <ActionButton onClick={() => setModalOpen(false)}>
+                <ActionButton onClick={onClose}>
                     <FontIcon iconName={'ChromeClose'} />
                 </ActionButton>
             </div>
@@ -65,10 +59,7 @@ export const ModalDelete = ({
                     onClick={onDelete}
                 />
 
-                <PrimaryButton
-                    text={t('OATHeader.cancel')}
-                    onClick={() => setModalOpen(false)}
-                />
+                <PrimaryButton text={t('OATHeader.cancel')} onClick={onClose} />
             </div>
         </Stack>
     );

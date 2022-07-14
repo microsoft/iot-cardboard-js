@@ -8,24 +8,17 @@ import {
 } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { getHeaderStyles, getPromptTextStyles } from '../OATHeader.styles';
-import { IOATEditorState } from '../../../Pages/OATEditorPage/OATEditorPage.types';
 import { ProjectData } from '../../../Pages/OATEditorPage/Internal/Classes';
 import { FromBody } from './Enums';
 import { loadFiles, saveFiles } from '../../../Models/Services/Utils';
-
-interface IModal {
-    resetProject?: () => void;
-    setModalBody?: React.Dispatch<React.SetStateAction<string>>;
-    setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
-    state?: IOATEditorState;
-}
+import { ModalSaveCurrentProjectAndClearProps } from './ModalSaveCurrentProjectAndClear.types';
 
 export const ModalSaveCurrentProjectAndClear = ({
     resetProject,
-    setModalOpen,
     setModalBody,
-    state
-}: IModal) => {
+    state,
+    onClose
+}: ModalSaveCurrentProjectAndClearProps) => {
     const { t } = useTranslation();
     const headerStyles = getHeaderStyles();
     const promptTextStyles = getPromptTextStyles();
@@ -69,7 +62,7 @@ export const ModalSaveCurrentProjectAndClear = ({
     return (
         <Stack>
             <div className={headerStyles.modalRowFlexEnd}>
-                <ActionButton onClick={() => setModalOpen(false)}>
+                <ActionButton onClick={onClose}>
                     <FontIcon iconName={'ChromeClose'} />
                 </ActionButton>
             </div>
@@ -90,10 +83,7 @@ export const ModalSaveCurrentProjectAndClear = ({
                     onClick={onDoNotSave}
                 />
 
-                <PrimaryButton
-                    text={t('OATHeader.cancel')}
-                    onClick={() => setModalOpen(false)}
-                />
+                <PrimaryButton text={t('OATHeader.cancel')} onClick={onClose} />
             </div>
         </Stack>
     );

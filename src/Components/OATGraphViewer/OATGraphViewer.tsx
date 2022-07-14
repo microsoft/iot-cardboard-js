@@ -54,11 +54,9 @@ import {
     SET_OAT_ERROR
 } from '../../Models/Constants/ActionTypes';
 import {
-    IAction,
     IOATNodeElement,
     IOATRelationshipElement
 } from '../../Models/Constants/Interfaces';
-import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 import { ElementNode } from './Internal/Classes/ElementNode';
 import { ElementData } from './Internal/Classes/ElementData';
 import { ElementEdge } from './Internal/Classes/ElementEdge';
@@ -79,6 +77,7 @@ import { getModelPropertyCollectionName } from '../OATPropertyEditor/Utils';
 import { DTDLRelationship } from '../../Models/Classes/DTDL';
 import { RelationshipData } from '../../Pages/OATEditorPage/Internal/Classes';
 import { GraphViewerConnectionEvent } from './Internal/Interfaces';
+import { OATGraphProps } from './OATGraphViewer.types';
 
 const contextClassBase = 'dtmi:dtdl:context;2';
 const versionClassBase = '1';
@@ -88,11 +87,6 @@ const nodeHeight = 100;
 const maxInheritanceQuantity = 2;
 const newNodeLeft = 20;
 const newNodeOffset = 10;
-
-type OATGraphProps = {
-    dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
-    state?: IOATEditorState;
-};
 
 const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     const { execute } = useContext(CommandHistoryContext);
