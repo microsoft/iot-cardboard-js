@@ -1,4 +1,4 @@
-import React, { useState, useRef, useMemo } from 'react';
+import React, { useRef, useMemo } from 'react';
 import { ModelTypes, Theme } from '../../Models/Constants/Enums';
 import {
     FontIcon,
@@ -21,7 +21,11 @@ import PropertyList from './PropertyList';
 import JSONEditor from './JSONEditor';
 import TemplateColumn from './TemplateColumn';
 import PropertiesModelSummary from './PropertiesModelSummary';
-import { SET_OAT_TEMPLATES_ACTIVE } from '../../Models/Constants/ActionTypes';
+import {
+    SET_OAT_PROPERTY_MODAL_BODY,
+    SET_OAT_PROPERTY_MODAL_OPEN,
+    SET_OAT_TEMPLATES_ACTIVE
+} from '../../Models/Constants/ActionTypes';
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 import { getModelPropertyCollectionName } from './Utils';
 import OATModal from '../../Pages/OATEditorPage/Internal/Components/OATModal';
@@ -29,39 +33,32 @@ import FormUpdateProperty from './FormUpdateProperty';
 import FormAddEnumItem from './FormAddEnumItem';
 import { FormBody } from './Constants';
 import FormRootModelDetails from './FormRootModelDetails';
+import { IOATPropertyEditorState } from './OATPropertyEditor.types';
 interface IEditor {
-    currentNestedPropertyIndex?: number;
-    currentPropertyIndex?: number;
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
+    dispatchPE?: React.Dispatch<React.SetStateAction<IAction>>;
     languages: IDropdownOption[];
-    onCurrentPropertyIndexChange: (index: number) => void;
-    onCurrentNestedPropertyIndexChange: (index: number) => void;
     state?: IOATEditorState;
+    statePE?: IOATPropertyEditorState;
     theme?: Theme;
 }
 
 const Editor = ({
     dispatch,
+    dispatchPE,
     languages,
-    currentPropertyIndex,
-    currentNestedPropertyIndex,
-    onCurrentPropertyIndexChange,
-    onCurrentNestedPropertyIndexChange,
     state,
+    statePE,
     theme
 }: IEditor) => {
     const { t } = useTranslation();
     const propertyInspectorStyles = getPropertyInspectorStyles();
     const propertyListPivotColumnContent = getPropertyListPivotColumnContent();
     const propertyListStackItem = getPropertyListStackItem();
-
-    const [modalOpen, setModalOpen] = useState(false);
-    const [modalBody, setModalBody] = useState(null);
-    const [draggingTemplate, setDraggingTemplate] = useState(false);
-    const [draggingProperty, setDraggingProperty] = useState(false);
     const enteredTemplateRef = useRef(null);
     const enteredPropertyRef = useRef(null);
     const { model, templatesActive } = state;
+    const { modalOpen, modalBody } = statePE;
 
     const propertiesKeyName = getModelPropertyCollectionName(
         model ? model['@type'] : ModelTypes.interface
@@ -100,7 +97,15 @@ const Editor = ({
     };
 
     const onModalClose = () => {
-        setModalOpen(false);
+        // setModalOpen(false);
+        dispatchPE({
+            type: SET_OAT_PROPERTY_MODAL_OPEN,
+            payload: false
+        });
+        dispatchPE({
+            type: SET_OAT_PROPERTY_MODAL_BODY,
+            payload: null
+        });
     };
 
     const getModalBody = () => {
@@ -109,37 +114,30 @@ const Editor = ({
                 return (
                     <FormUpdateProperty
                         dispatch={dispatch}
-                        currentPropertyIndex={currentPropertyIndex}
-                        currentNestedPropertyIndex={currentNestedPropertyIndex}
-                        onCurrentNestedPropertyIndexChange={
-                            onCurrentNestedPropertyIndexChange
-                        }
-                        setModalBody={setModalBody}
-                        state={state}
+                        dispatchPE={dispatchPE}
                         languages={languages}
                         onClose={onModalClose}
+                        statePE={statePE}
+                        state={state}
                     />
                 );
             case FormBody.enum:
                 return (
                     <FormAddEnumItem
-                        onClose={onModalClose}
                         dispatch={dispatch}
-                        currentPropertyIndex={currentPropertyIndex}
-                        currentNestedPropertyIndex={currentNestedPropertyIndex}
-                        setModalBody={setModalBody}
-                        state={state}
                         languages={languages}
+                        onClose={onModalClose}
+                        statePE={statePE}
+                        state={state}
                     />
                 );
             case FormBody.rootModel:
                 return (
                     <FormRootModelDetails
-                        onClose={onModalClose}
                         dispatch={dispatch}
-                        setModalBody={setModalBody}
-                        state={state}
+                        onClose={onModalClose}
                         languages={languages}
+                        state={state}
                     />
                 );
             default:
@@ -162,9 +160,8 @@ const Editor = ({
                             <Stack.Item>
                                 <PropertiesModelSummary
                                     dispatch={dispatch}
+                                    dispatchPE={dispatchPE}
                                     state={state}
-                                    setModalBody={setModalBody}
-                                    setModalOpen={setModalOpen}
                                     isSupportedModelType={isSupportedModelType}
                                 />
                             </Stack.Item>
@@ -211,21 +208,11 @@ const Editor = ({
                             <Stack.Item grow styles={propertyListStackItem}>
                                 <PropertyList
                                     dispatch={dispatch}
+                                    dispatchPE={dispatchPE}
                                     state={state}
-                                    onCurrentPropertyIndexChange={
-                                        onCurrentPropertyIndexChange
-                                    }
-                                    setModalOpen={setModalOpen}
-                                    currentPropertyIndex={currentPropertyIndex}
+                                    statePE={statePE}
                                     enteredPropertyRef={enteredPropertyRef}
-                                    draggingTemplate={draggingTemplate}
                                     enteredTemplateRef={enteredTemplateRef}
-                                    draggingProperty={draggingProperty}
-                                    setDraggingProperty={setDraggingProperty}
-                                    onCurrentNestedPropertyIndexChange={
-                                        onCurrentNestedPropertyIndexChange
-                                    }
-                                    setModalBody={setModalBody}
                                     propertyList={propertyList}
                                     isSupportedModelType={isSupportedModelType}
                                 />
@@ -248,12 +235,11 @@ const Editor = ({
                 {templatesActive && (
                     <TemplateColumn
                         enteredPropertyRef={enteredPropertyRef}
-                        draggingTemplate={draggingTemplate}
-                        setDraggingTemplate={setDraggingTemplate}
-                        draggingProperty={draggingProperty}
                         enteredTemplateRef={enteredTemplateRef}
                         dispatch={dispatch}
+                        dispatchPE={dispatchPE}
                         state={state}
+                        statePE={statePE}
                     />
                 )}
             </div>

@@ -6,7 +6,8 @@ import TemplateListItem from './TemplateListItem';
 import {
     SET_OAT_SELECTED_MODEL,
     SET_OAT_TEMPLATES,
-    SET_OAT_CONFIRM_DELETE_OPEN
+    SET_OAT_CONFIRM_DELETE_OPEN,
+    SET_OAT_PROPERTY_EDITOR_DRAGGING_TEMPLATE
 } from '../../Models/Constants/ActionTypes';
 import { IAction } from '../../Models/Constants/Interfaces';
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
@@ -18,19 +19,19 @@ interface ITemplateList {
     enteredTemplateRef: any;
     draggedTemplateItemRef: any;
     enteredPropertyRef: any;
-    setDraggingTemplate?: (dragging: boolean) => boolean;
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
     state?: IOATEditorState;
+    dispatchPE?: React.Dispatch<React.SetStateAction<IAction>>;
 }
 
 export const TemplateList = ({
     draggedTemplateItemRef,
     enteredPropertyRef,
     draggingTemplate,
-    setDraggingTemplate,
     enteredTemplateRef,
     draggingProperty,
     dispatch,
+    dispatchPE,
     state
 }: ITemplateList) => {
     const { execute } = useContext(CommandHistoryContext);
@@ -70,7 +71,10 @@ export const TemplateList = ({
         dragItem.current = null;
         dragNode.current = null;
         draggedTemplateItemRef.current = null;
-        setDraggingTemplate(false);
+        dispatchPE({
+            type: SET_OAT_PROPERTY_EDITOR_DRAGGING_TEMPLATE,
+            payload: false
+        });
         enteredPropertyRef.current = null;
     };
 
@@ -81,7 +85,10 @@ export const TemplateList = ({
         draggedTemplateItemRef.current = propertyIndex;
         //  Allows style to change after drag has started
         setTimeout(() => {
-            setDraggingTemplate(true);
+            dispatchPE({
+                type: SET_OAT_PROPERTY_EDITOR_DRAGGING_TEMPLATE,
+                payload: true
+            });
         }, 0);
     };
 

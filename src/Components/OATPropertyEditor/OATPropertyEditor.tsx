@@ -1,9 +1,13 @@
-import React, { useState } from 'react';
+import React, { useReducer } from 'react';
 import { Theme } from '../../Models/Constants/Enums';
 import Editor from './Editor';
 import { IAction } from '../../Models/Constants/Interfaces';
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 import { IDropdownOption } from '@fluentui/react';
+import {
+    OATPropertyEditorReducer,
+    defaultOATPropertyEditorState
+} from './OATPropertyEditor.state';
 
 type IOATPropertyEditor = {
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
@@ -18,33 +22,20 @@ const OATPropertyEditor = ({
     state,
     languages
 }: IOATPropertyEditor) => {
-    const [currentPropertyIndex, setCurrentPropertyIndex] = useState(null);
-    const [
-        currentNestedPropertyIndex,
-        setCurrentNestedPropertyIndex
-    ] = useState(null);
-
-    const onCurrentPropertyIndexChange = (index: number): void => {
-        setCurrentPropertyIndex(index);
-    };
-
-    const onCurrentNestedPropertyIndexChange = (index: number): void => {
-        setCurrentNestedPropertyIndex(index);
-    };
+    const [statePE, dispatchPE] = useReducer(
+        OATPropertyEditorReducer,
+        defaultOATPropertyEditorState
+    );
 
     return (
         <div>
             <Editor
                 theme={theme}
-                currentNestedPropertyIndex={currentNestedPropertyIndex}
-                currentPropertyIndex={currentPropertyIndex}
                 dispatch={dispatch}
                 state={state}
+                dispatchPE={dispatchPE}
+                statePE={statePE}
                 languages={languages}
-                onCurrentPropertyIndexChange={onCurrentPropertyIndexChange}
-                onCurrentNestedPropertyIndexChange={
-                    onCurrentNestedPropertyIndexChange
-                }
             />
         </div>
     );

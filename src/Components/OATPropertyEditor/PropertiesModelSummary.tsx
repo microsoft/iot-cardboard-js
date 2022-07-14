@@ -15,21 +15,23 @@ import OATTextFieldDisplayName from '../../Pages/OATEditorPage/Internal/Componen
 import OATTextFieldName from '../../Pages/OATEditorPage/Internal/Components/OATTextFieldName';
 import OATTextFieldId from '../../Pages/OATEditorPage/Internal/Components/OATTextFieldId';
 import { deepCopy } from '../../Models/Services/Utils';
-import { SET_OAT_SELECTED_MODEL } from '../../Models/Constants/ActionTypes';
+import {
+    SET_OAT_PROPERTY_MODAL_BODY,
+    SET_OAT_PROPERTY_MODAL_OPEN,
+    SET_OAT_SELECTED_MODEL
+} from '../../Models/Constants/ActionTypes';
 import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 
 type IPropertiesModelSummary = {
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
-    setModalBody?: React.Dispatch<React.SetStateAction<string>>;
-    setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
+    dispatchPE?: React.Dispatch<React.SetStateAction<IAction>>;
     state?: IOATEditorState;
     isSupportedModelType?: boolean;
 };
 
 export const PropertiesModelSummary = ({
     dispatch,
-    setModalBody,
-    setModalOpen,
+    dispatchPE,
     state,
     isSupportedModelType
 }: IPropertiesModelSummary) => {
@@ -120,6 +122,17 @@ export const PropertiesModelSummary = ({
         execute(commit, undoCommit);
     };
 
+    const onInfoButtonClick = () => {
+        dispatchPE({
+            type: SET_OAT_PROPERTY_MODAL_BODY,
+            payload: FormBody.rootModel
+        });
+        dispatchPE({
+            type: SET_OAT_PROPERTY_MODAL_OPEN,
+            payload: true
+        });
+    };
+
     return (
         <Stack styles={generalPropertiesWrapStyles}>
             <div className={propertyInspectorStyles.rowSpaceBetween}>
@@ -129,10 +142,7 @@ export const PropertiesModelSummary = ({
                         styles={iconWrapStyles}
                         iconProps={{ iconName: 'info' }}
                         title={t('OATPropertyEditor.info')}
-                        onClick={() => {
-                            setModalBody(FormBody.rootModel);
-                            setModalOpen(true);
-                        }}
+                        onClick={onInfoButtonClick}
                     />
                 )}
             </div>

@@ -18,25 +18,24 @@ import TemplateList from './TemplateList';
 import { SET_OAT_TEMPLATES_ACTIVE } from '../../Models/Constants/ActionTypes';
 import { IAction } from '../../Models/Constants/Interfaces';
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
+import { IOATPropertyEditorState } from './OATPropertyEditor.types';
 
 type ITemplateColumn = {
     enteredPropertyRef: any;
-    draggingTemplate: boolean;
-    setDraggingTemplate: any;
     enteredTemplateRef: any;
-    draggingProperty: boolean;
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
     state?: IOATEditorState;
+    dispatchPE?: React.Dispatch<React.SetStateAction<IAction>>;
+    statePE?: IOATPropertyEditorState;
 };
 
 export const TemplateColumn = ({
     enteredPropertyRef,
-    draggingTemplate,
-    setDraggingTemplate,
     enteredTemplateRef,
-    draggingProperty,
     dispatch,
-    state
+    state,
+    dispatchPE,
+    statePE
 }: ITemplateColumn) => {
     const { t } = useTranslation();
     const propertyInspectorStyles = getPropertyInspectorStyles();
@@ -44,6 +43,7 @@ export const TemplateColumn = ({
     const templateColumnStyles = getTemplateColumnStyles();
     const templateColumnPaddingStyles = getTemplateColumnPaddingStyles();
     const draggedTemplateItemRef = useRef(null);
+    const { draggingTemplate, draggingProperty } = statePE;
 
     return (
         <Stack styles={templateColumnStyles}>
@@ -93,7 +93,7 @@ export const TemplateColumn = ({
                 dispatch={dispatch}
                 state={state}
                 draggingTemplate={draggingTemplate}
-                setDraggingTemplate={setDraggingTemplate}
+                dispatchPE={dispatchPE}
                 enteredTemplateRef={enteredTemplateRef}
                 draggingProperty={draggingProperty}
             />

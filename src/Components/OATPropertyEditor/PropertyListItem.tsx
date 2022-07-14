@@ -11,6 +11,9 @@ import { deepCopy } from '../../Models/Services/Utils';
 import PropertyListItemSubMenu from './PropertyListItemSubMenu';
 import { useTranslation } from 'react-i18next';
 import {
+    SET_OAT_PROPERTY_EDITOR_CURRENT_PROPERTY_INDEX,
+    SET_OAT_PROPERTY_MODAL_BODY,
+    SET_OAT_PROPERTY_MODAL_OPEN,
     SET_OAT_SELECTED_MODEL,
     SET_OAT_TEMPLATES
 } from '../../Models/Constants/ActionTypes';
@@ -38,10 +41,8 @@ type IPropertyListItem = {
     onDragStart?: (event: any, item: any) => any;
     item?: DTDLProperty;
     setLastPropertyFocused?: React.Dispatch<React.SetStateAction<any>>;
-    onCurrentPropertyIndexChange: (index: number) => void;
-    setModalBody?: React.Dispatch<React.SetStateAction<string>>;
-    setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
     state?: IOATEditorState;
+    dispatchPE?: React.Dispatch<React.SetStateAction<IAction>>;
 };
 
 export const PropertyListItem = ({
@@ -50,18 +51,16 @@ export const PropertyListItem = ({
     dispatch,
     draggingProperty,
     getItemClassName,
-    onCurrentPropertyIndexChange,
     onDragEnter,
     onDragEnterExternalItem,
     onDragStart,
     onPropertyDisplayNameChange,
     onMove,
     propertiesLength,
-    setModalOpen,
     item,
     setLastPropertyFocused,
-    setModalBody,
-    state
+    state,
+    dispatchPE
 }: IPropertyListItem) => {
     const { t } = useTranslation();
     const { execute } = useContext(CommandHistoryContext);
@@ -124,6 +123,29 @@ export const PropertyListItem = ({
         execute(duplicate, undoDuplicate);
     };
 
+    const onInfoButtonClick = () => {
+        dispatchPE({
+            type: SET_OAT_PROPERTY_EDITOR_CURRENT_PROPERTY_INDEX,
+            payload: index
+        });
+        dispatchPE({
+            type: SET_OAT_PROPERTY_MODAL_BODY,
+            payload: FormBody.property
+        });
+        dispatchPE({
+            type: SET_OAT_PROPERTY_MODAL_OPEN,
+            payload: true
+        });
+    };
+
+    const onDisplayNameChange = (value) => {
+        dispatchPE({
+            type: SET_OAT_PROPERTY_EDITOR_CURRENT_PROPERTY_INDEX,
+            payload: index
+        });
+        onPropertyDisplayNameChange(value, index);
+    };
+
     return (
         <div
             className={propertyInspectorStyles.propertyListRelativeWrap}
@@ -167,8 +189,7 @@ export const PropertyListItem = ({
                         )}
                         validateOnFocusOut
                         onChange={(evt, value) => {
-                            onCurrentPropertyIndexChange(index);
-                            onPropertyDisplayNameChange(value, index);
+                            onDisplayNameChange(value);
                         }}
                         onBlur={() => setDisplayNameEditor(false)}
                         styles={textFieldStyles}
@@ -179,11 +200,7 @@ export const PropertyListItem = ({
                     styles={iconWrapStyles}
                     iconProps={{ iconName: 'info' }}
                     title={t('OATPropertyEditor.info')}
-                    onClick={() => {
-                        onCurrentPropertyIndexChange(index);
-                        setModalBody(FormBody.property);
-                        setModalOpen(true);
-                    }}
+                    onClick={onInfoButtonClick}
                 />
                 <IconButton
                     styles={iconWrapMoreStyles}

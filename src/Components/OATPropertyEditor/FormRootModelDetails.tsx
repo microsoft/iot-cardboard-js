@@ -49,7 +49,6 @@ const singleLanguageOptionValue = 'singleLanguage';
 
 interface IModalFormRootModelProps {
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
-    setModalBody?: React.Dispatch<React.SetStateAction<string>>;
     onClose?: () => void;
     state?: IOATEditorState;
     languages: IDropdownOption[];
@@ -58,7 +57,6 @@ interface IModalFormRootModelProps {
 export const FormRootModelDetails = ({
     dispatch,
     onClose,
-    setModalBody,
     state,
     languages
 }: IModalFormRootModelProps) => {
@@ -199,8 +197,6 @@ export const FormRootModelDetails = ({
             });
 
             updateMetadata();
-
-            setModalBody(null);
             onClose();
         };
 

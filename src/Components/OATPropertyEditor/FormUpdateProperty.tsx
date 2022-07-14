@@ -22,7 +22,10 @@ import {
     getModalLabelStyles,
     getRadioGroupRowStyles
 } from './OATPropertyEditor.styles';
-import { SET_OAT_SELECTED_MODEL } from '../../Models/Constants/ActionTypes';
+import {
+    SET_OAT_PROPERTY_EDITOR_CURRENT_NESTED_PROPERTY_INDEX,
+    SET_OAT_SELECTED_MODEL
+} from '../../Models/Constants/ActionTypes';
 import { IAction } from '../../Models/Constants/Interfaces';
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 import { deepCopy } from '../../Models/Services/Utils';
@@ -40,29 +43,26 @@ import {
     setMultiLanguageSelectionsDisplayNameKey,
     setMultiLanguageSelectionsDisplayNameValue
 } from './Utils';
+import { IOATPropertyEditorState } from './OATPropertyEditor.types';
 const multiLanguageOptionValue = 'multiLanguage';
 const singleLanguageOptionValue = 'singleLanguage';
 
 interface IModal {
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
-    currentPropertyIndex?: number;
-    currentNestedPropertyIndex?: number;
     languages: IDropdownOption[];
-    onCurrentNestedPropertyIndexChange: (index: number) => void;
     onClose?: () => void;
-    setModalBody?: React.Dispatch<React.SetStateAction<string>>;
     state?: IOATEditorState;
+    dispatchPE?: React.Dispatch<React.SetStateAction<IAction>>;
+    statePE?: IOATPropertyEditorState;
 }
 
 export const FormUpdateProperty = ({
     dispatch,
-    currentPropertyIndex,
-    currentNestedPropertyIndex,
-    onCurrentNestedPropertyIndexChange,
-    setModalBody,
+    dispatchPE,
     state,
     languages,
-    onClose
+    onClose,
+    statePE
 }: IModal) => {
     const { t } = useTranslation();
     const { execute } = useContext(CommandHistoryContext);
@@ -71,6 +71,7 @@ export const FormUpdateProperty = ({
     const columnLeftTextStyles = getModalLabelStyles();
 
     const { model } = state;
+    const { currentPropertyIndex, currentNestedPropertyIndex } = statePE;
 
     const propertiesKeyName = getModelPropertyCollectionName(
         model ? model['@type'] : null
@@ -235,8 +236,10 @@ export const FormUpdateProperty = ({
         execute(update, undoUpdate);
 
         onClose();
-        setModalBody(null);
-        onCurrentNestedPropertyIndexChange(null);
+        dispatchPE({
+            type: SET_OAT_PROPERTY_EDITOR_CURRENT_NESTED_PROPERTY_INDEX,
+            payload: null
+        });
     };
 
     const onUpdateProperty = () => {
@@ -289,7 +292,6 @@ export const FormUpdateProperty = ({
         execute(update, undoUpdate);
 
         onClose();
-        setModalBody(null);
     };
 
     useEffect(() => {

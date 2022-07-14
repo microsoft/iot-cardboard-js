@@ -10,6 +10,10 @@ import PropertyListItemSubMenu from './PropertyListItemSubMenu';
 import { deepCopy } from '../../Models/Services/Utils';
 import { useTranslation } from 'react-i18next';
 import {
+    SET_OAT_PROPERTY_EDITOR_CURRENT_NESTED_PROPERTY_INDEX,
+    SET_OAT_PROPERTY_EDITOR_CURRENT_PROPERTY_INDEX,
+    SET_OAT_PROPERTY_MODAL_BODY,
+    SET_OAT_PROPERTY_MODAL_OPEN,
     SET_OAT_SELECTED_MODEL,
     SET_OAT_TEMPLATES
 } from '../../Models/Constants/ActionTypes';
@@ -31,11 +35,8 @@ type IPropertyListItemNested = {
     item?: DTDLProperty;
     onMove?: (index: number, moveUp: boolean) => void;
     parentIndex?: number;
-    onCurrentPropertyIndexChange: (index: number) => void;
-    onCurrentNestedPropertyIndexChange: (index: number) => void;
-    setModalBody?: React.Dispatch<React.SetStateAction<string>>;
-    setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
     state?: IOATEditorState;
+    dispatchPE?: React.Dispatch<React.SetStateAction<IAction>>;
 };
 
 export const PropertyListItemNested = ({
@@ -48,11 +49,8 @@ export const PropertyListItemNested = ({
     item,
     onMove,
     parentIndex,
-    onCurrentPropertyIndexChange,
-    onCurrentNestedPropertyIndexChange,
-    setModalBody,
-    setModalOpen,
-    state
+    state,
+    dispatchPE
 }: IPropertyListItemNested) => {
     const { t } = useTranslation();
     const { execute } = useContext(CommandHistoryContext);
@@ -116,6 +114,25 @@ export const PropertyListItemNested = ({
         execute(addition, undoAddition);
     };
 
+    const onInfoButtonClick = () => {
+        dispatchPE({
+            type: SET_OAT_PROPERTY_EDITOR_CURRENT_NESTED_PROPERTY_INDEX,
+            payload: index
+        });
+        dispatchPE({
+            type: SET_OAT_PROPERTY_EDITOR_CURRENT_PROPERTY_INDEX,
+            payload: parentIndex
+        });
+        dispatchPE({
+            type: SET_OAT_PROPERTY_MODAL_OPEN,
+            payload: true
+        });
+        dispatchPE({
+            type: SET_OAT_PROPERTY_MODAL_BODY,
+            payload: FormBody.property
+        });
+    };
+
     return (
         <div
             className={getItemClassName(index)}
@@ -134,7 +151,10 @@ export const PropertyListItemNested = ({
                     placeholder={getModelPropertyListItemName(item.name)}
                     validateOnFocusOut
                     onChange={() => {
-                        onCurrentPropertyIndexChange(parentIndex);
+                        dispatchPE({
+                            type: SET_OAT_PROPERTY_EDITOR_CURRENT_PROPERTY_INDEX,
+                            payload: parentIndex
+                        });
                     }}
                     onBlur={() => setDisplayNameEditor(false)}
                     onGetErrorMessage={getErrorMessage}
@@ -145,12 +165,7 @@ export const PropertyListItemNested = ({
                 styles={iconWrapStyles}
                 iconProps={{ iconName: 'info' }}
                 title={t('OATPropertyEditor.info')}
-                onClick={() => {
-                    onCurrentNestedPropertyIndexChange(index);
-                    onCurrentPropertyIndexChange(parentIndex);
-                    setModalBody(FormBody.property);
-                    setModalOpen(true);
-                }}
+                onClick={onInfoButtonClick}
             />
             <IconButton
                 styles={iconWrapMoreStyles}

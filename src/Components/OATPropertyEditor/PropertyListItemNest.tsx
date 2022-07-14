@@ -16,6 +16,10 @@ import PropertyListItemSubMenu from './PropertyListItemSubMenu';
 import { useTranslation } from 'react-i18next';
 import {
     SET_OAT_CONFIRM_DELETE_OPEN,
+    SET_OAT_PROPERTY_EDITOR_CURRENT_NESTED_PROPERTY_INDEX,
+    SET_OAT_PROPERTY_EDITOR_CURRENT_PROPERTY_INDEX,
+    SET_OAT_PROPERTY_MODAL_BODY,
+    SET_OAT_PROPERTY_MODAL_OPEN,
     SET_OAT_SELECTED_MODEL,
     SET_OAT_TEMPLATES
 } from '../../Models/Constants/ActionTypes';
@@ -31,6 +35,7 @@ import {
     shouldClosePropertySelectorOnMouseLeave
 } from './Utils';
 import { FormBody } from './Constants';
+import { IOATPropertyEditorState } from './OATPropertyEditor.types';
 
 type IPropertySelectorTriggerElementsBoundingBox = {
     top: number;
@@ -40,6 +45,7 @@ type IPropertySelectorTriggerElementsBoundingBox = {
 type IPropertyListItemNest = {
     deleteItem?: (index: number) => any;
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
+    dispatchPE?: React.Dispatch<React.SetStateAction<IAction>>;
     draggingProperty?: boolean;
     getItemClassName?: (index: number) => any;
     getNestedItemClassName?: () => any;
@@ -53,12 +59,9 @@ type IPropertyListItemNest = {
     index?: number;
     item?: DTDLProperty;
     lastPropertyFocused?: IOATLastPropertyFocused;
-    onCurrentPropertyIndexChange: (index: number) => void;
-    onCurrentNestedPropertyIndexChange: (index: number) => void;
     setLastPropertyFocused?: React.Dispatch<React.SetStateAction<any>>;
-    setModalBody?: React.Dispatch<React.SetStateAction<string>>;
-    setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
     state?: IOATEditorState;
+    statePE?: IOATPropertyEditorState;
     setPropertySelectorVisible?: React.Dispatch<React.SetStateAction<boolean>>;
     definePropertySelectorPosition?: (event: MouseEvent) => void;
     propertySelectorTriggerElementsBoundingBox: IPropertySelectorTriggerElementsBoundingBox;
@@ -76,19 +79,17 @@ export const PropertyListItemNest = ({
     onDragEnterExternalItem,
     onDragStart,
     onPropertyDisplayNameChange,
-    onCurrentPropertyIndexChange,
-    onCurrentNestedPropertyIndexChange,
     item,
     lastPropertyFocused,
     setLastPropertyFocused,
-    setModalOpen,
-    setModalBody,
     state,
     setPropertySelectorVisible,
     definePropertySelectorPosition,
     propertySelectorTriggerElementsBoundingBox,
     onMove,
-    propertiesLength
+    propertiesLength,
+    dispatchPE,
+    statePE
 }: IPropertyListItemNest) => {
     const { t } = useTranslation();
     const { execute } = useContext(CommandHistoryContext);
@@ -106,7 +107,10 @@ export const PropertyListItemNest = ({
     );
 
     const addPropertyCallback = () => {
-        onCurrentPropertyIndexChange(index);
+        dispatchPE({
+            type: SET_OAT_PROPERTY_EDITOR_CURRENT_PROPERTY_INDEX,
+            payload: index
+        });
         if (!lastPropertyFocused) {
             return;
         }
@@ -116,8 +120,14 @@ export const PropertyListItemNest = ({
                 setPropertySelectorVisible(true);
                 return;
             case DTDLSchemaType.Enum:
-                setModalBody(FormBody.enum);
-                setModalOpen(true);
+                dispatchPE({
+                    type: SET_OAT_PROPERTY_MODAL_BODY,
+                    payload: FormBody.enum
+                });
+                dispatchPE({
+                    type: SET_OAT_PROPERTY_MODAL_OPEN,
+                    payload: true
+                });
                 return;
             default:
                 return;
@@ -270,6 +280,26 @@ export const PropertyListItemNest = ({
         definePropertySelectorPosition(e);
     };
 
+    const onInfoButtonClick = () => {
+        dispatchPE({
+            type: SET_OAT_PROPERTY_EDITOR_CURRENT_NESTED_PROPERTY_INDEX,
+            payload: null
+        });
+
+        dispatchPE({
+            type: SET_OAT_PROPERTY_EDITOR_CURRENT_PROPERTY_INDEX,
+            payload: index
+        });
+        dispatchPE({
+            type: SET_OAT_PROPERTY_MODAL_OPEN,
+            payload: true
+        });
+        dispatchPE({
+            type: SET_OAT_PROPERTY_MODAL_BODY,
+            payload: FormBody.property
+        });
+    };
+
     return (
         <div
             className={propertyInspectorStyles.propertyListRelativeWrap}
@@ -332,7 +362,10 @@ export const PropertyListItemNest = ({
                             )}
                             validateOnFocusOut
                             onChange={(evt, value) => {
-                                onCurrentPropertyIndexChange(index);
+                                dispatchPE({
+                                    type: SET_OAT_PROPERTY_EDITOR_CURRENT_PROPERTY_INDEX,
+                                    payload: index
+                                });
                                 onPropertyDisplayNameChange(value, index);
                             }}
                             onGetErrorMessage={getErrorMessage}
@@ -365,12 +398,7 @@ export const PropertyListItemNest = ({
                         iconProps={{ iconName: 'info' }}
                         styles={iconWrapMoreStyles}
                         title={t('OATPropertyEditor.info')}
-                        onClick={() => {
-                            onCurrentNestedPropertyIndexChange(null);
-                            onCurrentPropertyIndexChange(index);
-                            setModalOpen(true);
-                            setModalBody(FormBody.property);
-                        }}
+                        onClick={onInfoButtonClick}
                     />
 
                     <IconButton
@@ -417,19 +445,12 @@ export const PropertyListItemNest = ({
                             parentIndex={index}
                             index={i}
                             getItemClassName={getNestedItemClassName}
-                            onCurrentNestedPropertyIndexChange={
-                                onCurrentNestedPropertyIndexChange
-                            }
-                            onCurrentPropertyIndexChange={
-                                onCurrentPropertyIndexChange
-                            }
-                            setModalOpen={setModalOpen}
-                            setModalBody={setModalBody}
                             deleteNestedItem={deleteNestedItem}
                             dispatch={dispatch}
                             state={state}
                             onMove={moveNestedItem}
                             collectionLength={item.schema.fields.length}
+                            dispatchPE={dispatchPE}
                         />
                     ))}
 

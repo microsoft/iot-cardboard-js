@@ -10,6 +10,7 @@ import PropertySelector from './PropertySelector';
 import AddPropertyBar from './AddPropertyBar';
 import {
     SET_OAT_CONFIRM_DELETE_OPEN,
+    SET_OAT_PROPERTY_EDITOR_DRAGGING_PROPERTY,
     SET_OAT_SELECTED_MODEL,
     SET_OAT_TEMPLATES
 } from '../../Models/Constants/ActionTypes';
@@ -19,37 +20,27 @@ import {
     getModelPropertyCollectionName,
     shouldClosePropertySelectorOnMouseLeave
 } from './Utils';
+import { IOATPropertyEditorState } from './OATPropertyEditor.types';
 
 type IPropertyList = {
-    currentPropertyIndex: number;
-    draggingProperty: boolean;
-    draggingTemplate: boolean;
     enteredPropertyRef: any;
     enteredTemplateRef: any;
     isSupportedModelType: boolean;
     propertyList?: DTDLProperty[];
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
-    onCurrentPropertyIndexChange: (index: number) => void;
-    onCurrentNestedPropertyIndexChange: (index: number) => void;
-    setDraggingProperty: React.Dispatch<React.SetStateAction<boolean>>;
     setModalBody?: React.Dispatch<React.SetStateAction<string>>;
-    setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
     state?: IOATEditorState;
+    dispatchPE?: React.Dispatch<React.SetStateAction<IAction>>;
+    statePE?: IOATPropertyEditorState;
 };
 
 export const PropertyList = ({
-    setModalOpen,
     enteredPropertyRef,
-    draggingTemplate,
     enteredTemplateRef,
-    draggingProperty,
-    onCurrentPropertyIndexChange,
-    onCurrentNestedPropertyIndexChange,
-    setDraggingProperty,
-    setModalBody,
-    currentPropertyIndex,
     dispatch,
+    dispatchPE,
     state,
+    statePE,
     propertyList,
     isSupportedModelType
 }: IPropertyList) => {
@@ -75,6 +66,11 @@ export const PropertyList = ({
         setPropertySelectorTriggerElementsBoundingBox
     ] = useState(null);
     const { model, templates } = state;
+    const {
+        currentPropertyIndex,
+        draggingTemplate,
+        draggingProperty
+    } = statePE;
 
     const propertiesKeyName = getModelPropertyCollectionName(
         model ? model['@type'] : null
@@ -113,7 +109,10 @@ export const PropertyList = ({
         dragItem.current = null;
         dragNode.current = null;
         draggedPropertyItemRef.current = null;
-        setDraggingProperty(false);
+        dispatchPE({
+            type: SET_OAT_PROPERTY_EDITOR_DRAGGING_PROPERTY,
+            payload: false
+        });
         enteredTemplateRef.current = null;
     };
 
@@ -131,7 +130,10 @@ export const PropertyList = ({
         draggedPropertyItemRef.current = propertyIndex;
         //  Allows style to change after drag has started
         setTimeout(() => {
-            setDraggingProperty(true);
+            dispatchPE({
+                type: SET_OAT_PROPERTY_EDITOR_DRAGGING_PROPERTY,
+                payload: true
+            });
         }, 0);
     };
 
@@ -349,17 +351,9 @@ export const PropertyList = ({
                                     onDragEnterExternalItem
                                 }
                                 onDragStart={onDragStart}
-                                onCurrentPropertyIndexChange={
-                                    onCurrentPropertyIndexChange
-                                }
                                 item={item}
                                 lastPropertyFocused={lastPropertyFocused}
                                 setLastPropertyFocused={setLastPropertyFocused}
-                                onCurrentNestedPropertyIndexChange={
-                                    onCurrentNestedPropertyIndexChange
-                                }
-                                setModalOpen={setModalOpen}
-                                setModalBody={setModalBody}
                                 dispatch={dispatch}
                                 state={state}
                                 deleteItem={deleteItem}
@@ -376,6 +370,8 @@ export const PropertyList = ({
                                 propertiesLength={
                                     model[propertiesKeyName].length
                                 }
+                                dispatchPE={dispatchPE}
+                                statePE={statePE}
                             />
                         );
                     } else if (typeof item['@type'] === 'object') {
@@ -394,13 +390,8 @@ export const PropertyList = ({
                                     onDragEnterExternalItem
                                 }
                                 onDragStart={onDragStart}
-                                onCurrentPropertyIndexChange={
-                                    onCurrentPropertyIndexChange
-                                }
-                                setModalOpen={setModalOpen}
                                 item={item}
                                 setLastPropertyFocused={setLastPropertyFocused}
-                                setModalBody={setModalBody}
                                 deleteItem={deleteItem}
                                 dispatch={dispatch}
                                 state={state}
@@ -408,6 +399,7 @@ export const PropertyList = ({
                                 propertiesLength={
                                     model[propertiesKeyName].length
                                 }
+                                dispatchPE={dispatchPE}
                             />
                         );
                     }

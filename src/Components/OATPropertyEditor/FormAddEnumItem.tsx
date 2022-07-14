@@ -41,29 +41,28 @@ import {
     OATNameLengthLimit
 } from '../../Models/Constants/Constants';
 import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
+import { IOATPropertyEditorState } from './OATPropertyEditor.types';
 
 const multiLanguageOptionValue = 'multiLanguage';
 const singleLanguageOptionValue = 'singleLanguage';
 
 interface IModalFormAddEnumItemProps {
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
-    currentPropertyIndex?: number;
-    currentNestedPropertyIndex?: number;
     languages: IDropdownOption[];
     onClose?: () => void;
-    setModalBody?: React.Dispatch<React.SetStateAction<string>>;
     state?: IOATEditorState;
+    statePE?: IOATPropertyEditorState;
 }
 
 export const FormAddEnumItem = ({
     dispatch,
     onClose,
-    currentPropertyIndex,
-    setModalBody,
     state,
-    languages
+    languages,
+    statePE
 }: IModalFormAddEnumItemProps) => {
     const { t } = useTranslation();
+    const { currentPropertyIndex } = statePE;
     const { execute } = useContext(CommandHistoryContext);
     const propertyInspectorStyles = getPropertyInspectorStyles();
     const columnLeftTextStyles = getModalLabelStyles();
@@ -205,7 +204,6 @@ export const FormAddEnumItem = ({
         execute(update, undoUpdate);
 
         onClose();
-        setModalBody(null);
     };
 
     const getErrorMessage = (value: string) => {
