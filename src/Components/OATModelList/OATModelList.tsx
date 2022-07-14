@@ -80,11 +80,8 @@ const OATModelList = ({
     }, [filter]);
 
     useEffect(() => {
-        if (model) {
-            currentNodeId.current = model['@id'];
-        } else {
-            currentNodeId.current = null;
-        }
+        currentNodeId.current = model ? model['@id'] : null;
+        // Set items, so that modelList items re-render and apply style changes if necessary
         setItems([...elements]);
     }, [model]);
 
