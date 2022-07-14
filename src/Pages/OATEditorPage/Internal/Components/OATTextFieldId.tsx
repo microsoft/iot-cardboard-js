@@ -117,12 +117,14 @@ const OATTextFieldId = ({
             setIdAlreadyUsedInterfaceError(false);
             setValidDTMIError(false);
         }
-        document.activeElement.blur();
+        if (document.activeElement instanceof HTMLElement) {
+            document.activeElement.blur();
+        }
     };
 
     const onKeyDown = (event: React.KeyboardEvent) => {
         if (event.key === 'Enter') {
-            document.activeElement.blur();
+            onCommitChange();
         }
     };
 

@@ -13,6 +13,7 @@ import {
     OATNameLengthLimit
 } from '../../../../Models/Constants';
 import { IOATEditorState } from '../../OATEditorPage.types';
+import { getModelPropertyListItemName } from '../../../../Components/OATPropertyEditor/Utils';
 
 type IOATTextFieldNameProps = {
     autoFocus?: boolean;
@@ -57,7 +58,7 @@ const OATTextFieldName = ({
 
     useEffect(() => {
         if (model && model.name) {
-            setTemporaryName(model.name);
+            setTemporaryName(getModelPropertyListItemName(model.name));
         }
     }, [model]);
 
@@ -122,12 +123,14 @@ const OATTextFieldName = ({
             setNameValidCharactersError(false);
             setNameLengthError(false);
         }
-        document.activeElement.blur();
+        if (document.activeElement instanceof HTMLElement) {
+            document.activeElement.blur();
+        }
     };
 
     const onKeyDown = (event: React.KeyboardEvent) => {
         if (event.key === 'Enter') {
-            document.activeElement.blur();
+            onCommitChange();
         }
         if (event.key === 'Escape' || event.key === 'Tab') {
             setTemporaryName(originalValue);

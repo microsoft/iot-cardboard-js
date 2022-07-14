@@ -61,7 +61,9 @@ const OATTextFieldDisplayName = ({
             setTemporaryValue(getModelPropertyListItemName(model.displayName));
             setDisplayNameLengthError(false);
         }
-        document.activeElement.blur();
+        if (document.activeElement instanceof HTMLElement) {
+            document.activeElement.blur();
+        }
     };
 
     const onKeyDown = (event: React.KeyboardEvent) => {
