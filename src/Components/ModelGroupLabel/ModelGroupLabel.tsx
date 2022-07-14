@@ -5,7 +5,6 @@ import {
     useTheme
 } from '@fluentui/react';
 import React, { useEffect, useState } from 'react';
-import { createGUID } from '../../Models/Services/Utils';
 import { getStyles } from './ModelGroupLabel.styles';
 
 interface GroupItem {
