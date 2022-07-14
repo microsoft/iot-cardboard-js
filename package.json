@@ -64,7 +64,7 @@
         "@storybook/addon-console": "^1.2.2",
         "@storybook/addon-essentials": "^6.5.9",
         "@storybook/addon-interactions": "^6.5.9",
-        "@storybook/react": "6.5.9",
+        "@storybook/react": "^6.5.9",
         "@storybook/testing-library": "^0.0.9",
         "@svgr/rollup": "^6.2.1",
         "@svgr/webpack": "^5.5.0",
