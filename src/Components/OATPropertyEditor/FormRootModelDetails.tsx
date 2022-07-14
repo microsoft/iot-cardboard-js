@@ -350,7 +350,7 @@ export const FormRootModelDetails = ({
                                 ? t('OATPropertyEditor.errorDisplayName')
                                 : ''
                         }
-                        value={displayName}
+                        value={getModelPropertyListItemName(displayName)}
                     />
                 </div>
             )}
@@ -394,7 +394,7 @@ export const FormRootModelDetails = ({
                                     setMultiLanguageSelectionsDisplayName
                                 )
                             }
-                            value={language.key}
+                            defaultSelectedKey={language.key}
                         />
                         <TextField
                             placeholder={t('OATPropertyEditor.displayName')}
@@ -479,7 +479,7 @@ export const FormRootModelDetails = ({
                         placeholder={t(
                             'OATPropertyEditor.modalTextInputPlaceHolderDescription'
                         )}
-                        value={description}
+                        value={getModelPropertyListItemName(description)}
                         onChange={(_ev, value) =>
                             validateDescriptionChange(
                                 value,
@@ -535,7 +535,7 @@ export const FormRootModelDetails = ({
                                     setMultiLanguageSelectionsDescription
                                 )
                             }
-                            value={language.key}
+                            defaultSelectedKey={language.key}
                         />
                         <TextField
                             placeholder={t('OATPropertyEditor.description')}

@@ -21,6 +21,7 @@ import {
     SET_OAT_SELECTED_MODEL
 } from '../../Models/Constants/ActionTypes';
 import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
+import { getModelPropertyListItemName } from './Utils';
 
 type IPropertiesModelSummary = {
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
@@ -43,7 +44,9 @@ export const PropertiesModelSummary = ({
     const generalPropertiesWrapStyles = getGeneralPropertiesWrapStyles();
     const textFieldStyles = getPropertyEditorTextFieldStyles();
     const [displayName, setDisplayName] = useState(
-        model && model.displayName ? model.displayName : ''
+        model && model.displayName
+            ? getModelPropertyListItemName(model.displayName)
+            : ''
     );
     const [name, setName] = useState(model ? model.name : '');
     const [id, setId] = useState(model && model['@id'] ? model['@id'] : '');
@@ -51,7 +54,11 @@ export const PropertiesModelSummary = ({
     const [nameEditor, setNameEditor] = useState(false);
     const [displayNameEditor, setDisplayNameEditor] = useState(false);
     useEffect(() => {
-        setDisplayName(model && model.displayName ? model.displayName : '');
+        setDisplayName(
+            model && model.displayName
+                ? getModelPropertyListItemName(model.displayName)
+                : ''
+        );
         setName(model && model.name ? model.name : '');
         setId(model && model['@id'] ? model['@id'] : '');
     }, [model]);
@@ -193,7 +200,10 @@ export const PropertiesModelSummary = ({
                             placeholder={t('name')}
                             styles={textFieldStyles}
                             disabled={!model}
-                            value={isSupportedModelType && name}
+                            value={
+                                isSupportedModelType &&
+                                getModelPropertyListItemName(name)
+                            }
                             model={model}
                             models={models}
                             onCommit={onNameCommit}
@@ -214,7 +224,7 @@ export const PropertiesModelSummary = ({
                         }
                         onDoubleClick={() => setDisplayNameEditor(true)}
                     >
-                        {displayName.length > 0
+                        {displayName !== ''
                             ? displayName
                             : t('OATPropertyEditor.displayName')}
                     </Text>

@@ -804,7 +804,7 @@ export interface IOATTwinModelNodes {
     '@type': string;
     name: string | Record<string, unknown>;
     displayName: string | Record<string, unknown>;
-    contents: IOATTwinNodeContents[];
+    contents?: IOATTwinNodeContents[];
     extends?: string;
     properties?: DTDLProperty[];
 }
@@ -815,6 +815,9 @@ export interface IOATTwinNodeContents {
     name?: string;
     displayName?: string;
     target?: string;
+    schema?: DTDLPropertySchema | string | Record<string, any>;
+    description?: string;
+    comment?: string;
 }
 
 export interface DTDLPropertySchema {

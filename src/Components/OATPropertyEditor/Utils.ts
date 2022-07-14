@@ -96,7 +96,7 @@ export const setMultiLanguageSelectionsDisplayNameValue = (
 
 /*  Handles language selection change on forms (Description - Key - Dropdown) */
 export const setMultiLanguageSelectionsDescriptionKey = (
-    value: string,
+    value: string | number,
     index: number = null,
     multiLanguageSelectionsDescription: any,
     setMultiLanguageSelectionsDescription: React.Dispatch<
